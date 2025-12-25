@@ -50,8 +50,7 @@ public abstract class DomainEventValidator<TEvent> : AbstractValidator<TEvent>
 /// <summary>
 /// Validator for Product Domain Events
 /// </summary>
-/// 
-public class ProductEventValidator : DomainEventValidator<dynamic>
+public class ProductEventValidator : DomainEventValidator<DomainEvent>
 {
     public ProductEventValidator()
     {
@@ -62,7 +61,7 @@ public class ProductEventValidator : DomainEventValidator<dynamic>
 /// <summary>
 /// Validator for User Domain Events
 /// </summary>
-public class UserEventValidator : DomainEventValidator<dynamic>
+public class UserEventValidator : DomainEventValidator<DomainEvent>
 {
     public UserEventValidator()
     {
@@ -73,7 +72,7 @@ public class UserEventValidator : DomainEventValidator<dynamic>
 /// <summary>
 /// Validator for Order Domain Events
 /// </summary>
-public class OrderEventValidator : DomainEventValidator<dynamic>
+public class OrderEventValidator : DomainEventValidator<DomainEvent>
 {
     public OrderEventValidator()
     {
@@ -84,7 +83,7 @@ public class OrderEventValidator : DomainEventValidator<dynamic>
 /// <summary>
 /// Validator for Tenant Domain Events
 /// </summary>
-public class TenantEventValidator : DomainEventValidator<dynamic>
+public class TenantEventValidator : DomainEventValidator<DomainEvent>
 {
     public TenantEventValidator()
     {
@@ -124,9 +123,9 @@ public class EventValidatorFactory
     /// <summary>
     /// Validates and returns validation result with errors
     /// </summary>
-    public async Task<ValidationResult> ValidateEventWithResultAsync(DomainEvent @event)
+    public async Task<(bool IsValid, IEnumerable<FluentValidation.Results.ValidationFailure> Errors)> ValidateEventWithResultAsync(DomainEvent @event)
     {
-        var errors = new List<ValidationFailure>();
+        var errors = new List<FluentValidation.Results.ValidationFailure>();
 
         foreach (var validator in _validators)
         {
@@ -137,6 +136,6 @@ public class EventValidatorFactory
             }
         }
 
-        return new ValidationResult(errors.Count == 0, errors);
+        return (errors.Count == 0, errors);
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using B2Connect.CatalogService.Services;
 using B2Connect.CatalogService.Models;
-using B2Connect.Shared.AOP;
 
 namespace B2Connect.CatalogService.Controllers;
 
@@ -15,9 +14,6 @@ namespace B2Connect.CatalogService.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[ValidateModel]  // AOP: automatic model validation
-[ExceptionHandling]  // AOP: centralized error handling
-[RequestLogging]  // AOP: request/response logging
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoryService _service;

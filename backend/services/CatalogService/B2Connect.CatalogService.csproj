@@ -26,10 +26,21 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
     <PackageReference Include="Bogus" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\shared\types\B2Connect.Types.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Include shared AOP and validation source files -->
+    <Compile Include="..\..\shared\aop\*.cs" Link="Infrastructure\%(Filename)%(Extension)" />
+    <Compile Include="..\..\shared\validators\*.cs" Link="Infrastructure\%(Filename)%(Extension)" />
+    <Compile Include="..\..\shared\extensions\*.cs" Link="Infrastructure\%(Filename)%(Extension)" />
   </ItemGroup>
 
 </Project>

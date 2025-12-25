@@ -147,8 +147,8 @@ builder.Services.AddCors(options =>
 });
 
 // Health Checks
-builder.Services.AddHealthChecks()
-    .AddDbContextCheck<CatalogDbContext>("CatalogDb");
+builder.Services.AddHealthChecks();
+    // .AddDbContextCheck<CatalogDbContext>("CatalogDb");
 
 // Logging
 builder.Logging.AddConsole();
