@@ -1,14 +1,23 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using B2Connect.CatalogService.Services;
+using B2Connect.CatalogService.Models;
+using B2Connect.Shared.AOP;
 
 namespace B2Connect.CatalogService.Controllers;
 
 /// <summary>
 /// API Controller for Category operations
+/// Public GET endpoints for store, admin CRUD endpoints require Admin role
+/// Uses AOP filters for logging, validation, and exception handling
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[ValidateModel]  // AOP: automatic model validation
+[ExceptionHandling]  // AOP: centralized error handling
+[RequestLogging]  // AOP: request/response logging
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoryService _service;
@@ -24,8 +33,6 @@ public class CategoriesController : ControllerBase
     /// Gets a category by ID
     /// </summary>
     [HttpGet("{id}")]
-    [ProduceResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CategoryDto>> GetCategory(Guid id)
     {
         var category = await _service.GetCategoryAsync(id);
@@ -39,8 +46,6 @@ public class CategoriesController : ControllerBase
     /// Gets a category by slug
     /// </summary>
     [HttpGet("slug/{slug}")]
-    [ProduceResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CategoryDto>> GetCategoryBySlug(string slug)
     {
         var category = await _service.GetCategoryBySlugAsync(slug);
@@ -54,7 +59,6 @@ public class CategoriesController : ControllerBase
     /// Gets all root categories
     /// </summary>
     [HttpGet("root")]
-    [ProduceResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<CategoryDto>>> GetRootCategories()
     {
         var categories = await _service.GetRootCategoriesAsync();
@@ -65,7 +69,6 @@ public class CategoriesController : ControllerBase
     /// Gets child categories of a parent
     /// </summary>
     [HttpGet("{parentId}/children")]
-    [ProduceResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<CategoryDto>>> GetChildCategories(Guid parentId)
     {
         var categories = await _service.GetChildCategoriesAsync(parentId);
@@ -76,7 +79,6 @@ public class CategoriesController : ControllerBase
     /// Gets the complete category hierarchy
     /// </summary>
     [HttpGet("hierarchy")]
-    [ProduceResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<CategoryDto>>> GetHierarchy()
     {
         var categories = await _service.GetCategoryHierarchyAsync();
@@ -87,7 +89,6 @@ public class CategoriesController : ControllerBase
     /// Gets all active categories
     /// </summary>
     [HttpGet]
-    [ProduceResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<CategoryDto>>> GetActiveCategories()
     {
         var categories = await _service.GetActiveCategoriesAsync();
@@ -98,8 +99,7 @@ public class CategoriesController : ControllerBase
     /// Creates a new category
     /// </summary>
     [HttpPost]
-    [ProduceResponseType(typeof(CategoryDto), StatusCodes.Status201Created)]
-    [ProduceResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<CategoryDto>> CreateCategory(CreateCategoryDto dto)
     {
         try
@@ -118,9 +118,7 @@ public class CategoriesController : ControllerBase
     /// Updates an existing category
     /// </summary>
     [HttpPut("{id}")]
-    [ProduceResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
-    [ProduceResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<CategoryDto>> UpdateCategory(Guid id, UpdateCategoryDto dto)
     {
         try
@@ -143,8 +141,7 @@ public class CategoriesController : ControllerBase
     /// Deletes a category
     /// </summary>
     [HttpDelete("{id}")]
-    [ProduceResponseType(StatusCodes.Status204NoContent)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteCategory(Guid id)
     {
         var success = await _service.DeleteCategoryAsync(id);

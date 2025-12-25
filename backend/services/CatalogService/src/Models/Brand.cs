@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using B2Connect.Shared.Types;
+using B2Connect.Types.Localization;
 
 namespace B2Connect.CatalogService.Models;
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace B2Connect.Shared.Events
+namespace B2Connect.Types
 {
     /// <summary>
     /// Base record for all domain events

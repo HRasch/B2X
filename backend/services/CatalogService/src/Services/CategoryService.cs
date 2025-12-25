@@ -1,6 +1,6 @@
 using B2Connect.CatalogService.Models;
 using B2Connect.CatalogService.Repositories;
-using B2Connect.Shared.Types;
+using B2Connect.Types.Localization;
 
 namespace B2Connect.CatalogService.Services;
 

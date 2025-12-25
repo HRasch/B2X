@@ -1,5 +1,5 @@
 using System;
-using B2Connect.Shared.Events;
+using B2Connect.Types;
 
 namespace B2Connect.CatalogService.Events
 {

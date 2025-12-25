@@ -1,14 +1,23 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using B2Connect.CatalogService.Services;
+using B2Connect.CatalogService.Models;
+using B2Connect.Shared.AOP;
 
 namespace B2Connect.CatalogService.Controllers;
 
 /// <summary>
 /// API Controller for Product operations
+/// Public GET endpoints for store, admin CRUD endpoints require Admin role
+/// Uses AOP filters for logging, validation, and exception handling
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[ValidateModel]  // AOP: automatic model validation
+[ExceptionHandling]  // AOP: centralized error handling
+[RequestLogging]  // AOP: request/response logging
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _service;
@@ -24,8 +33,6 @@ public class ProductsController : ControllerBase
     /// Gets a product by ID
     /// </summary>
     [HttpGet("{id}")]
-    [ProduceResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
     {
         var product = await _service.GetProductAsync(id);
@@ -39,9 +46,7 @@ public class ProductsController : ControllerBase
     /// Gets a product by SKU
     /// </summary>
     [HttpGet("sku/{sku}")]
-    [ProduceResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ProductDto>> GetProductBySku(string sku)
+    public async Task<ActionResult<ProductDto>> GetProductBySky(string sku)
     {
         var product = await _service.GetProductBySkuAsync(sku);
         if (product == null)
@@ -54,8 +59,6 @@ public class ProductsController : ControllerBase
     /// Gets a product by slug
     /// </summary>
     [HttpGet("slug/{slug}")]
-    [ProduceResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductDto>> GetProductBySlug(string slug)
     {
         var product = await _service.GetProductBySlugAsync(slug);
@@ -69,7 +72,6 @@ public class ProductsController : ControllerBase
     /// Gets all products
     /// </summary>
     [HttpGet]
-    [ProduceResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
     {
         var products = await _service.GetAllProductsAsync();
@@ -80,7 +82,6 @@ public class ProductsController : ControllerBase
     /// Gets products with pagination
     /// </summary>
     [HttpGet("paged")]
-    [ProduceResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> GetProductsPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         var (items, total) = await _service.GetProductsPagedAsync(pageNumber, pageSize);
@@ -91,7 +92,6 @@ public class ProductsController : ControllerBase
     /// Gets products by category
     /// </summary>
     [HttpGet("category/{categoryId}")]
-    [ProduceResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategory(Guid categoryId)
     {
         var products = await _service.GetProductsByCategoryAsync(categoryId);
@@ -102,7 +102,6 @@ public class ProductsController : ControllerBase
     /// Gets products by brand
     /// </summary>
     [HttpGet("brand/{brandId}")]
-    [ProduceResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByBrand(Guid brandId)
     {
         var products = await _service.GetProductsByBrandAsync(brandId);
@@ -113,7 +112,6 @@ public class ProductsController : ControllerBase
     /// Gets featured products
     /// </summary>
     [HttpGet("featured")]
-    [ProduceResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetFeaturedProducts([FromQuery] int take = 10)
     {
         var products = await _service.GetFeaturedProductsAsync(take);
@@ -124,7 +122,6 @@ public class ProductsController : ControllerBase
     /// Gets new products
     /// </summary>
     [HttpGet("new")]
-    [ProduceResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetNewProducts([FromQuery] int take = 10)
     {
         var products = await _service.GetNewProductsAsync(take);
@@ -135,7 +132,6 @@ public class ProductsController : ControllerBase
     /// Searches products by term
     /// </summary>
     [HttpGet("search")]
-    [ProduceResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ProductDto>>> SearchProducts([FromQuery] string q)
     {
         if (string.IsNullOrWhiteSpace(q))
@@ -149,8 +145,7 @@ public class ProductsController : ControllerBase
     /// Creates a new product
     /// </summary>
     [HttpPost]
-    [ProduceResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
-    [ProduceResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto dto)
     {
         try
@@ -169,9 +164,7 @@ public class ProductsController : ControllerBase
     /// Updates an existing product
     /// </summary>
     [HttpPut("{id}")]
-    [ProduceResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
-    [ProduceResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductDto>> UpdateProduct(Guid id, UpdateProductDto dto)
     {
         try
@@ -194,8 +187,7 @@ public class ProductsController : ControllerBase
     /// Deletes a product
     /// </summary>
     [HttpDelete("{id}")]
-    [ProduceResponseType(StatusCodes.Status204NoContent)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteProduct(Guid id)
     {
         var success = await _service.DeleteProductAsync(id);

@@ -10,16 +10,57 @@ var builder = WebApplication.CreateBuilder(args);
 // Add controllers and API exploration
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Add Authentication and Authorization
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        // JWT configuration will be loaded from configuration
+        options.Authority = builder.Configuration.GetValue<string>("Auth:Authority") ?? "https://localhost:5001";
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateAudience = false
+        };
+    });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+});
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
         Title = "B2Connect Catalog Service API",
         Version = "v1",
-        Description = "Product catalog with multilingual support, variants, categories, brands, and documents",
+        Description = "Product catalog with multilingual support, variants, categories, brands, and documents. Admin CRUD endpoints require Admin role.",
         Contact = new Microsoft.OpenApi.Models.OpenApiContact
         {
             Name = "B2Connect Development Team"
+        }
+    });
+
+    // Add JWT Bearer token support to Swagger
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "JWT Authorization header using the Bearer scheme"
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
         }
     });
 });
@@ -132,6 +173,10 @@ app.UseHttpsRedirection();
 
 // CORS Middleware
 app.UseCors(app.Environment.IsDevelopment() ? "AllowAll" : "AllowFrontend");
+
+// Authentication and Authorization Middleware
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Global exception handler (basic)
 app.UseExceptionHandler(errorApp =>

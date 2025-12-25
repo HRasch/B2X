@@ -1,9 +1,11 @@
+/*
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using B2Connect.CatalogService.Events;
+using B2Connect.Types;
 
 namespace B2Connect.CatalogService.Services
 {
@@ -202,3 +204,4 @@ namespace B2Connect.CatalogService.Services
         }
     }
 }
+*/

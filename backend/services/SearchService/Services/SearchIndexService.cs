@@ -15,8 +15,9 @@ using System.Text.Json;
 namespace B2Connect.SearchService.Services
 {
     /// <summary>
-    /// Service that consumes product events from RabbitMQ and updates Elasticsearch index
+    /// Service that consumes product events from RabbitMQ and updates Elasticsearch indexes
     /// Handles: ProductCreated, ProductUpdated, ProductDeleted, ProductsBulkImported
+    /// Creates separate indexes for each language: products_de, products_en, products_fr
     /// </summary>
     public class SearchIndexService : BackgroundService
     {
@@ -28,8 +29,15 @@ namespace B2Connect.SearchService.Services
 
         private const string ExchangeName = "product-events";
         private const string QueueName = "search-index-updates";
-        private const string IndexName = "products";
-        private const string IndexAlias = "products-alias";
+
+        // Language-specific indexes
+        private const string IndexNameDe = "products_de";
+        private const string IndexNameEn = "products_en";
+        private const string IndexNameFr = "products_fr";
+        private const string DefaultLanguage = "de";
+
+        // Supported languages
+        private static readonly string[] SupportedLanguages = { "de", "en", "fr" };
 
         public SearchIndexService(
             IElasticsearchClient elasticsearchClient,
@@ -68,24 +76,45 @@ namespace B2Connect.SearchService.Services
         }
 
         /// <summary>
-        /// Initialize Elasticsearch index with mapping and settings
+        /// Initialize Elasticsearch indexes for all supported languages
         /// </summary>
         private async Task InitializeIndexAsync(CancellationToken cancellationToken)
         {
             try
             {
+                foreach (var language in SupportedLanguages)
+                {
+                    await CreateIndexForLanguageAsync(language, cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error initializing Elasticsearch indexes");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Create index for a specific language
+        /// </summary>
+        private async Task CreateIndexForLanguageAsync(string language, CancellationToken cancellationToken)
+        {
+            var indexName = GetIndexNameForLanguage(language);
+
+            try
+            {
                 // Check if index exists
-                var existsResponse = await _elasticsearchClient.Indices.ExistsAsync(IndexName, cancellationToken);
+                var existsResponse = await _elasticsearchClient.Indices.ExistsAsync(indexName, cancellationToken);
 
                 if (existsResponse.Exists)
                 {
-                    _logger.LogInformation($"Index '{IndexName}' already exists");
+                    _logger.LogInformation($"Index '{indexName}' already exists");
                     return;
                 }
 
                 // Create index with mapping
                 var createIndexResponse = await _elasticsearchClient.Indices.CreateAsync(
-                    IndexName,
+                    indexName,
                     descriptor => descriptor
                         .Settings(s => s
                             .NumberOfShards(3)
@@ -121,17 +150,28 @@ namespace B2Connect.SearchService.Services
                                 .ScaledFloat(f => f.AverageRating, 10))),
                     cancellationToken);
 
-                _logger.LogInformation($"Index '{IndexName}' created successfully");
-
-                // Create alias for zero-downtime updates
-                await _elasticsearchClient.Indices.PutAliasAsync(IndexName, IndexAlias, cancellationToken);
-                _logger.LogInformation($"Alias '{IndexAlias}' created for index '{IndexName}'");
+                _logger.LogInformation($"Index '{indexName}' created successfully for language: {language}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error initializing Elasticsearch index");
+                _logger.LogError(ex, "Error creating Elasticsearch index for language: {Language}", language);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Get index name for a specific language
+        /// </summary>
+        private static string GetIndexNameForLanguage(string language)
+        {
+            return language?.ToLower() switch
+            {
+                "de" => IndexNameDe,
+                "en" => IndexNameEn,
+                "fr" => IndexNameFr,
+                _ => $"products_{language?.ToLower() ?? DefaultLanguage}"
+            };
+        }
         }
 
         /// <summary>
@@ -257,7 +297,7 @@ namespace B2Connect.SearchService.Services
         }
 
         /// <summary>
-        /// Handle ProductCreatedEvent
+        /// Handle ProductCreatedEvent - index to all language indexes
         /// </summary>
         private async Task HandleProductCreatedAsync(ProductCreatedEvent @event)
         {
@@ -287,20 +327,25 @@ namespace B2Connect.SearchService.Services
                 AverageRating = 0
             };
 
-            var response = await _elasticsearchClient.IndexAsync(
-                document,
-                idx => idx.Index(IndexAlias).Id(@event.ProductId.ToString()));
-
-            if (!response.IsValidResponse)
+            // Index to all language-specific indexes
+            foreach (var language in SupportedLanguages)
             {
-                throw new Exception($"Failed to index product: {response.DebugInformation}");
-            }
+                var indexName = GetIndexNameForLanguage(language);
+                var response = await _elasticsearchClient.IndexAsync(
+                    document,
+                    idx => idx.Index(indexName).Id(@event.ProductId.ToString()));
 
-            _logger.LogInformation($"Product indexed: {document.ProductId}");
+                if (!response.IsValidResponse)
+                {
+                    throw new Exception($"Failed to index product in {indexName}: {response.DebugInformation}");
+                }
+
+                _logger.LogInformation($"Product indexed in {indexName}: {document.ProductId}");
+            }
         }
 
         /// <summary>
-        /// Handle ProductUpdatedEvent
+        /// Handle ProductUpdatedEvent - update all language indexes
         /// </summary>
         private async Task HandleProductUpdatedAsync(ProductUpdatedEvent @event)
         {
@@ -312,29 +357,39 @@ namespace B2Connect.SearchService.Services
             }
             updateSource["updatedAt"] = DateTime.UtcNow;
 
-            var response = await _elasticsearchClient.UpdateAsync<ProductIndexDocument, object>(
-                IndexAlias,
-                @event.ProductId.ToString(),
-                u => u.Doc(updateSource).DocAsUpsert(true));
-
-            if (!response.IsValidResponse)
+            // Update all language-specific indexes
+            foreach (var language in SupportedLanguages)
             {
-                throw new Exception($"Failed to update product: {response.DebugInformation}");
-            }
+                var indexName = GetIndexNameForLanguage(language);
+                var response = await _elasticsearchClient.UpdateAsync<ProductIndexDocument, object>(
+                    indexName,
+                    @event.ProductId.ToString(),
+                    u => u.Doc(updateSource).DocAsUpsert(true));
 
-            _logger.LogInformation($"Product updated: {@event.ProductId}");
-        }
+                if (!response.IsValidResponse)
+                {
+                    throw new Exception($"Failed to update product in {indexName}: {response.DebugInformation}");
+                }
 
-        /// <summary>
-        /// Handle ProductDeletedEvent
+                _logger.LogInformation - delete from all language indexes
         /// </summary>
         private async Task HandleProductDeletedAsync(ProductDeletedEvent @event)
         {
-            var response = await _elasticsearchClient.DeleteAsync(
-                IndexAlias,
-                @event.ProductId.ToString());
+            // Delete from all language-specific indexes
+            foreach (var language in SupportedLanguages)
+            {
+                var indexName = GetIndexNameForLanguage(language);
+                var response = await _elasticsearchClient.DeleteAsync(
+                    indexName,
+                    @event.ProductId.ToString());
 
-            if (!response.IsValidResponse)
+                if (!response.IsValidResponse)
+                {
+                    throw new Exception($"Failed to delete product in {indexName}: {response.DebugInformation}");
+                }
+
+                _logger.LogInformation($"Product deleted from {indexName}: {@event.ProductId}");
+            }
             {
                 throw new Exception($"Failed to delete product: {response.DebugInformation}");
             }

@@ -14,7 +14,8 @@ namespace B2Connect.SearchService.Controllers
 {
     /// <summary>
     /// API endpoints for product search and catalog browsing
-    /// Used by StoreFront to search and filter products from Elasticsearch
+    /// Used by StoreFront to search and filter products from language-specific Elasticsearch indexes
+    /// Supports: de, en, fr
     /// </summary>
     [ApiController]
     [Route("api/catalog/products")]
@@ -23,9 +24,17 @@ namespace B2Connect.SearchService.Controllers
         private readonly IElasticsearchClient _elasticsearchClient;
         private readonly IDistributedCache _cache;
         private readonly ILogger<ProductSearchController> _logger;
-        private const string IndexAlias = "products-alias";
         private const string CacheKeyPrefix = "product-search:";
         private const int CacheDurationSeconds = 300; // 5 minutes
+
+        // Language-specific indexes
+        private const string DefaultLanguage = "de";
+        private static readonly Dictionary<string, string> LanguageIndexMap = new()
+        {
+            { "de", "products_de" },
+            { "en", "products_en" },
+            { "fr", "products_fr" }
+        };
 
         public ProductSearchController(
             IElasticsearchClient elasticsearchClient,
@@ -38,12 +47,13 @@ namespace B2Connect.SearchService.Controllers
         }
 
         /// <summary>
-        /// Search products with full text search and filtering
-        /// GET: /api/catalog/products/search
+        /// Search products with full text search and filtering for a specific language
+        /// GET: /api/catalog/products/search?language=de
         /// </summary>
         [HttpPost("search")]
         public async Task<ActionResult<ProductSearchResponseDto>> SearchAsync(
-            [FromBody] ProductSearchQueryRequest request)
+            [FromBody] ProductSearchQueryRequest request,
+            [FromQuery] string language = DefaultLanguage)
         {
             try
             {
@@ -55,14 +65,17 @@ namespace B2Connect.SearchService.Controllers
                     return BadRequest("Search query is required");
                 }
 
-                // Generate cache key
-                var cacheKey = GenerateCacheKey(request);
+                // Validate language
+                language = ValidateLanguage(language);
+
+                // Generate cache key including language
+                var cacheKey = GenerateCacheKey(request, language);
 
                 // Try to get from cache
                 var cachedResult = await _cache.GetStringAsync(cacheKey);
                 if (!string.IsNullOrEmpty(cachedResult))
                 {
-                    _logger.LogInformation($"Cache hit for search query: {request.Query}");
+                    _logger.LogInformation($"Cache hit for search query: {request.Query} (language: {language})");
                     var cached = JsonSerializer.Deserialize<ProductSearchResponseDto>(cachedResult);
                     if (cached != null)
                     {
@@ -71,8 +84,8 @@ namespace B2Connect.SearchService.Controllers
                     }
                 }
 
-                // Execute search in Elasticsearch
-                var response = await ExecuteSearchAsync(request);
+                // Execute search in language-specific Elasticsearch index
+                var response = await ExecuteSearchAsync(request, language);
 
                 // Cache the result
                 var cacheOptions = new DistributedCacheEntryOptions
@@ -87,7 +100,7 @@ namespace B2Connect.SearchService.Controllers
                 stopwatch.Stop();
                 response.ElapsedMilliseconds = (int)stopwatch.ElapsedMilliseconds;
 
-                _logger.LogInformation($"Search executed in {stopwatch.ElapsedMilliseconds}ms for: {request.Query}");
+                _logger.LogInformation($"Search executed in {stopwatch.ElapsedMilliseconds}ms for: {request.Query} (language: {language})");
                 return Ok(response);
             }
             catch (Exception ex)
@@ -98,12 +111,13 @@ namespace B2Connect.SearchService.Controllers
         }
 
         /// <summary>
-        /// Get search suggestions (autocomplete)
-        /// GET: /api/catalog/products/suggestions
+        /// Get search suggestions (autocomplete) for a specific language
+        /// GET: /api/catalog/products/suggestions?language=de
         /// </summary>
         [HttpGet("suggestions")]
         public async Task<ActionResult<SearchSuggestionDto[]>> GetSuggestionsAsync(
             [FromQuery] string query,
+            [FromQuery] string language = DefaultLanguage,
             [FromQuery] Guid? tenantId = null,
             [FromQuery] int limit = 10)
         {
@@ -114,16 +128,21 @@ namespace B2Connect.SearchService.Controllers
                     return BadRequest("Query must be at least 2 characters");
                 }
 
+                language = ValidateLanguage(language);
+
                 // Check cache
-                var cacheKey = $"{CacheKeyPrefix}suggestions:{query}:{tenantId}";
+                var cacheKey = $"{CacheKeyPrefix}suggestions:{query}:{language}:{tenantId}";
                 var cached = await _cache.GetStringAsync(cacheKey);
                 if (!string.IsNullOrEmpty(cached))
                 {
                     return Ok(JsonSerializer.Deserialize<SearchSuggestionDto[]>(cached));
                 }
 
+                // Get language-specific index
+                var indexName = GetIndexForLanguage(language);
+
                 // Execute suggestion query
-                var searchRequest = new SearchRequest(IndexAlias);
+                var searchRequest = new SearchRequest(indexName);
 
                 var filters = new List<Query>();
                 if (tenantId.HasValue)
@@ -188,22 +207,27 @@ namespace B2Connect.SearchService.Controllers
         }
 
         /// <summary>
-        /// Get product details by ID
-        /// GET: /api/catalog/products/{id}
+        /// Get product details by ID from a specific language index
+        /// GET: /api/catalog/products/{id}?language=de
         /// </summary>
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<ProductSearchResultItemDto>> GetProductAsync(Guid id)
+        public async Task<ActionResult<ProductSearchResultItemDto>> GetProductAsync(
+            Guid id,
+            [FromQuery] string language = DefaultLanguage)
         {
             try
             {
-                var cacheKey = $"{CacheKeyPrefix}product:{id}";
+                language = ValidateLanguage(language);
+
+                var cacheKey = $"{CacheKeyPrefix}product:{id}:{language}";
                 var cached = await _cache.GetStringAsync(cacheKey);
                 if (!string.IsNullOrEmpty(cached))
                 {
                     return Ok(JsonSerializer.Deserialize<ProductSearchResultItemDto>(cached));
                 }
 
-                var result = await _elasticsearchClient.GetAsync<ProductIndexDocument>(IndexAlias, id.ToString());
+                var indexName = GetIndexForLanguage(language);
+                var result = await _elasticsearchClient.GetAsync<ProductIndexDocument>(indexName, id.ToString());
 
                 if (!result.Found)
                 {
@@ -232,9 +256,11 @@ namespace B2Connect.SearchService.Controllers
         }
 
         /// <summary>
-        /// Execute the actual Elasticsearch search
+        /// Execute the actual Elasticsearch search on language-specific index
         /// </summary>
-        private async Task<ProductSearchResponseDto> ExecuteSearchAsync(ProductSearchQueryRequest request)
+        private async Task<ProductSearchResponseDto> ExecuteSearchAsync(
+            ProductSearchQueryRequest request,
+            string language)
         {
             var response = new ProductSearchResponseDto
             {
@@ -302,8 +328,11 @@ namespace B2Connect.SearchService.Controllers
 
             boolQuery.Filter = filters;
 
+            // Get language-specific index name
+            var indexName = GetIndexForLanguage(language);
+
             // Build search request
-            var searchRequest = new SearchRequest(IndexAlias)
+            var searchRequest = new SearchRequest(indexName)
             {
                 Query = new Query(boolQuery),
                 Size = request.PageSize,
@@ -374,11 +403,11 @@ namespace B2Connect.SearchService.Controllers
         }
 
         /// <summary>
-        /// Generate cache key from search request
+        /// Generate cache key from search request including language
         /// </summary>
-        private string GenerateCacheKey(ProductSearchQueryRequest request)
+        private string GenerateCacheKey(ProductSearchQueryRequest request, string language)
         {
-            var key = $"{CacheKeyPrefix}search:{request.Query}:{request.PageNumber}:{request.PageSize}";
+            var key = $"{CacheKeyPrefix}search:{language}:{request.Query}:{request.PageNumber}:{request.PageSize}";
 
             if (!string.IsNullOrEmpty(request.Category))
                 key += $":cat:{request.Category}";
@@ -390,6 +419,28 @@ namespace B2Connect.SearchService.Controllers
                 key += $":tenant:{request.TenantId}";
 
             return key;
+        }
+
+        /// <summary>
+        /// Get index name for a specific language
+        /// </summary>
+        private static string GetIndexForLanguage(string language)
+        {
+            return LanguageIndexMap.TryGetValue(language?.ToLower() ?? DefaultLanguage, out var index)
+                ? index
+                : LanguageIndexMap[DefaultLanguage];
+        }
+
+        /// <summary>
+        /// Validate language and return supported language or default
+        /// </summary>
+        private static string ValidateLanguage(string language)
+        {
+            if (string.IsNullOrWhiteSpace(language))
+                return DefaultLanguage;
+
+            var normalized = language.ToLower();
+            return LanguageIndexMap.ContainsKey(normalized) ? normalized : DefaultLanguage;
         }
     }
 }

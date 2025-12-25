@@ -1,2 +1,41 @@
 <Solution>
+  <Folder Name="/services/" />
+  <Folder Name="/services/api-gateway/">
+    <Project Path="services/api-gateway/B2Connect.ApiGateway.csproj" />
+  </Folder>
+  <Folder Name="/services/AppHost/">
+    <Project Path="services/AppHost/B2Connect.AppHost.csproj" />
+  </Folder>
+  <Folder Name="/services/auth-service/">
+    <Project Path="services/auth-service/B2Connect.AuthService.csproj" />
+  </Folder>
+  <Folder Name="/services/CatalogService/">
+    <Project Path="services/CatalogService/B2Connect.CatalogService.csproj" />
+  </Folder>
+  <Folder Name="/services/LocalizationService/">
+    <Project Path="services/LocalizationService/B2Connect.LocalizationService.csproj" />
+  </Folder>
+  <Folder Name="/services/ServiceDefaults/">
+    <Project Path="services/ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/services/tenant-service/">
+    <Project Path="services/tenant-service/B2Connect.TenantService.csproj" />
+  </Folder>
+  <Folder Name="/services/ThemeService/">
+    <Project Path="services/ThemeService/B2Connect.ThemeService.csproj" />
+  </Folder>
+  <Folder Name="/shared/" />
+  <Folder Name="/shared/middleware/">
+    <Project Path="shared/middleware/B2Connect.Middleware.csproj" />
+  </Folder>
+  <Folder Name="/shared/types/">
+    <Project Path="shared/types/B2Connect.Types.csproj" />
+  </Folder>
+  <Folder Name="/shared/utils/">
+    <Project Path="shared/utils/B2Connect.Utils.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/CatalogService.Tests/CatalogService.Tests.csproj" />
+    <Project Path="Tests/SearchService.Tests/SearchService.Tests.csproj" />
+  </Folder>
 </Solution>

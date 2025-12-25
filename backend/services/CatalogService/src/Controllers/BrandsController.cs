@@ -1,14 +1,23 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using B2Connect.CatalogService.Services;
+using B2Connect.CatalogService.Models;
+using B2Connect.Shared.AOP;
 
 namespace B2Connect.CatalogService.Controllers;
 
 /// <summary>
 /// API Controller for Brand operations
+/// Public GET endpoints for store, admin CRUD endpoints require Admin role
+/// Uses AOP filters for logging, validation, and exception handling
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[ValidateModel]  // AOP: automatic model validation
+[ExceptionHandling]  // AOP: centralized error handling
+[RequestLogging]  // AOP: request/response logging
 public class BrandsController : ControllerBase
 {
     private readonly IBrandService _service;
@@ -24,8 +33,6 @@ public class BrandsController : ControllerBase
     /// Gets a brand by ID
     /// </summary>
     [HttpGet("{id}")]
-    [ProduceResponseType(typeof(BrandDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BrandDto>> GetBrand(Guid id)
     {
         var brand = await _service.GetBrandAsync(id);
@@ -39,8 +46,6 @@ public class BrandsController : ControllerBase
     /// Gets a brand by slug
     /// </summary>
     [HttpGet("slug/{slug}")]
-    [ProduceResponseType(typeof(BrandDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BrandDto>> GetBrandBySlug(string slug)
     {
         var brand = await _service.GetBrandBySlugAsync(slug);
@@ -54,7 +59,6 @@ public class BrandsController : ControllerBase
     /// Gets all active brands
     /// </summary>
     [HttpGet]
-    [ProduceResponseType(typeof(IEnumerable<BrandDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<BrandDto>>> GetActiveBrands()
     {
         var brands = await _service.GetActiveBrandsAsync();
@@ -65,7 +69,6 @@ public class BrandsController : ControllerBase
     /// Gets brands with pagination
     /// </summary>
     [HttpGet("paged")]
-    [ProduceResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> GetBrandsPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         var (items, total) = await _service.GetBrandsPagedAsync(pageNumber, pageSize);
@@ -76,8 +79,7 @@ public class BrandsController : ControllerBase
     /// Creates a new brand
     /// </summary>
     [HttpPost]
-    [ProduceResponseType(typeof(BrandDto), StatusCodes.Status201Created)]
-    [ProduceResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<BrandDto>> CreateBrand(CreateBrandDto dto)
     {
         try
@@ -96,9 +98,7 @@ public class BrandsController : ControllerBase
     /// Updates an existing brand
     /// </summary>
     [HttpPut("{id}")]
-    [ProduceResponseType(typeof(BrandDto), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
-    [ProduceResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<BrandDto>> UpdateBrand(Guid id, UpdateBrandDto dto)
     {
         try
@@ -121,8 +121,7 @@ public class BrandsController : ControllerBase
     /// Deletes a brand
     /// </summary>
     [HttpDelete("{id}")]
-    [ProduceResponseType(StatusCodes.Status204NoContent)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteBrand(Guid id)
     {
         var success = await _service.DeleteBrandAsync(id);
