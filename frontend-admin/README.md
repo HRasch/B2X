@@ -4,6 +4,8 @@ Professional admin dashboard for B2Connect platform built with Vue 3, TypeScript
 
 **Status**: ✅ Production Ready | **Coverage**: 91% | **Tests**: 230+
 
+📚 **[Documentation](docs/)** | 🔧 [Main Docs](../docs/) | 📖 [Getting Started](../GETTING_STARTED.md)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
