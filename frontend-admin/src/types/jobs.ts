@@ -1,0 +1,57 @@
+export interface Job {
+  id: string
+  name: string
+  type: 'data-sync' | 'report-generation' | 'email-campaign' | 'image-processing' | 'etl' | 'backup' | 'custom'
+  status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled'
+  progress: number
+  startedAt?: Date
+  completedAt?: Date
+  createdAt: Date
+  tenantId: string
+  createdBy: string
+  parameters?: Record<string, any>
+  result?: Record<string, any>
+  errorMessage?: string
+}
+
+export interface JobLog {
+  id: string
+  jobId: string
+  level: 'info' | 'warning' | 'error' | 'debug'
+  message: string
+  timestamp: Date
+  data?: Record<string, any>
+}
+
+export interface ScheduledJob {
+  id: string
+  name: string
+  jobType: string
+  cronExpression: string
+  isActive: boolean
+  lastRun?: Date
+  nextRun: Date
+  createdAt: Date
+  updatedAt: Date
+  tenantId: string
+}
+
+export interface JobMonitorMetrics {
+  totalJobs: number
+  runningJobs: number
+  completedJobs: number
+  failedJobs: number
+  averageExecutionTime: number
+  successRate: number
+}
+
+export interface JobState {
+  jobs: Job[]
+  scheduledJobs: ScheduledJob[]
+  currentJob: Job | null
+  jobLogs: JobLog[]
+  metrics: JobMonitorMetrics
+  isMonitoring: boolean
+  loading: boolean
+  error: string | null
+}

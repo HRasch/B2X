@@ -88,6 +88,8 @@ const handleSelectLocale = async (code: string) => {
   font-weight: 500;
   transition: all 0.2s ease;
   white-space: nowrap;
+  position: relative;
+  z-index: 1001;
 }
 
 .language-button:hover:not(:disabled) {

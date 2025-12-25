@@ -88,7 +88,7 @@ export function useLocale() {
   }
 
   return {
-    locale: i18n.locale,
+    locale: computed(() => i18n.locale.value),
     currentLocale,
     locales,
     isLoading,
