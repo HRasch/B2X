@@ -116,6 +116,9 @@ public class VariantAttributeValue
     [MaxLength(1000)]
     public string? Value { get; set; }
 
+    /// <summary>Gets or sets whether this attribute value is active</summary>
+    public bool IsActive { get; set; } = true;
+
     /// <summary>Gets or sets the creation timestamp</summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

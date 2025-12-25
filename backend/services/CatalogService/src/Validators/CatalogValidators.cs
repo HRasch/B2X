@@ -47,7 +47,7 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
                 .WithMessage("English (en) localized name is required");
 
         RuleForEach(x => x.LocalizedNames)
-            .Must(x => !string.IsNullOrWhiteSpace(x.Value?.Name))
+            .Must(x => x.Value?.Translations?.Count > 0 && x.Value.Translations.Values.All(v => !string.IsNullOrWhiteSpace(v)))
                 .WithMessage("Localized name content cannot be empty");
     }
 }

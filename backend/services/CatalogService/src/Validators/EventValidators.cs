@@ -73,14 +73,11 @@ public class ProductCreatedEventValidator : AbstractValidator<ProductCreatedEven
             .WithMessage("Price must have at most 2 decimal places");
 
         RuleFor(e => e.B2bPrice)
-            .Null()
-            .Or(p => p
-                .GreaterThan(0)
-                .WithMessage("B2B Price must be greater than 0")
-                .Must(p => decimal.Round(p.GetValueOrDefault(), 2) == p.GetValueOrDefault())
-                .WithMessage("B2B Price must have at most 2 decimal places")
-                .LessThanOrEqualTo(e => e.Price)
-                .WithMessage("B2B Price must not exceed regular price"));
+            .Must(p => p == null || p > 0)
+            .WithMessage("B2B Price must be null or greater than 0")
+            .Must(p => p == null || decimal.Round(p.GetValueOrDefault(), 2) == p.GetValueOrDefault())
+            .WithMessage("B2B Price must have at most 2 decimal places")
+            .When(e => e.B2bPrice.HasValue);
 
         RuleFor(e => e.StockQuantity)
             .GreaterThanOrEqualTo(0)

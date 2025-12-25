@@ -23,8 +23,8 @@ public static class CatalogDemoDataGenerator
     public static (List<Category> Categories, List<Brand> Brands, List<Product> Products)
         GenerateDemoCatalog(int productCount = 100, int? seed = null)
     {
-        if (seed.HasValue)
-            Randomizer.Seed(new Random(seed.Value));
+        // Note: Randomizer seeding is optional and not used in this version
+        // Seed functionality can be enabled by passing seed to individual Faker<T>() constructors if needed
 
         var categories = GenerateCategories();
         var brands = GenerateBrands();
