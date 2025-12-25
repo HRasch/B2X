@@ -50,13 +50,11 @@ namespace B2Connect.Tests.SearchService
                 b2bPrice: 149.99m,
                 stockQuantity: 50,
                 tags: new[] { "leather", "jacket", "blue" },
-                attributes: new ProductAttributesDto
-                {
-                    Brand = "Premium Brand",
-                    Colors = new[] { "blue" },
-                    Material = "Leather",
-                    Sizes = new[] { "S", "M", "L", "XL" }
-                },
+                attributes: new ProductAttributesDto(
+                    Brand: "Premium Brand",
+                    Colors: new[] { "blue" },
+                    Material: "Leather",
+                    Sizes: new[] { "S", "M", "L", "XL" }),
                 imageUrls: new[] { "https://example.com/jacket.jpg" },
                 tenantId: tenantId);
 
@@ -373,9 +371,18 @@ namespace B2Connect.Tests.SearchService
             publisher.Initialize();
 
             var @event = new ProductCreatedEvent(
-                Guid.NewGuid(), "SKU-001", "Product", "Description",
-                "Category", 99.99m, null, 10, Array.Empty<string>(),
-                new ProductAttributesDto(), Array.Empty<string>(), Guid.NewGuid());
+                productId: Guid.NewGuid(),
+                sku: "SKU-001",
+                name: "Product",
+                description: "Description",
+                category: "Category",
+                price: 99.99m,
+                b2bPrice: null,
+                stockQuantity: 10,
+                tags: Array.Empty<string>(),
+                attributes: new ProductAttributesDto(),
+                imageUrls: Array.Empty<string>(),
+                tenantId: Guid.NewGuid());
 
             // Act
             await publisher.PublishProductCreatedAsync(@event);

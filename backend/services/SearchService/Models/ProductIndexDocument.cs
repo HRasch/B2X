@@ -17,7 +17,6 @@ namespace B2Connect.SearchService.Models
         decimal Price,
         decimal? B2bPrice,
         int StockQuantity,
-        bool IsAvailable,
         string[] Tags,
         string Brand,
         string Material,
@@ -32,13 +31,8 @@ namespace B2Connect.SearchService.Models
         int ReviewCount,
         double AverageRating)
     {
-        // Initialize defaults for array and dictionary properties
-        public string[] Tags { get; } = Tags ?? Array.Empty<string>();
-        public string[] Colors { get; } = Colors ?? Array.Empty<string>();
-        public string[] Sizes { get; } = Sizes ?? Array.Empty<string>();
-        public string[] ImageUrls { get; } = ImageUrls ?? Array.Empty<string>();
-        public Dictionary<string, string> CustomAttributes { get; } = CustomAttributes ?? new();
-        public bool IsAvailable { get; } = StockQuantity > 0;
+        // Computed property
+        public bool IsAvailable => StockQuantity > 0;
     }
 
     /// <summary>
@@ -74,17 +68,6 @@ namespace B2Connect.SearchService.Models
         int ElapsedMilliseconds)
     {
         public int TotalPages => (TotalCount + PageSize - 1) / PageSize;
-
-        public ProductSearchResponseDto()
-            : this(
-                0,
-                1,
-                20,
-                new List<ProductSearchResultItemDto>(),
-                new Dictionary<string, FacetResultDto>(),
-                0)
-        {
-        }
     }
 
     /// <summary>
@@ -120,13 +103,7 @@ namespace B2Connect.SearchService.Models
     /// </summary>
     public record FacetResultDto(
         string Field,
-        List<FacetOptionDto> Options)
-    {
-        public FacetResultDto(string field)
-            : this(field, new List<FacetOptionDto>())
-        {
-        }
-    }
+        List<FacetOptionDto> Options);
 
     /// <summary>
     /// Individual facet option (immutable record)
@@ -138,11 +115,5 @@ namespace B2Connect.SearchService.Models
     /// </summary>
     public record AggregationResultDto(
         string Field,
-        Dictionary<string, object> Data)
-    {
-        public AggregationResultDto(string field)
-            : this(field, new Dictionary<string, object>())
-        {
-        }
-    }
+        Dictionary<string, object> Data);
 }

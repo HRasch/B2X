@@ -8,12 +8,12 @@ namespace B2Connect.Shared.Events
     /// </summary>
     public abstract record DomainEvent
     {
-        public Guid EventId { get; set; } = Guid.NewGuid();
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-        public string EventType { get; set; }
-        public Guid AggregateId { get; set; }
-        public string AggregateType { get; set; }
-        public int Version { get; set; }
-        public Dictionary<string, object> Metadata { get; set; } = new();
+        public Guid EventId { get; } = Guid.NewGuid();
+        public DateTime Timestamp { get; } = DateTime.UtcNow;
+        public abstract string EventType { get; }
+        public abstract Guid AggregateId { get; }
+        public abstract string AggregateType { get; }
+        public virtual int Version { get; } = 1;
+        public Dictionary<string, object> Metadata { get; } = new();
     }
 }

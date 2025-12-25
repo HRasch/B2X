@@ -21,27 +21,10 @@ namespace B2Connect.CatalogService.Events
         string[] ImageUrls,
         Guid TenantId) : DomainEvent
     {
-        public ProductCreatedEvent()
-            : this(
-                Guid.Empty,
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                0m,
-                null,
-                0,
-                Array.Empty<string>(),
-                new ProductAttributesDto(),
-                Array.Empty<string>(),
-                Guid.Empty)
-        {
-            AggregateId = ProductId;
-            AggregateType = "Product";
-            EventType = "product.created";
-            Timestamp = DateTime.UtcNow;
-            Version = 1;
-        }
+        public override Guid AggregateId => ProductId;
+        public override string AggregateType => "Product";
+        public override string EventType => "product.created";
+        public override int Version => 1;
     }
 
     /// <summary>
@@ -53,14 +36,9 @@ namespace B2Connect.CatalogService.Events
         Dictionary<string, object> Changes,
         Guid TenantId) : DomainEvent
     {
-        public ProductUpdatedEvent(Guid productId, Dictionary<string, object> changes, Guid tenantId)
-            : this(productId, changes ?? new Dictionary<string, object>(), tenantId)
-        {
-            AggregateId = productId;
-            AggregateType = "Product";
-            EventType = "product.updated";
-            Timestamp = DateTime.UtcNow;
-        }
+        public override Guid AggregateId => ProductId;
+        public override string AggregateType => "Product";
+        public override string EventType => "product.updated";
     }
 
     /// <summary>
@@ -69,14 +47,9 @@ namespace B2Connect.CatalogService.Events
     /// </summary>
     public record ProductDeletedEvent(Guid ProductId, Guid TenantId) : DomainEvent
     {
-        public ProductDeletedEvent(Guid productId, Guid tenantId)
-            : this(productId, tenantId)
-        {
-            AggregateId = productId;
-            AggregateType = "Product";
-            EventType = "product.deleted";
-            Timestamp = DateTime.UtcNow;
-        }
+        public override Guid AggregateId => ProductId;
+        public override string AggregateType => "Product";
+        public override string EventType => "product.deleted";
     }
 
     /// <summary>
@@ -88,13 +61,9 @@ namespace B2Connect.CatalogService.Events
         int TotalCount,
         Guid TenantId) : DomainEvent
     {
-        public ProductsBulkImportedEvent(Guid[] productIds, int totalCount, Guid tenantId)
-            : this(productIds, totalCount, tenantId)
-        {
-            AggregateType = "Product";
-            EventType = "products.bulk-imported";
-            Timestamp = DateTime.UtcNow;
-        }
+        public override Guid AggregateId => ProductIds.Length > 0 ? ProductIds[0] : Guid.Empty;
+        public override string AggregateType => "Product";
+        public override string EventType => "products.bulk-imported";
     }
 
     /// <summary>
