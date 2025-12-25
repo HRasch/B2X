@@ -4,9 +4,31 @@ Welcome! This is your starting point for B2Connect development.
 
 ## 📚 Documentation Structure
 
-All documentation is organized by feature. **One file per feature** = easy to find and maintain.
+All documentation is organized in a clean hierarchy:
 
-### Core Documentation
+```
+Root/ (4 Core Files)
+├── README.md                      ← Project overview
+├── GETTING_STARTED.md             ← You are here
+├── DEVELOPMENT.md                 ← Local setup
+└── BUSINESS_REQUIREMENTS.md       ← Features & roadmap
+
+docs/
+├── architecture/                  ← System design & tools
+│   ├── ASPIRE_GUIDE.md
+│   └── VSCODE_ASPIRE_CONFIG.md
+├── features/                      ← Feature implementations
+│   ├── CATALOG_IMPLEMENTATION.md
+│   ├── AOP_VALIDATION_IMPLEMENTATION.md
+│   ├── EVENT_VALIDATION_IMPLEMENTATION.md
+│   ├── ELASTICSEARCH_IMPLEMENTATION.md
+│   ├── LOCALIZATION_IMPLEMENTATION.md
+│   └── ADMIN_FRONTEND_IMPLEMENTATION.md
+└── guides/                        ← Development guides
+    ├── DEBUG_QUICK_REFERENCE.md
+    ├── TESTING_GUIDE.md
+    └── VERIFICATION.md
+```
 
 **Start here:**
 - [README.md](README.md) - Project overview and quick start
@@ -14,6 +36,166 @@ All documentation is organized by feature. **One file per feature** = easy to fi
 - [BUSINESS_REQUIREMENTS.md](BUSINESS_REQUIREMENTS.md) - Features and roadmap
 
 **Then choose your path below.**
+
+## 🔧 Developer Paths
+
+### 1️⃣ I want to set up my local environment
+
+**Time: 30 minutes**
+
+1. [DEVELOPMENT.md](DEVELOPMENT.md) - Install and run locally
+2. [docs/architecture/VSCODE_ASPIRE_CONFIG.md](docs/architecture/VSCODE_ASPIRE_CONFIG.md) - Configure debug environment
+3. [docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md) - Quick debug commands
+
+**Result**: Running B2Connect locally with debugger
+
+### 2️⃣ I want to understand the architecture
+
+**Time: 1 hour**
+
+1. [.copilot-specs.md](.copilot-specs.md) - Sections 1-5 (Overview & Architecture)
+2. [docs/architecture/ASPIRE_GUIDE.md](docs/architecture/ASPIRE_GUIDE.md) - Microservices orchestration
+3. Choose your feature:
+   - [docs/features/CATALOG_IMPLEMENTATION.md](docs/features/CATALOG_IMPLEMENTATION.md) - Product management
+   - [docs/features/ELASTICSEARCH_IMPLEMENTATION.md](docs/features/ELASTICSEARCH_IMPLEMENTATION.md) - Search
+   - [docs/features/LOCALIZATION_IMPLEMENTATION.md](docs/features/LOCALIZATION_IMPLEMENTATION.md) - Multi-language
+
+**Result**: Understand how services work together
+
+### 3️⃣ I want to work on the backend
+
+**Time: 1.5 hours**
+
+1. [DEVELOPMENT.md](DEVELOPMENT.md) - Local setup
+2. [.copilot-specs.md](.copilot-specs.md) - Sections 1-22 (Code guidelines + features)
+3. [docs/features/AOP_VALIDATION_IMPLEMENTATION.md](docs/features/AOP_VALIDATION_IMPLEMENTATION.md) - Validation patterns
+4. [docs/features/EVENT_VALIDATION_IMPLEMENTATION.md](docs/features/EVENT_VALIDATION_IMPLEMENTATION.md) - Event handling
+5. [docs/guides/TESTING_GUIDE.md](docs/guides/TESTING_GUIDE.md) - How to write tests
+
+**Result**: Ready to code backend features
+
+### 4️⃣ I want to work on the frontend
+
+**Time: 1.5 hours**
+
+1. [DEVELOPMENT.md](DEVELOPMENT.md) - Local setup
+2. [.copilot-specs.md](.copilot-specs.md) - Sections 5-9 (Frontend guidelines)
+3. [docs/features/ADMIN_FRONTEND_IMPLEMENTATION.md](docs/features/ADMIN_FRONTEND_IMPLEMENTATION.md) - Admin UI
+4. [docs/features/LOCALIZATION_IMPLEMENTATION.md](docs/features/LOCALIZATION_IMPLEMENTATION.md) - i18n in Vue
+
+**Result**: Ready to code frontend features
+
+### 5️⃣ I want to add a new feature
+
+**Time: 2 hours (depends on feature)**
+
+1. Read relevant feature documentation:
+   - [docs/features/CATALOG_IMPLEMENTATION.md](docs/features/CATALOG_IMPLEMENTATION.md) - New product type?
+   - [docs/features/ELASTICSEARCH_IMPLEMENTATION.md](docs/features/ELASTICSEARCH_IMPLEMENTATION.md) - New search?
+   - [docs/features/LOCALIZATION_IMPLEMENTATION.md](docs/features/LOCALIZATION_IMPLEMENTATION.md) - New language?
+
+2. [.copilot-specs.md](.copilot-specs.md) - Read relevant sections
+
+3. Follow the patterns in existing code:
+   - Controllers with `[ValidateModel]` filter
+   - Fluent validators in `Validators/` folder
+   - Pinia stores for frontend state
+   - Type-safe API services
+
+4. [docs/guides/TESTING_GUIDE.md](docs/guides/TESTING_GUIDE.md) - Write tests
+
+5. Update [.copilot-specs.md](.copilot-specs.md) Section 23 if documenting new patterns
+
+**Result**: New feature integrated and tested
+
+## 📖 All Documentation Files
+
+### Architecture & Setup
+- [docs/architecture/ASPIRE_GUIDE.md](docs/architecture/ASPIRE_GUIDE.md) - .NET Aspire orchestration
+- [docs/architecture/VSCODE_ASPIRE_CONFIG.md](docs/architecture/VSCODE_ASPIRE_CONFIG.md) - VS Code debug setup
+
+### Features (One file per feature)
+- [docs/features/CATALOG_IMPLEMENTATION.md](docs/features/CATALOG_IMPLEMENTATION.md) - Products, Categories, Brands API
+- [docs/features/AOP_VALIDATION_IMPLEMENTATION.md](docs/features/AOP_VALIDATION_IMPLEMENTATION.md) - Validation filters & FluentValidation
+- [docs/features/EVENT_VALIDATION_IMPLEMENTATION.md](docs/features/EVENT_VALIDATION_IMPLEMENTATION.md) - Domain events
+- [docs/features/ELASTICSEARCH_IMPLEMENTATION.md](docs/features/ELASTICSEARCH_IMPLEMENTATION.md) - Full-text search
+- [docs/features/LOCALIZATION_IMPLEMENTATION.md](docs/features/LOCALIZATION_IMPLEMENTATION.md) - Multi-language support
+- [docs/features/ADMIN_FRONTEND_IMPLEMENTATION.md](docs/features/ADMIN_FRONTEND_IMPLEMENTATION.md) - Admin UI components
+
+### Guidelines & Guides
+- [.copilot-specs.md](.copilot-specs.md) - AI assistant specs (also reference guide)
+- [DEVELOPMENT.md](DEVELOPMENT.md) - Development workflow
+- [docs/guides/TESTING_GUIDE.md](docs/guides/TESTING_GUIDE.md) - Testing patterns
+- [docs/guides/VERIFICATION.md](docs/guides/VERIFICATION.md) - How to verify features work
+- [docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md) - Quick debug reference
+
+### Business
+- [README.md](README.md) - Project overview
+- [BUSINESS_REQUIREMENTS.md](BUSINESS_REQUIREMENTS.md) - Features & roadmap
+
+## ⚡ Quick Commands
+
+```bash
+# Start development environment
+F5 → "Full Stack (AppHost + Admin Frontend)"
+
+# Or via terminal:
+cd backend/services/AppHost && dotnet run
+cd frontend-admin && npm run dev
+
+# Run tests
+dotnet test                    # All tests
+dotnet test --filter Catalog  # Only catalog tests
+
+# Frontend dev
+cd frontend-admin && npm run dev  # Dev server
+
+# Build for production
+npm run build                  # Frontend
+dotnet publish               # Backend
+```
+
+## 🆘 Common Questions
+
+### Where do I find [feature] documentation?
+→ Check `docs/features/` - each feature has ONE `.md` file.
+
+### How do I debug the backend?
+→ [docs/architecture/VSCODE_ASPIRE_CONFIG.md](docs/architecture/VSCODE_ASPIRE_CONFIG.md) + [docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md)
+
+### How do I add validation to my endpoint?
+→ [docs/features/AOP_VALIDATION_IMPLEMENTATION.md](docs/features/AOP_VALIDATION_IMPLEMENTATION.md)
+
+### How do I publish an event?
+→ [docs/features/EVENT_VALIDATION_IMPLEMENTATION.md](docs/features/EVENT_VALIDATION_IMPLEMENTATION.md)
+
+### How do I make a feature multi-language?
+→ [docs/features/LOCALIZATION_IMPLEMENTATION.md](docs/features/LOCALIZATION_IMPLEMENTATION.md)
+
+### How do I add a search feature?
+→ [docs/features/ELASTICSEARCH_IMPLEMENTATION.md](docs/features/ELASTICSEARCH_IMPLEMENTATION.md)
+
+### Where are old/archived docs?
+→ [DOCS_ARCHIVE/](DOCS_ARCHIVE/) - Contains deprecated/historical documentation
+
+## 📋 Document Maintenance
+
+**Goal:** Keep documentation clean and easy to find.
+
+**Rules:**
+1. One feature = one `.md` file in `docs/features/`
+2. Old status reports → `DOCS_ARCHIVE/`
+3. Update [.copilot-specs.md](.copilot-specs.md) Section 23 for new patterns
+4. Link to related docs
+
+See [.copilot-specs.md](.copilot-specs.md) **Section 23** for full documentation guidelines.
+
+---
+
+**Lost? Start here:** 
+- First time? → [README.md](README.md)
+- Want to code? → [DEVELOPMENT.md](DEVELOPMENT.md)
+- Need a feature? → Find it above or search `docs/features/`
 
 ## 🔧 Developer Paths
 

@@ -284,8 +284,8 @@ Content-Type: application/json
 
 ## References
 
-- `.copilot-specs.md` Section 21 (Catalog API spec)
-- `AOP_VALIDATION_IMPLEMENTATION.md` (Validators)
-- `EVENT_VALIDATION_IMPLEMENTATION.md` (Domain events)
-- `ELASTICSEARCH_IMPLEMENTATION.md` (Search integration)
-- `VSCODE_ASPIRE_CONFIG.md` (Debug Catalog Service)
+- [.copilot-specs.md](../../.copilot-specs.md) Section 21 (Catalog API spec)
+- [AOP_VALIDATION_IMPLEMENTATION.md](AOP_VALIDATION_IMPLEMENTATION.md) (Validators)
+- [EVENT_VALIDATION_IMPLEMENTATION.md](EVENT_VALIDATION_IMPLEMENTATION.md) (Domain events)
+- [ELASTICSEARCH_IMPLEMENTATION.md](ELASTICSEARCH_IMPLEMENTATION.md) (Search integration)
+- [VSCODE_ASPIRE_CONFIG.md](../architecture/VSCODE_ASPIRE_CONFIG.md) (Debug Catalog Service)
