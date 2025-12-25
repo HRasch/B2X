@@ -292,25 +292,544 @@ The B2Connect Shop Platform is a comprehensive B2B/B2C e-commerce solution desig
 - **Data Retention**: Configurable data retention policies
 - **Right to Erasure**: Customer data deletion requests
 
+## 10. Search & Catalog Index Management
+
+**Elasticsearch Integration**
+
+### Overview
+Das StoreFront ermittelt alle Katalogdaten aus Elasticsearch. Dies ermöglicht schnelle, typentolerante Suche, Facettierung und komplexe Filterungen. Der Suchindex wird automatisch aktualisiert, wenn Produkte im Admin-Bereich geändert werden.
+
+### Architecture
+
+#### Data Flow Diagram
+```
+Admin Panel (Add/Update Product)
+        ↓
+Admin API (POST /api/admin/shop/products)
+        ↓
+Catalog Service (PostgreSQL Database)
+        ↓
+Event Publisher (RabbitMQ)
+        ↓
+Search Index Service (Consumer)
+        ↓
+Elasticsearch Index Update
+        ↓
+StoreFront Search API (GET /catalog/products/search)
+```
+
+#### Elasticsearch Index Mapping
+Das Produkt-Index ist strukturiert für schnelle Volltextsuche und Facettierung:
+
+```json
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 2,
+    "refresh_interval": "5s"
+  },
+  "mappings": {
+    "properties": {
+      "id": { "type": "keyword" },
+      "sku": { "type": "keyword" },
+      "name": { 
+        "type": "text",
+        "analyzer": "standard",
+        "fields": { "exact": { "type": "keyword" } }
+      },
+      "description": { "type": "text" },
+      "category": { "type": "keyword" },
+      "categoryName": { "type": "text" },
+      "price": { "type": "double" },
+      "b2bPrice": { "type": "double" },
+      "stock": { "type": "integer", "index": false },
+      "inStock": { "type": "boolean" },
+      "rating": { "type": "double" },
+      "reviews": { "type": "integer" },
+      "attributes": {
+        "type": "nested",
+        "properties": {
+          "brand": { "type": "keyword" },
+          "material": { "type": "keyword" },
+          "color": { "type": "keyword" },
+          "size": { "type": "keyword" }
+        }
+      },
+      "images": { "type": "keyword" },
+      "createdAt": { "type": "date" },
+      "updatedAt": { "type": "date" },
+      "tenantId": { "type": "keyword" },
+      "tags": { "type": "keyword" },
+      "suggestions": { "type": "completion" }
+    }
+  }
+}
+```
+
+### Admin-Bereich: Produktverwaltung
+
+#### 1. Produkt erstellen
+
+**Admin Request:**
+```
+POST /api/admin/shop/products
+Content-Type: application/json
+
+{
+  "name": "Wireless Headphones Pro",
+  "description": "High-quality wireless headphones with noise cancellation",
+  "sku": "WH-001-BLK",
+  "category": "Electronics",
+  "price": 99.99,
+  "b2bPrice": 79.99,
+  "stock": 150,
+  "attributes": {
+    "brand": "TechBrand",
+    "color": ["black", "silver", "blue"],
+    "material": "Aluminum + Plastic",
+    "size": "One Size"
+  },
+  "images": [
+    "https://cdn.b2connect.com/products/wh-001/main.jpg",
+    "https://cdn.b2connect.com/products/wh-001/detail.jpg"
+  ],
+  "tags": ["bestseller", "new", "electronics"]
+}
+```
+
+**Server Process:**
+1. **Catalog Service** speichert Produkt in PostgreSQL Datenbank
+2. **Domain Event** `ProductCreated` wird erzeugt
+3. **Event Publisher** publiziert Event zu RabbitMQ Channel `product.created`
+4. **Response** wird an Admin mit Produkt-ID zurückgegeben
+
+**Elasticsearch Index Operation:**
+```
+POST /b2connect-products/_doc/prod-wh-001
+{
+  "id": "prod-wh-001",
+  "sku": "WH-001-BLK",
+  "name": "Wireless Headphones Pro",
+  "description": "High-quality wireless headphones with noise cancellation",
+  "category": "Electronics",
+  "categoryName": "Electronics",
+  "price": 99.99,
+  "b2bPrice": 79.99,
+  "stock": 150,
+  "inStock": true,
+  "rating": 0,
+  "reviews": 0,
+  "attributes": {
+    "brand": "TechBrand",
+    "color": ["black", "silver", "blue"],
+    "material": "Aluminum + Plastic"
+  },
+  "images": ["wh-001/main.jpg", "wh-001/detail.jpg"],
+  "tags": ["bestseller", "new", "electronics"],
+  "createdAt": "2025-12-25T14:00:00Z",
+  "updatedAt": "2025-12-25T14:00:00Z",
+  "tenantId": "tenant-1",
+  "suggestions": {
+    "input": ["Wireless Headphones", "Pro", "TechBrand"],
+    "weight": 5
+  }
+}
+```
+
+**StoreFront sofort verfügbar:**
+```
+GET /catalog/products/search?q=wireless&category=Electronics
+Response: Produkt wird gefunden und angezeigt
+```
+
+#### 2. Produkt aktualisieren
+
+**Admin Request:**
+```
+PUT /api/admin/shop/products/prod-wh-001
+Content-Type: application/json
+
+{
+  "name": "Wireless Headphones Pro Max",
+  "price": 129.99,
+  "b2bPrice": 99.99,
+  "stock": 120,
+  "rating": 4.8
+}
+```
+
+**Server Process:**
+1. **Catalog Service** updated Produkt in PostgreSQL
+2. **Domain Event** `ProductUpdated` wird erzeugt mit geänderten Feldern
+3. **Event Publisher** publiziert zu RabbitMQ Channel `product.updated`
+
+**Elasticsearch Update Operation:**
+```
+POST /b2connect-products/_update/prod-wh-001
+{
+  "doc": {
+    "name": "Wireless Headphones Pro Max",
+    "price": 129.99,
+    "b2bPrice": 99.99,
+    "stock": 120,
+    "rating": 4.8,
+    "updatedAt": "2025-12-25T14:30:00Z"
+  },
+  "retry_on_conflict": 3
+}
+```
+
+**StoreFront zeigt Änderungen sofort:**
+```
+- Produktname aktualisiert
+- Preis angepasst
+- Rating sichtbar
+- Stock korrekt angezeigt
+```
+
+#### 3. Produkt löschen
+
+**Admin Request:**
+```
+DELETE /api/admin/shop/products/prod-wh-001
+```
+
+**Server Process:**
+1. **Soft Delete** in PostgreSQL (Flag `isDeleted = true`)
+2. **Domain Event** `ProductDeleted` wird erzeugt
+3. **Event Publisher** publiziert zu RabbitMQ
+
+**Elasticsearch Delete Operation:**
+```
+DELETE /b2connect-products/_doc/prod-wh-001
+```
+
+**StoreFront Behavior:**
+```
+- Produkt ist nicht mehr suchbar
+- Alte Links zeigen 404
+- Inventar wird bereinigt
+```
+
+#### 4. Bulk-Import Produkte
+
+**Admin Request:**
+```
+POST /api/admin/shop/products/bulk-import
+Content-Type: application/json
+
+{
+  "products": [
+    { "sku": "P001", "name": "Product 1", "price": 29.99, ... },
+    { "sku": "P002", "name": "Product 2", "price": 39.99, ... },
+    { "sku": "P003", "name": "Product 3", "price": 49.99, ... }
+  ]
+}
+```
+
+**Optimierter Prozess:**
+1. Produkte werden in Batches (z.B. 100er) in PostgreSQL gespeichert
+2. **Batch Event** `ProductsBulkImported` mit allen Produkt-IDs publiziert
+3. Search Index Service indexiert parallel mit Bulk API
+
+**Elasticsearch Bulk Operation:**
+```
+POST /b2connect-products/_bulk
+{ "index": { "_id": "prod-p001" } }
+{ "sku": "P001", "name": "Product 1", ... }
+{ "index": { "_id": "prod-p002" } }
+{ "sku": "P002", "name": "Product 2", ... }
+{ "index": { "_id": "prod-p003" } }
+{ "sku": "P003", "name": "Product 3", ... }
+```
+
+**Latenz:**
+- Datenbankwrite: <100ms
+- Event Publishing: <50ms
+- Elasticsearch Indexing: 1-2 Sekunden
+- **Total: 2-3 Sekunden bis zur StoreFront-Verfügbarkeit**
+
+### StoreFront: Such- & Filterung
+
+#### Search API für Frontend
+
+**Beispiel 1: Text Search**
+```
+GET /catalog/products/search?q=wireless&pageSize=10&pageNumber=1
+
+Elasticsearch Query:
+{
+  "query": {
+    "multi_match": {
+      "query": "wireless",
+      "fields": ["name^3", "description^1.5", "tags"]
+    }
+  },
+  "size": 10,
+  "from": 0
+}
+```
+
+**Beispiel 2: Mit Filtern**
+```
+GET /catalog/products/search?
+  q=headphones&
+  category=Electronics&
+  minPrice=50&
+  maxPrice=150&
+  brand=TechBrand&
+  inStock=true&
+  sortBy=price
+
+Elasticsearch Query:
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "multi_match": { "query": "headphones", "fields": ["name^3", "description"] } }
+      ],
+      "filter": [
+        { "term": { "category": "Electronics" } },
+        { "range": { "price": { "gte": 50, "lte": 150 } } },
+        { "term": { "attributes.brand": "TechBrand" } },
+        { "term": { "inStock": true } }
+      ]
+    }
+  },
+  "sort": [{ "price": "asc" }]
+}
+```
+
+**Response:**
+```json
+{
+  "data": {
+    "items": [
+      {
+        "id": "prod-wh-001",
+        "name": "Wireless Headphones Pro Max",
+        "price": 129.99,
+        "rating": 4.8,
+        "images": ["wh-001/main.jpg"],
+        "inStock": true,
+        "attributes": { "brand": "TechBrand" }
+      }
+    ],
+    "totalCount": 45,
+    "facets": {
+      "categories": [
+        { "value": "Electronics", "count": 45 },
+        { "value": "Accessories", "count": 12 }
+      ],
+      "brands": [
+        { "value": "TechBrand", "count": 12 },
+        { "value": "AudioBrand", "count": 8 }
+      ],
+      "priceRange": { "min": 19.99, "max": 299.99 }
+    }
+  }
+}
+```
+
+#### Autocomplete-Suggestions
+```
+GET /catalog/products/suggestions?q=wire
+
+Elasticsearch Query:
+{
+  "query": {
+    "match_phrase_prefix": {
+      "suggestions": "wire"
+    }
+  },
+  "size": 5
+}
+
+Response:
+{
+  "suggestions": [
+    "Wireless Headphones",
+    "Wireless Keyboard",
+    "Wireless Mouse",
+    "Wireless Charger",
+    "Wireless Speaker"
+  ]
+}
+```
+
+### Event-Driven Index Updates
+
+#### RabbitMQ Message Format
+
+**Beispiel Event: Product Created**
+```json
+{
+  "eventId": "evt-12345",
+  "eventType": "product.created",
+  "aggregateId": "prod-wh-001",
+  "aggregateType": "Product",
+  "timestamp": "2025-12-25T14:00:00Z",
+  "version": 1,
+  "tenantId": "tenant-1",
+  "data": {
+    "id": "prod-wh-001",
+    "sku": "WH-001-BLK",
+    "name": "Wireless Headphones Pro",
+    "category": "Electronics",
+    "price": 99.99,
+    "attributes": { "brand": "TechBrand" }
+  }
+}
+```
+
+**Channel:** `amq.topic` mit Routing Key `product.created`
+
+#### Search Index Service (C#)
+
+```csharp
+public class SearchIndexService : IEventConsumer
+{
+    private readonly IElasticsearchClient _elasticClient;
+    private readonly ILogger<SearchIndexService> _logger;
+    private readonly IProductRepository _productRepo;
+
+    // Subscribe zu product.created Events
+    [RabbitMQListener("product.created")]
+    public async Task OnProductCreatedAsync(ProductCreatedEvent @event)
+    {
+        try
+        {
+            _logger.LogInformation($"Indexing product {0}", @event.Data.Id);
+            
+            // Hole vollständige Produktdaten aus DB
+            var product = await _productRepo.GetByIdAsync(@event.Data.Id);
+            var indexDoc = MapToIndexDocument(product);
+            
+            // Indexiere in Elasticsearch
+            var response = await _elasticClient.IndexAsync<ProductDocument>(
+                new IndexRequest<ProductDocument>
+                {
+                    Index = "b2connect-products",
+                    Id = product.Id,
+                    Document = indexDoc
+                });
+            
+            if (response.IsValid)
+            {
+                _logger.LogInformation($"Product {0} indexed successfully", product.Id);
+            }
+            else
+            {
+                _logger.LogError($"Failed to index product {0}: {1}", 
+                    product.Id, response.ServerError.Error.Reason);
+                
+                // Sende zu Dead Letter Queue
+                await PublishToDeadLetterQueueAsync(@event);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error processing product created event");
+            // Retry-Logik durch RabbitMQ Retry Policy
+        }
+    }
+
+    [RabbitMQListener("product.updated")]
+    public async Task OnProductUpdatedAsync(ProductUpdatedEvent @event)
+    {
+        var product = await _productRepo.GetByIdAsync(@event.Data.Id);
+        
+        await _elasticClient.UpdateAsync<ProductDocument>(
+            @event.Data.Id,
+            new UpdateRequest<ProductDocument>
+            {
+                Index = "b2connect-products",
+                Doc = MapToIndexDocument(product),
+                RetryOnConflict = 3
+            });
+    }
+
+    [RabbitMQListener("product.deleted")]
+    public async Task OnProductDeletedAsync(ProductDeletedEvent @event)
+    {
+        await _elasticClient.DeleteAsync(
+            new DeleteRequest("b2connect-products", @event.Data.Id));
+    }
+
+    private ProductDocument MapToIndexDocument(Product product)
+    {
+        return new ProductDocument
+        {
+            Id = product.Id,
+            Sku = product.Sku,
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.Price,
+            B2bPrice = product.B2bPrice,
+            Category = product.Category,
+            InStock = product.Stock > 0,
+            Stock = product.Stock,
+            Attributes = product.Attributes,
+            Images = product.Images,
+            Tags = product.Tags,
+            CreatedAt = product.CreatedAt,
+            UpdatedAt = product.UpdatedAt
+        };
+    }
+}
+```
+
+### Monitoring & Performance
+
+#### Index-Metriken
+- **Indexed Documents**: Gesamtzahl Produkte im Index
+- **Query Latency**: Durchschnittliche Antwortzeit (<100ms Ziel)
+- **Indexing Speed**: ~1000 Docs/sec
+- **Index Size**: Abhängig von Produktanzahl (~50 bytes pro Dokument)
+- **Segment Count**: Optimiert durch regelmäßige Force Merges
+
+#### Alerts
+```
+- Index Health: Red oder Yellow Status
+- Query Latency > 500ms
+- Failed Indexing: > 5 Fehler in 5 Minuten
+- Search Error Rate: > 0.1%
+```
+
+#### Index Rebuild (bei Bedarf)
+```
+POST /api/admin/system/rebuild-search-index
+
+Process:
+1. Erstelle neuen Index (b2connect-products-v2)
+2. Starte Background-Job zum Indexieren aller Produkte
+3. Überwache Progress
+4. Verifiziere Dokumenten-Konsistenz
+5. Switch Alias zu neuem Index (Zero Downtime)
+6. Lösche alten Index
+```
+
 ## Performance & Scalability
 
 ### Performance Features
-- **Caching**: Redis caching for faster responses
-- **CDN Integration**: Global content delivery
-- **Image Optimization**: Automatic image compression
-- **Lazy Loading**: Deferred loading of content
-- **Database Optimization**: Query optimization and indexing
+- **Elasticsearch Search**: Sub-second search für Millionen Produkte
+- **Redis Caching**: Cache für häufige Suchanfragen (5 min TTL)
+- **CDN Integration**: Global content delivery für Bilder
+- **Lazy Loading**: Deferred loading von Produktdetails
+- **Database Optimization**: Indexed queries für schnelle Abfragen
 
 ### Scalability
-- **Microservices Architecture**: Independent service scaling
-- **Horizontal Scaling**: Add servers as needed
-- **Database Sharding**: Scale database across servers
-- **Message Queuing**: Async processing with RabbitMQ
-- **Load Balancing**: Distribute traffic across servers
+- **Microservices Architecture**: Unabhängiges Skalieren der Services
+- **Elasticsearch Sharding**: Verteile Index über mehrere Knoten
+- **Message Queuing**: Asynchrone Verarbeitung mit RabbitMQ
+- **Database Replication**: PostgreSQL Read Replicas
+- **Load Balancing**: Verteile Traffic über mehrere Server
 
 ## Future Enhancements
 
 - **AI-powered Recommendations**: Advanced ML recommendations
+- **Natural Language Processing (NLP)**: Advanced semantic search
+- **Federated Search**: Search über mehrere Kataloge
 - **Voice Commerce**: Voice-activated ordering
 - **Augmented Reality (AR)**: AR product visualization
 - **Blockchain**: Supply chain transparency
