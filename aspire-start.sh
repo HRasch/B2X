@@ -2,6 +2,7 @@
 
 # B2Connect Aspire Hosting Setup
 # Orchestrates all microservices with centralized .NET Aspire orchestration
+# Includes: CatalogService, AuthService, SearchService, OrderService, etc.
 # Usage: ./aspire-start.sh [Environment] [BuildConfig] [Port]
 # Example: ./aspire-start.sh Development Debug 5200
 
@@ -20,6 +21,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 CYAN='\033[0;36m'
+PURPLE='\033[0;35m'
 NC='\033[0m' # No Color
 
 # Configuration
@@ -28,8 +30,17 @@ BUILD_CONFIG="${2:-Debug}"
 APPHOST_PORT="${3:-5200}"
 DASHBOARD_PORT="5500"
 
+# Services Configuration
+declare -A SERVICE_PORTS=(
+  ["CatalogService"]="9001"
+  ["AuthService"]="9002"
+  ["SearchService"]="9003"
+  ["OrderService"]="9004"
+)
+
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}  B2Connect - .NET Aspire Central Orchestration${NC}"
+echo -e "${PURPLE}  B2Connect - .NET Aspire Central Orchestration${NC}"
+echo -e "${PURPLE}  With Catalog Service, Event Validation & Multi-Language Support${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo -e "${CYAN}Environment:${NC}     $ENVIRONMENT"
 echo -e "${CYAN}Build Config:${NC}    $BUILD_CONFIG"
@@ -79,10 +90,23 @@ start_apphost() {
     # Prepare environment
     local log_file="$LOGS_DIR/apphost.log"
     
+    # Export catalog configuration
+    export ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
+    export ASPNETCORE_URLS="http://+:$APPHOST_PORT"
+    export DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
+    export CATALOG_SERVICE_PORT="9001"
+    export ELASTICSEARCH_ENABLED="true"
+    export EVENTVALIDATION_ENABLED="true"
+    export LOCALIZATION_ENABLED="true"
+    
     # Start AppHost in background
     ASPNETCORE_ENVIRONMENT=$ENVIRONMENT \
     ASPNETCORE_URLS="http://+:$APPHOST_PORT" \
     DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true \
+    CATALOG_SERVICE_PORT="9001" \
+    ELASTICSEARCH_ENABLED="true" \
+    EVENTVALIDATION_ENABLED="true" \
+    LOCALIZATION_ENABLED="true" \
     dotnet run --configuration "$BUILD_CONFIG" --no-build > "$log_file" 2>&1 &
     
     local pid=$!
@@ -137,29 +161,32 @@ echo -e "${GREEN}[✓] .NET Aspire Orchestration Started Successfully${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 
 echo ""
-echo -e "${CYAN}Service URLs:${NC}"
+echo -e "${CYAN}🔧 Microservices Configuration:${NC}"
+echo -e "  ${BLUE}Catalog Service${NC}      → http://localhost:9001"
+echo -e "  ${BLUE}Auth Service${NC}         → http://localhost:9002"
+echo -e "  ${BLUE}Search Service${NC}       → http://localhost:9003"
+echo -e "  ${BLUE}Order Service${NC}        → http://localhost:9004"
+
+echo ""
+echo -e "${CYAN}📊 Dashboard & Monitoring:${NC}"
 echo -e "  ${BLUE}AppHost Dashboard${NC}   → http://localhost:$APPHOST_PORT"
 echo -e "  ${BLUE}Aspire Dashboard${NC}    → http://localhost:$DASHBOARD_PORT"
-echo -e ""
-echo -e "${CYAN}Logs:${NC}"
+
+echo ""
+echo -e "${CYAN}⚙️  Features Enabled:${NC}"
+echo -e "  ${GREEN}✓${NC} Catalog Service with Localization"
+echo -e "  ${GREEN}✓${NC} Event Validation System"
+echo -e "  ${GREEN}✓${NC} Elasticsearch Integration"
+echo -e "  ${GREEN}✓${NC} Multi-Language Support (i18n)"
+echo -e "  ${GREEN}✓${NC} AOP Filters & FluentValidation"
+
+echo ""
+echo -e "${CYAN}📝 Logs:${NC}"
 echo -e "  ${BLUE}AppHost Log${NC}         → $LOGS_DIR/apphost.log"
 echo -e ""
 echo -e "${YELLOW}[*] Press Ctrl+C to stop all services${NC}"
+echo -e "${YELLOW}[*] To stop services from another terminal: ./aspire-stop.sh${NC}"
 echo ""
-
-# Keep script running
-wait
-
-
-echo -e "\n${YELLOW}Health Endpoints:${NC}"
-echo -e "  Overall Health:    ${BLUE}http://localhost:9000/health${NC}"
-echo -e "  Service Status:    ${BLUE}http://localhost:9000/api/health${NC}"
-
-echo -e "\n${YELLOW}Logs are available at:${NC}"
-echo -e "  ${BLUE}$PROJECT_ROOT/logs/${NC}"
-
-echo -e "\n${YELLOW}To stop all services, run:${NC}"
-echo -e "  ${BLUE}./aspire-stop.sh${NC}"
 
 # Keep script running
 wait

@@ -1,336 +1,607 @@
-# Admin Frontend Implementation Summary
+# Admin Frontend Implementation
 
-**Datum**: 25. Dezember 2025  
-**Status**: ✅ Foundation Phase Complete  
-**Projekt**: B2Connect Admin Frontend
+Complete guide to the B2Connect Admin Frontend: components, state management, forms, and deployment.
 
-## 🎯 Übersicht
+## Overview
 
-Das Admin-Frontend wurde als vollständige Vue 3 + TypeScript SPA implementiert. Es bietet eine robuste Foundation für die Verwaltung von CMS-Inhalten, Shop-Konfiguration und Job-Monitoring.
+The Admin Frontend (`frontend-admin/`) provides a complete management interface for:
 
-## 📦 Was wurde implementiert
+- **Catalog Management** - Products, Categories, Brands with full CRUD
+- **Multi-language Support** - LocalizedContent for all entities
+- **Search & Filters** - Full-text search with Elasticsearch
+- **Forms** - Detailed form components for create/edit operations
+- **Responsive UI** - Works on desktop, tablet, mobile
 
-### 1. Projektstruktur ✅
+**Tech Stack:**
+- Vue 3 + TypeScript
+- Pinia for state management
+- Vite for build/dev
+- Axios for HTTP client
+- Responsive CSS (Tailwind compatible)
+
+## Project Structure
+
 ```
 frontend-admin/
 ├── src/
-│   ├── components/          # Wiederverwendbare Komponenten
-│   ├── views/              # Seiten-Komponenten (Routes)
-│   ├── stores/             # Pinia State Management
-│   ├── services/           # API Clients (Auth, CMS, Jobs, Shop)
-│   ├── types/              # TypeScript Interfaces
-│   ├── router/             # Vue Router Configuration
-│   ├── middleware/         # Auth & Route Guards
-│   ├── composables/        # Reusable Logic
-│   ├── utils/              # Utility Functions
-│   ├── locales/            # i18n Translations
-│   └── App.vue, main.ts    # Entry Points
-└── package.json, vite.config.ts, tsconfig.json
+│   ├── views/
+│   │   ├── catalog/
+│   │   │   ├── Overview.vue           # Dashboard, statistics
+│   │   │   ├── Products.vue           # Product list, pagination
+│   │   │   ├── Categories.vue         # Category tree view
+│   │   │   ├── Brands.vue             # Brand grid
+│   │   │   ├── ProductForm.vue        # Create/edit product
+│   │   │   ├── CategoryForm.vue       # Create/edit category
+│   │   │   └── BrandForm.vue          # Create/edit brand
+│   │   └── Dashboard.vue              # Main admin dashboard
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Header.vue             # Navigation
+│   │   │   ├── Sidebar.vue            # Menu
+│   │   │   └── Pagination.vue         # Reusable pagination
+│   │   └── forms/
+│   │       ├── ProductFormFields.vue  # Form fields for product
+│   │       └── LanguageInput.vue      # Multi-language input
+│   ├── stores/
+│   │   └── catalog.ts                 # Pinia store
+│   ├── services/
+│   │   └── api/
+│   │       └── catalog.ts             # API client
+│   ├── types/
+│   │   └── catalog.ts                 # TypeScript types
+│   ├── router/
+│   │   └── index.ts                   # Vue Router config
+│   └── App.vue                        # Root component
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── index.html
 ```
 
-### 2. Core Features ✅
+## Type System
 
-#### Authentication Module
-- **Login View** mit Email/Password Form
-- **Auth Store** (Pinia) mit:
-  - User State Management
-  - Permission Checking (hasPermission, hasRole)
-  - Token Management (Bearer Auth)
-  - Auto-logout bei 401 Errors
-- **Auth Middleware** für Route Protection
-- **Logout Funktionalität**
+**Location:** `frontend-admin/src/types/catalog.ts`
 
-#### Type System ✅
-Vollständig typsichere Interfaces für:
-- `auth.ts`: User, Role, Permission, LoginRequest/Response
-- `cms.ts`: Page, Template, MediaItem, PageBlock
-- `jobs.ts`: Job, ScheduledJob, JobLog, Metrics
-- `shop.ts`: Product, Category, PricingRule, Discount
-- `api.ts`: ApiResponse, PaginatedResponse, ErrorHandling
-
-#### API Integration ✅
-- **ApiClient** (Axios) mit:
-  - Request/Response Interceptors
-  - Automatic Bearer Token Injection
-  - Tenant ID Header Support
-  - Error Handling mit Auto-Logout
-- **Service Layer Pattern**:
-  - `authApi`: Login, Logout, Token Refresh, User Management
-  - `cmsApi`: Pages, Templates, Media CRUD + Publishing
-  - `jobsApi`: Job Queue, Scheduled Jobs, Metrics
-  - `shopApi`: Products, Categories, Pricing, Discounts
-
-#### State Management ✅
-Vier Pinia Stores mit vollständiger Implementierung:
-
-**useAuthStore**
 ```typescript
-- login(email, password, rememberMe)
-- logout()
-- getCurrentUser()
-- hasPermission(permission)
-- hasRole(role)
-- updateProfile(data)
-```
+// Core entities
+export interface Product {
+  id: string;
+  sku: string;
+  name: LocalizedContent;
+  description: LocalizedContent;
+  price: number;
+  b2bPrice?: number;
+  stockQuantity: number;
+  tags: string[];
+  attributes: Record<string, string>;
+  imageUrls: string[];
+  categoryId?: string;
+  brandId?: string;
+  tenantId: string;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+}
 
-**useCmsStore**
-```typescript
-- fetchPages(), savePage(), publishPage(), deletePage()
-- fetchPage(), fetchTemplates(), fetchMedia()
-- uploadMedia()
-```
+export interface Category {
+  id: string;
+  name: LocalizedContent;
+  description: LocalizedContent;
+  parentCategoryId?: string;
+  iconUrl: string;
+  displayOrder: number;
+  tenantId: string;
+  createdAt: string;
+  isActive: boolean;
+}
 
-**useJobsStore**
-```typescript
-- fetchJobs(), retryJob(), cancelJob()
-- fetchJobLogs(), startMonitoring(), stopMonitoring()
-- fetchScheduledJobs(), createScheduledJob(), updateScheduledJob()
-```
+export interface Brand {
+  id: string;
+  name: string;
+  description: string;
+  logoUrl: string;
+  website: string;
+  tenantId: string;
+  createdAt: string;
+  isActive: boolean;
+}
 
-**useShopStore**
-```typescript
-- fetchProducts(), saveProduct(), deleteProduct()
-- fetchCategories(), fetchPricingRules(), savePricingRule()
-- fetchDiscounts()
-```
+// Multi-language support
+export interface LocalizedContent {
+  values: Record<string, string>;  // { "en": "...", "de": "..." }
+}
 
-#### Routing ✅
-- **Login Page** (`/login`) - Unauthenticated
-- **Dashboard** (`/dashboard`) - Main Entry Point
-- **CMS Routes** (`/cms/*`):
-  - `/cms/pages` - Page List
-  - `/cms/pages/:id` - Page Editor
-  - `/cms/templates` - Template Management
-  - `/cms/media` - Media Library
-- **Shop Routes** (`/shop/*`):
-  - `/shop/products` - Product List
-  - `/shop/products/:id` - Product Editor
-  - `/shop/categories` - Category Management
-  - `/shop/pricing` - Pricing Rules
-- **Job Routes** (`/jobs/*`):
-  - `/jobs/queue` - Active Job Queue
-  - `/jobs/:id` - Job Details
-  - `/jobs/history` - Job History
-- **Error Pages**: `/unauthorized`
+// Request DTOs
+export interface CreateProductRequest {
+  sku: string;
+  name: LocalizedContent;
+  description: LocalizedContent;
+  price: number;
+  b2bPrice?: number;
+  stockQuantity: number;
+  tags: string[];
+  attributes: Record<string, string>;
+  imageUrls: string[];
+  categoryId?: string;
+  brandId?: string;
+}
 
-#### Views & Components ✅
-
-**Main Layout** (`MainLayout.vue`)
-- Navigation Bar mit Logo
-- Menu Links (Dashboard, CMS, Shop, Jobs)
-- User Info + Logout Button
-- Main Content Area
-
-**Pages**:
-1. **Login.vue** - Authentifizierung
-2. **Dashboard.vue** - Quick Stats + Quick Actions
-3. **CMS/Pages.vue** - Page List mit CRUD
-4. **CMS/PageDetail.vue** - Page Editor Scaffold
-5. **CMS/Templates.vue**, **MediaLibrary.vue** - Platzhalter
-6. **Shop/Products.vue** - Product List mit CRUD
-7. **Shop/ProductDetail.vue** - Product Editor Scaffold
-8. **Shop/Categories.vue**, **Pricing.vue** - Platzhalter
-9. **Jobs/JobQueue.vue** - Job Monitor mit Actions
-10. **Jobs/JobDetail.vue**, **JobHistory.vue** - Platzhalter
-11. **Unauthorized.vue** - Access Denied Page
-
-### 3. Konfiguration ✅
-- **vite.config.ts**: Development Server (Port 5174), API Proxy, Code Splitting
-- **tsconfig.json**: Strict Type Checking, Path Aliases (@/)
-- **package.json**: Alle Dependencies + Scripts
-- **.env.example**: Environment Variables Template
-- **main.css**: Global Styles + Utilities
-
-### 4. Development Setup ✅
-```bash
-npm install          # Install dependencies
-npm run dev          # Start dev server (port 5174)
-npm run build        # Production build
-npm run type-check   # TypeScript validation
-npm run lint         # ESLint + Fix
-npm run test         # Unit tests
-npm run e2e          # E2E tests
-```
-
-## 🔧 Technologie Stack
-
-| Komponente | Technologie | Version |
-|-----------|-------------|---------|
-| Framework | Vue | 3.5.24 |
-| Language | TypeScript | 5.9.3 |
-| Build Tool | Vite | 7.2.4 |
-| State Management | Pinia | 2.1.7 |
-| Router | Vue Router | 4.3.0 |
-| HTTP Client | Axios | 1.6.0 |
-| Testing | Vitest + Playwright | 1.0.0 |
-| i18n | vue-i18n | 9.14.5 |
-
-## 🚀 Nächste Schritte
-
-### Phase 2: Advanced Features (Optional)
-- [ ] **Tailwind CSS** Integration für Professional Styling
-- [ ] **Advanced Form Validation** mit Composables
-- [ ] **Real-time WebSocket** Updates für Job Monitoring
-- [ ] **Lokalisierung** (Deutsch/English)
-- [ ] **Dark Mode** Support
-- [ ] **Notification System** (Toast/Alerts)
-
-### Phase 3: Rich Editors
-- [ ] **WYSIWYG Editor** für CMS Pages (Draft.js oder Tiptap)
-- [ ] **Image Editor** mit Cropping
-- [ ] **SEO Editor** Component
-- [ ] **Version History UI** für Pages
-
-### Phase 4: Advanced CMS
-- [ ] **Page Templates** Editor
-- [ ] **Block Library** System
-- [ ] **Dynamic Content** Blocks
-- [ ] **Lokalisiertes Content** Management
-
-### Phase 5: Testing
-- [ ] **Unit Tests** für Stores
-- [ ] **Component Tests** mit Vue Test Utils
-- [ ] **E2E Tests** mit Playwright
-- [ ] **Visual Regression** Testing
-
-### Phase 6: Production
-- [ ] **Error Tracking** (Sentry Integration)
-- [ ] **Analytics** (Google Analytics)
-- [ ] **Performance Monitoring**
-- [ ] **CI/CD Pipeline** (GitHub Actions)
-- [ ] **Docker Container**
-
-## 📋 API Integration Anforderungen
-
-Das Backend muss folgende Admin-API Endpoints bereitstellen:
-
-```
-# Auth
-POST   /api/admin/auth/login
-POST   /api/admin/auth/logout
-POST   /api/admin/auth/verify
-GET    /api/admin/auth/me
-
-# CMS
-GET    /api/admin/cms/pages
-POST   /api/admin/cms/pages
-GET    /api/admin/cms/pages/{id}
-PUT    /api/admin/cms/pages/{id}
-DELETE /api/admin/cms/pages/{id}
-POST   /api/admin/cms/pages/{id}/publish
-GET    /api/admin/cms/media
-POST   /api/admin/cms/media/upload
-
-# Shop
-GET    /api/admin/shop/products
-POST   /api/admin/shop/products
-GET    /api/admin/shop/products/{id}
-PUT    /api/admin/shop/products/{id}
-DELETE /api/admin/shop/products/{id}
-GET    /api/admin/shop/categories
-GET    /api/admin/shop/pricing/rules
-GET    /api/admin/shop/discounts
-
-# Jobs
-GET    /api/admin/jobs/queue
-GET    /api/admin/jobs/{id}
-GET    /api/admin/jobs/{id}/logs
-POST   /api/admin/jobs/{id}/retry
-POST   /api/admin/jobs/{id}/cancel
-GET    /api/admin/jobs/scheduled
-POST   /api/admin/jobs/scheduled
-GET    /api/admin/jobs/metrics
-```
-
-**Response Format**:
-```json
-{
-  "success": true,
-  "data": { ... },
-  "message": "Operation successful",
-  "timestamp": "2025-12-25T10:00:00Z"
+// Filters
+export interface ProductFilter {
+  categoryId?: string;
+  brandId?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  inStockOnly?: boolean;
+  tags?: string[];
 }
 ```
 
-## 🔐 Security Features
+## API Service
 
-- ✅ **Bearer Token Authentication**
-- ✅ **Automatic Logout** bei 401 Errors
-- ✅ **Role-Based Access Control** (RBAC)
-- ✅ **Permission Checking**
-- ✅ **Tenant ID Isolation** (Header)
-- ✅ **XSS Protection** via Vue3 Templates
-- ⏳ **CSRF Token** (to be implemented in backend)
-- ⏳ **CSP Headers** (to be configured)
+**Location:** `frontend-admin/src/services/api/catalog.ts`
 
-## 📊 Metriken
+```typescript
+import axios from 'axios';
 
-- **Lines of Code**: ~2,500+ (TypeScript + Vue)
-- **Components**: 15+
-- **Stores**: 4
-- **API Services**: 4
-- **Types**: 20+
-- **Routes**: 12+
+const api = axios.create({
+  baseURL: process.env.VITE_API_URL || 'http://localhost:9000',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  }
+});
 
-## ✨ Besonderheiten
+// Products
+export const getProducts = async (page: number = 1, pageSize: number = 20) => {
+  const response = await api.get<PaginatedResponse<Product>>(
+    `/api/v1/products`,
+    { params: { page, pageSize } }
+  );
+  return response.data;
+};
 
-1. **Fully Type-Safe**: 100% TypeScript Coverage
-2. **Modular Architecture**: Klare Separation of Concerns
-3. **Scalable Design**: Einfach zu erweitern mit neuen Modulen
-4. **Clean Code**: Follows Vue 3 Best Practices
-5. **Error Handling**: Comprehensive Error Management
-6. **Responsive Design**: Mobile-friendly (with Tailwind)
-7. **Performance**: Code Splitting, Lazy Loading Routes
+export const getProduct = async (id: string) => {
+  const response = await api.get<Product>(`/api/v1/products/${id}`);
+  return response.data;
+};
 
-## 🔗 Integration mit Store-Frontend
+export const createProduct = async (data: CreateProductRequest) => {
+  const response = await api.post<Product>('/api/v1/products', data);
+  return response.data;
+};
 
-Das Admin-Frontend läuft auf separatem Port (5174) und kommuniziert mit dem API Gateway:
-- **Store Frontend** (5173): Customer-facing E-Commerce
-- **Admin Frontend** (5174): Administrator-facing Management
-- **API Gateway** (9000): Unified API Endpoint
+export const updateProduct = async (id: string, data: Partial<CreateProductRequest>) => {
+  const response = await api.put<Product>(`/api/v1/products/${id}`, data);
+  return response.data;
+};
 
-## 📝 Dokumentation
+export const deleteProduct = async (id: string) => {
+  await api.delete(`/api/v1/products/${id}`);
+};
 
-- [ADMIN_FRONTEND_SPECIFICATION.md](../ADMIN_FRONTEND_SPECIFICATION.md) - Vollständige Specs
-- [frontend-admin/README.md](./README.md) - Quick Start Guide
-- Code-Kommentare in den TypeScript Dateien
+export const searchProducts = async (query: string, filters?: ProductFilter) => {
+  const response = await api.get<SearchResults>('/api/v1/products/search', {
+    params: { q: query, ...filters }
+  });
+  return response.data;
+};
 
-## 🎓 Lessons Learned
+// Categories (similar pattern)
+export const getCategories = async () => {
+  const response = await api.get<Category[]>('/api/v1/categories');
+  return response.data;
+};
 
-1. **Pinia** ist einfacher und moderner als Vuex
-2. **Composition API** mit `<script setup>` reduziert Boilerplate
-3. **TypeScript Interfaces** für API Responses sind essential
-4. **Middleware Pattern** für Auth Guards ist robust
-5. **Service Layer** Pattern separiert API Logic sauber
+export const createCategory = async (data: CreateCategoryRequest) => {
+  const response = await api.post<Category>('/api/v1/categories', data);
+  return response.data;
+};
 
-## ✅ Checklist für Produktivität
+// Brands (similar pattern)
+export const getBrands = async () => {
+  const response = await api.get<Brand[]>('/api/v1/brands');
+  return response.data;
+};
+```
 
-- [x] Frontend Basic Setup
-- [x] Routing mit Auth Guards
-- [x] API Integration (Axios + Interceptors)
-- [x] State Management (Pinia)
-- [x] Type Safety (TypeScript)
-- [x] Basic UI/Layout
-- [x] Authentication Flow
-- [x] Core CRUD Operations
-- [ ] Advanced UI Components
-- [ ] Testing Suite
-- [ ] Production Build
-- [ ] CI/CD Pipeline
+## Pinia Store
 
-## 🏆 Fazit
+**Location:** `frontend-admin/src/stores/catalog.ts`
 
-Das Admin-Frontend bietet eine solid Foundation für alle Admin-Funktionen. Die Architektur ist skalierbar und wartbar. Mit dem aktuellen Stand können bereits:
+```typescript
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import * as catalogService from '@/services/api/catalog';
 
-✅ Admins sich einloggen  
-✅ Pages/Products/Jobs browsen  
-✅ Basic CRUD Operationen durchführen  
-✅ Responsive UI nutzen  
+export const useCatalogStore = defineStore('catalog', () => {
+  // State
+  const products = ref<Product[]>([]);
+  const categories = ref<Category[]>([]);
+  const brands = ref<Brand[]>([]);
+  
+  const currentPage = ref(1);
+  const pageSize = ref(20);
+  const totalProducts = ref(0);
+  
+  const loading = ref(false);
+  const error = ref<string | null>(null);
+  const successMessage = ref<string | null>(null);
+  
+  const searchQuery = ref('');
+  const activeFilters = ref<ProductFilter>({});
 
-Die nächsten Phasen konzentrieren sich auf **Rich Editors**, **Advanced Features**, und **Testing**.
+  // Computed properties
+  const filteredProducts = computed(() => {
+    if (!searchQuery.value) return products.value;
+    
+    return products.value.filter(p =>
+      p.name.values['en']?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      p.sku.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  });
 
----
+  const categoryMap = computed(() =>
+    Object.fromEntries(categories.value.map(c => [c.id, c]))
+  );
 
-**Version**: 1.0.0 (Foundation Phase)  
-**Status**: Ready for Backend Integration  
-**Next Review**: Nach Backend API Implementation
+  const brandMap = computed(() =>
+    Object.fromEntries(brands.value.map(b => [b.id, b]))
+  );
+
+  // Actions
+  const loadProducts = async (page = 1, pageSize = 20) => {
+    loading.value = true;
+    error.value = null;
+    
+    try {
+      const response = await catalogService.getProducts(page, pageSize);
+      products.value = response.items;
+      totalProducts.value = response.total;
+      currentPage.value = page;
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to load products';
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const createProduct = async (data: CreateProductRequest) => {
+    loading.value = true;
+    error.value = null;
+    
+    try {
+      const product = await catalogService.createProduct(data);
+      products.value.unshift(product);
+      successMessage.value = 'Product created successfully';
+      setTimeout(() => { successMessage.value = null; }, 3000);
+      return product;
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to create product';
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const updateProduct = async (id: string, data: Partial<CreateProductRequest>) => {
+    loading.value = true;
+    error.value = null;
+    
+    try {
+      const product = await catalogService.updateProduct(id, data);
+      const index = products.value.findIndex(p => p.id === id);
+      if (index !== -1) {
+        products.value[index] = product;
+      }
+      successMessage.value = 'Product updated successfully';
+      return product;
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to update product';
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const deleteProduct = async (id: string) => {
+    loading.value = true;
+    error.value = null;
+    
+    try {
+      await catalogService.deleteProduct(id);
+      products.value = products.value.filter(p => p.id !== id);
+      successMessage.value = 'Product deleted successfully';
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to delete product';
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const searchProducts = async (query: string) => {
+    searchQuery.value = query;
+    
+    if (!query.trim()) {
+      await loadProducts(1, pageSize.value);
+      return;
+    }
+    
+    try {
+      const results = await catalogService.searchProducts(query, activeFilters.value);
+      products.value = results.items;
+      totalProducts.value = results.total;
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Search failed';
+    }
+  };
+
+  return {
+    // State
+    products,
+    categories,
+    brands,
+    currentPage,
+    pageSize,
+    totalProducts,
+    loading,
+    error,
+    successMessage,
+    searchQuery,
+    activeFilters,
+    
+    // Computed
+    filteredProducts,
+    categoryMap,
+    brandMap,
+    
+    // Actions
+    loadProducts,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    searchProducts
+  };
+});
+```
+
+## Vue Components
+
+### Products.vue
+
+```vue
+<template>
+  <div class="products-container">
+    <div class="header">
+      <h1>Products</h1>
+      <RouterLink to="/catalog/products/new" class="btn btn-primary">
+        + New Product
+      </RouterLink>
+    </div>
+    
+    <div class="search-bar">
+      <input
+        v-model="searchQuery"
+        type="text"
+        placeholder="Search products..."
+        @input="handleSearch"
+      />
+    </div>
+    
+    <div v-if="catalog.loading" class="loading">Loading...</div>
+    <div v-else-if="catalog.error" class="error">{{ catalog.error }}</div>
+    
+    <table v-else class="products-table">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="product in catalog.products" :key="product.id">
+          <td>{{ product.sku }}</td>
+          <td>{{ product.name.values['en'] }}</td>
+          <td>${{ product.price }}</td>
+          <td>{{ product.stockQuantity }}</td>
+          <td>{{ catalog.categoryMap[product.categoryId]?.name.values['en'] }}</td>
+          <td>
+            <RouterLink :to="`/catalog/products/${product.id}`" class="btn btn-sm">
+              Edit
+            </RouterLink>
+            <button @click="deleteProduct(product.id)" class="btn btn-sm btn-danger">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <Pagination
+      :current-page="catalog.currentPage"
+      :total-items="catalog.totalProducts"
+      :page-size="catalog.pageSize"
+      @change="handlePageChange"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useCatalogStore } from '@/stores/catalog';
+import { useRouter } from 'vue-router';
+
+const catalog = useCatalogStore();
+const router = useRouter();
+const searchQuery = ref('');
+
+const handleSearch = async () => {
+  await catalog.searchProducts(searchQuery.value);
+};
+
+const handlePageChange = async (page: number) => {
+  await catalog.loadProducts(page, catalog.pageSize);
+};
+
+const deleteProduct = async (id: string) => {
+  if (confirm('Are you sure?')) {
+    await catalog.deleteProduct(id);
+  }
+};
+</script>
+```
+
+## Forms
+
+### ProductForm.vue (Placeholder)
+
+Create/edit forms for products with multi-language support:
+
+```vue
+<template>
+  <form @submit.prevent="handleSubmit">
+    <div class="form-group">
+      <label>SKU</label>
+      <input v-model="form.sku" type="text" required />
+    </div>
+    
+    <LanguageInput
+      v-model="form.name"
+      label="Product Name"
+      :languages="['en', 'de']"
+    />
+    
+    <div class="form-group">
+      <label>Price</label>
+      <input v-model.number="form.price" type="number" step="0.01" required />
+    </div>
+    
+    <!-- More fields... -->
+    
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useCatalogStore } from '@/stores/catalog';
+
+const form = ref({
+  sku: '',
+  name: { values: { en: '', de: '' } },
+  price: 0
+  // ... other fields
+});
+
+const catalog = useCatalogStore();
+
+const handleSubmit = async () => {
+  await catalog.createProduct(form.value as CreateProductRequest);
+};
+</script>
+```
+
+## Routing
+
+**Location:** `frontend-admin/src/router/index.ts`
+
+```typescript
+import { createRouter, createWebHistory } from 'vue-router';
+
+const routes = [
+  {
+    path: '/catalog',
+    name: 'Catalog',
+    component: () => import('@/views/catalog/Overview.vue'),
+    children: [
+      {
+        path: 'products',
+        component: () => import('@/views/catalog/Products.vue')
+      },
+      {
+        path: 'products/new',
+        component: () => import('@/views/catalog/ProductForm.vue')
+      },
+      {
+        path: 'products/:id',
+        component: () => import('@/views/catalog/ProductForm.vue')
+      },
+      {
+        path: 'categories',
+        component: () => import('@/views/catalog/Categories.vue')
+      },
+      {
+        path: 'brands',
+        component: () => import('@/views/catalog/Brands.vue')
+      }
+    ]
+  }
+];
+
+export default createRouter({
+  history: createWebHistory(),
+  routes
+});
+```
+
+## Running the Admin Frontend
+
+### Development
+
+```bash
+cd frontend-admin
+npm install
+npm run dev
+# Opens on http://localhost:5174
+```
+
+### Build for Production
+
+```bash
+npm run build
+# Creates optimized build in dist/
+```
+
+### Environment Variables
+
+```bash
+VITE_API_URL=http://localhost:9000           # Backend API URL
+VITE_CATALOG_API=http://localhost:9001       # Catalog Service (if separate)
+```
+
+## Debugging in VS Code
+
+**F5** → **"Frontend Admin (Debug)"**
+
+- Sets VITE_API_URL and VITE_CATALOG_API
+- Opens DevTools for Vue debugging
+- Live reload on file changes
+
+## Best Practices
+
+**DO:**
+- Use Pinia store for all state
+- Type all components with TypeScript
+- Create small, reusable components
+- Use computed properties for derived data
+- Handle loading/error states
+
+**DON'T:**
+- Store API data in component state
+- Use synchronous operations
+- Hard-code API URLs
+- Skip TypeScript types
+- Forget to handle errors
+
+## References
+
+- `.copilot-specs.md` Sections 5-9 (Frontend guidelines)
+- `GETTING_STARTED.md` (Development environment)
+- `VSCODE_ASPIRE_CONFIG.md` (Debug configurations)
+- [Vue 3 Docs](https://vuejs.org/)
+- [Pinia Docs](https://pinia.vuejs.org/)

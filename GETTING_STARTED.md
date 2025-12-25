@@ -1,102 +1,179 @@
-# 🚀 Getting Started mit erweiterten Specs
+# Getting Started with B2Connect
 
-Willkommen! Die B2Connect-Software-Spezifikationen wurden soeben für eine vollständige B2B/B2C Shop-Software mit Procurement Gateway erweitert. Hier ist deine Orientierungshilfe.
+Welcome! This is your starting point for B2Connect development.
 
-## ⚡ Schnell-Start (5 Minuten)
+## 📚 Documentation Structure
 
-### 1. Dokumentations-Navigation
-- **Übersicht aller Docs**: [INDEX_NEW.md](INDEX_NEW.md)
-- **Zusammenfassung der Erweiterung**: [SPECS_EXTENSION_SUMMARY.md](SPECS_EXTENSION_SUMMARY.md)
+All documentation is organized by feature. **One file per feature** = easy to find and maintain.
 
-### 2. Die wichtigsten Dokumente
+### Core Documentation
+
+**Start here:**
+- [README.md](README.md) - Project overview and quick start
+- [DEVELOPMENT.md](DEVELOPMENT.md) - Local development setup
+- [BUSINESS_REQUIREMENTS.md](BUSINESS_REQUIREMENTS.md) - Features and roadmap
+
+**Then choose your path below.**
+
+## 🔧 Developer Paths
+
+### 1️⃣ I want to set up my local environment
+
+**Time: 30 minutes**
+
+1. [DEVELOPMENT.md](DEVELOPMENT.md) - Install and run locally
+2. [VSCODE_ASPIRE_CONFIG.md](VSCODE_ASPIRE_CONFIG.md) - Configure debug environment
+3. [DEBUG_QUICK_REFERENCE.md](DEBUG_QUICK_REFERENCE.md) - Quick debug commands
+
+**Result**: Running B2Connect locally with debugger
+
+### 2️⃣ I want to understand the architecture
+
+**Time: 1 hour**
+
+1. [.copilot-specs.md](.copilot-specs.md) - Sections 1-5 (Overview & Architecture)
+2. [ASPIRE_GUIDE.md](ASPIRE_GUIDE.md) - Microservices orchestration
+3. Choose your feature:
+   - [CATALOG_IMPLEMENTATION.md](CATALOG_IMPLEMENTATION.md) - Product management
+   - [ELASTICSEARCH_IMPLEMENTATION.md](ELASTICSEARCH_IMPLEMENTATION.md) - Search
+   - [LOCALIZATION_IMPLEMENTATION.md](LOCALIZATION_IMPLEMENTATION.md) - Multi-language
+
+**Result**: Understand how services work together
+
+### 3️⃣ I want to work on the backend
+
+**Time: 1.5 hours**
+
+1. [DEVELOPMENT.md](DEVELOPMENT.md) - Local setup
+2. [.copilot-specs.md](.copilot-specs.md) - Sections 1-22 (Code guidelines + features)
+3. [AOP_VALIDATION_IMPLEMENTATION.md](AOP_VALIDATION_IMPLEMENTATION.md) - Validation patterns
+4. [EVENT_VALIDATION_IMPLEMENTATION.md](EVENT_VALIDATION_IMPLEMENTATION.md) - Event handling
+5. [TESTING_GUIDE.md](TESTING_GUIDE.md) - How to write tests
+
+**Result**: Ready to code backend features
+
+### 4️⃣ I want to work on the frontend
+
+**Time: 1.5 hours**
+
+1. [DEVELOPMENT.md](DEVELOPMENT.md) - Local setup
+2. [.copilot-specs.md](.copilot-specs.md) - Sections 5-9 (Frontend guidelines)
+3. [ADMIN_FRONTEND_IMPLEMENTATION.md](ADMIN_FRONTEND_IMPLEMENTATION.md) - Admin UI
+4. [LOCALIZATION_IMPLEMENTATION.md](LOCALIZATION_IMPLEMENTATION.md) - i18n in Vue
+
+**Result**: Ready to code frontend features
+
+### 5️⃣ I want to add a new feature
+
+**Time: 2 hours (depends on feature)**
+
+1. Read relevant feature documentation:
+   - [CATALOG_IMPLEMENTATION.md](CATALOG_IMPLEMENTATION.md) - New product type?
+   - [ELASTICSEARCH_IMPLEMENTATION.md](ELASTICSEARCH_IMPLEMENTATION.md) - New search?
+   - [LOCALIZATION_IMPLEMENTATION.md](LOCALIZATION_IMPLEMENTATION.md) - New language?
+
+2. [.copilot-specs.md](.copilot-specs.md) - Read relevant sections
+
+3. Follow the patterns in existing code:
+   - Controllers with `[ValidateModel]` filter
+   - Fluent validators in `Validators/` folder
+   - Pinia stores for frontend state
+   - Type-safe API services
+
+4. [TESTING_GUIDE.md](TESTING_GUIDE.md) - Write tests
+
+5. Update [.copilot-specs.md](.copilot-specs.md) Section 23 if documenting new patterns
+
+**Result**: New feature integrated and tested
+
+## 📖 All Documentation Files
+
+### Architecture & Setup
+- [ASPIRE_GUIDE.md](ASPIRE_GUIDE.md) - .NET Aspire orchestration
+- [VSCODE_ASPIRE_CONFIG.md](VSCODE_ASPIRE_CONFIG.md) - VS Code debug setup
+- [DEBUG_QUICK_REFERENCE.md](DEBUG_QUICK_REFERENCE.md) - Quick debug reference
+
+### Features (One file per feature)
+- [CATALOG_IMPLEMENTATION.md](CATALOG_IMPLEMENTATION.md) - Products, Categories, Brands API
+- [AOP_VALIDATION_IMPLEMENTATION.md](AOP_VALIDATION_IMPLEMENTATION.md) - Validation filters & FluentValidation
+- [EVENT_VALIDATION_IMPLEMENTATION.md](EVENT_VALIDATION_IMPLEMENTATION.md) - Domain events
+- [ELASTICSEARCH_IMPLEMENTATION.md](ELASTICSEARCH_IMPLEMENTATION.md) - Full-text search
+- [LOCALIZATION_IMPLEMENTATION.md](LOCALIZATION_IMPLEMENTATION.md) - Multi-language support
+- [ADMIN_FRONTEND_IMPLEMENTATION.md](ADMIN_FRONTEND_IMPLEMENTATION.md) - Admin UI components
+
+### Guidelines
+- [.copilot-specs.md](.copilot-specs.md) - AI assistant specs (also reference guide)
+- [DEVELOPMENT.md](DEVELOPMENT.md) - Development workflow
+- [TESTING_GUIDE.md](TESTING_GUIDE.md) - Testing patterns
+- [VERIFICATION.md](VERIFICATION.md) - How to verify features work
+
+### Business
+- [README.md](README.md) - Project overview
+- [BUSINESS_REQUIREMENTS.md](BUSINESS_REQUIREMENTS.md) - Features & roadmap
+
+## ⚡ Quick Commands
+
+```bash
+# Start development environment
+F5 → "Full Stack (AppHost + Admin Frontend)"
+
+# Or via terminal:
+cd backend/services/AppHost && dotnet run
+cd frontend-admin && npm run dev
+
+# Run tests
+dotnet test                    # All tests
+dotnet test --filter Catalog  # Only catalog tests
+
+# Frontend dev
+cd frontend-admin && npm run dev  # Dev server
+
+# Build for production
+npm run build                  # Frontend
+dotnet publish               # Backend
 ```
-1. Liest du das zum ersten Mal?
-   → Starte mit: PLATFORM_OVERVIEW.md
 
-2. Bist du Product Manager/Stakeholder?
-   → Lese: BUSINESS_REQUIREMENTS.md
+## 🆘 Common Questions
 
-3. Bist du Entwickler?
-   → Lese: DEVELOPMENT.md, dann architecture.md
+### Where do I find [feature] documentation?
+→ Search this file for the feature name. Each feature has ONE `.md` file.
 
-4. Musst du integrieren/deployen?
-   → Lese: INTEGRATION_DEPLOYMENT.md
-```
+### How do I debug the backend?
+→ [VSCODE_ASPIRE_CONFIG.md](VSCODE_ASPIRE_CONFIG.md) + [DEBUG_QUICK_REFERENCE.md](DEBUG_QUICK_REFERENCE.md)
 
-## 📖 Lese-Pfade nach Rolle
+### How do I add validation to my endpoint?
+→ [AOP_VALIDATION_IMPLEMENTATION.md](AOP_VALIDATION_IMPLEMENTATION.md)
 
-### 👔 Für Business & Product Leads (30 Min)
-```
-1. PLATFORM_OVERVIEW.md (10 min)
-   - Executive Summary
-   - Key Differentiators
-   
-2. BUSINESS_REQUIREMENTS.md (20 min)
-   - Business Vision & Objectives
-   - Success Metrics
-   - Implementation Roadmap
-```
+### How do I publish an event?
+→ [EVENT_VALIDATION_IMPLEMENTATION.md](EVENT_VALIDATION_IMPLEMENTATION.md)
 
-**Ergebnis**: Vollständiges Verständnis der Business-Vision
+### How do I make a feature multi-language?
+→ [LOCALIZATION_IMPLEMENTATION.md](LOCALIZATION_IMPLEMENTATION.md)
 
-### 💻 Für Entwickler (1 Stunde)
-```
-1. README.md (5 min) - Quick Start
+### How do I add a search feature?
+→ [ELASTICSEARCH_IMPLEMENTATION.md](ELASTICSEARCH_IMPLEMENTATION.md)
 
-2. DEVELOPMENT.md (20 min) - Setup
+### Where are old/archived docs?
+→ [DOCS_ARCHIVE/](DOCS_ARCHIVE/) - Contains deprecated/historical documentation
 
-3. architecture.md (20 min)
-   - System Architecture
-   - Core Services
-   - Technology Stack
+## 📋 Document Maintenance
 
-4. Dann entweder:
-   a) shop-platform-specs.md (für Shop-Entwicklung)
-   b) procurement-gateway-specs.md (für Integration)
-```
+**Goal:** Keep documentation clean and easy to find.
 
-**Ergebnis**: Ready to code
+**Rules:**
+1. One feature = one `.md` file
+2. Old status reports → `DOCS_ARCHIVE/`
+3. Update `.copilot-specs.md` Section 23 for new patterns
+4. Link to related docs
 
-### 🏗️ Für Architekten (1.5 Stunden)
-```
-1. PLATFORM_OVERVIEW.md (20 min)
+See [.copilot-specs.md](.copilot-specs.md) **Section 23** for full documentation guidelines.
 
-2. architecture.md (30 min) - Tiefgang
+---
 
-3. tenant-isolation.md (20 min) - Security & Multi-tenancy
-
-4. BUSINESS_REQUIREMENTS.md (20 min) - Business context
-
-5. INTEGRATION_DEPLOYMENT.md (20 min) - Deployment strategy
-```
-
-**Ergebnis**: Vollständiges Architektur-Verständnis
-
-### 🔧 Für DevOps/Ops (45 Min)
-```
-1. README.md (5 min)
-
-2. DEVELOPMENT.md (15 min) - Local setup
-
-3. INTEGRATION_DEPLOYMENT.md (25 min)
-   - Deployment Environments
-   - CI/CD Pipeline
-   - Monitoring
-```
-
-**Ergebnis**: Ready to deploy & maintain
-
-### 🔌 Für Integration Team (1.5 Stunden)
-```
-1. PLATFORM_OVERVIEW.md (15 min)
-
-2. procurement-gateway-specs.md (45 min)
-   - Supported Platforms
-   - Order Synchronization
-   - Inventory Sync
-
-3. api-specifications.md (20 min)
-   - Procurement Endpoints
+**Lost? Start here:** 
+- First time? → [README.md](README.md)
+- Want to code? → [DEVELOPMENT.md](DEVELOPMENT.md)
+- Need a feature? → Find it above or search this file
 
 4. INTEGRATION_DEPLOYMENT.md (20 min)
    - Integration Points
