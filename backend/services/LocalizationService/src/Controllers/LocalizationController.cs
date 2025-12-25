@@ -29,7 +29,6 @@ public class LocalizationController : ControllerBase
     /// <returns>The translated string for the given language, or English fallback</returns>
     /// <response code="200">Returns the translated string</response>
     [HttpGet("{category}/{key}")]
-    [ProduceResponseType(typeof(LocalizedStringResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetString(
         [FromRoute] string category,
         [FromRoute] string key,
@@ -54,7 +53,6 @@ public class LocalizationController : ControllerBase
     /// <returns>Dictionary of all translations in the category</returns>
     /// <response code="200">Returns all translations for the category</response>
     [HttpGet("category/{category}")]
-    [ProduceResponseType(typeof(CategoryResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetCategory(
         [FromRoute] string category,
         [FromQuery] string language = "en",
@@ -76,7 +74,6 @@ public class LocalizationController : ControllerBase
     /// <returns>Collection of supported language codes</returns>
     /// <response code="200">Returns list of supported languages</response>
     [HttpGet("languages")]
-    [ProduceResponseType(typeof(LanguagesResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetLanguages(CancellationToken cancellationToken = default)
     {
         var languages = await _localizationService.GetSupportedLanguagesAsync(cancellationToken);
@@ -96,9 +93,6 @@ public class LocalizationController : ControllerBase
     /// <response code="403">Forbidden - admin role required</response>
     [HttpPost("{category}/{key}")]
     [Authorize(Roles = "Admin")]
-    [ProduceResponseType(StatusCodes.Status204NoContent)]
-    [ProduceResponseType(StatusCodes.Status401Unauthorized)]
-    [ProduceResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> SetString(
         [FromRoute] string category,
         [FromRoute] string key,

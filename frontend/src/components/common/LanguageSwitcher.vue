@@ -4,7 +4,7 @@
     <button
       class="language-button"
       :title="`Switch language: ${currentLocale.name}`"
-      @click="isOpen = !isOpen"
+      @click.stop="isOpen = !isOpen"
       :disabled="isLoading"
       data-testid="language-switcher-button"
       :aria-disabled="isLoading"
@@ -25,13 +25,13 @@
 
     <!-- Dropdown menu -->
     <transition name="fade">
-      <div v-if="isOpen" class="language-dropdown" data-testid="language-dropdown">
+      <div v-if="isOpen" class="language-dropdown" data-testid="language-dropdown" @click.stop>
         <button
           v-for="loc in locales"
           :key="loc.code"
           class="language-option"
           :class="{ 'active': locale === loc.code }"
-          @click="handleSelectLocale(loc.code)"
+          @click.stop="handleSelectLocale(loc.code)"
           :disabled="isLoading"
           :data-testid="`language-option-${loc.code}`"
         >
@@ -64,18 +64,9 @@ const { locale, currentLocale, locales, isLoading, setLocale } = useLocale()
 const isOpen = ref(false)
 
 const handleSelectLocale = async (code: string) => {
-  await setLocale(code)
   isOpen.value = false
+  await setLocale(code)
 }
-
-// Close dropdown when clicking outside
-watch(() => isOpen.value, (newVal) => {
-  if (newVal) {
-    window.addEventListener('click', () => {
-      isOpen.value = false
-    }, { once: true })
-  }
-})
 </script>
 
 <style scoped>

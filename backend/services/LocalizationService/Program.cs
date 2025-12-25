@@ -8,16 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "B2Connect Localization Service",
-        Version = "v1",
-        Description = "Microservice for managing translations and localization",
-        Contact = new Microsoft.OpenApi.Models.OpenApiContact { Name = "B2Connect Team" }
-    });
-});
+builder.Services.AddSwaggerGen();
 
 // Database
 var connectionString = builder.Configuration.GetConnectionString("LocalizationDb");

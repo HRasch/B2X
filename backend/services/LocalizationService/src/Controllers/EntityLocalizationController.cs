@@ -39,8 +39,6 @@ public class EntityLocalizationController : ControllerBase
     /// <response code="200">Returns the translated value</response>
     /// <response code="404">Entity or property not found</response>
     [HttpGet("{entityId}/{propertyName}/{language}")]
-    [ProduceResponseType(typeof(PropertyTranslationResponse), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetPropertyTranslation(
         [FromRoute] Guid entityId,
         [FromRoute] string propertyName,
@@ -92,8 +90,6 @@ public class EntityLocalizationController : ControllerBase
     /// <response code="200">Returns all translations for the property</response>
     /// <response code="404">Entity or property not found</response>
     [HttpGet("{entityId}/{propertyName}")]
-    [ProduceResponseType(typeof(PropertyTranslationsResponse), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetPropertyTranslations(
         [FromRoute] Guid entityId,
         [FromRoute] string propertyName,
@@ -143,8 +139,6 @@ public class EntityLocalizationController : ControllerBase
     /// <response code="200">Returns all localized properties</response>
     /// <response code="404">Entity not found</response>
     [HttpGet("{entityId}")]
-    [ProduceResponseType(typeof(EntityLocalizationResponse), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetEntityLocalizations(
         [FromRoute] Guid entityId,
         CancellationToken cancellationToken = default)
@@ -178,7 +172,7 @@ public class EntityLocalizationController : ControllerBase
                     {
                         PropertyName = kvp.Key,
                         DefaultLanguage = kvp.Value.DefaultLanguage,
-                        AvailableLanguages = kvp.Value.GetAvailableLanguages(),
+                        AvailableLanguages = kvp.Value.GetAvailableLanguages().ToList(),
                         TranslationCount = kvp.Value.Count
                     })
             });
@@ -203,10 +197,6 @@ public class EntityLocalizationController : ControllerBase
     /// <response code="403">Forbidden - admin role required</response>
     [HttpPost("{entityId}/{propertyName}")]
     [Authorize(Roles = "Admin")]
-    [ProduceResponseType(StatusCodes.Status204NoContent)]
-    [ProduceResponseType(StatusCodes.Status401Unauthorized)]
-    [ProduceResponseType(StatusCodes.Status403Forbidden)]
-    [ProduceResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> SetPropertyTranslation(
         [FromRoute] Guid entityId,
         [FromRoute] string propertyName,
@@ -261,10 +251,6 @@ public class EntityLocalizationController : ControllerBase
     /// <response code="403">Forbidden - admin role required</response>
     [HttpPut("{entityId}/{propertyName}")]
     [Authorize(Roles = "Admin")]
-    [ProduceResponseType(StatusCodes.Status204NoContent)]
-    [ProduceResponseType(StatusCodes.Status401Unauthorized)]
-    [ProduceResponseType(StatusCodes.Status403Forbidden)]
-    [ProduceResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> SetPropertyTranslations(
         [FromRoute] Guid entityId,
         [FromRoute] string propertyName,
@@ -316,8 +302,6 @@ public class EntityLocalizationController : ControllerBase
     /// <response code="200">Returns validation result</response>
     /// <response code="404">Entity or property not found</response>
     [HttpPost("{entityId}/{propertyName}/validate")]
-    [ProduceResponseType(typeof(ValidationResponse), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> ValidatePropertyLanguages(
         [FromRoute] Guid entityId,
         [FromRoute] string propertyName,

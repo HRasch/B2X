@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using B2Connect.LocalizationService.Data;
 using B2Connect.LocalizationService.Models;
 

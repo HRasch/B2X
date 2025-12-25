@@ -14,7 +14,7 @@ public class LocalizationServiceTests : IAsyncLifetime
     private LocalizationDbContext _dbContext;
     private IMemoryCache _cache;
     private Mock<IHttpContextAccessor> _httpContextAccessorMock;
-    private LocalizationService _service;
+    private B2Connect.LocalizationService.Services.LocalizationService _service;
     private Mock<HttpContext> _httpContextMock;
 
     public async Task InitializeAsync()
@@ -30,7 +30,7 @@ public class LocalizationServiceTests : IAsyncLifetime
         _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
         _httpContextAccessorMock.Setup(x => x.HttpContext).Returns(_httpContextMock.Object);
 
-        _service = new LocalizationService(_dbContext, _cache, _httpContextAccessorMock.Object);
+        _service = new B2Connect.LocalizationService.Services.LocalizationService(_dbContext, _cache, _httpContextAccessorMock.Object);
     }
 
     public async Task DisposeAsync()

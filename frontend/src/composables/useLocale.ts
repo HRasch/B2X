@@ -7,7 +7,7 @@ import { SUPPORTED_LOCALES } from '@/locales'
  * Provides locale switching, preferences, and locale utilities
  */
 export function useLocale() {
-  const { locale, t } = useI18n()
+  const i18n = useI18n()
   const isLoading = ref(false)
 
   /**
@@ -19,7 +19,7 @@ export function useLocale() {
    * Current selected locale object
    */
   const currentLocale = computed(() => {
-    return locales.find(l => l.code === locale.value) || locales[0]
+    return locales.find(l => l.code === i18n.locale.value) || locales[0]
   })
 
   /**
@@ -50,7 +50,8 @@ export function useLocale() {
 
     isLoading.value = true
     try {
-      locale.value = code
+      // Update i18n locale (this is the key - must use i18n.locale.value)
+      i18n.locale.value = code
       localStorage.setItem('locale', code)
       document.documentElement.lang = code
 
@@ -67,16 +68,16 @@ export function useLocale() {
   const initializeLocale = (): void => {
     const savedLocale = localStorage.getItem('locale')
     if (savedLocale && locales.find(l => l.code === savedLocale)) {
-      locale.value = savedLocale
+      i18n.locale.value = savedLocale
     } else {
       const browserLang = navigator.language.split('-')[0]
       const matchedLocale = locales.find(l => l.code === browserLang)
       if (matchedLocale) {
-        locale.value = matchedLocale.code
+        i18n.locale.value = matchedLocale.code
         localStorage.setItem('locale', matchedLocale.code)
       }
     }
-    document.documentElement.lang = locale.value
+    document.documentElement.lang = i18n.locale.value
   }
 
   /**
@@ -87,11 +88,11 @@ export function useLocale() {
   }
 
   return {
-    locale,
+    locale: i18n.locale,
     currentLocale,
     locales,
     isLoading,
-    t,
+    t: i18n.t,
     setLocale,
     initializeLocale,
     getLocaleName,

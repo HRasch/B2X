@@ -122,8 +122,9 @@ public class EntityLocalizationService : IEntityLocalizationService
         try
         {
             // Log the change using main localization service
-            var key = $"{entityId}_{propertyName}_{languageCode}";
-            await _localizationService.SetStringAsync(key, value, languageCode, tenantId, cancellationToken);
+            var key = $"{entityId}_{propertyName}";
+            var translations = new Dictionary<string, string> { { languageCode, value } };
+            await _localizationService.SetStringAsync(tenantId, key, "entity-localization", translations, cancellationToken);
 
             return true;
         }
@@ -142,9 +143,9 @@ public class EntityLocalizationService : IEntityLocalizationService
     {
         try
         {
-            var key = $"{entityId}_{propertyName}_{languageCode}";
-            var result = await _localizationService.GetStringAsync(key, languageCode, tenantId, cancellationToken);
-            return result?.Value;
+            var key = $"{entityId}_{propertyName}";
+            var result = await _localizationService.GetStringAsync(key, "entity-localization", languageCode, cancellationToken);
+            return result;
         }
         catch
         {
