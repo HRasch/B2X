@@ -1,0 +1,73 @@
+{
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "forgotPassword": "Mot de passe oublié?"
+    },
+    "register": {
+      "title": "S'enregistrer",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "fullName": "Nom complet",
+      "submit": "Créer un compte",
+      "alreadyHaveAccount": "Vous avez déjà un compte?"
+    },
+    "logout": "Déconnexion"
+  },
+  "ui": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "loading": "Chargement...",
+    "success": "Succès",
+    "error": "Erreur",
+    "warning": "Avertissement",
+    "close": "Fermer",
+    "edit": "Éditer",
+    "add": "Ajouter",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "export": "Exporter",
+    "import": "Importer"
+  },
+  "errors": {
+    "required": "Ce champ est obligatoire",
+    "invalid_email": "Adresse e-mail invalide",
+    "unauthorized": "Vous n'êtes pas autorisé",
+    "forbidden": "Accès refusé",
+    "not_found": "Non trouvé",
+    "server_error": "Erreur serveur. Veuillez réessayer plus tard.",
+    "network_error": "Erreur réseau. Veuillez vérifier votre connexion.",
+    "validation_error": "La validation a échoué. Veuillez vérifier votre saisie.",
+    "duplicate": "Cet élément existe déjà",
+    "min_length": "Doit contenir au moins {min} caractères",
+    "max_length": "Doit contenir au maximum {max} caractères"
+  },
+  "validation": {
+    "email": "Veuillez entrer un e-mail valide",
+    "password": "Le mot de passe doit contenir au moins 8 caractères",
+    "phone": "Veuillez entrer un numéro de téléphone valide",
+    "url": "Veuillez entrer une URL valide",
+    "match": "Les mots de passe ne correspondent pas"
+  },
+  "common": {
+    "yes": "Oui",
+    "no": "Non",
+    "ok": "OK",
+    "back": "Retour",
+    "home": "Accueil",
+    "language": "Langue",
+    "settings": "Paramètres",
+    "profile": "Profil",
+    "help": "Aide",
+    "about": "À propos",
+    "version": "Version"
+  }
+}

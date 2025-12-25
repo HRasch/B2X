@@ -19,7 +19,13 @@ public class Tenant : Entity
 {
     public required string Name { get; set; }
     public required string Slug { get; set; }
-    public string? Description { get; set; }
+
+    /// <summary>
+    /// Localized tenant description (stored as JSON)
+    /// Can be translated to multiple languages
+    /// </summary>
+    public Localization.LocalizedContent LocalizedDescription { get; set; } = new();
+
     public string? LogoUrl { get; set; }
     public TenantStatus Status { get; set; } = TenantStatus.Active;
     public DateTime? SuspendedAt { get; set; }

@@ -1,9 +1,9 @@
 import { expect, afterEach, vi } from 'vitest'
-import { cleanup } from '@vue/test-utils'
 
-// Cleanup after each test
+// Only cleanup if available (for Vue Test Utils)
 afterEach(() => {
-  cleanup()
+  // No cleanup needed for simple tests
+  localStorage.clear()
 })
 
 // Mock localStorage

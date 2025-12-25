@@ -1,0 +1,19 @@
+{
+  "auth": {
+    "login": {"title": "Entrar", "email": "Endereço de e-mail", "password": "Senha", "submit": "Entrar", "forgotPassword": "Esqueceu sua senha?"},
+    "register": {"title": "Registrar", "email": "Endereço de e-mail", "password": "Senha", "confirmPassword": "Confirmar senha", "fullName": "Nome completo", "submit": "Criar conta", "alreadyHaveAccount": "Já tem uma conta?"},
+    "logout": "Sair"
+  },
+  "ui": {
+    "save": "Salvar", "cancel": "Cancelar", "delete": "Deletar", "next": "Próximo", "previous": "Anterior", "loading": "Carregando...", "success": "Sucesso", "error": "Erro", "warning": "Aviso", "close": "Fechar", "edit": "Editar", "add": "Adicionar", "search": "Pesquisar", "filter": "Filtrar", "sort": "Ordenar", "export": "Exportar", "import": "Importar"
+  },
+  "errors": {
+    "required": "Este campo é obrigatório", "invalid_email": "Endereço de e-mail inválido", "unauthorized": "Você não está autorizado", "forbidden": "Acesso negado", "not_found": "Não encontrado", "server_error": "Erro do servidor. Por favor, tente novamente mais tarde.", "network_error": "Erro de rede. Por favor, verifique sua conexão.", "validation_error": "Validação falhou. Por favor, verifique sua entrada.", "duplicate": "Este item já existe", "min_length": "Deve ter pelo menos {min} caracteres", "max_length": "Deve ter no máximo {max} caracteres"
+  },
+  "validation": {
+    "email": "Por favor, insira um e-mail válido", "password": "A senha deve ter pelo menos 8 caracteres", "phone": "Por favor, insira um número de telefone válido", "url": "Por favor, insira uma URL válida", "match": "As senhas não correspondem"
+  },
+  "common": {
+    "yes": "Sim", "no": "Não", "ok": "OK", "back": "Voltar", "home": "Início", "language": "Idioma", "settings": "Configurações", "profile": "Perfil", "help": "Ajuda", "about": "Sobre", "version": "Versão"
+  }
+}

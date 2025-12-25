@@ -22,6 +22,14 @@
 - **[CMS_IMPLEMENTATION_PROGRESS.md](CMS_IMPLEMENTATION_PROGRESS.md)** - Status & Fortschritt
 - **[DATABASE_CONFIGURATION.md](DATABASE_CONFIGURATION.md)** - DB Setup für alle Provider
 
+### 🌍 Internationalization (i18n)
+- **[LOCALIZATION_README.md](LOCALIZATION_README.md)** - Hauptdokumentation für i18n (START HERE)
+- **[I18N_SPECIFICATION.md](I18N_SPECIFICATION.md)** - Anforderungen & Roadmap
+- **[LOCALIZATION_COMPLETE_SUMMARY.md](LOCALIZATION_COMPLETE_SUMMARY.md)** - Gesamt-Zusammenfassung
+- **[LOCALIZATION_PHASE1_COMPLETE.md](LOCALIZATION_PHASE1_COMPLETE.md)** - Backend Implementierung (ASP.NET Core)
+- **[LOCALIZATION_PHASE2_COMPLETE.md](LOCALIZATION_PHASE2_COMPLETE.md)** - Frontend Implementierung (Vue.js)
+- **[PHASE2_FRONTEND_SUMMARY.md](PHASE2_FRONTEND_SUMMARY.md)** - Phase 2 Kurz-Zusammenfassung
+
 ### 🚦 Betrieb & Troubleshooting
 - **[RUN_PROJECT.md](RUN_PROJECT.md)** - Projekt starten
 - **[VERIFICATION.md](VERIFICATION.md)** - Verifizierungs-Guide
@@ -63,18 +71,17 @@
 - DEBUG_GUIDE.md
 - DEVELOPMENT.md
 
-#### G
-- GETTING_STARTED.md
-
-#### I
-- INDEX.md
-- INDEX_NEW.md
-- INTEGRATION_DEPLOYMENT.md
+#### L
+- LOCALIZATION_COMPLETE_SUMMARY.md
+- LOCALIZATION_PHASE1_COMPLETE.md
+- LOCALIZATION_PHASE2_COMPLETE.md
+- LOCALIZATION_README.md
 
 #### M
 - MIGRATION_NOTES.md
 
 #### P
+- PHASE2_FRONTEND_SUMMARY.md
 - PLATFORM_OVERVIEW.md
 - PROJECT_STATUS.md
 
@@ -111,6 +118,19 @@
 2. [DEVELOPMENT.md](DEVELOPMENT.md) - Dev-Setup
 3. [DEBUG_GUIDE.md](DEBUG_GUIDE.md) - Debugging
 
+### Ich arbeite an Internationalization (i18n)
+**START HERE:** [LOCALIZATION_README.md](LOCALIZATION_README.md) - Vollständiger Überblick
+
+Dann:
+1. [I18N_SPECIFICATION.md](I18N_SPECIFICATION.md) - Anforderungen & Roadmap
+2. [LOCALIZATION_PHASE1_COMPLETE.md](LOCALIZATION_PHASE1_COMPLETE.md) - Backend Setup (ASP.NET Core)
+3. [LOCALIZATION_PHASE2_COMPLETE.md](LOCALIZATION_PHASE2_COMPLETE.md) - Frontend Setup (Vue.js)
+4. [frontend/src/locales/README.md](frontend/src/locales/README.md) - Locales Verzeichnis Guide
+
+Kurz-Referenzen:
+- [LOCALIZATION_COMPLETE_SUMMARY.md](LOCALIZATION_COMPLETE_SUMMARY.md) - Gesamt-Zusammenfassung
+- [PHASE2_FRONTEND_SUMMARY.md](PHASE2_FRONTEND_SUMMARY.md) - Frontend Phase Zusammenfassung
+
 ### Ich arbeite am CMS
 1. [CMS_OVERVIEW.md](CMS_OVERVIEW.md) - Überblick
 2. [CMS_TDD_WORKFLOW.md](CMS_TDD_WORKFLOW.md) - Implementierung
@@ -139,10 +159,11 @@
 | Getting Started | 3 | ✅ |
 | Architecture | 2 | ✅ |
 | CMS Docs | 6 | ✅ |
+| Internationalization | 7 | ✅ COMPLETE |
 | Operations | 5 | ✅ |
 | Configuration | 2 | ✅ |
 | Status/Requirements | 2 | ✅ |
-| **Gesamt** | **20** | **✅** |
+| **Gesamt** | **27** | **✅** |
 
 ---
 

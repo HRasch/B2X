@@ -1,0 +1,101 @@
+import { useI18n } from 'vue-i18n'
+import { ref, computed } from 'vue'
+import { SUPPORTED_LOCALES } from '@/locales'
+
+/**
+ * Composable for managing application localization
+ * Provides locale switching, preferences, and locale utilities
+ */
+export function useLocale() {
+  const { locale, t } = useI18n()
+  const isLoading = ref(false)
+
+  /**
+   * Supported locales with metadata
+   */
+  const locales = SUPPORTED_LOCALES
+
+  /**
+   * Current selected locale object
+   */
+  const currentLocale = computed(() => {
+    return locales.find(l => l.code === locale.value) || locales[0]
+  })
+
+  /**
+   * Get locale name in English
+   */
+  const getLocaleName = (code: string): string => {
+    const loc = locales.find(l => l.code === code)
+    return loc?.name || code
+  }
+
+  /**
+   * Get locale flag emoji
+   */
+  const getLocaleFlag = (code: string): string => {
+    const loc = locales.find(l => l.code === code)
+    return loc?.flag || '🌐'
+  }
+
+  /**
+   * Set locale and persist to localStorage
+   */
+  const setLocale = async (code: string): Promise<void> => {
+    // Validate locale code
+    if (!locales.find(l => l.code === code)) {
+      console.warn(`Unsupported locale: ${code}`)
+      return
+    }
+
+    isLoading.value = true
+    try {
+      locale.value = code
+      localStorage.setItem('locale', code)
+      document.documentElement.lang = code
+
+      // Emit event for other parts of app (e.g., API)
+      window.dispatchEvent(new CustomEvent('locale-changed', { detail: { locale: code } }))
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  /**
+   * Initialize locale from localStorage or browser preference
+   */
+  const initializeLocale = (): void => {
+    const savedLocale = localStorage.getItem('locale')
+    if (savedLocale && locales.find(l => l.code === savedLocale)) {
+      locale.value = savedLocale
+    } else {
+      const browserLang = navigator.language.split('-')[0]
+      const matchedLocale = locales.find(l => l.code === browserLang)
+      if (matchedLocale) {
+        locale.value = matchedLocale.code
+        localStorage.setItem('locale', matchedLocale.code)
+      }
+    }
+    document.documentElement.lang = locale.value
+  }
+
+  /**
+   * Get all supported locale codes
+   */
+  const getSupportedLocaleCodes = (): string[] => {
+    return locales.map(l => l.code)
+  }
+
+  return {
+    locale,
+    currentLocale,
+    locales,
+    isLoading,
+    t,
+    setLocale,
+    initializeLocale,
+    getLocaleName,
+    getLocaleFlag,
+    getSupportedLocaleCodes,
+  }
+}

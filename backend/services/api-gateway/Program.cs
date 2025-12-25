@@ -55,5 +55,3 @@ app.MapGet("/", () => "API Gateway is running");
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
 await app.RunAsync();
-
-```

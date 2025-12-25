@@ -19,6 +19,9 @@
           <li v-else>
             <router-link to="/login">Login</router-link>
           </li>
+          <li class="language-switcher-container">
+            <LanguageSwitcher />
+          </li>
         </ul>
       </div>
     </nav>
@@ -33,6 +36,7 @@
 import { useAuthStore } from './stores/auth'
 import { useCartStore } from './stores/cart'
 import { useRouter } from 'vue-router'
+import LanguageSwitcher from './components/common/LanguageSwitcher.vue'
 
 const authStore = useAuthStore()
 const cartStore = useCartStore()
@@ -73,6 +77,7 @@ const logout = () => {
   gap: 1.5rem;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
 .navbar-menu a {
@@ -117,6 +122,10 @@ const logout = () => {
   border-radius: 50%;
   font-size: 0.75rem;
   font-weight: bold;
+}
+
+.language-switcher-container {
+  margin-left: 0.5rem;
 }
 
 .main-content {

@@ -33,6 +33,7 @@ Das Dashboard überwacht automatisch:
 |---------|------|-----|
 | Auth Service | 5001 | http://localhost:5001 |
 | Tenant Service | 5002 | http://localhost:5002 |
+| Localization Service | 5003 | http://localhost:5003 |
 | API Gateway | 5000 | http://localhost:5000 |
 
 ## Funktionalität
@@ -42,12 +43,19 @@ Das Dashboard überwacht automatisch:
 - **Service Cards**: Visuelle Darstellung des Status jeder Service
 - **Detail Tabelle**: Ausführliche Informationen zu jedem Service
 - **Action Buttons**: Schneller Zugriff auf Services und Health-Checks
+- **Feature-Übersicht**: Status aller integrierten Features (Localization, Entity Localization, etc.)
 
 ### Health Checks
 Das Dashboard führt automatisch Health-Checks durch:
 - Jede Service kann unter `/health` abgerufen werden
 - Status wird als Badge angezeigt (Healthy/Unhealthy/Unavailable)
 - Die Seite wird alle 10 Sekunden aktualisiert
+
+### Entity Localization Support
+- **Zentrale Übersetzungen**: `/api/localization/{category}/{key}` - für UI Strings
+- **Entity-basierte Übersetzungen**: `/api/entity-localization/{entityId}/{propertyName}` - für Entitäts-Inhalte
+- **JSON-Speicherung**: Übersetzungen werden direkt in Entitäts-Datensätzen als JSON gespeichert
+- **Fluent API**: Einfache, typsichere API für Entwickler
 
 ## Architektur
 
@@ -74,12 +82,57 @@ Gibt den Status aller Services im JSON-Format zurück.
     "name": "Auth Service",
     "status": "healthy",
     "statusCode": 200
+  },Localization Service",
+    "status": "healthy",
+    "statusCode": 200
   },
   {
-    "name": "Tenant Service",
-    "status": "unavailable",
-    "statusCode": 0
-  },
+    "name": "API Gateway",
+    "status": "unhealthy",
+    "statusCode": 500
+  }
+]
+```
+
+### Localization API Endpoints
+
+#### Zentrale Übersetzungen
+- `GET /api/localization/{category}/{key}?language=de` - Einzelne Übersetzung abrufen
+- `GET /api/localization/category/{category}?language=de` - Gesamte Kategorie abrufen
+- `GET /api/localization/languages` - Unterstützte Sprachen auflisten
+- `POST /api/localization/{category}/{key}` - Übersetzungen aktualisieren (Admin only)
+
+#### Entity-basierte Übersetzungen
+- `GET /api/entity-l
+
+## Features
+
+### ✅ Zentrale Localization Service
+- Übersetzungen für UI-Strings (Buttons, Labels, Error Messages)
+- Mehrsprachige Unterstützung (8 Sprachen: en, de, fr, es, it, pt, nl, pl)
+- In-Memory Caching für Performanz
+- Tenant-isoliert
+- RESTful API Endpoints
+
+### ✅ Entity Localization System  
+- JSON-basierte Übersetzungen direkt in Entitäten
+- LocalizedContent Klasse mit Fluent API
+- 15+ Extension Methods für Entities
+- JSON-Utility für Transformationen
+- 5 vordefinierte Entities (Product, ContentPage, MenuItem, FaqEntry, Feature)
+- 30+ Unit Tests
+- PostgreSQL JSONB Support
+
+### ✅ Dashboard & Monitoring
+- Echtzeit Service-Überwachung
+- Health-Check Status
+- Feature-Übersicht
+- Auto-Refresh alle 10 Sekundenocalization/{entityId}/{propertyName}` - Alle Übersetzungen für Property
+- `GET /api/entity-localization/{entityId}/{propertyName}/{language}` - Sprachspezifische Übersetzung
+- `POST /api/entity-localization/{entityId}/{propertyName}` - Übersetzung setzen
+- `PUT /api/entity-localization/{entityId}/{propertyName}` - Alle Übersetzungen aktualisieren (Batch)
+- `GET /api/entity-localization/{entityId}` - Alle lokalisierten Properties einer Entity
+- `POST /api/entity-localization/{entityId}/validate` - Validiert erforderliche Sprachen,
   {
     "name": "API Gateway",
     "status": "unhealthy",
