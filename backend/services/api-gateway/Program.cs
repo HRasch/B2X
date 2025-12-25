@@ -15,13 +15,36 @@ builder.Host.UseSerilog((context, config) =>
 // Service Defaults (Health checks, etc.)
 builder.Host.AddServiceDefaults();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:3000",
+                "http://127.0.0.1:3000",
+                "https://localhost:3000"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .WithExposedHeaders("Content-Disposition", "X-Total-Count");
+    });
+});
+
 // Add services
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
 // Service defaults middleware
 app.UseServiceDefaults();
+
+// CORS must come before routing
+app.UseCors("AllowFrontend");
 
 // Middleware
 app.UseHttpsRedirection();
@@ -29,5 +52,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapGet("/", () => "API Gateway is running");
+app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
 await app.RunAsync();
+
+```

@@ -12,11 +12,23 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    host: 'localhost',
+    strictPort: false,
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,
         rewrite: (path: string) => path.replace(/^\/api/, ''),
+        secure: false,
+        ws: true,
+        timeout: 30000,
+      },
+      '/ws': {
+        target: 'ws://localhost:5000',
+        changeOrigin: true,
+        ws: true,
+        secure: false,
+        timeout: 30000,
       },
     },
   },

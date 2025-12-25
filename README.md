@@ -1,6 +1,34 @@
-# B2Connect - Multitenant SaaS Platform
+# B2Connect - B2B/B2C Shop Platform & Procurement Gateway
 
-A modern, scalable multitenant SaaS application built with .NET Aspire (C# backend) and Vue.js 3 (frontend), deployable on AWS, Azure, and Google Cloud.
+A modern, scalable multitenant SaaS solution combining a comprehensive B2B/B2C e-commerce platform with a Procurement-Platform Gateway. Built with .NET Aspire (C# backend) and Vue.js 3 (frontend), deployable on AWS, Azure, and Google Cloud.
+
+## 📊 Platform Overview
+
+**B2Connect** consists of three integrated components:
+
+1. **Shop Platform**: Full-featured e-commerce solution supporting both B2B and B2C models
+   - Multi-channel order management
+   - Product catalog with advanced filtering and recommendations
+   - Shopping cart and checkout with multiple payment methods
+   - Order fulfillment and logistics integration
+   - Customer relationship management
+
+2. **Procurement Gateway**: Integration hub for B2B procurement platforms
+   - Unified API for third-party procurement platforms
+   - Order synchronization and automation
+   - Real-time inventory management
+   - Supplier integration
+   - EDI and API-based integrations
+
+3. **Frontend CMS & Layout Builder**: Integrated no-code customization system
+   - Visual page builder with drag-and-drop interface
+   - 50+ pre-built components (UI, layout, e-commerce)
+   - Theme customizer (colors, fonts, spacing)
+   - Publishing workflow with version control
+   - SEO optimization tools
+   - **Allows customers to build custom storefronts without developers**
+
+**New to B2Connect?** Start with the [Platform Overview](PLATFORM_OVERVIEW.md) for a comprehensive introduction. Learn about the new CMS in [CMS Overview](CMS_OVERVIEW.md).
 
 ## 🏗️ Project Structure
 
@@ -12,12 +40,23 @@ B2Connect/
 │   │   ├── ServiceDefaults/   # Shared service configuration
 │   │   ├── auth-service/      # Authentication & Authorization
 │   │   ├── tenant-service/    # Tenant Management
-│   │   └── api-gateway/       # API Gateway & Routing
+│   │   ├── api-gateway/       # API Gateway & Routing
+│   │   ├── shop-service/      # E-commerce Core (Products, Orders, Carts)
+│   │   ├── catalog-service/   # Product Catalog Management
+│   │   ├── order-service/     # Order Management & Fulfillment
+│   │   ├── payment-service/   # Payment Processing
+│   │   ├── inventory-service/ # Inventory & Stock Management
+│   │   ├── procurement-gateway/ # Procurement Platform Integration
+│   │   ├── supplier-service/  # Supplier Management
+│   │   └── notification-service/ # Email, SMS, Push Notifications
 │   ├── shared/                # Shared libraries and utilities
 │   ├── infrastructure/        # Docker, Kubernetes, Terraform
 │   └── docs/                  # Backend documentation
 ├── frontend/                   # Vue.js 3 + Vite SPA
 │   ├── src/                   # Source code
+│   │   ├── views/             # Shop, Admin Dashboard, Procurement
+│   │   ├── components/        # UI Components
+│   │   └── services/          # API Integration
 │   ├── tests/                 # Unit, component, and E2E tests
 │   └── [config files]         # Vite, TypeScript, Vitest configs
 └── .copilot-specs.md          # Development guidelines
@@ -81,6 +120,11 @@ npm run dev
 
 - [Backend Architecture](backend/docs/architecture.md)
 - [API Specifications](backend/docs/api-specifications.md)
+- [Shop Platform Specifications](backend/docs/shop-platform-specs.md)
+- [Procurement Gateway Specifications](backend/docs/procurement-gateway-specs.md)
+- **[Frontend CMS & Layout Builder](backend/docs/cms-frontend-builder.md)** - NEW: Customer-facing customization system
+- **[CMS Overview](CMS_OVERVIEW.md)** - NEW: Business-friendly CMS introduction
+- **[CMS Implementation Details](CMS_IMPLEMENTATION_UPDATE.md)** - NEW: Technical CMS architecture
 - [Multitenant Design](backend/docs/tenant-isolation.md)
 - [Development Guidelines](.copilot-specs.md)
 

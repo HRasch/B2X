@@ -12,11 +12,31 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration);
 });
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Add services
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient()
+    .ConfigureHttpClient(client =>
+    {
+        client.Timeout = TimeSpan.FromSeconds(30);
+    });
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+// CORS middleware (before routing)
+app.UseCors("AllowAll");
 
 // Configure middleware
 if (!app.Environment.IsDevelopment())
@@ -30,51 +50,15 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 
-// Health check endpoint
-app.MapGet("/api/health", async (IHttpClientFactory clientFactory) =>
+// Simple health check endpoint
+app.MapGet("/api/health", () => Results.Ok(new
 {
-    var client = clientFactory.CreateClient();
-    var services = new[]
+    status = "healthy",
+    timestamp = DateTime.UtcNow,
+    services = new
     {
-        new { name = "Auth Service", url = "http://localhost:5001/health" },
-        new { name = "Tenant Service", url = "http://localhost:5002/health" },
-        new { name = "API Gateway", url = "http://localhost:5000/health" }
-    };
-
-    var health = new List<object>();
-    foreach (var service in services)
-    {
-        try
-        {
-            var response = await client.GetAsync(service.url);
-            health.Add(new
-            {
-                service.name,
-                status = response.IsSuccessStatusCode ? "healthy" : "unhealthy",
-                statusCode = response.StatusCode
-            });
-        }
-        catch
-        {
-            health.Add(new
-            {
-                service.name,
-                status = "unavailable",
-                statusCode = 0
-            });
-        }
+        apiGateway = "http://localhost:5000",
+        authService = "http://localhost:5001",
+        tenantService = "http://localhost:5002"
     }
-
-    return health;
-});
-
-// Dashboard routes
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
-
-app.MapFallbackToFile("index.html");
-
-await app.RunAsync();
-
-
+}));

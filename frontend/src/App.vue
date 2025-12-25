@@ -5,6 +5,12 @@
         <router-link to="/" class="navbar-logo">B2Connect</router-link>
         <ul class="navbar-menu">
           <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/shop">Shop</router-link></li>
+          <li>
+            <router-link to="/cart" class="cart-link">
+              Cart <span v-if="cartStore.items.length" class="cart-badge">{{ cartStore.items.length }}</span>
+            </router-link>
+          </li>
           <li><router-link to="/dashboard">Dashboard</router-link></li>
           <li><router-link to="/tenants">Tenants</router-link></li>
           <li v-if="authStore.isAuthenticated">
@@ -25,9 +31,11 @@
 
 <script setup lang="ts">
 import { useAuthStore } from './stores/auth'
+import { useCartStore } from './stores/cart'
 import { useRouter } from 'vue-router'
 
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 const router = useRouter()
 
 const logout = () => {
@@ -89,6 +97,26 @@ const logout = () => {
 
 .navbar-menu button:hover {
   background-color: #c82333;
+}
+
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: bold;
 }
 
 .main-content {

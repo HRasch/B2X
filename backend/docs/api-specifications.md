@@ -1,11 +1,25 @@
 # B2Connect API Specifications
 
 ## Overview
-This document describes the REST API endpoints for B2Connect services.
+This document describes the REST API endpoints for B2Connect services, including the e-commerce shop platform and procurement gateway.
 
 ## Base URL
 - **Development**: `http://localhost:5000/api`
 - **Production**: `https://api.b2connect.com/api`
+
+## API Endpoints Structure
+
+The API is organized into major resource categories:
+- **Auth**: Authentication and authorization
+- **Tenants**: Tenant management
+- **Shop**: E-commerce core (carts, customers, pricing)
+- **Catalog**: Product management and search
+- **Orders**: Order management and fulfillment
+- **Inventory**: Stock and warehouse management
+- **Payments**: Payment processing
+- **Procurement**: Procurement platform integration
+- **Suppliers**: Supplier management
+- **Notifications**: Multi-channel notifications
 
 ## Authentication
 All protected endpoints require a Bearer token in the Authorization header:
@@ -306,3 +320,346 @@ Real-time updates via WebSocket at `wss://api.b2connect.com/ws`:
 - `tenant.updated`: Tenant updated
 - `user.joined`: User joined tenant
 - `user.left`: User left tenant
+
+---
+
+# Shop Platform API Endpoints
+
+## Shopping Cart Endpoints
+
+### POST /shop/carts
+Create a new shopping cart.
+
+**Authentication**: Optional (creates guest cart if not authenticated)
+**Request**:
+```json
+{
+  "customerId": "customer-uuid",
+  "cartType": "b2b|b2c"
+}
+```
+
+**Response** (201 Created):
+```json
+{
+  "data": {
+    "cartId": "cart-uuid",
+    "customerId": "customer-uuid",
+    "items": [],
+    "subtotal": 0,
+    "tax": 0,
+    "total": 0,
+    "currency": "EUR",
+    "cartType": "b2c"
+  },
+  "success": true
+}
+```
+
+### GET /shop/carts/{cartId}
+Get cart details.
+
+**Response** (200 OK):
+```json
+{
+  "data": {
+    "cartId": "cart-uuid",
+    "items": [
+      {
+        "productId": "product-uuid",
+        "quantity": 2,
+        "price": 29.99,
+        "discount": 0,
+        "lineTotal": 59.98
+      }
+    ],
+    "subtotal": 59.98,
+    "tax": 9.60,
+    "total": 69.58
+  },
+  "success": true
+}
+```
+
+### POST /shop/carts/{cartId}/items
+Add item to cart.
+
+**Request**:
+```json
+{
+  "productId": "product-uuid",
+  "quantity": 1,
+  "variantId": "variant-uuid"
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "data": {
+    "cartId": "cart-uuid",
+    "total": 69.58
+  },
+  "success": true,
+  "message": "Item added to cart"
+}
+```
+
+## Catalog Endpoints
+
+### GET /catalog/products
+Get products with filtering and search.
+
+**Query Parameters**:
+- `search`: Search term
+- `categoryId`: Filter by category
+- `pageNumber`: Page number (default: 1)
+- `pageSize`: Items per page (default: 10, max: 100)
+- `sortBy`: Sort field (name, price, popularity, newest)
+- `minPrice`, `maxPrice`: Price range filter
+- `inStock`: Only in-stock items (default: true)
+
+**Response** (200 OK):
+```json
+{
+  "data": {
+    "items": [
+      {
+        "id": "product-uuid",
+        "name": "Product Name",
+        "description": "Product description",
+        "price": 29.99,
+        "b2bPrice": 24.99,
+        "currency": "EUR",
+        "images": ["https://...", "https://..."],
+        "category": "Electronics",
+        "inStock": true,
+        "stockQuantity": 150,
+        "rating": 4.5,
+        "reviews": 234
+      }
+    ],
+    "pageNumber": 1,
+    "pageSize": 10,
+    "totalCount": 1250,
+    "totalPages": 125
+  },
+  "success": true
+}
+```
+
+## Order Endpoints
+
+### POST /orders
+Create a new order.
+
+**Authentication**: Required
+**Request**:
+```json
+{
+  "cartId": "cart-uuid",
+  "shippingAddress": {
+    "street": "123 Main St",
+    "city": "Berlin",
+    "postalCode": "10115",
+    "country": "DE"
+  },
+  "paymentMethod": "credit_card|bank_transfer|invoice",
+  "shippingMethod": "standard|express|overnight"
+}
+```
+
+**Response** (201 Created):
+```json
+{
+  "data": {
+    "orderId": "order-uuid",
+    "orderNumber": "ORD-2024-001234",
+    "status": "confirmed",
+    "total": 69.58,
+    "items": [
+      {
+        "productId": "product-uuid",
+        "quantity": 2,
+        "price": 29.99,
+        "lineTotal": 59.98
+      }
+    ],
+    "createdAt": "2024-01-01T12:00:00Z",
+    "estimatedDelivery": "2024-01-05T12:00:00Z"
+  },
+  "success": true,
+  "message": "Order created successfully"
+}
+```
+
+### GET /orders/{orderId}
+Get order details.
+
+**Authentication**: Required (must be order owner or admin)
+**Response** (200 OK):
+```json
+{
+  "data": {
+    "orderId": "order-uuid",
+    "orderNumber": "ORD-2024-001234",
+    "status": "shipped",
+    "items": [...],
+    "total": 69.58,
+    "trackingNumber": "DHL-123456789",
+    "timeline": [
+      {
+        "status": "confirmed",
+        "timestamp": "2024-01-01T12:00:00Z"
+      },
+      {
+        "status": "shipped",
+        "timestamp": "2024-01-02T10:30:00Z"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+---
+
+# Procurement Gateway API
+
+## Procurement Order Synchronization
+
+### POST /procurement/orders/sync
+Synchronize order from procurement platform.
+
+**Authentication**: Required + API Key for platform
+**Request**:
+```json
+{
+  "platformOrderId": "PO-12345",
+  "platformType": "coupa|ariba|jaggr",
+  "orderData": {
+    "items": [
+      {
+        "sku": "SKU-123",
+        "quantity": 100,
+        "unitPrice": 10.50
+      }
+    ],
+    "deliveryDate": "2024-01-15",
+    "buyer": {
+      "email": "buyer@company.com"
+    }
+  }
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "data": {
+    "b2connectOrderId": "order-uuid",
+    "platformOrderId": "PO-12345",
+    "status": "synchronized",
+    "mappedItems": 5,
+    "unmappedItems": 0
+  },
+  "success": true,
+  "message": "Order synchronized successfully"
+}
+```
+
+### GET /procurement/orders/{orderId}/status
+Get order status for procurement platform.
+
+**Response** (200 OK):
+```json
+{
+  "data": {
+    "platformOrderId": "PO-12345",
+    "b2connectOrderId": "order-uuid",
+    "status": "shipped",
+    "lastUpdated": "2024-01-02T10:30:00Z",
+    "items": [
+      {
+        "sku": "SKU-123",
+        "quantityOrdered": 100,
+        "quantityShipped": 100,
+        "quantityReceived": 95
+      }
+    ],
+    "shipments": [
+      {
+        "shipmentId": "shipment-uuid",
+        "trackingNumber": "DHL-123456789",
+        "carrier": "DHL",
+        "status": "in_transit"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+## Inventory Synchronization
+
+### POST /procurement/inventory/update
+Update inventory for procurement platform visibility.
+
+**Authentication**: Required
+**Request**:
+```json
+{
+  "updates": [
+    {
+      "sku": "SKU-123",
+      "quantity": 500,
+      "locationId": "warehouse-1",
+      "lastUpdated": "2024-01-02T10:00:00Z"
+    }
+  ]
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "data": {
+    "updated": 3,
+    "failed": 0,
+    "timestamp": "2024-01-02T10:15:00Z"
+  },
+  "success": true
+}
+```
+
+## Supplier Management
+
+### GET /suppliers
+Get list of suppliers.
+
+**Query Parameters**:
+- `status`: active|inactive|pending
+- `pageNumber`: Page number
+- `pageSize`: Items per page
+
+**Response** (200 OK):
+```json
+{
+  "data": {
+    "items": [
+      {
+        "supplierId": "supplier-uuid",
+        "name": "Supplier Inc.",
+        "email": "contact@supplier.com",
+        "status": "active",
+        "performanceScore": 4.8,
+        "documentationStatus": "compliant"
+      }
+    ],
+    "pageNumber": 1,
+    "pageSize": 10,
+    "totalCount": 45
+  },
+  "success": true
+}
+```

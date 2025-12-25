@@ -1,13 +1,18 @@
 # 📖 B2Connect - Documentation Index
 
-Welcome to B2Connect! This is your complete guide to understanding and working with the project.
+> **⚠️ VERALTET** - Diese Seite wird bald archiviert.  
+> **Nutze stattdessen: [DOCUMENTATION.md](DOCUMENTATION.md)** ← Master Index (Aktualisiert 25.12.2025)
 
-## 🚀 START HERE
+---
 
-### For First-Time Users
-1. **[README.md](README.md)** - Project overview and quick start (5 min read)
-2. **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Common commands and file locations (bookmark this!)
-3. **[DEVELOPMENT.md](DEVELOPMENT.md)** - Complete setup and development guide (30 min read)
+## 🚀 START HERE (Umgeleitet zu DOCUMENTATION.md)
+
+Alle Dokumentationen sind jetzt zentral organisiert in **[DOCUMENTATION.md](DOCUMENTATION.md)**
+
+### Schneller Einstieg
+1. **[README.md](README.md)** - Projektübersicht
+2. **[GETTING_STARTED.md](GETTING_STARTED.md)** - Schnelleinstieg
+3. **[DEVELOPMENT.md](DEVELOPMENT.md)** - Development Setup
 
 ### For Understanding the Code
 1. **[.copilot-specs.md](.copilot-specs.md)** - Code standards and guidelines
