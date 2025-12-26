@@ -147,7 +147,7 @@ public class LayoutServiceTests
             .ReturnsAsync(expectedPage);
 
         // Act
-        var result = await _service.GetPageByIdAsync(tenantId, pageId);
+        var result = await _service.GetPageByIdAsync(tenantId, pageId, "en");
 
         // Assert
         Assert.NotNull(result);
@@ -168,7 +168,7 @@ public class LayoutServiceTests
             .ReturnsAsync((CmsPage?)null);
 
         // Act
-        var result = await _service.GetPageByIdAsync(tenantId, invalidPageId);
+        var result = await _service.GetPageByIdAsync(tenantId, invalidPageId, "en");
 
         // Assert
         Assert.Null(result);
@@ -190,7 +190,7 @@ public class LayoutServiceTests
             .ReturnsAsync(pages);
 
         // Act
-        var result = await _service.GetPagesByTenantAsync(tenantId);
+        var result = await _service.GetPagesByTenantAsync(tenantId, "en");
 
         // Assert
         Assert.NotNull(result);
@@ -237,7 +237,7 @@ public class LayoutServiceTests
             });
 
         // Act
-        var result = await _service.UpdatePageAsync(tenantId, pageId, updateRequest);
+        var result = await _service.UpdatePageAsync(tenantId, pageId, updateRequest, "en");
 
         // Assert
         Assert.NotNull(result);
@@ -262,8 +262,8 @@ public class LayoutServiceTests
             .ReturnsAsync((CmsPage?)null);
 
         // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(
-            () => _service.UpdatePageAsync(tenantId, pageId, updateRequest)
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => _service.UpdatePageAsync(tenantId, pageId, updateRequest, "en")
         );
     }
 
@@ -419,7 +419,7 @@ public class LayoutServiceTests
             });
 
         // Act
-        var result = await _service.AddComponentAsync(tenantId, pageId, sectionId, addComponentRequest);
+        var result = await _service.AddComponentAsync(tenantId, pageId, sectionId, addComponentRequest, "en");
 
         // Assert
         Assert.NotNull(result);
@@ -452,7 +452,7 @@ public class LayoutServiceTests
             });
 
         // Act
-        var result = await _service.UpdateComponentAsync(tenantId, pageId, sectionId, componentId, updateRequest);
+        var result = await _service.UpdateComponentAsync(tenantId, pageId, sectionId, componentId, updateRequest, "en");
 
         // Assert
         Assert.NotNull(result);
@@ -496,7 +496,7 @@ public class LayoutServiceTests
             .ReturnsAsync(expectedHtml);
 
         // Act
-        var result = await _service.GeneratePreviewHtmlAsync(tenantId, pageId);
+        var result = await _service.GeneratePreviewHtmlAsync(tenantId, pageId, "en");
 
         // Assert
         Assert.NotNull(result);

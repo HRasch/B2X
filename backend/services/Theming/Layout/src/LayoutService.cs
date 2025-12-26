@@ -5,11 +5,12 @@ namespace B2Connect.LayoutService.Services;
 
 /// <summary>
 /// Layout Service - Business logic for CMS page building
-/// Implements ILayoutService with minimal code to pass tests
+/// Implements localization support with language-aware DTOs
 /// </summary>
 public class LayoutService : ILayoutService
 {
     private readonly ILayoutRepository _repository;
+    private readonly string _defaultLanguage = "en";
 
     public LayoutService(ILayoutRepository repository)
     {
@@ -18,21 +19,31 @@ public class LayoutService : ILayoutService
 
     #region Page Operations
 
-    public async Task<CmsPage> CreatePageAsync(Guid tenantId, CreatePageRequest request)
+    public async Task<CmsPageDto> CreatePageAsync(Guid tenantId, CreatePageRequest request)
     {
-        // Validate input (RED → GREEN: add minimal validation)
         if (string.IsNullOrWhiteSpace(request?.Title))
             throw new ArgumentException("Title is required", nameof(request));
-
         if (string.IsNullOrWhiteSpace(request?.Slug))
             throw new ArgumentException("Slug is required", nameof(request));
 
-        // Check for duplicate slug
         var slugExists = await _repository.PageSlugExistsAsync(tenantId, request.Slug);
         if (slugExists)
-            throw new InvalidOperationException($"Page slug '{request.Slug}' already exists for this tenant");
+            throw new InvalidOperationException($"Page slug '{request.Slug}' already exists");
 
-        // Create page entity
+        var titleTranslations = new Dictionary<string, string>();
+        var slugTranslations = new Dictionary<string, string>();
+        var descriptionTranslations = new Dictionary<string, string>();
+
+        if (request.Translations != null)
+        {
+            foreach (var kvp in request.Translations)
+            {
+                titleTranslations[kvp.Key] = kvp.Value.Title;
+                slugTranslations[kvp.Key] = kvp.Value.Slug;
+                descriptionTranslations[kvp.Key] = kvp.Value.Description;
+            }
+        }
+
         var page = new CmsPage
         {
             Id = Guid.NewGuid(),
@@ -40,54 +51,84 @@ public class LayoutService : ILayoutService
             Title = request.Title,
             Slug = request.Slug,
             Description = request.Description,
+            TitleTranslations = titleTranslations,
+            SlugTranslations = slugTranslations,
+            DescriptionTranslations = descriptionTranslations,
             Sections = new List<CmsSection>(),
             Version = 1,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
 
-        // Persist and return
-        return await _repository.CreatePageAsync(tenantId, page);
+        var createdPage = await _repository.CreatePageAsync(tenantId, page);
+        return MapPageToDto(createdPage, _defaultLanguage);
     }
 
-    public async Task<CmsPage?> GetPageByIdAsync(Guid tenantId, Guid pageId)
+    public async Task<CmsPageDto?> GetPageByIdAsync(Guid tenantId, Guid pageId, string languageCode)
     {
-        return await _repository.GetPageByIdAsync(tenantId, pageId);
+        if (string.IsNullOrWhiteSpace(languageCode))
+            throw new ArgumentException("Language code is required", nameof(languageCode));
+
+        var page = await _repository.GetPageByIdAsync(tenantId, pageId);
+        return page == null ? null : MapPageToDto(page, languageCode);
     }
 
-    public async Task<List<CmsPage>> GetPagesByTenantAsync(Guid tenantId)
+    public async Task<List<CmsPageDto>> GetPagesByTenantAsync(Guid tenantId, string languageCode)
     {
-        return await _repository.GetPagesByTenantAsync(tenantId);
+        if (string.IsNullOrWhiteSpace(languageCode))
+            throw new ArgumentException("Language code is required", nameof(languageCode));
+
+        var pages = await _repository.GetPagesByTenantAsync(tenantId);
+        return pages.Select(p => MapPageToDto(p, languageCode)).ToList();
     }
 
-    public async Task<CmsPage> UpdatePageAsync(Guid tenantId, Guid pageId, UpdatePageRequest request)
+    public async Task<CmsPageDto> UpdatePageAsync(Guid tenantId, Guid pageId, UpdatePageRequest request, string languageCode)
     {
-        // Get existing page
+        if (string.IsNullOrWhiteSpace(languageCode))
+            throw new ArgumentException("Language code is required", nameof(languageCode));
+
         var page = await _repository.GetPageByIdAsync(tenantId, pageId)
-            ?? throw new KeyNotFoundException($"Page '{pageId}' not found");
+            ?? throw new InvalidOperationException($"Page {pageId} not found");
 
-        // Update fields if provided
         if (!string.IsNullOrWhiteSpace(request?.Title))
             page.Title = request.Title;
+
+        if (!string.IsNullOrWhiteSpace(request?.Slug))
+            page.Slug = request.Slug;
 
         if (!string.IsNullOrWhiteSpace(request?.Description))
             page.Description = request.Description;
 
+        if (request?.Translations != null)
+        {
+            page.TitleTranslations ??= new Dictionary<string, string>();
+            page.SlugTranslations ??= new Dictionary<string, string>();
+            page.DescriptionTranslations ??= new Dictionary<string, string>();
+
+            foreach (var kvp in request.Translations)
+            {
+                if (!string.IsNullOrWhiteSpace(kvp.Value.Title))
+                    page.TitleTranslations[kvp.Key] = kvp.Value.Title;
+                if (!string.IsNullOrWhiteSpace(kvp.Value.Slug))
+                    page.SlugTranslations[kvp.Key] = kvp.Value.Slug;
+                if (!string.IsNullOrWhiteSpace(kvp.Value.Description))
+                    page.DescriptionTranslations[kvp.Key] = kvp.Value.Description;
+            }
+        }
+
         if (request?.Visibility.HasValue == true)
             page.Visibility = request.Visibility.Value;
 
-        // Increment version and update timestamp
-        page.Version++;
         page.UpdatedAt = DateTime.UtcNow;
+        page.Version++;
 
-        // Persist and return
-        return await _repository.UpdatePageAsync(tenantId, page);
+        var updated = await _repository.UpdatePageAsync(tenantId, page);
+        return MapPageToDto(updated, languageCode);
     }
 
     public async Task<bool> DeletePageAsync(Guid tenantId, Guid pageId)
     {
-        await _repository.DeletePageAsync(tenantId, pageId);
-        return true;
+        return await _repository.DeletePageAsync(tenantId, pageId);
     }
 
     #endregion
@@ -137,64 +178,67 @@ public class LayoutService : ILayoutService
 
     #region Component Operations
 
-    public async Task<CmsComponent> AddComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, AddComponentRequest request)
+    public async Task<CmsComponentDto> AddComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, AddComponentRequest request, string languageCode)
     {
-        // Validate input
+        if (string.IsNullOrWhiteSpace(languageCode))
+            throw new ArgumentException("Language code is required", nameof(languageCode));
         if (string.IsNullOrWhiteSpace(request?.Type))
             throw new ArgumentException("Component type is required", nameof(request));
 
-        // Create component
         var component = new CmsComponent
         {
             Id = Guid.NewGuid(),
             SectionId = sectionId,
             Type = request.Type,
             Content = request.Content,
-            Variables = request.Variables ?? new List<ComponentVariable>(),
-            Styling = request.Styling ?? new Dictionary<string, string>(),
-            IsVisible = true,
-            Order = 0,
+            ContentTranslations = request.ContentTranslations ?? new Dictionary<string, string>(),
+            Order = request.Order,
+            IsVisible = request.IsVisible,
             CreatedAt = DateTime.UtcNow
         };
 
-        // Persist and return
-        return await _repository.AddComponentAsync(tenantId, pageId, sectionId, component);
+        var created = await _repository.AddComponentAsync(tenantId, pageId, sectionId, component);
+        return MapComponentToDto(created, languageCode);
     }
 
-    public async Task<CmsComponent> UpdateComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, UpdateComponentRequest request)
+    public async Task<CmsComponentDto> UpdateComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, UpdateComponentRequest request, string languageCode)
     {
-        // Get existing component
+        if (string.IsNullOrWhiteSpace(languageCode))
+            throw new ArgumentException("Language code is required", nameof(languageCode));
+
         var page = await _repository.GetPageByIdAsync(tenantId, pageId)
-            ?? throw new KeyNotFoundException($"Page '{pageId}' not found");
+            ?? throw new KeyNotFoundException($"Page {pageId} not found");
 
         var section = page.Sections.FirstOrDefault(s => s.Id == sectionId)
-            ?? throw new KeyNotFoundException($"Section '{sectionId}' not found");
+            ?? throw new KeyNotFoundException($"Section {sectionId} not found");
 
-        var existingComponent = section.Components.FirstOrDefault(c => c.Id == componentId)
-            ?? throw new KeyNotFoundException($"Component '{componentId}' not found");
+        var component = section.Components.FirstOrDefault(c => c.Id == componentId)
+            ?? throw new KeyNotFoundException($"Component {componentId} not found");
 
-        // Create updated component
-        var updatedComponent = new CmsComponent
+        if (!string.IsNullOrWhiteSpace(request?.Content))
+            component.Content = request.Content;
+
+        if (request?.ContentTranslations != null)
         {
-            Id = existingComponent.Id,
-            SectionId = sectionId,
-            Type = existingComponent.Type,
-            Content = request?.Content ?? existingComponent.Content,
-            Variables = request?.Variables ?? existingComponent.Variables,
-            Styling = request?.Styling ?? existingComponent.Styling,
-            IsVisible = request?.IsVisible ?? existingComponent.IsVisible,
-            Order = existingComponent.Order,
-            CreatedAt = existingComponent.CreatedAt
-        };
+            component.ContentTranslations ??= new Dictionary<string, string>();
+            foreach (var kvp in request.ContentTranslations)
+                if (!string.IsNullOrWhiteSpace(kvp.Value))
+                    component.ContentTranslations[kvp.Key] = kvp.Value;
+        }
 
-        // Persist and return
-        return await _repository.UpdateComponentAsync(tenantId, pageId, sectionId, componentId, updatedComponent);
+        if (request?.Order.HasValue == true)
+            component.Order = request.Order.Value;
+
+        if (request?.IsVisible.HasValue == true)
+            component.IsVisible = request.IsVisible.Value;
+
+        var updated = await _repository.UpdateComponentAsync(tenantId, pageId, sectionId, componentId, component);
+        return MapComponentToDto(updated, languageCode);
     }
 
     public async Task<bool> RemoveComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId)
     {
-        await _repository.RemoveComponentAsync(tenantId, pageId, sectionId, componentId);
-        return true;
+        return await _repository.RemoveComponentAsync(tenantId, pageId, sectionId, componentId);
     }
 
     #endregion
@@ -215,9 +259,96 @@ public class LayoutService : ILayoutService
 
     #region Preview
 
-    public async Task<string> GeneratePreviewHtmlAsync(Guid tenantId, Guid pageId)
+    public async Task<string> GeneratePreviewHtmlAsync(Guid tenantId, Guid pageId, string languageCode)
     {
-        return await _repository.GeneratePreviewHtmlAsync(tenantId, pageId);
+        if (string.IsNullOrWhiteSpace(languageCode))
+            throw new ArgumentException("Language code is required", nameof(languageCode));
+
+        var page = await _repository.GetPageByIdAsync(tenantId, pageId)
+            ?? throw new KeyNotFoundException($"Page {pageId} not found");
+
+        return GenerateHtml(page, languageCode);
+    }
+
+    #endregion
+
+    #region Helper Methods
+
+    private CmsPageDto MapPageToDto(CmsPage page, string languageCode)
+    {
+        return new CmsPageDto
+        {
+            Id = page.Id,
+            TenantId = page.TenantId,
+            Language = languageCode,
+            Title = LocalizationHelper.GetLocalizedValue(page.Title, page.TitleTranslations, languageCode, _defaultLanguage),
+            Slug = LocalizationHelper.GetLocalizedValue(page.Slug, page.SlugTranslations, languageCode, _defaultLanguage),
+            Description = LocalizationHelper.GetLocalizedValue(page.Description, page.DescriptionTranslations, languageCode, _defaultLanguage),
+            Visibility = page.Visibility,
+            PublishedAt = page.PublishedAt,
+            Version = page.Version,
+            CreatedAt = page.CreatedAt,
+            UpdatedAt = page.UpdatedAt,
+            Sections = page.Sections.OrderBy(s => s.Order).Select(s => MapSectionToDto(s, languageCode)).ToList()
+        };
+    }
+
+    private CmsSectionDto MapSectionToDto(CmsSection section, string languageCode)
+    {
+        return new CmsSectionDto
+        {
+            Id = section.Id,
+            PageId = section.PageId,
+            Type = section.Type,
+            Order = section.Order,
+            Layout = section.Layout,
+            IsVisible = section.IsVisible,
+            Components = section.Components.OrderBy(c => c.Order).Select(c => MapComponentToDto(c, languageCode)).ToList()
+        };
+    }
+
+    private CmsComponentDto MapComponentToDto(CmsComponent component, string languageCode)
+    {
+        return new CmsComponentDto
+        {
+            Id = component.Id,
+            SectionId = component.SectionId,
+            Language = languageCode,
+            Type = component.Type,
+            Content = LocalizationHelper.GetLocalizedValue(component.Content, component.ContentTranslations, languageCode, _defaultLanguage),
+            IsVisible = component.IsVisible,
+            Order = component.Order,
+            CreatedAt = component.CreatedAt
+        };
+    }
+
+    private string GenerateHtml(CmsPage page, string languageCode)
+    {
+        var html = new System.Text.StringBuilder();
+        html.AppendLine("<!DOCTYPE html>");
+        html.AppendLine("<html>");
+        html.AppendLine("<head>");
+        html.AppendLine($"<title>{LocalizationHelper.GetLocalizedValue(page.Title, page.TitleTranslations, languageCode, _defaultLanguage)}</title>");
+        html.AppendLine("</head>");
+        html.AppendLine("<body>");
+
+        foreach (var section in page.Sections.OrderBy(s => s.Order))
+        {
+            html.AppendLine($"<section class=\"section-{section.Type}\">");
+            foreach (var component in section.Components.OrderBy(c => c.Order))
+            {
+                if (component.IsVisible)
+                {
+                    var content = LocalizationHelper.GetLocalizedValue(component.Content, component.ContentTranslations, languageCode, _defaultLanguage);
+                    html.AppendLine($"<div class=\"component-{component.Type}\">{content}</div>");
+                }
+            }
+            html.AppendLine("</section>");
+        }
+
+        html.AppendLine("</body>");
+        html.AppendLine("</html>");
+        return html.ToString();
     }
 
     #endregion

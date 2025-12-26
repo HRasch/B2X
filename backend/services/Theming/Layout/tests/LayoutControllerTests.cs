@@ -38,18 +38,19 @@ public class LayoutControllerTests
             Slug = "new-page",
             Description = "Test page"
         };
-        var createdPage = new CmsPage
+        var createdPageDto = new CmsPageDto
         {
             Id = Guid.NewGuid(),
             TenantId = _tenantId,
             Title = request.Title,
             Slug = request.Slug,
+            Language = "en",
             Version = 1
         };
 
         _mockService
             .Setup(s => s.CreatePageAsync(_tenantId, request))
-            .ReturnsAsync(createdPage);
+            .ReturnsAsync(createdPageDto);
 
         // Act
         var result = await _controller.CreatePage(request);
@@ -57,7 +58,7 @@ public class LayoutControllerTests
         // Assert
         var createdResult = Assert.IsType<CreatedAtRouteResult>(result.Result);
         Assert.Equal(nameof(_controller.GetPage), createdResult.RouteName);
-        Assert.Equal(createdPage.Id, ((CmsPage)createdResult.Value!).Id);
+        Assert.Equal(createdPageDto.Id, ((CmsPageDto)createdResult.Value!).Id);
     }
 
     [Fact]
@@ -100,8 +101,8 @@ public class LayoutControllerTests
         };
 
         _mockService
-            .Setup(s => s.GetPageByIdAsync(_tenantId, pageId))
-            .ReturnsAsync(page);
+            .Setup(s => s.GetPageByIdAsync(_tenantId, pageId, It.IsAny<string>()))
+            .ReturnsAsync(new CmsPageDto { Id = pageId, Title = "Test", Slug = "test", Language = "en" });
 
         // Act
         var result = await _controller.GetPage(pageId);
@@ -118,8 +119,8 @@ public class LayoutControllerTests
         var pageId = Guid.NewGuid();
 
         _mockService
-            .Setup(s => s.GetPageByIdAsync(_tenantId, pageId))
-            .ReturnsAsync((CmsPage?)null);
+            .Setup(s => s.GetPageByIdAsync(_tenantId, pageId, It.IsAny<string>()))
+            .ReturnsAsync((CmsPageDto?)null);
 
         // Act
         var result = await _controller.GetPage(pageId);
@@ -136,14 +137,14 @@ public class LayoutControllerTests
     public async Task GetPages_ShouldReturnListOfPages()
     {
         // Arrange
-        var pages = new List<CmsPage>
+        var pages = new List<CmsPageDto>
         {
-            new CmsPage { Id = Guid.NewGuid(), TenantId = _tenantId, Title = "Page 1", Slug = "page-1" },
-            new CmsPage { Id = Guid.NewGuid(), TenantId = _tenantId, Title = "Page 2", Slug = "page-2" }
+            new CmsPageDto { Id = Guid.NewGuid(), TenantId = _tenantId, Title = "Page 1", Slug = "page-1", Language = "en" },
+            new CmsPageDto { Id = Guid.NewGuid(), TenantId = _tenantId, Title = "Page 2", Slug = "page-2", Language = "en" }
         };
 
         _mockService
-            .Setup(s => s.GetPagesByTenantAsync(_tenantId))
+            .Setup(s => s.GetPagesByTenantAsync(_tenantId, It.IsAny<string>()))
             .ReturnsAsync(pages);
 
         // Act
@@ -160,8 +161,8 @@ public class LayoutControllerTests
     {
         // Arrange
         _mockService
-            .Setup(s => s.GetPagesByTenantAsync(_tenantId))
-            .ReturnsAsync(new List<CmsPage>());
+            .Setup(s => s.GetPagesByTenantAsync(_tenantId, It.IsAny<string>()))
+            .ReturnsAsync(new List<CmsPageDto>());
 
         // Act
         var result = await _controller.GetPages();
@@ -196,8 +197,8 @@ public class LayoutControllerTests
         };
 
         _mockService
-            .Setup(s => s.UpdatePageAsync(_tenantId, pageId, request))
-            .ReturnsAsync(updatedPage);
+            .Setup(s => s.UpdatePageAsync(_tenantId, pageId, request, It.IsAny<string>()))
+            .ReturnsAsync(new CmsPageDto { Id = pageId, Title = "Updated", Slug = "updated", Language = "en", Version = 2 });
 
         // Act
         var result = await _controller.UpdatePage(pageId, request);
@@ -215,7 +216,7 @@ public class LayoutControllerTests
         var request = new UpdatePageRequest { Title = "Updated" };
 
         _mockService
-            .Setup(s => s.UpdatePageAsync(_tenantId, pageId, request))
+            .Setup(s => s.UpdatePageAsync(_tenantId, pageId, request, It.IsAny<string>()))
             .ThrowsAsync(new KeyNotFoundException());
 
         // Act
@@ -335,8 +336,8 @@ public class LayoutControllerTests
         };
 
         _mockService
-            .Setup(s => s.AddComponentAsync(_tenantId, pageId, sectionId, request))
-            .ReturnsAsync(component);
+            .Setup(s => s.AddComponentAsync(_tenantId, pageId, sectionId, request, It.IsAny<string>()))
+            .ReturnsAsync(new CmsComponentDto { Id = Guid.NewGuid(), Type = "text", Content = "test", Language = "en", SectionId = sectionId });
 
         // Act
         var result = await _controller.AddComponent(pageId, sectionId, request);
@@ -364,8 +365,8 @@ public class LayoutControllerTests
         };
 
         _mockService
-            .Setup(s => s.UpdateComponentAsync(_tenantId, pageId, sectionId, componentId, request))
-            .ReturnsAsync(component);
+            .Setup(s => s.UpdateComponentAsync(_tenantId, pageId, sectionId, componentId, request, It.IsAny<string>()))
+            .ReturnsAsync(new CmsComponentDto { Id = componentId, Type = "text", Content = request.Content ?? "test", Language = "en", SectionId = sectionId });
 
         // Act
         var result = await _controller.UpdateComponent(pageId, sectionId, componentId, request);
@@ -387,7 +388,7 @@ public class LayoutControllerTests
         var htmlPreview = "<html><body><h1>Test Page</h1></body></html>";
 
         _mockService
-            .Setup(s => s.GeneratePreviewHtmlAsync(_tenantId, pageId))
+            .Setup(s => s.GeneratePreviewHtmlAsync(_tenantId, pageId, It.IsAny<string>()))
             .ReturnsAsync(htmlPreview);
 
         // Act

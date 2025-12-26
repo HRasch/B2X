@@ -11,14 +11,23 @@ public class CmsPage
     /// <summary>Tenant ID for multi-tenant isolation</summary>
     public Guid TenantId { get; set; }
 
-    /// <summary>Page title (displayed in browser tab)</summary>
+    /// <summary>Page title (default language)</summary>
     public string Title { get; set; } = null!;
 
-    /// <summary>URL slug for the page</summary>
+    /// <summary>Localized titles (key: language code, value: title)</summary>
+    public Dictionary<string, string> TitleTranslations { get; set; } = new();
+
+    /// <summary>URL slug (default language)</summary>
     public string Slug { get; set; } = null!;
 
-    /// <summary>Page description</summary>
+    /// <summary>Localized slugs (key: language code, value: slug)</summary>
+    public Dictionary<string, string> SlugTranslations { get; set; } = new();
+
+    /// <summary>Page description (default language)</summary>
     public string Description { get; set; } = null!;
+
+    /// <summary>Localized descriptions (key: language code, value: description)</summary>
+    public Dictionary<string, string> DescriptionTranslations { get; set; } = new();
 
     /// <summary>Sections within this page</summary>
     public List<CmsSection> Sections { get; set; } = new();
@@ -102,6 +111,9 @@ public class CmsComponent
 
     /// <summary>Component content (text, HTML, or data reference)</summary>
     public string Content { get; set; } = null!;
+
+    /// <summary>Localized content (key: language code, value: content)</summary>
+    public Dictionary<string, string> ContentTranslations { get; set; } = new();
 
     /// <summary>Component-specific props and configuration</summary>
     public List<ComponentVariable> Variables { get; set; } = new();
@@ -317,6 +329,15 @@ public enum SectionLayout
     Sidebar
 }
 
+/// <summary>Translation data for page properties</summary>
+public class PageTranslation
+{
+    public string LanguageCode { get; set; } = null!;
+    public string Title { get; set; } = null!;
+    public string Slug { get; set; } = null!;
+    public string Description { get; set; } = null!;
+}
+
 #region Request/Response DTOs
 
 /// <summary>Create Page Request DTO</summary>
@@ -325,15 +346,17 @@ public class CreatePageRequest
     public string Title { get; set; } = null!;
     public string Slug { get; set; } = null!;
     public string Description { get; set; } = null!;
+    public Dictionary<string, PageTranslation> Translations { get; set; } = new();
 }
 
 /// <summary>Update Page Request DTO</summary>
 public class UpdatePageRequest
 {
-    public string Title { get; set; } = null!;
-    public string Slug { get; set; } = null!;
-    public string Description { get; set; } = null!;
+    public string? Title { get; set; }
+    public string? Slug { get; set; }
+    public string? Description { get; set; }
     public PageVisibility? Visibility { get; set; }
+    public Dictionary<string, PageTranslation>? Translations { get; set; }
 }
 
 /// <summary>Add Section Request DTO</summary>
@@ -341,7 +364,7 @@ public class AddSectionRequest
 {
     public string Type { get; set; } = null!;
     public SectionLayout Layout { get; set; }
-    public Dictionary<string, object> Settings { get; set; } = null!;
+    public Dictionary<string, object>? Settings { get; set; }
 }
 
 /// <summary>Add Component Request DTO</summary>
@@ -349,16 +372,17 @@ public class AddComponentRequest
 {
     public string Type { get; set; } = null!;
     public string Content { get; set; } = null!;
-    public List<ComponentVariable> Variables { get; set; } = null!;
-    public Dictionary<string, string> Styling { get; set; } = null!;
+    public Dictionary<string, string> ContentTranslations { get; set; } = new();
+    public int Order { get; set; }
+    public bool IsVisible { get; set; } = true;
 }
 
 /// <summary>Update Component Request DTO</summary>
 public class UpdateComponentRequest
 {
-    public string Content { get; set; } = null!;
-    public List<ComponentVariable> Variables { get; set; } = null!;
-    public Dictionary<string, string> Styling { get; set; } = null!;
+    public string? Content { get; set; }
+    public Dictionary<string, string>? ContentTranslations { get; set; }
+    public int? Order { get; set; }
     public bool? IsVisible { get; set; }
 }
 

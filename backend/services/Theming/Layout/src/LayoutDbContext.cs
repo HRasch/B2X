@@ -59,6 +59,11 @@ public class LayoutDbContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+            // Ignore translation dictionaries for InMemory database
+            entity.Ignore(e => e.TitleTranslations);
+            entity.Ignore(e => e.SlugTranslations);
+            entity.Ignore(e => e.DescriptionTranslations);
+
             // Relationships
             entity.HasMany(e => e.Sections)
                 .WithOne()
@@ -83,6 +88,10 @@ public class LayoutDbContext : DbContext
 
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            // Ignore complex types for InMemory database
+            entity.Ignore(e => e.Settings);
+            entity.Ignore(e => e.Styling);
 
             // Relationships
             entity.HasMany(e => e.Components)
@@ -112,14 +121,11 @@ public class LayoutDbContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            entity.Property(e => e.Variables)
-                .HasColumnType("jsonb");
-
-            entity.Property(e => e.DataBinding)
-                .HasColumnType("jsonb");
-
-            entity.Property(e => e.Styling)
-                .HasColumnType("jsonb");
+            // Ignore complex types for InMemory database
+            entity.Ignore(e => e.Variables);
+            entity.Ignore(e => e.DataBinding);
+            entity.Ignore(e => e.Styling);
+            entity.Ignore(e => e.ContentTranslations);
         });
 
         // ComponentDefinition Configuration
@@ -141,14 +147,10 @@ public class LayoutDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(100);
 
-            entity.Property(e => e.Props)
-                .HasColumnType("jsonb");
-
-            entity.Property(e => e.Slots)
-                .HasColumnType("jsonb");
-
-            entity.Property(e => e.PresetVariants)
-                .HasColumnType("jsonb");
+            // Ignore complex types for InMemory database
+            entity.Ignore(e => e.Props);
+            entity.Ignore(e => e.Slots);
+            entity.Ignore(e => e.PresetVariants);
         });
 
         // Seed Default Components

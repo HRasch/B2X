@@ -1,9 +1,23 @@
 using B2Connect.CatalogService.Services;
 using B2Connect.CatalogService.Handlers;
 using B2Connect.Shared.Search.Extensions;
+using B2Connect.ServiceDefaults;
+using Serilog;
 using Wolverine;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Logging
+builder.Host.UseSerilog((context, config) =>
+{
+    config
+        .MinimumLevel.Information()
+        .WriteTo.Console()
+        .ReadFrom.Configuration(context.Configuration);
+});
+
+// Service Defaults (Health checks, etc.)
+builder.Host.AddServiceDefaults();
 
 // Add controllers
 builder.Services.AddControllers();
@@ -21,12 +35,10 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductQueryHandler, ProductQueryHandler>();
 builder.Services.AddScoped<ISearchIndexService, SearchIndexService>();
 
-// Configure logging
-builder.Services.AddLogging();
-
 var app = builder.Build();
 
 // Configure middleware
+app.UseServiceDefaults();
 app.UseRouting();
 app.UseAuthorization();
 

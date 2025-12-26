@@ -68,11 +68,11 @@ public class LayoutController : ControllerBase
     [HttpGet("pages/{id}", Name = nameof(GetPage))]
     [ProducesResponseType(typeof(CmsPage), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<CmsPage>> GetPage(Guid id)
+    public async Task<ActionResult<CmsPageDto>> GetPage(Guid id, [FromQuery] string lang = "en")
     {
         _logger.LogInformation("Getting page with ID: {PageId}", id);
 
-        var page = await _layoutService.GetPageByIdAsync(TenantId, id);
+        var page = await _layoutService.GetPageByIdAsync(TenantId, id, lang);
 
         if (page == null)
         {
@@ -88,12 +88,12 @@ public class LayoutController : ControllerBase
     /// GET /api/layout/pages
     /// </summary>
     [HttpGet("pages")]
-    [ProducesResponseType(typeof(List<CmsPage>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<CmsPage>>> GetPages()
+    [ProducesResponseType(typeof(List<CmsPageDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<CmsPageDto>>> GetPages([FromQuery] string lang = "en")
     {
         _logger.LogInformation("Getting all pages for tenant: {TenantId}", TenantId);
 
-        var pages = await _layoutService.GetPagesByTenantAsync(TenantId);
+        var pages = await _layoutService.GetPagesByTenantAsync(TenantId, lang);
 
         return Ok(pages);
     }
@@ -103,16 +103,16 @@ public class LayoutController : ControllerBase
     /// PUT /api/layout/pages/{id}
     /// </summary>
     [HttpPut("pages/{id}")]
-    [ProducesResponseType(typeof(CmsPage), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CmsPageDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdatePage(Guid id, [FromBody] UpdatePageRequest request)
+    public async Task<IActionResult> UpdatePage(Guid id, [FromBody] UpdatePageRequest request, [FromQuery] string lang = "en")
     {
         try
         {
             _logger.LogInformation("Updating page with ID: {PageId}", id);
 
-            var page = await _layoutService.UpdatePageAsync(TenantId, id, request);
+            var page = await _layoutService.UpdatePageAsync(TenantId, id, request, lang);
 
             return Ok(page);
         }
@@ -242,13 +242,13 @@ public class LayoutController : ControllerBase
     [ProducesResponseType(typeof(CmsComponent), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<CmsComponent>> AddComponent(Guid pageId, Guid sectionId, [FromBody] AddComponentRequest request)
+    public async Task<ActionResult<CmsComponentDto>> AddComponent(Guid pageId, Guid sectionId, [FromBody] AddComponentRequest request, [FromQuery] string lang = "en")
     {
         try
         {
             _logger.LogInformation("Adding component to section: {SectionId}", sectionId);
 
-            var component = await _layoutService.AddComponentAsync(TenantId, pageId, sectionId, request);
+            var component = await _layoutService.AddComponentAsync(TenantId, pageId, sectionId, request, lang);
 
             return CreatedAtRoute(nameof(GetPage), new { id = pageId }, component);
         }
@@ -264,16 +264,16 @@ public class LayoutController : ControllerBase
     /// PUT /api/layout/pages/{pageId}/sections/{sectionId}/components/{componentId}
     /// </summary>
     [HttpPut("pages/{pageId}/sections/{sectionId}/components/{componentId}")]
-    [ProducesResponseType(typeof(CmsComponent), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CmsComponentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateComponent(Guid pageId, Guid sectionId, Guid componentId, [FromBody] UpdateComponentRequest request)
+    public async Task<IActionResult> UpdateComponent(Guid pageId, Guid sectionId, Guid componentId, [FromBody] UpdateComponentRequest request, [FromQuery] string lang = "en")
     {
         try
         {
             _logger.LogInformation("Updating component: {ComponentId}", componentId);
 
-            var component = await _layoutService.UpdateComponentAsync(TenantId, pageId, sectionId, componentId, request);
+            var component = await _layoutService.UpdateComponentAsync(TenantId, pageId, sectionId, componentId, request, lang);
 
             return Ok(component);
         }
@@ -361,13 +361,13 @@ public class LayoutController : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Produces("text/html")]
-    public async Task<ActionResult<string>> GeneratePreview(Guid pageId)
+    public async Task<ActionResult<string>> GeneratePreview(Guid pageId, [FromQuery] string lang = "en")
     {
         try
         {
             _logger.LogInformation("Generating preview for page: {PageId}", pageId);
 
-            var html = await _layoutService.GeneratePreviewHtmlAsync(TenantId, pageId);
+            var html = await _layoutService.GeneratePreviewHtmlAsync(TenantId, pageId, lang);
 
             return Ok(html);
         }

@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\shared\B2Connect.Shared.Messaging\B2Connect.Shared.Messaging.csproj" />
     <ProjectReference Include="..\..\shared\types\B2Connect.Types.csproj" />
     <ProjectReference Include="..\..\shared\utils\B2Connect.Utils.csproj" />
+    <ProjectReference Include="..\ServiceDefaults\B2Connect.ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>

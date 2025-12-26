@@ -2,8 +2,22 @@ using Microsoft.EntityFrameworkCore;
 using B2Connect.LocalizationService.Data;
 using B2Connect.LocalizationService.Services;
 using B2Connect.LocalizationService.Middleware;
+using B2Connect.ServiceDefaults;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Logging
+builder.Host.UseSerilog((context, config) =>
+{
+    config
+        .MinimumLevel.Information()
+        .WriteTo.Console()
+        .ReadFrom.Configuration(context.Configuration);
+});
+
+// Service Defaults (Health checks, etc.)
+builder.Host.AddServiceDefaults();
 
 // Add services to the container
 builder.Services.AddControllers();
@@ -35,18 +49,14 @@ builder.Services.AddScoped<IEntityLocalizationService, EntityLocalizationService
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 
-// Health checks
-builder.Services.AddHealthChecks()
-    .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy());
-
 var app = builder.Build();
 
-// Middleware
+// Configure middleware
+app.UseServiceDefaults();
 app.UseHttpsRedirection();
 app.UseMiddleware<LocalizationMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
-app.MapHealthChecks("/health");
 
 // Database migration and seeding (non-blocking with error handling)
 _ = app.Services.CreateScope().ServiceProvider
