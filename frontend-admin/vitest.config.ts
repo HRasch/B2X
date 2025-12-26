@@ -8,6 +8,8 @@ export default defineConfig({
     globals: false, // CHANGED: Disable globals to prevent vitest expect conflict with playwright
     environment: "happy-dom",
     setupFiles: ["./tests/setup.ts"],
+    include: ["tests/unit/**/*.spec.ts"], // Only include unit tests
+    exclude: ["tests/e2e/**", "node_modules/**"],
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html", "lcov"],

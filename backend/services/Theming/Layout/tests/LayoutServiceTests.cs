@@ -91,7 +91,7 @@ public class LayoutServiceTests
         var tenantId = Guid.NewGuid();
         var invalidPageRequest = new CreatePageRequest
         {
-            Title = null,
+            Title = null!,
             Slug = "home",
             Description = "Homepage"
         };
@@ -165,7 +165,7 @@ public class LayoutServiceTests
 
         _mockRepository
             .Setup(r => r.GetPageByIdAsync(tenantId, invalidPageId))
-            .ReturnsAsync((CmsPage)null);
+            .ReturnsAsync((CmsPage?)null);
 
         // Act
         var result = await _service.GetPageByIdAsync(tenantId, invalidPageId);
@@ -259,7 +259,7 @@ public class LayoutServiceTests
 
         _mockRepository
             .Setup(r => r.GetPageByIdAsync(tenantId, pageId))
-            .ReturnsAsync((CmsPage)null);
+            .ReturnsAsync((CmsPage?)null);
 
         // Act & Assert
         await Assert.ThrowsAsync<KeyNotFoundException>(

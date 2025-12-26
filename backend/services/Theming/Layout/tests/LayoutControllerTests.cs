@@ -3,6 +3,8 @@ using Moq;
 using Microsoft.AspNetCore.Mvc;
 using B2Connect.LayoutService.Controllers;
 using B2Connect.LayoutService.Models;
+using B2Connect.LayoutService.Data;
+using B2Connect.LayoutService.Services;
 
 namespace B2Connect.LayoutService.Tests;
 
@@ -235,7 +237,7 @@ public class LayoutControllerTests
 
         _mockService
             .Setup(s => s.DeletePageAsync(_tenantId, pageId))
-            .Returns(Task.CompletedTask);
+            .ReturnsAsync(true);
 
         // Act
         var result = await _controller.DeletePage(pageId);
@@ -302,7 +304,7 @@ public class LayoutControllerTests
 
         _mockService
             .Setup(s => s.RemoveSectionAsync(_tenantId, pageId, sectionId))
-            .Returns(Task.CompletedTask);
+            .ReturnsAsync(true);
 
         // Act
         var result = await _controller.RemoveSection(pageId, sectionId);

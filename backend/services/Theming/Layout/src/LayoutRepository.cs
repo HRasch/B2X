@@ -77,7 +77,7 @@ public class LayoutRepository : ILayoutRepository
         return existingPage;
     }
 
-    public async Task DeletePageAsync(Guid tenantId, Guid pageId)
+    public async Task<bool> DeletePageAsync(Guid tenantId, Guid pageId)
     {
         var page = await _context.Pages
             .FirstOrDefaultAsync(p => p.Id == pageId && p.TenantId == tenantId)
@@ -85,6 +85,7 @@ public class LayoutRepository : ILayoutRepository
 
         _context.Pages.Remove(page);
         await _context.SaveChangesAsync();
+        return true;
     }
 
     #endregion
@@ -106,7 +107,7 @@ public class LayoutRepository : ILayoutRepository
         return section;
     }
 
-    public async Task RemoveSectionAsync(Guid tenantId, Guid pageId, Guid sectionId)
+    public async Task<bool> RemoveSectionAsync(Guid tenantId, Guid pageId, Guid sectionId)
     {
         var section = await _context.Sections
             .FirstOrDefaultAsync(s => s.Id == sectionId && s.PageId == pageId)
@@ -114,9 +115,10 @@ public class LayoutRepository : ILayoutRepository
 
         _context.Sections.Remove(section);
         await _context.SaveChangesAsync();
+        return true;
     }
 
-    public async Task<List<CmsSection>> ReorderSectionsAsync(Guid tenantId, Guid pageId, List<(Guid SectionId, int Order)> sectionOrders)
+    public async Task<bool> ReorderSectionsAsync(Guid tenantId, Guid pageId, List<(Guid SectionId, int Order)> sectionOrders)
     {
         var sections = await _context.Sections
             .Where(s => s.PageId == pageId && sectionOrders.Select(so => so.SectionId).Contains(s.Id))
@@ -132,8 +134,7 @@ public class LayoutRepository : ILayoutRepository
         }
 
         await _context.SaveChangesAsync();
-
-        return sections.OrderBy(s => s.Order).ToList();
+        return true;
     }
 
     #endregion
@@ -155,11 +156,11 @@ public class LayoutRepository : ILayoutRepository
         return component;
     }
 
-    public async Task<CmsComponent> UpdateComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, CmsComponent component)
+    public async Task<CmsComponent> UpdateComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, CmsComponent component)
     {
         var existingComponent = await _context.Components
-            .FirstOrDefaultAsync(c => c.Id == component.Id && c.SectionId == sectionId)
-            ?? throw new KeyNotFoundException($"Component {component.Id} not found");
+            .FirstOrDefaultAsync(c => c.Id == componentId && c.SectionId == sectionId)
+            ?? throw new KeyNotFoundException($"Component {componentId} not found");
 
         existingComponent.Type = component.Type;
         existingComponent.Content = component.Content;
@@ -174,7 +175,7 @@ public class LayoutRepository : ILayoutRepository
         return existingComponent;
     }
 
-    public async Task RemoveComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId)
+    public async Task<bool> RemoveComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId)
     {
         var component = await _context.Components
             .FirstOrDefaultAsync(c => c.Id == componentId && c.SectionId == sectionId)
@@ -182,6 +183,7 @@ public class LayoutRepository : ILayoutRepository
 
         _context.Components.Remove(component);
         await _context.SaveChangesAsync();
+        return true;
     }
 
     #endregion

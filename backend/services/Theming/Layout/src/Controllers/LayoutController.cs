@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using B2Connect.LayoutService.Models;
+using B2Connect.LayoutService.Data;
+using B2Connect.LayoutService.Services;
 
 namespace B2Connect.LayoutService.Controllers;
 
@@ -24,7 +27,7 @@ public class LayoutController : ControllerBase
     public LayoutController(ILayoutService layoutService, ILogger<LayoutController>? logger = null)
     {
         _layoutService = layoutService;
-        _logger = logger ?? NullLogger<LayoutController>.Instance;
+        _logger = logger ?? Microsoft.Extensions.Logging.Abstractions.NullLogger<LayoutController>.Instance;
     }
 
     #region Page Management Endpoints

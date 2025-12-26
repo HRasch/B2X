@@ -12,13 +12,13 @@ public class CmsPage
     public Guid TenantId { get; set; }
 
     /// <summary>Page title (displayed in browser tab)</summary>
-    public string Title { get; set; }
+    public string Title { get; set; } = null!;
 
     /// <summary>URL slug for the page</summary>
-    public string Slug { get; set; }
+    public string Slug { get; set; } = null!;
 
     /// <summary>Page description</summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
 
     /// <summary>Sections within this page</summary>
     public List<CmsSection> Sections { get; set; } = new();
@@ -61,7 +61,7 @@ public class CmsSection
     public Guid PageId { get; set; }
 
     /// <summary>Section type (hero, features, testimonials, etc.)</summary>
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
 
     /// <summary>Display order within the page</summary>
     public int Order { get; set; }
@@ -98,10 +98,10 @@ public class CmsComponent
     public Guid SectionId { get; set; }
 
     /// <summary>Component type (button, text, image, product-card, etc.)</summary>
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
 
     /// <summary>Component content (text, HTML, or data reference)</summary>
-    public string Content { get; set; }
+    public string Content { get; set; } = null!;
 
     /// <summary>Component-specific props and configuration</summary>
     public List<ComponentVariable> Variables { get; set; } = new();
@@ -110,7 +110,7 @@ public class CmsComponent
     public Dictionary<string, string> Styling { get; set; } = new();
 
     /// <summary>Data binding (e.g., dynamic product data)</summary>
-    public ComponentDataBinding DataBinding { get; set; }
+    public ComponentDataBinding? DataBinding { get; set; }
 
     /// <summary>Whether the component is visible</summary>
     public bool IsVisible { get; set; } = true;
@@ -128,16 +128,16 @@ public class CmsComponent
 public class ComponentVariable
 {
     /// <summary>Variable name</summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>Variable value</summary>
-    public object Value { get; set; }
+    public object Value { get; set; } = null!;
 
     /// <summary>Variable type (string, number, boolean, color, etc.)</summary>
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
 
     /// <summary>Description of what this variable does</summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
 }
 
 /// <summary>
@@ -146,10 +146,10 @@ public class ComponentVariable
 public class ComponentDataBinding
 {
     /// <summary>Data source service (e.g., "catalog-service")</summary>
-    public string Service { get; set; }
+    public string Service { get; set; } = null!;
 
     /// <summary>API endpoint to fetch data from</summary>
-    public string Endpoint { get; set; }
+    public string Endpoint { get; set; } = null!;
 
     /// <summary>Query parameters</summary>
     public Dictionary<string, string> Query { get; set; } = new();
@@ -167,19 +167,19 @@ public class ComponentDataBinding
 public class ComponentDefinition
 {
     /// <summary>Unique component type identifier</summary>
-    public string ComponentType { get; set; }
+    public string ComponentType { get; set; } = null!;
 
     /// <summary>Human-readable component name</summary>
-    public string DisplayName { get; set; }
+    public string DisplayName { get; set; } = null!;
 
     /// <summary>Component description</summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
 
     /// <summary>Component category (UI, Layout, E-Commerce)</summary>
-    public string Category { get; set; }
+    public string Category { get; set; } = null!;
 
     /// <summary>Icon identifier for UI display</summary>
-    public string Icon { get; set; }
+    public string Icon { get; set; } = null!;
 
     /// <summary>Available component props</summary>
     public List<ComponentProp> Props { get; set; } = new();
@@ -197,22 +197,22 @@ public class ComponentDefinition
 public class ComponentProp
 {
     /// <summary>Property name</summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>Property data type (text, number, boolean, select, color, etc.)</summary>
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
 
     /// <summary>Default value if not specified</summary>
-    public object DefaultValue { get; set; }
+    public object DefaultValue { get; set; } = null!;
 
     /// <summary>Available options for select type</summary>
     public List<string> Options { get; set; } = new();
 
     /// <summary>Validation rules</summary>
-    public ComponentPropValidation Validation { get; set; }
+    public ComponentPropValidation? Validation { get; set; }
 
     /// <summary>Property description</summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
 
     /// <summary>Is this property required</summary>
     public bool IsRequired { get; set; }
@@ -236,10 +236,10 @@ public class ComponentPropValidation
     public int? MaxLength { get; set; }
 
     /// <summary>Regex pattern to validate against</summary>
-    public string Pattern { get; set; }
+    public string Pattern { get; set; } = null!;
 
     /// <summary>Custom error message</summary>
-    public string ErrorMessage { get; set; }
+    public string ErrorMessage { get; set; } = null!;
 }
 
 /// <summary>
@@ -248,10 +248,10 @@ public class ComponentPropValidation
 public class ComponentSlot
 {
     /// <summary>Slot name</summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>Slot description</summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
 
     /// <summary>Whether the slot can accept multiple components</summary>
     public bool IsRepeatable { get; set; }
@@ -263,16 +263,16 @@ public class ComponentSlot
 public class ComponentPreset
 {
     /// <summary>Preset name (e.g., "Primary Button")</summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>Preset description</summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
 
     /// <summary>Pre-configured props</summary>
     public Dictionary<string, object> Props { get; set; } = new();
 
     /// <summary>Preview image URL</summary>
-    public string PreviewImage { get; set; }
+    public string PreviewImage { get; set; } = null!;
 }
 
 /// <summary>
@@ -322,42 +322,43 @@ public enum SectionLayout
 /// <summary>Create Page Request DTO</summary>
 public class CreatePageRequest
 {
-    public string Title { get; set; }
-    public string Slug { get; set; }
-    public string Description { get; set; }
+    public string Title { get; set; } = null!;
+    public string Slug { get; set; } = null!;
+    public string Description { get; set; } = null!;
 }
 
 /// <summary>Update Page Request DTO</summary>
 public class UpdatePageRequest
 {
-    public string Title { get; set; }
-    public string Description { get; set; }
+    public string Title { get; set; } = null!;
+    public string Slug { get; set; } = null!;
+    public string Description { get; set; } = null!;
     public PageVisibility? Visibility { get; set; }
 }
 
 /// <summary>Add Section Request DTO</summary>
 public class AddSectionRequest
 {
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
     public SectionLayout Layout { get; set; }
-    public Dictionary<string, object> Settings { get; set; }
+    public Dictionary<string, object> Settings { get; set; } = null!;
 }
 
 /// <summary>Add Component Request DTO</summary>
 public class AddComponentRequest
 {
-    public string Type { get; set; }
-    public string Content { get; set; }
-    public List<ComponentVariable> Variables { get; set; }
-    public Dictionary<string, string> Styling { get; set; }
+    public string Type { get; set; } = null!;
+    public string Content { get; set; } = null!;
+    public List<ComponentVariable> Variables { get; set; } = null!;
+    public Dictionary<string, string> Styling { get; set; } = null!;
 }
 
 /// <summary>Update Component Request DTO</summary>
 public class UpdateComponentRequest
 {
-    public string Content { get; set; }
-    public List<ComponentVariable> Variables { get; set; }
-    public Dictionary<string, string> Styling { get; set; }
+    public string Content { get; set; } = null!;
+    public List<ComponentVariable> Variables { get; set; } = null!;
+    public Dictionary<string, string> Styling { get; set; } = null!;
     public bool? IsVisible { get; set; }
 }
 

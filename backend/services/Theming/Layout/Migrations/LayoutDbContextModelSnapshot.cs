@@ -176,7 +176,9 @@ namespace B2Connect.LayoutService.Migrations
                     b.HasIndex("PageId")
                         .HasName("IX_Sections_PageId");
 
-                    b.HasForeignKey("PageId")
+                    b.HasOne("B2Connect.LayoutService.Models.CmsPage")
+                        .WithMany("Sections")
+                        .HasForeignKey("PageId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.ToTable("Sections");

@@ -31,13 +31,13 @@ public class LayoutDbContext : DbContext
 
             entity.HasIndex(e => new { e.TenantId, e.Slug })
                 .IsUnique()
-                .HasName("IX_Pages_TenantId_Slug");
+                .HasDatabaseName("IX_Pages_TenantId_Slug");
 
             entity.HasIndex(e => e.TenantId)
-                .HasName("IX_Pages_TenantId");
+                .HasDatabaseName("IX_Pages_TenantId");
 
             entity.HasIndex(e => new { e.TenantId, e.Visibility })
-                .HasName("IX_Pages_TenantId_Visibility");
+                .HasDatabaseName("IX_Pages_TenantId_Visibility");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd();
@@ -72,7 +72,7 @@ public class LayoutDbContext : DbContext
             entity.HasKey(e => e.Id);
 
             entity.HasIndex(e => e.PageId)
-                .HasName("IX_Sections_PageId");
+                .HasDatabaseName("IX_Sections_PageId");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd();
@@ -97,7 +97,7 @@ public class LayoutDbContext : DbContext
             entity.HasKey(e => e.Id);
 
             entity.HasIndex(e => e.SectionId)
-                .HasName("IX_Components_SectionId");
+                .HasDatabaseName("IX_Components_SectionId");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd();

@@ -352,7 +352,7 @@ public class LayoutServiceIntegrationTests : IAsyncLifetime
 
         // Act
         component.Content = "Updated Content";
-        var result = await _repository.UpdateComponentAsync(tenantId, page.Id, section.Id, component);
+        var result = await _repository.UpdateComponentAsync(tenantId, page.Id, section.Id, component.Id, component);
 
         // Assert
         Assert.Equal("Updated Content", result.Content);

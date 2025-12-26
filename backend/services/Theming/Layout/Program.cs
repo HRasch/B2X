@@ -17,10 +17,10 @@ builder.Services.AddLayoutDatabase(builder.Configuration);
 
 // Register repository and service
 builder.Services.AddScoped<ILayoutRepository, LayoutRepository>();
-builder.Services.AddScoped<ILayoutService, LayoutService.Services.LayoutService>();
+builder.Services.AddScoped<ILayoutService, LayoutService>();
 
 // Add default B2Connect services (Health checks, OpenTelemetry, etc.)
-builder.AddServiceDefaults();
+builder.Host.AddServiceDefaults();
 
 var app = builder.Build();
 
@@ -34,7 +34,6 @@ app.MapControllers();
 
 // Health check endpoint
 app.MapHealthChecks("/health");
-app.MapPrometheusScrapingEndpoint();
 
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
 logger.LogInformation("Layout Service starting on {Environment}", app.Environment.EnvironmentName);

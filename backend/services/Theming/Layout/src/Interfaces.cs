@@ -14,7 +14,7 @@ public interface ILayoutRepository
     Task<CmsPage> CreatePageAsync(Guid tenantId, CmsPage page);
 
     /// <summary>Get page by ID</summary>
-    Task<CmsPage> GetPageByIdAsync(Guid tenantId, Guid pageId);
+    Task<CmsPage?> GetPageByIdAsync(Guid tenantId, Guid pageId);
 
     /// <summary>Get all pages for a tenant</summary>
     Task<List<CmsPage>> GetPagesByTenantAsync(Guid tenantId);
@@ -62,7 +62,7 @@ public interface ILayoutRepository
     Task<List<ComponentDefinition>> GetComponentDefinitionsAsync();
 
     /// <summary>Get component definition by type</summary>
-    Task<ComponentDefinition> GetComponentDefinitionAsync(string componentType);
+    Task<ComponentDefinition?> GetComponentDefinitionAsync(string componentType);
 
     #endregion
 
@@ -83,7 +83,7 @@ public interface ILayoutService
     #region Page Operations
 
     Task<CmsPage> CreatePageAsync(Guid tenantId, CreatePageRequest request);
-    Task<CmsPage> GetPageByIdAsync(Guid tenantId, Guid pageId);
+    Task<CmsPage?> GetPageByIdAsync(Guid tenantId, Guid pageId);
     Task<List<CmsPage>> GetPagesByTenantAsync(Guid tenantId);
     Task<CmsPage> UpdatePageAsync(Guid tenantId, Guid pageId, UpdatePageRequest request);
     Task<bool> DeletePageAsync(Guid tenantId, Guid pageId);
@@ -109,6 +109,7 @@ public interface ILayoutService
     #region Component Definitions
 
     Task<List<ComponentDefinition>> GetComponentDefinitionsAsync();
+    Task<ComponentDefinition?> GetComponentDefinitionAsync(string componentType);
 
     #endregion
 

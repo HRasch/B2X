@@ -50,7 +50,7 @@ public class LayoutService : ILayoutService
         return await _repository.CreatePageAsync(tenantId, page);
     }
 
-    public async Task<CmsPage> GetPageByIdAsync(Guid tenantId, Guid pageId)
+    public async Task<CmsPage?> GetPageByIdAsync(Guid tenantId, Guid pageId)
     {
         return await _repository.GetPageByIdAsync(tenantId, pageId);
     }
@@ -128,7 +128,7 @@ public class LayoutService : ILayoutService
         return true;
     }
 
-    public async Task<List<CmsSection>> ReorderSectionsAsync(Guid tenantId, Guid pageId, List<(Guid SectionId, int Order)> order)
+    public async Task<bool> ReorderSectionsAsync(Guid tenantId, Guid pageId, List<(Guid SectionId, int Order)> order)
     {
         return await _repository.ReorderSectionsAsync(tenantId, pageId, order);
     }
@@ -173,14 +173,22 @@ public class LayoutService : ILayoutService
         var existingComponent = section.Components.FirstOrDefault(c => c.Id == componentId)
             ?? throw new KeyNotFoundException($"Component '{componentId}' not found");
 
-        // Update properties
-        existingComponent.Content = request?.Content ?? existingComponent.Content;
-        existingComponent.Variables = request?.Variables ?? existingComponent.Variables;
-        existingComponent.Styling = request?.Styling ?? existingComponent.Styling;
-        existingComponent.IsVisible = request?.IsVisible ?? existingComponent.IsVisible;
+        // Create updated component
+        var updatedComponent = new CmsComponent
+        {
+            Id = existingComponent.Id,
+            SectionId = sectionId,
+            Type = existingComponent.Type,
+            Content = request?.Content ?? existingComponent.Content,
+            Variables = request?.Variables ?? existingComponent.Variables,
+            Styling = request?.Styling ?? existingComponent.Styling,
+            IsVisible = request?.IsVisible ?? existingComponent.IsVisible,
+            Order = existingComponent.Order,
+            CreatedAt = existingComponent.CreatedAt
+        };
 
         // Persist and return
-        return await _repository.UpdateComponentAsync(tenantId, pageId, sectionId, existingComponent);
+        return await _repository.UpdateComponentAsync(tenantId, pageId, sectionId, componentId, updatedComponent);
     }
 
     public async Task<bool> RemoveComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId)
