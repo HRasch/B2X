@@ -5,12 +5,16 @@
       <h1>B2Connect Shop</h1>
       <div class="header-actions">
         <div class="search-bar">
-          <input 
-            v-model="searchQuery" 
-            type="text" 
-            placeholder="Produkte suchen..."
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Produkte suchen (ElasticSearch)..."
             @input="filterProducts"
-          >
+            :disabled="loading"
+          />
+          <div v-if="queryExecutionTime > 0" class="search-time">
+            Suchzeit: {{ queryExecutionTime }}ms
+          </div>
         </div>
         <router-link to="/cart" class="cart-button">
           🛒 Warenkorb ({{ cartStore.items.length }})
@@ -20,146 +24,232 @@
 
     <!-- Category Filter -->
     <div class="category-filter">
-      <button 
-        v-for="cat in categories" 
+      <button
+        v-for="cat in categories"
         :key="cat"
-        @click="selectedCategory = cat"
+        @click="
+          () => {
+            selectedCategory = cat;
+            onCategoryChange();
+          }
+        "
         :class="['category-btn', { active: selectedCategory === cat }]"
+        :disabled="loading"
       >
         {{ cat }}
       </button>
     </div>
 
+    <!-- Product Count & Search Results Info -->
+    <div v-if="!loading && searchQuery" class="search-info">
+      <p>
+        {{ totalProducts }} Produkte gefunden{{
+          searchQuery ? ` für "${searchQuery}"` : ""
+        }}
+      </p>
+    </div>
+
+    <!-- Loading State -->
+    <div v-if="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Produkte werden geladen...</p>
+    </div>
+
+    <!-- Error State -->
+    <div v-if="error && !loading" class="error-container">
+      <p class="error-message">
+        ❌ Fehler beim Laden der Produkte: {{ error }}
+      </p>
+      <button @click="loadProducts" class="retry-button">
+        Erneut versuchen
+      </button>
+    </div>
+
     <!-- Products Grid -->
-    <div class="products-grid">
+    <div v-if="!loading && !error" class="products-grid">
       <div v-if="filteredProducts.length === 0" class="no-products">
         <p>Keine Produkte gefunden.</p>
+        <p v-if="searchQuery" class="suggestion">
+          Versuchen Sie eine andere Suchbegriff oder verwenden Sie weniger
+          Filter.
+        </p>
       </div>
-      
-      <ProductCard 
-        v-for="product in filteredProducts" 
+
+      <ProductCard
+        v-for="product in filteredProducts"
         :key="product.id"
         :product="product"
         @add-to-cart="addToCart"
       />
     </div>
+
+    <!-- Pagination -->
+    <div v-if="!loading && filteredProducts.length > 0" class="pagination">
+      <button
+        @click="goToPage(currentPage - 1)"
+        :disabled="!hasPreviousPage"
+        class="pagination-btn"
+      >
+        ← Vorherige
+      </button>
+
+      <div class="pagination-info">
+        Seite {{ currentPage }} von {{ totalPages }}
+      </div>
+
+      <button
+        @click="goToPage(currentPage + 1)"
+        :disabled="!hasNextPage"
+        class="pagination-btn"
+      >
+        Nächste →
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useCartStore } from '../stores/cart'
-import ProductCard from '../components/shop/ProductCard.vue'
+import { ref, computed, onMounted } from "vue";
+import { useCartStore } from "../stores/cart";
+import ProductCard from "../components/shop/ProductCard.vue";
+import {
+  ProductService,
+  type Product,
+  type SearchResponse,
+} from "../services/productService";
 
-interface Product {
-  id: string
-  name: string
-  price: number
-  b2bPrice: number
-  image: string
-  category: string
-  description: string
-  inStock: boolean
-  rating: number
-}
+const cartStore = useCartStore();
 
-const cartStore = useCartStore()
+// Search state
+const products = ref<Product[]>([]);
+const loading = ref(false);
+const error = ref<string | null>(null);
+const searchQuery = ref("");
+const selectedCategory = ref("Alle");
+const currentPage = ref(1);
+const pageSize = ref(20);
+const totalPages = ref(1);
+const totalProducts = ref(0);
+const queryExecutionTime = ref(0);
+const categories = ref<string[]>(["Alle", "Elektronik", "Zubehör"]);
 
-// Mock Products
-const products = ref<Product[]>([
-  {
-    id: '1',
-    name: 'Laptop Pro 15"',
-    price: 1299,
-    b2bPrice: 1099,
-    image: 'https://via.placeholder.com/300x200?text=Laptop+Pro',
-    category: 'Elektronik',
-    description: 'Professioneller Laptop mit 16GB RAM',
-    inStock: true,
-    rating: 4.8
-  },
-  {
-    id: '2',
-    name: 'Wireless Mouse',
-    price: 49,
-    b2bPrice: 39,
-    image: 'https://via.placeholder.com/300x200?text=Wireless+Mouse',
-    category: 'Zubehör',
-    description: 'Kabellose Maus mit USB Nano-Receiver',
-    inStock: true,
-    rating: 4.5
-  },
-  {
-    id: '3',
-    name: 'USB-C Hub',
-    price: 79,
-    b2bPrice: 59,
-    image: 'https://via.placeholder.com/300x200?text=USB-C+Hub',
-    category: 'Zubehör',
-    description: '7-in-1 USB-C Hub mit HDMI und SD-Kartenleser',
-    inStock: true,
-    rating: 4.6
-  },
-  {
-    id: '4',
-    name: 'Mechanical Keyboard',
-    price: 159,
-    b2bPrice: 129,
-    image: 'https://via.placeholder.com/300x200?text=Mechanical+Keyboard',
-    category: 'Zubehör',
-    description: 'RGB Mechanische Tastatur',
-    inStock: true,
-    rating: 4.7
-  },
-  {
-    id: '5',
-    name: 'Monitor 4K 27"',
-    price: 599,
-    b2bPrice: 499,
-    image: 'https://via.placeholder.com/300x200?text=4K+Monitor',
-    category: 'Elektronik',
-    description: '4K UHD Monitor mit USB-C',
-    inStock: false,
-    rating: 4.9
-  },
-  {
-    id: '6',
-    name: 'Webcam HD',
-    price: 89,
-    b2bPrice: 69,
-    image: 'https://via.placeholder.com/300x200?text=Webcam+HD',
-    category: 'Zubehör',
-    description: '1080p HD Webcam mit Autofokus',
-    inStock: true,
-    rating: 4.4
+/**
+ * Load products from ElasticSearch
+ * Called on component mount and when filters change
+ */
+const loadProducts = async () => {
+  loading.value = true;
+  error.value = null;
+
+  try {
+    // Build filters
+    const filters = {
+      searchTerm: searchQuery.value.trim() || "*", // ElasticSearch uses * for all documents
+      category:
+        selectedCategory.value !== "Alle" ? selectedCategory.value : undefined,
+      language: "de",
+      onlyAvailable: true,
+    };
+
+    // Use ElasticSearch for search, or fall back to paginated list
+    let response: SearchResponse;
+    if (searchQuery.value.trim()) {
+      response = await ProductService.searchProducts(
+        filters,
+        currentPage.value,
+        pageSize.value
+      );
+    } else {
+      response = await ProductService.getProducts(
+        currentPage.value,
+        pageSize.value,
+        filters
+      );
+    }
+
+    products.value = response.items;
+    currentPage.value = response.page;
+    totalPages.value = response.totalPages;
+    totalProducts.value = response.totalCount;
+    if (response.searchMetadata) {
+      queryExecutionTime.value = response.searchMetadata.queryExecutionTimeMs;
+    }
+  } catch (err) {
+    error.value =
+      err instanceof Error ? err.message : "Failed to load products";
+    console.error("Product loading error:", err);
+    // Fallback to empty list on error
+    products.value = [];
+  } finally {
+    loading.value = false;
   }
-])
+};
 
-const searchQuery = ref('')
-const selectedCategory = ref('Alle')
-const categories = ref(['Alle', 'Elektronik', 'Zubehör'])
-
-const filteredProducts = computed(() => {
-  return products.value.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-    const matchesCategory = selectedCategory.value === 'Alle' || product.category === selectedCategory.value
-    return matchesSearch && matchesCategory
-  })
-})
-
+/**
+ * Handle search input with debounce
+ * Resets to page 1 when search query changes
+ */
+let searchTimeout: ReturnType<typeof setTimeout>;
 const filterProducts = () => {
-  // Filter is handled by computed property
-}
+  clearTimeout(searchTimeout);
+  currentPage.value = 1; // Reset to first page on new search
+  searchTimeout = setTimeout(() => {
+    loadProducts();
+  }, 300); // 300ms debounce
+};
 
+/**
+ * Handle category filter change
+ */
+const onCategoryChange = () => {
+  currentPage.value = 1; // Reset to first page on category change
+  loadProducts();
+};
+
+/**
+ * Handle pagination
+ */
+const goToPage = (page: number) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+    loadProducts();
+  }
+};
+
+/**
+ * Add product to cart
+ */
 const addToCart = (product: Product) => {
   cartStore.addItem({
     id: product.id,
     name: product.name,
     price: product.price,
     quantity: 1,
-    image: product.image
-  })
-}
+    image: product.image || "https://via.placeholder.com/100?text=No+Image",
+  });
+};
+
+/**
+ * Load initial products on component mount
+ */
+onMounted(() => {
+  loadProducts();
+});
+
+/**
+ * Computed property for display
+ */
+const filteredProducts = computed(() => {
+  return products.value;
+});
+
+const hasNextPage = computed(() => {
+  return currentPage.value < totalPages.value;
+});
+
+const hasPreviousPage = computed(() => {
+  return currentPage.value > 1;
+});
 </script>
 
 <style scoped>
@@ -194,6 +284,7 @@ const addToCart = (product: Product) => {
 .search-bar {
   flex: 1;
   min-width: 250px;
+  position: relative;
 }
 
 .search-bar input {
@@ -208,6 +299,18 @@ const addToCart = (product: Product) => {
 .search-bar input:focus {
   outline: none;
   border-color: #2563eb;
+}
+
+.search-bar input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.search-time {
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 0.25rem;
+  text-align: right;
 }
 
 .cart-button {
@@ -244,7 +347,7 @@ const addToCart = (product: Product) => {
   font-weight: 500;
 }
 
-.category-btn:hover {
+.category-btn:hover:not(:disabled) {
   border-color: #2563eb;
   color: #2563eb;
 }
@@ -255,10 +358,81 @@ const addToCart = (product: Product) => {
   border-color: #2563eb;
 }
 
+.category-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.search-info {
+  background-color: #f0f4ff;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e0e0e0;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-container {
+  background-color: #fee;
+  border: 2px solid #f66;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.error-message {
+  color: #c33;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.retry-button {
+  padding: 0.5rem 1.5rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.retry-button:hover {
+  background-color: #1d4ed8;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .no-products {
@@ -267,6 +441,50 @@ const addToCart = (product: Product) => {
   padding: 3rem;
   color: #999;
   font-size: 1.1rem;
+}
+
+.suggestion {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin-top: 0.5rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  margin-top: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.pagination-info {
+  font-weight: 600;
+  color: #333;
+  min-width: 150px;
+  text-align: center;
+}
+
+.pagination-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.pagination-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
@@ -285,6 +503,11 @@ const addToCart = (product: Product) => {
 
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .pagination {
+    flex-direction: column;
     gap: 1rem;
   }
 }

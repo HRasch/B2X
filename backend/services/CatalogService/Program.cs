@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Wolverine;
 using B2Connect.CatalogService.Data;
 using B2Connect.CatalogService.Repositories;
 using B2Connect.CatalogService.Services;
+using B2Connect.CatalogService.CQRS.Commands;
+using B2Connect.CatalogService.CQRS.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +79,81 @@ builder.Services.AddDbContext<CatalogDbContext>(options =>
 // Register CatalogDbContextFactory for demo data generation
 builder.Services.AddScoped<ICatalogDbContextFactory, CatalogDbContextFactory>();
 
+// ==================== CACHING SETUP ====================
+// Register distributed cache for query result caching
+// Development: In-memory cache
+// Production: Redis cache (configure in appsettings.json)
+if (builder.Environment.IsDevelopment())
+{
+    // In-memory cache for development
+    builder.Services.AddDistributedMemoryCache();
+}
+else
+{
+    // Production: Configure Redis or other distributed cache
+    var cacheType = builder.Configuration.GetValue<string>("Cache:Type", "Memory").ToLower();
+    if (cacheType == "redis")
+    {
+        var redisConnection = builder.Configuration.GetConnectionString("Redis")
+            ?? builder.Configuration["Cache:Redis:ConnectionString"];
+        if (!string.IsNullOrEmpty(redisConnection))
+        {
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                options.ConnectionMultiplexerFactory = () =>
+                    StackExchange.Redis.ConnectionMultiplexer.Connect(redisConnection);
+            });
+        }
+        else
+        {
+            // Fallback to in-memory if Redis not configured
+            builder.Services.AddDistributedMemoryCache();
+        }
+    }
+    else
+    {
+        builder.Services.AddDistributedMemoryCache();
+    }
+}
+
+// ==================== CQRS READ MODEL SETUP ====================
+// Register the denormalized read model database context
+// This is separate from the write model (CatalogDbContext) for true CQRS separation
+
+builder.Services.AddDbContext<CatalogReadDbContext>(options =>
+{
+    if (useInMemoryDemo)
+    {
+        // Use in-memory database for development/demo
+        options.UseInMemoryDatabase("CatalogReadDb");
+    }
+    else
+    {
+        // Use same connection string but separate schema for read model
+        // The read model tables are in the same database but organized separately
+        switch (provider)
+        {
+            case "sqlserver":
+                options.UseSqlServer(connectionString);
+                break;
+            case "inmemory":
+                options.UseInMemoryDatabase("CatalogReadDb");
+                break;
+            default: // PostgreSQL
+                options.UseNpgsql(connectionString, npgsqlOptions =>
+                {
+                    npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                });
+                break;
+        }
+    }
+
+    if (builder.Environment.IsDevelopment())
+    {
+        options.EnableSensitiveDataLogging();
+    }
+});
+
 // Repository Registration
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -86,6 +165,84 @@ builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeReposito
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+
+// FluentValidation - Register all validators
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
+
+// ==================== WOLVERINE CQRS SETUP ====================
+builder.Services.AddWolverine(opts =>
+{
+    // Automatic handler discovery from this assembly
+    opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+
+    // Configure message transport based on environment
+    if (builder.Environment.IsDevelopment())
+    {
+        // In-memory transport for fast local development
+        opts.UseInMemoryTransport();
+        builder.Services.GetRequiredService<ILogger<Program>>().LogInformation("Using IN-MEMORY transport for development");
+    }
+    else
+    {
+        // Production: Configure based on settings
+        var logger = builder.Services.GetRequiredService<ILogger<Program>>();
+        var transportType = builder.Configuration.GetValue<string>("Wolverine:Transport", "RabbitMQ").ToLower();
+
+        switch (transportType)
+        {
+            case "rabbitmq":
+                var rabbitMqConnection = builder.Configuration["RabbitMQ:ConnectionString"]
+                    ?? throw new InvalidOperationException("RabbitMQ:ConnectionString not configured");
+                opts.UseRabbitMq(settings =>
+                {
+                    settings.ConnectionString = rabbitMqConnection;
+                });
+                logger.LogInformation("Using RABBITMQ transport for production");
+                break;
+
+            case "azure":
+                var azureConnection = builder.Configuration["ServiceBus:ConnectionString"]
+                    ?? throw new InvalidOperationException("ServiceBus:ConnectionString not configured");
+                opts.UseAzureServiceBus(azureConnection);
+                logger.LogInformation("Using AZURE SERVICE BUS transport for production");
+                break;
+
+            case "aws":
+                // AWS SQS configuration
+                var awsRegion = builder.Configuration["AWS:Region"] ?? "us-east-1";
+                opts.UseAwsSqsTransport(options =>
+                {
+                    options.Region = awsRegion;
+                });
+                logger.LogInformation("Using AWS SQS transport for production in region {Region}", awsRegion);
+                break;
+
+            default:
+                // Fallback to in-memory if no valid transport configured
+                logger.LogWarning("Unknown transport type '{TransportType}', falling back to in-memory", transportType);
+                opts.UseInMemoryTransport();
+                break;
+        }
+    }
+
+    // Configure error handling policies
+    opts.Handlers.OnException<ValidationException>()
+        .Discard();  // Don't retry validation errors
+
+    opts.Handlers.OnException<TimeoutException>()
+        .Retry
+        .MaximumAttempts(3)
+        .WithDelayInSeconds(1, 2, 5);  // Exponential backoff
+
+    opts.Handlers.OnException<Exception>()
+        .Retry
+        .MaximumAttempts(5)
+        .Then
+        .MoveToDeadLetterQueue();  // Failed messages go to DLQ
+
+    // Enable Dead Letter Queue
+    opts.DeadLetterQueue.IsEnabled = true;
+});
 
 // CORS Configuration
 builder.Services.AddCors(options =>
@@ -122,6 +279,9 @@ builder.Logging.AddDebug();
 // ==================== MIDDLEWARE ====================
 
 var app = builder.Build();
+
+// Use Wolverine middleware for CQRS message handling
+app.UseWolverine();
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
@@ -174,6 +334,7 @@ app.MapHealthChecks("/health");
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+    var readDbContext = scope.ServiceProvider.GetRequiredService<CatalogReadDbContext>();
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
     try
@@ -183,8 +344,13 @@ using (var scope = app.Services.CreateScope())
             logger.LogInformation("🔄 Using IN-MEMORY DEMO DATABASE with realistic test data");
             logger.LogInformation("📊 Seeding demo database with sample products, categories, and brands...");
 
-            // Ensure database is created
+            // Ensure write model database is created
             await dbContext.Database.EnsureCreatedAsync();
+            logger.LogInformation("✅ Write model database created");
+
+            // Ensure read model database is created
+            await readDbContext.Database.EnsureCreatedAsync();
+            logger.LogInformation("✅ Read model database created");
 
             // Seed demo data if empty
             if (!await dbContext.Products.AnyAsync())
@@ -220,13 +386,20 @@ using (var scope = app.Services.CreateScope())
         {
             logger.LogInformation("Applying database migrations...");
 
-            // Ensure database is created and migrations applied
+            // Ensure write model database is created and migrations applied
             await dbContext.Database.MigrateAsync();
+            logger.LogInformation("✅ Write model migrations applied");
+
+            // Ensure read model database is created and migrations applied
+            await readDbContext.Database.MigrateAsync();
+            logger.LogInformation("✅ Read model migrations applied");
 
             logger.LogInformation("Database migrations applied successfully");
         }
 
-        logger.LogInformation("✅ Catalog Service started successfully");
+        logger.LogInformation("✅ Catalog Service started successfully with CQRS architecture");
+        logger.LogInformation("   📝 Write Model: CatalogDbContext (production transactions)");
+        logger.LogInformation("   👁️  Read Model: CatalogReadDbContext (optimized queries)");
     }
     catch (Exception ex)
     {
