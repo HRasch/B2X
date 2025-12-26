@@ -23,8 +23,22 @@
 - **Node.js 18+** und **npm** für Frontend
 - **Git** für Versionskontrolle
 - Editor: **VS Code** (empfohlen)
+- ⭐ **Keine Datenbank nötig!** (InMemory-Database wird verwendet)
 
-### Setup in 5 Minuten
+### Setup in 5 Minuten (mit VS Code & InMemory)
+
+**Option 1: Schnellstart ohne Terminal (Empfohlen!)**
+
+```
+1. Öffne das Projekt in VS Code
+2. Gehe zu: Debug (Strg+Shift+D)
+3. Wähle Dropdown: "Full Stack (Aspire + Frontend) - InMemory 🚀"
+4. Drücke F5
+5. Frontend öffnet sich automatisch auf http://localhost:5173
+6. Fertig! 🎉
+```
+
+**Option 2: Terminal-basierter Aufbau**
 
 ```bash
 # 1. Repository klonen
@@ -33,6 +47,7 @@ cd B2Connect
 
 # 2. Backend starten (AppHost orchestriert alle Services)
 cd backend/services/AppHost
+export Database__Provider=inmemory
 dotnet run
 
 # 3. In einem neuen Terminal: Frontend starten
@@ -45,6 +60,16 @@ cd frontend-admin
 npm install
 npm run dev
 ```
+
+### 💡 Über InMemory-Database
+
+Alle Services verwenden automatisch eine In-Memory-Datenbank beim Development-Start:
+- ✅ **Keine PostgreSQL/Docker Installation nötig**
+- ✅ **Startup in 2-3 Sekunden**
+- ✅ **Perfekt für schnelle Entwicklung**
+- ⚠️ **Daten gehen beim Neustart verloren** (das ist gewünscht)
+
+👉 [Detaillierte InMemory-Konfiguration](./VSCODE_INMEMORY_SETUP.md)
 
 **Verfügbare Services nach dem Start:**
 

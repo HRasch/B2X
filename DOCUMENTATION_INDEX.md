@@ -7,7 +7,8 @@
 **👉 START HIER:**
 1. [README.md](README.md) - Projektübersicht (5 min)
 2. [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) - Kompletter Entwickler-Guide (20 min)
-3. [DEVELOPMENT.md](DEVELOPMENT.md) - Setup-Details (15 min)
+3. [docs/INMEMORY_QUICKREF.md](docs/INMEMORY_QUICKREF.md) - InMemory Database Schnellstart (2 min)
+4. [DEVELOPMENT.md](DEVELOPMENT.md) - Setup-Details (15 min)
 
 ---
 
@@ -27,24 +28,30 @@
 
 ### Entwickler-Guide (Neu!)
 
-**📍 Ort:** `docs/DEVELOPER_GUIDE.md`
+**📍 Ort:** `docs/`
 
 Einheitliche Dokumentation mit:
-- Quick Start (5 min)
-- Projektstruktur
-- Tech-Stack
-- Backend-Entwicklung
-- Frontend-Entwicklung
-- DB & Services
-- Häufige Aufgaben
-- Troubleshooting
+- [**DEVELOPER_GUIDE.md**](docs/DEVELOPER_GUIDE.md) - Kompletter Guide (Quick Start, Backend, Frontend, DB, Troubleshooting)
+- [**INMEMORY_QUICKREF.md**](docs/INMEMORY_QUICKREF.md) - InMemory Database Schnellreferenz (2 min) ⭐
+- [**VSCODE_INMEMORY_SETUP.md**](docs/VSCODE_INMEMORY_SETUP.md) - Detaillierte InMemory-Konfiguration (10 min)
+
+### New Feature: InMemory Database für schnelle Entwicklung
+
+🎉 **Keine Datenbank nötig!** Alle Services können mit InMemory-Database laufen:
+
+```
+F5 → Select "Full Stack (Aspire + Frontend) - InMemory 🚀" → Ready to code! 🚀
+```
+
+Mehr Infos: [docs/INMEMORY_QUICKREF.md](docs/INMEMORY_QUICKREF.md)
 
 ---
 
 ## 🔍 Nach Aufgabe suchen
 
 ### Ich will schnell starten
-→ [docs/DEVELOPER_GUIDE.md - Quick Start](docs/DEVELOPER_GUIDE.md#-quick-start)
+→ [docs/INMEMORY_QUICKREF.md](docs/INMEMORY_QUICKREF.md) (2 min)
+→ [docs/DEVELOPER_GUIDE.md - Quick Start](docs/DEVELOPER_GUIDE.md#-quick-start) (5 min)
 
 ### Ich arbeite am Backend
 → [docs/DEVELOPER_GUIDE.md - Backend-Entwicklung](docs/DEVELOPER_GUIDE.md#-backend-entwicklung)
