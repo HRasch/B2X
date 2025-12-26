@@ -18,11 +18,21 @@ html {
 }
 
 body {
-  background-color: #f9fafb;
-  color: #1f2937;
+  background-color: #f8f9fa;
+  color: #495057;
   line-height: 1.5;
 }
 
+/* Soft UI Base Styles */
+:root {
+  --soft-shadow-xs: 0 2px 4px rgba(52, 71, 103, 0.1);
+  --soft-shadow-sm: 0 4px 6px rgba(52, 71, 103, 0.1);
+  --soft-shadow-md: 0 6px 12px rgba(52, 71, 103, 0.1);
+  --soft-shadow-lg: 0 8px 16px rgba(52, 71, 103, 0.12);
+  --soft-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus & Interaction Styles */
 input:focus,
 select:focus,
 textarea:focus,
@@ -30,7 +40,22 @@ button:focus {
   outline: none;
 }
 
-/* Utility classes */
+/* Button Base Styles */
+button {
+  cursor: pointer;
+  transition: var(--soft-transition);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Link Styles */
+a {
+  transition: var(--soft-transition);
+}
+
+/* Text Utilities */
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -51,6 +76,34 @@ button:focus {
   -webkit-box-orient: vertical;
 }
 
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -61,25 +114,174 @@ button:focus {
   }
 }
 
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.slide-in-up {
+  animation: slideInUp 0.3s ease-in-out;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
+.slide-in-down {
+  animation: slideInDown 0.3s ease-in-out;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+.slide-in-left {
+  animation: slideInLeft 0.3s ease-in-out;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.slide-in-right {
+  animation: slideInRight 0.3s ease-in-out;
+}
+
+/* Soft UI Card Hover Effect */
+.soft-card-hover {
+  transition: var(--soft-transition);
+}
+
+.soft-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--soft-shadow-lg);
+}
+
+/* Soft UI Badge Styles */
+.badge {
+  @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-soft text-xs font-medium;
+}
+
+.badge-success {
+  @apply bg-success-50 text-success-700 border border-success-100;
+}
+
+.badge-warning {
+  @apply bg-warning-50 text-warning-700 border border-warning-100;
+}
+
+.badge-danger {
+  @apply bg-danger-50 text-danger-700 border border-danger-100;
+}
+
+.badge-info {
+  @apply bg-info-50 text-info-700 border border-info-100;
+}
+
+.badge-primary {
+  @apply bg-primary-50 text-primary-700 border border-primary-100;
+}
+
+/* Soft UI Typography */
+.heading-xl {
+  @apply text-4xl font-bold text-soft-900 leading-tight;
+}
+
+.heading-lg {
+  @apply text-3xl font-bold text-soft-900 leading-tight;
+}
+
+.heading-md {
+  @apply text-2xl font-bold text-soft-900 leading-tight;
+}
+
+.heading-sm {
+  @apply text-xl font-semibold text-soft-900 leading-snug;
+}
+
+.text-muted {
+  @apply text-soft-600;
+}
+
+/* Form Input Styles */
+.input-soft {
+  @apply w-full px-4 py-3 rounded-soft border border-soft-200 bg-white 
+         transition-all duration-200 focus:outline-none focus:ring-2 
+         focus:ring-primary-200 focus:border-primary-400;
+}
+
+.input-soft:disabled {
+  @apply bg-soft-50 cursor-not-allowed opacity-60;
+}
+
+.input-soft.error {
+  @apply border-danger-300 focus:ring-danger-200 focus:border-danger-400;
+}
+
+/* Soft UI Grid */
+.grid-soft {
+  @apply grid gap-safe;
+}
+
+.grid-soft-cols-1 {
+  @apply grid grid-cols-1 gap-safe;
+}
+
+.grid-soft-cols-2 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-safe;
+}
+
+.grid-soft-cols-3 {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-safe;
+}
+
+.grid-soft-cols-4 {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-safe;
+}
+
+/* Loading Skeleton */
+.skeleton {
+  @apply bg-gradient-to-r from-soft-200 via-soft-100 to-soft-200 rounded-soft;
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
