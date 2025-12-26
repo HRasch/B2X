@@ -6,25 +6,24 @@ Quick navigation to all B2Connect documentation.
 
 | Your Goal | Read This | Time |
 |-----------|-----------|------|
-| **I'm new to B2Connect** | [GETTING_STARTED.md](../GETTING_STARTED.md) | 5 min |
+| **I'm new to B2Connect** | [guides/GETTING_STARTED.md](guides/GETTING_STARTED.md) | 5 min |
 | **I want to understand the project** | [README.md](../README.md) | 10 min |
-| **I'm a developer** | [DEVELOPMENT.md](../DEVELOPMENT.md) | 10 min |
+| **I'm a developer** | [guides/DEVELOPMENT.md](guides/DEVELOPMENT.md) | 10 min |
 | **I need to debug something** | [guides/DEBUG_QUICK_REFERENCE.md](guides/DEBUG_QUICK_REFERENCE.md) | 3 min |
 | **I'm writing tests** | [guides/TESTING_GUIDE.md](guides/TESTING_GUIDE.md) | 15 min |
 | **I'm implementing a feature** | Pick one in [features/](features/) | varies |
 
 ## 📂 Documentation Structure
 
-### Root Level (4 Essential Files)
-- **[README.md](../README.md)** — Project overview & architecture
-- **[GETTING_STARTED.md](../GETTING_STARTED.md)** — First-time setup (5 min)
-- **[DEVELOPMENT.md](../DEVELOPMENT.md)** — Development workflow & guidelines
-- **[BUSINESS_REQUIREMENTS.md](../BUSINESS_REQUIREMENTS.md)** — Features & roadmap
+### Root Level
+- **[README.md](../README.md)** — Project overview & quick start
+- **[B2Connect.slnx](../B2Connect.slnx)** — Solution file
 
 ### Architecture (`docs/architecture/`)
-- **[ASPIRE_GUIDE.md](architecture/ASPIRE_GUIDE.md)** — Microservices orchestration
-- **[VSCODE_ASPIRE_CONFIG.md](architecture/VSCODE_ASPIRE_CONFIG.md)** — VS Code debug config
-- **[ARCHITECTURE_RESTRUCTURING_PLAN.md](architecture/ARCHITECTURE_RESTRUCTURING_PLAN.md)** — Design decisions
+- **[ONION_ARCHITECTURE.md](ONION_ARCHITECTURE.md)** — Architekturprinzipien
+- **[GATEWAY_SEPARATION.md](GATEWAY_SEPARATION.md)** — Gateway-Trennung
+- **[STORE_SEPARATION_STRUCTURE.md](architecture/STORE_SEPARATION_STRUCTURE.md)** — Store-Architektur
+- **[STRUCTURE_SEPARATION_STATUS.md](architecture/STRUCTURE_SEPARATION_STATUS.md)** — Trennungsstatus
 
 ### Features (`docs/features/`)
 - **[CATALOG_IMPLEMENTATION.md](features/CATALOG_IMPLEMENTATION.md)** — Product catalog
@@ -32,9 +31,17 @@ Quick navigation to all B2Connect documentation.
 - **[EVENT_VALIDATION_IMPLEMENTATION.md](features/EVENT_VALIDATION_IMPLEMENTATION.md)** — Event validation
 - **[ELASTICSEARCH_IMPLEMENTATION.md](features/ELASTICSEARCH_IMPLEMENTATION.md)** — Full-text search
 - **[LOCALIZATION_IMPLEMENTATION.md](features/LOCALIZATION_IMPLEMENTATION.md)** — i18n & languages
+- **[LOCALIZATION_ENTITY_ANALYSIS.md](features/LOCALIZATION_ENTITY_ANALYSIS.md)** — Lokalisierungsanalyse
 - **[ADMIN_FRONTEND_IMPLEMENTATION.md](features/ADMIN_FRONTEND_IMPLEMENTATION.md)** — Admin UI
+- **[CQRS_E2E_TESTS_SUMMARY.md](features/CQRS_E2E_TESTS_SUMMARY.md)** — CQRS E2E Tests
+- **[CQRS_INTEGRATION_POINT1.md](features/CQRS_INTEGRATION_POINT1.md)** — CQRS Integration
+- **[CQRS_TODOS_COMPLETED.md](features/CQRS_TODOS_COMPLETED.md)** — CQRS Status
+- **[STORE_READ_SERVICES_COMPLETION.md](features/STORE_READ_SERVICES_COMPLETION.md)** — Store Read Services
 
 ### Guides (`docs/guides/`)
+- **[GETTING_STARTED.md](guides/GETTING_STARTED.md)** — Erste Schritte
+- **[DEVELOPMENT.md](guides/DEVELOPMENT.md)** — Entwicklungsworkflow
+- **[BUSINESS_REQUIREMENTS.md](guides/BUSINESS_REQUIREMENTS.md)** — Business-Anforderungen
 - **[DEBUG_QUICK_REFERENCE.md](guides/DEBUG_QUICK_REFERENCE.md)** — Debugging quick tips
 - **[TESTING_GUIDE.md](guides/TESTING_GUIDE.md)** — Testing approach
 - **[VERIFICATION.md](guides/VERIFICATION.md)** — How to verify implementations
@@ -43,17 +50,19 @@ Quick navigation to all B2Connect documentation.
 
 ## 🔍 Quick Links by Topic
 
-**Setup & Architecture** → [GETTING_STARTED.md](../GETTING_STARTED.md), [ASPIRE_GUIDE.md](architecture/ASPIRE_GUIDE.md)
+**Setup & Architecture** → [guides/GETTING_STARTED.md](guides/GETTING_STARTED.md), [ONION_ARCHITECTURE.md](ONION_ARCHITECTURE.md)
 
-**Backend Coding** → [AOP_VALIDATION_IMPLEMENTATION.md](features/AOP_VALIDATION_IMPLEMENTATION.md), [EVENT_VALIDATION_IMPLEMENTATION.md](features/EVENT_VALIDATION_IMPLEMENTATION.md)
+**Backend Coding** → [features/AOP_VALIDATION_IMPLEMENTATION.md](features/AOP_VALIDATION_IMPLEMENTATION.md), [features/EVENT_VALIDATION_IMPLEMENTATION.md](features/EVENT_VALIDATION_IMPLEMENTATION.md)
 
-**Frontend Coding** → [ADMIN_FRONTEND_IMPLEMENTATION.md](features/ADMIN_FRONTEND_IMPLEMENTATION.md), [LOCALIZATION_IMPLEMENTATION.md](features/LOCALIZATION_IMPLEMENTATION.md)
+**Frontend Coding** → [features/ADMIN_FRONTEND_IMPLEMENTATION.md](features/ADMIN_FRONTEND_IMPLEMENTATION.md), [features/LOCALIZATION_IMPLEMENTATION.md](features/LOCALIZATION_IMPLEMENTATION.md)
 
-**Testing** → [TESTING_GUIDE.md](guides/TESTING_GUIDE.md)
+**Testing** → [guides/TESTING_GUIDE.md](guides/TESTING_GUIDE.md)
 
-**Search** → [ELASTICSEARCH_IMPLEMENTATION.md](features/ELASTICSEARCH_IMPLEMENTATION.md)
+**Search** → [features/ELASTICSEARCH_IMPLEMENTATION.md](features/ELASTICSEARCH_IMPLEMENTATION.md)
 
-**Debugging** → [DEBUG_QUICK_REFERENCE.md](guides/DEBUG_QUICK_REFERENCE.md)
+**Debugging** → [guides/DEBUG_QUICK_REFERENCE.md](guides/DEBUG_QUICK_REFERENCE.md)
+
+**CQRS** → [features/CQRS_E2E_TESTS_SUMMARY.md](features/CQRS_E2E_TESTS_SUMMARY.md), [features/CQRS_INTEGRATION_POINT1.md](features/CQRS_INTEGRATION_POINT1.md)
 
 ## 📋 Full Standards
 

@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../BoundedContexts/Shared/Identity/B2Connect.Identity.API.csproj" />
+    <ProjectReference Include="../B2Connect.Identity.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -13,19 +13,15 @@
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="Moq" />
-    <PackageReference Include="Elastic.Clients.Elasticsearch" />
-    <PackageReference Include="RabbitMQ.Client" />
+    <PackageReference Include="Shouldly" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
-    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../BoundedContexts/Store/Catalog/B2Connect.Catalog.API.csproj" />
-    <ProjectReference Include="../../shared/types/B2Connect.Types.csproj" />
-    <ProjectReference Include="../../shared/B2Connect.Shared.Search/B2Connect.Shared.Search.csproj" />
-    <ProjectReference Include="../../shared/kernel/B2Connect.Shared.Kernel.csproj" />
+    <ProjectReference Include="../B2Connect.CMS.csproj" />
   </ItemGroup>
 
 </Project>

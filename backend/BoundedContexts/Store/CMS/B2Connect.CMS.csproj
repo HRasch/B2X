@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>B2Connect.CMS</AssemblyName>
+    <RootNamespace>B2Connect.CMS</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+    <ProjectReference Include="../../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../shared/types/B2Connect.Types.csproj" />
+    <ProjectReference Include="../../../shared/utils/B2Connect.Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="tests/**/*.cs" />
+  </ItemGroup>
+
+</Project>

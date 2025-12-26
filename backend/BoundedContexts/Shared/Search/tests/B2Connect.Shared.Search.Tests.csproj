@@ -22,10 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../BoundedContexts/Store/Catalog/B2Connect.Catalog.API.csproj" />
-    <ProjectReference Include="../../shared/types/B2Connect.Types.csproj" />
-    <ProjectReference Include="../../shared/B2Connect.Shared.Search/B2Connect.Shared.Search.csproj" />
-    <ProjectReference Include="../../shared/kernel/B2Connect.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../Store/Catalog/B2Connect.Catalog.API.csproj" />
+    <ProjectReference Include="../../../shared/types/B2Connect.Types.csproj" />
+    <ProjectReference Include="../B2Connect.Shared.Search.csproj" />
+    <ProjectReference Include="../../../shared/kernel/B2Connect.Shared.Kernel.csproj" />
   </ItemGroup>
 
 </Project>

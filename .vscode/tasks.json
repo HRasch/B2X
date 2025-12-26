@@ -7,7 +7,7 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/backend/services/Orchestration/B2Connect.Orchestration.csproj"
+        "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -26,7 +26,7 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/backend/B2Connect.slnx"
+        "${workspaceFolder}/B2Connect.slnx"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -121,9 +121,9 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/services/Orchestration/B2Connect.Orchestration.csproj"
+        "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
       ],
-      "cwd": "${workspaceFolder}/backend/services/Orchestration",
+      "cwd": "${workspaceFolder}/backend/Orchestration",
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "Database__Provider": "inmemory",
@@ -231,7 +231,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/services/backend-store/B2Connect.Store.csproj"
+        "${workspaceFolder}/backend/BoundedContexts/Store/API/B2Connect.Store.csproj"
       ],
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -262,7 +262,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/services/backend-admin/B2Connect.Admin.csproj"
+        "${workspaceFolder}/backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj"
       ],
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
