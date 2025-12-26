@@ -21,7 +21,6 @@
   <ItemGroup>
     <!-- Service-specific packages -->
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Bogus" />
     <!-- Explicit declarations for code that uses these namespaces -->

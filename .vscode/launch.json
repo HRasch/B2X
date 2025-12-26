@@ -2,28 +2,29 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "🚀 Aspire AppHost (InMemory)",
+      "name": "🚀 Full Stack (Aspire)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build-apphost",
+      "preLaunchTask": "backend-start",
       "program": "${workspaceFolder}/backend/services/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/services/Orchestration",
       "stopAtEntry": false,
       "serverReadyAction": {
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-        "uriFormat": "{0}",
+        "pattern": "dashboard",
+        "uriFormat": "http://localhost:15500",
         "action": "openExternally"
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "Database__Provider": "inmemory",
-        "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true"
+        "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
+        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
       },
       "console": "integratedTerminal"
     },
     {
-      "name": ".NET Core (Backend) - PostgreSQL",
+      "name": "Aspire (PostgreSQL)",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-apphost",
@@ -32,60 +33,36 @@
       "cwd": "${workspaceFolder}/backend/services/Orchestration",
       "stopAtEntry": false,
       "serverReadyAction": {
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-        "uriFormat": "{0}",
+        "pattern": "dashboard",
+        "uriFormat": "http://localhost:15500",
         "action": "openExternally"
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "Database__Provider": "postgresql"
-      }
-    },
-    {
-      "name": "Frontend (npm dev)",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/frontend/node_modules/.bin/vite",
-      "args": ["--host"],
-      "cwd": "${workspaceFolder}/frontend",
-      "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"],
-      "serverReadyAction": {
-        "pattern": "VITE.*ready in.*ms",
-        "uriFormat": "http://localhost:5173",
-        "action": "openExternally"
-      }
-    },
-    {
-      "name": ".NET + Frontend (Parallel)",
-      "type": "compound",
-      "configurations": [".NET Core (Backend) - PostgreSQL", "Frontend (npm dev)"],
-      "stopAll": true
-    },
-    {
-      "name": "🚀 Aspire AppHost + Frontend (InMemory)",
-      "type": "compound",
-      "configurations": ["🚀 Aspire AppHost (InMemory)", "Frontend (npm dev)"],
-      "stopAll": true,
-      "preLaunchTask": "npm-install-frontend"
+        "Database__Provider": "postgresql",
+        "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
+        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
+      },
+      "console": "integratedTerminal"
     },
     {
       "name": "Frontend Tests",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/frontend/node_modules/vitest/vitest.mjs",
+      "program": "${workspaceFolder}/frontend-store/node_modules/vitest/vitest.mjs",
       "args": ["run"],
-      "cwd": "${workspaceFolder}/frontend",
-      "console": "integratedTerminal"
+      "cwd": "${workspaceFolder}/frontend-store",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
     },
     {
-      "name": "Backend Tests (.NET)",
+      "name": "Backend Tests",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "test-backend",
       "program": "${workspaceFolder}/backend/Tests/B2Connect.CMS.Tests/bin/Debug/net10.0/B2Connect.CMS.Tests.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/Tests/B2Connect.CMS.Tests",
+      "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
       "console": "integratedTerminal"
     }

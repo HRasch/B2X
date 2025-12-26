@@ -32,9 +32,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
 });
 
-// Swagger/OpenAPI configuration is minimal - uses default configuration
-builder.Services.AddSwaggerGen();
-
 // Database Configuration
 var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 var provider = builder.Configuration.GetValue<string>("Database:Provider", "PostgreSQL").ToLower();
@@ -296,12 +293,6 @@ app.UseWolverine();
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog Service API V1");
-        options.RoutePrefix = "swagger";
-    });
 }
 
 app.UseHttpsRedirection();

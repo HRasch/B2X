@@ -5,7 +5,8 @@ test.describe('CMS Page Loading', () => {
     await page.goto('/')
     
     await expect(page).toHaveTitle(/Welcome|B2Connect/)
-    await expect(page.locator('h1, h2')).first().toBeVisible()
+    const firstHeading = page.locator('h1, h2').first()
+    await expect(firstHeading).toBeVisible()
   })
 
   test('should display hero banner on home page', async ({ page }) => {

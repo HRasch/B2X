@@ -8,7 +8,7 @@ echo "🚀 B2Connect Projekt wird gestartet..."
 echo ""
 
 # Frontend starten
-cd "$(dirname "$0")/frontend"
+cd "$(dirname "$0")/../frontend-store"
 
 echo "📦 Frontend Dependencies werden überprüft..."
 if [ ! -d "node_modules" ]; then

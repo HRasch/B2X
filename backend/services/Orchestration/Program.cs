@@ -1,114 +1,39 @@
-using Serilog;
-using System.Diagnostics;
+var builder = DistributedApplication.CreateBuilder(args);
 
-// Configure Serilog
-var serilogConfig = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .Enrich.FromLogContext()
-    .Enrich.WithProperty("Service", "AppHost")
-    .WriteTo.Console(outputTemplate:
-        "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}");
+// API Gateway
+var gateway = builder
+    .AddProject("api-gateway", "../Gateway/B2Connect.Gateway.csproj")
+    .WithHttpEndpoint(port: 6000, targetPort: 80, name: "http-gateway");
 
-Log.Logger = serilogConfig.CreateLogger();
+// Auth Service (Identity)
+var authService = builder
+    .AddProject("auth-service", "../Identity/B2Connect.Identity.API.csproj")
+    .WithHttpEndpoint(port: 9002, targetPort: 80, name: "http-auth")
+    .WithEnvironment("Database__Provider", "inmemory");
 
-try
-{
-    var appHostBinDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
-        ?? AppContext.BaseDirectory;
-    var servicesDir = Path.GetFullPath(Path.Combine(appHostBinDir, "..", "..", "..", ".."));
+// Tenant Service
+var tenantService = builder
+    .AddProject("tenant-service", "../Tenancy/B2Connect.Tenancy.API.csproj")
+    .WithHttpEndpoint(port: 9003, targetPort: 80, name: "http-tenant")
+    .WithEnvironment("Database__Provider", "inmemory");
 
-    Log.Information("🚀 B2Connect Application Host - Starting");
-    Log.Information($"Services directory: {servicesDir}");
-    Log.Information("");
+// Localization Service
+var localizationService = builder
+    .AddProject("localization-service", "../Localization/B2Connect.Localization.API.csproj")
+    .WithHttpEndpoint(port: 9004, targetPort: 80, name: "http-localization")
+    .WithEnvironment("Database__Provider", "inmemory");
 
-    var services = new List<(string name, string path, int port)>
-    {
-        ("API Gateway", Path.Combine(servicesDir, "api-gateway"), 6000),
-        ("Auth Service", Path.Combine(servicesDir, "auth-service"), 9002),
-        ("Tenant Service", Path.Combine(servicesDir, "tenant-service"), 9003),
-        ("Localization Service", Path.Combine(servicesDir, "LocalizationService"), 9004),
-        ("Catalog Service", Path.Combine(servicesDir, "CatalogService"), 9001),
-        ("Layout Service", Path.Combine(servicesDir, "LayoutService"), 9005),
-    };
+// Catalog Service
+var catalogService = builder
+    .AddProject("catalog-service", "../Catalog/B2Connect.Catalog.API.csproj")
+    .WithHttpEndpoint(port: 9001, targetPort: 80, name: "http-catalog")
+    .WithEnvironment("Database__Provider", "inmemory");
 
-    var processes = new List<Process>();
+// Layout Service
+var layoutService = builder
+    .AddProject("layout-service", "../Theming/Layout/B2Connect.Theming.Layout.csproj")
+    .WithHttpEndpoint(port: 9005, targetPort: 80, name: "http-layout")
+    .WithEnvironment("Database__Provider", "inmemory");
 
-    foreach (var (name, path, port) in services)
-    {
-        try
-        {
-            if (!Directory.Exists(path))
-            {
-                Log.Warning($"Service directory not found: {path}");
-                continue;
-            }
-
-            Log.Information($"▶ Starting {name} on port {port}...");
-
-            var psi = new ProcessStartInfo
-            {
-                FileName = "dotnet",
-                Arguments = "run",
-                WorkingDirectory = path,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = false
-            };
-
-            var process = Process.Start(psi);
-            if (process != null)
-            {
-                processes.Add(process);
-                Log.Information($"  ✓ {name} started (PID: {process.Id})");
-            }
-
-            await Task.Delay(1000);
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, $"Failed to start {name}");
-        }
-    }
-
-    Log.Information("");
-    Log.Information("✅ B2Connect Application Host initialized");
-    Log.Information("");
-    Log.Information("📊 Services:");
-    Log.Information("  • API Gateway:          http://localhost:6000");
-    Log.Information("  • Auth Service:         http://localhost:9002");
-    Log.Information("  • Tenant Service:       http://localhost:9003");
-    Log.Information("  • Localization Service: http://localhost:9004");
-    Log.Information("  • Catalog Service:      http://localhost:9001");
-    Log.Information("  • Layout Service:       http://localhost:9005");
-    Log.Information("");
-    Log.Information("🎨 Frontend Services:");
-    Log.Information("  • Customer App:  Port 5173 (npm run dev)");
-    Log.Information("  • Admin App:     Port 5174 (npm run dev -- --port 5174)");
-    Log.Information("");
-    Log.Information("⏸  Press Ctrl+C to stop all services");
-    Log.Information("");
-
-    var cts = new CancellationTokenSource();
-    Console.CancelKeyPress += (s, e) =>
-    {
-        e.Cancel = true;
-        cts.Cancel();
-    };
-
-    await Task.Delay(Timeout.Infinite, cts.Token).ConfigureAwait(false);
-}
-catch (OperationCanceledException)
-{
-    Log.Information("🛑 Shutting down services...");
-}
-catch (Exception ex)
-{
-    Log.Fatal(ex, "❌ Application terminated unexpectedly");
-    Environment.Exit(1);
-}
-finally
-{
-    Log.CloseAndFlush();
-}
+builder.Build().Run();
 

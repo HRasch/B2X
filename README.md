@@ -55,7 +55,7 @@ B2Connect/
 │   ├── shared/                # Shared libraries and utilities
 │   ├── infrastructure/        # Docker, Kubernetes, Terraform
 │   └── docs/                  # Backend documentation
-├── frontend/                   # Vue.js 3 + Vite SPA
+├── frontend-store/            # Vue.js 3 + Vite SPA (Store)
 │   ├── src/                   # Source code
 │   │   ├── views/             # Shop, Admin Dashboard, Procurement
 │   │   ├── components/        # UI Components
@@ -87,7 +87,7 @@ dotnet run
 ### Frontend Setup (In Another Terminal)
 
 ```bash
-cd frontend
+cd frontend-store
 npm install && npm run dev
 
 # Frontend will be available at http://localhost:5173
@@ -150,7 +150,7 @@ dotnet test tests/
 
 ### Frontend
 ```bash
-cd frontend
+cd frontend-store
 npm run test              # Unit tests
 npm run test:components   # Component tests
 npm run test:e2e          # End-to-end tests
@@ -166,7 +166,7 @@ cd backend/infrastructure
 docker-compose up
 
 # Frontend is served separately
-cd frontend
+cd frontend-store
 npm run dev
 ```
 
@@ -185,7 +185,7 @@ ASPNETCORE_ENVIRONMENT=Development
 DATABASE_URL=Server=localhost;Database=b2connect;User Id=sa;Password=YourPassword;
 RABBITMQ_URL=amqp://guest:guest@localhost:5672/
 
-# Frontend (.env in frontend/)
+# Frontend (.env in frontend-store/)
 VITE_API_URL=http://localhost:5000/api
 VITE_APP_NAME=B2Connect
 ```

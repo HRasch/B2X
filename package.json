@@ -4,13 +4,14 @@
   "description": "B2Connect - Full Stack Application with .NET Aspire Backend and Vue Frontend",
   "private": true,
   "workspaces": [
-    "frontend",
+    "frontend-store",
     "frontend-admin"
   ],
   "scripts": {
-    "install:all": "npm install && npm install --prefix frontend && npm install --prefix frontend-admin",
-    "dev": "npm run dev --workspace=frontend",
-    "dev:admin": "npm run dev --workspace=frontend-admin",
+    "install:all": "npm install && npm install --prefix frontend-store && npm install --prefix frontend-admin",
+    "dev": "concurrently \"npm --prefix frontend-store run dev\" \"npm --prefix frontend-admin run dev\" --names \"Store,Admin\" --prefix name --kill-others-on-exit",
+    "dev:frontend": "npm --prefix frontend-store run dev",
+    "dev:admin": "npm --prefix frontend-admin run dev",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
@@ -27,5 +28,8 @@
     "microservices"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }

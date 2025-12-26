@@ -1,20 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Aspire.AppHost.Sdk" Version="13.1.0" />
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+    <IsAspireHost>true</IsAspireHost>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog" />
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.NodeJs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
-    <ProjectReference Include="../auth-service/B2Connect.AuthService.csproj" />
-    <ProjectReference Include="../tenant-service/B2Connect.TenantService.csproj" />
-    <ProjectReference Include="../LocalizationService/B2Connect.LocalizationService.csproj" />
+    <ProjectReference Include="../ServiceDefaults/B2Connect.ServiceDefaults.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="../Gateway/B2Connect.Gateway.csproj" />
+    <ProjectReference Include="../Identity/B2Connect.Identity.API.csproj" />
+    <ProjectReference Include="../Tenancy/B2Connect.Tenancy.API.csproj" />
+    <ProjectReference Include="../Localization/B2Connect.Localization.API.csproj" />
+    <ProjectReference Include="../Catalog/B2Connect.Catalog.API.csproj" />
   </ItemGroup>
 </Project>

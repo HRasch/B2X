@@ -11,8 +11,6 @@ builder.Host.UseSerilog((context, config) =>
 
 // Add services
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
 
 // Add Layout Service Database (PostgreSQL, SQL Server, or InMemory)
 builder.Services.AddLayoutDatabase(builder.Configuration);
@@ -30,13 +28,6 @@ var app = builder.Build();
 await app.Services.EnsureDatabaseAsync();
 
 // Configure middleware
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
