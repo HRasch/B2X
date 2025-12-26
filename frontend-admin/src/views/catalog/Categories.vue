@@ -250,12 +250,18 @@ onMounted(async () => {
   margin: 0;
   font-size: 2rem;
   color: #1f2937;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .subtitle {
   margin: 0.5rem 0 0 0;
   color: #6b7280;
   font-size: 0.9rem;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .actions {
@@ -322,18 +328,28 @@ onMounted(async () => {
   border-radius: 0.375rem;
   border: 1px solid #d1d5db;
   padding: 1.5rem;
+  @media (prefers-color-scheme: dark) {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
 }
 
 .empty-state {
   text-align: center;
   padding: 3rem;
   color: #6b7280;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .category-item {
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid #e5e7eb;
+  @media (prefers-color-scheme: dark) {
+    border-color: #4b5563;
+  }
 }
 
 .category-item:last-child {
@@ -353,12 +369,18 @@ onMounted(async () => {
   margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
   color: #1f2937;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .category-description {
   margin: 0;
   color: #6b7280;
   font-size: 0.875rem;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .category-actions {
@@ -371,6 +393,9 @@ onMounted(async () => {
   margin-top: 1rem;
   padding-left: 2rem;
   border-left: 2px solid #e5e7eb;
+  @media (prefers-color-scheme: dark) {
+    border-color: #4b5563;
+  }
 }
 
 .subcategory-item {
@@ -388,6 +413,9 @@ onMounted(async () => {
   margin: 0 0 0.25rem 0;
   font-size: 1rem;
   color: #374151;
+  @media (prefers-color-scheme: dark) {
+    color: #d1d5db;
+  }
 }
 
 .btn {
@@ -447,6 +475,9 @@ onMounted(async () => {
 .page-info {
   color: #6b7280;
   font-size: 0.875rem;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 @media (max-width: 768px) {

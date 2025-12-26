@@ -14,28 +14,48 @@
       <div class="text-gray-500">Loading pages...</div>
     </div>
 
-    <div v-else-if="cmsStore.pages.length === 0" class="bg-white rounded-lg shadow p-8 text-center">
-      <p class="text-gray-500">No pages yet. Create your first page to get started.</p>
+    <div
+      v-else-if="cmsStore.pages.length === 0"
+      class="bg-white dark:bg-soft-800 rounded-lg shadow p-8 text-center"
+    >
+      <p class="text-gray-500 dark:text-soft-300">
+        No pages yet. Create your first page to get started.
+      </p>
     </div>
 
-    <div v-else class="bg-white rounded-lg shadow overflow-hidden">
+    <div
+      v-else
+      class="bg-white dark:bg-soft-800 rounded-lg shadow overflow-hidden"
+    >
       <table class="w-full">
         <thead class="bg-gray-100 border-b">
           <tr>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">Title</th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">Status</th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">Updated</th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">Actions</th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">
+              Title
+            </th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">
+              Status
+            </th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">
+              Updated
+            </th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody class="divide-y">
           <tr v-for="page in cmsStore.pages" :key="page.id">
             <td class="px-6 py-4 text-sm text-gray-900">{{ page.title }}</td>
             <td class="px-6 py-4 text-sm">
-              <span :class="[
-                'px-3 py-1 rounded-full text-xs font-medium',
-                page.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-              ]">
+              <span
+                :class="[
+                  'px-3 py-1 rounded-full text-xs font-medium',
+                  page.status === 'published'
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-yellow-100 text-yellow-800',
+                ]"
+              >
                 {{ page.status }}
               </span>
             </td>
@@ -58,13 +78,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useCmsStore } from '@/stores/cms'
+import { onMounted } from "vue";
+import { useCmsStore } from "@/stores/cms";
 
-const cmsStore = useCmsStore()
-const loading = cmsStore.loading
+const cmsStore = useCmsStore();
+const loading = cmsStore.loading;
 
 onMounted(() => {
-  cmsStore.fetchPages()
-})
+  cmsStore.fetchPages();
+});
 </script>

@@ -2,10 +2,11 @@
   <div
     :class="[
       'rounded-soft-lg px-safe py-safe shadow-soft-md transition-all duration-200',
-      'bg-white hover:shadow-soft-lg',
-      'border border-soft-100',
+      'bg-white dark:bg-soft-800 hover:shadow-soft-lg',
+      'border border-soft-100 dark:border-soft-700',
       {
-        'bg-gradient-to-br from-soft-50': variant === 'gradient',
+        'bg-gradient-to-br from-soft-50 dark:from-soft-700':
+          variant === 'gradient',
       },
       className,
     ]"

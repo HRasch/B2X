@@ -90,9 +90,7 @@
         Previous
       </button>
       <span class="page-info">
-        Page {{ currentPage }} of {{ totalPages }} ({{
-          brandsTotalitres
-        }}
+        Page {{ currentPage }} of {{ totalPages }} ({{ brandsTotalitres }}
         total)
       </span>
       <button @click="nextPage" :disabled="!hasMoreBrands" class="btn btn-sm">
@@ -205,12 +203,18 @@ onMounted(async () => {
   margin: 0;
   font-size: 2rem;
   color: #1f2937;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .subtitle {
   margin: 0.5rem 0 0 0;
   color: #6b7280;
   font-size: 0.9rem;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .actions {
@@ -254,6 +258,9 @@ onMounted(async () => {
   justify-content: center;
   padding: 3rem;
   color: #6b7280;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .spinner {
@@ -277,12 +284,19 @@ onMounted(async () => {
   border-radius: 0.375rem;
   border: 1px solid #d1d5db;
   padding: 1.5rem;
+  @media (prefers-color-scheme: dark) {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
 }
 
 .empty-state {
   text-align: center;
   padding: 3rem;
   color: #6b7280;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .grid-items {
@@ -298,11 +312,19 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   transition: all 0.2s;
+  @media (prefers-color-scheme: dark) {
+    border-color: #4b5563;
+    background: #2c3e50;
+  }
 }
 
 .brand-card:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-color: #d1d5db;
+  @media (prefers-color-scheme: dark) {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border-color: #4b5563;
+  }
 }
 
 .brand-image {
@@ -315,6 +337,9 @@ onMounted(async () => {
   justify-content: center;
   margin-bottom: 1rem;
   overflow: hidden;
+  @media (prefers-color-scheme: dark) {
+    background-color: #3f5468;
+  }
 }
 
 .brand-image img {
@@ -344,6 +369,9 @@ onMounted(async () => {
   margin: 0 0 0.5rem 0;
   font-size: 1.1rem;
   color: #1f2937;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .description {
@@ -355,6 +383,9 @@ onMounted(async () => {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .brand-meta {
@@ -461,6 +492,9 @@ onMounted(async () => {
 .page-info {
   color: #6b7280;
   font-size: 0.875rem;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 @media (max-width: 768px) {

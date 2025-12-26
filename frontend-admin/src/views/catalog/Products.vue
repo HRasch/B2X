@@ -273,12 +273,18 @@ onMounted(async () => {
   margin: 0;
   font-size: 2rem;
   color: #1f2937;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .subtitle {
   margin: 0.5rem 0 0 0;
   color: #6b7280;
   font-size: 0.9rem;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .actions {
@@ -299,6 +305,11 @@ onMounted(async () => {
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
   font-size: 0.875rem;
+  @media (prefers-color-scheme: dark) {
+    background-color: #2c3e50;
+    border-color: #4b5563;
+    color: #f3f4f6;
+  }
 }
 
 .search-input {
@@ -346,6 +357,9 @@ onMounted(async () => {
   justify-content: center;
   padding: 3rem;
   color: #6b7280;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .spinner {
@@ -369,6 +383,10 @@ onMounted(async () => {
   border-radius: 0.375rem;
   border: 1px solid #d1d5db;
   overflow-x: auto;
+  @media (prefers-color-scheme: dark) {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
 }
 
 .table {
@@ -384,26 +402,44 @@ onMounted(async () => {
   border-bottom: 1px solid #d1d5db;
   color: #374151;
   font-size: 0.875rem;
+  @media (prefers-color-scheme: dark) {
+    background-color: #2c3e50;
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
 }
 
 .table td {
   padding: 1rem;
   border-bottom: 1px solid #e5e7eb;
+  @media (prefers-color-scheme: dark) {
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
 }
 
 .table tbody tr:hover {
   background-color: #f9fafb;
+  @media (prefers-color-scheme: dark) {
+    background-color: #3f5468;
+  }
 }
 
 .sku {
   font-family: monospace;
   font-size: 0.875rem;
   color: #6b7280;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .name {
   font-weight: 500;
   color: #1f2937;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .price {
@@ -506,6 +542,9 @@ onMounted(async () => {
   padding: 3rem;
   text-align: center;
   color: #6b7280;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .pagination {
@@ -519,6 +558,9 @@ onMounted(async () => {
 .page-info {
   color: #6b7280;
   font-size: 0.875rem;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .btn.icon {

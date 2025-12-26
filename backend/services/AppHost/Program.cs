@@ -23,6 +23,7 @@ try
 
     var services = new List<(string name, string path, int port)>
     {
+        ("API Gateway", Path.Combine(servicesDir, "api-gateway"), 6000),
         ("Auth Service", Path.Combine(servicesDir, "auth-service"), 9002),
         ("Tenant Service", Path.Combine(servicesDir, "tenant-service"), 9003),
         ("Localization Service", Path.Combine(servicesDir, "LocalizationService"), 9004),
@@ -72,6 +73,7 @@ try
     Log.Information("✅ B2Connect Application Host initialized");
     Log.Information("");
     Log.Information("📊 Services:");
+    Log.Information("  • API Gateway:          http://localhost:6000");
     Log.Information("  • Auth Service:         http://localhost:9002");
     Log.Information("  • Tenant Service:       http://localhost:9003");
     Log.Information("  • Localization Service: http://localhost:9004");

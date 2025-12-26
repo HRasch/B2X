@@ -28,10 +28,7 @@ A modern, scalable multitenant SaaS solution combining a comprehensive B2B/B2C e
    - SEO optimization tools
    - **Allows customers to build custom storefronts without developers**
 
-**New to B2Connect?** 
-- 👉 **[Start with the Developer Guide!](docs/DEVELOPER_GUIDE.md)** ← Complete setup & reference
-- 📚 **[Documentation Index](DOCUMENTATION_INDEX.md)** ← Find anything
-- 🚀 Quick Start below ↓
+**New to B2Connect?** Start with the [Platform Overview](PLATFORM_OVERVIEW.md) for a comprehensive introduction. Learn about the new CMS in [CMS Overview](CMS_OVERVIEW.md).
 
 ## 🏗️ Project Structure
 

@@ -4,7 +4,7 @@ Professional admin dashboard for B2Connect platform built with Vue 3, TypeScript
 
 **Status**: ✅ Production Ready | **Coverage**: 91% | **Tests**: 230+
 
-📚 **[Documentation](docs/)** | 🔧 [Main Docs](../docs/) | 📖 [Getting Started](../GETTING_STARTED.md)
+📚 **[Documentation](docs/)** | 🎨 **[Theme System](THEME_IMPLEMENTATION.md)** | 🔧 [Main Docs](../docs/) | 📖 [Getting Started](../GETTING_STARTED.md)
 
 ## 🚀 Quick Start
 
@@ -24,6 +24,17 @@ npm run dev
 
 Server runs on [http://localhost:5174](http://localhost:5174)  
 API proxy configured to `http://localhost:9000`
+
+## 🎨 Light/Dark Theme
+
+The admin dashboard features a full light/dark theme system:
+
+- **Auto Mode**: Follows system preferences (default)
+- **Light Mode**: Clean, bright interface
+- **Dark Mode**: Easy on the eyes, perfect for low-light environments
+- **Persistent**: Theme choice is saved in browser
+
+Located in the sidebar settings section. See [THEME_IMPLEMENTATION.md](THEME_IMPLEMENTATION.md) for developer documentation.
 
 ## 📋 Project Structure
 

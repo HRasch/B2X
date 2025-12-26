@@ -3,7 +3,9 @@
     <!-- Header -->
     <div>
       <h1 class="heading-lg">Dashboard</h1>
-      <p class="text-muted mt-1">Welcome back, {{ authStore.user?.email }}</p>
+      <p class="text-muted dark:text-soft-400 mt-1">
+        Welcome back, {{ authStore.user?.email }}
+      </p>
     </div>
 
     <!-- Stats Grid -->

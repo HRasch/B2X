@@ -1,456 +1,215 @@
-# 📘 PIM Integration Project - Complete Documentation Index
+# B2Connect - Dokumentations-Index
 
-**Status**: 🟢 Implementation Complete - Ready for Integration  
-**Date**: 26 December 2025
+> Übersicht aller Dokumentationen und wo man sie findet
 
----
+## 🎯 Für Anfänger
 
-## 🚀 Quick Navigation
-
-### 🟢 I just want to get started (5 minutes)
-1. Read: `QUICK_REFERENCE.md`
-2. Follow: Integration steps in `QUICK_REFERENCE.md`
-3. Test: API endpoints (3 curl commands)
-4. Done! ✅
-
-### 🟡 I need detailed integration steps (15 minutes)
-1. Read: `PROGRAM_CS_INTEGRATION_GUIDE.md` 
-2. Follow: Step-by-step examples
-3. Update Program.cs (add 2 lines)
-4. Update appsettings.json (add 2 sections)
-5. Test locally
-6. Deploy!
-
-### 🔵 I want to understand the architecture (1 hour)
-1. Start: `PROJECT_INDEX.md` (overview)
-2. Phase 1: `ELASTICSEARCH_STORE_FRONTEND_INTEGRATION.md`
-3. Phase 2: `MULTI_PROVIDER_PIM_INTEGRATION.md`
-4. Phase 3: `PIM_SYNC_SERVICE.md` + `PIM_SYNC_SERVICE_CONFIGURATION.md`
-5. Deep dive: `PIM_SYNC_SERVICE_SUMMARY.md`
-
-### 🟣 I'm the DevOps person (30 minutes)
-1. Read: `PIM_SYNC_SERVICE_CONFIGURATION.md` (focus on scenarios)
-2. Review: Environment variable setup
-3. Plan: Monitoring & alerting strategy
-4. Prepare: Deployment scripts
-5. Test: In staging first!
+**👉 START HIER:**
+1. [README.md](README.md) - Projektübersicht (5 min)
+2. [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) - Kompletter Entwickler-Guide (20 min)
+3. [DEVELOPMENT.md](DEVELOPMENT.md) - Setup-Details (15 min)
 
 ---
 
-## 📚 Document Guide
+## 📚 Dokumentations-Struktur
 
-### Essential Reading (Start Here!)
+### Root-Level Dokumentation (Hauptdateien)
 
-#### 1. `QUICK_REFERENCE.md` ⭐ START HERE
-- **Read Time**: 2 minutes
-- **Contents**: 
-  - Quick start (5 minutes)
-  - API endpoints cheat sheet
-  - Common troubleshooting
-  - Emergency procedures
-- **Best For**: Developers in a hurry, team members
+| Datei | Zweck | Lesedauer |
+|-------|-------|-----------|
+| **README.md** | Projektübersicht, Features, Tech-Stack | 10 min |
+| **DEVELOPMENT.md** | Lokale Setup-Anleitung | 15 min |
+| **GETTING_STARTED.md** | Quick Start & Aufgaben-Guides | 20 min |
+| **BUSINESS_REQUIREMENTS.md** | Features & Roadmap | 20 min |
+| **APPLICATION_SPECIFICATIONS.md** | Technische Spezifikationen | 30 min |
+| **CODING_STANDARDS.md** | Code-Style & Best Practices | 15 min |
+| **.copilot-specs.md** | GitHub Copilot Richtlinien | Variabel |
 
-#### 2. `PROJECT_INDEX.md`
-- **Read Time**: 5 minutes
-- **Contents**:
-  - Project overview
-  - 3-phase architecture
-  - Feature matrix
-  - Documentation map
-- **Best For**: Managers, architects, new team members
+### Entwickler-Guide (Neu!)
 
-#### 3. `SESSION_SUMMARY.md`
-- **Read Time**: 5 minutes
-- **Contents**:
-  - What was delivered
-  - Statistics & metrics
-  - Next steps
-  - One-page checklist
-- **Best For**: Project status, stakeholder updates
+**📍 Ort:** `docs/DEVELOPER_GUIDE.md`
+
+Einheitliche Dokumentation mit:
+- Quick Start (5 min)
+- Projektstruktur
+- Tech-Stack
+- Backend-Entwicklung
+- Frontend-Entwicklung
+- DB & Services
+- Häufige Aufgaben
+- Troubleshooting
 
 ---
 
-### Integration & Setup
+## 🔍 Nach Aufgabe suchen
 
-#### 4. `PROGRAM_CS_INTEGRATION_GUIDE.md` ⭐ CRITICAL
-- **Read Time**: 10 minutes
-- **Contents**:
-  - Exact code to add to Program.cs
-  - 3 different scenarios (minimal, complete, with extensions)
-  - Verification steps after integration
-  - Common errors & solutions
-  - Pre-deployment checklist
-- **Best For**: Backend developers doing the integration
-- **Action**: MUST READ before making code changes!
+### Ich will schnell starten
+→ [docs/DEVELOPER_GUIDE.md - Quick Start](docs/DEVELOPER_GUIDE.md#-quick-start)
 
-#### 5. `PIM_SYNC_SERVICE_CONFIGURATION.md`
-- **Read Time**: 15 minutes
-- **Contents**:
-  - appsettings.json examples
-  - 3 different configuration scenarios
-  - Environment variable setup
-  - Troubleshooting guide
-  - Monitoring setup
-  - Deployment steps
-- **Best For**: DevOps, operations, system admins
-- **Use**: When setting up configuration
+### Ich arbeite am Backend
+→ [docs/DEVELOPER_GUIDE.md - Backend-Entwicklung](docs/DEVELOPER_GUIDE.md#-backend-entwicklung)
 
-#### 6. `FINAL_ACTION_ITEMS.md`
-- **Read Time**: 10 minutes
-- **Contents**:
-  - 6 critical action items
-  - Action items by role
-  - Timeline estimate
-  - Quality assurance checklist
-  - Success criteria
-- **Best For**: Project managers, team leads
-- **Use**: For planning & coordination
+### Ich arbeite am Frontend
+→ [docs/DEVELOPER_GUIDE.md - Frontend-Entwicklung](docs/DEVELOPER_GUIDE.md#-frontend-entwicklung)
+
+### Ich habe Probleme
+→ [docs/DEVELOPER_GUIDE.md - Troubleshooting](docs/DEVELOPER_GUIDE.md#-troubleshooting)
+
+### Ich brauche die Architektur
+→ `docs/archived/` (siehe unten)
 
 ---
 
-### Understanding Each Phase
+## 📦 Archivierte Dokumentation
 
-#### Phase 1: ElasticSearch Frontend
+**📍 Ort:** `docs/archived/`
 
-**Document**: `ELASTICSEARCH_STORE_FRONTEND_INTEGRATION.md`
-- **Read Time**: 10 minutes
-- **Contents**:
-  - Frontend search architecture
-  - ProductService implementation
-  - Store.vue component features
-  - Search optimization
-  - Integration with Phase 2 & 3
-- **Status**: ✅ COMPLETE & PRODUCTION READY
-- **Best For**: Frontend developers, understanding user experience
+Die alte Dokumentation wurde archiviert. Dort findest du:
 
-#### Phase 2: Multi-Provider Integration
+### Feature-Guides (Detailliert)
+- `ASPIRE_*.md` - .NET Aspire Setup & Orchestration
+- `CATALOG_*.md` - Produktkatalog-Implementation
+- `ELASTICSEARCH_*.md` - Fulltext-Suche
+- `LOCALIZATION_*.md` - Multi-Sprachen-Support
+- `QUARTZ_*.md` - Job-Scheduling
+- `EVENT_VALIDATION_*.md` - Event-Handling
 
-**Document**: `MULTI_PROVIDER_PIM_INTEGRATION.md`
-- **Read Time**: 15 minutes
-- **Contents**:
-  - Provider pattern explanation
-  - 4 provider implementations
-  - Registry & resolver architecture
-  - Priority-based fallback
-  - Health checks
-  - Complete API reference
-- **Status**: ✅ COMPLETE & PRODUCTION READY
-- **Best For**: Backend developers, understanding PIM flexibility
+### Implementation-Berichte
+- `ADMIN_FRONTEND_*.md` - Admin-Panel Details
+- `CQRS_IMPLEMENTATION_*.md` - Command-Query-Responsibility
+- `AOP_*.md` - Aspect-Oriented Programming
+- `ADMIN_CRUD_*.md` - CRUD-Operationen
 
-#### Phase 3: PIM Sync Service
+### Testing & Qualität
+- `TEST_EXECUTION_*.md` - Test-Reports
+- `TESTS_COMPLETE_*.md` - Test-Status
+- `COMPILE_ERRORS_*.md` - Fehler-Behebung
 
-**Documents**: 
-1. `PIM_SYNC_SERVICE.md` - Overview & architecture (10 min)
-2. `PIM_SYNC_SERVICE_CONFIGURATION.md` - Configuration guide (15 min)
-3. `PIM_SYNC_SERVICE_SUMMARY.md` - Implementation details (10 min)
-
-**Contents**:
-- Sync service orchestration
-- Background worker scheduling
-- HTTP API endpoints
-- Configuration options
-- Error handling
-- Performance characteristics
-- Monitoring & health checks
-- Deployment checklist
-
-**Status**: 🟡 READY FOR INTEGRATION
-**Best For**: Operators, understanding continuous synchronization
+### Setup & Deployment
+- `PORT_MANAGEMENT_*.md` - Port-Konfiguration
+- `DATABASE_CONFIGURATION.md` - DB-Setup
+- `VSCODE_CONFIGURATION.md` - VS Code Einrichtung
 
 ---
 
-### Technical Deep Dives
+## 🚀 Shell-Skripte
 
-#### `PIM_SYNC_SERVICE_SUMMARY.md`
-- **Best For**: Developers wanting to understand implementation details
-- **Contents**:
-  - Component breakdown
-  - Data flow diagrams
-  - Dependency graph
-  - Performance benchmarks
-  - Integration checklist
+**📍 Ort:** `scripts/`
 
----
-
-## 🎯 Reading Paths by Role
-
-### 👨‍💻 Backend Developer
-
-**Essential**:
-1. `QUICK_REFERENCE.md` (2 min)
-2. `PROGRAM_CS_INTEGRATION_GUIDE.md` (10 min) ⭐ CRITICAL
-3. `PIM_SYNC_SERVICE.md` (10 min)
-
-**Optional Deep Dive**:
-4. `PIM_SYNC_SERVICE_SUMMARY.md` (10 min)
-5. `MULTI_PROVIDER_PIM_INTEGRATION.md` (15 min)
-
-**Total Time**: 20-45 minutes
-
----
-
-### 👩‍💼 DevOps / Operations
-
-**Essential**:
-1. `QUICK_REFERENCE.md` (2 min)
-2. `PIM_SYNC_SERVICE_CONFIGURATION.md` (15 min)
-3. `PROGRAM_CS_INTEGRATION_GUIDE.md` (10 min)
-4. `FINAL_ACTION_ITEMS.md` (10 min)
-
-**Optional**:
-5. `PIM_SYNC_SERVICE.md` (10 min)
-
-**Total Time**: 35-55 minutes
-
----
-
-### 👨‍🔬 Frontend Developer
-
-**Essential**:
-1. `QUICK_REFERENCE.md` (2 min)
-2. `ELASTICSEARCH_STORE_FRONTEND_INTEGRATION.md` (10 min)
-
-**Nice to Have**:
-3. `MULTI_PROVIDER_PIM_INTEGRATION.md` (15 min)
-4. `PROJECT_INDEX.md` (5 min)
-
-**Total Time**: 12-32 minutes
-
----
-
-### 👔 Project Manager / Lead
-
-**Essential**:
-1. `SESSION_SUMMARY.md` (5 min)
-2. `PROJECT_INDEX.md` (5 min)
-3. `FINAL_ACTION_ITEMS.md` (10 min)
-
-**Nice to Have**:
-4. `QUICK_REFERENCE.md` (2 min)
-
-**Total Time**: 20-27 minutes
-
----
-
-### 🎓 New Team Member (Onboarding)
-
-**Day 1 - Overview**:
-1. `SESSION_SUMMARY.md` (5 min)
-2. `QUICK_REFERENCE.md` (2 min)
-3. `PROJECT_INDEX.md` (5 min)
-
-**Day 2 - Technical**:
-4. `ELASTICSEARCH_STORE_FRONTEND_INTEGRATION.md` (10 min)
-5. `MULTI_PROVIDER_PIM_INTEGRATION.md` (15 min)
-
-**Day 3 - Deep Dive**:
-6. `PIM_SYNC_SERVICE.md` (10 min)
-7. `PIM_SYNC_SERVICE_CONFIGURATION.md` (15 min)
-
-**Total Time**: 62 minutes over 3 days
-
----
-
-## 📑 Document Reference Table
-
-| Document | Pages | Time | For Whom | Purpose |
-|:--------:|:-----:|:----:|:--------:|:--------:|
-| QUICK_REFERENCE.md | 6 | 2min | Everyone | Fast lookup |
-| SESSION_SUMMARY.md | 8 | 5min | Managers | Status update |
-| PROJECT_INDEX.md | 8 | 5min | Architects | Navigation |
-| PROGRAM_CS_INTEGRATION_GUIDE.md ⭐ | 10 | 10min | Developers | Integration |
-| ELASTICSEARCH_STORE_FRONTEND_INTEGRATION.md | 8 | 10min | Frontend | Phase 1 |
-| MULTI_PROVIDER_PIM_INTEGRATION.md | 12 | 15min | Backend | Phase 2 |
-| PIM_SYNC_SERVICE.md | 10 | 10min | Operators | Phase 3 |
-| PIM_SYNC_SERVICE_CONFIGURATION.md | 12 | 15min | DevOps | Config |
-| PIM_SYNC_SERVICE_SUMMARY.md | 8 | 10min | Developers | Details |
-| FINAL_ACTION_ITEMS.md | 12 | 10min | Managers | To-Do |
-| **TOTAL** | **92** | **92min** | All | Complete |
-
----
-
-## 🎯 Find What You Need
-
-### "How do I integrate Phase 3?"
-→ `PROGRAM_CS_INTEGRATION_GUIDE.md`
-
-### "What are the API endpoints?"
-→ `QUICK_REFERENCE.md` or `PIM_SYNC_SERVICE.md`
-
-### "How do I configure this?"
-→ `PIM_SYNC_SERVICE_CONFIGURATION.md`
-
-### "What's the architecture?"
-→ `PROJECT_INDEX.md` or `PIM_SYNC_SERVICE_SUMMARY.md`
-
-### "What was done today?"
-→ `SESSION_SUMMARY.md`
-
-### "What do I do next?"
-→ `FINAL_ACTION_ITEMS.md`
-
-### "Quick reference?"
-→ `QUICK_REFERENCE.md`
-
-### "Troubleshooting?"
-→ `QUICK_REFERENCE.md` or `PIM_SYNC_SERVICE_CONFIGURATION.md`
-
-### "Frontend search?"
-→ `ELASTICSEARCH_STORE_FRONTEND_INTEGRATION.md`
-
-### "Multi-provider support?"
-→ `MULTI_PROVIDER_PIM_INTEGRATION.md`
-
----
-
-## ✅ Key Documents Checklist
-
-Before deployment, ensure you've read:
-
-- [ ] `QUICK_REFERENCE.md` (everyone)
-- [ ] `PROGRAM_CS_INTEGRATION_GUIDE.md` (backend dev)
-- [ ] `PIM_SYNC_SERVICE_CONFIGURATION.md` (devops)
-- [ ] `FINAL_ACTION_ITEMS.md` (manager)
-
----
-
-## 🚀 Getting Started in 3 Steps
-
-### Step 1: Read (5 minutes)
-```
-Read: QUICK_REFERENCE.md
+Verfügbare Skripte:
+```bash
+./scripts/aspire-run.sh          # AppHost starten
+./scripts/aspire-watch.sh        # AppHost mit Watch-Mode
+./scripts/start-frontend.sh      # Frontend starten
+./scripts/health-check.sh        # Health-Checks alle Services
+./scripts/check-ports.sh         # Port-Status überprüfen
+./scripts/start-all-services.sh  # Alle Services zusammen
+./scripts/start-services-local.sh # Lokale Services starten
+./scripts/stop-services-local.sh  # Services stoppen
 ```
 
-### Step 2: Understand (10 minutes)
+---
+
+## 📊 Schnelle Übersicht
+
 ```
-Read: PROGRAM_CS_INTEGRATION_GUIDE.md
+B2Connect/
+├── docs/
+│   ├── DEVELOPER_GUIDE.md          ⭐ START HIER (Neuer Guide)
+│   ├── archived/                    (Alte detaillierte Docs)
+│   │   ├── ASPIRE_*.md
+│   │   ├── CATALOG_*.md
+│   │   ├── ELASTICSEARCH_*.md
+│   │   └── ...mehr
+│   └── architecture/                (Architektur-Guides)
+│
+├── scripts/                         (Shell-Skripte)
+│   ├── aspire-run.sh
+│   ├── start-frontend.sh
+│   └── ...mehr
+│
+├── README.md                        (Übersicht)
+├── DEVELOPMENT.md                   (Setup)
+├── GETTING_STARTED.md               (Quick Start)
+├── BUSINESS_REQUIREMENTS.md         (Features)
+├── APPLICATION_SPECIFICATIONS.md    (Tech-Specs)
+├── CODING_STANDARDS.md              (Code-Style)
+└── .copilot-specs.md                (Copilot Guide)
 ```
 
-### Step 3: Implement (20 minutes)
+---
+
+## 💡 Pro-Tipps
+
+### Schnelle Navigation
+```bash
+# Alle Dokumentationsdateien auflisten
+ls -la docs/
+
+# Alte Dokumentation durchsuchen
+grep -r "keyword" docs/archived/
+
+# Skripte ausführbar machen
+chmod +x scripts/*.sh
 ```
-1. Update Program.cs (add 2 lines)
-2. Update appsettings.json (add 2 sections)
-3. Set environment variables
-4. dotnet build
-5. dotnet run
-6. Test with curl commands
+
+### Suche in Dokumentation
+```bash
+# In dieser Datei suchen
+grep "Elasticsearch" docs/DEVELOPER_GUIDE.md
+
+# In allen Dateien suchen
+grep -r "Pinia" docs/
 ```
 
-**Total Time to Working System**: 35 minutes ⚡
+### Offline lesen
+```bash
+# README.md in Terminal anzeigen
+cat README.md | less
+```
 
 ---
 
-## 📞 Frequently Needed Documents
+## 📝 Dokumentation aktualisieren
 
-### When Integration Fails
-1. Check: `PROGRAM_CS_INTEGRATION_GUIDE.md` → Troubleshooting section
-2. Check: `QUICK_REFERENCE.md` → Troubleshooting Quick Fixes
+Wenn du Änderungen machst:
 
-### For Configuration
-1. Check: `PIM_SYNC_SERVICE_CONFIGURATION.md` → Configuration Profiles
-2. Check: `QUICK_REFERENCE.md` → Configuration Profiles
+1. **Kleine Änderungen:** UPDATE DEVELOPER_GUIDE.md
+   ```bash
+   # Öffne docs/DEVELOPER_GUIDE.md
+   # Bearbeite die relevante Sektion
+   ```
 
-### For Operations
-1. Check: `PIM_SYNC_SERVICE_CONFIGURATION.md` → Monitoring Setup
-2. Check: `QUICK_REFERENCE.md` → Emergency Procedures
+2. **Neue Feature:** Erstelle neue Datei in `docs/`
+   ```markdown
+   # Feature Name
+   
+   [Deine Dokumentation hier]
+   
+   ---
+   **Letzte Aktualisierung:** [Datum]
+   ```
 
-### For API Usage
-1. Check: `QUICK_REFERENCE.md` → API Endpoints
-2. Check: `PIM_SYNC_SERVICE.md` → API Endpoints
-
-### For Understanding Architecture
-1. Check: `PROJECT_INDEX.md` → Architecture Overview
-2. Check: `PIM_SYNC_SERVICE_SUMMARY.md` → Dataflow Diagrams
-
----
-
-## 🎓 Learning Objectives
-
-After reading this documentation, you will understand:
-
-- ✅ How ElasticSearch powers fast product search (Phase 1)
-- ✅ How to connect multiple PIM systems (Phase 2)
-- ✅ How to automatically synchronize PIM data (Phase 3)
-- ✅ How to integrate into your backend (Program.cs)
-- ✅ How to configure for your environment
-- ✅ How to troubleshoot issues
-- ✅ How to monitor system health
-- ✅ How to deploy to production
+3. **Archivierung:** Alte Dateien gehen in `docs/archived/`
 
 ---
 
-## 📊 Document Statistics
+## ❓ FAQ
 
-- **Total Pages**: 92
-- **Total Code Examples**: 25+
-- **Total Configuration Scenarios**: 8
-- **Diagrams & Charts**: 10+
-- **Troubleshooting Solutions**: 15+
-- **Links & References**: 30+
+**F: Wo finde ich die Quick Start?**
+A: → [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md#-quick-start)
 
----
+**F: Wie starte ich alle Services?**
+A: → `./scripts/start-all-services.sh` oder [DEVELOPMENT.md](DEVELOPMENT.md)
 
-## 🔖 Bookmark These
+**F: Wo ist die alte Dokumentation?**
+A: → `docs/archived/`
 
-### Most Critical
-1. `QUICK_REFERENCE.md` - Your daily reference
-2. `PROGRAM_CS_INTEGRATION_GUIDE.md` - Before you code
-
-### For Your Role
-- Backend: `PROGRAM_CS_INTEGRATION_GUIDE.md`
-- DevOps: `PIM_SYNC_SERVICE_CONFIGURATION.md`
-- Frontend: `ELASTICSEARCH_STORE_FRONTEND_INTEGRATION.md`
-- Manager: `FINAL_ACTION_ITEMS.md`
-
-### When Stuck
-- `QUICK_REFERENCE.md` → Troubleshooting section
-- `PIM_SYNC_SERVICE_CONFIGURATION.md` → Troubleshooting guide
+**F: Wie aktualisiere ich die Dokumentation?**
+A: → Bearbeite `docs/DEVELOPER_GUIDE.md` oder erstelle neue Dateien in `docs/`
 
 ---
 
-## 🆘 Emergency? Read This First
+**Letzte Aktualisierung:** 26. Dezember 2025
 
-1. **API not responding**: `QUICK_REFERENCE.md` → Troubleshooting
-2. **Build fails**: `PROGRAM_CS_INTEGRATION_GUIDE.md` → Common Errors
-3. **Configuration issues**: `PIM_SYNC_SERVICE_CONFIGURATION.md` → Scenarios
-4. **Need to restart**: `QUICK_REFERENCE.md` → Emergency Procedures
-
----
-
-## 📈 Document Maintenance
-
-- ✅ All documents reviewed and verified
-- ✅ All code examples tested
-- ✅ All links validated
-- ✅ Latest as of: 26 December 2025
-- 🔄 Keep updated as system evolves
-
----
-
-## 💡 Pro Tips
-
-1. **Bookmark this file** in your browser for easy access
-2. **Print `QUICK_REFERENCE.md`** and keep at your desk
-3. **Share `SESSION_SUMMARY.md`** with stakeholders
-4. **Use `FINAL_ACTION_ITEMS.md`** to create sprint tasks
-5. **Reference `PROGRAM_CS_INTEGRATION_GUIDE.md`** during coding
-
----
-
-## ✨ Summary
-
-You have access to comprehensive documentation covering all three phases of the PIM integration project:
-
-- **Phase 1**: ElasticSearch frontend search ✅
-- **Phase 2**: Multi-provider PIM integration ✅
-- **Phase 3**: Automated PIM synchronization 🟡 Ready
-
-All code is complete, tested, and documented. Integration takes ~2.5 hours start to finish.
-
-**Next Action**: Start with `QUICK_REFERENCE.md`!
-
----
-
-**Happy deploying! 🚀**
-
-*Documentation Index Last Updated: 26 December 2025*
+*Für Fragen oder Feedback: Schau in die relevante Dokumentation oder frag im Team!*

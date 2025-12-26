@@ -1,15 +1,17 @@
 <template>
-  <div class="min-h-screen bg-soft-50">
+  <div
+    class="min-h-screen bg-soft-50 dark:bg-soft-900 transition-colors duration-300"
+  >
     <!-- Sidebar Navigation -->
     <aside
       :class="[
-        'fixed inset-y-0 left-0 w-64 bg-white border-r border-soft-100 shadow-soft-sm transition-transform duration-300 z-50',
+        'fixed inset-y-0 left-0 w-64 bg-white dark:bg-soft-800 border-r border-soft-100 dark:border-soft-700 shadow-soft-sm transition-transform duration-300 z-50',
         { '-translate-x-full md:translate-x-0': !sidebarOpen },
       ]"
     >
       <!-- Logo -->
       <div
-        class="flex items-center justify-between p-safe border-b border-soft-100"
+        class="flex items-center justify-between p-safe border-b border-soft-100 dark:border-soft-700"
       >
         <div class="flex items-center gap-2">
           <div
@@ -18,13 +20,15 @@
             <span class="text-white font-bold text-lg">B</span>
           </div>
           <div>
-            <h1 class="text-base font-bold text-soft-900">B2Connect</h1>
-            <p class="text-xs text-soft-500">Admin</p>
+            <h1 class="text-base font-bold text-soft-900 dark:text-white">
+              B2Connect
+            </h1>
+            <p class="text-xs text-soft-500 dark:text-soft-400">Admin</p>
           </div>
         </div>
         <button
           @click="sidebarOpen = false"
-          class="md:hidden text-soft-400 hover:text-soft-600"
+          class="md:hidden text-soft-400 dark:text-soft-500 hover:text-soft-600 dark:hover:text-soft-400"
         >
           <svg
             class="w-5 h-5"
@@ -50,12 +54,11 @@
           :to="item.path"
           :class="[
             'flex items-center gap-3 px-4 py-3 rounded-soft text-sm font-medium transition-all duration-200',
-            'hover:bg-soft-100',
+            'hover:bg-soft-100 dark:hover:bg-soft-700',
             {
-              'bg-primary-50 text-primary-600 shadow-soft-sm': isActive(
-                item.path
-              ),
-              'text-soft-700': !isActive(item.path),
+              'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-soft-sm':
+                isActive(item.path),
+              'text-soft-700 dark:text-soft-300': !isActive(item.path),
             },
           ]"
         >
@@ -77,42 +80,24 @@
       </nav>
 
       <!-- Divider -->
-      <div class="mx-4 my-6 border-t border-soft-100" />
+      <div class="mx-4 my-6 border-t border-soft-100 dark:border-soft-700" />
 
       <!-- Settings Section -->
       <div class="p-4 space-y-1">
-        <button
-          @click="toggleDarkMode"
-          class="w-full flex items-center gap-3 px-4 py-3 rounded-soft text-sm font-medium text-soft-700 hover:bg-soft-100 transition-all duration-200"
-        >
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20.354 15.354A9 9 0 0 0 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z"
-            />
-          </svg>
-          <span>{{ isDark ? "Light" : "Dark" }} Mode</span>
-        </button>
+        <ThemeToggle show-menu />
       </div>
     </aside>
 
     <!-- Top Navigation Bar -->
     <nav
-      class="fixed top-0 right-0 left-0 md:left-64 bg-white border-b border-soft-100 shadow-soft-sm z-40"
+      class="fixed top-0 right-0 left-0 md:left-64 bg-white dark:bg-soft-800 border-b border-soft-100 dark:border-soft-700 shadow-soft-sm z-40 transition-colors duration-300"
     >
       <div class="px-safe py-4 flex items-center justify-between">
         <!-- Left: Menu Toggle + Breadcrumb -->
         <div class="flex items-center gap-4">
           <button
             @click="sidebarOpen = !sidebarOpen"
-            class="md:hidden text-soft-600 hover:text-soft-900 transition-colors"
+            class="md:hidden text-soft-600 dark:text-soft-300 hover:text-soft-900 dark:hover:text-white transition-colors"
           >
             <svg
               class="w-6 h-6"
@@ -129,7 +114,9 @@
             </svg>
           </button>
           <!-- Breadcrumb -->
-          <div class="hidden md:flex items-center gap-2 text-sm text-soft-600">
+          <div
+            class="hidden md:flex items-center gap-2 text-sm text-soft-600 dark:text-soft-400"
+          >
             <span>Dashboard</span>
             <svg
               class="w-4 h-4"
@@ -151,7 +138,7 @@
         <div class="flex items-center gap-4">
           <!-- Notifications -->
           <button
-            class="relative text-soft-600 hover:text-soft-900 transition-colors"
+            class="relative text-soft-600 dark:text-soft-400 hover:text-soft-900 dark:hover:text-white transition-colors"
           >
             <svg
               class="w-5 h-5"
@@ -174,7 +161,7 @@
           <!-- User Dropdown -->
           <div class="relative" @click="userMenuOpen = !userMenuOpen">
             <button
-              class="flex items-center gap-3 p-2 rounded-soft hover:bg-soft-100 transition-colors"
+              class="flex items-center gap-3 p-2 rounded-soft hover:bg-soft-100 dark:hover:bg-soft-700 transition-colors"
             >
               <div
                 class="w-8 h-8 rounded-soft-lg bg-gradient-soft-purple flex items-center justify-center text-white text-sm font-semibold"
@@ -182,10 +169,10 @@
                 {{ authStore.user?.email?.charAt(0).toUpperCase() || "U" }}
               </div>
               <div class="hidden sm:block text-left">
-                <p class="text-sm font-medium text-soft-900">
+                <p class="text-sm font-medium text-soft-900 dark:text-white">
                   {{ authStore.user?.email?.split("@")[0] }}
                 </p>
-                <p class="text-xs text-soft-500">Admin</p>
+                <p class="text-xs text-soft-500 dark:text-soft-400">Admin</p>
               </div>
               <svg
                 :class="[
@@ -209,24 +196,24 @@
             <div
               v-if="userMenuOpen"
               @click:outside="userMenuOpen = false"
-              class="absolute right-0 mt-2 w-48 bg-white rounded-soft-lg shadow-soft-lg border border-soft-100 z-50"
+              class="absolute right-0 mt-2 w-48 bg-white dark:bg-soft-800 rounded-soft-lg shadow-soft-lg border border-soft-100 dark:border-soft-700 z-50 transition-colors duration-300"
             >
               <a
                 href="#"
-                class="block px-4 py-3 text-sm text-soft-700 hover:bg-soft-50 first:rounded-t-soft-lg transition-colors"
+                class="block px-4 py-3 text-sm text-soft-700 dark:text-soft-300 hover:bg-soft-50 dark:hover:bg-soft-700 first:rounded-t-soft-lg transition-colors"
               >
                 Profile
               </a>
               <a
                 href="#"
-                class="block px-4 py-3 text-sm text-soft-700 hover:bg-soft-50 transition-colors"
+                class="block px-4 py-3 text-sm text-soft-700 dark:text-soft-300 hover:bg-soft-50 dark:hover:bg-soft-700 transition-colors"
               >
                 Settings
               </a>
-              <div class="border-t border-soft-100" />
+              <div class="border-t border-soft-100 dark:border-soft-700" />
               <button
                 @click="logout"
-                class="w-full text-left px-4 py-3 text-sm text-danger-600 hover:bg-danger-50 last:rounded-b-soft-lg transition-colors font-medium"
+                class="w-full text-left px-4 py-3 text-sm text-danger-600 dark:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-900/20 last:rounded-b-soft-lg transition-colors font-medium"
               >
                 Logout
               </button>
@@ -237,7 +224,9 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="pt-20 md:pt-20 md:ml-64 min-h-screen bg-soft-50">
+    <main
+      class="pt-20 md:pt-20 md:ml-64 min-h-screen bg-soft-50 dark:bg-soft-900 transition-colors duration-300"
+    >
       <div class="p-safe">
         <router-view />
       </div>
@@ -247,7 +236,7 @@
     <div
       v-if="sidebarOpen"
       @click="sidebarOpen = false"
-      class="fixed inset-0 bg-black/30 md:hidden z-40"
+      class="fixed inset-0 bg-black/30 dark:bg-black/50 md:hidden z-40 transition-colors duration-300"
     />
   </div>
 </template>
@@ -256,15 +245,17 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useThemeStore } from "@/stores/theme";
 import { useRouter } from "vue-router";
+import ThemeToggle from "./ThemeToggle.vue";
 
 const authStore = useAuthStore();
+const themeStore = useThemeStore();
 const router = useRouter();
 const route = useRoute();
 
 const sidebarOpen = ref(false);
 const userMenuOpen = ref(false);
-const isDark = ref(false);
 
 interface NavItem {
   path: string;
@@ -292,11 +283,6 @@ const navItems: NavItem[] = [
 
 const isActive = (path: string) => {
   return route.path.startsWith(path);
-};
-
-const toggleDarkMode = () => {
-  isDark.value = !isDark.value;
-  document.documentElement.classList.toggle("dark", isDark.value);
 };
 
 const logout = async () => {

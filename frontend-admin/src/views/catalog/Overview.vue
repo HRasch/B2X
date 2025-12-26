@@ -119,6 +119,10 @@ onMounted(async () => {
 <style scoped lang="css">
 .catalog-overview {
   padding: 2rem;
+  @media (prefers-color-scheme: dark) {
+    background: #1a202c;
+    color: #e2e8f0;
+  }
 }
 
 .header {
@@ -153,11 +157,19 @@ onMounted(async () => {
   display: flex;
   gap: 1.5rem;
   transition: all 0.3s;
+  @media (prefers-color-scheme: dark) {
+    background: #2c3e50;
+    border-color: #4b5563;
+  }
 }
 
 .stat-card:hover {
   border-color: #d1d5db;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @media (prefers-color-scheme: dark) {
+    border-color: #4b5563;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
 }
 
 .stat-icon {
@@ -192,12 +204,18 @@ onMounted(async () => {
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 0.25rem;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .stat-label {
   font-size: 0.875rem;
   color: #6b7280;
   margin-bottom: 0.75rem;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 .stat-link {
@@ -223,6 +241,9 @@ onMounted(async () => {
   margin: 0 0 1.5rem 0;
   font-size: 1.5rem;
   color: #1f2937;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .actions-grid {
@@ -239,12 +260,20 @@ onMounted(async () => {
   text-decoration: none;
   color: inherit;
   transition: all 0.3s;
+  @media (prefers-color-scheme: dark) {
+    background: #2c3e50;
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
 }
 
 .action-card:hover {
   border-color: #3b82f6;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
   transform: translateY(-2px);
+  @media (prefers-color-scheme: dark) {
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
 }
 
 .action-icon {
@@ -257,11 +286,17 @@ onMounted(async () => {
   font-weight: 600;
   color: #1f2937;
   margin-bottom: 0.5rem;
+  @media (prefers-color-scheme: dark) {
+    color: #f3f4f6;
+  }
 }
 
 .action-description {
   font-size: 0.875rem;
   color: #6b7280;
+  @media (prefers-color-scheme: dark) {
+    color: #a6adb8;
+  }
 }
 
 /* Management Sections */
