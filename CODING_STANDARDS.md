@@ -1,8 +1,11 @@
 # Coding Standards & Guidelines - B2Connect
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Last Updated:** 26. Dezember 2025  
 **Status:** ACTIVE  
+**Testing Update:** Shouldly assertions now required for all unit tests ✨
+
+> ⭐ **NEW:** All unit tests now use **Shouldly** for fluent, readable assertions instead of traditional `Assert.*` statements. See [SHOULDLY_TESTING_GUIDE.md](SHOULDLY_TESTING_GUIDE.md) for complete reference and examples.
 
 ---
 
@@ -12,7 +15,7 @@
 2. [Error Handling & Result-Pattern](#2-error-handling--result-pattern)
 3. [Type Safety & Null Handling](#3-type-safety--null-handling)
 4. [Async/Await & Threading](#4-asyncawait--threading)
-5. [Testing & Quality](#5-testing--quality)
+5. [Testing & Quality](#5-testing--quality) ⭐ *See [SHOULDLY_TESTING_GUIDE.md](SHOULDLY_TESTING_GUIDE.md) for detailed assertion examples*
 6. [Documentation & Comments](#6-documentation--comments)
 7. [Performance & Resource Management](#7-performance--resource-management)
 8. [Frontend (Vue.js / TypeScript)](#8-frontend-vuejs--typescript)

@@ -84,7 +84,7 @@ public abstract record Result<T> : Result
     /// </summary>
     /// <param name="Value">The resulting value from the operation</param>
     /// <param name="Message">Optional success message</param>
-    public sealed record Success(T Value, string Message = "") : Result<T>;
+    public new sealed record Success(T Value, string Message = "") : Result<T>;
 
     /// <summary>
     /// Represents a failed operation.
@@ -92,7 +92,7 @@ public abstract record Result<T> : Result
     /// <param name="Code">Error code for programmatic handling</param>
     /// <param name="Message">Human-readable error message</param>
     /// <param name="Exception">Optional inner exception for debugging</param>
-    public sealed record Failure(string Code, string Message, Exception? Exception = null) : Result<T>;
+    public new sealed record Failure(string Code, string Message, Exception? Exception = null) : Result<T>;
 
     /// <summary>
     /// Matches on the result type and applies appropriate function.

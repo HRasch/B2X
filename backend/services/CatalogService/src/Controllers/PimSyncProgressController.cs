@@ -30,8 +30,6 @@ public class PimSyncProgressController : ControllerBase
     /// Get progress of a specific sync run
     /// </summary>
     [HttpGet("progress/{syncRunId}")]
-    [ProduceResponseType(typeof(SyncProgressModel), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public IActionResult GetProgress(Guid syncRunId)
     {
         var progress = _progressService.GetProgress(syncRunId);
@@ -47,7 +45,6 @@ public class PimSyncProgressController : ControllerBase
     /// Get all currently running sync operations
     /// </summary>
     [HttpGet("progress/active")]
-    [ProduceResponseType(typeof(List<SyncProgressModel>), StatusCodes.Status200OK)]
     public IActionResult GetActiveSyncs()
     {
         var activeSyncs = _progressService.GetActiveSyncs();
@@ -58,8 +55,6 @@ public class PimSyncProgressController : ControllerBase
     /// Get the latest sync for a specific provider
     /// </summary>
     [HttpGet("progress/latest")]
-    [ProduceResponseType(typeof(SyncProgressModel), StatusCodes.Status200OK)]
-    [ProduceResponseType(StatusCodes.Status404NotFound)]
     public IActionResult GetLatestSync([FromQuery] string? provider = null)
     {
         var latestSync = _progressService.GetLatestSync(provider);
@@ -75,7 +70,6 @@ public class PimSyncProgressController : ControllerBase
     /// Get sync history (completed and failed syncs)
     /// </summary>
     [HttpGet("progress/history")]
-    [ProduceResponseType(typeof(List<SyncProgressModel>), StatusCodes.Status200OK)]
     public IActionResult GetSyncHistory([FromQuery] int maxResults = 20)
     {
         var history = _progressService.GetSyncHistory(Math.Min(maxResults, 100));
@@ -87,7 +81,6 @@ public class PimSyncProgressController : ControllerBase
     /// Includes active syncs, latest sync, and summary statistics
     /// </summary>
     [HttpGet("dashboard")]
-    [ProduceResponseType(typeof(SyncDashboardDto), StatusCodes.Status200OK)]
     public IActionResult GetDashboard()
     {
         var activeSyncs = _progressService.GetActiveSyncs();

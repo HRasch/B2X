@@ -12,7 +12,7 @@ namespace B2Connect.CatalogService.CQRS.Handlers.Commands;
 /// Handler for CreateProductCommand
 /// Wolverine automatically discovers this because:
 /// 1. Class name ends with "Handler"
-/// 2. Implements ICommandHandler<CreateProductCommand>
+/// 2. Implements ICommandHandler<CreateProductCommand, CommandResult>
 /// 3. Has async Handle() method
 ///
 /// Wolverine will:
@@ -21,7 +21,7 @@ namespace B2Connect.CatalogService.CQRS.Handlers.Commands;
 /// - Return CommandResult immediately
 /// - Then publish ProductCreatedEvent asynchronously
 /// </summary>
-public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
+public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CommandResult>
 {
     private readonly CatalogDbContext _context;
     private readonly IProductRepository _productRepository;
@@ -108,7 +108,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
 /// <summary>
 /// Handler for UpdateProductCommand
 /// </summary>
-public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
+public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand, CommandResult>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMessageBus _messageBus;
@@ -185,7 +185,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 /// <summary>
 /// Handler for DeleteProductCommand
 /// </summary>
-public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
+public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, CommandResult>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMessageBus _messageBus;

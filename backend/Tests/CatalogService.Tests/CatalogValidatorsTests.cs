@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentValidation;
 using Xunit;
+using Shouldly;
 using B2Connect.CatalogService.Models;
 using B2Connect.CatalogService.Validators;
 using B2Connect.Types.Localization;
@@ -43,7 +44,7 @@ public class CatalogValidatorsTests
         var result = await validator.ValidateAsync(validRequest);
 
         // Assert
-        Assert.True(result.IsValid);
+        result.IsValid.ShouldBeTrue();
     }
 
     [Theory]
@@ -73,8 +74,8 @@ public class CatalogValidatorsTests
         var result = await validator.ValidateAsync(request);
 
         // Assert
-        Assert.False(result.IsValid);
-        Assert.Contains("Sku", result.Errors.Select(e => e.PropertyName));
+        result.IsValid.ShouldBeFalse();
+        result.Errors.Select(e => e.PropertyName).ShouldContain("Sku");
     }
 
     [Theory]
@@ -90,7 +91,7 @@ public class CatalogValidatorsTests
         var result = await validator.ValidateAsync(request);
 
         // Assert
-        Assert.False(result.IsValid);
+        result.IsValid.ShouldBeFalse();
     }
 
     [Theory]

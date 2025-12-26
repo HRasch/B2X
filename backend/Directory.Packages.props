@@ -28,8 +28,11 @@
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
     <!-- ElasticSearch & Message Queue -->
-    <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.11.0" />
+    <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.15.0" />
     <PackageVersion Include="RabbitMQ.Client" Version="7.1.2" />
+    <!-- Job Scheduling -->
+    <PackageVersion Include="Quartz" Version="3.10.5" />
+    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.10.5" />
     <!-- Logging & Observability -->
     <PackageVersion Include="Serilog" Version="4.3.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />

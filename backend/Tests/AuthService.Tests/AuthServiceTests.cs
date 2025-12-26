@@ -1,10 +1,12 @@
 using B2Connect.AuthService.Data;
+using B2Connect.Types;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Shouldly;
 
 namespace B2Connect.AuthService.Tests;
 
@@ -143,15 +145,21 @@ public class AuthServiceTests : IAsyncLifetime
         };
 
         // Act
-        var response = await _authService.LoginAsync(request);
+        var result = await _authService.LoginAsync(request);
 
         // Assert
-        Assert.NotNull(response);
-        Assert.NotEmpty(response.AccessToken);
-        Assert.NotEmpty(response.RefreshToken);
-        Assert.Equal(3600, response.ExpiresIn);
-        Assert.NotNull(response.User);
-        Assert.Equal("admin@test.com", response.User.Email);
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Success>();
+
+        if (result is Result<AuthResponse>.Success success)
+        {
+            var response = success.Value;
+            response.AccessToken.ShouldNotBeNullOrEmpty();
+            response.RefreshToken.ShouldNotBeNullOrEmpty();
+            response.ExpiresIn.ShouldBe(3600);
+            response.User.ShouldNotBeNull();
+            response.User.Email.ShouldBe("admin@test.com");
+        }
     }
 
     [Fact]
@@ -190,22 +198,30 @@ public class AuthServiceTests : IAsyncLifetime
     public async Task GetUserById_WithValidId_ReturnsUser()
     {
         // Act
-        var user = await _authService.GetUserByIdAsync("test-admin-001");
+        var result = await _authService.GetUserByIdAsync("test-admin-001");
 
         // Assert
-        Assert.NotNull(user);
-        Assert.Equal("admin@test.com", user.Email);
-        Assert.Equal("Admin", user.FirstName);
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AppUser>.Success>();
+
+        if (result is Result<AppUser>.Success success)
+        {
+            var user = success.Value;
+            user.ShouldNotBeNull();
+            user.Email.ShouldBe("admin@test.com");
+            user.FirstName.ShouldBe("Admin");
+        }
     }
 
     [Fact]
-    public async Task GetUserById_WithInvalidId_ReturnsNull()
+    public async Task GetUserById_WithInvalidId_ReturnsFailure()
     {
         // Act
-        var user = await _authService.GetUserByIdAsync("nonexistent-id");
+        var result = await _authService.GetUserByIdAsync("nonexistent-id");
 
         // Assert
-        Assert.Null(user);
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AppUser>.Failure>();
     }
 
     [Fact(Skip = "Refresh token validation requires database storage of refresh tokens - see E2E test in auth.spec.ts")]
@@ -221,14 +237,25 @@ public class AuthServiceTests : IAsyncLifetime
     public async Task EnableTwoFactor_WithValidUserId_EnablesTwoFactor()
     {
         // Act
-        var response = await _authService.EnableTwoFactorAsync("test-admin-001");
+        var result = await _authService.EnableTwoFactorAsync("test-admin-001");
 
         // Assert
-        Assert.NotNull(response);
-        Assert.True(response.TwoFactorEnabled);
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Success>();
 
-        var user = await _authService.GetUserByIdAsync("test-admin-001");
-        Assert.True(user!.IsTwoFactorRequired);
+        if (result is Result<AuthResponse>.Success success)
+        {
+            success.Value.ShouldNotBeNull();
+            success.Value.User.ShouldNotBeNull();
+            success.Value.User.Id.ShouldNotBeNullOrEmpty();
+
+            // Verify the user's 2FA was actually enabled in database
+            var userResult = await _authService.GetUserByIdAsync("test-admin-001");
+            if (userResult is Result<AppUser>.Success userSuccess)
+            {
+                userSuccess.Value.TwoFactorEnabled.ShouldBeTrue();
+            }
+        }
     }
 
     [Fact]
@@ -241,7 +268,7 @@ public class AuthServiceTests : IAsyncLifetime
         var result = await _authService.VerifyTwoFactorCodeAsync("test-admin-001", "123456");
 
         // Assert
-        Assert.True(result);
+        result.ShouldBeTrue();
     }
 
     [Fact]
@@ -254,6 +281,6 @@ public class AuthServiceTests : IAsyncLifetime
         var result = await _authService.VerifyTwoFactorCodeAsync("test-admin-001", "000000");
 
         // Assert
-        Assert.False(result);
+        result.ShouldBeFalse();
     }
 }

@@ -1,8 +1,10 @@
 using B2Connect.AuthService.Controllers;
 using B2Connect.AuthService.Data;
+using B2Connect.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Shouldly;
 
 namespace B2Connect.AuthService.Tests;
 
@@ -34,7 +36,7 @@ public class AuthControllerTests
 
         mockAuthService
             .Setup(x => x.LoginAsync(It.IsAny<LoginRequest>()))
-            .ReturnsAsync(loginResponse);
+            .ReturnsAsync(new Result<AuthResponse>.Success(loginResponse));
 
         var controller = new AuthController(mockAuthService.Object, mockLogger.Object);
 
@@ -47,12 +49,12 @@ public class AuthControllerTests
         var result = await controller.Login(request);
 
         // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        Assert.Equal(200, okResult.StatusCode);
+        var okResult = result.ShouldBeOfType<OkObjectResult>();
+        okResult.StatusCode.ShouldBe(200);
 
-        var returnedResponse = Assert.IsType<AuthResponse>(okResult.Value);
-        Assert.Equal("test-token-123", returnedResponse.AccessToken);
-        Assert.NotNull(returnedResponse.User);
+        var returnedResponse = okResult.Value.ShouldBeOfType<AuthResponse>();
+        returnedResponse.AccessToken.ShouldBe("test-token-123");
+        returnedResponse.User.ShouldNotBeNull();
     }
 
     [Fact]
@@ -77,8 +79,8 @@ public class AuthControllerTests
         var result = await controller.Login(request);
 
         // Assert
-        var unauthorizedResult = Assert.IsType<UnauthorizedObjectResult>(result);
-        Assert.Equal(401, unauthorizedResult.StatusCode);
+        var unauthorizedResult = result.ShouldBeOfType<UnauthorizedObjectResult>();
+        unauthorizedResult.StatusCode.ShouldBe(401);
     }
 
     [Fact]
@@ -98,8 +100,8 @@ public class AuthControllerTests
         var result = await controller.Login(request);
 
         // Assert
-        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal(400, badRequestResult.StatusCode);
+        var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
+        badRequestResult.StatusCode.ShouldBe(400);
     }
 
     [Fact]
@@ -128,7 +130,7 @@ public class AuthControllerTests
 
         mockAuthService
             .Setup(x => x.RefreshTokenAsync(It.IsAny<string>()))
-            .ReturnsAsync(refreshResponse);
+            .ReturnsAsync(new Result<AuthResponse>.Success(refreshResponse));
 
         var controller = new AuthController(mockAuthService.Object, mockLogger.Object);
 
@@ -140,11 +142,11 @@ public class AuthControllerTests
         var result = await controller.Refresh(request);
 
         // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        Assert.Equal(200, okResult.StatusCode);
+        var okResult = result.ShouldBeOfType<OkObjectResult>();
+        okResult.StatusCode.ShouldBe(200);
 
-        var returnedResponse = Assert.IsType<AuthResponse>(okResult.Value);
-        Assert.Equal("new-test-token-456", returnedResponse.AccessToken);
+        var returnedResponse = okResult.Value.ShouldBeOfType<AuthResponse>();
+        returnedResponse.AccessToken.ShouldBe("new-test-token-456");
     }
 
     [Fact]

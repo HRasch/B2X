@@ -1,23 +1,18 @@
-using Elastic.Clients.Elasticsearch;
-using B2Connect.CatalogService.CQRS;
-using Elastic.Clients.Elasticsearch.QueryDsl;
-using B2Connect.CatalogService.CQRS;
-using B2Connect.CatalogService.CQRS.Queries;
-using B2Connect.CatalogService.CQRS;
-using B2Connect.CatalogService.Models;
-using B2Connect.CatalogService.CQRS;
-using B2Connect.CatalogService.Services;
-using B2Connect.CatalogService.CQRS;
-using Microsoft.Extensions.Logging;
-using B2Connect.CatalogService.CQRS;
 using System.Collections.Generic;
-using B2Connect.CatalogService.CQRS;
 using System.Threading;
-using B2Connect.CatalogService.CQRS;
 using System.Threading.Tasks;
-using B2Connect.CatalogService.CQRS;
+
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.QueryDsl;
+
+using Microsoft.Extensions.Logging;
 
 using WolverineFx;
+
+using B2Connect.CatalogService.CQRS;
+using B2Connect.CatalogService.CQRS.Queries;
+using B2Connect.CatalogService.Models;
+using B2Connect.CatalogService.Services;
 namespace B2Connect.CatalogService.CQRS.Handlers.Queries;
 
 /// <summary>
