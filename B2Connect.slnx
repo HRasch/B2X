@@ -13,6 +13,12 @@
       <Folder Name="/Gateway/">
         <Project Path="backend/services/Gateway/B2Connect.Gateway.csproj" />
       </Folder>
+      <Folder Name="/backend-store/">
+        <Project Path="backend/services/backend-store/B2Connect.Store.csproj" />
+      </Folder>
+      <Folder Name="/backend-admin/">
+        <Project Path="backend/services/backend-admin/B2Connect.Admin.csproj" />
+      </Folder>
       <Folder Name="/Theming/">
         <Project Path="backend/services/Theming/B2Connect.Theming.API.csproj" />
       </Folder>

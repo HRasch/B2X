@@ -1,10 +1,16 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-// API Gateway
-var gateway = builder
-    .AddProject("api-gateway", "../Gateway/B2Connect.Gateway.csproj")
-    .WithHttpEndpoint(port: 6000, name: "http-gateway")
+// Store API Gateway (for frontend-store, public read-only endpoints)
+var storeGateway = builder
+    .AddProject("store-gateway", "../backend-store/B2Connect.Store.csproj")
+    .WithHttpEndpoint(port: 6000, name: "http-store-gateway")
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:6000");
+
+// Admin API Gateway (for frontend-admin, protected CRUD endpoints)
+var adminGateway = builder
+    .AddProject("admin-gateway", "../backend-admin/B2Connect.Admin.csproj")
+    .WithHttpEndpoint(port: 6100, name: "http-admin-gateway")
+    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:6100");
 
 // Auth Service (Identity)
 var authService = builder

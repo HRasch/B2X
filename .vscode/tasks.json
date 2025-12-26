@@ -222,6 +222,68 @@
       "runOptions": {
         "runOn": "folderOpen"
       }
+    },
+    {
+      "label": "store-gateway-start",
+      "type": "shell",
+      "isBackground": true,
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}/backend/services/backend-store/B2Connect.Store.csproj"
+      ],
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:6000"
+      },
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "file": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Now listening on.*",
+          "endsPattern": ".*Application started.*"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "group": "gateways"
+      }
+    },
+    {
+      "label": "admin-gateway-start",
+      "type": "shell",
+      "isBackground": true,
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}/backend/services/backend-admin/B2Connect.Admin.csproj"
+      ],
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:6100"
+      },
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "file": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Now listening on.*",
+          "endsPattern": ".*Application started.*"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "group": "gateways"
+      }
     }
   ]
 }
