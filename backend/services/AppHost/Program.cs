@@ -27,6 +27,8 @@ try
         ("Auth Service", Path.Combine(servicesDir, "auth-service"), 9002),
         ("Tenant Service", Path.Combine(servicesDir, "tenant-service"), 9003),
         ("Localization Service", Path.Combine(servicesDir, "LocalizationService"), 9004),
+        ("Catalog Service", Path.Combine(servicesDir, "CatalogService"), 9001),
+        ("Layout Service", Path.Combine(servicesDir, "LayoutService"), 9005),
     };
 
     var processes = new List<Process>();
@@ -77,6 +79,8 @@ try
     Log.Information("  • Auth Service:         http://localhost:9002");
     Log.Information("  • Tenant Service:       http://localhost:9003");
     Log.Information("  • Localization Service: http://localhost:9004");
+    Log.Information("  • Catalog Service:      http://localhost:9001");
+    Log.Information("  • Layout Service:       http://localhost:9005");
     Log.Information("");
     Log.Information("🎨 Frontend Services:");
     Log.Information("  • Customer App:  Port 5173 (npm run dev)");

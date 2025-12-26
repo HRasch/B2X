@@ -1,58 +1,72 @@
-import { apiClient } from '../client'
-import type { Job, ScheduledJob, JobLog } from '@/types/jobs'
-import type { PaginatedResponse, PaginationParams } from '@/types/api'
+import { apiClient } from "../client";
+import type { Job, ScheduledJob, JobLog } from "@/types/jobs";
+import type { PaginatedResponse, PaginationParams } from "@/types/api";
 
 export const jobsApi = {
   // Jobs
   getJobs(status?: string, pagination?: PaginationParams) {
-    return apiClient.get<PaginatedResponse<Job>>('/jobs/queue', { 
-      params: { status, ...pagination } 
-    })
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({ data: [], total: 0 } as PaginatedResponse<Job>);
   },
 
   getJob(id: string) {
-    return apiClient.get<Job>(`/jobs/${id}`)
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({} as Job);
   },
 
   getJobLogs(jobId: string) {
-    return apiClient.get<JobLog[]>(`/jobs/${jobId}/logs`)
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve([] as JobLog[]);
   },
 
   retryJob(jobId: string) {
-    return apiClient.post<Job>(`/jobs/${jobId}/retry`, {})
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({} as Job);
   },
 
   cancelJob(jobId: string) {
-    return apiClient.post<Job>(`/jobs/${jobId}/cancel`, {})
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({} as Job);
   },
 
   // Scheduled Jobs
   getScheduledJobs(pagination?: PaginationParams) {
-    return apiClient.get<PaginatedResponse<ScheduledJob>>('/jobs/scheduled', { params: pagination })
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({
+      data: [],
+      total: 0,
+    } as PaginatedResponse<ScheduledJob>);
   },
 
   getScheduledJob(id: string) {
-    return apiClient.get<ScheduledJob>(`/jobs/scheduled/${id}`)
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({} as ScheduledJob);
   },
 
-  createScheduledJob(data: Omit<ScheduledJob, 'id' | 'createdAt' | 'updatedAt'>) {
-    return apiClient.post<ScheduledJob>('/jobs/scheduled', data)
+  createScheduledJob(
+    data: Omit<ScheduledJob, "id" | "createdAt" | "updatedAt">
+  ) {
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({} as ScheduledJob);
   },
 
   updateScheduledJob(id: string, data: Partial<ScheduledJob>) {
-    return apiClient.put<ScheduledJob>(`/jobs/scheduled/${id}`, data)
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({} as ScheduledJob);
   },
 
   deleteScheduledJob(id: string) {
-    return apiClient.delete<void>(`/jobs/scheduled/${id}`)
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve();
   },
 
   toggleScheduledJob(id: string, isActive: boolean) {
-    return apiClient.put<ScheduledJob>(`/jobs/scheduled/${id}`, { isActive })
+    // TODO: Implement Jobs service in backend
+    return Promise.resolve({} as ScheduledJob);
   },
 
   // Metrics
   getMetrics() {
-    return apiClient.get<any>('/jobs/metrics')
+    return apiClient.get<any>("/jobs/metrics");
   },
-}
+};

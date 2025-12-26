@@ -40,6 +40,10 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 
+// Add YARP Reverse Proxy
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+
 var app = builder.Build();
 
 // Service defaults middleware
@@ -53,6 +57,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapReverseProxy();
 app.MapGet("/", () => "API Gateway is running");
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
