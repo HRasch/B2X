@@ -46,6 +46,12 @@ const isEditMode = computed(() => route.meta.formMode === "edit");
   font-size: 0.9rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  .subtitle {
+    color: #d1d5db;
+  }
+}
+
 .form-container {
   background: white;
   border: 1px solid #d1d5db;

@@ -29,7 +29,7 @@ export const catalogApi = {
    * Fetch all products with optional filters
    */
   getProducts(filters?: ProductFilters) {
-    return apiClient.get<PaginatedResponse<Product>>("/catalog/products", {
+    return apiClient.get<PaginatedResponse<Product>>("/products", {
       params: filters,
     });
   },
@@ -38,28 +38,28 @@ export const catalogApi = {
    * Get a single product by ID
    */
   getProduct(id: string) {
-    return apiClient.get<Product>(`/catalog/products/${id}`);
+    return apiClient.get<Product>(`/products/${id}`);
   },
 
   /**
    * Create a new product
    */
   createProduct(data: CreateProductRequest) {
-    return apiClient.post<Product>("/catalog/products", data);
+    return apiClient.post<Product>("/products", data);
   },
 
   /**
    * Update an existing product
    */
   updateProduct(id: string, data: UpdateProductRequest) {
-    return apiClient.put<Product>(`/catalog/products/${id}`, data);
+    return apiClient.put<Product>(`/products/${id}`, data);
   },
 
   /**
    * Delete a product
    */
   deleteProduct(id: string) {
-    return apiClient.delete<void>(`/catalog/products/${id}`);
+    return apiClient.delete<void>(`/products/${id}`);
   },
 
   /**
@@ -69,7 +69,7 @@ export const catalogApi = {
     const formData = new FormData();
     formData.append("file", file);
     return apiClient.post<{ imported: number; errors: any[] }>(
-      "/catalog/products/bulk-import",
+      "/products/bulk-import",
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
@@ -83,7 +83,7 @@ export const catalogApi = {
    * Fetch all categories with optional filters
    */
   getCategories(filters?: CategoryFilters) {
-    return apiClient.get<PaginatedResponse<Category>>("/catalog/categories", {
+    return apiClient.get<PaginatedResponse<Category>>("/categories", {
       params: filters,
     });
   },
@@ -92,28 +92,28 @@ export const catalogApi = {
    * Get a single category by ID
    */
   getCategory(id: string) {
-    return apiClient.get<Category>(`/catalog/categories/${id}`);
+    return apiClient.get<Category>(`/categories/${id}`);
   },
 
   /**
    * Create a new category
    */
   createCategory(data: CreateCategoryRequest) {
-    return apiClient.post<Category>("/catalog/categories", data);
+    return apiClient.post<Category>("/categories", data);
   },
 
   /**
    * Update an existing category
    */
   updateCategory(id: string, data: UpdateCategoryRequest) {
-    return apiClient.put<Category>(`/catalog/categories/${id}`, data);
+    return apiClient.put<Category>(`/categories/${id}`, data);
   },
 
   /**
    * Delete a category
    */
   deleteCategory(id: string) {
-    return apiClient.delete<void>(`/catalog/categories/${id}`);
+    return apiClient.delete<void>(`/categories/${id}`);
   },
 
   // =========================================================================
@@ -124,7 +124,7 @@ export const catalogApi = {
    * Fetch all brands with optional filters
    */
   getBrands(filters?: BrandFilters) {
-    return apiClient.get<PaginatedResponse<Brand>>("/catalog/brands", {
+    return apiClient.get<PaginatedResponse<Brand>>("/brands", {
       params: filters,
     });
   },
@@ -133,27 +133,27 @@ export const catalogApi = {
    * Get a single brand by ID
    */
   getBrand(id: string) {
-    return apiClient.get<Brand>(`/catalog/brands/${id}`);
+    return apiClient.get<Brand>(`/brands/${id}`);
   },
 
   /**
    * Create a new brand
    */
   createBrand(data: CreateBrandRequest) {
-    return apiClient.post<Brand>("/catalog/brands", data);
+    return apiClient.post<Brand>("/brands", data);
   },
 
   /**
    * Update an existing brand
    */
   updateBrand(id: string, data: UpdateBrandRequest) {
-    return apiClient.put<Brand>(`/catalog/brands/${id}`, data);
+    return apiClient.put<Brand>(`/brands/${id}`, data);
   },
 
   /**
    * Delete a brand
    */
   deleteBrand(id: string) {
-    return apiClient.delete<void>(`/catalog/brands/${id}`);
+    return apiClient.delete<void>(`/brands/${id}`);
   },
 };

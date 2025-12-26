@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6">
     <div class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold text-gray-900">Pages</h1>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Pages</h1>
       <router-link
         to="/cms/pages/new"
         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"

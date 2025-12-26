@@ -141,6 +141,12 @@ onMounted(async () => {
   font-size: 1rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  .subtitle {
+    color: #d1d5db;
+  }
+}
+
 /* Statistics Cards */
 .stats-grid {
   display: grid;

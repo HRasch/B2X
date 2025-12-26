@@ -5,24 +5,26 @@
     </router-link>
 
     <div>
-      <h1 class="text-3xl font-bold text-gray-900">Page Editor</h1>
-      <p class="text-gray-600 mt-2">Coming soon...</p>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        Page Editor
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-2">Coming soon...</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { useCmsStore } from '@/stores/cms'
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { useCmsStore } from "@/stores/cms";
 
-const route = useRoute()
-const cmsStore = useCmsStore()
-const pageId = route.params.id as string
+const route = useRoute();
+const cmsStore = useCmsStore();
+const pageId = route.params.id as string;
 
 onMounted(() => {
-  if (pageId && pageId !== 'new') {
-    cmsStore.fetchPage(pageId)
+  if (pageId && pageId !== "new") {
+    cmsStore.fetchPage(pageId);
   }
-})
+});
 </script>

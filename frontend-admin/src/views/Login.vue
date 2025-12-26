@@ -10,8 +10,12 @@
         >
           <span class="text-white font-bold text-2xl">B</span>
         </div>
-        <h1 class="heading-md text-soft-900">B2Connect Admin</h1>
-        <p class="text-soft-600 text-sm mt-2">Sign in to your account</p>
+        <h1 class="heading-md text-soft-900 dark:text-white">
+          B2Connect Admin
+        </h1>
+        <p class="text-soft-600 dark:text-soft-300 text-sm mt-2">
+          Sign in to your account
+        </p>
       </div>
 
       <!-- Error Message -->
@@ -49,7 +53,9 @@
             type="checkbox"
             class="w-4 h-4 rounded-soft border-soft-200 text-primary-600 focus:ring-primary-500"
           />
-          <span class="text-sm text-soft-700">Remember me</span>
+          <span class="text-sm text-soft-700 dark:text-soft-300"
+            >Remember me</span
+          >
         </label>
 
         <!-- Login Button -->
@@ -65,10 +71,12 @@
 
       <!-- Footer -->
       <div class="text-center mt-safe pt-safe border-t border-soft-100">
-        <p class="text-sm text-soft-600">
+        <p class="text-sm text-soft-600 dark:text-soft-300">
           Demo Account: <br />
-          <span class="font-mono text-soft-900">admin@example.com</span><br />
-          <span class="font-mono text-soft-900">password</span>
+          <span class="font-mono text-soft-900 dark:text-white"
+            >admin@example.com</span
+          ><br />
+          <span class="font-mono text-soft-900 dark:text-white">password</span>
         </p>
       </div>
     </soft-card>
