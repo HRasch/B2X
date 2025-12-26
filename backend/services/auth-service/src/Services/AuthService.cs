@@ -299,7 +299,8 @@ public class AuthService : IAuthService
             LastName = user.LastName ?? string.Empty,
             TenantId = user.TenantId ?? "default",
             Roles = roles,
-            Permissions = GetPermissionsForRoles(roles)
+            Permissions = GetPermissionsForRoles(roles),
+            TwoFactorEnabled = user.IsTwoFactorRequired
         };
     }
 
@@ -343,6 +344,7 @@ public class UserInfo
     public string TenantId { get; set; } = string.Empty;
     public string[] Roles { get; set; } = Array.Empty<string>();
     public string[] Permissions { get; set; } = Array.Empty<string>();
+    public bool TwoFactorEnabled { get; set; } = false;
 }
 
 public class RefreshTokenRequest

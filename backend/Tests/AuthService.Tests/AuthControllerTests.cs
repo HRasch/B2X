@@ -66,7 +66,7 @@ public class AuthControllerTests
 
         mockAuthService
             .Setup(x => x.LoginAsync(It.IsAny<LoginRequest>()))
-            .ThrowsAsync(new UnauthorizedAccessException("Invalid credentials"));
+            .ReturnsAsync(new Result<AuthResponse>.Failure(ErrorCodes.InvalidCredentials, "Invalid credentials"));
 
         var controller = new AuthController(mockAuthService.Object, mockLogger.Object);
 
@@ -79,7 +79,7 @@ public class AuthControllerTests
         var result = await controller.Login(request);
 
         // Assert
-        var unauthorizedResult = result.ShouldBeOfType<UnauthorizedObjectResult>();
+        var unauthorizedResult = result.ShouldBeOfType<ObjectResult>();
         unauthorizedResult.StatusCode.ShouldBe(401);
     }
 
@@ -158,7 +158,7 @@ public class AuthControllerTests
 
         mockAuthService
             .Setup(x => x.RefreshTokenAsync(It.IsAny<string>()))
-            .ThrowsAsync(new UnauthorizedAccessException("Invalid refresh token"));
+            .ReturnsAsync(new Result<AuthResponse>.Failure(ErrorCodes.InvalidCredentials, "Invalid refresh token"));
 
         var controller = new AuthController(mockAuthService.Object, mockLogger.Object);
 
@@ -170,8 +170,8 @@ public class AuthControllerTests
         var result = await controller.Refresh(request);
 
         // Assert
-        var unauthorizedResult = Assert.IsType<UnauthorizedObjectResult>(result);
-        Assert.Equal(401, unauthorizedResult.StatusCode);
+        var unauthorizedResult = result.ShouldBeOfType<ObjectResult>();
+        unauthorizedResult.StatusCode.ShouldBe(401);
     }
 
     [Fact(Skip = "Requires [Authorize] attribute and User context - use WebApplicationFactory or integration tests instead")]

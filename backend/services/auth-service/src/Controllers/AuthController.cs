@@ -30,7 +30,7 @@ public class AuthController : ControllerBase
         var result = await _authService.LoginAsync(request);
 
         return result.Match(
-            onSuccess: (response, msg) => Ok(new { data = response, message = msg }),
+            onSuccess: (response, msg) => Ok(response),
             onFailure: (code, msg) =>
             {
                 var statusCode = code.GetStatusCode();
@@ -46,7 +46,7 @@ public class AuthController : ControllerBase
         var result = await _authService.RefreshTokenAsync(request.RefreshToken);
 
         return result.Match(
-            onSuccess: (response, msg) => Ok(new { data = response, message = msg }),
+            onSuccess: (response, msg) => Ok(response),
             onFailure: (code, msg) =>
             {
                 var statusCode = code.GetStatusCode();

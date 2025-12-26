@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>B2Connect.Shared.Messaging</AssemblyName>
+    <RootNamespace>B2Connect.Shared.Messaging</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Message Queue & Job Scheduling -->
+    <PackageReference Include="RabbitMQ.Client" />
+    <PackageReference Include="WolverineFx.RabbitMq" />
+    <PackageReference Include="Quartz" />
+    <PackageReference Include="Quartz.Extensions.Hosting" />
+  </ItemGroup>
+
+</Project>

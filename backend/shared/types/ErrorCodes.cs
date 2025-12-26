@@ -51,7 +51,6 @@ public static class ErrorCodeStatusMap
     private static readonly Dictionary<string, int> StatusCodeMap = new()
     {
         // 400 Bad Request
-        { ErrorCodes.InvalidCredentials, 400 },
         { ErrorCodes.InvalidToken, 401 },
         { ErrorCodes.InvalidId, 400 },
         { ErrorCodes.InvalidInput, 400 },
@@ -62,6 +61,7 @@ public static class ErrorCodeStatusMap
         { ErrorCodes.OutOfRange, 400 },
 
         // 401 Unauthorized
+        { ErrorCodes.InvalidCredentials, 401 },
         { ErrorCodes.Unauthorized, 401 },
         { ErrorCodes.TokenExpired, 401 },
         { ErrorCodes.UserInactive, 400 }, // Client's responsibility to fix

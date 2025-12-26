@@ -10,18 +10,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
-    <PackageReference Include="Serilog" />
-    <PackageReference Include="Serilog.AspNetCore" />
-    <PackageReference Include="FluentValidation" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../../shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+    <ProjectReference Include="../../shared/B2Connect.Shared.Data/B2Connect.Shared.Data.csproj" />
     <ProjectReference Include="../../shared/types/B2Connect.Types.csproj" />
     <ProjectReference Include="../../shared/middleware/B2Connect.Middleware.csproj" />
     <ProjectReference Include="../../shared/utils/B2Connect.Utils.csproj" />

@@ -172,10 +172,11 @@ public class AuthServiceTests : IAsyncLifetime
             Password = "testpassword123"
         };
 
-        // Act & Assert
-        await Assert.ThrowsAsync<UnauthorizedAccessException>(
-            () => _authService.LoginAsync(request)
-        );
+        // Act
+        var result = await _authService.LoginAsync(request);
+
+        // Assert
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 
     [Fact]
@@ -188,10 +189,11 @@ public class AuthServiceTests : IAsyncLifetime
             Password = "wrongpassword"
         };
 
-        // Act & Assert
-        await Assert.ThrowsAsync<UnauthorizedAccessException>(
-            () => _authService.LoginAsync(request)
-        );
+        // Act
+        var result = await _authService.LoginAsync(request);
+
+        // Assert
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 
     [Fact]
@@ -253,7 +255,7 @@ public class AuthServiceTests : IAsyncLifetime
             var userResult = await _authService.GetUserByIdAsync("test-admin-001");
             if (userResult is Result<AppUser>.Success userSuccess)
             {
-                userSuccess.Value.TwoFactorEnabled.ShouldBeTrue();
+                userSuccess.Value.IsTwoFactorRequired.ShouldBeTrue();
             }
         }
     }

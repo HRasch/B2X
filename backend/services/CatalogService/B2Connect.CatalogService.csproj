@@ -10,36 +10,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <!-- Shared Core Infrastructure -->
+    <ProjectReference Include="..\..\shared\B2Connect.Shared.Core\B2Connect.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\shared\B2Connect.Shared.Data\B2Connect.Shared.Data.csproj" />
+    <ProjectReference Include="..\..\shared\B2Connect.Shared.Search\B2Connect.Shared.Search.csproj" />
+    <ProjectReference Include="..\..\shared\B2Connect.Shared.Messaging\B2Connect.Shared.Messaging.csproj" />
+    <ProjectReference Include="..\..\shared\types\B2Connect.Types.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Service-specific packages -->
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="RabbitMQ.Client" />
-    <PackageReference Include="Microsoft.Extensions.Logging" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
-    <PackageReference Include="Bogus" />
-    <PackageReference Include="FluentValidation" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Bogus" />
+    <!-- Explicit declarations for code that uses these namespaces -->
     <PackageReference Include="WolverineFx" />
     <PackageReference Include="WolverineFx.Http" />
     <PackageReference Include="WolverineFx.RabbitMq" />
     <PackageReference Include="Elastic.Clients.Elasticsearch" />
     <PackageReference Include="Quartz" />
     <PackageReference Include="Quartz.Extensions.Hosting" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\shared\types\B2Connect.Types.csproj" />
   </ItemGroup>
 
   <ItemGroup>
