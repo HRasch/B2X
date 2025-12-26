@@ -61,7 +61,7 @@ app.MapControllers();
 // Database migration and seeding (non-blocking with error handling)
 _ = app.Services.CreateScope().ServiceProvider
     .GetRequiredService<LocalizationDbContext>()
-    .Database.MigrateAsync()
+    .Database.EnsureCreatedAsync()
     .ContinueWith(async t =>
     {
         if (t.IsCompletedSuccessfully)
@@ -81,7 +81,7 @@ _ = app.Services.CreateScope().ServiceProvider
         else if (t.IsFaulted)
         {
             var logger = app.Services.GetRequiredService<ILogger<Program>>();
-            logger.LogError(t.Exception, "Error migrating database");
+            logger.LogError(t.Exception, "Error ensuring database created");
         }
     });
 
