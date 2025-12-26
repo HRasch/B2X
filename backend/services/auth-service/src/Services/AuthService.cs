@@ -1,3 +1,4 @@
+using B2Connect.Types;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -79,10 +80,10 @@ public class AuthDbContext : IdentityDbContext<AppUser, AppRole, string>
 // Services
 public interface IAuthService
 {
-    Task<AuthResponse> LoginAsync(LoginRequest request);
-    Task<AuthResponse> RefreshTokenAsync(string refreshToken);
-    Task<AppUser?> GetUserByIdAsync(string userId);
-    Task<AuthResponse> EnableTwoFactorAsync(string userId);
+    Task<Result<AuthResponse>> LoginAsync(LoginRequest request);
+    Task<Result<AuthResponse>> RefreshTokenAsync(string refreshToken);
+    Task<Result<AppUser>> GetUserByIdAsync(string userId);
+    Task<Result<AuthResponse>> EnableTwoFactorAsync(string userId);
     Task<bool> VerifyTwoFactorCodeAsync(string userId, string code);
 }
 
@@ -99,24 +100,24 @@ public class AuthService : IAuthService
         _logger = logger;
     }
 
-    public async Task<AuthResponse> LoginAsync(LoginRequest request)
+    public async Task<Result<AuthResponse>> LoginAsync(LoginRequest request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
         {
-            throw new UnauthorizedAccessException("Invalid credentials");
+            return new Result<AuthResponse>.Failure(ErrorCodes.InvalidCredentials, ErrorCodes.InvalidCredentials.ToMessage());
         }
 
         if (!user.IsActive)
         {
-            throw new UnauthorizedAccessException("User account is inactive");
+            return new Result<AuthResponse>.Failure(ErrorCodes.UserInactive, ErrorCodes.UserInactive.ToMessage());
         }
 
         // Check if 2FA is required
         if (user.IsTwoFactorRequired && !request.Skip2FA)
         {
-            return new AuthResponse
+            var response = new AuthResponse
             {
                 Requires2FA = true,
                 TempUserId = user.Id,
@@ -124,6 +125,7 @@ public class AuthService : IAuthService
                 RefreshToken = string.Empty,
                 ExpiresIn = 0
             };
+            return new Result<AuthResponse>.Success(response, ErrorCodes.TwoFactorRequired.ToMessage());
         }
 
         var accessToken = GenerateAccessToken(user);
@@ -131,16 +133,18 @@ public class AuthService : IAuthService
 
         _logger.LogInformation("User {Email} logged in successfully", user.Email);
 
-        return new AuthResponse
+        var loginResponse = new AuthResponse
         {
             User = MapToUserInfo(user),
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             ExpiresIn = 3600
         };
+
+        return new Result<AuthResponse>.Success(loginResponse, "Login successful");
     }
 
-    public async Task<AuthResponse> RefreshTokenAsync(string refreshToken)
+    public async Task<Result<AuthResponse>> RefreshTokenAsync(string refreshToken)
     {
         // For demo: just generate a new token
         // In production: validate the refresh token against stored tokens
@@ -148,7 +152,7 @@ public class AuthService : IAuthService
 
         if (claimsPrincipal == null)
         {
-            throw new UnauthorizedAccessException("Invalid refresh token");
+            return new Result<AuthResponse>.Failure(ErrorCodes.InvalidToken, ErrorCodes.InvalidToken.ToMessage());
         }
 
         var userId = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -156,38 +160,43 @@ public class AuthService : IAuthService
 
         if (user == null || !user.IsActive)
         {
-            throw new UnauthorizedAccessException("User not found or inactive");
+            return new Result<AuthResponse>.Failure(ErrorCodes.UserNotFound, ErrorCodes.UserNotFound.ToMessage());
         }
 
         var newAccessToken = GenerateAccessToken(user);
         var newRefreshToken = GenerateRefreshToken();
 
-        return new AuthResponse
+        var response = new AuthResponse
         {
             User = MapToUserInfo(user),
             AccessToken = newAccessToken,
             RefreshToken = newRefreshToken,
             ExpiresIn = 3600
         };
+
+        return new Result<AuthResponse>.Success(response, "Token refreshed successfully");
     }
 
-    public async Task<AppUser?> GetUserByIdAsync(string userId)
+    public async Task<Result<AppUser>> GetUserByIdAsync(string userId)
     {
-        return await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId);
+        return user == null
+            ? new Result<AppUser>.Failure(ErrorCodes.NotFound, ErrorCodes.NotFound.ToMessage())
+            : new Result<AppUser>.Success(user, "User loaded successfully");
     }
 
-    public async Task<AuthResponse> EnableTwoFactorAsync(string userId)
+    public async Task<Result<AuthResponse>> EnableTwoFactorAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
-            throw new KeyNotFoundException("User not found");
+            return new Result<AuthResponse>.Failure(ErrorCodes.NotFound, ErrorCodes.NotFound.ToMessage());
         }
 
         user.IsTwoFactorRequired = true;
         await _userManager.UpdateAsync(user);
 
-        return new AuthResponse
+        var response = new AuthResponse
         {
             User = MapToUserInfo(user),
             AccessToken = string.Empty,
@@ -195,6 +204,8 @@ public class AuthService : IAuthService
             ExpiresIn = 0,
             TwoFactorEnabled = true
         };
+
+        return new Result<AuthResponse>.Success(response, ErrorCodes.TwoFactorEnabled.ToMessage());
     }
 
     public async Task<bool> VerifyTwoFactorCodeAsync(string userId, string code)

@@ -1,4 +1,5 @@
 using B2Connect.CatalogService.Models;
+using B2Connect.Types;
 
 namespace B2Connect.CatalogService.Services;
 
@@ -41,7 +42,7 @@ public interface IProductService
     Task<ProductDto> CreateProductAsync(CreateProductDto dto);
 
     /// <summary>Updates an existing product</summary>
-    Task<ProductDto> UpdateProductAsync(Guid id, UpdateProductDto dto);
+    Task<Result<ProductDto>> UpdateProductAsync(Guid id, UpdateProductDto dto);
 
     /// <summary>Deletes a product</summary>
     Task<bool> DeleteProductAsync(Guid id);

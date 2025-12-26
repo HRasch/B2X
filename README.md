@@ -67,34 +67,43 @@ B2Connect/
 ### Prerequisites
 - **.NET 10** for backend development
 - **Node.js 18+** and **npm** for frontend development
-- **Docker** for containerization (optional)
+- ✅ **NO Docker or extra tools required** - AppHost handles orchestration
 
-### Backend Setup
+### Backend & Services Setup (Recommended - All Microservices)
 
 ```bash
-cd backend
-# Restore dependencies
-dotnet restore
-
-# Run Aspire AppHost for local development
-cd services/AppHost
+cd backend/services/AppHost
 dotnet run
 
-# Backend will be available at http://localhost:5000
+# Services will be available at:
+# - Auth: http://localhost:9002/health
+# - Tenant: http://localhost:9003/health
+# - Localization: http://localhost:9004/health
 ```
 
-### Frontend Setup
+### Frontend Setup (In Another Terminal)
 
 ```bash
 cd frontend
-# Install dependencies
-npm install
-
-# Start development server with HMR
-npm run dev
+npm install && npm run dev
 
 # Frontend will be available at http://localhost:5173
 ```
+
+**That's it!** You now have a complete local development environment with:
+- ✅ **Auth Service** - Authentication & Authorization
+- ✅ **Tenant Service** - Multi-tenant Management
+- ✅ **Localization Service** - i18n & Translations
+- ✅ **Vue.js Frontend** - Full UI
+
+**Why AppHost?**
+- 🎯 **All-in-one**: Orchestrates all services in one command
+- 📍 **Cross-platform**: Works on macOS, Windows, and Linux identically
+- ⚡ **Zero dependencies**: No Docker, DCP, or external tools required
+- 🔧 **Simple configuration**: Plain .NET Process API - easy to extend
+- 📊 **Clear visibility**: All logs in one terminal
+
+👉 **[Full AppHost Guide →](APPHOST_SPECIFICATIONS.md)** | **[Quick Reference →](APPHOST_QUICKSTART.md)**
 
 ## 📋 Technology Stack
 

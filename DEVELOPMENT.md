@@ -1,8 +1,33 @@
 # B2Connect Development Guide
 
-## Getting Started with Development
-
 This guide provides step-by-step instructions for setting up your development environment and contributing to B2Connect.
+
+## Quick Start (5 Minutes)
+
+The fastest way to get started with B2Connect development:
+
+```bash
+# 1. Start backend services
+cd backend/services/AppHost
+dotnet run
+
+# 2. In another terminal, start frontend
+cd frontend
+npm install && npm run dev
+
+# 3. Open browser
+open http://localhost:5173
+```
+
+**That's it!** You now have:
+- ✅ Auth Service (port 9002)
+- ✅ Tenant Service (port 9003)  
+- ✅ Localization Service (port 9004)
+- ✅ Frontend App (port 5173)
+
+For detailed information, see [APPHOST_QUICKSTART.md](APPHOST_QUICKSTART.md).
+
+## Getting Started with Development
 
 ## Prerequisites
 
@@ -77,47 +102,99 @@ npm install
 
 ## Development Workflow
 
-### Running Services Locally
+### 🎯 Official Backend Orchestration: AppHost
 
-#### Option 1: Using Aspire AppHost (Recommended)
+**AppHost is the standard and recommended way to run B2Connect services during development.**
+
+#### Why AppHost?
+- ✅ **Single Command**: Start all services at once
+- ✅ **Cross-Platform**: Works identically on macOS, Windows, Linux
+- ✅ **Zero Dependencies**: No Docker, DCP, or external tools required
+- ✅ **Clear Logging**: All service output in one terminal
+- ✅ **Graceful Shutdown**: Proper cleanup with Ctrl+C
+- ✅ **Easy to Extend**: Add new services in 3 lines of code
+
+See [APPHOST_SPECIFICATIONS.md](APPHOST_SPECIFICATIONS.md) for complete technical details.
+
+#### Quick Start with AppHost (Recommended)
+
+**Terminal 1 - Backend Services:**
 ```bash
 cd backend/services/AppHost
 dotnet run
+
+# Expected output:
+# [2025-12-26 09:13:35 INF] 🚀 B2Connect Application Host - Starting
+# [2025-12-26 09:13:35 INF] ▶ Starting Auth Service on port 9002...
+# [2025-12-26 09:13:35 INF]   ✓ Auth Service started (PID: 7976)
+# [2025-12-26 09:13:36 INF] ▶ Starting Tenant Service on port 9003...
+# [2025-12-26 09:13:36 INF]   ✓ Tenant Service started (PID: 7981)
+# [2025-12-26 09:13:37 INF] ▶ Starting Localization Service on port 9004...
+# [2025-12-26 09:13:37 INF]   ✓ Localization Service started (PID: 7983)
+# [2025-12-26 09:13:37 INF] ✅ B2Connect Application Host initialized
 ```
 
-This will start:
-- PostgreSQL at localhost:5432
-- RabbitMQ at localhost:5672 (management UI: localhost:15672)
-- Redis at localhost:6379
-- All three microservices with proper orchestration
-
-#### Option 2: Individual Service Run
+**Terminal 2 - Frontend:**
 ```bash
-# Terminal 1: API Gateway
-cd backend/services/api-gateway
-dotnet run
+cd frontend
+npm run dev
+# Frontend available at http://localhost:5173
+```
 
-# Terminal 2: Auth Service
+**Terminal 3 - Admin Frontend (Optional):**
+```bash
+cd frontend-admin
+npm run dev -- --port 5174
+# Admin frontend available at http://localhost:5174
+```
+
+#### Service Endpoints (via AppHost)
+
+| Service | Port | Health | Purpose |
+|---------|------|--------|---------|
+| **Auth Service** | 9002 | `http://localhost:9002/health` | Authentication & Authorization |
+| **Tenant Service** | 9003 | `http://localhost:9003/health` | Multi-tenant Management |
+| **Localization Service** | 9004 | `http://localhost:9004/health` | i18n & Translations |
+
+#### Verify Services are Running
+
+```bash
+# Quick health check
+curl http://localhost:9002/health
+curl http://localhost:9003/health
+curl http://localhost:9004/health
+
+# Or use the bundled health check script
+bash health-check.sh
+```
+
+---
+
+### Alternative: Individual Service Run
+
+If you need to run services individually (not recommended for normal development):
+
+**Terminal 1: Auth Service**
+```bash
 cd backend/services/auth-service
 dotnet run
+```
 
-# Terminal 3: Tenant Service
+**Terminal 2: Tenant Service**
+```bash
 cd backend/services/tenant-service
 dotnet run
 ```
 
-### Running Frontend
+**Terminal 3: Localization Service**
 ```bash
-cd frontend
-npm run dev
+cd backend/services/LocalizationService
+dotnet run
 ```
 
-Frontend will be available at: http://localhost:3000
+⚠️ **Note**: This approach requires manual service start/stop and doesn't provide centralized logging.
 
-### Accessing Services
-- **Frontend**: http://localhost:3000
-- **API Gateway**: http://localhost:5000/api
-- **Auth Service**: http://localhost:5001/swagger
+### Running Services Locally
 - **Tenant Service**: http://localhost:5002/swagger
 - **RabbitMQ Management**: http://localhost:15672 (guest/guest)
 

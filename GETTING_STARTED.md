@@ -2,52 +2,66 @@
 
 Welcome! This is your starting point for B2Connect development.
 
+## � Quick Start (5 Minutes)
+
+### Option A: macOS / Linux / Windows (Recommended)
+
+```bash
+# 1. Clone repository
+git clone <your-repo>
+cd B2Connect
+
+# 2. Start AppHost (orchestrates all services)
+cd backend/services/AppHost
+dotnet run
+
+# 3. In another terminal, start frontends
+cd frontend
+npm install && npm run dev
+```
+
+**That's it!** Services run on:
+- 🔐 Auth Service: http://localhost:9002
+- 👥 Tenant Service: http://localhost:9003
+- 🌍 Localization Service: http://localhost:9004
+- 🎨 Frontend: http://localhost:5173
+
+---
+
 ## 📚 Documentation Structure
 
 All documentation is organized in a clean hierarchy:
 
 ```
 Root/ (4 Core Files)
-├── README.md                      ← Project overview
-├── GETTING_STARTED.md             ← You are here
-├── DEVELOPMENT.md                 ← Local setup
-└── BUSINESS_REQUIREMENTS.md       ← Features & roadmap
+├── README.md                           ← Project overview
+├── GETTING_STARTED.md                  ← You are here
+├── APPHOST_SPECIFICATIONS.md           ← ⭐ NEW: AppHost Architecture
+├── DEVELOPMENT.md                      ← Local setup details
+└── BUSINESS_REQUIREMENTS.md            ← Features & roadmap
 
 docs/
-├── architecture/                  ← System design & tools
+├── architecture/                       ← System design & tools
 │   ├── ASPIRE_GUIDE.md
 │   └── VSCODE_ASPIRE_CONFIG.md
-├── features/                      ← Feature implementations
+├── features/                           ← Feature implementations
 │   ├── CATALOG_IMPLEMENTATION.md
 │   ├── AOP_VALIDATION_IMPLEMENTATION.md
 │   ├── EVENT_VALIDATION_IMPLEMENTATION.md
 │   ├── ELASTICSEARCH_IMPLEMENTATION.md
 │   ├── LOCALIZATION_IMPLEMENTATION.md
 │   └── ADMIN_FRONTEND_IMPLEMENTATION.md
-└── guides/                        ← Development guides
+└── guides/                             ← Development guides
     ├── DEBUG_QUICK_REFERENCE.md
     ├── TESTING_GUIDE.md
     └── VERIFICATION.md
 ```
 
-**Start here:**
-- [README.md](README.md) - Project overview and quick start
-- [DEVELOPMENT.md](DEVELOPMENT.md) - Local development setup
-- [BUSINESS_REQUIREMENTS.md](BUSINESS_REQUIREMENTS.md) - Features and roadmap
-
-**Then choose your path below.**
-
-## 🔧 Developer Paths
-
-### 1️⃣ I want to set up my local environment
-
-**Time: 30 minutes**
-
-1. [DEVELOPMENT.md](DEVELOPMENT.md) - Install and run locally
-2. [docs/architecture/VSCODE_ASPIRE_CONFIG.md](docs/architecture/VSCODE_ASPIRE_CONFIG.md) - Configure debug environment
-3. [docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md) - Quick debug commands
-
-**Result**: Running B2Connect locally with debugger
+**Essential Reading Order:**
+1. [README.md](README.md) - Project overview (5 min)
+2. [APPHOST_SPECIFICATIONS.md](APPHOST_SPECIFICATIONS.md) - Understand AppHost architecture (10 min) ⭐
+3. [DEVELOPMENT.md](DEVELOPMENT.md) - Local development setup (15 min)
+4. [BUSINESS_REQUIREMENTS.md](BUSINESS_REQUIREMENTS.md) - Features and roadmap (10 min)
 
 ### 2️⃣ I want to understand the architecture
 

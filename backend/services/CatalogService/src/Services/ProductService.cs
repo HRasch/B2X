@@ -1,5 +1,6 @@
 using B2Connect.CatalogService.Models;
 using B2Connect.CatalogService.Repositories;
+using B2Connect.Types;
 using B2Connect.Types.Localization;
 
 namespace B2Connect.CatalogService.Services;
@@ -124,11 +125,11 @@ public class ProductService : IProductService
         return MapToDto(product);
     }
 
-    public async Task<ProductDto> UpdateProductAsync(Guid id, UpdateProductDto dto)
+    public async Task<Result<ProductDto>> UpdateProductAsync(Guid id, UpdateProductDto dto)
     {
         var product = await _productRepository.GetByIdAsync(id);
         if (product == null)
-            throw new KeyNotFoundException($"Product with ID {id} not found");
+            return new Result<ProductDto>.Failure(ErrorCodes.NotFound, ErrorCodes.NotFound.ToMessage());
 
         if (dto.Name != null)
             product.Name = LocalizedContent.FromDictionary(dto.Name);
@@ -154,7 +155,7 @@ public class ProductService : IProductService
         await _productRepository.UpdateAsync(product);
         await _productRepository.SaveChangesAsync();
 
-        return MapToDto(product);
+        return new Result<ProductDto>.Success(MapToDto(product), "Product updated successfully");
     }
 
     public async Task<bool> DeleteProductAsync(Guid id)

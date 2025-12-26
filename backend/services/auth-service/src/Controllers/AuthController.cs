@@ -1,4 +1,5 @@
 using B2Connect.AuthService.Data;
+using B2Connect.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,41 +27,32 @@ public class AuthController : ControllerBase
             return BadRequest(new { error = new { message = "Email and password are required" } });
         }
 
-        try
-        {
-            var response = await _authService.LoginAsync(request);
-            return Ok(response);
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            _logger.LogWarning("Login failed: {Message}", ex.Message);
-            return Unauthorized(new { error = new { message = ex.Message } });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Login error");
-            return StatusCode(500, new { error = new { message = "Internal server error" } });
-        }
+        var result = await _authService.LoginAsync(request);
+
+        return result.Match(
+            onSuccess: (response, msg) => Ok(new { data = response, message = msg }),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return StatusCode(statusCode, new { error = new { code, message = code.ToMessage() } });
+            }
+        );
     }
 
     [HttpPost("refresh")]
     [AllowAnonymous]
     public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
     {
-        try
-        {
-            var response = await _authService.RefreshTokenAsync(request.RefreshToken);
-            return Ok(response);
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            return Unauthorized(new { error = new { message = ex.Message } });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Refresh error");
-            return StatusCode(500, new { error = new { message = "Internal server error" } });
-        }
+        var result = await _authService.RefreshTokenAsync(request.RefreshToken);
+
+        return result.Match(
+            onSuccess: (response, msg) => Ok(new { data = response, message = msg }),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return StatusCode(statusCode, new { error = new { code, message = code.ToMessage() } });
+            }
+        );
     }
 
     [HttpPost("logout")]
@@ -82,31 +74,29 @@ public class AuthController : ControllerBase
             return Unauthorized(new { error = new { message = "User not found" } });
         }
 
-        try
-        {
-            var user = await _authService.GetUserByIdAsync(userId);
-            if (user == null || !user.IsActive)
-            {
-                return Unauthorized(new { error = new { message = "User not found or inactive" } });
-            }
+        var result = await _authService.GetUserByIdAsync(userId);
 
-            var roles = new List<string>();
-            return Ok(new UserInfo
+        return result.Match(
+            onSuccess: (user, msg) => Ok(new
             {
-                Id = user.Id,
-                Email = user.Email!,
-                FirstName = user.FirstName ?? string.Empty,
-                LastName = user.LastName ?? string.Empty,
-                TenantId = user.TenantId ?? "default",
-                Roles = roles.ToArray(),
-                Permissions = new[] { "*" }
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Get current user error");
-            return StatusCode(500, new { error = new { message = "Internal server error" } });
-        }
+                data = new UserInfo
+                {
+                    Id = user.Id,
+                    Email = user.Email!,
+                    FirstName = user.FirstName ?? string.Empty,
+                    LastName = user.LastName ?? string.Empty,
+                    TenantId = user.TenantId ?? "default",
+                    Roles = new string[] { },
+                    Permissions = new[] { "*" }
+                },
+                message = msg
+            }),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return StatusCode(statusCode, new { error = new { code, message = code.ToMessage() } });
+            }
+        );
     }
 
     [HttpPost("2fa/enable")]
@@ -121,16 +111,16 @@ public class AuthController : ControllerBase
             return Unauthorized();
         }
 
-        try
-        {
-            var response = await _authService.EnableTwoFactorAsync(userId);
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Enable 2FA error");
-            return StatusCode(500, new { error = new { message = "Internal server error" } });
-        }
+        var result = await _authService.EnableTwoFactorAsync(userId);
+
+        return result.Match(
+            onSuccess: (response, msg) => Ok(new { data = response, message = msg }),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return StatusCode(statusCode, new { error = new { code, message = code.ToMessage() } });
+            }
+        );
     }
 
     [HttpPost("2fa/verify")]

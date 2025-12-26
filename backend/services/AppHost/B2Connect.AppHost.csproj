@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting" />
-    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog" />
   </ItemGroup>
 
   <ItemGroup>

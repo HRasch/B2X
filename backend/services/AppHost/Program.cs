@@ -1,5 +1,5 @@
 using Serilog;
-using Aspire.Hosting;
+using System.Diagnostics;
 
 // Configure Serilog
 var serilogConfig = new LoggerConfiguration()
@@ -7,38 +7,94 @@ var serilogConfig = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .Enrich.WithProperty("Service", "AppHost")
     .WriteTo.Console(outputTemplate:
-        "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}");
+        "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}");
 
 Log.Logger = serilogConfig.CreateLogger();
 
 try
 {
-    var builder = DistributedApplication.CreateBuilder(args);
+    var appHostBinDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
+        ?? AppContext.BaseDirectory;
+    var servicesDir = Path.GetFullPath(Path.Combine(appHostBinDir, "..", "..", "..", ".."));
 
-    Log.Information("🚀 B2Connect Aspire Application Host - Starting");
+    Log.Information("🚀 B2Connect Application Host - Starting");
+    Log.Information($"Services directory: {servicesDir}");
+    Log.Information("");
 
-    // Register services from referenced projects (AddProject adds HTTP endpoints automatically)
-    var authService = builder.AddProject("auth-service", "../auth-service/B2Connect.AuthService.csproj");
+    var services = new List<(string name, string path, int port)>
+    {
+        ("Auth Service", Path.Combine(servicesDir, "auth-service"), 9002),
+        ("Tenant Service", Path.Combine(servicesDir, "tenant-service"), 9003),
+        ("Localization Service", Path.Combine(servicesDir, "LocalizationService"), 9004),
+    };
 
-    var tenantService = builder.AddProject("tenant-service", "../tenant-service/B2Connect.TenantService.csproj");
+    var processes = new List<Process>();
 
-    var localizationService = builder.AddProject("localization-service", "../LocalizationService/B2Connect.LocalizationService.csproj");
+    foreach (var (name, path, port) in services)
+    {
+        try
+        {
+            if (!Directory.Exists(path))
+            {
+                Log.Warning($"Service directory not found: {path}");
+                continue;
+            }
 
-    // TODO: CatalogService - Has CQRS type mismatch issues in handlers (ICommandHandler signature)
-    // var catalogService = builder.AddProject("catalog-service", "../CatalogService/B2Connect.CatalogService.csproj");
+            Log.Information($"▶ Starting {name} on port {port}...");
 
-    var app = builder.Build();
+            var psi = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = "run",
+                WorkingDirectory = path,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = false
+            };
 
-    Log.Information("✅ Aspire Application Host initialized");
+            var process = Process.Start(psi);
+            if (process != null)
+            {
+                processes.Add(process);
+                Log.Information($"  ✓ {name} started (PID: {process.Id})");
+            }
+
+            await Task.Delay(1000);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"Failed to start {name}");
+        }
+    }
+
+    Log.Information("");
+    Log.Information("✅ B2Connect Application Host initialized");
     Log.Information("");
     Log.Information("📊 Services:");
-    Log.Information("  - Auth Service: http://localhost:9002");
-    Log.Information("  - Tenant Service: http://localhost:9003");
-    Log.Information("  - Localization Service: http://localhost:9004");
+    Log.Information("  • Auth Service:         http://localhost:9002");
+    Log.Information("  • Tenant Service:       http://localhost:9003");
+    Log.Information("  • Localization Service: http://localhost:9004");
     Log.Information("");
-    Log.Information("Frontend services (Port 5173, 5174) run via VS Code Tasks!");
+    Log.Information("🎨 Frontend Services:");
+    Log.Information("  • Customer App:  Port 5173 (npm run dev)");
+    Log.Information("  • Admin App:     Port 5174 (npm run dev -- --port 5174)");
+    Log.Information("");
+    Log.Information("⏸  Press Ctrl+C to stop all services");
+    Log.Information("");
 
-    await app.RunAsync();
+    var cts = new CancellationTokenSource();
+    Console.CancelKeyPress += (s, e) =>
+    {
+        e.Cancel = true;
+        cts.Cancel();
+    };
+
+    await Task.Delay(Timeout.Infinite, cts.Token).ConfigureAwait(false);
+}
+catch (OperationCanceledException)
+{
+    Log.Information("🛑 Shutting down services...");
 }
 catch (Exception ex)
 {
