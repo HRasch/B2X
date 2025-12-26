@@ -3,7 +3,7 @@
 # B2Connect Localization Implementation Verification Script
 # Verifies that all Phase 1 (Backend) and Phase 2 (Frontend) components are in place
 
-set -e
+set -euo pipefail
 
 echo "╔════════════════════════════════════════════════════════════════╗"
 echo "║   B2Connect Localization Implementation Verification           ║"

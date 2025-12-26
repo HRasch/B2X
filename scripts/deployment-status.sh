@@ -3,7 +3,7 @@
 # B2Connect Deployment Status Check Script
 # Überprüft den Status aller Services und zeigt System-Informationen
 
-set -e
+set -euo pipefail
 
 # Farben
 BLUE='\033[0;34m'

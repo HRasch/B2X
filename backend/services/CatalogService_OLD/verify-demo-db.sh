@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Catalog Service Demo Database Verification Script
 # This script tests the in-memory demo database
 
-set -e
+set -euo pipefail
 
 SERVICE_URL="http://localhost:5008"
 API_VERSION="v1"

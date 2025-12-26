@@ -1,5 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Quartz Scheduler Implementation - Complete File Manifest
+
+set -euo pipefail
 
 # ============================================================
 # DOCUMENTATION FILES (100+ KB total)

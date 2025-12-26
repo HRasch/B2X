@@ -2,16 +2,16 @@
 
 # B2Connect Aspire Hosting Setup
 # Orchestrates all microservices with centralized .NET Aspire orchestration
-# Includes: CatalogService, AuthService, SearchService, OrderService, etc.
+# Includes: CatalogService, AuthService, LocalizationService, etc.
 # Usage: ./aspire-start.sh [Environment] [BuildConfig] [Port]
 # Example: ./aspire-start.sh Development Debug 5200
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$SCRIPT_DIR"
+PROJECT_ROOT="${SCRIPT_DIR%/scripts}"
 SERVICES_DIR="$PROJECT_ROOT/backend/services"
-APPHOST_DIR="$SERVICES_DIR/AppHost"
+APPHOST_DIR="$SERVICES_DIR/Orchestration"  # Updated path
 LOGS_DIR="$PROJECT_ROOT/logs"
 PID_DIR="$PROJECT_ROOT/.pids"
 
@@ -85,20 +85,26 @@ find_available_port() {
 check_prerequisites() {
     echo -e "${YELLOW}[*] Checking prerequisites...${NC}"
     
+    local missing_tools=()
+    
     if ! command -v dotnet &> /dev/null; then
-        echo -e "${RED}[✗] .NET SDK not found${NC}"
-        exit 1
+        missing_tools+=(".NET SDK")
     fi
     
-    if [ ! -d "$APPHOST_DIR" ]; then
+    if [[ ! -d "$APPHOST_DIR" ]]; then
         echo -e "${RED}[✗] AppHost directory not found: $APPHOST_DIR${NC}"
         exit 1
     fi
     
     # Check if netcat is available for port checking
     if ! command -v nc &> /dev/null; then
-        echo -e "${YELLOW}[!] netcat not found - skipping port availability check${NC}"
-        echo -e "${YELLOW}    Install with: brew install netcat${NC}"
+        echo -e "${YELLOW}[!] netcat not found - port availability checks disabled${NC}"
+    fi
+    
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo -e "${RED}[✗] Missing required tools:${NC}"
+        printf '%s\n' "${missing_tools[@]}" | sed 's/^/  - /'
+        exit 1
     fi
     
     echo -e "${GREEN}[✓] All prerequisites met${NC}"

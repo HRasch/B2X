@@ -1,0 +1,117 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-apphost",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "build",
+        "${workspaceFolder}/backend/services/Orchestration/B2Connect.Orchestration.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "build-backend",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "build",
+        "${workspaceFolder}/backend/B2Connect.slnx"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "test-backend",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "${workspaceFolder}/backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj",
+        "-v",
+        "minimal"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "npm-install-frontend",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "install"
+      ],
+      "cwd": "${workspaceFolder}/frontend",
+      "group": "build",
+      "presentation": {
+        "echo": false,
+        "reveal": "silent"
+      }
+    },
+    {
+      "label": "test-frontend",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "test"
+      ],
+      "cwd": "${workspaceFolder}/frontend",
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "dev-frontend",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "dev"
+      ],
+      "cwd": "${workspaceFolder}/frontend",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*VITE.*ready.*",
+          "endsPattern": "^.*listening on.*"
+        }
+      },
+      "group": "build"
+    },
+    {
+      "label": "lint-frontend",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "lint"
+      ],
+      "cwd": "${workspaceFolder}/frontend",
+      "group": "build"
+    }
+  ]
+}

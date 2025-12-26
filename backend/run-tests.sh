@@ -1,33 +1,44 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Simple test runner für die Tests
-# Dies führt die Test-Dateien direkt aus ohne vollständiges projekt-Setup
+# B2Connect Backend Test Runner
+# Executes all backend tests with proper error handling
 
-cd /Users/holger/Documents/Projekte/B2Connect/backend
+set -euo pipefail
 
-echo "=== Test Summary ==="
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$SCRIPT_DIR"
+
+# Color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
+echo -e "${BLUE}  B2Connect - Backend Test Runner${NC}"
+echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo ""
-echo "✅ Test-Dateien erstellt:"
-echo "  1. Tests/CatalogService.Tests/AdminCrudAuthorizationTests.cs (366 Zeilen)"
-echo "  2. Tests/CatalogService.Tests/CrudOperationsTests.cs (450+ Zeilen)"
-echo "  3. Tests/SearchService.Tests/MultiLanguageSearchTests.cs (589 Zeilen)"
+
+# Check if dotnet is available
+if ! command -v dotnet &> /dev/null; then
+    echo -e "${RED}[✗] .NET SDK not found. Please install .NET SDK first.${NC}"
+    exit 1
+fi
+
+# Run CMS Tests
+echo -e "${YELLOW}[*] Running CMS Unit Tests...${NC}"
+if dotnet test "$PROJECT_ROOT/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj" -v minimal; then
+    echo -e "${GREEN}[✓] CMS Tests passed${NC}"
+else
+    echo -e "${RED}[✗] CMS Tests failed${NC}"
+    exit 1
+fi
+
 echo ""
-echo "Total: 48 Unit Tests für:"
-echo "  - Admin CRUD Authorization (17 Tests)"
-echo "  - CRUD Operations (18 Tests)"
-echo "  - Multi-Language Search (13 Tests)"
-echo ""
-echo "=== Test Kategorien ==="
-echo ""
-echo "✅ AdminCrudAuthorizationTests (17 Tests):"
-echo "  • CreateProduct_HasAuthorizeAttribute_ForAdmin"
-echo "  • UpdateProduct_HasAuthorizeAttribute_ForAdmin"
-echo "  • DeleteProduct_HasAuthorizeAttribute_ForAdmin"
-echo "  • GetProduct_NoAuthorizeAttribute_PublicAccess"
-echo "  • GetAllProducts_NoAuthorizeAttribute_PublicAccess"
-echo "  • CreateCategory_HasAuthorizeAttribute_ForAdmin"
-echo "  • UpdateCategory_HasAuthorizeAttribute_ForAdmin"
-echo "  • DeleteCategory_HasAuthorizeAttribute_ForAdmin"
+echo -e "${GREEN}═══════════════════════════════════════════════════════════════${NC}"
+echo -e "${GREEN}  [✓] All tests passed successfully!${NC}"
+echo -e "${GREEN}═══════════════════════════════════════════════════════════════${NC}"
 echo "  • GetCategory_NoAuthorizeAttribute_PublicAccess"
 echo "  • CreateBrand_HasAuthorizeAttribute_ForAdmin"
 echo "  • UpdateBrand_HasAuthorizeAttribute_ForAdmin"

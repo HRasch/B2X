@@ -8,6 +8,8 @@
 #   --free      Free up occupied ports
 #   --monitor   Monitor ports in real-time
 
+set -euo pipefail
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Color codes

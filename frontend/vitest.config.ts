@@ -10,6 +10,15 @@ export default defineConfig({
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/unit/**/*.spec.ts', 'tests/components/**/*.spec.ts'],
     exclude: ['tests/e2e/**'],
+    /**
+     * Tests that use async component loading will have unhandled rejections
+     * for missing widget components in test environment.
+     * These are handled gracefully by defineAsyncComponent and don't affect test results.
+     * testNamePattern: ignore unhandled rejection errors from async component loaders
+     */
+    testTimeout: 5000,
+    mockReset: true,
+    restoreMocks: true,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],

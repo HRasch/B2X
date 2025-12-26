@@ -3,6 +3,8 @@
 # B2Connect - Start All Services Script
 # Orchestrates Backend (Aspire) and Frontend development servers
 
+set -euo pipefail
+
 echo "🚀 B2Connect - Complete Environment Startup"
 echo "═════════════════════════════════════════════"
 echo ""

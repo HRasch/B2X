@@ -42,3 +42,52 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: vi.fn(),
   })),
 })
+
+// Suppress Vue warnings about async component failures in test environment
+// These are expected when widget components cannot be loaded dynamically
+const originalWarn = console.warn
+console.warn = function (...args: any[]) {
+  // Filter out Vue's unhandled async component loader warnings
+  if (args[0]?.includes?.('[Vue warn]: Unhandled error during execution of async component loader')) {
+    return
+  }
+  // Allow other warnings through
+  originalWarn.apply(console, args)
+}
+
+// Mock dynamic widget imports to suppress load errors in test environment
+// The actual widget components are not needed for unit tests
+vi.mock('./src/components/widgets/HeroBanner.vue', () => ({
+  default: {
+    name: 'HeroBanner',
+    template: '<div class="hero-banner">Hero Banner Mock</div>'
+  }
+}), { virtual: true })
+
+vi.mock('./src/components/widgets/ProductGrid.vue', () => ({
+  default: {
+    name: 'ProductGrid',
+    template: '<div class="product-grid">Product Grid Mock</div>'
+  }
+}), { virtual: true })
+
+vi.mock('./src/components/widgets/Testimonials.vue', () => ({
+  default: {
+    name: 'Testimonials',
+    template: '<div class="testimonials">Testimonials Mock</div>'
+  }
+}), { virtual: true })
+
+vi.mock('./src/components/widgets/NewsletterSignup.vue', () => ({
+  default: {
+    name: 'NewsletterSignup',
+    template: '<div class="newsletter-signup">Newsletter Signup Mock</div>'
+  }
+}), { virtual: true })
+
+vi.mock('./src/components/cms/WidgetNotFound.vue', () => ({
+  default: {
+    name: 'WidgetNotFound',
+    template: '<div class="widget-not-found">Widget not found</div>'
+  }
+}), { virtual: true })

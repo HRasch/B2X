@@ -3,10 +3,10 @@
 # B2Connect Aspire Hosting - Stop all services
 # Gracefully stops the .NET Aspire orchestration
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$SCRIPT_DIR"
+PROJECT_ROOT="${SCRIPT_DIR%/scripts}"
 PID_DIR="$PROJECT_ROOT/.pids"
 LOGS_DIR="$PROJECT_ROOT/logs"
 

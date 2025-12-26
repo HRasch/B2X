@@ -3,6 +3,8 @@
 # B2Connect Service Cleanup Script
 # Stops all running B2Connect services
 
+set -euo pipefail
+
 echo "Stopping B2Connect services..."
 
 # Kill all dotnet processes

@@ -17,7 +17,6 @@ bld/
 
 ## Visual Studio cache/options
 .vs/
-.vscode/
 
 ## User-specific files
 *.rsuser
@@ -54,14 +53,12 @@ xunit-results/
 
 # Playwright test reports
 playwright-report/
-test-results/
 .playwright/
 playwright/*.png
 playwright/*.jpg
 playwright/*.webm
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo

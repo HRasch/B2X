@@ -3,7 +3,7 @@
 # B2Connect Local Service Discovery Startup Script
 # Starts all backend services with proper service discovery configuration
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BACKEND_DIR="$SCRIPT_DIR/backend/services"

@@ -2,6 +2,8 @@
 
 # B2Connect Quick Start Script
 
+set -euo pipefail
+
 echo "🚀 B2Connect Projekt wird gestartet..."
 echo ""
 

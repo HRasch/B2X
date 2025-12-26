@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # B2Connect Kubernetes Setup Script
 # Vorbereitet den Kubernetes-Cluster für B2Connect Deployment
 
-set -e
+set -euo pipefail
 
 # Farben für Output
 BLUE='\033[0;34m'

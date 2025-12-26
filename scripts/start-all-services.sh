@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # B2Connect Service Orchestrator for macOS
 # Startet alle Services in separaten Terminals
 
-set -e
+set -euo pipefail
 
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 

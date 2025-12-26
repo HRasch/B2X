@@ -2,6 +2,8 @@
 
 # B2Connect Health Check Script
 
+set -euo pipefail
+
 echo "🏥 B2Connect Health Check"
 echo "=========================="
 echo ""
