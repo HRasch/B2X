@@ -1,0 +1,64 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Folder Name="/services/">
+      <Folder Name="/Orchestration/">
+        <Project Path="backend/services/Orchestration/B2Connect.Orchestration.csproj" />
+      </Folder>
+      <Folder Name="/ServiceDefaults/">
+        <Project Path="backend/services/ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
+      </Folder>
+      <Folder Name="/Catalog/">
+        <Project Path="backend/services/Catalog/B2Connect.Catalog.API.csproj" />
+      </Folder>
+      <Folder Name="/Gateway/">
+        <Project Path="backend/services/Gateway/B2Connect.Gateway.csproj" />
+      </Folder>
+      <Folder Name="/Theming/">
+        <Project Path="backend/services/Theming/B2Connect.Theming.API.csproj" />
+      </Folder>
+      <Folder Name="/Theming/Layout/">
+        <Project Path="backend/services/Theming/Layout/B2Connect.Theming.Layout.csproj" />
+      </Folder>
+      <Folder Name="/Identity/">
+        <Project Path="backend/services/Identity/B2Connect.Identity.API.csproj" />
+      </Folder>
+      <Folder Name="/Tenancy/">
+        <Project Path="backend/services/Tenancy/B2Connect.Tenancy.API.csproj" />
+      </Folder>
+      <Folder Name="/Localization/">
+        <Project Path="backend/services/Localization/B2Connect.Localization.API.csproj" />
+      </Folder>
+    </Folder>
+    <Folder Name="/shared/">
+      <Folder Name="/kernel/">
+        <Project Path="backend/shared/kernel/B2Connect.Shared.Kernel.csproj" />
+      </Folder>
+      <Folder Name="/core/">
+        <Project Path="backend/shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+      </Folder>
+      <Folder Name="/infrastructure/">
+        <Project Path="backend/shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
+      </Folder>
+      <Folder Name="/tools/">
+        <Project Path="backend/shared/tools/B2Connect.Shared.Tools.csproj" />
+      </Folder>
+      <Folder Name="/middleware/">
+        <Project Path="backend/shared/middleware/B2Connect.Shared.Middleware.csproj" />
+      </Folder>
+      <Folder Name="/search/">
+        <Project Path="backend/shared/B2Connect.Shared.Search/B2Connect.Shared.Search.csproj" />
+      </Folder>
+      <Folder Name="/messaging/">
+        <Project Path="backend/shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
+      </Folder>
+    </Folder>
+    <Folder Name="/Tests/">
+      <Project Path="backend/Tests/B2Connect.Catalog.Tests/B2Connect.Catalog.Tests.csproj" />
+      <Project Path="backend/Tests/B2Connect.Identity.Tests/B2Connect.Identity.Tests.csproj" />
+      <Project Path="backend/Tests/B2Connect.Shared.Search.Tests/B2Connect.Shared.Search.Tests.csproj" />
+    </Folder>
+    <Folder Name="/services/Localization/tests/">
+      <Project Path="backend/services/Localization/tests/B2Connect.Localization.Tests.csproj" />
+    </Folder>
+  </Folder>
+</Solution>
