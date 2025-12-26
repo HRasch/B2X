@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # B2Connect Aspire Hosting - Stop all services
 # Gracefully stops the .NET Aspire orchestration

@@ -90,7 +90,7 @@ using (var scope = app.Services.CreateScope())
 // Service defaults middleware
 app.UseServiceDefaults();
 
-// CORS middleware
+// CORS middleware - MUST be before auth
 app.UseCors("AllowFrontend");
 
 // Middleware

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # B2Connect Deployment Status Check Script
 # Überprüft den Status aller Services und zeigt System-Informationen

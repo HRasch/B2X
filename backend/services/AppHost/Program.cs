@@ -19,10 +19,23 @@ builder.Host.UseSerilog((context, config) =>
 
 // Load service configuration
 var serviceConfig = builder.Configuration.GetSection("Services");
-var apiGatewayUrl = serviceConfig["ApiGateway"] ?? "http://localhost:5000";
-var authServiceUrl = serviceConfig["AuthService"] ?? "http://localhost:5001";
-var tenantServiceUrl = serviceConfig["TenantService"] ?? "http://localhost:5002";
-var localizationServiceUrl = serviceConfig["LocalizationService"] ?? "http://localhost:5003";
+
+// Use environment variables for service discovery URLs (from Aspire orchestration)
+var apiGatewayUrl = Environment.GetEnvironmentVariable("SERVICES__APIGATEWAY")
+    ?? serviceConfig["ApiGateway"]
+    ?? "http://api-gateway:8080";
+
+var authServiceUrl = Environment.GetEnvironmentVariable("SERVICES__AUTHSERVICE")
+    ?? serviceConfig["AuthService"]
+    ?? "http://auth-service:8080";
+
+var tenantServiceUrl = Environment.GetEnvironmentVariable("SERVICES__TENANTSERVICE")
+    ?? serviceConfig["TenantService"]
+    ?? "http://tenant-service:8080";
+
+var localizationServiceUrl = Environment.GetEnvironmentVariable("SERVICES__LOCALIZATIONSERVICE")
+    ?? serviceConfig["LocalizationService"]
+    ?? "http://localization-service:8080";
 
 // Service Discovery - Register service URLs
 builder.Services.AddSingleton(sp => new ServiceRegistry

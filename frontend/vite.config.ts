@@ -1,30 +1,29 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import path from "path";
+import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
   server: {
     port: 3000,
-    host: 'localhost',
+    host: "localhost",
     strictPort: false,
     proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
+      "/api": {
+        target: process.env.VITE_API_GATEWAY_URL || "http://localhost:6000",
         changeOrigin: true,
-        rewrite: (path: string) => path.replace(/^\/api/, ''),
         secure: false,
         ws: true,
         timeout: 30000,
       },
-      '/ws': {
-        target: 'ws://localhost:5000',
+      "/ws": {
+        target: "ws://localhost:5000",
         changeOrigin: true,
         ws: true,
         secure: false,
@@ -33,15 +32,15 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'esnext',
-    minify: 'terser',
+    target: "esnext",
+    minify: "terser",
     rollupOptions: {
       output: {
         manualChunks: {
-          'vue': ['vue', 'vue-router', 'pinia'],
-          'vendor': ['axios', 'date-fns'],
+          vue: ["vue", "vue-router", "pinia"],
+          vendor: ["axios", "date-fns"],
         },
       },
     },
   },
-})
+});

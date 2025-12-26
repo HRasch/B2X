@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # B2Connect - Start All Services Script
 # Orchestrates Backend (Aspire) and Frontend development servers

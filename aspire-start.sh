@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # B2Connect Aspire Hosting Setup
 # Orchestrates all microservices with centralized .NET Aspire orchestration
@@ -56,6 +56,31 @@ setup_directories() {
     echo -e "${GREEN}[✓] Directories created${NC}"
 }
 
+# Function to check if a port is available
+is_port_available() {
+    local port=$1
+    ! nc -z localhost "$port" 2>/dev/null
+}
+
+# Function to find an available port starting from a given port
+find_available_port() {
+    local start_port=$1
+    local port=$start_port
+    local max_attempts=100
+    local attempt=0
+    
+    while [ $attempt -lt $max_attempts ]; do
+        if is_port_available "$port"; then
+            echo "$port"
+            return 0
+        fi
+        port=$((port + 1))
+        attempt=$((attempt + 1))
+    done
+    
+    echo -1
+}
+
 # Check prerequisites
 check_prerequisites() {
     echo -e "${YELLOW}[*] Checking prerequisites...${NC}"
@@ -70,7 +95,64 @@ check_prerequisites() {
         exit 1
     fi
     
+    # Check if netcat is available for port checking
+    if ! command -v nc &> /dev/null; then
+        echo -e "${YELLOW}[!] netcat not found - skipping port availability check${NC}"
+        echo -e "${YELLOW}    Install with: brew install netcat${NC}"
+    fi
+    
     echo -e "${GREEN}[✓] All prerequisites met${NC}"
+}
+
+# Check and assign available ports
+check_and_assign_ports() {
+    echo -e "${YELLOW}[*] Checking port availability...${NC}"
+    echo ""
+    
+    # Check AppHost Port
+    if is_port_available "$APPHOST_PORT"; then
+        echo -e "${GREEN}[✓] AppHost Port $APPHOST_PORT is available${NC}"
+    else
+        echo -e "${YELLOW}[!] AppHost Port $APPHOST_PORT is in use${NC}"
+        APPHOST_PORT=$(find_available_port "$APPHOST_PORT")
+        if [ "$APPHOST_PORT" -eq -1 ]; then
+            echo -e "${RED}[✗] Could not find available port for AppHost${NC}"
+            exit 1
+        fi
+        echo -e "${GREEN}[✓] Using alternative AppHost Port: $APPHOST_PORT${NC}"
+    fi
+    
+    # Check Dashboard Port
+    if is_port_available "$DASHBOARD_PORT"; then
+        echo -e "${GREEN}[✓] Dashboard Port $DASHBOARD_PORT is available${NC}"
+    else
+        echo -e "${YELLOW}[!] Dashboard Port $DASHBOARD_PORT is in use${NC}"
+        DASHBOARD_PORT=$(find_available_port "$DASHBOARD_PORT")
+        if [ "$DASHBOARD_PORT" -eq -1 ]; then
+            echo -e "${RED}[✗] Could not find available port for Dashboard${NC}"
+            exit 1
+        fi
+        echo -e "${GREEN}[✓] Using alternative Dashboard Port: $DASHBOARD_PORT${NC}"
+    fi
+    
+    # Check Service Ports
+    for service in "${!SERVICE_PORTS[@]}"; do
+        local port=${SERVICE_PORTS[$service]}
+        if ! is_port_available "$port"; then
+            echo -e "${YELLOW}[!] $service Port $port is in use${NC}"
+            port=$(find_available_port "$port")
+            if [ "$port" -eq -1 ]; then
+                echo -e "${RED}[✗] Could not find available port for $service${NC}"
+                exit 1
+            fi
+            SERVICE_PORTS[$service]=$port
+            echo -e "${GREEN}[✓] Using alternative Port for $service: $port${NC}"
+        else
+            echo -e "${GREEN}[✓] $service Port $port is available${NC}"
+        fi
+    done
+    
+    echo ""
 }
 
 # Start Aspire AppHost
@@ -153,6 +235,9 @@ setup_directories
 check_prerequisites
 
 echo ""
+check_and_assign_ports
+
+echo ""
 start_apphost
 
 echo ""
@@ -162,10 +247,10 @@ echo -e "${BLUE}═════════════════════�
 
 echo ""
 echo -e "${CYAN}🔧 Microservices Configuration:${NC}"
-echo -e "  ${BLUE}Catalog Service${NC}      → http://localhost:9001"
-echo -e "  ${BLUE}Auth Service${NC}         → http://localhost:9002"
-echo -e "  ${BLUE}Search Service${NC}       → http://localhost:9003"
-echo -e "  ${BLUE}Order Service${NC}        → http://localhost:9004"
+for service in "${!SERVICE_PORTS[@]}"; do
+    local port=${SERVICE_PORTS[$service]}
+    echo -e "  ${BLUE}${service}${NC} → http://localhost:${port}"
+done
 
 echo ""
 echo -e "${CYAN}📊 Dashboard & Monitoring:${NC}"

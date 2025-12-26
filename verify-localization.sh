@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # B2Connect Localization Implementation Verification Script
 # Verifies that all Phase 1 (Backend) and Phase 2 (Frontend) components are in place
