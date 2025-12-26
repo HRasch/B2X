@@ -1,4 +1,5 @@
 using B2Connect.CatalogService.CQRS;
+using B2Connect.CatalogService.Services;
 
 namespace B2Connect.CatalogService.CQRS.Queries;
 

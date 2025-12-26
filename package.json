@@ -1,0 +1,31 @@
+{
+  "name": "b2connect-workspace",
+  "version": "1.0.0",
+  "description": "B2Connect - Full Stack Application with .NET Aspire Backend and Vue Frontend",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "frontend-admin"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm install --prefix frontend && npm install --prefix frontend-admin",
+    "dev": "npm run dev --workspace=frontend",
+    "dev:admin": "npm run dev --workspace=frontend-admin",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "type-check": "npm run type-check --workspaces"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "b2connect",
+    "vue",
+    "aspire",
+    "microservices"
+  ],
+  "author": "",
+  "license": "MIT"
+}

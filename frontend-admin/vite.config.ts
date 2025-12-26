@@ -10,7 +10,8 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5174,
+    port: parseInt(process.env.VITE_PORT || "5174"),
+    strictPort: false,
     proxy: {
       "/api": {
         target: process.env.VITE_API_GATEWAY_URL || "http://localhost:6000",

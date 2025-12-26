@@ -1,4 +1,4 @@
-using Wolverine;
+using WolverineFx;
 using B2Connect.CatalogService.CQRS;
 using B2Connect.CatalogService.Models;
 

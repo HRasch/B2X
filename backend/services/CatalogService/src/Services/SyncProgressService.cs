@@ -1,3 +1,5 @@
+using B2Connect.CatalogService.Models;
+
 namespace B2Connect.CatalogService.Services;
 
 /// <summary>

@@ -11,7 +11,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3000,
+    port: parseInt(process.env.VITE_PORT || "5173"),
     host: "localhost",
     strictPort: false,
     proxy: {

@@ -1,6 +1,8 @@
+using B2Connect.CatalogService.CQRS;
 using B2Connect.CatalogService.CQRS.Queries;
 using B2Connect.CatalogService.Data;
 using B2Connect.CatalogService.Models;
+using B2Connect.CatalogService.Services;
 using Microsoft.Extensions.Logging;
 
 namespace B2Connect.CatalogService.Providers;

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Wolverine;
-using B2Connect.CatalogService.CQRS.Queries;
+using WolverineFx;
 using B2Connect.CatalogService.CQRS;
-using B2Connect.CatalogService.Models.DTOs;
+using B2Connect.CatalogService.CQRS.Queries;
+using B2Connect.CatalogService.Services;
 
 namespace B2Connect.CatalogService.Controllers;
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Wolverine;
+using WolverineFx;
 using B2Connect.CatalogService.CQRS.Commands;
 using B2Connect.CatalogService.CQRS;
 

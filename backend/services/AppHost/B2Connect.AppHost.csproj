@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" />
     <PackageReference Include="Serilog.AspNetCore" />
   </ItemGroup>
 
@@ -15,6 +16,6 @@
     <ProjectReference Include="../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
     <ProjectReference Include="../auth-service/B2Connect.AuthService.csproj" />
     <ProjectReference Include="../tenant-service/B2Connect.TenantService.csproj" />
-    <ProjectReference Include="../api-gateway/B2Connect.ApiGateway.csproj" />
+    <ProjectReference Include="../LocalizationService/B2Connect.LocalizationService.csproj" />
   </ItemGroup>
 </Project>

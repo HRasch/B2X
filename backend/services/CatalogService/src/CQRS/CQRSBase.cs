@@ -1,12 +1,66 @@
-using Wolverine;
+using WolverineFx;
+using B2Connect.CatalogService.CQRS;
 
 namespace B2Connect.CatalogService.CQRS;
+
+/// <summary>
+/// Message Bus for sending commands and queries
+/// Wolverine's central messaging hub
+/// </summary>
+public interface IMessageBus
+{
+    /// <summary>Invoke a command and wait for response</summary>
+    Task<TResponse> InvokeAsync<TResponse>(ICommand<TResponse> command, CancellationToken ct = default);
+
+    /// <summary>Invoke a query and wait for response</summary>
+    Task<TResponse> InvokeAsync<TQuery, TResponse>(TQuery query, CancellationToken ct = default)
+        where TQuery : IQuery<TResponse>;
+
+    /// <summary>Send a command without waiting for response</summary>
+    Task SendAsync(ICommand command, CancellationToken ct = default);
+
+    /// <summary>Publish an event to all subscribers</summary>
+    Task PublishAsync(object @event, CancellationToken ct = default);
+}
 
 /// <summary>
 /// Base marker interface for all commands
 /// Wolverine automatically discovers ICommandHandler<T> implementations
 /// </summary>
 public interface ICommand { }
+
+/// <summary>
+/// Handler for commands
+/// </summary>
+/// <typeparam name="TCommand">Command type</typeparam>
+public interface ICommandHandler<in TCommand>
+    where TCommand : ICommand
+{
+    /// <summary>Handle the command</summary>
+    Task Handle(TCommand command, CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// Handler for commands with response
+/// </summary>
+/// <typeparam name="TCommand">Command type</typeparam>
+/// <typeparam name="TResponse">Response type</typeparam>
+public interface ICommandHandler<in TCommand, TResponse>
+    where TCommand : ICommand<TResponse>
+{
+    /// <summary>Handle the command and return response</summary>
+    Task<TResponse> Handle(TCommand command, CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// Handler for events
+/// </summary>
+/// <typeparam name="TEvent">Event type</typeparam>
+public interface IEventHandler<in TEvent>
+{
+    /// <summary>Handle the event</summary>
+    Task Handle(TEvent @event, CancellationToken cancellationToken = default);
+}
 
 /// <summary>
 /// Command with response type
@@ -39,6 +93,21 @@ public class CommandResult
 
     public static CommandResult Fail(IEnumerable<string> errors) =>
         new() { Success = false, Errors = errors };
+}
+
+/// <summary>
+/// Handler for queries
+/// Queries are always synchronous request/reply via Wolverine
+/// </summary>
+/// <typeparam name="TQuery">Query type</typeparam>
+/// <typeparam name="TResponse">Response type</typeparam>
+public interface IQueryHandler<in TQuery, TResponse>
+    where TQuery : IQuery<TResponse>
+{
+    /// <summary>
+    /// Handle the query and return result
+    /// </summary>
+    Task<TResponse> Handle(TQuery query, CancellationToken cancellationToken = default);
 }
 
 /// <summary>

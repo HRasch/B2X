@@ -1,9 +1,10 @@
-using Wolverine;
+using WolverineFx;
 using FluentValidation;
 using B2Connect.CatalogService.CQRS.Commands;
 using B2Connect.CatalogService.CQRS.Events;
-using B2Connect.CatalogService.Repositories;
+using B2Connect.CatalogService.Data;
 using B2Connect.CatalogService.Models;
+using B2Connect.CatalogService.Repositories;
 
 namespace B2Connect.CatalogService.CQRS.Handlers.Commands;
 

@@ -1,7 +1,10 @@
-using Wolverine;
+using WolverineFx;
+using WolverineFx.Http;
+using B2Connect.CatalogService.CQRS;
 using B2Connect.CatalogService.CQRS.Queries;
 using B2Connect.CatalogService.Data;
 using B2Connect.CatalogService.Models;
+using B2Connect.CatalogService.Services;
 
 namespace B2Connect.CatalogService.CQRS.Handlers.Queries;
 
