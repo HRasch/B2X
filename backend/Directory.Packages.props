@@ -5,19 +5,18 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Core Framework -->
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.7.0" />
-    
     <!-- Aspire & Orchestration -->
     <PackageVersion Include="Aspire.Hosting" Version="10.0.0" />
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="10.0.0" />
-    
     <!-- Authentication -->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
-    
     <!-- Reverse Proxy -->
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.1.0" />
-    
     <!-- Wolverine - Message Broker & CQRS -->
     <PackageVersion Include="Wolverine" Version="0.8.1" />
     <PackageVersion Include="Wolverine.Http" Version="0.8.1" />
@@ -25,20 +24,15 @@
     <PackageVersion Include="Wolverine.Postgresql" Version="0.8.1" />
     <PackageVersion Include="Wolverine.AzureServiceBus" Version="0.8.1" />
     <PackageVersion Include="Wolverine.AmazonSqs" Version="0.8.1" />
-    
     <!-- Data Access -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
-    
     <!-- ElasticSearch & Message Queue -->
     <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.11.0" />
     <PackageVersion Include="RabbitMQ.Client" Version="7.0.0" />
-    
-
-    
     <!-- Logging & Observability -->
     <PackageVersion Include="Serilog" Version="4.3.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
@@ -52,12 +46,10 @@
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.0" />
-    
     <!-- Resilience & Polly -->
     <PackageVersion Include="Polly" Version="8.4.0" />
     <PackageVersion Include="Polly.Caching" Version="3.0.3" />
     <PackageVersion Include="Polly.CircuitBreaker" Version="8.4.0" />
-    
     <!-- Configuration & Secrets -->
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
@@ -69,11 +61,9 @@
     <PackageVersion Include="AWSSDK.SecretsManager" Version="3.7.400" />
     <PackageVersion Include="AWSSDK.SimpleSystemsManagement" Version="3.7.400" />
     <PackageVersion Include="AWSSDK.SQS" Version="3.7.400" />
-    
     <!-- Validation -->
     <PackageVersion Include="FluentValidation" Version="11.9.2" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
-    
     <!-- Testing -->
     <PackageVersion Include="xunit" Version="2.7.1" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.8" />
@@ -83,7 +73,6 @@
     <PackageVersion Include="Bogus" Version="35.5.1" />
     <PackageVersion Include="Testcontainers" Version="3.10.0" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="3.10.0" />
-    
     <!-- Code Quality -->
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.0" />

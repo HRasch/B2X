@@ -16,7 +16,9 @@
       :placeholder="placeholder"
       :required="required"
       :disabled="disabled"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="
+        $emit('update:modelValue', ($event.target as HTMLInputElement).value)
+      "
       :class="[
         'w-full px-4 py-3 rounded-soft',
         'border transition-all duration-200',

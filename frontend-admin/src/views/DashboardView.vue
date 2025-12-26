@@ -144,6 +144,8 @@ import SoftPanel from "@/components/soft-ui/SoftPanel.vue";
 import SoftBadge from "@/components/soft-ui/SoftBadge.vue";
 import SoftButton from "@/components/soft-ui/SoftButton.vue";
 
+type BadgeVariant = "success" | "warning" | "danger" | "info" | "default";
+
 const authStore = useAuthStore();
 
 const stats = [
@@ -181,7 +183,16 @@ const stats = [
   },
 ];
 
-const recentActivity = [
+const recentActivity: Array<{
+  id: number;
+  initials: string;
+  user: string;
+  action: string;
+  time: string;
+  status: BadgeVariant;
+  statusLabel: string;
+  colorClass: string;
+}> = [
   {
     id: 1,
     initials: "JD",
@@ -214,7 +225,15 @@ const recentActivity = [
   },
 ];
 
-const users = [
+const users: Array<{
+  id: number;
+  name: string;
+  email: string;
+  status: BadgeVariant;
+  statusLabel: string;
+  joined: string;
+  initials: string;
+}> = [
   {
     id: 1,
     name: "Alice Johnson",

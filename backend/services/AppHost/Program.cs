@@ -37,7 +37,7 @@ builder.Services.AddSingleton(sp => new ServiceRegistry
 builder.Services.AddCors(options =>
 {
     var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
-        ?? new[] { "http://localhost:3000", "http://localhost:5173" };
+        ?? new[] { "http://localhost:3000", "http://localhost:5173", "http://localhost:5174" };
 
     options.AddPolicy("AllowFrontend", policy =>
     {

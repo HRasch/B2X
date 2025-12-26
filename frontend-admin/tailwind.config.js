@@ -131,5 +131,9 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [
+    // Optional: @tailwindcss/forms für erweiterte Form-Styling
+    // npm install -D @tailwindcss/forms
+    // require("@tailwindcss/forms"),
+  ],
 };

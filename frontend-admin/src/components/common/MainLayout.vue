@@ -59,7 +59,19 @@
             },
           ]"
         >
-          <component :is="item.icon" class="w-5 h-5" />
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
           <span>{{ item.label }}</span>
         </router-link>
       </nav>
@@ -241,7 +253,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
@@ -254,29 +266,27 @@ const sidebarOpen = ref(false);
 const userMenuOpen = ref(false);
 const isDark = ref(false);
 
-const navItems = [
+interface NavItem {
+  path: string;
+  label: string;
+}
+
+const navItems: NavItem[] = [
   {
     path: "/dashboard",
     label: "Dashboard",
-    icon: "svg",
-    get icon() {
-      return "icon-dashboard";
-    },
   },
   {
     path: "/cms/pages",
     label: "CMS",
-    icon: "svg",
   },
   {
     path: "/shop/products",
     label: "Shop",
-    icon: "svg",
   },
   {
     path: "/jobs/queue",
     label: "Jobs",
-    icon: "svg",
   },
 ];
 

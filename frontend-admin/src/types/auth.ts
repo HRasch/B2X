@@ -8,7 +8,7 @@ export interface AdminUser {
   roles: Role[]
   permissions: Permission[]
   tenantId: string
-  isActive: boolean
+  isActive?: boolean
   lastLogin?: Date
 }
 
@@ -36,6 +36,7 @@ export interface LoginResponse {
   accessToken: string
   refreshToken: string
   user: AdminUser
+  expiresIn: number
 }
 
 export interface AuthState {

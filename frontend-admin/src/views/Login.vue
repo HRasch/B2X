@@ -1,86 +1,110 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-      <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">B2Connect Admin</h1>
+  <div
+    class="min-h-screen bg-gradient-soft-blue flex items-center justify-center p-safe"
+  >
+    <soft-card class="w-full max-w-md">
+      <!-- Header -->
+      <div class="text-center mb-safe">
+        <div
+          class="w-16 h-16 rounded-soft-lg bg-gradient-soft-blue flex items-center justify-center mx-auto mb-4"
+        >
+          <span class="text-white font-bold text-2xl">B</span>
+        </div>
+        <h1 class="heading-md text-soft-900">B2Connect Admin</h1>
+        <p class="text-soft-600 text-sm mt-2">Sign in to your account</p>
+      </div>
 
+      <!-- Error Message -->
+      <div
+        v-if="error"
+        class="mb-4 p-4 bg-danger-50 border border-danger-200 rounded-soft text-danger-700 text-sm"
+      >
+        {{ error }}
+      </div>
+
+      <!-- Login Form -->
       <form @submit.prevent="handleLogin" class="space-y-4">
-        <div v-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          {{ error }}
-        </div>
+        <!-- Email -->
+        <soft-input
+          v-model="email"
+          type="email"
+          label="Email Address"
+          placeholder="admin@example.com"
+          required
+        />
 
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            id="email"
-            v-model="email"
-            type="email"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="admin@example.com"
-          />
-        </div>
+        <!-- Password -->
+        <soft-input
+          v-model="password"
+          type="password"
+          label="Password"
+          placeholder="••••••••"
+          required
+        />
 
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <!-- Remember Me -->
+        <label class="flex items-center gap-2 cursor-pointer">
           <input
-            id="password"
-            v-model="password"
-            type="password"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="••••••••"
-          />
-        </div>
-
-        <div class="flex items-center">
-          <input
-            id="rememberMe"
             v-model="rememberMe"
             type="checkbox"
-            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            class="w-4 h-4 rounded-soft border-soft-200 text-primary-600 focus:ring-primary-500"
           />
-          <label for="rememberMe" class="ml-2 block text-sm text-gray-700">
-            Remember me
-          </label>
-        </div>
+          <span class="text-sm text-soft-700">Remember me</span>
+        </label>
 
-        <button
-          type="submit"
-          :disabled="loading"
-          class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400 transition"
+        <!-- Login Button -->
+        <soft-button
+          variant="primary"
+          size="lg"
+          :loading="loading"
+          class="w-full mt-6"
         >
-          {{ loading ? 'Logging in...' : 'Login' }}
-        </button>
+          {{ loading ? "Signing in..." : "Sign In" }}
+        </soft-button>
       </form>
-    </div>
+
+      <!-- Footer -->
+      <div class="text-center mt-safe pt-safe border-t border-soft-100">
+        <p class="text-sm text-soft-600">
+          Demo Account: <br />
+          <span class="font-mono text-soft-900">admin@example.com</span><br />
+          <span class="font-mono text-soft-900">password</span>
+        </p>
+      </div>
+    </soft-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+import SoftCard from "@/components/soft-ui/SoftCard.vue";
+import SoftButton from "@/components/soft-ui/SoftButton.vue";
+import SoftInput from "@/components/soft-ui/SoftInput.vue";
 
-const email = ref('')
-const password = ref('')
-const rememberMe = ref(false)
-const loading = ref(false)
-const error = ref('')
+const email = ref("admin@example.com");
+const password = ref("password");
+const rememberMe = ref(false);
+const loading = ref(false);
+const error = ref("");
 
-const authStore = useAuthStore()
-const router = useRouter()
+const authStore = useAuthStore();
+const router = useRouter();
 
 const handleLogin = async () => {
-  error.value = ''
-  loading.value = true
+  error.value = "";
+  loading.value = true;
 
   try {
-    await authStore.login(email.value, password.value, rememberMe.value)
-    router.push('/dashboard')
+    await authStore.login(email.value, password.value, rememberMe.value);
+    router.push("/dashboard");
   } catch (err: any) {
-    error.value = err.response?.data?.error?.message || 'Login failed'
+    error.value =
+      err.response?.data?.error?.message || "Login failed. Please try again.";
+    console.error("Login error:", err);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
