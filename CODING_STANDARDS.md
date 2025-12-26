@@ -38,8 +38,100 @@
 | **Constants** | UPPER_SNAKE_CASE | `DEFAULT_PAGE_SIZE`, `MAX_RETRY_ATTEMPTS` |
 | **Enums** | PascalCase (members: PascalCase) | `UserRole.Administrator` |
 | **Error Codes** | PascalCase (via ErrorCodes class) | `ErrorCodes.InvalidCredentials` |
+| **DTOs (Request)** | `XxxRequest` suffix | `CreateUserRequest`, `UpdateProductRequest` |
+| **DTOs (Response)** | `XxxResponse` suffix | `UserResponse`, `ProductListResponse` |
+| **DTOs (Events)** | Entity Name + Event | `UserCreatedEvent`, `ProductUpdatedEvent` |
+| **DTOs (Read Models)** | `XxxReadModel` suffix | `ProductReadModel`, `UserReadModel` |
 
-### 1.2 File Organization
+### 1.2 DTO Naming Convention
+
+**Usage Context → Naming Pattern:**
+- **Request/Response (Controllers, Mediator)**: `XxxRequest` / `XxxResponse`
+- **Events (Domain Events, CQRS)**: `XxxEvent` (e.g., UserCreatedEvent)
+- **Read Models (Denormalized)**: `XxxReadModel` (e.g., ProductReadModel)
+
+**Examples:**
+```csharp
+// Controller Parameters & Mediator
+public class CreateProductRequest { public string Name { get; set; } }
+public class ProductResponse { public Guid Id { get; set; } }
+
+// Domain Events
+public class UserRegisteredEvent { public Guid UserId { get; set; } }
+public class OrderConfirmedEvent { public Guid OrderId { get; set; } }
+
+// Read Models
+public class ProductReadModel { public int StockQuantity { get; set; } }
+```
+
+### 1.3 DTO as Records (Immutable Data Transfer Objects)
+
+**All DTOs passed between domains MUST be C# Records** for immutability and data integrity:
+
+```csharp
+// ✅ CORRECT - DTOs as immutable Records
+public record CreateProductRequest(
+    string Name,
+    decimal Price,
+    string Category);
+
+public record ProductResponse(
+    Guid Id,
+    string Name,
+    decimal Price,
+    DateTime CreatedAt);
+
+// Domain Events as Records
+public record UserRegisteredEvent(
+    Guid UserId,
+    string Email,
+    DateTime RegisteredAt);
+
+public record OrderConfirmedEvent(
+    Guid OrderId,
+    Guid CustomerId,
+    decimal TotalAmount);
+
+// Read Models as Records
+public record ProductReadModel(
+    Guid Id,
+    string Name,
+    decimal Price,
+    int StockQuantity,
+    bool IsAvailable);
+
+// ❌ INCORRECT - Mutable classes for DTOs
+public class CreateProductRequest 
+{ 
+    public string Name { get; set; }  // Mutable - BAD!
+    public decimal Price { get; set; }
+}
+
+public class ProductResponse 
+{ 
+    public Guid Id { get; set; }      // Mutable - BAD!
+}
+```
+
+**Benefits of Records for DTOs:**
+- ✅ **Immutability** - Data cannot be changed after creation
+- ✅ **Value-based Equality** - Two records with same values are equal
+- ✅ **Thread-Safe** - No synchronization needed
+- ✅ **Concise** - Less boilerplate than classes
+- ✅ **Data Integrity** - Perfect for cross-domain communication
+
+**When to use Records:**
+- DTOs transmitted between services/domains ✅
+- Event objects (DDD) ✅
+- Read models from queries ✅
+- API request/response objects ✅
+
+**When to use Classes:**
+- Entities with behavior and mutable state
+- Services and repositories
+- Infrastructure components
+
+### 1.4 File Organization
 
 ```csharp
 using System;                           // System namespaces

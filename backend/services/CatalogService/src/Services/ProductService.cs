@@ -1,229 +1,216 @@
 using B2Connect.CatalogService.Models;
-using B2Connect.CatalogService.Repositories;
-using B2Connect.Types;
-using B2Connect.Types.Localization;
 
 namespace B2Connect.CatalogService.Services;
 
 /// <summary>
-/// Implementation of product service
+/// Service interface for product operations
+/// </summary>
+public interface IProductService
+{
+    Task<ProductDto?> GetByIdAsync(Guid tenantId, Guid productId, CancellationToken cancellationToken = default);
+    Task<PagedResult<ProductDto>> GetPagedAsync(Guid tenantId, int pageNumber = 1, int pageSize = 20, CancellationToken cancellationToken = default);
+    Task<ProductDto> CreateAsync(Guid tenantId, CreateProductRequest request, CancellationToken cancellationToken = default);
+    Task<ProductDto> UpdateAsync(Guid tenantId, Guid productId, UpdateProductRequest request, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(Guid tenantId, Guid productId, CancellationToken cancellationToken = default);
+    Task<PagedResult<ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// In-memory implementation of IProductService for MVP
 /// </summary>
 public class ProductService : IProductService
 {
-    private readonly IProductRepository _productRepository;
-    private readonly ICategoryRepository _categoryRepository;
-    private readonly IBrandRepository _brandRepository;
+    private static readonly Dictionary<Guid, List<Product>> _products = new();
+    private readonly ILogger<ProductService> _logger;
+    private readonly ISearchIndexService _searchIndex;
 
-    public ProductService(
-        IProductRepository productRepository,
-        ICategoryRepository categoryRepository,
-        IBrandRepository brandRepository)
+    public ProductService(ILogger<ProductService> logger, ISearchIndexService searchIndex)
     {
-        _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
-        _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
-        _brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
+        _logger = logger;
+        _searchIndex = searchIndex;
     }
 
-    public async Task<ProductDto?> GetProductAsync(Guid id)
+    public Task<ProductDto?> GetByIdAsync(Guid tenantId, Guid productId, CancellationToken cancellationToken = default)
     {
-        var product = await _productRepository.GetWithDetailsAsync(id);
-        return product != null ? MapToDto(product) : null;
+        if (!_products.TryGetValue(tenantId, out var tenantProducts))
+            return Task.FromResult<ProductDto?>(null);
+
+        var product = tenantProducts.FirstOrDefault(p => p.Id == productId);
+        return Task.FromResult(product?.ToDto());
     }
 
-    public async Task<ProductDto?> GetProductBySkuAsync(string sku)
+    public Task<PagedResult<ProductDto>> GetPagedAsync(Guid tenantId, int pageNumber = 1, int pageSize = 20, CancellationToken cancellationToken = default)
     {
-        var product = await _productRepository.GetBySkuAsync(sku);
-        return product != null ? MapToDto(product) : null;
+        if (!_products.TryGetValue(tenantId, out var tenantProducts))
+            return Task.FromResult(new PagedResult<ProductDto>
+            {
+                Items = new(),
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = 0
+            });
+
+        var skip = (pageNumber - 1) * pageSize;
+        var items = tenantProducts
+            .Skip(skip)
+            .Take(pageSize)
+            .Select(p => p.ToDto())
+            .ToList();
+
+        return Task.FromResult(new PagedResult<ProductDto>
+        {
+            Items = items,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalCount = tenantProducts.Count
+        });
     }
 
-    public async Task<ProductDto?> GetProductBySlugAsync(string slug)
-    {
-        var product = await _productRepository.GetBySlugAsync(slug);
-        if (product == null) return null;
-        return MapToDto(await _productRepository.GetWithDetailsAsync(product.Id) ?? product);
-    }
-
-    public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
-    {
-        var products = await _productRepository.GetAllAsync();
-        return products.Select(MapToDto);
-    }
-
-    public async Task<IEnumerable<ProductDto>> GetProductsByCategoryAsync(Guid categoryId)
-    {
-        var products = await _productRepository.GetByCategoryAsync(categoryId);
-        return products.Select(MapToDto);
-    }
-
-    public async Task<IEnumerable<ProductDto>> GetProductsByBrandAsync(Guid brandId)
-    {
-        var products = await _productRepository.GetByBrandAsync(brandId);
-        return products.Select(MapToDto);
-    }
-
-    public async Task<IEnumerable<ProductDto>> GetFeaturedProductsAsync(int take = 10)
-    {
-        var products = await _productRepository.GetFeaturedAsync(take);
-        return products.Select(MapToDto);
-    }
-
-    public async Task<IEnumerable<ProductDto>> GetNewProductsAsync(int take = 10)
-    {
-        var products = await _productRepository.GetNewAsync(take);
-        return products.Select(MapToDto);
-    }
-
-    public async Task<IEnumerable<ProductDto>> SearchProductsAsync(string searchTerm)
-    {
-        var products = await _productRepository.SearchAsync(searchTerm);
-        return products.Select(MapToDto);
-    }
-
-    public async Task<(IEnumerable<ProductDto> Items, int Total)> GetProductsPagedAsync(int pageNumber, int pageSize)
-    {
-        var (items, total) = await _productRepository.GetPagedAsync(pageNumber, pageSize);
-        return (items.Select(MapToDto), total);
-    }
-
-    public async Task<ProductDto> CreateProductAsync(CreateProductDto dto)
+    public async Task<ProductDto> CreateAsync(Guid tenantId, CreateProductRequest request, CancellationToken cancellationToken = default)
     {
         var product = new Product
         {
-            Sku = dto.Sku,
-            Slug = dto.Slug,
-            Name = LocalizedContent.FromDictionary(dto.Name),
-            ShortDescription = LocalizedContent.FromDictionary(dto.ShortDescription),
-            Description = LocalizedContent.FromDictionary(dto.Description),
-            Price = dto.Price,
-            SpecialPrice = dto.SpecialPrice,
-            StockQuantity = dto.StockQuantity,
-            BrandId = dto.BrandId,
-            IsActive = true,
-            IsNew = true
+            Id = Guid.NewGuid(),
+            TenantId = tenantId,
+            Sku = request.Sku,
+            Name = request.Name,
+            Description = request.Description,
+            Price = request.Price,
+            DiscountPrice = request.DiscountPrice,
+            StockQuantity = request.StockQuantity,
+            Categories = request.Categories ?? new(),
+            BrandName = request.BrandName,
+            Tags = request.Tags ?? new(),
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
 
-        await _productRepository.CreateAsync(product);
+        if (!_products.ContainsKey(tenantId))
+            _products[tenantId] = new();
 
-        // Add product categories
-        if (dto.CategoryIds.Count > 0)
-        {
-            var categories = await _categoryRepository.GetAllAsync();
-            var categoryList = categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
+        _products[tenantId].Add(product);
 
-            foreach (var category in categoryList)
-            {
-                product.ProductCategories.Add(new ProductCategory
-                {
-                    ProductId = product.Id,
-                    CategoryId = category.Id,
-                    IsPrimary = product.ProductCategories.Count == 0
-                });
-            }
-        }
+        _logger.LogInformation("Product created: {ProductId} for tenant {TenantId}", product.Id, tenantId);
 
-        await _productRepository.SaveChangesAsync();
-        return MapToDto(product);
+        // Index in Elasticsearch
+        await _searchIndex.IndexProductAsync(product, cancellationToken);
+
+        return product.ToDto();
     }
 
-    public async Task<Result<ProductDto>> UpdateProductAsync(Guid id, UpdateProductDto dto)
+    public async Task<ProductDto> UpdateAsync(Guid tenantId, Guid productId, UpdateProductRequest request, CancellationToken cancellationToken = default)
     {
-        var product = await _productRepository.GetByIdAsync(id);
-        if (product == null)
-            return new Result<ProductDto>.Failure(ErrorCodes.NotFound, ErrorCodes.NotFound.ToMessage());
+        if (!_products.TryGetValue(tenantId, out var tenantProducts))
+            throw new KeyNotFoundException($"Product {productId} not found");
 
-        if (dto.Name != null)
-            product.Name = LocalizedContent.FromDictionary(dto.Name);
-        if (dto.ShortDescription != null)
-            product.ShortDescription = LocalizedContent.FromDictionary(dto.ShortDescription);
-        if (dto.Description != null)
-            product.Description = LocalizedContent.FromDictionary(dto.Description);
-        if (dto.Price.HasValue)
-            product.Price = dto.Price.Value;
-        if (dto.SpecialPrice != null)
-            product.SpecialPrice = dto.SpecialPrice;
-        if (dto.StockQuantity.HasValue)
-            product.StockQuantity = dto.StockQuantity.Value;
-        if (dto.IsActive.HasValue)
-            product.IsActive = dto.IsActive.Value;
-        if (dto.IsFeatured.HasValue)
-            product.IsFeatured = dto.IsFeatured.Value;
-        if (dto.BrandId.HasValue)
-            product.BrandId = dto.BrandId;
+        var product = tenantProducts.FirstOrDefault(p => p.Id == productId);
+        if (product == null)
+            throw new KeyNotFoundException($"Product {productId} not found");
+
+        // Update fields
+        if (!string.IsNullOrEmpty(request.Name))
+            product.Name = request.Name;
+        if (!string.IsNullOrEmpty(request.Description))
+            product.Description = request.Description;
+        if (request.Price.HasValue)
+            product.Price = request.Price.Value;
+        if (request.DiscountPrice.HasValue)
+            product.DiscountPrice = request.DiscountPrice;
+        if (request.StockQuantity.HasValue)
+            product.StockQuantity = request.StockQuantity.Value;
+        if (request.IsActive.HasValue)
+            product.IsActive = request.IsActive.Value;
+        if (request.Categories != null)
+            product.Categories = request.Categories;
+        if (!string.IsNullOrEmpty(request.BrandName))
+            product.BrandName = request.BrandName;
+        if (request.Tags != null)
+            product.Tags = request.Tags;
 
         product.UpdatedAt = DateTime.UtcNow;
 
-        await _productRepository.UpdateAsync(product);
-        await _productRepository.SaveChangesAsync();
+        _logger.LogInformation("Product updated: {ProductId} for tenant {TenantId}", product.Id, tenantId);
 
-        return new Result<ProductDto>.Success(MapToDto(product), "Product updated successfully");
+        // Update in Elasticsearch
+        await _searchIndex.IndexProductAsync(product, cancellationToken);
+
+        return product.ToDto();
     }
 
-    public async Task<bool> DeleteProductAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid tenantId, Guid productId, CancellationToken cancellationToken = default)
     {
-        return await _productRepository.DeleteAsync(id) &&
-               await _productRepository.SaveChangesAsync() > 0;
+        if (!_products.TryGetValue(tenantId, out var tenantProducts))
+            return false;
+
+        var product = tenantProducts.FirstOrDefault(p => p.Id == productId);
+        if (product == null)
+            return false;
+
+        tenantProducts.Remove(product);
+
+        _logger.LogInformation("Product deleted: {ProductId} for tenant {TenantId}", product.Id, tenantId);
+
+        // Delete from Elasticsearch
+        await _searchIndex.DeleteProductAsync(product.Id, cancellationToken);
+
+        return true;
     }
 
-    private ProductDto MapToDto(Product product)
+    public Task<PagedResult<ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken cancellationToken = default)
     {
-        return new ProductDto
-        {
-            Id = product.Id,
-            Sku = product.Sku,
-            Slug = product.Slug,
-            Name = product.Name?.Translations ?? new(),
-            ShortDescription = product.ShortDescription?.Translations,
-            Description = product.Description?.Translations,
-            Price = product.Price,
-            SpecialPrice = product.SpecialPrice,
-            StockQuantity = product.StockQuantity,
-            IsActive = product.IsActive,
-            IsFeatured = product.IsFeatured,
-            IsNew = product.IsNew,
-            BrandId = product.BrandId,
-            BrandName = product.Brand?.Name?.Get("en"),
-            VariantCount = product.Variants.Count,
-            ImageCount = product.Images.Count,
-            Categories = product.ProductCategories
-                .Select(pc => MapCategoryToDto(pc.Category))
-                .ToList(),
-            Variants = product.Variants
-                .Where(v => v.IsActive)
-                .Select(v => MapVariantToDto(v))
-                .ToList()
-        };
-    }
+        if (!_products.TryGetValue(tenantId, out var tenantProducts))
+            return Task.FromResult(new PagedResult<ProductDto>
+            {
+                Items = new(),
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = 0
+            });
 
-    private CategoryDto MapCategoryToDto(Category category)
+        var filtered = tenantProducts
+            .Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                       (p.Description?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                       p.Sku.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        var skip = (pageNumber - 1) * pageSize;
+        var items = filtered
+            .Skip(skip)
+            .Take(pageSize)
+            .Select(p => p.ToDto())
+            .ToList();
+
+        return Task.FromResult(new PagedResult<ProductDto>
+        {
+            Items = items,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalCount = filtered.Count
+        });
+    }
+}
+
+/// <summary>
+/// Extension methods for Product
+/// </summary>
+internal static class ProductExtensions
+{
+    public static ProductDto ToDto(this Product product) => new()
     {
-        return new CategoryDto
-        {
-            Id = category.Id,
-            Slug = category.Slug,
-            Name = category.Name?.Translations ?? new(),
-            Description = category.Description?.Translations,
-            IsActive = category.IsActive
-        };
-    }
-
-    private ProductVariantDto MapVariantToDto(ProductVariant variant)
-    {
-        var attributeValues = new Dictionary<string, string>();
-        foreach (var attrVal in variant.AttributeValues.Where(av => av.IsActive || av.IsActive))
-        {
-            var label = attrVal.Option?.Label?.Get("en") ?? attrVal.Value ?? string.Empty;
-            attributeValues[attrVal.Attribute.Code] = label;
-        }
-
-        return new ProductVariantDto
-        {
-            Id = variant.Id,
-            Sku = variant.Sku,
-            Name = variant.Name?.Translations ?? new(),
-            Price = variant.Price,
-            StockQuantity = variant.StockQuantity,
-            IsActive = variant.IsActive,
-            AttributeValues = attributeValues
-        };
-    }
+        Id = product.Id,
+        TenantId = product.TenantId,
+        Sku = product.Sku,
+        Name = product.Name,
+        Description = product.Description,
+        Price = product.Price,
+        DiscountPrice = product.DiscountPrice,
+        StockQuantity = product.StockQuantity,
+        IsActive = product.IsActive,
+        Categories = product.Categories,
+        BrandName = product.BrandName,
+        Tags = product.Tags,
+        CreatedAt = product.CreatedAt,
+        UpdatedAt = product.UpdatedAt,
+        IsAvailable = product.IsAvailable
+    };
 }

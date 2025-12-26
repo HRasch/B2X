@@ -1,37 +1,43 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-using B2Connect.CatalogService.Services;
 using B2Connect.CatalogService.Models;
+using B2Connect.CatalogService.Services;
+using B2Connect.CatalogService.Handlers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace B2Connect.CatalogService.Controllers;
 
 /// <summary>
-/// API Controller for Product operations
-/// Public GET endpoints for store, admin CRUD endpoints require Admin role
-/// Uses AOP filters for logging, validation, and exception handling
+/// Products API Controller
+/// Endpoints for CRUD operations and search
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/products")]
 [Produces("application/json")]
 public class ProductsController : ControllerBase
 {
-    private readonly IProductService _service;
+    private readonly IProductService _productService;
+    private readonly IProductQueryHandler _queryHandler;
     private readonly ILogger<ProductsController> _logger;
 
-    public ProductsController(IProductService service, ILogger<ProductsController> logger)
+    public ProductsController(
+        IProductService productService,
+        IProductQueryHandler queryHandler,
+        ILogger<ProductsController> logger)
     {
-        _service = service ?? throw new ArgumentNullException(nameof(service));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _productService = productService;
+        _queryHandler = queryHandler;
+        _logger = logger;
     }
 
     /// <summary>
-    /// Gets a product by ID
+    /// Get product by ID
     /// </summary>
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
+    public async Task<IActionResult> GetById(
+        Guid id,
+        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
+        CancellationToken cancellationToken = default)
     {
-        var product = await _service.GetProductAsync(id);
+        var product = await _queryHandler.GetByIdAsync(tenantId, id, cancellationToken);
         if (product == null)
             return NotFound();
 
@@ -39,155 +45,85 @@ public class ProductsController : ControllerBase
     }
 
     /// <summary>
-    /// Gets a product by SKU
-    /// </summary>
-    [HttpGet("sku/{sku}")]
-    public async Task<ActionResult<ProductDto>> GetProductBySky(string sku)
-    {
-        var product = await _service.GetProductBySkuAsync(sku);
-        if (product == null)
-            return NotFound();
-
-        return Ok(product);
-    }
-
-    /// <summary>
-    /// Gets a product by slug
-    /// </summary>
-    [HttpGet("slug/{slug}")]
-    public async Task<ActionResult<ProductDto>> GetProductBySlug(string slug)
-    {
-        var product = await _service.GetProductBySlugAsync(slug);
-        if (product == null)
-            return NotFound();
-
-        return Ok(product);
-    }
-
-    /// <summary>
-    /// Gets all products
+    /// Get paged products
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
+    public async Task<IActionResult> GetPaged(
+        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken cancellationToken = default)
     {
-        var products = await _service.GetAllProductsAsync();
-        return Ok(products);
+        var result = await _queryHandler.GetPagedAsync(tenantId, pageNumber, pageSize, cancellationToken);
+        return Ok(result);
     }
 
     /// <summary>
-    /// Gets products with pagination
-    /// </summary>
-    [HttpGet("paged")]
-    public async Task<ActionResult> GetProductsPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
-    {
-        var (items, total) = await _service.GetProductsPagedAsync(pageNumber, pageSize);
-        return Ok(new { items, total, pageNumber, pageSize });
-    }
-
-    /// <summary>
-    /// Gets products by category
-    /// </summary>
-    [HttpGet("category/{categoryId}")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategory(Guid categoryId)
-    {
-        var products = await _service.GetProductsByCategoryAsync(categoryId);
-        return Ok(products);
-    }
-
-    /// <summary>
-    /// Gets products by brand
-    /// </summary>
-    [HttpGet("brand/{brandId}")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByBrand(Guid brandId)
-    {
-        var products = await _service.GetProductsByBrandAsync(brandId);
-        return Ok(products);
-    }
-
-    /// <summary>
-    /// Gets featured products
-    /// </summary>
-    [HttpGet("featured")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetFeaturedProducts([FromQuery] int take = 10)
-    {
-        var products = await _service.GetFeaturedProductsAsync(take);
-        return Ok(products);
-    }
-
-    /// <summary>
-    /// Gets new products
-    /// </summary>
-    [HttpGet("new")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetNewProducts([FromQuery] int take = 10)
-    {
-        var products = await _service.GetNewProductsAsync(take);
-        return Ok(products);
-    }
-
-    /// <summary>
-    /// Searches products by term
+    /// Search products
     /// </summary>
     [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> SearchProducts([FromQuery] string q)
+    public async Task<IActionResult> Search(
+        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
+        [FromQuery] string q,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(q))
             return BadRequest("Search term is required");
 
-        var products = await _service.SearchProductsAsync(q);
-        return Ok(products);
+        var result = await _queryHandler.SearchAsync(tenantId, q, pageNumber, pageSize, cancellationToken);
+        return Ok(result);
     }
 
     /// <summary>
-    /// Creates a new product
+    /// Create product
     /// </summary>
     [HttpPost]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto dto)
+    public async Task<IActionResult> Create(
+        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
+        [FromBody] CreateProductRequest request,
+        CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var product = await _service.CreateProductAsync(dto);
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error creating product");
-            return BadRequest(ex.Message);
-        }
+        if (request == null)
+            return BadRequest("Request body is required");
+
+        var product = await _productService.CreateAsync(tenantId, request, cancellationToken);
+        return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
     }
 
     /// <summary>
-    /// Updates an existing product
+    /// Update product
     /// </summary>
     [HttpPut("{id}")]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<ProductDto>> UpdateProduct(Guid id, UpdateProductDto dto)
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
+        [FromBody] UpdateProductRequest request,
+        CancellationToken cancellationToken = default)
     {
         try
         {
-            var product = await _service.UpdateProductAsync(id, dto);
+            var product = await _productService.UpdateAsync(tenantId, id, request, cancellationToken);
             return Ok(product);
         }
         catch (KeyNotFoundException)
         {
             return NotFound();
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error updating product");
-            return BadRequest(ex.Message);
-        }
     }
 
     /// <summary>
-    /// Deletes a product
+    /// Delete product
     /// </summary>
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> DeleteProduct(Guid id)
+    public async Task<IActionResult> Delete(
+        Guid id,
+        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
+        CancellationToken cancellationToken = default)
     {
-        var success = await _service.DeleteProductAsync(id);
-        if (!success)
+        var deleted = await _productService.DeleteAsync(tenantId, id, cancellationToken);
+        if (!deleted)
             return NotFound();
 
         return NoContent();

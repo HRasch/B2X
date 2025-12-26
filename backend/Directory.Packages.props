@@ -28,7 +28,7 @@
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
     <!-- ElasticSearch & Message Queue -->
-    <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.15.0" />
+    <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="9.2.2" />
     <PackageVersion Include="RabbitMQ.Client" Version="7.1.2" />
     <!-- Job Scheduling -->
     <PackageVersion Include="Quartz" Version="3.11.0" />

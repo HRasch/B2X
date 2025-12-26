@@ -31,11 +31,6 @@
     <PackageReference Include="Elastic.Clients.Elasticsearch" />
     <PackageReference Include="Quartz" />
     <PackageReference Include="Quartz.Extensions.Hosting" />
-    <!-- Testing packages -->
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="Moq" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
 
   <ItemGroup>
