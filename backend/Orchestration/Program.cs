@@ -2,49 +2,54 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
-    .AddProject("store-gateway", "../backend-store/B2Connect.Store.csproj")
-    .WithHttpEndpoint(port: 6000, name: "http-store-gateway")
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:6000");
+    .AddProject<Projects.B2Connect_Store>("store-gateway")
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:7000");
 
 // Admin API Gateway (for frontend-admin, protected CRUD endpoints)
 var adminGateway = builder
-    .AddProject("admin-gateway", "../backend-admin/B2Connect.Admin.csproj")
-    .WithHttpEndpoint(port: 6100, name: "http-admin-gateway")
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:6100");
+    .AddProject<Projects.B2Connect_Admin>("admin-gateway")
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:7001");
 
 // Auth Service (Identity)
 var authService = builder
-    .AddProject("auth-service", "../Identity/B2Connect.Identity.API.csproj")
-    .WithHttpEndpoint(port: 9002, name: "http-auth")
+    .AddProject<Projects.B2Connect_Identity_API>("auth-service")
     .WithEnvironment("Database__Provider", "inmemory")
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:9002");
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:7002");
 
 // Tenant Service
 var tenantService = builder
-    .AddProject("tenant-service", "../Tenancy/B2Connect.Tenancy.API.csproj")
-    .WithHttpEndpoint(port: 9003, name: "http-tenant")
+    .AddProject<Projects.B2Connect_Tenancy_API>("tenant-service")
     .WithEnvironment("Database__Provider", "inmemory")
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:9003");
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:7003");
 
 // Localization Service
 var localizationService = builder
-    .AddProject("localization-service", "../Localization/B2Connect.Localization.API.csproj")
-    .WithHttpEndpoint(port: 9004, name: "http-localization")
+    .AddProject<Projects.B2Connect_Localization_API>("localization-service")
     .WithEnvironment("Database__Provider", "inmemory")
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:9004");
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:7004");
 
 // Catalog Service
 var catalogService = builder
-    .AddProject("catalog-service", "../Catalog/B2Connect.Catalog.API.csproj")
-    .WithHttpEndpoint(port: 9005, name: "http-catalog")
+    .AddProject<Projects.B2Connect_Catalog_API>("catalog-service")
     .WithEnvironment("Database__Provider", "inmemory")
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:9005");
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:7005");
 
-// Layout Service
-var layoutService = builder
-    .AddProject("layout-service", "../Theming/Layout/B2Connect.Theming.Layout.csproj")
-    .WithHttpEndpoint(port: 9006, name: "http-layout")
+// Theming Service
+var themingService = builder
+    .AddProject<Projects.B2Connect_Theming_API>("theming-service")
     .WithEnvironment("Database__Provider", "inmemory")
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:9006");
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:7008");
+
+// Frontend Store (Vite dev server)
+var frontendStore = builder
+    .AddNpmApp("frontend-store", "../../frontend-store", "dev")
+    .WithHttpEndpoint(port: 5173, targetPort: 5173, name: "vite-store", isProxied: false)
+    .WithEnvironment("BROWSER", "none");
+
+// Frontend Admin (Vite dev server)
+var frontendAdmin = builder
+    .AddNpmApp("frontend-admin", "../../frontend-admin", "dev")
+    .WithHttpEndpoint(port: 5174, targetPort: 5174, name: "vite-admin", isProxied: false)
+    .WithEnvironment("BROWSER", "none");
 
 builder.Build().Run();

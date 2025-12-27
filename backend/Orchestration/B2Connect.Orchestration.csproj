@@ -17,10 +17,12 @@
 
   <ItemGroup>
     <ProjectReference Include="../ServiceDefaults/B2Connect.ServiceDefaults.csproj" IsAspireProjectResource="false" />
-    <ProjectReference Include="../Gateway/B2Connect.Gateway.csproj" />
-    <ProjectReference Include="../Identity/B2Connect.Identity.API.csproj" />
-    <ProjectReference Include="../Tenancy/B2Connect.Tenancy.API.csproj" />
-    <ProjectReference Include="../Localization/B2Connect.Localization.API.csproj" />
-    <ProjectReference Include="../Catalog/B2Connect.Catalog.API.csproj" />
+    <ProjectReference Include="../BoundedContexts/Store/API/B2Connect.Store.csproj" />
+    <ProjectReference Include="../BoundedContexts/Admin/API/B2Connect.Admin.csproj" />
+    <ProjectReference Include="../BoundedContexts/Shared/Identity/B2Connect.Identity.API.csproj" />
+    <ProjectReference Include="../BoundedContexts/Shared/Tenancy/B2Connect.Tenancy.API.csproj" />
+    <ProjectReference Include="../BoundedContexts/Store/Localization/B2Connect.Localization.API.csproj" />
+    <ProjectReference Include="../BoundedContexts/Store/Catalog/B2Connect.Catalog.API.csproj" />
+    <ProjectReference Include="../BoundedContexts/Store/Theming/B2Connect.Theming.API.csproj" />
   </ItemGroup>
 </Project>

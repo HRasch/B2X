@@ -40,7 +40,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj",
+        "${workspaceFolder}/B2Connect.slnx",
         "-v",
         "minimal"
       ],
@@ -48,6 +48,81 @@
       "group": {
         "kind": "test",
         "isDefault": true
+      }
+    },
+    {
+      "label": "test-catalog",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "${workspaceFolder}/backend/BoundedContexts/Store/Catalog/tests/B2Connect.Catalog.Tests.csproj",
+        "-v",
+        "minimal"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "test-cms",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "${workspaceFolder}/backend/BoundedContexts/Store/CMS/tests/B2Connect.CMS.Tests.csproj",
+        "-v",
+        "minimal"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "test-localization",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "${workspaceFolder}/backend/BoundedContexts/Store/Localization/tests/B2Connect.Localization.Tests.csproj",
+        "-v",
+        "minimal"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "test-identity",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "${workspaceFolder}/backend/BoundedContexts/Shared/Identity/tests/B2Connect.Identity.Tests.csproj",
+        "-v",
+        "minimal"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "test-search",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "${workspaceFolder}/backend/BoundedContexts/Shared/Search/tests/B2Connect.Shared.Search.Tests.csproj",
+        "-v",
+        "minimal"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test"
       }
     },
     {
@@ -235,7 +310,7 @@
       ],
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:6000"
+        "ASPNETCORE_URLS": "http://localhost:7000"
       },
       "problemMatcher": {
         "pattern": {
@@ -266,7 +341,7 @@
       ],
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:6100"
+        "ASPNETCORE_URLS": "http://localhost:7001"
       },
       "problemMatcher": {
         "pattern": {

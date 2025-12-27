@@ -5,9 +5,9 @@
       "name": "🚀 Full Stack (Aspire)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/services/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
+      "program": "${workspaceFolder}/backend/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/services/Orchestration",
+      "cwd": "${workspaceFolder}/backend/Orchestration",
       "stopAtEntry": false,
       "serverReadyAction": {
         "pattern": "dashboard",
@@ -26,9 +26,9 @@
       "name": "Aspire (PostgreSQL)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/services/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
+      "program": "${workspaceFolder}/backend/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/services/Orchestration",
+      "cwd": "${workspaceFolder}/backend/Orchestration",
       "stopAtEntry": false,
       "serverReadyAction": {
         "pattern": "dashboard",
@@ -54,14 +54,102 @@
       "skipFiles": ["<node_internals>/**"]
     },
     {
-      "name": "Backend Tests",
+      "name": "Backend Tests (CMS)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Tests/B2Connect.CMS.Tests/bin/Debug/net10.0/B2Connect.CMS.Tests.dll",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Store/CMS/tests/bin/Debug/net10.0/B2Connect.CMS.Tests.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
       "console": "integratedTerminal"
+    },
+    {
+      "name": "Backend Tests (Catalog)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Store/Catalog/tests/bin/Debug/net10.0/B2Connect.Catalog.Tests.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend",
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Backend Tests (Localization)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Store/Localization/tests/bin/Debug/net10.0/B2Connect.Localization.Tests.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend",
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Backend Tests (Identity)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Shared/Identity/tests/bin/Debug/net10.0/B2Connect.Identity.Tests.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend",
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Backend Tests (Search)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Shared/Search/tests/bin/Debug/net10.0/B2Connect.Shared.Search.Tests.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend",
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "📱 Frontend Store (Dev)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend-store/node_modules/.bin/vite",
+      "args": ["--host"],
+      "cwd": "${workspaceFolder}/frontend-store",
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "pattern": "Local:.*http://localhost:(\\d+)",
+        "uriFormat": "http://localhost:%s",
+        "action": "openExternally"
+      }
+    },
+    {
+      "name": "🎨 Frontend Admin (Dev)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend-admin/node_modules/.bin/vite",
+      "args": ["--host"],
+      "cwd": "${workspaceFolder}/frontend-admin",
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "pattern": "Local:.*http://localhost:(\\d+)",
+        "uriFormat": "http://localhost:%s",
+        "action": "openExternally"
+      }
+    },
+    {
+      "name": "🧪 Frontend Store Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend-store/node_modules/.bin/vitest",
+      "args": ["run"],
+      "cwd": "${workspaceFolder}/frontend-store",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "🧪 Frontend Admin Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend-admin/node_modules/.bin/vitest",
+      "args": ["run"],
+      "cwd": "${workspaceFolder}/frontend-admin",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
