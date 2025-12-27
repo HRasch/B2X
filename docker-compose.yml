@@ -1,0 +1,286 @@
+services:
+  # ==================== INFRASTRUCTURE ====================
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16.11
+    container_name: b2connect-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "--locale=C.UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - b2connect
+
+  # Redis Cache
+  redis:
+    image: redis:8.4.0
+    container_name: b2connect-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - b2connect
+
+  # RabbitMQ Message Queue
+  rabbitmq:
+    image: rabbitmq:4.2.2-management
+    container_name: b2connect-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"      # AMQP port
+      - "15672:15672"    # Management UI
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - b2connect
+
+  # Elasticsearch (Full-text search)
+  elasticsearch:
+    image: elasticsearch:9.2.3
+    container_name: b2connect-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - b2connect
+
+  # ==================== MICROSERVICES ====================
+
+  # Identity Service (Auth)
+  identity-service:
+    build:
+      context: .
+      dockerfile: backend/Domain/Identity/Dockerfile
+    container_name: b2connect-identity-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://+:7002
+      ConnectionStrings__AuthDb: "Host=postgres;Port=5432;Database=b2connect_auth;Username=postgres;Password=postgres"
+      Redis__ConnectionString: "redis:6379"
+      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+      Jwt__Secret: "dev-jwt-secret-minimum-32-characters-required!!!"
+      Jwt__Issuer: "B2Connect"
+      Jwt__Audience: "B2Connect"
+    ports:
+      - "7002:7002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - b2connect
+    restart: unless-stopped
+
+  # Tenancy Service
+  tenancy-service:
+    build:
+      context: .
+      dockerfile: backend/Domain/Tenancy/Dockerfile
+    container_name: b2connect-tenancy-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://+:7003
+      ConnectionStrings__TenantDb: "Host=postgres;Port=5432;Database=b2connect_tenancy;Username=postgres;Password=postgres"
+      Redis__ConnectionString: "redis:6379"
+      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+    ports:
+      - "7003:7003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - b2connect
+    restart: unless-stopped
+
+  # Localization Service
+  localization-service:
+    build:
+      context: .
+      dockerfile: backend/Domain/Localization/Dockerfile
+    container_name: b2connect-localization-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://+:7004
+      ConnectionStrings__LocalizationDb: "Host=postgres;Port=5432;Database=b2connect_localization;Username=postgres;Password=postgres"
+      Redis__ConnectionString: "redis:6379"
+      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+    ports:
+      - "7004:7004"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - b2connect
+    restart: unless-stopped
+
+  # Catalog Service
+  catalog-service:
+    build:
+      context: .
+      dockerfile: backend/Domain/Catalog/Dockerfile
+    container_name: b2connect-catalog-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://+:7005
+      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=b2connect_catalog;Username=postgres;Password=postgres"
+      Redis__ConnectionString: "redis:6379"
+      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+      Elasticsearch__Uri: "http://elasticsearch:9200"
+    ports:
+      - "7005:7005"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - b2connect
+    restart: unless-stopped
+
+  # Theming Service
+  theming-service:
+    build:
+      context: .
+      dockerfile: backend/Domain/Theming/Dockerfile
+    container_name: b2connect-theming-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://+:7008
+      Redis__ConnectionString: "redis:6379"
+    ports:
+      - "7008:7008"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - b2connect
+    restart: unless-stopped
+
+  # ==================== API GATEWAYS ====================
+
+  # Store Gateway (Public API)
+  store-gateway:
+    build:
+      context: .
+      dockerfile: backend/Gateway/Store/API/Dockerfile
+    container_name: b2connect-store-gateway
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://+:8000
+      ConnectionStrings__StoreDb: "Host=postgres;Port=5432;Database=b2connect_store;Username=postgres;Password=postgres"
+      Redis__ConnectionString: "redis:6379"
+      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+      Jwt__Secret: "dev-jwt-secret-minimum-32-characters-required!!!"
+      Jwt__Issuer: "B2Connect"
+      Jwt__Audience: "B2Connect"
+      ServiceUrls__Identity: "http://identity-service:7002"
+      ServiceUrls__Catalog: "http://catalog-service:7005"
+      ServiceUrls__Localization: "http://localization-service:7004"
+      ServiceUrls__Theming: "http://theming-service:7008"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      identity-service:
+        condition: service_started
+      catalog-service:
+        condition: service_started
+    networks:
+      - b2connect
+    restart: unless-stopped
+
+  # Admin Gateway (Protected API)
+  admin-gateway:
+    build:
+      context: .
+      dockerfile: backend/Gateway/Admin/Dockerfile
+    container_name: b2connect-admin-gateway
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=b2connect_admin;Username=postgres;Password=postgres"
+      Redis__ConnectionString: "redis:6379"
+      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+      Jwt__Secret: "dev-jwt-secret-minimum-32-characters-required!!!"
+      Jwt__Issuer: "B2Connect"
+      Jwt__Audience: "B2Connect"
+      ServiceUrls__Identity: "http://identity-service:7002"
+      ServiceUrls__Tenancy: "http://tenancy-service:7003"
+      ServiceUrls__Catalog: "http://catalog-service:7005"
+      ServiceUrls__Localization: "http://localization-service:7004"
+      ServiceUrls__Theming: "http://theming-service:7008"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      identity-service:
+        condition: service_started
+    networks:
+      - b2connect
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:
+  elasticsearch-data:
+
+networks:
+  b2connect:
+    driver: bridge

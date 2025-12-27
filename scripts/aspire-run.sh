@@ -19,4 +19,4 @@ echo ""
 echo "Frontend services (port 5173, 5174) run via VS Code Tasks"
 echo ""
 
-dotnet run --project B2Connect.Orchestration.csproj
+dotnet run --project B2Connect.AppHost.csproj

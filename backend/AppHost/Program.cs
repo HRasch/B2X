@@ -45,7 +45,7 @@ var rabbitmq = builder.AddB2ConnectRabbitMQ(
 
 // Auth Service (Identity) - with Passkeys & JWT
 var authService = builder
-    .AddProject("auth-service", "../BoundedContexts/Shared/Identity/B2Connect.Identity.API.csproj")
+    .AddProject("auth-service", "../Domain/Identity/B2Connect.Identity.API.csproj")
     .WithHttpEndpoint(port: 7002, targetPort: 7002, name: "auth-service", isProxied: false)
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7002")
     .WithPostgresConnection(authDb)
@@ -61,7 +61,7 @@ var authService = builder
 
 // Tenant Service
 var tenantService = builder
-    .AddProject("tenant-service", "../BoundedContexts/Shared/Tenancy/B2Connect.Tenancy.API.csproj")
+    .AddProject("tenant-service", "../Domain/Tenancy/B2Connect.Tenancy.API.csproj")
     .WithHttpEndpoint(port: 7003, targetPort: 7003, name: "tenant-service", isProxied: false)
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7003")
     .WithPostgresConnection(tenantDb)
@@ -75,7 +75,7 @@ var tenantService = builder
 
 // Localization Service
 var localizationService = builder
-    .AddProject("localization-service", "../BoundedContexts/Store/Localization/B2Connect.Localization.API.csproj")
+    .AddProject("localization-service", "../Domain/Localization/B2Connect.Localization.API.csproj")
     .WithHttpEndpoint(port: 7004, targetPort: 7004, name: "localization-service", isProxied: false)
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7004")
     .WithPostgresConnection(localizationDb)
@@ -88,7 +88,7 @@ var localizationService = builder
 
 // Catalog Service (with Elasticsearch for Product Search)
 var catalogService = builder
-    .AddProject("catalog-service", "../BoundedContexts/Store/Catalog/B2Connect.Catalog.API.csproj")
+    .AddProject("catalog-service", "../Domain/Catalog/B2Connect.Catalog.API.csproj")
     .WithHttpEndpoint(port: 7005, targetPort: 7005, name: "catalog-service", isProxied: false)
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7005")
     .WithPostgresConnection(catalogDb)
@@ -103,7 +103,7 @@ var catalogService = builder
 
 // Theming Service
 var themingService = builder
-    .AddProject("theming-service", "../BoundedContexts/Store/Theming/B2Connect.Theming.API.csproj")
+    .AddProject("theming-service", "../Domain/Theming/B2Connect.Theming.API.csproj")
     .WithHttpEndpoint(port: 7008, targetPort: 7008, name: "theming-service", isProxied: false)
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7008")
     .WithPostgresConnection(layoutDb)
@@ -118,7 +118,7 @@ var themingService = builder
 
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
-    .AddProject("store-gateway", "../BoundedContexts/Store/API/B2Connect.Store.csproj")
+    .AddProject("store-gateway", "../Gateway/Store/API/B2Connect.Store.csproj")
     .WithHttpEndpoint(port: 8000, targetPort: 8000, name: "store-gateway", isProxied: false)
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:8000")
     .WithReference(authService)
@@ -130,7 +130,7 @@ var storeGateway = builder
 
 // Admin API Gateway 
 var adminGateway = builder
-    .AddProject("admin-gateway", "../BoundedContexts/Admin/API/B2Connect.Admin.csproj")
+    .AddProject("admin-gateway", "../Gateway/Admin/B2Connect.Admin.csproj")
     .WithHttpEndpoint(port: 8080, targetPort: 8080, name: "admin-gateway", isProxied: false)
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:8080")
     .WithReference(authService)
@@ -143,18 +143,18 @@ var adminGateway = builder
 
 // Frontend Store (Vite dev server)
 var frontendStore = builder
-    .AddNpmApp("frontend-store", "../../frontend-store", "dev")
+    .AddNpmApp("frontend-store", "../../Frontend/Store", "dev")
     .WithHttpEndpoint(port: 5173, targetPort: 5173, name: "frontend-store", isProxied: false)
     .WithEnvironment("PORT", "5173")
     .WithEnvironment("BROWSER", "none")
-    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000");
+    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8085");
 
 // Frontend Admin
 var frontendAdmin = builder
-    .AddNpmApp("frontend-admin", "../../frontend-admin", "dev")
+    .AddNpmApp("frontend-admin", "../../Frontend/Admin", "dev")
     .WithHttpEndpoint(port: 5174, targetPort: 5174, name: "frontend-admin", isProxied: false)
     .WithEnvironment("PORT", "5174")
     .WithEnvironment("BROWSER", "none")
-    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080");
+    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8086");
 
 builder.Build().Run();

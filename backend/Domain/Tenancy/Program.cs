@@ -25,6 +25,12 @@ builder.Host.UseWolverine(opts =>
     opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
 });
 
+// Add Wolverine HTTP support (REQUIRED for MapWolverineEndpoints)
+builder.Services.AddWolverineHttp();
+
+// Add Authorization (REQUIRED for [Authorize] attributes)
+builder.Services.AddAuthorization();
+
 // Remove Controllers - using Wolverine HTTP Endpoints
 // builder.Services.AddControllers();
 

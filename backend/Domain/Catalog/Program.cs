@@ -43,6 +43,9 @@ builder.Host.UseWolverine(opts =>
     // }
 });
 
+// Add Wolverine HTTP support (REQUIRED for MapWolverineEndpoints)
+builder.Services.AddWolverineHttp();
+
 // Remove Controllers - using Wolverine HTTP Endpoints instead
 // builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -58,6 +61,9 @@ builder.Services.AddSingleton(client);
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductQueryHandler, ProductQueryHandler>();
 builder.Services.AddScoped<ISearchIndexService, SearchIndexService>();
+
+// Add Authorization (REQUIRED for [Authorize] attributes)
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

@@ -8,7 +8,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-ORCHESTRATION_DIR="$PROJECT_ROOT/backend/Orchestration"
+ORCHESTRATION_DIR="$PROJECT_ROOT/backend/AppHost"
 
 # Farben
 RED='\033[0;31m'
@@ -34,7 +34,7 @@ OPTIONAL_PORTS=(5173 5174 6379 5432 9200 5672)
 # ═══════════════════════════════════════════════════════════════
 echo -e "${YELLOW}[1/4] Prüfe laufende Instanzen...${NC}"
 
-ORCHESTRATION_RUNNING=$(pgrep -f "B2Connect.Orchestration" 2>/dev/null | wc -l | tr -d ' ')
+ORCHESTRATION_RUNNING=$(pgrep -f "B2Connect.AppHost" 2>/dev/null | wc -l | tr -d ' ')
 DCP_RUNNING=$(pgrep -f "dcpctrl" 2>/dev/null | wc -l | tr -d ' ')
 
 if [ "$ORCHESTRATION_RUNNING" -gt 0 ] || [ "$DCP_RUNNING" -gt 0 ]; then
@@ -106,7 +106,7 @@ echo -e "${GREEN}  ✅ .NET SDK $DOTNET_VERSION${NC}"
 # ═══════════════════════════════════════════════════════════════
 echo -e "${YELLOW}[4/4] Prüfe Orchestration Build...${NC}"
 
-if [ ! -f "$ORCHESTRATION_DIR/bin/Debug/net10.0/B2Connect.Orchestration.dll" ]; then
+if [ ! -f "$ORCHESTRATION_DIR/bin/Debug/net10.0/B2Connect.AppHost.dll" ]; then
     echo -e "${YELLOW}  → Build erforderlich...${NC}"
     cd "$ORCHESTRATION_DIR"
     dotnet build -c Debug --nologo -v q

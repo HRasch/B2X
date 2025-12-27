@@ -1,16 +1,14 @@
 {
   "version": "0.2.0",
   "configurations": [
-    {
+        {
       "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
+      "program": "${workspaceFolder}/backend/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/Orchestration",
+      "cwd": "${workspaceFolder}/backend/AppHost",
       "stopAtEntry": false,
-      "preLaunchTask": "kill-then-build",
-      "postDebugTask": "kill-all-services",
       "serverReadyAction": {
         "pattern": "Aspire.Hosting: Now listening on: \\s+(https?://\\S+)",
         "uriFormat": "http://localhost:15500",
@@ -39,12 +37,10 @@
       "name": "Aspire (PostgreSQL + InMemory)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
+      "program": "${workspaceFolder}/backend/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/Orchestration",
+      "cwd": "${workspaceFolder}/backend/AppHost",
       "stopAtEntry": false,
-      "preLaunchTask": "kill-then-build",
-      "postDebugTask": "kill-all-services",
       "serverReadyAction": {
         "pattern": "dashboard",
         "uriFormat": "http://localhost:15500",
@@ -72,7 +68,7 @@
       "name": "Backend Tests (CMS)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Store/CMS/tests/bin/Debug/net10.0/B2Connect.CMS.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/CMS/tests/bin/Debug/net10.0/B2Connect.CMS.Tests.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -82,7 +78,7 @@
       "name": "Backend Tests (Catalog)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Store/Catalog/tests/bin/Debug/net10.0/B2Connect.Catalog.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/Catalog/tests/bin/Debug/net10.0/B2Connect.Catalog.Tests.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -92,7 +88,7 @@
       "name": "Backend Tests (Localization)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Store/Localization/tests/bin/Debug/net10.0/B2Connect.Localization.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/Localization/tests/bin/Debug/net10.0/B2Connect.Localization.Tests.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -102,7 +98,7 @@
       "name": "Backend Tests (Identity)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Shared/Identity/tests/bin/Debug/net10.0/B2Connect.Identity.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/Identity/tests/bin/Debug/net10.0/B2Connect.Identity.Tests.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -112,7 +108,7 @@
       "name": "Backend Tests (Search)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Shared/Search/tests/bin/Debug/net10.0/B2Connect.Shared.Search.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/Search/tests/bin/Debug/net10.0/B2Connect.Shared.Search.Tests.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -170,9 +166,9 @@
       "name": "🔐 Debug Identity Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Shared/Identity/bin/Debug/net10.0/B2Connect.Identity.API.dll",
+      "program": "${workspaceFolder}/backend/Domain/Identity/bin/Debug/net10.0/B2Connect.Identity.API.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/BoundedContexts/Shared/Identity",
+      "cwd": "${workspaceFolder}/backend/Domain/Identity",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -184,9 +180,9 @@
       "name": "🏢 Debug Tenant Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Shared/Tenancy/bin/Debug/net10.0/B2Connect.Tenancy.API.dll",
+      "program": "${workspaceFolder}/backend/Domain/Tenancy/bin/Debug/net10.0/B2Connect.Tenancy.API.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/BoundedContexts/Shared/Tenancy",
+      "cwd": "${workspaceFolder}/backend/Domain/Tenancy",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -198,9 +194,9 @@
       "name": "📦 Debug Catalog Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Store/Catalog/bin/Debug/net10.0/B2Connect.CatalogService.dll",
+      "program": "${workspaceFolder}/backend/Domain/Catalog/bin/Debug/net10.0/B2Connect.Catalog.API.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/BoundedContexts/Store/Catalog",
+      "cwd": "${workspaceFolder}/backend/Domain/Catalog",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -212,9 +208,9 @@
       "name": "🔧 Debug Admin API",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Admin/API/bin/Debug/net10.0/B2Connect.Admin.dll",
+      "program": "${workspaceFolder}/backend/Gateway/Admin/bin/Debug/net10.0/B2Connect.Admin.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/BoundedContexts/Admin/API",
+      "cwd": "${workspaceFolder}/backend/Gateway/Admin",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -223,36 +219,10 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "🛍️ Debug Store Gateway",
-      "type": "coreclr",
-      "request": "launch",
-      "program": "${workspaceFolder}/backend/BoundedContexts/Store/API/bin/Debug/net10.0/B2Connect.Store.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}/backend/BoundedContexts/Store/API",
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:8000"
-      },
-      "console": "integratedTerminal"
-    },
-    {
-      "name": "🔌 Attach to Identity Service (Port 7002)",
+      "name": "� Attach to Catalog Service (Port 7005)",
       "type": "coreclr",
       "request": "attach",
-      "processName": "B2Connect.Identity.API"
-    },
-    {
-      "name": "🔌 Attach to Admin API (Port 8080)",
-      "type": "coreclr",
-      "request": "attach",
-      "processName": "B2Connect.Admin" 
-    },
-    {
-      "name": "🔌 Attach to Catalog Service (Port 7005)",
-      "type": "coreclr",
-      "request": "attach",
-      "processName": "B2Connect.CatalogService"
+      "processName": "B2Connect.Catalog.API"
     }
   ],
   "compounds": [

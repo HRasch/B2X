@@ -7,7 +7,7 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
+        "${workspaceFolder}/backend/AppHost/B2Connect.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -56,7 +56,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/BoundedContexts/Store/Catalog/tests/B2Connect.Catalog.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -71,7 +71,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/BoundedContexts/Store/CMS/tests/B2Connect.CMS.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -86,7 +86,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/BoundedContexts/Store/Localization/tests/B2Connect.Localization.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -101,7 +101,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/BoundedContexts/Shared/Identity/tests/B2Connect.Identity.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -116,7 +116,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/BoundedContexts/Shared/Search/tests/B2Connect.Shared.Search.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/Search/tests/B2Connect.Shared.Search.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -132,22 +132,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/frontend-store",
-      "group": "build",
-      "presentation": {
-        "echo": false,
-        "reveal": "silent"
-      }
-    },
-    {
-      "label": "test-frontend",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "run",
-        "test"
-      ],
-      "cwd": "${workspaceFolder}/frontend-store",
+      "cwd": "${workspaceFolder}/Frontend/Store",
       "group": {
         "kind": "test"
       }
@@ -160,7 +145,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend-store",
+      "cwd": "${workspaceFolder}/Frontend/Management",
       "isBackground": true,
       "problemMatcher": {
         "pattern": {
@@ -185,7 +170,7 @@
         "run",
         "lint"
       ],
-      "cwd": "${workspaceFolder}/frontend-store",
+      "cwd": "${workspaceFolder}/Frontend/Management",
       "group": "build"
     },
     {
@@ -233,7 +218,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend-store",
+      "cwd": "${workspaceFolder}/Frontend/Store",
       "problemMatcher": {
         "pattern": {
           "regexp": "^.*$",
@@ -259,7 +244,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend-admin",
+      "cwd": "${workspaceFolder}/Frontend/Admin",
       "problemMatcher": {
         "pattern": {
           "regexp": "^(.*)$",
@@ -418,54 +403,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/frontend-tenant",
-      "group": "build"
-    },
-    {
-      "label": "test-tenant",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "run",
-        "test"
-      ],
-      "cwd": "${workspaceFolder}/frontend-tenant",
-      "group": {
-        "kind": "test"
-      }
-    },
-    {
-      "label": "dev-tenant",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "run",
-        "dev"
-      ],
-      "cwd": "${workspaceFolder}/frontend-tenant",
-      "isBackground": true,
-      "group": "build"
-    },
-    {
-      "label": "build-tenant",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "run",
-        "build"
-      ],
-      "cwd": "${workspaceFolder}/frontend-tenant",
-      "group": "build"
-    },
-    {
-      "label": "lint-tenant",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "run",
-        "lint"
-      ],
-      "cwd": "${workspaceFolder}/frontend-tenant",
+      "cwd": "${workspaceFolder}/Frontend/Management",
       "group": "build"
     }
   ]

@@ -48,6 +48,9 @@ builder.Host.UseWolverine(opts =>
     // }
 });
 
+// Add Wolverine HTTP support (REQUIRED for MapWolverineEndpoints)
+builder.Services.AddWolverineHttp();
+
 // Add Database
 builder.Services.AddDbContext<AuthDbContext>(options =>
 {
@@ -140,6 +143,9 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true
     };
 });
+
+// Add Authorization (REQUIRED for [Authorize] attributes)
+builder.Services.AddAuthorization();
 
 // Add CORS
 builder.Services.AddCors(options =>

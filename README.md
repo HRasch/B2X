@@ -78,7 +78,7 @@ dotnet run
 ### Frontend Setup (In Another Terminal)
 
 ```bash
-cd frontend-store
+cd Frontend/Store
 npm install && npm run dev
 
 # Frontend will be available at http://localhost:5173
@@ -141,7 +141,7 @@ dotnet test tests/
 
 ### Frontend
 ```bash
-cd frontend-store
+cd Frontend/Store
 npm run test              # Unit tests
 npm run test:components   # Component tests
 npm run test:e2e          # End-to-end tests
@@ -157,7 +157,7 @@ cd backend/infrastructure
 docker-compose up
 
 # Frontend is served separately
-cd frontend-store
+cd Frontend/Store
 npm run dev
 ```
 
@@ -176,7 +176,7 @@ ASPNETCORE_ENVIRONMENT=Development
 DATABASE_URL=Server=localhost;Database=b2connect;User Id=sa;Password=YourPassword;
 RABBITMQ_URL=amqp://guest:guest@localhost:5672/
 
-# Frontend (.env in frontend-store/)
+# Frontend (.env in Frontend/Store/)
 VITE_API_URL=http://localhost:5000/api
 VITE_APP_NAME=B2Connect
 ```

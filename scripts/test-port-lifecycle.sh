@@ -39,7 +39,7 @@ fi
 
 echo ""
 echo "📊 Test 7: Starte Aspire manuell und beobachte..."
-echo "Führe aus: cd backend/Orchestration && dotnet run" | tee -a "$LOG_FILE"
+echo "Führe aus: cd backend/AppHost && dotnet run" | tee -a "$LOG_FILE"
 echo "Dann prüfe Port 8080 während des Starts:" | tee -a "$LOG_FILE"
 
 echo ""
@@ -47,5 +47,5 @@ echo "📝 Log gespeichert in: $LOG_FILE"
 echo ""
 echo "🔍 Nächste Schritte:"
 echo "1. Prüfe das Log: cat $LOG_FILE"
-echo "2. Starte Aspire manuell: cd backend/Orchestration && dotnet run"
+echo "2. Starte Aspire manuell: cd backend/AppHost && dotnet run"
 echo "3. Während des Starts (in neuem Terminal): watch -n 0.5 'lsof -i :8080'"

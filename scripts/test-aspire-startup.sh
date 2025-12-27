@@ -41,9 +41,9 @@ MONITOR_PID=$!
 echo "🚀 Schritt 4: Starte Aspire Orchestration..."
 echo "[$( date +%H:%M:%S.%3N)] START: dotnet build" | tee -a "$TEST_LOG"
 
-cd /Users/holger/Documents/Projekte/B2Connect/backend/Orchestration
+cd /Users/holger/Documents/Projekte/B2Connect/backend/AppHost
 
-dotnet build B2Connect.Orchestration.csproj >> "$TEST_LOG" 2>&1
+dotnet build B2Connect.AppHost.csproj >> "$TEST_LOG" 2>&1
 BUILD_EXIT=$?
 
 echo "[$( date +%H:%M:%S.%3N)] BUILD FERTIG (Exit: $BUILD_EXIT)" | tee -a "$TEST_LOG"

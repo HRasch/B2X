@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
+    <ProjectReference Include="../ServiceDefaults/B2Connect.ServiceDefaults.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="../Domain/Identity/B2Connect.Identity.API.csproj" />
     <ProjectReference Include="../Domain/Tenancy/B2Connect.Tenancy.API.csproj" />
     <ProjectReference Include="../Domain/Localization/B2Connect.Localization.API.csproj" />

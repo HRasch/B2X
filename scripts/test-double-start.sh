@@ -11,7 +11,7 @@ sleep 2
 
 # 2. Starte Aspire im Hintergrund
 echo "2️⃣ Starte Aspire..."
-cd /Users/holger/Documents/Projekte/B2Connect/backend/Orchestration
+cd /Users/holger/Documents/Projekte/B2Connect/backend/AppHost
 dotnet run > /tmp/aspire-output.log 2>&1 &
 ASPIRE_PID=$!
 echo "   Aspire gestartet (PID: $ASPIRE_PID)"

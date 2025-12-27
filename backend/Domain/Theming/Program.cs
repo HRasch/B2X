@@ -27,6 +27,9 @@ builder.Host.UseWolverine(opts =>
     opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
 });
 
+// Add Wolverine HTTP support (REQUIRED for MapWolverineEndpoints)
+builder.Services.AddWolverineHttp();
+
 // Remove Controllers - using Wolverine HTTP Endpoints
 // builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -34,6 +37,9 @@ builder.Services.AddEndpointsApiExplorer();
 // Add Theming Services
 builder.Services.AddSingleton<IThemeRepository, InMemoryThemeRepository>();
 builder.Services.AddScoped<IThemeService, ThemeService>();
+
+// Add Authorization (REQUIRED for [Authorize] attributes)
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

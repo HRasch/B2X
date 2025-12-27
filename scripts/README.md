@@ -24,7 +24,7 @@ Stoppt alle B2Connect Services und gibt Ports frei.
 ```bash
 # Port freigeben und erneut starten
 ./scripts/kill-all-services.sh
-dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+dotnet run --project backend/AppHost/B2Connect.AppHost.csproj
 ```
 
 ### `start-aspire.sh`
@@ -50,7 +50,7 @@ Port 8080 (Admin Gateway): ACTIVE (PID: 5678)
 
 1. **Aspire verwenden** - Für normale Entwicklung
    ```bash
-   dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+   dotnet run --project backend/AppHost/B2Connect.AppHost.csproj
    ```
 
 2. **Manueller Cleanup** - Nur wenn nötig

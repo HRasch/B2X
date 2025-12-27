@@ -66,7 +66,7 @@ echo "📤 Phase 1: Graceful shutdown..."
 
 # 1.1 Orchestration zuerst (kontrolliert Child-Prozesse)
 echo "  → Stopping Orchestration..."
-kill_processes "B2Connect.Orchestration" false
+kill_processes "B2Connect.AppHost" false
 sleep 1
 
 # 1.2 DCP Controller (hält alle Ports)
@@ -100,7 +100,7 @@ done
 
 # 2.2 Alle B2Connect .NET Prozesse
 echo "  → Force killing .NET services..."
-kill_processes "B2Connect.Orchestration" true
+kill_processes "B2Connect.AppHost" true
 kill_processes "B2Connect.Identity" true
 kill_processes "B2Connect.Tenancy" true
 kill_processes "B2Connect.Localization" true
