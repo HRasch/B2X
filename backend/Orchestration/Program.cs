@@ -3,14 +3,14 @@ var builder = DistributedApplication.CreateBuilder(args);
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
     .AddProject<Projects.B2Connect_Store>("store-gateway")
-    .WithHttpEndpoint(port: 7000, targetPort: 7000, name: "store-gateway", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:7000");
+    .WithHttpEndpoint(port: 8000, targetPort: 8000, name: "store-gateway", isProxied: false)
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:8000");
 
 // Admin API Gateway (for frontend-admin, protected CRUD endpoints)
 var adminGateway = builder
     .AddProject<Projects.B2Connect_Admin>("admin-gateway")
-    .WithHttpEndpoint(port: 7001, targetPort: 7001, name: "admin-gateway", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:7001");
+    .WithHttpEndpoint(port: 8080, targetPort: 8080, name: "admin-gateway", isProxied: false)
+    .WithEnvironment("ASPNETCORE_URLS", "http://+:8080");
 
 // Auth Service (Identity)
 var authService = builder
@@ -51,12 +51,16 @@ var themingService = builder
 var frontendStore = builder
     .AddNpmApp("frontend-store", "../../frontend-store", "dev")
     .WithHttpEndpoint(port: 5173, targetPort: 5173, name: "vite-store", isProxied: false)
-    .WithEnvironment("BROWSER", "none");
+    .WithEnvironment("BROWSER", "none")
+    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000")
+    .WithEnvironment("VITE_PORT", "5173");
 
 // Frontend Admin (Vite dev server)
 var frontendAdmin = builder
     .AddNpmApp("frontend-admin", "../../frontend-admin", "dev")
     .WithHttpEndpoint(port: 5174, targetPort: 5174, name: "vite-admin", isProxied: false)
-    .WithEnvironment("BROWSER", "none");
+    .WithEnvironment("BROWSER", "none")
+    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
+    .WithEnvironment("VITE_PORT", "5174");
 
 builder.Build().Run();
