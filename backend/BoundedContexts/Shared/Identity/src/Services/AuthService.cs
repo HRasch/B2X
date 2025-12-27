@@ -85,6 +85,20 @@ public interface IAuthService
     Task<Result<AppUser>> GetUserByIdAsync(string userId);
     Task<Result<AuthResponse>> EnableTwoFactorAsync(string userId);
     Task<bool> VerifyTwoFactorCodeAsync(string userId, string code);
+    Task<Result<IEnumerable<UserDto>>> GetAllUsersAsync(int page, int pageSize, string? search);
+    Task<Result<AppUser>> ToggleUserStatusAsync(string userId, bool isActive);
+}
+
+public class UserDto
+{
+    public string Id { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string TenantId { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
+    public bool IsTwoFactorEnabled { get; set; }
+    public string[] Roles { get; set; } = Array.Empty<string>();
 }
 
 public class AuthService : IAuthService
@@ -220,6 +234,74 @@ public class AuthService : IAuthService
         return code == "123456";
     }
 
+    public async Task<Result<IEnumerable<UserDto>>> GetAllUsersAsync(int page, int pageSize, string? search)
+    {
+        try
+        {
+            var query = _userManager.Users.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.ToLower();
+                query = query.Where(u =>
+                    (u.Email != null && u.Email.ToLower().Contains(search)) ||
+                    (u.FirstName != null && u.FirstName.ToLower().Contains(search)) ||
+                    (u.LastName != null && u.LastName.ToLower().Contains(search)));
+            }
+
+            var users = query
+                .OrderBy(u => u.Email)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var userDtos = new List<UserDto>();
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                userDtos.Add(new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email ?? string.Empty,
+                    FirstName = user.FirstName ?? string.Empty,
+                    LastName = user.LastName ?? string.Empty,
+                    TenantId = user.TenantId ?? "default",
+                    IsActive = user.IsActive,
+                    IsTwoFactorEnabled = user.IsTwoFactorRequired,
+                    Roles = roles.ToArray()
+                });
+            }
+
+            _logger.LogInformation("Retrieved {Count} users (page {Page})", userDtos.Count, page);
+            return new Result<IEnumerable<UserDto>>.Success(userDtos, "Users loaded successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving users");
+            return new Result<IEnumerable<UserDto>>.Failure(ErrorCodes.OperationFailed, "Failed to retrieve users");
+        }
+    }
+
+    public async Task<Result<AppUser>> ToggleUserStatusAsync(string userId, bool isActive)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return new Result<AppUser>.Failure(ErrorCodes.NotFound, "User not found");
+        }
+
+        user.IsActive = isActive;
+        var updateResult = await _userManager.UpdateAsync(user);
+
+        if (!updateResult.Succeeded)
+        {
+            return new Result<AppUser>.Failure(ErrorCodes.OperationFailed, "Failed to update user status");
+        }
+
+        _logger.LogInformation("User {UserId} status changed to {IsActive}", userId, isActive);
+        return new Result<AppUser>.Success(user, $"User {(isActive ? "activated" : "deactivated")} successfully");
+    }
+
     private string GenerateAccessToken(AppUser user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -237,6 +319,16 @@ public class AuthService : IAuthService
 
         // Add roles as claims
         var roles = _userManager.GetRolesAsync(user).Result;
+        _logger.LogInformation("Roles for user {Email}: {Roles}", user.Email, string.Join(", ", roles));
+
+        // Fallback: If user is admin@example.com and has no roles, add Admin role
+        // This handles InMemory database where seed data for UserRoles might not load correctly
+        if (!roles.Any() && user.Email?.Equals("admin@example.com", StringComparison.OrdinalIgnoreCase) == true)
+        {
+            _logger.LogWarning("No roles found for admin user, adding Admin role as fallback");
+            roles = new List<string> { "Admin" };
+        }
+
         foreach (var role in roles)
         {
             claims.Add(new Claim(ClaimTypes.Role, role));

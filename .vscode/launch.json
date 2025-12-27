@@ -2,27 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "TEST: Minimal Aspire (KEINE Tasks)",
-      "type": "coreclr",
-      "request": "launch",
-      "program": "${workspaceFolder}/backend/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}/backend/Orchestration",
-      "stopAtEntry": false,
-      "preLaunchTask": "kill-all-services",
-      "postDebugTask": "kill-all-services",
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "Database__Provider": "inmemory",
-        "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
-        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
-      },
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
-    }
-  ]
-}
-    {
       "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
@@ -146,8 +125,6 @@
       "program": "${workspaceFolder}/frontend-store/node_modules/.bin/vite",
       "args": ["--host"],
       "cwd": "${workspaceFolder}/frontend-store",
-      "preLaunchTask": "kill-all-services",
-      "postDebugTask": "kill-all-services",
       "console": "integratedTerminal",
       "serverReadyAction": {
         "pattern": "Local:.*http://localhost:(\\d+)",
@@ -162,8 +139,6 @@
       "program": "${workspaceFolder}/frontend-admin/node_modules/.bin/vite",
       "args": ["--host"],
       "cwd": "${workspaceFolder}/frontend-admin",
-      "preLaunchTask": "kill-all-services",
-      "postDebugTask": "kill-all-services",
       "console": "integratedTerminal",
       "serverReadyAction": {
         "pattern": "Local:.*http://localhost:(\\d+)",

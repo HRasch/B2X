@@ -258,12 +258,46 @@ export const catalogService = {
 - **Files match class names** (`Product.cs`, `ProductRepository.cs`)
 - **Interfaces**: Prefix `I` (`IProductRepository`, `ITenantService`)
 - **Extensions**: Suffix `Extensions` (`StringExtensions.cs`)
+- **Enums**: PascalCase, Use `string` or `int` backing values (`AddressType`, `OrderStatus`)
+
+### Type Design
+- **Prefer Enums for restricted types**: Always use `enum` instead of `string` for fixed sets of values
+  - ✅ `public enum AddressType { Shipping, Billing, Other }`
+  - ❌ `public string AddressType { get; set; } // Can be any string!`
+  
+- **Benefits of Enums**:
+  - Type safety: Compiler prevents invalid values
+  - IntelliSense: IDE shows all valid options
+  - Performance: Enums are integers at runtime
+  - Maintainability: Centralized list of valid values
+  - Database: Stored as integers or strings (configurable)
+
+- **Common Restricted Types** (Use Enums):
+  - AddressType: Shipping, Billing, Residential, Commercial
+  - OrderStatus: Pending, Processing, Shipped, Delivered, Cancelled, Returned
+  - PaymentStatus: Unpaid, Partial, Paid, Refunded
+  - UserRole: Admin, Manager, Customer, Guest
+  - Gender: Male, Female, Other, PreferNotToSay
+  - EmploymentStatus: Employed, SelfEmployed, Unemployed, Student, Retired
+
+- **Enum Configuration in EF Core**:
+  ```csharp
+  // Store as string in database (recommended for readability)
+  entity.Property(p => p.AddressType)
+      .HasConversion<string>()
+      .HasDefaultValue(AddressType.Shipping);
+  
+  // Or store as integer (more compact)
+  entity.Property(p => p.OrderStatus)
+      .HasConversion<int>();
+  ```
 
 ### Project Structure Rules
 1. **One public class per file**
 2. **Service names include context**: `B2Connect.Catalog.Application.csproj` not just `Application.csproj`
 3. **Test projects mirror source**: `src/` → `tests/` structure identical
 4. **Shared code in `shared/`**: Database utilities, extensions, middleware only
+5. **Enums in Core layer**: `Domain/Enums/` folder with all restricted types
 
 ### Dependency Injection (ASP.NET Core)
 ```csharp
@@ -358,6 +392,8 @@ Before committing:
 - ✅ No synchronous service-to-service calls
 - ✅ Nullable reference types enabled (`#nullable enable`)
 - ✅ Async/await used consistently (no `.Result` or `.Wait()`)
+- ✅ Restricted types use Enums, not strings (AddressType, OrderStatus, etc.)
+- ✅ Enum configuration in EF Core with proper conversion strategy
 
 ## � Security Checklist for Feature Implementation
 

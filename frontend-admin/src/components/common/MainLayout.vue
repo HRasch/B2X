@@ -268,6 +268,10 @@ const navItems: NavItem[] = [
     label: "Dashboard",
   },
   {
+    path: "/users",
+    label: "Benutzer",
+  },
+  {
     path: "/cms/pages",
     label: "CMS",
   },

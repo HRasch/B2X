@@ -192,8 +192,6 @@
       "label": "backend-start",
       "type": "shell",
       "isBackground": true,
-      "dependsOn": ["kill-all-services"],
-      "dependsOrder": "sequence",
       "command": "dotnet",
       "args": [
         "run",
@@ -228,8 +226,6 @@
     },
     {
       "label": "frontend-start",
-      "dependsOn": ["kill-all-services"],
-      "dependsOrder": "sequence",
       "type": "shell",
       "isBackground": false,
       "command": "npm",
@@ -256,8 +252,6 @@
     },
     {
       "label": "frontend-admin-start",
-      "dependsOn": ["kill-all-services"],
-      "dependsOrder": "sequence",
       "type": "shell",
       "isBackground": true,
       "command": "npm",
@@ -310,8 +304,6 @@
       "label": "store-gateway-start",
       "type": "shell",
       "isBackground": true,
-      "dependsOn": ["kill-all-services"],
-      "dependsOrder": "sequence",
       "command": "dotnet",
       "args": [
         "run",
@@ -345,8 +337,6 @@
       "label": "admin-gateway-start",
       "type": "shell",
       "isBackground": true,
-      "dependsOn": ["kill-all-services"],
-      "dependsOrder": "sequence",
       "command": "dotnet",
       "args": [
         "run",
@@ -395,7 +385,6 @@
       "label": "restart-all-services",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "kill-all-services",
         "backend-start"
       ],
       "problemMatcher": []
@@ -418,7 +407,6 @@
       "label": "kill-then-build",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "kill-all-services",
         "dotnet: build"
       ],
       "problemMatcher": []

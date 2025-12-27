@@ -2,6 +2,7 @@ using B2Connect.AuthService.Data;
 using B2Connect.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace B2Connect.AuthService.Controllers;
 
@@ -135,4 +136,98 @@ public class AuthController : ControllerBase
         // For now, return error
         return BadRequest(new { error = new { message = "2FA verification not yet implemented" } });
     }
+
+    [HttpGet("users")]
+    [Authorize]
+    public async Task<IActionResult> GetAllUsers([FromQuery] int page = 1, [FromQuery] int pageSize = 50, [FromQuery] string? search = null)
+    {
+        // Log current user claims for debugging
+        var userRoles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).ToList();
+        _logger.LogInformation("User roles from token: {Roles}", string.Join(", ", userRoles));
+
+        // Check if user has Admin role (case-insensitive)
+        var isAdmin = userRoles.Any(r => r.Equals("Admin", StringComparison.OrdinalIgnoreCase));
+        if (!isAdmin)
+        {
+            _logger.LogWarning("User attempted to access users without Admin role. Roles: {Roles}", string.Join(", ", userRoles));
+            return Forbid();
+        }
+
+        var result = await _authService.GetAllUsersAsync(page, pageSize, search);
+
+        return result.Match(
+            onSuccess: (users, msg) => Ok(new { data = users, message = msg }),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return StatusCode(statusCode, new { error = new { code, message = code.ToMessage() } });
+            }
+        );
+    }
+
+    [HttpGet("users/{id}")]
+    [Authorize]
+    public async Task<IActionResult> GetUserById(string id)
+    {
+        // Check if user has Admin role
+        var userRoles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).ToList();
+        if (!userRoles.Any(r => r.Equals("Admin", StringComparison.OrdinalIgnoreCase)))
+        {
+            return Forbid();
+        }
+
+        var result = await _authService.GetUserByIdAsync(id);
+
+        return result.Match(
+            onSuccess: (user, msg) => Ok(new { data = MapUserToDto(user), message = msg }),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return StatusCode(statusCode, new { error = new { code, message = code.ToMessage() } });
+            }
+        );
+    }
+
+    [HttpPatch("users/{id}/status")]
+    [Authorize]
+    public async Task<IActionResult> ToggleUserStatus(string id, [FromBody] ToggleUserStatusRequest request)
+    {
+        // Check if user has Admin role
+        var userRoles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).ToList();
+        if (!userRoles.Any(r => r.Equals("Admin", StringComparison.OrdinalIgnoreCase)))
+        {
+            return Forbid();
+        }
+
+        var result = await _authService.ToggleUserStatusAsync(id, request.IsActive);
+
+        return result.Match(
+            onSuccess: (user, msg) => Ok(new { data = MapUserToDto(user), message = msg }),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return StatusCode(statusCode, new { error = new { code, message = code.ToMessage() } });
+            }
+        );
+    }
+
+    private static object MapUserToDto(AppUser user)
+    {
+        return new
+        {
+            id = user.Id,
+            email = user.Email,
+            firstName = user.FirstName ?? string.Empty,
+            lastName = user.LastName ?? string.Empty,
+            tenantId = user.TenantId ?? "default",
+            isActive = user.IsActive,
+            isTwoFactorEnabled = user.IsTwoFactorRequired,
+            roles = new string[] { }
+        };
+    }
+}
+
+public class ToggleUserStatusRequest
+{
+    public bool IsActive { get; set; }
 }

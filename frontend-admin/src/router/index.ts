@@ -172,6 +172,34 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: "/users",
+    meta: { requiresAuth: true, layout: "main", requiredRole: "admin" },
+    children: [
+      {
+        path: "",
+        name: "UserList",
+        component: () => import("@/views/users/UserList.vue"),
+      },
+      {
+        path: "create",
+        name: "UserCreate",
+        component: () => import("@/views/users/UserForm.vue"),
+        meta: { formMode: "create" },
+      },
+      {
+        path: ":id",
+        name: "UserDetail",
+        component: () => import("@/views/users/UserDetail.vue"),
+      },
+      {
+        path: ":id/edit",
+        name: "UserEdit",
+        component: () => import("@/views/users/UserForm.vue"),
+        meta: { formMode: "edit" },
+      },
+    ],
+  },
 ];
 
 const router = createRouter({

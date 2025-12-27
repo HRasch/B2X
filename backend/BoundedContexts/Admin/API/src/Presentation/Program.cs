@@ -3,6 +3,7 @@ using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Application.Services;
 using B2Connect.Admin.Infrastructure.Repositories;
 using B2Connect.Admin.Infrastructure.Data;
+using B2Connect.Shared.User.Infrastructure;
 using B2Connect.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -152,6 +153,9 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 
+// Register User Domain Infrastructure
+builder.Services.AddUserInfrastructure(builder.Configuration);
+
 // Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -211,6 +215,18 @@ builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 var app = builder.Build();
+
+// Initialize User database
+try
+{
+    await app.Services.EnsureUserDatabaseAsync();
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Failed to initialize User database");
+    throw;
+}
 
 // Service defaults middleware
 app.UseServiceDefaults();

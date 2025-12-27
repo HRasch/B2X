@@ -49,7 +49,7 @@ export const authApi = {
 
     // Direkt axios verwenden da Backend kein "data"-Wrapper hat
     const response = await axios.post<LoginResponse>(
-      `${baseURL}/auth/login`,
+      `${baseURL}/api/auth/login`,
       credentials,
       {
         headers: { "Content-Type": "application/json" },
@@ -59,29 +59,29 @@ export const authApi = {
   },
 
   verify(token: string) {
-    return apiClient.post<AdminUser>("/auth/verify", { token });
+    return apiClient.post<AdminUser>("/api/auth/verify", { token });
   },
 
   getCurrentUser() {
-    return apiClient.get<AdminUser>("/auth/me");
+    return apiClient.get<AdminUser>("/api/auth/me");
   },
 
   updateProfile(data: Partial<AdminUser>) {
-    return apiClient.put<AdminUser>("/auth/profile", data);
+    return apiClient.put<AdminUser>("/api/auth/profile", data);
   },
 
   changePassword(oldPassword: string, newPassword: string) {
-    return apiClient.post<void>("/auth/change-password", {
+    return apiClient.post<void>("/api/auth/change-password", {
       oldPassword,
       newPassword,
     });
   },
 
   requestMFA() {
-    return apiClient.post<{ method: string }>("/auth/2fa/request", {});
+    return apiClient.post<{ method: string }>("/api/auth/2fa/request", {});
   },
 
   verifyMFA(code: string) {
-    return apiClient.post<LoginResponse>("/auth/2fa/verify", { code });
+    return apiClient.post<LoginResponse>("/api/auth/2fa/verify", { code });
   },
 };
