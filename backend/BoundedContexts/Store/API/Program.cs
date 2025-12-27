@@ -1,4 +1,8 @@
 using B2Connect.ServiceDefaults;
+using B2Connect.Infrastructure.RateLimiting;
+using B2Connect.Infrastructure.Middleware;
+using B2Connect.Infrastructure.Validation;
+using B2Connect.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -12,6 +16,7 @@ builder.Host.UseSerilog((context, config) =>
 {
     config
         .MinimumLevel.Information()
+        .Enrich.WithSensitiveDataRedaction() // Redact credentials from logs
         .WriteTo.Console()
         .ReadFrom.Configuration(context.Configuration);
 });
@@ -61,6 +66,9 @@ builder.Services.AddCors(options =>
             .WithMaxAge(TimeSpan.FromHours(24));
     });
 });
+
+// Add Rate Limiting
+builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
 
 // Get JWT Secret from configuration
 var jwtSecret = builder.Configuration["Jwt:Secret"];
@@ -121,6 +129,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+// Add Input Validation (FluentValidation)
+builder.Services.AddB2ConnectValidation();
+
+// Configure HSTS options (production)
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+    options.Preload = true;
+});
+
 // Add YARP Reverse Proxy
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
@@ -140,7 +159,21 @@ builder.Services.AddReverseProxy()
 var app = builder.Build();
 
 app.UseRouting();
+
+// Security Headers - apply early in pipeline
+app.UseSecurityHeaders();
+
+// Rate Limiting - must be before routing
+app.UseRateLimiter();
+
 app.UseCors("AllowStoreFrontend");
+
+// HTTPS Redirection & HSTS (Security Headers)
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts(); // HSTS: Strict-Transport-Security header
+}
+app.UseHttpsRedirection();
 
 // Authentication & Authorization
 app.UseAuthentication();

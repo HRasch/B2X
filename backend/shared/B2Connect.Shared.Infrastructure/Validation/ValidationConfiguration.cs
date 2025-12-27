@@ -1,0 +1,55 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace B2Connect.Infrastructure.Validation;
+
+/// <summary>
+/// Extension method to register all input validators and setup FluentValidation pipeline.
+/// Prevents injection attacks, ensures data integrity, and provides consistent validation across all APIs.
+/// </summary>
+public static class ValidationConfiguration
+{
+    /// <summary>
+    /// Registers all request validators and configures FluentValidation for the application.
+    /// Call this in Program.cs after adding services but before building the app.
+    /// 
+    /// Usage: builder.Services.AddB2ConnectValidation();
+    /// </summary>
+    /// <param name="services">Service collection to register validators in</param>
+    /// <returns>Modified service collection for method chaining</returns>
+    public static IServiceCollection AddB2ConnectValidation(this IServiceCollection services)
+    {
+        // Register FluentValidation with ASP.NET Core integration
+        services.AddFluentValidationAutoValidation();
+        services.AddFluentValidationClientsideAdapters();
+
+        // Register all validators from this assembly
+        // This automatically discovers and registers all AbstractValidator<T> implementations
+        var assembly = typeof(ValidationConfiguration).Assembly;
+        services.AddValidatorsFromAssembly(assembly);
+
+        // Configure validation behavior
+        ValidatorOptions.Global.CascadeMode = CascadeMode.Stop; // Stop on first error per field
+        ValidatorOptions.Global.PropertyNameResolver = CamelCasePropertyNameResolver.ResolvePropertyName;
+
+        return services;
+    }
+
+    /// <summary>
+    /// Custom property name resolver to convert PascalCase property names to camelCase in error messages.
+    /// Ensures consistent error messaging with frontend expectations.
+    /// </summary>
+    private class CamelCasePropertyNameResolver
+    {
+        public static string ResolvePropertyName(Type type, System.Reflection.MemberInfo memberInfo, LambdaExpression expression)
+        {
+            var name = memberInfo?.Name ?? expression?.GetMemberPath();
+            if (string.IsNullOrEmpty(name))
+                return string.Empty;
+
+            // Convert PascalCase to camelCase
+            return char.ToLowerInvariant(name[0]) + name.Substring(1);
+        }
+    }
+}

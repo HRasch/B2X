@@ -3,6 +3,10 @@ using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Application.Services;
 using B2Connect.Admin.Infrastructure.Repositories;
 using B2Connect.Admin.Infrastructure.Data;
+using B2Connect.Infrastructure.RateLimiting;
+using B2Connect.Infrastructure.Middleware;
+using B2Connect.Infrastructure.Validation;
+using B2Connect.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +20,7 @@ builder.Host.UseSerilog((context, config) =>
 {
     config
         .MinimumLevel.Information()
+        .Enrich.WithSensitiveDataRedaction() // Redact credentials from logs
         .WriteTo.Console()
         .ReadFrom.Configuration(context.Configuration);
 });
@@ -65,6 +70,9 @@ builder.Services.AddCors(options =>
             .WithMaxAge(TimeSpan.FromHours(24));
     });
 });
+
+// Add Rate Limiting
+builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
 
 // Get JWT Secret from configuration
 var jwtSecret = builder.Configuration["Jwt:Secret"];
@@ -187,6 +195,17 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 
+// Add Input Validation (FluentValidation)
+builder.Services.AddB2ConnectValidation();
+
+// Configure HSTS options (production)
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+    options.Preload = true;
+});
+
 // Add YARP Reverse Proxy
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
@@ -195,6 +214,12 @@ var app = builder.Build();
 
 // Service defaults middleware
 app.UseServiceDefaults();
+
+// Security Headers - apply early in pipeline
+app.UseSecurityHeaders();
+
+// Rate Limiting - must be before routing
+app.UseRateLimiter();
 
 // Swagger UI
 if (app.Environment.IsDevelopment())
@@ -209,6 +234,13 @@ if (app.Environment.IsDevelopment())
 
 // CORS must come before routing
 app.UseCors("AllowAdminFrontend");
+
+// HTTPS Redirection & HSTS (Security Headers)
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts(); // HSTS: Strict-Transport-Security header
+}
+app.UseHttpsRedirection();
 
 // Middleware
 app.UseHttpsRedirection();

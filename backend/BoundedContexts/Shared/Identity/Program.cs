@@ -1,5 +1,9 @@
 using B2Connect.ServiceDefaults;
 using B2Connect.AuthService.Data;
+using B2Connect.Infrastructure.RateLimiting;
+using B2Connect.Infrastructure.Middleware;
+using B2Connect.Infrastructure.Validation;
+using B2Connect.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +18,7 @@ builder.Host.UseSerilog((context, config) =>
 {
     config
         .MinimumLevel.Information()
+        .Enrich.WithSensitiveDataRedaction() // Redact credentials from logs
         .WriteTo.Console()
         .ReadFrom.Configuration(context.Configuration);
 });
@@ -130,11 +135,31 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add Rate Limiting
+builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
+
+// Add Input Validation (FluentValidation)
+builder.Services.AddB2ConnectValidation();
+
 // Add services
 builder.Services.AddControllers();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+// Configure HSTS options (production)
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+    options.Preload = true;
+});
+
 var app = builder.Build();
+
+// Security Headers - apply early in pipeline
+app.UseSecurityHeaders();
+
+// Rate Limiting - must be before routing
+app.UseRateLimiter();
 
 // Migrate database and seed demo data
 using (var scope = app.Services.CreateScope())
@@ -244,8 +269,14 @@ app.UseServiceDefaults();
 // CORS middleware - MUST be before auth
 app.UseCors("AllowFrontend");
 
-// Middleware
+// HTTPS Redirection & HSTS (Security Headers)
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts(); // HSTS: Strict-Transport-Security header
+}
 app.UseHttpsRedirection();
+
+// Middleware
 app.UseAuthentication();
 app.UseAuthorization();
 
