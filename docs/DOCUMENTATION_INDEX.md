@@ -62,6 +62,14 @@ Quick navigation to all B2Connect documentation.
   - CI/CD pipeline for auto-deployment
   - Custom domain setup
   - Troubleshooting
+- **[AI_DEVELOPMENT_GUIDELINES.md](AI_DEVELOPMENT_GUIDELINES.md)** — KI-Assistenten Richtlinien (NEW)
+  - KI-Integration Prinzipien
+  - Security Checklisten & Templates
+  - Architektur-Anforderungen
+  - Prompt-Bibliothek mit Templates
+  - Code-Review Checklisten
+  - Common Mistakes & Best Practices
+  - Extracted from all reviews for future AI use
 
 ### Specifications & Standards
 - **[APPLICATION_SPECIFICATIONS.md](APPLICATION_SPECIFICATIONS.md)** — Complete system specs

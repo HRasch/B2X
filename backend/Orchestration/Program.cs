@@ -60,6 +60,7 @@ var frontendAdmin = builder
     .AddNpmApp("frontend-admin", "../../frontend-admin", "dev")
     .WithHttpEndpoint(port: 5174, targetPort: 5174, name: "vite-admin", isProxied: false)
     .WithEnvironment("BROWSER", "none")
+    .WithEnvironment("VITE_ADMIN_API_URL", "/api")
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
     .WithEnvironment("VITE_PORT", "5174");
 

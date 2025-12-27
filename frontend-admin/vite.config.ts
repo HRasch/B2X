@@ -14,7 +14,7 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       "/api": {
-        target: process.env.VITE_API_GATEWAY_URL || "http://localhost:6000",
+        target: process.env.VITE_API_GATEWAY_URL || "http://localhost:8080",
         changeOrigin: true,
       },
     },
