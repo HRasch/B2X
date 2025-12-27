@@ -19,6 +19,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Bogus" />
     <PackageReference Include="Yarp.ReverseProxy" />
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.Http" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,5 +29,6 @@
     <ProjectReference Include="../../../shared/utils/B2Connect.Utils.csproj" />
     <ProjectReference Include="../../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
     <ProjectReference Include="../../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../Shared/Tenancy/B2Connect.Tenancy.API.csproj" />
   </ItemGroup>
 </Project>

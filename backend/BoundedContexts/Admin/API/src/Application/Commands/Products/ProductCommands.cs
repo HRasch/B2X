@@ -1,28 +1,29 @@
-using Wolverine;
-
 namespace B2Connect.Admin.Application.Commands.Products;
 
 /// <summary>
-/// Create Product Command - CQRS Pattern
-/// Wird vom ProductsController empfangen und via Wolverine dispatched
+/// Product Commands & Queries - CQRS Pattern
 /// 
 /// Flow:
-/// Controller empfängt HTTP POST
-/// → Erstellt CreateProductCommand
+/// Controller empfängt HTTP Request
+/// → Erstellt Command/Query (ohne TenantId!)
 /// → Dispatched via IMessageBus
-/// → CreateProductHandler verarbeitet (TenantId wird automatisch injiziert)
+/// → Handler holt TenantId via ITenantContextAccessor
 /// → Response zurück an Controller
 /// 
-/// NOTE: TenantId wird automatisch via ITenantContext injiziert
-/// (keine manuelle Übergabe notwendig mehr)
+/// NOTE: TenantId wird automatisch via ITenantContextAccessor im Handler injiziert
 /// </summary>
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Commands
+// ─────────────────────────────────────────────────────────────────────────────
+
 public record CreateProductCommand(
     string Name,
     string Sku,
     decimal Price,
     string? Description = null,
     Guid? CategoryId = null,
-    Guid? BrandId = null) : IRequest<ProductResult>;
+    Guid? BrandId = null);
 
 public record UpdateProductCommand(
     Guid ProductId,
@@ -31,46 +32,46 @@ public record UpdateProductCommand(
     decimal Price,
     string? Description = null,
     Guid? CategoryId = null,
-    Guid? BrandId = null) : IRequest<ProductResult>;
+    Guid? BrandId = null);
 
-public record GetProductQuery(Guid ProductId) : IRequest<ProductResult?>;
-
-public record GetProductBySkuQuery(string Sku) : IRequest<ProductResult?>;
-
-public record GetAllProductsQuery() : IRequest<IEnumerable<ProductResult>>;
-
-public record GetProductsPagedQuery(int PageNumber, int PageSize) : IRequest<(IEnumerable<ProductResult> Items, int Total)>;
-
-public record DeleteProductCommand(Guid ProductId) : IRequest<bool>;
+public record DeleteProductCommand(Guid ProductId);
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Zusätzliche Queries für ProductsController
+// Queries
 // ─────────────────────────────────────────────────────────────────────────────
+
+public record GetProductQuery(Guid ProductId);
+
+public record GetProductBySkuQuery(string Sku);
+
+public record GetAllProductsQuery();
+
+public record GetProductsPagedQuery(int PageNumber, int PageSize);
 
 /// <summary>
 /// Query für Get Product by Slug (SEO-freundliche URL)
 /// </summary>
-public record GetProductBySlugQuery(string Slug) : IRequest<ProductResult?>;
+public record GetProductBySlugQuery(string Slug);
 
 /// <summary>
 /// Query für Get Products by Category
 /// </summary>
-public record GetProductsByCategoryQuery(Guid CategoryId) : IRequest<IEnumerable<ProductResult>>;
+public record GetProductsByCategoryQuery(Guid CategoryId);
 
 /// <summary>
 /// Query für Get Products by Brand
 /// </summary>
-public record GetProductsByBrandQuery(Guid BrandId) : IRequest<IEnumerable<ProductResult>>;
+public record GetProductsByBrandQuery(Guid BrandId);
 
 /// <summary>
 /// Query für Get Featured Products
 /// </summary>
-public record GetFeaturedProductsQuery(int Take = 10) : IRequest<IEnumerable<ProductResult>>;
+public record GetFeaturedProductsQuery(int Take = 10);
 
 /// <summary>
 /// Query für Get New Products (nach CreatedAt sortiert)
 /// </summary>
-public record GetNewProductsQuery(int Take = 10) : IRequest<IEnumerable<ProductResult>>;
+public record GetNewProductsQuery(int Take = 10);
 
 /// <summary>
 /// Query für Search Products (Volltextsuche)
@@ -78,7 +79,11 @@ public record GetNewProductsQuery(int Take = 10) : IRequest<IEnumerable<ProductR
 public record SearchProductsQuery(
     string SearchTerm,
     int PageNumber = 1,
-    int PageSize = 20) : IRequest<(IEnumerable<ProductResult> Items, int Total)>;
+    int PageSize = 20);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Result DTOs
+// ─────────────────────────────────────────────────────────────────────────────
 
 /// <summary>
 /// Result DTO - was vom Handler zurückkommt

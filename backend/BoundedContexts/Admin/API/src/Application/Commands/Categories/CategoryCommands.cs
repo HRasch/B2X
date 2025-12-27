@@ -1,70 +1,50 @@
-using Wolverine;
-
 namespace B2Connect.Admin.Application.Commands.Categories;
 
 /// <summary>
-/// Category Create Command - CQRS Pattern
+/// Category Commands & Queries - CQRS Pattern
+/// 
+/// TenantId wird automatisch via ITenantContextAccessor im Handler injiziert
 /// </summary>
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Commands
+// ─────────────────────────────────────────────────────────────────────────────
+
 public record CreateCategoryCommand(
-    Guid TenantId,
     string Name,
     string Slug,
     string? Description = null,
-    Guid? ParentId = null) : IRequest<CategoryResult>;
+    Guid? ParentId = null);
 
-/// <summary>
-/// Category Update Command - CQRS Pattern
-/// </summary>
 public record UpdateCategoryCommand(
-    Guid TenantId,
     Guid CategoryId,
     string Name,
     string Slug,
     string? Description = null,
-    Guid? ParentId = null) : IRequest<CategoryResult>;
+    Guid? ParentId = null);
 
-/// <summary>
-/// Category Delete Command - CQRS Pattern
-/// </summary>
-public record DeleteCategoryCommand(Guid TenantId, Guid CategoryId) : IRequest<bool>;
+public record DeleteCategoryCommand(Guid CategoryId);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Queries
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// <summary>
-/// Get Category by ID Query
-/// </summary>
-public record GetCategoryQuery(Guid TenantId, Guid CategoryId) : IRequest<CategoryResult?>;
+public record GetCategoryQuery(Guid CategoryId);
 
-/// <summary>
-/// Get Category by Slug Query
-/// </summary>
-public record GetCategoryBySlugQuery(Guid TenantId, string Slug) : IRequest<CategoryResult?>;
+public record GetCategoryBySlugQuery(string Slug);
 
-/// <summary>
-/// Get Root Categories Query
-/// </summary>
-public record GetRootCategoriesQuery(Guid TenantId) : IRequest<IEnumerable<CategoryResult>>;
+public record GetRootCategoriesQuery();
 
-/// <summary>
-/// Get Child Categories Query
-/// </summary>
-public record GetChildCategoriesQuery(Guid TenantId, Guid ParentId) : IRequest<IEnumerable<CategoryResult>>;
+public record GetChildCategoriesQuery(Guid ParentId);
 
-/// <summary>
-/// Get Category Hierarchy Query
-/// </summary>
-public record GetCategoryHierarchyQuery(Guid TenantId) : IRequest<IEnumerable<CategoryResult>>;
+public record GetCategoryHierarchyQuery();
 
-/// <summary>
-/// Get Active Categories Query
-/// </summary>
-public record GetActiveCategoriesQuery(Guid TenantId) : IRequest<IEnumerable<CategoryResult>>;
+public record GetActiveCategoriesQuery();
 
-/// <summary>
-/// Category Result DTO
-/// </summary>
+// ─────────────────────────────────────────────────────────────────────────────
+// Result DTOs
+// ─────────────────────────────────────────────────────────────────────────────
+
 public record CategoryResult(
     Guid Id,
     Guid TenantId,

@@ -14,37 +14,37 @@ public class BrandRepository : Repository<Brand>, IBrandRepository
     {
     }
 
-    public async Task<Brand?> GetBySlugAsync(string slug)
+    public async Task<Brand?> GetBySlugAsync(Guid tenantId, string slug, CancellationToken ct = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(b => b.Slug == slug);
+        return await _dbSet.FirstOrDefaultAsync(b => b.TenantId == tenantId && b.Slug == slug, ct);
     }
 
-    public async Task<IEnumerable<Brand>> GetActiveAsync()
+    public async Task<IEnumerable<Brand>> GetActiveBrandsAsync(Guid tenantId, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(b => b.IsActive)
+            .Where(b => b.TenantId == tenantId && b.IsActive)
             .OrderBy(b => b.DisplayOrder)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<Brand?> GetWithProductsAsync(Guid id)
+    public async Task<Brand?> GetWithProductsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
     {
         return await _dbSet
+            .Where(b => b.TenantId == tenantId && b.Id == id)
             .Include(b => b.Products)
-            .FirstOrDefaultAsync(b => b.Id == id);
+            .FirstOrDefaultAsync(ct);
     }
 
-    public async Task<(IEnumerable<Brand> Items, int Total)> GetPagedAsync(int pageNumber, int pageSize)
+    public async Task<(IEnumerable<Brand> Items, int Total)> GetPagedAsync(Guid tenantId, int pageNumber, int pageSize, CancellationToken ct = default)
     {
-        var query = _dbSet.Where(b => b.IsActive);
-        var total = await query.CountAsync();
+        var query = _dbSet.Where(b => b.TenantId == tenantId && b.IsActive);
+        var total = await query.CountAsync(ct);
         var items = await query
             .OrderBy(b => b.DisplayOrder)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync();
+            .ToListAsync(ct);
 
         return (items, total);
     }
 }
-

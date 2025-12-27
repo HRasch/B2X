@@ -9,22 +9,11 @@ namespace B2Connect.Admin.Presentation.Controllers;
 /// <summary>
 /// API Controller for Category operations - HTTP Layer Only (CQRS Pattern)
 /// 
-/// 🏗️ Architektur:
-/// HTTP Request 
-///   ↓
-/// Controller (HTTP Concerns nur!)
-///   ↓
-/// Wolverine Message Bus
-///   ↓
-/// Handler (Business Logic)
-///   ↓
-/// Response
+/// NOTE: TenantId wird automatisch im Handler via ITenantContextAccessor injiziert!
 ///
 /// Filters Applied:
 /// - ValidateTenantAttribute: Validates X-Tenant-ID header
 /// - ApiExceptionHandlingFilter: Centralizes error handling
-/// - ValidateModelStateFilter: Validates request models
-/// - ApiLoggingFilter: Logs all requests and responses
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
@@ -42,16 +31,13 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Gets a category by ID
     /// HTTP: GET /api/categories/{id}
-    /// CQRS: GetCategoryQuery dispatched to Wolverine
     /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<CategoryResult>> GetCategory(Guid id, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        _logger.LogInformation("Fetching category {CategoryId} for tenant {TenantId}", id, tenantId);
+        _logger.LogInformation("Fetching category {CategoryId}", id);
 
-        // Dispatch Query via Wolverine Message Bus → Handler
-        var query = new GetCategoryQuery(tenantId, id);
+        var query = new GetCategoryQuery(id);
         var category = await _messageBus.InvokeAsync<CategoryResult?>(query, ct);
 
         if (category == null)
@@ -63,16 +49,13 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Gets a category by slug
     /// HTTP: GET /api/categories/slug/{slug}
-    /// CQRS: GetCategoryBySlugQuery dispatched to Wolverine
     /// </summary>
     [HttpGet("slug/{slug}")]
     public async Task<ActionResult<CategoryResult>> GetCategoryBySlug(string slug, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        _logger.LogInformation("Fetching category by slug '{Slug}' for tenant {TenantId}", slug, tenantId);
+        _logger.LogInformation("Fetching category by slug '{Slug}'", slug);
 
-        // Dispatch Query via Wolverine Message Bus → Handler
-        var query = new GetCategoryBySlugQuery(tenantId, slug);
+        var query = new GetCategoryBySlugQuery(slug);
         var category = await _messageBus.InvokeAsync<CategoryResult?>(query, ct);
 
         if (category == null)
@@ -84,16 +67,13 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Gets all root categories
     /// HTTP: GET /api/categories/root
-    /// CQRS: GetRootCategoriesQuery dispatched to Wolverine
     /// </summary>
     [HttpGet("root")]
     public async Task<ActionResult<IEnumerable<CategoryResult>>> GetRootCategories(CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        _logger.LogInformation("Fetching root categories for tenant {TenantId}", tenantId);
+        _logger.LogInformation("Fetching root categories");
 
-        // Dispatch Query via Wolverine Message Bus → Handler
-        var query = new GetRootCategoriesQuery(tenantId);
+        var query = new GetRootCategoriesQuery();
         var categories = await _messageBus.InvokeAsync<IEnumerable<CategoryResult>>(query, ct);
 
         return OkResponse(categories);
@@ -102,17 +82,13 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Gets child categories of a parent
     /// HTTP: GET /api/categories/{parentId}/children
-    /// CQRS: GetChildCategoriesQuery dispatched to Wolverine
     /// </summary>
     [HttpGet("{parentId}/children")]
     public async Task<ActionResult<IEnumerable<CategoryResult>>> GetChildCategories(Guid parentId, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        _logger.LogInformation("Fetching child categories for parent {ParentId} in tenant {TenantId}",
-            parentId, tenantId);
+        _logger.LogInformation("Fetching child categories for parent {ParentId}", parentId);
 
-        // Dispatch Query via Wolverine Message Bus → Handler
-        var query = new GetChildCategoriesQuery(tenantId, parentId);
+        var query = new GetChildCategoriesQuery(parentId);
         var categories = await _messageBus.InvokeAsync<IEnumerable<CategoryResult>>(query, ct);
 
         return OkResponse(categories);
@@ -121,16 +97,13 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Gets the complete category hierarchy
     /// HTTP: GET /api/categories/hierarchy
-    /// CQRS: GetCategoryHierarchyQuery dispatched to Wolverine
     /// </summary>
     [HttpGet("hierarchy")]
     public async Task<ActionResult<IEnumerable<CategoryResult>>> GetHierarchy(CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        _logger.LogInformation("Fetching category hierarchy for tenant {TenantId}", tenantId);
+        _logger.LogInformation("Fetching category hierarchy");
 
-        // Dispatch Query via Wolverine Message Bus → Handler
-        var query = new GetCategoryHierarchyQuery(tenantId);
+        var query = new GetCategoryHierarchyQuery();
         var categories = await _messageBus.InvokeAsync<IEnumerable<CategoryResult>>(query, ct);
 
         return OkResponse(categories);
@@ -139,16 +112,13 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Gets all active categories
     /// HTTP: GET /api/categories
-    /// CQRS: GetActiveCategoriesQuery dispatched to Wolverine
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoryResult>>> GetActiveCategories(CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        _logger.LogInformation("Fetching active categories for tenant {TenantId}", tenantId);
+        _logger.LogInformation("Fetching active categories");
 
-        // Dispatch Query via Wolverine Message Bus → Handler
-        var query = new GetActiveCategoriesQuery(tenantId);
+        var query = new GetActiveCategoriesQuery();
         var categories = await _messageBus.InvokeAsync<IEnumerable<CategoryResult>>(query, ct);
 
         return OkResponse(categories);
@@ -157,19 +127,15 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Creates a new category
     /// HTTP: POST /api/categories
-    /// CQRS: CreateCategoryCommand dispatched to Wolverine
     /// </summary>
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<CategoryResult>> CreateCategory([FromBody] CreateCategoryRequest request, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
         var userId = GetUserId();
-        _logger.LogInformation("User {UserId} creating category for tenant {TenantId}", userId, tenantId);
+        _logger.LogInformation("User {UserId} creating category", userId);
 
-        // Dispatch Command via Wolverine Message Bus → Handler
         var command = new CreateCategoryCommand(
-            tenantId,
             request.Name,
             request.Slug,
             request.Description,
@@ -183,20 +149,15 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Updates an existing category
     /// HTTP: PUT /api/categories/{id}
-    /// CQRS: UpdateCategoryCommand dispatched to Wolverine
     /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<CategoryResult>> UpdateCategory(Guid id, [FromBody] UpdateCategoryRequest request, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
         var userId = GetUserId();
-        _logger.LogInformation("User {UserId} updating category {CategoryId} in tenant {TenantId}",
-            userId, id, tenantId);
+        _logger.LogInformation("User {UserId} updating category {CategoryId}", userId, id);
 
-        // Dispatch Command via Wolverine Message Bus → Handler
         var command = new UpdateCategoryCommand(
-            tenantId,
             id,
             request.Name,
             request.Slug,
@@ -211,19 +172,15 @@ public class CategoriesController : ApiControllerBase
     /// <summary>
     /// Deletes a category
     /// HTTP: DELETE /api/categories/{id}
-    /// CQRS: DeleteCategoryCommand dispatched to Wolverine
     /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteCategory(Guid id, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
         var userId = GetUserId();
-        _logger.LogInformation("User {UserId} deleting category {CategoryId} from tenant {TenantId}",
-            userId, id, tenantId);
+        _logger.LogInformation("User {UserId} deleting category {CategoryId}", userId, id);
 
-        // Dispatch Command via Wolverine Message Bus → Handler
-        var command = new DeleteCategoryCommand(tenantId, id);
+        var command = new DeleteCategoryCommand(id);
         var success = await _messageBus.InvokeAsync<bool>(command, ct);
 
         if (!success)

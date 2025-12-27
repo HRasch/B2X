@@ -1,20 +1,35 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Json;
-using System.Text.Json;
 using B2Connect.Admin.Presentation.Filters;
+using B2Connect.Admin.Application.Commands.Users;
+using Wolverine;
 
 namespace B2Connect.Admin.Presentation.Controllers;
 
 /// <summary>
-/// Admin Users Controller - BFF GATEWAY
-/// This controller acts as a Backend-for-Frontend (BFF) gateway to the Identity Service.
-/// Actual user management is delegated to the Identity microservice via HTTP.
+/// Admin Users Controller - HTTP Layer Only (CQRS Pattern)
 /// 
-/// Flow:
-/// 1. Admin Frontend (Port 5174) → Admin API (Port 8080) - This controller
-/// 2. Admin API → Identity Service (Port 7002) - Proxies requests
-/// 3. Identity Service → PostgreSQL - User data persistence
+/// 🏗️ Architecture:
+/// HTTP Request 
+///   ↓
+/// Controller (HTTP Concerns only!)
+///   - Header validation
+///   - Create Command/Query
+///   - Format Response
+///   ↓
+/// Wolverine Message Bus (Message Dispatch)
+///   ↓
+/// Handler (Business Logic)
+///   - HTTP calls to Identity Service
+///   - Validation
+///   - Exception Handling
+///   ↓
+/// Response Back
+///
+/// 🎯 Benefits: Separation of Concerns!
+/// - Controller: HTTP Concerns
+/// - Handler: Business Logic (incl. Identity Service communication)
+/// - Filter: Cross-Cutting Concerns
 /// 
 /// Filters Applied:
 /// - ValidateTenantAttribute: Validates X-Tenant-ID header
@@ -28,166 +43,171 @@ namespace B2Connect.Admin.Presentation.Controllers;
 [ValidateTenant]
 public class UsersController : ApiControllerBase
 {
-    private readonly HttpClient _httpClient;
-    private readonly string _identityServiceUrl;
+    private readonly IMessageBus _messageBus;
 
     public UsersController(
         ILogger<UsersController> logger,
-        HttpClient httpClient,
-        IConfiguration configuration) : base(logger)
+        IMessageBus messageBus) : base(logger)
     {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        // Identity Service runs on port 7002
-        _identityServiceUrl = configuration["Services:Identity:Url"] ?? "http://localhost:7002";
+        _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
     }
 
     /// <summary>
     /// Get all users for the tenant
-    /// Proxies to: GET /api/identity/users
+    /// HTTP: GET /api/admin/users
+    /// CQRS: GetUsersQuery dispatched to Wolverine
     /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> GetUsers(CancellationToken ct)
+    public async Task<ActionResult<UsersListResult>> GetUsers(CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        _logger.LogInformation("Fetching users for tenant: {TenantId}", tenantId);
+        _logger.LogInformation("Fetching users for tenant: {TenantId}", GetTenantId());
 
-        // Forward request to Identity Service
-        var url = $"{_identityServiceUrl}/api/identity/users";
-        var response = await _httpClient.GetAsync(url, ct);
+        // Dispatch Query via Wolverine Message Bus → Handler
+        // TenantId is automatically resolved from ITenantContextAccessor in Handler
+        var query = new GetUsersQuery();
+        var result = await _messageBus.InvokeAsync<UsersListResult?>(query, ct);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
-            return StatusCode((int)response.StatusCode, "Error fetching users from Identity Service");
-        }
+        if (result == null)
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, "Identity Service unavailable");
 
-        var content = await response.Content.ReadAsStringAsync(ct);
-        return OkResponse(JsonDocument.Parse(content).RootElement, "Users retrieved successfully");
+        return OkResponse(result, "Users retrieved successfully");
     }
 
     /// <summary>
     /// Get a specific user by ID
-    /// Proxies to: GET /api/identity/users/{userId}
+    /// HTTP: GET /api/admin/users/{userId}
+    /// CQRS: GetUserQuery dispatched to Wolverine
     /// </summary>
     [HttpGet("{userId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> GetUser(Guid userId, CancellationToken ct)
+    public async Task<ActionResult<UserResult>> GetUser(Guid userId, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        _logger.LogInformation("Fetching user {UserId} for tenant {TenantId}", userId, tenantId);
+        _logger.LogInformation("Fetching user {UserId} for tenant {TenantId}", userId, GetTenantId());
 
-        // Forward request to Identity Service
-        var url = $"{_identityServiceUrl}/api/identity/users/{userId}";
-        var response = await _httpClient.GetAsync(url, ct);
+        // Dispatch Query via Wolverine Message Bus → Handler
+        // TenantId is automatically resolved from ITenantContextAccessor in Handler
+        var query = new GetUserQuery(userId);
+        var user = await _messageBus.InvokeAsync<UserResult?>(query, ct);
 
-        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        if (user == null)
             return NotFoundResponse($"User {userId} not found");
 
-        if (!response.IsSuccessStatusCode)
-        {
-            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
-            return StatusCode((int)response.StatusCode, "Error fetching user from Identity Service");
-        }
-
-        var content = await response.Content.ReadAsStringAsync(ct);
-        return OkResponse(JsonDocument.Parse(content).RootElement, "User retrieved successfully");
+        return OkResponse(user, "User retrieved successfully");
     }
 
     /// <summary>
     /// Create a new user
-    /// Proxies to: POST /api/identity/users
+    /// HTTP: POST /api/admin/users
+    /// CQRS: CreateUserCommand dispatched to Wolverine
     /// </summary>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> CreateUser([FromBody] object request, CancellationToken ct)
+    public async Task<ActionResult<UserResult>> CreateUser([FromBody] CreateUserRequest request, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
-        var userId = GetUserId();
-        _logger.LogInformation("User {UserId} creating new user for tenant {TenantId}", userId, tenantId);
+        var currentUserId = GetUserId();
+        _logger.LogInformation("User {UserId} creating new user for tenant {TenantId}", currentUserId, GetTenantId());
 
-        // Forward request to Identity Service
-        var url = $"{_identityServiceUrl}/api/identity/users";
-        var content = JsonContent.Create(request);
-        var response = await _httpClient.PostAsync(url, content, ct);
+        // Dispatch Command via Wolverine Message Bus → Handler
+        // TenantId is automatically resolved from ITenantContextAccessor in Handler
+        var command = new CreateUserCommand(
+            currentUserId,
+            request.Email,
+            request.FirstName,
+            request.LastName,
+            request.Password,
+            request.Roles);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
-            var errorContent = await response.Content.ReadAsStringAsync(ct);
-            return StatusCode((int)response.StatusCode, errorContent);
-        }
+        var user = await _messageBus.InvokeAsync<UserResult?>(command, ct);
 
-        var responseContent = await response.Content.ReadAsStringAsync(ct);
-        var jsonData = JsonDocument.Parse(responseContent);
-        var createdUserId = jsonData.RootElement.GetProperty("id").GetGuid();
+        if (user == null)
+            return BadRequest("Failed to create user");
 
-        return CreatedResponse(nameof(GetUser), new { userId = createdUserId }, jsonData.RootElement);
+        return CreatedResponse(nameof(GetUser), new { userId = user.Id }, user);
     }
 
     /// <summary>
     /// Update an existing user
-    /// Proxies to: PUT /api/identity/users/{userId}
+    /// HTTP: PUT /api/admin/users/{userId}
+    /// CQRS: UpdateUserCommand dispatched to Wolverine
     /// </summary>
     [HttpPut("{userId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> UpdateUser(Guid userId, [FromBody] object request, CancellationToken ct)
+    public async Task<ActionResult<UserResult>> UpdateUser(Guid userId, [FromBody] UpdateUserRequest request, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
         var currentUserId = GetUserId();
         _logger.LogInformation("User {UserId} updating user {TargetUserId} for tenant {TenantId}",
-            currentUserId, userId, tenantId);
+            currentUserId, userId, GetTenantId());
 
-        // Forward request to Identity Service
-        var url = $"{_identityServiceUrl}/api/identity/users/{userId}";
-        var content = JsonContent.Create(request);
-        var response = await _httpClient.PutAsync(url, content, ct);
+        // Dispatch Command via Wolverine Message Bus → Handler
+        // TenantId is automatically resolved from ITenantContextAccessor in Handler
+        var command = new UpdateUserCommand(
+            userId,
+            currentUserId,
+            request.Email,
+            request.FirstName,
+            request.LastName,
+            request.IsActive,
+            request.Roles);
 
-        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        var user = await _messageBus.InvokeAsync<UserResult?>(command, ct);
+
+        if (user == null)
             return NotFoundResponse($"User {userId} not found");
 
-        if (!response.IsSuccessStatusCode)
-        {
-            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
-            var errorContent = await response.Content.ReadAsStringAsync(ct);
-            return StatusCode((int)response.StatusCode, errorContent);
-        }
-
-        var responseContent = await response.Content.ReadAsStringAsync(ct);
-        return OkResponse(JsonDocument.Parse(responseContent).RootElement, "User updated successfully");
+        return OkResponse(user, "User updated successfully");
     }
 
     /// <summary>
     /// Delete a user
-    /// Proxies to: DELETE /api/identity/users/{userId}
+    /// HTTP: DELETE /api/admin/users/{userId}
+    /// CQRS: DeleteUserCommand dispatched to Wolverine
     /// </summary>
     [HttpDelete("{userId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteUser(Guid userId, CancellationToken ct)
     {
-        var tenantId = GetTenantId();
         var currentUserId = GetUserId();
         _logger.LogInformation("User {UserId} deleting user {TargetUserId} for tenant {TenantId}",
-            currentUserId, userId, tenantId);
+            currentUserId, userId, GetTenantId());
 
-        // Forward request to Identity Service
-        var url = $"{_identityServiceUrl}/api/identity/users/{userId}";
-        var response = await _httpClient.DeleteAsync(url, ct);
+        // Dispatch Command via Wolverine Message Bus → Handler
+        // TenantId is automatically resolved from ITenantContextAccessor in Handler
+        var command = new DeleteUserCommand(userId, currentUserId);
+        var deleted = await _messageBus.InvokeAsync<bool>(command, ct);
 
-        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        if (!deleted)
             return NotFoundResponse($"User {userId} not found");
-
-        if (!response.IsSuccessStatusCode)
-        {
-            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
-            return StatusCode((int)response.StatusCode, "Error deleting user from Identity Service");
-        }
 
         return NoContent();
     }
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Request DTOs
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// <summary>
+/// Request DTO for creating a user
+/// </summary>
+public record CreateUserRequest(
+    string Email,
+    string? FirstName = null,
+    string? LastName = null,
+    string? Password = null,
+    IEnumerable<string>? Roles = null);
+
+/// <summary>
+/// Request DTO for updating a user
+/// </summary>
+public record UpdateUserRequest(
+    string? Email = null,
+    string? FirstName = null,
+    string? LastName = null,
+    bool? IsActive = null,
+    IEnumerable<string>? Roles = null);

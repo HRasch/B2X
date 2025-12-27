@@ -1,6 +1,6 @@
 using B2Connect.Types.Localization;
 
-namespace B2Connect.CatalogService.Models;
+namespace B2Connect.Admin.Application.DTOs;
 
 /// <summary>
 /// Request DTO for creating a product
@@ -14,7 +14,9 @@ public record CreateProductRequest(
     decimal? B2bPrice,
     int StockQuantity,
     string[] Tags,
-    Dictionary<string, LocalizedContent> LocalizedNames
+    Dictionary<string, LocalizedContent> LocalizedNames,
+    Guid? CategoryId = null,
+    Guid? BrandId = null
 );
 
 /// <summary>
@@ -30,7 +32,9 @@ public record UpdateProductRequest(
     decimal? B2bPrice,
     int? StockQuantity,
     string[]? Tags,
-    Dictionary<string, LocalizedContent>? LocalizedNames
+    Dictionary<string, LocalizedContent>? LocalizedNames,
+    Guid? CategoryId = null,
+    Guid? BrandId = null
 );
 
 /// <summary>

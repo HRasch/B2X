@@ -14,52 +14,49 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
     }
 
-    public async Task<Category?> GetBySlugAsync(string slug)
+    public async Task<Category?> GetBySlugAsync(Guid tenantId, string slug, CancellationToken ct = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(c => c.Slug == slug);
+        return await _dbSet.FirstOrDefaultAsync(c => c.TenantId == tenantId && c.Slug == slug, ct);
     }
 
-    public async Task<IEnumerable<Category>> GetRootCategoriesAsync()
+    public async Task<IEnumerable<Category>> GetRootCategoriesAsync(Guid tenantId, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(c => c.ParentCategoryId == null && c.IsActive)
+            .Where(c => c.TenantId == tenantId && c.ParentCategoryId == null && c.IsActive)
             .OrderBy(c => c.DisplayOrder)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<IEnumerable<Category>> GetChildCategoriesAsync(Guid parentId)
+    public async Task<IEnumerable<Category>> GetChildCategoriesAsync(Guid tenantId, Guid parentId, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(c => c.ParentCategoryId == parentId && c.IsActive)
+            .Where(c => c.TenantId == tenantId && c.ParentCategoryId == parentId && c.IsActive)
             .OrderBy(c => c.DisplayOrder)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<Category?> GetWithProductsAsync(Guid id)
+    public async Task<Category?> GetWithProductsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
     {
         return await _dbSet
-            .Include(c => c.ProductCategories)
-                .ThenInclude(pc => pc.Product)
+            .Where(c => c.TenantId == tenantId && c.Id == id)
             .Include(c => c.ChildCategories)
-            .FirstOrDefaultAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(ct);
     }
 
-    public async Task<IEnumerable<Category>> GetHierarchyAsync()
+    public async Task<IEnumerable<Category>> GetHierarchyAsync(Guid tenantId, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(c => c.IsActive)
+            .Where(c => c.TenantId == tenantId && c.IsActive && c.ParentCategoryId == null)
             .Include(c => c.ChildCategories)
-            .Where(c => c.ParentCategoryId == null)
             .OrderBy(c => c.DisplayOrder)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<IEnumerable<Category>> GetActiveAsync()
+    public async Task<IEnumerable<Category>> GetActiveCategoriesAsync(Guid tenantId, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(c => c.IsActive)
+            .Where(c => c.TenantId == tenantId && c.IsActive)
             .OrderBy(c => c.DisplayOrder)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 }
-

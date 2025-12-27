@@ -63,7 +63,7 @@ public abstract class ApiControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Standardisierte Success Response (200 OK)
+    /// Standardisierte Success Response (200 OK) - Generic version
     /// </summary>
     protected ActionResult<T> OkResponse<T>(T data, string? message = null)
     {
@@ -77,9 +77,38 @@ public abstract class ApiControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Standardisierte Created Response (201 Created)
+    /// Standardisierte Success Response (200 OK) - Non-generic version for dynamic content
+    /// Use this when the return type is ActionResult (non-generic) or when returning dynamic/anonymous types
+    /// </summary>
+    protected ActionResult OkResponseDynamic(object data, string? message = null)
+    {
+        return Ok(new
+        {
+            success = true,
+            data,
+            message,
+            timestamp = DateTime.UtcNow
+        });
+    }
+
+    /// <summary>
+    /// Standardisierte Created Response (201 Created) - Generic version
     /// </summary>
     protected ActionResult<T> CreatedResponse<T>(string routeName, object? routeValues, T data)
+    {
+        return CreatedAtAction(routeName, routeValues, new
+        {
+            success = true,
+            data,
+            timestamp = DateTime.UtcNow
+        });
+    }
+
+    /// <summary>
+    /// Standardisierte Created Response (201 Created) - Non-generic version for dynamic content
+    /// Use this when the return type is ActionResult (non-generic) or when returning dynamic/anonymous types
+    /// </summary>
+    protected ActionResult CreatedResponseDynamic(string routeName, object? routeValues, object data)
     {
         return CreatedAtAction(routeName, routeValues, new
         {

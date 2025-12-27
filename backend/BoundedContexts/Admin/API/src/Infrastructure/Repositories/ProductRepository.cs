@@ -14,82 +14,87 @@ public class ProductRepository : Repository<Product>, IProductRepository
     {
     }
 
-    public async Task<Product?> GetBySkuAsync(string sku)
+    public async Task<Product?> GetBySkuAsync(Guid tenantId, string sku, CancellationToken ct = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(p => p.Sku == sku);
+        return await _dbSet.FirstOrDefaultAsync(p => p.TenantId == tenantId && p.Sku == sku, ct);
     }
 
-    public async Task<Product?> GetBySlugAsync(string slug)
+    public async Task<Product?> GetBySlugAsync(Guid tenantId, string slug, CancellationToken ct = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(p => p.Slug == slug);
+        return await _dbSet.FirstOrDefaultAsync(p => p.TenantId == tenantId && p.Slug == slug, ct);
     }
 
-    public async Task<IEnumerable<Product>> GetByCategoryAsync(Guid categoryId)
+    public async Task<IEnumerable<Product>> GetByCategoryAsync(Guid tenantId, Guid categoryId, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(p => p.ProductCategories.Any(pc => pc.CategoryId == categoryId))
-            .ToListAsync();
+            .Where(p => p.TenantId == tenantId && p.CategoryId == categoryId)
+            .ToListAsync(ct);
     }
 
-    public async Task<IEnumerable<Product>> GetByBrandAsync(Guid brandId)
+    public async Task<IEnumerable<Product>> GetByBrandAsync(Guid tenantId, Guid brandId, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(p => p.BrandId == brandId)
-            .ToListAsync();
+            .Where(p => p.TenantId == tenantId && p.BrandId == brandId)
+            .ToListAsync(ct);
     }
 
-    public async Task<IEnumerable<Product>> GetFeaturedAsync(int take = 10)
+    public async Task<IEnumerable<Product>> GetFeaturedAsync(Guid tenantId, int take = 10, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(p => p.IsFeatured && p.IsActive)
+            .Where(p => p.TenantId == tenantId && p.IsFeatured && p.IsActive)
             .OrderBy(p => p.CreatedAt)
             .Take(take)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<IEnumerable<Product>> GetNewAsync(int take = 10)
+    public async Task<IEnumerable<Product>> GetNewestAsync(Guid tenantId, int take = 10, CancellationToken ct = default)
     {
         return await _dbSet
-            .Where(p => p.IsNew && p.IsActive)
+            .Where(p => p.TenantId == tenantId && p.IsNew && p.IsActive)
             .OrderByDescending(p => p.CreatedAt)
             .Take(take)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<IEnumerable<Product>> SearchAsync(string searchTerm)
+    public async Task<(IEnumerable<Product>, int)> SearchAsync(Guid tenantId, string searchTerm, int pageNumber, int pageSize, CancellationToken ct = default)
     {
         var lowerTerm = searchTerm.ToLower();
-        return await _dbSet
-            .Where(p => p.IsActive && p.Sku.ToLower().Contains(lowerTerm))
-            .ToListAsync();
-    }
+        var query = _dbSet
+            .Where(p => p.TenantId == tenantId && p.IsActive && p.Sku.ToLower().Contains(lowerTerm));
 
-    public async Task<Product?> GetWithDetailsAsync(Guid id)
-    {
-        return await _dbSet
-            .Include(p => p.Brand)
-            .Include(p => p.ProductCategories)
-                .ThenInclude(pc => pc.Category)
-            .Include(p => p.Variants)
-                .ThenInclude(v => v.AttributeValues)
-            .Include(p => p.Images)
-            .Include(p => p.Documents)
-            .Include(p => p.AttributeValues)
-                .ThenInclude(av => av.Attribute)
-            .FirstOrDefaultAsync(p => p.Id == id);
-    }
-
-    public async Task<(IEnumerable<Product> Items, int Total)> GetPagedAsync(int pageNumber, int pageSize)
-    {
-        var query = _dbSet.Where(p => p.IsActive);
-        var total = await query.CountAsync();
+        var total = await query.CountAsync(ct);
         var items = await query
             .OrderByDescending(p => p.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync();
+            .ToListAsync(ct);
+
+        return (items, total);
+    }
+
+    public async Task<Product?> GetWithDetailsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
+    {
+        return await _dbSet
+            .Where(p => p.TenantId == tenantId && p.Id == id)
+            .Include(p => p.Brand)
+            .Include(p => p.Category)
+            .Include(p => p.Variants)
+            .Include(p => p.Images)
+            .Include(p => p.Documents)
+            .Include(p => p.AttributeValues)
+            .FirstOrDefaultAsync(ct);
+    }
+
+    public async Task<(IEnumerable<Product> Items, int Total)> GetPagedAsync(Guid tenantId, int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        var query = _dbSet.Where(p => p.TenantId == tenantId && p.IsActive);
+        var total = await query.CountAsync(ct);
+        var items = await query
+            .OrderByDescending(p => p.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
 
         return (items, total);
     }
 }
-

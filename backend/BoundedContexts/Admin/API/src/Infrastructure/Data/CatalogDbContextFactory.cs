@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using B2Connect.Admin.Infrastructure.Data;
+using B2Connect.Shared.Tenancy.Infrastructure.Context;
 
 namespace B2Connect.Admin.Infrastructure.Data;
 
@@ -62,8 +63,11 @@ public class CatalogDbContextFactory : ICatalogDbContextFactory
             .LogTo(message => _logger.LogDebug(message)) // Log EF Core queries in debug mode
             .Options;
 
-        // Create context with options
-        var context = new CatalogDbContext(options);
+        // Create a demo tenant context
+        var tenantContext = new DemoTenantContext();
+
+        // Create context with options and tenant context
+        var context = new CatalogDbContext(options, tenantContext);
 
         // Ensure database is created (for InMemory, this just initializes the structure)
         context.Database.EnsureCreated();
@@ -73,6 +77,14 @@ public class CatalogDbContextFactory : ICatalogDbContextFactory
 
         _logger.LogInformation("Demo context created and seeded with {ProductCount} products", productCount);
         return context;
+    }
+
+    /// <summary>
+    /// Simple tenant context for demo/testing purposes
+    /// </summary>
+    private class DemoTenantContext : ITenantContext
+    {
+        public Guid TenantId => Guid.Parse("00000000-0000-0000-0000-000000000001"); // Demo tenant
     }
 
     /// <summary>

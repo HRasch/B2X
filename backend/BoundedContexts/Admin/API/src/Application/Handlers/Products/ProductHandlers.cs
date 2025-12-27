@@ -1,36 +1,59 @@
 using Wolverine;
 using B2Connect.Admin.Application.Commands.Products;
+using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Interfaces;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2Connect.Middleware;
+using B2Connect.Types.Localization;
 
 namespace B2Connect.Admin.Application.Handlers.Products;
+
+/// <summary>
+/// Helper method for converting Product entities to ProductResult DTOs
+/// </summary>
+internal static class ProductMapper
+{
+    public static ProductResult ToResult(B2Connect.Admin.Core.Entities.Product product) =>
+        new ProductResult(
+            product.Id,
+            product.TenantId ?? Guid.Empty,
+            product.Name?.Get("en") ?? string.Empty,
+            product.Sku,
+            product.Price,
+            product.Description?.Get("en"),
+            product.CategoryId,
+            product.BrandId,
+            product.CreatedAt);
+}
 
 /// <summary>
 /// Wolverine Message Handler für Product Commands
 /// Enthält die komplette Business-Logik für Produkt-Operationen
 /// 
-/// Wolverine leitet automatisch:
-/// - Commands/Queries vom Controller zum Handler
-/// - Dependency Injection
-/// - Exception Handling
-/// - Logging (optional)
+/// TenantId wird automatisch via ITenantContextAccessor injiziert
 /// </summary>
 public class CreateProductHandler : ICommandHandler<CreateProductCommand, ProductResult>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
     private readonly ILogger<CreateProductHandler> _logger;
 
-    public CreateProductHandler(IProductRepository repository, ILogger<CreateProductHandler> logger)
+    public CreateProductHandler(
+        IProductRepository repository,
+        ITenantContextAccessor tenantContext,
+        ILogger<CreateProductHandler> logger)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task<ProductResult> Handle(CreateProductCommand command, CancellationToken ct)
     {
+        var tenantId = _tenantContext.GetTenantId();
+
         _logger.LogInformation(
             "Creating product '{Name}' (SKU: {Sku}) for tenant {TenantId}",
-            command.Name, command.Sku, command.TenantId);
+            command.Name, command.Sku, tenantId);
 
         // Validierung
         if (string.IsNullOrWhiteSpace(command.Name))
@@ -43,11 +66,13 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
         var product = new B2Connect.Admin.Core.Entities.Product
         {
             Id = Guid.NewGuid(),
-            TenantId = command.TenantId,
-            Name = command.Name,
+            TenantId = tenantId,
+            Name = new LocalizedContent().Set("en", command.Name),
             Sku = command.Sku,
             Price = command.Price,
-            Description = command.Description,
+            Description = command.Description != null
+                ? new LocalizedContent().Set("en", command.Description)
+                : null,
             CategoryId = command.CategoryId,
             BrandId = command.BrandId,
             CreatedAt = DateTime.UtcNow
@@ -57,173 +82,152 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
 
         _logger.LogInformation("Product {ProductId} created successfully", product.Id);
 
-        return new ProductResult(
-            product.Id,
-            product.TenantId,
-            product.Name,
-            product.Sku,
-            product.Price,
-            product.Description,
-            product.CategoryId,
-            product.BrandId,
-            product.CreatedAt);
+        return ProductMapper.ToResult(product);
     }
 }
 
 public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, ProductResult>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
     private readonly ILogger<UpdateProductHandler> _logger;
 
-    public UpdateProductHandler(IProductRepository repository, ILogger<UpdateProductHandler> logger)
+    public UpdateProductHandler(
+        IProductRepository repository,
+        ITenantContextAccessor tenantContext,
+        ILogger<UpdateProductHandler> logger)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task<ProductResult> Handle(UpdateProductCommand command, CancellationToken ct)
     {
+        var tenantId = _tenantContext.GetTenantId();
+
         _logger.LogInformation(
             "Updating product {ProductId} for tenant {TenantId}",
-            command.ProductId, command.TenantId);
+            command.ProductId, tenantId);
 
-        var product = await _repository.GetByIdAsync(command.TenantId, command.ProductId, ct);
+        var product = await _repository.GetByIdAsync(tenantId, command.ProductId, ct);
         if (product == null)
             throw new KeyNotFoundException($"Product {command.ProductId} not found");
 
-        // Update fields
-        product.Name = command.Name;
+        // Update fields - convert string to LocalizedContent
+        product.Name = new LocalizedContent().Set("en", command.Name);
         product.Sku = command.Sku;
         product.Price = command.Price;
-        product.Description = command.Description;
+        product.Description = command.Description != null
+            ? new LocalizedContent().Set("en", command.Description)
+            : null;
         product.CategoryId = command.CategoryId;
         product.BrandId = command.BrandId;
+        product.UpdatedAt = DateTime.UtcNow;
 
         await _repository.UpdateAsync(product, ct);
 
         _logger.LogInformation("Product {ProductId} updated successfully", product.Id);
 
-        return new ProductResult(
-            product.Id,
-            product.TenantId,
-            product.Name,
-            product.Sku,
-            product.Price,
-            product.Description,
-            product.CategoryId,
-            product.BrandId,
-            product.CreatedAt);
+        return ProductMapper.ToResult(product);
     }
 }
 
 public class GetProductHandler : IQueryHandler<GetProductQuery, ProductResult?>
 {
     private readonly IProductRepository _repository;
-    private readonly ILogger<GetProductHandler> _logger;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public GetProductHandler(IProductRepository repository, ILogger<GetProductHandler> logger)
+    public GetProductHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<ProductResult?> Handle(GetProductQuery query, CancellationToken ct)
     {
-        var product = await _repository.GetByIdAsync(query.TenantId, query.ProductId, ct);
+        var tenantId = _tenantContext.GetTenantId();
+        var product = await _repository.GetByIdAsync(tenantId, query.ProductId, ct);
 
         if (product == null)
             return null;
 
-        return new ProductResult(
-            product.Id,
-            product.TenantId,
-            product.Name,
-            product.Sku,
-            product.Price,
-            product.Description,
-            product.CategoryId,
-            product.BrandId,
-            product.CreatedAt);
+        return ProductMapper.ToResult(product);
     }
 }
 
 public class GetProductBySkuHandler : IQueryHandler<GetProductBySkuQuery, ProductResult?>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public GetProductBySkuHandler(IProductRepository repository)
+    public GetProductBySkuHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<ProductResult?> Handle(GetProductBySkuQuery query, CancellationToken ct)
     {
-        var product = await _repository.GetBySkuAsync(query.TenantId, query.Sku, ct);
+        var tenantId = _tenantContext.GetTenantId();
+        var product = await _repository.GetBySkuAsync(tenantId, query.Sku, ct);
 
         if (product == null)
             return null;
 
-        return new ProductResult(
-            product.Id,
-            product.TenantId,
-            product.Name,
-            product.Sku,
-            product.Price,
-            product.Description,
-            product.CategoryId,
-            product.BrandId,
-            product.CreatedAt);
+        return ProductMapper.ToResult(product);
     }
 }
 
 public class GetAllProductsHandler : IQueryHandler<GetAllProductsQuery, IEnumerable<ProductResult>>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public GetAllProductsHandler(IProductRepository repository)
+    public GetAllProductsHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<IEnumerable<ProductResult>> Handle(GetAllProductsQuery query, CancellationToken ct)
     {
-        var products = await _repository.GetAllAsync(query.TenantId, ct);
+        var tenantId = _tenantContext.GetTenantId();
+        var products = await _repository.GetAllAsync(tenantId, ct);
 
-        return products.Select(p => new ProductResult(
-            p.Id,
-            p.TenantId,
-            p.Name,
-            p.Sku,
-            p.Price,
-            p.Description,
-            p.CategoryId,
-            p.BrandId,
-            p.CreatedAt));
+        return products.Select(ProductMapper.ToResult);
     }
 }
 
 public class DeleteProductHandler : ICommandHandler<DeleteProductCommand, bool>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
     private readonly ILogger<DeleteProductHandler> _logger;
 
-    public DeleteProductHandler(IProductRepository repository, ILogger<DeleteProductHandler> logger)
+    public DeleteProductHandler(
+        IProductRepository repository,
+        ITenantContextAccessor tenantContext,
+        ILogger<DeleteProductHandler> logger)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task<bool> Handle(DeleteProductCommand command, CancellationToken ct)
     {
+        var tenantId = _tenantContext.GetTenantId();
+
         _logger.LogInformation(
             "Deleting product {ProductId} from tenant {TenantId}",
-            command.ProductId, command.TenantId);
+            command.ProductId, tenantId);
 
-        var product = await _repository.GetByIdAsync(command.TenantId, command.ProductId, ct);
+        var product = await _repository.GetByIdAsync(tenantId, command.ProductId, ct);
         if (product == null)
             return false;
 
-        await _repository.DeleteAsync(command.TenantId, command.ProductId, ct);
+        await _repository.DeleteAsync(tenantId, command.ProductId, ct);
 
         _logger.LogInformation("Product {ProductId} deleted successfully", command.ProductId);
         return true;
@@ -236,29 +240,23 @@ public class DeleteProductHandler : ICommandHandler<DeleteProductCommand, bool>
 public class GetProductBySlugHandler : IQueryHandler<GetProductBySlugQuery, ProductResult?>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public GetProductBySlugHandler(IProductRepository repository)
+    public GetProductBySlugHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<ProductResult?> Handle(GetProductBySlugQuery query, CancellationToken ct)
     {
-        var product = await _repository.GetBySlugAsync(query.TenantId, query.Slug, ct);
+        var tenantId = _tenantContext.GetTenantId();
+        var product = await _repository.GetBySlugAsync(tenantId, query.Slug, ct);
 
         if (product == null)
             return null;
 
-        return new ProductResult(
-            product.Id,
-            product.TenantId,
-            product.Name,
-            product.Sku,
-            product.Price,
-            product.Description,
-            product.CategoryId,
-            product.BrandId,
-            product.CreatedAt);
+        return ProductMapper.ToResult(product);
     }
 }
 
@@ -268,19 +266,20 @@ public class GetProductBySlugHandler : IQueryHandler<GetProductBySlugQuery, Prod
 public class GetProductsByCategoryHandler : IQueryHandler<GetProductsByCategoryQuery, IEnumerable<ProductResult>>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public GetProductsByCategoryHandler(IProductRepository repository)
+    public GetProductsByCategoryHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<IEnumerable<ProductResult>> Handle(GetProductsByCategoryQuery query, CancellationToken ct)
     {
-        var products = await _repository.GetByCategoryAsync(query.TenantId, query.CategoryId, ct);
+        var tenantId = _tenantContext.GetTenantId();
+        var products = await _repository.GetByCategoryAsync(tenantId, query.CategoryId, ct);
 
-        return products.Select(p => new ProductResult(
-            p.Id, p.TenantId, p.Name, p.Sku, p.Price,
-            p.Description, p.CategoryId, p.BrandId, p.CreatedAt));
+        return products.Select(ProductMapper.ToResult);
     }
 }
 
@@ -290,19 +289,20 @@ public class GetProductsByCategoryHandler : IQueryHandler<GetProductsByCategoryQ
 public class GetProductsByBrandHandler : IQueryHandler<GetProductsByBrandQuery, IEnumerable<ProductResult>>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public GetProductsByBrandHandler(IProductRepository repository)
+    public GetProductsByBrandHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<IEnumerable<ProductResult>> Handle(GetProductsByBrandQuery query, CancellationToken ct)
     {
-        var products = await _repository.GetByBrandAsync(query.TenantId, query.BrandId, ct);
+        var tenantId = _tenantContext.GetTenantId();
+        var products = await _repository.GetByBrandAsync(tenantId, query.BrandId, ct);
 
-        return products.Select(p => new ProductResult(
-            p.Id, p.TenantId, p.Name, p.Sku, p.Price,
-            p.Description, p.CategoryId, p.BrandId, p.CreatedAt));
+        return products.Select(ProductMapper.ToResult);
     }
 }
 
@@ -312,19 +312,20 @@ public class GetProductsByBrandHandler : IQueryHandler<GetProductsByBrandQuery, 
 public class GetFeaturedProductsHandler : IQueryHandler<GetFeaturedProductsQuery, IEnumerable<ProductResult>>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public GetFeaturedProductsHandler(IProductRepository repository)
+    public GetFeaturedProductsHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<IEnumerable<ProductResult>> Handle(GetFeaturedProductsQuery query, CancellationToken ct)
     {
-        var products = await _repository.GetFeaturedAsync(query.TenantId, query.Take, ct);
+        var tenantId = _tenantContext.GetTenantId();
+        var products = await _repository.GetFeaturedAsync(tenantId, query.Take, ct);
 
-        return products.Select(p => new ProductResult(
-            p.Id, p.TenantId, p.Name, p.Sku, p.Price,
-            p.Description, p.CategoryId, p.BrandId, p.CreatedAt));
+        return products.Select(ProductMapper.ToResult);
     }
 }
 
@@ -334,19 +335,20 @@ public class GetFeaturedProductsHandler : IQueryHandler<GetFeaturedProductsQuery
 public class GetNewProductsHandler : IQueryHandler<GetNewProductsQuery, IEnumerable<ProductResult>>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public GetNewProductsHandler(IProductRepository repository)
+    public GetNewProductsHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<IEnumerable<ProductResult>> Handle(GetNewProductsQuery query, CancellationToken ct)
     {
-        var products = await _repository.GetNewestAsync(query.TenantId, query.Take, ct);
+        var tenantId = _tenantContext.GetTenantId();
+        var products = await _repository.GetNewestAsync(tenantId, query.Take, ct);
 
-        return products.Select(p => new ProductResult(
-            p.Id, p.TenantId, p.Name, p.Sku, p.Price,
-            p.Description, p.CategoryId, p.BrandId, p.CreatedAt));
+        return products.Select(ProductMapper.ToResult);
     }
 }
 
@@ -356,24 +358,54 @@ public class GetNewProductsHandler : IQueryHandler<GetNewProductsQuery, IEnumera
 public class SearchProductsHandler : IQueryHandler<SearchProductsQuery, (IEnumerable<ProductResult>, int)>
 {
     private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
 
-    public SearchProductsHandler(IProductRepository repository)
+    public SearchProductsHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     public async Task<(IEnumerable<ProductResult>, int)> Handle(SearchProductsQuery query, CancellationToken ct)
     {
+        var tenantId = _tenantContext.GetTenantId();
         var (products, total) = await _repository.SearchAsync(
-            query.TenantId,
+            tenantId,
             query.SearchTerm,
             query.PageNumber,
             query.PageSize,
             ct);
 
-        var results = products.Select(p => new ProductResult(
-            p.Id, p.TenantId, p.Name, p.Sku, p.Price,
-            p.Description, p.CategoryId, p.BrandId, p.CreatedAt));
+        var results = products.Select(ProductMapper.ToResult);
+
+        return (results, total);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Query Handler für GetProductsPaged
+// ─────────────────────────────────────────────────────────────────────────────
+public class GetProductsPagedHandler : IQueryHandler<GetProductsPagedQuery, (IEnumerable<ProductResult>, int)>
+{
+    private readonly IProductRepository _repository;
+    private readonly ITenantContextAccessor _tenantContext;
+
+    public GetProductsPagedHandler(IProductRepository repository, ITenantContextAccessor tenantContext)
+    {
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
+    }
+
+    public async Task<(IEnumerable<ProductResult>, int)> Handle(GetProductsPagedQuery query, CancellationToken ct)
+    {
+        var tenantId = _tenantContext.GetTenantId();
+        var (products, total) = await _repository.GetPagedAsync(
+            tenantId,
+            query.PageNumber,
+            query.PageSize,
+            ct);
+
+        var results = products.Select(ProductMapper.ToResult);
 
         return (results, total);
     }

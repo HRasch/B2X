@@ -9,26 +9,26 @@ namespace B2Connect.Admin.Core.Interfaces;
 public interface IRepository<T> where T : class
 {
     /// <summary>Gets an entity by ID</summary>
-    Task<T?> GetByIdAsync(Guid id);
+    Task<T?> GetByIdAsync(Guid tenantId, Guid id, CancellationToken ct = default);
 
     /// <summary>Gets all entities</summary>
-    Task<IEnumerable<T>> GetAllAsync();
+    Task<IEnumerable<T>> GetAllAsync(Guid tenantId, CancellationToken ct = default);
 
     /// <summary>Gets entities by a predicate condition</summary>
-    Task<IEnumerable<T>> GetByConditionAsync(Func<T, bool> predicate);
+    Task<IEnumerable<T>> GetByConditionAsync(Guid tenantId, Func<T, bool> predicate, CancellationToken ct = default);
 
     /// <summary>Creates a new entity</summary>
-    Task<T> CreateAsync(T entity);
+    Task AddAsync(T entity, CancellationToken ct = default);
 
     /// <summary>Updates an existing entity</summary>
-    Task<T> UpdateAsync(T entity);
+    Task UpdateAsync(T entity, CancellationToken ct = default);
 
     /// <summary>Deletes an entity</summary>
-    Task<bool> DeleteAsync(Guid id);
+    Task DeleteAsync(Guid tenantId, Guid id, CancellationToken ct = default);
 
     /// <summary>Saves all pending changes</summary>
-    Task<int> SaveChangesAsync();
+    Task<int> SaveChangesAsync(CancellationToken ct = default);
 
     /// <summary>Checks if an entity exists</summary>
-    Task<bool> ExistsAsync(Guid id);
+    Task<bool> ExistsAsync(Guid tenantId, Guid id, CancellationToken ct = default);
 }

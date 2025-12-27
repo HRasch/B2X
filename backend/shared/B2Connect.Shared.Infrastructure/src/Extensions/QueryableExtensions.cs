@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using B2Connect.Shared.Core.Entities;
 
 namespace B2Connect.Shared.Infrastructure.Extensions;

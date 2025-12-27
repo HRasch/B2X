@@ -122,7 +122,7 @@ var storeGateway = builder
     .WithB2ConnectCors("http://localhost:5173", "https://localhost:5173")
     .WithSecurityDefaults(jwtSecret);
 
-// Admin API Gateway (for frontend-admin, protected CRUD endpoints)
+// Admin API Gateway 
 var adminGateway = builder
     .AddProject<Projects.B2Connect_Admin>("admin-gateway")
     .WithEnvironment("ASPNETCORE_URLS", "http://localhost:8080")
@@ -141,12 +141,11 @@ var frontendStore = builder
     .WithEnvironment("BROWSER", "none")
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000");
 
-// Frontend Admin (Vite dev server)
+// Frontend Admin
 var frontendAdmin = builder
     .AddNpmApp("frontend-admin", "../../frontend-admin", "dev")
     .WithEnvironment("PORT", "5174")
     .WithEnvironment("BROWSER", "none")
-    // VITE_ADMIN_API_URL should NOT be set - defaults to "/api" which gets proxied by Vite
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080");
 
 builder.Build().Run();

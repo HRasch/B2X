@@ -1,87 +1,284 @@
 using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Middleware;
+using B2Connect.Admin.Core.Interfaces;
+using B2Connect.Admin.Application.Services;
+using B2Connect.Admin.Infrastructure.Repositories;
+using B2Connect.Admin.Infrastructure.Data;
+using B2Connect.Admin.Presentation.Filters;
+using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add service defaults (health checks, logging, OpenTelemetry)
+// Logging - Console + File
+builder.Host.UseSerilog((context, config) =>
+{
+    config
+        .MinimumLevel.Information()
+        // .Enrich.WithSensitiveDataRedaction() // Disabled
+        .WriteTo.Console()
+        .WriteTo.File(
+            "logs/admin-gateway-.txt",
+            rollingInterval: Serilog.RollingInterval.Day,
+            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+        .ReadFrom.Configuration(context.Configuration);
+});
+
+// Service Defaults (Health checks, etc.)
 builder.Host.AddServiceDefaults();
 
-// === AUTHENTICATION & AUTHORIZATION ===
-var jwtSecret = builder.Configuration["Jwt:Secret"]
-    ?? throw new InvalidOperationException("JWT Secret is not configured");
+// Get CORS origins from configuration
+var corsOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>();
 
+if (corsOrigins == null || corsOrigins.Length == 0)
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        corsOrigins = new[]
+        {
+            "http://localhost:5174",
+            "http://127.0.0.1:5174",
+            "https://localhost:5174"
+        };
+        System.Console.WriteLine(
+            "⚠️ CORS origins not configured. Using default development origins. " +
+            "Configure 'Cors:AllowedOrigins' in appsettings.json for custom values.");
+    }
+    else
+    {
+        throw new InvalidOperationException(
+            "CORS allowed origins MUST be configured in production. " +
+            "Set 'Cors:AllowedOrigins' in appsettings.Production.json or environment variables (Cors__AllowedOrigins__0, etc.).");
+    }
+}
+
+// Add CORS for Admin Frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAdminFrontend", policy =>
+    {
+        policy
+            .WithOrigins(corsOrigins)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithExposedHeaders("Content-Disposition", "X-Total-Count")
+            // .WithMaxAge(TimeSpan...) // Disabled
+            ;
+    });
+});
+
+// Add Rate Limiting
+// builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
+
+// Get JWT Secret from configuration
+var jwtSecret = builder.Configuration["Jwt:Secret"];
+if (string.IsNullOrEmpty(jwtSecret))
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        jwtSecret = "dev-only-secret-minimum-32-chars-required!";
+        System.Console.WriteLine(
+            "⚠️ Using DEVELOPMENT JWT secret. This MUST be changed in production via environment variables or Azure Key Vault. " +
+            "Set 'Jwt:Secret' via environment variable 'Jwt__Secret' or key vault in production.");
+    }
+    else
+    {
+        throw new InvalidOperationException(
+            "JWT Secret MUST be configured in production. " +
+            "Set 'Jwt:Secret' via: environment variable 'Jwt__Secret', Azure Key Vault, AWS Secrets Manager, or Docker Secrets.");
+    }
+}
+
+// Validate key length
+if (jwtSecret.Length < 32)
+{
+    throw new InvalidOperationException(
+        "JWT Secret must be at least 32 characters long for secure AES encryption.");
+}
+
+// Add Authentication (shared JWT config with Store - allows Store tokens in Admin)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
             ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2Connect",
             ValidateAudience = true,
-            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2Connect",
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.FromMinutes(1)
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2Connect",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2Connect",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
         };
     });
 
-builder.Services.AddAuthorization();
-
-// === CORS ===
-var allowedOrigins = builder.Configuration
-    .GetSection("Cors:AllowedOrigins")
-    .Get<string[]>() ?? ["http://localhost:5174", "https://localhost:5174"];
-
-builder.Services.AddCors(options =>
+builder.Services.AddAuthorization(options =>
 {
-    options.AddDefaultPolicy(policyBuilder =>
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
+
+// Database
+var dbProvider = builder.Configuration["Database:Provider"] ?? "inmemory";
+if (dbProvider.Equals("inmemory", StringComparison.OrdinalIgnoreCase))
+{
+    builder.Services.AddDbContext<CatalogDbContext>(opt =>
+        opt.UseInMemoryDatabase("CatalogDb"));
+}
+else if (dbProvider.Equals("sqlserver", StringComparison.OrdinalIgnoreCase))
+{
+    builder.Services.AddDbContext<CatalogDbContext>(opt =>
+        opt.UseSqlServer(builder.Configuration.GetConnectionString("Catalog")));
+}
+else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
+{
+    builder.Services.AddDbContext<CatalogDbContext>(opt =>
+        opt.UseNpgsql(builder.Configuration.GetConnectionString("Catalog")));
+}
+
+// ==================== TENANT CONTEXT ====================
+// Register scoped tenant context service for request-level tenant isolation
+builder.Services.AddScoped<ITenantContext, TenantContext>();
+
+// Register Repositories
+builder.Services.AddScoped<IRepository<B2Connect.Admin.Core.Entities.Product>, Repository<B2Connect.Admin.Core.Entities.Product>>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
+
+// Legacy Application Services - DISABLED (Controllers use CQRS handlers via Wolverine)
+// builder.Services.AddScoped<IProductService, ProductService>();
+// builder.Services.AddScoped<ICategoryService, CategoryService>();
+// builder.Services.AddScoped<IBrandService, BrandService>();
+
+// Add Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        policyBuilder
-            .WithOrigins(allowedOrigins)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
+        Title = "B2Connect Admin API",
+        Version = "v1",
+        Description = "Admin Gateway for Product Catalog Management",
+    });
+
+    // Add JWT Bearer auth to Swagger
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme.",
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
     });
 });
 
-// === API SERVICES ===
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Add services
+builder.Services.AddControllers(options =>
+{
+    // Register global filters für alle Controller
+    options.Filters.Add<ApiExceptionHandlingFilter>();
+    options.Filters.Add<ValidateModelStateFilter>();
+    options.Filters.Add<ApiLoggingFilter>();
+});
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
-// Register HttpClient for proxying to Identity Service
-builder.Services.AddHttpClient<Presentation.Controllers.UsersController>()
-    .ConfigureHttpClient(client =>
-    {
-        client.BaseAddress = new Uri(builder.Configuration["Services:Identity:Url"] ?? "http://localhost:7002");
-        client.DefaultRequestHeaders.Add("Accept", "application/json");
-    });
+// Add Input Validation (FluentValidation)
+// builder.Services.AddB2ConnectValidation();
 
-// === ASPIRE INTEGRATIONS ===
-builder.AddServiceDefaults();
+// Configure HSTS options (production)
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+    options.Preload = true;
+});
 
-// === BUILD & CONFIGURE APP ===
+// Add YARP Reverse Proxy
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Initialize databases (Store Context only)
+try
+{
+    // EnsureUserDatabaseAsync removed - User management is handled by Identity Service
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Failed to initialize User database");
+    throw;
+}
+
+// Service defaults middleware
+app.UseServiceDefaults();
+
+// Security Headers - apply early in pipeline
+// app.UseSecurityHeaders();
+
+// Rate Limiting - must be before routing
+// app.UseRateLimiter();
+
+// Swagger UI
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Admin API v1");
+        c.RoutePrefix = "swagger";
+    });
 }
 
+// CORS must come before routing
+app.UseCors("AllowAdminFrontend");
+
+// ==================== TENANT CONTEXT MIDDLEWARE ====================
+// Extract X-Tenant-ID header and populate scoped ITenantContext
+// Must be before authentication/authorization for proper tenant isolation
+app.UseMiddleware<TenantContextMiddleware>();
+
+// HTTPS Redirection & HSTS (Security Headers)
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts(); // HSTS: Strict-Transport-Security header
+}
 app.UseHttpsRedirection();
-app.UseCors();
+
+// Middleware
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapReverseProxy();
+app.MapGet("/", () => "Admin API Gateway is running");
+app.MapGet("/health", () => Results.Ok(new { status = "healthy", gateway = "admin" }));
 
-// Use service defaults (health checks)
-app.UseServiceDefaults();
-
-app.Run();
+await app.RunAsync();

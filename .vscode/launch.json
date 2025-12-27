@@ -165,6 +165,110 @@
       "cwd": "${workspaceFolder}/frontend-admin",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "🔐 Debug Identity Service",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Shared/Identity/bin/Debug/net10.0/B2Connect.Identity.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/BoundedContexts/Shared/Identity",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:7002"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "🏢 Debug Tenant Service",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Shared/Tenancy/bin/Debug/net10.0/B2Connect.Tenancy.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/BoundedContexts/Shared/Tenancy",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:7003"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "📦 Debug Catalog Service",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Store/Catalog/bin/Debug/net10.0/B2Connect.CatalogService.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/BoundedContexts/Store/Catalog",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:7005"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "🔧 Debug Admin API",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Admin/API/bin/Debug/net10.0/B2Connect.Admin.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/BoundedContexts/Admin/API",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:8080"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "🛍️ Debug Store Gateway",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/BoundedContexts/Store/API/bin/Debug/net10.0/B2Connect.Store.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/BoundedContexts/Store/API",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:8000"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "🔌 Attach to Identity Service (Port 7002)",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "B2Connect.Identity.API"
+    },
+    {
+      "name": "🔌 Attach to Admin API (Port 8080)",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "B2Connect.Admin"
+    },
+    {
+      "name": "🔌 Attach to Catalog Service (Port 7005)",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "B2Connect.CatalogService"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "🚀 Full Stack + Debug Services",
+      "configurations": [
+        "🚀 Full Stack",
+        "🔌 Attach to Identity Service (Port 7002)",
+        "🔌 Attach to Admin API (Port 8080)"
+      ],
+      "stopAll": true,
+      "presentation": {
+        "hidden": false,
+        "group": "debug",
+        "order": 1
+      }
     }
   ]
 }

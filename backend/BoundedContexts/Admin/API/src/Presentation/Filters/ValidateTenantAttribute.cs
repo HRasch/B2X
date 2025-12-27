@@ -14,22 +14,18 @@ namespace B2Connect.Admin.Presentation.Filters;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class ValidateTenantAttribute : Attribute, IAsyncActionFilter
 {
-    private readonly ILogger<ValidateTenantAttribute> _logger;
-
-    public ValidateTenantAttribute(ILogger<ValidateTenantAttribute> logger)
-    {
-        _logger = logger;
-    }
-
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
+        // Get logger from service provider
+        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<ValidateTenantAttribute>>();
+
         // Extrahiere X-Tenant-ID Header
         var tenantIdHeader = context.HttpContext.Request.Headers["X-Tenant-ID"].ToString();
 
         // Validiere Tenant-ID Format
         if (string.IsNullOrWhiteSpace(tenantIdHeader))
         {
-            _logger.LogWarning("Request missing X-Tenant-ID header from {RemoteIp}",
+            logger.LogWarning("Request missing X-Tenant-ID header from {RemoteIp}",
                 context.HttpContext.Connection.RemoteIpAddress);
 
             context.Result = new UnauthorizedObjectResult(new
@@ -43,7 +39,7 @@ public class ValidateTenantAttribute : Attribute, IAsyncActionFilter
 
         if (!Guid.TryParse(tenantIdHeader, out var tenantId) || tenantId == Guid.Empty)
         {
-            _logger.LogWarning("Request with invalid X-Tenant-ID: {TenantId} from {RemoteIp}",
+            logger.LogWarning("Request with invalid X-Tenant-ID: {TenantId} from {RemoteIp}",
                 tenantIdHeader, context.HttpContext.Connection.RemoteIpAddress);
 
             context.Result = new UnauthorizedObjectResult(new
@@ -59,7 +55,7 @@ public class ValidateTenantAttribute : Attribute, IAsyncActionFilter
         context.HttpContext.Items["TenantId"] = tenantId;
         context.HttpContext.Items["TenantIdString"] = tenantIdHeader;
 
-        _logger.LogInformation("Request validated for TenantId: {TenantId}", tenantId);
+        logger.LogInformation("Request validated for TenantId: {TenantId}", tenantId);
 
         // Fahre mit nächstem Filter fort
         await next();

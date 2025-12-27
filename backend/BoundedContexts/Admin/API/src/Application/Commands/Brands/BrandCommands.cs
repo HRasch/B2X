@@ -1,63 +1,48 @@
-using Wolverine;
-
 namespace B2Connect.Admin.Application.Commands.Brands;
 
 /// <summary>
-/// Brand Create Command - CQRS Pattern
+/// Brand Commands & Queries - CQRS Pattern
+/// 
+/// TenantId wird automatisch via ITenantContextAccessor im Handler injiziert
 /// </summary>
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Commands
+// ─────────────────────────────────────────────────────────────────────────────
+
 public record CreateBrandCommand(
-    Guid TenantId,
     string Name,
     string Slug,
     string? Logo = null,
-    string? Description = null) : IRequest<BrandResult>;
+    string? Description = null);
 
-/// <summary>
-/// Brand Update Command - CQRS Pattern
-/// </summary>
 public record UpdateBrandCommand(
-    Guid TenantId,
     Guid BrandId,
     string Name,
     string Slug,
     string? Logo = null,
-    string? Description = null) : IRequest<BrandResult>;
+    string? Description = null);
 
-/// <summary>
-/// Brand Delete Command - CQRS Pattern
-/// </summary>
-public record DeleteBrandCommand(Guid TenantId, Guid BrandId) : IRequest<bool>;
+public record DeleteBrandCommand(Guid BrandId);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Queries
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// <summary>
-/// Get Brand by ID Query
-/// </summary>
-public record GetBrandQuery(Guid TenantId, Guid BrandId) : IRequest<BrandResult?>;
+public record GetBrandQuery(Guid BrandId);
 
-/// <summary>
-/// Get Brand by Slug Query
-/// </summary>
-public record GetBrandBySlugQuery(Guid TenantId, string Slug) : IRequest<BrandResult?>;
+public record GetBrandBySlugQuery(string Slug);
 
-/// <summary>
-/// Get Active Brands Query
-/// </summary>
-public record GetActiveBrandsQuery(Guid TenantId) : IRequest<IEnumerable<BrandResult>>;
+public record GetActiveBrandsQuery();
 
-/// <summary>
-/// Get Brands Paged Query
-/// </summary>
 public record GetBrandsPagedQuery(
-    Guid TenantId,
     int PageNumber = 1,
-    int PageSize = 10) : IRequest<(IEnumerable<BrandResult> Items, int Total)>;
+    int PageSize = 10);
 
-/// <summary>
-/// Brand Result DTO
-/// </summary>
+// ─────────────────────────────────────────────────────────────────────────────
+// Result DTOs
+// ─────────────────────────────────────────────────────────────────────────────
+
 public record BrandResult(
     Guid Id,
     Guid TenantId,

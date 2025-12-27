@@ -32,6 +32,10 @@ public class Product
     public Guid? BrandId { get; set; }
     public Brand? Brand { get; set; }
 
+    [ForeignKey(nameof(Category))]
+    public Guid? CategoryId { get; set; }
+    public Category? Category { get; set; }
+
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Price { get; set; }
 
