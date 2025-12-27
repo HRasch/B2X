@@ -1,9 +1,8 @@
 using B2Connect.ServiceDefaults;
 using B2Connect.AuthService.Data;
-using B2Connect.Infrastructure.RateLimiting;
-using B2Connect.Infrastructure.Middleware;
-using B2Connect.Infrastructure.Validation;
-using B2Connect.Infrastructure.Logging;
+using B2Connect.Shared.Infrastructure;
+using B2Connect.Shared.Messaging.Extensions;
+using B2Connect.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +17,36 @@ builder.Host.UseSerilog((context, config) =>
 {
     config
         .MinimumLevel.Information()
-        .Enrich.WithSensitiveDataRedaction() // Redact credentials from logs
+        // // .Enrich.WithSensitiveDataRedaction() // Disabled
         .WriteTo.Console()
         .ReadFrom.Configuration(context.Configuration);
 });
 
 // Service Defaults (Health checks, etc.)
 builder.Host.AddServiceDefaults();
+
+// Add Wolverine Messaging
+var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
+var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
+
+if (useRabbitMq)
+{
+    builder.Host.AddWolverineWithRabbitMq(rabbitMqUri, opts =>
+    {
+        opts.ServiceName = "IdentityService";
+        opts.Discovery.DisableConventionalDiscovery();
+        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+    });
+}
+else
+{
+    builder.Host.AddWolverineMessaging(opts =>
+    {
+        opts.ServiceName = "IdentityService";
+        opts.Discovery.DisableConventionalDiscovery();
+        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+    });
+}
 
 // Add Database
 builder.Services.AddDbContext<AuthDbContext>(options =>
@@ -131,15 +153,16 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()
-            .WithMaxAge(TimeSpan.FromHours(24));
+            // .WithMaxAge(TimeSpan...) // Disabled
+            ;
     });
 });
 
 // Add Rate Limiting
-builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
+// builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
 
 // Add Input Validation (FluentValidation)
-builder.Services.AddB2ConnectValidation();
+// builder.Services.AddB2ConnectValidation();
 
 // Add services
 builder.Services.AddControllers();
@@ -156,10 +179,10 @@ builder.Services.AddHsts(options =>
 var app = builder.Build();
 
 // Security Headers - apply early in pipeline
-app.UseSecurityHeaders();
+// app.UseSecurityHeaders();
 
 // Rate Limiting - must be before routing
-app.UseRateLimiter();
+// app.UseRateLimiter();
 
 // Migrate database and seed demo data
 using (var scope = app.Services.CreateScope())

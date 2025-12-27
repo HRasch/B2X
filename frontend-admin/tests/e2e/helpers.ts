@@ -4,10 +4,31 @@ import { Page, expect } from "@playwright/test";
  * Common test utilities for E2E tests
  */
 
-export const TEST_CREDENTIALS = {
-  email: "admin@example.com",
-  password: "password",
+// Get test credentials from environment variables
+const getTestCredentials = () => {
+  const email = process.env.E2E_TEST_EMAIL;
+  const password = process.env.E2E_TEST_PASSWORD;
+  
+  if (!email || !password) {
+    throw new Error(
+      "❌ E2E Testing requires environment variables:\n" +
+      "  E2E_TEST_EMAIL: Test account email\n" +
+      "  E2E_TEST_PASSWORD: Test account password (min 8 chars, alphanumeric + special)\n" +
+      "\nExample:\n" +
+      "  export E2E_TEST_EMAIL='testuser@example.com'\n" +
+      "  export E2E_TEST_PASSWORD='TestP@ss123!'\n" +
+      "\nOr use GitHub Secrets for CI/CD:\n" +
+      "  - In .github/workflows/e2e.yml, set:\n" +
+      "    env:\n" +
+      "      E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}\n" +
+      "      E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}"
+    );
+  }
+  
+  return { email, password };
 };
+
+export const TEST_CREDENTIALS = getTestCredentials();
 
 export const API_BASE = "http://localhost:6000";
 export const APP_URL = "http://localhost:5174";

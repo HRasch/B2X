@@ -1,4 +1,4 @@
-using B2Connect.Types.DTOs;
+using B2Connect.Types.DTOs.Auth;
 using FluentValidation;
 
 namespace B2Connect.Infrastructure.Validation;

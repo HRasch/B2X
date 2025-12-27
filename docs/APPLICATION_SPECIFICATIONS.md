@@ -31,14 +31,36 @@ B2Connect - Multi-tenant SaaS E-Commerce Platform
 └── Multi-cloud Deployment (AWS, Azure, GCP)
 ```
 
+### System Concept
+B2Connect is a **Headless Store System** with integrated:
+- **PIM (Product Information Management):** Centralized product data management
+- **CMS (Content Management System):** Content creation and publishing
+- **CRM (Customer Relationship Management):** Customer data and relationship management
+
+### Data Management Capabilities
+
+#### Catalog Import & Integration
+- **BMEcat Import:** Support for BMEcat standard format for electronic catalog exchange
+- **PIM System Integration:** Direct connection to external PIM systems via standardized master data providers
+- **Multi-Source Data Management:** Flexible data aggregation from various sources
+
+#### Product Data Enrichment
+External data enrichment through integration with:
+- **Nexmart Datacloud:** Automated product data enrichment and classification
+- **Oxomi:** Product information and media enrichment services
+- **Custom Data Providers:** Extensible provider architecture for additional data sources
+
 ### Core Services
 - **Admin API:** Management and operational tasks
 - **Store API:** Customer-facing e-commerce platform
 - **Identity Service:** User authentication and authorization
-- **Catalog Service:** Product catalog management
+- **Catalog Service:** Product catalog and PIM management
 - **CMS Service:** Content management
+- **CRM Service:** Customer relationship management
 - **Localization Service:** Multi-language support
 - **Search Service:** Product search (Elasticsearch)
+- **Data Import Service:** Catalog import and master data synchronization
+- **Data Enrichment Service:** External data provider integration
 
 ### Technology Stack
 - **Backend:** .NET 10, ASP.NET Core
@@ -48,6 +70,24 @@ B2Connect - Multi-tenant SaaS E-Commerce Platform
 - **Orchestration:** .NET Aspire
 - **Caching:** Redis
 - **Search:** Elasticsearch
+
+### Frontend Design System
+B2Connect provides a **flexible design system** that enables seamless integration of custom Corporate Identity (CI):
+- **Theming Engine:** Customizable color schemes, typography, and spacing
+- **Component Library:** Pre-built, CI-adaptable UI components
+- **Branding Configuration:** Logo, brand colors, and style customization per tenant
+- **CSS Framework Integration:** Support for Tailwind CSS with custom theme configuration
+- **White-Label Capabilities:** Full customization to match client branding requirements
+- **Design Tokens:** Centralized design token system for consistent branding across all interfaces
+
+#### Runtime Theme Generation
+The **Admin Backend** provides dynamic theme compilation capabilities:
+- **SASS Compilation Pipeline:** Combines shop base SASS files with custom tenant SASS
+- **Runtime Generation:** Themes are compiled on-demand when branding changes are made
+- **Theme API:** Store frontend requests compiled CSS themes at runtime
+- **Cache Strategy:** Generated themes are cached for performance
+- **Multi-Tenant Isolation:** Each tenant's custom theme is compiled and served independently
+- **Version Management:** Theme versioning for rollback and A/B testing
 
 ---
 
@@ -71,14 +111,65 @@ B2Connect - Multi-tenant SaaS E-Commerce Platform
 - [ ] Tenant data isolation
 - [ ] Tenant subscription management
 
-#### Product Management
+#### Branding & Design Customization
+- [ ] **Corporate Identity Integration**
+  - Custom logo upload and management
+  - Brand color palette configuration
+  - Typography selection and customization
+  - Favicon and meta image configuration
+  
+- [ ] **Theme Management**
+  - Light/Dark mode support
+  - Custom CSS theme injection
+  - Design token configuration
+  - Component style overrides
+  
+- [ ] **SASS-Based Theme Compilation**
+  - Admin backend compiles shop base SASS + custom tenant SASS
+  - Runtime theme generation on branding changes
+  - Compiled CSS served to store frontend via Theme API
+  - Theme preview before activation
+  - SASS variable override system
+  - Custom SASS file upload and management
+  
+- [ ] **White-Label Configuration**
+  - Multi-tenant branding isolation
+  - Per-tenant theme activation
+  - Custom domain support
+  - Branded email templates
+
+#### Product Management (PIM)
 - [ ] Create/Read/Update/Delete products
-- [ ] Product categorization
+- [ ] Product categorization and hierarchies
 - [ ] Product search and filtering
 - [ ] Product variants (size, color, etc.)
 - [ ] Product availability tracking
-- [ ] Product images and media
+- [ ] Product images and media management
 - [ ] Product reviews and ratings
+- [ ] Multi-language product data
+- [ ] Product attribute management
+- [ ] Product data validation and quality control
+
+#### Data Import & Integration
+- [ ] **BMEcat Import**
+  - BMEcat 2.0 format support
+  - Catalog validation and error reporting
+  - Incremental and full imports
+  - Import scheduling and automation
+  
+- [ ] **PIM System Integration**
+  - Master data provider interfaces
+  - Real-time data synchronization
+  - Conflict resolution strategies
+  - Data mapping configuration
+  
+- [ ] **Data Enrichment**
+  - Nexmart Datacloud integration
+  - Oxomi integration
+  - Automated product classification
+  - Media asset enrichment
+  - Product description generation
+  - Custom provider plugin architecture
 
 #### Order Management
 - [ ] Shopping cart functionality

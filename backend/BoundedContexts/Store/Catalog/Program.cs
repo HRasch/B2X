@@ -1,6 +1,7 @@
 using B2Connect.CatalogService.Services;
 using B2Connect.CatalogService.Handlers;
 using B2Connect.Shared.Search.Extensions;
+using B2Connect.Shared.Messaging.Extensions;
 using B2Connect.ServiceDefaults;
 using Serilog;
 using Wolverine;
@@ -18,6 +19,29 @@ builder.Host.UseSerilog((context, config) =>
 
 // Service Defaults (Health checks, etc.)
 builder.Host.AddServiceDefaults();
+
+// Add Wolverine Messaging
+var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
+var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
+
+if (useRabbitMq)
+{
+    builder.Host.AddWolverineWithRabbitMq(rabbitMqUri, opts =>
+    {
+        opts.ServiceName = "CatalogService";
+        opts.Discovery.DisableConventionalDiscovery();
+        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+    });
+}
+else
+{
+    builder.Host.AddWolverineMessaging(opts =>
+    {
+        opts.ServiceName = "CatalogService";
+        opts.Discovery.DisableConventionalDiscovery();
+        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+    });
+}
 
 // Add controllers
 builder.Services.AddControllers();

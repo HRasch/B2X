@@ -19,8 +19,26 @@ public static class DataServiceExtensions
         string connectionName = "postgres")
         where TContext : DbContext
     {
-        var connectionString = configuration.GetConnectionString(connectionName)
-            ?? "Host=localhost;Database=b2connect;Username=postgres;Password=postgres";
+        var connectionString = configuration.GetConnectionString(connectionName);
+
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            var env = services.BuildServiceProvider().GetRequiredService<IWebHostEnvironment>();
+            if (env.IsDevelopment())
+            {
+                connectionString = "Host=localhost;Database=b2connect;Username=postgres;Password=postgres";
+                var logger = services.BuildServiceProvider().GetRequiredService<ILogger<DataServiceExtensions>>();
+                logger.LogWarning(
+                    "⚠️ Using DEVELOPMENT database credentials. This MUST be changed in production. " +
+                    "Configure connection string via environment variables or Azure Key Vault.");
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    $"PostgreSQL connection string '{connectionName}' MUST be configured in production. " +
+                    $"Set via environment variables, Azure Key Vault, or Docker Secrets.");
+            }
+        }
 
         services.AddDbContext<TContext>(options =>
         {

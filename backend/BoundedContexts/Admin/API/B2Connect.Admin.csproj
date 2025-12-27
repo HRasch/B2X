@@ -26,5 +26,6 @@
     <ProjectReference Include="../../../shared/types/B2Connect.Types.csproj" />
     <ProjectReference Include="../../../shared/utils/B2Connect.Utils.csproj" />
     <ProjectReference Include="../../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

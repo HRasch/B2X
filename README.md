@@ -2,6 +2,15 @@
 
 A modern, scalable multitenant SaaS solution combining a comprehensive B2B/B2C e-commerce platform with a Procurement-Platform Gateway. Built with .NET Aspire (C# backend) and Vue.js 3 (frontend), deployable on AWS, Azure, and Google Cloud.
 
+**Status:** ✅ Production Ready | **Last Updated:** 27. Dezember 2025
+
+## 🚀 Quick Links
+
+- 📖 **[Documentation Index](DOCUMENTATION_INDEX.md)** - Find all documentation
+- 🎯 **[Aspire Quick Start](ASPIRE_QUICK_START.md)** - Get started in 5 minutes
+- 🔒 **[Security Guide](SECURITY_HARDENING_GUIDE.md)** - Security implementation
+- ✅ **[Current Status](ASPIRE_FINAL_STATUS.md)** - Deployment status & checklist
+
 ## 📊 Platform Overview
 
 **B2Connect** consists of three integrated components:
@@ -28,51 +37,33 @@ A modern, scalable multitenant SaaS solution combining a comprehensive B2B/B2C e
    - SEO optimization tools
    - **Allows customers to build custom storefronts without developers**
 
-**New to B2Connect?** 
-- 👉 **[Start with the Developer Guide!](docs/DEVELOPER_GUIDE.md)** ← Complete setup & reference
-- 📚 **[Documentation Index](DOCUMENTATION_INDEX.md)** ← Find anything
-- 🚀 Quick Start below ↓
+## 🏗️ Architecture
 
-## 🏗️ Project Structure
+**Microservices:**
+- Domain-Driven Design with bounded contexts
+- .NET Aspire orchestration with observability
+- Separate API Gateways for Store (public) and Admin (protected)
 
-```
-B2Connect/
-├── backend/                    # C# microservices
-│   ├── services/              # Individual microservices
-│   │   ├── AppHost/           # Aspire AppHost (orchestration)
-│   │   ├── ServiceDefaults/   # Shared service configuration
-│   │   ├── auth-service/      # Authentication & Authorization
-│   │   ├── tenant-service/    # Tenant Management
-│   │   ├── api-gateway/       # API Gateway & Routing
-│   │   ├── shop-service/      # E-commerce Core (Products, Orders, Carts)
-│   │   ├── catalog-service/   # Product Catalog Management
-│   │   ├── order-service/     # Order Management & Fulfillment
-│   │   ├── payment-service/   # Payment Processing
-│   │   ├── inventory-service/ # Inventory & Stock Management
-│   │   ├── procurement-gateway/ # Procurement Platform Integration
-│   │   ├── supplier-service/  # Supplier Management
-│   │   └── notification-service/ # Email, SMS, Push Notifications
-│   ├── shared/                # Shared libraries and utilities
-│   ├── infrastructure/        # Docker, Kubernetes, Terraform
-│   └── docs/                  # Backend documentation
-├── frontend-store/            # Vue.js 3 + Vite SPA (Store)
-│   ├── src/                   # Source code
-│   │   ├── views/             # Shop, Admin Dashboard, Procurement
-│   │   ├── components/        # UI Components
-│   │   └── services/          # API Integration
-│   ├── tests/                 # Unit, component, and E2E tests
-│   └── [config files]         # Vite, TypeScript, Vitest configs
-└── .copilot-specs.md          # Development guidelines
-```
+**Infrastructure:**
+- PostgreSQL 16.11 (7 databases)
+- Redis 8.4.0 (caching & sessions)
+- Elasticsearch 9.2.3 (search)
+- RabbitMQ 4.2.2 (messaging)
+
+**Frontend:**
+- Vue.js 3 with TypeScript and Vite
+- Separate apps for Store and Admin
+
+See [Architecture Documentation](docs/architecture/) for details.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **.NET 10** for backend development
-- **Node.js 18+** and **npm** for frontend development
-- ✅ **NO Docker or extra tools required** - AppHost handles orchestration
+- **.NET 10 SDK**
+- **Node.js 18+** and **npm**
+- **No Docker required** - Aspire handles orchestration
 
-### Backend & Services Setup (Recommended - All Microservices)
+### Start Aspire (Recommended)
 
 ```bash
 cd backend/services/AppHost

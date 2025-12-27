@@ -1,4 +1,4 @@
-using B2Connect.Catalog.Models;
+using B2Connect.Catalog.Models.Requests;
 using FluentValidation;
 
 namespace B2Connect.Infrastructure.Validation;

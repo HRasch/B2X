@@ -44,11 +44,37 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Get JWT Secret from configuration
+var jwtSecret = builder.Configuration["Jwt:Secret"];
+if (string.IsNullOrEmpty(jwtSecret))
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        jwtSecret = "dev-only-secret-minimum-32-chars-required!";
+        var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
+        logger.LogWarning(
+            "⚠️ Using DEVELOPMENT JWT secret. This MUST be changed in production via environment variables or Azure Key Vault. " +
+            "Set 'Jwt:Secret' via environment variable 'Jwt__Secret' or key vault in production.");
+    }
+    else
+    {
+        throw new InvalidOperationException(
+            "JWT Secret MUST be configured in production. " +
+            "Set 'Jwt:Secret' via: environment variable 'Jwt__Secret', Azure Key Vault, AWS Secrets Manager, or Docker Secrets.");
+    }
+}
+
+// Validate key length
+if (jwtSecret.Length < 32)
+{
+    throw new InvalidOperationException(
+        "JWT Secret must be at least 32 characters long for secure AES encryption.");
+}
+
 // Add Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        var jwtSecret = builder.Configuration["Jwt:Secret"] ?? "B2Connect-Super-Secret-Key-For-Development-Only-32chars!";
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,

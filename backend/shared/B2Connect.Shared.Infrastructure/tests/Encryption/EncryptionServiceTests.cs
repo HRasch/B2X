@@ -1,8 +1,9 @@
-using B2Connect.Infrastructure.Encryption;
+using B2Connect.Shared.Infrastructure.Encryption;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Xunit;
 
 namespace B2Connect.Shared.Infrastructure.Tests.Encryption;
 

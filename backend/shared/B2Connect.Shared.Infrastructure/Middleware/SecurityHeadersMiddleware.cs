@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Builder;
 
-namespace B2Connect.Infrastructure.Middleware;
+namespace B2Connect.Shared.Infrastructure.Middleware;
 
 /// <summary>
 /// Middleware to add security headers to all HTTP responses

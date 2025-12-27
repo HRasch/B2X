@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace B2Connect.Infrastructure.RateLimiting;
 

@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq.Expressions;
 
 namespace B2Connect.Infrastructure.Validation;
 
@@ -24,10 +25,10 @@ public static class ValidationConfiguration
         services.AddFluentValidationAutoValidation();
         services.AddFluentValidationClientsideAdapters();
 
-        // Register all validators from this assembly
-        // This automatically discovers and registers all AbstractValidator<T> implementations
-        var assembly = typeof(ValidationConfiguration).Assembly;
-        services.AddValidatorsFromAssembly(assembly);
+        // Note: Auto-discovery of validators is disabled due to missing type dependencies (LoginRequest, CreateProductRequest, UpdateProductRequest)
+        // These validators should be registered manually when their dependent types become available
+        // var assembly = typeof(ValidationConfiguration).Assembly;
+        // services.AddValidatorsFromAssembly(assembly);
 
         // Configure validation behavior
         ValidatorOptions.Global.CascadeMode = CascadeMode.Stop; // Stop on first error per field

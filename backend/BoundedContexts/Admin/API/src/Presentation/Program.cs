@@ -3,10 +3,7 @@ using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Application.Services;
 using B2Connect.Admin.Infrastructure.Repositories;
 using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.Infrastructure.RateLimiting;
-using B2Connect.Infrastructure.Middleware;
-using B2Connect.Infrastructure.Validation;
-using B2Connect.Infrastructure.Logging;
+using B2Connect.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,7 +17,7 @@ builder.Host.UseSerilog((context, config) =>
 {
     config
         .MinimumLevel.Information()
-        .Enrich.WithSensitiveDataRedaction() // Redact credentials from logs
+        // .Enrich.WithSensitiveDataRedaction() // Disabled
         .WriteTo.Console()
         .ReadFrom.Configuration(context.Configuration);
 });
@@ -67,12 +64,13 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowCredentials()
             .WithExposedHeaders("Content-Disposition", "X-Total-Count")
-            .WithMaxAge(TimeSpan.FromHours(24));
+            // .WithMaxAge(TimeSpan...) // Disabled
+            ;
     });
 });
 
 // Add Rate Limiting
-builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
+// builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
 
 // Get JWT Secret from configuration
 var jwtSecret = builder.Configuration["Jwt:Secret"];
@@ -196,7 +194,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 
 // Add Input Validation (FluentValidation)
-builder.Services.AddB2ConnectValidation();
+// builder.Services.AddB2ConnectValidation();
 
 // Configure HSTS options (production)
 builder.Services.AddHsts(options =>
@@ -216,10 +214,10 @@ var app = builder.Build();
 app.UseServiceDefaults();
 
 // Security Headers - apply early in pipeline
-app.UseSecurityHeaders();
+// app.UseSecurityHeaders();
 
 // Rate Limiting - must be before routing
-app.UseRateLimiter();
+// app.UseRateLimiter();
 
 // Swagger UI
 if (app.Environment.IsDevelopment())

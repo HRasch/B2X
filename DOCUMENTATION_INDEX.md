@@ -1,361 +1,185 @@
-# 📚 B2Connect Review - Documentation Index
+# 📚 B2Connect - Documentation Index
 
-**Review durchgeführt von:** Lead Developer, Software Architect, QA Tester, Security Officer, Data Protection Officer  
-**Datum:** 27. Dezember 2025  
-**Status:** 🔴 NICHT PRODUKTIONSBEREIT (5.9/10)
-
----
-
-## 🎯 START HIER
-
-Neue zum Projekt? Lesen Sie in dieser Reihenfolge:
-
-1. **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** ⚡ (5 min)
-   - Top 20 Issues übersichtlich
-   - Prioritätsmatrix
-   - Quick Links
-   - **→ Für Management & Lead Dev**
-
-2. **[REVIEW_SUMMARY.md](REVIEW_SUMMARY.md)** 📋 (15 min)
-   - Überblick der 6 Reviewer-Perspektiven
-   - Kritische Probleme mit Aktionen
-   - Implementation Roadmap
-   - Production Checklist
-   - **→ Für Team Lead & Project Manager**
-
-3. **[COMPREHENSIVE_REVIEW.md](COMPREHENSIVE_REVIEW.md)** 📚 (60 min)
-   - Detaillierter Review aller Aspekte
-   - Pro/Contra für jede Kategorie
-   - Code-Beispiele & Lösungen
-   - Ressourcen & Best Practices
-   - **→ Für alle Stakeholder**
+**Last Updated:** 27. Dezember 2025  
+**Status:** ✅ PRODUCTION READY
 
 ---
 
-## 🛠️ IMPLEMENTATION
+## 🚀 Quick Start
 
-Müssen Sie etwas beheben? Wählen Sie den passenden Guide:
+New to the project? Start here:
 
-### 🔐 Security Implementierung
-**→ [SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md)**
-
-P0 Issues mit Step-by-Step Implementation:
-- [P0.1: Hardcodierte JWT Secrets](SECURITY_HARDENING_GUIDE.md#-p01-hardcodierte-jwt-secrets)
-- [P0.2: CORS zu permissiv](SECURITY_HARDENING_GUIDE.md#-p02-cors-zu-permissiv)
-- [P0.3: Keine Encryption at Rest](SECURITY_HARDENING_GUIDE.md#-p03-keine-encryption-at-rest)
-- [P0.4: Keine Audit Logging](SECURITY_HARDENING_GUIDE.md#-p04-keine-audit-logging)
-- [P1.1: Rate Limiting](SECURITY_HARDENING_GUIDE.md#-p11-rate-limiting)
-
-**Features:**
-- Vollständige Code-Beispiele
-- Configuration Templates
-- Schritt-für-Schritt Guides
-- Production-ready Code
-
-### 🧪 Testing Implementierung
-**→ [TESTING_STRATEGY.md](TESTING_STRATEGY.md)**
-
-Complete Testing Setup:
-- [Phase 1: Unit Test Foundation](TESTING_STRATEGY.md#phase-1-unit-test-foundation-2-wochen)
-- [Phase 2: Frontend Testing](TESTING_STRATEGY.md#phase-2-frontend-testing-1-woche)
-- [Phase 3: Coverage Reporting](TESTING_STRATEGY.md#phase-3-coverage-reporting)
-- [Test Checklist](TESTING_STRATEGY.md#test-checklist)
-
-**Features:**
-- Test Project Templates
-- Service Test Beispiele
-- Integration Test Beispiele
-- E2E Test Beispiele
-- Coverage Tools Setup
-
-### 📊 Visualisierungen & Metriken
-**→ [REVIEW_VISUALIZATIONS.md](REVIEW_VISUALIZATIONS.md)**
-
-Grafische Darstellung:
-- [Gesamtbewertung nach Rolle](REVIEW_VISUALIZATIONS.md#-gesamtbewertung-nach-rolle)
-- [Produktionsreife-Roadmap](REVIEW_VISUALIZATIONS.md#-produktionsreife-roadmap)
-- [Security Posture Timeline](REVIEW_VISUALIZATIONS.md#-security-posture-timeline)
-- [Sprint Planning](REVIEW_VISUALIZATIONS.md#-sprint-planning-8-wochen)
-- [Pre-Launch Checklist](REVIEW_VISUALIZATIONS.md#-pre-launch-checklist-week-8)
+1. **[README.md](README.md)** - Project overview and getting started
+2. **[ASPIRE_FINAL_STATUS.md](ASPIRE_FINAL_STATUS.md)** - Current deployment status
+3. **[docs/guides/GETTING_STARTED.md](docs/guides/GETTING_STARTED.md)** - Development setup
 
 ---
 
-## 📖 DETAILLIERTE DOKUMENTATION
+## 📖 Core Documentation
 
-### Nach Reviewer-Perspektive
+### Architecture & Design
+- **[docs/architecture/DDD_BOUNDED_CONTEXTS.md](docs/architecture/DDD_BOUNDED_CONTEXTS.md)** - Domain-Driven Design structure
+- **[docs/ONION_ARCHITECTURE.md](docs/ONION_ARCHITECTURE.md)** - Layered architecture overview
+- **[docs/GATEWAY_SEPARATION.md](docs/GATEWAY_SEPARATION.md)** - API Gateway separation strategy
+- **[docs/architecture/ASPIRE_GUIDE.md](docs/architecture/ASPIRE_GUIDE.md)** - .NET Aspire orchestration
 
-#### 👨‍💼 Lead Developer
-**Hauptdokumentation:** [COMPREHENSIVE_REVIEW.md - Sektion 2](COMPREHENSIVE_REVIEW.md#-2-lead-developer-bewertung)
+### Development Guides
+- **[ASPIRE_QUICK_START.md](ASPIRE_QUICK_START.md)** - Quick reference for Aspire setup
+- **[ASPIRE_INTEGRATION_GUIDE.md](ASPIRE_INTEGRATION_GUIDE.md)** - Complete Aspire integration guide
+- **[docs/guides/DEVELOPMENT.md](docs/guides/DEVELOPMENT.md)** - Development workflow
+- **[docs/guides/TESTING_GUIDE.md](docs/guides/TESTING_GUIDE.md)** - Testing strategies
+- **[docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md)** - Debugging tips
 
-Fokus:
-- Code Qualität & Best Practices
-- Testing Strategy
-- API Response Consistency
-- Error Handling
-- Frontend Code Quality
-
-#### 🏗️ Software Architect
-**Hauptdokumentation:** [COMPREHENSIVE_REVIEW.md - Sektion 1](COMPREHENSIVE_REVIEW.md#-1-software-architect-bewertung)
-
-Fokus:
-- Onion Architecture Review
-- Microservices Design
-- Event Sourcing & CQRS
-- Service-to-Service Communication
-- Scalability & Deployment
-
-#### 🧪 QA / Tester
-**Hauptdokumentation:** [COMPREHENSIVE_REVIEW.md - Sektion 3](COMPREHENSIVE_REVIEW.md#-3-qa-tester-bewertung)
-**Implementation:** [TESTING_STRATEGY.md](TESTING_STRATEGY.md)
-
-Fokus:
-- Unit Test Coverage (3% → 80%+)
-- Integration Testing
-- E2E Testing
-- Performance Testing
-- Test Data Management
-
-#### 🔐 Security Officer
-**Hauptdokumentation:** [COMPREHENSIVE_REVIEW.md - Sektion 4](COMPREHENSIVE_REVIEW.md#-4-security-officer-bewertung)
-**Implementation:** [SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md)
-
-Fokus:
-- Hardcodierte Secrets (P0.1)
-- CORS Configuration (P0.2)
-- Encryption (P0.3)
-- Rate Limiting (P1.1)
-- HTTPS Enforcement
-- Input Validation
-- CSRF Protection
-- Security Headers
-
-#### 👮 Data Protection Officer
-**Hauptdokumentation:** [COMPREHENSIVE_REVIEW.md - Sektion 5](COMPREHENSIVE_REVIEW.md#-5-data-protection-officer-bewertung-gdprcompliance)
-
-Fokus:
-- GDPR Compliance
-- Data Encryption (P0.3)
-- Audit Logging (P0.4)
-- Right-to-be-Forgotten
-- Data Portability
-- Consent Management
-- Privacy Policy & Terms
-- Data Retention Policies
-
----
-
-## 📊 Issues nach Kategorie
-
-### Sicherheit (8 Issues)
-| Priorität | Thema | Link |
-|-----------|-------|------|
-| 🔴 P0 | Hardcodierte Secrets | [P0.1](SECURITY_HARDENING_GUIDE.md#-p01-hardcodierte-jwt-secrets) |
-| 🔴 P0 | CORS zu permissiv | [P0.2](SECURITY_HARDENING_GUIDE.md#-p02-cors-zu-permissiv) |
-| 🔴 P0 | Keine Audit Logs | [P0.4](SECURITY_HARDENING_GUIDE.md#-p04-keine-audit-logging) |
-| 🟡 P1 | Rate Limiting | [P1.1](SECURITY_HARDENING_GUIDE.md#-p11-rate-limiting) |
-| 🟡 P1 | HTTPS nicht erzwungen | [Review](COMPREHENSIVE_REVIEW.md#44--hoch-https-nicht-erzwungen) |
-| 🟡 P1 | Input Validation | [Review](COMPREHENSIVE_REVIEW.md#45--hoch-keine-input-validation) |
-| 🟡 P1 | CSRF Protection | [Review](COMPREHENSIVE_REVIEW.md#49--hoch-keine-csrf-protection) |
-| 🟡 P1 | Security Headers | [Review](COMPREHENSIVE_REVIEW.md#410--mittel-keine-security-headers) |
-
-### Datenschutz (6 Issues)
-| Priorität | Thema | Link |
-|-----------|-------|------|
-| 🔴 P0 | Keine Encryption | [P0.3](SECURITY_HARDENING_GUIDE.md#-p03-keine-encryption-at-rest) |
-| 🔴 P0 | Keine Audit Logs | [P0.4](SECURITY_HARDENING_GUIDE.md#-p04-keine-audit-logging) |
-| 🔴 P0 | Keine Right-to-Delete | [Review](COMPREHENSIVE_REVIEW.md#56--hoch-keine-right-to-be-forgotten-loschung) |
-| 🟡 P1 | Keine Consent Mgmt | [Review](COMPREHENSIVE_REVIEW.md#58--hoch-keine-consent-management) |
-| 🟡 P1 | Keine Data Export | [Review](COMPREHENSIVE_REVIEW.md#57--hoch-keine-daten-export-funktion) |
-| 🟡 P1 | Keine Legal Pages | [Review](COMPREHENSIVE_REVIEW.md#59--hoch-keine-datenschutzerklarung--agb) |
-
-### Testing (2 Issues)
-| Priorität | Thema | Link |
-|-----------|-------|------|
-| 🔴 P0 | <5% Coverage | [Testing Strategy](TESTING_STRATEGY.md) |
-| 🟡 P1 | Keine Integration Tests | [Testing Strategy](TESTING_STRATEGY.md#phase-2-integration-tests-1-week) |
-
-### Code Quality (4 Issues)
-| Priorität | Thema | Link |
-|-----------|-------|------|
-| 🟡 P1 | Inconsistent API Responses | [Review](COMPREHENSIVE_REVIEW.md#27--fehlende-api-response-consistency) |
-| 🟡 P1 | Frontend Error Handling | [Review](COMPREHENSIVE_REVIEW.md#28--frontend-error-handling) |
-| 🟡 P1 | HTTP Client Abstraction | [Review](COMPREHENSIVE_REVIEW.md#26--fehlende-http-client-abstraktion) |
-| 🟡 P1 | Unit Test Coverage | [Testing](TESTING_STRATEGY.md#31-unit-tests-für-vue-components) |
-
-### Architektur (2 Issues)
-| Priorität | Thema | Link |
-|-----------|-------|------|
-| 🟡 P1 | Service-to-Service Messaging | [Review](COMPREHENSIVE_REVIEW.md#15-fehlende-event-sourcing--cqrs-pattern) |
-| 🟡 P1 | Fehlende CQRS/Event Sourcing | [Review](COMPREHENSIVE_REVIEW.md#14-fehlende-event-sourcing--cqrs-pattern) |
-
----
-
-## 🎯 Roadmaps
-
-### Security Hardening (1 Woche)
-→ [SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md)
-
-```
-Mon-Tue: JWT Secrets + CORS (P0.1 + P0.2)
-Wed-Thu: Encryption at Rest (P0.3)
-Fri:     Audit Logging (P0.4) + Rate Limiting (P1.1)
-```
-
-### Testing Implementation (4 Wochen)
-→ [TESTING_STRATEGY.md](TESTING_STRATEGY.md)
-
-```
-Week 1: Unit Test Foundation
-Week 2: Frontend Testing
-Week 3: Integration Testing
-Week 4: E2E + Coverage Reporting
-```
-
-### Full Implementation (8 Wochen)
-→ [REVIEW_SUMMARY.md - Implementation Roadmap](REVIEW_SUMMARY.md#-implementierungs-roadmap)
-
-```
-Week 1: Security Foundations
-Week 2-3: Testing Foundation
-Week 4-5: Data Protection & GDPR
-Week 6: Architecture Review
-Week 7-8: Final Testing & Polish
-```
-
----
-
-## ✅ Checklisten
-
-### Pre-Production (Week 8)
-→ [REVIEW_VISUALIZATIONS.md](REVIEW_VISUALIZATIONS.md#-pre-launch-checklist-week-8)
-
-- 50/50 Checklist Items für:
-  - Security
-  - Testing
-  - GDPR Compliance
-  - Deployment
-  - Documentation
-
-### Production Readiness
-→ [REVIEW_SUMMARY.md - Production Checklist](REVIEW_SUMMARY.md#-production-readiness-checklist)
-
-- Security (10 items)
-- Data Protection (10 items)
-- Testing (6 items)
-- Code Quality (4 items)
-- Deployment (10 items)
-- Documentation (6 items)
-
----
-
-## 💡 Quick Lookup
-
-**Suche nach Thema:**
-
-| Thema | Dokument | Sektion |
-|-------|----------|---------|
-| JWT Secrets | SECURITY_HARDENING | P0.1 |
-| CORS | SECURITY_HARDENING | P0.2 |
-| Encryption | SECURITY_HARDENING | P0.3 |
-| Audit Logs | SECURITY_HARDENING | P0.4 |
-| Rate Limiting | SECURITY_HARDENING | P1.1 |
-| Unit Tests | TESTING_STRATEGY | Phase 1 |
-| E2E Tests | TESTING_STRATEGY | Phase 2 |
-| Coverage | TESTING_STRATEGY | Phase 3 |
-| Overall Score | COMPREHENSIVE_REVIEW | Zusammenfassung |
-| Architecture | COMPREHENSIVE_REVIEW | Sektion 1 |
-| Code Quality | COMPREHENSIVE_REVIEW | Sektion 2 |
-| Testing | COMPREHENSIVE_REVIEW | Sektion 3 |
-| Security | COMPREHENSIVE_REVIEW | Sektion 4 |
-| GDPR | COMPREHENSIVE_REVIEW | Sektion 5 |
-| Timeline | REVIEW_VISUALIZATIONS | Sprint Planning |
-| Metrics | REVIEW_VISUALIZATIONS | Metric Progression |
-
----
-
-## 📞 Support & Questions
-
-**Frage zu Sicherheit?**  
-→ [SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md)  
-→ [COMPREHENSIVE_REVIEW.md - Sektion 4](COMPREHENSIVE_REVIEW.md#-4-security-officer-bewertung)
-
-**Frage zu Testing?**  
-→ [TESTING_STRATEGY.md](TESTING_STRATEGY.md)  
-→ [COMPREHENSIVE_REVIEW.md - Sektion 3](COMPREHENSIVE_REVIEW.md#-3-qa-tester-bewertung)
-
-**Frage zu Architektur?**  
-→ [COMPREHENSIVE_REVIEW.md - Sektion 1](COMPREHENSIVE_REVIEW.md#-1-software-architect-bewertung)
-
-**Frage zu Implementierung?**  
-→ [QUICK_REFERENCE.md](QUICK_REFERENCE.md) (Überblick)  
-→ [REVIEW_SUMMARY.md](REVIEW_SUMMARY.md) (Roadmap)  
-→ Spezifische Implementation Guides
-
-**Frage zu Timeline/Ressourcen?**  
-→ [REVIEW_VISUALIZATIONS.md](REVIEW_VISUALIZATIONS.md) (Roadmaps)  
-→ [REVIEW_SUMMARY.md](REVIEW_SUMMARY.md) (Action Items)
-
----
-
-## 📈 Dokument-Statistiken
-
-| Dokument | Größe | Lesezeit | Fokus |
-|----------|-------|----------|-------|
-| QUICK_REFERENCE.md | 📄 5 KB | 5 min | Überblick |
-| REVIEW_SUMMARY.md | 📄 15 KB | 15 min | Action Items |
-| COMPREHENSIVE_REVIEW.md | 📚 80 KB | 60 min | Detail |
-| SECURITY_HARDENING_GUIDE.md | 📘 50 KB | 45 min | Implementation |
-| TESTING_STRATEGY.md | 📗 45 KB | 40 min | Implementation |
-| REVIEW_VISUALIZATIONS.md | 📊 35 KB | 30 min | Metriken |
-| **TOTAL** | **230 KB** | **3 hours** | Complete Review |
-
----
-
-## 🎓 Lernressourcen
-
-### Security
-- [OWASP Top 10 2023](https://owasp.org/www-project-top-ten/)
-- [Microsoft .NET Security](https://learn.microsoft.com/en-us/aspnet/core/security/)
-- [JWT Best Practices](https://tools.ietf.org/html/rfc8949)
+### Security & Compliance
+- **[SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md)** - Security implementation guide
+- **[GOVERNANCE.md](GOVERNANCE.md)** - Project governance and policies
+- **[docs/PENTESTER_REVIEW.md](docs/PENTESTER_REVIEW.md)** - Security assessment
 
 ### Testing
-- [xUnit Documentation](https://xunit.net/)
-- [Playwright Best Practices](https://playwright.dev/dotnet/)
-- [Test Pyramid](https://martinfowler.com/bliki/TestPyramid.html)
-
-### GDPR & Compliance
-- [GDPR Official](https://gdpr-info.eu/)
-- [Microsoft GDPR Dpia](https://learn.microsoft.com/en-us/azure/security/fundamentals/gdpr-dpia-azure)
-- [ISO 27001](https://www.iso.org/isoiec-27001-information-security-management.html)
-
-### Architecture
-- [Domain-Driven Design](https://www.domainlanguage.com/ddd/)
-- [Microservices Patterns](https://microservices.io/)
-- [Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html)
+- **[TESTING_STRATEGY.md](TESTING_STRATEGY.md)** - Overall testing approach
+- **[docs/TESTING_FRAMEWORK_GUIDE.md](docs/TESTING_FRAMEWORK_GUIDE.md)** - Framework-specific guides
+- **[docs/guides/VERIFICATION.md](docs/guides/VERIFICATION.md)** - Verification procedures
 
 ---
 
-## 📅 Nächste Schritte
+## 🎯 Feature Documentation
 
-1. **Diese Woche (27-31 Dez)**
-   - [ ] Team Meeting durchführen
-   - [ ] Review Findings präsentieren
-   - [ ] Priorities mit Product Owner setzen
+### Localization
+- **[docs/LOCALIZATION_IMPLEMENTATION_COMPLETE.md](docs/LOCALIZATION_IMPLEMENTATION_COMPLETE.md)** - Status
+- **[docs/features/LOCALIZATION_IMPLEMENTATION.md](docs/features/LOCALIZATION_IMPLEMENTATION.md)** - Implementation details
+- **[backend/docs/ENTITY_LOCALIZATION_GUIDE.md](backend/docs/ENTITY_LOCALIZATION_GUIDE.md)** - Entity localization
 
-2. **Nächste Woche (2-6 Jan)**
-   - [ ] P0 Issues beginnen
-   - [ ] Security Audit starten
-   - [ ] Test Framework Setup
+### Catalog & Products
+- **[docs/features/CATALOG_IMPLEMENTATION.md](docs/features/CATALOG_IMPLEMENTATION.md)** - Product catalog
+- **[docs/features/ELASTICSEARCH_IMPLEMENTATION.md](docs/features/ELASTICSEARCH_IMPLEMENTATION.md)** - Search integration
+- **[docs/features/ELASTICSEARCH_INTEGRATION.md](docs/features/ELASTICSEARCH_INTEGRATION.md)** - Elasticsearch setup
 
-3. **Following Weeks**
-   - [ ] Weekly Progress Reviews
-   - [ ] Security & Architecture Reviews
-   - [ ] Test Coverage Tracking
+### CQRS & Event Sourcing
+- **[docs/features/CQRS_INTEGRATION_POINT1.md](docs/features/CQRS_INTEGRATION_POINT1.md)** - CQRS patterns
+- **[docs/features/EVENT_VALIDATION_IMPLEMENTATION.md](docs/features/EVENT_VALIDATION_IMPLEMENTATION.md)** - Event validation
+- **[docs/features/AOP_VALIDATION_IMPLEMENTATION.md](docs/features/AOP_VALIDATION_IMPLEMENTATION.md)** - AOP validation
+
+### Admin & CMS
+- **[docs/features/ADMIN_FRONTEND_IMPLEMENTATION.md](docs/features/ADMIN_FRONTEND_IMPLEMENTATION.md)** - Admin interface
+- **[docs/ADMIN_FRONTEND_FEATURE_INTEGRATION_GUIDE.md](docs/ADMIN_FRONTEND_FEATURE_INTEGRATION_GUIDE.md)** - Feature integration
+- **[backend/docs/cms-frontend-builder.md](backend/docs/cms-frontend-builder.md)** - CMS builder
 
 ---
 
-**Letzte Aktualisierung:** 27. Dezember 2025  
-**Version:** 1.0  
-**Status:** ✅ Complete Review  
+## 📋 Requirements & Specifications
 
-*Alle Dokumentation ist interaktiv verlinkt. Verwenden Sie die Links zum schnellen Navigieren.*
+- **[REQUIREMENTS_AND_SPECS_ANCHORED.md](REQUIREMENTS_AND_SPECS_ANCHORED.md)** - Anchored requirements
+- **[docs/APPLICATION_SPECIFICATIONS.md](docs/APPLICATION_SPECIFICATIONS.md)** - Detailed specifications
+- **[docs/guides/BUSINESS_REQUIREMENTS.md](docs/guides/BUSINESS_REQUIREMENTS.md)** - Business requirements
+- **[backend/docs/shop-platform-specs.md](backend/docs/shop-platform-specs.md)** - Shop platform specs
+- **[backend/docs/api-specifications.md](backend/docs/api-specifications.md)** - API specifications
+
+---
+
+## 🔧 Configuration & Setup
+
+### Visual Studio Code
+- **[docs/VSCODE_LAUNCH_CONFIG.md](docs/VSCODE_LAUNCH_CONFIG.md)** - Launch configurations
+- **[docs/VSCODE_INMEMORY_SETUP.md](docs/VSCODE_INMEMORY_SETUP.md)** - In-memory development
+- **[docs/INMEMORY_QUICKREF.md](docs/INMEMORY_QUICKREF.md)** - Quick reference
+- **[docs/architecture/VSCODE_ASPIRE_CONFIG.md](docs/architecture/VSCODE_ASPIRE_CONFIG.md)** - Aspire config
+
+### Deployment
+- **[GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md](GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md)** - Deployment checklist
+- **[docs/GITHUB_PAGES_SETUP.md](docs/GITHUB_PAGES_SETUP.md)** - GitHub Pages setup
+- **[docs/GITHUB_WORKFLOWS.md](docs/GITHUB_WORKFLOWS.md)** - CI/CD workflows
+
+---
+
+## 📦 Backend Documentation
+
+Located in `backend/docs/`:
+
+- **[backend/README.md](backend/README.md)** - Backend overview
+- **[backend/docs/architecture.md](backend/docs/architecture.md)** - Backend architecture
+- **[backend/docs/elasticsearch-integration.md](backend/docs/elasticsearch-integration.md)** - Elasticsearch
+- **[backend/docs/AOP_FLUENT_VALIDATION_GUIDE.md](backend/docs/AOP_FLUENT_VALIDATION_GUIDE.md)** - Validation
+- **[backend/docs/ENTITY_LOCALIZATION_SUMMARY.md](backend/docs/ENTITY_LOCALIZATION_SUMMARY.md)** - Localization summary
+
+---
+
+## 🎨 Frontend Documentation
+
+### Store Frontend
+- **[frontend-store/README.md](frontend-store/README.md)** - Store app overview
+- **[frontend-store/docs/README.md](frontend-store/docs/README.md)** - Additional docs
+
+### Admin Frontend
+- **[frontend-admin/README.md](frontend-admin/README.md)** - Admin app overview
+- **[frontend-admin/E2E_QUICK_START.md](frontend-admin/E2E_QUICK_START.md)** - E2E testing
+- **[frontend-admin/THEME_QUICK_REFERENCE.md](frontend-admin/THEME_QUICK_REFERENCE.md)** - Theming
+
+---
+
+## 📚 Archived Documentation
+
+Historical and completed documentation in `docs/archived/`:
+
+### Old Reviews (`docs/archived/old-reviews/`)
+- Security reviews and findings
+- P0/P1/P2 implementation reports
+- Comprehensive reviews
+- Completed fix reports
+
+### Old Summaries (`docs/archived/old-summaries/`)
+- Final summaries
+- AI/KI integration summaries
+- Documentation suite overviews
+- Project anchoring documents
+- Workflow templates
+
+---
+
+## 🔍 Finding Documentation
+
+### By Topic
+- **Security**: SECURITY_HARDENING_GUIDE.md, docs/PENTESTER_REVIEW.md
+- **Testing**: TESTING_STRATEGY.md, docs/guides/TESTING_GUIDE.md
+- **Architecture**: docs/architecture/, docs/ONION_ARCHITECTURE.md
+- **Features**: docs/features/
+- **Setup**: ASPIRE_QUICK_START.md, docs/guides/GETTING_STARTED.md
+
+### By Role
+- **Developers**: ASPIRE_QUICK_START.md, docs/guides/DEVELOPMENT.md
+- **DevOps**: GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md, docs/architecture/ASPIRE_GUIDE.md
+- **QA**: TESTING_STRATEGY.md, docs/guides/TESTING_GUIDE.md
+- **Security**: SECURITY_HARDENING_GUIDE.md, docs/PENTESTER_REVIEW.md
+- **Architects**: docs/architecture/, docs/ONION_ARCHITECTURE.md
+
+---
+
+## 📞 Support
+
+For questions or issues:
+1. Check this index for relevant documentation
+2. Review archived documentation for historical context
+3. Check inline code documentation
+4. Consult team leads
+
+---
+
+**Documentation Structure:**
+```
+/
+├── README.md                              # Main project readme
+├── ASPIRE_FINAL_STATUS.md                 # Current status
+├── ASPIRE_INTEGRATION_GUIDE.md            # Aspire guide
+├── ASPIRE_QUICK_START.md                  # Quick start
+├── SECURITY_HARDENING_GUIDE.md            # Security guide
+├── TESTING_STRATEGY.md                    # Testing strategy
+├── GOVERNANCE.md                          # Governance
+├── REQUIREMENTS_AND_SPECS_ANCHORED.md     # Requirements
+├── docs/
+│   ├── architecture/                      # Architecture docs
+│   ├── features/                          # Feature-specific docs
+│   ├── guides/                            # How-to guides
+│   └── archived/                          # Historical docs
+├── backend/docs/                          # Backend-specific docs
+├── frontend-store/                        # Store frontend docs
+└── frontend-admin/                        # Admin frontend docs
+```

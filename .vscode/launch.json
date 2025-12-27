@@ -2,34 +2,47 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "🚀 Full Stack (Aspire)",
+      "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
       "program": "${workspaceFolder}/backend/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/Orchestration",
       "stopAtEntry": false,
+      "preLaunchTask": "dotnet: build",
       "serverReadyAction": {
-        "pattern": "dashboard",
+        "pattern": "Aspire.Hosting: Now listening on: \\s+(https?://\\S+)",
         "uriFormat": "http://localhost:15500",
         "action": "openExternally"
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "Database__Provider": "inmemory",
+        "DOTNET_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:15500",
+        "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:4317",
+        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true",
         "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
-        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
+        "Database__Provider": "postgres",
+        "Database__Password": "postgres",
+        "Redis__Password": "",
+        "Elasticsearch__Password": "elastic",
+        "RabbitMQ__Password": "guest",
+        "Jwt__Secret": "dev-jwt-secret-minimum-32-characters-required!!!",
+        "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
+        "Azure__KeyVault__UseMocked": "true"
       },
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     },
     {
-      "name": "Aspire (PostgreSQL)",
+      "name": "Aspire (PostgreSQL + InMemory)",
       "type": "coreclr",
       "request": "launch",
       "program": "${workspaceFolder}/backend/Orchestration/bin/Debug/net10.0/B2Connect.Orchestration.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/Orchestration",
       "stopAtEntry": false,
+      "preLaunchTask": "dotnet: build",
       "serverReadyAction": {
         "pattern": "dashboard",
         "uriFormat": "http://localhost:15500",
