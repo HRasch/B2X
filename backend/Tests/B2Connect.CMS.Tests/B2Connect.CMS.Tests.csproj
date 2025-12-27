@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../BoundedContexts/Store/CMS/B2Connect.CMS.csproj" />
+    <ProjectReference Include="../../Domain/CMS/B2Connect.CMS.csproj" />
   </ItemGroup>
 
-</Project>
+  <ItemGroup>`n    <PackageReference Include="BouncyCastle.Cryptography" />`n  </ItemGroup>`n</Project>

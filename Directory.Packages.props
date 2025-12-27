@@ -80,5 +80,7 @@
     <!-- Code Quality -->
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.0" />
+    <!-- Security: Explicit BouncyCastle version to override vulnerable transitive dependency -->
+    <PackageVersion Include="BouncyCastle.Cryptography" Version="2.4.0" />
   </ItemGroup>
 </Project>

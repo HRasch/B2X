@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using Microsoft.Extensions.Logging;
 
 namespace B2Connect.Shared.Infrastructure.ServiceClients;
 
