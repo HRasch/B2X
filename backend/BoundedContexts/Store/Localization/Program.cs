@@ -5,6 +5,8 @@ using B2Connect.LocalizationService.Middleware;
 using B2Connect.Shared.Messaging.Extensions;
 using B2Connect.ServiceDefaults;
 using Serilog;
+using Wolverine;
+using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,34 +19,31 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration);
 });
 
-// Service Defaults (Health checks, etc.)
+// Service Defaults (Health checks, Service Discovery)
 builder.Host.AddServiceDefaults();
 
-// Add Wolverine Messaging
+// Add Wolverine with HTTP Endpoints
 var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
 var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
 
-if (useRabbitMq)
+builder.Host.UseWolverine(opts =>
 {
-    builder.Host.AddWolverineWithRabbitMq(rabbitMqUri, opts =>
+    opts.ServiceName = "LocalizationService";
+    
+    // Enable HTTP Endpoints
+    opts.Http.EnableEndpoints = true;
+    
+    opts.Discovery.DisableConventionalDiscovery();
+    opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+    
+    if (useRabbitMq)
     {
-        opts.ServiceName = "LocalizationService";
-        opts.Discovery.DisableConventionalDiscovery();
-        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
-    });
-}
-else
-{
-    builder.Host.AddWolverineMessaging(opts =>
-    {
-        opts.ServiceName = "LocalizationService";
-        opts.Discovery.DisableConventionalDiscovery();
-        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
-    });
-}
+        opts.UseRabbitMq(rabbitMqUri);
+    }
+});
 
-// Add services to the container
-builder.Services.AddControllers();
+// Remove Controllers - using Wolverine HTTP Endpoints
+// builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Database
@@ -95,7 +94,9 @@ app.UseServiceDefaults();
 app.UseHttpsRedirection();
 app.UseMiddleware<LocalizationMiddleware>();
 app.UseAuthorization();
-app.MapControllers();
+
+// Map Wolverine HTTP Endpoints (replaces MapControllers)
+app.MapWolverineEndpoints();
 
 // Database migration and seeding (non-blocking with error handling)
 _ = app.Services.CreateScope().ServiceProvider

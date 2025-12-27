@@ -1,4 +1,5 @@
 using B2Connect.ServiceDefaults;
+using B2Connect.Shared.Infrastructure.Extensions;
 using B2Connect.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -22,8 +23,11 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration);
 });
 
-// Service Defaults (Health checks, etc.)
+// Service Defaults (Health checks, Service Discovery)
 builder.Host.AddServiceDefaults();
+
+// Add Service Clients with Service Discovery
+builder.Services.AddAllServiceClients();
 
 // Get CORS origins from configuration
 var corsOrigins = builder.Configuration

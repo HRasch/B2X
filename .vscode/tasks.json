@@ -410,6 +410,63 @@
         "dotnet: build"
       ],
       "problemMatcher": []
+    },
+    {
+      "label": "npm-install-tenant",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "install"
+      ],
+      "cwd": "${workspaceFolder}/frontend-tenant",
+      "group": "build"
+    },
+    {
+      "label": "test-tenant",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "test"
+      ],
+      "cwd": "${workspaceFolder}/frontend-tenant",
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "dev-tenant",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "dev"
+      ],
+      "cwd": "${workspaceFolder}/frontend-tenant",
+      "isBackground": true,
+      "group": "build"
+    },
+    {
+      "label": "build-tenant",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "build"
+      ],
+      "cwd": "${workspaceFolder}/frontend-tenant",
+      "group": "build"
+    },
+    {
+      "label": "lint-tenant",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "lint"
+      ],
+      "cwd": "${workspaceFolder}/frontend-tenant",
+      "group": "build"
     }
   ]
 }

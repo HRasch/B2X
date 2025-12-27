@@ -1,5 +1,7 @@
 using B2Connect.ServiceDefaults;
 using Serilog;
+using Wolverine;
+using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +14,20 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration);
 });
 
-// Service Defaults (Health checks, etc.)
+// Service Defaults (Health checks, Service Discovery)
 builder.Host.AddServiceDefaults();
 
-// Add services
-builder.Services.AddControllers();
+// Add Wolverine with HTTP Endpoints
+builder.Host.UseWolverine(opts =>
+{
+    opts.ServiceName = "TenancyService";
+    opts.Http.EnableEndpoints = true;
+    opts.Discovery.DisableConventionalDiscovery();
+    opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+});
+
+// Remove Controllers - using Wolverine HTTP Endpoints
+// builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -27,7 +38,8 @@ app.UseServiceDefaults();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-app.MapControllers();
+// Map Wolverine HTTP Endpoints
+app.MapWolverineEndpoints();
 app.MapGet("/", () => "Tenant Service is running");
 
 await app.RunAsync();

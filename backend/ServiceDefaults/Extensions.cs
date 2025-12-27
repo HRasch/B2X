@@ -19,8 +19,21 @@ public static class Extensions
                 .Enrich.FromLogContext()
         );
 
-        builder.ConfigureServices(services =>
+        builder.ConfigureServices((context, services) =>
         {
+            // Add Service Discovery
+            services.AddServiceDiscovery();
+
+            // Configure HttpClient defaults with Service Discovery
+            services.ConfigureHttpClientDefaults(http =>
+            {
+                // Enable service discovery for all HttpClients
+                http.AddServiceDiscovery();
+
+                // Add standard resilience policies
+                http.AddStandardResilienceHandler();
+            });
+
             // Health checks
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);

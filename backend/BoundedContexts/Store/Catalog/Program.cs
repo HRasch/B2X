@@ -5,6 +5,7 @@ using B2Connect.Shared.Messaging.Extensions;
 using B2Connect.ServiceDefaults;
 using Serilog;
 using Wolverine;
+using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,34 +18,33 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration);
 });
 
-// Service Defaults (Health checks, etc.)
+// Service Defaults (Health checks, Service Discovery)
 builder.Host.AddServiceDefaults();
 
-// Add Wolverine Messaging
+// Add Wolverine with HTTP Endpoints
 var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
 var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
 
-if (useRabbitMq)
+builder.Host.UseWolverine(opts =>
 {
-    builder.Host.AddWolverineWithRabbitMq(rabbitMqUri, opts =>
+    opts.ServiceName = "CatalogService";
+    
+    // Enable HTTP Endpoints (Wolverine Mediator)
+    opts.Http.EnableEndpoints = true;
+    
+    // Discovery configuration
+    opts.Discovery.DisableConventionalDiscovery();
+    opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+    
+    // Add RabbitMQ if enabled
+    if (useRabbitMq)
     {
-        opts.ServiceName = "CatalogService";
-        opts.Discovery.DisableConventionalDiscovery();
-        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
-    });
-}
-else
-{
-    builder.Host.AddWolverineMessaging(opts =>
-    {
-        opts.ServiceName = "CatalogService";
-        opts.Discovery.DisableConventionalDiscovery();
-        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
-    });
-}
+        opts.UseRabbitMq(rabbitMqUri);
+    }
+});
 
-// Add controllers
-builder.Services.AddControllers();
+// Remove Controllers - using Wolverine HTTP Endpoints instead
+// builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Add Elasticsearch
@@ -63,9 +63,8 @@ var app = builder.Build();
 
 // Configure middleware
 app.UseServiceDefaults();
-app.UseRouting();
-app.UseAuthorization();
 
-app.MapControllers();
+// Map Wolverine HTTP Endpoints (replaces MapControllers)
+app.MapWolverineEndpoints();
 
 app.Run();

@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
+using Wolverine;
+using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,31 +24,28 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration);
 });
 
-// Service Defaults (Health checks, etc.)
+// Service Defaults (Health checks, Service Discovery)
 builder.Host.AddServiceDefaults();
 
-// Add Wolverine Messaging
+// Add Wolverine with HTTP Endpoints
 var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
 var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
 
-if (useRabbitMq)
+builder.Host.UseWolverine(opts =>
 {
-    builder.Host.AddWolverineWithRabbitMq(rabbitMqUri, opts =>
+    opts.ServiceName = "IdentityService";
+    
+    // Enable HTTP Endpoints
+    opts.Http.EnableEndpoints = true;
+    
+    opts.Discovery.DisableConventionalDiscovery();
+    opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
+    
+    if (useRabbitMq)
     {
-        opts.ServiceName = "IdentityService";
-        opts.Discovery.DisableConventionalDiscovery();
-        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
-    });
-}
-else
-{
-    builder.Host.AddWolverineMessaging(opts =>
-    {
-        opts.ServiceName = "IdentityService";
-        opts.Discovery.DisableConventionalDiscovery();
-        opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
-    });
-}
+        opts.UseRabbitMq(rabbitMqUri);
+    }
+});
 
 // Add Database
 builder.Services.AddDbContext<AuthDbContext>(options =>
@@ -163,7 +162,7 @@ builder.Services.AddCors(options =>
 // builder.Services.AddB2ConnectValidation();
 
 // Add services
-builder.Services.AddControllers();
+// builder.Services.AddControllers(); // Removed - using Wolverine HTTP Endpoints
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Configure HSTS options (production)
@@ -301,7 +300,9 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+// Map Wolverine HTTP Endpoints (replaces MapControllers)
+app.MapWolverineEndpoints();
+
 app.MapGet("/", () => "Auth Service is running");
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
