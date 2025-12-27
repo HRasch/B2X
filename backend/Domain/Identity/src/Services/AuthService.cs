@@ -143,7 +143,7 @@ public class AuthService : IAuthService
         }
 
         var accessToken = GenerateAccessToken(user);
-        var refreshToken = GenerateRefreshToken();
+        var refreshToken = GenerateRefreshToken(user);
 
         _logger.LogInformation("User {Email} logged in successfully", user.Email);
 
@@ -160,8 +160,13 @@ public class AuthService : IAuthService
 
     public async Task<Result<AuthResponse>> RefreshTokenAsync(string refreshToken)
     {
-        // For demo: just generate a new token
-        // In production: validate the refresh token against stored tokens
+        // Validate the refresh token is not empty
+        if (string.IsNullOrWhiteSpace(refreshToken))
+        {
+            return new Result<AuthResponse>.Failure(ErrorCodes.InvalidToken, "Refresh token is required");
+        }
+
+        // Try to validate the token (even if expired, we can still extract claims)
         var claimsPrincipal = ValidateExpiredToken(refreshToken);
 
         if (claimsPrincipal == null)
@@ -170,15 +175,21 @@ public class AuthService : IAuthService
         }
 
         var userId = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var user = await _userManager.FindByIdAsync(userId!);
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return new Result<AuthResponse>.Failure(ErrorCodes.InvalidToken, "Invalid token: user ID not found");
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
 
         if (user == null || !user.IsActive)
         {
             return new Result<AuthResponse>.Failure(ErrorCodes.UserNotFound, ErrorCodes.UserNotFound.ToMessage());
         }
 
+        // Generate new tokens
         var newAccessToken = GenerateAccessToken(user);
-        var newRefreshToken = GenerateRefreshToken();
+        var newRefreshToken = GenerateRefreshToken(user);
 
         var response = new AuthResponse
         {
@@ -345,12 +356,30 @@ public class AuthService : IAuthService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    private string GenerateRefreshToken()
+    private string GenerateRefreshToken(AppUser user)
     {
-        var randomNumber = new byte[32];
-        using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
-        rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
+        // Generate a JWT refresh token with user ID embedded
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            _configuration["Jwt:Secret"] ?? "super-secret-key-for-development-only-change-in-production"));
+
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        // Create a JWT refresh token with minimal claims (just userId)
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, user.Id),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        var token = new JwtSecurityToken(
+            issuer: _configuration["Jwt:Issuer"] ?? "B2Connect",
+            audience: _configuration["Jwt:Audience"] ?? "B2Connect.Admin",
+            claims: claims,
+            expires: DateTime.UtcNow.AddDays(7), // 7-day refresh token
+            signingCredentials: credentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     private ClaimsPrincipal? ValidateExpiredToken(string token)
