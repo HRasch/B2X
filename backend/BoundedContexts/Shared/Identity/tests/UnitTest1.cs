@@ -1,4 +1,6 @@
-﻿namespace AuthService.Tests;
+﻿using Xunit;
+
+namespace AuthService.Tests;
 
 public class UnitTest1
 {

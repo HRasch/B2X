@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
+using Xunit;
 
 namespace B2Connect.AuthService.Tests;
 

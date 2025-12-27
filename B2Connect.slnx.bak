@@ -1,0 +1,86 @@
+<Solution>
+  <Folder Name="/backend/">
+    <!-- Bounded Contexts (Domain-Driven Design) -->
+    <Folder Name="/BoundedContexts/">
+      <Folder Name="/Store/">
+        <Folder Name="/API/">
+          <Project Path="backend/BoundedContexts/Store/API/B2Connect.Store.csproj" />
+        </Folder>
+        <Folder Name="/Catalog/">
+          <Project Path="backend/BoundedContexts/Store/Catalog/B2Connect.Catalog.API.csproj" />
+          <Project Path="backend/BoundedContexts/Store/Catalog/tests/B2Connect.Catalog.Tests.csproj" />
+        </Folder>
+        <Folder Name="/CMS/">
+          <Project Path="backend/BoundedContexts/Store/CMS/B2Connect.CMS.csproj" />
+          <Project Path="backend/BoundedContexts/Store/CMS/tests/B2Connect.CMS.Tests.csproj" />
+        </Folder>
+        <Folder Name="/Theming/">
+          <Project Path="backend/BoundedContexts/Store/Theming/B2Connect.Theming.API.csproj" />
+          <Project Path="backend/BoundedContexts/Store/Theming/Layout/B2Connect.Theming.Layout.csproj" />
+        </Folder>
+        <Folder Name="/Localization/">
+          <Project Path="backend/BoundedContexts/Store/Localization/B2Connect.Localization.API.csproj" />
+          <Folder Name="/tests/">
+            <Project Path="backend/BoundedContexts/Store/Localization/tests/B2Connect.Localization.Tests.csproj" />
+          </Folder>
+        </Folder>
+      </Folder>
+
+      <!-- Bounded Context: Admin (Admin Operations) -->
+      <Folder Name="/Admin/">
+        <Folder Name="/API/">
+          <Project Path="backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj" />
+        </Folder>
+      </Folder>
+
+      <!-- Bounded Context: Shared (Cross-Context) -->
+      <Folder Name="/Shared/">
+        <Folder Name="/Identity/">
+          <Project Path="backend/BoundedContexts/Shared/Identity/B2Connect.Identity.API.csproj" />
+          <Folder Name="/tests/">
+            <Project Path="backend/BoundedContexts/Shared/Identity/tests/B2Connect.Identity.Tests.csproj" />
+          </Folder>
+        </Folder>
+        <Folder Name="/Tenancy/">
+          <Project Path="backend/BoundedContexts/Shared/Tenancy/B2Connect.Tenancy.API.csproj" />
+        </Folder>
+        <Folder Name="/Search/">
+          <Project Path="backend/BoundedContexts/Shared/Search/B2Connect.Shared.Search.csproj" />
+          <Folder Name="/tests/">
+            <Project Path="backend/BoundedContexts/Shared/Search/tests/B2Connect.Shared.Search.Tests.csproj" />
+          </Folder>
+        </Folder>
+      </Folder>
+    </Folder>
+
+    <!-- Shared Libraries (Kernel) -->
+    <Folder Name="/shared/">
+      <Folder Name="/kernel/">
+        <Project Path="backend/shared/kernel/B2Connect.Shared.Kernel.csproj" />
+      </Folder>
+      <Folder Name="/core/">
+        <Project Path="backend/shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+      </Folder>
+      <Folder Name="/infrastructure/">
+        <Project Path="backend/shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
+      </Folder>
+      <Folder Name="/tools/">
+        <Project Path="backend/shared/tools/B2Connect.Shared.Tools.csproj" />
+      </Folder>
+      <Folder Name="/middleware/">
+        <Project Path="backend/shared/middleware/B2Connect.Shared.Middleware.csproj" />
+      </Folder>
+      <Folder Name="/messaging/">
+        <Project Path="backend/shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
+      </Folder>
+    </Folder>
+
+    <!-- Orchestration & Infrastructure -->
+    <Folder Name="/Orchestration/">
+      <Project Path="backend/Orchestration/B2Connect.Orchestration.csproj" />
+    </Folder>
+    <Folder Name="/ServiceDefaults/">
+      <Project Path="backend/ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
+    </Folder>
+  </Folder>
+</Solution>

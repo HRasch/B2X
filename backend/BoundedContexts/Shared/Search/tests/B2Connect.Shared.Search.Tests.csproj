@@ -2,30 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <IsTestProject>true</IsTestProject>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>B2Connect.Shared.Search.Tests</RootNamespace>
+    <AssemblyName>B2Connect.Shared.Search.Tests</AssemblyName>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="Moq" />
-    <PackageReference Include="Elastic.Clients.Elasticsearch" />
-    <PackageReference Include="RabbitMQ.Client" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
-    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk"  />
+    <PackageReference Include="xunit"  />
+    <PackageReference Include="xunit.runner.visualstudio"  />
+    <PackageReference Include="Moq"  />
+    <PackageReference Include="FluentAssertions"  />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../Store/Catalog/B2Connect.Catalog.API.csproj" />
-    <ProjectReference Include="../../../shared/types/B2Connect.Types.csproj" />
     <ProjectReference Include="../B2Connect.Shared.Search.csproj" />
-    <ProjectReference Include="../../../shared/kernel/B2Connect.Shared.Kernel.csproj" />
   </ItemGroup>
 
 </Project>

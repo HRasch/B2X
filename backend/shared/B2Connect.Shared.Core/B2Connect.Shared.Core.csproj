@@ -4,30 +4,17 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>B2Connect.Shared.Core</AssemblyName>
+    <LangVersion>latest</LangVersion>
     <RootNamespace>B2Connect.Shared.Core</RootNamespace>
+    <AssemblyName>B2Connect.Shared.Core</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Wolverine - Message Broker & CQRS -->
-    <PackageReference Include="WolverineFx" />
-    <PackageReference Include="WolverineFx.Http" />
-    <PackageReference Include="WolverineFx.PostgreSQL" />
-    
-    <!-- Logging & Observability -->
-    <PackageReference Include="Serilog" />
-    <PackageReference Include="Serilog.AspNetCore" />
-    <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="Serilog.Enrichers.Environment" />
-    <PackageReference Include="OpenTelemetry.Exporter.Console" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
-    
-    <!-- Configuration & Dependency Injection -->
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-    <PackageReference Include="Microsoft.Extensions.Logging" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../kernel/B2Connect.Shared.Kernel.csproj" />
   </ItemGroup>
 
 </Project>

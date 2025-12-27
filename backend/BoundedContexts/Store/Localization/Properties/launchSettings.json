@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "B2Connect.Localization.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:63590;http://localhost:63591"
+    }
+  }
+}

@@ -6,6 +6,7 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>B2Connect.Store</RootNamespace>
     <AssemblyName>B2Connect.Store</AssemblyName>
+    <IsAspireProjectResource>true</IsAspireProjectResource>
   </PropertyGroup>
 
   <ItemGroup>

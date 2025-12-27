@@ -4,20 +4,21 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>B2Connect.Shared.Messaging</AssemblyName>
+    <LangVersion>latest</LangVersion>
     <RootNamespace>B2Connect.Shared.Messaging</RootNamespace>
+    <AssemblyName>B2Connect.Shared.Messaging</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Quartz" />
+    <PackageReference Include="Quartz.Extensions.Hosting" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Message Queue & Job Scheduling -->
-    <PackageReference Include="RabbitMQ.Client" />
-    <PackageReference Include="WolverineFx.RabbitMq" />
-    <PackageReference Include="Quartz" />
-    <PackageReference Include="Quartz.Extensions.Hosting" />
+    <ProjectReference Include="../kernel/B2Connect.Shared.Kernel.csproj" />
+    <ProjectReference Include="../B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
   </ItemGroup>
 
 </Project>

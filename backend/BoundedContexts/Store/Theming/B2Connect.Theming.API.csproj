@@ -1,35 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>B2Connect.Theming</RootNamespace>
+    <AssemblyName>B2Connect.Theming.API</AssemblyName>
+    <IsAspireProjectResource>true</IsAspireProjectResource>
   </PropertyGroup>
+
+  <!-- Exclude tests folders and Layout source from compilation -->
+  <ItemGroup>
+    <!-- Exclude all Layout sources - it's a separate project reference -->
+    <Compile Remove="Layout/**" />
+    <Compile Remove="Layout\**" />
+    <!-- Exclude tests folders -->
+    <Compile Remove="tests/**" />
+    <Compile Remove="tests\**" />
+    <Compile Remove="**/tests/**" />
+    <Compile Remove="**/Tests/**" />
+    <None Remove="Layout/**" />
+    <None Remove="Layout\**" />
+    <None Remove="tests/**" />
+    <None Remove="tests\**" />
+    <None Remove="**/tests/**" />
+    <Content Remove="Layout/**" />
+    <Content Remove="Layout\**" />
+    <Content Remove="tests/**" />
+    <Content Remove="tests\**" />
+    <Content Remove="**/tests/**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
-    <PackageReference Include="Serilog" />
+    <PackageReference Include="EFCore.NamingConventions" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.Http" />
     <PackageReference Include="Serilog.AspNetCore" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Moq" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+  <ItemGroup>
+    <ProjectReference Include="../../../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../shared/kernel/B2Connect.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+    <ProjectReference Include="../../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
+    <ProjectReference Include="./Layout/B2Connect.Theming.Layout.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../../../shared/types/B2Connect.Types.csproj" />
-    <ProjectReference Include="../../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
-    <ProjectReference Include="../../../shared/utils/B2Connect.Utils.csproj" />
-    <ProjectReference Include="../../../shared/kernel/B2Connect.Shared.Kernel.csproj" />
-    <ProjectReference Include="../../../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
-  </ItemGroup>
 </Project>

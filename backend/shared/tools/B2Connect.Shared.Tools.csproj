@@ -1,12 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>B2Connect.Shared.Tools</RootNamespace>
+    <AssemblyName>B2Connect.Shared.Tools</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../types/B2Connect.Types.csproj" />
+    <ProjectReference Include="../kernel/B2Connect.Shared.Kernel.csproj" />
   </ItemGroup>
+
 </Project>

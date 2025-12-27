@@ -1,4 +1,5 @@
-using B2Connect.Shared.Infrastructure.Encryption;
+using B2Connect.Infrastructure.Encryption;
+using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

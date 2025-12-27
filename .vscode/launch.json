@@ -246,7 +246,7 @@
       "name": "🔌 Attach to Admin API (Port 8080)",
       "type": "coreclr",
       "request": "attach",
-      "processName": "B2Connect.Admin"
+      "processName": "B2Connect.Admin" 
     },
     {
       "name": "🔌 Attach to Catalog Service (Port 7005)",

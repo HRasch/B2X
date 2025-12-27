@@ -1,27 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <IsTestProject>true</IsTestProject>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>B2Connect.Localization.Tests</RootNamespace>
+    <AssemblyName>B2Connect.Localization.Tests</AssemblyName>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Moq" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
-    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk"  />
+    <PackageReference Include="xunit"  />
+    <PackageReference Include="xunit.runner.visualstudio"  />
+    <PackageReference Include="Moq"  />
+    <PackageReference Include="FluentAssertions"  />
+    <PackageReference Include="Testcontainers"  />
+    <PackageReference Include="Testcontainers.PostgreSql"  />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../B2Connect.Localization.API.csproj" />
-    <ProjectReference Include="../../../../shared/kernel/B2Connect.Shared.Kernel.csproj" />
-    <ProjectReference Include="../../../../shared/types/B2Connect.Types.csproj" />
   </ItemGroup>
+
 </Project>

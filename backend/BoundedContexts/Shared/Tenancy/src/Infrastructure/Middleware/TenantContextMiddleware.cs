@@ -20,6 +20,14 @@ public class TenantContextMiddleware
 
     public async Task InvokeAsync(HttpContext context, ITenantContext tenantContext)
     {
+        // Skip tenant validation for public endpoints (Login, Register, Health, etc.)
+        var path = context.Request.Path.Value?.ToLowerInvariant() ?? "";
+        if (IsPublicEndpoint(path))
+        {
+            await _next(context);
+            return;
+        }
+
         // Extract X-Tenant-ID header
         var tenantIdHeader = context.Request.Headers["X-Tenant-ID"].FirstOrDefault();
 
@@ -53,5 +61,31 @@ public class TenantContextMiddleware
         context.Items["TenantId"] = tenantId;
 
         await _next(context);
+    }
+
+    /// <summary>
+    /// Check if the request is for a public endpoint that doesn't require X-Tenant-ID
+    /// </summary>
+    private static bool IsPublicEndpoint(string path)
+    {
+        var publicPaths = new[]
+        {
+            "/api/auth/login",
+            "/api/auth/register",
+            "/api/auth/refresh",
+            "/api/auth/passkeys/registration/start",
+            "/api/auth/passkeys/registration/complete",
+            "/api/auth/passkeys/authentication/start",
+            "/api/auth/passkeys/authentication/complete",
+            "/health",
+            "/healthz",
+            "/live",
+            "/ready",
+            "/swagger",
+            "/.well-known/",
+            "/metrics"
+        };
+
+        return publicPaths.Any(p => path.StartsWith(p));
     }
 }
