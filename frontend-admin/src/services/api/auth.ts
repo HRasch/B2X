@@ -1,8 +1,11 @@
 import { apiClient } from "../client";
+import axios from "axios";
 import type { AdminUser, LoginRequest, LoginResponse } from "@/types/auth";
 
 // Demo mode - set to false when backend is running
 const DEMO_MODE = false;
+
+const baseURL = import.meta.env.VITE_ADMIN_API_URL || "/api";
 
 export const authApi = {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
@@ -44,18 +47,18 @@ export const authApi = {
       });
     }
 
-    return apiClient.post<LoginResponse>("/auth/login", credentials);
+    // Direkt axios verwenden da Backend kein "data"-Wrapper hat
+    const response = await axios.post<LoginResponse>(
+      `${baseURL}/auth/login`,
+      credentials,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data;
   },
 
-  logout() {
-    return apiClient.post<void>("/auth/logout", {});
-  },
-
-  refreshToken(refreshToken: string) {
-    return apiClient.post<LoginResponse>("/auth/refresh", { refreshToken });
-  },
-
-  verifyToken(token: string) {
+  verify(token: string) {
     return apiClient.post<AdminUser>("/auth/verify", { token });
   },
 

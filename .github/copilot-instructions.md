@@ -11,17 +11,35 @@ B2Connect is a **Domain-Driven Design (DDD) multitenant SaaS platform** with thr
 backend/BoundedContexts/
 ├── Store/                 # Public storefront (read-only, cacheable)
 │   ├── API/              # Store Gateway (Port 8000)
-│   ├── Catalog/          # Products, Categories
+│   ├── Catalog/          # Products, Categories (Port 7005)
 │   ├── CMS/              # Content Management
-│   ├── Theming/          # UI Themes & Layouts
-│   ├── Localization/     # i18n Translations
+│   ├── Theming/          # UI Themes & Layouts (Port 7008)
+│   ├── Localization/     # i18n Translations (Port 7004)
 │   └── Search/           # Elasticsearch integration
 ├── Admin/                # Admin operations (full CRUD)
 │   └── API/              # Admin Gateway (Port 8080)
 └── Shared/               # Cross-context services
-    ├── Identity/         # Authentication (JWT)
-    └── Tenancy/          # Multi-tenant isolation
+    ├── Identity/         # Authentication (JWT) (Port 7002)
+    └── Tenancy/          # Multi-tenant isolation (Port 7003)
 ```
+
+### Service Port Map (Critical!)
+| Service | Port | Purpose |
+|---------|------|---------|
+| Auth/Identity | 7002 | JWT Authentication, Passkeys |
+| Tenant | 7003 | Multi-tenancy management |
+| Localization | 7004 | i18n translations |
+| Catalog | 7005 | Products, categories |
+| Theming | 7008 | UI themes, layouts |
+| Store Gateway | 8000 | Public API (frontend-store) |
+| Admin Gateway | 8080 | Protected API (frontend-admin) |
+| Frontend Store | 5173 | Vue.js storefront |
+| Frontend Admin | 5174 | Vue.js admin panel |
+| Aspire Dashboard | 15500 | Observability UI |
+| Redis | 6379 | Cache & sessions |
+| PostgreSQL | 5432 | Database |
+| Elasticsearch | 9200 | Full-text search |
+| RabbitMQ | 5672 | Message queue |
 
 ### Onion Architecture (Each Service)
 Every service follows: **Core (Domain) → Application (CQRS) → Infrastructure (Data) → Presentation (API)**
@@ -35,24 +53,43 @@ Every service follows: **Core (Domain) → Application (CQRS) → Infrastructure
 ## 🔧 Developer Workflows
 
 ### Building & Running
-```bash
-# Backend with Aspire (recommended - one command starts everything)
-cd backend/Orchestration
-dotnet run                    # Starts: Auth, Tenant, Catalog, CMS, Localization, Search, Gateways
 
-# Manual service startup (if needed)
+**Recommended: Use Aspire Orchestration**
+```bash
+# Start everything with one command
+./scripts/start-aspire.sh
+
+# Or manually:
+cd backend/Orchestration
+dotnet run
+
+# Dashboard available at: http://localhost:15500
+```
+
+**⚠️ Port Conflicts on Restart**
+Aspire's DCP controller can hold ports after shutdown. Always use the cleanup script:
+```bash
+# Before restarting Aspire (CRITICAL!)
+./scripts/kill-all-services.sh
+
+# Check port status
+./scripts/check-ports.sh
+```
+
+**Manual service startup (if needed)**
+```bash
 dotnet run --project backend/BoundedContexts/Store/API/B2Connect.Store.csproj
 dotnet run --project backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj
 
-# Frontend
-cd frontend-store  # or frontend-admin
-npm install && npm run dev   # Port 5173 (store) or 5174 (admin)
+# Frontend (separate terminal)
+cd frontend-store && npm install && npm run dev   # Port 5173
+cd frontend-admin && npm install && npm run dev   # Port 5174
 ```
 
 ### Testing
 ```bash
 # Run all backend tests
-dotnet test backend/B2Connect.slnx -v minimal
+dotnet test B2Connect.slnx -v minimal
 
 # Run specific bounded context tests
 dotnet test backend/BoundedContexts/Store/Catalog/tests/B2Connect.Catalog.Tests.csproj
@@ -64,11 +101,11 @@ cd frontend-store && npm run test
 cd frontend-admin && npm run test:e2e
 ```
 
-### Key Tasks (VS Code)
-- **build-backend**: `dotnet build B2Connect.slnx`
-- **test-backend**: `dotnet test B2Connect.slnx -v minimal`
-- **backend-start**: Aspire orchestration
-- **dev-frontend**: Hot reload development server
+### VS Code Tasks (Recommended)
+- `backend-start` - Starts Aspire orchestration (runs kill-all-services first)
+- `build-backend` - `dotnet build B2Connect.slnx`
+- `test-backend` - `dotnet test B2Connect.slnx -v minimal`
+- `kill-all-services` - Frees all ports (run before restart!)
 
 ## 📋 Project-Specific Patterns
 
@@ -534,6 +571,39 @@ _logger.LogInformation("User logged in with ID {UserId}", user.Id);
 4. **Code examples**: Search `backend/BoundedContexts/Store/Catalog/` for working patterns
 5. **Testing setup**: See [TESTING_STRATEGY.md](../TESTING_STRATEGY.md)
 6. **Aspire orchestration**: See [ASPIRE_QUICK_START.md](../ASPIRE_QUICK_START.md)
+
+## 🔥 Troubleshooting
+
+### Port Already in Use (Common Issue!)
+```bash
+# Problem: "Address already in use" beim Start
+# Lösung: Kill-Script ausführen
+./scripts/kill-all-services.sh
+
+# Ports prüfen
+./scripts/check-ports.sh
+
+# Force-Start (killt automatisch)
+./scripts/start-aspire.sh --force
+```
+
+### Aspire/DCP Prozesse hängen
+```bash
+# DCP Controller hält Ports nach Shutdown
+pkill -9 -f "dcpctrl"
+pkill -9 -f "dcpproc"
+
+# Oder komplett:
+./scripts/kill-all-services.sh
+```
+
+### Service nicht erreichbar
+```bash
+# Health-Check
+curl http://localhost:7002/health  # Auth
+curl http://localhost:8000/health  # Store Gateway
+curl http://localhost:15500        # Aspire Dashboard
+```
 
 ---
 

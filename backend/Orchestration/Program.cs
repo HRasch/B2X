@@ -41,31 +41,12 @@ var rabbitmq = builder.AddB2ConnectRabbitMQ(
 
 // Azure Key Vault (Secret Store)
 
-// ===== API GATEWAYS =====
-
-// Store API Gateway (for frontend-store, public read-only endpoints)
-var storeGateway = builder
-    .AddProject<Projects.B2Connect_Store>("store-gateway")
-    .WithHttpEndpoint(port: 8000, targetPort: 8000, name: "store-gateway", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:8000")
-    .WithB2ConnectCors("http://localhost:5173", "https://localhost:5173")
-    .WithSecurityDefaults(jwtSecret);
-
-// Admin API Gateway (for frontend-admin, protected CRUD endpoints)
-var adminGateway = builder
-    .AddProject<Projects.B2Connect_Admin>("admin-gateway")
-    .WithHttpEndpoint(port: 8080, targetPort: 8080, name: "admin-gateway", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:8080")
-    .WithB2ConnectCors("http://localhost:5174", "https://localhost:5174")
-    .WithSecurityDefaults(jwtSecret);
-
 // ===== MICROSERVICES =====
 
 // Auth Service (Identity) - with Passkeys & JWT
 var authService = builder
     .AddProject<Projects.B2Connect_Identity_API>("auth-service")
-    .WithHttpEndpoint(port: 7002, targetPort: 7002, name: "auth-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7002")
+    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7002")
     .WithPostgresConnection(authDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -80,8 +61,7 @@ var authService = builder
 // Tenant Service
 var tenantService = builder
     .AddProject<Projects.B2Connect_Tenancy_API>("tenant-service")
-    .WithHttpEndpoint(port: 7003, targetPort: 7003, name: "tenant-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7003")
+    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7003")
     .WithPostgresConnection(tenantDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -94,8 +74,7 @@ var tenantService = builder
 // Localization Service
 var localizationService = builder
     .AddProject<Projects.B2Connect_Localization_API>("localization-service")
-    .WithHttpEndpoint(port: 7004, targetPort: 7004, name: "localization-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7004")
+    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7004")
     .WithPostgresConnection(localizationDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -107,8 +86,7 @@ var localizationService = builder
 // Catalog Service (with Elasticsearch for Product Search)
 var catalogService = builder
     .AddProject<Projects.B2Connect_Catalog_API>("catalog-service")
-    .WithHttpEndpoint(port: 7005, targetPort: 7005, name: "catalog-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7005")
+    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7005")
     .WithPostgresConnection(catalogDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -122,8 +100,7 @@ var catalogService = builder
 // Theming Service
 var themingService = builder
     .AddProject<Projects.B2Connect_Theming_API>("theming-service")
-    .WithHttpEndpoint(port: 7008, targetPort: 7008, name: "theming-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7008")
+    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7008")
     .WithPostgresConnection(layoutDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -132,21 +109,44 @@ var themingService = builder
     .WithRateLimiting()
     .WithOpenTelemetry();
 
+// ===== API GATEWAYS =====
+
+// Store API Gateway (for frontend-store, public read-only endpoints)
+var storeGateway = builder
+    .AddProject<Projects.B2Connect_Store>("store-gateway")
+    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:8000")
+    .WithReference(authService)
+    .WithReference(catalogService)
+    .WithReference(localizationService)
+    .WithReference(themingService)
+    .WithB2ConnectCors("http://localhost:5173", "https://localhost:5173")
+    .WithSecurityDefaults(jwtSecret);
+
+// Admin API Gateway (for frontend-admin, protected CRUD endpoints)
+var adminGateway = builder
+    .AddProject<Projects.B2Connect_Admin>("admin-gateway")
+    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:8080")
+    .WithReference(authService)
+    .WithReference(tenantService)
+    .WithReference(catalogService)
+    .WithReference(localizationService)
+    .WithReference(themingService)
+    .WithB2ConnectCors("http://localhost:5174", "https://localhost:5174")
+    .WithSecurityDefaults(jwtSecret);
+
 // Frontend Store (Vite dev server)
 var frontendStore = builder
     .AddNpmApp("frontend-store", "../../frontend-store", "dev")
-    .WithHttpEndpoint(port: 5173, targetPort: 5173, name: "vite-store", isProxied: false)
+    .WithEnvironment("PORT", "5173")
     .WithEnvironment("BROWSER", "none")
-    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000")
-    .WithEnvironment("VITE_PORT", "5173");
+    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000");
 
 // Frontend Admin (Vite dev server)
 var frontendAdmin = builder
     .AddNpmApp("frontend-admin", "../../frontend-admin", "dev")
-    .WithHttpEndpoint(port: 5174, targetPort: 5174, name: "vite-admin", isProxied: false)
+    .WithEnvironment("PORT", "5174")
     .WithEnvironment("BROWSER", "none")
-    .WithEnvironment("VITE_ADMIN_API_URL", "/api")
-    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
-    .WithEnvironment("VITE_PORT", "5174");
+    // VITE_ADMIN_API_URL should NOT be set - defaults to "/api" which gets proxied by Vite
+    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080");
 
 builder.Build().Run();

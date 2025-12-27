@@ -23,21 +23,37 @@ NC='\033[0m' # No Color
 
 # Port configuration using associative arrays
 declare -A PORTS=(
-    [AppHost]="5200"
-    [Dashboard]="5500"
-    [CatalogService]="9001"
-    [AuthService]="9002"
-    [SearchService]="9003"
-    [OrderService]="9004"
+    [AuthService]="7002"
+    [TenantService]="7003"
+    [LocalizationService]="7004"
+    [CatalogService]="7005"
+    [ThemingService]="7008"
+    [StoreGateway]="8000"
+    [AdminGateway]="8080"
+    [FrontendStore]="5173"
+    [FrontendAdmin]="5174"
+    [Dashboard]="15500"
+    [Redis]="6379"
+    [PostgreSQL]="5432"
+    [Elasticsearch]="9200"
+    [RabbitMQ]="5672"
 )
 
 declare -A SERVICE_DISPLAY=(
-    [AppHost]="AppHost"
-    [Dashboard]="Aspire Dashboard"
-    [CatalogService]="Catalog Service"
     [AuthService]="Auth Service"
-    [SearchService]="Search Service"
-    [OrderService]="Order Service"
+    [TenantService]="Tenant Service"
+    [LocalizationService]="Localization Service"
+    [CatalogService]="Catalog Service"
+    [ThemingService]="Theming Service"
+    [StoreGateway]="Store Gateway"
+    [AdminGateway]="Admin Gateway"
+    [FrontendStore]="Frontend Store"
+    [FrontendAdmin]="Frontend Admin"
+    [Dashboard]="Aspire Dashboard"
+    [Redis]="Redis Cache"
+    [PostgreSQL]="PostgreSQL DB"
+    [Elasticsearch]="Elasticsearch"
+    [RabbitMQ]="RabbitMQ"
 )
 
 # Command type

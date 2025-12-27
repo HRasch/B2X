@@ -192,18 +192,22 @@
       "label": "backend-start",
       "type": "shell",
       "isBackground": true,
+      "dependsOn": ["kill-all-services"],
+      "dependsOrder": "sequence",
       "command": "dotnet",
       "args": [
         "run",
         "--project",
         "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
       ],
-      "cwd": "${workspaceFolder}/backend/Orchestration",
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "Database__Provider": "inmemory",
-        "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
-        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
+      "options": {
+        "cwd": "${workspaceFolder}/backend/Orchestration",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "Database__Provider": "inmemory",
+          "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
+          "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
+        }
       },
       "problemMatcher": {
         "pattern": {
@@ -224,6 +228,8 @@
     },
     {
       "label": "frontend-start",
+      "dependsOn": ["kill-all-services"],
+      "dependsOrder": "sequence",
       "type": "shell",
       "isBackground": false,
       "command": "npm",
@@ -250,6 +256,8 @@
     },
     {
       "label": "frontend-admin-start",
+      "dependsOn": ["kill-all-services"],
+      "dependsOrder": "sequence",
       "type": "shell",
       "isBackground": true,
       "command": "npm",
@@ -302,15 +310,19 @@
       "label": "store-gateway-start",
       "type": "shell",
       "isBackground": true,
+      "dependsOn": ["kill-all-services"],
+      "dependsOrder": "sequence",
       "command": "dotnet",
       "args": [
         "run",
         "--project",
         "${workspaceFolder}/backend/BoundedContexts/Store/API/B2Connect.Store.csproj"
       ],
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:8000"
+      "options": {
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "ASPNETCORE_URLS": "http://localhost:8000"
+        }
       },
       "problemMatcher": {
         "pattern": {
@@ -333,15 +345,19 @@
       "label": "admin-gateway-start",
       "type": "shell",
       "isBackground": true,
+      "dependsOn": ["kill-all-services"],
+      "dependsOrder": "sequence",
       "command": "dotnet",
       "args": [
         "run",
         "--project",
         "${workspaceFolder}/backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj"
       ],
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:8080"
+      "options": {
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "ASPNETCORE_URLS": "http://localhost:8080"
+        }
       },
       "problemMatcher": {
         "pattern": {
@@ -359,6 +375,53 @@
         "reveal": "always",
         "group": "gateways"
       }
+    },
+    {
+      "label": "kill-all-services",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/kill-all-services.sh",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "restart-all-services",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "kill-all-services",
+        "backend-start"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "dotnet: build",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "kill-then-build",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "kill-all-services",
+        "dotnet: build"
+      ],
+      "problemMatcher": []
     }
   ]
 }

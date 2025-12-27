@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -176,6 +177,26 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+// Navigation Guard für Authentication
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  const requiresAuth = to.meta.requiresAuth ?? true; // Default: Auth required
+
+  if (requiresAuth && !authStore.isAuthenticated) {
+    // Nicht authentifiziert → Login
+    next({ name: "Login", query: { redirect: to.fullPath } });
+  } else if (
+    !requiresAuth &&
+    authStore.isAuthenticated &&
+    to.name === "Login"
+  ) {
+    // Schon eingeloggt und versucht Login zu öffnen → Dashboard
+    next({ name: "Dashboard" });
+  } else {
+    next();
+  }
 });
 
 export default router;
