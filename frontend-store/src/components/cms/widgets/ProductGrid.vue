@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
   settings: () => ({
     columns: 3,
     gap: "1.5rem",
-    products: () => [],
+    products: [] as Product[],
   }),
 });
 

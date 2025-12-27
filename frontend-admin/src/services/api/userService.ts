@@ -1,4 +1,4 @@
-import { apiClient } from "./client";
+import { apiClient } from "../client";
 import type { User, UserProfile, Address } from "@/types/user";
 
 export const userService = {

@@ -45,33 +45,26 @@ test.describe("Entity Localization API", () => {
       expect([404, 200]).toContain(response.status());
     });
 
-    test("should require authentication", async ({
-      request: contextRequest,
-    }) => {
-      const noAuthRequest = await contextRequest.newContext();
-      const response = await noAuthRequest.get(
+    test("should require authentication", async ({ request }) => {
+      const response = await request.get(
         `${API_BASE}/entity-localization/${ENTITY_ID}`,
         {
           headers: { tenant: TENANT_ID },
         }
       );
       expect(response.status()).toBe(401);
-      await noAuthRequest.dispose();
     });
 
-    test("should require tenant header", async ({
-      request: contextRequest,
-    }) => {
-      const noTenantRequest = await contextRequest.newContext({
-        extraHTTPHeaders: {
-          Authorization: VALID_ADMIN_TOKEN,
-        },
-      });
-      const response = await noTenantRequest.get(
-        `${API_BASE}/entity-localization/${ENTITY_ID}`
+    test("should require tenant header", async ({ request }) => {
+      const response = await request.get(
+        `${API_BASE}/entity-localization/${ENTITY_ID}`,
+        {
+          headers: {
+            Authorization: VALID_ADMIN_TOKEN,
+          },
+        }
       );
       expect(response.status()).toBe(400);
-      await noTenantRequest.dispose();
     });
   });
 
@@ -144,37 +137,29 @@ test.describe("Entity Localization API", () => {
   });
 
   test.describe("POST /entity-localization/{entityId}/{propertyName}", () => {
-    test("should require authentication", async ({
-      request: contextRequest,
-    }) => {
-      const noAuthRequest = await contextRequest.newContext({
-        extraHTTPHeaders: { tenant: TENANT_ID },
-      });
-      const response = await noAuthRequest.post(
+    test("should require authentication", async ({ request }) => {
+      const response = await request.post(
         `${API_BASE}/entity-localization/${ENTITY_ID}/Name`,
         {
+          headers: { tenant: TENANT_ID },
           data: { language: "en", value: "Test" },
         }
       );
       expect(response.status()).toBe(401);
-      await noAuthRequest.dispose();
     });
 
-    test("should require admin role", async ({ request: contextRequest }) => {
-      const userRequest = await contextRequest.newContext({
-        extraHTTPHeaders: {
-          tenant: TENANT_ID,
-          Authorization: "Bearer user-token",
-        },
-      });
-      const response = await userRequest.post(
+    test("should require admin role", async ({ request }) => {
+      const response = await request.post(
         `${API_BASE}/entity-localization/${ENTITY_ID}/Name`,
         {
+          headers: {
+            tenant: TENANT_ID,
+            Authorization: "Bearer user-token",
+          },
           data: { language: "en", value: "Test" },
         }
       );
       expect([401, 403]).toContain(response.status());
-      await userRequest.dispose();
     });
 
     test("should set a single translation", async () => {
@@ -215,13 +200,11 @@ test.describe("Entity Localization API", () => {
   });
 
   test.describe("PUT /entity-localization/{entityId}/{propertyName}", () => {
-    test("should require admin role", async ({ request: contextRequest }) => {
-      const noAuthRequest = await contextRequest.newContext({
-        extraHTTPHeaders: { tenant: TENANT_ID },
-      });
-      const response = await noAuthRequest.put(
+    test("should require admin role", async ({ request }) => {
+      const response = await request.put(
         `${API_BASE}/entity-localization/${ENTITY_ID}/Name`,
         {
+          headers: { tenant: TENANT_ID },
           data: {
             en: "Product Name",
             de: "Produktname",
@@ -230,7 +213,6 @@ test.describe("Entity Localization API", () => {
         }
       );
       expect(response.status()).toBe(401);
-      await noAuthRequest.dispose();
     });
 
     test("should set multiple translations at once", async () => {
@@ -378,22 +360,18 @@ test.describe("Entity Localization API", () => {
       });
     });
 
-    test("should maintain tenant isolation", async ({
-      request: contextRequest,
-    }) => {
-      const otherTenantRequest = await contextRequest.newContext({
-        extraHTTPHeaders: {
-          tenant: "other-tenant-id",
-          Authorization: VALID_ADMIN_TOKEN,
-        },
-      });
-
-      const response = await otherTenantRequest.get(
-        `${API_BASE}/entity-localization/${ENTITY_ID}`
+    test("should maintain tenant isolation", async ({ request }) => {
+      const response = await request.get(
+        `${API_BASE}/entity-localization/${ENTITY_ID}`,
+        {
+          headers: {
+            tenant: "other-tenant-id",
+            Authorization: VALID_ADMIN_TOKEN,
+          },
+        }
       );
       // Should not have access to other tenant's data
       expect([404, 403]).toContain(response.status());
-      await otherTenantRequest.dispose();
     });
   });
 

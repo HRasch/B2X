@@ -1,178 +1,193 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using B2Connect.Shared.User.Models;
-using B2Connect.Shared.User.Interfaces;
-using B2Connect.Admin.Application.DTOs;
+using System.Net.Http.Json;
+using System.Text.Json;
+using B2Connect.Admin.Presentation.Filters;
 
 namespace B2Connect.Admin.Presentation.Controllers;
 
+/// <summary>
+/// Admin Users Controller - BFF GATEWAY
+/// This controller acts as a Backend-for-Frontend (BFF) gateway to the Identity Service.
+/// Actual user management is delegated to the Identity microservice via HTTP.
+/// 
+/// Flow:
+/// 1. Admin Frontend (Port 5174) → Admin API (Port 8080) - This controller
+/// 2. Admin API → Identity Service (Port 7002) - Proxies requests
+/// 3. Identity Service → PostgreSQL - User data persistence
+/// 
+/// Filters Applied:
+/// - ValidateTenantAttribute: Validates X-Tenant-ID header
+/// - ApiExceptionHandlingFilter: Centralizes error handling
+/// - ValidateModelStateFilter: Validates request models
+/// - ApiLoggingFilter: Logs all requests and responses
+/// </summary>
 [ApiController]
 [Route("api/admin/users")]
-// [Authorize] // TODO: Re-enable after authentication is configured
-public class UsersController : ControllerBase
+[Authorize]
+[ValidateTenant]
+public class UsersController : ApiControllerBase
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IAddressRepository _addressRepository;
-    private readonly ILogger<UsersController> _logger;
+    private readonly HttpClient _httpClient;
+    private readonly string _identityServiceUrl;
 
     public UsersController(
-        IUserRepository userRepository,
-        IAddressRepository addressRepository,
-        ILogger<UsersController> logger)
+        ILogger<UsersController> logger,
+        HttpClient httpClient,
+        IConfiguration configuration) : base(logger)
     {
-        _userRepository = userRepository;
-        _addressRepository = addressRepository;
-        _logger = logger;
+        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        // Identity Service runs on port 7002
+        _identityServiceUrl = configuration["Services:Identity:Url"] ?? "http://localhost:7002";
     }
 
-    private Guid GetTenantId()
-    {
-        var tenantId = Request.Headers["X-Tenant-ID"].ToString();
-        return Guid.TryParse(tenantId, out var id) ? id : Guid.Empty;
-    }
-
+    /// <summary>
+    /// Get all users for the tenant
+    /// Proxies to: GET /api/identity/users
+    /// </summary>
     [HttpGet]
-    public async Task<ActionResult<PaginatedUserResponse>> GetUsers(CancellationToken ct)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> GetUsers(CancellationToken ct)
     {
         var tenantId = GetTenantId();
-        if (tenantId == Guid.Empty)
-            return Unauthorized("Missing X-Tenant-ID header");
+        _logger.LogInformation("Fetching users for tenant: {TenantId}", tenantId);
 
-        var users = await _userRepository.GetByTenantAsync(tenantId, ct);
-        var dtos = users.Select(u => new UserDto(u.Id, u.TenantId, u.Email, u.FirstName, u.LastName,
-            u.PhoneNumber, u.IsActive, u.IsEmailVerified, u.CreatedAt, u.UpdatedAt)).ToList();
+        // Forward request to Identity Service
+        var url = $"{_identityServiceUrl}/api/identity/users";
+        var response = await _httpClient.GetAsync(url, ct);
 
-        var pagination = new PaginationInfo(1, dtos.Count, dtos.Count, 1, false, false);
-        return Ok(new PaginatedUserResponse(true, dtos, pagination, DateTime.UtcNow));
-    }
-
-    [HttpGet("{userId}")]
-    public async Task<ActionResult<SingleUserResponse>> GetUser(Guid userId, CancellationToken ct)
-    {
-        var user = await _userRepository.GetByIdAsync(userId, ct);
-        if (user == null)
-            return NotFound();
-
-        var addresses = await _addressRepository.GetByUserAsync(userId, ct);
-        var addressDtos = addresses.Select(a => new AddressDto(a.Id, a.UserId, a.AddressType, a.StreetAddress,
-            a.StreetAddress2, a.City, a.PostalCode, a.Country, a.State, a.RecipientName, a.PhoneNumber, a.IsDefault)).ToList();
-
-        var profileDto = user.Profile != null ? new UserProfileDto(user.Profile.Id, user.Profile.UserId,
-            user.Profile.AvatarUrl, user.Profile.Bio, user.Profile.DateOfBirth, user.Profile.CompanyName,
-            user.Profile.JobTitle, user.Profile.PreferredLanguage, user.Profile.Timezone,
-            user.Profile.ReceiveNewsletter, user.Profile.ReceivePromotionalEmails) : null;
-
-        var userDetailDto = new UserDetailDto(user.Id, user.TenantId, user.Email, user.FirstName, user.LastName,
-            user.PhoneNumber, user.IsActive, user.IsEmailVerified, user.CreatedAt, user.UpdatedAt, user.LastLoginAt,
-            profileDto, addressDtos);
-
-        return Ok(new SingleUserResponse(true, userDetailDto, DateTime.UtcNow));
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<CreateUserResponse>> CreateUser([FromBody] CreateUserRequest request, CancellationToken ct)
-    {
-        var tenantId = GetTenantId();
-        if (tenantId == Guid.Empty)
-            return Unauthorized("Missing X-Tenant-ID header");
-
-        var user = new User
+        if (!response.IsSuccessStatusCode)
         {
-            Id = Guid.NewGuid(),
-            TenantId = tenantId,
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            PhoneNumber = request.PhoneNumber,
-            IsActive = true,
-            IsEmailVerified = false,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
+            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
+            return StatusCode((int)response.StatusCode, "Error fetching users from Identity Service");
+        }
 
-        var created = await _userRepository.CreateAsync(user, ct);
-        var userDetailDto = new UserDetailDto(created.Id, created.TenantId, created.Email, created.FirstName, created.LastName,
-            created.PhoneNumber, created.IsActive, created.IsEmailVerified, created.CreatedAt, created.UpdatedAt, created.LastLoginAt,
-            null, new List<AddressDto>());
-
-        return CreatedAtAction(nameof(GetUser), new { userId = created.Id },
-            new CreateUserResponse(true, userDetailDto, DateTime.UtcNow));
+        var content = await response.Content.ReadAsStringAsync(ct);
+        return OkResponse(JsonDocument.Parse(content).RootElement, "Users retrieved successfully");
     }
 
-    [HttpPut("{userId}")]
-    public async Task<ActionResult<SingleUserResponse>> UpdateUser(Guid userId, [FromBody] UpdateUserRequest request, CancellationToken ct)
+    /// <summary>
+    /// Get a specific user by ID
+    /// Proxies to: GET /api/identity/users/{userId}
+    /// </summary>
+    [HttpGet("{userId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetUser(Guid userId, CancellationToken ct)
     {
-        var user = await _userRepository.GetByIdAsync(userId, ct);
-        if (user == null)
-            return NotFound();
+        var tenantId = GetTenantId();
+        _logger.LogInformation("Fetching user {UserId} for tenant {TenantId}", userId, tenantId);
 
-        if (!string.IsNullOrWhiteSpace(request.Email)) user.Email = request.Email;
-        if (!string.IsNullOrWhiteSpace(request.FirstName)) user.FirstName = request.FirstName;
-        if (!string.IsNullOrWhiteSpace(request.LastName)) user.LastName = request.LastName;
-        if (!string.IsNullOrWhiteSpace(request.PhoneNumber)) user.PhoneNumber = request.PhoneNumber;
-        if (request.IsActive.HasValue) user.IsActive = request.IsActive.Value;
-        if (request.IsEmailVerified.HasValue) user.IsEmailVerified = request.IsEmailVerified.Value;
+        // Forward request to Identity Service
+        var url = $"{_identityServiceUrl}/api/identity/users/{userId}";
+        var response = await _httpClient.GetAsync(url, ct);
 
-        user.UpdatedAt = DateTime.UtcNow;
-        await _userRepository.UpdateAsync(user, ct);
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            return NotFoundResponse($"User {userId} not found");
 
-        var addresses = await _addressRepository.GetByUserAsync(userId, ct);
-        var addressDtos = addresses.Select(a => new AddressDto(a.Id, a.UserId, a.AddressType, a.StreetAddress,
-            a.StreetAddress2, a.City, a.PostalCode, a.Country, a.State, a.RecipientName, a.PhoneNumber, a.IsDefault)).ToList();
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
+            return StatusCode((int)response.StatusCode, "Error fetching user from Identity Service");
+        }
 
-        var profileDto = user.Profile != null ? new UserProfileDto(user.Profile.Id, user.Profile.UserId,
-            user.Profile.AvatarUrl, user.Profile.Bio, user.Profile.DateOfBirth, user.Profile.CompanyName,
-            user.Profile.JobTitle, user.Profile.PreferredLanguage, user.Profile.Timezone,
-            user.Profile.ReceiveNewsletter, user.Profile.ReceivePromotionalEmails) : null;
-
-        var userDetailDto = new UserDetailDto(user.Id, user.TenantId, user.Email, user.FirstName, user.LastName,
-            user.PhoneNumber, user.IsActive, user.IsEmailVerified, user.CreatedAt, user.UpdatedAt, user.LastLoginAt,
-            profileDto, addressDtos);
-
-        return Ok(new SingleUserResponse(true, userDetailDto, DateTime.UtcNow));
+        var content = await response.Content.ReadAsStringAsync(ct);
+        return OkResponse(JsonDocument.Parse(content).RootElement, "User retrieved successfully");
     }
 
+    /// <summary>
+    /// Create a new user
+    /// Proxies to: POST /api/identity/users
+    /// </summary>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> CreateUser([FromBody] object request, CancellationToken ct)
+    {
+        var tenantId = GetTenantId();
+        var userId = GetUserId();
+        _logger.LogInformation("User {UserId} creating new user for tenant {TenantId}", userId, tenantId);
+
+        // Forward request to Identity Service
+        var url = $"{_identityServiceUrl}/api/identity/users";
+        var content = JsonContent.Create(request);
+        var response = await _httpClient.PostAsync(url, content, ct);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
+            var errorContent = await response.Content.ReadAsStringAsync(ct);
+            return StatusCode((int)response.StatusCode, errorContent);
+        }
+
+        var responseContent = await response.Content.ReadAsStringAsync(ct);
+        var jsonData = JsonDocument.Parse(responseContent);
+        var createdUserId = jsonData.RootElement.GetProperty("id").GetGuid();
+
+        return CreatedResponse(nameof(GetUser), new { userId = createdUserId }, jsonData.RootElement);
+    }
+
+    /// <summary>
+    /// Update an existing user
+    /// Proxies to: PUT /api/identity/users/{userId}
+    /// </summary>
+    [HttpPut("{userId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UpdateUser(Guid userId, [FromBody] object request, CancellationToken ct)
+    {
+        var tenantId = GetTenantId();
+        var currentUserId = GetUserId();
+        _logger.LogInformation("User {UserId} updating user {TargetUserId} for tenant {TenantId}",
+            currentUserId, userId, tenantId);
+
+        // Forward request to Identity Service
+        var url = $"{_identityServiceUrl}/api/identity/users/{userId}";
+        var content = JsonContent.Create(request);
+        var response = await _httpClient.PutAsync(url, content, ct);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            return NotFoundResponse($"User {userId} not found");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
+            var errorContent = await response.Content.ReadAsStringAsync(ct);
+            return StatusCode((int)response.StatusCode, errorContent);
+        }
+
+        var responseContent = await response.Content.ReadAsStringAsync(ct);
+        return OkResponse(JsonDocument.Parse(responseContent).RootElement, "User updated successfully");
+    }
+
+    /// <summary>
+    /// Delete a user
+    /// Proxies to: DELETE /api/identity/users/{userId}
+    /// </summary>
     [HttpDelete("{userId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteUser(Guid userId, CancellationToken ct)
     {
-        await _userRepository.DeleteAsync(userId, ct);
-        return NoContent();
-    }
+        var tenantId = GetTenantId();
+        var currentUserId = GetUserId();
+        _logger.LogInformation("User {UserId} deleting user {TargetUserId} for tenant {TenantId}",
+            currentUserId, userId, tenantId);
 
-    [HttpPost("{userId}/addresses")]
-    public async Task<ActionResult<SingleAddressResponse>> CreateAddress(Guid userId, [FromBody] CreateAddressRequest request, CancellationToken ct)
-    {
-        var address = new Address
+        // Forward request to Identity Service
+        var url = $"{_identityServiceUrl}/api/identity/users/{userId}";
+        var response = await _httpClient.DeleteAsync(url, ct);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            return NotFoundResponse($"User {userId} not found");
+
+        if (!response.IsSuccessStatusCode)
         {
-            Id = Guid.NewGuid(),
-            UserId = userId,
-            TenantId = GetTenantId(),
-            AddressType = request.AddressType,
-            StreetAddress = request.StreetAddress,
-            StreetAddress2 = request.StreetAddress2,
-            City = request.City,
-            PostalCode = request.PostalCode,
-            Country = request.Country,
-            State = request.State,
-            RecipientName = request.RecipientName,
-            PhoneNumber = request.PhoneNumber,
-            IsDefault = request.IsDefault,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
+            _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
+            return StatusCode((int)response.StatusCode, "Error deleting user from Identity Service");
+        }
 
-        var created = await _addressRepository.CreateAsync(address, ct);
-        var dto = new AddressDto(created.Id, created.UserId, created.AddressType, created.StreetAddress,
-            created.StreetAddress2, created.City, created.PostalCode, created.Country, created.State,
-            created.RecipientName, created.PhoneNumber, created.IsDefault);
-
-        return CreatedAtAction(nameof(GetUser), new { userId }, new SingleAddressResponse(true, dto, DateTime.UtcNow));
-    }
-
-    [HttpDelete("{userId}/addresses/{addressId}")]
-    public async Task<ActionResult> DeleteAddress(Guid userId, Guid addressId, CancellationToken ct)
-    {
-        await _addressRepository.DeleteAsync(addressId, ct);
         return NoContent();
     }
 }

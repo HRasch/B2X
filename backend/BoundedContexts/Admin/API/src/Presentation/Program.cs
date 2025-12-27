@@ -3,8 +3,10 @@ using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Application.Services;
 using B2Connect.Admin.Infrastructure.Repositories;
 using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.Shared.User.Infrastructure;
 using B2Connect.Middleware;
+using B2Connect.Admin.Presentation.Filters;
+using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -141,6 +143,10 @@ else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
         opt.UseNpgsql(builder.Configuration.GetConnectionString("Catalog")));
 }
 
+// ==================== TENANT CONTEXT ====================
+// Register scoped tenant context service for request-level tenant isolation
+builder.Services.AddScoped<ITenantContext, TenantContext>();
+
 // Register Repositories
 builder.Services.AddScoped<IRepository<B2Connect.Admin.Core.Entities.Product>, Repository<B2Connect.Admin.Core.Entities.Product>>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -152,9 +158,6 @@ builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeReposito
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
-
-// Register User Domain Infrastructure
-builder.Services.AddUserInfrastructure(builder.Configuration);
 
 // Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -195,7 +198,13 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Add services
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    // Register global filters für alle Controller
+    options.Filters.Add<ApiExceptionHandlingFilter>();
+    options.Filters.Add<ValidateModelStateFilter>();
+    options.Filters.Add<ApiLoggingFilter>();
+});
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 
@@ -216,10 +225,10 @@ builder.Services.AddReverseProxy()
 
 var app = builder.Build();
 
-// Initialize User database
+// Initialize databases (Store Context only)
 try
 {
-    await app.Services.EnsureUserDatabaseAsync();
+    // EnsureUserDatabaseAsync removed - User management is handled by Identity Service
 }
 catch (Exception ex)
 {
@@ -250,6 +259,11 @@ if (app.Environment.IsDevelopment())
 
 // CORS must come before routing
 app.UseCors("AllowAdminFrontend");
+
+// ==================== TENANT CONTEXT MIDDLEWARE ====================
+// Extract X-Tenant-ID header and populate scoped ITenantContext
+// Must be before authentication/authorization for proper tenant isolation
+app.UseMiddleware<TenantContextMiddleware>();
 
 // HTTPS Redirection & HSTS (Security Headers)
 if (!app.Environment.IsDevelopment())

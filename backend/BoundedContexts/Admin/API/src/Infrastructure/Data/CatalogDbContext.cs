@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using B2Connect.Admin.Core.Entities;
+using B2Connect.Shared.Core.Entities;
+using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Types.Localization;
 
 namespace B2Connect.Admin.Infrastructure.Data;
@@ -44,13 +46,21 @@ public class CatalogDbContext : DbContext
     /// <summary>Gets or sets the VariantAttributeValues DbSet</summary>
     public DbSet<VariantAttributeValue> VariantAttributeValues { get; set; } = null!;
 
-    public CatalogDbContext(DbContextOptions<CatalogDbContext> options) : base(options)
+    private readonly ITenantContext _tenantContext;
+
+    public CatalogDbContext(DbContextOptions<CatalogDbContext> options, ITenantContext tenantContext)
+        : base(options)
     {
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        // ==================== GLOBAL TENANT FILTER ====================
+        // Automatically filter all BaseEntity-derived entities by TenantId
+        ApplyGlobalTenantFilter(modelBuilder);
 
         // ==================== CATEGORY CONFIGURATION ====================
         modelBuilder.Entity<Category>(entity =>
@@ -514,6 +524,38 @@ public class CatalogDbContext : DbContext
 
         // ==================== SEED DATA (OPTIONAL) ====================
         SeedInitialData(modelBuilder);
+    }
+
+    /// <summary>
+    /// Applies global query filters to all BaseEntity-derived entities
+    /// Ensures automatic tenant isolation at the DbContext level
+    /// Every query automatically filters by the current tenant ID
+    /// </summary>
+    /// <remarks>
+    /// This is a critical security feature: It's impossible to query across tenants
+    /// because the filter is applied automatically by Entity Framework Core.
+    /// 
+    /// If TenantId is empty/default, no entities will match (default behavior).
+    /// This prevents accidental data exposure if tenant context is not properly set.
+    /// </remarks>
+    private void ApplyGlobalTenantFilter(ModelBuilder modelBuilder)
+    {
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            // Check if entity inherits from BaseEntity
+            if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+            {
+                // Build expression: e => e.TenantId == _tenantContext.TenantId
+                var parameter = System.Linq.Expressions.Expression.Parameter(entityType.ClrType, "e");
+                var property = System.Linq.Expressions.Expression.Property(parameter, "TenantId");
+                var constant = System.Linq.Expressions.Expression.Constant(_tenantContext.TenantId);
+                var equality = System.Linq.Expressions.Expression.Equal(property, constant);
+                var lambda = System.Linq.Expressions.Expression.Lambda(equality, parameter);
+
+                // Apply filter
+                modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
+            }
+        }
     }
 
     private static void SeedInitialData(ModelBuilder modelBuilder)

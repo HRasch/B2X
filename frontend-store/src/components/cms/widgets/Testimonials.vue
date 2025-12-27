@@ -59,7 +59,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   settings: () => ({
-    testimonials: () => [],
+    testimonials: [] as Testimonial[],
   }),
 });
 

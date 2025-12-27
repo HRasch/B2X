@@ -32,8 +32,6 @@ export interface UsersResponse {
   total: number;
 }
 
-const baseURL = import.meta.env.VITE_ADMIN_API_URL || "/api";
-
 export const usersApi = {
   /**
    * Get all users
