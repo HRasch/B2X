@@ -2,10 +2,22 @@
 
 Quick navigation to all B2Connect documentation.
 
+> **🎯 NEW!** See [../GOVERNANCE.md](../GOVERNANCE.md) for complete overview of requirements & governance documentation
+
 ## 🚀 Start Here (Choose Your Path)
 
 | Your Goal | Read This | Time |
 |-----------|-----------|------|
+| **📚 User Documentation (GitHub Pages)** | [USER_GUIDE.md](USER_GUIDE.md) | 20 min |
+| **🔐 Security Assessment (Pentester Review)** | [PENTESTER_REVIEW.md](PENTESTER_REVIEW.md) | 30 min |
+| **👨‍💻 Technical Documentation (Developers)** | [SOFTWARE_DOCUMENTATION.md](SOFTWARE_DOCUMENTATION.md) | 25 min |
+| **🚀 Deploy Documentation to GitHub Pages** | [GITHUB_PAGES_SETUP.md](GITHUB_PAGES_SETUP.md) | 15 min |
+| **This week: P0 Critical Fixes** | [../CRITICAL_ISSUES_ROADMAP.md](../CRITICAL_ISSUES_ROADMAP.md) | 30 min |
+| **All Requirements** | [../REQUIREMENTS_SUMMARY.md](../REQUIREMENTS_SUMMARY.md) | 15 min |
+| **Setup & Specs** | [APPLICATION_SPECIFICATIONS.md](APPLICATION_SPECIFICATIONS.md) | 15 min |
+| **GitHub Workflows** | [GITHUB_WORKFLOWS.md](GITHUB_WORKFLOWS.md) | 15 min |
+| **Daily Standup Template** | [../DAILY_STANDUP_TEMPLATE.md](../DAILY_STANDUP_TEMPLATE.md) | 5 min |
+| **Quick Start P0** | [../QUICK_START_P0.md](../QUICK_START_P0.md) | 5 min |
 | **I'm new to B2Connect** | [guides/GETTING_STARTED.md](guides/GETTING_STARTED.md) | 5 min |
 | **I want to understand the project** | [README.md](../README.md) | 10 min |
 | **I'm a developer** | [guides/DEVELOPMENT.md](guides/DEVELOPMENT.md) | 10 min |
@@ -15,11 +27,58 @@ Quick navigation to all B2Connect documentation.
 
 ## 📂 Documentation Structure
 
-### Root Level
+### Root Level (Critical Documents)
+- **[GOVERNANCE.md](../GOVERNANCE.md)** — Documentation map & governance overview
+- **[REQUIREMENTS_SUMMARY.md](../REQUIREMENTS_SUMMARY.md)** — All requirements for P0 week
 - **[README.md](../README.md)** — Project overview & quick start
 - **[B2Connect.slnx](../B2Connect.slnx)** — Solution file
+- **[CRITICAL_ISSUES_ROADMAP.md](../CRITICAL_ISSUES_ROADMAP.md)** — P0 Week (30.12-03.01)
+- **[SECURITY_HARDENING_GUIDE.md](../SECURITY_HARDENING_GUIDE.md)** — Security implementation
+- **[DAILY_STANDUP_TEMPLATE.md](../DAILY_STANDUP_TEMPLATE.md)** — Daily team coordination
+- **[QUICK_START_P0.md](../QUICK_START_P0.md)** — Quick start guide for P0 week
+- **[.github/CONTRIBUTING.md](../.github/CONTRIBUTING.md)** — Contributing guidelines
 
-### Architecture (`docs/architecture/`)
+### Documentation, User Guides & GitHub Pages
+- **[USER_GUIDE.md](USER_GUIDE.md)** — Complete user documentation (Customers & Admins)
+  - For store customers: shopping, orders, account management
+  - For admins: products, customers, orders, settings, reports
+- **[PENTESTER_REVIEW.md](PENTESTER_REVIEW.md)** — Security penetration testing assessment
+  - Executive summary with CVSS scores
+  - 5 CRITICAL vulnerabilities with exploitation scenarios
+  - 8 HIGH severity findings
+  - OWASP Top 10 mapping
+  - Manual testing checklist
+- **[SOFTWARE_DOCUMENTATION.md](SOFTWARE_DOCUMENTATION.md)** — Technical documentation for developers
+  - Architecture & API specifications
+  - Database schema with ERD
+  - JWT & authentication patterns
+  - RBAC & tenant isolation
+  - Deployment guides (Docker, Kubernetes)
+  - Testing patterns & examples
+  - Troubleshooting guide
+- **[GITHUB_PAGES_SETUP.md](GITHUB_PAGES_SETUP.md)** — Deploy documentation to GitHub Pages
+  - Step-by-step setup guide
+  - GitHub Pages configuration
+  - CI/CD pipeline for auto-deployment
+  - Custom domain setup
+  - Troubleshooting
+
+### Specifications & Standards
+- **[APPLICATION_SPECIFICATIONS.md](APPLICATION_SPECIFICATIONS.md)** — Complete system specs
+  - Core & security requirements
+  - Data & API specifications
+  - Database schema (P0.3, P0.4)
+  - Audit & compliance requirements
+  - Performance & deployment specs
+
+- **[GITHUB_WORKFLOWS.md](GITHUB_WORKFLOWS.md)** — Development workflows
+  - GitHub project management
+  - Branch strategy & naming
+  - Commit strategy & conventions
+  - Pull request workflow
+  - Code review process
+  - Release management
+  - CI/CD pipelines
 - **[ONION_ARCHITECTURE.md](ONION_ARCHITECTURE.md)** — Architekturprinzipien
 - **[GATEWAY_SEPARATION.md](GATEWAY_SEPARATION.md)** — Gateway-Trennung
 - **[STORE_SEPARATION_STRUCTURE.md](architecture/STORE_SEPARATION_STRUCTURE.md)** — Store-Architektur
@@ -49,6 +108,18 @@ Quick navigation to all B2Connect documentation.
 - **[PROJECT_NAMING_MAPPING.md](guides/PROJECT_NAMING_MAPPING.md)** — Naming conventions
 
 ## 🔍 Quick Links by Topic
+
+**User Guides & Documentation** → [USER_GUIDE.md](USER_GUIDE.md), [GITHUB_PAGES_SETUP.md](GITHUB_PAGES_SETUP.md)
+
+**Security & Pentesting** → [PENTESTER_REVIEW.md](PENTESTER_REVIEW.md), [../SECURITY_HARDENING_GUIDE.md](../SECURITY_HARDENING_GUIDE.md)
+
+**Technical Documentation** → [SOFTWARE_DOCUMENTATION.md](SOFTWARE_DOCUMENTATION.md), [APPLICATION_SPECIFICATIONS.md](APPLICATION_SPECIFICATIONS.md)
+
+**This Week (P0)** → [../CRITICAL_ISSUES_ROADMAP.md](../CRITICAL_ISSUES_ROADMAP.md), [../QUICK_START_P0.md](../QUICK_START_P0.md), [../REQUIREMENTS_SUMMARY.md](../REQUIREMENTS_SUMMARY.md)
+
+**Development Workflows** → [GITHUB_WORKFLOWS.md](GITHUB_WORKFLOWS.md), [.github/pull_request_template.md](../.github/pull_request_template.md)
+
+**Specs & Standards** → [APPLICATION_SPECIFICATIONS.md](APPLICATION_SPECIFICATIONS.md), [REQUIREMENTS_SUMMARY.md](../REQUIREMENTS_SUMMARY.md)
 
 **Setup & Architecture** → [guides/GETTING_STARTED.md](guides/GETTING_STARTED.md), [ONION_ARCHITECTURE.md](ONION_ARCHITECTURE.md)
 
