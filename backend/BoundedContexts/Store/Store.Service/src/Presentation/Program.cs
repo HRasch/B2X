@@ -14,12 +14,16 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Logging
+// Logging - Console + File
 builder.Host.UseSerilog((context, config) =>
 {
     config
         .MinimumLevel.Information()
         .WriteTo.Console()
+        .WriteTo.File(
+            "logs/store-.txt",
+            rollingInterval: Serilog.RollingInterval.Day,
+            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
         .ReadFrom.Configuration(context.Configuration);
 });
 
@@ -51,8 +55,7 @@ if (string.IsNullOrEmpty(jwtSecret))
     if (builder.Environment.IsDevelopment())
     {
         jwtSecret = "dev-only-secret-minimum-32-chars-required!";
-        var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
-        logger.LogWarning(
+        System.Console.WriteLine(
             "⚠️ Using DEVELOPMENT JWT secret. This MUST be changed in production via environment variables or Azure Key Vault. " +
             "Set 'Jwt:Secret' via environment variable 'Jwt__Secret' or key vault in production.");
     }

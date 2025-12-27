@@ -66,8 +66,7 @@ builder.Services.AddDbContext<LocalizationDbContext>(options =>
             if (builder.Environment.IsDevelopment())
             {
                 connectionString = "Host=localhost;Database=b2connect_localization;Username=postgres;Password=postgres";
-                var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
-                logger.LogWarning(
+                System.Console.WriteLine(
                     "⚠️ Using DEVELOPMENT database credentials. This MUST be changed in production. " +
                     "Set 'ConnectionStrings:LocalizationDb' via environment variables or Azure Key Vault.");
             }

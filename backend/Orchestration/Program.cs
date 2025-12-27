@@ -47,7 +47,7 @@ var rabbitmq = builder.AddB2ConnectRabbitMQ(
 var storeGateway = builder
     .AddProject<Projects.B2Connect_Store>("store-gateway")
     .WithHttpEndpoint(port: 8000, targetPort: 8000, name: "store-gateway", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:8000")
+    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:8000")
     .WithB2ConnectCors("http://localhost:5173", "https://localhost:5173")
     .WithSecurityDefaults(jwtSecret);
 
@@ -55,7 +55,7 @@ var storeGateway = builder
 var adminGateway = builder
     .AddProject<Projects.B2Connect_Admin>("admin-gateway")
     .WithHttpEndpoint(port: 8080, targetPort: 8080, name: "admin-gateway", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:8080")
+    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:8080")
     .WithB2ConnectCors("http://localhost:5174", "https://localhost:5174")
     .WithSecurityDefaults(jwtSecret);
 
@@ -65,7 +65,7 @@ var adminGateway = builder
 var authService = builder
     .AddProject<Projects.B2Connect_Identity_API>("auth-service")
     .WithHttpEndpoint(port: 7002, targetPort: 7002, name: "auth-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:7002")
+    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7002")
     .WithPostgresConnection(authDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -81,7 +81,7 @@ var authService = builder
 var tenantService = builder
     .AddProject<Projects.B2Connect_Tenancy_API>("tenant-service")
     .WithHttpEndpoint(port: 7003, targetPort: 7003, name: "tenant-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:7003")
+    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7003")
     .WithPostgresConnection(tenantDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -95,7 +95,7 @@ var tenantService = builder
 var localizationService = builder
     .AddProject<Projects.B2Connect_Localization_API>("localization-service")
     .WithHttpEndpoint(port: 7004, targetPort: 7004, name: "localization-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:7004")
+    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7004")
     .WithPostgresConnection(localizationDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -108,7 +108,7 @@ var localizationService = builder
 var catalogService = builder
     .AddProject<Projects.B2Connect_Catalog_API>("catalog-service")
     .WithHttpEndpoint(port: 7005, targetPort: 7005, name: "catalog-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:7005")
+    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7005")
     .WithPostgresConnection(catalogDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -123,7 +123,7 @@ var catalogService = builder
 var themingService = builder
     .AddProject<Projects.B2Connect_Theming_API>("theming-service")
     .WithHttpEndpoint(port: 7008, targetPort: 7008, name: "theming-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://+:7008")
+    .WithEnvironment("ASPNETCORE_URLS", "http://127.0.0.1:7008")
     .WithPostgresConnection(layoutDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)

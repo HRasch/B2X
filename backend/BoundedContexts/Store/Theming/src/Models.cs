@@ -12,19 +12,19 @@ public class Theme
     public Guid TenantId { get; set; }
 
     /// <summary>Theme name (unique per tenant)</summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>Theme description</summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>Primary brand color (hex format)</summary>
-    public string PrimaryColor { get; set; }
+    public string? PrimaryColor { get; set; }
 
     /// <summary>Secondary brand color (hex format)</summary>
-    public string SecondaryColor { get; set; }
+    public string? SecondaryColor { get; set; }
 
     /// <summary>Tertiary brand color (hex format)</summary>
-    public string TertiaryColor { get; set; }
+    public string? TertiaryColor { get; set; }
 
     /// <summary>Design variables (colors, spacing, fonts, etc.)</summary>
     public List<DesignVariable> Variables { get; set; } = new();
@@ -153,46 +153,46 @@ public class CreateThemeRequest
 /// <summary>Update Theme Request DTO</summary>
 public class UpdateThemeRequest
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string PrimaryColor { get; set; }
-    public string SecondaryColor { get; set; }
-    public string TertiaryColor { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public string? PrimaryColor { get; set; }
+    public string? SecondaryColor { get; set; }
+    public string? TertiaryColor { get; set; }
 }
 
 /// <summary>Add Design Variable Request DTO</summary>
 public class AddDesignVariableRequest
 {
-    public string Name { get; set; }
-    public string Value { get; set; }
-    public string Category { get; set; }
-    public string Description { get; set; }
+    public string? Name { get; set; }
+    public string? Value { get; set; }
+    public string? Category { get; set; }
+    public string? Description { get; set; }
     public VariableType Type { get; set; } = VariableType.String;
 }
 
 /// <summary>Update Design Variable Request DTO</summary>
 public class UpdateDesignVariableRequest
 {
-    public string Value { get; set; }
-    public string Category { get; set; }
-    public string Description { get; set; }
+    public string? Value { get; set; }
+    public string? Category { get; set; }
+    public string? Description { get; set; }
     public VariableType Type { get; set; }
 }
 
 /// <summary>Create Theme Variant Request DTO</summary>
 public class CreateThemeVariantRequest
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public Dictionary<string, string> VariableOverrides { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public Dictionary<string, string>? VariableOverrides { get; set; }
 }
 
 /// <summary>Update Theme Variant Request DTO</summary>
 public class UpdateThemeVariantRequest
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public Dictionary<string, string> VariableOverrides { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public Dictionary<string, string>? VariableOverrides { get; set; }
     public bool? IsEnabled { get; set; }
 }
 

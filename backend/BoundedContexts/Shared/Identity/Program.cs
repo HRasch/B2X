@@ -83,8 +83,7 @@ if (corsOrigins == null || corsOrigins.Length == 0)
             "http://127.0.0.1:5173",
             "http://127.0.0.1:5174"
         };
-        var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
-        logger.LogWarning(
+        System.Console.WriteLine(
             "⚠️ CORS origins not configured. Using default development origins. " +
             "Configure 'Cors:AllowedOrigins' in appsettings.json for custom values.");
     }
@@ -103,8 +102,7 @@ if (string.IsNullOrEmpty(jwtSecret))
     if (builder.Environment.IsDevelopment())
     {
         jwtSecret = "dev-only-secret-minimum-32-chars-required!";
-        var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
-        logger.LogWarning(
+        System.Console.WriteLine(
             "⚠️ Using DEVELOPMENT JWT secret. This MUST be changed in production via environment variables or Azure Key Vault. " +
             "Set 'Jwt:Secret' via environment variable 'Jwt__Secret' or key vault in production.");
     }

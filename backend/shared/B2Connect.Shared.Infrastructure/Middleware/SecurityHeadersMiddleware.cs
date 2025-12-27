@@ -23,20 +23,20 @@ public class SecurityHeadersMiddleware
     {
         // X-Content-Type-Options: Prevent MIME type sniffing
         // Tells browser not to MIME-sniff, trust Content-Type header
-        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+        context.Response.Headers["X-Content-Type-Options"] = "nosniff";
 
         // X-Frame-Options: Prevent Clickjacking attacks
         // DENY = Cannot be displayed in a frame
-        context.Response.Headers.Add("X-Frame-Options", "DENY");
+        context.Response.Headers["X-Frame-Options"] = "DENY";
 
         // X-XSS-Protection: Legacy XSS protection (browser-level)
         // 1; mode=block = Enable XSS protection and block page if attack detected
-        context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+        context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
 
         // Referrer-Policy: Control how much referrer information is shared
         // strict-origin-when-cross-origin = Send full referrer for same-origin, 
         // only origin for cross-origin
-        context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
+        context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
 
         // Content-Security-Policy: Prevent XSS, Clickjacking, etc.
         // default-src 'self' = Only allow resources from same origin

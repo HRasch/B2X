@@ -34,7 +34,8 @@ public static class MessagingServiceExtensions
     }
 
     /// <summary>
-    /// Adds Wolverine with RabbitMQ transport
+    /// Adds Wolverine with RabbitMQ transport (Development)
+    /// In development, this uses local queues. RabbitMQ integration is planned for production.
     /// </summary>
     public static IHostBuilder AddWolverineWithRabbitMq(
         this IHostBuilder hostBuilder,
@@ -45,14 +46,18 @@ public static class MessagingServiceExtensions
         {
             opts.ServiceName = "B2Connect";
 
-            // Configure RabbitMQ
-            opts.UseRabbitMq(rabbitMqUri)
-                .AutoProvision()
-                .AutoPurgeOnStartup();
+            // Development: Use local durable queue
+            opts.LocalQueue("default")
+                .UseDurableInbox();
 
-            // Publish events to RabbitMQ exchange
-            opts.PublishAllMessages()
-                .ToRabbitExchange("b2connect-events");
+            // TODO: Enable RabbitMQ transport when package is properly configured
+            // opts.UseRabbitMq(rabbitMqUri)
+            //     .AutoProvision()
+            //     .AutoPurgeOnStartup();
+
+            // Publish events to local queue for now
+            // opts.PublishAllMessages()
+            //     .ToRabbitExchange("b2connect-events");
 
             // Apply custom configuration if provided
             configure?.Invoke(opts);
