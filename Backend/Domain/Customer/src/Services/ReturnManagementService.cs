@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using B2Connect.Catalog.Models;
+using B2Connect.Customer.Models;
 
-namespace B2Connect.Catalog.Services;
+namespace B2Connect.Customer.Services;
 
 /// <summary>
 /// ReturnManagementService - Handles 14-day withdrawal rights (VVVG §357 ff)

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace B2Connect.Catalog.Models;
+namespace B2Connect.Customer.Models;
 
 /// <summary>
 /// Order Entity - Represents a customer order (B2C/B2B)

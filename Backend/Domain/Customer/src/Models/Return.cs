@@ -1,6 +1,6 @@
 using System;
 
-namespace B2Connect.Catalog.Models;
+namespace B2Connect.Customer.Models;
 
 /// <summary>
 /// ReturnRequest Entity - Represents a customer return/withdrawal request
