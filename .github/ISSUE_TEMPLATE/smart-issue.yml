@@ -1,0 +1,148 @@
+name: Smart Issue with Role Detection
+description: Create an issue (roles detected automatically)
+title: "[type]: Brief description"
+labels: ["triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # 🎯 Issue mit automatischer Rollen-Erkennung
+        
+        Beschreibe dein Issue. Die benötigten Rollen werden **automatisch erkannt**!
+        
+        **Pro-Tip:** Branch-Namen sollten die Issue-Nummer enthalten, z.B.:
+        - `feature/issue-123-add-encryption`
+        - `fix/issue-456-ui-bug`
+        
+        ---
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschreibung
+      description: Was ist das Problem oder Feature?
+      placeholder: |
+        Beschreibe hier dein Issue mit allen relevanten Details.
+        
+        Beispiel für Backend Issue:
+        "Implementiere AES-256 Verschlüsselung für Benutzerdaten in CheckRegistrationTypeService"
+        
+        Beispiel für Frontend Issue:
+        "Verbessere Accessibility von Checkout-Form (WCAG 2.1 AA compliance)"
+        
+        Die automatische Rollen-Erkennung wird diese Keywords nutzen:
+        - Backend: API, database, service, handler, entity, repository, async, controller
+        - Frontend: Vue, component, CSS, Tailwind, UI, store, accessibility
+        - Security: encryption, audit, compliance, JWT, certificate
+        - DevOps: docker, kubernetes, infrastructure, monitoring, deploy
+        - QA: test, automation, coverage, regression, scenario
+    validations:
+      required: true
+  
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Was ist "fertig" für diese Issue?
+      placeholder: |
+        - [ ] Anforderung 1 erfüllt
+        - [ ] Anforderung 2 erfüllt
+        - [ ] Tests geschrieben
+        - [ ] Code Review bestanden
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue-Typ
+      options:
+        - "🐛 Bug"
+        - "✨ Feature"
+        - "📚 Documentation"
+        - "♻️ Refactor"
+        - "⚡ Performance"
+        - "🔒 Security"
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priorität
+      options:
+        - "🔴 P0 (Critical/Blocking)"
+        - "🟠 P1 (High)"
+        - "🟡 P2 (Medium)"
+        - "🟢 P3 (Low)"
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: p0-component
+    attributes:
+      label: Compliance Component (falls zutreffend)
+      options:
+        - "Keine"
+        - "🔐 P0.1 Audit Logging"
+        - "🔐 P0.2 Encryption"
+        - "🚨 P0.3 Incident Response"
+        - "🛡️ P0.4 Network Segmentation"
+        - "✅ P0.5 Key Management"
+        - "🛍️ P0.6 E-Commerce Legal"
+        - "🤖 P0.7 AI Act"
+        - "♿ P0.8 BITV Accessibility"
+        - "📄 P0.9 E-Rechnung"
+    validations:
+      required: false
+  
+  - type: textarea
+    id: technical-details
+    attributes:
+      label: Technische Details (optional)
+      description: Relevante Code-Snippets, Fehler-Logs, Links zu Dokumentation
+      placeholder: |
+        ```csharp
+        // Code snippet wenn relevant
+        ```
+        
+        oder
+        
+        ```vue
+        <!-- Vue Template snippet -->
+        ```
+    validations:
+      required: false
+  
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Vor dem Submitten
+      options:
+        - label: Ich habe nach ähnlichen Issues gesucht
+          required: false
+        - label: Diese Issue ist klar und fokussiert
+          required: true
+        - label: Ich bin bereit zuzuweisen/zu arbeiten
+          required: false
+  
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🤖 Automatische Rollen-Erkennung
+        
+        Nach dem Erstellen dieser Issue:
+        1. **Labels werden automatisch hinzugefügt** (role:backend, focus:p0-6, etc.)
+        2. **Erstelle einen Feature-Branch mit der Issue-Nummer**, z.B.:
+           ```bash
+           git checkout -b feature/issue-XXX-description
+           ```
+        3. **Nach Checkout wird Copilot-Kontext automatisch geladen**
+        
+        Du wirst aufgefordert:
+        - `Cmd+Shift+P` → `Developer: Reload Window`
+        - `Cmd+Shift+P` → `Copilot: Rebuild Index`
+        
+        **Danach:** Copilot ist optimiert für deine Issue! 🚀

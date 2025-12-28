@@ -1,0 +1,173 @@
+name: 🤖 Auto-Label Issues with Roles
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  detect-and-label-roles:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Install Dependencies
+        run: |
+          # Install jq for JSON parsing
+          sudo apt-get update && sudo apt-get install -y jq
+      
+      - name: Analyze Issue for Roles
+        id: analyze
+        run: |
+          ISSUE_BODY="${{ github.event.issue.body }}"
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          
+          # Kombiniere Title und Body für Analyse
+          FULL_CONTENT="$ISSUE_TITLE
+          $ISSUE_BODY"
+          
+          # Backend Keywords
+          if echo "$FULL_CONTENT" | grep -iq "API\|database\|microservice\|handler\|service\|entity\|repository\|EF Core\|Wolverine\|controller\|endpoint\|async\|await\|domain\|persistence"; then
+            echo "ROLES<<EOF" >> $GITHUB_OUTPUT
+            echo "backend" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+          
+          # Frontend Keywords
+          if echo "$FULL_CONTENT" | grep -iq "Vue\|component\|CSS\|Tailwind\|TypeScript\|UI\|UX\|layout\|store\|pinia\|responsive\|accessibility\|WCAG"; then
+            echo "ROLES<<EOF" >> $GITHUB_OUTPUT
+            echo "frontend" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+          
+          # Security Keywords
+          if echo "$FULL_CONTENT" | grep -iq "encryption\|audit\|compliance\|NIS2\|GDPR\|secret\|vault\|password\|hash\|JWT\|authentication\|authorization\|certificate"; then
+            echo "ROLES<<EOF" >> $GITHUB_OUTPUT
+            echo "security" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+          
+          # DevOps Keywords
+          if echo "$FULL_CONTENT" | grep -iq "docker\|kubernetes\|infrastructure\|terraform\|CI/CD\|deploy\|monitoring\|orchestration\|container\|ansible\|cloud"; then
+            echo "ROLES<<EOF" >> $GITHUB_OUTPUT
+            echo "devops" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+          
+          # QA Keywords
+          if echo "$FULL_CONTENT" | grep -iq "test\|automation\|junit\|xunit\|mock\|fixture\|scenario\|acceptance\|regression\|coverage\|bug\|defect"; then
+            echo "ROLES<<EOF" >> $GITHUB_OUTPUT
+            echo "qa" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Analyze Issue for Compliance Focus
+        id: compliance
+        run: |
+          ISSUE_BODY="${{ github.event.issue.body }}"
+          
+          # P0.1 Audit Logging
+          if echo "$ISSUE_BODY" | grep -iq "P0.1\|audit.*logging\|immutable.*log"; then
+            echo "FOCUS=p0-1-audit" >> $GITHUB_OUTPUT
+          fi
+          
+          # P0.2 Encryption
+          if echo "$ISSUE_BODY" | grep -iq "P0.2\|encryption\|AES.*256"; then
+            echo "FOCUS=p0-2-encryption" >> $GITHUB_OUTPUT
+          fi
+          
+          # P0.3 Incident Response
+          if echo "$ISSUE_BODY" | grep -iq "P0.3\|incident.*response"; then
+            echo "FOCUS=p0-3-incident" >> $GITHUB_OUTPUT
+          fi
+          
+          # P0.6 E-Commerce
+          if echo "$ISSUE_BODY" | grep -iq "P0.6\|e-commerce\|VAT\|invoice\|withdrawal"; then
+            echo "FOCUS=p0-6-ecommerce" >> $GITHUB_OUTPUT
+          fi
+          
+          # P0.7 AI Act
+          if echo "$ISSUE_BODY" | grep -iq "P0.7\|AI Act\|fraud.*detection\|bias"; then
+            echo "FOCUS=p0-7-ai" >> $GITHUB_OUTPUT
+          fi
+          
+          # P0.8 BITV
+          if echo "$ISSUE_BODY" | grep -iq "P0.8\|accessibility\|WCAG\|BITV\|barrierefreiheit"; then
+            echo "FOCUS=p0-8-bitv" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Add Role Labels
+        if: steps.analyze.outputs.ROLES
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const roles = "${{ steps.analyze.outputs.ROLES }}".split('\n').filter(r => r.trim());
+            const focus = "${{ steps.compliance.outputs.FOCUS }}".trim();
+            
+            let labels = roles.map(r => `role:${r}`);
+            if (focus) {
+              labels.push(`focus:${focus}`);
+            }
+            
+            // Entferne Duplikate
+            labels = [...new Set(labels)];
+            
+            console.log(`Adding labels: ${labels.join(', ')}`);
+            
+            for (const label of labels) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  labels: [label]
+                });
+              } catch (error) {
+                console.log(`Label ${label} might already exist or error occurred`);
+              }
+            }
+      
+      - name: Add Comment with Role Info
+        if: steps.analyze.outputs.ROLES
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const roles = "${{ steps.analyze.outputs.ROLES }}".split('\n').filter(r => r.trim());
+            const focus = "${{ steps.compliance.outputs.FOCUS }}".trim();
+            
+            let comment = `## 🤖 Automatische Rollen-Erkennung\n\n`;
+            comment += `**Erkannte Rollen:**\n`;
+            roles.forEach(r => {
+              const icons = {
+                backend: '💻',
+                frontend: '🎨',
+                security: '🔐',
+                devops: '⚙️',
+                qa: '🧪'
+              };
+              comment += `- ${icons[r] || '•'} ${r}\n`;
+            });
+            
+            if (focus) {
+              comment += `\n**Compliance Focus:** \`${focus}\`\n`;
+            }
+            
+            comment += `\n### 🚀 Nächste Schritte\n\n`;
+            comment += `1. Erstelle einen Feature-Branch mit Issue-Nummer:\n`;
+            comment += `   \`\`\`bash\n`;
+            comment += `   git checkout -b feature/issue-${{ github.event.issue.number }}-description\n`;
+            comment += `   \`\`\`\n\n`;
+            comment += `2. Copilot wird automatisch optimiert nach Checkout:\n`;
+            comment += `   - \`Cmd+Shift+P\` → \`Developer: Reload Window\`\n`;
+            comment += `   - \`Cmd+Shift+P\` → \`Copilot: Rebuild Index\`\n\n`;
+            comment += `✨ Copilot ist dann optimiert für diese Issue!\n`;
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });

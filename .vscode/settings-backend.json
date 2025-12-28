@@ -1,0 +1,67 @@
+{
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.git/objects": true,
+    "**/.git/refs": true,
+    "**/node_modules": true,
+    "**/.vs": true,
+    ".vscode": false,
+    "frontend-store/**": true,
+    "frontend-admin/**": true,
+    "Frontend/**": true,
+    "frontend/**": true,
+    "logs/**": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/node_modules": true,
+    ".git": true,
+    "frontend-store/**": true,
+    "frontend-admin/**": true,
+    "Frontend/**": true,
+    "frontend/**": true,
+    "logs/**": true
+  },
+  "files.watcherExclude": {
+    "**/bin/**": true,
+    "**/obj/**": true,
+    "**/node_modules/**": true,
+    "**/.git/**": true,
+    "**/dist/**": true,
+    "frontend-store/**": true,
+    "frontend-admin/**": true,
+    "Frontend/**": true,
+    "frontend/**": true,
+    "logs/**": true
+  },
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": false,
+      "source.organizeImports": false
+    },
+    "editor.inlayHints.enabled": "off"
+  },
+  "omnisharp.enableRoslynAnalyzers": false,
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.enableAnalyzerSupport": false,
+  "dotnet.server.useOmnisharp": true,
+  "editor.quickSuggestionsDelay": 50,
+  "github.copilot.advanced": {
+    "indexing.skip": [
+      "frontend-store/**",
+      "frontend-admin/**",
+      "Frontend/**",
+      "frontend/**",
+      "**/node_modules/**",
+      "**/bin/**",
+      "**/obj/**",
+      "logs/**",
+      "docs/compliance/**"
+    ]
+  },
+  "extensions.ignoreRecommendations": true
+}

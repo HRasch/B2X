@@ -1,0 +1,64 @@
+{
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.git/objects": true,
+    "**/.git/refs": true,
+    "backend/**": true,
+    "AppHost/**": true,
+    "ServiceDefaults/**": true,
+    "**/.vs": true,
+    ".vscode": false,
+    "logs/**": true,
+    "*.csproj": true,
+    "*.slnx": true,
+    "Directory.Packages.props": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/node_modules": true,
+    ".git": true,
+    "backend/**": true,
+    "AppHost/**": true,
+    "ServiceDefaults/**": true,
+    "logs/**": true
+  },
+  "files.watcherExclude": {
+    "**/bin/**": true,
+    "**/obj/**": true,
+    "**/node_modules/**": true,
+    "**/.git/**": true,
+    "**/dist/**": true,
+    "backend/**": true,
+    "AppHost/**": true,
+    "ServiceDefaults/**": true,
+    "logs/**": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": false
+    }
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.quickSuggestionsDelay": 50,
+  "github.copilot.advanced": {
+    "indexing.skip": [
+      "backend/**",
+      "AppHost/**",
+      "ServiceDefaults/**",
+      "**/node_modules/**",
+      "**/dist/**",
+      "logs/**",
+      "docs/compliance/**"
+    ]
+  },
+  "extensions.ignoreRecommendations": true
+}
