@@ -1,50 +1,61 @@
 # AI Coding Agent Instructions for B2Connect
 
-**Last Updated**: 27. Dezember 2025 | **Architecture**: DDD Microservices with Aspire
+**Last Updated**: 28. Dezember 2025 | **Architecture**: DDD Microservices with Wolverine + CLI
 
 ## 🏗️ Architecture Foundation
 
-B2Connect is a **Domain-Driven Design (DDD) multitenant SaaS platform** with three architectural layers:
+B2Connect is a **Domain-Driven Design (DDD) multitenant SaaS platform** using Wolverine for all microservices:
 
-### Bounded Contexts
+### Microservices Architecture (Wolverine-Based)
 ```
-backend/BoundedContexts/
-├── Store/                 # Public storefront (read-only, cacheable)
-│   ├── API/              # Store Gateway (Port 8000)
-│   ├── Catalog/          # Products, Categories (Port 7005)
-│   ├── CMS/              # Content Management
-│   ├── Theming/          # UI Themes & Layouts (Port 7008)
-│   ├── Localization/     # i18n Translations (Port 7004)
-│   └── Search/           # Elasticsearch integration
-├── Admin/                # Admin operations (full CRUD)
-│   └── API/              # Admin Gateway (Port 8080)
-└── Shared/               # Cross-context services
-    ├── Identity/         # Authentication (JWT) (Port 7002)
-    └── Tenancy/          # Multi-tenant isolation (Port 7003)
+backend/
+├── Domain/                     # Individual Microservices (each standalone)
+│   ├── Identity/              # Authentication (Wolverine) (Port 7002)
+│   ├── Tenancy/               # Multi-tenant isolation (Wolverine) (Port 7003)
+│   ├── Localization/          # i18n translations (Wolverine) (Port 7004)
+│   ├── Catalog/               # Products, categories (Wolverine) (Port 7005)
+│   ├── CMS/                   # Content Management (Wolverine) (Port 7006)
+│   ├── Theming/               # UI themes, layouts (Wolverine) (Port 7008)
+│   └── Search/                # Elasticsearch integration (Wolverine)
+│
+├── CLI/                        # B2Connect Console Interface
+│   └── B2Connect.CLI/          # dotnet tool for operations
+│       ├── Commands/
+│       │   ├── AuthCommands/
+│       │   ├── TenantCommands/
+│       │   ├── ProductCommands/
+│       │   ├── ContentCommands/
+│       │   └── SystemCommands/
+│       ├── Services/
+│       └── Program.cs
+│
+├── Orchestration/             # Aspire Orchestration
+├── ServiceDefaults/           # Shared defaults
+└── shared/                    # Shared libraries
 ```
 
 ### Service Port Map (Critical!)
-| Service | Port | Purpose |
-|---------|------|---------|
-| Auth/Identity | 7002 | JWT Authentication, Passkeys |
-| Tenant | 7003 | Multi-tenancy management |
-| Localization | 7004 | i18n translations |
-| Catalog | 7005 | Products, categories |
-| Theming | 7008 | UI themes, layouts |
-| Store Gateway | 8000 | Public API (frontend-store) |
-| Admin Gateway | 8080 | Protected API (frontend-admin) |
-| Frontend Store | 5173 | Vue.js storefront |
-| Frontend Admin | 5174 | Vue.js admin panel |
-| Aspire Dashboard | 15500 | Observability UI |
-| Redis | 6379 | Cache & sessions |
-| PostgreSQL | 5432 | Database |
-| Elasticsearch | 9200 | Full-text search |
-| RabbitMQ | 5672 | Message queue |
+| Service | Port | Type | Purpose |
+|---------|------|------|---------|
+| Identity Microservice | 7002 | Wolverine | JWT Authentication, Passkeys |
+| Tenancy Microservice | 7003 | Wolverine | Multi-tenancy management |
+| Localization Microservice | 7004 | Wolverine | i18n translations |
+| Catalog Microservice | 7005 | Wolverine | Products, categories |
+| CMS Microservice | 7006 | Wolverine | Content Management |
+| Theming Microservice | 7008 | Wolverine | UI themes, layouts |
+| Search Microservice | 9300 | Wolverine | Elasticsearch integration |
+| Frontend Store | 5173 | Vue.js | Public storefront |
+| Frontend Admin | 5174 | Vue.js | Admin panel |
+| Aspire Dashboard | 15500 | Orchestration | Observability UI |
+| Redis | 6379 | Cache | Sessions & cache |
+| PostgreSQL | 5432 | Database | Persistence |
+| Elasticsearch | 9200 | Search | Full-text search |
+| RabbitMQ | 5672 | Messaging | Event bus (optional) |
 
 ### Onion Architecture (Each Service)
 Every service follows: **Core (Domain) → Application (CQRS) → Infrastructure (Data) → Presentation (API)**
 - **Core**: Entities, ValueObjects, Aggregates, Repositories (interfaces)
-- **Application**: DTOs, CQRS Handlers, Validators (FluentValidation), Mappers
+- **Application**: DTOs, CQRS Handlers (Wolverine), Validators (FluentValidation), Mappers
 - **Infrastructure**: EF Core DbContext, Repositories (implementations), External services
 - **Presentation**: Controllers/Endpoints, Middleware, Dependency Injection
 
@@ -76,14 +87,34 @@ Aspire's DCP controller can hold ports after shutdown. Always use the cleanup sc
 ./scripts/check-ports.sh
 ```
 
-**Manual service startup (if needed)**
+**Manual service startup (if needed - Wolverine services)**
 ```bash
-dotnet run --project backend/BoundedContexts/Store/API/B2Connect.Store.csproj
-dotnet run --project backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj
+# Each microservice runs independently with Wolverine
+dotnet run --project backend/Domain/Identity/src/B2Connect.Identity.csproj
+dotnet run --project backend/Domain/Tenancy/src/B2Connect.Tenancy.csproj
+dotnet run --project backend/Domain/Catalog/src/B2Connect.Catalog.csproj
+dotnet run --project backend/Domain/CMS/src/B2Connect.CMS.csproj
 
 # Frontend (separate terminal)
 cd frontend-store && npm install && npm run dev   # Port 5173
 cd frontend-admin && npm install && npm run dev   # Port 5174
+```
+
+**Using B2Connect CLI (Recommended)**
+```bash
+# Build CLI tool
+dotnet build backend/CLI/B2Connect.CLI/B2Connect.CLI.csproj
+
+# Install as global tool
+dotnet tool install --global --add-source ./nupkg B2Connect.CLI
+
+# Use CLI for operations
+b2connect start              # Start all services via Aspire
+b2connect stop               # Stop all services
+b2connect status             # Check service status
+b2connect seed <data.json>   # Seed database
+b2connect migrate            # Run migrations
+b2connect info               # Show configuration
 ```
 
 ### Testing
@@ -109,22 +140,166 @@ cd frontend-admin && npm run test:e2e
 
 ## 📋 Project-Specific Patterns
 
-### CQRS with Handlers (Application Layer)
-Each feature lives in a handler folder with Command/Query + Handler + Validator:
+### ⚠️ CRITICAL: Wolverine HTTP Handlers (NOT MediatR!)
+
+**B2Connect uses Wolverine for HTTP endpoints and event handling, NOT MediatR.** This is a critical architectural decision for distributed microservices. See [WOLVERINE_ARCHITECTURE_ANALYSIS.md](../WOLVERINE_ARCHITECTURE_ANALYSIS.md) for detailed comparison.
+
+#### Wolverine HTTP Endpoint Pattern
+
+**Step 1: Define Command as Plain POCO (NO IRequest interface)**
 ```csharp
-// backend/BoundedContexts/Store/Catalog/src/Application/Products/CreateProduct/
-public record CreateProductCommand(string Sku, string Name, decimal Price) : IRequest<ProductDto>;
-public class CreateProductHandler : IRequestHandler<CreateProductCommand, ProductDto>
+namespace B2Connect.Identity.Handlers;
+
+public class CheckRegistrationTypeCommand
 {
-    public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken ct)
+    public string Email { get; set; }
+    public string BusinessType { get; set; }
+}
+```
+
+**Step 2: Create Service Handler (plain class with public async methods)**
+```csharp
+namespace B2Connect.Identity.Handlers;
+
+public class CheckRegistrationTypeService
+{
+    private readonly IErpCustomerService _erpService;
+    private readonly ILogger<CheckRegistrationTypeService> _logger;
+
+    public CheckRegistrationTypeService(
+        IErpCustomerService erpService,
+        ILogger<CheckRegistrationTypeService> logger)
     {
-        var product = Product.Create(request.Sku, request.Name, request.Price);
-        await _repository.AddAsync(product, ct);
-        await _unitOfWork.SaveChangesAsync(ct);
-        return _mapper.Map<ProductDto>(product);
+        _erpService = erpService;
+        _logger = logger;
+    }
+
+    /// <summary>
+    /// Wolverine auto-generates HTTP endpoint: POST /checkregistrationtype
+    /// Method name is the route, no explicit attributes needed
+    /// </summary>
+    public async Task<CheckRegistrationTypeResponse> CheckType(
+        CheckRegistrationTypeCommand request,
+        CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Processing: {Email}", request.Email);
+        
+        // Business logic here
+        var response = new CheckRegistrationTypeResponse
+        {
+            Success = true,
+            RegistrationType = RegistrationType.Bestandskunde
+        };
+        
+        return response;
     }
 }
 ```
+
+**Step 3: Register in DI (simple!)**
+```csharp
+// Program.cs
+builder.Services.AddScoped<CheckRegistrationTypeService>();
+// MapWolverineEndpoints() already exists and auto-discovers all handlers
+```
+
+**✅ REFERENCE:** See [backend/Domain/Identity/src/Handlers/CheckRegistrationTypeService.cs](../backend/Domain/Identity/src/Handlers/CheckRegistrationTypeService.cs) for complete working example.
+
+---
+
+#### Wolverine Event Handler Pattern
+
+Events are published via `IMessageBus` and handled by methods following the `Handle(EventType @event)` convention:
+
+```csharp
+// Step 1: Define event as plain POCO
+public class UserRegisteredEvent
+{
+    public Guid UserId { get; set; }
+    public string Email { get; set; }
+}
+
+// Step 2: Create event handlers (public async Task Handle methods)
+public class UserEventHandlers
+{
+    private readonly IEmailService _emailService;
+
+    public UserEventHandlers(IEmailService emailService)
+    {
+        _emailService = emailService;
+    }
+
+    /// <summary>
+    /// Wolverine automatically calls this when UserRegisteredEvent is published
+    /// </summary>
+    public async Task Handle(UserRegisteredEvent @event)
+    {
+        await _emailService.SendWelcomeEmailAsync(@event.Email);
+    }
+}
+
+// Step 3: Publish events in services
+public class AuthService
+{
+    private readonly IMessageBus _messageBus;
+
+    public async Task RegisterUserAsync(RegisterCommand cmd)
+    {
+        // ... create user ...
+        
+        // Publish event - Wolverine automatically calls all Handle() methods
+        await _messageBus.PublishAsync(new UserRegisteredEvent
+        {
+            UserId = userId,
+            Email = cmd.Email
+        });
+    }
+}
+```
+
+**✅ REFERENCE:** See [backend/Domain/Identity/src/Handlers/Events/UserEventHandlers.cs](../backend/Domain/Identity/src/Handlers/Events/UserEventHandlers.cs) for working event handlers.
+
+---
+
+#### ❌ Anti-Patterns (DO NOT USE)
+
+```csharp
+// WRONG: Don't use IRequest from MediatR
+public record CreateProductCommand(string Sku, string Name) : IRequest<ProductDto>;
+
+// WRONG: Don't use IRequestHandler
+public class CreateProductHandler : IRequestHandler<CreateProductCommand, ProductDto>
+{
+    public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken ct) { }
+}
+
+// WRONG: Don't add MediatR
+builder.Services.AddMediatR();
+
+// WRONG: Don't use [ApiController] or [HttpPost]
+[ApiController]
+[Route("api/[controller]")]
+public class ProductController : ControllerBase
+{
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateProductCommand cmd) { }
+}
+```
+
+---
+
+### Validation Checklist: Before Implementing Handlers
+
+Before writing ANY handler code, verify:
+- [ ] Is this using plain POCO command (no `IRequest<T>` interface)?
+- [ ] Is this a Service class with public async methods (no `IRequestHandler`)?
+- [ ] Are dependencies injected via constructor?
+- [ ] Is `CancellationToken` passed as parameter?
+- [ ] No `[ApiController]`, `[HttpPost]`, or route attributes?
+- [ ] Is service registered as `AddScoped<MyService>()`?
+- [ ] Is `AddMediatR()` NOT in Program.cs?
+
+**If any answer is NO, your implementation is wrong. See references above.**
 
 ### Multi-Tenancy & Context Propagation
 Tenant ID flows via `X-Tenant-ID` header through all services. **Always include in queries**:
@@ -172,22 +347,55 @@ public class Product : AggregateRoot
 }
 ```
 
-## 🔀 Inter-Service Communication
+## 🔀 Inter-Service Communication (Wolverine-Based)
 
-**Asynchronous**: Use Wolverine messaging (event bus) for eventual consistency
+**All microservices communicate via Wolverine messaging** - no traditional gateway pattern:
+
+### Asynchronous (Event-Driven) - Primary Pattern
+Use Wolverine for all inter-service communication:
 ```csharp
-// Publishing domain events
+// Publishing domain events (in any microservice)
 await _messageBus.PublishAsync(new ProductCreatedEvent(productId, tenantId, sku));
 
-// Subscribing to events in Infrastructure
-[WolverineHandler]
-public async Task Handle(ProductCreatedEvent @event)
+// Subscribing to events (in event handler classes, auto-discovered)
+// Wolverine automatically calls Handle() methods across all running services
+public class ProductEventHandlers
 {
-    // Update search index, cache, or trigger other services
+    public async Task Handle(ProductCreatedEvent @event)
+    {
+        // Update search index, trigger notifications, sync cache
+        // Works across microservices automatically
+        await _searchService.IndexProductAsync(@event.ProductId);
+        await _messageBus.PublishAsync(new SearchIndexUpdatedEvent(@event.ProductId));
+    }
 }
 ```
 
-**Synchronous**: Only Store → Admin gateway allowed via HTTP. Never direct service-to-service calls.
+### Wolverine Runtime Configuration
+```csharp
+// Program.cs - Each microservice has Wolverine configured
+var builder = Host.CreateApplicationBuilder(args);
+
+builder.UseWolverine(opts => 
+{
+    // Local message handling
+    opts.Handlers.Discovery(x => x.IncludeAssemblyContaining<Program>());
+    
+    // For distributed setup, add external messaging:
+    // opts.UseRabbitMq("rabbitmq://localhost");
+    // opts.UseAzureServiceBus("connection-string");
+    
+    // Event forwarding for cross-service reliability
+    opts.OnException<ServiceUnavailableException>()
+        .Requeue(attempts: 3, delayInMilliseconds: 1000);
+});
+
+builder.Services.AddWolverineHandlers();
+var host = builder.Build();
+await host.RunAsync();
+```
+
+**Frontend Communication**: Frontends consume microservice APIs directly (Wolverine HTTP endpoints).
 
 ## 🗄️ Database & Persistence
 
@@ -312,6 +520,696 @@ public static IServiceCollection AddCatalogCore(this IServiceCollection services
     services.AddScoped<IProductRepository, ProductRepository>();
 ```
 
+---
+
+## 📋 .NET 10 / C# 14 Best Practices & Anti-Patterns
+
+**This section contains 100+ best practices and 100+ anti-patterns compiled from Microsoft documentation, David Fowl's diagnostic scenarios, and industry standards for .NET 10 development.**
+
+---
+
+### 🔥 Async/Await Best Practices (50 Rules)
+
+#### ✅ DO: Async Patterns
+
+| # | Rule | Example |
+|---|------|---------|
+| 1 | **Use async/await for all I/O operations** | `await httpClient.GetAsync(url)` |
+| 2 | **Make entire call stack async (async is viral)** | If any method is async, callers should be async too |
+| 3 | **Return Task/Task<T> from async methods** | `public async Task<User> GetUserAsync()` |
+| 4 | **Use ValueTask<T> for pre-computed or trivial values** | `return new ValueTask<int>(cachedValue)` |
+| 5 | **Always flow CancellationToken to APIs that accept it** | `await dbContext.SaveChangesAsync(cancellationToken)` |
+| 6 | **Dispose CancellationTokenSource used for timeouts** | `using var cts = new CancellationTokenSource(timeout)` |
+| 7 | **Use TaskCreationOptions.RunContinuationsAsynchronously** | Prevents stack overflow with TaskCompletionSource |
+| 8 | **Call FlushAsync() before Dispose on streams** | `await streamWriter.FlushAsync()` |
+| 9 | **Prefer async/await over directly returning Task** | Normalizes exceptions, easier debugging |
+| 10 | **Use PeriodicTimer for async timer scenarios (.NET 6+)** | `var timer = new PeriodicTimer(TimeSpan.FromSeconds(1))` |
+| 11 | **Use static factory pattern for async construction** | `public static async Task<MyClass> CreateAsync()` |
+| 12 | **Cache Task<T> in ConcurrentDictionary, not results** | Avoids multiple parallel fetches for same key |
+| 13 | **Use ConfigureAwait(false) in library code** | `await task.ConfigureAwait(false)` |
+| 14 | **Use IAsyncDisposable for async cleanup** | `await using var resource = new AsyncResource()` |
+| 15 | **Prefer async Task methods over sync methods returning Task** | Async all the way pattern |
+
+```csharp
+// ✅ GOOD: Proper async pattern
+public async Task<OrderResult> ProcessOrderAsync(Order order, CancellationToken ct)
+{
+    // Flow cancellation token throughout
+    var customer = await _customerService.GetAsync(order.CustomerId, ct);
+    var inventory = await _inventoryService.CheckAsync(order.Items, ct);
+    
+    // Dispose timeout CancellationTokenSource
+    using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+    timeoutCts.CancelAfter(TimeSpan.FromSeconds(30));
+    
+    var result = await _paymentService.ProcessAsync(order, timeoutCts.Token);
+    
+    // FlushAsync before dispose
+    await _auditWriter.FlushAsync();
+    
+    return result;
+}
+```
+
+#### ❌ DON'T: Async Anti-Patterns
+
+| # | Anti-Pattern | Why It's Bad |
+|---|-------------|--------------|
+| 16 | **Task.Wait() or Task.Result** | Causes thread-pool starvation, deadlocks |
+| 17 | **async void methods (except event handlers)** | Exceptions crash the process |
+| 18 | **Task.Run for long-running blocking work** | Steals thread pool threads |
+| 19 | **ContinueWith instead of await** | Complex, error-prone, harder to read |
+| 20 | **Forgetting to await async calls** | Silent failures, fire-and-forget issues |
+| 21 | **Using .GetAwaiter().GetResult()** | Same deadlock issues as Task.Result |
+| 22 | **Mixing sync and async I/O in same method** | Performance degradation |
+| 23 | **Creating async lambdas that return void** | `button.Click += async (s, e) => await ...` |
+| 24 | **Storing disposable objects in AsyncLocal<T>** | Memory leaks, thread-safety issues |
+| 25 | **Using Thread.Sleep in async methods** | Blocks thread, use Task.Delay |
+
+```csharp
+// ❌ BAD: Sync-over-async (thread pool starvation, potential deadlock)
+public string GetData()
+{
+    var result = httpClient.GetStringAsync(url).Result; // DEADLOCK RISK!
+    return result;
+}
+
+// ❌ BAD: async void crashes process on exception
+public async void ProcessData()
+{
+    await DoSomethingAsync(); // If this throws, process crashes
+}
+
+// ❌ BAD: Blocking thread pool with long-running work
+await Task.Run(() =>
+{
+    Thread.Sleep(30000); // NEVER do this!
+    ProcessLargeFile();  // This blocks a thread pool thread
+});
+
+// ✅ GOOD: Use dedicated thread for long-running blocking work
+var thread = new Thread(ProcessLargeFile) { IsBackground = true };
+thread.Start();
+```
+
+---
+
+### ⚡ Performance Best Practices (25 Rules)
+
+#### ✅ DO: Performance Optimizations
+
+| # | Rule | Benefit |
+|---|------|---------|
+| 26 | **Use Span<T> and Memory<T> for buffer operations** | Avoids heap allocations |
+| 27 | **Use ArrayPool<T>.Shared for temporary arrays** | Reuses array instances |
+| 28 | **Use StringBuilder for string concatenation in loops** | Avoids intermediate strings |
+| 29 | **Use string.Create() for high-performance string building** | Single allocation |
+| 30 | **Prefer structs for small, immutable data (< 16 bytes)** | Stack allocation |
+| 31 | **Use readonly struct for immutable value types** | Prevents defensive copies |
+| 32 | **Use in parameters for large readonly structs** | Pass by reference |
+| 33 | **Use stackalloc for small temporary buffers** | `Span<byte> buffer = stackalloc byte[256]` |
+| 34 | **Cache compiled regex (or use source generators)** | `[GeneratedRegex("pattern")]` |
+| 35 | **Use HttpClientFactory for HTTP connections** | Proper connection pooling |
+| 36 | **Prefer IReadOnlyList<T> over IEnumerable<T> for collections** | Allows Count without enumeration |
+| 37 | **Use FrozenDictionary/FrozenSet for read-only lookups (.NET 8+)** | Optimized for reads |
+| 38 | **Avoid boxing value types (int to object)** | Heap allocation per box |
+| 39 | **Use object pooling for frequently created objects** | `ObjectPool<T>` |
+| 40 | **Use SearchValues<T> for searching multiple values (.NET 8+)** | SIMD-optimized |
+
+```csharp
+// ✅ GOOD: High-performance patterns
+public void ProcessBuffer(ReadOnlySpan<byte> data)
+{
+    // Rent array from pool instead of allocating
+    var buffer = ArrayPool<byte>.Shared.Rent(1024);
+    try
+    {
+        // Use Span for slicing without allocation
+        var slice = buffer.AsSpan(0, data.Length);
+        data.CopyTo(slice);
+        ProcessData(slice);
+    }
+    finally
+    {
+        ArrayPool<byte>.Shared.Return(buffer);
+    }
+}
+
+// ✅ GOOD: Source-generated regex (compile-time optimized)
+[GeneratedRegex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]
+private static partial Regex EmailRegex();
+
+// ✅ GOOD: FrozenDictionary for read-heavy scenarios
+private static readonly FrozenDictionary<string, int> StatusCodes = 
+    new Dictionary<string, int>
+    {
+        ["OK"] = 200,
+        ["NotFound"] = 404,
+        ["Error"] = 500
+    }.ToFrozenDictionary();
+```
+
+#### ❌ DON'T: Performance Anti-Patterns
+
+| # | Anti-Pattern | Why It's Bad |
+|---|-------------|--------------|
+| 41 | **String concatenation in loops with +** | O(n²) complexity, many allocations |
+| 42 | **LINQ in hot paths without caching** | Allocates iterators on each call |
+| 43 | **Boxing in hot paths** | Heap allocation per call |
+| 44 | **New HttpClient per request** | Port exhaustion, socket leak |
+| 45 | **Large struct parameters without 'in'** | Copied on each call |
+| 46 | **Allocating in Dispose/Finalize** | GC pressure during cleanup |
+| 47 | **Regex without RegexOptions.Compiled** | Interpreted mode is slow |
+| 48 | **ToList() when only enumeration needed** | Unnecessary allocation |
+| 49 | **FirstOrDefault() + null check vs Any()** | Multiple enumerations |
+| 50 | **Capturing variables in LINQ closures** | Allocates closure object |
+
+```csharp
+// ❌ BAD: String concatenation in loop
+string result = "";
+foreach (var item in items)
+{
+    result += item.ToString(); // New string allocation each iteration!
+}
+
+// ✅ GOOD: StringBuilder
+var sb = new StringBuilder();
+foreach (var item in items)
+{
+    sb.Append(item.ToString());
+}
+var result = sb.ToString();
+
+// ❌ BAD: New HttpClient per request (port exhaustion)
+using var client = new HttpClient(); // Creates new connection each time!
+var response = await client.GetAsync(url);
+
+// ✅ GOOD: Use IHttpClientFactory
+public class MyService
+{
+    private readonly HttpClient _httpClient;
+    
+    public MyService(IHttpClientFactory factory)
+    {
+        _httpClient = factory.CreateClient("MyApi");
+    }
+}
+```
+
+---
+
+### 🗄️ Entity Framework Core Best Practices (25 Rules)
+
+#### ✅ DO: EF Core Patterns
+
+| # | Rule | Benefit |
+|---|------|---------|
+| 51 | **Use no-tracking queries for read-only data** | `.AsNoTracking()` - better performance |
+| 52 | **Use split queries for complex includes** | `.AsSplitQuery()` - avoids cartesian explosion |
+| 53 | **Specify explicit includes** | Avoid N+1 queries |
+| 54 | **Use pagination (Skip/Take)** | Don't load entire tables |
+| 55 | **Use compiled queries for hot paths** | `EF.CompileQuery<>()` |
+| 56 | **Use ExecuteUpdate/ExecuteDelete for bulk ops (.NET 7+)** | Single database roundtrip |
+| 57 | **Configure query filters for soft delete** | `.HasQueryFilter(e => !e.IsDeleted)` |
+| 58 | **Use value converters for complex types** | Encrypt PII, store enums |
+| 59 | **Batch related SaveChanges calls** | Reduce roundtrips |
+| 60 | **Use DbContext pooling** | `AddDbContextPool<>()` |
+| 61 | **Configure connection resiliency** | `.EnableRetryOnFailure()` |
+| 62 | **Use indexed properties for performance** | Index frequently filtered columns |
+| 63 | **Prefer projections over full entity loads** | `.Select(x => new Dto { ... })` |
+
+```csharp
+// ✅ GOOD: Efficient query patterns
+public async Task<PagedResult<ProductDto>> GetProductsAsync(
+    int page, int pageSize, CancellationToken ct)
+{
+    var query = _context.Products
+        .AsNoTracking()  // Read-only, no tracking overhead
+        .Where(p => p.TenantId == _tenantId)
+        .OrderBy(p => p.Name);
+    
+    var total = await query.CountAsync(ct);
+    
+    var items = await query
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .Select(p => new ProductDto  // Project to DTO, not full entity
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Price = p.Price
+        })
+        .ToListAsync(ct);
+    
+    return new PagedResult<ProductDto>(items, total, page, pageSize);
+}
+
+// ✅ GOOD: Bulk update without loading entities (.NET 7+)
+await _context.Products
+    .Where(p => p.CategoryId == oldCategoryId)
+    .ExecuteUpdateAsync(s => s.SetProperty(p => p.CategoryId, newCategoryId), ct);
+```
+
+#### ❌ DON'T: EF Core Anti-Patterns
+
+| # | Anti-Pattern | Why It's Bad |
+|---|-------------|--------------|
+| 64 | **Lazy loading without explicit opt-in** | N+1 query problems |
+| 65 | **Loading full entities for projections** | Wasted memory and bandwidth |
+| 66 | **Using Count() when Any() suffices** | Counts all rows vs stops at first |
+| 67 | **Multiple SaveChanges in a loop** | Use single SaveChanges |
+| 68 | **Tracking queries for read-only scenarios** | Unnecessary overhead |
+| 69 | **Large Include chains** | Cartesian explosion |
+| 70 | **Client-side evaluation in LINQ** | Data transferred to client |
+| 71 | **DbContext as singleton** | Not thread-safe |
+| 72 | **Ignoring migration scripts** | Schema drift issues |
+| 73 | **String interpolation in queries** | SQL injection risk |
+
+```csharp
+// ❌ BAD: N+1 query problem
+var orders = await _context.Orders.ToListAsync();
+foreach (var order in orders)
+{
+    // Each iteration executes a query!
+    var customer = await _context.Customers.FindAsync(order.CustomerId);
+}
+
+// ✅ GOOD: Eager loading with Include
+var orders = await _context.Orders
+    .Include(o => o.Customer)
+    .ToListAsync();
+
+// ❌ BAD: SQL injection via string interpolation
+var name = userInput;
+var products = await _context.Products
+    .FromSqlRaw($"SELECT * FROM Products WHERE Name = '{name}'") // DANGER!
+    .ToListAsync();
+
+// ✅ GOOD: Parameterized query
+var products = await _context.Products
+    .FromSqlInterpolated($"SELECT * FROM Products WHERE Name = {name}")
+    .ToListAsync();
+```
+
+---
+
+### 🔒 Security Best Practices (25 Rules)
+
+#### ✅ DO: Security Patterns
+
+| # | Rule | Reason |
+|---|------|--------|
+| 74 | **Validate all user input server-side** | Never trust client data |
+| 75 | **Use parameterized queries** | Prevent SQL injection |
+| 76 | **Use HTTPS everywhere** | Encrypt data in transit |
+| 77 | **Store passwords with Argon2/bcrypt** | Never plain MD5/SHA1 |
+| 78 | **Use secrets manager (KeyVault)** | Never hardcode secrets |
+| 79 | **Implement rate limiting** | Prevent brute force |
+| 80 | **Use CSRF tokens for state changes** | Prevent cross-site attacks |
+| 81 | **Set secure cookie flags** | HttpOnly, Secure, SameSite |
+| 82 | **Implement Content Security Policy** | Prevent XSS attacks |
+| 83 | **Encrypt PII at rest (AES-256)** | GDPR compliance |
+| 84 | **Use short-lived JWT tokens** | 1h access, 7d refresh |
+| 85 | **Validate JWT signature and claims** | Prevent token tampering |
+| 86 | **Log security events (audit trail)** | NIS2 compliance |
+| 87 | **Implement least privilege access** | Role-based authorization |
+| 88 | **Use HSTS headers** | Force HTTPS |
+
+```csharp
+// ✅ GOOD: Secure API endpoint
+[Authorize(Policy = "RequireAdmin")]
+[RateLimit("Fixed", PermitLimit = 100, Window = "1m")]
+public async Task<IActionResult> UpdateUser(
+    [FromRoute] Guid userId,
+    [FromBody] UpdateUserDto dto,
+    CancellationToken ct)
+{
+    // Validate tenant isolation
+    if (!await _authService.CanAccessUser(_currentUser.TenantId, userId))
+        return Forbid();
+    
+    // Input validation (FluentValidation)
+    var validation = await _validator.ValidateAsync(dto, ct);
+    if (!validation.IsValid)
+        return BadRequest(validation.Errors);
+    
+    // Audit logging
+    await _auditService.LogAsync(
+        "UserUpdated", 
+        userId, 
+        _currentUser.Id,
+        oldValues: existingUser,
+        newValues: dto);
+    
+    return Ok();
+}
+```
+
+#### ❌ DON'T: Security Anti-Patterns
+
+| # | Anti-Pattern | Risk |
+|---|-------------|------|
+| 89 | **Hardcoding secrets/passwords** | Exposed in source control |
+| 90 | **Using MD5/SHA1 for passwords** | Easily cracked |
+| 91 | **SQL string concatenation** | SQL injection |
+| 92 | **Trusting client-side validation only** | Bypassed easily |
+| 93 | **Using binary formatters** | Remote code execution |
+| 94 | **Using .NET Remoting/DCOM** | Security vulnerabilities |
+| 95 | **Logging sensitive data (PII)** | Privacy violation |
+| 96 | **Exposing stack traces in production** | Information disclosure |
+| 97 | **Using Code Access Security (CAS)** | Deprecated, ineffective |
+| 98 | **HTTP for sensitive endpoints** | Data interception |
+
+```csharp
+// ❌ BAD: Hardcoded secrets
+var connectionString = "Server=prod;Password=super_secret_123"; // NEVER!
+
+// ✅ GOOD: Use secrets manager
+var connectionString = configuration["ConnectionStrings:Database"];
+// Or Azure KeyVault
+var secret = await keyVaultClient.GetSecretAsync("DatabasePassword");
+
+// ❌ BAD: Logging PII
+_logger.LogInformation("User {Email} logged in", user.Email); // Privacy violation!
+
+// ✅ GOOD: Log user ID only
+_logger.LogInformation("User {UserId} logged in", user.Id);
+```
+
+---
+
+### 🏗️ Architecture & Design Best Practices (25 Rules)
+
+#### ✅ DO: Design Patterns
+
+| # | Rule | Benefit |
+|---|------|---------|
+| 99 | **Use Dependency Injection** | Testability, loose coupling |
+| 100 | **Prefer composition over inheritance** | Flexibility |
+| 101 | **Follow Single Responsibility Principle** | Maintainability |
+| 102 | **Use interfaces for abstractions** | Testability |
+| 103 | **Implement Repository pattern for data access** | Separation of concerns |
+| 104 | **Use Result<T> pattern for error handling** | Explicit error cases |
+| 105 | **Implement Unit of Work for transactions** | Consistency |
+| 106 | **Use Options pattern for configuration** | `IOptions<T>` |
+| 107 | **Implement Circuit Breaker for external calls** | Resilience |
+| 108 | **Use health checks** | Observability |
+| 109 | **Implement structured logging** | Searchable logs |
+| 110 | **Use feature flags for gradual rollouts** | Safe deployments |
+| 111 | **Implement retry policies (Polly)** | Transient fault handling |
+| 112 | **Use CancellationToken everywhere** | Graceful shutdown |
+| 113 | **Implement idempotent operations** | Safe retries |
+
+```csharp
+// ✅ GOOD: Result pattern for explicit error handling
+public class Result<T>
+{
+    public bool IsSuccess { get; }
+    public T? Value { get; }
+    public string? Error { get; }
+    
+    public static Result<T> Success(T value) => new(true, value, null);
+    public static Result<T> Failure(string error) => new(false, default, error);
+}
+
+public async Task<Result<Order>> CreateOrderAsync(CreateOrderCommand cmd)
+{
+    var validation = _validator.Validate(cmd);
+    if (!validation.IsValid)
+        return Result<Order>.Failure(validation.Errors.First().Message);
+    
+    var inventory = await _inventoryService.CheckAsync(cmd.Items);
+    if (!inventory.Available)
+        return Result<Order>.Failure("Insufficient inventory");
+    
+    var order = await _orderRepository.CreateAsync(cmd);
+    return Result<Order>.Success(order);
+}
+```
+
+#### ❌ DON'T: Design Anti-Patterns
+
+| # | Anti-Pattern | Problem |
+|---|-------------|---------|
+| 114 | **God classes (too many responsibilities)** | Unmaintainable |
+| 115 | **Service Locator pattern** | Hidden dependencies |
+| 116 | **Tight coupling to implementations** | Hard to test |
+| 117 | **Static dependencies** | Untestable |
+| 118 | **Catching generic Exception** | Swallows important errors |
+| 119 | **Throwing exceptions for flow control** | Expensive, confusing |
+| 120 | **Anemic domain models** | Business logic scattered |
+| 121 | **Circular dependencies** | Hard to understand |
+| 122 | **Magic strings/numbers** | Use constants/enums |
+| 123 | **Deep inheritance hierarchies** | Fragile base class problem |
+
+```csharp
+// ❌ BAD: Service locator anti-pattern
+public class OrderService
+{
+    public void CreateOrder()
+    {
+        var repo = ServiceLocator.Get<IOrderRepository>(); // Hidden dependency!
+    }
+}
+
+// ✅ GOOD: Constructor injection
+public class OrderService
+{
+    private readonly IOrderRepository _repository;
+    
+    public OrderService(IOrderRepository repository)
+    {
+        _repository = repository; // Explicit dependency
+    }
+}
+```
+
+---
+
+### 🆕 .NET 10 / C# 14 Specific Features (25 Rules)
+
+#### ✅ DO: Use New Features
+
+| # | Feature | Example |
+|---|---------|---------|
+| 124 | **Field-backed properties (C# 14)** | `public string Name { get; set => field = value.Trim(); }` |
+| 125 | **Extension blocks (C# 14)** | `extension StringExtensions for string { ... }` |
+| 126 | **Null-conditional assignment (C# 14)** | `obj?.Property ??= defaultValue;` |
+| 127 | **nameof for unbound generics (C# 14)** | `nameof(List<>)` |
+| 128 | **SearchValues<T> for multi-value search** | SIMD-optimized searching |
+| 129 | **FrozenDictionary for read-heavy lookups** | Optimized for reads |
+| 130 | **Required members** | `required string Name { get; init; }` |
+| 131 | **Primary constructors** | `public class Person(string name)` |
+| 132 | **Collection expressions** | `int[] arr = [1, 2, 3];` |
+| 133 | **Raw string literals** | `"""JSON content"""` |
+| 134 | **List patterns** | `if (list is [var first, .., var last])` |
+| 135 | **File-scoped types** | `file class InternalHelper` |
+| 136 | **Generic math interfaces** | `INumber<T>`, `IAdditionOperators<T>` |
+| 137 | **TimeProvider for testable time** | Inject TimeProvider instead of DateTime.Now |
+| 138 | **WebSocketStream (.NET 10)** | Stream-based WebSocket API |
+
+```csharp
+// ✅ GOOD: C# 14 field-backed property
+public class Person
+{
+    // Auto-property with custom setter logic
+    public string Name { get; set => field = value?.Trim() ?? ""; }
+    public DateTime CreatedAt { get; init => field = value.ToUniversalTime(); }
+}
+
+// ✅ GOOD: Collection expressions
+int[] numbers = [1, 2, 3, 4, 5];
+List<string> names = ["Alice", "Bob", "Charlie"];
+Dictionary<string, int> scores = new() { ["Alice"] = 100, ["Bob"] = 85 };
+
+// ✅ GOOD: Primary constructor with DI
+public class ProductService(
+    IProductRepository repository,
+    ILogger<ProductService> logger)
+{
+    public async Task<Product> GetAsync(Guid id) =>
+        await repository.GetByIdAsync(id);
+}
+
+// ✅ GOOD: Required members for immutable DTOs
+public record CreateProductCommand
+{
+    public required string Sku { get; init; }
+    public required string Name { get; init; }
+    public required decimal Price { get; init; }
+}
+```
+
+#### ❌ DON'T: Legacy Patterns to Avoid
+
+| # | Legacy Pattern | Modern Alternative |
+|---|---------------|-------------------|
+| 139 | **Manual null checks** | Use nullable reference types |
+| 140 | **DateTime.Now** | Use TimeProvider (testable) |
+| 141 | **Task.Factory.StartNew** | Use Task.Run |
+| 142 | **WebClient** | Use HttpClient |
+| 143 | **BinaryFormatter** | Use System.Text.Json |
+| 144 | **ArrayList** | Use List<T> |
+| 145 | **Hashtable** | Use Dictionary<K,V> |
+| 146 | **StringCollection** | Use List<string> |
+| 147 | **ReaderWriterLock** | Use ReaderWriterLockSlim |
+| 148 | **Thread.Abort()** | Use CancellationToken |
+| 149 | **AppDomain for isolation** | Use AssemblyLoadContext |
+| 150 | **Synchronous I/O in ASP.NET Core** | Use async I/O |
+
+```csharp
+// ❌ BAD: DateTime.Now is not testable
+public bool IsExpired() => DateTime.Now > _expirationDate;
+
+// ✅ GOOD: Use TimeProvider
+public class ExpirationChecker(TimeProvider timeProvider)
+{
+    public bool IsExpired() => timeProvider.GetUtcNow() > _expirationDate;
+}
+
+// ❌ BAD: BinaryFormatter (security vulnerability)
+BinaryFormatter formatter = new(); // NEVER use!
+
+// ✅ GOOD: System.Text.Json
+var json = JsonSerializer.Serialize(obj);
+var obj = JsonSerializer.Deserialize<MyType>(json);
+```
+
+---
+
+### 📝 Code Quality Anti-Patterns (50 Rules)
+
+| # | Anti-Pattern | Why It's Bad | Fix |
+|---|-------------|--------------|-----|
+| 151 | **Empty catch blocks** | Silently swallows errors | Log or rethrow |
+| 152 | **Catch (Exception ex) then throw ex** | Loses stack trace | Use `throw;` |
+| 153 | **Public fields** | No encapsulation | Use properties |
+| 154 | **Mutable public collections** | External modification | Return IReadOnlyList |
+| 155 | **Long methods (> 30 lines)** | Hard to understand | Extract methods |
+| 156 | **Deeply nested code (> 3 levels)** | Hard to follow | Early returns |
+| 157 | **Magic numbers** | Unclear meaning | Use named constants |
+| 158 | **Commented-out code** | Clutters codebase | Delete it |
+| 159 | **TODO comments in production** | Never fixed | Create issues instead |
+| 160 | **Inconsistent naming** | Confusing | Follow conventions |
+| 161 | **Using var everywhere** | Less readable | Use explicit types for complex cases |
+| 162 | **Not using var for obvious types** | Verbose | `var list = new List<string>()` |
+| 163 | **Multiple return points confusion** | Hard to follow | Single exit or clear early returns |
+| 164 | **Boolean parameters** | Unclear call site | Use enums or separate methods |
+| 165 | **Output parameters** | Hard to use | Return tuples or result objects |
+| 166 | **ref parameters for non-value-types** | Unnecessary | Pass by reference is default |
+| 167 | **Async suffix on non-async methods** | Misleading | Use proper naming |
+| 168 | **Mixing sync and async code** | Confusing | Be consistent |
+| 169 | **Long parameter lists (> 4)** | Hard to use | Use objects |
+| 170 | **Using dynamic** | No compile-time safety | Use generics |
+| 171 | **Excessive use of regions** | Code smell | Refactor into classes |
+| 172 | **Unused using statements** | Clutter | Remove them |
+| 173 | **Unused parameters** | Dead code | Remove or use |
+| 174 | **Unused private members** | Dead code | Remove them |
+| 175 | **Non-sealed classes** | Unintended inheritance | Seal by default |
+| 176 | **Virtual methods in constructors** | Dangerous | Avoid |
+| 177 | **Ignoring return values** | Silent bugs | Check or use discard |
+| 178 | **Implicit conversions in hot paths** | Hidden allocations | Be explicit |
+| 179 | **DateTime comparisons without kind** | Timezone bugs | Use DateTimeOffset |
+| 180 | **String == for culture-sensitive comparison** | Wrong results | Use StringComparison |
+| 181 | **Modifying collection while iterating** | InvalidOperationException | Use ToList() first |
+| 182 | **Double-check locking without volatile** | Race condition | Use Lazy<T> |
+| 183 | **Manual locking with Monitor** | Easy to deadlock | Use lock keyword |
+| 184 | **Using lock(this)** | External code can deadlock | Lock private object |
+| 185 | **Using lock("string literal")** | Interned strings cause issues | Lock private object |
+| 186 | **Thread.Sleep in production code** | Blocks thread | Use async/await |
+| 187 | **GC.Collect() calls** | Performance impact | Let GC decide |
+| 188 | **Finalizers without Dispose pattern** | Resource leaks | Implement IDisposable |
+| 189 | **Large structs (> 16 bytes)** | Copy overhead | Use class or ref struct |
+| 190 | **Mutable structs** | Confusing semantics | Make readonly |
+| 191 | **Capturing loop variables in closures** | Wrong value captured | Use local copy |
+| 192 | **Equality comparison of floating-point** | Precision issues | Use tolerance |
+| 193 | **Switch without default case** | Missing cases silently fail | Add default |
+| 194 | **Throwing in property getters** | Unexpected exceptions | Return default |
+| 195 | **Complex LINQ in one line** | Unreadable | Break into steps |
+| 196 | **OrderBy after Where** | Wrong results if Where changes order | Be intentional |
+| 197 | **Using Count() > 0 instead of Any()** | Less efficient | Use Any() |
+| 198 | **FirstOrDefault().Property** | NullReferenceException | Check for null |
+| 199 | **Ignoring CancellationToken** | Operations can't be cancelled | Always pass it |
+| 200 | **Using reflection in hot paths** | Slow | Cache or use source generators |
+
+```csharp
+// ❌ BAD: Catch and rethrow (loses stack trace)
+try { DoSomething(); }
+catch (Exception ex) { throw ex; } // Stack trace lost!
+
+// ✅ GOOD: Rethrow properly
+try { DoSomething(); }
+catch (Exception ex) 
+{ 
+    _logger.LogError(ex, "Error occurred");
+    throw; // Preserves stack trace
+}
+
+// ❌ BAD: Boolean parameter
+public void Process(bool useCache) { } // What does true mean at call site?
+
+// ✅ GOOD: Clear intent
+public enum CacheMode { UseCache, BypassCache }
+public void Process(CacheMode cacheMode) { }
+
+// ❌ BAD: Mutable struct (confusing)
+public struct Point
+{
+    public int X;  // Mutable field!
+    public void Move(int dx) => X += dx;
+}
+
+// ✅ GOOD: Readonly struct
+public readonly struct Point(int x, int y)
+{
+    public int X { get; } = x;
+    public int Y { get; } = y;
+    public Point Move(int dx, int dy) => new(X + dx, Y + dy);
+}
+```
+
+---
+
+### 🎯 Quick Reference Checklist
+
+**Before Every PR, Verify:**
+
+```
+Async/Await:
+  [ ] No Task.Wait() or Task.Result
+  [ ] No async void (except event handlers)
+  [ ] CancellationToken passed through
+  [ ] await used instead of ContinueWith
+
+Performance:
+  [ ] No string concatenation in loops
+  [ ] Using HttpClientFactory
+  [ ] EF Core queries use AsNoTracking when appropriate
+  [ ] No LINQ in hot paths without caching
+
+Security:
+  [ ] No hardcoded secrets
+  [ ] All user input validated server-side
+  [ ] Parameterized queries for database
+  [ ] No PII in logs
+  [ ] Encryption for sensitive data
+
+Code Quality:
+  [ ] No empty catch blocks
+  [ ] No magic numbers/strings
+  [ ] Methods < 30 lines
+  [ ] Nesting < 3 levels
+  [ ] No commented-out code
+
+.NET 10:
+  [ ] Using latest C# features where beneficial
+  [ ] Using TimeProvider instead of DateTime.Now
+  [ ] Using System.Text.Json, not BinaryFormatter
+  [ ] Using nullable reference types
+```
+
+---
+
 ## 🧪 Testing Essentials
 
 ### Test File Organization
@@ -368,12 +1266,18 @@ public class CreateProductHandlerTests : IAsyncLifetime
 
 ## 📦 External Dependencies to Know
 
-**Backend**:
-- **Wolverine**: Async messaging & CQRS
-- **FluentValidation**: Input validation
-- **EF Core**: Data access (with NamingConventions)
+**Backend Microservices**:
+- **Wolverine** (8.0+): Async messaging, HTTP endpoints, CQRS for all services
+- **FluentValidation**: Input validation for all commands
+- **EF Core 8**: Data access (with NamingConventions for snake_case DB)
 - **AutoMapper**: DTO ↔ Entity mapping
-- **Elasticsearch**: Full-text search (Search service)
+- **Elasticsearch**: Full-text search (Search microservice)
+- **Aspire**: Service orchestration and discovery
+
+**CLI Tool**:
+- **Spectre.Console**: Rich terminal output
+- **System.CommandLine**: CLI argument parsing
+- **Json.NET**: Configuration serialization
 
 **Frontend**:
 - **Pinia**: State management
@@ -599,14 +1503,574 @@ _logger.LogInformation("User logged in with ID {UserId}", user.Id);
 
 ---
 
+## � CLI Tool: B2Connect Console Interface
+
+All backend operations are also available via CLI for automation and local development:
+
+### CLI Structure
+```
+backend/CLI/B2Connect.CLI/
+├── Commands/
+│   ├── AuthCommands/          # User management, token generation
+│   ├── TenantCommands/        # Tenant CRUD operations
+│   ├── ProductCommands/       # Catalog operations
+│   ├── ContentCommands/       # CMS operations
+│   └── SystemCommands/        # Database migrations, seeding
+├── Services/
+│   ├── CliHttpClient.cs       # HTTP client for microservices
+│   ├── ConfigurationService.cs # Load service endpoints
+│   └── ConsoleOutputService.cs # Formatted output
+└── Program.cs                  # CLI entry point
+```
+
+### Example CLI Commands
+```bash
+# Authentication
+b2connect auth create-user john@example.com --password secret123 --tenant-id <guid>
+b2connect auth generate-token john@example.com --password secret123
+b2connect auth list-users --tenant-id <guid>
+
+# Tenant Management
+b2connect tenant create "Acme Corp" --admin-email admin@acme.com
+b2connect tenant list
+b2connect tenant show <tenant-id>
+
+# Product Management
+b2connect product create "SKU-001" "Product Name" --price 99.99 --tenant-id <guid>
+b2connect product import-csv products.csv --tenant-id <guid>
+b2connect product list --tenant-id <guid>
+
+# System Operations
+b2connect migrate --service Identity
+b2connect seed --service Catalog --file products.json
+b2connect status --check-all-services
+b2connect health
+```
+
+### Implementation Pattern for CLI Commands
+```csharp
+public class CreateUserCommand : ICommand
+{
+    [Argument(0, Description = "User email")]
+    public string Email { get; set; }
+    
+    [Option("-p|--password", Description = "User password")]
+    public string Password { get; set; }
+    
+    [Option("-t|--tenant-id", Description = "Tenant ID")]
+    public string TenantId { get; set; }
+    
+    public async Task<int> InvokeAsync(ICliService cliService)
+    {
+        var result = await cliService.PostAsync(
+            "http://localhost:7002/auth/create-user",
+            new { email = Email, password = Password, tenantId = TenantId }
+        );
+        
+        if (result.Success)
+        {
+            AnsiConsole.MarkupLine($"[green]✓[/] User created successfully");
+            return 0;
+        }
+        
+        AnsiConsole.MarkupLine($"[red]✗[/] {result.Error}");
+        return 1;
+    }
+}
+```
+
+## � Team Roles & Documentation
+
+B2Connect erfordert 8 spezifische Team-Rollen für die Compliance-Implementierung. Jede Rolle hat dedizierte Dokumentation:
+
+### Role-Specific Documentation Entry Points
+
+| Role | Primary Focus | Entry Point | P0 Components |
+|------|---------------|-------------|---------------|
+| 🔐 **Security Engineer** | Encryption, Audit, Incident Response | [SECURITY_ENGINEER.md](../docs/by-role/SECURITY_ENGINEER.md) | P0.1, P0.2, P0.3, P0.5, P0.7 |
+| ⚙️ **DevOps Engineer** | Infrastructure, Network, Aspire | [DEVOPS_ENGINEER.md](../docs/by-role/DEVOPS_ENGINEER.md) | P0.3, P0.4, P0.5 |
+| 💻 **Backend Developer** | Wolverine, CQRS, Compliance APIs | [BACKEND_DEVELOPER.md](../docs/by-role/BACKEND_DEVELOPER.md) | P0.1, P0.6, P0.7, P0.9 |
+| 🎨 **Frontend Developer** | Vue.js, Accessibility, UX | [FRONTEND_DEVELOPER.md](../docs/by-role/FRONTEND_DEVELOPER.md) | P0.6, P0.8 |
+| 🧪 **QA Engineer** | Testing (52 Compliance Tests) | [QA_ENGINEER.md](../docs/by-role/QA_ENGINEER.md) | ALL (Test Execution) |
+| 📋 **Product Owner** | Prioritization, Go/No-Go Gates | [PRODUCT_OWNER.md](../docs/by-role/PRODUCT_OWNER.md) | Executive Oversight |
+| ⚖️ **Legal/Compliance** | Regulations, Legal Review | [LEGAL_COMPLIANCE.md](../docs/by-role/LEGAL_COMPLIANCE.md) | P0.6, P0.7, P0.8, P0.9 |
+| 👔 **Tech Lead/Architect** | Architecture, Code Review | [TECH_LEAD.md](../docs/by-role/TECH_LEAD.md) | ALL (Oversight) |
+
+### P0 Component Overview (Compliance Foundation)
+
+| Component | Description | Owner | Tests | Deadline Impact |
+|-----------|-------------|-------|-------|-----------------|
+| **P0.1** | Audit Logging (Immutable) | Security | 5 | NIS2 |
+| **P0.2** | Encryption at Rest (AES-256) | Security | 5 | GDPR |
+| **P0.3** | Incident Response (< 24h) | Security + DevOps | 6 | NIS2 |
+| **P0.4** | Network Segmentation | DevOps | 4 | NIS2 |
+| **P0.5** | Key Management (KeyVault) | DevOps | 4 | All |
+| **P0.6** | E-Commerce Legal (B2B/B2C) | Backend + Legal | 15 | PAngV, VVVG |
+| **P0.7** | AI Act Compliance | Backend + Security | 15 | AI Act |
+| **P0.8** | Barrierefreiheit (BITV 2.0) | Frontend | 12 | **BFSG (28. Juni 2025!)** |
+| **P0.9** | E-Rechnung (ZUGFeRD/UBL) | Backend | 10 | ERechnungsVO |
+
+### Complete Documentation Map
+
+See: [docs/ROLE_BASED_DOCUMENTATION_MAP.md](../docs/ROLE_BASED_DOCUMENTATION_MAP.md)
+
+---
+
 ## 🚀 Getting Unblocked
 
-1. **Architecture questions**: Read [docs/architecture/DDD_BOUNDED_CONTEXTS.md](../docs/architecture/DDD_BOUNDED_CONTEXTS.md)
-2. **Security specs**: See [docs/APPLICATION_SPECIFICATIONS.md](../docs/APPLICATION_SPECIFICATIONS.md) sections 3-4
-3. **Service boundaries**: Check [COMPREHENSIVE_REVIEW.md](../COMPREHENSIVE_REVIEW.md) "Service Architecture"
-4. **Code examples**: Search `backend/BoundedContexts/Store/Catalog/` for working patterns
-5. **Testing setup**: See [TESTING_STRATEGY.md](../TESTING_STRATEGY.md)
-6. **Aspire orchestration**: See [ASPIRE_QUICK_START.md](../ASPIRE_QUICK_START.md)
+1. **Role-specific guidance**: See [docs/by-role/](../docs/by-role/) for your role's documentation
+2. **Architecture questions**: Read [docs/architecture/DDD_BOUNDED_CONTEXTS.md](../docs/architecture/DDD_BOUNDED_CONTEXTS.md)
+3. **Security specs**: See [docs/APPLICATION_SPECIFICATIONS.md](../docs/APPLICATION_SPECIFICATIONS.md) sections 3-4
+4. **Service boundaries**: Check [COMPREHENSIVE_REVIEW.md](../COMPREHENSIVE_REVIEW.md) "Service Architecture"
+5. **Code examples**: Search `backend/Domain/Identity/` for working Wolverine patterns
+6. **Testing setup**: See [TESTING_STRATEGY.md](../TESTING_STRATEGY.md)
+7. **Aspire orchestration**: See [ASPIRE_QUICK_START.md](../ASPIRE_QUICK_START.md)
+8. **CLI Tool**: Check `backend/CLI/B2Connect.CLI/` for command examples
+9. **Compliance Roadmap**: See [docs/EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md](../docs/EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md)
+
+---
+
+## 💡 AI Development Learnings & Best Practices
+
+### Lessons Learned from B2Connect Implementation
+
+This section documents key learnings from building B2Connect to improve future AI-assisted code generation.
+
+#### 1. Central Package Management (CPM) Handling
+
+**Problem Encountered:**
+```
+error NU1010: Die folgenden PackageReference-Elemente definieren kein 
+entsprechendes PackageVersion-Element
+```
+
+**Root Cause:**
+B2Connect uses **Central Package Management (CPM)** defined in `Directory.Packages.props`. When creating new projects in subdirectories, NuGet requires either:
+1. **Option A**: Declare `<PackageVersion>` in `Directory.Packages.props` AND use `<PackageReference>` without versions in `.csproj`
+2. **Option B**: Disable CPM in the project's `.csproj` with `<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>`
+
+**Solution Applied for CLI:**
+```xml
+<!-- In B2Connect.CLI.csproj -->
+<PropertyGroup>
+  <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+</PropertyGroup>
+
+<ItemGroup>
+  <PackageReference Include="System.CommandLine" Version="2.0.0-beta5.25277.114" />
+  <PackageReference Include="Spectre.Console" Version="0.49.1" />
+</ItemGroup>
+```
+
+**Best Practice for Future Projects:**
+- ✅ When adding packages to existing projects: Check if `ManagePackageVersionsCentrally=true` is inherited
+- ✅ For new CLI tools or special projects: Set `ManagePackageVersionsCentrally=false` in `.csproj` PropertyGroup
+- ✅ Keep main backend services using CPM for consistency
+- ✅ When in doubt, explicitly declare versions in `.csproj`
+
+**Prevention:**
+When asked to create a new .NET project outside main structure, include this in the PropertyGroup:
+```xml
+<PropertyGroup>
+  <!-- Disable CPM if this is a standalone tool/CLI -->
+  <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+</PropertyGroup>
+```
+
+---
+
+#### 2. Build Cache Issues & Solutions
+
+**Problem Encountered:**
+```
+error CS0102: Der Typ "ApiResponse<T>" enthält bereits eine Definition
+```
+
+This appeared even after fixing the code, indicating stale build artifacts.
+
+**Root Causes:**
+1. Incremental build cache contains old compiled files
+2. `.nuget` package cache not invalidated
+3. `bin/obj` directories not fully cleaned
+
+**Solutions (in order of effectiveness):**
+
+**Quick Fix (usually works):**
+```bash
+cd project
+rm -rf bin obj
+dotnet clean
+dotnet build
+```
+
+**Aggressive Clean (when quick fix fails):**
+```bash
+# Remove all build artifacts across solution
+find . -type d -name obj -o -name bin | xargs rm -rf
+
+# Clear NuGet cache (dangerous - re-downloads everything)
+rm -rf ~/.nuget/packages
+
+# Rebuild
+dotnet build
+```
+
+**Build without cache:**
+```bash
+dotnet build --no-incremental
+```
+
+**Best Practice for Future Code Generation:**
+- ✅ Always include cleanup steps after major structural changes
+- ✅ When creating new projects, explicitly clean before first build
+- ✅ Never rely on incremental build after dependency changes
+- ✅ If build fails with "type already defined" → aggressive clean is needed
+
+**Prevention:**
+After file modifications, include in instructions:
+```bash
+# Clean and rebuild
+rm -rf bin obj && dotnet clean && dotnet build
+```
+
+---
+
+#### 3. System.CommandLine API Changes
+
+**Problem Encountered:**
+```csharp
+error CS0234: Der Typ- oder Namespacename "Builder" ist im Namespace 
+"System.CommandLine" nicht vorhanden
+```
+
+**Root Cause:**
+`System.CommandLine` has different APIs across versions:
+- `2.0.0-beta4`: Includes `CommandLineBuilder` in `System.CommandLine.Builder`
+- `2.0.0-beta5+`: API changed, builder merged into main namespace
+
+**Solution Applied:**
+```csharp
+// WRONG (older API):
+using System.CommandLine.Builder;
+var parser = new CommandLineBuilder(rootCommand).Build();
+
+// CORRECT (newer API - 2.0.0-beta5+):
+using System.CommandLine.Parsing;
+var parser = rootCommand.Build();
+// OR use RootCommand directly without builder
+```
+
+**Best Practice for Future:**
+- ✅ When using pre-release/beta packages, check version compatibility first
+- ✅ Use latest stable version when available (not beta)
+- ✅ For System.CommandLine CLI tools, use version `2.0.0-beta5.25277.114` or higher
+- ✅ Reference official API docs for beta packages
+
+---
+
+#### 4. Duplicate Method Definitions in Classes
+
+**Problem Encountered:**
+```csharp
+public class ApiResponse<T> 
+{
+    public static ApiResponse<T> Error(string error) => ...;
+    public static ApiResponse<T> Error(string error) => ...;  // ERROR: Duplicate!
+    public static ApiResponse<T> Error(string error, string message) => ...;
+}
+```
+
+**Root Cause:**
+When generating similar overloads, accidental duplication can occur. Method overloading (same name, different parameters) is valid, but identical signatures are not.
+
+**Solution Applied:**
+```csharp
+// CORRECT: Use optional parameters instead of multiple overloads
+public static ApiResponse<T> Error(string error, string? message = null) => new()
+{
+    Success = false,
+    Error = error,
+    Message = message
+};
+```
+
+**Best Practice for Future:**
+- ✅ Use optional parameters instead of method overloads when possible
+- ✅ When overloads are needed, ensure parameters differ in count OR type
+- ✅ Avoid optional parameters with nullable types for clarity
+- ✅ Pattern: `Method(required, optional1 = null, optional2 = null)`
+
+---
+
+#### 5. Project Structure for CLI Tools
+
+**Lessons from B2Connect.CLI Implementation:**
+
+**Correct Structure:**
+```
+backend/CLI/B2Connect.CLI/
+├── B2Connect.CLI.csproj              # CLI-specific, disables CPM
+├── Program.cs                         # Entry point
+├── Commands/
+│   ├── AuthCommands/
+│   │   ├── CreateUserCommand.cs
+│   │   └── LoginCommand.cs
+│   ├── TenantCommands/
+│   ├── ProductCommands/
+│   ├── ContentCommands/
+│   └── SystemCommands/
+├── Services/
+│   ├── CliHttpClient.cs              # HTTP communication
+│   ├── ConfigurationService.cs       # Config management
+│   └── ConsoleOutputService.cs       # Output formatting
+└── README.md                          # CLI documentation
+```
+
+**Key Patterns:**
+
+**1. Commands inherit from System.CommandLine.Command:**
+```csharp
+public static class CreateUserCommand
+{
+    public static Command Create()
+    {
+        var command = new Command("create-user", "Create a new user account");
+        
+        var emailArgument = new Argument<string>("email", "User email");
+        command.AddArgument(emailArgument);
+        
+        command.SetHandler(ExecuteAsync, emailArgument);
+        return command;
+    }
+    
+    private static async Task ExecuteAsync(string email)
+    {
+        // Implementation
+    }
+}
+```
+
+**2. Services are registered in DI, not commands:**
+```csharp
+var authCommand = new Command("auth", "Authentication commands");
+authCommand.AddCommand(CreateUserCommand.Create());
+authCommand.AddCommand(LoginCommand.Create());
+rootCommand.AddCommand(authCommand);
+```
+
+**3. Configuration via environment variables:**
+```csharp
+public class ConfigurationService
+{
+    private Dictionary<string, ServiceEndpoint> _endpoints;
+    
+    public string GetServiceUrl(string serviceName)
+    {
+        return _endpoints[serviceName.ToLower()].Url;
+    }
+    
+    public string? GetToken() => Environment.GetEnvironmentVariable("B2CONNECT_TOKEN");
+    public string? GetTenantId() => Environment.GetEnvironmentVariable("B2CONNECT_TENANT");
+}
+```
+
+**4. Console output via Spectre.Console:**
+```csharp
+public class ConsoleOutputService
+{
+    public void Success(string message) => 
+        AnsiConsole.MarkupLine($"[green]✓[/] {message}");
+    
+    public void Error(string message) => 
+        AnsiConsole.MarkupLine($"[red]✗[/] {message}");
+    
+    public void Spinner(string title, Func<Task> action) =>
+        AnsiConsole.Status().Start(title, async ctx => await action());
+}
+```
+
+**Best Practice for Future CLI Tools:**
+- ✅ Use static factory methods (`Create()`) for commands
+- ✅ Keep HTTP client logic separate from command logic
+- ✅ Configuration via environment variables for automation
+- ✅ Use Spectre.Console for rich output, not plain Console
+- ✅ Provide both `appsettings.json` and env var configuration
+
+---
+
+#### 6. Wolverine vs MediatR Pattern (CRITICAL)
+
+**Hard-Learned Lesson:**
+B2Connect uses **Wolverine**, not MediatR. This was not obvious from initial context and led to incorrect patterns.
+
+**Why This Matters:**
+- Wolverine is designed for distributed microservices
+- MediatR is for in-process command bus
+- B2Connect's architecture requires event-driven messaging
+
+**Correct Wolverine Pattern:**
+```csharp
+// Step 1: Define command as plain POCO (no IRequest interface)
+public class CreateProductCommand
+{
+    public string Sku { get; set; }
+    public string Name { get; set; }
+}
+
+// Step 2: Service with public async method
+public class ProductService
+{
+    public async Task<CreateProductResponse> CreateProduct(
+        CreateProductCommand request,
+        CancellationToken cancellationToken)
+    {
+        // Business logic
+        return new CreateProductResponse { Id = productId };
+    }
+}
+
+// Step 3: Register simple DI
+builder.Services.AddScoped<ProductService>();
+
+// Step 4: Wolverine auto-discovers HTTP endpoint
+// POST /createproduct
+```
+
+**Wrong MediatR Pattern (DO NOT USE):**
+```csharp
+// WRONG: IRequest interface
+public record CreateProductCommand(string Sku, string Name) : IRequest<CreateProductResponse>;
+
+// WRONG: IRequestHandler
+public class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductResponse> { }
+
+// WRONG: AddMediatR
+builder.Services.AddMediatR();
+```
+
+**Best Practice:**
+- ✅ Always verify architecture patterns before implementing
+- ✅ Check existing code in Domain/ for pattern references
+- ✅ Reference: `backend/Domain/Identity/src/Handlers/CheckRegistrationTypeService.cs`
+- ✅ Never use MediatR in B2Connect (Wolverine only)
+
+---
+
+#### 7. Documentation & Code Comments
+
+**Lesson:** Even well-written instructions can be incomplete. When patterns are critical, document them in code.
+
+**Examples from B2Connect.CLI:**
+
+```csharp
+/// <summary>
+/// HTTP Client für CLI-Commands zur Kommunikation mit Microservices
+/// </summary>
+public class CliHttpClient
+{
+    // Clear documentation of what it does
+}
+
+/// <summary>
+/// Wolverine auto-discovers and creates HTTP endpoint from this method
+/// Method name becomes route: CheckType → POST /checktype
+/// CancellationToken is injected automatically
+/// </summary>
+public async Task<CheckRegistrationTypeResponse> CheckType(
+    CheckRegistrationTypeCommand request,
+    CancellationToken cancellationToken)
+{
+    // Implementation
+}
+```
+
+**Best Practice:**
+- ✅ Document non-obvious architectural decisions in XML comments
+- ✅ Include examples in // comments for complex logic
+- ✅ Reference related files: "See CheckRegistrationTypeService.cs for pattern"
+- ✅ Explain WHY, not just WHAT
+
+---
+
+#### 8. Testing Early Failures
+
+**Lesson:** Build projects early during development to catch issues:
+
+**Wrong Approach:**
+1. Generate all code
+2. Create multiple files
+3. Build at the end (discovers many errors)
+
+**Right Approach:**
+1. Create .csproj first
+2. Build to verify project structure
+3. Add packages incrementally
+4. Build after each significant change
+5. Fix issues immediately
+
+**Implementation:**
+```bash
+# After creating .csproj
+dotnet build  # <- Catch issues early
+
+# After adding packages
+dotnet build  # <- Verify versions work
+
+# After implementing commands
+dotnet build  # <- Fix compilation errors
+```
+
+**Best Practice:**
+- ✅ Ask for builds after critical steps
+- ✅ Create .csproj files early (not last)
+- ✅ Verify NuGet packages exist before using
+- ✅ Test build regularly during development
+
+---
+
+#### 9. File Handling - Create vs Overwrite
+
+**Problem Encountered:**
+When modifying existing files, sometimes accidental duplicates or incomplete rewrites occur.
+
+**Safe Pattern:**
+```bash
+# WRONG: Try to create file that exists
+create_file("path/file.cs")  # ERROR: File exists
+
+# RIGHT: Delete first, then create
+rm path/file.cs
+create_file("path/file.cs")
+
+# BETTER: Use replace_string_in_file for modifications
+replace_string_in_file(oldString, newString)  # Explicit, reversible
+```
+
+**Best Practice:**
+- ✅ Use `create_file` only for new files
+- ✅ Use `replace_string_in_file` for modifications
+- ✅ Include ample context (3-5 lines before/after) in replacements
+- ✅ For major rewrites, delete + recreate is safer than find-replace
+- ✅ Verify file content after major changes
+
+---
+
+### Quick Reference: Future Code Generation Checklist
+
+When asked to create new C# code:
+
+- [ ] **Architecture**: Verify Wolverine pattern (not MediatR)
+- [ ] **CPM**: Check if `ManagePackageVersionsCentrally=true` applies
+- [ ] **Dependencies**: List all NuGet packages and versions upfront
+- [ ] **Build Early**: Create .csproj and build before adding complex code
+- [ ] **Naming**: Follow naming conventions (PascalCase classes, camelCase fields)
+- [ ] **Documentation**: Include XML comments for public APIs
+- [ ] **Testing**: Provide unit test examples where appropriate
+- [ ] **Cleanup**: Include build cleanup steps if modifying structure
+- [ ] **Verification**: Confirm build succeeds before completion
+- [ ] **References**: Link to existing code examples in project
+
+---
 
 ## 🔥 Troubleshooting
 
@@ -640,6 +2104,254 @@ curl http://localhost:7002/health  # Auth
 curl http://localhost:8000/health  # Store Gateway
 curl http://localhost:15500        # Aspire Dashboard
 ```
+
+---
+
+## 🚀 Feature Integration Roadmap for EU SaaS at Scale
+
+**Status:** Phase 0 (Compliance Foundation) - Parallel to MVP Development
+
+### Platform Overview
+
+B2Connect is a **multi-tenant SaaS platform**:
+- **100+ Shops** (independent businesses)
+- **1.000+ Concurrent Users per Shop**
+- **EU-only Data Residency** (GDPR, NIS2, DORA compliant)
+- **Cloud-Agnostisch** (AWS, Azure, On-Premise via Aspire)
+- **99.9%+ SLA Target**
+
+### Core Principle: Compliance-First Architecture
+
+**Technologie zuerst. Ohne sichere Infrastruktur → kein Business.**
+
+Alle Features in den Phasen 1-3 integrieren Compliance ab Tag 1:
+- Audit Logging für jede Datenänderung
+- Verschlüsselung sensibler Daten
+- Mandanten-Isolation (kein Cross-Tenant Datenleck möglich)
+- Skalierbarkeit mit Sicherheitsgrenzen respektiert
+
+---
+
+### 📋 Compliance Requirements (EU SaaS)
+
+| Regulation | Deadline | Impact | Status |
+|-----------|----------|--------|--------|
+| **NIS2 Directive** | Oct 2025 (Phase 1), Oct 2026 (Phase 2) | Supply Chain Security, Incident Response < 24h | 🔴 P0 |
+| **GDPR** | Active (May 2018) | Data Protection, Encryption, Right-to-Forget | 🔴 P0 |
+| **DORA** | Jan 2025 (but SaaS: Jan 2026) | Operational Resilience, Backup & Recovery | 🔴 P0 |
+| **eIDAS 2.0** | Nov 2024+ | Digital Signatures, Electronic ID | 🟡 P1 |
+| **TISAX** | Ongoing | Telecom Security (DE/AT) | 🟡 P1 |
+
+---
+
+### 📅 Implementation Phases
+
+#### **Phase 0: Compliance Foundation (Weeks 1-6, PARALLEL to MVP)**
+
+🎯 **Goal:** Build security infrastructure that Phase 1 features depend on.
+
+**Components:**
+1. **P0.1: Audit Logging System** (immutable, encrypted, tenant-isolated)
+   - All CRUD operations logged automatically
+   - Tamper detection (hash verification)
+   - SIEM integration ready
+   - **Effort:** 1 FTE, 1 week | **Owner:** Security Engineer
+
+2. **P0.2: Encryption at Rest** (AES-256-GCM)
+   - All PII encrypted (email, phone, address, DOB)
+   - Product cost data encrypted
+   - Key rotation policy (annual for NIS2)
+   - **Effort:** 1 FTE, 1 week | **Owner:** Security Engineer
+
+3. **P0.3: Incident Response System** (< 24h Notification)
+   - Automated detection (brute force, data exfiltration, availability)
+   - NIS2 notification service (< 24h to authorities)
+   - Incident tracking dashboard
+   - **Effort:** 1.5 FTE, 1.5 weeks | **Owner:** Security Eng + DevOps
+
+4. **P0.4: Network Segmentation & DDoS Protection**
+   - VPC with 3 subnets (public, services, databases)
+   - DDoS protection (AWS Shield, Azure DDoS)
+   - WAF rules deployed
+   - mTLS for service-to-service communication
+   - **Effort:** 1 FTE, 1.5 weeks | **Owner:** DevOps Engineer
+
+5. **P0.5: Key Management** (Azure KeyVault / Vault)
+   - All secrets in vault (nothing hardcoded)
+   - Key rotation automation
+   - Access control & audit logging
+   - **Effort:** 1 FTE, 1 week | **Owner:** DevOps Engineer
+
+**Phase 0 Gate (Week 6):**
+```
+✅ Audit Logging: All CRUD operations captured
+✅ Encryption: AES-256 at rest verified
+✅ Incident Response: Detection rules running
+✅ Network: Segmentation enforced
+✅ Keys: Vault configured & rotating
+
+If ANY ❌ → HOLD all Phase 1 deployments
+```
+
+---
+
+#### **Phase 1: MVP with Built-in Compliance (Weeks 7-14)**
+
+🎯 **Goal:** Deliver business features with 100% compliance integration.
+
+**Features:**
+1. **F1.1: Multi-Tenant Authentication**
+   - JWT tokens (1h access, 7d refresh)
+   - Tenant isolation (X-Tenant-ID mandatory)
+   - Email verification
+   - Suspicious activity detection (5+ failed logins → 10min lockout)
+   - Audit logging for all login attempts
+   - **Effort:** 2 weeks, Backend Dev
+
+2. **F1.2: Product Catalog**
+   - CRUD for products/categories
+   - Redis caching (5-min TTL)
+   - Soft deletes (never hard delete)
+   - Supplier names encrypted
+   - Audit trail for all changes
+   - **Effort:** 2 weeks, Backend Dev
+
+3. **F1.3: Shopping Cart & Checkout**
+   - Cart in Redis (session-based)
+   - PII not stored (reference only)
+   - Billing address encrypted
+   - Payment via Stripe/PayPal
+   - Order audit trail
+   - **Effort:** 2 weeks, Backend Dev
+
+4. **F1.4: Admin Dashboard**
+   - Tenant/User management
+   - Read-only audit log viewer
+   - Session timeout (30min inactivity)
+   - All admin actions logged
+   - **Effort:** 2 weeks, Backend + Frontend Dev
+
+**Phase 1 Gate (Week 14):**
+```
+✅ All 4 features working (happy path tested)
+✅ 100% audit logging integrated
+✅ Encryption working end-to-end
+✅ Code coverage > 80%
+✅ API response < 200ms (P95)
+
+If ANY ❌ → HOLD production deployment
+```
+
+---
+
+#### **Phase 2: Scale with Compliance (Weeks 15-24)**
+
+🎯 **Goal:** Scale to 10,000+ concurrent users without breaking security.
+
+**Components:**
+1. **P2.1: Database Read Replicas** (PostgreSQL 1 Write, 3 Read)
+   - Streaming replication (encrypted, same as primary)
+   - Connection pooling (PgBouncer)
+   - Read-only routing for SELECT queries
+   - **Effort:** 1.5 weeks, DevOps
+
+2. **P2.2: Redis Cluster** (3+ nodes, HA)
+   - Sentinel monitoring
+   - AOF persistence
+   - Annual key rotation
+   - **Effort:** 1 week, DevOps
+
+3. **P2.3: Elasticsearch Cluster** (3+ nodes, sharded)
+   - Per-tenant index sharding
+   - Daily index rotation
+   - Backup to S3/Azure Blob
+   - **Effort:** 1.5 weeks, DevOps
+
+4. **P2.4: Auto-Scaling Configuration**
+   - HPA (Horizontal Pod Autoscaler)
+   - Rules: CPU > 70% → scale up, < 20% → scale down
+   - Min 2 instances (HA), Max 10 instances
+   - **Effort:** 1.5 weeks, DevOps
+
+**Phase 2 Gate (Week 24):**
+```
+✅ 10,000+ concurrent users handled
+✅ No single point of failure (HA verified)
+✅ API response < 100ms (P95)
+✅ Auto-scaling working correctly
+
+If ANY ❌ → HOLD production deployment
+```
+
+---
+
+#### **Phase 3: Production Hardening (Weeks 25-30)**
+
+🎯 **Goal:** Verify production readiness before 100K+ users go live.
+
+**Activities:**
+1. **P3.1: Load Testing** (k6 + Grafana)
+   - Scenario 1: Normal (1000 users/shop × 100 shops)
+   - Scenario 2: Black Friday (5x normal, sudden spike)
+   - Target: API < 500ms, < 1% failure rate
+
+2. **P3.2: Chaos Engineering**
+   - Service down → auto-restart verified
+   - DB failover → < 10 sec recovery
+   - Network latency → circuit breaker works
+   - AWS region down → fail-over ready
+
+3. **P3.3: Compliance Audit**
+   - NIS2 supply chain security verified
+   - Penetration testing completed
+   - Incident response procedures tested
+   - Backup & recovery procedures validated
+   - GDPR right-to-be-forgotten tested
+
+**Phase 3 Gate (Week 30):**
+```
+✅ Load testing: Black Friday scenario passed
+✅ Chaos engineering: All failure modes handled
+✅ Compliance: 100% NIS2/GDPR verified by 3rd party
+✅ Disaster recovery: RTO < 4h, RPO < 1h proven
+
+If ANY ❌ → HOLD production launch
+```
+
+---
+
+### 📊 Implementation Timeline
+
+```
+Week 1-6    Phase 0: Compliance Foundation (PARALLEL)
+            → Audit, Encryption, Incident Response, Network, Keys
+            
+Week 7-14   Phase 1: MVP + Compliance
+            → Auth, Catalog, Checkout, Admin Dashboard
+            ✅ Go/No-Go Gate: All compliance checks pass
+            
+Week 15-24  Phase 2: Scale with Compliance
+            → DB Replication, Redis Cluster, ES Cluster, Auto-Scaling
+            ✅ Go/No-Go Gate: 10K users handled
+            
+Week 25-30  Phase 3: Production Hardening
+            → Load Testing, Chaos Engineering, Compliance Audit
+            ✅ Go/No-Go Gate: Production Ready
+            
+Week 31+    Launch: 100K+ users ready
+```
+
+---
+
+### 🔍 Detailed Implementation Guide
+
+**See:** [docs/EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md](../docs/EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md)
+
+This document contains:
+- P0.1-P0.5: Compliance Foundation with code examples
+- F1.1-F1.4: Feature acceptance criteria & testing
+- P2.1-P2.4: Scaling strategy & configuration
+- P3.1-P3.3: Testing & validation procedures
 
 ---
 

@@ -10,6 +10,7 @@
     <IsAspireProjectResource>true</IsAspireProjectResource>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
     <GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
+    <DefaultItemExcludes>$(DefaultItemExcludes);tests/**/*</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>

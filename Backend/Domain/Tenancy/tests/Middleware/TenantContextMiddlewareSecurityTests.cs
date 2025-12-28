@@ -19,7 +19,6 @@ namespace B2Connect.Shared.Tenancy.Tests.Middleware;
 public class TenantContextMiddlewareSecurityTests
 {
     private readonly Mock<ILogger<TenantContextMiddleware>> _mockLogger;
-    private readonly Mock<IConfiguration> _mockConfiguration;
     private readonly Mock<IHostEnvironment> _mockEnvironment;
     private readonly Mock<ITenancyServiceClient> _mockTenancyClient;
     private readonly TenantContext _tenantContext;
@@ -27,10 +26,22 @@ public class TenantContextMiddlewareSecurityTests
     public TenantContextMiddlewareSecurityTests()
     {
         _mockLogger = new Mock<ILogger<TenantContextMiddleware>>();
-        _mockConfiguration = new Mock<IConfiguration>();
         _mockEnvironment = new Mock<IHostEnvironment>();
         _mockTenancyClient = new Mock<ITenancyServiceClient>();
         _tenantContext = new TenantContext();
+    }
+
+    /// <summary>
+    /// Creates a real IConfiguration from a dictionary (can't mock extension methods)
+    /// </summary>
+    private static IConfiguration CreateConfiguration(Dictionary<string, string?>? values = null)
+    {
+        var builder = new ConfigurationBuilder();
+        if (values != null)
+        {
+            builder.AddInMemoryCollection(values);
+        }
+        return builder.Build();
     }
 
     #region CVE-2025-001: Tenant Spoofing Prevention
@@ -114,12 +125,25 @@ public class TenantContextMiddlewareSecurityTests
         // Arrange
         var context = CreateHttpContext();
         context.Request.Path = "/api/products";
+        // IMPORTANT: Must provide a valid host so middleware passes step 6 (host validation)
+        // and reaches step 7 (fallback logic)
+        context.Request.Host = new HostString("unknown.example.com");
 
+        // Note: IsDevelopment() is an extension method that checks EnvironmentName == "Development"
+        // We only mock EnvironmentName and let the extension method work naturally
         _mockEnvironment.Setup(e => e.EnvironmentName).Returns("Production");
-        _mockEnvironment.Setup(e => e.IsDevelopment()).Returns(false);
-        _mockConfiguration.Setup(c => c.GetValue<bool>("Tenant:Development:UseFallback", false)).Returns(true);
 
-        var middleware = CreateMiddleware();
+        // Mock the tenancy client to return null (host not found in DB)
+        _mockTenancyClient.Setup(c => c.GetTenantByDomainAsync("unknown.example.com", It.IsAny<CancellationToken>()))
+            .ReturnsAsync((TenantDto?)null);
+
+        // Use real configuration since GetValue<T>() is an extension method that can't be mocked
+        var configuration = CreateConfiguration(new Dictionary<string, string?>
+        {
+            { "Tenant:Development:UseFallback", "true" }
+        });
+
+        var middleware = CreateMiddleware(configuration);
 
         // Act
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
@@ -137,13 +161,26 @@ public class TenantContextMiddlewareSecurityTests
 
         var context = CreateHttpContext();
         context.Request.Path = "/api/products";
+        // IMPORTANT: Must provide a valid host so middleware passes step 6 (host validation)
+        // and reaches step 7 (fallback logic)
+        context.Request.Host = new HostString("unknown.example.com");
 
+        // Note: IsDevelopment() is an extension method that checks EnvironmentName == "Development"
+        // We only mock EnvironmentName and let the extension method work naturally
         _mockEnvironment.Setup(e => e.EnvironmentName).Returns("Development");
-        _mockEnvironment.Setup(e => e.IsDevelopment()).Returns(true);
-        _mockConfiguration.Setup(c => c.GetValue<bool>("Tenant:Development:UseFallback", false)).Returns(true);
-        _mockConfiguration.Setup(c => c["Tenant:Development:FallbackTenantId"]).Returns(fallbackTenantId.ToString());
 
-        var middleware = CreateMiddleware();
+        // Mock the tenancy client to return null (host not found in DB)
+        _mockTenancyClient.Setup(c => c.GetTenantByDomainAsync("unknown.example.com", It.IsAny<CancellationToken>()))
+            .ReturnsAsync((TenantDto?)null);
+
+        // Use real configuration since GetValue<T>() is an extension method that can't be mocked
+        var configuration = CreateConfiguration(new Dictionary<string, string?>
+        {
+            { "Tenant:Development:UseFallback", "true" },
+            { "Tenant:Development:FallbackTenantId", fallbackTenantId.ToString() }
+        });
+
+        var middleware = CreateMiddleware(configuration);
 
         // Act
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
@@ -164,8 +201,9 @@ public class TenantContextMiddlewareSecurityTests
         var context = CreateHttpContext();
         context.Request.Path = "/api/products";
 
+        // Note: IsDevelopment() is an extension method that checks EnvironmentName == "Development"
+        // We only mock EnvironmentName and let the extension method work naturally
         _mockEnvironment.Setup(e => e.EnvironmentName).Returns("Production");
-        _mockEnvironment.Setup(e => e.IsDevelopment()).Returns(false);
 
         var middleware = CreateMiddleware();
 
@@ -222,7 +260,9 @@ public class TenantContextMiddlewareSecurityTests
     {
         // Arrange
         var context = CreateHttpContext();
-        context.Request.Host = new HostString("tenant'; DROP TABLE tenants; --");
+        // Use a host with dangerous characters that are still valid for HostString
+        // but should be rejected by the middleware's input validation
+        context.Request.Host = new HostString("tenant<script>alert(1)</script>.evil.com");
         context.Request.Path = "/api/products";
 
         _mockEnvironment.Setup(e => e.EnvironmentName).Returns("Production");
@@ -263,11 +303,11 @@ public class TenantContextMiddlewareSecurityTests
 
     #region Helper Methods
 
-    private TenantContextMiddleware CreateMiddleware()
+    private TenantContextMiddleware CreateMiddleware(IConfiguration? configuration = null)
     {
         return new TenantContextMiddleware(
             async (context) => { context.Response.StatusCode = StatusCodes.Status200OK; await Task.CompletedTask; },
-            _mockConfiguration.Object,
+            configuration ?? CreateConfiguration(),
             _mockLogger.Object,
             _mockEnvironment.Object);
     }
@@ -295,7 +335,7 @@ public class TenantContextMiddlewareSecurityTests
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString())
         };
-        return new ClaimsIdentity(claims, "Test");
+        return new ClaimsPrincipal(new ClaimsIdentity(claims, "Test"));
     }
 
     private static async Task<string> GetResponseBody(HttpContext context)

@@ -1,42 +1,46 @@
 <Solution>
-  <!-- Backend: Gateway -->
-  <Folder Name="/Backend/Gateway/">
-    <Project Path="Backend/Gateway/Admin/B2Connect.Admin.csproj" />
-    <Project Path="Backend/Gateway/Store/API/B2Connect.Store.csproj" />
+  <Folder Name="/backend/Domain/Tenancy/" />
+  <Folder Name="/backend/Domain/Tenancy/tests/">
+    <Project Path="backend/Domain/Tenancy/tests/B2Connect.Tenancy.Tests.csproj" />
   </Folder>
-  <Folder Name="/Backend/" />
+  <!-- Backend: Gateway -->
+  <Folder Name="/backend/Gateway/">
+    <Project Path="backend/Gateway/Admin/B2Connect.Admin.csproj" />
+    <Project Path="backend/Gateway/Store/API/B2Connect.Store.csproj" />
+  </Folder>
+  <Folder Name="/backend/" />
 
   <!-- Backend: Domain -->
-  <Folder Name="/Backend/Domain/">
-    <Project Path="Backend/Domain/Catalog/B2Connect.Catalog.API.csproj" />
-    <Project Path="Backend/Domain/CMS/B2Connect.CMS.csproj" />
-    <Project Path="Backend/Domain/Identity/B2Connect.Identity.API.csproj" />
-    <Project Path="Backend/Domain/Localization/B2Connect.Localization.API.csproj" />
-    <Project Path="Backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj" />
-    <Project Path="Backend/Domain/Theming/B2Connect.Theming.API.csproj" />
-    <Project Path="Backend/Domain/Theming/Layout/B2Connect.Theming.Layout.csproj" />
+  <Folder Name="/backend/Domain/">
+    <Project Path="backend/Domain/Catalog/B2Connect.Catalog.API.csproj" />
+    <Project Path="backend/Domain/CMS/B2Connect.CMS.csproj" />
+    <Project Path="backend/Domain/Identity/B2Connect.Identity.API.csproj" />
+    <Project Path="backend/Domain/Localization/B2Connect.Localization.API.csproj" />
+    <Project Path="backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj" />
+    <Project Path="backend/Domain/Theming/B2Connect.Theming.API.csproj" />
+    <Project Path="backend/Domain/Theming/Layout/B2Connect.Theming.Layout.csproj" />
   </Folder>
 
   <!-- Backend: Shared -->
-  <Folder Name="/Backend/Shared/">
-    <Project Path="Backend/shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
-    <Project Path="Backend/shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
-    <Project Path="Backend/shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
-    <Project Path="Backend/shared/B2Connect.Shared.Search/B2Connect.Shared.Search.csproj" />
-    <Project Path="Backend/shared/kernel/B2Connect.Shared.Kernel.csproj" />
-    <Project Path="Backend/shared/middleware/B2Connect.Shared.Middleware.csproj" />
-    <Project Path="Backend/shared/tools/B2Connect.Shared.Tools.csproj" />
-    <Project Path="Backend/shared/types/B2Connect.Types.csproj" />
-    <Project Path="Backend/shared/utils/B2Connect.Utils.csproj" />
+  <Folder Name="/backend/Shared/">
+    <Project Path="backend/shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+    <Project Path="backend/shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
+    <Project Path="backend/shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
+    <Project Path="backend/shared/B2Connect.Shared.Search/B2Connect.Shared.Search.csproj" />
+    <Project Path="backend/shared/kernel/B2Connect.Shared.Kernel.csproj" />
+    <Project Path="backend/shared/middleware/B2Connect.Shared.Middleware.csproj" />
+    <Project Path="backend/shared/tools/B2Connect.Shared.Tools.csproj" />
+    <Project Path="backend/shared/types/B2Connect.Types.csproj" />
+    <Project Path="backend/shared/utils/B2Connect.Utils.csproj" />
   </Folder>
 
   <!-- Backend: Tests -->
-  <Folder Name="/Backend/Tests/">
-    <Project Path="Backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj" />
-    <Project Path="Backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj" />
-    <Project Path="Backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj" />
-    <Project Path="Backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj" />
-    <Project Path="Backend/Tests/B2Connect.Shared.Search.Tests/B2Connect.Shared.Search.Tests.csproj" />
+  <Folder Name="/backend/Tests/">
+    <Project Path="backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj" />
+    <Project Path="backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj" />
+    <Project Path="backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj" />
+    <Project Path="backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj" />
+    <Project Path="backend/Tests/B2Connect.Shared.Search.Tests/B2Connect.Shared.Search.Tests.csproj" />
   </Folder>
   <Folder Name="/Projektmappenelemente/">
     <File Path="docker-compose.yml" />

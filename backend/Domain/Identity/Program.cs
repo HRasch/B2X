@@ -3,6 +3,10 @@ using B2Connect.AuthService.Data;
 using B2Connect.Shared.Infrastructure;
 using B2Connect.Shared.Messaging.Extensions;
 using B2Connect.Middleware;
+using B2Connect.Identity.Handlers;
+using B2Connect.Identity.Interfaces;
+using B2Connect.Identity.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -169,8 +173,23 @@ builder.Services.AddCors(options =>
 // builder.Services.AddB2ConnectValidation();
 
 // Add services
-// builder.Services.AddControllers(); // Removed - using Wolverine HTTP Endpoints
+// builder.Services.AddControllers(); // Removed - using Wolverine HTTP Endpoints only
+
+// Add MediatR for CQRS - NO! Using Wolverine instead
+// builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+// Add FluentValidation for input validation
+// builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddScoped<CheckRegistrationTypeCommandValidator>();
+
+// Add custom services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IErpCustomerService, ErpCustomerService>();
+builder.Services.AddScoped<IDuplicateDetectionService, DuplicateDetectionService>();
+builder.Services.AddScoped<CheckRegistrationTypeService>();
+
+// Add HttpClient for ERP integration
+builder.Services.AddHttpClient<IErpCustomerService, ErpCustomerService>();
 
 // Configure HSTS options (production)
 builder.Services.AddHsts(options =>
@@ -307,7 +326,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Map Wolverine HTTP Endpoints (replaces MapControllers)
+// Map Wolverine HTTP Endpoints (includes all [WolverineHttpPost] handlers)
 app.MapWolverineEndpoints();
 
 app.MapGet("/", () => "Auth Service is running");

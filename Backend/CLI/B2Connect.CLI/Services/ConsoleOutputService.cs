@@ -1,0 +1,119 @@
+using Spectre.Console;
+using System.Collections.Generic;
+
+namespace B2Connect.CLI.Services;
+
+/// <summary>
+/// Service für formatierte Konsolen-Ausgabe mit Spectre.Console
+/// </summary>
+public class ConsoleOutputService
+{
+    public void Success(string message)
+    {
+        AnsiConsole.MarkupLine($"[green]✓[/] {message}");
+    }
+
+    public void Error(string message)
+    {
+        AnsiConsole.MarkupLine($"[red]✗[/] {message}");
+    }
+
+    public void Warning(string message)
+    {
+        AnsiConsole.MarkupLine($"[yellow]⚠[/] {message}");
+    }
+
+    public void Info(string message)
+    {
+        AnsiConsole.MarkupLine($"[blue]ℹ[/] {message}");
+    }
+
+    public void Header(string title)
+    {
+        AnsiConsole.WriteLine();
+        AnsiConsole.Write(new Rule($"[bold blue]{title}[/]") { Justification = Justify.Left });
+        AnsiConsole.WriteLine();
+    }
+
+    public void Table<T>(IEnumerable<T> items, params (string Header, Func<T, string> Selector)[] columns) where T : class
+    {
+        var table = new Table();
+        table.AddColumn(new TableColumn("[bold]" + columns[0].Header + "[/]").Centered());
+
+        for (int i = 1; i < columns.Length; i++)
+        {
+            table.AddColumn(new TableColumn("[bold]" + columns[i].Header + "[/]").Centered());
+        }
+
+        foreach (var item in items)
+        {
+            var values = columns.Select(c => c.Selector(item)).ToArray();
+            table.AddRow(values);
+        }
+
+        AnsiConsole.Write(table);
+    }
+
+    public void JsonOutput(object? data)
+    {
+        if (data == null)
+        {
+            Info("No data to display");
+            return;
+        }
+
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            data,
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
+        );
+
+        AnsiConsole.Write(new Panel(json) { Border = BoxBorder.Rounded });
+    }
+
+    public bool Confirm(string question)
+    {
+        return AnsiConsole.Confirm($"[yellow]{question}[/]");
+    }
+
+    public string? Prompt(string prompt, string? defaultValue = null)
+    {
+        var result = AnsiConsole.Ask($"[yellow]{prompt}[/]", defaultValue);
+        return string.IsNullOrEmpty(result) ? defaultValue : result;
+    }
+
+    public string? PromptPassword(string prompt)
+    {
+        return AnsiConsole.Prompt(
+            new TextPrompt<string>($"[yellow]{prompt}[/]")
+                .PromptStyle("red")
+                .IsSecret()
+        );
+    }
+
+    public void Spinner(string title, Func<Task> action)
+    {
+        AnsiConsole.Status()
+            .Spinner(Spinner.Known.Default)
+            .Start(title, async ctx =>
+            {
+                await action();
+            });
+    }
+
+    public void LoadingBar(string title, int total, Func<Action<int>, Task> action)
+    {
+        AnsiConsole.Progress()
+            .Columns(new ProgressColumn[]
+            {
+                new TaskDescriptionColumn(),
+                new BarColumn(),
+                new PercentageColumn(),
+                new RemainingTimeColumn()
+            })
+            .Start(ctx =>
+            {
+                var task = ctx.AddTask($"[green]{title}[/]", autoStart: false, maxValue: total);
+                action(x => task.Value = x).Wait();
+            });
+    }
+}

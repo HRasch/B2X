@@ -25,6 +25,8 @@
     <PackageReference Include="EFCore.NamingConventions" />
     <PackageReference Include="Serilog" />
     <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="FluentValidation" />
   </ItemGroup>
 
   <ItemGroup>
