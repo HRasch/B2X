@@ -31,5 +31,14 @@
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "ms-vscode-remote.remote-wsl"
-  ]
+  ],
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false
+  },
+  "github.copilot.chat.localeOverride": "en",
+  "github.copilot.advanced": {
+    "authProvider": "github"
+  }
 }
