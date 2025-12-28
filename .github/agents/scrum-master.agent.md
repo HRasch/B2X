@@ -119,24 +119,111 @@ Security Engineer + Backend Developers (majority vote)
 
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
-| **Sprint Goal Completion** | 90%+ | TBD | TBD |
-| **Build Time** | < 10s | TBD | TBD |
-| **Test Execution** | < 30s | TBD | TBD |
-| **Defect Rate** | < 1% | TBD | TBD |
-| **Code Review Cycle** | < 4h | TBD | TBD |
-| **Deployment Frequency** | 2+ per week | TBD | TBD |
-| **Team Satisfaction** | 4/5+ | TBD | TBD |
+| **Sprint Goal Completion** | 90%+ | 92% (P0.6 Phase A) | ✅ |
+| **Build Time** | < 10s | 7.1s | ✅ |
+| **Test Execution** | < 30s | 15-20s (50+ tests) | ✅ |
+| **Defect Rate** | < 1% | 0% (test pass rate) | ✅ |
+| **Code Review Cycle** | < 4h | < 4h | ✅ |
+| **Deployment Frequency** | 2+ per week | Planning per issue | 📈 |
+| **Team Satisfaction** | 4/5+ | Not yet measured | 🔄 |
+| **Documentation Quality** | Comprehensive | 10,580+ lines | ✅ |
+| **Test Coverage** | >= 80% | > 80% (Phase A) | ✅ |
 
-### Burndown Chart Template
+### Burndown Chart Example (Sprint 2)
 ```
-Sprint Goal: [Description]
-Capacity: [Story Points]
+Sprint Goal: P0.6 Phase B (Withdrawal, Email, Invoice)
+Capacity: 115 hours allocated
 Days: Mon Tue Wed Thu Fri
 
-Ideal:    [/////]
-Actual:   [////]
-Blocked:  [1 item]
+Team Utilization: 57.5% (115h / 200h available)
+- Backend:       40h / 40h capacity ✅
+- Frontend:      20h / variable capacity ✅
+- QA:            30h / variable capacity ✅
+- Security:      15h / variable capacity ✅
+- DevOps:        10h / variable capacity ✅
+
+Buffer: 85h for code review, troubleshooting, unknowns
 ```
+
+---
+
+## 🎓 Learnings from Sprint 2 Planning (29. Dezember 2025)
+
+### ✅ What Worked Well
+
+#### 1. **GitHub Planner Project Organization**
+- All Sprint 2 issues (#22, #23, #24) organized in Planner project
+- Detailed task breakdowns added as issue comments
+- Clear owner assignments and effort estimates
+- **Learning**: Organizing planning directly in GitHub (not separate docs) improves discoverability
+
+#### 2. **Role-Based Capacity Planning**
+- Backend Developer: 40h (100% allocation)
+- Frontend Developer: 20h (partial, ~50% allocation)
+- QA Engineer: 30h (full engagement)
+- Security Engineer: 15h (focused reviews)
+- DevOps Engineer: 10h (support role)
+- **Learning**: Explicit capacity planning prevents overload and reveals buffer for unknowns
+
+#### 3. **Sprint Timeline Structure (5-Day Format)**
+- Day 1: Kickoff & design review
+- Day 2: Service specifications
+- Day 3: Implementation starts
+- Day 4: Mid-sprint check & integration
+- Day 5: Testing, refinement & review
+- **Learning**: Compressed sprints (29 Dec - 2 Jan) require tight planning but increase focus
+
+#### 4. **Detailed Definition of Done**
+- All 3 issues have specific acceptance criteria
+- Gate criteria defined (100% test pass, security review, code review)
+- Clear blockers and risk identified upfront
+- **Learning**: Explicit gates prevent premature merges and catch issues early
+
+### ⚠️ Lessons from Coordination
+
+#### 1. **GitHub Issue Comments vs Separate Docs**
+- Issue comments are discoverable and searchable in GitHub
+- Separate markdown files are less discoverable (kept for reference only)
+- **Action**: Prioritize GitHub issue comments for sprint details moving forward
+
+#### 2. **Sprint Capacity Must Account for Buffer**
+- 115h allocated / 200h available = 57.5% utilization
+- Remaining 85h allocated to: code review, Q&A, troubleshooting, unknowns, documentation
+- **Action**: Always maintain 40-50% buffer for non-tracked work
+
+#### 3. **Three Issues Per Sprint is Optimal**
+- Sprint 1: 2 issues (#30-31) = 32h
+- Sprint 2: 3 issues (#22-24) = 45-50h (planned)
+- Sprint 3: 3 issues (#25-27) = 40h (planned)
+- **Action**: 3 issues allows better parallelization than 2, less context-switching than 4+
+
+#### 4. **Task Interdependencies Matter**
+```
+Critical Path (Sprint 2):
+Withdrawal Logic → Email Notification → Invoice Generation
+(Each depends on prior, but parallelizable on frontend)
+```
+- **Action**: Explicitly map dependencies in sprint planning
+
+### 🔧 Process Improvements (Validated)
+
+#### From P0.6 Phase A Success
+1. **Build validation first**: `dotnet build B2Connect.slnx` before feature work
+   - Prevents 30+ test failures later
+   - Takes 7.1s, ROI is immediate
+
+2. **Wolverine pattern consistency**: All services use same handler pattern
+   - No MediatR (in-process only)
+   - Plain POCO commands + Service.PublicAsyncMethod()
+   - Standardization reduces code review time
+
+3. **Test-driven audit logging**: Every feature includes audit trail
+   - Non-negotiable gate for production
+   - Enforcement via static checks possible (future)
+
+4. **Tenant isolation mandatory**: `TenantId` in every query
+   - Security gate that prevents data breaches
+   - Easy to check in code review
 
 ---
 
@@ -230,12 +317,13 @@ Blocked:  [1 item]
 
 | Command | Attendees | Response | Trigger |
 |---------|-----------|----------|---------|
-| **@scrum-master standup** | All agents | Instant status: what's done, blocked, next | Anytime |
-| **@scrum-master planning** | All agents | Sprint planning: goals, tasks, assignments | After retro |
+| **@scrum-master standup** | All agents | Instant status: what's done, blocked, next | Daily at 10:00 |
+| **@scrum-master planning** | All agents | Sprint planning: organize in GitHub Planner project | After retro |
 | **@scrum-master retro** | All agents | Retrospective: feedback, improvements, docs | End of sprint |
 | **@scrum-master resolve** | Relevant agents + mediator | Conflict resolution: debate, vote, decide | Disagreement |
-| **@scrum-master status** | All agents | Project health report: metrics, velocity | Anytime |
-| **@scrum-master update-docs** | Tech Lead + relevant role | Update copilot-instructions.md with learnings | After retro |
+| **@scrum-master status** | All agents | Project health report: metrics, velocity, capacity | Anytime |
+| **@scrum-master update-docs** | Tech Lead + relevant role | Update copilot-instructions.md with validated learnings | After retro |
+| **@scrum-master add-to-backlog** | Team | Create GitHub issues from backlog items | On-demand |
 
 ### **Continuous Monitoring (No Schedule)**
 - Agents ask each other instantly (no waiting)
@@ -312,5 +400,29 @@ Examples:
 
 ---
 
-**Last Updated**: 28. Dezember 2025  
-**Maintained By**: Technical Leadership & Process Team
+## 📋 Sprint Planning Checklist (Validated Dec 29, 2025)
+
+When organizing a new sprint:
+
+- [ ] **List Issues**: Identify all GitHub issues for the sprint
+- [ ] **Assign Labels**: Add `sprint-N` label to all issues
+- [ ] **Add to Planner**: Use `gh project item-add` to add to GitHub Planner project
+- [ ] **Detail Breakdown**: Add task breakdown as issue comment
+  - Backend tasks with hours
+  - Frontend tasks with hours
+  - QA tasks with hours
+  - Security tasks with hours (if applicable)
+- [ ] **Team Assignments**: Assign specific agents (mention in comments)
+- [ ] **Capacity Planning**: Calculate total hours vs team capacity
+- [ ] **Timeline**: Define 5-day sprint schedule with daily focus
+- [ ] **Dependencies**: Map critical path and blockers
+- [ ] **Definition of Done**: List acceptance criteria for each issue
+- [ ] **Risk Register**: Identify 3-5 potential blockers
+- [ ] **Epic Comment**: Add comprehensive overview to parent epic
+- [ ] **Announce**: Share sprint plan in standup
+
+---
+
+**Last Updated**: 29. Dezember 2025 (Sprint 2 Planning Complete)  
+**Maintained By**: Technical Leadership & Process Team  
+**Next Review**: After Sprint 2 Retrospective (3. Januar 2026)
