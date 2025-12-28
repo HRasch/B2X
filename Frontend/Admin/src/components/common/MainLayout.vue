@@ -1,6 +1,7 @@
 <template>
   <div
     class="min-h-screen bg-soft-50 dark:bg-soft-900 transition-colors duration-300"
+    data-test="main-layout"
   >
     <!-- Sidebar Navigation -->
     <aside
@@ -8,6 +9,7 @@
         'fixed inset-y-0 left-0 w-64 bg-white dark:bg-soft-800 border-r border-soft-100 dark:border-soft-700 shadow-soft-sm transition-transform duration-300 z-50',
         { '-translate-x-full md:translate-x-0': !sidebarOpen },
       ]"
+      data-test="sidebar"
     >
       <!-- Logo -->
       <div
@@ -47,7 +49,7 @@
       </div>
 
       <!-- Navigation Menu -->
-      <nav class="p-4 space-y-1">
+      <nav class="p-4 space-y-1" data-test="sidebar-nav">
         <router-link
           v-for="item in navItems"
           :key="item.path"
@@ -61,6 +63,7 @@
               'text-soft-700 dark:text-soft-300': !isActive(item.path),
             },
           ]"
+          :data-test="`nav-link-${item.path}`"
         >
           <svg
             class="w-5 h-5"
