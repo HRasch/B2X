@@ -12,30 +12,30 @@
 
 | Role | GitHub-ID | Position | Fokus | Status |
 |------|-----------|----------|-------|--------|
-| Backend Lead | `@backend-lead` | Senior Backend Dev + Tech Lead | VAT, Tax Logic, Architecture | ✅ Active |
-| Backend Dev | `@backend-dev-auth` | Backend Developer | User Registration, Auth | ⏳ Zuweisbar |
-| Backend Dev | `@backend-dev-commerce` | Backend Developer | Orders, Invoicing, E-Commerce | ⏳ Zuweisbar |
+| Backend Lead | `@backend_1` | Senior Backend Dev + Tech Lead | VAT, Tax Logic, Architecture | ✅ Active |
+| Backend Dev | `@backend_2` | Backend Developer | User Registration, Auth | ⏳ Zuweisbar |
+| Backend Dev | `@backend_3` | Backend Developer | Orders, Invoicing, E-Commerce | ⏳ Zuweisbar |
 
 ### Frontend-Team (2 Developer)
 
 | Role | GitHub-ID | Position | Fokus | Status |
 |------|-----------|----------|-------|--------|
-| Frontend Dev | `@frontend-dev-store` | Frontend Developer | Store Frontend, Components | ⏳ Zuweisbar |
-| Frontend Dev | `@frontend-dev-admin` | Frontend Developer | Admin Dashboard, Theming | ⏳ Zuweisbar |
+| Frontend Dev | `@frontend_1` | Frontend Developer | Store Frontend, Components | ⏳ Zuweisbar |
+| Frontend Dev | `@frontend_2` | Frontend Developer | Admin Dashboard, Theming | ⏳ Zuweisbar |
 
 ### Security & Ops (2 Engineer)
 
 | Role | GitHub-ID | Position | Fokus | Status |
 |------|-----------|----------|-------|--------|
-| Security Engineer | `@security-engineer` | Security Engineer | Encryption, Audit, NIS2 | ⏳ Zuweisbar |
-| DevOps Engineer | `@devops-engineer` | DevOps Engineer | Infrastructure, Monitoring | ⏳ Zuweisbar |
+| Security Engineer | `@security_1` | Security Engineer | Encryption, Audit, NIS2 | ⏳ Zuweisbar |
+| DevOps Engineer | `@devops_1` | DevOps Engineer | Infrastructure, Monitoring | ⏳ Zuweisbar |
 
 ### QA & Legal (2 Specialist)
 
 | Role | GitHub-ID | Position | Fokus | Status |
 |------|-----------|----------|-------|--------|
-| QA Engineer | `@qa-engineer` | QA Engineer | Compliance Testing, Coverage | ⏳ Zuweisbar |
-| Legal/Compliance | `@legal-officer` | Legal/Compliance Officer | GDPR, E-Commerce Law, Audit | ⏳ Zuweisbar |
+| QA Engineer | `@qa_1` | QA Engineer | Compliance Testing, Coverage | ⏳ Zuweisbar |
+| Legal/Compliance | `@legal_1` | Legal/Compliance Officer | GDPR, E-Commerce Law, Audit | ⏳ Zuweisbar |
 
 ---
 
@@ -54,23 +54,23 @@ Development: develop
 
 ### Sprint 1 - Woche 1 (28.12.2025 - 03.01.2026)
 
-#### Backend (@backend-lead + @backend-dev-auth + @backend-dev-commerce)
-- **@backend-lead** (Lead): #30 (VAT), #31 (Reverse Charge), Architecture (#4)
-- **@backend-dev-auth**: #5, #6, #7, #9, #10, #11, #12 (Registration Flow)
-- **@backend-dev-commerce**: #20, #21, #29, #27 (Orders, Invoicing, Returns)
+#### Backend (@backend_1 + @backend_2 + @backend_3)
+- **@backend_1** (Lead): #30 (VAT), #31 (Reverse Charge), Architecture (#4)
+- **@backend_2**: #5, #6, #7, #9, #10, #11, #12 (Registration Flow)
+- **@backend_3**: #20, #21, #29, #27 (Orders, Invoicing, Returns)
 
-#### Frontend (@frontend-dev-store + @frontend-dev-admin)
-- **@frontend-dev-store**: #41, #42, #19 (Components, Legal UI)
-- **@frontend-dev-admin**: #17, #18 (Theme Config, Admin Prep)
+#### Frontend (@frontend_1 + @frontend_2)
+- **@frontend_1**: #41, #42, #19 (Components, Legal UI)
+- **@frontend_2**: #17, #18 (Theme Config, Admin Prep)
 
-#### Security (@security-engineer)
-- **@security-engineer**: #30, #31 (Review), #32, #34 (Encryption)
+#### Security (@security_1)
+- **@security_1**: #30, #31 (Review), #32, #34 (Encryption)
 
-#### QA (@qa-engineer)
-- **@qa-engineer**: #45, #46 (Test Framework, E-Commerce Tests)
+#### QA (@qa_1)
+- **@qa_1**: #45, #46 (Test Framework, E-Commerce Tests)
 
-#### Legal (@legal-officer)
-- **@legal-officer**: #29, #41, #42 (Return Policy, Terms, Privacy)
+#### Legal (@legal_1)
+- **@legal_1**: #29, #41, #42 (Return Policy, Terms, Privacy)
 
 ---
 
