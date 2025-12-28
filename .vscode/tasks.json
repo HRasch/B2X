@@ -1,410 +1,418 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "build-apphost",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "build",
-        "${workspaceFolder}/backend/AppHost/B2Connect.AppHost.csproj"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "silent",
-        "focus": false
-      }
-    },
-    {
-      "label": "build-backend",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "build",
-        "${workspaceFolder}/B2Connect.slnx"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "test-backend",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "test",
-        "${workspaceFolder}/B2Connect.slnx",
-        "-v",
-        "minimal"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "test-catalog",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "test",
-        "${workspaceFolder}/backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj",
-        "-v",
-        "minimal"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "test"
-      }
-    },
-    {
-      "label": "test-cms",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "test",
-        "${workspaceFolder}/backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj",
-        "-v",
-        "minimal"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "test"
-      }
-    },
-    {
-      "label": "test-localization",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "test",
-        "${workspaceFolder}/backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj",
-        "-v",
-        "minimal"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "test"
-      }
-    },
-    {
-      "label": "test-identity",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "test",
-        "${workspaceFolder}/backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj",
-        "-v",
-        "minimal"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "test"
-      }
-    },
-    {
-      "label": "test-search",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "test",
-        "${workspaceFolder}/backend/Domain/Search/tests/B2Connect.Shared.Search.Tests.csproj",
-        "-v",
-        "minimal"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "test"
-      }
-    },
-    {
-      "label": "npm-install-frontend",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "install"
-      ],
-      "cwd": "${workspaceFolder}/Frontend/Store",
-      "group": {
-        "kind": "test"
-      }
-    },
-    {
-      "label": "dev-frontend",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "run",
-        "dev"
-      ],
-      "cwd": "${workspaceFolder}/Frontend/Management",
-      "isBackground": true,
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^.*$",
-          "file": 1,
-          "location": 2,
-          "message": 3
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "^.*VITE.*ready.*",
-          "endsPattern": "^.*listening on.*"
-        }
-      },
-      "group": "build"
-    },
-    {
-      "label": "lint-frontend",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "run",
-        "lint"
-      ],
-      "cwd": "${workspaceFolder}/Frontend/Management",
-      "group": "build"
-    },
-    {
-      "label": "backend-start",
-      "type": "shell",
-      "isBackground": true,
-      "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/backend/Orchestration",
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development",
-          "Database__Provider": "inmemory",
-          "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
-          "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
-        }
-      },
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^(.*)$",
-          "file": 1
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*B2Connect Application Host.*",
-          "endsPattern": ".*✅ B2Connect Application Host initialized.*"
-        }
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "group": "startup"
-      }
-    },
-    {
-      "label": "frontend-start",
-      "type": "shell",
-      "isBackground": false,
-      "command": "npm",
-      "args": [
-        "run",
-        "dev"
-      ],
-      "cwd": "${workspaceFolder}/Frontend/Store",
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^.*$",
-          "line": 0
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "^.*VITE.*",
-          "endsPattern": "^.*listening.*5173.*"
-        }
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always"
-      }
-    },
-    {
-      "label": "frontend-admin-start",
-      "type": "shell",
-      "isBackground": true,
-      "command": "npm",
-      "args": [
-        "run",
-        "dev"
-      ],
-      "cwd": "${workspaceFolder}/Frontend/Admin",
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^(.*)$",
-          "file": 1
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*VITE.*",
-          "endsPattern": ".*Local:.*5174.*"
-        }
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "group": "startup"
-      }
-    },
-    {
-      "label": "open-aspire-dashboard",
-      "type": "shell",
-      "command": "start",
-      "args": [
-        "http://localhost:15500"
-      ],
-      "windows": {
-        "command": "cmd",
-        "args": [
-          "/c",
-          "start",
-          "http://localhost:15500"
-        ]
-      },
-      "presentation": {
-        "echo": false,
-        "reveal": "silent"
-      },
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
-    },
-    {
-      "label": "store-gateway-start",
-      "type": "shell",
-      "isBackground": true,
-      "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/backend/BoundedContexts/Store/API/B2Connect.Store.csproj"
-      ],
-      "options": {
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development",
-          "ASPNETCORE_URLS": "http://localhost:8000"
-        }
-      },
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^(.*)$",
-          "file": 1
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Now listening on.*",
-          "endsPattern": ".*Application started.*"
-        }
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "group": "gateways"
-      }
-    },
-    {
-      "label": "admin-gateway-start",
-      "type": "shell",
-      "isBackground": true,
-      "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj"
-      ],
-      "options": {
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development",
-          "ASPNETCORE_URLS": "http://localhost:8080"
-        }
-      },
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^(.*)$",
-          "file": 1
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Now listening on.*",
-          "endsPattern": ".*Application started.*"
-        }
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "group": "gateways"
-      }
-    },
-    {
-      "label": "kill-all-services",
-      "type": "shell",
-      "command": "${workspaceFolder}/scripts/kill-all-services.sh",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "restart-all-services",
-      "dependsOrder": "sequence",
-      "dependsOn": [
-        "backend-start"
-      ],
-      "problemMatcher": []
-    },
-    {
-      "label": "dotnet: build",
-      "type": "shell",
-      "command": "dotnet",
-      "args": [
-        "build",
-        "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
-      ],
-      "problemMatcher": "$msCompile",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "kill-then-build",
-      "dependsOrder": "sequence",
-      "dependsOn": [
-        "dotnet: build"
-      ],
-      "problemMatcher": []
-    },
-    {
-      "label": "npm-install-tenant",
-      "command": "npm",
-      "type": "shell",
-      "args": [
-        "install"
-      ],
-      "cwd": "${workspaceFolder}/Frontend/Management",
-      "group": "build"
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build-apphost",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"build",
+				"${workspaceFolder}/backend/AppHost/B2Connect.AppHost.csproj"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false
+			}
+		},
+		{
+			"label": "build-backend",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"build",
+				"${workspaceFolder}/B2Connect.slnx"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "test-backend",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"test",
+				"${workspaceFolder}/B2Connect.slnx",
+				"-v",
+				"minimal"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "test-catalog",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"test",
+				"${workspaceFolder}/backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj",
+				"-v",
+				"minimal"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "test"
+			}
+		},
+		{
+			"label": "test-cms",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"test",
+				"${workspaceFolder}/backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj",
+				"-v",
+				"minimal"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "test"
+			}
+		},
+		{
+			"label": "test-localization",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"test",
+				"${workspaceFolder}/backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj",
+				"-v",
+				"minimal"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "test"
+			}
+		},
+		{
+			"label": "test-identity",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"test",
+				"${workspaceFolder}/backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj",
+				"-v",
+				"minimal"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "test"
+			}
+		},
+		{
+			"label": "test-search",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"test",
+				"${workspaceFolder}/backend/Domain/Search/tests/B2Connect.Shared.Search.Tests.csproj",
+				"-v",
+				"minimal"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "test"
+			}
+		},
+		{
+			"label": "npm-install-frontend",
+			"command": "npm",
+			"type": "shell",
+			"args": [
+				"install"
+			],
+			"cwd": "${workspaceFolder}/Frontend/Store",
+			"group": {
+				"kind": "test"
+			}
+		},
+		{
+			"label": "dev-frontend",
+			"command": "npm",
+			"type": "shell",
+			"args": [
+				"run",
+				"dev"
+			],
+			"cwd": "${workspaceFolder}/Frontend/Management",
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^.*$",
+					"file": 1,
+					"location": 2,
+					"message": 3
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*VITE.*ready.*",
+					"endsPattern": "^.*listening on.*"
+				}
+			},
+			"group": "build"
+		},
+		{
+			"label": "lint-frontend",
+			"command": "npm",
+			"type": "shell",
+			"args": [
+				"run",
+				"lint"
+			],
+			"cwd": "${workspaceFolder}/Frontend/Management",
+			"group": "build"
+		},
+		{
+			"label": "backend-start",
+			"type": "shell",
+			"isBackground": true,
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/backend/Orchestration",
+				"env": {
+					"ASPNETCORE_ENVIRONMENT": "Development",
+					"Database__Provider": "inmemory",
+					"DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
+					"ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
+				}
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^(.*)$",
+					"file": 1
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".*B2Connect Application Host.*",
+					"endsPattern": ".*✅ B2Connect Application Host initialized.*"
+				}
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"group": "startup"
+			}
+		},
+		{
+			"label": "frontend-start",
+			"type": "shell",
+			"isBackground": false,
+			"command": "npm",
+			"args": [
+				"run",
+				"dev"
+			],
+			"cwd": "${workspaceFolder}/Frontend/Store",
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^.*$",
+					"line": 0
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*VITE.*",
+					"endsPattern": "^.*listening.*5173.*"
+				}
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always"
+			}
+		},
+		{
+			"label": "frontend-admin-start",
+			"type": "shell",
+			"isBackground": true,
+			"command": "npm",
+			"args": [
+				"run",
+				"dev"
+			],
+			"cwd": "${workspaceFolder}/Frontend/Admin",
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^(.*)$",
+					"file": 1
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".*VITE.*",
+					"endsPattern": ".*Local:.*5174.*"
+				}
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"group": "startup"
+			}
+		},
+		{
+			"label": "open-aspire-dashboard",
+			"type": "shell",
+			"command": "start",
+			"args": [
+				"http://localhost:15500"
+			],
+			"windows": {
+				"command": "cmd",
+				"args": [
+					"/c",
+					"start",
+					"http://localhost:15500"
+				]
+			},
+			"presentation": {
+				"echo": false,
+				"reveal": "silent"
+			},
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
+		},
+		{
+			"label": "store-gateway-start",
+			"type": "shell",
+			"isBackground": true,
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"${workspaceFolder}/backend/BoundedContexts/Store/API/B2Connect.Store.csproj"
+			],
+			"options": {
+				"env": {
+					"ASPNETCORE_ENVIRONMENT": "Development",
+					"ASPNETCORE_URLS": "http://localhost:8000"
+				}
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^(.*)$",
+					"file": 1
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".*Now listening on.*",
+					"endsPattern": ".*Application started.*"
+				}
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"group": "gateways"
+			}
+		},
+		{
+			"label": "admin-gateway-start",
+			"type": "shell",
+			"isBackground": true,
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"${workspaceFolder}/backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj"
+			],
+			"options": {
+				"env": {
+					"ASPNETCORE_ENVIRONMENT": "Development",
+					"ASPNETCORE_URLS": "http://localhost:8080"
+				}
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^(.*)$",
+					"file": 1
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".*Now listening on.*",
+					"endsPattern": ".*Application started.*"
+				}
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"group": "gateways"
+			}
+		},
+		{
+			"label": "kill-all-services",
+			"type": "shell",
+			"command": "${workspaceFolder}/scripts/kill-all-services.sh",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "restart-all-services",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"backend-start"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "dotnet: build",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "kill-then-build",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"dotnet: build"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "npm-install-tenant",
+			"command": "npm",
+			"type": "shell",
+			"args": [
+				"install"
+			],
+			"cwd": "${workspaceFolder}/Frontend/Management",
+			"group": "build"
+		},
+		{
+			"label": "measure-copilot-performance",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"scripts/measure-copilot-performance.sh"
+			]
+		}
+	]
 }
