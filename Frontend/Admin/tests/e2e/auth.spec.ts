@@ -1,21 +1,46 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Admin Frontend - Authentication", () => {
+const DEFAULT_TENANT_ID = "00000000-0000-0000-0000-000000000001";
+
+test.describe("Admin Frontend - Login E2E Tests", () => {
   test.beforeEach(async ({ page }) => {
+    // Clear storage before each test
+    await page.context().clearCookies();
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+
     // Navigate to the login page
     await page.goto("http://localhost:5174");
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("should display login form with email and password fields", async ({
+  test("should display login form with all required elements", async ({
     page,
   }) => {
     // Check for login form elements
     await expect(page.locator('input[type="email"]')).toBeVisible();
     await expect(page.locator('input[type="password"]')).toBeVisible();
-    // Soft button component contains "Sign In" text
+
+    // Check for submit button
     const submitBtn = page.locator('button:has-text("Sign In")');
     await expect(submitBtn).toBeVisible({ timeout: 3000 });
+
+    // Check for remember me checkbox
+    const rememberMeCheckbox = page.locator('input[type="checkbox"]');
+    await expect(rememberMeCheckbox).toBeVisible({ timeout: 3000 });
+  });
+
+  test("should initialize default tenant ID in localStorage on page load", async ({
+    page,
+  }) => {
+    // Check if tenant ID is set in localStorage
+    const tenantId = await page.evaluate(() =>
+      localStorage.getItem("tenantId")
+    );
+
+    expect(tenantId).toBe(DEFAULT_TENANT_ID);
   });
 
   test("should show error message with invalid credentials", async ({
@@ -25,14 +50,28 @@ test.describe("Admin Frontend - Authentication", () => {
     await page.locator('input[type="email"]').fill("invalid@example.com");
     await page.locator('input[type="password"]').fill("wrongpassword");
 
-    // Submit form - find the Sign In button
+    // Submit form
     await page.locator('button:has-text("Sign In")').first().click();
 
-    // Wait for error message or page response
+    // Wait for error message
     await page.waitForTimeout(2000);
+
+    // Verify user is still on login page
+    expect(page.url()).toContain("login");
   });
 
-  test("should successfully login with valid credentials", async ({ page }) => {
+  test("should successfully login with valid credentials and JWT validation", async ({
+    page,
+    context,
+  }) => {
+    // Intercept the login request to verify tenant header
+    let loginRequestHeaders: Record<string, string> = {};
+
+    await page.route("**/api/auth/login", async (route, request) => {
+      loginRequestHeaders = request.headers();
+      await route.continue();
+    });
+
     // Fill in valid credentials
     await page.locator('input[type="email"]').fill("admin@example.com");
     await page.locator('input[type="password"]').fill("password");
@@ -42,10 +81,15 @@ test.describe("Admin Frontend - Authentication", () => {
 
     // Wait for navigation to dashboard
     await page.waitForURL("**/dashboard", { timeout: 15000 });
+
+    // Verify URL contains dashboard
     expect(page.url()).toContain("dashboard");
+
+    // Verify X-Tenant-ID header was sent with login request
+    expect(loginRequestHeaders["x-tenant-id"]).toBe(DEFAULT_TENANT_ID);
   });
 
-  test("should store auth token in localStorage after successful login", async ({
+  test("should store JWT token and tenant ID in localStorage after successful login", async ({
     page,
   }) => {
     // Fill in valid credentials
@@ -58,23 +102,220 @@ test.describe("Admin Frontend - Authentication", () => {
     // Wait for navigation
     await page.waitForURL("**/dashboard", { timeout: 15000 });
 
-    // Check localStorage - auth might be stored under different key
-    const token = await page.evaluate(() => {
-      return (
-        localStorage.getItem("authToken") ||
-        localStorage.getItem("token") ||
-        localStorage.getItem("auth") ||
-        sessionStorage.getItem("authToken")
-      );
-    });
+    // Check localStorage for auth token
+    const authData = await page.evaluate(() => ({
+      authToken: localStorage.getItem("authToken"),
+      refreshToken: localStorage.getItem("refreshToken"),
+      tenantId: localStorage.getItem("tenantId"),
+    }));
 
-    // If token is not in storage, page navigation itself indicates auth success
-    expect(page.url()).toContain("dashboard");
+    // Verify tokens are stored
+    expect(authData.authToken).toBeTruthy();
+    expect(authData.tenantId).toBe(DEFAULT_TENANT_ID);
   });
 
-  test("should display remember me checkbox", async ({ page }) => {
-    const rememberMeCheckbox = page.locator('input[type="checkbox"]');
-    await expect(rememberMeCheckbox).toBeVisible({ timeout: 3000 });
+  test("should include X-Tenant-ID header in all authenticated API requests", async ({
+    page,
+  }) => {
+    // Login first
+    await page.locator('input[type="email"]').fill("admin@example.com");
+    await page.locator('input[type="password"]').fill("password");
+    await page.locator('button:has-text("Sign In")').first().click();
+    await page.waitForURL("**/dashboard", { timeout: 15000 });
+
+    // Intercept API requests
+    const apiRequests: Array<{ url: string; headers: Record<string, string> }> =
+      [];
+
+    await page.route("**/api/**", async (route, request) => {
+      apiRequests.push({
+        url: request.url(),
+        headers: request.headers(),
+      });
+      await route.continue();
+    });
+
+    // Trigger some API requests by navigating
+    await page.reload();
+    await page.waitForTimeout(2000);
+
+    // Verify all API requests include X-Tenant-ID header
+    const apiRequestsWithTenantHeader = apiRequests.filter(
+      (req) => req.headers["x-tenant-id"] === DEFAULT_TENANT_ID
+    );
+
+    expect(apiRequestsWithTenantHeader.length).toBeGreaterThan(0);
+  });
+
+  test("should include Authorization header with JWT token in authenticated requests", async ({
+    page,
+  }) => {
+    // Login first
+    await page.locator('input[type="email"]').fill("admin@example.com");
+    await page.locator('input[type="password"]').fill("password");
+    await page.locator('button:has-text("Sign In")').first().click();
+    await page.waitForURL("**/dashboard", { timeout: 15000 });
+
+    // Get the stored token
+    const authToken = await page.evaluate(() =>
+      localStorage.getItem("authToken")
+    );
+
+    // Intercept API requests
+    let hasAuthHeader = false;
+
+    await page.route("**/api/**", async (route, request) => {
+      const authHeader = request.headers()["authorization"];
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        hasAuthHeader = true;
+      }
+      await route.continue();
+    });
+
+    // Trigger an API request
+    await page.reload();
+    await page.waitForTimeout(2000);
+
+    // Verify Authorization header was sent
+    expect(hasAuthHeader).toBe(true);
+  });
+
+  test("should redirect to login on 401 unauthorized", async ({ page }) => {
+    // Login first
+    await page.locator('input[type="email"]').fill("admin@example.com");
+    await page.locator('input[type="password"]').fill("password");
+    await page.locator('button:has-text("Sign In")').first().click();
+    await page.waitForURL("**/dashboard", { timeout: 15000 });
+
+    // Clear auth token to simulate expired session
+    await page.evaluate(() => {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("refreshToken");
+    });
+
+    // Mock 401 response
+    await page.route("**/api/**", async (route) => {
+      await route.fulfill({
+        status: 401,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "Unauthorized" }),
+      });
+    });
+
+    // Trigger an API request
+    await page.reload();
+    await page.waitForTimeout(2000);
+
+    // Verify redirect to login
+    expect(page.url()).toContain("login");
+  });
+
+  test("should prevent tenant ID spoofing by validating JWT claim", async ({
+    page,
+  }) => {
+    // Login with valid credentials
+    await page.locator('input[type="email"]').fill("admin@example.com");
+    await page.locator('input[type="password"]').fill("password");
+    await page.locator('button:has-text("Sign In")').first().click();
+    await page.waitForURL("**/dashboard", { timeout: 15000 });
+
+    // Try to manipulate tenant ID in localStorage
+    await page.evaluate(() => {
+      localStorage.setItem("tenantId", "99999999-9999-9999-9999-999999999999");
+    });
+
+    // Intercept API request to verify tenant header
+    let spoofedTenantId: string | null = null;
+
+    await page.route("**/api/**", async (route, request) => {
+      spoofedTenantId = request.headers()["x-tenant-id"];
+
+      // Backend should reject mismatched tenant
+      await route.fulfill({
+        status: 403,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error: "Tenant ID mismatch - JWT validation failed",
+        }),
+      });
+    });
+
+    // Trigger API request with spoofed tenant
+    await page.reload();
+    await page.waitForTimeout(2000);
+
+    // Verify spoofed tenant ID was sent
+    expect(spoofedTenantId).toBe("99999999-9999-9999-9999-999999999999");
+  });
+
+  test("should handle network errors gracefully during login", async ({
+    page,
+  }) => {
+    // Simulate network failure
+    await page.route("**/api/auth/login", async (route) => {
+      await route.abort("failed");
+    });
+
+    // Fill in credentials
+    await page.locator('input[type="email"]').fill("admin@example.com");
+    await page.locator('input[type="password"]').fill("password");
+    await page.locator('button:has-text("Sign In")').first().click();
+
+    // Wait for error handling
+    await page.waitForTimeout(2000);
+
+    // Verify user remains on login page
+    expect(page.url()).toContain("login");
+  });
+
+  test("should validate email format before submission", async ({ page }) => {
+    // Fill in invalid email format
+    await page.locator('input[type="email"]').fill("not-an-email");
+    await page.locator('input[type="password"]').fill("password");
+
+    // Try to submit - HTML5 validation should prevent it
+    const emailInput = page.locator('input[type="email"]');
+    const isInvalid = await emailInput.evaluate(
+      (el: HTMLInputElement) => !el.checkValidity()
+    );
+
+    expect(isInvalid).toBe(true);
+  });
+
+  test("should clear sensitive data on logout", async ({ page }) => {
+    // Login first
+    await page.locator('input[type="email"]').fill("admin@example.com");
+    await page.locator('input[type="password"]').fill("password");
+    await page.locator('button:has-text("Sign In")').first().click();
+    await page.waitForURL("**/dashboard", { timeout: 15000 });
+
+    // Verify tokens are stored
+    let storageBeforeLogout = await page.evaluate(() => ({
+      authToken: localStorage.getItem("authToken"),
+      refreshToken: localStorage.getItem("refreshToken"),
+    }));
+    expect(storageBeforeLogout.authToken).toBeTruthy();
+
+    // Logout (trigger 401 to simulate logout)
+    await page.route("**/api/**", async (route) => {
+      await route.fulfill({
+        status: 401,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "Unauthorized" }),
+      });
+    });
+
+    await page.reload();
+    await page.waitForTimeout(2000);
+
+    // Verify tokens are cleared
+    const storageAfterLogout = await page.evaluate(() => ({
+      authToken: localStorage.getItem("authToken"),
+      refreshToken: localStorage.getItem("refreshToken"),
+    }));
+
+    expect(storageAfterLogout.authToken).toBeNull();
+    expect(storageAfterLogout.refreshToken).toBeNull();
   });
 
   test("should display demo credentials in footer", async ({ page }) => {

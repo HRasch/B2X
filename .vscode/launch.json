@@ -5,9 +5,9 @@
       "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
+      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/AppHost",
+      "cwd": "${workspaceFolder}/AppHost",
       "stopAtEntry": false,
       "serverReadyAction": {
         "pattern": "Aspire.Hosting: Now listening on: \\s+(https?://\\S+)",
@@ -37,9 +37,9 @@
       "name": "Aspire (PostgreSQL + InMemory)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
+      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/AppHost",
+      "cwd": "${workspaceFolder}/AppHost",
       "stopAtEntry": false,
       "serverReadyAction": {
         "pattern": "dashboard",

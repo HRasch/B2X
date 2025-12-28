@@ -8,6 +8,8 @@
     <RootNamespace>B2Connect.Tenancy</RootNamespace>
     <AssemblyName>B2Connect.Tenancy.API</AssemblyName>
     <IsAspireProjectResource>true</IsAspireProjectResource>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
   </PropertyGroup>
 
   <ItemGroup>
