@@ -1,6 +1,6 @@
 # B2Connect Agent Registry
 
-**Status**: Complete (26 agents created)  
+**Status**: Complete (28 agents created)  
 **Last Updated**: 28. Dezember 2025  
 **Purpose**: Centralized directory of all AI coding agents
 
@@ -222,7 +222,73 @@
 
 ---
 
-### 25. Support Triage
+### 27. QA-Reviewer
+**File**: `agents/qa-reviewer.agent.md`  
+**Focus**: Code quality, code-smells, architectural consistency  
+**Key Tech**: Code analysis, architecture validation, project structure  
+**Primary Tasks**:
+- Detect code-smells (complexity, duplication, large methods)
+- Verify functional consistency with requirements
+- Validate Onion Architecture and project structure
+- Conduct code reviews with structured checklist
+- Provide feedback on code quality issues
+
+**Success Criteria**:
+- Code smells identified and documented
+- Architectural consistency verified
+- Security issues caught before merge
+- Feedback constructive and actionable
+- Test coverage verified >= 80%
+
+---
+
+### 28. Scrum-Master
+**File**: `agents/scrum-master.agent.md`  
+**Focus**: Team coordination, process optimization, conflict resolution  
+**Key Tech**: Team dynamics, process management, retrospectives  
+**Primary Tasks**:
+- Facilitate sprint retrospectives
+- Coordinate team activities and resolve blockers
+- Optimize development processes
+- Resolve disagreements using majority voting
+- Update copilot-instructions.md with proven improvements
+- Track metrics and KPIs
+
+**Success Criteria**:
+- Retrospectives completed every sprint
+- Disagreements resolved constructively
+- Process improvements documented
+- Team velocity stable or improving
+- All agents aligned on decisions
+
+**Special Authority**: Can update copilot-instructions.md when majority agrees on process improvements
+
+---
+
+## Agent Relationships & Hierarchy
+
+```
+Leadership Layer:
+├── Tech-Lead (Architecture & Standards)
+├── Product-Owner (Prioritization)
+└── Scrum-Master (Process & Team Coordination)
+
+Development Layer:
+├── Backend-Developer / Frontend-Developer
+├── DevOps-Engineer
+├── Security-Engineer
+└── QA-Reviewer (Code Quality)
+
+Specialization Layer:
+├── Role-Specific (backend-store, frontend-admin, etc.)
+├── Quality Assurance (qa-engineer, qa-frontend, qa-performance, qa-pentesting)
+├── Experts (ai-specialist, ui-expert, ux-expert)
+└── Documentation (documentation-enduser, documentation-developer - BILINGUAL)
+
+Support Layer:
+├── Stakeholders (erp, pim, crm, bi, reseller)
+└── Support (support-triage)
+```
 **File**: `agents/support-triage.agent.md`  
 **Focus**: GitHub issue automation, triage  
 **Tools**: GitHub CLI, automation workflows

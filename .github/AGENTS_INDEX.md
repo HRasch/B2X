@@ -18,12 +18,21 @@
 | **Tech Lead** | tech-lead | Architecture, code review, decisions | [→](./agents/tech-lead.agent.md) |
 | **Security Engineer** | security-engineer | Encryption, auth, compliance | [→](./agents/security-engineer.agent.md) |
 | **DevOps Engineer** | devops-engineer | Infrastructure, CI/CD, deployment | [→](./agents/devops-engineer.agent.md) |
-| **Product Owner** | product-owner | Prioritization, roadmap, stakeholder mgmt | [→](./agents/product-owner.agent.md) |
-| **Legal/Compliance** | legal-compliance | Regulations, contracts, compliance | [→](./agents/legal-compliance.agent.md) |
+| **QA Reviewer** | qa-reviewer | Code-smells, consistency, structure | [→](./agents/qa-reviewer.agent.md) |
+| **Scrum-Master** | scrum-master | Coordination, processes, conflict resolution | [→](./agents/scrum-master.agent.md) |
 
 ---
 
-## 🎨 Specialization (Role-Specific)
+## 📊 Quality Assurance & Team Leadership
+
+| Role | Agent | Focus |
+|---|---|---|
+| **QA Reviewer** | qa-reviewer | Code quality, code-smells, architectural consistency |
+| **Scrum-Master** | scrum-master | Team coordination, retrospectives, process optimization |
+
+---
+
+## 📊 Specialization (Role-Specific)
 
 | Specialization | Agent | Focus |
 |---|---|---|
@@ -109,6 +118,22 @@
 | stakeholder-pim | 1.0 | ✅ Ready | 28. Dez |
 | stakeholder-crm | 1.0 | ✅ Ready | 28. Dez |
 | stakeholder-bi | 1.0 | ✅ Ready | 28. Dez |
+| stakeholder-reseller | 1.0 | ✅ Ready | 28. Dez |
+| support-triage | 1.0 | ✅ Ready | 28. Dez |
+| documentation-enduser | 1.1 | ✅ Ready | 28. Dez |
+| documentation-developer | 1.1 | ✅ Ready | 28. Dez |
+| qa-reviewer | 1.0 | ✅ Ready | 28. Dez |
+| scrum-master | 1.0 | ✅ Ready | 28. Dez |
+
+---
+
+## 📈 Agent Coverage Summary
+
+**Total Agents**: 28  
+**Active**: 28/28 (100%)  
+**Bilingual Support**: documentation-enduser (EN+DE), documentation-developer (EN+DE)  
+**Leadership**: Tech-Lead, Product-Owner, Scrum-Master  
+**Quality Assurance**: QA-Engineer, QA-Reviewer, QA-Frontend, QA-Performance, QA-Pentesting
 | stakeholder-reseller | 1.0 | ✅ Ready | 28. Dez |
 | support-triage | 1.0 | ✅ Ready | 28. Dez |
 
