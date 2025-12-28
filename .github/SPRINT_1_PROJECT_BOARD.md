@@ -32,7 +32,7 @@
 └── #44: Multi-Currency Support
 ```
 
-**Owner**: Backlog Grooming (HRasch + Product Team)
+**Owner**: Backlog Grooming (backend_1 + Product Team)
 
 ---
 

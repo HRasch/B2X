@@ -3,6 +3,19 @@
 **Last Updated**: 28. Dezember 2025 | **Architecture**: DDD Microservices with Wolverine + CLI  
 **Retrospective**: Lessons learned from session ending 28. Dezember 2025
 
+---
+
+## 📝 Recent Updates
+
+- **28. Dezember 2025**: Added comprehensive "🔀 Git Workflow & Commit Conventions" section (lines 530-690)
+  - Commit message format with mandatory issue ID references (#<issue-id>)
+  - Multi-commit guidance: separate commits for Logic, Tests, Docs, Configuration
+  - Real-world workflow examples for Issue #30 (B2C Price Transparency)
+  - GitHub automation keywords documented (Closes, Fixes, Resolves, Related, Depends on)
+  - PR description template with issue tracking
+
+---
+
 ## 🔧 Allowed Capabilities
 
 - ✅ **GitHub CLI Management**: You are authorized to manage this project on GitHub via the GitHub CLI (`gh` command), including creating issues, pull requests, managing branches, and project boards.
@@ -549,6 +562,165 @@ public class ProductService  // Business logic
 ---
 
 
+
+## 🔀 Git Workflow & Commit Conventions
+
+### Commit Message Format with Issue References
+
+**Standard Format:**
+```
+<type>(<scope>): <subject> (#<issue-id>)
+
+<body>
+
+<footer>
+
+Types: fix, feat, docs, style, refactor, perf, test, chore
+Scope: service/component affected (e.g., auth, catalog)
+Subject: Imperative mood, lowercase, no period, max 50 chars
+Issue-ID: GitHub issue number (e.g., #30, #31) if applicable
+```
+
+**Examples:**
+
+✅ **GOOD - With Issue Reference:**
+```
+feat(catalog): add product filtering by category (#30)
+
+Implement category-based product filtering for store API.
+Adds new QueryProductsByCategory handler in Catalog service.
+
+Closes #30
+```
+
+✅ **GOOD - Multiple Issues:**
+```
+feat(price-calc): implement VAT calculation for B2B (#20, #31)
+
+- Calculate VAT based on customer type (B2C vs B2B)
+- Implement VIES VAT-ID validation
+- Support Reverse Charge for EU businesses
+
+Closes #20, #31
+```
+
+✅ **GOOD - Multiple Commits for One Issue:**
+```
+Commit 1: feat(price-calc): add VAT calculation service (#20)
+Commit 2: test(price-calc): add VAT calculation tests (#20)
+Commit 3: docs(price-calc): document VAT logic (#20)
+
+Each commit references the same issue but is independently valuable
+```
+
+❌ **AVOID:**
+```
+Updated stuff
+Fixed things
+Work in progress
+Minor changes
+```
+
+### Separating Changes by Concern (Multiple Commits per Issue)
+
+**When to split commits within a single issue (#30):**
+
+1. **Business Logic** → Separate commit
+   ```
+   feat(catalog): implement product search (#30)
+   ```
+
+2. **Tests** → Separate commit
+   ```
+   test(catalog): add product search tests (#30)
+   ```
+
+3. **Documentation** → Separate commit
+   ```
+   docs(catalog): document product search API (#30)
+   ```
+
+4. **Configuration/Setup** → Separate commit
+   ```
+   chore(catalog): configure search index settings (#30)
+   ```
+
+**Workflow Example (Issue #30: B2C Price Transparency):**
+
+```bash
+# Step 1: Feature commit
+git commit -m "feat(price-calc): display gross price including VAT (#30)"
+
+# Step 2: Test commit
+git commit -m "test(price-calc): verify gross price calculation (#30)"
+
+# Step 3: Frontend integration
+git commit -m "feat(store-ui): show price with VAT label (#30)"
+
+# Step 4: Documentation
+git commit -m "docs(price-calc): update price transparency guide (#30)"
+
+# All 4 commits reference the same issue but are independently reviewable
+```
+
+### When to Create Multiple Commits
+
+**DO separate** these concerns:
+- ✅ Business logic changes
+- ✅ Test additions
+- ✅ Documentation updates
+- ✅ Configuration/infrastructure changes
+- ✅ Dependency updates
+
+**DON'T separate** (keep together):
+- ❌ Entity definition + Repository interface (core layer changes)
+- ❌ Mapper configuration + DTO definitions (closely related)
+- ❌ Multiple related bug fixes in same component
+
+### Referencing Related Issues in Commit Bodies
+
+**Link related issues that don't close them:**
+
+```bash
+git commit -m "feat(checkout): implement shipping validation (#40)
+
+Add validation for shipping address before checkout.
+Depends on address validation logic from #35.
+Related to VAT calculation in #20.
+
+Closes #40
+```
+
+**Valid footer keywords for GitHub automation:**
+- `Closes #N` - Closes the issue when PR merged
+- `Fixes #N` - Same as Closes
+- `Resolves #N` - Same as Closes
+- `Related #N` - Links without closing
+- `Depends on #N` - Explicit dependency notation
+
+### PR Description with Issue Summary
+
+When creating a Pull Request, reference ALL related issues:
+
+```markdown
+## Issue Summary
+Fixes #30 #31 (related: #20)
+
+## Changes
+- [ ] Commit 1: Feature implementation
+- [ ] Commit 2: Tests
+- [ ] Commit 3: Documentation
+
+## Breaking Changes
+None
+
+## Checklist
+- [ ] Code reviewed
+- [ ] Tests passing
+- [ ] Issues referenced in commits
+```
+
+---
 
 ## 🏗️ Architecture Foundation
 

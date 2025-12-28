@@ -33,6 +33,7 @@
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.11.0",
     "@playwright/test": "^1.48.2",
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.14.0",
@@ -45,6 +46,7 @@
     "eslint": "^9.15.0",
     "eslint-plugin-vue": "^9.30.0",
     "happy-dom": "^16.4.0",
+    "lighthouse": "^13.0.1",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "strip-literal": "^3.1.0",
