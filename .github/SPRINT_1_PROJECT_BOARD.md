@@ -32,7 +32,7 @@
 └── #44: Multi-Currency Support
 ```
 
-**Owner**: Backlog Grooming (HRasch + Product Team)
+**Owner**: Backlog Grooming (backend_lead_1 + Product Team)
 
 ---
 
@@ -41,21 +41,21 @@
 #### 🔐 Security & Foundation (P0.2, P0.3)
 ```
 ├── #30: VAT-ID Validation via VIES API
-│   ├── Assignee: @HRasch (Lead), @DavidKeller (Review)
+│   ├── Assignee: @backend_lead_1 (Lead), @security_engineer_1 (Review)
 │   ├── Story Points: 8
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: None
 │   └── Status: Ready
 │
 ├── #31: Reverse Charge Logic (B2B)
-│   ├── Assignee: @HRasch
+│   ├── Assignee: @backend_lead_1
 │   ├── Story Points: 5
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: #30
 │   └── Status: Ready
 │
 └── #32: Invoice Encryption (AES-256)
-    ├── Assignee: @DavidKeller
+    ├── Assignee: @security_engineer_1
     ├── Story Points: 8
     ├── Priority: 🔴 P0
     ├── Dependencies: #20
@@ -65,49 +65,49 @@
 #### 👤 User Registration (F1.1)
 ```
 ├── #5: Wolverine HTTP Handler for Registration
-│   ├── Assignee: @MaxMueller
+│   ├── Assignee: @backend_dev_1
 │   ├── Story Points: 5
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: None
 │   └── Status: Ready - Implementation starts 02.01.2026
 │
 ├── #6: Email Verification & Confirmation
-│   ├── Assignee: @MaxMueller
+│   ├── Assignee: @backend_dev_1
 │   ├── Story Points: 3
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: #5
 │   └── Status: Ready
 │
 ├── #7: JWT Token Generation & Refresh
-│   ├── Assignee: @MaxMueller
+│   ├── Assignee: @backend_dev_1
 │   ├── Story Points: 5
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: #5
 │   └── Status: Ready
 │
 ├── #9: Multi-Tenant Isolation (Registration)
-│   ├── Assignee: @MaxMueller
+│   ├── Assignee: @backend_dev_1
 │   ├── Story Points: 3
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: #5
 │   └── Status: Ready
 │
 ├── #10: Password Policy Enforcement
-│   ├── Assignee: @MaxMueller
+│   ├── Assignee: @backend_dev_1
 │   ├── Story Points: 2
 │   ├── Priority: 🟡 P1
 │   ├── Dependencies: #5
 │   └── Status: Ready
 │
 ├── #11: Failed Login Lockout (5+ attempts)
-│   ├── Assignee: @MaxMueller
+│   ├── Assignee: @backend_dev_1
 │   ├── Story Points: 3
 │   ├── Priority: 🟡 P1
 │   ├── Dependencies: #5
 │   └── Status: Ready
 │
 └── #12: Session Timeout (15 min inactivity)
-    ├── Assignee: @MaxMueller
+    ├── Assignee: @backend_dev_1
     ├── Story Points: 2
     ├── Priority: 🟡 P1
     ├── Dependencies: #7
@@ -117,28 +117,28 @@
 #### 💰 Pricing & Invoicing (F1.3)
 ```
 ├── #20: Price Calculation Service (B2C/B2B)
-│   ├── Assignee: @LisaSchmidt
+│   ├── Assignee: @backend_dev_2
 │   ├── Story Points: 8
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: #30, #31
 │   └── Status: Ready
 │
 ├── #21: Shipping Cost Calculation
-│   ├── Assignee: @LisaSchmidt
+│   ├── Assignee: @backend_dev_2
 │   ├── Story Points: 5
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: None
 │   └── Status: Ready
 │
 ├── #27: Return Label Generation
-│   ├── Assignee: @LisaSchmidt
+│   ├── Assignee: @backend_dev_2
 │   ├── Story Points: 5
 │   ├── Priority: 🟡 P1
 │   ├── Dependencies: #20
 │   └── Status: Ready
 │
 └── #29: Invoice Generation & Storage (10-Year)
-    ├── Assignee: @LisaSchmidt + @JuliaHoffmann (Legal Review)
+    ├── Assignee: @backend_dev_2 + @legal_officer_1 (Legal Review)
     ├── Story Points: 8
     ├── Priority: 🔴 P0
     ├── Dependencies: #20, #32
@@ -148,14 +148,14 @@
 #### 📖 Legal & Compliance (F1.4)
 ```
 ├── #41: AGB & Widerrufsbelehrung (Frontend)
-│   ├── Assignee: @AnnaWeber + @JuliaHoffmann (Content)
+│   ├── Assignee: @frontend_dev_1 + @legal_officer_1 (Content)
 │   ├── Story Points: 5
 │   ├── Priority: 🔴 P0
 │   ├── Dependencies: None
 │   └── Status: Ready - UI Design Complete
 │
 └── #42: Datenschutzerklärung & Impressum
-    ├── Assignee: @AnnaWeber + @JuliaHoffmann (Content)
+    ├── Assignee: @frontend_dev_1 + @legal_officer_1 (Content)
     ├── Story Points: 3
     ├── Priority: 🔴 P0
     ├── Dependencies: #41
@@ -165,7 +165,7 @@
 #### 🎨 Frontend Components (F1.1)
 ```
 └── #19: Base Button Component (accessible)
-    ├── Assignee: @AnnaWeber
+    ├── Assignee: @frontend_dev_1
     ├── Story Points: 2
     ├── Priority: 🟡 P1
     ├── Dependencies: None
@@ -178,20 +178,20 @@
 
 ```
 Epic #4: Customer Registration Flow
-├── Owner: @HRasch (Epic Lead)
+├── Owner: @backend_lead_1 (Epic Lead)
 ├── Status: Analysis Phase
 ├── Started: 28.12.2025
 ├── Target Complete: 17.01.2026 (3 weeks)
 └── Linked Issues:
-    ├── #5 (Handler) - @MaxMueller
-    ├── #6 (Verification) - @MaxMueller
-    ├── #7 (JWT) - @MaxMueller
-    ├── #9 (Tenancy) - @MaxMueller
-    ├── #41 (Legal UI) - @AnnaWeber
-    └── #42 (Legal Docs) - @AnnaWeber
+    ├── #5 (Handler) - @backend_dev_1
+    ├── #6 (Verification) - @backend_dev_1
+    ├── #7 (JWT) - @backend_dev_1
+    ├── #9 (Tenancy) - @backend_dev_1
+    ├── #41 (Legal UI) - @frontend_dev_1
+    └── #42 (Legal Docs) - @frontend_dev_1
 
 Issue #30: VAT-ID Validation
-├── Owner: @HRasch + @DavidKeller (Security Review)
+├── Owner: @backend_lead_1 + @security_engineer_1 (Security Review)
 ├── Status: Architecture Design
 ├── Started: 28.12.2025
 ├── Blocked By: None
@@ -231,10 +231,10 @@ Issue #30: VAT-ID Validation
 29-30.12 (Tue-Wed): Holiday (skip)
 
 02.01 (Thu): Development Starts
-             - @MaxMueller: #5 Handler implementation
-             - @HRasch: #30 VAT Validation design
-             - @AnnaWeber: #41, #42 UI layout
-             - @LisaSchmidt: #20 Price logic
+             - @backend_dev_1: #5 Handler implementation
+             - @backend_lead_1: #30 VAT Validation design
+             - @frontend_dev_1: #41, #42 UI layout
+             - @backend_dev_2: #20 Price logic
              
 03.01 (Fri): First Review
              - Architecture review meeting
@@ -267,7 +267,7 @@ Expected Completions:
 Testing Phase Begins:
   - Unit tests (80%+ coverage)
   - Integration tests
-  - Security review (@DavidKeller)
+  - Security review (@security_1)
 ```
 
 ### Week 4: 18.01.2026 - 24.01.2026 (Final & Release)
@@ -287,7 +287,7 @@ Go/No-Go Decision: 24.01.2026 (Phase 1 Entry Gate)
 ## 👥 Team Roles & Responsibilities
 
 ### 🧑‍💼 Tech Lead & Architecture (1)
-**@HRasch** - Senior Backend Developer + Tech Lead
+**@backend_lead_1** - Senior Backend Developer + Tech Lead
 - Responsible for: Epic #4, Issues #30, #31 (VAT)
 - Capacity: 40h/week (managing + coding)
 - Key Activities:
@@ -298,33 +298,33 @@ Go/No-Go Decision: 24.01.2026 (Phase 1 Entry Gate)
 - Blocking Authority: Yes (architecture decisions)
 
 ### 👨‍💻 Backend Team (2)
-**@MaxMueller** - Mid-Level Backend Developer
+**@backend_dev_1** - Mid-Level Backend Developer
 - Responsible for: Issues #5-#12 (Registration flow)
 - Capacity: 40h/week
 - Skills: Wolverine patterns, CQRS, fluentValidation
 - Starts: 02.01.2026
 
-**@LisaSchmidt** - Backend Developer
+**@backend_dev_2** - Backend Developer
 - Responsible for: Issues #20, #21, #27, #29 (Pricing & Invoicing)
 - Capacity: 40h/week
 - Skills: EF Core, payment integrations, tax logic
 - Starts: 02.01.2026
 
 ### 👩‍💻 Frontend Team (2)
-**@AnnaWeber** - Frontend Developer
+**@frontend_dev_1** - Frontend Developer
 - Responsible for: Issues #41, #42, #19 (Legal UI, Components)
 - Capacity: 40h/week
 - Skills: Vue 3, Composition API, Tailwind CSS
 - Starts: 02.01.2026
 
-**@TomBauer** - Frontend Developer
+**@frontend_dev_2** - Frontend Developer
 - Responsible for: Admin dashboard prep (#17, #18)
 - Capacity: 30h/week (part support)
 - Skills: Vue 3, forms, state management
 - Starts: 11.01.2026
 
 ### 🔐 Security Engineer (1)
-**@DavidKeller** - Security Specialist
+**@security_engineer_1** - Security Specialist
 - Responsible for: Issues #30, #31 (Security Review), #32 (Encryption)
 - Capacity: 20h/week (code review + implementation)
 - Key Activities:
@@ -334,7 +334,7 @@ Go/No-Go Decision: 24.01.2026 (Phase 1 Entry Gate)
 - Blocking Authority: Yes (security)
 
 ### ⚖️ Legal/Compliance Officer (1)
-**@JuliaHoffmann** - Legal Specialist
+**@legal_officer_1** - Legal Specialist
 - Responsible for: Issues #29, #41, #42 (Legal content)
 - Capacity: 20h/week (content + review)
 - Key Activities:
@@ -345,7 +345,7 @@ Go/No-Go Decision: 24.01.2026 (Phase 1 Entry Gate)
 - Blocking Authority: Yes (legal decisions)
 
 ### 🧪 QA Engineer (1)
-**@ThomasKrause** - QA Automation
+**@qa_engineer_1** - QA Automation
 - Responsible for: Testing framework, compliance tests
 - Capacity: 20h/week (Week 2+ focus)
 - Key Activities:
@@ -356,7 +356,7 @@ Go/No-Go Decision: 24.01.2026 (Phase 1 Entry Gate)
 - Starts: 04.01.2026
 
 ### ⚙️ DevOps Engineer (1)
-**@SandraBerg** - DevOps/Infrastructure (backup support)
+**@devops_engineer_1** - DevOps/Infrastructure (backup support)
 - Capacity: 10h/week (on-demand)
 - Key Activities:
   - CI/CD pipeline
@@ -396,12 +396,12 @@ Story Points Remaining (Target 60 points)
 
 | Metric | Target | Owner | Check |
 |--------|--------|-------|-------|
-| Velocity | 50+ story points | @HRasch | Weekly |
-| Code Coverage | > 80% | @ThomasKrause | Daily |
-| PR Review Time | < 4 hours | @HRasch | Daily |
-| Test Pass Rate | 100% | @ThomasKrause | CI/CD |
-| Zero High/Critical Bugs | 100% | @DavidKeller | Sprint Review |
-| Documentation | 100% complete | @HRasch | Sprint End |
+| Velocity | 50+ story points | @backend_lead_1 | Weekly |
+| Code Coverage | > 80% | @qa_engineer_1 | Daily |
+| PR Review Time | < 4 hours | @backend_lead_1 | Daily |
+| Test Pass Rate | 100% | @qa_engineer_1 | CI/CD |
+| Zero High/Critical Bugs | 100% | @security_engineer_1 | Sprint Review |
+| Documentation | 100% complete | @backend_1 | Sprint End |
 
 ---
 
@@ -410,7 +410,7 @@ Story Points Remaining (Target 60 points)
 | Risk | Impact | Probability | Mitigation |
 |------|--------|-------------|------------|
 | VAT-ID API Outages (#30) | Blocks checkout | Medium | Use mock + fallback |
-| Legal Review Delays (#41, #42) | Blocks release | Low | @JuliaHoffmann assigned early |
+| Legal Review Delays (#41, #42) | Blocks release | Low | @legal_1 assigned early |
 | Integration Issues | Delay testing | Medium | Daily integration testing |
 | Performance Problems | Blocks Go/No-Go | Low | Load testing from Week 2 |
 
@@ -539,5 +539,5 @@ Before Sprint Start (28.12.2025):
 
 **Last Updated**: 28. Dezember 2025  
 **Next Review**: 02. Januar 2026 (Sprint Start)  
-**Board Owner**: @HRasch
+**Board Owner**: @backend_lead_1
 

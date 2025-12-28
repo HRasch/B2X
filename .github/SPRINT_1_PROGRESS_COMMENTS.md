@@ -14,19 +14,19 @@
 #### Issue #4 - Epic: Customer Registration Flow
 ```
 Status: 📋 PLANNING (Architecture Phase)
-Assignee: @HRasch (Tech Lead)
+Assignee: @backend_1 (Tech Lead)
 Priority: 🔴 P0
 Sprint: Sprint 1 (28.12.2025 - 24.01.2026)
 Started: 28.12.2025
 
 COMMENT (28.12.2025 @ 14:30):
 ─────────────────────────────────────
-@HRasch: Epic Kickoff started! 🚀
+@backend_1: Epic Kickoff started! 🚀
 
 Architecture design in progress for:
   ✅ Wolverine HTTP handlers (NOT MediatR!)
   ✅ JWT token generation (1h access, 7d refresh)
-  ✅ Multi-tenant isolation (@MaxMueller handling)
+  ✅ Multi-tenant isolation (@backend_2 handling)
   ✅ Email verification flow
   ✅ Password security (Argon2)
 
@@ -50,14 +50,14 @@ Target Completion: 17.01.2026
 #### Issue #30 - VAT-ID Validation (VIES API)
 ```
 Status: 🔄 IN PROGRESS (Architecture)
-Assignee: @HRasch (Implementation) + @DavidKeller (Security)
+Assignee: @backend_1 (Implementation) + @security_1 (Security)
 Priority: 🔴 P0 (Blocking #20, #31)
 Sprint: Sprint 1
 Started: 28.12.2025
 
 COMMENT (28.12.2025 @ 15:00):
 ─────────────────────────────────────
-@HRasch: VAT-ID validation architecture started.
+@backend_1: VAT-ID validation architecture started.
 
 Current work:
   📝 VIES API integration design (EU official database)
@@ -72,7 +72,7 @@ Next Steps:
   1. VIES API documentation review (02.01)
   2. Mock implementation for testing (02.01)
   3. Integration with #31 (05.01)
-  4. Security review @DavidKeller (08.01)
+  4. Security review @security_1 (08.01)
 
 Test Strategy:
   - Valid VAT-ID (Germany, Austria, France)
@@ -88,14 +88,14 @@ Estimated Complete: 10.01.2026
 #### Issue #31 - Reverse Charge Logic (B2B)
 ```
 Status: 📋 READY FOR SPRINT
-Assignee: @HRasch
+Assignee: @backend_1
 Priority: 🔴 P0
 Dependencies: #30 (VAT-ID validation)
 Sprint: Sprint 1
 
 COMMENT (28.12.2025 @ 15:15):
 ─────────────────────────────────────
-@HRasch: Reverse Charge logic blocked by #30 VAT-ID validation.
+@backend_1: Reverse Charge logic blocked by #30 VAT-ID validation.
 
 Business Rule:
   IF order is B2B
@@ -121,14 +121,14 @@ Est. Duration: 3-5 days
 #### Issue #5 - User Registration Handler
 ```
 Status: 📋 READY FOR SPRINT
-Assignee: @MaxMueller
+Assignee: @backend_2
 Priority: 🔴 P0
 Sprint: Sprint 1
 Start Date: 02.01.2026
 
 COMMENT (28.12.2025 @ 14:45):
 ─────────────────────────────────────
-@MaxMueller: Registration handler assigned for Sprint 1! 🎯
+@backend_2: Registration handler assigned for Sprint 1! 🎯
 
 Core Requirements:
   ✅ Wolverine HTTP Handler (POST /registeruser)
@@ -177,14 +177,14 @@ Blocks: #6, #7, #9, #12
 #### Issue #6 - Email Verification Logic
 ```
 Status: 📋 READY FOR SPRINT
-Assignee: @MaxMueller
+Assignee: @backend_2
 Priority: 🔴 P0
 Dependencies: #5 (User Registration)
 Sprint: Sprint 1
 
 COMMENT (28.12.2025 @ 14:50):
 ─────────────────────────────────────
-@MaxMueller: Email verification flow assigned.
+@backend_2: Email verification flow assigned.
 
 Features:
   ✅ Async/await for email sending
@@ -215,14 +215,14 @@ Test Strategy:
 #### Issue #20 - Price Calculation Service (VAT)
 ```
 Status: 📋 READY FOR SPRINT
-Assignee: @LisaSchmidt
+Assignee: @backend_3
 Priority: 🔴 P0
 Dependencies: #30 (VAT-ID), #31 (Reverse Charge)
 Sprint: Sprint 1
 
 COMMENT (28.12.2025 @ 15:05):
 ─────────────────────────────────────
-@LisaSchmidt: Price calculation service ready!
+@backend_3: Price calculation service ready!
 
 Formula:
   B2C: GrossPrice = NetPrice × (1 + VatRate)
@@ -256,15 +256,15 @@ Test Cases: 15+ (see #45 test framework)
 #### Issue #29 - Invoice Generation & 10-Year Archival
 ```
 Status: 📋 READY FOR SPRINT
-Assignee: @LisaSchmidt
-Co-Review: @JuliaHoffmann (Legal)
+Assignee: @backend_3
+Co-Review: @legal_1 (Legal)
 Priority: 🔴 P0
 Dependencies: #20 (Price Calc), #32 (Encryption)
 Sprint: Sprint 1-2
 
 COMMENT (28.12.2025 @ 15:20):
 ─────────────────────────────────────
-@LisaSchmidt + @JuliaHoffmann: Invoice generation assigned!
+@backend_3 + @legal_1: Invoice generation assigned!
 
 German Legal Requirements (10-year archival):
   ✅ Invoice number: Unique per shop
@@ -299,13 +299,13 @@ Legal Review: Required before deployment
 #### Issue #41 - AGB & Widerrufsbelehrung
 ```
 Status: 📋 READY FOR SPRINT
-Assignee: @AnnaWeber (Frontend) + @JuliaHoffmann (Content)
+Assignee: @frontend_1 (Frontend) + @legal_1 (Content)
 Priority: 🔴 P0
 Sprint: Sprint 1
 
 COMMENT (28.12.2025 @ 15:30):
 ─────────────────────────────────────
-@AnnaWeber + @JuliaHoffmann: Legal terms assigned!
+@frontend_1 + @legal_1: Legal terms assigned!
 
 Content Requirement (German Law):
   ✅ Terms & Conditions (AGB)
@@ -322,8 +322,8 @@ UI Requirements:
   ✅ Accessible (WCAG AA)
 
 Start: 02.01.2026 (parallel work)
-Frontend UI: @AnnaWeber (3 days)
-Legal Content: @JuliaHoffmann (2 days)
+Frontend UI: @frontend_1 (3 days)
+Legal Content: @legal_1 (2 days)
 Legal Review: 08.01.2026 (before merge)
 ```
 
@@ -332,14 +332,14 @@ Legal Review: 08.01.2026 (before merge)
 #### Issue #42 - Datenschutzerklärung & Impressum
 ```
 Status: 📋 READY FOR SPRINT
-Assignee: @AnnaWeber (Frontend) + @JuliaHoffmann (Content)
+Assignee: @frontend_1 (Frontend) + @legal_1 (Content)
 Priority: 🔴 P0
 Dependencies: #41 (structure)
 Sprint: Sprint 1
 
 COMMENT (28.12.2025 @ 15:35):
 ─────────────────────────────────────
-@AnnaWeber + @JuliaHoffmann: Privacy policy assigned!
+@frontend_1 + @legal_1: Privacy policy assigned!
 
 Content Requirement (GDPR + German Law):
   ✅ Privacy statement (DSGVO)
@@ -361,8 +361,8 @@ UI Requirements:
   ✅ No login required
 
 Start: 04.01.2026 (after #41)
-Frontend UI: @AnnaWeber (2 days)
-Legal Content: @JuliaHoffmann (3 days)
+Frontend UI: @frontend_1 (2 days)
+Legal Content: @legal_1 (3 days)
 Legal Review: 10.01.2026
 ```
 
@@ -373,14 +373,14 @@ Legal Review: 10.01.2026
 #### Issue #45 - E-Commerce Legal Tests (15 tests)
 ```
 Status: 📋 READY FOR SPRINT
-Assignee: @ThomasKrause
+Assignee: @qa_1
 Priority: 🔴 P0
 Sprint: Sprint 1-2
 Start: 04.01.2026 (after features)
 
 COMMENT (28.12.2025 @ 15:40):
 ─────────────────────────────────────
-@ThomasKrause: Test framework assigned!
+@qa_1: Test framework assigned!
 
 15 E-Commerce Compliance Tests:
   1. VAT Calculation B2C (19% included)
@@ -440,10 +440,10 @@ Coverage Target: 100% of P0.6 requirements
 
 02.01.2026 (Development Starts)
   ✅ Daily standup 09:00 CET
-  ✅ @HRasch: Architecture review Epic #4
-  ✅ @MaxMueller: #5 Implementation
-  ✅ @LisaSchmidt: #20, #29 Analysis
-  ✅ @AnnaWeber: #41, #42 UI Layout
+  ✅ @backend_1: Architecture review Epic #4
+  ✅ @backend_2: #5 Implementation
+  ✅ @backend_3: #20, #29 Analysis
+  ✅ @frontend_1: #41, #42 UI Layout
   
 08.01.2026 (First Review)
   → Code reviews begin
@@ -467,13 +467,13 @@ Coverage Target: 100% of P0.6 requirements
 
 **Blocked on something?** Comment in the issue with @mention
 **Need to escalate?** Report in daily standup
-**Architecture question?** Ask @HRasch
-**Legal question?** Ask @JuliaHoffmann
-**Security concern?** Ask @DavidKeller
+**Architecture question?** Ask @backend_1
+**Legal question?** Ask @legal_1
+**Security concern?** Ask @security_1
 
 ---
 
 **Last Updated**: 28. Dezember 2025 @ 16:00 CET  
-**Board Owner**: @HRasch  
+**Board Owner**: @backend_1  
 **Next Review**: 02. Januar 2026 (Sprint Start)
 
