@@ -1,6 +1,3 @@
-using B2Connect.Catalog.Application.Handlers;
-using B2Connect.Catalog.Core.Interfaces;
-using B2Connect.Catalog.Infrastructure.Repositories;
 using FluentValidation;
 using B2Connect.Shared.Search.Extensions;
 using B2Connect.Shared.Messaging.Extensions;
@@ -77,32 +74,10 @@ builder.Services.AddDbContext<B2Connect.CatalogService.Infrastructure.Data.Catal
     options.UseNpgsql(connectionString)
         .UseSnakeCaseNamingConvention());
 
-// Add application services
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductQueryHandler, ProductQueryHandler>();
-builder.Services.AddScoped<ISearchIndexService, SearchIndexService>();
-
-// Add Price Calculation Service (Issue #30: B2C Price Transparency)
-builder.Services.AddScoped<IPriceCalculationService, PriceCalculationService>();
-
-// Add FluentValidation for input validation
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
-// Add Return Management Services (Story 8: Widerrufsmanagement)
-// Handler
-builder.Services.AddTransient<ReturnApiHandler>();
-
-// Validators
-builder.Services.AddScoped<IValidator<CreateReturnRequestDto>, CreateReturnRequestValidator>();
-builder.Services.AddScoped<IValidator<CreateRefundRequestDto>, CreateRefundRequestValidator>();
-
-// Repositories
-builder.Services.AddScoped<IReturnRepository, ReturnRepository>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IRefundRepository, RefundRepository>();
-
-// Service
-builder.Services.AddScoped<ReturnManagementService>();
+// TODO: Add application services (ProductService, QueryHandlers, etc.) once implemented
+// NOTE: Return Management Services moved to Customer domain (Story 8: Widerrufsmanagement)
+// The ReturnApiHandler, Validators, Repositories have been migrated to Customer domain
+// per domain migration strategy (PR #41)
 
 // Add Authorization (REQUIRED for [Authorize] attributes)
 builder.Services.AddAuthorization();
