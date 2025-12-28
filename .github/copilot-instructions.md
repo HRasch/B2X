@@ -457,6 +457,479 @@ export const catalogService = {
 }
 ```
 
+---
+
+## 🎨 Frontend Development Best Practices (Tailwind CSS, Vue.js, Vite)
+
+**This section contains best practices and anti-patterns from official documentation for Tailwind CSS v4.1, Vue.js 3, and Vite.**
+
+---
+
+### Tailwind CSS Best Practices
+
+#### ✅ DO: Utility-First Approach
+
+| # | Rule | Example |
+|---|------|---------|
+| 1 | **Use utility classes over custom CSS** | `<div class="flex items-center gap-4">` not custom `.flex-center` |
+| 2 | **Mobile-first breakpoints** | Unprefixed = all screens, `sm:` = 640px+, `md:` = 768px+, `lg:` = 1024px+ |
+| 3 | **Target mobile with unprefixed utilities** | `block md:flex` (block on mobile, flex on md+) |
+| 4 | **Stack state variants** | `hover:bg-sky-700 dark:hover:bg-sky-600 disabled:opacity-50` |
+| 5 | **Use design system constraints** | `bg-blue-500` instead of `bg-[#3b82f6]` |
+| 6 | **Group related utilities** | Keep layout, spacing, typography classes together |
+| 7 | **Use container queries for component-relative sizing** | `@container` parent + `@md:flex-row` child |
+| 8 | **Dark mode with `dark:` variant** | `bg-white dark:bg-slate-800` |
+| 9 | **Manage duplication with loops/components** | Use v-for or extract to Vue component |
+| 10 | **Use arbitrary values sparingly** | `top-[117px]` only for one-off values |
+
+```vue
+<!-- ✅ GOOD: Utility-first, mobile-first, state variants -->
+<template>
+  <button
+    class="px-4 py-2 rounded-lg font-medium
+           bg-blue-500 text-white
+           hover:bg-blue-600 active:bg-blue-700
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed
+           dark:bg-blue-600 dark:hover:bg-blue-500
+           transition-colors duration-200"
+    :disabled="isLoading"
+  >
+    <slot />
+  </button>
+</template>
+
+<!-- ✅ GOOD: Responsive design (mobile-first) -->
+<div class="flex flex-col md:flex-row gap-4 md:gap-8">
+  <aside class="w-full md:w-64 shrink-0">Sidebar</aside>
+  <main class="flex-1">Content</main>
+</div>
+
+<!-- ✅ GOOD: Container queries for component-relative responsiveness -->
+<div class="@container">
+  <div class="flex flex-col @md:flex-row @lg:gap-8">
+    <!-- Responds to container size, not viewport -->
+  </div>
+</div>
+```
+
+#### ❌ DON'T: Tailwind Anti-Patterns
+
+| # | Anti-Pattern | Why It's Bad | Fix |
+|---|-------------|--------------|-----|
+| 11 | **Using `sm:` for mobile styles** | `sm:` means 640px+, not mobile | Use unprefixed for mobile |
+| 12 | **Conflicting utilities on same element** | `p-4 p-8` - unpredictable result | Pick one value |
+| 13 | **Custom CSS when utilities exist** | Duplicates functionality | Use Tailwind utilities |
+| 14 | **Inline styles over utilities** | Misses design constraints, states | Use utility classes |
+| 15 | **Extracting classes too early** | Premature abstraction | Tolerate duplication first |
+| 16 | **Magic arbitrary values everywhere** | Breaks design consistency | Use theme values |
+| 17 | **Not using dark mode variant** | Poor dark mode support | Add `dark:` variants |
+| 18 | **Overriding utilities with `!important`** | Specificity wars | Fix class order/conflicts |
+| 19 | **Long class strings without organization** | Hard to read/maintain | Group by concern |
+| 20 | **Ignoring responsive prefixes** | Desktop-only design | Add mobile-first breakpoints |
+
+```vue
+<!-- ❌ BAD: Using sm: for mobile (sm: means 640px+, not mobile) -->
+<div class="sm:block hidden">This is HIDDEN on mobile!</div>
+
+<!-- ✅ GOOD: Unprefixed for mobile, sm: to hide on larger -->
+<div class="block sm:hidden">This shows on mobile only</div>
+
+<!-- ❌ BAD: Conflicting utilities -->
+<div class="p-4 p-8 text-sm text-lg">Unpredictable!</div>
+
+<!-- ❌ BAD: Inline styles when utility exists -->
+<div style="display: flex; gap: 16px;">Use utilities!</div>
+
+<!-- ✅ GOOD: Tailwind utilities -->
+<div class="flex gap-4">Clean and consistent</div>
+
+<!-- ❌ BAD: Arbitrary values breaking design system -->
+<div class="mt-[13px] p-[7px] text-[15px]">Inconsistent spacing</div>
+
+<!-- ✅ GOOD: Design system values -->
+<div class="mt-3 p-2 text-sm">Consistent spacing</div>
+```
+
+#### Dark Mode Implementation
+```vue
+<!-- Dark mode setup in tailwind.config or CSS -->
+<!-- Option 1: System preference (automatic) -->
+<style>
+@import "tailwindcss";
+/* dark: variant uses prefers-color-scheme by default */
+</style>
+
+<!-- Option 2: Manual toggle with class -->
+<style>
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+</style>
+
+<!-- Toggle script -->
+<script setup lang="ts">
+const isDark = ref(localStorage.getItem('theme') === 'dark')
+
+const toggleDark = () => {
+  isDark.value = !isDark.value
+  document.documentElement.classList.toggle('dark', isDark.value)
+  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+}
+
+// Initialize on mount
+onMounted(() => {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const stored = localStorage.getItem('theme')
+  isDark.value = stored ? stored === 'dark' : prefersDark
+  document.documentElement.classList.toggle('dark', isDark.value)
+})
+</script>
+```
+
+---
+
+### Vue.js 3 Best Practices
+
+#### ✅ DO: Priority A - Essential Rules
+
+| # | Rule | Example |
+|---|------|---------|
+| 21 | **Multi-word component names** | `ProductCard.vue`, `UserProfile.vue` not `Card.vue` |
+| 22 | **Detailed prop definitions** | Include type, required, validator |
+| 23 | **Always use `:key` with `v-for`** | `v-for="item in items" :key="item.id"` |
+| 24 | **Never use `v-if` with `v-for`** | Compute filtered list first |
+| 25 | **Component-scoped styling** | `<style scoped>` or CSS modules |
+
+```vue
+<!-- ✅ GOOD: Multi-word component name, detailed props -->
+<script setup lang="ts">
+// ProductCard.vue (multi-word name)
+interface Props {
+  product: Product
+  showPrice?: boolean
+  maxQuantity?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  showPrice: true,
+  maxQuantity: 99
+})
+
+// Emits with type definition
+const emit = defineEmits<{
+  (e: 'add-to-cart', product: Product, quantity: number): void
+  (e: 'favorite', productId: string): void
+}>()
+</script>
+
+<!-- ✅ GOOD: v-for with :key, no v-if on same element -->
+<template>
+  <!-- Compute filtered list, don't use v-if with v-for -->
+  <ul>
+    <li 
+      v-for="item in filteredItems" 
+      :key="item.id"
+      class="p-4 border-b"
+    >
+      {{ item.name }}
+    </li>
+  </ul>
+</template>
+
+<script setup lang="ts">
+const items = ref<Item[]>([])
+const showActive = ref(true)
+
+// ✅ GOOD: Computed property for filtering
+const filteredItems = computed(() => 
+  showActive.value 
+    ? items.value.filter(item => item.isActive)
+    : items.value
+)
+</script>
+
+<style scoped>
+/* Component-scoped styles */
+.product-card {
+  /* Only applies to this component */
+}
+</style>
+```
+
+#### ✅ DO: Priority B - Strongly Recommended Rules
+
+| # | Rule | Example |
+|---|------|---------|
+| 26 | **One component per file** | Don't define multiple components in one .vue |
+| 27 | **PascalCase file names** | `MyComponent.vue` not `my-component.vue` |
+| 28 | **Base component prefix** | `BaseButton.vue`, `BaseInput.vue` |
+| 29 | **Tightly coupled child naming** | `TodoList.vue` → `TodoListItem.vue` |
+| 30 | **Self-closing components** | `<MyComponent />` not `<MyComponent></MyComponent>` |
+| 31 | **Simple template expressions** | Move complex logic to computed |
+| 32 | **Prop name casing** | camelCase in JS, kebab-case in templates |
+| 33 | **Multi-attribute elements on new lines** | One attribute per line when many |
+| 34 | **Directive shorthands consistently** | Always `:` for bind, `@` for on, `#` for slot |
+
+```vue
+<!-- ✅ GOOD: Consistent structure, naming, self-closing -->
+<template>
+  <!-- Self-closing when no content -->
+  <BaseButton @click="handleSubmit" />
+  <BaseInput v-model="username" />
+  
+  <!-- Multi-attribute on new lines -->
+  <ProductCard
+    :product="product"
+    :show-price="true"
+    :max-quantity="10"
+    @add-to-cart="handleAddToCart"
+    @favorite="handleFavorite"
+  />
+  
+  <!-- Simple expressions, complex in computed -->
+  <span>{{ formattedPrice }}</span>
+  
+  <!-- Consistent directive shorthands -->
+  <input
+    :value="searchQuery"
+    :placeholder="$t('search.placeholder')"
+    @input="updateSearch"
+    @keyup.enter="submitSearch"
+  />
+</template>
+
+<script setup lang="ts">
+// ✅ GOOD: Complex logic in computed, not template
+const formattedPrice = computed(() => {
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR'
+  }).format(product.value.price)
+})
+</script>
+```
+
+#### ❌ DON'T: Vue.js Anti-Patterns
+
+| # | Anti-Pattern | Why It's Bad | Fix |
+|---|-------------|--------------|-----|
+| 35 | **Single-word component names** | Conflicts with HTML elements | Use multi-word names |
+| 36 | **Props without types** | No validation, poor DX | Define types/validators |
+| 37 | **v-for without :key** | Poor performance, bugs | Always add unique :key |
+| 38 | **v-if and v-for on same element** | v-for has higher priority | Use computed or wrapper |
+| 39 | **Mutating props directly** | Breaks one-way data flow | Emit events to parent |
+| 40 | **Complex template expressions** | Hard to read/test | Use computed properties |
+| 41 | **Options API in new code** | Less TypeScript support | Use Composition API |
+| 42 | **Global state in components** | Hard to test, tight coupling | Use Pinia stores |
+| 43 | **Direct DOM manipulation** | Bypasses Vue reactivity | Use refs and reactive |
+| 44 | **Watchers for everything** | Often better as computed | Prefer computed |
+
+```vue
+<!-- ❌ BAD: Single-word name, props without types -->
+<script>
+// Card.vue - conflicts with potential <card> element
+export default {
+  props: ['title', 'content'] // No types!
+}
+</script>
+
+<!-- ❌ BAD: v-if with v-for -->
+<template>
+  <li v-for="item in items" v-if="item.isActive" :key="item.id">
+    {{ item.name }}
+  </li>
+</template>
+
+<!-- ❌ BAD: Mutating prop directly -->
+<script setup>
+const props = defineProps(['modelValue'])
+props.modelValue = 'new value' // WRONG!
+</script>
+
+<!-- ❌ BAD: Complex template expression -->
+<template>
+  <span>
+    {{ items.filter(i => i.active).map(i => i.name).join(', ').toUpperCase() }}
+  </span>
+</template>
+
+<!-- ✅ GOOD: Move to computed -->
+<script setup>
+const activeNames = computed(() => 
+  items.value
+    .filter(i => i.active)
+    .map(i => i.name)
+    .join(', ')
+    .toUpperCase()
+)
+</script>
+<template>
+  <span>{{ activeNames }}</span>
+</template>
+```
+
+---
+
+### Vite Best Practices
+
+#### ✅ DO: Vite Performance Optimization
+
+| # | Rule | Example |
+|---|------|---------|
+| 45 | **Explicit file extensions in imports** | `import './Component.vue'` not `import './Component'` |
+| 46 | **Avoid barrel files (index.ts re-exports)** | Import directly from source file |
+| 47 | **Warm up frequently used files** | Configure `server.warmup` |
+| 48 | **Use native CSS over preprocessors when possible** | Tailwind CSS > Sass for utilities |
+| 49 | **Audit plugin performance** | Check slow `buildStart`, `config` hooks |
+| 50 | **Prefer `import type` for type-only imports** | `import type { User } from './types'` |
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+export default defineConfig({
+  plugins: [vue()],
+  
+  // ✅ GOOD: Warm up frequently accessed files
+  server: {
+    warmup: {
+      clientFiles: [
+        './src/components/BaseButton.vue',
+        './src/components/BaseInput.vue',
+        './src/layouts/DefaultLayout.vue',
+        './src/stores/*.ts'
+      ]
+    }
+  },
+  
+  // ✅ GOOD: Optimize dependency pre-bundling
+  optimizeDeps: {
+    include: ['vue', 'vue-router', 'pinia', 'axios'],
+    exclude: ['@vueuse/core'] // If causing issues
+  },
+  
+  // ✅ GOOD: Configure CSS processing
+  css: {
+    devSourcemap: true,
+    // Prefer native CSS, minimize preprocessor usage
+  }
+})
+```
+
+```typescript
+// ✅ GOOD: Explicit extensions, direct imports
+import { ProductCard } from './components/ProductCard.vue'
+import { useProductStore } from './stores/productStore.ts'
+import type { Product, Category } from './types/catalog.ts'
+
+// ❌ BAD: Barrel file (index.ts)
+// src/components/index.ts
+export * from './ProductCard.vue'
+export * from './CategoryList.vue'
+export * from './SearchBar.vue'
+// This forces Vite to process ALL files even if you only need one!
+
+// ❌ BAD: Import from barrel
+import { ProductCard } from './components' // Loads everything!
+
+// ✅ GOOD: Direct import
+import { ProductCard } from './components/ProductCard.vue' // Only loads what's needed
+```
+
+#### ❌ DON'T: Vite Anti-Patterns
+
+| # | Anti-Pattern | Why It's Bad | Fix |
+|---|-------------|--------------|-----|
+| 51 | **Barrel files (index.ts exports)** | Forces processing all files | Import directly |
+| 52 | **Missing file extensions** | Slower resolution | Add `.vue`, `.ts` |
+| 53 | **Heavy plugins on `buildStart`** | Blocks dev server start | Defer or optimize |
+| 54 | **Not pre-bundling dependencies** | Slower page loads | Add to `optimizeDeps.include` |
+| 55 | **Large synchronous transforms** | Blocks HMR | Use async transforms |
+| 56 | **Browser cache during debugging** | Stale modules | Disable cache in DevTools |
+| 57 | **Unnecessary preprocessors** | Slower builds | Use native CSS + Tailwind |
+| 58 | **Not using `import type`** | Larger bundles | Separate type imports |
+
+---
+
+### Component File Structure Standard
+
+```
+src/
+├── assets/                     # Static assets (images, fonts)
+├── components/
+│   ├── base/                   # Base/presentational components
+│   │   ├── BaseButton.vue
+│   │   ├── BaseInput.vue
+│   │   └── BaseModal.vue
+│   ├── layout/                 # Layout components
+│   │   ├── TheHeader.vue       # "The" prefix for singletons
+│   │   ├── TheFooter.vue
+│   │   └── TheSidebar.vue
+│   └── feature/                # Feature-specific components
+│       ├── product/
+│       │   ├── ProductCard.vue
+│       │   ├── ProductList.vue
+│       │   └── ProductFilters.vue
+│       └── cart/
+│           ├── CartItem.vue
+│           └── CartSummary.vue
+├── composables/                # Vue composables (useXxx)
+│   ├── useAuth.ts
+│   ├── useCart.ts
+│   └── useProducts.ts
+├── services/                   # API service layer
+│   ├── api.ts                  # Axios instance
+│   ├── catalogService.ts
+│   └── authService.ts
+├── stores/                     # Pinia stores
+│   ├── authStore.ts
+│   ├── cartStore.ts
+│   └── productStore.ts
+├── types/                      # TypeScript types
+│   ├── catalog.ts
+│   ├── user.ts
+│   └── api.ts
+├── utils/                      # Utility functions
+│   ├── formatters.ts
+│   └── validators.ts
+├── views/                      # Page components (router views)
+│   ├── HomeView.vue
+│   ├── ProductView.vue
+│   └── CheckoutView.vue
+├── App.vue
+└── main.ts
+```
+
+### Frontend Quick Reference Checklist
+
+Before every frontend PR, verify:
+
+```
+Tailwind CSS:
+  [ ] Mobile-first (unprefixed for mobile, md: for larger)
+  [ ] No conflicting utilities
+  [ ] Dark mode variants added (dark:)
+  [ ] Design system values used (not arbitrary)
+  [ ] No inline styles where utilities exist
+
+Vue.js:
+  [ ] Multi-word component names
+  [ ] Props have types and defaults
+  [ ] :key on all v-for
+  [ ] No v-if with v-for on same element
+  [ ] Complex logic in computed, not template
+  [ ] <style scoped> used
+
+Vite:
+  [ ] Explicit file extensions in imports
+  [ ] No barrel file imports
+  [ ] Type imports use `import type`
+  [ ] Heavy dependencies pre-bundled
+```
+
+---
+
 ## 🎯 Critical Conventions
 
 ### Naming
