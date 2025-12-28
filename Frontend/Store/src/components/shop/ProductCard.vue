@@ -1,33 +1,44 @@
 <template>
   <div class="product-card">
     <div class="product-image">
-      <img :src="product.image" :alt="product.name">
-      <div v-if="!product.inStock" class="out-of-stock">
-        Nicht verfügbar
-      </div>
+      <img :src="product.image" :alt="product.name" />
+      <div v-if="!product.inStock" class="out-of-stock">Nicht verfügbar</div>
     </div>
-    
+
     <div class="product-info">
       <h3 class="product-name">{{ product.name }}</h3>
-      
+
       <div class="product-rating">
         <span class="stars">★ {{ product.rating }}</span>
       </div>
-      
+
       <p class="product-description">{{ product.description }}</p>
-      
+
       <div class="product-pricing">
         <div class="price-section">
-          <span class="label">B2C:</span>
-          <span class="price">{{ product.price }}€</span>
-        </div>
-        <div class="price-section">
-          <span class="label">B2B:</span>
-          <span class="price b2b">{{ product.b2bPrice }}€</span>
+          <span class="price"
+            >{{ formatPrice(product.priceBreakdown.PriceIncludingVat) }}€</span
+          >
+          <span class="vat-text"
+            >inkl. MwSt
+            {{ (product.priceBreakdown.VatRate * 100).toFixed(0) }}%</span
+          >
+          <span
+            v-if="product.priceBreakdown.OriginalPrice"
+            class="original-price"
+          >
+            <s>{{ formatPrice(product.priceBreakdown.OriginalPrice) }}€</s>
+          </span>
+          <span
+            v-if="product.priceBreakdown.DiscountAmount"
+            class="discount-badge"
+          >
+            -{{ formatPrice(product.priceBreakdown.DiscountAmount) }}€
+          </span>
         </div>
       </div>
-      
-      <button 
+
+      <button
         v-if="product.inStock"
         @click="$emit('add-to-cart', product)"
         class="add-to-cart-btn"
@@ -42,25 +53,45 @@
 </template>
 
 <script setup lang="ts">
+interface PriceBreakdown {
+  PriceIncludingVat: number;
+  VatAmount: number;
+  VatRate: number;
+  OriginalPrice: number | null;
+  DiscountAmount: number | null;
+  FinalPrice: number;
+  Currency: string;
+  DestinationCountry: string;
+}
+
 interface Product {
-  id: string
-  name: string
-  price: number
-  b2bPrice: number
-  image: string
-  category: string
-  description: string
-  inStock: boolean
-  rating: number
+  id: string;
+  name: string;
+  priceBreakdown: PriceBreakdown;
+  image: string;
+  category: string;
+  description: string;
+  inStock: boolean;
+  rating: number;
 }
 
 defineProps<{
-  product: Product
-}>()
+  product: Product;
+}>();
 
 defineEmits<{
-  'add-to-cart': [product: Product]
-}>()
+  "add-to-cart": [product: Product];
+}>();
+
+// Format currency for display
+const formatPrice = (price: number): string => {
+  return new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price);
+};
 </script>
 
 <style scoped>
