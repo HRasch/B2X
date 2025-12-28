@@ -6,6 +6,8 @@ using B2Connect.ServiceDefaults;
 using Serilog;
 using Wolverine;
 using Wolverine.Http;
+using Microsoft.EntityFrameworkCore;
+using EFCore.NamingConventions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,10 +67,21 @@ catch (Exception ex)
     logger.LogWarning(ex, "Failed to configure Elasticsearch client. Search functionality may be limited.");
 }
 
+// Add Database Context (Issue #30: Price Calculation Persistence)
+// Uses PostgreSQL with snake_case naming convention
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? "Host=localhost;Database=b2connect_catalog;Username=postgres;Password=postgres";
+builder.Services.AddDbContext<B2Connect.CatalogService.Infrastructure.Data.CatalogDbContext>(options =>
+    options.UseNpgsql(connectionString)
+        .UseSnakeCaseNamingConvention());
+
 // Add application services
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductQueryHandler, ProductQueryHandler>();
 builder.Services.AddScoped<ISearchIndexService, SearchIndexService>();
+
+// Add Price Calculation Service (Issue #30: B2C Price Transparency)
+builder.Services.AddScoped<IPriceCalculationService, PriceCalculationService>();
 
 // Add Authorization (REQUIRED for [Authorize] attributes)
 builder.Services.AddAuthorization();

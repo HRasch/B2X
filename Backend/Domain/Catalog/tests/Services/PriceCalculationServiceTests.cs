@@ -169,7 +169,7 @@ public class PriceCalculationServiceTests
         var vatFormatted = result.VatAmount.ToString("F2");
         var vatHasDecimal = vatFormatted.Contains(".") || vatFormatted.Contains(",");
         Assert.True(vatHasDecimal, $"VatAmount '{vatFormatted}' must have decimal separator");
-        
+
         var priceFormatted = result.PriceIncludingVat.ToString("F2");
         var priceHasDecimal = priceFormatted.Contains(".") || priceFormatted.Contains(",");
         Assert.True(priceHasDecimal, $"PriceIncludingVat '{priceFormatted}' must have decimal separator");
