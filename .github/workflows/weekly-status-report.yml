@@ -1,0 +1,196 @@
+name: Weekly Status Report
+
+on:
+  schedule:
+    # Run every Friday at 9:00 AM UTC (10:00 AM CET)
+    - cron: '0 9 * * 5'
+  
+  # Allow manual trigger
+  workflow_dispatch
+
+jobs:
+  weekly-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Generate project status report
+        id: report
+        run: |
+          echo "Generating weekly status report..."
+          
+          # Get all items in Planner project
+          gh api graphql -f query='
+          query {
+            repository(owner: "${{ github.repository_owner }}", name: "${{ github.event.repository.name }}") {
+              projectsV2(first: 10) {
+                nodes {
+                  title
+                  id
+                  items(first: 100, filter: {state: OPEN}) {
+                    totalCount
+                    nodes {
+                      id
+                      fieldValues(first: 20) {
+                        nodes {
+                          ... on ProjectV2ItemFieldSingleSelectValue {
+                            name
+                          }
+                        }
+                      }
+                      content {
+                        ... on Issue {
+                          number
+                          title
+                          createdAt
+                          updatedAt
+                          state
+                          assignees(first: 1) {
+                            nodes {
+                              login
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }' > /tmp/project_status.json
+          
+          # Parse and count by status
+          total=$(jq '.data.repository.projectsV2.nodes[] | select(.title == "Planner") | .items.totalCount' /tmp/project_status.json)
+          
+          echo "📊 **Weekly Status Report** - $(date '+%A, %d %B %Y')" >> /tmp/report.md
+          echo "" >> /tmp/report.md
+          echo "## Project Metrics" >> /tmp/report.md
+          echo "- **Total Items**: $total" >> /tmp/report.md
+          echo "" >> /tmp/report.md
+          
+          # Count completed items from last week
+          cutoff_date=$(date -d "7 days ago" '+%Y-%m-%d')
+          
+          echo "## Completed This Week" >> /tmp/report.md
+          echo "Issues moved to 'Done' status since last Friday:" >> /tmp/report.md
+          echo "" >> /tmp/report.md
+          
+          completed=$(jq --arg cutoff "$cutoff_date" '
+            .data.repository.projectsV2.nodes[] | 
+            select(.title == "Planner") |
+            .items.nodes[] |
+            select(
+              .content.state == "CLOSED" and 
+              .content.closedAt > $cutoff
+            ) |
+            "- #\(.content.number): \(.content.title)"
+          ' /tmp/project_status.json | wc -l)
+          
+          if [ "$completed" -eq 0 ]; then
+            echo "_(No items completed this week)_" >> /tmp/report.md
+          else
+            jq --arg cutoff "$cutoff_date" '
+              .data.repository.projectsV2.nodes[] | 
+              select(.title == "Planner") |
+              .items.nodes[] |
+              select(
+                .content.state == "CLOSED" and 
+                .content.closedAt > $cutoff
+              ) |
+              "- #\(.content.number): \(.content.title)"
+            ' /tmp/project_status.json >> /tmp/report.md
+          fi
+          
+          echo "" >> /tmp/report.md
+          echo "## Status Breakdown" >> /tmp/report.md
+          echo "" >> /tmp/report.md
+          echo "| Status | Count |" >> /tmp/report.md
+          echo "|--------|-------|" >> /tmp/report.md
+          
+          # Count by status
+          backlog=$(jq '.data.repository.projectsV2.nodes[] | select(.title == "Planner") | .items.nodes[] | select(.fieldValues.nodes[]?.name == "Backlog") | .id' /tmp/project_status.json | wc -l)
+          ready=$(jq '.data.repository.projectsV2.nodes[] | select(.title == "Planner") | .items.nodes[] | select(.fieldValues.nodes[]?.name == "Ready") | .id' /tmp/project_status.json | wc -l)
+          in_progress=$(jq '.data.repository.projectsV2.nodes[] | select(.title == "Planner") | .items.nodes[] | select(.fieldValues.nodes[]?.name == "In progress") | .id' /tmp/project_status.json | wc -l)
+          in_review=$(jq '.data.repository.projectsV2.nodes[] | select(.title == "Planner") | .items.nodes[] | select(.fieldValues.nodes[]?.name == "In review") | .id' /tmp/project_status.json | wc -l)
+          
+          echo "| Backlog | $backlog |" >> /tmp/report.md
+          echo "| Ready | $ready |" >> /tmp/report.md
+          echo "| In Progress | $in_progress |" >> /tmp/report.md
+          echo "| In Review | $in_review |" >> /tmp/report.md
+          
+          echo "" >> /tmp/report.md
+          echo "## ⚠️ Potential Issues" >> /tmp/report.md
+          echo "" >> /tmp/report.md
+          
+          # Check for items stuck in "In progress" for > 3 days
+          if [ "$in_progress" -gt 0 ]; then
+            echo "### Items Stuck in 'In Progress'" >> /tmp/report.md
+            jq --arg cutoff_date "$(date -d '3 days ago' '+%Y-%m-%d')" '
+              .data.repository.projectsV2.nodes[] | 
+              select(.title == "Planner") |
+              .items.nodes[] |
+              select(.fieldValues.nodes[]?.name == "In progress") |
+              select(.content.updatedAt < $cutoff_date) |
+              "- #\(.content.number): \(.content.title) (Updated: \(.content.updatedAt))"
+            ' /tmp/project_status.json >> /tmp/report.md
+          fi
+          
+          # Check for unassigned Ready items
+          unassigned=$(jq '
+            .data.repository.projectsV2.nodes[] | 
+            select(.title == "Planner") |
+            .items.nodes[] |
+            select(.fieldValues.nodes[]?.name == "Ready") |
+            select(.content.assignees.nodes == []) |
+            .id
+          ' /tmp/project_status.json | wc -l)
+          
+          if [ "$unassigned" -gt 0 ]; then
+            echo "### Unassigned Ready Items" >> /tmp/report.md
+            echo "**Count:** $unassigned items need assignees" >> /tmp/report.md
+            echo "" >> /tmp/report.md
+            jq '
+              .data.repository.projectsV2.nodes[] | 
+              select(.title == "Planner") |
+              .items.nodes[] |
+              select(.fieldValues.nodes[]?.name == "Ready") |
+              select(.content.assignees.nodes == []) |
+              "- #\(.content.number): \(.content.title)"
+            ' /tmp/project_status.json >> /tmp/report.md
+          fi
+          
+          echo "" >> /tmp/report.md
+          echo "---" >> /tmp/report.md
+          echo "_Report generated automatically. Review the [Planner Project](https://github.com/users/HRasch/projects/5) for full details._" >> /tmp/report.md
+          
+          # Save report to output
+          report_content=$(cat /tmp/report.md)
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          echo "$report_content" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create discussion post with report
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const report = `${{ steps.report.outputs.report }}`;
+            
+            // Post to discussions under "Announcements" category
+            const response = await github.rest.discussions.createDiscussion({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `📊 Weekly Status Report - ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`,
+              body: report,
+              category_id: 'DIC_kwDOAWN9Gs4CP2ZD' // Announcements category
+            });
+            
+            console.log(`✅ Report posted to discussions: ${response.data.html_url}`);
+      
+      - name: Upload report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-status-report
+          path: /tmp/report.md
+          retention-days: 90

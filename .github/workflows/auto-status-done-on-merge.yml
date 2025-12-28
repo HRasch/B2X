@@ -1,0 +1,120 @@
+name: Auto-Update Status to "Done" and Close Issue
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-status-and-close:
+    runs-on: ubuntu-latest
+    
+    # Only run if PR was merged (not just closed)
+    if: github.event.pull_request.merged == true
+    
+    steps:
+      - name: Get PR details
+        id: pr
+        run: |
+          echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          echo "pr_merged=${{ github.event.pull_request.merged }}" >> $GITHUB_OUTPUT
+      
+      - name: Extract issue number from PR
+        id: extract
+        run: |
+          # Extract issue number from PR body (look for "Closes #123" pattern)
+          issue_num=$(grep -oP '(?<=Closes #)\d+' <<< '${{ github.event.pull_request.body }}' | head -1)
+          
+          # Fallback: try "Fixes #123" pattern
+          if [ -z "$issue_num" ]; then
+            issue_num=$(grep -oP '(?<=Fixes #)\d+' <<< '${{ github.event.pull_request.body }}' | head -1)
+          fi
+          
+          # Fallback: try issue number in PR title (e.g., "P0.6.1: Title (#123)")
+          if [ -z "$issue_num" ]; then
+            issue_num=$(grep -oP '#\K\d+' <<< '${{ github.event.pull_request.title }}' | tail -1)
+          fi
+          
+          echo "issue_number=$issue_num" >> $GITHUB_OUTPUT
+      
+      - name: Find project item
+        id: project
+        if: steps.extract.outputs.issue_number != ''
+        run: |
+          # Query for the item in the Planner project
+          gh api graphql -f query='
+          query {
+            repository(owner: "${{ github.repository_owner }}", name: "${{ github.event.repository.name }}") {
+              projectsV2(first: 10) {
+                nodes {
+                  title
+                  id
+                  items(first: 100, filter: {state: OPEN}) {
+                    nodes {
+                      id
+                      content {
+                        ... on Issue {
+                          number
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }' > /tmp/project_query.json
+          
+          # Extract item ID for this issue
+          item_id=$(jq -r '
+            .data.repository.projectsV2.nodes[] | 
+            select(.title == "Planner") |
+            .items.nodes[] |
+            select(.content.number == ${{ steps.extract.outputs.issue_number }}) |
+            .id
+          ' /tmp/project_query.json)
+          
+          echo "item_id=$item_id" >> $GITHUB_OUTPUT
+          echo "project_id=PVT_kwHOAWN9Gs4BLeEd" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Update status to "Done"
+        if: steps.project.outputs.item_id != ''
+        run: |
+          gh api graphql -f query='
+          mutation {
+            updateProjectV2ItemFieldValue(input: {
+              projectId: "${{ steps.project.outputs.project_id }}"
+              itemId: "${{ steps.project.outputs.item_id }}"
+              fieldId: "PVTSSF_lAHOAWN9Gs4BLeEdzg7CLQI"
+              value: {singleSelectOptionId: "98236657"}
+            }) {
+              projectV2Item {
+                id
+              }
+            }
+          }' > /dev/null
+          
+          echo "✅ Status updated to 'Done' for issue #${{ steps.extract.outputs.issue_number }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Close linked issue
+        if: steps.extract.outputs.issue_number != ''
+        run: |
+          gh issue close ${{ steps.extract.outputs.issue_number }} \
+            --repo ${{ github.repository }} \
+            --comment "🎉 Closed via merged PR #${{ github.event.pull_request.number }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Add PR comment
+        if: steps.project.outputs.item_id != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: ${{ github.event.pull_request.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ **Project Status Updated**: Issue #${{ steps.extract.outputs.issue_number }} has been moved to "Done" status in the Planner project and closed.'
+            })
