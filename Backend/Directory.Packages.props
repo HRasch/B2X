@@ -5,10 +5,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Core Framework -->
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.7.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.0" />
     <!-- Aspire & Orchestration -->
     <PackageVersion Include="Aspire.Hosting" Version="13.0.0" />
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.1.0" />
@@ -18,34 +18,34 @@
     <PackageVersion Include="Aspire.Hosting.Elasticsearch" Version="13.0.0" />
     <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.0.0" />
     <!-- Authentication -->
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
     <!-- Reverse Proxy -->
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
-    <PackageVersion Include="Yarp.ReverseProxy" Version="2.1.0" />
+    <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
     <!-- Wolverine - Message Broker & CQRS -->
     <PackageVersion Include="WolverineFx" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.Http" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.RabbitMq" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.PostgreSQL" Version="5.9.2" />
     <!-- Message Queue & Messaging -->
-    <PackageVersion Include="RabbitMQ.Client" Version="7.1.2" />
+    <PackageVersion Include="RabbitMQ.Client" Version="7.2.0" />
     <PackageVersion Include="MassTransit.RabbitMQ" Version="8.4.1" />
     <!-- Distributed Tracing -->
     <PackageVersion Include="OpenTelemetry" Version="1.9.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.Jaeger" Version="1.9.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0" />
     <!-- Data Access -->
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.1" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.1" />
     <!-- ElasticSearch & Message Queue -->
     <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="9.2.2" />
     <!-- Job Scheduling -->
-    <PackageVersion Include="Quartz" Version="3.11.0" />
-    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.11.0" />
+    <PackageVersion Include="Quartz" Version="3.15.1" />
+    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.1" />
     <!-- Logging & Observability -->
     <PackageVersion Include="Serilog" Version="4.3.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
@@ -57,11 +57,11 @@
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.1" />
     <!-- CQRS & Mapping -->
-    <PackageVersion Include="MediatR" Version="12.4.1" />
-    <PackageVersion Include="AutoMapper" Version="13.0.1" />
+    <PackageVersion Include="MediatR" Version="14.0.0" />
+    <PackageVersion Include="AutoMapper" Version="16.0.0" />
     <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <!-- Resilience & Polly -->
@@ -84,24 +84,24 @@
     <PackageVersion Include="AWSSDK.SQS" Version="3.7.400" />
     <!-- Caching & Redis -->
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.0" />
-    <PackageVersion Include="StackExchange.Redis" Version="2.7.27" />
+    <PackageVersion Include="StackExchange.Redis" Version="2.10.1" />
     <!-- EF Core Extensions -->
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.0-rc.2" />
     <!-- Validation -->
-    <PackageVersion Include="FluentValidation" Version="11.11.0" />
+    <PackageVersion Include="FluentValidation" Version="12.1.1" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <!-- Testing -->
-    <PackageVersion Include="xunit" Version="2.8.1" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.1" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageVersion Include="Moq" Version="4.20.70" />
-    <PackageVersion Include="Shouldly" Version="4.2.1" />
-    <PackageVersion Include="Bogus" Version="35.6.1" />
-    <PackageVersion Include="FluentAssertions" Version="7.0.0" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="Shouldly" Version="4.3.0" />
+    <PackageVersion Include="Bogus" Version="35.6.5" />
+    <PackageVersion Include="FluentAssertions" Version="8.8.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
-    <PackageVersion Include="Testcontainers" Version="3.7.0" />
-    <PackageVersion Include="Testcontainers.PostgreSql" Version="3.7.0" />
+    <PackageVersion Include="Testcontainers" Version="4.9.0" />
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.9.0" />
     <!-- Hosting & Extensions -->
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />

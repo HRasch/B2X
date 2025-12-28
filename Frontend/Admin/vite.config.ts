@@ -11,11 +11,15 @@ export default defineConfig({
   },
   server: {
     port: parseInt(process.env.VITE_PORT || "5174"),
-    strictPort: true,
+    host: "0.0.0.0",
+    strictPort: false,
     proxy: {
       "/api": {
         target: process.env.VITE_API_GATEWAY_URL || "http://localhost:8080",
         changeOrigin: true,
+        ws: true,
+        secure: false,
+        timeout: 30000,
       },
     },
   },

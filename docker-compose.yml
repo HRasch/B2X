@@ -275,6 +275,56 @@ services:
       - b2connect
     restart: unless-stopped
 
+  # ==================== FRONTENDS ====================
+
+  # Frontend Store (Vue 3 + Vite)
+  frontend-store:
+    build:
+      context: ./Frontend/Store
+      dockerfile: Dockerfile
+      target: development
+    container_name: b2connect-frontend-store
+    environment:
+      VITE_PORT: 5173
+      VITE_API_GATEWAY_URL: http://store-gateway:8000
+      NODE_ENV: development
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Frontend/Store:/app
+      - /app/node_modules
+    depends_on:
+      store-gateway:
+        condition: service_started
+    networks:
+      - b2connect
+    restart: unless-stopped
+    command: npm run dev -- --host 0.0.0.0
+
+  # Frontend Admin (Vue 3 + Vite)
+  frontend-admin:
+    build:
+      context: ./Frontend/Admin
+      dockerfile: Dockerfile
+      target: development
+    container_name: b2connect-frontend-admin
+    environment:
+      VITE_PORT: 5174
+      VITE_API_GATEWAY_URL: http://admin-gateway:8080
+      NODE_ENV: development
+    ports:
+      - "5174:5174"
+    volumes:
+      - ./Frontend/Admin:/app
+      - /app/node_modules
+    depends_on:
+      admin-gateway:
+        condition: service_started
+    networks:
+      - b2connect
+    restart: unless-stopped
+    command: npm run dev -- --host 0.0.0.0
+
 volumes:
   postgres-data:
   redis-data:

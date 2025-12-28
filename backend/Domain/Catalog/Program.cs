@@ -51,11 +51,19 @@ builder.Services.AddWolverineHttp();
 builder.Services.AddEndpointsApiExplorer();
 
 // Add Elasticsearch
-var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"] ?? "http://localhost:9200";
-var settings = new Elastic.Clients.Elasticsearch.ElasticsearchClientSettings(
-    new Uri(elasticsearchUri));
-var client = new Elastic.Clients.Elasticsearch.ElasticsearchClient(settings);
-builder.Services.AddSingleton(client);
+try
+{
+    var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"] ?? "http://localhost:9200";
+    var settings = new Elastic.Clients.Elasticsearch.ElasticsearchClientSettings(
+        new Uri(elasticsearchUri));
+    var client = new Elastic.Clients.Elasticsearch.ElasticsearchClient(settings);
+    builder.Services.AddSingleton(client);
+}
+catch (Exception ex)
+{
+    var logger = LoggerFactory.Create(config => config.AddConsole()).CreateLogger("Program");
+    logger.LogWarning(ex, "Failed to configure Elasticsearch client. Search functionality may be limited.");
+}
 
 // Add application services
 builder.Services.AddScoped<IProductService, ProductService>();

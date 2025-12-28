@@ -5,6 +5,9 @@ import type { AdminUser, LoginRequest, LoginResponse } from "@/types/auth";
 // Demo mode - set to false when backend is running
 const DEMO_MODE = false;
 
+// Default tenant GUID for admin authentication
+const DEFAULT_TENANT_ID = import.meta.env.VITE_DEFAULT_TENANT_ID || "00000000-0000-0000-0000-000000000001";
+
 const baseURL = import.meta.env.VITE_ADMIN_API_URL || "/api";
 
 export const authApi = {
@@ -23,7 +26,7 @@ export const authApi = {
               email: "admin@example.com",
               firstName: "Admin",
               lastName: "User",
-              tenantId: "default",
+              tenantId: DEFAULT_TENANT_ID,
               roles: ["Admin"],
               permissions: ["*"],
             },
@@ -47,14 +50,26 @@ export const authApi = {
       });
     }
 
+    // Use stored tenant ID or default GUID for login
+    const tenantId = localStorage.getItem("tenantId") || DEFAULT_TENANT_ID;
+
     // Direkt axios verwenden da Backend kein "data"-Wrapper hat
     const response = await axios.post<LoginResponse>(
       `${baseURL}/api/auth/login`,
       credentials,
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-Tenant-ID": tenantId,
+        },
       }
     );
+
+    // Store tenant ID from response if provided
+    if (response.data.user?.tenantId) {
+      localStorage.setItem("tenantId", response.data.user.tenantId);
+    }
+
     return response.data;
   },
 
@@ -70,7 +85,7 @@ export const authApi = {
     return apiClient.put<AdminUser>("/api/auth/profile", data);
   },
 
-  changePassword(oldPassword: string, newPassword: string) {
+  changePassword(oldPassword: String, newPassword: string) {
     return apiClient.post<void>("/api/auth/change-password", {
       oldPassword,
       newPassword,

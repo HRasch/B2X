@@ -347,12 +347,21 @@ public static class B2ConnectAspireExtensions
             .WithRateLimiting()
             .WithOpenTelemetry();
     }
-}
 
-/// <summary>
-/// Resource Extensions für PostgreSQL
-/// </summary>
-public static class PostgresServerResourceExtensions
-{
-    /// <summary>
+    // ===== NATIVE ASPIRE JAVASCRIPT INTEGRATION =====
+    // Die folgenden Extension-Methoden verwenden das offizielle Aspire.Hosting.JavaScript Package
+    // Dokumentation: https://aspire.dev/integrations/frameworks/javascript/
+    
+    // HINWEIS: AddViteApp, AddJavaScriptApp, und AddNodeApp sind jetzt direkt 
+    // von Aspire.Hosting.JavaScript verfügbar. Keine Custom Extensions nötig!
+    //
+    // Verwendung in AppHost/Program.cs:
+    //
+    // var frontendStore = builder.AddViteApp("frontend-store", "../Frontend/Store")
+    //     .WithHttpEndpoint(port: 5173, env: "VITE_PORT")
+    //     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000");
+    //
+    // var frontendAdmin = builder.AddViteApp("frontend-admin", "../Frontend/Admin")
+    //     .WithHttpEndpoint(port: 5174, env: "VITE_PORT")
+    //     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080");
 }

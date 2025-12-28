@@ -67,14 +67,33 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAdminFrontend", policy =>
     {
-        policy
-            .WithOrigins(corsOrigins)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()
-            .WithExposedHeaders("Content-Disposition", "X-Total-Count")
-            // .WithMaxAge(TimeSpan...) // Disabled
-            ;
+        if (builder.Environment.IsDevelopment())
+        {
+            // In development, allow any localhost origin (Aspire uses dynamic ports)
+            policy
+                .SetIsOriginAllowed(origin => 
+                {
+                    if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    {
+                        return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                    }
+                    return false;
+                })
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithExposedHeaders("Content-Disposition", "X-Total-Count");
+        }
+        else
+        {
+            // In production, use strict origins from configuration
+            policy
+                .WithOrigins(corsOrigins!)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithExposedHeaders("Content-Disposition", "X-Total-Count");
+        }
     });
 });
 
@@ -162,44 +181,6 @@ builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeReposito
 // builder.Services.AddScoped<ICategoryService, CategoryService>();
 // builder.Services.AddScoped<IBrandService, BrandService>();
 
-// Add Swagger/OpenAPI
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "B2Connect Admin API",
-        Version = "v1",
-        Description = "Admin Gateway for Product Catalog Management",
-    });
-
-    // Add JWT Bearer auth to Swagger
-    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme.",
-    });
-
-    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }
-    });
-});
-
 // Add services
 builder.Services.AddControllers(options =>
 {
@@ -249,17 +230,6 @@ app.UseServiceDefaults();
 // Rate Limiting - must be before routing
 // app.UseRateLimiter();
 
-// Swagger UI
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Admin API v1");
-        c.RoutePrefix = "swagger";
-    });
-}
-
 // CORS must come before routing
 app.UseCors("AllowAdminFrontend");
 
@@ -275,8 +245,7 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 
-// Middleware
-app.UseHttpsRedirection();
+// Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 

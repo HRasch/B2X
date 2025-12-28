@@ -61,14 +61,33 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowStoreFrontend", policy =>
     {
-        policy
-            .WithOrigins(corsOrigins)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()
-            .WithExposedHeaders("Content-Disposition")
-            // .WithMaxAge(TimeSpan.FromHours(24)); // Disabled pending infrastructure setup
-            ;
+        if (builder.Environment.IsDevelopment())
+        {
+            // In development, allow any localhost origin (Aspire uses dynamic ports)
+            policy
+                .SetIsOriginAllowed(origin => 
+                {
+                    if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    {
+                        return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                    }
+                    return false;
+                })
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithExposedHeaders("Content-Disposition");
+        }
+        else
+        {
+            // In production, use strict origins from configuration
+            policy
+                .WithOrigins(corsOrigins!)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithExposedHeaders("Content-Disposition");
+        }
     });
 });
 
