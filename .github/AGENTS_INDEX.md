@@ -34,6 +34,15 @@
 
 ---
 
+## 📚 Documentation Specialists
+
+| Specialty | Agent | Focus |
+|---|---|---|
+| **End-User Documentation** | documentation-enduser | GitHub Pages, user guides, features, FAQs |
+| **Developer Documentation** | documentation-developer | API docs, release notes, breaking changes, migrations |
+
+---
+
 ## 🧪 Testing Specialties
 
 | Specialty | Agent | Focus |
@@ -123,6 +132,12 @@
 
 #### ...design UI/UX
 → **UI Expert** + **UX Expert**
+
+#### ...document a user feature
+→ **Documentation End-User** + **Designer/Product Owner**
+
+#### ...write release notes
+→ **Documentation Developer** + **Tech Lead**
 
 #### ...review architecture
 → **Tech Lead** (+ other specialists as needed)
