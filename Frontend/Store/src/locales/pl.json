@@ -15,5 +15,8 @@
   },
   "common": {
     "yes": "Tak", "no": "Nie", "ok": "OK", "back": "Wstecz", "home": "Strona główna", "language": "Język", "settings": "Ustawienia", "profile": "Profil", "help": "Pomoc", "about": "O nas", "version": "Wersja"
+  },
+  "disputes": {
+    "title": "Rozwiązywanie sporów online", "subtitle": "Szybko i łatwo rozwiąż problemy ze zamówieniami na", "footer_link": "Rozwiązywanie sporów online", "what_is_odr": "Co to jest ODR?", "what_is_odr_desc": "Rozwiązywanie sporów online (ODR) to bezpłatna usługa rozwiązywania sporów konsumenckich bez konieczności udawania się do sądu.", "when_to_use": "Kiedy korzystać z ODR", "how_it_works": "Jak to działa", "contact_form_title": "Zgłoś spór", "order_number": "Numer zamówienia", "email": "Adres e-mail", "name": "Pełne imię i nazwisko", "description": "Opis sporu", "dispute_type": "Typ sporu", "submit_button": "Zgłoś spór", "faq_title": "Często zadawane pytania", "eu_odr_title": "Europejska Platforma Rozwiązywania Sporów Online (ODR)", "error_required_email": "Adres e-mail jest wymagany", "error_invalid_email": "Nieprawidłowy adres e-mail", "error_consent": "Musisz zaakceptować warunki"
   }
 }

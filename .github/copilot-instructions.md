@@ -1,15 +1,183 @@
 # AI Coding Agent Instructions for B2Connect
 
 **Last Updated**: 28. Dezember 2025 | **Architecture**: DDD Microservices with Wolverine + CLI  
-**Retrospective**: Lessons learned from session ending 28. Dezember 2025
+**Retrospective**: Lessons learned from session ending 28. Dezember 2025  
+**Improvement Focus**: AI Collaboration Best Practices, Translation Management, Validation Gates
 
 ## 🔧 Allowed Capabilities
 
 - ✅ **GitHub CLI Management**: You are authorized to manage this project on GitHub via the GitHub CLI (`gh` command), including creating issues, pull requests, managing branches, and project boards.
 
+### ⚠️ Tool Usage Guidance
+
+**USE GITHUB CLI (`gh`):**
+- Creating issues and pull requests
+- Checking issue status
+- Managing branches
+- Viewing pull requests
+- Pushing changes
+
+**DO NOT USE GitKraken MCP Tools:**
+- ❌ Do NOT use `mcp_gitkraken_*` tools for GitHub operations
+- ❌ GitKraken MCP tools are no longer preferred for this project
+- ✅ Use `gh` CLI instead for all GitHub management tasks
+
+**Example:**
+```bash
+# ✅ CORRECT: Use GitHub CLI
+gh issue list --state open
+gh pr create --title "Fix: ..." --body "..."
+gh issue view 123
+
+# ❌ WRONG: Don't use GitKraken MCP
+# mcp_gitkraken_issues_assigned_to_me
+# mcp_gitkraken_pull_request_create
+```
+
 ---
 
-## 🔄 Retrospective & Learnings (28. Dezember 2025)
+## � GitHub Project Management Guide
+
+### Project Structure
+
+B2Connect uses **GitHub Projects v2** for visual workflow management:
+
+| Project | Purpose | Status | URL |
+|---------|---------|--------|-----|
+| **Planner** (Project #5) | Main development board | Active | https://github.com/users/HRasch/projects/5 |
+| **Compliance Roadmap** | Regulatory requirements | Reference | https://github.com/orgs/B2Connect-DEV/projects/3 |
+| Backlog (GitHub Issues) | Issue triage | Source of truth | https://github.com/HRasch/B2Connect/issues |
+
+### Workflow Status Definitions
+
+**Planner Project Status Field Values:**
+
+| Status | Meaning | Transition | Who Moves |
+|--------|---------|------------|----------|
+| **Backlog** | Not yet ready (blocking issues, unclear) | → Ready when unblocked | Tech Lead / PO |
+| **Ready** | Definition of Ready met, can start work | → In progress when work begins | Developer |
+| **In progress** | Active development/review by team member | → In review when PR created | Developer |
+| **In review** | Pull request under code review | → Done when approved + merged | Reviewer |
+| **Done** | Merged to main, deployed | ✅ Complete | Automation (on merge) |
+
+### Issue-to-Project-Item Mapping
+
+**Every GitHub Issue (with priority) should have:**
+1. ✅ Issue created in GitHub (`gh issue create ...`)
+2. ✅ Added to Planner project (`gh project item-add ...`)
+3. ✅ Status field set correctly (starts as "Backlog" or "Ready")
+4. ✅ Priority field set (P0-P2 based on regulatory/business impact)
+5. ✅ Assignee set (if in progress)
+6. ✅ Labels applied (feature, bug, compliance, etc.)
+
+**Command Reference:**
+
+```bash
+# Create issue and add to project simultaneously (best practice)
+ISSUE_ID=$(gh issue create --title "Feature: ..." --body "..." --format json | jq -r '.id')
+gh project item-add --id "PVT_kwHOAWN9Gs4BLeEd" "$ISSUE_ID"
+
+# Set status field on item
+gh api graphql -f query='mutation {
+  updateProjectV2ItemFieldValue(input: {
+    projectId: "PVT_kwHOAWN9Gs4BLeEd",
+    itemId: "<ITEM_ID>",
+    fieldId: "PVTSSF_lAHOAWN9Gs4BLeEdzg7CLQI",
+    value: {singleSelectOptionId: "61e4505c"}  # "Ready"
+  }) { projectV2Item { id } }
+}'
+
+# Bulk update multiple items to same status
+for ITEM_ID in $ITEM_LIST; do
+  gh api graphql -f query="mutation {
+    updateProjectV2ItemFieldValue(input: {
+      projectId: \"PVT_kwHOAWN9Gs4BLeEd\",
+      itemId: \"$ITEM_ID\",
+      fieldId: \"PVTSSF_lAHOAWN9Gs4BLeEdzg7CLQI\",
+      value: {singleSelectOptionId: \"47fc9ee4\"}  # "In progress"
+    }) { projectV2Item { id } }
+  }"
+done
+```
+
+### Status Option IDs (Planner Project)
+
+These IDs are used in GraphQL mutations to set status fields:
+
+```
+Backlog:      f75ad846
+Ready:        61e4505c    ← Most issues start here
+In progress:  47fc9ee4    ← When developer begins work
+In review:    df73e18b    ← When PR is under review
+Done:         98236657    ← When merged & deployed
+```
+
+### Daily Project Hygiene
+
+**Each morning, check:**
+1. ❌ Any items stuck in "In progress" > 3 days? (might need help)
+2. ❌ Any "In review" items > 1 day? (needs code review)
+3. ✅ Are all "Ready" items assigned? (if not, available for pickup)
+4. ✅ Is backlog prioritized? (top items = P0, next = P1, etc.)
+5. ✅ Compliance issues correctly marked as P0?
+
+### Project Update Workflow (Best Practice)
+
+```
+Developer starts work on issue:
+  1. Issue starts in "Ready" status
+  2. Developer moves to "In progress"
+  3. Developer assigns to themselves
+  4. Creates feature branch (linked in issue)
+  
+Code review phase:
+  5. Create PR (linked to issue)
+  6. Update issue status to "In review"
+  7. Assign PR reviewer
+  
+Merge & deployment:
+  8. PR approved & merged to main
+  9. Issue status auto-moves to "Done" (via automation)
+  10. Issue closed automatically
+```
+
+### Avoiding Common Mistakes
+
+| ❌ Problem | 🔧 Fix |
+|-----------|--------|
+| Issue created but NOT added to project | Use `gh project item-add` immediately after `gh issue create` |
+| Status not updated when work starts | Update to "In progress" BEFORE creating PR |
+| Multiple assignees on same issue | Assign only 1 person per issue (use mentions in comments for others) |
+| Items stuck in "In review" | Set review SLA: code reviews within 24h or escalate |
+| Backlog grows unchecked | Weekly refinement session: prioritize or archive stale issues |
+| Priority fields empty | Every P0 component issue MUST be marked Priority: P0 |
+| Missing acceptance criteria | Use template: "Acceptance Criteria" section mandatory before "Ready" |
+
+### Integration with Development
+
+**When moving issue to "In progress":**
+```bash
+# 1. Create branch from issue
+git checkout -b feature/us-001-description
+
+# 2. Update issue status
+gh api graphql -f query='mutation { updateProjectV2ItemFieldValue(...) }'
+
+# 3. When ready for review, update status to "In review"
+gh api graphql -f query='mutation { updateProjectV2ItemFieldValue(...) }'
+
+# 4. After merge, issue auto-closes (if linked in PR)
+# PR: Closes #issue-number
+```
+
+**GitHub Project URLs (for reference):**
+- Main Planner: https://github.com/users/HRasch/projects/5
+- Issues Backlog: https://github.com/HRasch/B2Connect/issues
+- GraphQL API Docs: https://docs.github.com/en/graphql/reference/mutations#updateprojectv2itemfieldvalue
+
+---
+
+## �🔄 Retrospective & Learnings (28. Dezember 2025)
 
 ### Session Summary
 
@@ -545,6 +713,202 @@ public class ProductService  // Business logic
 8. **macOS Cleanup Required** - Kill services before restart, always
 9. **Security-First Templates** - Copy-paste working patterns, not "how-to" guides
 10. **52 Tests = Hard Gate** - No compromise on compliance testing
+
+---
+
+## 🤖 AI Development Guidance (From Session Experience)
+
+### When to Use GitHub Project Management
+
+**Use GitHub Projects (`gh project` CLI) when:**
+- ✅ Creating high-level tracking for team coordination
+- ✅ Organizing large initiatives (50+ related issues)
+- ✅ Establishing clear status workflow (Backlog → Ready → In progress → In review → Done)
+- ✅ Team needs visual board to understand progress
+- ✅ Compliance items need specific field tracking (Priority: P0, Status, Assignee)
+
+**Don't use GitHub Projects for:**
+- ❌ Simple bug fixes (<5 issues)
+- ❌ Tracking individual code comments/notes (use issues directly)
+- ❌ Real-time collaboration (too slow, use meetings instead)
+
+### GitHub Issue Creation Best Practices
+
+**Create issues ONLY when:**
+1. Clear acceptance criteria defined
+2. Expected effort estimated (rough T-shirt: S/M/L)
+3. Priority assigned (P0-P2 or business priority)
+4. Owner identified (who will work on this?)
+5. Acceptance tested (how to verify it's done?)
+
+**Example Issue Template (Compliance Feature):**
+
+```markdown
+## Title: P0.6: Implement 14-Day Withdrawal Right (E-Commerce Legal)
+
+## Description
+B2C customers must be able to withdraw/cancel orders within 14 days of delivery.
+Regulatory: VVVG §357 (German Consumer Rights Ordinance)
+
+## Acceptance Criteria
+- [ ] Withdrawal form available in customer account
+- [ ] 14-day countdown calculated from delivery date
+- [ ] Cannot withdraw after 14 days (error message)
+- [ ] Return label generated automatically (DHL)
+- [ ] Refund processed within 14 days (automatic)
+- [ ] Audit log created for each withdrawal
+- [ ] Tests: 5+ test cases (B2C withdrawal, after deadline, etc.)
+
+## Definition of Ready
+- [ ] Legal review: Meets VVVG requirements
+- [ ] Estimated effort: 2 weeks (1 Backend Dev)
+- [ ] Depends on: P0.1 (Audit Logging)
+- [ ] No blockers
+
+## Effort Estimate
+- Design: 4h
+- Implementation: 32h
+- Testing: 8h
+- Docs: 4h
+- **Total: 48h (2 weeks, 1 Backend Developer)**
+
+## Labels
+- `type: feature`
+- `priority: p0`
+- `area: e-commerce-legal`
+- `area: compliance`
+```
+
+### Batch Operations Reduce Friction
+
+**When creating multiple related issues:**
+1. ✅ Create all issues first (then add to project)
+2. ✅ Use consistent naming (P0.6.1, P0.6.2, etc. for grouping)
+3. ✅ Add to project in bulk with script
+4. ✅ Set status to "Ready" for independent items
+5. ✅ Set status to "Backlog" for blocked/dependent items
+
+**Example (create 5 E-Rechnung issues):**
+```bash
+#!/bin/bash
+# Create 5 related issues efficiently
+
+ISSUES=()
+
+# Issue 1: ZUGFeRD Generation
+ID=$(gh issue create --title "P0.9.1: ZUGFeRD 3.0 XML Generation" \
+  --body "Implement ZUGFeRD standard for German e-invoicing" \
+  --label "p0,e-rechnung" --format json | jq -r '.number')
+ISSUES+=($ID)
+
+# Issue 2: Hybrid PDF Creation
+ID=$(gh issue create --title "P0.9.2: Hybrid PDF (ZUGFeRD + Visual)" \
+  --body "Create PDF with embedded XML for compatibility" \
+  --label "p0,e-rechnung" --format json | jq -r '.number')
+ISSUES+=($ID)
+
+# ... continue for all 5 issues
+
+# Add all to project at once
+for ISSUE in "${ISSUES[@]}"; do
+  gh project item-add --id "PVT_kwHOAWN9Gs4BLeEd" "$ISSUE"
+done
+
+echo "Created ${#ISSUES[@]} issues and added to project"
+```
+
+### When Status Moves Matter
+
+**Issue status should be:**
+
+| Status | When | Why | Owner |
+|--------|------|-----|-------|
+| Backlog | Created but blocked/unclear | Not ready to start | Tech Lead decides |
+| Ready | Definition of Ready ✅ | Developer can pick up | PO/Tech Lead |
+| In progress | Developer begins work | Team knows who's working | Developer self-assigns |
+| In review | PR created/linked | Code review in flight | Reviewer owns |
+| Done | PR merged to main | Feature delivered | Automation closes |
+
+**Anti-pattern:** ❌ Leaving items in "In progress" for days without PR  
+→ **Fix:** Items in "In progress" > 24h without PR = blocker, discuss in standup
+
+### Estimated vs. Actual (T-shirt Sizing)
+
+**When creating compliance issues, use T-shirt estimates:**
+
+```
+S (Small):   4-8 hours    [Simple validation, small UI fix]
+M (Medium):  16-32 hours  [New feature, moderate complexity]
+L (Large):   48+ hours    [Complex system, multiple dependencies]
+XL (XLarge): 80+ hours    [Major refactor, multiple services]
+```
+
+**B2Connect Compliance Issues are typically:**
+- ✅ P0.1 (Audit Logging): L (48h)
+- ✅ P0.6 (E-Commerce Legal): L (60h total, split into 5 x M)
+- ✅ P0.7 (AI Act): L (50h)
+- ✅ P0.8 (BITV Accessibility): XL (45h, frontend-heavy)
+
+### GitHub Project Automation Ideas
+
+**Future enhancements (not yet implemented):**
+- 🔮 Auto-move "In progress" → "In review" when PR created
+- 🔮 Auto-move "In review" → "Done" when PR merged
+- 🔮 Auto-close issue when status = "Done"
+- 🔮 Weekly summary: How many items → Done this week?
+- 🔮 Blocked items: Highlight dependencies (X depends on Y)
+
+**Current workaround:**
+```bash
+# Manual move to Done after merge
+gh api graphql -f query='mutation {
+  updateProjectV2ItemFieldValue(input: {
+    projectId: "PVT_kwHOAWN9Gs4BLeEd",
+    itemId: "<ITEM_ID>",
+    fieldId: "PVTSSF_lAHOAWN9Gs4BLeEdzg7CLQI",
+    value: {singleSelectOptionId: "98236657"}  # "Done"
+  }) { projectV2Item { id } }
+}'
+
+# Then close the issue
+gh issue close <ISSUE_NUMBER>
+```
+
+### Red Flags in Project Boards
+
+**Watch for these warning signs:**
+
+| Red Flag | Meaning | Action |
+|----------|---------|--------|
+| Backlog growing, Ready shrinking | Too many ideas, not enough priority | Team: Prioritize & define |
+| Items in "In progress" > 3 days | Might be blocked | Assignee: Status update? Need help? |
+| "In review" items > 1 day | Review bottleneck | Reviewer: Unblock |
+| No "Done" items this week | Team productivity unclear | Retrospective: What blocked us? |
+| All items assigned to 1 person | Bottleneck risk | Load balance |
+
+### Compliance Project Management (P0 Specific)
+
+**P0 Components require special tracking:**
+
+```
+P0.1: Audit Logging
+├─ Issue P0.1.1: Entity & Service (Ready, Assignee: [Security Eng])
+├─ Issue P0.1.2: EF Core Interceptor (Backlog, blocked by ← Encryption keys)
+├─ Issue P0.1.3: Testing (Backlog, blocked by ← P0.1.2)
+└─ Gate: All 3 → Done before Phase 1 features deploy
+
+P0.2: Encryption
+├─ Issue P0.2.1: AES Service (Ready)
+├─ Issue P0.2.2: EF Core Value Converters (Backlog, blocked by ← Keys in Vault)
+├─ Issue P0.2.3: Key Rotation Policy (Backlog, blocked by ← Key Vault setup)
+└─ Gate: All 3 → Done before Phase 1 features deploy
+```
+
+**Best practice:** Each P0 component = 1 parent issue + 3-5 child issues
+- Parent issue status = "Done" only when ALL children "Done"
+- Child issues have clear dependencies (links to blocking issues)
+- Each child has 1 assignee max
+- All P0 children must be "Done" before Phase 1 → production
 
 ---
 
@@ -3373,6 +3737,253 @@ This document contains:
 - F1.1-F1.4: Feature acceptance criteria & testing
 - P2.1-P2.4: Scaling strategy & configuration
 - P3.1-P3.3: Testing & validation procedures
+
+---
+
+## 🎓 AI Collaboration Improvements (Session Dec 28, 2025)
+
+### Lesson 1: Break Large Tasks Into Digestible Chunks ✅
+
+**Principle:** Don't ask AI to handle 10,000 lines of changes at once  
+**What We Did:** Split French translation expansion into per-section updates  
+**Result:** 100% accuracy, minimal revisions
+
+**For Future Work:**
+- ✅ **Multi-File Changes**: Process 8 language files in parallel, not sequentially
+- ✅ **Validation Checkpoints**: Validate JSON after each batch of updates
+- ✅ **Clear Scope**: "Update disputes section in 8 languages" not "update frontend"
+
+### Lesson 2: Provide Complete Context ✅
+
+**Principle:** AI performs better with full architectural understanding  
+**What We Did:** Included i18n structure, file paths, key naming conventions, examples  
+**Result:** First-pass accuracy ~95%
+
+**For Future Work:**
+```
+BEFORE asking AI to code, provide:
+  ✅ File paths (absolute, specific to feature)
+  ✅ Folder structure (show directory organization)
+  ✅ Naming conventions (snake_case, PascalCase, etc.)
+  ✅ Example of desired output (not just description)
+  ✅ List of affected files (so nothing is missed)
+  ✅ Validation methods available (tests, linters, etc.)
+  ✅ Known constraints (time, performance, compatibility)
+```
+
+### Lesson 3: Use Validation as Quality Gate ✅
+
+**Principle:** Don't skip validation even for "simple" changes  
+**What We Did:** Validated JSON syntax after each update  
+**Result:** Caught formatting issues immediately, zero hidden bugs
+
+**For Future Work:**
+```
+AI-Generated Code Quality Checklist:
+  [ ] Syntax validation (JSON, YAML, XML, .NET code)
+  [ ] Build compilation (dotnet build works)
+  [ ] Test execution (relevant tests pass)
+  [ ] Linting (code style conformance)
+  [ ] Security scan (no hardcoded secrets, no vulnerable patterns)
+  [ ] Documentation review (changes documented, inline comments added)
+  [ ] Performance check (build time, bundle size unchanged)
+```
+
+### Lesson 4: Clarify Ambiguous Requirements ✅
+
+**Principle:** Vague requests lead to vague results  
+**What We Did:** Specified exact keys needed, where they appear, what they do  
+**Result:** No misunderstandings, minimal back-and-forth
+
+**For Future Work:**
+```
+When requesting AI code generation, specify:
+  ✅ EXACT output format (not "JSON file" but full structure with examples)
+  ✅ ALL edge cases (empty strings, nulls, validation rules)
+  ✅ CLEAR acceptance criteria (what does "done" look like?)
+  ✅ REFERENCE patterns (show existing code examples)
+  ✅ INTEGRATION POINTS (where does this connect? what calls it?)
+  ✅ ERROR SCENARIOS (what happens if input is invalid?)
+```
+
+### Lesson 5: Document Decisions for Future AI Sessions ✅
+
+**Principle:** Decisions made in one session should guide future sessions  
+**What We Did:** Updated copilot-instructions.md with lessons learned  
+**Result:** Next session can avoid same mistakes, build on patterns
+
+**For Future Work:**
+```
+AI Learning System (IMPLEMENT):
+  1. After major work, document what worked (patterns, approaches)
+  2. Document what failed (gotchas, edge cases, lessons)
+  3. Update copilot-instructions.md for next session
+  4. Review instructions BEFORE starting major work
+  5. Feedback loop = improved quality over time
+  
+See: RETROSPECTIVE_SESSION_DEC28_2025.md for detailed session notes
+```
+
+---
+
+## 🚀 Immediate Improvements (Next Sprint)
+
+### 1. Translation Management Automation
+**Status**: Planned  
+**Owner**: Frontend Developer + DevOps  
+**What**: Add CI/CD validation to ensure all languages stay in sync
+
+```yaml
+# .github/workflows/translation-validation.yml
+name: Translation Sync Check
+
+on:
+  pull_request:
+    paths:
+      - 'Frontend/**/locales/*.json'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check all languages have same keys
+        run: |
+          # Extract keys from English (source language)
+          jq 'keys' Frontend/Store/src/locales/en.json | sort > /tmp/en.keys
+          
+          # Check all other languages have same keys
+          for file in Frontend/Store/src/locales/{de,es,fr,it,nl,pl,pt}.json; do
+            jq 'keys' "$file" | sort > /tmp/lang.keys
+            if ! diff -q /tmp/en.keys /tmp/lang.keys; then
+              echo "❌ Keys mismatch in $file"
+              exit 1
+            fi
+          done
+          
+          echo "✅ All languages in sync"
+```
+
+### 2. Translation Completeness Testing
+**Status**: Planned  
+**Owner**: QA Engineer  
+**What**: Add unit tests to verify translations are complete
+
+```csharp
+[Theory]
+[InlineData("en")]
+[InlineData("de")]
+[InlineData("es")]
+[InlineData("fr")]
+[InlineData("it")]
+[InlineData("nl")]
+[InlineData("pl")]
+[InlineData("pt")]
+public void TranslationFile_HasAllRequiredKeys(string language)
+{
+    var translations = LoadTranslationFile(language);
+    var requiredKeys = GetRequiredTranslationKeys();
+    
+    var missingKeys = requiredKeys.Except(translations.Keys).ToList();
+    
+    Assert.Empty(missingKeys, 
+        $"{language} translation missing keys: {string.Join(", ", missingKeys)}");
+}
+```
+
+### 3. Translation Guidelines Documentation
+**Status**: Planned  
+**Owner**: Product Owner + Legal  
+**What**: Document formality levels, regional terms, legal compliance per language
+
+```markdown
+# Translation Context Guidelines
+
+## German (de.json)
+- Formality: Use "Sie" (formal) for customer-facing, "du" for internal
+- Legal Terms: "Widerrufsrecht", "Gewährleistung" - NEVER translate
+- Regional: Austrian/Swiss variants handled separately
+- Compliance: Review all legal/compliance terms with German legal team
+
+## French (fr.json)
+- Formality: Vouvoiement for formal (customer support)
+- Legal Terms: Keep French legal names untranslated
+- Regional: European French standard
+- Compliance: Review with French DPA for compliance terminology
+
+... (continue for all 8 languages)
+```
+
+---
+
+## 🔧 Enhanced AI Prompting Framework
+
+### When Requesting Translation Work
+
+```
+REQUEST FORMAT:
+
+Component: [e.g., "Disputes/ODR Feature"]
+Languages: [e.g., "German, French, Spanish"]
+Keys to Add: [List the exact key names]
+Context: [Where are these used? What's the business purpose?]
+Reference: [Link to source language implementation]
+
+Example Structure:
+{
+  "disputes": {
+    "title": "...",
+    "description": "...",
+    "process": {
+      "step_1": "...",
+      "step_2": "..."
+    }
+  }
+}
+
+Validation Required:
+- [ ] JSON syntax valid for all languages
+- [ ] All keys present in all 8 languages
+- [ ] No untranslated English text left
+- [ ] Legal terms reviewed by native speaker
+```
+
+### When Requesting Backend/Frontend Code
+
+```
+REQUEST FORMAT:
+
+Feature: [Clear name]
+Acceptance Criteria: [All requirements]
+Architecture: [How does it fit the system?]
+Dependencies: [What services/libraries does it use?]
+Code Pattern: [Show similar code example]
+Testing: [How will this be tested?]
+
+Validation Required:
+- [ ] Code compiles without warnings
+- [ ] Tests pass (80%+ coverage target)
+- [ ] Security review completed
+- [ ] Performance acceptable (< 200ms API, < 100ms UI)
+- [ ] Documentation updated
+- [ ] No TODOs left in code
+```
+
+---
+
+## 📊 Quality Metrics to Track
+
+Start tracking these metrics for AI-assisted work:
+
+| Metric | Target | How to Measure |
+|--------|--------|----------------|
+| **First-Pass Accuracy** | > 90% | Revision rate per task |
+| **Build Success Rate** | 100% | Compilation errors / total tasks |
+| **Test Pass Rate** | 100% | Test failures / total test suites |
+| **Review Cycles** | < 2 | Code review iterations needed |
+| **Documentation Completeness** | 100% | Missing docs identified in review |
+| **Security Issues** | 0 | Security scan failures |
 
 ---
 

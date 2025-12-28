@@ -15,5 +15,8 @@
   },
   "common": {
     "yes": "Ja", "no": "Nee", "ok": "OK", "back": "Terug", "home": "Start", "language": "Taal", "settings": "Instellingen", "profile": "Profiel", "help": "Help", "about": "Over", "version": "Versie"
+  },
+  "disputes": {
+    "title": "Online Geschillenbeslechting", "subtitle": "Los snel en eenvoudig problemen met bestellingen op", "footer_link": "Online Geschillenbeslechting", "what_is_odr": "Wat is ODR?", "what_is_odr_desc": "Online Geschillenbeslechting (ODR) is een gratis service voor het oplossen van consumentgeschillen zonder naar de rechtbank te hoeven gaan.", "when_to_use": "Wanneer ODR gebruiken", "how_it_works": "Hoe het werkt", "contact_form_title": "Dien een geschil in", "order_number": "Ordernummer", "email": "E-mailadres", "name": "Volledige naam", "description": "Beschrijving van het geschil", "dispute_type": "Type geschil", "submit_button": "Geschil indienen", "faq_title": "Veelgestelde vragen", "eu_odr_title": "EU Online Geschillenbeslechting (ODR)", "error_required_email": "E-mailadres is vereist", "error_invalid_email": "Ongeldig e-mailadres", "error_consent": "U moet akkoord gaan met de voorwaarden"
   }
 }

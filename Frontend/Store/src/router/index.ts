@@ -54,6 +54,12 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: false },
   },
   {
+    path: "/dispute-resolution",
+    name: "DisputeResolution",
+    component: () => import("../views/DisputeResolution.vue"),
+    meta: { requiresAuth: false, title: "Online Dispute Resolution (ODR)" },
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("../views/NotFound.vue"),

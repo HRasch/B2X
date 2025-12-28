@@ -14,6 +14,7 @@
     "email": "Per favore inserisci un'email valida", "password": "La password deve avere almeno 8 caratteri", "phone": "Per favore inserisci un numero di telefono valido", "url": "Per favore inserisci un URL valido", "match": "Le password non coincidono"
   },
   "common": {
-    "yes": "Sì", "no": "No", "ok": "OK", "back": "Indietro", "home": "Home", "language": "Lingua", "settings": "Impostazioni", "profile": "Profilo", "help": "Aiuto", "about": "Informazioni", "version": "Versione"
-  }
+    "yes": "Sì", "no": "No", "ok": "OK", "back": "Indietro", "home": "Home", "language": "Lingua", "settings": "Impostazioni", "profile": "Profilo", "help": "Aiuto", "about": "Informazioni", "version": "Versione"  },
+  "disputes": {
+    "title": "Risoluzione delle Controversie Online", "subtitle": "Risolvi i problemi con gli ordini in modo rapido e semplice", "footer_link": "Risoluzione delle Controversie", "what_is_odr": "Cos'è l'RDO?", "what_is_odr_desc": "La Risoluzione delle Controversie Online (RDO) è un servizio gratuito per risolvere le controversie di consumo senza la necessità di ricorrere ai tribunali.", "when_to_use": "Quando utilizzare l'RDO", "how_it_works": "Come Funziona", "contact_form_title": "Invia una Controversia", "order_number": "Numero d'Ordine", "email": "Indirizzo E-mail", "name": "Nome Completo", "description": "Descrizione della Controversia", "dispute_type": "Tipo di Controversia", "submit_button": "Invia Controversia", "faq_title": "Domande Frequenti", "eu_odr_title": "Piattaforma RDO dell'UE", "error_required_email": "L'indirizzo e-mail è obbligatorio", "error_invalid_email": "Indirizzo e-mail non valido", "error_consent": "Devi accettare i termini"  }
 }
