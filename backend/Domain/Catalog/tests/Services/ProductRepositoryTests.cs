@@ -127,7 +127,7 @@ public class ProductRepositoryGetBySkuTests
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public async Task GetBySkuAsync_WithEmptySku_ReturnsNull(string sku)
+    public async Task GetBySkuAsync_WithEmptySku_ReturnsNull(string? sku)
     {
         // Arrange
         var tenantId = Guid.NewGuid();

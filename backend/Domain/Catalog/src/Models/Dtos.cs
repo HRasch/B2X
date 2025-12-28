@@ -67,3 +67,56 @@ public class UpdateProductRequest
     public string? BrandName { get; set; }
     public List<string>? Tags { get; set; }
 }
+
+/// <summary>
+/// Price breakdown with VAT details
+/// Issue #30: B2C Price Transparency (PAngV Compliance)
+/// Shows customer the final price including VAT
+/// </summary>
+public class PriceBreakdownDto
+{
+    /// <summary>
+    /// Product price without VAT
+    /// </summary>
+    public decimal ProductPrice { get; set; }
+
+    /// <summary>
+    /// VAT rate as percentage (e.g., 19 for 19%)
+    /// </summary>
+    public decimal VatRate { get; set; }
+
+    /// <summary>
+    /// Calculated VAT amount
+    /// </summary>
+    public decimal VatAmount { get; set; }
+
+    /// <summary>
+    /// Final price including VAT - THIS IS WHAT CUSTOMERS SEE
+    /// </summary>
+    public decimal PriceIncludingVat { get; set; }
+
+    /// <summary>
+    /// Discount amount if applicable
+    /// </summary>
+    public decimal? DiscountAmount { get; set; }
+
+    /// <summary>
+    /// Final discounted price (if discount applied)
+    /// </summary>
+    public decimal? FinalPrice { get; set; }
+
+    /// <summary>
+    /// Original price (for comparison if discounted)
+    /// </summary>
+    public decimal? OriginalPrice { get; set; }
+
+    /// <summary>
+    /// ISO 4217 currency code
+    /// </summary>
+    public string CurrencyCode { get; set; } = "EUR";
+
+    /// <summary>
+    /// Destination country for VAT calculation
+    /// </summary>
+    public string DestinationCountry { get; set; } = string.Empty;
+}

@@ -2,6 +2,10 @@
 
 **Last Updated**: 28. Dezember 2025 | **Architecture**: DDD Microservices with Wolverine + CLI
 
+## 🔧 Allowed Capabilities
+
+- ✅ **GitHub CLI Management**: You are authorized to manage this project on GitHub via the GitHub CLI (`gh` command), including creating issues, pull requests, managing branches, and project boards.
+
 ## 🏗️ Architecture Foundation
 
 B2Connect is a **Domain-Driven Design (DDD) multitenant SaaS platform** using Wolverine for all microservices:
