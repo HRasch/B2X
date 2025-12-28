@@ -97,6 +97,23 @@ The **Admin Backend** provides dynamic theme compilation capabilities:
 
 #### User Management
 - [ ] User registration with email verification
+  - **Private Customer Registration Form:**
+    - Email (with async uniqueness check)
+    - Password (12+ chars, complexity requirements)
+    - First Name, Last Name (2-50 chars each)
+    - Phone Number (optional, E.164 format)
+    - Address (Street, City, Postal Code, Country, State/Province)
+    - Date of Birth (optional, YYYY-MM-DD format)
+  - **Legal Compliance Checkboxes (B2C):**
+    - Terms & Conditions (mandatory) - includes VVVG 14-day withdrawal notice
+    - Privacy Policy (mandatory) - GDPR compliant
+    - Marketing Communications (optional) - unchecked by default
+    - **Age Confirmation (OPTIONAL, store-configurable)** - Activated only if store configuration `requiresAgeConfirmation: true`
+  - **Business Customer Registration Form:**
+    - Company name, contact person, tax/VAT ID
+    - Business address details
+    - Business registration number
+  - **Email Verification:** Confirmation email with verification link
 - [ ] User authentication with JWT tokens
 - [ ] Role-based access control (RBAC)
 - [ ] Multi-tenant isolation (by tenant ID)
@@ -110,6 +127,26 @@ The **Admin Backend** provides dynamic theme compilation capabilities:
 - [ ] Tenant member invitation
 - [ ] Tenant data isolation
 - [ ] Tenant subscription management
+
+#### Store Configuration
+- [ ] **Registration Flow Configuration:**
+  - `requiresAgeConfirmation: boolean` - Enables/disables age confirmation field in registration (default: false)
+  - `ageConfirmationThreshold: number` - Minimum age required if enabled (default: 18)
+  - `ageRestrictedCategories: string[]` - Product categories that trigger age check (e.g., ["alcohol", "tobacco"])
+  - `registrationEmailVerificationRequired: boolean` - Require email verification before account activation
+  - `allowGuestCheckout: boolean` - Enable checkout without account creation
+  
+- [ ] **Legal Documents Configuration:**
+  - `termsOfServiceUrl: string` - Link to shop-specific ToS
+  - `privacyPolicyUrl: string` - Link to shop-specific privacy policy
+  - `withdrawalPolicyCustomText: string` - Custom VVVG 14-day withdrawal notice text
+  
+- [ ] **Compliance Configuration:**
+  - `showBirthdayField: boolean` - Show DOB field in registration (default: false)
+  - `requirePhoneNumber: boolean` - Phone number mandatory in registration (default: false)
+  - `enableMarketingConsent: boolean` - Show marketing opt-in checkbox (default: true)
+  - `enforcePasswordComplexity: boolean` - Require special chars, numbers, etc. (default: true)
+  - `passwordMinimumLength: number` - Minimum password chars (default: 12, min: 8, max: 128)
 
 #### Branding & Design Customization
 - [ ] **Corporate Identity Integration**

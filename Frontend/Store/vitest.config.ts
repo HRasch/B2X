@@ -8,7 +8,11 @@ export default defineConfig({
     globals: true,
     environment: "happy-dom",
     setupFiles: ["./tests/setup.ts"],
-    include: ["tests/unit/**/*.spec.ts", "tests/components/**/*.spec.ts"],
+    include: [
+      "tests/unit/**/*.spec.ts",
+      "tests/components/**/*.spec.ts",
+      "tests/views/**/*.spec.ts",
+    ],
     exclude: ["tests/e2e/**"],
     /**
      * Tests that use async component loading will have unhandled rejections

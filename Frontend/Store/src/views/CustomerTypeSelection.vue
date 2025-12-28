@@ -3,7 +3,9 @@
     <div class="container">
       <div class="header">
         <h1>How are you registering?</h1>
-        <p class="subtitle">Choose the account type that best fits your needs</p>
+        <p class="subtitle">
+          Choose the account type that best fits your needs
+        </p>
       </div>
 
       <div class="options-grid">
@@ -57,39 +59,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 
-type CustomerType = 'private' | 'business' | null
+type CustomerType = "private" | "business" | null;
 
-const router = useRouter()
-const selectedType = ref<CustomerType>(null)
+const router = useRouter();
+const selectedType = ref<CustomerType>(null);
 
 // Load persisted selection from localStorage on mount
 onMounted(() => {
-  const stored = localStorage.getItem('customerTypeSelection')
-  if (stored === 'private' || stored === 'business') {
-    selectedType.value = stored
+  const stored = localStorage.getItem("customerTypeSelection");
+  if (stored === "private" || stored === "business") {
+    selectedType.value = stored;
   }
-})
+});
 
 // Handle type selection
 const selectType = (type: CustomerType) => {
-  selectedType.value = type
+  selectedType.value = type;
   // Persist selection to localStorage
   if (type) {
-    localStorage.setItem('customerTypeSelection', type)
+    localStorage.setItem("customerTypeSelection", type);
   }
-}
+};
 
 // Navigate to appropriate registration form
 const continueRegistration = () => {
-  if (selectedType.value === 'private') {
-    router.push('/register/private')
-  } else if (selectedType.value === 'business') {
-    router.push('/register/business')
+  if (selectedType.value === "private") {
+    router.push("/register/private");
+  } else if (selectedType.value === "business") {
+    router.push("/register/business");
   }
-}
+};
 </script>
 
 <style scoped>
