@@ -90,3 +90,71 @@ Focus on:
 - **User Focus**: Features solve real customer problems
 - **Compliance First**: No features without compliance
 - **Data-Driven**: Metrics guide decisions
+
+## 🔄 PR & Merge Workflow
+
+### Pull Request Review Gate
+
+Before approving any PR, verify:
+
+- [ ] **Acceptance Criteria Met**: All requirements from issue description completed
+- [ ] **Build Status**: 0 errors, 0 warnings (green build)
+- [ ] **Test Results**: 100% test pass rate, ≥80% coverage
+- [ ] **Code Review**: Approved by tech lead or senior developer
+- [ ] **Security Review**: Approved by security engineer (if applicable)
+- [ ] **Documentation**: Complete and bilingual (EN/DE) if user-facing
+- [ ] **Compliance**: All P0 gates passed (if applicable)
+- [ ] **No Blockers**: All known issues resolved
+
+### After Approval: Delete Feature Branch (REQUIRED)
+
+After merging PR to main, **immediately delete the feature branch**:
+
+```bash
+# Locally delete branch
+git branch -d feature/issue-name
+
+# Push deletion to remote (GitHub)
+git push origin --delete feature/issue-name
+```
+
+**Why delete branches after merge?**
+- ✅ **Clean Repository**: No stale/abandoned branches cluttering the interface
+- ✅ **Prevents Confusion**: Repository history shows only active work streams
+- ✅ **Easier Navigation**: Fewer branches = easier to find current branches
+- ✅ **Reduces Errors**: Can't accidentally check out or use an old branch
+- ✅ **History Preserved**: Git log still shows all commits from deleted branch
+
+**IMPORTANT**: Deleting the branch does NOT delete any code—it's just a pointer to commits that remain in git history forever.
+
+### Additional Post-Merge Tasks
+
+1. **Close Associated Issues**
+   - GitHub auto-closes linked issues when PR merges
+   - Verify issue shows "Merged" status
+   - Add comment linking to release/tag if applicable
+
+2. **Update Release Notes** (For Phase 1+ features)
+   - Document feature in RELEASE_NOTES.md
+   - Link to relevant documentation
+   - Note any breaking changes or deprecations
+
+3. **Tag Release** (When phase gate completed)
+   ```bash
+   git tag v[phase]-[date]
+   git push origin v[phase]-[date]
+   ```
+   - Create descriptive tag message
+   - Document in GitHub Releases page
+
+### Branch Naming Convention
+
+```
+feature/[issue-number]-[short-description]
+bugfix/[issue-number]-[short-description]
+
+Examples:
+  - feature/#30-authentication-fix
+  - feature/#31-vat-validation
+  - bugfix/#45-login-redirect
+```
