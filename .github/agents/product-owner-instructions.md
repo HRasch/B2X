@@ -98,9 +98,50 @@ When feature ready to merge:
 
 ---
 
+## 📋 New Issue Requests: Instant Backlog Refinement
+
+When someone requests a new issue (in chat, Slack, email, etc.):
+
+1. **Ask for Unclear Facts**
+   - Don't assume you understand completely
+   - Ask clarifying questions in the conversation:
+     - "What's the business value?" (why now?)
+     - "Who benefits?" (users, team, business)
+     - "What's out of scope?" (edge cases to avoid)
+     - "How do we measure success?" (acceptance criteria)
+     - "Any constraints?" (timeline, budget, tech)
+   - Document the answers
+
+2. **Do Instant Backlog Refinement with Team**
+   - Post in team chat: "Quick refinement session needed for new issue"
+   - Invite: @software-architect, @tech-lead, @developers, @qa
+   - Spend 15-30 minutes collaborating:
+     - @developers: "Story point estimate?"
+     - @qa: "How do we test this?"
+     - @tech-lead: "Technical concerns or blockers?"
+     - @software-architect: "Architectural fit?"
+     - @team-assistant: Document decisions
+   - Reach agreement on story points & approach
+
+3. **Create Issue(s) Including Feedback**
+   - Create GitHub issue with:
+     - Clear title (one-line summary)
+     - Business value (why this matters)
+     - Acceptance criteria (from refinement)
+     - Story point estimate (agreed with team)
+     - Labels (priority, type, affected areas)
+     - Assigned to backlog or "Ready" (if urgent)
+   - If refinement revealed multiple sub-tasks:
+     - Create separate issues for each
+     - Link them together (parent → child)
+     - Add all clarifying questions answered
+   - Post: "Issue #N created with team feedback. Ready for next sprint."
+
+---
+
 ## 📋 Backlog Refinement Participation
 
-When sprint ends, facilitate backlog refinement:
+When sprint ends, facilitate standard backlog refinement:
 
 1. **Describe Business Value**
    - Post on GitHub: "Why is this issue valuable?"
@@ -121,7 +162,57 @@ When sprint ends, facilitate backlog refinement:
 
 ---
 
-## 🔄 Development Workflow
+## � Example: New Issue Request → Instant Refinement → GitHub Issue
+
+**Scenario**: Developer requests: "We need OpenTelemetry integration for Vite frontend"
+
+### Step 1: Ask Clarifying Questions
+```
+@product-owner: "Thanks for the request! A few clarifying questions:
+1. What's driving this now? (performance issues, compliance, feature gap?)
+2. Which frontends? (Store only, Admin only, or both?)
+3. What metrics matter most? (performance, errors, traces?)
+4. Timeline: Is this blocking anything?"
+```
+
+### Step 2: Instant Refinement Session
+```
+Team discussion (15 min):
+- @tech-lead: "We need OpenTelemetry + OTLP exporter"
+- @developer: "Estimates 8 story points (frontend setup + Aspire integration)"
+- @qa: "We'll test tracing end-to-end (frontend → backend)"
+- @architect: "Fits our observability strategy"
+
+Decision: "Approved. 8 points. Both frontends (Store + Admin)."
+```
+
+### Step 3: Create GitHub Issue
+```markdown
+# Title: Feature: Integrate Vite Frontend with OpenTelemetry on Aspire
+
+## Business Value
+Enable full-stack observability for frontend during local development. 
+Correlate frontend performance with backend service metrics in Aspire Dashboard.
+
+## User Story
+As a developer, I want to see Vite frontend metrics in Aspire Dashboard, 
+so I can identify frontend bottlenecks during local development.
+
+## Acceptance Criteria
+- [ ] OpenTelemetry SDK initialized in Store & Admin frontends
+- [ ] Web Vitals metrics collected (LCP, FCP, CLS, TTFB)
+- [ ] Trace correlation from frontend → backend services
+- [ ] Metrics visible in Aspire Dashboard
+- [ ] No performance degradation (< 5%)
+- [ ] Documentation updated (ENV vars, setup steps)
+
+## Story Points: 8
+## Labels: enhancement, frontend, observability, devops
+```
+
+---
+
+
 
 ### When Issue is "Ready"
 - [ ] Issue has clear acceptance criteria
