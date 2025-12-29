@@ -182,6 +182,57 @@ User.IsInRole("Admin")                        // Is user admin?
 
 ---
 
+## 🎯 Decision Flowcharts
+
+### Login Flow Decision Tree
+
+```
+┌─ User clicks Login
+│
+├─ Email/Password valid?
+│  ├─ NO  → Show "Invalid credentials" → Retry
+│  └─ YES → Continue
+│
+├─ 2FA enabled?
+│  ├─ YES → Send 2FA code → Wait for code → Verify → Continue
+│  └─ NO  → Continue
+│
+├─ Check response
+│  ├─ "requires2FA": true  → Show 2FA input
+│  ├─ "accessToken": "..."  → Store tokens + Navigate to dashboard
+│  └─ Error              → Show error message
+```
+
+### Handling Expired Token
+
+```
+┌─ API returns 401
+│
+├─ Is refresh token valid?
+│  ├─ NO  → Show "Please login again" → Navigate to /login
+│  └─ YES → Continue
+│
+├─ Call POST /api/auth/refresh
+│  ├─ Success → Store new tokens → Retry original request
+│  └─ Failure → Clear storage → Navigate to /login
+```
+
+### Role-Based Access Control
+
+```
+┌─ User accesses /admin page
+│
+├─ Is user logged in?
+│  ├─ NO  → Redirect to /login
+│  └─ YES → Continue
+│
+├─ Check user.roles
+│  ├─ Includes "Admin" → Show page
+│  └─ Missing "Admin"  → Show "Access Denied"
+```
+
+---
+
 ## 🧪 Common Test Patterns
 
 ### Login Success Test
@@ -232,6 +283,72 @@ public async Task AdminEndpoint_UserRole_Returns403()
 }
 ```
 
+### Token Refresh Test
+
+```csharp
+[Fact]
+public async Task RefreshToken_ValidToken_ReturnsNewToken()
+{
+    var response = await _client.PostAsync(
+        "/api/auth/refresh",
+        JsonContent.Create(new { refreshToken = validRefreshToken }));
+    
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
+    var result = await response.Content.ReadAsAsync<RefreshResponse>();
+    result.AccessToken.Should().NotBeNullOrEmpty();
+    result.AccessToken.Should().NotBe(oldAccessToken);  // Must be new token
+}
+```
+
+---
+
+## 🔧 Debugging Checklist
+
+### Token-Related Issues
+
+- [ ] Token is being sent in `Authorization` header?
+- [ ] Header format is `Bearer {token}` (space is important)?
+- [ ] Token not expired? Check expiration: `jwt.io` → Payload → `exp` field
+- [ ] Token signature valid? Check server logs for validation errors
+- [ ] Token has correct TenantId claim?
+- [ ] Token has correct role claims?
+
+### Login Issues
+
+- [ ] Email spelling correct?
+- [ ] User account active in database?
+- [ ] Password hashing working? Try existing test user
+- [ ] Too many failed attempts? Check if rate-limited
+- [ ] JWT signing key same in all servers?
+- [ ] Clock synchronized between servers?
+
+### Authorization Issues
+
+- [ ] [Authorize] attribute on endpoint?
+- [ ] [AllowAnonymous] used correctly for public endpoints?
+- [ ] User has required role?
+- [ ] Token was refreshed after role change?
+- [ ] Fallback authorization policy configured correctly?
+
+### Multi-Tenancy Issues
+
+- [ ] TenantId in JWT claims?
+- [ ] TenantId in X-Tenant-ID header?
+- [ ] All queries filtered by TenantId?
+- [ ] Cross-tenant requests should fail (401/403)?
+
+---
+
+## 📚 Quick Links
+
+| Topic | Documentation |
+|-------|----------------|
+| All endpoints | [AUTHENTICATION_API_GUIDE.md](./AUTHENTICATION_API_GUIDE.md) |
+| Implementation patterns | [AUTHENTICATION_IMPLEMENTATION_GUIDE.md](./AUTHENTICATION_IMPLEMENTATION_GUIDE.md) |
+| Test examples | [AUTHENTICATION_TESTING_GUIDE.md](./AUTHENTICATION_TESTING_GUIDE.md) |
+| Architecture diagrams | [AUTHENTICATION_ARCHITECTURE.md](./AUTHENTICATION_ARCHITECTURE.md) |
+| Deployment guide | [AUTHENTICATION_DEPLOYMENT_READY.md](./AUTHENTICATION_DEPLOYMENT_READY.md) |
+
 ---
 
 ## ❌ Common Mistakes
@@ -246,6 +363,8 @@ public async Task AdminEndpoint_UserRole_Returns403()
 | Missing [Authorize] attribute | Add to protected endpoints |
 | User enumeration in errors | Return same error for "user not found" + "password wrong" |
 | No error handling | Wrap with try/catch, return 500 error |
+| Tokens in localStorage | Use httpOnly cookies for sensitive apps |
+| Token not refreshed | Implement auto-refresh before expiration |
 
 ---
 

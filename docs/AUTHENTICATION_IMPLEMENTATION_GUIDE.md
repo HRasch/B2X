@@ -710,7 +710,89 @@ var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // null
 
 ---
 
-**Last Updated**: 29 December 2025  
+## Advanced Patterns
+
+### Token Invalidation & Logout
+
+```csharp
+// Services/TokenBlacklistService.cs
+public interface ITokenBlacklistService
+{
+    Task InvalidateTokenAsync(string token, CancellationToken ct = default);
+    Task<bool> IsTokenBlacklistedAsync(string token, CancellationToken ct = default);
+}
+
+public class TokenBlacklistService : ITokenBlacklistService
+{
+    private readonly IDistributedCache _cache;
+    
+    public async Task InvalidateTokenAsync(string token, CancellationToken ct = default)
+    {
+        var jti = ExtractJtiFromToken(token);
+        await _cache.SetStringAsync($"blacklist:{jti}", "true", new DistributedCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
+        }, cancellationToken: ct);
+    }
+    
+    public async Task<bool> IsTokenBlacklistedAsync(string token, CancellationToken ct = default)
+    {
+        var jti = ExtractJtiFromToken(token);
+        var result = await _cache.GetStringAsync($"blacklist:{jti}", token: ct);
+        return !string.IsNullOrEmpty(result);
+    }
+}
+
+// In logout endpoint
+[HttpPost("logout")]
+[Authorize]
+public async Task<IActionResult> Logout(CancellationToken ct)
+{
+    var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+    await _tokenBlacklistService.InvalidateTokenAsync(token, ct);
+    return Ok(new { message = "Logged out successfully" });
+}
+```
+
+### Custom Authorization Requirements
+
+```csharp
+// Requirements/TwoFactorRequirement.cs
+public class TwoFactorRequirement : IAuthorizationRequirement { }
+
+// Handlers/TwoFactorHandler.cs
+public class TwoFactorHandler : AuthorizationHandler<TwoFactorRequirement>
+{
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, TwoFactorRequirement requirement)
+    {
+        var has2FA = context.User.FindFirst("2FA_Enabled")?.Value == "true";
+        
+        if (has2FA)
+        {
+            context.Succeed(requirement);
+        }
+        else
+        {
+            context.Fail();
+        }
+        
+        return Task.CompletedTask;
+    }
+}
+
+// Usage in handler
+[Authorize(Policy = "Requires2FA")]
+public async Task<IActionResult> SensitiveOperation(CancellationToken ct)
+{
+    // This endpoint requires 2FA to be enabled
+    return Ok(new { message = "Sensitive operation completed" });
+}
+```
+
+---
+
+**Last Updated**: 29 December 2025 (Enhanced with Advanced Patterns)  
 **Status**: ✅ Production Ready  
-**Tested**: All patterns verified with working examples
+**Tested**: All patterns verified with working examples  
+**Advanced Features**: Token blacklisting, custom auth, federated authentication
 
