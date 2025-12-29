@@ -31,7 +31,7 @@ B2Connect is an online shopping platform where you can:
 ## Creating Your Account
 
 ### Step 1: Go to Sign Up
-1. Click the **"Sign Up"** button (top right of website)
+1. Click the **"Sign Up"** button (top right of the website)
 2. Choose: **"I'm a Customer"** or **"I'm a Business"**
 
 ### Step 2: Enter Your Email

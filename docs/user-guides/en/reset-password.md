@@ -105,7 +105,7 @@ The reset link only works for 1 hour. You waited too long.
 2. ✓ Check Promotions folder (Gmail)
 3. ✓ Check Junk folder (Outlook)
 4. ✓ Wait 5 minutes (emails can be slow)
-5. ✓ Check spelling of your email
+5. ✓ Check spelling of your email address
 
 **Still nothing?**
 1. Go back to reset page

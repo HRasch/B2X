@@ -203,7 +203,7 @@ Password managers securely store your passwords:
 - ✅ KeePass (free)
 
 **Benefits:**
-- Generate strong random passwords
+- Generate strong, random passwords
 - Never forget passwords
 - Safe across all your devices
 - Encrypted storage

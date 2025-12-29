@@ -67,10 +67,10 @@ A: See [Getting Started](./getting-started.md) for step-by-step instructions.
 A: Go to [How to Reset Your Password](./reset-password.md).
 
 **Q: Why does it say "wrong email or password"?**  
-A: Check the spelling of your email and password. Remember passwords are case-sensitive!
+A: Check the spelling of your email and password. Remember, passwords are case-sensitive!
 
 **Q: Can I log in on multiple devices?**  
-A: Yes! You can be logged in on phone, computer, and tablet at the same time.
+A: Yes! You can be logged in on your phone, computer, and tablet at the same time.
 
 ### Security
 **Q: Is my data safe on B2Connect?**  
