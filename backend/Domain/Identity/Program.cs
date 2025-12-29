@@ -173,7 +173,7 @@ builder.Services.AddCors(options =>
 // builder.Services.AddB2ConnectValidation();
 
 // Add services
-// builder.Services.AddControllers(); // Removed - using Wolverine HTTP Endpoints only
+builder.Services.AddControllers();
 
 // Add MediatR for CQRS - NO! Using Wolverine instead
 // builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
@@ -181,6 +181,11 @@ builder.Services.AddCors(options =>
 // Add FluentValidation for input validation
 // builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddScoped<CheckRegistrationTypeCommandValidator>();
+
+// Add distributed caching for ERP customer data
+// Use memory cache for development (StackExchangeRedis can be added for production)
+builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
 
 // Add custom services
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -319,12 +324,15 @@ app.UseCors("AllowFrontend");
 if (!app.Environment.IsDevelopment())
 {
     app.UseHsts(); // HSTS: Strict-Transport-Security header
+    app.UseHttpsRedirection();
 }
-app.UseHttpsRedirection();
 
 // Middleware
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Map Controllers (for AuthController)
+app.MapControllers();
 
 // Map Wolverine HTTP Endpoints (includes all [WolverineHttpPost] handlers)
 app.MapWolverineEndpoints();

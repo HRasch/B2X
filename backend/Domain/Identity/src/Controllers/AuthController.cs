@@ -68,7 +68,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> GetCurrentUser()
     {
         var userId = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value
-            ?? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (string.IsNullOrEmpty(userId))
         {
@@ -105,7 +105,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Enable2FA()
     {
         var userId = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value
-            ?? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (string.IsNullOrEmpty(userId))
         {
@@ -142,7 +142,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> GetAllUsers([FromQuery] int page = 1, [FromQuery] int pageSize = 50, [FromQuery] string? search = null)
     {
         // Log current user claims for debugging
-        var userRoles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).ToList();
+        var userRoles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
         _logger.LogInformation("User roles from token: {Roles}", string.Join(", ", userRoles));
 
         // Check if user has Admin role (case-insensitive)
@@ -170,7 +170,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> GetUserById(string id)
     {
         // Check if user has Admin role
-        var userRoles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).ToList();
+        var userRoles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
         if (!userRoles.Any(r => r.Equals("Admin", StringComparison.OrdinalIgnoreCase)))
         {
             return Forbid();
@@ -193,7 +193,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> ToggleUserStatus(string id, [FromBody] ToggleUserStatusRequest request)
     {
         // Check if user has Admin role
-        var userRoles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).ToList();
+        var userRoles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
         if (!userRoles.Any(r => r.Equals("Admin", StringComparison.OrdinalIgnoreCase)))
         {
             return Forbid();

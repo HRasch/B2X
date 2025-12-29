@@ -65,7 +65,7 @@ builder.Services.AddCors(options =>
         {
             // In development, allow any localhost origin (Aspire uses dynamic ports)
             policy
-                .SetIsOriginAllowed(origin => 
+                .SetIsOriginAllowed(origin =>
                 {
                     if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
                     {
@@ -194,8 +194,8 @@ app.UseCors("AllowStoreFrontend");
 if (!app.Environment.IsDevelopment())
 {
     app.UseHsts(); // HSTS: Strict-Transport-Security header
+    app.UseHttpsRedirection();
 }
-app.UseHttpsRedirection();
 
 // Authentication & Authorization
 app.UseAuthentication();

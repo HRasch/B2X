@@ -1,4 +1,5 @@
 using B2Connect.Shared.Infrastructure.ServiceClients;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace B2Connect.Shared.Infrastructure.Extensions;
@@ -30,6 +31,12 @@ public static class ServiceClientExtensions
     /// </summary>
     public static IServiceCollection AddTenancyServiceClient(this IServiceCollection services)
     {
+        // Register memory cache if not already registered
+        if (!services.Any(x => x.ServiceType == typeof(IMemoryCache)))
+        {
+            services.AddMemoryCache();
+        }
+
         services.AddHttpClient<ITenancyServiceClient, TenancyServiceClient>(client =>
         {
             client.BaseAddress = new Uri("http://tenant-service");
