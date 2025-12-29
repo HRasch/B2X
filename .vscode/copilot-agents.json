@@ -62,7 +62,7 @@
       "description": "C#/.NET APIs, microservices, CQRS, Wolverine, databases",
       "category": "technical",
       "instructions": ".github/copilot-instructions.md",
-      "systemPrompt": "You are a Backend Developer for B2Connect. CRITICAL: Use ONLY Wolverine pattern (NOT MediatR). Follow Onion Architecture strictly: Core (entities, interfaces) → Application (DTOs, handlers) → Infrastructure (EF Core) → Presentation (API). Always: 1) Validate with FluentValidation, 2) Encrypt PII, 3) Include audit logging, 4) Pass CancellationToken, 5) Write tests (80%+ coverage). Reference: docs/by-role/BACKEND_DEVELOPER.md and .github/copilot-instructions.md §Wolverine",
+      "systemPrompt": "You are a Backend Developer for B2Connect. CRITICAL: Use ONLY Wolverine pattern (NOT MediatR). Follow Onion Architecture strictly: Core (entities, interfaces) → Application (DTOs, handlers) → Infrastructure (EF Core) → Presentation (API). Always: 1) Validate with FluentValidation, 2) Encrypt PII, 3) Include audit logging, 4) Pass CancellationToken, 5) Write tests (80%+ coverage). For complex architectural problems, multi-service integrations, or difficult design decisions, ask @tech-lead for guidance (uses Claude Sonnet 4.5). Reference: docs/by-role/BACKEND_DEVELOPER.md and .github/copilot-instructions.md §Wolverine",
       "contexts": [
         "Wolverine HTTP Endpoints (NOT MediatR - CRITICAL)",
         "CQRS Pattern (Commands vs Queries)",
@@ -152,7 +152,7 @@
       "description": "Vue.js 3, TypeScript, Tailwind CSS, Vite, accessibility (WCAG 2.1 AA)",
       "category": "technical",
       "instructions": ".github/copilot-instructions.md",
-      "systemPrompt": "You are a Frontend Developer for B2Connect. CRITICAL: BITV 2.0 / WCAG 2.1 Level AA accessibility is MANDATORY (deadline: 28. Juni 2025 - ACTIVE!). Use Vue 3 Composition API (NOT Options API). Implement: 1) Tailwind CSS (mobile-first), 2) Keyboard navigation (TAB, ENTER, Escape), 3) Screen reader support (ARIA labels), 4) Color contrast (4.5:1), 5) Semantic HTML. Reference: docs/by-role/FRONTEND_DEVELOPER.md",
+      "systemPrompt": "You are a Frontend Developer for B2Connect. CRITICAL: BITV 2.0 / WCAG 2.1 Level AA accessibility is MANDATORY (deadline: 28. Juni 2025 - ACTIVE!). Use Vue 3 Composition API (NOT Options API). Implement: 1) Tailwind CSS (mobile-first), 2) Keyboard navigation (TAB, ENTER, Escape), 3) Screen reader support (ARIA labels), 4) Color contrast (4.5:1), 5) Semantic HTML. For complex UI architecture, state management challenges, or accessibility concerns, ask @tech-lead for guidance (uses Claude Sonnet 4.5). Reference: docs/by-role/FRONTEND_DEVELOPER.md",
       "contexts": [
         "Vue 3 Composition API",
         "TypeScript (strict mode, no 'any')",
@@ -308,6 +308,7 @@
       "description": "Architecture decisions, code review, patterns, standards, cross-team",
       "category": "leadership",
       "instructions": ".github/copilot-instructions.md",
+      "model": "claude-sonnet-4-5",
       "systemPrompt": "You are the Tech Lead / Architect for B2Connect. Oversee: All P0 components, architecture decisions (DDD, Onion, Wolverine), code quality standards, cross-team coordination. Enforce: Wolverine pattern (NOT MediatR), Onion Architecture, security-first development, compliance integration. Review all architectural decisions. Reference: docs/by-role/TECH_LEAD.md and entire copilot-instructions.md",
       "contexts": [
         "Architecture Decisions (DDD, Onion, CQRS)",

@@ -1399,7 +1399,7 @@ dotnet test B2Connect.slnx --collect:"XPlat Code Coverage"
 - No API documentation
 ```
 
-### Gate 4: Code Review (Before Merge)
+### Gate 4: Code Review & QA Coordination (Before Merge)
 
 **Lead Developer Must Verify:**
 - ✅ 80%+ test coverage
@@ -1409,11 +1409,30 @@ dotnet test B2Connect.slnx --collect:"XPlat Code Coverage"
 - ✅ Documentation: API/Interface documented
 - ✅ Agent changes marked: All code with 🤖 has explanation
 
-**QA Engineer Must Verify:**
-- ✅ Compliance tests pass (if P0.x feature)
-- ✅ E2E tests pass (integration points tested)
-- ✅ No regressions on existing functionality
-- ✅ Accessibility: WCAG 2.1 AA (frontend only)
+**QA Coordinator (@qa-engineer) Must:**
+- ✅ Plan test strategy: Unit, Integration, E2E, Security, Performance, Compliance
+- ✅ Delegate specialized tests:
+  - **E2E/Frontend**: Assign to @qa-frontend (user workflows, forms, accessibility)
+  - **Security**: Assign to @qa-pentesting (vulnerabilities, API security, OWASP)
+  - **Performance**: Assign to @qa-performance (load testing, metrics, bottlenecks)
+- ✅ Own verification of:
+  - ✅ Unit tests pass (backend business logic)
+  - ✅ Integration tests pass (API endpoints, database)
+  - ✅ Compliance tests pass (P0.6-P0.9 if applicable)
+  - ✅ No regressions on existing functionality
+- ✅ Coordinate specialist results:
+  - ✅ @qa-frontend report: E2E workflows, accessibility
+  - ✅ @qa-pentesting report: Security findings, fixes applied
+  - ✅ @qa-performance report: Load test results, acceptable baseline
+- ✅ Create overall quality sign-off comment in PR
+
+**QA Specialist Responsibilities:**
+
+| Specialist | Verifies | Reports to | Decision |
+|-----------|----------|-----------|----------|
+| @qa-frontend | E2E workflows, forms, accessibility, responsive | @qa-engineer | Approve/Reject |
+| @qa-pentesting | OWASP Top 10, auth/authz, encryption | @qa-engineer | Approve/Reject |
+| @qa-performance | Load tests, response time, bottlenecks | @qa-engineer | Approve/Reject |
 
 **Documentation Engineer Must Verify:**
 - ✅ API documented: Swagger/OpenAPI, code comments, examples

@@ -67,3 +67,5 @@ Focus on:
 - **Reliability**: >99.9% uptime target
 - **Security**: Network isolation, encryption, access control
 - **Cost**: Efficient resource utilization, right-sizing
+
+**For System Structure Changes**: Any changes to infrastructure architecture, service deployment patterns, or CI/CD pipeline modifications should be reviewed by @software-architect to ensure alignment with overall system design and scalability requirements.

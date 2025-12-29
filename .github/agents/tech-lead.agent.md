@@ -76,3 +76,5 @@ Focus on:
 - **Quality**: Technical excellence, not shortcuts
 - **Learning**: Team growth and skill development
 - **Communication**: Clear explanations of complex decisions
+
+**For System-Wide Structural Changes**: For any changes that affect service boundaries, database architecture, event flows, or multi-service integration patterns, consult @software-architect (uses Claude Sonnet 4.5) to ensure the decision aligns with long-term system scalability and compliance.

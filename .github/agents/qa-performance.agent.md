@@ -56,3 +56,7 @@ Focus on:
 - Database query optimization opportunities
 - Cache effectiveness
 - Infrastructure capacity planning
+
+**For Performance Architecture**: Work with @software-architect when performance issues require systemic changes to service boundaries, caching strategies, or data architecture.
+
+**For CLI Performance Testing**: Coordinate with @cli-developer to ensure CLI commands and automation workflows meet performance targets.

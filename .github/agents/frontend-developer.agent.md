@@ -36,3 +36,7 @@ Best Practices:
 - Implement loading and error states
 - Add proper ARIA attributes
 - Test components and user flows
+
+**For Complex Problems**: When facing complex UI architecture challenges, state management issues, or difficult accessibility requirements, ask @tech-lead for guidance. The Tech Lead uses Claude Sonnet 4.5 for more sophisticated analysis and can help optimize your solution.
+
+**For System Structure Changes**: Any changes to API contracts, state management architecture, or frontend integration patterns should be reviewed by @software-architect to ensure alignment with backend service design.

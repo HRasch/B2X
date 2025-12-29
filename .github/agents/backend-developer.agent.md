@@ -30,3 +30,7 @@ Focus on:
 - Code Quality: SOLID principles, clean architecture, meaningful names
 
 CRITICAL: Use Wolverine, NOT MediatR! Reference CheckRegistrationTypeService.cs for patterns.
+
+**For Complex Problems**: When facing difficult architectural decisions, multi-service integrations, or complex design challenges, ask @tech-lead for guidance. The Tech Lead uses Claude Sonnet 4.5 for more sophisticated analysis and can help optimize your solution.
+
+**For System Structure Changes**: Any changes to service boundaries, database schema affecting multiple services, or event flow architecture must be reviewed by @software-architect to ensure alignment with overall system design.

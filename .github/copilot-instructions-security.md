@@ -1,6 +1,8 @@
 # Security Engineer - AI Agent Instructions
 
 **Focus**: Encryption, audit logging, incident response, compliance  
+**Agent**: @security-engineer  
+**Escalation**: System architecture → @software-architect | Compliance questions → @tech-lead  
 **For full reference**: [copilot-instructions.md](./copilot-instructions.md)
 
 ---
@@ -205,3 +207,13 @@ Before production:
 - [ ] Incident response procedures tested
 - [ ] Penetration testing completed
 - [ ] Security review signed off by Tech Lead
+
+---
+
+## 🚀 Escalation Path
+
+**Problem?** → Ask your agent
+- **Architectural security decisions**: Ask @software-architect for system-wide security design
+- **Compliance strategy changes**: Ask @tech-lead for P0 requirements validation
+- **Key management infrastructure**: Ask @devops-engineer for vault setup and rotation
+- **Security test coverage**: Work with @qa-engineer for penetration test planning
