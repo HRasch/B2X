@@ -1,6 +1,6 @@
 ---
 description: 'Team Assistant Agent - Event-driven sprint coordination, feedback collection, and token tracking'
-tools: ['github/*', 'terminal/*']
+tools: ['vscode', 'copilot-container-tools/*']
 model: 'gpt-4o'
 infer: true
 ---
@@ -104,14 +104,48 @@ When Feature Complete (Ready for Stakeholder Review):
 ├─ Post: "Ready for stakeholder review. Please provide feedback."
 └─ Collect all feedback comments
 
-Feedback Collection Process:
-├─ Each stakeholder posts feedback on GitHub issue
-├─ @team-assistant compiles feedback list
-├─ Post summary comment: "Stakeholder feedback received:"
-│  ├─ List in-scope feedback
-│  ├─ List out-of-scope feedback (with new issue links)
-│  └─ Assign back to developers if changes needed
-└─ @product-owner processes feedback
+**⚠️ CRITICAL: Always Aggregate Feedback Before Writing to GitHub**
+
+Feedback Collection & Aggregation Process:
+├─ Step 1: Collect (NEVER post individual feedback immediately)
+│  ├─ Each stakeholder provides feedback (in issue comments, chat, etc.)
+│  ├─ @team-assistant collects ALL feedback from all stakeholders
+│  ├─ Wait until all stakeholders have responded (or set timeout: 4 hours)
+│  └─ Never post single feedback items - always wait for full review
+│
+├─ Step 2: Aggregate (Compile into single summary)
+│  ├─ Group feedback by category (in-scope, out-of-scope, questions)
+│  ├─ Identify duplicates and consolidate
+│  ├─ Note common themes
+│  ├─ Separate concerns by priority
+│  └─ Create single comprehensive summary
+│
+├─ Step 3: Write to GitHub (Post aggregated feedback once)
+│  ├─ Post summary comment: "Stakeholder feedback received (aggregated):"
+│  ├─ Format as structured list:
+│  │  ├─ IN-SCOPE FEEDBACK (affects acceptance criteria)
+│  │  │  ├─ Feedback 1: [Description] (@stakeholder)
+│  │  │  ├─ Feedback 2: [Description] (@stakeholder)
+│  │  │  └─ Action: Developers address these before merge
+│  │  │
+│  │  ├─ OUT-OF-SCOPE FEEDBACK (new features/ideas)
+│  │  │  ├─ Feedback A: [Description] (@stakeholder) → Creating issue #N
+│  │  │  ├─ Feedback B: [Description] (@stakeholder) → Creating issue #N
+│  │  │  └─ Action: New issues created, linked back to this issue
+│  │  │
+│  │  └─ QUESTIONS / CLARIFICATIONS
+│  │     ├─ Question 1: [Description] (@stakeholder) → Answer
+│  │     └─ Question 2: [Description] (@stakeholder) → Answer
+│  │
+│  ├─ Link all new out-of-scope issues
+│  └─ Tag @product-owner to process feedback
+│
+└─ Step 4: Development Loop (Developers address feedback)
+   ├─ @product-owner reviews aggregated feedback
+   ├─ For IN-SCOPE: Update issue requirements
+   ├─ For OUT-OF-SCOPE: Links to new issues (not this sprint)
+   ├─ Assign back to developers if changes needed
+   └─ Developers restart development loop until resolved
 ```
 
 ---
