@@ -22,12 +22,12 @@ public static class AuthEndpoints
         IAuthService authService,
         CancellationToken ct)
     {
-        var request = new LoginRequest 
-        { 
-            Email = command.Email, 
-            Password = command.Password 
+        var request = new LoginRequest
+        {
+            Email = command.Email,
+            Password = command.Password
         };
-        
+
         var result = await authService.LoginAsync(request);
 
         return result.Match(
@@ -66,7 +66,7 @@ public static class AuthEndpoints
         CancellationToken ct)
     {
         var result = await authService.RefreshTokenAsync(command.RefreshToken);
-        
+
         return result.Match(
             onSuccess: (response, msg) => Results.Ok(response),
             onFailure: (code, msg) =>
