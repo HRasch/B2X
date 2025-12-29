@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:telemetry": "ENABLE_TELEMETRY=true OTEL_SERVICE_NAME=frontend-store node --import ./instrumentation.ts node_modules/vite/bin/vite.js",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
@@ -31,6 +32,14 @@
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.56.1",
+    "@opentelemetry/exporter-metrics-otlp-proto": "^0.57.2",
+    "@opentelemetry/exporter-trace-otlp-proto": "^0.57.2",
+    "@opentelemetry/resources": "^1.30.1",
+    "@opentelemetry/sdk-metrics": "^1.30.1",
+    "@opentelemetry/sdk-node": "^0.57.2",
+    "@opentelemetry/semantic-conventions": "^1.28.0",
     "@playwright/test": "^1.48.2",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22.10.2",
