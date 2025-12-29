@@ -43,3 +43,5 @@ Best Practices:
 - Test with screen reader (NVDA, VoiceOver)
 - Run Lighthouse (target 90+ for accessibility)
 - Responsive images for different devices
+
+**For System Structure Changes**: Consult @software-architect for checkout flow architecture, cart state management patterns, or multi-tenant storefront design.

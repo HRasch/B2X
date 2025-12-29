@@ -33,3 +33,5 @@ Key Endpoints:
 - Audit log queries (read-only for admins)
 - Bulk imports (products, customers, orders)
 - System maintenance (migrations, cleanup)
+
+**For System Structure Changes**: Consult @software-architect for multi-service admin workflows, authorization architecture changes, or admin API integration patterns.

@@ -35,3 +35,7 @@ Key Components:
 - Order Management (view, track, process returns)
 - Audit Log Viewer (read-only, searchable)
 - Analytics Dashboard (sales, users, conversions)
+
+**For System Structure Changes**: Consult @software-architect for admin state management, authorization UI patterns, or complex dashboard architecture.
+
+**For CLI Automation**: Work with @cli-developer for bulk operations, data imports, or system maintenance workflows that should be accessible via CLI.

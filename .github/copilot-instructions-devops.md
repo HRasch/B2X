@@ -1,6 +1,8 @@
 # DevOps Engineer - AI Agent Instructions
 
 **Focus**: Aspire orchestration, infrastructure, CI/CD, port management  
+**Agent**: @devops-engineer  
+**Escalation**: Infrastructure architecture → @software-architect | CLI operations → @cli-developer  
 **For full reference**: [copilot-instructions.md](./copilot-instructions.md)
 
 ---
@@ -232,3 +234,13 @@ psql -U postgres -h localhost -c "SELECT version();"
 - [ ] Environment variables configured
 - [ ] Secrets NOT in code (use vault)
 - [ ] Logs aggregated and searchable
+
+---
+
+## 🚀 Escalation Path
+
+**Problem?** → Ask your agent
+- **Infrastructure architecture**: Ask @software-architect for infrastructure design
+- **CI/CD pipeline changes**: Ask @software-architect for deployment patterns
+- **Service deployment patterns**: Ask @software-architect for orchestration strategy
+- **CLI automation**: Work with @cli-developer for DevOps automation scripts

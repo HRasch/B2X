@@ -39,6 +39,10 @@ Product Phases:
 - F1.4: Admin Dashboard
 - **Gate**: Features + compliance passing, >80% test coverage
 
+**Architecture & Technology Decisions**: Work with @software-architect for major technical decisions that affect multiple services or long-term system design.
+
+**CLI Feature Planning**: Coordinate with @cli-developer for DevOps automation features that should be exposed in the CLI.
+
 **Phase 2: Scale with Compliance (Weeks 19-28)**
 - Database replication (1 primary, 3 readers)
 - Redis cluster for caching

@@ -1,6 +1,8 @@
 # Frontend Developer - AI Agent Instructions
 
 **Focus**: Vue.js 3, accessibility (WCAG 2.1 AA), Tailwind CSS  
+**Agent**: @frontend-developer (or specialized: @frontend-admin, @frontend-store)  
+**Escalation**: Complex problems → @tech-lead | System structure → @software-architect  
 **For full reference**: [copilot-instructions.md](./copilot-instructions.md)
 
 ---
@@ -174,3 +176,15 @@ Before every PR:
 - [ ] Color contrast checked (4.5:1+ for normal text)
 - [ ] Dark mode verified
 - [ ] Mobile responsive (320px - 1920px)
+
+---
+
+## 🚀 Escalation Path
+
+**Problem?** → Ask your agent
+- **Complex component architecture**: Ask @tech-lead for design patterns
+- **State management challenges**: Ask @tech-lead or @software-architect
+- **API contract design**: Ask @tech-lead, may escalate to @software-architect
+- **Multi-service integration**: Ask @software-architect directly
+- **Bulk operations**: Coordinate with @cli-developer for CLI alternative
+- **Accessibility concerns**: Ask @tech-lead, verify with @software-architect if architectural

@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Wolverine.Http;
 using B2Connect.AuthService.Data;
+using B2Connect.Types;
 
 namespace B2Connect.Identity.Endpoints;
 
@@ -14,15 +16,28 @@ public static class AuthEndpoints
     /// Authenticates a user and returns JWT token
     /// </summary>
     [WolverinePost("/api/auth/login")]
+    [AllowAnonymous]
     public static async Task<IResult> Login(
         LoginCommand command,
         IAuthService authService,
         CancellationToken ct)
     {
-        // TODO: Implement LoginAsync call with proper Result handling
-        // var result = await authService.LoginAsync(new LoginRequest { Email = command.Email, Password = command.Password }, cancellationToken: ct);
+        var request = new LoginRequest
+        {
+            Email = command.Email,
+            Password = command.Password
+        };
 
-        return Results.Unauthorized();
+        var result = await authService.LoginAsync(request);
+
+        return result.Match(
+            onSuccess: (response, msg) => Results.Ok(response),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return Results.StatusCode(statusCode);
+            }
+        );
     }
 
     /// <summary>
@@ -44,13 +59,22 @@ public static class AuthEndpoints
     /// Refreshes an expired JWT token
     /// </summary>
     [WolverinePost("/api/auth/refresh")]
+    [AllowAnonymous]
     public static async Task<IResult> RefreshToken(
         RefreshTokenCommand command,
         IAuthService authService,
         CancellationToken ct)
     {
-        // TODO: Implement RefreshTokenAsync with proper Result handling
-        return Results.Unauthorized();
+        var result = await authService.RefreshTokenAsync(command.RefreshToken);
+
+        return result.Match(
+            onSuccess: (response, msg) => Results.Ok(response),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return Results.StatusCode(statusCode);
+            }
+        );
     }
 
     /// <summary>

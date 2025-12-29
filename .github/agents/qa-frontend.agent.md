@@ -48,3 +48,7 @@ Test Data:
 - Various product categories
 - Different payment methods
 - International shipping scenarios
+
+**For Complex E2E Scenarios**: Consult @software-architect when testing cross-service workflows, multi-tenant data isolation in tests, or complex state management scenarios.
+
+```

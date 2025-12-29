@@ -34,3 +34,5 @@ Key Endpoints:
 - POST /checkout (validate and create order)
 - POST /orders/{id}/return (manage returns)
 - GET /invoices (download previous invoices)
+
+**For System Structure Changes**: Consult @software-architect for catalog indexing strategies, checkout architecture changes, or payment integration patterns.

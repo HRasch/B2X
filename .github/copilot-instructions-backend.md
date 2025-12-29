@@ -1,6 +1,8 @@
 # Backend Developer - AI Agent Instructions
 
 **Focus**: Wolverine services, onion architecture, database design  
+**Agent**: @backend-developer (or specialized: @backend-admin, @backend-store)  
+**Escalation**: Complex problems → @tech-lead | System structure → @software-architect  
 **For full reference**: [copilot-instructions.md](./copilot-instructions.md)
 
 ---
@@ -112,6 +114,17 @@ dotnet ef migrations add [Name] --project backend/Domain/[Service]/src  # Migrat
 | Using `null` defaults | Make defaults explicit and meaningful |
 | Hardcoding secrets | Use `IConfiguration["Key"]` or `appsettings.json` |
 | No encryption for PII | Use `IEncryptionService.Encrypt()` for email, phone, address, DOB |
+
+---
+
+## 🚀 Escalation Path
+
+**Problem?** → Ask your agent
+- **Complex implementation**: Ask @tech-lead for code patterns
+- **Service design question**: Ask @tech-lead, they may escalate to @software-architect
+- **Architectural decision**: Ask @software-architect directly (e.g., should search be separate service?)
+- **DevOps/Operations**: Ask @cli-developer if it should be a CLI command
+- **Performance issue**: Ask @tech-lead, may escalate to @software-architect
 
 ---
 

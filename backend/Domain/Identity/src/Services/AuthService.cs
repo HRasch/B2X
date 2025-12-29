@@ -142,14 +142,14 @@ public class AuthService : IAuthService
             return new Result<AuthResponse>.Success(response, ErrorCodes.TwoFactorRequired.ToMessage());
         }
 
-        var accessToken = GenerateAccessToken(user);
-        var refreshToken = GenerateRefreshToken(user);
+        var accessToken = await GenerateAccessToken(user);
+        var refreshToken = await GenerateRefreshToken(user);
 
         _logger.LogInformation("User {Email} logged in successfully", user.Email);
 
         var loginResponse = new AuthResponse
         {
-            User = MapToUserInfo(user),
+            User = await MapToUserInfo(user),
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             ExpiresIn = 3600
@@ -188,12 +188,12 @@ public class AuthService : IAuthService
         }
 
         // Generate new tokens
-        var newAccessToken = GenerateAccessToken(user);
-        var newRefreshToken = GenerateRefreshToken(user);
+        var newAccessToken = await GenerateAccessToken(user);
+        var newRefreshToken = await GenerateRefreshToken(user);
 
         var response = new AuthResponse
         {
-            User = MapToUserInfo(user),
+            User = await MapToUserInfo(user),
             AccessToken = newAccessToken,
             RefreshToken = newRefreshToken,
             ExpiresIn = 3600
@@ -223,7 +223,7 @@ public class AuthService : IAuthService
 
         var response = new AuthResponse
         {
-            User = MapToUserInfo(user),
+            User = await MapToUserInfo(user),
             AccessToken = string.Empty,
             RefreshToken = string.Empty,
             ExpiresIn = 0,
@@ -313,7 +313,7 @@ public class AuthService : IAuthService
         return new Result<AppUser>.Success(user, $"User {(isActive ? "activated" : "deactivated")} successfully");
     }
 
-    private string GenerateAccessToken(AppUser user)
+    private async Task<string> GenerateAccessToken(AppUser user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
             _configuration["Jwt:Secret"] ?? "super-secret-key-for-development-only-change-in-production"));
@@ -329,7 +329,7 @@ public class AuthService : IAuthService
         };
 
         // Add roles as claims
-        var roles = _userManager.GetRolesAsync(user).Result;
+        var roles = await _userManager.GetRolesAsync(user);
         _logger.LogInformation("Roles for user {Email}: {Roles}", user.Email, string.Join(", ", roles));
 
         // Fallback: If user is admin@example.com and has no roles, add Admin role
@@ -356,7 +356,7 @@ public class AuthService : IAuthService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    private string GenerateRefreshToken(AppUser user)
+    private async Task<string> GenerateRefreshToken(AppUser user)
     {
         // Generate a JWT refresh token with user ID embedded
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -379,7 +379,7 @@ public class AuthService : IAuthService
             signingCredentials: credentials
         );
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
     }
 
     private ClaimsPrincipal? ValidateExpiredToken(string token)
@@ -409,9 +409,9 @@ public class AuthService : IAuthService
         }
     }
 
-    private UserInfo MapToUserInfo(AppUser user)
+    private async Task<UserInfo> MapToUserInfo(AppUser user)
     {
-        var roles = _userManager.GetRolesAsync(user).Result.ToArray();
+        var roles = (await _userManager.GetRolesAsync(user)).ToArray();
         return new UserInfo
         {
             Id = user.Id,
