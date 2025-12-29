@@ -160,4 +160,8 @@ var frontendAdmin = builder
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
     .WithEnvironment("NODE_ENV", "development");
 
+// Issue #50: Vite build errors are automatically captured by Aspire's built-in logging
+// Logs appear in Aspire Dashboard under each frontend resource
+// No custom code needed - AddViteApp() handles stdout/stderr forwarding
+
 builder.Build().Run();
