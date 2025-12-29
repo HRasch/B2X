@@ -1,7 +1,7 @@
 # B2Connect Agents Index
 
-**Quick Lookup**: 24 agents organized by category  
-**Last Updated**: 28. Dezember 2025  
+**Quick Lookup**: 29 agents organized by category  
+**Last Updated**: 29. Dezember 2025  
 **Purpose**: Find the right agent for your role/task
 
 ---
@@ -12,14 +12,15 @@
 
 | Your Role | Agent | Focus | Link |
 |-----------|-------|-------|------|
-| **Backend Developer** | backend-developer | API endpoints, services, databases | [→](./agents/backend-developer.agent.md) |
-| **Frontend Developer** | frontend-developer | Vue.js components, UX, accessibility | [→](./agents/frontend-developer.agent.md) |
-| **QA/Testing** | qa-engineer | Unit tests, integration tests, automation | [→](./agents/qa-engineer.agent.md) |
-| **Tech Lead** | tech-lead | Architecture, code review, decisions | [→](./agents/tech-lead.agent.md) |
-| **Security Engineer** | security-engineer | Encryption, auth, compliance | [→](./agents/security-engineer.agent.md) |
-| **DevOps Engineer** | devops-engineer | Infrastructure, CI/CD, deployment | [→](./agents/devops-engineer.agent.md) |
-| **QA Reviewer** | qa-reviewer | Code-smells, consistency, structure | [→](./agents/qa-reviewer.agent.md) |
-| **Scrum-Master** | scrum-master | Coordination, processes, conflict resolution | [→](./agents/scrum-master.agent.md) |
+| **Backend Developer** | backend-developer | API endpoints, services, databases | [→](./copilot-instructions-backend.md) |
+| **Frontend Developer** | frontend-developer | Vue.js components, UX, accessibility | [→](./copilot-instructions-frontend.md) |
+| **QA/Testing** | qa-engineer | Unit tests, integration tests, automation | [→](./copilot-instructions-qa.md) |
+| **Tech Lead** | tech-lead | Architecture, code review, decisions | [→](./copilot-instructions-backend.md) |
+| **Security Engineer** | security-engineer | Encryption, auth, compliance | [→](./copilot-instructions-security.md) |
+| **DevOps Engineer** | devops-engineer | Infrastructure, CI/CD, deployment | [→](./copilot-instructions-devops.md) |
+| **Product Owner** | product-owner | Roadmap, prioritization, compliance | [→](./copilot-instructions-product-owner.md) |
+| **Software Architect** | software-architect | System design, ADRs, governance | [→](./copilot-instructions-software-architect.md) |
+| **Scrum Master** | scrum-master | Coordination, processes, conflict resolution | [→](./copilot-instructions-scrum-master.md) |
 
 ---
 
@@ -27,7 +28,7 @@
 
 | Role | Agent | Focus |
 |---|---|---|
-| **QA Reviewer** | qa-reviewer | Code quality, code-smells, architectural consistency |
+| **QA Reviewer** | qa-reviewer | Project structure, documentation quality, code quality, code-smells, architectural consistency, maintenance, bloat prevention |
 | **Scrum-Master** | scrum-master | Team coordination, retrospectives, process optimization |
 
 ---
@@ -64,11 +65,12 @@
 
 ## 🔬 Experts & Specialists
 
-| Expertise | Agent | Focus |
-|---|---|---|
-| **AI/ML Specialist** | ai-specialist | AI patterns, model integration, optimization |
-| **UI Expert** | ui-expert | Design systems, component library, consistency |
-| **UX Expert** | ux-expert | User experience, accessibility (WCAG), usability |
+| Expertise | Agent | Focus | Link |
+|---|---|---|---|
+| **AI Specialist** | ai-specialist | AI/ML patterns, model integration, P0.7 AI Act | [→](./copilot-instructions-ai-specialist.md) |
+| **UI Expert** | ui-expert | Design systems, component library, Tailwind | [→](./copilot-instructions-ui-expert.md) |
+| **UX Expert** | ux-expert | User experience, WCAG 2.1 AA accessibility | [→](./copilot-instructions-ux-expert.md) |
+| **Process Controller** | process-controller | Execution monitoring, cost tracking, optimization | [→](./copilot-instructions-process-controller.md) |
 
 ---
 
@@ -80,6 +82,7 @@
 | **PIM Integration** | stakeholder-pim | Product data, catalog enrichment |
 | **CRM Integration** | stakeholder-crm | Customer data, interactions |
 | **BI/Analytics** | stakeholder-bi | Dashboards, reports, insights |
+| **SEO/Organic Growth** | stakeholder-seo | Search engine optimization, metadata, organic visibility |
 | **Reseller Partner** | stakeholder-reseller | Partner portal, white-label, reselling |
 
 ---
@@ -92,7 +95,46 @@
 
 ---
 
-## 📊 Agent Maturity & Status
+## � Development Process Integration
+
+### Core Team Collaboration Flow
+
+```
+Product Owner (Prioritization)           SEO Specialist (Organic Growth)
+    ↓                                     ↑
+Scrum Master (Planning)                 (Input on SEO impact)
+    ↓
+Tech Lead (Architecture Review)
+    ↓
+Backend Dev    Frontend Dev    Security Eng
+    ↓              ↓              ↓
+UI Expert → UX Expert → Process Controller
+    ↓              ↓              ↓
+QA Engineer (Testing)    DevOps Engineer (Deployment)
+    ↓
+SEO Specialist (Organic Growth)
+(Reviews page speed, metadata, structure)
+```
+
+### Weekly Process
+
+1. **Monday**: Backlog refinement (Product Owner, Scrum Master, SEO Specialist)
+   - SEO impact assessment for prioritized features
+2. **Tuesday-Thursday**: Development (Backend, Frontend, Security)
+   - UI Expert reviews design consistency
+   - UX Expert validates accessibility
+   - SEO Specialist reviews metadata/schema architecture
+   - Process Controller tracks metrics
+3. **Friday**: Sprint review and optimization (All)
+   - SEO Specialist reports on organic visibility impact
+   - Process Controller presents weekly report
+   - DevOps Engineer validates Core Web Vitals
+   - QA Engineer validates quality gates
+   - Scrum Master leads retrospective
+
+---
+
+## �📊 Agent Maturity & Status
 
 | Agent | Version | Status | Last Updated |
 |-------|---------|--------|--------------|
@@ -118,22 +160,31 @@
 | stakeholder-pim | 1.0 | ✅ Ready | 28. Dez |
 | stakeholder-crm | 1.0 | ✅ Ready | 28. Dez |
 | stakeholder-bi | 1.0 | ✅ Ready | 28. Dez |
+| stakeholder-seo | 1.0 | ✅ Ready | 29. Dez |
 | stakeholder-reseller | 1.0 | ✅ Ready | 28. Dez |
 | support-triage | 1.0 | ✅ Ready | 28. Dez |
 | documentation-enduser | 1.1 | ✅ Ready | 28. Dez |
 | documentation-developer | 1.1 | ✅ Ready | 28. Dez |
-| qa-reviewer | 1.0 | ✅ Ready | 28. Dez |
-| scrum-master | 1.0 | ✅ Ready | 28. Dez |
+| qa-reviewer | 1.0 | ✅ Ready | 29. Dez |
+| scrum-master | 1.0 | ✅ Ready | 29. Dez |
+| product-owner | 1.0 | ✅ Ready | 29. Dez |
+| software-architect | 1.0 | ✅ Ready | 29. Dez |
+| ui-expert | 1.0 | ✅ Ready | 29. Dez |
+| ux-expert | 1.0 | ✅ Ready | 29. Dez |
+| ai-specialist | 1.0 | ✅ Ready | 29. Dez |
+| process-controller | 1.0 | ✅ Ready | 29. Dez |
 
 ---
 
 ## 📈 Agent Coverage Summary
 
-**Total Agents**: 28  
-**Active**: 28/28 (100%)  
+**Total Agents**: 30  
+**Active**: 30/30 (100%)  
+**New This Session**: 6 (UI Expert, UX Expert, AI Specialist, Process Controller, QA Reviewer, SEO Specialist)  
 **Bilingual Support**: documentation-enduser (EN+DE), documentation-developer (EN+DE)  
-**Leadership**: Tech-Lead, Product-Owner, Scrum-Master  
-**Quality Assurance**: QA-Engineer, QA-Reviewer, QA-Frontend, QA-Performance, QA-Pentesting
+**Leadership**: Tech-Lead, Product-Owner, Scrum-Master, Software-Architect  
+**Quality Assurance**: QA-Engineer, QA-Reviewer, QA-Frontend, QA-Performance, QA-Pentesting  
+**Specialists**: UI-Expert, UX-Expert, AI-Specialist, Process-Controller, QA-Reviewer, SEO-Specialist (stakeholder)
 | stakeholder-reseller | 1.0 | ✅ Ready | 28. Dez |
 | support-triage | 1.0 | ✅ Ready | 28. Dez |
 
@@ -227,9 +278,9 @@ copilot-instructions-refactored.md (START HERE)
 
 ## ⚙️ Agent Maintenance
 
-**Updated**: 28. Dezember 2025  
+**Updated**: 29. Dezember 2025  
 **Next Review**: 15. Januar 2026  
-**Maintainers**: Architecture team
+**Maintainers**: Architecture team + QA Reviewer
 
 ---
 
@@ -238,4 +289,4 @@ copilot-instructions-refactored.md (START HERE)
 - 🟡 In Progress = Being developed
 - 🔴 Planned = Identified need, not yet created
 
-**Version**: 1.0
+**Version**: 1.1 (QA Reviewer added)

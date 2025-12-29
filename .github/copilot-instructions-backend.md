@@ -74,11 +74,22 @@ public class CreateProductService {
 
 ## ⚡ Critical Rules
 
-1. **Build first**: `dotnet build B2Connect.slnx` BEFORE writing tests
-2. **Tenant isolation**: EVERY query must filter by `TenantId`
-3. **FluentValidation**: EVERY command needs a `public class XyzValidator : AbstractValidator<Xyz>`
-4. **Audit logging**: EVERY data modification must be logged (EF Core interceptor)
-5. **Encryption**: PII fields (email, phone, address) use AES-256
+1. **Build-First Rule (CRITICAL)**: Generate files → Build IMMEDIATELY (`dotnet build B2Connect.slnx`) → Fix errors → Test
+   - **Why**: Issue #30 accumulated 38+ test failures by deferring build validation
+   - **Prevents**: Cascading failures across multiple files
+   - Pattern: Code → Build → Test → Commit (never defer build)
+
+2. **Test Immediately After Code Changes**: Run tests after handler, validator, and query changes
+   - Execute `dotnet test backend/Domain/[Service]/tests -v minimal` after each logical change
+   - Issue #30 achieved 0 regressions via continuous verification (204/204 passing)
+
+3. **Tenant isolation**: EVERY query must filter by `TenantId`
+
+4. **FluentValidation**: EVERY command needs a `public class XyzValidator : AbstractValidator<Xyz>`
+
+5. **Audit logging**: EVERY data modification must be logged (EF Core interceptor)
+
+6. **Encryption**: PII fields (email, phone, address) use AES-256
 
 ---
 
@@ -95,13 +106,43 @@ dotnet ef migrations add [Name] --project backend/Domain/[Service]/src  # Migrat
 
 ## 📋 Before Implementing a Handler
 
+### Code Structure
 - [ ] Is this a plain POCO command (no IRequest)?
 - [ ] Is handler a public async method in a Service class?
+- [ ] Does it follow the Wolverine pattern (NOT MediatR)?
+
+### Security & Data Protection
 - [ ] Does it filter queries by TenantId?
-- [ ] Is there a validator class?
-- [ ] Is there audit logging for data changes?
-- [ ] Does every async call pass CancellationToken?
 - [ ] Are PII fields encrypted (IEncryptionService)?
+- [ ] Is there audit logging for data changes?
+- [ ] Does it validate input with FluentValidation?
+
+### Async & Performance
+- [ ] Does every async call pass CancellationToken?
+- [ ] Are there no blocking calls (no .Result, .Wait())?
+- [ ] Is the query optimized (.Select() for projection)?
+- [ ] Are external service calls timeout-protected?
+
+### Testing & Validation
+- [ ] Is there a validator class?
+- [ ] Are positive and negative tests written?
+- [ ] Does it test tenant isolation (cross-tenant access blocked)?
+- [ ] Is encryption/decryption round-trip tested?
+- [ ] Build successful after code: `dotnet build B2Connect.slnx`?
+- [ ] Tests passing: `dotnet test backend/Domain/[Service]/tests -v minimal`?
+
+### Code Review Readiness
+- [ ] No hardcoded secrets (use IConfiguration)
+- [ ] No stack traces in error messages
+- [ ] No PII in logs or error responses
+
+### User-Facing Feature Documentation
+- [ ] User-facing features have EN/DE documentation?
+- [ ] Docs created simultaneously (not EN→DE translation)?
+- [ ] Both language files in same commit?
+- [ ] Grammar reviewed (Grammarly/LanguageTool)?
+
+**Rationale**: Sprint 1 Phase A (Issue #30) revealed gaps in multi-stage validation. This comprehensive checklist prevents regressions.
 
 ---
 

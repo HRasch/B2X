@@ -350,55 +350,20 @@ builder.Services.AddMediatR();
 
 ---
 
-## � Retrospectives & Continuous Improvement
+## 💡 Key Learnings (Session 28. Dezember 2025)
 
-**Retrospective Framework**: See [RETROSPECTIVE_PROTOCOL.md](./RETROSPECTIVE_PROTOCOL.md) for comprehensive guidance
-
-Retrospectives are how we improve processes and capture validated learnings. After each sprint:
-1. **Gather Data**: Build status, test results, git history, documentation metrics
-2. **Analyze**: What went well? What didn't? Why?
-3. **Improve**: Prioritize solutions (Priority 1: immediate, Priority 2: next sprint)
-4. **Update Instructions**: Implement improvements back into this file
-5. **Measure**: Track metrics across sprints to verify improvement
-
-**Example**: Issue #30 retrospective identified 8 validated learnings → 3 Priority 1 improvements implemented → Build-first rule added below
-
-**Reference Metrics**: Track in RETROSPECTIVE_PROTOCOL.md §Metrics Dashboard
-
----
-
-## 💡 Key Learnings (Session 29. Dezember 2025)
-
-**Source**: Issue #30 Sprint 1 Phase A Retrospective ([RETROSPECTIVE_PROTOCOL.md](./RETROSPECTIVE_PROTOCOL.md))  
-**Validation**: All learnings tested during Issue #30, metrics verified, improvements documented
-
-### 1. Build-First Rule (CRITICAL - Validated Learning #30)
+### 1. Build Validation First
 
 ```bash
-# IMMEDIATE execution PREVENTS cascading failures (Issue #30)
-dotnet build B2Connect.slnx  # Step 1: Build immediately after creating files
-# Fix any compiler errors before proceeding
+# BEFORE implementing features:
+dotnet build B2Connect.slnx  # Fix compiler errors
+dotnet test backend/Domain/[Service]/tests -v minimal  # Then test
 
-dotnet test backend/Domain/[Service]/tests -v minimal  # Step 2: Test after fixes
+# ❌ DON'T: Generate code → Build at end (38 failures accumulated)
+# ✅ DO: Build immediately after creating files
 ```
 
-**WHY CRITICAL**: During Sprint 1 Phase A (Issue #30), deferring build validation accumulated **38+ test failures** that cascaded across 10 test files. Immediate build catches errors at source:
-- Missing namespaces (found in 3 seconds)
-- Type mismatches (found in 2 seconds)
-- Configuration issues (found in 1 second)
-
-**Pattern:**
-1. Generate code files
-2. Build immediately (`dotnet build`)
-3. Fix errors reported
-4. Test (`dotnet test`)
-5. Commit with issue reference
-
-**❌ Anti-pattern**: Generate code → Write all features → Build at end = 38+ failures to untangle
-
-**✅ Validated**: Issue #30 split code generation from documentation; code-only PR had 0 build failures
-
-### 2.
+### 2. Wolverine ONLY (Not MediatR)
 
 - **Wolverine**: All 9 microservices, event-driven, distributed
 - **MediatR**: In-process, single app only
@@ -461,158 +426,7 @@ dotnet run  # Safe to restart
 **High value**: Every pattern must have 3-5 code examples
 **Low value**: Abstract descriptions without working examples
 
-### 8. Documentation Grammar Review Gate (NEW - Validated Learning #30)
-
-**Requirement**: EN/DE documentation files MUST pass grammar review before merge.
-
-**Bilingual Parity**: Every user-facing document must exist in both English and German:
-```
-docs/user-guides/
-├── en/
-│   ├── account-security.md
-│   ├── product-search.md
-│   └── checkout-process.md
-├── de/
-│   ├── account-sicherheit.md
-│   ├── produktsuche.md
-│   └── checkout-prozess.md
-```
-
-**Issue #30 Learning**: Sprint 1 Phase A required **15 German grammar corrections** across:
-- Capitalization errors (English: `product`, German: `Produkt` - capitalize nouns)
-- Case agreement (Nominative: `der Benutzer`, Dative: `dem Benutzer`)
-- Hyphenation (German compound words: `Benutzer-Verwaltung`)
-- Umlauts (ä, ö, ü, ß - must be preserved)
-
-**Prevention Strategy**:
-1. **Create bilingual TOGETHER**, not EN → translate DE
-2. **Use native speaker review** for >500 words
-3. **Grammar tools**: Grammarly (EN), LanguageTool (DE)
-4. **PR checks**: Block merge if either language has grammar violations
-5. **Template**: Create both `.md` files simultaneously
-
-**Metrics**: Issue #30 created 11 EN/DE documentation files; all now in sync via parallel creation.
-
----
-
-### 9. Documentation Index Requirement (NEW - Validated Learning #30)
-
-**Requirement**: Every documentation section must have a DOCUMENTATION_INDEX.md for navigation.
-
-**Issue #30 Learning**: Sprint 1 Phase A created **22 new documentation files** without navigation structure. Result: **orphaned docs** that users couldn't discover.
-
-**Pattern Example**:
-```markdown
-# Documentation Index - Account Security
-
-| Document | Purpose | Audience | Updated |
-|----------|---------|----------|---------|
-| [Account Security (EN)](en/account-security.md) | Multi-language guide | All users | 2025-12-29 |
-| [Account Security (DE)](de/account-sicherheit.md) | Multi-language guide | Alle Benutzer | 2025-12-29 |
-| [Two-Factor Auth Setup](en/two-factor-setup.md) | Step-by-step guide | First-time users | 2025-12-29 |
-
-## Quick Navigation
-- [← Back to Main Index](../DOCUMENTATION_INDEX.md)
-- [User Guides](../user-guides/)
-- [Administrator Guides](../admin-guides/)
-```
-
-**Maintenance Rule**:
-- Every new `.md` file → Update DOCUMENTATION_INDEX.md in same PR
-- Index table shows: filename, purpose, audience, last update date
-- Include link back to parent index (enables breadcrumb navigation)
-
-**Result**: Users can discover all docs via hierarchical navigation.
-
----
-
-### 10. Minimal Changes Principle (NEW - Validated Learning #30)
-
-**Rule**: Feature fix should be 2-3 lines of code per issue. Documentation goes to SEPARATE PR.
-
-**Issue #30 Pattern**:
-- PR #1 (Code only): 3-line fix to handler + tests (easy to review)
-- PR #2 (Docs only): 8,167 lines of comprehensive documentation (easy to review)
-- Result: Both PRs merged in <30 minutes
-
-**✅ Why This Works**:
-- Code review focuses on correctness
-- Documentation review focuses on clarity/completeness
-- No "drive-by reviews" of massive mixed PRs
-- Both can be merged independently
-- Easy to revert if needed (separate SHAs)
-
-**❌ Anti-pattern**: 
-```
-PR Mix (DO NOT DO):
-├── 5-line code fix
-├── 200 lines of feature code
-├── 8,000 lines of documentation
-├── 15 test files modified
-└── Result: "This PR is too big to review"
-```
-
-**Commit Structure Example**:
-```
-PR #1 - Code Fix (Issue #30):
-  commit 1: fix: handler null check (#30)
-  commit 2: test: add null check test (#30)
-  Result: 15 lines changed, easy review
-
-PR #2 - Documentation (Related #30):
-  commit 1: docs: add account security guide (en/de) (#30)
-  commit 2: docs: add index navigation (#30)
-  Result: 8,167 lines changed, easy review
-```
-
-**Validation**: Issue #30 code PR: 0 build failures | Doc PR: 15 grammar corrections (documented)
-
----
-
-### 11. Test-Driven Quality (NEW - Validated Learning #30)
-
-**Rule**: Run tests immediately after code changes. Verify EVERY commit compiles and passes.
-
-**Pattern**:
-```bash
-# After writing handler:
-dotnet build B2Connect.slnx
-✓ 0 errors, 0 warnings
-
-# Add tests:
-dotnet test backend/Domain/Identity/tests -v minimal
-✓ 204 passed, 0 failed (100%)
-
-# Commit with verification:
-git commit -m "feat(auth): add login handler (#30)"
-✓ Tests PASSED before commit
-```
-
-**Issue #30 Validation**: 
-- Tests run continuously during PR development
-- Final metrics: **204/204 passing (100%)**
-- Zero regressions
-- No cascading failures
-
-**Why Mandatory**:
-1. **Catch errors early**: Errors found in seconds, not at build stage
-2. **Confidence**: Every commit is verified working
-3. **Easy debugging**: If one commit breaks tests, it's obvious which one
-4. **Documentation**: Test pass/fail is proof of quality
-
-**Anti-pattern**: "I'll run tests at the end" → 38+ failures to untangle
-
-**Recommended Workflow**:
-1. Write handler
-2. Write tests
-3. `dotnet build` → Fix errors
-4. `dotnet test` → Fix failures
-5. Commit when 100% green
-6. Repeat for next feature
-
----
-
-### 12. 52 Compliance Tests = Hard Gate
+### 9. 52 Compliance Tests = Hard Gate
 
 Phase 1 features can ONLY deploy if:
 - ✅ P0.6 E-Commerce Tests: 15/15
@@ -624,32 +438,16 @@ If ANY fails: Deployment BLOCKED.
 
 ---
 
-## 📊 Retrospective Metrics (29. Dezember 2025)
+## 📊 Retrospective Metrics (28. Dezember 2025)
 
-| Metric | Value | Target | Notes |
-|--------|-------|--------|-------|
-| Phase A Output | 10,580+ lines | Documentation ✅ | Code + Tests + User Guides |
-| Test Passing Rate | 204/204 (100%) | > 95% ✅ | All tests green (Issue #30) |
-| Build Time | 8.5s | < 10s ✅ | Immediate validation |
-| Code Coverage | > 80% | >= 80% ✅ | Unit + Integration |
-| Compliance Tests | 52 defined | Ready ✅ | P0.6-P0.9 gates |
-| Wolverine Pattern | 100% | No MediatR ✅ | All 9 services verified |
-| User-Facing Docs | 11 files (EN/DE) | Bilingual ✅ | +6 languages planned |
-| Documentation Index | 6 feature indices | Required ✅ | 100% coverage |
-| Commits per Issue | 19 atomic | Disciplined ✅ | All traced to #30 |
-
-### Validated Learnings (Issue #30)
-
-1. **Build-First Rule**: Immediate build catches 38+ failures early (Sections 1 & 12)
-2. **Bilingual Docs**: 15 German corrections required with simultaneous EN/DE creation (Section 8)
-3. **Documentation Index**: 22 orphaned files resolved with DOCUMENTATION_INDEX.md (Section 9)
-4. **Minimal Changes**: Code fix + docs in separate PRs = faster reviews (Section 10)
-5. **Test-Driven Quality**: 204/204 passing (100%) via continuous verification (Section 11)
-6. **Commit Discipline**: 19 atomic commits with issue #30 reference = easy to trace
-7. **Tenant Isolation**: All queries filter by TenantId (security-first)
-8. **Zero Build Failures**: Code PR had 0 errors due to immediate validation
-9. **Comprehensive Testing**: Unit + Integration + Compliance (52 tests)
-10. **Quality Gate**: Documentation grammar + code reviews in parallel
+| Metric | Value | Target |
+|--------|-------|--------|
+| Phase A Output | 10,580+ lines | Documentation ✅ |
+| Test Passing Rate | 169/171 (99.4%) | > 95% ✅ |
+| Build Time | 8.5s | < 10s ✅ |
+| Code Coverage | > 80% | >= 80% ✅ |
+| Compliance Tests | 52 defined | Ready ✅ |
+| Wolverine Pattern | 100% | No MediatR ✅ |
 
 ---
 
@@ -675,10 +473,8 @@ If ANY fails: Deployment BLOCKED.
 - [Security Engineer](./copilot-instructions-security.md) - Encryption, Audit, Security Patterns
 - [Tech Lead](./copilot-instructions-techpad.md) - Architecture Decisions
 - [Project Index](./copilot-instructions-index.md) - All documentation
-- **[RETROSPECTIVE_PROTOCOL.md](./RETROSPECTIVE_PROTOCOL.md)** - Sprint retrospectives, learnings capture, process improvement
-- **[Scrum Master Agent](./agents/scrum-master.agent.md)** - Team coordination, retrospective facilitation, conflict resolution
 
 ---
 
-**Last updated**: 29. Dezember 2025 | **Token Optimization**: 3,578 → 1,200 lines | **Patterns moved to role-specific guides**: 200+ rules | **Process improvement**: Retrospective protocol separated (v2.0)
+**Last updated**: 29. Dezember 2025 | **Token Optimization**: 3,578 → 1,200 lines | **Patterns moved to role-specific guides**: 200+ rules
 
