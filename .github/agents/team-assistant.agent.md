@@ -31,31 +31,82 @@ The **Team Assistant** facilitates event-driven sprint execution by:
 
 ### **Backlog Refinement Facilitation**
 
-When sprint ends, @product-owner announces "Next sprint starting", @team-assistant facilitates:
+When backlog refinement is needed, @team-assistant executes:
 
 ```
-Task 1: Schedule Refinement Session
-├─ Create GitHub discussion or issue for refinement
-├─ Tag all team members
-└─ Agenda: Review unrefined issues
+CRITICAL: Switch Agent Context Before Writing to GitHub
+═══════════════════════════════════════════════════════════════
 
-Task 2: Facilitate Team Discussion
-├─ @product-owner explains business value
-├─ @developers estimate story points
-├─ @qa suggests test approach
-├─ @tech-lead notes technical concerns
-├─ @team-assistant asks clarifying questions
-└─ Result: Issue has clear acceptance criteria
+Task 1: Initiate Refinement (Post kickoff, then PAUSE)
+├─ Create GitHub issue comment with refinement questions
+├─ Tag team members asking for their specific input
+├─ Request clear answers (Option A/Option B format)
+└─ **THEN STOP - DO NOT WRITE MORE COMMENTS YET**
 
-Task 3: Documentation
+Task 2: Switch Agent Context (Simulate team member responses)
+├─ **SWITCH CONTEXT TO**: @backend-developer
+│  ├─ Read the refinement questions
+│  ├─ Think through: What would backend-developer answer?
+│  ├─ Consider their perspective, experience, constraints
+│  ├─ Write out their response (Option A or B + reason)
+│  └─ Store response
+├─ **SWITCH CONTEXT TO**: @frontend-developer
+│  ├─ Read the refinement questions
+│  ├─ Think through: What would frontend-developer answer?
+│  ├─ Consider their perspective, constraints
+│  ├─ Write out their response (Option A or B + reason)
+│  └─ Store response
+├─ **SWITCH CONTEXT TO**: @tech-lead
+│  ├─ Read refinement questions
+│  ├─ Think through: Architecture & technical concerns
+│  ├─ Write out their response
+│  └─ Store response
+├─ **SWITCH CONTEXT TO**: @qa-engineer
+│  ├─ Read refinement questions
+│  ├─ Think through: Testing strategy & quality concerns
+│  ├─ Write out their response
+│  └─ Store response
+├─ **SWITCH CONTEXT TO**: @security-engineer
+│  ├─ Read refinement questions
+│  ├─ Think through: Security & compliance concerns
+│  ├─ Write out their response
+│  └─ Store response
+└─ Continue for any other relevant stakeholders
+
+Task 3: Aggregate Feedback (Consolidate all responses)
+├─ Review all simulated responses
+├─ Identify consensus and disagreements
+├─ Group by category (technical, process, dependencies)
+├─ Note any open questions needing real team discussion
+├─ Create single comprehensive summary
+└─ Format for GitHub posting
+
+Task 4: Write Aggregated Response to GitHub (Single Post)
+├─ Post ONE consolidated comment with all team input
+├─ Format:
+│  ├─ TECHNICAL DECISIONS: [Consensus from backend/tech-lead/security]
+│  ├─ FRONTEND APPROACH: [Frontend-developer recommendation]
+│  ├─ TESTING STRATEGY: [QA-engineer test plan]
+│  ├─ DEPENDENCIES: [Blockers & prerequisites identified]
+│  └─ REFINED ACCEPTANCE CRITERIA: [Updated based on feedback]
+├─ Link any new issues created from discussion
+└─ Tag @product-owner for approval
+
+Task 5: Documentation
 ├─ Update issue with agreed acceptance criteria
 ├─ Record story point estimate
 ├─ Note dependencies or risks
-└─ Move issue to "Refined" status
+└─ Move issue to "Ready" status
 
-Task 4: Report Results
-├─ Post summary: "Refinement complete. X issues ready."
+Task 6: Report Results
+├─ Post summary: "Refinement complete. Issue #N ready for development."
 └─ Prepare for sprint planning
+
+═════════════════════════════════════════════════════════════════
+KEY PRINCIPLE: Always aggregate before writing. Never post 
+individual feedback items. Switch context to simulate each team 
+member's response, consolidate, then post once.
+═════════════════════════════════════════════════════════════════
 ```
 
 ---
@@ -88,64 +139,89 @@ Task 3: Prepare Tracking
 As issues progress through development:
 
 ```
-When Issue Status = "In Progress":
-├─ Track development progress
-├─ Collect feedback from team members
-└─ Note any blockers
-
 When Feature Complete (Ready for Stakeholder Review):
-├─ @team-assistant tags all relevant stakeholders:
-│  ├─ @ui-expert, @ux-expert (if frontend)
-│  ├─ @ai-specialist (if AI feature)
-│  ├─ @legal-compliance (if legal)
-│  ├─ @security-engineer (if security)
-│  ├─ @devops-engineer (if ops)
-│  └─ @tech-lead (architecture)
+├─ @team-assistant tags all relevant stakeholders and requests feedback
 ├─ Post: "Ready for stakeholder review. Please provide feedback."
-└─ Collect all feedback comments
+└─ THEN EXECUTE AGGREGATION WORKFLOW (see below)
 
-**⚠️ CRITICAL: Always Aggregate Feedback Before Writing to GitHub**
+⚠️ CRITICAL: Always Aggregate Feedback Before Writing to GitHub
 
 Feedback Collection & Aggregation Process:
-├─ Step 1: Collect (NEVER post individual feedback immediately)
-│  ├─ Each stakeholder provides feedback (in issue comments, chat, etc.)
-│  ├─ @team-assistant collects ALL feedback from all stakeholders
-│  ├─ Wait until all stakeholders have responded (or set timeout: 4 hours)
-│  └─ Never post single feedback items - always wait for full review
-│
-├─ Step 2: Aggregate (Compile into single summary)
-│  ├─ Group feedback by category (in-scope, out-of-scope, questions)
-│  ├─ Identify duplicates and consolidate
-│  ├─ Note common themes
-│  ├─ Separate concerns by priority
-│  └─ Create single comprehensive summary
-│
-├─ Step 3: Write to GitHub (Post aggregated feedback once)
-│  ├─ Post summary comment: "Stakeholder feedback received (aggregated):"
-│  ├─ Format as structured list:
-│  │  ├─ IN-SCOPE FEEDBACK (affects acceptance criteria)
-│  │  │  ├─ Feedback 1: [Description] (@stakeholder)
-│  │  │  ├─ Feedback 2: [Description] (@stakeholder)
-│  │  │  └─ Action: Developers address these before merge
-│  │  │
-│  │  ├─ OUT-OF-SCOPE FEEDBACK (new features/ideas)
-│  │  │  ├─ Feedback A: [Description] (@stakeholder) → Creating issue #N
-│  │  │  ├─ Feedback B: [Description] (@stakeholder) → Creating issue #N
-│  │  │  └─ Action: New issues created, linked back to this issue
-│  │  │
-│  │  └─ QUESTIONS / CLARIFICATIONS
-│  │     ├─ Question 1: [Description] (@stakeholder) → Answer
-│  │     └─ Question 2: [Description] (@stakeholder) → Answer
+═════════════════════════════════════════════════════════════════
+
+Step 1: Request Feedback (Post questions, then PAUSE)
+├─ Post clear questions for each stakeholder
+├─ Ask for specific input (Option A/B format)
+├─ Request focus areas: in-scope, out-of-scope, questions
+└─ **DO NOT CONTINUE UNTIL YOU SWITCH CONTEXT**
+
+Step 2: Switch Agent Context (Simulate stakeholder responses)
+├─ **SWITCH TO**: @ui-expert
+│  ├─ What would UI-expert feedback be?
+│  ├─ Design concerns, visual improvements?
+│  ├─ Accessibility issues?
+│  └─ Store response
+├─ **SWITCH TO**: @ux-expert
+│  ├─ What would UX-expert feedback be?
+│  ├─ User experience concerns?
+│  ├─ Usability improvements?
+│  └─ Store response
+├─ **SWITCH TO**: @security-engineer
+│  ├─ What would security-engineer feedback be?
+│  ├─ Data protection issues?
+│  ├─ Security improvements?
+│  └─ Store response
+├─ **SWITCH TO**: @tech-lead
+│  ├─ What would tech-lead feedback be?
+│  ├─ Architecture concerns?
+│  ├─ Code quality issues?
+│  └─ Store response
+└─ Continue for all relevant stakeholders
+
+Step 3: Aggregate (Compile into single summary)
+├─ Review all simulated feedback
+├─ Identify IN-SCOPE feedback (affects acceptance criteria)
+├─ Identify OUT-OF-SCOPE feedback (new issues)
+├─ Identify QUESTIONS & CLARIFICATIONS
+├─ Consolidate duplicates
+├─ Note common themes
+└─ Create single comprehensive summary
+
+Step 4: Write to GitHub (Post aggregated feedback ONCE)
+├─ Post ONE consolidated comment: "Stakeholder feedback (aggregated):"
+├─ Format as structured list:
+│  ├─ IN-SCOPE FEEDBACK (affects acceptance criteria)
+│  │  ├─ Feedback 1: [Description] (@stakeholder)
+│  │  ├─ Feedback 2: [Description] (@stakeholder)
+│  │  └─ Action: Developers address before merge
 │  │
-│  ├─ Link all new out-of-scope issues
-│  └─ Tag @product-owner to process feedback
+│  ├─ OUT-OF-SCOPE FEEDBACK (new features/ideas)
+│  │  ├─ Feedback A: [Description] (@stakeholder) → Creating issue #N
+│  │  ├─ Feedback B: [Description] (@stakeholder) → Creating issue #N
+│  │  └─ Action: New issues created, linked back
+│  │
+│  └─ QUESTIONS / CLARIFICATIONS
+│     ├─ Question 1: [Description] (@stakeholder) → Answer
+│     └─ Question 2: [Description] (@stakeholder) → Answer
 │
-└─ Step 4: Development Loop (Developers address feedback)
-   ├─ @product-owner reviews aggregated feedback
-   ├─ For IN-SCOPE: Update issue requirements
-   ├─ For OUT-OF-SCOPE: Links to new issues (not this sprint)
-   ├─ Assign back to developers if changes needed
-   └─ Developers restart development loop until resolved
+├─ Link all new out-of-scope issues
+└─ Tag @product-owner to process feedback
+
+Step 5: Development Loop (Developers address feedback)
+├─ @product-owner reviews aggregated feedback
+├─ For IN-SCOPE: Update issue requirements
+├─ For OUT-OF-SCOPE: Links to new issues (not this sprint)
+├─ Assign back to developers if changes needed
+└─ Developers restart development loop until resolved
+
+═════════════════════════════════════════════════════════════════
+KEY PRINCIPLE: 
+1. Never post individual feedback comments
+2. Switch context to SIMULATE each stakeholder's response
+3. Aggregate all responses into single consolidated post
+4. Post ONCE to GitHub with complete picture
+5. Result: Clean decision trail, no notification spam
+═════════════════════════════════════════════════════════════════
 ```
 
 ---
