@@ -73,13 +73,16 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
-  const requiresAuth = to.meta?.requiresAuth !== false;
+  const requiresAuth = to.meta?.requiresAuth === true;
 
   if (requiresAuth && !authStore.isAuthenticated) {
-    router.push("/login");
+    // Redirect to login if authentication is required but user is not authenticated
+    next({ name: "Login", query: { redirect: to.fullPath } });
   } else if (to.path === "/login" && authStore.isAuthenticated) {
-    router.push("/dashboard");
+    // Redirect to dashboard if already authenticated and trying to access login
+    next({ name: "Dashboard" });
   } else {
+    // Allow navigation
     next();
   }
 });
