@@ -71,10 +71,10 @@ export function useErpIntegration() {
     () => customer.value !== null
   );
   const isPrivateCustomer: ComputedRef<boolean> = computed(
-    () => customer.value?.businessType === "PRIVATE" ?? false
+    () => customer.value?.businessType === "PRIVATE" || false
   );
   const isBusinessCustomer: ComputedRef<boolean> = computed(
-    () => customer.value?.businessType === "BUSINESS" ?? false
+    () => customer.value?.businessType === "BUSINESS" || false
   );
 
   /**

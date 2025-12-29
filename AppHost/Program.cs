@@ -146,6 +146,7 @@ var frontendStore = builder
     .WithEndpoint("http", endpoint => endpoint.Port = 5173)  // Workaround: modify existing endpoint
     .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
+    .WithEnvironment("PORT", "5173")  // Vite reads PORT env var
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000")
     .WithEnvironment("NODE_ENV", "development");
 
@@ -155,6 +156,7 @@ var frontendAdmin = builder
     .WithEndpoint("http", endpoint => endpoint.Port = 5174)  // Workaround: modify existing endpoint
     .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
+    .WithEnvironment("PORT", "5174")  // Vite reads PORT env var
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
     .WithEnvironment("NODE_ENV", "development");
 

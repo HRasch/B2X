@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { useCartStore } from "@/stores/cartStore";
+import { useCartStore, type CartItem } from "@/stores/cart";
 
 const router = useRouter();
 const cartStore = useCartStore();
@@ -11,13 +11,13 @@ const vatRate = 0.19; // 19% VAT
 // Computed
 const subtotal = computed(() => {
   return cartStore.items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum: number, item: CartItem) => sum + item.price * item.quantity,
     0
   );
 });
 
 const vatAmount = computed(() => {
-  return subtotal.value * vatRate.value;
+  return subtotal.value * vatRate;
 });
 
 const total = computed(() => {
@@ -25,7 +25,10 @@ const total = computed(() => {
 });
 
 const itemCount = computed(() => {
-  return cartStore.items.reduce((sum, item) => sum + item.quantity, 0);
+  return cartStore.items.reduce(
+    (sum: number, item: CartItem) => sum + item.quantity,
+    0
+  );
 });
 
 const isEmpty = computed(() => cartStore.items.length === 0);

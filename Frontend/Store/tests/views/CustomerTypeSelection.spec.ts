@@ -103,14 +103,14 @@ describe("CustomerTypeSelection.vue", () => {
       const cards = wrapper.findAll(".option-card");
       await cards[0].trigger("click");
 
-      expect(wrapper.vm.selectedType).toBe("private");
+      expect((wrapper.vm as any).selectedType).toBe("private");
     });
 
     it("should select business customer when clicking the card", async () => {
       const cards = wrapper.findAll(".option-card");
       await cards[1].trigger("click");
 
-      expect(wrapper.vm.selectedType).toBe("business");
+      expect((wrapper.vm as any).selectedType).toBe("business");
     });
 
     it("should apply selected class to selected card", async () => {
@@ -139,11 +139,11 @@ describe("CustomerTypeSelection.vue", () => {
 
       await cards[0].trigger("click");
       await wrapper.vm.$nextTick();
-      expect(wrapper.vm.selectedType).toBe("private");
+      expect((wrapper.vm as any).selectedType).toBe("private");
 
       await cards[1].trigger("click");
       await wrapper.vm.$nextTick();
-      expect(wrapper.vm.selectedType).toBe("business");
+      expect((wrapper.vm as any).selectedType).toBe("business");
     });
   });
 
@@ -175,7 +175,7 @@ describe("CustomerTypeSelection.vue", () => {
 
       await newWrapper.vm.$nextTick();
 
-      expect(newWrapper.vm.selectedType).toBe("private");
+      expect((newWrapper.vm as any).selectedType).toBe("private");
     });
 
     it("should update selected class based on persisted value", async () => {
@@ -204,7 +204,7 @@ describe("CustomerTypeSelection.vue", () => {
 
       await newWrapper.vm.$nextTick();
 
-      expect(newWrapper.vm.selectedType).toBeNull();
+      expect((newWrapper.vm as any).selectedType).toBeNull();
     });
   });
 
@@ -284,7 +284,7 @@ describe("CustomerTypeSelection.vue", () => {
       await cards[0].trigger("click");
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.selectedType).toBe("private");
+      expect((wrapper.vm as any).selectedType).toBe("private");
     });
 
     it("should have sufficient color contrast (visual check - manual verification needed)", () => {
@@ -313,24 +313,24 @@ describe("CustomerTypeSelection.vue", () => {
       await cards[1].trigger("click");
       await cards[0].trigger("click");
 
-      expect(wrapper.vm.selectedType).toBe("private");
+      expect((wrapper.vm as any).selectedType).toBe("private");
     });
 
     it("should update Continue button state correctly", async () => {
       const button = wrapper.find(".btn-primary");
       const cards = wrapper.findAll(".option-card");
 
-      expect(button.element.disabled).toBe(true);
+      expect((button.element as HTMLButtonElement).disabled).toBe(true);
 
       await cards[0].trigger("click");
-      expect(button.element.disabled).toBe(false);
+      expect((button.element as HTMLButtonElement).disabled).toBe(false);
     });
 
     it("should maintain selection after route navigation (if going back)", async () => {
       const cards = wrapper.findAll(".option-card");
 
       await cards[0].trigger("click");
-      const beforeNavigation = wrapper.vm.selectedType;
+      const beforeNavigation = (wrapper.vm as any).selectedType;
 
       // Verify localStorage persists the value
       expect(localStorage.getItem("customerTypeSelection")).toBe("private");

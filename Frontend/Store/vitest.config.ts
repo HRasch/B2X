@@ -12,6 +12,7 @@ export default defineConfig({
       "tests/unit/**/*.spec.ts",
       "tests/components/**/*.spec.ts",
       "tests/views/**/*.spec.ts",
+      "tests/integration/**/*.spec.ts",
     ],
     exclude: ["tests/e2e/**"],
     /**

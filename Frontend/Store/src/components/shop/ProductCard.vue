@@ -16,24 +16,21 @@
 
       <div class="product-pricing">
         <div class="price-section">
-          <span class="price"
-            >{{ formatPrice(product.priceBreakdown.PriceIncludingVat) }}€</span
-          >
+          <span class="price">{{ formatPrice(displayPrice()) }}</span>
           <span class="vat-text"
-            >inkl. MwSt
-            {{ (product.priceBreakdown.VatRate * 100).toFixed(0) }}%</span
+            >inkl. MwSt {{ (vatRate() * 100).toFixed(0) }}%</span
           >
           <span
-            v-if="product.priceBreakdown.OriginalPrice"
+            v-if="product.priceBreakdown?.OriginalPrice"
             class="original-price"
           >
-            <s>{{ formatPrice(product.priceBreakdown.OriginalPrice) }}€</s>
+            <s>{{ formatPrice(product.priceBreakdown.OriginalPrice) }}</s>
           </span>
           <span
-            v-if="product.priceBreakdown.DiscountAmount"
+            v-if="product.priceBreakdown?.DiscountAmount"
             class="discount-badge"
           >
-            -{{ formatPrice(product.priceBreakdown.DiscountAmount) }}€
+            -{{ formatPrice(product.priceBreakdown.DiscountAmount) }}
           </span>
         </div>
       </div>
@@ -53,6 +50,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Product } from "@/services/productService";
+
 interface PriceBreakdown {
   PriceIncludingVat: number;
   VatAmount: number;
@@ -64,23 +63,17 @@ interface PriceBreakdown {
   DestinationCountry: string;
 }
 
-interface Product {
-  id: string;
-  name: string;
-  priceBreakdown: PriceBreakdown;
-  image: string;
-  category: string;
-  description: string;
-  inStock: boolean;
-  rating: number;
+// Extend Product with optional priceBreakdown
+interface ProductWithPricing extends Product {
+  priceBreakdown?: PriceBreakdown;
 }
 
-defineProps<{
-  product: Product;
+const props = defineProps<{
+  product: ProductWithPricing;
 }>();
 
 defineEmits<{
-  "add-to-cart": [product: Product];
+  "add-to-cart": [product: ProductWithPricing];
 }>();
 
 // Format currency for display
@@ -91,6 +84,22 @@ const formatPrice = (price: number): string => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(price);
+};
+
+// Get display price (supports both formats)
+const displayPrice = () => {
+  if (props.product.priceBreakdown) {
+    return props.product.priceBreakdown.PriceIncludingVat;
+  }
+  return props.product.price ?? 0;
+};
+
+// Get VAT rate (defaults to 19% German VAT)
+const vatRate = () => {
+  if (props.product.priceBreakdown) {
+    return props.product.priceBreakdown.VatRate;
+  }
+  return 0.19;
 };
 </script>
 

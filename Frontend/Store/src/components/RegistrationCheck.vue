@@ -51,7 +51,7 @@
             placeholder="beispiel@unternehmen.de"
             required
             data-testid="email-input"
-            @blur="validateEmail"
+            @blur="validateEmailField"
           />
           <small v-if="emailError" class="form-error">{{ emailError }}</small>
         </div>

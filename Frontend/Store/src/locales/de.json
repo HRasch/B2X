@@ -69,5 +69,42 @@
     "help": "Hilfe",
     "about": "Über",
     "version": "Version"
+  },
+  "form": {
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "phone": "Telefonnummer",
+    "streetAddress": "Straße und Hausnummer",
+    "city": "Stadt",
+    "postalCode": "Postleitzahl",
+    "country": "Land",
+    "state": "Bundesland",
+    "dateOfBirth": "Geburtsdatum",
+    "optional": "optional",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "selectCountry": "-- Bitte wählen --"
+  },
+  "registration": {
+    "title": "Registrierung",
+    "subtitle": "Erstellen Sie Ihr Konto",
+    "emailAvailable": "E-Mail-Adresse verfügbar",
+    "passwordRequirements": "Passwortanforderungen: mindestens 8 Zeichen, Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen",
+    "ageConfirmation": "Ich bestätige, dass ich mindestens {age} Jahre alt bin",
+    "acceptTerms": "Ich akzeptiere die",
+    "termsLink": "Allgemeinen Geschäftsbedingungen",
+    "withdrawalNotice": "Sie haben das Recht, innerhalb von 14 Tagen nach dem Kauf die Ware ohne Angabe von Gründen zurückzugeben.",
+    "acceptPrivacy": "Ich akzeptiere die",
+    "privacyLink": "Datenschutzbestimmungen",
+    "acceptMarketing": "Ich möchte Marketing-E-Mails erhalten",
+    "createAccount": "Konto erstellen",
+    "creating": "Konto wird erstellt...",
+    "alreadyHaveAccount": "Sie haben bereits ein Konto?",
+    "loginLink": "Hier anmelden",
+    "error": "Registrierungsfehler. Bitte versuchen Sie es später erneut.",
+    "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung."
   }
 }

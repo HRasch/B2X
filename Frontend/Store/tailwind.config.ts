@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import daisyui from "daisyui";
+// DaisyUI v5 is imported via CSS (@import "daisyui"), not as a plugin
 
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
@@ -132,5 +132,6 @@ export default {
       },
     ],
   },
-  plugins: [daisyui],
+  // DaisyUI v5 is configured via CSS imports, not plugins
+  plugins: [],
 } satisfies Config;

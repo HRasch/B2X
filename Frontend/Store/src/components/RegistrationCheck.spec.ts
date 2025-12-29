@@ -8,6 +8,7 @@ import { mount } from "@vue/test-utils";
 import { createRouter, createMemoryHistory } from "vue-router";
 import RegistrationCheck from "./RegistrationCheck.vue";
 import * as registrationService from "@/services/registrationService";
+import type { CheckRegistrationTypeResponse } from "@/services/registrationService";
 
 // Mock the registration service
 vi.mock("@/services/registrationService", () => ({
@@ -132,13 +133,14 @@ describe("RegistrationCheck.vue", () => {
   });
 
   it("shows success message on successful registration check", async () => {
-    const mockResponse = {
+    const mockResponse: CheckRegistrationTypeResponse = {
       success: true,
-      registrationType: "Bestandskunde",
+      registrationType: "Bestandskunde" as const,
       erpData: {
         customerNumber: "123456",
         name: "Max Mustermann",
         email: "max@example.com",
+        isActive: true,
       },
     };
 
@@ -189,9 +191,9 @@ describe("RegistrationCheck.vue", () => {
   });
 
   it("displays ERP data when found", async () => {
-    const mockResponse = {
+    const mockResponse: CheckRegistrationTypeResponse = {
       success: true,
-      registrationType: "Bestandskunde",
+      registrationType: "Bestandskunde" as const,
       erpData: {
         customerNumber: "123456",
         name: "Max Mustermann",
@@ -201,6 +203,7 @@ describe("RegistrationCheck.vue", () => {
         postalCode: "12345",
         city: "Berlin",
         country: "Germany",
+        isActive: true,
       },
     };
 
@@ -228,9 +231,9 @@ describe("RegistrationCheck.vue", () => {
   });
 
   it("resets form on reset button click", async () => {
-    const mockResponse = {
+    const mockResponse: CheckRegistrationTypeResponse = {
       success: true,
-      registrationType: "NewCustomer",
+      registrationType: "NewCustomer" as const,
     };
 
     vi.mocked(registrationService.checkRegistrationType).mockResolvedValueOnce(
@@ -285,14 +288,15 @@ describe("RegistrationCheck.vue", () => {
   });
 
   it("displays confidence score when available", async () => {
-    const mockResponse = {
+    const mockResponse: CheckRegistrationTypeResponse = {
       success: true,
-      registrationType: "ExistingCustomer",
+      registrationType: "ExistingCustomer" as const,
       confidenceScore: 85,
       erpData: {
         customerNumber: "123456",
         name: "Max Mustermann",
         email: "max@example.com",
+        isActive: true,
       },
     };
 

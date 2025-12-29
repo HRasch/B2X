@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useCartStore } from "@/stores/cartStore";
+import { useCartStore } from "@/stores/cart";
 import ProductCardModern from "@/components/shop/ProductCardModern.vue";
 
 interface Product {
@@ -23,7 +23,6 @@ const cartStore = useCartStore();
 
 // State
 const products = ref<Product[]>([]);
-const filteredProducts = ref<Product[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
 

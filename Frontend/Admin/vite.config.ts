@@ -10,9 +10,9 @@ export default defineConfig({
     },
   },
   server: {
-    port: parseInt(process.env.VITE_PORT || "5174"),
+    port: parseInt(process.env.PORT || process.env.VITE_PORT || "5174"),
     host: "0.0.0.0",
-    strictPort: false,
+    strictPort: true, // Fail if port is not available
     proxy: {
       "/api": {
         target: process.env.VITE_API_GATEWAY_URL || "http://localhost:8080",

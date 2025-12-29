@@ -27,7 +27,7 @@
               required
               aria-label="Email address"
               aria-describedby="email-error"
-              aria-invalid="!!errors.email"
+              :aria-invalid="!!errors.email"
               @blur="validateEmail"
               @input="checkEmailAvailability"
               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
@@ -92,7 +92,7 @@
               required
               aria-label="Password"
               aria-describedby="password-error password-strength"
-              aria-invalid="!!errors.password"
+              :aria-invalid="!!errors.password"
               @input="validatePassword"
               class="w-full px-4 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
               :class="{ 'border-red-500': errors.password }"
@@ -190,7 +190,7 @@
             required
             aria-label="Confirm password"
             aria-describedby="confirm-password-error"
-            aria-invalid="!!errors.confirmPassword"
+            :aria-invalid="!!errors.confirmPassword"
             @input="validatePassword"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.confirmPassword }"
@@ -222,7 +222,7 @@
             required
             aria-label="First name"
             aria-describedby="firstName-error"
-            aria-invalid="!!errors.firstName"
+            :aria-invalid="!!errors.firstName"
             @blur="validateField('firstName')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.firstName }"
@@ -254,7 +254,7 @@
             required
             aria-label="Last name"
             aria-describedby="lastName-error"
-            aria-invalid="!!errors.lastName"
+            :aria-invalid="!!errors.lastName"
             @blur="validateField('lastName')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.lastName }"
@@ -291,7 +291,7 @@
             :required="storeConfig.requirePhoneNumber"
             aria-label="Phone number"
             aria-describedby="phone-error"
-            aria-invalid="!!errors.phone"
+            :aria-invalid="!!errors.phone"
             @blur="validateField('phone')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.phone }"
@@ -323,7 +323,7 @@
             required
             aria-label="Street address"
             aria-describedby="address-error"
-            aria-invalid="!!errors.streetAddress"
+            :aria-invalid="!!errors.streetAddress"
             @blur="validateField('streetAddress')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.streetAddress }"
@@ -355,7 +355,7 @@
             required
             aria-label="City"
             aria-describedby="city-error"
-            aria-invalid="!!errors.city"
+            :aria-invalid="!!errors.city"
             @blur="validateField('city')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.city }"
@@ -387,7 +387,7 @@
             required
             aria-label="Postal code"
             aria-describedby="postalCode-error"
-            aria-invalid="!!errors.postalCode"
+            :aria-invalid="!!errors.postalCode"
             @blur="validateField('postalCode')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.postalCode }"
@@ -418,7 +418,7 @@
             required
             aria-label="Country"
             aria-describedby="country-error"
-            aria-invalid="!!errors.country"
+            :aria-invalid="!!errors.country"
             @change="validateField('country')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.country }"
@@ -464,7 +464,7 @@
             type="text"
             aria-label="State or province"
             aria-describedby="state-error"
-            aria-invalid="!!errors.state"
+            :aria-invalid="!!errors.state"
             @blur="validateField('state')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.state }"
@@ -495,7 +495,7 @@
             type="date"
             aria-label="Date of birth"
             aria-describedby="dateOfBirth-error"
-            aria-invalid="!!errors.dateOfBirth"
+            :aria-invalid="!!errors.dateOfBirth"
             @blur="validateField('dateOfBirth')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.dateOfBirth }"
@@ -523,7 +523,7 @@
               required
               aria-label="I confirm that I am at least 18 years old"
               aria-describedby="age-confirm-error"
-              :aria-invalid="!!errors.ageConfirmed"
+              ::aria-invalid="!!errors.ageConfirmed"
               class="mt-1 h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
               :disabled="isSubmitting"
             />
@@ -555,7 +555,7 @@
               required
               aria-label="I accept the Terms and Conditions"
               aria-describedby="terms-error"
-              :aria-invalid="!!errors.acceptTerms"
+              ::aria-invalid="!!errors.acceptTerms"
               class="mt-1 h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
               :disabled="isSubmitting"
             />
@@ -601,7 +601,7 @@
               required
               aria-label="I accept the Privacy Policy"
               aria-describedby="privacy-error"
-              :aria-invalid="!!errors.acceptPrivacy"
+              ::aria-invalid="!!errors.acceptPrivacy"
               class="mt-1 h-4 w-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500"
               :disabled="isSubmitting"
             />
