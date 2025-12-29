@@ -1,7 +1,7 @@
 ---
 description: 'Scrum Master Agent responsible for team coordination, process optimization and conflict resolution'
 tools: ['agent', 'execute', 'gitkraken/*', 'vscode']
-model: 'claude-haiku-4-5'
+model: 'gpt-4o'
 infer: true
 ---
 

@@ -1,6 +1,6 @@
 # B2Connect Agents Index
 
-**Quick Lookup**: 28 agents organized by category  
+**Quick Lookup**: 29 agents organized by category  
 **Last Updated**: 29. Dezember 2025  
 **Purpose**: Find the right agent for your role/task
 
@@ -28,7 +28,7 @@
 
 | Role | Agent | Focus |
 |---|---|---|
-| **QA Reviewer** | qa-reviewer | Code quality, code-smells, architectural consistency |
+| **QA Reviewer** | qa-reviewer | Project structure, documentation quality, code quality, code-smells, architectural consistency, maintenance, bloat prevention |
 | **Scrum-Master** | scrum-master | Team coordination, retrospectives, process optimization |
 
 ---
@@ -82,6 +82,7 @@
 | **PIM Integration** | stakeholder-pim | Product data, catalog enrichment |
 | **CRM Integration** | stakeholder-crm | Customer data, interactions |
 | **BI/Analytics** | stakeholder-bi | Dashboards, reports, insights |
+| **SEO/Organic Growth** | stakeholder-seo | Search engine optimization, metadata, organic visibility |
 | **Reseller Partner** | stakeholder-reseller | Partner portal, white-label, reselling |
 
 ---
@@ -99,9 +100,9 @@
 ### Core Team Collaboration Flow
 
 ```
-Product Owner (Prioritization)
-    ↓
-Scrum Master (Planning)
+Product Owner (Prioritization)           SEO Specialist (Organic Growth)
+    ↓                                     ↑
+Scrum Master (Planning)                 (Input on SEO impact)
     ↓
 Tech Lead (Architecture Review)
     ↓
@@ -110,17 +111,24 @@ Backend Dev    Frontend Dev    Security Eng
 UI Expert → UX Expert → Process Controller
     ↓              ↓              ↓
 QA Engineer (Testing)    DevOps Engineer (Deployment)
+    ↓
+SEO Specialist (Organic Growth)
+(Reviews page speed, metadata, structure)
 ```
 
 ### Weekly Process
 
-1. **Monday**: Backlog refinement (Product Owner, Scrum Master)
+1. **Monday**: Backlog refinement (Product Owner, Scrum Master, SEO Specialist)
+   - SEO impact assessment for prioritized features
 2. **Tuesday-Thursday**: Development (Backend, Frontend, Security)
    - UI Expert reviews design consistency
    - UX Expert validates accessibility
+   - SEO Specialist reviews metadata/schema architecture
    - Process Controller tracks metrics
 3. **Friday**: Sprint review and optimization (All)
+   - SEO Specialist reports on organic visibility impact
    - Process Controller presents weekly report
+   - DevOps Engineer validates Core Web Vitals
    - QA Engineer validates quality gates
    - Scrum Master leads retrospective
 
@@ -152,11 +160,12 @@ QA Engineer (Testing)    DevOps Engineer (Deployment)
 | stakeholder-pim | 1.0 | ✅ Ready | 28. Dez |
 | stakeholder-crm | 1.0 | ✅ Ready | 28. Dez |
 | stakeholder-bi | 1.0 | ✅ Ready | 28. Dez |
+| stakeholder-seo | 1.0 | ✅ Ready | 29. Dez |
 | stakeholder-reseller | 1.0 | ✅ Ready | 28. Dez |
 | support-triage | 1.0 | ✅ Ready | 28. Dez |
 | documentation-enduser | 1.1 | ✅ Ready | 28. Dez |
 | documentation-developer | 1.1 | ✅ Ready | 28. Dez |
-| qa-reviewer | 1.0 | ✅ Ready | 28. Dez |
+| qa-reviewer | 1.0 | ✅ Ready | 29. Dez |
 | scrum-master | 1.0 | ✅ Ready | 29. Dez |
 | product-owner | 1.0 | ✅ Ready | 29. Dez |
 | software-architect | 1.0 | ✅ Ready | 29. Dez |
@@ -169,13 +178,13 @@ QA Engineer (Testing)    DevOps Engineer (Deployment)
 
 ## 📈 Agent Coverage Summary
 
-**Total Agents**: 28  
-**Active**: 28/28 (100%)  
-**New This Session**: 4 (UI Expert, UX Expert, AI Specialist, Process Controller)  
+**Total Agents**: 30  
+**Active**: 30/30 (100%)  
+**New This Session**: 6 (UI Expert, UX Expert, AI Specialist, Process Controller, QA Reviewer, SEO Specialist)  
 **Bilingual Support**: documentation-enduser (EN+DE), documentation-developer (EN+DE)  
 **Leadership**: Tech-Lead, Product-Owner, Scrum-Master, Software-Architect  
 **Quality Assurance**: QA-Engineer, QA-Reviewer, QA-Frontend, QA-Performance, QA-Pentesting  
-**Specialists**: UI-Expert, UX-Expert, AI-Specialist, Process-Controller
+**Specialists**: UI-Expert, UX-Expert, AI-Specialist, Process-Controller, QA-Reviewer, SEO-Specialist (stakeholder)
 | stakeholder-reseller | 1.0 | ✅ Ready | 28. Dez |
 | support-triage | 1.0 | ✅ Ready | 28. Dez |
 
@@ -269,9 +278,9 @@ copilot-instructions-refactored.md (START HERE)
 
 ## ⚙️ Agent Maintenance
 
-**Updated**: 28. Dezember 2025  
+**Updated**: 29. Dezember 2025  
 **Next Review**: 15. Januar 2026  
-**Maintainers**: Architecture team
+**Maintainers**: Architecture team + QA Reviewer
 
 ---
 
@@ -280,4 +289,4 @@ copilot-instructions-refactored.md (START HERE)
 - 🟡 In Progress = Being developed
 - 🔴 Planned = Identified need, not yet created
 
-**Version**: 1.0
+**Version**: 1.1 (QA Reviewer added)
