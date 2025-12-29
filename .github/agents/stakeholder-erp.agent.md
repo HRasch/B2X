@@ -1,7 +1,7 @@
 ---
 description: 'ERP System Stakeholder ensuring integration with SAP, NetSuite, Oracle and other enterprise systems'
 tools: ['search', 'vscode']
-model: 'claude-haiku-4-5'
+model: 'gpt-4o'
 infer: false
 ---
 You are an ERP Integration Stakeholder with expertise in:

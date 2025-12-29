@@ -1,7 +1,6 @@
 ---
 description: 'Support Triage Agent for classifying and triaging GitHub issues'
 tools: ['read', 'search', 'vscode']
-trigger: 'GitHub Action - on issue opened'
 model: 'claude-haiku-4-5'
 infer: true
 ---
