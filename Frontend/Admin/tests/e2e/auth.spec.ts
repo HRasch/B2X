@@ -40,10 +40,10 @@ test.describe("Admin Frontend - Login E2E Tests", () => {
     // Reload the page to trigger fresh app initialization
     await page.reload();
     await page.waitForLoadState("networkidle");
-    
+
     // Wait for Vue app to mount and set tenant ID
     await page.waitForTimeout(1000);
-    
+
     // Check if tenant ID is set in localStorage
     const tenantId = await page.evaluate(() =>
       localStorage.getItem("tenantId")
@@ -87,7 +87,9 @@ test.describe("Admin Frontend - Login E2E Tests", () => {
     expect(page.url()).toContain("dashboard");
 
     // Verify tenant ID is stored (login should preserve/set tenant)
-    const tenantId = await page.evaluate(() => localStorage.getItem("tenantId"));
+    const tenantId = await page.evaluate(() =>
+      localStorage.getItem("tenantId")
+    );
     expect(tenantId).toBe(DEFAULT_TENANT_ID);
   });
 
@@ -213,7 +215,9 @@ test.describe("Admin Frontend - Login E2E Tests", () => {
     await page.waitForURL("**/dashboard", { timeout: 15000 });
 
     // Get original tenant ID from login response
-    const originalTenantId = await page.evaluate(() => localStorage.getItem("tenantId"));
+    const originalTenantId = await page.evaluate(() =>
+      localStorage.getItem("tenantId")
+    );
     expect(originalTenantId).toBe(DEFAULT_TENANT_ID);
 
     // Try to manipulate tenant ID in localStorage
@@ -222,7 +226,9 @@ test.describe("Admin Frontend - Login E2E Tests", () => {
     });
 
     // Verify the manipulation was stored
-    const spoofedTenantId = await page.evaluate(() => localStorage.getItem("tenantId"));
+    const spoofedTenantId = await page.evaluate(() =>
+      localStorage.getItem("tenantId")
+    );
     expect(spoofedTenantId).toBe("99999999-9999-9999-9999-999999999999");
 
     // Note: In a real scenario, the backend would reject requests with mismatched tenant IDs
@@ -242,9 +248,11 @@ test.describe("Admin Frontend - Login E2E Tests", () => {
 
     // Verify user remains on login page (login failed)
     expect(page.url()).toContain("login");
-    
+
     // Verify error message is displayed (more specific locator)
-    const errorMessage = page.locator('div:has-text("Invalid credentials")').first();
+    const errorMessage = page
+      .locator('div:has-text("Invalid credentials")')
+      .first();
     await expect(errorMessage).toBeVisible({ timeout: 3000 });
   });
 
@@ -277,9 +285,11 @@ test.describe("Admin Frontend - Login E2E Tests", () => {
     expect(storageBeforeLogout.authToken).toBeTruthy();
 
     // Find and click logout button (may be in user menu/dropdown)
-    const logoutButton = page.locator('button:has-text("Logout"), button:has-text("Sign Out"), a:has-text("Logout")');
-    const logoutExists = await logoutButton.count() > 0;
-    
+    const logoutButton = page.locator(
+      'button:has-text("Logout"), button:has-text("Sign Out"), a:has-text("Logout")'
+    );
+    const logoutExists = (await logoutButton.count()) > 0;
+
     if (logoutExists) {
       await logoutButton.first().click();
       await page.waitForTimeout(1000);
