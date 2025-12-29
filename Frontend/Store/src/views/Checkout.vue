@@ -27,6 +27,7 @@ const form = ref<ShippingForm>({
 const agreedToTerms = ref(false);
 const isSubmitting = ref(false);
 const errors = ref<Record<string, string>>({});
+const selectedShippingCost = ref(5.99); // Default, can be updated from cart store
 
 // Computed properties
 const subtotal = computed(() => {
@@ -40,7 +41,7 @@ const vatAmount = computed(() => {
   return Number((subtotal.value * 0.19).toFixed(2));
 });
 
-const shippingCost = computed(() => 5.99);
+const shippingCost = computed(() => selectedShippingCost.value);
 
 const total = computed(() => {
   return Number(
