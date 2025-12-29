@@ -54,6 +54,12 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: false },
   },
   {
+    path: "/checkout",
+    name: "Checkout",
+    component: () => import("../views/Checkout.vue"),
+    meta: { requiresAuth: false },
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("../views/NotFound.vue"),

@@ -12,8 +12,8 @@
     <div v-else class="cart-content">
       <div class="cart-items">
         <div v-for="item in cartStore.items" :key="item.id" class="cart-item">
-          <img :src="item.image" :alt="item.name" class="item-image">
-          
+          <img :src="item.image" :alt="item.name" class="item-image" />
+
           <div class="item-details">
             <h3>{{ item.name }}</h3>
             <p>Preis: {{ item.price }}€</p>
@@ -21,7 +21,7 @@
 
           <div class="item-quantity">
             <button @click="decreaseQuantity(item.id)">-</button>
-            <input v-model.number="item.quantity" type="number" min="1">
+            <input v-model.number="item.quantity" type="number" min="1" />
             <button @click="increaseQuantity(item.id)">+</button>
           </div>
 
@@ -35,7 +35,7 @@
 
       <div class="cart-summary">
         <h2>Zusammenfassung</h2>
-        
+
         <div class="summary-row">
           <span>Zwischensumme:</span>
           <span>{{ subtotal.toFixed(2) }}€</span>
@@ -51,9 +51,7 @@
           <span>{{ total.toFixed(2) }}€</span>
         </div>
 
-        <button @click="checkout" class="checkout-btn">
-          Zur Kasse gehen
-        </button>
+        <button @click="checkout" class="checkout-btn">Zur Kasse gehen</button>
 
         <router-link to="/shop" class="continue-shopping">
           Weiter einkaufen
@@ -64,41 +62,45 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useCartStore } from '../stores/cart'
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { useCartStore } from "../stores/cart";
 
-const cartStore = useCartStore()
+const router = useRouter();
+const cartStore = useCartStore();
 
 const subtotal = computed(() => {
-  return cartStore.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-})
+  return cartStore.items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+});
 
-const tax = computed(() => subtotal.value * 0.19)
+const tax = computed(() => subtotal.value * 0.19);
 
-const total = computed(() => subtotal.value + tax.value)
+const total = computed(() => subtotal.value + tax.value);
 
 const increaseQuantity = (itemId: string) => {
-  const item = cartStore.items.find(i => i.id === itemId)
+  const item = cartStore.items.find((i) => i.id === itemId);
   if (item) {
-    item.quantity++
+    item.quantity++;
   }
-}
+};
 
 const decreaseQuantity = (itemId: string) => {
-  const item = cartStore.items.find(i => i.id === itemId)
+  const item = cartStore.items.find((i) => i.id === itemId);
   if (item && item.quantity > 1) {
-    item.quantity--
+    item.quantity--;
   }
-}
+};
 
 const removeItem = (itemId: string) => {
-  cartStore.removeItem(itemId)
-}
+  cartStore.removeItem(itemId);
+};
 
 const checkout = () => {
-  alert(`Bestellung aufgeben für ${total.value.toFixed(2)}€`)
-  // TODO: Implement actual checkout flow
-}
+  router.push("/checkout");
+};
 </script>
 
 <style scoped>
