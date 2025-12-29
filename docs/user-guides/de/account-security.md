@@ -26,7 +26,7 @@ Halten Sie Ihr B2Connect-Konto sicher! Befolgen Sie diese einfachen Schritte.
 
 Wer sollte Ihr Passwort NICHT haben:
 - ❌ Freunde und Familie
-- ❌ B2Connect-Mitarbeiter (sie werden es niemals fragen!)
+- ❌ B2Connect-Mitarbeiter (Sie werden es niemals fragen!)
 - ❌ Ihr Ehepartner oder Partner
 - ❌ Kundensupport-Personal
 
@@ -35,13 +35,13 @@ Wer sollte Ihr Passwort NICHT haben:
 ### 3. Seien Sie vorsichtig auf öffentlichen Computern
 
 **An einem öffentlichen Computer (Bibliothek, Hotel, Büro):**
-1. ❌ Verwenden Sie nicht "Angemeldet bleiben"
+1. ❌ Verwenden Sie nicht „Angemeldet bleiben"
 2. ❌ Speichern Sie Ihr Passwort nicht
-3. ✅ Klicken Sie immer auf "Abmelden", wenn Sie fertig sind
+3. ✅ Klicken Sie immer auf „Abmelden", wenn Sie fertig sind
 4. ✅ Schließen Sie das Browserfenster vollständig
 
 **Zu Hause (Ihr Computer):**
-- ✅ Sicherer, um "Angemeldet bleiben" zu verwenden
+- ✅ Es ist sicherer, „Angemeldet bleiben" zu verwenden
 
 ### 4. Verwenden Sie nur das offizielle B2Connect
 
@@ -217,13 +217,10 @@ A: Nur wenn Sie denken, dass es kompromittiert ist. Das häufige Ändern von Pas
 
 **F: Ist B2Connect sicher zum Einkaufen?**  
 A: Ja! Wir verwenden Sicherheitsstandards der Branche (HTTPS, Verschlüsselung). Ihre Zahlungsinformationen werden von sicheren Zahlungsanbietern verarbeitet.
-
 **F: Verkaufen Sie meine persönlichen Daten?**  
 A: Niemals! Ihre Daten werden nur für Bestellungen und Kundendienst verwendet.
-
 **F: Wie lösche ich mein Konto?**  
 A: Gehen Sie zu Einstellungen → Konto → Konto löschen. [Kontaktieren Sie den Support](../support.md) für Hilfe.
-
 **F: Was sollte ich tun, wenn ich Gebühren sehe, die ich nicht gemacht habe?**  
 A: [Kontaktieren Sie den Support](../support.md) sofort. Wir untersuchen betrügerische Gebühren.
 

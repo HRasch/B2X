@@ -15,8 +15,8 @@ Diese Anleitung zeigt Ihnen, wie Sie auf Ihr B2Connect-Konto zugreifen.
 2. Die Anmeldeseite öffnet sich
 
 ### Schritt 3: Geben Sie Ihre Anmeldedaten ein
-1. **E-Mail**: Geben Sie die E-Mail ein, die Sie bei der Kontoerstellung verwendet haben
-2. **Passwort**: Geben Sie Ihr Passwort sorgfältig ein (Passwörter unterscheiden Groß- und Kleinschreibung)
+1. **E-Mail**: Geben Sie die E-Mail-Adresse ein, die Sie bei der Kontoerstellung verwendet haben
+2. **Passwort**: Geben Sie Ihr Passwort sorgfältig ein (Passwörter unterscheiden zwischen Groß- und Kleinschreibung)
 3. Klicken Sie auf **"Anmelden"**
 
 ### Schritt 4: Sie sind drin!
@@ -64,20 +64,20 @@ Sie sehen Ihr Dashboard und können mit dem Einkaufen beginnen! 🎉
 **Was bedeutet das?**  
 B2Connect konnte kein Konto mit dieser E-Mail und diesem Passwort finden.
 
-**Wie man es behebt:**
+**So beheben Sie das Problem:**
 1. ✓ Überprüfen Sie die Schreibweise der E-Mail (keine zusätzlichen Leerzeichen)
-2. ✓ Überprüfen Sie, ob CAPS LOCK aus ist
-3. ✓ Verifyifyerifizieren Sie, dass Sie das richtige Passwort verwenden
-4. Wenn immer noch festgefahren → [Setzen Sie Ihr Passwort zurück](./reset-password.md)
+2. ✓ Überprüfen Sie, ob CAPS LOCK ausgeschaltet ist
+3. ✓ Vergewissern Sie sich, dass Sie das richtige Passwort verwenden
+4. Falls weiterhin Probleme bestehen → [Setzen Sie Ihr Passwort zurück](./reset-password.md)
 
 ### "Konto nicht gefunden"
 
 **Was bedeutet das?**  
 Sie haben noch kein B2Connect-Konto.
 
-**Wie man es behebt:**
+**So beheben Sie das Problem:**
 1. Klicken Sie stattdessen auf **"Registrieren"**
-2. Führen Sie die Schritte zur Kontoerstellung aus
+2. Folgen Sie den Schritten zur Kontoerstellung
 3. Oder fragen Sie die Person, die Sie eingeladen hat
 
 ### "Zu viele Anmeldeversuche"
@@ -85,9 +85,9 @@ Sie haben noch kein B2Connect-Konto.
 **Was bedeutet das?**  
 Sie haben zu viele Male mit falschen Passwörtern versucht, sich anzumelden. Zur Sicherheit haben wir das Konto vorübergehend gesperrt.
 
-**Wie man es behebt:**
+**So beheben Sie das Problem:**
 1. Warten Sie 10 Minuten
-2. Versuchen Sie erneut
+2. Versuchen Sie es erneut
 3. Oder [setzen Sie Ihr Passwort zurück](./reset-password.md)
 
 ### "Passwort falsch" (aber Sie sind sicher, dass es richtig ist)
@@ -97,10 +97,10 @@ Sie haben zu viele Male mit falschen Passwörtern versucht, sich anzumelden. Zur
 - Versehentliche Leerzeichen vor/nach dem Passwort
 - Passwort kopiert mit zusätzlichen Leerzeichen
 
-**Wie man es behebt:**
+**So beheben Sie das Problem:**
 1. Klicken Sie auf **"Passwort vergessen?"**
 2. Setzen Sie Ihr Passwort zurück
-3. Erstellen Sie ein neues, das Sie sich merken
+3. Erstellen Sie ein neues Passwort, das Sie sich leicht merken können
 
 ### Können Sie sich immer noch nicht anmelden?
 
@@ -110,15 +110,15 @@ Sie haben zu viele Male mit falschen Passwörtern versucht, sich anzumelden. Zur
 
 ## Sicherheitstipps
 
-✅ **TUN Sie:**
-- Verwenden Sie ein eindeutiges Passwort (nicht woanders verwendet)
-- Melden Sie sich nach der Verwendung öffentlicher Computer ab
-- Überprüfen Sie, ob die Website URL `www.b2connect.com` ist
+✅ **Das sollten Sie tun:**
+- Verwenden Sie ein eindeutiges Passwort (nicht an anderer Stelle verwendet)
+- Melden Sie sich ab, wenn Sie öffentliche Computer nutzen
+- Überprüfen Sie, ob die Website-URL `www.b2connect.com` ist
 
-❌ **TUN Sie NICHT:**
+❌ **Das sollten Sie nicht tun:**
 - Teilen Sie Ihr Passwort mit jemandem
-- Geben Sie das Passwort auf einem Computer eines anderen ein
-- Melden Sie sich bei öffentlichem WiFi ohne VPN an
+- Geben Sie das Passwort auf einem Computer einer anderen Person ein
+- Verbinden Sie sich ohne VPN mit öffentlichem WiFi
 
 ---
 

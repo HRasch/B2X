@@ -115,7 +115,7 @@ Der Zurücksetzen-Link funktioniert nur 1 Stunde. Sie haben zu lange gewartet.
 ### "Passwort erfüllt die Anforderungen nicht"
 
 **Was bedeutet das?**  
-Ihrem Passwort fehlt etwas.
+Ihrem Passwort fehlt etwas Erforderliches.
 
 **Anforderungen:**
 - ✓ Mindestens 8 Zeichen lang
@@ -132,10 +132,10 @@ Ihrem Passwort fehlt etwas.
 ## Häufig gestellte Fragen
 
 **F: Wie lange dauert das Passwort-Zurücksetzen per E-Mail?**  
-A: Normalerweise weniger als 1 Minute. Überprüfen Sie den Spam-Ordner, wenn Sie ihn nicht sehen.
+A: Normalerweise weniger als 1 Minute. Überprüfen Sie den Spam-Ordner, wenn Sie die E-Mail nicht sehen.
 
 **F: Kann ich mein Passwort in der mobilen App zurücksetzen?**  
-A: Ja! Suchen Sie auf dem Anmeldebildschirm nach "Passwort vergessen?".
+A: Ja! Suchen Sie auf dem Anmeldebildschirm nach „Passwort vergessen?".
 
 **F: Was ist, wenn ich keinen Zugriff auf die E-Mail in meinem Konto habe?**  
 A: [Kontaktieren Sie den Support](../support.md) mit Eigentumsnachweis.

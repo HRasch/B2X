@@ -9,18 +9,19 @@ Willkommen zur B2Connect-Benutzerdokumentation! Finden Sie Antworten auf Ihre Fr
 ### Erste Schritte
 - **[Erste Schritte mit B2Connect](./getting-started.md)** - Zum ersten Mal auf B2Connect? Erfahren Sie, wie Sie ein Konto erstellen und mit dem Einkaufen beginnen
   - Was ist B2Connect?
+  - Warum ein Konto erstellen
   - Kontoerstellung
   - Erste Anmeldung
   - Nächste Schritte
 
 ### Authentifizierung und Konten
-- **[Wie man sich anmeldet](./login.md)** - Greifen Sie auf Ihr Konto auf jedem Gerät zu
+- **[Wie Sie sich anmelden](./login.md)** - Greifen Sie auf Ihr Konto auf jedem Gerät zu
   - Anmeldung auf dem Desktop
   - Mobile Anmeldung (iPhone, Android)
   - Angemeldet bleiben
   - Fehlerbehebung bei Anmeldeproblemen
 
-- **[Wie man sein Passwort zurückgesetzt](./reset-password.md)** - Passwort vergessen?
+- **[Wie Sie Ihr Passwort zurücksetzen](./reset-password.md)** - Passwort vergessen?
   - Schnelle Schritte zum Zurücksetzen des Passworts
   - Erstellen Sie sichere Passwörter
   - Fehlerbehebung bei E-Mail
@@ -33,7 +34,7 @@ Willkommen zur B2Connect-Benutzerdokumentation! Finden Sie Antworten auf Ihre Fr
   - Passwortfreigabe (niemals!)
   - Sicherheit auf öffentlichen Computern
   - Zwei-Faktor-Authentifizierung (2FA)
-  - Was zu tun ist, wenn kompromittiert
+  - Maßnahmen bei Sicherheitsproblemen
 
 ---
 
@@ -42,8 +43,8 @@ Willkommen zur B2Connect-Benutzerdokumentation! Finden Sie Antworten auf Ihre Fr
 **Ich möchte...**
 
 - **Ein Konto erstellen** → [Erste Schritte](./getting-started.md)
-- **Mich bei meinem Konto anmelden** → [Wie man sich anmeldet](./login.md)
-- **Mein Passwort zurücksetzen** → [Wie man sein Passwort zurückgesetzt](./reset-password.md)
+- **Mich bei meinem Konto anmelden** → [Wie Sie sich anmelden](./login.md)
+- **Mein Passwort zurücksetzen** → [Wie Sie Ihr Passwort zurücksetzen](./reset-password.md)
 - **2FA für Sicherheit aktivieren** → [Kontotipps zur Sicherheit](./account-security.md)
 - **Erfahren Sie mehr über sichere Passwörter** → [Kontotipps zur Sicherheit](./account-security.md#passwort-tipps-und-tricks)
 - **Verdächtige Aktivität melden** → [Kontotipps zur Sicherheit](./account-security.md#was-ist-wenn)
@@ -61,12 +62,10 @@ A: Sie können ohne Konto durchsuchen, aber Sie benötigen eines, um Bestellunge
 
 **F: Wie erstelle ich ein Konto?**  
 A: Siehe [Erste Schritte](./getting-started.md) für Schritt-für-Schritt-Anweisungen.
-
 ### Anmeldeprobleme
 **F: Ich habe mein Passwort vergessen, was soll ich tun?**  
 A: Gehen Sie zu [Wie man sein Passwort zurückgesetzt](./reset-password.md).
-
-**F: Warum sagt es "Falsche E-Mail oder falsches Passwort"?**  
+Sie Ihr Passwort zurücksetzen](./reset-password.md).**F: Warum sagt es "Falsche E-Mail oder falsches Passwort"?**  
 A: Überprüfen Sie die Schreibweise Ihrer E-Mail und Ihres Passworts. Denken Sie daran, dass Passwörter zwischen Groß- und Kleinschreibung unterscheiden!
 
 **F: Kann ich mich auf mehreren Geräten anmelden?**  
@@ -83,7 +82,6 @@ A: Es ist zusätzliche Sicherheit, die Ihr Telefon plus Ihr Passwort erfordert. 
 A: Nein! Verwenden Sie ein eindeutiges Passwort für B2Connect. [Sehen Sie, warum](./account-security.md).
 
 ---
-
 ## 🆘 Benötigen Sie Hilfe?
 
 ### Support kontaktieren
