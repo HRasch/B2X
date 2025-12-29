@@ -51,7 +51,11 @@
           <h3>Versand</h3>
           <div class="shipping-info">
             <label for="country">Lieferziel:</label>
-            <select v-model="selectedCountry" id="country" @change="onCountryChange">
+            <select
+              v-model="selectedCountry"
+              id="country"
+              @change="onCountryChange"
+            >
               <option value="">Bitte wählen...</option>
               <option value="DE">Deutschland</option>
               <option value="AT">Österreich</option>
@@ -144,9 +148,7 @@ const subtotal = computed(() => {
 
 const tax = computed(() => subtotal.value * 0.19);
 
-const total = computed(
-  () => subtotal.value + tax.value + shippingCost.value
-);
+const total = computed(() => subtotal.value + tax.value + shippingCost.value);
 
 const increaseQuantity = (itemId: string) => {
   const item = cartStore.items.find((i) => i.id === itemId);
@@ -182,8 +184,7 @@ const onCountryChange = async () => {
     );
 
     if (!response.ok) {
-      shippingError.value =
-        "Versand zu diesem Land nicht verfügbar";
+      shippingError.value = "Versand zu diesem Land nicht verfügbar";
       return;
     }
 
@@ -197,7 +198,8 @@ const onCountryChange = async () => {
         shippingCost.value = method.cost;
       }
     } else {
-      shippingError.value = data.message || "Fehler beim Laden der Versandarten";
+      shippingError.value =
+        data.message || "Fehler beim Laden der Versandarten";
     }
   } catch (error) {
     console.error("Error fetching shipping methods:", error);

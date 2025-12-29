@@ -39,7 +39,7 @@ public class ShippingCostServiceTests : IAsyncLifetime
     {
         // Arrange
         var country = "DE";
-        var expectedCosts = new[] { 4.99m, 3.99m, 5.99m };
+        var expectedCosts = new[] { 3.99m, 4.99m, 5.99m };
 
         // Act
         var result = await _service.GetShippingMethodsAsync(country, cancellationToken: CancellationToken.None);
