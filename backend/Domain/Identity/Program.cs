@@ -8,6 +8,7 @@ using B2Connect.Identity.Interfaces;
 using B2Connect.Identity.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -149,6 +150,10 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Add Authorization (REQUIRED for [Authorize] attributes)
+// NOTE: We do NOT set a FallbackPolicy because:
+// - No FallbackPolicy = anonymous access allowed by default
+// - [AllowAnonymous] explicitly allows unauthenticated requests
+// - [Authorize] explicitly requires authentication
 builder.Services.AddAuthorization();
 
 // Add CORS
