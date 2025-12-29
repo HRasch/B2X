@@ -84,12 +84,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import SoftCard from "@/components/soft-ui/SoftCard.vue";
 import SoftButton from "@/components/soft-ui/SoftButton.vue";
 import SoftInput from "@/components/soft-ui/SoftInput.vue";
+
+// Default tenant GUID
+const DEFAULT_TENANT_ID = import.meta.env.VITE_DEFAULT_TENANT_ID || "00000000-0000-0000-0000-000000000001";
 
 const email = ref("admin@example.com");
 const password = ref("password");
@@ -99,6 +102,13 @@ const error = ref("");
 
 const authStore = useAuthStore();
 const router = useRouter();
+
+// Ensure tenant ID is set when login page loads
+onMounted(() => {
+  if (!localStorage.getItem("tenantId")) {
+    localStorage.setItem("tenantId", DEFAULT_TENANT_ID);
+  }
+});
 
 const handleLogin = async () => {
   error.value = "";

@@ -43,12 +43,13 @@ var rabbitmq = builder.AddB2ConnectRabbitMQ(
 // Azure Key Vault (Secret Store)
 
 // ===== MICROSERVICES =====
+// Using dynamic ports with Aspire Service Discovery (no more port conflicts!)
+// Services are discovered via service name, not fixed ports.
+// Aspire automatically assigns dynamic ports - no WithHttpEndpoint needed for internal services.
 
 // Auth Service (Identity) - with Passkeys & JWT
 var authService = builder
     .AddProject("auth-service", "../backend/Domain/Identity/B2Connect.Identity.API.csproj")
-    .WithHttpEndpoint(port: 7002, targetPort: 7002, name: "auth-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7002")
     .WithPostgresConnection(authDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -63,8 +64,6 @@ var authService = builder
 // Tenant Service
 var tenantService = builder
     .AddProject("tenant-service", "../backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj")
-    .WithHttpEndpoint(port: 7003, targetPort: 7003, name: "tenant-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7003")
     .WithPostgresConnection(tenantDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -77,8 +76,6 @@ var tenantService = builder
 // Localization Service
 var localizationService = builder
     .AddProject("localization-service", "../backend/Domain/Localization/B2Connect.Localization.API.csproj")
-    .WithHttpEndpoint(port: 7004, targetPort: 7004, name: "localization-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7004")
     .WithPostgresConnection(localizationDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -90,8 +87,6 @@ var localizationService = builder
 // Catalog Service (with Elasticsearch for Product Search)
 var catalogService = builder
     .AddProject("catalog-service", "../backend/Domain/Catalog/B2Connect.Catalog.API.csproj")
-    .WithHttpEndpoint(port: 7005, targetPort: 7005, name: "catalog-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7005")
     .WithPostgresConnection(catalogDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -105,8 +100,6 @@ var catalogService = builder
 // Theming Service
 var themingService = builder
     .AddProject("theming-service", "../backend/Domain/Theming/B2Connect.Theming.API.csproj")
-    .WithHttpEndpoint(port: 7008, targetPort: 7008, name: "theming-service", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:7008")
     .WithPostgresConnection(layoutDb)
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)
@@ -116,12 +109,13 @@ var themingService = builder
     .WithOpenTelemetry();
 
 // ===== API GATEWAYS =====
+// Gateways keep fixed ports because frontends connect directly to them.
+// Internal service communication uses Aspire Service Discovery.
 
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
     .AddProject("store-gateway", "../backend/Gateway/Store/API/B2Connect.Store.csproj")
-    .WithHttpEndpoint(port: 8000, targetPort: 8000, name: "store-gateway", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:8000")
+    .WithHttpEndpoint(port: 8000, name: "store-http")  // Fixed port for frontend
     .WithReference(authService)
     .WithReference(catalogService)
     .WithReference(localizationService)
@@ -132,8 +126,7 @@ var storeGateway = builder
 // Admin API Gateway 
 var adminGateway = builder
     .AddProject("admin-gateway", "../backend/Gateway/Admin/B2Connect.Admin.csproj")
-    .WithHttpEndpoint(port: 8080, targetPort: 8080, name: "admin-gateway", isProxied: false)
-    .WithEnvironment("ASPNETCORE_URLS", "http://localhost:8080")
+    .WithHttpEndpoint(port: 8080, name: "admin-http")  // Fixed port for frontend
     .WithReference(authService)
     .WithReference(tenantService)
     .WithReference(catalogService)
@@ -145,20 +138,23 @@ var adminGateway = builder
 // ===== FRONTENDS (Vite Vue.js Applications) =====
 // Using native Aspire.Hosting.JavaScript integration (AddViteApp)
 // Documentation: https://aspire.dev/integrations/frameworks/javascript/
+// Fixed ports configured via WithEndpoint (see: https://github.com/dotnet/aspire/issues/12942)
 
-// Frontend Store (Vue 3 + Vite) - Port 5173
+// Frontend Store (Vue 3 + Vite) - Fixed port 5173 for predictable URLs
 var frontendStore = builder
     .AddViteApp("frontend-store", "../Frontend/Store")
+    .WithEndpoint("http", endpoint => endpoint.Port = 5173)  // Workaround: modify existing endpoint
+    .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
-    .WithHttpEndpoint(port: 5173, name: "frontend-store-http", env: "VITE_PORT")
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000")
     .WithEnvironment("NODE_ENV", "development");
 
-// Frontend Admin (Vue 3 + Vite) - Port 5174
+// Frontend Admin (Vue 3 + Vite) - Fixed port 5174 for predictable URLs
 var frontendAdmin = builder
     .AddViteApp("frontend-admin", "../Frontend/Admin")
+    .WithEndpoint("http", endpoint => endpoint.Port = 5174)  // Workaround: modify existing endpoint
+    .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
-    .WithHttpEndpoint(port: 5174, name: "frontend-admin-http", env: "VITE_PORT")
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
     .WithEnvironment("NODE_ENV", "development");
 
