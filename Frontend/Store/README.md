@@ -95,6 +95,62 @@ npm run format
 - **Axios** - HTTP client
 - **Vitest** - Unit testing
 - **Playwright** - E2E testing
+- **OpenTelemetry** - Distributed tracing and metrics
+
+## OpenTelemetry Integration
+
+This frontend app supports distributed tracing and metrics via OpenTelemetry, integrated with the Aspire Dashboard.
+
+### Quick Start
+
+```bash
+# Run with telemetry enabled
+npm run dev:telemetry
+```
+
+### Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `ENABLE_TELEMETRY` | `false` | Enable OpenTelemetry instrumentation |
+| `OTEL_SERVICE_NAME` | `frontend-store` | Service name for traces |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4318` | OTLP collector endpoint |
+
+### Manual Setup
+
+```bash
+# Enable telemetry with custom endpoint
+ENABLE_TELEMETRY=true \
+OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire:4318 \
+npm run dev:telemetry
+```
+
+### What's Instrumented
+
+- ✅ HTTP requests (fetch, XMLHttpRequest)
+- ✅ Node.js core modules (http, https)
+- ✅ Service resource attributes (name, version, environment)
+
+### What's Disabled (Performance)
+
+- ❌ Filesystem operations (too noisy)
+- ❌ DNS lookups (too frequent)
+
+### Viewing Traces
+
+1. Start Aspire: `cd backend/Orchestration && dotnet run`
+2. Open Dashboard: http://localhost:15500
+3. Start frontend with telemetry: `npm run dev:telemetry`
+4. Navigate Traces tab to see spans
+
+### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| No traces appearing | Verify Aspire is running on port 4318 |
+| Slow startup | Try disabling telemetry: `npm run dev` |
+| Connection errors | Check OTLP endpoint is reachable |
+| Too many spans | Telemetry disabled by default, only enable when debugging |
 
 ## API Integration
 

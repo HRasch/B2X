@@ -129,6 +129,7 @@ tests/
 ```bash
 # Development
 npm run dev              # Start dev server (port 5174)
+npm run dev:telemetry   # Start with OpenTelemetry tracing enabled
 npm run type-check      # TypeScript checking
 
 # Testing
@@ -145,6 +146,32 @@ npm run preview        # Preview build
 npm run lint           # ESLint
 npm run format         # Prettier
 ```
+
+## 📊 OpenTelemetry Integration
+
+The admin dashboard supports distributed tracing and metrics via OpenTelemetry, integrated with the Aspire Dashboard.
+
+### Quick Start
+
+```bash
+# Run with telemetry enabled
+npm run dev:telemetry
+```
+
+### Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `ENABLE_TELEMETRY` | `false` | Enable OpenTelemetry instrumentation |
+| `OTEL_SERVICE_NAME` | `frontend-admin` | Service name for traces |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4318` | OTLP collector endpoint |
+
+### Viewing Traces
+
+1. Start Aspire: `cd backend/Orchestration && dotnet run`
+2. Open Dashboard: http://localhost:15500
+3. Start admin with telemetry: `npm run dev:telemetry`
+4. Navigate Traces tab to see spans
 
 ## 🧪 Testing
 
