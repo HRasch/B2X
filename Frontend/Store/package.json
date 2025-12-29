@@ -19,15 +19,20 @@
     "e2e:debug": "playwright test --debug"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.23",
     "axios": "^1.7.7",
+    "daisyui": "^5.5.14",
     "date-fns": "^3.6.0",
     "pinia": "^2.2.6",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
     "vue": "^3.5.13",
     "vue-i18n": "^10.0.2",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.14.0",
     "@typescript-eslint/parser": "^8.14.0",

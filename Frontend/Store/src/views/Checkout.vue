@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useCartStore } from "@/stores/cartStore";
+import { useCartStore } from "@/stores/cart";
 
 const router = useRouter();
 const cartStore = useCartStore();
 
+// Types
 interface ShippingForm {
   firstName: string;
   lastName: string;
@@ -15,6 +16,27 @@ interface ShippingForm {
   country: string;
 }
 
+interface ShippingMethod {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  days: number;
+  selected?: boolean;
+}
+
+interface PaymentMethod {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+}
+
+// State - Wizard
+const currentStep = ref<"shipping" | "shipping-method" | "review">("shipping");
+const steps = ["Adresse", "Versand", "Überprüfung"];
+
+// State - Forms
 const form = ref<ShippingForm>({
   firstName: "",
   lastName: "",
@@ -24,10 +46,65 @@ const form = ref<ShippingForm>({
   country: "Germany",
 });
 
+// State - Shipping Methods
+const shippingMethods = ref<ShippingMethod[]>([
+  {
+    id: "standard",
+    name: "Standardversand",
+    description: "Lieferung in 5-7 Werktagen",
+    price: 5.99,
+    days: 5,
+    selected: true,
+  },
+  {
+    id: "express",
+    name: "Expressversand",
+    description: "Lieferung in 2-3 Werktagen",
+    price: 12.99,
+    days: 2,
+  },
+  {
+    id: "overnight",
+    name: "Overnight",
+    description: "Lieferung am nächsten Werktag",
+    price: 24.99,
+    days: 1,
+  },
+]);
+
+const selectedShippingMethod = ref<ShippingMethod>(shippingMethods.value[0]);
+
+// State - Payment Methods
+const paymentMethods = ref<PaymentMethod[]>([
+  {
+    id: "card",
+    name: "Kreditkarte",
+    description: "Visa, Mastercard, Amex",
+    icon: "💳",
+  },
+  {
+    id: "paypal",
+    name: "PayPal",
+    description: "Schnell und sicher mit PayPal",
+    icon: "🅿️",
+  },
+  {
+    id: "sepa",
+    name: "SEPA Überweisung",
+    description: "Direktüberweisung von Ihrem Bankkonto",
+    icon: "🏦",
+  },
+]);
+
+const selectedPaymentMethod = ref<PaymentMethod | null>(
+  paymentMethods.value[0]
+);
+
+// State - UI
 const agreedToTerms = ref(false);
 const isSubmitting = ref(false);
 const errors = ref<Record<string, string>>({});
-const selectedShippingCost = ref(5.99); // Default, can be updated from cart store
+const selectedShippingCost = ref(5.99);
 
 // Computed properties
 const subtotal = computed(() => {
@@ -41,7 +118,7 @@ const vatAmount = computed(() => {
   return Number((subtotal.value * 0.19).toFixed(2));
 });
 
-const shippingCost = computed(() => selectedShippingCost.value);
+const shippingCost = computed(() => selectedShippingMethod.value.price);
 
 const total = computed(() => {
   return Number(
@@ -49,16 +126,45 @@ const total = computed(() => {
   );
 });
 
+const currentStepIndex = computed(() => {
+  switch (currentStep.value) {
+    case "shipping":
+      return 0;
+    case "shipping-method":
+      return 1;
+    case "review":
+      return 2;
+    default:
+      return 0;
+  }
+});
+
 const isFormValid = computed(() => {
-  return (
-    form.value.firstName.trim() !== "" &&
-    form.value.lastName.trim() !== "" &&
-    form.value.street.trim() !== "" &&
-    form.value.zipCode.trim() !== "" &&
-    form.value.city.trim() !== "" &&
-    form.value.country.trim() !== "" &&
-    agreedToTerms.value
-  );
+  switch (currentStep.value) {
+    case "shipping":
+      return (
+        form.value.firstName.trim() !== "" &&
+        form.value.lastName.trim() !== "" &&
+        form.value.street.trim() !== "" &&
+        form.value.zipCode.trim() !== "" &&
+        form.value.city.trim() !== "" &&
+        form.value.country.trim() !== ""
+      );
+    case "shipping-method":
+      return selectedShippingMethod.value !== null;
+    case "review":
+      return selectedPaymentMethod.value !== null && agreedToTerms.value;
+    default:
+      return false;
+  }
+});
+
+const stepCompletion = computed(() => {
+  return [
+    !!(form.value.firstName && form.value.lastName && form.value.street),
+    selectedShippingMethod.value !== null,
+    agreedToTerms.value && selectedPaymentMethod.value !== null,
+  ];
 });
 
 // Methods
@@ -97,14 +203,50 @@ const validateForm = (): boolean => {
   return Object.keys(errors.value).length === 0;
 };
 
+const nextStep = () => {
+  if (currentStep.value === "shipping") {
+    if (!validateForm()) {
+      console.error("Form validation failed");
+      return;
+    }
+    currentStep.value = "shipping-method";
+  } else if (currentStep.value === "shipping-method") {
+    if (!selectedShippingMethod.value) {
+      errors.value.shippingMethod = "Bitte wählen Sie eine Versandart";
+      return;
+    }
+    currentStep.value = "review";
+  }
+  errors.value = {};
+};
+
+const prevStep = () => {
+  if (currentStep.value === "shipping-method") {
+    currentStep.value = "shipping";
+  } else if (currentStep.value === "review") {
+    currentStep.value = "shipping-method";
+  }
+  errors.value = {};
+};
+
+const selectShippingMethod = (method: ShippingMethod) => {
+  selectedShippingMethod.value = method;
+  shippingMethods.value.forEach((m) => (m.selected = m.id === method.id));
+  errors.value.shippingMethod = "";
+};
+
+const selectPaymentMethod = (method: PaymentMethod) => {
+  selectedPaymentMethod.value = method;
+};
+
 const completeOrder = async () => {
-  if (!validateForm()) {
-    console.error("Form validation failed");
+  if (!agreedToTerms.value) {
+    errors.value.terms = "Sie müssen den Bedingungen zustimmen";
     return;
   }
 
-  if (!agreedToTerms.value) {
-    errors.value.terms = "Sie müssen den Bedingungen zustimmen";
+  if (!selectedPaymentMethod.value) {
+    errors.value.payment = "Bitte wählen Sie eine Zahlungsmethode";
     return;
   }
 
@@ -117,6 +259,8 @@ const completeOrder = async () => {
     console.log("Order completed with data:", {
       items: cartStore.items,
       shipping: form.value,
+      shippingMethod: selectedShippingMethod.value,
+      paymentMethod: selectedPaymentMethod.value,
       total: total.value,
     });
 
@@ -149,211 +293,410 @@ onMounted(() => {
   <div class="checkout-page">
     <div class="container">
       <div class="page-header">
-        <h1>Bestellübersicht</h1>
+        <h1>Bestellabschluss</h1>
         <p class="breadcrumb">
           <router-link to="/shop">Shop</router-link> /
           <router-link to="/cart">Warenkorb</router-link> / Kasse
         </p>
       </div>
 
+      <!-- Progress Indicator -->
+      <div class="progress-container">
+        <div class="progress-steps">
+          <div
+            v-for="(step, index) in steps"
+            :key="index"
+            class="progress-step"
+            :class="{
+              active: currentStepIndex === index,
+              completed: stepCompletion[index],
+            }"
+          >
+            <div class="step-number">
+              {{
+                stepCompletion[index] && currentStepIndex > index
+                  ? "✓"
+                  : index + 1
+              }}
+            </div>
+            <div class="step-label">{{ step }}</div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            :style="{
+              width: `${((currentStepIndex + 1) / steps.length) * 100}%`,
+            }"
+          ></div>
+        </div>
+      </div>
+
       <div class="checkout-content">
-        <!-- Order Summary Section -->
-        <section class="order-review">
-          <h2>Ihre Bestellung</h2>
+        <!-- Order Summary Sidebar (Sticky) -->
+        <aside class="order-summary-sidebar">
+          <h3>Bestellübersicht</h3>
 
           <div class="order-items">
             <div
               v-for="item in cartStore.items"
               :key="item.id"
-              class="order-item"
+              class="order-item-summary"
             >
-              <div class="item-info">
-                <h3>{{ item.name }}</h3>
-                <p class="item-details">
-                  Menge: {{ item.quantity }} × {{ formatPrice(item.price) }}
-                </p>
+              <div class="item-summary-info">
+                <span class="item-name">{{ item.name }}</span>
+                <span class="item-qty">{{ item.quantity }}×</span>
               </div>
-              <div class="item-total">
+              <span class="item-summary-price">
                 {{ formatPrice(item.price * item.quantity) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="price-summary">
+            <div class="summary-row">
+              <span>Netto:</span>
+              <span>{{ formatPrice(subtotal) }}</span>
+            </div>
+            <div class="summary-row vat">
+              <span>MwSt (19%):</span>
+              <span>{{ formatPrice(vatAmount) }}</span>
+            </div>
+            <div class="summary-row shipping">
+              <span>Versand:</span>
+              <span>{{ formatPrice(shippingCost) }}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Gesamt:</span>
+              <span class="total-amount">{{ formatPrice(total) }}</span>
+            </div>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="trust-badges">
+            <div class="badge">
+              <span class="badge-icon">🔒</span>
+              <span class="badge-text">SSL verschlüsselt</span>
+            </div>
+            <div class="badge">
+              <span class="badge-icon">↩️</span>
+              <span class="badge-text">30 Tage Rückgabe</span>
+            </div>
+            <div class="badge">
+              <span class="badge-icon">🚚</span>
+              <span class="badge-text">Versand versichert</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Checkout Form -->
+        <main class="checkout-form-main">
+          <!-- STEP 1: Shipping Address -->
+          <section v-if="currentStep === 'shipping'" class="checkout-step">
+            <h2>Lieferadresse</h2>
+            <p class="step-description">
+              Geben Sie bitte Ihre Lieferadresse ein
+            </p>
+
+            <form @submit.prevent="nextStep">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="firstName">Vorname *</label>
+                  <input
+                    id="firstName"
+                    v-model="form.firstName"
+                    type="text"
+                    placeholder="Max"
+                    required
+                    :aria-invalid="!!errors.firstName"
+                    :aria-describedby="
+                      errors.firstName ? 'firstName-error' : undefined
+                    "
+                  />
+                  <p
+                    v-if="errors.firstName"
+                    id="firstName-error"
+                    class="error-message"
+                  >
+                    {{ errors.firstName }}
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label for="lastName">Nachname *</label>
+                  <input
+                    id="lastName"
+                    v-model="form.lastName"
+                    type="text"
+                    placeholder="Mustermann"
+                    required
+                    :aria-invalid="!!errors.lastName"
+                    :aria-describedby="
+                      errors.lastName ? 'lastName-error' : undefined
+                    "
+                  />
+                  <p
+                    v-if="errors.lastName"
+                    id="lastName-error"
+                    class="error-message"
+                  >
+                    {{ errors.lastName }}
+                  </p>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="street">Straße und Hausnummer *</label>
+                  <input
+                    id="street"
+                    v-model="form.street"
+                    type="text"
+                    placeholder="Hauptstraße 123"
+                    required
+                    :aria-invalid="!!errors.street"
+                    :aria-describedby="
+                      errors.street ? 'street-error' : undefined
+                    "
+                  />
+                  <p
+                    v-if="errors.street"
+                    id="street-error"
+                    class="error-message"
+                  >
+                    {{ errors.street }}
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label for="zipCode">Postleitzahl *</label>
+                  <input
+                    id="zipCode"
+                    v-model="form.zipCode"
+                    type="text"
+                    placeholder="12345"
+                    pattern="\d{5}"
+                    required
+                    :aria-invalid="!!errors.zipCode"
+                    :aria-describedby="
+                      errors.zipCode ? 'zipCode-error' : undefined
+                    "
+                  />
+                  <p
+                    v-if="errors.zipCode"
+                    id="zipCode-error"
+                    class="error-message"
+                  >
+                    {{ errors.zipCode }}
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label for="city">Stadt *</label>
+                  <input
+                    id="city"
+                    v-model="form.city"
+                    type="text"
+                    placeholder="Berlin"
+                    required
+                    :aria-invalid="!!errors.city"
+                    :aria-describedby="errors.city ? 'city-error' : undefined"
+                  />
+                  <p v-if="errors.city" id="city-error" class="error-message">
+                    {{ errors.city }}
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label for="country">Land *</label>
+                  <select
+                    id="country"
+                    v-model="form.country"
+                    required
+                    :aria-invalid="!!errors.country"
+                    :aria-describedby="
+                      errors.country ? 'country-error' : undefined
+                    "
+                  >
+                    <option value="Germany">Deutschland</option>
+                    <option value="Austria">Österreich</option>
+                    <option value="Belgium">Belgien</option>
+                    <option value="France">Frankreich</option>
+                    <option value="Netherlands">Niederlande</option>
+                  </select>
+                  <p
+                    v-if="errors.country"
+                    id="country-error"
+                    class="error-message"
+                  >
+                    {{ errors.country }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="step-actions">
+                <button type="button" class="btn btn-secondary" @click="goBack">
+                  ← Zurück zum Warenkorb
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  :disabled="!isFormValid"
+                >
+                  Weiter zu Versand →
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- STEP 2: Shipping Method Selection -->
+          <section
+            v-if="currentStep === 'shipping-method'"
+            class="checkout-step"
+          >
+            <h2>Versandart</h2>
+            <p class="step-description">
+              Wählen Sie Ihre bevorzugte Versandart
+            </p>
+
+            <div class="shipping-options">
+              <div
+                v-for="method in shippingMethods"
+                :key="method.id"
+                class="shipping-option"
+                :class="{ selected: selectedShippingMethod.id === method.id }"
+                @click="selectShippingMethod(method)"
+                role="radio"
+                :aria-checked="selectedShippingMethod.id === method.id"
+                tabindex="0"
+                @keyup.enter="selectShippingMethod(method)"
+              >
+                <div class="shipping-radio">
+                  <input
+                    type="radio"
+                    :name="`shipping-${method.id}`"
+                    :checked="selectedShippingMethod.id === method.id"
+                    :aria-label="`${method.name}: ${formatPrice(method.price)}`"
+                  />
+                </div>
+                <div class="shipping-info">
+                  <div class="shipping-name">{{ method.name }}</div>
+                  <div class="shipping-description">
+                    {{ method.description }}
+                  </div>
+                  <div class="shipping-days">
+                    ⏱️ Lieferzeit: ca. {{ method.days }} Werktag(e)
+                  </div>
+                </div>
+                <div class="shipping-price">
+                  {{ formatPrice(method.price) }}
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Price Breakdown -->
-          <div class="price-breakdown">
-            <div class="breakdown-row">
-              <span class="label">Netto-Summe:</span>
-              <span class="value">{{ formatPrice(subtotal) }}</span>
-            </div>
-            <div class="breakdown-row vat-row">
-              <span class="label">zzgl. MwSt (19%):</span>
-              <span class="value">{{ formatPrice(vatAmount) }}</span>
-            </div>
-            <div class="breakdown-row shipping-row">
-              <span class="label">Versandkosten:</span>
-              <span class="value">{{ formatPrice(shippingCost) }}</span>
-            </div>
-            <div class="breakdown-row total-row">
-              <span class="label">
-                <strong>Gesamtbetrag (inkl. MwSt):</strong>
-              </span>
-              <span class="value total-value">
-                <strong>{{ formatPrice(total) }}</strong>
-              </span>
-            </div>
-          </div>
+            <p v-if="errors.shippingMethod" class="error-message">
+              {{ errors.shippingMethod }}
+            </p>
 
-          <!-- Compliance Notice -->
-          <div class="compliance-notice">
-            <p class="notice-icon">✓</p>
-            <div class="notice-content">
-              <p class="notice-title">Preisangabenverordnung (PAngV)</p>
-              <p class="notice-text">
-                Alle angezeigten Preise sind Endpreise und enthalten bereits die
-                gesetzliche Mehrwertsteuer (MwSt) in Höhe von 19%.
+            <div class="step-actions">
+              <button type="button" class="btn btn-secondary" @click="prevStep">
+                ← Zurück zur Adresse
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="nextStep"
+                :disabled="!selectedShippingMethod"
+              >
+                Weiter zur Überprüfung →
+              </button>
+            </div>
+          </section>
+
+          <!-- STEP 3: Order Review & Payment -->
+          <section v-if="currentStep === 'review'" class="checkout-step">
+            <h2>Überprüfung & Zahlungsart</h2>
+
+            <!-- Address Review -->
+            <div class="review-section">
+              <h3>Lieferadresse</h3>
+              <div class="review-content">
+                <p>
+                  {{ form.firstName }} {{ form.lastName }}<br />
+                  {{ form.street }}<br />
+                  {{ form.zipCode }} {{ form.city }}<br />
+                  {{ form.country }}
+                </p>
+                <button
+                  type="button"
+                  class="link-button"
+                  @click="currentStep = 'shipping'"
+                >
+                  ✏️ Bearbeiten
+                </button>
+              </div>
+            </div>
+
+            <!-- Shipping Review -->
+            <div class="review-section">
+              <h3>Versandart</h3>
+              <div class="review-content">
+                <p>
+                  <strong>{{ selectedShippingMethod.name }}</strong
+                  ><br />
+                  {{ selectedShippingMethod.description }}<br />
+                  Kosten: {{ formatPrice(selectedShippingMethod.price) }}
+                </p>
+                <button
+                  type="button"
+                  class="link-button"
+                  @click="currentStep = 'shipping-method'"
+                >
+                  ✏️ Bearbeiten
+                </button>
+              </div>
+            </div>
+
+            <!-- Payment Method Selection -->
+            <div class="review-section">
+              <h3>Zahlungsart</h3>
+              <div class="payment-options">
+                <div
+                  v-for="method in paymentMethods"
+                  :key="method.id"
+                  class="payment-option"
+                  :class="{ selected: selectedPaymentMethod?.id === method.id }"
+                  @click="selectPaymentMethod(method)"
+                  role="radio"
+                  :aria-checked="selectedPaymentMethod?.id === method.id"
+                  tabindex="0"
+                  @keyup.enter="selectPaymentMethod(method)"
+                >
+                  <div class="payment-radio">
+                    <input
+                      type="radio"
+                      :name="`payment-${method.id}`"
+                      :checked="selectedPaymentMethod?.id === method.id"
+                      :aria-label="method.name"
+                    />
+                  </div>
+                  <div class="payment-icon">{{ method.icon }}</div>
+                  <div class="payment-info">
+                    <div class="payment-name">{{ method.name }}</div>
+                    <div class="payment-description">
+                      {{ method.description }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p v-if="errors.payment" class="error-message">
+                {{ errors.payment }}
               </p>
             </div>
-          </div>
-        </section>
 
-        <!-- Checkout Form Section -->
-        <section class="checkout-form">
-          <h2>Lieferadresse</h2>
-
-          <form @submit.prevent="completeOrder">
-            <div class="form-grid">
-              <!-- First Name -->
-              <div class="form-group">
-                <label for="firstName">Vorname *</label>
+            <!-- Terms & Conditions -->
+            <div class="terms-section">
+              <label class="terms-checkbox">
                 <input
-                  id="firstName"
-                  v-model="form.firstName"
-                  type="text"
-                  required
-                  :aria-invalid="!!errors.firstName"
-                  :aria-describedby="
-                    errors.firstName ? 'firstName-error' : undefined
-                  "
-                />
-                <p
-                  v-if="errors.firstName"
-                  id="firstName-error"
-                  class="error-message"
-                >
-                  {{ errors.firstName }}
-                </p>
-              </div>
-
-              <!-- Last Name -->
-              <div class="form-group">
-                <label for="lastName">Nachname *</label>
-                <input
-                  id="lastName"
-                  v-model="form.lastName"
-                  type="text"
-                  required
-                  :aria-invalid="!!errors.lastName"
-                  :aria-describedby="
-                    errors.lastName ? 'lastName-error' : undefined
-                  "
-                />
-                <p
-                  v-if="errors.lastName"
-                  id="lastName-error"
-                  class="error-message"
-                >
-                  {{ errors.lastName }}
-                </p>
-              </div>
-
-              <!-- Street -->
-              <div class="form-group full-width">
-                <label for="street">Straße und Hausnummer *</label>
-                <input
-                  id="street"
-                  v-model="form.street"
-                  type="text"
-                  required
-                  :aria-invalid="!!errors.street"
-                  :aria-describedby="errors.street ? 'street-error' : undefined"
-                />
-                <p v-if="errors.street" id="street-error" class="error-message">
-                  {{ errors.street }}
-                </p>
-              </div>
-
-              <!-- Zip Code -->
-              <div class="form-group">
-                <label for="zipCode">Postleitzahl *</label>
-                <input
-                  id="zipCode"
-                  v-model="form.zipCode"
-                  type="text"
-                  required
-                  pattern="\d{5}"
-                  :aria-invalid="!!errors.zipCode"
-                  :aria-describedby="
-                    errors.zipCode ? 'zipCode-error' : undefined
-                  "
-                />
-                <p
-                  v-if="errors.zipCode"
-                  id="zipCode-error"
-                  class="error-message"
-                >
-                  {{ errors.zipCode }}
-                </p>
-              </div>
-
-              <!-- City -->
-              <div class="form-group">
-                <label for="city">Stadt *</label>
-                <input
-                  id="city"
-                  v-model="form.city"
-                  type="text"
-                  required
-                  :aria-invalid="!!errors.city"
-                  :aria-describedby="errors.city ? 'city-error' : undefined"
-                />
-                <p v-if="errors.city" id="city-error" class="error-message">
-                  {{ errors.city }}
-                </p>
-              </div>
-
-              <!-- Country -->
-              <div class="form-group">
-                <label for="country">Land *</label>
-                <select
-                  id="country"
-                  v-model="form.country"
-                  required
-                  :aria-invalid="!!errors.country"
-                  :aria-describedby="
-                    errors.country ? 'country-error' : undefined
-                  "
-                >
-                  <option value="Germany">Deutschland</option>
-                  <option value="Austria">Österreich</option>
-                  <option value="Belgium">Belgien</option>
-                  <option value="France">Frankreich</option>
-                  <option value="Netherlands">Niederlande</option>
-                </select>
-                <p
-                  v-if="errors.country"
-                  id="country-error"
-                  class="error-message"
-                >
-                  {{ errors.country }}
-                </p>
-              </div>
-            </div>
-
-            <!-- Terms Acceptance -->
-            <div class="form-group terms-group">
-              <label for="terms" class="terms-label">
-                <input
-                  id="terms"
                   v-model="agreedToTerms"
                   type="checkbox"
                   required
@@ -373,31 +716,42 @@ onMounted(() => {
               </p>
             </div>
 
-            <!-- Submit Error -->
+            <!-- Compliance Notice -->
+            <div class="compliance-notice">
+              <p class="notice-icon">✓</p>
+              <div class="notice-content">
+                <p class="notice-title">Preisangabenverordnung (PAngV)</p>
+                <p class="notice-text">
+                  Alle angezeigten Preise sind Endpreise und enthalten bereits
+                  die gesetzliche Mehrwertsteuer (MwSt) in Höhe von 19%.
+                </p>
+              </div>
+            </div>
+
             <p v-if="errors.submit" class="error-message submit-error">
               {{ errors.submit }}
             </p>
 
-            <!-- Action Buttons -->
-            <div class="form-actions">
-              <button type="button" class="btn btn-secondary" @click="goBack">
-                Zurück zum Warenkorb
+            <div class="step-actions">
+              <button type="button" class="btn btn-secondary" @click="prevStep">
+                ← Zurück zur Versandart
               </button>
               <button
-                type="submit"
-                class="btn btn-primary"
+                type="button"
+                class="btn btn-primary btn-submit"
+                @click="completeOrder"
                 :disabled="!isFormValid || isSubmitting"
                 :aria-busy="isSubmitting"
               >
                 {{
                   isSubmitting
-                    ? "Wird verarbeitet..."
-                    : "Bestellung abschließen"
+                    ? "Bestellung wird verarbeitet..."
+                    : `Bestellung abschließen (${formatPrice(total)})`
                 }}
               </button>
             </div>
-          </form>
-        </section>
+          </section>
+        </main>
       </div>
     </div>
   </div>
@@ -415,12 +769,13 @@ onMounted(() => {
   margin: 0 auto;
 }
 
+/* Header */
 .page-header {
   margin-bottom: 2rem;
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin: 0 0 0.5rem 0;
   color: #1a1a1a;
 }
@@ -440,120 +795,535 @@ onMounted(() => {
   text-decoration: underline;
 }
 
+/* Progress Indicator */
+.progress-container {
+  margin-bottom: 3rem;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  position: relative;
+}
+
+.progress-step::before {
+  content: "";
+  position: absolute;
+  top: 1.5rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e0e0e0;
+  z-index: -1;
+}
+
+.progress-step:first-child::before {
+  left: 50%;
+}
+
+.progress-step:last-child::before {
+  right: 50%;
+}
+
+.progress-step.completed::before,
+.progress-step.active::before {
+  background-color: #4caf50;
+}
+
+.step-number {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.3s;
+}
+
+.progress-step.active .step-number {
+  background-color: #0066cc;
+  border-color: #0066cc;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+.progress-step.completed .step-number {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
+
+.step-label {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+  text-align: center;
+}
+
+.progress-step.active .step-label,
+.progress-step.completed .step-label {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0066cc, #4caf50);
+  transition: width 0.3s ease;
+}
+
+/* Main Content Grid */
 .checkout-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 2rem;
   margin-bottom: 3rem;
 }
 
-/* Order Review Section */
-.order-review {
+/* Order Summary Sidebar */
+.order-summary-sidebar {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.order-summary-sidebar h3 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.75rem;
+}
+
+.order-items {
+  margin-bottom: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.order-item-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.9rem;
+}
+
+.order-item-summary:last-child {
+  border-bottom: none;
+}
+
+.item-summary-info {
+  flex: 1;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.item-name {
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.item-qty {
+  color: #999;
+  font-size: 0.8rem;
+  background-color: #f5f5f5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+}
+
+.item-summary-price {
+  font-weight: 600;
+  color: #0066cc;
+}
+
+/* Price Summary */
+.price-summary {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.summary-row.vat {
+  background-color: rgba(76, 175, 80, 0.05);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0.25rem -1rem;
+  padding-left: 0.5rem;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.summary-row.shipping {
+  color: #ff9800;
+}
+
+.summary-row.total {
+  border-top: 2px solid #ddd;
+  padding-top: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.total-amount {
+  color: #0066cc;
+  font-size: 1.2rem;
+}
+
+/* Trust Badges */
+.trust-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.badge-icon {
+  font-size: 1.2rem;
+}
+
+.badge-text {
+  line-height: 1.3;
+}
+
+/* Main Form Section */
+.checkout-form-main {
   background: white;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.order-review h2 {
+.checkout-step {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.checkout-step h2 {
   font-size: 1.5rem;
-  margin: 0 0 1.5rem 0;
-  color: #1a1a1a;
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 1rem;
-}
-
-.order-items {
-  margin-bottom: 2rem;
-}
-
-.order-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.order-item:last-child {
-  border-bottom: none;
-}
-
-.item-info h3 {
-  font-size: 1.125rem;
   margin: 0 0 0.5rem 0;
   color: #1a1a1a;
 }
 
-.item-details {
-  font-size: 0.875rem;
+.step-description {
   color: #666;
-  margin: 0;
+  margin: 0 0 1.5rem 0;
+  font-size: 0.95rem;
 }
 
-.item-total {
-  font-size: 1.25rem;
+/* Forms */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.form-group input[aria-invalid="true"],
+.form-group select[aria-invalid="true"] {
+  border-color: #d32f2f;
+}
+
+.error-message {
+  font-size: 0.8rem;
+  color: #d32f2f;
+  margin-top: 0.25rem;
+}
+
+/* Shipping Options */
+.shipping-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.shipping-option {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.shipping-option:hover {
+  border-color: #0066cc;
+  background-color: rgba(0, 102, 204, 0.02);
+}
+
+.shipping-option.selected {
+  border-color: #0066cc;
+  background-color: rgba(0, 102, 204, 0.05);
+}
+
+.shipping-radio {
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+
+.shipping-radio input {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.shipping-info {
+  flex: 1;
+}
+
+.shipping-name {
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.shipping-description {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.shipping-days {
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 0.25rem;
+}
+
+.shipping-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0066cc;
+  align-self: center;
+}
+
+/* Review Sections */
+.review-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.review-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.75rem 0;
+}
+
+.review-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.review-content p {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #0066cc;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.link-button:hover {
+  background-color: rgba(0, 102, 204, 0.1);
+}
+
+/* Payment Options */
+.payment-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-option {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-items: center;
+}
+
+.payment-option:hover {
+  border-color: #0066cc;
+  background-color: rgba(0, 102, 204, 0.02);
+}
+
+.payment-option.selected {
+  border-color: #0066cc;
+  background-color: rgba(0, 102, 204, 0.05);
+}
+
+.payment-radio {
+  flex-shrink: 0;
+}
+
+.payment-radio input {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.payment-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.payment-info {
+  flex: 1;
+}
+
+.payment-name {
   font-weight: 600;
   color: #1a1a1a;
 }
 
-/* Price Breakdown */
-.price-breakdown {
-  background: #fafafa;
-  padding: 1.5rem;
-  border-radius: 6px;
+.payment-description {
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 0.25rem;
+}
+
+/* Terms Section */
+.terms-section {
   margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 6px;
 }
 
-.breakdown-row {
+.terms-checkbox {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 0;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
   font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
 }
 
-.breakdown-row .label {
-  color: #666;
+.terms-checkbox input {
+  margin-top: 0.25rem;
+  cursor: pointer;
+  width: auto;
+  height: auto;
 }
 
-.breakdown-row .value {
-  font-weight: 500;
-  color: #1a1a1a;
-}
-
-.breakdown-row.vat-row {
-  background-color: rgba(76, 175, 80, 0.05);
-  padding: 0.75rem 1rem;
-  border-radius: 4px;
-  margin: 0.5rem -1.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-.breakdown-row.vat-row .label {
-  color: #2e7d32;
-  font-weight: 500;
-}
-
-.breakdown-row.shipping-row {
-  color: #ff9800;
-}
-
-.breakdown-row.total-row {
-  border-top: 2px solid #ddd;
-  padding-top: 1rem;
-  margin-top: 1rem;
-  font-size: 1.125rem;
-}
-
-.breakdown-row.total-row .value {
-  font-size: 1.35rem;
-  color: #1a1a1a;
-}
-
-.total-value {
+.terms-checkbox a {
   color: #0066cc;
+  text-decoration: none;
+}
+
+.terms-checkbox a:hover {
+  text-decoration: underline;
 }
 
 /* Compliance Notice */
@@ -589,79 +1359,8 @@ onMounted(() => {
 .notice-text {
   margin: 0;
   color: #555;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   line-height: 1.5;
-}
-
-/* Checkout Form Section */
-.checkout-form {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  height: fit-content;
-  position: sticky;
-  top: 2rem;
-}
-
-.checkout-form h2 {
-  font-size: 1.5rem;
-  margin: 0 0 1.5rem 0;
-  color: #1a1a1a;
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 1rem;
-}
-
-/* Form Grid */
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.form-group.full-width {
-  grid-column: 1 / -1;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group label {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: #1a1a1a;
-  font-size: 0.95rem;
-}
-
-.form-group input,
-.form-group select {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: border-color 0.2s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-}
-
-.form-group input[aria-invalid="true"],
-.form-group select[aria-invalid="true"] {
-  border-color: #d32f2f;
-}
-
-.error-message {
-  font-size: 0.75rem;
-  color: #d32f2f;
-  margin: 0.25rem 0 0 0;
 }
 
 .submit-error {
@@ -669,50 +1368,15 @@ onMounted(() => {
   padding: 0.75rem;
   border-radius: 4px;
   border-left: 3px solid #d32f2f;
-  margin-bottom: 1rem;
 }
 
-/* Terms Group */
-.terms-group {
-  margin-bottom: 1.5rem;
-}
-
-.terms-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  font-weight: normal;
-  margin-bottom: 0;
-  cursor: pointer;
-}
-
-.terms-label input {
-  margin-top: 0.25rem;
-  cursor: pointer;
-  width: auto;
-  height: auto;
-}
-
-.terms-label span {
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.5;
-}
-
-.terms-label a {
-  color: #0066cc;
-  text-decoration: none;
-}
-
-.terms-label a:hover {
-  text-decoration: underline;
-}
-
-/* Form Actions */
-.form-actions {
+/* Step Actions */
+.step-actions {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
 }
 
 .btn {
@@ -737,6 +1401,7 @@ onMounted(() => {
 
 .btn-primary:hover:not(:disabled) {
   background-color: #0052a3;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
 }
 
 .btn-primary:disabled {
@@ -748,21 +1413,28 @@ onMounted(() => {
 .btn-secondary {
   background-color: #f0f0f0;
   color: #1a1a1a;
-  flex: 0 0 auto;
 }
 
 .btn-secondary:hover {
   background-color: #e0e0e0;
 }
 
+.btn-submit {
+  background: linear-gradient(135deg, #0066cc, #0052a3);
+  font-size: 1.05rem;
+}
+
+.btn-submit:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .checkout-content {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
 
-  .checkout-form {
+  .order-summary-sidebar {
     position: static;
     top: auto;
   }
@@ -771,41 +1443,30 @@ onMounted(() => {
     grid-template-columns: 1fr;
   }
 
-  .page-header h1 {
-    font-size: 1.75rem;
+  .progress-steps {
+    gap: 0;
   }
 
-  .order-review,
-  .checkout-form {
+  .step-number {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.9rem;
+  }
+
+  .step-label {
+    font-size: 0.75rem;
+  }
+
+  .checkout-form-main {
     padding: 1.5rem 1rem;
   }
 
-  .order-item {
+  .step-actions {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .item-total {
-    align-self: flex-end;
-  }
-
-  .compliance-notice {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .form-actions {
-    flex-direction: column;
-    gap: 0.75rem;
   }
 
   .btn {
     width: 100%;
-  }
-
-  .btn-secondary {
-    flex: 1;
   }
 }
 
@@ -820,16 +1481,20 @@ onMounted(() => {
 
   .page-header h1 {
     font-size: 1.5rem;
-    margin-bottom: 0.25rem;
   }
 
-  .order-review h2,
-  .checkout-form h2 {
-    font-size: 1.25rem;
+  .progress-container {
+    margin-bottom: 2rem;
+  }
+
+  .step-number {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.8rem;
   }
 
   .form-group label {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
   }
 
   .form-group input,
@@ -838,16 +1503,15 @@ onMounted(() => {
     font-size: 16px;
   }
 
-  .breakdown-row {
-    font-size: 0.875rem;
+  .shipping-option,
+  .payment-option {
+    padding: 0.75rem;
+    flex-direction: column;
+    text-align: center;
   }
 
-  .breakdown-row.total-row {
-    font-size: 1rem;
-  }
-
-  .breakdown-row.total-row .value {
-    font-size: 1.15rem;
+  .shipping-price {
+    align-self: auto;
   }
 }
 </style>

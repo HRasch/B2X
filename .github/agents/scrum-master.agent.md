@@ -546,3 +546,202 @@ When organizing a new sprint:
 **Last Updated**: 29. Dezember 2025 (Sprint 2 Planning Complete)  
 **Maintained By**: Technical Leadership & Process Team  
 **Next Review**: After Sprint 2 Retrospective (3. Januar 2026)
+## 🎯 Feature-Driven Development Process (Agent-Driven)
+
+### Process Flow (No Fixed Schedules)
+
+```
+Issue Created
+    ↓
+Backlog Refinement
+(Identify relevant agents)
+    ↓
+@product-owner Documents
+(Decisions in issue)
+    ↓
+Process Immediately?
+    ├─ YES → Development Starts
+    └─ NO → Backlog (revisit later)
+    ↓
+Development (by assigned agents)
+    ↓
+PR Created → Ready for Review
+    ↓
+Request Stakeholder Feedback
+(on increment)
+    ↓
+Increment Accepted?
+    ├─ YES → Merge PR ✅
+    └─ NO → Document Feedback
+            ↓
+            Separate Issues or Same?
+            ├─ Separate → Create new issues
+            └─ Same → Continue on same PR
+            ↓
+            Re-review & Merge
+```
+
+### Step 1: Backlog Refinement
+
+When a new issue is created:
+
+1. **Identify Relevant Agents**: Which agents should solve this?
+   - Backend? Frontend? QA? Security? DevOps?
+   - Specialists needed? (UI, UX, Performance, etc.)
+   
+2. **Estimate Effort**: How many hours realistically?
+
+3. **Define Success**: What does "done" look like?
+
+4. **Identify Blockers**: What dependencies exist?
+
+**Output**: Clear issue description with:
+- Agent assignments
+- Effort estimate
+- Acceptance criteria
+- Dependencies identified
+
+### Step 2: @product-owner Documents Decisions
+
+The Product Owner updates the issue with:
+
+```markdown
+## Backlog Refinement Decision
+
+**Agents Assigned**:
+- @backend-developer (8h)
+- @frontend-developer (5h)
+- @qa-engineer (3h)
+
+**Effort**: 16 hours total
+
+**Acceptance Criteria**:
+- [ ] Feature X works
+- [ ] Tests passing
+- [ ] Docs updated
+
+**Blockers**: None
+
+**Ready to Process**: YES / NO
+```
+
+### Step 3: Process Immediately?
+
+Ask the team:
+> "Should we process this issue immediately?"
+
+**YES** → Assign agents, start development  
+**NO** → Add to backlog, revisit later
+
+### Step 4: Development Process
+
+Assigned agents:
+1. Create feature branch
+2. Implement feature
+3. Write tests
+4. Create PR
+5. Request code review
+
+### Step 5: Stakeholder Feedback on Increment
+
+**Before merging**, request feedback from stakeholders:
+
+- **Product Owner**: Does it meet requirements?
+- **Tech Lead**: Architecture OK?
+- **Security**: Any security issues?
+- **QA**: Tests passing? Quality gates met?
+- **UX** (if UI): User experience acceptable?
+
+Request in PR:
+> "@product-owner @tech-lead @qa-engineer Please review this increment and provide feedback. Should we merge this as-is?"
+
+### Step 6: Feedback Decision
+
+**Increment Accepted** ✅
+- Merge the PR
+- Process complete
+- Feature live
+
+**Feedback Received** ⚠️
+- Product Owner documents feedback in the issue
+- Ask: "Should we address this in separate issues or continue on this PR?"
+  - **Separate Issues**: Create new issues for each feedback item
+  - **Same PR**: Update PR to address feedback, re-review
+- Loop back to Step 5 if same PR
+
+### Step 7: Process Ends with Merge
+
+Once approved:
+```bash
+git merge feature-branch
+git delete feature-branch
+```
+
+Issue automatically closes (if PR references it).
+
+---
+
+## 📋 Example Workflow
+
+### Issue Created: "Add Dark Mode to Dashboard"
+
+**Day 1: Backlog Refinement**
+- Assign: @frontend-developer (5h), @qa-engineer (2h)
+- Effort: 7 hours total
+- Criteria: Works on all pages, localStorage persists, accessible
+- Product Owner documents in issue
+
+**Day 1: Decision**
+> "Process immediately?" → YES
+
+**Days 2-3: Development**
+- Frontend dev creates feature branch
+- Implements dark mode toggle
+- Writes tests
+- Creates PR with screenshots
+
+**Day 3: Stakeholder Feedback**
+> "@ui-expert please review design. @qa-engineer please verify tests."
+
+**Feedback Received**:
+- UI Expert: "Add transition animations"
+- QA: "Tests passing, but missing contrast check"
+
+**Day 4: Product Owner Decides**
+- Documents feedback in issue
+- Asks: "Separate issues or same PR?"
+- **Decision**: Same PR (both quick fixes)
+
+**Day 4: Re-implement**
+- Add CSS transitions
+- Add contrast test
+- Update PR
+- Re-review
+
+**Day 5: Approved & Merged** ✅
+- Increment accepted
+- PR merged
+- Feature live
+
+---
+
+## 🎯 Key Principles
+
+1. **No Fixed Schedules**: Work on features as they're prioritized
+2. **Immediate Feedback**: Stakeholders review before merge
+3. **Flexibility**: Can address feedback in same or separate PRs
+4. **Transparent**: All decisions documented in issue
+5. **Agent-Driven**: Relevant agents assigned per feature
+6. **Quality Gate**: Stakeholder approval before merge
+
+---
+
+## 📊 Metrics to Track
+
+- Average time from issue → backlog refinement
+- Average time from refinement → development start
+- Average time from PR creation → stakeholder feedback
+- Average time from feedback → merge
+- % of features accepted first-try vs needing refinement
+- % of feedback addressed in same PR vs separate issues
+

@@ -455,3 +455,19 @@ graph LR
 **Last Updated**: 29. Dezember 2025  
 **Source**: Issue #30 retrospective learnings  
 **Version**: 1.0 (Baseline from Sprint 1 Phase A)
+
+---
+
+### Sprint Ongoing - Validated Learning: Issue Status Updates
+
+**Validated Learning** (29. Dezember 2025):
+
+✅ **Consolidate Status in Issue Body, Not Comments**
+- **What**: Update issue body with sprint status instead of adding multiple comments
+- **Why**: Reduces noise, creates single source of truth, easier to track progress
+- **Problem Solved**: Multiple comments on #45 (plan confirmed, sprint 2 completion, sprint 3 prep) created clutter
+- **Solution**: Move all status info to issue body in structured format (sprint table + deliverables)
+- **Impact**: Cleaner issue history, easier stakeholder updates, single place to track progress
+- **Recommendation**: For all future sprints, update issue body for status; reserve comments for discussions/blocking questions
+- **Priority**: Priority 1 (Easy to implement, high visibility benefit)
+
