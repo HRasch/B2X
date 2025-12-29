@@ -7,6 +7,28 @@
 
 ## 🎯 Architecture (Frontend-Specific)
 
+### Vue 3 Component Lifecycle
+
+```mermaid
+graph TD
+    A["Component<br/>Mounted"] --> B["Setup &<br/>Props"]
+    B --> C["Reactive<br/>State"]
+    C --> D["Computed<br/>Properties"]
+    D --> E["Template<br/>Render"]
+    E --> F["User<br/>Interaction"]
+    F --> G["Event<br/>Handlers"]
+    G --> H{{"State<br/>Changed"}}
+    H -->|Yes| I["Re-render"]
+    H -->|No| J["Idle"]
+    I --> E
+    J --> F
+    
+    style A fill:#e1f5ff
+    style B fill:#e8f5e9
+    style E fill:#fff3e0
+    style G fill:#f3e5f5
+```
+
 ### Vue 3 Component Pattern
 ```vue
 <script setup lang="ts">
@@ -30,6 +52,23 @@ const store = useStore()
 ```
 
 ### Tailwind CSS (NOT custom CSS)
+
+```mermaid
+graph LR
+    A["Utility<br/>Classes"] -->|rapid| B["Layout"]
+    A -->|rapid| C["Colors"]
+    A -->|rapid| D["Spacing"]
+    B --> E["Fast<br/>Development"]
+    C --> E
+    D --> E
+    
+    F["Custom CSS"] -.->|slow| E
+    
+    style A fill:#fff3e0
+    style E fill:#e8f5e9
+    style F fill:#ffcdd2
+```
+
 ```html
 <!-- ✅ Utility-first approach -->
 <button class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 dark:bg-blue-600">

@@ -1,6 +1,6 @@
 ---
 description: 'Documentation specialist ensuring code changes and release notes are well documented with breaking change tracking (English & German)'
-tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'gitkraken/*', 'copilot-container-tools/*', 'pylance-mcp-server/*', 'agent', 'ms-python.python/getPythonEnvironmentInfo', 'ms-python.python/getPythonExecutableCommand', 'ms-python.python/installPythonPackage', 'ms-python.python/configurePythonEnvironment', 'todo']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'todo']
 model: 'claude-haiku-4-5'
 infer: true
 ---

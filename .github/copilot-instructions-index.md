@@ -6,6 +6,44 @@
 
 ## 🎯 Quick Navigation
 
+### Role Selection Flow
+
+```mermaid
+graph TD
+    A["B2Connect AI Agent<br/>Choose Your Role"] --> B{"What's Your Role?"}
+    
+    B -->|Backend| C["💻 Backend Developer<br/>10 min read"]
+    B -->|Frontend| D["🎨 Frontend Developer<br/>10 min read"]
+    B -->|DevOps| E["⚙️ DevOps Engineer<br/>10 min read"]
+    B -->|QA| F["🧪 QA Engineer<br/>10 min read"]
+    B -->|Security| G["🔐 Security Engineer<br/>10 min read"]
+    B -->|Not Sure| H["📋 Quick-Start Guide<br/>5 min read"]
+    
+    C --> I["Wolverine<br/>Onion Architecture<br/>Database Design"]
+    D --> J["Vue.js 3<br/>Accessibility<br/>Tailwind CSS"]
+    E --> K["Aspire<br/>Infrastructure<br/>Port Management"]
+    F --> L["xUnit Tests<br/>52 Compliance Tests<br/>E2E Testing"]
+    G --> M["Encryption<br/>Audit Logging<br/>Compliance P0.1-P0.5"]
+    H --> N["Architecture Overview<br/>Critical Commands<br/>Common Mistakes"]
+    
+    I --> O["✅ Ready to Code"]
+    J --> O
+    K --> O
+    L --> O
+    M --> O
+    N --> O
+    
+    style A fill:#e1f5ff
+    style B fill:#fff3e0
+    style C fill:#e8f5e9
+    style D fill:#e8f5e9
+    style E fill:#e8f5e9
+    style F fill:#e8f5e9
+    style G fill:#e8f5e9
+    style H fill:#fff3e0
+    style O fill:#c8e6c9
+```
+
 | Role | File | Focus | Read Time |
 |------|------|-------|-----------|
 | **Backend Developer** | [copilot-instructions-backend.md](./copilot-instructions-backend.md) | Wolverine services, onion architecture, database | 10 min |
@@ -66,25 +104,57 @@ Use [copilot-instructions.md](./copilot-instructions.md) for deeper patterns and
 ## 🔗 Architecture Overview (All Roles)
 
 ### Microservices (Wolverine-Based)
-```
-Backend:
-  - Identity (7002)
-  - Catalog (7005)
-  - CMS (7006)
-  - Tenancy (7003)
-  - Localization (7004)
-  - Theming (7008)
-  - Search (9300)
 
-Frontend:
-  - Store (5173)
-  - Admin (5174)
-
-Infrastructure:
-  - Aspire Dashboard (15500)
-  - PostgreSQL (5432)
-  - Redis (6379)
-  - Elasticsearch (9200)
+```mermaid
+graph TB
+    subgraph Frontend["🎨 Frontend Layer"]
+        Store["Store<br/>5173"]
+        Admin["Admin<br/>5174"]
+    end
+    
+    subgraph Services["⚙️ Wolverine Microservices"]
+        Identity["Identity<br/>7002"]
+        Tenancy["Tenancy<br/>7003"]
+        Localization["Localization<br/>7004"]
+        Catalog["Catalog<br/>7005"]
+        CMS["CMS<br/>7006"]
+        Theming["Theming<br/>7008"]
+        Search["Search<br/>9300"]
+    end
+    
+    subgraph Data["🗄️ Data Layer"]
+        PG["PostgreSQL<br/>5432"]
+        Redis["Redis<br/>6379"]
+        ES["Elasticsearch<br/>9200"]
+    end
+    
+    subgraph Orchestration["🎪 Orchestration"]
+        Aspire["Aspire<br/>15500"]
+    end
+    
+    Store --> Identity
+    Admin --> Identity
+    Store --> Catalog
+    Admin --> Tenancy
+    
+    Identity --> PG
+    Catalog --> PG
+    CMS --> PG
+    Theming --> PG
+    Tenancy --> PG
+    Localization --> PG
+    
+    Search --> ES
+    Search --> Redis
+    
+    Aspire -.->|manages| Identity
+    Aspire -.->|manages| Catalog
+    Aspire -.->|manages| Services
+    
+    style Frontend fill:#e8f5e9
+    style Services fill:#f3e5f5
+    style Data fill:#fce4ec
+    style Orchestration fill:#e1f5ff
 ```
 
 ### Patterns (All Roles)

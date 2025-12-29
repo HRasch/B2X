@@ -7,6 +7,62 @@
 
 ## 🎯 Architecture (DevOps-Specific)
 
+### Infrastructure Topology
+
+```mermaid
+graph TB
+    subgraph Frontend["Frontend Layer"]
+        Store["Store<br/>5173"]
+        Admin["Admin<br/>5174"]
+    end
+    
+    subgraph Gateways["Gateway Layer"]
+        StoreGW["Store Gateway<br/>8000"]
+        AdminGW["Admin Gateway<br/>8080"]
+    end
+    
+    subgraph Services["Microservices<br/>Wolverine"]
+        Identity["Identity<br/>7002"]
+        Catalog["Catalog<br/>7005"]
+        CMS["CMS<br/>7006"]
+        Tenancy["Tenancy<br/>7003"]
+        Localization["Localization<br/>7004"]
+        Theming["Theming<br/>7008"]
+        Search["Search<br/>9300"]
+    end
+    
+    subgraph Data["Data Layer"]
+        PG["PostgreSQL<br/>5432"]
+        Redis["Redis<br/>6379"]
+        ES["Elasticsearch<br/>9200"]
+    end
+    
+    subgraph Orchestration["Orchestration"]
+        Aspire["Aspire Dashboard<br/>15500"]
+    end
+    
+    Store --> StoreGW
+    Admin --> AdminGW
+    StoreGW --> Identity
+    StoreGW --> Catalog
+    AdminGW --> Identity
+    AdminGW --> Tenancy
+    Identity --> PG
+    Catalog --> PG
+    CMS --> PG
+    Search --> ES
+    Search --> Redis
+    Aspire -.->|manages| Identity
+    Aspire -.->|manages| Catalog
+    Aspire -.->|manages| CMS
+    
+    style Frontend fill:#e8f5e9
+    style Gateways fill:#fff3e0
+    style Services fill:#f3e5f5
+    style Data fill:#fce4ec
+    style Orchestration fill:#e1f5ff
+```
+
 ### Service Ports
 ```
 Frontend Store .................. 5173

@@ -9,17 +9,24 @@
 
 ### Architecture = Wolverine Microservices + DDD + Aspire
 
-```
-Each service: 
-  Core (Domain) → Application (Handlers) → Infrastructure (EF Core) → API (Wolverine)
-  
-Key Pattern: Wolverine, NOT MediatR
-  ✅ Plain POCO commands + Service.PublicAsyncMethod() 
-  ❌ No IRequest, IRequestHandler, [HttpPost] attributes
-  
-Communication:
-  → Synchronous: HTTP calls (rare)
-  → Asynchronous: Wolverine events (preferred)
+```mermaid
+graph TD
+    A["Client/Frontend"] --> B["API Gateway"]
+    B --> C["Wolverine<br/>Service"]
+    C --> D["Handler<br/>Service"]
+    D --> E["Database<br/>PostgreSQL"]
+    D --> F["Event Bus<br/>Async"]
+    
+    G["Core: Domain<br/>Models"] --> H["No Framework Deps"]
+    H["Application: DTOs,<br/>Handlers, Validators"] --> G
+    I["Infrastructure:<br/>EF Core, Repos"] --> H
+    J["Presentation:<br/>Wolverine API"] --> I
+    
+    style A fill:#e1f5ff
+    style C fill:#e8f5e9
+    style E fill:#f3e5f5
+    style G fill:#fce4ec
+    style F fill:#fff3e0
 ```
 
 ### Services (All Wolverine-based)
@@ -106,6 +113,21 @@ await _context.Products
 ---
 
 ## 📋 Before You Write Code
+
+### Security & Tenant Isolation Flow
+
+```mermaid
+graph LR
+    A["Request +<br/>JWT Token"] --> B["Extract<br/>TenantId from JWT"]
+    B --> C["Load Entity<br/>from DB"]
+    C --> D{Verify:<br/>Entity.TenantId<br/>== JWT.TenantId}
+    D -->|Match| E["✅ Return Data"]
+    D -->|Mismatch| F["🚫 Deny Access"]
+    
+    style A fill:#e1f5ff
+    style E fill:#e8f5e9
+    style F fill:#ffcdd2
+```
 
 ### Checklist (2 minutes)
 

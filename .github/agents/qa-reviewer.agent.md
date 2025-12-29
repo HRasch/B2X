@@ -1,6 +1,6 @@
 ---
 description: 'QA Reviewer Agent responsible for code quality, project health and architectural validation'
-tools: ['edit', 'execute', 'gitkraken/*', 'search', 'vscode', 'agent']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'gitkraken/*', 'agent', 'todo']
 model: 'claude-haiku-4-5'
 infer: true
 ---

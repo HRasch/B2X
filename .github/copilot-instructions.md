@@ -53,26 +53,103 @@ B2Connect is a **multi-tenant SaaS platform** using:
 
 ### Onion Architecture (Each Service)
 
-```
-Core (Domain)
-  ↓ dependencies point inward only
-Application (CQRS, Handlers, Validators)
-  ↓
-Infrastructure (EF Core, Repositories)
-  ↓
-Presentation (API Endpoints)
+```mermaid
+graph TB
+    Presentation["🎯 Presentation<br/>(API Endpoints)"]
+    Infrastructure["🗄️ Infrastructure<br/>(EF Core, Repositories)"]
+    Application["⚙️ Application<br/>(Handlers, Validators)"]
+    Core["💎 Core/Domain<br/>(Entities, Interfaces)"]
+    
+    Presentation -->|depends on| Infrastructure
+    Infrastructure -->|depends on| Application
+    Application -->|depends on| Core
+    Core -->|ZERO dependencies|Core
+    
+    style Core fill:#e1f5ff
+    style Application fill:#f3e5f5
+    style Infrastructure fill:#fff3e0
+    style Presentation fill:#e8f5e9
 ```
 
 **Critical Rule**: Core has ZERO framework dependencies.
 
 ---
 
-## 🔀 Git Workflow & Commit Conventions
+## 🏗️ Service Architecture & Communication
+
+### Microservice Request Flow
+
+```mermaid
+sequenceDiagram
+    participant Client as Client/Frontend
+    participant Gateway as API Gateway
+    participant Service as Wolverine Service
+    participant Handler as Service Handler
+    participant DB as PostgreSQL
+    participant Events as Event Bus
+    
+    Client->>Gateway: HTTP Request
+    Gateway->>Service: Route to Service
+    Service->>Handler: Invoke Public Async Method
+    Handler->>DB: Query with TenantId Filter
+    DB-->>Handler: Data (Multi-tenant safe)
+    Handler->>Events: Publish Domain Event
+    Handler-->>Service: Response
+    Service-->>Gateway: HTTP 200/Error
+    Gateway-->>Client: JSON Response
+    Events->>Service: Async Subscription
+```
+
+### Service Discovery & Orchestration (Aspire)
+
+```mermaid
+graph LR
+    Aspire["🎪 Aspire Orchestrator<br/>Port 15500"]
+    
+    Aspire -->|discovers & manages| Identity["Identity<br/>7002"]
+    Aspire -->|discovers & manages| Catalog["Catalog<br/>7005"]
+    Aspire -->|discovers & manages| CMS["CMS<br/>7006"]
+    Aspire -->|discovers & manages| Tenancy["Tenancy<br/>7003"]
+    Aspire -->|discovers & manages| Localization["Localization<br/>7004"]
+    Aspire -->|discovers & manages| Theming["Theming<br/>7008"]
+    Aspire -->|discovers & manages| Search["Search<br/>9300"]
+    
+    Identity -->|async| Events["📨 Wolverine<br/>Event Bus"]
+    Catalog -->|async| Events
+    CMS -->|async| Events
+    
+    style Aspire fill:#fff3e0
+    style Events fill:#f3e5f5
+```
+
+---
+
+### Commit Message Format
+
+```mermaid
+graph TD
+    A["Commit"] --> B["Type: fix, feat, docs, etc"]
+    A --> C["Scope: service name"]
+    A --> D["Subject: 50 chars max"]
+    A --> E["Issue: #123"]
+    F["Body"] --> F1["What changed"]
+    G["Footer"] --> G1["Closes #N"]
+    G --> G2["Related #N"]
+    
+    style A fill:#e1f5ff
+    style B fill:#f3e5f5
+    style C fill:#f3e5f5
+    style D fill:#f3e5f5
+    style E fill:#f3e5f5
+    style F fill:#fff3e0
+    style G fill:#fff3e0
+```
 
 ### Commit Message Format
 
 ```
 <type>(<scope>): <subject> (#<issue-id>)
+````
 
 <body>
 <footer>

@@ -7,6 +7,31 @@
 
 ## 🎯 Architecture (Backend-Specific)
 
+### Wolverine Handler Lifecycle
+
+```mermaid
+graph TD
+    A["HTTP Request:<br/>POST /command"] --> B["Wolverine<br/>Routing"]
+    B --> C["Dependency<br/>Injection"]
+    C --> D["Service.PublicAsyncMethod<br/>invoked"]
+    D --> E["Validation<br/>FluentValidation"]
+    E -->|Valid| F["Business Logic<br/>Execute"]
+    E -->|Invalid| X["Return Error<br/>400"]
+    F --> G["Tenant Filter<br/>Multi-tenant check"]
+    G --> H["Database<br/>Query/Update"]
+    H --> I["Publish Events<br/>Wolverine"]
+    I --> J["Return Response<br/>200/201"]
+    J --> K["Event Bus<br/>Async subscribers"]
+    
+    style A fill:#e1f5ff
+    style D fill:#e8f5e9
+    style E fill:#fff3e0
+    style F fill:#e8f5e9
+    style G fill:#fce4ec
+    style H fill:#f3e5f5
+    style J fill:#e1f5ff
+```
+
 ### Every Service Uses This Structure
 ```
 Service/
@@ -17,6 +42,23 @@ Service/
 ```
 
 ### Wolverine Handler Pattern (REQUIRED)
+
+```mermaid
+graph LR
+    A["Command POCO"] --> B["Service.PublicAsyncMethod"]
+    B --> C["Validator"]
+    C --> D["HTTP Response"]
+    
+    E["❌ MediatR Pattern"] -.->|NEVER USE| X["IRequest&lt;&gt;<br/>IRequestHandler&lt;&gt;<br/>@HttpPost"]
+    
+    style A fill:#e8f5e9
+    style B fill:#e8f5e9
+    style C fill:#e8f5e9
+    style D fill:#e1f5ff
+    style E fill:#ffebee
+    style X fill:#ffcdd2
+```
+
 ```csharp
 // ✅ CORRECT
 public class CreateProductService {

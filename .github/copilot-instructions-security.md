@@ -8,35 +8,62 @@
 ## 🎯 Security Architecture
 
 ### P0 Compliance Components (Critical!)
+
+```mermaid
+graph TD
+    A["🔒 P0 Security<br/>Framework"]
+    
+    A --> P1["P0.1: Audit Logging<br/>Immutable, encrypted<br/>All CRUD operations"]
+    A --> P2["P0.2: Encryption<br/>AES-256-GCM<br/>Email, Phone, PII"]
+    A --> P3["P0.3: Incident Response<br/>< 24h notification<br/>Breach detection"]
+    A --> P4["P0.4: Network<br/>VPC, Security Groups<br/>Least privilege"]
+    A --> P5["P0.5: Key Management<br/>Azure KeyVault<br/>Annual rotation"]
+    
+    P1 --> L1["TenantId, UserId<br/>Before/After values<br/>Tamper detection"]
+    P2 --> L2["Random IV<br/>Key in vault<br/>No plaintext"]
+    P3 --> L3["Brute force alerts<br/>Exfiltration detection<br/>NIS2 compliance"]
+    P4 --> L4["Services isolated<br/>No direct DB access<br/>mTLS between services"]
+    P5 --> L5["Key rotation<br/>Access audit<br/>Secure storage"]
+    
+    style A fill:#fff3e0
+    style P1 fill:#f3e5f5
+    style P2 fill:#f3e5f5
+    style P3 fill:#f3e5f5
+    style P4 fill:#f3e5f5
+    style P5 fill:#f3e5f5
 ```
-P0.1: Audit Logging (Immutable, encrypted)
-      └─ All CRUD operations logged with before/after values
 
-P0.2: Encryption at Rest (AES-256-GCM)
-      └─ Email, Phone, Address, SSN, DOB, FirstName, LastName
+### Threat Model & Defense
 
-P0.3: Incident Response (< 24h notification)
-      └─ Brute force detection, data exfiltration alerts
-
-P0.4: Network Segmentation (VPC, Security Groups)
-      └─ Public → Services → Databases (no direct DB access)
-
-P0.5: Key Management (Azure KeyVault)
-      └─ Annual key rotation, audit trails
-```
-
-### Threat Model
-```
-High-Risk:
-  - Unauthorized data access (PII breach)
-  - SQL injection or XSS
-  - Encryption key compromise
-  - Cross-tenant data leaks
-  
-Medium-Risk:
-  - Brute force attacks
-  - DDoS
-  - Service outages
+```mermaid
+graph LR
+    subgraph Threats["🚨 Threat Vectors"]
+        T1["Unauthorized<br/>Data Access"]
+        T2["SQL Injection<br/>or XSS"]
+        T3["Key<br/>Compromise"]
+        T4["Cross-Tenant<br/>Leaks"]
+    end
+    
+    subgraph Defenses["🛡️ Mitigations"]
+        D1["Encryption +<br/>TenantId Filter"]
+        D2["Parameterized<br/>Queries"]
+        D3["KeyVault +<br/>RBAC"]
+        D4["Audit Logging +<br/>Immutable"]
+    end
+    
+    T1 --> D1
+    T2 --> D2
+    T3 --> D3
+    T4 --> D4
+    
+    style T1 fill:#ffcdd2
+    style T2 fill:#ffcdd2
+    style T3 fill:#ffcdd2
+    style T4 fill:#ffcdd2
+    style D1 fill:#e8f5e9
+    style D2 fill:#e8f5e9
+    style D3 fill:#e8f5e9
+    style D4 fill:#e8f5e9
 ```
 
 ---

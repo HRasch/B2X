@@ -8,22 +8,57 @@
 ## 🎯 Testing Architecture
 
 ### Test Types
+
+```mermaid
+graph TD
+    Tests["B2Connect Test Suite"]
+    
+    Tests --> Unit["Unit Tests<br/>xUnit"]
+    Tests --> Integration["Integration Tests<br/>xUnit + real DB"]
+    Tests --> E2E["E2E Tests<br/>Playwright"]
+    Tests --> Compliance["Compliance Tests<br/>52 total"]
+    
+    Unit --> UnitDesc["Core business logic<br/>validators<br/>handlers"]
+    Integration --> IntDesc["Database interactions<br/>service boundaries"]
+    E2E --> E2EDesc["User workflows<br/>login, checkout<br/>etc."]
+    
+    Compliance --> P06["P0.6: E-Commerce<br/>15 tests"]
+    Compliance --> P07["P0.7: AI Act<br/>15 tests"]
+    Compliance --> P08["P0.8: Accessibility<br/>12 tests"]
+    Compliance --> P09["P0.9: E-Rechnung<br/>10 tests"]
+    
+    style Tests fill:#e1f5ff
+    style Unit fill:#f3e5f5
+    style Integration fill:#fff3e0
+    style E2E fill:#e8f5e9
+    style Compliance fill:#fce4ec
+    style P06 fill:#f3e5f5
+    style P07 fill:#f3e5f5
+    style P08 fill:#f3e5f5
+    style P09 fill:#f3e5f5
 ```
-Unit Tests (xUnit)
-  └─ Core business logic, validators, handlers
-  
-Integration Tests (xUnit + real DB)
-  └─ Database interactions, service boundaries
-  
-E2E Tests (Playwright)
-  └─ User workflows: login, checkout, etc.
-  
-Compliance Tests (52 total)
-  └─ P0.6 (15): E-Commerce legal
-  └─ P0.7 (15): AI Act compliance
-  └─ P0.8 (12): Accessibility (WCAG 2.1 AA)
-  └─ P0.9 (10): E-Rechnung (invoicing)
+
+### Test Execution Flow
+
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant Test as Test Suite
+    participant Build as Build System
+    participant Gate as Quality Gate
+    
+    Dev->>Test: Run local tests
+    Test->>Test: Unit tests
+    Test->>Test: Integration tests
+    Test->>Test: Run on PR
+    Build->>Test: CI/CD triggers
+    Test->>Gate: Coverage >= 80%?
+    Gate->>Gate: Compliance tests pass?
+    Gate->>Gate: All 52 tests pass?
+    Gate-->>Dev: ✅ Green / ❌ Red
 ```
+
+---
 
 ### Test File Location Pattern
 ```

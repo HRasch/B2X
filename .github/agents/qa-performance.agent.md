@@ -1,6 +1,6 @@
 ---
 description: 'QA Performance Engineer specializing in load testing, performance monitoring and scalability verification'
-tools: ['execute', 'gitkraken/*', 'vscode', 'agent']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'gitkraken/*', 'agent', 'todo']
 model: 'claude-haiku-4-5'
 infer: true
 ---

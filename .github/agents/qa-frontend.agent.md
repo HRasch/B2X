@@ -1,6 +1,6 @@
 ---
 description: 'QA Frontend Specialist testing UI/UX, user flows, cross-browser compatibility and end-to-end scenarios'
-tools: ['edit', 'execute', 'gitkraken/*', 'search', 'vscode', 'agent']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'gitkraken/*', 'agent', 'todo']
 model: 'claude-4-5-haiku'
 infer: true
 ---

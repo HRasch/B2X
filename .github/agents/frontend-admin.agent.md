@@ -1,6 +1,6 @@
 ---
 description: 'Frontend Developer specializing in Admin Dashboard, data visualization and management UI'
-tools: ['edit', 'execute', 'gitkraken/*', 'search', 'vscode', 'agent']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'gitkraken/*', 'agent', 'todo']
 model: 'claude-haiku-4-5'
 infer: true
 ---

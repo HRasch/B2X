@@ -40,5 +40,11 @@
   "github.copilot.chat.localeOverride": "en",
   "github.copilot.advanced": {
     "authProvider": "github"
+  },
+  "markdown.mermaid.enabled": true,
+  "markdown.preview.breaks": true,
+  "markdown.extensions.preview.enableKimlEditing": true,
+  "[markdown]": {
+    "editor.wordWrap": "on"
   }
 }

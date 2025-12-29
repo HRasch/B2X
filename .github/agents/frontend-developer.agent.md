@@ -1,6 +1,6 @@
 ---
 description: 'Frontend Developer specialized in Vue.js 3, Composition API, Tailwind CSS and responsive design'
-tools: ['edit', 'execute', 'gitkraken/*', 'search', 'vscode', 'agent']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'gitkraken/*', 'agent', 'todo']
 model: 'claude-haiku-4-5'
 infer: true
 ---

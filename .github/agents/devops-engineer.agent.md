@@ -1,6 +1,6 @@
 ---
 description: 'DevOps Engineer specializing in infrastructure, deployment, monitoring and operational excellence'
-tools: ['execute', 'gitkraken/*', 'vscode', 'agent']
+tools: ['vscode', 'execute', 'read/readFile', 'gitkraken/*', 'copilot-container-tools/*', 'agent', 'ms-python.python/getPythonEnvironmentInfo', 'ms-python.python/getPythonExecutableCommand', 'ms-python.python/installPythonPackage', 'ms-python.python/configurePythonEnvironment']
 model: 'claude-haiku-4-5'
 infer: true
 ---
