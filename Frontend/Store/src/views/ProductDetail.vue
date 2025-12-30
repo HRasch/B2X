@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useCartStore } from "@/stores/cart";
+import ProductPrice from "@/components/ProductPrice.vue";
 
 interface Product {
   id: string;
@@ -309,32 +310,26 @@ onMounted(() => {
           <!-- Divider -->
           <div class="divider my-4"></div>
 
-          <!-- Price Section -->
-          <div class="card bg-base-200 shadow-sm mb-6">
+          <!-- Price Section with VAT Transparency (Issue #30) -->
+          <div
+            class="card bg-green-50 border-l-4 border-green-500 shadow-sm mb-6"
+          >
             <div class="card-body">
-              <h3 class="card-title text-base mb-4">Price & Tax Breakdown</h3>
+              <h3 class="card-title text-base mb-4">Price Overview</h3>
 
-              <div class="space-y-2">
-                <div class="flex justify-between items-center">
-                  <span class="text-base-content/70"
-                    >Net Price (excl. VAT)</span
-                  >
-                  <span class="font-semibold">€{{ priceBreakdown?.net }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-base-content/70">VAT (19%)</span>
-                  <span class="font-semibold text-success"
-                    >€{{ priceBreakdown?.vat }}</span
-                  >
-                </div>
-                <div class="divider my-2"></div>
-                <div class="flex justify-between items-center">
-                  <span class="font-semibold">Total Price (incl. VAT)</span>
-                  <span class="text-2xl font-bold text-primary"
-                    >€{{ priceBreakdown?.total }}</span
-                  >
-                </div>
-              </div>
+              <!-- Use ProductPrice component for automatic VAT calculation -->
+              <ProductPrice
+                v-if="product"
+                :product-price="product.price"
+                destination-country="DE"
+                :shipping-cost="0"
+                show-breakdown
+              />
+
+              <p class="text-xs text-gray-500 mt-3">
+                All prices include VAT in accordance with PAngV (Price
+                Indication Ordinance)
+              </p>
             </div>
           </div>
 

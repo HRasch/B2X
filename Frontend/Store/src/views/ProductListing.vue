@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/stores/cart";
 import ProductCardModern from "@/components/shop/ProductCardModern.vue";
+import ProductPrice from "@/components/ProductPrice.vue";
 
 interface Product {
   id: string;

@@ -74,6 +74,18 @@ builder.Services.AddDbContext<B2Connect.CatalogService.Infrastructure.Data.Catal
     options.UseNpgsql(connectionString)
         .UseSnakeCaseNamingConvention());
 
+// Add Caching (Required for TaxRateService)
+builder.Services.AddMemoryCache();
+
+// Issue #30: B2C Price Transparency (PAngV)
+// Add Tax Rate Services for VAT calculation
+builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ITaxRateRepository,
+    B2Connect.CatalogService.Infrastructure.Data.TaxRateRepository>();
+builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ITaxRateService,
+    B2Connect.Catalog.Application.Handlers.TaxRateService>();
+builder.Services.AddScoped<B2Connect.Catalog.Application.Handlers.PriceCalculationService>();
+builder.Services.AddScoped<B2Connect.Catalog.Application.Validators.CalculatePriceValidator>();
+
 // TODO: Add application services (ProductService, QueryHandlers, etc.) once implemented
 // NOTE: Return Management Services moved to Customer domain (Story 8: Widerrufsmanagement)
 // The ReturnApiHandler, Validators, Repositories have been migrated to Customer domain
