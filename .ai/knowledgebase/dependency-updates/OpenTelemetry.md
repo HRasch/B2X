@@ -14,17 +14,23 @@ summary: |
 findings: |
   - `OpenTelemetry` SDK: 1.14.0 (NuGet)
   - `OpenTelemetry.Exporter.OpenTelemetryProtocol` (OTLP exporter): 1.14.0 (NuGet)
+  - Documentation: https://github.com/open-telemetry/opentelemetry-dotnet and https://opentelemetry.io/
   - Key notes:
     - `UseOtlpExporter()` convenience method enables exporters for all signals but must be called only once; mixing it with signal-specific `AddOtlpExporter` calls can throw `NotSupportedException`.
-    - OTLP exporter supports both gRPC and HTTP/protobuf transports; when using `HttpProtobuf` you can supply a custom `HttpClient` via an `HttpClientFactory` option.
+    - OTLP exporter supports both gRPC and HTTP/protobuf transports; when using `HttpProtobuf` you can provide a custom `HttpClient` via the `HttpClientFactory` option (OTLP options expose `HttpClientFactory`).
     - The exporter exposes many environment-variable configuration knobs (`OTEL_*`) for endpoints, headers, timeouts, batching and attribute limits.
-    - Experimental features (in-memory/disk retry) exist; exercise caution and validate stability when enabling.
+    - Experimental features (in-memory/disk retry) exist (see OTLP exporter docs); test thoroughly before enabling in production.
+    - `UseOtlpExporter` will add the exporter as the last processor in the pipeline and can only be called once — ensure application startup calls don't conflict.
 
 actions: |
-  - If repo references older OpenTelemetry packages, update to `1.14.0` for SDK/exporter where safe and run CI.
-  - For any upgrade, verify initialization order (Application Insights vs OpenTelemetry), test OTLP endpoint connectivity, and confirm `UseOtlpExporter` usage does not conflict.
-  - Add a small integration test that configures OTLP exporter with a test `HttpClient` and asserts startup/configuration does not throw.
-  - SARAH: capture changelog links and breaking-change notes into this doc for each package before opening PRs.
+  - If repo references older OpenTelemetry packages, update to `1.14.0` for SDK/exporter where safe and run CI with focused integration checks.
+  - For upgrades, verify initialization order (Application Insights vs OpenTelemetry), confirm `UseOtlpExporter` is not called multiple times, and test OTLP endpoint connectivity (gRPC and HttpProtobuf).
+  - Add integration tests:
+    1. Startup test ensuring `AddOpenTelemetry().UseOtlpExporter()` does not throw.
+    2. OTLP connectivity test using a local collector (or OTLP test double) to assert traces/metrics/logs are transmitted.
+    3. Custom `HttpClient` test when using `HttpProtobuf` to confirm `HttpClientFactory` wiring and headers.
+  - CI suggestion: add a matrix job that runs OTLP tests using `docker-compose` to start an OpenTelemetry Collector and validates telemetry ingestion.
+  - SARAH: include changelog links for `OpenTelemetry` and `OpenTelemetry.Exporter.OpenTelemetryProtocol` and note any breaking changes between the repo's current versions and `1.14.0`.
 ---
 
 References:

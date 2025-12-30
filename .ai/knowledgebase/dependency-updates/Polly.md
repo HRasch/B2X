@@ -12,11 +12,15 @@ summary: |
 
 findings: |
   - NuGet current stable: `Polly` 8.6.5
-  - Documentation & changelog on GitHub: https://github.com/App-vNext/Polly
-  - Polly remains stable; Microsoft.Extensions.Http.Resilience builds on Polly-style strategies—ensure versions are compatible when composing custom handlers.
+  - Documentation & changelog: https://github.com/App-vNext/Polly (see `CHANGELOG.md` for per-release notes)
+  - Polly is mature and backward-compatible in most cases, but changes to defaults (timeouts/retry jitter) can affect behavior—test policies under load.
+  - `Microsoft.Extensions.Http.Resilience` builds on Polly-style strategies; ensure version alignment when composing handlers.
 
 actions: |
-  - If upgrading Polly, ensure `Microsoft.Extensions.*` packages that depend on Polly are compatible; prefer aligning Polly and Microsoft.Extensions.Http.Resilience versions.
-  - Run unit/integration tests that cover retry and circuit-breaker scenarios to detect semantic changes.
-  - SARAH: include direct changelog links for the exact versions used in the repo when preparing PR descriptions.
+  - When preparing a PR to bump Polly:
+    1. Verify dependent packages (e.g., `Microsoft.Extensions.Http.Resilience`) are compatible with the target Polly version.
+    2. Add/execute unit tests that simulate transient failures (timeouts, 500s) to assert retry and circuit-breaker semantics.
+    3. Run a short load test to observe retry/backoff behaviour and guard for increased downstream load.
+  - CI checks: include a job that runs the resilience unit tests and a small integration scenario that hits a stubbed failing endpoint.
+  - SARAH: link to the specific Polly changelog entries for the repo's current and target versions to include in PR descriptions.
 ---
