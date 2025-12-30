@@ -12,7 +12,7 @@ export interface CartItem {
 export const useCartStore = defineStore("cart", () => {
   const items = ref<CartItem[]>([]);
 
-  const addItem = (item: CartItem) => {
+  const addItem = (item: CartItem): void => {
     const existingItem = items.value.find((i) => i.id === item.id);
 
     if (existingItem) {
@@ -22,22 +22,22 @@ export const useCartStore = defineStore("cart", () => {
     }
   };
 
-  const removeItem = (itemId: string) => {
+  const removeItem = (itemId: string): void => {
     items.value = items.value.filter((i) => i.id !== itemId);
   };
 
-  const updateQuantity = (itemId: string, quantity: number) => {
+  const updateQuantity = (itemId: string, quantity: number): void => {
     const item = items.value.find((i) => i.id === itemId);
     if (item) {
       item.quantity = quantity;
     }
   };
 
-  const clearCart = () => {
+  const clearCart = (): void => {
     items.value = [];
   };
 
-  const getTotal = () => {
+  const getTotal = (): number => {
     return items.value.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0

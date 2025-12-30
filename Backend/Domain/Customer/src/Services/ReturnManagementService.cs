@@ -5,6 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using B2Connect.Customer.Models;
+using B2Connect.Customer.Utilities;
+using static B2Connect.Customer.Models.ReturnStatus;
+using static B2Connect.Customer.Models.ReturnValidation;
 
 namespace B2Connect.Customer.Services;
 
@@ -71,7 +74,7 @@ public class ReturnManagementService : IReturnManagementService
 
         // 1. Validate order exists and belongs to tenant
         var order = await _orderRepository.GetByIdAsync(orderId, ct);
-        if (order == null || order.TenantId != tenantId)
+        if (order is null || order.TenantId != tenantId)
             throw new InvalidOperationException($"Order {orderId} not found for tenant {tenantId}");
 
         // 2. Validate withdrawal period (VVVG §357: 14 days from delivery)
@@ -86,7 +89,7 @@ public class ReturnManagementService : IReturnManagementService
 
         // 3. Check if return already exists
         var existingReturns = await _returnRepository.GetByOrderIdAsync(orderId, ct);
-        if (existingReturns.Any(r => r.Status != "Rejected"))
+        if (existingReturns.Any(r => r.Status != Rejected))
             throw new InvalidOperationException($"Active return already exists for order {orderId}");
 
         // 4. Calculate refund amount
@@ -102,7 +105,7 @@ public class ReturnManagementService : IReturnManagementService
             ReturnNumber = GenerateReturnNumber(tenantId),
             Reason = reason,
             ReturnAllItems = returnAllItems,
-            Status = "Requested",
+            Status = Requested,
             RefundAmount = refundAmount,
             RefundStatus = "Pending",
             IsWithinWithdrawalPeriod = validation.IsWithinPeriod,
@@ -142,9 +145,10 @@ public class ReturnManagementService : IReturnManagementService
     /// </summary>
     public async Task<ReturnValidationResult> ValidateReturnAsync(Guid orderId, CancellationToken ct = default)
     {
+        ValidationHelper.ValidateGuidNotEmpty(orderId, "Order ID");
         var order = await _orderRepository.GetByIdAsync(orderId, ct);
 
-        if (order == null)
+        if (order is null)
             return new ReturnValidationResult
             {
                 IsValid = false,
@@ -159,7 +163,7 @@ public class ReturnManagementService : IReturnManagementService
             };
 
         var daysAfterDelivery = (int)(DateTime.UtcNow - order.DeliveredAt.Value).TotalDays;
-        var withdrawalDeadline = order.DeliveredAt.Value.AddDays(14);
+        var withdrawalDeadline = order.DeliveredAt.Value.AddDays(WithdrawalPeriodDays);
         var isWithinPeriod = DateTime.UtcNow <= withdrawalDeadline;
 
         return new ReturnValidationResult
@@ -179,6 +183,7 @@ public class ReturnManagementService : IReturnManagementService
     /// </summary>
     public async Task<ReturnRequest> GetReturnRequestAsync(Guid returnId, CancellationToken ct = default)
     {
+        ValidationHelper.ValidateGuidNotEmpty(returnId, "Return ID");
         return await _returnRepository.GetByIdAsync(returnId, ct);
     }
 
@@ -196,10 +201,10 @@ public class ReturnManagementService : IReturnManagementService
     public async Task<ReturnRequest> ProcessReturnAsync(Guid returnId, CancellationToken ct = default)
     {
         var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
-        if (returnRequest == null)
+        if (returnRequest is null)
             throw new InvalidOperationException($"Return {returnId} not found");
 
-        returnRequest.Status = "Received";
+        returnRequest.Status = Received;
         returnRequest.ReturnReceivedAt = DateTime.UtcNow;
         returnRequest.ModifiedAt = DateTime.UtcNow;
 
@@ -217,8 +222,11 @@ public class ReturnManagementService : IReturnManagementService
     /// </summary>
     public async Task<Refund> ProcessRefundAsync(Guid returnId, string refundMethod, CancellationToken ct = default)
     {
+        ValidationHelper.ValidateGuidNotEmpty(returnId, "Return ID");
+        ValidationHelper.ValidateStringNotEmpty(refundMethod, "Refund Method");
+
         var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
-        if (returnRequest == null)
+        if (returnRequest is null)
             throw new InvalidOperationException($"Return {returnId} not found");
 
         // Create refund record
@@ -245,7 +253,7 @@ public class ReturnManagementService : IReturnManagementService
         await _refundRepository.AddAsync(refund, ct);
 
         // Update return status
-        returnRequest.Status = "Refunded";
+        returnRequest.Status = Refunded;
         returnRequest.RefundStatus = "Processed";
         returnRequest.RefundProcessedAt = DateTime.UtcNow;
         returnRequest.RefundTransactionId = refund.Id.ToString();
@@ -275,6 +283,9 @@ public class ReturnManagementService : IReturnManagementService
     /// </summary>
     public async Task<string> GenerateReturnLabelAsync(Guid returnId, string carrierCode, CancellationToken ct = default)
     {
+        ValidationHelper.ValidateGuidNotEmpty(returnId, "Return ID");
+        ValidationHelper.ValidateStringNotEmpty(carrierCode, "Carrier Code");
+
         var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
         if (returnRequest == null)
             throw new InvalidOperationException($"Return {returnId} not found");
@@ -286,7 +297,7 @@ public class ReturnManagementService : IReturnManagementService
         returnRequest.ReturnCarrier = carrierCode;
         returnRequest.ReturnLabelUrl = labelUrl;
         returnRequest.ReturnLabelGeneratedAt = DateTime.UtcNow;
-        returnRequest.Status = "ReturnLabelSent";
+        returnRequest.Status = ReturnStatus.Approved;
         returnRequest.ModifiedAt = DateTime.UtcNow;
 
         await _returnRepository.UpdateAsync(returnRequest, ct);

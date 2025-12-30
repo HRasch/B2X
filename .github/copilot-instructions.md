@@ -23,6 +23,60 @@
 ## 🔧 Allowed Capabilities
 
 - ✅ **GitHub CLI Management**: Authorized to manage project on GitHub (issues, PRs, branches, boards)
+- ✅ **Documentation Management**: Create issue/sprint documentation in proper `collaborate/` folder structure (ENFORCED)
+
+---
+
+## 📁 CRITICAL: Documentation Location Rule (30. Dezember 2025)
+
+### ❌ VIOLATION: Project Root Documentation
+
+```
+❌ WRONG (Project Root):
+  B2Connect/
+  ├── ISSUE_30_IMPLEMENTATION.md   ← WRONG!
+  ├── ISSUE_53_PHASE_3.md          ← WRONG!
+  ├── PHASE_3_COMPLETE.md          ← WRONG!
+  └── SPRINT_1_KICKOFF.md          ← WRONG!
+```
+
+### ✅ RULE: Use `collaborate/` Folder Structure
+
+**All issue documentation MUST be in**:
+```
+✅ B2Connect/collaborate/sprint/{sprint-number}/execution/
+   ├── ISSUE_30_IMPLEMENTATION_COMPLETE.md
+   ├── ISSUE_53_PHASE_3_REFACTORING_LOG.md
+   ├── ISSUE_53_PHASE_3_EXECUTION_GUIDE.md
+   └── index.md (lists all issues)
+```
+
+### Documentation Organization
+
+| Document Type | Location | Owner |
+|---|---|---|
+| **Issue Execution** | `collaborate/sprint/{N}/execution/ISSUE_{NUM}_*.md` | Assigned agent |
+| **Sprint Planning** | `collaborate/sprint/{N}/planning/` | @scrum-master |
+| **Sprint Retrospective** | `collaborate/sprint/{N}/retrospective/` | @scrum-master |
+| **PR Design Decisions** | `collaborate/pr/{NUM}/design-decisions/` | @tech-lead |
+| **PR Implementation Notes** | `collaborate/pr/{NUM}/implementation-notes/` | Assigned agent |
+| **Lessons Learned** | `collaborate/lessons-learned/{DATE}-{topic}.md` | @scrum-master |
+| **Feature Docs** | `docs/` (NOT issue docs!) | @documentation-developer |
+
+### Enforcement (Active Now)
+
+✅ **You MUST**:
+- [ ] Place all issue docs in `collaborate/sprint/{N}/execution/`
+- [ ] Update `collaborate/sprint/{N}/execution/index.md` when creating docs
+- [ ] Link from GitHub issue to proper location
+- [ ] Never create issue docs in project root
+
+🔴 **Violation Consequences**:
+- @process-assistant will move files to proper location
+- @process-assistant will update GitHub issue references
+- Repeated violations will trigger git hooks blocking root-level files
+
+**Authority**: @process-assistant (EXCLUSIVE - via [GOVERNANCE_RULES.md](./.github/docs/processes/GOVERNANCE/GOVERNANCE_RULES.md))
 
 ---
 

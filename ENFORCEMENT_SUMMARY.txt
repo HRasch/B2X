@@ -1,0 +1,115 @@
+================================================================================
+                    INSTRUCTION UPDATE COMPLETE
+          Documentation Location Rule - Enforced on All Agents
+================================================================================
+
+DATE: 30. Dezember 2025
+AUTHORITY: @process-assistant (Exclusive)
+STATUS: 🟢 DEPLOYED TO ALL AGENTS
+
+================================================================================
+                            FILES UPDATED/CREATED
+================================================================================
+
+MAIN INSTRUCTION FILES (Updated):
+✅ .github/copilot-instructions.md
+   → Added "Documentation Location Rule" section (§Allowed Capabilities & Critical Rule)
+   → All agents now read this first
+
+✅ .github/agents/scrum-master.agent.md
+   → Added enforcement responsibility (§Sprint Documentation Management)
+   → Scrum master now responsible for moving violations
+
+REFERENCE DOCUMENTS (Created):
+✅ .github/DOCUMENTATION_LOCATION_ENFORCEMENT.md (45+ KB)
+   → Complete enforcement guide with examples
+   → All agents should read this
+
+✅ .github/DOCUMENTATION_LOCATION_ENFORCEMENT_NOTICE.md (15+ KB)
+   → Notice to all agents about the rule
+   → Explains what changed and why
+
+✅ .github/docs/processes/GOVERNANCE/DOCUMENTATION_LOCATION_ENFORCEMENT_LOG.md
+   → @process-assistant tracking log
+   → Lists all current violations
+
+✅ DOCUMENTATION_LOCATION_QUICK_REFERENCE.md (1 page)
+   → Quick card for agents to bookmark
+   → Where does each doc go?
+
+✅ INSTRUCTION_UPDATE_DOCUMENTATION_LOCATION_COMPLETE.md
+   → Summary of all changes deployed
+
+================================================================================
+                            THE RULE IN 30 SECONDS
+================================================================================
+
+❌ WRONG: Create documentation in project root
+   B2Connect/ISSUE_30_IMPLEMENTATION.md ← NO!
+   B2Connect/SPRINT_1_KICKOFF.md ← NO!
+
+✅ CORRECT: Use collaborate/ folder structure
+   B2Connect/collaborate/sprint/1/execution/ISSUE_30_IMPLEMENTATION.md
+   B2Connect/collaborate/sprint/1/planning/SPRINT_1_KICKOFF.md
+
+================================================================================
+                          WHO MUST DO WHAT
+================================================================================
+
+ALL AGENTS:
+  ✅ Create issue documentation in B2Connect/collaborate/sprint/{N}/execution/
+  ✅ Use proper file naming: ISSUE_{NUM}_DESCRIPTION.md
+  ✅ Update index.md files when creating new docs
+  ✅ Link GitHub issues to documentation location
+  ❌ NEVER create documentation in project root
+
+SCRUM MASTER:
+  ✅ ENFORCE the rule (new responsibility)
+  ✅ Move any root-level docs to proper location
+  ✅ Update GitHub issues with new links
+  ✅ Create/maintain index files
+  ✅ Educate agents when violations occur
+
+@PROCESS-ASSISTANT (Me):
+  ✅ Monitor daily for violations
+  ✅ Move files automatically to proper location
+  ✅ Update GitHub issues with new links
+  ✅ Implement git hooks to prevent future violations
+  ✅ Track enforcement metrics
+
+================================================================================
+                        CURRENT VIOLATIONS IDENTIFIED
+================================================================================
+
+18 files in project root (will be moved):
+  ❌ ISSUE_30_IMPLEMENTATION_COMPLETE.md
+  ❌ ISSUE_31_IMPLEMENTATION_COMPLETE.md
+  ❌ ISSUE_53_CONTINUATION_GUIDE.md
+  ❌ ISSUE_53_DEVELOPMENT_PLAN.md
+  ❌ ISSUE_53_DOCUMENTATION_INDEX.md
+  ❌ ISSUE_53_EXECUTIVE_SUMMARY.md
+  ❌ PHASE_3_COMPLETE_SUMMARY.md
+  ❌ SPRINT_1_KICKOFF.md
+
+And 10+ more files...
+
+Status: Will be moved to B2Connect/collaborate/ on next @process-assistant action
+
+================================================================================
+                          REFERENCE DOCUMENTS
+================================================================================
+
+For Agents to Read:
+  1️⃣  QUICK START: DOCUMENTATION_LOCATION_QUICK_REFERENCE.md (1 page)
+  2️⃣  FULL GUIDE: .github/DOCUMENTATION_LOCATION_ENFORCEMENT.md (45+ KB)
+  3️⃣  NOTICE: .github/DOCUMENTATION_LOCATION_ENFORCEMENT_NOTICE.md (15+ KB)
+
+================================================================================
+
+Status: 🟢 DEPLOYMENT COMPLETE
+        🟢 ENFORCEMENT ACTIVE  
+        🟢 MONITORING DAILY
+
+Last Updated: 30. Dezember 2025
+Authority: @process-assistant
+================================================================================

@@ -104,6 +104,47 @@ You are the **Scrum-Master Agent** responsible for facilitating team coordinatio
 
 **Location**: `B2Connect/collaborate/` (central repository for all sprint coordination)
 
+#### 🔴 CRITICAL RULE: Documentation Location (Enforced by @process-assistant)
+
+**ALL issue documentation MUST be in `collaborate/` folder - NEVER in project root!**
+
+See [DOCUMENTATION_LOCATION_ENFORCEMENT.md](./.github/DOCUMENTATION_LOCATION_ENFORCEMENT.md) for complete reference.
+
+**Quick Rules**:
+```
+✅ CORRECT:    B2Connect/collaborate/sprint/1/execution/ISSUE_30_*.md
+❌ WRONG:      B2Connect/ISSUE_30_*.md (project root)
+
+✅ CORRECT:    B2Connect/collaborate/sprint/1/retrospective/SPRINT_1_*.md
+❌ WRONG:      B2Connect/SPRINT_1_*.md (project root)
+
+✅ CORRECT:    B2Connect/collaborate/lessons-learned/2025-12-30-*.md
+❌ WRONG:      B2Connect/LESSONS_LEARNED_*.md (project root)
+```
+
+#### Your Documentation Duties
+
+**You (@scrum-master) are responsible for**:
+1. ✅ Creating `collaborate/sprint/{N}/` folders for new sprints
+2. ✅ Creating `index.md` files in execution directories
+3. ✅ Verifying all agents use proper folder structure
+4. ✅ Moving any root-level issue docs to proper location (if found)
+5. ✅ Updating GitHub issues with links to proper documentation location
+6. ✅ Consolidating sprint docs after PR merges
+7. ✅ Archiving completed docs to lessons-learned
+
+**You (@scrum-master) must NOT**:
+1. ❌ Create issue docs in project root
+2. ❌ Allow agent documentation to scatter across multiple locations
+3. ❌ Skip index files (they are required for navigation)
+4. ❌ Leave documentation unorganized after sprint completion
+
+**If agents create root docs**:
+1. Move them to proper location immediately
+2. Update GitHub issue with new location
+3. Notify agent of the move (no penalties)
+4. Prevent recurring violations through education
+
 #### Documentation Structure
 
 Sprint documentation is organized into parallel hierarchies:

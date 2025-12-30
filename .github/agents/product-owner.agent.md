@@ -230,6 +230,334 @@ Regulatory Deadlines (Critical!):
 
 ---
 
+## 📝 Creating GitHub Issues (Feature Requests, Change Requests, Bugs)
+
+As Product Owner, you are responsible for creating and managing GitHub issues for:
+- **Feature Requests**: New capabilities customers need
+- **Change Requests**: Modifications to existing features
+- **Bugs**: Defects or unexpected behavior
+- **Technical Debt**: Code quality and dependency updates
+- **Compliance Items**: P0 components and regulatory requirements
+
+### Issue Creation Workflow
+
+#### Step 1: Decide Issue Type
+
+| Type | When to Create | Owner | Priority |
+|------|----------------|-------|----------|
+| **Feature** | Customer needs new capability | @product-owner | Based on business value |
+| **Change Request** | Existing feature needs modification | @product-owner | Based on impact |
+| **Bug** | Something is broken or wrong | Any agent | Based on severity (critical → low) |
+| **Technical Debt** | Code quality, dependencies, refactoring | @tech-lead | Based on impact |
+| **Compliance** | P0 requirement or regulatory deadline | @product-owner + @legal | CRITICAL (must be on roadmap) |
+
+#### Step 2: Create the Issue on GitHub
+
+Use this template for consistency:
+
+**Go to**: [github.com/HRasch/B2Connect/issues/new](https://github.com/HRasch/B2Connect/issues/new)
+
+**Title Format**:
+```
+[type]: [brief description] (#optional-epic)
+
+Examples:
+- feature: Add dark mode toggle to admin dashboard
+- bugfix: Fix VAT calculation for reduced rates
+- chore: Update dependencies to latest stable versions
+- P0: Implement encryption for PII fields
+```
+
+**Description Template**:
+
+```markdown
+## Description
+[1-2 sentence summary of what this issue is about]
+
+## Rationale / Business Value
+[Why is this important? What problem does it solve?]
+
+## Acceptance Criteria
+- [ ] [Observable behavior 1]
+- [ ] [Observable behavior 2]
+- [ ] [Observable behavior 3]
+
+## Definition of Done
+- [ ] Feature works as specified
+- [ ] All tests passing (≥80% coverage)
+- [ ] Code review approved
+- [ ] Documentation complete (if user-facing)
+
+## Effort Estimate
+[Hours required: 4h, 8h, 16h, etc.]
+
+## Dependencies
+- [ ] Blocks other issues: [links]
+- [ ] Blocked by issues: [links]
+- [ ] Related issues: [links]
+
+## Out of Scope
+[What this issue does NOT include]
+
+## Acceptance Metric
+[How do we know this is successful? E.g., "Conversion increases by 5%", "API response < 100ms"]
+```
+
+#### Step 3: Add Metadata
+
+**Labels** (select multiple):
+- `feature` - New capability
+- `bugfix` - Defect fix
+- `chore` - Technical debt, dependencies
+- `enhancement` - Improvement to existing feature
+- `documentation` - Docs only
+- `P0-compliance` - Critical compliance item
+- `P0-security` - Security-critical
+- `high-priority` - Urgent
+- `blocked` - Waiting on another issue
+
+**Milestone**: Assign to sprint or product phase
+
+**Assignees**:
+- Feature/Change: Assign to relevant @developer
+- Bug: Assign to @qa-engineer (triage) or @developer (fix)
+- Technical Debt: Assign to @tech-lead
+- Compliance: Assign to @security-engineer + @legal
+
+**Project**: Add to [GitHub Projects](https://github.com/HRasch/B2Connect/projects) board
+
+#### Step 4: Notify Stakeholders
+
+**After creating issue**, post in relevant channel:
+- **Slack**: #development with issue link
+- **GitHub**: Mention @developers who need to know
+- **Email**: Stakeholders for high-impact issues
+
+Example:
+```
+Created Issue #42: Feature - Dark Mode Toggle
+👉 https://github.com/HRasch/B2Connect/issues/42
+
+Assigned to: @frontend-developer
+Priority: Medium
+Timeline: Sprint 2
+```
+
+---
+
+### Issue Management Best Practices
+
+#### Keep Issues Focused & Atomic
+
+**✅ Good**:
+```
+Title: Add VAT calculation service
+Description: Implement price calculation with transparent VAT breakdown
+Effort: 8h
+Acceptance: [4 specific criteria]
+```
+
+**❌ Bad**:
+```
+Title: Store improvements
+Description: Needs VAT, dark mode, search, and mobile optimization
+Effort: ???
+Acceptance: "Make store better"
+```
+
+#### Avoid Scope Creep
+
+If an issue grows beyond original scope:
+1. **Document additional work** in comments
+2. **Create new issue** for out-of-scope items
+3. **Link issues** to show dependencies
+4. **Close** original issue when acceptance criteria met
+5. **Track** new work in separate issues
+
+#### Manage Issue Lifecycle
+
+```
+Created
+   ↓
+Backlog Refinement (clarify requirements)
+   ↓
+Ready for Development (acceptance criteria clear)
+   ↓
+In Progress (developer assigned, working on it)
+   ↓
+Ready for Review (PR created)
+   ↓
+In Review (code review, QA testing)
+   ↓
+Approved (all gates passed)
+   ↓
+Merged (PR merged to main)
+   ↓
+Closed (issue complete, released)
+```
+
+#### Link Related Issues
+
+Use GitHub issue linking:
+```
+Closes #123          # Auto-close when PR merges
+Fixes #123          # Same as Closes
+Resolves #123       # Same as Closes
+Related to #123     # Link without closing
+Depends on #123     # Requires issue 123 first
+Blocks #123         # This issue blocks 123
+```
+
+#### Prioritize & Estimate Effort
+
+**For Product Owner**: Prioritize based on:
+1. **Business Value**: Impact on customers/revenue
+2. **Compliance**: Legal/regulatory requirements (highest!)
+3. **Technical Dependencies**: What must ship first
+4. **Risk**: What could cause biggest problems if wrong
+5. **Team Capacity**: Do we have bandwidth this sprint
+
+**For Effort Estimates**: Include all work (code + tests + docs)
+- Small: 1-4 hours
+- Medium: 4-12 hours
+- Large: 12-24 hours
+- Extra Large: 24+ hours (consider splitting!)
+
+---
+
+### Issue Examples
+
+#### Example 1: Feature Request
+
+```markdown
+## Title
+feature: Add digital invoice download (ZUGFeRD format)
+
+## Description
+Customers need to download invoices in ZUGFeRD format for EU tax compliance and ERP integration.
+
+## Rationale
+- Required for German E-Rechnung regulations (1. Jan 2026 deadline!)
+- Customers expect digital invoice downloads
+- ERP integration needs structured format
+
+## Acceptance Criteria
+- [ ] Invoice download button visible in customer dashboard
+- [ ] Downloaded file is valid ZUGFeRD format
+- [ ] Invoice includes all legally required fields (VAT, dates, etc.)
+- [ ] File names follow pattern: [invoice-number]_[date].xml
+- [ ] Download works on Chrome, Firefox, Safari (desktop & mobile)
+- [ ] Error handling shows clear message if generation fails
+
+## Definition of Done
+- [ ] ZUGFeRD generation service implemented (@backend-developer)
+- [ ] API endpoint created: GET /invoices/{id}/download
+- [ ] Frontend button added (@frontend-developer)
+- [ ] 8+ unit tests covering happy path + edge cases
+- [ ] Invoice XML validated against schema
+- [ ] Documentation updated (DE + EN)
+- [ ] Security review approved (PII encrypted in output)
+
+## Effort Estimate
+12 hours
+
+## Dependencies
+- Blocks: #98 (ERP invoice sync)
+- Related: #56 (Invoice generation), #67 (PDF export)
+
+## Acceptance Metric
+- 90%+ of invoices downloaded within 7 days of order
+- 0 validation errors for generated ZUGFeRD files
+- API response time < 500ms
+```
+
+#### Example 2: Bug Report
+
+```markdown
+## Title
+bugfix: VAT calculation incorrect for Austrian orders
+
+## Description
+Orders shipped to Austria show incorrect VAT amount (using 19% instead of 20%).
+
+## Steps to Reproduce
+1. Go to store.example.com
+2. Add product to cart (€100)
+3. Change country to Austria (AT)
+4. Expected: €120 (€100 + 20% VAT)
+5. Actual: €119 (€100 + 19% VAT)
+
+## Rationale
+- Affects customer trust (wrong price shown)
+- Legal violation (PAngV/UStG requires correct VAT)
+- Impacts revenue (customers complain about checkout)
+
+## Acceptance Criteria
+- [ ] Austria VAT correctly shows 20%
+- [ ] All EU countries use correct rates
+- [ ] Cart total updates correctly when country changes
+- [ ] No error messages in console
+
+## Definition of Done
+- [ ] Root cause identified
+- [ ] Fix deployed and tested
+- [ ] Regression tests added
+- [ ] All affected countries verified
+
+## Effort Estimate
+4 hours (likely simple lookup table fix)
+
+## Acceptance Metric
+- 100% of orders to Austria show correct 20% VAT
+- 0 complaints from Austrian customers (post-fix)
+```
+
+#### Example 3: Technical Debt / Dependency Update
+
+```markdown
+## Title
+chore: Update dependencies to latest stable versions
+
+## Description
+Update all NuGet and npm packages to latest stable versions and reduce technical debt across the platform.
+
+## Rationale
+- Security: Patch vulnerabilities in dependencies
+- Compatibility: Ensure framework/library support
+- Maintainability: Reduce future technical debt
+- Performance: Benefit from latest optimizations
+
+## Acceptance Criteria
+- [ ] All NuGet packages in Directory.Packages.props updated
+- [ ] All npm packages in package.json updated
+- [ ] 0 compiler warnings in entire solution
+- [ ] All tests passing (≥80% coverage maintained)
+- [ ] npm audit reports 0 vulnerabilities
+- [ ] No breaking changes to public APIs
+
+## Definition of Done
+- [ ] Dependency audit completed
+- [ ] All updates tested
+- [ ] Code refactored for any API changes
+- [ ] Performance benchmarks show no regression
+- [ ] Tech lead approval
+- [ ] Release notes updated
+
+## Effort Estimate
+18 hours
+
+## Dependencies
+- Can be done in parallel with other features
+- Related: Any features using updated libraries
+
+## Acceptance Metric
+- Build time maintained < 10 seconds
+- Test execution time maintained < 30 seconds
+- 0 CVE vulnerabilities reported
+```
+
+---
+
 ## 📝 Writing Effective Acceptance Criteria
 
 Your most important job is defining clear acceptance criteria. Developers will implement exactly what you specify.

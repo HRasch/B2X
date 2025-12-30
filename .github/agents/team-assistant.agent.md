@@ -1,6 +1,6 @@
 ---
 description: 'Team Assistant Agent - Event-driven sprint coordination, feedback collection, and token tracking'
-tools: ['vscode', 'read', 'edit', 'search', 'copilot-container-tools/*', 'agent', 'todo']
+tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'copilot-container-tools/*', 'agent', 'todo']
 model: 'gpt-4o'
 infer: true
 ---

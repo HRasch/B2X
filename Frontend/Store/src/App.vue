@@ -8,7 +8,10 @@
           <li><router-link to="/shop">Shop</router-link></li>
           <li>
             <router-link to="/cart" class="cart-link">
-              Cart <span v-if="cartStore.items.length" class="cart-badge">{{ cartStore.items.length }}</span>
+              Cart
+              <span v-if="cartStore.items.length" class="cart-badge">{{
+                cartStore.items.length
+              }}</span>
             </router-link>
           </li>
           <li><router-link to="/dashboard">Dashboard</router-link></li>
@@ -33,19 +36,22 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from './stores/auth'
-import { useCartStore } from './stores/cart'
-import { useRouter } from 'vue-router'
-import LanguageSwitcher from './components/common/LanguageSwitcher.vue'
+import { useAuthStore } from "./stores/auth";
+import { useCartStore } from "./stores/cart";
+import { useRouter } from "vue-router";
+import LanguageSwitcher from "./components/common/LanguageSwitcher.vue";
 
-const authStore = useAuthStore()
-const cartStore = useCartStore()
-const router = useRouter()
+const authStore = useAuthStore();
+const cartStore = useCartStore();
+const router = useRouter();
 
-const logout = () => {
-  authStore.logout()
-  router.push('/login')
-}
+/**
+ * Handle user logout and redirect to login page.
+ */
+const logout = async (): Promise<void> => {
+  authStore.logout();
+  await router.push("/login");
+};
 </script>
 
 <style scoped>

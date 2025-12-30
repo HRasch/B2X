@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,12 +46,12 @@ public class InvoiceService : IInvoiceService
             OrderId = orderId,
             InvoiceNumber = GenerateInvoiceNumber(),
             IssuedAt = DateTime.UtcNow,
-            DueAt = DateTime.UtcNow.AddDays(30), // Net 30
-            Status = "Draft",
+            DueAt = DateTime.UtcNow.AddDays(InvoiceConfig.DefaultPaymentTermsDays),
+            Status = InvoiceStatus.Draft,
 
-            SellerName = "B2Connect GmbH",
-            SellerVatId = "DE123456789", // Should come from tenant config
-            SellerAddress = "Somestrasse 123, 10115 Berlin, Germany",
+            SellerName = InvoiceConfig.DefaultSellerName,
+            SellerVatId = InvoiceConfig.DefaultSellerVatId,
+            SellerAddress = InvoiceConfig.DefaultSellerAddress,
 
             LineItems = new List<InvoiceLineItem>(),
         };
@@ -60,19 +59,19 @@ public class InvoiceService : IInvoiceService
         // Set pricing based on reverse charge flag
         // (Order has ReverseChargeApplied flag set from checkout)
         invoice.SubTotal = 0m; // Will be calculated from line items
-        invoice.TaxAmount = invoice.ReverseChargeApplies ? 0m : 0m; // Will calculate
+        invoice.TaxAmount = invoice.ReverseChargeApplies ? TaxConstants.NoVat : 0m; // Will calculate
         invoice.ShippingCost = 0m; // From order
 
         if (invoice.ReverseChargeApplies)
         {
-            invoice.TaxRate = 0m;
-            invoice.ReverseChargeNote = "Reverse Charge: Art. 199a Directive 2006/112/EC";
+            invoice.TaxRate = TaxConstants.NoVat;
+            invoice.ReverseChargeNote = InvoiceConfig.ReverseChargeNote;
             _logger.LogInformation("Reverse charge applied to invoice {InvoiceId} for order {OrderId}",
                 invoice.Id, orderId);
         }
 
         invoice.CreatedAt = DateTime.UtcNow;
-        invoice.Status = "Issued";
+        invoice.Status = InvoiceStatus.Issued;
 
         return await _invoiceRepository.AddAsync(invoice, cancellationToken);
     }
@@ -82,7 +81,7 @@ public class InvoiceService : IInvoiceService
         _logger.LogInformation("Modifying invoice {InvoiceId}", invoiceId);
 
         var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
-        if (invoice == null)
+        if (invoice is null)
         {
             _logger.LogWarning("Invoice {InvoiceId} not found", invoiceId);
             throw new InvalidOperationException($"Invoice {invoiceId} not found");
@@ -95,9 +94,9 @@ public class InvoiceService : IInvoiceService
 
         if (updatedInvoice.ReverseChargeApplies)
         {
-            invoice.TaxRate = 0m;
-            invoice.TaxAmount = 0m;
-            invoice.ReverseChargeNote = "Reverse Charge: Art. 199a Directive 2006/112/EC";
+            invoice.TaxRate = TaxConstants.NoVat;
+            invoice.TaxAmount = TaxConstants.NoVat;
+            invoice.ReverseChargeNote = InvoiceConfig.ReverseChargeNote;
             _logger.LogInformation("Reverse charge enabled on invoice {InvoiceId}", invoiceId);
         }
         else
