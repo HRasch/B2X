@@ -112,6 +112,7 @@ Siehe [AGENT_COORDINATION.md](.ai/collaboration/AGENT_COORDINATION.md) für Deta
 - **Conciseness**: Provide direct answers with code examples.
 - **No verbose status reports**: Skip summaries after operations - just confirm completion briefly.
 - **EXECUTE IMMEDIATELY**: All AI-Agent tasks execute NOW - zero scheduling, zero delays. Just do it.
+- **Decision Lists**: Always present options/decisions as numbered lists (1. 2. 3.) for clarity.
 - **Log to files**: Detailed logs/reports → `.ai/logs/` (not in chat).
 - **Context**: Always consider the surrounding code and project structure.
 - **Safety**: Avoid suggesting insecure patterns or hardcoded secrets.
