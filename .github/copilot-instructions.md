@@ -136,17 +136,30 @@ SARAH hat exklusive Autorität über:
 Bei Fragen zu Prozessen, Zuständigkeiten oder Konflikten → `@SARAH`
 
 ## EXECUTION MANDATE
-**🚀 RULE: NO SCHEDULING. JUST EXECUTE. IMMEDIATELY.**
+**🚀 RULE: NO SCHEDULING. NO TIME REFERENCES. JUST EXECUTE. IMMEDIATELY.**
 
+### Zero Time/Schedule Language
+Remove all references to:
+- "later", "next", "next sprint", "Phase X next"
+- "when should I start?", "when should we do this?"
+- "after X completes", "once Y is done"
+- "in the future", "planned for", "scheduled for"
+- "todo for later", "backlog item", "future work"
+
+Instead use:
+- "Execute this"
+- "Do X immediately"
+- "Run in parallel"
+- "Complete before moving on"
+
+### Execution Rules
 When given a task:
-- ❌ DON'T ask "when should I start?"
-- ❌ DON'T create a task list to do later
-- ❌ DON'T schedule for "Phase X" or "next sprint"
 - ✅ DO it NOW
 - ✅ DO it immediately
 - ✅ DO it without delay
+- ✅ Run in parallel when independent
 
-All tasks are **execution tasks**, not **planning tasks**. No queue. No waiting. No scheduling.
+All tasks are **execution tasks**, not **planning tasks**. No queue. No waiting. No scheduling. No time references.
 You run. You complete. You report.
 
 **Exception**: Only @SARAH can authorize delays (with explicit "wait for X" instruction).
