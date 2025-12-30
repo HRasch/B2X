@@ -46,7 +46,7 @@ Public, read-only APIs for online shop. Optimized for performance & scale.
 
 #### 📦 Catalog Service
 ```
-Location: backend/BoundedContexts/Store/Catalog/
+Location: backend/Domain/Catalog/
 Port: 6001 (via gateway 6000)
 Database: PostgreSQL (shared)
 Cache: Redis
@@ -77,7 +77,7 @@ Events Subscribed:
 
 #### 📝 CMS Service
 ```
-Location: backend/BoundedContexts/Store/CMS/
+Location: backend/Domain/CMS/
 Port: 6001 (via gateway 6000)
 Database: PostgreSQL
 
@@ -100,7 +100,7 @@ Events Subscribed:
 
 #### 🎨 Theming Service
 ```
-Location: backend/BoundedContexts/Store/Theming/
+Location: backend/Domain/Theming/
 Port: 6001 (via gateway 6000)
 Database: PostgreSQL
 
@@ -122,7 +122,7 @@ Architectural Constraint:
 
 #### 🌍 Localization Service
 ```
-Location: backend/BoundedContexts/Store/Localization/
+Location: backend/Domain/Localization/
 Port: 6001 (via gateway 6000)
 Database: PostgreSQL
 
@@ -143,7 +143,7 @@ Architectural Constraint:
 
 #### 🔍 Search Service (Elasticsearch)
 ```
-Location: backend/BoundedContexts/Store/Search/
+Location: backend/Domain/Search/
 Port: 6001 (via gateway 6000)
 Index: Elasticsearch 8.x
 
@@ -192,7 +192,7 @@ Full CRUD operations, configuration, management. Smaller scale, higher security.
 
 #### 🔧 Admin API
 ```
-Location: backend/BoundedContexts/Admin/API/
+Location: backend/Gateway/Admin/
 Port: 6100
 Database: PostgreSQL (shared with Store)
 
@@ -252,7 +252,7 @@ Events Published:
 
 #### 🔐 Identity Service
 ```
-Location: backend/BoundedContexts/Shared/Identity/
+Location: backend/Domain/Identity/
 Database: PostgreSQL
 
 Entities:
@@ -280,7 +280,7 @@ Architectural Constraint:
 
 #### 👥 Tenancy Service
 ```
-Location: backend/BoundedContexts/Shared/Tenancy/
+Location: backend/Domain/Tenancy/
 Database: PostgreSQL
 
 Entities:
@@ -464,17 +464,17 @@ Each context can be deployed independently:
 
 ```yaml
 Store Context:
-  - backend/BoundedContexts/Store/
+  - backend/Domain/ (Catalog, CMS, Theming, Localization, Search)
   - Port: 6000 (gateway), 6001 (services)
   - Deploy: Any time (read-only)
 
 Admin Context:
-  - backend/BoundedContexts/Admin/
+  - backend/Gateway/Admin/
   - Port: 6100
   - Deploy: Any time (backward compatible)
 
-Shared Context:
-  - backend/BoundedContexts/Shared/
+Cross-Context Services:
+  - backend/Domain/Identity/ & Tenancy/
   - Database schema changes: Coordinate with all contexts
   - Breaking changes: Require full deployment
 ```
@@ -489,7 +489,7 @@ Shared Context:
 - [ ] Plan domain events
 - [ ] Choose sync/async communication
 - [ ] Map to Port number
-- [ ] Add to BoundedContexts structure
+- [ ] Add to Domain/ structure
 - [ ] Update csproj solution file
 - [ ] Add to Aspire orchestration
 - [ ] Update .github/tasks.json

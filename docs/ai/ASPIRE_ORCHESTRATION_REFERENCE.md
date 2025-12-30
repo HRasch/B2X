@@ -51,12 +51,9 @@ backend/
 │   └── B2Connect.Orchestration.csproj    ← START HERE
 │       └── Program.cs                     ← Service definitions
 │
-├── BoundedContexts/
-│   ├── Store/
-│   │   ├── API/
-│   │   │   └── B2Connect.Store.csproj    ← Store Gateway
-│   │   ├── Catalog/
-│   │   │   └── B2Connect.Catalog.csproj
+├── Domain/                               ← DDD Bounded Contexts
+│   ├── Catalog/
+│   │   └── B2Connect.Catalog.csproj
 │   │   ├── CMS/
 │   │   │   └── B2Connect.CMS.csproj
 │   │   ├── Theming/
@@ -462,8 +459,8 @@ Total: 80ms
 1. **Create project**:
 ```bash
 dotnet new globaljson --sdk-version 10.0.0
-mkdir backend/BoundedContexts/MyContext/MyService
-dotnet new webapi -n B2Connect.MyService -o backend/BoundedContexts/MyContext/MyService
+mkdir backend/Domain/MyContext/MyService
+dotnet new webapi -n B2Connect.MyService -o backend/Domain/MyContext/MyService
 ```
 
 2. **Add to Orchestration/Program.cs**:
@@ -551,7 +548,7 @@ docker restart redis-aspire
 ### Database Migrations Not Applied
 ```bash
 # Run migrations manually
-cd backend/BoundedContexts/Store/Catalog
+cd backend/Domain/Catalog
 dotnet ef database update
 
 # Or reset in-memory
