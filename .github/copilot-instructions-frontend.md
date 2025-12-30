@@ -159,6 +159,7 @@ npx lighthouse http://localhost:5173 --only-categories=accessibility  # Performa
 
 ## 📚 Reference Files
 
+- **daisyUI v5 Components**: [docs/ai/DAISYUI_V5_COMPONENTS_REFERENCE.md](../docs/ai/DAISYUI_V5_COMPONENTS_REFERENCE.md) ⭐ **REQUIRED READING**
 - Component patterns: [Frontend/Store/src/components/](../Frontend/Store/src/components/)
 - Tailwind guide: [copilot-instructions.md §Tailwind CSS](./copilot-instructions.md)
 - Accessibility tests: [docs/P0.8_BARRIEREFREIHEIT_BITV_TESTS.md](../docs/compliance/P0.8_BARRIEREFREIHEIT_BITV_TESTS.md)

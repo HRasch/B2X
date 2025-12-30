@@ -171,6 +171,7 @@ dotnet ef migrations add [Name] --project backend/Domain/[Service]/src  # Migrat
 
 ## 📚 Reference Files
 
+- **C# 14 Features**: [docs/ai/C#14_FEATURES_REFERENCE.md](../docs/ai/C#14_FEATURES_REFERENCE.md) ⭐ **REQUIRED READING**
 - Architecture: [docs/architecture/DDD_BOUNDED_CONTEXTS.md](../docs/architecture/DDD_BOUNDED_CONTEXTS.md)
 - Example handler: [backend/Domain/Identity/src/Handlers/CheckRegistrationTypeService.cs](../backend/Domain/Identity/src/Handlers/CheckRegistrationTypeService.cs)
 - Security patterns: [copilot-instructions.md §Security](./copilot-instructions.md)

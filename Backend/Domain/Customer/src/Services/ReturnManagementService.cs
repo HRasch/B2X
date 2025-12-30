@@ -25,7 +25,7 @@ public interface IReturnManagementService
     Task<ReturnRequest> GetReturnRequestAsync(Guid returnId, CancellationToken ct = default);
     Task<List<ReturnRequest>> GetOrderReturnsAsync(Guid orderId, CancellationToken ct = default);
 
-    Task<bool> ProcessReturnAsync(Guid returnId, CancellationToken ct = default);
+    Task<ReturnRequest> ProcessReturnAsync(Guid returnId, CancellationToken ct = default);
     Task<Refund> ProcessRefundAsync(Guid returnId, string refundMethod, CancellationToken ct = default);
     Task<string> GenerateReturnLabelAsync(Guid returnId, string carrierCode, CancellationToken ct = default);
 

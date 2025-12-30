@@ -250,6 +250,7 @@ npx lighthouse http://localhost:5173 --only-categories=accessibility
 
 ## 📚 Reference Files
 
+- **C# 14 Features** (for code review): [docs/ai/C#14_FEATURES_REFERENCE.md](../docs/ai/C#14_FEATURES_REFERENCE.md) ⭐
 - Compliance tests: [docs/P0.6_ECOMMERCE_LEGAL_TESTS.md](../docs/compliance/P0.6_ECOMMERCE_LEGAL_TESTS.md)
 - AI Act tests: [docs/P0.7_AI_ACT_TESTS.md](../docs/compliance/P0.7_AI_ACT_TESTS.md)
 - BITV/Accessibility: [docs/P0.8_BARRIEREFREIHEIT_BITV_TESTS.md](../docs/compliance/P0.8_BARRIEREFREIHEIT_BITV_TESTS.md)

@@ -19,10 +19,13 @@ Als Tech Lead / Architect bist du verantwortlich für:
 
 ## 📚 Required Reading (ALL P0)
 
+⭐ **PRIORITY ZERO**: Read [docs/ai/C#14_FEATURES_REFERENCE.md](../ai/C#14_FEATURES_REFERENCE.md) for language features guidance and adoption checklist
+
 ### Week 1: Core Architecture
 
 | # | Document | Path | Est. Time |
 |---|----------|------|-----------|
+| 0 | **C# 14 Features** | [docs/ai/C#14_FEATURES_REFERENCE.md](../ai/C#14_FEATURES_REFERENCE.md) | 30 min |
 | 1 | **Copilot Instructions (FULL!)** | [copilot-instructions.md](../../.github/copilot-instructions.md) | 60 min |
 | 2 | **Application Specifications** | [APPLICATION_SPECIFICATIONS.md](../APPLICATION_SPECIFICATIONS.md) | 45 min |
 | 3 | **DDD Bounded Contexts** | [architecture/DDD_BOUNDED_CONTEXTS.md](../architecture/DDD_BOUNDED_CONTEXTS.md) | 30 min |
