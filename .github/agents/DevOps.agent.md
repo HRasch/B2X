@@ -68,4 +68,66 @@ Focus on:
 - **Security**: Network isolation, encryption, access control
 - **Cost**: Efficient resource utilization, right-sizing
 
-**For System Structure Changes**: Any changes to infrastructure architecture, service deployment patterns, or CI/CD pipeline modifications should be reviewed by @software-architect to ensure alignment with overall system design and scalability requirements.
+## 🚢 Service Ports Reference
+
+```
+Frontend Store .............. 5173
+Frontend Admin .............. 5174
+Store Gateway ............... 8000
+Admin Gateway ............... 8080
+Aspire Dashboard ............ 15500
+Identity Service ............ 7002
+Catalog Service ............. 7005
+CMS Service ................. 7006
+Tenancy Service ............. 7003
+Localization Service ........ 7004
+PostgreSQL .................. 5432
+Redis ....................... 6379
+Elasticsearch ............... 9200
+```
+
+## ⚡ Critical Rules
+
+1. **ALWAYS kill stuck services before restart**
+   ```bash
+   ./scripts/kill-all-services.sh
+   ```
+
+2. **Build incrementally** (not all at once)
+
+3. **Port conflicts = DCP controller** (macOS issue)
+   ```bash
+   pkill -9 -f "dcpctrl" && pkill -9 -f "dcpproc"
+   ```
+
+4. **Environment variables for secrets** (NEVER hardcoded)
+
+## 🚀 Quick Commands
+
+```bash
+./scripts/kill-all-services.sh              # Kill stuck processes
+./scripts/check-ports.sh                    # Verify ports available
+cd backend/Orchestration && dotnet run      # Start Aspire + services
+lsof -i :15500                              # Check port usage
+```
+
+## 📋 Port Troubleshooting (macOS)
+
+**Problem**: "Address already in use"
+```bash
+pkill -9 -f "dcpctrl"
+pkill -9 -f "dcpproc"
+sleep 2
+cd backend/Orchestration && dotnet run
+```
+
+## 🛑 Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| Restarting without killing | Run `./scripts/kill-all-services.sh` first |
+| Hardcoding port numbers | Use Aspire service discovery |
+| Not checking ports | Run `./scripts/check-ports.sh` |
+| Mixing local + Docker | Use Aspire OR Docker Compose, not both |
+
+**For System Structure Changes**: Review with @software-architect.

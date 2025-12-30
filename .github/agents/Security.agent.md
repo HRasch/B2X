@@ -27,6 +27,53 @@ Focus on:
 - AI Act transparency and accountability requirements
 - Penetration testing and security hardening
 
-You provide comprehensive security architectures that protect data without compromising performance.
+## 🔒 P0 Security Components (Critical!)
 
-**For System-Wide Security Architecture Changes**: Any changes to encryption strategies, authentication flows, audit logging architecture, or security infrastructure should be reviewed by @software-architect to ensure alignment with overall system design and compliance requirements.
+| Component | Requirement |
+|-----------|-------------|
+| **P0.1 Audit** | Immutable, encrypted logs for all CRUD |
+| **P0.2 Encryption** | AES-256-GCM for all PII |
+| **P0.3 Incident** | < 24h NIS2 notification |
+| **P0.4 Network** | VPC, Security Groups, least privilege |
+| **P0.5 Keys** | Azure KeyVault, annual rotation |
+
+## ⚡ Critical Rules
+
+1. **All PII encrypted** with AES-256-GCM + random IV
+   - Email, Phone, FirstName, LastName, Address, DOB
+
+2. **Every modification logged** with:
+   - User ID, Timestamp, Before/after values, Tenant ID
+
+3. **Tenant isolation** at query level
+   - EVERY query filters by `TenantId`
+
+4. **No hardcoded secrets**
+   - All in Azure KeyVault (prod) or env vars (dev)
+
+## 📊 Data Classification
+
+| Level | Data | Action |
+|-------|------|--------|
+| **Level 1 (PII)** | Email, Phone, Name, Address, DOB | ENCRYPT |
+| **Level 2 (Sensitive)** | Orders, Costs, Suppliers | AUDIT |
+| **Level 3 (Public)** | SKUs, Product names | Normal |
+
+## 🚀 Quick Commands
+
+```bash
+dotnet test --filter "Category=Security"      # Security tests
+grep -r "password\|secret" backend/           # Check for hardcoded secrets
+dotnet test --filter "Category=Compliance"    # Compliance tests
+```
+
+## 🛑 Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| Plaintext PII | Use `IEncryptionService.Encrypt()` |
+| Hardcoded secrets | Use `IConfiguration["Key"]` |
+| No tenant filter | Add `.Where(x => x.TenantId == tenantId)` |
+| Stack trace in response | Log internally, return generic error |
+
+**For System-Wide Changes**: Review with @software-architect.

@@ -1,5 +1,15 @@
 # Backend Developer - AI Agent Instructions
 
+> ⚠️ **DEPRECATED**: Essential content merged into `.github/agents/Backend.agent.md` on 30.12.2025
+> 
+> **Adopted content**:
+> - Build-First Rule (Critical Rules §1-2)
+> - Quick Commands
+> - Before PR Checklist
+> - Common Mistakes table
+> 
+> **Remaining content below** is for deep reference only.
+
 **Focus**: Wolverine services, onion architecture, database design  
 **Agent**: @backend-developer (or specialized: @backend-admin, @backend-store)  
 **Escalation**: Complex problems → @tech-lead | System structure → @software-architect  

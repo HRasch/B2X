@@ -54,6 +54,7 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - [TypeScript 5.0](./software/typescript/v4-to-v5.md)
 
 ## Recently Updated
+- 30.12.2025: Added Mermaid Documentation ([tools-and-tech/MERMAID_DOCUMENTATION.md](./tools-and-tech/MERMAID_DOCUMENTATION.md))
 - 30.12.2025: Index created and structure established
 
 ## How Agents Use This Index

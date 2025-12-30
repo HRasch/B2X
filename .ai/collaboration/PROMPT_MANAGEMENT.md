@@ -11,29 +11,25 @@ SARAH verwaltet ein System von standardisierten, optimierten Prompts. Diese Prom
 ## Prompt-Hierarchie
 
 ```
-.ai/prompts/
-├── system-prompts/              # System-Prompts pro Agent
-│   ├── Backend.prompt.md
-│   ├── Frontend.prompt.md
-│   ├── DevOps.prompt.md
-│   ├── QA.prompt.md
-│   ├── Security.prompt.md
-│   └── TechLead.prompt.md
-├── task-prompts/                # Task-spezifische Prompts
-│   ├── code-review.prompt.md
-│   ├── architecture-design.prompt.md
-│   ├── testing.prompt.md
-│   ├── security-audit.prompt.md
-│   └── ...
-├── domain-prompts/              # Domain-spezifische Prompts
-│   ├── backend-patterns.prompt.md
-│   ├── frontend-components.prompt.md
-│   ├── devops-infrastructure.prompt.md
-│   └── ...
-└── optimization-prompts/        # Kostenoptimierungs-Prompts
-    ├── token-efficient.prompt.md
-    ├── summarization.prompt.md
-    └── fast-analysis.prompt.md
+.github/prompts/
+├── backend.system.md                # System-Prompts
+├── frontend.system.md
+├── devops.system.md
+├── qa.system.md
+├── security.system.md
+├── techlead.system.md
+├── code-review.md                   # Task-spezifische Prompts
+├── architecture-design.md
+├── testing.md
+├── security-audit.md
+├── backend-patterns.md              # Domain-spezifische Prompts
+├── frontend-components.md
+├── devops-infrastructure.md
+├── token-efficient.md               # Kostenoptimierungs-Prompts
+├── summarization.md
+├── fast-analysis.md
+├── REGISTRY.md                      # Zentrale Registry
+└── README.md                        # Dokumentation
 ```
 
 ## Prompt-Typen & Zweck
@@ -136,7 +132,7 @@ Iterationen basierend auf Feedback
 
 ### Phase 3: Prompt-Deployment
 ```
-Prompt wird in `.ai/prompts/` committed
+Prompt wird in `.github/prompts/` committed
 Agent wird informiert über neuen Prompt
 Prompt wird als "Primary" für diese Task markiert
 ```
@@ -232,7 +228,7 @@ SARAH maintains:
 
 ## Prompt-Registry
 
-SARAH maintains zentrale Registry (`.ai/prompts/REGISTRY.md`):
+SARAH maintains zentrale Registry (`.github/prompts/REGISTRY.md`):
 ```
 | Prompt Name | Type | Agent | Version | Last Updated | Performance |
 |---|---|---|---|---|---|

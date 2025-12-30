@@ -1,5 +1,16 @@
 # Security Engineer - AI Agent Instructions
 
+> ⚠️ **DEPRECATED**: Essential content merged into `.github/agents/Security.agent.md` on 30.12.2025
+> 
+> **Adopted content**:
+> - P0 Security Components table
+> - Critical Rules (§1-4)
+> - Data Classification table
+> - Quick Commands
+> - Common Mistakes table
+> 
+> **Remaining content below** is for deep reference only (P0 diagrams, Threat model).
+
 **Focus**: Encryption, audit logging, incident response, compliance  
 **Agent**: @security-engineer  
 **Escalation**: System architecture → @software-architect | Compliance questions → @tech-lead  

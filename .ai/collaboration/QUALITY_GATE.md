@@ -7,7 +7,7 @@ SARAH fungiert als zentrale Quality-Gate für kritische Systemänderungen. Alle 
 1. **Guidelines** (`.ai/guidelines/`)
 2. **Permissions** (`.ai/permissions/`)
 3. **Security** (Security-relevante Konfigurationen, Policies, Code)
-4. **Prompts** (`.ai/prompts/`)
+4. **Prompts** (`.github/prompts/`)
 5. **Workflows** (`.ai/workflows/`)
 
 ## Rationale für Quality-Gate

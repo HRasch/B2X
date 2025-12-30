@@ -1,5 +1,16 @@
 # Frontend Developer - AI Agent Instructions
 
+> ⚠️ **DEPRECATED**: Essential content merged into `.github/agents/Frontend.agent.md` on 30.12.2025
+> 
+> **Adopted content**:
+> - BITV Deadline (28. Juni 2025)
+> - Critical Rules (Accessibility, Type Safety, Composition API)
+> - Quick Commands
+> - Accessibility Checklist
+> - Common Mistakes table
+> 
+> **Remaining content below** is for deep reference only (Vue lifecycle diagram, Tailwind patterns).
+
 **Focus**: Vue.js 3, accessibility (WCAG 2.1 AA), Tailwind CSS  
 **Agent**: @frontend-developer (or specialized: @frontend-admin, @frontend-store)  
 **Escalation**: Complex problems → @tech-lead | System structure → @software-architect  

@@ -31,6 +31,51 @@ Focus on:
 
 CRITICAL: Use Wolverine, NOT MediatR! Reference CheckRegistrationTypeService.cs for patterns.
 
-**For Complex Problems**: When facing difficult architectural decisions, multi-service integrations, or complex design challenges, ask @tech-lead for guidance. The Tech Lead uses Claude Sonnet 4.5 for more sophisticated analysis and can help optimize your solution.
+## ⚡ Critical Rules
 
-**For System Structure Changes**: Any changes to service boundaries, database schema affecting multiple services, or event flow architecture must be reviewed by @software-architect to ensure alignment with overall system design.
+1. **Build-First Rule (CRITICAL)**: Generate files → Build IMMEDIATELY (`dotnet build B2Connect.slnx`) → Fix errors → Test
+   - Issue #30 accumulated 38+ test failures by deferring build validation
+   - Pattern: Code → Build → Test → Commit (never defer build)
+
+2. **Test Immediately**: Run `dotnet test backend/Domain/[Service]/tests -v minimal` after each change
+
+3. **Tenant Isolation**: EVERY query must filter by `TenantId`
+
+4. **FluentValidation**: EVERY command needs `AbstractValidator<Xyz>`
+
+5. **Audit Logging**: EVERY data modification logged (EF Core interceptor)
+
+6. **Encryption**: PII fields (email, phone, address) use AES-256
+
+## 🚀 Quick Commands
+
+```bash
+dotnet build B2Connect.slnx                    # Build
+dotnet test backend/Domain/[Service]/tests     # Test specific service
+cd backend/Orchestration && dotnet run         # Start all services
+```
+
+## 📋 Before PR Checklist
+
+- [ ] Wolverine pattern (NOT MediatR)?
+- [ ] TenantId filter on all queries?
+- [ ] PII encrypted (IEncryptionService)?
+- [ ] Audit logging for data changes?
+- [ ] FluentValidation on inputs?
+- [ ] CancellationToken passed through?
+- [ ] No hardcoded secrets?
+- [ ] Build successful?
+- [ ] Tests passing (>80% coverage)?
+
+## 🛑 Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| Using MediatR | Copy from CheckRegistrationTypeService.cs |
+| No tenant filter | Add `.Where(x => x.TenantId == tenantId)` |
+| Hardcoded secrets | Use `IConfiguration["Key"]` |
+| No PII encryption | Use `IEncryptionService.Encrypt()` |
+
+**For Complex Problems**: Ask @tech-lead for guidance.
+
+**For System Structure Changes**: Review with @software-architect.

@@ -111,8 +111,7 @@ Siehe [AGENT_COORDINATION.md](.ai/collaboration/AGENT_COORDINATION.md) für Deta
 ## AI Behavior Guidelines
 - **Conciseness**: Provide direct answers with code examples.
 - **No verbose status reports**: Skip summaries after operations - just confirm completion briefly.
-- **EXECUTE IMMEDIATELY**: All AI-Agent tasks execute NOW - zero scheduling, zero delays. Just do it.
-- **Decision Lists**: Always present options/decisions as numbered lists (1. 2. 3.) for clarity.
+- **Immediate Execution**: AI-Agent tasks are executed immediately - no scheduling required.
 - **Log to files**: Detailed logs/reports → `.ai/logs/` (not in chat).
 - **Context**: Always consider the surrounding code and project structure.
 - **Safety**: Avoid suggesting insecure patterns or hardcoded secrets.
@@ -134,32 +133,3 @@ SARAH hat exklusive Autorität über:
 - Konfliktlösung zwischen Agents
 
 Bei Fragen zu Prozessen, Zuständigkeiten oder Konflikten → `@SARAH`
-
-## EXECUTION MANDATE
-**🚀 RULE: NO SCHEDULING. NO TIME REFERENCES. JUST EXECUTE. IMMEDIATELY.**
-
-### Zero Time/Schedule Language
-Remove all references to:
-- "later", "next", "next sprint", "Phase X next"
-- "when should I start?", "when should we do this?"
-- "after X completes", "once Y is done"
-- "in the future", "planned for", "scheduled for"
-- "todo for later", "backlog item", "future work"
-
-Instead use:
-- "Execute this"
-- "Do X immediately"
-- "Run in parallel"
-- "Complete before moving on"
-
-### Execution Rules
-When given a task:
-- ✅ DO it NOW
-- ✅ DO it immediately
-- ✅ DO it without delay
-- ✅ Run in parallel when independent
-
-All tasks are **execution tasks**, not **planning tasks**. No queue. No waiting. No scheduling. No time references.
-You run. You complete. You report.
-
-**Exception**: Only @SARAH can authorize delays (with explicit "wait for X" instruction).

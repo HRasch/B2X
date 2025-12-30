@@ -1,5 +1,13 @@
 # 💻 Backend Developer Agent Context
 
+> ⚠️ **DEPRECATED**: Core content merged into `.github/agents/Backend.agent.md` on 30.12.2025
+> 
+> **This file contains DEEP REFERENCE material only**:
+> - Full code templates (Entity, Validator, Handler)
+> - Detailed Wolverine pattern examples
+> - P0.6/P0.9 feature specifications
+> - Complete testing templates
+
 **Version:** 1.0 | **Focus:** Feature Implementation with Wolverine CQRS | **Last Updated:** 28. Dezember 2025
 
 ---

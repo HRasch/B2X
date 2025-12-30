@@ -55,7 +55,7 @@ Update: `.ai/guidelines/quality/code-review-standards.md`
 ```
 
 **C) Prompt-Optimierungen**
-→ Update in Prompts (`.ai/prompts/`)
+→ Update in Prompts (`.github/prompts/`)
 ```
 Beispiel:
 Learning: "Bessere Token-Effizienz mit [Struktur]"
@@ -118,7 +118,7 @@ Learning: "Format ist sicher und konsistent"
 ↓
 Consolidation:
 - Update: Backend.agent.md → "API Design"
-- Update: `.ai/prompts/api-design-template.md`
+- Update: `.github/prompts/api-design-template.md`
 - Update: `.ai/guidelines/architecture/api-standards.md`
 - Notify: Backend Agent
 - Log: Learning-Log Eintrag
@@ -133,7 +133,7 @@ Learning: "Pattern erkannt: [Spezifische Checks]"
 Consolidation:
 - Update: Security.agent.md → "Code Review Focus"
 - Update: `.ai/guidelines/security/injection-prevention.md`
-- Update: `.ai/prompts/security-review-checklist.md`
+- Update: `.github/prompts/security-review-checklist.md`
 - Notify: Security Agent
 - Log: Learning-Log Eintrag
 ```

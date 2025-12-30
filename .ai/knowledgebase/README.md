@@ -27,6 +27,7 @@ Die Wissensdatenbank ermöglicht Assistenten, ihren Kontext bei Bedarf zu erweit
 - Tool-Setup und Konfiguration
 - Libraries und Dependencies
 - Integration mit externen Services
+- **[Mermaid Documentation](./tools-and-tech/MERMAID_DOCUMENTATION.md)** - VS Code & GitHub diagram support
 
 ### [domain-knowledge/](domain-knowledge/)
 - Business-Logik und Geschäfts-Kontexte

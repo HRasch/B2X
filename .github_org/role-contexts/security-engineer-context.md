@@ -1,5 +1,12 @@
 # 🔐 Security Engineer Agent Context
 
+> ⚠️ **DEPRECATED**: Core content merged into `.github/agents/Security.agent.md` on 30.12.2025
+> 
+> **This file contains DEEP REFERENCE material only**:
+> - Full code templates (Encryption Service, Audit Interceptor)
+> - Week-by-week P0.1-P0.5 implementation plan
+> - Detailed P0 component checklists
+
 **Version:** 1.0 | **Focus:** P0.1-P0.5 Compliance Infrastructure | **Last Updated:** 28. Dezember 2025
 
 ---

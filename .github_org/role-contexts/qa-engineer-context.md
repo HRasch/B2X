@@ -1,5 +1,12 @@
 # 🧪 QA Engineer Agent Context
 
+> ⚠️ **DEPRECATED**: Core content merged into `.github/agents/QA.agent.md` on 30.12.2025
+> 
+> **This file contains DEEP REFERENCE material only**:
+> - Full 52 compliance tests table with assertions
+> - Complete test templates (xUnit, Integration, Playwright)
+> - Test execution commands
+
 **Version:** 1.0 | **Focus:** Compliance Test Automation & Verification | **Last Updated:** 28. Dezember 2025
 
 ---

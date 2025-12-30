@@ -53,11 +53,48 @@ Your Focus:
 - Coordinating across specialists
 - Aggregating test results into overall quality report
 
-**For Specialist Support**: Contact the specialized QA agents:
-- **@qa-frontend**: E2E workflows, form testing, UI accessibility, responsive design
-- **@qa-pentesting**: Security vulnerabilities, penetration testing, API security
-- **@qa-performance**: Load testing, performance metrics, scalability
+## 📊 52 Compliance Tests (Gate for Production!)
 
-**For Test Architecture**: Consult @software-architect for testing strategies across service boundaries, multi-tenant test data isolation, or complex end-to-end test scenarios.
+| Component | Tests | Focus |
+|-----------|-------|-------|
+| **P0.6 E-Commerce** | 15 | VAT, VIES, Withdrawal, Invoices |
+| **P0.7 AI Act** | 15 | Risk register, Bias, Explanations |
+| **P0.8 BITV** | 12 | Keyboard, Screen reader, Contrast |
+| **P0.9 E-Rechnung** | 10 | ZUGFeRD, UBL, Signatures |
 
-**For CLI Testing**: Work with @cli-developer to ensure CLI commands are properly tested and integrated into the test suite.
+✅ ALL 52 passing = Go to production  
+❌ ANY failing = HOLD deployment
+
+## 🚀 Quick Commands
+
+```bash
+# Run ALL compliance tests
+dotnet test B2Connect.slnx --filter "Category=Compliance"
+
+# Run specific P0 component
+dotnet test --filter "FullyQualifiedName~P0.6"
+dotnet test --filter "FullyQualifiedName~P0.7"
+dotnet test --filter "FullyQualifiedName~P0.8"
+dotnet test --filter "FullyQualifiedName~P0.9"
+
+# E2E tests (Playwright)
+cd Frontend/Store && npm run test:e2e
+```
+
+## 📋 Test File Structure
+
+```
+backend/Domain/[Service]/tests/
+├── P0.6_EcommerceTests.cs      # 15 E-Commerce tests
+├── P0.7_AiActTests.cs          # 15 AI Act tests
+├── P0.8_AccessibilityTests.cs  # 12 BITV tests
+├── P0.9_ERechnungTests.cs      # 10 E-Rechnung tests
+└── ComplianceTestBase.cs       # Shared setup
+```
+
+**For Specialist Support**:
+- **@qa-frontend**: E2E, UI accessibility
+- **@qa-pentesting**: Security testing
+- **@qa-performance**: Load testing
+
+**For Test Architecture**: Consult @software-architect.

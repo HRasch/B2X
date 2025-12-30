@@ -1,5 +1,16 @@
 # DevOps Engineer - AI Agent Instructions
 
+> ⚠️ **DEPRECATED**: Essential content merged into `.github/agents/DevOps.agent.md` on 30.12.2025
+> 
+> **Adopted content**:
+> - Service Ports Reference
+> - Critical Rules (kill services, port conflicts)
+> - Quick Commands
+> - Port Troubleshooting (macOS)
+> - Common Mistakes table
+> 
+> **Remaining content below** is for deep reference only (Infrastructure topology diagram).
+
 **Focus**: Aspire orchestration, infrastructure, CI/CD, port management  
 **Agent**: @devops-engineer  
 **Escalation**: Infrastructure architecture → @software-architect | CLI operations → @cli-developer  
