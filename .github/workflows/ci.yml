@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Make scripts executable
+        run: chmod +x scripts/*.sh || true
+
+      - name: Validate no secrets
+        run: ./scripts/validate-no-secrets.sh
+
+      - name: Restore and build solution
+        run: dotnet build B2Connect.slnx --configuration Release --no-restore
+
+      - name: Run unit tests
+        run: dotnet test B2Connect.slnx --configuration Release --no-build --verbosity normal
+
+      - name: Run CI smoke tests project
+        run: |
+          dotnet test ./backend/CI/B2Connect.CI.Tests.csproj --configuration Release --no-build || true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Frontend tests (if present)
+        run: |
+          if [ -f frontend/Store/package.json ]; then
+            cd frontend/Store
+            npm ci
+            npm test || true
+          else
+            echo "No frontend tests detected"
+          fi
+
+      - name: dotnet format check (optional)
+        run: |
+          dotnet tool restore || true
+          if dotnet tool list -g | grep -q dotnet-format; then
+            dotnet format --verify-no-changes || true
+          else
+            echo "dotnet-format not installed globally; skipping format check"
+          fi
+
+  code-scanning:
+    name: CodeQL & Semgrep
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ['csharp', 'javascript']
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+      - name: Run Semgrep security scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: default
