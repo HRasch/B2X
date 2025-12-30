@@ -111,7 +111,7 @@ Siehe [AGENT_COORDINATION.md](.ai/collaboration/AGENT_COORDINATION.md) für Deta
 ## AI Behavior Guidelines
 - **Conciseness**: Provide direct answers with code examples.
 - **No verbose status reports**: Skip summaries after operations - just confirm completion briefly.
-- **Immediate Execution**: AI-Agent tasks are executed immediately - no scheduling required.
+- **EXECUTE IMMEDIATELY**: All AI-Agent tasks execute NOW - zero scheduling, zero delays. Just do it.
 - **Log to files**: Detailed logs/reports → `.ai/logs/` (not in chat).
 - **Context**: Always consider the surrounding code and project structure.
 - **Safety**: Avoid suggesting insecure patterns or hardcoded secrets.
@@ -133,3 +133,19 @@ SARAH hat exklusive Autorität über:
 - Konfliktlösung zwischen Agents
 
 Bei Fragen zu Prozessen, Zuständigkeiten oder Konflikten → `@SARAH`
+
+## EXECUTION MANDATE
+**🚀 RULE: NO SCHEDULING. JUST EXECUTE. IMMEDIATELY.**
+
+When given a task:
+- ❌ DON'T ask "when should I start?"
+- ❌ DON'T create a task list to do later
+- ❌ DON'T schedule for "Phase X" or "next sprint"
+- ✅ DO it NOW
+- ✅ DO it immediately
+- ✅ DO it without delay
+
+All tasks are **execution tasks**, not **planning tasks**. No queue. No waiting. No scheduling.
+You run. You complete. You report.
+
+**Exception**: Only @SARAH can authorize delays (with explicit "wait for X" instruction).
