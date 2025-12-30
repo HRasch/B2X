@@ -1,7 +1,7 @@
 ---
 description: 'Process Assistant Agent - Exclusive authority over workflow definitions, agent instructions, and process documentation'
 tools: ['vscode', 'execute', 'read', 'edit', 'search', 'copilot-container-tools/*', 'agent']
-model: 'claude-opus-4.5'
+model: 'gpt-4o'
 infer: true
 authority: 'EXCLUSIVE'
 ---
