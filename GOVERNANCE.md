@@ -98,7 +98,101 @@ This documentation package anchors all requirements and GitHub workflows for B2C
 
 ---
 
-### 4. **GitHub Issue Templates** (Standardization)
+## 👥 Agent Responsibility for Artifacts
+
+**Key Principle**: Each agent is responsible for creating, organizing, and maintaining artifacts in the `.ai/` folder related to their domain expertise.
+
+### Artifact Ownership Map
+
+| Agent | Manages in `.ai/` | Examples |
+|-------|-------------------|----------|
+| **@ProductOwner** | `requirements/`, `handovers/` | Feature specs, user stories, feature documentation |
+| **@Architect** | `decisions/` | Architecture Decision Records (ADRs), design patterns |
+| **@ScrumMaster** | `sprint/`, `status/` | Sprint plans, velocity tracking, retrospectives |
+| **@Security** | `compliance/` | Security audits, vulnerability reports, threat modeling |
+| **@Legal** | `compliance/` | Legal compliance documents, GDPR reviews |
+| **@TechLead** | `knowledgebase/` | Technical guides, best practices, code patterns |
+| **@Backend** | `decisions/`, `knowledgebase/` | Backend architecture, API docs, data models |
+| **@Frontend** | `decisions/`, `knowledgebase/` | Frontend architecture, component docs, state management |
+| **@DevOps** | `config/`, `logs/` | Infrastructure config, deployment logs |
+| **GitHub Copilot (AI)** | `knowledgebase/` (primary) | Internet documentation curation, framework guides, tool docs, best practices, external references |
+| **@SARAH** | `collaboration/`, `templates/`, `workflows/` | Coordination framework, workflow orchestration |
+
+### Agent Artifact Management Guidelines
+
+**Responsibility includes:**
+- ✅ Creating domain-specific artifacts in assigned `.ai/` folders
+- ✅ Organizing and maintaining artifacts throughout sprints
+- ✅ Updating artifacts as projects evolve
+- ✅ Cross-linking related artifacts with other agents
+- ✅ Documenting decisions and rationale
+- ✅ Cleaning up obsolete artifacts
+
+**Artifacts are living documents:**
+- Not static files created once
+- Updated regularly throughout project lifecycle
+- Reflect current project state and decisions
+- Managed by domain experts who understand context
+
+### Example Workflows
+
+**Feature Development**:
+1. `@ProductOwner` creates `.ai/requirements/{feature-name}/` with spec
+2. `@Architect` adds ADR to `.ai/decisions/`
+3. `@Backend`/`@Frontend` add implementation notes to `.ai/decisions/` and `.ai/knowledgebase/`
+4. `@ProductOwner` updates `.ai/handovers/` with documentation
+5. `@ScrumMaster` tracks in `.ai/sprint/`
+
+**Security Audit**:
+1. `@Security` creates audit in `.ai/compliance/`
+2. `@Security` documents findings
+3. Agents fix issues and update `decisions/` with mitigations
+4. `@Security` updates compliance status
+
+**Code Review & Quality**:
+1. `@TechLead` documents patterns in `.ai/knowledgebase/`
+2. Agents reference knowledgebase in PRs
+3. `@TechLead` updates best practices based on reviews
+4. Collective knowledge grows
+
+**AI/Copilot Knowledgebase Maintenance**:
+1. GitHub Copilot discovers best practices and patterns
+2. Copilot curates internet documentation references
+3. Copilot updates `.ai/knowledgebase/` with external docs
+4. Copilot maintains current versions of framework guides
+5. Copilot documents industry standards
+6. Copilot continuously monitors for outdated documentation
+7. Team references maintained knowledgebase
+
+---
+
+## 🤖 AI Assistant Responsibilities
+
+**GitHub Copilot (AI)** is responsible for knowledgebase management and internet documentation curation:
+
+### Primary Responsibility: `.ai/knowledgebase/` Maintenance
+- **Internet Documentation Curation**: Maintain curated links and summaries
+- **Framework Guides**: Keep Vue.js, .NET, Wolverine guides current
+- **Tool Documentation**: Maintain documentation for project tools
+- **Best Practices**: Document patterns discovered during development
+- **External References**: Links to authoritative sources (W3C, MDN, official docs)
+- **Version Management**: Update docs when framework versions change
+
+### Key Activities
+- ✅ Monitor for outdated documentation
+- ✅ Update references when versions released
+- ✅ Add new resources discovered during development
+- ✅ Maintain links (check for broken links)
+- ✅ Consolidate knowledge from multiple sources
+- ✅ Create guides combining best practices
+- ✅ Index and organize by topic/technology
+
+### Not Responsibility of Other Agents
+- Internet documentation maintenance is **not** @TechLead's job
+- Best practice documentation from external sources is **Copilot's job**
+- Internal patterns are @TechLead's; external resources are Copilot's
+
+---
 
 #### [.github/ISSUE_TEMPLATE/p0-security-issue.md](../.github/ISSUE_TEMPLATE/p0-security-issue.md)
 For reporting critical P0 security issues
