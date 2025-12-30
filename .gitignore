@@ -17,6 +17,9 @@ bld/
 
 ## Visual Studio cache/options
 .vs/
+.vscode/launch.json
+.vscode/tasks.json.user
+*.code-workspace
 
 ## User-specific files
 *.rsuser
@@ -29,9 +32,30 @@ bld/
 .idea/
 *.sln.iml
 
+## NuGet
+.nuget/NuGet.Config.user
+*.ncrunchproject
+*.ncproj.user
+
+## ASP.NET Core local configuration (may contain secrets)
+**/appsettings.Development.json
+**/appsettings.*.local.json
+**/Properties/launchSettings.json.user
+
+## .NET CLI & Tools
+.dotnet/
+.dotnet-tools.json.user
+
 # Frontend
 node_modules/
 dist/
+.vite/
+.cache/
+.rollup.cache/
+.parcel-cache/
+.next/
+build/
+.env
 .env.local
 .env.*.local
 *.log
@@ -39,6 +63,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+pnpm-lock.yaml
+package-lock.json
 
 # Test coverage and results
 coverage/
@@ -50,6 +76,8 @@ trx/
 test-results/
 xunit-results/
 *.xunit
+.vitest/
+junit.xml
 
 # Playwright test reports
 playwright-report/
@@ -63,10 +91,20 @@ playwright/*.webm
 *.swp
 *.swo
 *~
+*.orig
+*.bak
 
 # OS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+.TemporaryItems
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+.Thumbs.db
 
 # Docker
 .docker/
@@ -75,8 +113,15 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+.env.production.local
 
 # SQLite databases
 *.db
 *.db-shm
 *.db-wal
+
+# Aspire & Local Development
+.aspire/
+.aspire-generated/
+.aspire.json
+.dotnet-tools.json.user

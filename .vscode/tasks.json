@@ -132,7 +132,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/Frontend/Store",
+      "cwd": "${workspaceFolder}/frontend/Store",
       "group": {
         "kind": "test"
       }
@@ -145,7 +145,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/Frontend/Management",
+      "cwd": "${workspaceFolder}/frontend/Management",
       "isBackground": true,
       "problemMatcher": {
         "pattern": {
@@ -170,7 +170,7 @@
         "run",
         "lint"
       ],
-      "cwd": "${workspaceFolder}/Frontend/Management",
+      "cwd": "${workspaceFolder}/frontend/Management",
       "group": "build"
     },
     {
@@ -218,7 +218,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/Frontend/Store",
+      "cwd": "${workspaceFolder}/frontend/Store",
       "problemMatcher": {
         "pattern": {
           "regexp": "^.*$",
@@ -244,7 +244,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/Frontend/Admin",
+      "cwd": "${workspaceFolder}/frontend/Admin",
       "problemMatcher": {
         "pattern": {
           "regexp": "^(.*)$",

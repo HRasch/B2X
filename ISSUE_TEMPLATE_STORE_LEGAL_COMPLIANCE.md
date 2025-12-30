@@ -355,18 +355,18 @@ And invoice shows "DDP (Delivered Duty Paid)"
 
 ### Frontend (Vue.js / TypeScript)
 
-6. **Checkout Flow Updates** (/Frontend/Store/src/views)
+6. **Checkout Flow Updates** (/frontend/Store/src/views)
    - Display final price with VAT
    - Show shipping cost before payment
    - Mandatory accept Terms & Conditions checkbox
    - Display return instructions
 
-7. **Legal Documents Display** (/Frontend/Store/src/components)
+7. **Legal Documents Display** (/frontend/Store/src/components)
    - Footer links (Impressum, Privacy, Terms)
    - Full-page legal document viewers
    - Responsive, accessible typography
 
-8. **Customer Account** (/Frontend/Store/src/views)
+8. **Customer Account** (/frontend/Store/src/views)
    - Invoice history & download
    - Return management UI
    - Withdrawal form download

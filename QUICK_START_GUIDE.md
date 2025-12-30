@@ -1,8 +1,8 @@
 # 🚀 B2Connect Quick Start Guide
 
-**Last Updated**: 29. Dezember 2025  
-**Status**: ✅ Active Development  
-**Current Sprint**: Sprint 3 Phase 3 (Documentation)
+**Last Updated**: 30. Dezember 2025  
+**Status**: ✅ Legacy Cleanup Complete  
+**Archive**: See [docs/archive/](./docs/archive/) for historical sprint/session notes
 
 ---
 
@@ -14,9 +14,9 @@
 - **Scrum Master**: Check [`.github/agents/scrum-master.agent.md`](./.github/agents/scrum-master.agent.md)
 
 ### 👨‍💻 **Active Development**
-- **Current Sprint**: [`SPRINT_3_COMPLETION_SUMMARY.md`](./SPRINT_3_COMPLETION_SUMMARY.md)
-- **Next Session Guide**: [`SPRINT_3_PHASE_2_CONTINUATION_GUIDE.md`](./SPRINT_3_PHASE_2_CONTINUATION_GUIDE.md)
-- **Latest Status**: [`SPRINT_3_COMPLETION_SUMMARY.md`](./SPRINT_3_COMPLETION_SUMMARY.md)
+- **Build & Run**: See [README.md](./README.md) Quick Start section
+- **Test Commands**: `dotnet test B2Connect.slnx` (backend) | `npm run test` (frontend)
+- **Architecture Docs**: [docs/architecture/](./docs/architecture/)
 
 ### 🎯 **Role-Based Setup** (in `.github/docs/roles/`)
 - Backend Developer: [`.github/docs/roles/backend-developer.md`](./.github/docs/roles/backend-developer.md)
@@ -27,10 +27,11 @@
 
 ### 📚 **Complete Documentation**
 - **Main Instructions**: [`.github/copilot-instructions.md`](./.github/copilot-instructions.md)
-- **All Agents**: [`.github/AGENTS_INDEX.md`](./.github/AGENTS_INDEX.md)
+- **AI Knowledge Base**: [`docs/ai/INDEX.md`](./docs/ai/INDEX.md)
 - **Architecture**: [`docs/architecture/`](./docs/architecture/)
 - **Compliance**: [`docs/compliance/`](./docs/compliance/)
 - **User Guides**: [`docs/user-guides/`](./docs/user-guides/)
+- **Historical Archive**: [`docs/archive/`](./docs/archive/) (legacy sprint/session notes)
 
 ---
 
@@ -41,7 +42,7 @@ B2Connect/
 ├── .github/              ← Process & copilot instructions
 ├── docs/                 ← Product documentation
 ├── backend/              ← .NET 10 microservices
-├── Frontend/             ← Vue.js applications
+├── frontend/             ← Vue.js applications
 ├── scripts/              ← Automation scripts
 └── ROOT_LEVEL_DOCS/      ← Executive summaries
 ```
@@ -59,8 +60,8 @@ cd backend/Orchestration && dotnet run  # Dashboard: http://localhost:15500
 
 ### **Frontend**
 ```bash
-cd Frontend/Store && npm run dev         # Port 5173
-cd Frontend/Admin && npm run dev         # Port 5174
+cd frontend/Store && npm run dev         # Port 5173
+cd frontend/Admin && npm run dev         # Port 5174
 ```
 
 ---

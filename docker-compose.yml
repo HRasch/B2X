@@ -280,7 +280,7 @@ services:
   # Frontend Store (Vue 3 + Vite)
   frontend-store:
     build:
-      context: ./Frontend/Store
+      context: ./frontend/Store
       dockerfile: Dockerfile
       target: development
     container_name: b2connect-frontend-store
@@ -291,7 +291,7 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./Frontend/Store:/app
+      - ./frontend/Store:/app
       - /app/node_modules
     depends_on:
       store-gateway:
@@ -304,7 +304,7 @@ services:
   # Frontend Admin (Vue 3 + Vite)
   frontend-admin:
     build:
-      context: ./Frontend/Admin
+      context: ./frontend/Admin
       dockerfile: Dockerfile
       target: development
     container_name: b2connect-frontend-admin
@@ -315,7 +315,7 @@ services:
     ports:
       - "5174:5174"
     volumes:
-      - ./Frontend/Admin:/app
+      - ./frontend/Admin:/app
       - /app/node_modules
     depends_on:
       admin-gateway:

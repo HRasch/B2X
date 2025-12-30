@@ -6,10 +6,11 @@ A modern, scalable multitenant SaaS solution combining a comprehensive B2B/B2C e
 
 ## 🚀 Quick Links
 
-- 📖 **[Documentation Index](DOCUMENTATION_INDEX.md)** - Find all documentation
-- 🎯 **[Aspire Quick Start](ASPIRE_QUICK_START.md)** - Get started in 5 minutes
-- 🔒 **[Security Guide](SECURITY_HARDENING_GUIDE.md)** - Security implementation
-- ✅ **[Current Status](ASPIRE_FINAL_STATUS.md)** - Deployment status & checklist
+- � **[Documentation Quick Reference](docs/QUICK_REFERENCE.md)** - Find the documentation you need
+- 📖 **[AI Knowledge Base](docs/ai/INDEX.md)** - AI agent triggers & reference
+- 🚀 **[Quick Start Guide](QUICK_START_GUIDE.md)** - Get started in 5 minutes
+- 🔒 **[Security Instructions](.github/instructions/security.instructions.md)** - Security implementation
+- 📊 **[Project Dashboard](PROJECT_DASHBOARD.md)** - Metrics & status
 
 ## 📊 Platform Overview
 
@@ -78,7 +79,7 @@ dotnet run
 ### Frontend Setup (In Another Terminal)
 
 ```bash
-cd Frontend/Store
+cd frontend/Store
 npm install && npm run dev
 
 # Frontend will be available at http://localhost:5173
@@ -176,7 +177,7 @@ ASPNETCORE_ENVIRONMENT=Development
 DATABASE_URL=Server=localhost;Database=b2connect;User Id=sa;Password=YourPassword;
 RABBITMQ_URL=amqp://guest:guest@localhost:5672/
 
-# Frontend (.env in Frontend/Store/)
+# Frontend (.env in frontend/Store/)
 VITE_API_URL=http://localhost:5000/api
 VITE_APP_NAME=B2Connect
 ```
@@ -228,5 +229,5 @@ B2Connect Development Team
 
 ---
 
-**Last Updated**: 2025-12-25
-**Version**: 1.0.0-alpha
+**Last Updated**: 2025-12-30
+**Version**: 1.0.0-beta

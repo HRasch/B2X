@@ -3,7 +3,8 @@
 **Last Updated**: 30. Dezember 2025  
 **Source**: Official Microsoft Documentation  
 **Purpose**: AI agent code generation support and pattern reference  
-**Target Audience**: All backend, frontend, and AI specialists
+**Target Audience**: All backend, frontend, and AI specialists  
+**Index**: ⬅️ [Back to AI Knowledge Base](./INDEX.md)
 
 ---
 

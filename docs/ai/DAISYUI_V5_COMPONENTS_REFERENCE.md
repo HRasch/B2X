@@ -3,7 +3,8 @@
 **Last Updated**: 30. Dezember 2025  
 **Source**: Official daisyUI Documentation  
 **Purpose**: Frontend agent development support and component reference  
-**Target Audience**: @frontend-developer, @ui-expert, @ux-expert, @frontend-store, @frontend-admin
+**Target Audience**: @frontend-developer, @ui-expert, @ux-expert, @frontend-store, @frontend-admin  
+**Index**: ⬅️ [Back to AI Knowledge Base](./INDEX.md)
 
 ---
 
