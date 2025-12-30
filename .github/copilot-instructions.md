@@ -20,10 +20,10 @@ Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.
 | `@Frontend` | Vue.js 3 | UI Components, State, Accessibility, Styling |
 | `@QA` | Test Coordination | Unit/Integration Tests, Compliance, Test Delegation |
 | `@Architect` | System Design | Service Architecture, Patterns, ADRs, Design Decisions |
-| `@TechLead` | Code Quality | Mentoring, Code Reviews, Complex Problems (Sonnet 4.5) |
+| `@TechLead` | Code Quality | Mentoring, Code Reviews, Complex Problems (Haiku 4.5) |
 | `@Security` | Security/Auth | Vulnerabilities, Encryption, Compliance Verification |
 | `@DevOps` | Infrastructure | CI/CD, Deployment, Monitoring, Kubernetes |
-| `@ScrumMaster` | Process | Sprint Management, Velocity, Blockers |
+| `@ScrumMaster` | Process | **Iteration** Management, Velocity, Blockers |
 | `@ProductOwner` | Requirements | User Stories, Prioritization, Acceptance Criteria |
 | `@Legal` | Compliance | GDPR, NIS2, BITV 2.0, AI Act (P0.6-P0.9) |
 | `@UX` | Design | User Research, Information Architecture, Flows |
@@ -54,7 +54,7 @@ Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.
 ├── logs/                       ← Agent Logs
 ├── permissions/                ← Agent Permissions
 ├── requirements/               ← Anforderungsanalysen
-├── sprint/                     ← Sprint Planning & Tracking
+├── sprint/                     ← **Iteration** Planning & Tracking
 ├── status/                     ← Task Completion Tracking
 ├── templates/                  ← GitHub Issue & PR Templates
 └── workflows/                  ← Development Workflows
@@ -88,7 +88,7 @@ Copilot wendet automatisch zusätzliche Instructions an basierend auf dem Dateip
 #### Feature Development
 - `/start-feature` → New feature initiation & coordination (@SARAH)
 - `/requirements-analysis` → Multi-agent requirement analysis (Domain teams)
-- `/sprint-cycle` → Sprint planning, execution, retrospective (@ScrumMaster)
+- `/iteration-cycle` → Iteration planning, execution, retrospective (@ScrumMaster)
 
 #### Development & QA
 - `/code-review` → Code quality gate & security review (@TechLead)

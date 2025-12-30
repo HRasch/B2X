@@ -1,0 +1,128 @@
+# 🤖 Copilot Agent Quick Reference
+
+**Print this card and put it on your desk!**
+
+---
+
+## Activation Command
+
+```bash
+./.github/activate-agent.sh <role>
+```
+
+---
+
+## Available Agents
+
+| Role | Command | Focus | P0 Components |
+|------|---------|-------|---------------|
+| 🔐 Security Engineer | `security` | Encryption, Audit, Keys | P0.1-P0.5 |
+| 💻 Backend Developer | `backend` | Wolverine APIs, CQRS, E-Commerce | P0.1, P0.6, P0.9 |
+| 🧪 QA Engineer | `qa` | 52 Compliance Tests | P0.6, P0.7, P0.8, P0.9 |
+| 🎨 Frontend Developer | `frontend` | Vue.js, WCAG, Tailwind | P0.6, P0.8 |
+| ⚙️ DevOps Engineer | `devops` | Infrastructure, Scaling | P0.3, P0.4, P0.5 |
+| 📋 Product Owner | `product` | Features, Roadmap, Go/No-Go | All |
+| ⚖️ Legal/Compliance | `legal` | Regulations, Risk, Audit | P0.6, P0.7, P0.8, P0.9 |
+| 👔 Tech Lead | `tech-lead` | Architecture, Code Review | All |
+
+---
+
+## Workflow
+
+### Step 1: Activate Agent
+```bash
+./.github/activate-agent.sh backend
+```
+
+### Step 2: Reload Copilot
+In VS Code:
+- **Option A:** Close/reopen Copilot Chat (`Cmd+K, Cmd+K`)
+- **Option B:** Reload window (`Cmd+Shift+P` → "Developer: Reload Window")
+
+### Step 3: Ask Question
+```
+"I'm a Backend Developer. Create a P0.6 VAT calculation service with Wolverine."
+```
+
+### Step 4: Use Generated Code
+Copy, review, adapt, commit!
+
+---
+
+## Key Rules by Agent
+
+### 🔐 Security Agent
+- ❌ Never hardcode secrets
+- ✅ AES-256 encryption for PII
+- ✅ Audit logging on every write
+- ✅ Tenant isolation in queries
+
+### 💻 Backend Agent  
+- ❌ Never use MediatR
+- ✅ Wolverine pattern only
+- ✅ FluentValidation on all inputs
+- ✅ Onion architecture
+
+### 🧪 QA Agent
+- ❌ Don't skip test assertions
+- ✅ Write 52 compliance tests
+- ✅ Arrange/Act/Assert pattern
+- ✅ Gate all deployments on tests
+
+---
+
+## Common Issues
+
+| Issue | Fix |
+|-------|-----|
+| Context not loading | Reload VS Code window |
+| Wrong agent active | Run `activate-agent.sh <role>` again |
+| File not found | Make sure `.github/role-contexts/` exists |
+| Script won't run | Run `chmod +x .github/activate-agent.sh` |
+
+---
+
+## Pro Tips
+
+1. **Keep chat focused** - One P0 component per chat session
+2. **Start with context** - Tell Copilot your role immediately
+3. **Reference patterns** - Ask Copilot to reference existing code
+4. **Copy-paste templates** - Use generated code as starting point
+5. **Test everything** - Agent code is template, always verify
+
+---
+
+## Files & Locations
+
+- **Agent Contexts:** `.github/role-contexts/`
+- **Activation Script:** `.github/activate-agent.sh`
+- **Active Context:** `.github/copilot-instructions.md`
+- **Backup:** `.github/copilot-instructions.md.bak`
+
+---
+
+## Example Prompts
+
+### Security Engineer
+```
+"Implement P0.2 encryption for User entity with AES-256-GCM and Azure KeyVault"
+```
+
+### Backend Developer
+```
+"Create P0.6 VAT calculation handler using Wolverine pattern with tests"
+```
+
+### QA Engineer
+```
+"Write unit tests for P0.6 withdrawal period validation (VVVG §357)"
+```
+
+### Frontend Developer
+```
+"Create WCAG 2.1 AA compliant checkout form with keyboard navigation"
+```
+
+---
+
+**Questions?** Ask Copilot - it's trained on these agents!

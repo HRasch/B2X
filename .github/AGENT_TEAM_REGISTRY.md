@@ -13,59 +13,59 @@
   - Builds microservices with domain-driven design
   - Implements HTTP handlers, validators, repositories
   - Owns: API layer, business logic, database design
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### Frontend Development
 - **@Frontend** - `Vue.js 3, TypeScript, Tailwind CSS, Pinia`
   - Builds responsive, accessible UIs
   - Manages state with Pinia stores
   - Owns: UI components, client-side logic, styling
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### Quality Assurance
 - **@QA** - `Test Coordination, Compliance Testing`
   - Coordinates all testing efforts across the team
   - Owns: Backend unit/integration tests, compliance verification
   - Delegates: Frontend E2E to @QA-Frontend, Security to @QA-Pentesting
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### Architecture & Design
 - **@Architect** - `System Design, Patterns, ADRs, Scalability`
   - Defines system boundaries and service architecture
   - Reviews major technical decisions
   - Owns: Architecture decisions, service boundaries, design patterns
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### Leadership & Coordination
 - **@TechLead** - `Code Quality, Mentoring, Code Reviews, Optimization`
   - Guides developers on complex problems
   - Reviews architectural decisions
   - Owns: Code quality standards, technical mentoring
-  - Model: Claude Sonnet 4.5 (advanced analysis)
+  - Model: Claude Haiku 4.5 (advanced analysis)
 
 - **@ScrumMaster** - `Sprint Management, Process, Workflow, Velocity`
   - Manages sprint planning and ceremonies
   - Tracks velocity and blockers
   - Owns: Sprint processes, team coordination
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 - **@ProductOwner** - `Requirements, Prioritization, User Stories`
   - Defines features and requirements
   - Prioritizes backlog
   - Owns: Requirements, user stories, acceptance criteria
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### Security & Infrastructure
 - **@Security** - `Security Vulnerabilities, Auth, Compliance`
   - Reviews security implementations
   - Owns: Authentication, authorization, encryption
   - Ensures compliance with security standards
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 - **@DevOps** - `CI/CD, Deployment, Infrastructure, Monitoring`
   - Manages deployment pipelines
   - Owns: Infrastructure, containerization, monitoring
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ---
 
@@ -76,26 +76,26 @@
   - Ensures legal compliance
   - Reviews terms, privacy policies
   - Owns: Legal documentation, compliance verification
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### Design Specialists
 - **@UX** - `User Research, Information Architecture, Flows`
   - Designs user experiences and information architecture
   - Owns: User research, wireframes, user flows
   - Collaborates with @UI for implementation
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 - **@UI** - `Components, Design Systems, Accessibility`
   - Builds component libraries and design systems
   - Owns: Accessible components, design consistency
   - Implements @UX designs
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### Search & Optimization
 - **@SEO** - `SEO Optimization, Meta Tags, Performance`
   - Optimizes for search engines
   - Owns: Meta tags, structured data, SEO best practices
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### Development Workflow
 - **@GitManager** - `Git Workflow, Branching, Code Review, Repository Management`
@@ -105,7 +105,7 @@
   - Owns: Git workflow design, branch protection rules, release processes
   - Called by: @Backend, @Frontend, @DevOps, @TechLead
   - Expertise: Branching models, PR workflows, commit hygiene, conflict resolution
-  - Model: Claude Sonnet 4
+  - Model: Claude Haiku 4.5
 
 ### AI Assistant & Knowledge Management
 - **GitHub Copilot (This AI)** - `Knowledgebase Maintenance, Internet Documentation, Code Generation`
@@ -245,20 +245,20 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 
 | Agent | Model | Tools | Specialization |
 |---|---|---|---|
-| @Backend | Sonnet 4 | vscode, execute, git | .NET, CQRS, DDD |
-| @Frontend | Sonnet 4 | vscode, execute, git | Vue.js, TS, Tailwind |
-| @QA | Sonnet 4 | vscode, git, test | Test coordination |
-| @Architect | Sonnet 4 | read, edit, web | System design |
-| @TechLead | **Sonnet 4.5** | read, edit, web | Code quality, mentoring |
-| @ScrumMaster | Sonnet 4 | execute, git | Process, velocity |
-| @ProductOwner | Sonnet 4 | read, web | Requirements |
-| @Security | Sonnet 4 | read, edit | Security, compliance |
-| @DevOps | Sonnet 4 | execute, infrastructure | CI/CD, deployment |
-| @Legal | Sonnet 4 | read, edit | GDPR, compliance |
-| @UX | Sonnet 4 | read, design | Research, flows |
-| @UI | Sonnet 4 | design, component | Components, a11y |
-| @SEO | Sonnet 4 | read, web | Search optimization |
-| @GitManager | Sonnet 4 | read, edit, terminal | Git workflow, PR process |
+| @Backend | Haiku 4.5 | vscode, execute, git | .NET, CQRS, DDD |
+| @Frontend | Haiku 4.5 | vscode, execute, git | Vue.js, TS, Tailwind |
+| @QA | Haiku 4.5 | vscode, git, test | Test coordination |
+| @Architect | Haiku 4.5 | read, edit, web | System design |
+| @TechLead | **Haiku 4.5** | read, edit, web | Code quality, mentoring |
+| @ScrumMaster | Haiku 4.5 | execute, git | Process, velocity |
+| @ProductOwner | Haiku 4.5 | read, web | Requirements |
+| @Security | Haiku 4.5 | read, edit | Security, compliance |
+| @DevOps | Haiku 4.5 | execute, infrastructure | CI/CD, deployment |
+| @Legal | Haiku 4.5 | read, edit | GDPR, compliance |
+| @UX | Haiku 4.5 | read, design | Research, flows |
+| @UI | Haiku 4.5 | design, component | Components, a11y |
+| @SEO | Haiku 4.5 | read, web | Search optimization |
+| @GitManager | Haiku 4.5 | read, edit, terminal | Git workflow, PR process |
 | **GitHub Copilot (AI)** | **Haiku 4.5** | web, read, edit, semantic search | Knowledgebase, internet docs |
 | **@SARAH** | **Haiku 4.5** | coordination, governance | Coordination |
 
