@@ -644,6 +644,121 @@ Ready to hand off to @process-controller for final report
 
 ---
 
+## 🚫 CRITICAL RULE: Plain Communication Only (NO Collaboration-System Messages or Trigger Reports)
+
+**Effective**: 30. Dezember 2025  
+**Authority**: @process-assistant
+
+### ✅ What @team-assistant CAN Do:
+
+1. **Direct GitHub Communication** (Issues, PRs, Comments)
+   ```
+   ✅ Post status updates to GitHub issues
+   ✅ Post feedback summaries to GitHub
+   ✅ Post metrics and completion reports to GitHub
+   ✅ Reply to GitHub comments with status/questions
+   ✅ Tag stakeholders on GitHub issues
+   ```
+
+2. **Internal Execution** (Code, Testing, Docs)
+   ```
+   ✅ EXECUTE AS @backend-developer (create code files)
+   ✅ EXECUTE AS @frontend-developer (create UI files)
+   ✅ EXECUTE AS @qa-engineer (create tests)
+   ✅ Run internal terminal commands (dotnet build, npm test, etc.)
+   ✅ Generate internal tracking spreadsheets
+   ```
+
+### ❌ What @team-assistant CANNOT Do:
+
+1. **NO Messages to Collaboration System**
+   ```
+   ❌ NEVER write files to /collaborate/issue/*/
+   ❌ NEVER create coordination summaries
+   ❌ NEVER log coordination messages
+   ❌ NEVER use the mailbox system for communication
+   
+   Reason: Collaboration system is for @background-collaboration-monitor
+            only. Team Assistant communicates via GitHub (public, traceable).
+   ```
+
+2. **NO Trigger Reports**
+   ```
+   ❌ NEVER create trigger-report files
+   ❌ NEVER write automated trigger results
+   ❌ NEVER generate trigger notifications
+   ❌ NEVER post "automated trigger" messages
+   
+   Reason: Monitor generates triggers automatically.
+           Team Assistant responds to actual work, not automated events.
+   ```
+
+3. **NO Collaboration Mailbox Files**
+   ```
+   ❌ NEVER create files in /collaborate/issue/*/[agent]/ folders
+   ❌ NEVER write coordination requests
+   ❌ NEVER post response files to collaboration system
+   
+   Reason: Collaboration mailbox is for inter-agent coordination,
+           not for team assistant tracking/reporting.
+   ```
+
+### 📋 Communication Method: GitHub Only
+
+All @team-assistant communication must be:
+
+1. **Transparent**: Posted to GitHub (all team members see)
+2. **Traceable**: Linked to GitHub issues (audit trail)
+3. **Simple**: Plain text status updates (no metadata)
+4. **Direct**: No intermediate files or logs
+5. **Immediate**: Posted directly, not stored elsewhere
+
+### 📌 Example: CORRECT Communication
+
+**Status Update** (GitHub Issue Comment):
+```markdown
+Development Complete ✅
+
+Backend:
+- Entity created: PaymentTerms.cs
+- Service created: PaymentTermsService.cs
+- Build: PASSING ✓
+
+Frontend:
+- Component created: PaymentTermsAdmin.vue
+- Lint: PASSING ✓
+
+Tests:
+- 12/12 unit tests passing
+- Coverage: 87%
+
+Next: Ready for stakeholder review
+```
+
+### 📌 Example: WRONG Communication
+
+```markdown
+❌ WRONG: Creating file in /collaborate/issue/56/@team-assistant/...
+❌ WRONG: Generating trigger-report-12345.md
+❌ WRONG: Writing "Automated trigger detected" to collaboration system
+❌ WRONG: Logging coordination summary to collaboration mailbox
+```
+
+### ⚡ Quick Rule
+
+**If you're creating a file that goes to `/collaborate/`:**
+→ **STOP**. Delete it. Post to GitHub instead.
+
+**If you're writing a "trigger report" or "coordination log":**
+→ **STOP**. That's not your job. Just post status to GitHub.
+
+**If you're using the collaboration mailbox system:**
+→ **STOP**. That's for inter-agent messages, not team coordination.
+
+---
+
+---
+
 ## � Implementation: How "EXECUTE AS" Works
 
 **Critical Understanding**: "EXECUTE AS @agent" means actually DO the work, not post asking someone to do it.

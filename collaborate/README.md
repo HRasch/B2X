@@ -42,12 +42,35 @@ Essential references and quick guides kept for easy access.
 
 ---
 
+## 🎯 Critical System Documentation (READ FIRST)
+
+### 🚨 **NEW - System Operations**
+
+| Document | Purpose | For Whom |
+|----------|---------|----------|
+| [NO_EXTRA_DOCUMENTATION_RULE.md](./NO_EXTRA_DOCUMENTATION_RULE.md) | **MANDATORY** - All agents must read | ALL agents |
+| [COMMUNICATION_SYSTEMS_ARCHITECTURE.md](./COMMUNICATION_SYSTEMS_ARCHITECTURE.md) | **NEW** - Which system for what communication | ALL agents |
+| [TEAM_ASSISTANT_QUICK_START.md](./TEAM_ASSISTANT_QUICK_START.md) | **⚡ READ FIRST** - Plain communication (5 min) | @team-assistant |
+| [TEAM_ASSISTANT_CONTEXT_SWITCHING.md](./TEAM_ASSISTANT_CONTEXT_SWITCHING.md) | Daily workflow for coordinator | @team-assistant |
+| [TEAM_ASSISTANT_COMMUNICATION_RULE.md](./TEAM_ASSISTANT_COMMUNICATION_RULE.md) | **Plain communication only** (GitHub, not `/collaborate/`) | @team-assistant |
+| [COLLABORATION_MAILBOX_SYSTEM.md](./COLLABORATION_MAILBOX_SYSTEM.md) | How the mailbox system works | ALL agents |
+
+### 📖 **Quick References**
+
+| Document | Purpose |
+|----------|---------|
+| [AGENT_MAILBOX_QUICK_REFERENCE.md](./AGENT_MAILBOX_QUICK_REFERENCE.md) | Fast lookup for mailbox rules |
+| [AGENT_MAILBOX_DOCUMENTATION_INDEX.md](./AGENT_MAILBOX_DOCUMENTATION_INDEX.md) | Navigation guide |
+
+---
+
 ## 🎯 Access Your Documentation
 
 **For Sprint 1 Issues & Phases**: `collaborate/sprint/1/execution/`  
 **For Project Overview**: Project root (README.md, PROJECT_STRUCTURE.md)  
 **For Team Processes**: Root (GOVERNANCE.md, SPRINT_1_KICKOFF.md)  
-**For Completed Work**: `collaborate/archive/`
+**For Completed Work**: `collaborate/archive/`  
+**For Agent Coordination**: [NO_EXTRA_DOCUMENTATION_RULE.md](./NO_EXTRA_DOCUMENTATION_RULE.md) + [TEAM_ASSISTANT_CONTEXT_SWITCHING.md](./TEAM_ASSISTANT_CONTEXT_SWITCHING.md)
 
 ---
 

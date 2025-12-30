@@ -1186,7 +1186,235 @@ Issue automatically closes (if PR references it).
 
 ---
 
-## 📝 AI Agent Feedback Documentation
+## � Agent Collaboration: Mailbox System (NEW - Effective Dec 30, 2025)
+
+### Overview
+
+Agents collaborate via a **centralized mailbox system** in `B2Connect/collaborate/{issue-id}/` folders. This replaces scattered GitHub comments and enables:
+- ✅ Centralized message tracking (in Git history)
+- ✅ Clear sender/receiver (mailbox = inbox/outbox)
+- ✅ Deletion workflow (cleanup after processing)
+- ✅ Auditability (all messages in collaborate/)
+- ✅ Scalability (supports 20+ agents easily)
+
+**Authority**: Governed by `B2Connect/collaborate/COLLABORATION_MAILBOX_SYSTEM.md` (maintained by @process-assistant)
+
+### How It Works
+
+**Step 1: Understand Agent Folder Structure**
+```
+B2Connect/collaborate/issue/{issue-id}/
+├── COORDINATION_SUMMARY.md (maintained by @team-assistant)
+├── @agent-1/
+│   ├── {YYYY-MM-DD}-from-{sender}-{type}.md (requests TO this agent)
+│   └── {agent-name}-response-{YYYY-MM-DD}-{type}.md (responses FROM this agent)
+└── @agent-2/
+    ├── {YYYY-MM-DD}-from-{sender}-{type}.md
+    └── {agent-name}-response-{YYYY-MM-DD}-{type}.md
+
+**All files are flat within each agent folder - NO INBOX/OUTBOX subfolders**
+```
+
+**Step 2: Post Request to Recipient's Agent Folder**
+```
+File Path: B2Connect/collaborate/issue/{issue-id}/@recipient-agent/
+File Name: {YYYY-MM-DD}-from-{sender}-{request-type}.md
+
+Example:
+2025-12-30-from-product-owner-ux-research-request.md
+
+Action: Create file directly in recipient's @agent/ folder (no subfolders)
+```
+
+**Step 3: Recipient Responds in Their Own Agent Folder**
+```
+File Path: B2Connect/collaborate/issue/{issue-id}/@your-agent/
+File Name: {agent-name}-response-{YYYY-MM-DD}-{response-type}.md
+
+Example:
+ux-expert-response-2025-12-31-ux-research-findings.md
+
+Action: Create response file in YOUR OWN @agent/ folder (same location as received requests)
+```
+
+**Step 4: Delete Request After Responding**
+```
+After posting response: Delete the original request file from your @agent/ folder
+
+Example: Delete 2025-12-30-from-product-owner-ux-research-request.md
+         after creating: ux-expert-response-2025-12-31-ux-research-findings.md
+
+This marks the request as "processed" (git history preserved)
+```
+
+**Step 5: @team-assistant Maintains Coordination Summary**
+```
+File: B2Connect/collaborate/issue/{issue-id}/COORDINATION_SUMMARY.md
+Updated daily to show:
+- Which agents have pending request messages in their folders
+- Which agents have posted responses
+- Timeline and deadlines
+- Escalations needed
+```
+
+### Message Format Requirements
+
+**Request Message Template** (posted to recipient's @agent/ folder):
+```markdown
+# [Request Type] Request from @{sender}
+
+**Issue**: #{issue-number}  
+**From**: @{sender}  
+**To**: @{recipient}  
+**Due**: YYYY-MM-DD EOD  
+**Status**: ⏳ Pending Response  
+
+## What I Need
+
+[Clear description of what you're requesting]
+
+## Acceptance Criteria
+
+- [ ] Criterion 1 (specific, measurable)
+- [ ] Criterion 2 (specific, measurable)
+- [ ] Criterion 3 (specific, measurable)
+
+## Deliverable Format
+
+[Expected format of response - markdown structure, diagrams, code, etc.]
+
+## Timeline
+
+- **Due**: YYYY-MM-DD EOD
+- **Usage**: Will be used to inform Phase X
+- **Next Step**: [What happens after you respond]
+
+## Questions?
+
+If unclear, comment on GitHub Issue #X mentioning @team-assistant
+
+---
+**Posted to**: B2Connect/collaborate/issue/{issue-id}/@{recipient}/
+**Delete after**: Responding (marks request processed)
+**System**: See B2Connect/collaborate/COLLABORATION_MAILBOX_SYSTEM.md
+```
+
+**Response Message Template** (posted to YOUR OWN @agent/ folder):
+```markdown
+# [Response Type] Response to @{requester}
+
+**Issue**: #{issue-number}  
+**From**: @{my-agent}  
+**To**: @{requester}  
+**Fulfills**: [Date of original request]  
+**Status**: ✅ Complete  
+
+## Summary
+
+[Brief overview of findings/response]
+
+## Main Findings / Deliverables
+
+[Detailed content addressing acceptance criteria]
+
+### Finding 1
+[Details]
+
+### Finding 2
+[Details]
+
+## Files Included
+
+- File 1: [What it is]
+- File 2: [What it is]
+
+## Next Steps
+
+[Recommendations for how requester should use this response]
+
+---
+**Posted to**: B2Connect/collaborate/issue/{issue-id}/@{your-agent}/
+**Original Request Deleted**: [YYYY-MM-DD] (marks as processed)
+**System**: See B2Connect/collaborate/COLLABORATION_MAILBOX_SYSTEM.md
+```
+
+### @team-assistant Coordination Role
+
+As @team-assistant, your daily responsibilities:
+
+**Daily (5-minute check)**:
+1. [ ] Review all agent folders (`@agent-1/`, `@agent-2/`, etc.) in issue folder for pending requests
+2. [ ] Check for new response files
+3. [ ] Update COORDINATION_SUMMARY.md with status
+4. [ ] Note any requests unanswered > 24 hours
+
+**Weekly (Friday)**:
+1. [ ] Consolidate all responses for the week
+2. [ ] Identify any blockers or escalations
+3. [ ] Archive issue folder to lessons-learned/ if issue complete
+4. [ ] Prepare handoff document for next sprint
+
+**On Escalation** (if request unanswered > 48 hours):
+1. [ ] Post GitHub comment: "@tech-lead - @agent-xxx has overdue request in collaborate/issue/{issue-id}/@agent-xxx/"
+2. [ ] Flag in COORDINATION_SUMMARY.md as ⚠️ ESCALATED
+3. [ ] Notify @tech-lead directly
+
+**Example Daily Update** (COORDINATION_SUMMARY.md):
+```
+| Agent | Pending Requests | Responses Posted | Status | Due |
+|-------|---------|---------|--------|-----|
+| @ui-expert | 2 | 0 | 🔄 In Progress | Dec 31 |
+| @ux-expert | 1 | 0 | 🔄 In Progress | Dec 31 |
+| @frontend-dev | 0 | 0 | ⏳ Waiting | (pending specs) |
+
+Last Check: 2025-12-30 14:00 UTC
+Next Check: 2025-12-31 09:00 UTC
+```
+
+### Advantages Over GitHub Comments
+
+| Aspect | GitHub Comments | Mailbox System |
+|--------|-----------------|----------------|
+| **Discoverability** | Scattered in issue | Centralized in `/collaborate/` |
+| **Tracking** | Hard to track read/unread | Clear INBOX/OUTBOX/PROCESSED |
+| **History** | Lost in comment thread | Preserved in Git |
+| **Cleanup** | No cleanup, clutters issue | Delete when processed |
+| **Scalability** | 100+ comments = chaos | 1000+ messages = organized |
+| **Cross-reference** | Link to comment # | Link to file path |
+| **Auditability** | Harder to audit | Full git history |
+
+### Real-World Example: Issue #56
+
+**Setup** (Dec 30):
+```
+Issue #56: Store Frontend UI/UX Modernization
+
+Correct Mailbox Structure:
+B2Connect/collaborate/issue/56/
+├── COORDINATION_SUMMARY.md (updated daily)
+├── @ui-expert/
+│   ├── 2025-12-30-from-product-owner-template-analysis-request.md
+│   └── ui-expert-response-2025-12-31-template-analysis.md (when created)
+└── @ux-expert/
+    ├── 2025-12-30-from-product-owner-ux-research-request.md
+    └── ux-expert-response-2025-12-31-ux-research.md (when created)
+```
+
+**Workflow**:
+1. **Dec 30**: @product-owner creates requests in agent folders:
+   - `collaborate/issue/56/@ui-expert/2025-12-30-from-product-owner-template-analysis-request.md`
+   - `collaborate/issue/56/@ux-expert/2025-12-30-from-product-owner-ux-research-request.md`
+2. **Dec 30**: @team-assistant updates COORDINATION_SUMMARY.md and notifies agents
+3. **Dec 31**: @ui-expert creates response: `ui-expert-response-2025-12-31-template-analysis.md` in their @ui-expert/ folder
+4. **Dec 31**: @ux-expert creates response: `ux-expert-response-2025-12-31-ux-research.md` in their @ux-expert/ folder
+5. **Dec 31**: Both agents delete their request files (marks processed)
+6. **Jan 1**: @product-owner reviews responses in agent folders
+7. **Jan 1**: @team-assistant consolidates findings and archives issue folder
+8. **Jan 2**: Next phase begins with consolidated specifications
+
+---
+
+## �📝 AI Agent Feedback Documentation
 
 ### Purpose
 
