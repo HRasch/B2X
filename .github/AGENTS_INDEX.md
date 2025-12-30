@@ -21,6 +21,7 @@
 | **Product Owner** | product-owner | Roadmap, prioritization, compliance | [→](./copilot-instructions-product-owner.md) |
 | **Software Architect** | software-architect | System design, ADRs, governance | [→](./copilot-instructions-software-architect.md) |
 | **Scrum Master** | scrum-master | Coordination, processes, conflict resolution | [→](./copilot-instructions-scrum-master.md) |
+| **🔐 Process Assistant** | **process-assistant** | **Workflow definitions, agent instructions, governance** | **[→](./agents/process-assistant.agent.md)** |
 
 ---
 
@@ -29,6 +30,7 @@
 | Role | Agent | Focus |
 |---|---|---|
 | **QA Reviewer** | qa-reviewer | Project structure, documentation quality, code quality, code-smells, architectural consistency, maintenance, bloat prevention |
+| **Process Assistant** | **process-assistant** | **🔐 EXCLUSIVE: Workflow definitions, agent instructions, governance** |
 | **Scrum-Master** | scrum-master | Team coordination, retrospectives, process optimization |
 
 ---
@@ -173,17 +175,19 @@ SEO Specialist (Organic Growth)
 | ux-expert | 1.0 | ✅ Ready | 29. Dez |
 | ai-specialist | 1.0 | ✅ Ready | 29. Dez |
 | process-controller | 1.0 | ✅ Ready | 29. Dez |
+| **process-assistant** | **1.0** | **✅ Ready** | **29. Dez** |
 
 ---
 
 ## 📈 Agent Coverage Summary
 
-**Total Agents**: 30  
-**Active**: 30/30 (100%)  
-**New This Session**: 6 (UI Expert, UX Expert, AI Specialist, Process Controller, QA Reviewer, SEO Specialist)  
+**Total Agents**: 31  
+**Active**: 31/31 (100%)  
+**New This Session**: 7 (UI Expert, UX Expert, AI Specialist, Process Controller, QA Reviewer, SEO Specialist, **Process Assistant**)  
 **Bilingual Support**: documentation-enduser (EN+DE), documentation-developer (EN+DE)  
-**Leadership**: Tech-Lead, Product-Owner, Scrum-Master, Software-Architect  
+**Leadership**: Tech-Lead, Product-Owner, Scrum-Master, Software-Architect, **Process-Assistant**  
 **Quality Assurance**: QA-Engineer, QA-Reviewer, QA-Frontend, QA-Performance, QA-Pentesting  
+**Governance**: **Process-Assistant** (EXCLUSIVE workflow authority)  
 **Specialists**: UI-Expert, UX-Expert, AI-Specialist, Process-Controller, QA-Reviewer, SEO-Specialist (stakeholder)
 | stakeholder-reseller | 1.0 | ✅ Ready | 28. Dez |
 | support-triage | 1.0 | ✅ Ready | 28. Dez |

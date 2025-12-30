@@ -261,7 +261,7 @@
 - Team velocity stable or improving
 - All agents aligned on decisions
 
-**Special Authority**: Can update copilot-instructions.md when majority agrees on process improvements
+**Authority Note**: Process improvements are documented and submitted to @process-assistant for review. Only @process-assistant has authority to update instructions and workflows (see [GOVERNANCE_RULES.md](./docs/processes/GOVERNANCE/GOVERNANCE_RULES.md))
 
 ---
 
