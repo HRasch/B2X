@@ -318,7 +318,7 @@ No manual service-to-service calls needed.
 ```
 ┌──────────────────────────────────────────────────────────┐
 │              ASPIRE ORCHESTRATION                        │
-│  (dotnet run --project backend/Orchestration)            │
+│  (dotnet run --project AppHost/B2Connect.AppHost.csproj)            │
 │                                                          │
 │  Dashboard: http://localhost:15500                       │
 │  ├─ Shows all running services                          │

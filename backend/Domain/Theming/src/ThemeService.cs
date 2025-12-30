@@ -33,7 +33,7 @@ public class ThemeService : IThemeService
         {
             Id = Guid.NewGuid(),
             TenantId = tenantId,
-            Name = request.Name,
+            Name = request.Name ?? string.Empty,
             Description = request.Description,
             PrimaryColor = request.PrimaryColor,
             SecondaryColor = request.SecondaryColor,
@@ -74,21 +74,26 @@ public class ThemeService : IThemeService
         var theme = await _repository.GetThemeByIdAsync(tenantId, themeId)
             ?? throw new KeyNotFoundException($"Theme '{themeId}' not found");
 
-        // Update fields if provided
-        if (!string.IsNullOrWhiteSpace(request?.Name))
-            theme.Name = request.Name;
+        // Update fields if provided (use locals to help the compiler infer non-null values)
+        var reqName = request?.Name;
+        if (!string.IsNullOrWhiteSpace(reqName))
+            theme.Name = reqName;
 
-        if (!string.IsNullOrWhiteSpace(request?.Description))
-            theme.Description = request.Description;
+        var reqDescription = request?.Description;
+        if (!string.IsNullOrWhiteSpace(reqDescription))
+            theme.Description = reqDescription;
 
-        if (!string.IsNullOrWhiteSpace(request?.PrimaryColor))
-            theme.PrimaryColor = request.PrimaryColor;
+        var reqPrimary = request?.PrimaryColor;
+        if (!string.IsNullOrWhiteSpace(reqPrimary))
+            theme.PrimaryColor = reqPrimary;
 
-        if (!string.IsNullOrWhiteSpace(request?.SecondaryColor))
-            theme.SecondaryColor = request.SecondaryColor;
+        var reqSecondary = request?.SecondaryColor;
+        if (!string.IsNullOrWhiteSpace(reqSecondary))
+            theme.SecondaryColor = reqSecondary;
 
-        if (!string.IsNullOrWhiteSpace(request?.TertiaryColor))
-            theme.TertiaryColor = request.TertiaryColor;
+        var reqTertiary = request?.TertiaryColor;
+        if (!string.IsNullOrWhiteSpace(reqTertiary))
+            theme.TertiaryColor = reqTertiary;
 
         // Increment version
         theme.Version++;
@@ -120,10 +125,10 @@ public class ThemeService : IThemeService
         {
             Id = Guid.NewGuid(),
             ThemeId = themeId,
-            Name = request.Name,
-            Value = request.Value,
-            Category = request.Category,
-            Description = request.Description,
+            Name = request.Name ?? string.Empty,
+            Value = request.Value ?? string.Empty,
+            Category = request.Category ?? string.Empty,
+            Description = request.Description ?? string.Empty,
             Type = request.Type,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
@@ -139,15 +144,18 @@ public class ThemeService : IThemeService
         var variable = variables.FirstOrDefault(v => v.Id == variableId)
             ?? throw new KeyNotFoundException($"Variable '{variableId}' not found");
 
-        // Update fields if provided
-        if (!string.IsNullOrWhiteSpace(request?.Value))
-            variable.Value = request.Value;
+        // Update fields if provided (use locals to ensure non-null values)
+        var reqValue = request?.Value;
+        if (!string.IsNullOrWhiteSpace(reqValue))
+            variable.Value = reqValue;
 
-        if (!string.IsNullOrWhiteSpace(request?.Category))
-            variable.Category = request.Category;
+        var reqCategory = request?.Category;
+        if (!string.IsNullOrWhiteSpace(reqCategory))
+            variable.Category = reqCategory;
 
-        if (!string.IsNullOrWhiteSpace(request?.Description))
-            variable.Description = request.Description;
+        var reqDescriptionVar = request?.Description;
+        if (!string.IsNullOrWhiteSpace(reqDescriptionVar))
+            variable.Description = reqDescriptionVar;
 
         variable.Type = request?.Type ?? variable.Type;
         variable.UpdatedAt = DateTime.UtcNow;
@@ -180,8 +188,8 @@ public class ThemeService : IThemeService
         {
             Id = Guid.NewGuid(),
             ThemeId = themeId,
-            Name = request.Name,
-            Description = request.Description,
+            Name = request.Name ?? string.Empty,
+            Description = request.Description ?? string.Empty,
             VariableOverrides = request.VariableOverrides ?? new Dictionary<string, string>(),
             IsEnabled = true,
             CreatedAt = DateTime.UtcNow
@@ -203,11 +211,13 @@ public class ThemeService : IThemeService
             ?? throw new KeyNotFoundException($"Variant '{variantId}' not found");
 
         // Update fields if provided
-        if (!string.IsNullOrWhiteSpace(request?.Name))
-            variant.Name = request.Name;
+        var reqVarName = request?.Name;
+        if (!string.IsNullOrWhiteSpace(reqVarName))
+            variant.Name = reqVarName;
 
-        if (!string.IsNullOrWhiteSpace(request?.Description))
-            variant.Description = request.Description;
+        var reqVarDescription = request?.Description;
+        if (!string.IsNullOrWhiteSpace(reqVarDescription))
+            variant.Description = reqVarDescription;
 
         if (request?.VariableOverrides != null)
             variant.VariableOverrides = request.VariableOverrides;

@@ -101,7 +101,7 @@ Acceptance:
 
 ```bash
 # Start Aspire orchestration
-cd backend/Orchestration && dotnet run
+cd AppHost && dotnet run
 
 # Kill stuck services
 ./scripts/kill-all-services.sh

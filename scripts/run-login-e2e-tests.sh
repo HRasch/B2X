@@ -8,7 +8,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FRONTEND_DIR="${SCRIPT_DIR}/../frontend/Admin"
-BACKEND_DIR="${SCRIPT_DIR}/../backend/Orchestration"
+BACKEND_DIR="${SCRIPT_DIR}/../AppHost"
 
 echo "🚀 B2Connect Admin Frontend - Login E2E Tests"
 echo "=============================================="
@@ -49,7 +49,7 @@ fi
 
 if ! check_service "Admin Gateway" "http://localhost:8080/health"; then
     SERVICES_OK=false
-    echo -e "${YELLOW}→ Starte Backend mit: cd backend/Orchestration && dotnet run${NC}"
+    echo -e "${YELLOW}→ Starte Backend mit: cd AppHost && dotnet run${NC}"
 fi
 
 if ! check_service "Identity Service" "http://localhost:7002/health"; then
@@ -62,7 +62,7 @@ if [ "$SERVICES_OK" = false ]; then
     echo -e "${RED}❌ Nicht alle Services laufen!${NC}"
     echo ""
     echo "Starte die Services mit:"
-    echo "  1. Backend:  cd backend/Orchestration && dotnet run"
+    echo "  1. Backend:  cd AppHost && dotnet run"
     echo "  2. Frontend: cd frontend/Admin && npm run dev"
     echo ""
     exit 1

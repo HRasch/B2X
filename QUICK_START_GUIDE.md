@@ -55,7 +55,7 @@ B2Connect/
 ```bash
 dotnet build B2Connect.slnx
 dotnet test B2Connect.slnx -v minimal
-cd backend/Orchestration && dotnet run  # Dashboard: http://localhost:15500
+cd AppHost && dotnet run  # Dashboard: http://localhost:15500
 ```
 
 ### **Frontend**

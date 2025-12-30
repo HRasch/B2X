@@ -345,7 +345,7 @@ public class ReturnValidationResult
     public int DaysRemaining { get; set; }
     public DateTime DeliveryDate { get; set; }
     public DateTime WithdrawalDeadline { get; set; }
-    public string ErrorMessage { get; set; }
+    public string? ErrorMessage { get; set; }
 }
 
 // Repository interfaces (implementation in Infrastructure layer)

@@ -124,7 +124,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 
 ```bash
 # 1. Backend muss laufen (Aspire Orchestration)
-cd /Users/holger/Documents/Projekte/B2Connect/backend/Orchestration
+cd /Users/holger/Documents/Projekte/B2Connect/AppHost
 dotnet run
 
 # 2. Admin Frontend muss laufen

@@ -14,12 +14,12 @@ public class Order
     public Guid UserId { get; set; }
 
     // Order Reference
-    public string OrderNumber { get; set; } // e.g., "ORD-2025-001234"
+    public string? OrderNumber { get; set; } // e.g., "ORD-2025-001234"
     public DateTime CreatedAt { get; set; }
     public DateTime? DeliveredAt { get; set; }
 
     // Order Status
-    public string Status { get; set; } // "Pending", "Processing", "Shipped", "Delivered", "Cancelled"
+    public string? Status { get; set; } // "Pending", "Processing", "Shipped", "Delivered", "Cancelled"
 
     // Order Items
     public List<OrderItem> Items { get; set; } = new();
@@ -31,18 +31,18 @@ public class Order
     public decimal TotalPrice { get; set; }
 
     // Customer Info (encrypted)
-    public string CustomerNameEncrypted { get; set; }
-    public string CustomerEmailEncrypted { get; set; }
-    public string BillingAddressEncrypted { get; set; }
-    public string ShippingAddressEncrypted { get; set; }
+    public string? CustomerNameEncrypted { get; set; }
+    public string? CustomerEmailEncrypted { get; set; }
+    public string? BillingAddressEncrypted { get; set; }
+    public string? ShippingAddressEncrypted { get; set; }
 
     // Country for Tax Purposes
-    public string ShippingCountry { get; set; }
-    public string BillingCountry { get; set; }
+    public string? ShippingCountry { get; set; }
+    public string? BillingCountry { get; set; }
 
     // B2B specific
     public bool IsB2b { get; set; }
-    public string VatIdValidated { get; set; } // Only if valid for B2B
+    public string? VatIdValidated { get; set; } // Only if valid for B2B
     public bool ReverseChargeApplied { get; set; }
 
     // Soft Delete
@@ -88,8 +88,8 @@ public class OrderItem
     public Guid ProductId { get; set; }
 
     // Product Details (snapshot at time of order)
-    public string ProductSku { get; set; }
-    public string ProductName { get; set; }
+    public string? ProductSku { get; set; }
+    public string? ProductName { get; set; }
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
     public decimal TaxRate { get; set; }

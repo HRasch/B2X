@@ -157,7 +157,7 @@ command 3           # Purpose
 ```bash
 dotnet build B2Connect.slnx                     # Build everything
 dotnet test backend/Domain/[Service]/tests      # Test specific service
-cd backend/Orchestration && dotnet run          # Start all services
+cd AppHost && dotnet run          # Start all services
 dotnet ef migrations add [Name]                 # Create migration
 ```
 ---
@@ -634,7 +634,7 @@ Build business logic in Wolverine microservices using DDD patterns. You ensure:
 ```bash
 dotnet build B2Connect.slnx                    # Build immediately after code
 dotnet test backend/Domain/[Service]/tests     # Test after changes
-cd backend/Orchestration && dotnet run         # Start all services
+cd AppHost && dotnet run         # Start all services
 ```
 
 ---

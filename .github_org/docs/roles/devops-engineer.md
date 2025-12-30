@@ -11,7 +11,7 @@
 ### Day 1-2: Project Structure
 ```bash
 # Aspire entry point
-backend/Orchestration/B2Connect.Orchestration.csproj
+AppHost/B2Connect.AppHost.csproj
 
 # Services to orchestrate
 backend/Domain/Identity/src/B2Connect.Identity.csproj
@@ -27,7 +27,7 @@ Elasticsearch (9200) via Docker
 
 ### Day 3: Start Aspire
 ```bash
-cd backend/Orchestration
+cd AppHost
 dotnet run
 
 # Dashboard at: http://localhost:15500
@@ -166,10 +166,10 @@ var secret = await client.GetSecretAsync("Encryption--Key");
 
 ```bash
 # Build Aspire
-dotnet build backend/Orchestration/B2Connect.Orchestration.csproj
+dotnet build AppHost/B2Connect.AppHost.csproj
 
 # Start Aspire with dashboard
-cd backend/Orchestration && dotnet run
+cd AppHost && dotnet run
 
 # Kill stuck services (macOS/Linux)
 ./scripts/kill-all-services.sh
@@ -205,7 +205,7 @@ dotnet test backend/Domain/[Service]/tests/ -v minimal
 ## 🎯 First Task: Get Aspire Running
 
 **Phase 1: Setup** (1 hour)
-1. Navigate to `backend/Orchestration`
+1. Navigate to `AppHost`
 2. Run `dotnet run`
 3. Open `http://localhost:15500`
 4. Verify all services appear in dashboard

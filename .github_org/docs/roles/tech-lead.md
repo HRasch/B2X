@@ -126,7 +126,7 @@ dotnet analyze                            # Static analysis
 dotnet format --verify-no-changes        # Check formatting
 
 # Start services
-cd backend/Orchestration && dotnet run   # Start Aspire (localhost:15500)
+cd AppHost && dotnet run   # Start Aspire (localhost:15500)
 ./scripts/kill-all-services.sh           # Kill stuck processes
 ./scripts/check-ports.sh                 # Verify ports available
 

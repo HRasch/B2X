@@ -116,12 +116,26 @@ public class InvoiceService : IInvoiceService
 
     public async Task<Invoice> GetInvoiceByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
     {
-        return await _invoiceRepository.GetByOrderIdAsync(orderId, cancellationToken);
+        var invoice = await _invoiceRepository.GetByOrderIdAsync(orderId, cancellationToken);
+        if (invoice == null)
+        {
+            _logger.LogWarning("Invoice for order {OrderId} not found", orderId);
+            throw new InvalidOperationException($"Invoice for order {orderId} not found");
+        }
+
+        return invoice;
     }
 
     public async Task<Invoice> GetInvoiceByNumberAsync(string invoiceNumber, CancellationToken cancellationToken = default)
     {
-        return await _invoiceRepository.GetByInvoiceNumberAsync(invoiceNumber, cancellationToken);
+        var invoice = await _invoiceRepository.GetByInvoiceNumberAsync(invoiceNumber, cancellationToken);
+        if (invoice == null)
+        {
+            _logger.LogWarning("Invoice with number {InvoiceNumber} not found", invoiceNumber);
+            throw new InvalidOperationException($"Invoice with number {invoiceNumber} not found");
+        }
+
+        return invoice;
     }
 
     public async Task<Invoice> ApplyReverseChargeAsync(Guid invoiceId, string buyerVatId, string buyerCountry, CancellationToken cancellationToken = default)

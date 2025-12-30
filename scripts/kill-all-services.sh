@@ -188,5 +188,5 @@ for i in "${!SERVICE_PORTS[@]}"; do
 done
 echo ""
 echo "🚀 Bereit zum Starten:"
-echo "   cd backend/Orchestration && dotnet run"
+echo "   cd AppHost && dotnet run"
 echo "════════════════════════════════════════"

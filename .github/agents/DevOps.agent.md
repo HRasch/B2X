@@ -107,7 +107,7 @@ Elasticsearch ............... 9200
 ```bash
 ./scripts/kill-all-services.sh              # Kill stuck processes
 ./scripts/check-ports.sh                    # Verify ports available
-cd backend/Orchestration && dotnet run      # Start Aspire + services
+cd AppHost && dotnet run      # Start Aspire + services
 lsof -i :15500                              # Check port usage
 ```
 
@@ -118,7 +118,7 @@ lsof -i :15500                              # Check port usage
 pkill -9 -f "dcpctrl"
 pkill -9 -f "dcpproc"
 sleep 2
-cd backend/Orchestration && dotnet run
+cd AppHost && dotnet run
 ```
 
 ## 🛑 Common Mistakes

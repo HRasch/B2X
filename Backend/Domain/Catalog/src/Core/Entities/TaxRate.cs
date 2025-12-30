@@ -7,8 +7,8 @@ namespace B2Connect.Catalog.Core.Entities;
 public class TaxRate
 {
     public Guid Id { get; set; }
-    public string CountryCode { get; set; } // "DE", "AT", "FR", etc.
-    public string CountryName { get; set; }
+    public string CountryCode { get; set; } = null!; // "DE", "AT", "FR", etc.
+    public string CountryName { get; set; } = null!;
     public decimal StandardVatRate { get; set; } // 19.00 for Germany
     public decimal? ReducedVatRate { get; set; } // Optional: 7.00 for Germany
     public DateTime EffectiveDate { get; set; }

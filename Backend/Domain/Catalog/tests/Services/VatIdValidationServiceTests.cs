@@ -105,11 +105,11 @@ public class VatIdValidationServiceTests
         // Assert
         Assert.NotNull(actual);
         Assert.True(actual.IsValid);
-        
+
         // Verify VIES API was called
         _mockViesClient.Verify(v => v.ValidateVatIdAsync("FR", "123456789", It.IsAny<CancellationToken>()),
             Times.Once);
-        
+
         // Verify result was cached
         Assert.True(mockCache.ContainsKey("vat:FR:123456789"));
     }
@@ -141,7 +141,7 @@ public class VatIdValidationServiceTests
         Assert.NotNull(actual);
         Assert.True(actual.IsValid);
         Assert.Equal("Test AG", actual.CompanyName);
-        
+
         // Verify VIES API was NOT called (cache hit)
         _mockViesClient.Verify(v => v.ValidateVatIdAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()),
             Times.Never);
@@ -228,7 +228,7 @@ public class VatIdValidationServiceTests
 
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(
-            () => service.ValidateVatIdAsync(null, "123456789", CancellationToken.None));
+            () => service.ValidateVatIdAsync(string.Empty, "123456789", CancellationToken.None));
     }
 
     [Fact]

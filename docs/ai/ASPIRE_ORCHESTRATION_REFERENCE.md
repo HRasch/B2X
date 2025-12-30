@@ -10,7 +10,7 @@
 
 ```bash
 # Start Aspire Orchestration
-cd backend/Orchestration
+cd AppHost
 ASPNETCORE_ENVIRONMENT=Development dotnet run
 
 # Aspire Dashboard opens at http://localhost:15500
@@ -46,10 +46,9 @@ All services available instantly:
 ## Project Structure
 
 ```
-backend/
-├── Orchestration/
-│   └── B2Connect.Orchestration.csproj    ← START HERE
-│       └── Program.cs                     ← Service definitions
+AppHost/
+├── B2Connect.AppHost.csproj    ← START HERE
+└── Program.cs                     ← Service definitions
 │
 ├── Domain/                               ← DDD Bounded Contexts
 │   ├── Catalog/
@@ -87,7 +86,7 @@ backend/
 
 ## Program.cs: Aspire Configuration
 
-**File**: `backend/Orchestration/Program.cs`
+**File**: `AppHost/Program.cs`
 
 ```csharp
 using Aspire.Hosting;
@@ -335,7 +334,7 @@ public static class Extensions
 ### Development (Aspire In-Memory)
 
 ```bash
-# backend/Orchestration/.env.local
+# AppHost/.env.local
 ASPNETCORE_ENVIRONMENT=Development
 Database__Provider=inmemory
 DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
@@ -345,7 +344,7 @@ ASPIRE_ALLOW_UNSECURED_TRANSPORT=true
 ### Production (Real Services)
 
 ```bash
-# backend/Orchestration/.env.production
+# AppHost/.env.production
 ASPNETCORE_ENVIRONMENT=Production
 Database__Provider=postgresql
 Database__ConnectionString=Server=prod-postgres;...
@@ -513,7 +512,7 @@ builder
 
 ```bash
 # Start only Orchestration (all services)
-cd backend/Orchestration
+cd AppHost
 dotnet run
 
 # In VS Code, F5 and select "Orchestration"
@@ -564,7 +563,7 @@ curl http://localhost:15500
 sudo ufw allow 15500
 
 # Restart Aspire
-cd backend/Orchestration
+cd AppHost
 dotnet run
 ```
 

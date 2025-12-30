@@ -108,7 +108,7 @@ public class CreateProductService {
 ```bash
 dotnet build B2Connect.slnx                    # Build
 dotnet test backend/Domain/[Service]/tests     # Test specific service
-cd backend/Orchestration && dotnet run         # Start all services
+cd AppHost && dotnet run         # Start all services
 dotnet ef migrations add [Name] --project backend/Domain/[Service]/src  # Migration
 ```
 

@@ -35,7 +35,7 @@ Complete the Backend Developer Quick-Start Guide to onboard new backend engineer
 - [ ] Day 5: Run `dotnet build B2Connect.slnx` successfully (no warnings)
 
 ## Week 2: Local Development & API Setup
-- [ ] Day 1: Start Aspire: `cd backend/Orchestration && dotnet run`
+- [ ] Day 1: Start Aspire: `cd AppHost && dotnet run`
 - [ ] Day 2: Verify all services healthy (check http://localhost:15500)
 - [ ] Day 3: Implement first Wolverine HTTP endpoint
 - [ ] Day 4: Write unit tests for endpoint (80%+ coverage)
@@ -296,7 +296,7 @@ This role is responsible for implementing and verifying:
 - [ ] Day 5: Review CI/CD requirements
 
 ## Week 3: Local Development & First Task
-- [ ] Day 1: Start Aspire: `cd backend/Orchestration && dotnet run`
+- [ ] Day 1: Start Aspire: `cd AppHost && dotnet run`
 - [ ] Day 2: Access Aspire Dashboard (http://localhost:15500)
 - [ ] Day 3: Verify all services healthy (Identity, Catalog, CMS, etc.)
 - [ ] Day 4: Verify databases (PostgreSQL, Redis, Elasticsearch)

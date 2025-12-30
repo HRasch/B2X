@@ -63,9 +63,9 @@ public interface IInvoiceRepository
 {
     Task<Invoice> AddAsync(Invoice invoice, CancellationToken cancellationToken = default);
     Task<Invoice> UpdateAsync(Invoice invoice, CancellationToken cancellationToken = default);
-    Task<Invoice> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    Task<Invoice> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default);
-    Task<Invoice> GetByInvoiceNumberAsync(string invoiceNumber, CancellationToken cancellationToken = default);
+    Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<Invoice?> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default);
+    Task<Invoice?> GetByInvoiceNumberAsync(string invoiceNumber, CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 }
 

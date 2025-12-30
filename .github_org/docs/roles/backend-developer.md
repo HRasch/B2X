@@ -146,7 +146,7 @@ dotnet test backend/Domain/Identity/tests/
 dotnet test B2Connect.slnx -v minimal
 
 # Start local (InMemory database)
-dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+dotnet run --project AppHost/B2Connect.AppHost.csproj
 
 # Database migration (if using PostgreSQL)
 dotnet ef migrations add [MigrationName] --project backend/Domain/[Service]/src

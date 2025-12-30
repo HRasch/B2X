@@ -40,7 +40,7 @@ public class PriceCalculationService
     {
         _logger.LogInformation(
             "Price calculation: {Price}€ for {Country}",
-            request.ProductPrice, request.DestinationCountry);
+            request.ProductPrice, request.DestinationCountry ?? "(none)");
 
         try
         {
@@ -59,8 +59,9 @@ public class PriceCalculationService
                 };
             }
 
-            // 2. Get VAT rate for destination country
-            var vatRate = await _taxService.GetVatRateAsync(request.DestinationCountry, cancellationToken);
+            // 2. Get VAT rate for destination country (use fallback if null)
+            var destination = request.DestinationCountry ?? "DE";
+            var vatRate = await _taxService.GetVatRateAsync(destination, cancellationToken);
 
             // 3. Calculate VAT amount
             var vatAmount = request.ProductPrice * (vatRate / 100);
@@ -78,7 +79,7 @@ public class PriceCalculationService
                     CurrencyCode: request.CurrencyCode ?? "EUR",
                     ShippingCost: request.ShippingCost ?? 0,
                     FinalTotal: Math.Round(totalWithVat + (request.ShippingCost ?? 0), 2),
-                    DestinationCountry: request.DestinationCountry
+                    DestinationCountry: destination
                 )
             };
 
@@ -90,7 +91,7 @@ public class PriceCalculationService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error calculating price for {Country}", request.DestinationCountry);
+            _logger.LogError(ex, "Error calculating price for {Country}", request.DestinationCountry ?? "(none)");
             return new PriceBreakdownResponse
             {
                 Success = false,
@@ -121,13 +122,13 @@ public class PriceCalculationService
 // Command/Query DTOs
 public record CalculatePriceCommand(
     decimal ProductPrice,
-    string DestinationCountry,
+    string? DestinationCountry,
     decimal? ShippingCost = null,
-    string CurrencyCode = "EUR");
+    string? CurrencyCode = "EUR");
 
 public record GetPriceBreakdownQuery(
     decimal ProductPrice,
-    string DestinationCountry,
+    string? DestinationCountry,
     decimal? ShippingCost = null);
 
 public record PriceBreakdown(
@@ -135,7 +136,7 @@ public record PriceBreakdown(
     decimal VatRate,
     decimal VatAmount,
     decimal TotalWithVat,
-    string CurrencyCode = "EUR",
+    string? CurrencyCode = "EUR",
     decimal ShippingCost = 0,
     decimal FinalTotal = 0,
     string DestinationCountry = "DE");

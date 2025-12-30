@@ -168,7 +168,7 @@ npm run dev:telemetry
 
 ### Viewing Traces
 
-1. Start Aspire: `cd backend/Orchestration && dotnet run`
+1. Start Aspire: `cd AppHost && dotnet run`
 2. Open Dashboard: http://localhost:15500
 3. Start admin with telemetry: `npm run dev:telemetry`
 4. Navigate Traces tab to see spans

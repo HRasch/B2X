@@ -459,7 +459,7 @@ curl -X PUT http://localhost:9200/catalog-products \
 
 1. **Starte Aspire Dashboard**
    ```bash
-   cd backend/Orchestration && dotnet run
+  cd AppHost && dotnet run
    ```
 
 2. **Überprüfe Elasticsearch Health**

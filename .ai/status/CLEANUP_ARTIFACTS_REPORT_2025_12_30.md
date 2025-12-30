@@ -111,7 +111,7 @@ npm run build
 npm run test
 
 # Or use AppHost
-cd backend/Orchestration
+cd AppHost
 dotnet run
 ```
 

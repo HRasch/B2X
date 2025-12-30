@@ -10,13 +10,13 @@ namespace B2Connect.CMS.Core.Domain.Pages
     /// </summary>
     public class PageDefinition : AggregateRoot
     {
-        public string TenantId { get; set; }
-        public string PageType { get; set; } // 'home', 'product-listing', 'about', etc.
-        public string PagePath { get; set; } // '/home', '/about-us', etc.
-        public string PageTitle { get; set; }
-        public string PageDescription { get; set; }
-        public string MetaKeywords { get; set; }
-        public string TemplateLayout { get; set; } // 'sidebar', 'full-width', 'three-column'
+        public string TenantId { get; set; } = null!;
+        public string PageType { get; set; } = null!; // 'home', 'product-listing', 'about', etc.
+        public string PagePath { get; set; } = null!; // '/home', '/about-us', etc.
+        public string PageTitle { get; set; } = null!;
+        public string PageDescription { get; set; } = null!;
+        public string MetaKeywords { get; set; } = null!;
+        public string TemplateLayout { get; set; } = null!; // 'sidebar', 'full-width', 'three-column'
         public List<PageRegion> Regions { get; set; } = new();
         public Dictionary<string, object> GlobalSettings { get; set; } = new();
         public bool IsPublished { get; set; }
@@ -84,8 +84,8 @@ namespace B2Connect.CMS.Core.Domain.Pages
     public class PageRegion
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string PageDefinitionId { get; set; }
-        public string Name { get; set; } // 'header', 'sidebar', 'main', 'footer'
+        public string PageDefinitionId { get; set; } = null!;
+        public string Name { get; set; } = null!; // 'header', 'sidebar', 'main', 'footer'
         public int Order { get; set; }
         public int MaxWidgets { get; set; } = -1; // -1 = unlimited
         public List<WidgetInstance> Widgets { get; set; } = new();
@@ -137,7 +137,7 @@ namespace B2Connect.CMS.Core.Domain.Pages
     public class WidgetInstance
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string WidgetTypeId { get; set; } // Reference to widget definition
+        public string WidgetTypeId { get; set; } = null!; // Reference to widget definition
         public int Order { get; set; }
         public Dictionary<string, object> Settings { get; set; } = new();
         public bool IsEnabled { get; set; } = true;
