@@ -5,6 +5,14 @@ using FluentValidation;
 
 public class CalculatePriceValidator : AbstractValidator<CalculatePriceCommand>
 {
+    private static readonly string[] ValidEuCountries = new[]
+    {
+        "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE",
+        "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV",
+        "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK",
+        "SI", "ES", "SE"
+    };
+
     public CalculatePriceValidator()
     {
         RuleFor(x => x.ProductPrice)
@@ -15,7 +23,9 @@ public class CalculatePriceValidator : AbstractValidator<CalculatePriceCommand>
             .NotEmpty()
             .WithMessage("Destination country is required")
             .Length(2)
-            .WithMessage("Country code must be 2 characters (e.g., DE, AT, FR)");
+            .WithMessage("Country code must be 2 characters (e.g., DE, AT, FR)")
+            .Must(x => ValidEuCountries.Contains(x.ToUpper()))
+            .WithMessage("Invalid country code. Must be a valid EU country (e.g., DE, AT, FR)");
 
         RuleFor(x => x.ShippingCost)
             .GreaterThanOrEqualTo(0)
