@@ -27,38 +27,32 @@
 
 ### Setup in 5 Minuten (mit VS Code & InMemory)
 
-**Option 1: Schnellstart ohne Terminal (Empfohlen!)**
-
-```
-1. Öffne das Projekt in VS Code
-2. Gehe zu: Debug (Strg+Shift+D)
-3. Wähle Dropdown: "Full Stack (Aspire + Frontend) - InMemory 🚀"
-4. Drücke F5
-5. Frontend öffnet sich automatisch auf http://localhost:5173
-6. Fertig! 🎉
-```
-
-**Option 2: Terminal-basierter Aufbau**
+**Backend (Aspire Orchestration):**
 
 ```bash
 # 1. Repository klonen
 git clone <your-repo>
 cd B2Connect
 
-# 2. Backend starten (AppHost orchestriert alle Services)
-cd backend/services/AppHost
-export Database__Provider=inmemory
-dotnet run
+# 2. Backend starten
+cd backend/Orchestration
+ASPNETCORE_ENVIRONMENT=Development dotnet run
 
-# 3. In einem neuen Terminal: Frontend starten
-cd frontend
-npm install
-npm run dev
+# Aspire Dashboard: http://localhost:15500
+```
 
-# 4. (Optional) Admin Frontend starten
-cd frontend-admin
+**Frontend (In neuen Terminals):**
+
+```bash
+# 3. Store Frontend
+cd Frontend/Store
 npm install
-npm run dev
+npm run dev  # http://localhost:5173
+
+# 4. Admin Frontend (optional, drittes Terminal)
+cd Frontend/Admin
+npm install
+npm run dev  # http://localhost:5174
 ```
 
 ### 💡 Über InMemory-Database
@@ -75,12 +69,11 @@ Alle Services verwenden automatisch eine In-Memory-Datenbank beim Development-St
 
 | Service | URL | Port |
 |---------|-----|------|
-| Auth Service | http://localhost:9002 | 9002 |
-| Tenant Service | http://localhost:9003 | 9003 |
-| Localization Service | http://localhost:9004 | 9004 |
-| API Gateway | http://localhost:15500 | 15500 |
-| Frontend | http://localhost:5173 | 5173 |
-| Admin Frontend | http://localhost:5174 | 5174 |
+| Aspire Dashboard | http://localhost:15500 | 15500 |
+| Store Gateway | http://localhost:6000 | 6000 |
+| Admin Gateway | http://localhost:6100 | 6100 |
+| Frontend (Store) | http://localhost:5173 | 5173 |
+| Frontend (Admin) | http://localhost:5174 | 5174 |
 
 ---
 
@@ -89,15 +82,20 @@ Alle Services verwenden automatisch eine In-Memory-Datenbank beim Development-St
 ```
 B2Connect/
 ├── backend/
-│   ├── services/
-│   │   ├── AppHost/                    # Aspire-Orchestration (Einstiegspunkt)
-│   │   ├── auth-service/               # Authentifizierung & Autorisierung
-│   │   ├── tenant-service/             # Mandantenverwaltung
-│   │   ├── api-gateway/                # API Gateway & Routing
-│   │   ├── shop-service/               # Shop-Kern (Produkte, Orders)
-│   │   ├── catalog-service/            # Produktkatalog-Management
-│   │   ├── order-service/              # Bestellverwaltung
-│   │   ├── payment-service/            # Zahlungsverarbeitung
+│   ├── BoundedContexts/                # DDD Bounded Contexts
+│   │   ├── Store/                      # 🛒 Public Storefront (Read-only APIs)
+│   │   │   ├── API/                    # Store Gateway (Port 6000)
+│   │   │   ├── Catalog/                # Produktkatalog
+│   │   │   ├── CMS/                    # Content Management
+│   │   │   ├── Theming/                # Design & Layouts
+│   │   │   ├── Localization/           # i18n
+│   │   │   └── Search/                 # Elasticsearch
+│   │   ├── Admin/                      # 🔐 Admin Operations (CRUD)
+│   │   │   └── API/                    # Admin Gateway (Port 6100)
+│   │   └── Shared/                     # 🔄 Cross-Context Services
+│   │       ├── Identity/               # Authentication & Users
+│   │       └── Tenancy/                # Multi-Tenancy
+│   ├── Orchestration/                  # ⚙️ Aspire Orchestration (Einstiegspunkt)
 │   │   ├── inventory-service/          # Bestandsverwaltung
 │   │   ├── procurement-gateway/        # Beschaffungsplattform-Integration
 │   │   ├── notification-service/       # Benachrichtigungen (E-Mail, SMS)

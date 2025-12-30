@@ -20,23 +20,27 @@ npm install --prefix frontend
 npm install --prefix frontend-admin
 ```
 
-### 2. Open in VS Code
+### 2. Start Backend (Aspire Orchestration)
 ```bash
-code .
+cd backend/Orchestration
+ASPNETCORE_ENVIRONMENT=Development dotnet run
 ```
 
-On first open, VS Code will prompt to:
-- ✅ Install recommended extensions
-- ✅ Open [.vscode/launch.json](.vscode/launch.json) for debug configs
+Aspire dashboard opens at http://localhost:15500
 
-### 3. Start Development (Press F5)
-Select: **"Full Stack (Aspire + Frontend) - InMemory 🚀"**
+### 3. Start Frontend (In New Terminal)
+```bash
+cd Frontend/Store
+npm install
+npm run dev
+```
 
-Services start at:
-- 🎨 **Frontend**: http://localhost:5173
-- 🔧 **Admin**: http://localhost:5174  
-- 📊 **Dashboard**: http://localhost:9000
-- 🛒 **API**: http://localhost:9001-9004
+Services available at:
+- 📊 **Aspire Dashboard**: http://localhost:15500
+- 🛒 **Store Gateway**: http://localhost:6000
+- 🔧 **Admin Gateway**: http://localhost:6100
+- 🎨 **Frontend Store**: http://localhost:5173
+- 🔐 **Frontend Admin**: http://localhost:5174
 
 ## 📚 Next Steps
 
@@ -46,8 +50,11 @@ Services start at:
 **Need to debug something?**
 → See [docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md)
 
-**Want to understand a specific feature?**
-→ Browse [docs/features/](docs/features/) for implementation docs
+**Want to understand architecture?**
+→ See [docs/ai/DDD_BOUNDED_CONTEXTS_REFERENCE.md](docs/ai/DDD_BOUNDED_CONTEXTS_REFERENCE.md)
+
+**Need Wolverine patterns?**
+→ See [docs/ai/WOLVERINE_PATTERN_REFERENCE.md](docs/ai/WOLVERINE_PATTERN_REFERENCE.md)
 
 **Running tests?**
 → See [docs/guides/TESTING_GUIDE.md](docs/guides/TESTING_GUIDE.md)

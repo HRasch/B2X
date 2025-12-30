@@ -67,13 +67,13 @@ See [Architecture Documentation](docs/architecture/) for details.
 ### Start Aspire (Recommended)
 
 ```bash
-cd backend/services/AppHost
-dotnet run
+cd backend/Orchestration
+ASPNETCORE_ENVIRONMENT=Development dotnet run
 
-# Services will be available at:
-# - Auth: http://localhost:9002/health
-# - Tenant: http://localhost:9003/health
-# - Localization: http://localhost:9004/health
+# Services orchestrated by Aspire:
+# - Store Gateway: http://localhost:6000
+# - Admin Gateway: http://localhost:6100
+# - Aspire Dashboard: http://localhost:15500
 ```
 
 ### Frontend Setup (In Another Terminal)
