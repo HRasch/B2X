@@ -198,6 +198,22 @@ Siehe [AGENT_COORDINATION.md](.ai/collaboration/AGENT_COORDINATION.md) für Deta
   ➡️ Next: @[Agent] für [Task]
   ```
 
+## Agent Fallback Procedure
+When an agent encounters an unexpected dependency, API mismatch, or other information gap, follow this procedure:
+
+- **1) Quick local check:** Search the workspace and `.ai/knowledgebase/` for the dependency or API notes. Confirm local package versions (`package.json`, `Directory.Packages.props`, `obj/project.assets.json`, etc.).
+- **2) Validate LLM knowledge:** If the dependency or API is not documented in `.ai/knowledgebase/` or the information seems outdated, escalate the investigation to `@SARAH` for external research.
+- **3) SARAH research step:** `@SARAH` performs targeted internet research (official docs, changelogs, release notes) and records findings in `.ai/knowledgebase/dependency-updates/{dependency-name}.md` including: current stable versions, relevant breaking changes, authoritative links, and a minimal repro or usage example.
+- **4) Update knowledgebase:** The researching agent commits the new/updated doc to `.ai/knowledgebase/` and adds a short summary to the issue or todo that triggered the investigation.
+- **5) Switch back & retry:** The original agent resumes the task, applying the updated guidance or code examples. If code changes are required, open a PR and mark the change with the dependency update note.
+- **6) Notify stakeholders:** If the change impacts security, license, or legal compliance, notify `@Security` and `@Legal` before merging.
+- **7) Record and learn:** Add a one-line lesson to `.ai/knowledgebase/lessons.md` so future agents can avoid the same gap.
+
+Rules and constraints:
+- Never hardcode credentials or secrets during research or repros; use environment variables or mocks.
+- Always reference authoritative sources (docs, changelogs) with URLs in the knowledgebase entry.
+- Keep the knowledgebase entry concise (summary + links + minimal example) so agents can quickly consume it.
+
 ## SARAH Authority
 SARAH hat exklusive Autorität über:
 - Agent Definitionen und Modifikationen

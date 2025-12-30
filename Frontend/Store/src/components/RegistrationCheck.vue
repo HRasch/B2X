@@ -1,264 +1,365 @@
 <template>
-  <div class="registration-check-container">
+  <div class="min-h-screen bg-base-100">
     <!-- Page Header -->
-    <div class="header-section">
-      <h1>Registrierungstyp Prüfen</h1>
-      <p class="subtitle">
-        Überprüfen Sie, ob Sie bereits als Bestandskunde registriert sind
-      </p>
+    <div class="bg-base-200 py-12">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold text-base-900 mb-2">
+          Registrierungstyp Prüfen
+        </h1>
+        <p class="text-lg text-base-content/70">
+          Überprüfen Sie, ob Sie bereits als Bestandskunde registriert sind
+        </p>
+      </div>
     </div>
 
-    <!-- Error Alert -->
-    <Transition name="fade">
-      <div v-if="error" class="alert alert-error" data-testid="error-message">
-        <span class="alert-icon">⚠️</span>
-        <div class="alert-content">
-          <h4>Fehler</h4>
-          <p>{{ error }}</p>
-        </div>
-        <button class="alert-close" @click="error = null">✕</button>
-      </div>
-    </Transition>
-
-    <!-- Success Alert -->
-    <Transition name="fade">
-      <div
-        v-if="successMessage"
-        class="alert alert-success"
-        data-testid="success-message"
-      >
-        <span class="alert-icon">✓</span>
-        <div class="alert-content">
-          <p>{{ successMessage }}</p>
-        </div>
-        <button class="alert-close" @click="successMessage = null">✕</button>
-      </div>
-    </Transition>
-
-    <!-- Registration Check Form -->
-    <form @submit.prevent="handleCheckRegistration" class="registration-form">
-      <div class="form-grid">
-        <!-- Email Input -->
-        <div class="form-group">
-          <label for="email" class="form-label">
-            E-Mail-Adresse <span class="required">*</span>
-          </label>
-          <input
-            id="email"
-            v-model="formData.email"
-            type="email"
-            class="form-input"
-            placeholder="beispiel@unternehmen.de"
-            required
-            data-testid="email-input"
-            @blur="validateEmailField"
-          />
-          <small v-if="emailError" class="form-error">{{ emailError }}</small>
-        </div>
-
-        <!-- Business Type Selector -->
-        <div class="form-group">
-          <label for="businessType" class="form-label">
-            Unternehmenstyp <span class="required">*</span>
-          </label>
-          <select
-            id="businessType"
-            v-model="formData.businessType"
-            class="form-input"
-            required
-            data-testid="business-type-select"
-          >
-            <option value="">-- Bitte wählen --</option>
-            <option value="B2C">B2C (Privatperson / Einzelunternehmer)</option>
-            <option value="B2B">
-              B2B (Unternehmen / GmbH / GmbH & Co. KG)
-            </option>
-          </select>
-        </div>
-
-        <!-- Optional: First Name -->
-        <div class="form-group">
-          <label for="firstName" class="form-label">Vorname</label>
-          <input
-            id="firstName"
-            v-model="formData.firstName"
-            type="text"
-            class="form-input"
-            placeholder="Max"
-            data-testid="first-name-input"
-          />
-        </div>
-
-        <!-- Optional: Last Name -->
-        <div class="form-group">
-          <label for="lastName" class="form-label">Nachname</label>
-          <input
-            id="lastName"
-            v-model="formData.lastName"
-            type="text"
-            class="form-input"
-            placeholder="Mustermann"
-            data-testid="last-name-input"
-          />
-        </div>
-
-        <!-- Optional: Company Name -->
-        <div class="form-group">
-          <label for="companyName" class="form-label">Firmenname</label>
-          <input
-            id="companyName"
-            v-model="formData.companyName"
-            type="text"
-            class="form-input"
-            placeholder="Mustercompany GmbH"
-            data-testid="company-name-input"
-          />
-        </div>
-
-        <!-- Optional: Phone -->
-        <div class="form-group">
-          <label for="phone" class="form-label">Telefon</label>
-          <input
-            id="phone"
-            v-model="formData.phone"
-            type="tel"
-            class="form-input"
-            placeholder="+49 (0) 123 456789"
-            data-testid="phone-input"
-          />
-        </div>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="form-actions">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          :disabled="isLoading || !formData.email || !formData.businessType"
-          data-testid="submit-button"
-        >
-          <span v-if="isLoading" class="loading-spinner">⟳</span>
-          {{ isLoading ? "Prüfen läuft..." : "Prüfen" }}
-        </button>
-      </div>
-    </form>
-
-    <!-- Results Section -->
-    <Transition name="fade-scale">
-      <div v-if="result" class="results-section">
+    <!-- Main Content -->
+    <div class="container mx-auto py-8 px-4 max-w-2xl">
+      <!-- Error Alert -->
+      <Transition name="fade">
         <div
-          :class="[
-            'result-card',
-            `result-${result.registrationType.toLowerCase()}`,
-          ]"
+          v-if="error"
+          class="alert alert-error mb-6 shadow-lg"
+          data-testid="error-message"
         >
-          <!-- Registration Type Badge -->
-          <div class="result-badge">
-            <span class="badge" :class="`badge-${getRegistrationBadgeClass()}`">
-              {{ formatRegistrationType(result.registrationType) }}
-            </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m2-2l2 2m1-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <div>
+            <h4 class="font-bold">Fehler</h4>
+            <p>{{ error }}</p>
           </div>
+          <button class="btn btn-sm btn-ghost" @click="error = null">✕</button>
+        </div>
+      </Transition>
 
-          <!-- Result Message -->
-          <div class="result-message">
-            <h3>{{ getResultTitle() }}</h3>
-            <p>{{ getResultDescription() }}</p>
+      <!-- Success Alert -->
+      <Transition name="fade">
+        <div
+          v-if="successMessage"
+          class="alert alert-success mb-6 shadow-lg"
+          data-testid="success-message"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <div>
+            <p>{{ successMessage }}</p>
           </div>
+          <button class="btn btn-sm btn-ghost" @click="successMessage = null">
+            ✕
+          </button>
+        </div>
+      </Transition>
 
-          <!-- ERP Data (if found) -->
-          <div v-if="result.erpData" class="erp-data-section">
-            <h4>Ihre Kundendaten:</h4>
-            <table class="data-table">
-              <tbody>
-                <tr>
-                  <td class="label">Kundennummer:</td>
-                  <td class="value">{{ result.erpData.customerNumber }}</td>
-                </tr>
-                <tr>
-                  <td class="label">Name:</td>
-                  <td class="value">{{ result.erpData.name }}</td>
-                </tr>
-                <tr>
-                  <td class="label">E-Mail:</td>
-                  <td class="value">{{ result.erpData.email }}</td>
-                </tr>
-                <tr v-if="result.erpData.phone">
-                  <td class="label">Telefon:</td>
-                  <td class="value">{{ result.erpData.phone }}</td>
-                </tr>
-                <tr v-if="result.erpData.address">
-                  <td class="label">Adresse:</td>
-                  <td class="value">
-                    {{ result.erpData.address }}<br />
-                    {{ result.erpData.postalCode }} {{ result.erpData.city
-                    }}<br />
-                    {{ result.erpData.country }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <!-- Registration Check Form -->
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <form @submit.prevent="handleCheckRegistration">
+            <div class="grid grid-cols-1 gap-4">
+              <!-- Email Input -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-bold"
+                    >E-Mail-Adresse <span class="text-error">*</span></span
+                  >
+                </label>
+                <input
+                  id="email"
+                  v-model="formData.email"
+                  type="email"
+                  class="input input-bordered"
+                  :class="emailError ? 'input-error' : ''"
+                  placeholder="beispiel@unternehmen.de"
+                  required
+                  data-testid="email-input"
+                  @blur="validateEmailField"
+                />
+                <label v-if="emailError" class="label">
+                  <span class="label-text-alt text-error">{{
+                    emailError
+                  }}</span>
+                </label>
+              </div>
 
-          <!-- Confidence Score (if duplicate detected) -->
-          <div v-if="result.confidenceScore" class="confidence-section">
-            <p class="confidence-text">
-              Übereinstimmungsquote:
-              <strong>{{ result.confidenceScore }}%</strong>
-            </p>
-            <div class="confidence-bar">
-              <div
-                class="confidence-fill"
-                :style="{ width: `${result.confidenceScore}%` }"
-              ></div>
+              <!-- Business Type Selector -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-bold"
+                    >Unternehmenstyp <span class="text-error">*</span></span
+                  >
+                </label>
+                <select
+                  id="businessType"
+                  v-model="formData.businessType"
+                  class="select select-bordered"
+                  required
+                  data-testid="business-type-select"
+                >
+                  <option value="">-- Bitte wählen --</option>
+                  <option value="B2C">
+                    B2C (Privatperson / Einzelunternehmer)
+                  </option>
+                  <option value="B2B">
+                    B2B (Unternehmen / GmbH / GmbH & Co. KG)
+                  </option>
+                </select>
+              </div>
+
+              <!-- Optional: First Name -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Vorname</span>
+                </label>
+                <input
+                  id="firstName"
+                  v-model="formData.firstName"
+                  type="text"
+                  class="input input-bordered"
+                  placeholder="Max"
+                  data-testid="first-name-input"
+                />
+              </div>
+
+              <!-- Optional: Last Name -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Nachname</span>
+                </label>
+                <input
+                  id="lastName"
+                  v-model="formData.lastName"
+                  type="text"
+                  class="input input-bordered"
+                  placeholder="Mustermann"
+                  data-testid="last-name-input"
+                />
+              </div>
+
+              <!-- Optional: Company Name -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Firmenname</span>
+                </label>
+                <input
+                  id="companyName"
+                  v-model="formData.companyName"
+                  type="text"
+                  class="input input-bordered"
+                  placeholder="Mustercompany GmbH"
+                  data-testid="company-name-input"
+                />
+              </div>
+
+              <!-- Optional: Phone -->
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Telefon</span>
+                </label>
+                <input
+                  id="phone"
+                  v-model="formData.phone"
+                  type="tel"
+                  class="input input-bordered"
+                  placeholder="+49 (0) 123 456789"
+                  data-testid="phone-input"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-control mt-6">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                :disabled="
+                  isLoading || !formData.email || !formData.businessType
+                "
+                data-testid="submit-button"
+              >
+                <span
+                  v-if="isLoading"
+                  class="loading loading-spinner loading-sm"
+                ></span>
+                {{ isLoading ? "Prüfen läuft..." : "Prüfen" }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <Transition name="fade-scale">
+        <div v-if="result" class="mt-8">
+          <div
+            class="card shadow-xl"
+            :class="{
+              'bg-success/10 border-success':
+                result.registrationType === 'Bestandskunde' ||
+                result.registrationType === 'ExistingCustomer',
+              'bg-warning/10 border-warning':
+                result.registrationType === 'NewCustomer',
+            }"
+          >
+            <div class="card-body">
+              <!-- Registration Type Badge -->
+              <div class="mb-4">
+                <div
+                  class="badge badge-lg"
+                  :class="{
+                    'badge-success':
+                      result.registrationType === 'Bestandskunde' ||
+                      result.registrationType === 'ExistingCustomer',
+                    'badge-warning': result.registrationType === 'NewCustomer',
+                  }"
+                >
+                  {{ formatRegistrationType(result.registrationType) }}
+                </div>
+              </div>
+
+              <!-- Result Message -->
+              <div class="mb-6">
+                <h3 class="text-2xl font-bold mb-2">{{ getResultTitle() }}</h3>
+                <p class="text-base-content/70">{{ getResultDescription() }}</p>
+              </div>
+
+              <!-- ERP Data (if found) -->
+              <div v-if="result.erpData" class="divider"></div>
+              <div v-if="result.erpData" class="overflow-x-auto">
+                <h4 class="font-bold mb-4">Ihre Kundendaten:</h4>
+                <table class="table table-sm w-full">
+                  <tbody>
+                    <tr>
+                      <td class="font-bold">Kundennummer:</td>
+                      <td>{{ result.erpData.customerNumber }}</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold">Name:</td>
+                      <td>{{ result.erpData.name }}</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold">E-Mail:</td>
+                      <td>{{ result.erpData.email }}</td>
+                    </tr>
+                    <tr v-if="result.erpData.phone">
+                      <td class="font-bold">Telefon:</td>
+                      <td>{{ result.erpData.phone }}</td>
+                    </tr>
+                    <tr v-if="result.erpData.address">
+                      <td class="font-bold">Adresse:</td>
+                      <td>
+                        {{ result.erpData.address }}<br />
+                        {{ result.erpData.postalCode }} {{ result.erpData.city
+                        }}<br />
+                        {{ result.erpData.country }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Confidence Score (if duplicate detected) -->
+              <div v-if="result.confidenceScore" class="mt-6">
+                <div class="flex justify-between items-center mb-2">
+                  <p class="font-bold">Übereinstimmungsquote:</p>
+                  <span class="font-bold text-lg"
+                    >{{ result.confidenceScore }}%</span
+                  >
+                </div>
+                <progress
+                  class="progress progress-primary w-full"
+                  :value="result.confidenceScore"
+                  max="100"
+                ></progress>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="card-actions justify-end mt-6 gap-2">
+                <template
+                  v-if="
+                    result.registrationType === 'Bestandskunde' ||
+                    result.registrationType === 'ExistingCustomer'
+                  "
+                >
+                  <button class="btn btn-secondary" @click="resetForm">
+                    Neue Prüfung
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    @click="continueWithBestandskunde"
+                  >
+                    Mit Kundendaten fortfahren
+                  </button>
+                </template>
+                <template v-else>
+                  <button class="btn btn-secondary" @click="resetForm">
+                    Zurück
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    @click="continueWithNewRegistration"
+                  >
+                    Registrierung fortsetzen
+                  </button>
+                </template>
+              </div>
             </div>
           </div>
+        </div>
+      </Transition>
 
-          <!-- Action Buttons -->
-          <div class="result-actions">
-            <template v-if="result.registrationType === 'Bestandskunde'">
-              <button
-                class="btn btn-primary"
-                @click="continueWithBestandskunde"
-              >
-                Mit Kundendaten fortfahren
-              </button>
-              <button class="btn btn-secondary" @click="resetForm">
-                Neue Prüfung
-              </button>
-            </template>
-            <template v-else>
-              <button
-                class="btn btn-primary"
-                @click="continueWithNewRegistration"
-              >
-                Registrierung fortsetzen
-              </button>
-              <button class="btn btn-secondary" @click="resetForm">
-                Zurück
-              </button>
-            </template>
+      <!-- Info Section -->
+      <div class="alert alert-info mt-8">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          class="stroke-current shrink-0 w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+        <div>
+          <h3 class="font-bold">Informationen</h3>
+          <div class="text-sm">
+            <p>
+              <strong>Bestandskunde:</strong> Sie sind bereits in unserem System
+              registriert. Ihre Daten werden automatisch vorausgefüllt.
+            </p>
+            <p class="mt-2">
+              <strong>Neukunde:</strong> Sie werden zur regulären Registrierung
+              weitergeleitet.
+            </p>
+            <p class="mt-2">
+              Die Prüfung wird anhand von E-Mail, Name und optional
+              Telefon/Adresse durchgeführt.
+            </p>
           </div>
         </div>
       </div>
-    </Transition>
-
-    <!-- Info Section -->
-    <div class="info-section">
-      <h4>📋 Informationen</h4>
-      <ul>
-        <li>
-          <strong>Bestandskunde:</strong> Sie sind bereits in unserem System
-          registriert. Ihre Daten werden automatisch vorausgefüllt.
-        </li>
-        <li>
-          <strong>Neukunde:</strong> Sie werden zur regulären Registrierung
-          weitergeleitet.
-        </li>
-        <li>
-          Die Prüfung wird anhand von E-Mail, Name und optional Telefon/Adresse
-          durchgeführt.
-        </li>
-      </ul>
     </div>
   </div>
 </template>

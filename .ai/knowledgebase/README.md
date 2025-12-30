@@ -1,3 +1,15 @@
+This folder contains curated, concise summaries of external documentation and best-practice references requested by agents.
+
+Files:
+- wolverine.md — Wolverine messaging & CQRS overview
+- vue.md — Vue.js 3 overview and links
+- pinia.md — Pinia store summary
+- vite.md — Vite tooling notes
+- owasp-top-ten.md — OWASP Top Ten summary
+- dotnet-identity.md — ASP.NET Core Identity summary
+- dotnet-localization.md — ASP.NET Core localization summary
+
+Contributors: GitHub Copilot (coordinated by @SARAH)
 # Knowledge Base Index
 
 Die Wissensdatenbank ermöglicht Assistenten, ihren Kontext bei Bedarf zu erweitern und auf zentrale Erkenntnisse zuzugreifen.

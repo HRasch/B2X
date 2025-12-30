@@ -1,127 +1,143 @@
 <template>
-  <div v-if="loading" class="text-center py-12">
-    <LoadingSpinner />
+  <!-- Loading State -->
+  <div v-if="loading" class="flex items-center justify-center min-h-screen">
+    <div class="loading loading-spinner loading-lg"></div>
   </div>
 
-  <div v-else-if="error" class="bg-red-50 border border-red-200 rounded p-4">
-    <p class="text-red-700">{{ error }}</p>
+  <!-- Error State -->
+  <div v-else-if="error" class="alert alert-error shadow-lg m-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="stroke-current shrink-0 h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m2-2l2 2m1-2a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+    <span>{{ error }}</span>
   </div>
 
+  <!-- Layout Rendering -->
   <div v-else-if="page" :class="`layout-${page.templateLayout}`">
     <!-- Layout: Full-Width -->
     <template v-if="page.templateLayout === 'full-width'">
-      <div class="region-header">
-        <RegionRenderer
-          v-if="getRegion('header')"
-          :region="getRegion('header')!"
-        />
-      </div>
+      <header v-if="getRegion('header')" class="bg-base-200 shadow-lg">
+        <RegionRenderer :region="getRegion('header')!" />
+      </header>
 
-      <main class="region-main">
-        <RegionRenderer
-          v-if="getRegion('main')"
-          :region="getRegion('main')!"
-        />
+      <main class="container mx-auto py-8 px-4">
+        <RegionRenderer v-if="getRegion('main')" :region="getRegion('main')!" />
       </main>
 
-      <div class="region-footer">
-        <RegionRenderer
-          v-if="getRegion('footer')"
-          :region="getRegion('footer')!"
-        />
-      </div>
+      <footer v-if="getRegion('footer')" class="bg-base-200 shadow-lg mt-8">
+        <RegionRenderer :region="getRegion('footer')!" />
+      </footer>
     </template>
 
     <!-- Layout: Sidebar -->
     <template v-else-if="page.templateLayout === 'sidebar'">
-      <div class="region-header">
-        <RegionRenderer
-          v-if="getRegion('header')"
-          :region="getRegion('header')!"
-        />
-      </div>
+      <header v-if="getRegion('header')" class="bg-base-200 shadow-lg">
+        <RegionRenderer :region="getRegion('header')!" />
+      </header>
 
-      <div class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 my-8">
-        <main class="lg:col-span-2 region-main">
+      <div
+        class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 py-8 px-4"
+      >
+        <main class="lg:col-span-2">
           <RegionRenderer
             v-if="getRegion('main')"
             :region="getRegion('main')!"
           />
         </main>
 
-        <aside class="region-sidebar">
-          <RegionRenderer
-            v-if="getRegion('sidebar')"
-            :region="getRegion('sidebar')!"
-          />
+        <aside class="lg:col-span-1">
+          <div class="card bg-base-200 shadow-lg">
+            <div class="card-body">
+              <RegionRenderer
+                v-if="getRegion('sidebar')"
+                :region="getRegion('sidebar')!"
+              />
+            </div>
+          </div>
         </aside>
       </div>
 
-      <div class="region-footer">
-        <RegionRenderer
-          v-if="getRegion('footer')"
-          :region="getRegion('footer')!"
-        />
-      </div>
+      <footer v-if="getRegion('footer')" class="bg-base-200 shadow-lg mt-8">
+        <RegionRenderer :region="getRegion('footer')!" />
+      </footer>
     </template>
 
     <!-- Layout: Three-Column -->
     <template v-else-if="page.templateLayout === 'three-column'">
-      <div class="region-header">
-        <RegionRenderer
-          v-if="getRegion('header')"
-          :region="getRegion('header')!"
-        />
-      </div>
+      <header v-if="getRegion('header')" class="bg-base-200 shadow-lg">
+        <RegionRenderer :region="getRegion('header')!" />
+      </header>
 
-      <div class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 my-8">
-        <aside class="region-sidebar-left">
-          <RegionRenderer
-            v-if="getRegion('sidebar-left')"
-            :region="getRegion('sidebar-left')!"
-          />
+      <div
+        class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-4 py-8 px-4"
+      >
+        <aside class="lg:col-span-1">
+          <div class="card bg-base-200 shadow-lg">
+            <div class="card-body">
+              <RegionRenderer
+                v-if="getRegion('sidebar-left')"
+                :region="getRegion('sidebar-left')!"
+              />
+            </div>
+          </div>
         </aside>
 
-        <main class="region-main">
+        <main class="lg:col-span-2">
           <RegionRenderer
             v-if="getRegion('main')"
             :region="getRegion('main')!"
           />
         </main>
 
-        <aside class="region-sidebar-right">
-          <RegionRenderer
-            v-if="getRegion('sidebar-right')"
-            :region="getRegion('sidebar-right')!"
-          />
+        <aside class="lg:col-span-1">
+          <div class="card bg-base-200 shadow-lg">
+            <div class="card-body">
+              <RegionRenderer
+                v-if="getRegion('sidebar-right')"
+                :region="getRegion('sidebar-right')!"
+              />
+            </div>
+          </div>
         </aside>
       </div>
 
-      <div class="region-footer">
-        <RegionRenderer
-          v-if="getRegion('footer')"
-          :region="getRegion('footer')!"
-        />
-      </div>
+      <footer v-if="getRegion('footer')" class="bg-base-200 shadow-lg mt-8">
+        <RegionRenderer :region="getRegion('footer')!" />
+      </footer>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import { useCms } from '@/composables/useCms';
-import RegionRenderer from '@/components/cms/RegionRenderer.vue';
-import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
+import { useRoute } from "vue-router";
+import { useCms } from "@/composables/useCms";
+import RegionRenderer from "@/components/cms/RegionRenderer.vue";
 
 const route = useRoute();
-const { pageDefinition: page, loading, error, fetchPageDefinition, getRegion } = useCms();
+const {
+  pageDefinition: page,
+  loading,
+  error,
+  fetchPageDefinition,
+  getRegion,
+} = useCms();
 
 const loadPage = async () => {
   try {
-    const pagePath = (route.params.pathMatch as string) || '/';
-    await fetchPageDefinition('/' + pagePath);
+    const pagePath = (route.params.pathMatch as string) || "/";
+    await fetchPageDefinition("/" + pagePath);
   } catch (err) {
-    console.error('Failed to load CMS page', err);
+    console.error("Failed to load CMS page", err);
   }
 };
 

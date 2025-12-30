@@ -653,6 +653,39 @@ Agenten "kommunizieren" über persistente Files:
 └── context/                         # Shared Context Documents
 ```
 
+## 🚀 Phase 1 Execution Framework (ACTIVE)
+
+**NEW (Dec 30, 2025):** Formal activated agent execution with explicit accountability.
+
+### Critical Documents:
+- **[AGENT_EXECUTION_TRIGGER.md](./AGENT_EXECUTION_TRIGGER.md)** ⭐ BINDING WORK ASSIGNMENTS
+  - 6 agents assigned to Phase 1 work
+  - Explicit accountability for each agent
+  - Success metrics & escalation triggers
+  
+- **[AGENT_ACCOUNTABILITY.md](./AGENT_ACCOUNTABILITY.md)** ⭐ DAILY EXECUTION TRACKING
+  - @Backend: Issue #57 (8 SP) - Dependency Audit
+  - @Frontend: Issue #56 (13 SP) - UI Modernization
+  - @Architect: Service Boundaries ADR (1 SP)
+  - @ProductOwner: Feature Specifications (1 SP)
+  - @TechLead: Daily code reviews + technical leadership
+  - @ScrumMaster: Daily operations & velocity tracking
+  
+- **Daily Standup:** 9:00 AM (all 6 agents)
+- **EOD Metrics:** 4:30 PM (velocity update)
+- **Velocity Target:** 28 SP minimum (Phase 1: 25 SP)
+
+### Execution Model:
+```
+Morning: 9 AM Standup (agent status sync)
+↓
+Day: Agents execute assigned work + PRs + reviews
+↓
+EOD: 4:30 PM metrics refresh + team health check
+↓
+Escalation: Blockers → immediate resolution (< 2 hrs)
+```
+
 ## Eskalation & SARAH Support
 
 ### Wann @SARAH einbeziehen:
@@ -663,6 +696,7 @@ Agenten "kommunizieren" über persistente Files:
 ✅ Guideline-Änderungen erforderlich
 ✅ Quality-Gate Entscheidungen
 ✅ Neue Agent/Workflow Anforderungen
+✅ AGENT EXECUTION FAILURES (Blocker > 2 hrs, Missing standup, Zero progress)
 ```
 
 ### Eskalations-Workflow:
@@ -671,6 +705,7 @@ Schritt 1: User beschreibt Situation für @SARAH
 Schritt 2: SARAH analysiert und gibt Guidance
 Schritt 3: SARAH aktualisiert ggf. Guidelines/Permissions
 Schritt 4: User führt mit empfohlenem Agent fort
+Schritt 5: SARAH enforces Phase 1 execution if needed
 ```
 
 ## Einschränkungen von VS Code Copilot

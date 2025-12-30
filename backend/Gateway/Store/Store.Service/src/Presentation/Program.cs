@@ -177,7 +177,27 @@ builder.Services.AddSwaggerGen(options =>
 
 // Add services
 builder.Services.AddControllers();
-builder.Services.AddHttpClient();
+
+// Add HttpClient with resilience policies using .NET 8 Polly integration
+builder.Services
+    .AddHttpClient()
+    .ConfigureHttpClientDefaults(http =>
+    {
+        http.AddStandardResilienceHandler(options =>
+        {
+            // Retry policy for transient failures
+            options.Retry.MaxRetryAttempts = 3;
+            options.Retry.BackoffType = Microsoft.Extensions.Http.Resilience.DelayBackoffType.ExponentialBackoff;
+            options.Retry.UseJitterBackoff = true;
+
+            // Circuit breaker to fail-fast after repeated failures
+            options.CircuitBreaker.FailureRatio = 0.5;
+            options.CircuitBreaker.MinimumThroughput = 10;
+            options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(30);
+            options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(30);
+        });
+    });
+
 builder.Services.AddHttpContextAccessor();
 
 // Add YARP Reverse Proxy

@@ -65,7 +65,7 @@
     <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <!-- Resilience & Polly -->
-    <PackageVersion Include="Polly" Version="8.4.0" />
+    <PackageVersion Include="Polly" Version="8.6.5" />
     <PackageVersion Include="Polly.Caching" Version="3.0.3" />
     <PackageVersion Include="Polly.CircuitBreaker" Version="8.4.0" />
     <!-- Configuration & Secrets -->

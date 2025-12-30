@@ -571,7 +571,7 @@ describe("PrivateCustomerRegistration.vue", () => {
 
     it("should require age confirmation when marked as required", async () => {
       const wrapper = createWrapper({ requiresAgeConfirmation: true });
-      const checkbox = wrapper.findAll('input[type="checkbox"]').at(0);
+      const checkbox = wrapper.findAll('input[type="checkbox"]')[0];
       expect(checkbox?.exists()).toBe(true);
     });
   });

@@ -1,80 +1,82 @@
 <template>
-  <div class="checkout-terms-step">
-    <div class="step-header">
-      <h2>Bedingungen</h2>
-      <p class="step-description">
+  <div class="w-full">
+    <!-- Step Header -->
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold mb-2">Bedingungen</h2>
+      <p class="text-base-content/70">
         Bitte akzeptieren Sie die erforderlichen Bedingungen, um fortzufahren
       </p>
     </div>
 
-    <div class="terms-container">
+    <!-- Terms Container -->
+    <div class="space-y-4 mb-8">
       <!-- Terms & Conditions Checkbox -->
-      <div class="terms-checkbox-group">
-        <label for="terms-checkbox" class="checkbox-label">
+      <div class="form-control">
+        <label class="label cursor-pointer gap-3 justify-start">
           <input
             id="terms-checkbox"
             v-model="acceptedTerms.termsAndConditions"
             type="checkbox"
-            class="checkbox-input"
+            class="checkbox checkbox-primary"
             :disabled="isSubmitting"
             aria-label="Ich akzeptiere die Allgemeinen Geschäftsbedingungen"
           />
-          <span class="checkbox-text">
+          <span class="label-text">
             Ich akzeptiere die
             <button
               type="button"
               @click="showTermsModal = true"
-              class="document-link"
+              class="link link-primary"
             >
               Allgemeinen Geschäftsbedingungen
             </button>
-            *
+            <span class="text-error">*</span>
           </span>
         </label>
       </div>
 
       <!-- Privacy Policy Checkbox -->
-      <div class="terms-checkbox-group">
-        <label for="privacy-checkbox" class="checkbox-label">
+      <div class="form-control">
+        <label class="label cursor-pointer gap-3 justify-start">
           <input
             id="privacy-checkbox"
             v-model="acceptedTerms.privacyPolicy"
             type="checkbox"
-            class="checkbox-input"
+            class="checkbox checkbox-primary"
             :disabled="isSubmitting"
             aria-label="Ich akzeptiere die Datenschutzerklärung"
           />
-          <span class="checkbox-text">
+          <span class="label-text">
             Ich akzeptiere die
             <button
               type="button"
               @click="showPrivacyModal = true"
-              class="document-link"
+              class="link link-primary"
             >
               Datenschutzerklärung
             </button>
-            *
+            <span class="text-error">*</span>
           </span>
         </label>
       </div>
 
-      <!-- 14-Day Withdrawal Right (B2C only, optional for legal clarity) -->
-      <div class="terms-checkbox-group">
-        <label for="withdrawal-checkbox" class="checkbox-label">
+      <!-- 14-Day Withdrawal Right -->
+      <div class="form-control">
+        <label class="label cursor-pointer gap-3 justify-start">
           <input
             id="withdrawal-checkbox"
             v-model="acceptedTerms.withdrawalRight"
             type="checkbox"
-            class="checkbox-input"
+            class="checkbox checkbox-primary"
             :disabled="isSubmitting"
             aria-label="Ich habe mein Widerrufsrecht verstanden"
           />
-          <span class="checkbox-text">
+          <span class="label-text">
             Ich verstehe mein
             <button
               type="button"
               @click="showWithdrawalModal = true"
-              class="document-link"
+              class="link link-primary"
             >
               Widerrufsrecht (14 Tage)
             </button>
@@ -83,25 +85,65 @@
       </div>
 
       <!-- Required fields note -->
-      <p class="required-note">* Erforderliche Felder</p>
+      <p class="text-sm text-base-content/70 mt-4">
+        <span class="text-error">*</span> Erforderliche Felder
+      </p>
 
       <!-- Error message -->
-      <div v-if="errorMessage" class="error-message" role="alert">
-        {{ errorMessage }}
-      </div>
+      <Transition name="fade">
+        <div
+          v-if="errorMessage"
+          class="alert alert-error shadow-lg"
+          role="alert"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m2-2l2 2m1-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </Transition>
 
       <!-- Success message -->
-      <div v-if="successMessage" class="success-message" role="status">
-        {{ successMessage }}
-      </div>
+      <Transition name="fade">
+        <div
+          v-if="successMessage"
+          class="alert alert-success shadow-lg"
+          role="status"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{{ successMessage }}</span>
+        </div>
+      </Transition>
     </div>
 
-    <!-- Action buttons -->
-    <div class="step-actions">
+    <!-- Action Buttons -->
+    <div class="flex gap-2 justify-between">
       <button
         type="button"
         @click="goBack"
-        class="btn-secondary"
+        class="btn btn-ghost"
         :disabled="isSubmitting"
       >
         Zurück
@@ -109,209 +151,233 @@
       <button
         type="button"
         @click="continueToPayment"
-        class="btn-primary"
+        class="btn btn-primary"
         :disabled="!canContinue || isSubmitting"
         :aria-busy="isSubmitting"
       >
-        <span v-if="isSubmitting" class="spinner"></span>
+        <span
+          v-if="isSubmitting"
+          class="loading loading-spinner loading-sm"
+        ></span>
         {{ isSubmitting ? "Wird verarbeitet..." : "Zur Zahlung" }}
       </button>
     </div>
 
     <!-- Legal Documents Modals -->
     <!-- Terms & Conditions Modal -->
-    <div
-      v-if="showTermsModal"
-      class="modal-overlay"
-      @click="showTermsModal = false"
-    >
-      <div class="modal-content" @click.stop>
-        <div class="modal-header">
-          <h3>Allgemeine Geschäftsbedingungen</h3>
-          <button
-            type="button"
-            @click="showTermsModal = false"
-            class="close-button"
-            aria-label="Modal schließen"
-          >
-            ✕
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="document-content">
-            <h4>1. Allgemeine Bestimmungen</h4>
-            <p>
-              Diese Allgemeinen Geschäftsbedingungen regeln die Beziehung
-              zwischen dem Betreiber dieses Online-Shops und dem Käufer.
-            </p>
+    <Transition name="fade">
+      <div
+        v-if="showTermsModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+        @click="showTermsModal = false"
+      >
+        <div class="modal modal-open">
+          <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
+            <h3 class="font-bold text-lg mb-4">
+              Allgemeine Geschäftsbedingungen
+            </h3>
+            <div class="divider my-2"></div>
+            <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
+              <div class="prose prose-sm">
+                <h4 class="font-bold">1. Allgemeine Bestimmungen</h4>
+                <p>
+                  Diese Allgemeinen Geschäftsbedingungen regeln die Beziehung
+                  zwischen dem Betreiber dieses Online-Shops und dem Käufer.
+                </p>
 
-            <h4>2. Produktbeschreibungen</h4>
-            <p>
-              Alle Produktbeschreibungen sind Angebote zum Verkauf. Ein Vertrag
-              kommt nur zustande, wenn Sie eine Bestellung aufgeben und wir
-              diese akzeptieren.
-            </p>
+                <h4 class="font-bold">2. Produktbeschreibungen</h4>
+                <p>
+                  Alle Produktbeschreibungen sind Angebote zum Verkauf. Ein
+                  Vertrag kommt nur zustande, wenn Sie eine Bestellung aufgeben
+                  und wir diese akzeptieren.
+                </p>
 
-            <h4>3. Preise und Zahlungsbedingungen</h4>
-            <p>
-              Alle Preise enthalten die gültige Mehrwertsteuer. Versandkosten
-              werden separat berechnet und beim Checkout angezeigt.
-            </p>
+                <h4 class="font-bold">3. Preise und Zahlungsbedingungen</h4>
+                <p>
+                  Alle Preise enthalten die gültige Mehrwertsteuer.
+                  Versandkosten werden separat berechnet und beim Checkout
+                  angezeigt.
+                </p>
 
-            <h4>4. Lieferung</h4>
-            <p>
-              Lieferzeiten sind unverbindlich. Bei Verzug haften wir nur bei
-              Verschulden.
-            </p>
+                <h4 class="font-bold">4. Lieferung</h4>
+                <p>
+                  Lieferzeiten sind unverbindlich. Bei Verzug haften wir nur bei
+                  Verschulden.
+                </p>
 
-            <h4>5. Widerrufsrecht</h4>
-            <p>
-              Sie haben ein Widerrufsrecht von 14 Tagen ab Erhalt der Ware.
-              Siehe unten für Details.
-            </p>
+                <h4 class="font-bold">5. Widerrufsrecht</h4>
+                <p>
+                  Sie haben ein Widerrufsrecht von 14 Tagen ab Erhalt der Ware.
+                  Siehe unten für Details.
+                </p>
 
-            <h4>6. Haftung</h4>
-            <p>
-              Haftung für Schäden begrenzt auf Direktschäden bis zur Höhe des
-              Kaufpreises.
-            </p>
+                <h4 class="font-bold">6. Haftung</h4>
+                <p>
+                  Haftung für Schäden begrenzt auf Direktschäden bis zur Höhe
+                  des Kaufpreises.
+                </p>
 
-            <h4>7. Datenschutz</h4>
-            <p>Siehe Datenschutzerklärung für die Behandlung Ihrer Daten.</p>
+                <h4 class="font-bold">7. Datenschutz</h4>
+                <p>
+                  Siehe Datenschutzerklärung für die Behandlung Ihrer Daten.
+                </p>
 
-            <h4>8. Schlussbestimmungen</h4>
-            <p>
-              Es gilt deutsches Recht. Gerichtsstand ist der Sitz des
-              Unternehmens.
-            </p>
+                <h4 class="font-bold">8. Schlussbestimmungen</h4>
+                <p>
+                  Es gilt deutsches Recht. Gerichtsstand ist der Sitz des
+                  Unternehmens.
+                </p>
+              </div>
+            </div>
+            <div class="modal-action">
+              <button
+                type="button"
+                @click="showTermsModal = false"
+                class="btn btn-primary"
+              >
+                Verstanden
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
 
     <!-- Privacy Policy Modal -->
-    <div
-      v-if="showPrivacyModal"
-      class="modal-overlay"
-      @click="showPrivacyModal = false"
-    >
-      <div class="modal-content" @click.stop>
-        <div class="modal-header">
-          <h3>Datenschutzerklärung</h3>
-          <button
-            type="button"
-            @click="showPrivacyModal = false"
-            class="close-button"
-            aria-label="Modal schließen"
-          >
-            ✕
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="document-content">
-            <h4>1. Verantwortlicher</h4>
-            <p>
-              Verantwortlich für die Datenverarbeitung ist der Betreiber dieses
-              Shops (siehe Impressum).
-            </p>
+    <Transition name="fade">
+      <div
+        v-if="showPrivacyModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+        @click="showPrivacyModal = false"
+      >
+        <div class="modal modal-open">
+          <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
+            <h3 class="font-bold text-lg mb-4">Datenschutzerklärung</h3>
+            <div class="divider my-2"></div>
+            <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
+              <div class="prose prose-sm">
+                <h4 class="font-bold">1. Verantwortlicher</h4>
+                <p>
+                  Verantwortlich für die Datenverarbeitung ist der Betreiber
+                  dieses Shops (siehe Impressum).
+                </p>
 
-            <h4>2. Erhebung und Verarbeitung</h4>
-            <p>
-              Wir erheben Ihre Daten nur zur Abwicklung Ihres Einkaufs und zum
-              Versand.
-            </p>
+                <h4 class="font-bold">2. Erhebung und Verarbeitung</h4>
+                <p>
+                  Wir erheben Ihre Daten nur zur Abwicklung Ihres Einkaufs und
+                  zum Versand.
+                </p>
 
-            <h4>3. Speicherdauer</h4>
-            <p>
-              Persönliche Daten werden 10 Jahre zur Erfüllung von
-              Steuerpflichten gespeichert.
-            </p>
+                <h4 class="font-bold">3. Speicherdauer</h4>
+                <p>
+                  Persönliche Daten werden 10 Jahre zur Erfüllung von
+                  Steuerpflichten gespeichert.
+                </p>
 
-            <h4>4. Ihre Rechte</h4>
-            <p>
-              Sie haben das Recht auf Auskunft, Berichtigung, Löschung und
-              Datenportabilität.
-            </p>
+                <h4 class="font-bold">4. Ihre Rechte</h4>
+                <p>
+                  Sie haben das Recht auf Auskunft, Berichtigung, Löschung und
+                  Datenportabilität.
+                </p>
 
-            <h4>5. Cookies</h4>
-            <p>
-              Wir verwenden technisch notwendige Cookies. Andere Cookies werden
-              mit Ihrer Einwilligung gespeichert.
-            </p>
+                <h4 class="font-bold">5. Cookies</h4>
+                <p>
+                  Wir verwenden technisch notwendige Cookies. Andere Cookies
+                  werden mit Ihrer Einwilligung gespeichert.
+                </p>
 
-            <h4>6. Sicherheit</h4>
-            <p>
-              Wir schützen Ihre Daten durch Verschlüsselung und sichere
-              Übertragung.
-            </p>
+                <h4 class="font-bold">6. Sicherheit</h4>
+                <p>
+                  Wir schützen Ihre Daten durch Verschlüsselung und sichere
+                  Übertragung.
+                </p>
 
-            <h4>7. Datenschutzbeauftragter</h4>
-            <p>Bei Fragen: datenschutz@example.com</p>
+                <h4 class="font-bold">7. Datenschutzbeauftragter</h4>
+                <p>Bei Fragen: datenschutz@example.com</p>
+              </div>
+            </div>
+            <div class="modal-action">
+              <button
+                type="button"
+                @click="showPrivacyModal = false"
+                class="btn btn-primary"
+              >
+                Verstanden
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
 
     <!-- Withdrawal Right Modal -->
-    <div
-      v-if="showWithdrawalModal"
-      class="modal-overlay"
-      @click="showWithdrawalModal = false"
-    >
-      <div class="modal-content" @click.stop>
-        <div class="modal-header">
-          <h3>Widerrufsrecht (14 Tage)</h3>
-          <button
-            type="button"
-            @click="showWithdrawalModal = false"
-            class="close-button"
-            aria-label="Modal schließen"
-          >
-            ✕
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="document-content">
-            <h4>Ihr Widerrufsrecht</h4>
-            <p>
-              Sie haben das Recht, Ihren Kauf innerhalb von 14 Tagen nach Erhalt
-              der Ware zu widerrufen, ohne einen Grund angeben zu müssen.
-            </p>
+    <Transition name="fade">
+      <div
+        v-if="showWithdrawalModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+        @click="showWithdrawalModal = false"
+      >
+        <div class="modal modal-open">
+          <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
+            <h3 class="font-bold text-lg mb-4">Widerrufsrecht (14 Tage)</h3>
+            <div class="divider my-2"></div>
+            <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
+              <div class="prose prose-sm">
+                <h4 class="font-bold">Ihr Widerrufsrecht</h4>
+                <p>
+                  Sie haben das Recht, Ihren Kauf innerhalb von 14 Tagen nach
+                  Erhalt der Ware zu widerrufen, ohne einen Grund angeben zu
+                  müssen.
+                </p>
 
-            <h4>Widerrufsfristen</h4>
-            <ul>
-              <li>Beginn: Tag nach Erhalt der Ware</li>
-              <li>Dauer: 14 Tage</li>
-              <li>Form: Einfache schriftliche Mitteilung per E-Mail genügt</li>
-            </ul>
+                <h4 class="font-bold">Widerrufsfristen</h4>
+                <ul class="list-disc list-inside">
+                  <li>Beginn: Tag nach Erhalt der Ware</li>
+                  <li>Dauer: 14 Tage</li>
+                  <li>
+                    Form: Einfache schriftliche Mitteilung per E-Mail genügt
+                  </li>
+                </ul>
 
-            <h4>Ausnahmen</h4>
-            <p>Widerrufsrecht gilt NICHT für:</p>
-            <ul>
-              <li>Digitale Inhalte nach Abruf</li>
-              <li>Maßgeschneiderte oder personalisierte Waren</li>
-              <li>
-                Waren, die nach Zustellung beschädigt wurden (Ihr Verschulden)
-              </li>
-            </ul>
+                <h4 class="font-bold">Ausnahmen</h4>
+                <p>Widerrufsrecht gilt NICHT für:</p>
+                <ul class="list-disc list-inside">
+                  <li>Digitale Inhalte nach Abruf</li>
+                  <li>Maßgeschneiderte oder personalisierte Waren</li>
+                  <li>
+                    Waren, die nach Zustellung beschädigt wurden (Ihr
+                    Verschulden)
+                  </li>
+                </ul>
 
-            <h4>Rückgabeverfahren</h4>
-            <p>
-              Senden Sie die Ware unverzüglich zurück. Versandkosten trägt der
-              Käufer (außer bei berechtigter Rückgabe).
-            </p>
+                <h4 class="font-bold">Rückgabeverfahren</h4>
+                <p>
+                  Senden Sie die Ware unverzüglich zurück. Versandkosten trägt
+                  der Käufer (außer bei berechtigter Rückgabe).
+                </p>
 
-            <h4>Kontakt</h4>
-            <p>Widerrufe richten Sie an: widerruf@example.com</p>
+                <h4 class="font-bold">Kontakt</h4>
+                <p>Widerrufe richten Sie an: widerruf@example.com</p>
 
-            <p class="legal-basis">
-              <strong>Rechtsgrundlage:</strong> §§ 355-359 BGB
-              (Fernabsatzgesetz)
-            </p>
+                <p class="text-sm italic mt-4">
+                  <strong>Rechtsgrundlage:</strong> §§ 355-359 BGB
+                  (Fernabsatzgesetz)
+                </p>
+              </div>
+            </div>
+            <div class="modal-action">
+              <button
+                type="button"
+                @click="showWithdrawalModal = false"
+                class="btn btn-primary"
+              >
+                Verstanden
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 

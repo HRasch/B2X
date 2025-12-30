@@ -1,37 +1,149 @@
 <template>
-  <div id="app">
-    <nav class="navbar">
-      <div class="navbar-container">
-        <router-link to="/" class="navbar-logo">B2Connect</router-link>
-        <ul class="navbar-menu">
-          <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/shop">Shop</router-link></li>
-          <li>
-            <router-link to="/cart" class="cart-link">
-              Cart
-              <span v-if="cartStore.items.length" class="cart-badge">{{
-                cartStore.items.length
-              }}</span>
-            </router-link>
-          </li>
-          <li><router-link to="/dashboard">Dashboard</router-link></li>
-          <li><router-link to="/tenants">Tenants</router-link></li>
-          <li v-if="authStore.isAuthenticated">
-            <button @click="logout">Logout</button>
-          </li>
-          <li v-else>
-            <router-link to="/login">Login</router-link>
-          </li>
-          <li class="language-switcher-container">
-            <LanguageSwitcher />
-          </li>
-        </ul>
+  <div id="app" class="min-h-screen flex flex-col bg-base-100">
+    <!-- Navbar -->
+    <nav class="navbar bg-base-200 shadow-lg sticky top-0 z-50">
+      <div class="flex-1">
+        <router-link
+          to="/"
+          class="btn btn-ghost normal-case text-xl text-primary font-bold"
+        >
+          B2Connect
+        </router-link>
+      </div>
+      <div class="flex-none gap-2">
+        <!-- Desktop Navigation -->
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1 gap-2">
+            <li>
+              <router-link to="/" class="btn btn-ghost">Home</router-link>
+            </li>
+            <li>
+              <router-link to="/shop" class="btn btn-ghost">Shop</router-link>
+            </li>
+            <li>
+              <router-link to="/cart" class="btn btn-ghost gap-2">
+                Cart
+                <span v-if="cartStore.items.length" class="badge badge-primary">
+                  {{ cartStore.items.length }}
+                </span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/dashboard" class="btn btn-ghost"
+                >Dashboard</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/tenants" class="btn btn-ghost"
+                >Tenants</router-link
+              >
+            </li>
+            <li v-if="authStore.isAuthenticated">
+              <button @click="logout" class="btn btn-ghost">Logout</button>
+            </li>
+            <li v-else>
+              <router-link to="/login" class="btn btn-ghost">Login</router-link>
+            </li>
+            <li>
+              <LanguageSwitcher />
+            </li>
+          </ul>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div class="dropdown dropdown-end lg:hidden">
+          <label tabindex="0" class="btn btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h7"
+              />
+            </svg>
+          </label>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li><router-link to="/">Home</router-link></li>
+            <li><router-link to="/shop">Shop</router-link></li>
+            <li>
+              <router-link to="/cart" class="gap-2">
+                Cart
+                <span v-if="cartStore.items.length" class="badge badge-primary">
+                  {{ cartStore.items.length }}
+                </span>
+              </router-link>
+            </li>
+            <li><router-link to="/dashboard">Dashboard</router-link></li>
+            <li><router-link to="/tenants">Tenants</router-link></li>
+            <li v-if="authStore.isAuthenticated">
+              <a @click="logout">Logout</a>
+            </li>
+            <li v-else>
+              <router-link to="/login">Login</router-link>
+            </li>
+            <li>
+              <LanguageSwitcher />
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 
-    <main class="main-content">
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto py-8 px-4">
       <router-view />
     </main>
+
+    <!-- Footer -->
+    <footer class="footer bg-base-200 text-base-content p-10 mt-auto">
+      <nav>
+        <header class="footer-title">Services</header>
+        <a class="link link-hover">Branding</a>
+        <a class="link link-hover">Design</a>
+        <a class="link link-hover">Marketing</a>
+        <a class="link link-hover">Advertisement</a>
+      </nav>
+      <nav>
+        <header class="footer-title">Company</header>
+        <a class="link link-hover">About us</a>
+        <a class="link link-hover">Contact</a>
+        <a class="link link-hover">Jobs</a>
+        <a class="link link-hover">Press kit</a>
+      </nav>
+      <nav>
+        <header class="footer-title">Legal</header>
+        <a class="link link-hover">Terms of use</a>
+        <a class="link link-hover">Privacy policy</a>
+        <a class="link link-hover">Cookie policy</a>
+      </nav>
+      <form>
+        <header class="footer-title">Newsletter</header>
+        <fieldset class="form-control w-80">
+          <label class="label">
+            <span class="label-text">Enter your email address</span>
+          </label>
+          <div class="join">
+            <input
+              type="email"
+              placeholder="username@site.com"
+              class="input input-bordered join-item"
+            />
+            <button type="submit" class="btn btn-primary join-item">
+              Subscribe
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </footer>
   </div>
 </template>
 

@@ -2,6 +2,12 @@
 import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
+declare global {
+  interface Window {
+    print(): void;
+  }
+}
+
 interface InvoiceLineItem {
   id: string;
   productSku: string;
@@ -69,6 +75,12 @@ const emit = defineEmits<{
 const loading = ref(false);
 const error = ref<string | null>(null);
 const invoice = ref<Invoice | null>(null);
+
+const handlePrint = () => {
+  if (typeof window !== "undefined") {
+    window.print();
+  }
+};
 
 // Computed properties
 const formattedIssuedAt = computed(() => {
@@ -608,7 +620,7 @@ onMounted(() => {
         </button>
 
         <button
-          @click="window.print()"
+          @click="handlePrint"
           class="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
           aria-label="Print invoice"
         >

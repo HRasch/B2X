@@ -1,65 +1,56 @@
 <template>
-  <div class="hero-banner" :style="heroStyles">
-    <div class="hero-content">
-      <h1 v-if="settings.title" class="hero-title">{{ settings.title }}</h1>
-      <p v-if="settings.subtitle" class="hero-subtitle">
-        {{ settings.subtitle }}
-      </p>
-      <button v-if="settings.buttonText" class="hero-button">
-        {{ settings.buttonText }}
-      </button>
+  <div
+    class="hero min-h-[400px]"
+    :style="{
+      backgroundImage: settings.backgroundImage
+        ? `url(${settings.backgroundImage})`
+        : undefined,
+    }"
+  >
+    <div
+      class="hero-overlay"
+      :style="{
+        backgroundColor: settings.backgroundColor || 'rgba(0, 0, 0, 0.5)',
+      }"
+    ></div>
+    <div class="hero-content text-center text-white">
+      <div class="max-w-md">
+        <h1 v-if="settings.title" class="text-5xl font-bold mb-4">
+          {{ settings.title }}
+        </h1>
+        <p v-if="settings.subtitle" class="text-xl mb-6">
+          {{ settings.subtitle }}
+        </p>
+        <button
+          v-if="settings.buttonText"
+          class="btn btn-primary"
+          @click="$emit('banner-click')"
+        >
+          {{ settings.buttonText }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
-import { computed } from "vue";
-
 interface Props {
   settings?: Record<string, any>;
   widgetId?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   settings: () => ({}),
 });
 
-const heroStyles = computed(() => ({
-  backgroundImage: props.settings.backgroundImage
-    ? `url(${props.settings.backgroundImage})`
-    : undefined,
-  backgroundColor: props.settings.backgroundColor || "#f0f0f0",
-  minHeight: props.settings.minHeight || "400px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: props.settings.textColor || "#000",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-}));
+defineEmits<{
+  "banner-click": [];
+}>();
 </script>
 
 <style scoped>
-.hero-banner {
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-content {
-  text-align: center;
-  z-index: 1;
-}
-
-.hero-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.hero-subtitle {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
+.hero {
+  background-size: cover;
+  background-position: center;
 }
 
 .hero-button {

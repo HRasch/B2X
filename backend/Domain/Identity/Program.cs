@@ -6,6 +6,8 @@ using B2Connect.Middleware;
 using B2Connect.Identity.Handlers;
 using B2Connect.Identity.Interfaces;
 using B2Connect.Identity.Services;
+using B2Connect.Identity.Infrastructure;
+using B2Connect.Identity.Infrastructure.Middleware;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -198,8 +200,10 @@ builder.Services.AddScoped<IErpCustomerService, ErpCustomerService>();
 builder.Services.AddScoped<IDuplicateDetectionService, DuplicateDetectionService>();
 builder.Services.AddScoped<CheckRegistrationTypeService>();
 
-// Add HttpClient for ERP integration
-builder.Services.AddHttpClient<IErpCustomerService, ErpCustomerService>();
+// Add HttpClient for ERP integration with Polly resilience policies
+builder.Services
+    .AddHttpClient<IErpCustomerService, ErpCustomerService>()
+    .AddErpResiliencePolicies();
 
 // Configure HSTS options (production)
 builder.Services.AddHsts(options =>
@@ -321,6 +325,9 @@ using (var scope = app.Services.CreateScope())
 
 // Service defaults middleware
 app.UseServiceDefaults();
+
+// Global API exception handling (MUST be early in pipeline)
+app.UseApiExceptionHandling();
 
 // CORS middleware - MUST be before auth
 app.UseCors("AllowFrontend");

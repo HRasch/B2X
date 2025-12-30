@@ -110,15 +110,18 @@ const clearValidation = () => {
 </script>
 
 <template>
-  <div class="b2b-vat-id-input">
-    <div class="vat-input-group">
-      <label for="countryCode" class="label">Country Code</label>
+  <div class="space-y-4">
+    <!-- Country Code Select -->
+    <div class="form-control">
+      <label for="countryCode" class="label">
+        <span class="label-text font-bold">Country Code</span>
+      </label>
       <select
         id="countryCode"
         v-model="countryCode"
         :disabled="isValidating"
         @change="handleCountryChange"
-        class="country-select"
+        class="select select-bordered"
       >
         <option value="AT">Austria (AT)</option>
         <option value="BE">Belgium (BE)</option>
@@ -150,9 +153,12 @@ const clearValidation = () => {
       </select>
     </div>
 
-    <div class="vat-input-group">
-      <label for="vatNumber" class="label">VAT Number</label>
-      <div class="input-with-button">
+    <!-- VAT Number Input -->
+    <div class="form-control">
+      <label for="vatNumber" class="label">
+        <span class="label-text font-bold">VAT Number</span>
+      </label>
+      <div class="flex gap-2">
         <input
           id="vatNumber"
           v-model="vatNumber"
@@ -160,85 +166,151 @@ const clearValidation = () => {
           placeholder="e.g., 123456789"
           :disabled="isValidating"
           @change="handleVatNumberChange"
-          class="vat-input"
-          :class="statusClass"
+          class="input input-bordered flex-1"
+          :class="{
+            'input-success': isValid,
+            'input-error': error,
+          }"
         />
         <button
           type="button"
           :disabled="isValidating || !countryCode || !vatNumber"
           @click="validateVatId"
-          class="validate-btn"
+          class="btn btn-primary"
         >
+          <span
+            v-if="isValidating"
+            class="loading loading-spinner loading-sm"
+          ></span>
           {{ isValidating ? "Validating..." : "Validate" }}
         </button>
       </div>
-      <p class="full-vat-id">{{ fullVatId }}</p>
-    </div>
-
-    <!-- Validation Result -->
-    <div
-      v-if="validationResult"
-      :class="[
-        'validation-result',
-        validationResult.isValid ? 'success' : 'failed',
-      ]"
-    >
-      <div class="result-header">
-        <span v-if="validationResult.isValid" class="status-icon">✓</span>
-        <span v-else class="status-icon">✗</span>
-        <span class="status-text">{{ validationResult.message }}</span>
-      </div>
-
-      <div v-if="validationResult.isValid" class="company-info">
-        <div v-if="validationResult.companyName" class="info-row">
-          <span class="label">Company Name:</span>
-          <span class="value">{{ validationResult.companyName }}</span>
-        </div>
-        <div v-if="validationResult.companyAddress" class="info-row">
-          <span class="label">Address:</span>
-          <span class="value">{{ validationResult.companyAddress }}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Reverse Charge:</span>
-          <span
-            class="value"
-            :class="{ active: validationResult.reverseChargeApplies }"
-          >
-            {{
-              validationResult.reverseChargeApplies
-                ? "0% VAT (applies)"
-                : "Standard VAT rate"
-            }}
-          </span>
-        </div>
-      </div>
+      <label class="label">
+        <span class="label-text-alt font-mono">{{ fullVatId }}</span>
+      </label>
     </div>
 
     <!-- Error Message -->
-    <div v-if="error && !validationResult" class="error-message">
-      <p>{{ error }}</p>
-      <p class="error-hint">
-        If you cannot provide a valid VAT-ID, you can continue as a B2C customer
-        (standard VAT applies).
-      </p>
-    </div>
+    <Transition name="fade">
+      <div v-if="error" class="alert alert-error shadow-lg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m2-2l2 2m1-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{{ error }}</span>
+      </div>
+    </Transition>
 
-    <!-- Action Buttons -->
-    <div v-if="validationResult || error" class="action-buttons">
-      <button type="button" @click="clearValidation" class="btn-secondary">
-        Clear & Start Over
-      </button>
+    <!-- Validation Result -->
+    <Transition name="fade">
+      <div
+        v-if="validationResult"
+        class="card shadow-lg"
+        :class="{
+          'bg-success/10': validationResult.isValid,
+          'bg-error/10': !validationResult.isValid,
+        }"
+      >
+        <div class="card-body">
+          <!-- Result Header -->
+          <div class="flex items-center gap-2 mb-4">
+            <div
+              class="badge badge-lg"
+              :class="{
+                'badge-success': validationResult.isValid,
+                'badge-error': !validationResult.isValid,
+              }"
+            >
+              <span v-if="validationResult.isValid" class="text-lg">✓</span>
+              <span v-else class="text-lg">✗</span>
+            </div>
+            <span class="font-bold">{{ validationResult.message }}</span>
+          </div>
+
+          <!-- Company Info -->
+          <div v-if="validationResult.isValid" class="space-y-3">
+            <div
+              v-if="validationResult.companyName"
+              class="flex justify-between"
+            >
+              <span class="font-bold">Company Name:</span>
+              <span>{{ validationResult.companyName }}</span>
+            </div>
+            <div
+              v-if="validationResult.companyAddress"
+              class="flex flex-col gap-1"
+            >
+              <span class="font-bold">Address:</span>
+              <span class="text-sm">{{ validationResult.companyAddress }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="font-bold">Reverse Charge:</span>
+              <span
+                :class="{
+                  'badge badge-success': validationResult.reverseChargeApplies,
+                  'badge badge-warning': !validationResult.reverseChargeApplies,
+                }"
+              >
+                {{
+                  validationResult.reverseChargeApplies
+                    ? "0% VAT (applies)"
+                    : "Standard VAT rate"
+                }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex gap-2 mt-4 border-t pt-4">
+            <button
+              type="button"
+              @click="clearValidation"
+              class="btn btn-ghost flex-1"
+            >
+              Clear & Start Over
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- Additional Help Text -->
+    <div v-if="error && !validationResult" class="alert alert-info shadow-lg">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        class="stroke-current shrink-0 w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+      </svg>
+      <div>
+        <h3 class="font-bold">VAT Validation Help</h3>
+        <div class="text-xs">
+          If you cannot provide a valid VAT-ID, you can continue as a B2C
+          customer (standard VAT applies).
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.b2b-vat-id-input {
-  padding: 1.5rem;
-  background: #f9fafb;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-}
+/* All styling is handled by DaisyUI and Tailwind classes */
 
 .vat-input-group {
   margin-bottom: 1.5rem;

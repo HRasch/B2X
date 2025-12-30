@@ -1,3 +1,22 @@
+Knowledgebase Index
+-------------------
+This index lists curated knowledgebase articles to help agents and developers implement best practices for the project.
+
+- csharp-14.md — C# 14 language highlights and links
+- dotnet-features.md — .NET runtime, SDK and library highlights (focus: .NET 10)
+- dotnet-breaking-changes.md — Compatibility rules and breaking-change guidance
+- dotnet-identity.md — ASP.NET Core Identity summary and best practices
+- dotnet-localization.md — Globalization/localization patterns and advice
+- dotnet-features.md — .NET features overview
+- patterns-antipatterns.md — Cross-cutting design patterns and antipatterns
+- repo-mapping.md — Where technologies appear in this repository (quick map)
+- wolverine.md — Wolverine messaging & CQRS overview
+- vue.md — Vue.js 3 overview and links
+- pinia.md — Pinia store summary
+- vite.md — Vite tooling notes
+- owasp-top-ten.md — OWASP Top Ten summary
+
+Use these as the canonical short references when implementing or reviewing code.
 # Knowledgebase Index
 
 ## Purpose

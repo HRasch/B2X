@@ -1,36 +1,36 @@
 <template>
-  <section class="testimonials-widget py-12">
-    <div class="container mx-auto">
+  <section class="py-12">
+    <div class="container mx-auto px-4">
       <!-- Title -->
       <h2 v-if="settings.title" class="text-3xl font-bold mb-12 text-center">
         {{ settings.title }}
       </h2>
 
       <!-- Testimonials Carousel -->
-      <div v-if="testimonials.length > 0" class="bg-gray-50 rounded p-8 max-w-3xl mx-auto">
-        <div class="text-center">
-          <p class="text-lg text-gray-700 mb-4 italic">
+      <div
+        v-if="testimonials.length > 0"
+        class="card bg-base-200 max-w-3xl mx-auto"
+      >
+        <div class="card-body text-center">
+          <blockquote class="text-lg italic mb-4">
             "{{ currentTestimonial.text }}"
-          </p>
-          <p class="font-semibold text-gray-900">{{ currentTestimonial.author }}</p>
-          <p class="text-sm text-gray-600">{{ currentTestimonial.title }}</p>
+          </blockquote>
+          <p class="font-semibold">{{ currentTestimonial.author }}</p>
+          <p class="text-sm opacity-70">{{ currentTestimonial.title }}</p>
         </div>
 
         <!-- Navigation -->
-        <div v-if="testimonials.length > 1" class="flex justify-center gap-4 mt-8">
-          <button
-            class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
-            @click="previousTestimonial"
-          >
+        <div
+          v-if="testimonials.length > 1"
+          class="card-body flex flex-row justify-center gap-4"
+        >
+          <button class="btn btn-sm btn-outline" @click="previousTestimonial">
             ← Previous
           </button>
-          <span class="flex items-center px-4 py-2">
+          <span class="flex items-center px-4">
             {{ currentIndex + 1 }} / {{ testimonials.length }}
           </span>
-          <button
-            class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
-            @click="nextTestimonial"
-          >
+          <button class="btn btn-sm btn-outline" @click="nextTestimonial">
             Next →
           </button>
         </div>
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from "vue";
 
 interface Testimonial {
   text: string;
@@ -60,7 +60,7 @@ let autoplayInterval: ReturnType<typeof setInterval> | null = null;
 
 const testimonials = computed(() => {
   try {
-    if (typeof props.settings.testimonials === 'string') {
+    if (typeof props.settings.testimonials === "string") {
       return JSON.parse(props.settings.testimonials);
     }
     return props.settings.testimonials || [];
@@ -78,7 +78,9 @@ const nextTestimonial = () => {
 };
 
 const previousTestimonial = () => {
-  currentIndex.value = (currentIndex.value - 1 + testimonials.value.length) % testimonials.value.length;
+  currentIndex.value =
+    (currentIndex.value - 1 + testimonials.value.length) %
+    testimonials.value.length;
 };
 
 onMounted(() => {
@@ -96,9 +98,3 @@ onUnmounted(() => {
   }
 });
 </script>
-
-<style scoped>
-.testimonials-widget {
-  width: 100%;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <section class="feature-grid-widget py-12">
-    <div class="container mx-auto">
+  <section class="py-12">
+    <div class="container mx-auto px-4">
       <!-- Title -->
       <h2 v-if="settings.title" class="text-3xl font-bold mb-12 text-center">
         {{ settings.title }}
@@ -10,10 +10,16 @@
       <div
         :class="`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${settings.columns || 3} gap-8`"
       >
-        <div v-for="(feature, index) in features" :key="index" class="text-center">
-          <div class="text-4xl mb-4">{{ feature.icon }}</div>
-          <h3 class="text-xl font-semibold mb-2">{{ feature.title }}</h3>
-          <p class="text-gray-600">{{ feature.description }}</p>
+        <div
+          v-for="(feature, index) in features"
+          :key="index"
+          class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow"
+        >
+          <div class="card-body text-center">
+            <div class="text-5xl mb-4">{{ feature.icon }}</div>
+            <h3 class="card-title justify-center">{{ feature.title }}</h3>
+            <p class="text-base-content/70">{{ feature.description }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -21,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from "vue";
 
 interface Feature {
   icon: string;
@@ -38,7 +44,7 @@ const props = defineProps<Props>();
 
 const features = computed(() => {
   try {
-    if (typeof props.settings.features === 'string') {
+    if (typeof props.settings.features === "string") {
       return JSON.parse(props.settings.features);
     }
     return props.settings.features || [];
@@ -47,9 +53,3 @@ const features = computed(() => {
   }
 });
 </script>
-
-<style scoped>
-.feature-grid-widget {
-  width: 100%;
-}
-</style>
