@@ -54,9 +54,9 @@ Complete the Backend Developer Quick-Start Guide to master Wolverine, DDD, Onion
 
 - [ ] Day 1: Read `docs/ADMIN_API_IMPLEMENTATION_GUIDE.md` (~30 min)
 - [ ] Day 2: Read `docs/GATEWAY_SEPARATION.md` (~20 min)
-- [ ] Day 3: Start Aspire: `dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj`
-- [ ] Day 4: Verify all services healthy in Aspire Dashboard (http://localhost:15500)
-- [ ] Day 5: Create first HTTP endpoint in Identity service following Wolverine pattern
+# [ ] Day 3: Start Aspire: `dotnet run --project AppHost/B2Connect.AppHost.csproj`
+# [ ] Day 2: Start Aspire: `dotnet run --project AppHost/B2Connect.AppHost.csproj`
+# [ ] Start Aspire: `dotnet run --project AppHost/B2Connect.AppHost.csproj`
 
 ## 📚 Week 3: Compliance & First Task
 
@@ -382,7 +382,7 @@ Complete DevOps Engineer Quick-Start Guide to master Aspire orchestration, netwo
 ## 📚 Week 3: Local Development & Infrastructure Verification
 
 - [ ] Day 1: Kill all services: `./scripts/kill-all-services.sh`
-- [ ] Day 2: Start Aspire: `dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj`
+- [ ] Day 2: Start Aspire: `dotnet run --project AppHost/B2Connect.AppHost.csproj`
 - [ ] Day 3: Verify all 11 services healthy in Aspire Dashboard
 - [ ] Day 4: Configure service discovery
 - [ ] Day 5: Document local infrastructure setup
@@ -424,7 +424,7 @@ Complete DevOps Engineer Quick-Start Guide to master Aspire orchestration, netwo
 
 - [ ] Kill any stuck services: `./scripts/kill-all-services.sh`
 - [ ] Verify ports free: `./scripts/check-ports.sh`
-- [ ] Start Aspire: `dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj`
+- [ ] Start Aspire: `dotnet run --project AppHost/B2Connect.AppHost.csproj`
 - [ ] Open Aspire Dashboard: http://localhost:15500
 - [ ] Verify all 11 services in "Resources" tab
 - [ ] Check each service status (all should be green)

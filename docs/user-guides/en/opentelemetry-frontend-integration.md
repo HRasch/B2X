@@ -12,7 +12,7 @@ This guide explains how to enable distributed tracing and metrics for B2Connect 
 ## Prerequisites
 
 - Node.js 18+
-- Aspire running (`cd backend/Orchestration && dotnet run`)
+- Aspire running (`cd AppHost && dotnet run`)
 - Aspire Dashboard accessible at http://localhost:15500
 
 ## Quick Start

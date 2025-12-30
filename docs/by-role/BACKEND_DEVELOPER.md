@@ -175,7 +175,7 @@ dotnet test backend/Domain/Identity/tests -v minimal
 dotnet test backend/Domain/Catalog/tests -v minimal
 
 # Start Aspire (all services)
-cd backend/Orchestration && dotnet run
+cd AppHost && dotnet run
 
 # Start single service
 dotnet run --project backend/Domain/Identity/src/B2Connect.Identity.csproj

@@ -11,11 +11,11 @@ namespace B2Connect.LocalizationService.Tests.Services;
 
 public class LocalizationServiceTests : IAsyncLifetime
 {
-    private LocalizationDbContext _dbContext;
-    private IMemoryCache _cache;
-    private Mock<IHttpContextAccessor> _httpContextAccessorMock;
-    private B2Connect.LocalizationService.Services.LocalizationService _service;
-    private Mock<HttpContext> _httpContextMock;
+    private LocalizationDbContext _dbContext = null!;
+    private IMemoryCache _cache = null!;
+    private Mock<IHttpContextAccessor> _httpContextAccessorMock = null!;
+    private B2Connect.LocalizationService.Services.LocalizationService _service = null!;
+    private Mock<HttpContext> _httpContextMock = null!;
 
     public async Task InitializeAsync()
     {

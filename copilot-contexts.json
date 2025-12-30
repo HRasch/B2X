@@ -8,7 +8,7 @@
       "description": "C#/.NET Microservices, APIs, Database",
       "includes": [
         "backend/Domain/**",
-        "backend/Orchestration/**",
+        "AppHost/**",
         "ServiceDefaults/**",
         "AppHost/**",
         "docs/architecture/**",
@@ -102,7 +102,7 @@
       "name": "⚙️ DevOps Engineer",
       "description": "Infrastructure, Orchestration, Monitoring",
       "includes": [
-        "backend/Orchestration/**",
+        "AppHost/**",
         "backend/infrastructure/**",
         "kubernetes/**",
         "AppHost/**",

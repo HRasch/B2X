@@ -35,7 +35,7 @@ git clone <your-repo>
 cd B2Connect
 
 # 2. Backend starten
-cd backend/Orchestration
+cd AppHost
 ASPNETCORE_ENVIRONMENT=Development dotnet run
 
 # Aspire Dashboard: http://localhost:15500

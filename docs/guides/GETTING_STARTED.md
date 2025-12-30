@@ -22,7 +22,7 @@ npm install --prefix frontend-admin
 
 ### 2. Start Backend (Aspire Orchestration)
 ```bash
-cd backend/Orchestration
+cd AppHost
 ASPNETCORE_ENVIRONMENT=Development dotnet run
 ```
 

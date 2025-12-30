@@ -67,7 +67,7 @@ See [Architecture Documentation](docs/architecture/) for details.
 ### Start Aspire (Recommended)
 
 ```bash
-cd backend/Orchestration
+cd AppHost
 ASPNETCORE_ENVIRONMENT=Development dotnet run
 
 # Services orchestrated by Aspire:

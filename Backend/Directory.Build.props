@@ -27,7 +27,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
-    <NoWarn>$(NoWarn);NU1605</NoWarn>
+    <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
+    <NoWarn>$(NoWarn);NU1605;MSB4011</NoWarn>
   </PropertyGroup>
 
   <!-- Exclude tests folders from non-test projects -->

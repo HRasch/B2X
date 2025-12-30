@@ -97,7 +97,7 @@ Elasticsearch ................... 9200
 
 ### Aspire Orchestration
 ```bash
-cd backend/Orchestration && dotnet run
+cd AppHost && dotnet run
 # Dashboard: http://localhost:15500
 # Service discovery automatic
 # Health checks built-in
@@ -113,9 +113,9 @@ cd backend/Orchestration && dotnet run
    ```
 
 2. **Build incrementally** (not all at once)
-   ```bash
-   dotnet build backend/Orchestration  # Build Aspire first
-   # Then individual services if needed
+```bash
+dotnet build AppHost  # Build AppHost first
+# Then individual services if needed
    ```
 
 3. **Port conflicts = DCP controller holding ports** (macOS issue)
@@ -137,7 +137,7 @@ cd backend/Orchestration && dotnet run
 # Orchestration & Services
 ./scripts/kill-all-services.sh              # Kill stuck processes
 ./scripts/check-ports.sh                    # Verify ports available
-cd backend/Orchestration && dotnet run      # Start Aspire + all services
+cd AppHost && dotnet run      # Start Aspire + all services
 
 # Database
 dotnet ef migrations add [Name] --project backend/Domain/[Service]/src
@@ -164,7 +164,7 @@ docker-compose ps                           # Container status
 pkill -9 -f "dcpctrl"
 pkill -9 -f "dcpproc"
 sleep 2
-cd backend/Orchestration && dotnet run
+cd AppHost && dotnet run
 ```
 
 ### Verify ports before restart

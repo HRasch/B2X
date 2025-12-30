@@ -181,7 +181,7 @@ Frontend/
 
 ```bash
 # Aspire (recommended)
-dotnet run --project backend/Orchestration
+dotnet run --project AppHost/B2Connect.AppHost.csproj
 
 # Manual
 dotnet run --project backend/Domain/Identity/src/B2Connect.Identity.csproj

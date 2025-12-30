@@ -7,7 +7,7 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/backend/AppHost/B2Connect.AppHost.csproj"
+        "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -178,13 +178,13 @@
       "type": "shell",
       "isBackground": true,
       "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/backend/Orchestration",
+        "args": [
+          "run",
+          "--project",
+          "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/AppHost",
         "env": {
           "ASPNETCORE_ENVIRONMENT": "Development",
           "Database__Provider": "inmemory",
@@ -380,7 +380,7 @@
       "command": "dotnet",
       "args": [
         "build",
-        "${workspaceFolder}/backend/Orchestration/B2Connect.Orchestration.csproj"
+        "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {

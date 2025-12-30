@@ -66,16 +66,16 @@ public class DesignVariable
     public Guid ThemeId { get; set; }
 
     /// <summary>Variable name (e.g., primary-color, spacing-unit)</summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>Variable value (hex, size, etc.)</summary>
-    public string Value { get; set; }
+    public string Value { get; set; } = null!;
 
     /// <summary>Variable category (Colors, Spacing, Typography, etc.)</summary>
-    public string Category { get; set; }
+    public string Category { get; set; } = null!;
 
     /// <summary>Variable description</summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
 
     /// <summary>Data type of the value</summary>
     public VariableType Type { get; set; } = VariableType.String;
@@ -99,10 +99,10 @@ public class ThemeVariant
     public Guid ThemeId { get; set; }
 
     /// <summary>Variant name (e.g., Dark Mode, High Contrast)</summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>Variant description</summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
 
     /// <summary>Overridden variables for this variant</summary>
     public Dictionary<string, string> VariableOverrides { get; set; } = new();
@@ -143,11 +143,11 @@ public enum VariableType
 /// <summary>Create Theme Request DTO</summary>
 public class CreateThemeRequest
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string PrimaryColor { get; set; }
-    public string SecondaryColor { get; set; }
-    public string TertiaryColor { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public string? PrimaryColor { get; set; }
+    public string? SecondaryColor { get; set; }
+    public string? TertiaryColor { get; set; }
 }
 
 /// <summary>Update Theme Request DTO</summary>

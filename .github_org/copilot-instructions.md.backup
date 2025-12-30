@@ -238,7 +238,7 @@ Testing:
 
 ```bash
 # Start all services with Aspire (recommended)
-cd backend/Orchestration
+cd AppHost
 dotnet run
 
 # Dashboard: http://localhost:15500

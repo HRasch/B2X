@@ -114,7 +114,7 @@ export KEYVAULT_URI=$(az keyvault show \
 open -a Docker
 
 # Build Orchestration
-cd backend/Orchestration
+cd AppHost
 dotnet build
 
 # Run Aspire

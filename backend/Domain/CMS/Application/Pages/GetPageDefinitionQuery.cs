@@ -16,13 +16,13 @@ namespace B2Connect.CMS.Application.Pages
     /// </summary>
     public class GetPageDefinitionQuery
     {
-        public string TenantId { get; init; }
-        public string PagePath { get; init; }
+        public string? TenantId { get; init; }
+        public string? PagePath { get; init; }
     }
 
     public interface IPageRepository
     {
-        Task<PageDefinition> GetPageByPathAsync(
+        Task<PageDefinition?> GetPageByPathAsync(
             string tenantId,
             string pagePath,
             CancellationToken cancellationToken);
@@ -53,9 +53,14 @@ namespace B2Connect.CMS.Application.Pages
                 request.TenantId,
                 request.PagePath);
 
+            if (string.IsNullOrWhiteSpace(request.TenantId) || string.IsNullOrWhiteSpace(request.PagePath))
+            {
+                throw new InvalidOperationException("TenantId and PagePath must be provided");
+            }
+
             var page = await _repository.GetPageByPathAsync(
-                request.TenantId,
-                request.PagePath,
+                request.TenantId!,
+                request.PagePath!,
                 cancellationToken);
 
             if (page == null || !page.IsPublished)
@@ -118,35 +123,35 @@ namespace B2Connect.CMS.Application.Pages
 
     public class PageDefinitionDto
     {
-        public string Id { get; set; }
-        public string TenantId { get; set; }
-        public string PageType { get; set; }
-        public string PagePath { get; set; }
-        public string PageTitle { get; set; }
-        public string PageDescription { get; set; }
-        public string MetaKeywords { get; set; }
-        public string TemplateLayout { get; set; }
-        public Dictionary<string, object> GlobalSettings { get; set; }
-        public List<RegionDto> Regions { get; set; }
+        public string Id { get; set; } = null!;
+        public string TenantId { get; set; } = null!;
+        public string PageType { get; set; } = null!;
+        public string PagePath { get; set; } = null!;
+        public string PageTitle { get; set; } = null!;
+        public string PageDescription { get; set; } = null!;
+        public string MetaKeywords { get; set; } = null!;
+        public string TemplateLayout { get; set; } = null!;
+        public Dictionary<string, object> GlobalSettings { get; set; } = new();
+        public List<RegionDto> Regions { get; set; } = new();
         public bool IsPublished { get; set; }
         public DateTime PublishedAt { get; set; }
     }
 
     public class RegionDto
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string Id { get; set; } = null!;
+        public string Name { get; set; } = null!;
         public int Order { get; set; }
-        public Dictionary<string, object> Settings { get; set; }
-        public List<WidgetInstanceDto> Widgets { get; set; }
+        public Dictionary<string, object> Settings { get; set; } = new();
+        public List<WidgetInstanceDto> Widgets { get; set; } = new();
     }
 
     public class WidgetInstanceDto
     {
-        public string Id { get; set; }
-        public string WidgetTypeId { get; set; }
-        public string ComponentPath { get; set; }
+        public string Id { get; set; } = null!;
+        public string WidgetTypeId { get; set; } = null!;
+        public string ComponentPath { get; set; } = null!;
         public int Order { get; set; }
-        public Dictionary<string, object> Settings { get; set; }
+        public Dictionary<string, object> Settings { get; set; } = new();
     }
 }

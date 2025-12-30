@@ -125,7 +125,7 @@ b2connect_layout      - Theming & Layout
 
 **Aspire Configuration**:
 ```csharp
-// Orchestration/Program.cs
+// AppHost/Program.cs
 var postgres = builder.AddB2ConnectPostgres(
     name: "postgres",
     port: 5432,
@@ -151,7 +151,7 @@ Host=localhost;Port=5432;Database=b2connect_auth;Username=postgres;Password=<sec
 # In each service
 dotnet ef database update
 
-# Or with Aspire
+# Or with AppHost
 .RunAsync()  // Automatically creates databases
 ```
 
@@ -371,7 +371,7 @@ az keyvault set-policy --name b2connect-vault \
   --object-id <identity-object-id> --secret-permissions get list
 
 # 4. Deploy Aspire Orchestration
-dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+dotnet run --project AppHost/B2Connect.AppHost.csproj
 ```
 
 ### Day 2: Verify & Test
@@ -414,14 +414,14 @@ curl https://b2connect.app/health
 
 **New Files**:
 ```
-✅ backend/Orchestration/B2ConnectAspireExtensions.cs    (200 lines)
+✅ AppHost/B2ConnectAspireExtensions.cs    (200 lines)
 ✅ backend/shared/.../Authentication/Passkeys/PasskeysService.cs (400 lines)
 ✅ backend/shared/.../Extensions/SecurityServiceExtensions.cs    (280 lines)
 ```
 
 **Modified Files**:
 ```
-✅ backend/Orchestration/Program.cs                      (updated with integration)
+✅ AppHost/Program.cs                      (updated with integration)
 ✅ backend/shared/.../Extensions/DataServiceExtensions.cs (added method overload)
 ```
 
@@ -468,7 +468,7 @@ curl https://b2connect.app/health
 
 - [ ] Start Aspire Orchestration
   ```bash
-  dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+  dotnet run --project AppHost/B2Connect.AppHost.csproj
   ```
 
 ### This Week

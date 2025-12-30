@@ -519,7 +519,7 @@ MEMORY_MAX_TRACES=1000
 
 1. **Start Aspire**
    ```bash
-   cd backend/Orchestration && dotnet run
+    cd AppHost && dotnet run
    ```
 
 2. **Check RabbitMQ Management**

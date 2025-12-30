@@ -68,7 +68,7 @@ npm install --prefix frontend-store
 
 ```bash
 # Start backend
-dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+dotnet run --project AppHost/B2Connect.AppHost.csproj
 
 # Start frontend (in separate terminal)
 npm run dev --prefix frontend-admin

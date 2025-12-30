@@ -115,6 +115,10 @@ Thumbs.db
 .env.*.local
 .env.production.local
 
+# Local secrets and CI baselines
+.secrets.baseline
+/.github/.secrets.baseline
+
 # SQLite databases
 *.db
 *.db-shm

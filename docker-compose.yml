@@ -6,8 +6,8 @@ services:
     image: postgres:16.11
     container_name: b2connect-postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_INITDB_ARGS: "--locale=C.UTF-8"
     ports:
       - "5432:5432"
@@ -43,8 +43,8 @@ services:
     image: rabbitmq:4.2.2-management
     container_name: b2connect-rabbitmq
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     ports:
       - "5672:5672"      # AMQP port
       - "15672:15672"    # Management UI
@@ -64,7 +64,7 @@ services:
     container_name: b2connect-elasticsearch
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=false
+      - xpack.security.enabled=${ELASTICSEARCH_SECURITY_ENABLED:-false}
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "9200:9200"
@@ -90,10 +90,10 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7002
-      ConnectionStrings__AuthDb: "Host=postgres;Port=5432;Database=b2connect_auth;Username=postgres;Password=postgres"
+      ConnectionStrings__AuthDb: "Host=postgres;Port=5432;Database=b2connect_auth;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
-      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
-      Jwt__Secret: "dev-jwt-secret-minimum-32-characters-required!!!"
+      RabbitMq__Uri: "amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD}@rabbitmq:5672"
+      Jwt__Secret: ${JWT_SECRET}
       Jwt__Issuer: "B2Connect"
       Jwt__Audience: "B2Connect"
     ports:
@@ -118,9 +118,9 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7003
-      ConnectionStrings__TenantDb: "Host=postgres;Port=5432;Database=b2connect_tenancy;Username=postgres;Password=postgres"
+      ConnectionStrings__TenantDb: "Host=postgres;Port=5432;Database=b2connect_tenancy;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
-      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+      RabbitMq__Uri: "amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD}@rabbitmq:5672"
     ports:
       - "7003:7003"
     depends_on:
@@ -143,9 +143,9 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7004
-      ConnectionStrings__LocalizationDb: "Host=postgres;Port=5432;Database=b2connect_localization;Username=postgres;Password=postgres"
+      ConnectionStrings__LocalizationDb: "Host=postgres;Port=5432;Database=b2connect_localization;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
-      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+      RabbitMq__Uri: "amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD}@rabbitmq:5672"
     ports:
       - "7004:7004"
     depends_on:
@@ -168,9 +168,9 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7005
-      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=b2connect_catalog;Username=postgres;Password=postgres"
+      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=b2connect_catalog;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
-      RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
+      RabbitMq__Uri: "amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD}@rabbitmq:5672"
       Elasticsearch__Uri: "http://elasticsearch:9200"
     ports:
       - "7005:7005"
@@ -217,10 +217,10 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:8000
-      ConnectionStrings__StoreDb: "Host=postgres;Port=5432;Database=b2connect_store;Username=postgres;Password=postgres"
+      ConnectionStrings__StoreDb: "Host=postgres;Port=5432;Database=b2connect_store;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
       RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
-      Jwt__Secret: "dev-jwt-secret-minimum-32-characters-required!!!"
+      Jwt__Secret: ${JWT_SECRET}
       Jwt__Issuer: "B2Connect"
       Jwt__Audience: "B2Connect"
       ServiceUrls__Identity: "http://identity-service:7002"
