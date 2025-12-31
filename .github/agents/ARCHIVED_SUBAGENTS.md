@@ -1,6 +1,6 @@
-# SubAgent Resource Library
+# SubAgent Resource Library — "Lazy Experts"
 
-This file indexes SubAgent definition files that were consolidated into higher-level "family" agents and are now maintained as a read-only resource library. The canonical guidance and ownership live in the consolidated family files; the resources in `.github/agents/subagents/` are available for reference and on-demand reuse.
+This file indexes SubAgent definition files that were consolidated into higher-level "family" agents and are now maintained as a resource library. These SubAgents are not outdated — they're "lazy experts": compact, specialist templates that encapsulate expert knowledge for on-demand use. The canonical guidance and ownership remain in the consolidated family files; the items in `.github/agents/subagents/` are available for quick reference and reuse.
 
 Canonical consolidated families:
 - Testing family: `.github/agents/SubAgent-TestingFamily.agent.md`
@@ -44,5 +44,7 @@ SubAgent resource files (reference)
 - SubAgent-Vulnerabilities.agent.md
 
 How to use this resource library
-- These files are read-only reference material for engineers and agents. If you need to re-instate a SubAgent as active, open an issue or PR and assign `@SARAH` / `@GitManager` for governance.
-- To search the resource library programmatically, read files under `.github/agents/subagents/` rather than `.github/agents/`.
+- These files are reference templates authored by subject-matter "lazy experts" — concise, ready-to-use guidance for engineers and agents.
+- Treat them as current, authoritative templates for specialized tasks; prefer family agent guidance for canonical workflows.
+- To re-instate a SubAgent as an active agent, open an issue or PR and assign `@SARAH` / `@GitManager` for governance.
+- To search the resource library programmatically, read files under `.github/agents/subagents/`.
