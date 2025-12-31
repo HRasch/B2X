@@ -97,3 +97,118 @@ public class GatewayIntegrationTests
         await catalogHost.StopAsync();
     }
 }
+
+    [Fact]
+    public async Task Gateway_Forwards_Custom_Headers_To_Catalog()
+    {
+        using var catalogHost = Host.CreateDefaultBuilder()
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseKestrel(options => options.Listen(System.Net.IPAddress.Loopback, 0));
+                webBuilder.Configure(app =>
+                {
+                    app.UseRouting();
+                    app.UseEndpoints(endpoints =>
+                    {
+                        endpoints.MapGet("/api/products", async ctx =>
+                        {
+                            var header = ctx.Request.Headers["X-Test-Header"].FirstOrDefault() ?? "-";
+                            var payload = new { header };
+                            ctx.Response.ContentType = "application/json";
+                            await ctx.Response.WriteAsync(JsonSerializer.Serialize(payload));
+                        });
+                    });
+                });
+            })
+            .Build();
+
+        await catalogHost.StartAsync();
+        var addressesFeature = catalogHost.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>();
+        var catalogAddress = addressesFeature.Addresses.First();
+        if (!catalogAddress.EndsWith('/')) catalogAddress += '/';
+
+        var factory = new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureAppConfiguration((context, conf) =>
+                {
+                    var proxyConfig = new Dictionary<string, string?>
+                    {
+                        ["ReverseProxy:Routes:api-v2-route:ClusterId"] = "test-cluster",
+                        ["ReverseProxy:Routes:api-v2-route:Match:Path"] = "/api/v2/{**catch-all}",
+                        ["ReverseProxy:Routes:api-v2-route:Transforms:0:PathRemovePrefix"] = "/api/v2",
+                        ["ReverseProxy:Routes:api-v2-route:Transforms:1:PathPrefix"] = "/api",
+                        ["ReverseProxy:Clusters:test-cluster:Destinations:destination1:Address"] = catalogAddress
+                    };
+
+                    conf.AddInMemoryCollection(proxyConfig);
+                });
+            });
+
+        using var client = factory.CreateClient();
+
+        var request = new HttpRequestMessage(HttpMethod.Get, "/api/v2/products");
+        request.Headers.Add("X-Test-Header", "header-value-123");
+        var res = await client.SendAsync(request);
+        res.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await res.Content.ReadAsStringAsync();
+        content.Should().Contain("header-value-123");
+
+        await catalogHost.StopAsync();
+    }
+
+    [Fact]
+    public async Task Gateway_Propagates_Upstream_Error_As_Server_Error()
+    {
+        using var catalogHost = Host.CreateDefaultBuilder()
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseKestrel(options => options.Listen(System.Net.IPAddress.Loopback, 0));
+                webBuilder.Configure(app =>
+                {
+                    app.UseRouting();
+                    app.UseEndpoints(endpoints =>
+                    {
+                        endpoints.MapGet("/api/products", async ctx =>
+                        {
+                            ctx.Response.StatusCode = 500;
+                            await ctx.Response.WriteAsync("upstream failure");
+                        });
+                    });
+                });
+            })
+            .Build();
+
+        await catalogHost.StartAsync();
+        var addressesFeature = catalogHost.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>();
+        var catalogAddress = addressesFeature.Addresses.First();
+        if (!catalogAddress.EndsWith('/')) catalogAddress += '/';
+
+        var factory = new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureAppConfiguration((context, conf) =>
+                {
+                    var proxyConfig = new Dictionary<string, string?>
+                    {
+                        ["ReverseProxy:Routes:api-v2-route:ClusterId"] = "test-cluster",
+                        ["ReverseProxy:Routes:api-v2-route:Match:Path"] = "/api/v2/{**catch-all}",
+                        ["ReverseProxy:Routes:api-v2-route:Transforms:0:PathRemovePrefix"] = "/api/v2",
+                        ["ReverseProxy:Routes:api-v2-route:Transforms:1:PathPrefix"] = "/api",
+                        ["ReverseProxy:Clusters:test-cluster:Destinations:destination1:Address"] = catalogAddress
+                    };
+
+                    conf.AddInMemoryCollection(proxyConfig);
+                });
+            });
+
+        using var client = factory.CreateClient();
+
+        var res = await client.GetAsync("/api/v2/products");
+
+        // Gateway should surface an error status; allow either 500 or 502 depending on config
+        ((int)res.StatusCode).Should().BeGreaterOrEqualTo(500);
+
+        await catalogHost.StopAsync();
+    }
