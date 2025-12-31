@@ -60,11 +60,12 @@ Notes on estimates: effort shown as **S/M/L** (Small ≈ 1-2 dev-weeks, Medium �
 
 ## P1 — High Value, Short to Mid-term
 
-- **Search (faceted)** — integrate Elasticsearch or compatible search service
+- **Enhanced Search (lexical, semantic, hybrid + optional image)** — integrate advanced search capabilities with Elasticsearch/vector DB
   - Priority: P1
-  - Effort: M
+  - Effort: L
   - Owner: Backend / Search
-  - Acceptance: Faceted product search, basic filters, relevance tuning
+  - Acceptance: Configurable search modes (lexical/semantic/hybrid), optional image search, admin configuration UI
+  - Details: See [search-enhancements-requirements.md](search-enhancements-requirements.md)
 
 - **Pluggable Payment & Tax adapters (additional providers)**
   - Priority: P1

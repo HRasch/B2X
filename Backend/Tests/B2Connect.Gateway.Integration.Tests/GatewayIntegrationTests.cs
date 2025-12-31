@@ -65,10 +65,10 @@ public class GatewayIntegrationTests
                 {
                     var proxyConfig = new Dictionary<string, string?>
                     {
-                        // Override the existing 'api-v2-route' defined in appsettings to point to our test cluster
-                        ["ReverseProxy:Routes:api-v2-route:ClusterId"] = "test-cluster",
-                        ["ReverseProxy:Routes:api-v2-route:Match:Path"] = "/api/v2/{**catch-all}",
-                        ["ReverseProxy:Routes:api-v2-route:Transforms:0:PathRemovePrefix"] = "/api/v2",
+                        // Override the existing 'api-v1-route' defined in appsettings to point to our test cluster
+                        ["ReverseProxy:Routes:api-v1-route:ClusterId"] = "test-cluster",
+                        ["ReverseProxy:Routes:api-v1-route:Match:Path"] = "/api/v1/{**catch-all}",
+                        ["ReverseProxy:Routes:api-v1-route:Transforms:0:PathRemovePrefix"] = "/api/v1",
                         ["ReverseProxy:Routes:api-v2-route:Transforms:1:PathPrefix"] = "/api",
 
                         // Add a cluster entry that points to our fake catalog
@@ -81,8 +81,8 @@ public class GatewayIntegrationTests
 
         using var client = factory.CreateClient();
 
-        // Call the gateway route — gateway should accept /api/v2/products and forward to catalog /api/products
-        var res = await client.GetAsync("/api/v2/products");
+        // Call the gateway route — gateway should accept /api/v1/products and forward to catalog /api/products
+        var res = await client.GetAsync("/api/v1/products");
         res.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await res.Content.ReadAsStringAsync();

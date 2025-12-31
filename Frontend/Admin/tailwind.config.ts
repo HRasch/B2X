@@ -1,11 +1,10 @@
-/** @type {import('tailwindcss').Config} */
+import type { Config } from "tailwindcss";
+
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
-  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        // Soft UI Custom Colors
         soft: {
           50: "#f8f9fa",
           100: "#f0f2f5",
@@ -18,7 +17,6 @@ export default {
           800: "#343a40",
           900: "#212529",
         },
-        // Primary Colors (Corporate Blue)
         primary: {
           50: "#f0f9ff",
           100: "#e0f2fe",
@@ -31,7 +29,6 @@ export default {
           800: "#075985",
           900: "#0c2d57",
         },
-        // Success Colors
         success: {
           50: "#f0fdf4",
           100: "#dcfce7",
@@ -44,7 +41,6 @@ export default {
           800: "#166534",
           900: "#14532d",
         },
-        // Warning Colors
         warning: {
           50: "#fffbeb",
           100: "#fef3c7",
@@ -57,7 +53,6 @@ export default {
           800: "#92400e",
           900: "#78350f",
         },
-        // Danger Colors
         danger: {
           50: "#fef2f2",
           100: "#fee2e2",
@@ -70,7 +65,6 @@ export default {
           800: "#991b1b",
           900: "#7f1d1d",
         },
-        // Info Colors
         info: {
           50: "#ecf0ff",
           100: "#e0e7ff",
@@ -84,10 +78,16 @@ export default {
           900: "#312e81",
         },
       },
+      borderRadius: {
+        soft: "0.75rem",
+        "soft-lg": "1rem",
+        "soft-xl": "1.5rem",
+        "soft-2xl": "2rem",
+      },
       boxShadow: {
-        // Soft UI Shadows
         "soft-xs": "0 2px 4px rgba(52, 71, 103, 0.1)",
         "soft-sm": "0 4px 6px rgba(52, 71, 103, 0.1)",
+        soft: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
         "soft-md": "0 6px 12px rgba(52, 71, 103, 0.1)",
         "soft-lg": "0 8px 16px rgba(52, 71, 103, 0.12)",
         "soft-xl": "0 12px 24px rgba(52, 71, 103, 0.15)",
@@ -96,29 +96,9 @@ export default {
         "soft-bottom":
           "0 8px 16px rgba(52, 71, 103, 0.15), inset 0 -2px 0 rgba(255, 255, 255, 0.5)",
       },
-      borderRadius: {
-        soft: "0.75rem",
-        "soft-lg": "1rem",
-        "soft-xl": "1.5rem",
-        "soft-2xl": "2rem",
-      },
       spacing: {
         safe: "1.5rem",
         "safe-lg": "2.5rem",
-      },
-      backgroundImage: {
-        "gradient-soft-cyan":
-          "linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)",
-        "gradient-soft-blue":
-          "linear-gradient(135deg, #3b82f6 0%, #0284c7 100%)",
-        "gradient-soft-purple":
-          "linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)",
-        "gradient-soft-green":
-          "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-        "gradient-soft-orange":
-          "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
-        "gradient-soft-red":
-          "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
       },
       fontFamily: {
         sans: ["Inter", "Segoe UI", "sans-serif"],
@@ -131,9 +111,5 @@ export default {
       },
     },
   },
-  plugins: [
-    // Optional: @tailwindcss/forms für erweiterte Form-Styling
-    // npm install -D @tailwindcss/forms
-    // require("@tailwindcss/forms"),
-  ],
-};
+  plugins: [],
+} satisfies Config;

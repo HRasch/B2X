@@ -6,6 +6,11 @@ using Wolverine;
 using Wolverine.Http;
 using Microsoft.EntityFrameworkCore;
 using EFCore.NamingConventions;
+using B2Connect.Email.Data;
+using B2Connect.Email.Interfaces;
+using B2Connect.Email.Services;
+using B2Connect.Email.Validators;
+using B2Connect.Email.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +32,7 @@ var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
 
 builder.Host.UseWolverine(opts =>
 {
-    opts.ServiceName = "CMSService";
+    opts.ServiceName = "EmailService";
 
     // Enable HTTP Endpoints (Wolverine Mediator)
     // opts.Http.EnableEndpoints = true;  // TODO: Enable when Wolverine HTTP is properly configured
@@ -52,15 +57,18 @@ builder.Services.AddEndpointsApiExplorer();
 
 // Add Database Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Database=b2connect_cms;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<CMSDbContext>(options =>
+    ?? "Host=localhost;Database=b2connect_email;Username=postgres;Password=postgres";
+builder.Services.AddDbContext<EmailDbContext>(options =>
     options.UseNpgsql(connectionString)
         .UseSnakeCaseNamingConvention());
 
-// Add CMS Services
-builder.Services.AddScoped<IPageRepository, PageRepository>();
-builder.Services.AddScoped<IPageService, PageService>();
-builder.Services.AddScoped<IValidator<CreatePageCommand>, CreatePageCommandValidator>();
+// Add Email Services
+builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IValidator<SendEmailCommand>, SendEmailCommandValidator>();
+
+// Add SMTP Configuration
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 
 // Add Caching
 builder.Services.AddMemoryCache();

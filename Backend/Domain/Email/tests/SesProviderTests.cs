@@ -1,3 +1,5 @@
+using Amazon.SimpleEmail;
+using Amazon.SimpleEmail.Model;
 using B2Connect.Email.Models;
 using B2Connect.Email.Services.Providers;
 using Microsoft.Extensions.Logging;
@@ -47,7 +49,11 @@ public class SesProviderTests
     public async Task IsAvailableAsync_ReturnsTrue()
     {
         // Arrange
-        var provider = new SesProvider(_validConfig, _loggerMock.Object);
+        var sesClientMock = new Mock<IAmazonSimpleEmailService>();
+        sesClientMock.Setup(c => c.GetSendQuotaAsync(It.IsAny<GetSendQuotaRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new GetSendQuotaResponse());
+
+        var provider = new SesProvider(_validConfig, _loggerMock.Object, sesClientMock.Object);
 
         // Act
         var result = await provider.IsAvailableAsync();

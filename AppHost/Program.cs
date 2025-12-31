@@ -24,6 +24,13 @@ var catalogDb = postgres.AddB2ConnectDatabase("catalog");
 var layoutDb = postgres.AddB2ConnectDatabase("layout");
 var adminDb = postgres.AddB2ConnectDatabase("admin");
 var storeDb = postgres.AddB2ConnectDatabase("store");
+var customerDb = postgres.AddB2ConnectDatabase("customer");
+
+// Add databases for new domain services
+var cmsDb = postgres.AddB2ConnectDatabase("cms");
+var emailDb = postgres.AddB2ConnectDatabase("email");
+var searchDb = postgres.AddB2ConnectDatabase("search");
+var returnsDb = postgres.AddB2ConnectDatabase("returns");
 
 // Redis Cache
 var redis = builder.AddB2ConnectRedis(
@@ -108,7 +115,17 @@ var themingService = builder
     .WithRateLimiting()
     .WithOpenTelemetry();
 
-// ===== API GATEWAYS =====
+// Customer Service
+var customerService = builder
+    .AddProject("customer-service", "../backend/Domain/Customer/B2Connect.Customer.API.csproj")
+    .WithPostgresConnection(customerDb)
+    .WithRedisConnection(redis)
+    .WithRabbitMQConnection(rabbitmq)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithEncryption()
+    .WithRateLimiting()
+    .WithOpenTelemetry();
 // Gateways keep fixed ports because frontends connect directly to them.
 // Internal service communication uses Aspire Service Discovery.
 

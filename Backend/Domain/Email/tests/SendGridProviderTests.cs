@@ -2,6 +2,8 @@ using B2Connect.Email.Models;
 using B2Connect.Email.Services.Providers;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Moq.Protected;
+using System.Net;
 using Xunit;
 
 namespace B2Connect.Email.Tests.Services.Providers;
@@ -62,7 +64,21 @@ public class SendGridProviderTests
     public async Task IsAvailableAsync_ReturnsTrue()
     {
         // Arrange
-        var provider = new SendGridProvider(_validConfig, _loggerMock.Object);
+        var handlerMock = new Mock<HttpMessageHandler>();
+        handlerMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(req => req.RequestUri!.ToString().EndsWith("user/profile")),
+                ItExpr.IsAny<CancellationToken>()
+            )
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("{}")
+            });
+
+        var provider = new SendGridProvider(_validConfig, _loggerMock.Object, handlerMock.Object);
 
         // Act
         var result = await provider.IsAvailableAsync();

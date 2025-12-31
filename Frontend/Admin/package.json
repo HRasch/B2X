@@ -26,7 +26,7 @@
     "e2e:performance": "playwright test tests/e2e/performance.spec.ts"
   },
   "dependencies": {
-    "axios": "^1.7.7",
+    "axios": "^1.13.2",
     "date-fns": "^3.6.0",
     "pinia": "^2.2.6",
     "vue": "^3.5.13",
@@ -47,6 +47,7 @@
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.14.0",
     "@typescript-eslint/parser": "^8.14.0",
+    "@tailwindcss/vite": "^4.1.18",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vitest/coverage-v8": "^4.0.16",
     "@vue/test-utils": "^2.4.6",
@@ -59,7 +60,7 @@
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "strip-literal": "^3.1.0",
-    "tailwindcss": "^3.4.15",
+    "tailwindcss": "^4.1.18",
     "terser": "^5.36.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",

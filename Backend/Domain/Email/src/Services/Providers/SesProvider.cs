@@ -20,13 +20,16 @@ public class SesProvider : IEmailProvider
     public string ProviderName => "Amazon SES";
 
     public SesProvider(EmailProviderConfig config, ILogger<SesProvider> logger)
+        : this(config, logger, null)
+    {
+    }
+
+    public SesProvider(EmailProviderConfig config, ILogger<SesProvider> logger, IAmazonSimpleEmailService? sesClient)
     {
         _region = config.AwsRegion ?? "us-east-1"; // Default region
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-        // Create SES client with AWS SDK (IAM authentication handled automatically)
-        var region = RegionEndpoint.GetBySystemName(_region);
-        _sesClient = new AmazonSimpleEmailServiceClient(region);
+        _sesClient = sesClient ?? new AmazonSimpleEmailServiceClient(RegionEndpoint.GetBySystemName(_region));
     }
 
     /// <inheritdoc/>

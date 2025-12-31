@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace B2Connect.Services.Search.Controllers;
 
 [ApiController]
-[Route("v2/products")]
+[Route("api/v1/products")]
 public class ProductSearchController : ControllerBase
 {
     private readonly IElasticService _elastic;

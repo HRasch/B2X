@@ -1,11 +1,5 @@
-using FluentValidation;
-using B2Connect.Shared.Messaging.Extensions;
-using B2Connect.ServiceDefaults;
-using Serilog;
-using Wolverine;
-using Wolverine.Http;
-using Microsoft.EntityFrameworkCore;
-using EFCore.NamingConventions;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +15,18 @@ builder.Host.UseSerilog((context, config) =>
 // Service Defaults (Health checks, Service Discovery)
 builder.Host.AddServiceDefaults();
 
+// Add Elasticsearch
+var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"] ?? "http://localhost:9200";
+var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUri)).DefaultIndex("b2connect_search");
+builder.Services.AddSingleton<ElasticsearchClient>(new ElasticsearchClient(settings));
+
 // Add Wolverine with HTTP Endpoints
 var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
 var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
 
 builder.Host.UseWolverine(opts =>
 {
-    opts.ServiceName = "CMSService";
+    opts.ServiceName = "SearchService";
 
     // Enable HTTP Endpoints (Wolverine Mediator)
     // opts.Http.EnableEndpoints = true;  // TODO: Enable when Wolverine HTTP is properly configured
@@ -52,15 +51,15 @@ builder.Services.AddEndpointsApiExplorer();
 
 // Add Database Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Database=b2connect_cms;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<CMSDbContext>(options =>
+    ?? "Host=localhost;Database=b2connect_search;Username=postgres;Password=postgres";
+builder.Services.AddDbContext<SearchDbContext>(options =>
     options.UseNpgsql(connectionString)
         .UseSnakeCaseNamingConvention());
 
-// Add CMS Services
-builder.Services.AddScoped<IPageRepository, PageRepository>();
-builder.Services.AddScoped<IPageService, PageService>();
-builder.Services.AddScoped<IValidator<CreatePageCommand>, CreatePageCommandValidator>();
+// Add Search Services
+builder.Services.AddScoped<ISearchRepository, SearchRepository>();
+builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IValidator<SearchQuery>, SearchQueryValidator>();
 
 // Add Caching
 builder.Services.AddMemoryCache();

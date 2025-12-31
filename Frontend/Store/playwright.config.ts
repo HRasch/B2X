@@ -2,8 +2,8 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests/e2e",
-  // Timeout 5s for backend integration
-  timeout: 5000,
+  // Timeout 1s for backend integration
+  timeout: 1000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -11,10 +11,10 @@ export default defineConfig({
   reporter: "html",
 
   use: {
-    // 5s timeouts
-    actionTimeout: 5000,
-    navigationTimeout: 5000,
-    expect: { timeout: 5000 },
+    // 1s timeouts
+    actionTimeout: 1000,
+    navigationTimeout: 1000,
+    expect: { timeout: 1000 },
     baseURL: "http://localhost:5173",
     trace: "on-first-retry",
     screenshot: "only-on-failure",

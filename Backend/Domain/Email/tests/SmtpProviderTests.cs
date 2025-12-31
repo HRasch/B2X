@@ -1,5 +1,6 @@
 using B2Connect.Email.Models;
 using B2Connect.Email.Services.Providers;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
@@ -102,7 +103,13 @@ public class SmtpProviderTests
     public async Task IsAvailableAsync_ReturnsTrue()
     {
         // Arrange
-        var provider = new SmtpProvider(_validConfig, _loggerMock.Object);
+        var smtpClientMock = new Mock<SmtpClient>();
+        smtpClientMock.Setup(c => c.ConnectAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<MailKit.Security.SecureSocketOptions>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        smtpClientMock.Setup(c => c.DisconnectAsync(It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var provider = new SmtpProvider(_validConfig, _loggerMock.Object, () => smtpClientMock.Object);
 
         // Act
         var result = await provider.IsAvailableAsync();

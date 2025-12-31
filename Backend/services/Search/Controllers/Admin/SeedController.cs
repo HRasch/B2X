@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace B2Connect.Services.Search.Controllers.Admin;
 
 [ApiController]
-[Route("v2/admin/seed")]
+[Route("api/v1/admin/seed")]
 public class SeedController : ControllerBase
 {
     private readonly ICatalogIndexer _indexer;

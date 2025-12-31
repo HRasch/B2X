@@ -20,14 +20,17 @@ public class SendGridProvider : IEmailProvider
     public string ProviderName => "SendGrid";
 
     public SendGridProvider(EmailProviderConfig config, ILogger<SendGridProvider> logger)
+        : this(config, logger, null)
+    {
+    }
+
+    public SendGridProvider(EmailProviderConfig config, ILogger<SendGridProvider> logger, HttpMessageHandler? handler)
     {
         _apiKey = config.ApiKey ?? throw new ArgumentNullException(nameof(config.ApiKey));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-        _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri("https://api.sendgrid.com/v3/")
-        };
+        _httpClient = handler != null ? new HttpClient(handler) : new HttpClient();
+        _httpClient.BaseAddress = new Uri("https://api.sendgrid.com/v3/");
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }

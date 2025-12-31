@@ -15,12 +15,19 @@ public class SmtpProvider : IEmailProvider
 {
     private readonly SmtpConfig _config;
     private readonly ILogger<SmtpProvider> _logger;
+    private readonly Func<SmtpClient> _smtpClientFactory;
 
     public string ProviderName => "SMTP";
 
     public SmtpProvider(EmailProviderConfig config, ILogger<SmtpProvider> logger)
+        : this(config, logger, () => new SmtpClient())
+    {
+    }
+
+    public SmtpProvider(EmailProviderConfig config, ILogger<SmtpProvider> logger, Func<SmtpClient> smtpClientFactory)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _smtpClientFactory = smtpClientFactory ?? throw new ArgumentNullException(nameof(smtpClientFactory));
 
         _config = new SmtpConfig
         {
@@ -41,7 +48,7 @@ public class SmtpProvider : IEmailProvider
 
         try
         {
-            using var client = new SmtpClient();
+            using var client = _smtpClientFactory();
 
             // Set up protocol logger for debugging (only in development)
 #if DEBUG
@@ -151,7 +158,7 @@ public class SmtpProvider : IEmailProvider
     {
         try
         {
-            using var client = new SmtpClient();
+            using var client = _smtpClientFactory();
 
             // Try to connect without authentication for health check
             await client.ConnectAsync(_config.Host, _config.Port,

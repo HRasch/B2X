@@ -8,16 +8,16 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 4,
   reporter: "html",
 
-  timeout: 30000,
-  expect: { timeout: 5000 },
+  timeout: 1000,
+  expect: { timeout: 1000 },
 
   use: {
     baseURL: "http://localhost:5174",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
-    actionTimeout: 10000,
-    navigationTimeout: 30000,
+    actionTimeout: 1000,
+    navigationTimeout: 1000,
   },
 
   projects: [

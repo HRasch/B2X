@@ -6,6 +6,11 @@ using Wolverine;
 using Wolverine.Http;
 using Microsoft.EntityFrameworkCore;
 using EFCore.NamingConventions;
+using B2Connect.Returns.Data;
+using B2Connect.Returns.Interfaces;
+using B2Connect.Returns.Services;
+using B2Connect.Returns.Validators;
+using B2Connect.Returns.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +32,7 @@ var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
 
 builder.Host.UseWolverine(opts =>
 {
-    opts.ServiceName = "CMSService";
+    opts.ServiceName = "ReturnsService";
 
     // Enable HTTP Endpoints (Wolverine Mediator)
     // opts.Http.EnableEndpoints = true;  // TODO: Enable when Wolverine HTTP is properly configured
@@ -52,15 +57,15 @@ builder.Services.AddEndpointsApiExplorer();
 
 // Add Database Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Database=b2connect_cms;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<CMSDbContext>(options =>
+    ?? "Host=localhost;Database=b2connect_returns;Username=postgres;Password=postgres";
+builder.Services.AddDbContext<ReturnsDbContext>(options =>
     options.UseNpgsql(connectionString)
         .UseSnakeCaseNamingConvention());
 
-// Add CMS Services
-builder.Services.AddScoped<IPageRepository, PageRepository>();
-builder.Services.AddScoped<IPageService, PageService>();
-builder.Services.AddScoped<IValidator<CreatePageCommand>, CreatePageCommandValidator>();
+// Add Returns Services
+builder.Services.AddScoped<IReturnRepository, ReturnRepository>();
+builder.Services.AddScoped<IReturnService, ReturnService>();
+builder.Services.AddScoped<IValidator<CreateReturnCommand>, CreateReturnCommandValidator>();
 
 // Add Caching
 builder.Services.AddMemoryCache();
