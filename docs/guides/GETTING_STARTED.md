@@ -51,10 +51,10 @@ Services available at:
 → See [docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md)
 
 **Want to understand architecture?**
-→ See [docs/ai/DDD_BOUNDED_CONTEXTS_REFERENCE.md](docs/ai/DDD_BOUNDED_CONTEXTS_REFERENCE.md)
+→ See [DDD Bounded Contexts](../../.ai/knowledgebase/DDD_BOUNDED_CONTEXTS_REFERENCE.md)
 
 **Need Wolverine patterns?**
-→ See [docs/ai/WOLVERINE_PATTERN_REFERENCE.md](docs/ai/WOLVERINE_PATTERN_REFERENCE.md)
+→ See [Wolverine Pattern Reference](../../.ai/knowledgebase/WOLVERINE_PATTERN_REFERENCE.md)
 
 **Running tests?**
 → See [docs/guides/TESTING_GUIDE.md](docs/guides/TESTING_GUIDE.md)
