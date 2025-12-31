@@ -239,9 +239,9 @@ rm .github/copilot-instructions-ux-expert.md
 rm .github/copilot-instructions-qa-reviewer.md
 rm .github/copilot-instructions-software-architect.md
 
-# Move stakeholder agents to archive
-mkdir -p .github/agents/archived
-mv .github/agents/stakeholder-*.agent.md .github/agents/archived/
+# Move stakeholder agents to subagents resource library
+mkdir -p .github/agents/subagents
+mv .github/agents/stakeholder-*.agent.md .github/agents/subagents/
 
 # Delete process bloat
 rm .github/docs/processes/INDEX_COMPLETE_PACKAGE.md

@@ -30,10 +30,10 @@ rm .github/agents/qa-pentesting.agent.md          # → @qa-engineer role
 rm .github/agents/qa-performance.agent.md         # → @qa-engineer role
 
 # Stakeholder agents (keep, but move to archive)
-mkdir -p .github/agents/archived
-mv .github/agents/stakeholder-*.agent.md .github/agents/archived/
-mv .github/agents/support-triage.agent.md .github/agents/archived/
-mv .github/agents/background-collaboration-monitor.agent.md .github/agents/archived/
+mkdir -p .github/agents/subagents
+mv .github/agents/stakeholder-*.agent.md .github/agents/subagents/
+mv .github/agents/support-triage.agent.md .github/agents/subagents/
+mv .github/agents/background-collaboration-monitor.agent.md .github/agents/subagents/
 ```
 
 **Result**: 37 agents → 20 core agents
@@ -301,10 +301,10 @@ rm .github/agents/frontend-store.agent.md 2>/dev/null || true
 rm .github/agents/qa-frontend.agent.md 2>/dev/null || true
 rm .github/agents/qa-pentesting.agent.md 2>/dev/null || true
 rm .github/agents/qa-performance.agent.md 2>/dev/null || true
-mkdir -p .github/agents/archived
-mv .github/agents/stakeholder-*.agent.md .github/agents/archived/ 2>/dev/null || true
-mv .github/agents/support-triage.agent.md .github/agents/archived/ 2>/dev/null || true
-mv .github/agents/background-collaboration-monitor.agent.md .github/agents/archived/ 2>/dev/null || true
+mkdir -p .github/agents/subagents
+mv .github/agents/stakeholder-*.agent.md .github/agents/subagents/ 2>/dev/null || true
+mv .github/agents/support-triage.agent.md .github/agents/subagents/ 2>/dev/null || true
+mv .github/agents/background-collaboration-monitor.agent.md .github/agents/subagents/ 2>/dev/null || true
 
 # Phase 2: Delete redundant copilot instructions
 echo "Phase 2: Cleaning up redundant instruction files..."
