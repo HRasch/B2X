@@ -42,6 +42,7 @@ SARAH will evaluate your request and implement changes if approved.
 - `.ai/guidelines/**/*.md` - All guidelines
 - `.ai/guidelines/**/*.yml` - All guideline configurations
 - `.ai/guidelines/**/*.json` - All guideline data
+ - `.github/agents/subagents/*.agent.md` - SubAgent resource library (read-only references)
 
 ## Rationale
 This centralized authority ensures:
