@@ -85,7 +85,7 @@
 Target Velocity:        28 SP  ≥ Success
 Phase 1 Available:      25 SP
 Buffer:                  6 SP  (17% cushion)
-Current Progress:        0 SP  (Day 1, teams starting)
+Current Progress:        6 SP  (Email Provider Phase 1 Complete)
 
 Duration:               Variable (no fixed dates)
 Success Criteria:       28 SP OR all items done
