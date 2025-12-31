@@ -46,16 +46,22 @@ Agents: @AgentA, @AgentB | Owner: @Agent
 
 This requirement ensures traceability and clear ownership for all docs created or modified by agents.
 
-## Model Policy
-By default, all agents SHOULD use the `gpt-5-mini` model for consistency and predictable behavior.
+## Agent Policy Changes
+Agent policies (for example: `model:` defaults, permissions, or other governance rules) are centrally governed. Only `@SARAH` is authorized to approve or enact changes to agent policies.
 
-- **Default:** `gpt-5-mini` is the recommended default model for all agents and prompt executions.
-- **Per-agent overrides:** It is permitted to assign a specific, alternative model to an individual agent when a justified use-case exists (for example, a specialized model with different capabilities). When assigning a non-default model you MUST:
-  - Document the justification in the agent file's frontmatter and in the associated knowledgebase entry under `.ai/knowledgebase/`.
-  - Add a short note to the audit log in `.ai/logs/documentation/` describing why the override was made.
-  - Notify `@SARAH` via an issue or PR comment for policy review and approval.
+- **Who can change policies:** Only `@SARAH` may approve and merge changes that alter agent policies.
+- **Proposal process:** Any agent or contributor may propose a policy change via a PR, but the PR must include a clear rationale and references to discussion; it must NOT be merged until `@SARAH` approves.
+- **Logging requirement:** When `@SARAH` approves a policy change, a log entry MUST be created under `.ai/logs/agent-policy-changes/` with the following fields:
+  - `timestamp`: ISO-8601 UTC timestamp
+  - `issuer`: GitHub handle or agent name that requested the change
+  - `approver`: `@SARAH`
+  - `targeted_agents`: list of affected agent DocIDs or names
+  - `summary`: short description of the change
+  - `pr`: link to the PR or issue that contains the change
 
-The `DocMaintainer` agent is responsible for validating that `model:` frontmatter values are supported and for flagging invalid or deprecated model identifiers.
+Example file name: `.ai/logs/agent-policy-changes/2025-12-31T15-30-00Z_policy_change_docmaintainer-model.md`
+
+The `DocMaintainer` is responsible for verifying that the log entry exists after `@SARAH` approves a change; it must not independently apply policy changes.
 
 | Agent | DocID | Spezialisierung | Aufgabe |
 |---|---|---|---|
