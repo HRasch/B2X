@@ -23,6 +23,16 @@ This index lists curated knowledgebase articles to help agents and developers im
  - search-elasticsearch-ecommerce.md — Modeling Elasticsearch-based e-commerce search & recommendations
 - docs-product-index.md — Index of product-related documentation under `docs/`
 
+Restored entries (Dec 31 2025):
+- FEATURE_IMPLEMENTATION_PATTERNS.md — End-to-end feature implementation patterns
+- WOLVERINE_PATTERN_REFERENCE.md — Wolverine/CQRS patterns and HTTP endpoint guidance
+- DDD_BOUNDED_CONTEXTS_REFERENCE.md — Bounded-context placement and domain mapping
+- VUE3_COMPOSITION_PATTERNS.md — Vue 3 Composition API patterns and examples
+- MERMAID_DOCUMENTATION.md — Mermaid diagrams usage and examples for architecture docs
+- search-elasticsearch-ecommerce.md — (restored) e-commerce search modeling
+- csharp-14.md — C# 14 highlights
+- repo-mapping.md — (restored) repository mapping quick reference
+
 Use these as the canonical short references when implementing or reviewing code.
 # Knowledgebase Index
 
