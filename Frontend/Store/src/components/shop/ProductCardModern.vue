@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import BaseCard from "@/components/ui/BaseCard.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
 
 export interface Product {
   id: string;
@@ -65,15 +67,19 @@ const handleAddToCart = () => {
 </script>
 
 <template>
-  <div
-    class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300"
+  <BaseCard
+    tag="article"
+    variant="elevated"
+    size="md"
+    :hover="true"
+    :aria-label="`Product: ${product.name}`"
   >
-    <!-- Product Image Section -->
-    <figure class="relative bg-base-200 overflow-hidden h-48">
+    <!-- Product Image -->
+    <template #image>
       <img
         :src="product.image"
-        :alt="product.name"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        :alt="`Product image of ${product.name}`"
+        class="w-full h-48 object-cover transition-transform duration-200 hover:scale-105"
         loading="lazy"
       />
       <!-- Stock Badge -->
@@ -88,16 +94,78 @@ const handleAddToCart = () => {
       <div class="absolute top-2 left-2">
         <div class="badge badge-primary">{{ product.category }}</div>
       </div>
-    </figure>
+    </template>
 
-    <!-- Product Info Section -->
-    <div class="card-body p-4">
-      <!-- Product Name & Rating -->
-      <div class="flex justify-between items-start gap-2">
-        <h2 class="card-title text-base line-clamp-2">{{ product.name }}</h2>
-        <!-- Star Rating -->
-        <div class="flex items-center gap-1 flex-shrink-0">
-          <div class="rating rating-sm">
+    <!-- Product Info -->
+    <template #title>
+      {{ product.name }}
+    </template>
+
+    <!-- Rating -->
+    <div class="flex items-center gap-1 mb-2">
+      <div class="rating rating-sm">
+        <input
+          v-for="star in 5"
+          :key="star"
+          type="radio"
+          :name="`rating-${product.id}`"
+          class="mask mask-star-2 bg-orange-400"
+          :checked="Math.floor(product.rating) >= star"
+          disabled
+        />
+      </div>
+      <span class="text-sm font-medium">{{ product.rating }}</span>
+    </div>
+
+    <!-- Description -->
+    <p class="text-sm opacity-70 line-clamp-2 mb-4">{{ product.description }}</p>
+
+    <!-- Pricing Section -->
+    <div class="bg-base-200 rounded-lg p-4 mb-4">
+      <div class="flex justify-between items-start mb-2">
+        <div>
+          <span
+            class="text-2xl font-bold text-primary"
+            data-testid="product-price"
+          >
+            {{ formattedPrice }}
+          </span>
+          <div v-if="product.b2bPrice" class="text-sm opacity-60 line-through">
+            {{ new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(product.b2bPrice) }}
+          </div>
+        </div>
+        <div class="text-right text-sm opacity-70">
+          <div>inkl. 19% MwSt</div>
+          <div>Netto: {{ vatInfo.net }}€</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <template #actions>
+      <BaseButton
+        v-if="product.inStock"
+        variant="primary"
+        size="md"
+        class="flex-1"
+        :aria-label="`Add ${product.name} to shopping cart`"
+        @click="handleAddToCart"
+      >
+        In Warenkorb
+      </BaseButton>
+      <BaseButton
+        v-else
+        variant="outline"
+        size="md"
+        class="flex-1"
+        :aria-label="`${product.name} is currently out of stock`"
+        disabled
+      >
+        Nicht verfügbar
+      </BaseButton>
+    </template>
+  </BaseCard>
+</template>
             <input
               type="radio"
               name="rating"
