@@ -37,7 +37,7 @@ gh issue comment ISSUE_ID --body "✅ Compliance verified by @Security"
 |----------|---------|-------|------------|
 | [ACCESSIBILITY_COMPLIANCE_REPORT.md](../../ACCESSIBILITY_COMPLIANCE_REPORT.md) | WCAG 2.1 AA, PAngV, accessibility | @UI, @Frontend | All UI/frontend work |
 | [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](../../ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md) | EU e-commerce legal (PAngV, GDPR, TMG, AStV) | @Legal, @ProductOwner | Store/payment features |
-| [GOVERNANCE.md](../../GOVERNANCE.md) | Requirements & process governance | @ProductOwner, @SARAH | Sprint planning, architecture |
+| [.ai/knowledgebase/governance.md](../../.ai/knowledgebase/governance.md) | Requirements & process governance | @ProductOwner, @SARAH | Sprint planning, architecture |
 | [docs/APPLICATION_SPECIFICATIONS.md](../../docs/APPLICATION_SPECIFICATIONS.md) | Complete system specs + compliance | @Architect, @Backend | Design phase, API development |
 
 ---
@@ -105,7 +105,7 @@ gh issue list --label "wcag-2.1-review" --state open \
 - ✅ Encryption at rest and in transit
 - ✅ Audit logging for access/changes
 
-**Reference**: GOVERNANCE.md → P0 Requirements → Data Protection
+**Reference**: .ai/knowledgebase/governance.md → P0 Requirements → Data Protection
 
 **Code Review Checklist**:
 ```markdown
@@ -299,7 +299,7 @@ gh pr edit PR_NUMBER --add-issue SECURITY_ISSUE_ID
 # Step 1: Review compliance requirements for sprint goal
 cat ACCESSIBILITY_COMPLIANCE_REPORT.md
 cat ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md
-cat GOVERNANCE.md
+  cat ../../.ai/knowledgebase/governance.md
 
 # Step 2: Create sprint with compliance label
 gh project create --title "Sprint 12" \
@@ -515,7 +515,7 @@ gh pr edit PR_NUMBER --required-review-count 2 \
 ## References
 - [ACCESSIBILITY_COMPLIANCE_REPORT.md](../../ACCESSIBILITY_COMPLIANCE_REPORT.md)
 - [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](../../ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md)
-- [GOVERNANCE.md](../../GOVERNANCE.md)
+- [.ai/knowledgebase/governance.md](../../.ai/knowledgebase/governance.md)
 ```
 
 ---
@@ -554,7 +554,7 @@ gh issue list --label "sprint-12,compliance" --state open
 |------|---------|-------|
 | [ACCESSIBILITY_COMPLIANCE_REPORT.md](../../ACCESSIBILITY_COMPLIANCE_REPORT.md) | WCAG 2.1 AA, PAngV price standards | @UI, @Frontend |
 | [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](../../ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md) | EU e-commerce legal requirements (PAngV, GDPR, VVVG) | @Legal, @ProductOwner |
-| [GOVERNANCE.md](../../GOVERNANCE.md) | Requirements governance, P0 critical items | @ProductOwner, @SARAH |
+| [.ai/knowledgebase/governance.md](../../.ai/knowledgebase/governance.md) | Requirements governance, P0 critical items | @ProductOwner, @SARAH |
 | [docs/APPLICATION_SPECIFICATIONS.md](../../docs/APPLICATION_SPECIFICATIONS.md) | Complete system specs + compliance requirements | @Architect |
 | [.github/instructions/security.instructions.md](.github/instructions/security.instructions.md) | Security coding standards | @Security |
 

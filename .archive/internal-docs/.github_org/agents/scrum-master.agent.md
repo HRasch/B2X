@@ -658,7 +658,7 @@ See [GOVERNANCE_RULES.md](../docs/processes/GOVERNANCE/GOVERNANCE_RULES.md) for 
 **Secondary** (Process Documentation):
 - All files in `.github/docs/processes/`
 - All files in `.github/agents/`
-- `.github/GOVERNANCE.md`
+- `.github/.ai/knowledgebase/governance.md`
 - `.github/CONTRIBUTING.md`
 
 **Your Role**: 

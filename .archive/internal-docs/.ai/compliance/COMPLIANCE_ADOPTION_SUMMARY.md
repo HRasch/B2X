@@ -67,7 +67,7 @@ All compliance documents have been **adopted** and **integrated** into the devel
 - B2C price transparency, 14-day returns, VAT handling
 - 15 test cases for compliance verification
 
-✅ **[GOVERNANCE.md](GOVERNANCE.md)**
+✅ **[.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md)**
 - Requirements governance & process documentation
 - P0 critical items and timeline
 - Complete requirements map
@@ -210,7 +210,7 @@ Use [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.m
 [Root level - existing compliance documents]
 ├── ACCESSIBILITY_COMPLIANCE_REPORT.md    [7K]  ← REFERENCED
 ├── ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md [15K] ← REFERENCED
-├── GOVERNANCE.md                         [15K] ← REFERENCED
+├── .ai/knowledgebase/governance.md                         [15K] ← REFERENCED
 └── docs/APPLICATION_SPECIFICATIONS.md    [20K] ← REFERENCED
 ```
 

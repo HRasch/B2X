@@ -19,8 +19,8 @@
 | Duplicate | Type | Action | Result |
 |-----------|------|--------|--------|
 | `CLEANUP_SUMMARY.md` | Name conflict (archive/ + architecture/) | Renamed | `ARCHITECTURE_CLEANUP_SUMMARY_2025_12_30.md` |
-| `GOVERNANCE.md` | Content duplicate (root + docs/processes/) | Removed docs/processes copy | Single source of truth |
-| `README_ARCHITECTURE_GOVERNANCE.md` | Redundant | Deleted | Consolidated into root GOVERNANCE.md |
+| `.ai/knowledgebase/governance.md` | Content duplicate (root + docs/processes/) | Removed docs/processes copy | Single source of truth |
+| `README_ARCHITECTURE_.ai/knowledgebase/governance.md` | Redundant | Deleted | Consolidated into root .ai/knowledgebase/governance.md |
 | `INDEX.md` (2 versions) | Different purpose | Kept both | architecture/INDEX.md + ai/INDEX.md (both needed) |
 | `README.md` (6 versions) | Folder indices | Kept all | Standard folder-level navigation |
 | **i18n files** (5 pairs) | Language versions | Kept all | Preserved multi-language support |
@@ -38,7 +38,7 @@
   - ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md
   - ARCHITECTURE_GOVERNANCE_VERIFICATION.md
   - GOVERNANCE_IMPLEMENTATION_COMPLETE.md
-  - README_ARCHITECTURE_GOVERNANCE.md (deleted in cleanup)
+  - README_ARCHITECTURE_.ai/knowledgebase/governance.md (deleted in cleanup)
 
 **Quick Reference Guides** (3 files)
 - Source: `docs/archive/` (already archived, just reorganized)
@@ -83,9 +83,9 @@ docs/archive/
 ### 6. ✅ Governance Consolidation
 
 **Single Source of Truth Achieved**:
-- Deleted: `docs/processes/GOVERNANCE_SETUP/GOVERNANCE.md` (duplicate of root)
+- Deleted: `docs/processes/GOVERNANCE_SETUP/.ai/knowledgebase/governance.md` (duplicate of root)
 - Created: `docs/processes/GOVERNANCE_SETUP/INDEX.md` (reference file)
-  - Points users to root `GOVERNANCE.md`
+  - Points users to root `.ai/knowledgebase/governance.md`
   - Links to archived phase reports
   - Explains governance setup history
 - Result: Governance rules now maintained in ONE location
@@ -93,8 +93,8 @@ docs/archive/
 ### 7. ✅ Link Integrity Verification
 
 **Dead Link Check Results**:
-- ✅ No references to deleted `GOVERNANCE_SETUP/GOVERNANCE.md`
-- ✅ No references to deleted `README_ARCHITECTURE_GOVERNANCE.md`
+- ✅ No references to deleted `GOVERNANCE_SETUP/.ai/knowledgebase/governance.md`
+- ✅ No references to deleted `README_ARCHITECTURE_.ai/knowledgebase/governance.md`
 - ✅ Archived files contain internal cross-references (acceptable)
 - ✅ Archive structure is self-contained
 - ✅ All active documentation links remain valid
@@ -209,14 +209,14 @@ docs/archive/
 1. **docs/architecture/CLEANUP_SUMMARY.md** → **ARCHITECTURE_CLEANUP_SUMMARY_2025_12_30.md**
    - Clarifies this is architecture-specific cleanup, not root cleanup
    
-2. **Deleted**: `docs/processes/GOVERNANCE_SETUP/GOVERNANCE.md`
-   - Duplicate of root GOVERNANCE.md
+2. **Deleted**: `docs/processes/GOVERNANCE_SETUP/.ai/knowledgebase/governance.md`
+   - Duplicate of root .ai/knowledgebase/governance.md
    
-3. **Deleted**: `docs/processes/GOVERNANCE_SETUP/README_ARCHITECTURE_GOVERNANCE.md`
+3. **Deleted**: `docs/processes/GOVERNANCE_SETUP/README_ARCHITECTURE_.ai/knowledgebase/governance.md`
    - Redundant content
    
 4. **Created**: `docs/processes/GOVERNANCE_SETUP/INDEX.md`
-   - Reference file pointing to root GOVERNANCE.md
+   - Reference file pointing to root .ai/knowledgebase/governance.md
    - Explains governance setup phase
    
 5. **Created**: `docs/QUICK_REFERENCE.md`
@@ -259,7 +259,7 @@ docs/archive/
 - [x] Identified all duplicate files
 - [x] Analyzed duplicate types (intentional vs problematic)
 - [x] Renamed ambiguous duplicates (CLEANUP_SUMMARY)
-- [x] Removed content duplicates (GOVERNANCE.md, README_ARCHITECTURE)
+- [x] Removed content duplicates (.ai/knowledgebase/governance.md, README_ARCHITECTURE)
 - [x] Archived legacy phase-completion reports
 - [x] Archived old quick reference guides
 - [x] Organized archive with proper README indices
@@ -331,7 +331,7 @@ docs/
 │  ├─ ARCHITECTURE_QUICK_START.md
 │  └─ GOVERNANCE_SETUP/
 │     ├─ README.md
-│     └─ INDEX.md ........................ References root GOVERNANCE.md
+│     └─ INDEX.md ........................ References root .ai/knowledgebase/governance.md
 └─ user-guides/ (84K, 10+ files)
    └─ Multi-language user documentation
 ```

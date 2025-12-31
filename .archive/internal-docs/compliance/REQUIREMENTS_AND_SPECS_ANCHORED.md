@@ -85,7 +85,7 @@
 | **APPLICATION_SPECIFICATIONS.md** | 24 KB | System-Spezifikationen | Architects, QA |
 | **GITHUB_WORKFLOWS.md** | 30 KB | Development-Prozess | All Developers |
 | **CONTRIBUTING.md** | 16 KB | Contributor Guide | New Devs |
-| **GOVERNANCE.md** | 14 KB | Dokumentations-Übersicht | Everyone |
+| **.ai/knowledgebase/governance.md** | 14 KB | Dokumentations-Übersicht | Everyone |
 | **Issue Templates** | 20 KB | Issue Tracking | All Devs |
 | **PR Template** | 10 KB | PR Standards | Reviewers |
 | **ANCHORED.md** | 12 KB | Verankerungen Summary | Everyone |
@@ -146,7 +146,7 @@ Mit exakten Task-Beschreibungen, Code-Beispielen, Testing-Schritten!
 ## 🔗 Wie alles zusammenhängt
 
 ```
-GOVERNANCE.md (Master Index)
+.ai/knowledgebase/governance.md (Master Index)
     ↓
     ├─→ REQUIREMENTS_SUMMARY.md
     │   (Was muss ich bauen?)

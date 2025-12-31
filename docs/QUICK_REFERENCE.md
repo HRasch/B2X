@@ -50,7 +50,7 @@
 
 ## 📋 Governance & Process
 
-- **[Governance Rules](../GOVERNANCE.md)** - Project authority matrix and decision-making
+- **[Governance Rules](../.ai/knowledgebase/governance.md)** - Project authority matrix and decision-making
 - **[Agent Role Documentation Guidelines](./processes/AGENT_ROLE_DOCUMENTATION_GUIDELINES.md)** - How to document agent roles
 - **[Complete Documentation Standards](./processes/COMPLETE_DOCUMENTATION_STANDARDS.md)** - Documentation best practices
 

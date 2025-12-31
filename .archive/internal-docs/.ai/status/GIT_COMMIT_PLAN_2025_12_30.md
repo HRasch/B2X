@@ -98,8 +98,8 @@
 - Reason: File was descriptive timestamp, moved to avoid confusion
 
 **docs/processes/**:
-- Removed duplicate `GOVERNANCE.md` (was duplicate of root GOVERNANCE.md)
-- Removed redundant `README_ARCHITECTURE_GOVERNANCE.md`
+- Removed duplicate `.ai/knowledgebase/governance.md` (was duplicate of root .ai/knowledgebase/governance.md)
+- Removed redundant `README_ARCHITECTURE_.ai/knowledgebase/governance.md`
 - Created reference file pointing to root documentation
 
 ---

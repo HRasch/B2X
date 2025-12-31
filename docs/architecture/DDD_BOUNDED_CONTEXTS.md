@@ -1,5 +1,7 @@
 # B2Connect DDD Bounded Contexts & Onion Architecture
 
+**Last Reviewed:** 2025-12-31 — maintained by `@Architect`
+
 ## Neue Struktur (ab Dezember 2025)
 
 Die Backend-Architektur wurde nach **Domain-Driven Design (DDD)** Prinzipien und **Bounded Contexts** reorganisiert:
@@ -207,17 +209,17 @@ Core hat KEINE Abhängigkeiten zu äußeren Schichten.
 
 ---
 
-## Migration Checklist
+## Migration Checklist (status)
 
 - [x] BoundedContexts Ordner erstellt
 - [x] Services nach Contexts verschoben
 - [x] Solution-Datei aktualisiert
 - [x] Tasks.json aktualisiert
-- [ ] Namespaces anpassen (von `B2Connect.CatalogService` zu `B2Connect.Store.Catalog`)
-- [ ] Project References aktualisieren
-- [ ] Orchestration (Aspire) anpassen
-- [ ] Tests aktualisieren
-- [ ] Dokumentation vervollständigen
+- [x] Namespaces angepasst (majority migrated to `B2Connect.Store.*` namespaces)
+- [x] Project References updated (gateways & services reference updated projects)
+- [ ] Orchestration (Aspire) review & tune remaining
+- [ ] Tests: verify & re-baseline failing tests
+- [ ] Dokumentation vervollständigen (link targets, examples)
 
 ---
 

@@ -29,8 +29,8 @@
 
 | Document | Purpose |
 |----------|---------|
-| **README_ARCHITECTURE_GOVERNANCE.md** | Quick reference for governance model |
-| **GOVERNANCE.md** | Active governance requirements |
+| **README_ARCHITECTURE_.ai/knowledgebase/governance.md** | Quick reference for governance model |
+| **.ai/knowledgebase/governance.md** | Active governance requirements |
 
 ---
 

@@ -30,7 +30,7 @@ You are the **Process Assistant Agent** with **EXCLUSIVE AUTHORITY** over:
 
 2. **Workflow Definition Files**:
    - `.github/docs/processes/*.md` (all process documentation)
-   - `.github/GOVERNANCE.md`
+   - `.github/.ai/knowledgebase/governance.md`
    - `.github/PROCESS_STANDARDS.md`
 
 3. **Governance Documentation**:

@@ -11,7 +11,7 @@
 ```
 ✅ README.md                          Project overview
 ✅ QUICK_START_GUIDE.md              Navigation hub (START HERE)
-✅ GOVERNANCE.md                      Decision-making framework
+✅ .ai/knowledgebase/governance.md                      Decision-making framework
 ✅ PROJECT_DASHBOARD.md              Metrics & KPIs
 ✅ ACCESSIBILITY_COMPLIANCE_REPORT.md WCAG 2.1 AA audit status
 ✅ AGENT_SYSTEM_GETTING_STARTED.md   AI agent introduction

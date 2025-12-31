@@ -19,7 +19,7 @@
 /
 ├── README.md                                    ← Project overview
 ├── QUICK_START_GUIDE.md                         ← NAVIGATION HUB
-├── GOVERNANCE.md                                ← Decision-making
+├── .ai/knowledgebase/governance.md              ← Decision-making
 ├── PROJECT_DASHBOARD.md                         ← Metrics
 ├── ACCESSIBILITY_COMPLIANCE_REPORT.md           ← Compliance
 ├── ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md     ← GitHub template
@@ -186,7 +186,7 @@ Frontend/
 1. Start: [QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md)
 2. Project Status: `PROJECT_DASHBOARD.md`
 3. Compliance: `docs/compliance/`
-4. Governance: `GOVERNANCE.md`
+4. Governance: `.ai/knowledgebase/governance.md`
 
 ### Tech Lead
 1. Start: `docs/by-role/TECH_LEAD.md`

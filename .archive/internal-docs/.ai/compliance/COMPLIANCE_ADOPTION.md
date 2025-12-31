@@ -20,7 +20,7 @@
 - Price transparency, 14-day returns, VAT handling
 - Used in: Store/payment features, sprint planning, acceptance criteria
 
-✅ **[GOVERNANCE.md](GOVERNANCE.md)**
+✅ **[.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md)**
 - Requirements governance, P0 critical items
 - Complete requirements map and process documentation
 - Used in: Sprint planning, architecture decisions, quality gates
@@ -57,7 +57,7 @@
 Before planning, review:
 - ACCESSIBILITY_COMPLIANCE_REPORT.md (WCAG requirements)
 - ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md (EU legal requirements)
-- GOVERNANCE.md (requirements governance)
+- .ai/knowledgebase/governance.md (requirements governance)
 - compliance-integration.prompt.md (implementation guidance)
 
 **Check Compliance Categories**:
@@ -139,7 +139,7 @@ gh issue list --label "sprint-12" --label "wcag-2.1-review,gdpr,security,pangv" 
 
 **Label**: `gdpr`  
 **Reviewers**: @Security, @Legal  
-**Reference**: [GOVERNANCE.md](GOVERNANCE.md)
+**Reference**: [.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md)
 
 ---
 
@@ -339,7 +339,7 @@ Use for every issue in GitHub:
 
 ✅ ACCESSIBILITY_COMPLIANCE_REPORT.md adopted (WCAG 2.1)  
 ✅ ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md adopted (EU e-commerce)  
-✅ GOVERNANCE.md adopted (requirements governance)  
+✅ .ai/knowledgebase/governance.md adopted (requirements governance)  
 ✅ docs/APPLICATION_SPECIFICATIONS.md referenced  
 
 ✅ compliance-integration.prompt.md created  
@@ -382,7 +382,7 @@ Use for every issue in GitHub:
 |----------|---------|------------|
 | [ACCESSIBILITY_COMPLIANCE_REPORT.md](ACCESSIBILITY_COMPLIANCE_REPORT.md) | WCAG 2.1 AA standards & examples | All UI/frontend work |
 | [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md) | EU e-commerce legal requirements | Store/payment features, sprint planning |
-| [GOVERNANCE.md](GOVERNANCE.md) | Requirements & process governance | Sprint planning, architecture decisions |
+| [.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md) | Requirements & process governance | Sprint planning, architecture decisions |
 | [docs/APPLICATION_SPECIFICATIONS.md](docs/APPLICATION_SPECIFICATIONS.md) | Complete system specs + compliance | Design phase, API development |
 | [.github/prompts/compliance-integration.prompt.md](.github/prompts/compliance-integration.prompt.md) | Compliance implementation guide | Code review, sprint planning |
 | [.github/prompts/git-management.prompt.md](.github/prompts/git-management.prompt.md) | Git workflow with compliance gate | Every PR review |

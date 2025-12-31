@@ -202,7 +202,7 @@ Every Day → Keep artifacts current (no stale docs)
 
 ---
 
-### 3. `GOVERNANCE.md`
+### 3. `.ai/knowledgebase/governance.md`
 **Changes**:
 - Added "Agent Responsibility for Artifacts" section
 - Artifact ownership map
