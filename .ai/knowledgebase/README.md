@@ -8,6 +8,7 @@ Files:
 - owasp-top-ten.md — OWASP Top Ten summary
 - dotnet-identity.md — ASP.NET Core Identity summary
 - dotnet-localization.md — ASP.NET Core localization summary
+- markdown-supported-on-github.md — GitHub Flavored Markdown (GFM) summary
 
 Contributors: GitHub Copilot (coordinated by @SARAH)
 # Knowledge Base Index
