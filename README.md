@@ -203,6 +203,12 @@ See [.copilot-specs.md](.copilot-specs.md) for detailed guidelines on:
 - Review checklist for generated code
 - Multitenant safety requirements
 
+## AI Models & Compliance
+
+- See `MODEL_LICENSES.md` for an inventory of AI models referenced in this repository, provider terms, and a compliance checklist.
+
+If your organization requires contract copies or additional compliance artifacts, store them in `.ai/compliance/` (keep actual contracts out of the public repo; use secure internal storage or private cloud storage and record references in `.ai/compliance/vendor-contracts.md`).
+
 ## 🚦 CI/CD Pipeline
 
 - **Trigger**: Push to main/develop branches
