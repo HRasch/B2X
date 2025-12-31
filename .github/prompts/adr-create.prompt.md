@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: Architect
 description: Architecture Decision Record template
 ---
 

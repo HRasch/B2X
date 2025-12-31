@@ -104,7 +104,7 @@ Sie haben zu viele Male mit falschen Passwörtern versucht, sich anzumelden. Zur
 
 ### Können Sie sich immer noch nicht anmelden?
 
-👉 [Support kontaktieren](../support.md)
+👉 [Support kontaktieren](../README.md)
 
 ---
 
@@ -138,6 +138,6 @@ A: Ja! Sie können gleichzeitig auf Ihrem Telefon, Computer und Tablet angemelde
 
 ---
 
-**Benötigen Sie Hilfe?** [Support kontaktieren](../support.md)  
+**Benötigen Sie Hilfe?** [Support kontaktieren](../README.md)  
 **Version**: 1.0 | **Zuletzt aktualisiert**: 29. Dezember 2025
 

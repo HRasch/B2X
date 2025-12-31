@@ -332,7 +332,7 @@ curl -X POST http://localhost:8080/api/products \
 
 - [CQRS_WOLVERINE_PATTERN.md](./CQRS_WOLVERINE_PATTERN.md) - Vollständiger CQRS Guide
 - [CQRS_IMPLEMENTATION_COMPLETE.md](./CQRS_IMPLEMENTATION_COMPLETE.md) - Implementierungs-Status
-- [CONTROLLER_FILTER_REFACTORING.md](./CONTROLLER_FILTER_REFACTORING.md) - Filter-Pattern
+- [CONTROLLER_FILTER_REFACTORING.md](../reference-docs/CONTROLLER_FILTER_REFACTORING.md) - Filter-Pattern
 - Wolverine Docs: https://wolverine.joelmwale.com/
 
 ---

@@ -415,7 +415,7 @@ Action:
 
 **Questions about metrics?**  
 → Ask Scrum Master  
-→ Check [DEVELOPMENT_PROCESS_FRAMEWORK.md](./DEVELOPMENT_PROCESS_FRAMEWORK.md)
+→ Check [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md)
 
 ---
 

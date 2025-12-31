@@ -61,7 +61,7 @@ B2Connect/
 ## 🚀 Wie geht es jetzt weiter?
 
 ### Für neue Entwickler:
-1. Öffne [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)
+1. Öffne [docs/DEVELOPER_GUIDE.md](../../guides/DEVELOPER_GUIDE.md)
 2. Folge dem Quick Start
 3. Für Spezifikationen: siehe [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
 
@@ -99,9 +99,9 @@ B2Connect/
 
 ## 🔗 Schnelle Links
 
-- **Developer Guide:** [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)
+- **Developer Guide:** [docs/DEVELOPER_GUIDE.md](../../guides/DEVELOPER_GUIDE.md)
 - **Dokumentations-Index:** [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
-- **Archivierte Docs:** [docs/archived/](docs/archived/)
+- **Archivierte Docs:** docs/archived/
 - **Skripte:** [scripts/](scripts/)
 
 ---

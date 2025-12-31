@@ -434,7 +434,7 @@ All documentation has been:
 
 These guides complement the authentication documentation:
 
-- [DDD_BOUNDED_CONTEXTS.md](./architecture/DDD_BOUNDED_CONTEXTS.md) - Identity service bounded context
+- [DDD_BOUNDED_CONTEXTS.md](../../architecture/DDD_BOUNDED_CONTEXTS.md) - Identity service bounded context
 - [TESTING_GUIDE.md](./guides/TESTING_GUIDE.md) - General testing strategy
 - [AUDIT_LOGGING_IMPLEMENTATION.md](./AUDIT_LOGGING_IMPLEMENTATION.md) - Audit log implementation
 - [copilot-instructions.md](./.github/copilot-instructions.md) - AI agent instructions

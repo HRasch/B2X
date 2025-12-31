@@ -633,10 +633,10 @@ The system demonstrates enterprise-grade architecture with proper patterns, clea
 ### Files Created/Updated
 
 1. **[ADR-001: Event-Driven Architecture with Wolverine](../../.ai/decisions/ADR-001-event-driven-architecture.md)** - New
-2. **[ADR-002: Multi-Database per Bounded Context](../../.ai/decisions/ADR-002-database-per-context.md)** - New
-3. **[Service Communication Guide](../../.ai/knowledgebase/architecture/SERVICE_COMMUNICATION.md)** - New
-4. **[Scalability Patterns](../../.ai/knowledgebase/architecture/SCALABILITY_GUIDE.md)** - New
-5. **[Testing Strategy](../../.ai/knowledgebase/quality/TESTING_STRATEGY.md)** - New
+2. **[ADR-002: Multi-Database per Bounded Context](../knowledgebase/INDEX.md)** - New
+3. **[Service Communication Guide](../knowledgebase/INDEX.md)** - New
+4. **[Scalability Patterns](../knowledgebase/operations/SCALABILITY_GUIDE.md)** - New
+5. **[Testing Strategy](../../docs/guides/TESTING_STRATEGY.md)** - New
 
 ### Knowledge Base Index Updated
 - ✅ Architecture section expanded

@@ -1,5 +1,4 @@
 ---
-mode: agent
 agent: SARAH
 description: Konsolidierung aller Agent-Analysen für eine Anforderung
 ---

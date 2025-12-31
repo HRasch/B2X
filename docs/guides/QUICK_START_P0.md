@@ -77,7 +77,7 @@ if (string.IsNullOrEmpty(jwtSecret))
 }
 ```
 
-→ Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.1](CRITICAL_ISSUES_ROADMAP.md#p01-hardcodierte-jwt-secrets-beheben) für komplettes Beispiel
+→ Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.1](QUICK_START_P0.md#p01-hardcodierte-jwt-secrets-beheben) für komplettes Beispiel
 
 ### P0.2: CORS Configuration
 
@@ -104,7 +104,7 @@ policy.WithOrigins(corsOrigins);
 { "Cors": { "AllowedOrigins": ["https://admin.b2connect.com"] } }
 ```
 
-→ Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.2](CRITICAL_ISSUES_ROADMAP.md#p02-cors-zu-permissiv-beheben)
+→ Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.2](QUICK_START_P0.md#p02-cors-zu-permissiv-beheben)
 
 ### P0.3: Encryption at Rest
 
@@ -125,7 +125,7 @@ modelBuilder.Entity<User>()
     );
 ```
 
-→ Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.3](CRITICAL_ISSUES_ROADMAP.md#p03-encryption-at-rest-implementieren)
+→ Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.3](QUICK_START_P0.md#p03-encryption-at-rest-implementieren)
 
 ### P0.4: Audit Logging
 
@@ -145,7 +145,7 @@ public class AuditInterceptor : SaveChangesInterceptor
 }
 ```
 
-→ Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.4](CRITICAL_ISSUES_ROADMAP.md#p04-audit-logging-implementieren)
+→ Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.4](QUICK_START_P0.md#p04-audit-logging-implementieren)
 
 ---
 
@@ -368,9 +368,9 @@ BREAKING: Production requires Jwt__Secret environment variable"
 ## 📞 Contacts & Resources
 
 ### Dokumentation
-- [CRITICAL_ISSUES_ROADMAP.md](CRITICAL_ISSUES_ROADMAP.md) ← Main guide
-- [SECURITY_HARDENING_GUIDE.md](../SECURITY_HARDENING_GUIDE.md) ← Code Examples
-- [COMPREHENSIVE_REVIEW.md](../COMPREHENSIVE_REVIEW.md) ← Full Details
+- [CRITICAL_ISSUES_ROADMAP.md](QUICK_START_P0.md) ← Main guide
+- [SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md) ← Code Examples
+- [COMPREHENSIVE_REVIEW.md](QUICK_REFERENCE.md) ← Full Details
 
 ### References
 - [Microsoft JWT Best Practices](https://learn.microsoft.com/en-us/dotnet/api/system.identitymodel.tokens.jwt.jwtsecuritytoken)
@@ -422,4 +422,4 @@ Am Freitag feiern wir den Erfolg! 🎊
 
 **Alles klar? Dann los geht's! Montag 09:00 Uhr!** 🚀
 
-Für Fragen: Siehe [CRITICAL_ISSUES_ROADMAP.md](CRITICAL_ISSUES_ROADMAP.md)
+Für Fragen: Siehe [CRITICAL_ISSUES_ROADMAP.md](QUICK_START_P0.md)

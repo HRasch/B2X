@@ -190,11 +190,11 @@ public class MyHandler : IRequestHandler<MyCommand, Response> { }
 
 | Link | Purpose |
 |------|---------|
-| [GOVERNANCE_RULES.md](.github/docs/processes/GOVERNANCE/GOVERNANCE_RULES.md) | Authority rules |
-| [AGENT_ESCALATION_PATH.md](.github/docs/processes/AGENT_COORDINATION/AGENT_ESCALATION_PATH.md) | Who decides what |
-| [WORKFLOW_SPRINT_EXECUTION.md](.github/docs/processes/CORE_WORKFLOWS/WORKFLOW_SPRINT_EXECUTION.md) | Your daily work |
-| [WORKFLOW_CODE_REVIEW.md](.github/docs/processes/CORE_WORKFLOWS/WORKFLOW_CODE_REVIEW.md) | PR process |
-| [WORKFLOW_INCIDENT_RESPONSE.md](.github/docs/processes/CORE_WORKFLOWS/WORKFLOW_INCIDENT_RESPONSE.md) | If something breaks |
+| [GOVERNANCE_RULES.md](../../../GOVERNANCE.md) | Authority rules |
+| [AGENT_ESCALATION_PATH.md](../../../.ai/collaboration/AGENT_TEAM_REGISTRY.md) | Who decides what |
+| [WORKFLOW_SPRINT_EXECUTION.md](../../../.github/prompts/iteration-cycle.prompt.md) | Your daily work |
+| [WORKFLOW_CODE_REVIEW.md](../../../.github/prompts/code-review.prompt.md) | PR process |
+| [WORKFLOW_INCIDENT_RESPONSE.md](../../../.ai/collaboration/PROMPTS_INDEX.md) | If something breaks |
 
 ---
 
@@ -237,13 +237,13 @@ public class MyHandler : IRequestHandler<MyCommand, Response> { }
 ## ❓ Quick Answers
 
 **Q: "My PR is waiting for review, is that normal?"**  
-A: Yes, 4-8h SLA per phase. Check [WORKFLOW_CODE_REVIEW.md](.github/docs/processes/CORE_WORKFLOWS/WORKFLOW_CODE_REVIEW.md)
+A: Yes, 4-8h SLA per phase. Check [WORKFLOW_CODE_REVIEW.md](../../../.github/prompts/code-review.prompt.md)
 
 **Q: "Can I deploy on Friday?"**  
-A: NO - Safe window is Tue-Thu 2-4 PM UTC only. See [WORKFLOW_DEPLOYMENT.md](.github/docs/processes/CORE_WORKFLOWS/WORKFLOW_DEPLOYMENT.md)
+A: NO - Safe window is Tue-Thu 2-4 PM UTC only. See [WORKFLOW_DEPLOYMENT.md](../../../.github/prompts/deploy.prompt.md)
 
 **Q: "Production is down, what do I do?"**  
-A: Page @devops-engineer immediately. Follow [WORKFLOW_INCIDENT_RESPONSE.md](.github/docs/processes/CORE_WORKFLOWS/WORKFLOW_INCIDENT_RESPONSE.md)
+A: Page @devops-engineer immediately. Follow [WORKFLOW_INCIDENT_RESPONSE.md](../../../.ai/collaboration/PROMPTS_INDEX.md)
 
 **Q: "How do I request a process change?"**  
 A: File GitHub issue "@process-assistant process-change-request: [description]". Only @process-assistant can modify workflows.
@@ -255,7 +255,7 @@ A: Already decided - Wolverine only. See [copilot-instructions.md](.github/copil
 
 **Bookmark This Page!**  
 **Print for your desk!**  
-**Questions?** Ask in standup or escalate via [AGENT_ESCALATION_PATH.md](.github/docs/processes/AGENT_COORDINATION/AGENT_ESCALATION_PATH.md)
+**Questions?** Ask in standup or escalate via [AGENT_ESCALATION_PATH.md](../../../.ai/collaboration/AGENT_TEAM_REGISTRY.md)
 
 ---
 

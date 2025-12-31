@@ -1,81 +1,87 @@
 # 🤖 AI Agent Team Registry
 
-**Status**: ✅ Upgraded 30.12.2025  
-**Team Size**: 24 Specialized Agents  
+**DocID**: `AGT-INDEX`  
+**Status**: ✅ Upgraded 31.12.2025  
+**Team Size**: 15 Specialized Agents  
 **Coordinator**: @SARAH (Claude Haiku 4.5)
+
+See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
 
 ---
 
 ## 👥 Core Development Team (9 Agents)
 
-### Backend Development
+### Backend Development (`AGT-002`)
 - **@Backend** - `.NET 10, Wolverine CQRS, DDD, EF Core`
   - Builds microservices with domain-driven design
   - Implements HTTP handlers, validators, repositories
   - Owns: API layer, business logic, database design
   - Model: Claude Haiku 4.5
 
-### Frontend Development
+### Frontend Development (`AGT-003`)
 - **@Frontend** - `Vue.js 3, TypeScript, Tailwind CSS, Pinia`
   - Builds responsive, accessible UIs
   - Manages state with Pinia stores
   - Owns: UI components, client-side logic, styling
   - Model: Claude Haiku 4.5
 
-### Quality Assurance
+### Quality Assurance (`AGT-004`)
 - **@QA** - `Test Coordination, Compliance Testing`
   - Coordinates all testing efforts across the team
   - Owns: Backend unit/integration tests, compliance verification
   - Delegates: Frontend E2E to @QA-Frontend, Security to @QA-Pentesting
   - Model: Claude Haiku 4.5
 
-### Architecture & Design
+### Architecture & Design (`AGT-005`)
 - **@Architect** - `System Design, Patterns, ADRs, Scalability`
   - Defines system boundaries and service architecture
   - Reviews major technical decisions
-  - Owns: Architecture decisions, service boundaries, design patterns
+  - Owns: Architecture decisions (`[ADR-*]`), service boundaries, design patterns
   - Model: Claude Haiku 4.5
 
-### Leadership & Coordination
+### Leadership & Coordination (`AGT-006`)
 - **@TechLead** - `Code Quality, Mentoring, Code Reviews, Optimization`
   - Guides developers on complex problems
   - Reviews architectural decisions
-  - Owns: Code quality standards, technical mentoring
+  - Owns: Code quality standards, technical mentoring, knowledgebase (`[KB-*]`)
   - Model: Claude Haiku 4.5 (advanced analysis)
 
+### Process Management (`AGT-009`)
 - **@ScrumMaster** - `Sprint Management, Process, Workflow, Velocity`
   - Manages sprint planning and ceremonies
   - Tracks velocity and blockers
-  - Owns: Sprint processes, team coordination
+  - Owns: Sprint processes (`[SPR-*]`), team coordination
   - Model: Claude Haiku 4.5
 
+### Requirements (`AGT-010`)
 - **@ProductOwner** - `Requirements, Prioritization, User Stories`
   - Defines features and requirements
   - Prioritizes backlog
-  - Owns: Requirements, user stories, acceptance criteria
+  - Owns: Requirements (`[REQ-*]`), user stories, acceptance criteria
   - Model: Claude Haiku 4.5
 
-### Security & Infrastructure
+### Security (`AGT-007`)
 - **@Security** - `Security Vulnerabilities, Auth, Compliance`
   - Reviews security implementations
-  - Owns: Authentication, authorization, encryption
+  - Owns: Authentication, authorization, encryption, compliance (`[CMP-*]`)
   - Ensures compliance with security standards
   - Model: Claude Haiku 4.5
 
+### Infrastructure (`AGT-008`)
 - **@DevOps** - `CI/CD, Deployment, Infrastructure, Monitoring`
   - Manages deployment pipelines
-  - Owns: Infrastructure, containerization, monitoring
+  - Owns: Infrastructure, containerization, monitoring, config (`[CFG-*]`)
   - Model: Claude Haiku 4.5
 
 ---
 
-## 🎨 Specialist Team (4 Agents)
+## 🎨 Specialist Team (6 Agents)
 
-### Legal & Compliance
-- **@Legal** - `GDPR, NIS2, BITV 2.0, AI Act (P0.6-P0.9)`
+### Legal & Compliance (`AGT-011`)
+- **@Legal** - `GDPR, NIS2, BITV 2.0, AI Act`
   - Ensures legal compliance
   - Reviews terms, privacy policies
-  - Owns: Legal documentation, compliance verification
+  - Owns: Legal documentation, compliance verification (`[CMP-*]`)
   - Model: Claude Haiku 4.5
 
 ### Design Specialists
@@ -271,6 +277,12 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 3. **Add Specialists**: Consider adding @QA-Frontend, @QA-Pentesting, @QA-Performance
 4. **Document Workflows**: Create decision trees for when to request which agent
 5. **Feedback Loop**: Gather feedback on agent effectiveness
+
+---
+
+**Agent Team Upgraded**: 30. Dezember 2025  
+**Status**: ✅ Core + Specialists ready for deployment  
+**Coordination**: @SARAH with governance authority
 
 ---
 

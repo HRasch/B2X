@@ -14,8 +14,8 @@ Status
 
 - Repository sweep performed on 2025-12-30: remaining developer docs, scripts and DevOps instructions referencing `backend/Orchestration` have been updated to `AppHost` where appropriate.
 - Files updated in this pass include:
-  - `.github_org/copilot-instructions-devops.md`
-  - `.github_org/copilot-instructions-devops 2.md`
+  - `.github/instructions/copilot-instructions-devops.md`
+  - `.github/instructions/copilot-instructions-devops 2.md`
   - `.github/copilot-instructions.md` (where applicable)
   - `.vscode/tasks.json`, `.vscode/launch.json.full`, and `.vscode/launch.json` (validated for AppHost paths)
   - `scripts/run-login-e2e-tests.sh` and `scripts/kill-all-services.sh`

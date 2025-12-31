@@ -1,7 +1,39 @@
+---
+docid: PRM-INDEX
+title: Development Cycle Prompts - Quick Reference
+owner: "@SARAH"
+status: Active
+---
+
 # 🎯 Development Cycle Prompts - Quick Reference
 
-**Last Updated**: 30. Dezember 2025  
+**DocID**: `PRM-INDEX`  
+**Last Updated**: 31. Dezember 2025  
 **Status**: ✅ All Core Prompts Created
+
+See [DOCUMENT_REGISTRY.md](../../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
+
+---
+
+## 📋 Prompt Registry by DocID
+
+| DocID | Command | Purpose | Owner |
+|-------|---------|---------|-------|
+| `PRM-001` | `/start-feature` | Feature initiation | @SARAH |
+| `PRM-002` | `/code-review` | Code quality gate | @TechLead |
+| `PRM-003` | `/run-tests` | QA & testing | @QA |
+| `PRM-004` | `/deploy` | Deployment | @DevOps |
+| `PRM-005` | `/security-audit` | Security review | @Security |
+| `PRM-006` | `/adr-create` | Architecture decisions | @Architect |
+| `PRM-007` | `/iteration-cycle` | Sprint management | @ScrumMaster |
+| `PRM-008` | `/bug-analysis` | Bug investigation | @TechLead |
+| `PRM-009` | `/feature-handover` | Feature completion | @ProductOwner |
+| `PRM-010` | `/requirements-analysis` | Requirements analysis | Domain teams |
+| `PRM-011` | `/agent-removal` | Agent deactivation | @SARAH |
+| `PRM-012` | `/agent-creation` | Agent creation | @SARAH |
+| `PRM-013` | `/context-optimization` | Token efficiency | @SARAH |
+| `PRM-014` | `/subagent-delegation` | Delegation routing | @SARAH |
+| `PRM-015` | `/project-cleanup` | Project cleanup | @SARAH |
 
 ---
 
@@ -11,7 +43,7 @@ Use these prompts to trigger different phases of the development cycle:
 
 ### 🚀 Feature Development Cycle
 
-#### 1. **START_FEATURE** - Initiate New Feature
+#### 1. **START_FEATURE** (`PRM-001`) - Initiate New Feature
 **When to use**: You have a new feature request or user story
 **Who runs it**: @ProductOwner, @SARAH
 **Output**: Feature specification, task breakdown, team assignments
@@ -25,14 +57,14 @@ Priority: P0 | P1 | P2 | P3
 
 ---
 
-#### 2. **REQUIREMENTS_ANALYSIS** - Detailed Analysis
+#### 2. **REQUIREMENTS_ANALYSIS** (`PRM-010`) - Detailed Analysis
 **When to use**: Breaking down requirements across multiple domains
 **Who runs it**: @Backend, @Frontend, @Security, @Architect → @SARAH consolidation
 **Output**: Unified spec, technical analysis, implementation plan
 
 ---
 
-#### 3. **SPRINT_CYCLE** - Sprint Management
+#### 3. **SPRINT_CYCLE** (`PRM-007`) - Sprint Management
 **When to use**: Sprint planning, daily execution, retrospective
 **Who runs it**: @ScrumMaster
 **Output**: Sprint plan, daily standups, retrospective notes
@@ -48,7 +80,7 @@ Capacity: [Available story points]
 
 ### 💻 Development & Implementation
 
-#### 4. **CODE_REVIEW** - Code Quality Gate
+#### 4. **CODE_REVIEW** (`PRM-002`) - Code Quality Gate
 **When to use**: PR ready for review
 **Who runs it**: @TechLead, domain experts, @Security
 **Output**: Review approval or change requests
@@ -62,7 +94,7 @@ Priority: critical | standard | minor
 
 ---
 
-#### 5. **RUN_TESTS** - Quality Assurance
+#### 5. **RUN_TESTS** (`PRM-003`) - Quality Assurance
 **When to use**: Feature ready for testing or before merge
 **Who runs it**: @QA
 **Output**: Test report, defect list, sign-off
@@ -76,7 +108,7 @@ Environment: development | staging | production
 
 ---
 
-#### 6. **BUG_ANALYSIS** - Bug Investigation
+#### 6. **BUG_ANALYSIS** (`PRM-008`) - Bug Investigation
 **When to use**: Bug reported, production incident, or test failure
 **Who runs it**: @TechLead, @Backend, @Frontend
 **Output**: Root cause analysis, fix implementation, verification

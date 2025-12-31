@@ -667,8 +667,8 @@ Alerts:
 **Architecture Documents:**
 - [ARCHITECTURE_REVIEW_2025_12_30.md](../decisions/ARCHITECTURE_REVIEW_2025_12_30.md)
 - [ADR-001-event-driven-architecture.md](../decisions/ADR-001-event-driven-architecture.md)
-- [SERVICE_COMMUNICATION.md](../decisions/SERVICE_COMMUNICATION.md)
-- [SCALABILITY_GUIDE.md](../decisions/SCALABILITY_GUIDE.md)
+- [SERVICE_COMMUNICATION.md](../knowledgebase/architecture/SERVICE_COMMUNICATION.md)
+- [SCALABILITY_GUIDE.md](../knowledgebase/operations/SCALABILITY_GUIDE.md)
 
 **Sprint Documents:**
 - [SPRINT_001_PLAN.md](./SPRINT_001_PLAN.md)

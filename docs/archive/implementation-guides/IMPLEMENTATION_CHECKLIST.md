@@ -9,9 +9,9 @@
 ## 🎯 Week 1: Setup & Communication
 
 ### Day 1-2: Documentation Review
-- [ ] Team reads [DEVELOPMENT_PROCESS_FRAMEWORK.md](./DEVELOPMENT_PROCESS_FRAMEWORK.md) (main doc)
-- [ ] Team reviews [DEVELOPER_QUICK_REFERENCE.md](./DEVELOPER_QUICK_REFERENCE.md) (pocket guide)
-- [ ] Leads review [METRICS_AND_TRACKING.md](./METRICS_AND_TRACKING.md) (tracking guide)
+- [ ] Team reads [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md) (main doc)
+- [ ] Team reviews [DEVELOPER_QUICK_REFERENCE.md](../../guides/DEVELOPER_QUICK_REFERENCE.md) (pocket guide)
+- [ ] Leads review [METRICS_AND_TRACKING.md](../reference-docs/METRICS_AND_TRACKING.md) (tracking guide)
 - [ ] Clarify questions in team Slack/Discord
 
 ### Day 3: Team Workshop (1 hour)
@@ -277,13 +277,13 @@ Next week: Focus on [lowest metric]"
 ## 🎓 Training Materials
 
 ### For Developers (30 min)
-- Read: [DEVELOPER_QUICK_REFERENCE.md](./DEVELOPER_QUICK_REFERENCE.md)
+- Read: [DEVELOPER_QUICK_REFERENCE.md](../../guides/DEVELOPER_QUICK_REFERENCE.md)
 - Watch: 10-min video walkthrough
 - Practice: Pull a ready-for-dev issue, make a PR
 
 ### For Leads (1 hour)
-- Read: [DEVELOPMENT_PROCESS_FRAMEWORK.md](./DEVELOPMENT_PROCESS_FRAMEWORK.md) (full)
-- Review: [METRICS_AND_TRACKING.md](./METRICS_AND_TRACKING.md)
+- Read: [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md) (full)
+- Review: [METRICS_AND_TRACKING.md](../reference-docs/METRICS_AND_TRACKING.md)
 - Prepare: 1h workshop for team
 
 ### For Scrum Master (1.5 hours)

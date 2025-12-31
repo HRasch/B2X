@@ -38,7 +38,7 @@ gh issue comment ISSUE_ID --body "✅ Compliance verified by @Security"
 | [ACCESSIBILITY_COMPLIANCE_REPORT.md](../../ACCESSIBILITY_COMPLIANCE_REPORT.md) | WCAG 2.1 AA, PAngV, accessibility | @UI, @Frontend | All UI/frontend work |
 | [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](../../ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md) | EU e-commerce legal (PAngV, GDPR, TMG, AStV) | @Legal, @ProductOwner | Store/payment features |
 | [.ai/knowledgebase/governance.md](../../.ai/knowledgebase/governance.md) | Requirements & process governance | @ProductOwner, @SARAH | Sprint planning, architecture |
-| [docs/APPLICATION_SPECIFICATIONS.md](../../docs/APPLICATION_SPECIFICATIONS.md) | Complete system specs + compliance | @Architect, @Backend | Design phase, API development |
+| `docs/APPLICATION_SPECIFICATIONS.md` *(planned)* | Complete system specs + compliance | @Architect, @Backend | Design phase, API development |
 
 ---
 
@@ -555,8 +555,8 @@ gh issue list --label "sprint-12,compliance" --state open
 | [ACCESSIBILITY_COMPLIANCE_REPORT.md](../../ACCESSIBILITY_COMPLIANCE_REPORT.md) | WCAG 2.1 AA, PAngV price standards | @UI, @Frontend |
 | [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](../../ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md) | EU e-commerce legal requirements (PAngV, GDPR, VVVG) | @Legal, @ProductOwner |
 | [.ai/knowledgebase/governance.md](../../.ai/knowledgebase/governance.md) | Requirements governance, P0 critical items | @ProductOwner, @SARAH |
-| [docs/APPLICATION_SPECIFICATIONS.md](../../docs/APPLICATION_SPECIFICATIONS.md) | Complete system specs + compliance requirements | @Architect |
-| [.github/instructions/security.instructions.md](.github/instructions/security.instructions.md) | Security coding standards | @Security |
+| `docs/APPLICATION_SPECIFICATIONS.md` *(planned)* | Complete system specs + compliance requirements | @Architect |
+| [security.instructions.md](../instructions/security.instructions.md) | Security coding standards | @Security |
 
 ---
 

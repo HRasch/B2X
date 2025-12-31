@@ -23,7 +23,7 @@ B2Connect ist eine moderne **SaaS-Plattform** für E-Commerce mit:
 
 Erfahren Sie, wie Sie die B2Connect Store nutzen:
 
-📖 **[Kundenguide →](USER_GUIDE.md#-für-kunden-store)**
+📖 **[Kundenguide →](../archive/reference-docs/USER_GUIDE.md#-für-kunden-store)**
 
 - Konto erstellen und verwalten
 - Produkte durchsuchen und einkaufen
@@ -36,7 +36,7 @@ Erfahren Sie, wie Sie die B2Connect Store nutzen:
 
 Alles, was Sie zum Verwalten des Stores brauchen:
 
-📖 **[Admin-Guide →](USER_GUIDE.md#-für-admin-benutzer)**
+📖 **[Admin-Guide →](../archive/reference-docs/USER_GUIDE.md#-für-admin-benutzer)**
 
 - Dashboard und Überblick
 - Produkte verwalten
@@ -52,7 +52,7 @@ Alles, was Sie zum Verwalten des Stores brauchen:
 
 Technische Dokumentation für Entwicklung und Deployment:
 
-📖 **[Technische Dokumentation →](SOFTWARE_DOCUMENTATION.md)**
+📖 **[Technische Dokumentation →](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md)**
 
 - Architektur und Design Patterns
 - API Specifications
@@ -68,12 +68,12 @@ Technische Dokumentation für Entwicklung und Deployment:
 
 Sicherheit und Infrastruktur:
 
-📖 **[Pentester Review →](PENTESTER_REVIEW.md)** (Security Assessment)
+📖 **[Pentester Review →](docs/guides/index.md)** (Security Assessment)
 - CVSS Scores und Vulnerabilities
 - Exploitation Scenarios
 - Testing Checklist
 
-📖 **[GitHub Pages Setup →](GITHUB_PAGES_SETUP.md)** (Deployment)
+📖 **[GitHub Pages Setup →](../archive/reference-docs/github-workflows/GITHUB_PAGES_SETUP.md)** (Deployment)
 - Documentation Deployment
 - CI/CD Configuration
 - Custom Domain Setup
@@ -85,21 +85,21 @@ Sicherheit und Infrastruktur:
 <details>
 <summary><strong>Wie erstelle ich ein Kundenkonto?</strong></summary>
 
-Siehe [Kundenguide - Konto erstellen](USER_GUIDE.md#1-konto-erstellen)
+Siehe [Kundenguide - Konto erstellen](../archive/reference-docs/USER_GUIDE.md#1-konto-erstellen)
 
 </details>
 
 <details>
 <summary><strong>Wie verwalte ich Produkte im Admin Panel?</strong></summary>
 
-Siehe [Admin-Guide - Produkte verwalten](USER_GUIDE.md#2-produkte-verwalten)
+Siehe [Admin-Guide - Produkte verwalten](../archive/reference-docs/USER_GUIDE.md#2-produkte-verwalten)
 
 </details>
 
 <details>
 <summary><strong>Wie deploye ich die Dokumentation zu GitHub Pages?</strong></summary>
 
-Siehe [GitHub Pages Setup](GITHUB_PAGES_SETUP.md)
+Siehe [GitHub Pages Setup](../archive/reference-docs/github-workflows/GITHUB_PAGES_SETUP.md)
 
 </details>
 
@@ -112,7 +112,7 @@ Ja! Wir verwenden:
 - Multi-Tenant Isolation
 - Regelmäßige Sicherheits-Updates
 
-Siehe auch: [Sicherheit & Compliance](USER_GUIDE.md#-datenschutz--sicherheit)
+Siehe auch: [Sicherheit & Compliance](../archive/reference-docs/USER_GUIDE.md#-datenschutz--sicherheit)
 
 </details>
 
@@ -128,9 +128,9 @@ Siehe auch: [Sicherheit & Compliance](USER_GUIDE.md#-datenschutz--sicherheit)
 
 ### Technischer Support
 
-- **Entwickler:** [Technische Dokumentation](SOFTWARE_DOCUMENTATION.md)
-- **Sicherheit:** [Pentester Review](PENTESTER_REVIEW.md)
-- **Deployment:** [GitHub Pages Setup](GITHUB_PAGES_SETUP.md)
+- **Entwickler:** [Technische Dokumentation](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md)
+- **Sicherheit:** [Pentester Review](docs/guides/index.md)
+- **Deployment:** [GitHub Pages Setup](../archive/reference-docs/github-workflows/GITHUB_PAGES_SETUP.md)
 
 ---
 
@@ -138,17 +138,17 @@ Siehe auch: [Sicherheit & Compliance](USER_GUIDE.md#-datenschutz--sicherheit)
 
 | Link | Beschreibung |
 |------|-------------|
-| [Kundenguide](USER_GUIDE.md#-für-kunden-store) | How to Shop & Manage Orders |
-| [Admin-Guide](USER_GUIDE.md#-für-admin-benutzer) | How to Manage Products & Customers |
-| [Technische Docs](SOFTWARE_DOCUMENTATION.md) | API & Database Documentation |
-| [Security Review](PENTESTER_REVIEW.md) | Security Assessment & Testing |
-| [GitHub Pages Setup](GITHUB_PAGES_SETUP.md) | Deployment Instructions |
+| [Kundenguide](../archive/reference-docs/USER_GUIDE.md#-für-kunden-store) | How to Shop & Manage Orders |
+| [Admin-Guide](../archive/reference-docs/USER_GUIDE.md#-für-admin-benutzer) | How to Manage Products & Customers |
+| [Technische Docs](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md) | API & Database Documentation |
+| [Security Review](docs/guides/index.md) | Security Assessment & Testing |
+| [GitHub Pages Setup](../archive/reference-docs/github-workflows/GITHUB_PAGES_SETUP.md) | Deployment Instructions |
 
 ---
 
 ## 📊 Dokumentations-Index
 
-Weitere Dokumentation finden Sie in: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
+Weitere Dokumentation finden Sie in: [DOCUMENTATION_INDEX.md](../archive/processes/DOCUMENTATION_INDEX.md)
 
 - 🏗️ Architecture & Design
 - 🧪 Testing & Quality
@@ -162,9 +162,9 @@ Weitere Dokumentation finden Sie in: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDE
 
 1. **Überprüfen Sie die FAQ** (oben)
 2. **Lesen Sie den relevanten Guide:**
-   - Kundenprobleme → [Kundenguide](USER_GUIDE.md)
-   - Admin-Probleme → [Admin-Guide](USER_GUIDE.md)
-   - Entwickler-Probleme → [Technische Docs](SOFTWARE_DOCUMENTATION.md)
+   - Kundenprobleme → [Kundenguide](../archive/reference-docs/USER_GUIDE.md)
+   - Admin-Probleme → [Admin-Guide](../archive/reference-docs/USER_GUIDE.md)
+   - Entwickler-Probleme → [Technische Docs](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md)
 3. **Kontaktieren Sie Support:**
    - support@b2connect.com
    - Live Chat (Mo-Fr 09:00-18:00 CET)

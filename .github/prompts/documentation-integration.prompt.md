@@ -20,18 +20,18 @@ This prompt helps agents:
 
 ## Documentation Structure
 
-### 📚 Knowledge Base (KB Phase 1) - `/.ai/knowledgebase/`
+### 📚 Knowledge Base (KB Phase 1) - `.ai/knowledgebase/`
 
 **Purpose**: Reference patterns for implementation
 
 | File | Purpose | Trigger Keywords |
 |------|---------|------------------|
-| [WOLVERINE_PATTERN_REFERENCE.md](../../.ai/knowledgebase/WOLVERINE_PATTERN_REFERENCE.md) | HTTP endpoints, CQRS patterns, command handlers | wolverine, http endpoint, cqrs, command, event handler, service method |
-| [DDD_BOUNDED_CONTEXTS_REFERENCE.md](../../.ai/knowledgebase/DDD_BOUNDED_CONTEXTS_REFERENCE.md) | Service placement, bounded contexts, architecture | ddd, bounded context, service, domain, catalog, cms, identity, tenancy, admin |
-| [ERROR_HANDLING_PATTERNS.md](../../.ai/knowledgebase/ERROR_HANDLING_PATTERNS.md) | Exception types, validation, logging | exception, validation, error, logging, try-catch, middleware |
-| [VUE3_COMPOSITION_PATTERNS.md](../../.ai/knowledgebase/VUE3_COMPOSITION_PATTERNS.md) | Vue3 components, Pinia stores, composables | vue3, component, pinia, store, composable, typescript |
-| [ASPIRE_ORCHESTRATION_REFERENCE.md](../../.ai/knowledgebase/ASPIRE_ORCHESTRATION_REFERENCE.md) | Service orchestration, local dev setup | aspire, orchestration, service discovery, program.cs, health checks |
-| [FEATURE_IMPLEMENTATION_PATTERNS.md](../../.ai/knowledgebase/FEATURE_IMPLEMENTATION_PATTERNS.md) | End-to-end feature workflow | feature, implementation, aggregate root, domain event, e2e testing |
+| `WOLVERINE_PATTERN_REFERENCE.md` *(planned)* | HTTP endpoints, CQRS patterns, command handlers | wolverine, http endpoint, cqrs, command, event handler, service method |
+| `DDD_BOUNDED_CONTEXTS_REFERENCE.md` *(planned)* | Service placement, bounded contexts, architecture | ddd, bounded context, service, domain, catalog, cms, identity, tenancy, admin |
+| `ERROR_HANDLING_PATTERNS.md` *(planned)* | Exception types, validation, logging | exception, validation, error, logging, try-catch, middleware |
+| `VUE3_COMPOSITION_PATTERNS.md` *(planned)* | Vue3 components, Pinia stores, composables | vue3, component, pinia, store, composable, typescript |
+| `ASPIRE_ORCHESTRATION_REFERENCE.md` *(planned)* | Service orchestration, local dev setup | aspire, orchestration, service discovery, program.cs, health checks |
+| `FEATURE_IMPLEMENTATION_PATTERNS.md` *(planned)* | End-to-end feature workflow | feature, implementation, aggregate root, domain event, e2e testing |
 
 **How to Use**:
 ```markdown
@@ -46,7 +46,7 @@ When implementing [FEATURE], reference [KB_FILE]:
 
 ---
 
-### 📖 Essential Guides - `/docs/guides/`
+### 📖 Essential Guides - `docs/guides/`
 
 **Purpose**: Step-by-step setup & workflows
 
@@ -59,7 +59,7 @@ When implementing [FEATURE], reference [KB_FILE]:
 
 ---
 
-### 🏗️ Architecture Documentation - `/docs/architecture/`
+### 🏗️ Architecture Documentation - `docs/architecture/`
 
 **Contains**: Design decisions, patterns, system design
 
@@ -71,7 +71,7 @@ When implementing [FEATURE], reference [KB_FILE]:
 
 ---
 
-### 🔒 Compliance Documentation - `/docs/compliance/`
+### 🔒 Compliance Documentation - `docs/compliance/`
 
 **Contains**: Legal, security, accessibility requirements
 
@@ -83,7 +83,7 @@ When implementing [FEATURE], reference [KB_FILE]:
 
 ---
 
-### 💼 Role-Based Documentation - `/docs/by-role/`
+### 💼 Role-Based Documentation - `docs/by-role/`
 
 **Contains**: Role-specific guides and workflows
 
@@ -99,7 +99,7 @@ When implementing [FEATURE], reference [KB_FILE]:
 
 ---
 
-### 🎯 Feature Documentation - `/docs/features/`
+### 🎯 Feature Documentation - `docs/features/`
 
 **Contains**: Feature guides & implementation details
 
@@ -112,7 +112,7 @@ When implementing [FEATURE], reference [KB_FILE]:
 
 ---
 
-### 📋 Process Documentation - `/docs/processes/`
+### 📋 Process Documentation - `docs/processes/`
 
 **Contains**: Development workflows & ceremonies
 
@@ -124,7 +124,7 @@ When implementing [FEATURE], reference [KB_FILE]:
 
 ---
 
-### 👥 User Documentation - `/docs/user-guides/`
+### 👥 User Documentation - `docs/user-guides/`
 
 **Contains**: End-user guides for the system
 
@@ -147,8 +147,8 @@ public async Task<CreateProductResult> CreateProduct(CreateProductCommand cmd)
 ### In Documentation
 ```markdown
 For detailed implementation patterns, see:
-- [Wolverine HTTP Endpoints](../../../.ai/knowledgebase/WOLVERINE_PATTERN_REFERENCE.md#http-endpoints)
-- [DDD Bounded Contexts](../../../.ai/knowledgebase/DDD_BOUNDED_CONTEXTS_REFERENCE.md)
+- Wolverine HTTP Endpoints (see .ai/knowledgebase/ when available)
+- DDD Bounded Contexts (see .ai/knowledgebase/ when available)
 ```
 
 ### In PR Descriptions
@@ -157,9 +157,9 @@ For detailed implementation patterns, see:
 - Implements product creation endpoint (Catalog service)
 
 ## References
-- See [Wolverine Pattern Reference](../../.ai/knowledgebase/WOLVERINE_PATTERN_REFERENCE.md) for HTTP handler pattern
-- See [DDD Bounded Contexts](../../.ai/knowledgebase/DDD_BOUNDED_CONTEXTS_REFERENCE.md) for Catalog service location
-- See [Error Handling Patterns](../../.ai/knowledgebase/ERROR_HANDLING_PATTERNS.md) for validation
+- See Wolverine Pattern Reference in .ai/knowledgebase/ for HTTP handler pattern
+- See DDD Bounded Contexts in .ai/knowledgebase/ for Catalog service location
+- See Error Handling Patterns in .ai/knowledgebase/ for validation
 ```
 
 ---
@@ -178,21 +178,21 @@ Create new documentation when:
 ### Where to Add
 
 **Pattern/Reference Documentation**:
-- Location: `/.ai/knowledgebase/`
+- Location: `.ai/knowledgebase/`
 - Format: `[PATTERN_NAME]_REFERENCE.md`
 - Trigger: Keyword list at top
 - Example: `AUTHENTICATION_PATTERNS.md`
 
 **Process Documentation**:
-- Location: `/docs/processes/[domain]/`
+- Location: `docs/processes/[domain]/`
 - Format: `[PROCESS_NAME]_PROCEDURE.md`
 
 **Feature Documentation**:
-- Location: `/docs/features/[feature_name]/`
+- Location: `docs/features/[feature_name]/`
 - Format: `[FEATURE]_GUIDE.md`
 
 **Compliance Documentation**:
-- Location: `/docs/compliance/[standard]/`
+- Location: `docs/compliance/[standard]/`
 - Format: `[STANDARD]_COMPLIANCE.md`
 
 ### Documentation Template
@@ -263,7 +263,7 @@ If implementing Vue3 components:
 ### @Architect Reference Pattern
 ```
 For system design decisions:
-→ Reference: /docs/architecture/decisions/
+→ Reference: docs/architecture/decisions/
 → Create: Architecture Decision Record (ADR)
 → Document: In `/docs/architecture/decisions/`
 ```
@@ -305,14 +305,11 @@ When integrating new documentation:
 
 ## Quick Links
 
-**Documentation Index**: [docs/](../../docs/)
-**KB Phase 1**: [/.ai/knowledgebase/](../../.ai/knowledgebase/)
-**Guides**: [docs/guides/](../../docs/guides/)
-**Architecture**: [docs/architecture/](../../docs/architecture/)
-**Compliance**: [docs/compliance/](../../docs/compliance/)
-**By Role**: [docs/by-role/](../../docs/by-role/)
-**Features**: [docs/features/](../../docs/features/)
-**Processes**: [docs/processes/](../../docs/processes/)
+**Documentation Index**: [docs/](../../docs)
+**KB Phase 1**: [.ai/knowledgebase/](../../.ai/knowledgebase)
+**Guides**: [docs/guides/](../../docs/guides)
+**Architecture**: [docs/architecture/](../../docs/architecture)
+**Features**: [docs/features/](../../docs/features)
 
 ---
 

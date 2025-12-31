@@ -1,6 +1,6 @@
 ---
-mode: agent
-description: Security audit checklist and analysis
+agent: Security
+description: Security review and compliance checklist
 ---
 
 # Security Audit

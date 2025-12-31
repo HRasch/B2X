@@ -4,7 +4,7 @@
 **Coordinator**: @ScrumMaster
 **Output**: GitHub Projects (Planner) configuration, daily standups, retrospective notes
 **Integration**: GitHub Projects Planner + GitHub CLI (gh)
-**CLI Guide**: See [GITHUB_CLI_SPRINT_HOWTO.md](GITHUB_CLI_SPRINT_HOWTO.md) for detailed commands
+**CLI Guide**: See [WF-006] WF-006-GITHUB_CLI_SPRINT_HOWTO.md for detailed commands
 
 ---
 
@@ -26,7 +26,7 @@ gh issue create --title "FEAT-001: Feature Name" \
   --assignee @backend-dev \
   --project "Sprint 12"
 
-# See full guide: GITHUB_CLI_SPRINT_HOWTO.md
+# See full guide: [WF-006] .ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md
 ```
 
 ### Manual Start
@@ -67,7 +67,7 @@ gh issue list --label sprint-12 --json number --jq '.[] | .number' | \
 # Step 5: Set priority labels
 gh issue edit 456 --add-label "points-8,priority-p0"
 
-# See full guide: GITHUB_CLI_SPRINT_HOWTO.md
+# See full guide: [WF-006] .ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md
 ```
 
 #### Pre-Planning Meeting
@@ -218,7 +218,7 @@ Assignments made directly on issues via GitHub Projects:
 
 **GitHub CLI Daily Standup:**
 ```bash
-# Run daily standup script (see GITHUB_CLI_SPRINT_HOWTO.md)
+# Run daily standup script (see [WF-006] .ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md)
 bash scripts/daily-standup.sh
 
 # Or get quick status:
@@ -414,7 +414,7 @@ gh pr list --repo owner/repo \
   --state merged \
   --sort updated
 
-# See full reporting in GITHUB_CLI_SPRINT_HOWTO.md: "Generate Sprint Metrics"
+# See full reporting in [WF-006] .ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md: "Generate Sprint Metrics"
 ```
 
 **Sprint Review Markdown Template:**
@@ -461,7 +461,7 @@ gh issue create \
   --label "retrospective,sprint-12" \
   --assignee @scrummaster
 
-# See full reporting in GITHUB_CLI_SPRINT_HOWTO.md: "Create Retrospective Issues"
+# See full reporting in [WF-006] .ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md: "Create Retrospective Issues"
 ```
 
 **Retrospective Markdown Template:**
@@ -582,7 +582,7 @@ gh issue list --label sprint-12 --state closed --json number
 gh issue create --title "Retrospective - Sprint 12" --label retrospective,sprint-12
 ```
 
-**Full command reference: [GITHUB_CLI_SPRINT_HOWTO.md](GITHUB_CLI_SPRINT_HOWTO.md)**
+**Full command reference: [WF-006-GITHUB_CLI_SPRINT_HOWTO.md](../../.ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md)**
 
 ---
 
@@ -623,7 +623,7 @@ Visibility: Internal
 - Use `gh` commands for automation and scripting
 - Automate daily standups with `scripts/daily-standup.sh`
 - Generate reports programmatically
-- See [GITHUB_CLI_SPRINT_HOWTO.md](GITHUB_CLI_SPRINT_HOWTO.md) for examples
+- See [WF-006-GITHUB_CLI_SPRINT_HOWTO.md](../../.ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md) for examples
 
 ---
 
@@ -667,5 +667,5 @@ Visibility: Internal
 
 **Essential Documentation:**
 - 📖 [Sprint Cycle Prompt](sprint-cycle.prompt.md) - Main sprint workflow
-- 🛠️ [GitHub CLI How-To Guide](GITHUB_CLI_SPRINT_HOWTO.md) - CLI command reference & examples
-- 📊 [Sample Scripts](../scripts/) - Ready-to-use automation scripts
+- 🛠️ [GitHub CLI How-To Guide](../../.ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md) - CLI command reference & examples
+- 📊 Sample Scripts - See `scripts/` folder in project root

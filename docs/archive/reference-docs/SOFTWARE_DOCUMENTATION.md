@@ -17,7 +17,7 @@ Die B2Connect Software-Dokumentation bietet technische Referenzen, API-Spezifika
 
 ### 1. **Architektur-Dokumentation**
 
-#### [ONION_ARCHITECTURE.md](ONION_ARCHITECTURE.md)
+#### [ONION_ARCHITECTURE.md](../architecture-docs/ONION_ARCHITECTURE.md)
 **Zweck:** Beschreibung der Schichtenarchitektur  
 **Inhalte:**
 - Layer-Definition (Presentation, Application, Infrastructure, Core)
@@ -25,7 +25,7 @@ Die B2Connect Software-Dokumentation bietet technische Referenzen, API-Spezifika
 - Cross-Cutting Concerns
 - Service-Beispiele
 
-#### [GATEWAY_SEPARATION.md](GATEWAY_SEPARATION.md)
+#### [GATEWAY_SEPARATION.md](../../guides/GATEWAY_SEPARATION.md)
 **Zweck:** API Gateway Pattern Implementation  
 **Inhalte:**
 - Admin Gateway (Port 8080)
@@ -33,7 +33,7 @@ Die B2Connect Software-Dokumentation bietet technische Referenzen, API-Spezifika
 - Routing-Strategien
 - Authentication Flow
 
-#### [STORE_SEPARATION_STRUCTURE.md](architecture/STORE_SEPARATION_STRUCTURE.md)
+#### [STORE_SEPARATION_STRUCTURE.md](../../architecture/STORE_SEPARATION_STRUCTURE.md)
 **Zweck:** Bounded Context Separation für Store  
 **Inhalte:**
 - Store-spezifische Architektur
@@ -44,7 +44,7 @@ Die B2Connect Software-Dokumentation bietet technische Referenzen, API-Spezifika
 
 ### 2. **API-Dokumentation**
 
-#### [APPLICATION_SPECIFICATIONS.md](APPLICATION_SPECIFICATIONS.md)
+#### [APPLICATION_SPECIFICATIONS.md](docs/guides/index.md)
 **Zweck:** Komplette API-Spezifikation  
 **Inhalte:**
 - Common Response Format

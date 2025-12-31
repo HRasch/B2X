@@ -179,7 +179,7 @@ File: `.github/copilot-instructions.md`
 ## 6. Configuration Files
 
 ### ✅ Agent Team Registry
-File: `.github/AGENT_TEAM_REGISTRY.md`
+File: `.ai/collaboration/AGENT_TEAM_REGISTRY.md`
 - 15 core + specialist agents listed ✅
 - Agent roles and capabilities documented ✅
 - Delegation rules defined ✅

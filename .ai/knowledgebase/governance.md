@@ -21,7 +21,7 @@ This documentation package anchors all requirements and GitHub workflows for B2C
 
 ### 1. **Requirements** (Start Here!)
 
-#### [REQUIREMENTS_SUMMARY.md](.ai/knowledgebase/REQUIREMENTS_SUMMARY.md)
+#### [REQUIREMENTS_SUMMARY.md](INDEX.md)
 **The single source of truth for what must be built**
 - All P0 critical requirements
 - P1 high-priority requirements
@@ -47,7 +47,7 @@ This documentation package anchors all requirements and GitHub workflows for B2C
 
 ### 2. **Application Specifications** (Reference)
 
-#### [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md)
+#### [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](INDEX.md)
 **Complete system specifications**
 - Functional requirements (User, Tenant, Product, Order management)
 - Security requirements (Auth, Network, Data, Input validation)
@@ -74,7 +74,7 @@ This documentation package anchors all requirements and GitHub workflows for B2C
 
 ### 3. **GitHub & Development Workflows** (Process)
 
-#### [.ai/knowledgebase/GITHUB_WORKFLOWS.md](.ai/knowledgebase/GITHUB_WORKFLOWS.md)
+#### [.ai/knowledgebase/GITHUB_WORKFLOWS.md](../../docs/archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md)
 **How we work together on GitHub**
 - Repository structure
 - Project board setup
@@ -105,21 +105,21 @@ This documentation package anchors all requirements and GitHub workflows for B2C
 
 ### 4. **GitHub Issue Templates** (Standardization)
 
-#### [.github/ISSUE_TEMPLATE/p0-security-issue.md](.github/ISSUE_TEMPLATE/p0-security-issue.md)
+#### [.github/ISSUE_TEMPLATE/p0-security-issue.md](../../.github/ISSUE_TEMPLATE)
 For reporting critical P0 security issues
 - Priority assessment
 - Security impact analysis
 - Acceptance criteria
 - Testing requirements
 
-#### [.github/ISSUE_TEMPLATE/feature-request.md](.github/ISSUE_TEMPLATE/feature-request.md)
+#### [.github/ISSUE_TEMPLATE/feature-request.md](../../.github/ISSUE_TEMPLATE)
 For requesting new features
 - Functional requirements
 - Non-functional requirements
 - Service impact analysis
 - Configuration changes needed
 
-#### [.github/ISSUE_TEMPLATE/bug-report.md](.github/ISSUE_TEMPLATE/bug-report.md)
+#### [.github/ISSUE_TEMPLATE/bug-report.md](../../.github/ISSUE_TEMPLATE)
 For reporting bugs
 - Clear reproduction steps
 - Environment information
@@ -143,7 +143,7 @@ Automatically appears on all PRs
 
 ### 6. **Contributing Guidelines** (Community)
 
-#### [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)
+#### [.github/CONTRIBUTING.md](../../CONTRIBUTING.md)
 How to contribute to B2Connect
 - Code of conduct
 - Development setup
@@ -164,7 +164,7 @@ How to contribute to B2Connect
 
 ### 7. **Executive Coordination**
 
-#### [.ai/knowledgebase/QUICK_START_P0.md](.ai/knowledgebase/QUICK_START_P0.md) (5-minute version)
+#### [.ai/knowledgebase/QUICK_START_P0.md](../../docs/guides/QUICK_START_P0.md) (5-minute version)
 TL;DR for P0 week
 - Problem overview table
 - Weekly timeline
@@ -173,7 +173,7 @@ TL;DR for P0 week
 - Success criteria
 - Motivation
 
-#### [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md) (30-minute version)
+#### [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](INDEX.md) (30-minute version)
 Day-by-day implementation guide
 - Monday (P0.1 + P0.2): 14 hours
 - Tuesday (Testing): 4-5 hours
@@ -185,7 +185,7 @@ Day-by-day implementation guide
 - Git workflows
 - Success criteria per day
 
-#### [.ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md](.ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md) (Daily execution)
+#### [.ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md](../sprint/DAILY_STANDUP_TEMPLATE.md) (Daily execution)
 Team coordination for P0 week
 - Daily standup scripts
 - Progress tracking dashboard
@@ -341,49 +341,49 @@ open .ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md
 ### If You're Asking...
 
 **"What do I need to build?"**
-→ Read [.ai/knowledgebase/REQUIREMENTS_SUMMARY.md](.ai/knowledgebase/REQUIREMENTS_SUMMARY.md)
+→ Read [.ai/knowledgebase/REQUIREMENTS_SUMMARY.md](INDEX.md)
 
 **"How do I build P0.1?"**
-→ Go to [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md#p01)
+→ Go to [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](INDEX.md#p01)
 
 **"What code do I need?"**
-→ Use [.ai/knowledgebase/SECURITY_HARDENING_GUIDE.md](.ai/knowledgebase/SECURITY_HARDENING_GUIDE.md)
+→ Use [.ai/knowledgebase/SECURITY_HARDENING_GUIDE.md](../../docs/guides/SECURITY_HARDENING_GUIDE.md)
 
 **"How do I commit my code?"**
-→ Follow [.ai/knowledgebase/GITHUB_WORKFLOWS.md](.ai/knowledgebase/GITHUB_WORKFLOWS.md#commit-strategy)
+→ Follow [.ai/knowledgebase/GITHUB_WORKFLOWS.md](../../docs/archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md#commit-strategy)
 **"How do I create a PR?"**
 → Use [.github/pull_request_template.md](.github/pull_request_template.md)
 **"What's the system design?"**
-→ Read [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md)
+→ Read [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](INDEX.md)
 **"How do we work on GitHub?"**
-→ Read [.ai/knowledgebase/GITHUB_WORKFLOWS.md](.ai/knowledgebase/GITHUB_WORKFLOWS.md)
+→ Read [.ai/knowledgebase/GITHUB_WORKFLOWS.md](../../docs/archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md)
 
 **"What should I report an issue as?"**
 → Use [.github/ISSUE_TEMPLATE/](.github/ISSUE_TEMPLATE/)
 
 **"How do I get started as a new developer?"**
-→ Read [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)
+→ Read [.github/CONTRIBUTING.md](../../CONTRIBUTING.md)
 
 ---
 
 ## 📞 Quick Links
 
 ### Documentation
-- [.ai/knowledgebase/REQUIREMENTS_SUMMARY.md](.ai/knowledgebase/REQUIREMENTS_SUMMARY.md) - All requirements
-- [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md) - System specs
-- [.ai/knowledgebase/GITHUB_WORKFLOWS.md](.ai/knowledgebase/GITHUB_WORKFLOWS.md) - Development process
-- [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) - Contributing guide
+- [.ai/knowledgebase/REQUIREMENTS_SUMMARY.md](INDEX.md) - All requirements
+- [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](INDEX.md) - System specs
+- [.ai/knowledgebase/GITHUB_WORKFLOWS.md](../../docs/archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md) - Development process
+- [.github/CONTRIBUTING.md](../../CONTRIBUTING.md) - Contributing guide
 
 ### Execution
-- [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md) - Daily tasks
-- [.ai/knowledgebase/QUICK_START_P0.md](.ai/knowledgebase/QUICK_START_P0.md) - Quick reference
-- [.ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md](.ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md) - Daily coordination
-- [.ai/knowledgebase/SECURITY_HARDENING_GUIDE.md](.ai/knowledgebase/SECURITY_HARDENING_GUIDE.md) - Code examples
+- [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](INDEX.md) - Daily tasks
+- [.ai/knowledgebase/QUICK_START_P0.md](../../docs/guides/QUICK_START_P0.md) - Quick reference
+- [.ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md](../sprint/DAILY_STANDUP_TEMPLATE.md) - Daily coordination
+- [.ai/knowledgebase/SECURITY_HARDENING_GUIDE.md](../../docs/guides/SECURITY_HARDENING_GUIDE.md) - Code examples
 
 ### Templates & Standards
-- [.github/ISSUE_TEMPLATE/p0-security-issue.md](.github/ISSUE_TEMPLATE/p0-security-issue.md)
-- [.github/ISSUE_TEMPLATE/feature-request.md](.github/ISSUE_TEMPLATE/feature-request.md)
-- [.github/ISSUE_TEMPLATE/bug-report.md](.github/ISSUE_TEMPLATE/bug-report.md)
+- [.github/ISSUE_TEMPLATE/p0-security-issue.md](../../.github/ISSUE_TEMPLATE)
+- [.github/ISSUE_TEMPLATE/feature-request.md](../../.github/ISSUE_TEMPLATE)
+- [.github/ISSUE_TEMPLATE/bug-report.md](../../.github/ISSUE_TEMPLATE)
 - [.github/pull_request_template.md](.github/pull_request_template.md)
 
 ---

@@ -1,6 +1,6 @@
 ---
-mode: agent
-description: Feature handover documentation template
+agent: ProductOwner
+description: Create a Feature Handover document for handoff
 ---
 
 # Feature Handover Document

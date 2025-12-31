@@ -144,7 +144,7 @@ Wenn Sie 2FA aktivieren, erhalten Sie Sicherungscodes. **Speichern Sie sie an ei
 1. **Sofort** gehen Sie zu [Setzen Sie Ihr Passwort zurück](./reset-password.md)
 2. Erstellen Sie ein völlig neues Passwort
 3. Überprüfen Sie Ihre letzten Bestellungen (sehen Sie, ob etwas verdächtig ist)
-4. [Kontaktieren Sie den Support](../support.md), wenn Sie ungewöhnliche Aktivität sehen
+4. [Kontaktieren Sie den Support](../README.md), wenn Sie ungewöhnliche Aktivität sehen
 
 ### Sie haben Ihr Telefon verloren (und haben 2FA aktiviert)
 
@@ -154,14 +154,14 @@ Wenn Sie 2FA aktivieren, erhalten Sie Sicherungscodes. **Speichern Sie sie an ei
 4. Verwenden Sie einen Ihrer Sicherungscodes
 5. Melden Sie sich an
 6. Deaktivieren Sie 2FA oder verknüpfen Sie ein neues Telefon
-7. [Kontaktieren Sie den Support](../support.md), wenn Sie Sicherungscodes verloren haben
+7. [Kontaktieren Sie den Support](../README.md), wenn Sie Sicherungscodes verloren haben
 
 ### Sie sehen verdächtige Anmeldeaktivität
 
 1. **Ändern Sie Ihr Passwort sofort**
 2. Überprüfen Sie aktuelle Bestellungen und Kontoaktivität
 3. Überprüfen Sie, ob Adressen oder Zahlungsmethoden geändert wurden
-4. [Kontaktieren Sie den Support](../support.md) sofort
+4. [Kontaktieren Sie den Support](../README.md) sofort
 
 ### Jemand anders hat Zugriff auf Ihre E-Mail
 
@@ -171,7 +171,7 @@ Wenn Ihr E-Mail-Konto kompromittiert ist:
 2. [Setzen Sie Ihr B2Connect-Passwort zurück](./reset-password.md)
 3. Überprüfen Sie Ihre E-Mail-Weiterleitungsregeln (Hacker fügen diese manchmal hinzu)
 4. Aktivieren Sie 2FA auf Ihrem E-Mail-Konto
-5. [Kontaktieren Sie den Support](../support.md), wenn nötig
+5. [Kontaktieren Sie den Support](../README.md), wenn nötig
 
 ---
 
@@ -220,9 +220,9 @@ A: Ja! Wir verwenden Sicherheitsstandards der Branche (HTTPS, Verschlüsselung).
 **F: Verkaufen Sie meine persönlichen Daten?**  
 A: Niemals! Ihre Daten werden nur für Bestellungen und Kundendienst verwendet.
 **F: Wie lösche ich mein Konto?**  
-A: Gehen Sie zu Einstellungen → Konto → Konto löschen. [Kontaktieren Sie den Support](../support.md) für Hilfe.
+A: Gehen Sie zu Einstellungen → Konto → Konto löschen. [Kontaktieren Sie den Support](../README.md) für Hilfe.
 **F: Was sollte ich tun, wenn ich Gebühren sehe, die ich nicht gemacht habe?**  
-A: [Kontaktieren Sie den Support](../support.md) sofort. Wir untersuchen betrügerische Gebühren.
+A: [Kontaktieren Sie den Support](../README.md) sofort. Wir untersuchen betrügerische Gebühren.
 
 ---
 
@@ -238,6 +238,6 @@ A: [Kontaktieren Sie den Support](../support.md) sofort. Wir untersuchen betrüg
 
 ---
 
-**Benötigen Sie Hilfe?** [Support kontaktieren](../support.md)  
+**Benötigen Sie Hilfe?** [Support kontaktieren](../README.md)  
 **Version**: 1.0 | **Zuletzt aktualisiert**: 29. Dezember 2025
 

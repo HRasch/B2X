@@ -63,7 +63,7 @@ Alle Services verwenden automatisch eine In-Memory-Datenbank beim Development-St
 - ✅ **Perfekt für schnelle Entwicklung**
 - ⚠️ **Daten gehen beim Neustart verloren** (das ist gewünscht)
 
-👉 [Detaillierte InMemory-Konfiguration](./VSCODE_INMEMORY_SETUP.md)
+👉 [Detaillierte InMemory-Konfiguration](../archive/reference-docs/VSCODE_INMEMORY_SETUP.md)
 
 **Verfügbare Services nach dem Start:**
 

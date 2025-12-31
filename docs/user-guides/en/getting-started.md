@@ -72,12 +72,12 @@ B2Connect is an online shopping platform where you can:
 ## What's Next?
 
 ✅ [How to Log In](./login.md)  
-✅ [How to Place an Order](./placing-orders.md)  
+✅ [How to Place an Order](../../../README.md)  
 ✅ [How to Reset Your Password](./reset-password.md)  
 ✅ [Account Security Tips](./account-security.md)  
 
 ---
 
-**Need help?** [Contact Support](../support.md)  
+**Need help?** [Contact Support](../README.md)  
 **Version**: 1.0 | **Last Updated**: 29 December 2025
 

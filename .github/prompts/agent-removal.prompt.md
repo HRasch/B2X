@@ -1,5 +1,5 @@
 ---
-mode: sarah
+agent: SARAH
 description: Agent removal with process impact analysis and redesign
 ---
 
@@ -869,10 +869,10 @@ TOTAL TIMELINE: 4-5 WEEKS (Process redesign + Agent removal)
 
 ## Related Documents
 
-- [SARAH-SUBAGENT-COORDINATION.md](.ai/guidelines/SARAH-SUBAGENT-COORDINATION.md) — Agent lifecycle
-- [.ai/workflows/](.ai/workflows/) — All process workflows
-- [.ai/collaboration/](.ai/collaboration/) — Collaboration patterns
-- [.github/agents/SARAH.agent.md](.github/agents/SARAH.agent.md) — SARAH definition
+- [SARAH-SUBAGENT-COORDINATION.md](../../.ai/guidelines/SARAH-SUBAGENT-COORDINATION.md) — Agent lifecycle
+- [.ai/workflows/](../../.ai/workflows) — All process workflows
+- [.ai/collaboration/](../../.ai/collaboration) — Collaboration patterns
+- [.github/agents/SARAH.agent.md](../agents/SARAH.agent.md) — SARAH definition
 
 ---
 
@@ -1562,10 +1562,10 @@ VERIFICATION:
 
 ## Related Documents
 
-- [SARAH-SUBAGENT-COORDINATION.md](.ai/guidelines/SARAH-SUBAGENT-COORDINATION.md) — Agent lifecycle management
-- [COMMUNICATION-OVERVIEW.md](.ai/guidelines/COMMUNICATION-OVERVIEW.md) — Agent communication
-- [.github/agents/SARAH.agent.md](.github/agents/SARAH.agent.md) — SARAH definition
-- [copilot-instructions.md](.github/copilot-instructions.md) — Agent registry
+- [SARAH-SUBAGENT-COORDINATION.md](../../.ai/guidelines/SARAH-SUBAGENT-COORDINATION.md) — Agent lifecycle management
+- [COMMUNICATION-OVERVIEW.md](../../.ai/guidelines/COMMUNICATION-OVERVIEW.md) — Agent communication
+- [.github/agents/SARAH.agent.md](../agents/SARAH.agent.md) — SARAH definition
+- [copilot-instructions.md](../copilot-instructions.md) — Agent registry
 
 ---
 

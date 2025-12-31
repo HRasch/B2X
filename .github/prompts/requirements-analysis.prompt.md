@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: SARAH
 description: Multi-Agent Requirements Analysis - Koordinierte Anforderungsanalyse
 ---
 

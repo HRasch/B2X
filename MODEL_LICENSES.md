@@ -7,7 +7,7 @@ Models referenced in repository
 
 - `claude-sonnet-4` / `claude-sonnet-4.5` / `Claude Haiku 4.5`
   - Provider: Anthropic
-  - Source in repo: .github/AGENT_TEAM_REGISTRY.md, .ai/status/* and other agent docs reference these models for internal agent orchestration.
+  - Source in repo: .ai/collaboration/AGENT_TEAM_REGISTRY.md, .ai/status/* and other agent docs reference these models for internal agent orchestration.
   - Provider terms / docs:
     - Terms of Service: https://www.anthropic.com/terms
     - Policy / Acceptable Use: https://www.anthropic.com/policies

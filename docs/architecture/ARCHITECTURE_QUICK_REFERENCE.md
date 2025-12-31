@@ -153,9 +153,9 @@ Frontend/
 ## Key Files
 
 - **Instructions**: [.github/copilot-instructions.md](.github/copilot-instructions.md)
-- **CLI Guide**: [CLI_IMPLEMENTATION_GUIDE.md](CLI_IMPLEMENTATION_GUIDE.md)
+- **CLI Guide**: [CLI_IMPLEMENTATION_GUIDE.md](../guides/CLI_IMPLEMENTATION_GUIDE.md)
 - **Architecture**: [ARCHITECTURE_UPDATE_SUMMARY.md](ARCHITECTURE_UPDATE_SUMMARY.md)
-- **Specs**: [docs/APPLICATION_SPECIFICATIONS.md](docs/APPLICATION_SPECIFICATIONS.md)
+- **Specs**: [docs/APPLICATION_SPECIFICATIONS.md](docs/guides/index.md)
 
 ---
 

@@ -1,3 +1,4 @@
+---
 name: PR Automation (labels & reviewer suggestions)
 
 permissions:
@@ -5,7 +6,7 @@ permissions:
   issues: write
   pull-requests: write
 
-on:
+'on':
   pull_request:
     types: [opened, edited, synchronize, reopened]
 
@@ -33,11 +34,21 @@ jobs:
             const labels = new Set();
             const reviewers = new Set();
 
-            if (changed.some(p => p.startsWith('docs/') || p.startsWith('.ai/') || p.includes('readme'))) labels.add('docs');
-            if (changed.some(p => p.startsWith('frontend/') || p.includes('frontend'))) labels.add('frontend');
-            if (changed.some(p => p.startsWith('backend/') || p.includes('apphost') || p.includes('services'))) labels.add('backend');
-            if (changed.some(p => p.includes('test') || p.includes('tests'))) labels.add('tests');
-            if (changed.some(p => p.startsWith('.github/agents') || p.includes('agent'))) labels.add('agents');
+            if (changed.some(p => p.startsWith('docs/') || p.startsWith('.ai/') || p.includes('readme'))) {
+              labels.add('docs');
+            }
+            if (changed.some(p => p.startsWith('frontend/') || p.includes('frontend'))) {
+              labels.add('frontend');
+            }
+            if (changed.some(p => p.startsWith('backend/') || p.includes('apphost') || p.includes('services'))) {
+              labels.add('backend');
+            }
+            if (changed.some(p => p.includes('test') || p.includes('tests'))) {
+              labels.add('tests');
+            }
+            if (changed.some(p => p.startsWith('.github/agents') || p.includes('agent'))) {
+              labels.add('agents');
+            }
 
             // Suggest reviewers (informational) - these are agent handles, not GitHub usernames
             if (labels.has('backend')) reviewers.add('@TechLead');
@@ -55,19 +66,23 @@ jobs:
             }
 
             if (reviewers.size > 0) {
-              const body = ['**PR automation suggestions**', '', 'Suggested reviewers:']
-                .concat(Array.from(reviewers).map(r => '- `' + r + '`'))
-                .concat(['', 'Note: these are agent role handles (not GitHub usernames). Assign appropriate reviewers.']);
+              const body = [];
+              body.push('**PR automation suggestions**');
+              body.push('');
+              body.push('Suggested reviewers:');
+              reviewers.forEach(r => body.push('- \`' + r + '\`'));
+              body.push('');
+              body.push('Note: these are agent role handles (not GitHub usernames). Assign appropriate reviewers.');
 
-              // Post or update a single bot comment for suggestions
               const marker = '<!-- PR-AUTOMATION-BOT -->';
-              // Separate marker and content with an extra newline to avoid rendering issues
               const fullBody = marker + '\n\n' + body.join('\n');
+
               const comments = await github.paginate(github.rest.issues.listComments, {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: pr.number,
               });
+
               const existing = comments.find(c => (c.body || '').includes(marker));
               if (existing) {
                 await github.rest.issues.updateComment({

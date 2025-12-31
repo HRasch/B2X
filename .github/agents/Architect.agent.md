@@ -2,7 +2,7 @@
 ---
 description: 'Software Architect responsible for system-wide design decisions, scalability, and structural integrity'
 tools: ['vscode', 'execute', 'read', 'edit', 'web', 'gitkraken/*', 'copilot-container-tools/*', 'agent', 'todo']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: true
 ---
 

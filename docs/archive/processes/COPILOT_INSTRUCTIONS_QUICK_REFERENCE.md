@@ -4,7 +4,7 @@
 
 ### Where to Start?
 
-1. **New Developer**: Start with [.github/copilot-instructions-quickstart.md](.github/copilot-instructions-quickstart.md) (5 min)
+1. **New Developer**: Start with [.github/copilot-instructions-quickstart.md](../../../.github/copilot-instructions.md) (5 min)
 2. **Finding Your Role**: Open [.github/copilot-instructions.md](.github/copilot-instructions.md) and pick your role
 3. **Deep Dive**: Read your role-specific guide (15 min)
 
@@ -12,12 +12,12 @@
 
 | Your Role | Open This File | Contains |
 |-----------|----------------|----------|
-| 💻 Backend Developer | [copilot-instructions-backend.md](.github/copilot-instructions-backend.md) | 200+ patterns (Async, EF Core, Security, etc.) |
-| 🎨 Frontend Developer | [copilot-instructions-frontend.md](.github/copilot-instructions-frontend.md) | Vue.js, Tailwind, Vite patterns |
-| ⚙️ DevOps Engineer | [copilot-instructions-devops.md](.github/copilot-instructions-devops.md) | Aspire, Infrastructure, Deployment |
-| 🧪 QA Engineer | [copilot-instructions-qa.md](.github/copilot-instructions-qa.md) | 52 Compliance Tests |
-| 🔐 Security Engineer | [copilot-instructions-security.md](.github/copilot-instructions-security.md) | Encryption, Audit, Security Patterns |
-| 📋 Any Role | [copilot-instructions-quickstart.md](.github/copilot-instructions-quickstart.md) | 5-min essential overview |
+| 💻 Backend Developer | [copilot-instructions-backend.md](../../../.github/instructions/backend.instructions.md) | 200+ patterns (Async, EF Core, Security, etc.) |
+| 🎨 Frontend Developer | [copilot-instructions-frontend.md](../../../.github/instructions/frontend.instructions.md) | Vue.js, Tailwind, Vite patterns |
+| ⚙️ DevOps Engineer | [copilot-instructions-devops.md](../../../.github/instructions/devops.instructions.md) | Aspire, Infrastructure, Deployment |
+| 🧪 QA Engineer | [copilot-instructions-qa.md](../../../.github/agents/qa.agent.md) | 52 Compliance Tests |
+| 🔐 Security Engineer | [copilot-instructions-security.md](../../../.github/instructions/security.instructions.md) | Encryption, Audit, Security Patterns |
+| 📋 Any Role | [copilot-instructions-quickstart.md](../../../.github/copilot-instructions.md) | 5-min essential overview |
 
 ---
 

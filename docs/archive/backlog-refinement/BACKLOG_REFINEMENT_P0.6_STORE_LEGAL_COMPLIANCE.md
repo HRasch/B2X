@@ -583,7 +583,7 @@ Before closing the epic, verify:
 - [P0.6_ECOMMERCE_LEGAL_TESTS.md](docs/P0.6_ECOMMERCE_LEGAL_TESTS.md) - Full test specifications
 - [ECOMMERCE_LEGAL_OVERVIEW.md](docs/ECOMMERCE_LEGAL_OVERVIEW.md) - Regulatory details
 - [EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md](docs/EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md) - Phase 0 roadmap
-- [APPLICATION_SPECIFICATIONS.md](docs/APPLICATION_SPECIFICATIONS.md) - Full requirements
+- [APPLICATION_SPECIFICATIONS.md](docs/guides/index.md) - Full requirements
 
 ---
 

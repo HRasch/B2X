@@ -104,7 +104,7 @@ You tried logging in too many times with wrong passwords. For security, we locke
 
 ### Still Can't Log In?
 
-👉 [Contact Support](../support.md)
+👉 [Contact Support](../README.md)
 
 ---
 
@@ -138,6 +138,6 @@ A: Yes! You can be logged in on your phone, computer, and tablet at the same tim
 
 ---
 
-**Need help?** [Contact Support](../support.md)  
+**Need help?** [Contact Support](../README.md)  
 **Version**: 1.0 | **Last Updated**: 29 December 2025
 

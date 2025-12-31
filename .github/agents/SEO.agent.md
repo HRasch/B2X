@@ -1,7 +1,7 @@
 ---
 description: 'SEO Specialist Agent responsible for search engine optimization, metadata management, and organic visibility'
 tools: ['agent', 'execute', 'gitkraken/*', 'vscode']
-model: 'claude-haiku-4.5'
+model: 'gpt-5-mini'
 infer: true
 ---
 

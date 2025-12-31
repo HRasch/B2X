@@ -138,7 +138,7 @@ A: Normalerweise weniger als 1 Minute. Überprüfen Sie den Spam-Ordner, wenn Si
 A: Ja! Suchen Sie auf dem Anmeldebildschirm nach „Passwort vergessen?".
 
 **F: Was ist, wenn ich keinen Zugriff auf die E-Mail in meinem Konto habe?**  
-A: [Kontaktieren Sie den Support](../support.md) mit Eigentumsnachweis.
+A: [Kontaktieren Sie den Support](../README.md) mit Eigentumsnachweis.
 
 **F: Muss ich mein Passwort regelmäßig zurücksetzen?**  
 A: Nein, es sei denn, Sie denken, dass Ihr Konto kompromittiert ist.
@@ -159,6 +159,6 @@ Hacker versenden manchmal gefälschte Passwort-Zurücksetzen-E-Mails. Starten Si
 
 ---
 
-**Benötigen Sie Hilfe?** [Support kontaktieren](../support.md)  
+**Benötigen Sie Hilfe?** [Support kontaktieren](../README.md)  
 **Version**: 1.0 | **Zuletzt aktualisiert**: 29. Dezember 2025
 

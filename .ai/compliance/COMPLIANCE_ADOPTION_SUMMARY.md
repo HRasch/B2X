@@ -24,7 +24,7 @@ All compliance documents have been **adopted** and **integrated** into the devel
    - Templates and checklists
    - **Use for**: Sprint planning, code review gates, compliance verification
 
-2. **[.github/prompts/COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.md)** (8K)
+2. **[CMP-001-COMPLIANCE_QUICK_REFERENCE.md](CMP-001-COMPLIANCE_QUICK_REFERENCE.md)** (8K)
    - One-page developer quick reference
    - WCAG, GDPR, PAngV, Security, Audit Logging checklists
    - Common mistakes to avoid
@@ -72,7 +72,7 @@ All compliance documents have been **adopted** and **integrated** into the devel
 - P0 critical items and timeline
 - Complete requirements map
 
-✅ **[docs/APPLICATION_SPECIFICATIONS.md](docs/APPLICATION_SPECIFICATIONS.md)**
+✅ **[docs/APPLICATION_SPECIFICATIONS.md](docs/guides/index.md)**
 - Complete system specifications + compliance requirements
 - Functional, security, API, database, audit, compliance sections
 
@@ -155,8 +155,8 @@ gh issue list --label "sprint-12" --state open \
 ## Quick Start for Team
 
 ### 1. Read the Documents (30 minutes)
-- [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.md) - One-pager (5 min)
-- [COMPLIANCE_ADOPTION.md](.ai/compliance/COMPLIANCE_ADOPTION.md) - Overview (10 min)
+- [CMP-001-COMPLIANCE_QUICK_REFERENCE.md](CMP-001-COMPLIANCE_QUICK_REFERENCE.md) - One-pager (5 min)
+- [COMPLIANCE_ADOPTION.md](COMPLIANCE_ADOPTION.md) - Overview (10 min)
 - [ACCESSIBILITY_COMPLIANCE_REPORT.md](ACCESSIBILITY_COMPLIANCE_REPORT.md) - WCAG examples (10 min)
 - [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md) - Store requirements (10 min)
 
@@ -181,7 +181,7 @@ gh issue edit ISSUE_ID --add-assignee "@Security"
 ```
 
 ### 5. Check Before Submitting PR
-Use [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.md) checklist
+Use [CMP-001-COMPLIANCE_QUICK_REFERENCE.md](CMP-001-COMPLIANCE_QUICK_REFERENCE.md) checklist
 
 ---
 
@@ -190,7 +190,7 @@ Use [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.m
 - **Compliance Issues Resolved Per Sprint**: Target 100% by sprint end
 - **Code Review Cycle Time**: With compliance gate (target < 48 hours)
 - **Compliance Violations Found**: Track severity (critical → low)
-- **Team Compliance Training**: % who reviewed COMPLIANCE_QUICK_REFERENCE.md
+- **Team Compliance Training**: % who reviewed CMP-001-COMPLIANCE_QUICK_REFERENCE.md
 - **Automated Compliance Checks**: % of PRs passing automated compliance scans
 
 ---
@@ -200,12 +200,12 @@ Use [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.m
 ```
 .github/prompts/
 ├── compliance-integration.prompt.md      [17K] ← NEW (Comprehensive guide)
-├── COMPLIANCE_QUICK_REFERENCE.md         [8K]  ← NEW (Developer quick ref)
 ├── git-management.prompt.md              [14K] ← UPDATED (added compliance gate)
 └── sprint-cycle.prompt.md                [20K] ← UPDATED (added compliance checks)
 
 .ai/compliance/
-└── COMPLIANCE_ADOPTION.md                [10K] ← NEW (Adoption guide)
+├── CMP-001-COMPLIANCE_QUICK_REFERENCE.md         [8K]  ← Developer quick reference
+└── COMPLIANCE_ADOPTION.md                [10K] ← Adoption guide
 
 [Root level - existing compliance documents]
 ├── ACCESSIBILITY_COMPLIANCE_REPORT.md    [7K]  ← REFERENCED
@@ -219,9 +219,9 @@ Use [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.m
 ## Next Steps
 
 ### Immediate (Today)
-- [ ] Share [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.md) with team
+- [ ] Share [CMP-001-COMPLIANCE_QUICK_REFERENCE.md](CMP-001-COMPLIANCE_QUICK_REFERENCE.md) with team
 - [ ] Team reads one-pager (5 minutes)
-- [ ] Bookmark [COMPLIANCE_ADOPTION.md](.ai/compliance/COMPLIANCE_ADOPTION.md)
+- [ ] Bookmark [COMPLIANCE_ADOPTION.md](COMPLIANCE_ADOPTION.md)
 
 ### This Week
 - [ ] Create GitHub labels (wcag-2.1-review, gdpr, pangv, security, audit-logging)
@@ -247,10 +247,10 @@ Use [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.m
 
 ### Common Questions
 **Q: Do I need to worry about WCAG?**  
-A: Only if you touch UI. Check [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.md) WCAG section.
+A: Only if you touch UI. Check [CMP-001-COMPLIANCE_QUICK_REFERENCE.md](CMP-001-COMPLIANCE_QUICK_REFERENCE.md) WCAG section.
 
 **Q: Is my code secure?**  
-A: Use [COMPLIANCE_QUICK_REFERENCE.md](.github/prompts/COMPLIANCE_QUICK_REFERENCE.md) Security checklist before PR.
+A: Use [CMP-001-COMPLIANCE_QUICK_REFERENCE.md](CMP-001-COMPLIANCE_QUICK_REFERENCE.md) Security checklist before PR.
 
 **Q: What about PAngV?**  
 A: Only if you work on store/pricing. Read [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md).

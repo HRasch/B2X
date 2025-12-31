@@ -2,33 +2,61 @@
 
 Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.
 
+**DocID**: `INS-000` (Master Instructions)
+
 ## Project Context
 - **Description**: AI-DEV - Multi-Agent Development Framework
 - **Architecture**: Agent-basierte Entwicklung mit SARAH als Coordinator
-- **Tech Stack**: [Projekt-spezifisch zu definieren]
+- **Tech Stack**: .NET 10, Vue.js 3, Wolverine CQRS, PostgreSQL, Elasticsearch
+
+## Document Reference System
+
+**All documents use stable DocIDs for cross-referencing.** See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md) for the complete registry.
+
+### Quick Reference Prefixes
+| Prefix | Category | Example |
+|--------|----------|---------|
+| `ADR-*` | Architecture Decisions | `[ADR-001]` Wolverine over MediatR |
+| `KB-*` | Knowledgebase | `[KB-006]` Wolverine Patterns |
+| `GL-*` | Guidelines | `[GL-002]` Subagent Delegation |
+| `WF-*` | Workflows | `[WF-001]` Context Optimization |
+| `PRM-*` | Prompts | `[PRM-001]` Start Feature |
+| `INS-*` | Instructions | `[INS-001]` Backend Instructions |
+| `AGT-*` | Agent Definitions | `[AGT-001]` SARAH |
+| `DOC-*` | Documentation | `[DOC-001]` Quick Start Guide |
+
+### Usage
+```markdown
+See [ADR-001] for architecture rationale.
+Follow [KB-006] for implementation patterns.
+```
 
 ## Agent System
 
 ### Verfügbare Agents (15 Specialized)
 
-**See [AGENT_TEAM_REGISTRY.md](AGENT_TEAM_REGISTRY.md) for complete team overview**
+**See [AGENT_TEAM_REGISTRY.md](../.ai/collaboration/AGENT_TEAM_REGISTRY.md) for complete team overview** (`[AGT-INDEX]`)
 
-| Agent | Spezialisierung | Aufgabe |
-|---|---|---|
-| `@SARAH` | Coordination | Koordination, Quality-Gate, Guidelines, Permissions |
-| `@Backend` | .NET/Wolverine | APIs, Microservices, Database, Business Logic |
-| `@Frontend` | Vue.js 3 | UI Components, State, Accessibility, Styling |
-| `@QA` | Test Coordination | Unit/Integration Tests, Compliance, Test Delegation |
-| `@Architect` | System Design | Service Architecture, Patterns, ADRs, Design Decisions |
-| `@TechLead` | Code Quality | Mentoring, Code Reviews, Complex Problems (Haiku 4.5) |
-| `@Security` | Security/Auth | Vulnerabilities, Encryption, Compliance Verification |
-| `@DevOps` | Infrastructure | CI/CD, Deployment, Monitoring, Kubernetes |
-| `@ScrumMaster` | Process | **Iteration** Management, Velocity, Blockers |
-| `@ProductOwner` | Requirements | User Stories, Prioritization, Acceptance Criteria |
-| `@Legal` | Compliance | GDPR, NIS2, BITV 2.0, AI Act (P0.6-P0.9) |
-| `@UX` | Design | User Research, Information Architecture, Flows |
-| `@UI` | Components | Design Systems, Accessibility, Visual Consistency |
-| `@SEO` | Search | Meta Tags, Structured Data, Search Optimization |
+**Default Agent:** `@SARAH` — use `@SARAH` as the default coordinator when no specific agent is specified in a prompt or instruction. SARAH handles coordination, quality-gate decisions, and permission guidance.
+
+| Agent | DocID | Spezialisierung | Aufgabe |
+|---|---|---|---|
+| `@SARAH` | `AGT-001` | Coordination | Koordination, Quality-Gate, Guidelines, Permissions |
+| `@Backend` | `AGT-002` | .NET/Wolverine | APIs, Microservices, Database, Business Logic |
+| `@Frontend` | `AGT-003` | Vue.js 3 | UI Components, State, Accessibility, Styling |
+| `@QA` | `AGT-004` | Test Coordination | Unit/Integration Tests, Compliance, Test Delegation |
+| `@Architect` | `AGT-005` | System Design | Service Architecture, Patterns, ADRs, Design Decisions |
+| `@TechLead` | `AGT-006` | Code Quality | Mentoring, Code Reviews, Complex Problems |
+| `@Security` | `AGT-007` | Security/Auth | Vulnerabilities, Encryption, Compliance Verification |
+| `@DevOps` | `AGT-008` | Infrastructure | CI/CD, Deployment, Monitoring, Kubernetes |
+| `@ScrumMaster` | `AGT-009` | Process | Iteration Management, Velocity, Blockers |
+| `@ProductOwner` | `AGT-010` | Requirements | User Stories, Prioritization, Acceptance Criteria |
+| `@Legal` | `AGT-011` | Compliance | GDPR, NIS2, BITV 2.0, AI Act |
+| `@UX` | `AGT-012` | Design | User Research, Information Architecture, Flows |
+| `@UI` | `AGT-013` | Components | Design Systems, Accessibility, Visual Consistency |
+| `@SEO` | `AGT-014` | Search | Meta Tags, Structured Data, Search Optimization |
+| `@GitManager` | `AGT-015` | Git Workflow | Branching, Code Review, Repository Management |
+| `@DocMaintainer` | `AGT-016` | Documentation | Maintain doc quality, enforce DocID rules, link checks |
 
 **Specialist Agents (Coming Soon)**:
 - @QA-Frontend (E2E, UI Testing, Playwright)
@@ -38,26 +66,28 @@ Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.
 ### Dateien-Struktur
 ```
 .github/
-├── copilot-instructions.md     ← Du bist hier (global)
-├── agents/*.agent.md           ← Agent Definitionen
-├── instructions/*.instructions.md  ← Path-specific Instructions
-└── prompts/*.prompt.md         ← Wiederverwendbare Prompts
+├── copilot-instructions.md     ← Du bist hier (INS-000)
+├── agents/*.agent.md           ← Agent Definitionen (AGT-*)
+├── instructions/*.instructions.md  ← Path-specific Instructions (INS-*)
+└── prompts/*.prompt.md         ← Wiederverwendbare Prompts (PRM-*)
 
 .ai/
+├── DOCUMENT_REGISTRY.md        ← DocID Registry (Master Reference)
 ├── collaboration/              ← Coordination Framework
-├── config/                     ← Konfigurationsdateien
-├── decisions/                  ← Architecture Decision Records
-├── guidelines/                 ← Coding & Process Guidelines
+├── config/                     ← Konfigurationsdateien (CFG-*)
+├── decisions/                  ← Architecture Decision Records (ADR-*)
+├── guidelines/                 ← Coding & Process Guidelines (GL-*)
 ├── handovers/                  ← Feature Handover Documents
 ├── issues/{issue-id}/          ← Issue-spezifische Collaboration
-├── knowledgebase/              ← Wissensdatenbank
+├── knowledgebase/              ← Wissensdatenbank (KB-*)
 ├── logs/                       ← Agent Logs
+Note: Agents MUST ignore `.ai/logs/` when building prompt/context inputs; logs are archival-only and must not be included in agent prompt contexts.
 ├── permissions/                ← Agent Permissions
-├── requirements/               ← Anforderungsanalysen
-├── sprint/                     ← **Iteration** Planning & Tracking
+├── requirements/               ← Anforderungsanalysen (REQ-*)
+├── sprint/                     ← Iteration Planning & Tracking (SPR-*)
 ├── status/                     ← Task Completion Tracking
-├── templates/                  ← GitHub Issue & PR Templates
-└── workflows/                  ← Development Workflows
+├── templates/                  ← GitHub Issue & PR Templates (TPL-*)
+└── workflows/                  ← Development Workflows (WF-*)
 ```
 
 ## Code Style & Conventions
@@ -69,18 +99,18 @@ Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.
 ## Path-specific Instructions
 Copilot wendet automatisch zusätzliche Instructions an basierend auf dem Dateipfad:
 
-- `src/api/**, src/services/**` → [backend.instructions.md](.github/instructions/backend.instructions.md)
-- `src/components/**, src/pages/**` → [frontend.instructions.md](.github/instructions/frontend.instructions.md)
-- `**/*.test.*, **/*.spec.*` → [testing.instructions.md](.github/instructions/testing.instructions.md)
-- `.github/**, Dockerfile` → [devops.instructions.md](.github/instructions/devops.instructions.md)
-- `**/*` (Security Context) → [security.instructions.md](.github/instructions/security.instructions.md)
+- `src/api/**, src/services/**` → [backend.instructions.md](instructions/backend.instructions.md)
+- `src/components/**, src/pages/**` → [frontend.instructions.md](instructions/frontend.instructions.md)
+- `**/*.test.*, **/*.spec.*` → [testing.instructions.md](instructions/testing.instructions.md)
+- `.github/**, Dockerfile` → [devops.instructions.md](instructions/devops.instructions.md)
+- `**/*` (Security Context) → [security.instructions.md](instructions/security.instructions.md)
 
 ## Prompt Files
 
 **⚠️ IMPORTANT: All prompts are stored in `.github/prompts/` directory**
 - Prompts define reusable workflow triggers for development cycle
 - Each prompt file follows naming: `{command-name}.prompt.md`
-- See [INDEX.md](.github/prompts/INDEX.md) for complete prompt reference
+- See [PROMPTS_INDEX.md](../.ai/collaboration/PROMPTS_INDEX.md) for complete prompt reference
 
 ### Development Cycle Prompts
 **Location**: `.github/prompts/`
@@ -159,6 +189,10 @@ Each agent is **responsible for creating and organizing** artifacts in the `.ai/
 | @SARAH | `collaboration/`, `templates/`, `workflows/` | Coordination framework, GitHub templates, workflow orchestration |
 | Issue Owner | `issues/{issue-id}/` | Issue-specific collaboration, progress notes, blockers, decisions |
 
+| @DocMaintainer | `.ai/` (docs + prompts) | Enforce DocID naming conventions, extend naming for new use cases, update and manage existing documents, fix broken links, and keep registry references up-to-date |
+
+**Authority:** `@DocMaintainer` is empowered to update, rename, archive, and fix documentation files under `.ai/` and `.github/prompts/` to maintain accuracy and link integrity. Doc-only changes may be committed with clear messages (audit logs should be created under `.ai/logs/documentation/`). For policy-level naming or retention decisions, `@DocMaintainer` must open an issue and notify `@SARAH` for final approval.
+
 **Key Principle**: Agents own the organization and updates of `.ai/` artifacts related to their domain expertise.
 
 ## Anforderungsanalyse Workflow (Agent-Driven)
@@ -169,7 +203,7 @@ Bei neuen Anforderungen folge diesem Ablauf:
 4. `@SARAH` → Konsolidiert in `.ai/collaboration/` und stellt Konflikte auf
 5. `@ProductOwner` → Finalisiert Spezifikation in `.ai/requirements/`
 
-Siehe [AGENT_COORDINATION.md](.ai/collaboration/AGENT_COORDINATION.md) für Details.
+Siehe [AGENT_COORDINATION.md](../.ai/collaboration/AGENT_COORDINATION.md) für Details.
 
 ## AI Behavior Guidelines
 - **Conciseness**: Provide direct answers with code examples.
@@ -190,7 +224,7 @@ Siehe [AGENT_COORDINATION.md](.ai/collaboration/AGENT_COORDINATION.md) für Deta
   - ✅ Version management (track and update with releases)
   - ✅ Broken link detection and fixing
   - ✅ Documentation freshness (quarterly reviews)
-  - 📖 See [AI_KNOWLEDGEBASE_RESPONSIBILITY.md](.ai/collaboration/AI_KNOWLEDGEBASE_RESPONSIBILITY.md) for complete guidelines
+  - 📖 See [AI_KNOWLEDGEBASE_RESPONSIBILITY.md](../.ai/collaboration/AI_KNOWLEDGEBASE_RESPONSIBILITY.md) for complete guidelines
 - **Completion Signal**: Nach Operationen kurz bestätigen:
   ```
   ✅ Done: [Operation]

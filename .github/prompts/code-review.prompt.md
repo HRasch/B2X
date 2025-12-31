@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: TechLead
 description: Standardized code review process
 ---
 

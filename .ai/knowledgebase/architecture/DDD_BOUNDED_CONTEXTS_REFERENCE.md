@@ -500,9 +500,9 @@ Cross-Context Services:
 ## References
 
 - [Wolverine Pattern Reference](WOLVERINE_PATTERN_REFERENCE.md)
-- [ERROR_HANDLING_PATTERNS](ERROR_HANDLING_PATTERNS.md)
-- [FEATURE_IMPLEMENTATION_PATTERNS](FEATURE_IMPLEMENTATION_PATTERNS.md)
-- [Aspire Orchestration Reference](ASPIRE_ORCHESTRATION_REFERENCE.md)
+- [ERROR_HANDLING_PATTERNS](../INDEX.md)
+- [FEATURE_IMPLEMENTATION_PATTERNS](../patterns/FEATURE_IMPLEMENTATION_PATTERNS.md)
+- [Aspire Orchestration Reference](../../../docs/architecture/INDEX.md)
 
 ---
 

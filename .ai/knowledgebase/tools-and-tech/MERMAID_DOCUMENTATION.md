@@ -403,16 +403,16 @@ graph RL    % Right to Left
 ## Examples in This Project
 
 ### Architecture Diagrams
-- [Backend Handler Lifecycle](.github_org/copilot-instructions-backend.md)
-- [Frontend Component Lifecycle](.github_org/copilot-instructions-frontend.md)
-- [Security P0 Components](.github_org/copilot-instructions-security.md)
-- [Infrastructure Topology](.github_org/copilot-instructions-devops.md)
+- [Backend Handler Lifecycle](../../../.github/instructions/backend.instructions.md)
+- [Frontend Component Lifecycle](../../../.github/instructions/frontend.instructions.md)
+- [Security P0 Components](../../../.github/instructions/security.instructions.md)
+- [Infrastructure Topology](../../../.github/instructions/devops.instructions.md)
 
 ### Usage Guidelines
 - Use for architecture/design decisions
 - Prefer Mermaid over ASCII art
 - Include in: Architecture Decision Records, API documentation, process flows
-- Keep in: `.github_org/` for reference, agent files for quick commands
+- Keep in: `.github/instructions/` for reference, agent files for quick commands
 
 ---
 

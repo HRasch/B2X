@@ -245,6 +245,6 @@ Core hat KEINE Abhängigkeiten zu äußeren Schichten.
 
 ## Ressourcen
 
-- [Onion Architecture](../ONION_ARCHITECTURE.md)
+- [Onion Architecture](../archive/architecture-docs/ONION_ARCHITECTURE.md)
 - [CQRS Pattern](../../docs/features/CQRS_INTEGRATION_POINT1.md)
 - [DDD Patterns](https://martinfowler.com/bliki/DomainDrivenDesign.html)

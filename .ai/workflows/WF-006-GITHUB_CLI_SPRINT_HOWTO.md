@@ -7,12 +7,12 @@
 ---
 
 ## Table of Contents
-1. [Setup & Authentication](#setup--authentication)
-2. [Sprint Planning Commands](#sprint-planning-commands)
-3. [Sprint Execution Commands](#sprint-execution-commands)
-4. [Sprint Review & Closure](#sprint-review--closure)
-5. [Useful Queries & Reports](#useful-queries--reports)
-6. [Daily Standup Workflow](#daily-standup-workflow)
+1. [Setup & Authentication](GITHUB_CLI_SPRINT_HOWTO.md)
+2. [Sprint Planning Commands](GITHUB_CLI_SPRINT_HOWTO.md)
+3. [Sprint Execution Commands](GITHUB_CLI_SPRINT_HOWTO.md)
+4. [Sprint Review & Closure](GITHUB_CLI_SPRINT_HOWTO.md)
+5. [Useful Queries & Reports](GITHUB_CLI_SPRINT_HOWTO.md)
+6. [Daily Standup Workflow](GITHUB_CLI_SPRINT_HOWTO.md)
 
 ---
 

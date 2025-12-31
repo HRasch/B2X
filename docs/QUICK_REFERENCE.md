@@ -13,9 +13,9 @@
 
 ## 🤖 AI Agent System
 
-- **[Agent Team Registry](.github/AGENT_TEAM_REGISTRY.md)** - Authoritative agent directory (15 specialized agents)
-- **[Agent Quick Reference](./ai/AGENT_QUICK_REFERENCE.md)** - Fast agent lookup by task type
-- **[AI Knowledge Base](./ai/INDEX.md)** - Trigger keywords for AI documentation lookup
+- **[Agent Team Registry](.ai/collaboration/AGENT_TEAM_REGISTRY.md)** - Authoritative agent directory (15 specialized agents)
+- **[Agent Quick Reference](./.ai/knowledgebase/INDEX.md)** - Fast agent lookup by task type
+- **[AI Knowledge Base](./.ai/knowledgebase/INDEX.md)** - Trigger keywords for AI documentation lookup
 
 ---
 
@@ -29,13 +29,13 @@
 
 ## 👥 By Role
 
-- **[Role-Based Documentation](./by-role/README.md)** - Docs organized by team role
+- **[Role-Based Documentation](by-role/DEVELOPER.md)** - Docs organized by team role
 
 ---
 
 ## 🔐 Compliance & Security
 
-- **[Compliance Documentation](./compliance/)** - GDPR, NIS2, BITV 2.0, AI Act
+- **[Compliance Documentation](compliance)** - GDPR, NIS2, BITV 2.0, AI Act
 - **[Security Instructions](../.github/instructions/security.instructions.md)** - Development security guidelines
 
 ---
@@ -51,8 +51,8 @@
 ## 📋 Governance & Process
 
 - **[Governance Rules](../.ai/knowledgebase/governance.md)** - Project authority matrix and decision-making
-- **[Agent Role Documentation Guidelines](./processes/AGENT_ROLE_DOCUMENTATION_GUIDELINES.md)** - How to document agent roles
-- **[Complete Documentation Standards](./processes/COMPLETE_DOCUMENTATION_STANDARDS.md)** - Documentation best practices
+- **[Agent Role Documentation Guidelines](processes)** - How to document agent roles
+- **[Complete Documentation Standards](processes)** - Documentation best practices
 
 ---
 
@@ -60,7 +60,7 @@
 
 - **[Archived Documentation](./archive/)** - Historical sprint reports and session notes
   - [Quick References](./archive/quick-references/) - Old phase-specific quick refs
-  - [Governance Setup Reports](./archive/processes/GOVERNANCE_SETUP_2025_12_30/) - Setup phase completion reports
+  - [Governance Setup Reports](archive/processes) - Setup phase completion reports
 
 ---
 

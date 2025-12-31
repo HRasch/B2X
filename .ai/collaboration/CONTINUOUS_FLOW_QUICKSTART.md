@@ -52,7 +52,7 @@
 
 ## 📝 LOGGING REQUIREMENTS
 
-**Log File:** [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+**Log File:** [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 
 **When:** Immediately upon task completion (real-time)
 

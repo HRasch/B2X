@@ -82,7 +82,7 @@
 | Document | Purpose | Length | Read Time |
 |----------|---------|--------|-----------|
 | **COMMUNICATION-INDEX.md** | Navigation & overview | ~2 pages | 5 min |
-| **COMMUNICATION-OVERVIEW.md** | System overview & rules | ~4 pages | 10 min |
+| **GL-001-COMMUNICATION-OVERVIEW.md** | System overview & rules | ~4 pages | 10 min |
 | **SARAH-SUBAGENT-COORDINATION.md** | Coordination framework (updated) | ~25 pages | 25 min |
 | **AGENT-SUBAGENT-COMMUNICATION.md** | Detailed examples & patterns | ~15 pages | 20 min |
 | **AGENT-SUBAGENT-CHEATSHEET.md** | Quick reference | ~6 pages | 5 min |
@@ -116,14 +116,14 @@
 3. Send first request
 
 ### Path 2: Complete Understanding (60 minutes)
-1. COMMUNICATION-OVERVIEW.md
+1. GL-001-COMMUNICATION-OVERVIEW.md
 2. SARAH-SUBAGENT-COORDINATION.md
 3. AGENT-SUBAGENT-COMMUNICATION.md
 4. COMMUNICATION-VISUAL-GUIDE.md
 
 ### Path 3: Visual Learning (25 minutes)
 1. COMMUNICATION-VISUAL-GUIDE.md
-2. COMMUNICATION-OVERVIEW.md
+2. GL-001-COMMUNICATION-OVERVIEW.md
 3. AGENT-SUBAGENT-CHEATSHEET.md
 
 ### Path 4: SARAH Configuration (90 minutes)
@@ -138,7 +138,7 @@
 
 ### Documentation
 - ✅ COMMUNICATION-INDEX.md created
-- ✅ COMMUNICATION-OVERVIEW.md created
+- ✅ GL-001-COMMUNICATION-OVERVIEW.md created
 - ✅ COMMUNICATION-VISUAL-GUIDE.md created
 - ✅ AGENT-SUBAGENT-COMMUNICATION.md created
 - ✅ AGENT-SUBAGENT-CHEATSHEET.md created
@@ -299,7 +299,7 @@
 ```
 .ai/guidelines/
 ├── COMMUNICATION-INDEX.md              ← Navigation hub
-├── COMMUNICATION-OVERVIEW.md           ← 10 core rules + overview
+├── GL-001-COMMUNICATION-OVERVIEW.md           ← 10 core rules + overview
 ├── COMMUNICATION-VISUAL-GUIDE.md       ← Diagrams & flowcharts
 ├── SARAH-SUBAGENT-COORDINATION.md      ← Coordination framework (v1.1)
 ├── AGENT-SUBAGENT-COMMUNICATION.md     ← Detailed examples

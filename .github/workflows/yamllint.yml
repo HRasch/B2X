@@ -1,6 +1,7 @@
+---
 name: yamllint
 
-on:
+'on':
   push:
     paths:
       - '**/*.yml'

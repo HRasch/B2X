@@ -191,7 +191,7 @@ Every Day → Keep artifacts current (no stale docs)
 
 ---
 
-### 2. `.github/AGENT_TEAM_REGISTRY.md`
+### 2. `.ai/collaboration/AGENT_TEAM_REGISTRY.md`
 **Changes**:
 - Added "Agent Responsibility Matrix: `.ai/` Folder Organization" section
 - Detailed table of who manages what

@@ -548,6 +548,6 @@ Team Impact:
 5. Expand to other agents
 
 **Related Files:**
-- [SUBAGENT_DELEGATION.md](SUBAGENT_DELEGATION.md) - Strategy & architecture
-- [CONTEXT_OPTIMIZATION.md](CONTEXT_OPTIMIZATION.md) - Main agent optimization
+- [GL-002-SUBAGENT_DELEGATION.md](../guidelines/GL-002-SUBAGENT_DELEGATION.md) - Strategy & architecture
+- [CONTEXT_OPTIMIZATION.md](../guidelines/CONTEXT_OPTIMIZATION.md) - Main agent optimization
 - [Agent Definitions](.github/agents/)

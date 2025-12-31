@@ -110,12 +110,12 @@ This is not optional—it's a core responsibility of the AI assistant working on
 ### Current Version (5.x) ✅
 - URL: https://vuejs.org
 - Latest: 5.1.0 (Dec 2025)
-- Migration Guide: [From 4.x to 5.x](...)
+- Migration Guide: From 4.x to 5.x
 
 ### Previous Version (4.x)
 - URL: https://v4.vuejs.org (archived)
 - Deprecated: Jan 2024
-- Migration Required: See [upgrade guide](...)
+- Migration Required: See upgrade guide
 ```
 
 ### 4. Best Practices Documentation
@@ -136,8 +136,8 @@ This is not optional—it's a core responsibility of the AI assistant working on
 # [Topic] Best Practices
 
 ## Authoritative Sources
-- [Source 1](URL) - [Summary]
-- [Source 2](URL) - [Summary]
+- Source 1 - [Summary]
+- Source 2 - [Summary]
 
 ## Key Principles
 1. [Principle 1] - [Why it matters]
@@ -267,9 +267,9 @@ This is not optional—it's a core responsibility of the AI assistant working on
 ---
 
 ## Official Resources
-- [Official Documentation](URL) - Version X.Y.Z
-- [Official Tutorial](URL)
-- [Official Repository](URL)
+- Official Documentation - Version X.Y.Z
+- Official Tutorial
+- Official Repository
 
 ## Quick Reference
 [Quick facts about this technology]
@@ -469,12 +469,12 @@ Integration with Pinia for state management.
 → Check for unnecessary watches
 
 ## Version Updates
-- **v5.0 → v5.1**: [Breaking changes guide](URL)
-- **v4 → v5**: [Major migration guide](URL)
+- **v5.0 → v5.1**: Breaking changes guide
+- **v4 → v5**: Major migration guide
 
 ## Related Documentation
-- [Pinia State Management](.../pinia.md)
-- [TypeScript Language](.../typescript.md)
+- [Pinia State Management](../knowledgebase/pinia.md)
+- [TypeScript Language](../knowledgebase/dependency-updates/typescript.md)
 - [Web Standards](.../web-standards.md)
 ```
 

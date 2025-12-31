@@ -355,7 +355,7 @@ public class ProductService
 
 ## Resources
 
-- [WOLVERINE_ARCHITECTURE_ANALYSIS.md](../WOLVERINE_ARCHITECTURE_ANALYSIS.md) - Deep dive analysis
+- [WOLVERINE_ARCHITECTURE_ANALYSIS.md](WOLVERINE_ARCHITECTURE_ANALYSIS.md) - Deep dive analysis
 - [.github/copilot-instructions.md](.github/copilot-instructions.md) - AI coding guidelines
 - [Wolverine Official](https://wolverinefx.net/) - Official documentation
 

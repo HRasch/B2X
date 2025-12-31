@@ -88,7 +88,7 @@ dotnet test B2Connect.slnx   # ✅ All pass
 ```
 
 ### Step 2: Open PR
-- Title: `[TYPE](SCOPE): DESCRIPTION (#ISSUE)`
+- Title: `[TYPE](#scope): DESCRIPTION (#ISSUE)`
 - Description: Use template
 - Link issue: "Closes #30"
 
@@ -335,11 +335,11 @@ A: Tech Lead can override if needed (documented escalation).
 
 ## 📚 Full Documentation
 
-**Main Framework**: [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](./docs/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow)
+**Main Framework**: [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow)
 
-**Quick Guide**: [PR_WORKFLOW_QUICK_GUIDE.md](./docs/PR_WORKFLOW_QUICK_GUIDE.md)
+**Quick Guide**: [PR_WORKFLOW_QUICK_GUIDE.md](../reference-docs/github-workflows/PR_WORKFLOW_QUICK_GUIDE.md)
 
-**Setup Guide**: [GITHUB_PR_SETUP.md](./docs/GITHUB_PR_SETUP.md)
+**Setup Guide**: [GITHUB_PR_SETUP.md](../reference-docs/github-workflows/GITHUB_PR_SETUP.md)
 
 **Master Index**: [DEVELOPMENT_PROCESS_INDEX.md](./DEVELOPMENT_PROCESS_INDEX.md)
 

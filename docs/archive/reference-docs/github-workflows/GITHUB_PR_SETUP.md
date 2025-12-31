@@ -486,7 +486,7 @@ Every Friday, Scrum Master should:
 
 **Specific to B2Connect?**
 
-→ See [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](./DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow)
+→ See [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](../../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow)
 
 **Quick guide?**
 

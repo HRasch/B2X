@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: TechLead
 description: Bug analysis and root cause investigation
 ---
 

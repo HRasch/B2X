@@ -575,7 +575,7 @@ Tracked in: `.ai/issues/CLEANUP-XXX/`
 ---
 
 **Related:**
-- [project-cleanup.workflow.md](.ai/workflows/project-cleanup.workflow.md) - Full workflow with examples
-- [CONTEXT_OPTIMIZATION.md](.ai/guidelines/CONTEXT_OPTIMIZATION.md) - Code cleanup principles
-- [code-review.prompt.md](.github/prompts/code-review.prompt.md) - Quality review checklist
-- [dependency-upgrade-research.prompt.md](.github/prompts/dependency-upgrade-research.prompt.md) - Dependency analysis
+- [project-cleanup.workflow.md](../../.ai/workflows/project-cleanup.workflow.md) - Full workflow with examples
+- [CONTEXT_OPTIMIZATION.md](../../.ai/guidelines/CONTEXT_OPTIMIZATION.md) - Code cleanup principles
+- [code-review.prompt.md](code-review.prompt.md) - Quality review checklist
+- [dependency-upgrade-research.prompt.md](dependency-upgrade-research.prompt.md) - Dependency analysis

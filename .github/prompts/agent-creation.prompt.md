@@ -1,5 +1,5 @@
 ---
-mode: sarah
+agent: SARAH
 description: Create new AI agents for the multi-agent system
 ---
 
@@ -798,7 +798,7 @@ Total: 10-17 days from need to stable operation
 
 ## Related Documents
 
-- [.github/agents/](../agents/) — All agent definitions
+- [.github/agents/](../agents) — All agent definitions
 - [.ai/collaboration/AGENT_COORDINATION.md](../../.ai/collaboration/AGENT_COORDINATION.md) — Agent coordination framework
 - [agent-removal.prompt.md](agent-removal.prompt.md) — Removing agents
 - [.ai/guidelines/COMMUNICATION-OVERVIEW.md](../../.ai/guidelines/COMMUNICATION-OVERVIEW.md) — Agent communication patterns

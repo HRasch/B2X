@@ -17,38 +17,38 @@ Die Wissensdatenbank ermöglicht Assistenten, ihren Kontext bei Bedarf zu erweit
 
 ## Struktur
 
-### [architecture/](architecture/)
+### [architecture/](architecture)
 - Systemarchitektur und Design-Dokumentation
 - Component-Übersichten und Abhängigkeitsdiagramme
 - Architektur-Entscheidungen (ADRs)
 - Scalability und Performance-Considerations
 
-### [patterns/](patterns/)
+### [patterns/](patterns)
 - Code-Patterns und Conventions
 - Design-Patterns für häufige Probleme
 - Anti-Patterns und Fallstricke
 - Refactoring-Strategien
 
-### [best-practices/](best-practices/)
+### [best-practices/](best-practices)
 - Team-Standards und Guidelines
 - Code-Style und Formatierung
 - Testing-Strategien
 - Security und Performance Best Practices
 
-### [tools-and-tech/](tools-and-tech/)
+### [tools-and-tech/](tools-and-tech)
 - Verwendete Technologien und Frameworks
 - Tool-Setup und Konfiguration
 - Libraries und Dependencies
 - Integration mit externen Services
 - **[Mermaid Documentation](./tools-and-tech/MERMAID_DOCUMENTATION.md)** - VS Code & GitHub diagram support
 
-### [domain-knowledge/](domain-knowledge/)
+### [domain-knowledge/](.)
 - Business-Logik und Geschäfts-Kontexte
 - Fachliche Anforderungen
 - Workflow-Beschreibungen
 - Häufig gestellte Fragen zum Projekt
 
-### [software/](software/) — NEW
+### [software/](software) — NEW
 - 📦 Dependency Upgrade Documentation
 - Version Changelogs & Migration Guides
 - Breaking Changes & Migration Paths
@@ -76,7 +76,7 @@ Assistenten verwenden diese Wissensdatenbank, um:
 4. SARAH: Notifies all agents with .ai/knowledgebase link
 ```
 
-**Workflow-Details:** Siehe [Workflow: Dependency Upgrade](../workflows/dependency-upgrade.workflow.md)
+**Workflow-Details:** Siehe [Workflow: Dependency Upgrade](../workflows/WF-003-dependency-upgrade.workflow.md)
 
 **Prompt:** Siehe [dependency-upgrade-research.prompt.md](.../../github/prompts/dependency-upgrade-research.prompt.md)
 

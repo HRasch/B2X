@@ -12,7 +12,7 @@ Guide agents to maintain efficient, high-value context without token bloat. Opti
 
 ## Context Audit Process
 
-### Step 1: Assess Current Context Size
+[React patterns](../../.ai/knowledgebase/INDEX.md)
 ```
 Current context inventory:
 - Agent instructions: [X lines]
@@ -35,7 +35,7 @@ Target: <10 KB for focused tasks
 - Critical constraints
 
 **Tier 2 - IMPORTANT (Keep with Links)**
-- Related patterns
+See [API Spec](../../docs/) for details.
 - Common edge cases
 - Integration points
 - Reference documentation
@@ -62,9 +62,9 @@ We prefer functional components over class components.
 Always use useState for local state, useContext for global state, 
 and custom hooks for shared logic. See the component patterns 
 for more details on how to structure hooks properly..."
-
+[Code Review Checklist](code-review.prompt.md)
 ✅ AFTER (5 tokens):
-"[React patterns](.ai/knowledgebase/patterns/react.md)"
+"[React patterns](../../.ai/knowledgebase/INDEX.md)"
 ```
 
 #### B. Compress Documentation
@@ -73,20 +73,20 @@ for more details on how to structure hooks properly..."
 ## API Response Format
 The API returns JSON responses with the following structure:
 {
-  "data": { ... },
+[Code Review Checklist](code-review.prompt.md)
   "meta": {
     "timestamp": "ISO-8601",
     "version": "1.0"
   },
   "errors": [...]
-}
-
-✅ AFTER (30 tokens):
+ [CONTEXT_OPTIMIZATION.md](../../.ai/guidelines/CONTEXT_OPTIMIZATION.md)
+ [Knowledgebase INDEX](../../.ai/knowledgebase/INDEX.md)
+ [Agent Definitions](../agents/)
 ## API Response
 ```json
 { "data": {...}, "meta": {...}, "errors": [...] }
 ```
-See [API Spec](docs/api.md) for details.
+See [API Spec](../../docs/) for details.
 ```
 
 #### C. Use Tables Instead of Lists
@@ -112,7 +112,7 @@ For code reviews, check error handling, type safety,
 performance considerations...
 
 ✅ AFTER (5 tokens):
-[Code Review Checklist](.github/prompts/code-review.prompt.md)
+[Code Review Checklist](code-review.prompt.md)
 ```
 
 ### Step 4: Implementation Rules
@@ -257,7 +257,7 @@ backend implementation, backend testing..."
 inputs at the function boundary and throw descriptive errors..."
 
 ✅ AFTER:
-"[Error Handling](patterns/error-handling.md)"
+"[Error Handling](../../.ai/knowledgebase/INDEX.md)"
 ```
 
 ### Pattern 4: Metadata Only
@@ -395,6 +395,6 @@ Optimized: [Date] | By: [Agent]
 5. Schedule monthly review
 
 **Related:**
-- [CONTEXT_OPTIMIZATION.md](.ai/guidelines/CONTEXT_OPTIMIZATION.md)
-- [Knowledgebase INDEX](.ai/knowledgebase/INDEX.md)
-- [Agent Definitions](.github/agents/)
+- [CONTEXT_OPTIMIZATION.md](../../.ai/guidelines/CONTEXT_OPTIMIZATION.md)
+- [Knowledgebase INDEX](../../.ai/knowledgebase/INDEX.md)
+- [Agent Definitions](../agents)

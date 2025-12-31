@@ -95,7 +95,7 @@ Wenn Sie eine Frage haben, die hier nicht beantwortet wird:
 - Nicht autorisierte Gebühren?
 - Konto gehackt?
 
-[Kontaktieren Sie den Support sofort](../support.md)
+[Kontaktieren Sie den Support sofort](../README.md)
 
 ---
 

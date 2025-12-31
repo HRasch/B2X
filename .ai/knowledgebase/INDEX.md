@@ -1,40 +1,46 @@
-Knowledgebase Index
--------------------
+---
+docid: KB-INDEX
+title: Knowledgebase Index
+owner: GitHub Copilot (AI)
+status: Active
+---
+
+# Knowledgebase Index
+
+**DocID**: `KB-INDEX`
+
 This index lists curated knowledgebase articles to help agents and developers implement best practices for the project.
 
-- NOTE: On 31.12.2025 many internal/process documents were archived to
-- `.archive/internal-docs/` to separate user/developer docs from internal
-- process artifacts. A team review is in progress (see `.ai/issues/review-archived-docs.md` and PR #95).
-- If you need a specific knowledgebase article restored, add it to the review checklist.
--
-- csharp-14.md — C# 14 language highlights and links
-- dotnet-features.md — .NET runtime, SDK and library highlights (focus: .NET 10)
-- dotnet-breaking-changes.md — Compatibility rules and breaking-change guidance
-- dotnet-identity.md — ASP.NET Core Identity summary and best practices
-- dotnet-localization.md — Globalization/localization patterns and advice
-- dotnet-features.md — .NET features overview
-- patterns-antipatterns.md — Cross-cutting design patterns and antipatterns
-- repo-mapping.md — Where technologies appear in this repository (quick map)
-- wolverine.md — Wolverine messaging & CQRS overview
-- vue.md — Vue.js 3 overview and links
-- pinia.md — Pinia store summary
-- vite.md — Vite tooling notes
-- owasp-top-ten.md — OWASP Top Ten summary
- - search-elasticsearch-ecommerce.md — Modeling Elasticsearch-based e-commerce search & recommendations
-- docs-product-index.md — Index of product-related documentation under `docs/`
+## Quick Reference by DocID
 
-Restored entries (Dec 31 2025):
-- FEATURE_IMPLEMENTATION_PATTERNS.md — End-to-end feature implementation patterns
-- WOLVERINE_PATTERN_REFERENCE.md — Wolverine/CQRS patterns and HTTP endpoint guidance
-- DDD_BOUNDED_CONTEXTS_REFERENCE.md — Bounded-context placement and domain mapping
-- VUE3_COMPOSITION_PATTERNS.md — Vue 3 Composition API patterns and examples
-- MERMAID_DOCUMENTATION.md — Mermaid diagrams usage and examples for architecture docs
-- search-elasticsearch-ecommerce.md — (restored) e-commerce search modeling
-- csharp-14.md — C# 14 highlights
-- repo-mapping.md — (restored) repository mapping quick reference
+| DocID | Article | Description |
+|-------|---------|-------------|
+| `KB-001` | [csharp-14.md](csharp-14.md) | C# 14 language highlights |
+| `KB-002` | [dotnet-features.md](dotnet-features.md) | .NET runtime, SDK highlights (.NET 10) |
+| `KB-003` | [dotnet-breaking-changes.md](dotnet-breaking-changes.md) | Compatibility rules, breaking changes |
+| `KB-004` | [dotnet-identity.md](dotnet-identity.md) | ASP.NET Core Identity best practices |
+| `KB-005` | [dotnet-localization.md](dotnet-localization.md) | Globalization/localization patterns |
+| `KB-006` | [wolverine.md](wolverine.md) | Wolverine messaging & CQRS |
+| `KB-007` | [vue.md](vue.md) | Vue.js 3 overview |
+| `KB-008` | [pinia.md](pinia.md) | Pinia state management |
+| `KB-009` | [vite.md](vite.md) | Vite tooling notes |
+| `KB-010` | [owasp-top-ten.md](owasp-top-ten.md) | OWASP Top Ten security |
+| `KB-011` | [patterns-antipatterns.md](patterns-antipatterns.md) | Design patterns & antipatterns |
+| `KB-012` | [repo-mapping.md](repo-mapping.md) | Repository technology mapping |
+| `KB-013` | [governance.md](governance.md) | Governance & P0 Playbook |
+| `KB-014` | [git-commit-strategy.md](git-commit-strategy.md) | Git commit conventions |
 
-Use these as the canonical short references when implementing or reviewing code.
-# Knowledgebase Index
+## Subdirectories
+
+| DocID | Directory | Contents |
+|-------|-----------|----------|
+| `KB-ARCH` | [architecture/](architecture/) | System architecture patterns |
+| `KB-PAT` | [patterns/](patterns/) | Design & integration patterns |
+| `KB-BP` | [best-practices/](best-practices/) | Coding standards, guidelines |
+| `KB-TOOL` | [tools-and-tech/](tools-and-tech/) | Software versions, dependencies |
+| `KB-SW` | [software/](software/) | Dependency update logs |
+| `KB-OPS` | [operations/](operations/) | Operations guides |
+| `KB-SEARCH` | [search/](search/) | Search/Elasticsearch guides |
 
 ## Purpose
 Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Best Practices. Ermöglicht schnelle Recherche über alle Agenten.

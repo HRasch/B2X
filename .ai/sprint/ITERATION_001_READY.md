@@ -126,7 +126,7 @@ Iteration 001 completes when **ANY of these occur:**
 - [TRANSITION_TO_ITERATIONS.md](./TRANSITION_TO_ITERATIONS.md) - What changed
 
 **GitHub Integration:**
-- [.github/instructions/update-github-issues-sprint.md](../../.github/instructions/update-github-issues-sprint.md) - GitHub label mapping
+- [.ai/workflows/update-github-issues-sprint.md](../../.ai/workflows/update-github-issues-sprint.md) - GitHub label mapping
 - Labels: `iteration/001`, `ready-to-start`, `phase-1`, `phase-2`, `has-conditions`
 
 **Architecture Decisions:**

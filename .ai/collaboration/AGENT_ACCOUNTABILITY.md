@@ -92,8 +92,8 @@
 - ✅ Update running total
 - ✅ Calculate pace (SP/day)
 - ✅ Calculate ETA to 28 SP
-- ✅ Update [ITERATION_001_METRICS.md](./ITERATION_001_METRICS.md)
-- ✅ Update [DAY1_STANDUP_LIVE.md](./DAY1_STANDUP_LIVE.md)
+- ✅ Update [ITERATION_001_METRICS.md](../sprint/ITERATION_001_METRICS.md)
+- ✅ Update [DAY1_STANDUP_LIVE.md](../sprint/DAY1_STANDUP_LIVE.md)
 - ✅ Assess team health
 - ✅ Prepare next day agenda
 

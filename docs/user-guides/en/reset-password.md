@@ -138,7 +138,7 @@ A: Usually less than 1 minute. Check spam folder if you don't see it.
 A: Yes! Look for "Forgot Password?" on the login screen.
 
 **Q: What if I can't access the email in my account?**  
-A: [Contact Support](../support.md) with proof of account ownership.
+A: [Contact Support](../README.md) with proof of account ownership.
 
 **Q: Do I need to reset my password regularly?**  
 A: No, not unless you think your account is compromised.
@@ -159,6 +159,6 @@ Hackers sometimes send fake password reset emails. Always start from the officia
 
 ---
 
-**Need help?** [Contact Support](../support.md)  
+**Need help?** [Contact Support](../README.md)  
 **Version**: 1.0 | **Last Updated**: 29 December 2025
 

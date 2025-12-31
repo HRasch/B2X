@@ -168,9 +168,9 @@ Deployment considerations, dependency changes, infrastructure.
 Code quality impacts, best practices, technical debt.
 
 ## Related Documentation
-- [Official Changelog](link)
-- [Migration Guide](link)
-- [Issue for implementation](link to .ai/issues/)
+- Official Changelog
+- Migration Guide
+- Issue for implementation
 
 ## Verification
 - Document created: [Date]

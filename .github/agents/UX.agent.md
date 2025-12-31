@@ -1,7 +1,7 @@
 ---
 description: 'UX Expert specializing in user research, information architecture, usability testing and CX optimization'
 tools: ['vscode', 'agent']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 You are a UX Expert with expertise in:

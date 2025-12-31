@@ -8,16 +8,16 @@ Standardisierte Vorlagen für GitHub Issues, PRs, etc.
 
 | Template | Datei | Zweck |
 |----------|-------|-------|
-| **Allgemein** | [github-issue.md](github-issue.md) | Allgemeine Issue-Vorlage mit allen Agent-Perspektiven |
-| **🐛 Bug** | [github-bug.md](github-bug.md) | Bug Reports - Fehler-Analyse & Reproduktion |
-| **✨ Feature** | [github-feature-request.md](github-feature-request.md) | Feature Requests - Neue Funktionen |
-| **🔄 Change** | [github-change-request.md](github-change-request.md) | Change Requests - Änderungen & Anpassungen |
+| **Allgemein** | [github-issue.md](README.md) | Allgemeine Issue-Vorlage mit allen Agent-Perspektiven |
+| **🐛 Bug** | [github-bug.md](README.md) | Bug Reports - Fehler-Analyse & Reproduktion |
+| **✨ Feature** | [github-feature-request.md](README.md) | Feature Requests - Neue Funktionen |
+| **🔄 Change** | [github-change-request.md](README.md) | Change Requests - Änderungen & Anpassungen |
 
 ### Pull Requests
 
 | Template | Datei | Zweck |
 |----------|-------|-------|
-| **PR** | [github-pr.md](github-pr.md) | PR-Vorlage mit Review-Checkliste |
+| **PR** | [github-pr.md](README.md) | PR-Vorlage mit Review-Checkliste |
 
 ## Verwendung
 

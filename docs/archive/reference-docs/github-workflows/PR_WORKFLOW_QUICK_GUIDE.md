@@ -1,7 +1,7 @@
 # Pull Request Workflow - Quick Guide
 
 **Fast reference for developers opening pull requests**  
-**For full details**: See [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](./DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow)
+**For full details**: See [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](../../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow)
 
 ---
 
@@ -40,7 +40,7 @@ grep -r "password\|secret\|api_key" backend/ --include="*.cs"
 ### PR Title Format
 
 ```
-[TYPE](SCOPE): DESCRIPTION (#ISSUE)
+[TYPE](#scope): DESCRIPTION (#ISSUE)
 
 Examples:
 feat(catalog): implement VAT calculation service (#30)
@@ -216,7 +216,7 @@ Day 3-4: Merge to main
 
 ## 📚 Full Documentation
 
-See [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](./DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow) for:
+See [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](../../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow) for:
 - Detailed role responsibilities
 - Code review checklists
 - Merge strategy options

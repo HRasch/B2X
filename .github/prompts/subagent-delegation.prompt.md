@@ -91,7 +91,7 @@ Does task involve:
   "scope": "Breaking changes, compatibility, performance",
   "criteria": "Summary of migration path, effort estimate",
   "context": "Current: v18.x, Target: v20.x, Using Express.js + PostgreSQL",
-  "output_location": ".ai/issues/FEAT-456/nodejs-migration-research.md",
+  "output_location": ".ai/knowledgebase/INDEX.md",
   "priority": "high",
   "deadline": "2025-12-31 17:00"
 }
@@ -145,7 +145,7 @@ Delegation:
 Please research Node.js v20 migration impact for our Express.js + PostgreSQL stack.
 - Focus: Breaking changes, compatibility, performance gains
 - Current version: 18.x, Target: 20.x
-- Output: .ai/issues/FEAT-456/nodejs-migration-research.md
+- Output: .ai/knowledgebase/INDEX.md
 - Deadline: 2025-12-31 17:00
 ```
 
@@ -156,7 +156,7 @@ Please research Node.js v20 migration impact for our Express.js + PostgreSQL sta
 ```json
 {
   "status": "completed",
-  "output_file": ".ai/issues/FEAT-456/nodejs-migration-research.md",
+  "output_file": ".ai/knowledgebase/INDEX.md",
   "summary": "Node.js v20 upgrade is straightforward for Express.js. 
              Main breaking change: dropped Node 14 support. 
              Performance gains: 15% faster request handling.",
@@ -178,7 +178,7 @@ Please research Node.js v20 migration impact for our Express.js + PostgreSQL sta
 ```markdown
 ## Upgrade Path: Node.js v18 → v20
 
-See full analysis: [nodejs-migration-research.md](.ai/issues/FEAT-456/nodejs-migration-research.md)
+See full analysis: [nodejs-migration-research.md](../../.ai/knowledgebase/INDEX.md)
 
 **Key findings:**
 - Safe upgrade (already Node 18)
@@ -316,13 +316,13 @@ Design and implement backend APIs, services, databases.
 |------|----------|--------|--------|
 | API security review | @SubAgent-Security | IN PROGRESS | `.ai/issues/FEAT-123/security-review.md` |
 | Unit tests | @SubAgent-Testing | PENDING | `src/auth.test.ts` |
-| Error handling | Reference | READY | [error-patterns.md](.ai/knowledgebase/patterns/error-handling.md) |
-| Database | Reference | READY | [schema-adr.md](.ai/decisions/ADR-023-schema.md) |
+| Error handling | Reference | READY | [error-patterns.md](../../.ai/knowledgebase/INDEX.md) |
+| Database | Reference | READY | [schema-adr.md](../../.ai/decisions/INDEX.md) |
 
 ## Links (not inline)
-- [API Design Patterns](.ai/knowledgebase/patterns/api-design.md)
-- [Security Best Practices](.ai/guidelines/security.md)
-- [Testing Standards](.ai/knowledgebase/patterns/testing.md)
+- [API Design Patterns](../../.ai/knowledgebase/INDEX.md)
+- [Security Best Practices](../instructions/security.instructions.md)
+- [Testing Standards](../../.ai/knowledgebase/INDEX.md)
 ```
 
 **Context reduction: 25 KB → 8 KB (68% smaller)**
@@ -515,6 +515,6 @@ Date: 2025-12-31
 ---
 
 **Related:**
-- [SUBAGENT_DELEGATION.md](.ai/guidelines/SUBAGENT_DELEGATION.md) - Full strategy
-- [subagent-delegation.workflow.md](.ai/workflows/subagent-delegation.workflow.md) - Implementation
-- [CONTEXT_OPTIMIZATION.md](.ai/guidelines/CONTEXT_OPTIMIZATION.md) - Main agent optimization
+- [SUBAGENT_DELEGATION.md](../../.ai/guidelines/SUBAGENT_DELEGATION.md) - Full strategy
+- [subagent-delegation.workflow.md](../../.ai/workflows/subagent-delegation.workflow.md) - Implementation
+- [CONTEXT_OPTIMIZATION.md](../../.ai/guidelines/CONTEXT_OPTIMIZATION.md) - Main agent optimization

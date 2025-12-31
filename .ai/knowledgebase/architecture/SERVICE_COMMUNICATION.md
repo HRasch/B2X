@@ -593,8 +593,8 @@ _logger.LogInformation("Processing {Event} [Correlation: {CorrelationId}]",
 
 ## References
 
-- [B2Connect Architecture Review](../ARCHITECTURE_REVIEW_2025_12_30.md)
-- [ADR-001: Event-Driven Architecture](./ADR-001-event-driven-architecture.md)
+- [B2Connect Architecture Review](../../decisions/ARCHITECTURE_REVIEW_2025_12_30.md)
+- [ADR-001: Event-Driven Architecture](../../decisions/ADR-001-event-driven-architecture.md)
 - [Wolverine Documentation](https://wolverine.netlify.app/)
 - [Service Communication Patterns](https://microservices.io/patterns/communication-style/messaging.html)
 

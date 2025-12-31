@@ -548,7 +548,7 @@ Exceeding limits returns HTTP 429 (Too Many Requests).
 
 **See Also**:
 - [ARCHITECTURE_PRICE_AND_VAT_VALIDATION.md](ARCHITECTURE_PRICE_AND_VAT_VALIDATION.md) - Component diagrams, flow diagrams
-- [DATABASE_SCHEMA_VAT_VALIDATION.md](DATABASE_SCHEMA_VAT_VALIDATION.md) - Database design
+- [DATABASE_SCHEMA_VAT_VALIDATION.md](../reference-docs/DATABASE_SCHEMA_VAT_VALIDATION.md) - Database design
 - [TESTING_PRICE_AND_VAT.md](TESTING_PRICE_AND_VAT.md) - Test coverage details
-- [DEPLOYMENT_PRICE_AND_VAT.md](DEPLOYMENT_PRICE_AND_VAT.md) - Deployment guide
+- [DEPLOYMENT_PRICE_AND_VAT.md](../reference-docs/DEPLOYMENT_PRICE_AND_VAT.md) - Deployment guide
 - [COMPLIANCE_PRICE_AND_VAT.md](COMPLIANCE_PRICE_AND_VAT.md) - Regulatory compliance details

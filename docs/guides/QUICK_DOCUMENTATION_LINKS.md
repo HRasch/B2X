@@ -7,7 +7,7 @@
 ## 📚 Dokumentation per Rolle
 
 ### 👥 Ich bin Kunde oder Shop-Nutzer
-**Wo:** [USER_GUIDE.md](docs/USER_GUIDE.md#-für-kunden-store)
+**Wo:** [USER_GUIDE.md](../archive/reference-docs/USER_GUIDE.md#-für-kunden-store)
 - ✅ Konto erstellen
 - ✅ Einkaufen & Bestellungen
 - ✅ Mein Konto verwalten
@@ -17,7 +17,7 @@
 ---
 
 ### ⚙️ Ich bin Administrator
-**Wo:** [USER_GUIDE.md](docs/USER_GUIDE.md#-für-admin-benutzer)
+**Wo:** [USER_GUIDE.md](../archive/reference-docs/USER_GUIDE.md#-für-admin-benutzer)
 - ✅ Dashboard
 - ✅ Produkte verwalten
 - ✅ Bestellungen verarbeiten
@@ -29,7 +29,7 @@
 ---
 
 ### 👨‍💻 Ich bin Entwickler
-**Wo:** [SOFTWARE_DOCUMENTATION.md](docs/SOFTWARE_DOCUMENTATION.md)
+**Wo:** [SOFTWARE_DOCUMENTATION.md](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md)
 - ✅ Architektur
 - ✅ API Specifications
 - ✅ Database Schema
@@ -41,7 +41,7 @@
 ---
 
 ### 🔐 Ich arbeite in Security/DevOps
-**Wo:** [PENTESTER_REVIEW.md](docs/PENTESTER_REVIEW.md) + [GITHUB_PAGES_SETUP.md](docs/GITHUB_PAGES_SETUP.md)
+**Wo:** [PENTESTER_REVIEW.md](QUICK_REFERENCE.md) + [GITHUB_PAGES_SETUP.md](../archive/reference-docs/github-workflows/GITHUB_PAGES_SETUP.md)
 - ✅ Security Assessment (CVSS Scores)
 - ✅ Vulnerabilities & Fixes
 - ✅ Testing Checklist
@@ -52,7 +52,7 @@
 ---
 
 ### 📊 Ich bin Project Manager / Lead
-**Wo:** [CRITICAL_ISSUES_ROADMAP.md](CRITICAL_ISSUES_ROADMAP.md) + [REQUIREMENTS_SUMMARY.md](REQUIREMENTS_SUMMARY.md)
+**Wo:** [CRITICAL_ISSUES_ROADMAP.md](QUICK_START_P0.md) + [REQUIREMENTS_SUMMARY.md](index.md)
 - ✅ P0 Critical Issues (This Week)
 - ✅ All Requirements
 - ✅ Timeline & Estimates
@@ -66,79 +66,79 @@
 ### Benutzerdokumentation
 | Dokument | Zweck | Link |
 |----------|-------|------|
-| **USER_GUIDE.md** | Kundenguide & Admin-Guide | [docs/USER_GUIDE.md](docs/USER_GUIDE.md) |
+| **USER_GUIDE.md** | Kundenguide & Admin-Guide | [docs/USER_GUIDE.md](../archive/reference-docs/USER_GUIDE.md) |
 | **GitHub Pages** | Online-Dokumentation | https://b2connect.github.io |
 
 ### Technische Dokumentation
 | Dokument | Zweck | Link |
 |----------|-------|------|
-| **SOFTWARE_DOCUMENTATION.md** | API, DB Schema, Code Examples | [docs/SOFTWARE_DOCUMENTATION.md](docs/SOFTWARE_DOCUMENTATION.md) |
-| **APPLICATION_SPECIFICATIONS.md** | System Specifications | [docs/APPLICATION_SPECIFICATIONS.md](docs/APPLICATION_SPECIFICATIONS.md) |
-| **GITHUB_WORKFLOWS.md** | Development Workflows | [docs/GITHUB_WORKFLOWS.md](docs/GITHUB_WORKFLOWS.md) |
+| **SOFTWARE_DOCUMENTATION.md** | API, DB Schema, Code Examples | [docs/SOFTWARE_DOCUMENTATION.md](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md) |
+| **APPLICATION_SPECIFICATIONS.md** | System Specifications | [docs/APPLICATION_SPECIFICATIONS.md](docs/guides/index.md) |
+| **GITHUB_WORKFLOWS.md** | Development Workflows | [docs/GITHUB_WORKFLOWS.md](../archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md) |
 
 ### Sicherheit & Compliance
 | Dokument | Zweck | Link |
 |----------|-------|------|
-| **PENTESTER_REVIEW.md** | Security Assessment | [docs/PENTESTER_REVIEW.md](docs/PENTESTER_REVIEW.md) |
+| **PENTESTER_REVIEW.md** | Security Assessment | [docs/PENTESTER_REVIEW.md](QUICK_REFERENCE.md) |
 | **SECURITY_HARDENING_GUIDE.md** | Security Implementation | [SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md) |
-| **CRITICAL_ISSUES_ROADMAP.md** | P0 Week Implementation | [CRITICAL_ISSUES_ROADMAP.md](CRITICAL_ISSUES_ROADMAP.md) |
+| **CRITICAL_ISSUES_ROADMAP.md** | P0 Week Implementation | [CRITICAL_ISSUES_ROADMAP.md](QUICK_START_P0.md) |
 
 ### Governance & Planning
 | Dokument | Zweck | Link |
 |----------|-------|------|
-| **REQUIREMENTS_SUMMARY.md** | All Requirements P0-P1 | [REQUIREMENTS_SUMMARY.md](REQUIREMENTS_SUMMARY.md) |
-| **DAILY_STANDUP_TEMPLATE.md** | Team Coordination | [DAILY_STANDUP_TEMPLATE.md](DAILY_STANDUP_TEMPLATE.md) |
+| **REQUIREMENTS_SUMMARY.md** | All Requirements P0-P1 | [REQUIREMENTS_SUMMARY.md](index.md) |
+| **DAILY_STANDUP_TEMPLATE.md** | Team Coordination | [DAILY_STANDUP_TEMPLATE.md](../../.ai/sprint/DAILY_STANDUP_TEMPLATE.md) |
 | **QUICK_START_P0.md** | 5-Minute Overview | [QUICK_START_P0.md](QUICK_START_P0.md) |
 
 ### GitHub Pages & Deployment
 | Dokument | Zweck | Link |
 |----------|-------|------|
-| **GITHUB_PAGES_SETUP.md** | GitHub Pages Configuration | [docs/GITHUB_PAGES_SETUP.md](docs/GITHUB_PAGES_SETUP.md) |
-| **GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md** | Deployment Steps | [GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md](GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md) |
-| **DOCUMENTATION_SUITE_OVERVIEW.md** | Complete Overview | [DOCUMENTATION_SUITE_OVERVIEW.md](DOCUMENTATION_SUITE_OVERVIEW.md) |
+| **GITHUB_PAGES_SETUP.md** | GitHub Pages Configuration | [docs/GITHUB_PAGES_SETUP.md](../archive/reference-docs/github-workflows/GITHUB_PAGES_SETUP.md) |
+| **GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md** | Deployment Steps | [GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md](index.md) |
+| **DOCUMENTATION_SUITE_OVERVIEW.md** | Complete Overview | [DOCUMENTATION_SUITE_OVERVIEW.md](index.md) |
 | **REVIEW_COMPLETION_SUMMARY.md** | What Was Delivered | [docs/REVIEW_COMPLETION_SUMMARY.md](docs/REVIEW_COMPLETION_SUMMARY.md) |
 
 ### Architektur & Design
 | Dokument | Zweck | Link |
 |----------|-------|------|
-| **ONION_ARCHITECTURE.md** | Architecture Principles | [docs/ONION_ARCHITECTURE.md](docs/ONION_ARCHITECTURE.md) |
-| **GATEWAY_SEPARATION.md** | Gateway Architecture | [docs/GATEWAY_SEPARATION.md](docs/GATEWAY_SEPARATION.md) |
-| **DOCUMENTATION_INDEX.md** | Master Index | [docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) |
+| **ONION_ARCHITECTURE.md** | Architecture Principles | [docs/ONION_ARCHITECTURE.md](../archive/architecture-docs/ONION_ARCHITECTURE.md) |
+| **GATEWAY_SEPARATION.md** | Gateway Architecture | [docs/GATEWAY_SEPARATION.md](GATEWAY_SEPARATION.md) |
+| **DOCUMENTATION_INDEX.md** | Master Index | [docs/DOCUMENTATION_INDEX.md](../archive/processes/DOCUMENTATION_INDEX.md) |
 
 ---
 
 ## 🎯 Häufige Aufgaben & Links
 
 ### "Wie starte ich?"
-1. **Für Kunden:** [USER_GUIDE.md - Getting Started](docs/USER_GUIDE.md#getting-started---erste-schritte)
-2. **Für Admins:** [USER_GUIDE.md - Dashboard](docs/USER_GUIDE.md#1-dashboard)
-3. **Für Devs:** [SOFTWARE_DOCUMENTATION.md - Architecture](docs/SOFTWARE_DOCUMENTATION.md#1-architecture-overview)
+1. **Für Kunden:** [USER_GUIDE.md - Getting Started](../archive/reference-docs/USER_GUIDE.md#getting-started---erste-schritte)
+2. **Für Admins:** [USER_GUIDE.md - Dashboard](../archive/reference-docs/USER_GUIDE.md#1-dashboard)
+3. **Für Devs:** [SOFTWARE_DOCUMENTATION.md - Architecture](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md#1-architecture-overview)
 
 ### "Was muss ich diese Woche fixen?"
-👉 [CRITICAL_ISSUES_ROADMAP.md](CRITICAL_ISSUES_ROADMAP.md)
+👉 [CRITICAL_ISSUES_ROADMAP.md](QUICK_START_P0.md)
 - Alle P0 Issues für diese Woche
 - Daily Breakdown
 - Estimated Effort
 
 ### "Wie entwickle ich?"
-👉 [GITHUB_WORKFLOWS.md](docs/GITHUB_WORKFLOWS.md)
+👉 [GITHUB_WORKFLOWS.md](../archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md)
 - Branch Strategy
 - Commit Conventions
 - Pull Request Process
 
 ### "Sind wir sicher?"
-👉 [PENTESTER_REVIEW.md](docs/PENTESTER_REVIEW.md)
+👉 [PENTESTER_REVIEW.md](QUICK_REFERENCE.md)
 - CVSS Scores
 - Vulnerabilities
 - Testing Checklist
 
 ### "Wie deploye ich Dokumentation?"
-👉 [GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md](GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md)
+👉 [GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md](index.md)
 - 5 Simple Steps
 - ~10 Minutes
 
 ### "Was wurde alles erledigt?"
-👉 [DOCUMENTATION_SUITE_OVERVIEW.md](DOCUMENTATION_SUITE_OVERVIEW.md)
+👉 [DOCUMENTATION_SUITE_OVERVIEW.md](index.md)
 - Complete Summary
 - What's New
 - Next Steps
@@ -149,13 +149,13 @@
 
 | Problem | Lösung |
 |---------|--------|
-| "Ich weiß nicht, wie ich einkaufen soll" | [USER_GUIDE.md - Einkaufen](docs/USER_GUIDE.md#einkaufen) |
-| "Wie verwalte ich Produkte?" | [USER_GUIDE.md - Produkte verwalten](docs/USER_GUIDE.md#2-produkte-verwalten) |
-| "Wie führe ich einen API Call durch?" | [SOFTWARE_DOCUMENTATION.md - API](docs/SOFTWARE_DOCUMENTATION.md#2-api-specifications) |
-| "Wie deploye ich auf Kubernetes?" | [SOFTWARE_DOCUMENTATION.md - Deployment](docs/SOFTWARE_DOCUMENTATION.md#7-deployment) |
-| "Wo ist die Datenbank-Dokumentation?" | [SOFTWARE_DOCUMENTATION.md - Database](docs/SOFTWARE_DOCUMENTATION.md#3-database-schema) |
-| "Sind wir GDPR-compliant?" | [PENTESTER_REVIEW.md - GDPR](docs/PENTESTER_REVIEW.md#gdpr-compliance) |
-| "Website funktioniert nicht!" | [SOFTWARE_DOCUMENTATION.md - Troubleshooting](docs/SOFTWARE_DOCUMENTATION.md#10-troubleshooting-guide) |
+| "Ich weiß nicht, wie ich einkaufen soll" | [USER_GUIDE.md - Einkaufen](../archive/reference-docs/USER_GUIDE.md#einkaufen) |
+| "Wie verwalte ich Produkte?" | [USER_GUIDE.md - Produkte verwalten](../archive/reference-docs/USER_GUIDE.md#2-produkte-verwalten) |
+| "Wie führe ich einen API Call durch?" | [SOFTWARE_DOCUMENTATION.md - API](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md#2-api-specifications) |
+| "Wie deploye ich auf Kubernetes?" | [SOFTWARE_DOCUMENTATION.md - Deployment](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md#7-deployment) |
+| "Wo ist die Datenbank-Dokumentation?" | [SOFTWARE_DOCUMENTATION.md - Database](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md#3-database-schema) |
+| "Sind wir GDPR-compliant?" | [PENTESTER_REVIEW.md - GDPR](QUICK_REFERENCE.md#gdpr-compliance) |
+| "Website funktioniert nicht!" | [SOFTWARE_DOCUMENTATION.md - Troubleshooting](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md#10-troubleshooting-guide) |
 
 ---
 
@@ -178,12 +178,12 @@
 ## 🚀 Nächste Schritte
 
 ### Sofort (Today):
-1. Lesen Sie [DOCUMENTATION_SUITE_OVERVIEW.md](DOCUMENTATION_SUITE_OVERVIEW.md) (5 min)
-2. Führen Sie [GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md](GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md) aus (10 min)
+1. Lesen Sie [DOCUMENTATION_SUITE_OVERVIEW.md](index.md) (5 min)
+2. Führen Sie [GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md](index.md) aus (10 min)
 3. Teilen Sie Links mit Team (5 min)
 
 ### Diese Woche:
-1. Implementieren Sie [CRITICAL_ISSUES_ROADMAP.md](CRITICAL_ISSUES_ROADMAP.md)
+1. Implementieren Sie [CRITICAL_ISSUES_ROADMAP.md](QUICK_START_P0.md)
 2. Lesen Sie relevante technische Docs
 3. Starten Sie mit P0 Sicherheits-Fixes
 
@@ -196,11 +196,11 @@
 
 ## 📞 Support & Questions
 
-- **User Documentation Questions:** [USER_GUIDE.md](docs/USER_GUIDE.md)
-- **Technical Questions:** [SOFTWARE_DOCUMENTATION.md](docs/SOFTWARE_DOCUMENTATION.md)
-- **Security Questions:** [PENTESTER_REVIEW.md](docs/PENTESTER_REVIEW.md)
-- **Planning/Roadmap:** [CRITICAL_ISSUES_ROADMAP.md](CRITICAL_ISSUES_ROADMAP.md)
-- **GitHub Pages:** [GITHUB_PAGES_SETUP.md](docs/GITHUB_PAGES_SETUP.md)
+- **User Documentation Questions:** [USER_GUIDE.md](../archive/reference-docs/USER_GUIDE.md)
+- **Technical Questions:** [SOFTWARE_DOCUMENTATION.md](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md)
+- **Security Questions:** [PENTESTER_REVIEW.md](QUICK_REFERENCE.md)
+- **Planning/Roadmap:** [CRITICAL_ISSUES_ROADMAP.md](QUICK_START_P0.md)
+- **GitHub Pages:** [GITHUB_PAGES_SETUP.md](../archive/reference-docs/github-workflows/GITHUB_PAGES_SETUP.md)
 
 ---
 

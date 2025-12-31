@@ -69,10 +69,10 @@ Formal records of major decisions. Each follows standard format:
 
 | ADR | Title | Deciders | Date |
 |-----|-------|----------|------|
-| [ADR-001](./ADR/ADR-001-WOLVERINE_OVER_MEDIATR.md) | Wolverine over MediatR | @tech-lead, @backend-dev | 2025-09 |
-| [ADR-002](./ADR/ADR-002-ONION_ARCHITECTURE.md) | Onion Architecture pattern | @tech-lead, @architect | 2025-09 |
-| [ADR-003](./ADR/ADR-003-ASPIRE_ORCHESTRATION.md) | Aspire for local orchestration | @devops-engineer | 2025-10 |
-| [ADR-004](./ADR/ADR-004-POSTGRESQL_MULTITENANCY.md) | PostgreSQL per service | @architect, @devops | 2025-10 |
+| [ADR-001](../../.ai/decisions/INDEX.md) | Wolverine over MediatR | @tech-lead, @backend-dev | 2025-09 |
+| [ADR-002](../../.ai/decisions/INDEX.md) | Onion Architecture pattern | @tech-lead, @architect | 2025-09 |
+| [ADR-003](../../.ai/decisions/INDEX.md) | Aspire for local orchestration | @devops-engineer | 2025-10 |
+| [ADR-004](../../.ai/decisions/INDEX.md) | PostgreSQL per service | @architect, @devops | 2025-10 |
 | [ADR-005](./ADR/ADR-005-PHASE_4_VELOCITY_BASED.md) | Velocity-based development | @scrum-master | 2025-12 |
 
 ### Create New ADR
@@ -114,7 +114,7 @@ We chose **Option X** because...
 ### [DDD_BOUNDED_CONTEXTS.md](./DDD_BOUNDED_CONTEXTS.md)
 How the system is organized into domain-driven design contexts
 
-### [ONION_ARCHITECTURE.md](./ONION_ARCHITECTURE.md)
+### [ONION_ARCHITECTURE.md](../archive/architecture-docs/ONION_ARCHITECTURE.md)
 Layer structure for each microservice
 
 ### [ASPIRE_GUIDE.md](./ASPIRE_GUIDE.md)
@@ -123,7 +123,7 @@ How to run services locally with .NET Aspire
 ### [SHARED_AUTHENTICATION.md](./SHARED_AUTHENTICATION.md)
 JWT-based authentication across all services
 
-### [GATEWAY_SEPARATION.md](./GATEWAY_SEPARATION.md)
+### [GATEWAY_SEPARATION.md](../guides/GATEWAY_SEPARATION.md)
 Store gateway vs Admin gateway (different auth, different routes)
 
 ---
@@ -283,7 +283,7 @@ All architecture documents must have:
 **Within B2Connect**:
 - [Backend Instructions](.../../.github/copilot-instructions-backend.md) - Coding standards
 - [Tech Lead Guide](../by-role/TECH_LEAD.md) - Architecture review process
-- [Testing Framework](../TESTING_FRAMEWORK_GUIDE.md) - Testing strategy
+- [Testing Framework](../archive/architecture-docs/TESTING_FRAMEWORK_GUIDE.md) - Testing strategy
 
 **External**:
 - [.NET 10 Documentation](https://learn.microsoft.com/dotnet/)

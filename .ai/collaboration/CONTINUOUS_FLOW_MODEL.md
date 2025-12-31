@@ -112,7 +112,7 @@ Dashboard live (no batch refresh times)
 ## 📝 CONTINUOUS WORK LOGGING
 
 ### **When Tasks Complete:**
-Log immediately in [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md):
+Log immediately in [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md):
 
 ```markdown
 ## Task Completion [HH:MM:SS timestamp]
@@ -238,7 +238,7 @@ ETA = (28 - Running Total) / Pace
 ### **Tools for Continuous Coordination:**
 
 **For Work Logging:**
-→ [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+→ [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 
 **For Metrics:**
 → [ITERATION_001_METRICS.md](../sprint/ITERATION_001_METRICS.md)

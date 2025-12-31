@@ -76,7 +76,7 @@ Impact ↑
 - Coverage Reporting
 
 ### Comprehensive Review
-→ [COMPREHENSIVE_REVIEW.md](COMPREHENSIVE_REVIEW.md)
+→ [COMPREHENSIVE_REVIEW.md](QUICK_REFERENCE.md)
 - Alle 6 Reviewer Perspektiven
 - Detaillierte Analyse
 - Lösungsvorschläge
@@ -121,7 +121,7 @@ Impact ↑
 | Dokument | Größe | Fokus |
 |----------|-------|-------|
 | [REVIEW_SUMMARY.md](REVIEW_SUMMARY.md) | 📄 Kurz | Überblick & Action Items |
-| [COMPREHENSIVE_REVIEW.md](COMPREHENSIVE_REVIEW.md) | 📚 Detailliert | Alle Aspekte |
+| [COMPREHENSIVE_REVIEW.md](QUICK_REFERENCE.md) | 📚 Detailliert | Alle Aspekte |
 | [SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md) | 🔐 Technisch | Code Examples |
 | [TESTING_STRATEGY.md](TESTING_STRATEGY.md) | 🧪 Technisch | Test Code |
 
@@ -175,4 +175,4 @@ GESAMT: 52% PRODUCTION READINESS
 
 ---
 
-**Fragen?** → Siehe detaillierte Guides oder [COMPREHENSIVE_REVIEW.md](COMPREHENSIVE_REVIEW.md)
+**Fragen?** → Siehe detaillierte Guides oder [COMPREHENSIVE_REVIEW.md](QUICK_REFERENCE.md)

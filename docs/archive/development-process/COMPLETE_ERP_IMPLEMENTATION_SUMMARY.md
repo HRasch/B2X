@@ -476,7 +476,7 @@ The entire system is **production-ready**:
 ## 📞 Quick Links
 
 ### Quick Start (5 minutes)
-- [Backend Quick Reference](./backend/Domain/Identity/docs/ERP_PROVIDER_QUICK_REFERENCE.md)
+- [Backend Quick Reference](../erp-provider/ERP_PROVIDER_QUICK_REFERENCE.md)
 - [Frontend Quick Reference](./Frontend/Store/src/docs/ERP_INTEGRATION_QUICK_REFERENCE.md)
 
 ### Complete Guides (20 minutes)
@@ -484,7 +484,7 @@ The entire system is **production-ready**:
 - [Frontend Guide](./Frontend/Store/src/docs/ERP_INTEGRATION_GUIDE.md)
 
 ### Implementation Examples (15 minutes)
-- [Backend Getting Started](./backend/Domain/Identity/docs/ERP_PROVIDER_GETTING_STARTED.md)
+- [Backend Getting Started](../erp-provider/ERP_PROVIDER_GETTING_STARTED.md)
 - [Frontend Implementation](./Frontend/Store/src/docs/ERP_INTEGRATION_IMPLEMENTATION.md)
 
 ---
