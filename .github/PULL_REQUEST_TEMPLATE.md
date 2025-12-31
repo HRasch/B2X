@@ -1,3 +1,41 @@
+<!-- Please review the checklist and fill the sections below before creating a PR -->
+
+# Summary
+
+Short description of the change (what/why).
+
+## Type of change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation
+- [ ] Chore/maintenance
+- [ ] Tests
+
+## Related issues
+Link related issue(s), e.g. `Resolves: #123` or `See: #456`
+
+## Proposed changes
+- Bullet list of changes included in this PR
+
+## How to test / QA steps
+- Steps to reproduce or verify the change locally
+
+## Checklist
+- [ ] CI passes (unit/integration/lint)
+- [ ] Tests added/updated where relevant
+- [ ] Documentation updated (README, docs/, .ai/knowledgebase)
+- [ ] Migration steps included (if needed)
+- [ ] Changelog entry added (if user-visible change)
+
+## Screenshots / Recordings
+Add screenshots or short recordings for UI changes.
+
+## Notes for reviewers
+Any special instructions for reviewers, areas to focus on, or pitfalls.
+
+---
+
+If you're the only author, consider marking the PR as `Draft` while you iterate.
 <!-- Short PR checklist used by reviewers and authors -->
 
 ## Pull Request Checklist
