@@ -1,77 +1,186 @@
+using System.Collections.Concurrent;
+using System.Linq;
 using B2Connect.Domain.Search.Models;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.QueryDsl;
+using Elastic.Transport;
 
 namespace B2Connect.Domain.Search.Services;
 
 public class ElasticService : IElasticService
 {
-    private readonly IElasticClient _client;
     private const string IndexName = "products";
 
-    public ElasticService(string uri, string? username = null, string? password = null)
+    private readonly string _defaultUri;
+    private readonly string? _defaultUsername;
+    private readonly string? _defaultPassword;
+    private readonly ITenantCredentialProvider? _tenantCredentialProvider;
+    private readonly ConcurrentDictionary<string, ElasticsearchClient> _tenantClients = new();
+
+    public ElasticService(string uri, string? username = null, string? password = null, ITenantCredentialProvider? tenantCredentialProvider = null)
     {
-        var settings = new ConnectionSettings(new Uri(uri)).DefaultIndex(IndexName);
+        _defaultUri = uri;
+        _defaultUsername = username;
+        _defaultPassword = password;
+        _tenantCredentialProvider = tenantCredentialProvider;
+        _defaultClient = CreateClient(_defaultUri, _defaultUsername, _defaultPassword, IndexName);
+    }
+
+    private string GetIndexName(string? tenantId, string? language)
+    {
+        var lang = string.IsNullOrWhiteSpace(language) ? "en" : language;
+        if (string.IsNullOrWhiteSpace(tenantId)) return $"{IndexName}-{lang}";
+        if (_tenantCredentialProvider != null)
+        {
+            var creds = _tenantCredentialProvider.GetCredentials(tenantId);
+            if (creds != null && !string.IsNullOrWhiteSpace(creds.IndexName)) return $"{creds.IndexName}-{lang}";
+        }
+        // default scheme: base index name + tenant suffix + language
+        return $"{IndexName}-{tenantId}-{lang}";
+    }
+
+    private ElasticsearchClient _defaultClient;
+
+    private ElasticsearchClient CreateClient(string uri, string? username, string? password, string defaultIndex)
+    {
+        var settings = new ElasticsearchClientSettings(new Uri(uri)).DefaultIndex(defaultIndex);
         if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
         {
-            settings = settings.BasicAuthentication(username, password);
+            settings = settings.Authentication(new BasicAuthentication(username, password));
         }
-        _client = new ElasticClient(settings);
+        return new ElasticsearchClient(settings);
     }
 
-    public async Task EnsureIndexAsync()
+    private ElasticsearchClient GetClientForTenant(string? tenantId, string? language)
     {
-        var exists = await _client.Indices.ExistsAsync(IndexName);
+        var lang = string.IsNullOrWhiteSpace(language) ? "en" : language;
+        var key = $"{tenantId ?? "__default"}|{lang}";
+        return _tenantClients.GetOrAdd(key, k =>
+        {
+            if (string.IsNullOrWhiteSpace(tenantId) || _tenantCredentialProvider == null)
+            {
+                var defaultIndex = GetIndexName(null, lang);
+                return CreateClient(_defaultUri, _defaultUsername, _defaultPassword, defaultIndex);
+            }
+
+            var creds = _tenantCredentialProvider.GetCredentials(tenantId!);
+            if (creds == null)
+            {
+                var defaultIndex = GetIndexName(tenantId, lang);
+                return CreateClient(_defaultUri, _defaultUsername, _defaultPassword, defaultIndex);
+            }
+
+            var tenantIndex = !string.IsNullOrWhiteSpace(creds.IndexName) ? $"{creds.IndexName}-{lang}" : GetIndexName(tenantId, lang);
+            return CreateClient(creds.Uri, creds.Username, creds.Password, tenantIndex);
+        });
+    }
+
+    public async Task EnsureIndexAsync(string? tenantId = null, string? language = null)
+    {
+        var client = GetClientForTenant(tenantId, language);
+        var index = GetIndexName(tenantId, language);
+        var exists = await client.Indices.ExistsAsync(index);
         if (!exists.Exists)
         {
-            await _client.Indices.CreateAsync(IndexName, c => c.Map<ProductDocument>(m => m.AutoMap()));
+            await client.Indices.CreateAsync(index);
         }
     }
 
-    public async Task<SearchResponseDto> SearchAsync(SearchRequestDto request)
+    public async Task<SearchResponseDto> SearchAsync(SearchRequestDto request, string? tenantId = null, string? language = null)
     {
-        await EnsureIndexAsync();
+        await EnsureIndexAsync(tenantId, language);
+
+        var client = GetClientForTenant(tenantId, language);
 
         var page = Math.Max(1, request.Page);
         var pageSize = Math.Clamp(request.PageSize, 1, 100);
 
-        QueryContainer q;
+        // Build query
+        Query? query;
         if (string.IsNullOrWhiteSpace(request.Query) || request.Query == "*")
         {
-            q = new MatchAllQuery();
+            query = new MatchAllQuery();
         }
         else
         {
-            q = new MultiMatchQuery
+            query = new MultiMatchQuery
             {
-                Fields = Infer.Fields<ProductDocument>(p => p.Title, p => p.Description),
                 Query = request.Query,
-                Fuzziness = Fuzziness.Auto
+                Fields = new[] { "title", "description" },
+                Fuzziness = new Fuzziness("AUTO")
             };
         }
 
         if (!string.IsNullOrWhiteSpace(request.Sector))
         {
-            q = q && new TermQuery { Field = "sector", Value = request.Sector };
+            // wrap in bool with filter
+            query = new BoolQuery
+            {
+                Must = new List<Query> { query },
+                Filter = new List<Query> { new TermQuery { Field = "sector", Value = request.Sector } }
+            };
         }
 
-        var resp = await _client.SearchAsync<ProductDocument>(s => s
-            .Query(q)
-            .From((page - 1) * pageSize)
-            .Size(pageSize)
-        );
+        var index = GetIndexName(tenantId, language);
 
+        var searchRequest = new SearchRequest(index)
+        {
+            From = (page - 1) * pageSize,
+            Size = pageSize,
+            Query = query ?? new MatchAllQuery()
+        };
+
+        var resp = await client.SearchAsync<ProductDocument>(searchRequest);
+
+        var total = resp.Total;
         return new SearchResponseDto
         {
             Products = resp.Documents,
-            Total = (int)resp.Total,
+            Total = (int)(total > 0 ? total : resp.Documents.Count()),
             Page = page,
             PageSize = pageSize
         };
     }
 
-    public async Task<ProductDocument?> GetByIdAsync(string id)
+    public async Task<ProductDocument?> GetByIdAsync(string id, string? tenantId = null, string? language = null)
     {
-        var resp = await _client.GetAsync<ProductDocument>(id, idx => idx.Index(IndexName));
+        var client = GetClientForTenant(tenantId, language);
+        var index = GetIndexName(tenantId, language);
+        var resp = await client.GetAsync<ProductDocument>(id, g => g.Index(index));
         return resp.Found ? resp.Source : null;
+    }
+
+    public async Task IndexManyAsync(IEnumerable<ProductDocument> documents, string? tenantId = null, string? language = null)
+    {
+        var client = GetClientForTenant(tenantId, language);
+        var index = GetIndexName(tenantId, language);
+        // ensure index exists
+        var exists = await client.Indices.ExistsAsync(index);
+        if (!exists.Exists)
+        {
+            await client.Indices.CreateAsync(index);
+        }
+
+        var bulk = await client.BulkAsync(b => b.IndexMany(documents));
+        if (bulk.Errors)
+        {
+            // TODO: handle per-item failures (log or throw)
+        }
+    }
+
+    public async Task<bool> IsSeededAsync(string tenantId, string? language = null)
+    {
+        var client = GetClientForTenant(tenantId, language);
+        var index = GetIndexName(tenantId, language) + "-meta";
+        var resp = await client.GetAsync<dynamic>("seeded", g => g.Index(index));
+        return resp.Found;
+    }
+
+    public async Task MarkSeededAsync(string tenantId, int count, string? language = null)
+    {
+        var client = GetClientForTenant(tenantId, language);
+        var index = GetIndexName(tenantId, language) + "-meta";
+        var doc = new { seededAt = DateTime.UtcNow, count };
+        await client.IndexAsync(doc, i => i.Index(index).Id("seeded"));
     }
 }

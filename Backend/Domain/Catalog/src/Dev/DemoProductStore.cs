@@ -10,7 +10,7 @@ public static class DemoProductStore
     private static List<dynamic>? _products;
     private static readonly object _lock = new();
 
-    public static void EnsureInitialized(int count = 100, string? demoSector = null)
+    public static void EnsureInitialized(int count = 100, string? demoSector = null, string[]? locales = null)
     {
         if (_products != null) return;
 
@@ -22,6 +22,9 @@ public static class DemoProductStore
             _products = new List<dynamic>(count);
 
             var sectors = new[] { "steel trading", "industry material supply", "sanitär", "construction", "automotive" };
+
+            // default locales: English and German
+            locales ??= new[] { "en", "de" };
 
             var productAreasBySector = new Dictionary<string, string[]>
             {
@@ -39,6 +42,7 @@ public static class DemoProductStore
                 var price = decimal.Parse(faker.Commerce.Price(50, 5000));
                 var tenantId = Guid.NewGuid();
                 var sector = !string.IsNullOrWhiteSpace(demoSector) ? demoSector : faker.PickRandom(sectors);
+                var locale = faker.PickRandom(locales);
                 var brand = faker.Company.CompanyName();
                 var desc = faker.Commerce.ProductDescription();
                 var stock = faker.Random.Int(0, 2000);
@@ -63,6 +67,7 @@ public static class DemoProductStore
                     brandName = brand,
                     tags = tags,
                     tenantId = tenantId,
+                    locale = locale,
                     // sector meta intentionally not included in DTOs; categories/tags reflect product area
                     createdAt = DateTime.UtcNow,
                     updatedAt = DateTime.UtcNow,
@@ -97,6 +102,7 @@ public static class DemoProductStore
                     brandName = p.brandName,
                     tags = tags,
                     tenantId = p.tenantId,
+                    locale = p.locale,
                     createdAt = p.createdAt,
                     updatedAt = p.updatedAt,
                     isAvailable = p.isAvailable

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
+using B2Connect.Domain.Search.Services;
 
 namespace B2Connect.Catalog.Endpoints;
 
@@ -29,9 +30,19 @@ public static class ProductEndpoints
         string sku,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
         IProductService productService,
+        ITenantResolver tenantResolver,
+        HttpRequest request,
         CancellationToken ct)
     {
-        var product = await productService.GetBySkuAsync(tenantId, sku, ct);
+        var resolvedTenant = tenantId;
+        if (resolvedTenant == Guid.Empty)
+        {
+            var host = request.Host.Host;
+            var tid = tenantResolver.ResolveTenantIdFromHost(host);
+            if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g)) resolvedTenant = g;
+        }
+
+        var product = await productService.GetBySkuAsync(resolvedTenant, sku, ct);
 
         if (product == null)
         {
@@ -82,6 +93,8 @@ public static class ProductEndpoints
         [FromQuery] string q,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
         ISearchIndexService searchService,
+        ITenantResolver tenantResolver,
+        HttpRequest request,
         CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(q))
@@ -89,7 +102,15 @@ public static class ProductEndpoints
             return Results.BadRequest(new { Message = "Search query cannot be empty" });
         }
 
-        var results = await searchService.SearchAsync(tenantId, q, ct);
+        var resolvedTenant = tenantId;
+        if (resolvedTenant == Guid.Empty)
+        {
+            var host = request.Host.Host;
+            var tid = tenantResolver.ResolveTenantIdFromHost(host);
+            if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g)) resolvedTenant = g;
+        }
+
+        var results = await searchService.SearchAsync(resolvedTenant, q, ct);
         return Results.Ok(results);
     }
 
@@ -101,6 +122,8 @@ public static class ProductEndpoints
     public static async Task<IResult> ListProducts(
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
         IProductService productService,
+        ITenantResolver tenantResolver,
+        HttpRequest request,
         CancellationToken ct,
         Microsoft.Extensions.Configuration.IConfiguration configuration,
         [FromQuery] int page = 1,
@@ -117,7 +140,18 @@ public static class ProductEndpoints
             // Lazy initialize demo store with configured count
             B2Connect.Catalog.Endpoints.Dev.DemoProductStore.EnsureInitialized(demoCount.Value, demoSector);
             var (items, total) = B2Connect.Catalog.Endpoints.Dev.DemoProductStore.GetPage(page, pageSize);
-            return Results.Ok(new { products = items, total, page, pageSize });
+            // resolve tenant if header missing
+            var resolvedTenant = tenantId;
+            if (resolvedTenant == Guid.Empty)
+            {
+                var host = request.Host.Host;
+                var tid = tenantResolver.ResolveTenantIdFromHost(host);
+                if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g)) resolvedTenant = g;
+            }
+
+            // filter by resolvedTenant if DemoProductStore items include tenantId
+            var filtered = items.Where(p => Convert.ToString(p.tenantId) == resolvedTenant.ToString());
+            return Results.Ok(new { products = filtered, total, page, pageSize });
         }
 
         // TODO: Implement GetAllAsync method in IProductService

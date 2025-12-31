@@ -198,6 +198,8 @@ Siehe [AGENT_COORDINATION.md](.ai/collaboration/AGENT_COORDINATION.md) für Deta
   ➡️ Next: @[Agent] für [Task]
   ```
 
+  - **Commit After Steps**: After each successful implementation-step, create a repository commit with a clear, meaningful message describing the change (for example: "feat(search): wire Elasticsearch config from Aspire"). Keep commits small and focused; avoid bundling unrelated changes to simplify review and rollback.
+
 ## Agent Fallback Procedure
 When an agent encounters an unexpected dependency, API mismatch, or other information gap, follow this procedure:
 
