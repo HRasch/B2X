@@ -53,6 +53,7 @@
     <ProjectReference Include="../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
     <ProjectReference Include="../../shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
     <ProjectReference Include="../../shared/B2Connect.Shared.Search/B2Connect.Shared.Search.csproj" />
+    <ProjectReference Include="../Search/B2Connect.Domain.Search.csproj" />
   </ItemGroup>
 
 </Project>

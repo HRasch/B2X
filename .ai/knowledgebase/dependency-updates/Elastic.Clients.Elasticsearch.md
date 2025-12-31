@@ -50,3 +50,50 @@ PR template suggestions for Elastic client upgrades:
   - Rollout plan: staging canary (10% traffic), monitor error rates and search/index latencies for 24h.
   - Rollback steps documented.
 ---
+
+  Migration snippets and practical notes
+  ------------------------------------
+
+  Example: per-tenant client creation (recommended pattern for this repo)
+
+  ```csharp
+  using Elastic.Clients.Elasticsearch;
+
+  ElasticsearchClient CreateClientForTenant(Uri baseUri, string? username, string? password, string defaultIndex)
+  {
+      var settings = new ElasticsearchClientSettings(baseUri)
+          .DefaultIndex(defaultIndex);
+
+      if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+          settings = settings.Authentication(new BasicAuthentication(username, password));
+
+      return new ElasticsearchClient(settings);
+  }
+  ```
+
+  Example: bulk-seed with `IndexMany` (seeders / CatalogIndexer)
+
+  ```csharp
+  var client = CreateClientForTenant(uri, user, pass, indexName);
+  var bulk = await client.BulkAsync(b => b.IndexMany(products, indexName));
+  if (bulk.Errors)
+  {
+      // log and inspect per-item failures: bulk.Items
+  }
+  ```
+
+  Practical ElasticService migration tips
+  --------------------------------------
+  - Keep the per-tenant client-caching pattern you already have, but switch the cached
+    type to `ElasticsearchClient`.
+  - Move index naming and tenant+language logic unchanged; only the client API calls need
+    to be updated (Index/IndexMany/Bulk/Search/Get).
+  - When inspecting responses, use `response.Errors` and `response.Items` for bulk
+    operations; for search check `searchResponse.Hits` and `searchResponse.Total`.
+
+  CI / integration test notes
+  -------------------------
+  - Use the client major that matches your ES server. For CI, pick a matrix that
+    runs the integration suite against the targeted server major (for example,
+    ES 8.x in staging). Use Testcontainers to provision transient test clusters.
+
