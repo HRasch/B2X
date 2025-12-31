@@ -182,9 +182,6 @@ builder.Services.AddCors(options =>
 // Add services
 builder.Services.AddControllers();
 
-// Add MediatR for CQRS - NO! Using Wolverine instead
-// builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-
 // Add FluentValidation for input validation
 // builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddScoped<CheckRegistrationTypeCommandValidator>();

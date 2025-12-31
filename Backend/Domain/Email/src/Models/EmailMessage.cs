@@ -1,6 +1,52 @@
 namespace B2Connect.Email.Models;
 
 /// <summary>
+/// Supported email provider types
+/// </summary>
+public enum EmailProviderType
+{
+    /// <summary>
+    /// SendGrid email service (API Key authentication)
+    /// </summary>
+    SendGrid,
+
+    /// <summary>
+    /// Mailgun email service (API Key authentication)
+    /// </summary>
+    Mailgun,
+
+    /// <summary>
+    /// Postmark email service (API Key authentication)
+    /// </summary>
+    Postmark,
+
+    /// <summary>
+    /// Amazon SES (AWS IAM authentication)
+    /// </summary>
+    AmazonSes,
+
+    /// <summary>
+    /// Microsoft Graph API (OAuth2 authentication)
+    /// </summary>
+    MicrosoftGraph,
+
+    /// <summary>
+    /// Gmail API (OAuth2 authentication)
+    /// </summary>
+    Gmail,
+
+    /// <summary>
+    /// SMTP server (Basic authentication)
+    /// </summary>
+    Smtp,
+
+    /// <summary>
+    /// Azure Communication Services (API Key + OAuth2)
+    /// </summary>
+    AzureCommunication
+}
+
+/// <summary>
 /// Email message domain model.
 /// Represents a single email that needs to be sent or has been sent.
 /// </summary>
@@ -120,6 +166,40 @@ public class EmailMessage
     /// Metadata for tracking and analytics
     /// </summary>
     public Dictionary<string, string>? Metadata { get; set; }
+
+    /// <summary>
+    /// From address (convenience property)
+    /// </summary>
+    public string From => $"{SenderName} <{SenderEmail}>".Trim();
+
+    /// <summary>
+    /// To recipients as list (convenience property)
+    /// </summary>
+    public List<string> To => new List<string> { RecipientEmail };
+
+    /// <summary>
+    /// CC recipients as list (convenience property)
+    /// </summary>
+    public List<string>? Cc => string.IsNullOrEmpty(CcRecipients)
+        ? null
+        : CcRecipients.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
+
+    /// <summary>
+    /// BCC recipients as list (convenience property)
+    /// </summary>
+    public List<string>? Bcc => string.IsNullOrEmpty(BccRecipients)
+        ? null
+        : BccRecipients.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
+
+    /// <summary>
+    /// Email body content (convenience property)
+    /// </summary>
+    public string Body => !string.IsNullOrEmpty(HtmlBody) ? HtmlBody : PlainTextBody ?? string.Empty;
+
+    /// <summary>
+    /// Whether the email body is HTML (convenience property)
+    /// </summary>
+    public bool IsHtml => !string.IsNullOrEmpty(HtmlBody);
 }
 
 /// <summary>

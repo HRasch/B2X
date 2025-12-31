@@ -12,6 +12,7 @@
   <Import Project="..\..\..\Directory.Packages.props" />
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.SimpleEmail" />
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />

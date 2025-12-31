@@ -29,7 +29,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"  />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  />
     <PackageReference Include="EFCore.NamingConventions"  />
-    <PackageReference Include="MediatR"  />
     <PackageReference Include="FluentValidation"  />
     <PackageReference Include="AutoMapper"  />
     <PackageReference Include="WolverineFx"  />

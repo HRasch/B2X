@@ -40,6 +40,18 @@ public interface IEmailService
 }
 
 /// <summary>
+/// Interface for email provider factory
+/// Creates provider instances based on configuration
+/// </summary>
+public interface IEmailProviderFactory
+{
+    /// <summary>
+    /// Create an email provider instance
+    /// </summary>
+    IEmailProvider CreateProvider(EmailProviderConfig config);
+}
+
+/// <summary>
 /// Interface for email provider (SMTP, SendGrid, AWS SES, etc.)
 /// Handles actual email transmission
 /// </summary>
