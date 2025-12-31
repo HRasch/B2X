@@ -27,6 +27,8 @@ Deliver a composable, secure, and developer‑friendly e‑commerce platform tha
  - Full CLI and API support for Admin, Store, and Management backends to enable automation, scripting, and headless operations.
  - Support for webhooks, CSV import/export, and REST APIs to enable integrations, data exchange, and automation with external systems.
  - Optional offline‑ready sales‑rep support: enable sales representatives to browse catalogs, create quotes/orders, and capture customer data offline with reliable sync when connectivity is restored.
+ - Support integrations with ERP, CRM, and PIM systems, including robust DataSync and data integration pipelines.
+ - Support common B2B/B2C import/export formats and feeds (BMECat, DATANORM, CSV) and enable reliable omnichannel data synchronization for online/offline channels.
 
 ## Non‑functional Priorities
 Security, scalability, availability, performance (search & checkout), testability, and developer experience.
