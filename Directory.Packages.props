@@ -8,7 +8,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.8.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.0" />
     <!-- Aspire & Orchestration -->
     <PackageVersion Include="Aspire.Hosting" Version="10.0.0" />
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.1.0" />
@@ -35,10 +35,10 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1" />
     <!-- ElasticSearch & Message Queue -->
     <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="9.2.2" />
-    <PackageVersion Include="RabbitMQ.Client" Version="7.1.2" />
+    <PackageVersion Include="RabbitMQ.Client" Version="7.2.0" />
     <!-- Job Scheduling -->
-    <PackageVersion Include="Quartz" Version="3.11.0" />
-    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.11.0" />
+    <PackageVersion Include="Quartz" Version="3.15.1" />
+    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.1" />
     <!-- Logging & Observability -->
     <PackageVersion Include="Serilog" Version="4.3.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
