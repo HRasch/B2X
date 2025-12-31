@@ -34,6 +34,7 @@ Deliver a composable, secure, and developer‑friendly e‑commerce platform tha
  - Support Customer and Brandstores: enable brand‑specific storefronts and customer portals with configurable layouts, dedicated catalogs, and tailored pricing/permissions.
  - Highly customizable theming: allow page layout customization, SCSS/CSS with custom properties, and advanced browser styling hooks (Houdini / CSS Paint / Typed OM) to enable brandable, performant storefronts.
  - Media & image delivery: support serving images from cloud blob storage (S3, Azure Blob, GCS), first‑class support for modern formats (WebP, AVIF), and dynamic on‑the‑fly resizing/optimization with CDN integration for responsive, performant storefronts.
+ - AI capabilities: enable camera‑based visual product search, hybrid search combining text and image embeddings, SEO optimization via configurable text generation, image enhancement and generation for thumbnails/variants, ML‑driven product and pricing recommendations, and support for explainability, A/B testing and feedback loops to continuously improve models.
 
 ## Non‑functional Priorities
 Security, scalability, availability, performance (search & checkout), testability, and developer experience.
