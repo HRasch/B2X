@@ -94,6 +94,7 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - 30.12.2025: Index created and structure established
 - 31.12.2025: Added Elasticsearch e‑commerce search & recommendations article (search-elasticsearch-ecommerce.md)
  - 31.12.2025: Restored key dependency guidance (OpenTelemetry, Elastic.Clients.Elasticsearch, EFCore, Serilog, Polly, Playwright) into `dependency-updates/`.
+ - 31.12.2025: Restored additional dependency guidance (AutoMapper, Azure.Identity, Yarp.ReverseProxy, Swashbuckle.AspNetCore, axios, typescript, FluentValidation) into `dependency-updates/`.
 
 ## How Agents Use This Index
 
