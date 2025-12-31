@@ -27,7 +27,7 @@
 
 ### 📚 **Complete Documentation**
 - **Main Instructions**: [`.github/copilot-instructions.md`](./.github/copilot-instructions.md)
-- **AI Knowledge Base**: [`docs/ai/INDEX.md`](./docs/ai/INDEX.md)
+- **AI Knowledge Base**: [`.ai/knowledgebase/INDEX.md`](./.ai/knowledgebase/INDEX.md)
 - **Architecture**: [`docs/architecture/`](./docs/architecture/)
 - **Compliance**: [`docs/compliance/`](./docs/compliance/)
 - **User Guides**: [`docs/user-guides/`](./docs/user-guides/)
