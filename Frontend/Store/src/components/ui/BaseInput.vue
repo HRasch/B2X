@@ -94,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref, useSlots } from 'vue'
 export type InputType =
   | "text"
   | "email"
@@ -133,7 +134,8 @@ const emit = defineEmits<{
   focus: [event: FocusEvent];
 }>();
 
-const inputRef = ref<HTMLInputElement>();
+const slots = useSlots();
+const inputRef = ref();
 const inputId = computed(
   () => `input-${Math.random().toString(36).substr(2, 9)}`
 );
@@ -161,8 +163,8 @@ const inputClasses = computed(() => {
     {
       "input-error": hasError.value,
       "input-disabled": props.disabled,
-      "pl-10": Boolean($slots.prefix),
-      "pr-10": Boolean($slots.suffix),
+      "pl-10": Boolean(slots.prefix),
+      "pr-10": Boolean(slots.suffix),
     },
   ];
 

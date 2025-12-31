@@ -1,14 +1,12 @@
 <template>
   <div class="form-control" :class="wrapperClasses">
     <!-- Label -->
-    <label
-      v-if="label"
-      :for="textareaId"
-      class="label"
-    >
+    <label v-if="label" :for="textareaId" class="label">
       <span class="label-text" :class="labelClasses">
         {{ label }}
-        <span v-if="required" class="text-error ml-1" aria-label="required">*</span>
+        <span v-if="required" class="text-error ml-1" aria-label="required"
+          >*</span
+        >
       </span>
     </label>
 
@@ -58,6 +56,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 interface Props {
   name?: string;
   value?: string;
@@ -85,7 +84,7 @@ const emit = defineEmits<{
   focus: [event: FocusEvent];
 }>();
 
-const textareaRef = ref<HTMLTextAreaElement>();
+const textareaRef = ref();
 const textareaId = computed(
   () => `textarea-${Math.random().toString(36).substr(2, 9)}`
 );

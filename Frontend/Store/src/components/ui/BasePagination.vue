@@ -11,7 +11,11 @@
           aria-label="Go to previous page"
         >
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+            <path
+              fill-rule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
           <span class="sr-only">Previous</span>
         </button>
@@ -23,9 +27,9 @@
           v-if="page !== '...'"
           :class="[
             'btn btn-sm',
-            page === currentPage ? 'btn-primary' : 'btn-outline'
+            page === currentPage ? 'btn-primary' : 'btn-outline',
           ]"
-          @click="goToPage(page)"
+          @click="goToPage(Number(page))"
           :aria-label="`Go to page ${page}`"
           :aria-current="page === currentPage ? 'page' : undefined"
         >
@@ -44,7 +48,11 @@
           aria-label="Go to next page"
         >
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
           <span class="sr-only">Next</span>
         </button>
@@ -54,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 interface Props {
   currentPage: number;
   totalPages: number;
@@ -70,7 +79,7 @@ const emit = defineEmits<{
 
 const goToPage = (page: number) => {
   if (page >= 1 && page <= props.totalPages && page !== props.currentPage) {
-    emit('pageChange', page);
+    emit("pageChange", page);
   }
 };
 
@@ -93,7 +102,7 @@ const visiblePages = computed(() => {
 
     // Add ellipsis if there's a gap after first page
     if (start > 2) {
-      pages.push('...');
+      pages.push("...");
     }
 
     // Add pages in range
@@ -103,7 +112,7 @@ const visiblePages = computed(() => {
 
     // Add ellipsis if there's a gap before last page
     if (end < totalPages - 1) {
-      pages.push('...');
+      pages.push("...");
     }
 
     // Always show last page

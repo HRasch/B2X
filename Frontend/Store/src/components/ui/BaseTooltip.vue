@@ -5,12 +5,20 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 export type TooltipPosition = "top" | "bottom" | "left" | "right";
 
 interface Props {
   content: string;
   position?: TooltipPosition;
-  variant?: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "accent"
+    | "info"
+    | "success"
+    | "warning"
+    | "error";
   alwaysVisible?: boolean;
 }
 

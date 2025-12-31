@@ -10,7 +10,7 @@
             'flex items-center gap-1 px-2 py-1 rounded-md transition-colors',
             crumb.href || crumb.to
               ? 'text-primary hover:bg-base-200 hover:text-primary-focus'
-              : 'text-base-content/60 cursor-default'
+              : 'text-base-content/60 cursor-default',
           ]"
           :aria-current="index === breadcrumbs.length - 1 ? 'page' : undefined"
         >
@@ -32,7 +32,11 @@
           aria-hidden="true"
         >
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
         </span>
       </li>
@@ -41,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 export interface BreadcrumbItem {
   label: string;
   href?: string;

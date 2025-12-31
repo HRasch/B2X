@@ -158,7 +158,7 @@
 
                 <div class="flex justify-between">
                   <span class="text-base-content/70">Shipping</span>
-                  <span class="font-medium">€{{ shippingCost.toFixed(2) }}</span>
+                  <span class="font-medium">€{{ shippingCostDisplay.toFixed(2) }}</span>
                 </div>
 
                 <div class="divider my-2"></div>
@@ -197,7 +197,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "../stores/cart";
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -221,7 +221,10 @@ const selectedCountry = ref("DE");
 const selectedShippingMethodId = ref("");
 const selectedShipping = ref("standard");
 const shippingMethods = ref<ShippingMethod[]>([]);
-const shippingCost = computed(() => {
+const shippingCost = ref(5.99);
+const shippingError = ref("");
+
+const shippingCostDisplay = computed(() => {
   const costs = {
     standard: 5.99,
     express: 12.99,
@@ -229,7 +232,15 @@ const shippingCost = computed(() => {
   };
   return costs[selectedShipping.value as keyof typeof costs] || 0;
 });
-const shippingError = ref("");
+
+watch(selectedShipping, (newValue) => {
+  const costs = {
+    standard: 5.99,
+    express: 12.99,
+    overnight: 24.99,
+  };
+  shippingCost.value = costs[newValue as keyof typeof costs] || 0;
+});
 
 const shippingOptions = [
   { value: "standard", label: "Standard Shipping (3-5 days) - €5.99" },
@@ -246,7 +257,7 @@ const subtotal = computed(() => {
 
 const tax = computed(() => subtotal.value * 0.19);
 
-const total = computed(() => subtotal.value + tax.value + shippingCost.value);
+const total = computed(() => subtotal.value + tax.value + shippingCostDisplay.value);
 
 const increaseQuantity = (itemId: string) => {
   const item = cartStore.items.find((i) => i.id === itemId);

@@ -1,14 +1,12 @@
 <template>
   <div class="form-control" :class="wrapperClasses">
     <!-- Label -->
-    <label
-      v-if="label"
-      :for="selectId"
-      class="label"
-    >
+    <label v-if="label" :for="selectId" class="label">
       <span class="label-text" :class="labelClasses">
         {{ label }}
-        <span v-if="required" class="text-error ml-1" aria-label="required">*</span>
+        <span v-if="required" class="text-error ml-1" aria-label="required"
+          >*</span
+        >
       </span>
     </label>
 
@@ -51,13 +49,19 @@
       </select>
 
       <!-- Custom dropdown arrow -->
-      <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+      <div
+        class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+      >
         <svg
           class="w-4 h-4 text-base-content/60"
           fill="currentColor"
           viewBox="0 0 20 20"
         >
-          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 010-1.414L5.293 7.293a1 1 0 01-1.414-1.414z" clip-rule="evenodd" />
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 010-1.414L5.293 7.293a1 1 0 01-1.414-1.414z"
+            clip-rule="evenodd"
+          />
         </svg>
       </div>
     </div>
@@ -77,6 +81,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref, useSlots } from 'vue'
 export interface SelectOption {
   value: string | number;
   label: string;
@@ -107,7 +112,8 @@ const emit = defineEmits<{
   focus: [event: FocusEvent];
 }>();
 
-const selectRef = ref<HTMLSelectElement>();
+const slots = useSlots();
+const selectRef = ref();
 const selectId = computed(
   () => `select-${Math.random().toString(36).substr(2, 9)}`
 );
@@ -130,7 +136,7 @@ const selectClasses = computed(() => [
   {
     "select-error": hasError.value,
     "select-disabled": props.disabled,
-    "pl-10": Boolean($slots.prefix),
+    "pl-10": Boolean(slots.prefix),
   },
 ]);
 

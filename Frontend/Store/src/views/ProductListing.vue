@@ -190,7 +190,7 @@ onMounted(() => {
         class="mb-6"
         :items="[
           { label: 'Home', to: '/' },
-          { label: 'Shop', to: '/shop' }
+          { label: 'Shop', to: '/shop' },
         ]"
       />
 

@@ -7,7 +7,13 @@
       @click.self="handleBackdropClick"
       @keydown.escape="close"
     >
-      <div class="modal-box" :class="modalClasses" role="dialog" :aria-labelledby="titleId" :aria-describedby="contentId">
+      <div
+        class="modal-box"
+        :class="modalClasses"
+        role="dialog"
+        :aria-labelledby="titleId"
+        :aria-describedby="contentId"
+      >
         <!-- Close button -->
         <button
           v-if="showCloseButton"
@@ -16,7 +22,11 @@
           aria-label="Close modal"
         >
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414z" clip-rule="evenodd" />
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414z"
+              clip-rule="evenodd"
+            />
           </svg>
         </button>
 
@@ -42,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, nextTick, watch, watchEffect } from 'vue'
 interface Props {
   isOpen: boolean;
   title?: string;
@@ -63,8 +74,12 @@ const emit = defineEmits<{
   open: [];
 }>();
 
-const titleId = computed(() => `modal-title-${Math.random().toString(36).substr(2, 9)}`);
-const contentId = computed(() => `modal-content-${Math.random().toString(36).substr(2, 9)}`);
+const titleId = computed(
+  () => `modal-title-${Math.random().toString(36).substr(2, 9)}`
+);
+const contentId = computed(
+  () => `modal-content-${Math.random().toString(36).substr(2, 9)}`
+);
 
 const modalClasses = computed(() => ({
   "max-w-sm": props.size === "sm",
@@ -98,27 +113,30 @@ watchEffect(() => {
 });
 
 // Focus management
-watch(() => props.isOpen, (isOpen) => {
-  if (isOpen) {
-    // Store the currently focused element
-    const focusedElement = document.activeElement as HTMLElement;
+watch(
+  () => props.isOpen,
+  (isOpen) => {
+    if (isOpen) {
+      // Store the currently focused element
+      const focusedElement = document.activeElement as HTMLElement;
 
-    // Focus the modal
-    nextTick(() => {
-      const modalBox = document.querySelector(".modal-box") as HTMLElement;
-      if (modalBox) {
-        modalBox.focus();
-      }
-    });
+      // Focus the modal
+      nextTick(() => {
+        const modalBox = document.querySelector(".modal-box") as HTMLElement;
+        if (modalBox) {
+          modalBox.focus();
+        }
+      });
 
-    // Restore focus when modal closes
-    return () => {
-      if (focusedElement && typeof focusedElement.focus === "function") {
-        focusedElement.focus();
-      }
-    };
+      // Restore focus when modal closes
+      return () => {
+        if (focusedElement && typeof focusedElement.focus === "function") {
+          focusedElement.focus();
+        }
+      };
+    }
   }
-});
+);
 </script>
 
 <style scoped>
