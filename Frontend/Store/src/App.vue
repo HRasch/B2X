@@ -1,7 +1,15 @@
 <template>
   <div id="app" class="min-h-screen flex flex-col bg-base-100">
+    <!-- Skip Links for Accessibility -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-content px-4 py-2 rounded z-50"
+    >
+      Skip to main content
+    </a>
+
     <!-- Navbar -->
-    <nav class="navbar bg-base-200 shadow-lg sticky top-0 z-50">
+    <nav class="navbar bg-base-200 shadow-lg sticky top-0 z-50" role="banner" aria-label="Main navigation">
       <div class="flex-1">
         <router-link
           to="/"
@@ -99,12 +107,12 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-1 container mx-auto py-8 px-4">
+    <main id="main-content" class="flex-1 container mx-auto py-8 px-4" role="main">
       <router-view />
     </main>
 
     <!-- Footer -->
-    <footer class="footer bg-base-200 text-base-content p-10 mt-auto">
+    <footer class="footer bg-base-200 text-base-content p-10 mt-auto" role="contentinfo" aria-label="Site footer">
       <nav>
         <header class="footer-title">Services</header>
         <a class="link link-hover">Branding</a>

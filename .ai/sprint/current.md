@@ -19,7 +19,7 @@
 | ID | Title | Points | Owner | Status |
 |----|----|--------|-------|--------|
 | 57 | chore(dependencies): Update to latest stable versions | 8 SP | @Backend | ✅ Completed |
-| 56 | feat(store-frontend): Modernize UI/UX | 13 | @Frontend | 🟡 Planning |
+| 56 | feat(store-frontend): Modernize UI/UX | 13 | 🔄 In Progress | @Frontend | Phase 1 complete: audit & critical accessibility fixes implemented |
 | 15 | P0.6: Store Legal Compliance (Phase 1) | 21 | @ProductOwner | 🔵 Backlog |
 
 ## 📅 Key Dates

@@ -1,5 +1,5 @@
 <template>
-  <div
+  <article
     class="card bg-base-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 h-full flex flex-col"
     data-testid="product-card"
   >
@@ -7,7 +7,7 @@
     <figure class="relative h-48 overflow-hidden">
       <img
         :src="product.image"
-        :alt="product.name"
+        :alt="`Product image of ${product.name}`"
         class="w-full h-full object-cover"
       />
       <div
@@ -75,14 +75,20 @@
         v-if="product.inStock"
         @click="$emit('add-to-cart', product)"
         class="btn btn-primary w-full mt-auto"
+        :aria-label="`Add ${product.name} to shopping cart`"
       >
         In Warenkorb
       </button>
-      <button v-else class="btn btn-disabled w-full mt-auto">
+      <button
+        v-else
+        class="btn btn-disabled w-full mt-auto"
+        :aria-label="`${product.name} is currently out of stock`"
+        disabled
+      >
         Nicht verfügbar
       </button>
     </div>
-  </div>
+  </article>
 </template>
 
 <script setup lang="ts">
