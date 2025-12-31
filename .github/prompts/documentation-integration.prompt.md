@@ -1,8 +1,8 @@
 # Documentation Integration Prompt
 
-**Type**: Standard Process Prompt  
-**Audience**: All agents (for referencing & integrating documentation)  
-**Purpose**: Centralize and reference project documentation structure  
+**Type**: Standard Process Prompt
+**Audience**: All agents (for referencing & integrating documentation)
+**Purpose**: Centralize and reference project documentation structure
 **Status**: Active (Created Dec 30, 2025)
 
 ---
@@ -20,18 +20,18 @@ This prompt helps agents:
 
 ## Documentation Structure
 
-### 📚 Knowledge Base (KB Phase 1) - `/docs/ai/`
+### 📚 Knowledge Base (KB Phase 1) - `/.ai/knowledgebase/`
 
 **Purpose**: Reference patterns for implementation
 
 | File | Purpose | Trigger Keywords |
 |------|---------|------------------|
-| [WOLVERINE_PATTERN_REFERENCE.md](../../docs/ai/WOLVERINE_PATTERN_REFERENCE.md) | HTTP endpoints, CQRS patterns, command handlers | wolverine, http endpoint, cqrs, command, event handler, service method |
-| [DDD_BOUNDED_CONTEXTS_REFERENCE.md](../../docs/ai/DDD_BOUNDED_CONTEXTS_REFERENCE.md) | Service placement, bounded contexts, architecture | ddd, bounded context, service, domain, catalog, cms, identity, tenancy, admin |
-| [ERROR_HANDLING_PATTERNS.md](../../docs/ai/ERROR_HANDLING_PATTERNS.md) | Exception types, validation, logging | exception, validation, error, logging, try-catch, middleware |
-| [VUE3_COMPOSITION_PATTERNS.md](../../docs/ai/VUE3_COMPOSITION_PATTERNS.md) | Vue3 components, Pinia stores, composables | vue3, component, pinia, store, composable, typescript |
-| [ASPIRE_ORCHESTRATION_REFERENCE.md](../../docs/ai/ASPIRE_ORCHESTRATION_REFERENCE.md) | Service orchestration, local dev setup | aspire, orchestration, service discovery, program.cs, health checks |
-| [FEATURE_IMPLEMENTATION_PATTERNS.md](../../docs/ai/FEATURE_IMPLEMENTATION_PATTERNS.md) | End-to-end feature workflow | feature, implementation, aggregate root, domain event, e2e testing |
+| [WOLVERINE_PATTERN_REFERENCE.md](../../.ai/knowledgebase/WOLVERINE_PATTERN_REFERENCE.md) | HTTP endpoints, CQRS patterns, command handlers | wolverine, http endpoint, cqrs, command, event handler, service method |
+| [DDD_BOUNDED_CONTEXTS_REFERENCE.md](../../.ai/knowledgebase/DDD_BOUNDED_CONTEXTS_REFERENCE.md) | Service placement, bounded contexts, architecture | ddd, bounded context, service, domain, catalog, cms, identity, tenancy, admin |
+| [ERROR_HANDLING_PATTERNS.md](../../.ai/knowledgebase/ERROR_HANDLING_PATTERNS.md) | Exception types, validation, logging | exception, validation, error, logging, try-catch, middleware |
+| [VUE3_COMPOSITION_PATTERNS.md](../../.ai/knowledgebase/VUE3_COMPOSITION_PATTERNS.md) | Vue3 components, Pinia stores, composables | vue3, component, pinia, store, composable, typescript |
+| [ASPIRE_ORCHESTRATION_REFERENCE.md](../../.ai/knowledgebase/ASPIRE_ORCHESTRATION_REFERENCE.md) | Service orchestration, local dev setup | aspire, orchestration, service discovery, program.cs, health checks |
+| [FEATURE_IMPLEMENTATION_PATTERNS.md](../../.ai/knowledgebase/FEATURE_IMPLEMENTATION_PATTERNS.md) | End-to-end feature workflow | feature, implementation, aggregate root, domain event, e2e testing |
 
 **How to Use**:
 ```markdown
@@ -136,7 +136,7 @@ When implementing [FEATURE], reference [KB_FILE]:
 
 ### In Code Comments
 ```csharp
-// See: docs/ai/WOLVERINE_PATTERN_REFERENCE.md#http-endpoints
+// See: ../../.ai/knowledgebase/WOLVERINE_PATTERN_REFERENCE.md#http-endpoints
 // Pattern: Service method approach for HTTP handlers
 public async Task<CreateProductResult> CreateProduct(CreateProductCommand cmd)
 {
@@ -147,8 +147,8 @@ public async Task<CreateProductResult> CreateProduct(CreateProductCommand cmd)
 ### In Documentation
 ```markdown
 For detailed implementation patterns, see:
-- [Wolverine HTTP Endpoints](../../../docs/ai/WOLVERINE_PATTERN_REFERENCE.md#http-endpoints)
-- [DDD Bounded Contexts](../../../docs/ai/DDD_BOUNDED_CONTEXTS_REFERENCE.md)
+- [Wolverine HTTP Endpoints](../../../.ai/knowledgebase/WOLVERINE_PATTERN_REFERENCE.md#http-endpoints)
+- [DDD Bounded Contexts](../../../.ai/knowledgebase/DDD_BOUNDED_CONTEXTS_REFERENCE.md)
 ```
 
 ### In PR Descriptions
@@ -157,9 +157,9 @@ For detailed implementation patterns, see:
 - Implements product creation endpoint (Catalog service)
 
 ## References
-- See [Wolverine Pattern Reference](docs/ai/WOLVERINE_PATTERN_REFERENCE.md) for HTTP handler pattern
-- See [DDD Bounded Contexts](docs/ai/DDD_BOUNDED_CONTEXTS_REFERENCE.md) for Catalog service location
-- See [Error Handling Patterns](docs/ai/ERROR_HANDLING_PATTERNS.md) for validation
+- See [Wolverine Pattern Reference](../../.ai/knowledgebase/WOLVERINE_PATTERN_REFERENCE.md) for HTTP handler pattern
+- See [DDD Bounded Contexts](../../.ai/knowledgebase/DDD_BOUNDED_CONTEXTS_REFERENCE.md) for Catalog service location
+- See [Error Handling Patterns](../../.ai/knowledgebase/ERROR_HANDLING_PATTERNS.md) for validation
 ```
 
 ---
@@ -178,7 +178,7 @@ Create new documentation when:
 ### Where to Add
 
 **Pattern/Reference Documentation**:
-- Location: `/docs/ai/`
+- Location: `/.ai/knowledgebase/`
 - Format: `[PATTERN_NAME]_REFERENCE.md`
 - Trigger: Keyword list at top
 - Example: `AUTHENTICATION_PATTERNS.md`
@@ -200,8 +200,8 @@ Create new documentation when:
 ```markdown
 # [Pattern/Feature/Process] Reference
 
-**Audience**: [Who should read this?]  
-**Purpose**: [What problem does this solve?]  
+**Audience**: [Who should read this?]
+**Purpose**: [What problem does this solve?]
 **Related**: [Links to other docs]
 
 ---
@@ -236,7 +236,7 @@ Trigger keywords: [list keywords that indicate when to use this doc]
 
 ---
 
-*Updated: [DATE]*  
+*Updated: [DATE]*
 *Framework: [Technology]*
 ```
 
@@ -305,14 +305,14 @@ When integrating new documentation:
 
 ## Quick Links
 
-**Documentation Index**: [docs/](../../docs/)  
-**KB Phase 1**: [docs/ai/](../../docs/ai/)  
-**Guides**: [docs/guides/](../../docs/guides/)  
-**Architecture**: [docs/architecture/](../../docs/architecture/)  
-**Compliance**: [docs/compliance/](../../docs/compliance/)  
-**By Role**: [docs/by-role/](../../docs/by-role/)  
-**Features**: [docs/features/](../../docs/features/)  
-**Processes**: [docs/processes/](../../docs/processes/)  
+**Documentation Index**: [docs/](../../docs/)
+**KB Phase 1**: [/.ai/knowledgebase/](../../.ai/knowledgebase/)
+**Guides**: [docs/guides/](../../docs/guides/)
+**Architecture**: [docs/architecture/](../../docs/architecture/)
+**Compliance**: [docs/compliance/](../../docs/compliance/)
+**By Role**: [docs/by-role/](../../docs/by-role/)
+**Features**: [docs/features/](../../docs/features/)
+**Processes**: [docs/processes/](../../docs/processes/)
 
 ---
 
@@ -320,7 +320,7 @@ When integrating new documentation:
 
 ```
 📝 New Pattern Discovered:
-→ Document in /docs/ai/[PATTERN]_REFERENCE.md
+→ Document in /.ai/knowledgebase/[PATTERN]_REFERENCE.md
 → Add trigger keywords
 → Add to KB Phase 1 table (above)
 → Reference in related KB files
@@ -330,6 +330,6 @@ When integrating new documentation:
 
 ---
 
-*Prompt Version: 1.0*  
-*Last Updated: 30. Dezember 2025*  
+*Prompt Version: 1.0*
+*Last Updated: 30. Dezember 2025*
 *Maintained by: @SARAH*

@@ -2,11 +2,6 @@ Knowledgebase Index
 -------------------
 This index lists curated knowledgebase articles to help agents and developers implement best practices for the project.
 
-- NOTE: On 31.12.2025 many internal/process documents were archived to
-- `.archive/internal-docs/` to separate user/developer docs from internal
-- process artifacts. A team review is in progress (see `.ai/issues/review-archived-docs.md` and PR #95).
-- If you need a specific knowledgebase article restored, add it to the review checklist.
--
 - csharp-14.md — C# 14 language highlights and links
 - dotnet-features.md — .NET runtime, SDK and library highlights (focus: .NET 10)
 - dotnet-breaking-changes.md — Compatibility rules and breaking-change guidance
@@ -22,16 +17,6 @@ This index lists curated knowledgebase articles to help agents and developers im
 - owasp-top-ten.md — OWASP Top Ten summary
  - search-elasticsearch-ecommerce.md — Modeling Elasticsearch-based e-commerce search & recommendations
 - docs-product-index.md — Index of product-related documentation under `docs/`
-
-Restored entries (Dec 31 2025):
-- FEATURE_IMPLEMENTATION_PATTERNS.md — End-to-end feature implementation patterns
-- WOLVERINE_PATTERN_REFERENCE.md — Wolverine/CQRS patterns and HTTP endpoint guidance
-- DDD_BOUNDED_CONTEXTS_REFERENCE.md — Bounded-context placement and domain mapping
-- VUE3_COMPOSITION_PATTERNS.md — Vue 3 Composition API patterns and examples
-- MERMAID_DOCUMENTATION.md — Mermaid diagrams usage and examples for architecture docs
-- search-elasticsearch-ecommerce.md — (restored) e-commerce search modeling
-- csharp-14.md — C# 14 highlights
-- repo-mapping.md — (restored) repository mapping quick reference
 
 Use these as the canonical short references when implementing or reviewing code.
 # Knowledgebase Index
@@ -93,8 +78,6 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - 30.12.2025: Added Mermaid Documentation ([tools-and-tech/MERMAID_DOCUMENTATION.md](./tools-and-tech/MERMAID_DOCUMENTATION.md))
 - 30.12.2025: Index created and structure established
 - 31.12.2025: Added Elasticsearch e‑commerce search & recommendations article (search-elasticsearch-ecommerce.md)
- - 31.12.2025: Restored key dependency guidance (OpenTelemetry, Elastic.Clients.Elasticsearch, EFCore, Serilog, Polly, Playwright) into `dependency-updates/`.
- - 31.12.2025: Restored additional dependency guidance (AutoMapper, Azure.Identity, Yarp.ReverseProxy, Swashbuckle.AspNetCore, axios, typescript, FluentValidation) into `dependency-updates/`.
 
 ## How Agents Use This Index
 

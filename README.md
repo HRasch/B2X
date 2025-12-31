@@ -7,7 +7,7 @@ A modern, scalable multitenant SaaS solution combining a comprehensive B2B/B2C e
 ## 🚀 Quick Links
 
 - � **[Documentation Quick Reference](docs/QUICK_REFERENCE.md)** - Find the documentation you need
-- 📖 **[AI Knowledge Base](docs/ai/INDEX.md)** - AI agent triggers & reference
+- 📖 **[AI Knowledge Base](.ai/knowledgebase/INDEX.md)** - AI agent triggers & reference
 - 🚀 **[Quick Start Guide](QUICK_START_GUIDE.md)** - Get started in 5 minutes
 - 🔒 **[Security Instructions](.github/instructions/security.instructions.md)** - Security implementation
 - 📊 **[Project Dashboard](PROJECT_DASHBOARD.md)** - Metrics & status
