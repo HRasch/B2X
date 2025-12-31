@@ -1,0 +1,88 @@
+name: PR Checklist Validation
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  pr-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: PR checklist validation
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              core.setFailed('No pull request context available.');
+              return;
+            }
+
+            if (pr.draft) {
+              core.info('Draft PR — skipping checklist enforcement.');
+              return;
+            }
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+
+            const changed = files.map(f => f.filename);
+
+            const hasLinkedIssue = /(?:close[sd]?|fixe[sd]?|resolv)[:#\s]/i.test(pr.body || '') || /#\d+/.test(pr.body || '');
+            const docsChanged = changed.some(p => p.startsWith('docs/') || p.startsWith('.ai/') || p.match(/CHANGELOG|changelog|README/i));
+            const sprintDocsMention = (pr.body || '').includes('Sprint docs aggregated') || changed.some(p => p.startsWith('.ai/sprint/'));
+            const changelogMention = (pr.body || '').match(/CHANGELOG updated|changelog updated/i) || changed.some(p => /CHANGELOG|changelog/i.test(p));
+
+            const missing = [];
+            if (!hasLinkedIssue) missing.push('Linked issue / story (mention `Closes #nn` or similar)');
+            if (!docsChanged && !(pr.body || '').includes('Documentation cleaned')) missing.push('Documentation cleaned (either update docs or add "Documentation cleaned" to PR body)');
+            if (!changelogMention) missing.push('CHANGELOG updated (or mark as N/A in PR body)');
+            if (!sprintDocsMention && (pr.body || '').toLowerCase().includes('starting sprint')) missing.push('Sprint docs aggregated into `.ai/sprint/{sprint-name}/` (when starting a sprint)');
+
+            if (missing.length > 0) {
+              const body = ['**PR checklist validation (warning)**', '', 'The following checklist items appear to be missing:']
+                .concat(missing.map(m => '- ' + m))
+                .concat(['', 'This check is a friendly reminder — it does not block the PR. Please update the PR description or files to address these items.']);
+
+              // Post or update a single bot comment to avoid duplicates
+              const marker = '<!-- PR-CHECKLIST-BOT -->';
+              const fullBody = marker + '\n' + body.join('\n');
+
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+              });
+
+              const existing = comments.find(c => (c.body || '').includes(marker));
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existing.id,
+                  body: fullBody
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pr.number,
+                  body: fullBody
+                });
+              }
+
+              core.info('PR checklist validation completed with warnings. Bot comment created/updated.');
+            } else {
+              core.info('PR checklist validation passed.');
+            }

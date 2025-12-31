@@ -1,0 +1,86 @@
+name: PR Automation (labels & reviewer suggestions)
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  label-and-suggest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine labels and suggest reviewers
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) return;
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+
+            const changed = files.map(f => f.filename.toLowerCase());
+            const labels = new Set();
+            const reviewers = new Set();
+
+            if (changed.some(p => p.startsWith('docs/') || p.startsWith('.ai/') || p.includes('readme'))) labels.add('docs');
+            if (changed.some(p => p.startsWith('frontend/') || p.includes('frontend'))) labels.add('frontend');
+            if (changed.some(p => p.startsWith('backend/') || p.includes('apphost') || p.includes('services'))) labels.add('backend');
+            if (changed.some(p => p.includes('test') || p.includes('tests'))) labels.add('tests');
+            if (changed.some(p => p.startsWith('.github/agents') || p.includes('agent'))) labels.add('agents');
+
+            // Suggest reviewers (informational) - these are agent handles, not GitHub usernames
+            if (labels.has('backend')) reviewers.add('@TechLead');
+            if (labels.has('frontend')) reviewers.add('@Frontend');
+            if (labels.has('tests')) reviewers.add('@QA');
+            if (labels.has('docs')) reviewers.add('@Docs');
+
+            if (labels.size > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: Array.from(labels)
+              });
+            }
+
+            if (reviewers.size > 0) {
+              const body = ['**PR automation suggestions**', '', 'Suggested reviewers:']
+                .concat(Array.from(reviewers).map(r => '- ' + r))
+                .concat(['', 'These are agent handles / roles. Please assign appropriate GitHub reviewers.']);
+
+              // Post or update a single bot comment for suggestions
+              const marker = '<!-- PR-AUTOMATION-BOT -->';
+              const fullBody = marker + '\n' + body.join('\n');
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+              });
+              const existing = comments.find(c => (c.body || '').includes(marker));
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existing.id,
+                  body: fullBody
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pr.number,
+                  body: fullBody
+                });
+              }
+            }
