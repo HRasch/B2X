@@ -22,6 +22,7 @@ Deliver a composable, secure, and developer‑friendly e‑commerce platform tha
 - Localization and accessibility support.
 - Observability: logs, metrics, tracing, health checks.
 - Extensible plugin/adapter points for payments, fulfillment, analytics.
+ - Integration with headless CMS solutions for content‑first storefronts and multi‑locale content delivery.
 
 ## Non‑functional Priorities
 Security, scalability, availability, performance (search & checkout), testability, and developer experience.
