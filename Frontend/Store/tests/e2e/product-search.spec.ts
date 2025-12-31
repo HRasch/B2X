@@ -12,11 +12,8 @@ test.describe('Product Search E2E Tests', () => {
   });
 
   test('should search for products by name', async ({ page }) => {
-    // Arrange - Get first product name dynamically
-    await page.waitForSelector('[data-testid="product-card"]');
-    const productCards = page.locator('[data-testid="product-card"]');
-    const firstProduct = productCards.first();
-    const searchQuery = await firstProduct.locator('[data-testid="product-name"]').innerText();
+    // Arrange
+    const searchQuery = 'jacket';
 
     // Act
     await page.fill('[data-testid="search-input"]', searchQuery);
@@ -26,31 +23,25 @@ test.describe('Product Search E2E Tests', () => {
     await page.waitForSelector('[data-testid="product-card"]');
 
     // Assert
-    const resultCards = page.locator('[data-testid="product-card"]');
-    const count = await resultCards.count();
+    const productCards = page.locator('[data-testid="product-card"]');
+    const count = await productCards.count();
     
     expect(count).toBeGreaterThan(0);
     
     // Verify results contain search term
-    const resultProduct = resultCards.first();
-    const productName = await resultProduct.locator('[data-testid="product-name"]').innerText();
+    const firstProduct = productCards.first();
+    const productName = await firstProduct.locator('[data-testid="product-name"]').innerText();
     expect(productName.toLowerCase()).toContain(searchQuery.toLowerCase());
   });
 
   test('should filter products by price range', async ({ page }) => {
     // Arrange
+    await page.fill('[data-testid="search-input"]', 'jacket');
+    await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
 
-    // Check if price filter exists (may not in demo mode)
-    const priceMinInput = page.locator('[data-testid="price-min-input"]');
-    const priceMinCount = await priceMinInput.count();
-    
-    if (priceMinCount === 0) {
-      console.log('Price filter not available in demo mode, skipping');
-      return;
-    }
-
-    // Act - Set price range filter
+    // Act
+    // Set price range filter
     await page.fill('[data-testid="price-min-input"]', '50');
     await page.fill('[data-testid="price-max-input"]', '200');
     await page.click('[data-testid="apply-filters-button"]');
@@ -74,19 +65,12 @@ test.describe('Product Search E2E Tests', () => {
 
   test('should filter products by category', async ({ page }) => {
     // Arrange
+    await page.fill('[data-testid="search-input"]', 'jacket');
+    await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
 
-    // Check if category filter exists AND is visible
-    const categoryFilter = page.locator('[data-testid="filter-category-clothing"]');
-    
-    try {
-      await categoryFilter.waitFor({ state: 'visible', timeout: 1000 });
-    } catch (e) {
-      console.log('Category filter not visible in demo mode, skipping');
-      return;
-    }
-
-    // Act - Click category filter
+    // Act
+    // Click category filter
     await page.click('[data-testid="filter-category-clothing"]');
     await page.waitForTimeout(500);
 
@@ -97,21 +81,17 @@ test.describe('Product Search E2E Tests', () => {
     expect(count).toBeGreaterThan(0);
     
     // Verify category is active
+    const categoryFilter = page.locator('[data-testid="filter-category-clothing"]');
     await expect(categoryFilter).toHaveClass(/active/);
   });
 
   test('should get autocomplete suggestions', async ({ page }) => {
     // Act
     const searchInput = page.locator('[data-testid="search-input"]');
-    await searchInput.fill('demo');
+    await searchInput.fill('bl');
 
-    // Wait for suggestions (may not exist in demo mode)
-    try {
-      await page.waitForSelector('[data-testid="search-suggestion"]', { timeout: 1000 });
-    } catch (e) {
-      console.log('Autocomplete not available in demo mode, skipping');
-      return;
-    }
+    // Wait for suggestions
+    await page.waitForSelector('[data-testid="search-suggestion"]', { timeout: 1000 });
 
     // Assert
     const suggestions = page.locator('[data-testid="search-suggestion"]');
@@ -121,19 +101,13 @@ test.describe('Product Search E2E Tests', () => {
     
     // Verify suggestions contain the query
     const firstSuggestion = await suggestions.first().innerText();
-    expect(firstSuggestion.toLowerCase()).toContain('demo');
+    expect(firstSuggestion.toLowerCase()).toContain('bl');
   });
 
   test('should select autocomplete suggestion', async ({ page }) => {
     // Arrange
-    await page.fill('[data-testid="search-input"]', 'demo');
-    
-    try {
-      await page.waitForSelector('[data-testid="search-suggestion"]', { timeout: 1000 });
-    } catch (e) {
-      console.log('Autocomplete not available in demo mode, skipping');
-      return;
-    }
+    await page.fill('[data-testid="search-input"]', 'bl');
+    await page.waitForSelector('[data-testid="search-suggestion"]');
 
     // Act
     await page.click('[data-testid="search-suggestion"]');
@@ -148,21 +122,14 @@ test.describe('Product Search E2E Tests', () => {
     // Verify search input is updated
     const searchInput = page.locator('[data-testid="search-input"]');
     const inputValue = await searchInput.inputValue();
-    expect(inputValue.toLowerCase()).toContain('demo');
+    expect(inputValue.toLowerCase()).toContain('bl');
   });
 
   test('should sort search results', async ({ page }) => {
     // Arrange
+    await page.fill('[data-testid="search-input"]', 'jacket');
+    await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
-
-    // Check if sort control exists
-    const sortSelect = page.locator('[data-testid="sort-select"]');
-    const sortCount = await sortSelect.count();
-    
-    if (sortCount === 0) {
-      console.log('Sort control not available in demo mode, skipping');
-      return;
-    }
 
     // Act - Sort by price ascending
     await page.selectOption('[data-testid="sort-select"]', 'price_asc');
@@ -186,19 +153,12 @@ test.describe('Product Search E2E Tests', () => {
 
   test('should paginate through search results', async ({ page }) => {
     // Arrange
+    await page.fill('[data-testid="search-input"]', 'jacket');
+    await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
 
     // Get first page product count
     const page1Count = await page.locator('[data-testid="product-card"]').count();
-
-    // Check if pagination next button exists and is enabled
-    const nextButton = page.locator('[data-testid="pagination-next"]');
-    const isDisabled = await nextButton.getAttribute('disabled');
-    
-    if (isDisabled !== null) {
-      console.log('Pagination next button disabled (not enough products), skipping');
-      return;
-    }
 
     // Act - Go to next page
     await page.click('[data-testid="pagination-next"]');
@@ -210,22 +170,18 @@ test.describe('Product Search E2E Tests', () => {
     
     // Verify pagination info
     const pageInfo = page.locator('[data-testid="pagination-info"]');
-    await expect(pageInfo).toContainText('Seite 2');
+    await expect(pageInfo).toContainText('Page 2');
   });
 
   test('should view product details from search', async ({ page }) => {
     // Arrange
+    await page.fill('[data-testid="search-input"]', 'jacket');
+    await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
 
     // Act
     const firstProductCard = page.locator('[data-testid="product-card"]').first();
     const productId = await firstProductCard.getAttribute('data-product-id');
-    
-    if (!productId || productId === 'null') {
-      console.log('Product ID not available in demo mode, skipping details navigation');
-      return;
-    }
-    
     await firstProductCard.click();
 
     // Wait for product detail page
@@ -249,22 +205,12 @@ test.describe('Product Search E2E Tests', () => {
     await page.click('[data-testid="search-button"]');
     await page.waitForTimeout(500);
 
-    // Assert - either empty state or no product cards
+    // Assert
     const emptyState = page.locator('[data-testid="empty-state"]');
-    const productCards = page.locator('[data-testid="product-card"]');
+    await expect(emptyState).toBeVisible();
     
-    const emptyStateCount = await emptyState.count();
-    const cardCount = await productCards.count();
-    
-    // In demo mode, search might return demo products anyway
-    if (emptyStateCount > 0) {
-      await expect(emptyState).toBeVisible();
-      const emptyMessage = await emptyState.innerText();
-      expect(emptyMessage.toLowerCase()).toContain('no results');
-    } else {
-      // Demo mode likely shows all products regardless of search
-      console.log('Demo mode returns products for any search, skipping empty state check');
-    }
+    const emptyMessage = await emptyState.innerText();
+    expect(emptyMessage).toContain('no results');
   });
 
   test('should handle search with special characters', async ({ page }) => {
@@ -282,36 +228,20 @@ test.describe('Product Search E2E Tests', () => {
 
   test('should apply multiple filters simultaneously', async ({ page }) => {
     // Arrange
+    await page.fill('[data-testid="search-input"]', 'jacket');
+    await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
-
-    // Check if filters exist and are visible
-    const categoryFilter = page.locator('[data-testid="filter-category-clothing"]');
-    
-    try {
-      await categoryFilter.waitFor({ state: 'visible', timeout: 1000 });
-    } catch (e) {
-      console.log('Filters not visible in demo mode, skipping');
-      return;
-    }
 
     // Act
     // Apply category filter
     await page.click('[data-testid="filter-category-clothing"]');
     
-    // Apply color filter (may not exist)
-    const colorFilter = page.locator('[data-testid="filter-color-blue"]');
-    const colorCount = await colorFilter.count();
-    if (colorCount > 0) {
-      await page.click('[data-testid="filter-color-blue"]');
-    }
+    // Apply color filter
+    await page.click('[data-testid="filter-color-blue"]');
     
-    // Apply price filter (may not exist)
-    const priceInput = page.locator('[data-testid="price-min-input"]');
-    const priceCount = await priceInput.count();
-    if (priceCount > 0) {
-      await page.fill('[data-testid="price-min-input"]', '50');
-      await page.click('[data-testid="apply-filters-button"]');
-    }
+    // Apply price filter
+    await page.fill('[data-testid="price-min-input"]', '50');
+    await page.click('[data-testid="apply-filters-button"]');
     
     await page.waitForTimeout(500);
 
@@ -328,29 +258,16 @@ test.describe('Product Search E2E Tests', () => {
 
   test('should clear all filters', async ({ page }) => {
     // Arrange
+    await page.fill('[data-testid="search-input"]', 'jacket');
+    await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
 
     const initialCount = await page.locator('[data-testid="product-card"]').count();
 
-    // Check if filters exist and are visible
-    const categoryFilter = page.locator('[data-testid="filter-category-clothing"]');
-    
-    try {
-      await categoryFilter.waitFor({ state: 'visible', timeout: 1000 });
-    } catch (e) {
-      console.log('Filters not visible in demo mode, skipping');
-      return;
-    }
-
     // Apply filters
     await page.click('[data-testid="filter-category-clothing"]');
-    
-    const priceInput = page.locator('[data-testid="price-min-input"]');
-    const priceCount = await priceInput.count();
-    if (priceCount > 0) {
-      await page.fill('[data-testid="price-min-input"]', '100');
-      await page.click('[data-testid="apply-filters-button"]');
-    }
+    await page.fill('[data-testid="price-min-input"]', '100');
+    await page.click('[data-testid="apply-filters-button"]');
     await page.waitForTimeout(500);
 
     const filteredCount = await page.locator('[data-testid="product-card"]').count();
@@ -364,6 +281,7 @@ test.describe('Product Search E2E Tests', () => {
     expect(clearedCount).toBeGreaterThanOrEqual(filteredCount);
     
     // Verify filters are inactive
+    const categoryFilter = page.locator('[data-testid="filter-category-clothing"]');
     expect(await categoryFilter.getAttribute('class')).not.toContain('active');
   });
 
@@ -371,10 +289,12 @@ test.describe('Product Search E2E Tests', () => {
     // Arrange
     const startTime = Date.now();
 
-    // Act - just wait for initial products to load
-    await page.waitForSelector('[data-testid="product-card"]');
+    // Act
+    await page.fill('[data-testid="search-input"]', 'jacket');
+    await page.click('[data-testid="search-button"]');
     
     // Wait for results
+    await page.waitForSelector('[data-testid="product-card"]');
     const endTime = Date.now();
 
     // Assert

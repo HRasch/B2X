@@ -11,15 +11,7 @@
             placeholder="Produkte suchen (ElasticSearch)..."
             @input="filterProducts"
             :disabled="loading"
-            data-testid="search-input"
           />
-          <button
-            @click="loadProducts"
-            :disabled="loading"
-            data-testid="search-button"
-          >
-            Suchen
-          </button>
           <div v-if="queryExecutionTime > 0" class="search-time">
             Suchzeit: {{ queryExecutionTime }}ms
           </div>
@@ -45,20 +37,6 @@
         :disabled="loading"
       >
         {{ cat }}
-      </button>
-      <!-- compatibility test hook for automated tests -->
-      <button
-        v-if="!loading"
-        @click="
-          () => {
-            selectedCategory = 'Clothing';
-            onCategoryChange();
-          }
-        "
-        data-testid="filter-category-clothing"
-        style="display: none"
-      >
-        Clothing
       </button>
     </div>
 
@@ -90,7 +68,7 @@
     <!-- Products Grid -->
     <div v-if="!loading && !error" class="products-grid">
       <div v-if="filteredProducts.length === 0" class="no-products">
-        <p data-testid="empty-state">Keine Produkte gefunden.</p>
+        <p>Keine Produkte gefunden.</p>
         <p v-if="searchQuery" class="suggestion">
           Versuchen Sie eine andere Suchbegriff oder verwenden Sie weniger
           Filter.
@@ -111,22 +89,18 @@
         @click="goToPage(currentPage - 1)"
         :disabled="!hasPreviousPage"
         class="pagination-btn"
-        data-testid="pagination-prev"
       >
         ← Vorherige
       </button>
 
       <div class="pagination-info">
-        <span data-testid="pagination-info"
-          >Seite {{ currentPage }} von {{ totalPages }}</span
-        >
+        Seite {{ currentPage }} von {{ totalPages }}
       </div>
 
       <button
         @click="goToPage(currentPage + 1)"
         :disabled="!hasNextPage"
         class="pagination-btn"
-        data-testid="pagination-next"
       >
         Nächste →
       </button>
@@ -143,7 +117,6 @@ import {
   type Product,
   type SearchResponse,
 } from "../services/productService";
-import { api } from "../services/api";
 
 const cartStore = useCartStore();
 
@@ -171,6 +144,7 @@ const loadProducts = async () => {
   try {
     // Build filters
     const filters = {
+      searchTerm: searchQuery.value.trim() || "*", // ElasticSearch uses * for all documents
       category:
         selectedCategory.value !== "Alle" ? selectedCategory.value : undefined,
       language: "de",
@@ -178,52 +152,34 @@ const loadProducts = async () => {
     };
 
     // Use ElasticSearch for search, or fall back to paginated list
-    let response: any;
+    let response: SearchResponse;
     if (searchQuery.value.trim()) {
       response = await ProductService.searchProducts(
-        { ...filters, searchTerm: searchQuery.value.trim() },
+        filters,
         currentPage.value,
         pageSize.value
       );
-      products.value = response.items;
-      currentPage.value = response.page;
-      totalPages.value = response.totalPages;
-      totalProducts.value = response.totalCount;
-      if (response.searchMetadata) {
-        queryExecutionTime.value = response.searchMetadata.queryExecutionTimeMs;
-      }
     } else {
-      // Call Gateway directly (returns {products, total, page, pageSize})
-      const gatewayResponse = await api.get(`/v2/products?page=${currentPage.value}&pageSize=${pageSize.value}`);
-      products.value = gatewayResponse.data.products;
-      currentPage.value = gatewayResponse.data.page;
-      totalProducts.value = gatewayResponse.data.total;
-      totalPages.value = Math.ceil(gatewayResponse.data.total / gatewayResponse.data.pageSize);
-      queryExecutionTime.value = 0;
+      response = await ProductService.getProducts(
+        currentPage.value,
+        pageSize.value,
+        filters
+      );
+    }
+
+    products.value = response.items;
+    currentPage.value = response.page;
+    totalPages.value = response.totalPages;
+    totalProducts.value = response.totalCount;
+    if (response.searchMetadata) {
+      queryExecutionTime.value = response.searchMetadata.queryExecutionTimeMs;
     }
   } catch (err) {
     error.value =
       err instanceof Error ? err.message : "Failed to load products";
     console.error("Product loading error:", err);
-    // Fallback to demo data during E2E tests to keep UI testable when backend is unavailable
-    if (import.meta.env.VITE_E2E_TEST === "true") {
-      const demo: any[] = [];
-      for (let i = 1; i <= 20; i++) {
-        demo.push({
-          id: `demo-${i}`,
-          name: `Demo Product ${i}`,
-          description: `Demo description for product ${i}`,
-          price: Math.round((Math.random() * 200 + 10) * 100) / 100,
-          inStock: true,
-        });
-      }
-      products.value = demo as any;
-      totalProducts.value = demo.length;
-      totalPages.value = 1;
-    } else {
-      // Fallback to empty list on error
-      products.value = [];
-    }
+    // Fallback to empty list on error
+    products.value = [];
   } finally {
     loading.value = false;
   }
