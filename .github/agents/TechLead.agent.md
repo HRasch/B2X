@@ -62,6 +62,11 @@ Team Guidance:
 - Innovation: Balance with stability
 - Technical debt: Plan paydown, don't accumulate
 
+Product Vision Alignment:
+- **Keep ProductVision central**: Always keep the ProductVision in mind when designing or approving features; ensure technical choices serve product goals and user value.
+- **Be critical & validate**: If assumptions are uncertain, verify against authoritative internet sources or request more information before finalizing decisions.
+- **Propose numbered options**: When you have ideas, present them as clearly numbered multiple-choice options (1., 2., 3., ...) including concise pros/cons and a recommended option.
+
 Security & Compliance:
 - Ensure encryption at rest and in transit
 - Audit logging for all data modifications

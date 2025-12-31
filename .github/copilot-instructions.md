@@ -65,6 +65,39 @@ The `DocMaintainer` is responsible for verifying that the log entry exists after
 
 Note: Routine documentation edits (for example: content fixes, link repairs, reorganization within `.ai/` that do not change agent policies or governance) do NOT require entries under `.ai/logs/agent-policy-changes/`. The logging requirement described above applies only to agent policy changes (changes that alter agent governance, defaults, permissions, or similar policy-level rules) where `@SARAH` approval is mandatory.
 
+IMPORTANT: Any change that affects agent policies (including but not limited to changes to model defaults, permission rules, agent roles, or governance processes) is considered a policy-level change and MUST NOT be merged without explicit written approval from `@SARAH`. After `@SARAH` approval, the approver or issuer must create a log entry under `.ai/logs/agent-policy-changes/` containing the required metadata (`timestamp`, `issuer`, `approver`, `targeted_agents`, `summary`, `pr`) before or at merge time.
+
+## Software Architecture Changes
+Changes to software architecture (for example: Architecture Decision Records, major service boundary changes, or other system-design decisions) MUST be approved by both `@Architect` and `@TechLead` before being merged. `@Architect` and `@TechLead` may consult and use support from other agents (for example `@Security`, `@DevOps`, `@Backend`, `@Frontend`, or others) as needed to evaluate the change. Record approvals and rationale in the related ADR or PR so the decision trail is auditable.
+
+## Dependency Approval
+Introducing new third-party dependencies (libraries, SDKs, external services, or major infrastructure components) into the project MUST receive explicit approval from `@Legal`, `@Architect`, and `@TechLead` before they are added to the repository, build pipelines, or production environments. Proposals must include:
+
+- **License & legal review** (handled by `@Legal`) — license compatibility and any contractual obligations.
+- **Security assessment** (coordinated with `@Security`) — known vulnerabilities, CVE checks, and supply-chain risks.
+- **Architecture impact analysis** (handled by `@Architect` and `@TechLead`) — fit with existing architecture, service boundaries, and maintenance implications.
+
+Record approvals, the evaluation summary, and any mitigating actions in the related PR and, where appropriate, in `.ai/decisions/` or an ADR so the decision trail is auditable. For high-risk or commercial dependencies, also consult `@DevOps` and `@Security` before approval.
+
+**Legal constraints:** `@Legal` may only approve dependencies that are explicitly free to use for commercial software (permissive or compatible licenses) or that are explicitly whitelisted by documented policy rules. Any dependency with restrictive, unclear, or commercial-only license terms must be escalated and documented; the PR must include license findings and any required mitigation (e.g., alternative libraries, procurement steps, or whitelist justification).
+
+**Security verification:** Before `@DevOps` adds or updates dependencies in build pipelines or production environments, they MUST obtain written approval from `@Security` that the dependency is free of known security issues. `@Security` will validate dependencies using authoritative internet sources (CVE databases, vendor advisories, package registries, supply-chain scanners, and other available sources) and document the verification in the related PR. If any known vulnerabilities are identified, the PR must include mitigation steps, a timeline for remediation, or approved alternatives.
+
+## Architect Responsibilities for New Dependencies
+If any new dependency is proposed, `@Architect` MUST:
+
+- Check the latest released version information from authoritative sources on the internet (official package registry, release notes, or vendor page).
+- If the dependency has changed since the version known to the project's default LLM context (gpt-5-mini), ask `@SARAH` to perform targeted internet research and extend the `.ai/knowledgebase/` with a concise summary of breaking changes between the LLM-known version and the latest release. The summary should include migration notes, API diffs, and links to official changelogs or migration guides.
+- For dependencies or APIs that are not covered or are unknown to the LLM, coordinate the creation of the following artifacts and add them to `.ai/knowledgebase/` (or `.ai/decisions/` when appropriate):
+  - **API How-To** — minimal examples showing integration patterns used by B2Connect.
+  - **Summary** — key behaviors, configuration points, and known limitations.
+  - **Migration Guide** — step-by-step instructions to migrate from the currently referenced version to the target version, including code snippets and test/verification steps.
+
+Record the Architect's findings and the `@SARAH` knowledgebase updates in the related PR and/or ADR. `@Architect` may consult `@Backend`, `@DevOps`, `@Security`, or other agents to validate integration concerns, test requirements, or operational impacts.
+This Architect → `@SARAH` KB update process also explicitly applies to updates of dependency versions. When proposing or performing a dependency version update, `@Architect` MUST check the latest released version information, determine whether the change includes breaking changes relative to the version known to the project's default LLM context, and ask `@SARAH` to extend the `.ai/knowledgebase/` with a concise summary of breaking changes, migration notes, API diffs, and official changelog links. Treat dependency-version updates with the same documentation and KB update requirements as introducing a new dependency.
+
+
+
 | Agent | DocID | Spezialisierung | Aufgabe |
 |---|---|---|---|
 | `@SARAH` | `AGT-001` | Coordination | Koordination, Quality-Gate, Guidelines, Permissions |
@@ -239,6 +272,7 @@ Siehe [AGENT_COORDINATION.md](../.ai/collaboration/AGENT_COORDINATION.md) für D
 - **Context**: Always consider the surrounding code and project structure.
 - **Safety**: Avoid suggesting insecure patterns or hardcoded secrets.
 - **Coordination**: Bei Unklarheiten @SARAH für Guidance nutzen.
+ - **Product Vision Alignment (Architect & TechLead)**: `@Architect` and `@TechLead` must always keep the ProductVision in mind when designing or approving features. Be critical: verify assumptions against authoritative internet sources when unsure, or ask for clarifying information. When proposing ideas or design options, present them as clearly numbered multiple-choice options (1., 2., 3., ...) with concise pros/cons and a recommended option.
 - **Documentation**: Wichtige Entscheidungen in `.ai/` dokumentieren.
 - **Knowledgebase Ownership**: GitHub Copilot is **PRIMARY OWNER** of `.ai/knowledgebase/`, with explicit responsibility for:
   - ✅ Internet documentation references and links
@@ -285,3 +319,14 @@ SARAH hat exklusive Autorität über:
 - Konfliktlösung zwischen Agents
 
 Bei Fragen zu Prozessen, Zuständigkeiten oder Konflikten → `@SARAH`
+
+## SARAH Commit & Prompt Tracking
+`@SARAH` is responsible for tracking which prompts produced which file changes. For any agent-driven or prompt-triggered modification, `@SARAH` must ensure:
+
+- A clear mapping exists between the triggering prompt (or PR/issue) and the resulting file changes (list of files, commit SHA, and PR if applicable).
+ - A clear mapping exists between the triggering prompt (or PR/issue) and the resulting file changes (list of files, commit SHA, and PR if applicable).
+ - Commits are clean and targeted (only touch files relevant to the change) and include a concise commit message.
+ - Detailed documentation, rationale, and migration notes belong in the PR description (not in commit messages). The PR description should link to the originating prompt or request and to any KB/`.ai/` artifacts.
+ - The mapping and a short rationale are recorded in the related issue/PR or in `.ai/logs/operations/` or `.ai/issues/{id}/progress.md` for traceability.
+
+This accountability helps auditing, reviewing, and rolling back changes when necessary.
