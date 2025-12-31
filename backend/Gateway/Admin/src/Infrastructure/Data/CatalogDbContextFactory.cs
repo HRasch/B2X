@@ -232,8 +232,12 @@ public static class CatalogDemoDbExtensions
                     // Seed if empty
                     if (!await context.Products.AnyAsync())
                     {
+                        var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                        var configuredCount = config.GetValue<int?>("CatalogService:DemoProductCount");
+                        var seedCount = configuredCount.HasValue && configuredCount.Value > 0 ? configuredCount.Value : 50;
+
                         var (categories, brands, products) =
-                            CatalogDemoDataGenerator.GenerateDemoCatalog(productCount: 50);
+                            CatalogDemoDataGenerator.GenerateDemoCatalog(productCount: seedCount);
 
                         context.Categories.AddRange(categories);
                         context.Brands.AddRange(brands);

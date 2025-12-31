@@ -42,6 +42,7 @@
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Elastic.Clients.Elasticsearch" />
+    <PackageReference Include="Bogus" />
   </ItemGroup>
 
   <ItemGroup>

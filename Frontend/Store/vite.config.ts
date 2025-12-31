@@ -7,23 +7,21 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@": path.resolve(__dirname, "src"),
+      "~": path.resolve(__dirname, "src"),
     },
   },
   server: {
-    port: parseInt(process.env.PORT || process.env.VITE_PORT || "5173"),
-    host: "0.0.0.0",
-    strictPort: true, // Fail if port is not available
     proxy: {
       "/api": {
-        target: process.env.VITE_API_GATEWAY_URL || "http://localhost:8000",
+        target: process.env.VITE_API_GATEWAY_URL || "http://localhost:8100",
         changeOrigin: true,
         secure: false,
         ws: true,
         timeout: 30000,
       },
       "/ws": {
-        target: process.env.VITE_WS_URL || "ws://localhost:8000",
+        target: process.env.VITE_WS_URL || "ws://localhost:8100",
         changeOrigin: true,
         ws: true,
         secure: false,

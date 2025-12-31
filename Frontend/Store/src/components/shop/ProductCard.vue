@@ -1,6 +1,7 @@
 <template>
   <div
     class="card bg-base-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 h-full flex flex-col"
+    data-testid="product-card"
   >
     <!-- Product Image -->
     <figure class="relative h-48 overflow-hidden">
@@ -20,7 +21,9 @@
     <!-- Product Info -->
     <div class="card-body flex flex-col flex-1">
       <!-- Product Name -->
-      <h3 class="card-title text-base line-clamp-2">{{ product.name }}</h3>
+      <h3 class="card-title text-base line-clamp-2" data-testid="product-name">
+        {{ product.name }}
+      </h3>
 
       <!-- Rating -->
       <div class="flex items-center gap-1">
@@ -35,7 +38,10 @@
       <div class="divider my-2"></div>
       <div class="bg-base-200 rounded-lg p-3 mb-4">
         <div class="flex justify-between items-start mb-2">
-          <span class="text-3xl font-bold text-primary">
+          <span
+            class="text-3xl font-bold text-primary"
+            data-testid="product-price"
+          >
             {{ formatPrice(displayPrice()) }}
           </span>
         </div>

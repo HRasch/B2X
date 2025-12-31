@@ -90,9 +90,24 @@ builder.Services.AddScoped<B2Connect.Catalog.Application.Validators.CalculatePri
 // NOTE: Return Management Services moved to Customer domain (Story 8: Widerrufsmanagement)
 // The ReturnApiHandler, Validators, Repositories have been migrated to Customer domain
 // per domain migration strategy (PR #41)
+// Register CatalogService implementations and endpoint adapters
+builder.Services.AddScoped<B2Connect.CatalogService.Services.ISearchIndexService, B2Connect.CatalogService.Services.SearchIndexService>();
+builder.Services.AddScoped<B2Connect.CatalogService.Services.IProductService, B2Connect.CatalogService.Services.ProductService>();
+
+builder.Services.AddScoped<B2Connect.Catalog.Endpoints.IProductService, B2Connect.Catalog.Endpoints.ProductServiceAdapter>();
+builder.Services.AddScoped<B2Connect.Catalog.Endpoints.ISearchIndexService, B2Connect.Catalog.Endpoints.SearchIndexAdapter>();
 
 // Add Authorization (REQUIRED for [Authorize] attributes)
 builder.Services.AddAuthorization();
+
+
+
+// Development-only stub services to enable frontend/gateway integration
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddSingleton<B2Connect.Catalog.Endpoints.IProductService, B2Connect.Catalog.Endpoints.DevProductService>();
+    builder.Services.AddSingleton<B2Connect.Catalog.Endpoints.ISearchIndexService, B2Connect.Catalog.Endpoints.DevSearchIndexService>();
+}
 
 var app = builder.Build();
 
