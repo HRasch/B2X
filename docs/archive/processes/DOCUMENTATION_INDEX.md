@@ -32,7 +32,7 @@ New to the project? Start here:
 
 ### Security & Compliance
 - **[SECURITY_HARDENING_GUIDE.md](SECURITY_HARDENING_GUIDE.md)** - Security implementation guide
-- **[GOVERNANCE.md](GOVERNANCE.md)** - Project governance and policies
+- **[.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md)** - Project governance and policies
 - **[docs/PENTESTER_REVIEW.md](docs/PENTESTER_REVIEW.md)** - Security assessment
 
 ### Testing
@@ -118,68 +118,3 @@ Located in `backend/docs/`:
 
 ## 📚 Archived Documentation
 
-Historical and completed documentation in `docs/archived/`:
-
-### Old Reviews (`docs/archived/old-reviews/`)
-- Security reviews and findings
-- P0/P1/P2 implementation reports
-- Comprehensive reviews
-- Completed fix reports
-
-### Old Summaries (`docs/archived/old-summaries/`)
-- Final summaries
-- AI/KI integration summaries
-- Documentation suite overviews
-- Project anchoring documents
-- Workflow templates
-
----
-
-## 🔍 Finding Documentation
-
-### By Topic
-- **Security**: SECURITY_HARDENING_GUIDE.md, docs/PENTESTER_REVIEW.md
-- **Testing**: TESTING_STRATEGY.md, docs/guides/TESTING_GUIDE.md
-- **Architecture**: docs/architecture/, docs/ONION_ARCHITECTURE.md
-- **Features**: docs/features/
-- **Setup**: ASPIRE_QUICK_START.md, docs/guides/GETTING_STARTED.md
-
-### By Role
-- **Developers**: ASPIRE_QUICK_START.md, docs/guides/DEVELOPMENT.md
-- **DevOps**: GITHUB_PAGES_DEPLOYMENT_CHECKLIST.md, docs/architecture/ASPIRE_GUIDE.md
-- **QA**: TESTING_STRATEGY.md, docs/guides/TESTING_GUIDE.md
-- **Security**: SECURITY_HARDENING_GUIDE.md, docs/PENTESTER_REVIEW.md
-- **Architects**: docs/architecture/, docs/ONION_ARCHITECTURE.md
-
----
-
-## 📞 Support
-
-For questions or issues:
-1. Check this index for relevant documentation
-2. Review archived documentation for historical context
-3. Check inline code documentation
-4. Consult team leads
-
----
-
-**Documentation Structure:**
-```
-/
-├── README.md                              # Main project readme
-├── ASPIRE_FINAL_STATUS.md                 # Current status
-├── ASPIRE_INTEGRATION_GUIDE.md            # Aspire guide
-├── ASPIRE_QUICK_START.md                  # Quick start
-├── SECURITY_HARDENING_GUIDE.md            # Security guide
-├── TESTING_STRATEGY.md                    # Testing strategy
-├── GOVERNANCE.md                          # Governance
-├── REQUIREMENTS_AND_SPECS_ANCHORED.md     # Requirements
-├── docs/
-│   ├── architecture/                      # Architecture docs
-│   ├── features/                          # Feature-specific docs
-│   ├── guides/                            # How-to guides
-│   └── archived/                          # Historical docs
-├── backend/docs/                          # Backend-specific docs
-├── frontend-store/                        # Store frontend docs
-└── frontend-admin/                        # Admin frontend docs
-```
