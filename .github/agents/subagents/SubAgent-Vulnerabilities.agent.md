@@ -3,7 +3,12 @@
 ---
 description: 'Vulnerability specialist for OWASP testing and penetration testing'
 tools: ['read', 'edit', 'web', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — known vulnerabilities, remediation notes, and project advisories.
+- Secondary: CVE/NVD, vendor advisories, and security mailing lists.
+- Web: CVE databases and vendor security pages for real-time data.
+If live vulnerability details are missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to prepare a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

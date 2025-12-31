@@ -3,7 +3,12 @@
 ---
 description: 'Monitoring and observability specialist for metrics, dashboards, and alerting'
 tools: ['read', 'edit', 'web', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — monitoring dashboards, alerting rules and SLIs/SLOs.
+- Secondary: Prometheus, Grafana, and vendor monitoring docs.
+- Web: Observability patterns and vendor-specific guides.
+If monitoring-specific knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to summarise and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

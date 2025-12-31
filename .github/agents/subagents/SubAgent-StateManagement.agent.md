@@ -3,7 +3,12 @@
 ---
 description: 'Frontend state management specialist for Pinia stores and reactive patterns'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — state management approaches and project-specific patterns.
+- Secondary: Framework docs for state libraries and recommended patterns.
+- Web: Community articles and library docs.
+If details are missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to summarize and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

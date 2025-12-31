@@ -3,7 +3,12 @@
 ---
 description: 'SubAgent specialized in database schema design, Entity Framework Core patterns, and query optimization'
 tools: ['read', 'search', 'web']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — data model patterns and DB design entries.
+- Secondary: Vendor docs (Postgres, SQL Server, etc.), normalization, indexing guidelines.
+- Web: Official DB vendor docs and common schema design articles.
+If missing, ask `@SARAH` to produce a summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

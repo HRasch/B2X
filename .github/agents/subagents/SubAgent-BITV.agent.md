@@ -3,7 +3,7 @@
 ---
 description: 'BITV 2.0 specialist for German accessibility law compliance'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 

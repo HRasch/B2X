@@ -1,7 +1,7 @@
 ---
 description: 'Export helper for AI-focused handoffs: prompts, model hints, and data formatting.'
 tools: ['read','search','edit']
-model: 'task-template'
+model: 'gpt-5-mini'
 infer: false
 ---
 
@@ -35,3 +35,9 @@ Data: {{data}}
 Notes
 - Keep model-specific knobs separated (temperature, max_tokens, stop sequences).
 - Include unit-test style acceptance checks where feasible.
+
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — AI handoff templates, prompt engineering notes, and model config examples.
+- Secondary: Official model provider docs and prompt engineering guides.
+- Web: Responsible AI guidance, model-specific best practices.
+If the required knowledge isn't present in the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.

@@ -3,7 +3,12 @@
 ---
 description: 'Technology evaluation specialist for framework and library comparisons'
 tools: ['read', 'web', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — evaluation templates and prior tech decision notes.
+- Secondary: Benchmarks, vendor performance docs, and interoperability notes.
+- Web: Vendor benchmarks and community comparisons.
+If required evaluation knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

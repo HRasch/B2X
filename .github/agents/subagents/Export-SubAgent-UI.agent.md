@@ -1,7 +1,7 @@
 ---
 description: 'Export helper for UI handoffs: component specs, tokens, and implementation notes.'
 tools: ['read','search','edit']
-model: 'task-template'
+model: 'gpt-5-mini'
 infer: false
 ---
 
@@ -34,3 +34,9 @@ ARIA: role=button, aria-disabled when disabled
 Notes
 - Prefer composition over inheritance for flexibility.
 - Include visual regression test hints (screenshots/state descriptions).
+
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — component specs, tokens, and visual regression hints.
+- Secondary: Design token docs, accessibility guides, and responsive design patterns.
+- Web: Framework and component library docs.
+If necessary UI knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to produce a concise summary and add it to `.ai/knowledgebase/`.

@@ -3,7 +3,12 @@
 ---
 description: 'SubAgent specialized in unit testing patterns, test setup, and test coverage strategies for backend'
 tools: ['read', 'search', 'web']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — unit testing patterns and mocking strategies.
+- Secondary: xUnit/NUnit/MSTest docs and mocking library guidance.
+- Web: Test framework docs and community best practices.
+If testing-specific knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to summarise and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

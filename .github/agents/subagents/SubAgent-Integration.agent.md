@@ -3,7 +3,12 @@
 ---
 description: 'Specialist in service-to-service integration, contracts, and Wolverine patterns'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — integration patterns and interface contracts.
+- Secondary: Messaging/HTTP integration docs and vendor API docs.
+- Web: Official protocol and API docs relevant to integrations.
+If knowledge gaps exist in the LLM or `.ai/knowledgebase/`, ask `@SARAH` to create a short summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

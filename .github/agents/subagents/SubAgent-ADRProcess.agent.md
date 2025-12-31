@@ -3,7 +3,7 @@
 ---
 description: 'Architecture Decision Record specialist for documenting system decisions'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 
@@ -45,6 +45,13 @@ Output format: `.ai/decisions/adr-{number}.md` with:
 - Alternatives (options we rejected, trade-offs)
 - Consequences (positive and negative impacts)
 - Related ADRs (links to related decisions)
+ - Related ADRs (links to related decisions)
+ 
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — search for "ADR" and "architecture-decision-record" entries.
+- Secondary: Official ADR templates, Michael Nygard examples, and community ADR guidance.
+- Web: Framework and vendor docs relevant to the decision domain.
+If the required specialist knowledge isn't available in the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 ```
 
 ````

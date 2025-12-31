@@ -3,7 +3,7 @@
 ---
 description: 'Frontend API integration specialist for Axios patterns and error handling'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 
@@ -45,5 +45,11 @@ Output format: `.ai/issues/{id}/api-integration.md` with:
 - Caching strategy
 - Token refresh handling
 - Code examples (composables, utilities)
+
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — search for "API integration" and "Axios" entries.
+- Secondary: Axios docs, frontend framework integration guides, network reliability patterns.
+- Web: Official library docs and RFCs where applicable.
+If the required specialist info isn't available in the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 ```
 ````

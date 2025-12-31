@@ -3,7 +3,7 @@
 ---
 description: 'Authentication and authorization specialist for JWT, OAuth2, and MFA'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 

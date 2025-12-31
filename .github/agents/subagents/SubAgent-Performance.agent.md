@@ -3,7 +3,12 @@
 ---
 description: 'Frontend performance optimization specialist for bundle size and rendering'
 tools: ['read', 'web', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — performance testing patterns and existing test results.
+- Secondary: Load testing tools docs (k6, JMeter), profiling guides.
+- Web: Vendor performance tuning docs and community benchmarks.
+If required performance knowledge is missing in the LLM or `.ai/knowledgebase/`, ask `@SARAH` to produce a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

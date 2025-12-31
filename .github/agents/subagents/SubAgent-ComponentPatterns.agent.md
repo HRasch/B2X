@@ -3,7 +3,12 @@
 ---
 description: 'SubAgent specialized in Vue.js 3 component architecture, Composition API patterns, and component design'
 tools: ['read', 'search', 'web']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — component patterns and design-system entries.
+- Secondary: Component library docs and design system guidelines.
+- Web: UI framework component patterns (e.g. Vue, React) and platform docs.
+If the necessary details are missing from the LLM or `.ai/knowledgebase/`, ask `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

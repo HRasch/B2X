@@ -3,7 +3,12 @@
 ---
 description: 'Regression testing specialist for automated test suite management'
 tools: ['execute', 'edit', 'read', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — regression suites, test history and flaky test notes.
+- Secondary: Test framework docs, CI configuration for test sharding and retries.
+- Web: Test framework docs and community guides.
+If regression-specific knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to summarise and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

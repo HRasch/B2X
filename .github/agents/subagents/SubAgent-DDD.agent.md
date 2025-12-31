@@ -3,7 +3,12 @@
 ---
 description: 'Domain-Driven Design specialist for bounded contexts and aggregate design'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — search for Domain-Driven Design patterns and aggregate modelling.
+- Secondary: Domain-Driven Design literature (Evans, Vernon) and tactical/strategic patterns.
+- Web: Community resources and framework-specific DDD guides.
+If the LLM or `.ai/knowledgebase/` lacks the required detail, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

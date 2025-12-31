@@ -3,7 +3,12 @@
 ---
 description: 'Git workflow, branching strategy, and repository management specialist'
 tools: ['read', 'edit', 'search', 'run_terminal']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — git workflow, branching, and PR policies.
+- Secondary: Pro Git book, GitHub flow docs, internal commit standards.
+- Web: Official Git and GitHub docs.
+If workflow knowledge is missing in the LLM or `.ai/knowledgebase/`, ask `@SARAH` to produce a short summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

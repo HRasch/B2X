@@ -3,7 +3,7 @@
 ---
 description: 'SubAgent specialized in compliance testing, regulatory verification, and compliance automation'
 tools: ['read', 'search', 'web']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 

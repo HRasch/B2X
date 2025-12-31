@@ -3,7 +3,12 @@
 ---
 description: 'Backend security specialist for input validation and PII encryption'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — security policies, threat models, common vulnerabilities.
+- Secondary: OWASP Top Ten, vendor security advisories, and internal security checklists.
+- Web: CVE/NVD and vendor security pages for up-to-date vulnerability information.
+If specialized security knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to prepare a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

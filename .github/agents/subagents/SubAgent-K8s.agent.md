@@ -3,7 +3,12 @@
 ---
 description: 'Kubernetes deployment specialist for containerized service orchestration'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — Kubernetes runbooks and cluster patterns.
+- Secondary: Official Kubernetes docs, operator guides, and cloud provider K8s docs.
+- Web: CNCF and vendor docs for clustering, networking, and storage.
+If provider-specific or advanced K8s knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to produce a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

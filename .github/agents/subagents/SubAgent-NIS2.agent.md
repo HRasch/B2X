@@ -3,7 +3,12 @@
 ---
 description: 'NIS2 and network security incident notification specialist'
 tools: ['read', 'web', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — NIS2 compliance notes and checklists.
+- Secondary: Official NIS2 texts and guidance from `.ai/knowledgebase/`.
+- Web: Regulatory authority guidance and templates.
+If regulatory knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to coordinate a summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

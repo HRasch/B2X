@@ -3,7 +3,12 @@
 ---
 description: 'Disaster recovery specialist for backups, failover, and business continuity'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — DR plans, RTO/RPO standards entries.
+- Secondary: Cloud provider disaster recovery docs and runbook templates.
+- Web: Official provider guides and resilience best practices.
+If critical knowledge is missing, request `@SARAH` to summarize and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

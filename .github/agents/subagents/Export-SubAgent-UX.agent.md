@@ -1,7 +1,7 @@
 ---
 description: 'Export helper for UX handoffs: research summary, personas, goals, and acceptance criteria.'
 tools: ['read','search','edit']
-model: 'task-template'
+model: 'gpt-5-mini'
 infer: false
 ---
 
@@ -35,3 +35,9 @@ Critical success metric: Task completion <= 2 minutes
 Notes
 - Include WCAG a11y flags and critical keyboard flows.
 - Link to design tokens or component guidelines when available.
+
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — UX research summaries, persona templates, and usability test artifacts.
+- Secondary: Usability heuristics, WCAG references, and platform UX guidelines.
+- Web: Nielsen Norman Group, W3C, and accessibility resources.
+If critical UX knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a short summary and add it to `.ai/knowledgebase/`.

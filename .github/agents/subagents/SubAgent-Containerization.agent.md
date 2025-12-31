@@ -3,7 +3,12 @@
 ---
 description: 'Docker containerization specialist for image optimization and efficiency'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — containerization and Docker/K8s patterns.
+- Secondary: Official Docker and Kubernetes docs; base image security guidance.
+- Web: Vendor docs (Docker, Kubernetes, container registries) and CIS benchmarks.
+If required knowledge is missing from the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

@@ -3,7 +3,12 @@
 ---
 description: 'Scalability planning specialist for load testing and growth analysis'
 tools: ['read', 'web', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — scalability patterns, sharding and partitioning notes.
+- Secondary: Cloud provider scaling docs, caching patterns, and architecture diagrams.
+- Web: Vendor scaling guides and community case studies.
+If required scalability knowledge is missing in the LLM or `.ai/knowledgebase/`, ask `@SARAH` to create a short summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

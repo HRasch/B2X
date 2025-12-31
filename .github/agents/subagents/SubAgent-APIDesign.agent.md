@@ -3,7 +3,7 @@
 ---
 description: 'SubAgent specialized in HTTP API design patterns, RESTful conventions, and error handling strategies'
 tools: ['read', 'search', 'web']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 
@@ -69,5 +69,11 @@ See: https://github.com/b2connect/api-design-patterns (reference)
 - Provide Wolverine-specific examples (not MediatR)
 - Include error scenarios
 - Suggest validation strategies
+
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — search for "API design" and "Wolverine" entries.
+- Secondary: OpenAPI/Swagger docs, RFC7231, relevant framework guides.
+- Web: Official docs for frameworks and libraries mentioned.
+If necessary knowledge is missing from the LLM or the `.ai/knowledgebase/`, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 ```
 ````

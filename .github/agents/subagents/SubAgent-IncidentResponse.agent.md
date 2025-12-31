@@ -3,7 +3,12 @@
 ---
 description: 'Incident response specialist for security incident detection and analysis'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — incident response runbooks and contact lists.
+- Secondary: NIST incident response guidance and vendor-specific playbooks.
+- Web: Official security incident handling guides and reporting requirements.
+If critical incident knowledge is missing from the LLM or `.ai/knowledgebase/`, request `@SARAH` to summarise and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

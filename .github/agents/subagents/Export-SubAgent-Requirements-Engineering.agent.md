@@ -1,7 +1,7 @@
 ---
 description: 'Export helper for requirements engineering: user stories, acceptance criteria, and testable artifacts.'
 tools: ['read','search','edit']
-model: 'task-template'
+model: 'gpt-5-mini'
 infer: false
 ---
 
@@ -33,3 +33,9 @@ Acceptance: Invite sends email and creates pending user entry; invitation expire
 Notes
 - Flag privacy, security, and performance constraints.
 - Link to design/UX/AI exports when cross-functional inputs exist.
+
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — user-story templates, acceptance criteria examples, and testing patterns.
+- Secondary: Requirements engineering guides and BDD/Gherkin references.
+- Web: Industry best-practice resources for requirements and acceptance testing.
+If stakeholder or compliance knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.

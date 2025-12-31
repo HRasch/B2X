@@ -3,7 +3,12 @@
 ---
 description: 'Security architecture specialist for threat modeling and encryption design'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — security architecture patterns and threat modelling notes.
+- Secondary: Architectural security guidance (CIS, vendor architecture docs) and design patterns.
+- Web: Security architecture case studies and vendor whitepapers.
+If critical architecture knowledge is missing in the LLM or `.ai/knowledgebase/`, ask `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

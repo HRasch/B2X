@@ -3,7 +3,12 @@
 ---
 description: 'Backend integration testing specialist for service boundaries and APIs'
 tools: ['execute', 'edit', 'read', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — integration and E2E testing patterns.
+- Secondary: Test frameworks docs, contract testing guides (Pact), CI patterns.
+- Web: Test framework documentation and community examples.
+If required knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to summarize and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

@@ -3,7 +3,12 @@
 ---
 description: 'Specialist in Entity Framework Core optimization, queries, and database patterns'
 tools: ['read', 'web', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — EF Core usage patterns and project-specific notes.
+- Secondary: EF Core official docs, Microsoft docs, migration patterns.
+- Web: Microsoft docs and community best-practices.
+If details are missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to add a concise summary to `.ai/knowledgebase/`.
 infer: false
 ---
 

@@ -3,7 +3,7 @@
 ---
 description: 'SubAgent specialized in WCAG 2.1 AA accessibility, ARIA patterns, and accessible component design'
 tools: ['read', 'search', 'web']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 
@@ -64,6 +64,12 @@ Structure:
 ## Pass/Fail Summary
 - WCAG 2.1 AA: [Pass/Fail]
 - Accessibility Score: [X/100]
+
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — search for "WCAG", "accessibility", or component-specific a11y notes.
+- Secondary: W3C WCAG 2.1 docs, ARIA Authoring Practices Guide, platform-specific a11y docs.
+- Web: Official component library accessibility guides and APG examples.
+If the relevant knowledge isn't present in the LLM or `.ai/knowledgebase/`, ask `@SARAH` to create a short summary and add it to `.ai/knowledgebase/`.
 ```
 
 ## Key Standards to Enforce

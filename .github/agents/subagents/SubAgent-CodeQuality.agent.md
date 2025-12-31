@@ -3,7 +3,12 @@
 ---
 description: 'Code quality and SOLID principles specialist for architecture review'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — search for linting, style guides, and code-quality checks.
+- Secondary: Language-specific style guides and static analysis docs.
+- Web: Official linter docs and best-practice guides.
+If needed knowledge is missing in the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a short summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

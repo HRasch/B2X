@@ -3,7 +3,12 @@
 ---
 description: 'SubAgent specialized in GDPR compliance, data protection, and EU regulations'
 tools: ['read', 'search', 'web']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — GDPR guidance and project-specific compliance notes.
+- Secondary: Official EU GDPR documents and legal guidance from `.ai/knowledgebase/`.
+- Web: European Commission GDPR resources and authority guidance.
+If legal or specialist knowledge is missing from the LLM or `.ai/knowledgebase/`, request `@SARAH` to coordinate a short summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

@@ -3,7 +3,12 @@
 ---
 description: 'Infrastructure as Code specialist for Terraform and CloudFormation'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
+Knowledge & references:
+- Primary: `.ai/knowledgebase/` — IaC patterns, templates, and infra notes.
+- Secondary: Terraform/ARM/CloudFormation docs and provider best-practices.
+- Web: Official cloud provider IaC docs and modules registry.
+If provider-specific knowledge is missing from the LLM or `.ai/knowledgebase/`, request `@SARAH` to create a concise summary and add it to `.ai/knowledgebase/`.
 infer: false
 ---
 

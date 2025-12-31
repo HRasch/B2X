@@ -3,7 +3,7 @@
 ---
 description: 'Bug analysis specialist for root cause analysis and reproduction'
 tools: ['read', 'edit', 'search']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: false
 ---
 
