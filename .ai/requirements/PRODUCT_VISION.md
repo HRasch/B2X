@@ -24,6 +24,7 @@ Deliver a composable, secure, and developer‑friendly e‑commerce platform tha
 - Extensible plugin/adapter points for payments, fulfillment, analytics.
  - Integration with headless CMS solutions for content‑first storefronts and multi‑locale content delivery.
  - Gateway to merchant platforms for marketplace integrations and multi‑channel distribution.
+ - Full CLI and API support for Admin, Store, and Management backends to enable automation, scripting, and headless operations.
 
 ## Non‑functional Priorities
 Security, scalability, availability, performance (search & checkout), testability, and developer experience.
