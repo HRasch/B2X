@@ -34,7 +34,3 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 - Mock external dependencies
 - Aim for >80% code coverage
 
-## Agent Logging
-- **Agents:** List all agents involved or consulted for this document (e.g., @Backend, @Security).
-- **Responsible:** Name the agent or role responsible for maintaining this document (e.g., @TechLead).
-- **Placement:** Add the logging info in a short section at the top or end of the document using the format: `Agents: @AgentA, @AgentB | Owner: @Agent`.

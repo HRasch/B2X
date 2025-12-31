@@ -40,7 +40,3 @@ applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terr
 - Implement network policies
 - Regular security audits of infrastructure
 
-## Agent Logging
-- **Agents:** List all agents involved or consulted for this document (e.g., @DevOps, @Security).
-- **Responsible:** Name the agent or role responsible for maintaining this document (e.g., @DevOps).
-- **Placement:** Add the logging info in a short section at the top or end of the document using the format: `Agents: @AgentA, @AgentB | Owner: @Agent`.
