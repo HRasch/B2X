@@ -15,6 +15,7 @@ This index lists curated knowledgebase articles to help agents and developers im
 - pinia.md — Pinia store summary
 - vite.md — Vite tooling notes
 - owasp-top-ten.md — OWASP Top Ten summary
+ - search-elasticsearch-ecommerce.md — Modeling Elasticsearch-based e-commerce search & recommendations
 
 Use these as the canonical short references when implementing or reviewing code.
 # Knowledgebase Index
@@ -75,6 +76,7 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 ## Recently Updated
 - 30.12.2025: Added Mermaid Documentation ([tools-and-tech/MERMAID_DOCUMENTATION.md](./tools-and-tech/MERMAID_DOCUMENTATION.md))
 - 30.12.2025: Index created and structure established
+- 31.12.2025: Added Elasticsearch e‑commerce search & recommendations article (search-elasticsearch-ecommerce.md)
 
 ## How Agents Use This Index
 
