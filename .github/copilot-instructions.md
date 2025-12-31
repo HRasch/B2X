@@ -46,6 +46,17 @@ Agents: @AgentA, @AgentB | Owner: @Agent
 
 This requirement ensures traceability and clear ownership for all docs created or modified by agents.
 
+## Model Policy
+By default, all agents SHOULD use the `gpt-5-mini` model for consistency and predictable behavior.
+
+- **Default:** `gpt-5-mini` is the recommended default model for all agents and prompt executions.
+- **Per-agent overrides:** It is permitted to assign a specific, alternative model to an individual agent when a justified use-case exists (for example, a specialized model with different capabilities). When assigning a non-default model you MUST:
+  - Document the justification in the agent file's frontmatter and in the associated knowledgebase entry under `.ai/knowledgebase/`.
+  - Add a short note to the audit log in `.ai/logs/documentation/` describing why the override was made.
+  - Notify `@SARAH` via an issue or PR comment for policy review and approval.
+
+The `DocMaintainer` agent is responsible for validating that `model:` frontmatter values are supported and for flagging invalid or deprecated model identifiers.
+
 | Agent | DocID | Spezialisierung | Aufgabe |
 |---|---|---|---|
 | `@SARAH` | `AGT-001` | Coordination | Koordination, Quality-Gate, Guidelines, Permissions |
