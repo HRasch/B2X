@@ -8,9 +8,13 @@ public class ElasticService : IElasticService
     private readonly IElasticClient _client;
     private const string IndexName = "products";
 
-    public ElasticService(string uri)
+    public ElasticService(string uri, string? username = null, string? password = null)
     {
         var settings = new ConnectionSettings(new Uri(uri)).DefaultIndex(IndexName);
+        if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
+        {
+            settings = settings.BasicAuthentication(username, password);
+        }
         _client = new ElasticClient(settings);
     }
 
