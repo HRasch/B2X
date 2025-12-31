@@ -31,6 +31,7 @@ Deliver a composable, secure, and developer‑friendly e‑commerce platform tha
  - Support common B2B/B2C import/export formats and feeds (BMECat, DATANORM, CSV) and enable reliable omnichannel data synchronization for online/offline channels.
  - Support marketplace and channel connectors (Google Merchant, Amazon, eBay) with feed/export adapters, order ingestion, and inventory synchronization to simplify multi‑channel distribution.
  - Support dynamic pricing and promotions: real‑time price rules, price engines, and promotion campaigns with audit logs and testing support for pricing strategies.
+ - Highly customizable theming: allow page layout customization, SCSS/CSS with custom properties, and advanced browser styling hooks (Houdini / CSS Paint / Typed OM) to enable brandable, performant storefronts.
 
 ## Non‑functional Priorities
 Security, scalability, availability, performance (search & checkout), testability, and developer experience.
