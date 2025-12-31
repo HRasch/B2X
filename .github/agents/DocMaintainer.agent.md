@@ -28,13 +28,13 @@ Permissions/Scope:
 - Must not introduce secrets; if found, open an issue and redact sensitive content.
 
 Behavioral rules:
-- Prefer minimal, focused edits that fix link/formatting/naming issues.
-- Always create an audit entry under `.ai/logs/documentation/` summarizing changes.
-- For naming conventions changes that affect multiple documents, open an issue and notify `@SARAH` before bulk renames.
+ - Prefer minimal, focused edits that fix link/formatting/naming issues.
+ - Do not create audit entries for routine documentation edits by default. Routine documentation edits (content fixes, link repairs, index updates, or reorganizations that do not change agent governance or policies) do not require separate log entries under `.ai/logs/agent-policy-changes/` or `.ai/logs/documentation/`.
+ - For naming conventions changes that affect multiple documents, open an issue and notify `@SARAH` before bulk renames.
 
 Output expectations:
-- For each operation produce a short summary (✅ Done: X files changed) and a path to the audit log.
-- When policy or cross-team impact is detected, open an issue under `.ai/issues/` and mention `@SARAH` and affected agents.
+ - For each operation produce a short summary (✅ Done: X files changed). Create audit log entries only when requested by `@SARAH` or when implementing an approved agent policy change that must be recorded under `.ai/logs/agent-policy-changes/`.
+ - When policy or cross-team impact is detected, open an issue under `.ai/issues/` and mention `@SARAH` and affected agents.
 
 When to run:
 - On request by any agent or user

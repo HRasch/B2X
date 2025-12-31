@@ -63,6 +63,8 @@ Example file name: `.ai/logs/agent-policy-changes/2025-12-31T15-30-00Z_policy_ch
 
 The `DocMaintainer` is responsible for verifying that the log entry exists after `@SARAH` approves a change; it must not independently apply policy changes.
 
+Note: Routine documentation edits (for example: content fixes, link repairs, reorganization within `.ai/` that do not change agent policies or governance) do NOT require entries under `.ai/logs/agent-policy-changes/`. The logging requirement described above applies only to agent policy changes (changes that alter agent governance, defaults, permissions, or similar policy-level rules) where `@SARAH` approval is mandatory.
+
 | Agent | DocID | Spezialisierung | Aufgabe |
 |---|---|---|---|
 | `@SARAH` | `AGT-001` | Coordination | Koordination, Quality-Gate, Guidelines, Permissions |
