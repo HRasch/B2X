@@ -1,7 +1,7 @@
 ---
 description: 'Product Owner responsible for feature prioritization, stakeholder communication and product vision'
 tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'gitkraken/*', 'copilot-container-tools/*', 'agent', 'todo']
-model: 'claude-haiku-4-5'
+model: 'gpt-5-mini'
 infer: true
 ---
 

@@ -144,7 +144,7 @@ When you enable 2FA, you get backup codes. **Save them somewhere safe!**
 1. **Immediately** go to [Reset Your Password](./reset-password.md)
 2. Create a completely new password
 3. Check your recent orders (see if anything is suspicious)
-4. [Contact Support](../support.md) if you see unusual activity
+4. [Contact Support](../README.md) if you see unusual activity
 
 ### You Lost Your Phone (and have 2FA enabled)
 
@@ -154,14 +154,14 @@ When you enable 2FA, you get backup codes. **Save them somewhere safe!**
 4. Use one of your backup codes
 5. Log in
 6. Disable 2FA or link a new phone
-7. [Contact Support](../support.md) if you lost backup codes
+7. [Contact Support](../README.md) if you lost backup codes
 
 ### You See Suspicious Login Activity
 
 1. **Change your password immediately**
 2. Review recent orders and account activity
 3. Check if any addresses or payment methods were changed
-4. [Contact Support](../support.md) right away
+4. [Contact Support](../README.md) right away
 
 ### Someone Else Has Access to Your Email
 
@@ -171,7 +171,7 @@ If your email account is compromised:
 2. [Reset your B2Connect password](./reset-password.md)
 3. Check your email forwarding rules (hackers sometimes add these)
 4. Enable 2FA on your email account
-5. [Contact Support](../support.md) if needed
+5. [Contact Support](../README.md) if needed
 
 ---
 
@@ -222,10 +222,10 @@ A: Yes! We use industry-standard security (HTTPS, encryption). Your payment info
 A: Never! Your data is only used for orders and customer service.
 
 **Q: How do I delete my account?**  
-A: Go to Settings → Account → Delete Account. [Contact Support](../support.md) for help.
+A: Go to Settings → Account → Delete Account. [Contact Support](../README.md) for help.
 
 **Q: What should I do if I see charges I didn't make?**  
-A: [Contact Support](../support.md) immediately. We investigate fraudulent charges.
+A: [Contact Support](../README.md) immediately. We investigate fraudulent charges.
 
 ---
 
@@ -241,6 +241,6 @@ A: [Contact Support](../support.md) immediately. We investigate fraudulent charg
 
 ---
 
-**Need help?** [Contact Support](../support.md)  
+**Need help?** [Contact Support](../README.md)  
 **Version**: 1.0 | **Last Updated**: 29 December 2025
 

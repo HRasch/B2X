@@ -19,7 +19,7 @@ Sprint planning instructions have been enhanced to integrate **GitHub CLI (gh)**
 ## What Was Created
 
 ### 1. **GitHub CLI How-To Guide**
-📁 **File**: [.github/prompts/GITHUB_CLI_SPRINT_HOWTO.md](.github/prompts/GITHUB_CLI_SPRINT_HOWTO.md)
+📁 **File**: [GITHUB_CLI_SPRINT_HOWTO.md](GITHUB_CLI_SPRINT_HOWTO.md)
 
 **Contents:**
 - ✅ Setup & authentication instructions
@@ -40,7 +40,7 @@ Sprint planning instructions have been enhanced to integrate **GitHub CLI (gh)**
 ---
 
 ### 2. **Enhanced Sprint Cycle Prompt**
-📁 **File**: [.github/prompts/sprint-cycle.prompt.md](.github/prompts/sprint-cycle.prompt.md)
+📁 **File**: [sprint-cycle.prompt.md](../../.github/prompts/sprint-cycle.prompt.md)
 
 **Updates:**
 - ✅ Quick start section with GitHub CLI examples
@@ -128,7 +128,7 @@ gh issue create \
 | Count points | `gh issue list --label sprint-X --state closed --json number` |
 | Create retro notes | `gh issue create --title "Retrospective"` |
 
-**Full command reference**: [GITHUB_CLI_SPRINT_HOWTO.md](#github-cli-sprint-howto-guide)
+**Full command reference**: [GITHUB_CLI_SPRINT_HOWTO.md](GITHUB_CLI_SPRINT_HOWTO.md)
 
 ---
 
@@ -263,7 +263,7 @@ source ~/.zshrc
 
 ## Next Steps
 
-1. **Install GitHub CLI** (see [Setup Instructions](#setup-instructions))
+1. **Install GitHub CLI** (see [Setup Instructions](GITHUB_CLI_IMPLEMENTATION.md))
 2. **Review the How-To Guide** ([GITHUB_CLI_SPRINT_HOWTO.md](GITHUB_CLI_SPRINT_HOWTO.md))
 3. **Create sample sprint project** using `gh project create`
 4. **Test key commands** from the guide
@@ -277,9 +277,14 @@ source ~/.zshrc
 
 ```
 .github/prompts/
-├── sprint-cycle.prompt.md ........... Main sprint workflow (UPDATED)
-├── GITHUB_CLI_SPRINT_HOWTO.md ....... Complete CLI reference (NEW)
+├── sprint-cycle.prompt.md ........... Main sprint workflow
 └── [other prompts]
+
+.ai/workflows/
+├── GITHUB_CLI_SPRINT_HOWTO.md ....... Complete CLI reference
+├── GITHUB_CLI_IMPLEMENTATION.md ..... Implementation guide
+├── GITHUB_CLI_QUICK_REFERENCE.md .... Quick reference card
+└── [other workflows]
 
 scripts/
 ├── daily-standup.sh ................ Sample automation script

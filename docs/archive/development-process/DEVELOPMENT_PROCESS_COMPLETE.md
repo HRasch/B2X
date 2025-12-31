@@ -11,7 +11,7 @@
 A complete, structured development process framework addressing all your requirements:
 
 ### ✅ Requirement 1: "Software must be fully compilable before next step"
-**Document**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](./DEVELOPMENT_PROCESS_FRAMEWORK.md) §4  
+**Document**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md) §4  
 **Details**:
 - ✅ Build Gate #1: Before commit (local)
 - ✅ Build Gate #2: Before push (local)
@@ -29,7 +29,7 @@ No exceptions, no workarounds
 ---
 
 ### ✅ Requirement 2: "Only responsible developer modifies application code"
-**Document**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](./DEVELOPMENT_PROCESS_FRAMEWORK.md) §5  
+**Document**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md) §5  
 **Details**:
 - ✅ Code Ownership: One developer per issue
 - ✅ No concurrent changes (forbidden)
@@ -50,7 +50,7 @@ Violators discussed with Lead Developer
 ---
 
 ### ✅ Requirement 3: "If QA notices bugs, pass back to developer"
-**Document**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](./DEVELOPMENT_PROCESS_FRAMEWORK.md) §9  
+**Document**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md) §9  
 **Details**:
 - ✅ QA Bug Loop: QA reports, developer fixes
 - ✅ QA Cannot: Modify code, merge PRs, close issues
@@ -71,7 +71,7 @@ Bug still exists? → Developer fixes again
 ---
 
 ### ✅ Requirement 4: "Process always starts with pulling a DoR issue"
-**Document**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](./DEVELOPMENT_PROCESS_FRAMEWORK.md) §2 & §6  
+**Document**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md) §2 & §6  
 **Details**:
 - ✅ Phase 0: Pull DoR Issue (mandatory first step)
 - ✅ Definition of Ready checklist (acceptance criteria, dependencies, testing, specs, docs)
@@ -95,7 +95,7 @@ Starts work
 ## 📦 Complete Package Contents
 
 ### 1. Main Framework Document
-**File**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](./DEVELOPMENT_PROCESS_FRAMEWORK.md)  
+**File**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md)  
 **Size**: ~6,500 lines  
 **Contents**:
 - Overview & principles (7 core principles)
@@ -116,7 +116,7 @@ Starts work
 ---
 
 ### 2. Developer Quick Reference Card
-**File**: [DEVELOPER_QUICK_REFERENCE.md](./DEVELOPER_QUICK_REFERENCE.md)  
+**File**: [DEVELOPER_QUICK_REFERENCE.md](../../guides/DEVELOPER_QUICK_REFERENCE.md)  
 **Size**: ~800 lines  
 **Purpose**: Print & keep on desk  
 **Contents**:
@@ -133,7 +133,7 @@ Starts work
 ---
 
 ### 3. Metrics & Tracking Guide
-**File**: [METRICS_AND_TRACKING.md](./METRICS_AND_TRACKING.md)  
+**File**: [METRICS_AND_TRACKING.md](../reference-docs/METRICS_AND_TRACKING.md)  
 **Size**: ~1,500 lines  
 **Purpose**: Track process effectiveness  
 **Contents**:
@@ -151,7 +151,7 @@ Starts work
 ---
 
 ### 4. Implementation Checklist
-**File**: [IMPLEMENTATION_CHECKLIST.md](./IMPLEMENTATION_CHECKLIST.md)  
+**File**: [IMPLEMENTATION_CHECKLIST.md](../../guides/index.md)  
 **Size**: ~1,200 lines  
 **Purpose**: Step-by-step setup guide  
 **Contents**:
@@ -174,7 +174,7 @@ Starts work
 ---
 
 ### 5. Updates Summary
-**File**: [DEVELOPMENT_PROCESS_UPDATES.md](./DEVELOPMENT_PROCESS_UPDATES.md)  
+**File**: [DEVELOPMENT_PROCESS_UPDATES.md](../../guides/DEVELOPMENT_PROCESS_UPDATES.md)  
 **Size**: ~600 lines  
 **Purpose**: Overview of changes  
 **Contents**:
@@ -371,7 +371,7 @@ Your development process now includes:
 
 **Ready to launch?**
 
-1. Print [DEVELOPER_QUICK_REFERENCE.md](./DEVELOPER_QUICK_REFERENCE.md)
+1. Print [DEVELOPER_QUICK_REFERENCE.md](../../guides/DEVELOPER_QUICK_REFERENCE.md)
 2. Schedule team workshop (1h)
 3. Create GitHub labels
 4. Update issue templates

@@ -42,3 +42,4 @@ describe('[Component/Function Name]', () => {
 - Reset mocks between tests
 - Use factories for test data
 - Prefer dependency injection over global mocks
+

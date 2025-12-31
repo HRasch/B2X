@@ -171,7 +171,7 @@ All 15 core agents assigned with clear responsibilities:
 - Current Status: [current.md](current.md)
 
 ### Project Context
-- Agent Team: [/.github/AGENT_TEAM_REGISTRY.md](../../.github/AGENT_TEAM_REGISTRY.md)
+- Agent Team: [/.ai/collaboration/AGENT_TEAM_REGISTRY.md](../../.ai/collaboration/AGENT_TEAM_REGISTRY.md)
 - Copilot Instructions: [/.github/copilot-instructions.md](../../.github/copilot-instructions.md)
 - Phase 1 Readiness: [/.ai/status/PHASE1_LAUNCH_READINESS.md](../status/PHASE1_LAUNCH_READINESS.md)
 

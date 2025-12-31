@@ -133,7 +133,7 @@ apt install gh   # Linux
 
 ## 📚 Full Documentation
 
-See: `.github/instructions/update-github-issues-sprint.md`
+See: `.ai/workflows/update-github-issues-sprint.md`
 
 For complete step-by-step instructions with screenshots and templates.
 

@@ -473,7 +473,7 @@ Major version update with breaking changes
 Improved performance, new features, but requires testing
 
 ## Migration
-See [react-migration.md](.ai/knowledgebase/software/react/v17--to--v18.md)
+See [react-migration.md](../knowledgebase/INDEX.md)
 
 ## Tasks
 - [ ] Update package.json
@@ -913,6 +913,6 @@ Total: ~6-8 weeks
 
 **Related Files:**
 - [CONTEXT_OPTIMIZATION.md](.ai/guidelines/CONTEXT_OPTIMIZATION.md)
-- [SUBAGENT_DELEGATION.md](.ai/guidelines/SUBAGENT_DELEGATION.md)
+- [GL-002-SUBAGENT_DELEGATION.md](../../.ai/guidelines/GL-002-SUBAGENT_DELEGATION.md)
 - [code-review.prompt.md](../../.github/prompts/code-review.prompt.md)
 - [dependency-upgrade-research.prompt.md](../../.github/prompts/dependency-upgrade-research.prompt.md)

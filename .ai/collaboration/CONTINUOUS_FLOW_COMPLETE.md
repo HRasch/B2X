@@ -106,7 +106,7 @@ Agent starts → Works continuously → Task completes
 
 **When:** Immediately upon task completion (not at 4:30 PM)
 
-**Where:** [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+**Where:** [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 
 **What:**
 ```
@@ -236,7 +236,7 @@ Blockers: 0 (clear)
 → [CONTINUOUS_FLOW_QUICKSTART.md](./CONTINUOUS_FLOW_QUICKSTART.md)
 
 **For Work Logging:**
-→ [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+→ [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 
 **For Metrics:**
 → [ITERATION_001_METRICS.md](../sprint/ITERATION_001_METRICS.md) (live, continuous updates)

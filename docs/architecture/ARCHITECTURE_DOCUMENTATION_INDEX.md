@@ -10,11 +10,11 @@
 ## 🎯 Quick Start by Role
 
 ### I'm the Software Architect (@software-architect)
-**Start here**: [ARCHITECTURE_DOCUMENTATION_ACTIVATION.md](./ARCHITECTURE_DOCUMENTATION_ACTIVATION.md) (10 min)
+**Start here**: [ARCHITECTURE_DOCUMENTATION_ACTIVATION.md](../../.ai/decisions/INDEX.md) (10 min)
 
 Your responsibilities:
 - [ ] Read ARCHITECTURE_DOCUMENTATION_ACTIVATION.md for first-week plan
-- [ ] Review [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](./ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md) for authority rules
+- [ ] Review [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](../../.ai/decisions/INDEX.md) for authority rules
 - [ ] Understand your exclusive control over estimations, design decisions, and scope
 - [ ] Plan quarterly architecture reviews
 
@@ -24,7 +24,7 @@ Your responsibilities:
 - [ESTIMATIONS_AND_CAPACITY.md](./docs/architecture/ESTIMATIONS_AND_CAPACITY.md) - Update during issue reviews
 
 ### I'm a Tech Lead or Architect
-**Start here**: [ARCHITECTURE_QUICK_START.md](./docs/ARCHITECTURE_QUICK_START.md) (5 min)
+**Start here**: [ARCHITECTURE_QUICK_START.md](ARCHITECTURE_QUICK_REFERENCE.md) (5 min)
 
 You can:
 - ✅ Read all architecture documentation
@@ -39,7 +39,7 @@ You can:
 - [ESTIMATIONS_AND_CAPACITY.md](./docs/architecture/ESTIMATIONS_AND_CAPACITY.md) - Understand project scale & timeline
 
 ### I'm a Developer (Backend/Frontend)
-**Start here**: [ARCHITECTURE_QUICK_START.md](./docs/ARCHITECTURE_QUICK_START.md) (5 min)
+**Start here**: [ARCHITECTURE_QUICK_START.md](ARCHITECTURE_QUICK_REFERENCE.md) (5 min)
 
 You need to know:
 - ✅ What B2Connect is (scope, vision, constraints) → [SOFTWARE_DEFINITION.md](./docs/architecture/SOFTWARE_DEFINITION.md)
@@ -48,7 +48,7 @@ You need to know:
 - ✅ What patterns to follow → Reference implementation in code
 
 ### I'm a Product Owner or Manager
-**Start here**: [ARCHITECTURE_QUICK_START.md](./docs/ARCHITECTURE_QUICK_START.md) (5 min)
+**Start here**: [ARCHITECTURE_QUICK_START.md](ARCHITECTURE_QUICK_REFERENCE.md) (5 min)
 
 You need:
 - ✅ What's in scope (and what's not) → [SOFTWARE_DEFINITION.md](./docs/architecture/SOFTWARE_DEFINITION.md)
@@ -56,7 +56,7 @@ You need:
 - ✅ What architectural constraints exist → [SOFTWARE_DEFINITION.md](./docs/architecture/SOFTWARE_DEFINITION.md) - Constraints section
 
 ### I'm Testing/QA
-**Start here**: [ARCHITECTURE_QUICK_START.md](./docs/ARCHITECTURE_QUICK_START.md) (5 min)
+**Start here**: [ARCHITECTURE_QUICK_START.md](ARCHITECTURE_QUICK_REFERENCE.md) (5 min)
 
 You need:
 - ✅ How services communicate → [DESIGN_DECISIONS.md](./docs/architecture/DESIGN_DECISIONS.md) - Event-driven & Microservices decisions
@@ -121,14 +121,14 @@ You need:
 - Monthly: Review estimations accuracy
 - Quarterly: Full architecture review
 
-For details: See [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](./ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md)
+For details: See [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](../../.ai/decisions/INDEX.md)
 
 ---
 
 ## 📖 Reading Paths by Audience
 
 ### 5-Minute Orientation (Everyone)
-1. [ARCHITECTURE_QUICK_START.md](./docs/ARCHITECTURE_QUICK_START.md) - 5 min
+1. [ARCHITECTURE_QUICK_START.md](ARCHITECTURE_QUICK_REFERENCE.md) - 5 min
 
 ### 15-Minute Crash Course (Developers)
 1. [SOFTWARE_DEFINITION.md](./docs/architecture/SOFTWARE_DEFINITION.md) - Vision & Scope sections (5 min)
@@ -145,16 +145,16 @@ For details: See [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](./ARCHITECTURE_GOVERNA
 1. [SOFTWARE_DEFINITION.md](./docs/architecture/SOFTWARE_DEFINITION.md) - Full (8 min)
 2. [ESTIMATIONS_AND_CAPACITY.md](./docs/architecture/ESTIMATIONS_AND_CAPACITY.md) - Full (15 min)
 3. [DESIGN_DECISIONS.md](./docs/architecture/DESIGN_DECISIONS.md) - Decision summaries (15 min)
-4. [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](./ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md) - Change processes (15 min)
+4. [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](../../.ai/decisions/INDEX.md) - Change processes (15 min)
 5. [PROJECT_DASHBOARD.md](./PROJECT_DASHBOARD.md) - Current status (7 min)
 
 ### 2-Hour Deep Dive (Software Architect Onboarding)
-1. [ARCHITECTURE_DOCUMENTATION_ACTIVATION.md](./ARCHITECTURE_DOCUMENTATION_ACTIVATION.md) - Your role (15 min)
+1. [ARCHITECTURE_DOCUMENTATION_ACTIVATION.md](../../.ai/decisions/INDEX.md) - Your role (15 min)
 2. [SOFTWARE_DEFINITION.md](./docs/architecture/SOFTWARE_DEFINITION.md) - Full read (8 min)
 3. [DESIGN_DECISIONS.md](./docs/architecture/DESIGN_DECISIONS.md) - Full read (10 min)
 4. [ESTIMATIONS_AND_CAPACITY.md](./docs/architecture/ESTIMATIONS_AND_CAPACITY.md) - Full read (10 min)
 5. [ARCHITECTURAL_DOCUMENTATION_STANDARDS.md](./docs/architecture/ARCHITECTURAL_DOCUMENTATION_STANDARDS.md) - Full read (10 min)
-6. [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](./ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md) - Full read (20 min)
+6. [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](../../.ai/decisions/INDEX.md) - Full read (20 min)
 7. Understand authority, governance, change processes
 8. Review compliance requirements from P0.1-P0.9 docs
 
@@ -227,14 +227,14 @@ Answers: "What quality should architecture docs have?" "How is architecture main
 ## 🚀 Getting Started
 
 ### For @software-architect (Your First Day)
-1. [ ] Read [ARCHITECTURE_DOCUMENTATION_ACTIVATION.md](./ARCHITECTURE_DOCUMENTATION_ACTIVATION.md)
+1. [ ] Read [ARCHITECTURE_DOCUMENTATION_ACTIVATION.md](../../.ai/decisions/INDEX.md)
 2. [ ] Review all 5 core architecture documents
-3. [ ] Understand [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](./ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md)
+3. [ ] Understand [ARCHITECTURE_GOVERNANCE_ENFORCEMENT.md](../../.ai/decisions/INDEX.md)
 4. [ ] Join your first architecture review meeting
 5. [ ] Ask questions (document answers!)
 
 ### For Everyone Else
-1. [ ] Read [ARCHITECTURE_QUICK_START.md](./docs/ARCHITECTURE_QUICK_START.md)
+1. [ ] Read [ARCHITECTURE_QUICK_START.md](ARCHITECTURE_QUICK_REFERENCE.md)
 2. [ ] Bookmark the docs you need
 3. [ ] Ask @software-architect if you have architecture questions
 4. [ ] Follow the change request processes if you want changes
@@ -259,7 +259,7 @@ Monitor monthly:
 
 - [PROJECT_DASHBOARD.md](./PROJECT_DASHBOARD.md) - Overall project status
 - [APPLICATION_SPECIFICATIONS.md](./docs/APPLICATION_SPECIFICATIONS.md) - Feature specifications
-- [GOVERNANCE_RULES.md](./.github/docs/processes/GOVERNANCE/GOVERNANCE_RULES.md) - Overall governance (not just architecture)
+- [GOVERNANCE_RULES.md](../../GOVERNANCE.md) - Overall governance (not just architecture)
 - [copilot-instructions.md](./.github/copilot-instructions.md) - AI agent instructions
 
 ---

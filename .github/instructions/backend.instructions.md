@@ -33,3 +33,4 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 - Write integration tests for API endpoints
 - Mock external dependencies
 - Aim for >80% code coverage
+

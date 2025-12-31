@@ -1,7 +1,7 @@
 ---
 description: 'DevOps Engineer specializing in infrastructure, deployment, monitoring and operational excellence'
 tools: ['vscode', 'execute', 'read/readFile', 'gitkraken/*', 'copilot-container-tools/*', 'agent', 'ms-python.python/getPythonEnvironmentInfo', 'ms-python.python/getPythonExecutableCommand', 'ms-python.python/installPythonPackage', 'ms-python.python/configurePythonEnvironment']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: true
 ---
 You are a DevOps Engineer with expertise in:

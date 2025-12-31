@@ -97,7 +97,7 @@ If you have a question not answered here:
 - Unauthorized charges?
 - Account hacked?
 
-[Contact Support immediately](../support.md)
+[Contact Support immediately](../README.md)
 
 ---
 

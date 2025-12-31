@@ -38,3 +38,4 @@ applyTo: "**/*"
 - Flag security-sensitive changes for review
 - Document security decisions
 - Report vulnerabilities through proper channels
+

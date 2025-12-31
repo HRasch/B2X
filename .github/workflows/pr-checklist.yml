@@ -1,3 +1,4 @@
+---
 name: PR Checklist Validation
 
 permissions:
@@ -5,7 +6,7 @@ permissions:
   issues: write
   pull-requests: write
 
-on:
+'on':
   pull_request:
     types: [opened, edited, synchronize, reopened]
 
@@ -46,18 +47,24 @@ jobs:
 
             const missing = [];
             if (!hasLinkedIssue) missing.push('Linked issue / story (mention `Closes #nn` or similar)');
-            if (!docsChanged && !(pr.body || '').includes('Documentation cleaned')) missing.push('Documentation cleaned (either update docs or add "Documentation cleaned" to PR body)');
+            if (!docsChanged && !(pr.body || '').includes('Documentation cleaned')) {
+              missing.push('Documentation cleaned (either update docs or add "Documentation cleaned" to PR body)');
+            }
             if (!changelogMention) missing.push('CHANGELOG updated (or mark as N/A in PR body)');
-            if (!sprintDocsMention && (pr.body || '').toLowerCase().includes('starting sprint')) missing.push('Sprint docs aggregated into `.ai/sprint/{sprint-name}/` (when starting a sprint)');
+            if (!sprintDocsMention && (pr.body || '').toLowerCase().includes('starting sprint')) {
+              missing.push('Sprint docs aggregated into `.ai/sprint/{sprint-name}/` (when starting a sprint)');
+            }
 
             if (missing.length > 0) {
-              const body = ['**PR checklist validation (warning)**', '', 'The following checklist items appear to be missing:']
-                .concat(missing.map(m => '- ' + m))
-                .concat(['', 'This check is a friendly reminder — it does not block the PR. Please update the PR description or files to address these items.']);
+              const body = [];
+              body.push('**PR checklist validation (warning)**');
+              body.push('');
+              body.push('The following checklist items appear to be missing:');
+              missing.forEach(m => body.push('- ' + m));
+              body.push('');
+              body.push('This check is a friendly reminder — it does not block the PR. Please update the PR description or files to address these items.');
 
-              // Post or update a single bot comment to avoid duplicates
               const marker = '<!-- PR-CHECKLIST-BOT -->';
-              // Separate marker and content with an extra newline to avoid rendering issues
               const fullBody = marker + '\n\n' + body.join('\n');
 
               const comments = await github.paginate(github.rest.issues.listComments, {

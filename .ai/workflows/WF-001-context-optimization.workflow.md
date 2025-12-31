@@ -48,14 +48,14 @@ TIER 1 - CRITICAL (Keep Inline, <2 KB)
 ✓ Deadline: 31.12.2025
 
 TIER 2 - IMPORTANT (Link)
-- API Design patterns → [API Design](../../.ai/knowledgebase/patterns/api-design.md)
-- Database schema → [Schema ADR](../../.ai/decisions/ADR-001-schema.md)
-- Error handling → [Error Patterns](../../.ai/knowledgebase/patterns/error-handling.md)
+-- API Design patterns → [API Design](/.ai/knowledgebase/INDEX.md)
+- Database schema → [Schema ADR](../decisions/INDEX.md)
+-- Error handling → [Error Patterns](/.ai/knowledgebase/INDEX.md)
 
 TIER 3 - REFERENCE (Link)
 - Code review checklist → [Code Review](../code-review.prompt.md)
-- TypeScript guidelines → [TypeScript Best Practices](../../.ai/guidelines/typescript.md)
-- Testing strategy → [Testing Guide](../../.ai/knowledgebase/best-practices/testing.md)
+- TypeScript guidelines → [TypeScript Best Practices](../knowledgebase/dependency-updates/typescript.md)
+- Testing strategy → [Testing Guide](../knowledgebase/INDEX.md)
 
 TIER 4 - ARCHIVE (Remove)
 ✗ Yesterday's debug logs
@@ -86,11 +86,11 @@ Total context: 8 KB (81% reduction)
 
 Breakdown:
 - Agent definition: 2 KB (unchanged)
-- API link: 0.1 KB → [API Spec](docs/api.md)
-- Database link: 0.1 KB → [Schema](decisions/schema-adr.md)
-- Error handling link: 0.1 KB → [Patterns](knowledgebase/patterns/)
+-- API link: 0.1 KB → [API Spec](/docs/)
+- Database link: 0.1 KB → [Schema](../decisions/INDEX.md)
+-- Error handling link: 0.1 KB → [Patterns](/.ai/knowledgebase/INDEX.md)
 - Current task: 3 KB (focused)
-- Decision references: 0.7 KB → [ADRs](decisions/)
+- Decision references: 0.7 KB → [ADRs](../decisions)
 - Links summary: 2 KB
 ```
 
@@ -254,7 +254,7 @@ Output: `.ai/logs/monthly-context-report-{month}.md`
 Full API spec with all endpoints, parameters, response formats...
 
 ✅ AFTER (0.1 KB inline + link):
-[See API Spec](docs/api.md) for endpoints. Key auth header: `Authorization: Bearer {token}`
+[See API Spec](/docs/) for endpoints. Key auth header: `Authorization: Bearer {token}`
 ```
 
 ### Pattern 2: Error Handling
@@ -263,7 +263,7 @@ Full API spec with all endpoints, parameters, response formats...
 Try/catch blocks explained, error types listed, examples shown...
 
 ✅ AFTER (0.1 KB inline + link):
-[See error patterns](patterns/error-handling.md). Always validate before processing.
+[See error patterns](/.ai/knowledgebase/INDEX.md). Always validate before processing.
 ```
 
 ### Pattern 3: Guidelines
@@ -272,7 +272,7 @@ Try/catch blocks explained, error types listed, examples shown...
 Full code style guide, naming conventions, formatting rules...
 
 ✅ AFTER (0.1 KB inline + link):
-[Follow TypeScript guidelines](guidelines/typescript.md)
+[Follow TypeScript guidelines](../knowledgebase/dependency-updates/typescript.md)
 ```
 
 ### Pattern 4: Decision History
@@ -282,7 +282,7 @@ Full code style guide, naming conventions, formatting rules...
 In the past we used B but migrated to X because..."
 
 ✅ AFTER (link to ADR):
-[See ADR-007: Architecture Decision](decisions/ADR-007-chosen-approach.md)
+[See ADR-007: Architecture Decision](../decisions/INDEX.md)
 ```
 
 ## Metrics & Monitoring

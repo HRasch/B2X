@@ -429,6 +429,6 @@ Database
 
 ## 📚 Weitere Ressourcen
 
-- [ENTITY_EXTENSIONS_IMPLEMENTATION.md](ENTITY_EXTENSIONS_IMPLEMENTATION.md) - Full Guide
-- [Copilot Instructions](../.github/copilot-instructions.md) - Development Patterns
+- [ENTITY_EXTENSIONS_IMPLEMENTATION.md](../implementation-guides/ENTITY_EXTENSIONS_IMPLEMENTATION.md) - Full Guide
+- [Copilot Instructions](../../../.github/copilot-instructions.md) - Development Patterns
 - [ASP.NET Core Model Binding Docs](https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding)

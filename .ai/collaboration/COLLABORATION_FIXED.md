@@ -51,7 +51,7 @@ Work logged **immediately** upon task completion (not batched at 4:30 PM):
 - Dashboard refreshes (no fixed time)
 - Next task begins immediately (no waiting for standup)
 
-**Logging File:** [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+**Logging File:** [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 
 ### **3. Immediate Blocker Escalation (NEW)**
 

@@ -72,12 +72,12 @@ B2Connect ist eine Online-Einkaufsplattform, auf der Sie:
 ## Nächste Schritte
 
 ✅ [Wie Sie sich anmelden](./login.md)  
-✅ [Wie Sie eine Bestellung aufgeben](./placing-orders.md)  
+✅ [Wie Sie eine Bestellung aufgeben](../../../README.md)  
 ✅ [Wie Sie Ihr Passwort zurücksetzen](./reset-password.md)  
 ✅ [Kontosicherheitstipps](./account-security.md)  
 
 ---
 
-**Benötigen Sie Hilfe?** [Support kontaktieren](../support.md)  
+**Benötigen Sie Hilfe?** [Support kontaktieren](../README.md)  
 **Version**: 1.0 | **Zuletzt aktualisiert**: 29. Dezember 2025
 

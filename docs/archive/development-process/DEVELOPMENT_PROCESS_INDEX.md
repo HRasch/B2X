@@ -7,7 +7,7 @@
 ## 📍 Where to Start
 
 ### **For Developers** (5 min startup)
-1. **Print**: [DEVELOPER_QUICK_REFERENCE.md](./docs/DEVELOPER_QUICK_REFERENCE.md)
+1. **Print**: [DEVELOPER_QUICK_REFERENCE.md](../../guides/DEVELOPER_QUICK_REFERENCE.md)
 2. **Watch**: 10-min video walkthrough (link in team Slack)
 3. **Do**: Pull a ready-for-dev issue and make a PR
 4. **Questions?** → Ask in #dev-questions
@@ -20,8 +20,8 @@
 ---
 
 ### **For Team Leads** (1 hour setup)
-1. **Read**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](./docs/DEVELOPMENT_PROCESS_FRAMEWORK.md) (full)
-2. **Review**: [IMPLEMENTATION_CHECKLIST.md](./docs/IMPLEMENTATION_CHECKLIST.md)
+1. **Read**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md) (full)
+2. **Review**: [IMPLEMENTATION_CHECKLIST.md](../../guides/index.md)
 3. **Prepare**: 1-hour team workshop
 4. **Execute**: Week 1 setup tasks
 
@@ -77,7 +77,7 @@
 - "Who does what?" → See Role section
 - "What if...?" → See Critical Escalation
 
-**Link**: [./docs/DEVELOPMENT_PROCESS_FRAMEWORK.md](./docs/DEVELOPMENT_PROCESS_FRAMEWORK.md)
+**Link**: [./docs/DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md)
 
 ---
 
@@ -103,7 +103,7 @@
 - "What's a build gate?" → Quick Ref §Gates
 - Print & laminate, keep on desk
 
-**Link**: [./docs/DEVELOPER_QUICK_REFERENCE.md](./docs/DEVELOPER_QUICK_REFERENCE.md)
+**Link**: [./docs/DEVELOPER_QUICK_REFERENCE.md](../../guides/DEVELOPER_QUICK_REFERENCE.md)
 
 ---
 
@@ -139,7 +139,7 @@
 - "Why is X metric low?" → See action items
 - Monday morning metric reviews → Use this
 
-**Link**: [./docs/METRICS_AND_TRACKING.md](./docs/METRICS_AND_TRACKING.md)
+**Link**: [./docs/METRICS_AND_TRACKING.md](../reference-docs/METRICS_AND_TRACKING.md)
 
 ---
 
@@ -175,7 +175,7 @@
 - New team member: Use training materials
 - Process update needed: Check role sections
 
-**Link**: [./docs/IMPLEMENTATION_CHECKLIST.md](./docs/IMPLEMENTATION_CHECKLIST.md)
+**Link**: [./docs/IMPLEMENTATION_CHECKLIST.md](../../guides/index.md)
 
 ---
 
@@ -196,7 +196,7 @@
 - "Why these changes?" → Rationale included
 - Onboarding new team member → Show them this
 
-**Link**: [./docs/DEVELOPMENT_PROCESS_UPDATES.md](./docs/DEVELOPMENT_PROCESS_UPDATES.md)
+**Link**: [./docs/DEVELOPMENT_PROCESS_UPDATES.md](../../guides/DEVELOPMENT_PROCESS_UPDATES.md)
 
 ---
 
@@ -462,8 +462,8 @@ Docs: All in ./docs/ and root directory
 
 ## 🎯 Next Step
 
-1. **Print**: [DEVELOPER_QUICK_REFERENCE.md](./docs/DEVELOPER_QUICK_REFERENCE.md)
-2. **Read**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](./docs/DEVELOPMENT_PROCESS_FRAMEWORK.md) (§0-6)
+1. **Print**: [DEVELOPER_QUICK_REFERENCE.md](../../guides/DEVELOPER_QUICK_REFERENCE.md)
+2. **Read**: [DEVELOPMENT_PROCESS_FRAMEWORK.md](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md) (§0-6)
 3. **Schedule**: Team workshop (1h)
 4. **Setup**: GitHub + Slack (Day 4-5 of Week 1)
 5. **Launch**: Pull first ready-for-dev issue
@@ -473,9 +473,9 @@ Docs: All in ./docs/ and root directory
 ## 🔀 Pull Request Workflow (NEW!) ✨
 
 ### Quick Start: Opening a PR
-1. **Read**: [PR_WORKFLOW_QUICK_GUIDE.md](./docs/PR_WORKFLOW_QUICK_GUIDE.md) (5 min)
-2. **Review**: [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](./docs/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow) (detailed)
-3. **Setup**: Follow [GITHUB_PR_SETUP.md](./docs/GITHUB_PR_SETUP.md) (Scrum Master task)
+1. **Read**: [PR_WORKFLOW_QUICK_GUIDE.md](../reference-docs/github-workflows/PR_WORKFLOW_QUICK_GUIDE.md) (5 min)
+2. **Review**: [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow) (detailed)
+3. **Setup**: Follow [GITHUB_PR_SETUP.md](../reference-docs/github-workflows/GITHUB_PR_SETUP.md) (Scrum Master task)
 4. **Open PR**: Use template, link issue #XXX, pass checklist
 
 ### What's New
@@ -491,8 +491,8 @@ Docs: All in ./docs/ and root directory
 - PR rejection policy
 
 **New Documents**:
-- [PR_WORKFLOW_QUICK_GUIDE.md](./docs/PR_WORKFLOW_QUICK_GUIDE.md) - Fast developer reference
-- [GITHUB_PR_SETUP.md](./docs/GITHUB_PR_SETUP.md) - Automation & branch protection setup
+- [PR_WORKFLOW_QUICK_GUIDE.md](../reference-docs/github-workflows/PR_WORKFLOW_QUICK_GUIDE.md) - Fast developer reference
+- [GITHUB_PR_SETUP.md](../reference-docs/github-workflows/GITHUB_PR_SETUP.md) - Automation & branch protection setup
 
 ### Key Requirements
 

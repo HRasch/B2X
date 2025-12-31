@@ -437,8 +437,8 @@ WEEK 9-10: Testing & Validation
 
 - [EU AI Act Official Text](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)
 - [AI Act Article-by-Article Guide](https://www.europarl.europa.eu/topics/en/article/20240206JAG00909/eu-artificial-intelligence-act-explained)
-- [P0.7_AI_ACT_TESTS.md](P0.7_AI_ACT_TESTS.md) - Comprehensive test specifications (15 tests)
-- [EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md](EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md) - Full Phase 0.7 specification
+- [P0.7_AI_ACT_TESTS.md](../../compliance) - Comprehensive test specifications (15 tests)
+- [EU_SAAS_COMPLIANCE_IMPLEMENTATION_ROADMAP.md](../../compliance) - Full Phase 0.7 specification
 
 ---
 

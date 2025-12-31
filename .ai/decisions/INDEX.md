@@ -1,8 +1,18 @@
+---
+docid: ADR-INDEX
+title: Architecture & Knowledge Base Index
+owner: "@Architect"
+status: Active
+---
+
 # Architecture & Knowledge Base Index
 
-**Last Updated:** December 30, 2025  
+**DocID**: `ADR-INDEX`  
+**Last Updated:** December 31, 2025  
 **Maintained By:** @Architect, @TechLead  
 **Status:** ✅ Active
+
+See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 
 ---
 
@@ -30,8 +40,16 @@
 
 **ADR Index:** System decisions documented for future reference
 
+| DocID | Title | Status | Impact |
+|-------|-------|--------|--------|
+| `ADR-001` | Wolverine over MediatR | ✅ Accepted | High |
+| `ADR-002` | Onion Architecture | ✅ Accepted | High |
+| `ADR-003` | Aspire Orchestration | ✅ Accepted | High |
+| `ADR-004` | PostgreSQL Multitenancy | ✅ Accepted | High |
+
 #### ADR-001: Event-Driven Architecture with Wolverine CQRS
 - **File:** [ADR-001-event-driven-architecture.md](./ADR-001-event-driven-architecture.md)
+- **DocID:** `ADR-001`
 - **Status:** ✅ Accepted
 - **Impact:** High - Core system communication pattern
 - **Summary:**
@@ -46,7 +64,7 @@
 - Solution: Event-driven with Wolverine
 - Implementation: Code examples, configuration
 - Monitoring: Metrics & observability
-- Related: ADR-002, ADR-003, ADR-004
+- Related: `[ADR-002]`, `[ADR-003]`, `[ADR-004]`
 
 #### ADR-002: Multi-Database per Bounded Context (Planned)
 - **Status:** 📋 Scheduled for Sprint 1
@@ -70,7 +88,7 @@
 Located: `.ai/knowledgebase/architecture/`
 
 #### Service Communication Guide
-- **File:** [SERVICE_COMMUNICATION.md](../../knowledgebase/architecture/SERVICE_COMMUNICATION.md)
+- **File:** [SERVICE_COMMUNICATION.md](../knowledgebase/architecture/SERVICE_COMMUNICATION.md)
 - **Purpose:** Practical guide to service-to-service communication
 - **When to Read:** Starting new inter-service integration
 
@@ -128,7 +146,7 @@ Located: `.ai/knowledgebase/architecture/`
 Located: `.ai/knowledgebase/operations/`
 
 #### Scalability & Performance Guide
-- **File:** [SCALABILITY_GUIDE.md](../../knowledgebase/operations/SCALABILITY_GUIDE.md)
+- **File:** [SCALABILITY_GUIDE.md](../knowledgebase/operations/SCALABILITY_GUIDE.md)
 - **Purpose:** Scale from 1K to 50K+ req/sec
 - **When to Read:** Planning capacity or scaling work
 
@@ -192,7 +210,7 @@ Located: `.ai/knowledgebase/operations/`
 → Then: [ARCHITECTURE_REVIEW_SUMMARY.md](./ARCHITECTURE_REVIEW_SUMMARY.md)
 
 ### "I'm implementing service-to-service communication"
-→ Start: [SERVICE_COMMUNICATION.md](../../knowledgebase/architecture/SERVICE_COMMUNICATION.md)  
+→ Start: [SERVICE_COMMUNICATION.md](../knowledgebase/architecture/SERVICE_COMMUNICATION.md)  
 → Reference: [ADR-001](./ADR-001-event-driven-architecture.md)
 
 ### "I need to make a new architectural decision"
@@ -201,7 +219,7 @@ Located: `.ai/knowledgebase/operations/`
 → Store: Create ADR-00N in `.ai/decisions/`
 
 ### "I need to scale the system"
-→ Start: [SCALABILITY_GUIDE.md](../../knowledgebase/operations/SCALABILITY_GUIDE.md)  
+→ Start: [SCALABILITY_GUIDE.md](../knowledgebase/operations/SCALABILITY_GUIDE.md)  
 → Reference: Current capacity analysis, bottleneck identification
 
 ### "I need to optimize database performance"
@@ -214,7 +232,7 @@ Located: `.ai/knowledgebase/operations/`
 
 ### "I need to understand event-driven architecture"
 → Start: [ADR-001](./ADR-001-event-driven-architecture.md)  
-→ Deep-dive: [SERVICE_COMMUNICATION.md](../../knowledgebase/architecture/SERVICE_COMMUNICATION.md) → Asynchronous Events Pattern
+→ Deep-dive: [SERVICE_COMMUNICATION.md](../knowledgebase/architecture/SERVICE_COMMUNICATION.md) → Asynchronous Events Pattern
 
 ---
 
@@ -305,13 +323,13 @@ When new architecture decisions are made:
 - [ARCHITECTURE_REVIEW_SUMMARY.md](./ARCHITECTURE_REVIEW_SUMMARY.md)
 
 ### In Knowledge Base (.ai/knowledgebase/)
-- [architecture/SERVICE_COMMUNICATION.md](../../knowledgebase/architecture/SERVICE_COMMUNICATION.md)
-- [operations/SCALABILITY_GUIDE.md](../../knowledgebase/operations/SCALABILITY_GUIDE.md)
+- [architecture/SERVICE_COMMUNICATION.md](../knowledgebase/architecture/SERVICE_COMMUNICATION.md)
+- [operations/SCALABILITY_GUIDE.md](../knowledgebase/operations/SCALABILITY_GUIDE.md)
 
 ### Project Root
 - [README.md](../../../README.md) - Project overview
-- [QUICK_START_GUIDE.md](../../../QUICK_START_GUIDE.md) - Getting started
-- [.github/AGENT_TEAM_REGISTRY.md](../../../.github/AGENT_TEAM_REGISTRY.md) - Agent descriptions
+- [QUICK_START_GUIDE.md](../../QUICK_START_GUIDE.md) - Getting started
+- [.ai/collaboration/AGENT_TEAM_REGISTRY.md](../../../.ai/collaboration/AGENT_TEAM_REGISTRY.md) - Agent descriptions
 
 ---
 
@@ -319,12 +337,12 @@ When new architecture decisions are made:
 
 **For New Team Members:**
 1. Read: [ARCHITECTURE_REVIEW_SUMMARY.md](./ARCHITECTURE_REVIEW_SUMMARY.md) (10 min)
-2. Read: [Service Communication Guide](../../knowledgebase/architecture/SERVICE_COMMUNICATION.md) (30 min)
+2. Read: [Service Communication Guide](../knowledgebase/architecture/SERVICE_COMMUNICATION.md) (30 min)
 3. Reference: [ARCHITECTURE_REVIEW_2025_12_30.md](./ARCHITECTURE_REVIEW_2025_12_30.md) (deep dive)
 4. Review: [ADR-001](./ADR-001-event-driven-architecture.md) (decision rationale)
 
 **For Scaling Work:**
-1. Read: [SCALABILITY_GUIDE.md](../../knowledgebase/operations/SCALABILITY_GUIDE.md) (30 min)
+1. Read: [SCALABILITY_GUIDE.md](../knowledgebase/operations/SCALABILITY_GUIDE.md) (30 min)
 2. Identify: Current bottleneck
 3. Reference: Relevant scaling phase
 4. Implement: Recommended optimization

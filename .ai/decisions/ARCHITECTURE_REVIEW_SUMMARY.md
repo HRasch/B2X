@@ -55,7 +55,7 @@ Comprehensive architecture review of B2Connect has been completed with full docu
 Event-Driven Architecture with Wolverine CQRS is the chosen pattern for cross-service coordination.
 
 ### 3. Service Communication Guide
-**File:** [.ai/knowledgebase/architecture/SERVICE_COMMUNICATION.md](../../.ai/knowledgebase/architecture/SERVICE_COMMUNICATION.md)
+**File:** [.ai/knowledgebase/architecture/SERVICE_COMMUNICATION.md](../knowledgebase/INDEX.md)
 
 **Contents:**
 - 3 communication patterns explained:
@@ -72,7 +72,7 @@ Event-Driven Architecture with Wolverine CQRS is the chosen pattern for cross-se
 **Code Examples:** 15+ practical examples
 
 ### 4. Scalability & Performance Guide
-**File:** [.ai/knowledgebase/operations/SCALABILITY_GUIDE.md](../../.ai/knowledgebase/operations/SCALABILITY_GUIDE.md)
+**File:** [.ai/knowledgebase/operations/SCALABILITY_GUIDE.md](../knowledgebase/INDEX.md)
 
 **Contents:**
 - Current capacity analysis
@@ -346,8 +346,8 @@ Event-Driven Architecture with Wolverine CQRS is the chosen pattern for cross-se
 ### Internal Documents Created
 1. [Architecture Review 2025-12-30](../../.ai/decisions/ARCHITECTURE_REVIEW_2025_12_30.md)
 2. [ADR-001: Event-Driven Architecture](../../.ai/decisions/ADR-001-event-driven-architecture.md)
-3. [Service Communication Guide](../../.ai/knowledgebase/architecture/SERVICE_COMMUNICATION.md)
-4. [Scalability & Performance Guide](../../.ai/knowledgebase/operations/SCALABILITY_GUIDE.md)
+3. [Service Communication Guide](../knowledgebase/INDEX.md)
+4. [Scalability & Performance Guide](../knowledgebase/INDEX.md)
 
 ### External References
 - [Wolverine Documentation](https://wolverine.netlify.app/)

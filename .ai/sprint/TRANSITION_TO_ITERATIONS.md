@@ -74,7 +74,7 @@ Phase 3: Validation & Completion
 
 ### 4. Instructions Updated
 
-**File:** `.github/instructions/update-github-issues-sprint.md`
+**File:** `.ai/workflows/update-github-issues-sprint.md`
 
 **Changes:**
 - Title: "Sprint Planning" → "Iteration Planning"
@@ -161,7 +161,7 @@ Both deferred to "Iteration 002" (no specific dates)
 
 ## 📂 Files Modified
 
-1. **`.github/instructions/update-github-issues-sprint.md`**
+1. **`.ai/workflows/update-github-issues-sprint.md`**
    - Title updated: Iteration Planning
    - Labels updated: iteration/*** format
    - Comments updated: velocity-based messaging

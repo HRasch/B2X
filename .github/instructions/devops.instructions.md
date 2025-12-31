@@ -39,3 +39,4 @@ applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terr
 - Use secrets management (not env files in repos)
 - Implement network policies
 - Regular security audits of infrastructure
+

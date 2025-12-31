@@ -720,7 +720,7 @@ onMounted(() => {...})
 
 ## References
 
-- [Wolverine Pattern Reference](WOLVERINE_PATTERN_REFERENCE.md)
+- [Wolverine Pattern Reference](../architecture/WOLVERINE_PATTERN_REFERENCE.md)
 - [FEATURE_IMPLEMENTATION_PATTERNS](FEATURE_IMPLEMENTATION_PATTERNS.md)
 - [Vue 3 Docs](https://vuejs.org/)
 - [Pinia Docs](https://pinia.vuejs.org/)

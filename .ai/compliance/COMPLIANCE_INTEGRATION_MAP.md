@@ -18,7 +18,7 @@ docs/APPLICATION_SPECIFICATIONS.md (Complete specs)
     │   ├─→ GitHub CLI commands
     │   └─→ Checklists & templates
     │
-    ├─→ .github/prompts/COMPLIANCE_QUICK_REFERENCE.md
+    ├─→ .ai/compliance/CMP-001-COMPLIANCE_QUICK_REFERENCE.md
     │   ├─→ One-page developer guide
     │   ├─→ Checklists for each category
     │   └─→ Common mistakes
@@ -285,7 +285,7 @@ Layer 2: Implementation (How we comply)
 └─ .github/prompts/sprint-cycle.prompt.md
 
 Layer 3: Quick Reference (What developers need daily)
-├─ .github/prompts/COMPLIANCE_QUICK_REFERENCE.md
+├─ .ai/compliance/CMP-001-COMPLIANCE_QUICK_REFERENCE.md
 └─ .ai/compliance/COMPLIANCE_ADOPTION.md
 ```
 
@@ -316,8 +316,7 @@ Root
 │
 ├── .github/
 │   ├── prompts/
-│   │   ├── compliance-integration.prompt.md    [NEW - 17K]
-│   │   ├── COMPLIANCE_QUICK_REFERENCE.md       [NEW - 8K]
+│   │   ├── compliance-integration.prompt.md    [Comprehensive guide]
 │   │   ├── git-management.prompt.md            [UPDATED]
 │   │   ├── sprint-cycle.prompt.md              [UPDATED]
 │   │   └── ...other prompts
@@ -330,9 +329,16 @@ Root
 │       └── ...agent definitions
 │
 └── .ai/
-    └── compliance/
-        ├── COMPLIANCE_ADOPTION.md              [NEW - 13K]
-        └── COMPLIANCE_ADOPTION_SUMMARY.md      [NEW - 10K]
+    ├── compliance/
+    │   ├── CMP-001-COMPLIANCE_QUICK_REFERENCE.md       [Developer quick ref]
+    │   ├── COMPLIANCE_ADOPTION.md              [Adoption guide]
+    │   └── COMPLIANCE_ADOPTION_SUMMARY.md      [Summary]
+    │
+    └── workflows/
+        ├── WF-004-GITHUB_CLI_QUICK_REFERENCE.md       [CLI quick ref]
+        ├── WF-006-GITHUB_CLI_SPRINT_HOWTO.md          [CLI how-to]
+        ├── WF-005-GITHUB_CLI_IMPLEMENTATION.md        [CLI impl guide]
+        └── ...other workflows
 ```
 
 ---

@@ -136,7 +136,7 @@
 → [PHASE_1_DEVELOPMENT_START.md](../sprint/PHASE_1_DEVELOPMENT_START.md)
 
 **Work Logging:**
-→ [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+→ [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 
 **Metrics Dashboard:**
 → [ITERATION_001_METRICS.md](../sprint/ITERATION_001_METRICS.md) (live, real-time updates)

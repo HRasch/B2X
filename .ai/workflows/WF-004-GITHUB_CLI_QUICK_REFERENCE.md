@@ -216,7 +216,7 @@ echo "## Description\nFix login bug" | \
 
 - 📖 Full Documentation: https://cli.github.com/manual
 - 🛠️ How-To Guide: [GITHUB_CLI_SPRINT_HOWTO.md](GITHUB_CLI_SPRINT_HOWTO.md)
-- 📋 Sprint Workflow: [sprint-cycle.prompt.md](sprint-cycle.prompt.md)
+- 📋 Sprint Workflow: [sprint-cycle.prompt.md](../../.github/prompts/sprint-cycle.prompt.md)
 - 📊 Implementation Guide: [GITHUB_CLI_IMPLEMENTATION.md](GITHUB_CLI_IMPLEMENTATION.md)
 
 ---

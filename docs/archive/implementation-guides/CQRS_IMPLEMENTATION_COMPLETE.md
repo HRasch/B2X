@@ -276,8 +276,8 @@ curl http://localhost:8080/api/products/search?q=laptop
 
 | File | Zweck |
 |------|-------|
-| [CQRS_WOLVERINE_PATTERN.md](../CQRS_WOLVERINE_PATTERN.md) | Umfassender CQRS-Guide |
-| [CONTROLLER_FILTER_REFACTORING.md](./CONTROLLER_FILTER_REFACTORING.md) | Filter-Pattern |
+| [CQRS_WOLVERINE_PATTERN.md](CQRS_WOLVERINE_PATTERN.md) | Umfassender CQRS-Guide |
+| [CONTROLLER_FILTER_REFACTORING.md](../reference-docs/CONTROLLER_FILTER_REFACTORING.md) | Filter-Pattern |
 | ProductCommands.cs | CQRS Message Definitionen |
 | ProductHandlers.cs | Business Logic Handler |
 | ProductsController.cs | HTTP Layer (Thin Adapter) |

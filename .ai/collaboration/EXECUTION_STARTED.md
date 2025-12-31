@@ -88,7 +88,7 @@
 → [PHASE_1_DEVELOPMENT_START.md](../sprint/PHASE_1_DEVELOPMENT_START.md)
 
 **Work Logging:**
-→ [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+→ [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 
 **Metrics:**
 → [ITERATION_001_METRICS.md](../sprint/ITERATION_001_METRICS.md) (live, real-time)
@@ -126,7 +126,7 @@
 
 ## 📈 REAL-TIME TRACKING
 
-**Work Logging:** [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+**Work Logging:** [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 - Updated in real-time as tasks complete
 - No EOD batching
 

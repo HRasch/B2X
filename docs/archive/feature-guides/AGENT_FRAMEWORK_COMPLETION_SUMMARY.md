@@ -16,7 +16,7 @@
 ### 4 New Specialist Agents Created
 
 #### 1. **UI Expert** ✅ (450+ lines)
-- **File**: [copilot-instructions-ui-expert.md](../.github/copilot-instructions-ui-expert.md)
+- **File**: [copilot-instructions-ui-expert.md](../../../.github/agents/ui.agent.md)
 - **Focus**: Design systems governance, component library organization, Tailwind CSS
 - **Key Content**:
   - Design system architecture (11 colors, 6 typography sizes, 8px grid)
@@ -29,7 +29,7 @@
   - Brand guidelines
 
 #### 2. **UX Expert** ✅ (500+ lines)
-- **File**: [copilot-instructions-ux-expert.md](../.github/copilot-instructions-ux-expert.md)
+- **File**: [copilot-instructions-ux-expert.md](../../../.github/agents/ux.agent.md)
 - **Focus**: WCAG 2.1 AA accessibility compliance, user research, usability testing
 - **Key Content**:
   - **CRITICAL DEADLINE**: 28. Juni 2025
@@ -44,7 +44,7 @@
   - Metrics & KPIs tracking
 
 #### 3. **AI Specialist** ✅ (550+ lines)
-- **File**: [copilot-instructions-ai-specialist.md](../.github/copilot-instructions-ai-specialist.md)
+- **File**: [copilot-instructions-ai-specialist.md](../../../.github/copilot-instructions.md)
 - **Focus**: AI/ML patterns, P0.7 EU AI Act compliance, model selection, security
 - **Key Content**:
   - **CRITICAL DEADLINE**: 12. Mai 2026
@@ -62,7 +62,7 @@
   - P0.7 compliance checklist
 
 #### 4. **Process Controller** ✅ (678 lines)
-- **File**: [copilot-instructions-process-controller.md](../.github/copilot-instructions-process-controller.md)
+- **File**: [copilot-instructions-process-controller.md](../../../.github/agents/sarah.agent.md)
 - **Focus**: Execution monitoring, cost tracking, optimization triggers
 - **Key Content**:
   - Real-time metrics dashboard with cost breakdown
@@ -84,7 +84,7 @@
 ### Integration Into Development Process ✅
 
 **Files Updated**:
-1. ✅ [.github/AGENTS_INDEX.md](../.github/AGENTS_INDEX.md) - Agent registry with all 28 agents
+1. ✅ [.github/AGENTS_INDEX.md](../../../.ai/collaboration/AGENT_TEAM_REGISTRY.md) - Agent registry with all 28 agents
 2. ✅ [docs/AGENT_INTEGRATION_ROADMAP.md](./AGENT_INTEGRATION_ROADMAP.md) - Comprehensive integration guide
 
 **Integration Points Added**:
@@ -105,27 +105,27 @@
 #### **Core Development Roles** (6)
 | Role | File | Status |
 |------|------|--------|
-| Backend Developer | [copilot-instructions-backend.md](../.github/copilot-instructions-backend.md) | ✅ Active |
-| Frontend Developer | [copilot-instructions-frontend.md](../.github/copilot-instructions-frontend.md) | ✅ Active |
-| QA Engineer | [copilot-instructions-qa.md](../.github/copilot-instructions-qa.md) | ✅ Active |
-| DevOps Engineer | [copilot-instructions-devops.md](../.github/copilot-instructions-devops.md) | ✅ Active |
-| Security Engineer | [copilot-instructions-security.md](../.github/copilot-instructions-security.md) | ✅ Active |
-| Tech Lead | [copilot-instructions.md](../.github/copilot-instructions.md) | ✅ Reference |
+| Backend Developer | [copilot-instructions-backend.md](../../../.github/instructions/backend.instructions.md) | ✅ Active |
+| Frontend Developer | [copilot-instructions-frontend.md](../../../.github/instructions/frontend.instructions.md) | ✅ Active |
+| QA Engineer | [copilot-instructions-qa.md](../../../.github/agents/qa.agent.md) | ✅ Active |
+| DevOps Engineer | [copilot-instructions-devops.md](../../../.github/instructions/devops.instructions.md) | ✅ Active |
+| Security Engineer | [copilot-instructions-security.md](../../../.github/instructions/security.instructions.md) | ✅ Active |
+| Tech Lead | [copilot-instructions.md](../../../.github/copilot-instructions.md) | ✅ Reference |
 
 #### **Leadership Roles** (3)
 | Role | File | Status |
 |------|------|--------|
-| Product Owner | [copilot-instructions-product-owner.md](../.github/copilot-instructions-product-owner.md) | ✅ New |
-| Scrum Master | [agents/scrum-master.agent.md](../.github/agents/scrum-master.agent.md) | ✅ Active |
-| Software Architect | [copilot-instructions.md](../.github/copilot-instructions.md) (via tech-lead) | ✅ Reference |
+| Product Owner | [copilot-instructions-product-owner.md](../../../.github/agents/product-owner.agent.md) | ✅ New |
+| Scrum Master | [agents/scrum-master.agent.md](../../../.github/agents/scrum-master.agent.md) | ✅ Active |
+| Software Architect | [copilot-instructions.md](../../../.github/copilot-instructions.md) (via tech-lead) | ✅ Reference |
 
 #### **New Specialist Roles** (4)
 | Role | File | Status |
 |------|------|--------|
-| UI Expert | [copilot-instructions-ui-expert.md](../.github/copilot-instructions-ui-expert.md) | ✅ **NEW** |
-| UX Expert | [copilot-instructions-ux-expert.md](../.github/copilot-instructions-ux-expert.md) | ✅ **NEW** |
-| AI Specialist | [copilot-instructions-ai-specialist.md](../.github/copilot-instructions-ai-specialist.md) | ✅ **NEW** |
-| Process Controller | [copilot-instructions-process-controller.md](../.github/copilot-instructions-process-controller.md) | ✅ **NEW** |
+| UI Expert | [copilot-instructions-ui-expert.md](../../../.github/agents/ui.agent.md) | ✅ **NEW** |
+| UX Expert | [copilot-instructions-ux-expert.md](../../../.github/agents/ux.agent.md) | ✅ **NEW** |
+| AI Specialist | [copilot-instructions-ai-specialist.md](../../../.github/copilot-instructions.md) | ✅ **NEW** |
+| Process Controller | [copilot-instructions-process-controller.md](../../../.github/agents/sarah.agent.md) | ✅ **NEW** |
 
 #### **Specialized Testing Roles** (5)
 | Role | Status |
@@ -305,27 +305,27 @@ FRIDAY (Integration)
 
 ### For Immediate Reference
 
-1. **Main Reference**: [copilot-instructions.md](../.github/copilot-instructions.md)
+1. **Main Reference**: [copilot-instructions.md](../../../.github/copilot-instructions.md)
    - All roles, 3,500+ lines, comprehensive patterns
 
-2. **Agent Registry**: [AGENTS_INDEX.md](../.github/AGENTS_INDEX.md)
+2. **Agent Registry**: [AGENTS_INDEX.md](../../../.ai/collaboration/AGENT_TEAM_REGISTRY.md)
    - All 28 agents with quick lookup by role/specialty
 
 3. **Integration Roadmap**: [AGENT_INTEGRATION_ROADMAP.md](./AGENT_INTEGRATION_ROADMAP.md)
    - Weekly workflow, collaboration flows, compliance gates
 
 4. **New Specialist Instructions** (all in `.github/`):
-   - [copilot-instructions-ui-expert.md](../.github/copilot-instructions-ui-expert.md)
-   - [copilot-instructions-ux-expert.md](../.github/copilot-instructions-ux-expert.md)
-   - [copilot-instructions-ai-specialist.md](../.github/copilot-instructions-ai-specialist.md)
-   - [copilot-instructions-process-controller.md](../.github/copilot-instructions-process-controller.md)
+   - [copilot-instructions-ui-expert.md](../../../.github/agents/ui.agent.md)
+   - [copilot-instructions-ux-expert.md](../../../.github/agents/ux.agent.md)
+   - [copilot-instructions-ai-specialist.md](../../../.github/copilot-instructions.md)
+   - [copilot-instructions-process-controller.md](../../../.github/agents/sarah.agent.md)
 
 ### For Process Improvement
 
-5. **Retrospective Protocol**: [RETROSPECTIVE_PROTOCOL.md](../.github/RETROSPECTIVE_PROTOCOL.md)
+5. **Retrospective Protocol**: [RETROSPECTIVE_PROTOCOL.md](../../../.ai/collaboration/PROMPTS_INDEX.md)
    - Sprint retrospectives, learnings capture, metrics tracking
 
-6. **Scrum Master Guide**: [agents/scrum-master.agent.md](../.github/agents/scrum-master.agent.md)
+6. **Scrum Master Guide**: [agents/scrum-master.agent.md](../../../.github/agents/scrum-master.agent.md)
    - Team coordination, process optimization, decision-making
 
 ---

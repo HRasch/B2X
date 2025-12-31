@@ -56,7 +56,7 @@ Planned (3):
 ## 🔄 What Changed
 
 ### 1. Agent Definitions Upgraded
-- Replaced generic `.agent.md` files with **detailed specifications** from `.github_org/`
+- Replaced generic `.agent.md` files with **detailed specifications** from `.github/instructions/`
 - Each agent now has:
   - ✅ Clear skill matrix
   - ✅ Specific responsibilities
@@ -84,7 +84,7 @@ NEW: @Backend includes:
 - **@SEO**: Meta tags, structured data, performance
 
 ### 3. Created Comprehensive Registry
-- **`.github/AGENT_TEAM_REGISTRY.md`**: Complete team overview
+- **`.ai/collaboration/AGENT_TEAM_REGISTRY.md`**: Complete team overview
   - Team composition
   - Agent capabilities & models
   - Delegation rules
@@ -324,7 +324,7 @@ Responsibilities:
 ## 📋 File Changes
 
 ### New Files
-- ✅ `.github/AGENT_TEAM_REGISTRY.md` - Complete agent directory
+- ✅ `.ai/collaboration/AGENT_TEAM_REGISTRY.md` - Complete agent directory
 - ✅ `docs/ai/AGENT_QUICK_REFERENCE.md` - Quick lookup reference
 
 ### Updated Files
@@ -344,7 +344,7 @@ Responsibilities:
 - ✅ `.github/agents/SEO.agent.md` - New specialist
 
 ### Legacy Preserved
-- `.github_org/` remains as reference library
+- `.github/instructions/` remains as reference library
 - Can continue adding agents from there as needed
 
 ---

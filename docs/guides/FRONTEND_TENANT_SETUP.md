@@ -653,9 +653,9 @@ Backend must allow requests from frontend-tenant origin:
 ## Related Documentation
 
 - [Application Specifications](../docs/APPLICATION_SPECIFICATIONS.md)
-- [Developer Guide](../docs/DEVELOPER_GUIDE.md)
-- [Frontend Feature Integration](../docs/FRONTEND_FEATURE_INTEGRATION_GUIDE.md)
-- [Testing Strategy](../TESTING_STRATEGY.md)
+- [Developer Guide](DEVELOPER_GUIDE.md)
+- [Frontend Feature Integration](FRONTEND_FEATURE_INTEGRATION_GUIDE.md)
+- [Testing Strategy](TESTING_STRATEGY.md)
 
 ---
 

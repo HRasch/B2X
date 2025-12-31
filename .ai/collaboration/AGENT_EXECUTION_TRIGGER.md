@@ -218,7 +218,7 @@ Based on my authority as coordinator, I'm issuing **FORMAL AGENT ACTIVATION ORDE
 - Collect completed work from all teams (as reported)
 - Calculate running SP total (continuous)
 - Update pace and ETA (live calculation)
-- Update [ITERATION_001_METRICS.md](./ITERATION_001_METRICS.md) continuously
+- Update [ITERATION_001_METRICS.md](../sprint/ITERATION_001_METRICS.md) continuously
 - Update [ITERATION_001_FLOW_LOG.md](../sprint/ITERATION_001_FLOW_LOG.md) (continuous record)
 - Assess team health continuously (no batched reviews)
 
@@ -280,9 +280,9 @@ Based on my authority as coordinator, I'm issuing **FORMAL AGENT ACTIVATION ORDE
 - Momentum and pace (real-time trend, adaptive)
 
 **Visibility:**
-- [DAY1_STANDUP_LIVE.md](./DAY1_STANDUP_LIVE.md) - Live execution log
-- [ITERATION_001_METRICS.md](./ITERATION_001_METRICS.md) - Velocity dashboard
-- [GO_SIGNAL.md](./GO_SIGNAL.md) - Execution guidelines
+- [DAY1_STANDUP_LIVE.md](../sprint/DAY1_STANDUP_LIVE.md) - Live execution log
+- [ITERATION_001_METRICS.md](../sprint/ITERATION_001_METRICS.md) - Velocity dashboard
+- [GO_SIGNAL.md](../sprint/GO_SIGNAL.md) - Execution guidelines
 
 ---
 
@@ -296,7 +296,7 @@ Based on my authority as coordinator, I'm issuing **FORMAL AGENT ACTIVATION ORDE
 ✅ **Authorizing** immediate Phase 1 deployment  
 ✅ **Escalating** any failures or non-compliance  
 
-**Authority Source:** `.github/agents/SARAH.coordinator.md` + `copilot-instructions.md`
+**Authority Source:** `.ai/collaboration/agents/SARAH_COORDINATOR.md` + `copilot-instructions.md`
 
 ---
 

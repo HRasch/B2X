@@ -38,3 +38,4 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - Write unit tests for utility functions
 - Write component tests for user interactions
 - Test accessibility with automated tools
+

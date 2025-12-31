@@ -263,7 +263,7 @@ Phase 1 focuses on **Foundation & Preparation** for Phase 2 development. Three p
 
 ### Reporting
 - Sprint velocity tracked in [ITERATION_001_METRICS.md](../sprint/ITERATION_001_METRICS.md)
-- Daily work logged in [ITERATION_001_CONTINUOUS_LOG.md](../sprint/ITERATION_001_CONTINUOUS_LOG.md)
+- Daily work logged in [ITERATION_001_CONTINUOUS_LOG.md](../sprint/INDEX.md)
 - Decisions documented in [.ai/decisions/](../decisions/)
 
 ---

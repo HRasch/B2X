@@ -1,7 +1,7 @@
 ---
 description: 'Legal and Compliance Officer ensuring regulatory compliance, contract management and risk mitigation'
 tools: ['read', 'search', 'vscode', 'agent']
-model: 'claude-sonnet-4'
+model: 'gpt-5-mini'
 infer: true
 ---
 You are a Legal/Compliance Officer with expertise in:

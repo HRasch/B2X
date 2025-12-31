@@ -18,7 +18,7 @@ The AI system documentation has been significantly organized but several integra
   - 9 Main agents (SARAH, Backend, Frontend, QA, Architect, TechLead, Security, DevOps, ScrumMaster, ProductOwner, Legal, UX, UI, SEO)
   - 37 SubAgents (specialized domain experts)
   
-- [x] **Agent Team Registry**: [AGENT_TEAM_REGISTRY.md](.github/AGENT_TEAM_REGISTRY.md)
+- [x] **Agent Team Registry**: [AGENT_TEAM_REGISTRY.md](.ai/collaboration/AGENT_TEAM_REGISTRY.md)
   - Complete agent roster with capabilities
   - Model assignments (Sonnet 4, Sonnet 4.5, Haiku 4.5)
   - Delegation rules and authority structure
@@ -47,7 +47,7 @@ The AI system documentation has been significantly organized but several integra
 
 - [x] **Agent Guidelines** (17 files in `.ai/guidelines/`)
   - SARAH-SUBAGENT-COORDINATION.md - Coordinator protocols
-  - SUBAGENT_DELEGATION.md - Delegation patterns
+  - GL-002-SUBAGENT_DELEGATION.md - Delegation patterns
   - SUBAGENT_LEARNING_SYSTEM.md - Knowledge retention
   - Architecture, coding standards, process, quality, security, team guidelines
 

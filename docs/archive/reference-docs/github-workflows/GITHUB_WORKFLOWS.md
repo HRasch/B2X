@@ -995,7 +995,7 @@ Step 4: Investigation
 - [GitHub Flow Guide](https://guides.github.com/introduction/flow/)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [Semantic Versioning](https://semver.org/)
-- [CONTRIBUTING.md](../CONTRIBUTING.md)
+- [CONTRIBUTING.md](../../../../CONTRIBUTING.md)
 - [APPLICATION_SPECIFICATIONS.md](./APPLICATION_SPECIFICATIONS.md)
 
 ---

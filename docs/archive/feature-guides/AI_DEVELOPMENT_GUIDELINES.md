@@ -655,7 +655,7 @@ Immer diese Fragen stellen:
 **Review-Zyklus:** Vierteljährlich
 
 **Verwandte Dokumente:**
-- [APPLICATION_SPECIFICATIONS.md](APPLICATION_SPECIFICATIONS.md) - Kapitel "AI Development Guidelines"
-- [COMPREHENSIVE_REVIEW.md](../COMPREHENSIVE_REVIEW.md) - Original Review
-- [PENTESTER_REVIEW.md](PENTESTER_REVIEW.md) - Security Findings
-- [SECURITY_HARDENING_GUIDE.md](../SECURITY_HARDENING_GUIDE.md) - Implementation Guide
+- [APPLICATION_SPECIFICATIONS.md](docs/guides/index.md) - Kapitel "AI Development Guidelines"
+- [COMPREHENSIVE_REVIEW.md](../../guides/QUICK_REFERENCE.md) - Original Review
+- [PENTESTER_REVIEW.md](docs/guides/index.md) - Security Findings
+- [SECURITY_HARDENING_GUIDE.md](../../guides/SECURITY_HARDENING_GUIDE.md) - Implementation Guide

@@ -827,7 +827,7 @@ Pull requests are the **formal code review gate** before merging to `main`. Ever
 ### PR Title Format
 
 ```
-[TYPE](SCOPE): DESCRIPTION (#ISSUE)
+[TYPE](#scope): DESCRIPTION (#ISSUE)
 
 Examples:
 feat(catalog): implement VAT calculation service (#30)

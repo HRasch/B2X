@@ -465,7 +465,7 @@ See also:
 - [AGENT_ROLE_DOCUMENTATION_GUIDELINES.md](../AGENT_ROLE_DOCUMENTATION_GUIDELINES.md) - How to create agent instruction documentation
 - [AGENT_ROLE_DOCUMENTATION_QUICK_REFERENCE.md](../AGENT_ROLE_DOCUMENTATION_QUICK_REFERENCE.md) - Quick template for creating agent docs
 - [copilot-instructions.md](../../.github/copilot-instructions.md) - Agent instructions (must follow architecture standards)
-- [TESTING_FRAMEWORK_GUIDE.md](../TESTING_FRAMEWORK_GUIDE.md) - Testing patterns & standards
+- [TESTING_FRAMEWORK_GUIDE.md](../archive/architecture-docs/TESTING_FRAMEWORK_GUIDE.md) - Testing patterns & standards
 - [APPLICATION_SPECIFICATIONS.md](../APPLICATION_SPECIFICATIONS.md) - Feature specification format
 
 ---

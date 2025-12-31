@@ -63,7 +63,7 @@ FRIDAY (Integration & Optimization)
   - Frontend Developer implements using Tailwind
   - UI Expert validates design consistency
 - **Escalation**: Design conflict → @tech-lead (architecture)
-- **Reference**: [copilot-instructions-ui-expert.md](../.github/copilot-instructions-ui-expert.md)
+- **Reference**: [copilot-instructions-ui-expert.md](../../../.github/agents/ui.agent.md)
 
 #### 2. **UX Expert ↔ Frontend Developer + QA-Frontend**
 - **Trigger**: Every feature with UI elements
@@ -73,7 +73,7 @@ FRIDAY (Integration & Optimization)
   - QA-Frontend: Automated + manual testing
 - **Critical Deadline**: 28. Juni 2025 (WCAG 2.1 AA)
 - **Escalation**: Accessibility violation → @scrum-master → must fix before merge
-- **Reference**: [copilot-instructions-ux-expert.md](../.github/copilot-instructions-ux-expert.md)
+- **Reference**: [copilot-instructions-ux-expert.md](../../../.github/agents/ux.agent.md)
 
 #### 3. **AI Specialist ↔ Backend Developer + Security Engineer**
 - **Trigger**: Any AI/ML feature usage
@@ -83,7 +83,7 @@ FRIDAY (Integration & Optimization)
   - Security Engineer: PII protection, rate limiting, audit logging
 - **Critical Deadline**: 12. Mai 2026 (P0.7 AI Act)
 - **Escalation**: High-risk AI feature → @software-architect for design review
-- **Reference**: [copilot-instructions-ai-specialist.md](../.github/copilot-instructions-ai-specialist.md)
+- **Reference**: [copilot-instructions-ai-specialist.md](../../../.github/copilot-instructions.md)
 
 #### 4. **Process Controller ↔ Scrum Master**
 - **Trigger**: Every sprint completion
@@ -94,7 +94,7 @@ FRIDAY (Integration & Optimization)
 - **Alert Threshold**: Cost increase >15% → trigger optimization sprint
 - **Weekly Report**: Metrics dashboard, cost analysis, recommendations
 - **Escalation**: Critical cost spike (>$150/day) → @scrum-master immediately
-- **Reference**: [copilot-instructions-process-controller.md](../.github/copilot-instructions-process-controller.md)
+- **Reference**: [copilot-instructions-process-controller.md](../../../.github/agents/sarah.agent.md)
 
 ---
 
@@ -164,7 +164,7 @@ FRIDAY (Integration & Optimization)
 
 **Escalation**: Any WCAG violation → Blocks merge until fixed
 
-**Reference**: [BITV Compliance Tests](./compliance/P0.8_BARRIEREFREIHEIT_BITV_TESTS.md)
+**Reference**: [BITV Compliance Tests](../../compliance)
 
 ### P0.7 AI Act Compliance (Deadline: 12. Mai 2026)
 
@@ -181,7 +181,7 @@ FRIDAY (Integration & Optimization)
 
 **Escalation**: Any P0.7 violation → Blocks merge until fixed
 
-**Reference**: [P0.7 AI Act Tests](./compliance/P0.7_AI_ACT_TESTS.md)
+**Reference**: [P0.7 AI Act Tests](../../compliance)
 
 ---
 
@@ -261,7 +261,7 @@ Process Controller
 ### For Team Members
 
 - [ ] **Read All Instruction Files**:
-  - [ ] Main reference: [copilot-instructions.md](../.github/copilot-instructions.md)
+  - [ ] Main reference: [copilot-instructions.md](../../../.github/copilot-instructions.md)
   - [ ] Your role: [copilot-instructions-[your-role].md](../.github)
   - [ ] New agents: UI Expert, UX Expert, AI Specialist, Process Controller
 
@@ -271,7 +271,7 @@ Process Controller
   - [ ] Your critical deadlines (WCAG AA, P0.7)
 
 - [ ] **Access Agent Index**:
-  - [ ] Review [AGENTS_INDEX.md](../.github/AGENTS_INDEX.md)
+  - [ ] Review [AGENTS_INDEX.md](../../../.ai/collaboration/AGENT_TEAM_REGISTRY.md)
   - [ ] Understand agent relationships
   - [ ] Bookmark reference links
 
@@ -357,14 +357,14 @@ Process Controller
 
 ## 📚 Reference Documents
 
-- **Main Reference**: [copilot-instructions.md](../.github/copilot-instructions.md)
-- **Agent Index**: [AGENTS_INDEX.md](../.github/AGENTS_INDEX.md)
-- **Retrospective Protocol**: [RETROSPECTIVE_PROTOCOL.md](../.github/RETROSPECTIVE_PROTOCOL.md)
-- **Scrum Master Guide**: [agents/scrum-master.agent.md](../.github/agents/scrum-master.agent.md)
-- **UI Expert Instructions**: [copilot-instructions-ui-expert.md](../.github/copilot-instructions-ui-expert.md)
-- **UX Expert Instructions**: [copilot-instructions-ux-expert.md](../.github/copilot-instructions-ux-expert.md)
-- **AI Specialist Instructions**: [copilot-instructions-ai-specialist.md](../.github/copilot-instructions-ai-specialist.md)
-- **Process Controller Instructions**: [copilot-instructions-process-controller.md](../.github/copilot-instructions-process-controller.md)
+- **Main Reference**: [copilot-instructions.md](../../../.github/copilot-instructions.md)
+- **Agent Index**: [AGENTS_INDEX.md](../../../.ai/collaboration/AGENT_TEAM_REGISTRY.md)
+- **Retrospective Protocol**: [RETROSPECTIVE_PROTOCOL.md](../../../.ai/collaboration/PROMPTS_INDEX.md)
+- **Scrum Master Guide**: [agents/scrum-master.agent.md](../../../.github/agents/scrum-master.agent.md)
+- **UI Expert Instructions**: [copilot-instructions-ui-expert.md](../../../.github/agents/ui.agent.md)
+- **UX Expert Instructions**: [copilot-instructions-ux-expert.md](../../../.github/agents/ux.agent.md)
+- **AI Specialist Instructions**: [copilot-instructions-ai-specialist.md](../../../.github/copilot-instructions.md)
+- **Process Controller Instructions**: [copilot-instructions-process-controller.md](../../../.github/agents/sarah.agent.md)
 
 ---
 

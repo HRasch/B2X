@@ -83,7 +83,7 @@
 
 **Rationale**: These were legacy files from previous setup phases. Core information has been consolidated into:
 - New `docs/QUICK_REFERENCE.md` (central navigation)
-- Root-level `.github/copilot-instructions.md` and `.github/AGENT_TEAM_REGISTRY.md`
+- Root-level `.github/copilot-instructions.md` and `.ai/collaboration/AGENT_TEAM_REGISTRY.md`
 - New `docs/archive/` with organized history
 
 ### 🔄 MODIFIED FILES (10 files)

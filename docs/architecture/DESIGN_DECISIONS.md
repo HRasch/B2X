@@ -108,7 +108,7 @@ Cons:
 - ❌ Dogfooding required (team must monitor/operate services)
 
 ### Related ADR
-See [ADR-002: Onion Architecture](./ADR/ADR-002-ONION_ARCHITECTURE.md)
+See [ADR-002: Onion Architecture](../../.ai/decisions/INDEX.md)
 
 ---
 
@@ -196,7 +196,7 @@ public class Handler : IRequestHandler<CreateProductCommand, Response> { }
 ```
 
 ### Related ADR
-See [ADR-001: Wolverine over MediatR](./ADR/ADR-001-WOLVERINE_OVER_MEDIATR.md)
+See [ADR-001: Wolverine over MediatR](../../.ai/decisions/INDEX.md)
 
 ---
 
@@ -278,7 +278,7 @@ Dependencies point INWARD only
 | **Presentation** | API Routes, Middleware, Error Handling | Program.cs, Middleware, Error responses |
 
 ### Related ADR
-See [ADR-002: Onion Architecture](./ADR/ADR-002-ONION_ARCHITECTURE.md)
+See [ADR-002: Onion Architecture](../../.ai/decisions/INDEX.md)
 
 ---
 
@@ -368,7 +368,7 @@ postgres://localhost/search        -- Search service (indices)
 ```
 
 ### Related ADR
-See [ADR-004: PostgreSQL MultiTenancy](./ADR/ADR-004-POSTGRESQL_MULTITENANCY.md)
+See [ADR-004: PostgreSQL MultiTenancy](../../.ai/decisions/INDEX.md)
 
 ---
 
@@ -452,7 +452,7 @@ Aspire is local-only. Production uses:
 - Same microservices architecture
 
 ### Related ADR
-See [ADR-003: Aspire Orchestration](./ADR/ADR-003-ASPIRE_ORCHESTRATION.md)
+See [ADR-003: Aspire Orchestration](../../.ai/decisions/INDEX.md)
 
 ---
 

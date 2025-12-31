@@ -25,7 +25,7 @@
 - Complete requirements map and process documentation
 - Used in: Sprint planning, architecture decisions, quality gates
 
-✅ **[docs/APPLICATION_SPECIFICATIONS.md](docs/APPLICATION_SPECIFICATIONS.md)**
+✅ **[docs/APPLICATION_SPECIFICATIONS.md](docs/guides/index.md)**
 - Complete system specifications + compliance requirements
 - Functional, security, API, database, audit & compliance sections
 - Used in: Design phase, API development, infrastructure
@@ -383,7 +383,7 @@ Use for every issue in GitHub:
 | [ACCESSIBILITY_COMPLIANCE_REPORT.md](ACCESSIBILITY_COMPLIANCE_REPORT.md) | WCAG 2.1 AA standards & examples | All UI/frontend work |
 | [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md) | EU e-commerce legal requirements | Store/payment features, sprint planning |
 | [.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md) | Requirements & process governance | Sprint planning, architecture decisions |
-| [docs/APPLICATION_SPECIFICATIONS.md](docs/APPLICATION_SPECIFICATIONS.md) | Complete system specs + compliance | Design phase, API development |
+| [docs/APPLICATION_SPECIFICATIONS.md](docs/guides/index.md) | Complete system specs + compliance | Design phase, API development |
 | [.github/prompts/compliance-integration.prompt.md](.github/prompts/compliance-integration.prompt.md) | Compliance implementation guide | Code review, sprint planning |
 | [.github/prompts/git-management.prompt.md](.github/prompts/git-management.prompt.md) | Git workflow with compliance gate | Every PR review |
 | [.github/prompts/sprint-cycle.prompt.md](.github/prompts/sprint-cycle.prompt.md) | Sprint workflow with compliance verification | Every sprint |

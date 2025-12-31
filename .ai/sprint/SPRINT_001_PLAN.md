@@ -233,7 +233,7 @@
 
 ## 🔗 Related Documents
 
-- [Agent Team Registry](.github/AGENT_TEAM_REGISTRY.md)
+- [Agent Team Registry](.ai/collaboration/AGENT_TEAM_REGISTRY.md)
 - [Copilot Instructions](.github/copilot-instructions.md)
 - [Phase 1 Launch Readiness](.ai/status/PHASE1_LAUNCH_READINESS.md)
 - [P0.6 Compliance Requirements](../requirements/P0.6_COMPLIANCE_REQUIREMENTS.md)

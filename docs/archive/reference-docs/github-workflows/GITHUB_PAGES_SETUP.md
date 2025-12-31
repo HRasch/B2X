@@ -151,12 +151,12 @@ Willkommen zur offiziellen B2Connect Dokumentation!
 
 ## Für Wen?
 
-### 👥 [Kundenguide](USER_GUIDE.md#-für-kunden-store)
+### 👥 [Kundenguide](../USER_GUIDE.md#-für-kunden-store)
 - Konto erstellen & verwalten
 - Einkaufen & Bestellungen
 - Support & FAQs
 
-### ⚙️ [Admin-Guide](USER_GUIDE.md#-für-admin-benutzer)
+### ⚙️ [Admin-Guide](../USER_GUIDE.md#-für-admin-benutzer)
 - Produkte & Bestellungen verwalten
 - Kunden & Settings
 - Reports & Analytics
@@ -486,7 +486,7 @@ title: Seitentitel
 
 3. **Relative Links:** Verwenden Sie `.md` Erweiterung:
 ```markdown
-✅ [Link](USER_GUIDE.md#section)
+✅ [Link](../USER_GUIDE.md#section)
 ❌ [Link](USER_GUIDE)
 ```
 
@@ -583,7 +583,7 @@ last_updated: 2025-12-27
 
 ```markdown
 # ✅ Korrekt
-[Kundenguide](USER_GUIDE.md#-für-kunden-store)
+[Kundenguide](../USER_GUIDE.md#-für-kunden-store)
 
 # ❌ Falsch
 [Kundenguide](USER_GUIDE#customers)
