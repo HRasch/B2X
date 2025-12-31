@@ -9,6 +9,11 @@
 
 ---
 
+## 🔁 Recent PRs
+
+- [#61 chore: agent consolidation — subagents resource library](https://github.com/HRasch/B2Connect/pull/61) — Move SubAgents into `.github/agents/subagents/`, document as "lazy experts", add export-subagent templates (AI/UX/UI/Requirements), and point subagents to `.ai/knowledgebase/` with SARAH fallback. (branch: `chore/agent-consolidation-pr-workflows`)
+
+
 ## 📊 Sprint Progress
 
 ```
