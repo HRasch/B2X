@@ -42,3 +42,8 @@ describe('[Component/Function Name]', () => {
 - Reset mocks between tests
 - Use factories for test data
 - Prefer dependency injection over global mocks
+
+## Agent Logging
+- **Agents:** List all agents involved or consulted for this document (e.g., @QA, @Backend, @Frontend).
+- **Responsible:** Name the agent or role responsible for maintaining this document (e.g., @QA).
+- **Placement:** Add the logging info in a short section at the top or end of the document using the format: `Agents: @AgentA, @AgentB | Owner: @Agent`.

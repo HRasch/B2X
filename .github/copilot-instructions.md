@@ -39,6 +39,13 @@ Follow [KB-006] for implementation patterns.
 
 **Default Agent:** `@SARAH` — use `@SARAH` as the default coordinator when no specific agent is specified in a prompt or instruction. SARAH handles coordination, quality-gate decisions, and permission guidance.
 
+## Agent Logging Requirement
+All project documents must include a short "Agent Logging" entry that lists the agents involved or consulted and the responsible agent or role who maintains the document. Follow this format when adding the section to documents:
+
+Agents: @AgentA, @AgentB | Owner: @Agent
+
+This requirement ensures traceability and clear ownership for all docs created or modified by agents.
+
 | Agent | DocID | Spezialisierung | Aufgabe |
 |---|---|---|---|
 | `@SARAH` | `AGT-001` | Coordination | Koordination, Quality-Gate, Guidelines, Permissions |

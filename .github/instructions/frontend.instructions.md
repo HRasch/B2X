@@ -38,3 +38,8 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - Write unit tests for utility functions
 - Write component tests for user interactions
 - Test accessibility with automated tools
+
+## Agent Logging
+- **Agents:** List all agents involved or consulted for this document (e.g., @Frontend, @UX, @QA).
+- **Responsible:** Name the agent or role responsible for maintaining this document (e.g., @UI).
+- **Placement:** Add the logging info in a short section at the top or end of the document using the format: `Agents: @AgentA, @AgentB | Owner: @Agent`.
