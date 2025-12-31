@@ -1,6 +1,6 @@
 ---
 title: Governance & P0 Playbook (migrated)
-source: GOVERNANCE.md (migrated)
+source: .ai/knowledgebase/governance.md (migrated)
 ---
 
 # 📋 B2Connect Requirements & Governance Documentation

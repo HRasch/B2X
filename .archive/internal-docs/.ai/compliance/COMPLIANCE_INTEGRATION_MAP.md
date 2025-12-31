@@ -7,7 +7,7 @@
 ## Document Flow
 
 ```
-GOVERNANCE.md (Requirements)
+.ai/knowledgebase/governance.md (Requirements)
     ↓
 ACCESSIBILITY_COMPLIANCE_REPORT.md (WCAG standards)
 ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md (EU legal)
@@ -214,7 +214,7 @@ gh pr view PR_ID --json body | grep -A 20 "Compliance"
 ### Sprint Planning Phase
 ```
 1. Review governance documents
-   ├─ GOVERNANCE.md
+   ├─ .ai/knowledgebase/governance.md
    ├─ ACCESSIBILITY_COMPLIANCE_REPORT.md
    ├─ ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md
    └─ docs/APPLICATION_SPECIFICATIONS.md
@@ -274,7 +274,7 @@ COMPLIANCE VERIFICATION GATE (MUST PASS)
 
 ```
 Layer 1: Governance (What we must comply with)
-├─ GOVERNANCE.md
+├─ .ai/knowledgebase/governance.md
 ├─ ACCESSIBILITY_COMPLIANCE_REPORT.md
 ├─ ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md
 └─ docs/APPLICATION_SPECIFICATIONS.md
@@ -309,7 +309,7 @@ Layer 3: Quick Reference (What developers need daily)
 Root
 ├── ACCESSIBILITY_COMPLIANCE_REPORT.md          [Referenced]
 ├── ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md    [Referenced]
-├── GOVERNANCE.md                               [Referenced]
+├── .ai/knowledgebase/governance.md                               [Referenced]
 │
 ├── docs/
 │   └── APPLICATION_SPECIFICATIONS.md           [Referenced]

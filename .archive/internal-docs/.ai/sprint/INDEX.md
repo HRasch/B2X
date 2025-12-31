@@ -246,7 +246,7 @@ Phase 1 Execution (Sprint 2)
 ### Project Documentation
 - [README.md](../../README.md) - Project overview
 - [QUICK_START_GUIDE.md](../../QUICK_START_GUIDE.md) - Getting started
-- [GOVERNANCE.md](../../GOVERNANCE.md) - Project governance
+- [.ai/knowledgebase/governance.md](../../.ai/knowledgebase/governance.md) - Project governance
 
 ---
 

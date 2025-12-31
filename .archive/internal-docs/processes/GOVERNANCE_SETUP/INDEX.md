@@ -4,7 +4,7 @@ This directory contains setup documentation from the Governance Implementation P
 
 ## 📍 Governance Authority
 The authoritative governance documentation is at:
-- **[/GOVERNANCE.md](../../GOVERNANCE.md)** - Project Governance Rules & Authority Matrix
+- **[/.ai/knowledgebase/governance.md](../../.ai/knowledgebase/governance.md)** - Project Governance Rules & Authority Matrix
 
 ## 📋 Phase Completion Reports
 Historical documentation from the Governance Setup Phase:
@@ -16,4 +16,4 @@ For role-specific guidance:
 
 ---
 **Last Updated**: 30. Dezember 2025  
-**Status**: ✅ Governance Setup Complete - See root GOVERNANCE.md for active rules
+**Status**: ✅ Governance Setup Complete - See root .ai/knowledgebase/governance.md for active rules
