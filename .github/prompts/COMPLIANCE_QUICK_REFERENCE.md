@@ -247,7 +247,7 @@ cat ACCESSIBILITY_COMPLIANCE_REPORT.md
 cat ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md
 
 # Governance & specs
-cat GOVERNANCE.md
+cat ../../.ai/knowledgebase/governance.md
 
 # Implementation guide
 cat .github/prompts/compliance-integration.prompt.md

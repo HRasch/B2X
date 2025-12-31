@@ -9,7 +9,7 @@
 ## 📋 Choose Your Path
 
 ### 👨‍💼 **Project Leadership**
-- **Tech Lead**: Read [`GOVERNANCE.md`](./GOVERNANCE.md)
+- **Tech Lead**: Read [.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md)
 - **Product Owner**: See [`PROJECT_DASHBOARD.md`](./PROJECT_DASHBOARD.md)
 - **Scrum Master**: Check [`.github/agents/scrum-master.agent.md`](./.github/agents/scrum-master.agent.md)
 
@@ -27,7 +27,7 @@
 
 ### 📚 **Complete Documentation**
 - **Main Instructions**: [`.github/copilot-instructions.md`](./.github/copilot-instructions.md)
-- **AI Knowledge Base**: [`docs/ai/INDEX.md`](./docs/ai/INDEX.md)
+- **AI Knowledge Base**: [`.ai/knowledgebase/INDEX.md`](./.ai/knowledgebase/INDEX.md)
 - **Architecture**: [`docs/architecture/`](./docs/architecture/)
 - **Compliance**: [`docs/compliance/`](./docs/compliance/)
 - **User Guides**: [`docs/user-guides/`](./docs/user-guides/)

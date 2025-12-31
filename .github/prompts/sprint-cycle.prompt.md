@@ -111,7 +111,7 @@ gh issue edit 456 --add-label "points-8,priority-p0"
 Review compliance documents before planning:
 - [ACCESSIBILITY_COMPLIANCE_REPORT.md](../../ACCESSIBILITY_COMPLIANCE_REPORT.md) - WCAG 2.1
 - [ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md](../../ISSUE_TEMPLATE_STORE_LEGAL_COMPLIANCE.md) - EU legal
-- [GOVERNANCE.md](../../GOVERNANCE.md) - Requirements governance
+- [.ai/knowledgebase/governance.md](../../.ai/knowledgebase/governance.md) - Requirements governance
 - [compliance-integration.prompt.md](compliance-integration.prompt.md) - Implementation guidance
 
 **Check**: Which compliance categories apply to this sprint?
