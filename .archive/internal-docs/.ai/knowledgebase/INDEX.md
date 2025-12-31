@@ -16,6 +16,7 @@ This index lists curated knowledgebase articles to help agents and developers im
 - vite.md — Vite tooling notes
 - owasp-top-ten.md — OWASP Top Ten summary
  - search-elasticsearch-ecommerce.md — Modeling Elasticsearch-based e-commerce search & recommendations
+- docs-product-index.md — Index of product-related documentation under `docs/`
 
 Use these as the canonical short references when implementing or reviewing code.
 # Knowledgebase Index
