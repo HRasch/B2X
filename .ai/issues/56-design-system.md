@@ -2,8 +2,25 @@
 
 **Date:** January 2, 2026  
 **Status:** In Progress  
+**Component Library:** DaisyUI 5.5.14 + Tailwind CSS 4.1.18
 
 ## 🎨 B2Connect Design System
+
+### Component Library Strategy
+
+**Primary Framework:** DaisyUI (semantic component classes)
+- **Why DaisyUI:** Pre-built, accessible components with consistent design tokens
+- **Integration:** Built on Tailwind CSS with custom theme configuration
+- **Customization:** Extended with project-specific variants and utilities
+- **Accessibility:** WCAG 2.1 AA compliant out-of-the-box
+
+**Base Components Available:**
+- ✅ **Button** (`btn` classes) - Variants: primary, secondary, outline, ghost, success, warning, error
+- ✅ **Input** (`input` classes) - Types: text, email, password, number, tel, url, search
+- ✅ **Card** (`card` classes) - Variants: default, elevated, outlined, filled
+- ✅ **Navigation** - Breadcrumb, pagination (Phase 2B)
+- ✅ **Forms** - Select dropdown, textarea (Phase 2B)
+- ✅ **Interactive** - Modal, dropdown, tooltip, alert (Phase 2B)
 
 ### Color Palette
 

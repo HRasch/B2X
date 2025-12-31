@@ -49,87 +49,88 @@
 </template>
 
 <script setup lang="ts">
-export type CardVariant = 'default' | 'elevated' | 'outlined' | 'filled'
-export type CardSize = 'sm' | 'md' | 'lg' | 'xl'
+export type CardVariant = "default" | "elevated" | "outlined" | "filled";
+export type CardSize = "sm" | "md" | "lg" | "xl";
 
 interface Props {
-  variant?: CardVariant
-  size?: CardSize
-  image?: string
-  imageAlt?: string
-  title?: string
-  subtitle?: string
-  ariaLabel?: string
-  hover?: boolean
-  compact?: boolean
-  tag?: 'div' | 'article' | 'section' | 'router-link' | 'a'
-  to?: string
-  href?: string
+  variant?: CardVariant;
+  size?: CardSize;
+  image?: string;
+  imageAlt?: string;
+  title?: string;
+  subtitle?: string;
+  ariaLabel?: string;
+  hover?: boolean;
+  compact?: boolean;
+  tag?: "div" | "article" | "section" | "router-link" | "a";
+  to?: string;
+  href?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  variant: 'default',
-  size: 'md',
-  tag: 'div',
+  variant: "default",
+  size: "md",
+  tag: "div",
   hover: false,
-  compact: false
-})
+  compact: false,
+});
 
 const cardClasses = computed(() => {
   const classes = [
-    'card',
-    'bg-base-100',
+    "card",
+    "bg-base-100",
     // Variant styles
     getVariantClasses(props.variant),
     // Size styles
     getSizeClasses(props.size),
     // Interactive styles
     {
-      'hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer': props.hover,
-      'card-compact': props.compact
-    }
-  ]
+      "hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer":
+        props.hover,
+      "card-compact": props.compact,
+    },
+  ];
 
-  return classes.filter(Boolean).join(' ')
-})
+  return classes.filter(Boolean).join(" ");
+});
 
 const bodyClasses = computed(() => ({
-  'p-4': props.size === 'sm',
-  'p-6': props.size === 'md',
-  'p-8': props.size === 'lg',
-  'p-10': props.size === 'xl'
-}))
+  "p-4": props.size === "sm",
+  "p-6": props.size === "md",
+  "p-8": props.size === "lg",
+  "p-10": props.size === "xl",
+}));
 
 const titleClasses = computed(() => ({
-  'text-lg': props.size === 'sm' || props.size === 'md',
-  'text-xl': props.size === 'lg',
-  'text-2xl': props.size === 'xl'
-}))
+  "text-lg": props.size === "sm" || props.size === "md",
+  "text-xl": props.size === "lg",
+  "text-2xl": props.size === "xl",
+}));
 
 const actionsClasses = computed(() => ({
-  'justify-start': true,
-  'mt-4': true
-}))
+  "justify-start": true,
+  "mt-4": true,
+}));
 
 const getVariantClasses = (variant: CardVariant): string => {
   const variantMap = {
-    default: 'shadow-md',
-    elevated: 'shadow-lg',
-    outlined: 'border border-base-300 shadow-sm',
-    filled: 'bg-base-200'
-  }
-  return variantMap[variant] || 'shadow-md'
-}
+    default: "shadow-md",
+    elevated: "shadow-lg",
+    outlined: "border border-base-300 shadow-sm",
+    filled: "bg-base-200",
+  };
+  return variantMap[variant] || "shadow-md";
+};
 
 const getSizeClasses = (size: CardSize): string => {
   const sizeMap = {
-    sm: 'text-sm',
-    md: 'text-base',
-    lg: 'text-lg',
-    xl: 'text-xl'
-  }
-  return sizeMap[size] || 'text-base'
-}
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+    xl: "text-xl",
+  };
+  return sizeMap[size] || "text-base";
+};
 </script>
 
 <style scoped>

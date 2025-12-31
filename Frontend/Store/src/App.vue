@@ -9,7 +9,11 @@
     </a>
 
     <!-- Navbar -->
-    <nav class="navbar bg-base-200 shadow-lg sticky top-0 z-50" role="banner" aria-label="Main navigation">
+    <nav
+      class="navbar bg-base-200 shadow-lg sticky top-0 z-50"
+      role="banner"
+      aria-label="Main navigation"
+    >
       <div class="flex-1">
         <router-link
           to="/"
@@ -107,12 +111,20 @@
     </nav>
 
     <!-- Main Content -->
-    <main id="main-content" class="flex-1 container mx-auto py-8 px-4" role="main">
+    <main
+      id="main-content"
+      class="flex-1 container mx-auto py-8 px-4"
+      role="main"
+    >
       <router-view />
     </main>
 
     <!-- Footer -->
-    <footer class="footer bg-base-200 text-base-content p-10 mt-auto" role="contentinfo" aria-label="Site footer">
+    <footer
+      class="footer bg-base-200 text-base-content p-10 mt-auto"
+      role="contentinfo"
+      aria-label="Site footer"
+    >
       <nav>
         <header class="footer-title">Services</header>
         <a class="link link-hover">Branding</a>
