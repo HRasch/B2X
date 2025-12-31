@@ -4,6 +4,9 @@ import { useRouter } from "vue-router";
 import { useCartStore } from "@/stores/cart";
 import ProductCardModern from "@/components/shop/ProductCardModern.vue";
 import ProductPrice from "@/components/ProductPrice.vue";
+import BaseSelect from "@/components/ui/BaseSelect.vue";
+import BasePagination from "@/components/ui/BasePagination.vue";
+import BaseBreadcrumb from "@/components/ui/BaseBreadcrumb.vue";
 
 interface Product {
   id: string;
@@ -34,15 +37,12 @@ const sortBy = ref("name"); // name, price-asc, price-desc, rating
 const itemsPerPage = ref(12);
 const currentPage = ref(1);
 
-const categories = [
-  "All",
-  "Electronics",
-  "Accessories",
-  "Software",
-  "Services",
+const sortOptions = [
+  { value: "name", label: "Name (A-Z)" },
+  { value: "price-asc", label: "Price (Low to High)" },
+  { value: "price-desc", label: "Price (High to Low)" },
+  { value: "rating", label: "Rating (High to Low)" },
 ];
-
-// Computed
 const uniqueCategories = computed(() => {
   const cats = new Set(products.value.map((p) => p.category));
   return ["All", ...Array.from(cats).sort()];
@@ -185,6 +185,15 @@ onMounted(() => {
     </header>
 
     <div class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Breadcrumbs -->
+      <BaseBreadcrumb
+        class="mb-6"
+        :items="[
+          { label: 'Home', to: '/' },
+          { label: 'Shop', to: '/shop' }
+        ]"
+      />
+
       <!-- Search & Sort Bar -->
       <div class="flex flex-col md:flex-row gap-4 mb-8">
         <!-- Search Input -->
@@ -205,21 +214,13 @@ onMounted(() => {
 
         <!-- Sort Dropdown -->
         <div class="w-full md:w-48">
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Sort by</span>
-            </label>
-            <select
-              v-model="sortBy"
-              class="select select-bordered"
-              :disabled="loading"
-            >
-              <option value="name">Name (A-Z)</option>
-              <option value="price-asc">Price (Low to High)</option>
-              <option value="price-desc">Price (High to Low)</option>
-              <option value="rating">Rating (High to Low)</option>
-            </select>
-          </div>
+          <BaseSelect
+            v-model="sortBy"
+            :options="sortOptions"
+            label="Sort by"
+            :disabled="loading"
+            size="md"
+          />
         </div>
       </div>
 
@@ -327,7 +328,7 @@ onMounted(() => {
           <!-- Products Grid -->
           <div
             v-else-if="filteredProducts.length > 0"
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8"
           >
             <ProductCardModern
               v-for="product in filteredProducts"
@@ -360,38 +361,13 @@ onMounted(() => {
           <!-- Pagination -->
           <div
             v-if="!loading && filteredProducts.length > 0"
-            class="flex justify-center items-center gap-2"
+            class="flex justify-center mt-8"
           >
-            <button
-              @click="goToPage(currentPage - 1)"
-              :disabled="!hasPreviousPage"
-              class="btn btn-sm"
-            >
-              ← Previous
-            </button>
-
-            <div class="space-x-1">
-              <button
-                v-for="page in Math.min(5, totalPages)"
-                :key="page"
-                @click="goToPage(page)"
-                :class="[
-                  'btn btn-sm',
-                  currentPage === page ? 'btn-primary' : 'btn-ghost',
-                ]"
-              >
-                {{ page }}
-              </button>
-              <span v-if="totalPages > 5" class="px-2">...</span>
-            </div>
-
-            <button
-              @click="goToPage(currentPage + 1)"
-              :disabled="!hasNextPage"
-              class="btn btn-sm"
-            >
-              Next →
-            </button>
+            <BasePagination
+              :current-page="currentPage"
+              :total-pages="totalPages"
+              @page-change="goToPage"
+            />
           </div>
         </main>
       </div>

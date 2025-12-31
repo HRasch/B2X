@@ -1,110 +1,174 @@
 <template>
-  <div class="home">
-    <h1>Welcome to B2Connect</h1>
-    <p class="subtitle">A modern multitenant SaaS platform for seamless business connectivity</p>
+  <div class="min-h-screen">
+    <!-- Hero Section -->
+    <section class="hero min-h-[80vh] bg-gradient-to-br from-primary to-primary-focus text-primary-content">
+      <div class="hero-content text-center">
+        <div class="max-w-4xl">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            Welcome to B2Connect
+          </h1>
+          <p class="text-xl md:text-2xl mb-8 opacity-90 leading-relaxed">
+            A modern multitenant SaaS platform for seamless business connectivity
+          </p>
 
-    <div v-if="!isAuthenticated" class="hero">
-      <router-link to="/login" class="btn btn-primary btn-large">Get Started</router-link>
-    </div>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <BaseButton
+              v-if="!isAuthenticated"
+              variant="secondary"
+              size="lg"
+              to="/login"
+              class="btn-wide"
+            >
+              Get Started
+              <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </BaseButton>
 
-    <div v-else class="features">
-      <h2>Your Dashboard</h2>
-      <p>You are logged in. Navigate to your dashboard to get started.</p>
-      <router-link to="/dashboard" class="btn btn-primary">Go to Dashboard</router-link>
-    </div>
+            <BaseButton
+              v-else
+              variant="outline"
+              size="lg"
+              to="/dashboard"
+              class="btn-wide"
+            >
+              Go to Dashboard
+            </BaseButton>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div class="features-grid">
-      <div class="feature">
-        <h3>Multitenant Architecture</h3>
-        <p>Secure data isolation for multiple organizations on a single platform.</p>
+    <!-- Features Section -->
+    <section class="py-20 px-4 bg-base-100">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-base-content mb-4">
+            Why Choose B2Connect?
+          </h2>
+          <p class="text-xl text-base-content/70 max-w-2xl mx-auto">
+            Experience the power of modern SaaS architecture designed for businesses that demand excellence
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <BaseCard variant="elevated" hover class="group">
+            <div class="text-center p-6">
+              <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm3 2a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-base-content mb-3">
+                Multitenant Architecture
+              </h3>
+              <p class="text-base-content/70 leading-relaxed">
+                Secure data isolation for multiple organizations on a single platform with enterprise-grade security.
+              </p>
+            </div>
+          </BaseCard>
+
+          <BaseCard variant="elevated" hover class="group">
+            <div class="text-center p-6">
+              <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-secondary/20 transition-colors">
+                <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-base-content mb-3">
+                Microservices
+              </h3>
+              <p class="text-base-content/70 leading-relaxed">
+                Scalable microservices designed for high performance, reliability, and easy maintenance.
+              </p>
+            </div>
+          </BaseCard>
+
+          <BaseCard variant="elevated" hover class="group">
+            <div class="text-center p-6">
+              <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/20 transition-colors">
+                <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-base-content mb-3">
+                Real-time Updates
+              </h3>
+              <p class="text-base-content/70 leading-relaxed">
+                Event-driven architecture with Wolverine for instant data synchronization across all services.
+              </p>
+            </div>
+          </BaseCard>
+        </div>
       </div>
-      <div class="feature">
-        <h3>Microservices</h3>
-        <p>Scalable microservices designed for high performance and reliability.</p>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 bg-base-200">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold text-base-content mb-6">
+          Ready to Get Started?
+        </h2>
+        <p class="text-xl text-base-content/70 mb-8">
+          Join thousands of businesses already using B2Connect to streamline their operations
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <BaseButton
+            variant="primary"
+            size="lg"
+            to="/shop"
+            class="btn-wide"
+          >
+            Browse Products
+          </BaseButton>
+
+          <BaseButton
+            variant="outline"
+            size="lg"
+            to="/tenants"
+            class="btn-wide"
+          >
+            View Tenants
+          </BaseButton>
+        </div>
       </div>
-      <div class="feature">
-        <h3>Real-time Updates</h3>
-        <p>Event-driven architecture with Wolverine for instant data synchronization.</p>
-      </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useAuthStore } from '../stores/auth'
+import BaseButton from '@/components/ui/BaseButton.vue'
+import BaseCard from '@/components/ui/BaseCard.vue'
 
 const authStore = useAuthStore()
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 </script>
 
 <style scoped>
-.home {
-  text-align: center;
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 2rem;
-}
-
+/* Hero section customizations */
 .hero {
-  margin: 2rem 0;
+  background-attachment: fixed;
 }
 
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: all 0.3s;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
+@media (max-width: 768px) {
+  .hero {
+    background-attachment: scroll;
+  }
 }
 
-.btn-primary {
-  background-color: #007bff;
-  color: white;
+/* Card hover effects */
+.group:hover .bg-primary\/10 {
+  @apply bg-primary/20;
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
+.group:hover .bg-secondary\/10 {
+  @apply bg-secondary/20;
 }
 
-.btn-large {
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.feature {
-  padding: 2rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-.feature h3 {
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.feature p {
-  color: #666;
-  line-height: 1.6;
+.group:hover .bg-accent\/10 {
+  @apply bg-accent/20;
 }
 </style>

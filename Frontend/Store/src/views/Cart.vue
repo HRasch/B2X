@@ -1,117 +1,198 @@
 <template>
-  <div class="cart-container">
-    <h1>Warenkorb</h1>
-
-    <div v-if="cartStore.items.length === 0" class="empty-cart">
-      <p>Ihr Warenkorb ist leer</p>
-      <router-link to="/shop" class="continue-shopping">
-        Zum Einkaufen
-      </router-link>
+  <div class="min-h-screen bg-base-100">
+    <!-- Breadcrumbs -->
+    <div class="max-w-7xl mx-auto px-4 pt-8">
+      <BaseBreadcrumb
+        :items="[
+          { label: 'Home', to: '/' },
+          { label: 'Shop', to: '/shop' },
+          { label: 'Cart' }
+        ]"
+      />
     </div>
 
-    <div v-else class="cart-content">
-      <div class="cart-items">
-        <div v-for="item in cartStore.items" :key="item.id" class="cart-item">
-          <img :src="item.image" :alt="item.name" class="item-image" />
+    <!-- Page Header -->
+    <div class="bg-base-200 py-8">
+      <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-4xl font-bold text-base-content">Shopping Cart</h1>
+        <p class="text-base-content/70 mt-2">
+          {{ cartStore.items.length }} item{{ cartStore.items.length !== 1 ? 's' : '' }} in your cart
+        </p>
+      </div>
+    </div>
 
-          <div class="item-details">
-            <h3>{{ item.name }}</h3>
-            <p>Preis: {{ item.price }}€</p>
-          </div>
-
-          <div class="item-quantity">
-            <button @click="decreaseQuantity(item.id)">-</button>
-            <input v-model.number="item.quantity" type="number" min="1" />
-            <button @click="increaseQuantity(item.id)">+</button>
-          </div>
-
-          <div class="item-subtotal">
-            {{ (item.price * item.quantity).toFixed(2) }}€
-          </div>
-
-          <button @click="removeItem(item.id)" class="remove-btn">✕</button>
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Empty Cart State -->
+      <div v-if="cartStore.items.length === 0" class="text-center py-16">
+        <div class="max-w-md mx-auto">
+          <div class="text-8xl mb-6">🛒</div>
+          <h2 class="text-3xl font-bold text-base-content mb-4">Your cart is empty</h2>
+          <p class="text-base-content/70 mb-8">
+            Looks like you haven't added any items to your cart yet.
+          </p>
+          <BaseButton variant="primary" size="lg" to="/shop">
+            Continue Shopping
+          </BaseButton>
         </div>
       </div>
 
-      <div class="cart-summary">
-        <h2>Zusammenfassung</h2>
+      <!-- Cart Content -->
+      <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2 space-y-4">
+          <div
+            v-for="item in cartStore.items"
+            :key="item.id"
+            class="card bg-base-100 shadow-sm border border-base-300"
+          >
+            <div class="card-body p-6">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <!-- Product Image -->
+                <div class="flex-shrink-0">
+                  <img
+                    :src="item.image"
+                    :alt="item.name"
+                    class="w-24 h-24 object-cover rounded-lg"
+                    loading="lazy"
+                  />
+                </div>
 
-        <div class="summary-row">
-          <span>Zwischensumme:</span>
-          <span>{{ subtotal.toFixed(2) }}€</span>
-        </div>
+                <!-- Product Details -->
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-semibold text-base-content mb-2">
+                    {{ item.name }}
+                  </h3>
+                  <p class="text-base-content/70 text-sm mb-3">
+                    Unit Price: €{{ item.price.toFixed(2) }}
+                  </p>
 
-        <div class="summary-row">
-          <span>Steuern (19%):</span>
-          <span>{{ tax.toFixed(2) }}€</span>
-        </div>
+                  <!-- Quantity Controls -->
+                  <div class="flex items-center gap-3">
+                    <div class="flex items-center border border-base-300 rounded-lg">
+                      <BaseButton
+                        variant="ghost"
+                        size="sm"
+                        @click="decreaseQuantity(item.id)"
+                        :disabled="item.quantity <= 1"
+                        class="btn-square"
+                        aria-label="Decrease quantity"
+                      >
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                        </svg>
+                      </BaseButton>
 
-        <!-- Shipping Selector (PAngV Compliance) -->
-        <div class="shipping-section">
-          <h3>Versand</h3>
-          <div class="shipping-info">
-            <label for="country">Lieferziel:</label>
-            <select
-              v-model="selectedCountry"
-              id="country"
-              @change="onCountryChange"
-            >
-              <option value="">Bitte wählen...</option>
-              <option value="DE">Deutschland</option>
-              <option value="AT">Österreich</option>
-              <option value="BE">Belgien</option>
-              <option value="FR">Frankreich</option>
-              <option value="NL">Niederlande</option>
-              <option value="CH">Schweiz</option>
-              <option value="GB">Großbritannien</option>
-            </select>
-          </div>
+                      <span class="px-4 py-2 text-center min-w-[3rem] font-medium">
+                        {{ item.quantity }}
+                      </span>
 
-          <div v-if="shippingMethods.length > 0" class="shipping-methods">
-            <div
-              v-for="method in shippingMethods"
-              :key="method.id"
-              class="shipping-option"
-            >
-              <input
-                :id="`shipping-${method.id}`"
-                v-model="selectedShippingMethodId"
-                type="radio"
-                :value="method.id"
-                @change="onShippingChange"
-              />
-              <label :for="`shipping-${method.id}`" class="shipping-label">
-                <span class="method-name">{{ method.name }}</span>
-                <span class="method-description">
-                  {{ method.description }}
-                </span>
-                <span class="method-cost">{{ method.cost.toFixed(2) }}€</span>
-              </label>
+                      <BaseButton
+                        variant="ghost"
+                        size="sm"
+                        @click="increaseQuantity(item.id)"
+                        class="btn-square"
+                        aria-label="Increase quantity"
+                      >
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                      </BaseButton>
+                    </div>
+
+                    <!-- Remove Button -->
+                    <BaseButton
+                      variant="ghost"
+                      size="sm"
+                      @click="removeItem(item.id)"
+                      class="text-error hover:bg-error/10"
+                      aria-label="Remove item from cart"
+                    >
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                      </svg>
+                    </BaseButton>
+                  </div>
+                </div>
+
+                <!-- Item Total -->
+                <div class="text-right">
+                  <div class="text-xl font-bold text-base-content">
+                    €{{ (item.price * item.quantity).toFixed(2) }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div v-if="shippingError" class="shipping-error">
-            {{ shippingError }}
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+          <div class="card bg-base-100 shadow-sm border border-base-300 sticky top-4">
+            <div class="card-body">
+              <h2 class="card-title text-xl">Order Summary</h2>
+
+              <div class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-base-content/70">Subtotal</span>
+                  <span class="font-medium">€{{ subtotal.toFixed(2) }}</span>
+                </div>
+
+                <div class="flex justify-between">
+                  <span class="text-base-content/70">Tax (19%)</span>
+                  <span class="font-medium">€{{ tax.toFixed(2) }}</span>
+                </div>
+
+                <!-- Shipping -->
+                <div class="divider my-2"></div>
+                <div class="space-y-2">
+                  <label class="label">
+                    <span class="label-text font-medium">Shipping Method</span>
+                  </label>
+                  <BaseSelect
+                    v-model="selectedShipping"
+                    :options="shippingOptions"
+                    placeholder="Select shipping method"
+                    size="sm"
+                  />
+                </div>
+
+                <div class="flex justify-between">
+                  <span class="text-base-content/70">Shipping</span>
+                  <span class="font-medium">€{{ shippingCost.toFixed(2) }}</span>
+                </div>
+
+                <div class="divider my-2"></div>
+
+                <div class="flex justify-between text-lg font-bold">
+                  <span>Total</span>
+                  <span class="text-primary">€{{ total.toFixed(2) }}</span>
+                </div>
+              </div>
+
+              <div class="card-actions mt-6">
+                <BaseButton
+                  variant="primary"
+                  size="lg"
+                  to="/checkout"
+                  class="w-full"
+                  :disabled="cartStore.items.length === 0"
+                >
+                  Proceed to Checkout
+                </BaseButton>
+
+                <BaseButton
+                  variant="outline"
+                  size="md"
+                  to="/shop"
+                  class="w-full"
+                >
+                  Continue Shopping
+                </BaseButton>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="summary-row shipping-row" v-if="selectedShippingMethodId">
-          <span>Versand:</span>
-          <span>+{{ shippingCost.toFixed(2) }}€</span>
-        </div>
-
-        <div class="summary-row total">
-          <span>Gesamtpreis (inkl. MwSt):</span>
-          <span>{{ total.toFixed(2) }}€</span>
-        </div>
-
-        <button @click="checkout" class="checkout-btn">Zur Kasse gehen</button>
-
-        <router-link to="/shop" class="continue-shopping">
-          Weiter einkaufen
-        </router-link>
       </div>
-    </div>
   </div>
 </template>
 
@@ -119,6 +200,9 @@
 import { computed, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "../stores/cart";
+import BaseButton from "@/components/ui/BaseButton.vue";
+import BaseSelect from "@/components/ui/BaseSelect.vue";
+import BaseBreadcrumb from "@/components/ui/BaseBreadcrumb.vue";
 
 interface ShippingMethod {
   id: string;
@@ -135,9 +219,23 @@ const cartStore = useCartStore();
 
 const selectedCountry = ref("DE");
 const selectedShippingMethodId = ref("");
+const selectedShipping = ref("standard");
 const shippingMethods = ref<ShippingMethod[]>([]);
-const shippingCost = ref(0);
+const shippingCost = computed(() => {
+  const costs = {
+    standard: 5.99,
+    express: 12.99,
+    overnight: 24.99,
+  };
+  return costs[selectedShipping.value as keyof typeof costs] || 0;
+});
 const shippingError = ref("");
+
+const shippingOptions = [
+  { value: "standard", label: "Standard Shipping (3-5 days) - €5.99" },
+  { value: "express", label: "Express Shipping (1-2 days) - €12.99" },
+  { value: "overnight", label: "Overnight Shipping - €24.99" },
+];
 
 const subtotal = computed(() => {
   return cartStore.items.reduce(
