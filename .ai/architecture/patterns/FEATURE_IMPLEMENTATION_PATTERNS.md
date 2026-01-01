@@ -758,15 +758,878 @@ INTEGRATION:
 
 ---
 
-## References
+## Coding Guidelines & Best Practices
 
-- [Wolverine Pattern Reference](WOLVERINE_PATTERN_REFERENCE.md)
-- [DDD Bounded Contexts](DDD_BOUNDED_CONTEXTS_REFERENCE.md)
-- [ERROR_HANDLING_PATTERNS](ERROR_HANDLING_PATTERNS.md)
-- [VUE3_COMPOSITION_PATTERNS](VUE3_COMPOSITION_PATTERNS.md)
-- [ASPIRE_ORCHESTRATION_REFERENCE](ASPIRE_ORCHESTRATION_REFERENCE.md)
+### 🔧 **Backend (.NET 10 + Wolverine CQRS)**
+
+#### **Domain Layer (Entities & Value Objects)**
+```csharp
+// ✅ DO: Rich domain model with business logic
+public class Product : EntityBase
+{
+    // Private constructor for EF Core
+    private Product() { }
+    
+    // Public factory method with validation
+    public static Product Create(string name, decimal price, string sku)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new DomainException("ProductNameRequired", "Product name cannot be empty");
+        
+        if (price <= 0)
+            throw new DomainException("InvalidPrice", "Price must be greater than zero");
+        
+        return new Product
+        {
+            Id = Guid.NewGuid(),
+            Name = name.Trim(),
+            Price = price,
+            Sku = Sku.Create(sku), // Value object
+            Status = ProductStatus.Draft,
+            CreatedAt = DateTime.UtcNow
+        };
+    }
+    
+    // Business methods encapsulate domain logic
+    public void Publish()
+    {
+        if (Status != ProductStatus.Draft)
+            throw new DomainException("InvalidStatusTransition", "Only draft products can be published");
+        
+        Status = ProductStatus.Published;
+        PublishedAt = DateTime.UtcNow;
+        
+        // Raise domain event
+        AddDomainEvent(new ProductPublishedEvent(Id, Name, Price));
+    }
+}
+
+// ✅ DO: Value Objects for type safety
+public record Sku : ValueObject
+{
+    public string Value { get; private init; }
+    
+    private Sku(string value) => Value = value;
+    
+    public static Sku Create(string sku)
+    {
+        if (string.IsNullOrWhiteSpace(sku))
+            throw new DomainException("SkuRequired", "SKU cannot be empty");
+        
+        if (!Regex.IsMatch(sku, @"^[A-Z0-9-]{3,20}$"))
+            throw new DomainException("InvalidSkuFormat", "SKU must be 3-20 chars, uppercase letters, numbers, and hyphens only");
+        
+        return new Sku(sku.ToUpperInvariant());
+    }
+}
+```
+
+#### **Application Layer (Commands & Queries)**
+```csharp
+// ✅ DO: Command with validation attributes
+public class CreateProductCommand : IRequest<Result<ProductDto>>
+{
+    [Required(ErrorMessage = "Product name is required")]
+    [StringLength(100, MinimumLength = 2, ErrorMessage = "Name must be between 2 and 100 characters")]
+    public string Name { get; set; }
+    
+    [Range(0.01, 10000.00, ErrorMessage = "Price must be between 0.01 and 10000.00")]
+    public decimal Price { get; set; }
+    
+    [Required]
+    [RegularExpression(@"^[A-Z0-9-]{3,20}$", ErrorMessage = "SKU must be 3-20 characters, uppercase letters, numbers, and hyphens only")]
+    public string Sku { get; set; }
+    
+    [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters")]
+    public string? Description { get; set; }
+}
+
+// ✅ DO: Wolverine handler with proper error handling
+public class CreateProductHandler
+{
+    public static async Task<Result<ProductDto>> Handle(
+        CreateProductCommand command,
+        IProductRepository repository,
+        IMessageBus bus,
+        CancellationToken ct)
+    {
+        try
+        {
+            // Check business rules
+            var existingProduct = await repository.GetBySkuAsync(command.Sku, ct);
+            if (existingProduct != null)
+                return Result.Failure<ProductDto>("Product with this SKU already exists");
+            
+            // Create domain object
+            var product = Product.Create(command.Name, command.Price, command.Sku);
+            if (!string.IsNullOrEmpty(command.Description))
+                product.UpdateDescription(command.Description);
+            
+            // Persist
+            await repository.AddAsync(product, ct);
+            await repository.SaveChangesAsync(ct);
+            
+            // Publish events
+            await bus.PublishAsync(new ProductCreatedEvent(product.Id, product.Name, product.Sku), ct);
+            
+            return Result.Success(product.ToDto());
+        }
+        catch (DomainException ex)
+        {
+            return Result.Failure<ProductDto>(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            // Log unexpected errors
+            return Result.Failure<ProductDto>("An unexpected error occurred while creating the product");
+        }
+    }
+}
+```
+
+#### **Infrastructure Layer (EF Core)**
+```csharp
+// ✅ DO: Repository with specifications
+public interface IProductRepository : IRepository<Product>
+{
+    Task<Product?> GetBySkuAsync(string sku, CancellationToken ct = default);
+    Task<IReadOnlyList<Product>> GetPublishedProductsAsync(CancellationToken ct = default);
+    Task<IReadOnlyList<Product>> GetByCategoryAsync(Guid categoryId, CancellationToken ct = default);
+}
+
+// ✅ DO: EF Core configuration with indexes
+public class ProductConfiguration : IEntityTypeConfiguration<Product>
+{
+    public void Configure(EntityTypeBuilder<Product> builder)
+    {
+        builder.ToTable("Products");
+        
+        builder.HasKey(p => p.Id);
+        builder.Property(p => p.Id).ValueGeneratedNever();
+        
+        builder.Property(p => p.Name)
+            .HasMaxLength(100)
+            .IsRequired();
+        
+        builder.Property(p => p.Sku)
+            .HasMaxLength(20)
+            .IsRequired();
+        
+        // Index for SKU lookups
+        builder.HasIndex(p => p.Sku)
+            .IsUnique()
+            .HasDatabaseName("IX_Products_Sku");
+        
+        // Index for status filtering
+        builder.HasIndex(p => p.Status)
+            .HasDatabaseName("IX_Products_Status");
+        
+        // Optimistic concurrency
+        builder.Property(p => p.RowVersion)
+            .IsRowVersion()
+            .HasConversion<byte[]>();
+        
+        // Value object configuration
+        builder.OwnsOne(p => p.Sku, sku =>
+        {
+            sku.Property(s => s.Value)
+                .HasColumnName("Sku")
+                .HasMaxLength(20)
+                .IsRequired();
+        });
+    }
+}
+```
+
+#### **API Layer (Minimal APIs)**
+```csharp
+// ✅ DO: Minimal API with proper validation and error handling
+public static class ProductEndpoints
+{
+    public static void MapProductEndpoints(this IEndpointRouteBuilder app)
+    {
+        var group = app.MapGroup("/api/products")
+            .WithTags("Products")
+            .WithOpenApi();
+        
+        group.MapPost("/", CreateProduct)
+            .WithName("CreateProduct")
+            .WithSummary("Creates a new product")
+            .WithDescription("Creates a new product with the specified details")
+            .Produces<ProductDto>(StatusCodes.Status201Created)
+            .Produces<ProblemDetails>(StatusCodes.Status400BadRequest)
+            .Produces<ProblemDetails>(StatusCodes.Status409Conflict);
+        
+        group.MapGet("/{id}", GetProduct)
+            .WithName("GetProduct")
+            .WithSummary("Gets a product by ID")
+            .Produces<ProductDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
+    }
+    
+    private static async Task<IResult> CreateProduct(
+        CreateProductCommand command,
+        IMediator mediator,
+        HttpContext context,
+        CancellationToken ct)
+    {
+        var result = await mediator.Send(command, ct);
+        
+        if (result.IsFailure)
+        {
+            return result.Error.Contains("already exists")
+                ? Results.Conflict(new ProblemDetails
+                {
+                    Title = "Product already exists",
+                    Detail = result.Error,
+                    Status = StatusCodes.Status409Conflict
+                })
+                : Results.BadRequest(new ProblemDetails
+                {
+                    Title = "Validation failed",
+                    Detail = result.Error,
+                    Status = StatusCodes.Status400BadRequest
+                });
+        }
+        
+        var location = $"{context.Request.Path}/{result.Value.Id}";
+        return Results.Created(location, result.Value);
+    }
+}
+```
+
+### 🎨 **Frontend (Vue 3 + TypeScript + Pinia)**
+
+#### **Store Pattern (Pinia Composition API)**
+```typescript
+// ✅ DO: Type-safe Pinia store with proper error handling
+import { defineStore } from 'pinia'
+import { ref, computed, readonly } from 'vue'
+import type { Ref } from 'vue'
+
+export interface Product {
+  readonly id: string
+  readonly name: string
+  readonly sku: string
+  readonly price: number
+  readonly description?: string
+  readonly status: ProductStatus
+  readonly createdAt: Date
+}
+
+export interface CreateProductCommand {
+  name: string
+  sku: string
+  price: number
+  description?: string
+}
+
+export const useProductStore = defineStore('products', () => {
+  // State with proper typing
+  const products = ref<readonly Product[]>([])
+  const selectedProduct = ref<Product | null>(null)
+  const isLoading = ref(false)
+  const error = ref<string | null>(null)
+  
+  // Computed properties
+  const publishedProducts = computed(() =>
+    products.value.filter(p => p.status === ProductStatus.Published)
+  )
+  
+  const totalValue = computed(() =>
+    products.value.reduce((sum, p) => sum + p.price, 0)
+  )
+  
+  // Actions with proper error handling
+  const fetchProducts = async (): Promise<void> => {
+    isLoading.value = true
+    error.value = null
+    
+    try {
+      const response = await $fetch<readonly Product[]>('/api/products')
+      products.value = response
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to fetch products'
+      throw err // Re-throw for component handling
+    } finally {
+      isLoading.value = false
+    }
+  }
+  
+  const createProduct = async (command: CreateProductCommand): Promise<Product> => {
+    isLoading.value = true
+    error.value = null
+    
+    try {
+      const newProduct = await $fetch<Product>('/api/products', {
+        method: 'POST',
+        body: command
+      })
+      
+      // Optimistically update local state
+      products.value = [...products.value, newProduct]
+      
+      return newProduct
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to create product'
+      throw err
+    } finally {
+      isLoading.value = false
+    }
+  }
+  
+  const updateProduct = async (id: string, updates: Partial<Product>): Promise<void> => {
+    try {
+      const updatedProduct = await $fetch<Product>(`/api/products/${id}`, {
+        method: 'PUT',
+        body: updates
+      })
+      
+      // Update local state
+      const index = products.value.findIndex(p => p.id === id)
+      if (index !== -1) {
+        products.value = [
+          ...products.value.slice(0, index),
+          updatedProduct,
+          ...products.value.slice(index + 1)
+        ]
+      }
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to update product'
+      throw err
+    }
+  }
+  
+  return {
+    // State
+    products: readonly(products),
+    selectedProduct: readonly(selectedProduct),
+    isLoading: readonly(isLoading),
+    error: readonly(error),
+    
+    // Computed
+    publishedProducts,
+    totalValue,
+    
+    // Actions
+    fetchProducts,
+    createProduct,
+    updateProduct
+  }
+})
+```
+
+#### **Component Pattern (Composition API)**
+```vue
+<!-- ✅ DO: Type-safe Vue component with proper separation of concerns -->
+<template>
+  <div class="product-create-form">
+    <form @submit.prevent="handleSubmit" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <FormField v-model="form.name" label="Product Name" required>
+          <InputText
+            v-model="form.name"
+            placeholder="Enter product name"
+            :error="errors.name"
+            @blur="validateField('name')"
+          />
+        </FormField>
+        
+        <FormField v-model="form.sku" label="SKU" required>
+          <InputText
+            v-model="form.sku"
+            placeholder="PRODUCT-001"
+            :error="errors.sku"
+            @blur="validateField('sku')"
+          />
+        </FormField>
+      </div>
+      
+      <FormField v-model="form.price" label="Price" required>
+        <InputNumber
+          v-model="form.price"
+          :min="0.01"
+          :max="10000"
+          :step="0.01"
+          prefix="$"
+          :error="errors.price"
+          @blur="validateField('price')"
+        />
+      </FormField>
+      
+      <FormField v-model="form.description" label="Description">
+        <Textarea
+          v-model="form.description"
+          placeholder="Product description (optional)"
+          :maxlength="500"
+          rows="3"
+        />
+      </FormField>
+      
+      <div class="flex justify-end space-x-4">
+        <Button
+          variant="secondary"
+          @click="$emit('cancel')"
+          :disabled="isSubmitting"
+        >
+          Cancel
+        </Button>
+        
+        <Button
+          type="submit"
+          :loading="isSubmitting"
+          :disabled="!isFormValid"
+        >
+          Create Product
+        </Button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useProductStore } from '@/stores/productStore'
+import { useFormValidation } from '@/composables/useFormValidation'
+import { CreateProductCommand } from '@/types/commands'
+
+// Props & Emits
+interface Props {
+  initialData?: Partial<CreateProductCommand>
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  success: [product: Product]
+  cancel: []
+}>()
+
+// Store
+const productStore = useProductStore()
+
+// Form state
+const form = ref<CreateProductCommand>({
+  name: props.initialData?.name ?? '',
+  sku: props.initialData?.sku ?? '',
+  price: props.initialData?.price ?? 0,
+  description: props.initialData?.description ?? ''
+})
+
+// Validation
+const { errors, validateField, validateForm, isFormValid } = useFormValidation({
+  name: { required: true, minLength: 2, maxLength: 100 },
+  sku: { 
+    required: true, 
+    pattern: /^[A-Z0-9-]{3,20}$/,
+    customMessage: 'SKU must be 3-20 characters, uppercase letters, numbers, and hyphens only'
+  },
+  price: { required: true, min: 0.01, max: 10000 }
+})
+
+// Submission
+const isSubmitting = ref(false)
+
+const handleSubmit = async () => {
+  if (!validateForm()) return
+  
+  isSubmitting.value = true
+  
+  try {
+    const product = await productStore.createProduct(form.value)
+    emit('success', product)
+    
+    // Reset form
+    form.value = {
+      name: '',
+      sku: '',
+      price: 0,
+      description: ''
+    }
+  } catch (error) {
+    // Error is handled by the store
+    console.error('Failed to create product:', error)
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+// Watch for initial data changes
+watch(() => props.initialData, (newData) => {
+  if (newData) {
+    form.value = { ...form.value, ...newData }
+  }
+}, { deep: true })
+</script>
+
+<style scoped>
+.product-create-form {
+  @apply max-w-2xl mx-auto;
+}
+</style>
+```
+
+#### **Composable Pattern**
+```typescript
+// ✅ DO: Reusable composables for common logic
+import { ref, computed, type Ref } from 'vue'
+
+export interface ValidationRule {
+  required?: boolean
+  minLength?: number
+  maxLength?: number
+  min?: number
+  max?: number
+  pattern?: RegExp
+  customMessage?: string
+}
+
+export interface ValidationRules {
+  [key: string]: ValidationRule
+}
+
+export function useFormValidation(rules: ValidationRules) {
+  const errors = ref<Record<string, string>>({})
+  
+  const validateField = (field: string): boolean => {
+    const value = (form as any)[field]
+    const rule = rules[field]
+    
+    if (!rule) return true
+    
+    // Required validation
+    if (rule.required && (!value || (typeof value === 'string' && !value.trim()))) {
+      errors.value[field] = `${field} is required`
+      return false
+    }
+    
+    // Skip other validations if field is empty and not required
+    if (!value && !rule.required) {
+      delete errors.value[field]
+      return true
+    }
+    
+    // String validations
+    if (typeof value === 'string') {
+      if (rule.minLength && value.length < rule.minLength) {
+        errors.value[field] = rule.customMessage || `Must be at least ${rule.minLength} characters`
+        return false
+      }
+      
+      if (rule.maxLength && value.length > rule.maxLength) {
+        errors.value[field] = rule.customMessage || `Must be no more than ${rule.maxLength} characters`
+        return false
+      }
+      
+      if (rule.pattern && !rule.pattern.test(value)) {
+        errors.value[field] = rule.customMessage || 'Invalid format'
+        return false
+      }
+    }
+    
+    // Number validations
+    if (typeof value === 'number') {
+      if (rule.min !== undefined && value < rule.min) {
+        errors.value[field] = rule.customMessage || `Must be at least ${rule.min}`
+        return false
+      }
+      
+      if (rule.max !== undefined && value > rule.max) {
+        errors.value[field] = rule.customMessage || `Must be no more than ${rule.max}`
+        return false
+      }
+    }
+    
+    delete errors.value[field]
+    return true
+  }
+  
+  const validateForm = (): boolean => {
+    let isValid = true
+    
+    Object.keys(rules).forEach(field => {
+      if (!validateField(field)) {
+        isValid = false
+      }
+    })
+    
+    return isValid
+  }
+  
+  const isFormValid = computed(() => {
+    return Object.keys(errors.value).length === 0 && validateForm()
+  })
+  
+  return {
+    errors: readonly(errors),
+    validateField,
+    validateForm,
+    isFormValid
+  }
+}
+```
+
+### 🧪 **Testing Guidelines**
+
+#### **Backend Testing (xUnit + NSubstitute)**
+```csharp
+// ✅ DO: Comprehensive unit tests
+public class CreateProductHandlerTests
+{
+    private readonly IProductRepository _repository = Substitute.For<IProductRepository>();
+    private readonly IMessageBus _messageBus = Substitute.For<IMessageBus>();
+    
+    [Fact]
+    public async Task CreateProduct_WithValidData_ShouldSucceed()
+    {
+        // Arrange
+        var command = new CreateProductCommand
+        {
+            Name = "Test Product",
+            Sku = "TEST-001",
+            Price = 29.99m
+        };
+        
+        _repository.GetBySkuAsync(command.Sku, Arg.Any<CancellationToken>())
+            .Returns((Product)null);
+        
+        // Act
+        var result = await CreateProductHandler.Handle(
+            command, _repository, _messageBus, CancellationToken.None);
+        
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Name.Should().Be(command.Name);
+        result.Value.Sku.Should().Be(command.Sku);
+        
+        await _repository.Received(1).AddAsync(
+            Arg.Is<Product>(p => p.Name == command.Name), 
+            Arg.Any<CancellationToken>());
+        
+        await _messageBus.Received(1).PublishAsync(
+            Arg.Is<ProductCreatedEvent>(e => e.ProductId == result.Value.Id),
+            Arg.Any<CancellationToken>());
+    }
+    
+    [Fact]
+    public async Task CreateProduct_WithDuplicateSku_ShouldFail()
+    {
+        // Arrange
+        var command = new CreateProductCommand { Sku = "DUPLICATE" };
+        var existingProduct = new Product { Sku = Sku.Create("DUPLICATE") };
+        
+        _repository.GetBySkuAsync(command.Sku, Arg.Any<CancellationToken>())
+            .Returns(existingProduct);
+        
+        // Act
+        var result = await CreateProductHandler.Handle(
+            command, _repository, _messageBus, CancellationToken.None);
+        
+        // Assert
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Contain("already exists");
+        
+        await _repository.DidNotReceive().AddAsync(Arg.Any<Product>(), Arg.Any<CancellationToken>());
+    }
+}
+
+// ✅ DO: Integration tests with TestContainers
+[Collection("Database")]
+public class ProductRepositoryIntegrationTests : IAsyncLifetime
+{
+    private readonly MsSqlContainer _dbContainer;
+    private readonly IServiceProvider _services;
+    
+    public ProductRepositoryIntegrationTests()
+    {
+        _dbContainer = new MsSqlBuilder()
+            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+            .Build();
+    }
+    
+    public async Task InitializeAsync()
+    {
+        await _dbContainer.StartAsync();
+        
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string>
+            {
+                ["ConnectionStrings:Default"] = _dbContainer.GetConnectionString()
+            })
+            .Build();
+        
+        // Setup DI container with real database
+        // ... test implementation
+    }
+    
+    [Fact]
+    public async Task AddAsync_ShouldPersistProduct()
+    {
+        // Arrange
+        var repository = _services.GetRequiredService<IProductRepository>();
+        var product = Product.Create("Integration Test", 19.99m, "INT-001");
+        
+        // Act
+        await repository.AddAsync(product, CancellationToken.None);
+        await repository.SaveChangesAsync(CancellationToken.None);
+        
+        // Assert
+        var retrieved = await repository.GetByIdAsync(product.Id, CancellationToken.None);
+        retrieved.Should().NotBeNull();
+        retrieved!.Name.Should().Be(product.Name);
+    }
+}
+```
+
+#### **Frontend Testing (Vitest + Vue Test Utils)**
+```typescript
+// ✅ DO: Component tests with proper mocking
+import { describe, it, expect, vi } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import ProductCreateForm from '@/components/ProductCreateForm.vue'
+import { useProductStore } from '@/stores/productStore'
+
+// Mock the store
+vi.mock('@/stores/productStore')
+
+describe('ProductCreateForm', () => {
+  let mockStore: ReturnType<typeof useProductStore>
+  
+  beforeEach(() => {
+    setActivePinia(createPinia())
+    mockStore = useProductStore()
+    mockStore.createProduct = vi.fn()
+  })
+  
+  it('should validate required fields', async () => {
+    const wrapper = mount(ProductCreateForm)
+    
+    // Submit empty form
+    await wrapper.find('form').trigger('submit.prevent')
+    
+    // Check for validation errors
+    expect(wrapper.text()).toContain('Product name is required')
+    expect(wrapper.text()).toContain('SKU is required')
+    expect(wrapper.text()).toContain('Price is required')
+  })
+  
+  it('should create product on valid submission', async () => {
+    const wrapper = mount(ProductCreateForm)
+    
+    // Fill form
+    await wrapper.find('input[name="name"]').setValue('Test Product')
+    await wrapper.find('input[name="sku"]').setValue('TEST-001')
+    await wrapper.find('input[name="price"]').setValue('29.99')
+    
+    // Mock successful creation
+    mockStore.createProduct.mockResolvedValue({
+      id: '123',
+      name: 'Test Product',
+      sku: 'TEST-001',
+      price: 29.99
+    })
+    
+    // Submit form
+    await wrapper.find('form').trigger('submit.prevent')
+    
+    // Verify store was called
+    expect(mockStore.createProduct).toHaveBeenCalledWith({
+      name: 'Test Product',
+      sku: 'TEST-001',
+      price: 29.99
+    })
+  })
+  
+  it('should handle creation errors', async () => {
+    const wrapper = mount(ProductCreateForm)
+    
+    // Fill form
+    await wrapper.find('input[name="name"]').setValue('Test Product')
+    await wrapper.find('input[name="sku"]').setValue('TEST-001')
+    await wrapper.find('input[name="price"]').setValue('29.99')
+    
+    // Mock error
+    mockStore.createProduct.mockRejectedValue(new Error('SKU already exists'))
+    
+    // Submit form
+    await wrapper.find('form').trigger('submit.prevent')
+    
+    // Check for error display
+    expect(wrapper.text()).toContain('SKU already exists')
+  })
+})
+
+// ✅ DO: Store tests
+describe('useProductStore', () => {
+  it('should fetch products successfully', async () => {
+    const mockProducts = [
+      { id: '1', name: 'Product 1', sku: 'P1', price: 10 },
+      { id: '2', name: 'Product 2', sku: 'P2', price: 20 }
+    ]
+    
+    // Mock $fetch
+    global.$fetch = vi.fn().mockResolvedValue(mockProducts)
+    
+    const store = useProductStore()
+    
+    await store.fetchProducts()
+    
+    expect(store.products).toEqual(mockProducts)
+    expect(store.isLoading).toBe(false)
+    expect(store.error).toBe(null)
+  })
+})
+```
+
+### 📋 **Code Quality Checklist**
+
+#### **Backend Code Quality**
+- [ ] **SOLID Principles** befolgt (Single Responsibility, Open/Closed, etc.)
+- [ ] **DRY Principle** - Keine Code-Duplikation
+- [ ] **Domain Logic** in Domain Layer gekapselt
+- [ ] **Validation** sowohl client- als auch server-seitig
+- [ ] **Error Handling** mit benutzerdefinierten Exceptions
+- [ ] **Logging** mit korrelierenden IDs
+- [ ] **Async/Await** durchgängig verwendet
+- [ ] **CancellationToken** unterstützt
+- [ ] **EF Core** Queries optimiert (N+1 Problem vermieden)
+- [ ] **Unit Tests** mit 80%+ Coverage
+- [ ] **Integration Tests** für kritische Pfade
+
+#### **Frontend Code Quality**
+- [ ] **TypeScript** strikt verwendet (no `any`, proper types)
+- [ ] **Composition API** bevorzugt gegenüber Options API
+- [ ] **Reaktivität** optimiert (computed, watchers sparsam)
+- [ ] **Performance** berücksichtigt (lazy loading, code splitting)
+- [ ] **Accessibility** implementiert (ARIA, keyboard navigation)
+- [ ] **Responsive Design** mit Tailwind CSS
+- [ ] **Error Boundaries** für robuste Fehlerbehandlung
+- [ ] **Loading States** und **Error States** behandelt
+- [ ] **Form Validation** sowohl client- als auch server-seitig
+- [ ] **Component Tests** für alle UI-Komponenten
+
+#### **General Quality**
+- [ ] **Security** - Keine Secrets im Code, Input Validation
+- [ ] **Performance** - Lazy Loading, Caching, Optimierungen
+- [ ] **Documentation** - XML Comments, README Updates
+- [ ] **Git History** - Atomic Commits, klare Commit Messages
+- [ ] **Code Reviews** - Mindestens 2 Reviewer für komplexe Changes
+- [ ] **CI/CD** - Alle Tests passieren, Linting erfolgreich
+
+### 🔄 **Continuous Improvement**
+
+#### **Regular Reviews**
+- **Weekly**: Code Quality Metrics überprüfen
+- **Monthly**: Architecture Reviews durchführen
+- **Quarterly**: Tech Stack Evaluation und Updates planen
+
+#### **Learning & Adaptation**
+- **Tech Radar**: Neue Technologien evaluieren
+- **Community**: .NET und Vue.js Communities folgen
+- **Conferences**: Tech Events besuchen
+- **Books**: Domain-Driven Design und Clean Architecture studieren
 
 ---
 
-*Updated: 30. Dezember 2025*  
-*End-to-End feature implementation guide*
+*Coding Guidelines aktualisiert: 1. Januar 2026*  
+*@LeadTech - Modern Best Practices für .NET 10 + Vue 3 + TypeScript*
