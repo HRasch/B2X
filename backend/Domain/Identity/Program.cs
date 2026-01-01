@@ -183,7 +183,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials() // Required for httpOnly cookies
-            // .WithMaxAge(TimeSpan...) // Disabled
+                                // .WithMaxAge(TimeSpan...) // Disabled
             ;
     });
 });
