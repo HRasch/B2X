@@ -573,27 +573,48 @@ public void ProcessUserInput(string input)
 ```
 
 ### Exception Handling
+
+**Bevorzuge das Result-Pattern für erwartete Fehler**: Verwende Result<T> anstelle von Exceptions für erwartete Fehlerfälle, um typsichere und explizite Fehlerbehandlung zu gewährleisten.
+
 ```csharp
-// ✅ Empfohlen
-public async Task<Result> ProcessDataAsync(string data)
+// ✅ Empfohlen: Result-Pattern für erwartete Fehler
+public async Task<Result<User>> CreateUserAsync(CreateUserRequest request)
 {
+    var validationResult = await _validator.ValidateAsync(request);
+    if (!validationResult.IsValid)
+        return Result.Failure<User>(validationResult.Errors);
+
     try
     {
-        var result = await _processor.ProcessAsync(data);
-        return Result.Success(result);
+        var user = new User(request.Name, request.Email);
+        await _repository.SaveAsync(user);
+        return Result.Success(user);
     }
-    catch (ValidationException ex)
+    catch (DuplicateKeyException ex)
     {
-        _logger.LogWarning(ex, "Validation failed for data: {Data}", data);
-        return Result.Failure("Invalid data format");
+        _logger.LogWarning(ex, "User with email {Email} already exists", request.Email);
+        return Result.Failure<User>("User already exists");
     }
     catch (Exception ex)
     {
-        _logger.LogError(ex, "Unexpected error processing data: {Data}", data);
-        return Result.Failure("An unexpected error occurred");
+        _logger.LogError(ex, "Unexpected error creating user: {Email}", request.Email);
+        return Result.Failure<User>("An unexpected error occurred");
     }
 }
+
+// ❌ Vermeide: Exceptions für erwartete Fehler
+public async Task<User> CreateUserAsync(CreateUserRequest request)
+{
+    if (string.IsNullOrEmpty(request.Name))
+        throw new ValidationException("Name is required");
+
+    var user = new User(request.Name, request.Email);
+    await _repository.SaveAsync(user);
+    return user;
+}
 ```
+
+**Verwende Exceptions nur für unerwartete Fehler**: Exceptions sollten nur für echte Ausnahmefälle verwendet werden, nicht für erwartete Geschäftslogik-Fehler.
 
 ## Testing Best Practices
 
