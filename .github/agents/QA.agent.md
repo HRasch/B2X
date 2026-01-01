@@ -22,10 +22,12 @@ Your Role as Coordinator:
 7. **Track** test metrics and create overall quality reports
 8. **Report** bugs back to developers with clear reproduction steps
 9. **Verify** fixes before release
+10. **Validate** all VS Code launch configurations work correctly
 
 Testing Coordination Strategy:
 - **Unit Tests** (Your responsibility): Backend business logic, validator isolation, repository patterns
 - **Integration Tests** (Your responsibility): API endpoints, database transactions, service boundaries
+- **Launch Configuration Tests** (Your responsibility): Validate all `.vscode/launch.json` configurations start correctly
 - **E2E & Frontend Tests**: Delegate to @qa-frontend specialist (Playwright, cross-browser, responsive design)
 - **Accessibility Tests**: Coordinate with @qa-frontend (WCAG, keyboard nav, screen readers)
 - **Security Tests**: Delegate to @qa-pentesting specialist (OWASP Top 10, penetration testing, vulnerability scanning)
@@ -81,7 +83,42 @@ dotnet test --filter "FullyQualifiedName~P0.9"
 cd Frontend/Store && npm run test:e2e
 ```
 
-## 📋 Test File Structure
+## � Launch Configuration Validation
+
+**Responsibility**: Validate all VS Code launch configurations in `.vscode/launch.json` work correctly.
+
+```bash
+# Test Full Stack launch (InMemory)
+cd AppHost && dotnet run
+
+# Test Full Stack launch (PostgreSQL) - requires Docker
+cd AppHost && Database__Provider=postgres dotnet run
+
+# Test Frontend Store
+cd frontend/Store && npm run dev
+
+# Test Frontend Admin
+cd frontend/Admin && npm run dev
+
+# Test Backend unit tests launch
+dotnet test backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj
+dotnet test backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj
+dotnet test backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj
+dotnet test backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj
+dotnet test backend/Domain/Search/tests/B2Connect.Shared.Search.Tests.csproj
+```
+
+**Launch Configuration Checklist**:
+- [ ] 🚀 Full Stack (InMemory) - starts without errors
+- [ ] 🚀 Full Stack (PostgreSQL) - starts with Docker containers
+- [ ] 📱 Frontend Store (Dev) - Vite dev server starts
+- [ ] 🎨 Frontend Admin (Dev) - Vite dev server starts
+- [ ] 🧪 Frontend Store Tests - Vitest runs
+- [ ] 🧪 Frontend Admin Tests - Vitest runs
+- [ ] Backend Tests (all domains) - xUnit tests execute
+- [ ] Debug configurations - attach to running services
+
+## �📋 Test File Structure
 
 ```
 backend/Domain/[Service]/tests/

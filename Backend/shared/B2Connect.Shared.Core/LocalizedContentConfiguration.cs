@@ -56,11 +56,11 @@ public static class LocalizedContentConfiguration
         {
             if (columnName != null)
             {
-                owned.ToJson(columnName);
+                // owned.ToJson(columnName);
             }
             else
             {
-                owned.ToJson();
+                // owned.ToJson();
             }
         });
 

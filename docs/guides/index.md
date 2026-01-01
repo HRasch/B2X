@@ -64,6 +64,24 @@ Technische Dokumentation für Entwicklung und Deployment:
 
 ---
 
+### Für UX/UI & Frontend
+
+Design und User Experience Guidelines:
+
+📖 **[UX Guide →](UX_GUIDE.md)**
+
+- Design Philosophy & Principles
+- Component Libraries (DaisyUI, Soft UI)
+- Typography & Color Systems
+- Accessibility (WCAG 2.1 AA)
+- Responsive Design Patterns
+- User Flows
+- Forms & Validation
+- Performance Guidelines
+- Dark Mode Implementation
+
+---
+
 ### Für Security & DevOps
 
 Sicherheit und Infrastruktur:

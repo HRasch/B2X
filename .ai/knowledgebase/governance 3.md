@@ -1,0 +1,436 @@
+---
+title: Governance & P0 Playbook (migrated)
+source: .ai/knowledgebase/governance.md (migrated)
+---
+
+# 📋 B2Connect Requirements & Governance Documentation
+
+**Version:** 1.0  
+**Status:** Active for P0 Week (Dec 30 - Jan 3)  
+**Last Updated:** 27. Dezember 2025
+
+---
+
+## 🎯 What's New?
+
+This documentation package anchors all requirements and GitHub workflows for B2Connect development. Everything needed for the **P0 Critical Week** is here.
+
+---
+
+## 📚 Complete Documentation Map
+
+### 1. **Requirements** (Start Here!)
+
+#### [REQUIREMENTS_SUMMARY.md](INDEX.md)
+**The single source of truth for what must be built**
+- All P0 critical requirements
+- P1 high-priority requirements
+- Security, data protection, testing requirements
+- Success metrics and timeline
+- 30-minute read
+
+**Who Should Read:**
+- Development team (MUST read)
+- Product owners
+- Project managers
+- QA/Test engineers
+
+**Key Sections:**
+- P0.1: Remove hardcoded JWT secrets
+- P0.2: Fix CORS configuration
+- P0.3: Implement encryption at rest
+- P0.4: Implement audit logging
+- Success criteria for each
+- Test examples
+
+---
+
+### 2. **Application Specifications** (Reference)
+
+#### [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](INDEX.md)
+**Complete system specifications**
+- Functional requirements (User, Tenant, Product, Order management)
+- Security requirements (Auth, Network, Data, Input validation)
+- API specifications (Response formats, Status codes, Auth headers)
+- Database schema (New audit tables, Base entity updates, Encryption config)
+- Audit & compliance (GDPR, SOC2, ISO 27001)
+- Performance requirements
+- Deployment requirements
+- Development guidelines
+
+**Who Should Read:**
+- Architects and Lead Developers
+- Security/Compliance officer
+- Database specialists
+- DevOps/Infrastructure team
+
+**Use As Reference For:**
+- API design
+- Database design
+- Security implementation
+- Compliance verification
+
+---
+
+### 3. **GitHub & Development Workflows** (Process)
+
+#### [.ai/knowledgebase/GITHUB_WORKFLOWS.md](../../docs/archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md)
+**How we work together on GitHub**
+- Repository structure
+- Project board setup
+- Branch strategy (Git Flow)
+- Naming conventions
+- Commit message format
+- Pull request workflow
+- Code review process
+- Release management
+- CI/CD pipelines
+- Emergency procedures
+
+**Who Should Read:**
+- All developers
+- Code reviewers
+- DevOps engineers
+- Release managers
+
+**Use For:**
+- Creating branches
+- Writing commits
+- Creating PRs
+- Reviewing code
+- Merging changes
+- Releasing versions
+
+---
+
+### 4. **GitHub Issue Templates** (Standardization)
+
+#### [.github/ISSUE_TEMPLATE/p0-security-issue.md](../../.github/ISSUE_TEMPLATE)
+For reporting critical P0 security issues
+- Priority assessment
+- Security impact analysis
+- Acceptance criteria
+- Testing requirements
+
+#### [.github/ISSUE_TEMPLATE/feature-request.md](../../.github/ISSUE_TEMPLATE)
+For requesting new features
+- Functional requirements
+- Non-functional requirements
+- Service impact analysis
+- Configuration changes needed
+
+#### [.github/ISSUE_TEMPLATE/bug-report.md](../../.github/ISSUE_TEMPLATE)
+For reporting bugs
+- Clear reproduction steps
+- Environment information
+- Error messages and logs
+- Severity assessment
+
+---
+
+### 5. **GitHub PR Template** (Standards)
+
+#### [.github/pull_request_template.md](.github/pull_request_template.md)
+Automatically appears on all PRs
+- Clear description of changes
+- Type of change (bug fix, feature, etc.)
+- Testing verification
+- Security checklist
+- Breaking changes documentation
+- Code review requirements
+
+---
+
+### 6. **Contributing Guidelines** (Community)
+
+#### [.github/CONTRIBUTING.md](../../CONTRIBUTING.md)
+How to contribute to B2Connect
+- Code of conduct
+- Development setup
+- Code style guidelines (C#, TypeScript)
+- Testing requirements
+- Security checklist
+- Documentation standards
+- Commit message format
+- Code review process
+- Common workflows
+
+**Who Should Read:**
+- All contributors
+- New team members
+- Community contributors
+
+---
+
+### 7. **Executive Coordination**
+
+#### [.ai/knowledgebase/QUICK_START_P0.md](../../docs/guides/QUICK_START_P0.md) (5-minute version)
+TL;DR for P0 week
+- Problem overview table
+- Weekly timeline
+- Copy-paste code fixes
+- Daily progress tracking
+- Success criteria
+- Motivation
+
+#### [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](INDEX.md) (30-minute version)
+Day-by-day implementation guide
+- Monday (P0.1 + P0.2): 14 hours
+- Tuesday (Testing): 4-5 hours
+- Wednesday (P0.3): 6-8 hours
+- Thursday (P0.4): 6-8 hours
+- Friday (Final Testing): 4-5 hours
+- Detailed code examples
+- Testing procedures
+- Git workflows
+- Success criteria per day
+
+#### [.ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md](../sprint/DAILY_STANDUP_TEMPLATE.md) (Daily execution)
+Team coordination for P0 week
+- Daily standup scripts
+- Progress tracking dashboard
+- Success criteria checklist
+- Blocker identification
+- Friday retrospective
+
+---
+
+## 🗺️ How These Documents Relate
+
+```
+REQUIREMENTS_SUMMARY.md (What)
+    ↓
+    ├── APPLICATION_SPECIFICATIONS.md (System details)
+    ├── GITHUB_WORKFLOWS.md (How we work)
+    ├── .github/ISSUE_TEMPLATE/* (Issue tracking)
+    ├── .github/pull_request_template.md (PR standards)
+    └── .github/CONTRIBUTING.md (Community guidelines)
+    
+CRITICAL_ISSUES_ROADMAP.md (When & Who)
+    ├── QUICK_START_P0.md (TL;DR)
+    ├── DAILY_STANDUP_TEMPLATE.md (Daily execution)
+    ├── SECURITY_HARDENING_GUIDE.md (Code examples)
+    └── REQUIREMENTS_SUMMARY.md (What they're building)
+```
+
+---
+
+## 📊 Quick Reference Table
+
+| Document | Purpose | Audience | Read Time | Frequency |
+|----------|---------|----------|-----------|-----------|
+| REQUIREMENTS_SUMMARY | What to build | Dev team, PM | 15 min | Weekly
+| APPLICATION_SPECIFICATIONS | System specs | Architects | 20 min | Monthly
+| GITHUB_WORKFLOWS | How to develop | All devs | 20 min | As needed
+| P0/Feature/Bug issues | Track work | All devs | 5 min | Per issue
+| PR template | Code standards | Reviewers | 5 min | Per PR
+| CONTRIBUTING | Get started | New devs | 15 min | Onboarding
+| CRITICAL_ISSUES_ROADMAP | Detailed plan | Dev leads | 30 min | Weekly
+| QUICK_START_P0 | TL;DR | Busy leads | 5 min | Daily
+| DAILY_STANDUP | Team sync | All team | 15 min | Daily
+
+---
+
+## 🚀 Getting Started (5-Minute Setup)
+
+### For Developers (Start Here!)
+
+```bash
+# 1. Read the requirements (15 min)
+open .ai/knowledgebase/REQUIREMENTS_SUMMARY.md
+
+# 2. Read the roadmap (30 min)
+open .ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md
+
+# 3. Setup your branch (5 min)
+git checkout develop
+git pull origin develop
+git checkout -b hotfix/p0-critical-week
+
+# 4. Start coding!
+# Follow CRITICAL_ISSUES_ROADMAP.md day-by-day
+```
+
+### For Code Reviewers
+
+```bash
+# 1. Understand the specs (15 min)
+open .ai/knowledgebase/REQUIREMENTS_SUMMARY.md
+open .ai/knowledgebase/APPLICATION_SPECIFICATIONS.md
+
+# 2. Know the workflow (10 min)
+open .ai/knowledgebase/GITHUB_WORKFLOWS.md
+# Focus on: PR Workflow, Code Review Process
+
+# 3. Review PRs using template
+# PR template automatically appears on GitHub
+```
+
+### For Project Manager/Lead
+
+```bash
+# 1. Read the roadmap (30 min)
+open .ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md
+
+# 2. Use the standup template (5 min daily)
+open .ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md
+
+# 3. Track progress on GitHub
+# Use GitHub Projects board
+# Link issues to .ai/knowledgebase/REQUIREMENTS_SUMMARY.md
+```
+
+---
+
+## ✅ Document Checklist
+
+### Developer Checklist
+- [ ] Read .ai/knowledgebase/REQUIREMENTS_SUMMARY.md completely
+- [ ] Read relevant section of .ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md
+- [ ] Reference .ai/knowledgebase/SECURITY_HARDENING_GUIDE.md while coding
+- [ ] Write tests for all changes
+- [ ] Follow .ai/knowledgebase/GITHUB_WORKFLOWS.md for commits/PRs
+- [ ] Use .github/pull_request_template.md
+- [ ] Update documentation as needed
+- [ ] Get 2 approvals before merge
+
+### Lead Developer Checklist
+- [ ] Assign P0.1 and P0.2 to developers (Monday morning)
+- [ ] Use .ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md for team sync (daily 10:00)
+- [ ] Monitor blockers and unblock team
+- [ ] Approve/merge PRs following .ai/knowledgebase/GITHUB_WORKFLOWS.md
+- [ ] Assign P0.3 and P0.4 (Wednesday morning)
+- [ ] Final testing on Friday (by 17:00)
+- [ ] Merge to main and tag v1.0.1
+
+### QA Checklist
+- [ ] Follow test requirements from .ai/knowledgebase/REQUIREMENTS_SUMMARY.md
+- [ ] Run test procedures from .ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md
+- [ ] Verify success criteria for each P0 issue
+- [ ] Test on Windows/Mac/Linux if applicable
+- [ ] Test with fresh database
+- [ ] Document test results
+
+---
+
+## 📋 Success Criteria (By Friday EOD)
+
+### Code Quality
+- ✅ All unit tests passing
+- ✅ All integration tests passing
+- ✅ Code review approved (2 reviewers)
+- ✅ Build successful (no warnings)
+- ✅ No hardcoded secrets in code
+
+### P0 Issues Complete
+- ✅ P0.1: JWT secrets removed
+- ✅ P0.2: CORS configuration environment-specific
+- ✅ P0.3: PII encrypted at rest
+- ✅ P0.4: Audit logging operational
+
+### Documentation
+- ✅ Code comments for complex logic
+- ✅ .ai/knowledgebase/REQUIREMENTS_SUMMARY.md marked as "Completed"
+- ✅ Commit messages follow convention
+- ✅ PR descriptions clear and complete
+
+---
+
+## 🔗 Navigation Guide
+
+### If You're Asking...
+
+**"What do I need to build?"**
+→ Read [.ai/knowledgebase/REQUIREMENTS_SUMMARY.md](INDEX.md)
+
+**"How do I build P0.1?"**
+→ Go to [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](INDEX.md#p01)
+
+**"What code do I need?"**
+→ Use [.ai/knowledgebase/SECURITY_HARDENING_GUIDE.md](../../docs/guides/SECURITY_HARDENING_GUIDE.md)
+
+**"How do I commit my code?"**
+→ Follow [.ai/knowledgebase/GITHUB_WORKFLOWS.md](../../docs/archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md#commit-strategy)
+**"How do I create a PR?"**
+→ Use [.github/pull_request_template.md](.github/pull_request_template.md)
+**"What's the system design?"**
+→ Read [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](INDEX.md)
+**"How do we work on GitHub?"**
+→ Read [.ai/knowledgebase/GITHUB_WORKFLOWS.md](../../docs/archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md)
+
+**"What should I report an issue as?"**
+→ Use [.github/ISSUE_TEMPLATE/](.github/ISSUE_TEMPLATE/)
+
+**"How do I get started as a new developer?"**
+→ Read [.github/CONTRIBUTING.md](../../CONTRIBUTING.md)
+
+---
+
+## 📞 Quick Links
+
+### Documentation
+- [.ai/knowledgebase/REQUIREMENTS_SUMMARY.md](INDEX.md) - All requirements
+- [.ai/knowledgebase/APPLICATION_SPECIFICATIONS.md](INDEX.md) - System specs
+- [.ai/knowledgebase/GITHUB_WORKFLOWS.md](../../docs/archive/reference-docs/github-workflows/GITHUB_WORKFLOWS.md) - Development process
+- [.github/CONTRIBUTING.md](../../CONTRIBUTING.md) - Contributing guide
+
+### Execution
+- [.ai/knowledgebase/CRITICAL_ISSUES_ROADMAP.md](INDEX.md) - Daily tasks
+- [.ai/knowledgebase/QUICK_START_P0.md](../../docs/guides/QUICK_START_P0.md) - Quick reference
+- [.ai/knowledgebase/DAILY_STANDUP_TEMPLATE.md](../sprint/DAILY_STANDUP_TEMPLATE.md) - Daily coordination
+- [.ai/knowledgebase/SECURITY_HARDENING_GUIDE.md](../../docs/guides/SECURITY_HARDENING_GUIDE.md) - Code examples
+
+### Templates & Standards
+- [.github/ISSUE_TEMPLATE/p0-security-issue.md](../../.github/ISSUE_TEMPLATE)
+- [.github/ISSUE_TEMPLATE/feature-request.md](../../.github/ISSUE_TEMPLATE)
+- [.github/ISSUE_TEMPLATE/bug-report.md](../../.github/ISSUE_TEMPLATE)
+- [.github/pull_request_template.md](.github/pull_request_template.md)
+
+---
+
+## 🎯 Success Formula
+
+```
+REQUIREMENTS_SUMMARY + CRITICAL_ISSUES_ROADMAP + DAILY_STANDUP = Success!
+1. Know what to build (REQUIREMENTS_SUMMARY)
+2. Know how to build it (CRITICAL_ISSUES_ROADMAP + SECURITY_HARDENING_GUIDE)
+3. Know how to work together (GITHUB_WORKFLOWS + DAILY_STANDUP)
+4. Execute daily (Follow the roadmap, hold standups, update PRs)
+5. Merge on Friday → Production ready ✅
+```
+
+---
+
+## 🏁 Status
+
+**Created:** 27. Dezember 2025  
+**Valid Through:** 03. Januar 2026 (end of P0 week)  
+**Next Review:** 06. Januar 2026 (start of P1 week)
+
+**Total Documentation:**
+- 4 major requirement/spec documents
+- 3 GitHub issue templates
+- 1 GitHub PR template
+- 1 Contributing guide
+- 3 execution guides (Roadmap, Quick Start, Standup)
+- **Total: 12+ documents, 150+ pages**
+
+---
+
+## 📌 Remember
+
+> **"Follow the roadmap, ask for help if blocked, merge on Friday!"**
+
+Everything you need is documented. If something is unclear:
+1. Check the DOCUMENTATION_INDEX.md
+2. Search relevant sections
+3. Ask in GitHub Discussions or team chat
+4. Escalate to Lead Developer if truly stuck
+
+**You've got this! 💪**
+
+---
+
+**Document Owner:** Architecture & Governance Team  
+**Last Updated:** 27. Dezember 2025  
+**Questions?** Check DOCUMENTATION_INDEX.md or reach out to the team

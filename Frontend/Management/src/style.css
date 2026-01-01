@@ -1,7 +1,5 @@
-/* PostCSS: Tailwind CSS directives - processed by tailwindcss/postcss */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* PostCSS: Tailwind CSS - processed by @tailwindcss/postcss */
+@import "tailwindcss";
 
 :root {
   color-scheme: light dark;

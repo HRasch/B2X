@@ -1,6 +1,21 @@
 namespace B2Connect.Types.Domain;
 
 /// <summary>
+/// Marker interface for value objects in the domain
+/// </summary>
+public interface IValueObject
+{
+}
+
+/// <summary>
+/// Interface for entities that belong to a tenant
+/// </summary>
+public interface ITenantEntity
+{
+    Guid TenantId { get; set; }
+}
+
+/// <summary>
 /// Base class for domain entities with common properties
 /// </summary>
 public abstract class Entity

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using B2Connect.Shared.Core;
+using B2Connect.Types.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 

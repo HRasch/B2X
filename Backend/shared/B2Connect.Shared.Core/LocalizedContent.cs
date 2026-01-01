@@ -1,3 +1,5 @@
+using B2Connect.Types.Domain;
+
 namespace B2Connect.Shared.Core;
 
 /// <summary>

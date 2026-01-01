@@ -8,11 +8,12 @@ Willkommen zur B2Connect-Benutzerdokumentation! Finden Sie Antworten auf Ihre Fr
 
 ### Erste Schritte
 - **[Erste Schritte mit B2Connect](./getting-started.md)** - Zum ersten Mal auf B2Connect? Erfahren Sie, wie Sie ein Konto erstellen und mit dem Einkaufen beginnen
-  - Was ist B2Connect?
-  - Warum ein Konto erstellen
-  - Kontoerstellung
-  - Erste Anmeldung
-  - Nächste Schritte
+- **[Registrierung](./registration.md)** - Konto erstellen (Privat- oder Geschäftskunde)
+
+### Einkaufen
+- **[Einkaufen bei B2Connect](./shopping.md)** - Produkte finden, suchen und in den Warenkorb legen
+- **[Bestellvorgang (Checkout)](./checkout.md)** - 3-Schritte-Bestellprozess erklärt
+- **[Bestellungen verwalten](./orders.md)** - Bestellungen verfolgen, Rechnungen, Retouren
 
 ### Authentifizierung und Konten
 - **[Wie Sie sich anmelden](./login.md)** - Greifen Sie auf Ihr Konto auf jedem Gerät zu

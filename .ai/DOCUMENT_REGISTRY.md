@@ -213,6 +213,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `DOC-005` | Development Guide | `docs/guides/DEVELOPMENT.md` | Active |
 | `DOC-006` | Project Dashboard | `PROJECT_DASHBOARD.md` | Active |
 | `DOC-007` | Governance | `GOVERNANCE.md` | Active |
+| `DOC-008` | UX Guide | `docs/guides/UX_GUIDE.md` | Active |
 
 ---
 

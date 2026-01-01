@@ -2,8 +2,9 @@ import { apiClient } from "../client";
 import axios from "axios";
 import type { AdminUser, LoginRequest, LoginResponse } from "@/types/auth";
 
-// Demo mode - set to true for E2E tests until backend auth is fully configured
-const DEMO_MODE = true;
+// Demo mode - DISABLED for production security
+// Only enable for local E2E testing via environment variable
+const DEMO_MODE = import.meta.env.VITE_ENABLE_DEMO_MODE === "true";
 
 // Default tenant GUID for admin authentication
 const DEFAULT_TENANT_ID =
@@ -15,16 +16,18 @@ const baseURL = import.meta.env.VITE_ADMIN_API_URL || "/api";
 export const authApi = {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     // Ensure tenant ID is set before any login attempt
-    if (!localStorage.getItem("tenantId")) {
-      localStorage.setItem("tenantId", DEFAULT_TENANT_ID);
+    if (!sessionStorage.getItem("tenantId")) {
+      sessionStorage.setItem("tenantId", DEFAULT_TENANT_ID);
     }
 
-    // Demo mode: accept admin@example.com / password
+    // Demo mode: ONLY enabled via environment variable for testing
+    // WARNING: Never enable in production!
     if (
       DEMO_MODE &&
       credentials.email === "admin@example.com" &&
       credentials.password === "password"
     ) {
+      console.warn("[AUTH] Demo mode active - NOT FOR PRODUCTION USE");
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve({
@@ -62,12 +65,9 @@ export const authApi = {
           },
         },
       });
-    }
+    }sessionStorage.getItem("tenantId") || DEFAULT_TENANT_ID;
 
-    // Use stored tenant ID or default GUID for login
-    const tenantId = localStorage.getItem("tenantId") || DEFAULT_TENANT_ID;
-
-    // Direkt axios verwenden da Backend kein "data"-Wrapper hat
+    // Use axios with credentials for httpOnly cookie support
     const response = await axios.post<LoginResponse>(
       `${baseURL}/api/auth/login`,
       credentials,
@@ -76,9 +76,13 @@ export const authApi = {
           "Content-Type": "application/json",
           "X-Tenant-ID": tenantId,
         },
+        withCredentials: true, // Enable httpOnly cookie handling
       }
     );
 
+    // Store tenant ID from response if provided (non-sensitive)
+    if (response.data.user?.tenantId) {
+      session
     // Store tenant ID from response if provided
     if (response.data.user?.tenantId) {
       localStorage.setItem("tenantId", response.data.user.tenantId);
@@ -99,11 +103,23 @@ export const authApi = {
     return apiClient.put<AdminUser>("/api/auth/profile", data);
   },
 
-  changePassword(oldPassword: String, newPassword: string) {
+  changePassword(oldPassword: string, newPassword: string) {
     return apiClient.post<void>("/api/auth/change-password", {
       oldPassword,
       newPassword,
     });
+  },
+
+  async refreshToken(): Promise<LoginResponse> {
+    // Token refresh uses httpOnly cookies - no token needed in request
+    const response = await axios.post<LoginResponse>(
+      `${baseURL}/api/auth/refresh`,
+      {},
+      {
+        withCredentials: true, // Send httpOnly refresh cookie
+      }
+    );
+    return response.data;
   },
 
   requestMFA() {
@@ -115,11 +131,11 @@ export const authApi = {
   },
 
   async logout(): Promise<void> {
-    // In demo mode, just clear local storage (handled by store)
+    // In demo mode, just clear session storage (handled by store)
     if (DEMO_MODE) {
       return Promise.resolve();
     }
-    // Real backend call
+    // Real backend call - server will clear httpOnly cookies
     return apiClient.post<void>("/api/auth/logout", {});
   },
 };

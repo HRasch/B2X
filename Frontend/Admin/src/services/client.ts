@@ -12,6 +12,7 @@ class ApiClient {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true, // Enable httpOnly cookie handling
     });
 
     this.setupInterceptors();
@@ -20,13 +21,22 @@ class ApiClient {
   private setupInterceptors() {
     // Request Interceptor
     this.instance.interceptors.request.use((config) => {
-      const token = localStorage.getItem("authToken");
+      // Use sessionStorage (more secure than localStorage)
+      const token = sessionStorage.getItem("authToken");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
-      const tenantId = localStorage.getItem("tenantId");
+      const tenantId = sessionStorage.getItem("tenantId");
       if (tenantId) {
         config.headers["X-Tenant-ID"] = tenantId;
+      }
+      // Add CSRF token from cookie if available
+      const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("XSRF-TOKEN="))
+        ?.split("=")[1];
+      if (csrfToken) {
+        config.headers["X-XSRF-TOKEN"] = decodeURIComponent(csrfToken);
       }
       return config;
     });
@@ -36,8 +46,7 @@ class ApiClient {
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
-          localStorage.removeItem("authToken");
-          localStorage.removeItem("refreshToken");
+          sessionStorage.removeItem("authToken");
           window.location.href = "/login";
         }
         return Promise.reject(error);

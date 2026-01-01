@@ -26,6 +26,7 @@
     "e2e:performance": "playwright test tests/e2e/performance.spec.ts"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "axios": "^1.7.7",
     "date-fns": "^3.6.0",
     "pinia": "^2.2.6",
@@ -59,7 +60,7 @@
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "strip-literal": "^3.1.0",
-    "tailwindcss": "^3.4.15",
+    "tailwindcss": "^4.1.18",
     "terser": "^5.36.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",

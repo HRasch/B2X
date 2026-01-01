@@ -90,16 +90,16 @@
 
     <!-- Users Table -->
     <div v-else class="users-table-container">
-      <table class="users-table">
+      <table class="users-table" role="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>E-Mail</th>
-            <th>Telefon</th>
-            <th>Status</th>
-            <th>Beigetreten</th>
-            <th>Letzter Login</th>
-            <th>Aktionen</th>
+            <th scope="col">Name</th>
+            <th scope="col">E-Mail</th>
+            <th scope="col">Telefon</th>
+            <th scope="col">Status</th>
+            <th scope="col">Beigetreten</th>
+            <th scope="col">Letzter Login</th>
+            <th scope="col">Aktionen</th>
           </tr>
         </thead>
         <tbody>
@@ -147,26 +147,26 @@
                 <router-link
                   :to="`/users/${user.id}`"
                   class="btn-icon"
-                  title="Ansehen"
+                  :aria-label="`View user ${user.firstName} ${user.lastName}`"
                   data-testid="view-user-btn"
                 >
-                  <i class="icon-eye"></i>
+                  <i class="icon-eye" aria-hidden="true"></i>
                 </router-link>
                 <router-link
                   :to="`/users/${user.id}/edit`"
                   class="btn-icon"
-                  title="Bearbeiten"
+                  :aria-label="`Edit user ${user.firstName} ${user.lastName}`"
                   data-testid="edit-user-btn"
                 >
-                  <i class="icon-edit"></i>
+                  <i class="icon-edit" aria-hidden="true"></i>
                 </router-link>
                 <button
                   @click="handleDelete(user.id)"
                   class="btn-icon btn-danger"
-                  title="Löschen"
+                  :aria-label="`Delete user ${user.firstName} ${user.lastName}`"
                   data-testid="delete-user-btn"
                 >
-                  <i class="icon-trash"></i>
+                  <i class="icon-trash" aria-hidden="true"></i>
                 </button>
               </div>
             </td>

@@ -8,10 +8,12 @@ Welcome to the B2Connect user documentation! Find answers to your questions abou
 
 ### Getting Started
 - **[Getting Started](./getting-started.md)** - First time on B2Connect? Learn how to create an account and start shopping
-  - What is B2Connect?
-  - Creating your account
-  - First login
-  - Next steps
+- **[Registration](./registration.md)** - Create account (Private or Business customer)
+
+### Shopping
+- **[Shopping at B2Connect](./shopping.md)** - Find products, search and add to cart
+- **[Checkout Process](./checkout.md)** - 3-step order process explained
+- **[Managing Orders](./orders.md)** - Track orders, invoices, returns
 
 ### Authentication & Accounts
 - **[How to Log In](./login.md)** - Access your account on any device

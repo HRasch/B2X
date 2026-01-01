@@ -1,10 +1,110 @@
 /* Tailwind CSS */
-/* stylelint-disable-next-line at-rule-no-unknown */
-@tailwind base;
-/* stylelint-disable-next-line at-rule-no-unknown */
-@tailwind components;
-/* stylelint-disable-next-line at-rule-no-unknown */
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Custom Theme Variables for Tailwind v4 */
+@theme {
+  /* Soft UI Custom Colors */
+  --color-soft-50: #f8f9fa;
+  --color-soft-100: #f0f2f5;
+  --color-soft-200: #e9ecef;
+  --color-soft-300: #dee2e6;
+  --color-soft-400: #ced4da;
+  --color-soft-500: #adb5bd;
+  --color-soft-600: #6c757d;
+  --color-soft-700: #495057;
+  --color-soft-800: #343a40;
+  --color-soft-900: #212529;
+
+  /* Primary Colors (Corporate Blue) */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c2d57;
+
+  /* Success Colors */
+  --color-success-50: #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-200: #bbf7d0;
+  --color-success-300: #86efac;
+  --color-success-400: #4ade80;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+  --color-success-800: #166534;
+  --color-success-900: #14532d;
+
+  /* Warning Colors */
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #fcd34d;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+
+  /* Danger Colors */
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-200: #fecaca;
+  --color-danger-300: #fca5a5;
+  --color-danger-400: #f87171;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-800: #991b1b;
+  --color-danger-900: #7f1d1d;
+
+  /* Info Colors */
+  --color-info-50: #ecf0ff;
+  --color-info-100: #e0e7ff;
+  --color-info-200: #c7d2fe;
+  --color-info-300: #a5b4fc;
+  --color-info-400: #818cf8;
+  --color-info-500: #6366f1;
+  --color-info-600: #4f46e5;
+  --color-info-700: #4338ca;
+  --color-info-800: #3730a3;
+  --color-info-900: #312e81;
+
+  /* Soft UI Shadows */
+  --shadow-soft-xs: 0 2px 4px rgba(52, 71, 103, 0.1);
+  --shadow-soft-sm: 0 4px 6px rgba(52, 71, 103, 0.1);
+  --shadow-soft-md: 0 6px 12px rgba(52, 71, 103, 0.1);
+  --shadow-soft-lg: 0 8px 16px rgba(52, 71, 103, 0.12);
+  --shadow-soft-xl: 0 12px 24px rgba(52, 71, 103, 0.15);
+  --shadow-soft-2xl: 0 16px 32px rgba(52, 71, 103, 0.18);
+  --shadow-soft-inner: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+  --shadow-soft-bottom: 0 8px 16px rgba(52, 71, 103, 0.15), inset 0 -2px 0 rgba(255, 255, 255, 0.5);
+
+  /* Border Radius */
+  --radius-soft: 0.75rem;
+  --radius-soft-lg: 1rem;
+  --radius-soft-xl: 1.5rem;
+  --radius-soft-2xl: 2rem;
+
+  /* Spacing */
+  --spacing-safe: 1.5rem;
+  --spacing-safe-lg: 2.5rem;
+
+  /* Font Family */
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+
+  /* Opacity */
+  --opacity-soft: 0.85;
+
+  /* Transition */
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 * {
   margin: 0;

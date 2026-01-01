@@ -31,12 +31,14 @@
         <button
           @click="sidebarOpen = false"
           class="md:hidden text-soft-400 dark:text-soft-500 hover:text-soft-600 dark:hover:text-soft-400"
+          aria-label="Close sidebar"
         >
           <svg
             class="w-5 h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               stroke-linecap="round"
@@ -101,12 +103,14 @@
           <button
             @click="sidebarOpen = !sidebarOpen"
             class="md:hidden text-soft-600 dark:text-soft-300 hover:text-soft-900 dark:hover:text-white transition-colors"
+            aria-label="Toggle sidebar menu"
           >
             <svg
               class="w-6 h-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 stroke-linecap="round"
@@ -142,12 +146,14 @@
           <!-- Notifications -->
           <button
             class="relative text-soft-600 dark:text-soft-400 hover:text-soft-900 dark:hover:text-white transition-colors"
+            aria-label="View notifications"
           >
             <svg
               class="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 stroke-linecap="round"
@@ -158,6 +164,7 @@
             </svg>
             <span
               class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-danger-500"
+              aria-label="New notifications available"
             />
           </button>
 
@@ -165,6 +172,9 @@
           <div class="relative" @click="userMenuOpen = !userMenuOpen">
             <button
               class="flex items-center gap-3 p-2 rounded-soft hover:bg-soft-100 dark:hover:bg-soft-700 transition-colors"
+              aria-label="User menu"
+              aria-expanded="userMenuOpen"
+              aria-haspopup="true"
             >
               <div
                 class="w-8 h-8 rounded-soft-lg bg-gradient-soft-purple flex items-center justify-center text-white text-sm font-semibold"
@@ -200,23 +210,28 @@
               v-if="userMenuOpen"
               @click:outside="userMenuOpen = false"
               class="absolute right-0 mt-2 w-48 bg-white dark:bg-soft-800 rounded-soft-lg shadow-soft-lg border border-soft-100 dark:border-soft-700 z-50 transition-colors duration-300"
+              role="menu"
+              aria-orientation="vertical"
             >
               <a
                 href="#"
                 class="block px-4 py-3 text-sm text-soft-700 dark:text-soft-300 hover:bg-soft-50 dark:hover:bg-soft-700 first:rounded-t-soft-lg transition-colors"
+                role="menuitem"
               >
                 Profile
               </a>
               <a
                 href="#"
                 class="block px-4 py-3 text-sm text-soft-700 dark:text-soft-300 hover:bg-soft-50 dark:hover:bg-soft-700 transition-colors"
+                role="menuitem"
               >
                 Settings
               </a>
-              <div class="border-t border-soft-100 dark:border-soft-700" />
+              <div class="border-t border-soft-100 dark:border-soft-700" role="separator" />
               <button
                 @click="logout"
                 class="w-full text-left px-4 py-3 text-sm text-danger-600 dark:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-900/20 last:rounded-b-soft-lg transition-colors font-medium"
+                role="menuitem"
               >
                 Logout
               </button>
@@ -299,6 +314,8 @@ const logout = async () => {
 </script>
 
 <style scoped>
+@reference "../../main.css";
+
 /* Smooth transitions */
 :deep(.router-link-active) {
   @apply text-primary-600;

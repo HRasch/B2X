@@ -96,7 +96,6 @@ public class GatewayIntegrationTests
 
         await catalogHost.StopAsync();
     }
-}
 
     [Fact]
     public async Task Gateway_Forwards_Custom_Headers_To_Catalog()
@@ -208,7 +207,8 @@ public class GatewayIntegrationTests
         var res = await client.GetAsync("/api/v2/products");
 
         // Gateway should surface an error status; allow either 500 or 502 depending on config
-        ((int)res.StatusCode).Should().BeGreaterOrEqualTo(500);
+        ((int)res.StatusCode).Should().BeGreaterThanOrEqualTo(500);
 
         await catalogHost.StopAsync();
     }
+}
