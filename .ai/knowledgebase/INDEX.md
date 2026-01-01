@@ -73,12 +73,14 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 | PostgreSQL | TBD | 16.x | - | database, backend | - |
 | Docker | TBD | 25.x | - | devops, infra | - |
 | TypeScript | TBD | 5.x | - | tooling, build | - |
+| Tailwind CSS | 4.1.18 | 4.1.18 | 2026-01-01 | breaking-changes, frontend | @reference required for Vue components |
 
 ## Search by Tag
 
 ### 🔴 Breaking Changes
 - [Node.js v16→v18](./software/nodejs/v16-to-v18.md)
 - [React v17→v18](./software/react/v17-to-v18.md)
+- [Tailwind CSS v3→v4](./tailwind-css-v4-breaking-changes.md)
 
 ### 🟢 Security Fixes
 - [PostgreSQL 15.2→15.3](./software/postgresql/v15.2-to-v15.3.md)
@@ -90,6 +92,7 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - [TypeScript 5.0](./software/typescript/v4-to-v5.md)
 
 ## Recently Updated
+- 01.01.2026: Added Tailwind CSS v4 Breaking Changes ([tailwind-css-v4-breaking-changes.md](./tailwind-css-v4-breaking-changes.md))
 - 30.12.2025: Added Mermaid Documentation ([tools-and-tech/MERMAID_DOCUMENTATION.md](./tools-and-tech/MERMAID_DOCUMENTATION.md))
 - 30.12.2025: Index created and structure established
 - 31.12.2025: Added Elasticsearch e‑commerce search & recommendations article (search-elasticsearch-ecommerce.md)
@@ -178,6 +181,6 @@ Examples:
 
 ---
 
-**Last Updated:** 30.12.2025
+**Last Updated:** 01.01.2026
 **Maintained by:** @SARAH, @Architect
 **Access Level:** All Agents
