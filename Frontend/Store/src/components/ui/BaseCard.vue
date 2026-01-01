@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 export type CardVariant = "default" | "elevated" | "outlined" | "filled";
 export type CardSize = "sm" | "md" | "lg" | "xl";
 

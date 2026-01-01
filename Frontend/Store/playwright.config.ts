@@ -1,5 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// Dynamic port configuration from environment (Aspire assigns ports dynamically)
+const STORE_PORT =
+  process.env.PLAYWRIGHT_STORE_PORT || process.env.STORE_PORT || "5173";
+const STORE_BASE_URL =
+  process.env.PLAYWRIGHT_BASE_URL || `http://localhost:${STORE_PORT}`;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   // Timeout 1s for backend integration
@@ -15,7 +21,7 @@ export default defineConfig({
     actionTimeout: 1000,
     navigationTimeout: 1000,
     expect: { timeout: 1000 },
-    baseURL: "http://localhost:5173",
+    baseURL: STORE_BASE_URL,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -29,8 +35,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: "npm run dev -- --port 5173",
-    url: "http://localhost:5173",
+    command: `npm run dev -- --port ${STORE_PORT}`,
+    url: STORE_BASE_URL,
     reuseExistingServer: true,
     timeout: 120000,
   },

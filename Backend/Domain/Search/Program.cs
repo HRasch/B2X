@@ -1,5 +1,10 @@
+using B2Connect.ServiceDefaults;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
+using Serilog;
+using FluentValidation;
+using Wolverine;
+using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,16 +55,18 @@ builder.Services.AddWolverineHttp();
 builder.Services.AddEndpointsApiExplorer();
 
 // Add Database Context
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Database=b2connect_search;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<SearchDbContext>(options =>
-    options.UseNpgsql(connectionString)
-        .UseSnakeCaseNamingConvention());
+// TODO: Implement SearchDbContext
+// var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+//     ?? "Host=localhost;Database=b2connect_search;Username=postgres;Password=postgres";
+// builder.Services.AddDbContext<SearchDbContext>(options =>
+//     options.UseNpgsql(connectionString)
+//         .UseSnakeCaseNamingConvention());
 
 // Add Search Services
-builder.Services.AddScoped<ISearchRepository, SearchRepository>();
-builder.Services.AddScoped<ISearchService, SearchService>();
-builder.Services.AddScoped<IValidator<SearchQuery>, SearchQueryValidator>();
+// TODO: Implement search services
+// builder.Services.AddScoped<ISearchRepository, SearchRepository>();
+// builder.Services.AddScoped<ISearchService, SearchService>();
+// builder.Services.AddScoped<IValidator<SearchQuery>, SearchQueryValidator>();
 
 // Add Caching
 builder.Services.AddMemoryCache();

@@ -51,16 +51,18 @@ builder.Services.AddWolverineHttp();
 builder.Services.AddEndpointsApiExplorer();
 
 // Add Database Context
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Database=b2connect_cms;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<CMSDbContext>(options =>
-    options.UseNpgsql(connectionString)
-        .UseSnakeCaseNamingConvention());
+// TODO: Implement CMSDbContext
+// var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+//     ?? "Host=localhost;Database=b2connect_cms;Username=postgres;Password=postgres";
+// builder.Services.AddDbContext<CMSDbContext>(options =>
+//     options.UseNpgsql(connectionString)
+//         .UseSnakeCaseNamingConvention());
 
 // Add CMS Services
-builder.Services.AddScoped<IPageRepository, PageRepository>();
-builder.Services.AddScoped<IPageService, PageService>();
-builder.Services.AddScoped<IValidator<CreatePageCommand>, CreatePageCommandValidator>();
+// TODO: Implement CMS services
+// builder.Services.AddScoped<IPageRepository, PageRepository>();
+// builder.Services.AddScoped<IPageService, PageService>();
+// builder.Services.AddScoped<IValidator<CreatePageCommand>, CreatePageCommandValidator>();
 
 // Add Caching
 builder.Services.AddMemoryCache();

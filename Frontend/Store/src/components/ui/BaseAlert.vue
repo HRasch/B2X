@@ -80,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 export type AlertVariant = "info" | "success" | "warning" | "error";
 
 interface Props {

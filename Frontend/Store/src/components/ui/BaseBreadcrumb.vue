@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 export interface BreadcrumbItem {
   label: string;
   href?: string;

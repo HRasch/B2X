@@ -1,5 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// Dynamic port configuration from environment (Aspire assigns ports dynamically)
+const ADMIN_PORT =
+  process.env.PLAYWRIGHT_ADMIN_PORT || process.env.ADMIN_PORT || "5174";
+const ADMIN_BASE_URL =
+  process.env.PLAYWRIGHT_BASE_URL || `http://localhost:${ADMIN_PORT}`;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
@@ -12,7 +18,7 @@ export default defineConfig({
   expect: { timeout: 1000 },
 
   use: {
-    baseURL: "http://localhost:5174",
+    baseURL: ADMIN_BASE_URL,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -28,8 +34,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: "npm run dev -- --port 5174",
-    url: "http://localhost:5174",
+    command: `npm run dev -- --port ${ADMIN_PORT}`,
+    url: ADMIN_BASE_URL,
     reuseExistingServer: true,
     timeout: 120000,
   },

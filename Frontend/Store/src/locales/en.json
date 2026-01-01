@@ -25,6 +25,7 @@
     "next": "Next",
     "previous": "Previous",
     "loading": "Loading...",
+    "required": "Required",
     "success": "Success",
     "error": "Error",
     "warning": "Warning",
@@ -35,7 +36,11 @@
     "filter": "Filter",
     "sort": "Sort",
     "export": "Export",
-    "import": "Import"
+    "import": "Import",
+    "selected": "selected",
+    "selectOptions": "Select options",
+    "removeSelection": "Remove {{item}}",
+    "clearAll": "Clear all"
   },
   "errors": {
     "required": "This field is required",

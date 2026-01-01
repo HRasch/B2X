@@ -53,6 +53,27 @@ Your Focus:
 - Coordinating across specialists
 - Aggregating test results into overall quality report
 
+## 🔍 Problem-Solving Escalation Protocol
+
+**After 2nd Failed Attempt**:
+1. **Research Internet**: Search official documentation, Stack Overflow, GitHub issues for similar problems
+2. **Document Findings**: Record solutions, workarounds, and root causes in `.ai/knowledgebase/testing/`
+3. **Update Tests**: Apply learnings from research to resolve the issue
+4. **Escalate if Needed**: If still blocked after research, escalate to @TechLead or @Architect
+
+**Research Resources**:
+- Official framework documentation (xUnit, Aspire, Wolverine, etc.)
+- GitHub Issues for known bugs
+- Stack Overflow for common integration testing patterns
+- Community forums and blogs for best practices
+
+**When to Research**:
+- Integration test failures with timeouts or connection issues
+- Framework-specific errors or configuration problems
+- Test environment setup issues
+- Aspire resource health check failures
+- Service discovery or networking problems
+
 ## 📊 52 Compliance Tests (Gate for Production!)
 
 | Component | Tests | Focus |

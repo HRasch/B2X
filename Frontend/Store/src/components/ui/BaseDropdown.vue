@@ -37,20 +37,22 @@
     </div>
 
     <!-- Menu -->
-    <ul
-      v-if="isOpen"
-      class="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-lg"
-      :class="menuClasses"
-      role="menu"
-      @click.stop
-    >
-      <slot />
-    </ul>
+    <Transition name="dropdown-menu" appear>
+      <ul
+        v-if="isOpen"
+        class="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-lg"
+        :class="menuClasses"
+        role="menu"
+        @click.stop
+      >
+        <slot />
+      </ul>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 export type DropdownPosition = "bottom" | "top" | "left" | "right" | "end";
 
 interface Props {
@@ -151,5 +153,21 @@ watch(isOpen, (newIsOpen) => {
 <style scoped>
 .dropdown-toggle:focus-visible {
   @apply outline-none ring-2 ring-primary ring-offset-2;
+}
+
+/* Dropdown menu transition animations */
+.dropdown-menu-enter-active,
+.dropdown-menu-leave-active {
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu-enter-from {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+}
+
+.dropdown-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
 }
 </style>

@@ -9,8 +9,6 @@
     <AssemblyName>B2Connect.Email</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="..\..\..\Directory.Packages.props" />
-
   <ItemGroup>
     <PackageReference Include="AWSSDK.SimpleEmail" />
     <PackageReference Include="FluentValidation" />

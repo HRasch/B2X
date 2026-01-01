@@ -9,7 +9,10 @@
     >
       <span class="label-text" :class="labelClasses">
         {{ label }}
-        <span v-if="required" class="text-error ml-1" aria-label="required"
+        <span
+          v-if="required"
+          class="text-error ml-1"
+          :aria-label="t('ui.required')"
           >*</span
         >
       </span>
@@ -79,22 +82,37 @@
       </div>
     </div>
 
+    <!-- Character counter -->
+    <div v-if="showCharacterCounter" class="flex justify-end mt-1">
+      <span class="text-xs" :class="characterCounterClasses">
+        {{ characterCount }}/{{ maxlength }}
+      </span>
+    </div>
+
     <!-- Hint text -->
     <div v-if="hint && !hasError" class="label">
       <span class="label-text-alt text-base-content/60">{{ hint }}</span>
     </div>
 
     <!-- Error message -->
-    <div v-if="hasError" class="label">
-      <span :id="errorId" class="label-text-alt text-error" role="alert">
-        {{ error }}
-      </span>
-    </div>
+    <Transition name="error-message" appear>
+      <div v-if="hasError" class="label">
+        <span
+          :id="errorId"
+          :class="['label-text-alt flex items-center gap-2', errorTextColor]"
+          role="alert"
+        >
+          <span class="text-sm">{{ errorIcon }}</span>
+          <span>{{ error }}</span>
+        </span>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useSlots } from 'vue'
+import { computed, ref, useSlots } from "vue";
+import { useI18n } from "vue-i18n";
 export type InputType =
   | "text"
   | "email"
@@ -115,6 +133,7 @@ interface Props {
   placeholder?: string;
   hint?: string;
   error?: string;
+  errorSeverity?: "error" | "warning" | "info";
   disabled?: boolean;
   required?: boolean;
   minlength?: number;
@@ -126,6 +145,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
   size: "md",
+  errorSeverity: "error",
 });
 
 const emit = defineEmits<{
@@ -133,6 +153,8 @@ const emit = defineEmits<{
   blur: [event: FocusEvent];
   focus: [event: FocusEvent];
 }>();
+
+const { t } = useI18n();
 
 const slots = useSlots();
 const inputRef = ref();
@@ -142,9 +164,62 @@ const inputId = computed(
 const errorId = computed(() => `${inputId.value}-error`);
 
 const hasError = computed(() => Boolean(props.error));
+const errorSeverity = computed(() => props.errorSeverity);
+
+const errorIcon = computed(() => {
+  switch (errorSeverity.value) {
+    case "warning":
+      return "⚠️";
+    case "info":
+      return "ℹ️";
+    default:
+      return "❌";
+  }
+});
+
+const errorTextColor = computed(() => {
+  switch (errorSeverity.value) {
+    case "warning":
+      return "text-warning";
+    case "info":
+      return "text-info";
+    default:
+      return "text-error";
+  }
+});
 const inputType = computed(() => {
   if (props.type === "checkbox" || props.type === "radio") return props.type;
   return props.type;
+});
+
+const showCharacterCounter = computed(() => {
+  return (
+    props.maxlength &&
+    props.maxlength > 0 &&
+    props.type !== "checkbox" &&
+    props.type !== "radio"
+  );
+});
+
+const characterCount = computed(() => {
+  if (typeof props.value === "string") {
+    return props.value.length;
+  }
+  return 0;
+});
+
+const characterCounterClasses = computed(() => {
+  const count = characterCount.value;
+  const max = props.maxlength || 0;
+  const percentage = (count / max) * 100;
+
+  if (percentage >= 100) {
+    return "text-error font-medium";
+  } else if (percentage >= 90) {
+    return "text-warning font-medium";
+  } else {
+    return "text-base-content/60";
+  }
 });
 
 const wrapperClasses = computed(() => ({
@@ -230,5 +305,21 @@ defineExpose({
 
 .radio-error {
   @apply border-error;
+}
+
+/* Error message transition animations */
+.error-message-enter-active,
+.error-message-leave-active {
+  transition: all 0.3s ease;
+}
+
+.error-message-enter-from {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.error-message-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
 }
 </style>

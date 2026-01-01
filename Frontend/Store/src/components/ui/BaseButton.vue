@@ -28,7 +28,7 @@
     </span>
 
     <!-- Button content -->
-    <span v-if="loading" class="sr-only">{{ loadingText }}</span>
+    <span v-if="loading" class="sr-only">{{ displayLoadingText }}</span>
     <span v-else>
       <slot>{{ text }}</slot>
     </span>
@@ -49,7 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 export type ButtonVariant =
   | "primary"
   | "secondary"
@@ -77,12 +78,14 @@ interface Props {
   to?: string;
 }
 
+const { t } = useI18n();
+
 const props = withDefaults(defineProps<Props>(), {
   variant: "primary",
   size: "md",
   disabled: false,
   loading: false,
-  loadingText: "Loading...",
+  loadingText: "", // Will use i18n
   iconPosition: "left",
   tag: "button",
 });
@@ -98,6 +101,10 @@ const handleClick = (event: Event) => {
   }
   emit("click", event);
 };
+
+const displayLoadingText = computed(() => {
+  return props.loadingText || t("ui.loading");
+});
 
 const buttonClasses = computed(() => {
   const classes = [
@@ -132,25 +139,37 @@ const getVariantClass = (variant: ButtonVariant): string => {
 </script>
 
 <style scoped>
-/* Custom focus styles for better accessibility */
+/* Custom focus styles for better accessibility - WCAG AA compliant */
 .btn:focus-visible {
   @apply outline-none ring-2 ring-offset-2;
 }
 
 .btn-primary:focus-visible {
-  @apply ring-primary;
+  @apply ring-blue-500;
 }
 
 .btn-secondary:focus-visible {
-  @apply ring-secondary;
+  @apply ring-gray-500;
 }
 
 .btn-outline:focus-visible {
-  @apply ring-primary;
+  @apply ring-blue-500;
 }
 
 .btn-ghost:focus-visible {
-  @apply ring-primary;
+  @apply ring-blue-500;
+}
+
+.btn-success:focus-visible {
+  @apply ring-green-500;
+}
+
+.btn-warning:focus-visible {
+  @apply ring-yellow-500;
+}
+
+.btn-error:focus-visible {
+  @apply ring-red-500;
 }
 
 /* Screen reader only text */

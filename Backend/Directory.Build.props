@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <Import Project="..\Directory.Packages.props" />
-
+  <!-- 
+    Central Package Management (CPM) is enabled via ManagePackageVersionsCentrally.
+    The SDK automatically imports Directory.Packages.props from parent directories.
+    No manual import needed - it causes MSB4011 duplicate import warnings.
+  -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
@@ -29,8 +32,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
-    <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
-    <NoWarn>$(NoWarn);NU1605;MSB4011</NoWarn>
+    <NoWarn>$(NoWarn);NU1605</NoWarn>
   </PropertyGroup>
 
   <!-- Exclude tests folders from non-test projects -->
