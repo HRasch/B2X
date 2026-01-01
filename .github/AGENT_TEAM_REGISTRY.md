@@ -1,7 +1,7 @@
 # 🤖 AI Agent Team Registry
 
-**Status**: ✅ Upgraded 30.12.2025  
-**Team Size**: 24 Specialized Agents  
+**Status**: ✅ Upgraded 1. Januar 2026  
+**Team Size**: 28 Specialized Agents  
 **Coordinator**: @SARAH (Claude Haiku 4.5)
 
 ---
@@ -69,7 +69,7 @@
 
 ---
 
-## 🎨 Specialist Team (4 Agents)
+## 🎨 Specialist Team (8 Agents)
 
 ### Legal & Compliance
 - **@Legal** - `GDPR, NIS2, BITV 2.0, AI Act (P0.6-P0.9)`
@@ -95,6 +95,29 @@
 - **@SEO** - `SEO Optimization, Meta Tags, Performance`
   - Optimizes for search engines
   - Owns: Meta tags, structured data, SEO best practices
+  - Model: Claude Haiku 4.5
+
+### AI & Data Science
+- **@DataAI** - `Machine Learning, AI Pipelines, Data Science`
+  - Develops ML models and AI features
+  - Owns: AI ethics, model lifecycle, data pipelines
+  - Model: Claude Haiku 4.5
+
+### Performance & Platform
+- **@Performance** - `System Performance, Load Testing, Optimization`
+  - Ensures system performance and scalability
+  - Owns: Performance monitoring, bottleneck analysis, optimization
+  - Model: Claude Haiku 4.5
+
+- **@Platform** - `Infrastructure Automation, Cloud Platforms, Developer Tools`
+  - Builds developer platforms and infrastructure automation
+  - Owns: IaC, multi-cloud strategy, self-service tools
+  - Model: Claude Haiku 4.5
+
+### Developer Relations
+- **@DevRel** - `Documentation, SDKs, Community, Developer Experience`
+  - Manages developer relations and ecosystem growth
+  - Owns: Technical docs, SDKs, community engagement
   - Model: Claude Haiku 4.5
 
 ### Development Workflow
@@ -146,6 +169,10 @@
 | **@DevOps** | `config/`, `logs/` | Infrastructure configuration, deployment logs, monitoring setup, CI/CD documentation |
 | **@SARAH** | `collaboration/`, `templates/`, `workflows/` | Coordination framework, GitHub templates, workflow orchestration, agent coordination |
 | **GitHub Copilot (AI)** | `knowledgebase/` (primary) | Internet documentation curation, framework guides, tool docs, best practices, external references |
+| **@DataAI** | `decisions/`, `knowledgebase/` | AI architecture decisions, ML model documentation, data pipeline guides |
+| **@Performance** | `decisions/`, `knowledgebase/` | Performance architecture decisions, optimization guides, monitoring documentation |
+| **@Platform** | `config/`, `decisions/` | Platform architecture decisions, infrastructure automation docs, developer tooling guides |
+| **@DevRel** | `knowledgebase/`, `templates/` | Developer documentation, SDK guides, community resources, educational content |
 | **Issue Owner** | `issues/{issue-id}/` | Issue-specific collaboration, progress notes, blockers, decisions, design discussions |
 
 **Key Principle**: 
@@ -237,7 +264,7 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 - **Backend integration tests** → Owned by @QA
 - **Frontend E2E tests** → Delegates to specialist (not defined yet)
 - **Security testing** → Delegates to specialist (not defined yet)
-- **Performance testing** → Delegates to specialist (not defined yet)
+- **Performance testing** → @Performance for load testing and performance analysis
 
 ---
 
@@ -261,6 +288,10 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 | @GitManager | Haiku 4.5 | read, edit, terminal | Git workflow, PR process |
 | **GitHub Copilot (AI)** | **Haiku 4.5** | web, read, edit, semantic search | Knowledgebase, internet docs |
 | **@SARAH** | **Haiku 4.5** | coordination, governance | Coordination |
+| @DataAI | Haiku 4.5 | vscode, python-tools, ml-pipelines | AI/ML, data science |
+| @Performance | Haiku 4.5 | monitoring, profiling, load-testing | System performance, optimization |
+| @Platform | Haiku 4.5 | infrastructure, iac, cloud | Platform engineering, automation |
+| @DevRel | Haiku 4.5 | documentation, community, sdk | Developer experience, ecosystem |
 
 ---
 
@@ -268,12 +299,13 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 
 1. **Introduce Team**: Reference this registry in project documentation
 2. **Update Documentation**: Link agents in README and QUICK_START_GUIDE
-3. **Add Specialists**: Consider adding @QA-Frontend, @QA-Pentesting, @QA-Performance
-4. **Document Workflows**: Create decision trees for when to request which agent
-5. **Feedback Loop**: Gather feedback on agent effectiveness
+3. **Onboard New Agents**: @DataAI, @Performance, @Platform, @DevRel integration
+4. **Pilot Projects**: Start with high-priority agents (@DataAI, @Performance) on existing work
+5. **Feedback Loop**: Gather feedback on agent effectiveness and collaboration patterns
 
 ---
 
-**Agent Team Upgraded**: 30. Dezember 2025  
-**Status**: ✅ Core + Specialists ready for deployment  
+**Agent Team Upgraded**: 1. Januar 2026  
+**Status**: ✅ Core + Enhanced Specialists deployed  
+**New Agents**: @DataAI, @Performance, @Platform, @DevRel  
 **Coordination**: @SARAH with governance authority
