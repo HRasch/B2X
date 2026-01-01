@@ -73,14 +73,41 @@ public PersonDto GetPerson() => new PersonDto { Name = "John", Age = 30 };
 ```
 
 ### Pattern Matching
+
+**Bevorzuge Pattern-Matching für typsichere und lesbare Code-Strukturen**: Verwende moderne Pattern-Matching-Features anstelle von traditionellen if-else-Ketten oder Type-Checks.
+
 ```csharp
-// ✅ Empfohlen
+// ✅ Empfohlen: Pattern Matching mit is
 if (obj is string s && s.Length > 0)
 {
     Console.WriteLine($"String: {s}");
 }
 
-// ❌ Vermeide
+// ✅ Empfohlen: Switch Expressions mit Patterns (C# 8+)
+var result = obj switch
+{
+    string s when s.Length > 10 => $"Long string: {s}",
+    string s => $"Short string: {s}",
+    int i when i > 100 => $"Large number: {i}",
+    int i => $"Small number: {i}",
+    null => "Null value",
+    _ => "Unknown type"
+};
+
+// ✅ Empfohlen: Property Patterns (C# 8+)
+if (person is { Age: >= 18, Name.Length: > 0 })
+{
+    Console.WriteLine("Adult with valid name");
+}
+
+// ✅ Empfohlen: List Patterns (C# 11+)
+var numbers = new[] { 1, 2, 3, 4, 5 };
+if (numbers is [1, 2, .. var middle, 5])
+{
+    Console.WriteLine($"Middle elements: {string.Join(", ", middle)}");
+}
+
+// ❌ Vermeide: Traditionelle Type-Checks
 if (obj is string)
 {
     var s = (string)obj;
@@ -88,6 +115,15 @@ if (obj is string)
     {
         Console.WriteLine($"String: {s}");
     }
+}
+
+// ❌ Vermeide: Lange if-else-Ketten
+string GetDescription(object obj)
+{
+    if (obj == null) return "null";
+    if (obj is string s) return $"string: {s}";
+    if (obj is int i) return $"int: {i}";
+    return "unknown";
 }
 ```
 
