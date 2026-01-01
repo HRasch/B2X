@@ -364,4 +364,18 @@ public static class B2ConnectAspireExtensions
     // var frontendAdmin = builder.AddViteApp("frontend-admin", "../Frontend/Admin")
     //     .WithHttpEndpoint(port: 5174, env: "VITE_PORT")
     //     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080");
+
+    /// <summary>
+    /// Enables health checks for a service
+    /// </summary>
+    public static IResourceBuilder<ProjectResource> WithHealthChecks(
+        this IResourceBuilder<ProjectResource> builder)
+    {
+        return builder
+            .WithEnvironment("HealthChecks:Enabled", "true")
+            .WithEnvironment("HealthChecks:Database", "true")
+            .WithEnvironment("HealthChecks:Redis", "true")
+            .WithEnvironment("HealthChecks:RabbitMQ", "true")
+            .WithEnvironment("HealthChecks:Elasticsearch", "true");
+    }
 }

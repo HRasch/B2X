@@ -66,7 +66,8 @@ var authService = builder
     .WithAuditLogging()
     .WithEncryption()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthChecks();
 
 // Tenant Service
 var tenantService = builder
@@ -102,7 +103,8 @@ var catalogService = builder
     .WithElasticsearchIndexing()
     .WithAuditLogging()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthChecks();
 
 // Theming Service
 var themingService = builder
