@@ -131,7 +131,7 @@ if (jwtSecret.Length < 32)
         "JWT Secret must be at least 32 characters long for secure AES encryption.");
 }
 
-// Add JWT Authentication
+// Add JWT Authentication (cookie-based)
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -148,6 +148,21 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2Connect.Admin",
         ValidateLifetime = true
+    };
+
+    // Configure JWT to read from httpOnly cookie instead of Authorization header
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            // Try to get token from httpOnly cookie
+            var token = context.Request.Cookies["accessToken"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                context.Token = token;
+            }
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -167,7 +182,7 @@ builder.Services.AddCors(options =>
             .WithOrigins(corsOrigins)
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials()
+            .AllowCredentials() // Required for httpOnly cookies
             // .WithMaxAge(TimeSpan...) // Disabled
             ;
     });
@@ -193,6 +208,9 @@ builder.Services.AddScoped<CheckRegistrationTypeCommandValidator>();
 // Use memory cache for development (StackExchangeRedis can be added for production)
 builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
+
+// Add CSRF Protection Middleware
+builder.Services.AddScoped<CsrfProtectionMiddleware>();
 
 // Add custom services
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -341,6 +359,10 @@ if (!app.Environment.IsDevelopment())
 
 // Middleware
 app.UseAuthentication();
+
+// CSRF Protection - must be after authentication for stateful requests
+app.UseMiddleware<CsrfProtectionMiddleware>();
+
 app.UseAuthorization();
 
 // Map Controllers (for AuthController)
