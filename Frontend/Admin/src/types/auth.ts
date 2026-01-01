@@ -19,6 +19,23 @@ export interface Role {
   permissions: Permission[]
 }
 
+/**
+ * Available system roles:
+ * - admin: Full system access across all tenants
+ * - tenant-admin: Full access within their tenant (all pages, filtered to tenant data)
+ * - content_manager: CMS pages and media management
+ * - shop_manager: Shop products, categories, and pricing
+ * - catalog_manager: Catalog products, categories, and brands
+ * - operator: Job queue management and monitoring
+ */
+export type SystemRole = 
+  | 'admin' 
+  | 'tenant-admin' 
+  | 'content_manager' 
+  | 'shop_manager' 
+  | 'catalog_manager' 
+  | 'operator'
+
 export interface Permission {
   id: string
   name: string

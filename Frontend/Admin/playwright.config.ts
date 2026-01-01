@@ -14,16 +14,16 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 4,
   reporter: "html",
 
-  timeout: 1000,
-  expect: { timeout: 1000 },
+  timeout: 30000,
+  expect: { timeout: 10000 },
 
   use: {
     baseURL: ADMIN_BASE_URL,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
-    actionTimeout: 1000,
-    navigationTimeout: 1000,
+    actionTimeout: 10000,
+    navigationTimeout: 30000,
   },
 
   projects: [

@@ -351,7 +351,7 @@ public static class B2ConnectAspireExtensions
     // ===== NATIVE ASPIRE JAVASCRIPT INTEGRATION =====
     // Die folgenden Extension-Methoden verwenden das offizielle Aspire.Hosting.JavaScript Package
     // Dokumentation: https://aspire.dev/integrations/frameworks/javascript/
-    
+
     // HINWEIS: AddViteApp, AddJavaScriptApp, und AddNodeApp sind jetzt direkt 
     // von Aspire.Hosting.JavaScript verfügbar. Keine Custom Extensions nötig!
     //

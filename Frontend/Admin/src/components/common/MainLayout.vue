@@ -58,7 +58,7 @@
             'flex items-center gap-3 px-4 py-3 rounded-soft text-sm font-medium transition-all duration-200',
             'hover:bg-soft-100 dark:hover:bg-soft-700',
             {
-              'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-soft-sm':
+              'bg-[#f0f9ff] dark:bg-[#0c2d57]/30 text-[#0284c7] dark:text-[#38bdf8] shadow-soft-sm':
                 isActive(item.path),
               'text-soft-700 dark:text-soft-300': !isActive(item.path),
             },
@@ -231,7 +231,11 @@
       class="pt-20 md:pt-20 md:ml-64 min-h-screen bg-soft-50 dark:bg-soft-900 transition-colors duration-300"
     >
       <div class="p-safe">
-        <router-view />
+        <router-view v-slot="{ Component, route: currentRoute }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" :key="currentRoute.fullPath" />
+          </transition>
+        </router-view>
       </div>
     </main>
 
@@ -241,16 +245,21 @@
       @click="sidebarOpen = false"
       class="fixed inset-0 bg-black/30 dark:bg-black/50 md:hidden z-40 transition-colors duration-300"
     />
+
+    <!-- TestMode Debug Panel -->
+    <TestModeDebug v-if="testModeEnabled" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useThemeStore } from "@/stores/theme";
 import { useRouter } from "vue-router";
 import ThemeToggle from "./ThemeToggle.vue";
+import TestModeDebug from "./TestModeDebug.vue";
+import { getTestMode } from "@/utils/testMode";
 
 const authStore = useAuthStore();
 const themeStore = useThemeStore();
@@ -259,6 +268,17 @@ const route = useRoute();
 
 const sidebarOpen = ref(false);
 const userMenuOpen = ref(false);
+
+// Force component update on route change for back/forward navigation
+const componentKey = ref(0);
+watch(
+  () => route.fullPath,
+  () => {
+    // Increment key to force component re-mount on navigation
+    componentKey.value++;
+  },
+  { immediate: true }
+);
 
 interface NavItem {
   path: string;
@@ -296,11 +316,28 @@ const logout = async () => {
   await authStore.logout();
   router.push("/login");
 };
+
+// TestMode enabled check
+const testModeEnabled = computed(() => {
+  const testMode = getTestMode();
+  return testMode?.getConfig().enabled || false;
+});
 </script>
 
 <style scoped>
 /* Smooth transitions */
 :deep(.router-link-active) {
-  @apply text-primary-600;
+  color: #0284c7;
+}
+
+/* Route transition animations */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

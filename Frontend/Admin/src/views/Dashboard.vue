@@ -87,12 +87,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useCmsStore } from "@/stores/cms";
 import { useShopStore } from "@/stores/shop";
 import { useJobsStore } from "@/stores/jobs";
 
+const route = useRoute();
 const authStore = useAuthStore();
 const cmsStore = useCmsStore();
 const shopStore = useShopStore();
@@ -100,6 +102,18 @@ const jobsStore = useJobsStore();
 
 const activeJobsCount = computed(
   () => jobsStore.jobs.filter((j) => j.status === "running").length
+);
+
+// Re-fetch data when route changes (handles back/forward navigation)
+watch(
+  () => route.path,
+  async () => {
+    await Promise.all([
+      cmsStore.fetchPages(),
+      shopStore.fetchProducts(),
+      jobsStore.fetchJobs("running"),
+    ]);
+  }
 );
 
 onMounted(async () => {

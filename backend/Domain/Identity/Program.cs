@@ -241,6 +241,18 @@ using (var scope = app.Services.CreateScope())
         logger.LogInformation("✅ Admin role created");
     }
 
+    if (!await roleManager.RoleExistsAsync("TenantAdmin"))
+    {
+        await roleManager.CreateAsync(new AppRole
+        {
+            Id = "tenant-admin-role",
+            Name = "TenantAdmin",
+            NormalizedName = "TENANTADMIN",
+            Description = "Tenant administrator role with tenant-scoped access"
+        });
+        logger.LogInformation("✅ TenantAdmin role created");
+    }
+
     if (!await roleManager.RoleExistsAsync("User"))
     {
         await roleManager.CreateAsync(new AppRole
@@ -316,6 +328,106 @@ using (var scope = app.Services.CreateScope())
         else
         {
             logger.LogWarning("❌ Failed to create demo user account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+    }
+
+    // Seed E2E test accounts with different permission levels
+    // Admin test account
+    var e2eAdminUser = await userManager.FindByEmailAsync("e2e-admin@test.com");
+    if (e2eAdminUser == null)
+    {
+        var newE2eAdminUser = new AppUser
+        {
+            Id = "e2e-admin-001",
+            Email = "e2e-admin@test.com",
+            NormalizedEmail = "E2E-ADMIN@TEST.COM",
+            UserName = "e2e-admin@test.com",
+            NormalizedUserName = "E2E-ADMIN@TEST.COM",
+            FirstName = "E2E",
+            LastName = "Admin",
+            TenantId = "default",
+            IsActive = true,
+            EmailConfirmed = true,
+            IsTwoFactorRequired = false,
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString()
+        };
+
+        var result = await userManager.CreateAsync(newE2eAdminUser, "test123!");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newE2eAdminUser, "Admin");
+            logger.LogInformation("✅ E2E Admin test account created (e2e-admin@test.com / test123!)");
+        }
+        else
+        {
+            logger.LogWarning("❌ Failed to create E2E admin account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+    }
+
+    // Tenant Admin test account
+    var e2eTenantAdminUser = await userManager.FindByEmailAsync("e2e-tenant-admin@test.com");
+    if (e2eTenantAdminUser == null)
+    {
+        var newE2eTenantAdminUser = new AppUser
+        {
+            Id = "e2e-tenant-admin-001",
+            Email = "e2e-tenant-admin@test.com",
+            NormalizedEmail = "E2E-TENANT-ADMIN@TEST.COM",
+            UserName = "e2e-tenant-admin@test.com",
+            NormalizedUserName = "E2E-TENANT-ADMIN@TEST.COM",
+            FirstName = "E2E",
+            LastName = "TenantAdmin",
+            TenantId = "test-tenant",
+            IsActive = true,
+            EmailConfirmed = true,
+            IsTwoFactorRequired = false,
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString()
+        };
+
+        var result = await userManager.CreateAsync(newE2eTenantAdminUser, "test123!");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newE2eTenantAdminUser, "TenantAdmin");
+            logger.LogInformation("✅ E2E TenantAdmin test account created (e2e-tenant-admin@test.com / test123!)");
+        }
+        else
+        {
+            logger.LogWarning("❌ Failed to create E2E tenant-admin account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+    }
+
+    // Regular User test account
+    var e2eRegularUser = await userManager.FindByEmailAsync("e2e-user@test.com");
+    if (e2eRegularUser == null)
+    {
+        var newE2eRegularUser = new AppUser
+        {
+            Id = "e2e-user-001",
+            Email = "e2e-user@test.com",
+            NormalizedEmail = "E2E-USER@TEST.COM",
+            UserName = "e2e-user@test.com",
+            NormalizedUserName = "E2E-USER@TEST.COM",
+            FirstName = "E2E",
+            LastName = "User",
+            TenantId = "test-tenant",
+            IsActive = true,
+            EmailConfirmed = true,
+            IsTwoFactorRequired = false,
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString()
+        };
+
+        var result = await userManager.CreateAsync(newE2eRegularUser, "test123!");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newE2eRegularUser, "User");
+            logger.LogInformation("✅ E2E User test account created (e2e-user@test.com / test123!)");
+        }
+        else
+        {
+            logger.LogWarning("❌ Failed to create E2E user account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
         }
     }
 }

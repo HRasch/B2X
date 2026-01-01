@@ -42,7 +42,16 @@ public class AuthDbContext : IdentityDbContext<AppUser, AppRole, string>
             Description = "Administrator role with full access"
         };
 
-        builder.Entity<AppRole>().HasData(adminRole);
+        // Seed TenantAdmin Role
+        var tenantAdminRole = new AppRole
+        {
+            Id = "tenant-admin-role",
+            Name = "TenantAdmin",
+            NormalizedName = "TENANTADMIN",
+            Description = "Tenant administrator role with tenant-scoped access"
+        };
+
+        builder.Entity<AppRole>().HasData(adminRole, tenantAdminRole);
 
         // Seed Admin User
         var hasher = new PasswordHasher<AppUser>();

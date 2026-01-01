@@ -43,14 +43,12 @@ const config = {
 function initTelemetry(): void {
   // Skip initialization if telemetry is disabled
   if (!config.enabled) {
-    console.log(
-      "[OTel] Telemetry disabled. Set ENABLE_TELEMETRY=true to enable."
-    );
+    // Silent when disabled - no console output
     return;
   }
 
   console.log(`[OTel] Initializing telemetry for ${config.serviceName}...`);
-  console.log(`[OTel] OTLP endpoint: ${config.otlpEndpoint}`);
+  // Removed verbose endpoint logging
 
   try {
     // Create resource with service attributes
@@ -112,7 +110,7 @@ function initTelemetry(): void {
       console.log("[OTel] Shutting down telemetry...");
       try {
         await sdk.shutdown();
-        console.log("[OTel] Telemetry shutdown complete.");
+        // Removed completion message
       } catch (error) {
         console.error("[OTel] Error during shutdown:", error);
       }
@@ -121,13 +119,12 @@ function initTelemetry(): void {
     process.on("SIGTERM", shutdown);
     process.on("SIGINT", shutdown);
 
-    console.log(`[OTel] Telemetry initialized successfully.`);
-    console.log(`[OTel] Service: ${config.serviceName}@${config.serviceVersion}`);
-    console.log(`[OTel] Environment: ${config.environment}`);
+    console.log(`[OTel] Telemetry initialized for ${config.serviceName}`);
+    // Removed verbose service details
   } catch (error) {
     // Graceful fallback - don't crash if OTLP endpoint is unreachable
     console.warn("[OTel] Failed to initialize telemetry:", error);
-    console.warn("[OTel] Continuing without telemetry...");
+    // Removed redundant message
   }
 }
 
