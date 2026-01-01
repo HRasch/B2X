@@ -6,44 +6,111 @@ This service provides the backend for the "Questions & Hints" feedback system, e
 
 - **Feedback Collection**: Collects user questions and context data
 - **Data Anonymization**: Automatically removes PII and sensitive information
-- **GitHub Integration**: Creates structured GitHub issues from feedback
+- **Pre-Validation**: Validates feedback content before processing
+- **Content Filtering**: Blocks spam, inappropriate content, and security issues
+- **GitHub Integration**: Creates structured GitHub issues from validated feedback
 - **GDPR Compliance**: Ensures data privacy and user consent
 - **Rate Limiting**: Prevents abuse and spam
 - **Audit Logging**: Tracks all operations for compliance
 
 ## API Endpoints
 
-### POST /api/feedback
-Submits user feedback and creates a GitHub issue.
+### POST /api/support/feedback/validate
+Validates feedback content before submission to check if it meets acceptance criteria.
 
 **Request Body:**
 ```json
 {
-  "question": "How do I reset my password?",
+  "category": "Question",
+  "description": "How do I reset my password?",
   "context": {
     "url": "https://store.b2connect.com/login",
     "userAgent": "Mozilla/5.0...",
     "timestamp": "2024-01-15T10:30:00Z",
     "sessionId": "session-12345"
   },
-  "metadata": {
-    "app": "Store",
-    "version": "1.0.0"
-  }
+  "attachments": []
 }
 ```
+
+**Response (Valid):**
+```json
+{
+  "isValid": true,
+  "status": "Valid",
+  "message": "Feedback is valid and can be processed.",
+  "reasons": [],
+  "severity": "Low"
+}
+```
+
+**Response (Rejected):**
+```json
+{
+  "isValid": false,
+  "status": "Rejected",
+  "message": "Feedback cannot be processed due to validation errors.",
+  "reasons": [
+    "Content contains blocked keywords: hack",
+    "Description must be at least 3 words long"
+  ],
+  "severity": "Critical"
+}
+```
+
+### POST /api/support/feedback
+Submits user feedback and creates a GitHub issue (only if validation passes).
+
+**Request Body:** Same as validation endpoint
 
 **Response:**
 ```json
 {
-  "id": "feedback-123",
+  "correlationId": "550e8400-e29b-41d4-a716-446655440000",
   "issueUrl": "https://github.com/org/repo/issues/456",
-  "status": "created"
+  "status": "submitted",
+  "message": "Vielen Dank für Ihr Feedback!"
+}
+```
+
+**Error Response (Validation Failed):**
+```json
+{
+  "error": "Feedback validation failed",
+  "message": "Feedback cannot be processed due to validation errors.",
+  "reasons": ["Content contains blocked keywords: hack"]
 }
 ```
 
 ### GET /health
 Health check endpoint.
+
+## Validation Rules
+
+The service includes comprehensive validation to ensure only appropriate feedback is processed:
+
+### Content Validation
+- **Blocked Keywords**: Rejects content containing security-related, offensive, or inappropriate terms
+- **Minimum Length**: Requires at least 3 words in the description
+- **Spam Detection**: Identifies excessive capitalization, repeated characters, and spam patterns
+- **URL Limits**: Allows maximum 2 URLs per feedback
+
+### Attachment Validation
+- **File Types**: Only allows image (JPEG, PNG, GIF), text, and JSON files
+- **Size Limits**: Maximum 5MB per attachment, up to 3 attachments total
+- **Content Type Verification**: Validates file content matches declared type
+
+### Context Validation
+- **Required Data**: Ensures context information is provided
+- **Data Integrity**: Validates context data structure and completeness
+
+### Rejection Reasons
+Common reasons for feedback rejection:
+- Content contains blocked keywords (hack, password, offensive terms)
+- Description too short or contains spam patterns
+- Invalid or oversized attachments
+- Missing required context data
+- Rate limiting violations
 
 ## Configuration
 
@@ -54,8 +121,8 @@ Health check endpoint.
 ### Appsettings
 See `appsettings.json` for configuration options including:
 - GitHub repository settings
-- Validation rules
-- Rate limiting configuration
+- Validation rules and blocked keywords
+- Feedback limits and rate limiting
 - Logging levels
 
 ## Development

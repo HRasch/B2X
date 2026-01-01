@@ -43,6 +43,18 @@ public record AttachmentDto
 }
 
 /// <summary>
+/// Response DTO for feedback validation
+/// </summary>
+public record ValidateFeedbackResponse
+{
+    public bool IsValid { get; init; }
+    public string Status { get; init; } = string.Empty;
+    public string Message { get; init; } = string.Empty;
+    public IReadOnlyList<string> Reasons { get; init; } = Array.Empty<string>();
+    public string Severity { get; init; } = string.Empty;
+}
+
+/// <summary>
 /// Response DTO for feedback creation
 /// </summary>
 public record CreateFeedbackResponse

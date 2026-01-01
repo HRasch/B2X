@@ -4,9 +4,9 @@ using B2Connect.Domain.Support.Services;
 namespace B2Connect.Domain.Support.Commands;
 
 /// <summary>
-/// Command to create new feedback
+/// Command to validate feedback before processing
 /// </summary>
-public record CreateFeedbackCommand : ICommand<FeedbackResult>
+public record ValidateFeedbackCommand : ICommand<ValidationResult>
 {
     public FeedbackCategory Category { get; init; }
     public string Description { get; init; } = string.Empty;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using B2Connect.Gateway.Shared.Application.DTOs;
 using B2Connect.Domain.Support.Commands;
 using B2Connect.Domain.Support.Queries;
+using B2Connect.Domain.Support.Handlers;
 using Wolverine;
 
 namespace B2Connect.Gateway.Shared.Presentation.Controllers;
@@ -31,6 +32,82 @@ public class FeedbackController : ControllerBase
     {
         _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    /// <summary>
+    /// Validates feedback before submission
+    /// </summary>
+    /// <param name="request">Feedback validation request</param>
+    /// <returns>Validation result with reasons if rejected</returns>
+    /// <response code="200">Validation completed</response>
+    /// <response code="400">Invalid request data</response>
+    [HttpPost("validate")]
+    [AllowAnonymous] // Public access for validation
+    [ProducesResponseType(typeof(ValidateFeedbackResponse), 200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> ValidateFeedback([FromBody] CreateFeedbackRequest request)
+    {
+        try
+        {
+            // Validate request format
+            if (!IsValidRequest(request, out var validationError))
+            {
+                _logger.LogWarning("Invalid validation request: {Error}", validationError);
+                return BadRequest(new ValidateFeedbackResponse
+                {
+                    IsValid = false,
+                    Status = "Rejected",
+                    Message = "Invalid request format",
+                    Reasons = new[] { validationError },
+                    Severity = "High"
+                });
+            }
+
+            // Convert DTOs to domain objects
+            var attachments = request.Attachments.Select(a => new Attachment(
+                a.FileName,
+                a.ContentType,
+                a.Content)).ToList();
+
+            // Create validation command
+            var command = new ValidateFeedbackCommand
+            {
+                Category = request.Category,
+                Description = request.Description,
+                Context = request.Context,
+                Attachments = attachments,
+                CorrelationId = Guid.NewGuid()
+            };
+
+            // Execute validation via Wolverine
+            var result = await _messageBus.InvokeAsync<ValidationResult>(command);
+
+            var response = new ValidateFeedbackResponse
+            {
+                IsValid = result.IsValid,
+                Status = result.Status.ToString(),
+                Message = result.Message,
+                Reasons = result.Reasons,
+                Severity = result.Severity.ToString()
+            };
+
+            _logger.LogInformation("Feedback validation completed: {Status} - {Message}",
+                result.Status, result.Message);
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to validate feedback");
+            return StatusCode(500, new ValidateFeedbackResponse
+            {
+                IsValid = false,
+                Status = "Rejected",
+                Message = "Validation failed due to an internal error. Please try again later.",
+                Reasons = new[] { "Internal validation error" },
+                Severity = "Critical"
+            });
+        }
     }
 
     /// <summary>
@@ -90,6 +167,16 @@ public class FeedbackController : ControllerBase
                 result.CorrelationId);
 
             return Ok(response);
+        }
+        catch (ValidationException ex)
+        {
+            _logger.LogWarning("Feedback rejected due to validation: {Message}", ex.Message);
+            return BadRequest(new
+            {
+                error = "Feedback validation failed",
+                message = ex.Message,
+                reasons = ex.ValidationErrors
+            });
         }
         catch (Exception ex)
         {

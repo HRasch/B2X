@@ -77,9 +77,13 @@ builder.Services.AddCors(options =>
 // Register Domain Services
 builder.Services.AddScoped<IDataAnonymizer, DataAnonymizer>();
 builder.Services.AddScoped<IGitHubService, GitHubService>();
+builder.Services.AddScoped<IFeedbackValidator, FeedbackValidator>();
 
 // Register Repositories (in-memory for now, can be replaced with EF Core later)
 builder.Services.AddSingleton<IFeedbackRepository, InMemoryFeedbackRepository>();
+
+// Configure Validation Rules
+builder.Services.Configure<ValidationRules>(builder.Configuration.GetSection("Feedback:Validation"));
 
 // ===== WOLVERINE CQRS =====
 builder.Services.AddWolverine(opts =>
