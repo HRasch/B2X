@@ -1,7 +1,7 @@
 # 🤖 AI Agent Team Registry
 
 **Status**: ✅ Upgraded 1. Januar 2026  
-**Team Size**: 28 Specialized Agents  
+**Team Size**: 30 Specialized Agents  
 **Coordinator**: @SARAH (Claude Haiku 4.5)
 
 ---
@@ -120,6 +120,17 @@
   - Owns: Technical docs, SDKs, community engagement
   - Model: Claude Haiku 4.5
 
+### Financial & Procurement
+- **@FinOps** - `Financial Operations, Cost Governance, Budget Management`
+  - Manages financial oversight, cost optimization, and budget controls
+  - Owns: Cost analysis, ROI tracking, financial planning, cloud cost management
+  - Model: Claude Sonnet 4 (advanced financial analysis)
+
+- **@Procurement** - `Vendor Management, Contract Negotiation, License Optimization`
+  - Manages vendor relationships, contract negotiations, and procurement processes
+  - Owns: Supplier evaluation, license management, procurement governance
+  - Model: Claude Sonnet 4 (strategic negotiation and analysis)
+
 ### Development Workflow
 - **@GitManager** - `Git Workflow, Branching, Code Review, Repository Management`
   - Designs Git branching strategies and merge workflows
@@ -173,6 +184,8 @@
 | **@Performance** | `decisions/`, `knowledgebase/` | Performance architecture decisions, optimization guides, monitoring documentation |
 | **@Platform** | `config/`, `decisions/` | Platform architecture decisions, infrastructure automation docs, developer tooling guides |
 | **@DevRel** | `knowledgebase/`, `templates/` | Developer documentation, SDK guides, community resources, educational content |
+| **@FinOps** | `operations/` | Cost optimization strategies, financial reports, budget documentation, cost governance |
+| **@Procurement** | `operations/` | Vendor contracts, procurement policies, license management, supplier documentation |
 | **Issue Owner** | `issues/{issue-id}/` | Issue-specific collaboration, progress notes, blockers, decisions, design discussions |
 
 **Key Principle**: 
@@ -319,6 +332,8 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 | @Performance | Haiku 4.5 | monitoring, profiling, load-testing | System performance, optimization |
 | @Platform | Haiku 4.5 | infrastructure, iac, cloud | Platform engineering, automation |
 | @DevRel | Haiku 4.5 | documentation, community, sdk | Developer experience, ecosystem |
+| @FinOps | **Sonnet 4** | financial-tools, analytics, reporting | Cost governance, budgeting, ROI |
+| @Procurement | **Sonnet 4** | procurement-tools, contract-mgmt, vendor-relations | Vendor management, contract negotiation |
 
 ---
 
@@ -326,13 +341,13 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 
 1. **Introduce Team**: Reference this registry in project documentation
 2. **Update Documentation**: Link agents in README and QUICK_START_GUIDE
-3. **Onboard New Agents**: @DataAI, @Performance, @Platform, @DevRel integration
-4. **Pilot Projects**: Start with high-priority agents (@DataAI, @Performance) on existing work
+3. **Onboard New Agents**: @FinOps, @Procurement integration for cost optimization
+4. **Pilot Projects**: Start with cost optimization initiatives using new financial agents
 5. **Feedback Loop**: Gather feedback on agent effectiveness and collaboration patterns
 
 ---
 
 **Agent Team Upgraded**: 1. Januar 2026  
-**Status**: ✅ Core + Enhanced Specialists deployed  
-**New Agents**: @DataAI, @Performance, @Platform, @DevRel  
+**Status**: ✅ Core + Enhanced Specialists + Cost Optimization Agents deployed  
+**New Agents**: @DataAI, @Performance, @Platform, @DevRel, @FinOps, @Procurement  
 **Coordination**: @SARAH with governance authority
