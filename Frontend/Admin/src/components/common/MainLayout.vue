@@ -227,7 +227,10 @@
               >
                 Settings
               </a>
-              <div class="border-t border-soft-100 dark:border-soft-700" role="separator" />
+              <div
+                class="border-t border-soft-100 dark:border-soft-700"
+                role="separator"
+              />
               <button
                 @click="logout"
                 class="w-full text-left px-4 py-3 text-sm text-danger-600 dark:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-900/20 last:rounded-b-soft-lg transition-colors font-medium"

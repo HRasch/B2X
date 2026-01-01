@@ -385,7 +385,500 @@ https://images.b2connect.io/abc123/rs:fill:400:400/g:sm/f:avif/plain/s3://produc
 
 # Watermarked product image
 https://images.b2connect.io/abc123/rs:fit:800:600/wm:0.5:ce:10:10:0.3/plain/s3://products/item.jpg
+
+# DPR-aware (2x retina)
+https://images.b2connect.io/abc123/rs:fill:300:200/dpr:2/f:webp/plain/s3://products/shoe.jpg
 ```
+
+---
+
+## Responsive Images Strategy (srcset & sizes)
+
+### Why Responsive Images?
+
+| Scenario | Without srcset | With srcset |
+|----------|----------------|-------------|
+| Mobile (375px, 2x) | Downloads 1200px image (500KB) | Downloads 750px image (150KB) |
+| Tablet (768px, 1x) | Downloads 1200px image (500KB) | Downloads 768px image (180KB) |
+| Desktop (1920px, 1x) | Downloads 1200px image (500KB) | Downloads 1200px image (350KB) |
+| **Bandwidth saved** | - | **40-70%** |
+
+### Predefined Size Presets
+
+Define standard breakpoints for consistent responsive images:
+
+```typescript
+// src/config/image-sizes.ts
+export const IMAGE_PRESETS = {
+  // Product images
+  productThumb: {
+    sizes: [150, 300, 450],  // 1x, 2x, 3x
+    defaultSize: 150,
+    aspectRatio: '1:1',
+  },
+  productCard: {
+    sizes: [200, 400, 600, 800],
+    defaultSize: 400,
+    aspectRatio: '4:3',
+  },
+  productHero: {
+    sizes: [400, 800, 1200, 1600, 2400],
+    defaultSize: 800,
+    aspectRatio: '16:9',
+  },
+  
+  // CMS images
+  cmsFullWidth: {
+    sizes: [640, 960, 1280, 1920, 2560],
+    defaultSize: 1280,
+    aspectRatio: 'auto',
+  },
+  cmsThumbnail: {
+    sizes: [100, 200, 300],
+    defaultSize: 100,
+    aspectRatio: '1:1',
+  },
+  
+  // Avatar/Profile
+  avatar: {
+    sizes: [32, 64, 96, 128],
+    defaultSize: 64,
+    aspectRatio: '1:1',
+  },
+} as const;
+
+export type ImagePreset = keyof typeof IMAGE_PRESETS;
+```
+
+### Backend: URL Generation Service
+
+```csharp
+// Services/ImageUrlService.cs
+public interface IImageUrlService
+{
+    string GetUrl(string source, int width, int? height = null, ImageFormat? format = null);
+    string GetSrcSet(string source, int[] widths, int? height = null);
+    ResponsiveImageUrls GetResponsiveUrls(string source, ImagePreset preset);
+}
+
+public class ImgproxyImageUrlService : IImageUrlService
+{
+    private readonly ImgproxyOptions _options;
+    private readonly IUrlSigner _signer;
+
+    public string GetUrl(string source, int width, int? height = null, ImageFormat? format = null)
+    {
+        var processing = new StringBuilder();
+        
+        // Resize
+        if (height.HasValue)
+            processing.Append($"rs:fill:{width}:{height}/");
+        else
+            processing.Append($"rs:fit:{width}/");
+        
+        // Format (auto-detect best format if not specified)
+        processing.Append(format switch
+        {
+            ImageFormat.WebP => "f:webp/",
+            ImageFormat.Avif => "f:avif/",
+            ImageFormat.Jpeg => "f:jpg/",
+            _ => "f:auto/"  // Let imgproxy choose based on Accept header
+        });
+        
+        // Quality optimization
+        processing.Append("q:85/");
+        
+        var path = $"/{processing}plain/{EncodeSource(source)}";
+        var signature = _signer.Sign(path);
+        
+        return $"{_options.BaseUrl}/{signature}{path}";
+    }
+
+    public string GetSrcSet(string source, int[] widths, int? aspectHeight = null)
+    {
+        return string.Join(", ", widths.Select(w => 
+        {
+            var height = aspectHeight.HasValue ? (int)(w * aspectHeight / widths.Max()) : (int?)null;
+            return $"{GetUrl(source, w, height)} {w}w";
+        }));
+    }
+
+    public ResponsiveImageUrls GetResponsiveUrls(string source, ImagePreset preset)
+    {
+        var config = GetPresetConfig(preset);
+        
+        return new ResponsiveImageUrls
+        {
+            Src = GetUrl(source, config.DefaultSize),
+            SrcSet = GetSrcSet(source, config.Sizes),
+            Sizes = GetDefaultSizes(preset),
+            Width = config.DefaultSize,
+            AspectRatio = config.AspectRatio,
+        };
+    }
+
+    private string GetDefaultSizes(ImagePreset preset) => preset switch
+    {
+        ImagePreset.ProductThumb => "150px",
+        ImagePreset.ProductCard => "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px",
+        ImagePreset.ProductHero => "(max-width: 640px) 100vw, (max-width: 1280px) 80vw, 1200px",
+        ImagePreset.CmsFullWidth => "100vw",
+        _ => "100vw"
+    };
+}
+
+public record ResponsiveImageUrls
+{
+    public string Src { get; init; } = "";
+    public string SrcSet { get; init; } = "";
+    public string Sizes { get; init; } = "";
+    public int Width { get; init; }
+    public string AspectRatio { get; init; } = "auto";
+}
+```
+
+### Frontend: Vue Composable
+
+```typescript
+// src/composables/useResponsiveImage.ts
+import { computed, type MaybeRef, unref } from 'vue';
+import { IMAGE_PRESETS, type ImagePreset } from '@/config/image-sizes';
+
+interface UseResponsiveImageOptions {
+  source: MaybeRef<string>;
+  preset: ImagePreset;
+  alt: MaybeRef<string>;
+  lazy?: boolean;
+  placeholder?: 'blur' | 'color' | 'none';
+}
+
+interface ResponsiveImageResult {
+  src: string;
+  srcset: string;
+  sizes: string;
+  alt: string;
+  loading: 'lazy' | 'eager';
+  decoding: 'async' | 'sync';
+  width: number;
+  height: number;
+  style: Record<string, string>;
+}
+
+const IMGPROXY_BASE = import.meta.env.VITE_IMGPROXY_URL || '/img';
+
+function generateSignature(path: string): string {
+  // In production, signatures should be generated server-side
+  // This is a placeholder for development
+  return 'dev';
+}
+
+function buildImgproxyUrl(source: string, width: number, height?: number): string {
+  const resize = height ? `rs:fill:${width}:${height}` : `rs:fit:${width}`;
+  const path = `/${resize}/f:auto/q:85/plain/${encodeURIComponent(source)}`;
+  const signature = generateSignature(path);
+  return `${IMGPROXY_BASE}/${signature}${path}`;
+}
+
+export function useResponsiveImage(options: UseResponsiveImageOptions): ResponsiveImageResult {
+  const { preset, lazy = true, placeholder = 'none' } = options;
+  const config = IMAGE_PRESETS[preset];
+  
+  const source = computed(() => unref(options.source));
+  const alt = computed(() => unref(options.alt));
+  
+  // Calculate height from aspect ratio
+  const getHeight = (width: number): number | undefined => {
+    if (config.aspectRatio === 'auto') return undefined;
+    const [w, h] = config.aspectRatio.split(':').map(Number);
+    return Math.round(width * (h / w));
+  };
+  
+  // Generate srcset
+  const srcset = computed(() => {
+    return config.sizes
+      .map(w => `${buildImgproxyUrl(source.value, w, getHeight(w))} ${w}w`)
+      .join(', ');
+  });
+  
+  // Generate sizes attribute based on preset
+  const sizes = computed(() => {
+    switch (preset) {
+      case 'productThumb':
+        return '150px';
+      case 'productCard':
+        return '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px';
+      case 'productHero':
+        return '(max-width: 640px) 100vw, (max-width: 1280px) 80vw, 1200px';
+      case 'cmsFullWidth':
+        return '100vw';
+      case 'cmsThumbnail':
+        return '100px';
+      case 'avatar':
+        return '64px';
+      default:
+        return '100vw';
+    }
+  });
+  
+  const defaultHeight = getHeight(config.defaultSize);
+  
+  return {
+    src: buildImgproxyUrl(source.value, config.defaultSize, defaultHeight),
+    srcset: srcset.value,
+    sizes: sizes.value,
+    alt: alt.value,
+    loading: lazy ? 'lazy' : 'eager',
+    decoding: 'async',
+    width: config.defaultSize,
+    height: defaultHeight ?? config.defaultSize,
+    style: placeholder === 'color' 
+      ? { backgroundColor: '#f3f4f6', aspectRatio: config.aspectRatio.replace(':', '/') }
+      : { aspectRatio: config.aspectRatio.replace(':', '/') },
+  };
+}
+```
+
+### Frontend: Responsive Image Component
+
+```vue
+<!-- src/components/ui/ResponsiveImage.vue -->
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useResponsiveImage } from '@/composables/useResponsiveImage';
+import type { ImagePreset } from '@/config/image-sizes';
+
+interface Props {
+  src: string;
+  alt: string;
+  preset: ImagePreset;
+  lazy?: boolean;
+  class?: string;
+  placeholder?: 'blur' | 'color' | 'none';
+  fallback?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  lazy: true,
+  placeholder: 'color',
+  fallback: '/images/placeholder.svg',
+});
+
+const hasError = ref(false);
+const isLoaded = ref(false);
+
+const imageProps = computed(() => 
+  useResponsiveImage({
+    source: props.src,
+    preset: props.preset,
+    alt: props.alt,
+    lazy: props.lazy,
+    placeholder: props.placeholder,
+  })
+);
+
+const handleError = () => {
+  hasError.value = true;
+};
+
+const handleLoad = () => {
+  isLoaded.value = true;
+};
+</script>
+
+<template>
+  <div 
+    class="responsive-image-container"
+    :style="{ aspectRatio: imageProps.style.aspectRatio }"
+  >
+    <!-- Placeholder skeleton -->
+    <div 
+      v-if="!isLoaded && placeholder !== 'none'"
+      class="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse"
+      :class="{ 'rounded': $attrs.class?.includes('rounded') }"
+    />
+    
+    <!-- Actual image -->
+    <img
+      v-if="!hasError"
+      :src="imageProps.src"
+      :srcset="imageProps.srcset"
+      :sizes="imageProps.sizes"
+      :alt="imageProps.alt"
+      :loading="imageProps.loading"
+      :decoding="imageProps.decoding"
+      :width="imageProps.width"
+      :height="imageProps.height"
+      :class="[
+        'w-full h-full object-cover transition-opacity duration-300',
+        isLoaded ? 'opacity-100' : 'opacity-0',
+        props.class
+      ]"
+      @error="handleError"
+      @load="handleLoad"
+    />
+    
+    <!-- Fallback on error -->
+    <img
+      v-else
+      :src="fallback"
+      :alt="alt"
+      :class="['w-full h-full object-cover', props.class]"
+    />
+  </div>
+</template>
+
+<style scoped>
+.responsive-image-container {
+  position: relative;
+  overflow: hidden;
+}
+</style>
+```
+
+### Usage Examples
+
+```vue
+<!-- Product Card -->
+<ResponsiveImage
+  :src="product.imageUrl"
+  :alt="product.name"
+  preset="productCard"
+  class="rounded-lg"
+/>
+
+<!-- Hero Banner -->
+<ResponsiveImage
+  :src="banner.imageUrl"
+  :alt="banner.title"
+  preset="productHero"
+  :lazy="false"
+  placeholder="blur"
+/>
+
+<!-- Avatar -->
+<ResponsiveImage
+  :src="user.avatarUrl"
+  :alt="user.name"
+  preset="avatar"
+  class="rounded-full"
+/>
+
+<!-- Manual srcset (advanced) -->
+<img
+  :src="getImageUrl(product.image, 400)"
+  :srcset="`
+    ${getImageUrl(product.image, 200)} 200w,
+    ${getImageUrl(product.image, 400)} 400w,
+    ${getImageUrl(product.image, 800)} 800w
+  `"
+  sizes="(max-width: 640px) 100vw, 400px"
+  :alt="product.name"
+  loading="lazy"
+  decoding="async"
+/>
+```
+
+### Art Direction with `<picture>`
+
+For different crops at different breakpoints:
+
+```vue
+<!-- src/components/ui/ArtDirectedImage.vue -->
+<script setup lang="ts">
+interface Props {
+  src: string;
+  alt: string;
+  mobileCrop?: 'square' | 'portrait';
+  desktopCrop?: 'landscape' | 'wide';
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  mobileCrop: 'square',
+  desktopCrop: 'landscape',
+});
+
+const getMobileUrl = (width: number) => {
+  const height = props.mobileCrop === 'square' ? width : Math.round(width * 1.25);
+  return buildImgproxyUrl(props.src, width, height);
+};
+
+const getDesktopUrl = (width: number) => {
+  const height = props.desktopCrop === 'wide' 
+    ? Math.round(width / 2.35)  // 2.35:1 cinematic
+    : Math.round(width / 1.78); // 16:9
+  return buildImgproxyUrl(props.src, width, height);
+};
+</script>
+
+<template>
+  <picture>
+    <!-- Desktop: wide crop -->
+    <source
+      media="(min-width: 1024px)"
+      :srcset="`
+        ${getDesktopUrl(1024)} 1024w,
+        ${getDesktopUrl(1440)} 1440w,
+        ${getDesktopUrl(1920)} 1920w
+      `"
+      sizes="100vw"
+    />
+    
+    <!-- Tablet: landscape -->
+    <source
+      media="(min-width: 640px)"
+      :srcset="`
+        ${getDesktopUrl(640)} 640w,
+        ${getDesktopUrl(960)} 960w
+      `"
+      sizes="100vw"
+    />
+    
+    <!-- Mobile: square/portrait crop -->
+    <source
+      :srcset="`
+        ${getMobileUrl(375)} 375w,
+        ${getMobileUrl(640)} 640w
+      `"
+      sizes="100vw"
+    />
+    
+    <!-- Fallback -->
+    <img
+      :src="getDesktopUrl(800)"
+      :alt="alt"
+      loading="lazy"
+      decoding="async"
+      class="w-full h-auto"
+    />
+  </picture>
+</template>
+```
+
+### imgproxy DPR Support
+
+imgproxy natively supports Device Pixel Ratio:
+
+```
+# 2x retina display
+/rs:fill:300:200/dpr:2/plain/s3://bucket/image.jpg
+→ Returns 600x400 image
+
+# Auto DPR from Client Hints
+IMGPROXY_ENABLE_CLIENT_HINTS=true
+→ Reads DPR from Sec-CH-DPR header
+```
+
+### Performance Best Practices
+
+| Practice | Implementation |
+|----------|----------------|
+| **Lazy loading** | `loading="lazy"` on below-fold images |
+| **Async decoding** | `decoding="async"` on all images |
+| **Size hints** | Always provide `width` and `height` to prevent CLS |
+| **Preload hero** | `<link rel="preload" as="image" imagesrcset="...">` |
+| **Format negotiation** | Use `f:auto` or Accept header for WebP/AVIF |
+| **Quality** | 80-85 for photos, 90+ for graphics |
+| **Placeholder** | Use CSS aspect-ratio + skeleton for CLS |
 
 ### Kubernetes Deployment
 

@@ -55,7 +55,12 @@
             </p>
             <div class="brand-meta">
               <span v-if="brand.websiteUrl" class="meta-item">
-                <a :href="brand.websiteUrl" target="_blank" rel="noopener noreferrer">Website</a>
+                <a
+                  :href="brand.websiteUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Website</a
+                >
               </span>
               <span :class="['status', brand.isActive ? 'active' : 'inactive']">
                 {{ brand.isActive ? "Active" : "Inactive" }}
