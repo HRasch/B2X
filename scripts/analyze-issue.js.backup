@@ -18,7 +18,7 @@ class IssueAnalyzer {
             bug: {
                 keywords: [
                     'error', 'bug', 'crash', 'fail', 'broken', 'issue', 'problem',
-                    'exception', 'not working', 'doesn\'t work', 'stopped working',
+                    'exception', 'not working', 'doesn't work', 'stopped working',
                     'unusable', 'broken', 'defect', 'glitch', 'malfunction',
                     'security vulnerability', 'data loss', 'corruption', 'leak',
                     'performance', 'slow', 'hang', 'freeze', 'timeout'
@@ -218,55 +218,78 @@ class IssueAnalyzer {
     }
 
     extractTemplateData(content, category) {
-        // Extract relevant data for response templates
-        const data = {
-            category: category,
-            environment: this.extractEnvironment(content),
+        return {
             version: this.extractVersion(content),
+            environment: this.extractEnvironment(content),
             impact: this.extractImpact(content),
+            reproduction: this.extractReproductionSteps(content),
+            category: category,
             topic: this.extractTopic(content),
-            reproduction: this.extractReproduction(content),
-            urgency: this.assessPriority(content, category)
+            urgency: this.extractUrgency(content)
         };
-
-        return data;
-    }
-
-    extractEnvironment(content) {
-        const environments = ['production', 'staging', 'development', 'test', 'local'];
-        for (const env of environments) {
-            if (content.includes(env)) return env;
-        }
-        return 'not specified';
     }
 
     extractVersion(content) {
-        const versionRegex = /version[:\s]*([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i;
-        const match = content.match(versionRegex);
-        return match ? match[1] : 'not specified';
+        const patterns = [
+            /version[:\s]+([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i,
+            /v([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i,
+            /([0-9]+\.[0-9]+(?:\.[0-9]+)?)/g
+        ];
+
+        for (const pattern of patterns) {
+            const match = content.match(pattern);
+            if (match && match[1]) {
+                return match[1];
+            }
+        }
+        return 'unknown';
+    }
+
+    extractEnvironment(content) {
+        if (content.includes('production') || content.includes('prod')) return 'production';
+        if (content.includes('staging') || content.includes('stage')) return 'staging';
+        if (content.includes('development') || content.includes('dev')) return 'development';
+        if (content.includes('test')) return 'test';
+        return 'unknown';
     }
 
     extractImpact(content) {
-        if (content.includes('all users') || content.includes('production down')) return 'critical';
-        if (content.includes('many users') || content.includes('blocking')) return 'high';
-        if (content.includes('some users') || content.includes('inconsistent')) return 'medium';
-        return 'low';
+        if (content.includes('all users') || content.includes('system down') || content.includes('critical')) return 'high';
+        if (content.includes('some users') || content.includes('degraded') || content.includes('blocking')) return 'medium';
+        if (content.includes('single user') || content.includes('minor')) return 'low';
+        return 'unknown';
+    }
+
+    extractReproductionSteps(content) {
+        const patterns = [
+            /steps?:?\s*(?:to reproduce)?:?\s*(.*?)(?:\n\n|\n[A-Z]|\n\d+\.|$)/is,
+            /reproduction:?\s*(.*?)(?:\n\n|\n[A-Z]|\n\d+\.|$)/is,
+            /how to reproduce:?\s*(.*?)(?:\n\n|\n[A-Z]|\n\d+\.|$)/is
+        ];
+
+        for (const pattern of patterns) {
+            const match = content.match(pattern);
+            if (match && match[1]) {
+                return match[1].trim().substring(0, 500); // Limit length
+            }
+        }
+        return 'not provided';
     }
 
     extractTopic(content) {
-        // Extract main topic from content
-        const topics = ['api', 'ui', 'database', 'authentication', 'performance', 'security'];
+        const topics = ['api', 'ui', 'database', 'authentication', 'performance', 'integration', 'setup', 'configuration'];
         for (const topic of topics) {
-            if (content.includes(topic)) return topic;
+            if (content.includes(topic)) {
+                return topic;
+            }
         }
         return 'general';
     }
 
-    extractReproduction(content) {
-        if (content.includes('steps to reproduce') || content.includes('reproduction steps')) {
-            return 'provided';
-        }
-        return 'not provided';
+    extractUrgency(content) {
+        if (content.includes('urgent') || content.includes('asap') || content.includes('emergency')) return 'high';
+        if (content.includes('soon') || content.includes('important')) return 'medium';
+        return 'normal';
     }
 
     async logAnalysis(issueNumber, result) {
@@ -277,8 +300,6 @@ class IssueAnalyzer {
             confidence: result.confidence,
             priority: result.priority,
             agent: result.agent,
-            labels: result.labels,
-            close: result.close,
             scores: result.scores
         };
 
