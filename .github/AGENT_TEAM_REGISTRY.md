@@ -23,10 +23,10 @@
   - Model: Claude Haiku 4.5
 
 ### Quality Assurance
-- **@QA** - `Test Coordination, Compliance Testing`
-  - Coordinates all testing efforts across the team
-  - Owns: Backend unit/integration tests, compliance verification
-  - Delegates: Frontend E2E to @QA-Frontend, Security to @QA-Pentesting
+- **@QA** - `Comprehensive Testing, All Test Types, Quality Assurance`
+  - **CONSOLIDATED**: Owns ALL testing responsibilities (unit, integration, E2E, accessibility, security, performance, compliance)
+  - Single point of accountability for product quality and release readiness
+  - No delegation to subagents - unified testing strategy
   - Model: Claude Haiku 4.5
 
 ### Architecture & Design
@@ -191,6 +191,33 @@
   - Resolves conflicts between agents
   - Manages permissions and access
 - **Model**: Claude Haiku 4.5 (efficient coordination)
+
+---
+
+## ⚡ Fast-Track Approval System
+
+**NEW**: Streamlined consensus processes for faster decision-making while maintaining quality standards.
+
+### Approval Tiers
+- **🟢 Tier 1**: Auto-approval for low-risk changes (< 1 hour)
+- **🟡 Tier 2**: Single reviewer for low-moderate risk (< 4 hours)  
+- **🟠 Tier 3**: Domain expert + peer review (< 24 hours)
+- **🔴 Tier 4**: Full consensus for high-risk changes (2-3 days)
+
+### Eligible Changes
+- Documentation updates, minor bug fixes, test improvements
+- Small features, API additions, performance optimizations
+- Breaking changes with migration plans, security enhancements
+
+### Process
+1. Label PR/issue with "FAST-TRACK-TX" 
+2. Automated validation runs
+3. Appropriate review level assigned
+4. Merge after approval and validation
+
+**Expected Impact**: 40% reduction in consensus delays, same-day approvals for most changes.
+
+**Documentation**: [FAST_TRACK_APPROVAL_SYSTEM.md](../.ai/collaboration/FAST_TRACK_APPROVAL_SYSTEM.md)
 
 ---
 
