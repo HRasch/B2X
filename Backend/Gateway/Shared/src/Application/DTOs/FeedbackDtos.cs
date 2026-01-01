@@ -21,6 +21,11 @@ public record CreateFeedbackRequest
 
     [Required]
     public CollectedContext Context { get; init; } = new();
+
+    /// <summary>
+    /// Client identifier for ban management (IP address or session ID)
+    /// </summary>
+    public string? ClientIdentifier { get; init; }
 }
 
 /// <summary>

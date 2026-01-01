@@ -76,7 +76,8 @@ public class FeedbackController : ControllerBase
                 Description = request.Description,
                 Context = request.Context,
                 Attachments = attachments,
-                CorrelationId = Guid.NewGuid()
+                CorrelationId = Guid.NewGuid(),
+                ClientIdentifier = GetClientIdentifier()
             };
 
             // Execute validation via Wolverine
@@ -149,7 +150,8 @@ public class FeedbackController : ControllerBase
                 Description = request.Description,
                 Context = request.Context,
                 Attachments = attachments,
-                CorrelationId = Guid.NewGuid()
+                CorrelationId = Guid.NewGuid(),
+                ClientIdentifier = GetClientIdentifier()
             };
 
             // Execute command via Wolverine
@@ -313,6 +315,29 @@ public class FeedbackController : ControllerBase
 
         return maliciousPatterns.Any(pattern =>
             content.Contains(pattern, StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>
+    /// Gets client identifier for ban management (IP address)
+    /// </summary>
+    private string GetClientIdentifier()
+    {
+        // Try to get real IP address, fallback to connection remote IP
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+        // Handle IPv4-mapped IPv6 addresses
+        if (ipAddress?.StartsWith("::ffff:") == true)
+        {
+            ipAddress = ipAddress.Substring(7);
+        }
+
+        // For development/localhost, use a consistent identifier
+        if (ipAddress == "127.0.0.1" || ipAddress == "::1" || ipAddress == "localhost")
+        {
+            ipAddress = "dev-localhost";
+        }
+
+        return ipAddress ?? "unknown";
     }
 }</content>
 <parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / Gateway / Shared / src / Presentation / Controllers / FeedbackController.cs

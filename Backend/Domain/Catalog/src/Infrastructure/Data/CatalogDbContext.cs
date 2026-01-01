@@ -1,22 +1,25 @@
 using B2Connect.CatalogService.Models;
+using B2Connect.Shared.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.CatalogService.Infrastructure.Data;
 
 /// <summary>
-/// Database context for Catalog Service
+/// Database context for Catalog Service with automatic tenant filtering
 /// 
 /// Handles all data access for:
-/// - Products
-/// - Tax Rates (for price calculations)
+/// - Products (tenant-isolated)
+/// - Tax Rates (global, country-specific)
 /// - Categories
 /// 
-/// Multi-tenant isolation: All queries must include TenantId filter
+/// Multi-tenant isolation: Automatic tenant filtering via EF Interceptors
 /// </summary>
-public class CatalogDbContext : DbContext
+public class CatalogDbContext : TenantDbContext
 {
-    public CatalogDbContext(DbContextOptions<CatalogDbContext> options)
-        : base(options)
+    public CatalogDbContext(
+        DbContextOptions<CatalogDbContext> options,
+        ITenantContext tenantContext)
+        : base(options, tenantContext)
     {
     }
 
@@ -28,7 +31,7 @@ public class CatalogDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(modelBuilder); // Important: Call base for tenant filtering
 
         // Configure TaxRate entity
         modelBuilder.Entity<TaxRate>(entity =>
@@ -122,6 +125,9 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(x => new { x.TenantId, x.Sku })
                 .IsUnique()
                 .HasDatabaseName("IX_Product_TenantId_Sku");
+
+            // Note: Query filters are handled by TenantCommandInterceptor for better test compatibility
+            // entity.HasQueryFilter(x => x.TenantId == _tenantContext.GetCurrentTenantId());
         });
     }
 }

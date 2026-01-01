@@ -1,7 +1,7 @@
 # 🤖 AI Agent Team Registry
 
 **Status**: ✅ Upgraded 1. Januar 2026  
-**Team Size**: 30 Specialized Agents  
+**Team Size**: 31 Specialized Agents  
 **Coordinator**: @SARAH (Claude Haiku 4.5)
 
 ---
@@ -111,6 +111,13 @@
   - Owns: Performance monitoring, bottleneck analysis, optimization
   - Model: Claude Haiku 4.5
 
+- **@DatabaseSpecialist** - `Database Performance, SQL/NoSQL Optimization, EF Core`
+  - Optimizes database queries, indexes, and performance across SQL Server, PostgreSQL, MongoDB
+  - Analyzes execution plans, reviews EF-generated SQL, supports testing and development
+  - Owns: Database design, query optimization, performance tuning
+  - Highly valued by @TechLead for database decisions
+  - Model: Claude Haiku 4.5
+
 - **@Platform** - `Infrastructure Automation, Cloud Platforms, Developer Tools`
   - Builds developer platforms and infrastructure automation
   - Owns: IaC, multi-cloud strategy, self-service tools
@@ -188,6 +195,7 @@
 | **GitHub Copilot (AI)** | `knowledgebase/` (primary) | Internet documentation curation, framework guides, tool docs, best practices, external references |
 | **@DataAI** | `decisions/`, `knowledgebase/` | AI architecture decisions, ML model documentation, data pipeline guides |
 | **@Performance** | `decisions/`, `knowledgebase/` | Performance architecture decisions, optimization guides, monitoring documentation |
+| **@DatabaseSpecialist** | `decisions/`, `knowledgebase/` | Database architecture decisions, query optimization guides, index strategy docs, EF performance documentation |
 | **@Platform** | `config/`, `decisions/` | Platform architecture decisions, infrastructure automation docs, developer tooling guides |
 | **@DevRel** | `knowledgebase/`, `templates/`, `faq/`, `logs/` | Developer documentation, SDK guides, community resources, educational content, FAQ management, automated issue analysis and routing |
 | **@FinOps** | `operations/` | Cost optimization strategies, financial reports, budget documentation, cost governance |
@@ -252,6 +260,12 @@ If complex → escalate to @TechLead or @Architect
 ```
 @Backend - API endpoints, business logic, database
 If complex → escalate to @TechLead or @Architect
+```
+
+### Database Optimization
+```
+@DatabaseSpecialist - Query optimization, indexing, performance tuning
+For SQL/NoSQL design, EF optimization, execution plan analysis
 ```
 
 ### Testing
@@ -336,6 +350,7 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 | **@SARAH** | **Haiku 4.5** | coordination, governance | Coordination |
 | @DataAI | Haiku 4.5 | vscode, python-tools, ml-pipelines | AI/ML, data science |
 | @Performance | Haiku 4.5 | monitoring, profiling, load-testing | System performance, optimization |
+| @DatabaseSpecialist | Haiku 4.5 | vscode, database-tools, profiling | Database performance, SQL/NoSQL optimization |
 | @Platform | Haiku 4.5 | infrastructure, iac, cloud | Platform engineering, automation |
 | @DevRel | Haiku 4.5 | documentation, community, sdk, issue-analysis | Developer experience, ecosystem, automated issue triage |
 | @FinOps | **Sonnet 4** | financial-tools, analytics, reporting | Cost governance, budgeting, ROI |
@@ -355,5 +370,5 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 
 **Agent Team Upgraded**: 1. Januar 2026  
 **Status**: ✅ Core + Enhanced Specialists + Cost Optimization Agents deployed  
-**New Agents**: @DataAI, @Performance, @Platform, @DevRel, @FinOps, @Procurement  
+**New Agents**: @DataAI, @Performance, @DatabaseSpecialist, @Platform, @DevRel, @FinOps, @Procurement  
 **Coordination**: @SARAH with governance authority

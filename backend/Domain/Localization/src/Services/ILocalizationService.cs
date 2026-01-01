@@ -41,6 +41,15 @@ public interface ILocalizationService
     Task<IEnumerable<string>> GetSupportedLanguagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Sets or updates translations for a key (uses current tenant from ambient context)
+    /// </summary>
+    /// <param name="key">The translation key</param>
+    /// <param name="category">The translation category</param>
+    /// <param name="translations">Dictionary of language codes to translated values</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    Task SetStringAsync(string key, string category, Dictionary<string, string> translations, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Sets or updates translations for a key
     /// </summary>
     /// <param name="tenantId">Optional tenant ID for tenant-specific translations</param>

@@ -3,7 +3,7 @@ namespace B2Connect.CatalogService.Models;
 /// <summary>
 /// Product aggregate root
 /// </summary>
-public class Product
+public class Product : B2Connect.Shared.Core.ITenantEntity
 {
     public Guid Id { get; set; }
     public Guid TenantId { get; set; }

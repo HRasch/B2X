@@ -13,6 +13,20 @@ public record ValidateFeedbackCommand : ICommand<ValidationResult>
     public CollectedContext Context { get; init; } = new();
     public IReadOnlyList<Attachment> Attachments { get; init; } = Array.Empty<Attachment>();
     public Guid CorrelationId { get; init; }
+    public string? ClientIdentifier { get; init; } // IP address or session ID for ban checking
+}
+
+/// <summary>
+/// Command to create feedback
+/// </summary>
+public record CreateFeedbackCommand : ICommand<FeedbackResult>
+{
+    public FeedbackCategory Category { get; init; }
+    public string Description { get; init; } = string.Empty;
+    public CollectedContext Context { get; init; } = new();
+    public IReadOnlyList<Attachment> Attachments { get; init; } = Array.Empty<Attachment>();
+    public Guid CorrelationId { get; init; }
+    public string? ClientIdentifier { get; init; } // IP address or session ID for ban checking
 }
 
 /// <summary>

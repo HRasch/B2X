@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using B2Connect.LocalizationService.Data;
 using B2Connect.LocalizationService.Models;
 using B2Connect.LocalizationService.Services;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.LocalizationService.Tests.Services;
 
@@ -16,6 +17,7 @@ public class LocalizationServiceTests : IAsyncLifetime
     private Mock<IHttpContextAccessor> _httpContextAccessorMock = null!;
     private B2Connect.LocalizationService.Services.LocalizationService _service = null!;
     private Mock<HttpContext> _httpContextMock = null!;
+    private Mock<ITenantContext> _tenantContextMock = null!;
 
     public async Task InitializeAsync()
     {
@@ -23,7 +25,12 @@ public class LocalizationServiceTests : IAsyncLifetime
             .UseInMemoryDatabase(databaseName: $"test_db_{Guid.NewGuid()}")
             .Options;
 
-        _dbContext = new LocalizationDbContext(options);
+        _tenantContextMock = new Mock<ITenantContext>();
+        _tenantContextMock.Setup(x => x.GetCurrentTenantId()).Returns(Guid.NewGuid());
+
+        _dbContext = new LocalizationDbContext(options, _tenantContextMock.Object);
+        _dbContext.SkipTenantValidation = true; // Disable tenant validation for tests
+        _dbContext.SkipTenantFilters = true; // Disable tenant filters for tests
         _cache = new MemoryCache(new MemoryCacheOptions());
 
         _httpContextMock = new Mock<HttpContext>();
@@ -31,6 +38,20 @@ public class LocalizationServiceTests : IAsyncLifetime
         _httpContextAccessorMock.Setup(x => x.HttpContext).Returns(_httpContextMock.Object);
 
         _service = new B2Connect.LocalizationService.Services.LocalizationService(_dbContext, _cache, _httpContextAccessorMock.Object);
+    }
+
+    private LocalizedStringEntity CreateTestLocalizedStringEntity(
+        string key,
+        string category,
+        string defaultValue,
+        Dictionary<string, string>? translations = null,
+        Guid? tenantId = null)
+    {
+        var localizedString = new LocalizedString(key, category, defaultValue, translations);
+        return new LocalizedStringEntity(
+            tenantId: tenantId ?? _tenantContextMock.Object.GetCurrentTenantId(),
+            localizedString: localizedString
+        );
     }
 
     public async Task DisposeAsync()
@@ -45,21 +66,17 @@ public class LocalizationServiceTests : IAsyncLifetime
     public async Task GetStringAsync_WithValidKeyAndLanguage_ReturnsTranslation()
     {
         // Arrange
-        var localized = new LocalizedString
-        {
-            Id = Guid.NewGuid(),
-            Key = "login",
-            Category = "auth",
-            DefaultValue = "Login",
-            Translations = new Dictionary<string, string>
+        var localizedEntity = CreateTestLocalizedStringEntity(
+            key: "login",
+            category: "auth",
+            defaultValue: "Login",
+            translations: new Dictionary<string, string>
             {
                 { "en", "Login" },
                 { "de", "Anmelden" }
-            },
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        _dbContext.LocalizedStrings.Add(localized);
+            }
+        );
+        _dbContext.LocalizedStringEntities.Add(localizedEntity);
         await _dbContext.SaveChangesAsync();
 
         // Act
@@ -73,20 +90,16 @@ public class LocalizationServiceTests : IAsyncLifetime
     public async Task GetStringAsync_WithUnsupportedLanguage_FallsBackToEnglish()
     {
         // Arrange
-        var localized = new LocalizedString
-        {
-            Id = Guid.NewGuid(),
-            Key = "title",
-            Category = "auth",
-            DefaultValue = "Login",
-            Translations = new Dictionary<string, string>
+        var localizedEntity = CreateTestLocalizedStringEntity(
+            key: "title",
+            category: "auth",
+            defaultValue: "Login",
+            translations: new Dictionary<string, string>
             {
                 { "en", "Login" }
-            },
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        _dbContext.LocalizedStrings.Add(localized);
+            }
+        );
+        _dbContext.LocalizedStringEntities.Add(localizedEntity);
         await _dbContext.SaveChangesAsync();
 
         // Act
@@ -110,21 +123,17 @@ public class LocalizationServiceTests : IAsyncLifetime
     public async Task GetStringAsync_WithCurrentCulture_UsesCurrentLanguage()
     {
         // Arrange
-        var localized = new LocalizedString
-        {
-            Id = Guid.NewGuid(),
-            Key = "logout",
-            Category = "auth",
-            DefaultValue = "Logout",
-            Translations = new Dictionary<string, string>
+        var localizedEntity = CreateTestLocalizedStringEntity(
+            key: "logout",
+            category: "auth",
+            defaultValue: "Logout",
+            translations: new Dictionary<string, string>
             {
                 { "en", "Logout" },
                 { "de", "Abmelden" }
-            },
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        _dbContext.LocalizedStrings.Add(localized);
+            }
+        );
+        _dbContext.LocalizedStringEntities.Add(localizedEntity);
         await _dbContext.SaveChangesAsync();
 
         var httpContext = new DefaultHttpContext();
@@ -142,20 +151,16 @@ public class LocalizationServiceTests : IAsyncLifetime
     public async Task GetStringAsync_DefaultsToEnglish_WhenNoLanguageSet()
     {
         // Arrange
-        var localized = new LocalizedString
-        {
-            Id = Guid.NewGuid(),
-            Key = "default",
-            Category = "ui",
-            DefaultValue = "Default Text",
-            Translations = new Dictionary<string, string>
+        var localizedEntity = CreateTestLocalizedStringEntity(
+            key: "default",
+            category: "ui",
+            defaultValue: "Default Text",
+            translations: new Dictionary<string, string>
             {
                 { "en", "Default Text" }
-            },
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        _dbContext.LocalizedStrings.Add(localized);
+            }
+        );
+        _dbContext.LocalizedStringEntities.Add(localizedEntity);
         await _dbContext.SaveChangesAsync();
 
         _httpContextAccessorMock.Setup(x => x.HttpContext).Returns((HttpContext)null);
@@ -177,28 +182,20 @@ public class LocalizationServiceTests : IAsyncLifetime
         // Arrange
         var strings = new[]
         {
-            new LocalizedString
-            {
-                Id = Guid.NewGuid(),
-                Key = "save",
-                Category = "ui",
-                DefaultValue = "Save",
-                Translations = new() { { "en", "Save" }, { "de", "Speichern" } },
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            },
-            new LocalizedString
-            {
-                Id = Guid.NewGuid(),
-                Key = "cancel",
-                Category = "ui",
-                DefaultValue = "Cancel",
-                Translations = new() { { "en", "Cancel" }, { "de", "Abbrechen" } },
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            }
+            CreateTestLocalizedStringEntity(
+                key: "save",
+                category: "ui",
+                defaultValue: "Save",
+                translations: new() { { "en", "Save" }, { "de", "Speichern" } }
+            ),
+            CreateTestLocalizedStringEntity(
+                key: "cancel",
+                category: "ui",
+                defaultValue: "Cancel",
+                translations: new() { { "en", "Cancel" }, { "de", "Abbrechen" } }
+            )
         };
-        _dbContext.LocalizedStrings.AddRange(strings);
+        _dbContext.LocalizedStringEntities.AddRange(strings);
         await _dbContext.SaveChangesAsync();
 
         // Act
@@ -226,17 +223,13 @@ public class LocalizationServiceTests : IAsyncLifetime
     public async Task GetCategoryAsync_MixedLanguages_FallsBackToDefaultValue()
     {
         // Arrange
-        var localized = new LocalizedString
-        {
-            Id = Guid.NewGuid(),
-            Key = "item1",
-            Category = "test",
-            DefaultValue = "Default Item",
-            Translations = new() { { "en", "English Item" } }, // Only English
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        _dbContext.LocalizedStrings.Add(localized);
+        var localizedEntity = CreateTestLocalizedStringEntity(
+            key: "item1",
+            category: "test",
+            defaultValue: "Default Item",
+            translations: new() { { "en", "English Item" } } // Only English
+        );
+        _dbContext.LocalizedStringEntities.Add(localizedEntity);
         await _dbContext.SaveChangesAsync();
 
         // Act
@@ -265,30 +258,29 @@ public class LocalizationServiceTests : IAsyncLifetime
         await _service.SetStringAsync(null, "newkey", "test", translations);
 
         // Assert
-        var saved = await _dbContext.LocalizedStrings
-            .FirstOrDefaultAsync(x => x.Key == "newkey" && x.Category == "test");
+        var saved = await _dbContext.LocalizedStringEntities
+            .FirstOrDefaultAsync(x => x.LocalizedString.Key == "newkey" && x.LocalizedString.Category == "test");
 
         Assert.NotNull(saved);
-        Assert.Equal("New String", saved.Translations["en"]);
-        Assert.Equal("Neuer String", saved.Translations["de"]);
-        Assert.Equal("New String", saved.DefaultValue);
+        Assert.Equal("New String", saved.LocalizedString.Translations["en"]);
+        Assert.Equal("Neuer String", saved.LocalizedString.Translations["de"]);
+        Assert.Equal("New String", saved.LocalizedString.DefaultValue);
     }
 
     [Fact]
     public async Task SetStringAsync_WithExistingKey_UpdatesTranslations()
     {
         // Arrange
-        var localized = new LocalizedString
-        {
-            Id = Guid.NewGuid(),
-            Key = "update",
-            Category = "test",
-            DefaultValue = "Old Value",
-            Translations = new() { { "en", "Old Value" } },
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        _dbContext.LocalizedStrings.Add(localized);
+        var tenantId = Guid.NewGuid();
+        _tenantContextMock.Setup(x => x.GetCurrentTenantId()).Returns(tenantId); // Mock returns the test tenant ID
+        var localizedEntity = CreateTestLocalizedStringEntity(
+            key: "update",
+            category: "test",
+            defaultValue: "Old Value",
+            translations: new() { { "en", "Old Value" } },
+            tenantId: tenantId
+        );
+        _dbContext.LocalizedStringEntities.Add(localizedEntity);
         await _dbContext.SaveChangesAsync();
 
         var newTranslations = new Dictionary<string, string>
@@ -298,16 +290,16 @@ public class LocalizationServiceTests : IAsyncLifetime
         };
 
         // Act
-        await _service.SetStringAsync(null, "update", "test", newTranslations);
+        await _service.SetStringAsync(tenantId, "update", "test", newTranslations);
 
         // Assert
-        var updated = await _dbContext.LocalizedStrings
-            .FirstOrDefaultAsync(x => x.Key == "update" && x.Category == "test");
+        var updated = await _dbContext.LocalizedStringEntities
+            .FirstOrDefaultAsync(x => x.LocalizedString.Key == "update" && x.LocalizedString.Category == "test" && x.TenantId == tenantId);
 
         Assert.NotNull(updated);
-        Assert.Equal("Updated Value", updated.Translations["en"]);
-        Assert.Equal("Aktualisierter Wert", updated.Translations["de"]);
-        Assert.True(updated.UpdatedAt > localized.CreatedAt);
+        Assert.Equal("Updated Value", updated.LocalizedString.Translations["en"]);
+        Assert.Equal("Aktualisierter Wert", updated.LocalizedString.Translations["de"]);
+        Assert.True(updated.UpdatedAt > localizedEntity.CreatedAt);
     }
 
     [Fact]
@@ -315,6 +307,7 @@ public class LocalizationServiceTests : IAsyncLifetime
     {
         // Arrange
         var tenantId = Guid.NewGuid();
+        _tenantContextMock.Setup(x => x.GetCurrentTenantId()).Returns(tenantId); // Mock returns the test tenant ID
         var translations = new Dictionary<string, string>
         {
             { "en", "Tenant-Specific" },
@@ -325,8 +318,8 @@ public class LocalizationServiceTests : IAsyncLifetime
         await _service.SetStringAsync(tenantId, "tenant_key", "test", translations);
 
         // Assert
-        var saved = await _dbContext.LocalizedStrings
-            .FirstOrDefaultAsync(x => x.Key == "tenant_key" && x.Category == "test" && x.TenantId == tenantId);
+        var saved = await _dbContext.LocalizedStringEntities
+            .FirstOrDefaultAsync(x => x.LocalizedString.Key == "tenant_key" && x.LocalizedString.Category == "test" && x.TenantId == tenantId);
 
         Assert.NotNull(saved);
         Assert.Equal(tenantId, saved.TenantId);
@@ -359,24 +352,20 @@ public class LocalizationServiceTests : IAsyncLifetime
     public async Task GetStringAsync_CachesResult_AvoidsDatabaseHits()
     {
         // Arrange
-        var localized = new LocalizedString
-        {
-            Id = Guid.NewGuid(),
-            Key = "cached",
-            Category = "test",
-            DefaultValue = "Cached Value",
-            Translations = new() { { "en", "Cached Value" } },
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        _dbContext.LocalizedStrings.Add(localized);
+        var localizedEntity = CreateTestLocalizedStringEntity(
+            key: "cached",
+            category: "test",
+            defaultValue: "Cached Value",
+            translations: new() { { "en", "Cached Value" } }
+        );
+        _dbContext.LocalizedStringEntities.Add(localizedEntity);
         await _dbContext.SaveChangesAsync();
 
         // First call - hits database
         var result1 = await _service.GetStringAsync("cached", "test", "en");
 
         // Remove from database to prove caching works
-        _dbContext.LocalizedStrings.Remove(localized);
+        _dbContext.LocalizedStringEntities.Remove(localizedEntity);
         await _dbContext.SaveChangesAsync();
 
         // Act - Second call should return cached value

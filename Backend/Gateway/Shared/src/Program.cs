@@ -1,6 +1,5 @@
 using B2Connect.Domain.Support.Services;
-using B2Connect.Gateway.Shared.Application;
-using B2Connect.Gateway.Shared.Presentation.Controllers;
+using B2Connect.Gateway.Shared.Middleware;
 using B2Connect.Shared.Core;
 using B2Connect.Shared.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -79,12 +78,22 @@ builder.Services.AddScoped<IDataAnonymizer, DataAnonymizer>();
 builder.Services.AddScoped<IGitHubService, GitHubService>();
 builder.Services.AddScoped<IFeedbackValidator, FeedbackValidator>();
 builder.Services.AddScoped<IMaliciousRequestAnalyzer, MLMaliciousRequestAnalyzer>();
+builder.Services.AddScoped<IBanManagementService, InMemoryBanManagementService>();
 
 // Register Repositories (in-memory for now, can be replaced with EF Core later)
 builder.Services.AddSingleton<IFeedbackRepository, InMemoryFeedbackRepository>();
 
 // Configure Validation Rules
 builder.Services.Configure<ValidationRules>(builder.Configuration.GetSection("Feedback:Validation"));
+
+// Configure Ban Management
+builder.Services.Configure<BanConfiguration>(builder.Configuration.GetSection("Feedback:BanManagement"));
+
+// ===== LOCALIZATION SERVICES =====
+
+// Register Localization Services
+builder.Services.AddScoped<ILocalizationService, LocalizationService>();
+builder.Services.AddScoped<IEntityLocalizationService, EntityLocalizationService>();
 
 // ===== WOLVERINE CQRS =====
 builder.Services.AddWolverine(opts =>
@@ -121,6 +130,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Tenant context middleware (must be before authentication and localization)
+app.UseMiddleware<TenantContextMiddleware>();
+
+// Localization middleware (must be before authentication)
+app.UseMiddleware<LocalizationMiddleware>();
 
 // Security middleware
 app.UseCors("AllowFrontends");

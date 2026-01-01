@@ -77,15 +77,18 @@ public class FeedbackValidator : IFeedbackValidator
     private readonly ValidationRules _rules;
     private readonly ILogger<FeedbackValidator> _logger;
     private readonly IMaliciousRequestAnalyzer _securityAnalyzer;
+    private readonly IBanManagementService _banService;
 
     public FeedbackValidator(
         IOptions<ValidationRules> rules,
         ILogger<FeedbackValidator> logger,
-        IMaliciousRequestAnalyzer securityAnalyzer)
+        IMaliciousRequestAnalyzer securityAnalyzer,
+        IBanManagementService banService)
     {
         _rules = rules.Value;
         _logger = logger;
         _securityAnalyzer = securityAnalyzer ?? throw new ArgumentNullException(nameof(securityAnalyzer));
+        _banService = banService ?? throw new ArgumentNullException(nameof(banService));
     }
 
     public async Task<ValidationResult> ValidateAsync(CreateFeedbackCommand command)
@@ -93,6 +96,30 @@ public class FeedbackValidator : IFeedbackValidator
         var reasons = new List<string>();
         var severity = ValidationSeverity.Low;
         var status = ValidationStatus.Valid;
+
+        // Step 0: Check for active bans first
+        if (!string.IsNullOrEmpty(command.ClientIdentifier))
+        {
+            var banCheck = await _banService.CheckBanStatusAsync(command.ClientIdentifier, "feedback");
+            if (banCheck.IsBanned)
+            {
+                reasons.Add($"Request blocked due to ban: {banCheck.Reason}");
+                severity = ValidationSeverity.Critical;
+                status = ValidationStatus.Rejected;
+
+                _logger.LogWarning("Request from banned identifier {Identifier} rejected: {Reason}",
+                    command.ClientIdentifier, banCheck.Reason);
+
+                return new ValidationResult
+                {
+                    IsValid = false,
+                    Status = status,
+                    Message = "Your request has been blocked due to previous violations. Please contact support if you believe this is an error.",
+                    Reasons = reasons,
+                    Severity = severity
+                };
+            }
+        }
 
         // Step 1: ML-based security analysis
         var securityAnalysis = await _securityAnalyzer.AnalyzeAsync(command);
@@ -107,6 +134,15 @@ public class FeedbackValidator : IFeedbackValidator
                 _ => ValidationSeverity.Medium
             };
             status = ValidationStatus.Rejected;
+
+            // Record malicious attempt for ban management
+            if (!string.IsNullOrEmpty(command.ClientIdentifier))
+            {
+                await _banService.RecordMaliciousAttemptAsync(
+                    command.ClientIdentifier,
+                    "feedback",
+                    securityAnalysis.ThreatLevel);
+            }
 
             _logger.LogWarning("Security threat detected in feedback {CorrelationId}: {Patterns} (Confidence: {Confidence:P2})",
                 command.CorrelationId, string.Join(", ", securityAnalysis.DetectedPatterns), securityAnalysis.ConfidenceScore);

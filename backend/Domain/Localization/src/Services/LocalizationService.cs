@@ -57,10 +57,10 @@ public class LocalizationService : ILocalizationService
             return (string)cachedValue!;
         }
 
-        var localized = await _dbContext.LocalizedStrings
+        var localized = await _dbContext.LocalizedStringEntities
             .AsNoTracking()
             .FirstOrDefaultAsync(
-                ls => ls.Key == key && ls.Category == category,
+                ls => ls.LocalizedString.Key == key && ls.LocalizedString.Category == category,
                 cancellationToken);
 
         if (localized is null)
@@ -69,22 +69,22 @@ public class LocalizationService : ILocalizationService
         }
 
         // Try exact language match
-        if (localized.Translations.TryGetValue(language, out var value))
+        if (localized.LocalizedString.Translations.TryGetValue(language, out var value))
         {
             _cache.Set(cacheKey, value, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
             return value;
         }
 
         // Fallback to English
-        if (localized.Translations.TryGetValue("en", out var fallback))
+        if (localized.LocalizedString.Translations.TryGetValue("en", out var fallback))
         {
             _cache.Set(cacheKey, fallback, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
             return fallback;
         }
 
         // Final fallback to default value
-        _cache.Set(cacheKey, localized.DefaultValue, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
-        return localized.DefaultValue;
+        _cache.Set(cacheKey, localized.LocalizedString.DefaultValue, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+        return localized.LocalizedString.DefaultValue;
     }
 
     public async Task<Dictionary<string, string>> GetCategoryAsync(string category, string language, CancellationToken cancellationToken = default)
@@ -101,20 +101,20 @@ public class LocalizationService : ILocalizationService
             return (Dictionary<string, string>)cachedDict!;
         }
 
-        var strings = await _dbContext.LocalizedStrings
+        var strings = await _dbContext.LocalizedStringEntities
             .AsNoTracking()
-            .Where(ls => ls.Category == category)
+            .Where(ls => ls.LocalizedString.Category == category)
             .ToListAsync(cancellationToken);
 
         var result = new Dictionary<string, string>();
 
         foreach (var localized in strings)
         {
-            var translatedValue = localized.Translations.TryGetValue(language, out var val)
+            var translatedValue = localized.LocalizedString.Translations.TryGetValue(language, out var val)
                 ? val
-                : localized.DefaultValue;
+                : localized.LocalizedString.DefaultValue;
 
-            result[localized.Key] = translatedValue;
+            result[localized.LocalizedString.Key] = translatedValue;
         }
 
         _cache.Set(cacheKey, result, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
@@ -125,6 +125,9 @@ public class LocalizationService : ILocalizationService
     {
         return Task.FromResult((IEnumerable<string>)SupportedLanguages);
     }
+
+    public Task SetStringAsync(string key, string category, Dictionary<string, string> translations, CancellationToken cancellationToken = default)
+        => SetStringAsync(TenantContext.CurrentTenantId, key, category, translations, cancellationToken);
 
     public async Task SetStringAsync(
         Guid? tenantId,
@@ -142,30 +145,32 @@ public class LocalizationService : ILocalizationService
         if (translations is null || translations.Count == 0)
             throw new ArgumentException("Translations cannot be null or empty", nameof(translations));
 
-        var existing = await _dbContext.LocalizedStrings
+        var existing = await _dbContext.LocalizedStringEntities
             .FirstOrDefaultAsync(
-                ls => ls.Key == key && ls.Category == category && ls.TenantId == tenantId,
+                ls => ls.LocalizedString.Key == key && ls.LocalizedString.Category == category && ls.TenantId == tenantId,
                 cancellationToken);
 
         if (existing is null)
         {
-            existing = new LocalizedString
-            {
-                Id = Guid.NewGuid(),
-                Key = key,
-                Category = category,
-                TenantId = tenantId,
-                DefaultValue = translations.GetValueOrDefault("en") ?? key,
-                Translations = new Dictionary<string, string>(translations),
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            };
-            _dbContext.LocalizedStrings.Add(existing);
+            var localizedString = new LocalizedString(
+                key: key,
+                category: category,
+                defaultValue: translations.GetValueOrDefault("en") ?? key,
+                translations: new Dictionary<string, string>(translations)
+            );
+
+            existing = new LocalizedStringEntity(
+                tenantId: tenantId ?? Guid.Empty,
+                localizedString: localizedString
+            );
+
+            _dbContext.LocalizedStringEntities.Add(existing);
         }
         else
         {
-            existing.Translations = new Dictionary<string, string>(translations);
-            existing.DefaultValue = translations.GetValueOrDefault("en") ?? existing.DefaultValue;
+            // Create new LocalizedString with updated translations
+            var updatedLocalizedString = existing.LocalizedString.WithTranslations(new Dictionary<string, string>(translations));
+            existing.LocalizedString = updatedLocalizedString;
             existing.UpdatedAt = DateTime.UtcNow;
         }
 
