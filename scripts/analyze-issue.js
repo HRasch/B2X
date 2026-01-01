@@ -70,6 +70,18 @@ class IssueAnalyzer {
                 agent: 'none',
                 labels: ['invalid', 'nonsense'],
                 close: true
+            },
+            'non-product': {
+                keywords: [
+                    'general', 'question', 'help', 'support', 'how to', 'what is',
+                    'please', 'thank you', 'hi', 'hello', 'hey', 'dear',
+                    'i need', 'i want', 'can you', 'could you', 'would you',
+                    'personal', 'private', 'unrelated', 'different topic'
+                ],
+                weight: 0.5,
+                agent: 'none',
+                labels: ['invalid', 'non-product'],
+                close: true
             }
         };
 
@@ -94,8 +106,27 @@ class IssueAnalyzer {
             nonsense: {
                 'test': 1.5, 'spam': 1.5, 'joke': 1.4, 'meme': 1.4, 'lol': 1.3,
                 'wtf': 1.3, 'unsinn': 1.5, 'spaß': 1.4, 'witz': 1.4, 'nonsense': 1.5
+            },
+            'non-product': {
+                'general': 1.3, 'question': 1.2, 'help': 1.2, 'support': 1.2,
+                'personal': 1.4, 'private': 1.4, 'unrelated': 1.5
             }
         };
+
+        // Product reference validation
+        this.productKeywords = [
+            'b2connect', 'b2c', 'api', 'endpoint', 'service', 'microservice',
+            'database', 'frontend', 'backend', 'ui', 'component', 'vue', 'dotnet',
+            'cqrs', 'wolverine', 'aspire', 'entity framework', 'ef core',
+            'authentication', 'authorization', 'security', 'login', 'user',
+            'customer', 'order', 'product', 'catalog', 'cms', 'content',
+            'localization', 'translation', 'search', 'elasticsearch', 'index',
+            'deployment', 'docker', 'kubernetes', 'ci/cd', 'pipeline',
+            'testing', 'unit test', 'integration test', 'e2e', 'qa'
+        ];
+
+        // Minimum confidence threshold for product-related issues
+        this.minProductConfidence = 0.6; // 60% minimum for clear product reference
     }
 
     async analyzeIssue(issueNumber, title, body) {
@@ -115,6 +146,10 @@ class IssueAnalyzer {
                 scores[category] *= this.applyContextMultiplier(content, category);
             }
 
+            // Validate product reference
+            const hasProductReference = this.hasClearProductReference(content);
+            const productConfidence = this.calculateProductConfidence(content);
+
             // Find best category
             const bestCategory = Object.keys(scores).reduce((a, b) =>
                 scores[a] > scores[b] ? a : b
@@ -123,21 +158,44 @@ class IssueAnalyzer {
             const confidence = scores[bestCategory];
             const categoryConfig = this.categories[bestCategory];
 
+            // Strict product reference validation
+            let finalCategory = bestCategory;
+            let finalConfidence = confidence;
+            let shouldClose = categoryConfig.close || false;
+
+            if (!hasProductReference || productConfidence < this.minProductConfidence) {
+                // Not clearly product-related, treat as non-product
+                finalCategory = 'non-product';
+                finalConfidence = Math.max(productConfidence, 0.1);
+                shouldClose = true;
+            }
+
+            // Get final category config
+            const finalConfig = this.categories[finalCategory] || {
+                agent: 'none',
+                labels: ['invalid', 'non-product'],
+                close: true
+            };
+
             // Assess priority
-            const priority = this.assessPriority(content, bestCategory);
+            const priority = this.assessPriority(content, finalCategory);
 
             // Extract template data
-            const templateData = this.extractTemplateData(content, bestCategory);
+            const templateData = this.extractTemplateData(content, finalCategory);
 
             const result = {
-                category: bestCategory,
-                confidence: Math.min(confidence, 1.0), // Cap at 1.0
+                category: finalCategory,
+                confidence: Math.min(finalConfidence, 1.0),
                 priority: priority,
-                agent: categoryConfig.agent,
-                labels: categoryConfig.labels,
-                close: categoryConfig.close || false,
+                agent: finalConfig.agent,
+                labels: finalConfig.labels,
+                close: shouldClose,
                 templateData: templateData,
-                scores: scores // For debugging
+                scores: scores,
+                productReference: {
+                    hasReference: hasProductReference,
+                    confidence: productConfidence
+                }
             };
 
             console.log(`✅ Classification: ${bestCategory} (confidence: ${(result.confidence * 100).toFixed(1)}%)`);
@@ -211,7 +269,8 @@ class IssueAnalyzer {
             feature: 'low',
             change: 'medium',
             knowhow: 'low',
-            nonsense: 'low'
+            nonsense: 'low',
+            'non-product': 'low'
         };
 
         return defaults[category] || 'medium';
@@ -269,6 +328,63 @@ class IssueAnalyzer {
         return 'not provided';
     }
 
+    hasClearProductReference(content) {
+        // Check for explicit B2Connect references - highest priority
+        const explicitRefs = ['b2connect', 'b2c'];
+        for (const ref of explicitRefs) {
+            if (content.includes(ref)) {
+                return true;
+            }
+        }
+
+        // Check for B2Connect-specific technical combinations
+        const b2cSpecificTerms = ['aspire', 'wolverine'];
+        let b2cSpecificCount = 0;
+        for (const term of b2cSpecificTerms) {
+            if (content.includes(term)) {
+                b2cSpecificCount++;
+            }
+        }
+
+        // One B2Connect-specific term is enough
+        if (b2cSpecificCount >= 1) {
+            return true;
+        }
+
+        // Check for general technical terms that need more context
+        const generalTechTerms = ['cqrs', 'ef core', 'entity framework', 'vue', 'dotnet'];
+        let generalTechCount = 0;
+        for (const term of generalTechTerms) {
+            if (content.includes(term)) {
+                generalTechCount++;
+            }
+        }
+
+        // Need at least 3 general technical terms to be considered B2Connect-related
+        // This prevents false positives from generic .NET/Vue.js questions
+        return generalTechCount >= 3;
+    }
+
+    calculateProductConfidence(content) {
+        let score = 0;
+        let totalMatches = 0;
+
+        for (const keyword of this.productKeywords) {
+            const regex = new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+            const matches = content.match(regex);
+            if (matches) {
+                score += matches.length;
+                totalMatches += matches.length;
+            }
+        }
+
+        // Normalize based on content length
+        const contentWords = content.split(/\s+/).length;
+        const density = totalMatches / Math.max(contentWords, 1);
+
+        return Math.min(score * density * 5, 1.0); // Scale and cap
+    }
+
     async logAnalysis(issueNumber, result) {
         const logEntry = {
             timestamp: new Date().toISOString(),
@@ -279,7 +395,8 @@ class IssueAnalyzer {
             agent: result.agent,
             labels: result.labels,
             close: result.close,
-            scores: result.scores
+            scores: result.scores,
+            productReference: result.productReference
         };
 
         const logPath = path.join(__dirname, '..', '.ai', 'logs', 'issue-analysis.jsonl');

@@ -65,7 +65,8 @@ class ResponseGenerator {
             feature: this.buildFeatureResponse(data, references),
             change: this.buildChangeResponse(data, references),
             knowhow: this.buildKnowhowResponse(data, references),
-            nonsense: this.buildNonsenseResponse(data, references)
+            nonsense: this.buildNonsenseResponse(data, references),
+            'non-product': this.buildNonProductResponse(data, references)
         };
 
         return templates[category] || this.buildDefaultResponse(data, references);
@@ -260,6 +261,30 @@ Falls Sie doch eine Frage zu B2Connect haben, zögern Sie nicht, ein neues Issue
 Bei Fragen zu unserem Produkt stehen wir Ihnen jederzeit zur Verfügung.
 
 *Diese Anfrage wurde automatisch verarbeitet und als nicht relevant für B2Connect eingestuft.*`;
+    }
+
+    buildNonProductResponse(data, references = {}) {
+        return `❓ **Anfrage ohne klaren Produktbezug**
+
+Vielen Dank für Ihre Nachricht! Leider konnten wir in Ihrer Anfrage keinen eindeutigen Bezug zu B2Connect erkennen.
+
+**Wichtiger Hinweis:** Um Ihnen bestmöglich helfen zu können, benötigen wir spezifische Informationen zu unserem Produkt. Dieses Issue wird daher geschlossen.
+
+**Für B2Connect-spezifische Fragen bitte angeben:**
+- Welches B2Connect-Modul betreffen Sie? (API, Frontend, Backend, Datenbank, etc.)
+- Welche Technologie verwenden Sie? (ASP.NET, Vue.js, CQRS, etc.)
+- Welche Version von B2Connect nutzen Sie?
+- Können Sie das Problem/die Frage genauer beschreiben?
+
+**Nützliche Links:**
+- [B2Connect Produktübersicht](https://docs.b2connect.com/overview)
+- [Erste Schritte](https://docs.b2connect.com/getting-started)
+- [API Dokumentation](https://docs.b2connect.com/api)
+- [Support Kontakt](https://support.b2connect.com)
+
+Falls Sie eine B2Connect-bezogene Frage haben, erstellen Sie bitte ein neues Issue mit diesen Details. Wir freuen uns auf Ihre Rückmeldung!
+
+*Diese Anfrage wurde automatisch als nicht eindeutig produktbezogen eingestuft und geschlossen.*`;
     }
 
     buildDefaultResponse(data, references = {}) {
