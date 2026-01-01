@@ -65,7 +65,7 @@ We will implement a theme system using:
 - Maintain compatibility between build-time and runtime SCSS compilation
 - SCSS File Management:
   - Store SCSS files as entities in database with tenant isolation
-  - Use Monaco editor in Admin Frontend for editing with SCSS syntax support
+  - Use @guolao/vue-monaco-editor in Admin Frontend for editing with SCSS syntax support
   - Background job compiles SCSS to CSS using sass.js or server-side compiler
   - Invalidate cache after successful compilation
   - Integrate with existing runtime compilation for seamless theming

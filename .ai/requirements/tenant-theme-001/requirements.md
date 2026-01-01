@@ -82,7 +82,7 @@ Implement tenant-themed frontend with AI customization capabilities for B2Connec
 
 #### Story 7.2: Monaco Editor Integration for SCSS Editing
 **As a frontend developer, I want Monaco editor in the Admin Frontend so that admins can edit SCSS files with syntax highlighting and validation.**
-- Tasks: Integrate Monaco editor component, add SCSS language support, implement save/load functionality, add syntax validation
+- Tasks: Integrate @guolao/vue-monaco-editor component, add SCSS language support, implement save/load functionality, add syntax validation
 - Effort: 5 story points
 - Priority: High
 - Dependencies: Story 7.1, Story 7
