@@ -32,6 +32,7 @@
   "license": "MIT",
   "devDependencies": {
     "@rollup/rollup-darwin-arm64": "^4.54.0",
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "graphemer": "^1.4.0"
   }
 }
