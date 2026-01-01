@@ -24,7 +24,8 @@ class LabelManager {
             bug: { name: 'type/bug', color: 'd73a49', description: 'Bug report - something is broken' },
             feature: { name: 'type/feature-request', color: '0052cc', description: 'Feature request - new functionality' },
             change: { name: 'type/change-request', color: 'fbca04', description: 'Change request - modify existing functionality' },
-            knowhow: { name: 'type/knowhow', color: '0e8a16', description: 'Knowledge request - how-to questions' }
+            knowhow: { name: 'type/knowhow', color: '0e8a16', description: 'Knowledge request - how-to questions' },
+            nonsense: { name: 'type/nonsense', color: '586069', description: 'Non-product related - will be closed' }
         };
 
         // Status labels

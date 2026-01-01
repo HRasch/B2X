@@ -57,8 +57,20 @@ class IssueAnalyzer {
                 weight: 0.8,
                 agent: 'devrel',
                 labels: ['question', 'documentation']
+            },
+            nonsense: {
+                keywords: [
+                    'test', 'hello world', 'lorem ipsum', 'random', 'spam', 'joke',
+                    'meme', 'funny', 'lol', 'haha', 'wtf', 'stupid', 'nonsense',
+                    'gibberish', 'meaningless', 'irrelevant', 'off-topic', 'unrelated',
+                    'nicht relevant', 'unsinn', 'spaß', 'witz', 'testnachricht',
+                    'dummy', 'placeholder', 'example text', 'bla bla', 'yada yada'
+                ],
+                weight: 1.2, // Higher weight to catch nonsense quickly
+                agent: 'none', // No agent needed for nonsense
+                labels: ['invalid', 'nonsense'],
+                close: true // Flag to close the issue
             }
-        };
 
         // Context multipliers for more accurate classification
         this.contextMultipliers = {
@@ -77,8 +89,11 @@ class IssueAnalyzer {
             knowhow: {
                 'how': 1.4, 'help': 1.3, 'guide': 1.2, 'documentation': 1.3,
                 'setup': 1.2, 'configure': 1.2, 'question': 1.2
+            },
+            nonsense: {
+                'test': 1.5, 'spam': 1.5, 'joke': 1.4, 'meme': 1.4, 'lol': 1.3,
+                'wtf': 1.3, 'unsinn': 1.5, 'spaß': 1.4, 'witz': 1.4, 'nonsense': 1.5
             }
-        };
     }
 
     async analyzeIssue(issueNumber, title, body) {
@@ -118,6 +133,7 @@ class IssueAnalyzer {
                 priority: priority,
                 agent: categoryConfig.agent,
                 labels: categoryConfig.labels,
+                close: categoryConfig.close || false,
                 templateData: templateData,
                 scores: scores // For debugging
             };
@@ -192,7 +208,8 @@ class IssueAnalyzer {
             bug: 'medium',
             feature: 'low',
             change: 'medium',
-            knowhow: 'low'
+            knowhow: 'low',
+            nonsense: 'low' // Nonsense issues are low priority
         };
 
         return defaults[category] || 'medium';
@@ -311,6 +328,7 @@ async function main() {
     console.log(`::set-output name=priority::${result.priority}`);
     console.log(`::set-output name=confidence::${result.confidence}`);
     console.log(`::set-output name=agent::${result.agent}`);
+    console.log(`::set-output name=close::${result.close}`);
     console.log(`::set-output name=template_data::${JSON.stringify(result.templateData)}`);
 }
 

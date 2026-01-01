@@ -25,6 +25,14 @@ jobs:
           cd scripts
           npm install @octokit/rest axios
 
+      - name: Analyze issue
+        id: analysis
+        run: |
+          cd scripts
+          node analyze-issue.js ${{ github.event.issue.number }} "${{ github.event.issue.title }}" "${{ github.event.issue.body }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Find duplicates and solutions
         id: duplicates
         run: |
@@ -43,7 +51,7 @@ jobs:
       - name: Generate automated response
         run: |
           cd scripts
-          node generate-response.js ${{ github.event.issue.number }} ${{ steps.analysis.outputs.category }} ${{ steps.analysis.outputs.template_data }} "${{ steps.duplicates.outputs.duplicates }}" "${{ steps.duplicates.outputs.solutions }}" "${{ steps.duplicates.outputs.related }}"
+          node generate-response.js ${{ github.event.issue.number }} ${{ steps.analysis.outputs.category }} ${{ steps.analysis.outputs.template_data }} "${{ steps.duplicates.outputs.duplicates }}" "${{ steps.duplicates.outputs.solutions }}" "${{ steps.duplicates.outputs.related }}" ${{ steps.analysis.outputs.close }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
