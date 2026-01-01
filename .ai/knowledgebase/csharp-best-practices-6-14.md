@@ -561,14 +561,48 @@ public ValueTask<Customer> GetCustomerAsync(int id)
 ## Sicherheit und Robustheit
 
 ### Input Validation
+
+**Bevorzuge Guard-Clauses für Parameter-Validierung**: Verwende frühe Returns oder Throws am Methodenanfang, um ungültige Eingaben zu prüfen und die Methode frühzeitig zu verlassen.
+
 ```csharp
-// ✅ Empfohlen
+// ✅ Empfohlen: Guard-Clauses mit modernen Helper-Methoden
 public void ProcessUserInput(string input)
 {
     ArgumentException.ThrowIfNullOrEmpty(input);
     ArgumentException.ThrowIfNullOrWhiteSpace(input);
 
-    // Weitere Validierung...
+    if (input.Length > 1000)
+        throw new ArgumentException("Input too long", nameof(input));
+
+    // Weitere Verarbeitung...
+}
+
+// ✅ Empfohlen: Guard-Clauses mit Result-Pattern
+public Result ProcessData(string data)
+{
+    if (string.IsNullOrEmpty(data))
+        return Result.Failure("Data cannot be null or empty");
+
+    if (data.Length < 10)
+        return Result.Failure("Data must be at least 10 characters");
+
+    // Weitere Verarbeitung...
+    return Result.Success();
+}
+
+// ❌ Vermeide: Tiefe Verschachtelung ohne Guard-Clauses
+public void ProcessUserInput(string input)
+{
+    if (input != null)
+    {
+        if (!string.IsNullOrWhiteSpace(input))
+        {
+            if (input.Length <= 1000)
+            {
+                // Eigentliche Logik tief verschachtelt
+            }
+        }
+    }
 }
 ```
 
