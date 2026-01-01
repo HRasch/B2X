@@ -32,6 +32,13 @@ applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 - Create policies for test environment standardization and data seeding to ensure reliable testing
 - Establish QA sign-off requirements for all releases with clear acceptance criteria
 
+## Lessons Learned Integration
+- **MANDATORY**: Include test cases for past failure patterns identified in `.ai/lessons/`
+- **MANDATORY**: Review testing lessons learned before writing new test suites
+- **MANDATORY**: Document testing gaps discovered during incident investigations
+- **MANDATORY**: Apply testing best practices from historical test failure analyses
+- **MANDATORY**: Include regression tests for all resolved Severity 1-2 incidents
+
 ## Test Naming Convention
 ```
 describe('[Component/Function Name]', () => {

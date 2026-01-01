@@ -47,6 +47,33 @@ CRITICAL: Use Wolverine, NOT MediatR! Reference CheckRegistrationTypeService.cs 
 
 6. **Encryption**: PII fields (email, phone, address) use AES-256
 
+## 🤖 AI Governance Compliance
+
+**MANDATORY**: All operations must comply with [ai-governance.instructions.md](.github/instructions/ai-governance.instructions.md):
+
+### Performance Standards
+- Response times: <200ms simple, <2s complex operations
+- Resource utilization: <70% CPU, <80% memory
+- Accuracy: >95% factual correctness
+
+### Security Requirements
+- Zero-trust authentication for all operations
+- AES-256-GCM encryption for PII data
+- GDPR/NIS2/AI Act compliance
+- Audit logging for all data access
+
+### Operational Boundaries
+- Domain expertise restrictions (backend only)
+- Mandatory escalation for cross-domain issues
+- Quality gates for all outputs
+- Ethical AI constraints
+
+### Quality Assurance
+- Peer review for complex outputs
+- Automated testing integration
+- Bias mitigation and transparency
+- Human oversight for critical decisions
+
 ## 🚀 Quick Commands
 
 ```bash

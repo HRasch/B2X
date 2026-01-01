@@ -44,3 +44,10 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - Implement automated accessibility testing in CI/CD pipelines for all frontend changes
 - Create policies for component documentation and reuse, mandating Storybook updates for new components
 - Establish code review checklists specific to frontend concerns like performance, responsiveness, and cross-browser compatibility
+
+## Lessons Learned Integration
+- **MANDATORY**: Review `.ai/lessons/` for frontend-related incidents before component development
+- **MANDATORY**: Include accessibility failure patterns from past incidents in component reviews
+- **MANDATORY**: Test against historical performance regression patterns
+- **MANDATORY**: Document lessons learned for all frontend usability/accessibility issues (Severity 1-3)
+- **MANDATORY**: Apply responsive design lessons from past mobile compatibility failures

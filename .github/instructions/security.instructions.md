@@ -39,6 +39,12 @@ applyTo: "**/*"
 - Document security decisions
 - Report vulnerabilities through proper channels
 
+## Lessons Learned Integration
+- **MANDATORY**: Review security incidents in `.ai/lessons/` before implementing security features
+- **MANDATORY**: Document security lessons learned for all breaches/vulnerabilities (Severity 1-2)
+- **MANDATORY**: Apply prevention measures from past security incidents
+- **MANDATORY**: Update security policies based on incident analysis within 1 week
+
 ## Security Policies
 - Require security reviews for all code changes with automated vulnerability scanning in pipelines
 - Implement encryption policies for sensitive data and secure coding standards

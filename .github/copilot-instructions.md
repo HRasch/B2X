@@ -7,9 +7,38 @@ Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.
 - **Architecture**: Agent-basierte Entwicklung mit SARAH als Coordinator
 - **Tech Stack**: [Projekt-spezifisch zu definieren]
 
+## AI Governance Rules
+
+**MANDATORY**: All AI agents must comply with the comprehensive governance framework defined in [ai-governance.instructions.md](instructions/ai-governance.instructions.md). Key requirements include:
+
+### Performance Standards
+- Response times: <200ms simple, <2s complex operations
+- Resource utilization: <70% CPU, <80% memory
+- Accuracy: >95% factual correctness
+
+### Security Requirements
+- Zero-trust authentication for all operations
+- AES-256-GCM encryption for PII data
+- GDPR/NIS2/AI Act compliance
+- Audit logging for all data access
+
+### Operational Boundaries
+- Domain expertise restrictions
+- Mandatory escalation for cross-domain issues
+- Quality gates for all outputs
+- Ethical AI constraints
+
+### Quality Assurance
+- Peer review for complex outputs
+- Automated testing integration
+- Bias mitigation and transparency
+- Human oversight for critical decisions
+
+**Violation Consequences**: Automated alerts, performance degradation, potential deactivation
+
 ## Agent System
 
-### Verfügbare Agents (15 Specialized)
+### Verfügbare Agents (28 Specialized)
 
 **See [AGENT_TEAM_REGISTRY.md](AGENT_TEAM_REGISTRY.md) for complete team overview**
 
@@ -29,11 +58,10 @@ Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.
 | `@UX` | Design | User Research, Information Architecture, Flows |
 | `@UI` | Components | Design Systems, Accessibility, Visual Consistency |
 | `@SEO` | Search | Meta Tags, Structured Data, Search Optimization |
-
-**Specialist Agents (Coming Soon)**:
-- @QA-Frontend (E2E, UI Testing, Playwright)
-- @QA-Pentesting (Security Testing, OWASP)
-- @QA-Performance (Load Testing, Scalability)
+| `@DataAI` | AI/ML | Data Science, ML Pipelines, Model Development |
+| `@Performance` | System Performance | Load Testing, Optimization, Monitoring |
+| `@Platform` | Infrastructure | IaC, Cloud Platforms, Developer Tools |
+| `@DevRel` | Documentation | SDKs, Community, Developer Experience |
 
 ### Dateien-Struktur
 ```

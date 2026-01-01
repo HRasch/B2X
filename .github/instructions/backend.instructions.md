@@ -39,3 +39,10 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 - Implement automated dependency update policies with quarterly reviews and security vulnerability scans
 - Establish API versioning and deprecation notice policies for smooth transitions and backward compatibility
 - Mandate comprehensive unit and integration testing for all new features with 90%+ coverage targets
+
+## Lessons Learned Integration
+- **MANDATORY**: Query `.ai/lessons/` for backend-related incidents before implementing new features
+- **MANDATORY**: Include regression tests for past backend failures in all PRs
+- **MANDATORY**: Document lessons learned for all backend incidents (Severity 1-3)
+- **MANDATORY**: Apply prevention patterns from historical backend issues
+- **MANDATORY**: Review API design against past API failure patterns
