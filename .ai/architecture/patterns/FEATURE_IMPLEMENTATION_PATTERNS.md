@@ -762,55 +762,38 @@ INTEGRATION:
 
 ### **Design System Architecture (SoftUI)**
 
-#### **Color Palette & Theming**
-```typescript
-// ✅ DO: Centralized color system with CSS custom properties
-// tailwind.config.ts
-export default {
-  theme: {
-    extend: {
-      colors: {
-        // Primary brand colors
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          900: '#0c4a6e',
-        },
-        // Semantic colors
-        success: '#10b981',
-        warning: '#f59e0b',
-        error: '#ef4444',
-        // SoftUI specific
-        soft: {
-          shadow: 'rgba(0, 0, 0, 0.1)',
-          border: '#e5e7eb',
-          surface: '#ffffff',
-        }
-      },
-      boxShadow: {
-        'soft': '0 4px 20px rgba(0, 0, 0, 0.08)',
-        'soft-lg': '0 10px 40px rgba(0, 0, 0, 0.12)',
-      }
-    }
-  }
-}
-```
-
-#### **Typography Scale**
+#### **CSS Custom Properties Foundation**
 ```css
-/* ✅ DO: Consistent typography system */
+/* ✅ DO: CSS Custom Properties as design system foundation */
+/* src/styles/design-tokens.css */
 :root {
+  /* Color Palette */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-900: #0c4a6e;
+  
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  
+  /* SoftUI Specific */
+  --color-soft-shadow: rgba(0, 0, 0, 0.1);
+  --color-soft-border: #e5e7eb;
+  --color-soft-surface: #ffffff;
+  
+  /* Typography */
   --font-family-primary: 'Inter', system-ui, sans-serif;
-  --font-size-xs: 0.75rem;    /* 12px */
-  --font-size-sm: 0.875rem;   /* 14px */
-  --font-size-base: 1rem;     /* 16px */
-  --font-size-lg: 1.125rem;   /* 18px */
-  --font-size-xl: 1.25rem;    /* 20px */
-  --font-size-2xl: 1.5rem;    /* 24px */
-  --font-size-3xl: 1.875rem;  /* 30px */
-  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
   
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -820,42 +803,223 @@ export default {
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Border Radius */
+  --border-radius-none: 0;
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 0.75rem;
+  --border-radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-soft: 0 4px 20px var(--color-soft-shadow);
+  --shadow-soft-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-large: 0 20px 40px rgba(0, 0, 0, 0.15);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 200ms ease-in-out;
+  --transition-slow: 300ms ease-in-out;
+  
+  /* Z-Index Scale */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --color-soft-shadow: rgba(0, 0, 0, 0.3);
+  --color-soft-border: #374151;
+  --color-soft-surface: #1f2937;
 }
 ```
 
-#### **Component Tokens**
+#### **Tailwind Integration with CSS Variables**
 ```typescript
-// ✅ DO: Design tokens for consistent component styling
-export const designTokens = {
-  borderRadius: {
-    none: '0',
-    sm: '0.25rem',    // 4px
-    md: '0.375rem',   // 6px
-    lg: '0.5rem',     // 8px
-    xl: '0.75rem',    // 12px
-    full: '9999px',
-  },
-  spacing: {
-    xs: '0.25rem',    // 4px
-    sm: '0.5rem',     // 8px
-    md: '1rem',       // 16px
-    lg: '1.5rem',     // 24px
-    xl: '2rem',       // 32px
-    '2xl': '3rem',    // 48px
-  },
-  shadows: {
-    soft: '0 4px 20px rgba(0, 0, 0, 0.08)',
-    medium: '0 8px 30px rgba(0, 0, 0, 0.12)',
-    large: '0 20px 40px rgba(0, 0, 0, 0.15)',
+// ✅ DO: Tailwind config that references CSS custom properties
+// tailwind.config.ts
+export default {
+  content: ['./src/**/*.{vue,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        // Reference CSS custom properties
+        primary: {
+          50: 'var(--color-primary-50)',
+          100: 'var(--color-primary-100)',
+          500: 'var(--color-primary-500)',
+          600: 'var(--color-primary-600)',
+          900: 'var(--color-primary-900)',
+        },
+        success: 'var(--color-success)',
+        warning: 'var(--color-warning)',
+        error: 'var(--color-error)',
+        soft: {
+          shadow: 'var(--color-soft-shadow)',
+          border: 'var(--color-soft-border)',
+          surface: 'var(--color-soft-surface)',
+        }
+      },
+      fontFamily: {
+        primary: 'var(--font-family-primary)',
+      },
+      fontSize: {
+        xs: 'var(--font-size-xs)',
+        sm: 'var(--font-size-sm)',
+        base: 'var(--font-size-base)',
+        lg: 'var(--font-size-lg)',
+        xl: 'var(--font-size-xl)',
+        '2xl': 'var(--font-size-2xl)',
+        '3xl': 'var(--font-size-3xl)',
+        '4xl': 'var(--font-size-4xl)',
+      },
+      fontWeight: {
+        normal: 'var(--font-weight-normal)',
+        medium: 'var(--font-weight-medium)',
+        semibold: 'var(--font-weight-semibold)',
+        bold: 'var(--font-weight-bold)',
+      },
+      lineHeight: {
+        tight: 'var(--line-height-tight)',
+        normal: 'var(--line-height-normal)',
+        relaxed: 'var(--line-height-relaxed)',
+      },
+      spacing: {
+        xs: 'var(--spacing-xs)',
+        sm: 'var(--spacing-sm)',
+        md: 'var(--spacing-md)',
+        lg: 'var(--spacing-lg)',
+        xl: 'var(--spacing-xl)',
+        '2xl': 'var(--spacing-2xl)',
+      },
+      borderRadius: {
+        none: 'var(--border-radius-none)',
+        sm: 'var(--border-radius-sm)',
+        md: 'var(--border-radius-md)',
+        lg: 'var(--border-radius-lg)',
+        xl: 'var(--border-radius-xl)',
+        full: 'var(--border-radius-full)',
+      },
+      boxShadow: {
+        soft: 'var(--shadow-soft)',
+        'soft-lg': 'var(--shadow-soft-lg)',
+        medium: 'var(--shadow-medium)',
+        large: 'var(--shadow-large)',
+      },
+      transitionDuration: {
+        fast: '150ms',
+        normal: '200ms',
+        slow: '300ms',
+      },
+      zIndex: {
+        dropdown: 'var(--z-dropdown)',
+        sticky: 'var(--z-sticky)',
+        fixed: 'var(--z-fixed)',
+        'modal-backdrop': 'var(--z-modal-backdrop)',
+        modal: 'var(--z-modal)',
+        popover: 'var(--z-popover)',
+        tooltip: 'var(--z-tooltip)',
+      }
+    }
   }
+}
+```
+
+#### **TypeScript Design Token Integration**
+```typescript
+// ✅ DO: Type-safe design tokens from CSS custom properties
+// src/types/design-tokens.ts
+export const designTokens = {
+  colors: {
+    primary: {
+      50: 'var(--color-primary-50)',
+      100: 'var(--color-primary-100)',
+      500: 'var(--color-primary-500)',
+      600: 'var(--color-primary-600)',
+      900: 'var(--color-primary-900)',
+    } as const,
+    success: 'var(--color-success)',
+    warning: 'var(--color-warning)',
+    error: 'var(--color-error)',
+    soft: {
+      shadow: 'var(--color-soft-shadow)',
+      border: 'var(--color-soft-border)',
+      surface: 'var(--color-soft-surface)',
+    } as const,
+  } as const,
+  typography: {
+    fontFamily: {
+      primary: 'var(--font-family-primary)',
+    } as const,
+    fontSize: {
+      xs: 'var(--font-size-xs)',
+      sm: 'var(--font-size-sm)',
+      base: 'var(--font-size-base)',
+      lg: 'var(--font-size-lg)',
+      xl: 'var(--font-size-xl)',
+      '2xl': 'var(--font-size-2xl)',
+      '3xl': 'var(--font-size-3xl)',
+      '4xl': 'var(--font-size-4xl)',
+    } as const,
+    fontWeight: {
+      normal: 'var(--font-weight-normal)',
+      medium: 'var(--font-weight-medium)',
+      semibold: 'var(--font-weight-semibold)',
+      bold: 'var(--font-weight-bold)',
+    } as const,
+    lineHeight: {
+      tight: 'var(--line-height-tight)',
+      normal: 'var(--line-height-normal)',
+      relaxed: 'var(--line-height-relaxed)',
+    } as const,
+  } as const,
+  spacing: {
+    xs: 'var(--spacing-xs)',
+    sm: 'var(--spacing-sm)',
+    md: 'var(--spacing-md)',
+    lg: 'var(--spacing-lg)',
+    xl: 'var(--spacing-xl)',
+    '2xl': 'var(--spacing-2xl)',
+  } as const,
+  borderRadius: {
+    none: 'var(--border-radius-none)',
+    sm: 'var(--border-radius-sm)',
+    md: 'var(--border-radius-md)',
+    lg: 'var(--border-radius-lg)',
+    xl: 'var(--border-radius-xl)',
+    full: 'var(--border-radius-full)',
+  } as const,
+  shadows: {
+    soft: 'var(--shadow-soft)',
+    'soft-lg': 'var(--shadow-soft-lg)',
+    medium: 'var(--shadow-medium)',
+    large: 'var(--shadow-large)',
+  } as const,
 } as const
+
+export type DesignTokens = typeof designTokens
 ```
 
 ### **Component Design Patterns**
 
-#### **SoftUI Button Component**
+#### **SoftUI Button Component (CSS Variables)**
 ```vue
-<!-- ✅ DO: SoftUI button with multiple variants -->
+<!-- ✅ DO: SoftUI button using CSS custom properties -->
 <template>
   <button
     :class="buttonClasses"
@@ -900,7 +1064,7 @@ const buttonClasses = computed(() => {
     'active:scale-95'
   ]
 
-  // Variant styles
+  // Variant styles using CSS variables
   const variantClasses = {
     primary: [
       'bg-primary-500 text-white',
@@ -926,7 +1090,7 @@ const buttonClasses = computed(() => {
     ]
   }
 
-  // Size styles
+  // Size styles using CSS variables
   const sizeClasses = {
     sm: ['px-3 py-1.5 text-sm'],
     md: ['px-4 py-2 text-base'],
@@ -946,11 +1110,21 @@ const handleClick = (event: MouseEvent) => {
   }
 }
 </script>
+
+<style scoped>
+/* CSS Variables for component-specific styling */
+.button {
+  --button-border-radius: var(--border-radius-lg);
+  --button-transition: var(--transition-normal);
+  --button-shadow: var(--shadow-soft);
+  --button-shadow-hover: var(--shadow-soft-lg);
+}
+</style>
 ```
 
-#### **SoftUI Card Component**
+#### **SoftUI Card Component (CSS Variables)**
 ```vue
-<!-- ✅ DO: SoftUI card with flexible content areas -->
+<!-- ✅ DO: SoftUI card using CSS custom properties -->
 <template>
   <div :class="cardClasses">
     <!-- Header -->
@@ -987,19 +1161,19 @@ const props = withDefaults(defineProps<Props>(), {
 
 const cardClasses = computed(() => {
   const baseClasses = [
-    'bg-white rounded-xl',
+    'bg-soft-surface rounded-xl',
     'border border-soft-border',
     'transition-all duration-200'
   ]
 
-  // Variant styles
+  // Variant styles using CSS variables
   const variantClasses = {
     default: ['shadow-soft'],
     elevated: ['shadow-soft-lg'],
     outlined: ['shadow-none border-2']
   }
 
-  // Padding styles
+  // Padding styles using CSS variables
   const paddingClasses = {
     none: [],
     sm: ['p-4'],
@@ -1007,7 +1181,7 @@ const cardClasses = computed(() => {
     lg: ['p-8']
   }
 
-  // Hover effects
+  // Hover effects using CSS variables
   const hoverClasses = props.hover ? [
     'hover:shadow-soft-lg',
     'hover:-translate-y-1'
@@ -1023,33 +1197,47 @@ const cardClasses = computed(() => {
 </script>
 
 <style scoped>
+/* Component-specific CSS variables */
+.card {
+  --card-background: var(--color-soft-surface);
+  --card-border: var(--color-soft-border);
+  --card-border-radius: var(--border-radius-xl);
+  --card-shadow: var(--shadow-soft);
+  --card-shadow-hover: var(--shadow-soft-lg);
+  --card-transition: var(--transition-normal);
+}
+
 .card-header {
-  @apply border-b border-soft-border pb-4 mb-4;
+  border-bottom: 1px solid var(--color-soft-border);
+  padding-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 }
 
 .card-body {
-  @apply flex-1;
+  flex: 1;
 }
 
 .card-footer {
-  @apply border-t border-soft-border pt-4 mt-4;
+  border-top: 1px solid var(--color-soft-border);
+  padding-top: var(--spacing-md);
+  margin-top: var(--spacing-md);
 }
 </style>
 ```
 
-#### **Form Field Component**
+#### **Form Field Component (CSS Variables)**
 ```vue
-<!-- ✅ DO: Accessible form field with validation -->
+<!-- ✅ DO: Accessible form field using CSS custom properties -->
 <template>
   <div class="form-field">
     <label
       v-if="label"
       :for="inputId"
       class="form-label"
-      :class="{ 'text-error-500': hasError }"
+      :class="{ 'text-error': hasError }"
     >
       {{ label }}
-      <span v-if="required" class="text-error-500 ml-1">*</span>
+      <span v-if="required" class="text-error ml-1">*</span>
     </label>
 
     <div class="relative">
@@ -1091,20 +1279,37 @@ const hasError = computed(() => Boolean(props.errorMessage))
 </script>
 
 <style scoped>
+/* CSS Variables for form styling */
+.form-field {
+  --form-spacing: var(--spacing-sm);
+  --form-label-color: #374151;
+  --form-error-color: var(--color-error);
+  --form-hint-color: #6b7280;
+  --form-border-radius: var(--border-radius-sm);
+}
+
 .form-field {
   @apply space-y-2;
 }
 
 .form-label {
-  @apply block text-sm font-medium text-gray-700;
+  @apply block text-sm font-medium;
+  color: var(--form-label-color);
 }
 
 .form-error {
-  @apply text-sm text-error-600;
+  @apply text-sm;
+  color: var(--form-error-color);
 }
 
 .form-hint {
-  @apply text-sm text-gray-500;
+  @apply text-sm;
+  color: var(--form-hint-color);
+}
+
+/* Error state styling */
+.form-field:has(.form-error) .form-label {
+  color: var(--form-error-color);
 }
 </style>
 ```
@@ -1704,52 +1909,346 @@ export const Disabled: Story = {
 }
 ```
 
-#### **Design Token Management**
+#### **Design Token Management (CSS Variables)**
 ```typescript
-// ✅ DO: Automated design token generation
+// ✅ DO: Automated CSS custom properties generation
+// build/tokens-generator.ts
 import { writeFileSync } from 'fs'
-import { designTokens } from './design-tokens'
+import { designTokens } from '../src/types/design-tokens'
 
-function generateCSSTokens() {
-  const cssVariables = Object.entries(designTokens)
-    .map(([category, values]) => {
-      if (typeof values === 'object') {
-        return Object.entries(values)
-          .map(([key, value]) => `  --${category}-${key}: ${value};`)
-          .join('\n')
-      }
-      return `  --${category}: ${values};`
+function generateCSSCustomProperties() {
+  const cssLines: string[] = []
+
+  // Colors
+  cssLines.push('  /* Colors */')
+  Object.entries(designTokens.colors).forEach(([category, values]) => {
+    if (typeof values === 'string') {
+      cssLines.push(`  --color-${category}: ${values};`)
+    } else {
+      Object.entries(values).forEach(([key, value]) => {
+        cssLines.push(`  --color-${category}-${key}: ${value};`)
+      })
+    }
+  })
+
+  // Typography
+  cssLines.push('  /* Typography */')
+  Object.entries(designTokens.typography).forEach(([category, values]) => {
+    Object.entries(values).forEach(([key, value]) => {
+      cssLines.push(`  --${category}-${key}: ${value};`)
     })
-    .join('\n')
+  })
 
-  const css = `:root {\n${cssVariables}\n}\n`
+  // Spacing
+  cssLines.push('  /* Spacing */')
+  Object.entries(designTokens.spacing).forEach(([key, value]) => {
+    cssLines.push(`  --spacing-${key}: ${value};`)
+  })
 
-  writeFileSync('./src/styles/tokens.css', css)
-}
+  // Border Radius
+  cssLines.push('  /* Border Radius */')
+  Object.entries(designTokens.borderRadius).forEach(([key, value]) => {
+    cssLines.push(`  --border-radius-${key}: ${value};`)
+  })
 
-function generateTypeScriptTokens() {
-  const ts = `export const designTokens = ${JSON.stringify(designTokens, null, 2)} as const\n`
+  // Shadows
+  cssLines.push('  /* Shadows */')
+  Object.entries(designTokens.shadows).forEach(([key, value]) => {
+    cssLines.push(`  --shadow-${key}: ${value};`)
+  })
 
-  writeFileSync('./src/types/design-tokens.ts', ts)
+  const css = `:root {\n${cssLines.join('\n')}\n}\n`
+
+  writeFileSync('./src/styles/design-tokens.css', css)
+  console.log('✅ CSS custom properties generated')
 }
 
 // Generate on build
-generateCSSTokens()
-generateTypeScriptTokens()
+generateCSSCustomProperties()
 ```
 
-#### **Design System Checklist**
-- [ ] **Color Palette** - Consistent brand colors defined
-- [ ] **Typography** - Readable font scale and weights
-- [ ] **Spacing** - Consistent spacing tokens
-- [ ] **Components** - Reusable component library
-- [ ] **Patterns** - Established UX patterns
-- [ ] **Accessibility** - WCAG 2.1 AA compliance
-- [ ] **Responsive** - Mobile-first responsive design
-- [ ] **Dark Mode** - Light/dark theme support
-- [ ] **Documentation** - Component documentation
-- [ ] **Testing** - Visual regression tests
-- [ ] **Maintenance** - Regular design system updates
+#### **Theme Management with CSS Variables**
+```typescript
+// ✅ DO: Runtime theme switching with CSS custom properties
+// src/composables/useTheme.ts
+import { ref, watch } from 'vue'
+
+export type Theme = 'light' | 'dark' | 'auto'
+
+const currentTheme = ref<Theme>('light')
+
+export function useTheme() {
+  const setTheme = (theme: Theme) => {
+    currentTheme.value = theme
+    updateThemeAttribute(theme)
+    updateMetaThemeColor(theme)
+  }
+
+  const updateThemeAttribute = (theme: Theme) => {
+    const html = document.documentElement
+    
+    if (theme === 'auto') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      html.setAttribute('data-theme', prefersDark ? 'dark' : 'light')
+    } else {
+      html.setAttribute('data-theme', theme)
+    }
+  }
+
+  const updateMetaThemeColor = (theme: Theme) => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+    if (metaThemeColor) {
+      const color = theme === 'dark' ? '#1f2937' : '#ffffff'
+      metaThemeColor.setAttribute('content', color)
+    }
+  }
+
+  // Watch for system theme changes when in auto mode
+  watch(currentTheme, (newTheme) => {
+    if (newTheme === 'auto') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      mediaQuery.addEventListener('change', (e) => {
+        updateThemeAttribute('auto')
+        updateMetaThemeColor('auto')
+      })
+    }
+  })
+
+  return {
+    currentTheme: readonly(currentTheme),
+    setTheme
+  }
+}
+```
+
+```css
+/* ✅ DO: Theme-specific CSS custom properties */
+/* src/styles/themes.css */
+
+/* Light Theme (default) */
+:root {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --color-bg-primary: #1f2937;
+  --color-bg-secondary: #111827;
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-border: #374151;
+}
+
+/* High Contrast Theme */
+[data-theme="high-contrast"] {
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #000000;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #ffffff;
+  --color-border: #ffffff;
+  --color-primary-500: #ffff00;
+  --color-primary-600: #ffff00;
+}
+```
+
+#### **Component-Specific CSS Variables**
+```vue
+<!-- ✅ DO: Component-scoped CSS custom properties -->
+<template>
+  <button
+    :class="buttonClasses"
+    :style="buttonStyles"
+    :disabled="disabled || loading"
+  >
+    <slot />
+  </button>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+export interface Props {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  size?: 'sm' | 'md' | 'lg'
+  customColor?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'primary',
+  size: 'md'
+})
+
+const buttonStyles = computed(() => {
+  const styles: Record<string, string> = {}
+  
+  if (props.customColor) {
+    styles['--button-custom-color'] = props.customColor
+  }
+  
+  return styles
+})
+
+const buttonClasses = computed(() => [
+  'custom-button',
+  `custom-button--${props.variant}`,
+  `custom-button--${props.size}`
+])
+</script>
+
+<style scoped>
+.custom-button {
+  /* Component-specific CSS variables */
+  --button-bg: var(--color-primary-500);
+  --button-text: white;
+  --button-border: transparent;
+  --button-shadow: var(--shadow-soft);
+  
+  /* Base styles using CSS variables */
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: 2px solid var(--button-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--button-shadow);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-normal);
+}
+
+/* Variant overrides */
+.custom-button--secondary {
+  --button-bg: var(--color-bg-secondary);
+  --button-text: var(--color-text-primary);
+  --button-border: var(--color-border);
+}
+
+.custom-button--outline {
+  --button-bg: transparent;
+  --button-text: var(--color-primary-500);
+  --button-border: var(--color-primary-500);
+}
+
+.custom-button--ghost {
+  --button-bg: transparent;
+  --button-text: var(--color-primary-500);
+  --button-border: transparent;
+  --button-shadow: none;
+}
+
+/* Size overrides */
+.custom-button--sm {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.custom-button--lg {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+}
+
+/* Custom color override */
+.custom-button[style*="--button-custom-color"] {
+  --button-bg: var(--button-custom-color);
+}
+</style>
+```
+
+#### **Design System Checklist (CSS Variables)**
+- [ ] **CSS Custom Properties** - Design tokens als CSS Variables definiert
+- [ ] **Theme Support** - Light/Dark/High-Contrast themes implementiert
+- [ ] **Component Variables** - Component-spezifische CSS Variables verwendet
+- [ ] **TypeScript Integration** - Type-safe Token-System aufgebaut
+- [ ] **Build Integration** - Automatische Token-Generierung implementiert
+- [ ] **Fallback Values** - Fallback-Werte für ältere Browser definiert
+- [ ] **Performance** - CSS Variables effizient eingesetzt (kein Over-Use)
+- [ ] **Documentation** - Token-Nutzung dokumentiert und versioniert
+
+#### **CSS Custom Properties Best Practices**
+
+##### **✅ DO: Use CSS Variables for Design Tokens**
+```css
+/* Good: Centralized design tokens */
+:root {
+  --color-primary: #0ea5e9;
+  --spacing-md: 1rem;
+  --border-radius-lg: 0.5rem;
+}
+
+.button {
+  background: var(--color-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+}
+```
+
+##### **❌ DON'T: Hardcode Values in Components**
+```css
+/* Bad: Hardcoded values */
+.button {
+  background: #0ea5e9;        /* Hardcoded color */
+  padding: 1rem;              /* Hardcoded spacing */
+  border-radius: 0.5rem;      /* Hardcoded radius */
+}
+```
+
+##### **✅ DO: Component-Specific Variables**
+```css
+/* Good: Component-scoped variables */
+.my-component {
+  --component-bg: var(--color-bg-primary);
+  --component-text: var(--color-text-primary);
+  --component-shadow: var(--shadow-soft);
+}
+
+.my-component .header {
+  background: var(--component-bg);
+  color: var(--component-text);
+  box-shadow: var(--component-shadow);
+}
+```
+
+##### **✅ DO: Theme-Aware Components**
+```css
+/* Good: Theme-aware styling */
+.theme-toggle {
+  --toggle-bg: var(--color-bg-secondary);
+  --toggle-border: var(--color-border);
+}
+
+[data-theme="dark"] .theme-toggle {
+  --toggle-bg: var(--color-bg-primary);
+  --toggle-border: var(--color-text-secondary);
+}
+```
+
+##### **✅ DO: Fallback Values**
+```css
+/* Good: Fallback for older browsers */
+.component {
+  color: #374151;                    /* Fallback */
+  color: var(--color-text-primary);  /* CSS Variable */
+}
+```
+
+##### **❌ DON'T: Over-Use CSS Variables**
+```css
+/* Bad: Too many variables for simple cases */
+.element {
+  --element-margin: var(--spacing-xs);
+  --element-padding: var(--spacing-sm);
+  margin: var(--element-margin);
+  padding: var(--element-padding);
+}
+
+/* Better: Direct usage */
+.element {
+  margin: var(--spacing-xs);
+  padding: var(--spacing-sm);
+}
+```
 
 ---
 
