@@ -236,61 +236,18 @@
       ],
       "stopAll": true,
       "presentation": {
-        "hidden": false,
-        {
-          "version": "0.2.0",
-          "configurations": [
-            {
-              "name": "🚀 Full Stack",
-              "type": "coreclr",
-              "request": "launch",
-              "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
-              "cwd": "${workspaceFolder}/AppHost",
-              "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:15500"
-              },
-              "console": "integratedTerminal"
-            },
-            {
-              "name": "🔐 Debug Identity Service",
-              "type": "coreclr",
-              "request": "launch",
-              "program": "${workspaceFolder}/backend/Domain/Identity/bin/Debug/net10.0/B2Connect.Identity.API.dll",
-              "cwd": "${workspaceFolder}/backend/Domain/Identity",
-              "env": { "ASPNETCORE_ENVIRONMENT": "Development", "ASPNETCORE_URLS": "http://localhost:7002" },
-              "console": "integratedTerminal"
-            },
-            {
-              "name": "🔧 Debug Admin API",
-              "type": "coreclr",
-              "request": "launch",
-              "program": "${workspaceFolder}/backend/Gateway/Admin/bin/Debug/net10.0/B2Connect.Admin.dll",
-              "cwd": "${workspaceFolder}/backend/Gateway/Admin",
-              "env": { "ASPNETCORE_ENVIRONMENT": "Development", "ASPNETCORE_URLS": "http://localhost:8080" },
-              "console": "integratedTerminal"
-            },
-            {
-              "name": "🔌 Attach to Catalog Service (Port 7005)",
-              "type": "coreclr",
-              "request": "attach",
-              "processName": "B2Connect.Catalog.API"
-            },
-            {
-              "name": "🔍 Collaboration Monitor",
-              "type": "node",
-              "request": "launch",
-              "program": "${workspaceFolder}/scripts/watch-collaboration.sh",
-              "console": "integratedTerminal",
-              "internalConsoleOptions": "neverOpen",
-              "preLaunchTask": "collaboration-monitor"
-            }
-          ],
-          "compounds": [
-            {
-              "name": "🚀 Full Stack + Debug Services",
-              "configurations": ["🚀 Full Stack", "🔐 Debug Identity Service", "🔧 Debug Admin API"],
-              "stopAll": true
-            }
-          ]
-        }
+        "hidden": false
+      }
+    },
+    {
+      "name": "🧪 Full Stack + TestMode",
+      "configurations": ["🚀 Full Stack", "🧪 Frontend TestMode (Admin)"],
+      "stopAll": true
+    },
+    {
+      "name": "🧪 TestMode + Demo",
+      "configurations": ["🧪 Frontend TestMode (Admin)", "🧪 TestMode Demo Runner"],
+      "stopAll": true
+    }
+  ]
+}

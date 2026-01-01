@@ -405,6 +405,124 @@
       ],
       "cwd": "${workspaceFolder}/Frontend/Management",
       "group": "build"
+    },
+    {
+      "label": "npm-install-admin",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "install"
+      ],
+      "cwd": "${workspaceFolder}/frontend/Admin",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "npm-install-store",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "install"
+      ],
+      "cwd": "${workspaceFolder}/frontend/Store",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "start-frontend-testmode",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "dev"
+      ],
+      "cwd": "${workspaceFolder}/frontend/Admin",
+      "isBackground": true,
+      "group": "build",
+      "options": {
+        "env": {
+          "NODE_ENV": "development",
+          "VITE_TESTMODE_ENABLED": "true"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "npm-install-admin",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "install"
+      ],
+      "cwd": "${workspaceFolder}/frontend/Admin",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "npm-install-store",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "install"
+      ],
+      "cwd": "${workspaceFolder}/frontend/Store",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "start-frontend-testmode",
+      "command": "npm",
+      "type": "shell",
+      "args": [
+        "run",
+        "dev"
+      ],
+      "cwd": "${workspaceFolder}/frontend/Admin",
+      "isBackground": true,
+      "env": {
+        "VITE_TESTMODE_ENABLED": "true"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "terminate-frontend",
+      "command": "pkill",
+      "type": "shell",
+      "args": [
+        "-f",
+        "vite.*5174"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
     }
   ]
 }
