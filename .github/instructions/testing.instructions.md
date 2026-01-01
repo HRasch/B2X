@@ -26,6 +26,12 @@ applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 - Business logic: >80% coverage
 - UI components: Test user interactions
 
+## Testing Policies
+- Mandate test-driven development (TDD) policies for critical features, requiring tests before code implementation
+- Implement automated test coverage policies with minimum thresholds and regular reporting
+- Create policies for test environment standardization and data seeding to ensure reliable testing
+- Establish QA sign-off requirements for all releases with clear acceptance criteria
+
 ## Test Naming Convention
 ```
 describe('[Component/Function Name]', () => {

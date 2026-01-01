@@ -38,3 +38,9 @@ applyTo: "**/*"
 - Flag security-sensitive changes for review
 - Document security decisions
 - Report vulnerabilities through proper channels
+
+## Security Policies
+- Require security reviews for all code changes with automated vulnerability scanning in pipelines
+- Implement encryption policies for sensitive data and secure coding standards
+- Create incident response policies with clear roles and communication protocols
+- Mandate regular security audits and penetration testing schedules

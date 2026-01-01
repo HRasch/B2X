@@ -39,3 +39,9 @@ applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terr
 - Use secrets management (not env files in repos)
 - Implement network policies
 - Regular security audits of infrastructure
+
+## Infrastructure Policies
+- Establish infrastructure-as-code policies requiring all changes to be version-controlled and reviewed
+- Implement automated deployment policies with canary releases and rollback procedures
+- Create monitoring and alerting policies with defined SLIs/SLOs and incident response
+- Mandate Kubernetes configuration standards and security best practices

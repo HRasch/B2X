@@ -38,3 +38,9 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - Write unit tests for utility functions
 - Write component tests for user interactions
 - Test accessibility with automated tools
+
+## Design & Accessibility
+- Enforce design system policies requiring all components to follow established patterns and WCAG 2.1 AA accessibility standards
+- Implement automated accessibility testing in CI/CD pipelines for all frontend changes
+- Create policies for component documentation and reuse, mandating Storybook updates for new components
+- Establish code review checklists specific to frontend concerns like performance, responsiveness, and cross-browser compatibility
