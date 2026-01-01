@@ -1,6 +1,6 @@
 using Bogus;
 using B2Connect.Admin.Core.Entities;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Infrastructure.Data;
 
@@ -45,14 +45,18 @@ public static class CatalogDemoDataGenerator
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
             Slug = "electronics",
-            Name = new LocalizedContent()
-                .Set("en", "Electronics")
-                .Set("de", "Elektronik")
-                .Set("fr", "Électronique"),
-            Description = new LocalizedContent()
-                .Set("en", "Electronic devices and gadgets")
-                .Set("de", "Elektronische Geräte und Zubehör")
-                .Set("fr", "Appareils électroniques et accessoires"),
+            Name = "Electronics",
+            NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Elektronik",
+                ["fr"] = "Électronique"
+            }),
+            Description = "Electronic devices and gadgets",
+            DescriptionTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Elektronische Geräte und Zubehör",
+                ["fr"] = "Appareils électroniques et accessoires"
+            }),
             DisplayOrder = 1,
             IsActive = true
         };
@@ -61,14 +65,18 @@ public static class CatalogDemoDataGenerator
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
             Slug = "computers",
-            Name = new LocalizedContent()
-                .Set("en", "Computers")
-                .Set("de", "Computer")
-                .Set("fr", "Ordinateurs"),
-            Description = new LocalizedContent()
-                .Set("en", "Desktop and laptop computers")
-                .Set("de", "Desktop- und Laptop-Computer")
-                .Set("fr", "Ordinateurs de bureau et portables"),
+            Name = "Computers",
+            NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Computer",
+                ["fr"] = "Ordinateurs"
+            }),
+            Description = "Desktop and laptop computers",
+            DescriptionTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Desktop- und Laptop-Computer",
+                ["fr"] = "Ordinateurs de bureau et portables"
+            }),
             DisplayOrder = 2,
             IsActive = true
         };
@@ -77,14 +85,18 @@ public static class CatalogDemoDataGenerator
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
             Slug = "peripherals",
-            Name = new LocalizedContent()
-                .Set("en", "Peripherals")
-                .Set("de", "Zubehör")
-                .Set("fr", "Périphériques"),
-            Description = new LocalizedContent()
-                .Set("en", "Keyboards, mice, and other peripherals")
-                .Set("de", "Tastaturen, Maus und anderes Zubehör")
-                .Set("fr", "Claviers, souris et autres périphériques"),
+            Name = "Peripherals",
+            NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Zubehör",
+                ["fr"] = "Périphériques"
+            }),
+            Description = "Keyboards, mice, and other peripherals",
+            DescriptionTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Tastaturen, Maus und anderes Zubehör",
+                ["fr"] = "Claviers, souris et autres périphériques"
+            }),
             DisplayOrder = 3,
             IsActive = true
         };
@@ -94,10 +106,12 @@ public static class CatalogDemoDataGenerator
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000011"),
             Slug = "gaming-laptops",
-            Name = new LocalizedContent()
-                .Set("en", "Gaming Laptops")
-                .Set("de", "Gaming-Laptops")
-                .Set("fr", "Ordinateurs portables de jeu"),
+            Name = "Gaming Laptops",
+            NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Gaming-Laptops",
+                ["fr"] = "Ordinateurs portables de jeu"
+            }),
             ParentCategoryId = computers.Id,
             DisplayOrder = 1,
             IsActive = true
@@ -107,10 +121,12 @@ public static class CatalogDemoDataGenerator
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000012"),
             Slug = "business-laptops",
-            Name = new LocalizedContent()
-                .Set("en", "Business Laptops")
-                .Set("de", "Business-Laptops")
-                .Set("fr", "Ordinateurs portables professionnels"),
+            Name = "Business Laptops",
+            NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Business-Laptops",
+                ["fr"] = "Ordinateurs portables professionnels"
+            }),
             ParentCategoryId = computers.Id,
             DisplayOrder = 2,
             IsActive = true
@@ -120,10 +136,12 @@ public static class CatalogDemoDataGenerator
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000021"),
             Slug = "keyboards",
-            Name = new LocalizedContent()
-                .Set("en", "Keyboards")
-                .Set("de", "Tastaturen")
-                .Set("fr", "Claviers"),
+            Name = "Keyboards",
+            NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Tastaturen",
+                ["fr"] = "Claviers"
+            }),
             ParentCategoryId = peripherals.Id,
             DisplayOrder = 1,
             IsActive = true
@@ -133,10 +151,12 @@ public static class CatalogDemoDataGenerator
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000022"),
             Slug = "mice",
-            Name = new LocalizedContent()
-                .Set("en", "Mice")
-                .Set("de", "Maus")
-                .Set("fr", "Souris"),
+            Name = "Mice",
+            NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Maus",
+                ["fr"] = "Souris"
+            }),
             ParentCategoryId = peripherals.Id,
             DisplayOrder = 2,
             IsActive = true
@@ -178,14 +198,14 @@ public static class CatalogDemoDataGenerator
             {
                 Id = Guid.NewGuid(),
                 Slug = slug,
-                Name = new LocalizedContent()
-                    .Set("en", name)
-                    .Set("de", name)
-                    .Set("fr", name),
-                Description = new LocalizedContent()
-                    .Set("en", $"{name} - Premium technology products")
-                    .Set("de", $"{name} - Premium-Technologieprodukte")
-                    .Set("fr", $"{name} - Produits technologiques premium"),
+                Name = name,
+                NameTranslations = null, // Brand names typically not translated
+                Description = $"{name} - Premium technology products",
+                DescriptionTranslations = LocalizedContent.Create(new Dictionary<string, string>
+                {
+                    ["de"] = $"{name} - Premium-Technologieprodukte",
+                    ["fr"] = $"{name} - Produits technologiques premium"
+                }),
                 LogoUrl = logo,
                 WebsiteUrl = $"https://www.{slug}.com",
                 DisplayOrder = ++_brandCounter,
@@ -229,26 +249,36 @@ public static class CatalogDemoDataGenerator
             .RuleFor(p => p.Id, _ => Guid.NewGuid())
             .RuleFor(p => p.Sku, f => $"SKU-{++_productCounter:D4}")
             .RuleFor(p => p.Slug, (f, p) => p.Sku.ToLower().Replace("_", "-"))
-            .RuleFor(p => p.Name, f => new LocalizedContent()
-                .Set("en", f.PickRandom(productTypes) + " " + f.Commerce.ProductName())
-                .Set("de", f.PickRandom(productTypes) + " " + f.Commerce.ProductName())
-                .Set("fr", f.PickRandom(productTypes) + " " + f.Commerce.ProductName()))
-            .RuleFor(p => p.ShortDescription, f => new LocalizedContent()
-                .Set("en", f.Commerce.ProductDescription())
-                .Set("de", f.Commerce.ProductDescription())
-                .Set("fr", f.Commerce.ProductDescription()))
-            .RuleFor(p => p.Description, f => new LocalizedContent()
-                .Set("en", $"{f.Commerce.ProductDescription()}. Features: {string.Join(", ", f.Lorem.Words(5))}")
-                .Set("de", $"{f.Commerce.ProductDescription()}. Features: {string.Join(", ", f.Lorem.Words(5))}")
-                .Set("fr", $"{f.Commerce.ProductDescription()}. Features: {string.Join(", ", f.Lorem.Words(5))}"))
-            .RuleFor(p => p.MetaDescription, f => new LocalizedContent()
-                .Set("en", f.Lorem.Sentence(10))
-                .Set("de", f.Lorem.Sentence(10))
-                .Set("fr", f.Lorem.Sentence(10)))
-            .RuleFor(p => p.MetaKeywords, f => new LocalizedContent()
-                .Set("en", string.Join(", ", f.Lorem.Words(5)))
-                .Set("de", string.Join(", ", f.Lorem.Words(5)))
-                .Set("fr", string.Join(", ", f.Lorem.Words(5))))
+            .RuleFor(p => p.Name, f => f.PickRandom(productTypes) + " " + f.Commerce.ProductName())
+            .RuleFor(p => p.NameTranslations, f => LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = f.PickRandom(productTypes) + " " + f.Commerce.ProductName(),
+                ["fr"] = f.PickRandom(productTypes) + " " + f.Commerce.ProductName()
+            }))
+            .RuleFor(p => p.ShortDescription, f => f.Commerce.ProductDescription())
+            .RuleFor(p => p.ShortDescriptionTranslations, f => LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = f.Commerce.ProductDescription(),
+                ["fr"] = f.Commerce.ProductDescription()
+            }))
+            .RuleFor(p => p.Description, f => $"{f.Commerce.ProductDescription()}. Features: {string.Join(", ", f.Lorem.Words(5))}")
+            .RuleFor(p => p.DescriptionTranslations, f => LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = $"{f.Commerce.ProductDescription()}. Features: {string.Join(", ", f.Lorem.Words(5))}",
+                ["fr"] = $"{f.Commerce.ProductDescription()}. Features: {string.Join(", ", f.Lorem.Words(5))}"
+            }))
+            .RuleFor(p => p.MetaDescription, f => f.Lorem.Sentence(10))
+            .RuleFor(p => p.MetaDescriptionTranslations, f => LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = f.Lorem.Sentence(10),
+                ["fr"] = f.Lorem.Sentence(10)
+            }))
+            .RuleFor(p => p.MetaKeywords, f => string.Join(", ", f.Lorem.Words(5)))
+            .RuleFor(p => p.MetaKeywordsTranslations, f => LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = string.Join(", ", f.Lorem.Words(5)),
+                ["fr"] = string.Join(", ", f.Lorem.Words(5))
+            }))
             .RuleFor(p => p.BrandId, f => f.PickRandom(brands).Id)
             .RuleFor(p => p.Price, f => decimal.Parse(f.Commerce.Price(500, 2500)))
             .RuleFor(p => p.SpecialPrice, f => f.Random.Bool(0.3f) ? decimal.Parse(f.Commerce.Price(400, 2000)) : null)
@@ -308,10 +338,18 @@ public static class CatalogDemoDataGenerator
                 Id = Guid.NewGuid(),
                 ProductId = product.Id,
                 Sku = $"{product.Sku}-{color.Substring(0, 3).ToUpper()}-{storage.Substring(0, 1)}",
-                Name = new LocalizedContent()
-                    .Set("en", $"{color}, {storage}")
-                    .Set("de", $"{color}, {storage}")
-                    .Set("fr", $"{color}, {storage}"),
+                Name = $"{color}, {storage}",
+                NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+                {
+                    ["de"] = $"{color}, {storage}",
+                    ["fr"] = $"{color}, {storage}"
+                }),
+                Description = $"Variant with {color} color and {storage} storage",
+                DescriptionTranslations = LocalizedContent.Create(new Dictionary<string, string>
+                {
+                    ["de"] = $"Variante mit {color} Farbe und {storage} Speicher",
+                    ["fr"] = $"Variante couleur {color} et stockage {storage}"
+                }),
                 Price = variantPrice,
                 SpecialPrice = faker.Random.Bool(0.3f) ? variantPrice * 0.85m : null,
                 StockQuantity = faker.Random.Int(0, 200),
@@ -371,13 +409,18 @@ public static class CatalogDemoDataGenerator
         {
             Id = Guid.NewGuid(),
             ProductId = product.Id,
-            Name = new LocalizedContent()
-                .Set("en", "User Manual")
-                .Set("de", "Benutzerhandbuch")
-                .Set("fr", "Manuel d'utilisation"),
-            Description = new LocalizedContent()
-                .Set("en", "Complete user manual and troubleshooting guide")
-                .Set("de", "Vollständiges Benutzerhandbuch und Fehlerbehebungsleitfaden"),
+            Name = "User Manual",
+            NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Benutzerhandbuch",
+                ["fr"] = "Manuel d'utilisation"
+            }),
+            Description = "Complete user manual and troubleshooting guide",
+            DescriptionTranslations = LocalizedContent.Create(new Dictionary<string, string>
+            {
+                ["de"] = "Vollständiges Benutzerhandbuch und Fehlerbehebungsleitfaden",
+                ["fr"] = "Manuel d'utilisation complet et guide de dépannage"
+            }),
             DocumentType = "manual",
             Url = "https://example.com/docs/manual.pdf",
             Language = "en",
@@ -399,9 +442,16 @@ public static class CatalogDemoDataGenerator
             {
                 Id = Guid.NewGuid(),
                 ProductId = product.Id,
-                Name = new LocalizedContent()
-                    .Set("de", "Technische Spezifikation")
-                    .Set("en", "Technical Specification"),
+                Name = "Technische Spezifikation",
+                NameTranslations = LocalizedContent.Create(new Dictionary<string, string>
+                {
+                    ["en"] = "Technical Specification"
+                }),
+                Description = "Detaillierte technische Daten",
+                DescriptionTranslations = LocalizedContent.Create(new Dictionary<string, string>
+                {
+                    ["en"] = "Detailed technical specifications"
+                }),
                 DocumentType = "specification",
                 Url = "https://example.com/docs/spec-de.pdf",
                 Language = "de",

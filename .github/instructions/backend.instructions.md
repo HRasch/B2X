@@ -36,6 +36,7 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 
 ## Code Review & Quality
 - Require mandatory code reviews for all backend changes with at least two approvals from senior developers
+- **MANDATORY**: For database-related changes (Data/, repositories/, models/), require review from @DatabaseSpecialist for query optimization, indexing, and EF Core SQL generation
 - Implement automated dependency update policies with quarterly reviews and security vulnerability scans
 - Establish API versioning and deprecation notice policies for smooth transitions and backward compatibility
 - Mandate comprehensive unit and integration testing for all new features with 90%+ coverage targets

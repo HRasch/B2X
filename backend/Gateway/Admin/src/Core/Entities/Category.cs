@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Core.Entities;
 
 /// <summary>
-/// Product category with multilingual support
+/// Product category with multilingual support (Hybrid Localization Pattern).
+/// Default values stored in indexed columns, translations in JSON.
+/// See ADR: ADR-entity-localization-pattern.md
 /// </summary>
 public class Category
 {
@@ -17,15 +19,34 @@ public class Category
     [MaxLength(255)]
     public string Slug { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual category name</summary>
+    // === Localized Properties (Hybrid Pattern) ===
+
+    /// <summary>Category name in default language (indexed for search)</summary>
     [Required]
-    public LocalizedContent Name { get; set; } = new();
+    [MaxLength(255)]
+    public string Name { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual category description</summary>
-    public LocalizedContent? Description { get; set; } = new();
+    /// <summary>Category name translations</summary>
+    public LocalizedContent? NameTranslations { get; set; }
 
-    /// <summary>Gets or sets the SEO multilingual meta description</summary>
-    public LocalizedContent? MetaDescription { get; set; } = new();
+    /// <summary>Category description in default language</summary>
+    [MaxLength(2000)]
+    public string? Description { get; set; }
+
+    /// <summary>Category description translations</summary>
+    public LocalizedContent? DescriptionTranslations { get; set; }
+
+    /// <summary>SEO meta description in default language</summary>
+    [MaxLength(500)]
+    public string? MetaDescription { get; set; }
+
+    /// <summary>SEO meta description translations</summary>
+    public LocalizedContent? MetaDescriptionTranslations { get; set; }
+
+    // === Localization Helpers ===
+    public string GetLocalizedName(string lang) => NameTranslations?.GetValue(lang) ?? Name;
+    public string GetLocalizedDescription(string lang) => DescriptionTranslations?.GetValue(lang) ?? Description ?? string.Empty;
+    public string GetLocalizedMetaDescription(string lang) => MetaDescriptionTranslations?.GetValue(lang) ?? MetaDescription ?? string.Empty;
 
     /// <summary>Gets or sets the parent category ID for hierarchical structure</summary>
     public Guid? ParentCategoryId { get; set; }

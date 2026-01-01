@@ -4,7 +4,7 @@ using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Middleware;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Application.Handlers.Categories;
 
@@ -17,9 +17,9 @@ internal static class CategoryMapper
         new CategoryResult(
             category.Id,
             category.TenantId ?? Guid.Empty,
-            category.Name?.Get("en") ?? string.Empty,
+            category.Name,
             category.Slug,
-            category.Description?.Get("en"),
+            category.Description,
             category.ParentCategoryId,
             category.CreatedAt);
 }
@@ -58,16 +58,14 @@ public class CreateCategoryHandler : ICommandHandler<CreateCategoryCommand, Cate
         if (string.IsNullOrWhiteSpace(command.Slug))
             throw new ArgumentException("Category slug is required");
 
-        // Business Logic - convert string to LocalizedContent
+        // Business Logic - direct string assignment (Hybrid Localization Pattern)
         var category = new Category
         {
             Id = Guid.NewGuid(),
             TenantId = tenantId,
-            Name = new LocalizedContent().Set("en", command.Name),
+            Name = command.Name,
             Slug = command.Slug,
-            Description = command.Description != null
-                ? new LocalizedContent().Set("en", command.Description)
-                : null,
+            Description = command.Description,
             ParentCategoryId = command.ParentId,
             CreatedAt = DateTime.UtcNow
         };
@@ -111,12 +109,10 @@ public class UpdateCategoryHandler : ICommandHandler<UpdateCategoryCommand, Cate
         if (category == null)
             throw new KeyNotFoundException($"Category {command.CategoryId} not found");
 
-        // Update fields - convert string to LocalizedContent
-        category.Name = new LocalizedContent().Set("en", command.Name);
+        // Update fields - direct string assignment (Hybrid Localization Pattern)
+        category.Name = command.Name;
         category.Slug = command.Slug;
-        category.Description = command.Description != null
-            ? new LocalizedContent().Set("en", command.Description)
-            : null;
+        category.Description = command.Description;
         category.ParentCategoryId = command.ParentId;
 
         await _repository.UpdateAsync(category, ct);

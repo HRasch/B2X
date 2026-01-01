@@ -3,7 +3,7 @@ using B2Connect.Admin.Application.Commands.Products;
 using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Middleware;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Application.Handlers.Products;
 
@@ -16,10 +16,10 @@ internal static class ProductMapper
         new ProductResult(
             product.Id,
             product.TenantId ?? Guid.Empty,
-            product.Name?.Get("en") ?? string.Empty,
+            product.Name,
             product.Sku,
             product.Price,
-            product.Description?.Get("en"),
+            product.Description,
             product.CategoryId,
             product.BrandId,
             product.CreatedAt);
@@ -67,12 +67,10 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
         {
             Id = Guid.NewGuid(),
             TenantId = tenantId,
-            Name = new LocalizedContent().Set("en", command.Name),
+            Name = command.Name,
             Sku = command.Sku,
             Price = command.Price,
-            Description = command.Description != null
-                ? new LocalizedContent().Set("en", command.Description)
-                : null,
+            Description = command.Description,
             CategoryId = command.CategoryId,
             BrandId = command.BrandId,
             CreatedAt = DateTime.UtcNow
@@ -114,13 +112,11 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, Produc
         if (product == null)
             throw new KeyNotFoundException($"Product {command.ProductId} not found");
 
-        // Update fields - convert string to LocalizedContent
-        product.Name = new LocalizedContent().Set("en", command.Name);
+        // Update fields - direct string assignment (Hybrid Localization Pattern)
+        product.Name = command.Name;
         product.Sku = command.Sku;
         product.Price = command.Price;
-        product.Description = command.Description != null
-            ? new LocalizedContent().Set("en", command.Description)
-            : null;
+        product.Description = command.Description;
         product.CategoryId = command.CategoryId;
         product.BrandId = command.BrandId;
         product.UpdatedAt = DateTime.UtcNow;

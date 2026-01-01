@@ -203,6 +203,7 @@ Siehe [AGENT_COORDINATION.md](.ai/collaboration/AGENT_COORDINATION.md) für Deta
 - **Conciseness**: Provide direct answers with code examples.
 - **No verbose status reports**: Skip summaries after operations - just confirm completion briefly.
 - **Immediate Execution**: AI-Agent tasks are executed immediately - no scheduling required.
+- **Immediate Answers**: Bei direkten @Agent-Adressen → Sofortige Aktivierung und Antwort des Agents, ohne Koordination durch @SARAH. Agents antworten direkt auf ihre Anfragen.
 - **Log to files**: Detailed logs/reports → `.ai/logs/` (not in chat).
 - **Context**: Always consider the surrounding code and project structure.
 - **Safety**: Avoid suggesting insecure patterns or hardcoded secrets.

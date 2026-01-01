@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Core.Entities;
 
 /// <summary>
-/// Product brand with multilingual support
+/// Product brand with multilingual support (Hybrid Localization Pattern).
+/// Default values stored in indexed columns, translations in JSON.
+/// See ADR: ADR-entity-localization-pattern.md
 /// </summary>
 public class Brand
 {
@@ -17,12 +19,26 @@ public class Brand
     [MaxLength(255)]
     public string Slug { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual brand name</summary>
-    [Required]
-    public LocalizedContent Name { get; set; } = new();
+    // === Localized Properties (Hybrid Pattern) ===
 
-    /// <summary>Gets or sets the multilingual brand description</summary>
-    public LocalizedContent? Description { get; set; } = new();
+    /// <summary>Brand name in default language (indexed for search)</summary>
+    [Required]
+    [MaxLength(255)]
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>Brand name translations</summary>
+    public LocalizedContent? NameTranslations { get; set; }
+
+    /// <summary>Brand description in default language</summary>
+    [MaxLength(2000)]
+    public string? Description { get; set; }
+
+    /// <summary>Brand description translations</summary>
+    public LocalizedContent? DescriptionTranslations { get; set; }
+
+    // === Localization Helpers ===
+    public string GetLocalizedName(string lang) => NameTranslations?.GetValue(lang) ?? Name;
+    public string GetLocalizedDescription(string lang) => DescriptionTranslations?.GetValue(lang) ?? Description ?? string.Empty;
 
     /// <summary>Gets or sets the brand logo URL</summary>
     [MaxLength(500)]

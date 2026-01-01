@@ -25,6 +25,7 @@
 
   <!-- Backend: Shared -->
   <Folder Name="/backend/Shared/">
+    <Project Path="backend/shared/B2Connect.Shared.Core.Tests/B2Connect.Shared.Core.Tests.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />

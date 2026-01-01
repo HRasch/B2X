@@ -1,6 +1,26 @@
 namespace B2Connect.CatalogService.Models;
 
 /// <summary>
+/// Localized Product DTO for API responses with automatic language projection
+/// </summary>
+public class LocalizedProductDto
+{
+    public Guid Id { get; set; }
+    public string Sku { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;        // Localized
+    public string? Description { get; set; }               // Localized
+    public decimal Price { get; set; }
+    public decimal? DiscountPrice { get; set; }
+    public int StockQuantity { get; set; }
+    public bool IsActive { get; set; }
+    public List<string> Categories { get; set; } = new();
+    public string? BrandName { get; set; }
+    public List<string> Tags { get; set; } = new();
+    public DateTime CreatedAt { get; set; }
+    public bool IsAvailable { get; set; }
+}
+
+/// <summary>
 /// Product DTO for API responses
 /// </summary>
 public class ProductDto

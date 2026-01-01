@@ -19,6 +19,17 @@ public class LocalizedString : B2Connect.Shared.Core.IValueObject, IEquatable<Lo
     public string DefaultValue { get; private set; }
 
     /// <summary>
+    /// Private parameterless constructor for EF Core materialization.
+    /// </summary>
+    private LocalizedString()
+    {
+        Key = string.Empty;
+        Category = string.Empty;
+        DefaultValue = string.Empty;
+        Translations = new Dictionary<string, string>();
+    }
+
+    /// <summary>
     /// Initializes a new instance of the LocalizedString class.
     /// </summary>
     public LocalizedString(string key, string category, string defaultValue, Dictionary<string, string>? translations = null)

@@ -1,8 +1,13 @@
 namespace B2Connect.Shared.Core;
 
 /// <summary>
-/// Value Object for embedding localized content directly in domain entities.
-/// Use this pattern when an entity property needs multi-language support.
+/// Value Object for storing translations of a property.
+/// Used with the Hybrid Localization Pattern where the default value is stored
+/// in a separate indexed column and translations are stored as JSON.
+/// 
+/// Pattern: Default column + Translations JSON
+/// - Default value: Stored in a dedicated column (indexed for search)
+/// - Translations: Stored in this Value Object as JSON
 /// 
 /// Example usage in a domain entity:
 /// <code>
@@ -10,63 +15,72 @@ namespace B2Connect.Shared.Core;
 /// {
 ///     public Guid Id { get; set; }
 ///     public Guid TenantId { get; set; }
-///     public LocalizedContent Name { get; private set; }
-///     public LocalizedContent Description { get; private set; }
-///     public decimal Price { get; set; }
+///     
+///     // Default value in indexed column
+///     public string Name { get; set; }
+///     // Translations as JSON
+///     public LocalizedContent? NameTranslations { get; set; }
+///     
+///     // Helper to get localized value with fallback
+///     public string GetLocalizedName(string languageCode)
+///         => NameTranslations?.GetValue(languageCode) ?? Name;
 /// }
 /// </code>
 /// 
-/// EF Core configuration (in DbContext.OnModelCreating):
+/// EF Core configuration:
 /// <code>
-/// modelBuilder.Entity&lt;Product&gt;().OwnsOne(p => p.Name, name =>
+/// modelBuilder.Entity&lt;Product&gt;(entity =>
 /// {
-///     name.Property(n => n.DefaultValue).HasColumnName("Name_Default");
-///     name.Property(n => n.Translations).HasColumnName("Name_Translations").HasConversion(...);
+///     entity.HasIndex(p => p.Name); // Indexed for search
+///     entity.OwnsOne(p => p.NameTranslations, t => t.ToJson("NameTranslations"));
 /// });
 /// </code>
+/// 
+/// See ADR: ADR-entity-localization-pattern.md for full documentation.
 /// </summary>
 public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent>
 {
-    /// <summary>Gets the default value (typically English)</summary>
-    public string DefaultValue { get; }
-
     /// <summary>Gets the translations dictionary (language code -> translation)</summary>
     public IReadOnlyDictionary<string, string> Translations { get; }
 
     /// <summary>
-    /// Creates a new LocalizedContent with a default value and optional translations.
+    /// Creates a new LocalizedContent with the given translations.
     /// </summary>
-    public LocalizedContent(string defaultValue, Dictionary<string, string>? translations = null)
+    public LocalizedContent(Dictionary<string, string>? translations = null)
     {
-        DefaultValue = defaultValue ?? throw new ArgumentNullException(nameof(defaultValue));
         Translations = translations ?? new Dictionary<string, string>();
     }
 
     /// <summary>
-    /// Creates a LocalizedContent with only a default value (no translations).
-    /// Useful for initial entity creation.
+    /// Creates an empty LocalizedContent (no translations yet).
     /// </summary>
-    public static LocalizedContent Create(string defaultValue)
-        => new(defaultValue);
+    public static LocalizedContent Empty => new();
 
     /// <summary>
-    /// Creates a LocalizedContent with default value and translations.
+    /// Creates a LocalizedContent from a dictionary of translations.
     /// </summary>
-    public static LocalizedContent Create(string defaultValue, Dictionary<string, string> translations)
-        => new(defaultValue, translations);
+    public static LocalizedContent Create(Dictionary<string, string> translations)
+        => new(translations);
 
     /// <summary>
-    /// Gets the localized value for the specified language.
-    /// Falls back to default value if translation not found.
+    /// Creates a LocalizedContent with a single translation.
     /// </summary>
-    public string GetValue(string languageCode)
+    public static LocalizedContent Create(string languageCode, string value)
+        => new(new Dictionary<string, string> { [languageCode.ToLowerInvariant()] = value });
+
+    /// <summary>
+    /// Gets the translation for the specified language.
+    /// Returns null if no translation exists for that language.
+    /// Use in combination with the default column: entity.NameTranslations?.GetValue("de") ?? entity.Name
+    /// </summary>
+    public string? GetValue(string languageCode)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
-            return DefaultValue;
+            return null;
 
         return Translations.TryGetValue(languageCode.ToLowerInvariant(), out var translation)
             ? translation
-            : DefaultValue;
+            : null;
     }
 
     /// <summary>
@@ -79,15 +93,17 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
         {
             [languageCode.ToLowerInvariant()] = value
         };
-        return new LocalizedContent(DefaultValue, newTranslations);
+        return new LocalizedContent(newTranslations);
     }
 
     /// <summary>
-    /// Returns a new LocalizedContent with updated default value.
+    /// Returns a new LocalizedContent with the specified translation removed.
     /// </summary>
-    public LocalizedContent WithDefaultValue(string newDefaultValue)
+    public LocalizedContent WithoutTranslation(string languageCode)
     {
-        return new LocalizedContent(newDefaultValue, new Dictionary<string, string>(Translations));
+        var newTranslations = new Dictionary<string, string>(Translations);
+        newTranslations.Remove(languageCode.ToLowerInvariant());
+        return new LocalizedContent(newTranslations);
     }
 
     /// <summary>
@@ -95,7 +111,7 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
     /// </summary>
     public LocalizedContent WithTranslations(Dictionary<string, string> newTranslations)
     {
-        return new LocalizedContent(DefaultValue, newTranslations);
+        return new LocalizedContent(newTranslations);
     }
 
     /// <summary>
@@ -110,12 +126,21 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
     public IEnumerable<string> GetAvailableLanguages()
         => Translations.Keys;
 
-    // Value Object equality - based on DefaultValue and all Translations
+    /// <summary>
+    /// Gets the number of translations.
+    /// </summary>
+    public int Count => Translations.Count;
+
+    /// <summary>
+    /// Returns true if there are no translations.
+    /// </summary>
+    public bool IsEmpty => Translations.Count == 0;
+
+    // Value Object equality - based on all Translations
     public bool Equals(LocalizedContent? other)
     {
         if (other is null) return false;
         if (ReferenceEquals(this, other)) return true;
-        if (DefaultValue != other.DefaultValue) return false;
         if (Translations.Count != other.Translations.Count) return false;
         return Translations.All(kvp =>
             other.Translations.TryGetValue(kvp.Key, out var value) && value == kvp.Value);
@@ -126,7 +151,6 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
     public override int GetHashCode()
     {
         var hash = new HashCode();
-        hash.Add(DefaultValue);
         foreach (var kvp in Translations.OrderBy(k => k.Key))
         {
             hash.Add(kvp.Key);
@@ -142,33 +166,27 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
         => !(left == right);
 
     public override string ToString()
-        => $"{DefaultValue} ({Translations.Count} translations)";
-
-    // Implicit conversion from string for convenience
-    public static implicit operator LocalizedContent(string defaultValue)
-        => new(defaultValue);
+        => Translations.Count == 0
+            ? "(no translations)"
+            : $"({Translations.Count} translations: {string.Join(", ", Translations.Keys)})";
 
     /// <summary>
-    /// Gets a concatenated string of all values (default + translations) for full-text search.
-    /// This can be stored in a separate indexed column for efficient searching across all languages.
+    /// Gets a concatenated string of all translation values for full-text search.
+    /// Note: Does NOT include the default value (that's in a separate column).
     /// </summary>
     public string GetSearchableText()
     {
-        var allValues = new List<string> { DefaultValue };
-        allValues.AddRange(Translations.Values);
-        return string.Join(" ", allValues.Distinct());
+        return string.Join(" ", Translations.Values.Distinct());
     }
 
     /// <summary>
-    /// Checks if any translation (including default) contains the search term.
+    /// Checks if any translation contains the search term.
     /// For in-memory filtering only - not translatable to SQL.
+    /// Note: Does NOT search the default value (that's in a separate column).
     /// </summary>
     public bool ContainsText(string searchTerm, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
-            return true;
-
-        if (DefaultValue.Contains(searchTerm, comparison))
             return true;
 
         return Translations.Values.Any(t => t.Contains(searchTerm, comparison));
@@ -177,7 +195,6 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
     // EF Core needs a parameterless constructor for materialization
     private LocalizedContent()
     {
-        DefaultValue = string.Empty;
         Translations = new Dictionary<string, string>();
     }
 }

@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Core.Entities;
 
 /// <summary>
-/// Product document (specs, manuals, certifications, etc.) with multilingual support
+/// Product document (specs, manuals, certifications, etc.) with multilingual support (Hybrid Pattern)
 /// </summary>
 public class ProductDocument
 {
@@ -20,12 +20,24 @@ public class ProductDocument
     /// <summary>Navigation property to the product</summary>
     public Product Product { get; set; } = null!;
 
-    /// <summary>Gets or sets the multilingual document name/title</summary>
+    /// <summary>Document name in default language</summary>
     [Required]
-    public LocalizedContent Name { get; set; } = new();
+    [MaxLength(255)]
+    public string Name { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual document description</summary>
-    public LocalizedContent? Description { get; set; } = new();
+    /// <summary>Document name translations</summary>
+    public LocalizedContent? NameTranslations { get; set; }
+
+    /// <summary>Document description in default language</summary>
+    [MaxLength(1000)]
+    public string? Description { get; set; }
+
+    /// <summary>Document description translations</summary>
+    public LocalizedContent? DescriptionTranslations { get; set; }
+
+    // Localization helpers
+    public string GetLocalizedName(string lang) => NameTranslations?.GetValue(lang) ?? Name;
+    public string GetLocalizedDescription(string lang) => DescriptionTranslations?.GetValue(lang) ?? Description ?? string.Empty;
 
     /// <summary>Gets or sets the document type (specification, manual, certification, datasheet, etc.)</summary>
     [Required]

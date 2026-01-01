@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Core.Entities;
 
 /// <summary>
-/// Product entity with multilingual support and complex relationships
+/// Product entity with multilingual support (Hybrid Localization Pattern).
+/// Default values stored in indexed columns, translations in JSON.
+/// See ADR: ADR-entity-localization-pattern.md
 /// </summary>
 public class Product
 {
@@ -20,13 +22,51 @@ public class Product
     [MaxLength(255)]
     public string Slug { get; set; } = string.Empty;
 
-    [Required]
-    public LocalizedContent Name { get; set; } = new();
+    // === Localized Properties (Hybrid Pattern) ===
+    // Default value in column (indexed), translations in JSON
 
-    public LocalizedContent? ShortDescription { get; set; } = new();
-    public LocalizedContent? Description { get; set; } = new();
-    public LocalizedContent? MetaDescription { get; set; } = new();
-    public LocalizedContent? MetaKeywords { get; set; } = new();
+    /// <summary>Product name in default language (indexed for search)</summary>
+    [Required]
+    [MaxLength(255)]
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>Product name translations</summary>
+    public LocalizedContent? NameTranslations { get; set; }
+
+    /// <summary>Short description in default language</summary>
+    [MaxLength(500)]
+    public string? ShortDescription { get; set; }
+
+    /// <summary>Short description translations</summary>
+    public LocalizedContent? ShortDescriptionTranslations { get; set; }
+
+    /// <summary>Full description in default language</summary>
+    [MaxLength(4000)]
+    public string? Description { get; set; }
+
+    /// <summary>Full description translations</summary>
+    public LocalizedContent? DescriptionTranslations { get; set; }
+
+    /// <summary>SEO meta description in default language</summary>
+    [MaxLength(500)]
+    public string? MetaDescription { get; set; }
+
+    /// <summary>SEO meta description translations</summary>
+    public LocalizedContent? MetaDescriptionTranslations { get; set; }
+
+    /// <summary>SEO meta keywords in default language</summary>
+    [MaxLength(500)]
+    public string? MetaKeywords { get; set; }
+
+    /// <summary>SEO meta keywords translations</summary>
+    public LocalizedContent? MetaKeywordsTranslations { get; set; }
+
+    // === Localization Helpers ===
+    public string GetLocalizedName(string lang) => NameTranslations?.GetValue(lang) ?? Name;
+    public string GetLocalizedShortDescription(string lang) => ShortDescriptionTranslations?.GetValue(lang) ?? ShortDescription ?? string.Empty;
+    public string GetLocalizedDescription(string lang) => DescriptionTranslations?.GetValue(lang) ?? Description ?? string.Empty;
+    public string GetLocalizedMetaDescription(string lang) => MetaDescriptionTranslations?.GetValue(lang) ?? MetaDescription ?? string.Empty;
+    public string GetLocalizedMetaKeywords(string lang) => MetaKeywordsTranslations?.GetValue(lang) ?? MetaKeywords ?? string.Empty;
 
     [ForeignKey(nameof(Brand))]
     public Guid? BrandId { get; set; }

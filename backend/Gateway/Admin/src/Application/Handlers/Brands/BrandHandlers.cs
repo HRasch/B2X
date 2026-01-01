@@ -4,7 +4,7 @@ using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Middleware;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Application.Handlers.Brands;
 
@@ -17,10 +17,10 @@ internal static class BrandMapper
         new BrandResult(
             brand.Id,
             brand.TenantId ?? Guid.Empty,
-            brand.Name?.Get("en") ?? string.Empty,
+            brand.Name,
             brand.Slug,
             brand.LogoUrl,
-            brand.Description?.Get("en"),
+            brand.Description,
             brand.CreatedAt);
 }
 
@@ -58,17 +58,15 @@ public class CreateBrandHandler : ICommandHandler<CreateBrandCommand, BrandResul
         if (string.IsNullOrWhiteSpace(command.Slug))
             throw new ArgumentException("Brand slug is required");
 
-        // Business Logic - convert string to LocalizedContent
+        // Business Logic - direct string assignment (Hybrid Localization Pattern)
         var brand = new Brand
         {
             Id = Guid.NewGuid(),
             TenantId = tenantId,
-            Name = new LocalizedContent().Set("en", command.Name),
+            Name = command.Name,
             Slug = command.Slug,
             LogoUrl = command.Logo,
-            Description = command.Description != null
-                ? new LocalizedContent().Set("en", command.Description)
-                : null,
+            Description = command.Description,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -111,13 +109,11 @@ public class UpdateBrandHandler : ICommandHandler<UpdateBrandCommand, BrandResul
         if (brand == null)
             throw new KeyNotFoundException($"Brand {command.BrandId} not found");
 
-        // Update fields - convert string to LocalizedContent
-        brand.Name = new LocalizedContent().Set("en", command.Name);
+        // Update fields - direct string assignment (Hybrid Localization Pattern)
+        brand.Name = command.Name;
         brand.Slug = command.Slug;
         brand.LogoUrl = command.Logo;
-        brand.Description = command.Description != null
-            ? new LocalizedContent().Set("en", command.Description)
-            : null;
+        brand.Description = command.Description;
         brand.UpdatedAt = DateTime.UtcNow;
 
         await _repository.UpdateAsync(brand, ct);

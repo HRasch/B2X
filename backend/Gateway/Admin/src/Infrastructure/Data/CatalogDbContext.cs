@@ -1,15 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Shared.Core.Entities;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
+using ITenantContext = B2Connect.Shared.Tenancy.Infrastructure.Context.ITenantContext;
 
 namespace B2Connect.Admin.Infrastructure.Data;
 
 /// <summary>
 /// Entity Framework Core DbContext for Catalog Service
 /// Supports PostgreSQL, SQL Server, and InMemory databases
-/// Includes multilingual support via LocalizedContent JSON properties
+/// Includes multilingual support via Hybrid Localization Pattern:
+/// - Default values in indexed string columns (for admin search)
+/// - Translations in JSON LocalizedContent properties
 /// </summary>
 public class CatalogDbContext : DbContext
 {
@@ -71,27 +73,21 @@ public class CatalogDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255);
 
+            // Hybrid Localization Pattern: Default value (indexed) + Translations (JSON)
             entity.Property(e => e.Name)
                 .IsRequired()
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(255);
 
             entity.Property(e => e.Description)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(4000);
 
             entity.Property(e => e.MetaDescription)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(500);
+
+            // Configure translations as JSON
+            entity.ConfigureTranslations(e => e.NameTranslations);
+            entity.ConfigureTranslations(e => e.DescriptionTranslations);
+            entity.ConfigureTranslations(e => e.MetaDescriptionTranslations);
 
             entity.Property(e => e.ImageUrl)
                 .HasMaxLength(500);
@@ -110,6 +106,7 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(e => e.TenantId);
             entity.HasIndex(e => e.IsActive);
             entity.HasIndex(e => e.CreatedAt);
+            entity.HasIndex(e => e.Name); // Index for admin search
         });
 
         // ==================== BRAND CONFIGURATION ====================
@@ -121,20 +118,17 @@ public class CatalogDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255);
 
+            // Hybrid Localization Pattern: Default value (indexed) + Translations (JSON)
             entity.Property(e => e.Name)
                 .IsRequired()
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(255);
 
             entity.Property(e => e.Description)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(4000);
+
+            // Configure translations as JSON
+            entity.ConfigureTranslations(e => e.NameTranslations);
+            entity.ConfigureTranslations(e => e.DescriptionTranslations);
 
             entity.Property(e => e.LogoUrl)
                 .HasMaxLength(500);
@@ -151,6 +145,7 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(e => e.TenantId);
             entity.HasIndex(e => e.IsActive);
             entity.HasIndex(e => e.CreatedAt);
+            entity.HasIndex(e => e.Name); // Index for admin search
         });
 
         // ==================== PRODUCT ATTRIBUTE CONFIGURATION ====================
@@ -162,20 +157,17 @@ public class CatalogDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(100);
 
+            // Hybrid Localization Pattern: Default value (indexed) + Translations (JSON)
             entity.Property(e => e.Name)
                 .IsRequired()
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(255);
 
             entity.Property(e => e.Description)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(2000);
+
+            // Configure translations as JSON
+            entity.ConfigureTranslations(e => e.NameTranslations);
+            entity.ConfigureTranslations(e => e.DescriptionTranslations);
 
             entity.Property(e => e.AttributeType)
                 .IsRequired()
@@ -189,6 +181,7 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(e => e.Code).IsUnique();
             entity.HasIndex(e => e.TenantId);
             entity.HasIndex(e => e.IsActive);
+            entity.HasIndex(e => e.Name); // Index for admin search
         });
 
         // ==================== PRODUCT ATTRIBUTE OPTION CONFIGURATION ====================
@@ -200,13 +193,13 @@ public class CatalogDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(100);
 
+            // Hybrid Localization Pattern: Default value (indexed) + Translations (JSON)
             entity.Property(e => e.Label)
                 .IsRequired()
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(255);
+
+            // Configure translations as JSON
+            entity.ConfigureTranslations(e => e.LabelTranslations);
 
             entity.Property(e => e.ColorValue)
                 .HasMaxLength(7);
@@ -218,6 +211,7 @@ public class CatalogDbContext : DbContext
 
             entity.HasIndex(e => new { e.AttributeId, e.Code }).IsUnique();
             entity.HasIndex(e => e.IsActive);
+            entity.HasIndex(e => e.Label); // Index for admin search
         });
 
         // ==================== PRODUCT CONFIGURATION ====================
@@ -233,41 +227,29 @@ public class CatalogDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255);
 
+            // Hybrid Localization Pattern: Default value (indexed) + Translations (JSON)
             entity.Property(e => e.Name)
                 .IsRequired()
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(255);
 
             entity.Property(e => e.ShortDescription)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(500);
 
             entity.Property(e => e.Description)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(8000);
 
             entity.Property(e => e.MetaDescription)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(500);
 
             entity.Property(e => e.MetaKeywords)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(500);
+
+            // Configure translations as JSON
+            entity.ConfigureTranslations(e => e.NameTranslations);
+            entity.ConfigureTranslations(e => e.ShortDescriptionTranslations);
+            entity.ConfigureTranslations(e => e.DescriptionTranslations);
+            entity.ConfigureTranslations(e => e.MetaDescriptionTranslations);
+            entity.ConfigureTranslations(e => e.MetaKeywordsTranslations);
 
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 2)")
@@ -318,6 +300,7 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(e => e.IsActive);
             entity.HasIndex(e => e.IsFeatured);
             entity.HasIndex(e => e.CreatedAt);
+            entity.HasIndex(e => e.Name); // Index for admin search
         });
 
         // ==================== PRODUCT VARIANT CONFIGURATION ====================
@@ -329,20 +312,17 @@ public class CatalogDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(100);
 
+            // Hybrid Localization Pattern: Default value (indexed) + Translations (JSON)
             entity.Property(e => e.Name)
                 .IsRequired()
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(255);
 
             entity.Property(e => e.Description)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(4000);
+
+            // Configure translations as JSON
+            entity.ConfigureTranslations(e => e.NameTranslations);
+            entity.ConfigureTranslations(e => e.DescriptionTranslations);
 
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 2)");
@@ -366,6 +346,7 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(e => e.Sku).IsUnique();
             entity.HasIndex(e => e.ProductId);
             entity.HasIndex(e => e.IsActive);
+            entity.HasIndex(e => e.Name); // Index for admin search
         });
 
         // ==================== VARIANT ATTRIBUTE VALUE CONFIGURATION ====================
@@ -433,20 +414,17 @@ public class CatalogDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
 
+            // Hybrid Localization Pattern: Default value (indexed) + Translations (JSON)
             entity.Property(e => e.Name)
                 .IsRequired()
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(255);
 
             entity.Property(e => e.Description)
-                .HasColumnType("jsonb")
-                .HasConversion(
-                    v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                .HasMaxLength(2000);
+
+            // Configure translations as JSON
+            entity.ConfigureTranslations(e => e.NameTranslations);
+            entity.ConfigureTranslations(e => e.DescriptionTranslations);
 
             entity.Property(e => e.DocumentType)
                 .IsRequired()
@@ -477,6 +455,7 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(e => e.DocumentType);
             entity.HasIndex(e => e.Language);
             entity.HasIndex(e => e.IsActive);
+            entity.HasIndex(e => e.Name); // Index for admin search
         });
 
         // ==================== PRODUCT CATEGORY CONFIGURATION ====================
@@ -522,8 +501,7 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(e => new { e.ProductId, e.AttributeId }).IsUnique();
         });
 
-        // ==================== SEED DATA (OPTIONAL) ====================
-        SeedInitialData(modelBuilder);
+        // Note: Seed data removed - use CatalogDemoDataGenerator for development data
     }
 
     /// <summary>
@@ -557,46 +535,4 @@ public class CatalogDbContext : DbContext
             }
         }
     }
-
-    private static void SeedInitialData(ModelBuilder modelBuilder)
-    {
-        // Seed initial categories
-        var categoryId = Guid.Parse("00000000-0000-0000-0000-000000000001");
-        var categoryName = new LocalizedContent()
-            .Set("en", "Electronics")
-            .Set("de", "Elektronik")
-            .Set("fr", "Électronique");
-
-        var categoryDescription = new LocalizedContent()
-            .Set("en", "Electronic devices and accessories")
-            .Set("de", "Elektronische Geräte und Zubehör")
-            .Set("fr", "Appareils électroniques et accessoires");
-
-        modelBuilder.Entity<Category>().HasData(new Category
-        {
-            Id = categoryId,
-            Slug = "electronics",
-            Name = categoryName,
-            Description = categoryDescription,
-            DisplayOrder = 1,
-            IsActive = true
-        });
-
-        // Seed initial brand
-        var brandId = Guid.Parse("00000000-0000-0000-0000-000000000101");
-        var brandName = new LocalizedContent()
-            .Set("en", "TechCorp")
-            .Set("de", "TechCorp")
-            .Set("fr", "TechCorp");
-
-        modelBuilder.Entity<Brand>().HasData(new Brand
-        {
-            Id = brandId,
-            Slug = "techcorp",
-            Name = brandName,
-            DisplayOrder = 1,
-            IsActive = true
-        });
-    }
 }
-

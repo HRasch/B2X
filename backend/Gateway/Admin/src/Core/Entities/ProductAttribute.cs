@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Core.Entities;
 
 /// <summary>
-/// Product attribute definition with multilingual support
+/// Product attribute definition with multilingual support (Hybrid Localization Pattern)
 /// </summary>
 public class ProductAttribute
 {
@@ -18,12 +18,20 @@ public class ProductAttribute
     [MaxLength(100)]
     public string Code { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual attribute name/label</summary>
+    /// <summary>Gets or sets the attribute name (default language, indexed for admin search)</summary>
     [Required]
-    public LocalizedContent Name { get; set; } = new();
+    [MaxLength(255)]
+    public string Name { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual attribute description</summary>
-    public LocalizedContent? Description { get; set; } = new();
+    /// <summary>Gets or sets the translations for the name (JSON storage)</summary>
+    public LocalizedContent? NameTranslations { get; set; }
+
+    /// <summary>Gets or sets the attribute description (default language)</summary>
+    [MaxLength(2000)]
+    public string? Description { get; set; }
+
+    /// <summary>Gets or sets the translations for the description (JSON storage)</summary>
+    public LocalizedContent? DescriptionTranslations { get; set; }
 
     /// <summary>Gets or sets the attribute type (text, select, multiselect, dropdown, date, etc.)</summary>
     [Required]
@@ -75,10 +83,18 @@ public class ProductAttribute
 
     /// <summary>Gets or sets the user ID who last updated this attribute</summary>
     public string? UpdatedBy { get; set; }
+
+    /// <summary>Gets the localized name for a specific language</summary>
+    public string GetLocalizedName(string languageCode) =>
+        NameTranslations?.GetValue(languageCode) ?? Name;
+
+    /// <summary>Gets the localized description for a specific language</summary>
+    public string? GetLocalizedDescription(string languageCode) =>
+        DescriptionTranslations?.GetValue(languageCode) ?? Description;
 }
 
 /// <summary>
-/// Product attribute option with multilingual support
+/// Product attribute option with multilingual support (Hybrid Localization Pattern)
 /// </summary>
 public class ProductAttributeOption
 {
@@ -98,9 +114,13 @@ public class ProductAttributeOption
     [MaxLength(100)]
     public string Code { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual option label</summary>
+    /// <summary>Gets or sets the option label (default language, indexed for admin search)</summary>
     [Required]
-    public LocalizedContent Label { get; set; } = new();
+    [MaxLength(255)]
+    public string Label { get; set; } = string.Empty;
+
+    /// <summary>Gets or sets the translations for the label (JSON storage)</summary>
+    public LocalizedContent? LabelTranslations { get; set; }
 
     /// <summary>Gets or sets the color value for color attributes</summary>
     [MaxLength(7)]
@@ -117,4 +137,8 @@ public class ProductAttributeOption
 
     /// <summary>Gets or sets the last update timestamp</summary>
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>Gets the localized label for a specific language</summary>
+    public string GetLocalizedLabel(string languageCode) =>
+        LabelTranslations?.GetValue(languageCode) ?? Label;
 }

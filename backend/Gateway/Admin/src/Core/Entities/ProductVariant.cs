@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using B2Connect.Types.Localization;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Admin.Core.Entities;
 
 /// <summary>
-/// Product variant (e.g., different sizes, colors) with multilingual support
+/// Product variant (e.g., different sizes, colors) with multilingual support (Hybrid Pattern)
 /// </summary>
 public class ProductVariant
 {
@@ -25,12 +25,24 @@ public class ProductVariant
     [MaxLength(100)]
     public string Sku { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual variant name/label</summary>
+    /// <summary>Variant name in default language</summary>
     [Required]
-    public LocalizedContent Name { get; set; } = new();
+    [MaxLength(255)]
+    public string Name { get; set; } = string.Empty;
 
-    /// <summary>Gets or sets the multilingual variant description</summary>
-    public LocalizedContent? Description { get; set; } = new();
+    /// <summary>Variant name translations</summary>
+    public LocalizedContent? NameTranslations { get; set; }
+
+    /// <summary>Variant description in default language</summary>
+    [MaxLength(1000)]
+    public string? Description { get; set; }
+
+    /// <summary>Variant description translations</summary>
+    public LocalizedContent? DescriptionTranslations { get; set; }
+
+    // Localization helpers
+    public string GetLocalizedName(string lang) => NameTranslations?.GetValue(lang) ?? Name;
+    public string GetLocalizedDescription(string lang) => DescriptionTranslations?.GetValue(lang) ?? Description ?? string.Empty;
 
     /// <summary>Gets or sets the variant price (if different from base product price)</summary>
     [Column(TypeName = "decimal(18, 2)")]
