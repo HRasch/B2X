@@ -1,0 +1,32 @@
+{
+  "name": "b2connect-issue-analysis",
+  "version": "1.0.0",
+  "description": "Automated issue analysis and response system for B2Connect",
+  "main": "analyze-issue.js",
+  "scripts": {
+    "analyze": "node scripts/analyze-issue.js",
+    "test-analysis": "node scripts/manual-analysis.js",
+    "generate-report": "node scripts/update-dashboard.js",
+    "validate-accuracy": "node scripts/validate-accuracy.js"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "axios": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/holger/B2Connect.git"
+  },
+  "keywords": [
+    "issue-analysis",
+    "automation",
+    "github-actions",
+    "ai",
+    "classification"
+  ],
+  "author": "B2Connect Team",
+  "license": "MIT"
+}

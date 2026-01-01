@@ -1,0 +1,321 @@
+#!/usr/bin/env node
+
+const { Octokit } = require('@octokit/rest');
+const fs = require('fs').promises;
+const path = require('path');
+
+class IssueAnalyzer {
+    constructor() {
+        this.octokit = new Octokit({
+            auth: process.env.GITHUB_TOKEN
+        });
+
+        this.owner = process.env.GITHUB_REPOSITORY.split('/')[0];
+        this.repo = process.env.GITHUB_REPOSITORY.split('/')[1];
+
+        // Classification patterns with weights
+        this.categories = {
+            bug: {
+                keywords: [
+                    'error', 'bug', 'crash', 'fail', 'broken', 'issue', 'problem',
+                    'exception', 'not working', 'doesn't work', 'stopped working',
+                    'unusable', 'broken', 'defect', 'glitch', 'malfunction',
+                    'security vulnerability', 'data loss', 'corruption', 'leak',
+                    'performance', 'slow', 'hang', 'freeze', 'timeout'
+                ],
+                weight: 1.0,
+                agent: 'qa-team',
+                labels: ['bug', 'triage']
+            },
+            feature: {
+                keywords: [
+                    'feature', 'enhancement', 'add', 'new', 'would like', 'should have',
+                    'need', 'request', 'suggest', 'propose', 'implement', 'create',
+                    'build', 'develop', 'integration', 'api', 'endpoint', 'functionality'
+                ],
+                weight: 1.0,
+                agent: 'product-owner',
+                labels: ['enhancement', 'feature-request']
+            },
+            change: {
+                keywords: [
+                    'change', 'modify', 'update', 'alter', 'adjust', 'configure',
+                    'setting', 'parameter', 'workflow', 'process', 'migration',
+                    'upgrade', 'refactor', 'restructure', 'optimize', 'improve'
+                ],
+                weight: 0.9,
+                agent: 'architect',
+                labels: ['change-request', 'enhancement']
+            },
+            knowhow: {
+                keywords: [
+                    'how', 'help', 'guide', 'documentation', 'setup', 'configure',
+                    'integrate', 'tutorial', 'example', 'best practice', 'question',
+                    'support', 'assistance', 'learn', 'understand', 'explain',
+                    'what is', 'where', 'when', 'why', 'faq', 'knowledge'
+                ],
+                weight: 0.8,
+                agent: 'devrel',
+                labels: ['question', 'documentation']
+            }
+        };
+
+        // Context multipliers for more accurate classification
+        this.contextMultipliers = {
+            bug: {
+                'urgent': 1.5, 'critical': 1.5, 'production': 1.3, 'security': 1.5,
+                'data': 1.2, 'crash': 1.4, 'error': 1.3, 'fail': 1.3
+            },
+            feature: {
+                'new': 1.3, 'add': 1.2, 'create': 1.2, 'implement': 1.2,
+                'integration': 1.3, 'api': 1.2, 'enhancement': 1.2
+            },
+            change: {
+                'modify': 1.3, 'update': 1.2, 'change': 1.2, 'configure': 1.2,
+                'workflow': 1.3, 'process': 1.2, 'migration': 1.3
+            },
+            knowhow: {
+                'how': 1.4, 'help': 1.3, 'guide': 1.2, 'documentation': 1.3,
+                'setup': 1.2, 'configure': 1.2, 'question': 1.2
+            }
+        };
+    }
+
+    async analyzeIssue(issueNumber, title, body) {
+        try {
+            console.log(`🔍 Analyzing issue #${issueNumber}: ${title}`);
+
+            const content = `${title} ${body}`.toLowerCase();
+            const scores = {};
+
+            // Calculate base scores for each category
+            for (const [category, config] of Object.entries(this.categories)) {
+                scores[category] = this.calculateScore(content, config);
+            }
+
+            // Apply context multipliers
+            for (const [category, score] of Object.entries(scores)) {
+                scores[category] *= this.applyContextMultiplier(content, category);
+            }
+
+            // Find best category
+            const bestCategory = Object.keys(scores).reduce((a, b) =>
+                scores[a] > scores[b] ? a : b
+            );
+
+            const confidence = scores[bestCategory];
+            const categoryConfig = this.categories[bestCategory];
+
+            // Assess priority
+            const priority = this.assessPriority(content, bestCategory);
+
+            // Extract template data
+            const templateData = this.extractTemplateData(content, bestCategory);
+
+            const result = {
+                category: bestCategory,
+                confidence: Math.min(confidence, 1.0), // Cap at 1.0
+                priority: priority,
+                agent: categoryConfig.agent,
+                labels: categoryConfig.labels,
+                templateData: templateData,
+                scores: scores // For debugging
+            };
+
+            console.log(`✅ Classification: ${bestCategory} (confidence: ${(result.confidence * 100).toFixed(1)}%)`);
+            console.log(`🏷️ Labels: ${result.labels.join(', ')}`);
+            console.log(`👤 Agent: ${result.agent}`);
+            console.log(`🎯 Priority: ${result.priority}`);
+
+            // Log analysis for monitoring
+            await this.logAnalysis(issueNumber, result);
+
+            return result;
+
+        } catch (error) {
+            console.error('❌ Error analyzing issue:', error);
+            throw error;
+        }
+    }
+
+    calculateScore(content, config) {
+        let score = 0;
+        let totalMatches = 0;
+
+        for (const keyword of config.keywords) {
+            const regex = new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+            const matches = content.match(regex);
+            if (matches) {
+                score += matches.length * config.weight;
+                totalMatches += matches.length;
+            }
+        }
+
+        // Normalize score based on content length and keyword density
+        const contentWords = content.split(/\s+/).length;
+        const density = totalMatches / Math.max(contentWords, 1);
+
+        return Math.min(score * density * 10, 1.0); // Scale and cap
+    }
+
+    applyContextMultiplier(content, category) {
+        let multiplier = 1.0;
+        const multipliers = this.contextMultipliers[category];
+
+        for (const [word, mult] of Object.entries(multipliers)) {
+            if (content.includes(word)) {
+                multiplier *= mult;
+            }
+        }
+
+        return Math.min(multiplier, 2.0); // Cap multiplier
+    }
+
+    assessPriority(content, category) {
+        const priorityIndicators = {
+            critical: ['security', 'data loss', 'production down', 'all users', 'urgent', 'emergency'],
+            high: ['crash', 'unusable', 'blocking', 'production', 'customer impact', 'deadline'],
+            medium: ['error', 'broken', 'slow', 'inconsistent', 'annoying'],
+            low: ['cosmetic', 'minor', 'suggestion', 'nice to have', 'future']
+        };
+
+        for (const [level, indicators] of Object.entries(priorityIndicators)) {
+            for (const indicator of indicators) {
+                if (content.includes(indicator)) {
+                    return level;
+                }
+            }
+        }
+
+        // Default priorities by category
+        const defaults = {
+            bug: 'medium',
+            feature: 'low',
+            change: 'medium',
+            knowhow: 'low'
+        };
+
+        return defaults[category] || 'medium';
+    }
+
+    extractTemplateData(content, category) {
+        return {
+            version: this.extractVersion(content),
+            environment: this.extractEnvironment(content),
+            impact: this.extractImpact(content),
+            reproduction: this.extractReproductionSteps(content),
+            category: category,
+            topic: this.extractTopic(content),
+            urgency: this.extractUrgency(content)
+        };
+    }
+
+    extractVersion(content) {
+        const patterns = [
+            /version[:\s]+([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i,
+            /v([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i,
+            /([0-9]+\.[0-9]+(?:\.[0-9]+)?)/g
+        ];
+
+        for (const pattern of patterns) {
+            const match = content.match(pattern);
+            if (match && match[1]) {
+                return match[1];
+            }
+        }
+        return 'unknown';
+    }
+
+    extractEnvironment(content) {
+        if (content.includes('production') || content.includes('prod')) return 'production';
+        if (content.includes('staging') || content.includes('stage')) return 'staging';
+        if (content.includes('development') || content.includes('dev')) return 'development';
+        if (content.includes('test')) return 'test';
+        return 'unknown';
+    }
+
+    extractImpact(content) {
+        if (content.includes('all users') || content.includes('system down') || content.includes('critical')) return 'high';
+        if (content.includes('some users') || content.includes('degraded') || content.includes('blocking')) return 'medium';
+        if (content.includes('single user') || content.includes('minor')) return 'low';
+        return 'unknown';
+    }
+
+    extractReproductionSteps(content) {
+        const patterns = [
+            /steps?:?\s*(?:to reproduce)?:?\s*(.*?)(?:\n\n|\n[A-Z]|\n\d+\.|$)/is,
+            /reproduction:?\s*(.*?)(?:\n\n|\n[A-Z]|\n\d+\.|$)/is,
+            /how to reproduce:?\s*(.*?)(?:\n\n|\n[A-Z]|\n\d+\.|$)/is
+        ];
+
+        for (const pattern of patterns) {
+            const match = content.match(pattern);
+            if (match && match[1]) {
+                return match[1].trim().substring(0, 500); // Limit length
+            }
+        }
+        return 'not provided';
+    }
+
+    extractTopic(content) {
+        const topics = ['api', 'ui', 'database', 'authentication', 'performance', 'integration', 'setup', 'configuration'];
+        for (const topic of topics) {
+            if (content.includes(topic)) {
+                return topic;
+            }
+        }
+        return 'general';
+    }
+
+    extractUrgency(content) {
+        if (content.includes('urgent') || content.includes('asap') || content.includes('emergency')) return 'high';
+        if (content.includes('soon') || content.includes('important')) return 'medium';
+        return 'normal';
+    }
+
+    async logAnalysis(issueNumber, result) {
+        const logEntry = {
+            timestamp: new Date().toISOString(),
+            issueNumber: issueNumber,
+            category: result.category,
+            confidence: result.confidence,
+            priority: result.priority,
+            agent: result.agent,
+            scores: result.scores
+        };
+
+        const logPath = path.join(__dirname, '..', '.ai', 'logs', 'issue-analysis.jsonl');
+
+        try {
+            await fs.appendFile(logPath, JSON.stringify(logEntry) + '\n');
+        } catch (error) {
+            console.warn('⚠️ Could not write analysis log:', error.message);
+        }
+    }
+}
+
+// Main execution
+async function main() {
+    const [,, issueNumber, title, body] = process.argv;
+
+    if (!issueNumber || !title) {
+        console.error('Usage: node analyze-issue.js <issue-number> <title> <body>');
+        process.exit(1);
+    }
+
+    const analyzer = new IssueAnalyzer();
+    const result = await analyzer.analyzeIssue(parseInt(issueNumber), title, body || '');
+
+    // Output for GitHub Actions
+    console.log(`::set-output name=category::${result.category}`);
+    console.log(`::set-output name=priority::${result.priority}`);
+    console.log(`::set-output name=confidence::${result.confidence}`);
+    console.log(`::set-output name=agent::${result.agent}`);
+    console.log(`::set-output name=template_data::${JSON.stringify(result.templateData)}`);
+}
+
+if (require.main === module) {
+    main().catch(console.error);
+}
+
+module.exports = IssueAnalyzer;

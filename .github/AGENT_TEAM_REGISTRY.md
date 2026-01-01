@@ -117,10 +117,13 @@
   - Model: Claude Haiku 4.5
 
 ### Developer Relations
-- **@DevRel** - `Documentation, SDKs, Community, Developer Experience, FAQ Management`
+- **@DevRel** - `Documentation, SDKs, Community, Developer Experience, FAQ Management, Issue Analysis`
   - Manages developer relations and ecosystem growth
   - Generates and maintains FAQs from activated processes for all stakeholder groups
-  - Owns: Technical docs, SDKs, community engagement, FAQ generation and publication
+  - **NEW:** Coordinates automated issue analysis and classification system
+  - **NEW:** Manages customer issue triage, categorization, and routing to appropriate agents
+  - **NEW:** Oversees issue response templates and automated process triggers
+  - Owns: Technical docs, SDKs, community engagement, FAQ generation, issue analysis automation
   - Model: Claude Haiku 4.5
 
 ### Financial & Procurement
@@ -186,7 +189,7 @@
 | **@DataAI** | `decisions/`, `knowledgebase/` | AI architecture decisions, ML model documentation, data pipeline guides |
 | **@Performance** | `decisions/`, `knowledgebase/` | Performance architecture decisions, optimization guides, monitoring documentation |
 | **@Platform** | `config/`, `decisions/` | Platform architecture decisions, infrastructure automation docs, developer tooling guides |
-| **@DevRel** | `knowledgebase/`, `templates/`, `faq/` | Developer documentation, SDK guides, community resources, educational content, FAQ management |
+| **@DevRel** | `knowledgebase/`, `templates/`, `faq/`, `logs/` | Developer documentation, SDK guides, community resources, educational content, FAQ management, automated issue analysis and routing |
 | **@FinOps** | `operations/` | Cost optimization strategies, financial reports, budget documentation, cost governance |
 | **@Procurement** | `operations/` | Vendor contracts, procurement policies, license management, supplier documentation |
 | **Issue Owner** | `issues/{issue-id}/` | Issue-specific collaboration, progress notes, blockers, decisions, design discussions |
@@ -334,7 +337,7 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 | @DataAI | Haiku 4.5 | vscode, python-tools, ml-pipelines | AI/ML, data science |
 | @Performance | Haiku 4.5 | monitoring, profiling, load-testing | System performance, optimization |
 | @Platform | Haiku 4.5 | infrastructure, iac, cloud | Platform engineering, automation |
-| @DevRel | Haiku 4.5 | documentation, community, sdk | Developer experience, ecosystem |
+| @DevRel | Haiku 4.5 | documentation, community, sdk, issue-analysis | Developer experience, ecosystem, automated issue triage |
 | @FinOps | **Sonnet 4** | financial-tools, analytics, reporting | Cost governance, budgeting, ROI |
 | @Procurement | **Sonnet 4** | procurement-tools, contract-mgmt, vendor-relations | Vendor management, contract negotiation |
 

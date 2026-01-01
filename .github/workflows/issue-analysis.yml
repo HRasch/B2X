@@ -1,0 +1,125 @@
+name: Automated Issue Analysis & Response
+
+on:
+  issues:
+    types: [opened, edited]
+  issue_comment:
+    types: [created]
+
+jobs:
+  analyze-issue:
+    runs-on: ubuntu-latest
+    if: github.event.issue.user.type != 'Bot'  # Skip bot-generated issues
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd scripts
+          npm install @octokit/rest axios
+
+      - name: Analyze issue content
+        id: analysis
+        run: |
+          cd scripts
+          node analyze-issue.js ${{ github.event.issue.number }} "${{ github.event.issue.title }}" "${{ github.event.issue.body }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Apply labels and priority
+        run: |
+          cd scripts
+          node apply-labels.js ${{ github.event.issue.number }} ${{ steps.analysis.outputs.category }} ${{ steps.analysis.outputs.priority }} ${{ steps.analysis.outputs.confidence }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate automated response
+        run: |
+          cd scripts
+          node generate-response.js ${{ github.event.issue.number }} ${{ steps.analysis.outputs.category }} ${{ steps.analysis.outputs.template_data }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger agent process
+        run: |
+          cd scripts
+          node trigger-process.js ${{ github.event.issue.number }} ${{ steps.analysis.outputs.category }} ${{ steps.analysis.outputs.agent }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update issue dashboard
+        run: |
+          cd scripts
+          node update-dashboard.js ${{ github.event.issue.number }} ${{ steps.analysis.outputs.category }} ${{ steps.analysis.outputs.status }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  monitor-classification-accuracy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'closed'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Validate classification accuracy
+        run: |
+          cd scripts
+          node validate-accuracy.js ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  weekly-analytics:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Generate weekly analytics
+        run: |
+          cd scripts
+          node generate-analytics.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Manual trigger for testing
+  manual-analysis:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Manual issue analysis
+        run: |
+          cd scripts
+          node manual-analysis.js ${{ github.event.inputs.issue_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
