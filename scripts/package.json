@@ -5,6 +5,7 @@
   "main": "analyze-issue.js",
   "scripts": {
     "analyze": "node scripts/analyze-issue.js",
+    "find-duplicates": "node scripts/find-duplicates.js",
     "test-analysis": "node scripts/manual-analysis.js",
     "generate-report": "node scripts/update-dashboard.js",
     "validate-accuracy": "node scripts/validate-accuracy.js"

@@ -14,12 +14,16 @@ class ResponseGenerator {
         this.repo = process.env.GITHUB_REPOSITORY.split('/')[1];
     }
 
-    async generateResponse(issueNumber, category, templateDataJson) {
+    async generateResponse(issueNumber, category, templateDataJson, duplicatesJson, solutionsJson, relatedJson) {
         try {
             console.log(`💬 Generating response for issue #${issueNumber} (${category})`);
 
             const templateData = JSON.parse(templateDataJson);
-            const response = this.buildResponse(category, templateData);
+            const duplicates = JSON.parse(duplicatesJson || '[]');
+            const solutions = JSON.parse(solutionsJson || '[]');
+            const related = JSON.parse(relatedJson || '[]');
+
+            const response = this.buildResponse(category, templateData, { duplicates, solutions, related });
 
             // Post comment on the issue
             await this.octokit.issues.createComment({
@@ -40,24 +44,34 @@ class ResponseGenerator {
         }
     }
 
-    buildResponse(category, data) {
+    buildResponse(category, data, references = {}) {
         const templates = {
-            bug: this.buildBugResponse(data),
-            feature: this.buildFeatureResponse(data),
-            change: this.buildChangeResponse(data),
-            knowhow: this.buildKnowhowResponse(data)
+            bug: this.buildBugResponse(data, references),
+            feature: this.buildFeatureResponse(data, references),
+            change: this.buildChangeResponse(data, references),
+            knowhow: this.buildKnowhowResponse(data, references)
         };
 
-        return templates[category] || this.buildDefaultResponse(data);
+        return templates[category] || this.buildDefaultResponse(data, references);
     }
 
-    buildBugResponse(data) {
+    buildBugResponse(data, references = {}) {
         const sla = this.getSLATime(data.priority);
         const priorityEmoji = this.getPriorityEmoji(data.priority);
 
+        let duplicateSection = '';
+        if (references.duplicates && references.duplicates.length > 0) {
+            duplicateSection = `\n\n## ⚠️ Mögliche Duplikate gefunden\n${this.formatDuplicates(references.duplicates)}\n`;
+        }
+
+        let solutionSection = '';
+        if (references.solutions && references.solutions.length > 0) {
+            solutionSection = `\n\n## ✅ Bereits bekannte Lösungen\n${this.formatSolutions(references.solutions)}\n`;
+        }
+
         return `🐛 **Bug Report Acknowledged**
 
-Thank you for reporting this issue! Our QA team has been notified and will investigate.
+Thank you for reporting this issue! Our QA team has been notified and will investigate.${duplicateSection}${solutionSection}
 
 **Issue Summary:**
 - **Priority:** ${priorityEmoji} ${data.priority}
@@ -87,12 +101,22 @@ Thank you for reporting this issue! Our QA team has been notified and will inves
 *This issue has been automatically categorized and routed to our QA team.*`;
     }
 
-    buildFeatureResponse(data) {
+    buildFeatureResponse(data, references = {}) {
         const priorityEmoji = this.getPriorityEmoji(data.priority);
+
+        let duplicateSection = '';
+        if (references.duplicates && references.duplicates.length > 0) {
+            duplicateSection = `\n\n## 📋 Ähnliche Feature-Requests\n${this.formatDuplicates(references.duplicates)}\n`;
+        }
+
+        let solutionSection = '';
+        if (references.solutions && references.solutions.length > 0) {
+            duplicateSection += `\n\n## 💡 Bereits implementierte Features\n${this.formatSolutions(references.solutions)}\n`;
+        }
 
         return `✨ **Feature Request Received**
 
-Thank you for your feature suggestion! This has been forwarded to our Product team for evaluation.
+Thank you for your feature suggestion! This has been forwarded to our Product team for evaluation.${duplicateSection}${solutionSection}
 
 **Request Analysis:**
 - **Type:** Feature Enhancement
@@ -161,12 +185,22 @@ Thank you for your change request. This will undergo formal change control revie
 *This change request has been automatically categorized and routed to our Change Control Board.*`;
     }
 
-    buildKnowhowResponse(data) {
+    buildKnowhowResponse(data, references = {}) {
         const priorityEmoji = this.getPriorityEmoji(data.urgency);
+
+        let solutionSection = '';
+        if (references.solutions && references.solutions.length > 0) {
+            solutionSection = `\n\n## 📚 Bereits dokumentierte Lösungen\n${this.formatSolutions(references.solutions)}\n`;
+        }
+
+        let relatedSection = '';
+        if (references.related && references.related.length > 0) {
+            relatedSection = `\n\n## 🔗 Verwandte Fragen\n${this.formatRelated(references.related)}\n`;
+        }
 
         return `📚 **Knowledge Request Received**
 
-Thank you for your question! We're here to help with your B2Connect knowledge needs.
+Thank you for your question! We're here to help with your B2Connect knowledge needs.${solutionSection}${relatedSection}
 
 **Question Analysis:**
 - **Category:** ${data.category}
@@ -193,10 +227,15 @@ ${this.generateRelevantLinks(data)}
 *This knowledge request has been automatically categorized and routed to our support team.*`;
     }
 
-    buildDefaultResponse(data) {
+    buildDefaultResponse(data, references = {}) {
+        let duplicateSection = '';
+        if (references.duplicates && references.duplicates.length > 0) {
+            duplicateSection = `\n\n## ⚠️ Ähnliche Issues gefunden\n${this.formatDuplicates(references.duplicates)}\n`;
+        }
+
         return `📋 **Issue Received**
 
-Thank you for your submission! We've received your issue and will review it shortly.
+Thank you for your submission! We've received your issue and will review it shortly.${duplicateSection}
 
 **Issue Details:**
 - **Category:** ${data.category || 'General'}
@@ -286,6 +325,34 @@ For immediate assistance, please visit our [documentation](https://docs.b2connec
         return emojis[priority] || '🟡';
     }
 
+    formatDuplicates(duplicates) {
+        if (!duplicates || duplicates.length === 0) return '';
+
+        return duplicates.map(duplicate =>
+            `🔗 **[#${duplicate.number}](${duplicate.html_url})** - ${duplicate.title.substring(0, 80)}${duplicate.title.length > 80 ? '...' : ''}\n` +
+            `   💡 Ähnlichkeit: ${(duplicate.similarity * 100).toFixed(0)}% | Status: ${duplicate.state === 'open' ? '🟢 Offen' : '🔒 Geschlossen'}`
+        ).join('\n');
+    }
+
+    formatSolutions(solutions) {
+        if (!solutions || solutions.length === 0) return '';
+
+        return solutions.map(solution =>
+            `✅ **[#${solution.number}](${solution.html_url})** - ${solution.title.substring(0, 80)}${solution.title.length > 80 ? '...' : ''}\n` +
+            `   💡 Ähnlichkeit: ${(solution.similarity * 100).toFixed(0)}% | Lösung: ${solution.solution?.comment?.substring(0, 100) || 'Siehe Issue für Details'}${solution.solution?.comment?.length > 100 ? '...' : ''}`
+        ).join('\n');
+    }
+
+    formatRelated(related) {
+        if (!related || related.length === 0) return '';
+
+        return related.map(item =>
+            `🔗 **[#${item.number}](${item.html_url})** - ${item.title.substring(0, 80)}${item.title.length > 80 ? '...' : ''}\n` +
+            `   💡 Ähnlichkeit: ${(item.similarity * 100).toFixed(0)}%`
+        ).join('\n');
+    }
+}
+
     async logResponse(issueNumber, category, response) {
         const logEntry = {
             timestamp: new Date().toISOString(),
@@ -307,15 +374,15 @@ For immediate assistance, please visit our [documentation](https://docs.b2connec
 
 // Main execution
 async function main() {
-    const [,, issueNumber, category, templateData] = process.argv;
+    const [,, issueNumber, category, templateData, duplicates, solutions, related] = process.argv;
 
     if (!issueNumber || !category || !templateData) {
-        console.error('Usage: node generate-response.js <issue-number> <category> <template-data-json>');
+        console.error('Usage: node generate-response.js <issue-number> <category> <template-data-json> [duplicates] [solutions] [related]');
         process.exit(1);
     }
 
     const generator = new ResponseGenerator();
-    await generator.generateResponse(parseInt(issueNumber), category, templateData);
+    await generator.generateResponse(parseInt(issueNumber), category, templateData, duplicates, solutions, related);
 }
 
 if (require.main === module) {
