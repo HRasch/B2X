@@ -30,10 +30,11 @@
   - Model: Claude Haiku 4.5
 
 ### Architecture & Design
-- **@Architect** - `System Design, Patterns, ADRs, Scalability`
-  - Defines system boundaries and service architecture
-  - Reviews major technical decisions
-  - Owns: Architecture decisions, service boundaries, design patterns
+- **@Architect** - `System Design, Technical Requirements, ADRs, Scalability`
+  - Creates Technical Requirements Specifications (TRS) from BRDs
+  - Defines system boundaries, service architecture, and technical constraints
+  - Leads technical validation of requirements and feasibility analysis
+  - Owns: Architecture decisions, service boundaries, design patterns, technical requirements
   - Model: Claude Haiku 4.5
 
 ### Leadership & Coordination
@@ -49,10 +50,11 @@
   - Owns: Sprint processes, team coordination
   - Model: Claude Haiku 4.5
 
-- **@ProductOwner** - `Requirements, Prioritization, User Stories`
-  - Defines features and requirements
-  - Prioritizes backlog
-  - Owns: Requirements, user stories, acceptance criteria
+- **@ProductOwner** - `Requirements Analysis, User Stories, Prioritization`
+  - Leads requirements analysis using B2Connect methodology (BRD/TRS/User Stories)
+  - Facilitates EventStorming and Domain Storytelling sessions
+  - Creates and maintains User Story Maps and requirement validation
+  - Owns: Requirements, user stories, acceptance criteria, business case validation
   - Model: Claude Haiku 4.5
 
 ### Security & Infrastructure
@@ -169,8 +171,8 @@
 
 | Agent | `.ai/` Folder Responsibility | Manages |
 |-------|------------------------------|---------|
-| **@ProductOwner** | `requirements/`, `handovers/` | Feature specs, user stories, requirements analysis, feature documentation |
-| **@Architect** | `decisions/` | Architecture Decision Records (ADRs), design patterns, system design docs |
+| **@ProductOwner** | `requirements/`, `handovers/` | BRDs, User Stories, User Story Maps, requirements analysis, EventStorming, Domain Storytelling, feature handovers |
+| **@Architect** | `decisions/` | TRSs, ADRs, technical requirements, system design docs, feasibility analysis |
 | **@ScrumMaster** | `sprint/`, `status/` | Sprint plans, daily standups, velocity tracking, task status, retrospectives |
 | **@Security** | `compliance/` | Security audits, compliance checklists, vulnerability reports, threat modeling |
 | **@Legal** | `compliance/` | Legal compliance documents, GDPR reviews, contractual analysis |
