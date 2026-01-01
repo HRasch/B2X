@@ -117,9 +117,10 @@
   - Model: Claude Haiku 4.5
 
 ### Developer Relations
-- **@DevRel** - `Documentation, SDKs, Community, Developer Experience`
+- **@DevRel** - `Documentation, SDKs, Community, Developer Experience, FAQ Management`
   - Manages developer relations and ecosystem growth
-  - Owns: Technical docs, SDKs, community engagement
+  - Generates and maintains FAQs from activated processes for all stakeholder groups
+  - Owns: Technical docs, SDKs, community engagement, FAQ generation and publication
   - Model: Claude Haiku 4.5
 
 ### Financial & Procurement
@@ -185,7 +186,7 @@
 | **@DataAI** | `decisions/`, `knowledgebase/` | AI architecture decisions, ML model documentation, data pipeline guides |
 | **@Performance** | `decisions/`, `knowledgebase/` | Performance architecture decisions, optimization guides, monitoring documentation |
 | **@Platform** | `config/`, `decisions/` | Platform architecture decisions, infrastructure automation docs, developer tooling guides |
-| **@DevRel** | `knowledgebase/`, `templates/` | Developer documentation, SDK guides, community resources, educational content |
+| **@DevRel** | `knowledgebase/`, `templates/`, `faq/` | Developer documentation, SDK guides, community resources, educational content, FAQ management |
 | **@FinOps** | `operations/` | Cost optimization strategies, financial reports, budget documentation, cost governance |
 | **@Procurement** | `operations/` | Vendor contracts, procurement policies, license management, supplier documentation |
 | **Issue Owner** | `issues/{issue-id}/` | Issue-specific collaboration, progress notes, blockers, decisions, design discussions |

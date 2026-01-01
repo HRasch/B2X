@@ -1,0 +1,82 @@
+[
+  {
+    "question": "How do I conduct initial stakeholder interviews for requirements analysis?",
+    "context": "Initial Stakeholder Interviews - @ProductOwner conducts interviews Domain Storytelling Sessions - Capture business processes User Story Map Creation - Define user journeys and prioritize features BRD Draft Creation - Document business requirements",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.9
+  },
+  {
+    "question": "What are the deliverables of the Domain Modeling phase?",
+    "context": "EventStorming session documentation in .ai/requirements/ Identified aggregates and domain events Initial technical constraints identified",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.85
+  },
+  {
+    "question": "How do I create a Technical Requirements Specification (TRS)?",
+    "context": "TRS Creation - @Architect creates technical requirements specification API Design - Define REST endpoints and message contracts Data Architecture - Design database schema and relationships",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.95
+  },
+  {
+    "question": "What activities are involved in requirements validation?",
+    "context": "Cross-Document Review - Validate BRD ↔ TRS alignment Technical Review - @Architect, @Backend, @Frontend review technical specs Business Review - @ProductOwner validates business requirements",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.9
+  },
+  {
+    "question": "How do I facilitate an EventStorming Big Picture session?",
+    "context": "EventStorming Big Picture - @ProductOwner facilitates with all participants Process Level Deep Dive - Identify commands, events, aggregates Design Level Technical Modeling - Define read models and policies",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.88
+  },
+  {
+    "question": "What is the role of @Architect in technical specification?",
+    "context": "@Architect leads technical validation TRS Creation API Design Data Architecture Integration Points Identify external system interactions",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.92
+  },
+  {
+    "question": "How do I handle requirements change requests?",
+    "context": "Requirements change rate < 10% during development Business conflicts - @ProductOwner manages scope boundaries Technical issues - @Architect leads impact analysis",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.85
+  },
+  {
+    "question": "What quality gates exist in the requirements process?",
+    "context": "Phase Exit Criteria Quality Metrics Process Metrics Success Criteria",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.8
+  },
+  {
+    "question": "How do I measure requirements quality?",
+    "context": "Requirements Completeness Score > 95% Requirements Testability Score > 90% Business-Technical Alignment Score > 90%",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.87
+  },
+  {
+    "question": "What is the timeline for requirements analysis phases?",
+    "context": "Phase 1: Requirements Capture (1-2 days) Phase 2: Domain Modeling (2-3 days) Phase 3: Technical Specification (3-5 days) Phase 4: Requirements Validation (1-2 days) Phase 5: User Story Refinement (2-3 days)",
+    "sourceFile": ".ai/workflows/requirements-analysis-workflow.md",
+    "extractedAt": "2026-01-01T00:00:00.000Z",
+    "stakeholderGroup": "administrators",
+    "confidence": 0.9
+  }
+]

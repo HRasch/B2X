@@ -1,0 +1,173 @@
+name: FAQ Generation Pipeline
+on:
+  schedule:
+    # Run weekly on Monday at 2 AM UTC
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+    inputs:
+      force_regenerate:
+        description: 'Force regeneration of all FAQs'
+        required: false
+        default: 'false'
+  push:
+    paths:
+      - '.ai/workflows/**'
+      - '.ai/operations/**'
+      - '.ai/knowledgebase/**'
+      - '.github/instructions/**'
+
+jobs:
+  generate-faq-candidates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: scripts
+
+      - name: Generate FAQ candidates
+        run: node generate-faqs.js scan
+        working-directory: scripts
+
+      - name: Upload candidates artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: faq-candidates
+          path: .ai/faq/candidates/
+
+  process-faq-drafts:
+    needs: generate-faq-candidates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download candidates artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: faq-candidates
+          path: .ai/faq/candidates/
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Process FAQ drafts
+        run: node generate-faqs.js process
+        working-directory: scripts
+
+      - name: Upload drafts artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: faq-drafts
+          path: .ai/faq/drafts/
+
+  validate-and-approve:
+    needs: process-faq-drafts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download drafts artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: faq-drafts
+          path: .ai/faq/drafts/
+
+      - name: Validate FAQ quality
+        run: node scripts/validate-faqs.js
+        working-directory: scripts
+
+      - name: Auto-approve high-confidence FAQs
+        run: node scripts/auto-approve-faqs.js
+        working-directory: scripts
+
+      - name: Generate approval report
+        run: node scripts/generate-approval-report.js
+        working-directory: scripts
+
+      - name: Upload approval report
+        uses: actions/upload-artifact@v4
+        with:
+          name: faq-approval-report
+          path: faq-approval-report.md
+
+  publish-faqs:
+    needs: validate-and-approve
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download approved FAQs
+        uses: actions/download-artifact@v4
+        with:
+          name: faq-approved
+          path: .ai/faq/approved/
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Generate platform-specific formats
+        run: node scripts/generate-formats.js
+        working-directory: scripts
+
+      - name: Publish to B2Connect Store
+        run: node scripts/publish-store.js
+        working-directory: scripts
+        env:
+          STORE_API_KEY: ${{ secrets.STORE_API_KEY }}
+
+      - name: Publish to Admin Portal
+        run: node scripts/publish-admin.js
+        working-directory: scripts
+        env:
+          ADMIN_API_KEY: ${{ secrets.ADMIN_API_KEY }}
+
+      - name: Publish to DevOps Knowledge Base
+        run: node scripts/publish-devops.js
+        working-directory: scripts
+        env:
+          DEVOPS_API_KEY: ${{ secrets.DEVOPS_API_KEY }}
+
+      - name: Publish to Marketing Site
+        run: node scripts/publish-marketing.js
+        working-directory: scripts
+        env:
+          MARKETING_API_KEY: ${{ secrets.MARKETING_API_KEY }}
+
+      - name: Update FAQ dashboard
+        run: node scripts/update-dashboard.js
+        working-directory: scripts
+
+      - name: Commit updated FAQs
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .ai/faq/
+          git commit -m "feat: Update FAQs - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git push
+
+  notify-stakeholders:
+    needs: publish-faqs
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Send notification
+        run: |
+          echo "FAQ Generation Pipeline completed"
+          echo "Status: ${{ job.status }}"
+          echo "Check the FAQ dashboard for details"
+        # In a real implementation, this would send notifications via Slack, email, etc.

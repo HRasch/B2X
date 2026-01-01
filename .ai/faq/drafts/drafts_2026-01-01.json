@@ -1,0 +1,44 @@
+[
+  {
+    "id": "faq_1735689600000_0",
+    "category": "requirements_process",
+    "stakeholderGroup": "administrators",
+    "question": "How do I conduct initial stakeholder interviews for requirements analysis?",
+    "answer": "As a Product Owner, follow these steps for effective stakeholder interviews:\n\n1. **Preparation (1-2 days before):**\n   - Identify key stakeholders and their roles\n   - Prepare interview agenda focusing on business outcomes\n   - Research stakeholder background and current challenges\n   - Schedule 60-90 minute sessions\n\n2. **During Interview:**\n   - Start with business context questions\n   - Use open-ended questions about goals and pain points\n   - Apply '5 Whys' technique for root cause analysis\n   - Document requirements using BRD template\n   - Validate understanding through paraphrasing\n\n3. **Follow-up:**\n   - Send summary notes within 24 hours\n   - Schedule Domain Storytelling sessions\n   - Create initial User Story Map\n   - Draft BRD for review\n\n**Success Factors:**\n- Focus on business value over technical solutions\n- Capture both functional and non-functional requirements\n- Identify success metrics and acceptance criteria\n- Document assumptions and constraints",
+    "tags": ["stakeholder-interviews", "requirements-capture", "brd", "product-owner"],
+    "sourceDocuments": [".ai/workflows/requirements-analysis-workflow.md"],
+    "lastUpdated": "2026-01-01T00:00:00.000Z",
+    "reviewCycle": "monthly",
+    "accessCount": 0,
+    "satisfactionScore": null,
+    "status": "draft"
+  },
+  {
+    "id": "faq_1735689600000_1",
+    "category": "domain_modeling",
+    "stakeholderGroup": "administrators",
+    "question": "What are the deliverables of the Domain Modeling phase?",
+    "answer": "The Domain Modeling phase produces several key deliverables:\n\n**Primary Deliverables:**\n1. **EventStorming Session Documentation**\n   - Big Picture timeline with major business events\n   - Process Level flows with commands, events, and aggregates\n   - Design Level technical models and read model definitions\n   - Session photos and digital boards\n\n2. **Domain Artifacts**\n   - Identified aggregates and their boundaries\n   - Domain events catalog\n   - Command definitions with business rules\n   - Initial technical constraints\n\n3. **Analysis Documents**\n   - Domain Storytelling summaries\n   - Actor and work object identification\n   - Business rule documentation\n   - Risk and assumption logs\n\n**Quality Criteria:**\n- All major business processes modeled\n- Aggregate boundaries clearly defined\n- Domain events properly categorized\n- Technical feasibility validated\n\n**Next Steps:** These artifacts feed into TRS creation by @Architect and provide foundation for implementation planning.",
+    "tags": ["domain-modeling", "eventstorming", "aggregates", "deliverables"],
+    "sourceDocuments": [".ai/workflows/requirements-analysis-workflow.md"],
+    "lastUpdated": "2026-01-01T00:00:00.000Z",
+    "reviewCycle": "monthly",
+    "accessCount": 0,
+    "satisfactionScore": null,
+    "status": "draft"
+  },
+  {
+    "id": "faq_1735689600000_2",
+    "category": "technical_specification",
+    "stakeholderGroup": "administrators",
+    "question": "How do I create a Technical Requirements Specification (TRS)?",
+    "answer": "Creating a TRS requires systematic analysis and documentation:\n\n**Preparation Phase:**\n1. Review approved BRD and domain modeling artifacts\n2. Identify technical constraints and assumptions\n3. Gather input from @Backend, @Frontend, @Security, @DevOps\n4. Define system boundaries and integration points\n\n**Specification Development:**\n1. **API Design**\n   - Define RESTful endpoints with OpenAPI specifications\n   - Document request/response schemas\n   - Specify authentication and authorization requirements\n   - Include rate limiting and error handling\n\n2. **Data Architecture**\n   - Design database schema with Entity Framework\n   - Define relationships and constraints\n   - Specify indexing strategy for performance\n   - Plan data migration approach\n\n3. **Integration Points**\n   - Identify external APIs and services\n   - Define message contracts for Wolverine\n   - Specify data formats and protocols\n   - Document SLAs and error handling\n\n4. **Non-Functional Requirements**\n   - Performance benchmarks (<200ms p95)\n   - Scalability requirements\n   - Security controls and compliance\n   - Monitoring and observability needs\n\n**Validation:**\n- Technical review by implementation teams\n- Proof-of-concept for complex integrations\n- Cost-benefit analysis for architectural decisions\n- Risk assessment and mitigation planning\n\n**Approval:** TRS requires sign-off from @Architect, @TechLead, and @DevOps before implementation begins.",
+    "tags": ["trs", "technical-specification", "api-design", "data-architecture"],
+    "sourceDocuments": [".ai/workflows/requirements-analysis-workflow.md"],
+    "lastUpdated": "2026-01-01T00:00:00.000Z",
+    "reviewCycle": "monthly",
+    "accessCount": 0,
+    "satisfactionScore": null,
+    "status": "draft"
+  }
+]
