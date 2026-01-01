@@ -8,6 +8,7 @@ using B2Connect.Store.Infrastructure.Common.Data;
 using B2Connect.Store.Infrastructure.Store.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
@@ -147,6 +148,14 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Description = "Store, Language, Country, Payment and Shipping Methods Management",
     });
+
+    // Include XML comments
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        options.IncludeXmlComments(xmlPath);
+    }
 
     // Add JWT Bearer auth to Swagger
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme

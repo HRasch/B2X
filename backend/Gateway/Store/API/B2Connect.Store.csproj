@@ -7,6 +7,8 @@
     <RootNamespace>B2Connect.Store</RootNamespace>
     <AssemblyName>B2Connect.Store</AssemblyName>
     <IsAspireProjectResource>true</IsAspireProjectResource>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
