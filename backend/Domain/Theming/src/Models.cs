@@ -115,6 +115,45 @@ public class ThemeVariant
 }
 
 /// <summary>
+/// SCSS File - Custom SCSS content for advanced theming
+/// </summary>
+public class ScssFile
+{
+    /// <summary>Unique identifier</summary>
+    public Guid Id { get; set; }
+
+    /// <summary>Theme ID</summary>
+    public Guid ThemeId { get; set; }
+
+    /// <summary>File name (e.g., custom-variables.scss, theme-overrides.scss)</summary>
+    public string FileName { get; set; } = null!;
+
+    /// <summary>SCSS content</summary>
+    public string Content { get; set; } = null!;
+
+    /// <summary>File description</summary>
+    public string Description { get; set; } = null!;
+
+    /// <summary>Whether this file is enabled/active</summary>
+    public bool IsActive { get; set; } = true;
+
+    /// <summary>Order for compilation (lower numbers compile first)</summary>
+    public int Order { get; set; } = 0;
+
+    /// <summary>When the file was created</summary>
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>When the file was last updated</summary>
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>User ID who created the file</summary>
+    public Guid? CreatedBy { get; set; }
+
+    /// <summary>User ID who last updated the file</summary>
+    public Guid? UpdatedBy { get; set; }
+}
+
+/// <summary>
 /// Variable data types
 /// </summary>
 public enum VariableType
@@ -194,6 +233,25 @@ public class UpdateThemeVariantRequest
     public string? Description { get; set; }
     public Dictionary<string, string>? VariableOverrides { get; set; }
     public bool? IsEnabled { get; set; }
+}
+
+/// <summary>Create SCSS File Request DTO</summary>
+public class CreateScssFileRequest
+{
+    public string? FileName { get; set; }
+    public string? Content { get; set; }
+    public string? Description { get; set; }
+    public int Order { get; set; } = 0;
+}
+
+/// <summary>Update SCSS File Request DTO</summary>
+public class UpdateScssFileRequest
+{
+    public string? FileName { get; set; }
+    public string? Content { get; set; }
+    public string? Description { get; set; }
+    public bool? IsActive { get; set; }
+    public int? Order { get; set; }
 }
 
 #endregion

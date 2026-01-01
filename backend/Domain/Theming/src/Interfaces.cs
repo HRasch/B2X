@@ -36,6 +36,16 @@ public interface IThemeRepository
 
     #endregion
 
+    #region SCSS File Operations
+
+    Task<ScssFile> CreateScssFileAsync(Guid tenantId, Guid themeId, ScssFile file);
+    Task<ScssFile?> GetScssFileByIdAsync(Guid tenantId, Guid themeId, Guid fileId);
+    Task<List<ScssFile>> GetScssFilesAsync(Guid tenantId, Guid themeId);
+    Task<ScssFile> UpdateScssFileAsync(Guid tenantId, Guid themeId, Guid fileId, ScssFile file);
+    Task DeleteScssFileAsync(Guid tenantId, Guid themeId, Guid fileId);
+
+    #endregion
+
     #region CSS Generation & Export
 
     Task<string> GenerateCSSAsync(Guid tenantId, Guid themeId);
@@ -83,6 +93,16 @@ public interface IThemeService
     Task<List<ThemeVariant>> GetThemeVariantsAsync(Guid tenantId, Guid themeId);
     Task<ThemeVariant> UpdateThemeVariantAsync(Guid tenantId, Guid themeId, Guid variantId, UpdateThemeVariantRequest request);
     Task RemoveThemeVariantAsync(Guid tenantId, Guid themeId, Guid variantId);
+
+    #endregion
+
+    #region SCSS File Operations
+
+    Task<ScssFile> CreateScssFileAsync(Guid tenantId, Guid themeId, CreateScssFileRequest request);
+    Task<ScssFile?> GetScssFileByIdAsync(Guid tenantId, Guid themeId, Guid fileId);
+    Task<List<ScssFile>> GetScssFilesAsync(Guid tenantId, Guid themeId);
+    Task<ScssFile> UpdateScssFileAsync(Guid tenantId, Guid themeId, Guid fileId, UpdateScssFileRequest request);
+    Task DeleteScssFileAsync(Guid tenantId, Guid themeId, Guid fileId);
 
     #endregion
 

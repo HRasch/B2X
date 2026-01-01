@@ -235,6 +235,81 @@ public class ThemeService : IThemeService
 
     #endregion
 
+    #region SCSS File Operations
+
+    public async Task<ScssFile> CreateScssFileAsync(Guid tenantId, Guid themeId, CreateScssFileRequest request)
+    {
+        // Validate input
+        if (string.IsNullOrWhiteSpace(request?.FileName))
+            throw new ArgumentException("File name is required", nameof(request));
+
+        if (string.IsNullOrWhiteSpace(request?.Content))
+            throw new ArgumentException("Content is required", nameof(request));
+
+        // Create file entity
+        var file = new ScssFile
+        {
+            Id = Guid.NewGuid(),
+            ThemeId = themeId,
+            FileName = request.FileName ?? string.Empty,
+            Content = request.Content ?? string.Empty,
+            Description = request.Description ?? string.Empty,
+            Order = request.Order,
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        return await _repository.CreateScssFileAsync(tenantId, themeId, file);
+    }
+
+    public async Task<ScssFile?> GetScssFileByIdAsync(Guid tenantId, Guid themeId, Guid fileId)
+    {
+        return await _repository.GetScssFileByIdAsync(tenantId, themeId, fileId);
+    }
+
+    public async Task<List<ScssFile>> GetScssFilesAsync(Guid tenantId, Guid themeId)
+    {
+        return await _repository.GetScssFilesAsync(tenantId, themeId);
+    }
+
+    public async Task<ScssFile> UpdateScssFileAsync(Guid tenantId, Guid themeId, Guid fileId, UpdateScssFileRequest request)
+    {
+        // Get existing file
+        var file = await _repository.GetScssFileByIdAsync(tenantId, themeId, fileId)
+            ?? throw new KeyNotFoundException($"SCSS file '{fileId}' not found");
+
+        // Update fields if provided
+        var reqFileName = request?.FileName;
+        if (!string.IsNullOrWhiteSpace(reqFileName))
+            file.FileName = reqFileName;
+
+        var reqContent = request?.Content;
+        if (!string.IsNullOrWhiteSpace(reqContent))
+            file.Content = reqContent;
+
+        var reqDescription = request?.Description;
+        if (!string.IsNullOrWhiteSpace(reqDescription))
+            file.Description = reqDescription;
+
+        if (request?.IsActive.HasValue == true)
+            file.IsActive = request.IsActive.Value;
+
+        if (request?.Order.HasValue == true)
+            file.Order = request.Order.Value;
+
+        file.UpdatedAt = DateTime.UtcNow;
+
+        return await _repository.UpdateScssFileAsync(tenantId, themeId, fileId, file);
+    }
+
+    public async Task DeleteScssFileAsync(Guid tenantId, Guid themeId, Guid fileId)
+    {
+        await _repository.DeleteScssFileAsync(tenantId, themeId, fileId);
+    }
+
+    #endregion
+
     #region CSS Generation & Export
 
     public async Task<string> GenerateCSSAsync(Guid tenantId, Guid themeId)

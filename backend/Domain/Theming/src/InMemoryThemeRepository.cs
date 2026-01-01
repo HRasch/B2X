@@ -10,6 +10,7 @@ public class InMemoryThemeRepository : IThemeRepository
     private readonly ConcurrentDictionary<Guid, Theme> _themes = new();
     private readonly ConcurrentDictionary<string, List<DesignVariable>> _variables = new();
     private readonly ConcurrentDictionary<string, List<ThemeVariant>> _variants = new();
+    private readonly ConcurrentDictionary<string, List<ScssFile>> _scssFiles = new();
 
     #region Theme Operations
 
@@ -166,6 +167,60 @@ public class InMemoryThemeRepository : IThemeRepository
         if (_variants.TryGetValue(key, out var list))
         {
             list.RemoveAll(v => v.Id == variantId);
+        }
+        return Task.CompletedTask;
+    }
+
+    #endregion
+
+    #region SCSS File Operations
+
+    public Task<ScssFile> CreateScssFileAsync(Guid tenantId, Guid themeId, ScssFile file)
+    {
+        var key = GetVariableKey(tenantId, themeId);
+        file.Id = Guid.NewGuid();
+        if (!_scssFiles.ContainsKey(key)) _scssFiles[key] = new List<ScssFile>();
+        _scssFiles[key].Add(file);
+        return Task.FromResult(file);
+    }
+
+    public Task<ScssFile?> GetScssFileByIdAsync(Guid tenantId, Guid themeId, Guid fileId)
+    {
+        var key = GetVariableKey(tenantId, themeId);
+        _scssFiles.TryGetValue(key, out var list);
+        var file = list?.FirstOrDefault(f => f.Id == fileId);
+        return Task.FromResult(file);
+    }
+
+    public Task<List<ScssFile>> GetScssFilesAsync(Guid tenantId, Guid themeId)
+    {
+        var key = GetVariableKey(tenantId, themeId);
+        _scssFiles.TryGetValue(key, out var list);
+        return Task.FromResult(list ?? new List<ScssFile>());
+    }
+
+    public Task<ScssFile> UpdateScssFileAsync(Guid tenantId, Guid themeId, Guid fileId, ScssFile file)
+    {
+        var key = GetVariableKey(tenantId, themeId);
+        if (_scssFiles.TryGetValue(key, out var list))
+        {
+            var index = list.FindIndex(f => f.Id == fileId);
+            if (index >= 0)
+            {
+                file.Id = fileId;
+                list[index] = file;
+                return Task.FromResult(file);
+            }
+        }
+        throw new KeyNotFoundException($"SCSS file {fileId} not found");
+    }
+
+    public Task DeleteScssFileAsync(Guid tenantId, Guid themeId, Guid fileId)
+    {
+        var key = GetVariableKey(tenantId, themeId);
+        if (_scssFiles.TryGetValue(key, out var list))
+        {
+            list.RemoveAll(f => f.Id == fileId);
         }
         return Task.CompletedTask;
     }
