@@ -300,4 +300,4 @@ public class AnonymizationException : Exception
     public AnonymizationException(string message, Exception innerException)
         : base(message, innerException) { }
 }</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/backend/Domain/Support/src/Services/DataAnonymizer.cs
+<parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / Domain / Support / src / Services / DataAnonymizer.cs

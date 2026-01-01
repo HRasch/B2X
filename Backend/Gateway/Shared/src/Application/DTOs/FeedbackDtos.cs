@@ -120,4 +120,4 @@ public static class FeedbackValidationRules
         return count >= 0 && count <= MaxAttachments;
     }
 }</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/backend/Gateway/Shared/src/Application/DTOs/FeedbackDtos.cs
+<parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / Gateway / Shared / src / Application / DTOs / FeedbackDtos.cs

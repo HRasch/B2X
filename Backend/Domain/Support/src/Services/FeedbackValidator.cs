@@ -76,13 +76,16 @@ public class FeedbackValidator : IFeedbackValidator
 {
     private readonly ValidationRules _rules;
     private readonly ILogger<FeedbackValidator> _logger;
+    private readonly IMaliciousRequestAnalyzer _securityAnalyzer;
 
     public FeedbackValidator(
         IOptions<ValidationRules> rules,
-        ILogger<FeedbackValidator> logger)
+        ILogger<FeedbackValidator> logger,
+        IMaliciousRequestAnalyzer securityAnalyzer)
     {
         _rules = rules.Value;
         _logger = logger;
+        _securityAnalyzer = securityAnalyzer ?? throw new ArgumentNullException(nameof(securityAnalyzer));
     }
 
     public async Task<ValidationResult> ValidateAsync(CreateFeedbackCommand command)
@@ -91,7 +94,25 @@ public class FeedbackValidator : IFeedbackValidator
         var severity = ValidationSeverity.Low;
         var status = ValidationStatus.Valid;
 
-        // Check basic requirements
+        // Step 1: ML-based security analysis
+        var securityAnalysis = await _securityAnalyzer.AnalyzeAsync(command);
+        if (securityAnalysis.IsMalicious)
+        {
+            reasons.Add($"Security threat detected: {string.Join(", ", securityAnalysis.DetectedPatterns)}");
+            severity = securityAnalysis.ThreatLevel switch
+            {
+                SecurityThreatLevel.Critical => ValidationSeverity.Critical,
+                SecurityThreatLevel.Malicious => ValidationSeverity.High,
+                SecurityThreatLevel.Suspicious => ValidationSeverity.Medium,
+                _ => ValidationSeverity.Medium
+            };
+            status = ValidationStatus.Rejected;
+
+            _logger.LogWarning("Security threat detected in feedback {CorrelationId}: {Patterns} (Confidence: {Confidence:P2})",
+                command.CorrelationId, string.Join(", ", securityAnalysis.DetectedPatterns), securityAnalysis.ConfidenceScore);
+        }
+
+        // Step 2: Content validation (existing logic)
         if (string.IsNullOrWhiteSpace(command.Description))
         {
             reasons.Add("Description is required");

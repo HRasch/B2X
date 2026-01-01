@@ -319,4 +319,4 @@ public class GitHubServiceException : Exception
     public GitHubServiceException(string message, Exception innerException)
         : base(message, innerException) { }
 }</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/backend/Domain/Support/src/Services/GitHubService.cs
+<parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / Domain / Support / src / Services / GitHubService.cs

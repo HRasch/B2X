@@ -98,4 +98,4 @@ public record RecentFeedbackItem
 /// Marker interface for queries
 /// </summary>
 public interface IQuery<T> { }</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/backend/Domain/Support/src/Queries/FeedbackQueries.cs
+<parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / Domain / Support / src / Queries / FeedbackQueries.cs

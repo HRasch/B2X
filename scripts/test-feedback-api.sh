@@ -89,4 +89,50 @@ curl -X POST "$SERVICE_URL/api/support/feedback" \
     "attachments": []
   }' | jq . || echo "Invalid feedback submission test failed"
 
-echo "Test completed."
+# Test feedback validation - malicious content (SQL injection)
+echo "7. Testing feedback validation (malicious - SQL injection)..."
+curl -X POST "$SERVICE_URL/api/support/feedback/validate" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "category": "Question",
+    "description": "How can I SELECT * FROM users table?",
+    "context": {
+      "url": "https://store.b2connect.com/login",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+      "timestamp": "2024-01-15T10:30:00Z",
+      "sessionId": "session-12345"
+    },
+    "attachments": []
+  }' | jq . || echo "SQL injection validation test failed"
+
+# Test feedback validation - malicious content (XSS)
+echo "8. Testing feedback validation (malicious - XSS)..."
+curl -X POST "$SERVICE_URL/api/support/feedback/validate" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "category": "Question",
+    "description": "Check this <script>alert(\"test\")</script> code",
+    "context": {
+      "url": "https://store.b2connect.com/login",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+      "timestamp": "2024-01-15T10:30:00Z",
+      "sessionId": "session-12345"
+    },
+    "attachments": []
+  }' | jq . || echo "XSS validation test failed"
+
+# Test feedback validation - abusive content
+echo "9. Testing feedback validation (malicious - abusive)..."
+curl -X POST "$SERVICE_URL/api/support/feedback/validate" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "category": "Question",
+    "description": "This fucking website is shit and you are all idiots!",
+    "context": {
+      "url": "https://store.b2connect.com/login",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+      "timestamp": "2024-01-15T10:30:00Z",
+      "sessionId": "session-12345"
+    },
+    "attachments": []
+  }' | jq . || echo "Abusive content validation test failed"

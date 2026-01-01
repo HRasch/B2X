@@ -78,6 +78,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IDataAnonymizer, DataAnonymizer>();
 builder.Services.AddScoped<IGitHubService, GitHubService>();
 builder.Services.AddScoped<IFeedbackValidator, FeedbackValidator>();
+builder.Services.AddScoped<IMaliciousRequestAnalyzer, MLMaliciousRequestAnalyzer>();
 
 // Register Repositories (in-memory for now, can be replaced with EF Core later)
 builder.Services.AddSingleton<IFeedbackRepository, InMemoryFeedbackRepository>();
@@ -135,5 +136,5 @@ app.MapControllers();
 // Wolverine middleware
 app.MapWolverineEndpoints();
 
-app.Run();</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/backend/Gateway/Shared/src/Program.cs
+app.Run();</ content >
+< parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / Gateway / Shared / src / Program.cs

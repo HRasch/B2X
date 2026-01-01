@@ -268,4 +268,4 @@ public class Attachment
         Size = content.Length;
     }
 }</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/backend/Domain/Support/src/Models/Feedback.cs
+<parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / Domain / Support / src / Models / Feedback.cs

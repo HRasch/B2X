@@ -8,6 +8,8 @@ This service provides the backend for the "Questions & Hints" feedback system, e
 - **Data Anonymization**: Automatically removes PII and sensitive information
 - **Pre-Validation**: Validates feedback content before processing
 - **Content Filtering**: Blocks spam, inappropriate content, and security issues
+- **ML-based Security Analysis**: AI-powered detection of malicious requests
+- **Pattern Recognition**: Advanced pattern matching for threats
 - **GitHub Integration**: Creates structured GitHub issues from validated feedback
 - **GDPR Compliance**: Ensures data privacy and user consent
 - **Rate Limiting**: Prevents abuse and spam
@@ -111,6 +113,60 @@ Common reasons for feedback rejection:
 - Invalid or oversized attachments
 - Missing required context data
 - Rate limiting violations
+- **ML-detected threats**: SQL injection, XSS attacks, command injection
+- **Security patterns**: Credential stuffing, abusive language, malicious scripts
+
+## ML-based Security Analysis
+
+The service includes advanced AI-powered security analysis to detect sophisticated threats:
+
+### Threat Detection
+- **SQL Injection**: Detects database attack patterns (`SELECT * FROM users`)
+- **XSS Attacks**: Identifies cross-site scripting attempts (`<script>alert()</script>`)
+- **Command Injection**: Recognizes shell command exploitation (`rm -rf /`)
+- **Credential Stuffing**: Spots password/username patterns
+- **Abusive Content**: Uses sentiment analysis for toxic language
+- **Spam/Phishing**: Advanced pattern recognition for malicious links
+
+### ML Model Features
+- **Content Classification**: Binary classification for malicious vs legitimate content
+- **Feature Extraction**: Analyzes text length, word count, capitalization ratios
+- **Pattern Matching**: Regex-based detection for known attack vectors
+- **Confidence Scoring**: Provides probability scores for threat assessment
+- **Continuous Learning**: Model can be retrained with new threat data
+
+### Security Configuration
+```json
+{
+  "Security": {
+    "EnableMLAnalysis": true,
+    "MLModelPath": "ml-models/malicious-content-model.zip",
+    "SecurityThreshold": 0.7,
+    "EnablePatternAnalysis": true,
+    "LogSecurityEvents": true
+  }
+}
+```
+
+### Training the ML Model
+```bash
+# Run training script
+./scripts/train-ml-model.sh
+
+# The model learns from:
+# - Legitimate user feedback
+# - Known malicious patterns
+# - Historical threat data
+# - Community-reported abuse
+```
+
+### Security Response
+When threats are detected, the system:
+1. **Blocks the request** with detailed rejection reason
+2. **Logs security events** for monitoring and analysis
+3. **Increases rate limiting** for suspicious IP addresses
+4. **Triggers alerts** for high-confidence threats
+5. **Updates threat intelligence** for continuous improvement
 
 ## Configuration
 
