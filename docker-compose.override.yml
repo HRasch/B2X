@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  shared-support-service:
+    build:
+      context: ..
+      dockerfile: backend/Gateway/Shared/Dockerfile
+    ports:
+      - "8090:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - GitHub__Token=${GITHUB_TOKEN}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - b2connect-network
+    depends_on:
+      - aspire-dashboard

@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <UserSecretsId>B2Connect.Shared</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Wolverine for CQRS -->
+    <PackageReference Include="WolverineFx" Version="2.8.0" />
+
+    <!-- ASP.NET Core -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+
+    <!-- Logging & Monitoring -->
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
+
+    <!-- HTTP Client for GitHub API -->
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+
+    <!-- JSON Processing -->
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+
+    <!-- Security & Validation -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+
+    <!-- Health Checks -->
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
+
+    <!-- OpenTelemetry -->
+    <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.7.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Domain Layer -->
+    <ProjectReference Include="..\..\..\Domain\Support\B2Connect.Support.csproj" />
+
+    <!-- Shared Infrastructure -->
+    <ProjectReference Include="..\..\..\shared\B2Connect.Shared.csproj" />
+  </ItemGroup>
+
+</Project></content>
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/backend/Gateway/Shared/B2Connect.Shared.csproj

@@ -1,0 +1,41 @@
+# Build outputs
+bin/
+obj/
+
+# Logs
+logs/
+*.log
+
+# User-specific files
+*.user
+*.suo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Scripts
+scripts/
+
+# Test files
+**/*.Tests/
+TestResults/
+
+# Docker
+Dockerfile*
+docker-compose*
+
+# Environment files
+.env*

@@ -154,6 +154,19 @@ var adminGateway = builder
     .WithB2ConnectCors("http://localhost:5174", "https://localhost:5174")
     .WithSecurityDefaults(jwtSecret);
 
+// Shared Support Service (Feedback & Support API)
+var sharedSupportService = builder
+    .AddProject("shared-support-service", "../backend/Gateway/Shared/B2Connect.Shared.csproj")
+    .WithHttpEndpoint(port: 8090, name: "support-http")  // Fixed port for frontends
+    .WithReference(authService)
+    .WithB2ConnectCors("http://localhost:5173", "http://localhost:5174", "https://localhost:5173", "https://localhost:5174")
+    .WithSecurityDefaults(jwtSecret)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithRateLimiting()
+    .WithOpenTelemetry()
+    .WithHealthChecks();
+
 // ===== FRONTENDS (Vite Vue.js Applications) =====
 // Using native Aspire.Hosting.JavaScript integration (AddViteApp)
 // Documentation: https://aspire.dev/integrations/frameworks/javascript/
@@ -167,6 +180,7 @@ var frontendStore = builder
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
     .WithEnvironment("PORT", "5173")  // Vite reads PORT env var
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000")
+    .WithEnvironment("VITE_SUPPORT_API_URL", "http://localhost:8090")
     .WithEnvironment("NODE_ENV", "development");
 
 // Frontend Admin (Vue 3 + Vite) - Fixed port 5174 for predictable URLs
@@ -177,6 +191,7 @@ var frontendAdmin = builder
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
     .WithEnvironment("PORT", "5174")  // Vite reads PORT env var
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
+    .WithEnvironment("VITE_SUPPORT_API_URL", "http://localhost:8090")
     .WithEnvironment("NODE_ENV", "development");
 
 // Issue #50: Vite build errors are automatically captured by Aspire's built-in logging
