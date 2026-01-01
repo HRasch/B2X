@@ -138,12 +138,18 @@ export default {
           "0 8px 16px rgba(52, 71, 103, 0.15), inset 0 -2px 0 rgba(255, 255, 255, 0.5)",
       },
       backgroundImage: {
-        "gradient-soft-cyan": "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
-        "gradient-soft-blue": "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-        "gradient-soft-purple": "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
-        "gradient-soft-green": "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-        "gradient-soft-orange": "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
-        "gradient-soft-red": "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+        "gradient-soft-cyan":
+          "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
+        "gradient-soft-blue":
+          "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+        "gradient-soft-purple":
+          "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
+        "gradient-soft-green":
+          "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+        "gradient-soft-orange":
+          "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+        "gradient-soft-red":
+          "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
       },
       spacing: {
         safe: "1.5rem",
