@@ -28,7 +28,7 @@
     <Project Path="backend/shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
-    <Project Path="backend/shared/B2Connect.Shared.Monitoring/B2Connect.Shared.Monitoring.csproj" />
+    <Project Path="backend/shared/Monitoring/B2Connect.Shared.Monitoring.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Search/B2Connect.Shared.Search.csproj" />
     <Project Path="backend/shared/kernel/B2Connect.Shared.Kernel.csproj" />
     <Project Path="backend/shared/middleware/B2Connect.Shared.Middleware.csproj" />

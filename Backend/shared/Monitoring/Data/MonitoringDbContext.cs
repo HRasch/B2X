@@ -25,6 +25,26 @@ public class MonitoringDbContext : DbContext
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="MonitoringDbContext"/> class for design-time operations.
+    /// </summary>
+    public MonitoringDbContext()
+    {
+    }
+
+    /// <summary>
+    /// Configures the database provider for design-time operations.
+    /// </summary>
+    /// <param name="optionsBuilder">The options builder.</param>
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            // Use PostgreSQL for design-time operations
+            optionsBuilder.UseNpgsql("Host=localhost;Database=B2Connect_Monitoring;Username=postgres;Password=password");
+        }
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="MonitoringDbContext"/> class.
     /// </summary>
     /// <param name="options">The options to be used by a <see cref="DbContext"/>.</param>

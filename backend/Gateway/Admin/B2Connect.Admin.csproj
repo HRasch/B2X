@@ -7,6 +7,8 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>B2Connect.Admin</RootNamespace>
     <AssemblyName>B2Connect.Admin</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <IsAspireProjectResource>true</IsAspireProjectResource>
   </PropertyGroup>
 
