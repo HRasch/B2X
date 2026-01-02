@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+option csharp_namespace = "B2Connect.ERP.Grpc";
+
+package erp.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// =============================================================================
+// Connector Registry Service
+// For On-Premise ERP Connector registration and management
+// =============================================================================
+
+service ConnectorRegistry {
+  // Register a connector with the cloud
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  
+  // Bidirectional heartbeat stream
+  // Connector sends health/metrics, cloud sends config updates
+  rpc Heartbeat(stream HeartbeatRequest) returns (stream HeartbeatResponse);
+  
+  // Get current configuration for connector
+  rpc GetConfiguration(GetConfigurationRequest) returns (ConfigurationResponse);
+  
+  // Report sync status
+  rpc ReportSyncStatus(SyncStatusRequest) returns (SyncStatusResponse);
+}
+
+// =============================================================================
+// Registration Messages
+// =============================================================================
+
+message RegisterRequest {
+  string tenant_id = 1;
+  string connector_id = 2;
+  string version = 3;
+  repeated string capabilities = 4;  // ["pim", "crm", "orders", "inventory"]
+  ConnectorEnvironment environment = 5;
+  string hostname = 6;
+}
+
+message ConnectorEnvironment {
+  string os_version = 1;
+  string dotnet_version = 2;
+  int32 available_memory_mb = 3;
+  int32 cpu_cores = 4;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+  string cloud_endpoint = 3;
+  int32 heartbeat_interval_seconds = 4;
+  string config_version = 5;
+}
+
+// =============================================================================
+// Heartbeat Messages
+// =============================================================================
+
+message HeartbeatRequest {
+  string connector_id = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  ConnectorStatus status = 3;
+  ConnectorMetrics metrics = 4;
+}
+
+enum ConnectorStatus {
+  CONNECTOR_STATUS_UNKNOWN = 0;
+  CONNECTOR_STATUS_HEALTHY = 1;
+  CONNECTOR_STATUS_DEGRADED = 2;
+  CONNECTOR_STATUS_UNHEALTHY = 3;
+  CONNECTOR_STATUS_SYNCING = 4;
+}
+
+message ConnectorMetrics {
+  int64 total_operations = 1;
+  int64 failed_operations = 2;
+  double avg_operation_duration_ms = 3;
+  int64 memory_used_mb = 4;
+  int32 active_connections = 5;
+  int64 last_sync_duration_ms = 6;
+  int64 records_synced_last_hour = 7;
+}
+
+message HeartbeatResponse {
+  string config_version = 1;
+  bool config_changed = 2;
+  repeated ConnectorCommand commands = 3;
+}
+
+message ConnectorCommand {
+  string command_id = 1;
+  ConnectorCommandType type = 2;
+  map<string, string> parameters = 3;
+}
+
+enum ConnectorCommandType {
+  COMMAND_TYPE_UNKNOWN = 0;
+  COMMAND_TYPE_RELOAD_CONFIG = 1;
+  COMMAND_TYPE_FORCE_SYNC = 2;
+  COMMAND_TYPE_CLEAR_CACHE = 3;
+  COMMAND_TYPE_UPDATE_AVAILABLE = 4;
+  COMMAND_TYPE_SHUTDOWN = 5;
+}
+
+// =============================================================================
+// Configuration Messages
+// =============================================================================
+
+message GetConfigurationRequest {
+  string connector_id = 1;
+  string current_config_version = 2;
+}
+
+message ConfigurationResponse {
+  string config_version = 1;
+  bool is_latest = 2;
+  ConnectorConfiguration configuration = 3;
+}
+
+message ConnectorConfiguration {
+  // Sync settings
+  int32 sync_batch_size = 1;
+  int32 sync_interval_minutes = 2;
+  repeated string enabled_features = 3;
+  
+  // Performance settings
+  int32 max_concurrent_operations = 4;
+  int32 connection_pool_size = 5;
+  int32 operation_timeout_seconds = 6;
+  
+  // Retry settings
+  int32 max_retries = 7;
+  int32 retry_delay_ms = 8;
+  
+  // Cache settings
+  bool cache_enabled = 9;
+  int32 cache_ttl_minutes = 10;
+  
+  // Logging
+  string log_level = 11;
+  bool detailed_metrics = 12;
+}
+
+// =============================================================================
+// Sync Status Messages
+// =============================================================================
+
+message SyncStatusRequest {
+  string connector_id = 1;
+  string sync_id = 2;
+  SyncType sync_type = 3;
+  SyncState state = 4;
+  SyncProgress progress = 5;
+  string error_message = 6;
+}
+
+enum SyncType {
+  SYNC_TYPE_UNKNOWN = 0;
+  SYNC_TYPE_FULL = 1;
+  SYNC_TYPE_INCREMENTAL = 2;
+  SYNC_TYPE_DELTA = 3;
+}
+
+enum SyncState {
+  SYNC_STATE_UNKNOWN = 0;
+  SYNC_STATE_STARTED = 1;
+  SYNC_STATE_IN_PROGRESS = 2;
+  SYNC_STATE_COMPLETED = 3;
+  SYNC_STATE_FAILED = 4;
+  SYNC_STATE_CANCELLED = 5;
+}
+
+message SyncProgress {
+  int64 total_records = 1;
+  int64 processed_records = 2;
+  int64 failed_records = 3;
+  google.protobuf.Timestamp started_at = 4;
+  google.protobuf.Timestamp last_update = 5;
+  double estimated_completion_percent = 6;
+}
+
+message SyncStatusResponse {
+  bool acknowledged = 1;
+  string message = 2;
+}

@@ -15,6 +15,24 @@ B2Connect requires integration with various ERP/CRM/PIM systems (starting with e
 
 Legacy ERP systems often use .NET Framework 4.8, requiring isolation strategies.
 
+### Data Volume Challenge
+
+**Large Catalogs**: Some customers have extremely large catalogs:
+- 1.5 million articles
+- 30 million attributes/Merkmale
+- Images, references, cross-references
+
+**Synchronization Strategy** (based on eGate implementation):
+- **Master Data** → Synchronized (acceptable time delay)
+  - Articles, attributes, images, references
+  - Background sync jobs (hourly/nightly)
+  - Eventual consistency acceptable
+- **Customer-Specific Data** → Live queries (must be current)
+  - Kundenindividuelle Preise (customer prices)
+  - Bestände (stock levels)
+  - Vorgangsdaten (order status)
+  - Always query ERP directly
+
 ### Technical Constraints
 
 1. **.NET Framework 4.8 Limitations**
@@ -27,12 +45,22 @@ Legacy ERP systems often use .NET Framework 4.8, requiring isolation strategies.
    - Direct assembly integration required for performance
    - Millions of records require optimized bulk operations
    - **⚠️ CRITICAL: NOT MULTITHREADING-SAFE** - All operations must be serialized
+   - **⚠️ CRITICAL: EXPENSIVE INITIALIZATION (>2s)** - Connection must be pooled/cached
+   - **Multi-Tenant via BusinessUnit** - Tenant selected during initialization
 
 3. **Single-Threading Constraint**
    - enventa ERP assemblies cannot handle concurrent access
    - Login/Logout operations require exclusive locks
    - All data access must go through a single-threaded worker
    - Concurrent requests must be queued and processed sequentially
+
+4. **Connection Pooling & Initialization**
+   - **Initialization cost**: >2 seconds per tenant (BusinessUnit setup)
+   - **Connection strategy**: Keep-alive with idle timeout (30 min default)
+   - **Warmup**: Pre-initialize connections for active tenants
+   - **Health checks**: Periodic ping to maintain connection state
+   - **Lazy initialization**: Create connection on first request, keep alive
+   - **Cache invalidation**: Release after prolonged inactivity (configurable)
 
 4. **Cross-Framework Communication**
    - Provider containers run .NET Framework 4.8
@@ -51,6 +79,13 @@ Implement a **Plugin-based Architecture** using containerized ERP providers with
 │   Core System   │    │  Manager         │    │  (Docker)       │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
                               │
+                       ┌──────┴──────┐
+                       │ Connection  │
+                       │ Pool        │
+                       │ (per-tenant)│
+                       └──────┬──────┘
+                              │ Keep-Alive (30min idle timeout)
+                              │ Init: >2s (expensive!)
                               ▼
                        ┌─────────────────┐
                        │  Plugin         │
@@ -369,30 +404,96 @@ public class EnventaActorPool : IDisposable
 - **Solution**: Async streaming with `IAsyncEnumerable<T>`
 - **Benefits**: Reduced memory usage, faster time-to-first-result
 
-#### 3. **Local Caching in Provider Containers**
+#### 3. **Hybrid Data Strategy: Sync + Live Query**
+- **Master Data**: Synchronized to B2Connect database (PostgreSQL + Elasticsearch)
+  - Articles, attributes, images, references (1.5M+ articles, 30M+ attributes)
+  - Background sync jobs (hourly/nightly, incremental)
+  - Acceptable time delay (eventual consistency)
+- **Customer-Specific Data**: Live queries to ERP
+  - Customer prices (kundenindividuelle Preise)
+  - Stock levels (Bestände)
+  - Order status (Vorgangsdaten)
+  - Always current (strong consistency required)
+- **Benefits**: 
+  - Fast catalog browsing (local DB)
+  - Current prices/stock (live ERP query)
+  - Reduced ERP load (only customer-specific queries)
+
+#### 4. **Local Caching in Provider Containers**
 - **Strategy**: Redis cache within provider containers for frequently accessed data
-- **TTL**: 5-15 minutes for master data, 1-5 minutes for transactional data
+- **TTL**: 
+  - Master data (synced): Not cached (use local DB)
+  - Customer prices/stock (live): 30s-5min TTL
+  - Order status: 1-2min TTL
 - **Invalidation**: Event-driven cache invalidation via Wolverine messages
 
-#### 4. **Connection Pooling and Keep-Alive**
+#### 5. **Connection Pooling and Keep-Alive**
 - **Database Connections**: Maintain persistent connections to ERP databases
 - **HTTP Clients**: Reuse connections with keep-alive headers
 - **Circuit Breaker**: Polly policies for resilient communication
 
-#### 5. **Bulk Synchronization Optimization**
+#### 5. **Connection Pooling and Keep-Alive**
+- **Database Connections**: Maintain persistent connections to ERP databases
+- **HTTP Clients**: Reuse connections with keep-alive headers
+- **Circuit Breaker**: Polly policies for resilient communication
+- **enventa Specific**: Connection pooling with 30min idle timeout (>2s initialization cost)
+
+#### 6. **Bulk Synchronization Optimization**
 - **Change Detection**: Only sync changed records using timestamps/modified flags
 - **Delta Sync**: Incremental updates instead of full dataset transfers
-- **Parallel Processing**: Multiple threads for independent sync operations
+- **Parallel Processing**: Multiple threads for independent sync operations (master data only)
+- **Master Data Priority**: Articles → Attributes → Images (staged sync)
 
 ### Performance Benchmarks
 
-| Operation Type | Target Latency | Max Network Calls | Memory Usage |
-|----------------|----------------|-------------------|--------------|
-| Single Product Query | <100ms | 1 | <50MB |
-| Bulk Product Query (100 items) | <500ms | 1 | <200MB |
-| Catalog Stream (1000+ items) | <2s time-to-first | 1 initial | <100MB |
-| Bulk Sync (10k records) | <30s | 1-5 batches | <500MB |
-| Order Creation | <200ms | 1-2 | <100MB |
+| Operation Type | Target Latency | Data Source | Consistency |
+|----------------|----------------|-------------|-------------|
+| Article Search (1000 results) | <200ms | PostgreSQL + Elasticsearch | Eventual (≤1h) |
+| Article Details | <100ms | PostgreSQL (master) | Eventual (≤1h) |
+| Customer Price (single) | <100ms | ERP (live query) | Strong (real-time) |
+| Stock Availability (single) | <100ms | ERP (live query) | Strong (real-time) |
+| Bulk Price Query (100 items) | <500ms | ERP (live query, batched) | Strong (real-time) |
+| Order Creation | <200ms | ERP (live) | Strong (real-time) |
+| Master Data Sync (1M articles) | <30min | Background job | N/A (incremental) |
+
+### Data Flow Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                     User Request Flow                            │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  GET /articles?search=hammer                                     │
+│       │                                                          │
+│       ├─→ PostgreSQL + Elasticsearch (synced master data)        │
+│       │   └─→ 1000 articles with descriptions, images (fast)     │
+│       │                                                          │
+│  GET /articles/12345?customerId=C001                             │
+│       │                                                          │
+│       ├─→ PostgreSQL (synced master data)                        │
+│       │   └─→ Article 12345 details, attributes                  │
+│       │                                                          │
+│       ├─→ ERP Provider (live query via connection pool)          │
+│       │   └─→ Customer price, stock, discount for C001           │
+│       │                                                          │
+│       └─→ Combine: { ...article, price, stock }                  │
+│                                                                  │
+│  POST /orders (create order)                                     │
+│       │                                                          │
+│       └─→ ERP Provider (live) → Order created in ERP             │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+         ↑                                    ↑
+         │                                    │
+    Sync Job                          Connection Pool
+   (Background)                        (Pre-warmed)
+    Incremental                          <100ms
+         │                                    │
+         └────────────┬───────────────────────┘
+                      │
+              enventa Trade ERP
+          (1.5M Articles, 30M Attributes)
+```
 
 ### Monitoring and Performance Metrics
 
@@ -411,7 +512,227 @@ erp_provider_request_duration_seconds{operation="BulkSync", quantile="0.95"} 2.5
 erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 ```
 
-### Container Orchestration
+### Deployment Models
+
+B2Connect supports **two deployment models** for ERP connectors to optimize for different customer scenarios:
+
+#### Model A: Cloud Deployment (Docker Container)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    B2Connect Cloud (Kubernetes)                  │
+│  ┌─────────────────┐    ┌─────────────────────────────────────┐ │
+│  │  B2Connect API  │    │   Windows Container                  │ │
+│  │  (.NET 10)      │◄──►│   (ERP Connector .NET 4.8)          │ │
+│  │  Linux          │gRPC│   Windows Server Core               │ │
+│  └─────────────────┘    └──────────────┬──────────────────────┘ │
+└─────────────────────────────────────────│────────────────────────┘
+                                          │ VPN/Direct Connect
+                                          ▼
+                              ┌─────────────────────────┐
+                              │  Customer ERP           │
+                              │  (enventa Trade)        │
+                              └─────────────────────────┘
+```
+
+**Wann verwenden:**
+- Customer hat keine On-Premise IT-Infrastruktur
+- ERP-System ist Cloud-basiert oder über VPN erreichbar
+- Managed-Service gewünscht (B2Connect verwaltet Connector)
+
+**Trade-offs:**
+- ➕ Zentral gemanagt, einfaches Update-Deployment
+- ➕ Einheitliche Monitoring-Infrastruktur
+- ➖ Windows Container in Cloud sind teuer (~2x Linux-Preis)
+- ➖ Netzwerk-Latenz zur Customer-Datenbank
+- ➖ Firewall-Öffnung für ERP-Datenbankzugriff erforderlich
+
+#### Model B: On-Premise Deployment (Windows Service)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    B2Connect Cloud (Kubernetes)                  │
+│  ┌─────────────────┐                                            │
+│  │  B2Connect API  │◄──────────────────┐                        │
+│  │  (.NET 10)      │   gRPC over HTTPS │                        │
+│  │  Linux          │                   │                        │
+│  └─────────────────┘                   │                        │
+└────────────────────────────────────────│────────────────────────┘
+                                         │
+                      ═══════════════════│════════════════════════
+                         Internet (HTTPS only, outbound from customer)
+                      ═══════════════════│════════════════════════
+                                         │
+┌────────────────────────────────────────│────────────────────────┐
+│                    Customer On-Premise │                        │
+│  ┌─────────────────────────────────────┴──────────────────────┐ │
+│  │  ERP Connector Windows Service                              │ │
+│  │  (.NET 4.8, TopShelf/Windows Service)                       │ │
+│  │  Initiiert Verbindung zur Cloud (kein Inbound-Traffic)      │ │
+│  └──────────────────────────────┬─────────────────────────────┘ │
+│                                 │ Local Network                 │
+│  ┌──────────────────────────────▼─────────────────────────────┐ │
+│  │  enventa Trade ERP                                          │ │
+│  │  (SQL Server, proprietary ORM)                              │ │
+│  └─────────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Wann verwenden:**
+- enventa Trade läuft On-Premise beim Kunden (Standardfall)
+- Minimale Latenz zur ERP-Datenbank erforderlich
+- Keine Firewall-Öffnung gewünscht (Connector initiiert Verbindung)
+- Kostenoptimierung (keine Windows-Cloud-Kosten)
+
+**Trade-offs:**
+- ➕ Direkter Zugriff auf ERP-Datenbank (minimale Latenz)
+- ➕ Keine Cloud-Kosten für Windows-VMs
+- ➕ Kein Inbound-Traffic erforderlich (nur HTTPS outbound)
+- ➕ Daten bleiben im Kundennetzwerk bis zur Sync
+- ➖ Customer muss Windows Service betreiben
+- ➖ Update-Deployment komplexer (MSI/ClickOnce)
+- ➖ Monitoring muss an B2Connect Cloud gemeldet werden
+
+#### Deployment Decision Matrix
+
+| Kriterium | Cloud (Docker) | On-Premise (Service) |
+|-----------|----------------|----------------------|
+| ERP-Standort | Cloud/VPN | On-Premise |
+| IT-Betrieb beim Kunden | Minimal | Vorhanden |
+| Latenz-Anforderung | Tolerant | Kritisch |
+| Sicherheitsanforderung | Standard | Hoch (keine Firewall-Öffnung) |
+| Kostenmodell | OpEx (Cloud) | CapEx + geringe OpEx |
+| Update-Frequenz | Häufig | Selten (stabil) |
+| Empfehlung | Kleinere Kunden | Enterprise-Kunden |
+
+### Windows Service Implementation
+
+```csharp
+/// <summary>
+/// ERP Connector als Windows Service mit TopShelf
+/// </summary>
+public class ErpConnectorService : ServiceControl
+{
+    private readonly IHost _host;
+    
+    public ErpConnectorService()
+    {
+        _host = Host.CreateDefaultBuilder()
+            .ConfigureServices((context, services) =>
+            {
+                // gRPC Client für Cloud-Kommunikation
+                services.AddGrpcClient<ErpSync.ErpSyncClient>(options =>
+                {
+                    options.Address = new Uri(context.Configuration["B2Connect:CloudEndpoint"]);
+                });
+                
+                // Actor für Thread-sichere ERP-Zugriffe
+                services.AddSingleton<ErpActorPool>();
+                
+                // Hintergrund-Sync-Dienste
+                services.AddHostedService<ProductSyncWorker>();
+                services.AddHostedService<OrderSyncWorker>();
+                services.AddHostedService<CustomerSyncWorker>();
+                
+                // Health Reporting zur Cloud
+                services.AddHostedService<HealthReportingWorker>();
+            })
+            .Build();
+    }
+    
+    public bool Start(HostControl hostControl)
+    {
+        _host.Start();
+        return true;
+    }
+    
+    public bool Stop(HostControl hostControl)
+    {
+        _host.StopAsync().Wait();
+        return true;
+    }
+}
+
+// TopShelf Service-Registrierung
+public class Program
+{
+    public static void Main()
+    {
+        HostFactory.Run(x =>
+        {
+            x.Service<ErpConnectorService>();
+            x.RunAsLocalSystem();
+            x.SetServiceName("B2ConnectErpConnector");
+            x.SetDisplayName("B2Connect ERP Connector");
+            x.SetDescription("Synchronisiert enventa Trade ERP mit B2Connect Cloud");
+            x.StartAutomatically();
+            x.EnableServiceRecovery(r => r.RestartService(1)); // Restart nach 1 Minute
+        });
+    }
+}
+```
+
+### Cloud-Side Connector Registration
+
+On-Premise Connectors registrieren sich bei der Cloud:
+
+```csharp
+/// <summary>
+/// Cloud-seitiger Service für Connector-Registrierung
+/// </summary>
+public class ConnectorRegistrationService : ConnectorRegistry.ConnectorRegistryBase
+{
+    private readonly ConcurrentDictionary<string, ConnectorInfo> _connectors = new();
+    
+    public override async Task<RegisterResponse> Register(
+        RegisterRequest request, 
+        ServerCallContext context)
+    {
+        var connectorInfo = new ConnectorInfo
+        {
+            TenantId = request.TenantId,
+            ConnectorId = request.ConnectorId,
+            Version = request.Version,
+            Capabilities = request.Capabilities.ToList(),
+            LastHeartbeat = DateTimeOffset.UtcNow,
+            DeploymentModel = ConnectorDeploymentModel.OnPremise
+        };
+        
+        _connectors.AddOrUpdate(request.ConnectorId, connectorInfo, (_, _) => connectorInfo);
+        
+        return new RegisterResponse
+        {
+            Success = true,
+            CloudEndpoint = GetCloudEndpointForTenant(request.TenantId),
+            HeartbeatIntervalSeconds = 30
+        };
+    }
+    
+    public override async Task Heartbeat(
+        IAsyncStreamReader<HeartbeatRequest> requestStream,
+        IServerStreamWriter<HeartbeatResponse> responseStream,
+        ServerCallContext context)
+    {
+        await foreach (var heartbeat in requestStream.ReadAllAsync())
+        {
+            if (_connectors.TryGetValue(heartbeat.ConnectorId, out var info))
+            {
+                info.LastHeartbeat = DateTimeOffset.UtcNow;
+                info.Status = heartbeat.Status;
+                info.Metrics = heartbeat.Metrics;
+            }
+            
+            // Sende Konfigurationsänderungen zurück
+            await responseStream.WriteAsync(new HeartbeatResponse
+            {
+                ConfigVersion = GetLatestConfigVersion(heartbeat.TenantId)
+            });
+        }
+    }
+}
+```
+
+### Container Orchestration (Cloud Deployment)
 
 - **Kubernetes-based deployment** with tenant namespaces
 - **Docker Compose** for development environments
@@ -425,6 +746,28 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
   "tenantId": "tenant-123",
   "erpProvider": {
     "type": "enventa",
+    "deploymentModel": "on-premise",
+    "config": {
+      "connectionString": "...",
+      "syncBatchSize": 1000
+    }
+  },
+  "connectorRegistration": {
+    "model": "on-premise",
+    "expectedConnectorId": "connector-abc-123",
+    "cloudEndpoint": "https://api.b2connect.cloud/erp",
+    "features": ["pim", "crm", "orders"]
+  }
+}
+```
+
+**Alternative: Cloud Deployment Configuration**
+```json
+{
+  "tenantId": "tenant-456",
+  "erpProvider": {
+    "type": "enventa",
+    "deploymentModel": "cloud",
     "image": "b2connect/erp-enventa:v1.2.3",
     "config": {
       "connectionString": "...",
@@ -433,6 +776,7 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
   },
   "crmProvider": {
     "type": "salesforce",
+    "deploymentModel": "cloud",
     "image": "b2connect/crm-salesforce:v2.1.0"
   }
 }
@@ -448,13 +792,17 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 - **Maintainability**: Modular updates and testing
 - **Future-proof**: Easy addition of new ERP systems
 - **Performance**: Optimized batch/streaming operations reduce network overhead
+- **Cost Optimization**: On-Premise deployment avoids expensive Windows Cloud VMs
+- **Security**: On-Premise model requires no inbound firewall rules
+- **Latency**: On-Premise connector has direct ERP database access
 
 ### Negative
 
 - **Complexity**: Additional orchestration layer
 - **Latency**: Network calls between containers (mitigated by batch operations)
-- **Resource overhead**: Container management
+- **Resource overhead**: Container management (Cloud model)
 - **Development effort**: Standardized interfaces required
+- **Dual deployment support**: Both Docker and Windows Service must be maintained
 
 ### Risks
 
@@ -466,6 +814,7 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 - **.NET Framework Constraints**: Limited async patterns require compatibility layer
 - **Proprietary ORM Lock-in**: enventa ORM patterns may not translate to other ERPs
 - **Single-Threading Bottleneck**: Serialized ERP access limits throughput (mitigated by caching + batching)
+- **On-Premise Management**: Customer must maintain Windows Service (mitigated by auto-update mechanism)
 
 ## Alternatives Considered
 
@@ -485,23 +834,29 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 - **Validate .NET 4.8 compatibility** for all communication patterns
 - **Implement Actor pattern** for thread-safe ERP access
 - Create base Docker images (Windows Server Core for .NET 4.8)
+- **Create Windows Service project with TopShelf**
 - Implement Provider Manager skeleton with performance monitoring
 - Setup gRPC infrastructure for cross-framework streaming
 - Setup basic performance benchmarks
 
 ### Phase 2: enventa Integration (4 weeks)
 - Develop enventa provider container (.NET 4.8 / Windows Container)
+- **Develop enventa Windows Service variant**
 - **Integrate with enventa's proprietary ORM** via adapter pattern
 - Implement PIM/CRM/ERP interfaces with caching strategies
+- **Implement Connector Registration for On-Premise deployments**
 - Integration testing with B2Connect focusing on performance
 - Optimize for "chatty" ERP operations via batch processing
 - **Validate gRPC streaming** between .NET 4.8 and .NET 10
 
 ### Phase 3: Production Ready (3 weeks)
 - Plugin registry system with performance metrics
+- **On-Premise auto-update mechanism (MSI/ClickOnce)**
 - Advanced monitoring and health checks
+- **Heartbeat and status reporting for On-Premise connectors**
 - Security hardening with performance impact assessment
 - Documentation and performance tuning guides
+- **Deployment decision guide for customers**
 
 ## Success Metrics
 
