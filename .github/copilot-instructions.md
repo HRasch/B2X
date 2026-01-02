@@ -309,6 +309,13 @@ Duplicate files will be **deleted without merge** during cleanup. The original (
 - **Context**: Always consider the surrounding code and project structure.
 - **Safety**: Avoid suggesting insecure patterns or hardcoded secrets.
 - **Coordination**: Bei Unklarheiten @SARAH für Guidance nutzen.
+- **Token Optimization** (Prevent rate limiting - see [GL-006]):
+  - Agent files: Max 3 KB - link to docs, don't embed
+  - Use `read_file` with specific line ranges, not entire files
+  - Reference `[DocID]` instead of copying content inline
+  - Batch multiple changes into single requests
+  - Archive status files older than 7 days to `.ai/archive/`
+  - Prefer `run_task`/`runTests` tools over verbose terminal commands
 - **Lessons Learned**: Before starting implementation tasks, **always check** `.ai/knowledgebase/lessons.md` for relevant lessons from past work. This prevents repeating known mistakes (e.g., ESLint 9.x flat config, Tailwind v4 class changes, API breaking changes).
 - **Test Failures**: When tests fail, **consider whether the tests themselves are invalid or outdated** before assuming the implementation is wrong. Tests may need updating due to: changed requirements, API changes, deprecated patterns, or incorrect original assumptions.
 - **Error Reports**: When a user reports an error, **run smoke tests** to verify system health and **evaluate if test coverage needs extending** to catch similar issues in the future. Add missing test cases to prevent regression.

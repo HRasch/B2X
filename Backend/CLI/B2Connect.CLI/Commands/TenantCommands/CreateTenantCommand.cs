@@ -11,13 +11,9 @@ public static class CreateTenantCommand
 
         var nameArgument = new Argument<string>("name", "Tenant name");
         var adminEmailOption = new Option<string>(
-            new[] { "-a", "--admin-email" },
-            "Admin email address"
-        );
+            ["-a", "--admin-email"], "Admin email address");
         var adminPasswordOption = new Option<string>(
-            new[] { "-p", "--admin-password" },
-            "Admin password"
-        );
+            ["-p", "--admin-password"], "Admin password");
 
         command.AddArgument(nameArgument);
         command.AddOption(adminEmailOption);

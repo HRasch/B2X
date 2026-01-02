@@ -12,14 +12,11 @@ public static class LoginCommand
 
         var emailArgument = new Argument<string>("email", "User email address");
         var passwordOption = new Option<string>(
-            new[] { "-p", "--password" },
-            "User password (will prompt if not provided)"
-        );
+            ["-p", "--password"], "User password (will prompt if not provided)");
         var saveOption = new Option<bool>(
-            new[] { "-s", "--save" },
+            ["-s", "--save"],
             getDefaultValue: () => false,
-            "Save token to B2CONNECT_TOKEN environment variable"
-        );
+            description: "Save token to B2CONNECT_TOKEN environment variable");
 
         command.AddArgument(emailArgument);
         command.AddOption(passwordOption);

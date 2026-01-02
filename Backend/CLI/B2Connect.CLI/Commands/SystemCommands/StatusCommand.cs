@@ -10,9 +10,7 @@ public static class StatusCommand
         var command = new Command("status", "Check service health status");
 
         var serviceOption = new Option<string?>(
-            new[] { "-s", "--service" },
-            "Specific service to check (or 'all' for all services)"
-        );
+            ["-s", "--service"], "Specific service to check (or 'all' for all services)");
 
         command.AddOption(serviceOption);
         command.SetHandler(ExecuteAsync, serviceOption);
@@ -71,7 +69,7 @@ public static class StatusCommand
                 }
             }
 
-            console.Info($"\nSummary: {healthy}/{total} services healthy");
+            console.Info($"\nSummary: {healthy.ToString()}/{total.ToString()} services healthy");
 
             if (healthy < total)
             {

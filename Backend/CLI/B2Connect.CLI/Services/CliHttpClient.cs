@@ -6,10 +6,11 @@ namespace B2Connect.CLI.Services;
 /// <summary>
 /// HTTP Client für CLI-Commands zur Kommunikation mit Microservices
 /// </summary>
-public class CliHttpClient
+public sealed class CliHttpClient : IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly JsonSerializerOptions _jsonOptions;
+    private bool _disposed;
 
     public CliHttpClient(string baseUrl)
     {
@@ -42,7 +43,7 @@ public class CliHttpClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<T>.Error($"Request failed: {ex.Message}");
+            return ApiResponse<T>.CreateError($"Request failed: {ex.Message}");
         }
     }
 
@@ -62,7 +63,7 @@ public class CliHttpClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<T>.Error($"Request failed: {ex.Message}");
+            return ApiResponse<T>.CreateError($"Request failed: {ex.Message}");
         }
     }
 
@@ -82,14 +83,14 @@ public class CliHttpClient
 
             if (response.IsSuccessStatusCode)
             {
-                return ApiResponse<string>.Success(body);
+                return ApiResponse<string>.CreateSuccess(body);
             }
 
-            return ApiResponse<string>.Error($"Error: {response.StatusCode} - {body}");
+            return ApiResponse<string>.CreateError($"Error: {response.StatusCode} - {body}");
         }
         catch (Exception ex)
         {
-            return ApiResponse<string>.Error($"Request failed: {ex.Message}");
+            return ApiResponse<string>.CreateError($"Request failed: {ex.Message}");
         }
     }
 
@@ -107,7 +108,7 @@ public class CliHttpClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<T>.Error($"Request failed: {ex.Message}");
+            return ApiResponse<T>.CreateError($"Request failed: {ex.Message}");
         }
     }
 
@@ -120,14 +121,14 @@ public class CliHttpClient
 
             if (response.IsSuccessStatusCode)
             {
-                return ApiResponse<string>.Success(body);
+                return ApiResponse<string>.CreateSuccess(body);
             }
 
-            return ApiResponse<string>.Error($"Error: {response.StatusCode} - {body}");
+            return ApiResponse<string>.CreateError($"Error: {response.StatusCode} - {body}");
         }
         catch (Exception ex)
         {
-            return ApiResponse<string>.Error($"Request failed: {ex.Message}");
+            return ApiResponse<string>.CreateError($"Request failed: {ex.Message}");
         }
     }
 
@@ -140,17 +141,27 @@ public class CliHttpClient
             try
             {
                 var data = JsonSerializer.Deserialize<T>(body, _jsonOptions);
-                return ApiResponse<T>.Success(data ?? throw new InvalidOperationException("Empty response"));
+                return ApiResponse<T>.CreateSuccess(data ?? throw new InvalidOperationException("Empty response"));
             }
             catch (JsonException ex)
             {
-                return ApiResponse<T>.Error($"Failed to parse response: {ex.Message}");
+                return ApiResponse<T>.CreateError($"Failed to parse response: {ex.Message}");
             }
         }
 
-        return ApiResponse<T>.Error($"Error: {response.StatusCode} - {body}");
+        return ApiResponse<T>.CreateError($"Error: {response.StatusCode} - {body}");
     }
-}
+    /// <summary>
+    /// Disposes of the HTTP client resources.
+    /// </summary>
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            _httpClient.Dispose();
+            _disposed = true;
+        }
+    }}
 
 /// <summary>
 /// Standardisierte API Response Struktur
@@ -169,13 +180,13 @@ public class ApiResponse<T> where T : class
     [JsonPropertyName("message")]
     public string? Message { get; set; }
 
-    public static ApiResponse<T> Success(T data) => new()
+    public static ApiResponse<T> CreateSuccess(T data) => new()
     {
         Success = true,
         Data = data
     };
 
-    public static ApiResponse<T> Error(string error, string? message = null) => new()
+    public static ApiResponse<T> CreateError(string error, string? message = null) => new()
     {
         Success = false,
         Error = error,

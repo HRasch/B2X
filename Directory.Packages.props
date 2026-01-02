@@ -7,7 +7,7 @@
     <!-- Core Framework -->
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <!-- Aspire & Orchestration -->
     <PackageVersion Include="Aspire.Hosting" Version="10.0.0" />
@@ -27,7 +27,7 @@
     <PackageVersion Include="WolverineFx.Http" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.RabbitMq" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.PostgreSQL" Version="5.9.2" />
-    <!-- Data Access -->
+    <!-- Data Access (10.0.0 required for Npgsql compatibility) -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />

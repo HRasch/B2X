@@ -82,12 +82,12 @@ public class ServiceMonitor : IServiceMonitor
             entity.Status = status;
             entity.LastChecked = DateTime.UtcNow;
             entity.AverageLatencyMs = latencyMs;
-            
+
             if (status == ServiceStatus.Healthy)
             {
                 entity.LastSuccessful = DateTime.UtcNow;
             }
-            
+
             entity.ModifiedAt = DateTime.UtcNow;
             entity.ModifiedBy = "system";
 

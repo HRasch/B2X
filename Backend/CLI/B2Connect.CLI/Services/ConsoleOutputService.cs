@@ -1,5 +1,5 @@
-using Spectre.Console;
 using System.Collections.Generic;
+using Spectre.Console;
 
 namespace B2Connect.CLI.Services;
 
@@ -64,8 +64,7 @@ public class ConsoleOutputService
 
         var json = System.Text.Json.JsonSerializer.Serialize(
             data,
-            new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
-        );
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
 
         AnsiConsole.Write(new Panel(json) { Border = BoxBorder.Rounded });
     }
@@ -86,30 +85,27 @@ public class ConsoleOutputService
         return AnsiConsole.Prompt(
             new TextPrompt<string>($"[yellow]{prompt}[/]")
                 .PromptStyle("red")
-                .IsSecret()
-        );
+                .Secret());
     }
 
     public void Spinner(string title, Func<Task> action)
     {
         AnsiConsole.Status()
-            .Spinner(Spinner.Known.Default)
-            .Start(title, async ctx =>
+            .Spinner(Spectre.Console.Spinner.Known.Default)
+            .Start(title, ctx =>
             {
-                await action();
+                action().Wait();
             });
     }
 
     public void LoadingBar(string title, int total, Func<Action<int>, Task> action)
     {
         AnsiConsole.Progress()
-            .Columns(new ProgressColumn[]
-            {
+            .Columns(
                 new TaskDescriptionColumn(),
-                new BarColumn(),
+                new ProgressBarColumn(),
                 new PercentageColumn(),
-                new RemainingTimeColumn()
-            })
+                new RemainingTimeColumn())
             .Start(ctx =>
             {
                 var task = ctx.AddTask($"[green]{title}[/]", autoStart: false, maxValue: total);

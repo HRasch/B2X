@@ -8,6 +8,132 @@
 
 ## Session: 2. Januar 2026
 
+### System.CommandLine Beta Version Incompatibilities
+
+**Issue**: CLI project failed to build with 121 errors after upgrading to `System.CommandLine 2.0.0-beta5`.
+
+**Problem**: Beta5 introduced breaking API changes:
+- `AddCommand()` method signature changed
+- `InlineCommandHandler` removed
+- Option constructor syntax changed
+- Different command handler registration pattern
+
+**Solution**: Downgrade to `System.CommandLine 2.0.0-beta4.22272.1`:
+
+```xml
+<!-- ❌ BROKEN - Beta5 has breaking changes -->
+<PackageReference Include="System.CommandLine" Version="2.0.0-beta5.25277.114" />
+
+<!-- ✅ WORKING - Beta4 is stable for current codebase -->
+<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+```
+
+**Key API Differences**:
+```csharp
+// Beta4 - Use SetHandler
+command.SetHandler(async (arg1, arg2) => { ... }, option1, option2);
+
+// Beta5 - Different pattern (broke existing code)
+// InlineCommandHandler removed, AddCommand signature changed
+```
+
+**Lesson**: Pin beta package versions explicitly; don't auto-upgrade beta packages without testing.
+
+---
+
+### Spectre.Console API Changes
+
+**Issue**: `Spectre.Console` API methods changed between versions.
+
+**Solution**:
+```csharp
+// ❌ OLD API
+prompt.IsSecret();
+new BarColumn();
+
+// ✅ NEW API (0.49.x)
+prompt.Secret();
+new ProgressBarColumn();
+```
+
+**Lesson**: Console UI libraries frequently change APIs. Check release notes before upgrading.
+
+---
+
+### MSB3277 Assembly Version Conflicts - Npgsql + EF Core
+
+**Issue**: Build warning MSB3277 about conflicting versions of `Microsoft.EntityFrameworkCore.Relational` (10.0.0 vs 10.0.1).
+
+**Root Cause**: 
+- Project referenced EF Core 10.0.1 directly
+- `Npgsql.EntityFrameworkCore.PostgreSQL 10.0.0` has transitive dependency on EF Core 10.0.0
+- Two versions of same assembly = MSBuild conflict
+
+**Solution**: Align ALL EF Core packages to the version required by Npgsql:
+
+```xml
+<!-- ✅ All EF Core packages at 10.0.0 for Npgsql compatibility -->
+<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+<PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0" />
+<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
+<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+```
+
+**Key Rule**: When using database providers (Npgsql, Pomelo, etc.), match EF Core version to what the provider supports. Check provider's NuGet dependencies.
+
+**Diagnostic**: Use `dotnet build -v diag` to see full dependency chain causing MSB3277.
+
+---
+
+### IDisposable for HttpClient Wrappers (CA1001)
+
+**Issue**: StyleCop CA1001 warning - classes owning `HttpClient` must implement `IDisposable`.
+
+**Solution**:
+```csharp
+public sealed class MyHttpClient : IDisposable
+{
+    private readonly HttpClient _httpClient = new();
+    private bool _disposed;
+
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            _httpClient.Dispose();
+            _disposed = true;
+        }
+    }
+}
+```
+
+**Lesson**: Any class that creates/owns `HttpClient`, `DbConnection`, or other unmanaged resources must implement `IDisposable`.
+
+---
+
+### Static Classes for Command Handlers (RCS1102)
+
+**Issue**: Roslynator RCS1102 - "Make class static" for classes with only static members.
+
+**Context**: CLI command classes that only contain static `BuildCommand()` methods.
+
+**Solution**:
+```csharp
+// ❌ Non-static class with only static members
+public class MyCommand
+{
+    public static Command BuildCommand() { ... }
+}
+
+// ✅ Static class
+public static class MyCommand
+{
+    public static Command BuildCommand() { ... }
+}
+```
+
+---
+
 ### EF Core Migrations: Never Use AppHost as Startup Project
 
 **Issue**: Added `Microsoft.EntityFrameworkCore.Design` package to AppHost (Aspire Orchestrator) to run EF Core migrations. This is architecturally wrong.

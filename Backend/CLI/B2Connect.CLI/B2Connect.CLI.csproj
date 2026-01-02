@@ -18,8 +18,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta5.25277.114" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     <PackageReference Include="Spectre.Console" Version="0.49.1" />
+    <PackageReference Include="Spectre.Console.Json" Version="0.49.1" />
+    <!-- Update inherited analyzer versions from Directory.Build.props -->
+    <PackageReference Update="Roslynator.Analyzers" Version="4.8.0" />
+    <PackageReference Update="SecurityCodeScan.VS2019" Version="5.6.7" />
+    <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.556" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Monitoring\B2Connect.Shared.Monitoring.csproj" />
   </ItemGroup>
 
 </Project>
