@@ -49,6 +49,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-020` | PR Quality Gate | `.ai/decisions/ADR-020-pr-quality-gate.md` | Accepted |
 | `ADR-021` | ArchUnitNET Architecture Testing | `.ai/decisions/ADR-021-archunitnet-architecture-testing.md` | Accepted |
 | `ADR-022` | Multi-Tenant Domain Management | `.ai/decisions/ADR-022-multi-tenant-domain-management.md` | Proposed |
+| `ADR-023` | ERP Plugin Architecture | `.ai/decisions/ADR-023-erp-plugin-architecture.md` | Proposed |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
