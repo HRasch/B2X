@@ -15,6 +15,7 @@
     <Project Path="backend/Domain/Catalog/B2Connect.Catalog.API.csproj" />
     <Project Path="backend/Domain/CMS/B2Connect.CMS.csproj" />
     <Project Path="backend/Domain/Customer/B2Connect.Customer.API.csproj" />
+    <Project Path="backend/Domain/ERP/src/B2Connect.ERP.csproj" />
     <Project Path="backend/Domain/Identity/B2Connect.Identity.API.csproj" />
     <Project Path="backend/Domain/Localization/B2Connect.Localization.API.csproj" />
     <Project Path="backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj" />
@@ -27,6 +28,7 @@
     <Project Path="backend/shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
+    <Project Path="backend/shared/Monitoring/B2Connect.Shared.Monitoring.csproj" />
     <Project Path="backend/shared/B2Connect.Shared.Search/B2Connect.Shared.Search.csproj" />
     <Project Path="backend/shared/kernel/B2Connect.Shared.Kernel.csproj" />
     <Project Path="backend/shared/middleware/B2Connect.Shared.Middleware.csproj" />
@@ -40,6 +42,7 @@
     <Project Path="backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj" />
     <Project Path="backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj" />
     <Project Path="backend/Domain/Customer/tests/B2Connect.Customer.Tests.csproj" />
+    <Project Path="backend/Domain/ERP/tests/B2Connect.ERP.Tests.csproj" />
     <Project Path="backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj" />
     <Project Path="backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj" />
     <Project Path="backend/Tests/B2Connect.Shared.Search.Tests/B2Connect.Shared.Search.Tests.csproj" />

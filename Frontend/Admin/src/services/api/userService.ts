@@ -1,3 +1,9 @@
+/**
+ * User API Service
+ * @todo Add proper return types for paginated responses
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any -- Legacy return types */
+
 import { apiClient } from "../client";
 import type { User, UserProfile, Address } from "@/types/user";
 

@@ -7,7 +7,7 @@ namespace B2Connect.Admin.Presentation.Filters;
 /// <summary>
 /// Global Exception Handling Filter
 /// Zentralisiert die Fehlerbehandlung für alle Controller
-/// 
+///
 /// Behandelt:
 /// - ArgumentNullException → 400 Bad Request
 /// - InvalidOperationException → 409 Conflict

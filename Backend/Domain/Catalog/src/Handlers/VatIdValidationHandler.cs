@@ -6,9 +6,9 @@ namespace B2Connect.CatalogService.Handlers;
 
 /// <summary>
 /// Wolverine HTTP Handler for B2B VAT ID Validation
-/// 
+///
 /// Wolverine automatically creates: POST /validatevatid
-/// 
+///
 /// Issue #31: B2B VAT-ID Validation (AStV Reverse Charge)
 /// </summary>
 public class VatIdValidationHandler
@@ -29,9 +29,9 @@ public class VatIdValidationHandler
 
     /// <summary>
     /// Validate B2B customer VAT ID
-    /// 
+    ///
     /// Wolverine Endpoint: POST /validatevatid
-    /// 
+    ///
     /// Request:
     /// {
     ///   "countryCode": "DE",
@@ -39,7 +39,7 @@ public class VatIdValidationHandler
     ///   "buyerCountry": "AT",
     ///   "sellerCountry": "DE"
     /// }
-    /// 
+    ///
     /// Response:
     /// {
     ///   "isValid": true,
@@ -55,7 +55,7 @@ public class VatIdValidationHandler
         ValidateVatIdRequest request,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("VAT validation request: {CountryCode}{VatNumber}", 
+        _logger.LogInformation("VAT validation request: {CountryCode}{VatNumber}",
             request.CountryCode, request.VatNumber);
 
         try
@@ -98,9 +98,9 @@ public class VatIdValidationHandler
                 CompanyName = validation.CompanyName,
                 CompanyAddress = validation.CompanyAddress,
                 ReverseChargeApplies = reverseChargeApplies,
-                Message = validation.IsValid 
-                    ? (reverseChargeApplies 
-                        ? "Reverse charge applies - 0% VAT" 
+                Message = validation.IsValid
+                    ? (reverseChargeApplies
+                        ? "Reverse charge applies - 0% VAT"
                         : "Valid VAT ID - standard VAT applies")
                     : "Invalid VAT ID",
                 ExpiresAt = validation.ExpiresAt

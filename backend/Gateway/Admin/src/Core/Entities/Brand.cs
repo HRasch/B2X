@@ -36,7 +36,7 @@ public class Brand
     public bool IsActive { get; set; } = true;
 
     /// <summary>Gets or sets the display order</summary>
-    public int DisplayOrder { get; set; } = 0;
+    public int DisplayOrder { get; set; }
 
     /// <summary>Navigation property to products of this brand</summary>
     public ICollection<Product> Products { get; set; } = new List<Product>();

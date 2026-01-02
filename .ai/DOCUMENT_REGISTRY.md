@@ -46,6 +46,11 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-002` | Onion Architecture | `.ai/decisions/ADR-002-onion-architecture.md` | Accepted |
 | `ADR-003` | Aspire Orchestration | `.ai/decisions/ADR-003-aspire-orchestration.md` | Accepted |
 | `ADR-004` | PostgreSQL Multitenancy | `.ai/decisions/ADR-004-postgresql-multitenancy.md` | Accepted |
+| `ADR-020` | PR Quality Gate | `.ai/decisions/ADR-020-pr-quality-gate.md` | Accepted |
+| `ADR-021` | ArchUnitNET Architecture Testing | `.ai/decisions/ADR-021-archunitnet-architecture-testing.md` | Accepted |
+| `ADR-022` | Multi-Tenant Domain Management | `.ai/decisions/ADR-022-multi-tenant-domain-management.md` | Proposed |
+| `ADR-023` | ERP Plugin Architecture | `.ai/decisions/ADR-023-erp-plugin-architecture.md` | Proposed |
+| `ADR-024` | Scheduler Job Monitoring | `.ai/decisions/ADR-024-scheduler-job-monitoring.md` | Accepted |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -70,6 +75,12 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-013` | Governance Playbook | `.ai/knowledgebase/governance.md` | Active |
 | `KB-014` | Git Commit Strategy | `.ai/knowledgebase/git-commit-strategy.md` | Active |
 | `KB-015` | Search/Elasticsearch | `.ai/knowledgebase/search/` | Active |
+| `KB-016` | GitHub Copilot Models | `.ai/knowledgebase/tools-and-tech/github-copilot-models.md` | Active |
+| `KB-017` | AI Cost Optimization | `.ai/knowledgebase/tools-and-tech/ai-cost-optimization.md` | Active |
+| `KB-018` | Local LLM Models 2025 | `.ai/knowledgebase/tools-and-tech/local-llm-models-2025.md` | Active |
+| `KB-019` | StyleCop Analyzers | `.ai/knowledgebase/tools-and-tech/stylecop-analyzers.md` | Active |
+| `KB-020` | ArchUnitNET | `.ai/knowledgebase/tools-and-tech/archunitnet.md` | Active |
+| `KB-021` | enventa Trade ERP | `.ai/knowledgebase/enventa-trade-erp.md` | Active |
 
 ### Knowledgebase Subdirectories
 
@@ -92,6 +103,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-001` | Communication Overview | `.ai/guidelines/GL-001-COMMUNICATION-OVERVIEW.md` | Active |
 | `GL-002` | Subagent Delegation | `.ai/guidelines/GL-002-SUBAGENT_DELEGATION.md` | Active |
 | `GL-003` | AI Directory Usage | `.ai/guidelines/GL-003-AI-DIRECTORY-USAGE.md` | Active |
+| `GL-004` | Branch Naming & Single-Topic Strategy | `.ai/guidelines/GL-004-BRANCH_NAMING_STRATEGY.md` | Active |
+| `GL-005` | SARAH Quality Gate Criteria | `.ai/guidelines/GL-005-SARAH_QUALITY_GATE_CRITERIA.md` | Active |
+| `GL-006` | Token Optimization Strategy | `.ai/guidelines/GL-006-TOKEN-OPTIMIZATION-STRATEGY.md` | Active |
 
 ---
 
@@ -115,6 +129,14 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `CMP-001` | Compliance Quick Reference | `.ai/compliance/CMP-001-COMPLIANCE_QUICK_REFERENCE.md` | Active |
+
+---
+
+## Registry: Requirements (REQ-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `REQ-001` | Monitoring for Scheduler Jobs | `.ai/requirements/REQ-001-monitoring-scheduler-jobs.md` | Draft |
 
 ---
 
@@ -188,6 +210,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-014` | SEO | `.github/agents/seo.agent.md` | Search Optimization |
 | `AGT-015` | GitManager | `.github/agents/git-manager.agent.md` | Git Workflow |
 | `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation |
+| `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
 
 **DocMaintainer (AGT-016) Responsibilities:**
 - Enforce and extend the DocID naming conventions (`GL-`, `WF-`, `CMP-`, `SPR-`, etc.) when new document types are introduced.
@@ -265,4 +288,4 @@ status: Active
 
 - **Owner**: @SARAH
 - **Review Frequency**: Monthly
-- **Last Audit**: 31. Dezember 2025
+- **Last Audit**: 2. Januar 2026

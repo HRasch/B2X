@@ -1,6 +1,6 @@
 using System.Linq;
-using B2Connect.CatalogService.Services;
 using B2Connect.CatalogService.Models;
+using B2Connect.CatalogService.Services;
 
 namespace B2Connect.Catalog.Endpoints;
 

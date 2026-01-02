@@ -13,21 +13,13 @@ public static class CreateUserCommand
 
         var emailArgument = new Argument<string>("email", "User email address");
         var passwordOption = new Option<string>(
-            new[] { "-p", "--password" },
-            "User password (will prompt if not provided)"
-        );
+            ["-p", "--password"], "User password (will prompt if not provided)");
         var firstNameOption = new Option<string?>(
-            new[] { "-f", "--first-name" },
-            "User first name"
-        );
+            ["-f", "--first-name"], "User first name");
         var lastNameOption = new Option<string?>(
-            new[] { "-l", "--last-name" },
-            "User last name"
-        );
+            ["-l", "--last-name"], "User last name");
         var tenantIdOption = new Option<string?>(
-            new[] { "-t", "--tenant-id" },
-            "Tenant ID (defaults to environment variable)"
-        );
+            ["-t", "--tenant-id"], "Tenant ID (defaults to environment variable)");
 
         command.AddArgument(emailArgument);
         command.AddOption(passwordOption);

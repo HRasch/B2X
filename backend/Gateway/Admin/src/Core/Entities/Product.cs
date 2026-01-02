@@ -49,16 +49,16 @@ public class Product
     [MaxLength(10)]
     public string? WeightUnit { get; set; }
 
-    public int StockQuantity { get; set; } = 0;
+    public int StockQuantity { get; set; }
     public int? LowStockThreshold { get; set; }
     public bool IsStockTracked { get; set; } = true;
     public bool IsAvailable { get; set; } = true;
     public bool IsActive { get; set; } = true;
-    public bool IsFeatured { get; set; } = false;
+    public bool IsFeatured { get; set; }
     public bool IsNew { get; set; } = true;
 
     public decimal? AverageRating { get; set; }
-    public int ReviewCount { get; set; } = 0;
+    public int ReviewCount { get; set; }
 
     [MaxLength(500)]
     public string? ThumbnailUrl { get; set; }
@@ -70,7 +70,7 @@ public class Product
     public ICollection<ProductAttributeValue> AttributeValues { get; set; } = new List<ProductAttributeValue>();
 
     public Guid? TenantId { get; set; }
-    public bool IsDeleted { get; set; } = false;
+    public bool IsDeleted { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public string? CreatedBy { get; set; }

@@ -48,7 +48,9 @@ public static class StringExtensions
     public static string ToSlug(this string value)
     {
         if (string.IsNullOrWhiteSpace(value))
+        {
             return string.Empty;
+        }
 
         var slug = value
             .ToLowerInvariant()
@@ -57,7 +59,7 @@ public static class StringExtensions
             .Replace(".", "-");
 
         // Remove invalid characters
-        var validChars = "abcdefghijklmnopqrstuvwxyz0123456789-";
+        const string validChars = "abcdefghijklmnopqrstuvwxyz0123456789-";
         return new string(slug.Where(c => validChars.Contains(c)).ToArray());
     }
 
@@ -88,7 +90,7 @@ public static class CollectionExtensions
             batch.Add(item);
             if (batch.Count >= batchSize)
             {
-                yield return batch.First();
+                yield return batch[0];
                 batch.Clear();
             }
         }

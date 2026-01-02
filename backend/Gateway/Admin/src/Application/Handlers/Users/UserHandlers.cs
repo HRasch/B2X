@@ -9,10 +9,10 @@ namespace B2Connect.Admin.Application.Handlers.Users;
 /// <summary>
 /// Wolverine Message Handlers für User Commands/Queries
 /// Diese Handlers kapseln die HTTP-Kommunikation mit dem Identity Service
-/// 
+///
 /// Flow:
 /// Controller → IMessageBus.InvokeAsync → Handler → Identity Service (HTTP)
-/// 
+///
 /// Benefits:
 /// - Business Logic im Handler (nicht im Controller)
 /// - Testbar (Handler können gemockt werden)

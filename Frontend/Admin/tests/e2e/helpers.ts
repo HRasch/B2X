@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Playwright Page type */
 import { Page, expect } from "@playwright/test";
 
 /**
@@ -8,23 +9,23 @@ import { Page, expect } from "@playwright/test";
 const getTestCredentials = () => {
   const email = process.env.E2E_TEST_EMAIL;
   const password = process.env.E2E_TEST_PASSWORD;
-  
+
   if (!email || !password) {
     throw new Error(
       "❌ E2E Testing requires environment variables:\n" +
-      "  E2E_TEST_EMAIL: Test account email\n" +
-      "  E2E_TEST_PASSWORD: Test account password (min 8 chars, alphanumeric + special)\n" +
-      "\nExample:\n" +
-      "  export E2E_TEST_EMAIL='testuser@example.com'\n" +
-      "  export E2E_TEST_PASSWORD='TestP@ss123!'\n" +
-      "\nOr use GitHub Secrets for CI/CD:\n" +
-      "  - In .github/workflows/e2e.yml, set:\n" +
-      "    env:\n" +
-      "      E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}\n" +
-      "      E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}"
+        "  E2E_TEST_EMAIL: Test account email\n" +
+        "  E2E_TEST_PASSWORD: Test account password (min 8 chars, alphanumeric + special)\n" +
+        "\nExample:\n" +
+        "  export E2E_TEST_EMAIL='testuser@example.com'\n" +
+        "  export E2E_TEST_PASSWORD='TestP@ss123!'\n" +
+        "\nOr use GitHub Secrets for CI/CD:\n" +
+        "  - In .github/workflows/e2e.yml, set:\n" +
+        "    env:\n" +
+        "      E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}\n" +
+        "      E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}"
     );
   }
-  
+
   return { email, password };
 };
 
@@ -113,4 +114,100 @@ export async function waitForApiRoute(
 /**
  * Navigate to admin page and verify load
  */
-export async function navigateToAdminPage(\n  page: Page,\n  path: string,\n  expectedHeading?: string\n) {\n  await page.goto(`${APP_URL}${path}`);\n  await page.waitForLoadState(\"networkidle\");\n\n  if (expectedHeading) {\n    await expect(page.locator(`text=${expectedHeading}`)).toBeVisible({\n      timeout: 5000,\n    });\n  }\n}\n\n/**\n * Check for 404 errors on page\n */\nexport async function checkFor404(page: Page): Promise<boolean> {\n  const pageContent = await page.evaluate(() =>\n    document.documentElement.innerHTML\n  );\n  return (\n    pageContent.includes(\"404\") || pageContent.includes(\"Not Found\")\n  );\n}\n\n/**\n * Get table data as array of objects\n */\nexport async function getTableData(\n  page: Page,\n  tableSelector: string = \"table\"\n) {\n  return page.evaluate((selector) => {\n    const table = document.querySelector(selector);\n    if (!table) return [];\n\n    const headers = Array.from(\n      table.querySelectorAll(\"thead th\")\n    ).map((h) => h.textContent?.trim());\n\n    const rows = Array.from(table.querySelectorAll(\"tbody tr\")).map((row) => {\n      const cells = Array.from(row.querySelectorAll(\"td\")).map(\n        (c) => c.textContent?.trim()\n      );\n      const obj: any = {};\n      headers.forEach((header, index) => {\n        if (header) obj[header] = cells[index];\n      });\n      return obj;\n    });\n\n    return rows;\n  }, tableSelector);\n}\n\n/**\n * Wait for loading indicator to disappear\n */\nexport async function waitForLoadingToComplete(page: Page) {\n  await page.waitForSelector(\n    '.spinner, [data-testid=\"loading\"], .loader',\n    {\n      state: \"hidden\",\n      timeout: 5000,\n    }\n  );\n}\n\n/**\n * Check if element has dark mode styles\n */\nexport async function hasDarkModeSupport(page: Page): Promise<boolean> {\n  return page.evaluate(() => {\n    const h1 = document.querySelector(\"h1\");\n    if (!h1) return false;\n    const styles = window.getComputedStyle(h1);\n    return styles.color !== \"\";\n  });\n}\n\n/**\n * Simulate network conditions\n */\nexport async function simulateSlowNetwork(page: Page) {\n  await page.route(\"**/*\", (route) => {\n    setTimeout(() => route.continue(), 500);\n  });\n}\n\n/**\n * Clear auth state (logout)\n */\nexport async function logoutUser(page: Page) {\n  await page.evaluate(() => {\n    localStorage.clear();\n    sessionStorage.clear();\n  });\n}\n\n/**\n * Check API response times\n */\nexport async function measureApiResponseTime(\n  page: Page,\n  endpoint: string\n): Promise<number> {\n  const startTime = Date.now();\n  await apiCall(page, endpoint);\n  return Date.now() - startTime;\n}\n\n/**\n * Retry operation with exponential backoff\n */\nexport async function retryWithBackoff<T>(\n  operation: () => Promise<T>,\n  maxRetries: number = 3,\n  baseDelay: number = 1000\n): Promise<T> {\n  for (let i = 0; i < maxRetries; i++) {\n    try {\n      return await operation();\n    } catch (error) {\n      if (i === maxRetries - 1) throw error;\n      const delay = baseDelay * Math.pow(2, i);\n      await new Promise((resolve) => setTimeout(resolve, delay));\n    }\n  }\n  throw new Error(\"Max retries exceeded\");\n}\n\n/**\n * Validate paginated API response\n */\nexport async function validatePaginatedResponse(data: any): Promise<boolean> {\n  // Check for common pagination structures\n  return (\n    (data.items && Array.isArray(data.items)) ||\n    (data.data && Array.isArray(data.data)) ||\n    (data.content && Array.isArray(data.content)) ||\n    (data.results && Array.isArray(data.results)) ||\n    Array.isArray(data)\n  );\n}\n
+export async function navigateToAdminPage(
+  page: Page,
+  path: string,
+  expectedHeading?: string
+) {
+  await page.goto(`${APP_URL}${path}`);
+  await page.waitForLoadState("networkidle");
+
+  if (expectedHeading) {
+    await expect(page.locator(`text=${expectedHeading}`)).toBeVisible({
+      timeout: 5000,
+    });
+  }
+}
+
+/**
+ * Check for 404 errors on page
+ */
+export async function checkFor404(page: Page): Promise<boolean> {
+  const pageContent = await page.evaluate(
+    () => document.documentElement.innerHTML
+  );
+  return pageContent.includes("404") || pageContent.includes("Not Found");
+}
+
+/**
+ * Wait for loading indicator to disappear
+ */
+export async function waitForLoadingToComplete(page: Page) {
+  await page.waitForSelector('.spinner, [data-testid="loading"], .loader', {
+    state: "hidden",
+    timeout: 5000,
+  });
+}
+
+/**
+ * Check if element has dark mode styles
+ */
+export async function hasDarkModeSupport(page: Page): Promise<boolean> {
+  return page.evaluate(() => {
+    const h1 = document.querySelector("h1");
+    if (!h1) return false;
+    const styles = window.getComputedStyle(h1);
+    return styles.color !== "";
+  });
+}
+
+/**
+ * Simulate network conditions
+ */
+export async function simulateSlowNetwork(page: Page) {
+  await page.route("**/*", (route) => {
+    setTimeout(() => route.continue(), 500);
+  });
+}
+
+/**
+ * Clear auth state (logout)
+ */
+export async function logoutUser(page: Page) {
+  await page.evaluate(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+}
+
+/**
+ * Check API response times
+ */
+export async function measureApiResponseTime(
+  page: Page,
+  endpoint: string
+): Promise<number> {
+  const startTime = Date.now();
+  await apiCall(page, endpoint);
+  return Date.now() - startTime;
+}
+
+/**
+ * Retry operation with exponential backoff
+ */
+export async function retryWithBackoff<T>(
+  operation: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelay: number = 1000
+): Promise<T> {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      const delay = baseDelay * Math.pow(2, i);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error("Max retries exceeded");
+}

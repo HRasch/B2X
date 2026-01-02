@@ -22,11 +22,10 @@ public class TenantContextMiddleware
     public async Task InvokeAsync(HttpContext context, ITenantContextAccessor tenantContextAccessor)
     {
         var tenantId = context.User.GetTenantId();
-        
-        if (tenantId == Guid.Empty && context.Request.Headers.TryGetValue("X-Tenant-ID", out var headerValue))
+
+        if (tenantId == Guid.Empty && context.Request.Headers.TryGetValue("X-Tenant-ID", out var headerValue) && Guid.TryParse(headerValue.ToString(), out var headerId))
         {
-            if (Guid.TryParse(headerValue.ToString(), out var headerId))
-                tenantId = headerId;
+            tenantId = headerId;
         }
 
         if (tenantId != Guid.Empty)
@@ -89,7 +88,7 @@ public class ExceptionHandlingMiddleware
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
-        
+
         var response = new
         {
             success = false,

@@ -1,8 +1,10 @@
 using System.CommandLine;
+using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using B2Connect.CLI.Commands.AuthCommands;
-using B2Connect.CLI.Commands.TenantCommands;
+using B2Connect.CLI.Commands.MonitoringCommands;
 using B2Connect.CLI.Commands.SystemCommands;
+using B2Connect.CLI.Commands.TenantCommands;
 using Spectre.Console;
 
 var rootCommand = new RootCommand("B2Connect CLI - Microservices Management Tool")
@@ -26,8 +28,18 @@ var systemCommand = new Command("system", "System operations");
 systemCommand.AddCommand(StatusCommand.Create());
 rootCommand.AddCommand(systemCommand);
 
+// Monitoring Commands
+var monitoringCommand = new Command("monitoring", "Service monitoring and health checks");
+monitoringCommand.AddCommand(RegisterServiceCommand.Create());
+monitoringCommand.AddCommand(TestConnectivityCommand.Create());
+monitoringCommand.AddCommand(ServiceStatusCommand.Create());
+monitoringCommand.AddCommand(AlertsCommand.Create());
+rootCommand.AddCommand(monitoringCommand);
+
 // Info Command
-rootCommand.AddCommand(new Command("info", "Show configuration information") { Handler = new InlineCommandHandler(InvokeAsync: async ctx => await ShowInfo()) });
+var infoCommand = new Command("info", "Show configuration information");
+infoCommand.SetHandler(async () => await ShowInfo());
+rootCommand.AddCommand(infoCommand);
 
 // Build and run
 var parser = new CommandLineBuilder(rootCommand)
@@ -49,7 +61,7 @@ catch (Exception ex)
     Environment.Exit(1);
 }
 
-async Task ShowInfo()
+static async Task ShowInfo()
 {
     var config = new B2Connect.CLI.Services.ConfigurationService();
 

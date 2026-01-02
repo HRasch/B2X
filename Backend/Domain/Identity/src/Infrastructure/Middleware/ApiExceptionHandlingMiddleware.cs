@@ -1,6 +1,6 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 using Polly.CircuitBreaker;
 
 namespace B2Connect.Identity.Infrastructure.Middleware;

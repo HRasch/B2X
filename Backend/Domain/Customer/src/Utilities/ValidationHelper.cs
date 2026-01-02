@@ -18,8 +18,12 @@ public static class ValidationHelper
     /// <exception cref="InvalidOperationException">Thrown if deadline has passed</exception>
     public static void ValidateDeadlineNotPassed(DateTime deadline, string fieldName = "Deadline")
     {
-        if (DateTime.UtcNow > deadline)
-            throw new InvalidOperationException($"{fieldName} has already passed. Deadline was {deadline:O}");
+        if (DateTime.UtcNow <= deadline)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException($"{fieldName} has already passed. Deadline was {deadline:O}");
     }
 
     /// <summary>
@@ -31,8 +35,12 @@ public static class ValidationHelper
     /// <exception cref="InvalidOperationException">Thrown if amount is not positive</exception>
     public static void ValidatePositiveAmount(decimal amount, string fieldName = "Amount")
     {
-        if (amount <= 0m)
-            throw new InvalidOperationException($"{fieldName} must be positive. Received: {amount}");
+        if (amount > 0m)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException($"{fieldName} must be positive. Received: {amount}");
     }
 
     /// <summary>
@@ -45,8 +53,12 @@ public static class ValidationHelper
     /// <exception cref="InvalidOperationException">Thrown if value is not defined in enum</exception>
     public static void ValidateEnumDefined<T>(T value, string fieldName = "EnumValue") where T : Enum
     {
-        if (!Enum.IsDefined(typeof(T), value))
-            throw new InvalidOperationException($"{fieldName} has an invalid value: {value}");
+        if (Enum.IsDefined(typeof(T), value))
+        {
+            return;
+        }
+
+        throw new InvalidOperationException($"{fieldName} has an invalid value: {value}");
     }
 
     /// <summary>
@@ -58,8 +70,12 @@ public static class ValidationHelper
     /// <exception cref="ArgumentException">Thrown if string is null or empty</exception>
     public static void ValidateStringNotEmpty(string value, string fieldName = "String")
     {
-        if (string.IsNullOrWhiteSpace(value))
-            throw new ArgumentException($"{fieldName} cannot be null or empty", nameof(value));
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            return;
+        }
+
+        throw new ArgumentException($"{fieldName} cannot be null or empty", nameof(value));
     }
 
     /// <summary>
@@ -71,8 +87,12 @@ public static class ValidationHelper
     /// <exception cref="ArgumentException">Thrown if GUID is empty</exception>
     public static void ValidateGuidNotEmpty(Guid value, string fieldName = "Id")
     {
-        if (value == Guid.Empty)
-            throw new ArgumentException($"{fieldName} cannot be empty", nameof(value));
+        if (value != Guid.Empty)
+        {
+            return;
+        }
+
+        throw new ArgumentException($"{fieldName} cannot be empty", nameof(value));
     }
 
     /// <summary>
@@ -86,10 +106,16 @@ public static class ValidationHelper
     public static void ValidateCollectionNotEmpty<T>(IEnumerable<T> collection, string fieldName = "Collection")
     {
         if (collection is null)
+        {
             throw new ArgumentException($"{fieldName} cannot be null", nameof(collection));
+        }
 
-        if (!collection.GetEnumerator().MoveNext())
-            throw new ArgumentException($"{fieldName} cannot be empty", nameof(collection));
+        if (collection.GetEnumerator().MoveNext())
+        {
+            return;
+        }
+
+        throw new ArgumentException($"{fieldName} cannot be empty", nameof(collection));
     }
 
     /// <summary>
@@ -103,8 +129,12 @@ public static class ValidationHelper
     /// <exception cref="InvalidOperationException">Thrown if date is outside range</exception>
     public static void ValidateDateInRange(DateTime value, DateTime minDate, DateTime maxDate, string fieldName = "Date")
     {
-        if (value < minDate || value > maxDate)
-            throw new InvalidOperationException($"{fieldName} must be between {minDate:O} and {maxDate:O}. Received: {value:O}");
+        if (value >= minDate && value <= maxDate)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException($"{fieldName} must be between {minDate:O} and {maxDate:O}. Received: {value:O}");
     }
 
     /// <summary>
@@ -117,8 +147,12 @@ public static class ValidationHelper
     /// <exception cref="ArgumentException">Thrown if string length doesn't match</exception>
     public static void ValidateStringLength(string value, int expectedLength, string fieldName = "String")
     {
-        if (value?.Length != expectedLength)
-            throw new ArgumentException($"{fieldName} must be exactly {expectedLength} characters. Received: {value?.Length ?? 0}", nameof(value));
+        if (value?.Length == expectedLength)
+        {
+            return;
+        }
+
+        throw new ArgumentException($"{fieldName} must be exactly {expectedLength} characters. Received: {value?.Length ?? 0}", nameof(value));
     }
 
     /// <summary>
@@ -131,7 +165,11 @@ public static class ValidationHelper
     /// <exception cref="ArgumentException">Thrown if string exceeds maximum length</exception>
     public static void ValidateStringMaxLength(string value, int maxLength, string fieldName = "String")
     {
-        if (value?.Length > maxLength)
-            throw new ArgumentException($"{fieldName} cannot exceed {maxLength} characters. Received: {value.Length}", nameof(value));
+        if (value == null || value.Length <= maxLength)
+        {
+            return;
+        }
+
+        throw new ArgumentException($"{fieldName} cannot exceed {maxLength} characters. Received: {value.Length}", nameof(value));
     }
 }

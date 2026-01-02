@@ -6,7 +6,7 @@ namespace B2Connect.Admin.Presentation.Filters;
 /// <summary>
 /// Request/Response Logging Filter
 /// Loggt Informationen über jeden Request und Response
-/// 
+///
 /// Logged:
 /// - Request: Method, Path, Headers, Body (wenn möglich)
 /// - Response: Status Code, Duration
@@ -28,7 +28,7 @@ public class ApiLoggingFilter : IAsyncActionFilter
 
         // Log Inbound Request
         var tenantId = context.HttpContext.Items.ContainsKey("TenantId")
-            ? context.HttpContext.Items["TenantId"].ToString()
+            ? context.HttpContext.Items["TenantId"]?.ToString() ?? "unknown"
             : "unknown";
 
         _logger.LogInformation(
@@ -66,13 +66,15 @@ public class ApiLoggingFilter : IAsyncActionFilter
         }
 
         // Log Errors für fehlgeschlagene Requests (5xx)
-        if (statusCode >= 500)
+        if (statusCode < 500)
         {
-            _logger.LogError(
-                "Server Error: {Method} {Path} returned {StatusCode}",
-                request.Method,
-                request.Path.Value,
-                statusCode);
+            return;
         }
+
+        _logger.LogError(
+            "Server Error: {Method} {Path} returned {StatusCode}",
+            request.Method,
+            request.Path.Value,
+            statusCode);
     }
 }

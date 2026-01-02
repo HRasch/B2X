@@ -7,12 +7,12 @@ namespace B2Connect.Identity.Handlers;
 /// <summary>
 /// Wolverine Service Handler für CheckRegistrationTypeCommand
 /// Story 8: Check Customer Type
-/// 
+///
 /// Wolverine Pattern:
 /// - Service ist ein POCO Service
 /// - Wird automatisch von Wolverine in HTTP Endpoints konvertiert
 /// - Methodenname wird zu HTTP Route: POST /checkregistrationtype
-/// 
+///
 /// Ablauf:
 /// 1. Duplikat-Prüfung (bestehende Accounts)
 /// 2. ERP-Lookup (Bestandskunde?)

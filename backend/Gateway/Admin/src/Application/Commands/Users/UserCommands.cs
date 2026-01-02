@@ -2,18 +2,18 @@ namespace B2Connect.Admin.Application.Commands.Users;
 
 /// <summary>
 /// User Commands & Queries - CQRS Pattern with Wolverine
-/// 
+///
 /// Flow:
 /// Controller empfängt HTTP Request
 /// → Erstellt Command/Query
 /// → Dispatched via IMessageBus
 /// → Handler verarbeitet (inkl. HTTP-Call zum Identity Service)
 /// → Response zurück an Controller
-/// 
+///
 /// NOTE: TenantId wird automatisch via ITenantContextAccessor im Handler injiziert
 /// (keine manuelle Übergabe notwendig - Tenant kommt aus Middleware)
 /// </summary>
-/// 
+///
 // ─────────────────────────────────────────────────────────────────────────────
 // Queries
 // ─────────────────────────────────────────────────────────────────────────────

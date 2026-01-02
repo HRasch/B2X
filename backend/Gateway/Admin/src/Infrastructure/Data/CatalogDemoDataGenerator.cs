@@ -10,9 +10,8 @@ namespace B2Connect.Admin.Infrastructure.Data;
 /// </summary>
 public static class CatalogDemoDataGenerator
 {
-    private static int _productCounter = 0;
-    private static int _categoryCounter = 0;
-    private static int _brandCounter = 0;
+    private static int _productCounter;
+    private static int _brandCounter;
 
     /// <summary>
     /// Generates complete demo catalog data
@@ -228,7 +227,7 @@ public static class CatalogDemoDataGenerator
         var faker = new Faker<Product>()
             .RuleFor(p => p.Id, _ => Guid.NewGuid())
             .RuleFor(p => p.Sku, f => $"SKU-{++_productCounter:D4}")
-            .RuleFor(p => p.Slug, (f, p) => p.Sku.ToLower().Replace("_", "-"))
+            .RuleFor(p => p.Slug, (f, p) => p.Sku.ToLower(System.Globalization.CultureInfo.CurrentCulture).Replace("_", "-"))
             .RuleFor(p => p.Name, f => new LocalizedContent()
                 .Set("en", f.PickRandom(productTypes) + " " + f.Commerce.ProductName())
                 .Set("de", f.PickRandom(productTypes) + " " + f.Commerce.ProductName())
@@ -307,7 +306,7 @@ public static class CatalogDemoDataGenerator
             {
                 Id = Guid.NewGuid(),
                 ProductId = product.Id,
-                Sku = $"{product.Sku}-{color.Substring(0, 3).ToUpper()}-{storage.Substring(0, 1)}",
+                Sku = $"{product.Sku}-{color.Substring(0, 3).ToUpper(System.Globalization.CultureInfo.CurrentCulture)}-{storage.Substring(0, 1)}",
                 Name = new LocalizedContent()
                     .Set("en", $"{color}, {storage}")
                     .Set("de", $"{color}, {storage}")

@@ -1,10 +1,10 @@
+using System.Text;
 using B2Connect.CatalogService.Infrastructure;
 using B2Connect.CatalogService.Models;
 using B2Connect.CatalogService.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Text;
 using Xunit;
 
 namespace B2Connect.Catalog.Tests.Services;
@@ -292,7 +292,11 @@ public class TestDistributedCache : IDistributedCache
 
     public Task SetStringAsync(string key, string? value, DistributedCacheEntryOptions? options = null, CancellationToken token = default)
     {
-        if (value == null) return Task.CompletedTask;
+        if (value == null)
+        {
+            return Task.CompletedTask;
+        }
+
         Set(key, Encoding.UTF8.GetBytes(value));
         return Task.CompletedTask;
     }

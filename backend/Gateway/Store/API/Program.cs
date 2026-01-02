@@ -18,8 +18,8 @@ builder.Host.UseSerilog((context, config) =>
         .WriteTo.Console()
         .WriteTo.File(
             "logs/store-gateway-.txt",
-            rollingInterval: Serilog.RollingInterval.Day,
-            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+            rollingInterval: Serilog.RollingInterval.Day)
         .ReadFrom.Configuration(context.Configuration);
 });
 
@@ -67,11 +67,12 @@ builder.Services.AddCors(options =>
             policy
                 .SetIsOriginAllowed(origin =>
                 {
-                    if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
                     {
-                        return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                        return false;
                     }
-                    return false;
+
+                    return uri.Host == "localhost" || uri.Host == "127.0.0.1";
                 })
                 .AllowAnyMethod()
                 .AllowAnyHeader()

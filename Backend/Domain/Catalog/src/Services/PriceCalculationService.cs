@@ -6,7 +6,7 @@ namespace B2Connect.CatalogService.Services;
 /// <summary>
 /// Service for calculating product prices with VAT transparency
 /// Issue #30: B2C Price Transparency (PAngV Compliance)
-/// 
+///
 /// PAngV (Preisangaben-Verordnung) Compliance:
 /// - All prices shown to customers MUST include VAT (Brutto)
 /// - VAT breakdown must be transparent
@@ -84,17 +84,23 @@ public class PriceCalculationService : IPriceCalculationService
         CancellationToken cancellationToken = default)
     {
         if (basePrice < 0)
+        {
             throw new ArgumentException("Price cannot be negative", nameof(basePrice));
+        }
 
         if (string.IsNullOrWhiteSpace(destinationCountry))
+        {
             throw new ArgumentException("Country code required", nameof(destinationCountry));
+        }
 
         if (discountPercentage is < 0 or > 100)
+        {
             throw new ArgumentException("Discount must be between 0-100%", nameof(discountPercentage));
+        }
 
         // Get VAT rate for destination country
         var vatRate = await GetVatRateAsync(
-            destinationCountry.ToUpper(),
+            destinationCountry.ToUpper(System.Globalization.CultureInfo.CurrentCulture),
             cancellationToken
         );
 
@@ -136,7 +142,7 @@ public class PriceCalculationService : IPriceCalculationService
             FinalPrice = finalPrice,
             OriginalPrice = originalPrice,
             CurrencyCode = "EUR",
-            DestinationCountry = destinationCountry.ToUpper()
+            DestinationCountry = destinationCountry.ToUpper(System.Globalization.CultureInfo.CurrentCulture)
         };
 
         _logger.LogInformation(
@@ -156,7 +162,7 @@ public class PriceCalculationService : IPriceCalculationService
         string countryCode,
         CancellationToken cancellationToken = default)
     {
-        var code = countryCode.ToUpper();
+        var code = countryCode.ToUpper(System.Globalization.CultureInfo.CurrentCulture);
 
         if (!VatRates.TryGetValue(code, out var rates))
         {

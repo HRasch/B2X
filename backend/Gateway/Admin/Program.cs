@@ -1,5 +1,6 @@
 using B2Connect.ServiceDefaults;
 using B2Connect.Shared.Infrastructure.Extensions;
+using B2Connect.Shared.Infrastructure.Logging;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Application.Services;
 using B2Connect.Admin.Infrastructure.Repositories;
@@ -7,6 +8,7 @@ using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Admin.Presentation.Filters;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
+using B2Connect.ERP;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -24,8 +26,8 @@ builder.Host.UseSerilog((context, config) =>
         .WriteTo.Console()
         .WriteTo.File(
             "logs/admin-gateway-.txt",
-            rollingInterval: Serilog.RollingInterval.Day,
-            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+            rollingInterval: Serilog.RollingInterval.Day)
         .ReadFrom.Configuration(context.Configuration);
 });
 
@@ -73,11 +75,12 @@ builder.Services.AddCors(options =>
             policy
                 .SetIsOriginAllowed(origin =>
                 {
-                    if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
                     {
-                        return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                        return false;
                     }
-                    return false;
+
+                    return uri.Host == "localhost" || uri.Host == "127.0.0.1";
                 })
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -142,10 +145,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-});
+builder.Services.AddAuthorization(options => options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin")));
 
 // Database
 var dbProvider = builder.Configuration["Database:Provider"] ?? "inmemory";
@@ -153,16 +153,38 @@ if (dbProvider.Equals("inmemory", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseInMemoryDatabase("CatalogDb"));
+
+    // Error log storage - use in-memory for development
+    builder.Services.AddInMemoryErrorLogStorage();
 }
 else if (dbProvider.Equals("sqlserver", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseSqlServer(builder.Configuration.GetConnectionString("Catalog")));
+
+    // Error log storage - not supported on SQL Server, use in-memory fallback
+    builder.Services.AddInMemoryErrorLogStorage();
 }
 else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseNpgsql(builder.Configuration.GetConnectionString("Catalog")));
+
+    // Error log storage - use PostgreSQL
+    var errorLogConnectionString = builder.Configuration.GetConnectionString("ErrorLogs")
+        ?? builder.Configuration.GetConnectionString("Catalog");
+    if (!string.IsNullOrEmpty(errorLogConnectionString))
+    {
+        builder.Services.AddPostgreSqlErrorLogStorage(errorLogConnectionString);
+    }
+}
+
+// ==================== DATA ACCESS (ADR-025) ====================
+// Add hybrid EF Core + Dapper data access for performance optimization
+var connectionString = builder.Configuration.GetConnectionString("Catalog");
+if (!string.IsNullOrEmpty(connectionString))
+{
+    builder.Services.AddDataAccess(connectionString);
 }
 
 // ==================== TENANT CONTEXT ====================
@@ -216,7 +238,7 @@ try
 }
 catch (Exception ex)
 {
-    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    var logger = app.Services.GetRequiredService<ILogger<object>>();
     logger.LogError(ex, "Failed to initialize User database");
     throw;
 }

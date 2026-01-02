@@ -8,7 +8,7 @@ namespace B2Connect.Admin.Presentation.Controllers;
 
 /// <summary>
 /// API Controller for Category operations - HTTP Layer Only (CQRS Pattern)
-/// 
+///
 /// NOTE: TenantId wird automatisch im Handler via ITenantContextAccessor injiziert!
 ///
 /// Filters Applied:
@@ -41,7 +41,9 @@ public class CategoriesController : ApiControllerBase
         var category = await _messageBus.InvokeAsync<CategoryResult?>(query, ct);
 
         if (category == null)
+        {
             return NotFoundResponse($"Category {id} not found");
+        }
 
         return OkResponse(category);
     }
@@ -59,7 +61,9 @@ public class CategoriesController : ApiControllerBase
         var category = await _messageBus.InvokeAsync<CategoryResult?>(query, ct);
 
         if (category == null)
+        {
             return NotFoundResponse($"Category with slug '{slug}' not found");
+        }
 
         return OkResponse(category);
     }
@@ -184,7 +188,9 @@ public class CategoriesController : ApiControllerBase
         var success = await _messageBus.InvokeAsync<bool>(command, ct);
 
         if (!success)
+        {
             return NotFoundResponse($"Category {id} not found");
+        }
 
         return NoContent();
     }

@@ -1,5 +1,5 @@
-using Microsoft.Extensions.Configuration;
 using System.Collections.Concurrent;
+using Microsoft.Extensions.Configuration;
 
 namespace B2Connect.Domain.Search.Services;
 
@@ -35,7 +35,11 @@ public class ConfigTenantCredentialProvider : ITenantCredentialProvider
 
     public TenantElasticCredentials? GetCredentials(string tenantId)
     {
-        if (string.IsNullOrWhiteSpace(tenantId)) return null;
+        if (string.IsNullOrWhiteSpace(tenantId))
+        {
+            return null;
+        }
+
         return _map.TryGetValue(tenantId, out var creds) ? creds : null;
     }
 }

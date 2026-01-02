@@ -140,6 +140,7 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any -- Localized type needs proper definition */
 import { onMounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useCatalogStore } from "@/stores/catalog";

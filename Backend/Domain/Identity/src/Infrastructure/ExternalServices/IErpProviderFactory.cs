@@ -4,7 +4,7 @@ namespace B2Connect.Identity.Infrastructure.ExternalServices;
 
 /// <summary>
 /// Factory zur Erstellung von ERP-Providern basierend auf Konfiguration
-/// 
+///
 /// Unterstützte Provider:
 /// - "Fake" - Faker-Implementation mit Mock-Daten
 /// - "SAP" - SAP-Integration (zu implementieren)

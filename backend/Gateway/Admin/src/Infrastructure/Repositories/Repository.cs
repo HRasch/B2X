@@ -37,16 +37,14 @@ public class Repository<T> : IRepository<T> where T : class
 
     public virtual async Task AddAsync(T entity, CancellationToken ct = default)
     {
-        if (entity == null)
-            throw new ArgumentNullException(nameof(entity));
+        ArgumentNullException.ThrowIfNull(entity);
 
         await _dbSet.AddAsync(entity, ct);
     }
 
     public virtual async Task UpdateAsync(T entity, CancellationToken ct = default)
     {
-        if (entity == null)
-            throw new ArgumentNullException(nameof(entity));
+        ArgumentNullException.ThrowIfNull(entity);
 
         _dbSet.Update(entity);
         await Task.CompletedTask;
@@ -55,15 +53,17 @@ public class Repository<T> : IRepository<T> where T : class
     public virtual async Task DeleteAsync(Guid tenantId, Guid id, CancellationToken ct = default)
     {
         var entity = await GetByIdAsync(tenantId, id, ct);
-        if (entity != null)
+        if (entity == null)
         {
-            _dbSet.Remove(entity);
+            return;
         }
+
+        _dbSet.Remove(entity);
     }
 
-    public virtual async Task<int> SaveChangesAsync(CancellationToken ct = default)
+    public virtual Task<int> SaveChangesAsync(CancellationToken ct = default)
     {
-        return await _context.SaveChangesAsync(ct);
+        return _context.SaveChangesAsync(ct);
     }
 
     public virtual async Task<bool> ExistsAsync(Guid tenantId, Guid id, CancellationToken ct = default)

@@ -6,12 +6,12 @@ namespace B2Connect.Customer.Models;
 /// <summary>
 /// Invoice Entity - Document generated from order
 /// Issue #32: Invoice Modification for Reverse Charge
-/// 
+///
 /// When reverse charge applies (B2B, valid VAT-ID, different EU country):
 /// - Invoice shows: "Reverse Charge: Art. 199a Directive 2006/112/EC"
 /// - VAT line shows: 0% VAT
 /// - Bottom note: "Reverse Charge - Customer responsible for VAT"
-/// 
+///
 /// Legal reference: PAngV (B2C) + AStV (B2B Reverse Charge)
 /// </summary>
 public class Invoice

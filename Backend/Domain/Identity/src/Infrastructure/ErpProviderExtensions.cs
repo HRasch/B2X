@@ -1,20 +1,20 @@
-using B2Connect.Identity.Interfaces;
 using B2Connect.Identity.Infrastructure.ExternalServices;
+using B2Connect.Identity.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace B2Connect.Identity.Infrastructure;
 
 /// <summary>
 /// Extension-Methoden für ERP-Provider Dependency Injection
-/// 
+///
 /// Verwendung in Program.cs:
-/// 
+///
 /// // Option 1: Nur Fake-Provider (für Development/Testing)
 /// services.AddFakeErpProvider();
-/// 
+///
 /// // Option 2: Mit Fallback (Primary + Fallback)
 /// services.AddResilientErpProvider("SAP", "Fake");
-/// 
+///
 /// // Option 3: Konfigurationsbasiert
 /// var erpConfig = configuration.GetSection("Erp:Provider").Value ?? "Fake";
 /// services.AddErpProvider(erpConfig);

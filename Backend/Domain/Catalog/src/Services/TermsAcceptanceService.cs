@@ -7,7 +7,7 @@ namespace B2Connect.Catalog.Handlers;
 /// <summary>
 /// Service for recording and validating terms acceptance
 /// Story: P0.6-US-005 - Mandatory Terms & Conditions Acceptance
-/// 
+///
 /// Handles:
 /// - Validation that all required terms are accepted
 /// - Recording acceptance in audit log

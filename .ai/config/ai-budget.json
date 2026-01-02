@@ -1,0 +1,23 @@
+{
+  "budget": {
+    "monthly": 500,
+    "daily": 15
+  },
+  "alerts": {
+    "threshold_80_percent": 80,
+    "threshold_95_percent": 95,
+    "email_notifications": false,
+    "slack_webhook": null
+  },
+  "monitoring": {
+    "enabled": true,
+    "log_requests": true,
+    "track_models": true,
+    "track_agents": true
+  },
+  "optimization": {
+    "auto_escalation": false,
+    "cache_enabled": true,
+    "batch_processing": false
+  }
+}

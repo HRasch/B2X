@@ -38,7 +38,7 @@ public class ProductAttributeValue
     public string? Value { get; set; }
 
     /// <summary>Gets or sets the position/order of this attribute value</summary>
-    public int Position { get; set; } = 0;
+    public int Position { get; set; }
 
     /// <summary>Gets or sets the creation timestamp</summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

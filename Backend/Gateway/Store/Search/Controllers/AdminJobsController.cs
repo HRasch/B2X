@@ -21,14 +21,18 @@ public class AdminJobsController : ControllerBase
     public IActionResult Status()
     {
         var status = _statusStore.Get("create-indices-job");
-        if (status is null) return NotFound();
+        if (status is null)
+        {
+            return NotFound();
+        }
+
         return Ok(status);
     }
 
     [HttpPost("/run")]
     public async Task<IActionResult> Run(CancellationToken cancellationToken)
     {
-        _ = Task.Run(() => _job.RunAsync(cancellationToken));
+        _ = Task.Run(() => _job.RunAsync(cancellationToken), cancellationToken);
         return Accepted();
     }
 }

@@ -26,7 +26,11 @@ public class InMemoryThemeRepository : IThemeRepository
     public Task<Theme?> GetThemeByIdAsync(Guid tenantId, Guid themeId)
     {
         _themes.TryGetValue(themeId, out var theme);
-        if (theme?.TenantId != tenantId) return Task.FromResult<Theme?>(null);
+        if (theme?.TenantId != tenantId)
+        {
+            return Task.FromResult<Theme?>(null);
+        }
+
         return Task.FromResult<Theme?>(theme);
     }
 
@@ -80,13 +84,17 @@ public class InMemoryThemeRepository : IThemeRepository
 
     #region Design Variable Operations
 
-    private string GetVariableKey(Guid tenantId, Guid themeId) => $"{tenantId}:{themeId}";
+    private static string GetVariableKey(Guid tenantId, Guid themeId) => $"{tenantId}:{themeId}";
 
     public Task<DesignVariable> AddDesignVariableAsync(Guid tenantId, Guid themeId, DesignVariable variable)
     {
         var key = GetVariableKey(tenantId, themeId);
         variable.Id = Guid.NewGuid();
-        if (!_variables.ContainsKey(key)) _variables[key] = new List<DesignVariable>();
+        if (!_variables.ContainsKey(key))
+        {
+            _variables[key] = new List<DesignVariable>();
+        }
+
         _variables[key].Add(variable);
         return Task.FromResult(variable);
     }
@@ -132,7 +140,11 @@ public class InMemoryThemeRepository : IThemeRepository
     {
         var key = GetVariableKey(tenantId, themeId);
         variant.Id = Guid.NewGuid();
-        if (!_variants.ContainsKey(key)) _variants[key] = new List<ThemeVariant>();
+        if (!_variants.ContainsKey(key))
+        {
+            _variants[key] = new List<ThemeVariant>();
+        }
+
         _variants[key].Add(variant);
         return Task.FromResult(variant);
     }
@@ -207,7 +219,11 @@ public class InMemoryThemeRepository : IThemeRepository
     public async Task<Theme> PublishThemeAsync(Guid tenantId, Guid themeId)
     {
         var theme = await GetThemeByIdAsync(tenantId, themeId);
-        if (theme == null) throw new KeyNotFoundException($"Theme {themeId} not found");
+        if (theme == null)
+        {
+            throw new KeyNotFoundException($"Theme {themeId} not found");
+        }
+
         theme.PublishedAt = DateTime.UtcNow;
         return theme;
     }
@@ -215,7 +231,11 @@ public class InMemoryThemeRepository : IThemeRepository
     public async Task<Theme> UnpublishThemeAsync(Guid tenantId, Guid themeId)
     {
         var theme = await GetThemeByIdAsync(tenantId, themeId);
-        if (theme == null) throw new KeyNotFoundException($"Theme {themeId} not found");
+        if (theme == null)
+        {
+            throw new KeyNotFoundException($"Theme {themeId} not found");
+        }
+
         theme.PublishedAt = null;
         return theme;
     }
@@ -229,7 +249,11 @@ public class InMemoryThemeRepository : IThemeRepository
         }
 
         var theme = await GetThemeByIdAsync(tenantId, themeId);
-        if (theme == null) throw new KeyNotFoundException($"Theme {themeId} not found");
+        if (theme == null)
+        {
+            throw new KeyNotFoundException($"Theme {themeId} not found");
+        }
+
         theme.IsActive = true;
         return theme;
     }
@@ -237,7 +261,11 @@ public class InMemoryThemeRepository : IThemeRepository
     public async Task<Theme> DeactivateThemeAsync(Guid tenantId, Guid themeId)
     {
         var theme = await GetThemeByIdAsync(tenantId, themeId);
-        if (theme == null) throw new KeyNotFoundException($"Theme {themeId} not found");
+        if (theme == null)
+        {
+            throw new KeyNotFoundException($"Theme {themeId} not found");
+        }
+
         theme.IsActive = false;
         return theme;
     }

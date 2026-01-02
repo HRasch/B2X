@@ -71,10 +71,12 @@ namespace B2Connect.CMS.Core.Domain.Pages
         public void RemoveRegion(string regionName)
         {
             var region = Regions.FirstOrDefault(r => r.Name == regionName);
-            if (region != null)
+            if (region == null)
             {
-                Regions.Remove(region);
+                return;
             }
+
+            Regions.Remove(region);
         }
     }
 
@@ -115,11 +117,13 @@ namespace B2Connect.CMS.Core.Domain.Pages
         public void RemoveWidget(string widgetId)
         {
             var widget = Widgets.FirstOrDefault(w => w.Id == widgetId);
-            if (widget != null)
+            if (widget == null)
             {
-                Widgets.Remove(widget);
-                ReorderWidgets();
+                return;
             }
+
+            Widgets.Remove(widget);
+            ReorderWidgets();
         }
 
         public void ReorderWidgets()

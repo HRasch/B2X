@@ -14,9 +14,9 @@ public class ProductAttributeRepository : Repository<ProductAttribute>, IProduct
     {
     }
 
-    public async Task<ProductAttribute?> GetByCodeAsync(string code)
+    public Task<ProductAttribute?> GetByCodeAsync(string code)
     {
-        return await _dbSet.FirstOrDefaultAsync(a => a.Code == code);
+        return _dbSet.FirstOrDefaultAsync(a => a.Code == code);
     }
 
     public async Task<IEnumerable<ProductAttribute>> GetActiveAsync()
@@ -27,9 +27,9 @@ public class ProductAttributeRepository : Repository<ProductAttribute>, IProduct
             .ToListAsync();
     }
 
-    public async Task<ProductAttribute?> GetWithOptionsAsync(Guid id)
+    public Task<ProductAttribute?> GetWithOptionsAsync(Guid id)
     {
-        return await _dbSet
+        return _dbSet
             .Include(a => a.Options)
             .FirstOrDefaultAsync(a => a.Id == id);
     }

@@ -58,10 +58,10 @@ public class ProductImage
     public int? Height { get; set; }
 
     /// <summary>Gets or sets whether this is the main/primary image for the product</summary>
-    public bool IsPrimary { get; set; } = false;
+    public bool IsPrimary { get; set; }
 
     /// <summary>Gets or sets the display order among product images</summary>
-    public int DisplayOrder { get; set; } = 0;
+    public int DisplayOrder { get; set; }
 
     /// <summary>Gets or sets whether this image is active/visible</summary>
     public bool IsActive { get; set; } = true;

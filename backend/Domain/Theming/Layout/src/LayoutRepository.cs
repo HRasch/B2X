@@ -30,18 +30,18 @@ public class LayoutRepository : ILayoutRepository
         return page;
     }
 
-    public async Task<CmsPage?> GetPageByIdAsync(Guid tenantId, Guid pageId)
+    public Task<CmsPage?> GetPageByIdAsync(Guid tenantId, Guid pageId)
     {
-        return await _context.Pages
+        return _context.Pages
             .AsNoTracking()
             .Include(p => p.Sections)
             .ThenInclude(s => s.Components)
             .FirstOrDefaultAsync(p => p.Id == pageId && p.TenantId == tenantId);
     }
 
-    public async Task<List<CmsPage>> GetPagesByTenantAsync(Guid tenantId)
+    public Task<List<CmsPage>> GetPagesByTenantAsync(Guid tenantId)
     {
-        return await _context.Pages
+        return _context.Pages
             .AsNoTracking()
             .Where(p => p.TenantId == tenantId)
             .OrderByDescending(p => p.CreatedAt)
@@ -50,9 +50,9 @@ public class LayoutRepository : ILayoutRepository
             .ToListAsync();
     }
 
-    public async Task<bool> PageSlugExistsAsync(Guid tenantId, string slug)
+    public Task<bool> PageSlugExistsAsync(Guid tenantId, string slug)
     {
-        return await _context.Pages
+        return _context.Pages
             .AnyAsync(p => p.TenantId == tenantId && p.Slug == slug);
     }
 
@@ -190,17 +190,17 @@ public class LayoutRepository : ILayoutRepository
 
     #region Component Definition Operations
 
-    public async Task<List<ComponentDefinition>> GetComponentDefinitionsAsync()
+    public Task<List<ComponentDefinition>> GetComponentDefinitionsAsync()
     {
-        return await _context.ComponentDefinitions
+        return _context.ComponentDefinitions
             .AsNoTracking()
             .OrderBy(c => c.DisplayName)
             .ToListAsync();
     }
 
-    public async Task<ComponentDefinition?> GetComponentDefinitionAsync(string componentType)
+    public Task<ComponentDefinition?> GetComponentDefinitionAsync(string componentType)
     {
-        return await _context.ComponentDefinitions
+        return _context.ComponentDefinitions
             .AsNoTracking()
             .FirstOrDefaultAsync(c => c.ComponentType == componentType);
     }
@@ -213,7 +213,9 @@ public class LayoutRepository : ILayoutRepository
     {
         var page = await GetPageByIdAsync(tenantId, pageId);
         if (page == null)
+        {
             throw new KeyNotFoundException($"Page {pageId} not found");
+        }
 
         var html = new System.Text.StringBuilder();
         html.AppendLine("<!DOCTYPE html>");
@@ -233,7 +235,9 @@ public class LayoutRepository : ILayoutRepository
         foreach (var section in page.Sections.OrderBy(s => s.Order))
         {
             if (!section.IsVisible)
+            {
                 continue;
+            }
 
             html.AppendLine($"<section data-layout=\"{section.Layout}\">");
             html.AppendLine($"<h2>{System.Web.HttpUtility.HtmlEncode(section.Type)}</h2>");
@@ -241,7 +245,9 @@ public class LayoutRepository : ILayoutRepository
             foreach (var component in section.Components.OrderBy(c => c.Order))
             {
                 if (!component.IsVisible)
+                {
                     continue;
+                }
 
                 html.AppendLine($"<div class=\"component\" data-type=\"{component.Type}\">");
                 html.AppendLine($"<p>{System.Web.HttpUtility.HtmlEncode(component.Content ?? "")}</p>");

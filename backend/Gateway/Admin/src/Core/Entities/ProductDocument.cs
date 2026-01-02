@@ -60,7 +60,7 @@ public class ProductDocument
     public bool IsPublic { get; set; } = true;
 
     /// <summary>Gets or sets the display order among product documents</summary>
-    public int DisplayOrder { get; set; } = 0;
+    public int DisplayOrder { get; set; }
 
     /// <summary>Gets or sets whether this document is active/visible</summary>
     public bool IsActive { get; set; } = true;

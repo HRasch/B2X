@@ -49,11 +49,11 @@ builder.Services.AddEndpointsApiExplorer();
 
 // Database
 var connectionString = builder.Configuration.GetConnectionString("LocalizationDb");
-var provider = builder.Configuration.GetValue<string>("Database:Provider", "PostgreSQL").ToLower();
+var provider = builder.Configuration.GetValue<string>("Database:Provider", "PostgreSQL").ToLower(System.Globalization.CultureInfo.CurrentCulture);
 
 builder.Services.AddDbContext<LocalizationDbContext>(options =>
 {
-    var provider = builder.Configuration.GetValue<string>("Database:Provider", "inmemory").ToLower();
+    var provider = builder.Configuration.GetValue<string>("Database:Provider", "inmemory").ToLower(System.Globalization.CultureInfo.CurrentCulture);
     if (provider == "inmemory")
     {
         options.UseInMemoryDatabase("LocalizationDb");

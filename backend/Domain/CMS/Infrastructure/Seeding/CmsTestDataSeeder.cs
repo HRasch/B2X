@@ -10,7 +10,7 @@ namespace B2Connect.CMS.Infrastructure.Seeding;
 /// Seeding service for CMS test data
 /// Provides factory methods for creating test pages and widgets
 /// </summary>
-public class CmsTestDataSeeder
+public static class CmsTestDataSeeder
 {
     public static PageDefinition CreateHomePage(string tenantId = "default-tenant")
     {
@@ -369,7 +369,7 @@ We believe in creating value for our customers through innovation, reliability, 
 /// Widget definition seeder for CMS
 /// Provides factory methods for creating widget definitions
 /// </summary>
-public class CmsWidgetSeeder
+public static class CmsWidgetSeeder
 {
     public static List<WidgetDefinition> GetDefaultWidgets()
     {
@@ -438,6 +438,8 @@ public class CmsWidgetSeeder
         return widget;
     }
 
+    private static readonly string[] value = new[] { "1", "2", "3", "4", "6" };
+
     private static WidgetDefinition CreateProductGridWidget()
     {
         var widget = new WidgetDefinition(
@@ -461,7 +463,7 @@ public class CmsWidgetSeeder
                     DefaultValue = "3",
                     Metadata = new Dictionary<string, object>
                     {
-                        { "options", new[] { "1", "2", "3", "4", "6" } }
+                        { "options", value }
                     }
                 },
                 new WidgetSetting("itemsPerPage", "Items Per Page", WidgetSettingType.Number)
@@ -484,6 +486,8 @@ public class CmsWidgetSeeder
 
         return widget;
     }
+
+    private static readonly string[] ColumnOptions = ["2", "3", "4"];
 
     private static WidgetDefinition CreateFeatureGridWidget()
     {
@@ -512,7 +516,7 @@ public class CmsWidgetSeeder
                     DefaultValue = "3",
                     Metadata = new Dictionary<string, object>
                     {
-                        { "options", new[] { "2", "3", "4" } }
+                        { "options", ColumnOptions }
                     }
                 }
             },
@@ -630,6 +634,8 @@ public class CmsWidgetSeeder
         return widget;
     }
 
+    private static readonly string[] AspectRatioOptions = ["16:9", "4:3", "1:1"];
+
     private static WidgetDefinition CreateVideoWidget()
     {
         var widget = new WidgetDefinition(
@@ -657,7 +663,7 @@ public class CmsWidgetSeeder
                     DefaultValue = "16:9",
                     Metadata = new Dictionary<string, object>
                     {
-                        { "options", new[] { "16:9", "4:3", "1:1" } }
+                        { "options", AspectRatioOptions }
                     }
                 }
             },

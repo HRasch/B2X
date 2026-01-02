@@ -9,7 +9,7 @@ namespace B2Connect.CatalogService.Services;
 /// <summary>
 /// B2B VAT ID validation service with caching and reverse charge logic
 /// Issue #31: B2B VAT-ID Validation (AStV Reverse Charge)
-/// 
+///
 /// Features:
 /// - VIES API integration for EU VAT ID validation
 /// - 365-day caching of valid VAT IDs (24h for invalid)
@@ -52,10 +52,14 @@ public class VatIdValidationService : IVatIdValidationService
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(countryCode))
+        {
             throw new ArgumentException("Country code is required", nameof(countryCode));
+        }
 
         if (string.IsNullOrWhiteSpace(vatNumber))
+        {
             throw new ArgumentException("VAT number is required", nameof(vatNumber));
+        }
 
         var cacheKey = $"vat:{countryCode}:{vatNumber}";
 
@@ -64,11 +68,11 @@ public class VatIdValidationService : IVatIdValidationService
         if (!string.IsNullOrEmpty(cached))
         {
             _logger.LogInformation("VAT validation cache hit: {CountryCode}{VatNumber}", countryCode, vatNumber);
-            return JsonSerializer.Deserialize<VatValidationResult>(cached) 
+            return JsonSerializer.Deserialize<VatValidationResult>(cached)
                 ?? throw new InvalidOperationException("Failed to deserialize cached VAT validation");
         }
 
-        _logger.LogInformation("VAT validation cache miss, calling VIES API: {CountryCode}{VatNumber}", 
+        _logger.LogInformation("VAT validation cache miss, calling VIES API: {CountryCode}{VatNumber}",
             countryCode, vatNumber);
 
         // Call VIES API
@@ -97,13 +101,16 @@ public class VatIdValidationService : IVatIdValidationService
         string sellerCountry)
     {
         if (string.IsNullOrWhiteSpace(buyerCountry))
+        {
             throw new ArgumentException("Buyer country is required", nameof(buyerCountry));
+        }
 
         if (string.IsNullOrWhiteSpace(sellerCountry))
+        {
             throw new ArgumentException("Seller country is required", nameof(sellerCountry));
+        }
 
-        if (validation == null)
-            throw new ArgumentNullException(nameof(validation));
+        ArgumentNullException.ThrowIfNull(validation);
 
         // Condition 1: VAT ID must be valid
         if (!validation.IsValid)

@@ -92,7 +92,9 @@ import SoftButton from "@/components/soft-ui/SoftButton.vue";
 import SoftInput from "@/components/soft-ui/SoftInput.vue";
 
 // Default tenant GUID
-const DEFAULT_TENANT_ID = import.meta.env.VITE_DEFAULT_TENANT_ID || "00000000-0000-0000-0000-000000000001";
+const DEFAULT_TENANT_ID =
+  import.meta.env.VITE_DEFAULT_TENANT_ID ||
+  "00000000-0000-0000-0000-000000000001";
 
 const email = ref("admin@example.com");
 const password = ref("password");
@@ -117,9 +119,14 @@ const handleLogin = async () => {
   try {
     await authStore.login(email.value, password.value, rememberMe.value);
     router.push("/dashboard");
-  } catch (err: any) {
-    error.value =
-      err.response?.data?.error?.message || "Login failed. Please try again.";
+  } catch (err: unknown) {
+    const errorMessage =
+      err instanceof Error ? err.message : "Login failed. Please try again.";
+    // Check for API error response structure
+    const apiError = err as {
+      response?: { data?: { error?: { message?: string } } };
+    };
+    error.value = apiError.response?.data?.error?.message || errorMessage;
     console.error("Login error:", err);
   } finally {
     loading.value = false;

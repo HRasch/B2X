@@ -32,7 +32,9 @@ public static class LocalizationJsonUtility
     public static string Serialize(LocalizedContent content, bool pretty = false)
     {
         if (content == null)
+        {
             return "{}";
+        }
 
         var options = pretty ? PrettyOptions : DefaultOptions;
         return JsonSerializer.Serialize(content, options);
@@ -44,7 +46,9 @@ public static class LocalizationJsonUtility
     public static LocalizedContent Deserialize(string? json)
     {
         if (string.IsNullOrWhiteSpace(json))
+        {
             return new LocalizedContent();
+        }
 
         try
         {
@@ -65,7 +69,9 @@ public static class LocalizationJsonUtility
         result = new LocalizedContent();
 
         if (string.IsNullOrWhiteSpace(json))
+        {
             return true;
+        }
 
         try
         {
@@ -194,7 +200,9 @@ public static class LocalizationJsonUtility
     public static string? GetLanguageFromJson(string? json, string languageCode)
     {
         if (string.IsNullOrWhiteSpace(json))
+        {
             return null;
+        }
 
         try
         {
@@ -220,7 +228,9 @@ public static class LocalizationJsonUtility
     public static IEnumerable<string> GetLanguagesFromJson(string? json)
     {
         if (string.IsNullOrWhiteSpace(json))
+        {
             return Enumerable.Empty<string>();
+        }
 
         try
         {

@@ -11,11 +11,11 @@ namespace B2Connect.Customer.Handlers;
 /// <summary>
 /// Wolverine HTTP Handler: Generate or modify invoices
 /// Issue #32: Invoice Modification for Reverse Charge
-/// 
+///
 /// Endpoints (auto-discovered by Wolverine):
 /// - POST /generateinvoice → GenerateInvoiceAsync
 /// - POST /modifyinvoice → ModifyInvoiceAsync
-/// 
+///
 /// Called after:
 /// - Order placed (generate initial invoice)
 /// - VAT-ID validation completes (apply/remove reverse charge)
@@ -94,7 +94,7 @@ public class InvoiceHandler
     /// <summary>
     /// Modify invoice (apply or remove reverse charge)
     /// POST /modifyinvoice
-    /// 
+    ///
     /// Called when:
     /// - VAT-ID validation completes successfully → ApplyReverseCharge
     /// - VAT-ID validation fails → RemoveReverseCharge (revert to normal VAT)
@@ -152,7 +152,7 @@ public class InvoiceHandler
             else
             {
                 // Revert to normal VAT (default 19% for Germany)
-                decimal correctTaxRate = 0.19m; // TODO: Get from TaxRateService based on country
+                const decimal correctTaxRate = 0.19m; // TODO: Get from TaxRateService based on country
                 invoice = await _invoiceService.RemoveReverseChargeAsync(invoice.Id, correctTaxRate, cancellationToken);
 
                 _logger.LogInformation(

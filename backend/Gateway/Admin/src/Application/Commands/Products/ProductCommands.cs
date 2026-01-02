@@ -2,14 +2,14 @@ namespace B2Connect.Admin.Application.Commands.Products;
 
 /// <summary>
 /// Product Commands & Queries - CQRS Pattern
-/// 
+///
 /// Flow:
 /// Controller empfängt HTTP Request
 /// → Erstellt Command/Query (ohne TenantId!)
 /// → Dispatched via IMessageBus
 /// → Handler holt TenantId via ITenantContextAccessor
 /// → Response zurück an Controller
-/// 
+///
 /// NOTE: TenantId wird automatisch via ITenantContextAccessor im Handler injiziert
 /// </summary>
 
@@ -35,6 +35,25 @@ public record UpdateProductCommand(
     Guid? BrandId = null);
 
 public record DeleteProductCommand(Guid ProductId);
+
+/// <summary>
+/// Bulk Import Products Command (ADR-025)
+/// Für Massen-Import von Produkten aus ERP-Systemen
+/// Verwendet EFCore.BulkExtensions für Performance
+/// </summary>
+public record BulkImportProductsCommand(
+    IReadOnlyList<BulkImportProductItem> Products);
+
+/// <summary>
+/// Einzelnes Produkt für Bulk Import
+/// </summary>
+public record BulkImportProductItem(
+    string Name,
+    string Sku,
+    decimal Price,
+    string? Description = null,
+    Guid? CategoryId = null,
+    Guid? BrandId = null);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Queries
@@ -81,6 +100,13 @@ public record SearchProductsQuery(
     int PageNumber = 1,
     int PageSize = 20);
 
+/// <summary>
+/// Query für Get All Products For Index (ADR-025)
+/// Speziell für Search Reindexing optimiert mit Dapper
+/// Gibt nur die für Search-Index nötigen Felder zurück
+/// </summary>
+public record GetAllProductsForIndexQuery();
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Result DTOs
 // ─────────────────────────────────────────────────────────────────────────────
@@ -98,3 +124,29 @@ public record ProductResult(
     Guid? CategoryId = null,
     Guid? BrandId = null,
     DateTime CreatedAt = default);
+
+/// <summary>
+/// Result DTO für Search Index - optimiert für Dapper (ADR-025)
+/// Enthält nur die für Search-Index nötigen Felder
+/// Keine Navigation Properties, minimal Memory Footprint
+/// </summary>
+public record ProductIndexResult(
+    Guid Id,
+    Guid TenantId,
+    string Name,
+    string Sku,
+    decimal Price,
+    string? Description = null,
+    string? CategoryName = null,
+    string? BrandName = null,
+    DateTime CreatedAt = default);
+
+/// <summary>
+/// Result DTO für Bulk Import Operationen
+/// </summary>
+public record BulkImportResult(
+    int TotalProducts,
+    int ImportedProducts,
+    int FailedProducts,
+    IReadOnlyList<string> Errors,
+    Guid ImportId);

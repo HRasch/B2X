@@ -20,6 +20,16 @@ applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 - Use meaningful test data
 - Avoid testing framework internals
 - Mock external dependencies consistently
+- **After fixing bugs**: Update `.ai/knowledgebase/lessons.md` with lessons learned to prevent future regressions
+
+## Warning Policy
+- **Fix all warnings** during test runs - treat warnings as errors
+- If a warning cannot be fixed immediately, **whitelist it explicitly** with documented justification
+- Common whitelisting methods:
+  - ESLint: `// eslint-disable-next-line rule-name -- reason`
+  - TypeScript: `// @ts-expect-error -- reason`
+  - Playwright: Configure `expect.toPass()` options or test annotations
+- **Never ignore warnings silently** - they indicate potential issues
 
 ## Coverage Goals
 - Critical paths: 100% coverage

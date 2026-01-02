@@ -2,8 +2,12 @@ using Wolverine;
 using B2Connect.Admin.Application.Commands.Products;
 using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Interfaces;
+using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Middleware;
 using B2Connect.Types.Localization;
+using B2Connect.ERP.Infrastructure.DataAccess;
+using Dapper;
+using EFCore.BulkExtensions;
 
 namespace B2Connect.Admin.Application.Handlers.Products;
 
@@ -28,7 +32,7 @@ internal static class ProductMapper
 /// <summary>
 /// Wolverine Message Handler für Product Commands
 /// Enthält die komplette Business-Logik für Produkt-Operationen
-/// 
+///
 /// TenantId wird automatisch via ITenantContextAccessor injiziert
 /// </summary>
 public class CreateProductHandler : ICommandHandler<CreateProductCommand, ProductResult>
@@ -57,10 +61,14 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
 
         // Validierung
         if (string.IsNullOrWhiteSpace(command.Name))
+        {
             throw new ArgumentException("Product name is required", nameof(command.Name));
+        }
 
         if (command.Price <= 0)
+        {
             throw new ArgumentException("Product price must be greater than 0", nameof(command.Price));
+        }
 
         // Business Logic
         var product = new B2Connect.Admin.Core.Entities.Product
@@ -112,7 +120,9 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, Produc
 
         var product = await _repository.GetByIdAsync(tenantId, command.ProductId, ct);
         if (product == null)
+        {
             throw new KeyNotFoundException($"Product {command.ProductId} not found");
+        }
 
         // Update fields - convert string to LocalizedContent
         product.Name = new LocalizedContent().Set("en", command.Name);
@@ -150,7 +160,9 @@ public class GetProductHandler : IQueryHandler<GetProductQuery, ProductResult?>
         var product = await _repository.GetByIdAsync(tenantId, query.ProductId, ct);
 
         if (product == null)
+        {
             return null;
+        }
 
         return ProductMapper.ToResult(product);
     }
@@ -173,7 +185,9 @@ public class GetProductBySkuHandler : IQueryHandler<GetProductBySkuQuery, Produc
         var product = await _repository.GetBySkuAsync(tenantId, query.Sku, ct);
 
         if (product == null)
+        {
             return null;
+        }
 
         return ProductMapper.ToResult(product);
     }
@@ -225,7 +239,9 @@ public class DeleteProductHandler : ICommandHandler<DeleteProductCommand, bool>
 
         var product = await _repository.GetByIdAsync(tenantId, command.ProductId, ct);
         if (product == null)
+        {
             return false;
+        }
 
         await _repository.DeleteAsync(tenantId, command.ProductId, ct);
 
@@ -254,7 +270,9 @@ public class GetProductBySlugHandler : IQueryHandler<GetProductBySlugQuery, Prod
         var product = await _repository.GetBySlugAsync(tenantId, query.Slug, ct);
 
         if (product == null)
+        {
             return null;
+        }
 
         return ProductMapper.ToResult(product);
     }
@@ -408,5 +426,190 @@ public class GetProductsPagedHandler : IQueryHandler<GetProductsPagedQuery, (IEn
         var results = products.Select(ProductMapper.ToResult);
 
         return (results, total);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Bulk Import Handler (ADR-025) - EFCore.BulkExtensions
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// <summary>
+/// Wolverine Handler für Bulk Product Import (ADR-025)
+/// Verwendet EFCore.BulkExtensions für optimale Performance bei Massen-Importen
+///
+/// Performance: 10-50x schneller als individuelle Inserts
+/// Use Case: ERP Catalog Sync, CSV Import, etc.
+/// </summary>
+public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsCommand, BulkImportResult>
+{
+    private readonly CatalogDbContext _dbContext;
+    private readonly ITenantContextAccessor _tenantContext;
+    private readonly ILogger<BulkImportProductsHandler> _logger;
+
+    public BulkImportProductsHandler(
+        CatalogDbContext dbContext,
+        ITenantContextAccessor tenantContext,
+        ILogger<BulkImportProductsHandler> _logger)
+    {
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
+        this._logger = _logger ?? throw new ArgumentNullException(nameof(_logger));
+    }
+
+    public async Task<BulkImportResult> Handle(BulkImportProductsCommand command, CancellationToken ct)
+    {
+        var tenantId = _tenantContext.GetTenantId();
+        var importId = Guid.NewGuid();
+
+        _logger.LogInformation(
+            "Starting bulk import of {Count} products for tenant {TenantId} (ImportId: {ImportId})",
+            command.Products.Count, tenantId, importId);
+
+        var errors = new List<string>();
+        var validProducts = new List<B2Connect.Admin.Core.Entities.Product>();
+
+        // Phase 1: Validierung und Mapping
+        foreach (var item in command.Products)
+        {
+            try
+            {
+                // Validierung
+                if (string.IsNullOrWhiteSpace(item.Name))
+                {
+                    errors.Add($"Product SKU '{item.Sku}': Name is required");
+                    continue;
+                }
+
+                if (item.Price <= 0)
+                {
+                    errors.Add($"Product SKU '{item.Sku}': Price must be greater than 0");
+                    continue;
+                }
+
+                // Mapping zu Entity
+                var product = new B2Connect.Admin.Core.Entities.Product
+                {
+                    Id = Guid.NewGuid(),
+                    TenantId = tenantId,
+                    Name = new LocalizedContent().Set("en", item.Name),
+                    Sku = item.Sku,
+                    Price = item.Price,
+                    Description = item.Description != null
+                        ? new LocalizedContent().Set("en", item.Description)
+                        : null,
+                    CategoryId = item.CategoryId,
+                    BrandId = item.BrandId,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                validProducts.Add(product);
+            }
+            catch (Exception ex)
+            {
+                errors.Add($"Product SKU '{item.Sku}': {ex.Message}");
+            }
+        }
+
+        // Phase 2: Bulk Insert mit EFCore.BulkExtensions
+        var importedCount = 0;
+        if (validProducts.Any())
+        {
+            try
+            {
+                var bulkConfig = new BulkConfig
+                {
+                    BatchSize = 1000, // Performance-Optimierung
+                    UseTempDB = true, // Reduziert Locking
+                    CalculateStats = true
+                };
+
+                await _dbContext.BulkInsertAsync(validProducts, bulkConfig, cancellationToken: ct);
+                importedCount = validProducts.Count;
+
+                _logger.LogInformation(
+                    "Successfully imported {Count} products via BulkInsert for tenant {TenantId}",
+                    importedCount, tenantId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Bulk insert failed for tenant {TenantId}", tenantId);
+                errors.Add($"Bulk insert failed: {ex.Message}");
+                importedCount = 0;
+            }
+        }
+
+        var result = new BulkImportResult(
+            TotalProducts: command.Products.Count,
+            ImportedProducts: importedCount,
+            FailedProducts: command.Products.Count - importedCount,
+            Errors: errors,
+            ImportId: importId);
+
+        _logger.LogInformation(
+            "Bulk import completed for tenant {TenantId} (ImportId: {ImportId}): {Imported}/{Total} products imported, {Failed} failed",
+            tenantId, importId, result.ImportedProducts, result.TotalProducts, result.FailedProducts);
+
+        return result;
+    }
+}
+
+/// <summary>
+/// Get All Products For Index Handler (ADR-025)
+/// Optimiert für Search Reindexing mit Dapper
+/// Verwendet direkte SQL-Queries ohne EF Core Overhead
+/// </summary>
+public class GetAllProductsForIndexHandler : IQueryHandler<GetAllProductsForIndexQuery, IEnumerable<ProductIndexResult>>
+{
+    private readonly IDapperConnectionFactory _connectionFactory;
+    private readonly ITenantContextAccessor _tenantContext;
+    private readonly ILogger<GetAllProductsForIndexHandler> _logger;
+
+    public GetAllProductsForIndexHandler(
+        IDapperConnectionFactory connectionFactory,
+        ITenantContextAccessor tenantContext,
+        ILogger<GetAllProductsForIndexHandler> logger)
+    {
+        _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public async Task<IEnumerable<ProductIndexResult>> Handle(GetAllProductsForIndexQuery query, CancellationToken ct)
+    {
+        var tenantId = _tenantContext.GetTenantId();
+
+        _logger.LogInformation("Starting product index retrieval for tenant {TenantId}", tenantId);
+
+        using var connection = _connectionFactory.CreateConnection();
+
+        // Optimierte Query für Search Index - nur relevante Felder
+        // Join mit Categories und Brands für Namen (ohne Navigation Properties)
+        const string sql = @"
+            SELECT
+                p.id,
+                p.tenant_id,
+                p.name,
+                p.sku,
+                p.price,
+                p.description,
+                c.name as category_name,
+                b.name as brand_name,
+                p.created_at
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id AND p.tenant_id = c.tenant_id
+            LEFT JOIN brands b ON p.brand_id = b.id AND p.tenant_id = b.tenant_id
+            WHERE p.tenant_id = @TenantId
+            ORDER BY p.created_at DESC";
+
+        var products = await connection.QueryAsync<ProductIndexResult>(
+            sql,
+            new { TenantId = tenantId },
+            commandTimeout: 300); // 5 Minuten Timeout für große Datasets
+
+        _logger.LogInformation(
+            "Retrieved {Count} products for search indexing for tenant {TenantId}",
+            products.Count(), tenantId);
+
+        return products;
     }
 }

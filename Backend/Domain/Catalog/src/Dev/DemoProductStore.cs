@@ -9,14 +9,21 @@ public static class DemoProductStore
 {
     private static List<dynamic>? _products;
     private static readonly object _lock = new();
+    private static readonly string[] stringArray = new[] { "general" };
 
     public static void EnsureInitialized(int count = 100, string? demoSector = null, string[]? locales = null)
     {
-        if (_products != null) return;
+        if (_products != null)
+        {
+            return;
+        }
 
         lock (_lock)
         {
-            if (_products != null) return;
+            if (_products != null)
+            {
+                return;
+            }
 
             var faker = new Faker();
             _products = new List<dynamic>(count);
@@ -48,7 +55,7 @@ public static class DemoProductStore
                 var stock = faker.Random.Int(0, 2000);
                 var isActive = faker.Random.Bool(0.95f);
                 decimal? discount = faker.Random.Bool(0.1f) ? Math.Round(price * (decimal)faker.Random.Double(0.7, 0.95), 2) : (decimal?)null;
-                var areas = productAreasBySector.ContainsKey(sector) ? productAreasBySector[sector] : new[] { "General" };
+                var areas = productAreasBySector.TryGetValue(sector, out string[]? value) ? value : new[] { "General" };
                 var selectedArea = faker.PickRandom(areas);
                 var categories = new[] { selectedArea };
                 var tags = new[] { faker.Commerce.ProductAdjective(), selectedArea };
@@ -79,15 +86,19 @@ public static class DemoProductStore
 
     public static (IEnumerable<dynamic> Items, int Total) GetPage(int page, int pageSize)
     {
-        if (_products == null) EnsureInitialized(100);
+        if (_products == null)
+        {
+            EnsureInitialized(100);
+        }
+
         var total = _products!.Count;
         var skip = (page - 1) * pageSize;
         var items = _products!.Skip(skip).Take(pageSize)
             .Select(p =>
             {
                 // ensure categories and tags are non-null arrays for JSON serialization
-                var cats = (p.categories as IEnumerable<string>)?.ToArray() ?? new[] { "general" };
-                var tags = (p.tags as IEnumerable<string>)?.ToArray() ?? new[] { "general" };
+                var cats = (p.categories as IEnumerable<string>)?.ToArray() ?? stringArray;
+                var tags = (p.tags as IEnumerable<string>)?.ToArray() ?? stringArray;
                 return new
                 {
                     id = p.id,

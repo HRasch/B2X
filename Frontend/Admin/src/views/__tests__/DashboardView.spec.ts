@@ -1,12 +1,12 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import { createRouter, createMemoryHistory } from "vue-router";
+import { createRouter, createMemoryHistory, type Router } from "vue-router";
 import DashboardView from "../../DashboardView.vue";
 import { createPinia, setActivePinia } from "pinia";
 
 describe("DashboardView.vue (Full Dashboard)", () => {
-  let router: any;
-  let pinia: any;
+  let router: Router;
+  let pinia: ReturnType<typeof createPinia>;
 
   beforeEach(() => {
     pinia = createPinia();

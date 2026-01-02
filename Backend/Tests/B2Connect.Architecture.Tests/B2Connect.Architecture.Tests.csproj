@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsTestProject>true</IsTestProject>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2Connect.Architecture.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Test Framework -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="FluentAssertions" />
+    
+    <!-- Architecture Testing -->
+    <PackageReference Include="TngTech.ArchUnitNET.xUnit" />
+  </ItemGroup>
+
+  <!-- Reference all domain assemblies for architecture analysis -->
+  <ItemGroup>
+    <ProjectReference Include="../../Domain/Catalog/B2Connect.Catalog.API.csproj" />
+    <ProjectReference Include="../../Domain/CMS/B2Connect.CMS.csproj" />
+    <ProjectReference Include="../../Domain/Identity/B2Connect.Identity.API.csproj" />
+    <ProjectReference Include="../../Domain/Localization/B2Connect.Localization.API.csproj" />
+    <ProjectReference Include="../../Domain/Search/B2Connect.Domain.Search.csproj" />
+    <ProjectReference Include="../../shared/kernel/B2Connect.Shared.Kernel.csproj" />
+  </ItemGroup>
+
+</Project>

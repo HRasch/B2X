@@ -13,7 +13,7 @@ public static class QueryableExtensions
     /// <summary>
     /// Applies automatic tenant filtering to any BaseEntity-derived queryable.
     /// Used when you want explicit, readable tenant filtering in repository queries.
-    /// 
+    ///
     /// Example:
     ///   return await _context.Products
     ///       .ForTenant(tenantId)
@@ -32,7 +32,7 @@ public static class QueryableExtensions
 
     /// <summary>
     /// Includes navigation properties while maintaining tenant isolation.
-    /// 
+    ///
     /// Example:
     ///   return await _context.Products
     ///       .ForTenant(tenantId)
@@ -49,7 +49,7 @@ public static class QueryableExtensions
 
     /// <summary>
     /// Applies pagination to query while maintaining tenant isolation.
-    /// 
+    ///
     /// Example:
     ///   return await _context.Products
     ///       .ForTenant(tenantId)
@@ -69,7 +69,7 @@ public static class QueryableExtensions
     /// <summary>
     /// Excludes soft-deleted items from query.
     /// Useful when combined with ForTenant for complete filtering.
-    /// 
+    ///
     /// Example:
     ///   return await _context.Products
     ///       .ForTenant(tenantId)

@@ -38,7 +38,7 @@ public class ProductAttribute
     public string? DefaultValue { get; set; }
 
     /// <summary>Gets or sets whether this attribute is required</summary>
-    public bool IsRequired { get; set; } = false;
+    public bool IsRequired { get; set; }
 
     /// <summary>Gets or sets whether this attribute is searchable</summary>
     public bool IsSearchable { get; set; } = true;
@@ -47,13 +47,13 @@ public class ProductAttribute
     public bool IsFilterable { get; set; } = true;
 
     /// <summary>Gets or sets whether this attribute is visible in product list</summary>
-    public bool IsVisibleInProductList { get; set; } = false;
+    public bool IsVisibleInProductList { get; set; }
 
     /// <summary>Gets or sets whether this attribute is visible in product detail</summary>
     public bool IsVisibleInProductDetail { get; set; } = true;
 
     /// <summary>Gets or sets the display order</summary>
-    public int DisplayOrder { get; set; } = 0;
+    public int DisplayOrder { get; set; }
 
     /// <summary>Gets or sets whether this attribute is active</summary>
     public bool IsActive { get; set; } = true;
@@ -107,7 +107,7 @@ public class ProductAttributeOption
     public string? ColorValue { get; set; }
 
     /// <summary>Gets or sets the display order</summary>
-    public int DisplayOrder { get; set; } = 0;
+    public int DisplayOrder { get; set; }
 
     /// <summary>Gets or sets whether this option is active</summary>
     public bool IsActive { get; set; } = true;

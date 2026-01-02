@@ -24,7 +24,9 @@ public static class UtilityExtensions
         var tenantIdClaim = user?.FindFirst("tenant_id")?.Value;
 
         if (Guid.TryParse(tenantIdClaim, out var tenantId))
+        {
             return tenantId;
+        }
 
         return Guid.Empty;
     }

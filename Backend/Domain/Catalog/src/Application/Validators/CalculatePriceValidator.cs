@@ -1,8 +1,8 @@
-namespace B2Connect.Catalog.Application.Validators;
 
 using B2Connect.Catalog.Application.Handlers;
 using FluentValidation;
 
+namespace B2Connect.Catalog.Application.Validators;
 public class CalculatePriceValidator : AbstractValidator<CalculatePriceCommand>
 {
     private static readonly string[] ValidEuCountries = new[]
@@ -24,7 +24,7 @@ public class CalculatePriceValidator : AbstractValidator<CalculatePriceCommand>
             .WithMessage("Destination country is required")
             .Length(2)
             .WithMessage("Country code must be 2 characters (e.g., DE, AT, FR)")
-            .Must(x => ValidEuCountries.Contains(x.ToUpper()))
+            .Must(x => ValidEuCountries.Contains(x.ToUpper(System.Globalization.CultureInfo.CurrentCulture)))
             .WithMessage("Invalid country code. Must be a valid EU country (e.g., DE, AT, FR)");
 
         RuleFor(x => x.ShippingCost)

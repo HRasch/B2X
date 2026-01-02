@@ -1,7 +1,11 @@
 /**
  * Catalog Store (Pinia)
  * State Management für Produkte, Kategorien und Marken
+ *
+ * @todo Refactor error handling from catch(err: any) to typed unknown pattern
+ * @see https://typescript-eslint.io/rules/no-explicit-any/
  */
+/* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling, refactor in KB-STORE-TYPING sprint */
 
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
@@ -19,7 +23,6 @@ import type {
   ProductFilters,
   CategoryFilters,
   BrandFilters,
-  PaginatedResponse,
 } from "@/types/catalog";
 
 export const useCatalogStore = defineStore("catalog", () => {

@@ -33,7 +33,7 @@ Follow [KB-006] for implementation patterns.
 
 ## Agent System
 
-### Verfügbare Agents (15 Specialized)
+### Verfügbare Agents (16 Specialized)
 
 **See [AGENT_TEAM_REGISTRY.md](../.ai/collaboration/AGENT_TEAM_REGISTRY.md) for complete team overview** (`[AGT-INDEX]`)
 
@@ -116,6 +116,7 @@ This Architect → `@SARAH` KB update process also explicitly applies to updates
 | `@SEO` | `AGT-014` | Search | Meta Tags, Structured Data, Search Optimization |
 | `@GitManager` | `AGT-015` | Git Workflow | Branching, Code Review, Repository Management |
 | `@DocMaintainer` | `AGT-016` | Documentation | Maintain doc quality, enforce DocID rules, link checks |
+| `@Enventa` | `AGT-017` | ERP Integration | enventa Trade ERP, Provider Architecture, Actor Pattern |
 
 **Specialist Agents (Coming Soon)**:
 - @QA-Frontend (E2E, UI Testing, Playwright)
@@ -264,6 +265,42 @@ Bei neuen Anforderungen folge diesem Ablauf:
 
 Siehe [AGENT_COORDINATION.md](../.ai/collaboration/AGENT_COORDINATION.md) für Details.
 
+## File Creation Rules in `.ai/` (MANDATORY)
+
+**CRITICAL**: These rules prevent duplicate files and maintain folder hygiene.
+
+### Before Creating ANY File in `.ai/`
+1. **CHECK EXISTENCE FIRST** - Always search for existing file with similar name before creating
+2. **CHECK DOCUMENT_REGISTRY.md** - Verify DocID is available and not already assigned
+3. **USE EXACT PATHS** - Never let OS create " 2", " 3" variants (e.g., `file 2.md`)
+4. **UPDATE REGISTRY** - Add new DocID entry immediately after creating file
+
+### Prohibited Patterns (ENFORCED)
+- ❌ Files ending with ` 2`, ` 3`, ` 4`, etc. (e.g., `README 2.md`)
+- ❌ Folders ending with ` 2`, ` 3`, ` 4`, etc. (e.g., `architecture 2/`)
+- ❌ Creating new files without checking existence first
+- ❌ Copying files without renaming appropriately
+- ❌ Using drag-and-drop that creates macOS " 2" duplicates
+
+### On Conflict Detection
+If a file with similar name already exists:
+1. **READ** the existing file first
+2. **MERGE** content if needed (don't create new variant)
+3. **UPDATE** existing file (append, modify, or replace)
+4. **NEVER** create " 2" variant - always resolve the conflict
+
+### Validation Command
+Run periodically to check for violations:
+```bash
+find .ai -name "* [0-9]*" 2>/dev/null
+# Should return empty - any results indicate policy violation
+```
+
+### Consequence
+Duplicate files will be **deleted without merge** during cleanup. The original (without number suffix) is always considered authoritative.
+
+---
+
 ## AI Behavior Guidelines
 - **Conciseness**: Provide direct answers with code examples.
 - **No verbose status reports**: Skip summaries after operations - just confirm completion briefly.
@@ -272,6 +309,17 @@ Siehe [AGENT_COORDINATION.md](../.ai/collaboration/AGENT_COORDINATION.md) für D
 - **Context**: Always consider the surrounding code and project structure.
 - **Safety**: Avoid suggesting insecure patterns or hardcoded secrets.
 - **Coordination**: Bei Unklarheiten @SARAH für Guidance nutzen.
+- **Token Optimization** (Prevent rate limiting - see [GL-006]):
+  - Agent files: Max 3 KB - link to docs, don't embed
+  - Use `read_file` with specific line ranges, not entire files
+  - Reference `[DocID]` instead of copying content inline
+  - Batch multiple changes into single requests
+  - Archive status files older than 7 days to `.ai/archive/`
+  - Prefer `run_task`/`runTests` tools over verbose terminal commands
+- **Lessons Learned**: Before starting implementation tasks, **always check** `.ai/knowledgebase/lessons.md` for relevant lessons from past work. This prevents repeating known mistakes (e.g., ESLint 9.x flat config, Tailwind v4 class changes, API breaking changes).
+- **Test Failures**: When tests fail, **consider whether the tests themselves are invalid or outdated** before assuming the implementation is wrong. Tests may need updating due to: changed requirements, API changes, deprecated patterns, or incorrect original assumptions.
+- **Error Reports**: When a user reports an error, **run smoke tests** to verify system health and **evaluate if test coverage needs extending** to catch similar issues in the future. Add missing test cases to prevent regression.
+- **Structural Changes**: When making structural changes (renaming, moving files, changing signatures, modifying DTOs/models, updating API contracts), **always update corresponding tests**. Check for affected unit tests, integration tests, and E2E tests.
  - **Product Vision Alignment (Architect & TechLead)**: `@Architect` and `@TechLead` must always keep the ProductVision in mind when designing or approving features. Be critical: verify assumptions against authoritative internet sources when unsure, or ask for clarifying information. When proposing ideas or design options, present them as clearly numbered multiple-choice options (1., 2., 3., ...) with concise pros/cons and a recommended option.
 - **Documentation**: Wichtige Entscheidungen in `.ai/` dokumentieren.
 - **Knowledgebase Ownership**: GitHub Copilot is **PRIMARY OWNER** of `.ai/knowledgebase/`, with explicit responsibility for:

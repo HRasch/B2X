@@ -5,13 +5,13 @@ namespace B2Connect.CatalogService.Handlers;
 
 /// <summary>
 /// Wolverine HTTP Handler for Price Calculation
-/// 
+///
 /// Wolverine automatically generates HTTP endpoints from public async methods:
 /// - Method name → HTTP route (POST /calculateprice)
 /// - First parameter → request body
 /// - Injected dependencies → resolved from DI container
 /// - CancellationToken → automatic
-/// 
+///
 /// Reference: Issue #30 (B2C Price Transparency)
 /// </summary>
 public class PriceCalculationHandler
@@ -29,16 +29,16 @@ public class PriceCalculationHandler
 
     /// <summary>
     /// Calculate final price with VAT breakdown
-    /// 
+    ///
     /// Wolverine Endpoint: POST /calculateprice
-    /// 
+    ///
     /// Request:
     /// {
     ///   "basePrice": 99.99,
     ///   "destinationCountry": "DE",
     ///   "discountPercentage": 10.0
     /// }
-    /// 
+    ///
     /// Response: PriceBreakdownDto
     /// {
     ///   "productPrice": 99.99,

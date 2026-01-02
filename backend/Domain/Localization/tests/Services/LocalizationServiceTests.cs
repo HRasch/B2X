@@ -9,7 +9,7 @@ using B2Connect.LocalizationService.Services;
 
 namespace B2Connect.LocalizationService.Tests.Services;
 
-public class LocalizationServiceTests : IAsyncLifetime
+public class LocalizationServiceTests : IAsyncLifetime, IDisposable
 {
     private LocalizationDbContext _dbContext = null!;
     private IMemoryCache _cache = null!;
@@ -418,6 +418,12 @@ public class LocalizationServiceTests : IAsyncLifetime
 
         // Assert
         Assert.Equal("en", result);
+    }
+
+    public void Dispose()
+    {
+        // No cleanup needed - using mocked services
+        GC.SuppressFinalize(this);
     }
 
     #endregion

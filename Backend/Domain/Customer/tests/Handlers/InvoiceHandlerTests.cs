@@ -1,14 +1,14 @@
-using Xunit;
-using Moq;
-using B2Connect.Customer.Models;
-using B2Connect.Customer.Handlers;
-using B2Connect.Customer.Services;
-using B2Connect.Customer.Interfaces;
-using FluentValidation;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using B2Connect.Customer.Handlers;
+using B2Connect.Customer.Interfaces;
+using B2Connect.Customer.Models;
+using B2Connect.Customer.Services;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
+using Moq;
+using Xunit;
 
 namespace B2Connect.Customer.Tests.Handlers;
 
@@ -149,7 +149,7 @@ public class InvoiceHandlerTests : IAsyncLifetime
         // Assert
         Assert.NotNull(response);
         Assert.False(response.Success);
-        Assert.Contains("error", response.Message.ToLower(), StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("error", response.Message.ToLower(System.Globalization.CultureInfo.CurrentCulture), StringComparison.OrdinalIgnoreCase);
     }
 
     // ===== MODIFY INVOICE ENDPOINT TESTS =====

@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import type { AdminUser } from "@/types/auth";
 import { authApi } from "@/services/api/auth";
+import errorLogging from "@/services/errorLogging";
 
 // Token refresh interval (5 minutes before expiry, assuming 1hr token)
 const TOKEN_REFRESH_INTERVAL = 55 * 60 * 1000; // 55 minutes
@@ -37,16 +38,12 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   async function performTokenRefresh() {
-    try {
-      const response = await authApi.refreshToken();
-      user.value = response.user;
-      token.value = response.accessToken;
-      sessionStorage.setItem("authToken", response.accessToken);
-      scheduleTokenRefresh();
-      return response;
-    } catch (err) {
-      throw err;
-    }
+    const response = await authApi.refreshToken();
+    user.value = response.user;
+    token.value = response.accessToken;
+    sessionStorage.setItem("authToken", response.accessToken);
+    scheduleTokenRefresh();
+    return response;
   }
 
   async function login(email: string, password: string, rememberMe?: boolean) {
@@ -61,6 +58,9 @@ export const useAuthStore = defineStore("auth", () => {
       // Use sessionStorage for session-scoped data (cleared on tab close)
       sessionStorage.setItem("authToken", response.accessToken);
       sessionStorage.setItem("tenantId", response.user.tenantId);
+
+      // Set user context for error logging attribution
+      errorLogging.setUserContext(response.user.id, response.user.tenantId);
 
       // Schedule automatic token refresh
       scheduleTokenRefresh();
@@ -81,7 +81,7 @@ export const useAuthStore = defineStore("auth", () => {
     loading.value = true;
     try {
       await authApi.logout();
-    } catch (err) {
+    } catch {
       // Don't log sensitive info
       console.error("Logout failed");
     } finally {
@@ -90,6 +90,9 @@ export const useAuthStore = defineStore("auth", () => {
         clearTimeout(refreshTimerId);
         refreshTimerId = null;
       }
+      // Clear error logging user context
+      errorLogging.clearUserContext();
+
       user.value = null;
       token.value = null;
       refreshToken.value = null;
@@ -117,17 +120,21 @@ export const useAuthStore = defineStore("auth", () => {
 
   function hasPermission(permission: string): boolean {
     if (!user.value) return false;
-    return user.value.permissions.some((p: any) => p.name === permission);
+    return user.value.permissions.some(
+      (p: { name: string }) => p.name === permission
+    );
   }
 
   function hasRole(role: string): boolean {
     if (!user.value) return false;
-    return user.value.roles.some((r: any) => r.name === role);
+    return user.value.roles.some((r: { name: string }) => r.name === role);
   }
 
   function hasAnyRole(roles: string[]): boolean {
     if (!user.value) return false;
-    return user.value.roles.some((r: any) => roles.includes(r.name));
+    return user.value.roles.some((r: { name: string }) =>
+      roles.includes(r.name)
+    );
   }
 
   async function updateProfile(data: Partial<AdminUser>) {

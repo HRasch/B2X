@@ -1,15 +1,15 @@
-namespace B2Connect.Catalog.Application.Handlers;
 
 using B2Connect.Catalog.Application.Validators;
 using B2Connect.Catalog.Core.Interfaces;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
+namespace B2Connect.Catalog.Application.Handlers;
 /// <summary>
 /// Wolverine Service Handler for price calculations with VAT transparency
 /// Pattern: Service class + public async methods = automatic HTTP endpoints
 /// Issue #30: B2C Price Transparency (PAngV)
-/// 
+///
 /// Wolverine auto-discovers this as:
 ///   POST /api/catalog/calculateprice
 ///   POST /api/catalog/getpricebreakdown
@@ -105,11 +105,11 @@ public class PriceCalculationService
     /// Get price breakdown details (used by frontend for display)
     /// POST /api/catalog/getpricebreakdown
     /// </summary>
-    public async Task<PriceBreakdownResponse> GetPriceBreakdown(
+    public Task<PriceBreakdownResponse> GetPriceBreakdown(
         GetPriceBreakdownQuery query,
         CancellationToken cancellationToken)
     {
-        return await CalculatePrice(
+        return CalculatePrice(
             new CalculatePriceCommand(
                 query.ProductPrice,
                 query.DestinationCountry,

@@ -77,10 +77,7 @@ public static class MessagingServiceExtensions
             // Standard Quartz Configuration
         });
 
-        services.AddQuartzHostedService(options =>
-        {
-            options.WaitForJobsToComplete = true;
-        });
+        services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
         return services;
     }

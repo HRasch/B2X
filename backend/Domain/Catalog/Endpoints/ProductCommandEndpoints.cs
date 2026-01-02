@@ -23,10 +23,10 @@ public static class ProductCommandEndpoints
     {
         // Add tenant ID to command
         var commandWithTenant = command with { TenantId = tenantId };
-        
+
         // Publish command via Wolverine
         var result = await messageBus.InvokeAsync<ProductDto>(commandWithTenant, ct);
-        
+
         return Results.Created($"/api/products/{result.Sku}", result);
     }
 
@@ -43,9 +43,9 @@ public static class ProductCommandEndpoints
         CancellationToken ct)
     {
         var commandWithTenant = command with { TenantId = tenantId, Sku = sku };
-        
+
         var result = await messageBus.InvokeAsync<ProductDto>(commandWithTenant, ct);
-        
+
         if (result == null)
         {
             return Results.NotFound(new { Message = $"Product with SKU '{sku}' not found" });
@@ -66,9 +66,9 @@ public static class ProductCommandEndpoints
         CancellationToken ct)
     {
         var command = new DeleteProductCommand(tenantId, sku);
-        
+
         await messageBus.InvokeAsync(command, ct);
-        
+
         return Results.NoContent();
     }
 }

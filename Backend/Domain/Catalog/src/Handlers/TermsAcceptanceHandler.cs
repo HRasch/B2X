@@ -7,9 +7,9 @@ namespace B2Connect.Catalog.Handlers;
 /// <summary>
 /// Wolverine HTTP Handler for Terms Acceptance
 /// Story: P0.6-US-005 - Mandatory Terms & Conditions Acceptance
-/// 
+///
 /// Endpoint: POST /api/checkout/accept-terms
-/// 
+///
 /// This handler:
 /// 1. Receives terms acceptance from checkout page
 /// 2. Validates all required terms are checked
@@ -36,7 +36,7 @@ public class TermsAcceptanceHandler
     /// Wolverine Service Handler: POST /api/checkout/accept-terms
     /// Automatically discovered and registered as HTTP endpoint by Wolverine
     /// </summary>
-    public async Task<RecordTermsAcceptanceResponse> AcceptTerms(
+    public Task<RecordTermsAcceptanceResponse> AcceptTerms(
         Guid tenantId,
         RecordTermsAcceptanceRequest request,
         CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ public class TermsAcceptanceHandler
             "Terms acceptance request from {IpAddress} for tenant {TenantId}",
             ipAddress, tenantId);
 
-        return await _service.RecordAcceptanceAsync(
+        return _service.RecordAcceptanceAsync(
             tenantId,
             request,
             ipAddress,

@@ -7,6 +7,8 @@ namespace B2Connect.LayoutService.Migrations
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
+        private static readonly string[] columns = new[] { "ComponentType", "Category", "Description", "DisplayName", "Icon", "PresetVariants", "Props", "Slots" };
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,10 +25,7 @@ namespace B2Connect.LayoutService.Migrations
                     Slots = table.Column<string>(type: "jsonb", nullable: true),
                     PresetVariants = table.Column<string>(type: "jsonb", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ComponentDefinitions", x => x.ComponentType);
-                });
+                constraints: table => table.PrimaryKey("PK_ComponentDefinitions", x => x.ComponentType));
 
             migrationBuilder.CreateTable(
                 name: "Pages",
@@ -46,10 +45,7 @@ namespace B2Connect.LayoutService.Migrations
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     UpdatedBy = table.Column<string>(type: "text", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pages", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Pages", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Sections",
@@ -104,7 +100,7 @@ namespace B2Connect.LayoutService.Migrations
 
             migrationBuilder.InsertData(
                 table: "ComponentDefinitions",
-                columns: new[] { "ComponentType", "Category", "Description", "DisplayName", "Icon", "PresetVariants", "Props", "Slots" },
+                columns: columns,
                 values: new object[,]
                 {
                     { "Button", "Interactive", "A clickable button component", "Button", "button", null, null, null },

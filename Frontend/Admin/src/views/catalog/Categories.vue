@@ -127,7 +127,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed, ref } from "vue";
+/* eslint-disable @typescript-eslint/no-explicit-any -- Localized type needs proper definition */
+import { onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useCatalogStore } from "@/stores/catalog";
 import type { Category } from "@/types/catalog";

@@ -534,7 +534,7 @@ public class CatalogDbContext : DbContext
     /// <remarks>
     /// This is a critical security feature: It's impossible to query across tenants
     /// because the filter is applied automatically by Entity Framework Core.
-    /// 
+    ///
     /// If TenantId is empty/default, no entities will match (default behavior).
     /// This prevents accidental data exposure if tenant context is not properly set.
     /// </remarks>

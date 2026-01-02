@@ -1,7 +1,7 @@
-namespace B2Connect.Catalog.Core.Interfaces;
 
 using B2Connect.CatalogService.Models;
 
+namespace B2Connect.Catalog.Core.Interfaces;
 public interface ITaxRateRepository
 {
     Task<TaxRate?> GetByCountryCodeAsync(string countryCode, CancellationToken ct = default);

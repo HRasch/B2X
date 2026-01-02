@@ -63,7 +63,7 @@ namespace B2Connect.CMS.Application.Pages
                 request.PagePath!,
                 cancellationToken);
 
-            if (page == null || !page.IsPublished)
+            if (page?.IsPublished != true)
             {
                 throw new InvalidOperationException($"Page '{request.PagePath}' not found");
             }

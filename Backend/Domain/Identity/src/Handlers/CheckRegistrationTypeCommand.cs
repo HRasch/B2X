@@ -6,7 +6,7 @@ namespace B2Connect.Identity.Handlers;
 /// <summary>
 /// Wolverine Command: Prüfung des Registrierungstyps (Neu- oder Bestandskunde)
 /// Story 8: Check Customer Type
-/// 
+///
 /// Wolverine Pattern:
 /// - Command ist ein POCO (Plain Old C# Object)
 /// - Handler hat [WolverineHandler] Attribute

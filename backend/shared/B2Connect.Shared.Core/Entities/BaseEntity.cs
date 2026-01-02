@@ -49,7 +49,7 @@ public abstract class BaseEntity
     /// <summary>
     /// Flag indicating if entity is soft-deleted
     /// </summary>
-    public bool IsDeleted { get; set; } = false;
+    public bool IsDeleted { get; set; }
 
     /// <summary>
     /// Optimistic concurrency control

@@ -29,19 +29,26 @@ public class ElasticService : IElasticService
     private string GetIndexName(string? tenantId, string? language)
     {
         var lang = string.IsNullOrWhiteSpace(language) ? "en" : language;
-        if (string.IsNullOrWhiteSpace(tenantId)) return $"{IndexName}-{lang}";
+        if (string.IsNullOrWhiteSpace(tenantId))
+        {
+            return $"{IndexName}-{lang}";
+        }
+
         if (_tenantCredentialProvider != null)
         {
             var creds = _tenantCredentialProvider.GetCredentials(tenantId);
-            if (creds != null && !string.IsNullOrWhiteSpace(creds.IndexName)) return $"{creds.IndexName}-{lang}";
+            if (creds != null && !string.IsNullOrWhiteSpace(creds.IndexName))
+            {
+                return $"{creds.IndexName}-{lang}";
+            }
         }
         // default scheme: base index name + tenant suffix + language
         return $"{IndexName}-{tenantId}-{lang}";
     }
 
-    private ElasticsearchClient _defaultClient;
+    private readonly ElasticsearchClient _defaultClient;
 
-    private ElasticsearchClient CreateClient(string uri, string? username, string? password, string defaultIndex)
+    private static ElasticsearchClient CreateClient(string uri, string? username, string? password, string defaultIndex)
     {
         var settings = new ElasticsearchClientSettings(new Uri(uri)).DefaultIndex(defaultIndex);
         if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
@@ -80,10 +87,12 @@ public class ElasticService : IElasticService
         var client = GetClientForTenant(tenantId, language);
         var index = GetIndexName(tenantId, language);
         var exists = await client.Indices.ExistsAsync(index);
-        if (!exists.Exists)
+        if (exists.Exists)
         {
-            await client.Indices.CreateAsync(index);
+            return;
         }
+
+        await client.Indices.CreateAsync(index);
     }
 
     public async Task<SearchResponseDto> SearchAsync(SearchRequestDto request, string? tenantId = null, string? language = null)
@@ -136,7 +145,7 @@ public class ElasticService : IElasticService
         return new SearchResponseDto
         {
             Products = resp.Documents,
-            Total = (int)(total > 0 ? total : resp.Documents.Count()),
+            Total = (int)(total > 0 ? total : resp.Documents.Count),
             Page = page,
             PageSize = pageSize
         };

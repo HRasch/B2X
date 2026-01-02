@@ -1,4 +1,3 @@
-namespace B2Connect.Catalog.Tests.Application;
 
 using B2Connect.Catalog.Application.Handlers;
 using B2Connect.Catalog.Application.Validators;
@@ -8,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
+namespace B2Connect.Catalog.Tests.Application;
 public class PriceCalculationServiceTests : IAsyncLifetime
 {
     private readonly Mock<ITaxRateService> _mockTaxService = new();

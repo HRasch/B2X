@@ -14,14 +14,14 @@ public class ProductRepository : Repository<Product>, IProductRepository
     {
     }
 
-    public async Task<Product?> GetBySkuAsync(Guid tenantId, string sku, CancellationToken ct = default)
+    public Task<Product?> GetBySkuAsync(Guid tenantId, string sku, CancellationToken ct = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(p => p.TenantId == tenantId && p.Sku == sku, ct);
+        return _dbSet.FirstOrDefaultAsync(p => p.TenantId == tenantId && p.Sku == sku, ct);
     }
 
-    public async Task<Product?> GetBySlugAsync(Guid tenantId, string slug, CancellationToken ct = default)
+    public Task<Product?> GetBySlugAsync(Guid tenantId, string slug, CancellationToken ct = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(p => p.TenantId == tenantId && p.Slug == slug, ct);
+        return _dbSet.FirstOrDefaultAsync(p => p.TenantId == tenantId && p.Slug == slug, ct);
     }
 
     public async Task<IEnumerable<Product>> GetByCategoryAsync(Guid tenantId, Guid categoryId, CancellationToken ct = default)
@@ -58,9 +58,9 @@ public class ProductRepository : Repository<Product>, IProductRepository
 
     public async Task<(IEnumerable<Product>, int)> SearchAsync(Guid tenantId, string searchTerm, int pageNumber, int pageSize, CancellationToken ct = default)
     {
-        var lowerTerm = searchTerm.ToLower();
+        var lowerTerm = searchTerm.ToLower(System.Globalization.CultureInfo.CurrentCulture);
         var query = _dbSet
-            .Where(p => p.TenantId == tenantId && p.IsActive && p.Sku.ToLower().Contains(lowerTerm));
+            .Where(p => p.TenantId == tenantId && p.IsActive && p.Sku.ToLower(System.Globalization.CultureInfo.CurrentCulture).Contains(lowerTerm));
 
         var total = await query.CountAsync(ct);
         var items = await query
@@ -72,9 +72,9 @@ public class ProductRepository : Repository<Product>, IProductRepository
         return (items, total);
     }
 
-    public async Task<Product?> GetWithDetailsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
+    public Task<Product?> GetWithDetailsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
     {
-        return await _dbSet
+        return _dbSet
             .Where(p => p.TenantId == tenantId && p.Id == id)
             .Include(p => p.Brand)
             .Include(p => p.Category)

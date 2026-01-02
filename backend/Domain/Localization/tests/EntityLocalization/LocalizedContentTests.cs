@@ -349,13 +349,15 @@ public class LocalizationJsonUtilityTests
         Assert.False(result.HasTranslation("fr"));
     }
 
+    private static readonly string[] requiredLanguages = new[] { "en", "de", "fr" };
+
     [Fact]
     public void FillMissingLanguages_AddsDefaults()
     {
         var json = LocalizationJsonUtility.SerializeDictionary(
             new Dictionary<string, string> { { "en", "English" } });
 
-        var filled = LocalizationJsonUtility.FillMissingLanguages(json, new[] { "en", "de", "fr" }, "missing");
+        var filled = LocalizationJsonUtility.FillMissingLanguages(json, requiredLanguages, "missing");
         var result = LocalizationJsonUtility.Deserialize(filled);
 
         Assert.Equal(3, result.Count);

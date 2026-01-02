@@ -54,7 +54,11 @@ export interface SearchFilters {
  * - Language-specific search (de, en, fr)
  * - Relevance-based ranking
  *
- * Uses: /api/v2/products/elasticsearch endpoint
+ * API Routes (via YARP):
+ * - GET  /api/catalog/products - List products (paginated)
+ * - GET  /api/catalog/products/:id - Get product by ID
+ * - GET  /api/catalog/products/elasticsearch - Search with ElasticSearch
+ * - GET  /api/catalog/products/stats - Catalog statistics
  */
 export class ProductService {
   /**
@@ -77,7 +81,7 @@ export class ProductService {
   static async searchProducts(
     filters: SearchFilters,
     page: number = 1,
-    pageSize: number = 20
+    pageSize: number = 20,
   ): Promise<SearchResponse> {
     try {
       if (!filters.searchTerm || filters.searchTerm.trim() === "") {
@@ -109,9 +113,9 @@ export class ProductService {
         params.append("maxPrice", filters.maxPrice.toString());
       }
 
-      // Call ElasticSearch endpoint
+      // Call ElasticSearch endpoint (via YARP route /api/catalog/products)
       const response = await api.get<SearchResponse>(
-        `/v2/products/elasticsearch?${params.toString()}`
+        `/catalog/products/elasticsearch?${params.toString()}`,
       );
 
       return response.data;
@@ -127,7 +131,7 @@ export class ProductService {
    */
   static async getProductById(productId: string): Promise<Product> {
     try {
-      const response = await api.get<Product>(`/v2/products/${productId}`);
+      const response = await api.get<Product>(`/catalog/products/${productId}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching product ${productId}:`, error);
@@ -142,7 +146,7 @@ export class ProductService {
   static async getProducts(
     page: number = 1,
     pageSize: number = 20,
-    filters?: Partial<SearchFilters>
+    filters?: Partial<SearchFilters>,
   ): Promise<SearchResponse> {
     try {
       if (page < 1) page = 1;
@@ -164,7 +168,7 @@ export class ProductService {
       }
 
       const response = await api.get<SearchResponse>(
-        `/v2/products?${params.toString()}`
+        `/catalog/products?${params.toString()}`,
       );
 
       return response.data;
@@ -179,7 +183,7 @@ export class ProductService {
    */
   static async getCatalogStats() {
     try {
-      const response = await api.get("/v2/products/stats");
+      const response = await api.get("/catalog/products/stats");
       return response.data;
     } catch (error) {
       console.error("Error fetching catalog statistics:", error);

@@ -5,7 +5,7 @@ namespace B2Connect.Identity.Infrastructure.ExternalServices;
 
 /// <summary>
 /// Decorator für ERP-Provider mit Fehlerbehandlung und Fallback-Logik
-/// 
+///
 /// Funktioniert wie ein Proxy:
 /// 1. Versucht Primary-Provider (z.B. SAP, Oracle)
 /// 2. Bei Fehler: Fallback zum Fake-Provider

@@ -1,8 +1,8 @@
 # 🤖 AI Agent Team Registry
 
 **DocID**: `AGT-INDEX`  
-**Status**: ✅ Upgraded 31.12.2025  
-**Team Size**: 15 Specialized Agents  
+**Status**: ✅ Upgraded 02.01.2026  
+**Team Size**: 16 Specialized Agents  
 **Coordinator**: @SARAH (Claude Haiku 4.5)
 
 See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
@@ -111,6 +111,16 @@ See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
   - Owns: Git workflow design, branch protection rules, release processes
   - Called by: @Backend, @Frontend, @DevOps, @TechLead
   - Expertise: Branching models, PR workflows, commit hygiene, conflict resolution
+  - Model: Claude Haiku 4.5
+
+### ERP Integration
+- **@Enventa** - `enventa Trade ERP Integration, Provider Architecture, Actor Pattern`
+  - Implements enventa Trade ERP provider with proprietary ORM integration
+  - Manages single-threaded Actor pattern for non-thread-safe assemblies
+  - Designs gRPC communication between .NET 10 and .NET Framework 4.8
+  - Owns: ERP provider implementation, data model mapping, Windows container setup
+  - Expertise: enventa ORM (IcECArticle, FSUtil), bulk operations, tenant isolation
+  - Collaborates: @Backend (architecture), @DevOps (containers), @Architect (design)
   - Model: Claude Haiku 4.5
 
 ### AI Assistant & Knowledge Management
@@ -245,6 +255,13 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 - **Security testing** → Delegates to specialist (not defined yet)
 - **Performance testing** → Delegates to specialist (not defined yet)
 
+### When @Enventa delegates to others:
+- **ERP architecture decisions** → @Architect
+- **Container deployment** → @DevOps
+- **Thread-safety patterns** → @TechLead
+- **Tenant isolation security** → @Security
+- **General .NET patterns** → @Backend
+
 ---
 
 ## 📊 Team Capabilities
@@ -265,6 +282,7 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 | @UI | Haiku 4.5 | design, component | Components, a11y |
 | @SEO | Haiku 4.5 | read, web | Search optimization |
 | @GitManager | Haiku 4.5 | read, edit, terminal | Git workflow, PR process |
+| @Enventa | Haiku 4.5 | vscode, execute, read, edit | enventa ERP, Actor pattern |
 | **GitHub Copilot (AI)** | **Haiku 4.5** | web, read, edit, semantic search | Knowledgebase, internet docs |
 | **@SARAH** | **Haiku 4.5** | coordination, governance | Coordination |
 

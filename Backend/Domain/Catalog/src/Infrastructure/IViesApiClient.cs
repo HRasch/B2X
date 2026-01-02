@@ -5,7 +5,7 @@ namespace B2Connect.CatalogService.Infrastructure;
 /// <summary>
 /// Interface for VIES (VAT Information Exchange System) API client
 /// VIES is the EU-provided VAT validation service
-/// 
+///
 /// Reference: https://ec.europa.eu/taxation_customs/vies/
 /// SOAP Endpoint: https://ec.europa.eu/taxation_customs/vies/services/checkVatService
 /// </summary>

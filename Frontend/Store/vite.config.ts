@@ -14,14 +14,14 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: process.env.VITE_API_GATEWAY_URL || "http://localhost:8100",
+        target: process.env.VITE_API_GATEWAY_URL || "http://localhost:8000",
         changeOrigin: true,
         secure: false,
         ws: true,
         timeout: 30000,
       },
       "/ws": {
-        target: process.env.VITE_WS_URL || "ws://localhost:8100",
+        target: process.env.VITE_WS_URL || "ws://localhost:8000",
         changeOrigin: true,
         ws: true,
         secure: false,

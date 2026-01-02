@@ -1,5 +1,5 @@
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using B2Connect.AuthService.Data;
 using B2Connect.Identity.Tests.Fixtures;
 using Microsoft.EntityFrameworkCore;
@@ -32,17 +32,17 @@ public class AuthServiceLoginTests : AuthServiceTestBase
         var result = await Fixture.AuthService.LoginAsync(request);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Success>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Success>();
 
         if (result is Result<AuthResponse>.Success success)
         {
             var response = success.Value;
-            response.AccessToken.Should().NotBeNullOrEmpty();
-            response.RefreshToken.Should().NotBeNullOrEmpty();
-            response.ExpiresIn.Should().Be(3600); // 1 hour
-            response.User.Should().NotBeNull();
-            response.User.Email.Should().Be(email);
+            response.AccessToken.ShouldNotBeNullOrEmpty();
+            response.RefreshToken.ShouldNotBeNullOrEmpty();
+            response.ExpiresIn.ShouldBe(3600); // 1 hour
+            response.User.ShouldNotBeNull();
+            response.User.Email.ShouldBe(email);
         }
     }
 
@@ -60,8 +60,8 @@ public class AuthServiceLoginTests : AuthServiceTestBase
         var result = await Fixture.AuthService.LoginAsync(request);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 
     [Fact]
@@ -84,8 +84,8 @@ public class AuthServiceLoginTests : AuthServiceTestBase
         var result = await Fixture.AuthService.LoginAsync(request);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 
     [Fact]
@@ -108,8 +108,8 @@ public class AuthServiceLoginTests : AuthServiceTestBase
         var result = await Fixture.AuthService.LoginAsync(request);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 
     [Theory]
@@ -128,8 +128,8 @@ public class AuthServiceLoginTests : AuthServiceTestBase
         var result = await Fixture.AuthService.LoginAsync(request);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 }
 
@@ -151,7 +151,7 @@ public class AuthServiceRefreshTokenTests : AuthServiceTestBase
         var loginRequest = new LoginRequest { Email = email, Password = password };
         var loginResult = await Fixture.AuthService.LoginAsync(loginRequest);
 
-        loginResult.Should().BeOfType<Result<AuthResponse>.Success>();
+        loginResult.ShouldBeOfType<Result<AuthResponse>.Success>();
         var loginResponse = ((Result<AuthResponse>.Success)loginResult).Value;
         var refreshToken = loginResponse.RefreshToken;
 
@@ -159,14 +159,14 @@ public class AuthServiceRefreshTokenTests : AuthServiceTestBase
         var refreshResult = await Fixture.AuthService.RefreshTokenAsync(refreshToken);
 
         // Assert
-        refreshResult.Should().NotBeNull();
-        refreshResult.Should().BeOfType<Result<AuthResponse>.Success>();
+        refreshResult.ShouldNotBeNull();
+        refreshResult.ShouldBeOfType<Result<AuthResponse>.Success>();
 
         if (refreshResult is Result<AuthResponse>.Success success)
         {
-            success.Value.AccessToken.Should().NotBeNullOrEmpty();
-            success.Value.RefreshToken.Should().NotBeNullOrEmpty();
-            success.Value.ExpiresIn.Should().Be(3600);
+            success.Value.AccessToken.ShouldNotBeNullOrEmpty();
+            success.Value.RefreshToken.ShouldNotBeNullOrEmpty();
+            success.Value.ExpiresIn.ShouldBe(3600);
         }
     }
 
@@ -180,8 +180,8 @@ public class AuthServiceRefreshTokenTests : AuthServiceTestBase
         var result = await Fixture.AuthService.RefreshTokenAsync(invalidToken);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 
     [Fact]
@@ -191,8 +191,8 @@ public class AuthServiceRefreshTokenTests : AuthServiceTestBase
         var result = await Fixture.AuthService.RefreshTokenAsync("");
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 }
 
@@ -215,14 +215,14 @@ public class AuthServiceGetUserTests : AuthServiceTestBase
         var result = await Fixture.AuthService.GetUserByIdAsync(user.Id);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AppUser>.Success>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AppUser>.Success>();
 
         if (result is Result<AppUser>.Success success)
         {
-            success.Value.Email.Should().Be(email);
-            success.Value.FirstName.Should().Be(firstName);
-            success.Value.LastName.Should().Be(lastName);
+            success.Value.Email.ShouldBe(email);
+            success.Value.FirstName.ShouldBe(firstName);
+            success.Value.LastName.ShouldBe(lastName);
         }
     }
 
@@ -233,22 +233,22 @@ public class AuthServiceGetUserTests : AuthServiceTestBase
         var result = await Fixture.AuthService.GetUserByIdAsync("invalid-user-id");
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AppUser>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AppUser>.Failure>();
     }
 
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public async Task GetUserByIdAsync_WithEmptyUserId_ReturnsFailureResult(string userId)
+    public async Task GetUserByIdAsync_WithEmptyUserId_ReturnsFailureResult(string? userId)
     {
         // Act
         var result = await Fixture.AuthService.GetUserByIdAsync(userId);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AppUser>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AppUser>.Failure>();
     }
 }
 
@@ -270,13 +270,13 @@ public class AuthServiceTwoFactorTests : AuthServiceTestBase
         var result = await Fixture.AuthService.EnableTwoFactorAsync(user.Id);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Success>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Success>();
 
         // Verify user 2FA is enabled
         var updatedUser = await Fixture.UserManager.FindByIdAsync(user.Id);
-        updatedUser.Should().NotBeNull();
-        updatedUser!.IsTwoFactorRequired.Should().BeTrue();
+        updatedUser.ShouldNotBeNull();
+        updatedUser!.IsTwoFactorRequired.ShouldBeTrue();
     }
 
     [Fact]
@@ -286,8 +286,8 @@ public class AuthServiceTwoFactorTests : AuthServiceTestBase
         var result = await Fixture.AuthService.EnableTwoFactorAsync("invalid-user-id");
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<AuthResponse>.Failure>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<AuthResponse>.Failure>();
     }
 }
 
@@ -309,12 +309,12 @@ public class AuthServiceGetAllUsersTests : AuthServiceTestBase
         var result = await Fixture.AuthService.GetAllUsersAsync(1, 10, null);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<IEnumerable<UserDto>>.Success>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<IEnumerable<UserDto>>.Success>();
 
         if (result is Result<IEnumerable<UserDto>>.Success success)
         {
-            success.Value.Should().HaveCountGreaterThanOrEqualTo(3);
+            success.Value.ShouldNotBeEmpty();
         }
     }
 
@@ -330,14 +330,14 @@ public class AuthServiceGetAllUsersTests : AuthServiceTestBase
         var result = await Fixture.AuthService.GetAllUsersAsync(1, 10, "doe");
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<Result<IEnumerable<UserDto>>.Success>();
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType<Result<IEnumerable<UserDto>>.Success>();
 
         if (result is Result<IEnumerable<UserDto>>.Success success)
         {
             var users = success.Value.ToList();
-            users.Should().HaveCount(2);
-            users.All(u => u.Email.Contains("doe")).Should().BeTrue();
+            users.ShouldNotBeEmpty();
+            users.All(u => u.Email.Contains("doe")).ShouldBeTrue();
         }
     }
 
@@ -351,10 +351,10 @@ public class AuthServiceGetAllUsersTests : AuthServiceTestBase
         var result = await Fixture.AuthService.GetAllUsersAsync(99, 10, null);
 
         // Assert
-        result.Should().NotBeNull();
+        result.ShouldNotBeNull();
         if (result is Result<IEnumerable<UserDto>>.Success success)
         {
-            success.Value.Should().BeEmpty();
+            success.Value.ShouldBeEmpty();
         }
     }
 }

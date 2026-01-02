@@ -32,7 +32,7 @@ public class CatalogIndexer : ICatalogIndexer
 
         while (!ct.IsCancellationRequested)
         {
-            var (items, total) = await _provider.GetPageAsync(page, pageSize, ct);
+            var (items, total) = await _provider.GetPageAsync(page, pageSize, cancellationToken);
             var list = items.ToList();
             if (!list.Any()) break;
 

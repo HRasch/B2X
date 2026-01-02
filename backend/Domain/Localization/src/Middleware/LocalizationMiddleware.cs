@@ -27,7 +27,7 @@ public class LocalizationMiddleware
             DEFAULT_LANGUAGE;
 
         // Normalize to 2-letter code (e.g., "de" from "de-DE")
-        language = language.Substring(0, Math.Min(2, language.Length)).ToLower();
+        language = language.Substring(0, Math.Min(2, language.Length)).ToLower(System.Globalization.CultureInfo.CurrentCulture);
 
         // Store in HttpContext for access in services
         context.Items["Language"] = language;

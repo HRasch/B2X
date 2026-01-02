@@ -11,13 +11,13 @@ namespace B2Connect.Customer.Services;
 /// <summary>
 /// Service for invoice generation and modification
 /// Issue #32: Invoice Modification for Reverse Charge
-/// 
+///
 /// Responsibilities:
 /// 1. Generate invoice from order (called after order placed)
 /// 2. Apply reverse charge when VAT-ID validation successful
 /// 3. Modify invoice if reverse charge status changes
 /// 4. Calculate correct VAT based on reverse charge flag
-/// 
+///
 /// Business Logic:
 /// - B2C orders: Normal VAT (19%, 7%, 20%, etc.)
 /// - B2B with invalid VAT-ID: Normal VAT
@@ -36,7 +36,7 @@ public class InvoiceService : IInvoiceService
         _logger = logger;
     }
 
-    public async Task<Invoice> GenerateInvoiceAsync(Guid orderId, CancellationToken cancellationToken = default)
+    public Task<Invoice> GenerateInvoiceAsync(Guid orderId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Generating invoice for order {OrderId}", orderId);
 
@@ -73,7 +73,7 @@ public class InvoiceService : IInvoiceService
         invoice.CreatedAt = DateTime.UtcNow;
         invoice.Status = InvoiceStatus.Issued;
 
-        return await _invoiceRepository.AddAsync(invoice, cancellationToken);
+        return _invoiceRepository.AddAsync(invoice, cancellationToken);
     }
 
     public async Task<Invoice> ModifyInvoiceAsync(Guid invoiceId, Invoice updatedInvoice, CancellationToken cancellationToken = default)
@@ -212,13 +212,13 @@ public class InvoiceService : IInvoiceService
         return string.Empty;
     }
 
-    private string GenerateInvoiceNumber()
+    private static string GenerateInvoiceNumber()
     {
         // Format: INV-YYYY-XXXXXX (e.g., INV-2025-001234)
         return $"INV-{DateTime.UtcNow:yyyy}-{new Random().Next(1000, 999999)}";
     }
 
-    private decimal CalculateTaxAmount(decimal subtotal, decimal taxRate)
+    private static decimal CalculateTaxAmount(decimal subtotal, decimal taxRate)
     {
         return Math.Round(subtotal * taxRate, 2);
     }

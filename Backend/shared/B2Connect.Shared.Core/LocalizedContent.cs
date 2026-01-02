@@ -6,29 +6,29 @@ namespace B2Connect.Shared.Core;
 /// Value Object for storing translations of a property.
 /// Used with the Hybrid Localization Pattern where the default value is stored
 /// in a separate indexed column and translations are stored as JSON.
-/// 
+///
 /// Pattern: Default column + Translations JSON
 /// - Default value: Stored in a dedicated column (indexed for search)
 /// - Translations: Stored in this Value Object as JSON
-/// 
+///
 /// Example usage in a domain entity:
 /// <code>
 /// public class Product : ITenantEntity
 /// {
 ///     public Guid Id { get; set; }
 ///     public Guid TenantId { get; set; }
-///     
+///
 ///     // Default value in indexed column
 ///     public string Name { get; set; }
 ///     // Translations as JSON
 ///     public LocalizedContent? NameTranslations { get; set; }
-///     
+///
 ///     // Helper to get localized value with fallback
 ///     public string GetLocalizedName(string languageCode)
 ///         => NameTranslations?.GetValue(languageCode) ?? Name;
 /// }
 /// </code>
-/// 
+///
 /// EF Core configuration:
 /// <code>
 /// modelBuilder.Entity&lt;Product&gt;(entity =>
@@ -37,7 +37,7 @@ namespace B2Connect.Shared.Core;
 ///     entity.OwnsOne(p => p.NameTranslations, t => t.ToJson("NameTranslations"));
 /// });
 /// </code>
-/// 
+///
 /// See ADR: ADR-entity-localization-pattern.md for full documentation.
 /// </summary>
 public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent>
@@ -78,7 +78,9 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
     public string? GetValue(string languageCode)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
+        {
             return null;
+        }
 
         return Translations.TryGetValue(languageCode.ToLowerInvariant(), out var translation)
             ? translation
@@ -111,7 +113,7 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
     /// <summary>
     /// Returns a new LocalizedContent with replaced translations.
     /// </summary>
-    public LocalizedContent WithTranslations(Dictionary<string, string> newTranslations)
+    public static LocalizedContent WithTranslations(Dictionary<string, string> newTranslations)
     {
         return new LocalizedContent(newTranslations);
     }
@@ -141,9 +143,21 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
     // Value Object equality - based on all Translations
     public bool Equals(LocalizedContent? other)
     {
-        if (other is null) return false;
-        if (ReferenceEquals(this, other)) return true;
-        if (Translations.Count != other.Translations.Count) return false;
+        if (other is null)
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        if (Translations.Count != other.Translations.Count)
+        {
+            return false;
+        }
+
         return Translations.All(kvp =>
             other.Translations.TryGetValue(kvp.Key, out var value) && value == kvp.Value);
     }
@@ -189,7 +203,9 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
     public bool ContainsText(string searchTerm, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
+        {
             return true;
+        }
 
         return Translations.Values.Any(t => t.Contains(searchTerm, comparison));
     }

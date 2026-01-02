@@ -1,28 +1,28 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Linq.Expressions;
 
 namespace B2Connect.Shared.Core;
 
 /// <summary>
 /// Extension methods for configuring LocalizedContent as an owned type in EF Core.
-/// 
+///
 /// The Hybrid Localization Pattern:
 /// - Default value: Stored in a dedicated column on the entity (indexed for search)
 /// - Translations: Stored as JSON in LocalizedContent owned type
-/// 
+///
 /// Usage example in entity:
 /// <code>
 /// public class Product
 /// {
 ///     public string Name { get; set; }                    // Default (indexed)
 ///     public LocalizedContent? NameTranslations { get; set; } // Other languages (JSON)
-///     
+///
 ///     public string GetLocalizedName(string lang)
 ///         => NameTranslations?.GetValue(lang) ?? Name;
 /// }
 /// </code>
-/// 
+///
 /// Usage example in DbContext.OnModelCreating:
 /// <code>
 /// modelBuilder.Entity&lt;Product&gt;(entity =>
@@ -31,7 +31,7 @@ namespace B2Connect.Shared.Core;
 ///     entity.ConfigureTranslations(p => p.NameTranslations);
 /// });
 /// </code>
-/// 
+///
 /// See ADR: ADR-entity-localization-pattern.md for full documentation.
 /// </summary>
 public static class LocalizedContentConfiguration
@@ -84,7 +84,7 @@ public static class LocalizedContentConfiguration
 /// <summary>
 /// Extension methods for querying entities with the Hybrid Localization Pattern.
 /// The default language column is directly queryable via LINQ.
-/// 
+///
 /// For searching translations (JSON), use in-memory filtering or Elasticsearch.
 /// </summary>
 public static class LocalizedContentQueryExtensions
@@ -92,7 +92,7 @@ public static class LocalizedContentQueryExtensions
     /// <summary>
     /// Gets the localized value for an entity, falling back to the default value.
     /// This is a helper for projection scenarios.
-    /// 
+    ///
     /// Usage:
     /// <code>
     /// var dto = await dbContext.Products
@@ -102,7 +102,7 @@ public static class LocalizedContentQueryExtensions
     ///     })
     ///     .FirstOrDefaultAsync();
     /// </code>
-    /// 
+    ///
     /// Note: This is evaluated in-memory, not translated to SQL.
     /// For large datasets, prefer pre-filtering or Elasticsearch.
     /// </summary>
@@ -135,7 +135,7 @@ public static class LocalizablePropertyBuilder
 {
     /// <summary>
     /// Creates a localized property configuration for an entity type.
-    /// 
+    ///
     /// Usage in DbContext:
     /// <code>
     /// modelBuilder.Entity&lt;Product&gt;(entity =>
