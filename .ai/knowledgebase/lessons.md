@@ -8,6 +8,58 @@
 
 ## Session: 2. Januar 2026
 
+### EF Core Migrations: Never Use AppHost as Startup Project
+
+**Issue**: Added `Microsoft.EntityFrameworkCore.Design` package to AppHost (Aspire Orchestrator) to run EF Core migrations. This is architecturally wrong.
+
+**Problem**: 
+- AppHost is an **orchestrator** - it starts containers, not a data access layer
+- Adding EF Design packages pollutes the host with unnecessary dependencies
+- Creates tight coupling between orchestration and data access concerns
+
+**Solution**: Implement `IDesignTimeDbContextFactory<T>` in the project containing the DbContext:
+
+```csharp
+// In B2Connect.Shared.Monitoring/Data/MonitoringDbContextFactory.cs
+public class MonitoringDbContextFactory : IDesignTimeDbContextFactory<MonitoringDbContext>
+{
+    public MonitoringDbContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<MonitoringDbContext>();
+        
+        // Use default connection string for migrations
+        var connectionString = "Host=localhost;Port=5432;Database=B2Connect_Monitoring;...";
+        optionsBuilder.UseNpgsql(connectionString);
+        
+        return new MonitoringDbContext(optionsBuilder.Options, new DesignTimeTenantContext());
+    }
+}
+```
+
+**Correct Migration Command**:
+```bash
+# ✅ CORRECT - Project is its own startup
+dotnet ef migrations add MigrationName \
+  --project backend/shared/Monitoring/B2Connect.Shared.Monitoring.csproj
+
+# ❌ WRONG - Using AppHost as startup
+dotnet ef migrations add MigrationName \
+  --project backend/shared/Monitoring/B2Connect.Shared.Monitoring.csproj \
+  --startup-project AppHost/B2Connect.AppHost.csproj
+```
+
+**Key Rule**: 
+- ❌ NEVER add `Microsoft.EntityFrameworkCore.Design` to AppHost
+- ❌ NEVER add DbContext project references to AppHost just for migrations
+- ✅ ALWAYS implement `IDesignTimeDbContextFactory<T>` in the data project
+- ✅ Use the data project itself as startup for migrations
+
+**Files**: 
+- `backend/shared/Monitoring/Data/MonitoringDbContextFactory.cs` - Design-time factory
+- `AppHost/B2Connect.AppHost.csproj` - Keep clean (no EF Design, no data project refs)
+
+---
+
 ### enventa Integration Patterns from eGate Reference Implementation
 
 **Context**: Analyzed [eGate](https://github.com/NissenVelten/eGate) production implementation for enventa Trade ERP integration patterns.

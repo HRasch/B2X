@@ -22,7 +22,6 @@
     <PackageReference Include="Aspire.Hosting.RabbitMQ" />
     <PackageReference Include="Aspire.Hosting.Elasticsearch" />
     <PackageReference Include="Aspire.Hosting.JavaScript" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +33,6 @@
     <ProjectReference Include="../backend/Domain/Theming/B2Connect.Theming.API.csproj" />
     <ProjectReference Include="../backend/Gateway/Store/API/B2Connect.Store.csproj" />
     <ProjectReference Include="../backend/Gateway/Admin/B2Connect.Admin.csproj" />
-    <ProjectReference Include="../backend/shared/Monitoring/B2Connect.Shared.Monitoring.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
 </Project>
