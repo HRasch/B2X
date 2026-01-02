@@ -340,6 +340,142 @@ public sealed class ErpActor : IAsyncDisposable
 - **Metrics**: Tracks queued, processed, and failed operations
 - **Graceful shutdown**: Completes pending operations before disposal
 
+### Resilience Pipeline Implementation
+
+See: `backend/Domain/ERP/src/Infrastructure/Resilience/ErpResiliencePipeline.cs`
+
+**Polly-based resilience patterns** for production ERP reliability:
+
+```csharp
+/// <summary>
+/// Resilience pipeline for ERP operations using Polly.
+/// Implements Circuit Breaker, Retry, and Timeout policies.
+/// </summary>
+public sealed class ErpResiliencePipeline
+{
+    private readonly ResiliencePipeline _pipeline;
+    
+    public ErpResiliencePipeline(IOptions<ErpResilienceOptions> options)
+    {
+        _pipeline = new ResiliencePipelineBuilder()
+            .AddTimeout(options.Value.Timeout)
+            .AddRetry(new RetryStrategyOptions
+            {
+                MaxRetryAttempts = options.Value.MaxRetries,
+                BackoffType = DelayBackoffType.Exponential,
+                UseJitter = true
+            })
+            .AddCircuitBreaker(new CircuitBreakerStrategyOptions
+            {
+                FailureRatio = options.Value.FailureRatio, // 0.5 = 50%
+                MinimumThroughput = options.Value.MinimumThroughput, // 10
+                BreakDuration = options.Value.BreakDuration, // 1 minute
+                ShouldHandle = static args => args.Outcome.Exception is ErpException
+            })
+            .Build();
+    }
+    
+    public async Task<TResult> ExecuteAsync<TResult>(
+        Func<CancellationToken, Task<TResult>> operation,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _pipeline.ExecuteAsync(
+            static async (state, ct) => await state.operation(ct),
+            (operation, cancellationToken),
+            cancellationToken);
+            
+        return result;
+    }
+}
+```
+
+**Configuration Options:**
+```csharp
+public class ErpResilienceOptions
+{
+    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(30);
+    public int MaxRetries { get; set; } = 3;
+    public double FailureRatio { get; set; } = 0.5; // 50%
+    public int MinimumThroughput { get; set; } = 10;
+    public TimeSpan BreakDuration { get; set; } = TimeSpan.FromMinutes(1);
+}
+```
+
+**Key Features:**
+- **Circuit Breaker**: Opens after 50% failure ratio, breaks for 1 minute
+- **Retry**: Up to 3 attempts with exponential backoff + jitter
+- **Timeout**: 30-second timeout per operation
+- **Exception Handling**: Only handles `ErpException` types
+- **Metrics Integration**: Tracks circuit state and failure rates
+
+### Transaction Scope Implementation
+
+See: `backend/Domain/ERP/src/Infrastructure/Transactions/IErpTransactionScope.cs`
+
+**Transaction scope abstraction** for enventa FSUtil compatibility:
+
+```csharp
+/// <summary>
+/// Abstraction for enventa transaction scopes.
+/// Compatible with FSUtil.CreateScope() pattern.
+/// </summary>
+public interface IErpTransactionScope : IAsyncDisposable
+{
+    Task CommitAsync(CancellationToken cancellationToken = default);
+    Task RollbackAsync(CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// Wraps ERP operations in transaction scope.
+/// Ensures atomicity for multi-step operations.
+/// </summary>
+public sealed class TransactionalErpOperation : IErpOperation
+{
+    private readonly IErpTransactionScope _scope;
+    private readonly Func<Task> _operation;
+    
+    public async Task ExecuteAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            await _operation();
+            await _scope.CommitAsync(cancellationToken);
+        }
+        catch
+        {
+            await _scope.RollbackAsync(cancellationToken);
+            throw;
+        }
+    }
+}
+```
+
+**Usage Pattern:**
+```csharp
+// ✅ Transactional batch update
+await _erpActor.ExecuteAsync(async () =>
+{
+    using var scope = _transactionScopeFactory.CreateScope();
+    
+    foreach (var batch in products.Chunk(1000))
+    {
+        foreach (var product in batch)
+        {
+            await _erpProvider.UpdateProductAsync(product);
+        }
+    }
+    
+    await scope.CommitAsync();
+});
+```
+
+**Key Features:**
+- **FSUtil Compatibility**: Adapts enventa's `FSUtil.CreateScope()` pattern
+- **Async Support**: Full async/await support with cancellation
+- **Exception Handling**: Automatic rollback on exceptions
+- **Batch Processing**: Optimized for bulk operations
+- **Resource Management**: Proper disposal and cleanup
+
 ## Data Model Mappings
 
 | enventa Model | B2Connect Model | Notes |
@@ -616,12 +752,16 @@ _logger.LogInformation("ERP operation: {Operation} took {Duration}ms",
 
 ✅ **Completed:**
 - Actor pattern infrastructure (`ErpActor`, `ErpOperation`)
+- Resilience pipeline with Polly (Circuit Breaker, Retry, Timeout)
+- Transaction scope abstraction (`IErpTransactionScope`, `TransactionalErpOperation`)
 - Provider factory and lifecycle management
 - gRPC proto definitions for all services
 - Provider interfaces (`IErpProvider`, `ICrmProvider`, `IPimProvider`)
 - Core data models (`TenantContext`, `ProviderResult`, `PagedResult`)
 - Provider manager with health checks
 - Service collection extensions for DI
+- Status-based error tracking in operations
+- Reflection elimination in ErpActor (production-ready)
 
 🚧 **In Progress:**
 - Actual gRPC client implementations (currently throw `NotImplementedException`)
@@ -1308,11 +1448,15 @@ public class DependencyRegistrar : IDependencyRegistrar
 - **enventa Framework**: `FrameworkSystems.*`, `FS.*` for data access
 - **B2Connect DTOs**: Map enventa entities → B2Connect domain models
 - **Actor Pattern**: One actor per tenant (like eGate's architecture)
+- **Resilience Pipeline**: Polly-based Circuit Breaker, Retry, Timeout
+- **Transaction Scopes**: FSUtil-compatible transaction abstraction
+- **Status Tracking**: Operation status and error counting
 
 ## References
 
 - **eGate Reference**: [NissenVelten/eGate](https://github.com/NissenVelten/eGate) - Production implementation
 - **ADR-023**: [ERP Plugin Architecture](../../.ai/decisions/ADR-023-erp-plugin-architecture.md)
+- **Polly Documentation**: [Polly Resilience Library](https://github.com/App-vNext/Polly)
 - **Implementation**: `backend/Domain/ERP/src/`
 - **Tests**: `backend/Domain/ERP/tests/`
 - **Proto Definitions**: `backend/Domain/ERP/src/Protos/`

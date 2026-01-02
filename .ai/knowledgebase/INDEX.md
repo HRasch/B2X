@@ -33,6 +33,8 @@ This index lists curated knowledgebase articles to help agents and developers im
 | `KB-016` | [tools-and-tech/ai-cost-optimization.md](tools-and-tech/ai-cost-optimization.md) | AI cost monitoring & optimization |
 | `KB-018` | [tools-and-tech/local-llm-models-2025.md](tools-and-tech/local-llm-models-2025.md) | Beste lokale LLM-Modelle für Entwicklung |
 | `KB-020` | [tools-and-tech/archunitnet.md](tools-and-tech/archunitnet.md) | ArchUnitNET architecture testing framework |
+| `KB-021` | [enventa-trade-erp.md](enventa-trade-erp.md) | enventa Trade ERP integration guide |
+| `KB-LESSONS` | [lessons.md](lessons.md) | Lessons learned from development work |
 
 ## Subdirectories
 
@@ -100,6 +102,8 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - [TypeScript 5.0](./software/typescript/v4-to-v5.md)
 
 ## Recently Updated
+- 02.01.2026: Updated enventa Trade ERP integration guide with resilience pipeline, transaction scopes, and production fixes ([enventa-trade-erp.md](./enventa-trade-erp.md))
+- 02.01.2026: Added ERP architecture review lessons to lessons learned ([lessons.md](./lessons.md))
 - 02.01.2026: Added ArchUnitNET architecture testing guide ([tools-and-tech/archunitnet.md](./tools-and-tech/archunitnet.md))
 - 02.01.2026: Added AI Cost Monitoring & Optimization guide ([tools-and-tech/ai-cost-optimization.md](./tools-and-tech/ai-cost-optimization.md))
 - 02.01.2026: Added GitHub Copilot AI Models & Pricing guide ([tools-and-tech/github-copilot-models.md](./tools-and-tech/github-copilot-models.md))
@@ -189,6 +193,6 @@ Examples:
 
 ---
 
-**Last Updated:** 30.12.2025
+**Last Updated:** 02.01.2026
 **Maintained by:** @SARAH, @Architect
 **Access Level:** All Agents

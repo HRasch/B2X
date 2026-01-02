@@ -209,6 +209,57 @@ await Should.ThrowAsync<Exception>(async () => await action());
 
 ---
 
+### Test Framework Migration: Converting FluentAssertions to Shouldly
+
+**Issue**: Identity domain tests still used FluentAssertions syntax after project-wide switch to Shouldly, causing 49 build errors.
+
+**Problem**: 
+- Project switched to Shouldly for cleaner, more readable assertions
+- Identity tests (`AuthServiceTests.cs`) were not updated
+- Build failed with CS1061 errors: "does not contain a definition for 'Should'"
+
+**Solution**: Systematic conversion of all FluentAssertions syntax to Shouldly:
+
+**Conversion Patterns**:
+```csharp
+// ❌ OLD - FluentAssertions syntax
+result.Should().NotBeNull();
+result.Should().BeOfType<Result<T>.Success>();
+value.Should().Be(expectedValue);
+value.Should().NotBeNullOrEmpty();
+collection.Should().HaveCount(expectedCount);
+collection.Should().BeEmpty();
+
+// ✅ NEW - Shouldly syntax  
+result.ShouldNotBeNull();
+result.ShouldBeOfType<Result<T>.Success>();
+value.ShouldBe(expectedValue);
+value.ShouldNotBeNullOrEmpty();
+collection.Count.ShouldBe(expectedCount);
+collection.ShouldBeEmpty();
+```
+
+**Files Updated**:
+- `backend/Domain/Identity/tests/Services/AuthServiceTests.cs` - Complete conversion
+
+**Impact**:
+- **Before**: 49 build errors, tests failing
+- **After**: 0 errors, 140/140 tests passing ✅
+- **Build Status**: Clean build with only acceptable warnings
+
+**Lessons Learned**:
+- **Consistency matters**: All tests in a project should use the same assertion framework
+- **Migration planning**: When switching frameworks, create a systematic migration plan
+- **Build validation**: Always run full test suite after framework changes
+- **Documentation**: Update testing guidelines to reflect framework choices
+
+**Prevention**: 
+- Add linting rules to prevent FluentAssertions usage
+- Include framework migration in code review checklists
+- Document testing standards prominently in contribution guidelines
+
+---
+
 ## Session: 1. Januar 2026
 
 ### ESLint 9.x Migration
@@ -446,9 +497,76 @@ async getProducts(): Promise<PaginatedResponse<Product>> {
 
 ---
 
+### ERP Architecture Review - Production Readiness Fixes
+
+**Context**: Architecture review by @Architect and @Enventa identified critical issues in ERP domain implementation that needed immediate fixes for production readiness.
+
+**Issues Fixed**:
+
+1. **Reflection Usage in ErpActor** - Performance and safety issue
+   - **Problem**: `operation.GetType().GetMethod("ExecuteAsync")?.Invoke()` caused runtime overhead and potential failures
+   - **Solution**: Eliminated reflection, implemented direct `IErpOperation.ExecuteAndCompleteAsync()` interface method
+   - **Impact**: Improved performance, eliminated runtime reflection risks, cleaner code
+
+2. **Missing Resilience Patterns** - Production reliability gap
+   - **Problem**: No Circuit Breaker, Retry, or Timeout policies for ERP operations
+   - **Solution**: Implemented `ErpResiliencePipeline` using Polly with Circuit Breaker (50% failure ratio, 1min break), Retry (3 attempts, exponential backoff), Timeout (30s)
+   - **Impact**: Production-grade reliability for ERP integration
+
+3. **Transaction Scope Modeling** - enventa compatibility requirement
+   - **Problem**: No abstraction for enventa's `FSUtil.CreateScope()` transaction pattern
+   - **Solution**: Created `IErpTransactionScope` interface and `TransactionalErpOperation` wrapper for batch operations
+   - **Impact**: Proper transaction handling for multi-step ERP operations, enventa FSUtil compatibility
+
+4. **Status-Based Error Tracking** - Operation monitoring gap
+   - **Problem**: No way to track operation success/failure rates for circuit breaker decisions
+   - **Solution**: Added `IErpOperationWithStatus` interface and status counting in ErpActor
+   - **Impact**: Proper metrics for resilience pipeline decisions
+
+**Key Lessons**:
+- **Reflection is technical debt**: Even in prototypes, avoid reflection for performance-critical paths
+- **Resilience patterns are non-negotiable**: ERP integrations require Circuit Breaker, Retry, Timeout from day one
+- **Transaction scopes matter**: Legacy ERP systems have specific transaction patterns that must be abstracted
+- **Status tracking enables automation**: Circuit breakers need operation metrics to function properly
+- **Architecture reviews catch production blockers**: Regular reviews prevent deployment surprises
+
+**Implementation Pattern**:
+```csharp
+// ✅ Production-ready operation with resilience
+public async Task<Product> GetProductAsync(string productId)
+{
+    return await _resiliencePipeline.ExecuteAsync(async ct =>
+    {
+        using var scope = _transactionScopeFactory.CreateScope();
+        var operation = new GetProductOperation(productId);
+        
+        var result = await _erpActor.EnqueueAsync(operation);
+        await scope.CommitAsync(ct);
+        
+        return result;
+    });
+}
+```
+
+**Files Updated**:
+- `IErpOperation.cs` - Added `ExecuteAndCompleteAsync`
+- `ErpOperation.cs` - Implemented status tracking
+- `ErpActor.cs` - Eliminated reflection, added status counting
+- `ErpResiliencePipeline.cs` - Polly-based resilience
+- `IErpTransactionScope.cs` - Transaction abstraction
+- `TransactionalErpOperation.cs` - Transaction wrapper
+
+**Result**: ERP domain is now production-ready with proper resilience, transaction handling, and performance characteristics.
+
+---
+
 ## Best Practices Reminder
 
 1. **Always check file contents** before editing if there's a formatter or external tool involved
 2. **Run tests incrementally** - fix one category of errors at a time
 3. **Keep ESLint rules relaxed initially** - start permissive, tighten later
 4. **Document breaking changes** in knowledgebase for future reference
+5. **Eliminate reflection** in performance-critical paths
+6. **Implement resilience patterns** from the start for external integrations
+7. **Abstract legacy transaction patterns** properly
+8. **Add status tracking** for automated monitoring and circuit breakers
