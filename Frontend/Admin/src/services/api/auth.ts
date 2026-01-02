@@ -1,6 +1,54 @@
 import { apiClient } from "../client";
 import axios from "axios";
-import type { AdminUser, LoginRequest, LoginResponse } from "@/types/auth";
+import type { AdminUser, LoginRequest, LoginResponse, Role } from "@/types/auth";
+
+/**
+ * Transform backend role format to frontend Role[] format.
+ * Backend returns roles as string[] (e.g., ["Admin", "User"])
+ * Frontend expects Role[] with {id, name, description, permissions}
+ */
+function transformRoles(roles: unknown): Role[] {
+  if (!roles || !Array.isArray(roles)) {
+    return [];
+  }
+
+  return roles.map((role, index) => {
+    // If already a Role object, return as-is
+    if (typeof role === "object" && role !== null && "name" in role) {
+      return role as Role;
+    }
+    // If string, transform to Role object
+    if (typeof role === "string") {
+      const roleName = role;
+      return {
+        id: `role-${index + 1}`,
+        name: roleName,
+        description: getRoleDescription(roleName),
+        permissions: [],
+      };
+    }
+    // Fallback for unknown format
+    return {
+      id: `role-${index + 1}`,
+      name: String(role),
+      description: "",
+      permissions: [],
+    };
+  });
+}
+
+/**
+ * Get human-readable description for known role names
+ */
+function getRoleDescription(roleName: string): string {
+  const descriptions: Record<string, string> = {
+    Admin: "Administrator with full access",
+    User: "Standard user",
+    Manager: "Manager with elevated permissions",
+    Viewer: "Read-only access",
+  };
+  return descriptions[roleName] || `${roleName} role`;
+}
 
 // Demo mode - DISABLED for production security
 // Only enable for local E2E testing via environment variable
@@ -87,15 +135,42 @@ export const authApi = {
       sessionStorage.setItem("tenantId", response.data.user.tenantId);
     }
 
-    return response.data;
+    // Transform backend role format (string[]) to frontend format (Role[])
+    // Backend returns: roles: ["Admin", "User"]
+    // Frontend expects: roles: [{id, name, description, permissions}]
+    const transformedResponse = {
+      ...response.data,
+      user: {
+        ...response.data.user,
+        roles: transformRoles(response.data.user?.roles),
+      },
+    };
+
+    return transformedResponse;
   },
 
-  verify(token: string) {
-    return apiClient.post<AdminUser>("/api/auth/verify", { token });
+  async verify(token: string) {
+    const response = await apiClient.post<AdminUser>("/api/auth/verify", { token });
+    // Transform roles if needed
+    return {
+      ...response,
+      data: {
+        ...response.data,
+        roles: transformRoles(response.data.roles),
+      },
+    };
   },
 
-  getCurrentUser() {
-    return apiClient.get<AdminUser>("/api/auth/me");
+  async getCurrentUser() {
+    const response = await apiClient.get<AdminUser>("/api/auth/me");
+    // Transform roles if needed
+    return {
+      ...response,
+      data: {
+        ...response.data,
+        roles: transformRoles(response.data.roles),
+      },
+    };
   },
 
   updateProfile(data: Partial<AdminUser>) {
@@ -118,7 +193,14 @@ export const authApi = {
         withCredentials: true, // Send httpOnly refresh cookie
       }
     );
-    return response.data;
+    // Transform roles if needed
+    return {
+      ...response.data,
+      user: {
+        ...response.data.user,
+        roles: transformRoles(response.data.user?.roles),
+      },
+    };
   },
 
   requestMFA() {
