@@ -129,3 +129,7 @@ Thumbs.db
 .aspire-generated/
 .aspire.json
 .dotnet-tools.json.user
+
+# Dev Node Configuration (local network secrets)
+.b2connect-dev-node.json
+**/dev-node.local.json

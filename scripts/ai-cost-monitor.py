@@ -144,14 +144,17 @@ class AICostMonitor:
                     for line in f:
                         if line.strip():
                             data = json.loads(line)
+                            # Convert timestamp string to datetime
+                            if 'timestamp' in data:
+                                data['timestamp'] = datetime.fromisoformat(data['timestamp'])
                             usage = AIUsage(**data)
-                            if start_date <= usage['timestamp'] <= end_date:
-                                total_cost += usage['cost']
-                                total_tokens += usage['tokens']
+                            if start_date <= usage.timestamp <= end_date:
+                                total_cost += usage.cost
+                                total_tokens += usage.tokens
 
-                                usage_by_model[usage['model']] = usage_by_model.get(usage['model'], 0) + usage['cost']
-                                usage_by_agent[usage['agent']] = usage_by_agent.get(usage['agent'], 0) + usage['cost']
-                                usage_by_task[usage['task_type']] = usage_by_task.get(usage['task_type'], 0) + usage['cost']
+                                usage_by_model[usage.model] = usage_by_model.get(usage.model, 0) + usage.cost
+                                usage_by_agent[usage.agent] = usage_by_agent.get(usage.agent, 0) + usage.cost
+                                usage_by_task[usage.task_type] = usage_by_task.get(usage.task_type, 0) + usage.cost
             except Exception as e:
                 print(f"Warning: Error reading {log_file}: {e}", file=sys.stderr)
 

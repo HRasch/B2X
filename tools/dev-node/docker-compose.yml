@@ -1,0 +1,81 @@
+# B2Connect Dev Node - Docker Compose Stack
+#
+# GPU-accelerated AI development environment for local network access.
+# Deploy to high-performance dev node (RTX 5090, 64GB DDR5, etc.)
+#
+# Usage:
+#   Start:    docker compose up -d
+#   Stop:     docker compose down
+#   Logs:     docker compose logs -f
+#   Pull:     docker compose exec ollama ollama pull llama3.2
+#
+# Network Access:
+#   Ollama API:  http://<dev-node-ip>:11434
+#
+# Requirements:
+#   - NVIDIA GPU with CUDA support
+#   - NVIDIA Container Toolkit installed
+#   - Docker Compose v2+
+
+services:
+  # Ollama - Local LLM Inference with GPU Acceleration
+  ollama:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: b2connect-dev-node:latest
+    container_name: b2connect-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    labels:
+      - "com.b2connect.service=dev-node"
+      - "com.b2connect.component=ollama"
+
+  # Optional: Open WebUI for Ollama (browser-based chat interface)
+  # Uncomment to enable web interface at http://<dev-node-ip>:3000
+  # webui:
+  #   image: ghcr.io/open-webui/open-webui:main
+  #   container_name: b2connect-webui
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:8080"
+  #   environment:
+  #     - OLLAMA_BASE_URL=http://ollama:11434
+  #   volumes:
+  #     - webui-data:/app/backend/data
+  #   depends_on:
+  #     ollama:
+  #       condition: service_healthy
+  #   labels:
+  #     - "com.b2connect.service=dev-node"
+  #     - "com.b2connect.component=webui"
+
+volumes:
+  ollama-data:
+    name: b2connect-ollama-data
+  # webui-data:
+  #   name: b2connect-webui-data
+
+networks:
+  default:
+    name: b2connect-dev-network

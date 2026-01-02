@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# check-ai-duplicates.sh - Prevents duplicate files in .ai/ folder
+# check-ai-duplicates.sh - Prevents duplicate files across the project
 # ============================================================================
 # This script checks for files/folders with " 2", " 3", etc. naming patterns
 # which indicate accidental duplicates (common with macOS Finder operations).
@@ -9,6 +9,7 @@
 #   ./scripts/check-ai-duplicates.sh           # Check only
 #   ./scripts/check-ai-duplicates.sh --fix     # Delete duplicates
 #   ./scripts/check-ai-duplicates.sh --pre-commit  # For Git hooks
+#   ./scripts/check-ai-duplicates.sh --all     # Check entire project (not just .ai/)
 #
 # Exit codes:
 #   0 - No duplicates found
@@ -29,11 +30,11 @@ NC='\033[0m' # No Color
 # Get script directory and project root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-AI_DIR="$PROJECT_ROOT/.ai"
 
 # Parse arguments
 FIX_MODE=false
 PRE_COMMIT=false
+CHECK_ALL=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -45,17 +46,35 @@ while [[ $# -gt 0 ]]; do
             PRE_COMMIT=true
             shift
             ;;
+        --all)
+            CHECK_ALL=true
+            shift
+            ;;
         *)
             shift
             ;;
     esac
 done
 
-echo "🔍 Checking for duplicate files in .ai/ folder..."
+if [[ "$CHECK_ALL" == true ]]; then
+    echo "🔍 Checking for duplicate files across entire project..."
+    SEARCH_DIR="$PROJECT_ROOT"
+    EXCLUDE_PATTERN="! -path '*/node_modules/*' ! -path '*/.git/*' ! -path '*/bin/*' ! -path '*/obj/*'"
+else
+    echo "🔍 Checking for duplicate files in .ai/, docs/, .github/ folders..."
+    SEARCH_DIR="$PROJECT_ROOT"
+fi
 
 # Find all duplicates (files and folders with " 2", " 3", etc. pattern)
-DUPLICATE_FILES=$(find "$AI_DIR" -name "* [0-9]*" -type f 2>/dev/null || true)
-DUPLICATE_FOLDERS=$(find "$AI_DIR" -name "* [0-9]*" -type d 2>/dev/null || true)
+if [[ "$CHECK_ALL" == true ]]; then
+    DUPLICATE_FILES=$(find "$SEARCH_DIR" -name "* [0-9]*" -type f ! -path "*/node_modules/*" ! -path "*/.git/*" ! -path "*/bin/*" ! -path "*/obj/*" ! -path "*/dist/*" 2>/dev/null || true)
+    DUPLICATE_FOLDERS=$(find "$SEARCH_DIR" -name "* [0-9]*" -type d ! -path "*/node_modules/*" ! -path "*/.git/*" ! -path "*/bin/*" ! -path "*/obj/*" ! -path "*/dist/*" 2>/dev/null || true)
+else
+    # Check .ai/, docs/, .github/, and root-level files
+    DUPLICATE_FILES=$(find "$PROJECT_ROOT/.ai" "$PROJECT_ROOT/docs" "$PROJECT_ROOT/.github" -name "* [0-9]*" -type f 2>/dev/null || true)
+    DUPLICATE_FILES+=$'\n'$(find "$PROJECT_ROOT" -maxdepth 1 -name "* [0-9]*" -type f 2>/dev/null || true)
+    DUPLICATE_FOLDERS=$(find "$PROJECT_ROOT/.ai" "$PROJECT_ROOT/docs" "$PROJECT_ROOT/.github" -name "* [0-9]*" -type d 2>/dev/null || true)
+fi
 
 FILE_COUNT=$(echo -n "$DUPLICATE_FILES" | grep -c '^' 2>/dev/null || echo 0)
 FOLDER_COUNT=$(echo -n "$DUPLICATE_FOLDERS" | grep -c '^' 2>/dev/null || echo 0)
