@@ -23,11 +23,18 @@ Legacy ERP systems often use .NET Framework 4.8, requiring isolation strategies.
    - Windows-only deployment for Framework assemblies
 
 2. **enventa Trade ERP Specifics**
-   - Uses proprietary ORM mapper (not EF Core compatible)
+   - Uses proprietary ORM mapper (FrameworkSystems - not EF Core compatible)
    - Direct assembly integration required for performance
    - Millions of records require optimized bulk operations
+   - **⚠️ CRITICAL: NOT MULTITHREADING-SAFE** - All operations must be serialized
 
-3. **Cross-Framework Communication**
+3. **Single-Threading Constraint**
+   - enventa ERP assemblies cannot handle concurrent access
+   - Login/Logout operations require exclusive locks
+   - All data access must go through a single-threaded worker
+   - Concurrent requests must be queued and processed sequentially
+
+4. **Cross-Framework Communication**
    - Provider containers run .NET Framework 4.8
    - B2Connect core runs .NET 10
    - Need framework-agnostic communication protocols
@@ -235,6 +242,121 @@ public class EnventaOrmAdapter : IErpDataAccess
 }
 ```
 
+#### Thread-Safe Data Access: Actor Pattern
+
+Since enventa ERP is **not thread-safe**, all operations must be serialized through an Actor pattern:
+
+```csharp
+/// <summary>
+/// Thread-safe ERP access using Actor pattern.
+/// All ERP operations are serialized through a single worker thread.
+/// </summary>
+public class EnventaErpActor : IAsyncDisposable
+{
+    private readonly Channel<ErpOperation> _operationQueue;
+    private readonly Task _workerTask;
+    private readonly IFSGlobalObjects _erpConnection;
+    
+    public EnventaErpActor(NVIdentity identity)
+    {
+        _operationQueue = Channel.CreateBounded<ErpOperation>(
+            new BoundedChannelOptions(1000)
+            {
+                FullMode = BoundedChannelFullMode.Wait,
+                SingleReader = true,  // Critical: only one reader!
+                SingleWriter = false
+            });
+        
+        _erpConnection = CreateAndLoginConnection(identity);
+        _workerTask = Task.Run(() => ProcessOperationsAsync());
+    }
+    
+    /// <summary>
+    /// Enqueue an operation and wait for result.
+    /// Thread-safe: can be called from multiple threads.
+    /// </summary>
+    public async Task<TResult> ExecuteAsync<TResult>(
+        Func<IFSGlobalObjects, TResult> operation,
+        CancellationToken ct = default)
+    {
+        var tcs = new TaskCompletionSource<object>();
+        var erpOp = new ErpOperation(
+            conn => tcs.SetResult(operation(conn)),
+            ex => tcs.SetException(ex));
+        
+        await _operationQueue.Writer.WriteAsync(erpOp, ct);
+        return (TResult)await tcs.Task;
+    }
+    
+    /// <summary>
+    /// Single-threaded worker processing all ERP operations.
+    /// </summary>
+    private async Task ProcessOperationsAsync()
+    {
+        await foreach (var operation in _operationQueue.Reader.ReadAllAsync())
+        {
+            try
+            {
+                // Execute on single thread - thread-safe for enventa
+                operation.Execute(_erpConnection);
+            }
+            catch (Exception ex)
+            {
+                operation.SetException(ex);
+            }
+        }
+    }
+}
+
+/// <summary>
+/// Manages per-tenant ERP actors with thread isolation.
+/// </summary>
+public class EnventaActorPool : IDisposable
+{
+    private readonly ConcurrentDictionary<string, Lazy<EnventaErpActor>> _actors;
+    
+    /// <summary>
+    /// Get or create actor for tenant. Thread-safe.
+    /// Each tenant gets dedicated single-threaded ERP access.
+    /// </summary>
+    public EnventaErpActor GetActor(string tenantId)
+    {
+        return _actors.GetOrAdd(
+            tenantId,
+            id => new Lazy<EnventaErpActor>(() => CreateActor(id))
+        ).Value;
+    }
+}
+```
+
+#### Threading Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    B2Connect Requests                            │
+│              (Multiple concurrent requests)                      │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Request Queue (Channel<T>)                    │
+│              Per-Tenant Queue für Isolation                      │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                Single-Threaded Actor Worker                      │
+│              (Dedicated Thread per Tenant)                       │
+│              Serialisierte ERP-Zugriffe                         │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                  enventa ERP Assembly                            │
+│              (Thread-unsafe operations)                          │
+└─────────────────────────────────────────────────────────────────┘
+```
+
 ### Performance Optimization Strategies
 
 #### 1. **Batch Processing Pattern**
@@ -343,6 +465,7 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 - **Chatty Interfaces**: Multiple network calls causing latency (mitigated by bulk APIs)
 - **.NET Framework Constraints**: Limited async patterns require compatibility layer
 - **Proprietary ORM Lock-in**: enventa ORM patterns may not translate to other ERPs
+- **Single-Threading Bottleneck**: Serialized ERP access limits throughput (mitigated by caching + batching)
 
 ## Alternatives Considered
 
@@ -360,6 +483,7 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 ### Phase 1: Foundation (2 weeks)
 - Define interface contracts with batch/streaming operations
 - **Validate .NET 4.8 compatibility** for all communication patterns
+- **Implement Actor pattern** for thread-safe ERP access
 - Create base Docker images (Windows Server Core for .NET 4.8)
 - Implement Provider Manager skeleton with performance monitoring
 - Setup gRPC infrastructure for cross-framework streaming
@@ -397,6 +521,7 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 - [ADR-022] Multi-Tenant Domain Management
 - [KB-006] Wolverine Patterns
 - [GL-002] Subagent Delegation
+- [KB-ERP] enventa Trade ERP Technical Analysis (`.ai/knowledgebase/erp/enventa-trade-erp-analysis.md`)
 - [KB-020] eGate ERP Broker Analysis
 
 ---
