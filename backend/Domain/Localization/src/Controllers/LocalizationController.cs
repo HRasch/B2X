@@ -116,11 +116,12 @@ public class LocalizationController : ControllerBase
     private Guid? ExtractTenantId()
     {
         var tenantClaim = User.FindFirst("tenant");
-        if (tenantClaim != null && Guid.TryParse(tenantClaim.Value, out var tenantId))
+        if (tenantClaim == null || !Guid.TryParse(tenantClaim.Value, out var tenantId))
         {
-            return tenantId;
+            return null;
         }
-        return null;
+
+        return tenantId;
     }
 }
 

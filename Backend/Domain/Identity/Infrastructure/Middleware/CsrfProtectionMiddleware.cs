@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace B2Connect.Identity.Infrastructure.Middleware;
 
@@ -60,14 +60,20 @@ public class CsrfProtectionMiddleware
 
     private static bool IsAuthEndpoint(string? path)
     {
-        if (string.IsNullOrEmpty(path)) return false;
+        if (string.IsNullOrEmpty(path))
+        {
+            return false;
+        }
 
         return path.StartsWith("/api/auth/", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool IsPublicEndpoint(string? path)
     {
-        if (string.IsNullOrEmpty(path)) return false;
+        if (string.IsNullOrEmpty(path))
+        {
+            return false;
+        }
 
         // Add other public endpoints that don't need CSRF protection
         return path.Equals("/", StringComparison.OrdinalIgnoreCase) ||

@@ -37,7 +37,7 @@ public class Category
     public ICollection<Category> ChildCategories { get; set; } = new List<Category>();
 
     /// <summary>Gets or sets the display order</summary>
-    public int DisplayOrder { get; set; } = 0;
+    public int DisplayOrder { get; set; }
 
     /// <summary>Gets or sets whether the category is active</summary>
     public bool IsActive { get; set; } = true;

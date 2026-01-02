@@ -59,10 +59,7 @@ builder.Host.UseWolverine(opts =>
 builder.Services.AddWolverineHttp();
 
 // Add Database
-builder.Services.AddDbContext<AuthDbContext>(options =>
-{
-    options.UseSqlite(builder.Configuration.GetConnectionString("AuthDb") ?? "Data Source=auth.db");
-});
+builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("AuthDb") ?? "Data Source=auth.db"));
 
 // Add Identity
 builder.Services

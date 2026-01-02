@@ -39,7 +39,9 @@ public class ProductsController : ControllerBase
     {
         var product = await _queryHandler.GetByIdAsync(tenantId, id, cancellationToken);
         if (product == null)
+        {
             return NotFound();
+        }
 
         return Ok(product);
     }
@@ -70,7 +72,9 @@ public class ProductsController : ControllerBase
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(q))
+        {
             return BadRequest("Search term is required");
+        }
 
         var result = await _queryHandler.SearchAsync(tenantId, q, pageNumber, pageSize, cancellationToken);
         return Ok(result);
@@ -86,7 +90,9 @@ public class ProductsController : ControllerBase
         CancellationToken cancellationToken = default)
     {
         if (request == null)
+        {
             return BadRequest("Request body is required");
+        }
 
         var product = await _productService.CreateAsync(tenantId, request, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
@@ -124,7 +130,9 @@ public class ProductsController : ControllerBase
     {
         var deleted = await _productService.DeleteAsync(tenantId, id, cancellationToken);
         if (!deleted)
+        {
             return NotFound();
+        }
 
         return NoContent();
     }

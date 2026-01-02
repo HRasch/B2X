@@ -83,7 +83,7 @@ public class GetShippingMethodsRequestValidator : AbstractValidator<GetShippingM
         RuleFor(x => x.DestinationCountry)
             .NotEmpty().WithMessage("Destination country is required")
             .Length(2, 3).WithMessage("Country code must be 2-3 characters")
-            .Matches(@"^[A-Z]{2,3}$").WithMessage("Country code must contain only letters");
+            .Matches("^[A-Z]{2,3}$").WithMessage("Country code must contain only letters");
 
         RuleFor(x => x.TotalWeight)
             .GreaterThan(0).When(x => x.TotalWeight.HasValue)

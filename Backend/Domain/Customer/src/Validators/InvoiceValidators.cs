@@ -33,7 +33,7 @@ public class ModifyInvoiceCommandValidator : AbstractValidator<ModifyInvoiceComm
         {
             RuleFor(x => x.BuyerVatId)
                 .NotEmpty().WithMessage("BuyerVatId is required when applying reverse charge")
-                .Matches(@"^[A-Z]{2}[A-Z0-9]+$").WithMessage("Invalid VAT ID format");
+                .Matches("^[A-Z]{2}[A-Z0-9]+$").WithMessage("Invalid VAT ID format");
 
             RuleFor(x => x.BuyerCountry)
                 .NotEmpty().WithMessage("BuyerCountry is required when applying reverse charge")

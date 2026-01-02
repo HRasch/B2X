@@ -23,10 +23,10 @@ public class ProductCategory
     public Category Category { get; set; } = null!;
 
     /// <summary>Gets or sets whether this is the primary category for the product</summary>
-    public bool IsPrimary { get; set; } = false;
+    public bool IsPrimary { get; set; }
 
     /// <summary>Gets or sets the display order in this category</summary>
-    public int DisplayOrder { get; set; } = 0;
+    public int DisplayOrder { get; set; }
 
     /// <summary>Gets or sets the creation timestamp</summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

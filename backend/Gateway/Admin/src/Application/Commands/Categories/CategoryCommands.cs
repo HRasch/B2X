@@ -2,7 +2,7 @@ namespace B2Connect.Admin.Application.Commands.Categories;
 
 /// <summary>
 /// Category Commands & Queries - CQRS Pattern
-/// 
+///
 /// TenantId wird automatisch via ITenantContextAccessor im Handler injiziert
 /// </summary>
 

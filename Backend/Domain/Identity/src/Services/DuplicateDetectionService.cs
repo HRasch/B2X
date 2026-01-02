@@ -7,7 +7,7 @@ namespace B2Connect.Identity.Services;
 /// Service für Duplikat-Erkennung in Kundenregistrierungen
 /// Nutzt Multi-Field-Matching: Email → Levenshtein Distance für Namen → Phonetic Matching
 /// </summary>
-public class DuplicateDetectionService : IDuplicateDetectionService
+public partial class DuplicateDetectionService : IDuplicateDetectionService
 {
     private readonly ILogger<DuplicateDetectionService> _logger;
 
@@ -39,7 +39,9 @@ public class DuplicateDetectionService : IDuplicateDetectionService
         var result = new DuplicateCheckResultDto();
 
         if (string.IsNullOrWhiteSpace(email))
+        {
             return result;
+        }
 
         var potentialDuplicates = new List<PotentialDuplicateDto>();
 
@@ -123,22 +125,19 @@ public class DuplicateDetectionService : IDuplicateDetectionService
                 var cleanPhone = CleanPhoneNumber(phone);
                 foreach (var user in _registeredUsers)
                 {
-                    if (user.Phone != null && CleanPhoneNumber(user.Phone) == cleanPhone)
+                    if (user.Phone != null && CleanPhoneNumber(user.Phone) == cleanPhone && !potentialDuplicates.Any(p => p.UserId == user.UserId))
                     {
-                        if (!potentialDuplicates.Any(p => p.UserId == user.UserId))
+                        _logger.LogWarning("Gleiche Telefonnummer gefunden: {Phone}", phone);
+                        potentialDuplicates.Add(new PotentialDuplicateDto
                         {
-                            _logger.LogWarning("Gleiche Telefonnummer gefunden: {Phone}", phone);
-                            potentialDuplicates.Add(new PotentialDuplicateDto
-                            {
-                                UserId = user.UserId,
-                                UserName = user.UserName,
-                                Email = user.Email,
-                                SimilarityScore = 95,
-                                MatchingSource = "EXACT_PHONE",
-                                RegisteredDate = user.RegisteredDate,
-                                IsActive = user.IsActive
-                            });
-                        }
+                            UserId = user.UserId,
+                            UserName = user.UserName,
+                            Email = user.Email,
+                            SimilarityScore = 95,
+                            MatchingSource = "EXACT_PHONE",
+                            RegisteredDate = user.RegisteredDate,
+                            IsActive = user.IsActive
+                        });
                     }
                 }
             }
@@ -168,11 +167,13 @@ public class DuplicateDetectionService : IDuplicateDetectionService
     public int CalculateEmailSimilarity(string email1, string email2)
     {
         if (email1.Equals(email2, StringComparison.OrdinalIgnoreCase))
+        {
             return 100;
+        }
 
         // Domain-Matching: z.B. john@gmail.com vs john@gmial.com (Domain-Typo)
-        var parts1 = email1.ToLower().Split('@');
-        var parts2 = email2.ToLower().Split('@');
+        var parts1 = email1.ToLower(System.Globalization.CultureInfo.CurrentCulture).Split('@');
+        var parts2 = email2.ToLower(System.Globalization.CultureInfo.CurrentCulture).Split('@');
 
         if (parts1.Length == 2 && parts2.Length == 2)
         {
@@ -183,17 +184,19 @@ public class DuplicateDetectionService : IDuplicateDetectionService
             return Math.Min(100, avgSimilarity);
         }
 
-        return LevenshteinDistance(email1.ToLower(), email2.ToLower());
+        return LevenshteinDistance(email1.ToLower(System.Globalization.CultureInfo.CurrentCulture), email2.ToLower(System.Globalization.CultureInfo.CurrentCulture));
     }
 
     public int CalculateNameSimilarity(string name1, string name2)
     {
         if (name1.Equals(name2, StringComparison.OrdinalIgnoreCase))
+        {
             return 100;
+        }
 
         // Normalisierung: Leerzeichen, Bindestriche, etc.
-        name1 = System.Text.RegularExpressions.Regex.Replace(name1.ToLower(), @"\s+", " ").Trim();
-        name2 = System.Text.RegularExpressions.Regex.Replace(name2.ToLower(), @"\s+", " ").Trim();
+        name1 = MyRegex().Replace(name1.ToLower(System.Globalization.CultureInfo.CurrentCulture), " ").Trim();
+        name2 = MyRegex().Replace(name2.ToLower(System.Globalization.CultureInfo.CurrentCulture), " ").Trim();
 
         return LevenshteinDistance(name1, name2);
     }
@@ -202,14 +205,18 @@ public class DuplicateDetectionService : IDuplicateDetectionService
     /// Berechnet Levenshtein Distance (Edit Distance) zwischen zwei Strings
     /// Score 100 = identisch, 0 = völlig unterschiedlich
     /// </summary>
-    private int LevenshteinDistance(string s1, string s2)
+    private static int LevenshteinDistance(string s1, string s2)
     {
         var length1 = s1.Length;
         var length2 = s2.Length;
         var distances = new int[length1 + 1, length2 + 1];
 
-        for (var i = 0; i <= length1; distances[i, 0] = i++) { }
-        for (var j = 0; j <= length2; distances[0, j] = j++) { }
+        for (var i = 0; i <= length1; distances[i, 0] = i++)
+        {
+        }
+        for (var j = 0; j <= length2; distances[0, j] = j++)
+        {
+        }
 
         for (var i = 1; i <= length1; i++)
         {
@@ -224,14 +231,16 @@ public class DuplicateDetectionService : IDuplicateDetectionService
 
         var maxLength = Math.Max(length1, length2);
         if (maxLength == 0)
+        {
             return 100;
+        }
 
         var distance = distances[length1, length2];
         var similarity = 100 - (distance * 100 / maxLength);
         return Math.Max(0, similarity);
     }
 
-    private string CleanPhoneNumber(string phone)
+    private static string CleanPhoneNumber(string phone)
     {
         return System.Text.RegularExpressions.Regex.Replace(phone, @"[^\d]", "");
     }
@@ -243,4 +252,7 @@ public class DuplicateDetectionService : IDuplicateDetectionService
         _registeredUsers.Add((Guid.NewGuid(), "Jane Smith", "jane.smith@example.com", "+49 987 654321", DateTime.UtcNow.AddDays(-15), true));
         _registeredUsers.Add((Guid.NewGuid(), "Max Mustermann", "max.mustermann@gmx.de", "+49 111 222333", DateTime.UtcNow.AddDays(-7), true));
     }
+
+    [System.Text.RegularExpressions.GeneratedRegex(@"\s+")]
+    private static partial System.Text.RegularExpressions.Regex MyRegex();
 }

@@ -9,7 +9,7 @@ namespace B2Connect.Shared.Infrastructure.ServiceClients;
 /// <summary>
 /// Client for communication with the Tenancy service
 /// Uses Aspire Service Discovery to resolve "http://tenant-service" automatically
-/// 
+///
 /// Features:
 /// - In-memory caching (5 min for valid tenants, 1 min for not-found)
 /// - Retry policy with exponential backoff (3 attempts)
@@ -74,8 +74,8 @@ public class TenancyServiceClient : ITenancyServiceClient
 
         try
         {
-            var response = await _retryPolicy.ExecuteAsync(async () =>
-                await _httpClient.GetAsync($"/api/tenants/{tenantId}", ct));
+            var response = await _retryPolicy.ExecuteAsync(() =>
+                _httpClient.GetAsync($"/api/tenants/{tenantId}", ct));
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -127,8 +127,8 @@ public class TenancyServiceClient : ITenancyServiceClient
 
         try
         {
-            var response = await _retryPolicy.ExecuteAsync(async () =>
-                await _httpClient.GetAsync($"/api/tenants/by-domain/{Uri.EscapeDataString(normalizedDomain)}", ct));
+            var response = await _retryPolicy.ExecuteAsync(() =>
+                _httpClient.GetAsync($"/api/tenants/by-domain/{Uri.EscapeDataString(normalizedDomain)}", ct));
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {

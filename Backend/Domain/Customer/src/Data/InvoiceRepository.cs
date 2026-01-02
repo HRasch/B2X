@@ -45,27 +45,27 @@ public class InvoiceRepository : IInvoiceRepository
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Nullable", "CS8613")]
-    public async Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Invoices
+        return _context.Invoices
             .Include(i => i.LineItems)
             .AsNoTracking()
             .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted, cancellationToken);
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Nullable", "CS8613")]
-    public async Task<Invoice?> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
+    public Task<Invoice?> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
     {
-        return await _context.Invoices
+        return _context.Invoices
             .Include(i => i.LineItems)
             .AsNoTracking()
             .FirstOrDefaultAsync(i => i.OrderId == orderId && !i.IsDeleted, cancellationToken);
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Nullable", "CS8613")]
-    public async Task<Invoice?> GetByInvoiceNumberAsync(string invoiceNumber, CancellationToken cancellationToken = default)
+    public Task<Invoice?> GetByInvoiceNumberAsync(string invoiceNumber, CancellationToken cancellationToken = default)
     {
-        return await _context.Invoices
+        return _context.Invoices
             .Include(i => i.LineItems)
             .AsNoTracking()
             .FirstOrDefaultAsync(i => i.InvoiceNumber == invoiceNumber && !i.IsDeleted, cancellationToken);
@@ -76,11 +76,13 @@ public class InvoiceRepository : IInvoiceRepository
         _logger.LogInformation("Deleting invoice {InvoiceId}", id);
 
         var invoice = await _context.Invoices.FindAsync(new object[] { id }, cancellationToken);
-        if (invoice != null)
+        if (invoice == null)
         {
-            invoice.IsDeleted = true;
-            invoice.DeletedAt = DateTime.UtcNow;
-            await _context.SaveChangesAsync(cancellationToken);
+            return;
         }
+
+        invoice.IsDeleted = true;
+        invoice.DeletedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

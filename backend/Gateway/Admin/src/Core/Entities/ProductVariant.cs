@@ -48,16 +48,16 @@ public class ProductVariant
     public decimal? Weight { get; set; }
 
     /// <summary>Gets or sets the variant stock quantity</summary>
-    public int StockQuantity { get; set; } = 0;
+    public int StockQuantity { get; set; }
 
     /// <summary>Gets or sets whether this variant is active</summary>
     public bool IsActive { get; set; } = true;
 
     /// <summary>Gets or sets the display order among variants</summary>
-    public int DisplayOrder { get; set; } = 0;
+    public int DisplayOrder { get; set; }
 
     /// <summary>Gets or sets whether this is the default variant</summary>
-    public bool IsDefault { get; set; } = false;
+    public bool IsDefault { get; set; }
 
     /// <summary>Gets or sets the image URL for this variant (if different from main product image)</summary>
     [MaxLength(500)]

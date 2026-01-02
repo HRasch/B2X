@@ -34,19 +34,23 @@ public class LocalizationService : ILocalizationService
         return string.IsNullOrEmpty(language) ? "en" : language;
     }
 
-    public async Task<string> GetStringAsync(string key, string category, CancellationToken cancellationToken = default)
+    public Task<string> GetStringAsync(string key, string category, CancellationToken cancellationToken = default)
     {
         var language = GetCurrentLanguage();
-        return await GetStringAsync(key, category, language, cancellationToken);
+        return GetStringAsync(key, category, language, cancellationToken);
     }
 
     public async Task<string> GetStringAsync(string key, string category, string language, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(key))
+        {
             throw new ArgumentException("Key cannot be null or empty", nameof(key));
+        }
 
         if (string.IsNullOrWhiteSpace(category))
+        {
             throw new ArgumentException("Category cannot be null or empty", nameof(category));
+        }
 
         language = NormalizeLanguage(language);
 
@@ -90,7 +94,9 @@ public class LocalizationService : ILocalizationService
     public async Task<Dictionary<string, string>> GetCategoryAsync(string category, string language, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(category))
+        {
             throw new ArgumentException("Category cannot be null or empty", nameof(category));
+        }
 
         language = NormalizeLanguage(language);
 
@@ -134,13 +140,19 @@ public class LocalizationService : ILocalizationService
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(key))
+        {
             throw new ArgumentException("Key cannot be null or empty", nameof(key));
+        }
 
         if (string.IsNullOrWhiteSpace(category))
+        {
             throw new ArgumentException("Category cannot be null or empty", nameof(category));
+        }
 
         if (translations is null || translations.Count == 0)
+        {
             throw new ArgumentException("Translations cannot be null or empty", nameof(translations));
+        }
 
         var existing = await _dbContext.LocalizedStrings
             .FirstOrDefaultAsync(
@@ -173,19 +185,21 @@ public class LocalizationService : ILocalizationService
         InvalidateCache(category);
     }
 
-    private void InvalidateCache(string category)
+    private static void InvalidateCache(string category)
     {
         // In a production app, use IDistributedCache with explicit cache invalidation
         // For now, we rely on TTL expiration
     }
 
-    private string NormalizeLanguage(string language)
+    private static string NormalizeLanguage(string language)
     {
         if (string.IsNullOrWhiteSpace(language))
+        {
             return "en";
+        }
 
         // Extract first 2 characters (e.g., "de" from "de-DE")
-        var normalized = language.Substring(0, Math.Min(2, language.Length)).ToLower();
+        var normalized = language.Substring(0, Math.Min(2, language.Length)).ToLower(System.Globalization.CultureInfo.CurrentCulture);
         return normalized;
     }
 }

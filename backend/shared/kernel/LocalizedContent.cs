@@ -48,7 +48,9 @@ public class LocalizedContent
     public string Get(string languageCode)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
+        {
             return GetDefault();
+        }
 
         return Translations.TryGetValue(languageCode.ToLowerInvariant(), out var value)
             ? value
@@ -62,7 +64,9 @@ public class LocalizedContent
     public string GetDefault()
     {
         if (Translations.TryGetValue(DefaultLanguage.ToLowerInvariant(), out var value))
+        {
             return value;
+        }
 
         return Translations.FirstOrDefault().Value ?? string.Empty;
     }
@@ -140,7 +144,9 @@ public class LocalizedContent
     public static LocalizedContent FromJson(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
+        {
             return new LocalizedContent();
+        }
 
         try
         {
@@ -211,7 +217,9 @@ public class LocalizedContent
     public override string ToString()
     {
         if (IsEmpty)
+        {
             return "[empty]";
+        }
 
         var items = Translations.Select(kvp => $"{kvp.Key}='{kvp.Value}'");
         return $"[{string.Join(", ", items)}]";

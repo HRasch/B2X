@@ -1,5 +1,5 @@
-using B2Connect.Identity.Interfaces;
 using B2Connect.Identity.Infrastructure.ExternalServices;
+using B2Connect.Identity.Interfaces;
 using B2Connect.Identity.Models;
 using Microsoft.Extensions.Logging;
 using Moq;

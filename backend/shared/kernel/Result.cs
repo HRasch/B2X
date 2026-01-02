@@ -2,7 +2,7 @@ namespace B2Connect.Types;
 
 /// <summary>
 /// Result type for operations that can succeed or fail without returning a value.
-/// Used for operations where the outcome (success/failure) is important, 
+/// Used for operations where the outcome (success/failure) is important,
 /// but no specific value is returned.
 /// </summary>
 public abstract record Result
@@ -70,7 +70,7 @@ public abstract record Result
 /// {
 ///     if (id &lt;= 0)
 ///         return new Result&lt;User&gt;.Failure("InvalidId", "ID must be positive");
-///     
+///
 ///     var user = _repository.Find(id);
 ///     return user == null
 ///         ? new Result&lt;User&gt;.Failure("NotFound", $"User {id} not found")
@@ -84,7 +84,7 @@ public abstract record Result<T> : Result
     /// </summary>
     /// <param name="Value">The resulting value from the operation</param>
     /// <param name="Message">Optional success message</param>
-    public new sealed record Success(T Value, string Message = "") : Result<T>;
+    new public sealed record Success(T Value, string Message = "") : Result<T>;
 
     /// <summary>
     /// Represents a failed operation.

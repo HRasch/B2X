@@ -39,6 +39,8 @@ public static class UserEndpoints
         return Results.NotFound(new { Message = "User not found" });
     }
 
+    private static readonly string[] error = new[] { "Not yet implemented" };
+
     /// <summary>
     /// PUT /api/users/{userId}
     /// Updates user profile
@@ -52,7 +54,7 @@ public static class UserEndpoints
         CancellationToken ct)
     {
         // TODO: Implement UpdateUserAsync
-        return Results.BadRequest(new { errors = new[] { "Not yet implemented" } });
+        return Results.BadRequest(new { errors = error });
     }
 
     /// <summary>

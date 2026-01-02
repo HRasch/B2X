@@ -43,8 +43,8 @@ public class ProductsController : ControllerBase
         // Call Localization Service (via Service Discovery: http://localization-service)
         var locale = Request.Headers.AcceptLanguage.FirstOrDefault() ?? "en";
         var localizedName = await _localizationService.GetTranslationAsync(
-            $"product.{sku}.name", 
-            locale, 
+            $"product.{sku}.name",
+            locale,
             tenantId);
 
         return Ok(new
@@ -62,7 +62,7 @@ public class ProductsController : ControllerBase
     /// </summary>
     [HttpGet("search")]
     public async Task<IActionResult> SearchProducts(
-        [FromQuery] string q, 
+        [FromQuery] string q,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId)
     {
         var products = await _catalogService.SearchProductsAsync(q, tenantId);

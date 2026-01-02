@@ -53,10 +53,14 @@ public class CreateCategoryHandler : ICommandHandler<CreateCategoryCommand, Cate
 
         // Validation
         if (string.IsNullOrWhiteSpace(command.Name))
+        {
             throw new ArgumentException("Category name is required");
+        }
 
         if (string.IsNullOrWhiteSpace(command.Slug))
+        {
             throw new ArgumentException("Category slug is required");
+        }
 
         // Business Logic - convert string to LocalizedContent
         var category = new Category
@@ -109,7 +113,9 @@ public class UpdateCategoryHandler : ICommandHandler<UpdateCategoryCommand, Cate
 
         var category = await _repository.GetByIdAsync(tenantId, command.CategoryId, ct);
         if (category == null)
+        {
             throw new KeyNotFoundException($"Category {command.CategoryId} not found");
+        }
 
         // Update fields - convert string to LocalizedContent
         category.Name = new LocalizedContent().Set("en", command.Name);
@@ -156,7 +162,9 @@ public class DeleteCategoryHandler : ICommandHandler<DeleteCategoryCommand, bool
 
         var category = await _repository.GetByIdAsync(tenantId, command.CategoryId, ct);
         if (category == null)
+        {
             return false;
+        }
 
         await _repository.DeleteAsync(tenantId, command.CategoryId, ct);
 
@@ -185,7 +193,9 @@ public class GetCategoryHandler : IQueryHandler<GetCategoryQuery, CategoryResult
         var category = await _repository.GetByIdAsync(tenantId, query.CategoryId, ct);
 
         if (category == null)
+        {
             return null;
+        }
 
         return CategoryMapper.ToResult(category);
     }
@@ -211,7 +221,9 @@ public class GetCategoryBySlugHandler : IQueryHandler<GetCategoryBySlugQuery, Ca
         var category = await _repository.GetBySlugAsync(tenantId, query.Slug, ct);
 
         if (category == null)
+        {
             return null;
+        }
 
         return CategoryMapper.ToResult(category);
     }

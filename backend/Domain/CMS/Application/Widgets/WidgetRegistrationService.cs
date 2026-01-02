@@ -13,6 +13,7 @@ namespace B2Connect.CMS.Application.Widgets
     {
         private readonly IWidgetRegistry _registry;
         private readonly ILogger<WidgetRegistrationService> _logger;
+        private static readonly string[] value = new[] { "left", "center", "right" };
 
         public WidgetRegistrationService(
             IWidgetRegistry registry,
@@ -84,7 +85,7 @@ namespace B2Connect.CMS.Application.Widgets
                         DefaultValue = "center",
                         Metadata = new Dictionary<string, object>
                         {
-                            { "options", new[] { "left", "center", "right" } }
+                            { "options", value }
                         }
                     },
                     new WidgetSetting("textColor", "Text Color", WidgetSettingType.Color)

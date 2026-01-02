@@ -33,7 +33,9 @@ public class ProductService : IProductService
     public Task<ProductDto?> GetByIdAsync(Guid tenantId, Guid productId, CancellationToken cancellationToken = default)
     {
         if (!_products.TryGetValue(tenantId, out var tenantProducts))
+        {
             return Task.FromResult<ProductDto?>(null);
+        }
 
         var product = tenantProducts.FirstOrDefault(p => p.Id == productId);
         return Task.FromResult(product?.ToDto());
@@ -42,6 +44,7 @@ public class ProductService : IProductService
     public Task<PagedResult<ProductDto>> GetPagedAsync(Guid tenantId, int pageNumber = 1, int pageSize = 20, CancellationToken cancellationToken = default)
     {
         if (!_products.TryGetValue(tenantId, out var tenantProducts))
+        {
             return Task.FromResult(new PagedResult<ProductDto>
             {
                 Items = new(),
@@ -49,6 +52,7 @@ public class ProductService : IProductService
                 PageSize = pageSize,
                 TotalCount = 0
             });
+        }
 
         var skip = (pageNumber - 1) * pageSize;
         var items = tenantProducts
@@ -85,10 +89,13 @@ public class ProductService : IProductService
             UpdatedAt = DateTime.UtcNow
         };
 
-        if (!_products.ContainsKey(tenantId))
-            _products[tenantId] = new();
+        if (!_products.TryGetValue(tenantId, out var value))
+        {
+            value = new();
+            _products[tenantId] = value;
+        }
 
-        _products[tenantId].Add(product);
+        value.Add(product);
 
         _logger.LogInformation("Product created: {ProductId} for tenant {TenantId}", product.Id, tenantId);
 
@@ -101,31 +108,61 @@ public class ProductService : IProductService
     public async Task<ProductDto> UpdateAsync(Guid tenantId, Guid productId, UpdateProductRequest request, CancellationToken cancellationToken = default)
     {
         if (!_products.TryGetValue(tenantId, out var tenantProducts))
+        {
             throw new KeyNotFoundException($"Product {productId} not found");
+        }
 
         var product = tenantProducts.FirstOrDefault(p => p.Id == productId);
         if (product == null)
+        {
             throw new KeyNotFoundException($"Product {productId} not found");
+        }
 
         // Update fields
         if (!string.IsNullOrEmpty(request.Name))
+        {
             product.Name = request.Name;
+        }
+
         if (!string.IsNullOrEmpty(request.Description))
+        {
             product.Description = request.Description;
+        }
+
         if (request.Price.HasValue)
+        {
             product.Price = request.Price.Value;
+        }
+
         if (request.DiscountPrice.HasValue)
+        {
             product.DiscountPrice = request.DiscountPrice;
+        }
+
         if (request.StockQuantity.HasValue)
+        {
             product.StockQuantity = request.StockQuantity.Value;
+        }
+
         if (request.IsActive.HasValue)
+        {
             product.IsActive = request.IsActive.Value;
+        }
+
         if (request.Categories != null)
+        {
             product.Categories = request.Categories;
+        }
+
         if (!string.IsNullOrEmpty(request.BrandName))
+        {
             product.BrandName = request.BrandName;
+        }
+
         if (request.Tags != null)
+        {
             product.Tags = request.Tags;
+        }
 
         product.UpdatedAt = DateTime.UtcNow;
 
@@ -140,11 +177,15 @@ public class ProductService : IProductService
     public async Task<bool> DeleteAsync(Guid tenantId, Guid productId, CancellationToken cancellationToken = default)
     {
         if (!_products.TryGetValue(tenantId, out var tenantProducts))
+        {
             return false;
+        }
 
         var product = tenantProducts.FirstOrDefault(p => p.Id == productId);
         if (product == null)
+        {
             return false;
+        }
 
         tenantProducts.Remove(product);
 
@@ -159,6 +200,7 @@ public class ProductService : IProductService
     public Task<PagedResult<ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken cancellationToken = default)
     {
         if (!_products.TryGetValue(tenantId, out var tenantProducts))
+        {
             return Task.FromResult(new PagedResult<ProductDto>
             {
                 Items = new(),
@@ -166,6 +208,7 @@ public class ProductService : IProductService
                 PageSize = pageSize,
                 TotalCount = 0
             });
+        }
 
         var filtered = tenantProducts
             .Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||

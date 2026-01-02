@@ -1,10 +1,10 @@
-namespace B2Connect.Catalog.Application.Handlers;
 
-using B2Connect.CatalogService.Models;
 using B2Connect.Catalog.Core.Interfaces;
+using B2Connect.CatalogService.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
+namespace B2Connect.Catalog.Application.Handlers;
 /// <summary>
 /// Tax rate service implementation with caching
 /// Issue #30: B2C Price Transparency (PAngV)
@@ -39,7 +39,7 @@ public class TaxRateService : ITaxRateService
             throw new ArgumentException("Country code cannot be empty", nameof(countryCode));
         }
 
-        var normalizedCode = countryCode.ToUpper();
+        var normalizedCode = countryCode.ToUpper(System.Globalization.CultureInfo.CurrentCulture);
         var cacheKey = $"{CACHE_KEY_PREFIX}{normalizedCode}";
 
         // Try to get from cache
@@ -56,7 +56,7 @@ public class TaxRateService : ITaxRateService
         {
             _logger.LogWarning("No tax rate found for country: {CountryCode}, using default 19%", normalizedCode);
             // Fallback to Germany's VAT rate (19%)
-            var defaultRate = 19.00m;
+            const decimal defaultRate = 19.00m;
             _cache.Set(cacheKey, defaultRate, CACHE_DURATION);
             return defaultRate;
         }
@@ -101,7 +101,7 @@ public class TaxRateService : ITaxRateService
     /// </summary>
     public async Task<TaxRateDto> CreateRateAsync(CreateTaxRateCommand cmd, CancellationToken ct = default)
     {
-        if (cmd == null) throw new ArgumentNullException(nameof(cmd));
+        ArgumentNullException.ThrowIfNull(cmd);
 
         // Create entity
         var taxRate = new TaxRate
@@ -135,7 +135,7 @@ public class TaxRateService : ITaxRateService
     /// </summary>
     private void InvalidateCache(string countryCode)
     {
-        _cache.Remove($"{CACHE_KEY_PREFIX}{countryCode.ToUpper()}");
+        _cache.Remove($"{CACHE_KEY_PREFIX}{countryCode.ToUpper(System.Globalization.CultureInfo.CurrentCulture)}");
         _cache.Remove(CACHE_KEY_ALL);
         _logger.LogDebug("Cache invalidated for country: {CountryCode}", countryCode);
     }

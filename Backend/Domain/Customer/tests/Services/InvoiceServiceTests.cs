@@ -1,14 +1,14 @@
-using Xunit;
-using Moq;
-using B2Connect.Customer.Models;
-using B2Connect.Customer.Services;
-using B2Connect.Customer.Interfaces;
-using B2Connect.Customer.Validators;
-using FluentValidation;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using B2Connect.Customer.Interfaces;
+using B2Connect.Customer.Models;
+using B2Connect.Customer.Services;
+using B2Connect.Customer.Validators;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
+using Moq;
+using Xunit;
 
 namespace B2Connect.Customer.Tests.Services;
 

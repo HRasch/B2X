@@ -53,10 +53,14 @@ public class CreateBrandHandler : ICommandHandler<CreateBrandCommand, BrandResul
 
         // Validation
         if (string.IsNullOrWhiteSpace(command.Name))
+        {
             throw new ArgumentException("Brand name is required");
+        }
 
         if (string.IsNullOrWhiteSpace(command.Slug))
+        {
             throw new ArgumentException("Brand slug is required");
+        }
 
         // Business Logic - convert string to LocalizedContent
         var brand = new Brand
@@ -109,7 +113,9 @@ public class UpdateBrandHandler : ICommandHandler<UpdateBrandCommand, BrandResul
 
         var brand = await _repository.GetByIdAsync(tenantId, command.BrandId, ct);
         if (brand == null)
+        {
             throw new KeyNotFoundException($"Brand {command.BrandId} not found");
+        }
 
         // Update fields - convert string to LocalizedContent
         brand.Name = new LocalizedContent().Set("en", command.Name);
@@ -157,7 +163,9 @@ public class DeleteBrandHandler : ICommandHandler<DeleteBrandCommand, bool>
 
         var brand = await _repository.GetByIdAsync(tenantId, command.BrandId, ct);
         if (brand == null)
+        {
             return false;
+        }
 
         await _repository.DeleteAsync(tenantId, command.BrandId, ct);
 
@@ -186,7 +194,9 @@ public class GetBrandHandler : IQueryHandler<GetBrandQuery, BrandResult?>
         var brand = await _repository.GetByIdAsync(tenantId, query.BrandId, ct);
 
         if (brand == null)
+        {
             return null;
+        }
 
         return BrandMapper.ToResult(brand);
     }
@@ -212,7 +222,9 @@ public class GetBrandBySlugHandler : IQueryHandler<GetBrandBySlugQuery, BrandRes
         var brand = await _repository.GetBySlugAsync(tenantId, query.Slug, ct);
 
         if (brand == null)
+        {
             return null;
+        }
 
         return BrandMapper.ToResult(brand);
     }

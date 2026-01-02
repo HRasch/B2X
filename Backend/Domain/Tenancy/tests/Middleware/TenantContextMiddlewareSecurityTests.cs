@@ -1,14 +1,14 @@
-using Xunit;
+using System.Security.Claims;
+using B2Connect.Shared.Infrastructure.ServiceClients;
+using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Moq;
-using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
-using B2Connect.Shared.Infrastructure.ServiceClients;
-using System.Security.Claims;
+using Xunit;
 
 namespace B2Connect.Shared.Tenancy.Tests.Middleware;
 
@@ -306,7 +306,11 @@ public class TenantContextMiddlewareSecurityTests
     private TenantContextMiddleware CreateMiddleware(IConfiguration? configuration = null)
     {
         return new TenantContextMiddleware(
-            async (context) => { context.Response.StatusCode = StatusCodes.Status200OK; await Task.CompletedTask; },
+            async (context) =>
+            {
+                context.Response.StatusCode = StatusCodes.Status200OK;
+                await Task.CompletedTask;
+            },
             configuration ?? CreateConfiguration(),
             _mockLogger.Object,
             _mockEnvironment.Object);

@@ -1,9 +1,9 @@
+using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
 using B2Connect.Shared.Core;
 using B2Connect.Types.Domain;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Concurrent;
 
 namespace B2Connect.Shared.Core.Extensions;
 
@@ -117,7 +117,9 @@ public static class LocalizedProjectionExtensions
             // Fall back to convention-based approach
             var entityProperty = entityType.GetProperty(dtoProperty.Name);
             if (entityProperty == null)
+            {
                 continue;
+            }
 
             var translationProperty = entityType.GetProperty(dtoProperty.Name + "Translations");
             var hasTranslations = translationProperty != null && IsLocalizedContentType(translationProperty.PropertyType);
@@ -133,11 +135,15 @@ public static class LocalizedProjectionExtensions
                 // EF.Functions.JsonExtract(translationProperty, "$.Translations." + locale)
                 var functionsProperty = typeof(EF).GetProperty("Functions");
                 if (functionsProperty == null)
+                {
                     throw new InvalidOperationException("EF.Functions property not found");
+                }
 
                 var jsonExtractMethod = functionsProperty.PropertyType.GetMethod("JsonExtract", new[] { typeof(object), typeof(string) });
                 if (jsonExtractMethod == null)
+                {
                     throw new InvalidOperationException("EF.Functions.JsonExtract method not found");
+                }
 
                 var jsonExtractCall = Expression.Call(
                     Expression.Property(null, functionsProperty),
@@ -182,14 +188,20 @@ public static class LocalizedProjectionExtensions
     {
         var defaultProperty = entityType.GetProperty(defaultPropertyName);
         if (defaultProperty == null)
+        {
             throw new InvalidOperationException($"Entity property '{defaultPropertyName}' not found on type '{entityType.Name}'");
+        }
 
         var translationProperty = entityType.GetProperty(translationPropertyName);
         if (translationProperty == null)
+        {
             throw new InvalidOperationException($"Entity property '{translationPropertyName}' not found on type '{entityType.Name}'");
+        }
 
         if (!IsLocalizedContentType(translationProperty.PropertyType))
+        {
             throw new InvalidOperationException($"Translation property '{translationPropertyName}' must be of type 'LocalizedContent' or 'LocalizedContent?'");
+        }
 
         // Build: translationProperty != null ? EF.Functions.JsonExtract(translationProperty, locale) ?? defaultProperty : defaultProperty
         var translationAccess = Expression.Property(entityParam, translationProperty);
@@ -198,11 +210,15 @@ public static class LocalizedProjectionExtensions
         // EF.Functions.JsonExtract(translationProperty, "$.Translations." + locale)
         var functionsProperty = typeof(EF).GetProperty("Functions");
         if (functionsProperty == null)
+        {
             throw new InvalidOperationException("EF.Functions property not found");
+        }
 
         var jsonExtractMethod = functionsProperty.PropertyType.GetMethod("JsonExtract", new[] { typeof(object), typeof(string) });
         if (jsonExtractMethod == null)
+        {
             throw new InvalidOperationException("EF.Functions.JsonExtract method not found");
+        }
 
         var jsonExtractCall = Expression.Call(
             Expression.Property(null, functionsProperty),

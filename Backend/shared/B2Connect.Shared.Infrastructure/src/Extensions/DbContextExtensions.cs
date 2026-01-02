@@ -1,17 +1,17 @@
 using System.Linq.Expressions;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 using B2Connect.Shared.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 // using B2Connect.Shared.Tenancy.Infrastructure.Context;  // TODO: Fix Tenancy reference
 
 namespace B2Connect.Shared.Infrastructure.Extensions;
 
 /// <summary>
 /// Extension methods for DbContext to configure Global Query Filters for multi-tenant isolation.
-/// 
+///
 /// SECURITY: This provides automatic tenant filtering at the database level,
 /// preventing accidental cross-tenant data leaks even if developer forgets to add .Where(TenantId).
-/// 
+///
 /// Usage in DbContext.OnModelCreating:
 ///   modelBuilder.ApplyGlobalTenantFilter(_tenantContext);
 /// </summary>
@@ -21,8 +21,6 @@ public static class DbContextExtensions
     /// Apply Global Query Filter for all entities implementing IHasTenantId.
     /// This ensures ALL database queries automatically filter by current tenant.
     /// </summary>
-    /// <param name="modelBuilder">EF Core ModelBuilder</param>
-    /// <param name="tenantContext">Scoped ITenantContext with current tenant ID</param>
     //public static void ApplyGlobalTenantFilter(this ModelBuilder modelBuilder, ITenantContext tenantContext)
     //{
     //    foreach (var entityType in modelBuilder.Model.GetEntityTypes())

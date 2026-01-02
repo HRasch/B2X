@@ -9,9 +9,9 @@ namespace B2Connect.Admin.Presentation.Controllers;
 
 /// <summary>
 /// Products Controller - HTTP Layer Only (CQRS Pattern)
-/// 
+///
 /// 🏗️ Architektur:
-/// HTTP Request 
+/// HTTP Request
 ///   ↓
 /// Controller (HTTP Concerns nur!)
 ///   - Header validieren
@@ -28,7 +28,7 @@ namespace B2Connect.Admin.Presentation.Controllers;
 /// Response Back
 ///
 /// NOTE: TenantId wird automatisch im Handler via ITenantContextAccessor injiziert!
-/// 
+///
 /// Filters Applied:
 /// - ValidateTenantAttribute: Validates X-Tenant-ID header
 /// - ApiExceptionHandlingFilter: Centralizes error handling
@@ -59,7 +59,9 @@ public class ProductsController : ApiControllerBase
         var product = await _messageBus.InvokeAsync<ProductResult?>(query, ct);
 
         if (product == null)
+        {
             return NotFoundResponse($"Product {id} not found");
+        }
 
         return OkResponse(product);
     }
@@ -77,7 +79,9 @@ public class ProductsController : ApiControllerBase
         var product = await _messageBus.InvokeAsync<ProductResult?>(query, ct);
 
         if (product == null)
+        {
             return NotFoundResponse($"Product with SKU {sku} not found");
+        }
 
         return OkResponse(product);
     }
@@ -95,7 +99,9 @@ public class ProductsController : ApiControllerBase
         var product = await _messageBus.InvokeAsync<ProductResult?>(query, ct);
 
         if (product == null)
+        {
             return NotFoundResponse($"Product with slug '{slug}' not found");
+        }
 
         return OkResponse(product);
     }
@@ -198,7 +204,9 @@ public class ProductsController : ApiControllerBase
     public async Task<ActionResult> SearchProducts([FromQuery] string q, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(q))
+        {
             return BadRequestResponse("Search term is required");
+        }
 
         _logger.LogInformation("Searching products with term '{SearchTerm}'", q);
 
@@ -272,7 +280,9 @@ public class ProductsController : ApiControllerBase
         var success = await _messageBus.InvokeAsync<bool>(command, ct);
 
         if (!success)
+        {
             return NotFoundResponse($"Product {id} not found");
+        }
 
         return NoContent();
     }

@@ -175,7 +175,7 @@ public class AuthControllerTests
         unauthorizedResult.StatusCode.ShouldBe(401);
     }
 
-    [Fact(Skip = "Requires [Authorize] attribute and User context - use WebApplicationFactory or integration tests instead")]
+    [Fact]
     public async Task Enable2FA_WithValidUserId_ReturnsOkWith2FAEnabled()
     {
         // This test requires proper authorization context with User principal

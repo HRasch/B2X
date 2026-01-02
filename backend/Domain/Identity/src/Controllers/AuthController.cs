@@ -12,6 +12,7 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
     private readonly ILogger<AuthController> _logger;
+    private static readonly string[] value = Array.Empty<string>();
 
     public AuthController(IAuthService authService, ILogger<AuthController> logger)
     {
@@ -87,7 +88,7 @@ public class AuthController : ControllerBase
                     FirstName = user.FirstName ?? string.Empty,
                     LastName = user.LastName ?? string.Empty,
                     TenantId = user.TenantId ?? "default",
-                    Roles = new string[] { },
+                    Roles = value,
                     Permissions = new[] { "*" }
                 },
                 message = msg
@@ -222,7 +223,7 @@ public class AuthController : ControllerBase
             tenantId = user.TenantId ?? "default",
             isActive = user.IsActive,
             isTwoFactorEnabled = user.IsTwoFactorRequired,
-            roles = new string[] { }
+            roles = Array.Empty<string>()
         };
     }
 }

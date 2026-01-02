@@ -47,7 +47,7 @@ public class CatalogServiceClient : ICatalogServiceClient
             _httpClient.DefaultRequestHeaders.Add("X-Tenant-ID", tenantId.ToString());
             var response = await _httpClient.GetAsync($"/api/products/search?q={Uri.EscapeDataString(query)}", ct);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<IEnumerable<ProductDto>>(cancellationToken: ct) 
+            return await response.Content.ReadFromJsonAsync<IEnumerable<ProductDto>>(cancellationToken: ct)
                    ?? Enumerable.Empty<ProductDto>();
         }
         catch (HttpRequestException ex)

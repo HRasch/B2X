@@ -8,7 +8,7 @@ namespace B2Connect.Admin.Infrastructure.Data.ReadModel;
 /// CQRS Read Model - Denormalized Product View
 /// Optimized for queries on millions of products
 /// Updated asynchronously via domain events (eventual consistency)
-/// 
+///
 /// Benefits:
 /// - Single table lookup (no joins) = fast queries at scale
 /// - Indexed columns for filtering (tenant, sku, category, price)

@@ -1,16 +1,16 @@
-using FluentValidation;
-using B2Connect.Shared.Messaging.Extensions;
+using B2Connect.Customer.Data;
+using B2Connect.Customer.Interfaces;
+using B2Connect.Customer.Models;
+using B2Connect.Customer.Services;
+using B2Connect.Customer.Validators;
 using B2Connect.ServiceDefaults;
+using B2Connect.Shared.Messaging.Extensions;
+using EFCore.NamingConventions;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Wolverine;
 using Wolverine.Http;
-using Microsoft.EntityFrameworkCore;
-using EFCore.NamingConventions;
-using B2Connect.Customer.Data;
-using B2Connect.Customer.Interfaces;
-using B2Connect.Customer.Services;
-using B2Connect.Customer.Validators;
-using B2Connect.Customer.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

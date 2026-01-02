@@ -1,10 +1,10 @@
-namespace B2Connect.CatalogService.Infrastructure.Data;
 
-using B2Connect.CatalogService.Models;
 using B2Connect.Catalog.Core.Interfaces;
+using B2Connect.CatalogService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+namespace B2Connect.CatalogService.Infrastructure.Data;
 public class TaxRateRepository : ITaxRateRepository
 {
     private readonly CatalogDbContext _context;
@@ -19,7 +19,7 @@ public class TaxRateRepository : ITaxRateRepository
     public async Task<TaxRate?> GetByCountryCodeAsync(string countryCode, CancellationToken ct = default)
     {
         var result = await _context.TaxRates
-            .Where(x => x.CountryCode == countryCode.ToUpper() && x.IsActive)
+            .Where(x => x.CountryCode.Equals(countryCode, StringComparison.CurrentCultureIgnoreCase) && x.IsActive)
             .FirstOrDefaultAsync(ct);
 
         if (result == null)
@@ -40,7 +40,7 @@ public class TaxRateRepository : ITaxRateRepository
 
     public async Task AddAsync(TaxRate taxRate, CancellationToken ct = default)
     {
-        if (taxRate == null) throw new ArgumentNullException(nameof(taxRate));
+        ArgumentNullException.ThrowIfNull(taxRate);
 
         await _context.TaxRates.AddAsync(taxRate, ct);
         await _context.SaveChangesAsync(ct);
@@ -51,7 +51,7 @@ public class TaxRateRepository : ITaxRateRepository
 
     public async Task UpdateAsync(TaxRate taxRate, CancellationToken ct = default)
     {
-        if (taxRate == null) throw new ArgumentNullException(nameof(taxRate));
+        ArgumentNullException.ThrowIfNull(taxRate);
 
         taxRate.UpdatedAt = DateTime.UtcNow;
         _context.TaxRates.Update(taxRate);

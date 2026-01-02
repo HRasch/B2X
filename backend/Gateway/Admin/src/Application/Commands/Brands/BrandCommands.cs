@@ -2,7 +2,7 @@ namespace B2Connect.Admin.Application.Commands.Brands;
 
 /// <summary>
 /// Brand Commands & Queries - CQRS Pattern
-/// 
+///
 /// TenantId wird automatisch via ITenantContextAccessor im Handler injiziert
 /// </summary>
 

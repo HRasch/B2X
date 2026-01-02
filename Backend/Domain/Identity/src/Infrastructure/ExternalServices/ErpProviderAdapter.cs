@@ -19,36 +19,36 @@ public class ErpProviderAdapter : IErpCustomerService
         _logger = logger;
     }
 
-    public async Task<ErpCustomerDto?> GetCustomerByNumberAsync(string customerNumber, CancellationToken ct = default)
+    public Task<ErpCustomerDto?> GetCustomerByNumberAsync(string customerNumber, CancellationToken ct = default)
     {
         _logger.LogInformation("GetCustomerByNumber via provider {Provider}: {CustomerNumber}",
             _provider.ProviderName, customerNumber);
-        return await _provider.GetCustomerByNumberAsync(customerNumber, ct);
+        return _provider.GetCustomerByNumberAsync(customerNumber, ct);
     }
 
-    public async Task<ErpCustomerDto?> GetCustomerByEmailAsync(string email, CancellationToken ct = default)
+    public Task<ErpCustomerDto?> GetCustomerByEmailAsync(string email, CancellationToken ct = default)
     {
         _logger.LogInformation("GetCustomerByEmail via provider {Provider}: {Email}",
             _provider.ProviderName, email);
-        return await _provider.GetCustomerByEmailAsync(email, ct);
+        return _provider.GetCustomerByEmailAsync(email, ct);
     }
 
-    public async Task<ErpCustomerDto?> GetCustomerByCompanyNameAsync(string companyName, CancellationToken ct = default)
+    public Task<ErpCustomerDto?> GetCustomerByCompanyNameAsync(string companyName, CancellationToken ct = default)
     {
         _logger.LogInformation("GetCustomerByCompanyName via provider {Provider}: {CompanyName}",
             _provider.ProviderName, companyName);
-        return await _provider.GetCustomerByCompanyNameAsync(companyName, ct);
+        return _provider.GetCustomerByCompanyNameAsync(companyName, ct);
     }
 
-    public async Task<bool> IsAvailableAsync(CancellationToken ct = default)
+    public Task<bool> IsAvailableAsync(CancellationToken ct = default)
     {
         _logger.LogInformation("IsAvailable check via provider {Provider}", _provider.ProviderName);
-        return await _provider.IsAvailableAsync(ct);
+        return _provider.IsAvailableAsync(ct);
     }
 
-    public async Task<ErpSyncStatusDto> GetSyncStatusAsync(CancellationToken ct = default)
+    public Task<ErpSyncStatusDto> GetSyncStatusAsync(CancellationToken ct = default)
     {
         _logger.LogInformation("GetSyncStatus via provider {Provider}", _provider.ProviderName);
-        return await _provider.GetSyncStatusAsync(ct);
+        return _provider.GetSyncStatusAsync(ct);
     }
 }

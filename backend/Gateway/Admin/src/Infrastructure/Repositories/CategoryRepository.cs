@@ -14,9 +14,9 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
     }
 
-    public async Task<Category?> GetBySlugAsync(Guid tenantId, string slug, CancellationToken ct = default)
+    public Task<Category?> GetBySlugAsync(Guid tenantId, string slug, CancellationToken ct = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(c => c.TenantId == tenantId && c.Slug == slug, ct);
+        return _dbSet.FirstOrDefaultAsync(c => c.TenantId == tenantId && c.Slug == slug, ct);
     }
 
     public async Task<IEnumerable<Category>> GetRootCategoriesAsync(Guid tenantId, CancellationToken ct = default)
@@ -35,9 +35,9 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
             .ToListAsync(ct);
     }
 
-    public async Task<Category?> GetWithProductsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
+    public Task<Category?> GetWithProductsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
     {
-        return await _dbSet
+        return _dbSet
             .Where(c => c.TenantId == tenantId && c.Id == id)
             .Include(c => c.ChildCategories)
             .FirstOrDefaultAsync(ct);

@@ -19,10 +19,7 @@ public static class ErrorLogStorageExtensions
         string connectionString)
     {
         services.AddDbContext<ErrorLogDbContext>(options =>
-            options.UseNpgsql(connectionString, npgsql =>
-            {
-                npgsql.EnableRetryOnFailure(3);
-            }));
+            options.UseNpgsql(connectionString, npgsql => npgsql.EnableRetryOnFailure(3)));
 
         services.AddScoped<IErrorLogStorage, PostgreSqlErrorLogStorage>();
 

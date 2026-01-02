@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using B2Connect.Customer.Models;
 using B2Connect.Customer.Utilities;
+using Microsoft.Extensions.Logging;
 using static B2Connect.Customer.Models.ReturnStatus;
 using static B2Connect.Customer.Models.ReturnValidation;
 
@@ -75,7 +75,9 @@ public class ReturnManagementService : IReturnManagementService
         // 1. Validate order exists and belongs to tenant
         var order = await _orderRepository.GetByIdAsync(orderId, ct);
         if (order is null || order.TenantId != tenantId)
+        {
             throw new InvalidOperationException($"Order {orderId} not found for tenant {tenantId}");
+        }
 
         // 2. Validate withdrawal period (VVVG §357: 14 days from delivery)
         var validation = await ValidateReturnAsync(orderId, ct);
@@ -90,7 +92,9 @@ public class ReturnManagementService : IReturnManagementService
         // 3. Check if return already exists
         var existingReturns = await _returnRepository.GetByOrderIdAsync(orderId, ct);
         if (existingReturns.Any(r => r.Status != Rejected))
+        {
             throw new InvalidOperationException($"Active return already exists for order {orderId}");
+        }
 
         // 4. Calculate refund amount
         var refundAmount = CalculateRefundAmount(order, returnAllItems);
@@ -149,18 +153,22 @@ public class ReturnManagementService : IReturnManagementService
         var order = await _orderRepository.GetByIdAsync(orderId, ct);
 
         if (order is null)
+        {
             return new ReturnValidationResult
             {
                 IsValid = false,
                 ErrorMessage = "Order not found"
             };
+        }
 
         if (!order.DeliveredAt.HasValue)
+        {
             return new ReturnValidationResult
             {
                 IsValid = false,
                 ErrorMessage = "Order not yet delivered"
             };
+        }
 
         var daysAfterDelivery = (int)(DateTime.UtcNow - order.DeliveredAt.Value).TotalDays;
         var withdrawalDeadline = order.DeliveredAt.Value.AddDays(WithdrawalPeriodDays);
@@ -181,18 +189,18 @@ public class ReturnManagementService : IReturnManagementService
     /// <summary>
     /// Get return request by ID
     /// </summary>
-    public async Task<ReturnRequest> GetReturnRequestAsync(Guid returnId, CancellationToken ct = default)
+    public Task<ReturnRequest> GetReturnRequestAsync(Guid returnId, CancellationToken ct = default)
     {
         ValidationHelper.ValidateGuidNotEmpty(returnId, "Return ID");
-        return await _returnRepository.GetByIdAsync(returnId, ct);
+        return _returnRepository.GetByIdAsync(returnId, ct);
     }
 
     /// <summary>
     /// Get all returns for an order
     /// </summary>
-    public async Task<List<ReturnRequest>> GetOrderReturnsAsync(Guid orderId, CancellationToken ct = default)
+    public Task<List<ReturnRequest>> GetOrderReturnsAsync(Guid orderId, CancellationToken ct = default)
     {
-        return await _returnRepository.GetByOrderIdAsync(orderId, ct);
+        return _returnRepository.GetByOrderIdAsync(orderId, ct);
     }
 
     /// <summary>
@@ -202,7 +210,9 @@ public class ReturnManagementService : IReturnManagementService
     {
         var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
         if (returnRequest is null)
+        {
             throw new InvalidOperationException($"Return {returnId} not found");
+        }
 
         returnRequest.Status = Received;
         returnRequest.ReturnReceivedAt = DateTime.UtcNow;
@@ -227,7 +237,9 @@ public class ReturnManagementService : IReturnManagementService
 
         var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
         if (returnRequest is null)
+        {
             throw new InvalidOperationException($"Return {returnId} not found");
+        }
 
         // Create refund record
         var refund = new Refund
@@ -288,7 +300,9 @@ public class ReturnManagementService : IReturnManagementService
 
         var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
         if (returnRequest == null)
+        {
             throw new InvalidOperationException($"Return {returnId} not found");
+        }
 
         // TODO: Integrate with carrier API (DHL, DPD, Deutsche Post)
         // For now, generate a mock label URL
@@ -311,25 +325,22 @@ public class ReturnManagementService : IReturnManagementService
 
     // ========== Private Helpers ==========
 
-    private decimal CalculateRefundAmount(Order order, bool returnAllItems)
+    private static decimal CalculateRefundAmount(Order order, bool returnAllItems)
     {
         if (returnAllItems)
         {
             // Full refund: order total (including tax and shipping)
             return order.TotalPrice;
         }
-        else
-        {
-            // Partial refund: calculated based on returned items
-            // TODO: Implement partial return logic
-            return order.TotalPrice;
-        }
+        // Partial refund: calculated based on returned items
+        // TODO: Implement partial return logic
+        return order.TotalPrice;
     }
 
-    private string GenerateReturnNumber(Guid tenantId)
+    private static string GenerateReturnNumber(Guid tenantId)
     {
         var timestamp = DateTime.UtcNow.ToString("yyyyMMdd");
-        var random = Guid.NewGuid().ToString().Substring(0, 8).ToUpper();
+        var random = Guid.NewGuid().ToString().Substring(0, 8).ToUpper(System.Globalization.CultureInfo.CurrentCulture);
         return $"RET-{timestamp}-{random}";
     }
 }

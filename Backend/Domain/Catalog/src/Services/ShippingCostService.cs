@@ -122,11 +122,10 @@ public class ShippingCostService
 
             // Get available methods
             var availableMethods = ShippingMethods
-                .Where(m => m.IsActive)
-                .Where(m => totalWeight == null || m.MaxWeight == null || totalWeight <= m.MaxWeight)
+                .Where(m => m.IsActive && (totalWeight == null || m.MaxWeight == null || totalWeight <= m.MaxWeight))
                 .ToList();
 
-            if (!availableMethods.Any())
+            if (availableMethods.Count == 0)
             {
                 _logger.LogWarning("No available shipping methods for country {Country} with weight {Weight}kg",
                     countryCode, totalWeight ?? 0);

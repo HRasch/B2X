@@ -39,12 +39,12 @@ public static class LocalizationExtensions
         var property = entity.GetType()
             .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 
-        if (property?.PropertyType == typeof(LocalizedContent) && property.CanRead)
+        if (property?.PropertyType != typeof(LocalizedContent) || !property.CanRead)
         {
-            return property.GetValue(entity) as LocalizedContent;
+            return null;
         }
 
-        return null;
+        return property.GetValue(entity) as LocalizedContent;
     }
 
     /// <summary>
@@ -55,10 +55,12 @@ public static class LocalizationExtensions
         var property = entity.GetType()
             .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 
-        if (property?.PropertyType == typeof(LocalizedContent) && property.CanWrite)
+        if (property?.PropertyType != typeof(LocalizedContent) || !property.CanWrite)
         {
-            property.SetValue(entity, content);
+            return;
         }
+
+        property.SetValue(entity, content);
     }
 
     /// <summary>
@@ -67,8 +69,10 @@ public static class LocalizationExtensions
     public static string? GetTranslation(this Entity entity, string propertyName, string languageCode)
     {
         var content = entity.GetLocalizedProperty(propertyName);
-        if (content == null || content.IsEmpty)
+        if (content?.IsEmpty != false)
+        {
             return null;
+        }
 
         var translation = content.Get(languageCode);
         return string.IsNullOrEmpty(translation) ? null : translation;
@@ -143,7 +147,9 @@ public static class LocalizationExtensions
     {
         var localizedProps = entity.GetLocalizedProperties();
         if (localizedProps.Count == 0)
+        {
             return true;
+        }
 
         return localizedProps.Values.All(content => content.HasAllLanguages(requiredLanguages));
     }
@@ -176,10 +182,12 @@ public static class LocalizationExtensions
         Entity targetEntity, string targetPropertyName)
     {
         var content = sourceEntity.GetLocalizedProperty(sourcePropertyName);
-        if (content != null)
+        if (content == null)
         {
-            targetEntity.SetLocalizedProperty(targetPropertyName, content.Clone());
+            return;
         }
+
+        targetEntity.SetLocalizedProperty(targetPropertyName, content.Clone());
     }
 
     /// <summary>

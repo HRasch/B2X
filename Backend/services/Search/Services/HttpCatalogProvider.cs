@@ -24,7 +24,7 @@ public class HttpCatalogProvider : ICatalogProductProvider
 
         // Expecting API shape { products: [...], total: 123 }
         var url = $"{_baseUrl}/api/products?page={page}&pageSize={pageSize}";
-        var resp = await _http.GetAsync(url, ct);
+        var resp = await _http.GetAsync(url, cancellationToken);
         resp.EnsureSuccessStatusCode();
         using var stream = await resp.Content.ReadAsStreamAsync(ct);
         var doc = await JsonSerializer.DeserializeAsync<JsonElement>(stream, cancellationToken: ct);

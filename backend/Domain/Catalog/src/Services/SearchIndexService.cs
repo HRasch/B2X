@@ -22,6 +22,7 @@ public class SearchIndexService : ISearchIndexService
     private readonly ElasticsearchClient _client;
     private readonly ILogger<SearchIndexService> _logger;
     private const string IndexPrefix = "products_";
+    private static readonly string[] value = new[] { "Name^2", "Description", "Sku" };
 
     public SearchIndexService(ElasticsearchClient client, ILogger<SearchIndexService> logger)
     {
@@ -92,7 +93,7 @@ public class SearchIndexService : ISearchIndexService
                 .Query(q => q
                     .MultiMatch(m => m
                         .Query(searchTerm)
-                        .Fields(new[] { "Name^2", "Description", "Sku" })
+                        .Fields(value)
                         .Fuzziness("AUTO")
                     )
                 ),
@@ -122,5 +123,5 @@ public class SearchIndexService : ISearchIndexService
         }
     }
 
-    private string GetIndexName(Guid tenantId) => $"{IndexPrefix}{tenantId:N}";
+    private static string GetIndexName(Guid tenantId) => $"{IndexPrefix}{tenantId:N}";
 }

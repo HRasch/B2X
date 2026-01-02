@@ -8,9 +8,9 @@ namespace B2Connect.Admin.Presentation.Controllers;
 
 /// <summary>
 /// Admin Users Controller - HTTP Layer Only (CQRS Pattern)
-/// 
+///
 /// 🏗️ Architecture:
-/// HTTP Request 
+/// HTTP Request
 ///   ↓
 /// Controller (HTTP Concerns only!)
 ///   - Header validation
@@ -30,7 +30,7 @@ namespace B2Connect.Admin.Presentation.Controllers;
 /// - Controller: HTTP Concerns
 /// - Handler: Business Logic (incl. Identity Service communication)
 /// - Filter: Cross-Cutting Concerns
-/// 
+///
 /// Filters Applied:
 /// - ValidateTenantAttribute: Validates X-Tenant-ID header
 /// - ApiExceptionHandlingFilter: Centralizes error handling
@@ -70,7 +70,9 @@ public class UsersController : ApiControllerBase
         var result = await _messageBus.InvokeAsync<UsersListResult?>(query, ct);
 
         if (result == null)
+        {
             return StatusCode(StatusCodes.Status503ServiceUnavailable, "Identity Service unavailable");
+        }
 
         return OkResponse(result, "Users retrieved successfully");
     }
@@ -93,7 +95,9 @@ public class UsersController : ApiControllerBase
         var user = await _messageBus.InvokeAsync<UserResult?>(query, ct);
 
         if (user == null)
+        {
             return NotFoundResponse($"User {userId} not found");
+        }
 
         return OkResponse(user, "User retrieved successfully");
     }
@@ -124,7 +128,9 @@ public class UsersController : ApiControllerBase
         var user = await _messageBus.InvokeAsync<UserResult?>(command, ct);
 
         if (user == null)
+        {
             return BadRequest("Failed to create user");
+        }
 
         return CreatedResponse(nameof(GetUser), new { userId = user.Id }, user);
     }
@@ -157,7 +163,9 @@ public class UsersController : ApiControllerBase
         var user = await _messageBus.InvokeAsync<UserResult?>(command, ct);
 
         if (user == null)
+        {
             return NotFoundResponse($"User {userId} not found");
+        }
 
         return OkResponse(user, "User updated successfully");
     }
@@ -182,7 +190,9 @@ public class UsersController : ApiControllerBase
         var deleted = await _messageBus.InvokeAsync<bool>(command, ct);
 
         if (!deleted)
+        {
             return NotFoundResponse($"User {userId} not found");
+        }
 
         return NoContent();
     }

@@ -8,7 +8,7 @@ namespace B2Connect.CatalogService.Infrastructure;
 /// VIES (VAT Information Exchange System) API client
 /// Handles SOAP/XML communication with EU VAT validation service
 /// Includes retry logic, timeout handling, and error recovery
-/// 
+///
 /// Issue #31: B2B VAT-ID Validation (AStV Reverse Charge)
 /// </summary>
 public class ViesApiClient : IViesApiClient
@@ -47,10 +47,14 @@ public class ViesApiClient : IViesApiClient
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(countryCode))
+        {
             throw new ArgumentException("Country code is required", nameof(countryCode));
+        }
 
         if (string.IsNullOrWhiteSpace(vatNumber))
+        {
             throw new ArgumentException("VAT number is required", nameof(vatNumber));
+        }
 
         _logger.LogInformation("Starting VAT validation: {CountryCode}{VatNumber}", countryCode, vatNumber);
 

@@ -182,7 +182,7 @@ public class AuthService : IAuthService
 
         var user = await _userManager.FindByIdAsync(userId);
 
-        if (user == null || !user.IsActive)
+        if (user?.IsActive != true)
         {
             return new Result<AuthResponse>.Failure(ErrorCodes.UserNotFound, ErrorCodes.UserNotFound.ToMessage());
         }
@@ -253,11 +253,11 @@ public class AuthService : IAuthService
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                search = search.ToLower();
+                search = search.ToLower(System.Globalization.CultureInfo.CurrentCulture);
                 query = query.Where(u =>
-                    (u.Email != null && u.Email.ToLower().Contains(search)) ||
-                    (u.FirstName != null && u.FirstName.ToLower().Contains(search)) ||
-                    (u.LastName != null && u.LastName.ToLower().Contains(search)));
+                    (u.Email != null && u.Email.ToLower(System.Globalization.CultureInfo.CurrentCulture).Contains(search)) ||
+                    (u.FirstName != null && u.FirstName.ToLower(System.Globalization.CultureInfo.CurrentCulture).Contains(search)) ||
+                    (u.LastName != null && u.LastName.ToLower(System.Globalization.CultureInfo.CurrentCulture).Contains(search)));
             }
 
             var users = query
@@ -356,7 +356,7 @@ public class AuthService : IAuthService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    private async Task<string> GenerateRefreshToken(AppUser user)
+    private Task<string> GenerateRefreshToken(AppUser user)
     {
         // Generate a JWT refresh token with user ID embedded
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -379,7 +379,7 @@ public class AuthService : IAuthService
             signingCredentials: credentials
         );
 
-        return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
+        return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
     }
 
     private ClaimsPrincipal? ValidateExpiredToken(string token)
@@ -425,7 +425,7 @@ public class AuthService : IAuthService
         };
     }
 
-    private string[] GetPermissionsForRoles(string[] roles)
+    private static string[] GetPermissionsForRoles(string[] roles)
     {
         if (roles.Contains("Admin"))
         {
@@ -465,7 +465,7 @@ public class UserInfo
     public string TenantId { get; set; } = string.Empty;
     public string[] Roles { get; set; } = Array.Empty<string>();
     public string[] Permissions { get; set; } = Array.Empty<string>();
-    public bool TwoFactorEnabled { get; set; } = false;
+    public bool TwoFactorEnabled { get; set; }
 }
 
 public class RefreshTokenRequest

@@ -241,7 +241,7 @@ public class AuthServiceGetUserTests : AuthServiceTestBase
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public async Task GetUserByIdAsync_WithEmptyUserId_ReturnsFailureResult(string userId)
+    public async Task GetUserByIdAsync_WithEmptyUserId_ReturnsFailureResult(string? userId)
     {
         // Act
         var result = await Fixture.AuthService.GetUserByIdAsync(userId);

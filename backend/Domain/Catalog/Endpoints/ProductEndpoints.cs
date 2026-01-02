@@ -39,7 +39,10 @@ public static class ProductEndpoints
         {
             var host = request.Host.Host;
             var tid = tenantResolver.ResolveTenantIdFromHost(host);
-            if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g)) resolvedTenant = g;
+            if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g))
+            {
+                resolvedTenant = g;
+            }
         }
 
         var product = await productService.GetBySkuAsync(resolvedTenant, sku, ct);
@@ -107,7 +110,10 @@ public static class ProductEndpoints
         {
             var host = request.Host.Host;
             var tid = tenantResolver.ResolveTenantIdFromHost(host);
-            if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g)) resolvedTenant = g;
+            if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g))
+            {
+                resolvedTenant = g;
+            }
         }
 
         var results = await searchService.SearchAsync(resolvedTenant, q, ct);
@@ -129,13 +135,20 @@ public static class ProductEndpoints
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
     {
-        if (page < 1) page = 1;
-        if (pageSize < 1 || pageSize > 100) pageSize = 20;
+        if (page < 1)
+        {
+            page = 1;
+        }
+
+        if (pageSize < 1 || pageSize > 100)
+        {
+            pageSize = 20;
+        }
 
         // If configured for demo product count, use in-memory demo store
         var demoCount = configuration.GetValue<int?>("CatalogService:DemoProductCount");
         var demoSector = configuration.GetValue<string?>("CatalogService:DemoSector");
-        if (demoCount.HasValue && demoCount.Value > 0)
+        if (demoCount > 0)
         {
             // Lazy initialize demo store with configured count
             B2Connect.Catalog.Endpoints.Dev.DemoProductStore.EnsureInitialized(demoCount.Value, demoSector);
@@ -146,7 +159,10 @@ public static class ProductEndpoints
             {
                 var host = request.Host.Host;
                 var tid = tenantResolver.ResolveTenantIdFromHost(host);
-                if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g)) resolvedTenant = g;
+                if (!string.IsNullOrWhiteSpace(tid) && Guid.TryParse(tid, out var g))
+                {
+                    resolvedTenant = g;
+                }
             }
 
             // filter by resolvedTenant if DemoProductStore items include tenantId
@@ -155,6 +171,6 @@ public static class ProductEndpoints
         }
 
         // TODO: Implement GetAllAsync method in IProductService
-        return Results.Ok(new { products = new object[0], total = 0, page, pageSize });
+        return Results.Ok(new { products = Array.Empty<object>(), total = 0, page, pageSize });
     }
 }

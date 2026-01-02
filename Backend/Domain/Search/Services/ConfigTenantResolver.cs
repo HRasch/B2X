@@ -28,9 +28,17 @@ public class ConfigTenantResolver : ITenantResolver
 
     public string? ResolveTenantIdFromHost(string host)
     {
-        if (string.IsNullOrWhiteSpace(host)) return null;
+        if (string.IsNullOrWhiteSpace(host))
+        {
+            return null;
+        }
+
         var h = host.Split(':')[0].Trim().ToLowerInvariant();
-        if (_map.TryGetValue(h, out var tenant)) return tenant;
-        return null;
+        if (!_map.TryGetValue(h, out var tenant))
+        {
+            return null;
+        }
+
+        return tenant;
     }
 }

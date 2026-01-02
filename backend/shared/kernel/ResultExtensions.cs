@@ -252,7 +252,7 @@ public static class ResultExtensions
     ///     return await ResultExtensions.TryAsync(async () =>
     ///     {
     ///         var user = await _repository.FindAsync(id);
-    ///         if (user == null) 
+    ///         if (user == null)
     ///             throw new KeyNotFoundException($"User {id} not found");
     ///         return user;
     ///     },

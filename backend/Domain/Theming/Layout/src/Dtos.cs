@@ -19,23 +19,31 @@ public static class LocalizationHelper
         string defaultLanguage = "en")
     {
         if (translations == null || translations.Count == 0)
+        {
             return baseValue;
+        }
 
         // Try requested language
         if (translations.TryGetValue(languageCode, out var value) && !string.IsNullOrEmpty(value))
+        {
             return value;
+        }
 
         // Try default language if different from requested
         if (languageCode != defaultLanguage &&
             translations.TryGetValue(defaultLanguage, out var defaultValue) &&
             !string.IsNullOrEmpty(defaultValue))
+        {
             return defaultValue;
+        }
 
         // Try English as final fallback
-        if (!string.Equals(languageCode, "en") && !string.Equals(defaultLanguage, "en") &&
+        if (!string.Equals(languageCode, "en", StringComparison.Ordinal) && !string.Equals(defaultLanguage, "en", StringComparison.Ordinal) &&
             translations.TryGetValue("en", out var englishValue) &&
             !string.IsNullOrEmpty(englishValue))
+        {
             return englishValue;
+        }
 
         // Return base value
         return baseValue;

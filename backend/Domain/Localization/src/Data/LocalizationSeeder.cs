@@ -14,7 +14,7 @@ public static class LocalizationSeeder
     /// </summary>
     public static async Task SeedAsync(LocalizationDbContext dbContext)
     {
-        if (await dbContext.LocalizedStrings.CountAsync() > 0)
+        if (await dbContext.LocalizedStrings.AnyAsync())
         {
             return; // Already seeded
         }

@@ -3,9 +3,7 @@ namespace B2Connect.Types.Domain;
 /// <summary>
 /// Marker interface for value objects in the domain
 /// </summary>
-public interface IValueObject
-{
-}
+public interface IValueObject;
 
 /// <summary>
 /// Interface for entities that belong to a tenant

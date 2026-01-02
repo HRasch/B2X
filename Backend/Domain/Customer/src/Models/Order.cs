@@ -61,7 +61,9 @@ public class Order
     public int GetWithdrawalDaysRemaining()
     {
         if (!DeliveredAt.HasValue)
+        {
             return -1; // Order not yet delivered
+        }
 
         var deadline = DeliveredAt.Value.AddDays(14);
         var daysRemaining = (int)(deadline - DateTime.UtcNow).TotalDays;

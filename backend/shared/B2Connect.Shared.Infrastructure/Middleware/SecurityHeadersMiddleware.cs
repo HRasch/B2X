@@ -40,7 +40,7 @@ public class SecurityHeadersMiddleware
 
         // Content-Security-Policy: Prevent XSS, Clickjacking, etc.
         // default-src 'self' = Only allow resources from same origin
-        var csp = "default-src 'self'; " +
+        const string csp = "default-src 'self'; " +
                   "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
                   "style-src 'self' 'unsafe-inline'; " +
                   "img-src 'self' data: https:; " +

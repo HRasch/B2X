@@ -5,12 +5,12 @@ namespace B2Connect.CatalogService.Infrastructure.Data;
 
 /// <summary>
 /// Database context for Catalog Service
-/// 
+///
 /// Handles all data access for:
 /// - Products
 /// - Tax Rates (for price calculations)
 /// - Categories
-/// 
+///
 /// Multi-tenant isolation: All queries must include TenantId filter
 /// </summary>
 public class CatalogDbContext : DbContext

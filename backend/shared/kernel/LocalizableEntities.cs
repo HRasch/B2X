@@ -84,7 +84,7 @@ public class ContentPage : Entity
     /// <summary>
     /// Is this page published?
     /// </summary>
-    public bool IsPublished { get; set; } = false;
+    public bool IsPublished { get; set; }
 
     /// <summary>
     /// Publication date

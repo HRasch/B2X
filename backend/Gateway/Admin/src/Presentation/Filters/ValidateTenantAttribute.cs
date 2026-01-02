@@ -6,7 +6,7 @@ namespace B2Connect.Admin.Presentation.Filters;
 /// <summary>
 /// Attribute Filter für Tenant-ID Validierung
 /// Extrahiert und validiert X-Tenant-ID Header aus allen Requests
-/// 
+///
 /// Verwendung:
 /// [ValidateTenant]
 /// public async Task<ActionResult> GetUsers() { }

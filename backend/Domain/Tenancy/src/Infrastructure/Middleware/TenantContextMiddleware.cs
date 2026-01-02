@@ -10,32 +10,30 @@ namespace B2Connect.Shared.Tenancy.Infrastructure.Middleware;
 /// <summary>
 /// Middleware that extracts X-Tenant-ID header and sets it in the ITenantContext.
 /// Must be registered BEFORE any endpoint that needs tenant filtering.
-/// 
+///
 /// Tenant Resolution Strategy (with Security Validation):
 /// 1. JWT Tenant Claim (source of truth, if authenticated)
 /// 2. X-Tenant-ID Header (validated against JWT if authenticated)
 /// 3. Host-based lookup via TenancyServiceClient (validated, rate-limited)
 /// 4. Development fallback (ONLY in Development environment)
-/// 
+///
 /// Security Features:
 /// - Tenant spoofing prevention (JWT validation)
 /// - Environment-aware fallback (never in production)
 /// - Host input validation (prevent injection)
 /// - Generic error messages (prevent information disclosure)
 /// - Audit logging for security events
-/// 
+///
 /// Registration in Program.cs:
 ///   app.UseMiddleware<TenantContextMiddleware>();
 /// </summary>
-public class TenantContextMiddleware
+public partial class TenantContextMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IConfiguration _configuration;
     private readonly ILogger<TenantContextMiddleware> _logger;
     private readonly IHostEnvironment _environment;
-    private static readonly Regex DomainValidationRegex = new(
-        @"^[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?)*$",
-        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex DomainValidationRegex = MyRegex();
 
     public TenantContextMiddleware(
         RequestDelegate next,
@@ -86,22 +84,19 @@ public class TenantContextMiddleware
         }
 
         // 3. SECURITY: Validate JWT and Header match (prevent tenant spoofing)
-        if (isAuthenticated && jwtTenantId.HasValue && headerTenantId.HasValue)
+        if (isAuthenticated && jwtTenantId.HasValue && headerTenantId.HasValue && jwtTenantId != headerTenantId)
         {
-            if (jwtTenantId != headerTenantId)
-            {
-                _logger.LogWarning(
-                    "SECURITY ALERT: Tenant mismatch detected! JWT: {JwtTenant}, Header: {HeaderTenant}, User: {UserId}, IP: {IP}",
-                    jwtTenantId, headerTenantId, context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value, context.Connection.RemoteIpAddress);
+            _logger.LogWarning(
+                "SECURITY ALERT: Tenant mismatch detected! JWT: {JwtTenant}, Header: {HeaderTenant}, User: {UserId}, IP: {IP}",
+                jwtTenantId, headerTenantId, context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value, context.Connection.RemoteIpAddress);
 
-                context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                await context.Response.WriteAsJsonAsync(new
-                {
-                    success = false,
-                    error = "Access denied. Please contact support if this persists."
-                });
-                return;
-            }
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            await context.Response.WriteAsJsonAsync(new
+            {
+                success = false,
+                error = "Access denied. Please contact support if this persists."
+            });
+            return;
         }
 
         // 4. Use JWT tenant if available (highest trust)
@@ -164,12 +159,12 @@ public class TenantContextMiddleware
             try
             {
                 var tenant = await tenancyClient.GetTenantByDomainAsync(host);
-                if (tenant != null && tenant.IsActive)
+                if (tenant?.IsActive == true)
                 {
                     tenantId = tenant.Id;
                     _logger.LogInformation("Tenant ID resolved from host {Host}: {TenantId}", host, tenantId);
                 }
-                else if (tenant != null && !tenant.IsActive)
+                else if (tenant?.IsActive == false)
                 {
                     _logger.LogWarning("Inactive tenant accessed via host {Host}: {TenantId}", host, tenant.Id);
                 }
@@ -245,11 +240,12 @@ public class TenantContextMiddleware
     private static Guid? ExtractTenantFromJwt(HttpContext context)
     {
         var tenantClaim = context.User?.FindFirst("tenant_id") ?? context.User?.FindFirst("TenantId");
-        if (tenantClaim != null && Guid.TryParse(tenantClaim.Value, out var tenantId))
+        if (tenantClaim == null || !Guid.TryParse(tenantClaim.Value, out var tenantId))
         {
-            return tenantId;
+            return null;
         }
-        return null;
+
+        return tenantId;
     }
 
     /// <summary>
@@ -258,11 +254,12 @@ public class TenantContextMiddleware
     private static Guid? ExtractUserIdFromJwt(HttpContext context)
     {
         var userClaim = context.User?.FindFirst(ClaimTypes.NameIdentifier) ?? context.User?.FindFirst("sub");
-        if (userClaim != null && Guid.TryParse(userClaim.Value, out var userId))
+        if (userClaim == null || !Guid.TryParse(userClaim.Value, out var userId))
         {
-            return userId;
+            return null;
         }
-        return null;
+
+        return userId;
     }
 
     /// <summary>
@@ -271,7 +268,9 @@ public class TenantContextMiddleware
     private static bool IsValidDomainName(string domain)
     {
         if (string.IsNullOrWhiteSpace(domain) || domain.Length > 253)
+        {
             return false;
+        }
 
         return DomainValidationRegex.IsMatch(domain);
     }
@@ -301,4 +300,7 @@ public class TenantContextMiddleware
 
         return publicPaths.Any(p => path.StartsWith(p));
     }
+
+    [GeneratedRegex(@"^[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?)*$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-US")]
+    private static partial Regex MyRegex();
 }

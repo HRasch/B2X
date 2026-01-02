@@ -2,14 +2,14 @@ namespace B2Connect.Admin.Application.Commands.Products;
 
 /// <summary>
 /// Product Commands & Queries - CQRS Pattern
-/// 
+///
 /// Flow:
 /// Controller empfängt HTTP Request
 /// → Erstellt Command/Query (ohne TenantId!)
 /// → Dispatched via IMessageBus
 /// → Handler holt TenantId via ITenantContextAccessor
 /// → Response zurück an Controller
-/// 
+///
 /// NOTE: TenantId wird automatisch via ITenantContextAccessor im Handler injiziert
 /// </summary>
 

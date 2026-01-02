@@ -9,7 +9,7 @@ namespace B2Connect.Admin.Presentation.Controllers;
 /// - Tenant-ID Extraction
 /// - StandardisierteResponse-Format
 /// - Logger Access
-/// 
+///
 /// Verwendung:
 /// public class ProductsController : ApiControllerBase { }
 /// </summary>

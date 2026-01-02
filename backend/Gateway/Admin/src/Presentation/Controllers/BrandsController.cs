@@ -8,7 +8,7 @@ namespace B2Connect.Admin.Presentation.Controllers;
 
 /// <summary>
 /// API Controller for Brand operations - HTTP Layer Only (CQRS Pattern)
-/// 
+///
 /// NOTE: TenantId wird automatisch im Handler via ITenantContextAccessor injiziert!
 ///
 /// Filters Applied:
@@ -41,7 +41,9 @@ public class BrandsController : ApiControllerBase
         var brand = await _messageBus.InvokeAsync<BrandResult?>(query, ct);
 
         if (brand == null)
+        {
             return NotFoundResponse($"Brand {id} not found");
+        }
 
         return OkResponse(brand);
     }
@@ -59,7 +61,9 @@ public class BrandsController : ApiControllerBase
         var brand = await _messageBus.InvokeAsync<BrandResult?>(query, ct);
 
         if (brand == null)
+        {
             return NotFoundResponse($"Brand with slug '{slug}' not found");
+        }
 
         return OkResponse(brand);
     }
@@ -154,7 +158,9 @@ public class BrandsController : ApiControllerBase
         var success = await _messageBus.InvokeAsync<bool>(command, ct);
 
         if (!success)
+        {
             return NotFoundResponse($"Brand {id} not found");
+        }
 
         return NoContent();
     }

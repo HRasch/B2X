@@ -1,7 +1,7 @@
+using System.Text.Json;
 using B2Connect.Identity.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace B2Connect.Identity.Services;
 
@@ -36,7 +36,9 @@ public class ErpCustomerService : IErpCustomerService
     public async Task<ErpCustomerDto?> GetCustomerByNumberAsync(string customerNumber, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(customerNumber))
+        {
             return null;
+        }
 
         var cacheKey = $"{CacheKeyPrefix}number:{customerNumber}";
         var cached = await _cache.GetStringAsync(cacheKey, ct);
@@ -91,9 +93,11 @@ public class ErpCustomerService : IErpCustomerService
     public async Task<ErpCustomerDto?> GetCustomerByEmailAsync(string email, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(email))
+        {
             return null;
+        }
 
-        var cacheKey = $"{CacheKeyPrefix}email:{email.ToLower()}";
+        var cacheKey = $"{CacheKeyPrefix}email:{email.ToLower(System.Globalization.CultureInfo.CurrentCulture)}";
         var cached = await _cache.GetStringAsync(cacheKey, ct);
         if (cached != null)
         {
@@ -111,7 +115,9 @@ public class ErpCustomerService : IErpCustomerService
 
             var response = await _httpClient.SendAsync(request, ct);
             if (!response.IsSuccessStatusCode)
+            {
                 return null;
+            }
 
             var content = await response.Content.ReadAsStringAsync(ct);
             var customers = JsonSerializer.Deserialize<List<ErpCustomerDto>>(content) ?? new();
@@ -140,9 +146,11 @@ public class ErpCustomerService : IErpCustomerService
     public async Task<ErpCustomerDto?> GetCustomerByCompanyNameAsync(string companyName, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(companyName))
+        {
             return null;
+        }
 
-        var cacheKey = $"{CacheKeyPrefix}company:{companyName.ToLower()}";
+        var cacheKey = $"{CacheKeyPrefix}company:{companyName.ToLower(System.Globalization.CultureInfo.CurrentCulture)}";
         var cached = await _cache.GetStringAsync(cacheKey, ct);
         if (cached != null)
         {
@@ -160,7 +168,9 @@ public class ErpCustomerService : IErpCustomerService
 
             var response = await _httpClient.SendAsync(request, ct);
             if (!response.IsSuccessStatusCode)
+            {
                 return null;
+            }
 
             var content = await response.Content.ReadAsStringAsync(ct);
             var customers = JsonSerializer.Deserialize<List<ErpCustomerDto>>(content) ?? new();

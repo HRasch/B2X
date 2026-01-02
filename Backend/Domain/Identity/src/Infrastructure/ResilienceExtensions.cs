@@ -1,8 +1,8 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Polly.CircuitBreaker;
 using Polly.Retry;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Http.Resilience;
 
 namespace B2Connect.Identity.Infrastructure;
 

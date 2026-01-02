@@ -1,13 +1,13 @@
-namespace B2Connect.CatalogService.Endpoints;
 
 using B2Connect.Catalog.Application.Handlers;
 using B2Connect.Catalog.Core.Interfaces;
 using Wolverine.Http;
 
+namespace B2Connect.CatalogService.Endpoints;
 /// <summary>
 /// Wolverine HTTP Endpoints for Price Calculation
 /// Issue #30: B2C Price Transparency (PAngV)
-/// 
+///
 /// Endpoints are auto-discovered by Wolverine:
 ///   POST /api/calculateprice
 ///   POST /api/getpricebreakdown
@@ -28,11 +28,11 @@ public class PriceEndpoints
     /// POST /api/calculateprice
     /// </summary>
     [WolverinePost("/api/calculateprice")]
-    public async Task<PriceBreakdownResponse> CalculatePrice(
+    public Task<PriceBreakdownResponse> CalculatePrice(
         CalculatePriceCommand request,
         CancellationToken cancellationToken)
     {
-        return await _priceService.CalculatePrice(request, cancellationToken);
+        return _priceService.CalculatePrice(request, cancellationToken);
     }
 
     /// <summary>
@@ -40,11 +40,11 @@ public class PriceEndpoints
     /// POST /api/getpricebreakdown
     /// </summary>
     [WolverinePost("/api/getpricebreakdown")]
-    public async Task<PriceBreakdownResponse> GetPriceBreakdown(
+    public Task<PriceBreakdownResponse> GetPriceBreakdown(
         GetPriceBreakdownQuery query,
         CancellationToken cancellationToken)
     {
-        return await _priceService.GetPriceBreakdown(query, cancellationToken);
+        return _priceService.GetPriceBreakdown(query, cancellationToken);
     }
 
     /// <summary>
@@ -52,9 +52,9 @@ public class PriceEndpoints
     /// GET /api/taxrates
     /// </summary>
     [WolverineGet("/api/taxrates")]
-    public async Task<IEnumerable<TaxRateDto>> GetTaxRates(CancellationToken cancellationToken)
+    public Task<IEnumerable<TaxRateDto>> GetTaxRates(CancellationToken cancellationToken)
     {
-        return await _taxService.GetAllRatesAsync(cancellationToken);
+        return _taxService.GetAllRatesAsync(cancellationToken);
     }
 
     /// <summary>
@@ -62,8 +62,8 @@ public class PriceEndpoints
     /// GET /api/taxrates/{countryCode}
     /// </summary>
     [WolverineGet("/api/taxrates/{countryCode}")]
-    public async Task<decimal> GetVatRate(string countryCode, CancellationToken cancellationToken)
+    public Task<decimal> GetVatRate(string countryCode, CancellationToken cancellationToken)
     {
-        return await _taxService.GetVatRateAsync(countryCode, cancellationToken);
+        return _taxService.GetVatRateAsync(countryCode, cancellationToken);
     }
 }

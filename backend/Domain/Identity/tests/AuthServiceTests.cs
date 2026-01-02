@@ -227,7 +227,7 @@ public class AuthServiceTests : IAsyncLifetime
         result.ShouldBeOfType<Result<AppUser>.Failure>();
     }
 
-    [Fact(Skip = "Refresh token validation requires database storage of refresh tokens - see E2E test in auth.spec.ts")]
+    [Fact]
     public async Task RefreshToken_WithValidToken_ReturnsNewAccessToken()
     {
         // This test requires storing and validating refresh tokens in the database

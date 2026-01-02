@@ -82,7 +82,7 @@ public class CatalogDbContextFactory : ICatalogDbContextFactory
     /// <summary>
     /// Simple tenant context for demo/testing purposes
     /// </summary>
-    private class DemoTenantContext : ITenantContext
+    private sealed class DemoTenantContext : ITenantContext
     {
         public Guid TenantId => Guid.Parse("00000000-0000-0000-0000-000000000001"); // Demo tenant
     }
@@ -172,10 +172,7 @@ public static class CatalogDemoDbExtensions
 
         if (useInMemory)
         {
-            services.AddDbContextFactory<CatalogDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("CatalogDemo");
-            });
+            services.AddDbContextFactory<CatalogDbContext>(options => options.UseInMemoryDatabase("CatalogDemo"));
         }
         else
         {
@@ -234,7 +231,7 @@ public static class CatalogDemoDbExtensions
                     {
                         var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
                         var configuredCount = config.GetValue<int?>("CatalogService:DemoProductCount");
-                        var seedCount = configuredCount.HasValue && configuredCount.Value > 0 ? configuredCount.Value : 50;
+                        var seedCount = configuredCount > 0 ? configuredCount.Value : 50;
 
                         var (categories, brands, products) =
                             CatalogDemoDataGenerator.GenerateDemoCatalog(productCount: seedCount);

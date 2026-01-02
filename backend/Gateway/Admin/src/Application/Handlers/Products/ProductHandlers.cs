@@ -28,7 +28,7 @@ internal static class ProductMapper
 /// <summary>
 /// Wolverine Message Handler für Product Commands
 /// Enthält die komplette Business-Logik für Produkt-Operationen
-/// 
+///
 /// TenantId wird automatisch via ITenantContextAccessor injiziert
 /// </summary>
 public class CreateProductHandler : ICommandHandler<CreateProductCommand, ProductResult>
@@ -57,10 +57,14 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
 
         // Validierung
         if (string.IsNullOrWhiteSpace(command.Name))
+        {
             throw new ArgumentException("Product name is required", nameof(command.Name));
+        }
 
         if (command.Price <= 0)
+        {
             throw new ArgumentException("Product price must be greater than 0", nameof(command.Price));
+        }
 
         // Business Logic
         var product = new B2Connect.Admin.Core.Entities.Product
@@ -112,7 +116,9 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, Produc
 
         var product = await _repository.GetByIdAsync(tenantId, command.ProductId, ct);
         if (product == null)
+        {
             throw new KeyNotFoundException($"Product {command.ProductId} not found");
+        }
 
         // Update fields - convert string to LocalizedContent
         product.Name = new LocalizedContent().Set("en", command.Name);
@@ -150,7 +156,9 @@ public class GetProductHandler : IQueryHandler<GetProductQuery, ProductResult?>
         var product = await _repository.GetByIdAsync(tenantId, query.ProductId, ct);
 
         if (product == null)
+        {
             return null;
+        }
 
         return ProductMapper.ToResult(product);
     }
@@ -173,7 +181,9 @@ public class GetProductBySkuHandler : IQueryHandler<GetProductBySkuQuery, Produc
         var product = await _repository.GetBySkuAsync(tenantId, query.Sku, ct);
 
         if (product == null)
+        {
             return null;
+        }
 
         return ProductMapper.ToResult(product);
     }
@@ -225,7 +235,9 @@ public class DeleteProductHandler : ICommandHandler<DeleteProductCommand, bool>
 
         var product = await _repository.GetByIdAsync(tenantId, command.ProductId, ct);
         if (product == null)
+        {
             return false;
+        }
 
         await _repository.DeleteAsync(tenantId, command.ProductId, ct);
 
@@ -254,7 +266,9 @@ public class GetProductBySlugHandler : IQueryHandler<GetProductBySlugQuery, Prod
         var product = await _repository.GetBySlugAsync(tenantId, query.Slug, ct);
 
         if (product == null)
+        {
             return null;
+        }
 
         return ProductMapper.ToResult(product);
     }

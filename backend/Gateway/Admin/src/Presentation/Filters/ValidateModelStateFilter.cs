@@ -6,7 +6,7 @@ namespace B2Connect.Admin.Presentation.Filters;
 /// <summary>
 /// Model State Validierungsfilter
 /// Validiert automatisch das Model State vor der Controller-Aktion
-/// 
+///
 /// Erspart wiederholte ModelState.IsValid Checks in jedem Controller
 /// </summary>
 public class ValidateModelStateFilter : IActionFilter
@@ -28,32 +28,34 @@ public class ValidateModelStateFilter : IActionFilter
         }
 
         // Validiere Model State
-        if (!context.ModelState.IsValid)
+        if (context.ModelState.IsValid)
         {
-            _logger.LogWarning("Model validation failed for action {Action}",
-                context.ActionDescriptor.DisplayName);
-
-            // Sammle alle Validierungsfehler
-            var errors = context.ModelState
-                .Where(ms => ms.Value?.Errors.Count > 0)
-                .SelectMany(ms => ms.Value!.Errors.Select(e => new
-                {
-                    field = ms.Key,
-                    message = e.ErrorMessage
-                }))
-                .ToList();
-
-            var errorResponse = new
-            {
-                success = false,
-                error = "Validation failed",
-                errorCode = "VALIDATION_ERROR",
-                errors = errors,
-                timestamp = DateTime.UtcNow
-            };
-
-            context.Result = new BadRequestObjectResult(errorResponse);
+            return;
         }
+
+        _logger.LogWarning("Model validation failed for action {Action}",
+            context.ActionDescriptor.DisplayName);
+
+        // Sammle alle Validierungsfehler
+        var errors = context.ModelState
+            .Where(ms => ms.Value?.Errors.Count > 0)
+            .SelectMany(ms => ms.Value!.Errors.Select(e => new
+            {
+                field = ms.Key,
+                message = e.ErrorMessage
+            }))
+            .ToList();
+
+        var errorResponse = new
+        {
+            success = false,
+            error = "Validation failed",
+            errorCode = "VALIDATION_ERROR",
+            errors = errors,
+            timestamp = DateTime.UtcNow
+        };
+
+        context.Result = new BadRequestObjectResult(errorResponse);
     }
 
     public void OnActionExecuted(ActionExecutedContext context)

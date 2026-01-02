@@ -8,6 +8,8 @@ namespace B2Connect.LocalizationService.Migrations
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
+        private static readonly string[] columns = new[] { "Key", "Category", "TenantId" };
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,10 +26,7 @@ namespace B2Connect.LocalizationService.Migrations
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LocalizedStrings", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_LocalizedStrings", x => x.Id));
 
             migrationBuilder.CreateIndex(
                 name: "IX_LocalizedString_Category",
@@ -42,7 +41,7 @@ namespace B2Connect.LocalizationService.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_LocalizedString_KeyCategoryTenant",
                 table: "LocalizedStrings",
-                columns: new[] { "Key", "Category", "TenantId" },
+                columns: columns,
                 unique: true);
 
             migrationBuilder.CreateIndex(

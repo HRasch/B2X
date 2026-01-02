@@ -182,7 +182,7 @@ public class PasskeysService : IPasskeysService
         }
     }
 
-    private byte[] GenerateChallenge()
+    private static byte[] GenerateChallenge()
     {
         using var rng = RandomNumberGenerator.Create();
         var challenge = new byte[32];

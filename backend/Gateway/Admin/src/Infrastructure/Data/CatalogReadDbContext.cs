@@ -16,10 +16,5 @@ public class CatalogReadDbContext : DbContext
     }
 
     public DbSet<ProductReadModel> ProductsReadModel { get; set; } = null!;
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-    }
 }
 

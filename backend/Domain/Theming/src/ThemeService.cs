@@ -21,12 +21,16 @@ public class ThemeService : IThemeService
     {
         // Validate input
         if (string.IsNullOrWhiteSpace(request?.Name))
+        {
             throw new ArgumentException("Theme name is required", nameof(request));
+        }
 
         // Check for duplicate name
         var nameExists = await _repository.ThemeNameExistsAsync(tenantId, request.Name);
         if (nameExists)
+        {
             throw new InvalidOperationException($"Theme '{request.Name}' already exists for this tenant");
+        }
 
         // Create theme entity
         var theme = new Theme
@@ -48,24 +52,24 @@ public class ThemeService : IThemeService
         return await _repository.CreateThemeAsync(tenantId, theme);
     }
 
-    public async Task<Theme?> GetThemeByIdAsync(Guid tenantId, Guid themeId)
+    public Task<Theme?> GetThemeByIdAsync(Guid tenantId, Guid themeId)
     {
-        return await _repository.GetThemeByIdAsync(tenantId, themeId);
+        return _repository.GetThemeByIdAsync(tenantId, themeId);
     }
 
-    public async Task<List<Theme>> GetThemesByTenantAsync(Guid tenantId)
+    public Task<List<Theme>> GetThemesByTenantAsync(Guid tenantId)
     {
-        return await _repository.GetThemesByTenantAsync(tenantId);
+        return _repository.GetThemesByTenantAsync(tenantId);
     }
 
-    public async Task<Theme?> GetActiveThemeAsync(Guid tenantId)
+    public Task<Theme?> GetActiveThemeAsync(Guid tenantId)
     {
-        return await _repository.GetActiveThemeAsync(tenantId);
+        return _repository.GetActiveThemeAsync(tenantId);
     }
 
-    public async Task<List<Theme>> GetPublishedThemesAsync(Guid tenantId)
+    public Task<List<Theme>> GetPublishedThemesAsync(Guid tenantId)
     {
-        return await _repository.GetPublishedThemesAsync(tenantId);
+        return _repository.GetPublishedThemesAsync(tenantId);
     }
 
     public async Task<Theme> UpdateThemeAsync(Guid tenantId, Guid themeId, UpdateThemeRequest request)
@@ -77,23 +81,33 @@ public class ThemeService : IThemeService
         // Update fields if provided (use locals to help the compiler infer non-null values)
         var reqName = request?.Name;
         if (!string.IsNullOrWhiteSpace(reqName))
+        {
             theme.Name = reqName;
+        }
 
         var reqDescription = request?.Description;
         if (!string.IsNullOrWhiteSpace(reqDescription))
+        {
             theme.Description = reqDescription;
+        }
 
         var reqPrimary = request?.PrimaryColor;
         if (!string.IsNullOrWhiteSpace(reqPrimary))
+        {
             theme.PrimaryColor = reqPrimary;
+        }
 
         var reqSecondary = request?.SecondaryColor;
         if (!string.IsNullOrWhiteSpace(reqSecondary))
+        {
             theme.SecondaryColor = reqSecondary;
+        }
 
         var reqTertiary = request?.TertiaryColor;
         if (!string.IsNullOrWhiteSpace(reqTertiary))
+        {
             theme.TertiaryColor = reqTertiary;
+        }
 
         // Increment version
         theme.Version++;
@@ -111,14 +125,18 @@ public class ThemeService : IThemeService
 
     #region Design Variable Operations
 
-    public async Task<DesignVariable> AddDesignVariableAsync(Guid tenantId, Guid themeId, AddDesignVariableRequest request)
+    public Task<DesignVariable> AddDesignVariableAsync(Guid tenantId, Guid themeId, AddDesignVariableRequest request)
     {
         // Validate input
         if (string.IsNullOrWhiteSpace(request?.Name))
+        {
             throw new ArgumentException("Variable name is required", nameof(request));
+        }
 
         if (string.IsNullOrWhiteSpace(request?.Value))
+        {
             throw new ArgumentException("Variable value is required", nameof(request));
+        }
 
         // Create variable entity
         var variable = new DesignVariable
@@ -134,7 +152,7 @@ public class ThemeService : IThemeService
             UpdatedAt = DateTime.UtcNow
         };
 
-        return await _repository.AddDesignVariableAsync(tenantId, themeId, variable);
+        return _repository.AddDesignVariableAsync(tenantId, themeId, variable);
     }
 
     public async Task<DesignVariable> UpdateDesignVariableAsync(Guid tenantId, Guid themeId, Guid variableId, UpdateDesignVariableRequest request)
@@ -147,15 +165,21 @@ public class ThemeService : IThemeService
         // Update fields if provided (use locals to ensure non-null values)
         var reqValue = request?.Value;
         if (!string.IsNullOrWhiteSpace(reqValue))
+        {
             variable.Value = reqValue;
+        }
 
         var reqCategory = request?.Category;
         if (!string.IsNullOrWhiteSpace(reqCategory))
+        {
             variable.Category = reqCategory;
+        }
 
         var reqDescriptionVar = request?.Description;
         if (!string.IsNullOrWhiteSpace(reqDescriptionVar))
+        {
             variable.Description = reqDescriptionVar;
+        }
 
         variable.Type = request?.Type ?? variable.Type;
         variable.UpdatedAt = DateTime.UtcNow;
@@ -163,9 +187,9 @@ public class ThemeService : IThemeService
         return await _repository.UpdateDesignVariableAsync(tenantId, themeId, variableId, variable);
     }
 
-    public async Task<List<DesignVariable>> GetDesignVariablesAsync(Guid tenantId, Guid themeId)
+    public Task<List<DesignVariable>> GetDesignVariablesAsync(Guid tenantId, Guid themeId)
     {
-        return await _repository.GetDesignVariablesAsync(tenantId, themeId);
+        return _repository.GetDesignVariablesAsync(tenantId, themeId);
     }
 
     public async Task RemoveDesignVariableAsync(Guid tenantId, Guid themeId, Guid variableId)
@@ -177,11 +201,13 @@ public class ThemeService : IThemeService
 
     #region Theme Variant Operations
 
-    public async Task<ThemeVariant> CreateThemeVariantAsync(Guid tenantId, Guid themeId, CreateThemeVariantRequest request)
+    public Task<ThemeVariant> CreateThemeVariantAsync(Guid tenantId, Guid themeId, CreateThemeVariantRequest request)
     {
         // Validate input
         if (string.IsNullOrWhiteSpace(request?.Name))
+        {
             throw new ArgumentException("Variant name is required", nameof(request));
+        }
 
         // Create variant entity
         var variant = new ThemeVariant
@@ -195,12 +221,12 @@ public class ThemeService : IThemeService
             CreatedAt = DateTime.UtcNow
         };
 
-        return await _repository.CreateThemeVariantAsync(tenantId, themeId, variant);
+        return _repository.CreateThemeVariantAsync(tenantId, themeId, variant);
     }
 
-    public async Task<List<ThemeVariant>> GetThemeVariantsAsync(Guid tenantId, Guid themeId)
+    public Task<List<ThemeVariant>> GetThemeVariantsAsync(Guid tenantId, Guid themeId)
     {
-        return await _repository.GetThemeVariantsAsync(tenantId, themeId);
+        return _repository.GetThemeVariantsAsync(tenantId, themeId);
     }
 
     public async Task<ThemeVariant> UpdateThemeVariantAsync(Guid tenantId, Guid themeId, Guid variantId, UpdateThemeVariantRequest request)
@@ -213,17 +239,25 @@ public class ThemeService : IThemeService
         // Update fields if provided
         var reqVarName = request?.Name;
         if (!string.IsNullOrWhiteSpace(reqVarName))
+        {
             variant.Name = reqVarName;
+        }
 
         var reqVarDescription = request?.Description;
         if (!string.IsNullOrWhiteSpace(reqVarDescription))
+        {
             variant.Description = reqVarDescription;
+        }
 
         if (request?.VariableOverrides != null)
+        {
             variant.VariableOverrides = request.VariableOverrides;
+        }
 
         if (request?.IsEnabled.HasValue == true)
+        {
             variant.IsEnabled = request.IsEnabled.Value;
+        }
 
         return await _repository.UpdateThemeVariantAsync(tenantId, themeId, variantId, variant);
     }
@@ -237,28 +271,28 @@ public class ThemeService : IThemeService
 
     #region CSS Generation & Export
 
-    public async Task<string> GenerateCSSAsync(Guid tenantId, Guid themeId)
+    public Task<string> GenerateCSSAsync(Guid tenantId, Guid themeId)
     {
-        return await _repository.GenerateCSSAsync(tenantId, themeId);
+        return _repository.GenerateCSSAsync(tenantId, themeId);
     }
 
-    public async Task<string> GenerateThemeJSONAsync(Guid tenantId, Guid themeId)
+    public Task<string> GenerateThemeJSONAsync(Guid tenantId, Guid themeId)
     {
-        return await _repository.GenerateThemeJSONAsync(tenantId, themeId);
+        return _repository.GenerateThemeJSONAsync(tenantId, themeId);
     }
 
     #endregion
 
     #region Theme Publishing
 
-    public async Task<Theme> PublishThemeAsync(Guid tenantId, Guid themeId)
+    public Task<Theme> PublishThemeAsync(Guid tenantId, Guid themeId)
     {
-        return await _repository.PublishThemeAsync(tenantId, themeId);
+        return _repository.PublishThemeAsync(tenantId, themeId);
     }
 
-    public async Task<Theme> UnpublishThemeAsync(Guid tenantId, Guid themeId)
+    public Task<Theme> UnpublishThemeAsync(Guid tenantId, Guid themeId)
     {
-        return await _repository.UnpublishThemeAsync(tenantId, themeId);
+        return _repository.UnpublishThemeAsync(tenantId, themeId);
     }
 
     #endregion

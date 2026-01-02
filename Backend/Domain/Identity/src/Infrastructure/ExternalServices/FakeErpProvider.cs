@@ -6,7 +6,7 @@ namespace B2Connect.Identity.Infrastructure.ExternalServices;
 /// <summary>
 /// Faker ERP Provider für Testing und Entwicklung
 /// Liefert realistische Mock-Daten ohne echte ERP-Verbindung
-/// 
+///
 /// Use Cases:
 /// - Integration Tests ohne ERP-System
 /// - Local Development ohne Produktionsverbindung

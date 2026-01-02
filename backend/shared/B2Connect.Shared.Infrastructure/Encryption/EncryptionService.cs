@@ -52,9 +52,14 @@ public class EncryptionService : IEncryptionService
                 _iv = Convert.FromBase64String(ivBase64);
 
                 if (_key.Length != 32)
+                {
                     throw new InvalidOperationException("Encryption key must be 32 bytes (256 bits)");
+                }
+
                 if (_iv.Length != 16)
+                {
                     throw new InvalidOperationException("IV must be 16 bytes");
+                }
 
                 _logger.LogInformation("✅ Encryption service initialized with configured keys");
             }
@@ -70,7 +75,9 @@ public class EncryptionService : IEncryptionService
     public string Encrypt(string plainText)
     {
         if (string.IsNullOrEmpty(plainText))
+        {
             return plainText;
+        }
 
         try
         {
@@ -81,15 +88,13 @@ public class EncryptionService : IEncryptionService
 
                 var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
                 using (var ms = new MemoryStream())
+                using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
                 {
-                    using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                    using (var sw = new StreamWriter(cs))
                     {
-                        using (var sw = new StreamWriter(cs))
-                        {
-                            sw.Write(plainText);
-                        }
-                        return Convert.ToBase64String(ms.ToArray());
+                        sw.Write(plainText);
                     }
+                    return Convert.ToBase64String(ms.ToArray());
                 }
             }
         }
@@ -103,7 +108,9 @@ public class EncryptionService : IEncryptionService
     public string Decrypt(string cipherText)
     {
         if (string.IsNullOrEmpty(cipherText))
+        {
             return cipherText;
+        }
 
         try
         {
@@ -114,14 +121,10 @@ public class EncryptionService : IEncryptionService
 
                 var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
                 using (var ms = new MemoryStream(Convert.FromBase64String(cipherText)))
+                using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                using (var sr = new StreamReader(cs))
                 {
-                    using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (var sr = new StreamReader(cs))
-                        {
-                            return sr.ReadToEnd();
-                        }
-                    }
+                    return sr.ReadToEnd();
                 }
             }
         }
@@ -135,14 +138,20 @@ public class EncryptionService : IEncryptionService
     public string? EncryptNullable(string? plainText)
     {
         if (plainText == null)
+        {
             return null;
+        }
+
         return Encrypt(plainText);
     }
 
     public string? DecryptNullable(string? cipherText)
     {
         if (cipherText == null)
+        {
             return null;
+        }
+
         return Decrypt(cipherText);
     }
 

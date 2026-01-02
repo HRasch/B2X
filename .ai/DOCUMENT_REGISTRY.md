@@ -73,6 +73,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-016` | GitHub Copilot Models | `.ai/knowledgebase/tools-and-tech/github-copilot-models.md` | Active |
 | `KB-017` | AI Cost Optimization | `.ai/knowledgebase/tools-and-tech/ai-cost-optimization.md` | Active |
 | `KB-018` | Local LLM Models 2025 | `.ai/knowledgebase/tools-and-tech/local-llm-models-2025.md` | Active |
+| `KB-019` | StyleCop Analyzers | `.ai/knowledgebase/tools-and-tech/stylecop-analyzers.md` | Active |
 
 ### Knowledgebase Subdirectories
 
