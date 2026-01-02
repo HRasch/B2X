@@ -1,6 +1,11 @@
 import { apiClient } from "../client";
 import axios from "axios";
-import type { AdminUser, LoginRequest, LoginResponse, Role } from "@/types/auth";
+import type {
+  AdminUser,
+  LoginRequest,
+  LoginResponse,
+  Role,
+} from "@/types/auth";
 
 /**
  * Transform backend role format to frontend Role[] format.
@@ -127,7 +132,7 @@ export const authApi = {
           "X-Tenant-ID": tenantId,
         },
         withCredentials: true, // Enable httpOnly cookie handling
-      }
+      },
     );
 
     // Store tenant ID from response if provided (non-sensitive)
@@ -150,7 +155,9 @@ export const authApi = {
   },
 
   async verify(token: string) {
-    const response = await apiClient.post<AdminUser>("/api/auth/verify", { token });
+    const response = await apiClient.post<AdminUser>("/api/auth/verify", {
+      token,
+    });
     // Transform roles if needed
     return {
       ...response,
@@ -191,7 +198,7 @@ export const authApi = {
       {},
       {
         withCredentials: true, // Send httpOnly refresh cookie
-      }
+      },
     );
     // Transform roles if needed
     return {

@@ -141,7 +141,9 @@ public class InvoiceHandlerTests : IAsyncLifetime
         var command = new GenerateInvoiceCommand { OrderId = _orderId };
         _mockService
             .Setup(s => s.GenerateInvoiceAsync(_orderId, It.IsAny<CancellationToken>()))
+#pragma warning disable CA2201 // Do not raise reserved exception types
             .ThrowsAsync(new Exception("Database error"));
+#pragma warning restore CA2201 // Do not raise reserved exception types
 
         // Act
         var response = await _handler.GenerateInvoice(command, CancellationToken.None);
@@ -309,7 +311,9 @@ public class InvoiceHandlerTests : IAsyncLifetime
 
         _mockService
             .Setup(s => s.GetInvoiceByOrderIdAsync(_orderId, It.IsAny<CancellationToken>()))
+#pragma warning disable CA2201 // Do not raise reserved exception types
             .ThrowsAsync(new Exception("Invoice not found"));
+#pragma warning restore CA2201 // Do not raise reserved exception types
 
         // Act
         var response = await _handler.ModifyInvoice(command, CancellationToken.None);

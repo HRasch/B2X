@@ -368,7 +368,7 @@ app.MapControllers();
 app.MapWolverineEndpoints();
 
 app.MapGet("/", () => "Auth Service is running");
-app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
+// Health endpoints provided by UseServiceDefaults() - see ADR-025
 
 await app.RunAsync();
 

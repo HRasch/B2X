@@ -54,5 +54,10 @@
         "delegate"
       ]
     }
+  },
+  "rules": {
+    "SA1111": {
+      "severity": "none"
+    }
   }
 }

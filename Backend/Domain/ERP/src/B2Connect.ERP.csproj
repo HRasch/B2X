@@ -33,7 +33,8 @@
 
     <!-- Data Access (ADR-025) -->
     <PackageReference Include="Dapper" />
-    <PackageReference Include="EFCore.BulkExtensions" />
+    <PackageReference Include="EFCore.BulkExtensions.SqlServer" />
+    <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
     <PackageReference Include="Npgsql" />
   </ItemGroup>
 

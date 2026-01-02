@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Running;
+using B2Connect.Admin.Tests.Benchmarks;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ADR-025 Performance Benchmarks Runner - Phase 5

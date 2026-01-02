@@ -32,8 +32,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// Health check endpoint
-app.MapHealthChecks("/health");
+// Health endpoints provided by UseServiceDefaults() - see ADR-025
+// Endpoints: /health, /health/live, /health/ready
+app.UseServiceDefaults();
 
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
 logger.LogInformation("Layout Service starting on {Environment}", app.Environment.EnvironmentName);

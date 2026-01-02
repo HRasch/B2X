@@ -130,8 +130,8 @@ public static class ProductEndpoints
         IProductService productService,
         ITenantResolver tenantResolver,
         HttpRequest request,
-        CancellationToken ct,
         Microsoft.Extensions.Configuration.IConfiguration configuration,
+        CancellationToken ct,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
     {

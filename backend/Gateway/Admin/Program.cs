@@ -274,6 +274,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapReverseProxy();
 app.MapGet("/", () => "Admin API Gateway is running");
-app.MapGet("/health", () => Results.Ok(new { status = "healthy", gateway = "admin" }));
+// Health endpoints provided by UseServiceDefaults() - see ADR-025
 
 await app.RunAsync();

@@ -1,6 +1,8 @@
 using Bogus;
 using B2Connect.Admin.Core.Entities;
+using B2Connect.Shared.Core;
 using B2Connect.Types.Localization;
+using LocalizedContent = B2Connect.Types.Localization.LocalizedContent;
 
 namespace B2Connect.Admin.Infrastructure.Data;
 
@@ -268,7 +270,7 @@ public static class CatalogDemoDataGenerator
             .RuleFor(p => p.UpdatedAt, (f, p) => f.Date.Between(p.CreatedAt, DateTime.UtcNow))
             .RuleFor(p => p.CreatedBy, f => f.Internet.UserName())
             .RuleFor(p => p.UpdatedBy, f => f.Internet.UserName())
-            .RuleFor(p => p.TenantId, f => f.Random.Bool(0.7f) ? Guid.NewGuid() : null)
+            .RuleFor(p => p.TenantId, _ => SeedConstants.DefaultTenantId)
 
             // Variants
             .RuleFor(p => p.Variants, (f, p) => GenerateVariants(f, p))

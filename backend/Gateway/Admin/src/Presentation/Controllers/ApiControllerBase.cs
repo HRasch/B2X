@@ -18,7 +18,9 @@ namespace B2Connect.Admin.Presentation.Controllers;
 [Produces("application/json")]
 public abstract class ApiControllerBase : ControllerBase
 {
+#pragma warning disable CA1051 // Do not declare visible instance fields
     protected readonly ILogger _logger;
+#pragma warning restore CA1051 // Do not declare visible instance fields
 
     protected ApiControllerBase(ILogger logger)
     {

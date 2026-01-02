@@ -5,6 +5,7 @@ using Bogus;
 using Microsoft.AspNetCore.Identity;
 using B2Connect.AuthService.Data;
 using B2Connect.Admin.Infrastructure.Data;
+using B2Connect.Shared.Core;
 
 namespace B2Connect.Tests.Utilities;
 
@@ -35,7 +36,7 @@ public static class InMemoryTestSeeder
                 Email = email,
                 FirstName = faker.Name.FirstName(),
                 LastName = faker.Name.LastName(),
-                TenantId = Guid.NewGuid().ToString(),
+                TenantId = SeedConstants.DefaultTenantId.ToString(),
                 IsActive = true,
                 EmailConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString()
@@ -45,7 +46,7 @@ public static class InMemoryTestSeeder
         }
 
         // Ensure admin user exists (tests rely on this sometimes)
-        var adminEmail = "admin@example.com";
+        var adminEmail = SeedConstants.DefaultAdminEmail;
         var admin = await userManager.FindByEmailAsync(adminEmail);
         if (admin == null)
         {
@@ -55,7 +56,7 @@ public static class InMemoryTestSeeder
                 Email = adminEmail,
                 FirstName = "Admin",
                 LastName = "User",
-                TenantId = "default",
+                TenantId = SeedConstants.DefaultTenantId.ToString(),
                 IsActive = true,
                 EmailConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString()

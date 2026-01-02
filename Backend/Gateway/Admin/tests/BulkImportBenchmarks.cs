@@ -9,173 +9,173 @@ using B2Connect.Types.Localization;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ADR-025 Performance Benchmarks - Phase 4
-// ─────────────────────────────────────────────────────────────────────────────
-
-/// <summary>
-/// Test implementation of ITenantContext for benchmarks
-/// </summary>
-internal class TestTenantContext : ITenantContext
+namespace B2Connect.Admin.Tests.Benchmarks
 {
-    public Guid TenantId => Guid.Parse("12345678-1234-1234-1234-123456789012");
-}
 
-/// <summary>
-/// Performance Benchmarks für ADR-025: Dapper/EF Extensions Evaluation
-/// Vergleicht EF Core vs EFCore.BulkExtensions für Bulk Product Imports
-///
-/// Ziel: Nachweis der 10-50x Performance-Verbesserung bei Bulk-Operationen
-/// </summary>
-[MemoryDiagnoser]
-[SimpleJob(iterationCount: 3, warmupCount: 1)]
-public class BulkImportBenchmarks
-{
-    private CatalogDbContext _dbContext = null!;
-    private List<BulkImportProductItem> _testData = null!;
-
-    [Params(100, 1000, 10000)]
-    public int ProductCount { get; set; }
-
-    [GlobalSetup]
-    public void Setup()
+    /// <summary>
+    /// Test implementation of ITenantContext for benchmarks
+    /// </summary>
+    internal class TestTenantContext : ITenantContext
     {
-        // In-Memory Database für Benchmarks
-        var options = new DbContextOptionsBuilder<CatalogDbContext>()
-            .UseInMemoryDatabase($"Benchmark_{Guid.NewGuid()}")
-            .Options;
-
-        _dbContext = new CatalogDbContext(options, new TestTenantContext());
-
-        // Testdaten generieren
-        _testData = GenerateTestProducts(ProductCount);
-
-        // Datenbank initialisieren
-        _dbContext.Database.EnsureCreated();
+        public Guid TenantId => Guid.Parse("12345678-1234-1234-1234-123456789012");
     }
 
-    [GlobalCleanup]
-    public void Cleanup()
+    /// <summary>
+    /// Performance Benchmarks für ADR-025: Dapper/EF Extensions Evaluation
+    /// Vergleicht EF Core vs EFCore.BulkExtensions für Bulk Product Imports
+    ///
+    /// Ziel: Nachweis der 10-50x Performance-Verbesserung bei Bulk-Operationen
+    /// </summary>
+    [MemoryDiagnoser]
+    [SimpleJob(iterationCount: 3, warmupCount: 1)]
+    public class BulkImportBenchmarks
     {
-        _dbContext.Dispose();
-    }
+        private CatalogDbContext _dbContext = null!;
+        private List<BulkImportProductItem> _testData = null!;
 
-    private List<BulkImportProductItem> GenerateTestProducts(int count)
-    {
-        var products = new List<BulkImportProductItem>();
-        for (int i = 0; i < count; i++)
+        [Params(100, 1000, 10000)]
+        public int ProductCount { get; set; }
+
+        [GlobalSetup]
+        public void Setup()
         {
-            products.Add(new BulkImportProductItem(
-                Name: $"Test Product {i}",
-                Sku: $"SKU-{i:00000}",
-                Price: 10.99m + (i % 100),
-                Description: $"Description for product {i}",
-                CategoryId: Guid.NewGuid(),
-                BrandId: Guid.NewGuid()));
-        }
-        return products;
-    }
+            // In-Memory Database für Benchmarks
+            var options = new DbContextOptionsBuilder<CatalogDbContext>()
+                .UseInMemoryDatabase($"Benchmark_{Guid.NewGuid()}")
+                .Options;
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Benchmark: EF Core Individual Inserts
-    // ─────────────────────────────────────────────────────────────────────────
+            _dbContext = new CatalogDbContext(options, new TestTenantContext());
 
-    [Benchmark(Baseline = true)]
-    public async Task<int> EfCore_IndividualInserts()
-    {
-        var tenantId = Guid.NewGuid();
-        var products = _testData.Select(item => new Product
-        {
-            Id = Guid.NewGuid(),
-            TenantId = tenantId,
-            Name = new LocalizedContent().Set("en", item.Name),
-            Sku = item.Sku,
-            Price = item.Price,
-            Description = item.Description != null
-                ? new LocalizedContent().Set("en", item.Description)
-                : null,
-            CategoryId = item.CategoryId,
-            BrandId = item.BrandId,
-            CreatedAt = DateTime.UtcNow
-        }).ToList();
+            // Testdaten generieren
+            _testData = GenerateTestProducts(ProductCount);
 
-        foreach (var product in products)
-        {
-            _dbContext.Products.Add(product);
+            // Datenbank initialisieren
+            _dbContext.Database.EnsureCreated();
         }
 
-        var count = await _dbContext.SaveChangesAsync();
-        return count;
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Benchmark: EFCore.BulkExtensions Bulk Insert
-    // ─────────────────────────────────────────────────────────────────────────
-
-    [Benchmark]
-    public async Task<int> BulkExtensions_BulkInsert()
-    {
-        var tenantId = Guid.NewGuid();
-        var products = _testData.Select(item => new Product
+        [GlobalCleanup]
+        public void Cleanup()
         {
-            Id = Guid.NewGuid(),
-            TenantId = tenantId,
-            Name = new LocalizedContent().Set("en", item.Name),
-            Sku = item.Sku,
-            Price = item.Price,
-            Description = item.Description != null
-                ? new LocalizedContent().Set("en", item.Description)
-                : null,
-            CategoryId = item.CategoryId,
-            BrandId = item.BrandId,
-            CreatedAt = DateTime.UtcNow
-        }).ToList();
+            _dbContext.Dispose();
+        }
 
-        var bulkConfig = new BulkConfig
+        private List<BulkImportProductItem> GenerateTestProducts(int count)
         {
-            BatchSize = 1000,
-            UseTempDB = true,
-            CalculateStats = false // Performance-Optimierung für Benchmarks
-        };
+            var products = new List<BulkImportProductItem>();
+            for (int i = 0; i < count; i++)
+            {
+                products.Add(new BulkImportProductItem(
+                    Name: $"Test Product {i}",
+                    Sku: $"SKU-{i:00000}",
+                    Price: 10.99m + (i % 100),
+                    Description: $"Description for product {i}",
+                    CategoryId: Guid.NewGuid(),
+                    BrandId: Guid.NewGuid()));
+            }
+            return products;
+        }
 
-        await _dbContext.BulkInsertAsync(products, bulkConfig);
-        return products.Count;
-    }
+        // ─────────────────────────────────────────────────────────────────────────
+        // Benchmark: EF Core Individual Inserts
+        // ─────────────────────────────────────────────────────────────────────────
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Benchmark: EFCore.BulkExtensions mit verschiedenen Batch-Größen
-    // ─────────────────────────────────────────────────────────────────────────
-
-    [Benchmark]
-    [Arguments(100)]
-    [Arguments(1000)]
-    [Arguments(5000)]
-    public async Task<int> BulkExtensions_CustomBatchSize(int batchSize)
-    {
-        var tenantId = Guid.NewGuid();
-        var products = _testData.Select(item => new Product
+        [Benchmark(Baseline = true)]
+        public async Task<int> EfCore_IndividualInserts()
         {
-            Id = Guid.NewGuid(),
-            TenantId = tenantId,
-            Name = new LocalizedContent().Set("en", item.Name),
-            Sku = item.Sku,
-            Price = item.Price,
-            Description = item.Description != null
-                ? new LocalizedContent().Set("en", item.Description)
-                : null,
-            CategoryId = item.CategoryId,
-            BrandId = item.BrandId,
-            CreatedAt = DateTime.UtcNow
-        }).ToList();
+            var tenantId = Guid.NewGuid();
+            var products = _testData.Select(item => new Product
+            {
+                Id = Guid.NewGuid(),
+                TenantId = tenantId,
+                Name = new LocalizedContent().Set("en", item.Name),
+                Sku = item.Sku,
+                Price = item.Price,
+                Description = item.Description != null
+                    ? new LocalizedContent().Set("en", item.Description)
+                    : null,
+                CategoryId = item.CategoryId,
+                BrandId = item.BrandId,
+                CreatedAt = DateTime.UtcNow
+            }).ToList();
 
-        var bulkConfig = new BulkConfig
+            foreach (var product in products)
+            {
+                _dbContext.Products.Add(product);
+            }
+
+            var count = await _dbContext.SaveChangesAsync();
+            return count;
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // Benchmark: EFCore.BulkExtensions Bulk Insert
+        // ─────────────────────────────────────────────────────────────────────────
+
+        [Benchmark]
+        public async Task<int> BulkExtensions_BulkInsert()
         {
-            BatchSize = batchSize,
-            UseTempDB = true,
-            CalculateStats = false
-        };
+            var tenantId = Guid.NewGuid();
+            var products = _testData.Select(item => new Product
+            {
+                Id = Guid.NewGuid(),
+                TenantId = tenantId,
+                Name = new LocalizedContent().Set("en", item.Name),
+                Sku = item.Sku,
+                Price = item.Price,
+                Description = item.Description != null
+                    ? new LocalizedContent().Set("en", item.Description)
+                    : null,
+                CategoryId = item.CategoryId,
+                BrandId = item.BrandId,
+                CreatedAt = DateTime.UtcNow
+            }).ToList();
 
-        await _dbContext.BulkInsertAsync(products, bulkConfig);
-        return products.Count;
+            var bulkConfig = new BulkConfig
+            {
+                BatchSize = 1000,
+                UseTempDB = true,
+                CalculateStats = false // Performance-Optimierung für Benchmarks
+            };
+
+            await _dbContext.BulkInsertAsync(products, bulkConfig);
+            return products.Count;
+        }
+
+        // ─────────────────────────────────────────────────────────────────────────
+        // Benchmark: EFCore.BulkExtensions mit verschiedenen Batch-Größen
+        // ─────────────────────────────────────────────────────────────────────────
+
+        [Benchmark]
+        [Arguments(100)]
+        [Arguments(1000)]
+        [Arguments(5000)]
+        public async Task<int> BulkExtensions_CustomBatchSize(int batchSize)
+        {
+            var tenantId = Guid.NewGuid();
+            var products = _testData.Select(item => new Product
+            {
+                Id = Guid.NewGuid(),
+                TenantId = tenantId,
+                Name = new LocalizedContent().Set("en", item.Name),
+                Sku = item.Sku,
+                Price = item.Price,
+                Description = item.Description != null
+                    ? new LocalizedContent().Set("en", item.Description)
+                    : null,
+                CategoryId = item.CategoryId,
+                BrandId = item.BrandId,
+                CreatedAt = DateTime.UtcNow
+            }).ToList();
+
+            var bulkConfig = new BulkConfig
+            {
+                BatchSize = batchSize,
+                UseTempDB = true,
+                CalculateStats = false
+            };
+
+            await _dbContext.BulkInsertAsync(products, bulkConfig);
+            return products.Count;
+        }
     }
 }

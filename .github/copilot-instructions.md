@@ -47,10 +47,11 @@ Agents: @AgentA, @AgentB | Owner: @Agent
 This requirement ensures traceability and clear ownership for all docs created or modified by agents.
 
 ## Agent Policy Changes
-Agent policies (for example: `model:` defaults, permissions, or other governance rules) are centrally governed. Only `@SARAH` is authorized to approve or enact changes to agent policies.
+Agent policies (for example: `model:` defaults, permissions, or other governance rules) are centrally governed.
 
-- **Who can change policies:** Only `@SARAH` may approve and merge changes that alter agent policies.
-- **Proposal process:** Any agent or contributor may propose a policy change via a PR, but the PR must include a clear rationale and references to discussion; it must NOT be merged until `@SARAH` approves.
+- **Who implements changes:** Only `@CopilotExpert` may create, modify, or delete agent definitions, prompts, and instructions.
+- **Who approves policies:** `@SARAH` must approve policy-level changes (governance, permissions, model defaults).
+- **Proposal process:** Any agent or contributor may propose a change via @CopilotExpert, who evaluates and implements. Policy changes require @SARAH approval before merge.
 - **Logging requirement:** When `@SARAH` approves a policy change, a log entry MUST be created under `.ai/logs/agent-policy-changes/` with the following fields:
   - `timestamp`: ISO-8601 UTC timestamp
   - `issuer`: GitHub handle or agent name that requested the change
@@ -117,6 +118,7 @@ This Architect → `@SARAH` KB update process also explicitly applies to updates
 | `@GitManager` | `AGT-015` | Git Workflow | Branching, Code Review, Repository Management |
 | `@DocMaintainer` | `AGT-016` | Documentation | Maintain doc quality, enforce DocID rules, link checks |
 | `@Enventa` | `AGT-017` | ERP Integration | enventa Trade ERP, Provider Architecture, Actor Pattern |
+| `@CopilotExpert` | `AGT-018` | Copilot Config | **EXCLUSIVE:** Agent definitions, prompts, instructions |
 
 **Specialist Agents (Coming Soon)**:
 - @QA-Frontend (E2E, UI Testing, Playwright)
@@ -247,11 +249,14 @@ Each agent is **responsible for creating and organizing** artifacts in the `.ai/
 | @Frontend | `decisions/`, `knowledgebase/` | Frontend architecture decisions, component documentation, state management docs |
 | @DevOps | `config/`, `logs/` | Infrastructure configuration, deployment logs, monitoring setup |
 | @SARAH | `collaboration/`, `templates/`, `workflows/` | Coordination framework, GitHub templates, workflow orchestration |
+| @CopilotExpert | `.github/agents/`, `.github/prompts/`, `.github/instructions/` | **EXCLUSIVE:** Agent definitions, prompts, instructions, MCP config |
 | Issue Owner | `issues/{issue-id}/` | Issue-specific collaboration, progress notes, blockers, decisions |
 
-| @DocMaintainer | `.ai/` (docs + prompts) | Enforce DocID naming conventions, extend naming for new use cases, update and manage existing documents, fix broken links, and keep registry references up-to-date |
+| @DocMaintainer | `.ai/` (docs only) | Enforce DocID naming conventions, extend naming for new use cases, update and manage existing documents, fix broken links, and keep registry references up-to-date |
 
-**Authority:** `@DocMaintainer` is empowered to update, rename, archive, and fix documentation files under `.ai/` and `.github/prompts/` to maintain accuracy and link integrity. Doc-only changes may be committed with clear messages (audit logs should be created under `.ai/logs/documentation/`). For policy-level naming or retention decisions, `@DocMaintainer` must open an issue and notify `@SARAH` for final approval.
+**Authority:** `@DocMaintainer` is empowered to update, rename, archive, and fix documentation files under `.ai/` to maintain accuracy and link integrity. Doc-only changes may be committed with clear messages (audit logs should be created under `.ai/logs/documentation/`). For policy-level naming or retention decisions, `@DocMaintainer` must open an issue and notify `@SARAH` for final approval.
+
+**Note:** `.github/agents/`, `.github/prompts/`, `.github/instructions/` are **exclusively managed by @CopilotExpert**. @DocMaintainer may NOT modify these files.
 
 **Key Principle**: Agents own the organization and updates of `.ai/` artifacts related to their domain expertise.
 
@@ -360,13 +365,37 @@ Rules and constraints:
 
 ## SARAH Authority
 SARAH hat exklusive Autorität über:
-- Agent Definitionen und Modifikationen
-- Agent Erstellung und Entfernung
 - Guidelines und Permissions
 - Quality-Gate für kritische Änderungen
 - Konfliktlösung zwischen Agents
+- Policy-Genehmigungen (nach @CopilotExpert Vorschlag)
 
 Bei Fragen zu Prozessen, Zuständigkeiten oder Konflikten → `@SARAH`
+
+## CopilotExpert Exclusive Authority
+**@CopilotExpert (`AGT-018`) has EXCLUSIVE authority** over all GitHub Copilot configuration:
+
+### Exclusive Ownership
+- ✅ Agent definitions (`.github/agents/*.agent.md`)
+- ✅ Custom instructions (`.github/instructions/*.instructions.md`)
+- ✅ Prompt files (`.github/prompts/*.prompt.md`)
+- ✅ Repository-wide instructions (`.github/copilot-instructions.md` - technical content)
+- ✅ MCP server configuration (`.vscode/mcp.json`)
+
+### Rules (ENFORCED)
+- ❌ **NO OTHER AGENT** may create, modify, or delete agent definitions
+- ❌ **NO OTHER AGENT** may create, modify, or delete prompt files
+- ❌ **NO OTHER AGENT** may create, modify, or delete instruction files
+- ✅ Other agents may **REQUEST** changes via @CopilotExpert
+- ✅ @SARAH approves policy-level changes proposed by @CopilotExpert
+
+### Process for Changes
+1. Agent requests change → @CopilotExpert
+2. @CopilotExpert evaluates and implements
+3. Policy changes require @SARAH approval
+4. @CopilotExpert commits with clear message
+
+📖 **See**: [KB-022] GitHub Copilot Customization Guide
 
 ## SARAH Commit & Prompt Tracking
 `@SARAH` is responsible for tracking which prompts produced which file changes. For any agent-driven or prompt-triggered modification, `@SARAH` must ensure:

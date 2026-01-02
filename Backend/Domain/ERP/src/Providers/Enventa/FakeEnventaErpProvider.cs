@@ -334,13 +334,6 @@ public sealed class FakeEnventaErpProvider : IErpProvider, IPimProvider, ICrmPro
     }
 
     // Helper methods to create fake data
-    private static Services.SyncResult CreateFakeSyncResult() => new Services.SyncResult(
-        Guid.NewGuid().ToString(),
-        SyncOperationState.Completed,
-        100L,
-        0L,
-        DateTimeOffset.UtcNow,
-        Array.Empty<string>());
 
     private static Core.SyncResult CreateFakeCoreSyncResult() => new Core.SyncResult
     {

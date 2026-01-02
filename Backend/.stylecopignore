@@ -1,0 +1,23 @@
+# StyleCop Ignore File for B2Connect Backend
+# This file excludes generated and third-party code from StyleCop analysis
+# to prevent false positives and maintain focus on hand-written code
+
+# EF Core Migrations and Model Snapshots
+**/Migrations/**
+
+# Generated designer files
+**/*.Designer.cs
+
+# Auto-generated files
+**/*ModelSnapshot.cs
+
+# Third-party generated code
+**/obj/**
+**/bin/**
+
+# Temporary and build files
+**/*.tmp
+**/*.generated.cs
+
+# Exclude specific problematic directories if needed
+# Add more patterns as required for generated code

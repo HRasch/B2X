@@ -44,7 +44,7 @@ public class LocalizableAttribute : Attribute
     /// Initializes a new instance with both property names.
     /// </summary>
     /// <param name="defaultProperty">The name of the entity property containing the default value.</param>
-    /// <param name="translationProperty">The name of the entity property containing the LocalizedContent translations.</param>
+    /// <param name="param name="translationProperty">The name of the entity property containing the LocalizedContent translations.</param>
     public LocalizableAttribute(string defaultProperty, string translationProperty)
     {
         DefaultProperty = defaultProperty;

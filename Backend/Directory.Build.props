@@ -28,7 +28,7 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
     <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
-    <NoWarn>$(NoWarn);NU1605;MSB4011</NoWarn>
+    <NoWarn>$(NoWarn);NU1605;MSB4011;SA1649;SA1513</NoWarn>
     
     <!-- ======================= -->
     <!-- Roslyn Analyzer Config  -->

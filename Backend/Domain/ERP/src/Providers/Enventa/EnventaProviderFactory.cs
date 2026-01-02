@@ -6,6 +6,7 @@ using B2Connect.ERP.Contracts;
 using B2Connect.ERP.Core;
 using B2Connect.ERP.Infrastructure.Actor;
 using B2Connect.ERP.Models;
+using B2Connect.ERP.Providers.Fake;
 using B2Connect.ERP.Services;
 using Microsoft.Extensions.Logging;
 
@@ -46,18 +47,20 @@ public sealed class EnventaProviderFactory : IProviderFactory
             "Creating FAKE enventa provider for tenant {TenantId} (Mac development)",
             tenant.TenantId);
 
-        // Use fake implementation for Mac development
+        // Use fake implementations for Mac development
         // Real implementation will be built on Windows with .NET Framework 4.8
-        var fakeProvider = new FakeEnventaErpProvider();
+        var fakeErpProvider = new FakeErpProvider();
+        var fakePimProvider = new FakePimProvider();
+        var fakeCrmProvider = new FakeCrmProvider();
 
         await Task.CompletedTask.ConfigureAwait(false);
 
         return new ProviderInstance
         {
             Configuration = configuration,
-            PimProvider = fakeProvider,
-            CrmProvider = fakeProvider,
-            ErpProvider = fakeProvider,
+            PimProvider = fakePimProvider,
+            CrmProvider = fakeCrmProvider,
+            ErpProvider = fakeErpProvider,
             ConnectionState = ProviderConnectionState.Connected,
             LastActivity = DateTimeOffset.UtcNow
         };

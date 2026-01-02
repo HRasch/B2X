@@ -12,7 +12,7 @@ namespace B2Connect.CMS.Tests;
 /// </summary>
 public class WidgetRegistryTests
 {
-    private readonly IWidgetRegistry _registry;
+    private readonly WidgetRegistry _registry;
     private readonly Mock<ILogger<WidgetRegistry>> _loggerMock;
 
     public WidgetRegistryTests()

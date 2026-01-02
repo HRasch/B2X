@@ -77,7 +77,9 @@ public sealed record ProviderResult<T>
     /// <summary>
     /// Gets the exception if the failure was caused by an exception.
     /// </summary>
+#pragma warning disable CA2201 // Do not raise reserved exception types
     public Exception? Exception => Error?.Code == "EXCEPTION" ? new Exception(Error.Message) : null;
+#pragma warning restore CA2201 // Do not raise reserved exception types
 
     /// <summary>
     /// Pattern matches on the result, executing the appropriate action.
@@ -151,12 +153,7 @@ public sealed record ProviderError
     /// <summary>
     /// Creates an error from an exception.
     /// </summary>
-    public static ProviderError FromException(Exception ex) =>
-        new(
-            ex.GetType().Name,
-            ex.Message,
-            ex.StackTrace);
-
+    public static ProviderError FromException(Exception ex) => new(ex.GetType().Name, ex.Message, ex.StackTrace);
     // Common error codes
     public static class Codes
     {

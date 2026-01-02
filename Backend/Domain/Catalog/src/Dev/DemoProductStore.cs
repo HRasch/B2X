@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using B2Connect.Shared.Core;
 using Bogus;
 
 namespace B2Connect.Catalog.Endpoints.Dev;
@@ -10,12 +11,6 @@ public static class DemoProductStore
     private static List<dynamic>? _products;
     private static readonly object _lock = new();
     private static readonly string[] stringArray = new[] { "general" };
-
-    /// <summary>
-    /// Default tenant ID for demo products - matches frontend's VITE_DEFAULT_TENANT_ID
-    /// This ensures products are visible when browsing the Store frontend in demo mode.
-    /// </summary>
-    private static readonly Guid DefaultDemoTenantId = Guid.Parse("00000000-0000-0000-0000-000000000001");
 
     public static void EnsureInitialized(int count = 100, string? demoSector = null, string[]? locales = null)
     {
@@ -53,8 +48,8 @@ public static class DemoProductStore
                 var sku = $"SKU-{i + 1:D8}";
                 var name = faker.Commerce.ProductName();
                 var price = decimal.Parse(faker.Commerce.Price(50, 5000));
-                // Use the default demo tenant ID so products are visible in Store frontend
-                var tenantId = DefaultDemoTenantId;
+                // Use the shared default tenant ID so products are visible in Store frontend
+                var tenantId = SeedConstants.DefaultTenantId;
                 var sector = !string.IsNullOrWhiteSpace(demoSector) ? demoSector : faker.PickRandom(sectors);
                 var locale = faker.PickRandom(locales);
                 var brand = faker.Company.CompanyName();

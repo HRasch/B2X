@@ -173,6 +173,16 @@ var frontendAdmin = builder
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
     .WithEnvironment("NODE_ENV", "development");
 
+// Frontend Management (Vue 3 + Vite) - Tenant Management Portal - Fixed port 5175
+var frontendManagement = builder
+    .AddViteApp("frontend-management", "../frontend/Management")
+    .WithEndpoint("http", endpoint => endpoint.Port = 5175)  // Workaround: modify existing endpoint
+    .WithExternalHttpEndpoints()
+    .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
+    .WithEnvironment("PORT", "5175")  // Vite reads PORT env var
+    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
+    .WithEnvironment("NODE_ENV", "development");
+
 // Issue #50: Vite build errors are automatically captured by Aspire's built-in logging
 // Logs appear in Aspire Dashboard under each frontend resource
 // No custom code needed - AddViteApp() handles stdout/stderr forwarding

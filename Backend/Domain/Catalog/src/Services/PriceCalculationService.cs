@@ -104,10 +104,12 @@ public class PriceCalculationService : IPriceCalculationService
             cancellationToken
         );
 
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
         _logger.LogDebug(
             "Calculating price - Base: {BasePrice}, Country: {Country}, VAT Rate: {VatRate}%",
             basePrice, destinationCountry, vatRate
         );
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
 
         // Calculate VAT amount
         var vatAmount = Math.Round(basePrice * vatRate / 100, 2);

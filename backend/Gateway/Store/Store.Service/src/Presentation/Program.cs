@@ -231,7 +231,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapReverseProxy();
 app.MapGet("/", () => "Store Configuration Service is running");
-app.MapGet("/health", () => Results.Ok(new { status = "healthy", service = "store-config" }));
+// Health endpoints provided by UseServiceDefaults() - see ADR-025
 
 await app.RunAsync();
 

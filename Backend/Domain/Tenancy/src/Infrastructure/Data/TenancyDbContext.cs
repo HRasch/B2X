@@ -1,3 +1,4 @@
+using B2Connect.Shared.Core;
 using B2Connect.Tenancy.Models;
 using B2Connect.Types.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -143,6 +144,44 @@ public class TenancyDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(x => x.TenantId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Seed default tenant for InMemory/demo mode
+        SeedDefaultTenant(modelBuilder);
+    }
+
+    /// <summary>
+    /// Seeds the default tenant and domain for InMemory/demo mode.
+    /// Uses SeedConstants.DefaultTenantId for consistency across all services.
+    /// </summary>
+    private static void SeedDefaultTenant(ModelBuilder modelBuilder)
+    {
+        // Seed default tenant
+        modelBuilder.Entity<Tenant>().HasData(new Tenant
+        {
+            Id = SeedConstants.DefaultTenantId,
+            Name = SeedConstants.DefaultTenantName,
+            Slug = SeedConstants.DefaultTenantSlug,
+            Status = TenantStatus.Active,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            CreatedBy = "system",
+            UpdatedBy = "system"
+        });
+
+        // Seed default domain for the tenant
+        modelBuilder.Entity<TenantDomain>().HasData(new TenantDomain
+        {
+            Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+            TenantId = SeedConstants.DefaultTenantId,
+            DomainName = SeedConstants.DefaultTenantDomain,
+            Type = DomainType.Subdomain,
+            IsPrimary = true,
+            VerificationStatus = DomainVerificationStatus.Verified,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            CreatedBy = "system",
+            UpdatedBy = "system"
         });
     }
 }

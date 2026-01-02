@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
-    <PackageReference Include="EFCore.BulkExtensions" />
+    <PackageReference Include="EFCore.BulkExtensions.SqlServer" />
+    <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
     <PackageReference Include="Dapper" />
   </ItemGroup>
 

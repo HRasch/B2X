@@ -56,21 +56,21 @@ public class ErpProviderFactory : IErpProviderFactory
         return new[] { "Fake", "SAP", "Oracle" };
     }
 
-    private IErpProvider CreateFakeProvider()
+    private FakeErpProvider CreateFakeProvider()
     {
         _logger.LogInformation("Creating Fake ERP provider");
         var logger = _serviceProvider.GetService(typeof(ILogger<FakeErpProvider>)) as ILogger<FakeErpProvider>;
         return new FakeErpProvider(logger ?? throw new InvalidOperationException("Logger not available"));
     }
 
-    private IErpProvider CreateSapProvider()
+    private FakeErpProvider CreateSapProvider()
     {
         // TODO: Implementiere SAP-Provider (zu 1. Produktivversion)
         _logger.LogWarning("SAP provider not yet implemented, using Fake provider instead");
         return CreateFakeProvider();
     }
 
-    private IErpProvider CreateOracleProvider()
+    private FakeErpProvider CreateOracleProvider()
     {
         // TODO: Implementiere Oracle-Provider (zukünftige Erweiterung)
         _logger.LogWarning("Oracle provider not yet implemented, using Fake provider instead");
