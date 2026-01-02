@@ -107,9 +107,9 @@ public class TenancyDbContext : DbContext
             entity.HasIndex(x => x.VerificationStatus)
                 .HasDatabaseName("ix_tenant_domains_verification_status");
 
-            // Index for SSL expiry queries
-            entity.HasIndex(x => x.SslExpiresAt)
-                .HasDatabaseName("ix_tenant_domains_ssl_expires");
+            // SSL indexes will be added in Phase 3
+            // entity.HasIndex(x => x.SslExpiresAt)
+            //     .HasDatabaseName("ix_tenant_domains_ssl_expires");
 
             entity.Property(x => x.Type)
                 .HasConversion<string>()

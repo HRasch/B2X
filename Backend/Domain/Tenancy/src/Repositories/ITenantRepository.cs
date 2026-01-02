@@ -113,12 +113,13 @@ public interface ITenantDomainRepository
     /// </summary>
     Task SetPrimaryAsync(Guid tenantId, Guid domainId, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Gets domains with expiring SSL certificates.
-    /// </summary>
-    Task<IReadOnlyList<TenantDomain>> GetDomainsWithExpiringSslAsync(
-        int daysUntilExpiry,
-        CancellationToken cancellationToken = default);
+    // SSL methods will be implemented in Phase 3
+    // /// <summary>
+    // /// Gets domains with expiring SSL certificates.
+    // /// </summary>
+    // Task<IReadOnlyList<TenantDomain>> GetDomainsWithExpiringSslAsync(
+    //     int daysUntilExpiry,
+    //     CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets domains pending verification that haven't expired.

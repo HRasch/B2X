@@ -33,7 +33,7 @@ Follow [KB-006] for implementation patterns.
 
 ## Agent System
 
-### Verfügbare Agents (15 Specialized)
+### Verfügbare Agents (16 Specialized)
 
 **See [AGENT_TEAM_REGISTRY.md](../.ai/collaboration/AGENT_TEAM_REGISTRY.md) for complete team overview** (`[AGT-INDEX]`)
 
@@ -116,6 +116,7 @@ This Architect → `@SARAH` KB update process also explicitly applies to updates
 | `@SEO` | `AGT-014` | Search | Meta Tags, Structured Data, Search Optimization |
 | `@GitManager` | `AGT-015` | Git Workflow | Branching, Code Review, Repository Management |
 | `@DocMaintainer` | `AGT-016` | Documentation | Maintain doc quality, enforce DocID rules, link checks |
+| `@Enventa` | `AGT-017` | ERP Integration | enventa Trade ERP, Provider Architecture, Actor Pattern |
 
 **Specialist Agents (Coming Soon)**:
 - @QA-Frontend (E2E, UI Testing, Playwright)

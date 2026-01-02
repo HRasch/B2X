@@ -1,3 +1,4 @@
+using B2Connect.Tenancy.Models;
 using B2Connect.Tenancy.Repositories;
 using B2Connect.Tenancy.Services;
 using Wolverine;
@@ -8,99 +9,102 @@ namespace B2Connect.Tenancy.Handlers.Jobs;
 /// Background job that periodically verifies pending domain DNS configurations.
 /// Runs every 5 minutes to check domains that are waiting for DNS verification.
 /// </summary>
-public class DnsVerificationJob
+public class DnsVerificationJob(
+    ITenantDomainRepository domainRepository,
+    IDnsVerificationService dnsVerificationService,
+    IDomainLookupService domainLookupService,
+    ILogger<DnsVerificationJob> logger)
 {
+    private readonly ITenantDomainRepository _domainRepository = domainRepository;
+    private readonly IDnsVerificationService _dnsVerificationService = dnsVerificationService;
+    private readonly IDomainLookupService _domainLookupService = domainLookupService;
+    private readonly ILogger<DnsVerificationJob> _logger = logger;
+
     /// <summary>
-    /// Scheduled job that runs every 5 minutes to verify pending domain DNS configurations.
+    /// Handles the DNS verification job execution.
+    /// This method processes all pending domain verifications.
     /// </summary>
-    [ScheduledJob("*/5 * * * *")] // Every 5 minutes
-    public static async Task CheckPendingVerifications(
-        ITenantDomainRepository domainRepository,
-        IDnsVerificationService dnsVerificationService,
-        IDomainLookupService domainLookupService,
-        ILogger<DnsVerificationJob> logger,
-        CancellationToken cancellationToken)
+    public async Task HandleAsync()
     {
-        logger.LogInformation("Starting DNS verification job for pending domains");
+        _logger.LogInformation("Starting DNS verification job for pending domains");
 
         try
         {
-            // Get all domains with pending verification status
-            var pendingDomains = await domainRepository.GetPendingVerificationAsync(cancellationToken);
+            var pendingDomains = await _domainRepository.GetPendingVerificationDomainsAsync();
 
             if (!pendingDomains.Any())
             {
-                logger.LogDebug("No pending domains found for verification");
+                _logger.LogInformation("No pending domains found for verification");
                 return;
             }
 
-            logger.LogInformation("Found {Count} pending domains for verification", pendingDomains.Count);
-
-            var successCount = 0;
-            var failureCount = 0;
+            _logger.LogInformation("Found {Count} pending domains for verification", pendingDomains.Count);
 
             foreach (var domain in pendingDomains)
             {
-                try
-                {
-                    logger.LogDebug("Verifying DNS for domain {Domain} (ID: {DomainId})",
-                        domain.DomainName, domain.Id);
-
-                    // Verify DNS configuration
-                    var verificationResult = await dnsVerificationService.VerifyDomainAsync(
-                        domain.DomainName, domain.VerificationToken, cancellationToken);
-
-                    if (verificationResult.IsVerified)
-                    {
-                        // Mark domain as verified
-                        domain.MarkAsVerified();
-                        await domainRepository.UpdateAsync(domain, cancellationToken);
-
-                        // Invalidate cache to ensure new domain is immediately available
-                        await domainLookupService.InvalidateCacheAsync(domain.DomainName, cancellationToken);
-
-                        logger.LogInformation("Domain {Domain} successfully verified", domain.DomainName);
-                        successCount++;
-
-                        // TODO: Send success notification to tenant admin
-                    }
-                    else if (domain.VerificationAttempts >= 10) // Max attempts reached
-                    {
-                        // Mark as failed after max attempts
-                        domain.MarkVerificationFailed();
-                        await domainRepository.UpdateAsync(domain, cancellationToken);
-
-                        logger.LogWarning("Domain {Domain} verification failed after {Attempts} attempts",
-                            domain.DomainName, domain.VerificationAttempts);
-                        failureCount++;
-
-                        // TODO: Send failure notification to tenant admin
-                    }
-                    else
-                    {
-                        // Increment attempt counter
-                        domain.IncrementVerificationAttempt();
-                        await domainRepository.UpdateAsync(domain, cancellationToken);
-
-                        logger.LogDebug("Domain {Domain} verification attempt {Attempt} failed, will retry",
-                            domain.DomainName, domain.VerificationAttempts);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "Error verifying domain {Domain}: {Message}",
-                        domain.DomainName, ex.Message);
-                    failureCount++;
-                }
+                await ProcessDomainVerificationAsync(domain);
             }
 
-            logger.LogInformation("DNS verification job completed. Success: {Success}, Failures: {Failures}",
-                successCount, failureCount);
+            _logger.LogInformation("Completed DNS verification job");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "DNS verification job failed: {Message}", ex.Message);
-            throw; // Let Wolverine handle retry logic
+            _logger.LogError(ex, "Error occurred during DNS verification job");
+            throw;
+        }
+    }
+
+    private async Task ProcessDomainVerificationAsync(TenantDomain domain)
+    {
+        try
+        {
+            _logger.LogDebug("Verifying DNS for domain {DomainName} (ID: {DomainId})",
+                domain.DomainName, domain.Id);
+
+            // Attempt DNS verification
+            var verificationResult = await _dnsVerificationService.VerifyDomainAsync(
+                domain.DomainName, domain.VerificationToken!);
+
+            if (verificationResult.IsVerified)
+            {
+                // Domain verification successful
+                domain.MarkAsVerified();
+                await _domainRepository.UpdateAsync(domain);
+
+                // Invalidate cache to ensure new routing takes effect
+                await _domainLookupService.InvalidateCacheAsync(domain.DomainName);
+
+                _logger.LogInformation("Domain {DomainName} verification successful",
+                    domain.DomainName);
+            }
+            else
+            {
+                // Domain verification failed - increment attempt counter
+                domain.IncrementVerificationAttempt();
+                await _domainRepository.UpdateAsync(domain);
+
+                _logger.LogWarning("Domain {DomainName} verification failed (attempt {Attempt})",
+                    domain.DomainName, domain.VerificationAttempts);
+
+                // Check if max attempts reached
+                if (domain.VerificationAttempts >= 10)
+                {
+                    domain.VerificationStatus = DomainVerificationStatus.Failed;
+                    await _domainRepository.UpdateAsync(domain);
+
+                    _logger.LogWarning("Domain {DomainName} marked as failed after {Attempts} attempts",
+                        domain.DomainName, domain.VerificationAttempts);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error verifying domain {DomainName}: {Message}",
+                domain.DomainName, ex.Message);
+
+            // Increment attempt counter even on exception
+            domain.IncrementVerificationAttempt();
+            await _domainRepository.UpdateAsync(domain);
         }
     }
 }

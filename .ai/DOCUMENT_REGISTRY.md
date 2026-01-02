@@ -79,6 +79,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-018` | Local LLM Models 2025 | `.ai/knowledgebase/tools-and-tech/local-llm-models-2025.md` | Active |
 | `KB-019` | StyleCop Analyzers | `.ai/knowledgebase/tools-and-tech/stylecop-analyzers.md` | Active |
 | `KB-020` | ArchUnitNET | `.ai/knowledgebase/tools-and-tech/archunitnet.md` | Active |
+| `KB-021` | enventa Trade ERP | `.ai/knowledgebase/enventa-trade-erp.md` | Active |
 
 ### Knowledgebase Subdirectories
 
@@ -199,6 +200,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-014` | SEO | `.github/agents/seo.agent.md` | Search Optimization |
 | `AGT-015` | GitManager | `.github/agents/git-manager.agent.md` | Git Workflow |
 | `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation |
+| `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
 
 **DocMaintainer (AGT-016) Responsibilities:**
 - Enforce and extend the DocID naming conventions (`GL-`, `WF-`, `CMP-`, `SPR-`, etc.) when new document types are introduced.

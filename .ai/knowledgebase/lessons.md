@@ -1,8 +1,211 @@
 # Lessons Learned
 
 **DocID**: `KB-LESSONS`  
-**Last Updated**: 1. Januar 2026  
+**Last Updated**: 2. Januar 2026  
 **Maintained By**: GitHub Copilot
+
+---
+
+## Session: 2. Januar 2026
+
+### enventa Integration Patterns from eGate Reference Implementation
+
+**Context**: Analyzed [eGate](https://github.com/NissenVelten/eGate) production implementation for enventa Trade ERP integration patterns.
+
+**Discovery**: eGate demonstrates three integration approaches:
+1. **Direct FS API** (FS_45/FS_47) - Best performance, Windows-only
+2. **OData Broker** - Platform-agnostic, requires separate service
+3. **Hybrid** - Direct for high-frequency, OData for low-frequency
+
+**Key Patterns from eGate**:
+- `FSUtil` with `Scope()` pattern for proper cleanup
+- `BusinessUnit` integrated into authentication (not separate call)
+- `NVContext` with 60+ lazy-loaded repositories
+- `Query Builder` pattern for complex queries
+- `AutoMapper` for FS entities → domain models
+- `GlobalWarmup()` for connection pre-warming (tests)
+- Unity DI with `HierarchicalLifetimeManager` for FSUtil
+
+**eGate Code Patterns**:
+```csharp
+// FSUtil Scope Pattern
+using (var scope = _util.Scope())
+{
+    var service = scope.Create<IcECPriceService>();
+    // ... operations are properly scoped and cleaned up
+}
+
+// OData Authentication with BusinessUnit in username
+var credentials = new NetworkCredential(
+    $"{username}@{businessUnit}", password
+);
+
+// Repository Hierarchy (abstraction layers)
+INVSelectRepository<T>           // Base
+ ↓ NVBaseRepository<TNV, TFS>     // FSUtil + Mapping
+ ↓ NVReadRepository<TNV, TFS>     // GetById, Exists
+ ↓ NVQueryReadRepository<TNV, TFS> // Query builder
+ ↓ NVCrudRepository<TNV, TFS>     // Insert, Update, Delete
+```
+
+**Recommended for B2Connect**:
+- **Use Direct FS API** in Windows container (.NET Framework 4.8)
+- **gRPC bridge** to .NET 10 (Linux containers)
+- **Connection Pool** with BusinessUnit-scoped connections
+- **Per-tenant Actor** for thread safety (already implemented in B2Connect)
+- **Pre-warming** for top N active tenants (like eGate's `GlobalWarmup()`)
+
+**Anti-Pattern**: 
+- ❌ Mixing BusinessUnit selection with separate API calls
+- ✅ eGate always includes BusinessUnit in authentication (part of credentials)
+
+**Best Practice**: 
+- Use eGate's repository pattern for abstraction (60+ repositories vs. direct FS API calls)
+- Lazy-load repositories with `Lazy<T>` for deferred instantiation
+- Scope pattern (`using (var scope = _util.Scope())`) ensures cleanup
+
+**Reference**: 
+- [eGate GitHub](https://github.com/NissenVelten/eGate) - `Broker/FS_47/` for latest implementation
+- [KB-021: enventa Trade ERP](./enventa-trade-erp.md) - Full integration guide
+
+---
+
+### enventa Trade ERP Integration - Actor Pattern for Non-Thread-Safe Libraries
+
+**Issue**: Legacy ERP systems like enventa Trade run on .NET Framework 4.8 with proprietary ORMs that are NOT thread-safe. Direct concurrent access causes data corruption.
+
+**Solution**: 
+- ✅ **Actor Pattern** with Channel-based message queue for serialized operations
+- ✅ **Per-tenant Actor instances** managed by `ErpActorPool`
+- ✅ **gRPC streaming** for cross-framework communication (.NET 10 ↔ .NET Framework 4.8)
+
+**Key Implementation**:
+```csharp
+// ❌ WRONG - Concurrent access to non-thread-safe ERP
+await Task.WhenAll(
+    erpProvider.GetProductAsync(id1),
+    erpProvider.GetProductAsync(id2)
+);
+
+// ✅ CORRECT - All operations through Actor pattern
+public class ErpActor
+{
+    private readonly Channel<IErpOperation> _queue;
+    
+    public async Task<T> EnqueueAsync<T>(ErpOperation<T> operation)
+    {
+        await _queue.Writer.WriteAsync(operation);
+        return await operation.ResultSource.Task;
+    }
+    
+    // Single background worker processes all operations sequentially
+    private async Task ProcessOperationsAsync(CancellationToken ct)
+    {
+        await foreach (var op in _queue.Reader.ReadAllAsync(ct))
+            await op.ExecuteAsync(ct);
+    }
+}
+```
+
+**Architecture Pattern**:
+- **Provider Factory** creates one provider instance per tenant
+- **Provider Manager** orchestrates all provider lifecycle
+- **ErpActor** ensures serialized execution per tenant
+- **gRPC Proto** defines service contracts (see `backend/Domain/ERP/src/Protos/`)
+
+**Files Created**:
+- `backend/Domain/ERP/src/Infrastructure/Actor/ErpActor.cs`
+- `backend/Domain/ERP/src/Infrastructure/Actor/ErpOperation.cs`
+- `backend/Domain/ERP/src/Providers/Enventa/EnventaProviderFactory.cs`
+- `backend/Domain/ERP/src/Services/ProviderManager.cs`
+
+**Documentation**: See [KB-021] enventa Trade ERP guide
+
+### enventa Trade ERP - Expensive Initialization & Connection Pooling
+
+**Issue**: enventa initialization is expensive (>2 seconds) due to BusinessUnit setup. Re-initializing on every request causes unacceptable latency.
+
+**Solution**: Connection pooling with keep-alive strategy
+
+```csharp
+// ❌ WRONG - Re-init on every request (>2s latency!)
+FSUtil.Login(connectionString);
+FSUtil.SetBusinessUnit(tenantId); // >2s initialization!
+var result = ProcessRequest();
+FSUtil.Logout();
+
+// ✅ CORRECT - Connection pool with keep-alive
+public class EnventaConnectionPool
+{
+    private readonly ConcurrentDictionary<string, EnventaConnection> _pool;
+    private readonly TimeSpan _idleTimeout = TimeSpan.FromMinutes(30);
+    
+    public async Task<EnventaConnection> GetOrCreateAsync(string businessUnit)
+    {
+        // Reuse existing connection if fresh
+        if (_pool.TryGetValue(businessUnit, out var conn) && !conn.IsStale(_idleTimeout))
+        {
+            conn.UpdateLastUsed();
+            return conn;
+        }
+        
+        // Init new connection (expensive!)
+        var newConn = new EnventaConnection(businessUnit);
+        await newConn.InitializeAsync(); // >2s
+        _pool[businessUnit] = newConn;
+        return newConn;
+    }
+}
+```
+
+**Architecture decisions:**
+- **Per-tenant connection pooling** (one connection per BusinessUnit/Tenant)
+- **Idle timeout**: 30 minutes (configurable)
+- **Pre-warming**: Initialize connections for top active tenants on startup
+- **Health checks**: Periodic ping every 15 minutes to prevent timeout
+- **Graceful degradation**: Retry with exponential backoff on init failure
+
+**Multi-Tenancy:**
+- enventa is also multi-tenant via **BusinessUnit**
+- BusinessUnit is set during initialization (`FSUtil.SetBusinessUnit()`)
+- Once set, the connection operates within that BusinessUnit context
+- Different BusinessUnits require different connection instances
+
+**Files to update:**
+- `backend/Domain/ERP/src/Services/ProviderManager.cs` - Add connection pooling
+- `backend/Domain/ERP/src/Providers/Enventa/EnventaConnectionPool.cs` - New class
+- `ADR-023` - Document connection pooling strategy
+
+---
+
+### Test Framework: Shouldly statt FluentAssertions
+
+**Issue**: FluentAssertions wurde im Projekt durch Shouldly ersetzt und darf NICHT mehr verwendet werden
+
+**Regel**: 
+- ❌ NIEMALS `FluentAssertions` in neuen Tests verwenden
+- ✅ IMMER `Shouldly` für Assertions verwenden
+
+**Shouldly Syntax**:
+```csharp
+using Shouldly;
+
+// Statt FluentAssertions:
+// result.Should().Be(42);
+// result.Should().BeTrue();
+// result.Should().NotBeNull();
+// list.Should().HaveCount(3);
+// await action.Should().ThrowAsync<Exception>();
+
+// Shouldly:
+result.ShouldBe(42);
+result.ShouldBeTrue();
+result.ShouldNotBeNull();
+list.Count.ShouldBe(3);
+await Should.ThrowAsync<Exception>(async () => await action());
+```
+
+**Vor dem Erstellen neuer Tests**: Prüfe existierende Tests im selben Domain-Bereich für konsistente Syntax.
 
 ---
 
