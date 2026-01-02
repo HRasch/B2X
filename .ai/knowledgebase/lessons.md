@@ -8,6 +8,43 @@
 
 ## Session: 2. Januar 2026
 
+### Central Package Management: Single Source of Truth
+
+**Issue**: Recurring "version ping-pong" with EF Core, Npgsql, and other dependencies causing build failures (CS1705).
+
+**Root Cause**: TWO `Directory.Packages.props` files with different versions:
+- `/Directory.Packages.props` (root) - one set of versions
+- `/backend/Directory.Packages.props` - conflicting versions
+
+**Example Conflict**:
+```xml
+<!-- Root file -->
+<PackageVersion Include="FluentValidation" Version="11.9.2" />
+<PackageVersion Include="xunit" Version="2.7.1" />
+
+<!-- Backend file (overwrites root!) -->
+<PackageVersion Include="FluentValidation" Version="12.1.1" />
+<PackageVersion Include="xunit" Version="2.9.3" />
+```
+
+**Solution**: DELETE the duplicate file, consolidate to ONE file at root.
+
+```bash
+# Fix
+rm backend/Directory.Packages.props
+# Edit /Directory.Packages.props with consolidated versions
+dotnet restore --force && dotnet build
+```
+
+**Prevention Rule**:
+- **ONE `Directory.Packages.props`** at repository root
+- **NEVER** create another in subfolders
+- Keep package groups in sync (EF Core, Aspire, OpenTelemetry, Wolverine)
+
+**See**: [ADR-025 Appendix: Dependency Version Management]
+
+---
+
 ### System.CommandLine Beta Version Incompatibilities
 
 **Issue**: CLI project failed to build with 121 errors after upgrading to `System.CommandLine 2.0.0-beta5`.
@@ -735,6 +772,104 @@ public async Task<Product> GetProductAsync(string productId)
 - `TransactionalErpOperation.cs` - Transaction wrapper
 
 **Result**: ERP domain is now production-ready with proper resilience, transaction handling, and performance characteristics.
+
+---
+
+## Session: 31. Dezember 2025
+
+### Context Bloat Prevention Strategies - REVISED
+
+**Issue**: As knowledgebase grows, agent contexts risk becoming bloated with embedded content, exceeding token limits and reducing efficiency.
+
+**Root Cause**: 
+- Agent files embedding full documentation instead of references
+- Prompts containing detailed instructions instead of checklists
+- No size limits or archiving policies
+- Reference system not consistently applied
+
+**REVISED Prevention Strategies** (Functionality-Preserving):
+
+1. **Realistic Size Guidelines** (Not Hard Limits)
+   - **Agent files**: Target <5KB, warn at 8KB+ (not 3KB)
+   - **Prompt files**: Target <3KB, warn at 5KB+ (not 2KB)
+   - **Gradual migration**: Extract content to KB over time, not immediately
+   - **Essential content protected**: Operational rules stay in agent files
+
+2. **Smart Reference System**
+   - ✅ **Extract documentation**: Move detailed guides to KB articles
+   - ✅ **Keep operational rules**: Critical behavior rules stay in agents
+   - ✅ **Reference patterns**: Use `[DocID]` for detailed content
+   - ✅ **Hybrid approach**: Essential + references for complex agents
+
+3. **Knowledgebase Growth Management** (Not Archiving)
+   - **Preserve all helpful content**: No forced archiving of useful KB articles
+   - **Organize by relevance**: Keep current/active content easily accessible
+   - **Version control**: Git history provides natural archiving for old versions
+   - **KB maintenance**: Quarterly review for consolidation, not deletion
+
+4. **Token Optimization Techniques** (Applied Selectively)
+   - **Bullets over prose**: Use for new content
+   - **Tables for comparisons**: For structured data
+   - **Links over content**: Reference authoritative sources
+   - **Minimal examples**: Only when space is critical
+
+5. **Knowledgebase Organization** (Core Strategy)
+   - **Hierarchical structure**: Clear categories (frameworks, patterns, security, etc.)
+   - **DocID system**: Stable references via DOCUMENT_REGISTRY.md
+   - **Cross-references**: Link related articles for discovery
+   - **Freshness tracking**: Last-updated metadata on all articles
+
+**Implementation Pattern** (Maintains Functionality):
+```markdown
+# Agent File (Functional + References)
+---
+description: Backend Developer specialized in .NET, Wolverine CQRS, DDD microservices
+tools: ['vscode', 'execute', 'read', 'edit', 'web', 'gitkraken/*']
+model: 'gpt-5-mini'
+---
+
+## Essential Operational Rules (Keep in Agent)
+1. **Build-First Rule**: Generate files → Build IMMEDIATELY → Fix errors → Test
+2. **Test Immediately**: Run tests after each change
+3. **Tenant Isolation**: EVERY query must filter by TenantId
+4. **FluentValidation**: EVERY command needs AbstractValidator<Xyz>
+
+## Detailed Guidance (Reference to KB)
+See [KB-006] for Wolverine patterns and best practices.
+See [ADR-001] for CQRS implementation decisions.
+See [GL-001] for communication standards.
+```
+
+**KB Article Structure** (Detailed Content):
+```markdown
+# Wolverine CQRS Patterns - Complete Guide
+
+**Last Updated**: YYYY-MM-DD  
+**Status**: Active
+
+## Overview
+[Brief description]
+
+## Key Patterns
+- [Pattern 1 with example]
+- [Pattern 2 with example]
+
+## Implementation Details
+[Full documentation with code examples]
+
+## Related Articles
+- [ADR-001] CQRS Decision
+- [GL-001] Communication Standards
+```
+
+**Success Metrics** (Realistic):
+- **Agent file sizes**: <8KB average (gradual reduction)
+- **Prompt file sizes**: <5KB average (gradual reduction)  
+- **KB coverage**: 90%+ of major technologies documented
+- **Reference adoption**: 70%+ of detailed content moved to KB
+- **Functionality preserved**: No agent behavior changes during migration
+
+**Key Rule**: **Preserve functionality first**. Extract documentation to KB gradually while keeping essential operational rules in agent files.
 
 ---
 

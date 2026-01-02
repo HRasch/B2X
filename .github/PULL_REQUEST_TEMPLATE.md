@@ -26,6 +26,10 @@
 - [ ] ⚠️ **Multiple related components** - Justification provided below (e.g., feature + tests + docs)
 - [ ] ❌ **Multiple unrelated topics** - **STOP! Split into separate PRs**
 
+**PR Rule**: 🔒 **Nur eine gelöste Aufgabe pro PR** (Only one solved task per PR)
+- [ ] ✅ **One task only** - This PR solves exactly ONE issue/feature/task
+- [ ] ❌ **Multiple tasks** - **STOP! Create separate PRs for each task**
+
 **If multiple components touched, explain why they're part of the same logical change:**
 <!-- 
 Example GOOD: "Add product search feature - includes API endpoint (backend), search UI (frontend), and integration tests"
