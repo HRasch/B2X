@@ -2,8 +2,10 @@ using Wolverine;
 using B2Connect.Admin.Application.Commands.Products;
 using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Interfaces;
+using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Middleware;
 using B2Connect.Types.Localization;
+using EFCore.BulkExtensions;
 
 namespace B2Connect.Admin.Application.Handlers.Products;
 
@@ -422,5 +424,129 @@ public class GetProductsPagedHandler : IQueryHandler<GetProductsPagedQuery, (IEn
         var results = products.Select(ProductMapper.ToResult);
 
         return (results, total);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Bulk Import Handler (ADR-025) - EFCore.BulkExtensions
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// <summary>
+/// Wolverine Handler für Bulk Product Import (ADR-025)
+/// Verwendet EFCore.BulkExtensions für optimale Performance bei Massen-Importen
+///
+/// Performance: 10-50x schneller als individuelle Inserts
+/// Use Case: ERP Catalog Sync, CSV Import, etc.
+/// </summary>
+public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsCommand, BulkImportResult>
+{
+    private readonly CatalogDbContext _dbContext;
+    private readonly ITenantContextAccessor _tenantContext;
+    private readonly ILogger<BulkImportProductsHandler> _logger;
+
+    public BulkImportProductsHandler(
+        CatalogDbContext dbContext,
+        ITenantContextAccessor tenantContext,
+        ILogger<BulkImportProductsHandler> _logger)
+    {
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
+        this._logger = _logger ?? throw new ArgumentNullException(nameof(_logger));
+    }
+
+    public async Task<BulkImportResult> Handle(BulkImportProductsCommand command, CancellationToken ct)
+    {
+        var tenantId = _tenantContext.GetTenantId();
+        var importId = Guid.NewGuid();
+
+        _logger.LogInformation(
+            "Starting bulk import of {Count} products for tenant {TenantId} (ImportId: {ImportId})",
+            command.Products.Count, tenantId, importId);
+
+        var errors = new List<string>();
+        var validProducts = new List<B2Connect.Admin.Core.Entities.Product>();
+
+        // Phase 1: Validierung und Mapping
+        foreach (var item in command.Products)
+        {
+            try
+            {
+                // Validierung
+                if (string.IsNullOrWhiteSpace(item.Name))
+                {
+                    errors.Add($"Product SKU '{item.Sku}': Name is required");
+                    continue;
+                }
+
+                if (item.Price <= 0)
+                {
+                    errors.Add($"Product SKU '{item.Sku}': Price must be greater than 0");
+                    continue;
+                }
+
+                // Mapping zu Entity
+                var product = new B2Connect.Admin.Core.Entities.Product
+                {
+                    Id = Guid.NewGuid(),
+                    TenantId = tenantId,
+                    Name = new LocalizedContent().Set("en", item.Name),
+                    Sku = item.Sku,
+                    Price = item.Price,
+                    Description = item.Description != null
+                        ? new LocalizedContent().Set("en", item.Description)
+                        : null,
+                    CategoryId = item.CategoryId,
+                    BrandId = item.BrandId,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                validProducts.Add(product);
+            }
+            catch (Exception ex)
+            {
+                errors.Add($"Product SKU '{item.Sku}': {ex.Message}");
+            }
+        }
+
+        // Phase 2: Bulk Insert mit EFCore.BulkExtensions
+        var importedCount = 0;
+        if (validProducts.Any())
+        {
+            try
+            {
+                var bulkConfig = new BulkConfig
+                {
+                    BatchSize = 1000, // Performance-Optimierung
+                    UseTempDB = true, // Reduziert Locking
+                    CalculateStats = true
+                };
+
+                await _dbContext.Products.BulkInsertAsync(validProducts, bulkConfig, cancellationToken: ct);
+                importedCount = validProducts.Count;
+
+                _logger.LogInformation(
+                    "Successfully imported {Count} products via BulkInsert for tenant {TenantId}",
+                    importedCount, tenantId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Bulk insert failed for tenant {TenantId}", tenantId);
+                errors.Add($"Bulk insert failed: {ex.Message}");
+                importedCount = 0;
+            }
+        }
+
+        var result = new BulkImportResult(
+            TotalProducts: command.Products.Count,
+            ImportedProducts: importedCount,
+            FailedProducts: command.Products.Count - importedCount,
+            Errors: errors,
+            ImportId: importId);
+
+        _logger.LogInformation(
+            "Bulk import completed for tenant {TenantId} (ImportId: {ImportId}): {Imported}/{Total} products imported, {Failed} failed",
+            tenantId, importId, result.ImportedProducts, result.TotalProducts, result.FailedProducts);
+
+        return result;
     }
 }

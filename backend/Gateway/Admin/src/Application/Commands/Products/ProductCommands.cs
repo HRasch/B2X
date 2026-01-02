@@ -36,6 +36,25 @@ public record UpdateProductCommand(
 
 public record DeleteProductCommand(Guid ProductId);
 
+/// <summary>
+/// Bulk Import Products Command (ADR-025)
+/// Für Massen-Import von Produkten aus ERP-Systemen
+/// Verwendet EFCore.BulkExtensions für Performance
+/// </summary>
+public record BulkImportProductsCommand(
+    IReadOnlyList<BulkImportProductItem> Products);
+
+/// <summary>
+/// Einzelnes Produkt für Bulk Import
+/// </summary>
+public record BulkImportProductItem(
+    string Name,
+    string Sku,
+    decimal Price,
+    string? Description = null,
+    Guid? CategoryId = null,
+    Guid? BrandId = null);
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Queries
 // ─────────────────────────────────────────────────────────────────────────────
@@ -98,3 +117,13 @@ public record ProductResult(
     Guid? CategoryId = null,
     Guid? BrandId = null,
     DateTime CreatedAt = default);
+
+/// <summary>
+/// Result DTO für Bulk Import Operationen
+/// </summary>
+public record BulkImportResult(
+    int TotalProducts,
+    int ImportedProducts,
+    int FailedProducts,
+    IReadOnlyList<string> Errors,
+    Guid ImportId);
