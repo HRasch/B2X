@@ -326,7 +326,7 @@ b2c jobs retry 123e4567-e89b-12d3-a456-426614174000
 ## Status
 
 **Status**: ✅ Accepted  
-**Implementation**: Phase 1 starting immediately  
+**Implementation**: Phase 1 GitHub issues created (#117-#121)  
 **Owner**: @Architect  
 **Review Date**: 15. Januar 2026
 
