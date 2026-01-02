@@ -6,6 +6,7 @@ using B2Connect.ERP.Core;
 using B2Connect.ERP.Infrastructure.Actor;
 using B2Connect.ERP.Providers.Enventa;
 using B2Connect.ERP.Services;
+using B2Connect.ERP.Infrastructure.DataAccess;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -56,6 +57,19 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddEnventaProvider(this IServiceCollection services)
     {
         services.TryAddSingleton<IProviderFactory, EnventaProviderFactory>();
+        return services;
+    }
+
+    /// <summary>
+    /// Adds data access services for hybrid EF Core + Dapper operations (ADR-025).
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="connectionString">The database connection string.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddDataAccess(this IServiceCollection services, string connectionString)
+    {
+        services.TryAddSingleton<IDapperConnectionFactory>(
+            new PostgresDapperConnectionFactory(connectionString));
         return services;
     }
 

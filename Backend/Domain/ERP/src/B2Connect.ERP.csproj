@@ -30,6 +30,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+
+    <!-- Data Access (ADR-025) -->
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="EFCore.BulkExtensions" />
+    <PackageReference Include="Npgsql" />
   </ItemGroup>
 
   <ItemGroup>
