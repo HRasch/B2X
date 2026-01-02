@@ -24,6 +24,7 @@ var catalogDb = postgres.AddB2ConnectDatabase("catalog");
 var layoutDb = postgres.AddB2ConnectDatabase("layout");
 var adminDb = postgres.AddB2ConnectDatabase("admin");
 var storeDb = postgres.AddB2ConnectDatabase("store");
+var monitoringDb = postgres.AddB2ConnectDatabase("monitoring");
 
 // Redis Cache
 var redis = builder.AddB2ConnectRedis(
@@ -108,6 +109,17 @@ var themingService = builder
     .WithRateLimiting()
     .WithOpenTelemetry();
 
+// Monitoring Service (Phase 2: Connected services monitoring, error logging)
+var monitoringService = builder
+    .AddProject("monitoring-service", "../backend/BoundedContexts/Monitoring/API/B2Connect.Monitoring.csproj")
+    .WithPostgresConnection(monitoringDb)
+    .WithRedisConnection(redis)
+    .WithRabbitMQConnection(rabbitmq)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithRateLimiting()
+    .WithOpenTelemetry();
+
 // ===== API GATEWAYS =====
 // Gateways keep fixed ports because frontends connect directly to them.
 // Internal service communication uses Aspire Service Discovery.
@@ -132,6 +144,7 @@ var adminGateway = builder
     .WithReference(catalogService)
     .WithReference(localizationService)
     .WithReference(themingService)
+    .WithReference(monitoringService)
     .WithB2ConnectCors("http://localhost:5174", "https://localhost:5174")
     .WithSecurityDefaults(jwtSecret);
 
