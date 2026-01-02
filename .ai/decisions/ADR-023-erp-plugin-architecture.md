@@ -15,6 +15,23 @@ B2Connect requires integration with various ERP/CRM/PIM systems (starting with e
 
 Legacy ERP systems often use .NET Framework 4.8, requiring isolation strategies.
 
+### Technical Constraints
+
+1. **.NET Framework 4.8 Limitations**
+   - No native `IAsyncEnumerable<T>` support (requires C# 8.0 / .NET Core 3.0+)
+   - Limited async/await patterns compared to modern .NET
+   - Windows-only deployment for Framework assemblies
+
+2. **enventa Trade ERP Specifics**
+   - Uses proprietary ORM mapper (not EF Core compatible)
+   - Direct assembly integration required for performance
+   - Millions of records require optimized bulk operations
+
+3. **Cross-Framework Communication**
+   - Provider containers run .NET Framework 4.8
+   - B2Connect core runs .NET 10
+   - Need framework-agnostic communication protocols
+
 ## Decision
 
 Implement a **Plugin-based Architecture** using containerized ERP providers with standardized interfaces.
@@ -101,6 +118,120 @@ public interface IPimProvider
     // Optimized for catalog operations
     Task<CatalogData> GetCatalogAsync(CatalogFilter filter, TenantContext context);
     IAsyncEnumerable<PimProduct> StreamCatalogAsync(CatalogFilter filter, TenantContext context);
+}
+```
+
+### .NET Framework 4.8 Compatibility Layer
+
+Since `IAsyncEnumerable<T>` is not available in .NET Framework 4.8, provider implementations use alternative patterns:
+
+#### Framework-Agnostic Streaming Patterns
+
+```csharp
+// Option 1: Callback-based streaming (works in .NET 4.8)
+public interface IErpProviderLegacy
+{
+    Task StreamProductsAsync(
+        ProductFilter filter, 
+        Func<PimData, Task> onItem,  // Callback per item
+        TenantContext context,
+        CancellationToken ct = default);
+}
+
+// Option 2: Chunked/Paged responses (works in .NET 4.8)
+public interface IErpProviderPaged
+{
+    Task<PagedResult<PimData>> GetProductsPagedAsync(
+        ProductFilter filter,
+        int pageSize,
+        string continuationToken,
+        TenantContext context);
+}
+
+// Option 3: gRPC streaming (framework-agnostic)
+// Uses HTTP/2 server streaming - works across framework boundaries
+service ErpProviderService {
+    rpc StreamProducts(ProductFilter) returns (stream PimData);
+}
+```
+
+#### Communication Protocol Strategy
+
+| Pattern | .NET 4.8 Support | Use Case | Latency |
+|---------|------------------|----------|----------|
+| **gRPC Streaming** | ✅ (via Grpc.Core) | Large datasets, real-time | Low |
+| **Callback Pattern** | ✅ Native | In-process streaming | Very Low |
+| **Paged Results** | ✅ Native | REST APIs, simple integration | Medium |
+| **SignalR** | ✅ (via AspNet.SignalR) | Bi-directional, events | Low |
+
+#### Recommended Approach: gRPC with Fallback
+
+```csharp
+// B2Connect side (.NET 10) - consumes as IAsyncEnumerable
+public async IAsyncEnumerable<PimData> StreamProductsAsync(
+    ProductFilter filter, 
+    TenantContext context,
+    [EnumeratorCancellation] CancellationToken ct = default)
+{
+    // gRPC client streams from .NET 4.8 provider container
+    using var call = _grpcClient.StreamProducts(filter);
+    await foreach (var item in call.ResponseStream.ReadAllAsync(ct))
+    {
+        yield return item;
+    }
+}
+
+// Provider side (.NET 4.8) - uses Grpc.Core for streaming
+public override async Task StreamProducts(
+    ProductFilter request,
+    IServerStreamWriter<PimData> responseStream,
+    ServerCallContext context)
+{
+    // Use enventa's proprietary ORM with yield-style iteration
+    foreach (var product in _enventaOrm.QueryProducts(request))
+    {
+        await responseStream.WriteAsync(MapToProto(product));
+    }
+}
+```
+
+#### Proprietary ORM Integration
+
+enventa Trade ERP uses a proprietary ORM that requires specific handling:
+
+```csharp
+// Wrapper for enventa's proprietary ORM
+public class EnventaOrmAdapter : IErpDataAccess
+{
+    private readonly IcECArticle _articleService; // enventa assembly
+    
+    public IEnumerable<Product> QueryProducts(ProductFilter filter)
+    {
+        // Use enventa's query builder pattern
+        var query = new NVArticleQueryBuilder()
+            .ByCategory(filter.CategoryId)
+            .WithPricing(filter.IncludePrices);
+        
+        // Yield results to avoid loading all into memory
+        foreach (var article in query.Execute())
+        {
+            yield return MapToProduct(article);
+        }
+    }
+    
+    public void BulkSync(IEnumerable<Product> products, int batchSize = 1000)
+    {
+        // Use enventa's batch processing capabilities
+        foreach (var batch in products.Chunk(batchSize))
+        {
+            using var scope = FSUtil.CreateScope();
+            foreach (var product in batch)
+            {
+                _articleService.Update(MapToArticle(product));
+            }
+            scope.Commit();
+        }
+    }
 }
 ```
 
@@ -210,6 +341,8 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 - **Security**: Inter-container communication security
 - **Operational complexity**: Container orchestration management
 - **Chatty Interfaces**: Multiple network calls causing latency (mitigated by bulk APIs)
+- **.NET Framework Constraints**: Limited async patterns require compatibility layer
+- **Proprietary ORM Lock-in**: enventa ORM patterns may not translate to other ERPs
 
 ## Alternatives Considered
 
@@ -226,15 +359,19 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 
 ### Phase 1: Foundation (2 weeks)
 - Define interface contracts with batch/streaming operations
-- Create base Docker images with caching infrastructure
+- **Validate .NET 4.8 compatibility** for all communication patterns
+- Create base Docker images (Windows Server Core for .NET 4.8)
 - Implement Provider Manager skeleton with performance monitoring
+- Setup gRPC infrastructure for cross-framework streaming
 - Setup basic performance benchmarks
 
 ### Phase 2: enventa Integration (4 weeks)
-- Develop enventa provider container with optimized bulk operations
+- Develop enventa provider container (.NET 4.8 / Windows Container)
+- **Integrate with enventa's proprietary ORM** via adapter pattern
 - Implement PIM/CRM/ERP interfaces with caching strategies
 - Integration testing with B2Connect focusing on performance
 - Optimize for "chatty" ERP operations via batch processing
+- **Validate gRPC streaming** between .NET 4.8 and .NET 10
 
 ### Phase 3: Production Ready (3 weeks)
 - Plugin registry system with performance metrics
