@@ -1,0 +1,3733 @@
+{
+  "987314": {
+    "response_id": "987314",
+    "metrics": {
+      "relevance_score": 0.45,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.7,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.6775
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked"
+    ],
+    "evaluated_at": "2026-01-02T09:36:36.253773",
+    "evaluator": "auto"
+  },
+  "723417": {
+    "response_id": "723417",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:36.976004",
+    "evaluator": "auto"
+  },
+  "329546": {
+    "response_id": "329546",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:37.347460",
+    "evaluator": "auto"
+  },
+  "702773": {
+    "response_id": "702773",
+    "metrics": {
+      "relevance_score": 0.75,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7124999999999999
+    },
+    "strengths": [],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:37.549006",
+    "evaluator": "auto"
+  },
+  "244781": {
+    "response_id": "244781",
+    "metrics": {
+      "relevance_score": 0.875,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.75875
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:37.753887",
+    "evaluator": "auto"
+  },
+  "932625": {
+    "response_id": "932625",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.75,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7317857142857143
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:37.956726",
+    "evaluator": "auto"
+  },
+  "494058": {
+    "response_id": "494058",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7392857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:38.159897",
+    "evaluator": "auto"
+  },
+  "308219": {
+    "response_id": "308219",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:38.265661",
+    "evaluator": "auto"
+  },
+  "793731": {
+    "response_id": "793731",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:38.371307",
+    "evaluator": "auto"
+  },
+  "389501": {
+    "response_id": "389501",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:38.476414",
+    "evaluator": "auto"
+  },
+  "981326": {
+    "response_id": "981326",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:38.582783",
+    "evaluator": "auto"
+  },
+  "856057": {
+    "response_id": "856057",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:38.688124",
+    "evaluator": "auto"
+  },
+  "735716": {
+    "response_id": "735716",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:38.794935",
+    "evaluator": "auto"
+  },
+  "154731": {
+    "response_id": "154731",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:38.899666",
+    "evaluator": "auto"
+  },
+  "314551": {
+    "response_id": "314551",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.009132",
+    "evaluator": "auto"
+  },
+  "513645": {
+    "response_id": "513645",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.120306",
+    "evaluator": "auto"
+  },
+  "824048": {
+    "response_id": "824048",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.229251",
+    "evaluator": "auto"
+  },
+  "070114": {
+    "response_id": "070114",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.338199",
+    "evaluator": "auto"
+  },
+  "253964": {
+    "response_id": "253964",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.445039",
+    "evaluator": "auto"
+  },
+  "976366": {
+    "response_id": "976366",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.551327",
+    "evaluator": "auto"
+  },
+  "218462": {
+    "response_id": "218462",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.656673",
+    "evaluator": "auto"
+  },
+  "673996": {
+    "response_id": "673996",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.763397",
+    "evaluator": "auto"
+  },
+  "507864": {
+    "response_id": "507864",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.870022",
+    "evaluator": "auto"
+  },
+  "392436": {
+    "response_id": "392436",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:39.979207",
+    "evaluator": "auto"
+  },
+  "577284": {
+    "response_id": "577284",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:40.152481",
+    "evaluator": "auto"
+  },
+  "445008": {
+    "response_id": "445008",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:40.264259",
+    "evaluator": "auto"
+  },
+  "323166": {
+    "response_id": "323166",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:40.372837",
+    "evaluator": "auto"
+  },
+  "119102": {
+    "response_id": "119102",
+    "metrics": {
+      "relevance_score": 0.45,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.7,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.6775
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked"
+    ],
+    "evaluated_at": "2026-01-02T09:36:51.693630",
+    "evaluator": "auto"
+  },
+  "813882": {
+    "response_id": "813882",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:52.346453",
+    "evaluator": "auto"
+  },
+  "614383": {
+    "response_id": "614383",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:52.676970",
+    "evaluator": "auto"
+  },
+  "640928": {
+    "response_id": "640928",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:52.783789",
+    "evaluator": "auto"
+  },
+  "254754": {
+    "response_id": "254754",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:52.889361",
+    "evaluator": "auto"
+  },
+  "935292": {
+    "response_id": "935292",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:52.997830",
+    "evaluator": "auto"
+  },
+  "678669": {
+    "response_id": "678669",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:53.103868",
+    "evaluator": "auto"
+  },
+  "759810": {
+    "response_id": "759810",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:53.211179",
+    "evaluator": "auto"
+  },
+  "995650": {
+    "response_id": "995650",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:53.344677",
+    "evaluator": "auto"
+  },
+  "240553": {
+    "response_id": "240553",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:53.472867",
+    "evaluator": "auto"
+  },
+  "549345": {
+    "response_id": "549345",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:53.583818",
+    "evaluator": "auto"
+  },
+  "363142": {
+    "response_id": "363142",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:53.692428",
+    "evaluator": "auto"
+  },
+  "291946": {
+    "response_id": "291946",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:53.801280",
+    "evaluator": "auto"
+  },
+  "410613": {
+    "response_id": "410613",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:53.909120",
+    "evaluator": "auto"
+  },
+  "256696": {
+    "response_id": "256696",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.045178",
+    "evaluator": "auto"
+  },
+  "342919": {
+    "response_id": "342919",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.173778",
+    "evaluator": "auto"
+  },
+  "612599": {
+    "response_id": "612599",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.282234",
+    "evaluator": "auto"
+  },
+  "140870": {
+    "response_id": "140870",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.389441",
+    "evaluator": "auto"
+  },
+  "479422": {
+    "response_id": "479422",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.495769",
+    "evaluator": "auto"
+  },
+  "016278": {
+    "response_id": "016278",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.603099",
+    "evaluator": "auto"
+  },
+  "141478": {
+    "response_id": "141478",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.710815",
+    "evaluator": "auto"
+  },
+  "238023": {
+    "response_id": "238023",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.819131",
+    "evaluator": "auto"
+  },
+  "179920": {
+    "response_id": "179920",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:54.926894",
+    "evaluator": "auto"
+  },
+  "532036": {
+    "response_id": "532036",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:55.035560",
+    "evaluator": "auto"
+  },
+  "211802": {
+    "response_id": "211802",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:55.143361",
+    "evaluator": "auto"
+  },
+  "361038": {
+    "response_id": "361038",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:55.252402",
+    "evaluator": "auto"
+  },
+  "913363": {
+    "response_id": "913363",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:36:55.361036",
+    "evaluator": "auto"
+  },
+  "687003": {
+    "response_id": "687003",
+    "metrics": {
+      "relevance_score": 0.45,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.7,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.6775
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked"
+    ],
+    "evaluated_at": "2026-01-02T09:37:39.767499",
+    "evaluator": "auto"
+  },
+  "459419": {
+    "response_id": "459419",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:40.602823",
+    "evaluator": "auto"
+  },
+  "054647": {
+    "response_id": "054647",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:41.150190",
+    "evaluator": "auto"
+  },
+  "078341": {
+    "response_id": "078341",
+    "metrics": {
+      "relevance_score": 0.75,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7124999999999999
+    },
+    "strengths": [],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:41.444526",
+    "evaluator": "auto"
+  },
+  "051104": {
+    "response_id": "051104",
+    "metrics": {
+      "relevance_score": 0.875,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.75875
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:41.715312",
+    "evaluator": "auto"
+  },
+  "599365": {
+    "response_id": "599365",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.75,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7317857142857143
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:41.979591",
+    "evaluator": "auto"
+  },
+  "001658": {
+    "response_id": "001658",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7392857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:42.239524",
+    "evaluator": "auto"
+  },
+  "174029": {
+    "response_id": "174029",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:42.346378",
+    "evaluator": "auto"
+  },
+  "010659": {
+    "response_id": "010659",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:42.456175",
+    "evaluator": "auto"
+  },
+  "715979": {
+    "response_id": "715979",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:42.565037",
+    "evaluator": "auto"
+  },
+  "104248": {
+    "response_id": "104248",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:42.673176",
+    "evaluator": "auto"
+  },
+  "277099": {
+    "response_id": "277099",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:42.780507",
+    "evaluator": "auto"
+  },
+  "060458": {
+    "response_id": "060458",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:42.892535",
+    "evaluator": "auto"
+  },
+  "837504": {
+    "response_id": "837504",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.014499",
+    "evaluator": "auto"
+  },
+  "643702": {
+    "response_id": "643702",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.132720",
+    "evaluator": "auto"
+  },
+  "274839": {
+    "response_id": "274839",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.248575",
+    "evaluator": "auto"
+  },
+  "755305": {
+    "response_id": "755305",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.355236",
+    "evaluator": "auto"
+  },
+  "530551": {
+    "response_id": "530551",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.462162",
+    "evaluator": "auto"
+  },
+  "089264": {
+    "response_id": "089264",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.568185",
+    "evaluator": "auto"
+  },
+  "142408": {
+    "response_id": "142408",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.674233",
+    "evaluator": "auto"
+  },
+  "673903": {
+    "response_id": "673903",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.779171",
+    "evaluator": "auto"
+  },
+  "425591": {
+    "response_id": "425591",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.885959",
+    "evaluator": "auto"
+  },
+  "924257": {
+    "response_id": "924257",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:43.991557",
+    "evaluator": "auto"
+  },
+  "569744": {
+    "response_id": "569744",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:44.148457",
+    "evaluator": "auto"
+  },
+  "811725": {
+    "response_id": "811725",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:44.256097",
+    "evaluator": "auto"
+  },
+  "785962": {
+    "response_id": "785962",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:44.362153",
+    "evaluator": "auto"
+  },
+  "351375": {
+    "response_id": "351375",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:37:44.473180",
+    "evaluator": "auto"
+  },
+  "583583": {
+    "response_id": "583583",
+    "metrics": {
+      "relevance_score": 0.45,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.7,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.6775
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked"
+    ],
+    "evaluated_at": "2026-01-02T09:38:14.654039",
+    "evaluator": "auto"
+  },
+  "019575": {
+    "response_id": "019575",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:45.472485",
+    "evaluator": "auto"
+  },
+  "379522": {
+    "response_id": "379522",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:46.007539",
+    "evaluator": "auto"
+  },
+  "935134": {
+    "response_id": "935134",
+    "metrics": {
+      "relevance_score": 0.75,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7124999999999999
+    },
+    "strengths": [],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:46.281745",
+    "evaluator": "auto"
+  },
+  "599531": {
+    "response_id": "599531",
+    "metrics": {
+      "relevance_score": 0.875,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.75875
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:46.546427",
+    "evaluator": "auto"
+  },
+  "418722": {
+    "response_id": "418722",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.75,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7317857142857143
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:46.814217",
+    "evaluator": "auto"
+  },
+  "435857": {
+    "response_id": "435857",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7392857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.079135",
+    "evaluator": "auto"
+  },
+  "043951": {
+    "response_id": "043951",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.189940",
+    "evaluator": "auto"
+  },
+  "534553": {
+    "response_id": "534553",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.298487",
+    "evaluator": "auto"
+  },
+  "193599": {
+    "response_id": "193599",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.407278",
+    "evaluator": "auto"
+  },
+  "234977": {
+    "response_id": "234977",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.515822",
+    "evaluator": "auto"
+  },
+  "352997": {
+    "response_id": "352997",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.623781",
+    "evaluator": "auto"
+  },
+  "779896": {
+    "response_id": "779896",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.730619",
+    "evaluator": "auto"
+  },
+  "201124": {
+    "response_id": "201124",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.837851",
+    "evaluator": "auto"
+  },
+  "083252": {
+    "response_id": "083252",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:47.944323",
+    "evaluator": "auto"
+  },
+  "804272": {
+    "response_id": "804272",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.050120",
+    "evaluator": "auto"
+  },
+  "616344": {
+    "response_id": "616344",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.157281",
+    "evaluator": "auto"
+  },
+  "871283": {
+    "response_id": "871283",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.263228",
+    "evaluator": "auto"
+  },
+  "569892": {
+    "response_id": "569892",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.369497",
+    "evaluator": "auto"
+  },
+  "616747": {
+    "response_id": "616747",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.475094",
+    "evaluator": "auto"
+  },
+  "137585": {
+    "response_id": "137585",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.582363",
+    "evaluator": "auto"
+  },
+  "447136": {
+    "response_id": "447136",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.688761",
+    "evaluator": "auto"
+  },
+  "545567": {
+    "response_id": "545567",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.795199",
+    "evaluator": "auto"
+  },
+  "046728": {
+    "response_id": "046728",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:48.902394",
+    "evaluator": "auto"
+  },
+  "949816": {
+    "response_id": "949816",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:49.011196",
+    "evaluator": "auto"
+  },
+  "952023": {
+    "response_id": "952023",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:49.118984",
+    "evaluator": "auto"
+  },
+  "996602": {
+    "response_id": "996602",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:38:49.227337",
+    "evaluator": "auto"
+  },
+  "802809": {
+    "response_id": "802809",
+    "metrics": {
+      "relevance_score": 0.45,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.7,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.6775
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked"
+    ],
+    "evaluated_at": "2026-01-02T09:40:06.045330",
+    "evaluator": "auto"
+  },
+  "623726": {
+    "response_id": "623726",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:06.991914",
+    "evaluator": "auto"
+  },
+  "856703": {
+    "response_id": "856703",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:07.472727",
+    "evaluator": "auto"
+  },
+  "816402": {
+    "response_id": "816402",
+    "metrics": {
+      "relevance_score": 0.75,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7124999999999999
+    },
+    "strengths": [],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:07.733005",
+    "evaluator": "auto"
+  },
+  "889594": {
+    "response_id": "889594",
+    "metrics": {
+      "relevance_score": 0.875,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.75875
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:08.045849",
+    "evaluator": "auto"
+  },
+  "572596": {
+    "response_id": "572596",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.75,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7317857142857143
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:08.351124",
+    "evaluator": "auto"
+  },
+  "502336": {
+    "response_id": "502336",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7392857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:08.621301",
+    "evaluator": "auto"
+  },
+  "287827": {
+    "response_id": "287827",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:08.732160",
+    "evaluator": "auto"
+  },
+  "377343": {
+    "response_id": "377343",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:08.840146",
+    "evaluator": "auto"
+  },
+  "252258": {
+    "response_id": "252258",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:08.947454",
+    "evaluator": "auto"
+  },
+  "787795": {
+    "response_id": "787795",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.057651",
+    "evaluator": "auto"
+  },
+  "569043": {
+    "response_id": "569043",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.164885",
+    "evaluator": "auto"
+  },
+  "438778": {
+    "response_id": "438778",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.273068",
+    "evaluator": "auto"
+  },
+  "690779": {
+    "response_id": "690779",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.379275",
+    "evaluator": "auto"
+  },
+  "527285": {
+    "response_id": "527285",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.491152",
+    "evaluator": "auto"
+  },
+  "075000": {
+    "response_id": "075000",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.611917",
+    "evaluator": "auto"
+  },
+  "467338": {
+    "response_id": "467338",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.734208",
+    "evaluator": "auto"
+  },
+  "830581": {
+    "response_id": "830581",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.854232",
+    "evaluator": "auto"
+  },
+  "644005": {
+    "response_id": "644005",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:09.963064",
+    "evaluator": "auto"
+  },
+  "338640": {
+    "response_id": "338640",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:10.071302",
+    "evaluator": "auto"
+  },
+  "757210": {
+    "response_id": "757210",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:10.179267",
+    "evaluator": "auto"
+  },
+  "047549": {
+    "response_id": "047549",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:10.289334",
+    "evaluator": "auto"
+  },
+  "431066": {
+    "response_id": "431066",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:10.397116",
+    "evaluator": "auto"
+  },
+  "782345": {
+    "response_id": "782345",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:10.504998",
+    "evaluator": "auto"
+  },
+  "657102": {
+    "response_id": "657102",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:10.613090",
+    "evaluator": "auto"
+  },
+  "065482": {
+    "response_id": "065482",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:10.722559",
+    "evaluator": "auto"
+  },
+  "125351": {
+    "response_id": "125351",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:10.831038",
+    "evaluator": "auto"
+  },
+  "671940": {
+    "response_id": "671940",
+    "metrics": {
+      "relevance_score": 0.45,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.7,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.6775
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked"
+    ],
+    "evaluated_at": "2026-01-02T09:40:17.495322",
+    "evaluator": "auto"
+  },
+  "225342": {
+    "response_id": "225342",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:18.345896",
+    "evaluator": "auto"
+  },
+  "249521": {
+    "response_id": "249521",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.9,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.7792857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query",
+      "Appears factually accurate"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:18.904252",
+    "evaluator": "auto"
+  },
+  "862720": {
+    "response_id": "862720",
+    "metrics": {
+      "relevance_score": 0.75,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7124999999999999
+    },
+    "strengths": [],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:19.212282",
+    "evaluator": "auto"
+  },
+  "929309": {
+    "response_id": "929309",
+    "metrics": {
+      "relevance_score": 0.875,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7999999999999999,
+      "overall_score": 0.75875
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:19.502582",
+    "evaluator": "auto"
+  },
+  "520132": {
+    "response_id": "520132",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.75,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7317857142857143
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:19.771593",
+    "evaluator": "auto"
+  },
+  "913719": {
+    "response_id": "913719",
+    "metrics": {
+      "relevance_score": 0.8571428571428571,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.8,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7392857142857142
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.034587",
+    "evaluator": "auto"
+  },
+  "196341": {
+    "response_id": "196341",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.145291",
+    "evaluator": "auto"
+  },
+  "756240": {
+    "response_id": "756240",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.255846",
+    "evaluator": "auto"
+  },
+  "966696": {
+    "response_id": "966696",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.365858",
+    "evaluator": "auto"
+  },
+  "779959": {
+    "response_id": "779959",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.476486",
+    "evaluator": "auto"
+  },
+  "426341": {
+    "response_id": "426341",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.587900",
+    "evaluator": "auto"
+  },
+  "056502": {
+    "response_id": "056502",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.698686",
+    "evaluator": "auto"
+  },
+  "991102": {
+    "response_id": "991102",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.810291",
+    "evaluator": "auto"
+  },
+  "345951": {
+    "response_id": "345951",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:20.920530",
+    "evaluator": "auto"
+  },
+  "815133": {
+    "response_id": "815133",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.034656",
+    "evaluator": "auto"
+  },
+  "888657": {
+    "response_id": "888657",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.155128",
+    "evaluator": "auto"
+  },
+  "619757": {
+    "response_id": "619757",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.275184",
+    "evaluator": "auto"
+  },
+  "376449": {
+    "response_id": "376449",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.391592",
+    "evaluator": "auto"
+  },
+  "374849": {
+    "response_id": "374849",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.502324",
+    "evaluator": "auto"
+  },
+  "463385": {
+    "response_id": "463385",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.612797",
+    "evaluator": "auto"
+  },
+  "592459": {
+    "response_id": "592459",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.724604",
+    "evaluator": "auto"
+  },
+  "583522": {
+    "response_id": "583522",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.834316",
+    "evaluator": "auto"
+  },
+  "799060": {
+    "response_id": "799060",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:21.945562",
+    "evaluator": "auto"
+  },
+  "425957": {
+    "response_id": "425957",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:22.055726",
+    "evaluator": "auto"
+  },
+  "021808": {
+    "response_id": "021808",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:22.165694",
+    "evaluator": "auto"
+  },
+  "907523": {
+    "response_id": "907523",
+    "metrics": {
+      "relevance_score": 0.0,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.51
+    },
+    "strengths": [],
+    "weaknesses": [
+      "May not fully address the original question",
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Ensure response directly answers the specific question asked",
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:40:22.275157",
+    "evaluator": "auto"
+  },
+  "404411": {
+    "response_id": "404411",
+    "metrics": {
+      "relevance_score": 0.8333333333333334,
+      "accuracy_score": 0.8,
+      "completeness_score": 0.49999999999999994,
+      "clarity_score": 0.7000000000000001,
+      "usefulness_score": 0.7,
+      "overall_score": 0.7183333333333333
+    },
+    "strengths": [
+      "Highly relevant to the query"
+    ],
+    "weaknesses": [
+      "Response seems incomplete"
+    ],
+    "suggestions": [
+      "Provide more detailed examples or additional context",
+      "Add code snippets to illustrate solutions"
+    ],
+    "evaluated_at": "2026-01-02T09:43:15.447273",
+    "evaluator": "auto"
+  }
+}

@@ -264,6 +264,42 @@ Bei neuen Anforderungen folge diesem Ablauf:
 
 Siehe [AGENT_COORDINATION.md](../.ai/collaboration/AGENT_COORDINATION.md) für Details.
 
+## File Creation Rules in `.ai/` (MANDATORY)
+
+**CRITICAL**: These rules prevent duplicate files and maintain folder hygiene.
+
+### Before Creating ANY File in `.ai/`
+1. **CHECK EXISTENCE FIRST** - Always search for existing file with similar name before creating
+2. **CHECK DOCUMENT_REGISTRY.md** - Verify DocID is available and not already assigned
+3. **USE EXACT PATHS** - Never let OS create " 2", " 3" variants (e.g., `file 2.md`)
+4. **UPDATE REGISTRY** - Add new DocID entry immediately after creating file
+
+### Prohibited Patterns (ENFORCED)
+- ❌ Files ending with ` 2`, ` 3`, ` 4`, etc. (e.g., `README 2.md`)
+- ❌ Folders ending with ` 2`, ` 3`, ` 4`, etc. (e.g., `architecture 2/`)
+- ❌ Creating new files without checking existence first
+- ❌ Copying files without renaming appropriately
+- ❌ Using drag-and-drop that creates macOS " 2" duplicates
+
+### On Conflict Detection
+If a file with similar name already exists:
+1. **READ** the existing file first
+2. **MERGE** content if needed (don't create new variant)
+3. **UPDATE** existing file (append, modify, or replace)
+4. **NEVER** create " 2" variant - always resolve the conflict
+
+### Validation Command
+Run periodically to check for violations:
+```bash
+find .ai -name "* [0-9]*" 2>/dev/null
+# Should return empty - any results indicate policy violation
+```
+
+### Consequence
+Duplicate files will be **deleted without merge** during cleanup. The original (without number suffix) is always considered authoritative.
+
+---
+
 ## AI Behavior Guidelines
 - **Conciseness**: Provide direct answers with code examples.
 - **No verbose status reports**: Skip summaries after operations - just confirm completion briefly.

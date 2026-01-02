@@ -31,6 +31,7 @@ This index lists curated knowledgebase articles to help agents and developers im
 | `KB-014` | [git-commit-strategy.md](git-commit-strategy.md) | Git commit conventions |
 | `KB-015` | [tools-and-tech/github-copilot-models.md](tools-and-tech/github-copilot-models.md) | GitHub Copilot AI models & pricing |
 | `KB-016` | [tools-and-tech/ai-cost-optimization.md](tools-and-tech/ai-cost-optimization.md) | AI cost monitoring & optimization |
+| `KB-018` | [tools-and-tech/local-llm-models-2025.md](tools-and-tech/local-llm-models-2025.md) | Beste lokale LLM-Modelle für Entwicklung |
 
 ## Subdirectories
 
