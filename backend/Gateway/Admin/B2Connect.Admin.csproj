@@ -22,6 +22,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"  />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"  />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  />
+    <!-- Performance Benchmarking (ADR-025) -->
+    <PackageReference Include="BenchmarkDotNet"  />
   </ItemGroup>
 
   <ItemGroup>
