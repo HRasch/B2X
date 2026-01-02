@@ -50,6 +50,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-021` | ArchUnitNET Architecture Testing | `.ai/decisions/ADR-021-archunitnet-architecture-testing.md` | Accepted |
 | `ADR-022` | Multi-Tenant Domain Management | `.ai/decisions/ADR-022-multi-tenant-domain-management.md` | Proposed |
 | `ADR-023` | ERP Plugin Architecture | `.ai/decisions/ADR-023-erp-plugin-architecture.md` | Proposed |
+| `ADR-024` | Scheduler Job Monitoring | `.ai/decisions/ADR-024-scheduler-job-monitoring.md` | Accepted |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -127,6 +128,14 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `CMP-001` | Compliance Quick Reference | `.ai/compliance/CMP-001-COMPLIANCE_QUICK_REFERENCE.md` | Active |
+
+---
+
+## Registry: Requirements (REQ-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `REQ-001` | Monitoring for Scheduler Jobs | `.ai/requirements/REQ-001-monitoring-scheduler-jobs.md` | Draft |
 
 ---
 
