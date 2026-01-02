@@ -92,6 +92,8 @@
     <!-- Caching & Redis -->
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.0" />
     <PackageVersion Include="StackExchange.Redis" Version="2.10.1" />
+    <!-- DNS & Network -->
+    <PackageVersion Include="DnsClient" Version="1.8.0" />
     <!-- EF Core Extensions -->
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.0-rc.2" />
     <!-- Validation -->
@@ -110,6 +112,8 @@
     <PackageVersion Include="Testcontainers" Version="4.9.0" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="4.9.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0" />
+    <!-- Architecture Testing (ADR-021) -->
+    <PackageVersion Include="TngTech.ArchUnitNET.xUnit" Version="0.13.1" />
     <!-- Hosting & Extensions -->
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />

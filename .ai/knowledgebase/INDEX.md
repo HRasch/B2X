@@ -32,6 +32,7 @@ This index lists curated knowledgebase articles to help agents and developers im
 | `KB-015` | [tools-and-tech/github-copilot-models.md](tools-and-tech/github-copilot-models.md) | GitHub Copilot AI models & pricing |
 | `KB-016` | [tools-and-tech/ai-cost-optimization.md](tools-and-tech/ai-cost-optimization.md) | AI cost monitoring & optimization |
 | `KB-018` | [tools-and-tech/local-llm-models-2025.md](tools-and-tech/local-llm-models-2025.md) | Beste lokale LLM-Modelle für Entwicklung |
+| `KB-020` | [tools-and-tech/archunitnet.md](tools-and-tech/archunitnet.md) | ArchUnitNET architecture testing framework |
 
 ## Subdirectories
 
@@ -99,6 +100,7 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - [TypeScript 5.0](./software/typescript/v4-to-v5.md)
 
 ## Recently Updated
+- 02.01.2026: Added ArchUnitNET architecture testing guide ([tools-and-tech/archunitnet.md](./tools-and-tech/archunitnet.md))
 - 02.01.2026: Added AI Cost Monitoring & Optimization guide ([tools-and-tech/ai-cost-optimization.md](./tools-and-tech/ai-cost-optimization.md))
 - 02.01.2026: Added GitHub Copilot AI Models & Pricing guide ([tools-and-tech/github-copilot-models.md](./tools-and-tech/github-copilot-models.md))
 - 31.12.2025: Added Elasticsearch e‑commerce search & recommendations article (search-elasticsearch-ecommerce.md)

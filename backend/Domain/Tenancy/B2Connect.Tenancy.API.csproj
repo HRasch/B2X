@@ -25,6 +25,7 @@
     <PackageReference Include="WolverineFx.Http"  />
     <PackageReference Include="Serilog.AspNetCore"  />
     <PackageReference Include="StackExchange.Redis"  />
+    <PackageReference Include="DnsClient" />
   </ItemGroup>
 
   <ItemGroup>

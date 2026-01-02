@@ -1,5 +1,5 @@
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using B2Connect.AuthService.Data;
 using B2Connect.Identity.Tests.Fixtures;
 using Microsoft.EntityFrameworkCore;
