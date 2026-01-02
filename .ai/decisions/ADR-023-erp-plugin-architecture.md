@@ -397,11 +397,196 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 - [ADR-022] Multi-Tenant Domain Management
 - [KB-006] Wolverine Patterns
 - [GL-002] Subagent Delegation
+- [KB-020] eGate ERP Broker Analysis
+
+---
+
+## Appendix: eGate Reference Implementation Analysis
+
+Based on analysis of the NissenVelten eGate ERP Broker (see [KB-020]), the following patterns should inform our implementation:
+
+### A.1 Connection Pooling Pattern (FSGlobalPool)
+
+```csharp
+// eGate pattern - pool per tenant identity
+internal class FSGlobalPool : IDisposable
+{
+    private static readonly object _lock = new object();
+    private readonly ConcurrentBag<IFSGlobalObjects> _globals = new();
+    private readonly EventWaitHandle _globalWh;
+    
+    public IFSGlobalObjects GetGlobal()
+    {
+        if (!_globals.TryTake(out var global))
+        {
+            Task.Run(() => CreateGlobal());
+            while (!_globals.TryTake(out global))
+                _globalWh.WaitOne(-1);  // Block until available
+        }
+        return global;
+    }
+    
+    public void CreateGlobal()
+    {
+        var global = GlobalObjectManager.CreateGlobalObject(guid.NewGuid().Value);
+        lock (_lock) { global.Login(_identity); }  // Login is NOT thread-safe!
+        global.Validate();
+        global.EnableCaching();
+        _globals.Add(global);
+        _globalWh.Set();
+    }
+}
+```
+
+**B2Connect Adaptation:**
+```csharp
+public class ErpConnectionPool : IErpConnectionPool
+{
+    private readonly Channel<IErpConnection> _pool;
+    private readonly SemaphoreSlim _creationLock = new(1, 1);
+    
+    public async ValueTask<IErpConnection> RentAsync(CancellationToken ct = default)
+    {
+        if (_pool.Reader.TryRead(out var conn))
+            return conn;
+            
+        await _creationLock.WaitAsync(ct);
+        try { return await CreateConnectionAsync(ct); }
+        finally { _creationLock.Release(); }
+    }
+    
+    public ValueTask ReturnAsync(IErpConnection conn)
+    {
+        conn.CloseActiveTransaction();
+        return _pool.Writer.WriteAsync(conn);
+    }
+}
+```
+
+### A.2 QueryBuilder with FSQueryList
+
+eGate uses expression-tree based query building:
+
+```csharp
+// eGate pattern
+public override FSQueryList<IcECArticle> BuildConditions(FSQueryList<IcECArticle> conditions)
+{
+    if (_articleId.HasValue())
+        conditions.Eq(x => x.sArticleId, _articleId);
+        
+    if (_customerArticleQuery != null)
+    {
+        conditions.Exists<IcECCustomerArticle>(null,
+            x => x.Rel(o => o.sArticleID, i => i.sArticleId),
+            _customerArticleQuery.BuildConditions
+        );
+    }
+    return conditions;
+}
+```
+
+**B2Connect Adaptation (gRPC-friendly):**
+```csharp
+public class ArticleQueryBuilder : IErpQueryBuilder<ArticleDto>
+{
+    private readonly List<QueryCondition> _conditions = new();
+    
+    public IErpQueryBuilder<ArticleDto> WhereId(string articleId)
+    {
+        _conditions.Add(new QueryCondition("ArticleId", "=", articleId));
+        return this;
+    }
+    
+    // Serialize to gRPC message for .NET 4.8 provider
+    public QueryRequest ToGrpcRequest() => new QueryRequest
+    {
+        EntityType = "Article",
+        Conditions = { _conditions.Select(c => c.ToProto()) }
+    };
+}
+```
+
+### A.3 Batch Processing Pattern
+
+eGate batches IN clauses to avoid SQL limits:
+
+```csharp
+// eGate pattern - batch rowIds into groups of 1000
+var where = rowIds.Batch(1000)
+    .Select(block => $"ROWID IN ({block.Join(",")})")
+    .Join(" OR ");
+```
+
+**B2Connect Adaptation:**
+```csharp
+public async IAsyncEnumerable<ArticleDto> GetByIdsAsync(
+    IEnumerable<string> ids,
+    [EnumeratorCancellation] CancellationToken ct = default)
+{
+    foreach (var batch in ids.Chunk(1000))  // .NET 6+ Chunk
+    {
+        var request = new BatchRequest { Ids = { batch } };
+        await foreach (var item in _client.GetBatchAsync(request, ct))
+        {
+            yield return item;
+        }
+    }
+}
+```
+
+### A.4 SyncRecord Pattern
+
+eGate maintains external/internal ID mapping:
+
+```csharp
+public class SyncRecord
+{
+    public string ProviderId { get; set; }
+    public string InternalType { get; set; }
+    public int InternalId { get; set; }
+    public string ExternalType { get; set; }
+    public string ExternalId { get; set; }
+    public DateTime? LastSync { get; set; }
+}
+```
+
+**B2Connect Implementation:**
+```csharp
+public record ErpSyncMapping(
+    Guid Id,
+    string TenantId,
+    string ProviderId,
+    string EntityType,
+    string B2ConnectId,
+    string ErpId,
+    long ErpRowVersion,
+    DateTimeOffset LastSyncUtc
+);
+
+// Store in PostgreSQL with Wolverine projections
+public class SyncMappingProjection : IProjection<ErpSyncMapping>
+{
+    public Task Apply(SyncMappingCreated e, ErpSyncMapping? existing) => ...;
+    public Task Apply(SyncMappingUpdated e, ErpSyncMapping existing) => ...;
+}
+```
+
+### A.5 Critical Thread-Safety Findings
+
+From eGate analysis:
+
+| Component | Thread-Safety | B2Connect Mitigation |
+|-----------|--------------|---------------------|
+| `Login()` | **NOT thread-safe** | Serialize with `SemaphoreSlim` |
+| `GlobalObjectManager.Create()` | Thread-safe | Can parallelize |
+| `Connection.Open()` | Per-instance only | Pool per connection |
+| `GetFetchNext()` | Thread-safe | Stream safely |
 
 ---
 
 **Next Steps:**
-1. @Backend: Define detailed interface contracts
-2. @DevOps: Create base Docker image templates
-3. @Architect: Review and approve implementation approach
-4. @QA: Define integration test strategy
+1. @Backend: Define detailed interface contracts based on eGate patterns
+2. @Backend: Implement `IErpConnectionPool` with async/await semantics
+3. @DevOps: Create base Docker image templates
+4. @Architect: Review and approve implementation approach
+5. @QA: Define integration test strategy with eGate compatibility focus
