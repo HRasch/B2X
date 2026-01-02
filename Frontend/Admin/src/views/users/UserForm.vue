@@ -277,7 +277,7 @@ onMounted(async () => {
     try {
       const user = await userStore.fetchUser(route.params.id as string);
       Object.assign(form, user);
-    } catch (error) {
+    } catch {
       submitError.value = "Benutzer konnte nicht geladen werden";
     }
   }
@@ -305,8 +305,10 @@ const handleSubmit = async () => {
     }
 
     await router.push("/users");
-  } catch (error: any) {
-    submitError.value = error.message || "Fehler beim Speichern";
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Fehler beim Speichern";
+    submitError.value = errorMessage;
   } finally {
     submitting.value = false;
   }

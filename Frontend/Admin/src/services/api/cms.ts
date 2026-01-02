@@ -1,3 +1,9 @@
+/**
+ * CMS API Service
+ * @todo Add proper filter types for page/template queries
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any -- Filter params vary per endpoint */
+
 import { apiClient } from "../client";
 import type { Page, Template, MediaItem } from "@/types/cms";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";

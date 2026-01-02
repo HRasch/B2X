@@ -209,8 +209,7 @@ builder.Services.AddScoped<CheckRegistrationTypeCommandValidator>();
 builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
 
-// Add CSRF Protection Middleware
-builder.Services.AddScoped<CsrfProtectionMiddleware>();
+// CSRF Protection Middleware is activated via UseMiddleware<T>(), not DI registration
 
 // Add custom services
 builder.Services.AddScoped<IAuthService, AuthService>();

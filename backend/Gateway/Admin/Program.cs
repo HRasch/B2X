@@ -1,5 +1,6 @@
 using B2Connect.ServiceDefaults;
 using B2Connect.Shared.Infrastructure.Extensions;
+using B2Connect.Shared.Infrastructure.Logging;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Application.Services;
 using B2Connect.Admin.Infrastructure.Repositories;
@@ -153,16 +154,30 @@ if (dbProvider.Equals("inmemory", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseInMemoryDatabase("CatalogDb"));
+
+    // Error log storage - use in-memory for development
+    builder.Services.AddInMemoryErrorLogStorage();
 }
 else if (dbProvider.Equals("sqlserver", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseSqlServer(builder.Configuration.GetConnectionString("Catalog")));
+
+    // Error log storage - not supported on SQL Server, use in-memory fallback
+    builder.Services.AddInMemoryErrorLogStorage();
 }
 else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseNpgsql(builder.Configuration.GetConnectionString("Catalog")));
+
+    // Error log storage - use PostgreSQL
+    var errorLogConnectionString = builder.Configuration.GetConnectionString("ErrorLogs")
+        ?? builder.Configuration.GetConnectionString("Catalog");
+    if (!string.IsNullOrEmpty(errorLogConnectionString))
+    {
+        builder.Services.AddPostgreSqlErrorLogStorage(errorLogConnectionString);
+    }
 }
 
 // ==================== TENANT CONTEXT ====================
@@ -216,7 +231,7 @@ try
 }
 catch (Exception ex)
 {
-    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    var logger = app.Services.GetRequiredService<ILogger<object>>();
     logger.LogError(ex, "Failed to initialize User database");
     throw;
 }

@@ -1,0 +1,103 @@
+# CODEOWNERS - Automatic Reviewer Assignment
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything (fallback)
+* @TechLead
+
+# Backend - .NET/C# Code
+backend/**/*.cs @Backend @TechLead
+backend/**/*.csproj @Backend @DevOps
+backend/**/Program.cs @Backend @Architect
+AppHost/**/*.cs @Backend @DevOps @Architect
+ServiceDefaults/**/*.cs @Backend @DevOps
+
+# Frontend - Vue.js/TypeScript
+frontend/**/*.vue @Frontend @UX @UI
+frontend/**/*.ts @Frontend @TechLead
+frontend/**/*.js @Frontend
+frontend/**/package.json @Frontend @DevOps
+frontend/**/tsconfig.json @Frontend @TechLead
+
+# API Contracts & Schemas
+backend/**/Contracts/**/*.cs @Backend @Frontend
+backend/**/DTOs/**/*.cs @Backend @Frontend
+backend/**/Models/**/*.cs @Backend @Architect
+
+# Database & Migrations
+backend/**/Migrations/**/*.cs @Backend @Architect
+backend/**/DbContext*.cs @Backend @Architect
+backend/**/*Repository*.cs @Backend
+
+# Infrastructure & DevOps
+.github/workflows/**/*.yml @DevOps @TechLead
+.github/workflows/**/*.yaml @DevOps @TechLead
+Dockerfile @DevOps @Backend
+docker-compose*.yml @DevOps @Architect
+kubernetes/**/*.yaml @DevOps @Architect
+AppHost/**/*.json @DevOps @Backend
+
+# Security-Sensitive Files (MANDATORY @Security review)
+**/*Auth*.cs @Backend @Security
+**/*Security*.cs @Backend @Security
+**/*Crypto*.cs @Backend @Security
+**/*Password*.cs @Backend @Security
+**/*Token*.cs @Backend @Security
+backend/**/Identity/**/*.cs @Backend @Security
+backend/**/Authentication/**/*.cs @Backend @Security
+
+# Configuration Files
+appsettings*.json @Backend @DevOps @Security
+.env.example @DevOps @Security
+Directory.Packages.props @Backend @DevOps
+Directory.Build.props @Backend @TechLead
+
+# Documentation
+README.md @TechLead @ProductOwner
+CONTRIBUTING.md @TechLead
+docs/**/*.md @TechLead @ProductOwner
+.ai/**/*.md @SARAH @TechLead
+
+# Architecture Decisions (MANDATORY @Architect review)
+.ai/decisions/**/*.md @Architect @TechLead
+docs/architecture/**/*.md @Architect
+
+# Guidelines & Prompts (MANDATORY @SARAH review)
+.github/copilot-instructions.md @SARAH @TechLead
+.github/agents/**/*.md @SARAH
+.github/prompts/**/*.md @SARAH
+.ai/guidelines/**/*.md @SARAH @TechLead
+
+# Testing
+**/*.test.ts @Frontend @QA
+**/*.spec.ts @Frontend @QA
+**/*Tests.cs @Backend @QA
+**/*Test.cs @Backend @QA
+backend/**/tests/**/*.cs @Backend @QA
+
+# UI/UX Design
+frontend/**/components/**/*.vue @Frontend @UI @UX
+frontend/**/layouts/**/*.vue @Frontend @UI
+frontend/**/assets/**/* @UI
+frontend/**/*.css @Frontend @UI
+
+# Compliance & Legal
+LICENSE* @Legal
+SECURITY.md @Security @Legal
+.ai/compliance/**/*.md @Security @Legal
+
+# Performance & Monitoring
+backend/**/Monitoring/**/*.cs @Backend @DevOps
+backend/**/Diagnostics/**/*.cs @Backend @DevOps
+
+# Scripts
+scripts/**/*.sh @DevOps
+scripts/**/*.js @DevOps @Frontend
+
+# SEO & Marketing
+frontend/**/public/sitemap.xml @SEO
+frontend/**/public/robots.txt @SEO
+frontend/**/*meta*.ts @SEO @Frontend
+
+# Package Manager Locks (Auto-approve for dependabot)
+package-lock.json
+**/package-lock.json

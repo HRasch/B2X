@@ -1,36 +1,37 @@
-import { apiClient } from "../client";
 import type { Job, ScheduledJob, JobLog } from "@/types/jobs";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
 
 export const jobsApi = {
   // Jobs
-  getJobs(status?: string, pagination?: PaginationParams) {
+
+  getJobs(_status?: string, _pagination?: PaginationParams) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({ data: [], total: 0 } as PaginatedResponse<Job>);
   },
 
-  getJob(id: string) {
+  getJob(_id: string) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({} as Job);
   },
 
-  getJobLogs(jobId: string) {
+  getJobLogs(_jobId: string) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve([] as JobLog[]);
   },
 
-  retryJob(jobId: string) {
+  retryJob(_jobId: string) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({} as Job);
   },
 
-  cancelJob(jobId: string) {
+  cancelJob(_jobId: string) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({} as Job);
   },
 
   // Scheduled Jobs
-  getScheduledJobs(pagination?: PaginationParams) {
+
+  getScheduledJobs(_pagination?: PaginationParams) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({
       data: [],
@@ -38,35 +39,35 @@ export const jobsApi = {
     } as PaginatedResponse<ScheduledJob>);
   },
 
-  getScheduledJob(id: string) {
+  getScheduledJob(_id: string) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({} as ScheduledJob);
   },
 
   createScheduledJob(
-    data: Omit<ScheduledJob, "id" | "createdAt" | "updatedAt">
+    _data: Omit<ScheduledJob, "id" | "createdAt" | "updatedAt">
   ) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({} as ScheduledJob);
   },
 
-  updateScheduledJob(id: string, data: Partial<ScheduledJob>) {
+  updateScheduledJob(_id: string, _data: Partial<ScheduledJob>) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({} as ScheduledJob);
   },
 
-  deleteScheduledJob(id: string) {
+  deleteScheduledJob(_id: string) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve();
   },
 
-  toggleScheduledJob(id: string, isActive: boolean) {
+  toggleScheduledJob(_id: string, _isActive: boolean) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({} as ScheduledJob);
   },
 
   // Metrics
   getMetrics() {
-    return apiClient.get<any>("/jobs/metrics");
+    return Promise.resolve({} as Record<string, unknown>);
   },
 };

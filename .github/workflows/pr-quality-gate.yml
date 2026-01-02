@@ -1,0 +1,343 @@
+name: PR Quality Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main, develop]
+
+concurrency:
+  group: pr-quality-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  # Stage 1: Fast Checks (< 2 min)
+  fast-checks:
+    name: Fast Checks (Lint, Type, Secrets)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/*/package-lock.json'
+
+      - name: Backend - Lint & Format Check
+        run: |
+          dotnet format --verify-no-changes --verbosity diagnostic
+        continue-on-error: false
+
+      - name: Frontend - Install Dependencies
+        run: |
+          cd frontend/Store && npm ci
+          cd ../Management && npm ci
+
+      - name: Frontend - Lint Check
+        run: |
+          cd frontend/Store && npm run lint
+          cd ../Management && npm run lint
+
+      - name: Frontend - Type Check
+        run: |
+          cd frontend/Store && npm run type-check
+          cd ../Management && npm run type-check
+
+      - name: Security - Detect Secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.pull_request.base.sha }}
+          head: ${{ github.event.pull_request.head.sha }}
+
+  # Stage 2: Unit Tests (< 5 min)
+  unit-tests:
+    name: Unit Tests + Coverage
+    needs: fast-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/*/package-lock.json'
+
+      - name: Backend - Restore Dependencies
+        run: dotnet restore B2Connect.slnx
+
+      - name: Backend - Build
+        run: dotnet build B2Connect.slnx --no-restore --configuration Release
+
+      - name: Backend - Run Unit Tests with Coverage
+        run: |
+          dotnet test B2Connect.slnx \
+            --no-build \
+            --configuration Release \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./coverage \
+            --logger "trx;LogFileName=test-results.trx" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      - name: Backend - Generate Coverage Report
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
+        with:
+          reports: 'coverage/**/coverage.opencover.xml'
+          targetdir: 'coverage-report'
+          reporttypes: 'Html;Cobertura;MarkdownSummary'
+
+      - name: Backend - Check Coverage Threshold
+        run: |
+          coverage=$(grep -oP 'line-rate="\K[0-9.]+' coverage-report/Cobertura.xml | head -1)
+          coverage_percent=$(echo "$coverage * 100" | bc)
+          echo "Coverage: ${coverage_percent}%"
+          if (( $(echo "$coverage_percent < 80" | bc -l) )); then
+            echo "❌ Coverage ${coverage_percent}% is below threshold of 80%"
+            exit 1
+          fi
+          echo "✅ Coverage ${coverage_percent}% meets threshold"
+
+      - name: Frontend - Install Dependencies
+        run: |
+          cd frontend/Store && npm ci
+          cd ../Management && npm ci
+
+      - name: Frontend - Run Unit Tests with Coverage
+        run: |
+          cd frontend/Store && npm run test:coverage
+          cd ../Management && npm run test:coverage
+
+      - name: Frontend - Check Coverage Threshold
+        run: |
+          # Check Store coverage
+          store_coverage=$(jq -r '.total.lines.pct' frontend/Store/coverage/coverage-summary.json)
+          echo "Store Coverage: ${store_coverage}%"
+          if (( $(echo "$store_coverage < 70" | bc -l) )); then
+            echo "❌ Store coverage ${store_coverage}% is below threshold of 70%"
+            exit 1
+          fi
+          
+          # Check Management coverage
+          mgmt_coverage=$(jq -r '.total.lines.pct' frontend/Management/coverage/coverage-summary.json)
+          echo "Management Coverage: ${mgmt_coverage}%"
+          if (( $(echo "$mgmt_coverage < 70" | bc -l) )); then
+            echo "❌ Management coverage ${mgmt_coverage}% is below threshold of 70%"
+            exit 1
+          fi
+          
+          echo "✅ All frontend coverage meets threshold"
+
+      - name: Upload Coverage Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            coverage-report/
+            frontend/Store/coverage/
+            frontend/Management/coverage/
+
+      - name: Comment Coverage on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: coverage
+          path: coverage-report/Summary.md
+
+  # Stage 3: Integration Tests (< 10 min)
+  integration-tests:
+    name: Integration Tests
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: b2connect_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: false
+        options: >-
+          --health-cmd "curl -f http://localhost:9200/_cluster/health || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 9200:9200
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Run Integration Tests
+        env:
+          ConnectionStrings__PostgreSQL: "Host=localhost;Database=b2connect_test;Username=postgres;Password=postgres"
+          Elasticsearch__Url: "http://localhost:9200"
+        run: |
+          dotnet test B2Connect.slnx \
+            --filter "Category=Integration" \
+            --configuration Release \
+            --logger "trx;LogFileName=integration-test-results.trx"
+
+  # Stage 4: E2E Tests (< 15 min)
+  e2e-tests:
+    name: E2E Critical Paths
+    needs: integration-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
+        run: |
+          cd frontend/Store
+          npm ci
+          npx playwright install --with-deps
+
+      - name: Start Backend Services
+        run: |
+          dotnet run --project AppHost/B2Connect.AppHost.csproj &
+          sleep 30  # Wait for services to start
+
+      - name: Run E2E Tests
+        run: |
+          cd frontend/Store
+          npm run test:e2e
+
+      - name: Upload E2E Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-results
+          path: frontend/Store/playwright-report/
+
+  # Stage 5: Security & Compliance
+  security-compliance:
+    name: Security & Compliance Scan
+    needs: fast-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: OWASP Dependency Check (Backend)
+        run: |
+          dotnet list package --vulnerable --include-transitive 2>&1 | tee dependency-check.txt
+          if grep -q "has the following vulnerable packages" dependency-check.txt; then
+            echo "❌ Vulnerable dependencies found"
+            exit 1
+          fi
+
+      - name: OWASP Dependency Check (Frontend)
+        run: |
+          cd frontend/Store
+          npm audit --production --audit-level=high
+          cd ../Management
+          npm audit --production --audit-level=high
+
+      - name: License Compliance Check
+        run: |
+          dotnet tool install --global dotnet-project-licenses
+          dotnet-project-licenses --input B2Connect.slnx --export-license-texts --output-directory licenses
+          # Check for GPL/AGPL licenses
+          if grep -r "GPL\|AGPL" licenses/; then
+            echo "❌ Incompatible license found"
+            exit 1
+          fi
+
+      - name: Mega-Linter (Code Quality)
+        uses: oxsecurity/megalinter@v7
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_LINTERS: SPELL_CSPELL # Customize as needed
+          FILTER_REGEX_EXCLUDE: '(node_modules|bin|obj|coverage|\.git)'
+
+      - name: GitHub CodeQL Security Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: 'csharp,javascript'
+          queries: +security-and-quality
+
+      - name: CodeQL Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
+
+      - name: Upload Security Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            dependency-check.txt
+            licenses/
+            megalinter-reports/
+
+  # Final Quality Gate
+  quality-gate:
+    name: ✅ Quality Gate - ALL CHECKS
+    needs: [fast-checks, unit-tests, integration-tests, e2e-tests, security-compliance]
+    runs-on: ubuntu-latest
+    steps:
+      - name: All Quality Checks Passed
+        run: |
+          echo "✅ All quality gates passed!"
+          echo "- Fast checks: Lint, Type, Secrets ✓"
+          echo "- Unit tests: Backend 80%+, Frontend 70%+ ✓"
+          echo "- Integration tests: All passed ✓"
+          echo "- E2E tests: Critical paths verified ✓"
+          echo "- Security: No vulnerabilities ✓"
+          echo ""
+          echo "PR is ready for review and merge!"

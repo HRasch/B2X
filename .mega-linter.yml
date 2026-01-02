@@ -1,0 +1,50 @@
+# Mega-Linter Configuration
+# 100% Free Code Quality Tool
+# Documentation: https://megalinter.io
+
+# Apply linters only to diff
+APPLY_FIXES: none  # Don't auto-fix in CI, only report
+VALIDATE_ALL_CODEBASE: false  # Only check changed files
+
+# Languages & Tools
+ENABLE:
+  - CSHARP
+  - JAVASCRIPT
+  - TYPESCRIPT
+  - JSON
+  - YAML
+  - MARKDOWN
+  - DOCKERFILE
+  - SQL
+
+# Disable specific linters if needed
+DISABLE_LINTERS:
+  - SPELL_CSPELL  # Can be noisy
+  - COPYPASTE_JSCPD  # Optional
+
+# File filtering
+FILTER_REGEX_EXCLUDE: '(node_modules|bin|obj|coverage|\.git|\.ai/logs)'
+
+# Linter-specific configurations
+CSHARP_DOTNET_FORMAT_ARGUMENTS: '--verify-no-changes'
+JAVASCRIPT_ES_CONFIG_FILE: '.eslintrc.json'
+TYPESCRIPT_ES_CONFIG_FILE: '.eslintrc.json'
+
+# Reporting
+FORMATTERS_DISABLE_ERRORS: false
+GITHUB_STATUS_REPORTER: true
+GITHUB_COMMENT_REPORTER: true
+
+# Performance
+PARALLEL: true
+
+# Quality Thresholds
+FAIL_IF_MISSING_LINTER_IN_FLAVOR: false
+FAIL_IF_UPDATED_SOURCES: true  # Fail if linters would modify code
+
+# Security
+CREDENTIALS_SECRETLINT_DISABLE_ERRORS: false  # Fail on secrets
+
+# Output
+PRINT_ALL_FILES: false
+LOG_LEVEL: INFO

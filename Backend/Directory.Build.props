@@ -29,7 +29,25 @@
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
     <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
     <NoWarn>$(NoWarn);NU1605;MSB4011</NoWarn>
+    <!-- Enable code analyzers -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
+
+  <!-- Code Quality Analyzers (for PR Quality Gate) -->
+  <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
+    <!-- Roslynator: 500+ C# analyzers -->
+    <PackageReference Include="Roslynator.Analyzers" Version="4.8.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <!-- Security analyzers -->
+    <PackageReference Include="SecurityCodeScan.VS2019" Version="5.6.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
   <!-- Exclude tests folders from non-test projects -->
   <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">

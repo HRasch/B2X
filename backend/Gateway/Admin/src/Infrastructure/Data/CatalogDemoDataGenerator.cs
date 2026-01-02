@@ -11,7 +11,6 @@ namespace B2Connect.Admin.Infrastructure.Data;
 public static class CatalogDemoDataGenerator
 {
     private static int _productCounter = 0;
-    private static int _categoryCounter = 0;
     private static int _brandCounter = 0;
 
     /// <summary>

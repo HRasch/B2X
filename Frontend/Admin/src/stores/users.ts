@@ -1,9 +1,16 @@
+/**
+ * Users Store (Pinia)
+ * @todo Refactor error handling from catch(err: any) to typed unknown pattern
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling */
+/* eslint-disable @typescript-eslint/no-unused-vars -- Future types for profile/address features */
+
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { userService } from "@/services/api/userService";
 import type { User, UserProfile, Address } from "@/types/user";
 
-interface UsersState {
+interface _UsersState {
   users: User[];
   currentUser: User | null;
   loading: boolean;

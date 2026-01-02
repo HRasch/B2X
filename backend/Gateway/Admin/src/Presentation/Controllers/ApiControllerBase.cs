@@ -30,9 +30,9 @@ public abstract class ApiControllerBase : ControllerBase
     /// </summary>
     protected Guid GetTenantId()
     {
-        if (HttpContext.Items.TryGetValue("TenantId", out var tenantId))
+        if (HttpContext.Items.TryGetValue("TenantId", out var tenantId) && tenantId is Guid guid)
         {
-            return (Guid)tenantId;
+            return guid;
         }
 
         throw new InvalidOperationException("TenantId not found in request context. " +

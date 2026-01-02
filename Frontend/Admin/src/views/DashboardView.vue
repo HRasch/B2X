@@ -36,7 +36,7 @@
       <!-- Chart Card -->
       <soft-panel title="Sales Overview" description="Last 7 days">
         <div
-          class="h-48 bg-gradient-to-br from-soft-100 to-soft-50 rounded-soft flex items-center justify-center"
+          class="h-48 bg-linear-to-br from-soft-100 to-soft-50 rounded-soft flex items-center justify-center"
         >
           <p class="text-soft-500">Chart Placeholder</p>
         </div>
@@ -52,7 +52,7 @@
           >
             <div
               :class="[
-                'w-10 h-10 rounded-soft flex items-center justify-center flex-shrink-0 text-white text-sm font-semibold',
+                'w-10 h-10 rounded-soft flex items-center justify-center shrink-0 text-white text-sm font-semibold',
                 activity.colorClass,
               ]"
             >

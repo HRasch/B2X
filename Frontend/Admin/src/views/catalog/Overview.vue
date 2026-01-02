@@ -109,10 +109,10 @@ const brandsCount = computed(() => catalogStore.brandsTotalitres);
 
 // Lifecycle
 onMounted(async () => {
-  // Fetch counts
-  const productsResponse = await catalogStore.fetchProducts({ take: 1 });
-  const categoriesResponse = await catalogStore.fetchCategories({ take: 1 });
-  const brandsResponse = await catalogStore.fetchBrands({ take: 1 });
+  // Fetch counts - responses contain metadata but we only need the totals from store
+  await catalogStore.fetchProducts({ take: 1 });
+  await catalogStore.fetchCategories({ take: 1 });
+  await catalogStore.fetchBrands({ take: 1 });
 });
 </script>
 

@@ -428,7 +428,7 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 /* Loading Skeleton */
 .skeleton {
   /* stylelint-disable-next-line at-rule-no-unknown */
-  @apply bg-gradient-to-r from-soft-200 via-soft-100 to-soft-200 rounded-soft;
+  @apply bg-linear-to-r from-soft-200 via-soft-100 to-soft-200 rounded-soft;
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
 }

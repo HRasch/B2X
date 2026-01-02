@@ -1,10 +1,10 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import Dashboard from "../Dashboard.vue";
 import { createPinia, setActivePinia } from "pinia";
 
 describe("Dashboard.vue (Empty State)", () => {
-  let pinia: any;
+  let pinia: ReturnType<typeof createPinia>;
 
   beforeEach(() => {
     pinia = createPinia();

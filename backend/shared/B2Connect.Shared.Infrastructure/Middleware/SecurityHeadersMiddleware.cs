@@ -50,14 +50,11 @@ public class SecurityHeadersMiddleware
                   "base-uri 'self'; " +
                   "form-action 'self'";
 
-        context.Response.Headers.Add("Content-Security-Policy", csp);
+        context.Response.Headers["Content-Security-Policy"] = csp;
 
         // Permissions-Policy: Restrict browser feature access
         // Deny access to: geolocation, microphone, camera, payment
-        context.Response.Headers.Add(
-            "Permissions-Policy",
-            "geolocation=(), microphone=(), camera=(), payment=()"
-        );
+        context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=(), payment=()";
 
         _logger.LogDebug("Security headers applied to response");
 

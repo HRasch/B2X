@@ -28,7 +28,7 @@ public class ApiLoggingFilter : IAsyncActionFilter
 
         // Log Inbound Request
         var tenantId = context.HttpContext.Items.ContainsKey("TenantId")
-            ? context.HttpContext.Items["TenantId"].ToString()
+            ? context.HttpContext.Items["TenantId"]?.ToString() ?? "unknown"
             : "unknown";
 
         _logger.LogInformation(

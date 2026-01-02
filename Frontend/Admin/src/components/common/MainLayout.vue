@@ -266,12 +266,10 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import { useThemeStore } from "@/stores/theme";
 import { useRouter } from "vue-router";
 import ThemeToggle from "./ThemeToggle.vue";
 
 const authStore = useAuthStore();
-const themeStore = useThemeStore();
 const router = useRouter();
 const route = useRoute();
 

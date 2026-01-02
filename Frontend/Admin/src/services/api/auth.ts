@@ -11,7 +11,7 @@ const DEFAULT_TENANT_ID =
   import.meta.env.VITE_DEFAULT_TENANT_ID ||
   "00000000-0000-0000-0000-000000000001";
 
-const baseURL = import.meta.env.VITE_ADMIN_API_URL || "/api";
+const baseURL = import.meta.env.VITE_ADMIN_API_URL || "http://localhost:8080";
 
 export const authApi = {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
@@ -65,7 +65,9 @@ export const authApi = {
           },
         },
       });
-    }sessionStorage.getItem("tenantId") || DEFAULT_TENANT_ID;
+    }
+
+    const tenantId = sessionStorage.getItem("tenantId") || DEFAULT_TENANT_ID;
 
     // Use axios with credentials for httpOnly cookie support
     const response = await axios.post<LoginResponse>(
@@ -82,10 +84,7 @@ export const authApi = {
 
     // Store tenant ID from response if provided (non-sensitive)
     if (response.data.user?.tenantId) {
-      session
-    // Store tenant ID from response if provided
-    if (response.data.user?.tenantId) {
-      localStorage.setItem("tenantId", response.data.user.tenantId);
+      sessionStorage.setItem("tenantId", response.data.user.tenantId);
     }
 
     return response.data;
