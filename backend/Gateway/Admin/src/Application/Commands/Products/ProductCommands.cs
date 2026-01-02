@@ -100,6 +100,13 @@ public record SearchProductsQuery(
     int PageNumber = 1,
     int PageSize = 20);
 
+/// <summary>
+/// Query für Get All Products For Index (ADR-025)
+/// Speziell für Search Reindexing optimiert mit Dapper
+/// Gibt nur die für Search-Index nötigen Felder zurück
+/// </summary>
+public record GetAllProductsForIndexQuery();
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Result DTOs
 // ─────────────────────────────────────────────────────────────────────────────
@@ -116,6 +123,22 @@ public record ProductResult(
     string? Description = null,
     Guid? CategoryId = null,
     Guid? BrandId = null,
+    DateTime CreatedAt = default);
+
+/// <summary>
+/// Result DTO für Search Index - optimiert für Dapper (ADR-025)
+/// Enthält nur die für Search-Index nötigen Felder
+/// Keine Navigation Properties, minimal Memory Footprint
+/// </summary>
+public record ProductIndexResult(
+    Guid Id,
+    Guid TenantId,
+    string Name,
+    string Sku,
+    decimal Price,
+    string? Description = null,
+    string? CategoryName = null,
+    string? BrandName = null,
     DateTime CreatedAt = default);
 
 /// <summary>

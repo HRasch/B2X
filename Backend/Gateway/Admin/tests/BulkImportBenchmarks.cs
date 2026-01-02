@@ -4,6 +4,7 @@ using BenchmarkDotNet.Running;
 using B2Connect.Admin.Application.Commands.Products;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Infrastructure.Data;
+using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Types.Localization;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,14 @@ using Microsoft.EntityFrameworkCore;
 // ─────────────────────────────────────────────────────────────────────────────
 // ADR-025 Performance Benchmarks - Phase 4
 // ─────────────────────────────────────────────────────────────────────────────
+
+/// <summary>
+/// Test implementation of ITenantContext for benchmarks
+/// </summary>
+internal class TestTenantContext : ITenantContext
+{
+    public Guid TenantId => Guid.Parse("12345678-1234-1234-1234-123456789012");
+}
 
 /// <summary>
 /// Performance Benchmarks für ADR-025: Dapper/EF Extensions Evaluation
@@ -36,7 +45,7 @@ public class BulkImportBenchmarks
             .UseInMemoryDatabase($"Benchmark_{Guid.NewGuid()}")
             .Options;
 
-        _dbContext = new CatalogDbContext(options);
+        _dbContext = new CatalogDbContext(options, new TestTenantContext());
 
         // Testdaten generieren
         _testData = GenerateTestProducts(ProductCount);
@@ -56,15 +65,13 @@ public class BulkImportBenchmarks
         var products = new List<BulkImportProductItem>();
         for (int i = 0; i < count; i++)
         {
-            products.Add(new BulkImportProductItem
-            {
-                Name = $"Test Product {i}",
-                Sku = $"SKU-{i:00000}",
-                Price = 10.99m + (i % 100),
-                Description = $"Description for product {i}",
-                CategoryId = Guid.NewGuid(),
-                BrandId = Guid.NewGuid()
-            });
+            products.Add(new BulkImportProductItem(
+                Name: $"Test Product {i}",
+                Sku: $"SKU-{i:00000}",
+                Price: 10.99m + (i % 100),
+                Description: $"Description for product {i}",
+                CategoryId: Guid.NewGuid(),
+                BrandId: Guid.NewGuid()));
         }
         return products;
     }

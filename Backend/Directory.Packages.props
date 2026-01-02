@@ -113,6 +113,8 @@
     <PackageVersion Include="Testcontainers" Version="4.9.0" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="4.9.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0" />
+    <!-- Performance Benchmarking (ADR-025) -->
+    <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
     <!-- Architecture Testing (ADR-021) -->
     <PackageVersion Include="TngTech.ArchUnitNET.xUnit" Version="0.13.1" />
     <!-- Hosting & Extensions -->

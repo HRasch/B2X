@@ -8,6 +8,7 @@ using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Admin.Presentation.Filters;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
+using B2Connect.ERP;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -176,6 +177,14 @@ else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
     {
         builder.Services.AddPostgreSqlErrorLogStorage(errorLogConnectionString);
     }
+}
+
+// ==================== DATA ACCESS (ADR-025) ====================
+// Add hybrid EF Core + Dapper data access for performance optimization
+var connectionString = builder.Configuration.GetConnectionString("Catalog");
+if (!string.IsNullOrEmpty(connectionString))
+{
+    builder.Services.AddDataAccess(connectionString);
 }
 
 // ==================== TENANT CONTEXT ====================

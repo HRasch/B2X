@@ -5,6 +5,8 @@ using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Middleware;
 using B2Connect.Types.Localization;
+using B2Connect.ERP.Infrastructure.DataAccess;
+using Dapper;
 using EFCore.BulkExtensions;
 
 namespace B2Connect.Admin.Application.Handlers.Products;
@@ -521,7 +523,7 @@ public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsComma
                     CalculateStats = true
                 };
 
-                await _dbContext.Products.BulkInsertAsync(validProducts, bulkConfig, cancellationToken: ct);
+                await _dbContext.BulkInsertAsync(validProducts, bulkConfig, cancellationToken: ct);
                 importedCount = validProducts.Count;
 
                 _logger.LogInformation(
@@ -548,5 +550,66 @@ public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsComma
             tenantId, importId, result.ImportedProducts, result.TotalProducts, result.FailedProducts);
 
         return result;
+    }
+}
+
+/// <summary>
+/// Get All Products For Index Handler (ADR-025)
+/// Optimiert für Search Reindexing mit Dapper
+/// Verwendet direkte SQL-Queries ohne EF Core Overhead
+/// </summary>
+public class GetAllProductsForIndexHandler : IQueryHandler<GetAllProductsForIndexQuery, IEnumerable<ProductIndexResult>>
+{
+    private readonly IDapperConnectionFactory _connectionFactory;
+    private readonly ITenantContextAccessor _tenantContext;
+    private readonly ILogger<GetAllProductsForIndexHandler> _logger;
+
+    public GetAllProductsForIndexHandler(
+        IDapperConnectionFactory connectionFactory,
+        ITenantContextAccessor tenantContext,
+        ILogger<GetAllProductsForIndexHandler> logger)
+    {
+        _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+        _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public async Task<IEnumerable<ProductIndexResult>> Handle(GetAllProductsForIndexQuery query, CancellationToken ct)
+    {
+        var tenantId = _tenantContext.GetTenantId();
+
+        _logger.LogInformation("Starting product index retrieval for tenant {TenantId}", tenantId);
+
+        using var connection = _connectionFactory.CreateConnection();
+
+        // Optimierte Query für Search Index - nur relevante Felder
+        // Join mit Categories und Brands für Namen (ohne Navigation Properties)
+        const string sql = @"
+            SELECT
+                p.id,
+                p.tenant_id,
+                p.name,
+                p.sku,
+                p.price,
+                p.description,
+                c.name as category_name,
+                b.name as brand_name,
+                p.created_at
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id AND p.tenant_id = c.tenant_id
+            LEFT JOIN brands b ON p.brand_id = b.id AND p.tenant_id = b.tenant_id
+            WHERE p.tenant_id = @TenantId
+            ORDER BY p.created_at DESC";
+
+        var products = await connection.QueryAsync<ProductIndexResult>(
+            sql,
+            new { TenantId = tenantId },
+            commandTimeout: 300); // 5 Minuten Timeout für große Datasets
+
+        _logger.LogInformation(
+            "Retrieved {Count} products for search indexing for tenant {TenantId}",
+            products.Count(), tenantId);
+
+        return products;
     }
 }

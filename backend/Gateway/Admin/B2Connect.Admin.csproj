@@ -22,6 +22,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"  />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"  />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  />
+    <!-- Performance Optimization (ADR-025) -->
+    <PackageReference Include="Dapper"  />
+    <PackageReference Include="EFCore.BulkExtensions"  />
     <!-- Performance Benchmarking (ADR-025) -->
     <PackageReference Include="BenchmarkDotNet"  />
   </ItemGroup>
@@ -32,6 +35,7 @@
     <ProjectReference Include="../../shared/B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
     <ProjectReference Include="../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
     <ProjectReference Include="../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../Domain/ERP/src/B2Connect.ERP.csproj" />
   </ItemGroup>
 
   <ItemGroup>
