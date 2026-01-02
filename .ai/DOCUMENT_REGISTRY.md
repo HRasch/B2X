@@ -71,6 +71,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-014` | Git Commit Strategy | `.ai/knowledgebase/git-commit-strategy.md` | Active |
 | `KB-015` | Search/Elasticsearch | `.ai/knowledgebase/search/` | Active |
 | `KB-016` | GitHub Copilot Models | `.ai/knowledgebase/tools-and-tech/github-copilot-models.md` | Active |
+| `KB-017` | AI Cost Optimization | `.ai/knowledgebase/tools-and-tech/ai-cost-optimization.md` | Active |
 
 ### Knowledgebase Subdirectories
 
