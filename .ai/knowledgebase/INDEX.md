@@ -29,6 +29,7 @@ This index lists curated knowledgebase articles to help agents and developers im
 | `KB-012` | [repo-mapping.md](repo-mapping.md) | Repository technology mapping |
 | `KB-013` | [governance.md](governance.md) | Governance & P0 Playbook |
 | `KB-014` | [git-commit-strategy.md](git-commit-strategy.md) | Git commit conventions |
+| `KB-015` | [tools-and-tech/github-copilot-models.md](tools-and-tech/github-copilot-models.md) | GitHub Copilot AI models & pricing |
 
 ## Subdirectories
 
@@ -96,8 +97,8 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - [TypeScript 5.0](./software/typescript/v4-to-v5.md)
 
 ## Recently Updated
+- 02.01.2026: Added GitHub Copilot AI Models & Pricing guide ([tools-and-tech/github-copilot-models.md](./tools-and-tech/github-copilot-models.md))
 - 30.12.2025: Added Mermaid Documentation ([tools-and-tech/MERMAID_DOCUMENTATION.md](./tools-and-tech/MERMAID_DOCUMENTATION.md))
-- 30.12.2025: Index created and structure established
 - 31.12.2025: Added Elasticsearch e‑commerce search & recommendations article (search-elasticsearch-ecommerce.md)
  - 31.12.2025: Restored key dependency guidance (OpenTelemetry, Elastic.Clients.Elasticsearch, EFCore, Serilog, Polly, Playwright) into `dependency-updates/`.
  - 31.12.2025: Restored additional dependency guidance (AutoMapper, Azure.Identity, Yarp.ReverseProxy, Swashbuckle.AspNetCore, axios, typescript, FluentValidation) into `dependency-updates/`.

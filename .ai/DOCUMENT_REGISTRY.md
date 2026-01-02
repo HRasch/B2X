@@ -70,6 +70,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-013` | Governance Playbook | `.ai/knowledgebase/governance.md` | Active |
 | `KB-014` | Git Commit Strategy | `.ai/knowledgebase/git-commit-strategy.md` | Active |
 | `KB-015` | Search/Elasticsearch | `.ai/knowledgebase/search/` | Active |
+| `KB-016` | GitHub Copilot Models | `.ai/knowledgebase/tools-and-tech/github-copilot-models.md` | Active |
 
 ### Knowledgebase Subdirectories
 
@@ -92,6 +93,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-001` | Communication Overview | `.ai/guidelines/GL-001-COMMUNICATION-OVERVIEW.md` | Active |
 | `GL-002` | Subagent Delegation | `.ai/guidelines/GL-002-SUBAGENT_DELEGATION.md` | Active |
 | `GL-003` | AI Directory Usage | `.ai/guidelines/GL-003-AI-DIRECTORY-USAGE.md` | Active |
+| `GL-004` | Branch Naming & Single-Topic Strategy | `.ai/guidelines/GL-004-BRANCH_NAMING_STRATEGY.md` | Active |
+| `GL-005` | SARAH Quality Gate Criteria | `.ai/guidelines/GL-005-SARAH_QUALITY_GATE_CRITERIA.md` | Active |
 
 ---
 
@@ -265,4 +268,4 @@ status: Active
 
 - **Owner**: @SARAH
 - **Review Frequency**: Monthly
-- **Last Audit**: 31. Dezember 2025
+- **Last Audit**: 2. Januar 2026
