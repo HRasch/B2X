@@ -147,12 +147,14 @@ public sealed class FakeErpProvider : IErpProvider
     {
         var syncResult = new SyncResult
         {
-            Mode = request.Mode,
-            TotalEntities = 100,
-            ProcessedEntities = 100,
-            FailedEntities = 0,
+            Created = 80,
+            Updated = 15,
+            Deleted = 3,
+            Skipped = 2,
+            Failed = 0,
             Duration = TimeSpan.FromSeconds(1),
-            Status = SyncStatus.Completed
+            StartedAt = DateTimeOffset.UtcNow.AddSeconds(-1),
+            CompletedAt = DateTimeOffset.UtcNow
         };
 
         return Task.FromResult(ProviderResult<SyncResult>.Success(syncResult));
@@ -167,12 +169,14 @@ public sealed class FakeErpProvider : IErpProvider
     {
         var syncResult = new SyncResult
         {
-            Mode = request.Mode,
-            TotalEntities = 50,
-            ProcessedEntities = 50,
-            FailedEntities = 0,
+            Created = 40,
+            Updated = 8,
+            Deleted = 1,
+            Skipped = 1,
+            Failed = 0,
             Duration = TimeSpan.FromSeconds(0.5),
-            Status = SyncStatus.Completed
+            StartedAt = DateTimeOffset.UtcNow.AddSeconds(-0.5),
+            CompletedAt = DateTimeOffset.UtcNow
         };
 
         return Task.FromResult(ProviderResult<SyncResult>.Success(syncResult));
@@ -228,27 +232,27 @@ public sealed class FakeErpProvider : IErpProvider
         Name = $"Fake Product {productId}",
         Description = $"Description for {productId}",
         IsActive = true,
-        CreatedDate = DateTimeOffset.UtcNow.AddDays(-30),
-        ModifiedDate = DateTimeOffset.UtcNow,
+        CreatedAt = DateTimeOffset.UtcNow.AddDays(-30),
+        ModifiedAt = DateTimeOffset.UtcNow,
         CategoryId = "CAT001",
         BasePrice = 99.99m,
         Currency = "EUR",
         StockQuantity = 100,
-        Weight = 1.5m,
-        Dimensions = new PimDimensions { Length = 10, Width = 5, Height = 2 }
+        Weight = 1.5m
     };
 
     private static CrmCustomer CreateFakeCustomer(string customerId) => new CrmCustomer
     {
         Id = customerId,
-        Number = customerId,
+        CustomerNumber = customerId,
         Name = $"Fake Customer {customerId}",
         Email = $"customer{customerId}@example.com",
         Phone = "+1234567890",
         IsActive = true,
-        CustomerGroup = "Default",
-        CreatedDate = DateTimeOffset.UtcNow.AddDays(-60),
-        ModifiedDate = DateTimeOffset.UtcNow,
+        CustomerGroupId = "GRP001",
+        CustomerGroupName = "Default",
+        CreatedAt = DateTimeOffset.UtcNow.AddDays(-60),
+        ModifiedAt = DateTimeOffset.UtcNow,
         BillingAddress = CreateFakeAddress(),
         ShippingAddress = CreateFakeAddress()
     };
@@ -257,6 +261,8 @@ public sealed class FakeErpProvider : IErpProvider
     {
         Id = "ORD001",
         OrderNumber = "ORD001",
+        CustomerId = "CUST001",
+        CustomerNumber = "CUST001",
         Status = ErpOrderStatus.Confirmed,
         OrderDate = DateTimeOffset.UtcNow,
         TotalAmount = 99.99m,
@@ -290,6 +296,7 @@ public sealed class FakeErpProvider : IErpProvider
 
     private static CrmAddress CreateFakeAddress() => new CrmAddress
     {
+        Id = "ADDR001",
         Street1 = "123 Fake Street",
         City = "Fake City",
         PostalCode = "12345",

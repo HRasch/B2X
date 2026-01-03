@@ -83,8 +83,49 @@ Führe eine strukturierte Analyse durch und dokumentiere:
 - [ ] Needs clarification
 - [ ] Not recommended
 
+**Für @DevOps:**
+- Deployment Impact
+- Infrastructure Changes
+- Monitoring Requirements
+- Skalierungs-Implikationen
+- Rollback Strategy
+
+### 3. Risiken & Bedenken
+- [ ] Identifizierte Risiken
+- [ ] Mitigation Vorschläge
+
+### 4. Offene Fragen
+- [ ] Klärungsbedarf
+
+### 5. Empfehlung
+- [ ] Proceed as is
+- [ ] Proceed with adjustments
+- [ ] Needs clarification
+- [ ] Not recommended
+
 ### 6. Aufwandsschätzung
 [XS | S | M | L | XL] + Konfidenz [Niedrig | Mittel | Hoch]
+
+## ⚡ RATE LIMIT OPTIMIZATION (CRITICAL)
+
+**Sequential Execution Required** to prevent rate limits:
+
+### Execution Order:
+1. **@ProductOwner** → Creates initial spec (`.ai/requirements/REQ-XXX-initial.md`)
+2. **10-minute cooldown**
+3. **@Architect** → Technical architecture review (`.ai/requirements/REQ-XXX-architect.md`)
+4. **10-minute cooldown**
+5. **@Backend** → Implementation analysis (`.ai/requirements/REQ-XXX-backend.md`)
+6. **10-minute cooldown**
+7. **@Frontend** → UI/UX analysis (`.ai/requirements/REQ-XXX-frontend.md`)
+8. **10-minute cooldown**
+9. **@SARAH** → Consolidation (`.ai/requirements/REQ-XXX-consolidated.md`)
+
+### Rules:
+- **NO parallel execution** - One agent at a time
+- **Text-based communication** - Use files, not chat
+- **Batch file operations** - Read all context files together
+- **Archive old analyses** - Move >7 days to `.ai/archive/`
 
 ## Output Format
 

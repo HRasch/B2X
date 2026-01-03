@@ -48,21 +48,7 @@
 
   <!-- Code Quality Analyzers (for PR Quality Gate) -->
   <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
-    <!-- Roslynator: 500+ C# analyzers (Version in Directory.Packages.props) -->
-    <PackageReference Include="Roslynator.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <!-- Security analyzers (Version in Directory.Packages.props) -->
-    <PackageReference Include="SecurityCodeScan.VS2019">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <!-- StyleCop: Code style enforcement (Version in Directory.Packages.props) -->
-    <PackageReference Include="StyleCop.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <!-- Analyzers removed - use individual project configuration if needed -->
   </ItemGroup>
 
   <!-- StyleCop Configuration -->

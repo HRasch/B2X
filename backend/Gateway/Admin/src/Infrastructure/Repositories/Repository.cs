@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Core.Interfaces;
+using B2Connect.Admin.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.Admin.Infrastructure.Repositories;
 

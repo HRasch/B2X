@@ -200,6 +200,12 @@
     <PackageVersion Include="AWSSDK.SQS" Version="3.7.400" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- SYSTEM PACKAGES (for Abstractions)                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <PackageVersion Include="System.ComponentModel.Annotations" Version="10.0.0" />
+    <PackageVersion Include="System.Text.Json" Version="10.0.1" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- gRPC (for ERP Integration)                                              -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="Google.Protobuf" Version="3.30.2" />

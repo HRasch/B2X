@@ -1,13 +1,13 @@
-using Wolverine;
 using B2Connect.Admin.Application.Commands.Products;
 using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Infrastructure.Data;
+using B2Connect.ERP.Infrastructure.DataAccess;
 using B2Connect.Middleware;
 using B2Connect.Types.Localization;
-using B2Connect.ERP.Infrastructure.DataAccess;
 using Dapper;
 using EFCore.BulkExtensions;
+using Wolverine;
 
 namespace B2Connect.Admin.Application.Handlers.Products;
 
@@ -16,8 +16,8 @@ namespace B2Connect.Admin.Application.Handlers.Products;
 /// </summary>
 internal static class ProductMapper
 {
-    public static ProductResult ToResult(B2Connect.Admin.Core.Entities.Product product) =>
-        new ProductResult(
+    public static ProductResult ToResult(B2Connect.Admin.Core.Entities.Product product)
+        => new ProductResult(
             product.Id,
             product.TenantId ?? Guid.Empty,
             product.Name?.Get("en") ?? string.Empty,
@@ -449,11 +449,11 @@ public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsComma
     public BulkImportProductsHandler(
         CatalogDbContext dbContext,
         ITenantContextAccessor tenantContext,
-        ILogger<BulkImportProductsHandler> _logger)
+        ILogger<BulkImportProductsHandler> logger)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
-        this._logger = _logger ?? throw new ArgumentNullException(nameof(_logger));
+        this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task<BulkImportResult> Handle(BulkImportProductsCommand command, CancellationToken ct)

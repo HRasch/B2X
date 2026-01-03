@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace B2Connect.Admin.Presentation.Filters;
 

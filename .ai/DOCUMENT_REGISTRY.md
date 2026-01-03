@@ -109,6 +109,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-004` | Branch Naming & Single-Topic Strategy | `.ai/guidelines/GL-004-BRANCH_NAMING_STRATEGY.md` | Active |
 | `GL-005` | SARAH Quality Gate Criteria | `.ai/guidelines/GL-005-SARAH_QUALITY_GATE_CRITERIA.md` | Active |
 | `GL-006` | Token Optimization Strategy | `.ai/guidelines/GL-006-TOKEN-OPTIMIZATION-STRATEGY.md` | Active |
+| `GL-007` | Lessons Learned Maintenance Strategy | `.ai/guidelines/GL-007-lessons-maintenance-strategy.md` | Active |
 
 ---
 

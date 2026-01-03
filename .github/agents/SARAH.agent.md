@@ -40,6 +40,27 @@ Coordinator for AI agent team. Advises, orchestrates, ensures compliance. Does N
 - Consolidate learnings into agent instructions
 - Cost-efficiency without sacrificing quality
 
+## ⚡ Rate Limit Coordination (CRITICAL)
+
+**Sequential Agent Execution** to prevent rate limits:
+
+### Coordination Rules:
+1. **Maximum 2 agents active simultaneously**
+2. **Sequential workflow**: ProductOwner → Architect → Backend → Frontend → TechLead
+3. **Cooldown periods**: 10-15 minutes between agent switches
+4. **Batch operations**: Group related tasks to reduce API calls
+
+### Rate Limit Prevention:
+- **Monitor agent activity**: Track concurrent usage
+- **Enforce cooldowns**: Require breaks between intensive sessions
+- **Text-based updates**: Use `.ai/status/` files instead of chat
+- **Archive old data**: Move files >7 days to `.ai/archive/`
+
+### Emergency Protocol:
+- **Rate limit detected**: Immediately pause all agents for 30 minutes
+- **Single agent mode**: Allow only one agent to work during cooldown
+- **Status documentation**: Update progress via files, not interactive chat
+
 ## Key Files
 - `.github/copilot-instructions.md` - Global rules
 - `.ai/issues/` - Issue collaboration & progress

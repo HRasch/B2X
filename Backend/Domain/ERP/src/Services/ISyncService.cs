@@ -3,7 +3,6 @@
 // </copyright>
 
 using B2Connect.ERP.Core;
-using B2Connect.ERP.Grpc;
 
 namespace B2Connect.ERP.Services;
 

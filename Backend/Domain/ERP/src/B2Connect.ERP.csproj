@@ -5,6 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>B2Connect.ERP</RootNamespace>
+    <Description>
+      ERP service for B2Connect. Communicates with ERP Connector (.NET 4.8) over HTTP.
+      Supports massive data loads via cursor pagination, delta sync, and streaming.
+    </Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,23 +17,17 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
     
     <!-- Resilience -->
     <PackageReference Include="Polly" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
     
     <!-- Wolverine for messaging -->
     <PackageReference Include="WolverineFx" />
     
     <!-- Redis for distributed caching -->
     <PackageReference Include="StackExchange.Redis" />
-    
-    <!-- gRPC for cross-framework communication -->
-    <PackageReference Include="Grpc.Net.Client" />
-    <PackageReference Include="Google.Protobuf" />
-    <PackageReference Include="Grpc.Tools">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
 
     <!-- Data Access (ADR-025) -->
     <PackageReference Include="Dapper" />
@@ -39,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\*.proto" GrpcServices="Client" />
+    <ProjectReference Include="..\Abstractions\B2Connect.ERP.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

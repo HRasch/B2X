@@ -16,8 +16,7 @@ public record CreateProductRequest(
     string[] Tags,
     Dictionary<string, LocalizedContent> LocalizedNames,
     Guid? CategoryId = null,
-    Guid? BrandId = null
-);
+    Guid? BrandId = null);
 
 /// <summary>
 /// Request DTO for updating a product
@@ -34,8 +33,7 @@ public record UpdateProductRequest(
     string[]? Tags,
     Dictionary<string, LocalizedContent>? LocalizedNames,
     Guid? CategoryId = null,
-    Guid? BrandId = null
-);
+    Guid? BrandId = null);
 
 /// <summary>
 /// Request DTO for creating a category
@@ -43,8 +41,7 @@ public record UpdateProductRequest(
 /// </summary>
 public record CreateCategoryRequest(
     string Name,
-    Dictionary<string, LocalizedContent> LocalizedNames
-);
+    Dictionary<string, LocalizedContent> LocalizedNames);
 
 /// <summary>
 /// Request DTO for updating a category
@@ -52,8 +49,7 @@ public record CreateCategoryRequest(
 /// </summary>
 public record UpdateCategoryRequest(
     string? Name,
-    Dictionary<string, LocalizedContent>? LocalizedNames
-);
+    Dictionary<string, LocalizedContent>? LocalizedNames);
 
 /// <summary>
 /// Request DTO for creating a brand
@@ -61,8 +57,7 @@ public record UpdateCategoryRequest(
 /// </summary>
 public record CreateBrandRequest(
     string Name,
-    Dictionary<string, LocalizedContent> LocalizedNames
-);
+    Dictionary<string, LocalizedContent> LocalizedNames);
 
 /// <summary>
 /// Request DTO for updating a brand
@@ -70,5 +65,4 @@ public record CreateBrandRequest(
 /// </summary>
 public record UpdateBrandRequest(
     string? Name,
-    Dictionary<string, LocalizedContent>? LocalizedNames
-);
+    Dictionary<string, LocalizedContent>? LocalizedNames);

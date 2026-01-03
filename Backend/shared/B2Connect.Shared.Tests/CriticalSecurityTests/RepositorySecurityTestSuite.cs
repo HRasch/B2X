@@ -1,5 +1,5 @@
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
@@ -60,14 +60,12 @@ public class RepositorySecurityTestSuite
         // Act & Assert
         foreach (var method in correctMethods)
         {
-            method.Should().Contain("tenantId",
-                $"Method {method} must have tenantId parameter");
+            method.ShouldContain("tenantId");
         }
 
         foreach (var method in incorrectMethods)
         {
-            method.Should().NotContain("tenantId",
-                $"This demonstrates vulnerability - {method} has no tenant filter");
+            method.ShouldNotContain("tenantId");
         }
     }
 
@@ -114,9 +112,9 @@ public class RepositorySecurityTestSuite
             .FirstOrDefault(p => p.Id == productId && p.TenantId == tenant1Id);
 
         // Assert
-        resultWithoutFilter.Should().NotBeNull();  // ❌ Vulnerability - returns data
-        resultWithFilter.Should().NotBeNull();     // ✅ Correct - still has data
-        resultWithFilter?.TenantId.Should().Be(tenant1Id, "Verify tenant ownership");
+        resultWithoutFilter.ShouldNotBeNull();  // ❌ Vulnerability - returns data
+        resultWithFilter.ShouldNotBeNull();     // ✅ Correct - still has data
+        resultWithFilter?.TenantId.ShouldBe(tenant1Id);
     }
 
     #endregion
@@ -178,12 +176,9 @@ public class RepositorySecurityTestSuite
         var correctQueryCount = queriesExecuted;  // 1 query
 
         // Assert
-        vulnerableQueryCount.Should().Be(4,
-            "Demonstrates N+1 vulnerability (1 initial + 3 lazy loads)");
-        correctQueryCount.Should().Be(1,
-            "Eager loading should result in single query");
-        correctQueryCount.Should().BeLessThan(vulnerableQueryCount,
-            "Eager loading must be more efficient than lazy loading");
+        vulnerableQueryCount.ShouldBe(4);
+        correctQueryCount.ShouldBe(1);
+        correctQueryCount.ShouldBeLessThan(vulnerableQueryCount);
     }
 
     /// <summary>
@@ -216,8 +211,7 @@ public class RepositorySecurityTestSuite
         var totalNoTrackingMemory = noTrackingMemoryUsage * (queryCount / 100);
 
         // Assert
-        totalNoTrackingMemory.Should().BeLessThan(totalTrackedMemory,
-            "AsNoTracking() queries must use less memory");
+        totalNoTrackingMemory.ShouldBeLessThan(totalTrackedMemory);
     }
 
     #endregion
@@ -274,12 +268,12 @@ public class RepositorySecurityTestSuite
 
         foreach (var (name, value) in invalidParameters)
         {
-            value.Should().BeNullOrEmpty($"Parameter {name} with value {value} is invalid and must be rejected");
+            value.ShouldBeNullOrEmpty();
         }
 
         foreach (var (name, value) in validParameters)
         {
-            value.Should().NotBeNullOrEmpty($"Parameter {name} with value {value} is valid");
+            value.ShouldNotBeNullOrEmpty();
         }
     }
 
@@ -327,8 +321,7 @@ public class RepositorySecurityTestSuite
             if (signature.Contains("Database") || signature.Contains("context"))
             {
                 // Methods that access database
-                isAsync.Should().BeTrue(
-                    $"Database method {signature} must be async");
+                isAsync.ShouldBeTrue();
             }
         }
     }
@@ -387,9 +380,9 @@ public class RepositorySecurityTestSuite
             .ToList();
 
         // Assert
-        vulnerableDelete.Count.Should().Be(3,
+        vulnerableDelete.Count.ShouldBe(3,
             "Demonstrates vulnerability - would delete other tenant's data too");
-        correctDelete.Count.Should().Be(2,
+        correctDelete.Count.ShouldBe(2,
             "Correct approach - only own tenant's products");
     }
 
@@ -441,9 +434,9 @@ public class RepositorySecurityTestSuite
         var canUpdateWithCheck = product.TenantId == tenantId;
 
         // Assert
-        canUpdateWithoutCheck.Should().BeTrue(
+        canUpdateWithoutCheck.ShouldBeTrue(
             "Demonstrates vulnerability - no ownership check");
-        canUpdateWithCheck.Should().BeFalse(
+        canUpdateWithCheck.ShouldBeFalse(
             "Ownership check prevents unauthorized update");
     }
 

@@ -1,10 +1,10 @@
-using Wolverine;
 using B2Connect.Admin.Application.Commands.Categories;
 using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Middleware;
 using B2Connect.Types.Localization;
+using Wolverine;
 
 namespace B2Connect.Admin.Application.Handlers.Categories;
 
@@ -13,8 +13,8 @@ namespace B2Connect.Admin.Application.Handlers.Categories;
 /// </summary>
 internal static class CategoryMapper
 {
-    public static CategoryResult ToResult(Category category) =>
-        new CategoryResult(
+    public static CategoryResult ToResult(Category category)
+        => new CategoryResult(
             category.Id,
             category.TenantId ?? Guid.Empty,
             category.Name?.Get("en") ?? string.Empty,

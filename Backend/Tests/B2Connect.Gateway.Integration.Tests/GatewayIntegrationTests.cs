@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
@@ -83,16 +83,16 @@ public class GatewayIntegrationTests
 
         // Call the gateway route — gateway should accept /api/v2/products and forward to catalog /api/products
         var res = await client.GetAsync("/api/v2/products");
-        res.StatusCode.Should().Be(HttpStatusCode.OK);
+        res.StatusCode.ShouldBe(HttpStatusCode.OK);
 
         var content = await res.Content.ReadAsStringAsync();
-        content.Should().Contain("Dummy Product");
+        content.ShouldContain("Dummy Product");
 
         // Also verify detail route forwarded
         var res2 = await client.GetAsync("/api/v2/products/1");
-        res2.StatusCode.Should().Be(HttpStatusCode.OK);
+        res2.StatusCode.ShouldBe(HttpStatusCode.OK);
         var content2 = await res2.Content.ReadAsStringAsync();
-        content2.Should().Contain("Dummy 1");
+        content2.ShouldContain("Dummy 1");
 
         await catalogHost.StopAsync();
     }
@@ -149,10 +149,10 @@ public class GatewayIntegrationTests
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/v2/products");
         request.Headers.Add("X-Test-Header", "header-value-123");
         var res = await client.SendAsync(request);
-        res.StatusCode.Should().Be(HttpStatusCode.OK);
+        res.StatusCode.ShouldBe(HttpStatusCode.OK);
 
         var content = await res.Content.ReadAsStringAsync();
-        content.Should().Contain("header-value-123");
+        content.ShouldContain("header-value-123");
 
         await catalogHost.StopAsync();
     }
@@ -207,7 +207,7 @@ public class GatewayIntegrationTests
         var res = await client.GetAsync("/api/v2/products");
 
         // Gateway should surface an error status; allow either 500 or 502 depending on config
-        ((int)res.StatusCode).Should().BeGreaterThanOrEqualTo(500);
+        ((int)res.StatusCode).ShouldBeGreaterThanOrEqualTo(500);
 
         await catalogHost.StopAsync();
     }

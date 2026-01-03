@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using B2Connect.Admin.Infrastructure.Data.ReadModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.Admin.Infrastructure.Data;
 
@@ -17,4 +17,3 @@ public class CatalogReadDbContext : DbContext
 
     public DbSet<ProductReadModel> ProductsReadModel { get; set; } = null!;
 }
-

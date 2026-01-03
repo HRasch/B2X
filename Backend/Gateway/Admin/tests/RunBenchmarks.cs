@@ -1,5 +1,5 @@
-using BenchmarkDotNet.Running;
 using B2Connect.Admin.Tests.Benchmarks;
+using BenchmarkDotNet.Running;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ADR-025 Performance Benchmarks Runner - Phase 5
@@ -9,9 +9,9 @@ using B2Connect.Admin.Tests.Benchmarks;
 /// Console application to run ADR-025 performance benchmarks
 /// Tests Dapper vs EF Core performance for bulk operations
 /// </summary>
-partial class Program
+internal partial class Program
 {
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
         Console.WriteLine("🚀 Running ADR-025 Phase 5 Performance Benchmarks");
         Console.WriteLine("📊 Testing Dapper vs EF Core Bulk Operations");

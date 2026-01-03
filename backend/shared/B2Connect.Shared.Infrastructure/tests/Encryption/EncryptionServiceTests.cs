@@ -1,9 +1,9 @@
 using B2Connect.Infrastructure.Encryption;
-using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Shouldly;
 using Xunit;
 
 namespace B2Connect.Shared.Infrastructure.Tests.Encryption;
@@ -40,9 +40,9 @@ public class EncryptionServiceTests
         var encrypted = _encryptionService.Encrypt(plainText);
 
         // Assert
-        encrypted.Should().NotBeNullOrEmpty();
-        encrypted.Should().NotBe(plainText); // Must be encrypted
-        encrypted.Should().HaveLength(System.Convert.ToBase64String(System.Convert.FromBase64String(encrypted)).Length);
+        encrypted.ShouldNotBeNullOrEmpty();
+        encrypted.ShouldNotBe(plainText); // Must be encrypted
+        encrypted.Length.ShouldBe(System.Convert.ToBase64String(System.Convert.FromBase64String(encrypted)).Length);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class EncryptionServiceTests
         var decrypted = _encryptionService.Decrypt(encrypted);
 
         // Assert
-        decrypted.Should().Be(plainText);
+        decrypted.ShouldBe(plainText);
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class EncryptionServiceTests
         {
             var encrypted = _encryptionService.Encrypt(testCase);
             var decrypted = _encryptionService.Decrypt(encrypted);
-            decrypted.Should().Be(testCase, because: $"Failed for: {testCase}");
+            decrypted.ShouldBe(testCase);
         }
     }
 
@@ -89,7 +89,7 @@ public class EncryptionServiceTests
         var result = _encryptionService.Encrypt("");
 
         // Assert
-        result.Should().Be("");
+        result.ShouldBe("");
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public class EncryptionServiceTests
         var result = _encryptionService.Encrypt(null!);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -109,7 +109,7 @@ public class EncryptionServiceTests
         var result = _encryptionService.EncryptNullable(null);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -119,8 +119,8 @@ public class EncryptionServiceTests
         var result = _encryptionService.EncryptNullable("test");
 
         // Assert
-        result.Should().NotBeNullOrEmpty();
-        result.Should().NotBe("test");
+        result.ShouldNotBeNullOrEmpty();
+        result.ShouldNotBe("test");
     }
 
     [Fact]
@@ -130,7 +130,7 @@ public class EncryptionServiceTests
         var result = _encryptionService.DecryptNullable(null);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -142,7 +142,7 @@ public class EncryptionServiceTests
         // Act & Assert
         var exception = Assert.Throws<InvalidOperationException>(
             () => _encryptionService.Decrypt(invalidBase64));
-        exception.Message.Should().Contain("Decryption failed");
+        exception.Message.ShouldContain("Decryption failed");
     }
 
     [Fact]
@@ -152,15 +152,15 @@ public class EncryptionServiceTests
         var (keyBase64, ivBase64) = EncryptionService.GenerateKeys();
 
         // Assert
-        keyBase64.Should().NotBeNullOrEmpty();
-        ivBase64.Should().NotBeNullOrEmpty();
+        keyBase64.ShouldNotBeNullOrEmpty();
+        ivBase64.ShouldNotBeNullOrEmpty();
 
         // Verify they're valid Base64
         var keyBytes = System.Convert.FromBase64String(keyBase64);
         var ivBytes = System.Convert.FromBase64String(ivBase64);
 
-        keyBytes.Length.Should().Be(32); // 256 bits
-        ivBytes.Length.Should().Be(16);  // 128 bits
+        keyBytes.Length.ShouldBe(32); // 256 bits
+        ivBytes.Length.ShouldBe(16);  // 128 bits
     }
 
     [Fact]
@@ -186,7 +186,7 @@ public class EncryptionServiceTests
         var decrypted = service.Decrypt(encrypted);
 
         // Assert
-        decrypted.Should().Be(plainText);
+        decrypted.ShouldBe(plainText);
     }
 
     [Fact]
@@ -207,7 +207,7 @@ public class EncryptionServiceTests
         // Act & Assert
         var exception = Assert.Throws<InvalidOperationException>(
             () => new EncryptionService(config, mockLogger.Object));
-        exception.Message.Should().Contain("not configured");
+        exception.Message.ShouldContain("not configured");
     }
 
     [Fact]
@@ -241,6 +241,6 @@ public class EncryptionServiceTests
         var encrypted2 = service2.Encrypt(plainText);
 
         // Assert - Same input with different keys should produce different ciphertexts
-        encrypted1.Should().NotBe(encrypted2);
+        encrypted1.ShouldNotBe(encrypted2);
     }
 }

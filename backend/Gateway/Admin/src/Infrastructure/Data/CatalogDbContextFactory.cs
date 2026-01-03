@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.Admin.Infrastructure.Data;
 
@@ -254,4 +254,3 @@ public static class CatalogDemoDbExtensions
         return app;
     }
 }
-
