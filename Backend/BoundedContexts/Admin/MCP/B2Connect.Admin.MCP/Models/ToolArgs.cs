@@ -52,3 +52,69 @@ public class ContentOptimizationArgs
     public string Content { get; set; } = string.Empty;
     public string? TargetKeywords { get; set; }
 }
+
+/// <summary>
+/// Arguments for Tenant Management Tool
+/// </summary>
+public class TenantManagementArgs
+{
+    public string Action { get; set; } = string.Empty;
+    public string TenantId { get; set; } = string.Empty;
+    public string? ResourceType { get; set; }
+    public string? Configuration { get; set; }
+}
+
+/// <summary>
+/// Arguments for Store Operations Tool
+/// </summary>
+public class StoreOperationsArgs
+{
+    public string Operation { get; set; } = string.Empty;
+    public string StoreId { get; set; } = string.Empty;
+    public string? TimeRange { get; set; }
+    public string? AnalysisType { get; set; }
+}
+
+/// <summary>
+/// Arguments for Security & Compliance Tool
+/// </summary>
+public class SecurityComplianceArgs
+{
+    public string AssessmentType { get; set; } = string.Empty;
+    public string Scope { get; set; } = string.Empty;
+    public string? SpecificComponent { get; set; }
+    public bool IncludeRecommendations { get; set; } = true;
+}
+
+/// <summary>
+/// Arguments for Performance Optimization Tool
+/// </summary>
+public class PerformanceOptimizationArgs
+{
+    public string Component { get; set; } = string.Empty;
+    public string MetricType { get; set; } = string.Empty;
+    public string? TimeRange { get; set; }
+    public bool IncludeHistoricalData { get; set; } = true;
+}
+
+/// <summary>
+/// Arguments for Integration Management Tool
+/// </summary>
+public class IntegrationManagementArgs
+{
+    public string IntegrationType { get; set; } = string.Empty;
+    public string Action { get; set; } = string.Empty;
+    public string? Endpoint { get; set; }
+    public string? Configuration { get; set; }
+}
+
+/// <summary>
+/// Arguments for Intelligent Assistant Tool
+/// </summary>
+public class IntelligentAssistantArgs
+{
+    public string Message { get; set; } = string.Empty;
+    public int? ConversationId { get; set; }
+    public string? UserId { get; set; }
+    public bool EnableLearning { get; set; } = true;
+}

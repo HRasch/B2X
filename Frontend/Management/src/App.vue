@@ -22,12 +22,16 @@
     <footer class="footer">
       <p>&copy; 2025 B2Connect. All rights reserved.</p>
     </footer>
+
+    <!-- AI Assistant -->
+    <AiAssistant v-if="authStore.isAuthenticated" :tenant-id="authStore.tenantId" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
+import AiAssistant from '@/components/AiAssistant.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();

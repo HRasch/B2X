@@ -72,6 +72,18 @@ builder.Services.AddSingleton<AiProviderSelector>();
 // Tenant Context
 builder.Services.AddScoped<TenantContext>();
 
+// MCP Tools
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.CmsPageDesignTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.EmailTemplateDesignTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.SystemHealthAnalysisTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.UserManagementAssistantTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.ContentOptimizationTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.TenantManagementTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.StoreOperationsTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.SecurityComplianceTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.PerformanceOptimizationTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.IntegrationManagementTool>();
+
 // Caching
 builder.Services.AddStackExchangeRedisCache(options =>
 {

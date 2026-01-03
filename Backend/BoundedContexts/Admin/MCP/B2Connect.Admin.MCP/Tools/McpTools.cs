@@ -371,3 +371,407 @@ Provide specific, actionable optimization recommendations with measurable improv
 ";
     }
 }
+
+/// <summary>
+/// Tenant Management Tool - Manages tenant lifecycle and resources
+/// </summary>
+public class TenantManagementTool
+{
+    private readonly AiConsumptionGateway _aiGateway;
+    private readonly AiProviderSelector _providerSelector;
+    private readonly TenantContext _tenantContext;
+    private readonly ILogger<TenantManagementTool> _logger;
+
+    public TenantManagementTool(
+        AiConsumptionGateway aiGateway,
+        AiProviderSelector providerSelector,
+        TenantContext tenantContext,
+        ILogger<TenantManagementTool> logger)
+    {
+        _aiGateway = aiGateway;
+        _providerSelector = providerSelector;
+        _tenantContext = tenantContext;
+        _logger = logger;
+    }
+
+    public async Task<string> ExecuteAsync(TenantManagementArgs args)
+    {
+        var prompt = await GetSystemPromptAsync("tenant_management");
+
+        var userMessage = $@"
+Analyze and provide recommendations for tenant management task:
+
+Action: {args.Action}
+Tenant ID: {args.TenantId}
+Resource Type: {args.ResourceType ?? "General"}
+Configuration: {args.Configuration ?? "Current configuration"}
+
+Please provide:
+1. Action assessment and feasibility analysis
+2. Resource impact analysis
+3. Security and compliance considerations
+4. Implementation steps and timeline
+5. Risk assessment and mitigation strategies
+6. Monitoring and rollback procedures
+
+Format as a comprehensive tenant management report.
+";
+
+        var aiResponse = await _aiGateway.ExecuteAiRequestAsync(
+            _tenantContext.TenantId,
+            "tenant_management",
+            "openai",
+            async () =>
+            {
+                return await _providerSelector.ExecuteChatCompletionAsync(
+                    _tenantContext.TenantId,
+                    "gpt-4",
+                    prompt,
+                    userMessage,
+                    "openai");
+            });
+
+        return aiResponse.Response?.Content ?? "Failed to analyze tenant management task";
+    }
+
+    private async Task<string> GetSystemPromptAsync(string toolType)
+    {
+        return @"
+You are an expert in multi-tenant SaaS architecture and tenant lifecycle management. Provide strategic guidance for tenant operations while ensuring system stability and security.
+
+Guidelines:
+- Prioritize system stability and performance
+- Ensure proper resource isolation and limits
+- Maintain security boundaries between tenants
+- Consider scalability and cost implications
+- Follow tenant management best practices
+- Provide actionable, prioritized recommendations
+
+Focus on operational excellence and risk mitigation in multi-tenant environments.
+";
+    }
+}
+
+/// <summary>
+/// Store Operations Tool - Analyzes and optimizes store performance
+/// </summary>
+public class StoreOperationsTool
+{
+    private readonly AiConsumptionGateway _aiGateway;
+    private readonly AiProviderSelector _providerSelector;
+    private readonly TenantContext _tenantContext;
+    private readonly ILogger<StoreOperationsTool> _logger;
+
+    public StoreOperationsTool(
+        AiConsumptionGateway aiGateway,
+        AiProviderSelector providerSelector,
+        TenantContext tenantContext,
+        ILogger<StoreOperationsTool> logger)
+    {
+        _aiGateway = aiGateway;
+        _providerSelector = providerSelector;
+        _tenantContext = tenantContext;
+        _logger = logger;
+    }
+
+    public async Task<string> ExecuteAsync(StoreOperationsArgs args)
+    {
+        var prompt = await GetSystemPromptAsync("store_operations");
+
+        var userMessage = $@"
+Analyze store operations and provide optimization recommendations:
+
+Operation: {args.Operation}
+Store ID: {args.StoreId}
+Time Range: {args.TimeRange ?? "Last 30 days"}
+Analysis Type: {args.AnalysisType ?? "Performance"}
+
+Please provide:
+1. Current performance metrics analysis
+2. Operational efficiency assessment
+3. Inventory and sales optimization recommendations
+4. Customer experience insights
+5. Competitive positioning analysis
+6. Actionable improvement roadmap
+
+Format as a comprehensive store operations report with prioritized recommendations.
+";
+
+        var aiResponse = await _aiGateway.ExecuteAiRequestAsync(
+            _tenantContext.TenantId,
+            "store_operations",
+            "openai",
+            async () =>
+            {
+                return await _providerSelector.ExecuteChatCompletionAsync(
+                    _tenantContext.TenantId,
+                    "gpt-4",
+                    prompt,
+                    userMessage,
+                    "openai");
+            });
+
+        return aiResponse.Response?.Content ?? "Failed to analyze store operations";
+    }
+
+    private async Task<string> GetSystemPromptAsync(string toolType)
+    {
+        return @"
+You are an expert retail operations consultant specializing in e-commerce and B2B marketplace optimization. Provide data-driven insights and strategic recommendations for store performance improvement.
+
+Guidelines:
+- Focus on revenue growth and operational efficiency
+- Analyze customer behavior and market trends
+- Optimize inventory management and supply chain
+- Enhance user experience and conversion rates
+- Provide measurable KPIs and success metrics
+- Consider seasonal and market dynamics
+- Balance short-term gains with long-term strategy
+
+Deliver actionable insights that drive tangible business results.
+";
+    }
+}
+
+/// <summary>
+/// Security & Compliance Tool - Ensures security standards and compliance
+/// </summary>
+public class SecurityComplianceTool
+{
+    private readonly AiConsumptionGateway _aiGateway;
+    private readonly AiProviderSelector _providerSelector;
+    private readonly TenantContext _tenantContext;
+    private readonly ILogger<SecurityComplianceTool> _logger;
+
+    public SecurityComplianceTool(
+        AiConsumptionGateway aiGateway,
+        AiProviderSelector providerSelector,
+        TenantContext tenantContext,
+        ILogger<SecurityComplianceTool> logger)
+    {
+        _aiGateway = aiGateway;
+        _providerSelector = providerSelector;
+        _tenantContext = tenantContext;
+        _logger = logger;
+    }
+
+    public async Task<string> ExecuteAsync(SecurityComplianceArgs args)
+    {
+        var prompt = await GetSystemPromptAsync("security_compliance");
+
+        var userMessage = $@"
+Conduct security and compliance assessment:
+
+Assessment Type: {args.AssessmentType}
+Scope: {args.Scope}
+Specific Component: {args.SpecificComponent ?? "All components"}
+Include Recommendations: {args.IncludeRecommendations}
+
+Please provide:
+1. Current security posture analysis
+2. Compliance gap identification
+3. Risk assessment and prioritization
+4. Remediation recommendations with timelines
+5. Monitoring and auditing procedures
+6. Regulatory compliance verification
+
+Format as a comprehensive security and compliance report with actionable remediation steps.
+";
+
+        var aiResponse = await _aiGateway.ExecuteAiRequestAsync(
+            _tenantContext.TenantId,
+            "security_compliance",
+            "openai",
+            async () =>
+            {
+                return await _providerSelector.ExecuteChatCompletionAsync(
+                    _tenantContext.TenantId,
+                    "gpt-4",
+                    prompt,
+                    userMessage,
+                    "openai");
+            });
+
+        return aiResponse.Response?.Content ?? "Failed to conduct security assessment";
+    }
+
+    private async Task<string> GetSystemPromptAsync(string toolType)
+    {
+        return @"
+You are a cybersecurity and compliance expert specializing in SaaS platforms and GDPR/NIS2 regulations. Provide comprehensive security assessments and compliance guidance for multi-tenant systems.
+
+Guidelines:
+- Follow OWASP Top 10 and industry security standards
+- Ensure GDPR, NIS2, and BITV 2.0 compliance
+- Prioritize critical vulnerabilities and data protection
+- Provide practical, implementable security measures
+- Consider both technical and organizational controls
+- Balance security with usability and performance
+- Include monitoring and incident response procedures
+
+Deliver security recommendations that protect both the platform and tenant data while maintaining operational efficiency.
+";
+    }
+}
+
+/// <summary>
+/// Performance Optimization Tool - Analyzes and improves system performance
+/// </summary>
+public class PerformanceOptimizationTool
+{
+    private readonly AiConsumptionGateway _aiGateway;
+    private readonly AiProviderSelector _providerSelector;
+    private readonly TenantContext _tenantContext;
+    private readonly ILogger<PerformanceOptimizationTool> _logger;
+
+    public PerformanceOptimizationTool(
+        AiConsumptionGateway aiGateway,
+        AiProviderSelector providerSelector,
+        TenantContext tenantContext,
+        ILogger<PerformanceOptimizationTool> logger)
+    {
+        _aiGateway = aiGateway;
+        _providerSelector = providerSelector;
+        _tenantContext = tenantContext;
+        _logger = logger;
+    }
+
+    public async Task<string> ExecuteAsync(PerformanceOptimizationArgs args)
+    {
+        var prompt = await GetSystemPromptAsync("performance_optimization");
+
+        var userMessage = $@"
+Analyze system performance and provide optimization recommendations:
+
+Component: {args.Component}
+Metric Type: {args.MetricType}
+Time Range: {args.TimeRange ?? "Last 7 days"}
+Include Historical Data: {args.IncludeHistoricalData}
+
+Please provide:
+1. Current performance baseline analysis
+2. Bottleneck identification and root cause analysis
+3. Optimization recommendations with expected impact
+4. Implementation priority and effort estimation
+5. Monitoring and alerting recommendations
+6. Scalability and capacity planning insights
+
+Format as a comprehensive performance optimization report with quantified improvement projections.
+";
+
+        var aiResponse = await _aiGateway.ExecuteAiRequestAsync(
+            _tenantContext.TenantId,
+            "performance_optimization",
+            "openai",
+            async () =>
+            {
+                return await _providerSelector.ExecuteChatCompletionAsync(
+                    _tenantContext.TenantId,
+                    "gpt-4",
+                    prompt,
+                    userMessage,
+                    "openai");
+            });
+
+        return aiResponse.Response?.Content ?? "Failed to analyze performance";
+    }
+
+    private async Task<string> GetSystemPromptAsync(string toolType)
+    {
+        return @"
+You are a performance engineering expert specializing in distributed systems and cloud-native applications. Provide data-driven performance analysis and optimization strategies for high-throughput SaaS platforms.
+
+Guidelines:
+- Focus on measurable performance improvements
+- Consider scalability, reliability, and cost efficiency
+- Analyze bottlenecks across the entire stack
+- Provide evidence-based recommendations
+- Include monitoring and observability requirements
+- Balance optimization with maintainability
+- Consider both immediate fixes and architectural improvements
+
+Deliver performance insights that drive tangible improvements in speed, reliability, and user experience.
+";
+    }
+}
+
+/// <summary>
+/// Integration Management Tool - Manages external integrations and APIs
+/// </summary>
+public class IntegrationManagementTool
+{
+    private readonly AiConsumptionGateway _aiGateway;
+    private readonly AiProviderSelector _providerSelector;
+    private readonly TenantContext _tenantContext;
+    private readonly ILogger<IntegrationManagementTool> _logger;
+
+    public IntegrationManagementTool(
+        AiConsumptionGateway aiGateway,
+        AiProviderSelector providerSelector,
+        TenantContext tenantContext,
+        ILogger<IntegrationManagementTool> logger)
+    {
+        _aiGateway = aiGateway;
+        _providerSelector = providerSelector;
+        _tenantContext = tenantContext;
+        _logger = logger;
+    }
+
+    public async Task<string> ExecuteAsync(IntegrationManagementArgs args)
+    {
+        var prompt = await GetSystemPromptAsync("integration_management");
+
+        var userMessage = $@"
+Analyze and optimize external integration:
+
+Integration Type: {args.IntegrationType}
+Action: {args.Action}
+Endpoint: {args.Endpoint ?? "N/A"}
+Configuration: {args.Configuration ?? "Default"}
+
+Please provide:
+1. Integration health assessment
+2. Performance and reliability analysis
+3. Security and data protection evaluation
+4. Optimization recommendations
+5. Monitoring and alerting setup
+6. Troubleshooting procedures and best practices
+
+Format as a comprehensive integration management report with implementation guidance.
+";
+
+        var aiResponse = await _aiGateway.ExecuteAiRequestAsync(
+            _tenantContext.TenantId,
+            "integration_management",
+            "openai",
+            async () =>
+            {
+                return await _providerSelector.ExecuteChatCompletionAsync(
+                    _tenantContext.TenantId,
+                    "gpt-4",
+                    prompt,
+                    userMessage,
+                    "openai");
+            });
+
+        return aiResponse.Response?.Content ?? "Failed to analyze integration";
+    }
+
+    private async Task<string> GetSystemPromptAsync(string toolType)
+    {
+        return @"
+You are an integration architecture expert specializing in API design, microservices communication, and enterprise system integration. Provide strategic guidance for building robust, scalable integration solutions.
+
+Guidelines:
+- Ensure reliable, secure, and performant integrations
+- Follow API design best practices and standards
+- Implement proper error handling and resilience patterns
+- Consider monitoring, logging, and observability
+- Balance integration complexity with business value
+- Provide migration and modernization strategies
+- Include testing and validation procedures
+
+Deliver integration solutions that are maintainable, scalable, and business-critical reliable.
+";
+    }
+}

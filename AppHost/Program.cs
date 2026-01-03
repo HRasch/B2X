@@ -141,6 +141,22 @@ var monitoringService = builder
     .WithRateLimiting()
     .WithOpenTelemetry();
 
+// MCP Server (AI Assistant for Management Tasks)
+var mcpServer = builder
+    .AddProject("mcp-server", "../backend/BoundedContexts/Admin/MCP/B2Connect.Admin.MCP/B2Connect.Admin.MCP.csproj")
+    .WithHttpEndpoint(port: 8090, name: "mcp-http")  // Fixed port for MCP server
+    .WithReference(authService)
+    .WithReference(tenantService)
+    .WithReference(monitoringService)
+    .WithConditionalPostgresConnection(adminDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithEncryption()
+    .WithRateLimiting()
+    .WithOpenTelemetry();
+
 // ===== API GATEWAYS =====
 // Gateways keep fixed ports because frontends connect directly to them.
 // Internal service communication uses Aspire Service Discovery.
@@ -166,6 +182,7 @@ var adminGateway = builder
     .WithReference(localizationService)
     .WithReference(themingService)
     .WithReference(monitoringService)
+    .WithReference(mcpServer)
     .WithB2ConnectCors("http://localhost:5174", "https://localhost:5174")
     .WithSecurityDefaults(jwtSecret);
 
@@ -202,6 +219,7 @@ var frontendManagement = builder
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
     .WithEnvironment("PORT", "5175")  // Vite reads PORT env var
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
+    .WithEnvironment("VITE_MCP_SERVER_URL", "http://localhost:8090")
     .WithEnvironment("NODE_ENV", "development");
 
 // Issue #50: Vite build errors are automatically captured by Aspire's built-in logging
