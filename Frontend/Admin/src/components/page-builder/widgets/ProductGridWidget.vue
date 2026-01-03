@@ -12,28 +12,78 @@ const props = defineProps<{
 
 // Mock products for preview
 const mockProducts = [
-  { id: '1', name: 'Akku-Bohrschrauber Pro', price: 199.99, image: 'https://placehold.co/300x300/e2e8f0/475569?text=1', badge: 'Neu' },
-  { id: '2', name: 'Kreissäge 1800W', price: 149.50, originalPrice: 179.99, image: 'https://placehold.co/300x300/e2e8f0/475569?text=2', badge: 'Sale' },
-  { id: '3', name: 'Werkzeugkoffer 156-tlg', price: 89.99, image: 'https://placehold.co/300x300/e2e8f0/475569?text=3' },
-  { id: '4', name: 'Schlagbohrmaschine', price: 129.00, image: 'https://placehold.co/300x300/e2e8f0/475569?text=4' },
-  { id: '5', name: 'Winkelschleifer 125mm', price: 79.95, image: 'https://placehold.co/300x300/e2e8f0/475569?text=5' },
-  { id: '6', name: 'Stichsäge mit Pendelhub', price: 99.00, originalPrice: 119.00, image: 'https://placehold.co/300x300/e2e8f0/475569?text=6', badge: 'Sale' },
-  { id: '7', name: 'Bandschleifer 750W', price: 159.99, image: 'https://placehold.co/300x300/e2e8f0/475569?text=7' },
-  { id: '8', name: 'Exzenterschleifer', price: 69.95, image: 'https://placehold.co/300x300/e2e8f0/475569?text=8', badge: 'Bestseller' },
+  {
+    id: '1',
+    name: 'Akku-Bohrschrauber Pro',
+    price: 199.99,
+    image: 'https://placehold.co/300x300/e2e8f0/475569?text=1',
+    badge: 'Neu',
+  },
+  {
+    id: '2',
+    name: 'Kreissäge 1800W',
+    price: 149.5,
+    originalPrice: 179.99,
+    image: 'https://placehold.co/300x300/e2e8f0/475569?text=2',
+    badge: 'Sale',
+  },
+  {
+    id: '3',
+    name: 'Werkzeugkoffer 156-tlg',
+    price: 89.99,
+    image: 'https://placehold.co/300x300/e2e8f0/475569?text=3',
+  },
+  {
+    id: '4',
+    name: 'Schlagbohrmaschine',
+    price: 129.0,
+    image: 'https://placehold.co/300x300/e2e8f0/475569?text=4',
+  },
+  {
+    id: '5',
+    name: 'Winkelschleifer 125mm',
+    price: 79.95,
+    image: 'https://placehold.co/300x300/e2e8f0/475569?text=5',
+  },
+  {
+    id: '6',
+    name: 'Stichsäge mit Pendelhub',
+    price: 99.0,
+    originalPrice: 119.0,
+    image: 'https://placehold.co/300x300/e2e8f0/475569?text=6',
+    badge: 'Sale',
+  },
+  {
+    id: '7',
+    name: 'Bandschleifer 750W',
+    price: 159.99,
+    image: 'https://placehold.co/300x300/e2e8f0/475569?text=7',
+  },
+  {
+    id: '8',
+    name: 'Exzenterschleifer',
+    price: 69.95,
+    image: 'https://placehold.co/300x300/e2e8f0/475569?text=8',
+    badge: 'Bestseller',
+  },
 ];
 
 const getResponsiveValue = <T,>(value: T | { mobile?: T; tablet?: T; desktop?: T }): T => {
   if (typeof value === 'object' && value !== null && 'desktop' in value) {
-    return (value as { mobile?: T; tablet?: T; desktop?: T }).desktop ?? 
-           (value as { mobile?: T; tablet?: T; desktop?: T }).tablet ?? 
-           (value as { mobile?: T; tablet?: T; desktop?: T }).mobile as T;
+    return (
+      (value as { mobile?: T; tablet?: T; desktop?: T }).desktop ??
+      (value as { mobile?: T; tablet?: T; desktop?: T }).tablet ??
+      ((value as { mobile?: T; tablet?: T; desktop?: T }).mobile as T)
+    );
   }
   return value as T;
 };
 
 const gridColumns = computed(() => getResponsiveValue(props.config.columns));
 const gridGap = computed(() => getResponsiveValue(props.config.gap));
-const totalProducts = computed(() => Math.min(gridColumns.value * props.config.rows, mockProducts.length));
+const totalProducts = computed(() =>
+  Math.min(gridColumns.value * props.config.rows, mockProducts.length)
+);
 const displayProducts = computed(() => mockProducts.slice(0, totalProducts.value));
 
 const sourceLabel = computed(() => {
@@ -90,20 +140,24 @@ const sourceLabel = computed(() => {
         gap: gridGap,
       }"
     >
-      <div
-        v-for="product in displayProducts"
-        :key="product.id"
-        class="product-grid__item"
-      >
+      <div v-for="product in displayProducts" :key="product.id" class="product-grid__item">
         <div class="product-grid__card">
           <div class="product-grid__image-wrapper">
             <img :src="product.image" :alt="product.name" class="product-grid__image" />
-            <span v-if="product.badge" :class="['product-grid__badge', product.badge === 'Sale' ? 'product-grid__badge--sale' : '']">
+            <span
+              v-if="product.badge"
+              :class="[
+                'product-grid__badge',
+                product.badge === 'Sale' ? 'product-grid__badge--sale' : '',
+              ]"
+            >
               {{ product.badge }}
             </span>
             <button class="product-grid__wishlist">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+                />
               </svg>
             </button>
           </div>
@@ -130,7 +184,9 @@ const sourceLabel = computed(() => {
     <!-- Empty State -->
     <div v-if="displayProducts.length === 0" class="product-grid__empty">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+        <path
+          d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+        />
       </svg>
       <p>{{ config.emptyStateMessage }}</p>
     </div>
@@ -261,7 +317,9 @@ const sourceLabel = computed(() => {
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 
 .product-grid__card:hover {
@@ -379,7 +437,9 @@ const sourceLabel = computed(() => {
   border-radius: 50%;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s, background 0.2s;
+  transition:
+    opacity 0.2s,
+    background 0.2s;
 }
 
 .product-grid__card:hover .product-grid__add-btn {
@@ -431,7 +491,9 @@ const sourceLabel = computed(() => {
   background: white;
   font-size: 0.875rem;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 .product-grid__page-btn:hover:not(:disabled) {

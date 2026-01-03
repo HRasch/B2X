@@ -52,13 +52,9 @@ const discount = computed(() => {
     <!-- Image -->
     <div v-if="config.showImage" class="product-card__image-wrapper">
       <div :class="['product-card__image-container', aspectRatioClass]">
-        <img
-          :src="mockProduct.image"
-          :alt="mockProduct.name"
-          class="product-card__image"
-        />
+        <img :src="mockProduct.image" :alt="mockProduct.name" class="product-card__image" />
       </div>
-      
+
       <!-- Badges -->
       <div v-if="config.showBadges && mockProduct.badges.length" class="product-card__badges">
         <span
@@ -69,7 +65,7 @@ const discount = computed(() => {
           {{ badge }}
         </span>
       </div>
-      
+
       <!-- Wishlist Button -->
       <button
         v-if="config.showWishlistButton"
@@ -77,7 +73,9 @@ const discount = computed(() => {
         title="Auf Merkzettel"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+          <path
+            d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+          />
         </svg>
       </button>
     </div>
@@ -108,9 +106,7 @@ const discount = computed(() => {
         <span v-if="discount" class="product-card__original-price">
           {{ mockProduct.originalPrice?.toFixed(2) }} €
         </span>
-        <span v-if="discount" class="product-card__discount">
-          -{{ discount }}%
-        </span>
+        <span v-if="discount" class="product-card__discount"> -{{ discount }}% </span>
       </div>
 
       <!-- Add to Cart -->
@@ -127,7 +123,9 @@ const discount = computed(() => {
     <!-- Edit Mode Indicator -->
     <div v-if="isEditing && !config.productId" class="product-card__placeholder">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+        <path
+          d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+        />
       </svg>
       <span>Produkt auswählen</span>
     </div>
@@ -143,7 +141,9 @@ const discount = computed(() => {
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 
 .product-card:hover {

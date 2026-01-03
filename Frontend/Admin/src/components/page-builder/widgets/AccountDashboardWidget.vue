@@ -34,10 +34,12 @@ const displayedOrders = computed(() => {
 });
 
 const iconPaths: Record<string, string> = {
-  package: 'M16.5 9.4l-9-5.19M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12',
+  package:
+    'M16.5 9.4l-9-5.19M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12',
   'map-pin': 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z M12 13a3 3 0 100-6 3 3 0 000 6z',
   user: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2 M12 11a4 4 0 100-8 4 4 0 000 8z',
-  heart: 'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z',
+  heart:
+    'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z',
 };
 
 function getIconPath(icon?: string): string {
@@ -49,15 +51,16 @@ function getIconPath(icon?: string): string {
   <div :class="['account-dashboard', { 'account-dashboard--editing': isEditing }]">
     <!-- Welcome Message -->
     <div v-if="config.showWelcomeMessage" class="account-dashboard__welcome">
-      <h1 class="account-dashboard__title">
-        Willkommen zurück, {{ mockUser.name }}!
-      </h1>
-      <p class="account-dashboard__subtitle">
-        Hier findest du eine Übersicht deines Kontos.
-      </p>
+      <h1 class="account-dashboard__title">Willkommen zurück, {{ mockUser.name }}!</h1>
+      <p class="account-dashboard__subtitle">Hier findest du eine Übersicht deines Kontos.</p>
     </div>
 
-    <div :class="['account-dashboard__content', `account-dashboard__content--${config.layout ?? 'grid'}`]">
+    <div
+      :class="[
+        'account-dashboard__content',
+        `account-dashboard__content--${config.layout ?? 'grid'}`,
+      ]"
+    >
       <!-- Quick Links -->
       <div v-if="config.showQuickLinks" class="account-dashboard__section">
         <h2 class="account-dashboard__section-title">Schnellzugriff</h2>
@@ -86,17 +89,18 @@ function getIconPath(icon?: string): string {
           <a href="#" class="account-dashboard__view-all">Alle ansehen</a>
         </div>
         <div class="account-dashboard__orders">
-          <div
-            v-for="order in displayedOrders"
-            :key="order.id"
-            class="account-dashboard__order"
-          >
+          <div v-for="order in displayedOrders" :key="order.id" class="account-dashboard__order">
             <div class="account-dashboard__order-main">
               <span class="account-dashboard__order-id">{{ order.id }}</span>
               <span class="account-dashboard__order-date">{{ order.date }}</span>
             </div>
             <div class="account-dashboard__order-details">
-              <span :class="['account-dashboard__order-status', `account-dashboard__order-status--${order.status.toLowerCase()}`]">
+              <span
+                :class="[
+                  'account-dashboard__order-status',
+                  `account-dashboard__order-status--${order.status.toLowerCase()}`,
+                ]"
+              >
                 {{ order.status }}
               </span>
               <span class="account-dashboard__order-total">{{ order.total }}</span>

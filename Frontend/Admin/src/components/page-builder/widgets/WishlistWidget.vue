@@ -55,7 +55,10 @@ const layout = computed(() => props.config.layout ?? 'grid');
 
 function getResponsiveValue<T>(value: T | { mobile?: T; tablet?: T; desktop?: T }): T {
   if (typeof value === 'object' && value !== null && 'mobile' in value) {
-    return (value as { mobile?: T; tablet?: T; desktop?: T }).desktop ?? (value as { mobile?: T; tablet?: T; desktop?: T }).mobile as T;
+    return (
+      (value as { mobile?: T; tablet?: T; desktop?: T }).desktop ??
+      ((value as { mobile?: T; tablet?: T; desktop?: T }).mobile as T)
+    );
   }
   return value;
 }
@@ -72,10 +75,20 @@ const gridColumns = computed(() => getResponsiveValue(props.config.gridColumns ?
 
     <!-- Empty State -->
     <div v-if="mockProducts.length === 0" class="wishlist__empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="wishlist__empty-icon">
-        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="wishlist__empty-icon"
+      >
+        <path
+          d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+        />
       </svg>
-      <p class="wishlist__empty-text">{{ config.emptyStateMessage ?? 'Dein Merkzettel ist leer.' }}</p>
+      <p class="wishlist__empty-text">
+        {{ config.emptyStateMessage ?? 'Dein Merkzettel ist leer.' }}
+      </p>
       <button class="wishlist__empty-btn">Produkte entdecken</button>
     </div>
 
@@ -85,14 +98,15 @@ const gridColumns = computed(() => getResponsiveValue(props.config.gridColumns ?
       :class="['wishlist__products', `wishlist__products--${layout}`]"
       :style="layout === 'grid' ? `--columns: ${gridColumns}` : undefined"
     >
-      <div
-        v-for="product in mockProducts"
-        :key="product.id"
-        class="wishlist__product"
-      >
+      <div v-for="product in mockProducts" :key="product.id" class="wishlist__product">
         <div class="wishlist__product-image">
-          <img :src="product.image" :alt="product.name">
-          <button v-if="config.showRemove" class="wishlist__remove-btn" :disabled="isEditing" title="Entfernen">
+          <img :src="product.image" :alt="product.name" />
+          <button
+            v-if="config.showRemove"
+            class="wishlist__remove-btn"
+            :disabled="isEditing"
+            title="Entfernen"
+          >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -105,11 +119,20 @@ const gridColumns = computed(() => getResponsiveValue(props.config.gridColumns ?
 
           <div v-if="config.showPrice" class="wishlist__product-price">
             <span class="wishlist__price-current">{{ product.price }}</span>
-            <span v-if="product.originalPrice" class="wishlist__price-original">{{ product.originalPrice }}</span>
+            <span v-if="product.originalPrice" class="wishlist__price-original">{{
+              product.originalPrice
+            }}</span>
           </div>
 
           <div class="wishlist__product-stock">
-            <span :class="['wishlist__stock-badge', product.inStock ? 'wishlist__stock-badge--available' : 'wishlist__stock-badge--unavailable']">
+            <span
+              :class="[
+                'wishlist__stock-badge',
+                product.inStock
+                  ? 'wishlist__stock-badge--available'
+                  : 'wishlist__stock-badge--unavailable',
+              ]"
+            >
               {{ product.inStock ? 'Auf Lager' : 'Nicht verfügbar' }}
             </span>
           </div>
@@ -121,13 +144,22 @@ const gridColumns = computed(() => getResponsiveValue(props.config.gridColumns ?
               :disabled="isEditing || !product.inStock"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
               </svg>
               In den Warenkorb
             </button>
-            <button v-if="config.showShare" class="wishlist__share-btn" :disabled="isEditing" title="Teilen">
+            <button
+              v-if="config.showShare"
+              class="wishlist__share-btn"
+              :disabled="isEditing"
+              title="Teilen"
+            >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                <path
+                  d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                />
               </svg>
             </button>
           </div>
@@ -266,7 +298,9 @@ const gridColumns = computed(() => getResponsiveValue(props.config.gridColumns ?
   border-radius: 50%;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s, background-color 0.2s;
+  transition:
+    opacity 0.2s,
+    background-color 0.2s;
 }
 
 .wishlist__product:hover .wishlist__remove-btn {

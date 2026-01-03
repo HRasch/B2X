@@ -15,9 +15,27 @@ const showDropdown = ref(false);
 
 // Mock data for preview
 const mockSuggestions = [
-  { id: '1', type: 'product', name: 'Akku-Bohrschrauber 18V', price: 199.99, image: 'https://placehold.co/40x40/e2e8f0/475569?text=1' },
-  { id: '2', type: 'product', name: 'Akku-Winkelschleifer 18V', price: 149.00, image: 'https://placehold.co/40x40/e2e8f0/475569?text=2' },
-  { id: '3', type: 'product', name: 'Akku-Stichsäge 18V', price: 129.99, image: 'https://placehold.co/40x40/e2e8f0/475569?text=3' },
+  {
+    id: '1',
+    type: 'product',
+    name: 'Akku-Bohrschrauber 18V',
+    price: 199.99,
+    image: 'https://placehold.co/40x40/e2e8f0/475569?text=1',
+  },
+  {
+    id: '2',
+    type: 'product',
+    name: 'Akku-Winkelschleifer 18V',
+    price: 149.0,
+    image: 'https://placehold.co/40x40/e2e8f0/475569?text=2',
+  },
+  {
+    id: '3',
+    type: 'product',
+    name: 'Akku-Stichsäge 18V',
+    price: 129.99,
+    image: 'https://placehold.co/40x40/e2e8f0/475569?text=3',
+  },
 ];
 
 const mockCategories = [
@@ -60,7 +78,13 @@ const handleSearch = () => {
 <template>
   <div :class="['search-box', sizeClass, variantClass]">
     <div class="search-box__input-wrapper">
-      <svg class="search-box__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg
+        class="search-box__icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
         <circle cx="11" cy="11" r="8" />
         <path d="M21 21l-4.35-4.35" />
       </svg>
@@ -74,11 +98,7 @@ const handleSearch = () => {
         @blur="showDropdown = false"
       />
 
-      <button
-        v-if="config.showSearchButton"
-        class="search-box__button"
-        @click="handleSearch"
-      >
+      <button v-if="config.showSearchButton" class="search-box__button" @click="handleSearch">
         {{ config.searchButtonText }}
       </button>
     </div>
@@ -86,7 +106,10 @@ const handleSearch = () => {
     <!-- Dropdown -->
     <div v-if="showDropdown || isEditing" class="search-box__dropdown">
       <!-- Recent Searches -->
-      <div v-if="config.showRecentSearches && mockRecentSearches.length" class="search-box__section">
+      <div
+        v-if="config.showRecentSearches && mockRecentSearches.length"
+        class="search-box__section"
+      >
         <div class="search-box__section-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10" />
@@ -127,12 +150,17 @@ const handleSearch = () => {
       <div v-if="config.showSuggestions && mockSuggestions.length" class="search-box__section">
         <div class="search-box__section-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+            <path
+              d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+            />
           </svg>
           Produkte
         </div>
         <ul class="search-box__suggestions">
-          <li v-for="product in mockSuggestions.slice(0, config.suggestionsCount)" :key="product.id">
+          <li
+            v-for="product in mockSuggestions.slice(0, config.suggestionsCount)"
+            :key="product.id"
+          >
             <a href="#" class="search-box__suggestion">
               <img :src="product.image" :alt="product.name" class="search-box__suggestion-image" />
               <div class="search-box__suggestion-info">
@@ -189,7 +217,9 @@ const handleSearch = () => {
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .search-box__input:focus {

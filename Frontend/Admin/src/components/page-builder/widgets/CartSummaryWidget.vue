@@ -14,7 +14,7 @@ const mockCart = {
   items: [
     { id: '1', name: 'Akku-Bohrschrauber Pro', quantity: 1, price: 199.99 },
     { id: '2', name: 'Bit-Set 32-teilig', quantity: 2, price: 29.95 },
-    { id: '3', name: 'Werkzeugkoffer leer', quantity: 1, price: 49.00 },
+    { id: '3', name: 'Werkzeugkoffer leer', quantity: 1, price: 49.0 },
   ],
   subtotal: 308.89,
   shipping: 5.95,

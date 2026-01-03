@@ -77,11 +77,7 @@ function getTypeIcon(type: string): string {
     </div>
 
     <div :class="['address-book__list', `address-book__list--${layout}`]">
-      <div
-        v-for="address in mockAddresses"
-        :key="address.id"
-        class="address-book__card"
-      >
+      <div v-for="address in mockAddresses" :key="address.id" class="address-book__card">
         <div class="address-book__card-header">
           <div class="address-book__type">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -89,7 +85,10 @@ function getTypeIcon(type: string): string {
             </svg>
             <span>{{ getTypeLabel(address.type) }}</span>
           </div>
-          <span v-if="address.isDefault && config.showDefaultBadge" class="address-book__default-badge">
+          <span
+            v-if="address.isDefault && config.showDefaultBadge"
+            class="address-book__default-badge"
+          >
             Standard
           </span>
         </div>
@@ -105,13 +104,21 @@ function getTypeIcon(type: string): string {
         <div class="address-book__card-actions">
           <button v-if="config.allowEdit" class="address-book__action-btn" :disabled="isEditing">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              <path
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              />
             </svg>
             Bearbeiten
           </button>
-          <button v-if="config.allowDelete && !address.isDefault" class="address-book__action-btn address-book__action-btn--danger" :disabled="isEditing">
+          <button
+            v-if="config.allowDelete && !address.isDefault"
+            class="address-book__action-btn address-book__action-btn--danger"
+            :disabled="isEditing"
+          >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              <path
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
             </svg>
             Löschen
           </button>
@@ -119,7 +126,10 @@ function getTypeIcon(type: string): string {
       </div>
 
       <!-- Add New Card -->
-      <div v-if="config.allowAddNew && mockAddresses.length < (config.maxAddresses ?? 10)" class="address-book__card address-book__card--add">
+      <div
+        v-if="config.allowAddNew && mockAddresses.length < (config.maxAddresses ?? 10)"
+        class="address-book__card address-book__card--add"
+      >
         <button class="address-book__add-card-btn" :disabled="isEditing">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M12 4v16m8-8H4" />

@@ -15,9 +15,27 @@ const isOpen = ref(props.isEditing || false);
 // Mock cart data for preview
 const mockCart = {
   items: [
-    { id: '1', name: 'Akku-Bohrschrauber Pro 18V', quantity: 1, price: 199.99, image: 'https://placehold.co/60x60/e2e8f0/475569?text=1' },
-    { id: '2', name: 'Bit-Set 32-teilig Professional', quantity: 2, price: 29.95, image: 'https://placehold.co/60x60/e2e8f0/475569?text=2' },
-    { id: '3', name: 'Werkzeugkoffer Aluminium', quantity: 1, price: 49.00, image: 'https://placehold.co/60x60/e2e8f0/475569?text=3' },
+    {
+      id: '1',
+      name: 'Akku-Bohrschrauber Pro 18V',
+      quantity: 1,
+      price: 199.99,
+      image: 'https://placehold.co/60x60/e2e8f0/475569?text=1',
+    },
+    {
+      id: '2',
+      name: 'Bit-Set 32-teilig Professional',
+      quantity: 2,
+      price: 29.95,
+      image: 'https://placehold.co/60x60/e2e8f0/475569?text=2',
+    },
+    {
+      id: '3',
+      name: 'Werkzeugkoffer Aluminium',
+      quantity: 1,
+      price: 49.0,
+      image: 'https://placehold.co/60x60/e2e8f0/475569?text=3',
+    },
   ],
   total: 308.89,
 };
@@ -29,7 +47,8 @@ const hasMoreItems = computed(() => mockCart.items.length > props.config.maxItem
 const triggerIcons: Record<string, string> = {
   cart: 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
   bag: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z',
-  basket: 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
+  basket:
+    'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
 };
 
 const iconPath = computed(() => triggerIcons[props.config.triggerIcon] || triggerIcons.cart);
@@ -85,7 +104,9 @@ const toggle = () => {
           <img :src="item.image" :alt="item.name" class="mini-cart__item-image" />
           <div class="mini-cart__item-info">
             <span class="mini-cart__item-name">{{ item.name }}</span>
-            <span class="mini-cart__item-meta">{{ item.quantity }} × {{ item.price.toFixed(2) }} €</span>
+            <span class="mini-cart__item-meta"
+              >{{ item.quantity }} × {{ item.price.toFixed(2) }} €</span
+            >
           </div>
           <button class="mini-cart__item-remove" title="Entfernen">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -118,7 +139,11 @@ const toggle = () => {
     </div>
 
     <!-- Overlay for slide-out -->
-    <div v-if="isOpen && config.position === 'slide-out'" class="mini-cart__overlay" @click="isOpen = false" />
+    <div
+      v-if="isOpen && config.position === 'slide-out'"
+      class="mini-cart__overlay"
+      @click="isOpen = false"
+    />
   </div>
 </template>
 
@@ -320,7 +345,9 @@ const toggle = () => {
   cursor: pointer;
   color: #9ca3af;
   opacity: 0;
-  transition: opacity 0.2s, color 0.2s;
+  transition:
+    opacity 0.2s,
+    color 0.2s;
 }
 
 .mini-cart__item:hover .mini-cart__item-remove {

@@ -474,7 +474,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Layout</label>
           <select
             :value="(selectedWidget.config as AccountDashboardWidgetConfig).layout || 'grid'"
-            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list' })"
+            @change="
+              updateConfig({
+                layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="grid">Raster</option>
@@ -487,24 +491,36 @@ function setResponsiveValue<T>(field: string, value: T) {
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as AccountDashboardWidgetConfig).showWelcomeMessage ?? true"
-                @change="updateConfig({ showWelcomeMessage: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as AccountDashboardWidgetConfig).showWelcomeMessage ?? true
+                "
+                @change="
+                  updateConfig({ showWelcomeMessage: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Willkommensnachricht</span>
             </label>
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as AccountDashboardWidgetConfig).showQuickLinks ?? true"
-                @change="updateConfig({ showQuickLinks: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as AccountDashboardWidgetConfig).showQuickLinks ?? true
+                "
+                @change="
+                  updateConfig({ showQuickLinks: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Schnelllinks</span>
             </label>
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as AccountDashboardWidgetConfig).showRecentOrders ?? true"
-                @change="updateConfig({ showRecentOrders: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as AccountDashboardWidgetConfig).showRecentOrders ?? true
+                "
+                @change="
+                  updateConfig({ showRecentOrders: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Letzte Bestellungen</span>
             </label>
@@ -529,7 +545,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <input
             type="number"
             :value="(selectedWidget.config as OrderHistoryWidgetConfig).itemsPerPage || 10"
-            @input="updateConfig({ itemsPerPage: parseInt(($event.target as HTMLInputElement).value) || 10 })"
+            @input="
+              updateConfig({
+                itemsPerPage: parseInt(($event.target as HTMLInputElement).value) || 10,
+              })
+            "
             class="widget-configurator__input"
             min="5"
             max="50"
@@ -558,7 +578,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as OrderHistoryWidgetConfig).showTracking ?? true"
-                @change="updateConfig({ showTracking: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showTracking: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Tracking anzeigen</span>
             </label>
@@ -582,7 +604,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Layout</label>
           <select
             :value="(selectedWidget.config as AddressBookWidgetConfig).layout || 'grid'"
-            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list' })"
+            @change="
+              updateConfig({
+                layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="grid">Raster</option>
@@ -594,7 +620,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <input
             type="number"
             :value="(selectedWidget.config as AddressBookWidgetConfig).maxAddresses || 10"
-            @input="updateConfig({ maxAddresses: parseInt(($event.target as HTMLInputElement).value) || 10 })"
+            @input="
+              updateConfig({
+                maxAddresses: parseInt(($event.target as HTMLInputElement).value) || 10,
+              })
+            "
             class="widget-configurator__input"
             min="1"
             max="50"
@@ -630,8 +660,12 @@ function setResponsiveValue<T>(field: string, value: T) {
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as AddressBookWidgetConfig).showDefaultBadge ?? true"
-                @change="updateConfig({ showDefaultBadge: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as AddressBookWidgetConfig).showDefaultBadge ?? true
+                "
+                @change="
+                  updateConfig({ showDefaultBadge: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Standard-Badge anzeigen</span>
             </label>
@@ -655,7 +689,13 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Layout</label>
           <select
             :value="(selectedWidget.config as ProfileFormWidgetConfig).layout || 'single-column'"
-            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'single-column' | 'two-column' })"
+            @change="
+              updateConfig({
+                layout: ($event.target as HTMLSelectElement).value as
+                  | 'single-column'
+                  | 'two-column',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="single-column">Eine Spalte</option>
@@ -676,16 +716,24 @@ function setResponsiveValue<T>(field: string, value: T) {
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as ProfileFormWidgetConfig).showPasswordChange ?? true"
-                @change="updateConfig({ showPasswordChange: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as ProfileFormWidgetConfig).showPasswordChange ?? true
+                "
+                @change="
+                  updateConfig({ showPasswordChange: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Passwort ändern</span>
             </label>
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as ProfileFormWidgetConfig).showNewsletterOptIn ?? true"
-                @change="updateConfig({ showNewsletterOptIn: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as ProfileFormWidgetConfig).showNewsletterOptIn ?? true
+                "
+                @change="
+                  updateConfig({ showNewsletterOptIn: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Newsletter Opt-in</span>
             </label>
@@ -709,7 +757,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Layout</label>
           <select
             :value="(selectedWidget.config as WishlistWidgetConfig).layout || 'grid'"
-            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list' })"
+            @change="
+              updateConfig({
+                layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="grid">Raster</option>
@@ -720,8 +772,15 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Spalten (Raster)</label>
           <input
             type="number"
-            :value="getResponsiveValue((selectedWidget.config as WishlistWidgetConfig).columns || 3)"
-            @input="setResponsiveValue('columns', parseInt(($event.target as HTMLInputElement).value) || 3)"
+            :value="
+              getResponsiveValue((selectedWidget.config as WishlistWidgetConfig).columns || 3)
+            "
+            @input="
+              setResponsiveValue(
+                'columns',
+                parseInt(($event.target as HTMLInputElement).value) || 3
+              )
+            "
             class="widget-configurator__input"
             min="1"
             max="6"
@@ -734,7 +793,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as WishlistWidgetConfig).showAddToCart ?? true"
-                @change="updateConfig({ showAddToCart: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showAddToCart: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>In Warenkorb Button</span>
             </label>
@@ -742,7 +803,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as WishlistWidgetConfig).showRemoveButton ?? true"
-                @change="updateConfig({ showRemoveButton: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showRemoveButton: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Entfernen Button</span>
             </label>
@@ -750,7 +813,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as WishlistWidgetConfig).showShareButton ?? true"
-                @change="updateConfig({ showShareButton: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showShareButton: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Teilen Button</span>
             </label>
@@ -758,7 +823,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as WishlistWidgetConfig).showStockStatus ?? true"
-                @change="updateConfig({ showStockStatus: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showStockStatus: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Verfügbarkeit anzeigen</span>
             </label>
@@ -782,7 +849,14 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Variante</label>
           <select
             :value="(selectedWidget.config as ProductCardWidgetConfig).variant || 'default'"
-            @change="updateConfig({ variant: ($event.target as HTMLSelectElement).value as 'default' | 'compact' | 'horizontal' })"
+            @change="
+              updateConfig({
+                variant: ($event.target as HTMLSelectElement).value as
+                  | 'default'
+                  | 'compact'
+                  | 'horizontal',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="default">Standard</option>
@@ -794,7 +868,15 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Bild-Verhältnis</label>
           <select
             :value="(selectedWidget.config as ProductCardWidgetConfig).imageAspectRatio || '1:1'"
-            @change="updateConfig({ imageAspectRatio: ($event.target as HTMLSelectElement).value as '1:1' | '4:3' | '3:4' | '16:9' })"
+            @change="
+              updateConfig({
+                imageAspectRatio: ($event.target as HTMLSelectElement).value as
+                  | '1:1'
+                  | '4:3'
+                  | '3:4'
+                  | '16:9',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="1:1">1:1 (Quadrat)</option>
@@ -818,7 +900,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as ProductCardWidgetConfig).showAddToCart ?? true"
-                @change="updateConfig({ showAddToCart: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showAddToCart: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>In Warenkorb Button</span>
             </label>
@@ -826,7 +910,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as ProductCardWidgetConfig).showWishlist ?? true"
-                @change="updateConfig({ showWishlist: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showWishlist: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Merkzettel Button</span>
             </label>
@@ -866,7 +952,16 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Datenquelle</label>
           <select
             :value="(selectedWidget.config as ProductGridWidgetConfig).source || 'category'"
-            @change="updateConfig({ source: ($event.target as HTMLSelectElement).value as 'category' | 'manual' | 'bestseller' | 'new' | 'sale' })"
+            @change="
+              updateConfig({
+                source: ($event.target as HTMLSelectElement).value as
+                  | 'category'
+                  | 'manual'
+                  | 'bestseller'
+                  | 'new'
+                  | 'sale',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="category">Kategorie</option>
@@ -880,8 +975,15 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Spalten</label>
           <input
             type="number"
-            :value="getResponsiveValue((selectedWidget.config as ProductGridWidgetConfig).columns || 4)"
-            @input="setResponsiveValue('columns', parseInt(($event.target as HTMLInputElement).value) || 4)"
+            :value="
+              getResponsiveValue((selectedWidget.config as ProductGridWidgetConfig).columns || 4)
+            "
+            @input="
+              setResponsiveValue(
+                'columns',
+                parseInt(($event.target as HTMLInputElement).value) || 4
+              )
+            "
             class="widget-configurator__input"
             min="1"
             max="6"
@@ -892,7 +994,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <input
             type="number"
             :value="(selectedWidget.config as ProductGridWidgetConfig).itemsPerPage || 12"
-            @input="updateConfig({ itemsPerPage: parseInt(($event.target as HTMLInputElement).value) || 12 })"
+            @input="
+              updateConfig({
+                itemsPerPage: parseInt(($event.target as HTMLInputElement).value) || 12,
+              })
+            "
             class="widget-configurator__input"
             min="4"
             max="48"
@@ -921,7 +1027,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as ProductGridWidgetConfig).showPagination ?? true"
-                @change="updateConfig({ showPagination: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showPagination: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Paginierung anzeigen</span>
             </label>
@@ -945,7 +1053,14 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Layout</label>
           <select
             :value="(selectedWidget.config as CategoryNavWidgetConfig).layout || 'vertical'"
-            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'vertical' | 'horizontal' | 'mega-menu' })"
+            @change="
+              updateConfig({
+                layout: ($event.target as HTMLSelectElement).value as
+                  | 'vertical'
+                  | 'horizontal'
+                  | 'mega-menu',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="vertical">Vertikal</option>
@@ -958,7 +1073,9 @@ function setResponsiveValue<T>(field: string, value: T) {
           <input
             type="number"
             :value="(selectedWidget.config as CategoryNavWidgetConfig).maxDepth || 3"
-            @input="updateConfig({ maxDepth: parseInt(($event.target as HTMLInputElement).value) || 3 })"
+            @input="
+              updateConfig({ maxDepth: parseInt(($event.target as HTMLInputElement).value) || 3 })
+            "
             class="widget-configurator__input"
             min="1"
             max="5"
@@ -970,8 +1087,12 @@ function setResponsiveValue<T>(field: string, value: T) {
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as CategoryNavWidgetConfig).showProductCount ?? true"
-                @change="updateConfig({ showProductCount: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as CategoryNavWidgetConfig).showProductCount ?? true
+                "
+                @change="
+                  updateConfig({ showProductCount: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Produktanzahl anzeigen</span>
             </label>
@@ -1011,7 +1132,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Größe</label>
           <select
             :value="(selectedWidget.config as SearchBoxWidgetConfig).size || 'md'"
-            @change="updateConfig({ size: ($event.target as HTMLSelectElement).value as 'sm' | 'md' | 'lg' })"
+            @change="
+              updateConfig({
+                size: ($event.target as HTMLSelectElement).value as 'sm' | 'md' | 'lg',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="sm">Klein</option>
@@ -1024,7 +1149,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <input
             type="number"
             :value="(selectedWidget.config as SearchBoxWidgetConfig).maxSuggestions || 6"
-            @input="updateConfig({ maxSuggestions: parseInt(($event.target as HTMLInputElement).value) || 6 })"
+            @input="
+              updateConfig({
+                maxSuggestions: parseInt(($event.target as HTMLInputElement).value) || 6,
+              })
+            "
             class="widget-configurator__input"
             min="0"
             max="20"
@@ -1037,23 +1166,33 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as SearchBoxWidgetConfig).showSuggestions ?? true"
-                @change="updateConfig({ showSuggestions: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showSuggestions: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Vorschläge anzeigen</span>
             </label>
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as SearchBoxWidgetConfig).showCategoryFilter ?? false"
-                @change="updateConfig({ showCategoryFilter: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as SearchBoxWidgetConfig).showCategoryFilter ?? false
+                "
+                @change="
+                  updateConfig({ showCategoryFilter: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Kategoriefilter anzeigen</span>
             </label>
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as SearchBoxWidgetConfig).showRecentSearches ?? true"
-                @change="updateConfig({ showRecentSearches: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as SearchBoxWidgetConfig).showRecentSearches ?? true
+                "
+                @change="
+                  updateConfig({ showRecentSearches: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Letzte Suchen anzeigen</span>
             </label>
@@ -1090,7 +1229,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as CartSummaryWidgetConfig).showSubtotal ?? true"
-                @change="updateConfig({ showSubtotal: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showSubtotal: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Zwischensumme anzeigen</span>
             </label>
@@ -1098,7 +1239,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as CartSummaryWidgetConfig).showShipping ?? true"
-                @change="updateConfig({ showShipping: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showShipping: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Versandkosten anzeigen</span>
             </label>
@@ -1114,7 +1257,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as CartSummaryWidgetConfig).showPromoCode ?? true"
-                @change="updateConfig({ showPromoCode: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showPromoCode: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Gutscheinfeld anzeigen</span>
             </label>
@@ -1128,7 +1273,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Variante</label>
           <select
             :value="(selectedWidget.config as MiniCartWidgetConfig).variant || 'dropdown'"
-            @change="updateConfig({ variant: ($event.target as HTMLSelectElement).value as 'dropdown' | 'slide-out' })"
+            @change="
+              updateConfig({
+                variant: ($event.target as HTMLSelectElement).value as 'dropdown' | 'slide-out',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="dropdown">Dropdown</option>
@@ -1140,7 +1289,9 @@ function setResponsiveValue<T>(field: string, value: T) {
           <input
             type="number"
             :value="(selectedWidget.config as MiniCartWidgetConfig).maxItems || 5"
-            @input="updateConfig({ maxItems: parseInt(($event.target as HTMLInputElement).value) || 5 })"
+            @input="
+              updateConfig({ maxItems: parseInt(($event.target as HTMLInputElement).value) || 5 })
+            "
             class="widget-configurator__input"
             min="1"
             max="10"
@@ -1153,7 +1304,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as MiniCartWidgetConfig).showItemCount ?? true"
-                @change="updateConfig({ showItemCount: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showItemCount: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Artikelanzahl anzeigen</span>
             </label>
@@ -1168,8 +1321,12 @@ function setResponsiveValue<T>(field: string, value: T) {
             <label class="widget-configurator__checkbox">
               <input
                 type="checkbox"
-                :checked="(selectedWidget.config as MiniCartWidgetConfig).showCheckoutButton ?? true"
-                @change="updateConfig({ showCheckoutButton: ($event.target as HTMLInputElement).checked })"
+                :checked="
+                  (selectedWidget.config as MiniCartWidgetConfig).showCheckoutButton ?? true
+                "
+                @change="
+                  updateConfig({ showCheckoutButton: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Checkout-Button anzeigen</span>
             </label>
@@ -1183,7 +1340,15 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Trennzeichen</label>
           <select
             :value="(selectedWidget.config as BreadcrumbWidgetConfig).separator || 'chevron'"
-            @change="updateConfig({ separator: ($event.target as HTMLSelectElement).value as 'slash' | 'chevron' | 'arrow' | 'dot' })"
+            @change="
+              updateConfig({
+                separator: ($event.target as HTMLSelectElement).value as
+                  | 'slash'
+                  | 'chevron'
+                  | 'arrow'
+                  | 'dot',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="chevron">Chevron (›)</option>
@@ -1197,7 +1362,9 @@ function setResponsiveValue<T>(field: string, value: T) {
           <input
             type="number"
             :value="(selectedWidget.config as BreadcrumbWidgetConfig).maxItems || 5"
-            @input="updateConfig({ maxItems: parseInt(($event.target as HTMLInputElement).value) || 5 })"
+            @input="
+              updateConfig({ maxItems: parseInt(($event.target as HTMLInputElement).value) || 5 })
+            "
             class="widget-configurator__input"
             min="2"
             max="10"
@@ -1210,7 +1377,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as BreadcrumbWidgetConfig).showHomeIcon ?? true"
-                @change="updateConfig({ showHomeIcon: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showHomeIcon: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Home-Icon anzeigen</span>
             </label>
@@ -1218,7 +1387,9 @@ function setResponsiveValue<T>(field: string, value: T) {
               <input
                 type="checkbox"
                 :checked="(selectedWidget.config as BreadcrumbWidgetConfig).showCurrentPage ?? true"
-                @change="updateConfig({ showCurrentPage: ($event.target as HTMLInputElement).checked })"
+                @change="
+                  updateConfig({ showCurrentPage: ($event.target as HTMLInputElement).checked })
+                "
               />
               <span>Aktuelle Seite anzeigen</span>
             </label>

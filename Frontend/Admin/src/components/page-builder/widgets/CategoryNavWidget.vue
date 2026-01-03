@@ -91,11 +91,7 @@ const layoutClass = computed(() => {
 
     <!-- Vertical Layout -->
     <ul v-if="config.layout === 'vertical'" class="category-nav__list">
-      <li
-        v-for="category in displayCategories"
-        :key="category.id"
-        class="category-nav__item"
-      >
+      <li v-for="category in displayCategories" :key="category.id" class="category-nav__item">
         <div class="category-nav__row">
           <img
             v-if="config.showImages && category.image"
@@ -132,11 +128,7 @@ const layoutClass = computed(() => {
           v-show="!config.expandable || expandedCategories.has(category.id)"
           class="category-nav__sublist"
         >
-          <li
-            v-for="child in category.children"
-            :key="child.id"
-            class="category-nav__subitem"
-          >
+          <li v-for="child in category.children" :key="child.id" class="category-nav__subitem">
             <a href="#" class="category-nav__sublink">
               {{ child.name }}
               <span v-if="config.showProductCount" class="category-nav__count">

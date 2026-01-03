@@ -71,7 +71,7 @@ function getInitials(name: string): string {
             :src="mockUser.avatar"
             alt="Profilbild"
             class="profile-form__avatar-img"
-          >
+          />
           <span v-else class="profile-form__avatar-initials">
             {{ getInitials(mockUser.name) }}
           </span>
@@ -80,7 +80,11 @@ function getInitials(name: string): string {
           <button type="button" class="profile-form__avatar-btn" :disabled="isEditing">
             Bild ändern
           </button>
-          <button type="button" class="profile-form__avatar-btn profile-form__avatar-btn--secondary" :disabled="isEditing">
+          <button
+            type="button"
+            class="profile-form__avatar-btn profile-form__avatar-btn--secondary"
+            :disabled="isEditing"
+          >
             Entfernen
           </button>
         </div>
@@ -88,11 +92,7 @@ function getInitials(name: string): string {
 
       <!-- Form Fields -->
       <div :class="['profile-form__fields', `profile-form__fields--${layout}`]">
-        <div
-          v-for="field in fields"
-          :key="field"
-          class="profile-form__field"
-        >
+        <div v-for="field in fields" :key="field" class="profile-form__field">
           <label :for="`profile-${field}`" class="profile-form__label">
             {{ fieldLabels[field] }}
           </label>
@@ -103,8 +103,10 @@ function getInitials(name: string): string {
             :disabled="isEditing || (field === 'email' && !config.allowEmailChange)"
             :readonly="field === 'email' && !config.allowEmailChange"
             class="profile-form__input"
-            :class="{ 'profile-form__input--readonly': field === 'email' && !config.allowEmailChange }"
-          >
+            :class="{
+              'profile-form__input--readonly': field === 'email' && !config.allowEmailChange,
+            }"
+          />
           <p v-if="field === 'email' && !config.allowEmailChange" class="profile-form__hint">
             E-Mail-Adresse kann nicht geändert werden
           </p>
@@ -123,7 +125,7 @@ function getInitials(name: string): string {
               placeholder="••••••••"
               class="profile-form__input"
               :disabled="isEditing"
-            >
+            />
           </div>
           <div class="profile-form__field">
             <label for="new-password" class="profile-form__label">Neues Passwort</label>
@@ -133,7 +135,7 @@ function getInitials(name: string): string {
               placeholder="••••••••"
               class="profile-form__input"
               :disabled="isEditing"
-            >
+            />
           </div>
           <div class="profile-form__field">
             <label for="confirm-password" class="profile-form__label">Passwort bestätigen</label>
@@ -143,7 +145,7 @@ function getInitials(name: string): string {
               placeholder="••••••••"
               class="profile-form__input"
               :disabled="isEditing"
-            >
+            />
           </div>
         </div>
       </div>
@@ -286,7 +288,9 @@ function getInitials(name: string): string {
   border: 1px solid #d1d5db;
   border-radius: 6px;
   background-color: white;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .profile-form__input:focus {

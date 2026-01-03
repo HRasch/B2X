@@ -19,14 +19,51 @@ const statusFilter = ref('all');
 
 // Mock order data for preview
 const mockOrders = [
-  { id: 'ORD-2026-001', date: '02.01.2026', status: 'processing', statusLabel: 'In Bearbeitung', total: '234,50 €', items: 3 },
-  { id: 'ORD-2025-089', date: '28.12.2025', status: 'shipped', statusLabel: 'Versendet', total: '89,00 €', items: 1 },
-  { id: 'ORD-2025-088', date: '15.12.2025', status: 'delivered', statusLabel: 'Geliefert', total: '156,75 €', items: 4 },
-  { id: 'ORD-2025-087', date: '10.12.2025', status: 'delivered', statusLabel: 'Geliefert', total: '423,00 €', items: 2 },
-  { id: 'ORD-2025-086', date: '01.12.2025', status: 'delivered', statusLabel: 'Geliefert', total: '67,50 €', items: 1 },
+  {
+    id: 'ORD-2026-001',
+    date: '02.01.2026',
+    status: 'processing',
+    statusLabel: 'In Bearbeitung',
+    total: '234,50 €',
+    items: 3,
+  },
+  {
+    id: 'ORD-2025-089',
+    date: '28.12.2025',
+    status: 'shipped',
+    statusLabel: 'Versendet',
+    total: '89,00 €',
+    items: 1,
+  },
+  {
+    id: 'ORD-2025-088',
+    date: '15.12.2025',
+    status: 'delivered',
+    statusLabel: 'Geliefert',
+    total: '156,75 €',
+    items: 4,
+  },
+  {
+    id: 'ORD-2025-087',
+    date: '10.12.2025',
+    status: 'delivered',
+    statusLabel: 'Geliefert',
+    total: '423,00 €',
+    items: 2,
+  },
+  {
+    id: 'ORD-2025-086',
+    date: '01.12.2025',
+    status: 'delivered',
+    statusLabel: 'Geliefert',
+    total: '67,50 €',
+    items: 1,
+  },
 ];
 
-const columns = computed(() => props.config.columns ?? ['orderNumber', 'date', 'status', 'total', 'actions']);
+const columns = computed(
+  () => props.config.columns ?? ['orderNumber', 'date', 'status', 'total', 'actions']
+);
 
 const columnLabels: Record<string, string> = {
   orderNumber: 'Bestellnr.',
@@ -65,7 +102,13 @@ function getStatusClass(status: string): string {
     <!-- Filters -->
     <div v-if="config.showFilters || config.showSearch" class="order-history__filters">
       <div v-if="config.showSearch" class="order-history__search">
-        <svg class="order-history__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          class="order-history__search-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <input
@@ -74,7 +117,7 @@ function getStatusClass(status: string): string {
           placeholder="Bestellung suchen..."
           class="order-history__search-input"
           :disabled="isEditing"
-        >
+        />
       </div>
       <div v-if="config.showFilters" class="order-history__filter">
         <select v-model="statusFilter" class="order-history__select" :disabled="isEditing">
@@ -119,10 +162,16 @@ function getStatusClass(status: string): string {
                 <button class="order-history__action-btn" title="Details">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
                   </svg>
                 </button>
-                <button v-if="config.showTracking && order.status === 'shipped'" class="order-history__action-btn" title="Tracking">
+                <button
+                  v-if="config.showTracking && order.status === 'shipped'"
+                  class="order-history__action-btn"
+                  title="Tracking"
+                >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                     <path d="M12 13a3 3 0 100-6 3 3 0 000 6z" />

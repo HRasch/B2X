@@ -66,11 +66,7 @@ const isClickable = (item: { href: string }, index: number) => {
 <template>
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <ol class="breadcrumb__list">
-      <li
-        v-for="(item, index) in displayBreadcrumbs"
-        :key="index"
-        class="breadcrumb__item"
-      >
+      <li v-for="(item, index) in displayBreadcrumbs" :key="index" class="breadcrumb__item">
         <!-- Home Icon (first item) -->
         <template v-if="index === 0 && config.showHome">
           <a
@@ -100,23 +96,13 @@ const isClickable = (item: { href: string }, index: number) => {
             <template v-if="config.separator === 'slash' || config.separator === 'dot'">
               {{ separatorIcons[config.separator] }}
             </template>
-            <svg
-              v-else
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
+            <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path :d="separatorIcons[config.separator]" />
             </svg>
           </span>
 
           <!-- Link or Current -->
-          <a
-            v-if="isClickable(item, index)"
-            :href="item.href"
-            class="breadcrumb__link"
-          >
+          <a v-if="isClickable(item, index)" :href="item.href" class="breadcrumb__link">
             {{ item.label }}
           </a>
           <span
