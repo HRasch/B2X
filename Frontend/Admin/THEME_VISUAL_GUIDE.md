@@ -28,21 +28,25 @@
 ## 🎛️ Theme Toggle Varianten
 
 ### 1. Icon Only (Default)
+
 ```
 ☀️  (Click to toggle between Light/Dark)
 ```
 
 ### 2. With Label
+
 ```
 ☀️  Light    (Shows current theme mode)
 ```
 
 ### 3. With Menu
+
 ```
 ☀️  [Light | Dark | Auto]  (Choose specific mode)
 ```
 
 ### 4. Combined
+
 ```
 ☀️  Light [Light | Dark | Auto]  (Label + Menu)
 ```
@@ -50,6 +54,7 @@
 ## 🌓 Visual Theme Comparison
 
 ### Light Mode (Default)
+
 ```
 ┌────────────────────────────────────────┐
 │ Light Background (#f8f9fa)             │
@@ -60,6 +65,7 @@
 ```
 
 ### Dark Mode
+
 ```
 ┌────────────────────────────────────────┐
 │ Dark Background (#1a1a1a)              │
@@ -125,24 +131,26 @@ localStorage         DOM (.dark class)
 
 ## 🎨 Color Changes bei Theme Wechsel
 
-| Element | Light Mode | Dark Mode |
-|---------|-----------|-----------|
-| Background | `#f8f9fa` (soft-50) | `#1a1a1a` (soft-900) |
-| Text | `#495057` (soft-700) | `#e4e4e7` (white/soft-100) |
-| Sidebar | `#ffffff` (white) | `#2a2a2a` (soft-800) |
-| Borders | `#e9ecef` (soft-100) | `#404040` (soft-700) |
-| Hover BG | `#f0f2f5` (soft-100) | `#3a3a3a` (soft-700) |
-| Primary | `#0284c7` (blue-600) | `#3b82f6` (blue-500) |
+| Element    | Light Mode           | Dark Mode                  |
+| ---------- | -------------------- | -------------------------- |
+| Background | `#f8f9fa` (soft-50)  | `#1a1a1a` (soft-900)       |
+| Text       | `#495057` (soft-700) | `#e4e4e7` (white/soft-100) |
+| Sidebar    | `#ffffff` (white)    | `#2a2a2a` (soft-800)       |
+| Borders    | `#e9ecef` (soft-100) | `#404040` (soft-700)       |
+| Hover BG   | `#f0f2f5` (soft-100) | `#3a3a3a` (soft-700)       |
+| Primary    | `#0284c7` (blue-600) | `#3b82f6` (blue-500)       |
 
 ## 📱 Responsive Behavior
 
 ### Mobile (< 768px)
+
 ```
 Sidebar im Overlay
 Theme Toggle Icon Only
 ```
 
 ### Desktop (≥ 768px)
+
 ```
 Sidebar Sticky
 Theme Toggle Icon oder Icon + Menu
@@ -154,27 +162,29 @@ Theme Toggle Icon oder Icon + Menu
 
 ```vue
 <template>
-  <div :class="{ 
-    'light-mode': themeStore.effectiveTheme === 'light',
-    'dark-mode': themeStore.effectiveTheme === 'dark'
-  }">
+  <div
+    :class="{
+      'light-mode': themeStore.effectiveTheme === 'light',
+      'dark-mode': themeStore.effectiveTheme === 'dark',
+    }"
+  >
     <!-- Content -->
   </div>
 </template>
 
 <script setup>
-import { useThemeStore } from '@/stores/theme'
-const themeStore = useThemeStore()
+import { useThemeStore } from '@/stores/theme';
+const themeStore = useThemeStore();
 </script>
 ```
 
 ### In einem Store
 
 ```typescript
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/theme';
 
 // In einer anderen Pinia Action
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 
 if (themeStore.effectiveTheme === 'dark') {
   // Dark mode specific logic
@@ -211,6 +221,7 @@ System Preference wird gelesen
    - Im Menü wählt "Dark"
 
 3. **Store Update**
+
    ```
    setTheme('dark')
    → theme = 'dark'
@@ -219,6 +230,7 @@ System Preference wird gelesen
    ```
 
 4. **DOM Update**
+
    ```
    applyTheme()
    → document.documentElement.classList.add('dark')
@@ -226,12 +238,14 @@ System Preference wird gelesen
    ```
 
 5. **Tailwind Aktivierung**
+
    ```
    dark: prefixes werden aktiv
    Alle dark: modifizierer werden angewendet
    ```
 
 6. **Visual Update**
+
    ```
    Alle Farben ändern sich mit 300ms transition
    User sieht sanften Übergang
@@ -249,6 +263,7 @@ System Preference wird gelesen
 ## 🧩 Integration in bestehende Komponenten
 
 ### Vorher
+
 ```vue
 <div class="bg-white text-soft-900 border border-soft-100">
   Content
@@ -256,8 +271,11 @@ System Preference wird gelesen
 ```
 
 ### Nachher (Dark Mode ready)
+
 ```vue
-<div class="bg-white dark:bg-soft-800 text-soft-900 dark:text-white border border-soft-100 dark:border-soft-700 transition-colors duration-300">
+<div
+  class="bg-white dark:bg-soft-800 text-soft-900 dark:text-white border border-soft-100 dark:border-soft-700 transition-colors duration-300"
+>
   Content
 </div>
 ```

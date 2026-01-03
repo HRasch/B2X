@@ -8,15 +8,9 @@
     </div>
 
     <div class="testimonials-grid">
-      <div
-        v-for="testimonial in testimonials"
-        :key="testimonial.id"
-        class="testimonial-card"
-      >
+      <div v-for="testimonial in testimonials" :key="testimonial.id" class="testimonial-card">
         <div class="stars">
-          <span v-for="i in testimonial.rating || 5" :key="i" class="star"
-            >★</span
-          >
+          <span v-for="i in testimonial.rating || 5" :key="i" class="star">★</span>
         </div>
         <p class="testimonial-text">{{ testimonial.text }}</p>
         <div class="testimonial-author">
@@ -37,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Testimonial {
   id: string;

@@ -1,7 +1,7 @@
 <template>
   <div class="brand-form">
     <div class="header">
-      <h1>{{ isEditMode ? "Edit Brand" : "Create Brand" }}</h1>
+      <h1>{{ isEditMode ? 'Edit Brand' : 'Create Brand' }}</h1>
       <p class="subtitle">Manage brand information</p>
     </div>
 
@@ -9,20 +9,18 @@
       <!-- Form would be implemented here -->
       <div class="placeholder-message">
         <p>Brand form implementation coming soon...</p>
-        <router-link to="/catalog/brands" class="btn btn-secondary">
-          Back to Brands
-        </router-link>
+        <router-link to="/catalog/brands" class="btn btn-secondary"> Back to Brands </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-import { computed } from "vue";
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 const route = useRoute();
-const isEditMode = computed(() => route.meta.formMode === "edit");
+const isEditMode = computed(() => route.meta.formMode === 'edit');
 </script>
 
 <style scoped lang="css">

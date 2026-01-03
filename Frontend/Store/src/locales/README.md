@@ -31,7 +31,7 @@ export const SUPPORTED_LOCALES = [
   { code: 'en', name: 'English', flag: '🇬🇧' },
   { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
   // ... more locales
-]
+];
 ```
 
 ## Translation Files (JSON)
@@ -106,9 +106,9 @@ Each language JSON file is organized by category:
 
 ```vue
 <script setup>
-import { useLocale } from '@/composables/useLocale'
+import { useLocale } from '@/composables/useLocale';
 
-const { t, locale, currentLocale, setLocale } = useLocale()
+const { t, locale, currentLocale, setLocale } = useLocale();
 </script>
 
 <template>
@@ -133,9 +133,9 @@ const { t, locale, currentLocale, setLocale } = useLocale()
 
 ```vue
 <script setup>
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
 
-const { t, locale } = useI18n()
+const { t, locale } = useI18n();
 </script>
 
 <template>
@@ -145,16 +145,16 @@ const { t, locale } = useI18n()
 
 ## Supported Languages
 
-| Code | Language | Flag |
-|------|----------|------|
-| en | English | 🇬🇧 |
-| de | Deutsch | 🇩🇪 |
-| fr | Français | 🇫🇷 |
-| es | Español | 🇪🇸 |
-| it | Italiano | 🇮🇹 |
-| pt | Português | 🇵🇹 |
-| nl | Nederlands | 🇳🇱 |
-| pl | Polski | 🇵🇱 |
+| Code | Language   | Flag |
+| ---- | ---------- | ---- |
+| en   | English    | 🇬🇧   |
+| de   | Deutsch    | 🇩🇪   |
+| fr   | Français   | 🇫🇷   |
+| es   | Español    | 🇪🇸   |
+| it   | Italiano   | 🇮🇹   |
+| pt   | Português  | 🇵🇹   |
+| nl   | Nederlands | 🇳🇱   |
+| pl   | Polski     | 🇵🇱   |
 
 ## Features
 
@@ -164,13 +164,14 @@ const { t, locale } = useI18n()
 ✅ **Browser Language Detection**: Automatically detects user's browser language  
 ✅ **Fallback Support**: Falls back to English if language not found  
 ✅ **Dynamic Translation Updates**: Can fetch translations from backend API  
-✅ **Custom Events**: Emits locale-changed events for external listeners  
+✅ **Custom Events**: Emits locale-changed events for external listeners
 
 ## Adding New Translations
 
 ### To add a new translation key:
 
 1. Add the key to **all language files** to maintain consistency:
+
    ```json
    {
      "category": {
@@ -192,19 +193,22 @@ const { t, locale } = useI18n()
 2. Copy the structure from an existing language
 3. Translate all strings
 4. Update `locales/index.ts`:
+
    ```typescript
-   import ja from './ja.json'
-   
+   import ja from './ja.json';
+
    export const SUPPORTED_LOCALES = [
      // ... existing locales
-     { code: 'ja', name: '日本語', flag: '🇯🇵' }
-   ]
+     { code: 'ja', name: '日本語', flag: '🇯🇵' },
+   ];
    ```
+
 5. Update `src/main.ts` if needed for locale initialization
 
 ## Language Switching
 
 The language switcher component is located at:
+
 - **Component**: `src/components/common/LanguageSwitcher.vue`
 - **Composable**: `src/composables/useLocale.ts`
 
@@ -222,11 +226,13 @@ The language switcher component is located at:
 ## Storage
 
 ### localStorage Key
+
 - **Key**: `locale`
 - **Value**: Language code (e.g., `"de"`)
 - **Persistence**: Survives page reloads and browser restarts
 
 ### Fallback Chain
+
 1. Check localStorage
 2. Check browser language (`navigator.language`)
 3. Default to English (`"en"`)
@@ -236,16 +242,16 @@ The language switcher component is located at:
 The application can fetch translations from the backend LocalizationService API:
 
 ```typescript
-import localizationApi from '@/services/localizationApi'
+import localizationApi from '@/services/localizationApi';
 
 // Fetch single translation
-const loginText = await localizationApi.getString('auth', 'login', 'de')
+const loginText = await localizationApi.getString('auth', 'login', 'de');
 
 // Fetch all category translations
-const authTranslations = await localizationApi.getCategory('auth', 'de')
+const authTranslations = await localizationApi.getCategory('auth', 'de');
 
 // Pre-fetch multiple categories
-await localizationApi.prefetchCategories(['auth', 'ui', 'errors'], 'de')
+await localizationApi.prefetchCategories(['auth', 'ui', 'errors'], 'de');
 ```
 
 See `src/services/localizationApi.ts` for full API documentation.
@@ -253,15 +259,18 @@ See `src/services/localizationApi.ts` for full API documentation.
 ## Testing
 
 ### Unit Tests
+
 - `tests/unit/useLocale.spec.ts` - Composable tests
 - `tests/unit/localizationApi.spec.ts` - API service tests
 - `tests/unit/i18n.integration.spec.ts` - Integration tests
 - `tests/components/LanguageSwitcher.spec.ts` - Component tests
 
 ### E2E Tests
+
 - `tests/e2e/localization.spec.ts` - End-to-end language switching tests
 
 Run tests with:
+
 ```bash
 npm run test:unit
 npm run test:e2e
@@ -279,39 +288,43 @@ npm run test:e2e
 ### Checking Current Locale
 
 Open browser console and run:
+
 ```javascript
 // Vue i18n instance
-i18n.global.locale.value
+i18n.global.locale.value;
 
 // localStorage
-localStorage.getItem('locale')
+localStorage.getItem('locale');
 
 // HTML lang attribute
-document.documentElement.lang
+document.documentElement.lang;
 ```
 
 ### Listening for Locale Changes
 
 ```javascript
-window.addEventListener('locale-changed', (event) => {
-  console.log('Locale changed to:', event.detail.locale)
-})
+window.addEventListener('locale-changed', event => {
+  console.log('Locale changed to:', event.detail.locale);
+});
 ```
 
 ## Troubleshooting
 
 ### Translations not showing
+
 1. Check that language code matches a supported locale
 2. Verify translation key exists in JSON files
 3. Check browser console for errors
 4. Ensure `useLocale()` is called in component setup
 
 ### localStorage not working
+
 1. Check browser storage settings (not disabled by user)
 2. Verify localStorage quota not exceeded
 3. Check browser console for errors
 
 ### Language detection not working
+
 1. Verify `navigator.language` is available in browser
 2. Check browser language settings
 3. Fall back to default locale (English)
@@ -319,6 +332,7 @@ window.addEventListener('locale-changed', (event) => {
 ## Documentation
 
 For complete documentation, see:
+
 - [I18N_SPECIFICATION.md](../../I18N_SPECIFICATION.md) - Full requirements & roadmap
 - [LOCALIZATION_PHASE2_COMPLETE.md](../../LOCALIZATION_PHASE2_COMPLETE.md) - Frontend implementation details
 - [vue-i18n Docs](https://vue-i18n.intlify.dev/) - Official documentation

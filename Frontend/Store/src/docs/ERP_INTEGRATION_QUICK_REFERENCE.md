@@ -7,14 +7,15 @@
 ## 🚀 5-Minute Setup
 
 ### Use the Pre-Built Component
+
 ```vue
 <script setup lang="ts">
-import CustomerLookup from '@/components/ERP/CustomerLookup.vue'
+import CustomerLookup from '@/components/ERP/CustomerLookup.vue';
 
-const handleRegister = () => router.push('/register')
+const handleRegister = () => router.push('/register');
 const handleProceed = (customerNumber: string) => {
-  router.push({ name: 'checkout', params: { customerNumber } })
-}
+  router.push({ name: 'checkout', params: { customerNumber } });
+};
 </script>
 
 <template>
@@ -23,13 +24,14 @@ const handleProceed = (customerNumber: string) => {
 ```
 
 ### Or Use the Composable Directly
+
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useErpIntegration } from '@/composables/useErpIntegration'
+import { ref } from 'vue';
+import { useErpIntegration } from '@/composables/useErpIntegration';
 
-const email = ref('')
-const { validateCustomerEmail, customer, isLoading, error } = useErpIntegration()
+const email = ref('');
+const { validateCustomerEmail, customer, isLoading, error } = useErpIntegration();
 </script>
 
 <template>
@@ -46,53 +48,57 @@ const { validateCustomerEmail, customer, isLoading, error } = useErpIntegration(
 ### useErpIntegration()
 
 **State**
+
 ```typescript
 const {
-  isLoading,          // boolean
-  customer,           // ErpCustomer | null
-  error,              // string | null
-  lastLookupTime,     // number | null (ms)
-  hasCustomer,        // ComputedRef<boolean>
-  isPrivateCustomer,  // ComputedRef<boolean>
+  isLoading, // boolean
+  customer, // ErpCustomer | null
+  error, // string | null
+  lastLookupTime, // number | null (ms)
+  hasCustomer, // ComputedRef<boolean>
+  isPrivateCustomer, // ComputedRef<boolean>
   isBusinessCustomer, // ComputedRef<boolean>
-} = useErpIntegration()
+} = useErpIntegration();
 ```
 
 **Methods**
+
 ```typescript
 // Lookup by email
-const result = await validateCustomerEmail('test@example.com')
+const result = await validateCustomerEmail('test@example.com');
 // Returns: { isValid, customer, error, message, loadingMs }
 
 // Lookup by number
-const result = await validateCustomerNumber('CUST-001')
+const result = await validateCustomerNumber('CUST-001');
 
 // Clear state
-clearCustomer()
+clearCustomer();
 ```
 
 ---
 
 ## 💾 Test Data (Development)
 
-| Customer | Email | Type | Country |
-|----------|-------|------|---------|
-| CUST-001 | max.mustermann@example.com | B2C | DE |
-| CUST-002 | erika.musterfrau@example.com | B2C | DE |
-| CUST-100 | info@techcorp.de | B2B | DE |
-| CUST-101 | contact@innovatelabs.at | B2B | AT |
-| CUST-102 | sales@globalsolutions.ch | B2B | CH |
+| Customer | Email                        | Type | Country |
+| -------- | ---------------------------- | ---- | ------- |
+| CUST-001 | max.mustermann@example.com   | B2C  | DE      |
+| CUST-002 | erika.musterfrau@example.com | B2C  | DE      |
+| CUST-100 | info@techcorp.de             | B2B  | DE      |
+| CUST-101 | contact@innovatelabs.at      | B2B  | AT      |
+| CUST-102 | sales@globalsolutions.ch     | B2B  | CH      |
 
 ---
 
 ## 🎨 Component Props & Events
 
 **Props**
+
 ```typescript
 <CustomerLookup :isDevelopment="true" />
 ```
 
 **Events**
+
 ```typescript
 // User wants to register (new customer)
 @register
@@ -114,12 +120,12 @@ vi.mock('@/composables/useErpIntegration', () => ({
     isLoading: ref(false),
     error: ref(null),
     hasCustomer: computed(() => false),
-  })
-}))
+  }),
+}));
 
 // Mount component
-const wrapper = mount(CustomerLookup)
-expect(wrapper.find('#email').exists()).toBe(true)
+const wrapper = mount(CustomerLookup);
+expect(wrapper.find('#email').exists()).toBe(true);
 ```
 
 ---
@@ -127,39 +133,42 @@ expect(wrapper.find('#email').exists()).toBe(true)
 ## 🎯 Common Use Cases
 
 ### Registration Flow
+
 ```typescript
 const handleExistingCustomer = (customerNumber: string) => {
   // Skip registration, go to checkout
-  router.push({ name: 'checkout', params: { customerNumber } })
-}
+  router.push({ name: 'checkout', params: { customerNumber } });
+};
 
 const handleNewCustomer = () => {
   // Show registration form
-  showForm.value = true
-}
+  showForm.value = true;
+};
 ```
 
 ### Pre-Fill Checkout
+
 ```typescript
-const { customer } = useErpIntegration()
+const { customer } = useErpIntegration();
 
 onMounted(async () => {
-  await validateCustomerNumber(route.params.customerNumber)
+  await validateCustomerNumber(route.params.customerNumber);
   // customer.value now has shipping info
-})
+});
 ```
 
 ### Add to Login
+
 ```typescript
 const handleLogin = async () => {
-  const result = await validateCustomerEmail(email.value)
+  const result = await validateCustomerEmail(email.value);
   if (result.isValid) {
     await authService.login({
       email: email.value,
-      customerNumber: result.customer?.customerNumber
-    })
+      customerNumber: result.customer?.customerNumber,
+    });
   }
-}
+};
 ```
 
 ---
@@ -167,12 +176,14 @@ const handleLogin = async () => {
 ## ⚙️ Configuration
 
 **API Endpoint** (Backend provides via ENV)
+
 ```
 POST /api/auth/erp/validate-email
 POST /api/auth/erp/validate-number
 ```
 
 **Environment Variables**
+
 ```
 VITE_API_URL=http://localhost:8000  # Store Gateway
 ```
@@ -214,22 +225,20 @@ console.log('Lookup took:', result.loadingMs, 'ms')
 
 ```typescript
 // Debounce email input (avoid excessive API calls)
-import { useDebounceFn } from '@vueuse/core'
-const debouncedLookup = useDebounceFn(validateCustomerEmail, 500)
+import { useDebounceFn } from '@vueuse/core';
+const debouncedLookup = useDebounceFn(validateCustomerEmail, 500);
 
 // Cache results (for same session)
-const lookupCache = new Map()
-const cachedLookup = async (email) => {
-  if (lookupCache.has(email)) return lookupCache.get(email)
-  const result = await validateCustomerEmail(email)
-  lookupCache.set(email, result)
-  return result
-}
+const lookupCache = new Map();
+const cachedLookup = async email => {
+  if (lookupCache.has(email)) return lookupCache.get(email);
+  const result = await validateCustomerEmail(email);
+  lookupCache.set(email, result);
+  return result;
+};
 
 // Lazy load component
-const CustomerLookup = defineAsyncComponent(() =>
-  import('@/components/ERP/CustomerLookup.vue')
-)
+const CustomerLookup = defineAsyncComponent(() => import('@/components/ERP/CustomerLookup.vue'));
 ```
 
 ---
@@ -254,19 +263,19 @@ const CustomerLookup = defineAsyncComponent(() =>
 ✅ Error handling with retry  
 ✅ Responsive design (mobile to desktop)  
 ✅ Keyboard navigation  
-✅ Screen reader support (WCAG AA)  
+✅ Screen reader support (WCAG AA)
 
 ---
 
 ## 🆘 Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| API 404 | Check VITE_API_URL env variable, backend running? |
-| "Kunde nicht gefunden" | Try sample data: max.mustermann@example.com |
-| No dark mode | Check parent has `dark` class on root element |
-| Component not styled | Verify Tailwind CSS is configured |
-| Tests failing | Mock `useErpIntegration` in test file |
+| Issue                  | Solution                                          |
+| ---------------------- | ------------------------------------------------- |
+| API 404                | Check VITE_API_URL env variable, backend running? |
+| "Kunde nicht gefunden" | Try sample data: max.mustermann@example.com       |
+| No dark mode           | Check parent has `dark` class on root element     |
+| Component not styled   | Verify Tailwind CSS is configured                 |
+| Tests failing          | Mock `useErpIntegration` in test file             |
 
 ---
 

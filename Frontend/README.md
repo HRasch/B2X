@@ -7,7 +7,6 @@ B2Connect has two Vue 3 + Vite frontends:
 1. **Frontend/Store** - Public storefront (Port 5173)
    - Customer-facing store interface
    - Communicates with Store Gateway (Port 8000)
-   
 2. **Frontend/Admin** - Admin panel (Port 5174)
    - Admin and management dashboard
    - Communicates with Admin Gateway (Port 8080)
@@ -30,6 +29,7 @@ docker-compose up -d
 ```
 
 This starts:
+
 - PostgreSQL, Redis, RabbitMQ, Elasticsearch
 - All backend microservices
 - Both Vite frontends (with hot reload)
@@ -103,6 +103,7 @@ Frontend/
 Vite frontends read environment variables prefixed with `VITE_`:
 
 **Frontend/Store/vite.config.ts:**
+
 ```typescript
 proxy: {
   "/api": {
@@ -114,6 +115,7 @@ proxy: {
 ```
 
 **Frontend/Admin/vite.config.ts:**
+
 ```typescript
 proxy: {
   "/api": {
@@ -143,10 +145,10 @@ frontend-admin:
 
 When running locally:
 
-| Application | URL | Gateway | Notes |
-|---|---|---|---|
-| Store | http://localhost:5173 | http://localhost:8000 | Public storefront |
-| Admin | http://localhost:5174 | http://localhost:8080 | Protected admin |
+| Application | URL                   | Gateway               | Notes             |
+| ----------- | --------------------- | --------------------- | ----------------- |
+| Store       | http://localhost:5173 | http://localhost:8000 | Public storefront |
+| Admin       | http://localhost:5174 | http://localhost:8080 | Protected admin   |
 
 ## ??? Development Commands
 
@@ -237,28 +239,28 @@ docker build --target production -t b2connect-store:prod ./Frontend/Store
 **File: `Frontend/Store/src/services/api.ts`**
 
 ```typescript
-import axios from 'axios'
+import axios from 'axios';
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_GATEWAY_URL || 'http://localhost:8000',
   timeout: 30000,
-})
+});
 
 // Request interceptor for auth token
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('authToken')
+apiClient.interceptors.request.use(config => {
+  const token = localStorage.getItem('authToken');
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+    config.headers.Authorization = `Bearer ${token}`;
   }
   // Add tenant ID if needed
-  const tenantId = localStorage.getItem('tenantId')
+  const tenantId = localStorage.getItem('tenantId');
   if (tenantId) {
-    config.headers['X-Tenant-ID'] = tenantId
+    config.headers['X-Tenant-ID'] = tenantId;
   }
-  return config
-})
+  return config;
+});
 
-export default apiClient
+export default apiClient;
 ```
 
 ### Admin Frontend ? Admin Gateway
@@ -288,31 +290,29 @@ PostgreSQL / Elasticsearch / RabbitMQ
 **File: `Frontend/Store/src/stores/productStore.ts`**
 
 ```typescript
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import apiClient from '@/services/api'
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import apiClient from '@/services/api';
 
 export const useProductStore = defineStore('product', () => {
-  const products = ref<Product[]>([])
-  const loading = ref(false)
-  const error = ref<string | null>(null)
+  const products = ref<Product[]>([]);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
 
   const fetchProducts = async () => {
-    loading.value = true
+    loading.value = true;
     try {
-      const { data } = await apiClient.get('/api/products')
-      products.value = data
-      error.value = null
+      const { data } = await apiClient.get('/api/products');
+      products.value = data;
+      error.value = null;
     } catch (e) {
-      error.value = e.message
+      error.value = e.message;
     } finally {
-      loading.value = false
+      loading.value = false;
     }
-  }
+  };
 
-  const filteredProducts = computed(() => 
-    products.value.filter(p => p.published)
-  )
+  const filteredProducts = computed(() => products.value.filter(p => p.published));
 
   return {
     products,
@@ -320,8 +320,8 @@ export const useProductStore = defineStore('product', () => {
     error,
     fetchProducts,
     filteredProducts,
-  }
-})
+  };
+});
 ```
 
 ## ?? Testing
@@ -359,6 +359,7 @@ docker-compose down
 ### Frontend Can't Connect to API
 
 1. Check API Gateway is running:
+
    ```bash
    curl http://localhost:8000/health
    curl http://localhost:8080/health

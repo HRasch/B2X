@@ -16,9 +16,7 @@
       :placeholder="placeholder"
       :required="required"
       :disabled="disabled"
-      @input="
-        $emit('update:modelValue', ($event.target as HTMLInputElement).value)
-      "
+      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       :class="[
         'w-full px-4 py-3 rounded-soft',
         'border transition-all duration-200',
@@ -41,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Props {
   modelValue: string | number;
@@ -54,16 +52,16 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  type: "text",
+  type: 'text',
   label: undefined,
-  placeholder: "",
+  placeholder: '',
   error: undefined,
   required: false,
   disabled: false,
 });
 
 defineEmits<{
-  "update:modelValue": [value: string | number];
+  'update:modelValue': [value: string | number];
 }>();
 
 const id = computed(() => `input-${Math.random().toString(36).substr(2, 9)}`);

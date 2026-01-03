@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useCartStore } from "@/stores/cart";
-import ProductPrice from "@/components/ProductPrice.vue";
+import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cart';
+import ProductPrice from '@/components/ProductPrice.vue';
 
 interface Product {
   id: string;
@@ -65,7 +65,7 @@ const priceBreakdown = computed(() => {
 });
 
 const currentImage = computed(() => {
-  return product.value?.images?.[selectedImage.value] || "";
+  return product.value?.images?.[selectedImage.value] || '';
 });
 
 const averageRating = computed(() => {
@@ -90,59 +90,58 @@ const loadProduct = async () => {
     product.value = {
       id: productId,
       name: 'Premium Laptop Pro 15"',
-      sku: "LP-2024-PRO",
-      description: "High-performance laptop for professionals and creators",
+      sku: 'LP-2024-PRO',
+      description: 'High-performance laptop for professionals and creators',
       longDescription: `The Premium Laptop Pro is engineered for professionals who demand 
         the best performance. With the latest processor, ample RAM, and SSD storage, 
         this laptop handles demanding tasks with ease. Perfect for developers, designers, 
         and content creators.`,
       price: 1299.99,
       images: [
-        "https://via.placeholder.com/500x400?text=Laptop+Front",
-        "https://via.placeholder.com/500x400?text=Laptop+Side",
-        "https://via.placeholder.com/500x400?text=Laptop+Open",
+        'https://via.placeholder.com/500x400?text=Laptop+Front',
+        'https://via.placeholder.com/500x400?text=Laptop+Side',
+        'https://via.placeholder.com/500x400?text=Laptop+Open',
       ],
-      category: "Electronics",
+      category: 'Electronics',
       rating: 4.7,
       reviewCount: 48,
       inStock: true,
       stockQuantity: 5,
       specifications: {
-        Processor: "Intel Core i9",
-        RAM: "32GB DDR5",
-        Storage: "1TB SSD NVMe",
+        Processor: 'Intel Core i9',
+        RAM: '32GB DDR5',
+        Storage: '1TB SSD NVMe',
         Display: '15.6" 4K OLED',
-        Battery: "12 hours",
-        Weight: "1.8 kg",
+        Battery: '12 hours',
+        Weight: '1.8 kg',
       },
-      tags: ["professional", "gaming", "portable", "business"],
+      tags: ['professional', 'gaming', 'portable', 'business'],
     };
 
     // Mock reviews
     reviews.value = [
       {
-        id: "1",
-        author: "John Developer",
+        id: '1',
+        author: 'John Developer',
         rating: 5,
-        title: "Excellent for development work",
-        comment:
-          "This laptop is fantastic for programming. Fast compilation, great performance.",
-        date: "2024-12-20",
+        title: 'Excellent for development work',
+        comment: 'This laptop is fantastic for programming. Fast compilation, great performance.',
+        date: '2024-12-20',
         verified: true,
       },
       {
-        id: "2",
-        author: "Sarah Designer",
+        id: '2',
+        author: 'Sarah Designer',
         rating: 4,
-        title: "Great display, good performance",
+        title: 'Great display, good performance',
         comment:
-          "The display is absolutely stunning for design work. Only minor issue is the price.",
-        date: "2024-12-15",
+          'The display is absolutely stunning for design work. Only minor issue is the price.',
+        date: '2024-12-15',
         verified: true,
       },
     ];
   } catch (err) {
-    error.value = err instanceof Error ? err.message : "Failed to load product";
+    error.value = err instanceof Error ? err.message : 'Failed to load product';
   } finally {
     loading.value = false;
   }
@@ -230,9 +229,7 @@ onMounted(() => {
         <!-- Image Gallery -->
         <div class="flex flex-col gap-4">
           <!-- Main Image -->
-          <div
-            class="card bg-base-200 shadow-sm overflow-hidden h-96 lg:h-[500px]"
-          >
+          <div class="card bg-base-200 shadow-sm overflow-hidden h-96 lg:h-[500px]">
             <figure class="flex items-center justify-center h-full bg-base-300">
               <img
                 :src="currentImage"
@@ -292,9 +289,7 @@ onMounted(() => {
               />
             </div>
             <span class="text-sm font-semibold">{{ product.rating }}</span>
-            <span class="text-sm text-base-content/70"
-              >({{ product.reviewCount }} reviews)</span
-            >
+            <span class="text-sm text-base-content/70">({{ product.reviewCount }} reviews)</span>
           </div>
 
           <!-- SKU -->
@@ -311,9 +306,7 @@ onMounted(() => {
           <div class="divider my-4"></div>
 
           <!-- Price Section with VAT Transparency (Issue #30) -->
-          <div
-            class="card bg-green-50 border-l-4 border-green-500 shadow-sm mb-6"
-          >
+          <div class="card bg-green-50 border-l-4 border-green-500 shadow-sm mb-6">
             <div class="card-body">
               <h3 class="card-title text-base mb-4">Price Overview</h3>
 
@@ -327,8 +320,7 @@ onMounted(() => {
               />
 
               <p class="text-xs text-gray-500 mt-3">
-                All prices include VAT in accordance with PAngV (Price
-                Indication Ordinance)
+                All prices include VAT in accordance with PAngV (Price Indication Ordinance)
               </p>
             </div>
           </div>
@@ -343,12 +335,9 @@ onMounted(() => {
             ]"
           >
             <span class="font-semibold">
-              {{ product.inStock ? "✓ In Stock" : "✗ Out of Stock" }}
+              {{ product.inStock ? '✓ In Stock' : '✗ Out of Stock' }}
             </span>
-            <span
-              v-if="product.inStock && product.stockQuantity"
-              class="text-sm ml-2"
-            >
+            <span v-if="product.inStock && product.stockQuantity" class="text-sm ml-2">
               ({{ product.stockQuantity }} available)
             </span>
           </div>
@@ -374,9 +363,7 @@ onMounted(() => {
               />
               <button
                 @click="incrementQuantity"
-                :disabled="
-                  quantity >= (product.stockQuantity || 1) || !product.inStock
-                "
+                :disabled="quantity >= (product.stockQuantity || 1) || !product.inStock"
                 class="btn btn-ghost btn-sm rounded-none"
               >
                 +
@@ -389,24 +376,14 @@ onMounted(() => {
               :disabled="!product.inStock || addingToCart"
               class="btn btn-primary flex-1"
             >
-              <span
-                v-if="addingToCart"
-                class="loading loading-spinner loading-sm"
-              ></span>
+              <span v-if="addingToCart" class="loading loading-spinner loading-sm"></span>
               <span v-else>Add to Cart</span>
             </button>
           </div>
 
           <!-- Tags -->
-          <div
-            v-if="product.tags && product.tags.length > 0"
-            class="flex gap-2 flex-wrap mb-6"
-          >
-            <div
-              v-for="tag in product.tags"
-              :key="tag"
-              class="badge badge-lg badge-outline"
-            >
+          <div v-if="product.tags && product.tags.length > 0" class="flex gap-2 flex-wrap mb-6">
+            <div v-for="tag in product.tags" :key="tag" class="badge badge-lg badge-outline">
               {{ tag }}
             </div>
           </div>
@@ -414,21 +391,9 @@ onMounted(() => {
           <!-- Share -->
           <div class="flex gap-2 items-center pt-4 border-t border-base-300">
             <span class="text-sm text-base-content/70">Share:</span>
-            <button
-              class="btn btn-ghost btn-circle btn-sm"
-              title="Share on Facebook"
-            >
-              f
-            </button>
-            <button
-              class="btn btn-ghost btn-circle btn-sm"
-              title="Share on Twitter"
-            >
-              𝕏
-            </button>
-            <button class="btn btn-ghost btn-circle btn-sm" title="Copy link">
-              🔗
-            </button>
+            <button class="btn btn-ghost btn-circle btn-sm" title="Share on Facebook">f</button>
+            <button class="btn btn-ghost btn-circle btn-sm" title="Share on Twitter">𝕏</button>
+            <button class="btn btn-ghost btn-circle btn-sm" title="Copy link">🔗</button>
           </div>
         </div>
       </div>
@@ -455,21 +420,14 @@ onMounted(() => {
         <h2 class="text-2xl font-bold mb-6">Customer Reviews</h2>
 
         <div class="space-y-4">
-          <div
-            v-for="review in reviews"
-            :key="review.id"
-            class="card bg-base-200 shadow-sm"
-          >
+          <div v-for="review in reviews" :key="review.id" class="card bg-base-200 shadow-sm">
             <div class="card-body">
               <div class="flex justify-between items-start">
                 <div>
                   <h3 class="card-title text-base">{{ review.title }}</h3>
                   <p class="text-sm text-base-content/70">
                     by <span class="font-semibold">{{ review.author }}</span>
-                    <span
-                      v-if="review.verified"
-                      class="badge badge-sm badge-success ml-2"
-                    >
+                    <span v-if="review.verified" class="badge badge-sm badge-success ml-2">
                       ✓ Verified
                     </span>
                   </p>
@@ -507,13 +465,13 @@ onMounted(() => {
 
 <style scoped>
 /* Remove number input spinner */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 

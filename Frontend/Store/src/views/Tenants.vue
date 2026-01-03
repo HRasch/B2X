@@ -58,41 +58,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { api } from '../services/api'
-import type { TenantDto } from '../types'
+import { ref, onMounted } from 'vue';
+import { api } from '../services/api';
+import type { TenantDto } from '../types';
 
-const tenants = ref<TenantDto[]>([])
-const loading = ref(false)
-const showCreateModal = ref(false)
-const newTenant = ref({ name: '', slug: '', description: '' })
+const tenants = ref<TenantDto[]>([]);
+const loading = ref(false);
+const showCreateModal = ref(false);
+const newTenant = ref({ name: '', slug: '', description: '' });
 
 const loadTenants = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    const response = await api.get<TenantDto[]>('/tenants')
-    tenants.value = response.data
+    const response = await api.get<TenantDto[]>('/tenants');
+    tenants.value = response.data;
   } catch (error) {
-    console.error('Failed to load tenants:', error)
+    console.error('Failed to load tenants:', error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const createTenant = async () => {
   try {
-    await api.post('/tenants', newTenant.value)
-    showCreateModal.value = false
-    newTenant.value = { name: '', slug: '', description: '' }
-    await loadTenants()
+    await api.post('/tenants', newTenant.value);
+    showCreateModal.value = false;
+    newTenant.value = { name: '', slug: '', description: '' };
+    await loadTenants();
   } catch (error) {
-    console.error('Failed to create tenant:', error)
+    console.error('Failed to create tenant:', error);
   }
-}
+};
 
 onMounted(() => {
-  loadTenants()
-})
+  loadTenants();
+});
 </script>
 
 <style scoped>

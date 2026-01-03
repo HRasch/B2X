@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-import { useCartStore, type CartItem } from "@/stores/cart";
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCartStore, type CartItem } from '@/stores/cart';
 
 const router = useRouter();
 const cartStore = useCartStore();
@@ -25,10 +25,7 @@ const total = computed(() => {
 });
 
 const itemCount = computed(() => {
-  return cartStore.items.reduce(
-    (sum: number, item: CartItem) => sum + item.quantity,
-    0
-  );
+  return cartStore.items.reduce((sum: number, item: CartItem) => sum + item.quantity, 0);
 });
 
 const isEmpty = computed(() => cartStore.items.length === 0);
@@ -47,16 +44,16 @@ const removeItem = (itemId: string) => {
 };
 
 const proceedToCheckout = () => {
-  router.push("/checkout");
+  router.push('/checkout');
 };
 
 const continueShopping = () => {
-  router.push("/products");
+  router.push('/products');
 };
 
 const applyCoupon = () => {
   // TODO: Implement coupon logic
-  console.log("Apply coupon");
+  console.log('Apply coupon');
 };
 </script>
 
@@ -66,9 +63,7 @@ const applyCoupon = () => {
     <header class="bg-primary text-primary-content py-6 px-4">
       <div class="max-w-7xl mx-auto">
         <h1 class="text-3xl font-bold">Shopping Cart</h1>
-        <p class="text-primary-content/90">
-          {{ itemCount }} item(s) in your cart
-        </p>
+        <p class="text-primary-content/90">{{ itemCount }} item(s) in your cart</p>
       </div>
     </header>
 
@@ -77,9 +72,7 @@ const applyCoupon = () => {
       <div v-if="isEmpty" class="card bg-base-200 shadow-sm">
         <div class="card-body text-center py-12">
           <div class="text-6xl mb-4">🛒</div>
-          <h2 class="card-title text-2xl mb-2 justify-center">
-            Your cart is empty
-          </h2>
+          <h2 class="card-title text-2xl mb-2 justify-center">Your cart is empty</h2>
           <p class="text-base-content/70 mb-6">
             Discover amazing products and add them to your cart.
           </p>
@@ -114,9 +107,7 @@ const applyCoupon = () => {
                     <!-- Product Info -->
                     <td>
                       <div class="flex gap-4 items-center">
-                        <div
-                          class="w-16 h-16 bg-base-300 rounded-lg overflow-hidden flex-shrink-0"
-                        >
+                        <div class="w-16 h-16 bg-base-300 rounded-lg overflow-hidden flex-shrink-0">
                           <img
                             :src="item.image"
                             :alt="item.name"
@@ -130,9 +121,7 @@ const applyCoupon = () => {
                           >
                             {{ item.name }}
                           </router-link>
-                          <p class="text-sm text-base-content/70">
-                            SKU: ABC-123
-                          </p>
+                          <p class="text-sm text-base-content/70">SKU: ABC-123</p>
                         </div>
                       </div>
                     </td>
@@ -142,9 +131,7 @@ const applyCoupon = () => {
 
                     <!-- Quantity -->
                     <td>
-                      <div
-                        class="flex items-center border border-base-300 rounded-lg w-fit"
-                      >
+                      <div class="flex items-center border border-base-300 rounded-lg w-fit">
                         <button
                           @click="updateQuantity(item.id, item.quantity - 1)"
                           class="btn btn-ghost btn-sm rounded-none px-3"
@@ -154,12 +141,10 @@ const applyCoupon = () => {
                         <input
                           :value="item.quantity"
                           @input="
-                            (e) =>
+                            e =>
                               updateQuantity(
                                 item.id,
-                                parseInt(
-                                  (e.target as HTMLInputElement).value
-                                ) || 1
+                                parseInt((e.target as HTMLInputElement).value) || 1
                               )
                           "
                           type="number"
@@ -176,9 +161,7 @@ const applyCoupon = () => {
                     </td>
 
                     <!-- Total -->
-                    <td class="font-semibold">
-                      €{{ (item.price * item.quantity).toFixed(2) }}
-                    </td>
+                    <td class="font-semibold">€{{ (item.price * item.quantity).toFixed(2) }}</td>
 
                     <!-- Remove -->
                     <td>
@@ -220,13 +203,7 @@ const applyCoupon = () => {
                     class="input input-bordered input-sm w-full"
                     disabled
                   />
-                  <button
-                    @click="applyCoupon"
-                    class="btn btn-ghost btn-sm"
-                    disabled
-                  >
-                    Apply
-                  </button>
+                  <button @click="applyCoupon" class="btn btn-ghost btn-sm" disabled>Apply</button>
                 </div>
               </div>
 
@@ -249,18 +226,14 @@ const applyCoupon = () => {
 
                 <!-- Net (before VAT) -->
                 <div class="flex justify-between">
-                  <span class="text-base-content/70"
-                    >Net Price (excl. VAT)</span
-                  >
+                  <span class="text-base-content/70">Net Price (excl. VAT)</span>
                   <span class="font-semibold">€{{ subtotal.toFixed(2) }}</span>
                 </div>
 
                 <!-- VAT -->
                 <div class="flex justify-between">
                   <span class="text-base-content/70">VAT (19%)</span>
-                  <span class="font-semibold text-success"
-                    >€{{ vatAmount.toFixed(2) }}</span
-                  >
+                  <span class="font-semibold text-success">€{{ vatAmount.toFixed(2) }}</span>
                 </div>
 
                 <!-- Divider -->
@@ -269,32 +242,23 @@ const applyCoupon = () => {
                 <!-- Total -->
                 <div class="flex justify-between items-center text-lg">
                   <span class="font-bold">Total (incl. VAT)</span>
-                  <span class="text-2xl font-bold text-primary"
-                    >€{{ total.toFixed(2) }}</span
-                  >
+                  <span class="text-2xl font-bold text-primary">€{{ total.toFixed(2) }}</span>
                 </div>
               </div>
 
               <!-- Checkout Button -->
-              <button
-                @click="proceedToCheckout"
-                class="btn btn-primary w-full mt-6"
-              >
+              <button @click="proceedToCheckout" class="btn btn-primary w-full mt-6">
                 Proceed to Checkout →
               </button>
 
               <!-- Guest Checkout -->
-              <button class="btn btn-ghost w-full mt-2">
-                Continue as Guest
-              </button>
+              <button class="btn btn-ghost w-full mt-2">Continue as Guest</button>
 
               <!-- Security Badge -->
               <div
                 class="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-base-300"
               >
-                <span class="text-xs text-base-content/70"
-                  >🔒 Secure Checkout</span
-                >
+                <span class="text-xs text-base-content/70">🔒 Secure Checkout</span>
               </div>
             </div>
           </div>
@@ -310,9 +274,7 @@ const applyCoupon = () => {
             </div>
             <div class="card bg-base-200 shadow-sm">
               <div class="card-body py-3 px-4">
-                <p class="text-xs text-center text-base-content/70">
-                  ✓ Free returns & exchanges
-                </p>
+                <p class="text-xs text-center text-base-content/70">✓ Free returns & exchanges</p>
               </div>
             </div>
             <div class="card bg-base-200 shadow-sm">

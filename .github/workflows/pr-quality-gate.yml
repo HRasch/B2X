@@ -41,11 +41,18 @@ jobs:
         run: |
           cd frontend/Store && npm ci
           cd ../Management && npm ci
+          cd ../Admin && npm ci
+
+      - name: Frontend - Format Check
+        run: |
+          npm run format:check
+        continue-on-error: false
 
       - name: Frontend - Lint Check
         run: |
           cd frontend/Store && npm run lint
           cd ../Management && npm run lint
+          cd ../Admin && npm run lint
 
       - name: Frontend - Type Check
         run: |

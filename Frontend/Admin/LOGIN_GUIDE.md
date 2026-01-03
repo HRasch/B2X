@@ -49,14 +49,14 @@ Nach dem Login werden folgende Daten gespeichert:
 
 ```javascript
 // localStorage
-localStorage.getItem('authToken')      // JWT Access Token
-localStorage.getItem('refreshToken')   // Refresh Token
-localStorage.getItem('tenantId')       // Tenant ID
+localStorage.getItem('authToken'); // JWT Access Token
+localStorage.getItem('refreshToken'); // Refresh Token
+localStorage.getItem('tenantId'); // Tenant ID
 
 // Pinia Store
-authStore.user                         // User Objekt
-authStore.token                        // Access Token
-authStore.isAuthenticated              // Boolean Flag
+authStore.user; // User Objekt
+authStore.token; // Access Token
+authStore.isAuthenticated; // Boolean Flag
 ```
 
 ---
@@ -64,11 +64,13 @@ authStore.isAuthenticated              // Boolean Flag
 ## 🔒 Session Management
 
 ### Token Refresh
+
 - **Access Token**: Gültig für ~1 Stunde
 - **Refresh Token**: Kann neue Access Tokens generieren
 - **Automatisches Refresh**: Bei API-Requests wird Token bei Bedarf aktualisiert
 
 ### Logout
+
 - Alle Tokens werden gelöscht
 - localStorage wird geleert
 - Redirect zur Login-Seite
@@ -98,15 +100,15 @@ Das System unterstützt rollenbasierte Zugriffskontrolle (RBAC):
 
 ```typescript
 interface AdminUser {
-  id: string
-  email: string
-  firstName: string
-  lastName: string
-  roles: Array<{ id: string; name: string }>
-  permissions: Array<{ id: string; name: string }>
-  tenantId: string
-  createdAt: Date
-  updatedAt: Date
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  roles: Array<{ id: string; name: string }>;
+  permissions: Array<{ id: string; name: string }>;
+  tenantId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 ```
 
@@ -136,6 +138,7 @@ if (authStore.hasAnyRole(['admin', 'manager'])) {
 Die Login-Form kommuniziert mit folgenden Endpoints:
 
 ### POST /auth/login
+
 ```json
 Request:
 {
@@ -154,9 +157,11 @@ Response:
 ```
 
 ### POST /auth/logout
+
 Logout-Request mit aktuellen Tokens
 
 ### POST /auth/refresh
+
 ```json
 Request:
 {
@@ -172,6 +177,7 @@ Response:
 ```
 
 ### GET /auth/me
+
 Gibt aktuellen User zurück (erfordert gültigen Token)
 
 ---
@@ -182,19 +188,19 @@ Gibt aktuellen User zurück (erfordert gültigen Token)
 
 ```typescript
 // In E2E Tests
-await page.fill('input[type="email"]', 'admin@example.com')
-await page.fill('input[type="password"]', 'password')
-await page.click('button[type="submit"]')
-await page.waitForURL('/dashboard')
+await page.fill('input[type="email"]', 'admin@example.com');
+await page.fill('input[type="password"]', 'password');
+await page.click('button[type="submit"]');
+await page.waitForURL('/dashboard');
 ```
 
 ### In Unit Tests
 
 ```typescript
 // Mit Pinia
-const authStore = useAuthStore()
-await authStore.login('admin@example.com', 'password')
-expect(authStore.isAuthenticated).toBe(true)
+const authStore = useAuthStore();
+await authStore.login('admin@example.com', 'password');
+expect(authStore.isAuthenticated).toBe(true);
 ```
 
 ---
@@ -214,6 +220,7 @@ expect(authStore.isAuthenticated).toBe(true)
 ### Development vs Production
 
 **Development:**
+
 ```
 Vordefinierte Credentials: admin@example.com / password
 Tokens in localStorage gespeichert
@@ -221,6 +228,7 @@ CORS offen
 ```
 
 **Production:**
+
 ```
 Echte Benutzer-Accounts erforderlich
 Tokens mit HttpOnly Flag
@@ -234,16 +242,19 @@ Rate Limiting aktiv
 ## 🐛 Häufige Probleme
 
 ### "Login failed"
+
 - Credentials falsch
 - Backend nicht erreichbar (localhost:9000)
 - CORS-Fehler (prüfen Sie Browser Console)
 
 ### Token ungültig
+
 - Session abgelaufen
 - Token wurde gelöscht
 - Browser-Cache leeren
 
 ### Keine Navigation nach Login
+
 - Token nicht gespeichert
 - Router Guards nicht korrekt konfiguriert
 - Prüfen Sie Redux State in Vue DevTools

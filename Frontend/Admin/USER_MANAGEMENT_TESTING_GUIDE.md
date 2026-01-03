@@ -15,6 +15,7 @@ http://localhost:5174/users
 ```
 
 **Verifikation:**
+
 - [ ] Alle Benutzer sind sichtbar (falls Daten in Backend vorhanden)
 - [ ] Tabelle zeigt: Name, Email, Telefon, Status, Erstellt, Letzter Login
 - [ ] Pagination funktioniert (Previous/Next Buttons)
@@ -26,6 +27,7 @@ http://localhost:5174/users
 ### 2. User erstellen
 
 **Flow:**
+
 ```
 http://localhost:5174/users
   → [+ Create User] Button
@@ -36,6 +38,7 @@ http://localhost:5174/users
 ```
 
 **Formular validieren:**
+
 - [ ] Vorname erforderlich
 - [ ] Nachname erforderlich
 - [ ] E-Mail erforderlich + gültig
@@ -49,6 +52,7 @@ http://localhost:5174/users
 ### 3. User anzeigen (Detail)
 
 **Flow:**
+
 ```
 /users
   → [User anklicken oder View Button]
@@ -56,6 +60,7 @@ http://localhost:5174/users
 ```
 
 **Elemente verifikation:**
+
 - [ ] User-Karte mit Avatar (wenn vorhanden)
 - [ ] Name, Email, Telefon angezeigt
 - [ ] Status-Badge (Active/Inactive)
@@ -69,6 +74,7 @@ http://localhost:5174/users
 ### 4. User bearbeiten
 
 **Flow:**
+
 ```
 /users/:id
   → [Edit] Button
@@ -80,6 +86,7 @@ http://localhost:5174/users
 ```
 
 **Validierung:**
+
 - [ ] Existierende Daten sind in Formular gefüllt
 - [ ] Alle Felder editierbar
 - [ ] Validierung funktioniert
@@ -89,6 +96,7 @@ http://localhost:5174/users
 ### 5. User löschen
 
 **Flow:**
+
 ```
 /users
   → [Delete Button] oder /users/:id → [Delete]
@@ -99,6 +107,7 @@ http://localhost:5174/users
 ```
 
 **Validierung:**
+
 - [ ] Bestätigungs-Dialog angezeigt
 - [ ] User wird entfernt
 - [ ] Success-Message angezeigt
@@ -107,6 +116,7 @@ http://localhost:5174/users
 ### 6. Adressen-Management
 
 **In User Detail View:**
+
 ```
 /users/:id
   → Addresses Tab
@@ -117,6 +127,7 @@ http://localhost:5174/users
 ```
 
 **Validierung:**
+
 - [ ] Adressen-Liste angezeigt
 - [ ] Add-Button funktioniert
 - [ ] Modal öffnet sich
@@ -127,6 +138,7 @@ http://localhost:5174/users
 ### 7. Search & Filter
 
 **Search Test:**
+
 ```
 /users
   → Search-Feld: "john" eingeben
@@ -135,6 +147,7 @@ http://localhost:5174/users
 ```
 
 **Filter Test:**
+
 ```
 /users
   → Status Dropdown: "Active" wählen
@@ -142,6 +155,7 @@ http://localhost:5174/users
 ```
 
 **Sort Test:**
+
 ```
 /users
   → Sort Dropdown: "Name (A-Z)" wählen
@@ -153,16 +167,19 @@ http://localhost:5174/users
 ## 📱 Responsive Design Test
 
 ### Desktop (1920px)
+
 - [ ] Layout voll breit
 - [ ] Tabelle mit allen Spalten sichtbar
 - [ ] Keine Scrollbars
 
 ### Tablet (768px)
+
 - [ ] Layout angepasst
 - [ ] Tabelle scrollbar (horizontal)
 - [ ] Buttons sichtbar
 
 ### Mobile (375px)
+
 - [ ] Stack-Layout
 - [ ] Touch-freundliche Buttons
 - [ ] Kein Horizontal-Scroll
@@ -189,7 +206,7 @@ if (process.env.VITE_USE_MOCK_DATA === 'true') {
         isPhoneVerified: false,
         createdAt: '2024-01-15T10:30:00Z',
         updatedAt: '2024-01-20T14:45:00Z',
-        lastLoginAt: '2024-01-22T08:15:00Z'
+        lastLoginAt: '2024-01-22T08:15:00Z',
       },
       {
         id: '2',
@@ -202,16 +219,16 @@ if (process.env.VITE_USE_MOCK_DATA === 'true') {
         isPhoneVerified: true,
         createdAt: '2024-01-10T09:00:00Z',
         updatedAt: '2024-01-21T16:20:00Z',
-        lastLoginAt: '2024-01-22T11:30:00Z'
-      }
+        lastLoginAt: '2024-01-22T11:30:00Z',
+      },
     ],
     pagination: {
       currentPage: 1,
       pageSize: 20,
       totalPages: 1,
-      totalCount: 2
-    }
-  }
+      totalCount: 2,
+    },
+  };
 }
 ```
 
@@ -220,25 +237,31 @@ if (process.env.VITE_USE_MOCK_DATA === 'true') {
 ## 🐛 Häufige Fehler
 
 ### "Cannot read property 'value' of undefined"
+
 **Ursache**: Store ist nicht richtig importiert
-**Lösung**: 
+**Lösung**:
+
 ```typescript
-import { useUserStore } from '@/stores/users'
+import { useUserStore } from '@/stores/users';
 
 // Im setup():
-const userStore = useUserStore()
+const userStore = useUserStore();
 ```
 
 ### "API returned 401 Unauthorized"
+
 **Ursache**: JWT-Token ist abgelaufen oder nicht gesetzt
-**Lösung**: 
+**Lösung**:
+
 - Login durchführen
 - Token in localStorage überprüfen
 - Browser-Cookies clearen und neuladen
 
 ### "Cannot find module '@/...'"
+
 **Ursache**: Path Alias nicht konfiguriert
 **Lösung**: Überprüfe `vite.config.ts`:
+
 ```typescript
 resolve: {
   alias: {
@@ -248,8 +271,10 @@ resolve: {
 ```
 
 ### Laden hängt sich auf
+
 **Ursache**: Backend antwortet nicht / CORS-Error
 **Lösung**:
+
 - Öffne Browser DevTools (F12)
 - Überprüfe Network-Tab
 - Überprüfe Console auf CORS-Fehler
@@ -328,8 +353,8 @@ Security:
 ## 📞 Support
 
 Probleme beim Testing? Überprüfe:
+
 1. Frontend läuft auf http://localhost:5173 (Store) oder 5174 (Admin)
 2. Backend läuft auf http://localhost:8080 (Admin API)
 3. Browser Console auf Fehler überprüfen
 4. Network-Tab zeigt requests und responses
-

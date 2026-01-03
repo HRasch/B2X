@@ -15,26 +15,25 @@
  * @see https://opentelemetry.io/docs/languages/js/getting-started/nodejs/
  */
 
-import { NodeSDK } from "@opentelemetry/sdk-node";
-import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
-import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-proto";
-import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import { Resource } from "@opentelemetry/resources";
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
+import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { Resource } from '@opentelemetry/resources';
 import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
   ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
-} from "@opentelemetry/semantic-conventions";
+} from '@opentelemetry/semantic-conventions';
 
 // Configuration with environment variable fallbacks
 const config = {
-  enabled: process.env.ENABLE_TELEMETRY === "true",
-  serviceName: process.env.OTEL_SERVICE_NAME || "frontend-store",
-  serviceVersion: process.env.npm_package_version || "1.0.0",
-  environment: process.env.NODE_ENV || "development",
-  otlpEndpoint:
-    process.env.OTEL_EXPORTER_OTLP_ENDPOINT || "http://localhost:4318",
+  enabled: process.env.ENABLE_TELEMETRY === 'true',
+  serviceName: process.env.OTEL_SERVICE_NAME || 'frontend-store',
+  serviceVersion: process.env.npm_package_version || '1.0.0',
+  environment: process.env.NODE_ENV || 'development',
+  otlpEndpoint: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://localhost:4318',
 };
 
 /**
@@ -43,9 +42,7 @@ const config = {
 function initTelemetry(): void {
   // Skip initialization if telemetry is disabled
   if (!config.enabled) {
-    console.log(
-      "[OTel] Telemetry disabled. Set ENABLE_TELEMETRY=true to enable."
-    );
+    console.log('[OTel] Telemetry disabled. Set ENABLE_TELEMETRY=true to enable.');
     return;
   }
 
@@ -86,18 +83,18 @@ function initTelemetry(): void {
       instrumentations: [
         getNodeAutoInstrumentations({
           // Disable noisy instrumentations
-          "@opentelemetry/instrumentation-fs": {
+          '@opentelemetry/instrumentation-fs': {
             enabled: false, // Filesystem operations are too noisy for dev
           },
-          "@opentelemetry/instrumentation-dns": {
+          '@opentelemetry/instrumentation-dns': {
             enabled: false, // DNS lookups are too frequent
           },
           // Enable HTTP instrumentation for API calls
-          "@opentelemetry/instrumentation-http": {
+          '@opentelemetry/instrumentation-http': {
             enabled: true,
           },
           // Enable fetch instrumentation
-          "@opentelemetry/instrumentation-fetch": {
+          '@opentelemetry/instrumentation-fetch': {
             enabled: true,
           },
         }),
@@ -109,25 +106,25 @@ function initTelemetry(): void {
 
     // Graceful shutdown on process termination
     const shutdown = async () => {
-      console.log("[OTel] Shutting down telemetry...");
+      console.log('[OTel] Shutting down telemetry...');
       try {
         await sdk.shutdown();
-        console.log("[OTel] Telemetry shutdown complete.");
+        console.log('[OTel] Telemetry shutdown complete.');
       } catch (error) {
-        console.error("[OTel] Error during shutdown:", error);
+        console.error('[OTel] Error during shutdown:', error);
       }
     };
 
-    process.on("SIGTERM", shutdown);
-    process.on("SIGINT", shutdown);
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown);
 
     console.log(`[OTel] Telemetry initialized successfully.`);
     console.log(`[OTel] Service: ${config.serviceName}@${config.serviceVersion}`);
     console.log(`[OTel] Environment: ${config.environment}`);
   } catch (error) {
     // Graceful fallback - don't crash if OTLP endpoint is unreachable
-    console.warn("[OTel] Failed to initialize telemetry:", error);
-    console.warn("[OTel] Continuing without telemetry...");
+    console.warn('[OTel] Failed to initialize telemetry:', error);
+    console.warn('[OTel] Continuing without telemetry...');
   }
 }
 

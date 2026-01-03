@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-page">
     <h1>Dashboard</h1>
-    
+
     <div class="welcome-section">
       <h2>Welcome, {{ authStore.email }}</h2>
       <p>Manage your store instances and administrator identities</p>
@@ -30,13 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/authStore'
-import { useStoreStore } from '@/stores/storeStore'
-import { useAdminStore } from '@/stores/adminStore'
+import { useAuthStore } from '@/stores/authStore';
+import { useStoreStore } from '@/stores/storeStore';
+import { useAdminStore } from '@/stores/adminStore';
 
-const authStore = useAuthStore()
-const storeStore = useStoreStore()
-const adminStore = useAdminStore()
+const authStore = useAuthStore();
+const storeStore = useStoreStore();
+const adminStore = useAdminStore();
 </script>
 
 <style scoped>
@@ -79,7 +79,9 @@ const adminStore = useAdminStore()
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 .stat-card:hover {

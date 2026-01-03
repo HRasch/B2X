@@ -1,6 +1,9 @@
 <template>
   <section class="video-widget py-8">
-    <div :style="{ paddingBottom: paddingBottom }" class="relative w-full h-0 overflow-hidden rounded">
+    <div
+      :style="{ paddingBottom: paddingBottom }"
+      class="relative w-full h-0 overflow-hidden rounded"
+    >
       <iframe
         :src="settings.videoUrl"
         :allow="settings.autoplay ? 'autoplay' : ''"

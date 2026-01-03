@@ -7,24 +7,12 @@
       <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="email">Email</label>
-          <input
-            id="email"
-            v-model="email"
-            type="email"
-            required
-            placeholder="admin@example.com"
-          />
+          <input id="email" v-model="email" type="email" required placeholder="admin@example.com" />
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input
-            id="password"
-            v-model="password"
-            type="password"
-            required
-            placeholder="••••••••"
-          />
+          <input id="password" v-model="password" type="password" required placeholder="••••••••" />
         </div>
 
         <button type="submit" :disabled="loading" class="btn-submit">
@@ -40,38 +28,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/authStore'
-import apiClient from '@/services/api'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
+import apiClient from '@/services/api';
 
-const router = useRouter()
-const authStore = useAuthStore()
+const router = useRouter();
+const authStore = useAuthStore();
 
-const email = ref('')
-const password = ref('')
-const loading = ref(false)
-const error = ref('')
+const email = ref('');
+const password = ref('');
+const loading = ref(false);
+const error = ref('');
 
 const handleLogin = async () => {
-  loading.value = true
-  error.value = ''
+  loading.value = true;
+  error.value = '';
 
   try {
     const response = await apiClient.post('/auth/login', {
       email: email.value,
-      password: password.value
-    })
+      password: password.value,
+    });
 
-    const { token, userId, email: userEmail } = response.data.data
-    authStore.setAuth(token, userId, userEmail)
-    router.push('/dashboard')
+    const { token, userId, email: userEmail } = response.data.data;
+    authStore.setAuth(token, userId, userEmail);
+    router.push('/dashboard');
   } catch (err: any) {
-    error.value = err.response?.data?.message || 'Login failed. Please try again.'
+    error.value = err.response?.data?.message || 'Login failed. Please try again.';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <style scoped>

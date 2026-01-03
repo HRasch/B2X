@@ -31,7 +31,7 @@ export interface ValidateVatIdResponse {
  * B2B Customer Information with VAT Validation
  */
 export interface B2BCustomer {
-  registrationType: "B2B";
+  registrationType: 'B2B';
   companyName: string;
   vatId: string;
   vatIdValidated: boolean;

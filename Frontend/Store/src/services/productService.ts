@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from './api';
 
 export interface Product {
   id: string;
@@ -81,11 +81,11 @@ export class ProductService {
   static async searchProducts(
     filters: SearchFilters,
     page: number = 1,
-    pageSize: number = 20,
+    pageSize: number = 20
   ): Promise<SearchResponse> {
     try {
-      if (!filters.searchTerm || filters.searchTerm.trim() === "") {
-        throw new Error("Search term is required");
+      if (!filters.searchTerm || filters.searchTerm.trim() === '') {
+        throw new Error('Search term is required');
       }
 
       // Validate pagination
@@ -97,30 +97,30 @@ export class ProductService {
         term: filters.searchTerm.trim(),
         page: page.toString(),
         pageSize: pageSize.toString(),
-        language: filters.language || "de",
+        language: filters.language || 'de',
         onlyAvailable: (filters.onlyAvailable !== false).toString(),
-        sortBy: filters.sortBy || "relevance",
+        sortBy: filters.sortBy || 'relevance',
       });
 
       // Add optional filters
       if (filters.category) {
-        params.append("category", filters.category);
+        params.append('category', filters.category);
       }
       if (filters.minPrice !== undefined && filters.minPrice > 0) {
-        params.append("minPrice", filters.minPrice.toString());
+        params.append('minPrice', filters.minPrice.toString());
       }
       if (filters.maxPrice !== undefined && filters.maxPrice > 0) {
-        params.append("maxPrice", filters.maxPrice.toString());
+        params.append('maxPrice', filters.maxPrice.toString());
       }
 
       // Call ElasticSearch endpoint (via YARP route /api/catalog/products)
       const response = await api.get<SearchResponse>(
-        `/catalog/products/elasticsearch?${params.toString()}`,
+        `/catalog/products/elasticsearch?${params.toString()}`
       );
 
       return response.data;
     } catch (error) {
-      console.error("Error searching products:", error);
+      console.error('Error searching products:', error);
       throw error;
     }
   }
@@ -146,7 +146,7 @@ export class ProductService {
   static async getProducts(
     page: number = 1,
     pageSize: number = 20,
-    filters?: Partial<SearchFilters>,
+    filters?: Partial<SearchFilters>
   ): Promise<SearchResponse> {
     try {
       if (page < 1) page = 1;
@@ -158,22 +158,20 @@ export class ProductService {
       });
 
       if (filters?.category) {
-        params.append("category", filters.category);
+        params.append('category', filters.category);
       }
       if (filters?.minPrice !== undefined && filters.minPrice > 0) {
-        params.append("minPrice", filters.minPrice.toString());
+        params.append('minPrice', filters.minPrice.toString());
       }
       if (filters?.maxPrice !== undefined && filters.maxPrice > 0) {
-        params.append("maxPrice", filters.maxPrice.toString());
+        params.append('maxPrice', filters.maxPrice.toString());
       }
 
-      const response = await api.get<SearchResponse>(
-        `/catalog/products?${params.toString()}`,
-      );
+      const response = await api.get<SearchResponse>(`/catalog/products?${params.toString()}`);
 
       return response.data;
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error('Error fetching products:', error);
       throw error;
     }
   }
@@ -183,10 +181,10 @@ export class ProductService {
    */
   static async getCatalogStats() {
     try {
-      const response = await api.get("/catalog/products/stats");
+      const response = await api.get('/catalog/products/stats');
       return response.data;
     } catch (error) {
-      console.error("Error fetching catalog statistics:", error);
+      console.error('Error fetching catalog statistics:', error);
       throw error;
     }
   }

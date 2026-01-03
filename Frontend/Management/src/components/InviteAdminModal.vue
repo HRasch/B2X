@@ -20,24 +20,12 @@
 
         <div class="form-group">
           <label for="firstName">First Name</label>
-          <input
-            id="firstName"
-            v-model="form.firstName"
-            type="text"
-            required
-            placeholder="John"
-          />
+          <input id="firstName" v-model="form.firstName" type="text" required placeholder="John" />
         </div>
 
         <div class="form-group">
           <label for="lastName">Last Name</label>
-          <input
-            id="lastName"
-            v-model="form.lastName"
-            type="text"
-            required
-            placeholder="Doe"
-          />
+          <input id="lastName" v-model="form.lastName" type="text" required placeholder="Doe" />
         </div>
 
         <div class="form-group">
@@ -63,31 +51,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { Administrator } from '@/stores/adminStore'
+import { ref } from 'vue';
+import type { Administrator } from '@/stores/adminStore';
 
 const emit = defineEmits<{
-  close: []
-  invited: [admin: Administrator]
-}>()
+  close: [];
+  invited: [admin: Administrator];
+}>();
 
 const form = ref({
   email: '',
   firstName: '',
   lastName: '',
-  role: 'TenantAdmin' as 'TenantAdmin' | 'StoreManager' | 'SuperAdmin'
-})
+  role: 'TenantAdmin' as 'TenantAdmin' | 'StoreManager' | 'SuperAdmin',
+});
 
-const loading = ref(false)
-const error = ref('')
+const loading = ref(false);
+const error = ref('');
 
 const close = () => {
-  emit('close')
-}
+  emit('close');
+};
 
 const handleInviteAdmin = async () => {
-  loading.value = true
-  error.value = ''
+  loading.value = true;
+  error.value = '';
 
   try {
     const newAdmin: Administrator = {
@@ -99,17 +87,17 @@ const handleInviteAdmin = async () => {
       tenantId: 'default-tenant',
       status: 'active',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
+      updatedAt: new Date().toISOString(),
+    };
 
-    emit('invited', newAdmin)
-    form.value = { email: '', firstName: '', lastName: '', role: 'TenantAdmin' }
+    emit('invited', newAdmin);
+    form.value = { email: '', firstName: '', lastName: '', role: 'TenantAdmin' };
   } catch (err: any) {
-    error.value = err.message || 'Failed to invite administrator'
+    error.value = err.message || 'Failed to invite administrator';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <style scoped>

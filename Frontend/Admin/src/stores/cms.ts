@@ -5,12 +5,12 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling, refactor in KB-STORE-TYPING sprint */
 
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import type { Page, Template, MediaItem } from "@/types/cms";
-import { cmsApi } from "@/services/api/cms";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import type { Page, Template, MediaItem } from '@/types/cms';
+import { cmsApi } from '@/services/api/cms';
 
-export const useCmsStore = defineStore("cms", () => {
+export const useCmsStore = defineStore('cms', () => {
   const pages = ref<Page[]>([]);
   const currentPage = ref<Page | null>(null);
   const templates = ref<Template[]>([]);
@@ -43,13 +43,11 @@ export const useCmsStore = defineStore("cms", () => {
     }
   }
 
-  async function savePage(
-    page: Page | Omit<Page, "id" | "createdAt" | "updatedAt">
-  ) {
+  async function savePage(page: Page | Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) {
     loading.value = true;
     error.value = null;
     try {
-      if ("id" in page) {
+      if ('id' in page) {
         const updated = await cmsApi.updatePage(page.id, page);
         currentPage.value = updated;
         const index = pages.value.findIndex((p: any) => p.id === page.id);

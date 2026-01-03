@@ -1,80 +1,76 @@
-import {
-  createRouter,
-  createWebHistory,
-  type RouteRecordRaw,
-} from "vue-router";
-import { useAuthStore } from "../stores/auth";
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import { useAuthStore } from '../stores/auth';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: "/",
-    name: "Home",
-    component: () => import("../views/Home.vue"),
+    path: '/',
+    name: 'Home',
+    component: () => import('../views/Home.vue'),
   },
   {
-    path: "/register/customer-type",
-    name: "CustomerTypeSelection",
-    component: () => import("../views/CustomerTypeSelection.vue"),
+    path: '/register/customer-type',
+    name: 'CustomerTypeSelection',
+    component: () => import('../views/CustomerTypeSelection.vue'),
     meta: { requiresAuth: false },
   },
   {
-    path: "/register/private",
-    name: "PrivateCustomerRegistration",
-    component: () => import("../views/PrivateCustomerRegistration.vue"),
-    meta: { requiresAuth: false, title: "Private Customer Registration" },
+    path: '/register/private',
+    name: 'PrivateCustomerRegistration',
+    component: () => import('../views/PrivateCustomerRegistration.vue'),
+    meta: { requiresAuth: false, title: 'Private Customer Registration' },
   },
   {
-    path: "/login",
-    name: "Login",
-    component: () => import("../views/Login.vue"),
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
     meta: { requiresAuth: false },
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: () => import("../views/Dashboard.vue"),
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('../views/Dashboard.vue'),
     meta: { requiresAuth: true },
   },
   {
-    path: "/tenants",
-    name: "Tenants",
-    component: () => import("../views/Tenants.vue"),
+    path: '/tenants',
+    name: 'Tenants',
+    component: () => import('../views/Tenants.vue'),
     meta: { requiresAuth: true },
   },
   {
-    path: "/shop",
-    name: "Store",
-    component: () => import("../views/Store.vue"),
+    path: '/shop',
+    name: 'Store',
+    component: () => import('../views/Store.vue'),
     meta: { requiresAuth: false },
   },
   {
-    path: "/products",
-    name: "Products",
-    component: () => import("../views/Store.vue"),
+    path: '/products',
+    name: 'Products',
+    component: () => import('../views/Store.vue'),
     meta: { requiresAuth: false },
   },
   {
-    path: "/products/:id",
-    name: "ProductDetail",
-    component: () => import("../views/ProductDetail.vue"),
+    path: '/products/:id',
+    name: 'ProductDetail',
+    component: () => import('../views/ProductDetail.vue'),
     meta: { requiresAuth: false },
   },
   {
-    path: "/cart",
-    name: "Cart",
-    component: () => import("../views/Cart.vue"),
+    path: '/cart',
+    name: 'Cart',
+    component: () => import('../views/Cart.vue'),
     meta: { requiresAuth: false },
   },
   {
-    path: "/checkout",
-    name: "Checkout",
-    component: () => import("../views/Checkout.vue"),
+    path: '/checkout',
+    name: 'Checkout',
+    component: () => import('../views/Checkout.vue'),
     meta: { requiresAuth: false },
   },
   {
-    path: "/:pathMatch(.*)*",
-    name: "NotFound",
-    component: () => import("../views/NotFound.vue"),
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('../views/NotFound.vue'),
   },
 ];
 
@@ -89,10 +85,10 @@ router.beforeEach((to, from, next) => {
 
   if (requiresAuth && !authStore.isAuthenticated) {
     // Redirect to login if authentication is required but user is not authenticated
-    next({ name: "Login", query: { redirect: to.fullPath } });
-  } else if (to.path === "/login" && authStore.isAuthenticated) {
+    next({ name: 'Login', query: { redirect: to.fullPath } });
+  } else if (to.path === '/login' && authStore.isAuthenticated) {
     // Redirect to dashboard if already authenticated and trying to access login
-    next({ name: "Dashboard" });
+    next({ name: 'Dashboard' });
   } else {
     // Allow navigation
     next();

@@ -1,9 +1,6 @@
 <template>
   <div
-    :class="[
-      'rounded-soft px-4 py-3 text-sm font-medium flex items-center gap-3',
-      badgeClasses,
-    ]"
+    :class="['rounded-soft px-4 py-3 text-sm font-medium flex items-center gap-3', badgeClasses]"
   >
     <div
       :class="[
@@ -22,23 +19,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Props {
-  variant?: "success" | "warning" | "danger" | "info" | "default";
+  variant?: 'success' | 'warning' | 'danger' | 'info' | 'default';
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  variant: "default",
+  variant: 'default',
 });
 
 const badgeClasses = computed(() => {
   const variants = {
-    success: "bg-success-50 text-success-700 border border-success-100",
-    warning: "bg-warning-50 text-warning-700 border border-warning-100",
-    danger: "bg-danger-50 text-danger-700 border border-danger-100",
-    info: "bg-info-50 text-info-700 border border-info-100",
-    default: "bg-primary-50 text-primary-700 border border-primary-100",
+    success: 'bg-success-50 text-success-700 border border-success-100',
+    warning: 'bg-warning-50 text-warning-700 border border-warning-100',
+    danger: 'bg-danger-50 text-danger-700 border border-danger-100',
+    info: 'bg-info-50 text-info-700 border border-info-100',
+    default: 'bg-primary-50 text-primary-700 border border-primary-100',
   };
 
   return variants[props.variant];

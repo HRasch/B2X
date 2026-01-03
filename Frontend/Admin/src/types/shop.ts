@@ -30,7 +30,7 @@ export interface Category {
 export interface PricingRule {
   id: string;
   name: string;
-  type: "fixed" | "percentage" | "tiered";
+  type: 'fixed' | 'percentage' | 'tiered';
   conditions: PriceCondition[];
   effect: PriceEffect;
   isActive: boolean;
@@ -40,20 +40,20 @@ export interface PricingRule {
 }
 
 export interface PriceCondition {
-  field: "quantity" | "customer-type" | "product-category";
-  operator: "equals" | "greater" | "less" | "in";
+  field: 'quantity' | 'customer-type' | 'product-category';
+  operator: 'equals' | 'greater' | 'less' | 'in';
   value: any;
 }
 
 export interface PriceEffect {
-  type: "discount" | "markup";
+  type: 'discount' | 'markup';
   value: number;
 }
 
 export interface Discount {
   id: string;
   code: string;
-  type: "percentage" | "fixed";
+  type: 'percentage' | 'fixed';
   value: number;
   maxUses?: number;
   usedCount: number;

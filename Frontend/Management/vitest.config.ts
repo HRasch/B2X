@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
+import { defineConfig } from 'vitest/config';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
 
 export default defineConfig({
   plugins: [vue()],
@@ -20,7 +20,7 @@ export default defineConfig({
       lines: 80,
       functions: 80,
       branches: 80,
-      statements: 80
+      statements: 80,
     },
   },
-})
+});

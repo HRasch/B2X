@@ -5,12 +5,12 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling, refactor in KB-STORE-TYPING sprint */
 
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import type { Job, ScheduledJob, JobLog } from "@/types/jobs";
-import { jobsApi } from "@/services/api/jobs";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import type { Job, ScheduledJob, JobLog } from '@/types/jobs';
+import { jobsApi } from '@/services/api/jobs';
 
-export const useJobsStore = defineStore("jobs", () => {
+export const useJobsStore = defineStore('jobs', () => {
   const jobs = ref<Job[]>([]);
   const scheduledJobs = ref<ScheduledJob[]>([]);
   const currentJob = ref<Job | null>(null);
@@ -105,9 +105,7 @@ export const useJobsStore = defineStore("jobs", () => {
     }
   }
 
-  async function createScheduledJob(
-    data: Omit<ScheduledJob, "id" | "createdAt" | "updatedAt">
-  ) {
+  async function createScheduledJob(data: Omit<ScheduledJob, 'id' | 'createdAt' | 'updatedAt'>) {
     loading.value = true;
     error.value = null;
     try {

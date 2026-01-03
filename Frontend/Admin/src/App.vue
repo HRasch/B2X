@@ -18,10 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
-import { useAuthStore } from "@/stores/auth";
-import { useThemeStore } from "@/stores/theme";
-import MainLayout from "@/components/common/MainLayout.vue";
+import { computed, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { useThemeStore } from '@/stores/theme';
+import MainLayout from '@/components/common/MainLayout.vue';
 
 const authStore = useAuthStore();
 const themeStore = useThemeStore();
@@ -33,12 +33,12 @@ onMounted(async () => {
   themeStore.initializeTheme();
 
   // Initialize auth
-  const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem('authToken');
   if (token && !authStore.user) {
     try {
       await authStore.getCurrentUser();
     } catch (error) {
-      console.error("Failed to load user:", error);
+      console.error('Failed to load user:', error);
     }
   }
 });

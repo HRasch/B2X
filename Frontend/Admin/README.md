@@ -9,6 +9,7 @@ Professional admin dashboard for B2Connect platform built with Vue 3, TypeScript
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - npm 9+
 
@@ -78,6 +79,7 @@ tests/
 ## 🎯 Core Features
 
 ### ✅ Authentication Module
+
 - Email/password login with "Remember Me"
 - Multi-factor authentication (MFA)
 - JWT token management
@@ -86,6 +88,7 @@ tests/
 - Automatic logout on expiration
 
 ### ✅ Content Management System (CMS)
+
 - Page CRUD operations
 - Template management
 - Media library with upload
@@ -95,6 +98,7 @@ tests/
 - Bulk operations
 
 ### ✅ Shop Management
+
 - Product catalog CRUD
 - Category organization
 - Pricing rules and discounts
@@ -104,6 +108,7 @@ tests/
 - Image management
 
 ### ✅ Jobs & Scheduling
+
 - Real-time job queue monitoring
 - Progress tracking & visual indicators
 - Retry failed jobs
@@ -114,15 +119,15 @@ tests/
 
 ## 🛠️ Technology Stack
 
-| Category | Technology |
-|----------|-----------|
-| **Framework** | Vue 3.5 + TypeScript 5.9 |
-| **Build** | Vite 7.2 |
-| **State** | Pinia 2.1 |
-| **HTTP** | Axios 1.6 |
-| **Routing** | Vue Router 4.3 |
-| **Styling** | Tailwind CSS |
-| **Testing** | Vitest 1.0 + Playwright 1.40 |
+| Category      | Technology                   |
+| ------------- | ---------------------------- |
+| **Framework** | Vue 3.5 + TypeScript 5.9     |
+| **Build**     | Vite 7.2                     |
+| **State**     | Pinia 2.1                    |
+| **HTTP**      | Axios 1.6                    |
+| **Routing**   | Vue Router 4.3               |
+| **Styling**   | Tailwind CSS                 |
+| **Testing**   | Vitest 1.0 + Playwright 1.40 |
 
 ## 📦 Available Scripts
 
@@ -160,11 +165,11 @@ npm run dev:telemetry
 
 ### Configuration
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `ENABLE_TELEMETRY` | `false` | Enable OpenTelemetry instrumentation |
-| `OTEL_SERVICE_NAME` | `frontend-admin` | Service name for traces |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4318` | OTLP collector endpoint |
+| Variable                      | Default                 | Description                          |
+| ----------------------------- | ----------------------- | ------------------------------------ |
+| `ENABLE_TELEMETRY`            | `false`                 | Enable OpenTelemetry instrumentation |
+| `OTEL_SERVICE_NAME`           | `frontend-admin`        | Service name for traces              |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4318` | OTLP collector endpoint              |
 
 ### Viewing Traces
 
@@ -176,6 +181,7 @@ npm run dev:telemetry
 ## 🧪 Testing
 
 ### Test Coverage
+
 - **Unit Tests**: 130+ tests for stores, services, utilities
 - **Component Tests**: 40+ tests for UI components
 - **E2E Tests**: 60+ user workflow tests
@@ -205,6 +211,7 @@ npm run e2e:ui
 ```
 
 ### Test Structure
+
 - Unit tests in `tests/unit/` (Vitest)
 - Component tests in `tests/unit/components/` (Vue Test Utils)
 - E2E tests in `tests/e2e/` (Playwright)
@@ -214,12 +221,14 @@ npm run e2e:ui
 ## 📊 API Integration
 
 ### Base URL
+
 ```
 Development: http://localhost:9000/api
 Production: https://api.b2connect.com/api
 ```
 
 ### Request Format
+
 ```
 Headers:
   Authorization: Bearer {token}
@@ -228,6 +237,7 @@ Headers:
 ```
 
 ### Response Format
+
 ```typescript
 {
   success: boolean
@@ -272,16 +282,19 @@ Headers:
 ## 🐛 Troubleshooting
 
 **Port 5174 in use?**
+
 ```bash
 npm run dev -- --port 5175
 ```
 
 **API connection failed?**
+
 - Check backend running on port 9000
 - Verify VITE_API_URL in .env
 - Check CORS configuration
 
 **Tests failing?**
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install
@@ -299,6 +312,7 @@ npm run test
 ## 📄 License
 
 Proprietary - B2Connect Platform
+
 - `npm run preview` - Preview production build
 - `npm run test` - Run unit tests
 - `npm run test:ui` - Run tests with UI

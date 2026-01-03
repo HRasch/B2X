@@ -3,9 +3,7 @@
     <!-- Header -->
     <div>
       <h1 class="heading-lg">Dashboard</h1>
-      <p class="text-muted dark:text-soft-400 mt-1">
-        Welcome back, {{ authStore.user?.email }}
-      </p>
+      <p class="text-muted dark:text-soft-400 mt-1">Welcome back, {{ authStore.user?.email }}</p>
     </div>
 
     <!-- Stats Grid -->
@@ -67,9 +65,7 @@
               </p>
               <p class="text-xs text-soft-400 mt-1">{{ activity.time }}</p>
             </div>
-            <soft-badge :variant="activity.status">{{
-              activity.statusLabel
-            }}</soft-badge>
+            <soft-badge :variant="activity.status">{{ activity.statusLabel }}</soft-badge>
           </div>
         </div>
       </soft-panel>
@@ -84,18 +80,10 @@
           <table class="w-full text-sm">
             <thead>
               <tr class="border-b border-soft-100">
-                <th class="text-left py-3 px-4 font-semibold text-soft-900">
-                  Name
-                </th>
-                <th class="text-left py-3 px-4 font-semibold text-soft-900">
-                  Email
-                </th>
-                <th class="text-left py-3 px-4 font-semibold text-soft-900">
-                  Status
-                </th>
-                <th class="text-left py-3 px-4 font-semibold text-soft-900">
-                  Joined
-                </th>
+                <th class="text-left py-3 px-4 font-semibold text-soft-900">Name</th>
+                <th class="text-left py-3 px-4 font-semibold text-soft-900">Email</th>
+                <th class="text-left py-3 px-4 font-semibold text-soft-900">Status</th>
+                <th class="text-left py-3 px-4 font-semibold text-soft-900">Joined</th>
               </tr>
             </thead>
             <tbody>
@@ -111,16 +99,12 @@
                     >
                       {{ user.initials }}
                     </div>
-                    <span class="text-soft-900 font-medium">{{
-                      user.name
-                    }}</span>
+                    <span class="text-soft-900 font-medium">{{ user.name }}</span>
                   </div>
                 </td>
                 <td class="py-3 px-4 text-soft-600">{{ user.email }}</td>
                 <td class="py-3 px-4">
-                  <soft-badge :variant="user.status">{{
-                    user.statusLabel
-                  }}</soft-badge>
+                  <soft-badge :variant="user.status">{{ user.statusLabel }}</soft-badge>
                 </td>
                 <td class="py-3 px-4 text-soft-600">{{ user.joined }}</td>
               </tr>
@@ -140,48 +124,48 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth";
-import SoftCard from "@/components/soft-ui/SoftCard.vue";
-import SoftPanel from "@/components/soft-ui/SoftPanel.vue";
-import SoftBadge from "@/components/soft-ui/SoftBadge.vue";
-import SoftButton from "@/components/soft-ui/SoftButton.vue";
+import { useAuthStore } from '@/stores/auth';
+import SoftCard from '@/components/soft-ui/SoftCard.vue';
+import SoftPanel from '@/components/soft-ui/SoftPanel.vue';
+import SoftBadge from '@/components/soft-ui/SoftBadge.vue';
+import SoftButton from '@/components/soft-ui/SoftButton.vue';
 
-type BadgeVariant = "success" | "warning" | "danger" | "info" | "default";
+type BadgeVariant = 'success' | 'warning' | 'danger' | 'info' | 'default';
 
 const authStore = useAuthStore();
 
 const stats = [
   {
     id: 1,
-    label: "Total Revenue",
-    value: "$24,500",
-    change: "+12% from last month",
-    icon: "div",
-    gradientClass: "bg-gradient-soft-blue",
+    label: 'Total Revenue',
+    value: '$24,500',
+    change: '+12% from last month',
+    icon: 'div',
+    gradientClass: 'bg-gradient-soft-blue',
   },
   {
     id: 2,
-    label: "Total Users",
-    value: "1,234",
-    change: "+5% new users",
-    icon: "div",
-    gradientClass: "bg-gradient-soft-cyan",
+    label: 'Total Users',
+    value: '1,234',
+    change: '+5% new users',
+    icon: 'div',
+    gradientClass: 'bg-gradient-soft-cyan',
   },
   {
     id: 3,
-    label: "Conversion Rate",
-    value: "3.25%",
-    change: "+0.5% improvement",
-    icon: "div",
-    gradientClass: "bg-gradient-soft-green",
+    label: 'Conversion Rate',
+    value: '3.25%',
+    change: '+0.5% improvement',
+    icon: 'div',
+    gradientClass: 'bg-gradient-soft-green',
   },
   {
     id: 4,
-    label: "Active Orders",
-    value: "456",
-    change: "+8 today",
-    icon: "div",
-    gradientClass: "bg-gradient-soft-purple",
+    label: 'Active Orders',
+    value: '456',
+    change: '+8 today',
+    icon: 'div',
+    gradientClass: 'bg-gradient-soft-purple',
   },
 ];
 
@@ -197,33 +181,33 @@ const recentActivity: Array<{
 }> = [
   {
     id: 1,
-    initials: "JD",
-    user: "John Doe",
-    action: "Updated product catalog",
-    time: "2 hours ago",
-    status: "success",
-    statusLabel: "Completed",
-    colorClass: "bg-gradient-soft-cyan",
+    initials: 'JD',
+    user: 'John Doe',
+    action: 'Updated product catalog',
+    time: '2 hours ago',
+    status: 'success',
+    statusLabel: 'Completed',
+    colorClass: 'bg-gradient-soft-cyan',
   },
   {
     id: 2,
-    initials: "SA",
-    user: "Sarah Anderson",
-    action: "Created new promotion",
-    time: "4 hours ago",
-    status: "info",
-    statusLabel: "Active",
-    colorClass: "bg-gradient-soft-blue",
+    initials: 'SA',
+    user: 'Sarah Anderson',
+    action: 'Created new promotion',
+    time: '4 hours ago',
+    status: 'info',
+    statusLabel: 'Active',
+    colorClass: 'bg-gradient-soft-blue',
   },
   {
     id: 3,
-    initials: "MB",
-    user: "Michael Brown",
-    action: "Generated sales report",
-    time: "1 day ago",
-    status: "success",
-    statusLabel: "Done",
-    colorClass: "bg-gradient-soft-green",
+    initials: 'MB',
+    user: 'Michael Brown',
+    action: 'Generated sales report',
+    time: '1 day ago',
+    status: 'success',
+    statusLabel: 'Done',
+    colorClass: 'bg-gradient-soft-green',
   },
 ];
 
@@ -238,30 +222,30 @@ const users: Array<{
 }> = [
   {
     id: 1,
-    name: "Alice Johnson",
-    email: "alice@example.com",
-    status: "success",
-    statusLabel: "Active",
-    joined: "Dec 20, 2024",
-    initials: "AJ",
+    name: 'Alice Johnson',
+    email: 'alice@example.com',
+    status: 'success',
+    statusLabel: 'Active',
+    joined: 'Dec 20, 2024',
+    initials: 'AJ',
   },
   {
     id: 2,
-    name: "Bob Smith",
-    email: "bob@example.com",
-    status: "success",
-    statusLabel: "Active",
-    joined: "Dec 19, 2024",
-    initials: "BS",
+    name: 'Bob Smith',
+    email: 'bob@example.com',
+    status: 'success',
+    statusLabel: 'Active',
+    joined: 'Dec 19, 2024',
+    initials: 'BS',
   },
   {
     id: 3,
-    name: "Carol Davis",
-    email: "carol@example.com",
-    status: "info",
-    statusLabel: "Pending",
-    joined: "Dec 18, 2024",
-    initials: "CD",
+    name: 'Carol Davis',
+    email: 'carol@example.com',
+    status: 'info',
+    statusLabel: 'Pending',
+    joined: 'Dec 18, 2024',
+    initials: 'CD',
   },
 ];
 </script>

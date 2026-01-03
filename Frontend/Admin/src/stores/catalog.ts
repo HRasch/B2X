@@ -7,9 +7,9 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling, refactor in KB-STORE-TYPING sprint */
 
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { catalogApi } from "@/services/api/catalog";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import { catalogApi } from '@/services/api/catalog';
 import type {
   Product,
   Category,
@@ -23,9 +23,9 @@ import type {
   ProductFilters,
   CategoryFilters,
   BrandFilters,
-} from "@/types/catalog";
+} from '@/types/catalog';
 
-export const useCatalogStore = defineStore("catalog", () => {
+export const useCatalogStore = defineStore('catalog', () => {
   // =========================================================================
   // State
   // =========================================================================
@@ -59,32 +59,26 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const categoryMap = computed(() => {
     const map = new Map<string, Category>();
-    categories.value.forEach((cat) => map.set(cat.id, cat));
+    categories.value.forEach(cat => map.set(cat.id, cat));
     return map;
   });
 
   const brandMap = computed(() => {
     const map = new Map<string, Brand>();
-    brands.value.forEach((brand) => map.set(brand.id, brand));
+    brands.value.forEach(brand => map.set(brand.id, brand));
     return map;
   });
 
   const hasMoreProducts = computed(
-    () =>
-      productsPagination.value.skip + productsPagination.value.take <
-      productsTotal.value
+    () => productsPagination.value.skip + productsPagination.value.take < productsTotal.value
   );
 
   const hasMoreCategories = computed(
-    () =>
-      categoriespagination.value.skip + categoriesPagination.value.take <
-      categoriesTotal.value
+    () => categoriespagination.value.skip + categoriesPagination.value.take < categoriesTotal.value
   );
 
   const hasMoreBrands = computed(
-    () =>
-      brandsPagination.value.skip + brandsPagination.value.take <
-      brandsTotalitres.value
+    () => brandsPagination.value.skip + brandsPagination.value.take < brandsTotalitres.value
   );
 
   // =========================================================================
@@ -104,7 +98,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       productsTotal.value = response.totalCount;
       successMessage.value = null;
     } catch (err: any) {
-      error.value = err.message || "Failed to fetch products";
+      error.value = err.message || 'Failed to fetch products';
     } finally {
       loading.value = false;
     }
@@ -116,7 +110,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     try {
       currentProduct.value = await catalogApi.getProduct(id);
     } catch (err: any) {
-      error.value = err.message || "Failed to fetch product";
+      error.value = err.message || 'Failed to fetch product';
     } finally {
       loading.value = false;
     }
@@ -129,10 +123,10 @@ export const useCatalogStore = defineStore("catalog", () => {
       const created = await catalogApi.createProduct(data);
       products.value.push(created);
       currentProduct.value = created;
-      successMessage.value = "Product created successfully";
+      successMessage.value = 'Product created successfully';
       return created;
     } catch (err: any) {
-      error.value = err.message || "Failed to create product";
+      error.value = err.message || 'Failed to create product';
       throw err;
     } finally {
       loading.value = false;
@@ -144,15 +138,15 @@ export const useCatalogStore = defineStore("catalog", () => {
     error.value = null;
     try {
       const updated = await catalogApi.updateProduct(id, data);
-      const index = products.value.findIndex((p) => p.id === id);
+      const index = products.value.findIndex(p => p.id === id);
       if (index !== -1) {
         products.value[index] = updated;
       }
       currentProduct.value = updated;
-      successMessage.value = "Product updated successfully";
+      successMessage.value = 'Product updated successfully';
       return updated;
     } catch (err: any) {
-      error.value = err.message || "Failed to update product";
+      error.value = err.message || 'Failed to update product';
       throw err;
     } finally {
       loading.value = false;
@@ -164,11 +158,11 @@ export const useCatalogStore = defineStore("catalog", () => {
     error.value = null;
     try {
       await catalogApi.deleteProduct(id);
-      products.value = products.value.filter((p) => p.id !== id);
+      products.value = products.value.filter(p => p.id !== id);
       if (currentProduct.value?.id === id) currentProduct.value = null;
-      successMessage.value = "Product deleted successfully";
+      successMessage.value = 'Product deleted successfully';
     } catch (err: any) {
-      error.value = err.message || "Failed to delete product";
+      error.value = err.message || 'Failed to delete product';
       throw err;
     } finally {
       loading.value = false;
@@ -196,7 +190,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       categoriesTotal.value = response.totalCount;
       successMessage.value = null;
     } catch (err: any) {
-      error.value = err.message || "Failed to fetch categories";
+      error.value = err.message || 'Failed to fetch categories';
     } finally {
       loading.value = false;
     }
@@ -208,7 +202,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     try {
       currentCategory.value = await catalogApi.getCategory(id);
     } catch (err: any) {
-      error.value = err.message || "Failed to fetch category";
+      error.value = err.message || 'Failed to fetch category';
     } finally {
       loading.value = false;
     }
@@ -221,10 +215,10 @@ export const useCatalogStore = defineStore("catalog", () => {
       const created = await catalogApi.createCategory(data);
       categories.value.push(created);
       currentCategory.value = created;
-      successMessage.value = "Category created successfully";
+      successMessage.value = 'Category created successfully';
       return created;
     } catch (err: any) {
-      error.value = err.message || "Failed to create category";
+      error.value = err.message || 'Failed to create category';
       throw err;
     } finally {
       loading.value = false;
@@ -236,15 +230,15 @@ export const useCatalogStore = defineStore("catalog", () => {
     error.value = null;
     try {
       const updated = await catalogApi.updateCategory(id, data);
-      const index = categories.value.findIndex((c) => c.id === id);
+      const index = categories.value.findIndex(c => c.id === id);
       if (index !== -1) {
         categories.value[index] = updated;
       }
       currentCategory.value = updated;
-      successMessage.value = "Category updated successfully";
+      successMessage.value = 'Category updated successfully';
       return updated;
     } catch (err: any) {
-      error.value = err.message || "Failed to update category";
+      error.value = err.message || 'Failed to update category';
       throw err;
     } finally {
       loading.value = false;
@@ -256,11 +250,11 @@ export const useCatalogStore = defineStore("catalog", () => {
     error.value = null;
     try {
       await catalogApi.deleteCategory(id);
-      categories.value = categories.value.filter((c) => c.id !== id);
+      categories.value = categories.value.filter(c => c.id !== id);
       if (currentCategory.value?.id === id) currentCategory.value = null;
-      successMessage.value = "Category deleted successfully";
+      successMessage.value = 'Category deleted successfully';
     } catch (err: any) {
-      error.value = err.message || "Failed to delete category";
+      error.value = err.message || 'Failed to delete category';
       throw err;
     } finally {
       loading.value = false;
@@ -288,7 +282,7 @@ export const useCatalogStore = defineStore("catalog", () => {
       brandsTotalitres.value = response.totalCount;
       successMessage.value = null;
     } catch (err: any) {
-      error.value = err.message || "Failed to fetch brands";
+      error.value = err.message || 'Failed to fetch brands';
     } finally {
       loading.value = false;
     }
@@ -300,7 +294,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     try {
       currentBrand.value = await catalogApi.getBrand(id);
     } catch (err: any) {
-      error.value = err.message || "Failed to fetch brand";
+      error.value = err.message || 'Failed to fetch brand';
     } finally {
       loading.value = false;
     }
@@ -313,10 +307,10 @@ export const useCatalogStore = defineStore("catalog", () => {
       const created = await catalogApi.createBrand(data);
       brands.value.push(created);
       currentBrand.value = created;
-      successMessage.value = "Brand created successfully";
+      successMessage.value = 'Brand created successfully';
       return created;
     } catch (err: any) {
-      error.value = err.message || "Failed to create brand";
+      error.value = err.message || 'Failed to create brand';
       throw err;
     } finally {
       loading.value = false;
@@ -328,15 +322,15 @@ export const useCatalogStore = defineStore("catalog", () => {
     error.value = null;
     try {
       const updated = await catalogApi.updateBrand(id, data);
-      const index = brands.value.findIndex((b) => b.id === id);
+      const index = brands.value.findIndex(b => b.id === id);
       if (index !== -1) {
         brands.value[index] = updated;
       }
       currentBrand.value = updated;
-      successMessage.value = "Brand updated successfully";
+      successMessage.value = 'Brand updated successfully';
       return updated;
     } catch (err: any) {
-      error.value = err.message || "Failed to update brand";
+      error.value = err.message || 'Failed to update brand';
       throw err;
     } finally {
       loading.value = false;
@@ -348,11 +342,11 @@ export const useCatalogStore = defineStore("catalog", () => {
     error.value = null;
     try {
       await catalogApi.deleteBrand(id);
-      brands.value = brands.value.filter((b) => b.id !== id);
+      brands.value = brands.value.filter(b => b.id !== id);
       if (currentBrand.value?.id === id) currentBrand.value = null;
-      successMessage.value = "Brand deleted successfully";
+      successMessage.value = 'Brand deleted successfully';
     } catch (err: any) {
-      error.value = err.message || "Failed to delete brand";
+      error.value = err.message || 'Failed to delete brand';
       throw err;
     } finally {
       loading.value = false;

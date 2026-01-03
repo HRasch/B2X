@@ -4,8 +4,8 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any -- Legacy return types */
 
-import { apiClient } from "../client";
-import type { User, UserProfile, Address } from "@/types/user";
+import { apiClient } from '../client';
+import type { User, UserProfile, Address } from '@/types/user';
 
 export const userService = {
   // Get all users
@@ -20,7 +20,7 @@ export const userService = {
 
   // Create user
   async createUser(data: Partial<User>): Promise<User> {
-    return apiClient.post("/api/admin/users", data);
+    return apiClient.post('/api/admin/users', data);
   },
 
   // Update user
@@ -39,10 +39,7 @@ export const userService = {
   },
 
   // Update user profile
-  async updateUserProfile(
-    userId: string,
-    data: Partial<UserProfile>
-  ): Promise<UserProfile> {
+  async updateUserProfile(userId: string, data: Partial<UserProfile>): Promise<UserProfile> {
     return apiClient.put(`/api/admin/users/${userId}/profile`, data);
   },
 
@@ -52,30 +49,18 @@ export const userService = {
   },
 
   // Create address
-  async createAddress(
-    userId: string,
-    data: Partial<Address>
-  ): Promise<Address> {
+  async createAddress(userId: string, data: Partial<Address>): Promise<Address> {
     return apiClient.post(`/api/admin/users/${userId}/addresses`, data);
   },
 
   // Update address
-  async updateAddress(
-    userId: string,
-    addressId: string,
-    data: Partial<Address>
-  ): Promise<Address> {
-    return apiClient.put(
-      `/api/admin/users/${userId}/addresses/${addressId}`,
-      data
-    );
+  async updateAddress(userId: string, addressId: string, data: Partial<Address>): Promise<Address> {
+    return apiClient.put(`/api/admin/users/${userId}/addresses/${addressId}`, data);
   },
 
   // Delete address
   async deleteAddress(userId: string, addressId: string): Promise<void> {
-    return apiClient.delete(
-      `/api/admin/users/${userId}/addresses/${addressId}`
-    );
+    return apiClient.delete(`/api/admin/users/${userId}/addresses/${addressId}`);
   },
 
   // Search users

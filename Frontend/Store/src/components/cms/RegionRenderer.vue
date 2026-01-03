@@ -3,11 +3,7 @@
     <!-- Apply region settings (classes, styles) -->
     <div class="region-content" :style="regionStyles">
       <!-- Render each widget in the region -->
-      <div
-        v-for="widget in region.widgets"
-        :key="widget.id"
-        class="widget-wrapper"
-      >
+      <div v-for="widget in region.widgets" :key="widget.id" class="widget-wrapper">
         <WidgetRenderer :widget="widget" />
       </div>
 

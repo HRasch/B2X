@@ -22,9 +22,7 @@
             <span class="text-white font-bold text-lg">B</span>
           </div>
           <div>
-            <h1 class="text-base font-bold text-soft-900 dark:text-white">
-              B2Connect
-            </h1>
+            <h1 class="text-base font-bold text-soft-900 dark:text-white">B2Connect</h1>
             <p class="text-xs text-soft-500 dark:text-soft-400">Admin</p>
           </div>
         </div>
@@ -67,12 +65,7 @@
           ]"
           :data-test="`nav-link-${item.path}`"
         >
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -121,16 +114,9 @@
             </svg>
           </button>
           <!-- Breadcrumb -->
-          <div
-            class="hidden md:flex items-center gap-2 text-sm text-soft-600 dark:text-soft-400"
-          >
+          <div class="hidden md:flex items-center gap-2 text-sm text-soft-600 dark:text-soft-400">
             <span>Dashboard</span>
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -179,11 +165,11 @@
               <div
                 class="w-8 h-8 rounded-soft-lg bg-gradient-soft-purple flex items-center justify-center text-white text-sm font-semibold"
               >
-                {{ authStore.user?.email?.charAt(0).toUpperCase() || "U" }}
+                {{ authStore.user?.email?.charAt(0).toUpperCase() || 'U' }}
               </div>
               <div class="hidden sm:block text-left">
                 <p class="text-sm font-medium text-soft-900 dark:text-white">
-                  {{ authStore.user?.email?.split("@")[0] }}
+                  {{ authStore.user?.email?.split('@')[0] }}
                 </p>
                 <p class="text-xs text-soft-500 dark:text-soft-400">Admin</p>
               </div>
@@ -227,10 +213,7 @@
               >
                 Settings
               </a>
-              <div
-                class="border-t border-soft-100 dark:border-soft-700"
-                role="separator"
-              />
+              <div class="border-t border-soft-100 dark:border-soft-700" role="separator" />
               <button
                 @click="logout"
                 class="w-full text-left px-4 py-3 text-sm text-danger-600 dark:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-900/20 last:rounded-b-soft-lg transition-colors font-medium"
@@ -263,11 +246,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRoute } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import { useRouter } from "vue-router";
-import ThemeToggle from "./ThemeToggle.vue";
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
+import ThemeToggle from './ThemeToggle.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -283,24 +266,24 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    path: "/dashboard",
-    label: "Dashboard",
+    path: '/dashboard',
+    label: 'Dashboard',
   },
   {
-    path: "/users",
-    label: "Benutzer",
+    path: '/users',
+    label: 'Benutzer',
   },
   {
-    path: "/cms/pages",
-    label: "CMS",
+    path: '/cms/pages',
+    label: 'CMS',
   },
   {
-    path: "/shop/products",
-    label: "Shop",
+    path: '/shop/products',
+    label: 'Shop',
   },
   {
-    path: "/jobs/queue",
-    label: "Jobs",
+    path: '/jobs/queue',
+    label: 'Jobs',
   },
 ];
 
@@ -310,7 +293,7 @@ const isActive = (path: string) => {
 
 const logout = async () => {
   await authStore.logout();
-  router.push("/login");
+  router.push('/login');
 };
 </script>
 

@@ -32,7 +32,7 @@
             'mx-1 px-3 py-1 rounded',
             page === currentPage
               ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
           ]"
           @click="currentPage = page"
         >

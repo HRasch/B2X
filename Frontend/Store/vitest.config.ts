@@ -1,20 +1,20 @@
-import { defineConfig } from "vitest/config";
-import vue from "@vitejs/plugin-vue";
-import path from "path";
+import { defineConfig } from 'vitest/config';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
 
 export default defineConfig({
   plugins: [vue()],
   test: {
     globals: true,
-    environment: "happy-dom",
-    setupFiles: ["./tests/setup.ts"],
+    environment: 'happy-dom',
+    setupFiles: ['./tests/setup.ts'],
     include: [
-      "tests/unit/**/*.spec.ts",
-      "tests/components/**/*.spec.ts",
-      "tests/views/**/*.spec.ts",
-      "tests/integration/**/*.spec.ts",
+      'tests/unit/**/*.spec.ts',
+      'tests/components/**/*.spec.ts',
+      'tests/views/**/*.spec.ts',
+      'tests/integration/**/*.spec.ts',
     ],
-    exclude: ["tests/e2e/**"],
+    exclude: ['tests/e2e/**'],
     /**
      * Tests that use async component loading will have unhandled rejections
      * for missing widget components in test environment.
@@ -29,14 +29,14 @@ export default defineConfig({
     threads: false,
     fileParallelism: false,
     coverage: {
-      provider: "v8",
-      reporter: ["text", "json", "html", "lcov"],
-      exclude: ["node_modules/", "dist/", "tests/"],
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'lcov'],
+      exclude: ['node_modules/', 'dist/', 'tests/'],
     },
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });

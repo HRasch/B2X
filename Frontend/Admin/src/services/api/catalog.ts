@@ -3,7 +3,7 @@
  * Endpoints für Produkte, Kategorien und Marken
  */
 
-import { apiClient } from "../client";
+import { apiClient } from '../client';
 import type {
   Product,
   Category,
@@ -18,18 +18,18 @@ import type {
   CategoryFilters,
   BrandFilters,
   PaginatedResponse,
-} from "@/types/catalog";
+} from '@/types/catalog';
 
 // Demo mode - matches auth.ts configuration
-const DEMO_MODE = import.meta.env.VITE_ENABLE_DEMO_MODE === "true";
+const DEMO_MODE = import.meta.env.VITE_ENABLE_DEMO_MODE === 'true';
 
 // Demo data for testing
 const DEMO_CATEGORIES: Category[] = [
   {
-    id: "cat-1",
-    name: { de: "Elektronik", en: "Electronics" },
-    slug: "electronics",
-    description: { de: "Elektronische Geräte", en: "Electronic devices" },
+    id: 'cat-1',
+    name: { de: 'Elektronik', en: 'Electronics' },
+    slug: 'electronics',
+    description: { de: 'Elektronische Geräte', en: 'Electronic devices' },
     isActive: true,
     sortOrder: 1,
     parentId: null,
@@ -38,10 +38,10 @@ const DEMO_CATEGORIES: Category[] = [
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "cat-2",
-    name: { de: "Bekleidung", en: "Clothing" },
-    slug: "clothing",
-    description: { de: "Mode und Bekleidung", en: "Fashion and clothing" },
+    id: 'cat-2',
+    name: { de: 'Bekleidung', en: 'Clothing' },
+    slug: 'clothing',
+    description: { de: 'Mode und Bekleidung', en: 'Fashion and clothing' },
     isActive: true,
     sortOrder: 2,
     parentId: null,
@@ -53,20 +53,20 @@ const DEMO_CATEGORIES: Category[] = [
 
 const DEMO_BRANDS: Brand[] = [
   {
-    id: "brand-1",
-    name: "TechBrand",
-    slug: "techbrand",
-    description: { de: "Premium Technologie", en: "Premium Technology" },
+    id: 'brand-1',
+    name: 'TechBrand',
+    slug: 'techbrand',
+    description: { de: 'Premium Technologie', en: 'Premium Technology' },
     logoUrl: null,
     isActive: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "brand-2",
-    name: "FashionCo",
-    slug: "fashionco",
-    description: { de: "Moderne Mode", en: "Modern Fashion" },
+    id: 'brand-2',
+    name: 'FashionCo',
+    slug: 'fashionco',
+    description: { de: 'Moderne Mode', en: 'Modern Fashion' },
     logoUrl: null,
     isActive: true,
     createdAt: new Date().toISOString(),
@@ -76,17 +76,17 @@ const DEMO_BRANDS: Brand[] = [
 
 const DEMO_PRODUCTS: Product[] = [
   {
-    id: "prod-1",
-    sku: "DEMO-001",
-    name: { de: "Demo Produkt 1", en: "Demo Product 1" },
-    description: { de: "Ein Beispielprodukt", en: "A sample product" },
-    shortDescription: { de: "Kurzbeschreibung", en: "Short description" },
-    slug: "demo-product-1",
+    id: 'prod-1',
+    sku: 'DEMO-001',
+    name: { de: 'Demo Produkt 1', en: 'Demo Product 1' },
+    description: { de: 'Ein Beispielprodukt', en: 'A sample product' },
+    shortDescription: { de: 'Kurzbeschreibung', en: 'Short description' },
+    slug: 'demo-product-1',
     price: 99.99,
     compareAtPrice: 129.99,
     costPrice: 50.0,
-    categoryId: "cat-1",
-    brandId: "brand-1",
+    categoryId: 'cat-1',
+    brandId: 'brand-1',
     isActive: true,
     isFeatured: true,
     stockQuantity: 100,
@@ -96,24 +96,24 @@ const DEMO_PRODUCTS: Product[] = [
     images: [],
     variants: [],
     attributes: {},
-    metaTitle: { de: "Demo Produkt", en: "Demo Product" },
-    metaDescription: { de: "SEO Beschreibung", en: "SEO Description" },
-    tags: ["demo", "sample"],
+    metaTitle: { de: 'Demo Produkt', en: 'Demo Product' },
+    metaDescription: { de: 'SEO Beschreibung', en: 'SEO Description' },
+    tags: ['demo', 'sample'],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: "prod-2",
-    sku: "DEMO-002",
-    name: { de: "Demo Produkt 2", en: "Demo Product 2" },
-    description: { de: "Zweites Beispielprodukt", en: "Second sample product" },
-    shortDescription: { de: "Kurz", en: "Brief" },
-    slug: "demo-product-2",
+    id: 'prod-2',
+    sku: 'DEMO-002',
+    name: { de: 'Demo Produkt 2', en: 'Demo Product 2' },
+    description: { de: 'Zweites Beispielprodukt', en: 'Second sample product' },
+    shortDescription: { de: 'Kurz', en: 'Brief' },
+    slug: 'demo-product-2',
     price: 49.99,
     compareAtPrice: null,
     costPrice: 25.0,
-    categoryId: "cat-2",
-    brandId: "brand-2",
+    categoryId: 'cat-2',
+    brandId: 'brand-2',
     isActive: true,
     isFeatured: false,
     stockQuantity: 50,
@@ -123,16 +123,16 @@ const DEMO_PRODUCTS: Product[] = [
     images: [],
     variants: [],
     attributes: {},
-    metaTitle: { de: "Produkt 2", en: "Product 2" },
-    metaDescription: { de: "Beschreibung 2", en: "Description 2" },
-    tags: ["demo"],
+    metaTitle: { de: 'Produkt 2', en: 'Product 2' },
+    metaDescription: { de: 'Beschreibung 2', en: 'Description 2' },
+    tags: ['demo'],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
 ];
 
 function delay<T>(data: T, ms = 200): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(data), ms));
+  return new Promise(resolve => setTimeout(() => resolve(data), ms));
 }
 
 export const catalogApi = {
@@ -143,11 +143,9 @@ export const catalogApi = {
   /**
    * Fetch all products with optional filters
    */
-  async getProducts(
-    filters?: ProductFilters
-  ): Promise<PaginatedResponse<Product>> {
+  async getProducts(filters?: ProductFilters): Promise<PaginatedResponse<Product>> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode active - returning mock products");
+      console.warn('[CATALOG] Demo mode active - returning mock products');
       return delay({
         items: DEMO_PRODUCTS,
         total: DEMO_PRODUCTS.length,
@@ -155,7 +153,7 @@ export const catalogApi = {
         take: filters?.take || 10,
       });
     }
-    return apiClient.get<PaginatedResponse<Product>>("/api/products", {
+    return apiClient.get<PaginatedResponse<Product>>('/api/products', {
       params: filters,
     });
   },
@@ -165,9 +163,9 @@ export const catalogApi = {
    */
   async getProduct(id: string): Promise<Product> {
     if (DEMO_MODE) {
-      const product = DEMO_PRODUCTS.find((p) => p.id === id);
+      const product = DEMO_PRODUCTS.find(p => p.id === id);
       if (product) return delay(product);
-      throw new Error("Product not found");
+      throw new Error('Product not found');
     }
     return apiClient.get<Product>(`/api/products/${id}`);
   },
@@ -177,7 +175,7 @@ export const catalogApi = {
    */
   async createProduct(data: CreateProductRequest): Promise<Product> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - create product simulated");
+      console.warn('[CATALOG] Demo mode - create product simulated');
       const newProduct: Product = {
         ...data,
         id: `prod-${Date.now()}`,
@@ -186,19 +184,16 @@ export const catalogApi = {
       } as Product;
       return delay(newProduct);
     }
-    return apiClient.post<Product>("/api/products", data);
+    return apiClient.post<Product>('/api/products', data);
   },
 
   /**
    * Update an existing product
    */
-  async updateProduct(
-    id: string,
-    data: UpdateProductRequest
-  ): Promise<Product> {
+  async updateProduct(id: string, data: UpdateProductRequest): Promise<Product> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - update product simulated");
-      const existing = DEMO_PRODUCTS.find((p) => p.id === id);
+      console.warn('[CATALOG] Demo mode - update product simulated');
+      const existing = DEMO_PRODUCTS.find(p => p.id === id);
       return delay({
         ...existing,
         ...data,
@@ -213,7 +208,7 @@ export const catalogApi = {
    */
   async deleteProduct(id: string): Promise<void> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - delete product simulated");
+      console.warn('[CATALOG] Demo mode - delete product simulated');
       return delay(undefined);
     }
     return apiClient.delete<void>(`/api/products/${id}`);
@@ -224,15 +219,15 @@ export const catalogApi = {
    */
   bulkImportProducts(file: File) {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - bulk import simulated");
+      console.warn('[CATALOG] Demo mode - bulk import simulated');
       return delay({ imported: 0, errors: [] });
     }
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
     return apiClient.post<{ imported: number; errors: unknown[] }>(
-      "/api/products/bulk-import",
+      '/api/products/bulk-import',
       formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
+      { headers: { 'Content-Type': 'multipart/form-data' } }
     );
   },
 
@@ -243,11 +238,9 @@ export const catalogApi = {
   /**
    * Fetch all categories with optional filters
    */
-  async getCategories(
-    filters?: CategoryFilters
-  ): Promise<PaginatedResponse<Category>> {
+  async getCategories(filters?: CategoryFilters): Promise<PaginatedResponse<Category>> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode active - returning mock categories");
+      console.warn('[CATALOG] Demo mode active - returning mock categories');
       return delay({
         items: DEMO_CATEGORIES,
         total: DEMO_CATEGORIES.length,
@@ -255,7 +248,7 @@ export const catalogApi = {
         take: filters?.take || 10,
       });
     }
-    return apiClient.get<PaginatedResponse<Category>>("/api/categories", {
+    return apiClient.get<PaginatedResponse<Category>>('/api/categories', {
       params: filters,
     });
   },
@@ -265,9 +258,9 @@ export const catalogApi = {
    */
   async getCategory(id: string): Promise<Category> {
     if (DEMO_MODE) {
-      const category = DEMO_CATEGORIES.find((c) => c.id === id);
+      const category = DEMO_CATEGORIES.find(c => c.id === id);
       if (category) return delay(category);
-      throw new Error("Category not found");
+      throw new Error('Category not found');
     }
     return apiClient.get<Category>(`/api/categories/${id}`);
   },
@@ -277,7 +270,7 @@ export const catalogApi = {
    */
   async createCategory(data: CreateCategoryRequest): Promise<Category> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - create category simulated");
+      console.warn('[CATALOG] Demo mode - create category simulated');
       const newCategory: Category = {
         ...data,
         id: `cat-${Date.now()}`,
@@ -287,19 +280,16 @@ export const catalogApi = {
       } as Category;
       return delay(newCategory);
     }
-    return apiClient.post<Category>("/api/categories", data);
+    return apiClient.post<Category>('/api/categories', data);
   },
 
   /**
    * Update an existing category
    */
-  async updateCategory(
-    id: string,
-    data: UpdateCategoryRequest
-  ): Promise<Category> {
+  async updateCategory(id: string, data: UpdateCategoryRequest): Promise<Category> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - update category simulated");
-      const existing = DEMO_CATEGORIES.find((c) => c.id === id);
+      console.warn('[CATALOG] Demo mode - update category simulated');
+      const existing = DEMO_CATEGORIES.find(c => c.id === id);
       return delay({
         ...existing,
         ...data,
@@ -314,7 +304,7 @@ export const catalogApi = {
    */
   async deleteCategory(id: string): Promise<void> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - delete category simulated");
+      console.warn('[CATALOG] Demo mode - delete category simulated');
       return delay(undefined);
     }
     return apiClient.delete<void>(`/api/categories/${id}`);
@@ -329,7 +319,7 @@ export const catalogApi = {
    */
   async getBrands(filters?: BrandFilters): Promise<PaginatedResponse<Brand>> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode active - returning mock brands");
+      console.warn('[CATALOG] Demo mode active - returning mock brands');
       return delay({
         items: DEMO_BRANDS,
         total: DEMO_BRANDS.length,
@@ -337,7 +327,7 @@ export const catalogApi = {
         take: filters?.take || 10,
       });
     }
-    return apiClient.get<PaginatedResponse<Brand>>("/api/brands", {
+    return apiClient.get<PaginatedResponse<Brand>>('/api/brands', {
       params: filters,
     });
   },
@@ -347,9 +337,9 @@ export const catalogApi = {
    */
   async getBrand(id: string): Promise<Brand> {
     if (DEMO_MODE) {
-      const brand = DEMO_BRANDS.find((b) => b.id === id);
+      const brand = DEMO_BRANDS.find(b => b.id === id);
       if (brand) return delay(brand);
-      throw new Error("Brand not found");
+      throw new Error('Brand not found');
     }
     return apiClient.get<Brand>(`/api/brands/${id}`);
   },
@@ -359,7 +349,7 @@ export const catalogApi = {
    */
   async createBrand(data: CreateBrandRequest): Promise<Brand> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - create brand simulated");
+      console.warn('[CATALOG] Demo mode - create brand simulated');
       const newBrand: Brand = {
         ...data,
         id: `brand-${Date.now()}`,
@@ -368,7 +358,7 @@ export const catalogApi = {
       } as Brand;
       return delay(newBrand);
     }
-    return apiClient.post<Brand>("/api/brands", data);
+    return apiClient.post<Brand>('/api/brands', data);
   },
 
   /**
@@ -376,8 +366,8 @@ export const catalogApi = {
    */
   async updateBrand(id: string, data: UpdateBrandRequest): Promise<Brand> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - update brand simulated");
-      const existing = DEMO_BRANDS.find((b) => b.id === id);
+      console.warn('[CATALOG] Demo mode - update brand simulated');
+      const existing = DEMO_BRANDS.find(b => b.id === id);
       return delay({
         ...existing,
         ...data,
@@ -392,7 +382,7 @@ export const catalogApi = {
    */
   async deleteBrand(id: string): Promise<void> {
     if (DEMO_MODE) {
-      console.warn("[CATALOG] Demo mode - delete brand simulated");
+      console.warn('[CATALOG] Demo mode - delete brand simulated');
       return delay(undefined);
     }
     return apiClient.delete<void>(`/api/brands/${id}`);

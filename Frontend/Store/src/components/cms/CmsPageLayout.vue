@@ -45,23 +45,15 @@
         <RegionRenderer :region="getRegion('header')!" />
       </header>
 
-      <div
-        class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 py-8 px-4"
-      >
+      <div class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 py-8 px-4">
         <main class="lg:col-span-2">
-          <RegionRenderer
-            v-if="getRegion('main')"
-            :region="getRegion('main')!"
-          />
+          <RegionRenderer v-if="getRegion('main')" :region="getRegion('main')!" />
         </main>
 
         <aside class="lg:col-span-1">
           <div class="card bg-base-200 shadow-lg">
             <div class="card-body">
-              <RegionRenderer
-                v-if="getRegion('sidebar')"
-                :region="getRegion('sidebar')!"
-              />
+              <RegionRenderer v-if="getRegion('sidebar')" :region="getRegion('sidebar')!" />
             </div>
           </div>
         </aside>
@@ -78,9 +70,7 @@
         <RegionRenderer :region="getRegion('header')!" />
       </header>
 
-      <div
-        class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-4 py-8 px-4"
-      >
+      <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-4 py-8 px-4">
         <aside class="lg:col-span-1">
           <div class="card bg-base-200 shadow-lg">
             <div class="card-body">
@@ -93,10 +83,7 @@
         </aside>
 
         <main class="lg:col-span-2">
-          <RegionRenderer
-            v-if="getRegion('main')"
-            :region="getRegion('main')!"
-          />
+          <RegionRenderer v-if="getRegion('main')" :region="getRegion('main')!" />
         </main>
 
         <aside class="lg:col-span-1">
@@ -119,25 +106,19 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-import { useCms } from "@/composables/useCms";
-import RegionRenderer from "@/components/cms/RegionRenderer.vue";
+import { useRoute } from 'vue-router';
+import { useCms } from '@/composables/useCms';
+import RegionRenderer from '@/components/cms/RegionRenderer.vue';
 
 const route = useRoute();
-const {
-  pageDefinition: page,
-  loading,
-  error,
-  fetchPageDefinition,
-  getRegion,
-} = useCms();
+const { pageDefinition: page, loading, error, fetchPageDefinition, getRegion } = useCms();
 
 const loadPage = async () => {
   try {
-    const pagePath = (route.params.pathMatch as string) || "/";
-    await fetchPageDefinition("/" + pagePath);
+    const pagePath = (route.params.pathMatch as string) || '/';
+    await fetchPageDefinition('/' + pagePath);
   } catch (err) {
-    console.error("Failed to load CMS page", err);
+    console.error('Failed to load CMS page', err);
   }
 };
 

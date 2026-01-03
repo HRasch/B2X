@@ -76,7 +76,11 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
                     _globalObjectFactory.Login(global, _identity);
                 }
 
-                // Validate the global object
+                // Validate login status immediately after login
+                // This checks oMsg.oMsgItemColl for login-specific errors
+                _globalObjectFactory.ValidateLoginStatus(global, _identity);
+
+                // Validate the global object state
                 _globalObjectFactory.Validate(global);
 
                 // Enable caching for better performance

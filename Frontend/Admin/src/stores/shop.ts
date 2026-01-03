@@ -4,12 +4,12 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling */
 
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import type { Product, Category, PricingRule, Discount } from "@/types/shop";
-import { shopApi } from "@/services/api/shop";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import type { Product, Category, PricingRule, Discount } from '@/types/shop';
+import { shopApi } from '@/services/api/shop';
 
-export const useShopStore = defineStore("shop", () => {
+export const useShopStore = defineStore('shop', () => {
   const products = ref<Product[]>([]);
   const categories = ref<Category[]>([]);
   const currentProduct = ref<Product | null>(null);
@@ -43,13 +43,11 @@ export const useShopStore = defineStore("shop", () => {
     }
   }
 
-  async function saveProduct(
-    product: Product | Omit<Product, "id" | "createdAt" | "updatedAt">
-  ) {
+  async function saveProduct(product: Product | Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) {
     loading.value = true;
     error.value = null;
     try {
-      if ("id" in product) {
+      if ('id' in product) {
         const updated = await shopApi.updateProduct(product.id, product);
         currentProduct.value = updated;
         const index = products.value.findIndex((p: any) => p.id === product.id);
@@ -108,15 +106,13 @@ export const useShopStore = defineStore("shop", () => {
     }
   }
 
-  async function savePricingRule(rule: PricingRule | Omit<PricingRule, "id">) {
+  async function savePricingRule(rule: PricingRule | Omit<PricingRule, 'id'>) {
     loading.value = true;
     error.value = null;
     try {
-      if ("id" in rule) {
+      if ('id' in rule) {
         const updated = await shopApi.updatePricingRule(rule.id, rule);
-        const index = pricingRules.value.findIndex(
-          (r: any) => r.id === rule.id
-        );
+        const index = pricingRules.value.findIndex((r: any) => r.id === rule.id);
         if (index !== -1) pricingRules.value[index] = updated;
         return updated;
       } else {

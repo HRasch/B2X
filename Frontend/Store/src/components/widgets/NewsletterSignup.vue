@@ -17,7 +17,10 @@
           {{ settings.buttonText || 'Subscribe' }}
         </button>
       </form>
-      <p v-if="message" :class="['mt-4 text-sm', messageType === 'success' ? 'text-green-600' : 'text-red-600']">
+      <p
+        v-if="message"
+        :class="['mt-4 text-sm', messageType === 'success' ? 'text-green-600' : 'text-red-600']"
+      >
         {{ message }}
       </p>
     </div>

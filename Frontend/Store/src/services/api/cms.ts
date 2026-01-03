@@ -8,7 +8,7 @@ export const cmsApi = {
    */
   async getPageDefinition(pagePath: string): Promise<PageDefinition> {
     return client.get(`/api/cms/pages/by-path`, {
-      params: { path: pagePath }
+      params: { path: pagePath },
     });
   },
 
@@ -17,7 +17,7 @@ export const cmsApi = {
    */
   async getAvailableWidgets(pageType?: string): Promise<WidgetDefinition[]> {
     return client.get(`/api/cms/widgets`, {
-      params: { pageType }
+      params: { pageType },
     });
   },
 
@@ -33,5 +33,5 @@ export const cmsApi = {
    */
   async getWidgetsByCategory(category: string): Promise<WidgetDefinition[]> {
     return client.get(`/api/cms/widgets/category/${category}`);
-  }
+  },
 };

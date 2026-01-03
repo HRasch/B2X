@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
-import type { PriceBreakdown } from "@/types/pricing";
+import { ref, computed, watch } from 'vue';
+import type { PriceBreakdown } from '@/types/pricing';
 
 interface Props {
   productPrice: number;
@@ -11,9 +11,9 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  destinationCountry: "DE",
+  destinationCountry: 'DE',
   shippingCost: 0,
-  currencyCode: "EUR",
+  currencyCode: 'EUR',
   showBreakdown: true,
 });
 
@@ -27,9 +27,9 @@ const fetchPriceBreakdown = async () => {
   error.value = null;
 
   try {
-    const response = await fetch("/api/catalog/getpricebreakdown", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('/api/catalog/getpricebreakdown', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         productPrice: props.productPrice,
         destinationCountry: props.destinationCountry,
@@ -41,10 +41,10 @@ const fetchPriceBreakdown = async () => {
     if (data.success) {
       breakdown.value = data.breakdown;
     } else {
-      error.value = data.message || "Failed to calculate price";
+      error.value = data.message || 'Failed to calculate price';
     }
   } catch (err) {
-    error.value = "Error fetching price breakdown";
+    error.value = 'Error fetching price breakdown';
     console.error(err);
   } finally {
     isLoading.value = false;
@@ -58,9 +58,9 @@ watch(
   { immediate: true }
 );
 
-const formatPrice = (price: number, currency: string = "EUR") => {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
+const formatPrice = (price: number, currency: string = 'EUR') => {
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
     currency,
   }).format(price);
 };
@@ -70,12 +70,8 @@ const formatPrice = (price: number, currency: string = "EUR") => {
   <div class="space-y-2">
     <!-- Main Price Display -->
     <div class="text-lg font-semibold" v-if="breakdown">
-      <span class="text-2xl">{{
-        formatPrice(breakdown.finalTotal, currencyCode)
-      }}</span>
-      <span class="text-sm text-gray-600 ml-1"
-        >inkl. {{ breakdown.vatRate }}% MwSt.</span
-      >
+      <span class="text-2xl">{{ formatPrice(breakdown.finalTotal, currencyCode) }}</span>
+      <span class="text-sm text-gray-600 ml-1">inkl. {{ breakdown.vatRate }}% MwSt.</span>
     </div>
 
     <!-- Error State -->
@@ -85,19 +81,13 @@ const formatPrice = (price: number, currency: string = "EUR") => {
     <div v-if="isLoading" class="text-gray-400 text-sm">Berechne Preis...</div>
 
     <!-- Price Breakdown (Details) -->
-    <div
-      v-if="showBreakdown && breakdown && !isLoading"
-      class="border-t pt-2 text-sm"
-    >
+    <div v-if="showBreakdown && breakdown && !isLoading" class="border-t pt-2 text-sm">
       <div class="flex justify-between text-gray-700">
         <span>Produktpreis:</span>
         <span>{{ formatPrice(breakdown.productPrice, currencyCode) }}</span>
       </div>
 
-      <div
-        v-if="breakdown.shippingCost > 0"
-        class="flex justify-between text-gray-700"
-      >
+      <div v-if="breakdown.shippingCost > 0" class="flex justify-between text-gray-700">
         <span>Versand:</span>
         <span>{{ formatPrice(breakdown.shippingCost, currencyCode) }}</span>
       </div>
@@ -105,10 +95,7 @@ const formatPrice = (price: number, currency: string = "EUR") => {
       <div class="flex justify-between font-semibold border-t mt-1 pt-1">
         <span>Summe (ohne MwSt.):</span>
         <span>{{
-          formatPrice(
-            breakdown.productPrice + (breakdown.shippingCost || 0),
-            currencyCode
-          )
+          formatPrice(breakdown.productPrice + (breakdown.shippingCost || 0), currencyCode)
         }}</span>
       </div>
 

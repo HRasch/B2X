@@ -21,20 +21,13 @@
     <!-- Dashboard Content -->
     <div v-else class="dashboard-content">
       <!-- Active Syncs Section -->
-      <section
-        class="section active-syncs"
-        v-if="dashboard.activeSyncCount > 0"
-      >
+      <section class="section active-syncs" v-if="dashboard.activeSyncCount > 0">
         <h2>🔄 Active Syncs ({{ dashboard.activeSyncCount }})</h2>
 
-        <div
-          v-for="sync in dashboard.activeSyncs"
-          :key="sync.syncRunId"
-          class="sync-card"
-        >
+        <div v-for="sync in dashboard.activeSyncs" :key="sync.syncRunId" class="sync-card">
           <!-- Provider Name -->
           <div class="sync-header">
-            <h3>{{ sync.providerName || "🌐 All Providers" }}</h3>
+            <h3>{{ sync.providerName || '🌐 All Providers' }}</h3>
             <span class="status-badge running">{{ sync.status }}</span>
           </div>
 
@@ -42,13 +35,8 @@
           <div class="progress-section">
             <div class="progress-bar-container">
               <div class="progress-bar">
-                <div
-                  class="progress-fill"
-                  :style="{ width: sync.progressPercentage + '%' }"
-                >
-                  <span class="progress-text"
-                    >{{ sync.progressPercentage.toFixed(1) }}%</span
-                  >
+                <div class="progress-fill" :style="{ width: sync.progressPercentage + '%' }">
+                  <span class="progress-text">{{ sync.progressPercentage.toFixed(1) }}%</span>
                 </div>
               </div>
             </div>
@@ -58,9 +46,7 @@
           <div class="details-grid">
             <div class="detail-item">
               <label>Products Processed</label>
-              <span class="value"
-                >{{ sync.productsProcessed }} / {{ sync.totalProducts }}</span
-              >
+              <span class="value">{{ sync.productsProcessed }} / {{ sync.totalProducts }}</span>
             </div>
             <div class="detail-item">
               <label>Indexed</label>
@@ -74,7 +60,7 @@
             </div>
             <div class="detail-item">
               <label>Current Language</label>
-              <span class="value">{{ sync.currentLanguage || "-" }}</span>
+              <span class="value">{{ sync.currentLanguage || '-' }}</span>
             </div>
             <div class="detail-item">
               <label>Duration</label>
@@ -86,16 +72,14 @@
                 {{
                   sync.estimatedTimeRemaining
                     ? formatDuration(sync.estimatedTimeRemaining)
-                    : "Calculating..."
+                    : 'Calculating...'
                 }}
               </span>
             </div>
           </div>
 
           <!-- Started At -->
-          <div class="timestamp">
-            Started: {{ formatDateTime(sync.startedAt) }}
-          </div>
+          <div class="timestamp">Started: {{ formatDateTime(sync.startedAt) }}</div>
         </div>
       </section>
 
@@ -106,16 +90,10 @@
       <section class="section latest-sync" v-if="dashboard.latestSync">
         <h2>📋 Latest Sync</h2>
 
-        <div
-          class="sync-card"
-          :class="dashboard.latestSync.status.toLowerCase()"
-        >
+        <div class="sync-card" :class="dashboard.latestSync.status.toLowerCase()">
           <div class="sync-header">
-            <h3>{{ dashboard.latestSync.providerName || "All Providers" }}</h3>
-            <span
-              class="status-badge"
-              :class="dashboard.latestSync.status.toLowerCase()"
-            >
+            <h3>{{ dashboard.latestSync.providerName || 'All Providers' }}</h3>
+            <span class="status-badge" :class="dashboard.latestSync.status.toLowerCase()">
               {{ dashboard.latestSync.status }}
             </span>
           </div>
@@ -124,21 +102,15 @@
           <div class="details-grid">
             <div class="detail-item">
               <label>Products Indexed</label>
-              <span class="value">{{
-                dashboard.latestSync.productsIndexed
-              }}</span>
+              <span class="value">{{ dashboard.latestSync.productsIndexed }}</span>
             </div>
             <div class="detail-item">
               <label>Duration</label>
-              <span class="value">{{
-                formatDuration(dashboard.latestSync.duration)
-              }}</span>
+              <span class="value">{{ formatDuration(dashboard.latestSync.duration) }}</span>
             </div>
             <div class="detail-item">
               <label>Completed</label>
-              <span class="value">{{
-                formatDateTime(dashboard.latestSync.completedAt)
-              }}</span>
+              <span class="value">{{ formatDateTime(dashboard.latestSync.completedAt) }}</span>
             </div>
           </div>
 
@@ -148,19 +120,10 @@
           </div>
 
           <!-- Detailed Errors -->
-          <div
-            v-if="dashboard.latestSync.detailedErrors.length > 0"
-            class="detailed-errors"
-          >
+          <div v-if="dashboard.latestSync.detailedErrors.length > 0" class="detailed-errors">
             <h4>Detailed Errors:</h4>
             <ul>
-              <li
-                v-for="(err, idx) in dashboard.latestSync.detailedErrors.slice(
-                  0,
-                  5
-                )"
-                :key="idx"
-              >
+              <li v-for="(err, idx) in dashboard.latestSync.detailedErrors.slice(0, 5)" :key="idx">
                 {{ err }}
               </li>
               <li v-if="dashboard.latestSync.detailedErrors.length > 5">
@@ -192,9 +155,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-value success">
-              {{ dashboard.statistics.successRate.toFixed(2) }}%
-            </div>
+            <div class="stat-value success">{{ dashboard.statistics.successRate.toFixed(2) }}%</div>
             <div class="stat-label">Success Rate</div>
           </div>
 
@@ -215,10 +176,7 @@
       </section>
 
       <!-- Recent History Section -->
-      <section
-        class="section recent-history"
-        v-if="dashboard.recentHistory.length > 0"
-      >
+      <section class="section recent-history" v-if="dashboard.recentHistory.length > 0">
         <h2>🕐 Recent History</h2>
 
         <div class="history-table-container">
@@ -238,7 +196,7 @@
                 :key="sync.syncRunId"
                 :class="sync.status.toLowerCase()"
               >
-                <td>{{ sync.providerName || "All" }}</td>
+                <td>{{ sync.providerName || 'All' }}</td>
                 <td>
                   <span class="status-badge" :class="sync.status.toLowerCase()">
                     {{ sync.status }}
@@ -257,7 +215,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const dashboard = ref(null);
 const loading = ref(true);
@@ -267,7 +225,7 @@ let pollInterval = null;
 // Load dashboard data
 const loadDashboard = async () => {
   try {
-    const response = await fetch("/api/v2/pimsync/dashboard");
+    const response = await fetch('/api/v2/pimsync/dashboard');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     dashboard.value = await response.json();
@@ -280,7 +238,7 @@ const loadDashboard = async () => {
     }
   } catch (err) {
     error.value = err.message;
-    console.error("Failed to load dashboard:", err);
+    console.error('Failed to load dashboard:', err);
   } finally {
     loading.value = false;
   }
@@ -292,25 +250,25 @@ const refreshDashboard = async () => {
 };
 
 // Format helpers
-const formatDateTime = (isoString) => {
-  if (!isoString) return "-";
-  return new Date(isoString).toLocaleString("de-DE", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
+const formatDateTime = isoString => {
+  if (!isoString) return '-';
+  return new Date(isoString).toLocaleString('de-DE', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
   });
 };
 
-const formatDuration = (timeSpan) => {
-  if (!timeSpan) return "-";
+const formatDuration = timeSpan => {
+  if (!timeSpan) return '-';
 
   // Parse ISO 8601 duration or timespan object
   let totalSeconds = 0;
 
-  if (typeof timeSpan === "string") {
+  if (typeof timeSpan === 'string') {
     // ISO 8601: PT5H30M45S
     const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?/;
     const match = timeSpan.match(regex);
@@ -320,7 +278,7 @@ const formatDuration = (timeSpan) => {
         (parseInt(match[2]) || 0) * 60 +
         (parseFloat(match[3]) || 0);
     }
-  } else if (typeof timeSpan === "object" && "totalSeconds" in timeSpan) {
+  } else if (typeof timeSpan === 'object' && 'totalSeconds' in timeSpan) {
     totalSeconds = timeSpan.totalSeconds;
   }
 
@@ -333,8 +291,8 @@ const formatDuration = (timeSpan) => {
   return `${seconds}s`;
 };
 
-const formatNumber = (num) => {
-  return new Intl.NumberFormat("de-DE").format(num);
+const formatNumber = num => {
+  return new Intl.NumberFormat('de-DE').format(num);
 };
 
 // Lifecycle

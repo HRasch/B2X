@@ -1,37 +1,37 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import { fileURLToPath } from "node:url";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import { fileURLToPath } from 'node:url';
 
 // Suppress noisy proxy errors in demo/test mode
-const isTestMode = process.env.NODE_ENV === "test" || process.env.CI === "true";
+const isTestMode = process.env.NODE_ENV === 'test' || process.env.CI === 'true';
 
 export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   // Custom logger to suppress proxy ECONNREFUSED errors in test mode
   customLogger: isTestMode
     ? {
-        info: (msg) => {
-          if (!msg.includes("ECONNREFUSED") && !msg.includes("proxy error")) {
+        info: msg => {
+          if (!msg.includes('ECONNREFUSED') && !msg.includes('proxy error')) {
             console.log(msg);
           }
         },
-        warn: (msg) => {
-          if (!msg.includes("ECONNREFUSED") && !msg.includes("proxy error")) {
+        warn: msg => {
+          if (!msg.includes('ECONNREFUSED') && !msg.includes('proxy error')) {
             console.warn(msg);
           }
         },
-        error: (msg) => {
-          if (!msg.includes("ECONNREFUSED") && !msg.includes("proxy error")) {
+        error: msg => {
+          if (!msg.includes('ECONNREFUSED') && !msg.includes('proxy error')) {
             console.error(msg);
           }
         },
-        warnOnce: (msg) => {
-          if (!msg.includes("ECONNREFUSED") && !msg.includes("proxy error")) {
+        warnOnce: msg => {
+          if (!msg.includes('ECONNREFUSED') && !msg.includes('proxy error')) {
             console.warn(msg);
           }
         },
@@ -41,24 +41,24 @@ export default defineConfig({
       }
     : undefined,
   server: {
-    port: parseInt(process.env.PORT || process.env.VITE_PORT || "5174"),
-    host: "0.0.0.0",
+    port: parseInt(process.env.PORT || process.env.VITE_PORT || '5174'),
+    host: '0.0.0.0',
     strictPort: true, // Fail if port is not available
     proxy: {
-      "/api": {
-        target: process.env.VITE_API_GATEWAY_URL || "http://localhost:8080",
+      '/api': {
+        target: process.env.VITE_API_GATEWAY_URL || 'http://localhost:8080',
         changeOrigin: true,
         ws: true,
         secure: false,
         timeout: 30000,
-        configure: (proxy) => {
+        configure: proxy => {
           // Suppress ECONNREFUSED errors when backend is not running (demo mode)
-          proxy.on("error", (err, _req, res) => {
-            if (err.message?.includes("ECONNREFUSED")) {
+          proxy.on('error', (err, _req, res) => {
+            if (err.message?.includes('ECONNREFUSED')) {
               // Silently ignore - demo mode handles these requests
-              if (res && "writeHead" in res) {
-                res.writeHead(503, { "Content-Type": "application/json" });
-                res.end(JSON.stringify({ error: "Backend unavailable" }));
+              if (res && 'writeHead' in res) {
+                res.writeHead(503, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Backend unavailable' }));
               }
             }
           });
@@ -67,11 +67,11 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: "hidden",
+    sourcemap: 'hidden',
     rollupOptions: {
       output: {
         manualChunks: {
-          vue: ["vue", "vue-router", "pinia"],
+          vue: ['vue', 'vue-router', 'pinia'],
         },
       },
     },

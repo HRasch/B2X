@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="min-h-screen bg-gradient-soft-blue flex items-center justify-center p-safe"
-  >
+  <div class="min-h-screen bg-gradient-soft-blue flex items-center justify-center p-safe">
     <soft-card class="w-full max-w-md">
       <!-- Header -->
       <div class="text-center mb-safe">
@@ -10,12 +8,8 @@
         >
           <span class="text-white font-bold text-2xl">B</span>
         </div>
-        <h1 class="heading-md text-soft-900 dark:text-white">
-          B2Connect Admin
-        </h1>
-        <p class="text-soft-600 dark:text-soft-300 text-sm mt-2">
-          Sign in to your account
-        </p>
+        <h1 class="heading-md text-soft-900 dark:text-white">B2Connect Admin</h1>
+        <p class="text-soft-600 dark:text-soft-300 text-sm mt-2">Sign in to your account</p>
       </div>
 
       <!-- Error Message -->
@@ -53,19 +47,12 @@
             type="checkbox"
             class="w-4 h-4 rounded-soft border-soft-200 text-primary-600 focus:ring-primary-500"
           />
-          <span class="text-sm text-soft-700 dark:text-soft-300"
-            >Remember me</span
-          >
+          <span class="text-sm text-soft-700 dark:text-soft-300">Remember me</span>
         </label>
 
         <!-- Login Button -->
-        <soft-button
-          variant="primary"
-          size="lg"
-          :loading="loading"
-          class="w-full mt-6"
-        >
-          {{ loading ? "Signing in..." : "Sign In" }}
+        <soft-button variant="primary" size="lg" :loading="loading" class="w-full mt-6">
+          {{ loading ? 'Signing in...' : 'Sign In' }}
         </soft-button>
       </form>
 
@@ -73,9 +60,7 @@
       <div class="text-center mt-safe pt-safe border-t border-soft-100">
         <p class="text-sm text-soft-600 dark:text-soft-300">
           Demo Account: <br />
-          <span class="font-mono text-soft-900 dark:text-white"
-            >admin@example.com</span
-          ><br />
+          <span class="font-mono text-soft-900 dark:text-white">admin@example.com</span><br />
           <span class="font-mono text-soft-900 dark:text-white">password</span>
         </p>
       </div>
@@ -84,50 +69,48 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import SoftCard from "@/components/soft-ui/SoftCard.vue";
-import SoftButton from "@/components/soft-ui/SoftButton.vue";
-import SoftInput from "@/components/soft-ui/SoftInput.vue";
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import SoftCard from '@/components/soft-ui/SoftCard.vue';
+import SoftButton from '@/components/soft-ui/SoftButton.vue';
+import SoftInput from '@/components/soft-ui/SoftInput.vue';
 
 // Default tenant GUID
 const DEFAULT_TENANT_ID =
-  import.meta.env.VITE_DEFAULT_TENANT_ID ||
-  "00000000-0000-0000-0000-000000000001";
+  import.meta.env.VITE_DEFAULT_TENANT_ID || '00000000-0000-0000-0000-000000000001';
 
-const email = ref("admin@example.com");
-const password = ref("password");
+const email = ref('admin@example.com');
+const password = ref('password');
 const rememberMe = ref(false);
 const loading = ref(false);
-const error = ref("");
+const error = ref('');
 
 const authStore = useAuthStore();
 const router = useRouter();
 
 // Ensure tenant ID is set when login page loads
 onMounted(() => {
-  if (!localStorage.getItem("tenantId")) {
-    localStorage.setItem("tenantId", DEFAULT_TENANT_ID);
+  if (!localStorage.getItem('tenantId')) {
+    localStorage.setItem('tenantId', DEFAULT_TENANT_ID);
   }
 });
 
 const handleLogin = async () => {
-  error.value = "";
+  error.value = '';
   loading.value = true;
 
   try {
     await authStore.login(email.value, password.value, rememberMe.value);
-    router.push("/dashboard");
+    router.push('/dashboard');
   } catch (err: unknown) {
-    const errorMessage =
-      err instanceof Error ? err.message : "Login failed. Please try again.";
+    const errorMessage = err instanceof Error ? err.message : 'Login failed. Please try again.';
     // Check for API error response structure
     const apiError = err as {
       response?: { data?: { error?: { message?: string } } };
     };
     error.value = apiError.response?.data?.error?.message || errorMessage;
-    console.error("Login error:", err);
+    console.error('Login error:', err);
   } finally {
     loading.value = false;
   }

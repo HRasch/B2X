@@ -7,11 +7,7 @@
         <p class="subtitle">Verwalten Sie Kundenkonten, Profile und Adressen</p>
       </div>
       <div class="header-actions">
-        <router-link
-          to="/users/create"
-          class="btn btn-primary"
-          data-testid="create-user-btn"
-        >
+        <router-link to="/users/create" class="btn btn-primary" data-testid="create-user-btn">
           <i class="icon-plus"></i> Neuer Benutzer
         </router-link>
       </div>
@@ -28,11 +24,7 @@
           class="search-input"
           data-testid="user-search-input"
         />
-        <button
-          @click="handleSearch"
-          class="search-btn"
-          data-testid="search-btn"
-        >
+        <button @click="handleSearch" class="search-btn" data-testid="search-btn">
           <i class="icon-search"></i> Suchen
         </button>
       </div>
@@ -65,21 +57,11 @@
         <strong>Fehler beim Laden der Benutzer</strong>
         <p>{{ userStore.error }}</p>
       </div>
-      <button
-        @click="userStore.clearError"
-        class="close-btn"
-        data-testid="close-error"
-      >
-        ×
-      </button>
+      <button @click="userStore.clearError" class="close-btn" data-testid="close-error">×</button>
     </div>
 
     <!-- Empty State -->
-    <div
-      v-else-if="!userStore.hasUsers"
-      class="empty-state"
-      data-testid="empty-state"
-    >
+    <div v-else-if="!userStore.hasUsers" class="empty-state" data-testid="empty-state">
       <i class="icon-users"></i>
       <h3>Keine Benutzer gefunden</h3>
       <p>Beginnen Sie damit, neue Benutzer zu erstellen</p>
@@ -118,22 +100,15 @@
               <a :href="`mailto:${user.email}`" class="email-link">
                 {{ user.email }}
               </a>
-              <span v-if="user.isEmailVerified" class="badge badge-success"
-                >Verifiziert</span
-              >
+              <span v-if="user.isEmailVerified" class="badge badge-success">Verifiziert</span>
               <span v-else class="badge badge-warning">Unverifiziert</span>
             </td>
             <td class="phone-cell">
-              {{ user.phoneNumber || "—" }}
+              {{ user.phoneNumber || '—' }}
             </td>
             <td class="status-cell">
-              <span
-                :class="[
-                  'status-badge',
-                  user.isActive ? 'status-active' : 'status-inactive',
-                ]"
-              >
-                {{ user.isActive ? "Aktiv" : "Inaktiv" }}
+              <span :class="['status-badge', user.isActive ? 'status-active' : 'status-inactive']">
+                {{ user.isActive ? 'Aktiv' : 'Inaktiv' }}
               </span>
             </td>
             <td class="date-cell">
@@ -206,8 +181,8 @@
         </div>
         <div class="modal-body">
           <p>
-            Möchten Sie diesen Benutzer wirklich löschen? Diese Aktion kann
-            nicht rückgängig gemacht werden.
+            Möchten Sie diesen Benutzer wirklich löschen? Diese Aktion kann nicht rückgängig gemacht
+            werden.
           </p>
         </div>
         <div class="modal-footer">
@@ -224,7 +199,7 @@
             :disabled="deleting"
             data-testid="confirm-delete-btn"
           >
-            {{ deleting ? "Wird gelöscht..." : "Löschen" }}
+            {{ deleting ? 'Wird gelöscht...' : 'Löschen' }}
           </button>
         </div>
       </div>
@@ -233,13 +208,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useUserStore } from "@/stores/users";
+import { ref, computed, onMounted } from 'vue';
+import { useUserStore } from '@/stores/users';
 
 const userStore = useUserStore();
-const searchQuery = ref("");
-const filterStatus = ref("");
-const sortBy = ref("updated");
+const searchQuery = ref('');
+const filterStatus = ref('');
+const sortBy = ref('updated');
 const showDeleteModal = ref(false);
 const userToDelete = ref<string | null>(null);
 const deleting = ref(false);
@@ -253,26 +228,22 @@ const sortedUsers = computed(() => {
   let filtered = [...userStore.users];
 
   // Apply status filter
-  if (filterStatus.value === "active") {
-    filtered = filtered.filter((u) => u.isActive);
-  } else if (filterStatus.value === "inactive") {
-    filtered = filtered.filter((u) => !u.isActive);
+  if (filterStatus.value === 'active') {
+    filtered = filtered.filter(u => u.isActive);
+  } else if (filterStatus.value === 'inactive') {
+    filtered = filtered.filter(u => !u.isActive);
   }
 
   // Apply sorting
   filtered.sort((a, b) => {
     switch (sortBy.value) {
-      case "name":
-        return `${a.firstName} ${a.lastName}`.localeCompare(
-          `${b.firstName} ${b.lastName}`
-        );
-      case "email":
+      case 'name':
+        return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+      case 'email':
         return a.email.localeCompare(b.email);
-      case "updated":
+      case 'updated':
       default:
-        return (
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-        );
+        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
     }
   });
 
@@ -281,12 +252,12 @@ const sortedUsers = computed(() => {
 
 // Formatters
 const formatDate = (dateStr?: string) => {
-  if (!dateStr) return "—";
+  if (!dateStr) return '—';
   const date = new Date(dateStr);
-  return date.toLocaleDateString("de-DE", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
+  return date.toLocaleDateString('de-DE', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   });
 };
 
@@ -313,7 +284,7 @@ const confirmDelete = async () => {
     showDeleteModal.value = false;
     userToDelete.value = null;
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.error('Error deleting user:', error);
   } finally {
     deleting.value = false;
   }

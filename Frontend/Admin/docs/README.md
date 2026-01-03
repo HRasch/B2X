@@ -7,17 +7,20 @@ Guides und Referenzen für die Admin-Frontend-Entwicklung.
 ### Implementation & Status
 
 **[Catalog Integration](CATALOG_INTEGRATION.md)**
+
 - Catalog Feature in Admin Frontend
 - Component integration
 - Store management
 - API integration
 
 **[Implementation Checklist](IMPLEMENTATION_CHECKLIST.md)**
+
 - Feature completeness checklist
 - Component status
 - Test coverage
 
 **[Final Status](FINAL_STATUS.md)**
+
 - Overall project status
 - Completed features
 - Performance metrics
@@ -25,20 +28,24 @@ Guides und Referenzen für die Admin-Frontend-Entwicklung.
 ### Testing & QA
 
 **[Testing Guide](TESTING_GUIDE.md)**
+
 - Unit test setup
 - E2E test setup
 - Test patterns
 - Running tests
 
 **[Test Status](TEST_STATUS.md)**
+
 - Test results summary
 - Coverage metrics
 
 **[Test Execution Complete](TEST_EXECUTION_COMPLETE.md)**
+
 - Final test execution report
 - All results
 
 **[Test Implementation Summary](TEST_IMPLEMENTATION_SUMMARY.md)**
+
 - Test implementation details
 - Patterns used
 

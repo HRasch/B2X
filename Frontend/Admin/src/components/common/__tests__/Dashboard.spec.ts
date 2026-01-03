@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { mount } from "@vue/test-utils";
-import Dashboard from "../Dashboard.vue";
-import { createPinia, setActivePinia } from "pinia";
+import { describe, it, expect, beforeEach } from 'vitest';
+import { mount } from '@vue/test-utils';
+import Dashboard from '../Dashboard.vue';
+import { createPinia, setActivePinia } from 'pinia';
 
-describe("Dashboard.vue (Empty State)", () => {
+describe('Dashboard.vue (Empty State)', () => {
   let pinia: ReturnType<typeof createPinia>;
 
   beforeEach(() => {
@@ -11,8 +11,8 @@ describe("Dashboard.vue (Empty State)", () => {
     setActivePinia(pinia);
   });
 
-  describe("Empty State Rendering", () => {
-    it("should render Dashboard component", () => {
+  describe('Empty State Rendering', () => {
+    it('should render Dashboard component', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -24,12 +24,10 @@ describe("Dashboard.vue (Empty State)", () => {
       });
 
       expect(wrapper.exists()).toBe(true);
-      expect(wrapper.find('[data-test="dashboard-container"]').exists()).toBe(
-        true
-      );
+      expect(wrapper.find('[data-test="dashboard-container"]').exists()).toBe(true);
     });
 
-    it("should display empty state when no content available", () => {
+    it('should display empty state when no content available', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -44,7 +42,7 @@ describe("Dashboard.vue (Empty State)", () => {
       expect(emptyState.exists()).toBe(true);
     });
 
-    it("should display empty state message", () => {
+    it('should display empty state message', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -57,12 +55,12 @@ describe("Dashboard.vue (Empty State)", () => {
 
       const emptyMessage = wrapper.find('[data-test="empty-state-message"]');
       expect(emptyMessage.exists()).toBe(true);
-      expect(emptyMessage.text()).toContain("No content available") ||
-        expect(emptyMessage.text()).toContain("No data") ||
+      expect(emptyMessage.text()).toContain('No content available') ||
+        expect(emptyMessage.text()).toContain('No data') ||
         expect(emptyMessage.text()).toBeTruthy();
     });
 
-    it("should display empty state icon", () => {
+    it('should display empty state icon', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -77,7 +75,7 @@ describe("Dashboard.vue (Empty State)", () => {
       expect(emptyIcon.exists()).toBe(true);
     });
 
-    it("should display call-to-action button in empty state", () => {
+    it('should display call-to-action button in empty state', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -93,8 +91,8 @@ describe("Dashboard.vue (Empty State)", () => {
     });
   });
 
-  describe("Empty State Interactions", () => {
-    it("should handle CTA button click", async () => {
+  describe('Empty State Interactions', () => {
+    it('should handle CTA button click', async () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -106,14 +104,14 @@ describe("Dashboard.vue (Empty State)", () => {
       });
 
       const ctaButton = wrapper.find('[data-test="empty-state-cta-button"]');
-      await ctaButton.trigger("click");
+      await ctaButton.trigger('click');
 
       // Should emit event or navigate
-      expect(wrapper.emitted("action-clicked")).toBeTruthy() ||
+      expect(wrapper.emitted('action-clicked')).toBeTruthy() ||
         expect(wrapper.vm.$route?.path).toBeTruthy();
     });
 
-    it("should transition from empty to loaded state", async () => {
+    it('should transition from empty to loaded state', async () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -129,11 +127,10 @@ describe("Dashboard.vue (Empty State)", () => {
       await wrapper.vm.$nextTick();
 
       const emptyState = wrapper.find('[data-test="empty-state"]');
-      expect(emptyState.exists()).toBe(false) ||
-        expect(emptyState.classes()).toContain("hidden");
+      expect(emptyState.exists()).toBe(false) || expect(emptyState.classes()).toContain('hidden');
     });
 
-    it("should display loading skeleton while content loads", async () => {
+    it('should display loading skeleton while content loads', async () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -152,8 +149,8 @@ describe("Dashboard.vue (Empty State)", () => {
     });
   });
 
-  describe("Dashboard Layout", () => {
-    it("should have proper grid structure", () => {
+  describe('Dashboard Layout', () => {
+    it('should have proper grid structure', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -166,11 +163,10 @@ describe("Dashboard.vue (Empty State)", () => {
 
       const grid = wrapper.find('[data-test="dashboard-grid"]');
       expect(grid.exists()).toBe(true);
-      expect(grid.classes()).toContain("grid") ||
-        expect(grid.classes("grid-layout")).toBeTruthy();
+      expect(grid.classes()).toContain('grid') || expect(grid.classes('grid-layout')).toBeTruthy();
     });
 
-    it("should render responsive grid columns", () => {
+    it('should render responsive grid columns', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -182,17 +178,17 @@ describe("Dashboard.vue (Empty State)", () => {
       });
 
       const grid = wrapper.find('[data-test="dashboard-grid"]');
-      const gridClasses = grid.classes().join(" ");
+      const gridClasses = grid.classes().join(' ');
       expect(
-        gridClasses.includes("grid-cols") ||
-          gridClasses.includes("md:") ||
-          gridClasses.includes("lg:")
+        gridClasses.includes('grid-cols') ||
+          gridClasses.includes('md:') ||
+          gridClasses.includes('lg:')
       ).toBe(true);
     });
   });
 
-  describe("Accessibility (Empty State)", () => {
-    it("should have semantic heading structure", () => {
+  describe('Accessibility (Empty State)', () => {
+    it('should have semantic heading structure', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -203,11 +199,11 @@ describe("Dashboard.vue (Empty State)", () => {
         },
       });
 
-      const heading = wrapper.find("h1, h2");
+      const heading = wrapper.find('h1, h2');
       expect(heading.exists()).toBe(true);
     });
 
-    it("should have proper ARIA labels on empty state", () => {
+    it('should have proper ARIA labels on empty state', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -220,12 +216,11 @@ describe("Dashboard.vue (Empty State)", () => {
 
       const emptyState = wrapper.find('[data-test="empty-state"]');
       expect(
-        emptyState.attributes("role") === "status" ||
-          emptyState.attributes("aria-label")
+        emptyState.attributes('role') === 'status' || emptyState.attributes('aria-label')
       ).toBeTruthy();
     });
 
-    it("should have accessible button with proper labels", () => {
+    it('should have accessible button with proper labels', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -238,11 +233,11 @@ describe("Dashboard.vue (Empty State)", () => {
 
       const ctaButton = wrapper.find('[data-test="empty-state-cta-button"]');
       expect(ctaButton.text()).toBeTruthy();
-      expect(ctaButton.attributes("aria-label")).toBeTruthy() ||
+      expect(ctaButton.attributes('aria-label')).toBeTruthy() ||
         expect(ctaButton.text()).toBeTruthy();
     });
 
-    it("should be keyboard navigable", async () => {
+    it('should be keyboard navigable', async () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -254,17 +249,17 @@ describe("Dashboard.vue (Empty State)", () => {
       });
 
       const ctaButton = wrapper.find('[data-test="empty-state-cta-button"]');
-      expect(ctaButton.attributes("tabindex")).not.toBe("-1");
+      expect(ctaButton.attributes('tabindex')).not.toBe('-1');
 
       // Simulate keyboard interaction
-      await ctaButton.trigger("keydown.enter");
-      expect(wrapper.emitted("action-clicked")).toBeTruthy() ||
-        expect(wrapper.emitted("click")).toBeTruthy();
+      await ctaButton.trigger('keydown.enter');
+      expect(wrapper.emitted('action-clicked')).toBeTruthy() ||
+        expect(wrapper.emitted('click')).toBeTruthy();
     });
   });
 
-  describe("Responsive Design", () => {
-    it("should apply mobile-specific styles", () => {
+  describe('Responsive Design', () => {
+    it('should apply mobile-specific styles', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -276,15 +271,13 @@ describe("Dashboard.vue (Empty State)", () => {
       });
 
       const container = wrapper.find('[data-test="dashboard-container"]');
-      const classList = container.classes().join(" ");
+      const classList = container.classes().join(' ');
       expect(
-        classList.includes("px-4") ||
-          classList.includes("py-4") ||
-          classList.includes("mobile")
+        classList.includes('px-4') || classList.includes('py-4') || classList.includes('mobile')
       ).toBe(true);
     });
 
-    it("should render single column on mobile", () => {
+    it('should render single column on mobile', () => {
       const wrapper = mount(Dashboard, {
         global: {
           plugins: [pinia],
@@ -296,10 +289,8 @@ describe("Dashboard.vue (Empty State)", () => {
       });
 
       const grid = wrapper.find('[data-test="dashboard-grid"]');
-      const classList = grid.classes().join(" ");
-      expect(
-        classList.includes("grid-cols-1") || classList.includes("md:grid-cols")
-      ).toBe(true);
+      const classList = grid.classes().join(' ');
+      expect(classList.includes('grid-cols-1') || classList.includes('md:grid-cols')).toBe(true);
     });
   });
 });

@@ -1,14 +1,14 @@
-import { api } from './api'
-import type { AxiosInstance } from 'axios'
+import { api } from './api';
+import type { AxiosInstance } from 'axios';
 
 /**
  * Localization API service for fetching and managing translations
  */
 class LocalizationApi {
-  private api: AxiosInstance
+  private api: AxiosInstance;
 
   constructor(axiosInstance: AxiosInstance) {
-    this.api = axiosInstance
+    this.api = axiosInstance;
   }
 
   /**
@@ -17,23 +17,19 @@ class LocalizationApi {
    * @param key Translation key
    * @param language Language code (defaults to current language)
    */
-  async getString(
-    category: string,
-    key: string,
-    language: string = 'en'
-  ): Promise<string> {
+  async getString(category: string, key: string, language: string = 'en'): Promise<string> {
     try {
       const response = await this.api.get<{
-        key: string
-        value: string
-        language: string
+        key: string;
+        value: string;
+        language: string;
       }>(`/localization/${category}/${key}`, {
         params: { language },
-      })
-      return response.data.value
+      });
+      return response.data.value;
     } catch (error) {
-      console.error(`Failed to fetch localization string: ${category}.${key}`, error)
-      return `[${category}.${key}]`
+      console.error(`Failed to fetch localization string: ${category}.${key}`, error);
+      return `[${category}.${key}]`;
     }
   }
 
@@ -42,22 +38,19 @@ class LocalizationApi {
    * @param category Translation category
    * @param language Language code (defaults to 'en')
    */
-  async getCategory(
-    category: string,
-    language: string = 'en'
-  ): Promise<Record<string, string>> {
+  async getCategory(category: string, language: string = 'en'): Promise<Record<string, string>> {
     try {
       const response = await this.api.get<{
-        category: string
-        language: string
-        translations: Record<string, string>
+        category: string;
+        language: string;
+        translations: Record<string, string>;
       }>(`/localization/category/${category}`, {
         params: { language },
-      })
-      return response.data.translations
+      });
+      return response.data.translations;
     } catch (error) {
-      console.error(`Failed to fetch localization category: ${category}`, error)
-      return {}
+      console.error(`Failed to fetch localization category: ${category}`, error);
+      return {};
     }
   }
 
@@ -66,13 +59,11 @@ class LocalizationApi {
    */
   async getSupportedLanguages(): Promise<string[]> {
     try {
-      const response = await this.api.get<{ languages: string[] }>(
-        '/localization/languages'
-      )
-      return response.data.languages
+      const response = await this.api.get<{ languages: string[] }>('/localization/languages');
+      return response.data.languages;
     } catch (error) {
-      console.error('Failed to fetch supported languages', error)
-      return ['en']
+      console.error('Failed to fetch supported languages', error);
+      return ['en'];
     }
   }
 
@@ -88,10 +79,10 @@ class LocalizationApi {
     translations: Record<string, string>
   ): Promise<void> {
     try {
-      await this.api.post(`/localization/${category}/${key}`, translations)
+      await this.api.post(`/localization/${category}/${key}`, translations);
     } catch (error) {
-      console.error(`Failed to set translations for ${category}.${key}`, error)
-      throw error
+      console.error(`Failed to set translations for ${category}.${key}`, error);
+      throw error;
     }
   }
 
@@ -104,23 +95,23 @@ class LocalizationApi {
     categories: string[],
     language: string = 'en'
   ): Promise<Record<string, Record<string, string>>> {
-    const results: Record<string, Record<string, string>> = {}
+    const results: Record<string, Record<string, string>> = {};
 
     try {
       await Promise.all(
-        categories.map(async (category) => {
-          results[category] = await this.getCategory(category, language)
+        categories.map(async category => {
+          results[category] = await this.getCategory(category, language);
         })
-      )
+      );
     } catch (error) {
-      console.error('Failed to prefetch categories', error)
+      console.error('Failed to prefetch categories', error);
     }
 
-    return results
+    return results;
   }
 }
 
 // Create singleton instance
-const localizationApi = new LocalizationApi(api)
+const localizationApi = new LocalizationApi(api);
 
-export default localizationApi
+export default localizationApi;

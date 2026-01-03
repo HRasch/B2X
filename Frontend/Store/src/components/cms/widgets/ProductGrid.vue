@@ -2,12 +2,7 @@
   <div class="product-grid">
     <div class="grid-container" :style="gridStyles">
       <div v-for="product in products" :key="product.id" class="product-card">
-        <img
-          v-if="product.image"
-          :src="product.image"
-          :alt="product.name"
-          class="product-image"
-        />
+        <img v-if="product.image" :src="product.image" :alt="product.name" class="product-image" />
         <div class="product-info">
           <h3 class="product-name">{{ product.name }}</h3>
           <p v-if="product.description" class="product-description">
@@ -26,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Product {
   id: string;
@@ -48,7 +43,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   settings: () => ({
     columns: 3,
-    gap: "1.5rem",
+    gap: '1.5rem',
     products: [] as Product[],
   }),
 });
@@ -56,15 +51,15 @@ const props = withDefaults(defineProps<Props>(), {
 const products = computed(() => props.settings.products || []);
 
 const gridStyles = computed(() => ({
-  display: "grid",
+  display: 'grid',
   gridTemplateColumns: `repeat(${props.settings.columns || 3}, 1fr)`,
-  gap: props.settings.gap || "1.5rem",
+  gap: props.settings.gap || '1.5rem',
 }));
 
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
   }).format(price);
 };
 </script>

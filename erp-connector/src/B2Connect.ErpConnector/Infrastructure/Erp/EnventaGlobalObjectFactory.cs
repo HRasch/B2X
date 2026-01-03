@@ -22,6 +22,13 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
         void Login(IFSGlobalObjects global, EnventaIdentity identity);
 
         /// <summary>
+        /// Validates the login status immediately after login.
+        /// In production: Checks global.oMsg for login-specific errors (Level 3 = error)
+        /// Must be called right after Login() to catch authentication failures.
+        /// </summary>
+        void ValidateLoginStatus(IFSGlobalObjects global, EnventaIdentity identity);
+
+        /// <summary>
         /// Validates the global object state.
         /// In production: Checks global.oMsg.oMsgItemColl for errors
         /// </summary>
@@ -49,6 +56,54 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
         {
             // Mock: Always succeed
             identity.IsAuthenticated = true;
+        }
+
+        public void ValidateLoginStatus(IFSGlobalObjects global, EnventaIdentity identity)
+        {
+            // Check login result from global message collection (oMsg.oMsgItemColl)
+            // enventa logs initialization errors to this collection
+            var msg = global.Message;
+            if (msg == null)
+            {
+                throw new InvalidOperationException(
+                    $"Login validation failed for {identity.Name}: Message object is null");
+            }
+
+            // Check message level (3 = Error)
+            if (msg.Level >= 3 || msg.HasErrors)
+            {
+                identity.IsAuthenticated = false;
+
+                // Collect all error messages from oMsgItemColl
+                var errorText = msg.Text;
+                if (msg.Items != null && msg.Items.Count > 0)
+                {
+                    var errors = new System.Text.StringBuilder();
+                    for (int i = 0; i < msg.Items.Count; i++)
+                    {
+                        var item = msg.Items[i];
+                        if (item.Level >= 3) // Error level
+                        {
+                            if (errors.Length > 0) errors.Append("; ");
+                            errors.Append($"[{item.Code}] {item.Text}");
+                        }
+                    }
+                    if (errors.Length > 0)
+                    {
+                        errorText = errors.ToString();
+                    }
+                }
+
+                throw new UnauthorizedAccessException(
+                    $"Login failed for {identity.Name}: {errorText}");
+            }
+
+            // Verify identity was authenticated
+            if (!identity.IsAuthenticated)
+            {
+                throw new UnauthorizedAccessException(
+                    $"Login failed for {identity.Name}: Identity not authenticated after login");
+            }
         }
 
         public void Validate(IFSGlobalObjects global)
@@ -103,5 +158,31 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
     {
         public int Level => 0; // 0 = OK, 3 = Error
         public string Text => string.Empty;
+        public IFSMessageItemCollection Items => new MockFSMessageItemCollection();
+        public bool HasErrors => Level >= 3 || (Items?.Count > 0 && HasErrorItems());
+
+        private bool HasErrorItems()
+        {
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].Level >= 3) return true;
+            }
+            return false;
+        }
+    }
+
+    internal class MockFSMessageItemCollection : IFSMessageItemCollection
+    {
+        private readonly IFSMessageItem[] _items = Array.Empty<IFSMessageItem>();
+
+        public int Count => _items.Length;
+        public IFSMessageItem this[int index] => _items[index];
+    }
+
+    internal class MockFSMessageItem : IFSMessageItem
+    {
+        public int Level { get; set; }
+        public string Text { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
     }
 }

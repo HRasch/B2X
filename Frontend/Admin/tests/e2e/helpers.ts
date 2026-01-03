@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- Playwright Page type */
-import { Page, expect } from "@playwright/test";
+import { Page, expect } from '@playwright/test';
 
 /**
  * Common test utilities for E2E tests
@@ -12,17 +12,17 @@ const getTestCredentials = () => {
 
   if (!email || !password) {
     throw new Error(
-      "❌ E2E Testing requires environment variables:\n" +
-        "  E2E_TEST_EMAIL: Test account email\n" +
-        "  E2E_TEST_PASSWORD: Test account password (min 8 chars, alphanumeric + special)\n" +
-        "\nExample:\n" +
+      '❌ E2E Testing requires environment variables:\n' +
+        '  E2E_TEST_EMAIL: Test account email\n' +
+        '  E2E_TEST_PASSWORD: Test account password (min 8 chars, alphanumeric + special)\n' +
+        '\nExample:\n' +
         "  export E2E_TEST_EMAIL='testuser@example.com'\n" +
         "  export E2E_TEST_PASSWORD='TestP@ss123!'\n" +
-        "\nOr use GitHub Secrets for CI/CD:\n" +
-        "  - In .github/workflows/e2e.yml, set:\n" +
-        "    env:\n" +
-        "      E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}\n" +
-        "      E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}"
+        '\nOr use GitHub Secrets for CI/CD:\n' +
+        '  - In .github/workflows/e2e.yml, set:\n' +
+        '    env:\n' +
+        '      E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}\n' +
+        '      E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}'
     );
   }
 
@@ -31,8 +31,8 @@ const getTestCredentials = () => {
 
 export const TEST_CREDENTIALS = getTestCredentials();
 
-export const API_BASE = "http://localhost:6000";
-export const APP_URL = "http://localhost:5174";
+export const API_BASE = 'http://localhost:6000';
+export const APP_URL = 'http://localhost:5174';
 
 /**
  * Login to the application
@@ -49,7 +49,7 @@ export async function loginAsAdmin(page: Page) {
  * Get auth token from localStorage
  */
 export async function getAuthToken(page: Page): Promise<string | null> {
-  return page.evaluate(() => localStorage.getItem("authToken"));
+  return page.evaluate(() => localStorage.getItem('authToken'));
 }
 
 /**
@@ -58,15 +58,15 @@ export async function getAuthToken(page: Page): Promise<string | null> {
 export async function apiCall(
   page: Page,
   endpoint: string,
-  method: string = "GET",
+  method: string = 'GET',
   body?: any
 ): Promise<Response> {
   const token = await getAuthToken(page);
   const options: RequestInit = {
     method,
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token || ""}`,
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token || ''}`,
     },
   };
 
@@ -99,9 +99,9 @@ export async function waitForApiRoute(
   timeout: number = 10000
 ) {
   return page.waitForResponse(
-    (resp) => {
+    resp => {
       const url = resp.url();
-      if (typeof urlPattern === "string") {
+      if (typeof urlPattern === 'string') {
         return url.includes(urlPattern) && resp.status() === 200;
       } else {
         return urlPattern.test(url) && resp.status() === 200;
@@ -114,13 +114,9 @@ export async function waitForApiRoute(
 /**
  * Navigate to admin page and verify load
  */
-export async function navigateToAdminPage(
-  page: Page,
-  path: string,
-  expectedHeading?: string
-) {
+export async function navigateToAdminPage(page: Page, path: string, expectedHeading?: string) {
   await page.goto(`${APP_URL}${path}`);
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState('networkidle');
 
   if (expectedHeading) {
     await expect(page.locator(`text=${expectedHeading}`)).toBeVisible({
@@ -133,10 +129,8 @@ export async function navigateToAdminPage(
  * Check for 404 errors on page
  */
 export async function checkFor404(page: Page): Promise<boolean> {
-  const pageContent = await page.evaluate(
-    () => document.documentElement.innerHTML
-  );
-  return pageContent.includes("404") || pageContent.includes("Not Found");
+  const pageContent = await page.evaluate(() => document.documentElement.innerHTML);
+  return pageContent.includes('404') || pageContent.includes('Not Found');
 }
 
 /**
@@ -144,7 +138,7 @@ export async function checkFor404(page: Page): Promise<boolean> {
  */
 export async function waitForLoadingToComplete(page: Page) {
   await page.waitForSelector('.spinner, [data-testid="loading"], .loader', {
-    state: "hidden",
+    state: 'hidden',
     timeout: 5000,
   });
 }
@@ -154,10 +148,10 @@ export async function waitForLoadingToComplete(page: Page) {
  */
 export async function hasDarkModeSupport(page: Page): Promise<boolean> {
   return page.evaluate(() => {
-    const h1 = document.querySelector("h1");
+    const h1 = document.querySelector('h1');
     if (!h1) return false;
     const styles = window.getComputedStyle(h1);
-    return styles.color !== "";
+    return styles.color !== '';
   });
 }
 
@@ -165,7 +159,7 @@ export async function hasDarkModeSupport(page: Page): Promise<boolean> {
  * Simulate network conditions
  */
 export async function simulateSlowNetwork(page: Page) {
-  await page.route("**/*", (route) => {
+  await page.route('**/*', route => {
     setTimeout(() => route.continue(), 500);
   });
 }
@@ -183,10 +177,7 @@ export async function logoutUser(page: Page) {
 /**
  * Check API response times
  */
-export async function measureApiResponseTime(
-  page: Page,
-  endpoint: string
-): Promise<number> {
+export async function measureApiResponseTime(page: Page, endpoint: string): Promise<number> {
   const startTime = Date.now();
   await apiCall(page, endpoint);
   return Date.now() - startTime;
@@ -206,8 +197,8 @@ export async function retryWithBackoff<T>(
     } catch (error) {
       if (i === maxRetries - 1) throw error;
       const delay = baseDelay * Math.pow(2, i);
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
-  throw new Error("Max retries exceeded");
+  throw new Error('Max retries exceeded');
 }

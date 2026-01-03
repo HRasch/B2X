@@ -9,6 +9,7 @@
 ## 📊 Implementierte Features
 
 ### ✨ Benutzer-Übersicht (UserList.vue)
+
 - ✅ Alle Benutzer anzeigen (mit Pagination)
 - ✅ Suchfunktion (nach Email, Name, Telefon)
 - ✅ Filter nach Status (Aktiv/Inaktiv)
@@ -20,6 +21,7 @@
 - ✅ Email-Verifikationsstatus-Badges
 
 ### 🆕 Benutzer erstellen (UserForm.vue)
+
 - ✅ Create-Modus (Formular für neue Benutzer)
 - ✅ Edit-Modus (Formular für existierende Benutzer)
 - ✅ Grundinformationen (Vorname, Nachname, Email, Telefon)
@@ -31,6 +33,7 @@
 - ✅ Loading-State während Save
 
 ### 👤 Benutzer-Detailseite (UserDetail.vue)
+
 - ✅ Detailansicht mit allen Benutzer-Infos
 - ✅ Tab-Navigation (Overview, Addresses)
 - ✅ User-Karte mit Avatar und Status
@@ -42,6 +45,7 @@
 - ✅ Bestätigungsmodal zum Löschen
 
 ### 🔌 API Integration (userService.ts)
+
 - ✅ getUsers(page, pageSize) - Alle Benutzer mit Pagination
 - ✅ getUserById(userId) - Einzelnen Benutzer laden
 - ✅ createUser(userData) - Neuen Benutzer erstellen
@@ -58,6 +62,7 @@
 - ✅ resetPassword(userId, password) - Passwort zurücksetzen
 
 ### 🏪 State Management (users.ts - Pinia Store)
+
 - ✅ State: users[], currentUser, loading, error, pagination
 - ✅ Actions: fetchUsers, fetchUser, createUser, updateUser, deleteUser, searchUsers, resetError
 - ✅ Computed: hasUsers, totalPages, isLoading
@@ -66,6 +71,7 @@
 - ✅ Pagination-State
 
 ### 🗺️ Router Integration
+
 - ✅ `/users` - Benutzer-Übersicht (UserList)
 - ✅ `/users/create` - Neuen Benutzer erstellen (UserForm)
 - ✅ `/users/:id` - Benutzer anzeigen (UserDetail)
@@ -73,6 +79,7 @@
 - ✅ Lazy-Loading für alle Views
 
 ### 📝 TypeScript Types (user.ts)
+
 - ✅ User Interface (mit allen Properties)
 - ✅ UserProfile Interface
 - ✅ Address Interface
@@ -80,6 +87,7 @@
 - ✅ Vollständige Type-Safety
 
 ### 🎨 Design & UX
+
 - ✅ TailwindCSS Styling
 - ✅ Responsive Design (Mobile, Tablet, Desktop)
 - ✅ Loading-States (Spinner)
@@ -125,34 +133,34 @@ frontend-admin/src/
 
 ```typescript
 // 1. UserList.vue - Benutzer laden
-const userStore = useUserStore()
+const userStore = useUserStore();
 onMounted(async () => {
-  await userStore.fetchUsers(1, 20)
-})
+  await userStore.fetchUsers(1, 20);
+});
 
 // 2. Auf Edit-Button klicken → Route zu /users/:id/edit
-router.push({ name: 'UserEdit', params: { id: userId } })
+router.push({ name: 'UserEdit', params: { id: userId } });
 
 // 3. UserForm.vue - Edit-Modus laden
-const userStore = useUserStore()
-const isEdit = !!route.params.id
+const userStore = useUserStore();
+const isEdit = !!route.params.id;
 onMounted(async () => {
   if (isEdit) {
-    await userStore.fetchUser(route.params.id as string)
+    await userStore.fetchUser(route.params.id as string);
     // Form mit Daten füllen
-    form.value = userStore.currentUser
+    form.value = userStore.currentUser;
   }
-})
+});
 
 // 4. Form submitten → API Call
 const handleSubmit = async () => {
   if (isEdit) {
-    await userStore.updateUser(route.params.id as string, form.value)
+    await userStore.updateUser(route.params.id as string, form.value);
   } else {
-    await userStore.createUser(form.value)
+    await userStore.createUser(form.value);
   }
-  router.push('/users')
-}
+  router.push('/users');
+};
 ```
 
 ---
@@ -184,12 +192,14 @@ POST   /api/admin/users/:id/reset-password        # Passwort reset
 ## 🧪 Testing
 
 ### Manual Testing
+
 - ✅ [USER_MANAGEMENT_TESTING_GUIDE.md](./USER_MANAGEMENT_TESTING_GUIDE.md) verfügbar
 - Checklisten für alle Features
 - Responsive Design Tests
 - Error-Handling Tests
 
 ### Automatisierte Tests (TODO)
+
 - [ ] Unit Tests (userService.ts)
 - [ ] Store Tests (users.ts)
 - [ ] Component Tests (UserList.vue, UserForm.vue, UserDetail.vue)
@@ -200,6 +210,7 @@ POST   /api/admin/users/:id/reset-password        # Passwort reset
 ## 🚀 Next Steps
 
 ### Phase 1: Backend API (PRIORITÄT 🔴)
+
 - Implementiere AdminUsersController
 - Implementiere Repository Pattern
 - Erstelle Database-Migrations
@@ -208,6 +219,7 @@ POST   /api/admin/users/:id/reset-password        # Passwort reset
 **Geschätzte Zeit:** 4-6 Stunden
 
 ### Phase 2: Integration Testing
+
 - Frontend mit echtem Backend testen
 - E2E Tests mit Playwright
 - Performance-Tests
@@ -215,6 +227,7 @@ POST   /api/admin/users/:id/reset-password        # Passwort reset
 **Geschätzte Zeit:** 2-3 Stunden
 
 ### Phase 3: Zusätzliche Features (Optional)
+
 - [ ] Bulk-Operationen
 - [ ] Import/Export (CSV)
 - [ ] Audit-Log
@@ -226,6 +239,7 @@ POST   /api/admin/users/:id/reset-password        # Passwort reset
 ## 💾 Speicherbedarf
 
 Dieses Module benötigt:
+
 - ~1.6 MB TypeScript Code
 - ~40 KB CSS/Styling
 - ~120 KB Dependencies (Pinia, Vue Router)
@@ -265,6 +279,7 @@ Dieses Module benötigt:
 ## 🔧 Installation & Verwendung
 
 ### Frontend starten
+
 ```bash
 cd frontend-admin
 npm install  # Falls nicht schon geschehen
@@ -272,11 +287,13 @@ npm run dev  # Startet auf http://localhost:5174
 ```
 
 ### Navigiere zu User Management
+
 ```
 http://localhost:5174/users
 ```
 
 ### Ansehen im Browser
+
 - ✅ User List: http://localhost:5174/users
 - ✅ Create: http://localhost:5174/users/create
 - ✅ Detail: http://localhost:5174/users/123
@@ -308,6 +325,7 @@ http://localhost:5174/users
 ## 📞 Kontakt & Support
 
 Bei Fragen zur Implementierung:
+
 1. Lies [USER_MANAGEMENT_TESTING_GUIDE.md](./USER_MANAGEMENT_TESTING_GUIDE.md)
 2. Überprüfe die README.md Dateien
 3. Schaue in die TypeScript Interfaces (für API-Erwartungen)

@@ -1,7 +1,7 @@
 <template>
   <div class="category-form">
     <div class="header">
-      <h1>{{ isEditMode ? "Edit Category" : "Create Category" }}</h1>
+      <h1>{{ isEditMode ? 'Edit Category' : 'Create Category' }}</h1>
       <p class="subtitle">Manage category information</p>
     </div>
 
@@ -18,11 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-import { computed } from "vue";
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 const route = useRoute();
-const isEditMode = computed(() => route.meta.formMode === "edit");
+const isEditMode = computed(() => route.meta.formMode === 'edit');
 </script>
 
 <style scoped lang="css">

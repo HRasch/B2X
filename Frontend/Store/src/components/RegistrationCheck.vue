@@ -3,9 +3,7 @@
     <!-- Page Header -->
     <div class="bg-base-200 py-12">
       <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-base-900 mb-2">
-          Registrierungstyp Prüfen
-        </h1>
+        <h1 class="text-4xl font-bold text-base-900 mb-2">Registrierungstyp Prüfen</h1>
         <p class="text-lg text-base-content/70">
           Überprüfen Sie, ob Sie bereits als Bestandskunde registriert sind
         </p>
@@ -16,11 +14,7 @@
     <div class="container mx-auto py-8 px-4 max-w-2xl">
       <!-- Error Alert -->
       <Transition name="fade">
-        <div
-          v-if="error"
-          class="alert alert-error mb-6 shadow-lg"
-          data-testid="error-message"
-        >
+        <div v-if="error" class="alert alert-error mb-6 shadow-lg" data-testid="error-message">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="stroke-current shrink-0 h-6 w-6"
@@ -65,9 +59,7 @@
           <div>
             <p>{{ successMessage }}</p>
           </div>
-          <button class="btn btn-sm btn-ghost" @click="successMessage = null">
-            ✕
-          </button>
+          <button class="btn btn-sm btn-ghost" @click="successMessage = null">✕</button>
         </div>
       </Transition>
 
@@ -95,9 +87,7 @@
                   @blur="validateEmailField"
                 />
                 <label v-if="emailError" class="label">
-                  <span class="label-text-alt text-error">{{
-                    emailError
-                  }}</span>
+                  <span class="label-text-alt text-error">{{ emailError }}</span>
                 </label>
               </div>
 
@@ -116,12 +106,8 @@
                   data-testid="business-type-select"
                 >
                   <option value="">-- Bitte wählen --</option>
-                  <option value="B2C">
-                    B2C (Privatperson / Einzelunternehmer)
-                  </option>
-                  <option value="B2B">
-                    B2B (Unternehmen / GmbH / GmbH & Co. KG)
-                  </option>
+                  <option value="B2C">B2C (Privatperson / Einzelunternehmer)</option>
+                  <option value="B2B">B2B (Unternehmen / GmbH / GmbH & Co. KG)</option>
                 </select>
               </div>
 
@@ -191,16 +177,11 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-                :disabled="
-                  isLoading || !formData.email || !formData.businessType
-                "
+                :disabled="isLoading || !formData.email || !formData.businessType"
                 data-testid="submit-button"
               >
-                <span
-                  v-if="isLoading"
-                  class="loading loading-spinner loading-sm"
-                ></span>
-                {{ isLoading ? "Prüfen läuft..." : "Prüfen" }}
+                <span v-if="isLoading" class="loading loading-spinner loading-sm"></span>
+                {{ isLoading ? 'Prüfen läuft...' : 'Prüfen' }}
               </button>
             </div>
           </form>
@@ -216,8 +197,7 @@
               'bg-success/10 border-success':
                 result.registrationType === 'Bestandskunde' ||
                 result.registrationType === 'ExistingCustomer',
-              'bg-warning/10 border-warning':
-                result.registrationType === 'NewCustomer',
+              'bg-warning/10 border-warning': result.registrationType === 'NewCustomer',
             }"
           >
             <div class="card-body">
@@ -268,8 +248,7 @@
                       <td class="font-bold">Adresse:</td>
                       <td>
                         {{ result.erpData.address }}<br />
-                        {{ result.erpData.postalCode }} {{ result.erpData.city
-                        }}<br />
+                        {{ result.erpData.postalCode }} {{ result.erpData.city }}<br />
                         {{ result.erpData.country }}
                       </td>
                     </tr>
@@ -281,9 +260,7 @@
               <div v-if="result.confidenceScore" class="mt-6">
                 <div class="flex justify-between items-center mb-2">
                   <p class="font-bold">Übereinstimmungsquote:</p>
-                  <span class="font-bold text-lg"
-                    >{{ result.confidenceScore }}%</span
-                  >
+                  <span class="font-bold text-lg">{{ result.confidenceScore }}%</span>
                 </div>
                 <progress
                   class="progress progress-primary w-full"
@@ -300,24 +277,14 @@
                     result.registrationType === 'ExistingCustomer'
                   "
                 >
-                  <button class="btn btn-secondary" @click="resetForm">
-                    Neue Prüfung
-                  </button>
-                  <button
-                    class="btn btn-primary"
-                    @click="continueWithBestandskunde"
-                  >
+                  <button class="btn btn-secondary" @click="resetForm">Neue Prüfung</button>
+                  <button class="btn btn-primary" @click="continueWithBestandskunde">
                     Mit Kundendaten fortfahren
                   </button>
                 </template>
                 <template v-else>
-                  <button class="btn btn-secondary" @click="resetForm">
-                    Zurück
-                  </button>
-                  <button
-                    class="btn btn-primary"
-                    @click="continueWithNewRegistration"
-                  >
+                  <button class="btn btn-secondary" @click="resetForm">Zurück</button>
+                  <button class="btn btn-primary" @click="continueWithNewRegistration">
                     Registrierung fortsetzen
                   </button>
                 </template>
@@ -346,16 +313,14 @@
           <h3 class="font-bold">Informationen</h3>
           <div class="text-sm">
             <p>
-              <strong>Bestandskunde:</strong> Sie sind bereits in unserem System
-              registriert. Ihre Daten werden automatisch vorausgefüllt.
+              <strong>Bestandskunde:</strong> Sie sind bereits in unserem System registriert. Ihre
+              Daten werden automatisch vorausgefüllt.
             </p>
             <p class="mt-2">
-              <strong>Neukunde:</strong> Sie werden zur regulären Registrierung
-              weitergeleitet.
+              <strong>Neukunde:</strong> Sie werden zur regulären Registrierung weitergeleitet.
             </p>
             <p class="mt-2">
-              Die Prüfung wird anhand von E-Mail, Name und optional
-              Telefon/Adresse durchgeführt.
+              Die Prüfung wird anhand von E-Mail, Name und optional Telefon/Adresse durchgeführt.
             </p>
           </div>
         </div>
@@ -365,26 +330,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import {
   checkRegistrationType,
   validateEmail,
   formatRegistrationType,
   type CheckRegistrationTypeRequest,
   type CheckRegistrationTypeResponse,
-} from "@/services/registrationService";
+} from '@/services/registrationService';
 
 const router = useRouter();
 
 // Form State
 const formData = ref<CheckRegistrationTypeRequest>({
-  email: "",
-  businessType: "B2C",
-  firstName: "",
-  lastName: "",
-  companyName: "",
-  phone: "",
+  email: '',
+  businessType: 'B2C',
+  firstName: '',
+  lastName: '',
+  companyName: '',
+  phone: '',
 });
 
 // UI State
@@ -400,7 +365,7 @@ const result = ref<CheckRegistrationTypeResponse | null>(null);
 function validateEmailField() {
   emailError.value = null;
   if (formData.value.email && !validateEmail(formData.value.email)) {
-    emailError.value = "Bitte geben Sie eine gültige E-Mail-Adresse ein";
+    emailError.value = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
   }
 }
 
@@ -414,7 +379,7 @@ async function handleCheckRegistration() {
 
   // Validate email
   if (!validateEmail(formData.value.email)) {
-    emailError.value = "Bitte geben Sie eine gültige E-Mail-Adresse ein";
+    emailError.value = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
     return;
   }
 
@@ -432,20 +397,15 @@ async function handleCheckRegistration() {
 
       // Scroll to results
       setTimeout(() => {
-        document
-          .querySelector(".results-section")
-          ?.scrollIntoView({ behavior: "smooth" });
+        document.querySelector('.results-section')?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     } else {
-      error.value =
-        response.message ||
-        response.error ||
-        "Fehler beim Prüfen der Registrierung";
+      error.value = response.message || response.error || 'Fehler beim Prüfen der Registrierung';
     }
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
     error.value = `Fehler: ${errorMsg}`;
-    console.error("CheckRegistrationType error:", err);
+    console.error('CheckRegistrationType error:', err);
   } finally {
     isLoading.value = false;
   }
@@ -455,16 +415,16 @@ async function handleCheckRegistration() {
  * Get result title based on registration type
  */
 function getResultTitle(): string {
-  if (!result.value) return "";
+  if (!result.value) return '';
 
   switch (result.value.registrationType) {
-    case "Bestandskunde":
-      return "✓ Sie sind bereits registriert";
-    case "ExistingCustomer":
-      return "✓ Sie sind bereits Kunde";
-    case "NewCustomer":
+    case 'Bestandskunde':
+      return '✓ Sie sind bereits registriert';
+    case 'ExistingCustomer':
+      return '✓ Sie sind bereits Kunde';
+    case 'NewCustomer':
     default:
-      return "Registrierung erforderlich";
+      return 'Registrierung erforderlich';
   }
 }
 
@@ -472,16 +432,16 @@ function getResultTitle(): string {
  * Get result description
  */
 function getResultDescription(): string {
-  if (!result.value) return "";
+  if (!result.value) return '';
 
   switch (result.value.registrationType) {
-    case "Bestandskunde":
-      return "Ihre Kundendaten wurden gefunden. Sie können sich mit vereinfachter Registrierung anmelden.";
-    case "ExistingCustomer":
-      return "Wir haben Ihre Daten in unserem System gefunden.";
-    case "NewCustomer":
+    case 'Bestandskunde':
+      return 'Ihre Kundendaten wurden gefunden. Sie können sich mit vereinfachter Registrierung anmelden.';
+    case 'ExistingCustomer':
+      return 'Wir haben Ihre Daten in unserem System gefunden.';
+    case 'NewCustomer':
     default:
-      return "Sie werden als Neukunde registriert. Füllen Sie das Registrierungsformular aus.";
+      return 'Sie werden als Neukunde registriert. Füllen Sie das Registrierungsformular aus.';
   }
 }
 
@@ -489,16 +449,16 @@ function getResultDescription(): string {
  * Get badge class for result
  */
 function getRegistrationBadgeClass(): string {
-  if (!result.value) return "default";
+  if (!result.value) return 'default';
 
   switch (result.value.registrationType) {
-    case "Bestandskunde":
-      return "success";
-    case "ExistingCustomer":
-      return "info";
-    case "NewCustomer":
+    case 'Bestandskunde':
+      return 'success';
+    case 'ExistingCustomer':
+      return 'info';
+    case 'NewCustomer':
     default:
-      return "warning";
+      return 'warning';
   }
 }
 
@@ -509,7 +469,7 @@ function continueWithBestandskunde() {
   if (result.value?.erpData) {
     // Pass ERP data to next step
     router.push({
-      name: "registration-bestandskunde",
+      name: 'registration-bestandskunde',
       params: { customerId: result.value.erpCustomerId },
       query: {
         email: result.value.erpData.email,
@@ -524,7 +484,7 @@ function continueWithBestandskunde() {
  */
 function continueWithNewRegistration() {
   router.push({
-    name: "registration-new",
+    name: 'registration-new',
     query: {
       email: formData.value.email,
       businessType: formData.value.businessType,
@@ -537,12 +497,12 @@ function continueWithNewRegistration() {
  */
 function resetForm() {
   formData.value = {
-    email: "",
-    businessType: "B2C",
-    firstName: "",
-    lastName: "",
-    companyName: "",
-    phone: "",
+    email: '',
+    businessType: 'B2C',
+    firstName: '',
+    lastName: '',
+    companyName: '',
+    phone: '',
   };
   result.value = null;
   error.value = null;

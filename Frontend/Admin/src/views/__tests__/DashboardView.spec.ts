@@ -1,10 +1,10 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { mount } from "@vue/test-utils";
-import { createRouter, createMemoryHistory, type Router } from "vue-router";
-import DashboardView from "../../DashboardView.vue";
-import { createPinia, setActivePinia } from "pinia";
+import { describe, it, expect, beforeEach } from 'vitest';
+import { mount } from '@vue/test-utils';
+import { createRouter, createMemoryHistory, type Router } from 'vue-router';
+import DashboardView from '../../DashboardView.vue';
+import { createPinia, setActivePinia } from 'pinia';
 
-describe("DashboardView.vue (Full Dashboard)", () => {
+describe('DashboardView.vue (Full Dashboard)', () => {
   let router: Router;
   let pinia: ReturnType<typeof createPinia>;
 
@@ -16,16 +16,16 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       history: createMemoryHistory(),
       routes: [
         {
-          path: "/",
-          name: "Dashboard",
-          component: { template: "<div>Dashboard</div>" },
+          path: '/',
+          name: 'Dashboard',
+          component: { template: '<div>Dashboard</div>' },
         },
       ],
     });
   });
 
-  describe("Component Rendering", () => {
-    it("should render DashboardView component", () => {
+  describe('Component Rendering', () => {
+    it('should render DashboardView component', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -41,7 +41,7 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       expect(wrapper.exists()).toBe(true);
     });
 
-    it("should render dashboard header with title", () => {
+    it('should render dashboard header with title', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -56,10 +56,10 @@ describe("DashboardView.vue (Full Dashboard)", () => {
 
       const header = wrapper.find('[data-test="dashboard-header"]');
       expect(header.exists()).toBe(true);
-      expect(header.text()).toContain("Dashboard");
+      expect(header.text()).toContain('Dashboard');
     });
 
-    it("should render main layout wrapper", () => {
+    it('should render main layout wrapper', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -79,8 +79,8 @@ describe("DashboardView.vue (Full Dashboard)", () => {
     });
   });
 
-  describe("Dashboard Content Sections", () => {
-    it("should render statistics cards section", () => {
+  describe('Dashboard Content Sections', () => {
+    it('should render statistics cards section', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -97,7 +97,7 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       expect(statsSection.exists()).toBe(true);
     });
 
-    it("should render multiple stat cards", () => {
+    it('should render multiple stat cards', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -114,7 +114,7 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       expect(statCards.length).toBeGreaterThanOrEqual(1);
     });
 
-    it("should render charts section", () => {
+    it('should render charts section', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -131,7 +131,7 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       expect(chartsSection.exists()).toBe(true);
     });
 
-    it("should render recent activity section", () => {
+    it('should render recent activity section', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -144,13 +144,11 @@ describe("DashboardView.vue (Full Dashboard)", () => {
         },
       });
 
-      const activitySection = wrapper.find(
-        '[data-test="recent-activity-section"]'
-      );
+      const activitySection = wrapper.find('[data-test="recent-activity-section"]');
       expect(activitySection.exists()).toBe(true);
     });
 
-    it("should render quick actions section", () => {
+    it('should render quick actions section', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -163,15 +161,13 @@ describe("DashboardView.vue (Full Dashboard)", () => {
         },
       });
 
-      const quickActionsSection = wrapper.find(
-        '[data-test="quick-actions-section"]'
-      );
+      const quickActionsSection = wrapper.find('[data-test="quick-actions-section"]');
       expect(quickActionsSection.exists()).toBe(true);
     });
   });
 
-  describe("Data Loading", () => {
-    it("should handle loading state", async () => {
+  describe('Data Loading', () => {
+    it('should handle loading state', async () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -192,7 +188,7 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       expect(loader.exists()).toBe(true);
     });
 
-    it("should display data after loading", async () => {
+    it('should display data after loading', async () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -213,7 +209,7 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       expect(content.exists()).toBe(true);
     });
 
-    it("should handle error state", async () => {
+    it('should handle error state', async () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -229,7 +225,7 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       // Simulate error
       await wrapper.setData({
         hasError: true,
-        errorMessage: "Failed to load data",
+        errorMessage: 'Failed to load data',
       });
       await wrapper.vm.$nextTick();
 
@@ -237,7 +233,7 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       expect(errorAlert.exists()).toBe(true);
     });
 
-    it("should provide retry button on error", async () => {
+    it('should provide retry button on error', async () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -258,16 +254,15 @@ describe("DashboardView.vue (Full Dashboard)", () => {
     });
   });
 
-  describe("Interactivity", () => {
-    it("should handle stat card clicks", async () => {
+  describe('Interactivity', () => {
+    it('should handle stat card clicks', async () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
           stubs: {
             MainLayout: true,
             DashboardCard: {
-              template:
-                '<div data-test="stat-card" @click="$emit(\'click\')" />',
+              template: '<div data-test="stat-card" @click="$emit(\'click\')" />',
             },
             DashboardChart: true,
             StatCard: true,
@@ -276,12 +271,12 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       });
 
       const statCard = wrapper.find('[data-test="stat-card"]');
-      await statCard.trigger("click");
+      await statCard.trigger('click');
 
       expect(wrapper.emitted()).toBeTruthy();
     });
 
-    it("should handle quick action clicks", async () => {
+    it('should handle quick action clicks', async () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -294,16 +289,14 @@ describe("DashboardView.vue (Full Dashboard)", () => {
         },
       });
 
-      const quickActionButton = wrapper.find(
-        '[data-test="quick-action-button"]'
-      );
+      const quickActionButton = wrapper.find('[data-test="quick-action-button"]');
       if (quickActionButton.exists()) {
-        await quickActionButton.trigger("click");
+        await quickActionButton.trigger('click');
         expect(wrapper.emitted()).toBeTruthy();
       }
     });
 
-    it("should handle refresh button click", async () => {
+    it('should handle refresh button click', async () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -318,15 +311,14 @@ describe("DashboardView.vue (Full Dashboard)", () => {
 
       const refreshButton = wrapper.find('[data-test="refresh-button"]');
       if (refreshButton.exists()) {
-        await refreshButton.trigger("click");
-        expect(wrapper.emitted("refresh")).toBeTruthy() ||
-          expect(wrapper.vm.isLoading).toBe(true);
+        await refreshButton.trigger('click');
+        expect(wrapper.emitted('refresh')).toBeTruthy() || expect(wrapper.vm.isLoading).toBe(true);
       }
     });
   });
 
-  describe("Accessibility", () => {
-    it("should have semantic page structure", () => {
+  describe('Accessibility', () => {
+    it('should have semantic page structure', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -339,11 +331,11 @@ describe("DashboardView.vue (Full Dashboard)", () => {
         },
       });
 
-      const main = wrapper.find("main");
+      const main = wrapper.find('main');
       expect(main.exists()).toBe(true);
     });
 
-    it("should have proper heading hierarchy", () => {
+    it('should have proper heading hierarchy', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -356,11 +348,11 @@ describe("DashboardView.vue (Full Dashboard)", () => {
         },
       });
 
-      const h1 = wrapper.find("h1");
+      const h1 = wrapper.find('h1');
       expect(h1.exists()).toBe(true);
     });
 
-    it("should have ARIA labels on sections", () => {
+    it('should have ARIA labels on sections', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -374,12 +366,10 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       });
 
       const statsSection = wrapper.find('[data-test="stats-section"]');
-      expect(
-        statsSection.attributes("role") || statsSection.attributes("aria-label")
-      ).toBeTruthy();
+      expect(statsSection.attributes('role') || statsSection.attributes('aria-label')).toBeTruthy();
     });
 
-    it("should be keyboard navigable", () => {
+    it('should be keyboard navigable', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -392,13 +382,13 @@ describe("DashboardView.vue (Full Dashboard)", () => {
         },
       });
 
-      const buttons = wrapper.findAll("button");
+      const buttons = wrapper.findAll('button');
       for (const button of buttons) {
-        expect(button.attributes("tabindex")).not.toBe("-1");
+        expect(button.attributes('tabindex')).not.toBe('-1');
       }
     });
 
-    it("should announce loading states to screen readers", async () => {
+    it('should announce loading states to screen readers', async () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -416,14 +406,13 @@ describe("DashboardView.vue (Full Dashboard)", () => {
 
       const loader = wrapper.find('[data-test="dashboard-loader"]');
       expect(
-        loader.attributes("role") === "status" ||
-          loader.attributes("aria-live") === "polite"
+        loader.attributes('role') === 'status' || loader.attributes('aria-live') === 'polite'
       ).toBeTruthy();
     });
   });
 
-  describe("Responsive Design", () => {
-    it("should apply responsive grid classes", () => {
+  describe('Responsive Design', () => {
+    it('should apply responsive grid classes', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -437,15 +426,13 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       });
 
       const statsSection = wrapper.find('[data-test="stats-section"]');
-      const classList = statsSection.classes().join(" ");
+      const classList = statsSection.classes().join(' ');
       expect(
-        classList.includes("grid") ||
-          classList.includes("flex") ||
-          classList.includes("responsive")
+        classList.includes('grid') || classList.includes('flex') || classList.includes('responsive')
       ).toBe(true);
     });
 
-    it("should adjust layout for mobile", () => {
+    it('should adjust layout for mobile', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -460,16 +447,16 @@ describe("DashboardView.vue (Full Dashboard)", () => {
 
       const container = wrapper.find('[data-test="dashboard-container"]');
       if (container.exists()) {
-        const classList = container.classes().join(" ");
+        const classList = container.classes().join(' ');
         expect(
-          classList.includes("p-4") ||
-            classList.includes("px-4") ||
-            classList.includes("mobile-optimized")
+          classList.includes('p-4') ||
+            classList.includes('px-4') ||
+            classList.includes('mobile-optimized')
         ).toBe(true);
       }
     });
 
-    it("should render multi-column layout on desktop", () => {
+    it('should render multi-column layout on desktop', () => {
       const wrapper = mount(DashboardView, {
         global: {
           plugins: [router, pinia],
@@ -483,11 +470,11 @@ describe("DashboardView.vue (Full Dashboard)", () => {
       });
 
       const statsSection = wrapper.find('[data-test="stats-section"]');
-      const classList = statsSection.classes().join(" ");
+      const classList = statsSection.classes().join(' ');
       expect(
-        classList.includes("md:grid-cols") ||
-          classList.includes("lg:grid-cols") ||
-          classList.includes("grid-cols-4")
+        classList.includes('md:grid-cols') ||
+          classList.includes('lg:grid-cols') ||
+          classList.includes('grid-cols-4')
       ).toBe(true);
     });
   });

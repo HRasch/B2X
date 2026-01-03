@@ -4,14 +4,14 @@ export interface Job {
   id: string;
   name: string;
   type:
-    | "data-sync"
-    | "report-generation"
-    | "email-campaign"
-    | "image-processing"
-    | "etl"
-    | "backup"
-    | "custom";
-  status: "pending" | "running" | "completed" | "failed" | "cancelled";
+    | 'data-sync'
+    | 'report-generation'
+    | 'email-campaign'
+    | 'image-processing'
+    | 'etl'
+    | 'backup'
+    | 'custom';
+  status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
   progress: number;
   startedAt?: Date;
   completedAt?: Date;
@@ -26,7 +26,7 @@ export interface Job {
 export interface JobLog {
   id: string;
   jobId: string;
-  level: "info" | "warning" | "error" | "debug";
+  level: 'info' | 'warning' | 'error' | 'debug';
   message: string;
   timestamp: Date;
   data?: Record<string, any>;

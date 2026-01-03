@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue';
 
 interface VatValidationResult {
   isValid: boolean;
@@ -18,20 +18,20 @@ const props = withDefaults(
     buyerCountry?: string;
   }>(),
   {
-    modelValue: "",
-    sellerCountry: "DE",
-    buyerCountry: "",
+    modelValue: '',
+    sellerCountry: 'DE',
+    buyerCountry: '',
   }
 );
 
 const emit = defineEmits<{
-  "update:modelValue": [value: string];
-  "validation-result": [result: VatValidationResult];
+  'update:modelValue': [value: string];
+  'validation-result': [result: VatValidationResult];
 }>();
 
 // State
 const vatNumber = ref(props.modelValue);
-const countryCode = ref("DE");
+const countryCode = ref('DE');
 const isValidating = ref(false);
 const validationResult = ref<VatValidationResult | null>(null);
 const error = ref<string | null>(null);
@@ -40,16 +40,16 @@ const error = ref<string | null>(null);
 const fullVatId = computed(() => `${countryCode.value}${vatNumber.value}`);
 const isValid = computed(() => validationResult.value?.isValid ?? false);
 const statusClass = computed(() => {
-  if (isValidating.value) return "validating";
-  if (error.value) return "error";
-  if (isValid.value) return "valid";
-  return "";
+  if (isValidating.value) return 'validating';
+  if (error.value) return 'error';
+  if (isValid.value) return 'valid';
+  return '';
 });
 
 // Methods
 const validateVatId = async () => {
   if (!countryCode.value || !vatNumber.value) {
-    error.value = "Country code and VAT number are required";
+    error.value = 'Country code and VAT number are required';
     return;
   }
 
@@ -58,9 +58,9 @@ const validateVatId = async () => {
   validationResult.value = null;
 
   try {
-    const response = await fetch("/api/validatevatid", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('/api/validatevatid', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         countryCode: countryCode.value,
         vatNumber: vatNumber.value,
@@ -77,15 +77,13 @@ const validateVatId = async () => {
     validationResult.value = result;
 
     if (!result.isValid) {
-      error.value =
-        result.message ||
-        "VAT ID could not be validated. Please verify and try again.";
+      error.value = result.message || 'VAT ID could not be validated. Please verify and try again.';
     }
 
-    emit("validation-result", result);
+    emit('validation-result', result);
   } catch (e) {
-    error.value = `Validation failed: ${e instanceof Error ? e.message : "Unknown error"}`;
-    console.error("VAT validation error:", e);
+    error.value = `Validation failed: ${e instanceof Error ? e.message : 'Unknown error'}`;
+    console.error('VAT validation error:', e);
   } finally {
     isValidating.value = false;
   }
@@ -97,15 +95,15 @@ const handleCountryChange = () => {
 };
 
 const handleVatNumberChange = () => {
-  emit("update:modelValue", vatNumber.value);
+  emit('update:modelValue', vatNumber.value);
 };
 
 const clearValidation = () => {
-  vatNumber.value = "";
-  countryCode.value = "DE";
+  vatNumber.value = '';
+  countryCode.value = 'DE';
   validationResult.value = null;
   error.value = null;
-  emit("update:modelValue", "");
+  emit('update:modelValue', '');
 };
 </script>
 
@@ -178,11 +176,8 @@ const clearValidation = () => {
           @click="validateVatId"
           class="btn btn-primary"
         >
-          <span
-            v-if="isValidating"
-            class="loading loading-spinner loading-sm"
-          ></span>
-          {{ isValidating ? "Validating..." : "Validate" }}
+          <span v-if="isValidating" class="loading loading-spinner loading-sm"></span>
+          {{ isValidating ? 'Validating...' : 'Validate' }}
         </button>
       </div>
       <label class="label">
@@ -238,17 +233,11 @@ const clearValidation = () => {
 
           <!-- Company Info -->
           <div v-if="validationResult.isValid" class="space-y-3">
-            <div
-              v-if="validationResult.companyName"
-              class="flex justify-between"
-            >
+            <div v-if="validationResult.companyName" class="flex justify-between">
               <span class="font-bold">Company Name:</span>
               <span>{{ validationResult.companyName }}</span>
             </div>
-            <div
-              v-if="validationResult.companyAddress"
-              class="flex flex-col gap-1"
-            >
+            <div v-if="validationResult.companyAddress" class="flex flex-col gap-1">
               <span class="font-bold">Address:</span>
               <span class="text-sm">{{ validationResult.companyAddress }}</span>
             </div>
@@ -261,9 +250,7 @@ const clearValidation = () => {
                 }"
               >
                 {{
-                  validationResult.reverseChargeApplies
-                    ? "0% VAT (applies)"
-                    : "Standard VAT rate"
+                  validationResult.reverseChargeApplies ? '0% VAT (applies)' : 'Standard VAT rate'
                 }}
               </span>
             </div>
@@ -271,11 +258,7 @@ const clearValidation = () => {
 
           <!-- Action Buttons -->
           <div class="flex gap-2 mt-4 border-t pt-4">
-            <button
-              type="button"
-              @click="clearValidation"
-              class="btn btn-ghost flex-1"
-            >
+            <button type="button" @click="clearValidation" class="btn btn-ghost flex-1">
               Clear & Start Over
             </button>
           </div>
@@ -301,8 +284,8 @@ const clearValidation = () => {
       <div>
         <h3 class="font-bold">VAT Validation Help</h3>
         <div class="text-xs">
-          If you cannot provide a valid VAT-ID, you can continue as a B2C
-          customer (standard VAT applies).
+          If you cannot provide a valid VAT-ID, you can continue as a B2C customer (standard VAT
+          applies).
         </div>
       </div>
     </div>

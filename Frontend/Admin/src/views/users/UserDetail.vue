@@ -15,15 +15,10 @@
         <div class="header-top">
           <router-link to="/users" class="btn-back">← Zurück</router-link>
           <div class="header-actions">
-            <router-link
-              :to="`/users/${userStore.currentUser.id}/edit`"
-              class="btn btn-primary"
-            >
+            <router-link :to="`/users/${userStore.currentUser.id}/edit`" class="btn btn-primary">
               Bearbeiten
             </router-link>
-            <button @click="handleDelete" class="btn btn-danger">
-              Löschen
-            </button>
+            <button @click="handleDelete" class="btn btn-danger">Löschen</button>
           </div>
         </div>
 
@@ -40,12 +35,10 @@
             <span
               :class="[
                 'status-badge',
-                userStore.currentUser.isActive
-                  ? 'status-active'
-                  : 'status-inactive',
+                userStore.currentUser.isActive ? 'status-active' : 'status-inactive',
               ]"
             >
-              {{ userStore.currentUser.isActive ? "Aktiv" : "Inaktiv" }}
+              {{ userStore.currentUser.isActive ? 'Aktiv' : 'Inaktiv' }}
             </span>
           </div>
         </div>
@@ -71,10 +64,7 @@
             <div class="info-item">
               <label>E-Mail</label>
               <p>{{ userStore.currentUser.email }}</p>
-              <span
-                v-if="userStore.currentUser.isEmailVerified"
-                class="badge badge-success"
-              >
+              <span v-if="userStore.currentUser.isEmailVerified" class="badge badge-success">
                 Verifiziert
               </span>
               <span v-else class="badge badge-warning">Unverifiziert</span>
@@ -82,11 +72,8 @@
 
             <div class="info-item">
               <label>Telefon</label>
-              <p>{{ userStore.currentUser.phoneNumber || "—" }}</p>
-              <span
-                v-if="userStore.currentUser.isPhoneVerified"
-                class="badge badge-success"
-              >
+              <p>{{ userStore.currentUser.phoneNumber || '—' }}</p>
+              <span v-if="userStore.currentUser.isPhoneVerified" class="badge badge-success">
                 Verifiziert
               </span>
               <span v-else class="badge badge-warning">Unverifiziert</span>
@@ -103,7 +90,7 @@
                 {{
                   userStore.currentUser.lastLoginAt
                     ? formatDate(userStore.currentUser.lastLoginAt)
-                    : "Nie"
+                    : 'Nie'
                 }}
               </p>
             </div>
@@ -124,11 +111,7 @@
           </div>
 
           <div v-else class="addresses-list">
-            <div
-              v-for="address in addresses"
-              :key="address.id"
-              class="address-card"
-            >
+            <div v-for="address in addresses" :key="address.id" class="address-card">
               <div class="address-header">
                 <h3>{{ address.recipientName }}</h3>
                 <span class="address-type">{{ address.addressType }}</span>
@@ -138,10 +121,7 @@
               <p>{{ address.postalCode }} {{ address.city }}</p>
               <p v-if="address.state">{{ address.state }}</p>
               <p>{{ address.country }}</p>
-              <button
-                @click="deleteAddress(address.id)"
-                class="btn-icon btn-danger"
-              >
+              <button @click="deleteAddress(address.id)" class="btn-icon btn-danger">
                 Löschen
               </button>
             </div>
@@ -157,20 +137,14 @@
           </div>
           <div class="modal-body">
             <p>
-              Möchten Sie diesen Benutzer wirklich löschen? Diese Aktion kann
-              nicht rückgängig gemacht werden.
+              Möchten Sie diesen Benutzer wirklich löschen? Diese Aktion kann nicht rückgängig
+              gemacht werden.
             </p>
           </div>
           <div class="modal-footer">
-            <button @click="showDeleteModal = false" class="btn btn-secondary">
-              Abbrechen
-            </button>
-            <button
-              @click="confirmDelete"
-              class="btn btn-danger"
-              :disabled="deleting"
-            >
-              {{ deleting ? "Wird gelöscht..." : "Löschen" }}
+            <button @click="showDeleteModal = false" class="btn btn-secondary">Abbrechen</button>
+            <button @click="confirmDelete" class="btn btn-danger" :disabled="deleting">
+              {{ deleting ? 'Wird gelöscht...' : 'Löschen' }}
             </button>
           </div>
         </div>
@@ -180,21 +154,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useUserStore } from "@/stores/users";
-import { userService } from "@/services/api/userService";
-import type { Address } from "@/types/user";
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/users';
+import { userService } from '@/services/api/userService';
+import type { Address } from '@/types/user';
 
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 
-const activeTab = ref("overview");
-const tabs = ["overview", "addresses"];
+const activeTab = ref('overview');
+const tabs = ['overview', 'addresses'];
 const tabLabels = {
-  overview: "Übersicht",
-  addresses: "Adressen",
+  overview: 'Übersicht',
+  addresses: 'Adressen',
 };
 
 const addresses = ref<Address[]>([]);
@@ -215,11 +189,9 @@ const loadAddresses = async () => {
 
   loadingAddresses.value = true;
   try {
-    addresses.value = await userService.getUserAddresses(
-      userStore.currentUser.id
-    );
+    addresses.value = await userService.getUserAddresses(userStore.currentUser.id);
   } catch (error) {
-    console.error("Error loading addresses:", error);
+    console.error('Error loading addresses:', error);
   } finally {
     loadingAddresses.value = false;
   }
@@ -227,12 +199,12 @@ const loadAddresses = async () => {
 
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);
-  return date.toLocaleDateString("de-DE", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
+  return date.toLocaleDateString('de-DE', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   });
 };
 
@@ -241,9 +213,9 @@ const deleteAddress = async (addressId: string) => {
 
   try {
     await userService.deleteAddress(userStore.currentUser.id, addressId);
-    addresses.value = addresses.value.filter((a) => a.id !== addressId);
+    addresses.value = addresses.value.filter(a => a.id !== addressId);
   } catch (error) {
-    console.error("Error deleting address:", error);
+    console.error('Error deleting address:', error);
   }
 };
 
@@ -257,9 +229,9 @@ const confirmDelete = async () => {
   deleting.value = true;
   try {
     await userStore.deleteUser(userStore.currentUser.id);
-    await router.push("/users");
+    await router.push('/users');
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.error('Error deleting user:', error);
   } finally {
     deleting.value = false;
     showDeleteModal.value = false;

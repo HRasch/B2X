@@ -58,11 +58,62 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
 
     /// <summary>
     /// Message interface for error handling.
+    /// Represents enventa's oMsg with oMsgItemColl.
     /// </summary>
     public interface IFSMessage
     {
+        /// <summary>
+        /// Highest error level: 0 = OK, 1 = Info, 2 = Warning, 3 = Error
+        /// </summary>
         int Level { get; }
+
+        /// <summary>
+        /// Summary text of the message.
+        /// </summary>
         string Text { get; }
+
+        /// <summary>
+        /// Collection of message items (oMsgItemColl).
+        /// Contains detailed error/warning/info messages.
+        /// </summary>
+        IFSMessageItemCollection Items { get; }
+
+        /// <summary>
+        /// Checks if there are any error-level messages.
+        /// </summary>
+        bool HasErrors { get; }
+    }
+
+    /// <summary>
+    /// Message item collection interface.
+    /// Represents enventa's oMsgItemColl.
+    /// </summary>
+    public interface IFSMessageItemCollection
+    {
+        int Count { get; }
+        IFSMessageItem this[int index] { get; }
+    }
+
+    /// <summary>
+    /// Individual message item.
+    /// Represents an entry in oMsgItemColl.
+    /// </summary>
+    public interface IFSMessageItem
+    {
+        /// <summary>
+        /// Message level: 0 = OK, 1 = Info, 2 = Warning, 3 = Error
+        /// </summary>
+        int Level { get; }
+
+        /// <summary>
+        /// Message text.
+        /// </summary>
+        string Text { get; }
+
+        /// <summary>
+        /// Message code/ID for programmatic handling.
+        /// </summary>
+        string Code { get; }
     }
 
     /// <summary>

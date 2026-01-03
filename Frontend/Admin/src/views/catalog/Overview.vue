@@ -15,9 +15,7 @@
         <div class="stat-content">
           <div class="stat-value">{{ productsCount }}</div>
           <div class="stat-label">Total Products</div>
-          <router-link to="/catalog/products" class="stat-link">
-            View all →
-          </router-link>
+          <router-link to="/catalog/products" class="stat-link"> View all → </router-link>
         </div>
       </div>
 
@@ -26,9 +24,7 @@
         <div class="stat-content">
           <div class="stat-value">{{ categoriesCount }}</div>
           <div class="stat-label">Total Categories</div>
-          <router-link to="/catalog/categories" class="stat-link">
-            View all →
-          </router-link>
+          <router-link to="/catalog/categories" class="stat-link"> View all → </router-link>
         </div>
       </div>
 
@@ -37,9 +33,7 @@
         <div class="stat-content">
           <div class="stat-value">{{ brandsCount }}</div>
           <div class="stat-label">Total Brands</div>
-          <router-link to="/catalog/brands" class="stat-link">
-            View all →
-          </router-link>
+          <router-link to="/catalog/brands" class="stat-link"> View all → </router-link>
         </div>
       </div>
     </div>
@@ -80,9 +74,7 @@
 
         <router-link to="/catalog/categories" class="section-card">
           <div class="section-title">Categories</div>
-          <div class="section-description">
-            Organize products with categories
-          </div>
+          <div class="section-description">Organize products with categories</div>
           <div class="section-action">Manage Categories →</div>
         </router-link>
 
@@ -97,8 +89,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from "vue";
-import { useCatalogStore } from "@/stores/catalog";
+import { onMounted, computed } from 'vue';
+import { useCatalogStore } from '@/stores/catalog';
 
 const catalogStore = useCatalogStore();
 

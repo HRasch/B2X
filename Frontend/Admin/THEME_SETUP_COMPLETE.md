@@ -7,6 +7,7 @@ Ein vollständiges Light/Dark Theme System wurde im Admin Frontend implementiert
 ## 📦 Was wurde hinzugefügt
 
 ### Neue Dateien
+
 1. **`src/stores/theme.ts`** - Pinia Theme Store
    - Verwaltet Theme-Status (light/dark/auto)
    - Handles localStorage Persistierung
@@ -18,6 +19,7 @@ Ein vollständiges Light/Dark Theme System wurde im Admin Frontend implementiert
    - Responsive Design
 
 ### Geänderte Dateien
+
 1. **`src/App.vue`**
    - Theme Store Import
    - Theme-Initialisierung in onMounted
@@ -32,7 +34,7 @@ Ein vollständiges Light/Dark Theme System wurde im Admin Frontend implementiert
    - Body/Background Styles
    - Scrollbar Styling für Dark Mode
 
-4. **`tailwind.config.js`** ✓ 
+4. **`tailwind.config.js`** ✓
    - Bereits mit `darkMode: "class"` konfiguriert
 
 5. **`README.md`**
@@ -41,21 +43,25 @@ Ein vollständiges Light/Dark Theme System wurde im Admin Frontend implementiert
 ## 🎯 Features
 
 ### Theme Optionen
+
 - **Light**: Klassisches helles Interface
 - **Dark**: Dunkeles Interface für Low-Light
 - **Auto**: Folgt Systemeinstellung (Standard)
 
 ### Persistierung
+
 - Theme wird in `localStorage` gespeichert
 - Automatisch beim App-Start wiederhergestellt
 - Funktioniert offline
 
 ### System Detection
+
 - Automatische Erkennung von System Preference via `prefers-color-scheme`
 - Live-Update wenn System Theme ändert
 - Fallback auf Light Mode wenn nicht verfügbar
 
 ### Smooth Transitions
+
 - CSS Transitions bei Theme-Wechsel
 - Duration: 300ms
 - Timing: cubic-bezier(0.4, 0, 0.2, 1)
@@ -71,6 +77,7 @@ Alle Komponenten verwenden Tailwind `dark:` Modifizierer:
 ```
 
 ### Farbpalette
+
 - Light: `soft-50` (bg), `soft-900` (text)
 - Dark: `soft-900` (bg), `white`/`soft-100` (text)
 - Borders: `soft-100` → `soft-700` in Dark Mode
@@ -79,20 +86,26 @@ Alle Komponenten verwenden Tailwind `dark:` Modifizierer:
 ## 🔌 Integration Points
 
 ### In Komponenten
-```typescript
-import { useThemeStore } from '@/stores/theme'
 
-const themeStore = useThemeStore()
+```typescript
+import { useThemeStore } from '@/stores/theme';
+
+const themeStore = useThemeStore();
 
 // Nutze in Template
-{{ themeStore.effectiveTheme }}  // 'light' | 'dark'
+{
+  {
+    themeStore.effectiveTheme;
+  }
+} // 'light' | 'dark'
 
 // Programmatisch
-themeStore.toggleTheme()
-themeStore.setTheme('dark')
+themeStore.toggleTheme();
+themeStore.setTheme('dark');
 ```
 
 ### Neue Komponenten
+
 ```vue
 <!-- Einfacher Toggle -->
 <ThemeToggle />
@@ -112,18 +125,18 @@ themeStore.setTheme('dark')
 ## 🧪 Testing
 
 ```typescript
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 
 // Test toggle
-themeStore.toggleTheme()
-expect(themeStore.effectiveTheme).toBe('dark')
+themeStore.toggleTheme();
+expect(themeStore.effectiveTheme).toBe('dark');
 
 // Test Storage
-themeStore.setTheme('dark')
-expect(localStorage.getItem('theme')).toBe('dark')
+themeStore.setTheme('dark');
+expect(localStorage.getItem('theme')).toBe('dark');
 
 // Test DOM
-expect(document.documentElement.classList.contains('dark')).toBe(true)
+expect(document.documentElement.classList.contains('dark')).toBe(true);
 ```
 
 ## 📝 Dokumentation

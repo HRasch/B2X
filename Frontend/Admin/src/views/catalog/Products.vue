@@ -72,41 +72,23 @@
             <td class="sku">{{ product.sku }}</td>
             <td class="name">{{ getLocalizedName(product.name) }}</td>
             <td>{{ getCategoryName(product.categoryId) }}</td>
-            <td>{{ product.brandId ? getBrandName(product.brandId) : "-" }}</td>
+            <td>{{ product.brandId ? getBrandName(product.brandId) : '-' }}</td>
             <td class="price">
               {{ formatPrice(product.basePrice, product.currency) }}
             </td>
             <td class="stock">
-              <span
-                :class="[
-                  'stock-badge',
-                  product.stock > 0 ? 'in-stock' : 'out-of-stock',
-                ]"
-              >
+              <span :class="['stock-badge', product.stock > 0 ? 'in-stock' : 'out-of-stock']">
                 {{ product.stock }}
               </span>
             </td>
             <td>
-              <span
-                :class="[
-                  'status-badge',
-                  product.isActive ? 'active' : 'inactive',
-                ]"
-              >
-                {{ product.isActive ? "Active" : "Inactive" }}
+              <span :class="['status-badge', product.isActive ? 'active' : 'inactive']">
+                {{ product.isActive ? 'Active' : 'Inactive' }}
               </span>
             </td>
             <td class="actions">
-              <button
-                @click="goToEdit(product.id)"
-                class="btn btn-sm btn-secondary"
-              >
-                Edit
-              </button>
-              <button
-                @click="confirmDelete(product.id, product.sku)"
-                class="btn btn-sm btn-danger"
-              >
+              <button @click="goToEdit(product.id)" class="btn btn-sm btn-secondary">Edit</button>
+              <button @click="confirmDelete(product.id, product.sku)" class="btn btn-sm btn-danger">
                 Delete
               </button>
             </td>
@@ -122,37 +104,31 @@
 
     <!-- Pagination -->
     <div v-if="!loading && productsTotal > 0" class="pagination">
-      <button
-        @click="previousPage"
-        :disabled="productsPagination.skip === 0"
-        class="btn btn-sm"
-      >
+      <button @click="previousPage" :disabled="productsPagination.skip === 0" class="btn btn-sm">
         Previous
       </button>
       <span class="page-info">
         Page {{ currentPage }} of {{ totalPages }} ({{ productsTotal }} total)
       </span>
-      <button @click="nextPage" :disabled="!hasMoreProducts" class="btn btn-sm">
-        Next
-      </button>
+      <button @click="nextPage" :disabled="!hasMoreProducts" class="btn btn-sm">Next</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-explicit-any -- Localized type needs proper definition */
-import { onMounted, ref, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useCatalogStore } from "@/stores/catalog";
-import type { ProductFilters } from "@/types/catalog";
+import { onMounted, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCatalogStore } from '@/stores/catalog';
+import type { ProductFilters } from '@/types/catalog';
 
 const router = useRouter();
 const catalogStore = useCatalogStore();
 
 // State
-const searchQuery = ref("");
-const selectedCategory = ref("");
-const selectedBrand = ref("");
+const searchQuery = ref('');
+const selectedCategory = ref('');
+const selectedBrand = ref('');
 
 // Computed Properties
 const products = computed(() => catalogStore.products);
@@ -166,33 +142,25 @@ const productsPagination = computed(() => catalogStore.productsPagination);
 const hasMoreProducts = computed(() => catalogStore.hasMoreProducts);
 
 const currentPage = computed(
-  () =>
-    Math.floor(productsPagination.value.skip / productsPagination.value.take) +
-    1
+  () => Math.floor(productsPagination.value.skip / productsPagination.value.take) + 1
 );
-const totalPages = computed(() =>
-  Math.ceil(productsTotal.value / productsPagination.value.take)
-);
+const totalPages = computed(() => Math.ceil(productsTotal.value / productsPagination.value.take));
 
 // Methods
 function getLocalizedName(localized: any): string {
-  if (!localized || !localized.localizedStrings) return "N/A";
-  const english = localized.localizedStrings.find(
-    (s: any) => s.languageCode === "en-US"
-  );
-  return english
-    ? english.value
-    : localized.localizedStrings[0]?.value || "N/A";
+  if (!localized || !localized.localizedStrings) return 'N/A';
+  const english = localized.localizedStrings.find((s: any) => s.languageCode === 'en-US');
+  return english ? english.value : localized.localizedStrings[0]?.value || 'N/A';
 }
 
 function getCategoryName(categoryId: string): string {
   const category = catalogStore.categoryMap.get(categoryId);
-  return category ? getLocalizedName(category.name) : "Unknown";
+  return category ? getLocalizedName(category.name) : 'Unknown';
 }
 
 function getBrandName(brandId: string): string {
   const brand = catalogStore.brandMap.get(brandId);
-  return brand ? getLocalizedName(brand.name) : "Unknown";
+  return brand ? getLocalizedName(brand.name) : 'Unknown';
 }
 
 function formatPrice(price: number, currency: string): string {
@@ -211,7 +179,7 @@ function applyFilters() {
 }
 
 function goToCreate() {
-  router.push("/catalog/products/create");
+  router.push('/catalog/products/create');
 }
 
 function goToEdit(id: string) {
@@ -225,18 +193,14 @@ function confirmDelete(id: string, sku: string) {
 }
 
 function previousPage() {
-  const newSkip = Math.max(
-    0,
-    productsPagination.value.skip - productsPagination.value.take
-  );
+  const newSkip = Math.max(0, productsPagination.value.skip - productsPagination.value.take);
   catalogStore.setProductsPagination(newSkip, productsPagination.value.take);
   applyFilters();
 }
 
 function nextPage() {
   if (hasMoreProducts.value) {
-    const newSkip =
-      productsPagination.value.skip + productsPagination.value.take;
+    const newSkip = productsPagination.value.skip + productsPagination.value.take;
     catalogStore.setProductsPagination(newSkip, productsPagination.value.take);
     applyFilters();
   }

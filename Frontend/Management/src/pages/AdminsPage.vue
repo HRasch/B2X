@@ -38,45 +38,53 @@
       </table>
     </div>
 
-    <InviteAdminModal v-if="isInviteModalOpen" @close="isInviteModalOpen = false" @invited="addNewAdmin" />
+    <InviteAdminModal
+      v-if="isInviteModalOpen"
+      @close="isInviteModalOpen = false"
+      @invited="addNewAdmin"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useAdminStore } from '@/stores/adminStore'
-import type { Administrator } from '@/stores/adminStore'
-import InviteAdminModal from '@/components/InviteAdminModal.vue'
+import { ref, onMounted } from 'vue';
+import { useAdminStore } from '@/stores/adminStore';
+import type { Administrator } from '@/stores/adminStore';
+import InviteAdminModal from '@/components/InviteAdminModal.vue';
 
-const adminStore = useAdminStore()
-const adminList = ref<Administrator[]>([])
-const loading = ref(false)
-const isInviteModalOpen = ref(false)
+const adminStore = useAdminStore();
+const adminList = ref<Administrator[]>([]);
+const loading = ref(false);
+const isInviteModalOpen = ref(false);
 
 onMounted(async () => {
-  loading.value = true
+  loading.value = true;
   // Fetch admins from API
-  adminList.value = adminStore.admins
-  loading.value = false
-})
+  adminList.value = adminStore.admins;
+  loading.value = false;
+});
 
 const formatDate = (dateStr: string) => {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-}
+  const date = new Date(dateStr);
+  return (
+    date.toLocaleDateString() +
+    ' ' +
+    date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  );
+};
 
 const deleteAdmin = (id: string) => {
   if (confirm('Are you sure you want to delete this administrator?')) {
-    adminStore.deleteAdmin(id)
-    adminList.value = adminStore.admins
+    adminStore.deleteAdmin(id);
+    adminList.value = adminStore.admins;
   }
-}
+};
 
 const addNewAdmin = (admin: Administrator) => {
-  adminStore.addAdmin(admin)
-  adminList.value = adminStore.admins
-  isInviteModalOpen.value = false
-}
+  adminStore.addAdmin(admin);
+  adminList.value = adminStore.admins;
+  isInviteModalOpen.value = false;
+};
 </script>
 
 <style scoped>

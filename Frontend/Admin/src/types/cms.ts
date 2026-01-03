@@ -9,7 +9,7 @@ export interface Page {
   metaKeywords: string;
   ogTitle?: string;
   ogImage?: string;
-  status: "draft" | "published";
+  status: 'draft' | 'published';
   publishedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -21,14 +21,7 @@ export interface Page {
 
 export interface PageBlock {
   id: string;
-  type:
-    | "text"
-    | "image"
-    | "gallery"
-    | "video"
-    | "html"
-    | "product-grid"
-    | "custom";
+  type: 'text' | 'image' | 'gallery' | 'video' | 'html' | 'product-grid' | 'custom';
   order: number;
   data: Record<string, any>;
 }

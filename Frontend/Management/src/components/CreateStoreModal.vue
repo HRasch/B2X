@@ -9,13 +9,7 @@
       <form @submit.prevent="handleCreateStore">
         <div class="form-group">
           <label for="name">Store Name</label>
-          <input
-            id="name"
-            v-model="form.name"
-            type="text"
-            required
-            placeholder="My Store"
-          />
+          <input id="name" v-model="form.name" type="text" required placeholder="My Store" />
         </div>
 
         <div class="form-group">
@@ -52,31 +46,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { StoreInstance } from '@/stores/storeStore'
+import { ref } from 'vue';
+import type { StoreInstance } from '@/stores/storeStore';
 
 const emit = defineEmits<{
-  close: []
-  created: [store: StoreInstance]
-}>()
+  close: [];
+  created: [store: StoreInstance];
+}>();
 
 const form = ref({
   name: '',
   domain: '',
   tenantId: '',
-  status: 'active' as const
-})
+  status: 'active' as const,
+});
 
-const loading = ref(false)
-const error = ref('')
+const loading = ref(false);
+const error = ref('');
 
 const close = () => {
-  emit('close')
-}
+  emit('close');
+};
 
 const handleCreateStore = async () => {
-  loading.value = true
-  error.value = ''
+  loading.value = true;
+  error.value = '';
 
   try {
     const newStore: StoreInstance = {
@@ -86,17 +80,17 @@ const handleCreateStore = async () => {
       tenantId: form.value.tenantId || 'default-tenant',
       status: form.value.status,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
+      updatedAt: new Date().toISOString(),
+    };
 
-    emit('created', newStore)
-    form.value = { name: '', domain: '', tenantId: '', status: 'active' }
+    emit('created', newStore);
+    form.value = { name: '', domain: '', tenantId: '', status: 'active' };
   } catch (err: any) {
-    error.value = err.message || 'Failed to create store'
+    error.value = err.message || 'Failed to create store';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <style scoped>

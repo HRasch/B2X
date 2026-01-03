@@ -21,6 +21,7 @@ src/
 ## 🎯 Features
 
 ### UserList.vue
+
 - ✅ Alle Benutzer anzeigen (mit Pagination)
 - ✅ Nach E-Mail, Name, Telefon suchen
 - ✅ Nach Status filtern (Aktiv/Inaktiv)
@@ -29,6 +30,7 @@ src/
 - ✅ Bestätigung vor dem Löschen
 
 ### UserForm.vue
+
 - ✅ Benutzer erstellen (neue Konten)
 - ✅ Benutzer bearbeiten (existierende Konten)
 - ✅ Grundinformationen: Vorname, Nachname, E-Mail, Telefon
@@ -39,6 +41,7 @@ src/
 - ✅ Validierung mit Fehlermeldungen
 
 ### UserDetail.vue
+
 - ✅ Detailansicht mit allen Informationen
 - ✅ E-Mail und Telefon Verifikationsstatus
 - ✅ Beitrittsdatum & Letzter Login
@@ -67,139 +70,139 @@ src/
 ### Store verwenden
 
 ```typescript
-import { useUserStore } from '@/stores/users'
+import { useUserStore } from '@/stores/users';
 
 export default {
   setup() {
-    const userStore = useUserStore()
+    const userStore = useUserStore();
 
     // Alle Benutzer laden
-    await userStore.fetchUsers(page, pageSize)
+    await userStore.fetchUsers(page, pageSize);
 
     // Einzelnen Benutzer laden
-    await userStore.fetchUser(userId)
+    await userStore.fetchUser(userId);
 
     // Benutzer erstellen
-    await userStore.createUser({ firstName, lastName, email })
+    await userStore.createUser({ firstName, lastName, email });
 
     // Benutzer aktualisieren
-    await userStore.updateUser(userId, { firstName, lastName })
+    await userStore.updateUser(userId, { firstName, lastName });
 
     // Benutzer löschen
-    await userStore.deleteUser(userId)
+    await userStore.deleteUser(userId);
 
     // Benutzer suchen
-    await userStore.searchUsers(query)
+    await userStore.searchUsers(query);
 
-    return { userStore }
-  }
-}
+    return { userStore };
+  },
+};
 ```
 
 ### API Service verwenden
 
 ```typescript
-import { userService } from '@/services/api/userService'
+import { userService } from '@/services/api/userService';
 
 // Alle Benutzer
-const users = await userService.getUsers(page, pageSize)
+const users = await userService.getUsers(page, pageSize);
 
 // Benutzer nach ID
-const user = await userService.getUserById(userId)
+const user = await userService.getUserById(userId);
 
 // Benutzer erstellen
-const newUser = await userService.createUser(userData)
+const newUser = await userService.createUser(userData);
 
 // Benutzer aktualisieren
-const updated = await userService.updateUser(userId, userData)
+const updated = await userService.updateUser(userId, userData);
 
 // Benutzer löschen
-await userService.deleteUser(userId)
+await userService.deleteUser(userId);
 
 // Profil abrufen
-const profile = await userService.getUserProfile(userId)
+const profile = await userService.getUserProfile(userId);
 
 // Profil aktualisieren
-await userService.updateUserProfile(userId, profileData)
+await userService.updateUserProfile(userId, profileData);
 
 // Adressen abrufen
-const addresses = await userService.getUserAddresses(userId)
+const addresses = await userService.getUserAddresses(userId);
 
 // Adresse erstellen
-const address = await userService.createAddress(userId, addressData)
+const address = await userService.createAddress(userId, addressData);
 
 // Adresse aktualisieren
-await userService.updateAddress(userId, addressId, addressData)
+await userService.updateAddress(userId, addressId, addressData);
 
 // Adresse löschen
-await userService.deleteAddress(userId, addressId)
+await userService.deleteAddress(userId, addressId);
 
 // Benutzer suchen
-const results = await userService.searchUsers(query)
+const results = await userService.searchUsers(query);
 
 // E-Mail verifizieren
-await userService.verifyEmail(userId)
+await userService.verifyEmail(userId);
 
 // Passwort zurücksetzen
-await userService.resetPassword(userId, newPassword)
+await userService.resetPassword(userId, newPassword);
 ```
 
 ## 📋 TypeScript Types
 
 ```typescript
 interface User {
-  id: string
-  tenantId: string
-  email: string
-  phoneNumber?: string
-  firstName: string
-  lastName: string
-  isEmailVerified: boolean
-  isPhoneVerified: boolean
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  lastLoginAt?: string
-  createdBy?: string
-  updatedBy?: string
+  id: string;
+  tenantId: string;
+  email: string;
+  phoneNumber?: string;
+  firstName: string;
+  lastName: string;
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastLoginAt?: string;
+  createdBy?: string;
+  updatedBy?: string;
 }
 
 interface UserProfile {
-  id: string
-  userId: string
-  tenantId: string
-  avatarUrl?: string
-  bio?: string
-  dateOfBirth?: string
-  gender?: string
-  nationality?: string
-  companyName?: string
-  jobTitle?: string
-  preferredLanguage?: string
-  timezone?: string
-  receiveNewsletter: boolean
-  receivePromotionalEmails: boolean
-  createdAt: string
-  updatedAt: string
+  id: string;
+  userId: string;
+  tenantId: string;
+  avatarUrl?: string;
+  bio?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  nationality?: string;
+  companyName?: string;
+  jobTitle?: string;
+  preferredLanguage?: string;
+  timezone?: string;
+  receiveNewsletter: boolean;
+  receivePromotionalEmails: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Address {
-  id: string
-  userId: string
-  tenantId: string
-  addressType: string
-  streetAddress: string
-  streetAddress2?: string
-  city: string
-  postalCode: string
-  country: string
-  state?: string
-  recipientName: string
-  phoneNumber?: string
-  isDefault: boolean
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
+  id: string;
+  userId: string;
+  tenantId: string;
+  addressType: string;
+  streetAddress: string;
+  streetAddress2?: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  state?: string;
+  recipientName: string;
+  phoneNumber?: string;
+  isDefault: boolean;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 ```
 
@@ -241,9 +244,9 @@ Die Komponenten enthalten `data-testid` Attribute für E2E-Tests:
 
 ```typescript
 // Beispiel mit Playwright
-await page.click('[data-testid="create-user-btn"]')
-await page.fill('[data-testid="email-input"]', 'test@example.com')
-await page.click('[data-testid="search-btn"]')
+await page.click('[data-testid="create-user-btn"]');
+await page.fill('[data-testid="email-input"]', 'test@example.com');
+await page.click('[data-testid="search-btn"]');
 ```
 
 ## 🔐 Sicherheit
@@ -258,6 +261,7 @@ await page.click('[data-testid="search-btn"]')
 ## 📝 State Management
 
 Der `useUserStore()` verwaltet:
+
 - Liste von Benutzern
 - Aktuell ausgewählter Benutzer
 - Loading-Status

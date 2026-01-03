@@ -1,5 +1,5 @@
-import type { Job, ScheduledJob, JobLog } from "@/types/jobs";
-import type { PaginatedResponse, PaginationParams } from "@/types/api";
+import type { Job, ScheduledJob, JobLog } from '@/types/jobs';
+import type { PaginatedResponse, PaginationParams } from '@/types/api';
 
 export const jobsApi = {
   // Jobs
@@ -44,9 +44,7 @@ export const jobsApi = {
     return Promise.resolve({} as ScheduledJob);
   },
 
-  createScheduledJob(
-    _data: Omit<ScheduledJob, "id" | "createdAt" | "updatedAt">
-  ) {
+  createScheduledJob(_data: Omit<ScheduledJob, 'id' | 'createdAt' | 'updatedAt'>) {
     // TODO: Implement Jobs service in backend
     return Promise.resolve({} as ScheduledJob);
   },

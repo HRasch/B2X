@@ -6,11 +6,11 @@
  * integration with external services (Sentry, LogRocket, etc.)
  */
 
-import type { App, ComponentPublicInstance } from "vue";
-import type { Router } from "vue-router";
+import type { App, ComponentPublicInstance } from 'vue';
+import type { Router } from 'vue-router';
 
 // Error severity levels
-export type ErrorSeverity = "fatal" | "error" | "warning" | "info";
+export type ErrorSeverity = 'fatal' | 'error' | 'warning' | 'info';
 
 // Structured error log entry
 export interface ErrorLogEntry {
@@ -46,7 +46,7 @@ const DEFAULT_CONFIG: ErrorLoggingConfig = {
   enabled: import.meta.env.PROD,
   logToConsole: !import.meta.env.PROD,
   logToServer: import.meta.env.PROD,
-  serverEndpoint: "/api/logs/errors",
+  serverEndpoint: '/api/logs/errors',
   maxStoredErrors: 100,
   sampleRate: 1.0,
   ignoredErrors: [
@@ -88,7 +88,7 @@ class ErrorLoggingService {
       };
     }
 
-    console.log("[ErrorLogging] Initialized", {
+    console.log('[ErrorLogging] Initialized', {
       enabled: this.config.enabled,
       logToServer: this.config.logToServer,
     });
@@ -115,10 +115,10 @@ class ErrorLoggingService {
    */
   captureError(
     error: Error | string,
-    severity: ErrorSeverity = "error",
+    severity: ErrorSeverity = 'error',
     context?: Record<string, unknown>
   ): void {
-    const errorObj = typeof error === "string" ? new Error(error) : error;
+    const errorObj = typeof error === 'string' ? new Error(error) : error;
     this.processError(errorObj, severity, context);
   }
 
@@ -127,7 +127,7 @@ class ErrorLoggingService {
    */
   captureMessage(
     message: string,
-    severity: ErrorSeverity = "info",
+    severity: ErrorSeverity = 'info',
     context?: Record<string, unknown>
   ): void {
     this.processError(new Error(message), severity, {
@@ -148,8 +148,8 @@ class ErrorLoggingService {
       duration?: number;
     }
   ): void {
-    this.processError(error, "error", {
-      type: "network",
+    this.processError(error, 'error', {
+      type: 'network',
       ...requestInfo,
     });
   }
@@ -172,22 +172,19 @@ class ErrorLoggingService {
 
   private setupGlobalHandlers(): void {
     // Unhandled promise rejections
-    window.addEventListener("unhandledrejection", (event) => {
-      const error =
-        event.reason instanceof Error
-          ? event.reason
-          : new Error(String(event.reason));
-      this.processError(error, "error", { type: "unhandledrejection" });
+    window.addEventListener('unhandledrejection', event => {
+      const error = event.reason instanceof Error ? event.reason : new Error(String(event.reason));
+      this.processError(error, 'error', { type: 'unhandledrejection' });
     });
 
     // Global errors
-    window.addEventListener("error", (event) => {
+    window.addEventListener('error', event => {
       // Ignore script loading errors (usually ad blockers or extensions)
       if (event.filename && !event.filename.includes(window.location.origin)) {
         return;
       }
-      this.processError(event.error || new Error(event.message), "error", {
-        type: "global",
+      this.processError(event.error || new Error(event.message), 'error', {
+        type: 'global',
         filename: event.filename,
         lineno: event.lineno,
       });
@@ -200,11 +197,10 @@ class ErrorLoggingService {
     info: string
   ): void {
     const error = err instanceof Error ? err : new Error(String(err));
-    const componentName =
-      instance?.$options?.name || instance?.$options?.__name || "Anonymous";
+    const componentName = instance?.$options?.name || instance?.$options?.__name || 'Anonymous';
 
-    this.processError(error, "error", {
-      type: "vue",
+    this.processError(error, 'error', {
+      type: 'vue',
       componentName,
       lifecycleHook: info,
     });
@@ -251,8 +247,8 @@ class ErrorLoggingService {
   }
 
   private shouldIgnoreError(error: Error): boolean {
-    const message = error.message || "";
-    return this.config.ignoredErrors.some((pattern) => pattern.test(message));
+    const message = error.message || '';
+    return this.config.ignoredErrors.some(pattern => pattern.test(message));
   }
 
   private createLogEntry(
@@ -288,40 +284,40 @@ class ErrorLoggingService {
     // Create a fingerprint for grouping similar errors
     const parts = [
       error.name,
-      error.message.replace(/\d+/g, "N"), // Normalize numbers
-      error.stack?.split("\n")[1]?.trim() || "", // First stack frame
+      error.message.replace(/\d+/g, 'N'), // Normalize numbers
+      error.stack?.split('\n')[1]?.trim() || '', // First stack frame
     ];
-    return btoa(parts.join("|")).substring(0, 32);
+    return btoa(parts.join('|')).substring(0, 32);
   }
 
   private sanitizeStack(stack?: string): string | undefined {
     if (!stack) return undefined;
     // Remove sensitive data from stack traces
     return stack
-      .replace(/token=[^&\s]+/gi, "token=[REDACTED]")
-      .replace(/password=[^&\s]+/gi, "password=[REDACTED]")
-      .replace(/apikey=[^&\s]+/gi, "apikey=[REDACTED]");
+      .replace(/token=[^&\s]+/gi, 'token=[REDACTED]')
+      .replace(/password=[^&\s]+/gi, 'password=[REDACTED]')
+      .replace(/apikey=[^&\s]+/gi, 'apikey=[REDACTED]');
   }
 
   private logToConsole(entry: ErrorLogEntry): void {
     const style = {
-      fatal: "color: white; background: red; padding: 2px 6px;",
-      error: "color: red;",
-      warning: "color: orange;",
-      info: "color: blue;",
+      fatal: 'color: white; background: red; padding: 2px 6px;',
+      error: 'color: red;',
+      warning: 'color: orange;',
+      info: 'color: blue;',
     };
 
     console.groupCollapsed(
       `%c[${entry.severity.toUpperCase()}]%c ${entry.message}`,
       style[entry.severity],
-      ""
+      ''
     );
-    console.log("ID:", entry.id);
-    console.log("Timestamp:", entry.timestamp);
-    console.log("Route:", entry.routePath);
-    console.log("User:", entry.userId || "anonymous");
-    if (entry.stack) console.log("Stack:", entry.stack);
-    if (entry.context) console.log("Context:", entry.context);
+    console.log('ID:', entry.id);
+    console.log('Timestamp:', entry.timestamp);
+    console.log('Route:', entry.routePath);
+    console.log('User:', entry.userId || 'anonymous');
+    if (entry.stack) console.log('Stack:', entry.stack);
+    if (entry.context) console.log('Context:', entry.context);
     console.groupEnd();
   }
 
@@ -335,10 +331,7 @@ class ErrorLoggingService {
 
     // Persist to localStorage for crash recovery
     try {
-      localStorage.setItem(
-        "b2connect_error_queue",
-        JSON.stringify(this.errorQueue.slice(-20))
-      );
+      localStorage.setItem('b2connect_error_queue', JSON.stringify(this.errorQueue.slice(-20)));
     } catch {
       // localStorage might be full or unavailable
     }
@@ -354,10 +347,10 @@ class ErrorLoggingService {
       const errors = this.errorQueue.splice(0, 10); // Send up to 10 at a time
 
       const response = await fetch(this.config.serverEndpoint, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "X-Tenant-ID": this.tenantId || "",
+          'Content-Type': 'application/json',
+          'X-Tenant-ID': this.tenantId || '',
         },
         body: JSON.stringify({ errors }),
         keepalive: true, // Ensure delivery even on page unload
@@ -389,7 +382,7 @@ export const errorLoggingPlugin = {
     errorLogging.init(app, options?.router);
 
     // Provide to components
-    app.provide("errorLogging", errorLogging);
+    app.provide('errorLogging', errorLogging);
 
     // Global property
     app.config.globalProperties.$errorLogging = errorLogging;

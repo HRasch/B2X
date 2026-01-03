@@ -5,7 +5,7 @@
       backgroundImage: `url('${settings.backgroundImage}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      height: `${settings.height || 500}px`
+      height: `${settings.height || 500}px`,
     }"
   >
     <!-- Overlay -->

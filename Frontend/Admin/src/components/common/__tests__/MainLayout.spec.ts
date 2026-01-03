@@ -1,10 +1,10 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { mount } from "@vue/test-utils";
-import { createRouter, createMemoryHistory, type Router } from "vue-router";
-import MainLayout from "../MainLayout.vue";
-import { createPinia, setActivePinia } from "pinia";
+import { describe, it, expect, beforeEach } from 'vitest';
+import { mount } from '@vue/test-utils';
+import { createRouter, createMemoryHistory, type Router } from 'vue-router';
+import MainLayout from '../MainLayout.vue';
+import { createPinia, setActivePinia } from 'pinia';
 
-describe("MainLayout.vue", () => {
+describe('MainLayout.vue', () => {
   let router: Router;
   let pinia: ReturnType<typeof createPinia>;
 
@@ -18,26 +18,26 @@ describe("MainLayout.vue", () => {
       history: createMemoryHistory(),
       routes: [
         {
-          path: "/",
-          name: "Dashboard",
-          component: { template: "<div>Dashboard</div>" },
+          path: '/',
+          name: 'Dashboard',
+          component: { template: '<div>Dashboard</div>' },
         },
         {
-          path: "/users",
-          name: "Users",
-          component: { template: "<div>Users</div>" },
+          path: '/users',
+          name: 'Users',
+          component: { template: '<div>Users</div>' },
         },
         {
-          path: "/products",
-          name: "Products",
-          component: { template: "<div>Products</div>" },
+          path: '/products',
+          name: 'Products',
+          component: { template: '<div>Products</div>' },
         },
       ],
     });
   });
 
-  describe("Component Rendering", () => {
-    it("should render MainLayout component", () => {
+  describe('Component Rendering', () => {
+    it('should render MainLayout component', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -52,7 +52,7 @@ describe("MainLayout.vue", () => {
       expect(wrapper.find('[data-test="main-layout"]').exists()).toBe(true);
     });
 
-    it("should render sidebar navigation", () => {
+    it('should render sidebar navigation', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -64,7 +64,7 @@ describe("MainLayout.vue", () => {
       expect(sidebar.exists()).toBe(true);
     });
 
-    it("should render top navigation bar", () => {
+    it('should render top navigation bar', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -76,7 +76,7 @@ describe("MainLayout.vue", () => {
       expect(topNav.exists()).toBe(true);
     });
 
-    it("should render user menu in header", () => {
+    it('should render user menu in header', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -89,8 +89,8 @@ describe("MainLayout.vue", () => {
     });
   });
 
-  describe("Sidebar Navigation", () => {
-    it("should render all navigation links", () => {
+  describe('Sidebar Navigation', () => {
+    it('should render all navigation links', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -102,7 +102,7 @@ describe("MainLayout.vue", () => {
       expect(navLinks.length).toBeGreaterThanOrEqual(3); // Dashboard, Users, Products
     });
 
-    it("should highlight active nav link", async () => {
+    it('should highlight active nav link', async () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -111,14 +111,14 @@ describe("MainLayout.vue", () => {
       });
 
       // Navigate to a route
-      await router.push("/");
+      await router.push('/');
       await wrapper.vm.$nextTick();
 
       const activeLink = wrapper.find('[data-test="nav-link"].active');
       expect(activeLink.exists()).toBe(true);
     });
 
-    it("should toggle sidebar on mobile", async () => {
+    it('should toggle sidebar on mobile', async () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -130,17 +130,16 @@ describe("MainLayout.vue", () => {
       expect(toggleButton.exists()).toBe(true);
 
       // Simulate toggle
-      await toggleButton.trigger("click");
+      await toggleButton.trigger('click');
       await wrapper.vm.$nextTick();
 
       const sidebar = wrapper.find('[data-test="sidebar"]');
-      expect(sidebar.classes()).toContain("open") ||
-        expect(sidebar.classes()).toContain("closed");
+      expect(sidebar.classes()).toContain('open') || expect(sidebar.classes()).toContain('closed');
     });
   });
 
-  describe("User Menu", () => {
-    it("should display user name in header", () => {
+  describe('User Menu', () => {
+    it('should display user name in header', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -152,7 +151,7 @@ describe("MainLayout.vue", () => {
       expect(userNameElement.exists()).toBe(true);
     });
 
-    it("should open user menu dropdown on click", async () => {
+    it('should open user menu dropdown on click', async () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -161,14 +160,14 @@ describe("MainLayout.vue", () => {
       });
 
       const userMenuButton = wrapper.find('[data-test="user-menu-button"]');
-      await userMenuButton.trigger("click");
+      await userMenuButton.trigger('click');
       await wrapper.vm.$nextTick();
 
       const dropdown = wrapper.find('[data-test="user-menu-dropdown"]');
       expect(dropdown.isVisible()).toBe(true);
     });
 
-    it("should display logout option in user menu", () => {
+    it('should display logout option in user menu', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -180,7 +179,7 @@ describe("MainLayout.vue", () => {
       expect(logoutButton.exists()).toBe(true);
     });
 
-    it("should emit logout event on logout click", async () => {
+    it('should emit logout event on logout click', async () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -189,14 +188,14 @@ describe("MainLayout.vue", () => {
       });
 
       const logoutButton = wrapper.find('[data-test="logout-button"]');
-      await logoutButton.trigger("click");
+      await logoutButton.trigger('click');
 
-      expect(wrapper.emitted("logout")).toBeTruthy();
+      expect(wrapper.emitted('logout')).toBeTruthy();
     });
   });
 
-  describe("Accessibility", () => {
-    it("should have proper ARIA labels on sidebar", () => {
+  describe('Accessibility', () => {
+    it('should have proper ARIA labels on sidebar', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -205,10 +204,10 @@ describe("MainLayout.vue", () => {
       });
 
       const sidebar = wrapper.find('[data-test="sidebar"]');
-      expect(sidebar.attributes("aria-label")).toBeTruthy();
+      expect(sidebar.attributes('aria-label')).toBeTruthy();
     });
 
-    it("should have proper ARIA labels on user menu", () => {
+    it('should have proper ARIA labels on user menu', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -217,11 +216,11 @@ describe("MainLayout.vue", () => {
       });
 
       const userMenuButton = wrapper.find('[data-test="user-menu-button"]');
-      expect(userMenuButton.attributes("aria-haspopup")).toBe("menu");
-      expect(userMenuButton.attributes("aria-label")).toBeTruthy();
+      expect(userMenuButton.attributes('aria-haspopup')).toBe('menu');
+      expect(userMenuButton.attributes('aria-label')).toBeTruthy();
     });
 
-    it("should be keyboard navigable", async () => {
+    it('should be keyboard navigable', async () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -231,13 +230,13 @@ describe("MainLayout.vue", () => {
 
       const navLinks = wrapper.findAll('[data-test="nav-link"]');
       for (const link of navLinks) {
-        expect(link.attributes("tabindex")).not.toBe("-1");
+        expect(link.attributes('tabindex')).not.toBe('-1');
       }
     });
   });
 
-  describe("Layout Styling", () => {
-    it("should have correct CSS classes applied", () => {
+  describe('Layout Styling', () => {
+    it('should have correct CSS classes applied', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -246,10 +245,10 @@ describe("MainLayout.vue", () => {
       });
 
       const mainLayout = wrapper.find('[data-test="main-layout"]');
-      expect(mainLayout.classes()).toContain("main-layout");
+      expect(mainLayout.classes()).toContain('main-layout');
     });
 
-    it("should apply responsive classes on mobile", () => {
+    it('should apply responsive classes on mobile', () => {
       const wrapper = mount(MainLayout, {
         global: {
           plugins: [router, pinia],
@@ -260,9 +259,9 @@ describe("MainLayout.vue", () => {
       const sidebar = wrapper.find('[data-test="sidebar"]');
       // Check for mobile-specific responsive classes
       expect(
-        sidebar.classes("sidebar-mobile") ||
-          sidebar.classes("sidebar-desktop") ||
-          sidebar.classes("sidebar")
+        sidebar.classes('sidebar-mobile') ||
+          sidebar.classes('sidebar-desktop') ||
+          sidebar.classes('sidebar')
       ).toBe(true);
     });
   });
