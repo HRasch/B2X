@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { createRouter, createMemoryHistory } from 'vue-router';
 import WidgetRenderer from '@/components/cms/WidgetRenderer.vue';
 import type { WidgetInstance } from '@/types/cms';
 
@@ -42,8 +41,8 @@ describe('WidgetRenderer.vue', () => {
       props: { widget },
     });
 
-    expect((wrapper.vm.$props as any).widget.settings.title).toBe('Test Title');
-    expect((wrapper.vm.$props as any).widget.settings.subtitle).toBe('Test Subtitle');
+    expect(wrapper.props().widget.settings.title).toBe('Test Title');
+    expect(wrapper.props().widget.settings.subtitle).toBe('Test Subtitle');
   });
 
   it('should have correct CSS class for widget type', () => {
@@ -62,7 +61,7 @@ describe('WidgetRenderer.vue', () => {
     // Since the dynamic component loading fails in test env, check that WidgetRenderer is mounted with correct props
     // and verify the computed property returns the expected async component
     expect(wrapper.exists()).toBe(true);
-    expect((wrapper.vm.$props as any).widget.widgetTypeId).toBe('hero-banner');
+    expect(wrapper.props().widget.widgetTypeId).toBe('hero-banner');
   });
 
   it('should accept different widget types', () => {

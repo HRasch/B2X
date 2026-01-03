@@ -4,15 +4,24 @@ import { ref, computed } from 'vue';
 import { SUPPORTED_LOCALES } from '@/locales';
 
 /**
+ * Locale object structure
+ */
+interface Locale {
+  code: string;
+  name: string;
+  flag: string;
+}
+
+/**
  * Composable for managing application localization
  * Provides locale switching, preferences, and locale utilities
  */
 interface UseLocaleReturn {
   locale: ComputedRef<string>;
-  currentLocale: ComputedRef<any>; // TODO: Define proper locale type
-  locales: any[]; // TODO: Define proper locale array type
+  currentLocale: ComputedRef<Locale | undefined>;
+  locales: Locale[];
   isLoading: Ref<boolean>;
-  t: (key: string, ...args: any[]) => string;
+  t: (key: string, ...args: unknown[]) => string;
   setLocale: (code: string) => Promise<void>;
   initializeLocale: () => void;
   getLocaleName: (code: string) => string;

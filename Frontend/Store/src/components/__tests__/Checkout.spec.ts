@@ -29,7 +29,7 @@ const router = createRouter({
 });
 
 describe('Checkout.vue', () => {
-  let wrapper: any;
+  let wrapper: ReturnType<typeof mount>;
 
   beforeEach(() => {
     setActivePinia(createPinia());
@@ -398,9 +398,6 @@ describe('Checkout.vue', () => {
     });
 
     it('should show shipping cost that updates dynamically', async () => {
-      // Arrange
-      const initialText = wrapper.text();
-
       // Act - Change shipping method
       wrapper.vm.selectShippingMethod(wrapper.vm.shippingMethods[1]);
       await wrapper.vm.$nextTick();
