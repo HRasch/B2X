@@ -48,6 +48,36 @@ var client = new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(apiKe
     .AsChatClient(model);
 ```
 
+### Additional Providers Added (2026-01-03)
+
+Following the successful Microsoft.Extensions.AI adoption, we expanded the provider ecosystem to include local and on-premise AI options:
+
+#### Ollama Provider
+- **Package**: OllamaSharp v5.4.12 (Microsoft-recommended)
+- **Implementation**: Uses OllamaSharp's Microsoft.Extensions.AI integration
+- **Features**: Local and network Ollama instances, tenant-specific endpoints
+- **Security**: Maintains tenant isolation and consumption monitoring
+
+```csharp
+// Ollama Provider
+var ollamaClient = new OllamaSharp.OllamaApiClient(endpoint);
+var client = ollamaClient.AsChatClient(model);
+```
+
+#### GitHub Models Provider
+- **API**: GitHub Models (OpenAI-compatible endpoint)
+- **Implementation**: Uses OpenAI-compatible client pointing to GitHub's inference API
+- **Features**: Access to GitHub's AI models through unified interface
+- **Endpoint**: `https://models.inference.ai.azure.com`
+
+```csharp
+// GitHub Models Provider
+var client = new OpenAIClient(
+    new ApiKeyCredential(apiKey),
+    new OpenAIClientOptions { Endpoint = new Uri("https://models.inference.ai.azure.com") }
+).AsChatClient(model);
+```
+
 ### Preserved Features
 - ✅ Tenant-specific API key retrieval from Key Vault
 - ✅ Custom consumption tracking and monitoring
@@ -111,7 +141,12 @@ If issues arise with Microsoft.Extensions.AI:
 
 ## Implementation Timeline
 
-- **Phase 1** (Completed): Package updates and provider refactoring
+- **Phase 1** (Completed 2026-01-03): Package updates, provider refactoring, and ecosystem expansion
+  - ✅ Microsoft.Extensions.AI adoption for OpenAI, Anthropic, Azure
+  - ✅ Ollama provider integration using OllamaSharp
+  - ✅ GitHub Models provider integration
+  - ✅ All providers registered in DI container
+  - ✅ Build and test validation successful
 - **Phase 2** (Next): Update unit tests and integration tests
 - **Phase 3** (Future): Add Microsoft.Extensions.AI middleware for telemetry
 - **Phase 4** (Future): Evaluate additional Microsoft.Extensions.AI features
