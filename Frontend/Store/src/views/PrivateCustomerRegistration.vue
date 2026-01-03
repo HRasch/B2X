@@ -710,7 +710,7 @@ const passwordStrength = computed(() => {
   if (/[A-Z]/.test(pwd)) strength++;
   if (/[a-z]/.test(pwd)) strength++;
   if (/\d/.test(pwd)) strength++;
-  if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd)) strength++;
+  if (/[!@#$%^&*()_+\-=[]{};"\\|,.<>?]/.test(pwd)) strength++;
 
   if (strength < 3) return 'weak';
   if (strength < 4) return 'medium';
@@ -788,7 +788,7 @@ const validatePassword = () => {
       !/[A-Z]/.test(pwd) ||
       !/[a-z]/.test(pwd) ||
       !/\d/.test(pwd) ||
-      !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd)
+      !/[!@#$%^&*()_+\-=[]{};"\\|,.<>?]/.test(pwd)
     ) {
       errors.value.password = t('validation.passwordWeak');
       return false;

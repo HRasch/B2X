@@ -1,0 +1,32 @@
+# Legacy Code Style Exceptions
+# This file contains relaxed rules for legacy code areas
+# that haven't been migrated to modern standards yet
+
+[backend/Legacy/**]
+# Allow more flexible naming for legacy code
+dotnet_naming_rule.async_methods_should_be_async_suffix.severity = none
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:none
+
+[frontend/Legacy/**]
+# Relax Vue.js rules for legacy components
+vue/multi-word-component-names = off
+vue/block-lang = off
+
+# Allow more flexible TypeScript rules
+@typescript-eslint/no-explicit-any = warn
+@typescript-eslint/no-unused-vars = warn
+
+# Allow console statements in legacy debug code
+no-console = warn
+
+[tests/Legacy/**]
+# More relaxed rules for legacy tests
+@typescript-eslint/no-explicit-any = off
+no-console = off
+
+# Legacy comment explaining exceptions
+# TODO: Remove these exceptions after migrating legacy code
+# Migration plan:
+# Phase 1: Apply automated fixes (Prettier, ESLint auto-fix)
+# Phase 2: Manual code review and updates
+# Phase 3: Remove exceptions and enforce strict rules

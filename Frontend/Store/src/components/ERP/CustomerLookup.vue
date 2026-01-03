@@ -238,12 +238,6 @@ const clearForm = () => {
   emailError.value = null;
   clearCustomer();
 };
-
-// Emit
-const emit = defineEmits<{
-  register: [];
-  proceed: [customerNumber: string];
-}>();
 </script>
 
 <style scoped>

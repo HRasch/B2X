@@ -1,5 +1,4 @@
-// @ts-nocheck
-// @ts-ignore - vue-i18n type inference issue
+// @ts-expect-error - vue-i18n type inference issue
 import { useI18n } from 'vue-i18n';
 import { ref, computed } from 'vue';
 import { SUPPORTED_LOCALES } from '@/locales';
@@ -8,7 +7,20 @@ import { SUPPORTED_LOCALES } from '@/locales';
  * Composable for managing application localization
  * Provides locale switching, preferences, and locale utilities
  */
-export function useLocale(): any {
+interface UseLocaleReturn {
+  locale: ComputedRef<string>;
+  currentLocale: ComputedRef<any>; // TODO: Define proper locale type
+  locales: any[]; // TODO: Define proper locale array type
+  isLoading: Ref<boolean>;
+  t: (key: string, ...args: any[]) => string;
+  setLocale: (code: string) => Promise<void>;
+  initializeLocale: () => void;
+  getLocaleName: (code: string) => string;
+  getLocaleFlag: (code: string) => string;
+  getSupportedLocaleCodes: () => string[];
+}
+
+export function useLocale(): UseLocaleReturn {
   const i18n = useI18n();
   const isLoading = ref(false);
 

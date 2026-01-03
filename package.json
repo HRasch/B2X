@@ -19,6 +19,7 @@
     "type-check": "npm run type-check --workspaces",
     "format": "prettier --write \"frontend/**/*.{js,ts,vue,json,css,scss,md}\"",
     "format:check": "prettier --check \"frontend/**/*.{js,ts,vue,json,css,scss,md}\"",
+    "legacy-cleanup": "node scripts/legacy-code-cleanup.js",
     "prepare": "husky"
   },
   "engines": {
