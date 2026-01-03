@@ -62,12 +62,12 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
         // Validierung
         if (string.IsNullOrWhiteSpace(command.Name))
         {
-            throw new ArgumentException("Product name is required", nameof(command.Name));
+            throw new ArgumentException("Product name is required", nameof(command));
         }
 
         if (command.Price <= 0)
         {
-            throw new ArgumentException("Product price must be greater than 0", nameof(command.Price));
+            throw new ArgumentException("Product price must be greater than 0", nameof(command));
         }
 
         // Business Logic

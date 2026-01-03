@@ -176,7 +176,7 @@ public class DatanormImportAdapterTests
         var result = await _adapter.ParseAsync(content, metadata);
 
         // Assert
-        var firstEntity = result.Entities.FirstOrDefault();
+        var firstEntity = result.Entities[0];
         Assert.NotNull(firstEntity);
         Assert.False(string.IsNullOrEmpty(firstEntity.ExternalId), "Should have ExternalId");
         Assert.False(string.IsNullOrEmpty(firstEntity.Name), "Should have Name");

@@ -201,7 +201,7 @@ public class CsvImportAdapterTests
         var result = await _adapter.ParseAsync(content, metadata);
 
         // Assert
-        var entity = result.Entities.FirstOrDefault();
+        var entity = result.Entities[0];
         Assert.NotNull(entity);
         Assert.False(string.IsNullOrEmpty(entity.ExternalId), "Should have ExternalId (sku)");
         Assert.False(string.IsNullOrEmpty(entity.Name), "Should have Name");

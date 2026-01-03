@@ -8,6 +8,12 @@
     <Project Path="backend/Gateway/Admin/B2Connect.Admin.csproj" />
     <Project Path="backend/Gateway/Store/API/B2Connect.Store.csproj" />
   </Folder>
+  <!-- Backend: BoundedContexts -->
+  <Folder Name="/backend/BoundedContexts/">
+    <Folder Name="/backend/BoundedContexts/Admin/">
+      <Project Path="backend/BoundedContexts/Admin/MCP/B2Connect.Admin.MCP/B2Connect.Admin.MCP.csproj" />
+    </Folder>
+  </Folder>
   <Folder Name="/backend/" />
 
   <!-- Backend: Domain -->

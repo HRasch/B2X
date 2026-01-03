@@ -46,7 +46,7 @@ public class GetUsersHandler : IQueryHandler<GetUsersQuery, UsersListResult?>
         var url = $"{_identityServiceUrl}/api/identity/users";
 
         // Add tenant header
-        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        using var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("X-Tenant-ID", tenantId.ToString());
 
         var response = await _httpClient.SendAsync(request, ct);
@@ -93,7 +93,7 @@ public class GetUserHandler : IQueryHandler<GetUserQuery, UserResult?>
 
         var url = $"{_identityServiceUrl}/api/identity/users/{query.UserId}";
 
-        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        using var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("X-Tenant-ID", tenantId.ToString());
 
         var response = await _httpClient.SendAsync(request, ct);
@@ -155,7 +155,7 @@ public class CreateUserHandler : ICommandHandler<CreateUserCommand, UserResult?>
             roles = command.Roles
         };
 
-        var request = new HttpRequestMessage(HttpMethod.Post, url)
+        using var request = new HttpRequestMessage(HttpMethod.Post, url)
         {
             Content = JsonContent.Create(requestBody)
         };
@@ -215,7 +215,7 @@ public class UpdateUserHandler : ICommandHandler<UpdateUserCommand, UserResult?>
             roles = command.Roles
         };
 
-        var request = new HttpRequestMessage(HttpMethod.Put, url)
+        using var request = new HttpRequestMessage(HttpMethod.Put, url)
         {
             Content = JsonContent.Create(requestBody)
         };
@@ -272,7 +272,7 @@ public class DeleteUserHandler : ICommandHandler<DeleteUserCommand, bool>
 
         var url = $"{_identityServiceUrl}/api/identity/users/{command.UserId}";
 
-        var request = new HttpRequestMessage(HttpMethod.Delete, url);
+        using var request = new HttpRequestMessage(HttpMethod.Delete, url);
         request.Headers.Add("X-Tenant-ID", tenantId.ToString());
 
         var response = await _httpClient.SendAsync(request, ct);

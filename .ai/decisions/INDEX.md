@@ -46,6 +46,7 @@ See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 | `ADR-002` | Onion Architecture | ✅ Accepted | High |
 | `ADR-003` | Aspire Orchestration | ✅ Accepted | High |
 | `ADR-004` | PostgreSQL Multitenancy | ✅ Accepted | High |
+| `ADR-028` | AI Consumption Monitoring for MCP | 📋 Proposed | High |
 
 #### ADR-001: Event-Driven Architecture with Wolverine CQRS
 - **File:** [ADR-001-event-driven-architecture.md](./ADR-001-event-driven-architecture.md)
@@ -65,6 +66,25 @@ See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 - Implementation: Code examples, configuration
 - Monitoring: Metrics & observability
 - Related: `[ADR-002]`, `[ADR-003]`, `[ADR-004]`
+
+#### ADR-028: AI Consumption Monitoring and Limiting for MCP Server Operations
+- **File:** [ADR-028-ai-consumption-monitoring.md](./ADR-028-ai-consumption-monitoring.md)
+- **DocID:** `ADR-028`
+- **Status:** 📋 Proposed
+- **Impact:** High - AI cost control and security
+- **Summary:**
+  - Centralized AI service gateway for MCP operations
+  - Per-tenant rate limiting and budget controls
+  - Real-time cost monitoring with alerts and hard limits
+  - Complete audit trail for compliance
+  - Security controls: API key isolation, request signing, abuse detection
+
+**Key Sections:**
+- Problem: Uncontrolled AI costs and security risks
+- Solution: Comprehensive monitoring and limiting system
+- Implementation: Gateway architecture, rate limiting, cost control
+- Security: API key management, request validation, abuse detection
+- Related: `[ADR-022]`, `[KB-017]`, `[CMP-002]`
 
 #### ADR-002: Multi-Database per Bounded Context (Planned)
 - **Status:** 📋 Scheduled for Sprint 1

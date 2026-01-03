@@ -1,7 +1,7 @@
 # 📚 Document Registry
 
 **Version:** 1.0  
-**Last Updated:** 31. Dezember 2025  
+**Last Updated:** 3. Januar 2026  
 **Owner:** @SARAH
 
 ---
@@ -54,6 +54,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-025` | Gateway-Service Communication Strategy | `.ai/decisions/ADR-025-gateway-service-communication-strategy.md` | Accepted |
 | `ADR-026` | BMEcat Catalog Import Architecture | `.ai/decisions/ADR-026-bmecat-catalog-import-architecture.md` | Proposed |
 | `ADR-027` | Email Template Engine Selection | `.ai/decisions/ADR-027-email-template-engine.md` | Accepted |
+| `ADR-028` | AI Consumption Monitoring for MCP | `.ai/decisions/ADR-028-ai-consumption-monitoring.md` | Proposed |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -136,6 +137,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `CMP-001` | Compliance Quick Reference | `.ai/compliance/CMP-001-COMPLIANCE_QUICK_REFERENCE.md` | Active |
+| `CMP-002` | MCP Server Security Assessment | `.ai/compliance/CMP-002-MCP-SERVER-SECURITY-ASSESSMENT.md` | Active |
 
 ---
 
@@ -146,6 +148,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-001` | Monitoring for Scheduler Jobs | `.ai/requirements/REQ-001-monitoring-scheduler-jobs.md` | Draft |
 | `REQ-002` | BMEcat Katalog Import | `.ai/requirements/REQ-002-bmecat-import.md` | Draft |
 | `REQ-003` | Email Template System | `.ai/requirements/REQ-003-email-template-system.md` | Draft |
+| `REQ-004` | MCP Server for Tenant Administrators | `.ai/requirements/REQ-004-mcp-server-tenant-admin.md` | Draft |
+| `REQ-004-SPM` | System Prompt Management for MCP Server | `.ai/requirements/REQ-004-system-prompt-management.md` | Draft |
 
 ---
 

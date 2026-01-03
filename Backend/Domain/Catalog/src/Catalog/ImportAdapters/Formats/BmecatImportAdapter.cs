@@ -228,7 +228,13 @@ public class BmecatImportAdapter : IFormatAdapter
             }
 
             using var schemaReader = new System.IO.StringReader(schemaContent);
-            var schema = XmlSchema.Read(schemaReader, SchemaValidationHandler);
+            var xmlReaderSettings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Prohibit,
+                XmlResolver = null
+            };
+            using var xmlReader = XmlReader.Create(schemaReader, xmlReaderSettings);
+            var schema = XmlSchema.Read(xmlReader, SchemaValidationHandler);
             if (schema != null)
             {
                 schemaSet.Add(schema);
@@ -357,8 +363,14 @@ public class BmecatImportAdapter : IFormatAdapter
             try
             {
                 var serializer = _serializerFactory.CreateSerializer<BmecatDocument>();
-                using var reader = new System.IO.StringReader(content);
-                return serializer.Deserialize(reader) as BmecatDocument;
+                using var stringReader = new System.IO.StringReader(content);
+                var xmlReaderSettings = new XmlReaderSettings
+                {
+                    DtdProcessing = DtdProcessing.Prohibit,
+                    XmlResolver = null
+                };
+                using var xmlReader = XmlReader.Create(stringReader, xmlReaderSettings);
+                return serializer.Deserialize(xmlReader) as BmecatDocument;
             }
             catch
             {

@@ -136,7 +136,7 @@ public class EmailMonitoringController : ApiControllerBase
             LastEmailSent = recentEvents
                 .Where(e => e.EventType == EmailEventType.Sent)
                 .MaxBy(e => e.OccurredAt)?.OccurredAt,
-            IsHealthy = last24HourEvents.Count(e => e.EventType == EmailEventType.Failed) == 0
+            IsHealthy = !last24HourEvents.Any(e => e.EventType == EmailEventType.Failed)
         };
 
         return Ok(healthStatus);

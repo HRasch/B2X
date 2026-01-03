@@ -3,11 +3,11 @@
 // Design-time factory for EF Core migrations
 // -----------------------------------------------------------------------------
 
-namespace B2Connect.Shared.Monitoring.Data;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+
+namespace B2Connect.Shared.Monitoring.Data;
 
 /// <summary>
 /// Design-time factory for creating MonitoringDbContext instances during EF Core migrations.

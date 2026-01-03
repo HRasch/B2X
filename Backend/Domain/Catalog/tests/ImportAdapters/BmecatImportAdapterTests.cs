@@ -147,7 +147,7 @@ public class BmecatImportAdapterTests
         var result = await _adapter.ParseAsync(content, metadata);
 
         // Assert - Check first article
-        var firstEntity = result.Entities.FirstOrDefault();
+        var firstEntity = result.Entities[0];
         Assert.NotNull(firstEntity);
         Assert.False(string.IsNullOrEmpty(firstEntity.ExternalId));
         Assert.False(string.IsNullOrEmpty(firstEntity.Name));

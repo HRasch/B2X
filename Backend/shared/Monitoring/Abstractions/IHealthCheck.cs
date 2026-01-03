@@ -78,37 +78,34 @@ public record HealthCheckResult
     /// <summary>
     /// Creates a healthy result.
     /// </summary>
-    public static HealthCheckResult Healthy(string? description = null, TimeSpan? duration = null) =>
-        new()
-        {
-            Status = HealthStatus.Healthy,
-            Description = description,
-            Duration = duration ?? TimeSpan.Zero
-        };
+    public static HealthCheckResult Healthy(string? description = null, TimeSpan? duration = null) => new()
+    {
+        Status = HealthStatus.Healthy,
+        Description = description,
+        Duration = duration ?? TimeSpan.Zero
+    };
 
     /// <summary>
     /// Creates a degraded result.
     /// </summary>
-    public static HealthCheckResult Degraded(string? description = null, Exception? exception = null, TimeSpan? duration = null) =>
-        new()
-        {
-            Status = HealthStatus.Degraded,
-            Description = description,
-            Exception = exception,
-            Duration = duration ?? TimeSpan.Zero
-        };
+    public static HealthCheckResult Degraded(string? description = null, Exception? exception = null, TimeSpan? duration = null) => new()
+    {
+        Status = HealthStatus.Degraded,
+        Description = description,
+        Exception = exception,
+        Duration = duration ?? TimeSpan.Zero
+    };
 
     /// <summary>
     /// Creates an unhealthy result.
     /// </summary>
-    public static HealthCheckResult Unhealthy(string? description = null, Exception? exception = null, TimeSpan? duration = null) =>
-        new()
-        {
-            Status = HealthStatus.Unhealthy,
-            Description = description,
-            Exception = exception,
-            Duration = duration ?? TimeSpan.Zero
-        };
+    public static HealthCheckResult Unhealthy(string? description = null, Exception? exception = null, TimeSpan? duration = null) => new()
+    {
+        Status = HealthStatus.Unhealthy,
+        Description = description,
+        Exception = exception,
+        Duration = duration ?? TimeSpan.Zero
+    };
 }
 
 /// <summary>

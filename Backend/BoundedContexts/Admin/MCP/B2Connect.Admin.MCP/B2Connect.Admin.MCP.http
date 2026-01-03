@@ -1,0 +1,6 @@
+@B2Connect.Admin.MCP_HostAddress = http://localhost:5017
+
+GET {{B2Connect.Admin.MCP_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
