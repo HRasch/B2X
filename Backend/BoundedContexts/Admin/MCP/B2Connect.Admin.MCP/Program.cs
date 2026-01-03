@@ -55,10 +55,12 @@ builder.Services.AddSingleton<AiConsumptionGateway>();
 // MCP Server
 builder.Services.AddSingleton<IMcpServer, McpServer>();
 
-// AI Providers
+// AI Providers using Microsoft.Extensions.AI
 builder.Services.AddSingleton<OpenAiProvider>();
 builder.Services.AddSingleton<AnthropicProvider>();
 builder.Services.AddSingleton<AzureOpenAiProvider>();
+builder.Services.AddSingleton<OllamaProvider>();
+builder.Services.AddSingleton<GitHubModelsProvider>();
 
 // AI Provider Selector
 builder.Services.AddSingleton<AiProviderSelector>();

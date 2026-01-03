@@ -55,6 +55,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-026` | BMEcat Catalog Import Architecture | `.ai/decisions/ADR-026-bmecat-catalog-import-architecture.md` | Proposed |
 | `ADR-027` | Email Template Engine Selection | `.ai/decisions/ADR-027-email-template-engine.md` | Accepted |
 | `ADR-028` | AI Consumption Monitoring for MCP | `.ai/decisions/ADR-028-ai-consumption-monitoring.md` | Proposed |
+| `ADR-029` | Microsoft.Extensions.AI Adoption for MCP Server | `.ai/decisions/ADR-029-microsoft-extensions-ai-adoption.md` | Accepted |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---

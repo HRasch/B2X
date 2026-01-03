@@ -200,6 +200,46 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: '/ai',
+    meta: {
+      requiresAuth: true,
+      layout: 'main',
+      requiredRole: 'admin',
+    },
+    children: [
+      {
+        path: '',
+        name: 'AIDashboard',
+        component: () => import('@/views/ai/Dashboard.vue'),
+      },
+      {
+        path: 'prompts',
+        name: 'SystemPrompts',
+        component: () => import('@/views/ai/SystemPrompts.vue'),
+      },
+      {
+        path: 'prompts/:toolType/:key',
+        name: 'SystemPromptDetail',
+        component: () => import('@/views/ai/SystemPromptDetail.vue'),
+      },
+      {
+        path: 'providers',
+        name: 'AIProviders',
+        component: () => import('@/views/ai/Providers.vue'),
+      },
+      {
+        path: 'consumption',
+        name: 'AIConsumption',
+        component: () => import('@/views/ai/Consumption.vue'),
+      },
+      {
+        path: 'mcp-status',
+        name: 'MCPStatus',
+        component: () => import('@/views/ai/Status.vue'),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
