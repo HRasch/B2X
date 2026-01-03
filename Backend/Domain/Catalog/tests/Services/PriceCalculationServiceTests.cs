@@ -1,4 +1,4 @@
-using B2Connect.CatalogService.Services;
+using B2Connect.Catalog.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;

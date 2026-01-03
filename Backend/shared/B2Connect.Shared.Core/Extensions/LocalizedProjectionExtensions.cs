@@ -149,8 +149,7 @@ public static class LocalizedProjectionExtensions
                     Expression.Property(null, functionsProperty),
                     jsonExtractMethod,
                     translationAccess,
-                    Expression.Constant("$.Translations." + locale)
-                );
+                    Expression.Constant("$.Translations." + locale));
 
                 // translationProperty != null
                 var nullCheck = Expression.NotEqual(translationAccess, Expression.Constant(null, translationProperty.PropertyType));
@@ -179,7 +178,7 @@ public static class LocalizedProjectionExtensions
     /// <summary>
     /// Builds the expression for a single localized property using the specified property names.
     /// </summary>
-    private static Expression BuildLocalizedPropertyExpression(
+    private static ConditionalExpression BuildLocalizedPropertyExpression(
         ParameterExpression entityParam,
         Type entityType,
         string defaultPropertyName,
@@ -224,8 +223,7 @@ public static class LocalizedProjectionExtensions
             Expression.Property(null, functionsProperty),
             jsonExtractMethod,
             translationAccess,
-            Expression.Constant("$.Translations." + locale)
-        );
+            Expression.Constant("$.Translations." + locale));
 
         // translationProperty != null
         var nullCheck = Expression.NotEqual(translationAccess, Expression.Constant(null, translationProperty.PropertyType));

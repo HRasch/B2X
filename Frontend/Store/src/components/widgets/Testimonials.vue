@@ -7,32 +7,20 @@
       </h2>
 
       <!-- Testimonials Carousel -->
-      <div
-        v-if="testimonials.length > 0"
-        class="card bg-base-200 max-w-3xl mx-auto"
-      >
+      <div v-if="testimonials.length > 0" class="card bg-base-200 max-w-3xl mx-auto">
         <div class="card-body text-center">
-          <blockquote class="text-lg italic mb-4">
-            "{{ currentTestimonial.text }}"
-          </blockquote>
+          <blockquote class="text-lg italic mb-4">"{{ currentTestimonial.text }}"</blockquote>
           <p class="font-semibold">{{ currentTestimonial.author }}</p>
           <p class="text-sm opacity-70">{{ currentTestimonial.title }}</p>
         </div>
 
         <!-- Navigation -->
-        <div
-          v-if="testimonials.length > 1"
-          class="card-body flex flex-row justify-center gap-4"
-        >
-          <button class="btn btn-sm btn-outline" @click="previousTestimonial">
-            ← Previous
-          </button>
+        <div v-if="testimonials.length > 1" class="card-body flex flex-row justify-center gap-4">
+          <button class="btn btn-sm btn-outline" @click="previousTestimonial">← Previous</button>
           <span class="flex items-center px-4">
             {{ currentIndex + 1 }} / {{ testimonials.length }}
           </span>
-          <button class="btn btn-sm btn-outline" @click="nextTestimonial">
-            Next →
-          </button>
+          <button class="btn btn-sm btn-outline" @click="nextTestimonial">Next →</button>
         </div>
       </div>
     </div>
@@ -40,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 interface Testimonial {
   text: string;
@@ -60,7 +48,7 @@ let autoplayInterval: ReturnType<typeof setInterval> | null = null;
 
 const testimonials = computed(() => {
   try {
-    if (typeof props.settings.testimonials === "string") {
+    if (typeof props.settings.testimonials === 'string') {
       return JSON.parse(props.settings.testimonials);
     }
     return props.settings.testimonials || [];
@@ -79,16 +67,12 @@ const nextTestimonial = () => {
 
 const previousTestimonial = () => {
   currentIndex.value =
-    (currentIndex.value - 1 + testimonials.value.length) %
-    testimonials.value.length;
+    (currentIndex.value - 1 + testimonials.value.length) % testimonials.value.length;
 };
 
 onMounted(() => {
   if (props.settings.autoplay && testimonials.value.length > 1) {
-    autoplayInterval = setInterval(
-      nextTestimonial,
-      props.settings.autoplayInterval || 5000
-    );
+    autoplayInterval = setInterval(nextTestimonial, props.settings.autoplayInterval || 5000);
   }
 });
 

@@ -2,9 +2,7 @@
   <div
     class="hero min-h-[400px]"
     :style="{
-      backgroundImage: settings.backgroundImage
-        ? `url(${settings.backgroundImage})`
-        : undefined,
+      backgroundImage: settings.backgroundImage ? `url(${settings.backgroundImage})` : undefined,
     }"
   >
     <div
@@ -21,11 +19,7 @@
         <p v-if="settings.subtitle" class="text-xl mb-6">
           {{ settings.subtitle }}
         </p>
-        <button
-          v-if="settings.buttonText"
-          class="btn btn-primary"
-          @click="$emit('banner-click')"
-        >
+        <button v-if="settings.buttonText" class="btn btn-primary" @click="$emit('banner-click')">
           {{ settings.buttonText }}
         </button>
       </div>
@@ -43,7 +37,7 @@ withDefaults(defineProps<Props>(), {
 });
 
 defineEmits<{
-  "banner-click": [];
+  'banner-click': [];
 }>();
 </script>
 

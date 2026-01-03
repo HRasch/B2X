@@ -13,33 +13,20 @@
       <p class="text-gray-500 dark:text-soft-300">No jobs in queue.</p>
     </div>
 
-    <div
-      v-else
-      class="bg-white dark:bg-soft-800 rounded-lg shadow overflow-hidden"
-    >
+    <div v-else class="bg-white dark:bg-soft-800 rounded-lg shadow overflow-hidden">
       <table class="w-full">
-        <thead
-          class="bg-gray-100 dark:bg-soft-700 border-b dark:border-soft-600"
-        >
+        <thead class="bg-gray-100 dark:bg-soft-700 border-b dark:border-soft-600">
           <tr>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               Job Name
             </th>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               Status
             </th>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               Progress
             </th>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               Actions
             </th>
           </tr>
@@ -70,18 +57,12 @@
             </td>
             <td class="px-6 py-4 text-sm">
               <div class="w-32 bg-gray-200 rounded-full h-2">
-                <div
-                  class="bg-blue-600 h-2 rounded-full"
-                  :style="{ width: job.progress + '%' }"
-                />
+                <div class="bg-blue-600 h-2 rounded-full" :style="{ width: job.progress + '%' }" />
               </div>
               <span class="text-xs text-gray-600">{{ job.progress }}%</span>
             </td>
             <td class="px-6 py-4 text-sm space-x-2">
-              <router-link
-                :to="`/jobs/${job.id}`"
-                class="text-blue-600 hover:text-blue-800"
-              >
+              <router-link :to="`/jobs/${job.id}`" class="text-blue-600 hover:text-blue-800">
                 View
               </router-link>
               <button
@@ -107,8 +88,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useJobsStore } from "@/stores/jobs";
+import { onMounted } from 'vue';
+import { useJobsStore } from '@/stores/jobs';
 
 const jobsStore = useJobsStore();
 const loading = jobsStore.loading;
@@ -121,7 +102,7 @@ const retryJob = async (jobId: string) => {
   try {
     await jobsStore.retryJob(jobId);
   } catch (error) {
-    console.error("Failed to retry job:", error);
+    console.error('Failed to retry job:', error);
   }
 };
 
@@ -129,7 +110,7 @@ const cancelJob = async (jobId: string) => {
   try {
     await jobsStore.cancelJob(jobId);
   } catch (error) {
-    console.error("Failed to cancel job:", error);
+    console.error('Failed to cancel job:', error);
   }
 };
 </script>

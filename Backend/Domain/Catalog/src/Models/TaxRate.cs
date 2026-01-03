@@ -1,4 +1,4 @@
-namespace B2Connect.CatalogService.Models;
+namespace B2Connect.Catalog.Models;
 
 /// <summary>
 /// Tax rate entity for storing VAT rates per country

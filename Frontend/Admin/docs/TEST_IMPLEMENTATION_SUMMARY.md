@@ -14,6 +14,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ### Unit Tests - Pinia Stores (4 files)
 
 #### 1. `tests/unit/stores/auth.spec.ts`
+
 - **Test Cases**: 20+
 - **Coverage**: Authentication flow, login/logout, permissions, roles
 - **Key Tests**:
@@ -25,6 +26,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
   - getCurrentUser operations
 
 #### 2. `tests/unit/stores/cms.spec.ts`
+
 - **Test Cases**: 25+
 - **Coverage**: Page management, templates, media handling
 - **Key Tests**:
@@ -36,6 +38,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
   - Error handling and loading states
 
 #### 3. `tests/unit/stores/shop.spec.ts`
+
 - **Test Cases**: 25+
 - **Coverage**: Product and category management, pricing, discounts
 - **Key Tests**:
@@ -47,6 +50,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
   - Filter and search functionality
 
 #### 4. `tests/unit/stores/jobs.spec.ts`
+
 - **Test Cases**: 25+
 - **Coverage**: Job queue, scheduling, monitoring, metrics
 - **Key Tests**:
@@ -61,6 +65,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ### Unit Tests - Services (1 file)
 
 #### 5. `tests/unit/services/api-client.spec.ts`
+
 - **Test Cases**: 15+
 - **Coverage**: HTTP methods, interceptors, error handling
 - **Key Tests**:
@@ -73,6 +78,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ### Unit Tests - Utilities (1 file)
 
 #### 6. `tests/unit/utils/index.spec.ts`
+
 - **Test Cases**: 40+
 - **Coverage**: Form validation, permissions, date formatting
 - **Functions Tested**:
@@ -83,6 +89,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ### Component Tests (3 files)
 
 #### 7. `tests/unit/components/LoginForm.spec.ts`
+
 - **Test Cases**: 14
 - **Coverage**: Form rendering, input handling, validation, accessibility
 - **Key Tests**:
@@ -96,6 +103,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
   - Label associations (a11y)
 
 #### 8. `tests/unit/components/Dashboard.spec.ts`
+
 - **Test Cases**: 12
 - **Coverage**: Dashboard layout, stats display, user greeting
 - **Key Tests**:
@@ -109,6 +117,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
   - Responsive behavior
 
 #### 9. `tests/unit/components/MainLayout.vue`
+
 - **Test Cases**: 14
 - **Coverage**: Layout structure, navigation, user menu, responsive design
 - **Key Tests**:
@@ -125,6 +134,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ### E2E Tests (4 files)
 
 #### 10. `tests/e2e/auth.spec.ts`
+
 - **Test Cases**: 12
 - **Coverage**: Complete authentication workflow
 - **Scenarios**:
@@ -138,6 +148,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
   - Error handling (network, timeouts)
 
 #### 11. `tests/e2e/cms.spec.ts`
+
 - **Test Cases**: 20+
 - **Coverage**: Content management workflows
 - **Scenarios**:
@@ -152,6 +163,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
   - Accessibility compliance
 
 #### 12. `tests/e2e/shop.spec.ts`
+
 - **Test Cases**: 18
 - **Coverage**: Product management workflows
 - **Scenarios**:
@@ -167,6 +179,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
   - Error handling and recovery
 
 #### 13. `tests/e2e/jobs.spec.ts`
+
 - **Test Cases**: 20+
 - **Coverage**: Job monitoring and management
 - **Scenarios**:
@@ -188,6 +201,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ### Configuration Files
 
 #### `vitest.config.ts`
+
 ```typescript
 - Environment: happy-dom (lightweight DOM implementation)
 - Coverage: 70% threshold for statements, branches, functions, lines
@@ -196,6 +210,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ```
 
 #### `tests/setup.ts`
+
 ```typescript
 - localStorage mock
 - sessionStorage mock
@@ -204,6 +219,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ```
 
 #### `playwright.config.ts` (existing)
+
 - E2E test configuration
 - Multiple browsers (Chromium, Firefox, WebKit)
 - Test timeout: 30 seconds
@@ -213,6 +229,7 @@ Complete test suite for the Admin Frontend with comprehensive coverage across un
 ## Mocking Strategy
 
 ### Unit Tests - Service Layer Mocking
+
 ```typescript
 vi.mock('@/services/api/auth')
 vi.mock('@/services/api/cms')
@@ -227,20 +244,22 @@ vi.mocked(authApi.login).mockResolvedValue({
 ```
 
 ### Global Mocks - Browser APIs
+
 ```typescript
 // localStorage / sessionStorage
-const store = {}
+const store = {};
 
 // window.matchMedia
-window.matchMedia = (query) => ({
+window.matchMedia = query => ({
   matches: false,
   media: query,
   addEventListener: () => {},
-  removeEventListener: () => {}
-})
+  removeEventListener: () => {},
+});
 ```
 
 ### E2E Tests - API Route Interception
+
 ```typescript
 await page.route('**/api/admin/**', route => {
   route.fulfill({
@@ -304,41 +323,46 @@ Total: 230+ tests
 
 ### Current Coverage Metrics
 
-| Module | Lines | Statements | Branches | Functions |
-|--------|-------|------------|----------|-----------|
-| Stores | 95% | 95% | 90% | 100% |
-| Services | 90% | 90% | 85% | 100% |
-| Utils | 95% | 95% | 95% | 100% |
-| Components | 85% | 85% | 80% | 90% |
-| **Overall** | **91%** | **91%** | **87%** | **98%** |
+| Module      | Lines   | Statements | Branches | Functions |
+| ----------- | ------- | ---------- | -------- | --------- |
+| Stores      | 95%     | 95%        | 90%      | 100%      |
+| Services    | 90%     | 90%        | 85%      | 100%      |
+| Utils       | 95%     | 95%        | 95%      | 100%      |
+| Components  | 85%     | 85%        | 80%      | 90%       |
+| **Overall** | **91%** | **91%**    | **87%**  | **98%**   |
 
 ### Coverage by Feature
 
 **Authentication Module**: 95% ✅
+
 - Login/logout flows
 - Permission checking
 - Role-based access
 - Token management
 
 **CMS Module**: 92% ✅
+
 - Page CRUD operations
 - Template management
 - Media handling
 - Publishing workflow
 
 **Shop Module**: 90% ✅
+
 - Product management
 - Category handling
 - Pricing rules
 - Discount operations
 
 **Jobs Module**: 88% ✅
+
 - Job queue monitoring
 - Job scheduling
 - Retry/cancel operations
 - Metrics tracking
 
 **Utilities**: 95% ✅
+
 - Form validation
 - Permission checking
 - Date formatting
@@ -346,6 +370,7 @@ Total: 230+ tests
 ## Test Patterns & Best Practices
 
 ### Store Test Pattern
+
 ```typescript
 describe('Feature', () => {
   beforeEach(() => {
@@ -362,24 +387,26 @@ describe('Feature', () => {
 ```
 
 ### Component Test Pattern
+
 ```typescript
 describe('Component.vue', () => {
   it('should render', () => {
     const wrapper = mount(Component, {
-      global: { plugins: [pinia, router] }
-    })
-    expect(wrapper.find('selector').exists()).toBe(true)
-  })
-})
+      global: { plugins: [pinia, router] },
+    });
+    expect(wrapper.find('selector').exists()).toBe(true);
+  });
+});
 ```
 
 ### E2E Test Pattern
+
 ```typescript
 test('should complete workflow', async ({ page }) => {
   await page.route('**/api/**', route => {
     route.fulfill({ status: 200, body: JSON.stringify({...}) })
   })
-  
+
   await page.goto('http://localhost:5174/path')
   await expect(page.locator('text=Expected')).toBeVisible()
 })
@@ -388,6 +415,7 @@ test('should complete workflow', async ({ page }) => {
 ## Test Coverage by Category
 
 ### State Management
+
 - ✅ Store initialization
 - ✅ State mutations
 - ✅ Computed properties
@@ -396,6 +424,7 @@ test('should complete workflow', async ({ page }) => {
 - ✅ Loading states
 
 ### User Interactions
+
 - ✅ Form submissions
 - ✅ Button clicks
 - ✅ Input value changes
@@ -404,6 +433,7 @@ test('should complete workflow', async ({ page }) => {
 - ✅ Keyboard navigation (Tab, Enter)
 
 ### API Integration
+
 - ✅ HTTP methods (GET, POST, PUT, DELETE)
 - ✅ Request/response interceptors
 - ✅ Error handling (401, 500, network)
@@ -412,12 +442,14 @@ test('should complete workflow', async ({ page }) => {
 - ✅ Response parsing
 
 ### Responsive Design
+
 - ✅ Mobile (375×667)
 - ✅ Tablet (768×1024)
 - ✅ Desktop (1920×1080)
 - ✅ Viewport changes
 
 ### Accessibility
+
 - ✅ Form labels
 - ✅ ARIA attributes
 - ✅ Keyboard navigation
@@ -425,6 +457,7 @@ test('should complete workflow', async ({ page }) => {
 - ✅ Screen reader compatibility
 
 ### Error Scenarios
+
 - ✅ API failures
 - ✅ Network timeouts
 - ✅ Invalid input
@@ -442,6 +475,7 @@ test('should complete workflow', async ({ page }) => {
 ## CI/CD Integration
 
 ### GitHub Actions Workflow
+
 ```yaml
 - Run linting
 - Run unit tests with coverage
@@ -452,6 +486,7 @@ test('should complete workflow', async ({ page }) => {
 ```
 
 ### Coverage Thresholds
+
 - Minimum: 70%
 - Target: 85%
 - Optimal: 90%+
@@ -459,6 +494,7 @@ test('should complete workflow', async ({ page }) => {
 ## Future Enhancements
 
 ### Planned Improvements
+
 - [ ] Visual regression testing (Percy/Chromatic)
 - [ ] Performance benchmarking
 - [ ] Integration test suite
@@ -469,6 +505,7 @@ test('should complete workflow', async ({ page }) => {
 - [ ] Test analytics dashboard
 
 ### Potential Additions
+
 - [ ] Component interaction tests
 - [ ] State management edge cases
 - [ ] API pagination tests
@@ -479,11 +516,13 @@ test('should complete workflow', async ({ page }) => {
 ## Documentation & Resources
 
 ### Test Documentation
+
 - **TESTING_GUIDE.md**: Comprehensive testing guide
 - **Inline Comments**: Test purpose and expectations documented in code
 - **Test Names**: Descriptive test names explain intent
 
 ### External Resources
+
 - [Vitest Documentation](https://vitest.dev/)
 - [Vue Test Utils Guide](https://test-utils.vuejs.org/)
 - [Playwright API](https://playwright.dev/docs/api/class-page)
@@ -492,6 +531,7 @@ test('should complete workflow', async ({ page }) => {
 ## Maintenance
 
 ### Regular Tasks
+
 - Review and update tests with code changes
 - Keep dependencies updated
 - Monitor test execution time
@@ -500,6 +540,7 @@ test('should complete workflow', async ({ page }) => {
 - Update mocks when API changes
 
 ### Team Guidelines
+
 1. Write tests for new features before implementation (TDD)
 2. Maintain >70% code coverage minimum
 3. Fix failing tests immediately
@@ -509,16 +550,16 @@ test('should complete workflow', async ({ page }) => {
 
 ## Summary Statistics
 
-| Metric | Value |
-|--------|-------|
-| Total Test Files | 13 |
-| Total Test Cases | 230+ |
-| Lines of Test Code | 2500+ |
-| Code Coverage | 91% |
-| Test Frameworks | 3 (Vitest, Vue Test Utils, Playwright) |
-| Mock Services | 4 (Auth, CMS, Shop, Jobs) |
-| E2E Scenarios | 70+ |
-| Avg Test Duration | 250ms |
+| Metric             | Value                                  |
+| ------------------ | -------------------------------------- |
+| Total Test Files   | 13                                     |
+| Total Test Cases   | 230+                                   |
+| Lines of Test Code | 2500+                                  |
+| Code Coverage      | 91%                                    |
+| Test Frameworks    | 3 (Vitest, Vue Test Utils, Playwright) |
+| Mock Services      | 4 (Auth, CMS, Shop, Jobs)              |
+| E2E Scenarios      | 70+                                    |
+| Avg Test Duration  | 250ms                                  |
 
 ## Checklist for Test Completeness
 
@@ -534,7 +575,7 @@ test('should complete workflow', async ({ page }) => {
 ✅ Permission/role-based tests  
 ✅ Test configuration (vitest.config.ts)  
 ✅ Global test setup (tests/setup.ts)  
-✅ Documentation (TESTING_GUIDE.md)  
+✅ Documentation (TESTING_GUIDE.md)
 
 ---
 

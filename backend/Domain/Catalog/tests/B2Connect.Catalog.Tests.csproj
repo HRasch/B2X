@@ -27,4 +27,8 @@
     <ProjectReference Include="../B2Connect.Catalog.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="fixtures/**/*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

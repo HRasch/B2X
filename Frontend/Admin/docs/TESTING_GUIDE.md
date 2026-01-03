@@ -5,6 +5,7 @@ Comprehensive testing documentation for the Admin Frontend application.
 ## Overview
 
 This project implements a complete testing strategy covering:
+
 - **Unit Tests** (Vitest): Store logic, API services, utilities
 - **Component Tests** (Vue Test Utils): Vue component rendering and interactions
 - **E2E Tests** (Playwright): Complete user workflows and integration scenarios
@@ -38,26 +39,31 @@ tests/
 ## Running Tests
 
 ### All Tests
+
 ```bash
 npm run test
 ```
 
 ### Unit Tests Only
+
 ```bash
 npm run test unit/
 ```
 
 ### E2E Tests Only
+
 ```bash
 npm run e2e
 ```
 
 ### Watch Mode
+
 ```bash
 npm run test -- --watch
 ```
 
 ### Coverage Report
+
 ```bash
 npm run test:coverage
 ```
@@ -65,12 +71,15 @@ npm run test:coverage
 ## Test Configuration
 
 ### Vitest (`vitest.config.ts`)
+
 - **Environment**: happy-dom (lightweight DOM)
 - **Coverage Threshold**: 70% minimum
 - **Globals**: true (no need to import test functions)
 
 ### Setup File (`tests/setup.ts`)
+
 Global mocks for:
+
 - `localStorage`
 - `sessionStorage`
 - `window.matchMedia`
@@ -80,6 +89,7 @@ Global mocks for:
 ### Store Tests
 
 Each Pinia store has comprehensive unit tests covering:
+
 - Initial state validation
 - Async operations (loading states)
 - Error handling
@@ -87,21 +97,23 @@ Each Pinia store has comprehensive unit tests covering:
 - Computed properties
 
 **Example: Auth Store** (`tests/unit/stores/auth.spec.ts`)
+
 ```typescript
 // Tests login flow
 it('should login successfully', async () => {
-  const store = useAuthStore()
-  await store.login('admin@example.com', 'password')
-  
-  expect(store.isAuthenticated).toBe(true)
-  expect(store.user).toBeDefined()
-  expect(store.token).toBeDefined()
-})
+  const store = useAuthStore();
+  await store.login('admin@example.com', 'password');
+
+  expect(store.isAuthenticated).toBe(true);
+  expect(store.user).toBeDefined();
+  expect(store.token).toBeDefined();
+});
 ```
 
 ### API Client Tests
 
 HTTP client tests verify:
+
 - Request method handling (GET, POST, PUT, DELETE)
 - Interceptor functionality (token injection, Tenant ID header)
 - Error scenarios (401, network failures)
@@ -110,6 +122,7 @@ HTTP client tests verify:
 ### Utility Tests
 
 Test coverage for:
+
 - **Form Validation**
   - `validateEmail()` - Email format validation
   - `validatePassword()` - Password strength requirements
@@ -129,7 +142,9 @@ Test coverage for:
 ## Component Tests
 
 ### LoginForm.vue
+
 Tests the login form component:
+
 - ✅ Form field rendering
 - ✅ Input value updates
 - ✅ Remember-me checkbox toggle
@@ -141,17 +156,18 @@ Tests the login form component:
 
 ```typescript
 it('should update email input on user input', async () => {
-  const wrapper = mount(LoginForm)
-  const emailInput = wrapper.find('input[type="email"]')
-  await emailInput.setValue('admin@example.com')
-  
-  expect((emailInput.element as HTMLInputElement).value)
-    .toBe('admin@example.com')
-})
+  const wrapper = mount(LoginForm);
+  const emailInput = wrapper.find('input[type="email"]');
+  await emailInput.setValue('admin@example.com');
+
+  expect((emailInput.element as HTMLInputElement).value).toBe('admin@example.com');
+});
 ```
 
 ### Dashboard.vue
+
 Tests the dashboard component:
+
 - ✅ Page rendering and heading
 - ✅ Stats cards display
 - ✅ Page count statistics
@@ -163,7 +179,9 @@ Tests the dashboard component:
 - ✅ Semantic HTML structure
 
 ### MainLayout.vue
+
 Tests the main layout component:
+
 - ✅ Header and navigation rendering
 - ✅ Sidebar navigation items
 - ✅ User menu display
@@ -318,6 +336,7 @@ Tests job monitoring workflows:
 ### Unit Tests (Vitest)
 
 **Store/API Mocking**
+
 ```typescript
 vi.mock('@/services/api/auth')
 
@@ -329,12 +348,13 @@ vi.mocked(authApi.login).mockResolvedValue({
 ```
 
 **Global Mocks** (`tests/setup.ts`)
+
 ```typescript
 // localStorage mock
-const localStorage = {}
+const localStorage = {};
 
 // sessionStorage mock
-const sessionStorage = {}
+const sessionStorage = {};
 
 // window.matchMedia mock
 window.matchMedia = (query: string) => ({
@@ -346,12 +366,13 @@ window.matchMedia = (query: string) => ({
   addEventListener: () => {},
   removeEventListener: () => {},
   dispatchEvent: () => true,
-})
+});
 ```
 
 ### E2E Tests (Playwright)
 
 **API Route Mocking**
+
 ```typescript
 await page.route('**/api/admin/auth/login', route => {
   route.fulfill({
@@ -367,6 +388,7 @@ await page.route('**/api/admin/auth/login', route => {
 ## Coverage Goals
 
 ### Current Coverage Targets
+
 - **Statements**: 70%
 - **Branches**: 70%
 - **Functions**: 70%
@@ -374,20 +396,21 @@ await page.route('**/api/admin/auth/login', route => {
 
 ### Coverage by Module
 
-| Module | Target | Status |
-|--------|--------|--------|
-| Stores | 80% | ✅ 100% |
-| API Services | 80% | ✅ 100% |
-| Utils | 90% | ✅ 100% |
-| Components | 75% | ✅ 85% |
-| Composables | 75% | 🟡 Pending |
-| Router/Guards | 80% | 🟡 Pending |
+| Module        | Target | Status     |
+| ------------- | ------ | ---------- |
+| Stores        | 80%    | ✅ 100%    |
+| API Services  | 80%    | ✅ 100%    |
+| Utils         | 90%    | ✅ 100%    |
+| Components    | 75%    | ✅ 85%     |
+| Composables   | 75%    | 🟡 Pending |
+| Router/Guards | 80%    | 🟡 Pending |
 
 ## Continuous Integration
 
 ### GitHub Actions Setup
 
 Tests run on:
+
 - Pull requests
 - Commits to main branch
 - Scheduled daily
@@ -401,11 +424,13 @@ Tests run on:
 ## Debugging Tests
 
 ### Debug Unit Tests
+
 ```bash
 npm run test -- --inspect-brk
 ```
 
 ### Debug E2E Tests
+
 ```bash
 # Run in headed mode to see browser
 npm run e2e -- --headed
@@ -415,6 +440,7 @@ npm run e2e -- --headed --debug
 ```
 
 ### View Test Reports
+
 ```bash
 # Playwright test report
 npx playwright show-report
@@ -426,6 +452,7 @@ open coverage/index.html
 ## Best Practices
 
 ### Unit Tests
+
 1. ✅ One assertion focus per test
 2. ✅ Use descriptive test names
 3. ✅ Arrange-Act-Assert pattern
@@ -433,6 +460,7 @@ open coverage/index.html
 5. ✅ Test both success and error paths
 
 ### E2E Tests
+
 1. ✅ Test user-centric workflows
 2. ✅ Use data-testid for selectors
 3. ✅ Wait for async operations
@@ -440,6 +468,7 @@ open coverage/index.html
 5. ✅ Include accessibility checks
 
 ### General
+
 1. ✅ Keep tests isolated and independent
 2. ✅ Use meaningful assertions
 3. ✅ Avoid test interdependencies
@@ -449,17 +478,20 @@ open coverage/index.html
 ## Common Issues & Solutions
 
 ### Tests Timeout
+
 ```bash
 # Increase timeout
 npm run test -- --testTimeout 10000
 ```
 
 ### Mock Not Working
+
 - Check mock path matches import
 - Mock must be before first import
 - Clear mocks between tests: `vi.clearAllMocks()`
 
 ### Playwright Headless Mode Issues
+
 - Use `--headed` to debug
 - Check selectors with `page.pause()`
 - Enable debug logs: `DEBUG=pw:api`
@@ -483,6 +515,7 @@ npm run test -- --testTimeout 10000
 ## Contact & Support
 
 For test-related questions or issues:
+
 1. Check this documentation
 2. Review test comments in spec files
 3. Check CI/CD logs for failures

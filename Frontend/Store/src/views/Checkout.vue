@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useCartStore } from "@/stores/cart";
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cart';
 
 const router = useRouter();
 const cartStore = useCartStore();
@@ -33,40 +33,40 @@ interface PaymentMethod {
 }
 
 // State - Wizard
-const currentStep = ref<"shipping" | "shipping-method" | "review">("shipping");
-const steps = ["Adresse", "Versand", "Überprüfung"];
+const currentStep = ref<'shipping' | 'shipping-method' | 'review'>('shipping');
+const steps = ['Adresse', 'Versand', 'Überprüfung'];
 
 // State - Forms
 const form = ref<ShippingForm>({
-  firstName: "",
-  lastName: "",
-  street: "",
-  zipCode: "",
-  city: "",
-  country: "Germany",
+  firstName: '',
+  lastName: '',
+  street: '',
+  zipCode: '',
+  city: '',
+  country: 'Germany',
 });
 
 // State - Shipping Methods
 const shippingMethods = ref<ShippingMethod[]>([
   {
-    id: "standard",
-    name: "Standardversand",
-    description: "Lieferung in 5-7 Werktagen",
+    id: 'standard',
+    name: 'Standardversand',
+    description: 'Lieferung in 5-7 Werktagen',
     price: 5.99,
     days: 5,
     selected: true,
   },
   {
-    id: "express",
-    name: "Expressversand",
-    description: "Lieferung in 2-3 Werktagen",
+    id: 'express',
+    name: 'Expressversand',
+    description: 'Lieferung in 2-3 Werktagen',
     price: 12.99,
     days: 2,
   },
   {
-    id: "overnight",
-    name: "Overnight",
-    description: "Lieferung am nächsten Werktag",
+    id: 'overnight',
+    name: 'Overnight',
+    description: 'Lieferung am nächsten Werktag',
     price: 24.99,
     days: 1,
   },
@@ -77,28 +77,26 @@ const selectedShippingMethod = ref<ShippingMethod>(shippingMethods.value[0]);
 // State - Payment Methods
 const paymentMethods = ref<PaymentMethod[]>([
   {
-    id: "card",
-    name: "Kreditkarte",
-    description: "Visa, Mastercard, Amex",
-    icon: "💳",
+    id: 'card',
+    name: 'Kreditkarte',
+    description: 'Visa, Mastercard, Amex',
+    icon: '💳',
   },
   {
-    id: "paypal",
-    name: "PayPal",
-    description: "Schnell und sicher mit PayPal",
-    icon: "🅿️",
+    id: 'paypal',
+    name: 'PayPal',
+    description: 'Schnell und sicher mit PayPal',
+    icon: '🅿️',
   },
   {
-    id: "sepa",
-    name: "SEPA Überweisung",
-    description: "Direktüberweisung von Ihrem Bankkonto",
-    icon: "🏦",
+    id: 'sepa',
+    name: 'SEPA Überweisung',
+    description: 'Direktüberweisung von Ihrem Bankkonto',
+    icon: '🏦',
   },
 ]);
 
-const selectedPaymentMethod = ref<PaymentMethod | null>(
-  paymentMethods.value[0]
-);
+const selectedPaymentMethod = ref<PaymentMethod | null>(paymentMethods.value[0]);
 
 // State - UI
 const agreedToTerms = ref(false);
@@ -108,10 +106,7 @@ const selectedShippingCost = ref(5.99);
 
 // Computed properties
 const subtotal = computed(() => {
-  return cartStore.items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  return cartStore.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 });
 
 const vatAmount = computed(() => {
@@ -121,18 +116,16 @@ const vatAmount = computed(() => {
 const shippingCost = computed(() => selectedShippingMethod.value.price);
 
 const total = computed(() => {
-  return Number(
-    (subtotal.value + vatAmount.value + shippingCost.value).toFixed(2)
-  );
+  return Number((subtotal.value + vatAmount.value + shippingCost.value).toFixed(2));
 });
 
 const currentStepIndex = computed(() => {
   switch (currentStep.value) {
-    case "shipping":
+    case 'shipping':
       return 0;
-    case "shipping-method":
+    case 'shipping-method':
       return 1;
-    case "review":
+    case 'review':
       return 2;
     default:
       return 0;
@@ -141,18 +134,18 @@ const currentStepIndex = computed(() => {
 
 const isFormValid = computed(() => {
   switch (currentStep.value) {
-    case "shipping":
+    case 'shipping':
       return (
-        form.value.firstName.trim() !== "" &&
-        form.value.lastName.trim() !== "" &&
-        form.value.street.trim() !== "" &&
-        form.value.zipCode.trim() !== "" &&
-        form.value.city.trim() !== "" &&
-        form.value.country.trim() !== ""
+        form.value.firstName.trim() !== '' &&
+        form.value.lastName.trim() !== '' &&
+        form.value.street.trim() !== '' &&
+        form.value.zipCode.trim() !== '' &&
+        form.value.city.trim() !== '' &&
+        form.value.country.trim() !== ''
       );
-    case "shipping-method":
+    case 'shipping-method':
       return selectedShippingMethod.value !== null;
-    case "review":
+    case 'review':
       return selectedPaymentMethod.value !== null && agreedToTerms.value;
     default:
       return false;
@@ -169,9 +162,9 @@ const stepCompletion = computed(() => {
 
 // Methods
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
   }).format(price);
 };
 
@@ -179,60 +172,60 @@ const validateForm = (): boolean => {
   errors.value = {};
 
   if (!form.value.firstName.trim()) {
-    errors.value.firstName = "Vorname ist erforderlich";
+    errors.value.firstName = 'Vorname ist erforderlich';
   }
 
   if (!form.value.lastName.trim()) {
-    errors.value.lastName = "Nachname ist erforderlich";
+    errors.value.lastName = 'Nachname ist erforderlich';
   }
 
   if (!form.value.street.trim()) {
-    errors.value.street = "Straße und Hausnummer sind erforderlich";
+    errors.value.street = 'Straße und Hausnummer sind erforderlich';
   }
 
   if (!form.value.zipCode.trim()) {
-    errors.value.zipCode = "Postleitzahl ist erforderlich";
+    errors.value.zipCode = 'Postleitzahl ist erforderlich';
   } else if (!/^\d{5}$/.test(form.value.zipCode)) {
-    errors.value.zipCode = "Postleitzahl muss 5 Ziffern haben";
+    errors.value.zipCode = 'Postleitzahl muss 5 Ziffern haben';
   }
 
   if (!form.value.city.trim()) {
-    errors.value.city = "Stadt ist erforderlich";
+    errors.value.city = 'Stadt ist erforderlich';
   }
 
   return Object.keys(errors.value).length === 0;
 };
 
 const nextStep = () => {
-  if (currentStep.value === "shipping") {
+  if (currentStep.value === 'shipping') {
     if (!validateForm()) {
-      console.error("Form validation failed");
+      console.error('Form validation failed');
       return;
     }
-    currentStep.value = "shipping-method";
-  } else if (currentStep.value === "shipping-method") {
+    currentStep.value = 'shipping-method';
+  } else if (currentStep.value === 'shipping-method') {
     if (!selectedShippingMethod.value) {
-      errors.value.shippingMethod = "Bitte wählen Sie eine Versandart";
+      errors.value.shippingMethod = 'Bitte wählen Sie eine Versandart';
       return;
     }
-    currentStep.value = "review";
+    currentStep.value = 'review';
   }
   errors.value = {};
 };
 
 const prevStep = () => {
-  if (currentStep.value === "shipping-method") {
-    currentStep.value = "shipping";
-  } else if (currentStep.value === "review") {
-    currentStep.value = "shipping-method";
+  if (currentStep.value === 'shipping-method') {
+    currentStep.value = 'shipping';
+  } else if (currentStep.value === 'review') {
+    currentStep.value = 'shipping-method';
   }
   errors.value = {};
 };
 
 const selectShippingMethod = (method: ShippingMethod) => {
   selectedShippingMethod.value = method;
-  shippingMethods.value.forEach((m) => (m.selected = m.id === method.id));
-  errors.value.shippingMethod = "";
+  shippingMethods.value.forEach(m => (m.selected = m.id === method.id));
+  errors.value.shippingMethod = '';
 };
 
 const selectPaymentMethod = (method: PaymentMethod) => {
@@ -241,12 +234,12 @@ const selectPaymentMethod = (method: PaymentMethod) => {
 
 const completeOrder = async () => {
   if (!agreedToTerms.value) {
-    errors.value.terms = "Sie müssen den Bedingungen zustimmen";
+    errors.value.terms = 'Sie müssen den Bedingungen zustimmen';
     return;
   }
 
   if (!selectedPaymentMethod.value) {
-    errors.value.payment = "Bitte wählen Sie eine Zahlungsmethode";
+    errors.value.payment = 'Bitte wählen Sie eine Zahlungsmethode';
     return;
   }
 
@@ -254,9 +247,9 @@ const completeOrder = async () => {
 
   try {
     // Simulate API call to create order
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
-    console.log("Order completed with data:", {
+    console.log('Order completed with data:', {
       items: cartStore.items,
       shipping: form.value,
       shippingMethod: selectedShippingMethod.value,
@@ -268,23 +261,23 @@ const completeOrder = async () => {
     cartStore.clearCart();
 
     // Redirect to confirmation page
-    await router.push("/order-confirmation");
+    await router.push('/order-confirmation');
   } catch (error) {
-    console.error("Error completing order:", error);
+    console.error('Error completing order:', error);
     errors.value.submit =
-      "Fehler beim Abschließen der Bestellung. Bitte versuchen Sie es später erneut.";
+      'Fehler beim Abschließen der Bestellung. Bitte versuchen Sie es später erneut.';
   } finally {
     isSubmitting.value = false;
   }
 };
 
 const goBack = () => {
-  router.push("/cart");
+  router.push('/cart');
 };
 
 onMounted(() => {
   if (cartStore.items.length === 0) {
-    router.push("/shop");
+    router.push('/shop');
   }
 });
 </script>
@@ -313,11 +306,7 @@ onMounted(() => {
             }"
           >
             <div class="step-number">
-              {{
-                stepCompletion[index] && currentStepIndex > index
-                  ? "✓"
-                  : index + 1
-              }}
+              {{ stepCompletion[index] && currentStepIndex > index ? '✓' : index + 1 }}
             </div>
             <div class="step-label">{{ step }}</div>
           </div>
@@ -338,11 +327,7 @@ onMounted(() => {
           <h3>Bestellübersicht</h3>
 
           <div class="order-items">
-            <div
-              v-for="item in cartStore.items"
-              :key="item.id"
-              class="order-item-summary"
-            >
+            <div v-for="item in cartStore.items" :key="item.id" class="order-item-summary">
               <div class="item-summary-info">
                 <span class="item-name">{{ item.name }}</span>
                 <span class="item-qty">{{ item.quantity }}×</span>
@@ -394,9 +379,7 @@ onMounted(() => {
           <!-- STEP 1: Shipping Address -->
           <section v-if="currentStep === 'shipping'" class="checkout-step">
             <h2>Lieferadresse</h2>
-            <p class="step-description">
-              Geben Sie bitte Ihre Lieferadresse ein
-            </p>
+            <p class="step-description">Geben Sie bitte Ihre Lieferadresse ein</p>
 
             <form @submit.prevent="nextStep">
               <div class="form-grid">
@@ -409,15 +392,9 @@ onMounted(() => {
                     placeholder="Max"
                     required
                     :aria-invalid="!!errors.firstName"
-                    :aria-describedby="
-                      errors.firstName ? 'firstName-error' : undefined
-                    "
+                    :aria-describedby="errors.firstName ? 'firstName-error' : undefined"
                   />
-                  <p
-                    v-if="errors.firstName"
-                    id="firstName-error"
-                    class="error-message"
-                  >
+                  <p v-if="errors.firstName" id="firstName-error" class="error-message">
                     {{ errors.firstName }}
                   </p>
                 </div>
@@ -431,15 +408,9 @@ onMounted(() => {
                     placeholder="Mustermann"
                     required
                     :aria-invalid="!!errors.lastName"
-                    :aria-describedby="
-                      errors.lastName ? 'lastName-error' : undefined
-                    "
+                    :aria-describedby="errors.lastName ? 'lastName-error' : undefined"
                   />
-                  <p
-                    v-if="errors.lastName"
-                    id="lastName-error"
-                    class="error-message"
-                  >
+                  <p v-if="errors.lastName" id="lastName-error" class="error-message">
                     {{ errors.lastName }}
                   </p>
                 </div>
@@ -453,15 +424,9 @@ onMounted(() => {
                     placeholder="Hauptstraße 123"
                     required
                     :aria-invalid="!!errors.street"
-                    :aria-describedby="
-                      errors.street ? 'street-error' : undefined
-                    "
+                    :aria-describedby="errors.street ? 'street-error' : undefined"
                   />
-                  <p
-                    v-if="errors.street"
-                    id="street-error"
-                    class="error-message"
-                  >
+                  <p v-if="errors.street" id="street-error" class="error-message">
                     {{ errors.street }}
                   </p>
                 </div>
@@ -476,15 +441,9 @@ onMounted(() => {
                     pattern="\d{5}"
                     required
                     :aria-invalid="!!errors.zipCode"
-                    :aria-describedby="
-                      errors.zipCode ? 'zipCode-error' : undefined
-                    "
+                    :aria-describedby="errors.zipCode ? 'zipCode-error' : undefined"
                   />
-                  <p
-                    v-if="errors.zipCode"
-                    id="zipCode-error"
-                    class="error-message"
-                  >
+                  <p v-if="errors.zipCode" id="zipCode-error" class="error-message">
                     {{ errors.zipCode }}
                   </p>
                 </div>
@@ -512,9 +471,7 @@ onMounted(() => {
                     v-model="form.country"
                     required
                     :aria-invalid="!!errors.country"
-                    :aria-describedby="
-                      errors.country ? 'country-error' : undefined
-                    "
+                    :aria-describedby="errors.country ? 'country-error' : undefined"
                   >
                     <option value="Germany">Deutschland</option>
                     <option value="Austria">Österreich</option>
@@ -522,11 +479,7 @@ onMounted(() => {
                     <option value="France">Frankreich</option>
                     <option value="Netherlands">Niederlande</option>
                   </select>
-                  <p
-                    v-if="errors.country"
-                    id="country-error"
-                    class="error-message"
-                  >
+                  <p v-if="errors.country" id="country-error" class="error-message">
                     {{ errors.country }}
                   </p>
                 </div>
@@ -536,11 +489,7 @@ onMounted(() => {
                 <button type="button" class="btn btn-secondary" @click="goBack">
                   ← Zurück zum Warenkorb
                 </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  :disabled="!isFormValid"
-                >
+                <button type="submit" class="btn btn-primary" :disabled="!isFormValid">
                   Weiter zu Versand →
                 </button>
               </div>
@@ -548,14 +497,9 @@ onMounted(() => {
           </section>
 
           <!-- STEP 2: Shipping Method Selection -->
-          <section
-            v-if="currentStep === 'shipping-method'"
-            class="checkout-step"
-          >
+          <section v-if="currentStep === 'shipping-method'" class="checkout-step">
             <h2>Versandart</h2>
-            <p class="step-description">
-              Wählen Sie Ihre bevorzugte Versandart
-            </p>
+            <p class="step-description">Wählen Sie Ihre bevorzugte Versandart</p>
 
             <div class="shipping-options">
               <div
@@ -582,9 +526,7 @@ onMounted(() => {
                   <div class="shipping-description">
                     {{ method.description }}
                   </div>
-                  <div class="shipping-days">
-                    ⏱️ Lieferzeit: ca. {{ method.days }} Werktag(e)
-                  </div>
+                  <div class="shipping-days">⏱️ Lieferzeit: ca. {{ method.days }} Werktag(e)</div>
                 </div>
                 <div class="shipping-price">
                   {{ formatPrice(method.price) }}
@@ -625,11 +567,7 @@ onMounted(() => {
                   {{ form.zipCode }} {{ form.city }}<br />
                   {{ form.country }}
                 </p>
-                <button
-                  type="button"
-                  class="link-button"
-                  @click="currentStep = 'shipping'"
-                >
+                <button type="button" class="link-button" @click="currentStep = 'shipping'">
                   ✏️ Bearbeiten
                 </button>
               </div>
@@ -645,11 +583,7 @@ onMounted(() => {
                   {{ selectedShippingMethod.description }}<br />
                   Kosten: {{ formatPrice(selectedShippingMethod.price) }}
                 </p>
-                <button
-                  type="button"
-                  class="link-button"
-                  @click="currentStep = 'shipping-method'"
-                >
+                <button type="button" class="link-button" @click="currentStep = 'shipping-method'">
                   ✏️ Bearbeiten
                 </button>
               </div>
@@ -722,8 +656,8 @@ onMounted(() => {
               <div class="notice-content">
                 <p class="notice-title">Preisangabenverordnung (PAngV)</p>
                 <p class="notice-text">
-                  Alle angezeigten Preise sind Endpreise und enthalten bereits
-                  die gesetzliche Mehrwertsteuer (MwSt) in Höhe von 19%.
+                  Alle angezeigten Preise sind Endpreise und enthalten bereits die gesetzliche
+                  Mehrwertsteuer (MwSt) in Höhe von 19%.
                 </p>
               </div>
             </div>
@@ -745,7 +679,7 @@ onMounted(() => {
               >
                 {{
                   isSubmitting
-                    ? "Bestellung wird verarbeitet..."
+                    ? 'Bestellung wird verarbeitet...'
                     : `Bestellung abschließen (${formatPrice(total)})`
                 }}
               </button>
@@ -818,7 +752,7 @@ onMounted(() => {
 }
 
 .progress-step::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 1.5rem;
   left: 0;
@@ -1110,8 +1044,8 @@ onMounted(() => {
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
-.form-group input[aria-invalid="true"],
-.form-group select[aria-invalid="true"] {
+.form-group input[aria-invalid='true'],
+.form-group select[aria-invalid='true'] {
   border-color: #d32f2f;
 }
 

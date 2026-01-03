@@ -18,9 +18,7 @@
             required
           />
           <button type="submit" class="submit-button" :disabled="loading">
-            {{
-              loading ? "Subscribing..." : settings.buttonText || "Subscribe"
-            }}
+            {{ loading ? 'Subscribing...' : settings.buttonText || 'Subscribe' }}
           </button>
         </div>
         <div v-if="successMessage" class="success-message">
@@ -35,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue';
 
 interface Props {
   settings?: {
@@ -52,30 +50,30 @@ const props = withDefaults(defineProps<Props>(), {
   settings: () => ({}),
 });
 
-const email = ref("");
+const email = ref('');
 const loading = ref(false);
-const successMessage = ref("");
-const errorMessage = ref("");
+const successMessage = ref('');
+const errorMessage = ref('');
 
 const containerStyles = computed(() => ({
-  backgroundColor: props.settings.backgroundColor || "#f8f9fa",
-  color: props.settings.textColor || "#000",
-  padding: "2rem 1rem",
-  borderRadius: "8px",
+  backgroundColor: props.settings.backgroundColor || '#f8f9fa',
+  color: props.settings.textColor || '#000',
+  padding: '2rem 1rem',
+  borderRadius: '8px',
 }));
 
 const handleSubmit = async () => {
   loading.value = true;
-  successMessage.value = "";
-  errorMessage.value = "";
+  successMessage.value = '';
+  errorMessage.value = '';
 
   try {
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    successMessage.value = "Thank you for subscribing!";
-    email.value = "";
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    successMessage.value = 'Thank you for subscribing!';
+    email.value = '';
   } catch (error) {
-    errorMessage.value = "Failed to subscribe. Please try again.";
+    errorMessage.value = 'Failed to subscribe. Please try again.';
   } finally {
     loading.value = false;
   }

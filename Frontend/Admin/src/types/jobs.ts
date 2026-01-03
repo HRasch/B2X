@@ -4,14 +4,14 @@ export interface Job {
   id: string;
   name: string;
   type:
-    | "data-sync"
-    | "report-generation"
-    | "email-campaign"
-    | "image-processing"
-    | "etl"
-    | "backup"
-    | "custom";
-  status: "pending" | "running" | "completed" | "failed" | "cancelled";
+    | 'data-sync'
+    | 'report-generation'
+    | 'email-campaign'
+    | 'image-processing'
+    | 'etl'
+    | 'backup'
+    | 'custom';
+  status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
   progress: number;
   startedAt?: Date;
   completedAt?: Date;
@@ -26,7 +26,7 @@ export interface Job {
 export interface JobLog {
   id: string;
   jobId: string;
-  level: "info" | "warning" | "error" | "debug";
+  level: 'info' | 'warning' | 'error' | 'debug';
   message: string;
   timestamp: Date;
   data?: Record<string, any>;
@@ -63,4 +63,46 @@ export interface JobState {
   isMonitoring: boolean;
   loading: boolean;
   error: string | null;
+}
+
+// ============================================================================
+// API Error Types
+// ============================================================================
+
+export interface JobsApiError {
+  message: string;
+  code?: string;
+  details?: unknown[];
+}
+
+export interface JobValidationError {
+  field: string;
+  message: string;
+  code: string;
+}
+
+export interface JobExecutionError {
+  jobId: string;
+  errorCode: string;
+  errorMessage: string;
+  stackTrace?: string;
+  timestamp: Date;
+}
+
+// ============================================================================
+// API Response Types
+// ============================================================================
+
+export interface JobFilters {
+  status?: Job['status'];
+  type?: Job['type'];
+  createdBy?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
+}
+
+export interface ScheduledJobFilters {
+  isActive?: boolean;
+  jobType?: string;
+  search?: string;
 }

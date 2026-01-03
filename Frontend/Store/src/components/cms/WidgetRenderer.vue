@@ -29,14 +29,10 @@ const widgetComponent = computed(() => {
     // Convert the componentPath to a proper import path
     // componentPath: 'widgets/HeroBanner.vue' -> './widgets/HeroBanner.vue'
     const importPath = `./${props.widget.componentPath}`;
-    return defineAsyncComponent(() =>
-      import(importPath)
-    );
+    return defineAsyncComponent(() => import(importPath));
   } catch (err) {
     console.error(`Failed to load widget: ${props.widget.widgetTypeId}`, err);
-    return defineAsyncComponent(() =>
-      import('@/components/cms/WidgetNotFound.vue')
-    );
+    return defineAsyncComponent(() => import('@/components/cms/WidgetNotFound.vue'));
   }
 });
 </script>

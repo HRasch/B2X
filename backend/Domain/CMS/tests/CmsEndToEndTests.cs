@@ -15,7 +15,7 @@ namespace B2Connect.CMS.Tests;
 /// </summary>
 public class CmsEndToEndTests
 {
-    private readonly IWidgetRegistry _registry;
+    private readonly WidgetRegistry _registry;
     private readonly Mock<IPageRepository> _repositoryMock;
     private readonly GetPageDefinitionQueryHandler _queryHandler;
 

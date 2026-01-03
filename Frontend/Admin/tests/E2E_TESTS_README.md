@@ -5,12 +5,14 @@ Umfassende End-to-End Tests für das B2Connect Admin Frontend mit Playwright.
 ## Test-Übersicht
 
 ### 1. **auth.spec.ts** - Authentifizierung
+
 - Login mit gültigen/ungültigen Credentials
 - Token Management
 - Session Persistence
 - Dashboard Navigation nach Login
 
 ### 2. **cms.spec.ts** - CMS/Pages Management
+
 - Pages Liste laden
 - API Response Validierung (`/api/layout/pages`)
 - Navigation zu Page Details
@@ -18,6 +20,7 @@ Umfassende End-to-End Tests für das B2Connect Admin Frontend mit Playwright.
 - API-Routing Validierung
 
 ### 3. **shop.spec.ts** - Catalog/Products Management
+
 - Products Liste laden
 - Categories Liste laden
 - API Response Validierung (`/api/v1/products`, `/api/v1/categories`)
@@ -26,6 +29,7 @@ Umfassende End-to-End Tests für das B2Connect Admin Frontend mit Playwright.
 - API-Routing Validierung
 
 ### 4. **integration.spec.ts** - API Gateway Integration
+
 - API Gateway Routing (`/api/v1/*` → CatalogService)
 - API Gateway Routing (`/api/layout/*` → LayoutService)
 - Paginated Responses
@@ -34,6 +38,7 @@ Umfassende End-to-End Tests für das B2Connect Admin Frontend mit Playwright.
 - 404 Error Prevention auf allen Admin Pages
 
 ### 5. **performance.spec.ts** - Performance & Zuverlässigkeit
+
 - Seitenladezeit (< 10 Sekunden)
 - API Response Zeit (< 5 Sekunden)
 - Rapid Navigation Handling
@@ -45,21 +50,25 @@ Umfassende End-to-End Tests für das B2Connect Admin Frontend mit Playwright.
 ## Ausführung
 
 ### Alle Tests
+
 ```bash
 npm run e2e
 ```
 
 ### Tests mit UI (interaktiv)
+
 ```bash
 npm run e2e:ui
 ```
 
 ### Tests im Debug-Modus
+
 ```bash
 npm run e2e:debug
 ```
 
 ### Spezifische Test Suite
+
 ```bash
 npx playwright test tests/e2e/cms.spec.ts
 npx playwright test tests/e2e/shop.spec.ts
@@ -67,6 +76,7 @@ npx playwright test tests/e2e/integration.spec.ts
 ```
 
 ### Tests mit Report
+
 ```bash
 npx playwright test
 npx playwright show-report
@@ -91,6 +101,7 @@ npx playwright show-report
 ## Test-Konfiguration
 
 Siehe `playwright.config.ts`:
+
 - Base URL: `http://localhost:5174`
 - Screenshots: Bei Fehlern
 - Videos: Bei Fehlern
@@ -101,6 +112,7 @@ Siehe `playwright.config.ts`:
 ## Key Test Scenarios
 
 ### ✅ API Gateway Routing
+
 ```typescript
 /api/v1/products     → CatalogService:9001
 /api/layout/pages    → LayoutService:9005
@@ -108,17 +120,20 @@ Siehe `playwright.config.ts`:
 ```
 
 ### ✅ Frontend Routes
+
 - `/catalog/products` → Produkte Liste
 - `/catalog/categories` → Kategorien Liste
 - `/catalog/brands` → Marken Liste
 - `/cms/pages` → Seiten Liste
 
 ### ✅ Error Handling
+
 - 404 Prevention auf allen Admin Pages
 - Network Failure Recovery
 - Graceful Error Display
 
 ### ✅ Performance Targets
+
 - Page Load: < 10s
 - API Response: < 5s
 - No UI Freezing
@@ -126,21 +141,25 @@ Siehe `playwright.config.ts`:
 ## Troubleshooting
 
 ### Tests schlagen fehl mit "Unable to connect"
+
 - Stelle sicher, dass Backend läuft: `dotnet run` im AppHost
 - Stelle sicher, dass Frontend läuft: `npm run dev`
 - Prüfe Port-Konfigurationen in `playwright.config.ts`
 
 ### "404 Not Found" Fehler
+
 - Prüfe API Gateway Routing in `appsettings.json`
 - Verifiziere Services in AppHost starten
 - Check CatalogService (9001) und LayoutService (9005)
 
 ### Tests sind langsam
+
 - Erhöhe Timeouts in `playwright.config.ts`
 - Prüfe Network Performance
 - Überprüfe Backend Performance
 
 ### Login schlägt fehl
+
 - Verifiziere Auth Service läuft (Port 9002)
 - Prüfe Test-Credentials: `admin@example.com` / `password`
 - Prüfe localStorage für authToken
@@ -156,6 +175,7 @@ CI=true npm run e2e  # Mit CI-Konfiguration
 ```
 
 Playwright konfiguriert sich automatisch für CI (see `playwright.config.ts`):
+
 - `forbidOnly: !!process.env.CI`
 - `retries: process.env.CI ? 2 : 0`
 - `workers: process.env.CI ? 1 : undefined`
@@ -163,6 +183,7 @@ Playwright konfiguriert sich automatisch für CI (see `playwright.config.ts`):
 ## Test-Abdeckung
 
 Aktuell abgedeckt:
+
 - ✅ Authentication Flow
 - ✅ CMS Management
 - ✅ Catalog Management
@@ -172,6 +193,7 @@ Aktuell abgedeckt:
 - ✅ Dark Mode Styling
 
 Zukünftig:
+
 - ⏳ Job Queue Management
 - ⏳ User Management
 - ⏳ Store Frontend Tests
@@ -187,6 +209,7 @@ npx playwright show-report
 ```
 
 Report enthält:
+
 - Test Results (✅/❌)
 - Screenshots (bei Fehlern)
 - Videos (bei Fehlern)

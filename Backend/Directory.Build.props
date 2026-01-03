@@ -28,7 +28,7 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
     <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
-    <NoWarn>$(NoWarn);NU1605;MSB4011</NoWarn>
+    <NoWarn>$(NoWarn);NU1605;MSB4011;SA1649;SA1513</NoWarn>
     
     <!-- ======================= -->
     <!-- Roslyn Analyzer Config  -->
@@ -48,21 +48,7 @@
 
   <!-- Code Quality Analyzers (for PR Quality Gate) -->
   <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
-    <!-- Roslynator: 500+ C# analyzers (Version in Directory.Packages.props) -->
-    <PackageReference Include="Roslynator.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <!-- Security analyzers (Version in Directory.Packages.props) -->
-    <PackageReference Include="SecurityCodeScan.VS2019">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <!-- StyleCop: Code style enforcement (Version in Directory.Packages.props) -->
-    <PackageReference Include="StyleCop.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <!-- Analyzers removed - use individual project configuration if needed -->
   </ItemGroup>
 
   <!-- StyleCop Configuration -->

@@ -5,8 +5,8 @@
  * Works seamlessly with Faker (development) or real ERP (production)
  */
 
-import { ref, computed, reactive } from "vue";
-import type { Ref, ComputedRef } from "vue";
+import { ref, computed, reactive } from 'vue';
+import type { Ref, ComputedRef } from 'vue';
 
 /**
  * ERP Customer DTO from backend
@@ -19,7 +19,7 @@ export interface ErpCustomer {
   shippingAddress?: string;
   billingAddress?: string;
   country: string;
-  businessType: "PRIVATE" | "BUSINESS";
+  businessType: 'PRIVATE' | 'BUSINESS';
   isActive: boolean;
   creditLimit?: number;
   lastOrderDate?: string;
@@ -67,14 +67,12 @@ export function useErpIntegration() {
   const lastLookupTime: Ref<number | null> = ref(null);
 
   // Computed states
-  const hasCustomer: ComputedRef<boolean> = computed(
-    () => customer.value !== null
-  );
+  const hasCustomer: ComputedRef<boolean> = computed(() => customer.value !== null);
   const isPrivateCustomer: ComputedRef<boolean> = computed(
-    () => customer.value?.businessType === "PRIVATE" || false
+    () => customer.value?.businessType === 'PRIVATE' || false
   );
   const isBusinessCustomer: ComputedRef<boolean> = computed(
-    () => customer.value?.businessType === "BUSINESS" || false
+    () => customer.value?.businessType === 'BUSINESS' || false
   );
 
   /**
@@ -82,15 +80,13 @@ export function useErpIntegration() {
    * @param email Customer email address
    * @returns Validation result with customer data
    */
-  const validateCustomerEmail = async (
-    email: string
-  ): Promise<ValidationResult> => {
-    if (!email || !email.includes("@")) {
+  const validateCustomerEmail = async (email: string): Promise<ValidationResult> => {
+    if (!email || !email.includes('@')) {
       return {
         isValid: false,
         customer: null,
-        error: "INVALID_EMAIL",
-        message: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+        error: 'INVALID_EMAIL',
+        message: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
       };
     }
 
@@ -99,9 +95,9 @@ export function useErpIntegration() {
     const startTime = performance.now();
 
     try {
-      const response = await fetch("/api/auth/erp/validate-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/auth/erp/validate-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
@@ -113,8 +109,8 @@ export function useErpIntegration() {
         return {
           isValid: false,
           customer: null,
-          error: data.error || "LOOKUP_FAILED",
-          message: data.message || "Fehler bei der Kundensuche",
+          error: data.error || 'LOOKUP_FAILED',
+          message: data.message || 'Fehler bei der Kundensuche',
           loadingMs,
         };
       }
@@ -128,14 +124,13 @@ export function useErpIntegration() {
       };
     } catch (err) {
       const loadingMs = Math.round(performance.now() - startTime);
-      const errorMessage =
-        err instanceof Error ? err.message : "Unbekannter Fehler";
+      const errorMessage = err instanceof Error ? err.message : 'Unbekannter Fehler';
       error.value = errorMessage;
 
       return {
         isValid: false,
         customer: null,
-        error: "NETWORK_ERROR",
+        error: 'NETWORK_ERROR',
         message: `Verbindungsfehler: ${errorMessage}`,
         loadingMs,
       };
@@ -149,15 +144,13 @@ export function useErpIntegration() {
    * @param customerNumber Customer number (e.g., "CUST-001")
    * @returns Validation result with customer data
    */
-  const validateCustomerNumber = async (
-    customerNumber: string
-  ): Promise<ValidationResult> => {
+  const validateCustomerNumber = async (customerNumber: string): Promise<ValidationResult> => {
     if (!customerNumber || customerNumber.trim().length === 0) {
       return {
         isValid: false,
         customer: null,
-        error: "INVALID_CUSTOMER_NUMBER",
-        message: "Kundennummer erforderlich",
+        error: 'INVALID_CUSTOMER_NUMBER',
+        message: 'Kundennummer erforderlich',
       };
     }
 
@@ -166,9 +159,9 @@ export function useErpIntegration() {
     const startTime = performance.now();
 
     try {
-      const response = await fetch("/api/auth/erp/validate-number", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/auth/erp/validate-number', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ customerNumber }),
       });
 
@@ -180,8 +173,8 @@ export function useErpIntegration() {
         return {
           isValid: false,
           customer: null,
-          error: data.error || "LOOKUP_FAILED",
-          message: data.message || "Kunde nicht gefunden",
+          error: data.error || 'LOOKUP_FAILED',
+          message: data.message || 'Kunde nicht gefunden',
           loadingMs,
         };
       }
@@ -195,14 +188,13 @@ export function useErpIntegration() {
       };
     } catch (err) {
       const loadingMs = Math.round(performance.now() - startTime);
-      const errorMessage =
-        err instanceof Error ? err.message : "Unbekannter Fehler";
+      const errorMessage = err instanceof Error ? err.message : 'Unbekannter Fehler';
       error.value = errorMessage;
 
       return {
         isValid: false,
         customer: null,
-        error: "NETWORK_ERROR",
+        error: 'NETWORK_ERROR',
         message: `Verbindungsfehler: ${errorMessage}`,
         loadingMs,
       };

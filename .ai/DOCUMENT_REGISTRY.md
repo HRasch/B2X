@@ -51,6 +51,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-022` | Multi-Tenant Domain Management | `.ai/decisions/ADR-022-multi-tenant-domain-management.md` | Proposed |
 | `ADR-023` | ERP Plugin Architecture | `.ai/decisions/ADR-023-erp-plugin-architecture.md` | Proposed |
 | `ADR-024` | Scheduler Job Monitoring | `.ai/decisions/ADR-024-scheduler-job-monitoring.md` | Accepted |
+| `ADR-025` | Gateway-Service Communication Strategy | `.ai/decisions/ADR-025-gateway-service-communication-strategy.md` | Accepted |
+| `ADR-026` | BMEcat Catalog Import Architecture | `.ai/decisions/ADR-026-bmecat-catalog-import-architecture.md` | Proposed |
+| `ADR-027` | Email Template Engine Selection | `.ai/decisions/ADR-027-email-template-engine.md` | Accepted |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -81,6 +84,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-019` | StyleCop Analyzers | `.ai/knowledgebase/tools-and-tech/stylecop-analyzers.md` | Active |
 | `KB-020` | ArchUnitNET | `.ai/knowledgebase/tools-and-tech/archunitnet.md` | Active |
 | `KB-021` | enventa Trade ERP | `.ai/knowledgebase/enventa-trade-erp.md` | Active |
+| `KB-022` | GitHub Copilot Customization | `.ai/knowledgebase/tools-and-tech/github-copilot-customization.md` | Active |
+| `KB-023` | Email Template Best Practices | `.ai/knowledgebase/best-practices/email-templates.md` | Active |
+| `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 
 ### Knowledgebase Subdirectories
 
@@ -106,6 +112,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-004` | Branch Naming & Single-Topic Strategy | `.ai/guidelines/GL-004-BRANCH_NAMING_STRATEGY.md` | Active |
 | `GL-005` | SARAH Quality Gate Criteria | `.ai/guidelines/GL-005-SARAH_QUALITY_GATE_CRITERIA.md` | Active |
 | `GL-006` | Token Optimization Strategy | `.ai/guidelines/GL-006-TOKEN-OPTIMIZATION-STRATEGY.md` | Active |
+| `GL-007` | Lessons Learned Maintenance Strategy | `.ai/guidelines/GL-007-lessons-maintenance-strategy.md` | Active |
 
 ---
 
@@ -137,6 +144,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `REQ-001` | Monitoring for Scheduler Jobs | `.ai/requirements/REQ-001-monitoring-scheduler-jobs.md` | Draft |
+| `REQ-002` | BMEcat Katalog Import | `.ai/requirements/REQ-002-bmecat-import.md` | Draft |
+| `REQ-003` | Email Template System | `.ai/requirements/REQ-003-email-template-system.md` | Draft |
 
 ---
 
@@ -160,21 +169,21 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Command |
 |-------|-------|-----------|---------|
 | `PRM-INDEX` | Prompt Index | `.ai/collaboration/PROMPTS_INDEX.md` | - |
-| `PRM-001` | Start Feature | `.github/prompts/start-feature.prompt.md` | `/start-feature` |
-| `PRM-002` | Code Review | `.github/prompts/code-review.prompt.md` | `/code-review` |
-| `PRM-003` | Run Tests | `.github/prompts/run-tests.prompt.md` | `/run-tests` |
-| `PRM-004` | Deploy | `.github/prompts/deploy.prompt.md` | `/deploy` |
-| `PRM-005` | Security Audit | `.github/prompts/security-audit.prompt.md` | `/security-audit` |
-| `PRM-006` | ADR Create | `.github/prompts/adr-create.prompt.md` | `/adr-create` |
-| `PRM-007` | Iteration Cycle | `.github/prompts/iteration-cycle.prompt.md` | `/iteration-cycle` |
-| `PRM-008` | Bug Analysis | `.github/prompts/bug-analysis.prompt.md` | `/bug-analysis` |
-| `PRM-009` | Feature Handover | `.github/prompts/feature-handover.prompt.md` | `/feature-handover` |
-| `PRM-010` | Requirements Analysis | `.github/prompts/requirements-analysis.prompt.md` | `/requirements-analysis` |
-| `PRM-011` | Agent Removal | `.github/prompts/agent-removal.prompt.md` | `/agent-removal` |
-| `PRM-012` | Agent Creation | `.github/prompts/agent-creation.prompt.md` | `/agent-creation` |
-| `PRM-013` | Context Optimization | `.github/prompts/context-optimization.prompt.md` | `/context-optimization` |
-| `PRM-014` | Subagent Delegation | `.github/prompts/subagent-delegation.prompt.md` | `/subagent-delegation` |
-| `PRM-015` | Project Cleanup | `.github/prompts/project-cleanup.prompt.md` | `/project-cleanup` |
+| `PRM-001` | Start Feature | `.ai/prompts/start-feature.prompt.md` | `/start-feature` |
+| `PRM-002` | Code Review | `.ai/prompts/code-review.prompt.md` | `/code-review` |
+| `PRM-003` | Run Tests | `.ai/prompts/run-tests.prompt.md` | `/run-tests` |
+| `PRM-004` | Deploy | `.ai/prompts/deploy.prompt.md` | `/deploy` |
+| `PRM-005` | Security Audit | `.ai/prompts/security-audit.prompt.md` | `/security-audit` |
+| `PRM-006` | ADR Create | `.ai/prompts/adr-create.prompt.md` | `/adr-create` |
+| `PRM-007` | Iteration Cycle | `.ai/prompts/iteration-cycle.prompt.md` | `/iteration-cycle` |
+| `PRM-008` | Bug Analysis | `.ai/prompts/bug-analysis.prompt.md` | `/bug-analysis` |
+| `PRM-009` | Feature Handover | `.ai/prompts/feature-handover.prompt.md` | `/feature-handover` |
+| `PRM-010` | Requirements Analysis | `.ai/prompts/requirements-analysis.prompt.md` | `/requirements-analysis` |
+| `PRM-011` | Agent Removal | `.ai/prompts/agent-removal.prompt.md` | `/agent-removal` |
+| `PRM-012` | Agent Creation | `.ai/prompts/agent-creation.prompt.md` | `/agent-creation` |
+| `PRM-013` | Context Optimization | `.ai/prompts/context-optimization.prompt.md` | `/context-optimization` |
+| `PRM-014` | Subagent Delegation | `.ai/prompts/subagent-delegation.prompt.md` | `/subagent-delegation` |
+| `PRM-015` | Project Cleanup | `.ai/prompts/project-cleanup.prompt.md` | `/project-cleanup` |
 
 ---
 
@@ -211,16 +220,25 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-015` | GitManager | `.github/agents/git-manager.agent.md` | Git Workflow |
 | `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation |
 | `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
+| `AGT-018` | CopilotExpert | `.github/agents/copilot-expert.agent.md` | Copilot Configuration |
+
+**CopilotExpert (AGT-018) EXCLUSIVE Authority:**
+- **ONLY @CopilotExpert** may create, modify, or delete agent definitions (`.github/agents/`)
+- **ONLY @CopilotExpert** may create, modify, or delete prompt files (`.github/prompts/`)
+- **ONLY @CopilotExpert** may create, modify, or delete instruction files (`.github/instructions/`)
+- **ONLY @CopilotExpert** may modify MCP configuration (`.vscode/mcp.json`)
+- Other agents must REQUEST changes via @CopilotExpert
+- Policy-level changes require @SARAH approval
 
 **DocMaintainer (AGT-016) Responsibilities:**
 - Enforce and extend the DocID naming conventions (`GL-`, `WF-`, `CMP-`, `SPR-`, etc.) when new document types are introduced.
 - Maintain `.ai/DOCUMENT_REGISTRY.md` entries when docs are added, renamed, or archived.
 - Run periodic link checks and create audit logs under `.ai/logs/documentation/`.
-- Update cross-references across `.ai/` and `.github/prompts/` to ensure links stay current.
+- Update cross-references across `.ai/` to ensure links stay current.
 - When policy decisions are needed (naming, retention), open an issue and notify `@SARAH`.
+- **Note:** @DocMaintainer may NOT modify `.github/agents/`, `.github/prompts/`, `.github/instructions/` (owned by @CopilotExpert)
 
 **Default Agent**: `@SARAH` — Coordinator and primary default for unspecified agent prompts. SARAH is the authoritative coordinator for agent workflows and quality gates.
-| `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation |
 
 ---
 

@@ -8,6 +8,8 @@
         <router-link to="/dashboard">Dashboard</router-link>
         <router-link to="/stores">Stores</router-link>
         <router-link to="/admins">Administrators</router-link>
+        <router-link to="/email-monitoring">Email Monitoring</router-link>
+        <router-link to="/email-messages">Email Messages</router-link>
         <router-link to="/settings">Settings</router-link>
         <button @click="logout" class="btn-logout">Logout</button>
       </div>
@@ -24,16 +26,16 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/authStore'
-import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from 'vue-router';
 
-const authStore = useAuthStore()
-const router = useRouter()
+const authStore = useAuthStore();
+const router = useRouter();
 
 const logout = () => {
-  authStore.logout()
-  router.push('/login')
-}
+  authStore.logout();
+  router.push('/login');
+};
 </script>
 
 <style scoped>

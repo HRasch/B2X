@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>B2Connect.ERP.Abstractions</RootNamespace>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <Description>
+      ERP abstraction contracts for HTTP communication between B2Connect (.NET 10) 
+      and ERP Connector (.NET Framework 4.8). Supports massive data loads via 
+      cursor-based pagination, delta sync, chunked streaming, and batch operations.
+    </Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Core serialization - compatible with .NET 4.8 via NuGet -->
+    <PackageReference Include="System.ComponentModel.Annotations" />
+  </ItemGroup>
+
+</Project>

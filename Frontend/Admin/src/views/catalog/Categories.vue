@@ -37,11 +37,7 @@
           <p>No categories found. Create your first category!</p>
         </div>
         <div v-else>
-          <div
-            v-for="category in rootCategories"
-            :key="category.id"
-            class="category-item"
-          >
+          <div v-for="category in rootCategories" :key="category.id" class="category-item">
             <div class="category-header">
               <div class="category-info">
                 <h3>{{ getLocalizedName(category.name) }}</h3>
@@ -50,25 +46,16 @@
                 </p>
               </div>
               <div class="category-actions">
-                <button
-                  @click="goToEdit(category.id)"
-                  class="btn btn-sm btn-secondary"
-                >
+                <button @click="goToEdit(category.id)" class="btn btn-sm btn-secondary">
                   Edit
                 </button>
-                <button
-                  @click="confirmDelete(category.id)"
-                  class="btn btn-sm btn-danger"
-                >
+                <button @click="confirmDelete(category.id)" class="btn btn-sm btn-danger">
                   Delete
                 </button>
               </div>
             </div>
             <!-- Subcategories -->
-            <div
-              v-if="getCategoryChildren(category.id).length > 0"
-              class="subcategories"
-            >
+            <div v-if="getCategoryChildren(category.id).length > 0" class="subcategories">
               <div
                 v-for="subcat in getCategoryChildren(category.id)"
                 :key="subcat.id"
@@ -82,16 +69,10 @@
                     </p>
                   </div>
                   <div class="category-actions">
-                    <button
-                      @click="goToEdit(subcat.id)"
-                      class="btn btn-sm btn-secondary"
-                    >
+                    <button @click="goToEdit(subcat.id)" class="btn btn-sm btn-secondary">
                       Edit
                     </button>
-                    <button
-                      @click="confirmDelete(subcat.id)"
-                      class="btn btn-sm btn-danger"
-                    >
+                    <button @click="confirmDelete(subcat.id)" class="btn btn-sm btn-danger">
                       Delete
                     </button>
                   </div>
@@ -105,33 +86,22 @@
 
     <!-- Pagination -->
     <div v-if="!loading && categoriesTotal > 0" class="pagination">
-      <button
-        @click="previousPage"
-        :disabled="categoriesPagination.skip === 0"
-        class="btn btn-sm"
-      >
+      <button @click="previousPage" :disabled="categoriesPagination.skip === 0" class="btn btn-sm">
         Previous
       </button>
       <span class="page-info">
         Page {{ currentPage }} of {{ totalPages }} ({{ categoriesTotal }} total)
       </span>
-      <button
-        @click="nextPage"
-        :disabled="!hasMoreCategories"
-        class="btn btn-sm"
-      >
-        Next
-      </button>
+      <button @click="nextPage" :disabled="!hasMoreCategories" class="btn btn-sm">Next</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-explicit-any -- Localized type needs proper definition */
-import { onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useCatalogStore } from "@/stores/catalog";
-import type { Category } from "@/types/catalog";
+import { onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCatalogStore } from '@/stores/catalog';
+import type { Category, LocalizedContent, LocalizedString } from '@/types/catalog';
 
 const router = useRouter();
 const catalogStore = useCatalogStore();
@@ -146,10 +116,7 @@ const categoriesPagination = computed(() => catalogStore.categoriesPagination);
 const hasMoreCategories = computed(() => catalogStore.hasMoreCategories);
 
 const currentPage = computed(
-  () =>
-    Math.floor(
-      categoriesPagination.value.skip / categoriesPagination.value.take
-    ) + 1
+  () => Math.floor(categoriesPagination.value.skip / categoriesPagination.value.take) + 1
 );
 const totalPages = computed(() =>
   Math.ceil(categoriesTotal.value / categoriesPagination.value.take)
@@ -161,24 +128,20 @@ const rootCategories = computed(() => {
 });
 
 // Methods
-function getLocalizedName(localized: any): string {
-  if (!localized || !localized.localizedStrings) return "N/A";
+function getLocalizedName(localized: LocalizedContent | undefined | null): string {
+  if (!localized || !localized.localizedStrings) return 'N/A';
   const english = localized.localizedStrings.find(
-    (s: any) => s.languageCode === "en-US"
+    (s: LocalizedString) => s.languageCode === 'en-US'
   );
-  return english
-    ? english.value
-    : localized.localizedStrings[0]?.value || "N/A";
+  return english ? english.value : localized.localizedStrings[0]?.value || 'N/A';
 }
 
 function getCategoryChildren(parentId: string): Category[] {
-  return categories.value.filter(
-    (cat: Category) => cat.parentCategoryId === parentId
-  );
+  return categories.value.filter((cat: Category) => cat.parentCategoryId === parentId);
 }
 
 function goToCreate() {
-  router.push("/catalog/categories/create");
+  router.push('/catalog/categories/create');
 }
 
 function goToEdit(id: string) {
@@ -189,34 +152,22 @@ function confirmDelete(id: string) {
   const category = categories.value.find((c: Category) => c.id === id);
   if (
     category &&
-    confirm(
-      `Are you sure you want to delete "${getLocalizedName(category.name)}"?`
-    )
+    confirm(`Are you sure you want to delete "${getLocalizedName(category.name)}"?`)
   ) {
     catalogStore.deleteCategory(id);
   }
 }
 
 function previousPage() {
-  const newSkip = Math.max(
-    0,
-    categoriesPagination.value.skip - categoriesPagination.value.take
-  );
-  catalogStore.setCategoriesPagination(
-    newSkip,
-    categoriesPagination.value.take
-  );
+  const newSkip = Math.max(0, categoriesPagination.value.skip - categoriesPagination.value.take);
+  catalogStore.setCategoriesPagination(newSkip, categoriesPagination.value.take);
   catalogStore.fetchCategories();
 }
 
 function nextPage() {
   if (hasMoreCategories.value) {
-    const newSkip =
-      categoriesPagination.value.skip + categoriesPagination.value.take;
-    catalogStore.setCategoriesPagination(
-      newSkip,
-      categoriesPagination.value.take
-    );
+    const newSkip = categoriesPagination.value.skip + categoriesPagination.value.take;
+    catalogStore.setCategoriesPagination(newSkip, categoriesPagination.value.take);
     catalogStore.fetchCategories();
   }
 }

@@ -70,7 +70,7 @@ catch (Exception ex)
 // Uses PostgreSQL with snake_case naming convention
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? "Host=localhost;Database=b2connect_catalog;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<B2Connect.CatalogService.Infrastructure.Data.CatalogDbContext>(options =>
+builder.Services.AddDbContext<B2Connect.Catalog.Infrastructure.Data.CatalogDbContext>(options =>
     options.UseNpgsql(connectionString)
         .UseSnakeCaseNamingConvention());
 
@@ -80,19 +80,28 @@ builder.Services.AddMemoryCache();
 // Issue #30: B2C Price Transparency (PAngV)
 // Add Tax Rate Services for VAT calculation
 builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ITaxRateRepository,
-    B2Connect.CatalogService.Infrastructure.Data.TaxRateRepository>();
+    B2Connect.Catalog.Infrastructure.Data.TaxRateRepository>();
 builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ITaxRateService,
     B2Connect.Catalog.Application.Handlers.TaxRateService>();
 builder.Services.AddScoped<B2Connect.Catalog.Application.Handlers.PriceCalculationService>();
 builder.Services.AddScoped<B2Connect.Catalog.Application.Validators.CalculatePriceValidator>();
+
+// BMEcat Import Services (REQ-002)
+builder.Services.AddScoped<B2Connect.Catalog.Application.Adapters.ICatalogImportAdapter,
+    B2Connect.Catalog.Application.Adapters.BmecatImportAdapter>();
+builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ICatalogImportRepository,
+    B2Connect.Catalog.Infrastructure.Data.CatalogImportRepository>();
+builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ICatalogProductRepository,
+    B2Connect.Catalog.Infrastructure.Data.CatalogProductRepository>();
+builder.Services.AddScoped<B2Connect.Catalog.Application.Handlers.CatalogImportService>();
 
 // TODO: Add application services (ProductService, QueryHandlers, etc.) once implemented
 // NOTE: Return Management Services moved to Customer domain (Story 8: Widerrufsmanagement)
 // The ReturnApiHandler, Validators, Repositories have been migrated to Customer domain
 // per domain migration strategy (PR #41)
 // Register CatalogService implementations and endpoint adapters
-builder.Services.AddScoped<B2Connect.CatalogService.Services.ISearchIndexService, B2Connect.CatalogService.Services.SearchIndexService>();
-builder.Services.AddScoped<B2Connect.CatalogService.Services.IProductService, B2Connect.CatalogService.Services.ProductService>();
+builder.Services.AddScoped<B2Connect.Catalog.Services.ISearchIndexService, B2Connect.Catalog.Services.SearchIndexService>();
+builder.Services.AddScoped<B2Connect.Catalog.Services.IProductService, B2Connect.Catalog.Services.ProductService>();
 
 builder.Services.AddScoped<B2Connect.Catalog.Endpoints.IProductService, B2Connect.Catalog.Endpoints.ProductServiceAdapter>();
 builder.Services.AddScoped<B2Connect.Catalog.Endpoints.ISearchIndexService, B2Connect.Catalog.Endpoints.SearchIndexAdapter>();

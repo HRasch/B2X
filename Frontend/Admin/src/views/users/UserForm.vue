@@ -1,7 +1,7 @@
 <template>
   <div class="form-container">
     <div class="form-header">
-      <h1>{{ isEdit ? "Benutzer bearbeiten" : "Neuer Benutzer" }}</h1>
+      <h1>{{ isEdit ? 'Benutzer bearbeiten' : 'Neuer Benutzer' }}</h1>
       <router-link to="/users" class="btn-back">← Zurück</router-link>
     </div>
 
@@ -94,11 +94,7 @@
 
           <div class="form-group">
             <label>
-              <input
-                v-model="form.isActive"
-                type="checkbox"
-                data-testid="isActive-input"
-              />
+              <input v-model="form.isActive" type="checkbox" data-testid="isActive-input" />
               Aktiv
             </label>
           </div>
@@ -182,12 +178,7 @@
 
         <div class="form-group">
           <label for="bio">Bio</label>
-          <textarea
-            id="bio"
-            v-model="profile.bio"
-            rows="4"
-            data-testid="bio-input"
-          ></textarea>
+          <textarea id="bio" v-model="profile.bio" rows="4" data-testid="bio-input"></textarea>
         </div>
 
         <div class="form-row">
@@ -222,11 +213,9 @@
 
       <!-- Submit Buttons -->
       <div class="form-actions">
-        <router-link to="/users" class="btn btn-secondary">
-          Abbrechen
-        </router-link>
+        <router-link to="/users" class="btn btn-secondary"> Abbrechen </router-link>
         <button type="submit" class="btn btn-primary" :disabled="submitting">
-          {{ submitting ? "Wird gespeichert..." : "Speichern" }}
+          {{ submitting ? 'Wird gespeichert...' : 'Speichern' }}
         </button>
       </div>
     </form>
@@ -234,10 +223,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useUserStore } from "@/stores/users";
-import type { User, UserProfile } from "@/types/user";
+import { ref, reactive, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/users';
+import type { User, UserProfile } from '@/types/user';
 
 const route = useRoute();
 const router = useRouter();
@@ -245,26 +234,26 @@ const userStore = useUserStore();
 
 const isEdit = ref(false);
 const submitting = ref(false);
-const submitError = ref("");
+const submitError = ref('');
 
 const form = reactive<Partial<User>>({
-  firstName: "",
-  lastName: "",
-  email: "",
-  phoneNumber: "",
+  firstName: '',
+  lastName: '',
+  email: '',
+  phoneNumber: '',
   isEmailVerified: false,
   isPhoneVerified: false,
   isActive: true,
 });
 
 const profile = reactive<Partial<UserProfile>>({
-  companyName: "",
-  jobTitle: "",
-  dateOfBirth: "",
-  nationality: "",
-  preferredLanguage: "de",
-  timezone: "Europe/Berlin",
-  bio: "",
+  companyName: '',
+  jobTitle: '',
+  dateOfBirth: '',
+  nationality: '',
+  preferredLanguage: 'de',
+  timezone: 'Europe/Berlin',
+  bio: '',
   receiveNewsletter: false,
   receivePromotionalEmails: false,
 });
@@ -278,15 +267,15 @@ onMounted(async () => {
       const user = await userStore.fetchUser(route.params.id as string);
       Object.assign(form, user);
     } catch {
-      submitError.value = "Benutzer konnte nicht geladen werden";
+      submitError.value = 'Benutzer konnte nicht geladen werden';
     }
   }
 });
 
 const validateForm = () => {
-  errors.firstName = !form.firstName ? "Vorname ist erforderlich" : "";
-  errors.lastName = !form.lastName ? "Nachname ist erforderlich" : "";
-  errors.email = !form.email ? "E-Mail ist erforderlich" : "";
+  errors.firstName = !form.firstName ? 'Vorname ist erforderlich' : '';
+  errors.lastName = !form.lastName ? 'Nachname ist erforderlich' : '';
+  errors.email = !form.email ? 'E-Mail ist erforderlich' : '';
 
   return !errors.firstName && !errors.lastName && !errors.email;
 };
@@ -295,7 +284,7 @@ const handleSubmit = async () => {
   if (!validateForm()) return;
 
   submitting.value = true;
-  submitError.value = "";
+  submitError.value = '';
 
   try {
     if (isEdit.value && route.params.id) {
@@ -304,10 +293,9 @@ const handleSubmit = async () => {
       await userStore.createUser(form);
     }
 
-    await router.push("/users");
+    await router.push('/users');
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Fehler beim Speichern";
+    const errorMessage = error instanceof Error ? error.message : 'Fehler beim Speichern';
     submitError.value = errorMessage;
   } finally {
     submitting.value = false;
@@ -387,14 +375,14 @@ const handleSubmit = async () => {
   color: #374151;
 }
 
-.form-group input[type="checkbox"],
-.form-group input[type="radio"] {
+.form-group input[type='checkbox'],
+.form-group input[type='radio'] {
   width: auto;
   margin-right: 0.5rem;
 }
 
-.form-group input[type="checkbox"] + label,
-.form-group input[type="radio"] + label {
+.form-group input[type='checkbox'] + label,
+.form-group input[type='radio'] + label {
   display: inline;
   margin-bottom: 0;
   font-weight: normal;

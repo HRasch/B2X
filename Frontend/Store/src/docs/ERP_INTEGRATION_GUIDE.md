@@ -46,7 +46,7 @@ const handleLookup = async () => {
     <button :disabled="isLoading" type="submit">
       {{ isLoading ? 'Searching...' : 'Search Customer' }}
     </button>
-    
+
     <div v-if="error" class="error">{{ error }}</div>
     <div v-if="customer" class="success">
       Welcome back, {{ customer.customerName }}!
@@ -71,8 +71,8 @@ const handleProceed = (customerNumber: string) => {
 </script>
 
 <template>
-  <CustomerLookup 
-    @register="handleRegister" 
+  <CustomerLookup
+    @register="handleRegister"
     @proceed="handleProceed"
     :isDevelopment="true"
   />
@@ -88,21 +88,21 @@ const handleProceed = (customerNumber: string) => {
 ```typescript
 const {
   // Reactive state
-  isLoading,           // boolean - loading indicator
-  customer,            // ErpCustomer | null - current customer
-  error,               // string | null - error message
-  lastLookupTime,      // number | null - lookup duration in ms
+  isLoading, // boolean - loading indicator
+  customer, // ErpCustomer | null - current customer
+  error, // string | null - error message
+  lastLookupTime, // number | null - lookup duration in ms
 
   // Computed state
-  hasCustomer,         // ComputedRef<boolean> - true if customer found
-  isPrivateCustomer,   // ComputedRef<boolean> - true if PRIVATE type
-  isBusinessCustomer,  // ComputedRef<boolean> - true if BUSINESS type
+  hasCustomer, // ComputedRef<boolean> - true if customer found
+  isPrivateCustomer, // ComputedRef<boolean> - true if PRIVATE type
+  isBusinessCustomer, // ComputedRef<boolean> - true if BUSINESS type
 
   // Methods
-  validateCustomerEmail,    // (email: string) => Promise<ValidationResult>
-  validateCustomerNumber,   // (number: string) => Promise<ValidationResult>
-  clearCustomer,            // () => void
-} = useErpIntegration()
+  validateCustomerEmail, // (email: string) => Promise<ValidationResult>
+  validateCustomerNumber, // (number: string) => Promise<ValidationResult>
+  clearCustomer, // () => void
+} = useErpIntegration();
 ```
 
 ### Methods
@@ -112,17 +112,18 @@ const {
 Lookup customer by email address.
 
 ```typescript
-const result = await validateCustomerEmail('max.mustermann@example.com')
+const result = await validateCustomerEmail('max.mustermann@example.com');
 
 if (result.isValid) {
-  console.log('Customer found:', result.customer)
-  console.log('Lookup took:', result.loadingMs, 'ms')
+  console.log('Customer found:', result.customer);
+  console.log('Lookup took:', result.loadingMs, 'ms');
 } else {
-  console.log('Error:', result.message)
+  console.log('Error:', result.message);
 }
 ```
 
 **Response**: ValidationResult
+
 - `isValid` - boolean (true if customer found)
 - `customer` - ErpCustomer | null
 - `error` - string (error code)
@@ -134,13 +135,13 @@ if (result.isValid) {
 Lookup customer by customer number (e.g., "CUST-001").
 
 ```typescript
-const result = await validateCustomerNumber('CUST-100')
+const result = await validateCustomerNumber('CUST-100');
 
 if (result.isValid) {
-  const customer = result.customer
+  const customer = result.customer;
   if (customer?.businessType === 'BUSINESS') {
-    console.log('Business customer:', customer.customerName)
-    console.log('Credit limit:', customer.creditLimit)
+    console.log('Business customer:', customer.customerName);
+    console.log('Credit limit:', customer.creditLimit);
   }
 }
 ```
@@ -150,37 +151,37 @@ if (result.isValid) {
 Clear all customer data and reset error state.
 
 ```typescript
-const { clearCustomer } = useErpIntegration()
+const { clearCustomer } = useErpIntegration();
 
 const handleNewSearch = () => {
-  clearCustomer()
+  clearCustomer();
   // UI resets to empty state
-}
+};
 ```
 
 ### Types
 
 ```typescript
 interface ErpCustomer {
-  customerNumber: string
-  customerName: string
-  email: string
-  phone?: string
-  shippingAddress?: string
-  billingAddress?: string
-  country: string
-  businessType: 'PRIVATE' | 'BUSINESS'
-  isActive: boolean
-  creditLimit?: number
-  lastOrderDate?: string
+  customerNumber: string;
+  customerName: string;
+  email: string;
+  phone?: string;
+  shippingAddress?: string;
+  billingAddress?: string;
+  country: string;
+  businessType: 'PRIVATE' | 'BUSINESS';
+  isActive: boolean;
+  creditLimit?: number;
+  lastOrderDate?: string;
 }
 
 interface ValidationResult {
-  isValid: boolean
-  customer: ErpCustomer | null
-  error?: string
-  message?: string
-  loadingMs?: number
+  isValid: boolean;
+  customer: ErpCustomer | null;
+  error?: string;
+  message?: string;
+  loadingMs?: number;
 }
 ```
 
@@ -192,7 +193,7 @@ interface ValidationResult {
 
 ```typescript
 interface Props {
-  isDevelopment?: boolean  // Show diagnostic info in dev mode
+  isDevelopment?: boolean; // Show diagnostic info in dev mode
 }
 ```
 
@@ -211,7 +212,7 @@ interface Props {
 ```vue
 <template>
   <div class="registration-page">
-    <CustomerLookup 
+    <CustomerLookup
       @register="handleNewCustomerRegistration"
       @proceed="handleExistingCustomerFlow"
       :isDevelopment="import.meta.env.MODE === 'development'"
@@ -220,20 +221,20 @@ interface Props {
 </template>
 
 <script setup lang="ts">
-import CustomerLookup from '@/components/ERP/CustomerLookup.vue'
+import CustomerLookup from '@/components/ERP/CustomerLookup.vue';
 
 const handleNewCustomerRegistration = () => {
   // Navigate to registration form
-  router.push('/register')
-}
+  router.push('/register');
+};
 
 const handleExistingCustomerFlow = (customerNumber: string) => {
   // Navigate to checkout with customer info
   router.push({
     name: 'checkout',
-    params: { customerNumber }
-  })
-}
+    params: { customerNumber },
+  });
+};
 </script>
 ```
 
@@ -311,8 +312,8 @@ The frontend communicates with the backend via these endpoints:
 ### Testing the Composable
 
 ```typescript
-import { useErpIntegration } from '@/composables/useErpIntegration'
-import { vi } from 'vitest'
+import { useErpIntegration } from '@/composables/useErpIntegration';
+import { vi } from 'vitest';
 
 describe('useErpIntegration', () => {
   it('should validate customer email', async () => {
@@ -326,55 +327,55 @@ describe('useErpIntegration', () => {
         businessType: 'PRIVATE',
         isActive: true,
       }),
-    })
+    });
 
-    const { validateCustomerEmail } = useErpIntegration()
-    const result = await validateCustomerEmail('test@example.com')
+    const { validateCustomerEmail } = useErpIntegration();
+    const result = await validateCustomerEmail('test@example.com');
 
-    expect(result.isValid).toBe(true)
-    expect(result.customer?.customerName).toBe('Test User')
-  })
+    expect(result.isValid).toBe(true);
+    expect(result.customer?.customerName).toBe('Test User');
+  });
 
   it('should handle validation errors', async () => {
-    const { validateCustomerEmail } = useErpIntegration()
-    const result = await validateCustomerEmail('invalid-email')
+    const { validateCustomerEmail } = useErpIntegration();
+    const result = await validateCustomerEmail('invalid-email');
 
-    expect(result.isValid).toBe(false)
-    expect(result.error).toBe('INVALID_EMAIL')
-  })
-})
+    expect(result.isValid).toBe(false);
+    expect(result.error).toBe('INVALID_EMAIL');
+  });
+});
 ```
 
 ### Testing the Component
 
 ```typescript
-import { mount } from '@vue/test-utils'
-import CustomerLookup from '@/components/ERP/CustomerLookup.vue'
+import { mount } from '@vue/test-utils';
+import CustomerLookup from '@/components/ERP/CustomerLookup.vue';
 
 describe('CustomerLookup Component', () => {
   it('should render email input', () => {
-    const wrapper = mount(CustomerLookup)
-    const input = wrapper.find('#email')
+    const wrapper = mount(CustomerLookup);
+    const input = wrapper.find('#email');
 
-    expect(input.exists()).toBe(true)
-    expect(input.attributes('type')).toBe('email')
-  })
+    expect(input.exists()).toBe(true);
+    expect(input.attributes('type')).toBe('email');
+  });
 
   it('should emit register event', async () => {
-    const wrapper = mount(CustomerLookup)
-    const registerBtn = wrapper.find('button')
+    const wrapper = mount(CustomerLookup);
+    const registerBtn = wrapper.find('button');
 
-    await registerBtn.trigger('click')
-    expect(wrapper.emitted('register')).toBeTruthy()
-  })
+    await registerBtn.trigger('click');
+    expect(wrapper.emitted('register')).toBeTruthy();
+  });
 
   it('should show dark mode styles', () => {
-    const wrapper = mount(CustomerLookup)
-    const html = wrapper.html()
+    const wrapper = mount(CustomerLookup);
+    const html = wrapper.html();
 
-    expect(html).toContain('dark:')
-  })
-})
+    expect(html).toContain('dark:');
+  });
+});
 ```
 
 ---
@@ -404,11 +405,11 @@ const handleNewCustomer = () => {
 
 <template>
   <div class="container mx-auto p-4">
-    <CustomerLookup 
+    <CustomerLookup
       @register="handleNewCustomer"
       @proceed="handleExistingCustomer"
     />
-    
+
     <RegistrationForm v-if="showRegistrationForm" />
   </div>
 </template>
@@ -428,7 +429,7 @@ const { login } = useAuth()
 
 const handleLogin = async () => {
   const result = await validateCustomerEmail(email.value)
-  
+
   if (result.isValid && result.customer) {
     // Customer found, proceed with authentication
     await login({
@@ -472,7 +473,7 @@ onMounted(async () => {
 <template>
   <div v-if="customer" class="checkout">
     <h1>Checkout</h1>
-    
+
     <!-- Pre-filled customer info -->
     <div class="customer-info">
       <p><strong>Name:</strong> {{ customer.customerName }}</p>
@@ -481,7 +482,7 @@ onMounted(async () => {
         <strong>Address:</strong> {{ customer.shippingAddress }}
       </p>
     </div>
-    
+
     <!-- Checkout form continues... -->
   </div>
 </template>
@@ -552,21 +553,25 @@ onMounted(async () => {
 ### Features Implemented
 
 ✅ **Semantic HTML**
+
 - Proper form structure with labels
 - Role attributes on alerts
 - Proper heading hierarchy
 
 ✅ **Keyboard Navigation**
+
 - Tab through all interactive elements
 - Buttons are keyboard accessible
 - Proper focus management
 
 ✅ **Screen Reader Support**
+
 - aria-label on inputs
 - role="alert" on status messages
 - Descriptive button text
 
 ✅ **Color Contrast**
+
 - 4.5:1 ratio for normal text
 - 3:1 ratio for large text
 - Proper dark mode support
@@ -606,43 +611,41 @@ npx lighthouse http://localhost:5173 --only-categories=accessibility
 
 ```typescript
 // Use debouncing for email validation
-import { useDebounceFn } from '@vueuse/core'
+import { useDebounceFn } from '@vueuse/core';
 
 const debouncedValidateEmail = useDebounceFn(
   validateCustomerEmail,
-  500  // 500ms delay
-)
+  500 // 500ms delay
+);
 
 // User stops typing for 500ms before lookup starts
 watch(email, () => {
-  debouncedValidateEmail(email.value)
-})
+  debouncedValidateEmail(email.value);
+});
 ```
 
 ### Caching Pattern
 
 ```typescript
 // Cache lookups within session
-const lookupCache = new Map<string, ValidationResult>()
+const lookupCache = new Map<string, ValidationResult>();
 
 const cachedValidateEmail = async (email: string) => {
   if (lookupCache.has(email)) {
-    return lookupCache.get(email)!
+    return lookupCache.get(email)!;
   }
-  
-  const result = await validateCustomerEmail(email)
-  lookupCache.set(email, result)
-  return result
-}
+
+  const result = await validateCustomerEmail(email);
+  lookupCache.set(email, result);
+  return result;
+};
 ```
 
 ### Lazy Loading
 
 ```typescript
 // Load component only when needed
-const CustomerLookup = defineAsyncComponent(() =>
-  import('@/components/ERP/CustomerLookup.vue')
-)
+const CustomerLookup = defineAsyncComponent(() => import('@/components/ERP/CustomerLookup.vue'));
 ```
 
 ---
@@ -654,9 +657,9 @@ const CustomerLookup = defineAsyncComponent(() =>
 ```typescript
 // Frontend validation (UX improvement)
 const validateEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
 // Backend validation (security requirement)
 // Always validate on backend! Never trust frontend validation alone
@@ -666,7 +669,7 @@ const validateEmail = (email: string): boolean => {
 
 ```typescript
 // Ensure API calls use HTTPS in production
-const apiBaseUrl = import.meta.env.VITE_API_URL
+const apiBaseUrl = import.meta.env.VITE_API_URL;
 // Must start with https:// in production
 ```
 
@@ -675,11 +678,11 @@ const apiBaseUrl = import.meta.env.VITE_API_URL
 ```typescript
 // Never expose internal error details to user
 const userFriendlyErrors: Record<string, string> = {
-  'NETWORK_ERROR': 'Verbindungsfehler. Bitte versuchen Sie es später erneut.',
-  'NOT_FOUND': 'Kunde nicht gefunden.',
-  'INVALID_EMAIL': 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
-  'SERVER_ERROR': 'Ein Fehler ist aufgetreten. Bitte kontaktieren Sie den Support.',
-}
+  NETWORK_ERROR: 'Verbindungsfehler. Bitte versuchen Sie es später erneut.',
+  NOT_FOUND: 'Kunde nicht gefunden.',
+  INVALID_EMAIL: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+  SERVER_ERROR: 'Ein Fehler ist aufgetreten. Bitte kontaktieren Sie den Support.',
+};
 ```
 
 ---
@@ -689,10 +692,12 @@ const userFriendlyErrors: Record<string, string> = {
 Available in Faker:
 
 ### B2C Customers
+
 - **CUST-001**: Max Mustermann (max.mustermann@example.com) - Germany
 - **CUST-002**: Erika Musterfrau (erika.musterfrau@example.com) - Germany
 
 ### B2B Customers
+
 - **CUST-100**: TechCorp GmbH (info@techcorp.de) - €50k credit
 - **CUST-101**: InnovateLabs AG (contact@innovatelabs.at) - €75k credit
 - **CUST-102**: Global Solutions SA (sales@globalsolutions.ch) - €100k credit
@@ -707,11 +712,11 @@ Available in Faker:
 // composables/useErpIntegration.ts
 const validateCustomerEmail = async (email: string) => {
   if (import.meta.env.MODE === 'development') {
-    console.log('[ERP] Looking up email:', email)
+    console.log('[ERP] Looking up email:', email);
   }
-  
+
   // ... rest of code
-}
+};
 ```
 
 ### Browser DevTools
@@ -719,13 +724,13 @@ const validateCustomerEmail = async (email: string) => {
 ```javascript
 // In browser console
 // Set custom performance mark
-performance.mark('erp-lookup-start')
+performance.mark('erp-lookup-start');
 // ... perform lookup ...
-performance.mark('erp-lookup-end')
-performance.measure('erp-lookup', 'erp-lookup-start', 'erp-lookup-end')
+performance.mark('erp-lookup-end');
+performance.measure('erp-lookup', 'erp-lookup-start', 'erp-lookup-end');
 
 // View measurements
-performance.getEntriesByType('measure')
+performance.getEntriesByType('measure');
 ```
 
 ### Network Inspection

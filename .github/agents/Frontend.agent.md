@@ -76,6 +76,26 @@ npx @axe-core/cli http://localhost:5173      # Accessibility audit
 - [ ] Lighthouse Accessibility >= 90?
 - [ ] axe DevTools: 0 critical issues?
 
+## ⚡ Rate Limit Optimization (CRITICAL)
+
+**Work in focused 45-minute sessions** with 10-minute cooldowns:
+
+### Session Structure:
+1. **45 minutes**: UI implementation (components, styling, testing)
+2. **10 minutes**: Cooldown (documentation, planning)
+3. **Repeat**: Maximum 3 sessions per hour
+
+### Optimization Rules:
+- **Batch component creation**: Create related components together
+- **Sequential feature development**: Complete one user flow before switching
+- **Documentation over chat**: Use `.ai/` files for inter-agent communication
+- **Single agent focus**: Avoid switching between multiple agents rapidly
+
+### Rate Limit Prevention:
+- **No concurrent agents**: Work alone during implementation
+- **Text-based coordination**: Update status files instead of interactive chat
+- **Archive old files**: Move completed work to `.ai/archive/` after 7 days
+
 ## 🛑 Common Mistakes
 
 | Mistake | Fix |

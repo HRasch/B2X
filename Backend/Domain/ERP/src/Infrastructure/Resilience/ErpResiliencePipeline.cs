@@ -115,9 +115,21 @@ public sealed class ErpResiliencePipeline : IDisposable
     {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-        return await _pipeline.ExecuteAsync(
-            async ct => await operation(ct).ConfigureAwait(false),
-            cancellationToken).ConfigureAwait(false);
+        var context = ResilienceContextPool.Shared.Get(cancellationToken);
+        try
+        {
+            return await _pipeline.ExecuteAsync(
+                async ctx =>
+                {
+                    var result = await operation(ctx.CancellationToken).ConfigureAwait(false);
+                    return result;
+                },
+                context).ConfigureAwait(false);
+        }
+        finally
+        {
+            ResilienceContextPool.Shared.Return(context);
+        }
     }
 
     /// <summary>
@@ -131,12 +143,20 @@ public sealed class ErpResiliencePipeline : IDisposable
     {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-        await _pipeline.ExecuteAsync(
-            async ct =>
-            {
-                await operation(ct).ConfigureAwait(false);
-            },
-            cancellationToken).ConfigureAwait(false);
+        var context = ResilienceContextPool.Shared.Get(cancellationToken);
+        try
+        {
+            await _pipeline.ExecuteAsync(
+                async ctx =>
+                {
+                    await operation(ctx.CancellationToken).ConfigureAwait(false);
+                },
+                context).ConfigureAwait(false);
+        }
+        finally
+        {
+            ResilienceContextPool.Shared.Return(context);
+        }
     }
 
     /// <inheritdoc/>

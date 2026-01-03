@@ -1,4 +1,4 @@
-namespace B2Connect.CatalogService.Models;
+namespace B2Connect.Catalog.Models;
 
 /// <summary>
 /// Request to validate a B2B customer's VAT ID

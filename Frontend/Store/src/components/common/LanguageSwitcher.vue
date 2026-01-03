@@ -13,7 +13,7 @@
       <span class="language-code">{{ currentLocale.code.toUpperCase() }}</span>
       <svg
         class="chevron-icon"
-        :class="{ 'rotate': isOpen }"
+        :class="{ rotate: isOpen }"
         width="16"
         height="16"
         viewBox="0 0 16 16"
@@ -30,7 +30,7 @@
           v-for="loc in locales"
           :key="loc.code"
           class="language-option"
-          :class="{ 'active': locale === loc.code }"
+          :class="{ active: locale === loc.code }"
           @click.stop="handleSelectLocale(loc.code)"
           :disabled="isLoading"
           :data-testid="`language-option-${loc.code}`"
@@ -45,7 +45,9 @@
             viewBox="0 0 16 16"
             fill="currentColor"
           >
-            <path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 11.94l6.72-6.72a.75.75 0 011.06 0z" />
+            <path
+              d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 11.94l6.72-6.72a.75.75 0 011.06 0z"
+            />
           </svg>
         </button>
       </div>
@@ -57,16 +59,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useLocale } from '@/composables/useLocale'
+import { ref, watch } from 'vue';
+import { useLocale } from '@/composables/useLocale';
 
-const { locale, currentLocale, locales, isLoading, setLocale } = useLocale()
-const isOpen = ref(false)
+const { locale, currentLocale, locales, isLoading, setLocale } = useLocale();
+const isOpen = ref(false);
 
 const handleSelectLocale = async (code: string) => {
-  isOpen.value = false
-  await setLocale(code)
-}
+  isOpen.value = false;
+  await setLocale(code);
+};
 </script>
 
 <style scoped>

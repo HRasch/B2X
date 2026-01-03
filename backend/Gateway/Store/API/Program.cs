@@ -202,6 +202,30 @@ if (!app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Mock endpoints for development (when services are not available)
+if (app.Environment.IsDevelopment())
+{
+    app.MapGet("/api/catalog/products", () => Results.Ok(new[]
+    {
+        new { id = 1, name = "Sample Product 1", price = 29.99, category = "Electronics" },
+        new { id = 2, name = "Sample Product 2", price = 49.99, category = "Books" },
+        new { id = 3, name = "Sample Product 3", price = 19.99, category = "Clothing" }
+    }));
+
+    app.MapGet("/api/catalog/brands", () => Results.Ok(new[]
+    {
+        new { id = 1, name = "Sample Brand 1" },
+        new { id = 2, name = "Sample Brand 2" }
+    }));
+
+    app.MapGet("/api/catalog/categories", () => Results.Ok(new[]
+    {
+        new { id = 1, name = "Electronics" },
+        new { id = 2, name = "Books" },
+        new { id = 3, name = "Clothing" }
+    }));
+}
+
 // YARP Reverse Proxy
 app.MapReverseProxy();
 

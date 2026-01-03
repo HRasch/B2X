@@ -53,21 +53,25 @@ frontend/
 ## Development
 
 ### Installation
+
 ```bash
 npm install
 ```
 
 ### Development Server
+
 ```bash
 npm run dev
 ```
 
 ### Build
+
 ```bash
 npm run build
 ```
 
 ### Tests
+
 ```bash
 # Unit tests
 npm run test
@@ -80,6 +84,7 @@ npm run test:watch
 ```
 
 ### Linting
+
 ```bash
 npm run lint
 npm run format
@@ -110,11 +115,11 @@ npm run dev:telemetry
 
 ### Configuration
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `ENABLE_TELEMETRY` | `false` | Enable OpenTelemetry instrumentation |
-| `OTEL_SERVICE_NAME` | `frontend-store` | Service name for traces |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4318` | OTLP collector endpoint |
+| Variable                      | Default                 | Description                          |
+| ----------------------------- | ----------------------- | ------------------------------------ |
+| `ENABLE_TELEMETRY`            | `false`                 | Enable OpenTelemetry instrumentation |
+| `OTEL_SERVICE_NAME`           | `frontend-store`        | Service name for traces              |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4318` | OTLP collector endpoint              |
 
 ### Manual Setup
 
@@ -145,26 +150,26 @@ npm run dev:telemetry
 
 ### Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| No traces appearing | Verify Aspire is running on port 4318 |
-| Slow startup | Try disabling telemetry: `npm run dev` |
-| Connection errors | Check OTLP endpoint is reachable |
-| Too many spans | Telemetry disabled by default, only enable when debugging |
+| Issue               | Solution                                                  |
+| ------------------- | --------------------------------------------------------- |
+| No traces appearing | Verify Aspire is running on port 4318                     |
+| Slow startup        | Try disabling telemetry: `npm run dev`                    |
+| Connection errors   | Check OTLP endpoint is reachable                          |
+| Too many spans      | Telemetry disabled by default, only enable when debugging |
 
 ## API Integration
 
 All API calls routed through [src/api/](src/api/):
 
 ```typescript
-import { catalogApi } from '@/api/catalogApi'
+import { catalogApi } from '@/api/catalogApi';
 
 // Browse products
-await catalogApi.getProducts()
-await catalogApi.getProductDetails(id)
+await catalogApi.getProducts();
+await catalogApi.getProductDetails(id);
 
 // Search with Elasticsearch
-await catalogApi.searchProducts(query)
+await catalogApi.searchProducts(query);
 ```
 
 ## State Management
@@ -172,11 +177,11 @@ await catalogApi.searchProducts(query)
 Pinia stores in [src/stores/](src/stores/):
 
 ```typescript
-import { useCatalogStore } from '@/stores/catalogStore'
-import { useCartStore } from '@/stores/cartStore'
+import { useCatalogStore } from '@/stores/catalogStore';
+import { useCartStore } from '@/stores/cartStore';
 
-const catalogStore = useCatalogStore()
-const cartStore = useCartStore()
+const catalogStore = useCatalogStore();
+const cartStore = useCartStore();
 ```
 
 ## Localization
@@ -184,10 +189,10 @@ const cartStore = useCartStore()
 Multi-language support in [src/i18n/](src/i18n/):
 
 ```typescript
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
-t('catalog.products')
+const { t } = useI18n();
+t('catalog.products');
 ```
 
 ## Performance

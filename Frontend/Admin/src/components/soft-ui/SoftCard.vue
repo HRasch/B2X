@@ -5,8 +5,7 @@
       'bg-white dark:bg-soft-800 hover:shadow-soft-lg',
       'border border-soft-100 dark:border-soft-700',
       {
-        'bg-linear-to-br from-soft-50 dark:from-soft-700':
-          variant === 'gradient',
+        'bg-linear-to-br from-soft-50 dark:from-soft-700': variant === 'gradient',
       },
       className,
     ]"
@@ -18,12 +17,12 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    variant?: "default" | "gradient";
+    variant?: 'default' | 'gradient';
     className?: string;
   }>(),
   {
-    variant: "default",
-    className: "",
+    variant: 'default',
+    className: '',
   }
 );
 </script>

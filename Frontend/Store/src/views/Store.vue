@@ -42,11 +42,7 @@
 
     <!-- Product Count & Search Results Info -->
     <div v-if="!loading && searchQuery" class="search-info">
-      <p>
-        {{ totalProducts }} Produkte gefunden{{
-          searchQuery ? ` für "${searchQuery}"` : ""
-        }}
-      </p>
+      <p>{{ totalProducts }} Produkte gefunden{{ searchQuery ? ` für "${searchQuery}"` : '' }}</p>
     </div>
 
     <!-- Loading State -->
@@ -57,12 +53,8 @@
 
     <!-- Error State -->
     <div v-if="error && !loading" class="error-container">
-      <p class="error-message">
-        ❌ Fehler beim Laden der Produkte: {{ error }}
-      </p>
-      <button @click="loadProducts" class="retry-button">
-        Erneut versuchen
-      </button>
+      <p class="error-message">❌ Fehler beim Laden der Produkte: {{ error }}</p>
+      <button @click="loadProducts" class="retry-button">Erneut versuchen</button>
     </div>
 
     <!-- Products Grid -->
@@ -70,8 +62,7 @@
       <div v-if="filteredProducts.length === 0" class="no-products">
         <p>Keine Produkte gefunden.</p>
         <p v-if="searchQuery" class="suggestion">
-          Versuchen Sie eine andere Suchbegriff oder verwenden Sie weniger
-          Filter.
+          Versuchen Sie eine andere Suchbegriff oder verwenden Sie weniger Filter.
         </p>
       </div>
 
@@ -93,15 +84,9 @@
         ← Vorherige
       </button>
 
-      <div class="pagination-info">
-        Seite {{ currentPage }} von {{ totalPages }}
-      </div>
+      <div class="pagination-info">Seite {{ currentPage }} von {{ totalPages }}</div>
 
-      <button
-        @click="goToPage(currentPage + 1)"
-        :disabled="!hasNextPage"
-        class="pagination-btn"
-      >
+      <button @click="goToPage(currentPage + 1)" :disabled="!hasNextPage" class="pagination-btn">
         Nächste →
       </button>
     </div>
@@ -109,14 +94,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useCartStore } from "../stores/cart";
-import ProductCard from "../components/shop/ProductCard.vue";
-import {
-  ProductService,
-  type Product,
-  type SearchResponse,
-} from "../services/productService";
+import { ref, computed, onMounted } from 'vue';
+import { useCartStore } from '../stores/cart';
+import ProductCard from '../components/shop/ProductCard.vue';
+import { ProductService, type Product, type SearchResponse } from '../services/productService';
 
 const cartStore = useCartStore();
 
@@ -124,14 +105,14 @@ const cartStore = useCartStore();
 const products = ref<Product[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
-const searchQuery = ref("");
-const selectedCategory = ref("Alle");
+const searchQuery = ref('');
+const selectedCategory = ref('Alle');
 const currentPage = ref(1);
 const pageSize = ref(20);
 const totalPages = ref(1);
 const totalProducts = ref(0);
 const queryExecutionTime = ref(0);
-const categories = ref<string[]>(["Alle", "Elektronik", "Zubehör"]);
+const categories = ref<string[]>(['Alle', 'Elektronik', 'Zubehör']);
 
 /**
  * Load products from ElasticSearch
@@ -144,27 +125,18 @@ const loadProducts = async () => {
   try {
     // Build filters
     const filters = {
-      searchTerm: searchQuery.value.trim() || "*", // ElasticSearch uses * for all documents
-      category:
-        selectedCategory.value !== "Alle" ? selectedCategory.value : undefined,
-      language: "de",
+      searchTerm: searchQuery.value.trim() || '*', // ElasticSearch uses * for all documents
+      category: selectedCategory.value !== 'Alle' ? selectedCategory.value : undefined,
+      language: 'de',
       onlyAvailable: true,
     };
 
     // Use ElasticSearch for search, or fall back to paginated list
     let response: SearchResponse;
     if (searchQuery.value.trim()) {
-      response = await ProductService.searchProducts(
-        filters,
-        currentPage.value,
-        pageSize.value
-      );
+      response = await ProductService.searchProducts(filters, currentPage.value, pageSize.value);
     } else {
-      response = await ProductService.getProducts(
-        currentPage.value,
-        pageSize.value,
-        filters
-      );
+      response = await ProductService.getProducts(currentPage.value, pageSize.value, filters);
     }
 
     products.value = response.items;
@@ -175,9 +147,8 @@ const loadProducts = async () => {
       queryExecutionTime.value = response.searchMetadata.queryExecutionTimeMs;
     }
   } catch (err) {
-    error.value =
-      err instanceof Error ? err.message : "Failed to load products";
-    console.error("Product loading error:", err);
+    error.value = err instanceof Error ? err.message : 'Failed to load products';
+    console.error('Product loading error:', err);
     // Fallback to empty list on error
     products.value = [];
   } finally {
@@ -225,7 +196,7 @@ const addToCart = (product: Product) => {
     name: product.name,
     price: product.price,
     quantity: 1,
-    image: product.image || "https://via.placeholder.com/100?text=No+Image",
+    image: product.image || 'https://via.placeholder.com/100?text=No+Image',
   });
 };
 

@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- Test setup variables */
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { setActivePinia, createPinia } from "pinia";
-import { useJobsStore } from "@/stores/jobs";
-import type * as jobsApiTypes from "@/services/api/jobs";
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { setActivePinia, createPinia } from 'pinia';
+import { useJobsStore } from '@/stores/jobs';
+import type * as jobsApiTypes from '@/services/api/jobs';
 
-vi.mock("@/services/api/jobs");
+vi.mock('@/services/api/jobs');
 
-describe("Jobs Store", () => {
+describe('Jobs Store', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
   });
 
-  describe("Initial State", () => {
-    it("should have initial state", () => {
+  describe('Initial State', () => {
+    it('should have initial state', () => {
       const store = useJobsStore();
 
       expect(store.jobs).toEqual([]);
@@ -23,18 +23,18 @@ describe("Jobs Store", () => {
     });
   });
 
-  describe("Fetch Jobs", () => {
-    it("should fetch jobs successfully", async () => {
+  describe('Fetch Jobs', () => {
+    it('should fetch jobs successfully', async () => {
       const mockJobs = [
         {
-          id: "job-1",
-          type: "email_sync",
-          status: "running" as const,
+          id: 'job-1',
+          type: 'email_sync',
+          status: 'running' as const,
           progress: 50,
           totalItems: 1000,
           completedItems: 500,
           failedItems: 0,
-          message: "Syncing emails...",
+          message: 'Syncing emails...',
           createdAt: new Date().toISOString(),
           startedAt: new Date().toISOString(),
           estimatedCompletionAt: new Date(Date.now() + 600000).toISOString(),
@@ -49,25 +49,25 @@ describe("Jobs Store", () => {
       expect(store.error).toBeNull();
     });
 
-    it("should handle error state", () => {
+    it('should handle error state', () => {
       const store = useJobsStore();
-      store.error = "Test error";
+      store.error = 'Test error';
 
-      expect(store.error).toBe("Test error");
+      expect(store.error).toBe('Test error');
     });
   });
 
-  describe("Fetch Single Job", () => {
-    it("should set current job", () => {
+  describe('Fetch Single Job', () => {
+    it('should set current job', () => {
       const mockJob = {
-        id: "job-1",
-        type: "data_export",
-        status: "running" as const,
+        id: 'job-1',
+        type: 'data_export',
+        status: 'running' as const,
         progress: 60,
         totalItems: 1000,
         completedItems: 600,
         failedItems: 5,
-        message: "Exporting...",
+        message: 'Exporting...',
         createdAt: new Date().toISOString(),
         startedAt: new Date().toISOString(),
       };
@@ -79,21 +79,21 @@ describe("Jobs Store", () => {
     });
   });
 
-  describe("Retry Job", () => {
-    it("should update job status on retry", () => {
-      const jobId = "job-1";
+  describe('Retry Job', () => {
+    it('should update job status on retry', () => {
+      const jobId = 'job-1';
 
       const store = useJobsStore();
       store.jobs = [
         {
-          id: "job-1",
-          type: "sync",
-          status: "failed" as const,
+          id: 'job-1',
+          type: 'sync',
+          status: 'failed' as const,
           progress: 0,
           totalItems: 100,
           completedItems: 0,
           failedItems: 100,
-          message: "Failed",
+          message: 'Failed',
           createdAt: new Date().toISOString(),
         },
       ];
@@ -101,28 +101,28 @@ describe("Jobs Store", () => {
       // Simulate retry by updating job
       const job = store.jobs[0];
       if (job) {
-        job.status = "pending";
+        job.status = 'pending';
         job.failedItems = 0;
       }
 
-      expect(store.jobs[0].status).toBe("pending");
+      expect(store.jobs[0].status).toBe('pending');
     });
   });
 
-  describe("Cancel Job", () => {
-    it("should update job status on cancel", () => {
-      const jobId = "job-1";
+  describe('Cancel Job', () => {
+    it('should update job status on cancel', () => {
+      const jobId = 'job-1';
       const store = useJobsStore();
       store.jobs = [
         {
-          id: "job-1",
-          type: "import",
-          status: "running" as const,
+          id: 'job-1',
+          type: 'import',
+          status: 'running' as const,
           progress: 50,
           totalItems: 100,
           completedItems: 50,
           failedItems: 0,
-          message: "Running",
+          message: 'Running',
           createdAt: new Date().toISOString(),
         },
       ];
@@ -130,21 +130,21 @@ describe("Jobs Store", () => {
       // Simulate cancel by updating job
       const job = store.jobs[0];
       if (job) {
-        job.status = "cancelled";
+        job.status = 'cancelled';
       }
 
-      expect(store.jobs[0].status).toBe("cancelled");
+      expect(store.jobs[0].status).toBe('cancelled');
     });
   });
 
-  describe("Scheduled Jobs", () => {
-    it("should store scheduled jobs", () => {
+  describe('Scheduled Jobs', () => {
+    it('should store scheduled jobs', () => {
       const mockScheduledJobs = [
         {
-          id: "scheduled-1",
-          type: "daily_backup",
-          schedule: "0 2 * * *",
-          description: "Daily backup at 2 AM",
+          id: 'scheduled-1',
+          type: 'daily_backup',
+          schedule: '0 2 * * *',
+          description: 'Daily backup at 2 AM',
           isActive: true,
           nextRun: new Date(Date.now() + 82800000).toISOString(),
           lastRun: new Date(Date.now() - 3600000).toISOString(),
@@ -158,12 +158,12 @@ describe("Jobs Store", () => {
     });
   });
 
-  describe("Error Management", () => {
-    it("should set and clear error", () => {
+  describe('Error Management', () => {
+    it('should set and clear error', () => {
       const store = useJobsStore();
 
-      store.error = "Test error";
-      expect(store.error).toBe("Test error");
+      store.error = 'Test error';
+      expect(store.error).toBe('Test error');
 
       store.error = null;
       expect(store.error).toBeNull();

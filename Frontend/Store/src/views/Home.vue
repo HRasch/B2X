@@ -31,11 +31,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useAuthStore } from '../stores/auth'
+import { computed } from 'vue';
+import { useAuthStore } from '../stores/auth';
 
-const authStore = useAuthStore()
-const isAuthenticated = computed(() => authStore.isAuthenticated)
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 </script>
 
 <style scoped>

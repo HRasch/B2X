@@ -1,10 +1,10 @@
-using Wolverine;
 using B2Connect.Admin.Application.Commands.Brands;
 using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Middleware;
 using B2Connect.Types.Localization;
+using Wolverine;
 
 namespace B2Connect.Admin.Application.Handlers.Brands;
 
@@ -13,8 +13,8 @@ namespace B2Connect.Admin.Application.Handlers.Brands;
 /// </summary>
 internal static class BrandMapper
 {
-    public static BrandResult ToResult(Brand brand) =>
-        new BrandResult(
+    public static BrandResult ToResult(Brand brand)
+        => new BrandResult(
             brand.Id,
             brand.TenantId ?? Guid.Empty,
             brand.Name?.Get("en") ?? string.Empty,

@@ -4,15 +4,15 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any -- globalThis browser detection */
 
-import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { defineStore } from 'pinia';
+import { ref, watch } from 'vue';
 
-export type Theme = "light" | "dark" | "auto";
+export type Theme = 'light' | 'dark' | 'auto';
 
 // Helper to check if we're in browser
 const isBrowserEnv = (): boolean => {
   try {
-    return typeof (globalThis as any).window !== "undefined";
+    return typeof (globalThis as any).window !== 'undefined';
   } catch {
     return false;
   }
@@ -20,13 +20,11 @@ const isBrowserEnv = (): boolean => {
 
 // Safe localStorage access
 const getStoredTheme = (): Theme => {
-  if (!isBrowserEnv()) return "auto";
+  if (!isBrowserEnv()) return 'auto';
   try {
-    return (
-      ((globalThis as any).localStorage?.getItem("theme") as Theme) || "auto"
-    );
+    return ((globalThis as any).localStorage?.getItem('theme') as Theme) || 'auto';
   } catch {
-    return "auto";
+    return 'auto';
   }
 };
 
@@ -34,17 +32,17 @@ const getStoredTheme = (): Theme => {
 const setStoredTheme = (theme: Theme) => {
   if (!isBrowserEnv()) return;
   try {
-    (globalThis as any).localStorage?.setItem("theme", theme);
+    (globalThis as any).localStorage?.setItem('theme', theme);
   } catch {
     // Ignore localStorage errors
   }
 };
 
-export const useThemeStore = defineStore("theme", () => {
+export const useThemeStore = defineStore('theme', () => {
   const theme = ref<Theme>(getStoredTheme());
 
   // Determine effective theme (what's actually being used)
-  const effectiveTheme = ref<"light" | "dark">("light");
+  const effectiveTheme = ref<'light' | 'dark'>('light');
 
   // Initialize theme
   const initializeTheme = () => {
@@ -55,11 +53,9 @@ export const useThemeStore = defineStore("theme", () => {
 
     // Listen to system theme changes
     try {
-      const mediaQuery = (globalThis as any).window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      );
-      mediaQuery.addEventListener("change", () => {
-        if (theme.value === "auto") {
+      const mediaQuery = (globalThis as any).window.matchMedia('(prefers-color-scheme: dark)');
+      mediaQuery.addEventListener('change', () => {
+        if (theme.value === 'auto') {
           updateEffectiveTheme();
           applyTheme();
         }
@@ -74,12 +70,11 @@ export const useThemeStore = defineStore("theme", () => {
     if (!isBrowserEnv()) return;
 
     try {
-      if (theme.value === "auto") {
-        effectiveTheme.value = (globalThis as any).window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches
-          ? "dark"
-          : "light";
+      if (theme.value === 'auto') {
+        effectiveTheme.value = (globalThis as any).window.matchMedia('(prefers-color-scheme: dark)')
+          .matches
+          ? 'dark'
+          : 'light';
       } else {
         effectiveTheme.value = theme.value;
       }
@@ -93,14 +88,14 @@ export const useThemeStore = defineStore("theme", () => {
     if (!isBrowserEnv()) return;
 
     try {
-      const isDark = effectiveTheme.value === "dark";
+      const isDark = effectiveTheme.value === 'dark';
       const htmlElement = (globalThis as any).document?.documentElement;
       if (!htmlElement) return;
 
       if (isDark) {
-        htmlElement.classList.add("dark");
+        htmlElement.classList.add('dark');
       } else {
-        htmlElement.classList.remove("dark");
+        htmlElement.classList.remove('dark');
       }
     } catch {
       // Ignore DOM errors
@@ -109,10 +104,10 @@ export const useThemeStore = defineStore("theme", () => {
 
   // Toggle theme
   const toggleTheme = () => {
-    if (effectiveTheme.value === "dark") {
-      setTheme("light");
+    if (effectiveTheme.value === 'dark') {
+      setTheme('light');
     } else {
-      setTheme("dark");
+      setTheme('dark');
     }
   };
 

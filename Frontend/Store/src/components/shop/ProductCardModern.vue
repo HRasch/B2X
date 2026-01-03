@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 export interface Product {
   id: string;
@@ -28,14 +28,14 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  "add-to-cart": [product: Product];
+  'add-to-cart': [product: Product];
 }>();
 
 // Format price with currency
 const formattedPrice = computed(() => {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
   }).format(props.product.price);
 });
 
@@ -53,21 +53,19 @@ const vatInfo = computed(() => {
 
 // Stock status
 const stockStatus = computed(() => {
-  if (!props.product.inStock) return "Out of Stock";
+  if (!props.product.inStock) return 'Out of Stock';
   if (props.product.stockQuantity && props.product.stockQuantity < 5)
     return `Only ${props.product.stockQuantity} left`;
-  return "In Stock";
+  return 'In Stock';
 });
 
 const handleAddToCart = () => {
-  emit("add-to-cart", props.product);
+  emit('add-to-cart', props.product);
 };
 </script>
 
 <template>
-  <div
-    class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300"
-  >
+  <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300">
     <!-- Product Image Section -->
     <figure class="relative bg-base-200 overflow-hidden h-48">
       <img
@@ -78,10 +76,8 @@ const handleAddToCart = () => {
       />
       <!-- Stock Badge -->
       <div class="absolute top-2 right-2">
-        <div
-          :class="['badge', product.inStock ? 'badge-success' : 'badge-error']"
-        >
-          {{ product.inStock ? "In Stock" : "Out of Stock" }}
+        <div :class="['badge', product.inStock ? 'badge-success' : 'badge-error']">
+          {{ product.inStock ? 'In Stock' : 'Out of Stock' }}
         </div>
       </div>
       <!-- Category Badge -->
@@ -134,9 +130,7 @@ const handleAddToCart = () => {
               disabled
             />
           </div>
-          <span class="text-xs text-base-content/70">{{
-            product.rating.toFixed(1)
-          }}</span>
+          <span class="text-xs text-base-content/70">{{ product.rating.toFixed(1) }}</span>
         </div>
       </div>
 
@@ -146,9 +140,7 @@ const handleAddToCart = () => {
       </p>
 
       <!-- SKU (if available) -->
-      <p v-if="product.sku" class="text-xs text-base-content/50 mt-1">
-        SKU: {{ product.sku }}
-      </p>
+      <p v-if="product.sku" class="text-xs text-base-content/50 mt-1">SKU: {{ product.sku }}</p>
 
       <!-- Price Breakdown Section -->
       <div class="divider my-2"></div>
@@ -163,9 +155,7 @@ const handleAddToCart = () => {
 
         <!-- VAT Breakdown (collapsed) -->
         <details class="collapse bg-base-200 rounded-lg p-0">
-          <summary
-            class="collapse-title text-xs text-base-content/70 py-1 px-2 min-h-auto"
-          >
+          <summary class="collapse-title text-xs text-base-content/70 py-1 px-2 min-h-auto">
             incl. {{ (19).toFixed(0) }}% VAT ({{ vatInfo.vat }}€)
           </summary>
           <div class="collapse-content text-xs space-y-1 p-2">
@@ -189,10 +179,7 @@ const handleAddToCart = () => {
       <!-- Action Buttons -->
       <div class="card-actions justify-between items-center mt-4">
         <!-- Quick View (Link to Detail) -->
-        <router-link
-          :to="`/product/${product.id}`"
-          class="link link-hover text-sm"
-        >
+        <router-link :to="`/product/${product.id}`" class="link link-hover text-sm">
           View Details →
         </router-link>
 
@@ -200,10 +187,7 @@ const handleAddToCart = () => {
         <button
           @click="handleAddToCart"
           :disabled="!product.inStock"
-          :class="[
-            'btn btn-sm',
-            product.inStock ? 'btn-primary' : 'btn-disabled',
-          ]"
+          :class="['btn btn-sm', product.inStock ? 'btn-primary' : 'btn-disabled']"
           aria-label="`Add ${product.name} to cart`"
         >
           <span v-if="product.inStock">🛒 Add</span>
@@ -236,7 +220,7 @@ const handleAddToCart = () => {
   gap: 0.25rem;
 }
 
-.rating input[type="radio"]:disabled:checked {
+.rating input[type='radio']:disabled:checked {
   background-color: currentColor;
 }
 

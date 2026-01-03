@@ -23,11 +23,7 @@
           />
           <span class="label-text">
             Ich akzeptiere die
-            <button
-              type="button"
-              @click="showTermsModal = true"
-              class="link link-primary"
-            >
+            <button type="button" @click="showTermsModal = true" class="link link-primary">
               Allgemeinen Geschäftsbedingungen
             </button>
             <span class="text-error">*</span>
@@ -48,11 +44,7 @@
           />
           <span class="label-text">
             Ich akzeptiere die
-            <button
-              type="button"
-              @click="showPrivacyModal = true"
-              class="link link-primary"
-            >
+            <button type="button" @click="showPrivacyModal = true" class="link link-primary">
               Datenschutzerklärung
             </button>
             <span class="text-error">*</span>
@@ -73,11 +65,7 @@
           />
           <span class="label-text">
             Ich verstehe mein
-            <button
-              type="button"
-              @click="showWithdrawalModal = true"
-              class="link link-primary"
-            >
+            <button type="button" @click="showWithdrawalModal = true" class="link link-primary">
               Widerrufsrecht (14 Tage)
             </button>
           </span>
@@ -91,11 +79,7 @@
 
       <!-- Error message -->
       <Transition name="fade">
-        <div
-          v-if="errorMessage"
-          class="alert alert-error shadow-lg"
-          role="alert"
-        >
+        <div v-if="errorMessage" class="alert alert-error shadow-lg" role="alert">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="stroke-current shrink-0 h-6 w-6"
@@ -115,11 +99,7 @@
 
       <!-- Success message -->
       <Transition name="fade">
-        <div
-          v-if="successMessage"
-          class="alert alert-success shadow-lg"
-          role="status"
-        >
+        <div v-if="successMessage" class="alert alert-success shadow-lg" role="status">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="stroke-current shrink-0 h-6 w-6"
@@ -140,12 +120,7 @@
 
     <!-- Action Buttons -->
     <div class="flex gap-2 justify-between">
-      <button
-        type="button"
-        @click="goBack"
-        class="btn btn-ghost"
-        :disabled="isSubmitting"
-      >
+      <button type="button" @click="goBack" class="btn btn-ghost" :disabled="isSubmitting">
         Zurück
       </button>
       <button
@@ -155,11 +130,8 @@
         :disabled="!canContinue || isSubmitting"
         :aria-busy="isSubmitting"
       >
-        <span
-          v-if="isSubmitting"
-          class="loading loading-spinner loading-sm"
-        ></span>
-        {{ isSubmitting ? "Wird verarbeitet..." : "Zur Zahlung" }}
+        <span v-if="isSubmitting" class="loading loading-spinner loading-sm"></span>
+        {{ isSubmitting ? 'Wird verarbeitet...' : 'Zur Zahlung' }}
       </button>
     </div>
 
@@ -173,68 +145,49 @@
       >
         <div class="modal modal-open">
           <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
-            <h3 class="font-bold text-lg mb-4">
-              Allgemeine Geschäftsbedingungen
-            </h3>
+            <h3 class="font-bold text-lg mb-4">Allgemeine Geschäftsbedingungen</h3>
             <div class="divider my-2"></div>
             <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
               <div class="prose prose-sm">
                 <h4 class="font-bold">1. Allgemeine Bestimmungen</h4>
                 <p>
-                  Diese Allgemeinen Geschäftsbedingungen regeln die Beziehung
-                  zwischen dem Betreiber dieses Online-Shops und dem Käufer.
+                  Diese Allgemeinen Geschäftsbedingungen regeln die Beziehung zwischen dem Betreiber
+                  dieses Online-Shops und dem Käufer.
                 </p>
 
                 <h4 class="font-bold">2. Produktbeschreibungen</h4>
                 <p>
-                  Alle Produktbeschreibungen sind Angebote zum Verkauf. Ein
-                  Vertrag kommt nur zustande, wenn Sie eine Bestellung aufgeben
-                  und wir diese akzeptieren.
+                  Alle Produktbeschreibungen sind Angebote zum Verkauf. Ein Vertrag kommt nur
+                  zustande, wenn Sie eine Bestellung aufgeben und wir diese akzeptieren.
                 </p>
 
                 <h4 class="font-bold">3. Preise und Zahlungsbedingungen</h4>
                 <p>
-                  Alle Preise enthalten die gültige Mehrwertsteuer.
-                  Versandkosten werden separat berechnet und beim Checkout
-                  angezeigt.
+                  Alle Preise enthalten die gültige Mehrwertsteuer. Versandkosten werden separat
+                  berechnet und beim Checkout angezeigt.
                 </p>
 
                 <h4 class="font-bold">4. Lieferung</h4>
-                <p>
-                  Lieferzeiten sind unverbindlich. Bei Verzug haften wir nur bei
-                  Verschulden.
-                </p>
+                <p>Lieferzeiten sind unverbindlich. Bei Verzug haften wir nur bei Verschulden.</p>
 
                 <h4 class="font-bold">5. Widerrufsrecht</h4>
                 <p>
-                  Sie haben ein Widerrufsrecht von 14 Tagen ab Erhalt der Ware.
-                  Siehe unten für Details.
+                  Sie haben ein Widerrufsrecht von 14 Tagen ab Erhalt der Ware. Siehe unten für
+                  Details.
                 </p>
 
                 <h4 class="font-bold">6. Haftung</h4>
-                <p>
-                  Haftung für Schäden begrenzt auf Direktschäden bis zur Höhe
-                  des Kaufpreises.
-                </p>
+                <p>Haftung für Schäden begrenzt auf Direktschäden bis zur Höhe des Kaufpreises.</p>
 
                 <h4 class="font-bold">7. Datenschutz</h4>
-                <p>
-                  Siehe Datenschutzerklärung für die Behandlung Ihrer Daten.
-                </p>
+                <p>Siehe Datenschutzerklärung für die Behandlung Ihrer Daten.</p>
 
                 <h4 class="font-bold">8. Schlussbestimmungen</h4>
-                <p>
-                  Es gilt deutsches Recht. Gerichtsstand ist der Sitz des
-                  Unternehmens.
-                </p>
+                <p>Es gilt deutsches Recht. Gerichtsstand ist der Sitz des Unternehmens.</p>
               </div>
             </div>
             <div class="modal-action">
-              <button
-                type="button"
-                @click="showTermsModal = false"
-                class="btn btn-primary"
-              >
+              <button type="button" @click="showTermsModal = false" class="btn btn-primary">
                 Verstanden
               </button>
             </div>
@@ -258,50 +211,38 @@
               <div class="prose prose-sm">
                 <h4 class="font-bold">1. Verantwortlicher</h4>
                 <p>
-                  Verantwortlich für die Datenverarbeitung ist der Betreiber
-                  dieses Shops (siehe Impressum).
+                  Verantwortlich für die Datenverarbeitung ist der Betreiber dieses Shops (siehe
+                  Impressum).
                 </p>
 
                 <h4 class="font-bold">2. Erhebung und Verarbeitung</h4>
-                <p>
-                  Wir erheben Ihre Daten nur zur Abwicklung Ihres Einkaufs und
-                  zum Versand.
-                </p>
+                <p>Wir erheben Ihre Daten nur zur Abwicklung Ihres Einkaufs und zum Versand.</p>
 
                 <h4 class="font-bold">3. Speicherdauer</h4>
                 <p>
-                  Persönliche Daten werden 10 Jahre zur Erfüllung von
-                  Steuerpflichten gespeichert.
+                  Persönliche Daten werden 10 Jahre zur Erfüllung von Steuerpflichten gespeichert.
                 </p>
 
                 <h4 class="font-bold">4. Ihre Rechte</h4>
                 <p>
-                  Sie haben das Recht auf Auskunft, Berichtigung, Löschung und
-                  Datenportabilität.
+                  Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Datenportabilität.
                 </p>
 
                 <h4 class="font-bold">5. Cookies</h4>
                 <p>
-                  Wir verwenden technisch notwendige Cookies. Andere Cookies
-                  werden mit Ihrer Einwilligung gespeichert.
+                  Wir verwenden technisch notwendige Cookies. Andere Cookies werden mit Ihrer
+                  Einwilligung gespeichert.
                 </p>
 
                 <h4 class="font-bold">6. Sicherheit</h4>
-                <p>
-                  Wir schützen Ihre Daten durch Verschlüsselung und sichere
-                  Übertragung.
-                </p>
+                <p>Wir schützen Ihre Daten durch Verschlüsselung und sichere Übertragung.</p>
 
                 <h4 class="font-bold">7. Datenschutzbeauftragter</h4>
                 <p>Bei Fragen: datenschutz@example.com</p>
               </div>
             </div>
             <div class="modal-action">
-              <button
-                type="button"
-                @click="showPrivacyModal = false"
-                class="btn btn-primary"
-              >
+              <button type="button" @click="showPrivacyModal = false" class="btn btn-primary">
                 Verstanden
               </button>
             </div>
@@ -325,18 +266,15 @@
               <div class="prose prose-sm">
                 <h4 class="font-bold">Ihr Widerrufsrecht</h4>
                 <p>
-                  Sie haben das Recht, Ihren Kauf innerhalb von 14 Tagen nach
-                  Erhalt der Ware zu widerrufen, ohne einen Grund angeben zu
-                  müssen.
+                  Sie haben das Recht, Ihren Kauf innerhalb von 14 Tagen nach Erhalt der Ware zu
+                  widerrufen, ohne einen Grund angeben zu müssen.
                 </p>
 
                 <h4 class="font-bold">Widerrufsfristen</h4>
                 <ul class="list-disc list-inside">
                   <li>Beginn: Tag nach Erhalt der Ware</li>
                   <li>Dauer: 14 Tage</li>
-                  <li>
-                    Form: Einfache schriftliche Mitteilung per E-Mail genügt
-                  </li>
+                  <li>Form: Einfache schriftliche Mitteilung per E-Mail genügt</li>
                 </ul>
 
                 <h4 class="font-bold">Ausnahmen</h4>
@@ -344,33 +282,25 @@
                 <ul class="list-disc list-inside">
                   <li>Digitale Inhalte nach Abruf</li>
                   <li>Maßgeschneiderte oder personalisierte Waren</li>
-                  <li>
-                    Waren, die nach Zustellung beschädigt wurden (Ihr
-                    Verschulden)
-                  </li>
+                  <li>Waren, die nach Zustellung beschädigt wurden (Ihr Verschulden)</li>
                 </ul>
 
                 <h4 class="font-bold">Rückgabeverfahren</h4>
                 <p>
-                  Senden Sie die Ware unverzüglich zurück. Versandkosten trägt
-                  der Käufer (außer bei berechtigter Rückgabe).
+                  Senden Sie die Ware unverzüglich zurück. Versandkosten trägt der Käufer (außer bei
+                  berechtigter Rückgabe).
                 </p>
 
                 <h4 class="font-bold">Kontakt</h4>
                 <p>Widerrufe richten Sie an: widerruf@example.com</p>
 
                 <p class="text-sm italic mt-4">
-                  <strong>Rechtsgrundlage:</strong> §§ 355-359 BGB
-                  (Fernabsatzgesetz)
+                  <strong>Rechtsgrundlage:</strong> §§ 355-359 BGB (Fernabsatzgesetz)
                 </p>
               </div>
             </div>
             <div class="modal-action">
-              <button
-                type="button"
-                @click="showWithdrawalModal = false"
-                class="btn btn-primary"
-              >
+              <button type="button" @click="showWithdrawalModal = false" class="btn btn-primary">
                 Verstanden
               </button>
             </div>
@@ -382,7 +312,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue';
 
 interface TermsAcceptance {
   termsAndConditions: boolean;
@@ -391,8 +321,8 @@ interface TermsAcceptance {
 }
 
 const emit = defineEmits<{
-  (e: "continue"): void;
-  (e: "back"): void;
+  (e: 'continue'): void;
+  (e: 'back'): void;
 }>();
 
 // State management
@@ -403,8 +333,8 @@ const acceptedTerms = ref<TermsAcceptance>({
 });
 
 const isSubmitting = ref(false);
-const errorMessage = ref("");
-const successMessage = ref("");
+const errorMessage = ref('');
+const successMessage = ref('');
 
 const showTermsModal = ref(false);
 const showPrivacyModal = ref(false);
@@ -412,64 +342,59 @@ const showWithdrawalModal = ref(false);
 
 // Computed properties
 const canContinue = computed(
-  () =>
-    acceptedTerms.value.termsAndConditions && acceptedTerms.value.privacyPolicy
+  () => acceptedTerms.value.termsAndConditions && acceptedTerms.value.privacyPolicy
 );
 
 // Methods
 const continueToPayment = async () => {
   if (!canContinue.value) {
     errorMessage.value =
-      "Bitte akzeptieren Sie die Allgemeinen Geschäftsbedingungen und Datenschutzerklärung";
+      'Bitte akzeptieren Sie die Allgemeinen Geschäftsbedingungen und Datenschutzerklärung';
     return;
   }
 
   isSubmitting.value = true;
-  errorMessage.value = "";
-  successMessage.value = "";
+  errorMessage.value = '';
+  successMessage.value = '';
 
   try {
     // Submit acceptance to backend
-    const response = await fetch(
-      "http://localhost:7005/api/checkout/accept-terms",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          customerId: "customer-123", // Would come from auth context
-          acceptTermsAndConditions: acceptedTerms.value.termsAndConditions,
-          acceptPrivacyPolicy: acceptedTerms.value.privacyPolicy,
-          acceptWithdrawalRight: acceptedTerms.value.withdrawalRight,
-        }),
-      }
-    );
+    const response = await fetch('http://localhost:7005/api/checkout/accept-terms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customerId: 'customer-123', // Would come from auth context
+        acceptTermsAndConditions: acceptedTerms.value.termsAndConditions,
+        acceptPrivacyPolicy: acceptedTerms.value.privacyPolicy,
+        acceptWithdrawalRight: acceptedTerms.value.withdrawalRight,
+      }),
+    });
 
     if (!response.ok) {
-      throw new Error("Fehler beim Speichern der Bedingungsannahme");
+      throw new Error('Fehler beim Speichern der Bedingungsannahme');
     }
 
     const data = await response.json();
     if (data.success) {
-      successMessage.value = "Bedingungen akzeptiert!";
+      successMessage.value = 'Bedingungen akzeptiert!';
       setTimeout(() => {
-        emit("continue");
+        emit('continue');
       }, 500);
     } else {
-      errorMessage.value = data.message || "Fehler beim Verarbeiten";
+      errorMessage.value = data.message || 'Fehler beim Verarbeiten';
     }
   } catch (error) {
-    errorMessage.value =
-      "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.";
-    console.error("Terms acceptance error:", error);
+    errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
+    console.error('Terms acceptance error:', error);
   } finally {
     isSubmitting.value = false;
   }
 };
 
 const goBack = () => {
-  emit("back");
+  emit('back');
 };
 </script>
 

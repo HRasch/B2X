@@ -3,7 +3,7 @@ using B2Connect.Catalog.Application.Handlers;
 using B2Connect.Catalog.Core.Interfaces;
 using Wolverine.Http;
 
-namespace B2Connect.CatalogService.Endpoints;
+namespace B2Connect.Catalog.Endpoints;
 /// <summary>
 /// Wolverine HTTP Endpoints for Price Calculation
 /// Issue #30: B2C Price Transparency (PAngV)

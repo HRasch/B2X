@@ -22,40 +22,44 @@
       </div>
     </div>
 
-    <CreateStoreModal v-if="isCreateModalOpen" @close="isCreateModalOpen = false" @created="addNewStore" />
+    <CreateStoreModal
+      v-if="isCreateModalOpen"
+      @close="isCreateModalOpen = false"
+      @created="addNewStore"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useStoreStore } from '@/stores/storeStore'
-import type { StoreInstance } from '@/stores/storeStore'
-import CreateStoreModal from '@/components/CreateStoreModal.vue'
+import { ref, onMounted } from 'vue';
+import { useStoreStore } from '@/stores/storeStore';
+import type { StoreInstance } from '@/stores/storeStore';
+import CreateStoreModal from '@/components/CreateStoreModal.vue';
 
-const storeStore = useStoreStore()
-const stores = ref<StoreInstance[]>([])
-const loading = ref(false)
-const isCreateModalOpen = ref(false)
+const storeStore = useStoreStore();
+const stores = ref<StoreInstance[]>([]);
+const loading = ref(false);
+const isCreateModalOpen = ref(false);
 
 onMounted(async () => {
-  loading.value = true
+  loading.value = true;
   // Fetch stores from API
-  stores.value = storeStore.stores
-  loading.value = false
-})
+  stores.value = storeStore.stores;
+  loading.value = false;
+});
 
 const deleteStoreInstance = (id: string) => {
   if (confirm('Are you sure you want to delete this store?')) {
-    storeStore.deleteStore(id)
-    stores.value = storeStore.stores
+    storeStore.deleteStore(id);
+    stores.value = storeStore.stores;
   }
-}
+};
 
 const addNewStore = (store: StoreInstance) => {
-  storeStore.addStore(store)
-  stores.value = storeStore.stores
-  isCreateModalOpen.value = false
-}
+  storeStore.addStore(store);
+  stores.value = storeStore.stores;
+  isCreateModalOpen.value = false;
+};
 </script>
 
 <style scoped>
@@ -124,7 +128,9 @@ const addNewStore = (store: StoreInstance) => {
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 .store-card:hover {

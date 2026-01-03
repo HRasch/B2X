@@ -21,41 +21,41 @@
 ```vue
 <!-- pages/Register.vue -->
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import CustomerLookup from '@/components/ERP/CustomerLookup.vue'
-import RegistrationForm from '@/components/Registration/RegistrationForm.vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive } from 'vue';
+import CustomerLookup from '@/components/ERP/CustomerLookup.vue';
+import RegistrationForm from '@/components/Registration/RegistrationForm.vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
+const router = useRouter();
 
 // State
-const step = ref<'lookup' | 'register' | 'confirm'>('lookup')
+const step = ref<'lookup' | 'register' | 'confirm'>('lookup');
 const foundCustomer = reactive({
   customerNumber: '',
   customerName: '',
   email: '',
   businessType: 'PRIVATE' as 'PRIVATE' | 'BUSINESS',
-})
+});
 
 // Handle existing customer
 const handleProceedWithExistingCustomer = (customerNumber: string) => {
-  foundCustomer.customerNumber = customerNumber
-  
+  foundCustomer.customerNumber = customerNumber;
+
   // Option 1: Go directly to checkout (skip registration)
   router.push({
     name: 'checkout',
     params: { customerNumber },
-    query: { existing: 'true' }
-  })
-  
+    query: { existing: 'true' },
+  });
+
   // Option 2: Show confirmation page
   // step.value = 'confirm'
-}
+};
 
 // Handle new customer
 const handleRegisterNewCustomer = () => {
-  step.value = 'register'
-}
+  step.value = 'register';
+};
 
 // Handle registration form submission
 const handleRegistrationComplete = async (formData: any) => {
@@ -64,30 +64,30 @@ const handleRegistrationComplete = async (formData: any) => {
     const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
+      body: JSON.stringify(formData),
+    });
 
     if (response.ok) {
-      const { customerNumber } = await response.json()
-      
+      const { customerNumber } = await response.json();
+
       // Redirect to checkout
       router.push({
         name: 'checkout',
         params: { customerNumber },
-        query: { new: 'true' }
-      })
+        query: { new: 'true' },
+      });
     }
   } catch (error) {
-    console.error('Registration failed:', error)
+    console.error('Registration failed:', error);
   }
-}
+};
 
 // Back button handler
 const handleBack = () => {
   if (step.value === 'register') {
-    step.value = 'lookup'
+    step.value = 'lookup';
   }
-}
+};
 </script>
 
 <template>
@@ -113,10 +113,7 @@ const handleBack = () => {
           </button>
         </div>
 
-        <RegistrationForm
-          @submit="handleRegistrationComplete"
-          @cancel="handleBack"
-        />
+        <RegistrationForm @submit="handleRegistrationComplete" @cancel="handleBack" />
       </div>
 
       <!-- Step: Confirmation -->
@@ -124,7 +121,12 @@ const handleBack = () => {
         <h2 class="text-2xl font-bold mb-4">Registration erfolgreich</h2>
         <p>{{ foundCustomer.customerName }}</p>
         <button
-          @click="router.push({ name: 'checkout', params: { customerNumber: foundCustomer.customerNumber } })"
+          @click="
+            router.push({
+              name: 'checkout',
+              params: { customerNumber: foundCustomer.customerNumber },
+            })
+          "
           class="mt-6 w-full bg-blue-600 text-white py-2 rounded"
         >
           Zur Bestellung
@@ -147,10 +149,10 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: () => import('@/pages/Register.vue')
+    component: () => import('@/pages/Register.vue'),
   },
   // ... other routes
-]
+];
 ```
 
 ---
@@ -162,62 +164,62 @@ const routes = [
 ```vue
 <!-- pages/Login.vue -->
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuth } from '@/composables/useAuth'
-import { useErpIntegration } from '@/composables/useErpIntegration'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuth } from '@/composables/useAuth';
+import { useErpIntegration } from '@/composables/useErpIntegration';
 
-const router = useRouter()
-const { login } = useAuth()
-const { validateCustomerEmail, customer, isLoading, error, clearCustomer } = useErpIntegration()
+const router = useRouter();
+const { login } = useAuth();
+const { validateCustomerEmail, customer, isLoading, error, clearCustomer } = useErpIntegration();
 
 // Form state
-const email = ref('')
-const password = ref('')
-const formError = ref<string | null>(null)
+const email = ref('');
+const password = ref('');
+const formError = ref<string | null>(null);
 
 // Step tracking
-const step = ref<'email' | 'password'>('email')
+const step = ref<'email' | 'password'>('email');
 
 // Step 1: Verify customer email exists
 const handleValidateEmail = async () => {
-  formError.value = null
-  const result = await validateCustomerEmail(email.value)
+  formError.value = null;
+  const result = await validateCustomerEmail(email.value);
 
   if (result.isValid) {
     // Email exists in ERP
-    step.value = 'password'
+    step.value = 'password';
   } else {
-    formError.value = result.message || 'Kunde nicht gefunden'
+    formError.value = result.message || 'Kunde nicht gefunden';
   }
-}
+};
 
 // Step 2: Submit login
 const handleSubmitLogin = async () => {
-  formError.value = null
+  formError.value = null;
 
   try {
     await login({
       email: email.value,
       password: password.value,
       customerNumber: customer.value?.customerNumber,
-    })
+    });
 
     // Redirect to dashboard
-    router.push('/dashboard')
+    router.push('/dashboard');
   } catch (err: any) {
-    formError.value = err.message || 'Login fehlgeschlagen'
+    formError.value = err.message || 'Login fehlgeschlagen';
   }
-}
+};
 
 // Reset form
 const handleReset = () => {
-  email.value = ''
-  password.value = ''
-  step.value = 'email'
-  formError.value = null
-  clearCustomer()
-}
+  email.value = '';
+  password.value = '';
+  step.value = 'email';
+  formError.value = null;
+  clearCustomer();
+};
 </script>
 
 <template>
@@ -226,7 +228,10 @@ const handleReset = () => {
       <h1 class="text-2xl font-bold mb-6 text-center">Anmelden</h1>
 
       <!-- Error Alert -->
-      <div v-if="formError" class="mb-4 p-3 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded">
+      <div
+        v-if="formError"
+        class="mb-4 p-3 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded"
+      >
         {{ formError }}
       </div>
 
@@ -319,12 +324,12 @@ const handleReset = () => {
 ```vue
 <!-- pages/Checkout.vue -->
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
-import { useRoute } from 'vue-router'
-import { useErpIntegration } from '@/composables/useErpIntegration'
+import { onMounted, reactive } from 'vue';
+import { useRoute } from 'vue-router';
+import { useErpIntegration } from '@/composables/useErpIntegration';
 
-const route = useRoute()
-const { validateCustomerNumber, customer } = useErpIntegration()
+const route = useRoute();
+const { validateCustomerNumber, customer } = useErpIntegration();
 
 const checkoutData = reactive({
   customerNumber: '',
@@ -334,40 +339,40 @@ const checkoutData = reactive({
   billingAddress: '',
   items: [] as any[],
   total: 0,
-})
+});
 
 // Pre-fill with customer info if available
 onMounted(async () => {
-  const customerNumber = route.params.customerNumber as string
+  const customerNumber = route.params.customerNumber as string;
 
   if (customerNumber) {
     // Lookup customer details
-    await validateCustomerNumber(customerNumber)
+    await validateCustomerNumber(customerNumber);
 
     if (customer.value) {
-      checkoutData.customerNumber = customer.value.customerNumber
-      checkoutData.customerName = customer.value.customerName
-      checkoutData.email = customer.value.email
-      checkoutData.shippingAddress = customer.value.shippingAddress || ''
-      checkoutData.billingAddress = customer.value.billingAddress || ''
+      checkoutData.customerNumber = customer.value.customerNumber;
+      checkoutData.customerName = customer.value.customerName;
+      checkoutData.email = customer.value.email;
+      checkoutData.shippingAddress = customer.value.shippingAddress || '';
+      checkoutData.billingAddress = customer.value.billingAddress || '';
     }
   }
-})
+});
 
 const handleSubmitOrder = async () => {
   try {
     const response = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(checkoutData)
-    })
+      body: JSON.stringify(checkoutData),
+    });
 
-    const { orderId } = await response.json()
-    window.location.href = `/order-confirmation/${orderId}`
+    const { orderId } = await response.json();
+    window.location.href = `/order-confirmation/${orderId}`;
   } catch (error) {
-    console.error('Order submission failed:', error)
+    console.error('Order submission failed:', error);
   }
-}
+};
 </script>
 
 <template>
@@ -410,7 +415,9 @@ const handleSubmitOrder = async () => {
           <span>Versand:</span>
           <span>€ 5,99</span>
         </div>
-        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between font-bold text-lg">
+        <div
+          class="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between font-bold text-lg"
+        >
           <span>Gesamt:</span>
           <span>€ 105,98</span>
         </div>
@@ -472,26 +479,26 @@ VITE_API_URL=https://api.example.com
 
 ```typescript
 // composables/useApi.ts
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 export function useApi() {
-  const baseUrl = import.meta.env.VITE_API_URL
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   const fetchJson = async (endpoint: string, options: any = {}) => {
     const response = await fetch(`${baseUrl}${endpoint}`, {
       headers: { 'Content-Type': 'application/json' },
-      ...options
-    })
+      ...options,
+    });
 
     if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'API error')
+      const error = await response.json();
+      throw new Error(error.message || 'API error');
     }
 
-    return response.json()
-  }
+    return response.json();
+  };
 
-  return { fetchJson }
+  return { fetchJson };
 }
 ```
 
@@ -502,52 +509,52 @@ export function useApi() {
 ### Integration Test Example
 
 ```typescript
-import { mount, flushPromises } from '@vue/test-utils'
-import Register from '@/pages/Register.vue'
+import { mount, flushPromises } from '@vue/test-utils';
+import Register from '@/pages/Register.vue';
 
 describe('Register Page Integration', () => {
   it('should show CustomerLookup on load', () => {
-    const wrapper = mount(Register)
-    expect(wrapper.findComponent({ name: 'CustomerLookup' }).exists()).toBe(true)
-  })
+    const wrapper = mount(Register);
+    expect(wrapper.findComponent({ name: 'CustomerLookup' }).exists()).toBe(true);
+  });
 
   it('should navigate to registration form when register is clicked', async () => {
-    const wrapper = mount(Register)
-    const component = wrapper.findComponent({ name: 'CustomerLookup' })
-    
-    await component.vm.$emit('register')
-    await flushPromises()
+    const wrapper = mount(Register);
+    const component = wrapper.findComponent({ name: 'CustomerLookup' });
 
-    expect(wrapper.find('.registration-form').exists()).toBe(true)
-  })
+    await component.vm.$emit('register');
+    await flushPromises();
+
+    expect(wrapper.find('.registration-form').exists()).toBe(true);
+  });
 
   it('should navigate to checkout when existing customer proceeds', async () => {
     const mockRouter = {
-      push: vi.fn()
-    }
+      push: vi.fn(),
+    };
 
     const wrapper = mount(Register, {
       global: {
         stubs: {
-          'router-link': true
+          'router-link': true,
         },
         mocks: {
-          $router: mockRouter
-        }
-      }
-    })
+          $router: mockRouter,
+        },
+      },
+    });
 
-    const component = wrapper.findComponent({ name: 'CustomerLookup' })
-    await component.vm.$emit('proceed', 'CUST-001')
+    const component = wrapper.findComponent({ name: 'CustomerLookup' });
+    await component.vm.$emit('proceed', 'CUST-001');
 
     expect(mockRouter.push).toHaveBeenCalledWith(
       expect.objectContaining({
         name: 'checkout',
-        params: { customerNumber: 'CUST-001' }
+        params: { customerNumber: 'CUST-001' },
       })
-    )
-  })
-})
+    );
+  });
+});
 ```
 
 ---

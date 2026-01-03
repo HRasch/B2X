@@ -1,6 +1,8 @@
-using Bogus;
 using B2Connect.Admin.Core.Entities;
+using B2Connect.Shared.Core;
 using B2Connect.Types.Localization;
+using Bogus;
+using LocalizedContent = B2Connect.Types.Localization.LocalizedContent;
 
 namespace B2Connect.Admin.Infrastructure.Data;
 
@@ -264,11 +266,11 @@ public static class CatalogDemoDataGenerator
             .RuleFor(p => p.AverageRating, f => f.Random.Decimal(2.5m, 5.0m))
             .RuleFor(p => p.ReviewCount, f => f.Random.Int(0, 500))
             .RuleFor(p => p.ThumbnailUrl, f => $"https://picsum.photos/300/300?random={f.Random.Int()}")
-            .RuleFor(p => p.CreatedAt, f => f.Date.PastDateOnly(365).ToDateTime(new TimeOnly()))
+            .RuleFor(p => p.CreatedAt, f => f.Date.PastDateOnly(365).ToDateTime(default(TimeOnly)))
             .RuleFor(p => p.UpdatedAt, (f, p) => f.Date.Between(p.CreatedAt, DateTime.UtcNow))
             .RuleFor(p => p.CreatedBy, f => f.Internet.UserName())
             .RuleFor(p => p.UpdatedBy, f => f.Internet.UserName())
-            .RuleFor(p => p.TenantId, f => f.Random.Bool(0.7f) ? Guid.NewGuid() : null)
+            .RuleFor(p => p.TenantId, _ => SeedConstants.DefaultTenantId)
 
             // Variants
             .RuleFor(p => p.Variants, (f, p) => GenerateVariants(f, p))
@@ -447,4 +449,3 @@ public static class CatalogDemoDataGenerator
         return categories;
     }
 }
-

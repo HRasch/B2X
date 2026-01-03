@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
@@ -9,8 +11,22 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
+using System.Text.Json;
 
 namespace B2Connect.ServiceDefaults;
+
+/// <summary>
+/// Health check configuration options for B2Connect services.
+/// Configure via IConfiguration section "HealthChecks".
+/// </summary>
+public class HealthCheckOptions
+{
+    public string? PostgresConnectionString { get; set; }
+    public string? RedisConnectionString { get; set; }
+    public string? ElasticsearchUri { get; set; }
+    public string? RabbitMqConnectionString { get; set; }
+    public string[]? DependencyUris { get; set; }
+}
 
 public static class Extensions
 {
@@ -54,15 +70,185 @@ public static class Extensions
     public static IApplicationBuilder UseServiceDefaults(this WebApplication app)
     {
         // Add long-running request detection early in the pipeline
-        app.UseLongRunningRequestDetection();
+        // app.UseLongRunningRequestDetection(); // Temporarily disabled for debugging
 
-        app.MapHealthChecks("/health");
-        app.MapHealthChecks("/health/live", new HealthCheckOptions
+        // Standard health check endpoints per ADR-025
+        app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
         {
-            Predicate = r => r.Tags.Contains("live")
+            ResponseWriter = WriteHealthCheckResponse
+        });
+
+        app.MapHealthChecks("/health/live", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+        {
+            Predicate = r => r.Tags.Contains("live"),
+            ResponseWriter = WriteHealthCheckResponse
+        });
+
+        app.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+        {
+            Predicate = r => r.Tags.Contains("ready"),
+            ResponseWriter = WriteHealthCheckResponse
         });
 
         return app;
+    }
+
+    /// <summary>
+    /// Writes health check response as JSON with detailed status per ADR-025.
+    /// </summary>
+    private static async Task WriteHealthCheckResponse(HttpContext context, HealthReport report)
+    {
+        context.Response.ContentType = "application/json";
+
+        var response = new
+        {
+            status = report.Status.ToString(),
+            totalDuration = report.TotalDuration.TotalMilliseconds,
+            checks = report.Entries.Select(e => new
+            {
+                name = e.Key,
+                status = e.Value.Status.ToString(),
+                duration = e.Value.Duration.TotalMilliseconds,
+                description = e.Value.Description,
+                exception = e.Value.Exception?.Message,
+                tags = e.Value.Tags
+            })
+        };
+
+        await context.Response.WriteAsync(JsonSerializer.Serialize(response, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        }));
+    }
+
+    /// <summary>
+    /// Adds PostgreSQL health check for database connectivity.
+    /// Connection string from configuration: "ConnectionStrings:postgres" or explicit.
+    /// </summary>
+    public static IHealthChecksBuilder AddPostgresHealthCheck(
+        this IHealthChecksBuilder builder,
+        IConfiguration configuration,
+        string? connectionStringName = null)
+    {
+        var connectionString = connectionStringName != null
+            ? configuration.GetConnectionString(connectionStringName)
+            : configuration.GetConnectionString("postgres")
+              ?? configuration.GetConnectionString("DefaultConnection");
+
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+            builder.AddNpgSql(
+                connectionString,
+                name: "postgresql",
+                tags: ["ready", "database"],
+                timeout: TimeSpan.FromSeconds(5));
+        }
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds Redis health check for cache connectivity.
+    /// Connection string from configuration: "ConnectionStrings:redis" or explicit.
+    /// </summary>
+    public static IHealthChecksBuilder AddRedisHealthCheck(
+        this IHealthChecksBuilder builder,
+        IConfiguration configuration,
+        string? connectionStringName = null)
+    {
+        var connectionString = connectionStringName != null
+            ? configuration.GetConnectionString(connectionStringName)
+            : configuration.GetConnectionString("redis");
+
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+            builder.AddRedis(
+                connectionString,
+                name: "redis",
+                tags: ["ready", "cache"],
+                timeout: TimeSpan.FromSeconds(3));
+        }
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds Elasticsearch health check for search service connectivity.
+    /// URI from configuration: "Elasticsearch:Uri" or "ConnectionStrings:elasticsearch".
+    /// </summary>
+    public static IHealthChecksBuilder AddElasticsearchHealthCheck(
+        this IHealthChecksBuilder builder,
+        IConfiguration configuration)
+    {
+        var elasticUri = configuration["Elasticsearch:Uri"]
+            ?? configuration.GetConnectionString("elasticsearch");
+
+        if (!string.IsNullOrEmpty(elasticUri))
+        {
+            builder.AddElasticsearch(
+                elasticUri,
+                name: "elasticsearch",
+                tags: ["ready", "search"],
+                timeout: TimeSpan.FromSeconds(5));
+        }
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds RabbitMQ health check for message broker connectivity.
+    /// Connection string from configuration: "ConnectionStrings:rabbitmq" or "RabbitMQ:ConnectionString".
+    /// </summary>
+    public static IHealthChecksBuilder AddRabbitMqHealthCheck(
+        this IHealthChecksBuilder builder,
+        IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("rabbitmq")
+            ?? configuration["RabbitMQ:ConnectionString"];
+
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+            builder.AddRabbitMQ(
+                name: "rabbitmq",
+                tags: ["ready", "messaging"],
+                timeout: TimeSpan.FromSeconds(5));
+        }
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds health checks for upstream service dependencies via HTTP.
+    /// Services resolved via Aspire service discovery.
+    /// </summary>
+    public static IHealthChecksBuilder AddUpstreamServiceHealthCheck(
+        this IHealthChecksBuilder builder,
+        string serviceName,
+        string healthEndpoint = "/health")
+    {
+        builder.AddUrlGroup(
+            new Uri($"http://{serviceName}{healthEndpoint}"),
+            name: serviceName,
+            tags: ["ready", "upstream"],
+            timeout: TimeSpan.FromSeconds(5));
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds all standard infrastructure health checks based on configuration.
+    /// Automatically detects configured services.
+    /// </summary>
+    public static IHealthChecksBuilder AddInfrastructureHealthChecks(
+        this IHealthChecksBuilder builder,
+        IConfiguration configuration)
+    {
+        return builder
+            .AddPostgresHealthCheck(configuration)
+            .AddRedisHealthCheck(configuration)
+            .AddElasticsearchHealthCheck(configuration)
+            .AddRabbitMqHealthCheck(configuration);
     }
 
     /// <summary>
@@ -74,8 +260,7 @@ public static class Extensions
         TimeSpan? warningThreshold = null,
         TimeSpan? criticalThreshold = null)
     {
-        var logger = app.ApplicationServices.GetRequiredService<ILogger<LongRunningRequestMiddleware>>();
-        return app.UseMiddleware<LongRunningRequestMiddleware>(logger, warningThreshold, criticalThreshold);
+        return app.UseMiddleware<LongRunningRequestMiddleware>(warningThreshold, criticalThreshold);
     }
 
     public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
@@ -141,6 +326,11 @@ public static class Extensions
                     })
                     .AddHttpClientInstrumentation(options =>
                     {
+                        options.RecordException = true;
+                    })
+                    .AddQuartzInstrumentation(options =>
+                    {
+                        // Record job exceptions in traces
                         options.RecordException = true;
                     });
 

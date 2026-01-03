@@ -16,7 +16,11 @@
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
-    "type-check": "npm run type-check --workspaces"
+    "type-check": "npm run type-check --workspaces",
+    "format": "prettier --write \"frontend/**/*.{js,ts,vue,json,css,scss,md}\"",
+    "format:check": "prettier --check \"frontend/**/*.{js,ts,vue,json,css,scss,md}\"",
+    "legacy-cleanup": "node scripts/legacy-code-cleanup.js",
+    "prepare": "husky"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -32,6 +36,21 @@
   "license": "MIT",
   "devDependencies": {
     "@rollup/rollup-darwin-arm64": "^4.54.0",
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.3.3"
+  },
+  "lint-staged": {
+    "frontend/**/*.{js,ts,vue}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "frontend/**/*.{json,css,scss,md}": [
+      "prettier --write"
+    ],
+    "frontend/**/*.{ts,vue}": [
+      "vue-tsc --noEmit"
+    ]
   }
 }

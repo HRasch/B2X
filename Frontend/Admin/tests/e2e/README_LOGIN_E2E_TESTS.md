@@ -3,6 +3,7 @@
 ## Übersicht
 
 Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschließlich:
+
 - Tenant-Auflösung (X-Tenant-ID Header)
 - JWT-Token-Authentifizierung
 - Sicherheitsvalidierung (Tenant Spoofing Prevention)
@@ -13,6 +14,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 ### 1. UI/UX Tests
 
 #### `should display login form with all required elements`
+
 - **Ziel**: Verifiziert, dass alle Login-Formularelemente vorhanden sind
 - **Testet**:
   - Email-Eingabefeld
@@ -21,6 +23,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
   - "Remember Me" Checkbox
 
 #### `should display demo credentials in footer`
+
 - **Ziel**: Verifiziert Demo-Credential-Anzeige für Entwickler
 - **Testet**: Footer-Bereich mit Demo-Account-Informationen
 
@@ -29,6 +32,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 ### 2. Tenant Resolution Tests
 
 #### `should initialize default tenant ID in localStorage on page load`
+
 - **Ziel**: Verifiziert automatische Initialisierung des Default Tenant
 - **Testet**:
   - localStorage wird mit `00000000-0000-0000-0000-000000000001` initialisiert
@@ -36,6 +40,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 - **Wichtig**: Dies ist das Development-Fallback gemäß Security-Specs (CVE-2025-002)
 
 #### `should include X-Tenant-ID header in all authenticated API requests`
+
 - **Ziel**: Verifiziert Multi-Tenant-Isolation auf API-Ebene
 - **Testet**:
   - Alle API-Requests enthalten `X-Tenant-ID` Header
@@ -47,6 +52,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 ### 3. Authentication Tests
 
 #### `should show error message with invalid credentials`
+
 - **Ziel**: Verifiziert Fehlerbehandlung bei falschen Credentials
 - **Testet**:
   - Login wird abgelehnt
@@ -54,6 +60,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 - **Sicherheit**: Keine detaillierten Fehlerinformationen (VUL-2025-004)
 
 #### `should successfully login with valid credentials and JWT validation`
+
 - **Ziel**: Verifiziert erfolgreichen Login-Flow
 - **Testet**:
   - Login-Request enthält `X-Tenant-ID` Header
@@ -61,6 +68,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
   - JWT-Token wird validiert
 
 #### `should store JWT token and tenant ID in localStorage after successful login`
+
 - **Ziel**: Verifiziert Token-Speicherung
 - **Testet**:
   - `authToken` wird in localStorage gespeichert
@@ -68,6 +76,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
   - `tenantId` bleibt konsistent (Default Tenant)
 
 #### `should include Authorization header with JWT token in authenticated requests`
+
 - **Ziel**: Verifiziert JWT-Propagierung zu Backend
 - **Testet**:
   - Alle API-Requests enthalten `Authorization: Bearer <token>` Header
@@ -78,6 +87,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 ### 4. Security Tests
 
 #### `should prevent tenant ID spoofing by validating JWT claim`
+
 - **Ziel**: Verifiziert Schutz gegen Tenant ID Manipulation (CVE-2025-001)
 - **Testet**:
   - User kann `tenantId` in localStorage nicht manipulieren
@@ -86,6 +96,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 - **Kritisch**: Dies ist die wichtigste Security-Maßnahme im Multi-Tenant-System
 
 #### `should redirect to login on 401 unauthorized`
+
 - **Ziel**: Verifiziert Session-Timeout-Handling
 - **Testet**:
   - 401-Response löscht Tokens aus localStorage
@@ -93,6 +104,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 - **Sicherheit**: Verhindert unautorisierten Zugriff
 
 #### `should clear sensitive data on logout`
+
 - **Ziel**: Verifiziert Bereinigung sensibler Daten
 - **Testet**:
   - `authToken` wird bei Logout gelöscht
@@ -104,6 +116,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 ### 5. Error Handling Tests
 
 #### `should handle network errors gracefully during login`
+
 - **Ziel**: Verifiziert Robustheit bei Netzwerkfehlern
 - **Testet**:
   - Login-Request-Fehler wird abgefangen
@@ -111,6 +124,7 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
   - Keine unbehandelte Exception
 
 #### `should validate email format before submission`
+
 - **Ziel**: Verifiziert Client-seitige Validierung
 - **Testet**:
   - HTML5-Validierung verhindert ungültige Email-Formate
@@ -169,6 +183,7 @@ npx playwright test auth.spec.ts --trace on
 ## Test-Konfiguration
 
 Siehe [playwright.config.ts](../../playwright.config.ts):
+
 - **baseURL**: `http://localhost:5174`
 - **Timeout**: 30 Sekunden
 - **Retries**: 2 (nur in CI)
@@ -181,13 +196,13 @@ Siehe [playwright.config.ts](../../playwright.config.ts):
 
 Diese Tests decken folgende Security Requirements ab:
 
-| CVE/VUL ID | Beschreibung | Test |
-|------------|--------------|------|
-| **CVE-2025-001** | JWT Tenant Validation | `should prevent tenant ID spoofing` |
-| **CVE-2025-002** | Development Fallback Security | `should initialize default tenant ID` |
-| **VUL-2025-004** | Generic Error Messages | `should show error message with invalid credentials` |
-| **VUL-2025-005** | Tenant Isolation via Headers | `should include X-Tenant-ID header` |
-| **VUL-2025-007** | Tenant Ownership Validation | `should prevent tenant ID spoofing` |
+| CVE/VUL ID       | Beschreibung                  | Test                                                 |
+| ---------------- | ----------------------------- | ---------------------------------------------------- |
+| **CVE-2025-001** | JWT Tenant Validation         | `should prevent tenant ID spoofing`                  |
+| **CVE-2025-002** | Development Fallback Security | `should initialize default tenant ID`                |
+| **VUL-2025-004** | Generic Error Messages        | `should show error message with invalid credentials` |
+| **VUL-2025-005** | Tenant Isolation via Headers  | `should include X-Tenant-ID header`                  |
+| **VUL-2025-007** | Tenant Ownership Validation   | `should prevent tenant ID spoofing`                  |
 
 ---
 
@@ -222,6 +237,7 @@ Diese Tests decken folgende Security Requirements ab:
 **Problem**: Login-Request dauert zu lange oder schlägt fehl
 
 **Lösung**:
+
 1. Prüfen ob Backend läuft: `curl http://localhost:7002/health`
 2. Prüfen ob Admin-Gateway läuft: `curl http://localhost:8080/health`
 3. Logs überprüfen: `docker logs <container-id>`
@@ -231,6 +247,7 @@ Diese Tests decken folgende Security Requirements ab:
 **Problem**: Tenant ID wird nicht in API-Requests gesendet
 
 **Lösung**:
+
 1. Prüfen ob `tenantId` in localStorage gesetzt ist
 2. Prüfen `src/services/client.ts` Request Interceptor
 3. Browser DevTools Network Tab überprüfen
@@ -240,6 +257,7 @@ Diese Tests decken folgende Security Requirements ab:
 **Problem**: Backend validiert Tenant ID nicht gegen JWT
 
 **Lösung**:
+
 1. Prüfen Backend `TenantContextMiddleware.cs`
 2. Verifizieren JWT enthält `tenant_id` Claim
 3. Environment muss Production sein (nicht Development mit Fallback)
@@ -249,12 +267,14 @@ Diese Tests decken folgende Security Requirements ab:
 ## Nächste Schritte
 
 ### Erweiterungen
+
 1. **Multi-Tenant Login Test**: Test mit verschiedenen Tenant IDs
 2. **Session Timeout Test**: Test automatischer Token-Refresh
 3. **MFA Test**: Test 2-Faktor-Authentifizierung (wenn implementiert)
 4. **Accessibility Test**: WCAG 2.1 Compliance für Login-Form
 
 ### Performance Tests
+
 1. **Load Test**: 100 simultane Logins (k6 oder Artillery)
 2. **Response Time Test**: Login < 500ms
 3. **Token Validation Test**: JWT-Validierung < 50ms

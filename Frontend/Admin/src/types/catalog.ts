@@ -32,13 +32,10 @@ export interface Brand {
   updatedAt: Date;
 }
 
-export type CreateBrandRequest = Omit<
-  Brand,
-  "id" | "tenantId" | "createdAt" | "updatedAt"
->;
+export type CreateBrandRequest = Omit<Brand, 'id' | 'tenantId' | 'createdAt' | 'updatedAt'>;
 
 export type UpdateBrandRequest = Partial<
-  Omit<Brand, "id" | "tenantId" | "createdAt" | "updatedAt">
+  Omit<Brand, 'id' | 'tenantId' | 'createdAt' | 'updatedAt'>
 >;
 
 // ============================================================================
@@ -58,13 +55,10 @@ export interface Category {
   updatedAt: Date;
 }
 
-export type CreateCategoryRequest = Omit<
-  Category,
-  "id" | "tenantId" | "createdAt" | "updatedAt"
->;
+export type CreateCategoryRequest = Omit<Category, 'id' | 'tenantId' | 'createdAt' | 'updatedAt'>;
 
 export type UpdateCategoryRequest = Partial<
-  Omit<Category, "id" | "tenantId" | "createdAt" | "updatedAt">
+  Omit<Category, 'id' | 'tenantId' | 'createdAt' | 'updatedAt'>
 >;
 
 // ============================================================================
@@ -90,13 +84,10 @@ export interface Product {
   updatedAt: Date;
 }
 
-export type CreateProductRequest = Omit<
-  Product,
-  "id" | "tenantId" | "createdAt" | "updatedAt"
->;
+export type CreateProductRequest = Omit<Product, 'id' | 'tenantId' | 'createdAt' | 'updatedAt'>;
 
 export type UpdateProductRequest = Partial<
-  Omit<Product, "id" | "tenantId" | "createdAt" | "updatedAt">
+  Omit<Product, 'id' | 'tenantId' | 'createdAt' | 'updatedAt'>
 >;
 
 // ============================================================================
@@ -110,14 +101,14 @@ export interface CatalogError {
 }
 
 export interface ValidationError {
-  status: "ValidationFailed";
+  status: 'ValidationFailed';
   message: string;
   errors: Record<string, string[]>;
   timestamp: Date;
 }
 
 export interface ServerError {
-  status: "ServerError";
+  status: 'ServerError';
   message: string;
   errorId: string;
   timestamp: Date;

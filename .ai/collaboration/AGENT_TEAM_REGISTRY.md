@@ -123,6 +123,19 @@ See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
   - Collaborates: @Backend (architecture), @DevOps (containers), @Architect (design)
   - Model: Claude Haiku 4.5
 
+### Copilot Configuration
+- **@CopilotExpert** (`AGT-018`) - `GitHub Copilot Customization, Agent Configuration, Prompt Files`
+  - Expert for GitHub Copilot customization in VS Code
+  - Configures custom agents (`.agent.md`), instructions, and prompt files
+  - Manages MCP server integration and tool configuration
+  - Advises on language model selection and optimization
+  - Designs agent handoffs and workflow orchestration
+  - Owns: Copilot configuration best practices, [KB-022] documentation
+  - Expertise: Custom agents, path-specific instructions, prompt files, MCP tools
+  - Collaborates: @SARAH (governance), @TechLead (standards), @DevOps (MCP servers)
+  - Model: Claude Haiku 4.5
+  - 📖 **See**: [KB-022] GitHub Copilot Customization Guide
+
 ### AI Assistant & Knowledge Management
 - **GitHub Copilot (This AI)** - `Knowledgebase Maintenance, Internet Documentation, Code Generation`
   - **PRIMARY RESPONSIBILITY**: Maintains and curates `.ai/knowledgebase/` with comprehensive documentation
@@ -283,6 +296,7 @@ GitHub Copilot - Knowledgebase maintenance, internet documentation
 | @SEO | Haiku 4.5 | read, web | Search optimization |
 | @GitManager | Haiku 4.5 | read, edit, terminal | Git workflow, PR process |
 | @Enventa | Haiku 4.5 | vscode, execute, read, edit | enventa ERP, Actor pattern |
+| @CopilotExpert | Haiku 4.5 | read, edit, web | Copilot config, agents, prompts |
 | **GitHub Copilot (AI)** | **Haiku 4.5** | web, read, edit, semantic search | Knowledgebase, internet docs |
 | **@SARAH** | **Haiku 4.5** | coordination, governance | Coordination |
 

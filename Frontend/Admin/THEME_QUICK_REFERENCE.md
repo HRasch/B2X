@@ -4,36 +4,39 @@
 
 ```typescript
 // In App.vue onMounted hook
-themeStore.initializeTheme()
+themeStore.initializeTheme();
 ```
 
 ## 📊 Theme Store API
 
 ### State
-```typescript
-const themeStore = useThemeStore()
 
-themeStore.theme           // 'light' | 'dark' | 'auto'
-themeStore.effectiveTheme  // 'light' | 'dark' (actual)
+```typescript
+const themeStore = useThemeStore();
+
+themeStore.theme; // 'light' | 'dark' | 'auto'
+themeStore.effectiveTheme; // 'light' | 'dark' (actual)
 ```
 
 ### Methods
+
 ```typescript
 // Toggle between Light and Dark
-themeStore.toggleTheme()
+themeStore.toggleTheme();
 
 // Set specific theme
-themeStore.setTheme('light')   // Light mode
-themeStore.setTheme('dark')    // Dark mode
-themeStore.setTheme('auto')    // Follow system
+themeStore.setTheme('light'); // Light mode
+themeStore.setTheme('dark'); // Dark mode
+themeStore.setTheme('auto'); // Follow system
 
 // Initialize (called in App.vue)
-themeStore.initializeTheme()
+themeStore.initializeTheme();
 ```
 
 ## 🎨 Using in Vue Components
 
 ### Template
+
 ```vue
 <!-- Check current theme -->
 <div v-if="themeStore.effectiveTheme === 'dark'">
@@ -47,11 +50,12 @@ themeStore.initializeTheme()
 ```
 
 ### Script
-```typescript
-import { useThemeStore } from '@/stores/theme'
 
-const themeStore = useThemeStore()
-console.log(themeStore.effectiveTheme)
+```typescript
+import { useThemeStore } from '@/stores/theme';
+
+const themeStore = useThemeStore();
+console.log(themeStore.effectiveTheme);
 ```
 
 ## 🎯 Component Integration
@@ -75,10 +79,11 @@ console.log(themeStore.effectiveTheme)
 ## 🎨 Tailwind Dark Mode Syntax
 
 ### Classes
+
 ```vue
 <!-- Base + Dark -->
 <div class="bg-white dark:bg-soft-800">
-  
+
 <!-- Text -->
 <p class="text-soft-900 dark:text-white">
 
@@ -95,13 +100,14 @@ console.log(themeStore.effectiveTheme)
 ## 💾 localStorage Keys
 
 ```javascript
-localStorage.getItem('theme')  // 'light' | 'dark' | 'auto'
-localStorage.setItem('theme', 'dark')
+localStorage.getItem('theme'); // 'light' | 'dark' | 'auto'
+localStorage.setItem('theme', 'dark');
 ```
 
 ## 📝 Common Patterns
 
 ### Check if Dark Mode
+
 ```typescript
 if (themeStore.effectiveTheme === 'dark') {
   // Dark mode logic
@@ -109,47 +115,57 @@ if (themeStore.effectiveTheme === 'dark') {
 ```
 
 ### React to Theme Changes
-```typescript
-import { watch } from 'vue'
 
-watch(() => themeStore.effectiveTheme, (newTheme) => {
-  console.log(`Theme changed to ${newTheme}`)
-})
+```typescript
+import { watch } from 'vue';
+
+watch(
+  () => themeStore.effectiveTheme,
+  newTheme => {
+    console.log(`Theme changed to ${newTheme}`);
+  }
+);
 ```
 
 ### In Computed Property
+
 ```typescript
-const isDark = computed(() => themeStore.effectiveTheme === 'dark')
+const isDark = computed(() => themeStore.effectiveTheme === 'dark');
 ```
 
 ### In CSS-in-JS
+
 ```typescript
 const bgColor = computed(() => {
-  return themeStore.effectiveTheme === 'dark' ? '#1a1a1a' : '#f8f9fa'
-})
+  return themeStore.effectiveTheme === 'dark' ? '#1a1a1a' : '#f8f9fa';
+});
 ```
 
 ## 🎯 Common Tailwind Patterns
 
 ### Backgrounds
+
 ```
 Light: bg-white, bg-soft-50
 Dark: dark:bg-soft-800, dark:bg-soft-900
 ```
 
 ### Text
+
 ```
 Light: text-soft-700, text-soft-900
 Dark: dark:text-soft-300, dark:text-white
 ```
 
 ### Borders
+
 ```
 Light: border-soft-100, border-soft-200
 Dark: dark:border-soft-700, dark:border-soft-600
 ```
 
 ### Shadows
+
 ```
 Light: shadow-sm, shadow-md
 Dark: dark:shadow-soft-sm (CSS var adjusted)
@@ -158,29 +174,34 @@ Dark: dark:shadow-soft-sm (CSS var adjusted)
 ## 🔍 Debugging
 
 ### Check Current Theme
+
 ```typescript
-console.log(useThemeStore().theme)           // User selected
-console.log(useThemeStore().effectiveTheme)  // Actually applied
+console.log(useThemeStore().theme); // User selected
+console.log(useThemeStore().effectiveTheme); // Actually applied
 ```
 
 ### Check DOM
+
 ```javascript
-document.documentElement.classList.contains('dark')  // true/false
+document.documentElement.classList.contains('dark'); // true/false
 ```
 
 ### Check Storage
+
 ```javascript
-console.log(localStorage.getItem('theme'))
+console.log(localStorage.getItem('theme'));
 ```
 
 ### Check System Preference
+
 ```javascript
-window.matchMedia('(prefers-color-scheme: dark)').matches
+window.matchMedia('(prefers-color-scheme: dark)').matches;
 ```
 
 ## 🎭 CSS Variable Syntax
 
 ### In CSS
+
 ```css
 /* Light mode (default) */
 :root {
@@ -194,6 +215,7 @@ html.dark {
 ```
 
 ### Usage
+
 ```css
 .element {
   box-shadow: var(--soft-shadow-sm);
@@ -212,39 +234,39 @@ html.dark {
 ## 🧪 Testing Template
 
 ```typescript
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/theme';
 
 describe('Theme Store', () => {
   it('toggles theme', () => {
-    const store = useThemeStore()
-    store.toggleTheme()
-    expect(store.effectiveTheme).toBe('dark')
-  })
+    const store = useThemeStore();
+    store.toggleTheme();
+    expect(store.effectiveTheme).toBe('dark');
+  });
 
   it('saves to localStorage', () => {
-    const store = useThemeStore()
-    store.setTheme('dark')
-    expect(localStorage.getItem('theme')).toBe('dark')
-  })
+    const store = useThemeStore();
+    store.setTheme('dark');
+    expect(localStorage.getItem('theme')).toBe('dark');
+  });
 
   it('applies dark class to HTML', () => {
-    const store = useThemeStore()
-    store.setTheme('dark')
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-  })
-})
+    const store = useThemeStore();
+    store.setTheme('dark');
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
+  });
+});
 ```
 
 ## 🎨 Color Reference
 
-| Type | Light | Dark |
-|------|-------|------|
-| **Background** | `#f8f9fa` (soft-50) | `#1a1a1a` (soft-900) |
-| **Surface** | `#ffffff` (white) | `#2a2a2a` (soft-800) |
-| **Text Primary** | `#212529` (soft-900) | `#ffffff` (white) |
+| Type               | Light                | Dark                 |
+| ------------------ | -------------------- | -------------------- |
+| **Background**     | `#f8f9fa` (soft-50)  | `#1a1a1a` (soft-900) |
+| **Surface**        | `#ffffff` (white)    | `#2a2a2a` (soft-800) |
+| **Text Primary**   | `#212529` (soft-900) | `#ffffff` (white)    |
 | **Text Secondary** | `#6c757d` (soft-600) | `#a1a1a1` (soft-400) |
-| **Border** | `#e9ecef` (soft-100) | `#3a3a3a` (soft-700) |
-| **Primary** | `#0284c7` (blue-600) | `#3b82f6` (blue-500) |
+| **Border**         | `#e9ecef` (soft-100) | `#3a3a3a` (soft-700) |
+| **Primary**        | `#0284c7` (blue-600) | `#3b82f6` (blue-500) |
 
 ## 📖 Documentation Links
 

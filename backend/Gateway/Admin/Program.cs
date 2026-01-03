@@ -1,19 +1,19 @@
+using System.Text;
+using B2Connect.Admin.Application.Services;
+using B2Connect.Admin.Core.Interfaces;
+using B2Connect.Admin.Infrastructure.Data;
+using B2Connect.Admin.Infrastructure.Repositories;
+using B2Connect.Admin.Presentation.Filters;
+using B2Connect.ERP;
 using B2Connect.ServiceDefaults;
 using B2Connect.Shared.Infrastructure.Extensions;
 using B2Connect.Shared.Infrastructure.Logging;
-using B2Connect.Admin.Core.Interfaces;
-using B2Connect.Admin.Application.Services;
-using B2Connect.Admin.Infrastructure.Repositories;
-using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.Admin.Presentation.Filters;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
-using B2Connect.ERP;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -203,6 +203,11 @@ builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeReposito
 // builder.Services.AddScoped<ICategoryService, CategoryService>();
 // builder.Services.AddScoped<IBrandService, BrandService>();
 
+// Email Services
+builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailService, B2Connect.Email.Services.SmtpEmailService>();
+builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailQueueService, B2Connect.Email.Services.EmailQueueService>();
+builder.Services.AddHostedService<B2Connect.Email.Handlers.ProcessEmailQueueJob>();
+
 // Add services
 builder.Services.AddControllers(options =>
 {
@@ -274,6 +279,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapReverseProxy();
 app.MapGet("/", () => "Admin API Gateway is running");
-app.MapGet("/health", () => Results.Ok(new { status = "healthy", gateway = "admin" }));
+// Health endpoints provided by UseServiceDefaults() - see ADR-025
 
 await app.RunAsync();

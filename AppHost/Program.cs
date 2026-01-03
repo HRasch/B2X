@@ -7,39 +7,60 @@ var jwtSecret = builder.Configuration["Jwt:Secret"]
     ?? builder.Configuration["JWT_SECRET"]
     ?? "dev-jwt-secret-min-32-chars-required!!!";
 
+// Check database provider
+var databaseProvider = builder.Configuration["Database:Provider"]
+    ?? builder.Configuration["Database__Provider"]
+    ?? "postgres";
+
 // ===== INFRASTRUCTURE =====
+// Only add Docker-based infrastructure when not using in-memory databases
 
-// PostgreSQL Database
-var postgres = builder.AddB2ConnectPostgres(
-    name: "postgres",
-    port: 5432,
-    username: "postgres");
+IResourceBuilder<PostgresDatabaseResource>? authDb = null;
+IResourceBuilder<PostgresDatabaseResource>? tenantDb = null;
+IResourceBuilder<PostgresDatabaseResource>? localizationDb = null;
+IResourceBuilder<PostgresDatabaseResource>? catalogDb = null;
+IResourceBuilder<PostgresDatabaseResource>? layoutDb = null;
+IResourceBuilder<PostgresDatabaseResource>? adminDb = null;
+IResourceBuilder<PostgresDatabaseResource>? storeDb = null;
+IResourceBuilder<PostgresDatabaseResource>? monitoringDb = null;
 
+IResourceBuilder<RedisResource>? redis = null;
+IResourceBuilder<ElasticsearchResource>? elasticsearch = null;
+IResourceBuilder<RabbitMQServerResource>? rabbitmq = null;
 
-// Create all databases
-var authDb = postgres.AddB2ConnectDatabase("auth");
-var tenantDb = postgres.AddB2ConnectDatabase("tenant");
-var localizationDb = postgres.AddB2ConnectDatabase("localization");
-var catalogDb = postgres.AddB2ConnectDatabase("catalog");
-var layoutDb = postgres.AddB2ConnectDatabase("layout");
-var adminDb = postgres.AddB2ConnectDatabase("admin");
-var storeDb = postgres.AddB2ConnectDatabase("store");
-var monitoringDb = postgres.AddB2ConnectDatabase("monitoring");
+if (databaseProvider.ToLower() != "inmemory")
+{
+    // PostgreSQL Database
+    var postgres = builder.AddB2ConnectPostgres(
+        name: "postgres",
+        port: 5432,
+        username: "postgres");
 
-// Redis Cache
-var redis = builder.AddB2ConnectRedis(
-    name: "redis",
-    port: 6379);
+    // Create all databases
+    authDb = postgres.AddB2ConnectDatabase("auth");
+    tenantDb = postgres.AddB2ConnectDatabase("tenant");
+    localizationDb = postgres.AddB2ConnectDatabase("localization");
+    catalogDb = postgres.AddB2ConnectDatabase("catalog");
+    layoutDb = postgres.AddB2ConnectDatabase("layout");
+    adminDb = postgres.AddB2ConnectDatabase("admin");
+    storeDb = postgres.AddB2ConnectDatabase("store");
+    monitoringDb = postgres.AddB2ConnectDatabase("monitoring");
 
-// Elasticsearch (Full-Text Search & Analytics)
-var elasticsearch = builder.AddB2ConnectElasticsearch(
-    name: "elasticsearch",
-    port: 9200);
+    // Redis Cache
+    redis = builder.AddB2ConnectRedis(
+        name: "redis",
+        port: 6379);
 
-// RabbitMQ (Asynchronous Message Queue)
-var rabbitmq = builder.AddB2ConnectRabbitMQ(
-    name: "rabbitmq",
-    port: 5672);
+    // Elasticsearch (Full-Text Search & Analytics)
+    elasticsearch = builder.AddB2ConnectElasticsearch(
+        name: "elasticsearch",
+        port: 9200);
+
+    // RabbitMQ (Asynchronous Message Queue)
+    rabbitmq = builder.AddB2ConnectRabbitMQ(
+        name: "rabbitmq",
+        port: 5672);
+}
 
 // Azure Key Vault (Secret Store)
 
@@ -51,9 +72,9 @@ var rabbitmq = builder.AddB2ConnectRabbitMQ(
 // Auth Service (Identity) - with Passkeys & JWT
 var authService = builder
     .AddProject("auth-service", "../backend/Domain/Identity/B2Connect.Identity.API.csproj")
-    .WithPostgresConnection(authDb)
-    .WithRedisConnection(redis)
-    .WithRabbitMQConnection(rabbitmq)
+    .WithConditionalPostgresConnection(authDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
     .WithJaegerTracing()
     .WithPasskeysAuth()
     .WithPasskeysJwt(builder.Configuration["Jwt:Secret"] ?? "dev-jwt-secret-min-32-chars-required!!!")
@@ -65,9 +86,9 @@ var authService = builder
 // Tenant Service
 var tenantService = builder
     .AddProject("tenant-service", "../backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj")
-    .WithPostgresConnection(tenantDb)
-    .WithRedisConnection(redis)
-    .WithRabbitMQConnection(rabbitmq)
+    .WithConditionalPostgresConnection(tenantDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
     .WithJaegerTracing()
     .WithAuditLogging()
     .WithEncryption()
@@ -77,9 +98,9 @@ var tenantService = builder
 // Localization Service
 var localizationService = builder
     .AddProject("localization-service", "../backend/Domain/Localization/B2Connect.Localization.API.csproj")
-    .WithPostgresConnection(localizationDb)
-    .WithRedisConnection(redis)
-    .WithRabbitMQConnection(rabbitmq)
+    .WithConditionalPostgresConnection(localizationDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
     .WithJaegerTracing()
     .WithAuditLogging()
     .WithRateLimiting()
@@ -88,12 +109,12 @@ var localizationService = builder
 // Catalog Service (with Elasticsearch for Product Search)
 var catalogService = builder
     .AddProject("catalog-service", "../backend/Domain/Catalog/B2Connect.Catalog.API.csproj")
-    .WithPostgresConnection(catalogDb)
-    .WithRedisConnection(redis)
-    .WithRabbitMQConnection(rabbitmq)
+    .WithConditionalPostgresConnection(catalogDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
     .WithJaegerTracing()
-    .WithElasticsearchConnection(elasticsearch, "catalog")
-    .WithElasticsearchIndexing()
+    .WithConditionalElasticsearchConnection(elasticsearch, databaseProvider, "catalog")
+    .WithConditionalElasticsearchIndexing(databaseProvider)
     .WithAuditLogging()
     .WithRateLimiting()
     .WithOpenTelemetry();
@@ -101,9 +122,9 @@ var catalogService = builder
 // Theming Service
 var themingService = builder
     .AddProject("theming-service", "../backend/Domain/Theming/B2Connect.Theming.API.csproj")
-    .WithPostgresConnection(layoutDb)
-    .WithRedisConnection(redis)
-    .WithRabbitMQConnection(rabbitmq)
+    .WithConditionalPostgresConnection(layoutDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
     .WithJaegerTracing()
     .WithAuditLogging()
     .WithRateLimiting()
@@ -112,9 +133,9 @@ var themingService = builder
 // Monitoring Service (Phase 2: Connected services monitoring, error logging)
 var monitoringService = builder
     .AddProject("monitoring-service", "../backend/BoundedContexts/Monitoring/API/B2Connect.Monitoring.csproj")
-    .WithPostgresConnection(monitoringDb)
-    .WithRedisConnection(redis)
-    .WithRabbitMQConnection(rabbitmq)
+    .WithConditionalPostgresConnection(monitoringDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
     .WithJaegerTracing()
     .WithAuditLogging()
     .WithRateLimiting()
@@ -155,7 +176,7 @@ var adminGateway = builder
 
 // Frontend Store (Vue 3 + Vite) - Fixed port 5173 for predictable URLs
 var frontendStore = builder
-    .AddViteApp("frontend-store", "../Frontend/Store")
+    .AddViteApp("frontend-store", "../frontend/Store")
     .WithEndpoint("http", endpoint => endpoint.Port = 5173)  // Workaround: modify existing endpoint
     .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
@@ -165,11 +186,21 @@ var frontendStore = builder
 
 // Frontend Admin (Vue 3 + Vite) - Fixed port 5174 for predictable URLs
 var frontendAdmin = builder
-    .AddViteApp("frontend-admin", "../Frontend/Admin")
+    .AddViteApp("frontend-admin", "../frontend/Admin")
     .WithEndpoint("http", endpoint => endpoint.Port = 5174)  // Workaround: modify existing endpoint
     .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
     .WithEnvironment("PORT", "5174")  // Vite reads PORT env var
+    .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
+    .WithEnvironment("NODE_ENV", "development");
+
+// Frontend Management (Vue 3 + Vite) - Tenant Management Portal - Fixed port 5175
+var frontendManagement = builder
+    .AddViteApp("frontend-management", "../frontend/Management")
+    .WithEndpoint("http", endpoint => endpoint.Port = 5175)  // Workaround: modify existing endpoint
+    .WithExternalHttpEndpoints()
+    .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
+    .WithEnvironment("PORT", "5175")  // Vite reads PORT env var
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
     .WithEnvironment("NODE_ENV", "development");
 

@@ -1,7 +1,6 @@
 using System.Data;
 using B2Connect.ERP.Infrastructure.DataAccess;
 using Npgsql;
-using Npgsql;
 
 namespace B2Connect.ERP.Infrastructure.DataAccess;
 

@@ -14,10 +14,12 @@ Die Admin-Frontend hat nun ein vollständiges Light/Dark Theme System mit den fo
 ## 📁 Neue/Geänderte Dateien
 
 ### Neue Dateien
+
 1. **`src/stores/theme.ts`** - Pinia Store für Theme-Management
 2. **`src/components/common/ThemeToggle.vue`** - Wiederverwendbare Theme-Toggle Komponente
 
 ### Geänderte Dateien
+
 1. **`src/App.vue`** - Theme-Initialisierung hinzugefügt
 2. **`src/components/common/MainLayout.vue`** - Dark Mode Styling und Theme Toggle Integration
 3. **`src/main.css`** - Dark Mode CSS Variablen und Styles
@@ -25,31 +27,36 @@ Die Admin-Frontend hat nun ein vollständiges Light/Dark Theme System mit den fo
 ## 🚀 Verwendung
 
 ### Auto-Initialisierung
+
 Das Theme wird automatisch beim App-Start initialisiert:
 
 ```typescript
 // In App.vue onMounted
-themeStore.initializeTheme()
+themeStore.initializeTheme();
 ```
 
 ### Theme-Toggle in Komponenten
 
 #### Option 1: Einfacher Toggle Button
+
 ```vue
 <ThemeToggle />
 ```
 
 #### Option 2: Mit Label
+
 ```vue
 <ThemeToggle show-label />
 ```
 
 #### Option 3: Mit Menü (Light/Dark/Auto)
+
 ```vue
 <ThemeToggle show-menu />
 ```
 
 #### Option 4: Kombiniert
+
 ```vue
 <ThemeToggle show-label show-menu />
 ```
@@ -57,30 +64,32 @@ themeStore.initializeTheme()
 ### Programmatischer Zugriff
 
 ```typescript
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/theme';
 
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 
 // Toggle zwischen Light und Dark
-themeStore.toggleTheme()
+themeStore.toggleTheme();
 
 // Spezifisches Theme setzen
-themeStore.setTheme('light')    // Light Mode
-themeStore.setTheme('dark')     // Dark Mode
-themeStore.setTheme('auto')     // Systemeinstellung folgen
+themeStore.setTheme('light'); // Light Mode
+themeStore.setTheme('dark'); // Dark Mode
+themeStore.setTheme('auto'); // Systemeinstellung folgen
 
 // Aktuelles Theme auslesen
-console.log(themeStore.theme)           // 'light' | 'dark' | 'auto'
-console.log(themeStore.effectiveTheme)  // 'light' | 'dark' (tatsächlich angewandt)
+console.log(themeStore.theme); // 'light' | 'dark' | 'auto'
+console.log(themeStore.effectiveTheme); // 'light' | 'dark' (tatsächlich angewandt)
 ```
 
 ## 🎯 Theme Store API
 
 ### State
+
 - `theme`: Gespeicherte Theme-Auswahl ('light' | 'dark' | 'auto')
 - `effectiveTheme`: Tatsächlich angewandtes Theme ('light' | 'dark')
 
 ### Methods
+
 - `initializeTheme()`: Initialisiert Theme beim App-Start
 - `toggleTheme()`: Wechselt zwischen Light und Dark
 - `setTheme(newTheme)`: Setzt spezifisches Theme
@@ -90,11 +99,13 @@ console.log(themeStore.effectiveTheme)  // 'light' | 'dark' (tatsächlich angewa
 ## 🎨 Dark Mode CSS
 
 ### Tailwind Dark Mode
+
 - Nutzt Tailwind's `dark:` Modifier
 - Wird aktiviert mit `class` darkMode in tailwind.config.js
 - DOM Class: `dark` wird auf `<html>` Element gesetzt/entfernt
 
 ### CSS Variablen für Dark Mode
+
 ```css
 :root {
   --soft-shadow-xs: 0 2px 4px rgba(52, 71, 103, 0.1);
@@ -112,12 +123,14 @@ html.dark :root {
 ## 📱 Responsive Dark Mode
 
 Die Theme-Toggle Komponente ist vollständig responsiv:
+
 - Mobile: Icon-only Button mit optional Label
 - Desktop: Icon-only oder mit Menü für Light/Dark/Auto Optionen
 
 ## 🔄 System Preference Detection
 
 Wenn `theme === 'auto'`:
+
 1. Liest Systemeinstellung via `window.matchMedia('(prefers-color-scheme: dark)')`
 2. Setzt `effectiveTheme` basierend auf Systemeinstellung
 3. Lauscht auf System Theme-Änderungen
@@ -162,7 +175,9 @@ html.dark .my-element {
 
 /* Mit Transition */
 .my-element {
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 ```
 
@@ -170,35 +185,38 @@ html.dark .my-element {
 
 ```typescript
 // In komponenten Tests
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/theme';
 
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 
 // Test toggle
-themeStore.toggleTheme()
-expect(themeStore.effectiveTheme).toBe('dark')
+themeStore.toggleTheme();
+expect(themeStore.effectiveTheme).toBe('dark');
 
 // Test setzen
-themeStore.setTheme('light')
-expect(document.documentElement.classList.contains('dark')).toBe(false)
+themeStore.setTheme('light');
+expect(document.documentElement.classList.contains('dark')).toBe(false);
 
 // Test localStorage
-themeStore.setTheme('dark')
-expect(localStorage.getItem('theme')).toBe('dark')
+themeStore.setTheme('dark');
+expect(localStorage.getItem('theme')).toBe('dark');
 ```
 
 ## 🐛 Troubleshooting
 
 ### Theme wird nicht gespeichert
+
 - Prüfe ob localStorage aktiviert ist
 - Überprüfe Browser-Konsole auf Fehler
 
 ### Dark Mode wird nicht angewendet
+
 - Überprüfe ob `html` Element die `dark` Klasse hat
 - Stelle sicher dass Tailwind `darkMode: "class"` in config hat
 - Clear Browser Cache
 
 ### System Theme wird nicht erkannt
+
 - Überprüfe System Preference (macOS: System Preferences > General > Appearance)
 - Browser muss `prefers-color-scheme` Media Query unterstützen
 

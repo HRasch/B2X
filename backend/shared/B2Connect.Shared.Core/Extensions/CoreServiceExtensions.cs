@@ -1,6 +1,6 @@
-namespace B2Connect.Shared.Core.Extensions;
-
 using Microsoft.Extensions.DependencyInjection;
+
+namespace B2Connect.Shared.Core.Extensions;
 
 /// <summary>
 /// Core Extension Methods - einfache Patterns für alle Services

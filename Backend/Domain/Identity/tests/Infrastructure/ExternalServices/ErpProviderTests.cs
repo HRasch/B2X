@@ -256,7 +256,9 @@ public class ResilientErpProviderDecoratorTests
     {
         // Arrange
         _mockPrimary.Setup(p => p.IsAvailableAsync(It.IsAny<CancellationToken>()))
+#pragma warning disable CA2201 // Do not raise reserved exception types
             .ThrowsAsync(new Exception("Connection error"));
+#pragma warning restore CA2201 // Do not raise reserved exception types
 
         // Act
         var result = await _decorator.IsAvailableAsync();

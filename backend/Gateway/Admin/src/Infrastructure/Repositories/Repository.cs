@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Core.Interfaces;
+using B2Connect.Admin.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.Admin.Infrastructure.Repositories;
 
@@ -11,8 +11,10 @@ namespace B2Connect.Admin.Infrastructure.Repositories;
 /// </summary>
 public class Repository<T> : IRepository<T> where T : class
 {
+#pragma warning disable CA1051 // Do not declare visible instance fields
     protected readonly CatalogDbContext _context;
     protected readonly DbSet<T> _dbSet;
+#pragma warning restore CA1051 // Do not declare visible instance fields
 
     public Repository(CatalogDbContext context)
     {

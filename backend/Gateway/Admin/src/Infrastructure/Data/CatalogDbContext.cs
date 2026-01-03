@@ -1,8 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Shared.Core.Entities;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Types.Localization;
+using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.Admin.Infrastructure.Data;
 
@@ -76,22 +76,19 @@ public class CatalogDbContext : DbContext
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.Description)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.MetaDescription)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.ImageUrl)
                 .HasMaxLength(500);
@@ -126,15 +123,13 @@ public class CatalogDbContext : DbContext
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.Description)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.LogoUrl)
                 .HasMaxLength(500);
@@ -167,15 +162,13 @@ public class CatalogDbContext : DbContext
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.Description)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.AttributeType)
                 .IsRequired()
@@ -205,8 +198,7 @@ public class CatalogDbContext : DbContext
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.ColorValue)
                 .HasMaxLength(7);
@@ -238,36 +230,31 @@ public class CatalogDbContext : DbContext
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.ShortDescription)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.Description)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.MetaDescription)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.MetaKeywords)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 2)")
@@ -334,15 +321,13 @@ public class CatalogDbContext : DbContext
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.Description)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 2)");
@@ -438,15 +423,13 @@ public class CatalogDbContext : DbContext
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.Description)
                 .HasColumnType("jsonb")
                 .HasConversion(
                     v => v != null ? System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null) : "{}",
-                    v => LocalizedContent.FromJson(v)
-                );
+                    v => LocalizedContent.FromJson(v));
 
             entity.Property(e => e.DocumentType)
                 .IsRequired()
@@ -599,4 +582,3 @@ public class CatalogDbContext : DbContext
         });
     }
 }
-

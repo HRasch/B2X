@@ -348,10 +348,90 @@ public static class B2ConnectAspireExtensions
             .WithOpenTelemetry();
     }
 
+    // ===== CONDITIONAL CONNECTION METHODS =====
+    // These methods only add connections when infrastructure resources are available
+    // Used for in-memory database development mode
+
+    /// <summary>
+    /// Conditionally adds PostgreSQL connection if database is available
+    /// </summary>
+    public static IResourceBuilder<T> WithConditionalPostgresConnection<T>(
+        this IResourceBuilder<T> resource,
+        IResourceBuilder<PostgresDatabaseResource>? postgresDb,
+        string databaseProvider) where T : IResourceWithEnvironment
+    {
+        if (databaseProvider.ToLower() != "inmemory" && postgresDb != null)
+        {
+            return resource.WithReference(postgresDb);
+        }
+        return resource;
+    }
+
+    /// <summary>
+    /// Conditionally adds Redis connection if Redis is available
+    /// </summary>
+    public static IResourceBuilder<T> WithConditionalRedisConnection<T>(
+        this IResourceBuilder<T> resource,
+        IResourceBuilder<RedisResource>? redis,
+        string databaseProvider) where T : IResourceWithEnvironment
+    {
+        if (databaseProvider.ToLower() != "inmemory" && redis != null)
+        {
+            return resource.WithReference(redis);
+        }
+        return resource;
+    }
+
+    /// <summary>
+    /// Conditionally adds RabbitMQ connection if RabbitMQ is available
+    /// </summary>
+    public static IResourceBuilder<T> WithConditionalRabbitMQConnection<T>(
+        this IResourceBuilder<T> resource,
+        IResourceBuilder<RabbitMQServerResource>? rabbitmq,
+        string databaseProvider) where T : IResourceWithEnvironment
+    {
+        if (databaseProvider.ToLower() != "inmemory" && rabbitmq != null)
+        {
+            return resource.WithReference(rabbitmq);
+        }
+        return resource;
+    }
+
+    /// <summary>
+    /// Conditionally adds Elasticsearch connection if Elasticsearch is available
+    /// </summary>
+    public static IResourceBuilder<T> WithConditionalElasticsearchConnection<T>(
+        this IResourceBuilder<T> resource,
+        IResourceBuilder<ElasticsearchResource>? elasticsearch,
+        string databaseProvider,
+        string indexName) where T : IResourceWithEnvironment
+    {
+        if (databaseProvider.ToLower() != "inmemory" && elasticsearch != null)
+        {
+            return resource.WithReference(elasticsearch);
+        }
+        return resource;
+    }
+
+    /// <summary>
+    /// Conditionally adds Elasticsearch indexing if Elasticsearch is available
+    /// </summary>
+    public static IResourceBuilder<T> WithConditionalElasticsearchIndexing<T>(
+        this IResourceBuilder<T> resource,
+        string databaseProvider) where T : IResourceWithEnvironment
+    {
+        if (databaseProvider.ToLower() != "inmemory")
+        {
+            // Add Elasticsearch indexing logic here if needed
+            return resource;
+        }
+        return resource;
+    }
+
     // ===== NATIVE ASPIRE JAVASCRIPT INTEGRATION =====
     // Die folgenden Extension-Methoden verwenden das offizielle Aspire.Hosting.JavaScript Package
     // Dokumentation: https://aspire.dev/integrations/frameworks/javascript/
-    
+
     // HINWEIS: AddViteApp, AddJavaScriptApp, und AddNodeApp sind jetzt direkt 
     // von Aspire.Hosting.JavaScript verfügbar. Keine Custom Extensions nötig!
     //

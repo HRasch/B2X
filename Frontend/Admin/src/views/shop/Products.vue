@@ -23,38 +23,23 @@
       </p>
     </div>
 
-    <div
-      v-else
-      class="bg-white dark:bg-soft-800 rounded-lg shadow overflow-hidden"
-    >
+    <div v-else class="bg-white dark:bg-soft-800 rounded-lg shadow overflow-hidden">
       <table class="w-full">
-        <thead
-          class="bg-gray-100 dark:bg-soft-700 border-b dark:border-soft-600"
-        >
+        <thead class="bg-gray-100 dark:bg-soft-700 border-b dark:border-soft-600">
           <tr>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               Product Name
             </th>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               SKU
             </th>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               Price
             </th>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               Stock
             </th>
-            <th
-              class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100"
-            >
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-soft-100">
               Actions
             </th>
           </tr>
@@ -93,8 +78,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useShopStore } from "@/stores/shop";
+import { onMounted } from 'vue';
+import { useShopStore } from '@/stores/shop';
 
 const shopStore = useShopStore();
 const loading = shopStore.loading;

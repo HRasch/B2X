@@ -1,7 +1,7 @@
 using B2Connect.Shared.Messaging.Events;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CatalogService.Handlers.Events;
+namespace B2Connect.Catalog.Handlers.Events;
 
 /// <summary>
 /// Handler for ProductCreatedEvent - publishes product to search index

@@ -9,6 +9,7 @@ Dein Admin-Frontend wurde vollständig mit dem **Soft UI Dashboard Design System
 ## 📦 Was wurde hinzugefügt?
 
 ### 1. **Tailwind Configuration** (`tailwind.config.js`)
+
 - ✅ Custom Color Palette (Primary, Success, Warning, Danger, Info, Soft)
 - ✅ Soft Shadow System (soft-xs, soft-sm, soft-md, soft-lg, soft-xl, soft-2xl)
 - ✅ Soft Border Radius (soft, soft-lg, soft-xl, soft-2xl)
@@ -16,6 +17,7 @@ Dein Admin-Frontend wurde vollständig mit dem **Soft UI Dashboard Design System
 - ✅ Spacing System (safe, safe-lg)
 
 ### 2. **Vue Components** (`src/components/soft-ui/`)
+
 - ✅ **SoftCard.vue** - Basis Container mit Shadow & Hover Effects
 - ✅ **SoftButton.vue** - Varianten: primary, secondary, danger, success, ghost
 - ✅ **SoftBadge.vue** - Status Badges (success, warning, danger, info)
@@ -23,6 +25,7 @@ Dein Admin-Frontend wurde vollständig mit dem **Soft UI Dashboard Design System
 - ✅ **SoftInput.vue** - Form Input mit Label & Error Handling
 
 ### 3. **Enhanced MainLayout** (`src/components/common/MainLayout.vue`)
+
 - ✅ Moderne Sidebar Navigation
 - ✅ Top Navigation Bar mit Benachrichtigungen
 - ✅ User Dropdown Menu
@@ -32,6 +35,7 @@ Dein Admin-Frontend wurde vollständig mit dem **Soft UI Dashboard Design System
 - ✅ Smooth Transitions & Animations
 
 ### 4. **CSS Utilities** (`src/main.css`)
+
 - ✅ Soft UI Base Styles
 - ✅ Animations (fadeIn, slideIn Up/Down/Left/Right)
 - ✅ Badge & Typography Classes
@@ -40,6 +44,7 @@ Dein Admin-Frontend wurde vollständig mit dem **Soft UI Dashboard Design System
 - ✅ Improved Scrollbar Styling
 
 ### 5. **Example Dashboard** (`src/views/DashboardView.vue`)
+
 - ✅ Stats Cards Grid (4-Column)
 - ✅ Sales Overview Panel mit Placeholder
 - ✅ Recent Activity List
@@ -48,6 +53,7 @@ Dein Admin-Frontend wurde vollständig mit dem **Soft UI Dashboard Design System
 - ✅ Responsive Layout
 
 ### 6. **Documentation** (`SOFT_UI_DESIGN_GUIDE.md`)
+
 - ✅ Umfassender Komponentenleitfaden
 - ✅ Design System Übersicht
 - ✅ Best Practices & Patterns
@@ -80,9 +86,7 @@ npm install -D @tailwindcss/forms
     </soft-card>
 
     <!-- Button -->
-    <soft-button variant="primary" size="lg">
-      Save Changes
-    </soft-button>
+    <soft-button variant="primary" size="lg"> Save Changes </soft-button>
 
     <!-- Badge -->
     <soft-badge variant="success">Active</soft-badge>
@@ -93,24 +97,19 @@ npm install -D @tailwindcss/forms
     </soft-panel>
 
     <!-- Input -->
-    <soft-input 
-      v-model="email"
-      type="email"
-      label="Email"
-      placeholder="user@example.com"
-    />
+    <soft-input v-model="email" type="email" label="Email" placeholder="user@example.com" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import SoftCard from '@/components/soft-ui/SoftCard.vue'
-import SoftButton from '@/components/soft-ui/SoftButton.vue'
-import SoftBadge from '@/components/soft-ui/SoftBadge.vue'
-import SoftPanel from '@/components/soft-ui/SoftPanel.vue'
-import SoftInput from '@/components/soft-ui/SoftInput.vue'
+import { ref } from 'vue';
+import SoftCard from '@/components/soft-ui/SoftCard.vue';
+import SoftButton from '@/components/soft-ui/SoftButton.vue';
+import SoftBadge from '@/components/soft-ui/SoftBadge.vue';
+import SoftPanel from '@/components/soft-ui/SoftPanel.vue';
+import SoftInput from '@/components/soft-ui/SoftInput.vue';
 
-const email = ref('')
+const email = ref('');
 </script>
 ```
 
@@ -119,6 +118,7 @@ const email = ref('')
 ## 🎨 Design Highlights
 
 ### Farben
+
 ```
 Primary:   Modernes Corporate Blue (#0ea5e9 - #0c2d57)
 Success:   Frisches Grün (#22c55e - #14532d)
@@ -129,6 +129,7 @@ Neutral:   Soft Grayscale (#f8f9fa - #212529)
 ```
 
 ### Schatten
+
 ```
 Soft-XS:   Kleinste Elemente (2px)
 Soft-SM:   Listen-Items (4px)
@@ -138,6 +139,7 @@ Soft-XL:   Modals & Overlays (12px)
 ```
 
 ### Abstände
+
 ```
 safe:      1.5rem (Standard Padding)
 safe-lg:   2.5rem (Große Abstände)
@@ -156,6 +158,7 @@ xl: 1200px  (Large Desktop)
 ```
 
 Grid System:
+
 ```vue
 <div class="grid-soft-cols-2">     <!-- 1 col mobile, 2 col desktop -->
 <div class="grid-soft-cols-3">     <!-- 1 col mobile, 3 col lg -->
@@ -239,19 +242,24 @@ frontend-admin/
 ## 🎯 Nächste Schritte
 
 ### 1. Frontend Starten
+
 ```bash
 npm install                    # Falls nötig
 npm run dev                    # Starten auf Port 5174
 ```
 
 ### 2. Komponenten Verwenden
+
 Ersetze schrittweise alte Komponenten durch neue Soft UI Komponenten:
+
 - ❌ `<div class="bg-white shadow">` → ✅ `<soft-card>`
 - ❌ `<button class="...">` → ✅ `<soft-button>`
 - ❌ `<span class="...">Status</span>` → ✅ `<soft-badge>`
 
 ### 3. Pages Erstellen
+
 Nutze die DashboardView.vue als Template für neue Pages:
+
 ```bash
 # Neue View mit Soft UI Components
 src/views/ProductsView.vue
@@ -260,7 +268,9 @@ src/views/SettingsView.vue
 ```
 
 ### 4. Icons Hinzufügen
+
 Optional: Hero Icons oder Lucide Vue installieren:
+
 ```bash
 npm install @heroicons/vue
 # oder
@@ -272,23 +282,27 @@ npm install lucide-vue-next
 ## 🌟 Besonderheiten
 
 ### ✨ Micro-Interactions
+
 - Sanfte Button Scale bei Hover (105%)
 - Active Scale bei Click (95%)
 - Smooth Shadow Transitions
 - Card Lift Effect on Hover
 
 ### 🎬 Animations
+
 - Fade In für Page Loads
 - Slide In für modales Erscheinen
 - Staggered Animation für Listen
 
 ### ♿ Accessibility
+
 - Keyboard Navigation
 - Focus States
 - Semantic HTML
 - Aria Labels
 
 ### 📱 Mobile First
+
 - Responsive Grid System
 - Collapsible Sidebar
 - Touch-friendly Button Sizes

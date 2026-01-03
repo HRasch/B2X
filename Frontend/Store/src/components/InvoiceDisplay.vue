@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { ref, computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
 declare global {
   interface Window {
@@ -23,7 +23,7 @@ interface InvoiceLineItem {
 interface Invoice {
   id: string;
   invoiceNumber: string;
-  status: "Draft" | "Issued" | "Paid" | "Cancelled";
+  status: 'Draft' | 'Issued' | 'Paid' | 'Cancelled';
   issuedAt: string;
   dueAt: string;
 
@@ -67,9 +67,9 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "modify", invoiceId: string): void;
-  (e: "download-pdf", invoiceId: string): void;
-  (e: "send-email", invoiceId: string, email: string): void;
+  (e: 'modify', invoiceId: string): void;
+  (e: 'download-pdf', invoiceId: string): void;
+  (e: 'send-email', invoiceId: string, email: string): void;
 }>();
 
 const loading = ref(false);
@@ -77,33 +77,31 @@ const error = ref<string | null>(null);
 const invoice = ref<Invoice | null>(null);
 
 const handlePrint = () => {
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     window.print();
   }
 };
 
 // Computed properties
 const formattedIssuedAt = computed(() => {
-  if (!invoice.value) return "";
-  return new Date(invoice.value.issuedAt).toLocaleDateString("de-DE", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  if (!invoice.value) return '';
+  return new Date(invoice.value.issuedAt).toLocaleDateString('de-DE', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 });
 
 const formattedDueAt = computed(() => {
-  if (!invoice.value) return "";
-  return new Date(invoice.value.dueAt).toLocaleDateString("de-DE", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  if (!invoice.value) return '';
+  return new Date(invoice.value.dueAt).toLocaleDateString('de-DE', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 });
 
-const isB2b = computed(
-  () => invoice.value?.buyerVatId && invoice.value.buyerVatId.length > 0
-);
+const isB2b = computed(() => invoice.value?.buyerVatId && invoice.value.buyerVatId.length > 0);
 
 const isBOverdue = computed(() => {
   if (!invoice.value) return false;
@@ -113,16 +111,16 @@ const isBOverdue = computed(() => {
 
 const statusBadgeClass = computed(() => {
   switch (invoice.value?.status) {
-    case "Paid":
-      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-    case "Cancelled":
-      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
-    case "Draft":
-      return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200";
-    case "Issued":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+    case 'Paid':
+      return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+    case 'Cancelled':
+      return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+    case 'Draft':
+      return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+    case 'Issued':
+      return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
     default:
-      return "bg-gray-100 text-gray-800";
+      return 'bg-gray-100 text-gray-800';
   }
 });
 
@@ -135,10 +133,10 @@ const fetchInvoice = async () => {
 
   try {
     const response = await fetch(`/api/invoices/${props.invoiceId}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
       },
     });
 
@@ -149,8 +147,8 @@ const fetchInvoice = async () => {
     const data = await response.json();
     invoice.value = data.data || data;
   } catch (err) {
-    error.value = err instanceof Error ? err.message : "Failed to load invoice";
-    console.error("Failed to fetch invoice:", err);
+    error.value = err instanceof Error ? err.message : 'Failed to load invoice';
+    console.error('Failed to fetch invoice:', err);
   } finally {
     loading.value = false;
   }
@@ -158,19 +156,19 @@ const fetchInvoice = async () => {
 
 const handleModify = () => {
   if (invoice.value) {
-    emit("modify", invoice.value.id);
+    emit('modify', invoice.value.id);
   }
 };
 
 const handleDownloadPdf = () => {
   if (invoice.value) {
-    emit("download-pdf", invoice.value.id);
+    emit('download-pdf', invoice.value.id);
   }
 };
 
 const handleSendEmail = () => {
   if (invoice.value && invoice.value.buyerVatId) {
-    emit("send-email", invoice.value.id, invoice.value.buyerVatId);
+    emit('send-email', invoice.value.id, invoice.value.buyerVatId);
   }
 };
 
@@ -220,9 +218,7 @@ onMounted(() => {
       v-else-if="error"
       class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4"
     >
-      <h3 class="text-red-800 dark:text-red-300 font-semibold mb-1">
-        Error Loading Invoice
-      </h3>
+      <h3 class="text-red-800 dark:text-red-300 font-semibold mb-1">Error Loading Invoice</h3>
       <p class="text-red-700 dark:text-red-400 text-sm">{{ error }}</p>
       <button
         v-if="invoiceId"
@@ -240,9 +236,7 @@ onMounted(() => {
         class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 pb-6 border-b border-gray-200 dark:border-gray-700"
       >
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-            Invoice
-          </h1>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Invoice</h1>
           <p class="text-gray-600 dark:text-gray-400 mt-1">
             {{ invoice.invoiceNumber }}
           </p>
@@ -251,10 +245,7 @@ onMounted(() => {
         <div class="flex flex-col items-start sm:items-end gap-3">
           <!-- Status Badge -->
           <span
-            :class="[
-              'px-3 py-1 rounded-full text-sm font-medium',
-              statusBadgeClass,
-            ]"
+            :class="['px-3 py-1 rounded-full text-sm font-medium', statusBadgeClass]"
             :aria-label="`Invoice status: ${invoice.status}`"
           >
             {{ invoice.status }}
@@ -271,11 +262,7 @@ onMounted(() => {
 
           <!-- Overdue Badge -->
           <span
-            v-if="
-              isBOverdue &&
-              invoice.status !== 'Paid' &&
-              invoice.status !== 'Cancelled'
-            "
+            v-if="isBOverdue && invoice.status !== 'Paid' && invoice.status !== 'Cancelled'"
             class="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
             aria-label="Invoice is overdue"
           >
@@ -287,35 +274,27 @@ onMounted(() => {
       <!-- Dates -->
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <div>
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Issued
-          </p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Issued</p>
           <p class="text-lg font-semibold text-gray-900 dark:text-white">
             {{ formattedIssuedAt }}
           </p>
         </div>
         <div>
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Due
-          </p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Due</p>
           <p class="text-lg font-semibold text-gray-900 dark:text-white">
             {{ formattedDueAt }}
           </p>
         </div>
         <div v-if="invoice.paymentStatus">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Payment
-          </p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Payment</p>
           <p class="text-lg font-semibold text-gray-900 dark:text-white">
             {{ invoice.paymentStatus }}
           </p>
         </div>
         <div v-if="invoice.paidAt">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Paid On
-          </p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Paid On</p>
           <p class="text-lg font-semibold text-gray-900 dark:text-white">
-            {{ new Date(invoice.paidAt).toLocaleDateString("de-DE") }}
+            {{ new Date(invoice.paidAt).toLocaleDateString('de-DE') }}
           </p>
         </div>
       </div>
@@ -333,9 +312,7 @@ onMounted(() => {
           </h3>
           <div class="text-gray-900 dark:text-white space-y-1">
             <p class="font-semibold">{{ invoice.sellerName }}</p>
-            <p v-if="invoice.sellerVatId" class="text-sm">
-              VAT ID: {{ invoice.sellerVatId }}
-            </p>
+            <p v-if="invoice.sellerVatId" class="text-sm">VAT ID: {{ invoice.sellerVatId }}</p>
             <p v-if="invoice.sellerAddress" class="text-sm whitespace-pre-line">
               {{ invoice.sellerAddress }}
             </p>
@@ -360,9 +337,7 @@ onMounted(() => {
                 (Reverse Charge)
               </span>
             </p>
-            <p v-if="invoice.buyerCountry" class="text-sm">
-              Country: {{ invoice.buyerCountry }}
-            </p>
+            <p v-if="invoice.buyerCountry" class="text-sm">Country: {{ invoice.buyerCountry }}</p>
             <p v-if="invoice.buyerAddress" class="text-sm whitespace-pre-line">
               {{ invoice.buyerAddress }}
             </p>
@@ -372,31 +347,17 @@ onMounted(() => {
 
       <!-- Line Items Table -->
       <div class="overflow-x-auto">
-        <table
-          class="w-full text-sm"
-          role="table"
-          aria-label="Invoice line items"
-        >
+        <table class="w-full text-sm" role="table" aria-label="Invoice line items">
           <thead class="bg-gray-100 dark:bg-gray-800">
             <tr>
-              <th
-                class="px-4 py-3 text-left font-semibold text-gray-900 dark:text-white"
-              >
+              <th class="px-4 py-3 text-left font-semibold text-gray-900 dark:text-white">
                 Product
               </th>
-              <th
-                class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white"
-              >
-                Qty
-              </th>
-              <th
-                class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white"
-              >
+              <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">Qty</th>
+              <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
                 Unit Price
               </th>
-              <th
-                class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white"
-              >
+              <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
                 Subtotal
               </th>
               <th
@@ -405,9 +366,7 @@ onMounted(() => {
               >
                 Tax
               </th>
-              <th
-                class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white"
-              >
+              <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
                 Total
               </th>
             </tr>
@@ -442,9 +401,7 @@ onMounted(() => {
                   {{ (item.lineTaxRate * 100).toFixed(0) }}%
                 </div>
               </td>
-              <td
-                class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white"
-              >
+              <td class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
                 €{{ item.lineTotal.toFixed(2) }}
               </td>
             </tr>
@@ -454,9 +411,7 @@ onMounted(() => {
 
       <!-- Totals -->
       <div class="flex justify-end py-6">
-        <div
-          class="w-full sm:w-80 space-y-2 border-t border-gray-200 dark:border-gray-700 pt-6"
-        >
+        <div class="w-full sm:w-80 space-y-2 border-t border-gray-200 dark:border-gray-700 pt-6">
           <div class="flex justify-between">
             <span class="text-gray-600 dark:text-gray-400">Subtotal:</span>
             <span class="font-semibold text-gray-900 dark:text-white"
@@ -491,9 +446,7 @@ onMounted(() => {
             <span class="text-yellow-800 dark:text-yellow-200">
               <strong>Reverse Charge (0% VAT):</strong>
             </span>
-            <span class="font-semibold text-yellow-800 dark:text-yellow-200"
-              >€0.00</span
-            >
+            <span class="font-semibold text-yellow-800 dark:text-yellow-200">€0.00</span>
           </div>
 
           <div
@@ -515,9 +468,7 @@ onMounted(() => {
         aria-label="Reverse Charge Notice"
       >
         <div class="flex gap-3">
-          <div
-            class="text-yellow-600 dark:text-yellow-400 flex-shrink-0 pt-0.5"
-          >
+          <div class="text-yellow-600 dark:text-yellow-400 flex-shrink-0 pt-0.5">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fill-rule="evenodd"
@@ -529,22 +480,16 @@ onMounted(() => {
           <div class="text-yellow-800 dark:text-yellow-200 text-sm">
             <p class="font-semibold mb-1">{{ invoice.reverseChargeNote }}</p>
             <p>
-              The VAT shown above does not apply. As a taxable person, you are
-              responsible for paying VAT according to applicable rules in your
-              country.
+              The VAT shown above does not apply. As a taxable person, you are responsible for
+              paying VAT according to applicable rules in your country.
             </p>
           </div>
         </div>
       </div>
 
       <!-- Payment Terms -->
-      <div
-        v-if="invoice.paymentMethod"
-        class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg"
-      >
-        <h4 class="font-semibold text-gray-900 dark:text-white mb-2">
-          Payment Information
-        </h4>
+      <div v-if="invoice.paymentMethod" class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+        <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Payment Information</h4>
         <p class="text-gray-600 dark:text-gray-400 text-sm">
           <strong>Method:</strong> {{ invoice.paymentMethod }}
         </p>
@@ -559,12 +504,7 @@ onMounted(() => {
           class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
           aria-label="Download invoice as PDF"
         >
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -581,12 +521,7 @@ onMounted(() => {
           class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
           aria-label="Send invoice via email"
         >
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -603,12 +538,7 @@ onMounted(() => {
           class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
           aria-label="Modify invoice details"
         >
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -624,12 +554,7 @@ onMounted(() => {
           class="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
           aria-label="Print invoice"
         >
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"

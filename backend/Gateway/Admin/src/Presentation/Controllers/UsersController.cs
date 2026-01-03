@@ -1,7 +1,7 @@
+using B2Connect.Admin.Application.Commands.Users;
+using B2Connect.Admin.Presentation.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using B2Connect.Admin.Presentation.Filters;
-using B2Connect.Admin.Application.Commands.Users;
 using Wolverine;
 
 namespace B2Connect.Admin.Presentation.Controllers;

@@ -1,25 +1,23 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import type { AdminUser } from "@/types/auth";
-import { authApi } from "@/services/api/auth";
-import errorLogging from "@/services/errorLogging";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import type { AdminUser } from '@/types/auth';
+import { authApi } from '@/services/api/auth';
+import errorLogging from '@/services/errorLogging';
 
 // Token refresh interval (5 minutes before expiry, assuming 1hr token)
 const TOKEN_REFRESH_INTERVAL = 55 * 60 * 1000; // 55 minutes
 
-export const useAuthStore = defineStore("auth", () => {
+export const useAuthStore = defineStore('auth', () => {
   const user = ref<AdminUser | null>(null);
   // Use sessionStorage for non-sensitive session data only
   // Actual tokens should be in httpOnly cookies (handled by backend)
-  const token = ref<string | null>(sessionStorage.getItem("authToken"));
+  const token = ref<string | null>(sessionStorage.getItem('authToken'));
   const refreshToken = ref<string | null>(null); // Not stored client-side for security
   const loading = ref(false);
   const error = ref<string | null>(null);
   let refreshTimerId: ReturnType<typeof setTimeout> | null = null;
 
-  const isAuthenticated = computed(
-    () => user.value !== null && token.value !== null
-  );
+  const isAuthenticated = computed(() => user.value !== null && token.value !== null);
 
   function scheduleTokenRefresh() {
     // Clear existing timer
@@ -41,7 +39,7 @@ export const useAuthStore = defineStore("auth", () => {
     const response = await authApi.refreshToken();
     user.value = response.user;
     token.value = response.accessToken;
-    sessionStorage.setItem("authToken", response.accessToken);
+    sessionStorage.setItem('authToken', response.accessToken);
     scheduleTokenRefresh();
     return response;
   }
@@ -56,8 +54,8 @@ export const useAuthStore = defineStore("auth", () => {
       // Note: refreshToken is now in httpOnly cookie, not stored client-side
 
       // Use sessionStorage for session-scoped data (cleared on tab close)
-      sessionStorage.setItem("authToken", response.accessToken);
-      sessionStorage.setItem("tenantId", response.user.tenantId);
+      sessionStorage.setItem('authToken', response.accessToken);
+      sessionStorage.setItem('tenantId', response.user.tenantId);
 
       // Set user context for error logging attribution
       errorLogging.setUserContext(response.user.id, response.user.tenantId);
@@ -70,7 +68,7 @@ export const useAuthStore = defineStore("auth", () => {
       const errorObj = err as {
         response?: { data?: { error?: { message?: string } } };
       };
-      error.value = errorObj.response?.data?.error?.message || "Login failed";
+      error.value = errorObj.response?.data?.error?.message || 'Login failed';
       throw err;
     } finally {
       loading.value = false;
@@ -83,7 +81,7 @@ export const useAuthStore = defineStore("auth", () => {
       await authApi.logout();
     } catch {
       // Don't log sensitive info
-      console.error("Logout failed");
+      console.error('Logout failed');
     } finally {
       // Clear refresh timer
       if (refreshTimerId) {
@@ -96,8 +94,8 @@ export const useAuthStore = defineStore("auth", () => {
       user.value = null;
       token.value = null;
       refreshToken.value = null;
-      sessionStorage.removeItem("authToken");
-      sessionStorage.removeItem("tenantId");
+      sessionStorage.removeItem('authToken');
+      sessionStorage.removeItem('tenantId');
       loading.value = false;
     }
   }
@@ -111,7 +109,7 @@ export const useAuthStore = defineStore("auth", () => {
       scheduleTokenRefresh();
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      error.value = errorObj.message || "Failed to get user";
+      error.value = errorObj.message || 'Failed to get user';
       await logout();
     } finally {
       loading.value = false;
@@ -120,9 +118,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   function hasPermission(permission: string): boolean {
     if (!user.value) return false;
-    return user.value.permissions.some(
-      (p: { name: string }) => p.name === permission
-    );
+    return user.value.permissions.some((p: { name: string }) => p.name === permission);
   }
 
   function hasRole(role: string): boolean {
@@ -132,9 +128,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   function hasAnyRole(roles: string[]): boolean {
     if (!user.value) return false;
-    return user.value.roles.some((r: { name: string }) =>
-      roles.includes(r.name)
-    );
+    return user.value.roles.some((r: { name: string }) => roles.includes(r.name));
   }
 
   async function updateProfile(data: Partial<AdminUser>) {
@@ -145,7 +139,7 @@ export const useAuthStore = defineStore("auth", () => {
       return user.value;
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      error.value = errorObj.message || "Failed to update profile";
+      error.value = errorObj.message || 'Failed to update profile';
       throw err;
     } finally {
       loading.value = false;

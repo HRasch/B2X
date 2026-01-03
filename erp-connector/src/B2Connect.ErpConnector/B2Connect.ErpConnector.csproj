@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>B2Connect.ErpConnector</RootNamespace>
+    <AssemblyName>B2Connect.ErpConnector</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <!-- Disable Central Package Management for this .NET Framework 4.8 project -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="ErpConnectorService.cs" />
+    <Compile Include="Services\EnventaActorPool.cs" />
+    <Compile Include="Services\EnventaErpService.cs" />
+    <Compile Include="Controllers\ArticlesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\HealthController.cs" />
+    <Compile Include="Models\Dtos.cs" />
+    <Compile Include="Infrastructure\Startup.cs" />
+    <Compile Include="Infrastructure\Identity\EnventaIdentity.cs" />
+    <Compile Include="Infrastructure\Identity\EnventaIdentityProvider.cs" />
+    <Compile Include="Infrastructure\Erp\EnventaInterfaces.cs" />
+    <Compile Include="Infrastructure\Erp\EnventaGlobalPool.cs" />
+    <Compile Include="Infrastructure\Erp\EnventaGlobalObjectFactory.cs" />
+    <Compile Include="Infrastructure\Erp\EnventaGlobalFactory.cs" />
+    <Compile Include="Infrastructure\Erp\EnventaScope.cs" />
+    <Compile Include="Infrastructure\Erp\EnventaUtil.cs" />
+    <Compile Include="Infrastructure\Repository\IEnventaRepository.cs" />
+    <Compile Include="Infrastructure\Repository\EnventaQueryBuilder.cs" />
+    <Compile Include="Infrastructure\Repository\EnventaBaseRepository.cs" />
+    <Compile Include="Infrastructure\Repository\EnventaArticleRepository.cs" />
+    <Compile Include="Infrastructure\Repository\EnventaCustomerRepository.cs" />
+    <Compile Include="Infrastructure\Repository\EnventaOrderRepository.cs" />
+    <Compile Include="Infrastructure\Repository\EnventaContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.2.9" />
+    <PackageReference Include="Microsoft.Owin.Hosting" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Owin.Host.HttpListener" Version="4.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="Topshelf" Version="4.3.0" />
+    <PackageReference Include="Topshelf.NLog" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -32,11 +32,8 @@
     </button>
 
     <!-- Label (optional) -->
-    <span
-      v-if="showLabel"
-      class="text-sm font-medium text-soft-700 dark:text-soft-300"
-    >
-      {{ themeStore.effectiveTheme === "dark" ? "Dark" : "Light" }}
+    <span v-if="showLabel" class="text-sm font-medium text-soft-700 dark:text-soft-300">
+      {{ themeStore.effectiveTheme === 'dark' ? 'Dark' : 'Light' }}
     </span>
 
     <!-- Menu (optional) -->
@@ -85,8 +82,8 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from "@/stores/theme";
-import { computed } from "vue";
+import { useThemeStore } from '@/stores/theme';
+import { computed } from 'vue';
 
 interface Props {
   showLabel?: boolean;
@@ -101,9 +98,7 @@ withDefaults(defineProps<Props>(), {
 const themeStore = useThemeStore();
 
 const toggleTitle = computed(() => {
-  return themeStore.effectiveTheme === "dark"
-    ? "Switch to Light Mode"
-    : "Switch to Dark Mode";
+  return themeStore.effectiveTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
 });
 </script>
 

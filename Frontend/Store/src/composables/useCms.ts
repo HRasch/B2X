@@ -77,6 +77,6 @@ export function useCms(notificationService?: UseNotification) {
     loading,
     error,
     getRegion,
-    fetchPageDefinition
+    fetchPageDefinition,
   };
 }

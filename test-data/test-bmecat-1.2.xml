@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BMECAT version="1.2">
+  <HEADER>
+    <CATALOG>
+      <LANGUAGE>deu</LANGUAGE>
+      <CURRENCY>EUR</CURRENCY>
+    </CATALOG>
+    <BUYER>
+      <NAME>Test Buyer</NAME>
+    </BUYER>
+    <SUPPLIER>
+      <NAME>Test Supplier</NAME>
+    </SUPPLIER>
+  </HEADER>
+  <T_NEW_CATALOG>
+    <PRODUCT>
+      <SUPPLIER_PID>TEST-001</SUPPLIER_PID>
+      <PRODUCT_DETAILS>
+        <DESCRIPTION_SHORT>Test Product</DESCRIPTION_SHORT>
+        <DESCRIPTION_LONG>Test Product Description</DESCRIPTION_LONG>
+      </PRODUCT_DETAILS>
+      <PRODUCT_ORDER_DETAILS>
+        <ORDER_UNIT>C62</ORDER_UNIT>
+      </PRODUCT_ORDER_DETAILS>
+      <PRODUCT_PRICE_DETAILS>
+        <PRODUCT_PRICE price_type="net_customer">
+          <PRICE_AMOUNT>100.00</PRICE_AMOUNT>
+          <PRICE_CURRENCY>EUR</PRICE_CURRENCY>
+        </PRODUCT_PRICE>
+      </PRODUCT_PRICE_DETAILS>
+    </PRODUCT>
+  </T_NEW_CATALOG>
+</BMECAT>

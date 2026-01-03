@@ -1,5 +1,5 @@
-import { vi, beforeAll, afterAll } from "vitest";
-import { config } from "@vue/test-utils";
+import { vi, beforeAll, afterAll } from 'vitest';
+import { config } from '@vue/test-utils';
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -19,19 +19,19 @@ const localStorageMock = (() => {
   };
 })();
 
-Object.defineProperty(window, "localStorage", {
+Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
 
 // Mock sessionStorage
-Object.defineProperty(window, "sessionStorage", {
+Object.defineProperty(window, 'sessionStorage', {
   value: localStorageMock,
 });
 
 // Mock window.matchMedia
-Object.defineProperty(window, "matchMedia", {
+Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation((query) => ({
+  value: vi.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,
@@ -50,7 +50,7 @@ config.global.stubs = {
 };
 
 // Mock window.scrollTo
-Object.defineProperty(window, "scrollTo", {
+Object.defineProperty(window, 'scrollTo', {
   value: vi.fn(),
 });
 
@@ -61,10 +61,10 @@ const originalWarn = console.warn;
 beforeAll(() => {
   console.error = vi.fn((...args) => {
     if (
-      typeof args[0] === "string" &&
-      (args[0].includes("Not implemented: HTMLFormElement.prototype.submit") ||
-        args[0].includes("Not implemented: HTMLFormElement.prototype.reset") ||
-        args[0].includes("Navigation"))
+      typeof args[0] === 'string' &&
+      (args[0].includes('Not implemented: HTMLFormElement.prototype.submit') ||
+        args[0].includes('Not implemented: HTMLFormElement.prototype.reset') ||
+        args[0].includes('Navigation'))
     ) {
       return;
     }
@@ -73,10 +73,8 @@ beforeAll(() => {
 
   console.warn = vi.fn((...args) => {
     if (
-      typeof args[0] === "string" &&
-      args[0].includes(
-        "Avoid app logic that relies on enumerating keys on a component instance"
-      )
+      typeof args[0] === 'string' &&
+      args[0].includes('Avoid app logic that relies on enumerating keys on a component instance')
     ) {
       return;
     }

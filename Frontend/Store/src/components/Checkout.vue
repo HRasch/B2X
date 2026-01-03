@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
-import B2BVatIdInput from "./B2BVatIdInput.vue";
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import B2BVatIdInput from './B2BVatIdInput.vue';
+import type { ValidateVatIdResponse } from '@/types/vat-validation';
 
 /**
  * Checkout.vue - 3-Step Wizard Component
@@ -37,7 +38,7 @@ interface CheckoutState {
   address: Address;
   selectedShippingMethod: string;
   errors: Record<string, string>;
-  registrationType?: "B2C" | "B2B";
+  registrationType?: 'B2C' | 'B2B';
   b2bVatId?: string;
   reverseChargeApplies?: boolean;
 }
@@ -47,22 +48,22 @@ const router = useRouter();
 const state = ref<CheckoutState>({
   currentStep: 1,
   address: {
-    street: "",
-    city: "",
-    zip: "",
-    country: "DE",
+    street: '',
+    city: '',
+    zip: '',
+    country: 'DE',
   },
-  selectedShippingMethod: "standard",
+  selectedShippingMethod: 'standard',
   errors: {},
 });
 
 // Mock shipping methods - would come from API
 const shippingMethods: ShippingMethod[] = [
-  { id: "standard", name: "Standard Shipping", cost: 0, estimatedDays: 5 },
-  { id: "express", name: "Express Shipping", cost: 9.99, estimatedDays: 2 },
+  { id: 'standard', name: 'Standard Shipping', cost: 0, estimatedDays: 5 },
+  { id: 'express', name: 'Express Shipping', cost: 9.99, estimatedDays: 2 },
   {
-    id: "overnight",
-    name: "Overnight Shipping",
+    id: 'overnight',
+    name: 'Overnight Shipping',
     cost: 19.99,
     estimatedDays: 1,
   },
@@ -70,11 +71,11 @@ const shippingMethods: ShippingMethod[] = [
 
 // Mock cart data - would come from store/API
 const cartItems = ref([
-  { id: 1, name: "Product 1", price: 29.99, vat: 5.7, qty: 1 },
-  { id: 2, name: "Product 2", price: 49.99, vat: 9.5, qty: 2 },
+  { id: 1, name: 'Product 1', price: 29.99, vat: 5.7, qty: 1 },
+  { id: 2, name: 'Product 2', price: 49.99, vat: 9.5, qty: 2 },
 ]);
 
-const countries = ["DE", "AT", "CH", "FR", "NL", "BE"];
+const countries = ['DE', 'AT', 'CH', 'FR', 'NL', 'BE'];
 
 // Computed properties
 const subtotal = computed(() => {
@@ -86,9 +87,7 @@ const totalVat = computed(() => {
 });
 
 const shippingCost = computed(() => {
-  const method = shippingMethods.find(
-    (m) => m.id === state.value.selectedShippingMethod
-  );
+  const method = shippingMethods.find(m => m.id === state.value.selectedShippingMethod);
   return method?.cost || 0;
 });
 
@@ -97,9 +96,7 @@ const grandTotal = computed(() => {
 });
 
 const selectedShippingMethodDetails = computed(() => {
-  return shippingMethods.find(
-    (m) => m.id === state.value.selectedShippingMethod
-  );
+  return shippingMethods.find(m => m.id === state.value.selectedShippingMethod);
 });
 
 // Validation
@@ -109,21 +106,21 @@ const validateAddress = (): boolean => {
   const { street, city, zip, country } = state.value.address;
 
   if (!street?.trim()) {
-    errors.street = "Street is required";
+    errors.street = 'Street is required';
   }
   if (!city?.trim()) {
-    errors.city = "City is required";
+    errors.city = 'City is required';
   }
   if (!zip?.trim()) {
-    errors.zip = "Postal code is required";
+    errors.zip = 'Postal code is required';
   }
   if (!country) {
-    errors.country = "Country is required";
+    errors.country = 'Country is required';
   }
 
   // Basic postal code validation (German format)
-  if (zip && country === "DE" && !/^\d{5}$/.test(zip)) {
-    errors.zip = "Invalid German postal code (format: 12345)";
+  if (zip && country === 'DE' && !/^\d{5}$/.test(zip)) {
+    errors.zip = 'Invalid German postal code (format: 12345)';
   }
 
   state.value.errors = errors;
@@ -131,7 +128,7 @@ const validateAddress = (): boolean => {
 };
 
 // Handle VAT ID validation result (Issue #31)
-const handleVatValidationResult = (result: any) => {
+const handleVatValidationResult = (result: ValidateVatIdResponse) => {
   state.value.b2bVatId = result.vatId;
   state.value.reverseChargeApplies = result.reverseChargeApplies;
 
@@ -171,7 +168,7 @@ const nextStep = () => {
 
 // Checkout submission (placeholder for payment gateway integration)
 const proceedToPayment = () => {
-  console.log("Proceeding to payment with:", {
+  console.log('Proceeding to payment with:', {
     address: state.value.address,
     shippingMethod: state.value.selectedShippingMethod,
     total: grandTotal.value,
@@ -179,11 +176,11 @@ const proceedToPayment = () => {
 
   // TODO: Integrate with payment gateway
   // For now, navigate to payment success
-  router.push("/checkout/success");
+  router.push('/checkout/success');
 };
 
 // Step indicators
-const steps = ["Shipping Address", "Shipping Method", "Order Review"];
+const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
 </script>
 
 <template>
@@ -204,9 +201,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
             <div
               class="flex items-center gap-3 cursor-pointer"
               @click="goToStep(index + 1)"
-              :aria-current="
-                state.currentStep === index + 1 ? 'step' : undefined
-              "
+              :aria-current="state.currentStep === index + 1 ? 'step' : undefined"
               role="button"
               :tabindex="state.currentStep === index + 1 ? 0 : -1"
               @keypress.enter="goToStep(index + 1)"
@@ -221,15 +216,11 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
                       : 'bg-base-300 text-base-600',
                 ]"
               >
-                {{ state.currentStep > index + 1 ? "✓" : index + 1 }}
+                {{ state.currentStep > index + 1 ? '✓' : index + 1 }}
               </div>
               <span
                 class="hidden md:inline text-sm font-medium"
-                :class="
-                  state.currentStep >= index + 1
-                    ? 'text-base-900'
-                    : 'text-base-500'
-                "
+                :class="state.currentStep >= index + 1 ? 'text-base-900' : 'text-base-500'"
               >
                 {{ step }}
               </span>
@@ -242,13 +233,8 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
         <!-- Main Content -->
         <div class="lg:col-span-2">
           <!-- Step 1: Shipping Address -->
-          <section
-            v-if="state.currentStep === 1"
-            aria-label="Shipping Address Form"
-          >
-            <h2 class="text-2xl font-bold mb-6 text-base-900">
-              Shipping Address
-            </h2>
+          <section v-if="state.currentStep === 1" aria-label="Shipping Address Form">
+            <h2 class="text-2xl font-bold mb-6 text-base-900">Shipping Address</h2>
 
             <form @submit.prevent="nextStep" class="space-y-4">
               <!-- Street Input -->
@@ -268,11 +254,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
                   required
                   aria-required="true"
                 />
-                <span
-                  v-if="state.errors.street"
-                  class="text-error text-sm mt-1"
-                  role="alert"
-                >
+                <span v-if="state.errors.street" class="text-error text-sm mt-1" role="alert">
                   {{ state.errors.street }}
                 </span>
               </div>
@@ -280,9 +262,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
               <!-- City Input -->
               <div class="form-control">
                 <label for="city" class="label">
-                  <span class="label-text font-medium"
-                    >City <span class="text-error">*</span></span
-                  >
+                  <span class="label-text font-medium">City <span class="text-error">*</span></span>
                 </label>
                 <input
                   id="city"
@@ -294,11 +274,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
                   required
                   aria-required="true"
                 />
-                <span
-                  v-if="state.errors.city"
-                  class="text-error text-sm mt-1"
-                  role="alert"
-                >
+                <span v-if="state.errors.city" class="text-error text-sm mt-1" role="alert">
                   {{ state.errors.city }}
                 </span>
               </div>
@@ -321,11 +297,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
                     required
                     aria-required="true"
                   />
-                  <span
-                    v-if="state.errors.zip"
-                    class="text-error text-sm mt-1"
-                    role="alert"
-                  >
+                  <span v-if="state.errors.zip" class="text-error text-sm mt-1" role="alert">
                     {{ state.errors.zip }}
                   </span>
                 </div>
@@ -344,19 +316,11 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
                     required
                     aria-required="true"
                   >
-                    <option
-                      v-for="country in countries"
-                      :key="country"
-                      :value="country"
-                    >
+                    <option v-for="country in countries" :key="country" :value="country">
                       {{ country }}
                     </option>
                   </select>
-                  <span
-                    v-if="state.errors.country"
-                    class="text-error text-sm mt-1"
-                    role="alert"
-                  >
+                  <span v-if="state.errors.country" class="text-error text-sm mt-1" role="alert">
                     {{ state.errors.country }}
                   </span>
                 </div>
@@ -365,9 +329,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
               <!-- Save Address Checkbox -->
               <div class="form-control">
                 <label class="label cursor-pointer">
-                  <span class="label-text"
-                    >Save this address for future orders</span
-                  >
+                  <span class="label-text">Save this address for future orders</span>
                   <input
                     type="checkbox"
                     class="checkbox checkbox-primary"
@@ -399,12 +361,10 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
               v-if="state.registrationType === 'B2B'"
               class="mb-8 bg-blue-50 p-6 rounded-lg border border-blue-200"
             >
-              <h3 class="text-lg font-bold mb-4 text-blue-900">
-                Business Verification
-              </h3>
+              <h3 class="text-lg font-bold mb-4 text-blue-900">Business Verification</h3>
               <p class="text-blue-800 mb-4">
-                Please provide your VAT ID for verification. Valid EU business
-                VAT-IDs may qualify for reverse charge (0% VAT).
+                Please provide your VAT ID for verification. Valid EU business VAT-IDs may qualify
+                for reverse charge (0% VAT).
               </p>
               <B2BVatIdInput
                 :seller-country="state.address.country"
@@ -413,9 +373,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
               />
             </div>
 
-            <h2 class="text-2xl font-bold mb-6 text-base-900">
-              Shipping Method
-            </h2>
+            <h2 class="text-2xl font-bold mb-6 text-base-900">Shipping Method</h2>
 
             <fieldset class="space-y-4">
               <legend class="sr-only">Select a shipping method</legend>
@@ -447,9 +405,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
                     </div>
                   </span>
                   <span class="text-lg font-bold text-base-900">
-                    {{
-                      method.cost > 0 ? "€" + method.cost.toFixed(2) : "Free"
-                    }}
+                    {{ method.cost > 0 ? '€' + method.cost.toFixed(2) : 'Free' }}
                   </span>
                 </label>
               </div>
@@ -475,10 +431,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
           </section>
 
           <!-- Step 3: Order Review -->
-          <section
-            v-if="state.currentStep === 3"
-            aria-label="Order Review and Payment"
-          >
+          <section v-if="state.currentStep === 3" aria-label="Order Review and Payment">
             <h2 class="text-2xl font-bold mb-6 text-base-900">Order Review</h2>
 
             <!-- Shipping Address Review -->
@@ -509,8 +462,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
                 </p>
                 <p class="text-sm text-base-600">
                   Estimated delivery:
-                  {{ selectedShippingMethodDetails?.estimatedDays }} business
-                  days
+                  {{ selectedShippingMethodDetails?.estimatedDays }} business days
                 </p>
                 <button
                   @click="state.currentStep = 2"
@@ -539,9 +491,7 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
                       <tr v-for="item in cartItems" :key="item.id">
                         <td>{{ item.name }}</td>
                         <td class="text-right">{{ item.qty }}</td>
-                        <td class="text-right">
-                          €{{ (item.price * item.qty).toFixed(2) }}
-                        </td>
+                        <td class="text-right">€{{ (item.price * item.qty).toFixed(2) }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -579,17 +529,9 @@ const steps = ["Shipping Address", "Shipping Method", "Order Review"];
 
               <!-- Order Items -->
               <div class="space-y-2 mb-4">
-                <div
-                  v-for="item in cartItems"
-                  :key="item.id"
-                  class="flex justify-between text-sm"
-                >
-                  <span class="text-base-700"
-                    >{{ item.name }} x {{ item.qty }}</span
-                  >
-                  <span class="font-medium"
-                    >€{{ (item.price * item.qty).toFixed(2) }}</span
-                  >
+                <div v-for="item in cartItems" :key="item.id" class="flex justify-between text-sm">
+                  <span class="text-base-700">{{ item.name }} x {{ item.qty }}</span>
+                  <span class="font-medium">€{{ (item.price * item.qty).toFixed(2) }}</span>
                 </div>
               </div>
 

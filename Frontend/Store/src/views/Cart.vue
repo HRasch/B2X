@@ -4,9 +4,7 @@
 
     <div v-if="cartStore.items.length === 0" class="empty-cart">
       <p>Ihr Warenkorb ist leer</p>
-      <router-link to="/shop" class="continue-shopping">
-        Zum Einkaufen
-      </router-link>
+      <router-link to="/shop" class="continue-shopping"> Zum Einkaufen </router-link>
     </div>
 
     <div v-else class="cart-content">
@@ -25,9 +23,7 @@
             <button @click="increaseQuantity(item.id)">+</button>
           </div>
 
-          <div class="item-subtotal">
-            {{ (item.price * item.quantity).toFixed(2) }}€
-          </div>
+          <div class="item-subtotal">{{ (item.price * item.quantity).toFixed(2) }}€</div>
 
           <button @click="removeItem(item.id)" class="remove-btn">✕</button>
         </div>
@@ -51,11 +47,7 @@
           <h3>Versand</h3>
           <div class="shipping-info">
             <label for="country">Lieferziel:</label>
-            <select
-              v-model="selectedCountry"
-              id="country"
-              @change="onCountryChange"
-            >
+            <select v-model="selectedCountry" id="country" @change="onCountryChange">
               <option value="">Bitte wählen...</option>
               <option value="DE">Deutschland</option>
               <option value="AT">Österreich</option>
@@ -68,11 +60,7 @@
           </div>
 
           <div v-if="shippingMethods.length > 0" class="shipping-methods">
-            <div
-              v-for="method in shippingMethods"
-              :key="method.id"
-              class="shipping-option"
-            >
+            <div v-for="method in shippingMethods" :key="method.id" class="shipping-option">
               <input
                 :id="`shipping-${method.id}`"
                 v-model="selectedShippingMethodId"
@@ -107,18 +95,16 @@
 
         <button @click="checkout" class="checkout-btn">Zur Kasse gehen</button>
 
-        <router-link to="/shop" class="continue-shopping">
-          Weiter einkaufen
-        </router-link>
+        <router-link to="/shop" class="continue-shopping"> Weiter einkaufen </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useCartStore } from "../stores/cart";
+import { computed, ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCartStore } from '../stores/cart';
 
 interface ShippingMethod {
   id: string;
@@ -133,17 +119,14 @@ interface ShippingMethod {
 const router = useRouter();
 const cartStore = useCartStore();
 
-const selectedCountry = ref("DE");
-const selectedShippingMethodId = ref("");
+const selectedCountry = ref('DE');
+const selectedShippingMethodId = ref('');
 const shippingMethods = ref<ShippingMethod[]>([]);
 const shippingCost = ref(0);
-const shippingError = ref("");
+const shippingError = ref('');
 
 const subtotal = computed(() => {
-  return cartStore.items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  return cartStore.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 });
 
 const tax = computed(() => subtotal.value * 0.19);
@@ -151,14 +134,14 @@ const tax = computed(() => subtotal.value * 0.19);
 const total = computed(() => subtotal.value + tax.value + shippingCost.value);
 
 const increaseQuantity = (itemId: string) => {
-  const item = cartStore.items.find((i) => i.id === itemId);
+  const item = cartStore.items.find(i => i.id === itemId);
   if (item) {
     item.quantity++;
   }
 };
 
 const decreaseQuantity = (itemId: string) => {
-  const item = cartStore.items.find((i) => i.id === itemId);
+  const item = cartStore.items.find(i => i.id === itemId);
   if (item && item.quantity > 1) {
     item.quantity--;
   }
@@ -170,9 +153,9 @@ const removeItem = (itemId: string) => {
 
 const onCountryChange = async () => {
   shippingMethods.value = [];
-  selectedShippingMethodId.value = "";
+  selectedShippingMethodId.value = '';
   shippingCost.value = 0;
-  shippingError.value = "";
+  shippingError.value = '';
 
   if (!selectedCountry.value) {
     return;
@@ -184,7 +167,7 @@ const onCountryChange = async () => {
     );
 
     if (!response.ok) {
-      shippingError.value = "Versand zu diesem Land nicht verfügbar";
+      shippingError.value = 'Versand zu diesem Land nicht verfügbar';
       return;
     }
 
@@ -198,19 +181,16 @@ const onCountryChange = async () => {
         shippingCost.value = method.cost;
       }
     } else {
-      shippingError.value =
-        data.message || "Fehler beim Laden der Versandarten";
+      shippingError.value = data.message || 'Fehler beim Laden der Versandarten';
     }
   } catch (error) {
-    console.error("Error fetching shipping methods:", error);
-    shippingError.value = "Fehler beim Laden der Versandarten";
+    console.error('Error fetching shipping methods:', error);
+    shippingError.value = 'Fehler beim Laden der Versandarten';
   }
 };
 
 const onShippingChange = () => {
-  const selected = shippingMethods.value.find(
-    (m) => m.id === selectedShippingMethodId.value
-  );
+  const selected = shippingMethods.value.find(m => m.id === selectedShippingMethodId.value);
   if (selected) {
     shippingCost.value = selected.cost;
   }
@@ -218,10 +198,10 @@ const onShippingChange = () => {
 
 const checkout = () => {
   if (!selectedShippingMethodId.value) {
-    shippingError.value = "Bitte wählen Sie eine Versandart aus";
+    shippingError.value = 'Bitte wählen Sie eine Versandart aus';
     return;
   }
-  router.push("/checkout");
+  router.push('/checkout');
 };
 
 onMounted(async () => {

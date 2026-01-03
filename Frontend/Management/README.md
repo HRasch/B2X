@@ -13,23 +13,27 @@ The tenant management frontend provides a dedicated portal for:
 ## Features
 
 ### Dashboard
+
 - Overview of store instances and administrators
 - Quick access to key management functions
 - Real-time statistics and metrics
 
 ### Store Management
+
 - Create and manage multiple store instances
 - Monitor store status (active, inactive, suspended)
 - View store-specific metrics and statistics
 - Manage store domain configuration
 
 ### Administrator Management
+
 - Invite and manage administrator users
 - Assign roles (TenantAdmin, StoreManager, SuperAdmin)
 - Track administrator activity and last login
 - Enable/disable administrator accounts
 
 ### Security
+
 - JWT-based authentication
 - Role-based access control (RBAC)
 - Tenant isolation via X-Tenant-ID header
@@ -110,6 +114,7 @@ frontend-tenant/
 ### Router
 
 Protected routes that require authentication:
+
 - `/dashboard` - Main dashboard
 - `/stores` - Store management
 - `/stores/:id` - Store details
@@ -118,6 +123,7 @@ Protected routes that require authentication:
 - `/settings` - Tenant settings
 
 Public routes:
+
 - `/login` - Login page
 
 ## Environment Variables
@@ -136,15 +142,18 @@ VITE_APP_ENV=development
 The frontend connects to the B2Connect backend APIs:
 
 ### Base URL
+
 - Development: `http://localhost:8080/api`
 - Production: `/api` (relative path)
 
 ### Headers
+
 - `Authorization: Bearer <jwt_token>`
 - `X-Tenant-ID: <tenant-id>` (for tenant-scoped requests)
 - `Content-Type: application/json`
 
 ### Authentication Flow
+
 1. User logs in via `/api/auth/login`
 2. JWT token is stored in localStorage
 3. Token is automatically included in all API requests
@@ -153,16 +162,19 @@ The frontend connects to the B2Connect backend APIs:
 ## Testing
 
 ### Unit Tests
+
 ```bash
 npm run test
 ```
 
 ### Test Coverage
+
 ```bash
 npm run test:coverage
 ```
 
 ### UI Test Browser
+
 ```bash
 npm run test:ui
 ```
@@ -220,6 +232,7 @@ Copyright © 2025 B2Connect. All rights reserved.
 ## Support
 
 For issues or questions:
+
 1. Check existing GitHub issues
 2. Create new issue with detailed description
 3. Contact support@b2connect.com

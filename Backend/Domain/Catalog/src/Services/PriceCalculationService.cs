@@ -1,7 +1,7 @@
-using B2Connect.CatalogService.Models;
+using B2Connect.Catalog.Models;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CatalogService.Services;
+namespace B2Connect.Catalog.Services;
 
 /// <summary>
 /// Service for calculating product prices with VAT transparency
@@ -104,10 +104,12 @@ public class PriceCalculationService : IPriceCalculationService
             cancellationToken
         );
 
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
         _logger.LogDebug(
             "Calculating price - Base: {BasePrice}, Country: {Country}, VAT Rate: {VatRate}%",
             basePrice, destinationCountry, vatRate
         );
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
 
         // Calculate VAT amount
         var vatAmount = Math.Round(basePrice * vatRate / 100, 2);

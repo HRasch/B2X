@@ -6,10 +6,10 @@
  * Location: B2Connect.Identity.API on port 7002
  */
 
-import axios from "axios";
-import type { AxiosError } from "axios";
+import axios from 'axios';
+import type { AxiosError } from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:7002";
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:7002';
 const REGISTRATION_API = `${API_BASE_URL}/checkregistrationtype`;
 
 /**
@@ -18,7 +18,7 @@ const REGISTRATION_API = `${API_BASE_URL}/checkregistrationtype`;
  */
 export interface CheckRegistrationTypeRequest {
   email: string;
-  businessType: "B2C" | "B2B";
+  businessType: 'B2C' | 'B2B';
   firstName?: string;
   lastName?: string;
   companyName?: string;
@@ -31,7 +31,7 @@ export interface CheckRegistrationTypeRequest {
  */
 export interface CheckRegistrationTypeResponse {
   success: boolean;
-  registrationType: "NewCustomer" | "ExistingCustomer" | "Bestandskunde";
+  registrationType: 'NewCustomer' | 'ExistingCustomer' | 'Bestandskunde';
   erpCustomerId?: string;
   erpData?: {
     customerNumber: string;
@@ -61,22 +61,18 @@ export async function checkRegistrationType(
   request: CheckRegistrationTypeRequest
 ): Promise<CheckRegistrationTypeResponse> {
   try {
-    const response = await axios.post<CheckRegistrationTypeResponse>(
-      REGISTRATION_API,
-      request,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Tenant-ID": getTenantId(), // Multi-tenant isolation
-        },
-        timeout: 10000, // 10 second timeout
-      }
-    );
+    const response = await axios.post<CheckRegistrationTypeResponse>(REGISTRATION_API, request, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Tenant-ID': getTenantId(), // Multi-tenant isolation
+      },
+      timeout: 10000, // 10 second timeout
+    });
 
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
-    console.error("CheckRegistrationType API Error:", {
+    console.error('CheckRegistrationType API Error:', {
       status: axiosError.response?.status,
       message: axiosError.message,
       data: axiosError.response?.data,
@@ -84,12 +80,12 @@ export async function checkRegistrationType(
 
     throw {
       success: false,
-      registrationType: "NewCustomer",
-      error: "API_ERROR",
+      registrationType: 'NewCustomer',
+      error: 'API_ERROR',
       message:
         axiosError.response?.status === 503
-          ? "Service temporarily unavailable"
-          : axiosError.message || "Failed to check registration type",
+          ? 'Service temporarily unavailable'
+          : axiosError.message || 'Failed to check registration type',
     } as CheckRegistrationTypeResponse;
   }
 }
@@ -100,7 +96,7 @@ export async function checkRegistrationType(
  */
 function getTenantId(): string {
   // This would come from your auth context
-  return localStorage.getItem("tenantId") || "";
+  return localStorage.getItem('tenantId') || '';
 }
 
 /**
@@ -108,9 +104,9 @@ function getTenantId(): string {
  */
 export function formatRegistrationType(type: string): string {
   const typeMap: Record<string, string> = {
-    NewCustomer: "Neukunde",
-    ExistingCustomer: "Bestandskunde",
-    Bestandskunde: "Bestandskunde",
+    NewCustomer: 'Neukunde',
+    ExistingCustomer: 'Bestandskunde',
+    Bestandskunde: 'Bestandskunde',
   };
   return typeMap[type] || type;
 }
@@ -128,5 +124,5 @@ export function validateEmail(email: string): boolean {
  */
 export function normalizePhone(phone: string): string {
   // Remove all non-numeric characters
-  return phone.replace(/\D/g, "");
+  return phone.replace(/\D/g, '');
 }

@@ -277,6 +277,220 @@ public class EnventaOrmAdapter : IErpDataAccess
 }
 ```
 
+#### Query Descriptor Pattern
+
+**Problem**: Complex query building (NVArticleQueryBuilder) cannot be serialized across framework boundaries without exposing SQL or creating an explosion of API methods.
+
+**Solution**: Serialize queries as structured **Query Descriptors** that can be transmitted via gRPC and reconstructed into native enventa QueryBuilder calls.
+
+##### Query Descriptor Structure
+
+```csharp
+// Serialisierbare Query-Struktur (gRPC-kompatibel)
+public class ProductQueryDescriptor
+{
+    public string[] Categories { get; set; }
+    public PriceFilter PriceRange { get; set; }
+    public StockFilter StockCriteria { get; set; }
+    public AttributeFilters Attributes { get; set; }
+    public SortDescriptor[] SortBy { get; set; }
+    public PaginationDescriptor Pagination { get; set; }
+    public bool IncludePricing { get; set; }
+    public bool IncludeStock { get; set; }
+    public bool IncludeImages { get; set; }
+    
+    // Komplexe Filter-Bäume (AND/OR Logik)
+    public QueryNode FilterTree { get; set; }
+}
+
+// Rekursive Filter-Bäume für komplexe Logik
+public class QueryNode
+{
+    public QueryOperator Operator { get; set; } // AND, OR, NOT
+    public QueryCondition[] Conditions { get; set; }
+    public QueryNode[] Children { get; set; }
+}
+
+public class QueryCondition
+{
+    public string Field { get; set; }
+    public QueryOperator Operator { get; set; } // EQ, GT, LT, LIKE, IN, etc.
+    public object[] Values { get; set; }
+}
+```
+
+##### Fluent API Builder (Client-Seite)
+
+```csharp
+// Fluent API ähnlich enventa, aber serialisierbar
+public class ProductQueryBuilder
+{
+    private readonly ProductQueryDescriptor _descriptor = new();
+    
+    public ProductQueryBuilder ByCategory(params string[] categoryIds)
+    {
+        _descriptor.Categories = categoryIds;
+        return this;
+    }
+    
+    public ProductQueryBuilder WithPricing(decimal? min = null, decimal? max = null)
+    {
+        _descriptor.IncludePricing = true;
+        _descriptor.PriceRange = new PriceFilter { Min = min, Max = max };
+        return this;
+    }
+    
+    public ProductQueryBuilder Where(Func<ProductQueryBuilder, QueryCondition> condition)
+    {
+        _descriptor.FilterTree = BuildNode(condition);
+        return this;
+    }
+    
+    public ProductQueryBuilder OrderBy(string field, SortDirection direction = SortDirection.Ascending)
+    {
+        _descriptor.SortBy = _descriptor.SortBy?.Append(new SortDescriptor 
+        { 
+            Field = field, 
+            Direction = direction 
+        }).ToArray() ?? new[] { new SortDescriptor { Field = field, Direction = direction } };
+        return this;
+    }
+    
+    // Ausführung über gRPC
+    public async IAsyncEnumerable<Product> ExecuteAsync(TenantContext context)
+    {
+        var grpcClient = await GetGrpcClientAsync(context);
+        using var call = grpcClient.StreamProducts(_descriptor);
+        
+        await foreach (var product in call.ResponseStream.ReadAllAsync())
+        {
+            yield return product;
+        }
+    }
+}
+```
+
+##### Proxy-Seite: Descriptor → enventa QueryBuilder
+
+```csharp
+// EnventaQueryBuilderAdapter.cs (.NET Framework 4.8)
+public class EnventaQueryBuilderAdapter
+{
+    public NVArticleQueryBuilder BuildFromDescriptor(ProductQueryDescriptor descriptor)
+    {
+        var query = new NVArticleQueryBuilder();
+        
+        // Kategorien
+        if (descriptor.Categories?.Length > 0)
+        {
+            query = query.ByCategory(descriptor.Categories);
+        }
+        
+        // Preise
+        if (descriptor.IncludePricing)
+        {
+            query = query.WithPricing();
+            if (descriptor.PriceRange != null)
+            {
+                query = query.WherePrice(descriptor.PriceRange.Min, descriptor.PriceRange.Max);
+            }
+        }
+        
+        // Stock
+        if (descriptor.IncludeStock)
+        {
+            query = query.WithStock();
+            if (descriptor.StockCriteria != null)
+            {
+                query = ApplyStockFilter(query, descriptor.StockCriteria);
+            }
+        }
+        
+        // Komplexe Filter-Bäume
+        if (descriptor.FilterTree != null)
+        {
+            query = ApplyFilterTree(query, descriptor.FilterTree);
+        }
+        
+        // Sortierung
+        if (descriptor.SortBy?.Length > 0)
+        {
+            foreach (var sort in descriptor.SortBy)
+            {
+                query = query.OrderBy(sort.Field, sort.Direction == SortDirection.Ascending);
+            }
+        }
+        
+        // Pagination
+        if (descriptor.Pagination != null)
+        {
+            query = query.Skip(descriptor.Pagination.Offset)
+                        .Take(descriptor.Pagination.Limit);
+        }
+        
+        return query;
+    }
+    
+    private NVArticleQueryBuilder ApplyFilterTree(NVArticleQueryBuilder query, QueryNode node)
+    {
+        // Rekursive Verarbeitung des Filter-Baums
+        switch (node.Operator)
+        {
+            case QueryOperator.AND:
+                foreach (var child in node.Children ?? Array.Empty<QueryNode>())
+                {
+                    query = ApplyFilterTree(query, child);
+                }
+                break;
+            case QueryOperator.OR:
+                // enventa unterstützt möglicherweise OR nicht direkt
+                // Fallback: Client-seitige Filterung oder UNION-Abfragen
+                break;
+        }
+        
+        foreach (var condition in node.Conditions ?? Array.Empty<QueryCondition>())
+        {
+            query = ApplyCondition(query, condition);
+        }
+        
+        return query;
+    }
+    
+    private NVArticleQueryBuilder ApplyCondition(NVArticleQueryBuilder query, QueryCondition condition)
+    {
+        return condition.Field switch
+        {
+            "Name" => condition.Operator switch
+            {
+                QueryOperator.LIKE => query.WhereNameContains((string)condition.Values[0]),
+                QueryOperator.EQ => query.WhereNameEquals((string)condition.Values[0]),
+                _ => throw new NotSupportedException($"Operator {condition.Operator} not supported for field {condition.Field}")
+            },
+            "ArticleNumber" => condition.Operator switch
+            {
+                QueryOperator.EQ => query.WhereArticleNumberEquals((string)condition.Values[0]),
+                _ => throw new NotSupportedException($"Operator {condition.Operator} not supported for field {condition.Field}")
+            },
+            _ => throw new NotSupportedException($"Field {condition.Field} not supported")
+        };
+    }
+}
+```
+
+##### Vorteile
+
+✅ **Sicherheit**: Keine SQL-Injection durch direkte SQL-Strings über Netzwerk  
+✅ **Skalierbarkeit**: Eine `StreamProducts` Methode deckt alle Query-Komplexität ab  
+✅ **Type-Safe**: Stark typisierte Query-Descriptors  
+✅ **Erweiterbar**: Neue Filter ohne API-Änderungen hinzufügbar  
+✅ **Performance**: Server-seitige Filterung, nur relevante Daten übertragen  
+
+##### Handling von enventa Limitierungen
+
+- **OR-Queries**: Wenn nicht nativ unterstützt → Client-seitige Post-Filterung
+- **Komplexe Operatoren**: Fallback zu Approximation oder Fehlermeldung
+- **Performance**: Query-Optimierung auf Proxy-Seite
+
 #### Thread-Safe Data Access: Actor Pattern
 
 Since enventa ERP is **not thread-safe**, all operations must be serialized through an Actor pattern:

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using B2Connect.Shared.Core;
 using Bogus;
 
 namespace B2Connect.Catalog.Endpoints.Dev;
@@ -47,7 +48,8 @@ public static class DemoProductStore
                 var sku = $"SKU-{i + 1:D8}";
                 var name = faker.Commerce.ProductName();
                 var price = decimal.Parse(faker.Commerce.Price(50, 5000));
-                var tenantId = Guid.NewGuid();
+                // Use the shared default tenant ID so products are visible in Store frontend
+                var tenantId = SeedConstants.DefaultTenantId;
                 var sector = !string.IsNullOrWhiteSpace(demoSector) ? demoSector : faker.PickRandom(sectors);
                 var locale = faker.PickRandom(locales);
                 var brand = faker.Company.CompanyName();

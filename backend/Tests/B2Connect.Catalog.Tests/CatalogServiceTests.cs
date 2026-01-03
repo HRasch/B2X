@@ -1,7 +1,7 @@
 using Xunit;
 using Moq;
-using B2Connect.CatalogService.Services;
-using B2Connect.CatalogService.Models;
+using B2Connect.Catalog.Services;
+using B2Connect.Catalog.Models;
 
 namespace B2Connect.Catalog.Tests;
 

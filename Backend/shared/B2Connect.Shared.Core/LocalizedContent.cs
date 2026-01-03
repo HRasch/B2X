@@ -166,7 +166,7 @@ public sealed class LocalizedContent : IValueObject, IEquatable<LocalizedContent
 
     public override int GetHashCode()
     {
-        var hash = new HashCode();
+        var hash = default(HashCode);
         foreach (var kvp in Translations.OrderBy(k => k.Key))
         {
             hash.Add(kvp.Key);

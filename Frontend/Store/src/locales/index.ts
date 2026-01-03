@@ -1,13 +1,13 @@
-import { createI18n } from 'vue-i18n'
-import type { I18n } from 'vue-i18n'
-import en from './en.json'
-import de from './de.json'
-import fr from './fr.json'
-import es from './es.json'
-import it from './it.json'
-import pt from './pt.json'
-import nl from './nl.json'
-import pl from './pl.json'
+import { createI18n } from 'vue-i18n';
+import type { I18n } from 'vue-i18n';
+import en from './en.json';
+import de from './de.json';
+import fr from './fr.json';
+import es from './es.json';
+import it from './it.json';
+import pt from './pt.json';
+import nl from './nl.json';
+import pl from './pl.json';
 
 export const SUPPORTED_LOCALES = [
   { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -18,7 +18,7 @@ export const SUPPORTED_LOCALES = [
   { code: 'pt', name: 'Português', flag: '🇵🇹' },
   { code: 'nl', name: 'Nederlands', flag: '🇳🇱' },
   { code: 'pl', name: 'Polski', flag: '🇵🇱' },
-]
+];
 
 /**
  * Create and configure vue-i18n instance
@@ -40,6 +40,6 @@ const i18n: I18n = createI18n({
   },
   missingWarn: false,
   missingFallbackWarn: false,
-})
+});
 
-export default i18n
+export default i18n;

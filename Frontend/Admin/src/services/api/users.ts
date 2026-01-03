@@ -1,4 +1,4 @@
-import { apiClient } from "../client";
+import { apiClient } from '../client';
 
 export interface UserAccount {
   id: string;
@@ -41,14 +41,11 @@ export const usersApi = {
     pageSize?: number;
     search?: string;
   }): Promise<UserAccount[]> {
-    const response = await apiClient.get<UsersResponse | UserAccount[]>(
-      "/api/auth/users",
-      { params }
-    );
+    const response = await apiClient.get<UsersResponse | UserAccount[]>('/api/auth/users', {
+      params,
+    });
     // Handle both array and wrapped response
-    return Array.isArray(response)
-      ? response
-      : (response as UsersResponse).data;
+    return Array.isArray(response) ? response : (response as UsersResponse).data;
   },
 
   /**
@@ -63,7 +60,7 @@ export const usersApi = {
    * Create a new user
    */
   async create(user: CreateUserRequest): Promise<UserAccount> {
-    const response = await apiClient.post<UserAccount>("/api/auth/users", user);
+    const response = await apiClient.post<UserAccount>('/api/auth/users', user);
     return response;
   },
 
@@ -71,10 +68,7 @@ export const usersApi = {
    * Update an existing user
    */
   async update(id: string, user: UpdateUserRequest): Promise<UserAccount> {
-    const response = await apiClient.put<UserAccount>(
-      `/api/auth/users/${id}`,
-      user
-    );
+    const response = await apiClient.put<UserAccount>(`/api/auth/users/${id}`, user);
     return response;
   },
 

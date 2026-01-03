@@ -164,7 +164,9 @@ public class DnsVerificationJobTests
 
         _dnsServiceMock
             .Setup(s => s.VerifyDomainAsync(domain1.DomainName, domain1.VerificationToken!))
+#pragma warning disable CA2201 // Do not raise reserved exception types
             .ThrowsAsync(new Exception("DNS lookup failed"));
+#pragma warning restore CA2201 // Do not raise reserved exception types
 
         _dnsServiceMock
             .Setup(s => s.VerifyDomainAsync(domain2.DomainName, domain2.VerificationToken!))

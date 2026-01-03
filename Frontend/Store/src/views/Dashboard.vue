@@ -31,15 +31,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useAuthStore } from '../stores/auth'
+import { computed } from 'vue';
+import { useAuthStore } from '../stores/auth';
 
-const authStore = useAuthStore()
-const user = computed(() => authStore.user)
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
 
 const showSettings = () => {
-  alert('Settings will be implemented soon')
-}
+  alert('Settings will be implemented soon');
+};
 </script>
 
 <style scoped>

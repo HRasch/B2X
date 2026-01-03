@@ -1,17 +1,15 @@
 using System.Diagnostics;
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
 using B2Connect.Admin.Application.Commands.Products;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Types.Localization;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ADR-025 Performance Benchmarks - Phase 4
-// ─────────────────────────────────────────────────────────────────────────────
+namespace B2Connect.Admin.Tests.Benchmarks;
 
 /// <summary>
 /// Test implementation of ITenantContext for benchmarks
@@ -29,7 +27,7 @@ internal class TestTenantContext : ITenantContext
 /// </summary>
 [MemoryDiagnoser]
 [SimpleJob(iterationCount: 3, warmupCount: 1)]
-public class BulkImportBenchmarks
+public class BulkImportBenchmarks : IDisposable
 {
     private CatalogDbContext _dbContext = null!;
     private List<BulkImportProductItem> _testData = null!;
@@ -177,5 +175,10 @@ public class BulkImportBenchmarks
 
         await _dbContext.BulkInsertAsync(products, bulkConfig);
         return products.Count;
+    }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
     }
 }

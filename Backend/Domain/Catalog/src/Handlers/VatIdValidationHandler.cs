@@ -1,8 +1,8 @@
-using B2Connect.CatalogService.Models;
-using B2Connect.CatalogService.Services;
+using B2Connect.Catalog.Models;
+using B2Connect.Catalog.Services;
 using FluentValidation;
 
-namespace B2Connect.CatalogService.Handlers;
+namespace B2Connect.Catalog.Handlers;
 
 /// <summary>
 /// Wolverine HTTP Handler for B2B VAT ID Validation

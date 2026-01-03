@@ -1,6 +1,6 @@
+using B2Connect.Admin.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using B2Connect.Admin.Core.Entities;
 
 namespace B2Connect.Admin.Infrastructure.Data.ReadModel;
 
@@ -103,4 +103,3 @@ public class ProductReadModelConfiguration : IEntityTypeConfiguration<ProductRea
         builder.Property(p => p.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
     }
 }
-

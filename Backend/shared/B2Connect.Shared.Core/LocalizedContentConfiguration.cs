@@ -106,11 +106,13 @@ public static class LocalizedContentQueryExtensions
     /// Note: This is evaluated in-memory, not translated to SQL.
     /// For large datasets, prefer pre-filtering or Elasticsearch.
     /// </summary>
+#pragma warning disable RCS1175 // Unused parameter 'entity'.
     public static string GetLocalized(
         this object entity,
         string defaultValue,
         LocalizedContent? translations,
         string languageCode)
+#pragma warning restore RCS1175 // Unused parameter 'entity'.
     {
         return translations?.GetValue(languageCode) ?? defaultValue;
     }

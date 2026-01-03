@@ -37,15 +37,9 @@
       <div v-else class="grid-items">
         <div v-for="brand in brands" :key="brand.id" class="brand-card">
           <div class="brand-image">
-            <img
-              v-if="brand.logoUrl"
-              :src="brand.logoUrl"
-              :alt="getLocalizedName(brand.name)"
-            />
+            <img v-if="brand.logoUrl" :src="brand.logoUrl" :alt="getLocalizedName(brand.name)" />
             <div v-else class="placeholder">
-              <span>{{
-                getLocalizedName(brand.name).substring(0, 2).toUpperCase()
-              }}</span>
+              <span>{{ getLocalizedName(brand.name).substring(0, 2).toUpperCase() }}</span>
             </div>
           </div>
           <div class="brand-info">
@@ -55,31 +49,16 @@
             </p>
             <div class="brand-meta">
               <span v-if="brand.websiteUrl" class="meta-item">
-                <a
-                  :href="brand.websiteUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Website</a
-                >
+                <a :href="brand.websiteUrl" target="_blank" rel="noopener noreferrer">Website</a>
               </span>
               <span :class="['status', brand.isActive ? 'active' : 'inactive']">
-                {{ brand.isActive ? "Active" : "Inactive" }}
+                {{ brand.isActive ? 'Active' : 'Inactive' }}
               </span>
             </div>
           </div>
           <div class="brand-actions">
-            <button
-              @click="goToEdit(brand.id)"
-              class="btn btn-sm btn-secondary"
-            >
-              Edit
-            </button>
-            <button
-              @click="confirmDelete(brand.id)"
-              class="btn btn-sm btn-danger"
-            >
-              Delete
-            </button>
+            <button @click="goToEdit(brand.id)" class="btn btn-sm btn-secondary">Edit</button>
+            <button @click="confirmDelete(brand.id)" class="btn btn-sm btn-danger">Delete</button>
           </div>
         </div>
       </div>
@@ -87,29 +66,23 @@
 
     <!-- Pagination -->
     <div v-if="!loading && brandsTotalitres > 0" class="pagination">
-      <button
-        @click="previousPage"
-        :disabled="brandsPagination.skip === 0"
-        class="btn btn-sm"
-      >
+      <button @click="previousPage" :disabled="brandsPagination.skip === 0" class="btn btn-sm">
         Previous
       </button>
       <span class="page-info">
         Page {{ currentPage }} of {{ totalPages }} ({{ brandsTotalitres }}
         total)
       </span>
-      <button @click="nextPage" :disabled="!hasMoreBrands" class="btn btn-sm">
-        Next
-      </button>
+      <button @click="nextPage" :disabled="!hasMoreBrands" class="btn btn-sm">Next</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-explicit-any -- Localized type needs proper definition */
-import { onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useCatalogStore } from "@/stores/catalog";
+import { onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCatalogStore } from '@/stores/catalog';
+import type { Brand, LocalizedContent, LocalizedString } from '@/types/catalog';
 
 const router = useRouter();
 const catalogStore = useCatalogStore();
@@ -124,26 +97,21 @@ const brandsPagination = computed(() => catalogStore.brandsPagination);
 const hasMoreBrands = computed(() => catalogStore.hasMoreBrands);
 
 const currentPage = computed(
-  () =>
-    Math.floor(brandsPagination.value.skip / brandsPagination.value.take) + 1
+  () => Math.floor(brandsPagination.value.skip / brandsPagination.value.take) + 1
 );
-const totalPages = computed(() =>
-  Math.ceil(brandsTotalitres.value / brandsPagination.value.take)
-);
+const totalPages = computed(() => Math.ceil(brandsTotalitres.value / brandsPagination.value.take));
 
 // Methods
-function getLocalizedName(localized: any): string {
-  if (!localized || !localized.localizedStrings) return "N/A";
+function getLocalizedName(localized: LocalizedContent | undefined | null): string {
+  if (!localized || !localized.localizedStrings) return 'N/A';
   const english = localized.localizedStrings.find(
-    (s: any) => s.languageCode === "en-US"
+    (s: LocalizedString) => s.languageCode === 'en-US'
   );
-  return english
-    ? english.value
-    : localized.localizedStrings[0]?.value || "N/A";
+  return english ? english.value : localized.localizedStrings[0]?.value || 'N/A';
 }
 
 function goToCreate() {
-  router.push("/catalog/brands/create");
+  router.push('/catalog/brands/create');
 }
 
 function goToEdit(id: string) {
@@ -151,22 +119,14 @@ function goToEdit(id: string) {
 }
 
 function confirmDelete(id: string) {
-  const brand = brands.value.find((b: any) => b.id === id);
-  if (
-    brand &&
-    confirm(
-      `Are you sure you want to delete "${getLocalizedName(brand.name)}"?`
-    )
-  ) {
+  const brand = brands.value.find((b: Brand) => b.id === id);
+  if (brand && confirm(`Are you sure you want to delete "${getLocalizedName(brand.name)}"?`)) {
     catalogStore.deleteBrand(id);
   }
 }
 
 function previousPage() {
-  const newSkip = Math.max(
-    0,
-    brandsPagination.value.skip - brandsPagination.value.take
-  );
+  const newSkip = Math.max(0, brandsPagination.value.skip - brandsPagination.value.take);
   catalogStore.setBrandsPagination(newSkip, brandsPagination.value.take);
   catalogStore.fetchBrands();
 }

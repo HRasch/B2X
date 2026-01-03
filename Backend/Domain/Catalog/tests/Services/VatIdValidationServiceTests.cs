@@ -1,7 +1,7 @@
 using System.Text;
-using B2Connect.CatalogService.Infrastructure;
-using B2Connect.CatalogService.Models;
-using B2Connect.CatalogService.Services;
+using B2Connect.Catalog.Infrastructure;
+using B2Connect.Catalog.Models;
+using B2Connect.Catalog.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Moq;

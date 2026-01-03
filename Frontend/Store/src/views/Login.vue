@@ -6,9 +6,7 @@
       <!-- E2E Test Mode Notice (only visible during E2E tests) -->
       <div v-if="isE2EMode" class="dev-notice">
         <p>🧪 <strong>E2E Test Mode Active</strong></p>
-        <p class="text-sm">
-          Any email/password will work. Backend not required.
-        </p>
+        <p class="text-sm">Any email/password will work. Backend not required.</p>
       </div>
 
       <!-- Development Help (seeded credentials) -->
@@ -22,13 +20,7 @@
       <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="email">Email</label>
-          <input
-            id="email"
-            v-model="email"
-            type="email"
-            placeholder="Enter your email"
-            required
-          />
+          <input id="email" v-model="email" type="email" placeholder="Enter your email" required />
         </div>
 
         <div class="form-group">
@@ -45,7 +37,7 @@
         <div v-if="error" class="error-message">{{ error }}</div>
 
         <button type="submit" class="btn btn-primary" :disabled="loading">
-          {{ loading ? "Logging in..." : "Login" }}
+          {{ loading ? 'Logging in...' : 'Login' }}
         </button>
       </form>
 
@@ -58,47 +50,47 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "../stores/auth";
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/auth';
 
 const router = useRouter();
 const authStore = useAuthStore();
 
-const email = ref("");
-const password = ref("");
-const error = ref("");
+const email = ref('');
+const password = ref('');
+const error = ref('');
 const loading = ref(false);
 
 // Environment detection
 const isDev = import.meta.env.DEV;
 // E2E mode is ONLY enabled via environment variable (set during E2E test runs)
-const isE2EMode = import.meta.env.VITE_E2E_TEST === "true";
+const isE2EMode = import.meta.env.VITE_E2E_TEST === 'true';
 
 const handleLogin = async () => {
   loading.value = true;
-  error.value = "";
+  error.value = '';
 
   // E2E Test mode bypass (ONLY during E2E tests, NOT general development)
   if (isE2EMode) {
     // Mock successful login for E2E tests
     authStore.accessToken = `e2e-token-${Date.now()}`;
-    authStore.tenantId = "00000000-0000-0000-0000-000000000001";
+    authStore.tenantId = '00000000-0000-0000-0000-000000000001';
     authStore.setUser({
-      id: "e2e-user-id",
-      tenantId: "00000000-0000-0000-0000-000000000001",
-      email: email.value || "e2e@example.com",
-      firstName: "E2E",
-      lastName: "Test",
-      status: "active",
+      id: 'e2e-user-id',
+      tenantId: '00000000-0000-0000-0000-000000000001',
+      email: email.value || 'e2e@example.com',
+      firstName: 'E2E',
+      lastName: 'Test',
+      status: 'active',
       lastLoginAt: new Date(),
       emailConfirmed: true,
     });
 
-    localStorage.setItem("access_token", authStore.accessToken);
-    localStorage.setItem("tenant_id", authStore.tenantId);
+    localStorage.setItem('access_token', authStore.accessToken);
+    localStorage.setItem('tenant_id', authStore.tenantId);
 
-    router.push("/dashboard");
+    router.push('/dashboard');
     loading.value = false;
     return;
   }
@@ -107,9 +99,9 @@ const handleLogin = async () => {
   const success = await authStore.login(email.value, password.value);
 
   if (success) {
-    router.push("/dashboard");
+    router.push('/dashboard');
   } else {
-    error.value = "Login failed. Please check your credentials.";
+    error.value = 'Login failed. Please check your credentials.';
   }
 
   loading.value = false;
@@ -272,7 +264,7 @@ input:focus {
   cursor: pointer;
 }
 
-.dev-toggle input[type="checkbox"] {
+.dev-toggle input[type='checkbox'] {
   width: auto;
   cursor: pointer;
 }

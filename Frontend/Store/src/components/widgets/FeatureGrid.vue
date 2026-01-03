@@ -7,9 +7,7 @@
       </h2>
 
       <!-- Features Grid -->
-      <div
-        :class="`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${settings.columns || 3} gap-8`"
-      >
+      <div :class="`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${settings.columns || 3} gap-8`">
         <div
           v-for="(feature, index) in features"
           :key="index"
@@ -27,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Feature {
   icon: string;
@@ -35,8 +33,14 @@ interface Feature {
   description: string;
 }
 
+interface FeatureGridSettings {
+  title?: string;
+  columns?: number;
+  features?: Feature[] | string;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: FeatureGridSettings;
   widgetId: string;
 }
 
@@ -44,7 +48,7 @@ const props = defineProps<Props>();
 
 const features = computed(() => {
   try {
-    if (typeof props.settings.features === "string") {
+    if (typeof props.settings.features === 'string') {
       return JSON.parse(props.settings.features);
     }
     return props.settings.features || [];

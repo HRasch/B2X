@@ -1,14 +1,35 @@
-// @ts-nocheck
-// @ts-ignore - vue-i18n type inference issue
-import { useI18n } from "vue-i18n";
-import { ref, computed } from "vue";
-import { SUPPORTED_LOCALES } from "@/locales";
+// @ts-expect-error - vue-i18n type inference issue
+import { useI18n } from 'vue-i18n';
+import { ref, computed } from 'vue';
+import { SUPPORTED_LOCALES } from '@/locales';
+
+/**
+ * Locale object structure
+ */
+interface Locale {
+  code: string;
+  name: string;
+  flag: string;
+}
 
 /**
  * Composable for managing application localization
  * Provides locale switching, preferences, and locale utilities
  */
-export function useLocale(): any {
+interface UseLocaleReturn {
+  locale: ComputedRef<string>;
+  currentLocale: ComputedRef<Locale | undefined>;
+  locales: Locale[];
+  isLoading: Ref<boolean>;
+  t: (key: string, ...args: unknown[]) => string;
+  setLocale: (code: string) => Promise<void>;
+  initializeLocale: () => void;
+  getLocaleName: (code: string) => string;
+  getLocaleFlag: (code: string) => string;
+  getSupportedLocaleCodes: () => string[];
+}
+
+export function useLocale(): UseLocaleReturn {
   const i18n = useI18n();
   const isLoading = ref(false);
 
@@ -21,14 +42,14 @@ export function useLocale(): any {
    * Current selected locale object
    */
   const currentLocale = computed(() => {
-    return locales.find((l) => l.code === i18n.locale.value) || locales[0];
+    return locales.find(l => l.code === i18n.locale.value) || locales[0];
   });
 
   /**
    * Get locale name in English
    */
   const getLocaleName = (code: string): string => {
-    const loc = locales.find((l) => l.code === code);
+    const loc = locales.find(l => l.code === code);
     return loc?.name || code;
   };
 
@@ -36,8 +57,8 @@ export function useLocale(): any {
    * Get locale flag emoji
    */
   const getLocaleFlag = (code: string): string => {
-    const loc = locales.find((l) => l.code === code);
-    return loc?.flag || "🌐";
+    const loc = locales.find(l => l.code === code);
+    return loc?.flag || '🌐';
   };
 
   /**
@@ -45,7 +66,7 @@ export function useLocale(): any {
    */
   const setLocale = async (code: string): Promise<void> => {
     // Validate locale code
-    if (!locales.find((l) => l.code === code)) {
+    if (!locales.find(l => l.code === code)) {
       console.warn(`Unsupported locale: ${code}`);
       return;
     }
@@ -54,13 +75,11 @@ export function useLocale(): any {
     try {
       // Update i18n locale (this is the key - must use i18n.locale.value)
       i18n.locale.value = code;
-      localStorage.setItem("locale", code);
+      localStorage.setItem('locale', code);
       document.documentElement.lang = code;
 
       // Emit event for other parts of app (e.g., API)
-      window.dispatchEvent(
-        new CustomEvent("locale-changed", { detail: { locale: code } })
-      );
+      window.dispatchEvent(new CustomEvent('locale-changed', { detail: { locale: code } }));
     } finally {
       isLoading.value = false;
     }
@@ -70,15 +89,15 @@ export function useLocale(): any {
    * Initialize locale from localStorage or browser preference
    */
   const initializeLocale = (): void => {
-    const savedLocale = localStorage.getItem("locale");
-    if (savedLocale && locales.find((l) => l.code === savedLocale)) {
+    const savedLocale = localStorage.getItem('locale');
+    if (savedLocale && locales.find(l => l.code === savedLocale)) {
       i18n.locale.value = savedLocale;
     } else {
-      const browserLang = navigator.language.split("-")[0];
-      const matchedLocale = locales.find((l) => l.code === browserLang);
+      const browserLang = navigator.language.split('-')[0];
+      const matchedLocale = locales.find(l => l.code === browserLang);
       if (matchedLocale) {
         i18n.locale.value = matchedLocale.code;
-        localStorage.setItem("locale", matchedLocale.code);
+        localStorage.setItem('locale', matchedLocale.code);
       }
     }
     document.documentElement.lang = i18n.locale.value;
@@ -88,7 +107,7 @@ export function useLocale(): any {
    * Get all supported locale codes
    */
   const getSupportedLocaleCodes = (): string[] => {
-    return locales.map((l) => l.code);
+    return locales.map(l => l.code);
   };
 
   return {

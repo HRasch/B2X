@@ -3,10 +3,7 @@
     <!-- Navbar -->
     <nav class="navbar bg-base-200 shadow-lg sticky top-0 z-50">
       <div class="flex-1">
-        <router-link
-          to="/"
-          class="btn btn-ghost normal-case text-xl text-primary font-bold"
-        >
+        <router-link to="/" class="btn btn-ghost normal-case text-xl text-primary font-bold">
           B2Connect
         </router-link>
       </div>
@@ -29,14 +26,10 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/dashboard" class="btn btn-ghost"
-                >Dashboard</router-link
-              >
+              <router-link to="/dashboard" class="btn btn-ghost">Dashboard</router-link>
             </li>
             <li>
-              <router-link to="/tenants" class="btn btn-ghost"
-                >Tenants</router-link
-              >
+              <router-link to="/tenants" class="btn btn-ghost">Tenants</router-link>
             </li>
             <li v-if="authStore.isAuthenticated">
               <button @click="logout" class="btn btn-ghost">Logout</button>
@@ -68,10 +61,7 @@
               />
             </svg>
           </label>
-          <ul
-            tabindex="0"
-            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
+          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
             <li><router-link to="/">Home</router-link></li>
             <li><router-link to="/shop">Shop</router-link></li>
             <li>
@@ -137,9 +127,7 @@
               placeholder="username@site.com"
               class="input input-bordered join-item"
             />
-            <button type="submit" class="btn btn-primary join-item">
-              Subscribe
-            </button>
+            <button type="submit" class="btn btn-primary join-item">Subscribe</button>
           </div>
         </fieldset>
       </form>
@@ -148,10 +136,10 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "./stores/auth";
-import { useCartStore } from "./stores/cart";
-import { useRouter } from "vue-router";
-import LanguageSwitcher from "./components/common/LanguageSwitcher.vue";
+import { useAuthStore } from './stores/auth';
+import { useCartStore } from './stores/cart';
+import { useRouter } from 'vue-router';
+import LanguageSwitcher from './components/common/LanguageSwitcher.vue';
 
 const authStore = useAuthStore();
 const cartStore = useCartStore();
@@ -162,7 +150,7 @@ const router = useRouter();
  */
 const logout = async (): Promise<void> => {
   authStore.logout();
-  await router.push("/login");
+  await router.push('/login');
 };
 </script>
 

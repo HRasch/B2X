@@ -1,17 +1,15 @@
 /**
  * CMS API Service
- * @todo Add proper filter types for page/template queries
  */
-/* eslint-disable @typescript-eslint/no-explicit-any -- Filter params vary per endpoint */
 
-import { apiClient } from "../client";
-import type { Page, Template, MediaItem } from "@/types/cms";
-import type { PaginatedResponse, PaginationParams } from "@/types/api";
+import { apiClient } from '../client';
+import type { Page, Template, MediaItem, PageFilters, PageVersion } from '@/types/cms';
+import type { PaginatedResponse, PaginationParams } from '@/types/api';
 
 export const cmsApi = {
   // Pages
-  getPages(filters?: any, pagination?: PaginationParams) {
-    return apiClient.get<PaginatedResponse<Page>>("/api/layout/pages", {
+  getPages(filters?: PageFilters, pagination?: PaginationParams) {
+    return apiClient.get<PaginatedResponse<Page>>('/api/layout/pages', {
       params: { ...filters, ...pagination },
     });
   },
@@ -20,8 +18,8 @@ export const cmsApi = {
     return apiClient.get<Page>(`/api/layout/pages/${id}`);
   },
 
-  createPage(data: Omit<Page, "id" | "createdAt" | "updatedAt">) {
-    return apiClient.post<Page>("/api/layout/pages", data);
+  createPage(data: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) {
+    return apiClient.post<Page>('/api/layout/pages', data);
   },
 
   updatePage(id: string, data: Partial<Page>) {
@@ -42,27 +40,24 @@ export const cmsApi = {
 
   // Versions
   getPageVersions(id: string) {
-    return apiClient.get<any[]>(`/api/layout/pages/${id}/versions`);
+    return apiClient.get<PageVersion[]>(`/api/layout/pages/${id}/versions`);
   },
 
   restorePageVersion(id: string, version: number) {
-    return apiClient.post<Page>(
-      `/api/layout/pages/${id}/versions/${version}/restore`,
-      {}
-    );
+    return apiClient.post<Page>(`/api/layout/pages/${id}/versions/${version}/restore`, {});
   },
 
   // Templates
   getTemplates() {
-    return apiClient.get<Template[]>("/api/layout/templates");
+    return apiClient.get<Template[]>('/api/layout/templates');
   },
 
   getTemplate(id: string) {
     return apiClient.get<Template>(`/api/layout/templates/${id}`);
   },
 
-  createTemplate(data: Omit<Template, "id" | "createdAt" | "updatedAt">) {
-    return apiClient.post<Template>("/api/layout/templates", data);
+  createTemplate(data: Omit<Template, 'id' | 'createdAt' | 'updatedAt'>) {
+    return apiClient.post<Template>('/api/layout/templates', data);
   },
 
   updateTemplate(id: string, data: Partial<Template>) {
@@ -75,20 +70,20 @@ export const cmsApi = {
 
   // Media
   getMedia(pagination?: PaginationParams) {
-    return apiClient.get<PaginatedResponse<MediaItem>>("/api/layout/media", {
+    return apiClient.get<PaginatedResponse<MediaItem>>('/api/layout/media', {
       params: pagination,
     });
   },
 
   uploadMedia(file: File, altText?: string) {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
     if (altText) {
-      formData.append("altText", altText);
+      formData.append('altText', altText);
     }
-    return apiClient.post<MediaItem>("/api/layout/media/upload", formData, {
+    return apiClient.post<MediaItem>('/api/layout/media/upload', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
   },

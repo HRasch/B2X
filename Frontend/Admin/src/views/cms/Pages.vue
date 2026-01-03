@@ -23,25 +23,14 @@
       </p>
     </div>
 
-    <div
-      v-else
-      class="bg-white dark:bg-soft-800 rounded-lg shadow overflow-hidden"
-    >
+    <div v-else class="bg-white dark:bg-soft-800 rounded-lg shadow overflow-hidden">
       <table class="w-full">
         <thead class="bg-gray-100 border-b">
           <tr>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">
-              Title
-            </th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">
-              Status
-            </th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">
-              Updated
-            </th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">
-              Actions
-            </th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">Title</th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">Status</th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">Updated</th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-900">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y">
@@ -63,10 +52,7 @@
               {{ new Date(page.updatedAt).toLocaleDateString() }}
             </td>
             <td class="px-6 py-4 text-sm space-x-2">
-              <router-link
-                :to="`/cms/pages/${page.id}`"
-                class="text-blue-600 hover:text-blue-800"
-              >
+              <router-link :to="`/cms/pages/${page.id}`" class="text-blue-600 hover:text-blue-800">
                 Edit
               </router-link>
             </td>
@@ -78,8 +64,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useCmsStore } from "@/stores/cms";
+import { onMounted } from 'vue';
+import { useCmsStore } from '@/stores/cms';
 
 const cmsStore = useCmsStore();
 const loading = cmsStore.loading;

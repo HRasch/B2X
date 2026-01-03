@@ -1,23 +1,18 @@
 <template>
-  <div
-    class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-12"
-  >
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-12">
     <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
       <!-- Header -->
       <h1 class="text-3xl font-bold text-gray-900 mb-2">
-        {{ $t("registration.title") }}
+        {{ $t('registration.title') }}
       </h1>
-      <p class="text-gray-600 mb-6">{{ $t("registration.subtitle") }}</p>
+      <p class="text-gray-600 mb-6">{{ $t('registration.subtitle') }}</p>
 
       <!-- Form -->
       <form @submit.prevent="submitForm" class="space-y-5" novalidate>
         <!-- Email Field -->
         <div>
-          <label
-            for="email"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.email") }} <span class="text-red-500">*</span>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.email') }} <span class="text-red-500">*</span>
           </label>
           <div class="relative">
             <input
@@ -36,11 +31,7 @@
               placeholder="you@example.com"
             />
             <!-- Email availability spinner -->
-            <div
-              v-if="emailChecking"
-              class="absolute right-3 top-2.5"
-              aria-hidden="true"
-            >
+            <div v-if="emailChecking" class="absolute right-3 top-2.5" aria-hidden="true">
               <svg
                 class="animate-spin h-5 w-5 text-blue-500"
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,26 +54,18 @@
               </svg>
             </div>
           </div>
-          <p
-            v-if="errors.email"
-            id="email-error"
-            role="alert"
-            class="text-red-500 text-sm mt-1"
-          >
+          <p v-if="errors.email" id="email-error" role="alert" class="text-red-500 text-sm mt-1">
             {{ errors.email }}
           </p>
           <p v-if="emailAvailable === true" class="text-green-600 text-sm mt-1">
-            {{ $t("registration.emailAvailable") }}
+            {{ $t('registration.emailAvailable') }}
           </p>
         </div>
 
         <!-- Password Field -->
         <div>
-          <label
-            for="password"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.password") }} <span class="text-red-500">*</span>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.password') }} <span class="text-red-500">*</span>
           </label>
           <div class="relative">
             <input
@@ -104,17 +87,10 @@
               type="button"
               @click="showPassword = !showPassword"
               class="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-              :aria-label="
-                showPassword ? $t('form.hidePassword') : $t('form.showPassword')
-              "
+              :aria-label="showPassword ? $t('form.hidePassword') : $t('form.showPassword')"
               :disabled="isSubmitting"
             >
-              <svg
-                v-if="showPassword"
-                class="h-5 w-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
+              <svg v-if="showPassword" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                 <path
                   fill-rule="evenodd"
@@ -122,12 +98,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              <svg
-                v-else
-                class="h-5 w-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
+              <svg v-else class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fill-rule="evenodd"
                   d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-14-14zM10 18a9.973 9.973 0 008.948-5.646 10.019 10.019 0 00-15.268-9.460A9.972 9.972 0 0010 18zm6.707-13.293a1 1 0 011.414 0l2 2a1 1 0 01-1.414 1.414l-2-2a1 1 0 010-1.414z"
@@ -171,17 +142,14 @@
             {{ errors.password }}
           </p>
           <p class="text-gray-500 text-xs mt-1">
-            {{ $t("registration.passwordRequirements") }}
+            {{ $t('registration.passwordRequirements') }}
           </p>
         </div>
 
         <!-- Confirm Password Field -->
         <div>
-          <label
-            for="confirmPassword"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.confirmPassword") }} <span class="text-red-500">*</span>
+          <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.confirmPassword') }} <span class="text-red-500">*</span>
           </label>
           <input
             id="confirmPassword"
@@ -209,11 +177,8 @@
 
         <!-- First Name Field -->
         <div>
-          <label
-            for="firstName"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.firstName") }} <span class="text-red-500">*</span>
+          <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.firstName') }} <span class="text-red-500">*</span>
           </label>
           <input
             id="firstName"
@@ -241,11 +206,8 @@
 
         <!-- Last Name Field -->
         <div>
-          <label
-            for="lastName"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.lastName") }} <span class="text-red-500">*</span>
+          <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.lastName') }} <span class="text-red-500">*</span>
           </label>
           <input
             id="lastName"
@@ -273,16 +235,9 @@
 
         <!-- Phone Number Field (Optional) -->
         <div>
-          <label
-            for="phone"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.phone") }}
-            {{
-              !storeConfig.requirePhoneNumber
-                ? "(" + $t("form.optional") + ")"
-                : ""
-            }}
+          <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.phone') }}
+            {{ !storeConfig.requirePhoneNumber ? '(' + $t('form.optional') + ')' : '' }}
           </label>
           <input
             id="phone"
@@ -298,23 +253,15 @@
             :disabled="isSubmitting"
             placeholder="+49123456789"
           />
-          <p
-            v-if="errors.phone"
-            id="phone-error"
-            role="alert"
-            class="text-red-500 text-sm mt-1"
-          >
+          <p v-if="errors.phone" id="phone-error" role="alert" class="text-red-500 text-sm mt-1">
             {{ errors.phone }}
           </p>
         </div>
 
         <!-- Address Field -->
         <div>
-          <label
-            for="address"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.streetAddress") }} <span class="text-red-500">*</span>
+          <label for="address" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.streetAddress') }} <span class="text-red-500">*</span>
           </label>
           <input
             id="address"
@@ -342,11 +289,8 @@
 
         <!-- City Field -->
         <div>
-          <label
-            for="city"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.city") }} <span class="text-red-500">*</span>
+          <label for="city" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.city') }} <span class="text-red-500">*</span>
           </label>
           <input
             id="city"
@@ -362,23 +306,15 @@
             :disabled="isSubmitting"
             placeholder="Berlin"
           />
-          <p
-            v-if="errors.city"
-            id="city-error"
-            role="alert"
-            class="text-red-500 text-sm mt-1"
-          >
+          <p v-if="errors.city" id="city-error" role="alert" class="text-red-500 text-sm mt-1">
             {{ errors.city }}
           </p>
         </div>
 
         <!-- Postal Code Field -->
         <div>
-          <label
-            for="postalCode"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.postalCode") }} <span class="text-red-500">*</span>
+          <label for="postalCode" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.postalCode') }} <span class="text-red-500">*</span>
           </label>
           <input
             id="postalCode"
@@ -406,11 +342,8 @@
 
         <!-- Country Field -->
         <div>
-          <label
-            for="country"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.country") }} <span class="text-red-500">*</span>
+          <label for="country" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.country') }} <span class="text-red-500">*</span>
           </label>
           <select
             id="country"
@@ -424,7 +357,7 @@
             :class="{ 'border-red-500': errors.country }"
             :disabled="isSubmitting"
           >
-            <option value="">{{ $t("form.selectCountry") }}</option>
+            <option value="">{{ $t('form.selectCountry') }}</option>
             <option value="DE">Germany (DE)</option>
             <option value="AT">Austria (AT)</option>
             <option value="CH">Switzerland (CH)</option>
@@ -448,15 +381,11 @@
         <!-- State/Province Field (Optional) -->
         <div
           v-if="
-            formData.country &&
-            !['DE', 'AT', 'CH', 'BE', 'LU', 'NL'].includes(formData.country)
+            formData.country && !['DE', 'AT', 'CH', 'BE', 'LU', 'NL'].includes(formData.country)
           "
         >
-          <label
-            for="state"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.state") }} ({{ $t("form.optional") }})
+          <label for="state" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.state') }} ({{ $t('form.optional') }})
           </label>
           <input
             id="state"
@@ -471,23 +400,15 @@
             :disabled="isSubmitting"
             placeholder="State / Province"
           />
-          <p
-            v-if="errors.state"
-            id="state-error"
-            role="alert"
-            class="text-red-500 text-sm mt-1"
-          >
+          <p v-if="errors.state" id="state-error" role="alert" class="text-red-500 text-sm mt-1">
             {{ errors.state }}
           </p>
         </div>
 
         <!-- Date of Birth (Optional) -->
         <div v-if="storeConfig.showBirthdayField">
-          <label
-            for="dateOfBirth"
-            class="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {{ $t("form.dateOfBirth") }} ({{ $t("form.optional") }})
+          <label for="dateOfBirth" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ $t('form.dateOfBirth') }} ({{ $t('form.optional') }})
           </label>
           <input
             id="dateOfBirth"
@@ -529,7 +450,7 @@
             />
             <span class="text-sm text-gray-700">
               {{
-                $t("registration.ageConfirmation", {
+                $t('registration.ageConfirmation', {
                   age: storeConfig.ageConfirmationThreshold || 18,
                 })
               }}
@@ -560,14 +481,14 @@
               :disabled="isSubmitting"
             />
             <span class="text-sm text-gray-700">
-              {{ $t("registration.acceptTerms") }}
+              {{ $t('registration.acceptTerms') }}
               <a
                 :href="storeConfig.termsOfServiceUrl || '#'"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-blue-600 hover:text-blue-800 underline"
               >
-                {{ $t("registration.termsLink") }}
+                {{ $t('registration.termsLink') }}
               </a>
               <span class="text-red-500">*</span>
             </span>
@@ -585,9 +506,7 @@
             v-if="storeConfig.withdrawalPolicyCustomText"
             class="mt-3 pt-3 border-t border-blue-200 text-xs text-gray-600"
           >
-            <strong class="block mb-1">{{
-              $t("registration.withdrawalNotice")
-            }}</strong>
+            <strong class="block mb-1">{{ $t('registration.withdrawalNotice') }}</strong>
             <p v-html="storeConfig.withdrawalPolicyCustomText" />
           </div>
         </div>
@@ -606,14 +525,14 @@
               :disabled="isSubmitting"
             />
             <span class="text-sm text-gray-700">
-              {{ $t("registration.acceptPrivacy") }}
+              {{ $t('registration.acceptPrivacy') }}
               <a
                 :href="storeConfig.privacyPolicyUrl || '#'"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-purple-600 hover:text-purple-800 underline"
               >
-                {{ $t("registration.privacyLink") }}
+                {{ $t('registration.privacyLink') }}
               </a>
               <span class="text-red-500">*</span>
             </span>
@@ -642,7 +561,7 @@
               :disabled="isSubmitting"
             />
             <span class="text-sm text-gray-700">
-              {{ $t("registration.acceptMarketing") }}
+              {{ $t('registration.acceptMarketing') }}
             </span>
           </label>
         </div>
@@ -653,9 +572,7 @@
           class="w-full min-h-[48px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           :disabled="isSubmitting || !emailAvailable"
         >
-          <span v-if="!isSubmitting">{{
-            $t("registration.createAccount")
-          }}</span>
+          <span v-if="!isSubmitting">{{ $t('registration.createAccount') }}</span>
           <span v-else class="flex items-center justify-center gap-2">
             <svg
               class="animate-spin h-5 w-5"
@@ -677,18 +594,15 @@
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            {{ $t("registration.creating") }}
+            {{ $t('registration.creating') }}
           </span>
         </button>
 
         <!-- Login Link -->
         <p class="text-center text-sm text-gray-600 mt-4">
-          {{ $t("registration.alreadyHaveAccount") }}
-          <router-link
-            to="/login"
-            class="text-blue-600 hover:text-blue-800 font-medium"
-          >
-            {{ $t("registration.loginLink") }}
+          {{ $t('registration.alreadyHaveAccount') }}
+          <router-link to="/login" class="text-blue-600 hover:text-blue-800 font-medium">
+            {{ $t('registration.loginLink') }}
           </router-link>
         </p>
       </form>
@@ -699,7 +613,7 @@
         role="alert"
         class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg"
       >
-        <p class="text-red-800 font-semibold">{{ $t("registration.error") }}</p>
+        <p class="text-red-800 font-semibold">{{ $t('registration.error') }}</p>
         <p class="text-red-700 text-sm mt-1">{{ generalError }}</p>
       </div>
     </div>
@@ -707,9 +621,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 interface FormData {
   email: string;
@@ -747,18 +661,18 @@ const router = useRouter();
 const { t } = useI18n();
 
 const formData = ref<FormData>({
-  email: "",
-  password: "",
-  confirmPassword: "",
-  firstName: "",
-  lastName: "",
-  phone: "",
-  streetAddress: "",
-  city: "",
-  postalCode: "",
-  country: "",
-  state: "",
-  dateOfBirth: "",
+  email: '',
+  password: '',
+  confirmPassword: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+  streetAddress: '',
+  city: '',
+  postalCode: '',
+  country: '',
+  state: '',
+  dateOfBirth: '',
   acceptTerms: false,
   acceptPrivacy: false,
   acceptMarketing: false,
@@ -773,46 +687,46 @@ const storeConfig = ref<StoreConfig>({
   enableMarketingConsent: true,
   enforcePasswordComplexity: true,
   passwordMinimumLength: 12,
-  termsOfServiceUrl: "/terms",
-  privacyPolicyUrl: "/privacy",
+  termsOfServiceUrl: '/terms',
+  privacyPolicyUrl: '/privacy',
   withdrawalPolicyCustomText:
-    "Sie haben das Recht, innerhalb von 14 Tagen nach dem Kauf die Ware ohne Angabe von Gründen zurückzugeben.",
+    'Sie haben das Recht, innerhalb von 14 Tagen nach dem Kauf die Ware ohne Angabe von Gründen zurückzugeben.',
 });
 
 const errors = ref<Partial<Record<keyof FormData, string>>>({});
 const showPassword = ref(false);
 const isSubmitting = ref(false);
-const generalError = ref("");
+const generalError = ref('');
 const emailChecking = ref(false);
 const emailAvailable = ref<boolean | null>(null);
 let emailCheckTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const passwordStrength = computed(() => {
   const pwd = formData.value.password;
-  if (!pwd) return "";
+  if (!pwd) return '';
 
   let strength = 0;
   if (pwd.length >= 12) strength++;
   if (/[A-Z]/.test(pwd)) strength++;
   if (/[a-z]/.test(pwd)) strength++;
   if (/\d/.test(pwd)) strength++;
-  if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd)) strength++;
+  if (/[!@#$%^&*()_+\-=[]{};"\\|,.<>?]/.test(pwd)) strength++;
 
-  if (strength < 3) return "weak";
-  if (strength < 4) return "medium";
-  return "strong";
+  if (strength < 3) return 'weak';
+  if (strength < 4) return 'medium';
+  return 'strong';
 });
 
 const validateEmail = () => {
   const email = formData.value.email.trim();
   if (!email) {
-    errors.value.email = t("validation.emailRequired");
+    errors.value.email = t('validation.emailRequired');
     return false;
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    errors.value.email = t("validation.emailInvalid");
+    errors.value.email = t('validation.emailInvalid');
     return false;
   }
 
@@ -839,12 +753,12 @@ const checkEmailAvailability = () => {
       const data = await response.json();
       emailAvailable.value = data.available === true;
       if (!emailAvailable.value) {
-        errors.value.email = t("validation.emailTaken");
+        errors.value.email = t('validation.emailTaken');
       } else {
         delete errors.value.email;
       }
     } catch (error) {
-      console.error("Email check error:", error);
+      console.error('Email check error:', error);
       emailAvailable.value = null;
     } finally {
       emailChecking.value = false;
@@ -857,13 +771,13 @@ const validatePassword = () => {
   const confirm = formData.value.confirmPassword;
 
   if (!pwd) {
-    errors.value.password = t("validation.passwordRequired");
+    errors.value.password = t('validation.passwordRequired');
     return false;
   }
 
   const minLength = storeConfig.value.passwordMinimumLength;
   if (pwd.length < minLength) {
-    errors.value.password = t("validation.passwordTooShort", {
+    errors.value.password = t('validation.passwordTooShort', {
       length: minLength,
     });
     return false;
@@ -874,9 +788,9 @@ const validatePassword = () => {
       !/[A-Z]/.test(pwd) ||
       !/[a-z]/.test(pwd) ||
       !/\d/.test(pwd) ||
-      !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd)
+      !/[!@#$%^&*()_+\-=[]{};"\\|,.<>?]/.test(pwd)
     ) {
-      errors.value.password = t("validation.passwordWeak");
+      errors.value.password = t('validation.passwordWeak');
       return false;
     }
   }
@@ -884,7 +798,7 @@ const validatePassword = () => {
   delete errors.value.password;
 
   if (confirm && pwd !== confirm) {
-    errors.value.confirmPassword = t("validation.passwordsMismatch");
+    errors.value.confirmPassword = t('validation.passwordsMismatch');
     return false;
   } else if (confirm && pwd === confirm) {
     delete errors.value.confirmPassword;
@@ -897,94 +811,91 @@ const validateField = (fieldName: keyof FormData) => {
   const value = formData.value[fieldName];
 
   switch (fieldName) {
-    case "firstName":
-    case "lastName":
+    case 'firstName':
+    case 'lastName':
       if (!value) {
         errors.value[fieldName] = t(`validation.${fieldName}Required`);
         return false;
       }
-      if (
-        typeof value === "string" &&
-        (value.length < 2 || value.length > 50)
-      ) {
+      if (typeof value === 'string' && (value.length < 2 || value.length > 50)) {
         errors.value[fieldName] = t(`validation.${fieldName}Length`);
         return false;
       }
       delete errors.value[fieldName];
       return true;
 
-    case "phone":
-      if (value && typeof value === "string") {
+    case 'phone':
+      if (value && typeof value === 'string') {
         const phoneRegex = /^\+?[1-9]\d{1,14}$/;
-        if (!phoneRegex.test(value.replace(/\D/g, ""))) {
-          errors.value.phone = t("validation.phoneInvalid");
+        if (!phoneRegex.test(value.replace(/\D/g, ''))) {
+          errors.value.phone = t('validation.phoneInvalid');
           return false;
         }
       } else if (storeConfig.value.requirePhoneNumber) {
-        errors.value.phone = t("validation.phoneRequired");
+        errors.value.phone = t('validation.phoneRequired');
         return false;
       }
       delete errors.value.phone;
       return true;
 
-    case "streetAddress":
-      if (!value || (typeof value === "string" && value.trim().length === 0)) {
-        errors.value.streetAddress = t("validation.addressRequired");
+    case 'streetAddress':
+      if (!value || (typeof value === 'string' && value.trim().length === 0)) {
+        errors.value.streetAddress = t('validation.addressRequired');
         return false;
       }
-      if (typeof value === "string" && value.length > 100) {
-        errors.value.streetAddress = t("validation.addressTooLong");
+      if (typeof value === 'string' && value.length > 100) {
+        errors.value.streetAddress = t('validation.addressTooLong');
         return false;
       }
       delete errors.value.streetAddress;
       return true;
 
-    case "city":
-      if (!value || (typeof value === "string" && value.trim().length === 0)) {
-        errors.value.city = t("validation.cityRequired");
+    case 'city':
+      if (!value || (typeof value === 'string' && value.trim().length === 0)) {
+        errors.value.city = t('validation.cityRequired');
         return false;
       }
-      if (typeof value === "string" && value.length > 50) {
-        errors.value.city = t("validation.cityTooLong");
+      if (typeof value === 'string' && value.length > 50) {
+        errors.value.city = t('validation.cityTooLong');
         return false;
       }
       delete errors.value.city;
       return true;
 
-    case "postalCode":
-      if (!value || (typeof value === "string" && value.trim().length === 0)) {
-        errors.value.postalCode = t("validation.postalCodeRequired");
+    case 'postalCode':
+      if (!value || (typeof value === 'string' && value.trim().length === 0)) {
+        errors.value.postalCode = t('validation.postalCodeRequired');
         return false;
       }
-      if (typeof value === "string" && value.length > 20) {
-        errors.value.postalCode = t("validation.postalCodeTooLong");
+      if (typeof value === 'string' && value.length > 20) {
+        errors.value.postalCode = t('validation.postalCodeTooLong');
         return false;
       }
       delete errors.value.postalCode;
       return true;
 
-    case "country":
+    case 'country':
       if (!value) {
-        errors.value.country = t("validation.countryRequired");
+        errors.value.country = t('validation.countryRequired');
         return false;
       }
       delete errors.value.country;
       return true;
 
-    case "state":
-      if (value && typeof value === "string" && value.length > 50) {
-        errors.value.state = t("validation.stateTooLong");
+    case 'state':
+      if (value && typeof value === 'string' && value.length > 50) {
+        errors.value.state = t('validation.stateTooLong');
         return false;
       }
       delete errors.value.state;
       return true;
 
-    case "dateOfBirth":
-      if (value && typeof value === "string") {
+    case 'dateOfBirth':
+      if (value && typeof value === 'string') {
         const birthDate = new Date(value);
         const today = new Date();
         if (birthDate > today) {
-          errors.value.dateOfBirth = t("validation.dateOfBirthFuture");
+          errors.value.dateOfBirth = t('validation.dateOfBirthFuture');
           return false;
         }
       }
@@ -1003,46 +914,43 @@ const submitForm = async () => {
   }
 
   if (
-    !validateField("firstName") ||
-    !validateField("lastName") ||
-    !validateField("phone") ||
-    !validateField("streetAddress") ||
-    !validateField("city") ||
-    !validateField("postalCode") ||
-    !validateField("country") ||
-    !validateField("state") ||
-    !validateField("dateOfBirth")
+    !validateField('firstName') ||
+    !validateField('lastName') ||
+    !validateField('phone') ||
+    !validateField('streetAddress') ||
+    !validateField('city') ||
+    !validateField('postalCode') ||
+    !validateField('country') ||
+    !validateField('state') ||
+    !validateField('dateOfBirth')
   ) {
     return;
   }
 
   // Validate checkboxes
   if (!formData.value.acceptTerms) {
-    errors.value.acceptTerms = t("validation.termsRequired");
+    errors.value.acceptTerms = t('validation.termsRequired');
     return;
   }
 
   if (!formData.value.acceptPrivacy) {
-    errors.value.acceptPrivacy = t("validation.privacyRequired");
+    errors.value.acceptPrivacy = t('validation.privacyRequired');
     return;
   }
 
-  if (
-    storeConfig.value.requiresAgeConfirmation &&
-    !formData.value.ageConfirmed
-  ) {
-    errors.value.ageConfirmed = t("validation.ageConfirmRequired");
+  if (storeConfig.value.requiresAgeConfirmation && !formData.value.ageConfirmed) {
+    errors.value.ageConfirmed = t('validation.ageConfirmRequired');
     return;
   }
 
   isSubmitting.value = true;
-  generalError.value = "";
+  generalError.value = '';
 
   try {
-    const response = await fetch("/api/auth/register", {
-      method: "POST",
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email: formData.value.email,
@@ -1062,15 +970,15 @@ const submitForm = async () => {
 
     if (!response.ok) {
       const data = await response.json();
-      generalError.value = data.message || t("registration.error");
+      generalError.value = data.message || t('registration.error');
       return;
     }
 
     // Success - redirect to login or dashboard
-    await router.push("/login?registered=true");
+    await router.push('/login?registered=true');
   } catch (error) {
-    console.error("Registration error:", error);
-    generalError.value = t("registration.networkError");
+    console.error('Registration error:', error);
+    generalError.value = t('registration.networkError');
   } finally {
     isSubmitting.value = false;
   }
@@ -1078,12 +986,12 @@ const submitForm = async () => {
 
 onMounted(() => {
   // Load store configuration from localStorage (in production, this would come from API)
-  const storedConfig = localStorage.getItem("storeConfig");
+  const storedConfig = localStorage.getItem('storeConfig');
   if (storedConfig) {
     try {
       storeConfig.value = { ...storeConfig.value, ...JSON.parse(storedConfig) };
     } catch (e) {
-      console.error("Failed to load store config:", e);
+      console.error('Failed to load store config:', e);
     }
   }
 });

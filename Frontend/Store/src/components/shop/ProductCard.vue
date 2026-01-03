@@ -5,11 +5,7 @@
   >
     <!-- Product Image -->
     <figure class="relative h-48 overflow-hidden">
-      <img
-        :src="product.image"
-        :alt="product.name"
-        class="w-full h-full object-cover"
-      />
+      <img :src="product.image" :alt="product.name" class="w-full h-full object-cover" />
       <div
         v-if="!product.inStock"
         class="absolute inset-0 bg-black/50 flex items-center justify-center"
@@ -38,21 +34,13 @@
       <div class="divider my-2"></div>
       <div class="bg-base-200 rounded-lg p-3 mb-4">
         <div class="flex justify-between items-start mb-2">
-          <span
-            class="text-3xl font-bold text-primary"
-            data-testid="product-price"
-          >
+          <span class="text-3xl font-bold text-primary" data-testid="product-price">
             {{ formatPrice(displayPrice()) }}
           </span>
         </div>
-        <p class="text-xs opacity-70">
-          inkl. MwSt {{ (vatRate() * 100).toFixed(0) }}%
-        </p>
+        <p class="text-xs opacity-70">inkl. MwSt {{ (vatRate() * 100).toFixed(0) }}%</p>
         <div
-          v-if="
-            product.priceBreakdown?.OriginalPrice ||
-            product.priceBreakdown?.DiscountAmount
-          "
+          v-if="product.priceBreakdown?.OriginalPrice || product.priceBreakdown?.DiscountAmount"
           class="mt-2 flex gap-2"
         >
           <span
@@ -61,10 +49,7 @@
           >
             {{ formatPrice(product.priceBreakdown.OriginalPrice) }}
           </span>
-          <span
-            v-if="product.priceBreakdown?.DiscountAmount"
-            class="badge badge-error badge-sm"
-          >
+          <span v-if="product.priceBreakdown?.DiscountAmount" class="badge badge-error badge-sm">
             -{{ formatPrice(product.priceBreakdown.DiscountAmount) }}
           </span>
         </div>
@@ -78,15 +63,13 @@
       >
         In Warenkorb
       </button>
-      <button v-else class="btn btn-disabled w-full mt-auto">
-        Nicht verfügbar
-      </button>
+      <button v-else class="btn btn-disabled w-full mt-auto">Nicht verfügbar</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Product } from "@/services/productService";
+import type { Product } from '@/services/productService';
 
 interface PriceBreakdown {
   PriceIncludingVat: number;
@@ -109,14 +92,14 @@ const props = defineProps<{
 }>();
 
 defineEmits<{
-  "add-to-cart": [product: ProductWithPricing];
+  'add-to-cart': [product: ProductWithPricing];
 }>();
 
 // Format currency for display
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(price);

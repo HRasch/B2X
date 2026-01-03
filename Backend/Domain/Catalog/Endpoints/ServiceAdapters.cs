@@ -1,14 +1,13 @@
 using System.Linq;
-using B2Connect.CatalogService.Models;
-using B2Connect.CatalogService.Services;
+using B2Connect.Catalog.Services;
 
 namespace B2Connect.Catalog.Endpoints;
 
 public class ProductServiceAdapter : IProductService
 {
-    private readonly B2Connect.CatalogService.Services.IProductService _productService;
+    private readonly IProductService _productService;
 
-    public ProductServiceAdapter(B2Connect.CatalogService.Services.IProductService productService)
+    public ProductServiceAdapter(IProductService productService)
     {
         _productService = productService;
     }
@@ -19,20 +18,24 @@ public class ProductServiceAdapter : IProductService
         var item = paged?.Items?.FirstOrDefault();
         return item;
     }
+
+    public async Task<B2Connect.Catalog.Models.PagedResult<B2Connect.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
+    {
+        return await _productService.SearchAsync(tenantId, searchTerm, pageNumber, pageSize, ct);
+    }
 }
 
 public class SearchIndexAdapter : ISearchIndexService
 {
-    private readonly B2Connect.CatalogService.Services.ISearchIndexService _searchService;
+    private readonly ISearchIndexService _searchService;
 
-    public SearchIndexAdapter(B2Connect.CatalogService.Services.ISearchIndexService searchService)
+    public SearchIndexAdapter(ISearchIndexService searchService)
     {
         _searchService = searchService;
     }
 
-    public async Task<dynamic> SearchAsync(Guid tenantId, string query, CancellationToken ct = default)
+    public async Task<B2Connect.Catalog.Models.PagedResult<B2Connect.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
     {
-        var result = await _searchService.SearchAsync(tenantId, query, 1, 20, ct);
-        return result;
+        return await _searchService.SearchAsync(tenantId, searchTerm, pageNumber, pageSize, ct);
     }
 }
