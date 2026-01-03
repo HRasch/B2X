@@ -17,7 +17,7 @@ vi.mock('@/composables/useErpIntegration', () => ({
 }));
 
 describe('CustomerLookup Component', () => {
-  let wrapper: any;
+  let wrapper: ReturnType<typeof mount>;
 
   beforeEach(() => {
     wrapper = mount(CustomerLookup, {
@@ -122,7 +122,7 @@ describe('CustomerLookup Component', () => {
     it('should emit register event when register button clicked', async () => {
       const buttons = wrapper.findAll('button');
       // Find the register button
-      const registerButton = buttons.find((btn: any) => btn.text().includes('Neue Registrierung'));
+      const registerButton = buttons.find((btn: ReturnType<typeof mount>) => btn.text().includes('Neue Registrierung'));
 
       if (registerButton) {
         await registerButton.trigger('click');
@@ -206,7 +206,7 @@ describe('CustomerLookup Component', () => {
     it('should emit register event', async () => {
       // Find and click the register button
       const buttons = wrapper.findAll('button');
-      const registerBtn = buttons.find((btn: any) => btn.text().includes('Neue Registrierung'));
+      const registerBtn = buttons.find((btn: ReturnType<typeof mount>) => btn.text().includes('Neue Registrierung'));
 
       if (registerBtn) {
         await registerBtn.trigger('click');

@@ -39,7 +39,6 @@ const cartStore = useCartStore();
 // State
 const product = ref<Product | null>(null);
 const reviews = ref<Review[]>([]);
-const relatedProducts = ref<Product[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
 
@@ -48,30 +47,9 @@ const quantity = ref(1);
 const addingToCart = ref(false);
 
 // Computed
-const vatRate = ref(0.19); // 19% VAT
-
-const priceBreakdown = computed(() => {
-  if (!product.value) return null;
-
-  const net = product.value.price;
-  const vat = net * vatRate.value;
-  const total = net + vat;
-
-  return {
-    net: net.toFixed(2),
-    vat: vat.toFixed(2),
-    total: total.toFixed(2),
-  };
-});
 
 const currentImage = computed(() => {
   return product.value?.images?.[selectedImage.value] || '';
-});
-
-const averageRating = computed(() => {
-  if (reviews.value.length === 0) return 0;
-  const sum = reviews.value.reduce((acc, r) => acc + r.rating, 0);
-  return (sum / reviews.value.length).toFixed(1);
 });
 
 // Methods
