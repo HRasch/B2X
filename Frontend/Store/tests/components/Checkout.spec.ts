@@ -23,11 +23,29 @@ interface CheckoutVM {
   isStepValid: boolean;
   getStepStatus: (stepId: string) => string;
   steps: Array<{ id: string; label: string }>;
-  shippingMethods: Array<{ id: string; name: string; price: number; days: number; selected: boolean }>;
+  shippingMethods: Array<{
+    id: string;
+    name: string;
+    price: number;
+    days: number;
+    selected: boolean;
+  }>;
   paymentMethods: Array<{ id: string; name: string }>;
-  selectedShipping: { id: string; name: string; price: number; days: number; selected: boolean } | null;
+  selectedShipping: {
+    id: string;
+    name: string;
+    price: number;
+    days: number;
+    selected: boolean;
+  } | null;
   selectedPayment: { id: string; name: string } | null;
-  selectedShippingMethod: { id: string; name: string; price: number; days: number; selected: boolean } | null;
+  selectedShippingMethod: {
+    id: string;
+    name: string;
+    price: number;
+    days: number;
+    selected: boolean;
+  } | null;
   selectedPaymentMethod: { id: string; name: string } | null;
   nextStep: () => void;
   prevStep: () => void;
@@ -226,7 +244,9 @@ describe('Checkout.vue', () => {
       const initialTotal = (wrapper.vm as unknown as CheckoutVM).total;
 
       // Act
-      (wrapper.vm as unknown as CheckoutVM).selectShippingMethod((wrapper.vm as unknown as CheckoutVM).shippingMethods[1]); // Express
+      (wrapper.vm as unknown as CheckoutVM).selectShippingMethod(
+        (wrapper.vm as unknown as CheckoutVM).shippingMethods[1]
+      ); // Express
 
       // Assert
       expect((wrapper.vm as unknown as CheckoutVM).total).toBeGreaterThan(initialTotal);
@@ -285,7 +305,9 @@ describe('Checkout.vue', () => {
       const standardTotal = (wrapper.vm as unknown as CheckoutVM).total;
 
       // Act - Change to Express (€12.99 vs €5.99)
-      (wrapper.vm as unknown as CheckoutVM).selectShippingMethod((wrapper.vm as unknown as CheckoutVM).shippingMethods[1]);
+      (wrapper.vm as unknown as CheckoutVM).selectShippingMethod(
+        (wrapper.vm as unknown as CheckoutVM).shippingMethods[1]
+      );
 
       // Assert
       expect((wrapper.vm as unknown as CheckoutVM).total).toBe(standardTotal + 7.0); // 12.99 - 5.99
@@ -443,7 +465,9 @@ describe('Checkout.vue', () => {
 
     it('should show shipping cost that updates dynamically', async () => {
       // Act - Change shipping method
-      (wrapper.vm as unknown as CheckoutVM).selectShippingMethod((wrapper.vm as unknown as CheckoutVM).shippingMethods[1]);
+      (wrapper.vm as unknown as CheckoutVM).selectShippingMethod(
+        (wrapper.vm as unknown as CheckoutVM).shippingMethods[1]
+      );
       await (wrapper.vm as unknown as CheckoutVM).$nextTick();
 
       // Assert - Text should include new shipping cost
@@ -474,8 +498,3 @@ describe('Checkout.vue', () => {
     });
   });
 });
-
-
-
-
-
