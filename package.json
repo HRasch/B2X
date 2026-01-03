@@ -41,8 +41,15 @@
     "prettier": "^3.3.3"
   },
   "lint-staged": {
-    "frontend/**/*.{js,ts,vue,json,css,scss,md}": [
+    "frontend/**/*.{js,ts,vue}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "frontend/**/*.{json,css,scss,md}": [
       "prettier --write"
+    ],
+    "frontend/**/*.{ts,vue}": [
+      "vue-tsc --noEmit"
     ]
   }
 }
