@@ -5,8 +5,13 @@
 </template>
 
 <script setup lang="ts">
+interface TextBlockSettings {
+  content?: string;
+  maxWidth?: number;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: TextBlockSettings;
   widgetId: string;
 }
 

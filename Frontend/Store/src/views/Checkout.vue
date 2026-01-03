@@ -102,7 +102,6 @@ const selectedPaymentMethod = ref<PaymentMethod | null>(paymentMethods.value[0])
 const agreedToTerms = ref(false);
 const isSubmitting = ref(false);
 const errors = ref<Record<string, string>>({});
-const selectedShippingCost = ref(5.99);
 
 // Computed properties
 const subtotal = computed(() => {

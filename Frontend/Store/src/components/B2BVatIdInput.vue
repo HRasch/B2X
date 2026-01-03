@@ -39,12 +39,6 @@ const error = ref<string | null>(null);
 // Computed
 const fullVatId = computed(() => `${countryCode.value}${vatNumber.value}`);
 const isValid = computed(() => validationResult.value?.isValid ?? false);
-const statusClass = computed(() => {
-  if (isValidating.value) return 'validating';
-  if (error.value) return 'error';
-  if (isValid.value) return 'valid';
-  return '';
-});
 
 // Methods
 const validateVatId = async () => {

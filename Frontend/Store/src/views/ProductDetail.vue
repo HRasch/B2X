@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import ProductPrice from '@/components/ProductPrice.vue';
 
@@ -33,7 +33,6 @@ interface Review {
 }
 
 const route = useRoute();
-const router = useRouter();
 const cartStore = useCartStore();
 
 // State

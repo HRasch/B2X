@@ -4,8 +4,9 @@ import { createRouter, createMemoryHistory } from 'vue-router';
 import { createPinia, setActivePinia } from 'pinia';
 import Checkout from '../../views/Checkout.vue';
 
-// Type helper for component instance
-type CheckoutComponentInstance = InstanceType<typeof Checkout> & any;
+// Type helper for component instance - using any for test flexibility
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CheckoutComponentInstance = InstanceType<typeof Checkout> & Record<string, any>;
 
 // Mock cart store
 const mockCartStore = {

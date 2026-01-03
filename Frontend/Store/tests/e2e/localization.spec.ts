@@ -123,9 +123,6 @@ test.describe('Localization E2E Tests', () => {
     await button.click();
     const germanOption = page.locator('[data-testid="language-option-de"]');
 
-    // Button should have disabled state while changing
-    const initialDisabled = await button.getAttribute('aria-disabled');
-
     await germanOption.click();
 
     // Wait a bit for the change to complete

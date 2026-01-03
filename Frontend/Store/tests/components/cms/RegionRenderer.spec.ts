@@ -51,7 +51,7 @@ describe('RegionRenderer.vue', () => {
       },
     });
 
-    expect((wrapper.vm.$props as any).region.widgets).toHaveLength(3);
+    expect((wrapper.vm.$props as { region: PageRegion }).region.widgets).toHaveLength(3);
   });
 
   it('should have correct region class name', () => {

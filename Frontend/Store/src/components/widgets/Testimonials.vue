@@ -30,14 +30,21 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 
-interface Testimonial {
+interface TestimonialItem {
   text: string;
   author: string;
   title: string;
 }
 
+interface TestimonialsSettings {
+  title?: string;
+  testimonials?: TestimonialItem[] | string;
+  autoplay?: boolean;
+  autoplayInterval?: number;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: TestimonialsSettings;
   widgetId: string;
 }
 

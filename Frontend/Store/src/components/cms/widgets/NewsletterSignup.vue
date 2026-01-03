@@ -72,7 +72,7 @@ const handleSubmit = async () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     successMessage.value = 'Thank you for subscribing!';
     email.value = '';
-  } catch (error) {
+  } catch {
     errorMessage.value = 'Failed to subscribe. Please try again.';
   } finally {
     loading.value = false;

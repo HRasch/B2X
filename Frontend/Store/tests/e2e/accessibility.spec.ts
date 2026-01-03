@@ -70,9 +70,6 @@ test.describe('Accessibility Tests', () => {
       await skipLink.focus();
       await expect(skipLink).toBeVisible();
 
-      // Get initial scroll position
-      const initialScrollY = await page.evaluate(() => window.scrollY);
-
       // Press Enter to activate the skip link
       await page.keyboard.press('Enter');
 

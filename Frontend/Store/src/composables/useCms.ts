@@ -1,4 +1,4 @@
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { cmsApi } from '@/services/api/cms';
 import type { PageDefinition } from '@/types/cms';
 

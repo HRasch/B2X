@@ -33,8 +33,18 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 
+interface HeroBannerSettings {
+  backgroundImage?: string;
+  height?: number;
+  textColor?: string;
+  title?: string;
+  subtitle?: string;
+  ctaLink?: string;
+  ctaText?: string;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: HeroBannerSettings;
   widgetId: string;
 }
 

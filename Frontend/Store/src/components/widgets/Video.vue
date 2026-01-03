@@ -18,8 +18,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+interface VideoSettings {
+  videoUrl?: string;
+  autoplay?: boolean;
+  aspectRatio?: string;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: VideoSettings;
   widgetId: string;
 }
 
