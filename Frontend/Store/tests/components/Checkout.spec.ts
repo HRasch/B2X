@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { createPinia, setActivePinia } from 'pinia';
@@ -19,8 +19,8 @@ const router = createRouter({
 });
 
 describe('Checkout.vue', () => {
-  let wrapper: any;
-  let pinia: any;
+  let wrapper: ReturnType<typeof mount>;
+  let pinia: ReturnType<typeof createPinia>;
 
   beforeEach(() => {
     pinia = createPinia();
@@ -393,9 +393,6 @@ describe('Checkout.vue', () => {
     });
 
     it('should show shipping cost that updates dynamically', async () => {
-      // Arrange
-      const initialText = wrapper.text();
-
       // Act - Change shipping method
       wrapper.vm.selectShippingMethod(wrapper.vm.shippingMethods[1]);
       await wrapper.vm.$nextTick();

@@ -1,7 +1,14 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import CustomerTypeSelection from '../CustomerTypeSelection.vue';
+
+// Types for testing
+type CustomerType = 'private' | 'business' | null;
+
+interface CustomerTypeSelectionVM {
+  selectedType: CustomerType;
+}
 
 describe('CustomerTypeSelection.vue', () => {
   let router: ReturnType<typeof createRouter>;
@@ -99,14 +106,14 @@ describe('CustomerTypeSelection.vue', () => {
       const cards = wrapper.findAll('.option-card');
       await cards[0].trigger('click');
 
-      expect((wrapper.vm as any).selectedType).toBe('private');
+      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
     });
 
     it('should select business customer when clicking the card', async () => {
       const cards = wrapper.findAll('.option-card');
       await cards[1].trigger('click');
 
-      expect((wrapper.vm as any).selectedType).toBe('business');
+      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('business');
     });
 
     it('should apply selected class to selected card', async () => {
@@ -135,11 +142,11 @@ describe('CustomerTypeSelection.vue', () => {
 
       await cards[0].trigger('click');
       await wrapper.vm.$nextTick();
-      expect((wrapper.vm as any).selectedType).toBe('private');
+      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
 
       await cards[1].trigger('click');
       await wrapper.vm.$nextTick();
-      expect((wrapper.vm as any).selectedType).toBe('business');
+      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('business');
     });
   });
 
@@ -171,7 +178,7 @@ describe('CustomerTypeSelection.vue', () => {
 
       await newWrapper.vm.$nextTick();
 
-      expect((newWrapper.vm as any).selectedType).toBe('private');
+      expect((newWrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
     });
 
     it('should update selected class based on persisted value', async () => {
@@ -200,7 +207,7 @@ describe('CustomerTypeSelection.vue', () => {
 
       await newWrapper.vm.$nextTick();
 
-      expect((newWrapper.vm as any).selectedType).toBeNull();
+      expect((newWrapper.vm as CustomerTypeSelectionVM).selectedType).toBeNull();
     });
   });
 
@@ -268,7 +275,7 @@ describe('CustomerTypeSelection.vue', () => {
       await cards[0].trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect((wrapper.vm as any).selectedType).toBe('private');
+      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
     });
 
     it('should have sufficient color contrast (visual check - manual verification needed)', () => {
@@ -282,8 +289,6 @@ describe('CustomerTypeSelection.vue', () => {
       const cards = wrapper.findAll('.option-card');
       const button = wrapper.find('.btn-primary');
 
-      // Check CSS for min-width and min-height
-      const style = window.getComputedStyle(cards[0].element);
       // Note: This is a design requirement verification
       expect(cards).toHaveLength(2);
       expect(button.exists()).toBe(true);
@@ -298,7 +303,7 @@ describe('CustomerTypeSelection.vue', () => {
       await cards[1].trigger('click');
       await cards[0].trigger('click');
 
-      expect((wrapper.vm as any).selectedType).toBe('private');
+      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
     });
 
     it('should update Continue button state correctly', async () => {
@@ -315,7 +320,7 @@ describe('CustomerTypeSelection.vue', () => {
       const cards = wrapper.findAll('.option-card');
 
       await cards[0].trigger('click');
-      const beforeNavigation = (wrapper.vm as any).selectedType;
+      const beforeNavigation = (wrapper.vm as CustomerTypeSelectionVM).selectedType;
 
       // Verify localStorage persists the value
       expect(localStorage.getItem('customerTypeSelection')).toBe('private');
