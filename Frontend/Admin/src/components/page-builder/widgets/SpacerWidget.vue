@@ -3,50 +3,48 @@
  * SpacerWidget - Vertical Spacing Widget
  * Phase 1 MVP
  */
-import { computed } from 'vue'
-import type { SpacerWidgetConfig, ResponsiveValue } from '@/types/widgets'
+import { computed } from 'vue';
+import type { SpacerWidgetConfig, ResponsiveValue } from '@/types/widgets';
 
 interface Props {
-  config: SpacerWidgetConfig
-  isEditing?: boolean
+  config: SpacerWidgetConfig;
+  isEditing?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isEditing: false
-})
+  isEditing: false,
+});
 
 // Resolve responsive value
 function resolveResponsive<T>(value: ResponsiveValue<T> | T | undefined, fallback: T): T {
-  if (!value) return fallback
+  if (!value) return fallback;
   if (typeof value === 'object' && 'desktop' in value) {
-    return (value as ResponsiveValue<T>).desktop ?? fallback
+    return (value as ResponsiveValue<T>).desktop ?? fallback;
   }
-  return value as T
+  return value as T;
 }
 
-const height = computed(() => resolveResponsive(props.config.height, '2rem'))
+const height = computed(() => resolveResponsive(props.config.height, '2rem'));
 
 const spacerStyle = computed(() => ({
-  height: height.value
-}))
+  height: height.value,
+}));
 
 // Responsive CSS custom properties
 const responsiveVars = computed(() => ({
-  '--spacer-height-mobile': typeof props.config.height === 'object'
-    ? props.config.height.mobile || '1rem'
-    : '1rem',
-  '--spacer-height-tablet': typeof props.config.height === 'object'
-    ? props.config.height.tablet || '1.5rem'
-    : '1.5rem',
-  '--spacer-height-desktop': height.value
-}))
+  '--spacer-height-mobile':
+    typeof props.config.height === 'object' ? props.config.height.mobile || '1rem' : '1rem',
+  '--spacer-height-tablet':
+    typeof props.config.height === 'object' ? props.config.height.tablet || '1.5rem' : '1.5rem',
+  '--spacer-height-desktop': height.value,
+}));
 
 const containerClass = computed(() => [
   'widget-spacer',
   {
-    'widget-spacer--editing': props.isEditing
-  }
-])
+    'widget-spacer--editing': props.isEditing,
+  },
+]);
 </script>
 
 <template>

@@ -3,40 +3,40 @@
  * ButtonWidget - CTA Button Widget
  * Phase 1 MVP
  */
-import { computed } from 'vue'
-import type { ButtonWidgetConfig, ResponsiveValue } from '@/types/widgets'
+import { computed } from 'vue';
+import type { ButtonWidgetConfig, ResponsiveValue } from '@/types/widgets';
 
 interface Props {
-  config: ButtonWidgetConfig
-  isEditing?: boolean
+  config: ButtonWidgetConfig;
+  isEditing?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isEditing: false
-})
+  isEditing: false,
+});
 
 const emit = defineEmits<{
-  (e: 'update:config', config: Partial<ButtonWidgetConfig>): void
-}>()
+  (e: 'update:config', config: Partial<ButtonWidgetConfig>): void;
+}>();
 
 // Resolve responsive value
 function resolveResponsive<T>(value: ResponsiveValue<T> | T | undefined, fallback: T): T {
-  if (!value) return fallback
+  if (!value) return fallback;
   if (typeof value === 'object' && 'desktop' in value) {
-    return (value as ResponsiveValue<T>).desktop ?? fallback
+    return (value as ResponsiveValue<T>).desktop ?? fallback;
   }
-  return value as T
+  return value as T;
 }
 
-const isFullWidth = computed(() => resolveResponsive(props.config.fullWidth, false))
+const isFullWidth = computed(() => resolveResponsive(props.config.fullWidth, false));
 
 const containerClass = computed(() => [
   'widget-button',
   `widget-button--align-${props.config.alignment || 'left'}`,
   {
-    'widget-button--editing': props.isEditing
-  }
-])
+    'widget-button--editing': props.isEditing,
+  },
+]);
 
 const buttonClass = computed(() => [
   'widget-button__btn',
@@ -44,13 +44,13 @@ const buttonClass = computed(() => [
   `widget-button__btn--${props.config.size || 'md'}`,
   {
     'widget-button__btn--full-width': isFullWidth.value,
-    'widget-button__btn--has-icon': !!props.config.icon
-  }
-])
+    'widget-button__btn--has-icon': !!props.config.icon,
+  },
+]);
 
 function handleClick(event: MouseEvent) {
   if (props.isEditing) {
-    event.preventDefault()
+    event.preventDefault();
     // In editing mode, select the button for configuration
   }
 }

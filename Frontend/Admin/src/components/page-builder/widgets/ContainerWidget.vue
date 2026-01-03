@@ -3,26 +3,26 @@
  * ContainerWidget - Centered Container with Max-Width
  * Phase 1 MVP
  */
-import { computed, provide, readonly } from 'vue'
-import type { ContainerWidgetConfig, WidgetBase } from '@/types/widgets'
+import { computed, provide, readonly } from 'vue';
+import type { ContainerWidgetConfig, WidgetBase } from '@/types/widgets';
 
 interface Props {
-  config: ContainerWidgetConfig
-  isEditing?: boolean
+  config: ContainerWidgetConfig;
+  isEditing?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isEditing: false
-})
+  isEditing: false,
+});
 
 const emit = defineEmits<{
-  (e: 'update:config', config: Partial<ContainerWidgetConfig>): void
-  (e: 'select-child', widgetId: string): void
-  (e: 'add-widget', index: number): void
-}>()
+  (e: 'update:config', config: Partial<ContainerWidgetConfig>): void;
+  (e: 'select-child', widgetId: string): void;
+  (e: 'add-widget', index: number): void;
+}>();
 
 // Provide editing context to children
-provide('isEditing', readonly(props.isEditing))
+provide('isEditing', readonly(props.isEditing));
 
 const maxWidthMap: Record<string, string> = {
   sm: '640px',
@@ -30,16 +30,16 @@ const maxWidthMap: Record<string, string> = {
   lg: '1024px',
   xl: '1280px',
   '2xl': '1536px',
-  full: '100%'
-}
+  full: '100%',
+};
 
 const containerStyle = computed(() => ({
   maxWidth: maxWidthMap[props.config.maxWidth] || maxWidthMap.xl,
   marginLeft: props.config.centered ? 'auto' : undefined,
   marginRight: props.config.centered ? 'auto' : undefined,
   paddingLeft: '1rem',
-  paddingRight: '1rem'
-}))
+  paddingRight: '1rem',
+}));
 
 const containerClass = computed(() => [
   'widget-container',
@@ -47,16 +47,16 @@ const containerClass = computed(() => [
   {
     'widget-container--centered': props.config.centered,
     'widget-container--editing': props.isEditing,
-    'widget-container--empty': !props.config.children?.length
-  }
-])
+    'widget-container--empty': !props.config.children?.length,
+  },
+]);
 
 function handleChildSelect(widget: WidgetBase) {
-  emit('select-child', widget.id)
+  emit('select-child', widget.id);
 }
 
 function handleAddWidget(index: number) {
-  emit('add-widget', index)
+  emit('add-widget', index);
 }
 </script>
 
@@ -64,14 +64,9 @@ function handleAddWidget(index: number) {
   <div :class="containerClass" :style="containerStyle">
     <!-- Render children -->
     <template v-for="(child, index) in config.children" :key="child.id">
-      <div 
-        class="widget-container__item"
-        @click.stop="handleChildSelect(child)"
-      >
+      <div class="widget-container__item" @click.stop="handleChildSelect(child)">
         <slot name="widget" :widget="child" :index="index">
-          <div class="widget-container__placeholder">
-            Widget: {{ child.type }}
-          </div>
+          <div class="widget-container__placeholder">Widget: {{ child.type }}</div>
         </slot>
       </div>
     </template>
@@ -82,7 +77,13 @@ function handleAddWidget(index: number) {
       class="widget-container__empty"
       @click="handleAddWidget(0)"
     >
-      <svg class="widget-container__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <svg
+        class="widget-container__empty-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
         <path d="M12 5v14m-7-7h14" />
       </svg>
       <span class="widget-container__empty-text">Widget hinzufügen</span>

@@ -2,43 +2,58 @@
 /**
  * WidgetConfigurator - Panel to configure selected widget
  */
-import { computed } from 'vue'
-import { usePageBuilderStore } from '@/stores/pageBuilder'
-import type { WidgetConfig, TextWidgetConfig, ImageWidgetConfig, ButtonWidgetConfig, GridWidgetConfig, SectionWidgetConfig, SpacerWidgetConfig, DividerWidgetConfig, ContainerWidgetConfig } from '@/types/widgets'
+import { computed } from 'vue';
+import { usePageBuilderStore } from '@/stores/pageBuilder';
+import type {
+  WidgetConfig,
+  TextWidgetConfig,
+  ImageWidgetConfig,
+  ButtonWidgetConfig,
+  GridWidgetConfig,
+  SectionWidgetConfig,
+  SpacerWidgetConfig,
+  DividerWidgetConfig,
+  ContainerWidgetConfig,
+  AccountDashboardWidgetConfig,
+  OrderHistoryWidgetConfig,
+  AddressBookWidgetConfig,
+  ProfileFormWidgetConfig,
+  WishlistWidgetConfig,
+} from '@/types/widgets';
 
-const store = usePageBuilderStore()
+const store = usePageBuilderStore();
 
-const selectedWidget = computed(() => store.selectedWidget)
+const selectedWidget = computed(() => store.selectedWidget);
 
-const hasSelection = computed(() => selectedWidget.value !== null)
+const hasSelection = computed(() => selectedWidget.value !== null);
 
 // Update widget config
 function updateConfig<T extends WidgetConfig>(updates: Partial<T>) {
-  if (!selectedWidget.value) return
+  if (!selectedWidget.value) return;
   store.updateWidget(selectedWidget.value.id, {
     ...selectedWidget.value,
-    config: { ...selectedWidget.value.config, ...updates }
-  } as typeof selectedWidget.value)
+    config: { ...selectedWidget.value.config, ...updates },
+  } as typeof selectedWidget.value);
 }
 
 // Get responsive value for current breakpoint
 function getResponsiveValue<T>(value: T | { mobile: T; tablet?: T; desktop?: T }): T {
   if (typeof value === 'object' && value !== null && 'mobile' in value) {
-    return value.desktop ?? value.tablet ?? value.mobile
+    return value.desktop ?? value.tablet ?? value.mobile;
   }
-  return value
+  return value;
 }
 
 // Update responsive value
 function setResponsiveValue<T>(field: string, value: T) {
-  const currentConfig = selectedWidget.value?.config as Record<string, unknown>
-  const currentValue = currentConfig?.[field]
-  
+  const currentConfig = selectedWidget.value?.config as Record<string, unknown>;
+  const currentValue = currentConfig?.[field];
+
   if (typeof currentValue === 'object' && currentValue !== null && 'mobile' in currentValue) {
     // Update desktop breakpoint for responsive values
-    updateConfig({ [field]: { ...currentValue, desktop: value } })
+    updateConfig({ [field]: { ...currentValue, desktop: value } });
   } else {
-    updateConfig({ [field]: value })
+    updateConfig({ [field]: value });
   }
 }
 </script>
@@ -50,12 +65,18 @@ function setResponsiveValue<T>(field: string, value: T) {
     </div>
 
     <div v-if="!hasSelection" class="widget-configurator__empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="widget-configurator__empty-icon">
-        <path d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="widget-configurator__empty-icon"
+      >
+        <path
+          d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+        />
       </svg>
-      <p class="widget-configurator__empty-text">
-        Wähle ein Widget aus, um es zu konfigurieren
-      </p>
+      <p class="widget-configurator__empty-text">Wähle ein Widget aus, um es zu konfigurieren</p>
     </div>
 
     <div v-else class="widget-configurator__content">
@@ -76,11 +97,16 @@ function setResponsiveValue<T>(field: string, value: T) {
             <input
               type="checkbox"
               :checked="selectedWidget?.style?.isVisible ?? true"
-              @change="store.updateWidget(selectedWidget!.id, { 
-                ...selectedWidget!, 
-                style: { ...selectedWidget?.style, isVisible: ($event.target as HTMLInputElement).checked } 
-              })"
-            >
+              @change="
+                store.updateWidget(selectedWidget!.id, {
+                  ...selectedWidget!,
+                  style: {
+                    ...selectedWidget?.style,
+                    isVisible: ($event.target as HTMLInputElement).checked,
+                  },
+                })
+              "
+            />
             <span>Sichtbar</span>
           </label>
         </div>
@@ -102,7 +128,19 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">HTML-Tag</label>
           <select
             :value="(selectedWidget.config as TextWidgetConfig).tag || 'p'"
-            @change="updateConfig({ tag: ($event.target as HTMLSelectElement).value as 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' })"
+            @change="
+              updateConfig({
+                tag: ($event.target as HTMLSelectElement).value as
+                  | 'p'
+                  | 'h1'
+                  | 'h2'
+                  | 'h3'
+                  | 'h4'
+                  | 'h5'
+                  | 'h6'
+                  | 'span',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="p">Absatz (p)</option>
@@ -119,17 +157,41 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Ausrichtung</label>
           <div class="widget-configurator__button-group">
             <button
-              :class="['widget-configurator__btn', { 'widget-configurator__btn--active': (selectedWidget.config as TextWidgetConfig).align === 'left' }]"
+              :class="[
+                'widget-configurator__btn',
+                {
+                  'widget-configurator__btn--active':
+                    (selectedWidget.config as TextWidgetConfig).align === 'left',
+                },
+              ]"
               @click="updateConfig({ align: 'left' })"
-            >Links</button>
+            >
+              Links
+            </button>
             <button
-              :class="['widget-configurator__btn', { 'widget-configurator__btn--active': (selectedWidget.config as TextWidgetConfig).align === 'center' }]"
+              :class="[
+                'widget-configurator__btn',
+                {
+                  'widget-configurator__btn--active':
+                    (selectedWidget.config as TextWidgetConfig).align === 'center',
+                },
+              ]"
               @click="updateConfig({ align: 'center' })"
-            >Mitte</button>
+            >
+              Mitte
+            </button>
             <button
-              :class="['widget-configurator__btn', { 'widget-configurator__btn--active': (selectedWidget.config as TextWidgetConfig).align === 'right' }]"
+              :class="[
+                'widget-configurator__btn',
+                {
+                  'widget-configurator__btn--active':
+                    (selectedWidget.config as TextWidgetConfig).align === 'right',
+                },
+              ]"
               @click="updateConfig({ align: 'right' })"
-            >Rechts</button>
+            >
+              Rechts
+            </button>
           </div>
         </div>
       </template>
@@ -144,7 +206,7 @@ function setResponsiveValue<T>(field: string, value: T) {
             @input="setResponsiveValue('src', ($event.target as HTMLInputElement).value)"
             class="widget-configurator__input"
             placeholder="https://..."
-          >
+          />
         </div>
         <div class="widget-configurator__section">
           <label class="widget-configurator__label">Alt-Text</label>
@@ -154,19 +216,35 @@ function setResponsiveValue<T>(field: string, value: T) {
             @input="updateConfig({ alt: ($event.target as HTMLInputElement).value })"
             class="widget-configurator__input"
             placeholder="Bildbeschreibung..."
-          >
+          />
         </div>
         <div class="widget-configurator__section">
           <label class="widget-configurator__label">Größe</label>
           <div class="widget-configurator__button-group">
             <button
-              :class="['widget-configurator__btn', { 'widget-configurator__btn--active': (selectedWidget.config as ImageWidgetConfig).objectFit === 'contain' }]"
+              :class="[
+                'widget-configurator__btn',
+                {
+                  'widget-configurator__btn--active':
+                    (selectedWidget.config as ImageWidgetConfig).objectFit === 'contain',
+                },
+              ]"
               @click="updateConfig({ objectFit: 'contain' })"
-            >Einpassen</button>
+            >
+              Einpassen
+            </button>
             <button
-              :class="['widget-configurator__btn', { 'widget-configurator__btn--active': (selectedWidget.config as ImageWidgetConfig).objectFit === 'cover' }]"
+              :class="[
+                'widget-configurator__btn',
+                {
+                  'widget-configurator__btn--active':
+                    (selectedWidget.config as ImageWidgetConfig).objectFit === 'cover',
+                },
+              ]"
               @click="updateConfig({ objectFit: 'cover' })"
-            >Füllen</button>
+            >
+              Füllen
+            </button>
           </div>
         </div>
       </template>
@@ -181,7 +259,7 @@ function setResponsiveValue<T>(field: string, value: T) {
             @input="setResponsiveValue('label', ($event.target as HTMLInputElement).value)"
             class="widget-configurator__input"
             placeholder="Button"
-          >
+          />
         </div>
         <div class="widget-configurator__section">
           <label class="widget-configurator__label">Link</label>
@@ -191,13 +269,21 @@ function setResponsiveValue<T>(field: string, value: T) {
             @input="updateConfig({ href: ($event.target as HTMLInputElement).value })"
             class="widget-configurator__input"
             placeholder="/seite oder https://..."
-          >
+          />
         </div>
         <div class="widget-configurator__section">
           <label class="widget-configurator__label">Variante</label>
           <select
             :value="(selectedWidget.config as ButtonWidgetConfig).variant || 'primary'"
-            @change="updateConfig({ variant: ($event.target as HTMLSelectElement).value as 'primary' | 'secondary' | 'outline' | 'ghost' })"
+            @change="
+              updateConfig({
+                variant: ($event.target as HTMLSelectElement).value as
+                  | 'primary'
+                  | 'secondary'
+                  | 'outline'
+                  | 'ghost',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="primary">Primär</option>
@@ -210,7 +296,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Größe</label>
           <select
             :value="(selectedWidget.config as ButtonWidgetConfig).size || 'md'"
-            @change="updateConfig({ size: ($event.target as HTMLSelectElement).value as 'sm' | 'md' | 'lg' })"
+            @change="
+              updateConfig({
+                size: ($event.target as HTMLSelectElement).value as 'sm' | 'md' | 'lg',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="sm">Klein</option>
@@ -224,7 +314,7 @@ function setResponsiveValue<T>(field: string, value: T) {
               type="checkbox"
               :checked="(selectedWidget.config as ButtonWidgetConfig).fullWidth || false"
               @change="updateConfig({ fullWidth: ($event.target as HTMLInputElement).checked })"
-            >
+            />
             <span>Volle Breite</span>
           </label>
         </div>
@@ -237,11 +327,16 @@ function setResponsiveValue<T>(field: string, value: T) {
           <input
             type="number"
             :value="getResponsiveValue((selectedWidget.config as GridWidgetConfig).columns || 2)"
-            @input="setResponsiveValue('columns', parseInt(($event.target as HTMLInputElement).value) || 2)"
+            @input="
+              setResponsiveValue(
+                'columns',
+                parseInt(($event.target as HTMLInputElement).value) || 2
+              )
+            "
             class="widget-configurator__input"
             min="1"
             max="12"
-          >
+          />
         </div>
         <div class="widget-configurator__section">
           <label class="widget-configurator__label">Abstand</label>
@@ -251,7 +346,7 @@ function setResponsiveValue<T>(field: string, value: T) {
             @input="setResponsiveValue('gap', ($event.target as HTMLInputElement).value)"
             class="widget-configurator__input"
             placeholder="1rem"
-          >
+          />
         </div>
       </template>
 
@@ -264,7 +359,7 @@ function setResponsiveValue<T>(field: string, value: T) {
             :value="(selectedWidget.config as SectionWidgetConfig).backgroundColor || '#ffffff'"
             @input="updateConfig({ backgroundColor: ($event.target as HTMLInputElement).value })"
             class="widget-configurator__color"
-          >
+          />
         </div>
         <div class="widget-configurator__section">
           <label class="widget-configurator__label">Volle Breite</label>
@@ -273,7 +368,7 @@ function setResponsiveValue<T>(field: string, value: T) {
               type="checkbox"
               :checked="(selectedWidget.config as SectionWidgetConfig).fullWidth || false"
               @change="updateConfig({ fullWidth: ($event.target as HTMLInputElement).checked })"
-            >
+            />
             <span>Aktiviert</span>
           </label>
         </div>
@@ -284,7 +379,11 @@ function setResponsiveValue<T>(field: string, value: T) {
         <div class="widget-configurator__section">
           <label class="widget-configurator__label">Max. Breite</label>
           <select
-            :value="getResponsiveValue((selectedWidget.config as ContainerWidgetConfig).maxWidth || '1200px')"
+            :value="
+              getResponsiveValue(
+                (selectedWidget.config as ContainerWidgetConfig).maxWidth || '1200px'
+              )
+            "
             @change="setResponsiveValue('maxWidth', ($event.target as HTMLSelectElement).value)"
             class="widget-configurator__select"
           >
@@ -303,11 +402,13 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Höhe</label>
           <input
             type="text"
-            :value="getResponsiveValue((selectedWidget.config as SpacerWidgetConfig).height || '2rem')"
+            :value="
+              getResponsiveValue((selectedWidget.config as SpacerWidgetConfig).height || '2rem')
+            "
             @input="setResponsiveValue('height', ($event.target as HTMLInputElement).value)"
             class="widget-configurator__input"
             placeholder="2rem"
-          >
+          />
         </div>
       </template>
 
@@ -317,7 +418,11 @@ function setResponsiveValue<T>(field: string, value: T) {
           <label class="widget-configurator__label">Stil</label>
           <select
             :value="(selectedWidget.config as DividerWidgetConfig).style || 'solid'"
-            @change="updateConfig({ style: ($event.target as HTMLSelectElement).value as 'solid' | 'dashed' | 'dotted' })"
+            @change="
+              updateConfig({
+                style: ($event.target as HTMLSelectElement).value as 'solid' | 'dashed' | 'dotted',
+              })
+            "
             class="widget-configurator__select"
           >
             <option value="solid">Durchgezogen</option>
@@ -332,7 +437,7 @@ function setResponsiveValue<T>(field: string, value: T) {
             :value="(selectedWidget.config as DividerWidgetConfig).color || '#e5e7eb'"
             @input="updateConfig({ color: ($event.target as HTMLInputElement).value })"
             class="widget-configurator__color"
-          >
+          />
         </div>
         <div class="widget-configurator__section">
           <label class="widget-configurator__label">Dicke</label>
@@ -342,7 +447,315 @@ function setResponsiveValue<T>(field: string, value: T) {
             @input="updateConfig({ thickness: ($event.target as HTMLInputElement).value })"
             class="widget-configurator__input"
             placeholder="1px"
+          />
+        </div>
+      </template>
+
+      <!-- Account Dashboard Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'account-dashboard'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Titel</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as AccountDashboardWidgetConfig).title || ''"
+            @input="updateConfig({ title: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Mein Konto"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Layout</label>
+          <select
+            :value="(selectedWidget.config as AccountDashboardWidgetConfig).layout || 'grid'"
+            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list' })"
+            class="widget-configurator__select"
           >
+            <option value="grid">Raster</option>
+            <option value="list">Liste</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as AccountDashboardWidgetConfig).showWelcomeMessage ?? true"
+                @change="updateConfig({ showWelcomeMessage: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Willkommensnachricht</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as AccountDashboardWidgetConfig).showQuickLinks ?? true"
+                @change="updateConfig({ showQuickLinks: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Schnelllinks</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as AccountDashboardWidgetConfig).showRecentOrders ?? true"
+                @change="updateConfig({ showRecentOrders: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Letzte Bestellungen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Order History Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'order-history'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Titel</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as OrderHistoryWidgetConfig).title || ''"
+            @input="updateConfig({ title: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Bestellverlauf"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Einträge pro Seite</label>
+          <input
+            type="number"
+            :value="(selectedWidget.config as OrderHistoryWidgetConfig).itemsPerPage || 10"
+            @input="updateConfig({ itemsPerPage: parseInt(($event.target as HTMLInputElement).value) || 10 })"
+            class="widget-configurator__input"
+            min="5"
+            max="50"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as OrderHistoryWidgetConfig).showFilters ?? true"
+                @change="updateConfig({ showFilters: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Filter anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as OrderHistoryWidgetConfig).showSearch ?? true"
+                @change="updateConfig({ showSearch: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Suchfeld anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as OrderHistoryWidgetConfig).showTracking ?? true"
+                @change="updateConfig({ showTracking: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Tracking anzeigen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Address Book Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'address-book'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Titel</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as AddressBookWidgetConfig).title || ''"
+            @input="updateConfig({ title: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Adressbuch"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Layout</label>
+          <select
+            :value="(selectedWidget.config as AddressBookWidgetConfig).layout || 'grid'"
+            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list' })"
+            class="widget-configurator__select"
+          >
+            <option value="grid">Raster</option>
+            <option value="list">Liste</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Max. Adressen</label>
+          <input
+            type="number"
+            :value="(selectedWidget.config as AddressBookWidgetConfig).maxAddresses || 10"
+            @input="updateConfig({ maxAddresses: parseInt(($event.target as HTMLInputElement).value) || 10 })"
+            class="widget-configurator__input"
+            min="1"
+            max="50"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as AddressBookWidgetConfig).allowAdd ?? true"
+                @change="updateConfig({ allowAdd: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Neue Adressen erlauben</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as AddressBookWidgetConfig).allowEdit ?? true"
+                @change="updateConfig({ allowEdit: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Bearbeiten erlauben</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as AddressBookWidgetConfig).allowDelete ?? true"
+                @change="updateConfig({ allowDelete: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Löschen erlauben</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as AddressBookWidgetConfig).showDefaultBadge ?? true"
+                @change="updateConfig({ showDefaultBadge: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Standard-Badge anzeigen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Profile Form Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'profile-form'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Titel</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as ProfileFormWidgetConfig).title || ''"
+            @input="updateConfig({ title: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Mein Profil"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Layout</label>
+          <select
+            :value="(selectedWidget.config as ProfileFormWidgetConfig).layout || 'single-column'"
+            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'single-column' | 'two-column' })"
+            class="widget-configurator__select"
+          >
+            <option value="single-column">Eine Spalte</option>
+            <option value="two-column">Zwei Spalten</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProfileFormWidgetConfig).showAvatar ?? true"
+                @change="updateConfig({ showAvatar: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Avatar anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProfileFormWidgetConfig).showPasswordChange ?? true"
+                @change="updateConfig({ showPasswordChange: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Passwort ändern</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProfileFormWidgetConfig).showNewsletterOptIn ?? true"
+                @change="updateConfig({ showNewsletterOptIn: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Newsletter Opt-in</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Wishlist Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'wishlist'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Titel</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as WishlistWidgetConfig).title || ''"
+            @input="updateConfig({ title: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Merkzettel"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Layout</label>
+          <select
+            :value="(selectedWidget.config as WishlistWidgetConfig).layout || 'grid'"
+            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'grid' | 'list' })"
+            class="widget-configurator__select"
+          >
+            <option value="grid">Raster</option>
+            <option value="list">Liste</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Spalten (Raster)</label>
+          <input
+            type="number"
+            :value="getResponsiveValue((selectedWidget.config as WishlistWidgetConfig).columns || 3)"
+            @input="setResponsiveValue('columns', parseInt(($event.target as HTMLInputElement).value) || 3)"
+            class="widget-configurator__input"
+            min="1"
+            max="6"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as WishlistWidgetConfig).showAddToCart ?? true"
+                @change="updateConfig({ showAddToCart: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>In Warenkorb Button</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as WishlistWidgetConfig).showRemoveButton ?? true"
+                @change="updateConfig({ showRemoveButton: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Entfernen Button</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as WishlistWidgetConfig).showShareButton ?? true"
+                @change="updateConfig({ showShareButton: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Teilen Button</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as WishlistWidgetConfig).showStockStatus ?? true"
+                @change="updateConfig({ showStockStatus: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Verfügbarkeit anzeigen</span>
+            </label>
+          </div>
         </div>
       </template>
 
@@ -353,7 +766,9 @@ function setResponsiveValue<T>(field: string, value: T) {
           @click="store.removeWidget(selectedWidget!.id)"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+            <path
+              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+            />
           </svg>
           Widget löschen
         </button>

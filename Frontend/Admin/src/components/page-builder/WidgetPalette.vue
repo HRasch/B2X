@@ -2,53 +2,62 @@
 /**
  * WidgetPalette - Sidebar with available widgets to add
  */
-import { computed } from 'vue'
-import { usePageBuilderStore } from '@/stores/pageBuilder'
-import { widgetRegistry, getWidgetsByCategory } from './widget-registry'
-import type { WidgetType, WidgetCategory } from '@/types/widgets'
+import { computed } from 'vue';
+import { usePageBuilderStore } from '@/stores/pageBuilder';
+import { widgetRegistry, getWidgetsByCategory } from './widget-registry';
+import type { WidgetType, WidgetCategory } from '@/types/widgets';
 
-const store = usePageBuilderStore()
+const store = usePageBuilderStore();
 
 // Group widgets by category
 const categories: { id: WidgetCategory; label: string; icon: string }[] = [
   { id: 'layout', label: 'Layout', icon: 'layout' },
-  { id: 'content', label: 'Inhalt', icon: 'type' }
-]
+  { id: 'content', label: 'Inhalt', icon: 'type' },
+  { id: 'account', label: 'Kundenkonto', icon: 'user' },
+];
 
 const widgetsByCategory = computed(() => {
-  const result: Record<string, typeof widgetRegistry[WidgetType][]> = {}
+  const result: Record<string, (typeof widgetRegistry)[WidgetType][]> = {};
   for (const category of categories) {
-    result[category.id] = getWidgetsByCategory(category.id)
+    result[category.id] = getWidgetsByCategory(category.id);
   }
-  return result
-})
+  return result;
+});
 
 function handleDragStart(event: DragEvent, type: WidgetType) {
   if (event.dataTransfer) {
-    event.dataTransfer.setData('widget-type', type)
-    event.dataTransfer.effectAllowed = 'copy'
+    event.dataTransfer.setData('widget-type', type);
+    event.dataTransfer.effectAllowed = 'copy';
   }
 }
 
 function handleAddWidget(type: WidgetType) {
-  store.addWidget(type)
+  store.addWidget(type);
 }
 
 // Icon mapping
 const icons: Record<string, string> = {
-  'layout': 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
-  'type': 'M4 6h16M4 12h16M4 18h7',
+  layout:
+    'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+  type: 'M4 6h16M4 12h16M4 18h7',
+  user: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z',
   'grid-3x3': 'M3 3h7v7H3V3zm11 0h7v7h-7V3zm0 11h7v7h-7v-7zM3 14h7v7H3v-7z',
   'rectangle-horizontal': 'M2 7a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7z',
-  'square': 'M3 3h18v18H3V3z',
+  square: 'M3 3h18v18H3V3z',
   'move-vertical': 'M12 2v20M5 9l7-7 7 7M5 15l7 7 7-7',
-  'minus': 'M5 12h14',
-  'image': 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 0l6 6 4-4 6 6M14 10a2 2 0 11-4 0 2 2 0 014 0z',
-  'mouse-pointer-click': 'M9 9l10 5-5 2-2 5L9 9z'
-}
+  minus: 'M5 12h14',
+  image:
+    'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 0l6 6 4-4 6 6M14 10a2 2 0 11-4 0 2 2 0 014 0z',
+  'mouse-pointer-click': 'M9 9l10 5-5 2-2 5L9 9z',
+  'layout-dashboard': 'M3 3h7v9H3V3zm11 0h7v5h-7V3zm0 9h7v9h-7v-9zM3 16h7v5H3v-5z',
+  'clipboard-list': 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01',
+  'map-pin': 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0zM12 13a3 3 0 100-6 3 3 0 000 6z',
+  'user-circle': 'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  heart: 'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z',
+};
 
 function getIcon(iconName: string): string {
-  return icons[iconName] || icons['square']
+  return icons[iconName] || icons['square'];
 }
 </script>
 
@@ -60,11 +69,7 @@ function getIcon(iconName: string): string {
     </div>
 
     <div class="widget-palette__categories">
-      <div
-        v-for="category in categories"
-        :key="category.id"
-        class="widget-palette__category"
-      >
+      <div v-for="category in categories" :key="category.id" class="widget-palette__category">
         <div class="widget-palette__category-header">
           <svg class="widget-palette__category-icon" viewBox="0 0 24 24" fill="currentColor">
             <path :d="getIcon(category.icon)" />

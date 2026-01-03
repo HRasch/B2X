@@ -2,13 +2,13 @@
  * Widget Registry - Defines all available widgets and their defaults
  */
 
-import type { WidgetRegistry, WidgetType, WidgetDefinition } from '@/types/widgets'
+import type { WidgetRegistry, WidgetType, WidgetDefinition } from '@/types/widgets';
 
 export const widgetRegistry: WidgetRegistry = {
   // ============================================================================
   // Layout Widgets
   // ============================================================================
-  
+
   grid: {
     type: 'grid',
     name: 'Grid',
@@ -20,9 +20,9 @@ export const widgetRegistry: WidgetRegistry = {
       gap: { mobile: '1rem', tablet: '1.5rem', desktop: '2rem' },
       alignItems: 'stretch',
       justifyContent: 'start',
-      children: []
+      children: [],
     },
-    allowedChildren: ['text', 'image', 'button', 'container', 'spacer', 'divider']
+    allowedChildren: ['text', 'image', 'button', 'container', 'spacer', 'divider'],
   },
 
   section: {
@@ -38,9 +38,9 @@ export const widgetRegistry: WidgetRegistry = {
       backgroundOverlay: undefined,
       paddingTop: { mobile: '2rem', tablet: '3rem', desktop: '4rem' },
       paddingBottom: { mobile: '2rem', tablet: '3rem', desktop: '4rem' },
-      children: []
+      children: [],
     },
-    allowedChildren: ['grid', 'container', 'text', 'image', 'button', 'spacer', 'divider']
+    allowedChildren: ['grid', 'container', 'text', 'image', 'button', 'spacer', 'divider'],
   },
 
   container: {
@@ -52,9 +52,9 @@ export const widgetRegistry: WidgetRegistry = {
     defaultConfig: {
       maxWidth: 'xl',
       centered: true,
-      children: []
+      children: [],
     },
-    allowedChildren: ['grid', 'text', 'image', 'button', 'spacer', 'divider']
+    allowedChildren: ['grid', 'text', 'image', 'button', 'spacer', 'divider'],
   },
 
   spacer: {
@@ -64,8 +64,8 @@ export const widgetRegistry: WidgetRegistry = {
     category: 'layout',
     icon: 'move-vertical',
     defaultConfig: {
-      height: { mobile: '1rem', tablet: '1.5rem', desktop: '2rem' }
-    }
+      height: { mobile: '1rem', tablet: '1.5rem', desktop: '2rem' },
+    },
   },
 
   divider: {
@@ -79,8 +79,8 @@ export const widgetRegistry: WidgetRegistry = {
       thickness: '1px',
       color: '#e5e7eb',
       width: '100%',
-      alignment: 'center'
-    }
+      alignment: 'center',
+    },
   },
 
   // ============================================================================
@@ -100,8 +100,8 @@ export const widgetRegistry: WidgetRegistry = {
       fontWeight: 'normal',
       lineHeight: '1.6',
       textColor: undefined,
-      maxWidth: undefined
-    }
+      maxWidth: undefined,
+    },
   },
 
   image: {
@@ -121,8 +121,8 @@ export const widgetRegistry: WidgetRegistry = {
       link: undefined,
       linkTarget: '_self',
       caption: undefined,
-      rounded: 'none'
-    }
+      rounded: 'none',
+    },
   },
 
   button: {
@@ -140,54 +140,155 @@ export const widgetRegistry: WidgetRegistry = {
       fullWidth: { mobile: false, tablet: false, desktop: false },
       icon: undefined,
       iconPosition: 'left',
-      alignment: 'left'
-    }
-  }
-}
+      alignment: 'left',
+    },
+  },
+
+  // ============================================================================
+  // Account Widgets (Phase 3)
+  // ============================================================================
+
+  'account-dashboard': {
+    type: 'account-dashboard',
+    name: 'Account Dashboard',
+    description: 'Übersicht für den Kundenbereich',
+    category: 'account',
+    icon: 'layout-dashboard',
+    defaultConfig: {
+      showRecentOrders: true,
+      recentOrdersCount: 3,
+      showQuickLinks: true,
+      quickLinks: [
+        { label: 'Bestellungen', href: '/account/orders', icon: 'package' },
+        { label: 'Adressen', href: '/account/addresses', icon: 'map-pin' },
+        { label: 'Profil', href: '/account/profile', icon: 'user' },
+        { label: 'Merkzettel', href: '/account/wishlist', icon: 'heart' },
+      ],
+      showWelcomeMessage: true,
+      layout: 'grid',
+    },
+    pageTypes: ['account'],
+  },
+
+  'order-history': {
+    type: 'order-history',
+    name: 'Bestellhistorie',
+    description: 'Liste aller Kundenbestellungen',
+    category: 'account',
+    icon: 'clipboard-list',
+    defaultConfig: {
+      ordersPerPage: 10,
+      showFilters: true,
+      showSearch: true,
+      showStatus: true,
+      showTracking: true,
+      columns: ['orderNumber', 'date', 'status', 'total', 'actions'],
+      defaultSort: 'date-desc',
+    },
+    pageTypes: ['account'],
+  },
+
+  'address-book': {
+    type: 'address-book',
+    name: 'Adressbuch',
+    description: 'Verwaltung von Liefer- und Rechnungsadressen',
+    category: 'account',
+    icon: 'map-pin',
+    defaultConfig: {
+      maxAddresses: 10,
+      showDefaultBadge: true,
+      allowAddNew: true,
+      allowEdit: true,
+      allowDelete: true,
+      layout: 'grid',
+      addressTypes: ['billing', 'shipping'],
+    },
+    pageTypes: ['account'],
+  },
+
+  'profile-form': {
+    type: 'profile-form',
+    name: 'Profil-Formular',
+    description: 'Bearbeitung der Kundendaten',
+    category: 'account',
+    icon: 'user-circle',
+    defaultConfig: {
+      fields: ['name', 'email', 'phone', 'company'],
+      allowPasswordChange: true,
+      allowEmailChange: false,
+      showAvatar: true,
+      allowAvatarUpload: true,
+      layout: 'two-column',
+    },
+    pageTypes: ['account'],
+  },
+
+  wishlist: {
+    type: 'wishlist',
+    name: 'Merkzettel',
+    description: 'Gespeicherte Produkte des Kunden',
+    category: 'account',
+    icon: 'heart',
+    defaultConfig: {
+      itemsPerPage: 12,
+      showPrice: true,
+      showAddToCart: true,
+      showRemove: true,
+      showShare: false,
+      layout: 'grid',
+      gridColumns: { mobile: 2, tablet: 3, desktop: 4 },
+      emptyStateMessage: 'Dein Merkzettel ist leer.',
+    },
+    pageTypes: ['account'],
+  },
+};
 
 /**
  * Get widget definition by type
  */
 export function getWidgetDefinition(type: WidgetType): WidgetDefinition | undefined {
-  return widgetRegistry[type]
+  return widgetRegistry[type];
 }
 
 /**
  * Get all widgets by category
  */
 export function getWidgetsByCategory(category: string): WidgetDefinition[] {
-  return Object.values(widgetRegistry).filter(w => w.category === category)
+  return Object.values(widgetRegistry).filter(w => w.category === category);
 }
 
 /**
  * Get all widget categories
  */
 export function getWidgetCategories(): string[] {
-  const categories = new Set(Object.values(widgetRegistry).map(w => w.category))
-  return Array.from(categories)
+  const categories = new Set(Object.values(widgetRegistry).map(w => w.category));
+  return Array.from(categories);
 }
 
 /**
  * Check if a widget type can be nested inside another
  */
 export function canNestWidget(parentType: WidgetType, childType: WidgetType): boolean {
-  const parent = widgetRegistry[parentType]
-  if (!parent?.allowedChildren) return false
-  return parent.allowedChildren.includes(childType)
+  const parent = widgetRegistry[parentType];
+  if (!parent?.allowedChildren) return false;
+  return parent.allowedChildren.includes(childType);
 }
 
 /**
  * Create a new widget instance with default config
  */
-export function createWidget(type: WidgetType, overrides?: Partial<Record<string, unknown>>): {
-  id: string
-  type: WidgetType
-  version: number
-  config: Record<string, unknown>
+export function createWidget(
+  type: WidgetType,
+  overrides?: Partial<Record<string, unknown>>
+): {
+  id: string;
+  type: WidgetType;
+  version: number;
+  config: Record<string, unknown>;
 } {
-  const definition = widgetRegistry[type]
+  const definition = widgetRegistry[type];
   if (!definition) {
-    throw new Error(`Unknown widget type: ${type}`)
+    throw new Error(`Unknown widget type: ${type}`);
   }
 
   return {
@@ -196,7 +297,7 @@ export function createWidget(type: WidgetType, overrides?: Partial<Record<string
     version: 1,
     config: {
       ...definition.defaultConfig,
-      ...overrides
-    }
-  }
+      ...overrides,
+    },
+  };
 }

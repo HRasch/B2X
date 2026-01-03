@@ -3,64 +3,64 @@
  * SectionWidget - Full-width Section with Background
  * Phase 1 MVP
  */
-import { computed, provide, readonly } from 'vue'
-import type { SectionWidgetConfig, ResponsiveValue, WidgetBase } from '@/types/widgets'
+import { computed, provide, readonly } from 'vue';
+import type { SectionWidgetConfig, ResponsiveValue, WidgetBase } from '@/types/widgets';
 
 interface Props {
-  config: SectionWidgetConfig
-  isEditing?: boolean
+  config: SectionWidgetConfig;
+  isEditing?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isEditing: false
-})
+  isEditing: false,
+});
 
 const emit = defineEmits<{
-  (e: 'update:config', config: Partial<SectionWidgetConfig>): void
-  (e: 'select-child', widgetId: string): void
-  (e: 'add-widget', index: number): void
-}>()
+  (e: 'update:config', config: Partial<SectionWidgetConfig>): void;
+  (e: 'select-child', widgetId: string): void;
+  (e: 'add-widget', index: number): void;
+}>();
 
 // Provide editing context to children
-provide('isEditing', readonly(props.isEditing))
+provide('isEditing', readonly(props.isEditing));
 
 // Resolve responsive value
 function resolveResponsive<T>(value: ResponsiveValue<T> | T | undefined, fallback: T): T {
-  if (!value) return fallback
+  if (!value) return fallback;
   if (typeof value === 'object' && 'desktop' in value) {
-    return (value as ResponsiveValue<T>).desktop ?? fallback
+    return (value as ResponsiveValue<T>).desktop ?? fallback;
   }
-  return value as T
+  return value as T;
 }
 
-const paddingTop = computed(() => resolveResponsive(props.config.paddingTop, '4rem'))
-const paddingBottom = computed(() => resolveResponsive(props.config.paddingBottom, '4rem'))
+const paddingTop = computed(() => resolveResponsive(props.config.paddingTop, '4rem'));
+const paddingBottom = computed(() => resolveResponsive(props.config.paddingBottom, '4rem'));
 
 const sectionStyle = computed(() => {
   const style: Record<string, string> = {
     paddingTop: paddingTop.value,
-    paddingBottom: paddingBottom.value
-  }
+    paddingBottom: paddingBottom.value,
+  };
 
   if (props.config.backgroundColor) {
-    style.backgroundColor = props.config.backgroundColor
+    style.backgroundColor = props.config.backgroundColor;
   }
 
   if (props.config.backgroundImage) {
-    style.backgroundImage = `url(${props.config.backgroundImage})`
-    style.backgroundSize = 'cover'
-    style.backgroundPosition = 'center'
+    style.backgroundImage = `url(${props.config.backgroundImage})`;
+    style.backgroundSize = 'cover';
+    style.backgroundPosition = 'center';
   }
 
-  return style
-})
+  return style;
+});
 
 const overlayStyle = computed(() => {
-  if (!props.config.backgroundOverlay) return null
+  if (!props.config.backgroundOverlay) return null;
   return {
-    backgroundColor: props.config.backgroundOverlay
-  }
-})
+    backgroundColor: props.config.backgroundOverlay,
+  };
+});
 
 const containerClass = computed(() => [
   'widget-section',
@@ -68,34 +68,34 @@ const containerClass = computed(() => [
     'widget-section--full-width': props.config.fullWidth,
     'widget-section--editing': props.isEditing,
     'widget-section--has-bg-image': !!props.config.backgroundImage,
-    'widget-section--empty': !props.config.children?.length
-  }
-])
+    'widget-section--empty': !props.config.children?.length,
+  },
+]);
 
 // Responsive CSS custom properties
 const responsiveVars = computed(() => ({
-  '--section-pt-mobile': typeof props.config.paddingTop === 'object'
-    ? props.config.paddingTop.mobile || '2rem'
-    : '2rem',
-  '--section-pt-tablet': typeof props.config.paddingTop === 'object'
-    ? props.config.paddingTop.tablet || '3rem'
-    : '3rem',
+  '--section-pt-mobile':
+    typeof props.config.paddingTop === 'object' ? props.config.paddingTop.mobile || '2rem' : '2rem',
+  '--section-pt-tablet':
+    typeof props.config.paddingTop === 'object' ? props.config.paddingTop.tablet || '3rem' : '3rem',
   '--section-pt-desktop': paddingTop.value,
-  '--section-pb-mobile': typeof props.config.paddingBottom === 'object'
-    ? props.config.paddingBottom.mobile || '2rem'
-    : '2rem',
-  '--section-pb-tablet': typeof props.config.paddingBottom === 'object'
-    ? props.config.paddingBottom.tablet || '3rem'
-    : '3rem',
-  '--section-pb-desktop': paddingBottom.value
-}))
+  '--section-pb-mobile':
+    typeof props.config.paddingBottom === 'object'
+      ? props.config.paddingBottom.mobile || '2rem'
+      : '2rem',
+  '--section-pb-tablet':
+    typeof props.config.paddingBottom === 'object'
+      ? props.config.paddingBottom.tablet || '3rem'
+      : '3rem',
+  '--section-pb-desktop': paddingBottom.value,
+}));
 
 function handleChildSelect(widget: WidgetBase) {
-  emit('select-child', widget.id)
+  emit('select-child', widget.id);
 }
 
 function handleAddWidget(index: number) {
-  emit('add-widget', index)
+  emit('add-widget', index);
 }
 </script>
 
@@ -108,14 +108,9 @@ function handleAddWidget(index: number) {
     <div class="widget-section__content">
       <!-- Render children -->
       <template v-for="(child, index) in config.children" :key="child.id">
-        <div 
-          class="widget-section__item"
-          @click.stop="handleChildSelect(child)"
-        >
+        <div class="widget-section__item" @click.stop="handleChildSelect(child)">
           <slot name="widget" :widget="child" :index="index">
-            <div class="widget-section__placeholder">
-              Widget: {{ child.type }}
-            </div>
+            <div class="widget-section__placeholder">Widget: {{ child.type }}</div>
           </slot>
         </div>
       </template>
@@ -126,7 +121,13 @@ function handleAddWidget(index: number) {
         class="widget-section__empty"
         @click="handleAddWidget(0)"
       >
-        <svg class="widget-section__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <svg
+          class="widget-section__empty-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
           <path d="M12 5v14m-7-7h14" />
         </svg>
         <span class="widget-section__empty-text">Widget zur Section hinzufügen</span>

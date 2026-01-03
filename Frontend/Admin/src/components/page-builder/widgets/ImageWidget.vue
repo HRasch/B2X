@@ -3,40 +3,40 @@
  * ImageWidget - Image Content Widget
  * Phase 1 MVP
  */
-import { computed, ref } from 'vue'
-import type { ImageWidgetConfig, ResponsiveValue } from '@/types/widgets'
+import { computed, ref } from 'vue';
+import type { ImageWidgetConfig, ResponsiveValue } from '@/types/widgets';
 
 interface Props {
-  config: ImageWidgetConfig
-  isEditing?: boolean
+  config: ImageWidgetConfig;
+  isEditing?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isEditing: false
-})
+  isEditing: false,
+});
 
 const emit = defineEmits<{
-  (e: 'update:config', config: Partial<ImageWidgetConfig>): void
-}>()
+  (e: 'update:config', config: Partial<ImageWidgetConfig>): void;
+}>();
 
-const isLoaded = ref(false)
-const hasError = ref(false)
+const isLoaded = ref(false);
+const hasError = ref(false);
 
 // Resolve responsive value
 function resolveResponsive<T>(value: ResponsiveValue<T> | T | undefined, fallback: T): T {
-  if (!value) return fallback
+  if (!value) return fallback;
   if (typeof value === 'object' && 'desktop' in value) {
-    return (value as ResponsiveValue<T>).desktop ?? fallback
+    return (value as ResponsiveValue<T>).desktop ?? fallback;
   }
-  return value as T
+  return value as T;
 }
 
 const imageStyle = computed(() => ({
   width: resolveResponsive(props.config.width, '100%'),
   height: resolveResponsive(props.config.height, 'auto'),
   objectFit: props.config.objectFit || 'cover',
-  objectPosition: props.config.objectPosition || 'center'
-}))
+  objectPosition: props.config.objectPosition || 'center',
+}));
 
 const containerClass = computed(() => [
   'widget-image',
@@ -44,29 +44,29 @@ const containerClass = computed(() => [
   {
     'widget-image--editing': props.isEditing,
     'widget-image--loading': !isLoaded.value && !hasError.value,
-    'widget-image--error': hasError.value
-  }
-])
+    'widget-image--error': hasError.value,
+  },
+]);
 
 const roundedClass = computed(() => {
-  const rounded = props.config.rounded || 'none'
+  const rounded = props.config.rounded || 'none';
   return {
-    'none': 'rounded-none',
-    'sm': 'rounded-sm',
-    'md': 'rounded-md',
-    'lg': 'rounded-lg',
-    'full': 'rounded-full'
-  }[rounded]
-})
+    none: 'rounded-none',
+    sm: 'rounded-sm',
+    md: 'rounded-md',
+    lg: 'rounded-lg',
+    full: 'rounded-full',
+  }[rounded];
+});
 
 function handleLoad() {
-  isLoaded.value = true
-  hasError.value = false
+  isLoaded.value = true;
+  hasError.value = false;
 }
 
 function handleError() {
-  hasError.value = true
-  isLoaded.value = true
+  hasError.value = true;
+  isLoaded.value = true;
 }
 
 function handleImageSelect() {
@@ -94,7 +94,13 @@ function handleImageSelect() {
         class="widget-image__placeholder"
         @click="handleImageSelect"
       >
-        <svg class="widget-image__placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <svg
+          class="widget-image__placeholder-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
           <rect x="3" y="3" width="18" height="18" rx="2" />
           <circle cx="8.5" cy="8.5" r="1.5" />
           <path d="M21 15l-5-5L5 21" />
@@ -104,7 +110,13 @@ function handleImageSelect() {
 
       <!-- Error state -->
       <div v-else-if="hasError" class="widget-image__error">
-        <svg class="widget-image__error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <svg
+          class="widget-image__error-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
           <circle cx="12" cy="12" r="10" />
           <path d="M12 8v4m0 4h.01" />
         </svg>
@@ -165,8 +177,12 @@ function handleImageSelect() {
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Placeholder for editing */
@@ -233,11 +249,21 @@ function handleImageSelect() {
 }
 
 /* Rounded variants */
-.rounded-none { border-radius: 0; }
-.rounded-sm { border-radius: 0.125rem; }
-.rounded-md { border-radius: 0.375rem; }
-.rounded-lg { border-radius: 0.5rem; }
-.rounded-full { border-radius: 9999px; }
+.rounded-none {
+  border-radius: 0;
+}
+.rounded-sm {
+  border-radius: 0.125rem;
+}
+.rounded-md {
+  border-radius: 0.375rem;
+}
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
 
 /* Editing mode */
 .widget-image--editing {

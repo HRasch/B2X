@@ -3,77 +3,76 @@
  * GridWidget - Flexible Grid Layout Widget
  * Phase 1 MVP
  */
-import { computed, provide, readonly } from 'vue'
-import type { GridWidgetConfig, ResponsiveValue, WidgetBase } from '@/types/widgets'
+import { computed, provide, readonly } from 'vue';
+import type { GridWidgetConfig, ResponsiveValue, WidgetBase } from '@/types/widgets';
 
 interface Props {
-  config: GridWidgetConfig
-  isEditing?: boolean
+  config: GridWidgetConfig;
+  isEditing?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isEditing: false
-})
+  isEditing: false,
+});
 
 const emit = defineEmits<{
-  (e: 'update:config', config: Partial<GridWidgetConfig>): void
-  (e: 'select-child', widgetId: string): void
-  (e: 'add-widget', index: number): void
-}>()
+  (e: 'update:config', config: Partial<GridWidgetConfig>): void;
+  (e: 'select-child', widgetId: string): void;
+  (e: 'add-widget', index: number): void;
+}>();
 
 // Provide editing context to children
-provide('isEditing', readonly(props.isEditing))
+provide('isEditing', readonly(props.isEditing));
 
 // Resolve responsive value
 function resolveResponsive<T>(value: ResponsiveValue<T> | T | undefined, fallback: T): T {
-  if (!value) return fallback
+  if (!value) return fallback;
   if (typeof value === 'object' && 'desktop' in value) {
-    return (value as ResponsiveValue<T>).desktop ?? fallback
+    return (value as ResponsiveValue<T>).desktop ?? fallback;
   }
-  return value as T
+  return value as T;
 }
 
-const columns = computed(() => resolveResponsive(props.config.columns, 3))
-const gap = computed(() => resolveResponsive(props.config.gap, '1.5rem'))
+const columns = computed(() => resolveResponsive(props.config.columns, 3));
+const gap = computed(() => resolveResponsive(props.config.gap, '1.5rem'));
 
 const gridStyle = computed(() => ({
   display: 'grid',
   gridTemplateColumns: `repeat(${columns.value}, minmax(0, 1fr))`,
   gap: gap.value,
   alignItems: props.config.alignItems || 'stretch',
-  justifyContent: props.config.justifyContent || 'start'
-}))
+  justifyContent: props.config.justifyContent || 'start',
+}));
 
 const containerClass = computed(() => [
   'widget-grid',
   {
     'widget-grid--editing': props.isEditing,
-    'widget-grid--empty': !props.config.children?.length
-  }
-])
+    'widget-grid--empty': !props.config.children?.length,
+  },
+]);
 
 // Responsive CSS custom properties
 const responsiveVars = computed(() => ({
   '--grid-cols-mobile': resolveResponsive(props.config.columns, 1),
-  '--grid-cols-tablet': typeof props.config.columns === 'object' 
-    ? props.config.columns.tablet || 2 
-    : props.config.columns || 2,
+  '--grid-cols-tablet':
+    typeof props.config.columns === 'object'
+      ? props.config.columns.tablet || 2
+      : props.config.columns || 2,
   '--grid-cols-desktop': columns.value,
-  '--grid-gap-mobile': typeof props.config.gap === 'object'
-    ? props.config.gap.mobile || '1rem'
-    : '1rem',
-  '--grid-gap-tablet': typeof props.config.gap === 'object'
-    ? props.config.gap.tablet || '1.5rem'
-    : '1.5rem',
-  '--grid-gap-desktop': gap.value
-}))
+  '--grid-gap-mobile':
+    typeof props.config.gap === 'object' ? props.config.gap.mobile || '1rem' : '1rem',
+  '--grid-gap-tablet':
+    typeof props.config.gap === 'object' ? props.config.gap.tablet || '1.5rem' : '1.5rem',
+  '--grid-gap-desktop': gap.value,
+}));
 
 function handleChildSelect(widget: WidgetBase) {
-  emit('select-child', widget.id)
+  emit('select-child', widget.id);
 }
 
 function handleAddWidget(index: number) {
-  emit('add-widget', index)
+  emit('add-widget', index);
 }
 </script>
 
@@ -82,15 +81,10 @@ function handleAddWidget(index: number) {
     <div class="widget-grid__container" :style="gridStyle">
       <!-- Render children -->
       <template v-for="(child, index) in config.children" :key="child.id">
-        <div 
-          class="widget-grid__item"
-          @click.stop="handleChildSelect(child)"
-        >
+        <div class="widget-grid__item" @click.stop="handleChildSelect(child)">
           <!-- Child widget slot - parent will render appropriate component -->
           <slot name="widget" :widget="child" :index="index">
-            <div class="widget-grid__placeholder">
-              Widget: {{ child.type }}
-            </div>
+            <div class="widget-grid__placeholder">Widget: {{ child.type }}</div>
           </slot>
         </div>
       </template>
@@ -101,7 +95,13 @@ function handleAddWidget(index: number) {
         class="widget-grid__empty"
         @click="handleAddWidget(0)"
       >
-        <svg class="widget-grid__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <svg
+          class="widget-grid__empty-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
           <path d="M12 5v14m-7-7h14" />
         </svg>
         <span class="widget-grid__empty-text">Widget hinzufügen</span>

@@ -3,33 +3,33 @@
  * TextWidget - Rich-Text Content Widget
  * Phase 1 MVP
  */
-import { computed } from 'vue'
-import type { TextWidgetConfig, ResponsiveValue, Alignment } from '@/types/widgets'
+import { computed } from 'vue';
+import type { TextWidgetConfig, ResponsiveValue, Alignment } from '@/types/widgets';
 
 interface Props {
-  config: TextWidgetConfig
-  isEditing?: boolean
+  config: TextWidgetConfig;
+  isEditing?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isEditing: false
-})
+  isEditing: false,
+});
 
 const emit = defineEmits<{
-  (e: 'update:config', config: Partial<TextWidgetConfig>): void
-}>()
+  (e: 'update:config', config: Partial<TextWidgetConfig>): void;
+}>();
 
 // Resolve responsive value for current breakpoint (simplified - use CSS for real responsive)
 function resolveResponsive<T>(value: ResponsiveValue<T> | T | undefined, fallback: T): T {
-  if (!value) return fallback
+  if (!value) return fallback;
   if (typeof value === 'object' && 'desktop' in value) {
-    return (value as ResponsiveValue<T>).desktop ?? fallback
+    return (value as ResponsiveValue<T>).desktop ?? fallback;
   }
-  return value as T
+  return value as T;
 }
 
-const alignment = computed(() => resolveResponsive(props.config.alignment, 'left' as Alignment))
-const fontSize = computed(() => resolveResponsive(props.config.fontSize, '1rem'))
+const alignment = computed(() => resolveResponsive(props.config.alignment, 'left' as Alignment));
+const fontSize = computed(() => resolveResponsive(props.config.fontSize, '1rem'));
 
 const containerStyle = computed(() => ({
   textAlign: alignment.value,
@@ -37,20 +37,20 @@ const containerStyle = computed(() => ({
   fontWeight: props.config.fontWeight || 'normal',
   lineHeight: props.config.lineHeight || '1.6',
   color: props.config.textColor || 'inherit',
-  maxWidth: props.config.maxWidth || 'none'
-}))
+  maxWidth: props.config.maxWidth || 'none',
+}));
 
 const containerClass = computed(() => [
   'widget-text',
   `text-${alignment.value}`,
   {
-    'widget-text--editing': props.isEditing
-  }
-])
+    'widget-text--editing': props.isEditing,
+  },
+]);
 
 function handleContentUpdate(event: Event) {
-  const target = event.target as HTMLElement
-  emit('update:config', { content: target.innerHTML })
+  const target = event.target as HTMLElement;
+  emit('update:config', { content: target.innerHTML });
 }
 </script>
 
@@ -65,13 +65,9 @@ function handleContentUpdate(event: Event) {
       @blur="handleContentUpdate"
       @keydown.enter.prevent
     />
-    
+
     <!-- Display mode: static HTML -->
-    <div
-      v-else
-      class="widget-text__content"
-      v-html="config.content"
-    />
+    <div v-else class="widget-text__content" v-html="config.content" />
   </div>
 </template>
 
@@ -138,8 +134,14 @@ function handleContentUpdate(event: Event) {
 
 /* Responsive alignment */
 @media (max-width: 768px) {
-  .widget-text.text-left { text-align: left; }
-  .widget-text.text-center { text-align: center; }
-  .widget-text.text-right { text-align: right; }
+  .widget-text.text-left {
+    text-align: left;
+  }
+  .widget-text.text-center {
+    text-align: center;
+  }
+  .widget-text.text-right {
+    text-align: right;
+  }
 }
 </style>

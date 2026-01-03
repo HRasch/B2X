@@ -3,32 +3,32 @@
  * DividerWidget - Horizontal Divider Widget
  * Phase 1 MVP
  */
-import { computed } from 'vue'
-import type { DividerWidgetConfig } from '@/types/widgets'
+import { computed } from 'vue';
+import type { DividerWidgetConfig } from '@/types/widgets';
 
 interface Props {
-  config: DividerWidgetConfig
-  isEditing?: boolean
+  config: DividerWidgetConfig;
+  isEditing?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isEditing: false
-})
+  isEditing: false,
+});
 
 const dividerStyle = computed(() => ({
   borderTopWidth: props.config.thickness || '1px',
   borderTopStyle: props.config.style || 'solid',
   borderTopColor: props.config.color || '#e5e7eb',
-  width: props.config.width || '100%'
-}))
+  width: props.config.width || '100%',
+}));
 
 const containerClass = computed(() => [
   'widget-divider',
   `widget-divider--${props.config.alignment || 'center'}`,
   {
-    'widget-divider--editing': props.isEditing
-  }
-])
+    'widget-divider--editing': props.isEditing,
+  },
+]);
 </script>
 
 <template>
