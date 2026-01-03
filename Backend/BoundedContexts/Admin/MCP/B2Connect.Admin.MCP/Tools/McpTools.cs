@@ -55,12 +55,12 @@ Format your response as a structured design document.
             "openai", // Default provider name for consumption tracking
             async () =>
             {
-                var provider = await _providerSelector.GetProviderForTenantAsync(_tenantContext.TenantId, "openai");
-                return await provider.ExecuteChatCompletionAsync(
+                return await _providerSelector.ExecuteChatCompletionAsync(
                     _tenantContext.TenantId,
                     "gpt-4",
                     prompt,
-                    userMessage);
+                    userMessage,
+                    "openai");
             });
 
         return aiResponse.Response?.Content ?? "Failed to generate page design";
@@ -136,12 +136,12 @@ Format as a complete email template specification.
             "openai",
             async () =>
             {
-                var provider = await _providerSelector.GetProviderForTenantAsync(_tenantContext.TenantId, "openai");
-                return await provider.ExecuteChatCompletionAsync(
+                return await _providerSelector.ExecuteChatCompletionAsync(
                     _tenantContext.TenantId,
                     "gpt-4",
                     prompt,
-                    userMessage);
+                    userMessage,
+                    "openai");
             });
 
         return aiResponse.Response?.Content ?? "Failed to generate email template";
@@ -259,12 +259,12 @@ Please provide:
             "openai",
             async () =>
             {
-                var provider = await _providerSelector.GetProviderForTenantAsync(_tenantContext.TenantId, "openai");
-                return await provider.ExecuteChatCompletionAsync(
+                return await _providerSelector.ExecuteChatCompletionAsync(
                     _tenantContext.TenantId,
                     "gpt-4",
                     prompt,
-                    userMessage);
+                    userMessage,
+                    "openai");
             });
 
         return aiResponse.Response?.Content ?? "Failed to analyze user management task";
@@ -342,12 +342,12 @@ Format as an optimization report with before/after comparisons.
             "openai",
             async () =>
             {
-                var provider = await _providerSelector.GetProviderForTenantAsync(_tenantContext.TenantId, "openai");
-                return await provider.ExecuteChatCompletionAsync(
+                return await _providerSelector.ExecuteChatCompletionAsync(
                     _tenantContext.TenantId,
                     "gpt-4",
                     prompt,
-                    userMessage);
+                    userMessage,
+                    "openai");
             });
 
         return aiResponse.Response?.Content ?? "Failed to optimize content";

@@ -25,6 +25,7 @@ public interface IAIProvider
         string model,
         string prompt,
         string userMessage,
+        DataSanitizationService sanitizationService,
         CancellationToken cancellationToken = default);
 }
 
@@ -59,8 +60,33 @@ public class OpenAiProvider : IAIProvider
         string model,
         string prompt,
         string userMessage,
+        DataSanitizationService sanitizationService,
         CancellationToken cancellationToken = default)
     {
+        // Sanitize user input before sending to external AI provider
+        var promptValidation = sanitizationService.ValidateContent(prompt, tenantId);
+        var messageValidation = sanitizationService.ValidateContent(userMessage, tenantId);
+
+        // Log sanitization results
+        if (promptValidation.DetectedPatterns.Any() || messageValidation.DetectedPatterns.Any())
+        {
+            _logger.LogInformation("AI request sanitized for tenant {TenantId}: Prompt patterns: {PromptPatterns}, Message patterns: {MessagePatterns}",
+                tenantId,
+                string.Join(", ", promptValidation.DetectedPatterns),
+                string.Join(", ", messageValidation.DetectedPatterns));
+        }
+
+        // Block high-risk requests
+        if (promptValidation.RiskLevel == RiskLevel.High || messageValidation.RiskLevel == RiskLevel.High)
+        {
+            _logger.LogWarning("Blocked high-risk AI request for tenant {TenantId} due to sensitive data detection", tenantId);
+            throw new InvalidOperationException("Request contains sensitive data that cannot be sent to external AI providers");
+        }
+
+        // Get sanitized content
+        var sanitizedPrompt = sanitizationService.SanitizeContent(prompt, tenantId).SanitizedContent;
+        var sanitizedMessage = sanitizationService.SanitizeContent(userMessage, tenantId).SanitizedContent;
+
         var apiKey = await GetApiKeyAsync(tenantId, ProviderName);
 
         // Create OpenAI client using Microsoft.Extensions.AI
@@ -69,8 +95,8 @@ public class OpenAiProvider : IAIProvider
         // Add tenant-specific system prompt
         var messages = new List<ChatMessage>
         {
-            new ChatMessage(ChatRole.System, prompt),
-            new ChatMessage(ChatRole.User, userMessage)
+            new ChatMessage(ChatRole.System, sanitizedPrompt),
+            new ChatMessage(ChatRole.User, sanitizedMessage)
         };
 
         var response = await client.CompleteAsync(messages, new ChatOptions(), cancellationToken);
@@ -148,8 +174,33 @@ public class AnthropicProvider : IAIProvider
         string model,
         string prompt,
         string userMessage,
+        DataSanitizationService sanitizationService,
         CancellationToken cancellationToken = default)
     {
+        // Sanitize user input before sending to external AI provider
+        var promptValidation = sanitizationService.ValidateContent(prompt, tenantId);
+        var messageValidation = sanitizationService.ValidateContent(userMessage, tenantId);
+
+        // Log sanitization results
+        if (promptValidation.DetectedPatterns.Any() || messageValidation.DetectedPatterns.Any())
+        {
+            _logger.LogInformation("AI request sanitized for tenant {TenantId}: Prompt patterns: {PromptPatterns}, Message patterns: {MessagePatterns}",
+                tenantId,
+                string.Join(", ", promptValidation.DetectedPatterns),
+                string.Join(", ", messageValidation.DetectedPatterns));
+        }
+
+        // Block high-risk requests
+        if (promptValidation.RiskLevel == RiskLevel.High || messageValidation.RiskLevel == RiskLevel.High)
+        {
+            _logger.LogWarning("Blocked high-risk AI request for tenant {TenantId} due to sensitive data detection", tenantId);
+            throw new InvalidOperationException("Request contains sensitive data that cannot be sent to external AI providers");
+        }
+
+        // Get sanitized content
+        var sanitizedPrompt = sanitizationService.SanitizeContent(prompt, tenantId).SanitizedContent;
+        var sanitizedMessage = sanitizationService.SanitizeContent(userMessage, tenantId).SanitizedContent;
+
         var apiKey = await GetApiKeyAsync(tenantId, ProviderName);
 
         // Create Anthropic client using Microsoft.Extensions.AI
@@ -157,8 +208,8 @@ public class AnthropicProvider : IAIProvider
 
         var messages = new List<ChatMessage>
         {
-            new ChatMessage(ChatRole.System, prompt),
-            new ChatMessage(ChatRole.User, userMessage)
+            new ChatMessage(ChatRole.System, sanitizedPrompt),
+            new ChatMessage(ChatRole.User, sanitizedMessage)
         };
 
         var response = await client.CompleteAsync(messages, new ChatOptions(), cancellationToken);
@@ -233,8 +284,33 @@ public class AzureOpenAiProvider : IAIProvider
         string model,
         string prompt,
         string userMessage,
+        DataSanitizationService sanitizationService,
         CancellationToken cancellationToken = default)
     {
+        // Sanitize user input before sending to external AI provider
+        var promptValidation = sanitizationService.ValidateContent(prompt, tenantId);
+        var messageValidation = sanitizationService.ValidateContent(userMessage, tenantId);
+
+        // Log sanitization results
+        if (promptValidation.DetectedPatterns.Any() || messageValidation.DetectedPatterns.Any())
+        {
+            _logger.LogInformation("AI request sanitized for tenant {TenantId}: Prompt patterns: {PromptPatterns}, Message patterns: {MessagePatterns}",
+                tenantId,
+                string.Join(", ", promptValidation.DetectedPatterns),
+                string.Join(", ", messageValidation.DetectedPatterns));
+        }
+
+        // Block high-risk requests
+        if (promptValidation.RiskLevel == RiskLevel.High || messageValidation.RiskLevel == RiskLevel.High)
+        {
+            _logger.LogWarning("Blocked high-risk AI request for tenant {TenantId} due to sensitive data detection", tenantId);
+            throw new InvalidOperationException("Request contains sensitive data that cannot be sent to external AI providers");
+        }
+
+        // Get sanitized content
+        var sanitizedPrompt = sanitizationService.SanitizeContent(prompt, tenantId).SanitizedContent;
+        var sanitizedMessage = sanitizationService.SanitizeContent(userMessage, tenantId).SanitizedContent;
+
         var apiKey = await GetApiKeyAsync(tenantId, ProviderName);
         var endpoint = await GetEndpointAsync(tenantId);
 
@@ -244,8 +320,8 @@ public class AzureOpenAiProvider : IAIProvider
 
         var messages = new List<ChatMessage>
         {
-            new ChatMessage(ChatRole.System, prompt),
-            new ChatMessage(ChatRole.User, userMessage)
+            new ChatMessage(ChatRole.System, sanitizedPrompt),
+            new ChatMessage(ChatRole.User, sanitizedMessage)
         };
 
         var response = await client.CompleteAsync(messages, new ChatOptions(), cancellationToken);
@@ -341,8 +417,33 @@ public class OllamaProvider : IAIProvider
         string model,
         string prompt,
         string userMessage,
+        DataSanitizationService sanitizationService,
         CancellationToken cancellationToken = default)
     {
+        // Sanitize user input before sending to external AI provider
+        var promptValidation = sanitizationService.ValidateContent(prompt, tenantId);
+        var messageValidation = sanitizationService.ValidateContent(userMessage, tenantId);
+
+        // Log sanitization results
+        if (promptValidation.DetectedPatterns.Any() || messageValidation.DetectedPatterns.Any())
+        {
+            _logger.LogInformation("AI request sanitized for tenant {TenantId}: Prompt patterns: {PromptPatterns}, Message patterns: {MessagePatterns}",
+                tenantId,
+                string.Join(", ", promptValidation.DetectedPatterns),
+                string.Join(", ", messageValidation.DetectedPatterns));
+        }
+
+        // Block high-risk requests
+        if (promptValidation.RiskLevel == RiskLevel.High || messageValidation.RiskLevel == RiskLevel.High)
+        {
+            _logger.LogWarning("Blocked high-risk AI request for tenant {TenantId} due to sensitive data detection", tenantId);
+            throw new InvalidOperationException("Request contains sensitive data that cannot be sent to external AI providers");
+        }
+
+        // Get sanitized content
+        var sanitizedPrompt = sanitizationService.SanitizeContent(prompt, tenantId).SanitizedContent;
+        var sanitizedMessage = sanitizationService.SanitizeContent(userMessage, tenantId).SanitizedContent;
+
         var endpoint = GetEndpoint(tenantId);
 
         // Create Ollama client using OllamaSharp with Microsoft.Extensions.AI
@@ -351,15 +452,15 @@ public class OllamaProvider : IAIProvider
 
         var messages = new List<ChatMessage>
         {
-            new ChatMessage(ChatRole.System, prompt),
-            new ChatMessage(ChatRole.User, userMessage)
+            new ChatMessage(ChatRole.System, sanitizedPrompt),
+            new ChatMessage(ChatRole.User, sanitizedMessage)
         };
 
         var response = await chatClient.CompleteAsync(messages, new ChatOptions(), cancellationToken);
 
         // Note: Ollama doesn't provide token usage in the same way as cloud providers
         // We estimate based on input/output length for consumption monitoring
-        var estimatedTokens = EstimateTokenCount(prompt, userMessage, response.Message.Text ?? string.Empty);
+        var estimatedTokens = EstimateTokenCount(sanitizedPrompt, sanitizedMessage, response.Message.Text ?? string.Empty);
 
         return new AiResponse
         {
@@ -435,8 +536,33 @@ public class GitHubModelsProvider : IAIProvider
         string model,
         string prompt,
         string userMessage,
+        DataSanitizationService sanitizationService,
         CancellationToken cancellationToken = default)
     {
+        // Sanitize user input before sending to external AI provider
+        var promptValidation = sanitizationService.ValidateContent(prompt, tenantId);
+        var messageValidation = sanitizationService.ValidateContent(userMessage, tenantId);
+
+        // Log sanitization results
+        if (promptValidation.DetectedPatterns.Any() || messageValidation.DetectedPatterns.Any())
+        {
+            _logger.LogInformation("AI request sanitized for tenant {TenantId}: Prompt patterns: {PromptPatterns}, Message patterns: {MessagePatterns}",
+                tenantId,
+                string.Join(", ", promptValidation.DetectedPatterns),
+                string.Join(", ", messageValidation.DetectedPatterns));
+        }
+
+        // Block high-risk requests
+        if (promptValidation.RiskLevel == RiskLevel.High || messageValidation.RiskLevel == RiskLevel.High)
+        {
+            _logger.LogWarning("Blocked high-risk AI request for tenant {TenantId} due to sensitive data detection", tenantId);
+            throw new InvalidOperationException("Request contains sensitive data that cannot be sent to external AI providers");
+        }
+
+        // Get sanitized content
+        var sanitizedPrompt = sanitizationService.SanitizeContent(prompt, tenantId).SanitizedContent;
+        var sanitizedMessage = sanitizationService.SanitizeContent(userMessage, tenantId).SanitizedContent;
+
         var apiKey = await GetApiKeyAsync(tenantId, ProviderName);
 
         // GitHub Models uses OpenAI-compatible API
@@ -451,8 +577,8 @@ public class GitHubModelsProvider : IAIProvider
 
         var messages = new List<ChatMessage>
         {
-            new ChatMessage(ChatRole.System, prompt),
-            new ChatMessage(ChatRole.User, userMessage)
+            new ChatMessage(ChatRole.System, sanitizedPrompt),
+            new ChatMessage(ChatRole.User, sanitizedMessage)
         };
 
         var response = await client.CompleteAsync(messages, new ChatOptions(), cancellationToken);

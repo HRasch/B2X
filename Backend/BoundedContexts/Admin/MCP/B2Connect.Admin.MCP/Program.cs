@@ -62,6 +62,10 @@ builder.Services.AddSingleton<AzureOpenAiProvider>();
 builder.Services.AddSingleton<OllamaProvider>();
 builder.Services.AddSingleton<GitHubModelsProvider>();
 
+// Data Sanitization Service (OWASP compliance)
+builder.Services.Configure<DataSanitizationOptions>(builder.Configuration.GetSection("DataSanitization"));
+builder.Services.AddSingleton<DataSanitizationService>();
+
 // AI Provider Selector
 builder.Services.AddSingleton<AiProviderSelector>();
 

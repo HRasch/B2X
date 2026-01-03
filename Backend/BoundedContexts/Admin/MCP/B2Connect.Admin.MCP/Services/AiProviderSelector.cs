@@ -13,6 +13,7 @@ public class AiProviderSelector
     private readonly AzureOpenAiProvider _azureOpenAiProvider;
     private readonly OllamaProvider _ollamaProvider;
     private readonly GitHubModelsProvider _gitHubModelsProvider;
+    private readonly DataSanitizationService _sanitizationService;
     private readonly ILogger<AiProviderSelector> _logger;
 
     public AiProviderSelector(
@@ -21,6 +22,7 @@ public class AiProviderSelector
         AzureOpenAiProvider azureOpenAiProvider,
         OllamaProvider ollamaProvider,
         GitHubModelsProvider gitHubModelsProvider,
+        DataSanitizationService sanitizationService,
         ILogger<AiProviderSelector> logger)
     {
         _openAiProvider = openAiProvider;
@@ -28,6 +30,7 @@ public class AiProviderSelector
         _azureOpenAiProvider = azureOpenAiProvider;
         _ollamaProvider = ollamaProvider;
         _gitHubModelsProvider = gitHubModelsProvider;
+        _sanitizationService = sanitizationService;
         _logger = logger;
     }
 
@@ -53,10 +56,38 @@ public class AiProviderSelector
     }
 
     /// <summary>
-    /// Get all available providers
+    /// Execute AI chat completion with automatic sanitization and provider selection
     /// </summary>
-    public IEnumerable<IAIProvider> GetAllProviders()
+    public async Task<AiResponse> ExecuteChatCompletionAsync(
+        string tenantId,
+        string model,
+        string prompt,
+        string userMessage,
+        string preferredProvider = null,
+        CancellationToken cancellationToken = default)
     {
-        return new IAIProvider[] { _openAiProvider, _anthropicProvider, _azureOpenAiProvider, _ollamaProvider, _gitHubModelsProvider };
+        var provider = await GetProviderForTenantAsync(tenantId, preferredProvider);
+
+        try
+        {
+            return await provider.ExecuteChatCompletionAsync(
+                tenantId,
+                model,
+                prompt,
+                userMessage,
+                _sanitizationService,
+                cancellationToken);
+        }
+        catch (InvalidOperationException ex) when (ex.Message.Contains("sensitive data"))
+        {
+            // Re-throw sanitization-related exceptions
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "AI provider {Provider} failed for tenant {TenantId}",
+                provider.ProviderName, tenantId);
+            throw new InvalidOperationException($"AI provider {provider.ProviderName} failed: {ex.Message}", ex);
+        }
     }
 }

@@ -88,6 +88,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-021` | enventa Trade ERP | `.ai/knowledgebase/enventa-trade-erp.md` | Active |
 | `KB-022` | GitHub Copilot Customization | `.ai/knowledgebase/tools-and-tech/github-copilot-customization.md` | Active |
 | `KB-023` | Email Template Best Practices | `.ai/knowledgebase/best-practices/email-templates.md` | Active |
+| `KB-SECURITY-DATA-SANITIZATION` | Data Sanitization for AI Providers | `.ai/knowledgebase/security/data-sanitization.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 
 ### Knowledgebase Subdirectories
