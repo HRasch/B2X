@@ -52,6 +52,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-023` | ERP Plugin Architecture | `.ai/decisions/ADR-023-erp-plugin-architecture.md` | Proposed |
 | `ADR-024` | Scheduler Job Monitoring | `.ai/decisions/ADR-024-scheduler-job-monitoring.md` | Accepted |
 | `ADR-025` | Gateway-Service Communication Strategy | `.ai/decisions/ADR-025-gateway-service-communication-strategy.md` | Accepted |
+| `ADR-026` | BMEcat Catalog Import Architecture | `.ai/decisions/ADR-026-bmecat-catalog-import-architecture.md` | Proposed |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -141,6 +142,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `REQ-001` | Monitoring for Scheduler Jobs | `.ai/requirements/REQ-001-monitoring-scheduler-jobs.md` | Draft |
+| `REQ-002` | BMEcat Katalog Import | `.ai/requirements/REQ-002-bmecat-import.md` | Draft |
 
 ---
 

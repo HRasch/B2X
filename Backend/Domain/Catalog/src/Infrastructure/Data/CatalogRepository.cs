@@ -1,0 +1,135 @@
+using B2Connect.Catalog.Core.Entities;
+using B2Connect.Catalog.Core.Interfaces;
+using B2Connect.Catalog.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
+namespace B2Connect.Catalog.Infrastructure.Data;
+
+/// <summary>
+/// Repository for catalog import operations
+/// </summary>
+public class CatalogImportRepository : ICatalogImportRepository
+{
+    private readonly CatalogDbContext _context;
+    private readonly ILogger<CatalogImportRepository> _logger;
+
+    public CatalogImportRepository(CatalogDbContext context, ILogger<CatalogImportRepository> logger)
+    {
+        _context = context;
+        _logger = logger;
+    }
+
+    public async Task<CatalogImport?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    {
+        return await _context.CatalogImports
+            .Include(x => x.Products)
+            .FirstOrDefaultAsync(x => x.Id == id, ct);
+    }
+
+    public async Task<CatalogImport?> GetByCompositeKeyAsync(
+        Guid tenantId,
+        string supplierId,
+        string catalogId,
+        DateTime importTimestamp,
+        CancellationToken ct = default)
+    {
+        return await _context.CatalogImports
+            .FirstOrDefaultAsync(x =>
+                x.TenantId == tenantId &&
+                x.SupplierId == supplierId &&
+                x.CatalogId == catalogId &&
+                x.ImportTimestamp == importTimestamp,
+                ct);
+    }
+
+    public async Task<IEnumerable<CatalogImport>> GetByTenantAsync(Guid tenantId, CancellationToken ct = default)
+    {
+        return await _context.CatalogImports
+            .Where(x => x.TenantId == tenantId)
+            .OrderByDescending(x => x.CreatedAt)
+            .ToListAsync(ct);
+    }
+
+    public async Task AddAsync(CatalogImport catalogImport, CancellationToken ct = default)
+    {
+        await _context.CatalogImports.AddAsync(catalogImport, ct);
+        await _context.SaveChangesAsync(ct);
+
+        _logger.LogInformation(
+            "Created catalog import {ImportId} for tenant {TenantId}, supplier {SupplierId}",
+            catalogImport.Id, catalogImport.TenantId, catalogImport.SupplierId);
+    }
+
+    public async Task UpdateAsync(CatalogImport catalogImport, CancellationToken ct = default)
+    {
+        _context.CatalogImports.Update(catalogImport);
+        await _context.SaveChangesAsync(ct);
+
+        _logger.LogInformation(
+            "Updated catalog import {ImportId}, status: {Status}",
+            catalogImport.Id, catalogImport.Status);
+    }
+
+    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
+    {
+        var catalogImport = await GetByIdAsync(id, ct);
+        if (catalogImport != null)
+        {
+            _context.CatalogImports.Remove(catalogImport);
+            await _context.SaveChangesAsync(ct);
+
+            _logger.LogInformation(
+                "Deleted catalog import {ImportId} with {ProductCount} products",
+                id, catalogImport.ProductCount);
+        }
+    }
+}
+
+/// <summary>
+/// Repository for catalog products
+/// </summary>
+public class CatalogProductRepository : ICatalogProductRepository
+{
+    private readonly CatalogDbContext _context;
+    private readonly ILogger<CatalogProductRepository> _logger;
+
+    public CatalogProductRepository(CatalogDbContext context, ILogger<CatalogProductRepository> logger)
+    {
+        _context = context;
+        _logger = logger;
+    }
+
+    public async Task<CatalogProduct?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    {
+        return await _context.CatalogProducts
+            .Include(x => x.CatalogImport)
+            .FirstOrDefaultAsync(x => x.Id == id, ct);
+    }
+
+    public async Task<IEnumerable<CatalogProduct>> GetByCatalogImportIdAsync(Guid catalogImportId, CancellationToken ct = default)
+    {
+        return await _context.CatalogProducts
+            .Where(x => x.CatalogImportId == catalogImportId)
+            .ToListAsync(ct);
+    }
+
+    public async Task AddRangeAsync(IEnumerable<CatalogProduct> products, CancellationToken ct = default)
+    {
+        await _context.CatalogProducts.AddRangeAsync(products, ct);
+        await _context.SaveChangesAsync(ct);
+
+        _logger.LogInformation("Added {Count} catalog products", products.Count());
+    }
+
+    public async Task DeleteByCatalogImportIdAsync(Guid catalogImportId, CancellationToken ct = default)
+    {
+        var products = await GetByCatalogImportIdAsync(catalogImportId, ct);
+        _context.CatalogProducts.RemoveRange(products);
+        await _context.SaveChangesAsync(ct);
+
+        _logger.LogInformation(
+            "Deleted {Count} products for catalog import {ImportId}",
+            products.Count(), catalogImportId);
+    }
+}

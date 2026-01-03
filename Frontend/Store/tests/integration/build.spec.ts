@@ -28,9 +28,10 @@ describe('Build Integration - Type Check', () => {
         stdio: 'pipe',
       });
       expect(true).toBe(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Extract meaningful error message
-      const output = error.stdout || error.stderr || error.message;
+      const err = error as any;
+      const output = err.stdout || err.stderr || err.message;
 
       // Count errors
       const errorMatches = output.match(/error TS\d+/g) || [];

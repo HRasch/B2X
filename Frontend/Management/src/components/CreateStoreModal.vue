@@ -85,8 +85,8 @@ const handleCreateStore = async () => {
 
     emit('created', newStore);
     form.value = { name: '', domain: '', tenantId: '', status: 'active' };
-  } catch (err: any) {
-    error.value = err.message || 'Failed to create store';
+  } catch (err: unknown) {
+    error.value = (err as Error).message || 'Failed to create store';
   } finally {
     loading.value = false;
   }

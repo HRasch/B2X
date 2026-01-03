@@ -233,6 +233,24 @@ public class ErpHttpClient : IErpClient, IDisposable
         }
     }
 
+    /// <summary>
+    /// Batch write customers.
+    /// </summary>
+    public async Task<BatchWriteResponse<CustomerDto>> BatchWriteCustomersAsync(
+        string tenantId,
+        BatchWriteRequest<CustomerDto> request,
+        CancellationToken ct = default)
+    {
+        using var httpRequest = CreateRequest(HttpMethod.Post, ErpApiEndpoints.CustomersBatch, tenantId);
+        httpRequest.Content = JsonContent.Create(request, options: _jsonOptions);
+
+        var response = await _httpClient.SendAsync(httpRequest, ct);
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<BatchWriteResponse<CustomerDto>>(_jsonOptions, ct)
+            ?? new BatchWriteResponse<CustomerDto>();
+    }
+
     #endregion
 
     #region Orders - Cursor Pagination
@@ -315,6 +333,24 @@ public class ErpHttpClient : IErpClient, IDisposable
         }
     }
 
+    /// <summary>
+    /// Batch write orders.
+    /// </summary>
+    public async Task<BatchWriteResponse<OrderDto>> BatchWriteOrdersAsync(
+        string tenantId,
+        BatchWriteRequest<OrderDto> request,
+        CancellationToken ct = default)
+    {
+        using var httpRequest = CreateRequest(HttpMethod.Post, ErpApiEndpoints.OrdersBatch, tenantId);
+        httpRequest.Content = JsonContent.Create(request, options: _jsonOptions);
+
+        var response = await _httpClient.SendAsync(httpRequest, ct);
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<BatchWriteResponse<OrderDto>>(_jsonOptions, ct)
+            ?? new BatchWriteResponse<OrderDto>();
+    }
+
     #endregion
 
     #region Helper Methods
@@ -342,7 +378,8 @@ public class ErpHttpClient : IErpClient, IDisposable
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+            return;
         _disposed = true;
         // HttpClient is typically managed by IHttpClientFactory, don't dispose
         GC.SuppressFinalize(this);
@@ -405,9 +442,11 @@ public interface IErpClient
     Task<CursorPageResponse<CustomerDto>> GetCustomersAsync(string tenantId, CursorPageRequest request, CancellationToken ct = default);
     Task<DeltaSyncResponse<CustomerDto>> SyncCustomersAsync(string tenantId, DeltaSyncRequest request, CancellationToken ct = default);
     IAsyncEnumerable<CustomerDto> StreamCustomersAsync(string tenantId, StreamRequest request, CancellationToken ct = default);
+    Task<BatchWriteResponse<CustomerDto>> BatchWriteCustomersAsync(string tenantId, BatchWriteRequest<CustomerDto> request, CancellationToken ct = default);
 
     // Orders
     Task<CursorPageResponse<OrderDto>> GetOrdersAsync(string tenantId, CursorPageRequest request, CancellationToken ct = default);
     Task<DeltaSyncResponse<OrderDto>> SyncOrdersAsync(string tenantId, DeltaSyncRequest request, CancellationToken ct = default);
     IAsyncEnumerable<OrderDto> StreamOrdersAsync(string tenantId, StreamRequest request, CancellationToken ct = default);
+    Task<BatchWriteResponse<OrderDto>> BatchWriteOrdersAsync(string tenantId, BatchWriteRequest<OrderDto> request, CancellationToken ct = default);
 }

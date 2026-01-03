@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- Test mocks use any */
 /* eslint-disable @typescript-eslint/no-unused-vars -- Test setup variables */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { createPinia, setActivePinia } from 'pinia';
+import { createPinia, setActivePinia, type Pinia } from 'pinia';
 import Dashboard from '@/views/Dashboard.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
@@ -10,7 +9,7 @@ import { useShopStore } from '@/stores/shop';
 import { useJobsStore } from '@/stores/jobs';
 
 describe('Dashboard.vue', () => {
-  let pinia: any;
+  let pinia: Pinia;
 
   beforeEach(() => {
     pinia = createPinia();

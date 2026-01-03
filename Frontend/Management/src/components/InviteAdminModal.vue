@@ -92,8 +92,8 @@ const handleInviteAdmin = async () => {
 
     emit('invited', newAdmin);
     form.value = { email: '', firstName: '', lastName: '', role: 'TenantAdmin' };
-  } catch (err: any) {
-    error.value = err.message || 'Failed to invite administrator';
+  } catch (err: unknown) {
+    error.value = (err as Error).message || 'Failed to invite administrator';
   } finally {
     loading.value = false;
   }

@@ -1,14 +1,20 @@
 /**
  * Users Store (Pinia)
- * @todo Refactor error handling from catch(err: any) to typed unknown pattern
+ * Properly typed error handling and API responses
  */
-/* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling */
-/* eslint-disable @typescript-eslint/no-unused-vars -- Future types for profile/address features */
 
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { userService } from '@/services/api/userService';
-import type { User, UserProfile, Address } from '@/types/user';
+import type {
+  User,
+  UserProfile,
+  Address,
+  UserApiError,
+  UserFilters,
+  UserSearchFilters,
+} from '@/types/user';
+import type { ApiError } from '@/types/api';
 
 interface _UsersState {
   users: User[];
@@ -45,8 +51,9 @@ export const useUserStore = defineStore('users', () => {
         pageSize: response.pagination.pageSize,
         total: response.pagination.total,
       };
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch users';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | UserApiError;
+      error.value = apiError.message || 'Failed to fetch users';
       console.error(error.value);
     } finally {
       loading.value = false;
@@ -61,8 +68,9 @@ export const useUserStore = defineStore('users', () => {
       const user = await userService.getUserById(userId);
       currentUser.value = user;
       return user;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch user';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | UserApiError;
+      error.value = apiError.message || 'Failed to fetch user';
       console.error(error.value);
       throw err;
     } finally {
@@ -78,8 +86,9 @@ export const useUserStore = defineStore('users', () => {
       const newUser = await userService.createUser(data);
       users.value.unshift(newUser);
       return newUser;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to create user';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | UserApiError;
+      error.value = apiError.message || 'Failed to create user';
       console.error(error.value);
       throw err;
     } finally {
@@ -101,8 +110,9 @@ export const useUserStore = defineStore('users', () => {
         currentUser.value = updated;
       }
       return updated;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to update user';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | UserApiError;
+      error.value = apiError.message || 'Failed to update user';
       console.error(error.value);
       throw err;
     } finally {
@@ -120,8 +130,9 @@ export const useUserStore = defineStore('users', () => {
       if (currentUser.value?.id === userId) {
         currentUser.value = null;
       }
-    } catch (err: any) {
-      error.value = err.message || 'Failed to delete user';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | UserApiError;
+      error.value = apiError.message || 'Failed to delete user';
       console.error(error.value);
       throw err;
     } finally {
@@ -136,8 +147,9 @@ export const useUserStore = defineStore('users', () => {
     try {
       users.value = await userService.searchUsers(query);
       return users.value;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to search users';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | UserApiError;
+      error.value = apiError.message || 'Failed to search users';
       console.error(error.value);
       throw err;
     } finally {

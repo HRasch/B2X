@@ -2,10 +2,8 @@
  * Catalog Store (Pinia)
  * State Management für Produkte, Kategorien und Marken
  *
- * @todo Refactor error handling from catch(err: any) to typed unknown pattern
- * @see https://typescript-eslint.io/rules/no-explicit-any/
+ * Properly typed error handling and API responses
  */
-/* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling, refactor in KB-STORE-TYPING sprint */
 
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
@@ -23,6 +21,8 @@ import type {
   ProductFilters,
   CategoryFilters,
   BrandFilters,
+  ApiError,
+  CatalogError,
 } from '@/types/catalog';
 
 export const useCatalogStore = defineStore('catalog', () => {
@@ -45,7 +45,7 @@ export const useCatalogStore = defineStore('catalog', () => {
   // Brands
   const brands = ref<Brand[]>([]);
   const currentBrand = ref<Brand | null>(null);
-  const brandsTotalitres = ref(0);
+  const brandsTotal = ref(0);
   const brandsPagination = ref({ skip: 0, take: 10 });
 
   // UI State
@@ -74,11 +74,11 @@ export const useCatalogStore = defineStore('catalog', () => {
   );
 
   const hasMoreCategories = computed(
-    () => categoriespagination.value.skip + categoriesPagination.value.take < categoriesTotal.value
+    () => categoriesPagination.value.skip + categoriesPagination.value.take < categoriesTotal.value
   );
 
   const hasMoreBrands = computed(
-    () => brandsPagination.value.skip + brandsPagination.value.take < brandsTotalitres.value
+    () => brandsPagination.value.skip + brandsPagination.value.take < brandsTotal.value
   );
 
   // =========================================================================
@@ -97,8 +97,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       products.value = response.items;
       productsTotal.value = response.totalCount;
       successMessage.value = null;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch products';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to fetch products';
     } finally {
       loading.value = false;
     }
@@ -109,8 +110,9 @@ export const useCatalogStore = defineStore('catalog', () => {
     error.value = null;
     try {
       currentProduct.value = await catalogApi.getProduct(id);
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch product';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to fetch product';
     } finally {
       loading.value = false;
     }
@@ -125,8 +127,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       currentProduct.value = created;
       successMessage.value = 'Product created successfully';
       return created;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to create product';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to create product';
       throw err;
     } finally {
       loading.value = false;
@@ -145,8 +148,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       currentProduct.value = updated;
       successMessage.value = 'Product updated successfully';
       return updated;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to update product';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to update product';
       throw err;
     } finally {
       loading.value = false;
@@ -161,8 +165,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       products.value = products.value.filter(p => p.id !== id);
       if (currentProduct.value?.id === id) currentProduct.value = null;
       successMessage.value = 'Product deleted successfully';
-    } catch (err: any) {
-      error.value = err.message || 'Failed to delete product';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to delete product';
       throw err;
     } finally {
       loading.value = false;
@@ -189,8 +194,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       categories.value = response.items;
       categoriesTotal.value = response.totalCount;
       successMessage.value = null;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch categories';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to fetch categories';
     } finally {
       loading.value = false;
     }
@@ -201,8 +207,9 @@ export const useCatalogStore = defineStore('catalog', () => {
     error.value = null;
     try {
       currentCategory.value = await catalogApi.getCategory(id);
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch category';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to fetch category';
     } finally {
       loading.value = false;
     }
@@ -217,8 +224,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       currentCategory.value = created;
       successMessage.value = 'Category created successfully';
       return created;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to create category';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to create category';
       throw err;
     } finally {
       loading.value = false;
@@ -237,8 +245,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       currentCategory.value = updated;
       successMessage.value = 'Category updated successfully';
       return updated;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to update category';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to update category';
       throw err;
     } finally {
       loading.value = false;
@@ -253,8 +262,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       categories.value = categories.value.filter(c => c.id !== id);
       if (currentCategory.value?.id === id) currentCategory.value = null;
       successMessage.value = 'Category deleted successfully';
-    } catch (err: any) {
-      error.value = err.message || 'Failed to delete category';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to delete category';
       throw err;
     } finally {
       loading.value = false;
@@ -279,10 +289,11 @@ export const useCatalogStore = defineStore('catalog', () => {
         take: brandsPagination.value.take,
       });
       brands.value = response.items;
-      brandsTotalitres.value = response.totalCount;
+      brandsTotal.value = response.totalCount;
       successMessage.value = null;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch brands';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to fetch brands';
     } finally {
       loading.value = false;
     }
@@ -293,8 +304,9 @@ export const useCatalogStore = defineStore('catalog', () => {
     error.value = null;
     try {
       currentBrand.value = await catalogApi.getBrand(id);
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch brand';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to fetch brand';
     } finally {
       loading.value = false;
     }
@@ -309,8 +321,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       currentBrand.value = created;
       successMessage.value = 'Brand created successfully';
       return created;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to create brand';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to create brand';
       throw err;
     } finally {
       loading.value = false;
@@ -329,8 +342,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       currentBrand.value = updated;
       successMessage.value = 'Brand updated successfully';
       return updated;
-    } catch (err: any) {
-      error.value = err.message || 'Failed to update brand';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to update brand';
       throw err;
     } finally {
       loading.value = false;
@@ -345,8 +359,9 @@ export const useCatalogStore = defineStore('catalog', () => {
       brands.value = brands.value.filter(b => b.id !== id);
       if (currentBrand.value?.id === id) currentBrand.value = null;
       successMessage.value = 'Brand deleted successfully';
-    } catch (err: any) {
-      error.value = err.message || 'Failed to delete brand';
+    } catch (err: unknown) {
+      const apiError = err as ApiError | CatalogError;
+      error.value = apiError.message || 'Failed to delete brand';
       throw err;
     } finally {
       loading.value = false;
@@ -414,7 +429,7 @@ export const useCatalogStore = defineStore('catalog', () => {
     // Brands
     brands,
     currentBrand,
-    brandsTotalitres,
+    brandsTotal,
     brandsPagination,
     hasMoreBrands,
     brandMap,

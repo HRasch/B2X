@@ -57,3 +57,47 @@ export interface CMSState {
   loading: boolean;
   error: string | null;
 }
+
+// ============================================================================
+// API Error Types
+// ============================================================================
+
+export interface CMSApiError {
+  message: string;
+  code?: string;
+  details?: unknown[];
+}
+
+export interface CMSValidationError {
+  field: string;
+  message: string;
+  code: string;
+}
+
+export interface CMSPublishError {
+  pageId: string;
+  errorCode: string;
+  errorMessage: string;
+  timestamp: Date;
+}
+
+// ============================================================================
+// API Response Types
+// ============================================================================
+
+export interface PageVersion {
+  version: number;
+  title: string;
+  content: PageBlock[];
+  createdAt: Date;
+  createdBy: string;
+  isPublished: boolean;
+  publishedAt?: Date;
+}
+
+export interface MediaFilters {
+  fileType?: string;
+  search?: string;
+  uploadedFrom?: Date;
+  uploadedTo?: Date;
+}

@@ -64,3 +64,45 @@ export interface UsersListResponse {
     hasPrevious: boolean;
   };
 }
+
+// ============================================================================
+// API Error Types
+// ============================================================================
+
+export interface UserApiError {
+  message: string;
+  code?: string;
+  details?: unknown[];
+}
+
+export interface UserValidationError {
+  field: string;
+  message: string;
+  code: string;
+}
+
+export interface UserAuthenticationError {
+  userId: string;
+  errorCode: string;
+  errorMessage: string;
+  timestamp: Date;
+}
+
+// ============================================================================
+// API Response Types
+// ============================================================================
+
+export interface UserFilters {
+  search?: string;
+  isActive?: boolean;
+  emailVerified?: boolean;
+  phoneVerified?: boolean;
+  createdFrom?: Date;
+  createdTo?: Date;
+}
+
+export interface UserSearchFilters {
+  query: string;
+  limit?: number;
+  includeInactive?: boolean;
+}

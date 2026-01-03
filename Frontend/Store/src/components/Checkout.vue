@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import B2BVatIdInput from './B2BVatIdInput.vue';
+import type { ValidateVatIdResponse } from '@/types/vat-validation';
 
 /**
  * Checkout.vue - 3-Step Wizard Component
@@ -127,7 +128,7 @@ const validateAddress = (): boolean => {
 };
 
 // Handle VAT ID validation result (Issue #31)
-const handleVatValidationResult = (result: any) => {
+const handleVatValidationResult = (result: ValidateVatIdResponse) => {
   state.value.b2bVatId = result.vatId;
   state.value.reverseChargeApplies = result.reverseChargeApplies;
 

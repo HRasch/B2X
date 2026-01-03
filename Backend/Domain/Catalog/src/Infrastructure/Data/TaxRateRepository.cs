@@ -1,10 +1,12 @@
 
+using B2Connect.Catalog.Core.Entities;
 using B2Connect.Catalog.Core.Interfaces;
-using B2Connect.CatalogService.Models;
+using B2Connect.Catalog.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CatalogService.Infrastructure.Data;
+namespace B2Connect.Catalog.Infrastructure.Data;
+
 public class TaxRateRepository : ITaxRateRepository
 {
     private readonly CatalogDbContext _context;
@@ -19,7 +21,9 @@ public class TaxRateRepository : ITaxRateRepository
     public async Task<TaxRate?> GetByCountryCodeAsync(string countryCode, CancellationToken ct = default)
     {
         var result = await _context.TaxRates
-            .Where(x => x.CountryCode.Equals(countryCode, StringComparison.CurrentCultureIgnoreCase) && x.IsActive)
+            .Where(x => x.CountryCode.Equals(countryCode, StringComparison.CurrentCultureIgnoreCase) &&
+                       x.EffectiveDate <= DateTime.UtcNow &&
+                       (!x.EndDate.HasValue || x.EndDate > DateTime.UtcNow))
             .FirstOrDefaultAsync(ct);
 
         if (result == null)
@@ -33,7 +37,8 @@ public class TaxRateRepository : ITaxRateRepository
     public async Task<IEnumerable<TaxRate>> GetAllActiveAsync(CancellationToken ct = default)
     {
         return await _context.TaxRates
-            .Where(x => x.IsActive)
+            .Where(x => x.EffectiveDate <= DateTime.UtcNow &&
+                       (!x.EndDate.HasValue || x.EndDate > DateTime.UtcNow))
             .OrderBy(x => x.CountryCode)
             .ToListAsync(ct);
     }

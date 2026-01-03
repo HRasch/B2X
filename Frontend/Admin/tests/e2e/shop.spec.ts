@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- Playwright Page type */
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 const DEFAULT_TENANT_ID = '00000000-0000-0000-0000-000000000001';
 const API_BASE = 'http://localhost:8080';
 
 // Helper: Login with demo mode
-async function loginDemoMode(page: any) {
+async function loginDemoMode(page: Page) {
   await page.goto('http://localhost:5174');
   await page.waitForLoadState('domcontentloaded');
   await page.locator('input[type="email"]').fill('admin@example.com');

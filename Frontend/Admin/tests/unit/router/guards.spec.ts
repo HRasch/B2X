@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- Test mocks use any */
 import { describe, it, expect, beforeEach } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useAuthStore } from '@/stores/auth';
+import type { Role } from '@/types/auth';
 
 describe('Router Guards', () => {
   beforeEach(() => {
@@ -186,7 +186,7 @@ describe('Router Guards', () => {
           tenantId: 'tenant-1',
         };
 
-        const hasAdminRole = authStore.user?.roles.some((r: any) => r.name === 'admin');
+        const hasAdminRole = authStore.user?.roles.some((r: Role) => r.name === 'admin');
         expect(hasAdminRole).toBe(true);
       });
     });

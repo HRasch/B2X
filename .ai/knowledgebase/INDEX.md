@@ -34,7 +34,9 @@ This index lists curated knowledgebase articles to help agents and developers im
 | `KB-018` | [tools-and-tech/local-llm-models-2025.md](tools-and-tech/local-llm-models-2025.md) | Beste lokale LLM-Modelle für Entwicklung |
 | `KB-020` | [tools-and-tech/archunitnet.md](tools-and-tech/archunitnet.md) | ArchUnitNET architecture testing framework |
 | `KB-021` | [enventa-trade-erp.md](enventa-trade-erp.md) | enventa Trade ERP integration guide |
+| `KB-PILOT` | [code-quality-pilot-migration.md](code-quality-pilot-migration.md) | Code quality pilot migration results & patterns |
 | `KB-LESSONS` | [lessons.md](lessons.md) | Lessons learned from development work |
+| `KB-TS-ANY-ELIMINATION` | [typescript-any-elimination-success-story.md](typescript-any-elimination-success-story.md) | TypeScript any type elimination success story |
 
 ## Subdirectories
 

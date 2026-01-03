@@ -1,6 +1,7 @@
 
 using B2Connect.Catalog.Core.Interfaces;
-using B2Connect.CatalogService.Models;
+using B2Connect.Catalog.Core.Entities;
+using B2Connect.Catalog.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
@@ -104,7 +105,7 @@ public class TaxRateService : ITaxRateService
         ArgumentNullException.ThrowIfNull(cmd);
 
         // Create entity
-        var taxRate = new TaxRate
+        var taxRate = new B2Connect.Catalog.Core.Entities.TaxRate
         {
             CountryCode = cmd.CountryCode,
             StandardVatRate = cmd.StandardVatRate,

@@ -79,10 +79,10 @@
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-explicit-any -- Localized type needs proper definition */
 import { onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCatalogStore } from '@/stores/catalog';
+import type { Brand, LocalizedContent, LocalizedString } from '@/types/catalog';
 
 const router = useRouter();
 const catalogStore = useCatalogStore();
@@ -102,9 +102,11 @@ const currentPage = computed(
 const totalPages = computed(() => Math.ceil(brandsTotalitres.value / brandsPagination.value.take));
 
 // Methods
-function getLocalizedName(localized: any): string {
+function getLocalizedName(localized: LocalizedContent | undefined | null): string {
   if (!localized || !localized.localizedStrings) return 'N/A';
-  const english = localized.localizedStrings.find((s: any) => s.languageCode === 'en-US');
+  const english = localized.localizedStrings.find(
+    (s: LocalizedString) => s.languageCode === 'en-US'
+  );
   return english ? english.value : localized.localizedStrings[0]?.value || 'N/A';
 }
 
@@ -117,7 +119,7 @@ function goToEdit(id: string) {
 }
 
 function confirmDelete(id: string) {
-  const brand = brands.value.find((b: any) => b.id === id);
+  const brand = brands.value.find((b: Brand) => b.id === id);
   if (brand && confirm(`Are you sure you want to delete "${getLocalizedName(brand.name)}"?`)) {
     catalogStore.deleteBrand(id);
   }

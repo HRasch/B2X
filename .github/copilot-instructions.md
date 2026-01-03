@@ -313,6 +313,7 @@ Duplicate files will be **deleted without merge** during cleanup. The original (
 - **Log to files**: Detailed logs/reports → `.ai/logs/` (not in chat).
 - **Context**: Always consider the surrounding code and project structure.
 - **Safety**: Avoid suggesting insecure patterns or hardcoded secrets.
+- **Agent Responsibility**: If you are not the responsible agent for a question, hand it over to `@SARAH` for coordination. Verify your domain ownership before proceeding with complex tasks.
 - **Coordination**: Bei Unklarheiten @SARAH für Guidance nutzen.
 - **Token Optimization** (Prevent rate limiting - see [GL-006]):
   - Agent files: Max 3 KB - link to docs, don't embed

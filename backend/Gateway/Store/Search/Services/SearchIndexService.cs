@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using B2Connect.CatalogService.Events;
+using B2Connect.Shared.Messaging.Events;
 using B2Connect.SearchService.Models;
 using System.Text.Json;
 

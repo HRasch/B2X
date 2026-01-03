@@ -71,4 +71,84 @@ public class ErpCqrsUsageExample
         var command = new SyncArticlesCommand(tenantId, request);
         await _bus.SendAsync(command); // Fire and forget
     }
+
+    /// <summary>
+    /// Example: Query a single customer.
+    /// </summary>
+    public async Task<CustomerDto?> GetCustomerExample(string tenantId, string customerNumber)
+    {
+        var query = new GetCustomerQuery(tenantId, customerNumber);
+        return await _bus.InvokeAsync<CustomerDto?>(query);
+    }
+
+    /// <summary>
+    /// Example: Query customers with filtering.
+    /// </summary>
+    public async IAsyncEnumerable<CustomerDto> QueryCustomersExample(string tenantId, QueryRequest queryRequest)
+    {
+        var query = new QueryCustomersQuery(tenantId, queryRequest);
+        var result = await _bus.InvokeAsync<IAsyncEnumerable<CustomerDto>>(query);
+        await foreach (var customer in result)
+        {
+            yield return customer;
+        }
+    }
+
+    /// <summary>
+    /// Example: Sync customers (command - modifies state).
+    /// </summary>
+    public async Task<DeltaSyncResponse<CustomerDto>> SyncCustomersExample(string tenantId, DeltaSyncRequest request)
+    {
+        var command = new SyncCustomersCommand(tenantId, request);
+        return await _bus.InvokeAsync<DeltaSyncResponse<CustomerDto>>(command);
+    }
+
+    /// <summary>
+    /// Example: Batch write customers (command - modifies state).
+    /// </summary>
+    public async Task<BatchWriteResponse<CustomerDto>> BatchWriteCustomersExample(string tenantId, IEnumerable<CustomerDto> customers)
+    {
+        var command = new BatchWriteCustomersCommand(tenantId, customers);
+        return await _bus.InvokeAsync<BatchWriteResponse<CustomerDto>>(command);
+    }
+
+    /// <summary>
+    /// Example: Query a single order.
+    /// </summary>
+    public async Task<OrderDto?> GetOrderExample(string tenantId, string orderNumber)
+    {
+        var query = new GetOrderQuery(tenantId, orderNumber);
+        return await _bus.InvokeAsync<OrderDto?>(query);
+    }
+
+    /// <summary>
+    /// Example: Query orders with filtering.
+    /// </summary>
+    public async IAsyncEnumerable<OrderDto> QueryOrdersExample(string tenantId, QueryRequest queryRequest)
+    {
+        var query = new QueryOrdersQuery(tenantId, queryRequest);
+        var result = await _bus.InvokeAsync<IAsyncEnumerable<OrderDto>>(query);
+        await foreach (var order in result)
+        {
+            yield return order;
+        }
+    }
+
+    /// <summary>
+    /// Example: Sync orders (command - modifies state).
+    /// </summary>
+    public async Task<DeltaSyncResponse<OrderDto>> SyncOrdersExample(string tenantId, DeltaSyncRequest request)
+    {
+        var command = new SyncOrdersCommand(tenantId, request);
+        return await _bus.InvokeAsync<DeltaSyncResponse<OrderDto>>(command);
+    }
+
+    /// <summary>
+    /// Example: Batch write orders (command - modifies state).
+    /// </summary>
+    public async Task<BatchWriteResponse<OrderDto>> BatchWriteOrdersExample(string tenantId, IEnumerable<OrderDto> orders)
+    {
+        var command = new BatchWriteOrdersCommand(tenantId, orders);
+        return await _bus.InvokeAsync<BatchWriteResponse<OrderDto>>(command);
+    }
 }

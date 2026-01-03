@@ -56,5 +56,18 @@ Localization & Globalization
 How to use this file
 - Use this document as a quick checklist when proposing changes, reviewing PRs, or designing new features. Add project-specific examples and link to the detailed knowledgebase pages for each technology.
 
+Code Quality & Legacy Migration (Pilot Phase 2 - Jan 2026)
+- Patterns:
+  - Interface-first approach: Create proper TypeScript interfaces for component props/settings before implementation (`{ComponentName}Settings`)
+  - Replace `any` types in tests with typed interfaces for better maintainability and IntelliSense
+  - Systematic cleanup: Remove unused imports and variables immediately when identified by linters
+  - Prettier + ESLint automation: Run formatters and linters in pre-commit hooks to prevent style drift
+  - Data-driven prioritization: Use impact analysis scripts to identify most critical files for migration
+- Antipatterns:
+  - Leaving `any` types in production code or tests - always create proper interfaces
+  - Ignoring ESLint warnings in legacy code - establish exceptions only for truly blocking issues
+  - Manual style fixes - automate formatting and enforce via CI/CD
+  - Uncontrolled technical debt accumulation - implement regular code quality audits
+
 References
 - Wolverine README & docs, Vue docs, Pinia docs, Vite docs, ASP.NET Core Identity docs, .NET compatibility docs, OWASP Top Ten.

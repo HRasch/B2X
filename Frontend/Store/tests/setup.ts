@@ -46,7 +46,7 @@ Object.defineProperty(window, 'matchMedia', {
 // Suppress Vue warnings about async component failures in test environment
 // These are expected when widget components cannot be loaded dynamically
 const originalWarn = console.warn;
-console.warn = function (...args: any[]) {
+console.warn = function (...args: unknown[]) {
   // Filter out Vue's unhandled async component loader warnings
   if (
     args[0]?.includes?.('[Vue warn]: Unhandled error during execution of async component loader')

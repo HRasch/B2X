@@ -1,8 +1,7 @@
 /**
  * HTTP Client wrapper for API requests
- * @todo Add proper typing for POST/PUT/PATCH data parameters
+ * Properly typed HTTP methods and request configuration
  */
-/* eslint-disable @typescript-eslint/no-explicit-any -- Generic HTTP methods accept varied payloads */
 
 import axios from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
@@ -15,6 +14,20 @@ interface RequestTiming {
   url: string;
   method: string;
 }
+
+// Extended Axios config with custom properties
+interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
+  __requestId?: string;
+}
+
+// Generic data type for HTTP request bodies
+type HttpRequestData =
+  | Record<string, unknown>
+  | FormData
+  | URLSearchParams
+  | string
+  | null
+  | undefined;
 
 class ApiClient {
   private instance: AxiosInstance;
@@ -42,7 +55,7 @@ class ApiClient {
     this.instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       // Track request timing
       const requestId = this.generateRequestId();
-      (config as any).__requestId = requestId;
+      (config as ExtendedAxiosRequestConfig).__requestId = requestId;
       this.requestTimings.set(requestId, {
         startTime: performance.now(),
         url: config.url || '',
@@ -73,7 +86,7 @@ class ApiClient {
     this.instance.interceptors.response.use(
       response => {
         // Clean up timing
-        const requestId = (response.config as any).__requestId;
+        const requestId = (response.config as ExtendedAxiosRequestConfig).__requestId;
         if (requestId) {
           this.requestTimings.delete(requestId);
         }
@@ -136,17 +149,29 @@ class ApiClient {
     return response.data.data as T;
   }
 
-  public async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  public async post<T>(
+    url: string,
+    data?: HttpRequestData,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
     const response = await this.instance.post<ApiResponse<T>>(url, data, config);
     return response.data.data as T;
   }
 
-  public async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  public async put<T>(
+    url: string,
+    data?: HttpRequestData,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
     const response = await this.instance.put<ApiResponse<T>>(url, data, config);
     return response.data.data as T;
   }
 
-  public async patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  public async patch<T>(
+    url: string,
+    data?: HttpRequestData,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
     const response = await this.instance.patch<ApiResponse<T>>(url, data, config);
     return response.data.data as T;
   }

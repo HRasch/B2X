@@ -1,18 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
+using B2Connect.Catalog.Services;
 using B2Connect.Domain.Search.Services;
 
 namespace B2Connect.Catalog.Endpoints;
 
-// Service interfaces
+// Service interfaces - use fully qualified types to avoid ambiguity with local ProductDto record
 public interface IProductService
 {
     Task<dynamic?> GetBySkuAsync(Guid tenantId, string sku, CancellationToken ct = default);
+    Task<B2Connect.Catalog.Models.PagedResult<B2Connect.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default);
 }
 
 public interface ISearchIndexService
 {
-    Task<dynamic> SearchAsync(Guid tenantId, string query, CancellationToken ct = default);
+    Task<B2Connect.Catalog.Models.PagedResult<B2Connect.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default);
 }
 
 /// <summary>
@@ -53,14 +55,14 @@ public static class ProductEndpoints
         }
 
         // Map dynamic / anonymous product to ProductDto when necessary
-        if (product is B2Connect.CatalogService.Models.ProductDto dto)
+        if (product is B2Connect.Catalog.Models.ProductDto dto)
         {
             return Results.Ok(dto);
         }
 
         try
         {
-            var mapped = new B2Connect.CatalogService.Models.ProductDto
+            var mapped = new B2Connect.Catalog.Models.ProductDto
             {
                 Id = Guid.TryParse(Convert.ToString(product.id ?? product.Id), out Guid idVal) ? idVal : Guid.NewGuid(),
                 TenantId = Guid.TryParse(Convert.ToString(product.tenantId ?? product.TenantId), out Guid tVal) ? tVal : tenantId,
@@ -116,7 +118,7 @@ public static class ProductEndpoints
             }
         }
 
-        var results = await searchService.SearchAsync(resolvedTenant, q, ct);
+        var results = await searchService.SearchAsync(resolvedTenant, q, 1, 20, ct);
         return Results.Ok(results);
     }
 

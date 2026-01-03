@@ -1,7 +1,7 @@
-using B2Connect.CatalogService.Models;
+using B2Connect.Catalog.Models;
 using FluentValidation;
 
-namespace B2Connect.CatalogService.Validators;
+namespace B2Connect.Catalog.Validators;
 
 /// <summary>
 /// Validation rules for VAT ID validation requests

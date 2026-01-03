@@ -1,6 +1,6 @@
-using B2Connect.CatalogService.Models;
+using B2Connect.Catalog.Models;
 
-namespace B2Connect.CatalogService.Infrastructure;
+namespace B2Connect.Catalog.Infrastructure;
 
 /// <summary>
 /// Interface for VIES (VAT Information Exchange System) API client

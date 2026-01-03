@@ -1,13 +1,12 @@
 /**
  * Jobs Store (Pinia)
- * @todo Refactor error handling from catch(err: any) to typed unknown pattern
- * @see https://typescript-eslint.io/rules/no-explicit-any/
+ * Properly typed error handling and API responses
  */
-/* eslint-disable @typescript-eslint/no-explicit-any -- Legacy error handling, refactor in KB-STORE-TYPING sprint */
 
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Job, ScheduledJob, JobLog } from '@/types/jobs';
+import type { Job, ScheduledJob, JobLog, JobsApiError, JobFilters } from '@/types/jobs';
+import type { ApiError } from '@/types/api';
 import { jobsApi } from '@/services/api/jobs';
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -25,8 +24,9 @@ export const useJobsStore = defineStore('jobs', () => {
     try {
       const response = await jobsApi.getJobs(status);
       jobs.value = response.items;
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to fetch jobs';
     } finally {
       loading.value = false;
     }
@@ -38,8 +38,9 @@ export const useJobsStore = defineStore('jobs', () => {
     try {
       currentJob.value = await jobsApi.getJob(jobId);
       return currentJob.value;
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to fetch job';
       throw err;
     } finally {
       loading.value = false;
@@ -51,8 +52,9 @@ export const useJobsStore = defineStore('jobs', () => {
     error.value = null;
     try {
       jobLogs.value = await jobsApi.getJobLogs(jobId);
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to fetch job logs';
     } finally {
       loading.value = false;
     }
@@ -63,12 +65,13 @@ export const useJobsStore = defineStore('jobs', () => {
     error.value = null;
     try {
       const updated = await jobsApi.retryJob(jobId);
-      const index = jobs.value.findIndex((j: any) => j.id === jobId);
+      const index = jobs.value.findIndex((j: Job) => j.id === jobId);
       if (index !== -1) jobs.value[index] = updated;
       if (currentJob.value?.id === jobId) currentJob.value = updated;
       return updated;
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to retry job';
       throw err;
     } finally {
       loading.value = false;
@@ -80,12 +83,13 @@ export const useJobsStore = defineStore('jobs', () => {
     error.value = null;
     try {
       const updated = await jobsApi.cancelJob(jobId);
-      const index = jobs.value.findIndex((j: any) => j.id === jobId);
+      const index = jobs.value.findIndex((j: Job) => j.id === jobId);
       if (index !== -1) jobs.value[index] = updated;
       if (currentJob.value?.id === jobId) currentJob.value = updated;
       return updated;
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to cancel job';
       throw err;
     } finally {
       loading.value = false;
@@ -98,8 +102,9 @@ export const useJobsStore = defineStore('jobs', () => {
     try {
       const response = await jobsApi.getScheduledJobs();
       scheduledJobs.value = response.items;
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to fetch scheduled jobs';
     } finally {
       loading.value = false;
     }
@@ -112,8 +117,9 @@ export const useJobsStore = defineStore('jobs', () => {
       const created = await jobsApi.createScheduledJob(data);
       scheduledJobs.value.push(created);
       return created;
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to create scheduled job';
       throw err;
     } finally {
       loading.value = false;
@@ -125,11 +131,12 @@ export const useJobsStore = defineStore('jobs', () => {
     error.value = null;
     try {
       const updated = await jobsApi.updateScheduledJob(id, data);
-      const index = scheduledJobs.value.findIndex((j: any) => j.id === id);
+      const index = scheduledJobs.value.findIndex((j: ScheduledJob) => j.id === id);
       if (index !== -1) scheduledJobs.value[index] = updated;
       return updated;
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to update scheduled job';
       throw err;
     } finally {
       loading.value = false;
@@ -141,9 +148,10 @@ export const useJobsStore = defineStore('jobs', () => {
     error.value = null;
     try {
       await jobsApi.deleteScheduledJob(id);
-      scheduledJobs.value = scheduledJobs.value.filter((j: any) => j.id !== id);
-    } catch (err: any) {
-      error.value = err.message;
+      scheduledJobs.value = scheduledJobs.value.filter((j: ScheduledJob) => j.id !== id);
+    } catch (err: unknown) {
+      const apiError = err as ApiError | JobsApiError;
+      error.value = apiError.message || 'Failed to delete scheduled job';
       throw err;
     } finally {
       loading.value = false;

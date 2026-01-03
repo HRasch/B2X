@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import ProductCardModern from '@/components/shop/ProductCardModern.vue';
-import ProductPrice from '@/components/ProductPrice.vue';
 
 interface Product {
   id: string;
@@ -19,7 +17,6 @@ interface Product {
   stockQuantity?: number;
 }
 
-const router = useRouter();
 const cartStore = useCartStore();
 
 // State
@@ -33,8 +30,6 @@ const selectedCategory = ref('All');
 const sortBy = ref('name'); // name, price-asc, price-desc, rating
 const itemsPerPage = ref(12);
 const currentPage = ref(1);
-
-const categories = ['All', 'Electronics', 'Accessories', 'Software', 'Services'];
 
 // Computed
 const uniqueCategories = computed(() => {

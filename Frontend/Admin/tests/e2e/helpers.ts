@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- Playwright Page type */
 import { Page, expect } from '@playwright/test';
 
 /**
@@ -59,7 +58,7 @@ export async function apiCall(
   page: Page,
   endpoint: string,
   method: string = 'GET',
-  body?: any
+  body?: unknown
 ): Promise<Response> {
   const token = await getAuthToken(page);
   const options: RequestInit = {

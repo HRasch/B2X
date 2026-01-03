@@ -64,3 +64,45 @@ export interface JobState {
   loading: boolean;
   error: string | null;
 }
+
+// ============================================================================
+// API Error Types
+// ============================================================================
+
+export interface JobsApiError {
+  message: string;
+  code?: string;
+  details?: unknown[];
+}
+
+export interface JobValidationError {
+  field: string;
+  message: string;
+  code: string;
+}
+
+export interface JobExecutionError {
+  jobId: string;
+  errorCode: string;
+  errorMessage: string;
+  stackTrace?: string;
+  timestamp: Date;
+}
+
+// ============================================================================
+// API Response Types
+// ============================================================================
+
+export interface JobFilters {
+  status?: Job['status'];
+  type?: Job['type'];
+  createdBy?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
+}
+
+export interface ScheduledJobFilters {
+  isActive?: boolean;
+  jobType?: string;
+  search?: string;
+}

@@ -1,16 +1,14 @@
 /**
  * CMS API Service
- * @todo Add proper filter types for page/template queries
  */
-/* eslint-disable @typescript-eslint/no-explicit-any -- Filter params vary per endpoint */
 
 import { apiClient } from '../client';
-import type { Page, Template, MediaItem } from '@/types/cms';
+import type { Page, Template, MediaItem, PageFilters, PageVersion } from '@/types/cms';
 import type { PaginatedResponse, PaginationParams } from '@/types/api';
 
 export const cmsApi = {
   // Pages
-  getPages(filters?: any, pagination?: PaginationParams) {
+  getPages(filters?: PageFilters, pagination?: PaginationParams) {
     return apiClient.get<PaginatedResponse<Page>>('/api/layout/pages', {
       params: { ...filters, ...pagination },
     });
@@ -42,7 +40,7 @@ export const cmsApi = {
 
   // Versions
   getPageVersions(id: string) {
-    return apiClient.get<any[]>(`/api/layout/pages/${id}/versions`);
+    return apiClient.get<PageVersion[]>(`/api/layout/pages/${id}/versions`);
   },
 
   restorePageVersion(id: string, version: number) {

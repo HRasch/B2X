@@ -22,12 +22,16 @@ public interface IErpService
 
     Task<CustomerDto?> GetCustomerAsync(string tenantId, string customerId, CancellationToken ct = default);
     IAsyncEnumerable<CustomerDto> QueryCustomersAsync(string tenantId, QueryRequest query, CancellationToken ct = default);
+    Task<IEnumerable<CustomerDto>> GetCustomersByIdsAsync(string tenantId, IEnumerable<string> customerIds, CancellationToken ct = default);
     Task<DeltaSyncResponse<CustomerDto>> SyncCustomersAsync(string tenantId, DeltaSyncRequest request, CancellationToken ct = default);
+    Task<BatchWriteResponse<CustomerDto>> BatchWriteCustomersAsync(string tenantId, IEnumerable<CustomerDto> customers, CancellationToken ct = default);
 
     Task<OrderDto?> GetOrderAsync(string tenantId, string orderId, CancellationToken ct = default);
     IAsyncEnumerable<OrderDto> QueryOrdersAsync(string tenantId, QueryRequest query, CancellationToken ct = default);
+    Task<IEnumerable<OrderDto>> GetOrdersByIdsAsync(string tenantId, IEnumerable<string> orderIds, CancellationToken ct = default);
     Task<OrderDto> CreateOrderAsync(string tenantId, OrderDto order, CancellationToken ct = default);
     Task<DeltaSyncResponse<OrderDto>> SyncOrdersAsync(string tenantId, DeltaSyncRequest request, CancellationToken ct = default);
+    Task<BatchWriteResponse<OrderDto>> BatchWriteOrdersAsync(string tenantId, IEnumerable<OrderDto> orders, CancellationToken ct = default);
 }
 
 /// <summary>
@@ -183,6 +187,57 @@ public class ErpService : IErpService
         return _client.SyncCustomersAsync(tenantId, request, ct);
     }
 
+    public async Task<IEnumerable<CustomerDto>> GetCustomersByIdsAsync(
+        string tenantId,
+        IEnumerable<string> customerIds,
+        CancellationToken ct = default)
+    {
+        var idList = customerIds.ToList();
+        var results = new List<CustomerDto>();
+        string? cursor = null;
+
+        do
+        {
+            var request = new CursorPageRequest
+            {
+                TenantId = tenantId,
+                Cursor = cursor,
+                PageSize = Math.Min(idList.Count, 1000),
+                Filters =
+                [
+                    new QueryFilter
+                    {
+                        PropertyName = "customerId",
+                        Operator = FilterOperator.In,
+                        Value = string.Join(",", idList)
+                    }
+                ]
+            };
+
+            var response = await _client.GetCustomersAsync(tenantId, request, ct);
+            results.AddRange(response.Items);
+            cursor = response.NextCursor;
+        }
+        while (cursor != null);
+
+        return results;
+    }
+
+    public Task<BatchWriteResponse<CustomerDto>> BatchWriteCustomersAsync(
+        string tenantId,
+        IEnumerable<CustomerDto> customers,
+        CancellationToken ct = default)
+    {
+        var request = new BatchWriteRequest<CustomerDto>
+        {
+            TenantId = tenantId,
+            Items = customers.ToList(),
+            Mode = BatchWriteMode.Upsert
+        };
+
+        return _client.BatchWriteCustomersAsync(tenantId, request, ct);
+    }
+
     #endregion
 
     #region Orders
@@ -234,6 +289,57 @@ public class ErpService : IErpService
         CancellationToken ct = default)
     {
         return _client.SyncOrdersAsync(tenantId, request, ct);
+    }
+
+    public async Task<IEnumerable<OrderDto>> GetOrdersByIdsAsync(
+        string tenantId,
+        IEnumerable<string> orderIds,
+        CancellationToken ct = default)
+    {
+        var idList = orderIds.ToList();
+        var results = new List<OrderDto>();
+        string? cursor = null;
+
+        do
+        {
+            var request = new CursorPageRequest
+            {
+                TenantId = tenantId,
+                Cursor = cursor,
+                PageSize = Math.Min(idList.Count, 1000),
+                Filters =
+                [
+                    new QueryFilter
+                    {
+                        PropertyName = "orderId",
+                        Operator = FilterOperator.In,
+                        Value = string.Join(",", idList)
+                    }
+                ]
+            };
+
+            var response = await _client.GetOrdersAsync(tenantId, request, ct);
+            results.AddRange(response.Items);
+            cursor = response.NextCursor;
+        }
+        while (cursor != null);
+
+        return results;
+    }
+
+    public Task<BatchWriteResponse<OrderDto>> BatchWriteOrdersAsync(
+        string tenantId,
+        IEnumerable<OrderDto> orders,
+        CancellationToken ct = default)
+    {
+        var request = new BatchWriteRequest<OrderDto>
+        {
+            TenantId = tenantId,
+            Items = orders.ToList(),
+            Mode = BatchWriteMode.Upsert
+        };
+
+        return _client.BatchWriteOrdersAsync(tenantId, request, ct);
     }
 
     #endregion

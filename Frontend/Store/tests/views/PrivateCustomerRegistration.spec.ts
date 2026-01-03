@@ -1,8 +1,14 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { mount, VueWrapper } from '@vue/test-utils';
+import { describe, it, expect, vi } from 'vitest';
+import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { createI18n } from 'vue-i18n';
 import PrivateCustomerRegistration from '@/views/PrivateCustomerRegistration.vue';
+
+// ✅ FIX: Create proper interface for store config options
+interface StoreConfigOptions {
+  showPhoneField?: boolean;
+  showDateOfBirthField?: boolean;
+}
 
 // ✅ FIX #2: Complete i18n messages with all translation keys
 const messages = {
@@ -93,7 +99,7 @@ function createTestRouter() {
 }
 
 // ✅ FIX #1+#3+#4: Create test wrapper with proper configuration
-function createWrapper(storeConfigOptions?: any) {
+function createWrapper(storeConfigOptions?: StoreConfigOptions) {
   const i18n = createI18n({
     legacy: false,
     locale: 'de',
