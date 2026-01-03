@@ -14,6 +14,7 @@ const categories: { id: WidgetCategory; label: string; icon: string }[] = [
   { id: 'layout', label: 'Layout', icon: 'layout' },
   { id: 'content', label: 'Inhalt', icon: 'type' },
   { id: 'account', label: 'Kundenkonto', icon: 'user' },
+  { id: 'ecommerce', label: 'E-Commerce', icon: 'shopping-bag' },
 ];
 
 const widgetsByCategory = computed(() => {
@@ -41,6 +42,7 @@ const icons: Record<string, string> = {
     'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
   type: 'M4 6h16M4 12h16M4 18h7',
   user: 'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z',
+  'shopping-bag': 'M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0',
   'grid-3x3': 'M3 3h7v7H3V3zm11 0h7v7h-7V3zm0 11h7v7h-7v-7zM3 14h7v7H3v-7z',
   'rectangle-horizontal': 'M2 7a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7z',
   square: 'M3 3h18v18H3V3z',
@@ -54,6 +56,13 @@ const icons: Record<string, string> = {
   'map-pin': 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0zM12 13a3 3 0 100-6 3 3 0 000 6z',
   'user-circle': 'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z',
   heart: 'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z',
+  // E-Commerce icons
+  'layout-grid': 'M3 3h7v7H3V3zm11 0h7v7h-7V3zm0 11h7v7h-7v-7zM3 14h7v7H3v-7z',
+  'folder-tree': 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2zM8 12h8M8 16h5',
+  search: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
+  receipt: 'M4 4v16h16V4H4zm4 4h8M8 12h8M8 16h5',
+  'shopping-cart': 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z',
+  'chevrons-right': 'M13 17l5-5-5-5M6 17l5-5-5-5',
 };
 
 function getIcon(iconName: string): string {

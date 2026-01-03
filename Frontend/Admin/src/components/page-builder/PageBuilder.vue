@@ -3,64 +3,64 @@
  * PageBuilder - Main component for visual page editing
  * Features: Canvas, Drag-and-Drop, Toolbar, Preview Mode
  */
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { usePageBuilderStore } from '@/stores/pageBuilder'
-import WidgetPalette from './WidgetPalette.vue'
-import WidgetConfigurator from './WidgetConfigurator.vue'
-import WidgetRenderer from './WidgetRenderer.vue'
-import type { WidgetType } from '@/types/widgets'
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { usePageBuilderStore } from '@/stores/pageBuilder';
+import WidgetPalette from './WidgetPalette.vue';
+import WidgetConfigurator from './WidgetConfigurator.vue';
+import WidgetRenderer from './WidgetRenderer.vue';
+import type { WidgetType } from '@/types/widgets';
 
 const props = defineProps<{
-  pageId: string
-}>()
+  pageId: string;
+}>();
 
 const emit = defineEmits<{
-  (e: 'save'): void
-  (e: 'publish'): void
-}>()
+  (e: 'save'): void;
+  (e: 'publish'): void;
+}>();
 
-const store = usePageBuilderStore()
+const store = usePageBuilderStore();
 
 // Local state
-const isDragOver = ref(false)
-const canvasRef = ref<HTMLElement | null>(null)
+const isDragOver = ref(false);
+const canvasRef = ref<HTMLElement | null>(null);
 
 // Computed
-const isPreviewMode = computed(() => store.isPreviewMode)
-const canUndo = computed(() => store.canUndo)
-const canRedo = computed(() => store.canRedo)
-const hasClipboard = computed(() => store.clipboard !== null)
-const widgets = computed(() => store.page?.widgets ?? [])
+const isPreviewMode = computed(() => store.isPreviewMode);
+const canUndo = computed(() => store.canUndo);
+const canRedo = computed(() => store.canRedo);
+const hasClipboard = computed(() => store.clipboard !== null);
+const widgets = computed(() => store.page?.widgets ?? []);
 
 // Handlers
 function handleDragOver(event: DragEvent) {
-  event.preventDefault()
-  isDragOver.value = true
+  event.preventDefault();
+  isDragOver.value = true;
   if (event.dataTransfer) {
-    event.dataTransfer.dropEffect = 'copy'
+    event.dataTransfer.dropEffect = 'copy';
   }
 }
 
 function handleDragLeave() {
-  isDragOver.value = false
+  isDragOver.value = false;
 }
 
 function handleDrop(event: DragEvent) {
-  event.preventDefault()
-  isDragOver.value = false
-  
-  if (!event.dataTransfer) return
-  
-  const widgetType = event.dataTransfer.getData('widget-type') as WidgetType
+  event.preventDefault();
+  isDragOver.value = false;
+
+  if (!event.dataTransfer) return;
+
+  const widgetType = event.dataTransfer.getData('widget-type') as WidgetType;
   if (widgetType) {
-    store.addWidget(widgetType)
+    store.addWidget(widgetType);
   }
 }
 
 function handleCanvasClick(event: MouseEvent) {
   // Deselect if clicking on canvas (not on a widget)
   if (event.target === canvasRef.value) {
-    store.selectWidget(null)
+    store.selectWidget(null);
   }
 }
 
@@ -68,65 +68,65 @@ function handleCanvasClick(event: MouseEvent) {
 function handleKeyDown(event: KeyboardEvent) {
   // Ignore if typing in input
   if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
-    return
+    return;
   }
 
-  const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
-  const cmdKey = isMac ? event.metaKey : event.ctrlKey
+  const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+  const cmdKey = isMac ? event.metaKey : event.ctrlKey;
 
   if (cmdKey && event.key === 'z') {
-    event.preventDefault()
+    event.preventDefault();
     if (event.shiftKey) {
-      store.redo()
+      store.redo();
     } else {
-      store.undo()
+      store.undo();
     }
   }
 
   if (cmdKey && event.key === 'y') {
-    event.preventDefault()
-    store.redo()
+    event.preventDefault();
+    store.redo();
   }
 
   if (cmdKey && event.key === 'c') {
-    event.preventDefault()
-    store.copyWidget()
+    event.preventDefault();
+    store.copyWidget();
   }
 
   if (cmdKey && event.key === 'v') {
-    event.preventDefault()
-    store.pasteWidget()
+    event.preventDefault();
+    store.pasteWidget();
   }
 
   if (event.key === 'Delete' || event.key === 'Backspace') {
     if (store.selectedWidgetId) {
-      event.preventDefault()
-      store.removeWidget(store.selectedWidgetId)
+      event.preventDefault();
+      store.removeWidget(store.selectedWidgetId);
     }
   }
 
   if (event.key === 'Escape') {
-    store.selectWidget(null)
+    store.selectWidget(null);
   }
 }
 
 // Lifecycle
 onMounted(() => {
-  store.loadPage(props.pageId)
-  window.addEventListener('keydown', handleKeyDown)
-})
+  store.loadPage(props.pageId);
+  window.addEventListener('keydown', handleKeyDown);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeyDown)
-})
+  window.removeEventListener('keydown', handleKeyDown);
+});
 
 // Save/Publish handlers
 function handleSave() {
-  emit('save')
+  emit('save');
 }
 
 function handlePublish() {
-  emit('publish')
+  emit('publish');
 }
 </script>
 
@@ -173,7 +173,9 @@ function handlePublish() {
             title="Kopieren (Strg+C)"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+              <path
+                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+              />
             </svg>
           </button>
           <button
@@ -183,7 +185,9 @@ function handlePublish() {
             title="Einfügen (Strg+V)"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              <path
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
             </svg>
           </button>
         </div>
@@ -191,16 +195,30 @@ function handlePublish() {
         <!-- Preview Toggle -->
         <div class="page-builder__toolbar-group">
           <button
-            :class="['page-builder__toolbar-btn', 'page-builder__toolbar-btn--preview', { 'page-builder__toolbar-btn--active': isPreviewMode }]"
+            :class="[
+              'page-builder__toolbar-btn',
+              'page-builder__toolbar-btn--preview',
+              { 'page-builder__toolbar-btn--active': isPreviewMode },
+            ]"
             @click="store.togglePreviewMode()"
             :title="isPreviewMode ? 'Bearbeiten' : 'Vorschau'"
           >
-            <svg v-if="!isPreviewMode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              v-if="!isPreviewMode"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              <path
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              />
             </svg>
             <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              <path
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              />
             </svg>
             <span>{{ isPreviewMode ? 'Bearbeiten' : 'Vorschau' }}</span>
           </button>
@@ -233,7 +251,13 @@ function handlePublish() {
       <!-- Canvas -->
       <main
         ref="canvasRef"
-        :class="['page-builder__canvas', { 'page-builder__canvas--preview': isPreviewMode, 'page-builder__canvas--drag-over': isDragOver }]"
+        :class="[
+          'page-builder__canvas',
+          {
+            'page-builder__canvas--preview': isPreviewMode,
+            'page-builder__canvas--drag-over': isDragOver,
+          },
+        ]"
         @dragover="handleDragOver"
         @dragleave="handleDragLeave"
         @drop="handleDrop"
@@ -242,23 +266,27 @@ function handlePublish() {
         <div class="page-builder__canvas-inner">
           <!-- Empty State -->
           <div v-if="widgets.length === 0" class="page-builder__empty">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="page-builder__empty-icon">
-              <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              class="page-builder__empty-icon"
+            >
+              <path
+                d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
+              />
             </svg>
             <h2 class="page-builder__empty-title">Seite ist leer</h2>
             <p class="page-builder__empty-text">
-              Ziehe Widgets aus der linken Palette hierher<br>
+              Ziehe Widgets aus der linken Palette hierher<br />
               oder klicke auf ein Widget, um es hinzuzufügen.
             </p>
           </div>
 
           <!-- Widgets -->
           <div v-else class="page-builder__widgets">
-            <WidgetRenderer
-              v-for="widget in widgets"
-              :key="widget.id"
-              :widget="widget"
-            />
+            <WidgetRenderer v-for="widget in widgets" :key="widget.id" :widget="widget" />
           </div>
         </div>
       </main>
@@ -420,13 +448,17 @@ function handlePublish() {
   overflow: auto;
   padding: 2rem;
   background-color: #e5e7eb;
-  background-image: 
+  background-image:
     linear-gradient(45deg, #d1d5db 25%, transparent 25%),
     linear-gradient(-45deg, #d1d5db 25%, transparent 25%),
     linear-gradient(45deg, transparent 75%, #d1d5db 75%),
     linear-gradient(-45deg, transparent 75%, #d1d5db 75%);
   background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  background-position:
+    0 0,
+    0 10px,
+    10px -10px,
+    -10px 0px;
 }
 
 .page-builder__canvas--preview {
@@ -443,7 +475,9 @@ function handlePublish() {
   min-height: 100%;
   margin: 0 auto;
   background-color: white;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-radius: 8px;
   overflow: hidden;
 }

@@ -112,7 +112,15 @@ export type WidgetType =
   | 'order-history'
   | 'address-book'
   | 'profile-form'
-  | 'wishlist';
+  | 'wishlist'
+  // E-Commerce Widgets (Phase 4)
+  | 'product-card'
+  | 'product-grid'
+  | 'category-nav'
+  | 'search-box'
+  | 'cart-summary'
+  | 'mini-cart'
+  | 'breadcrumb';
 
 // ============================================================================
 // Phase 1: Layout Widget Configs
@@ -310,6 +318,141 @@ export interface WishlistWidgetConfig extends WidgetConfig {
 export interface WishlistWidget extends WidgetBase {
   type: 'wishlist';
   config: WishlistWidgetConfig;
+}
+
+// ============================================================================
+// Phase 4: E-Commerce Widget Configs
+// ============================================================================
+
+export interface ProductCardWidgetConfig extends WidgetConfig {
+  productId?: string;
+  showImage: boolean;
+  showTitle: boolean;
+  showPrice: boolean;
+  showDescription: boolean;
+  showAddToCart: boolean;
+  showWishlistButton: boolean;
+  showBadges: boolean;
+  imageAspectRatio: '1:1' | '4:3' | '3:4' | '16:9';
+  titleLines: number;
+  descriptionLines: number;
+  variant: 'default' | 'compact' | 'horizontal';
+}
+
+export interface ProductCardWidget extends WidgetBase {
+  type: 'product-card';
+  config: ProductCardWidgetConfig;
+}
+
+export interface ProductGridWidgetConfig extends WidgetConfig {
+  title?: string;
+  source: 'category' | 'manual' | 'bestseller' | 'new' | 'sale';
+  categoryId?: string;
+  productIds?: string[];
+  columns: ResponsiveValue<number>;
+  rows: number;
+  showPagination: boolean;
+  showFilters: boolean;
+  showSorting: boolean;
+  cardVariant: 'default' | 'compact' | 'horizontal';
+  gap: ResponsiveValue<string>;
+  emptyStateMessage: string;
+}
+
+export interface ProductGridWidget extends WidgetBase {
+  type: 'product-grid';
+  config: ProductGridWidgetConfig;
+}
+
+export interface CategoryNavWidgetConfig extends WidgetConfig {
+  title?: string;
+  rootCategoryId?: string;
+  depth: number;
+  layout: 'vertical' | 'horizontal' | 'mega-menu';
+  showProductCount: boolean;
+  showImages: boolean;
+  expandable: boolean;
+  highlightActive: boolean;
+  maxItems?: number;
+}
+
+export interface CategoryNavWidget extends WidgetBase {
+  type: 'category-nav';
+  config: CategoryNavWidgetConfig;
+}
+
+export interface SearchBoxWidgetConfig extends WidgetConfig {
+  placeholder: string;
+  showSuggestions: boolean;
+  suggestionsCount: number;
+  showCategories: boolean;
+  showRecentSearches: boolean;
+  recentSearchesCount: number;
+  minChars: number;
+  size: 'sm' | 'md' | 'lg';
+  variant: 'default' | 'minimal' | 'expanded';
+  showSearchButton: boolean;
+  searchButtonText: string;
+}
+
+export interface SearchBoxWidget extends WidgetBase {
+  type: 'search-box';
+  config: SearchBoxWidgetConfig;
+}
+
+export interface CartSummaryWidgetConfig extends WidgetConfig {
+  title: string;
+  showItemCount: boolean;
+  showSubtotal: boolean;
+  showShipping: boolean;
+  showTax: boolean;
+  showTotal: boolean;
+  showCheckoutButton: boolean;
+  checkoutButtonText: string;
+  showContinueShopping: boolean;
+  continueShoppingText: string;
+  continueShoppingUrl: string;
+  showPromoCode: boolean;
+  emptyCartMessage: string;
+}
+
+export interface CartSummaryWidget extends WidgetBase {
+  type: 'cart-summary';
+  config: CartSummaryWidgetConfig;
+}
+
+export interface MiniCartWidgetConfig extends WidgetConfig {
+  showItemCount: boolean;
+  showTotal: boolean;
+  maxItemsPreview: number;
+  showCheckoutButton: boolean;
+  checkoutButtonText: string;
+  showViewCartButton: boolean;
+  viewCartButtonText: string;
+  position: 'dropdown' | 'slide-out';
+  triggerIcon: 'cart' | 'bag' | 'basket';
+  emptyCartMessage: string;
+}
+
+export interface MiniCartWidget extends WidgetBase {
+  type: 'mini-cart';
+  config: MiniCartWidgetConfig;
+}
+
+export interface BreadcrumbWidgetConfig extends WidgetConfig {
+  showHome: boolean;
+  homeLabel: string;
+  homeUrl: string;
+  separator: 'slash' | 'chevron' | 'arrow' | 'dot';
+  maxItems: number;
+  truncateMiddle: boolean;
+  showCurrentPage: boolean;
+  currentPageClickable: boolean;
+}
+
+export interface BreadcrumbWidget extends WidgetBase {
+  type: 'breadcrumb';
+  config: BreadcrumbWidgetConfig;
 }
 
 // ============================================================================

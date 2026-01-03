@@ -19,6 +19,13 @@ import type {
   AddressBookWidgetConfig,
   ProfileFormWidgetConfig,
   WishlistWidgetConfig,
+  ProductCardWidgetConfig,
+  ProductGridWidgetConfig,
+  CategoryNavWidgetConfig,
+  SearchBoxWidgetConfig,
+  CartSummaryWidgetConfig,
+  MiniCartWidgetConfig,
+  BreadcrumbWidgetConfig,
 } from '@/types/widgets';
 
 const store = usePageBuilderStore();
@@ -754,6 +761,466 @@ function setResponsiveValue<T>(field: string, value: T) {
                 @change="updateConfig({ showStockStatus: ($event.target as HTMLInputElement).checked })"
               />
               <span>Verfügbarkeit anzeigen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Product Card Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'product-card'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Produkt-ID</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as ProductCardWidgetConfig).productId || ''"
+            @input="updateConfig({ productId: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Produkt-ID eingeben..."
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Variante</label>
+          <select
+            :value="(selectedWidget.config as ProductCardWidgetConfig).variant || 'default'"
+            @change="updateConfig({ variant: ($event.target as HTMLSelectElement).value as 'default' | 'compact' | 'horizontal' })"
+            class="widget-configurator__select"
+          >
+            <option value="default">Standard</option>
+            <option value="compact">Kompakt</option>
+            <option value="horizontal">Horizontal</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Bild-Verhältnis</label>
+          <select
+            :value="(selectedWidget.config as ProductCardWidgetConfig).imageAspectRatio || '1:1'"
+            @change="updateConfig({ imageAspectRatio: ($event.target as HTMLSelectElement).value as '1:1' | '4:3' | '3:4' | '16:9' })"
+            class="widget-configurator__select"
+          >
+            <option value="1:1">1:1 (Quadrat)</option>
+            <option value="4:3">4:3</option>
+            <option value="3:4">3:4 (Hochformat)</option>
+            <option value="16:9">16:9</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProductCardWidgetConfig).showPrice ?? true"
+                @change="updateConfig({ showPrice: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Preis anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProductCardWidgetConfig).showAddToCart ?? true"
+                @change="updateConfig({ showAddToCart: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>In Warenkorb Button</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProductCardWidgetConfig).showWishlist ?? true"
+                @change="updateConfig({ showWishlist: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Merkzettel Button</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProductCardWidgetConfig).showRating ?? true"
+                @change="updateConfig({ showRating: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Bewertung anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProductCardWidgetConfig).showBadges ?? true"
+                @change="updateConfig({ showBadges: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Badges anzeigen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Product Grid Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'product-grid'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Titel</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as ProductGridWidgetConfig).title || ''"
+            @input="updateConfig({ title: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Produktübersicht"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Datenquelle</label>
+          <select
+            :value="(selectedWidget.config as ProductGridWidgetConfig).source || 'category'"
+            @change="updateConfig({ source: ($event.target as HTMLSelectElement).value as 'category' | 'manual' | 'bestseller' | 'new' | 'sale' })"
+            class="widget-configurator__select"
+          >
+            <option value="category">Kategorie</option>
+            <option value="manual">Manuelle Auswahl</option>
+            <option value="bestseller">Bestseller</option>
+            <option value="new">Neuheiten</option>
+            <option value="sale">Angebote</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Spalten</label>
+          <input
+            type="number"
+            :value="getResponsiveValue((selectedWidget.config as ProductGridWidgetConfig).columns || 4)"
+            @input="setResponsiveValue('columns', parseInt(($event.target as HTMLInputElement).value) || 4)"
+            class="widget-configurator__input"
+            min="1"
+            max="6"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Einträge pro Seite</label>
+          <input
+            type="number"
+            :value="(selectedWidget.config as ProductGridWidgetConfig).itemsPerPage || 12"
+            @input="updateConfig({ itemsPerPage: parseInt(($event.target as HTMLInputElement).value) || 12 })"
+            class="widget-configurator__input"
+            min="4"
+            max="48"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProductGridWidgetConfig).showFilters ?? true"
+                @change="updateConfig({ showFilters: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Filter anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProductGridWidgetConfig).showSorting ?? true"
+                @change="updateConfig({ showSorting: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Sortierung anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as ProductGridWidgetConfig).showPagination ?? true"
+                @change="updateConfig({ showPagination: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Paginierung anzeigen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Category Nav Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'category-nav'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Titel</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as CategoryNavWidgetConfig).title || ''"
+            @input="updateConfig({ title: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Kategorien"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Layout</label>
+          <select
+            :value="(selectedWidget.config as CategoryNavWidgetConfig).layout || 'vertical'"
+            @change="updateConfig({ layout: ($event.target as HTMLSelectElement).value as 'vertical' | 'horizontal' | 'mega-menu' })"
+            class="widget-configurator__select"
+          >
+            <option value="vertical">Vertikal</option>
+            <option value="horizontal">Horizontal</option>
+            <option value="mega-menu">Mega-Menü</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Max. Tiefe</label>
+          <input
+            type="number"
+            :value="(selectedWidget.config as CategoryNavWidgetConfig).maxDepth || 3"
+            @input="updateConfig({ maxDepth: parseInt(($event.target as HTMLInputElement).value) || 3 })"
+            class="widget-configurator__input"
+            min="1"
+            max="5"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as CategoryNavWidgetConfig).showProductCount ?? true"
+                @change="updateConfig({ showProductCount: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Produktanzahl anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as CategoryNavWidgetConfig).showImages ?? false"
+                @change="updateConfig({ showImages: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Bilder anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as CategoryNavWidgetConfig).collapsible ?? true"
+                @change="updateConfig({ collapsible: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Einklappbar</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Search Box Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'search-box'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Platzhalter</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as SearchBoxWidgetConfig).placeholder || ''"
+            @input="updateConfig({ placeholder: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Suchen..."
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Größe</label>
+          <select
+            :value="(selectedWidget.config as SearchBoxWidgetConfig).size || 'md'"
+            @change="updateConfig({ size: ($event.target as HTMLSelectElement).value as 'sm' | 'md' | 'lg' })"
+            class="widget-configurator__select"
+          >
+            <option value="sm">Klein</option>
+            <option value="md">Mittel</option>
+            <option value="lg">Groß</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Max. Vorschläge</label>
+          <input
+            type="number"
+            :value="(selectedWidget.config as SearchBoxWidgetConfig).maxSuggestions || 6"
+            @input="updateConfig({ maxSuggestions: parseInt(($event.target as HTMLInputElement).value) || 6 })"
+            class="widget-configurator__input"
+            min="0"
+            max="20"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as SearchBoxWidgetConfig).showSuggestions ?? true"
+                @change="updateConfig({ showSuggestions: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Vorschläge anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as SearchBoxWidgetConfig).showCategoryFilter ?? false"
+                @change="updateConfig({ showCategoryFilter: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Kategoriefilter anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as SearchBoxWidgetConfig).showRecentSearches ?? true"
+                @change="updateConfig({ showRecentSearches: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Letzte Suchen anzeigen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Cart Summary Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'cart-summary'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Titel</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as CartSummaryWidgetConfig).title || ''"
+            @input="updateConfig({ title: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Zusammenfassung"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Checkout-Button Text</label>
+          <input
+            type="text"
+            :value="(selectedWidget.config as CartSummaryWidgetConfig).checkoutButtonText || ''"
+            @input="updateConfig({ checkoutButtonText: ($event.target as HTMLInputElement).value })"
+            class="widget-configurator__input"
+            placeholder="Zur Kasse"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as CartSummaryWidgetConfig).showSubtotal ?? true"
+                @change="updateConfig({ showSubtotal: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Zwischensumme anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as CartSummaryWidgetConfig).showShipping ?? true"
+                @change="updateConfig({ showShipping: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Versandkosten anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as CartSummaryWidgetConfig).showTax ?? true"
+                @change="updateConfig({ showTax: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>MwSt. anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as CartSummaryWidgetConfig).showPromoCode ?? true"
+                @change="updateConfig({ showPromoCode: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Gutscheinfeld anzeigen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Mini Cart Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'mini-cart'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Variante</label>
+          <select
+            :value="(selectedWidget.config as MiniCartWidgetConfig).variant || 'dropdown'"
+            @change="updateConfig({ variant: ($event.target as HTMLSelectElement).value as 'dropdown' | 'slide-out' })"
+            class="widget-configurator__select"
+          >
+            <option value="dropdown">Dropdown</option>
+            <option value="slide-out">Seitenpanel</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Max. angezeigte Artikel</label>
+          <input
+            type="number"
+            :value="(selectedWidget.config as MiniCartWidgetConfig).maxItems || 5"
+            @input="updateConfig({ maxItems: parseInt(($event.target as HTMLInputElement).value) || 5 })"
+            class="widget-configurator__input"
+            min="1"
+            max="10"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as MiniCartWidgetConfig).showItemCount ?? true"
+                @change="updateConfig({ showItemCount: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Artikelanzahl anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as MiniCartWidgetConfig).showTotal ?? true"
+                @change="updateConfig({ showTotal: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Gesamtsumme anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as MiniCartWidgetConfig).showCheckoutButton ?? true"
+                @change="updateConfig({ showCheckoutButton: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Checkout-Button anzeigen</span>
+            </label>
+          </div>
+        </div>
+      </template>
+
+      <!-- Breadcrumb Widget Config -->
+      <template v-else-if="selectedWidget?.type === 'breadcrumb'">
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Trennzeichen</label>
+          <select
+            :value="(selectedWidget.config as BreadcrumbWidgetConfig).separator || 'chevron'"
+            @change="updateConfig({ separator: ($event.target as HTMLSelectElement).value as 'slash' | 'chevron' | 'arrow' | 'dot' })"
+            class="widget-configurator__select"
+          >
+            <option value="chevron">Chevron (›)</option>
+            <option value="slash">Schrägstrich (/)</option>
+            <option value="arrow">Pfeil (→)</option>
+            <option value="dot">Punkt (•)</option>
+          </select>
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Max. Elemente</label>
+          <input
+            type="number"
+            :value="(selectedWidget.config as BreadcrumbWidgetConfig).maxItems || 5"
+            @input="updateConfig({ maxItems: parseInt(($event.target as HTMLInputElement).value) || 5 })"
+            class="widget-configurator__input"
+            min="2"
+            max="10"
+          />
+        </div>
+        <div class="widget-configurator__section">
+          <label class="widget-configurator__label">Optionen</label>
+          <div class="widget-configurator__group">
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as BreadcrumbWidgetConfig).showHomeIcon ?? true"
+                @change="updateConfig({ showHomeIcon: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Home-Icon anzeigen</span>
+            </label>
+            <label class="widget-configurator__checkbox">
+              <input
+                type="checkbox"
+                :checked="(selectedWidget.config as BreadcrumbWidgetConfig).showCurrentPage ?? true"
+                @change="updateConfig({ showCurrentPage: ($event.target as HTMLInputElement).checked })"
+              />
+              <span>Aktuelle Seite anzeigen</span>
             </label>
           </div>
         </div>

@@ -2,63 +2,67 @@
 /**
  * PageBuilderView - Route view for /pages/:id/edit
  */
-import { ref, computed, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { PageBuilder } from '@/components/page-builder'
-import { usePageBuilderStore } from '@/stores/pageBuilder'
+import { ref, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { PageBuilder } from '@/components/page-builder';
+import { usePageBuilderStore } from '@/stores/pageBuilder';
 
-const route = useRoute()
-const router = useRouter()
-const store = usePageBuilderStore()
+const route = useRoute();
+const router = useRouter();
+const store = usePageBuilderStore();
 
-const pageId = computed(() => route.params.id as string)
-const isSaving = ref(false)
-const isPublishing = ref(false)
-const saveError = ref<string | null>(null)
+const pageId = computed(() => route.params.id as string);
+const isSaving = ref(false);
+const isPublishing = ref(false);
+const saveError = ref<string | null>(null);
 
 // Watch for route changes
-watch(pageId, (newId) => {
-  if (newId) {
-    store.loadPage(newId)
-  }
-}, { immediate: true })
+watch(
+  pageId,
+  newId => {
+    if (newId) {
+      store.loadPage(newId);
+    }
+  },
+  { immediate: true }
+);
 
 async function handleSave() {
-  if (isSaving.value) return
-  
-  isSaving.value = true
-  saveError.value = null
-  
+  if (isSaving.value) return;
+
+  isSaving.value = true;
+  saveError.value = null;
+
   try {
     // TODO: Implement actual API call
-    await new Promise(resolve => setTimeout(resolve, 500))
-    console.log('Page saved:', store.page)
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('Page saved:', store.page);
     // Show success notification
   } catch (error) {
-    saveError.value = 'Fehler beim Speichern'
-    console.error('Save error:', error)
+    saveError.value = 'Fehler beim Speichern';
+    console.error('Save error:', error);
   } finally {
-    isSaving.value = false
+    isSaving.value = false;
   }
 }
 
 async function handlePublish() {
-  if (isPublishing.value) return
-  
-  isPublishing.value = true
-  saveError.value = null
-  
+  if (isPublishing.value) return;
+
+  isPublishing.value = true;
+  saveError.value = null;
+
   try {
     // TODO: Implement actual API call
-    await new Promise(resolve => setTimeout(resolve, 500))
-    console.log('Page published:', store.page)
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('Page published:', store.page);
     // Show success notification and redirect
-    router.push({ name: 'pages-list' })
+    router.push({ name: 'pages-list' });
   } catch (error) {
-    saveError.value = 'Fehler beim Veröffentlichen'
-    console.error('Publish error:', error)
+    saveError.value = 'Fehler beim Veröffentlichen';
+    console.error('Publish error:', error);
   } finally {
-    isPublishing.value = false
+    isPublishing.value = false;
   }
 }
 </script>
@@ -77,12 +81,7 @@ async function handlePublish() {
     </div>
 
     <!-- Page Builder -->
-    <PageBuilder
-      v-else
-      :page-id="pageId"
-      @save="handleSave"
-      @publish="handlePublish"
-    />
+    <PageBuilder v-else :page-id="pageId" @save="handleSave" @publish="handlePublish" />
   </div>
 </template>
 

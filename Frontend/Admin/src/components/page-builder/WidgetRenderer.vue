@@ -3,31 +3,31 @@
  * WidgetRenderer - Dynamically renders widgets based on type
  * Handles selection, hover states, and editing mode
  */
-import { computed, inject } from 'vue'
-import { storeToRefs } from 'pinia'
-import { usePageBuilderStore } from '@/stores/pageBuilder'
-import { getWidgetComponent } from './widgets'
-import type { WidgetBase } from '@/types/widgets'
+import { computed, inject } from 'vue';
+import { storeToRefs } from 'pinia';
+import { usePageBuilderStore } from '@/stores/pageBuilder';
+import { getWidgetComponent } from './widgets';
+import type { WidgetBase } from '@/types/widgets';
 
 interface Props {
-  widget: WidgetBase
-  depth?: number
+  widget: WidgetBase;
+  depth?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  depth: 0
-})
+  depth: 0,
+});
 
-const store = usePageBuilderStore()
-const { selectedWidgetId, hoveredWidgetId, isPreviewMode } = storeToRefs(store)
+const store = usePageBuilderStore();
+const { selectedWidgetId, hoveredWidgetId, isPreviewMode } = storeToRefs(store);
 
 // Get the component for this widget type
-const WidgetComponent = computed(() => getWidgetComponent(props.widget.type))
+const WidgetComponent = computed(() => getWidgetComponent(props.widget.type));
 
 // Computed states
-const isSelected = computed(() => selectedWidgetId.value === props.widget.id)
-const isHovered = computed(() => hoveredWidgetId.value === props.widget.id && !isSelected.value)
-const isEditing = computed(() => !isPreviewMode.value)
+const isSelected = computed(() => selectedWidgetId.value === props.widget.id);
+const isHovered = computed(() => hoveredWidgetId.value === props.widget.id && !isSelected.value);
+const isEditing = computed(() => !isPreviewMode.value);
 
 // Container classes
 const containerClass = computed(() => [
@@ -38,21 +38,21 @@ const containerClass = computed(() => [
     'widget-renderer--selected': isSelected.value,
     'widget-renderer--hovered': isHovered.value,
     'widget-renderer--editing': isEditing.value,
-    'widget-renderer--preview': isPreviewMode.value
-  }
-])
+    'widget-renderer--preview': isPreviewMode.value,
+  },
+]);
 
 // Apply widget styles
 const containerStyle = computed(() => {
-  const style = props.widget.style || {}
+  const style = props.widget.style || {};
   return {
     margin: typeof style.margin === 'object' ? style.margin.desktop : style.margin,
     padding: typeof style.padding === 'object' ? style.padding.desktop : style.padding,
     backgroundColor: style.backgroundColor,
     borderRadius: style.borderRadius,
-    boxShadow: style.boxShadow ? getBoxShadow(style.boxShadow) : undefined
-  }
-})
+    boxShadow: style.boxShadow ? getBoxShadow(style.boxShadow) : undefined,
+  };
+});
 
 function getBoxShadow(size: string): string {
   const shadows: Record<string, string> = {
@@ -60,43 +60,43 @@ function getBoxShadow(size: string): string {
     sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
     md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
     lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1)'
-  }
-  return shadows[size] || 'none'
+    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+  };
+  return shadows[size] || 'none';
 }
 
 // Event handlers
 function handleClick(event: MouseEvent) {
-  if (isPreviewMode.value) return
-  event.stopPropagation()
-  store.selectWidget(props.widget.id)
+  if (isPreviewMode.value) return;
+  event.stopPropagation();
+  store.selectWidget(props.widget.id);
 }
 
 function handleMouseEnter() {
-  if (isPreviewMode.value) return
-  store.hoverWidget(props.widget.id)
+  if (isPreviewMode.value) return;
+  store.hoverWidget(props.widget.id);
 }
 
 function handleMouseLeave() {
-  if (isPreviewMode.value) return
-  store.hoverWidget(null)
+  if (isPreviewMode.value) return;
+  store.hoverWidget(null);
 }
 
 function handleConfigUpdate(config: Partial<typeof props.widget.config>) {
-  store.updateWidget(props.widget.id, config)
+  store.updateWidget(props.widget.id, config);
 }
 
 // Check if widget has children
 const hasChildren = computed(() => {
-  return 'children' in props.widget.config && Array.isArray(props.widget.config.children)
-})
+  return 'children' in props.widget.config && Array.isArray(props.widget.config.children);
+});
 
 const children = computed(() => {
   if (hasChildren.value) {
-    return props.widget.config.children as WidgetBase[]
+    return props.widget.config.children as WidgetBase[];
   }
-  return []
-})
+  return [];
+});
 </script>
 
 <template>
@@ -111,7 +111,7 @@ const children = computed(() => {
   >
     <!-- Selection indicator -->
     <div v-if="isSelected && isEditing" class="widget-renderer__selection-ring" />
-    
+
     <!-- Hover indicator -->
     <div v-if="isHovered && isEditing" class="widget-renderer__hover-ring" />
 
@@ -119,8 +119,8 @@ const children = computed(() => {
     <div v-if="isSelected && isEditing" class="widget-renderer__toolbar">
       <span class="widget-renderer__type-label">{{ widget.type }}</span>
       <div class="widget-renderer__actions">
-        <button 
-          class="widget-renderer__action-btn" 
+        <button
+          class="widget-renderer__action-btn"
           title="Duplizieren"
           @click.stop="store.duplicateWidget(widget.id)"
         >
@@ -129,8 +129,8 @@ const children = computed(() => {
             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
           </svg>
         </button>
-        <button 
-          class="widget-renderer__action-btn" 
+        <button
+          class="widget-renderer__action-btn"
           title="Kopieren"
           @click.stop="store.copyWidget(widget.id)"
         >
@@ -139,13 +139,15 @@ const children = computed(() => {
             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
           </svg>
         </button>
-        <button 
-          class="widget-renderer__action-btn widget-renderer__action-btn--danger" 
+        <button
+          class="widget-renderer__action-btn widget-renderer__action-btn--danger"
           title="Löschen"
           @click.stop="store.removeWidget(widget.id)"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+            <path
+              d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
+            />
           </svg>
         </button>
       </div>
@@ -161,10 +163,7 @@ const children = computed(() => {
     >
       <!-- Slot for nested widgets -->
       <template v-if="hasChildren" #widget="{ widget: childWidget, index }">
-        <WidgetRenderer
-          :widget="childWidget"
-          :depth="depth + 1"
-        />
+        <WidgetRenderer :widget="childWidget" :depth="depth + 1" />
       </template>
     </component>
 
