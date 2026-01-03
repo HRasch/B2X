@@ -88,7 +88,7 @@ describe('RegistrationCheck.vue', () => {
     const emailInput = wrapper.find('[data-testid="email-input"]');
     await emailInput.setValue('test@example.com');
 
-    expect((wrapper.vm as RegistrationCheckVM).formData.email).toBe('test@example.com');
+    expect((wrapper.vm as unknown as RegistrationCheckVM).formData.email).toBe('test@example.com');
   });
 
   it('updates business type on select change', async () => {
@@ -101,7 +101,7 @@ describe('RegistrationCheck.vue', () => {
     const select = wrapper.find('[data-testid="business-type-select"]');
     await select.setValue('B2B');
 
-    expect((wrapper.vm as RegistrationCheckVM).formData.businessType).toBe('B2B');
+    expect((wrapper.vm as unknown as RegistrationCheckVM).formData.businessType).toBe('B2B');
   });
 
   it('disables submit button when email or business type is empty', async () => {
@@ -141,7 +141,7 @@ describe('RegistrationCheck.vue', () => {
     await emailInput.trigger('blur');
 
     await wrapper.vm.$nextTick();
-    expect((wrapper.vm as RegistrationCheckVM).emailError).toBeTruthy();
+    expect((wrapper.vm as unknown as RegistrationCheckVM).emailError).toBeTruthy();
   });
 
   it('shows success message on successful registration check', async () => {
@@ -258,8 +258,8 @@ describe('RegistrationCheck.vue', () => {
       await resetButtons[0].trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect((wrapper.vm as RegistrationCheckVM).formData.email).toBe('');
-      expect((wrapper.vm as RegistrationCheckVM).result).toBeNull();
+      expect((wrapper.vm as unknown as RegistrationCheckVM).formData.email).toBe('');
+      expect((wrapper.vm as unknown as RegistrationCheckVM).result).toBeNull();
     }
   });
 
@@ -271,7 +271,7 @@ describe('RegistrationCheck.vue', () => {
     });
 
     // Set error manually
-    (wrapper.vm as RegistrationCheckVM).error = 'Test error message';
+    (wrapper.vm as unknown as RegistrationCheckVM).error = 'Test error message';
     await wrapper.vm.$nextTick();
 
     expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true);
@@ -314,3 +314,4 @@ describe('RegistrationCheck.vue', () => {
     expect(wrapper.html()).toContain('85%');
   });
 });
+

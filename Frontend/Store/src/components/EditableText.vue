@@ -1,5 +1,5 @@
 <template>
-  <div :data-admin-edit="`text-${_uid}`" class="editable-text" @click="handleEdit">
+  <div :data-admin-edit="`text-${uid}`" class="editable-text" @click="handleEdit">
     <component :is="tag" v-bind="$attrs">
       <slot />
     </component>
@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import { getCurrentInstance } from 'vue';
 import { useAdminStore } from '../stores/admin';
 
 interface Props {
@@ -18,11 +19,12 @@ withDefaults(defineProps<Props>(), {
 });
 
 const adminStore = useAdminStore();
+const uid = getCurrentInstance()?.uid ?? 0;
 
 const handleEdit = () => {
   if (adminStore.isActive && adminStore.canEditContent) {
     // Open edit modal or inline editor
-    console.log('Edit text element:', `text-${getCurrentInstance()?.uid}`);
+    console.log('Edit text element:', `text-${uid}`);
     // TODO: Implement edit functionality
   }
 };

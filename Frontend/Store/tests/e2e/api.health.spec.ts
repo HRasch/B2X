@@ -83,7 +83,7 @@ test.describe('Health Check Endpoints', () => {
       if (response.status() === 200) {
         const data = await response.json();
 
-        Object.values(data.services).forEach((service: HealthService) => {
+        (Object.values(data.services) as HealthService[]).forEach(service => {
           expect(['healthy', 'unhealthy', 'unavailable']).toContain(service.status);
         });
       }
@@ -118,8 +118,8 @@ test.describe('Cross-Service Communication', () => {
 
     const data = await response.json();
     // At least some services should be reachable
-    const reachableServices = Object.values(data.services).filter(
-      (s: HealthService) => s.status === 'healthy'
+    const reachableServices = (Object.values(data.services) as HealthService[]).filter(
+      s => s.status === 'healthy'
     );
 
     expect(reachableServices.length).toBeGreaterThanOrEqual(0);
@@ -197,7 +197,7 @@ test.describe('Service Availability', () => {
 
     if (Object.keys(data.services).length > 0) {
       // Services should have status information
-      Object.values(data.services).forEach((service: HealthService) => {
+      (Object.values(data.services) as HealthService[]).forEach(service => {
         expect(service).toHaveProperty('status');
       });
     }

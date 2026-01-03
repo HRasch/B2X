@@ -8,6 +8,9 @@ import PrivateCustomerRegistration from '@/views/PrivateCustomerRegistration.vue
 interface StoreConfigOptions {
   showPhoneField?: boolean;
   showDateOfBirthField?: boolean;
+  requirePhoneNumber?: boolean;
+  enableMarketingConsent?: boolean;
+  requiresAgeConfirmation?: boolean;
 }
 
 // ✅ FIX #2: Complete i18n messages with all translation keys

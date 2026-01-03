@@ -1,6 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { mount, flushPromises } from '@vue/test-utils';
+import { mount, flushPromises, type DOMWrapper } from '@vue/test-utils';
 import CustomerLookup from '@/components/ERP/CustomerLookup.vue';
+
+// Define VM interface for type safety
+interface CustomerLookupVM {
+  email: string;
+}
 
 // Mock the composable
 vi.mock('@/composables/useErpIntegration', () => ({
@@ -68,7 +73,7 @@ describe('CustomerLookup Component', () => {
     it('should update email value on input change', async () => {
       const input = wrapper.find('#email');
       await input.setValue('test@example.com');
-      expect(wrapper.vm.email).toBe('test@example.com');
+      expect((wrapper.vm as unknown as CustomerLookupVM).email).toBe('test@example.com');
     });
 
     it('should be disabled when customer is found', async () => {
@@ -122,7 +127,7 @@ describe('CustomerLookup Component', () => {
     it('should emit register event when register button clicked', async () => {
       const buttons = wrapper.findAll('button');
       // Find the register button
-      const registerButton = buttons.find((btn: ReturnType<typeof mount>) =>
+      const registerButton = buttons.find((btn: DOMWrapper<HTMLButtonElement>) =>
         btn.text().includes('Neue Registrierung')
       );
 

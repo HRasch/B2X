@@ -48,8 +48,10 @@ Object.defineProperty(window, 'matchMedia', {
 const originalWarn = console.warn;
 console.warn = function (...args: unknown[]) {
   // Filter out Vue's unhandled async component loader warnings
+  const firstArg = args[0] as string | undefined;
   if (
-    args[0]?.includes?.('[Vue warn]: Unhandled error during execution of async component loader')
+    typeof firstArg === 'string' &&
+    firstArg.includes('[Vue warn]: Unhandled error during execution of async component loader')
   ) {
     return;
   }

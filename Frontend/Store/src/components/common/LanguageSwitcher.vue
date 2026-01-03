@@ -3,14 +3,14 @@
     <!-- Dropdown trigger button -->
     <button
       class="language-button"
-      :title="`Switch language: ${currentLocale.name}`"
+      :title="`Switch language: ${currentLocale?.name ?? 'Unknown'}`"
       @click.stop="isOpen = !isOpen"
       :disabled="isLoading"
       data-testid="language-switcher-button"
       :aria-disabled="isLoading"
     >
-      <span class="language-flag">{{ currentLocale.flag }}</span>
-      <span class="language-code">{{ currentLocale.code.toUpperCase() }}</span>
+      <span class="language-flag">{{ currentLocale?.flag ?? '🌐' }}</span>
+      <span class="language-code">{{ currentLocale?.code.toUpperCase() ?? '?' }}</span>
       <svg
         class="chevron-icon"
         :class="{ rotate: isOpen }"

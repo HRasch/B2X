@@ -1,6 +1,5 @@
-// @ts-expect-error - vue-i18n type inference issue
 import { useI18n } from 'vue-i18n';
-import { ref, computed } from 'vue';
+import { ref, computed, type ComputedRef, type Ref } from 'vue';
 import { SUPPORTED_LOCALES } from '@/locales';
 
 /**
