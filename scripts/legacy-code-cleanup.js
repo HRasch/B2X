@@ -9,14 +9,25 @@
  * - Deprecated patterns
  * - Missing type annotations
  * - Phase 2: Interface creation, any type replacement, unused code removal
+ * - Phase 3: Automated expansion to additional files
  */
 
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-console.log('🧹 B2Connect Legacy Code Cleanup Script (Phase 2 Enhanced)');
+// Parse command line arguments
+const args = process.argv.slice(2);
+const isPhase3 = args.includes('--phase3');
+const limitIndex = args.indexOf('--limit');
+const limit = limitIndex !== -1 && args[limitIndex + 1] ? parseInt(args[limitIndex + 1]) : null;
+
+console.log(`🧹 B2Connect Legacy Code Cleanup Script (${isPhase3 ? 'Phase 3' : 'Phase 2 Enhanced'})`);
 console.log('========================================================\n');
+
+if (isPhase3) {
+  console.log(`🎯 Phase 3 Mode: Automated expansion${limit ? ` (limited to ${limit} files)` : ''}\n`);
+}
 
 // Configuration
 const FRONTEND_DIRS = ['frontend/Store/src', 'frontend/Admin/src', 'frontend/Management/src'];
@@ -269,24 +280,44 @@ function generateReport() {
 function main() {
   console.log('🔍 Phase 1: Analyzing codebase...\n');
 
+  let processedCount = 0;
+  const shouldLimit = isPhase3 && limit;
+
   // Analyze and fix frontend files
   FRONTEND_DIRS.forEach(dir => {
     if (fs.existsSync(dir)) {
       const files = findFiles(dir, ['.vue', '.ts', '.js']);
-      files.forEach(analyzeFile);
+
+      for (const file of files) {
+        if (shouldLimit && processedCount >= limit) {
+          console.log(`\n⏹️  Reached Phase 3 limit of ${limit} files`);
+          break;
+        }
+
+        analyzeFile(file);
+        processedCount++;
+
+        if (shouldLimit && processedCount % 10 === 0) {
+          console.log(`📊 Phase 3 Progress: ${processedCount}/${limit} files processed`);
+        }
+      }
     }
   });
 
-  // Analyze backend files (basic)
-  BACKEND_DIRS.forEach(dir => {
-    if (fs.existsSync(dir)) {
-      const files = findFiles(dir, ['.cs']);
-      files.forEach(file => {
-        stats.filesProcessed++;
-        console.log(`📄 Found C# file: ${file}`);
-      });
-    }
-  });
+  if (shouldLimit && processedCount >= limit) {
+    console.log(`\n🎯 Phase 3: Processed ${processedCount} files (limit reached)`);
+  } else {
+    // Analyze backend files (basic) - only if not limited or limit not reached
+    BACKEND_DIRS.forEach(dir => {
+      if (fs.existsSync(dir)) {
+        const files = findFiles(dir, ['.cs']);
+        files.forEach(file => {
+          stats.filesProcessed++;
+          console.log(`📄 Found C# file: ${file}`);
+        });
+      }
+    });
+  }
 
   // Run automated fixes (Prettier, ESLint)
   runAutomatedFixes();
