@@ -33,8 +33,14 @@ interface Feature {
   description: string;
 }
 
+interface FeatureGridSettings {
+  title?: string;
+  columns?: number;
+  features?: Feature[] | string;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: FeatureGridSettings;
   widgetId: string;
 }
 

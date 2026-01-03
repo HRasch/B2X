@@ -30,8 +30,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+interface NewsletterSignupSettings {
+  heading?: string;
+  placeholder?: string;
+  buttonText?: string;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: NewsletterSignupSettings;
   widgetId: string;
 }
 
@@ -47,7 +53,7 @@ const handleSubmit = async () => {
     message.value = 'Thank you for subscribing!';
     messageType.value = 'success';
     email.value = '';
-  } catch (error) {
+  } catch {
     message.value = 'Something went wrong. Please try again.';
     messageType.value = 'error';
   }
