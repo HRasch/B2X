@@ -212,7 +212,9 @@ public class NVAddress
 /// <summary>
 /// eGate IcECArticle interface for e-commerce article operations.
 /// </summary>
+#pragma warning disable CA1715 // Identifiers should have correct prefix
 public interface IcECArticle
+#pragma warning restore CA1715 // Identifiers should have correct prefix
 {
     int ArticleId { get; }
     string Name { get; }

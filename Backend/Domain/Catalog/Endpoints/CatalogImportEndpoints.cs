@@ -52,7 +52,7 @@ public static class CatalogImportEndpoints
         try
         {
             using var stream = request.File.OpenReadStream();
-            var result = await catalogImportService.ImportAsync(tenantId, stream, format, ct);
+            var result = await catalogImportService.ImportAsync(tenantId, stream, format, request.CustomSchemaPath, ct);
 
             return Results.Ok(new CatalogImportResponse
             {
@@ -205,6 +205,12 @@ public class CatalogImportRequest
     /// If not specified, format is detected from file extension/content
     /// </summary>
     public string? Format { get; set; }
+
+    /// <summary>
+    /// Optional: Path to custom XSD schema file for validation
+    /// If not specified, built-in BMEcat schemas are used
+    /// </summary>
+    public string? CustomSchemaPath { get; set; }
 }
 
 /// <summary>

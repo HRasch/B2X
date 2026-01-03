@@ -39,6 +39,7 @@
     <ProjectReference Include="../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
     <ProjectReference Include="../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
     <ProjectReference Include="../../Domain/ERP/src/B2Connect.ERP.csproj" />
+    <ProjectReference Include="../../Domain/Email/B2Connect.Email.csproj" />
   </ItemGroup>
 
   <ItemGroup>

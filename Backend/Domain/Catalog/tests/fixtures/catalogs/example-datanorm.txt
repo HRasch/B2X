@@ -1,0 +1,22 @@
+0ELEKTRONIK-KATALOG 2026   20260103Testlieferant GmbH     EUR
+1PSU-500-IND   ART-001                     Industrial Power Supply 500W                      
+2PSU-500-IND   0100029999EUR5901234123457SiemensSIEMENS-PSU-500
+4PSU-500-IND   High efficiency switching power supply for industrial applications. CE certified, RoHS compliant. Input: 100-240V AC, Output: 24V DC, Efficiency: 94%.
+3PSU-500-IND   0199
+1CABLE-CAT6-10MART-002                     Ethernet Cable CAT6 10m                           
+2CABLE-CAT6-10M0100001250EUR5901234123464BeldenBELDEN-CAT6-10
+4CABLE-CAT6-10MShielded twisted pair network cable. S/FTP shielding, LSZH jacket. Category: CAT6.
+3CABLE-CAT6-10M0150
+1SENSOR-PT100  ART-003                     Temperature Sensor PT100                          
+2SENSOR-PT100  0100008900EUR5901234123471Endress+HauserEH-PT100-IND
+4SENSOR-PT100  Industrial grade platinum resistance thermometer. Range: -200 to +850°C. Accuracy: Class A (DIN EN 60751). IP68.
+3SENSOR-PT100  0120
+1MOTOR-AC-2KW  ART-004                     AC Motor 2kW 3-Phase                              
+2MOTOR-AC-2KW  0100045000EUR5901234123488ABBABB-M2KW-3P
+4MOTOR-AC-2KW  Three-phase asynchronous motor. Power: 2kW, Voltage: 400V, Speed: 1450 rpm, Efficiency class: IE3.
+3MOTOR-AC-2KW  0114
+1SWITCH-IND-8P ART-005                     Industrial Switch 8-Port                          
+2SWITCH-IND-8P 0100018900EUR5901234123495PhoenixPHX-SW8-IND
+4SWITCH-IND-8P Managed industrial Ethernet switch. 8x Gigabit ports, DIN rail mount, -40 to +75°C operating range.
+3SWITCH-IND-8P 0107
+9Testlieferant GmbH     2026010300005

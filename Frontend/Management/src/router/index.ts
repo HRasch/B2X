@@ -43,6 +43,16 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/email-monitoring',
+    component: () => import('@/pages/EmailMonitoringPage.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/email-messages',
+    component: () => import('@/pages/EmailMessagesPage.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('@/pages/NotFoundPage.vue'),
   },

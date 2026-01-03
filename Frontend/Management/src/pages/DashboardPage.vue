@@ -21,6 +21,12 @@
       </div>
 
       <div class="stat-card">
+        <h3>Email Monitoring</h3>
+        <p class="stat-value">Monitor</p>
+        <router-link to="/email-monitoring" class="link">View Email Status →</router-link>
+      </div>
+
+      <div class="stat-card">
         <h3>Quick Actions</h3>
         <router-link to="/stores" class="action-btn">Create Store</router-link>
         <router-link to="/admins" class="action-btn">Add Administrator</router-link>

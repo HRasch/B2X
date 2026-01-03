@@ -203,6 +203,11 @@ builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeReposito
 // builder.Services.AddScoped<ICategoryService, CategoryService>();
 // builder.Services.AddScoped<IBrandService, BrandService>();
 
+// Email Services
+builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailService, B2Connect.Email.Services.SmtpEmailService>();
+builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailQueueService, B2Connect.Email.Services.EmailQueueService>();
+builder.Services.AddHostedService<B2Connect.Email.Handlers.ProcessEmailQueueJob>();
+
 // Add services
 builder.Services.AddControllers(options =>
 {

@@ -15,6 +15,7 @@
     <Project Path="backend/Domain/Catalog/B2Connect.Catalog.API.csproj" />
     <Project Path="backend/Domain/CMS/B2Connect.CMS.csproj" />
     <Project Path="backend/Domain/Customer/B2Connect.Customer.API.csproj" />
+    <Project Path="backend/Domain/Email/B2Connect.Email.csproj" />
     <Project Path="backend/Domain/ERP/src/B2Connect.ERP.csproj" />
     <Project Path="backend/Domain/Identity/B2Connect.Identity.API.csproj" />
     <Project Path="backend/Domain/Localization/B2Connect.Localization.API.csproj" />

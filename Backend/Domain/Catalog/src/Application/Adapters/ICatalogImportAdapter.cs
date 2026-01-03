@@ -53,4 +53,5 @@ public class CatalogMetadata
     public DateTime ImportTimestamp { get; set; } = DateTime.UtcNow;
     public string? Version { get; set; }
     public string? Description { get; set; }
+    public string? CustomSchemaPath { get; set; }
 }

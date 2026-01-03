@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- Dynamic product attributes */
+ 
 
 export interface Product {
   id: string;

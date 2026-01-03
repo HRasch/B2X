@@ -16,7 +16,6 @@
   <ItemGroup>
     <!-- Core serialization - compatible with .NET 4.8 via NuGet -->
     <PackageReference Include="System.ComponentModel.Annotations" />
-    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
 </Project>

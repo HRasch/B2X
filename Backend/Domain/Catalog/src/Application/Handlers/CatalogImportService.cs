@@ -33,7 +33,7 @@ public class CatalogImportService
     /// <summary>
     /// Import catalog file using detected format
     /// </summary>
-    public async Task<CatalogImport> ImportAsync(Guid tenantId, Stream stream, string format, CancellationToken ct = default)
+    public async Task<CatalogImport> ImportAsync(Guid tenantId, Stream stream, string format, string? customSchemaPath = null, CancellationToken ct = default)
     {
         // Get adapter for format
         var adapter = GetAdapterForFormat(format);
@@ -65,7 +65,8 @@ public class CatalogImportService
             var metadata = new CatalogMetadata
             {
                 TenantId = tenantId,
-                ImportTimestamp = DateTime.UtcNow
+                ImportTimestamp = DateTime.UtcNow,
+                CustomSchemaPath = customSchemaPath
             };
 
             var result = await adapter.ImportAsync(stream, metadata, ct);

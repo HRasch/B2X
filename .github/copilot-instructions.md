@@ -68,6 +68,36 @@ Note: Routine documentation edits (for example: content fixes, link repairs, reo
 
 IMPORTANT: Any change that affects agent policies (including but not limited to changes to model defaults, permission rules, agent roles, or governance processes) is considered a policy-level change and MUST NOT be merged without explicit written approval from `@SARAH`. After `@SARAH` approval, the approver or issuer must create a log entry under `.ai/logs/agent-policy-changes/` containing the required metadata (`timestamp`, `issuer`, `approver`, `targeted_agents`, `summary`, `pr`) before or at merge time.
 
+## Code Change Permissions (ENFORCED)
+
+**Only developer agents may modify program code files.**
+
+### Authorized Code Editors
+| Agent | Allowed File Types | Domain |
+|-------|-------------------|--------|
+| `@Backend` | `.cs`, `.csproj`, `.slnx`, `appsettings.json` | Backend/API code |
+| `@Frontend` | `.ts`, `.vue`, `.css`, `.scss`, `.html` | Frontend code |
+| `@QA` | `*.test.*`, `*.spec.*`, test fixtures | Test code only |
+| `@DevOps` | `Dockerfile`, `.yml`, `.yaml`, CI/CD scripts | Infrastructure code |
+
+### NOT Authorized for Code Changes
+| Agent | Role | Can Request Via |
+|-------|------|-----------------|
+| `@SARAH` | Coordination | → Request `@Backend` or `@Frontend` |
+| `@Architect` | Design only | → Request `@Backend` or `@Frontend` |
+| `@TechLead` | Review only | → Approve PRs, guide developers |
+| `@ProductOwner` | Requirements | → Create specs for developers |
+| `@Security` | Audit only | → Report issues to developers |
+| `@Legal` | Compliance | → Flag issues for developers |
+| `@UX`/`@UI` | Design | → Create specs for `@Frontend` |
+| `@DocMaintainer` | Docs only | → `.md` files in `.ai/` only |
+| `@CopilotExpert` | Config only | → `.github/` Copilot files only |
+
+### Enforcement
+- Non-developer agents attempting code changes MUST delegate to authorized agents
+- Code review required before merge (`@TechLead` approval)
+- Violations should be reported to `@SARAH`
+
 ## Software Architecture Changes
 Changes to software architecture (for example: Architecture Decision Records, major service boundary changes, or other system-design decisions) MUST be approved by both `@Architect` and `@TechLead` before being merged. `@Architect` and `@TechLead` may consult and use support from other agents (for example `@Security`, `@DevOps`, `@Backend`, `@Frontend`, or others) as needed to evaluate the change. Record approvals and rationale in the related ADR or PR so the decision trail is auditable.
 

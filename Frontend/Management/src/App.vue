@@ -8,6 +8,8 @@
         <router-link to="/dashboard">Dashboard</router-link>
         <router-link to="/stores">Stores</router-link>
         <router-link to="/admins">Administrators</router-link>
+        <router-link to="/email-monitoring">Email Monitoring</router-link>
+        <router-link to="/email-messages">Email Messages</router-link>
         <router-link to="/settings">Settings</router-link>
         <button @click="logout" class="btn-logout">Logout</button>
       </div>

@@ -84,39 +84,29 @@ namespace B2Connect.ERP.Abstractions
     // Filter builders with better type safety
     public static class ErpFilters
     {
-        public static QueryFilter Equals(string propertyName, object value) =>
-            new() { PropertyName = propertyName, Operator = FilterOperator.Equals, Value = value };
+        public static QueryFilter Equals(string propertyName, object value) => new() { PropertyName = propertyName, Operator = FilterOperator.Equals, Value = value };
 
-        public static QueryFilter NotEquals(string propertyName, object value) =>
-            new() { PropertyName = propertyName, Operator = FilterOperator.NotEquals, Value = value };
+        public static QueryFilter NotEquals(string propertyName, object value) => new() { PropertyName = propertyName, Operator = FilterOperator.NotEquals, Value = value };
 
-        public static QueryFilter GreaterThan(string propertyName, object value) =>
-            new() { PropertyName = propertyName, Operator = FilterOperator.GreaterThan, Value = value };
+        public static QueryFilter GreaterThan(string propertyName, object value) => new() { PropertyName = propertyName, Operator = FilterOperator.GreaterThan, Value = value };
 
-        public static QueryFilter LessThan(string propertyName, object value) =>
-            new() { PropertyName = propertyName, Operator = FilterOperator.LessThan, Value = value };
+        public static QueryFilter LessThan(string propertyName, object value) => new() { PropertyName = propertyName, Operator = FilterOperator.LessThan, Value = value };
 
-        public static QueryFilter Contains(string propertyName, string value) =>
-            new() { PropertyName = propertyName, Operator = FilterOperator.Contains, Value = value };
+        public static QueryFilter Contains(string propertyName, string value) => new() { PropertyName = propertyName, Operator = FilterOperator.Contains, Value = value };
 
-        public static QueryFilter In(string propertyName, IEnumerable<object> values) =>
-            new() { PropertyName = propertyName, Operator = FilterOperator.In, Value = values };
+        public static QueryFilter In(string propertyName, IEnumerable<object> values) => new() { PropertyName = propertyName, Operator = FilterOperator.In, Value = values };
 
-        public static QueryFilter IsNull(string propertyName) =>
-            new() { PropertyName = propertyName, Operator = FilterOperator.IsNull };
+        public static QueryFilter IsNull(string propertyName) => new() { PropertyName = propertyName, Operator = FilterOperator.IsNull };
 
-        public static QueryFilter IsNotNull(string propertyName) =>
-            new() { PropertyName = propertyName, Operator = FilterOperator.IsNotNull };
+        public static QueryFilter IsNotNull(string propertyName) => new() { PropertyName = propertyName, Operator = FilterOperator.IsNotNull };
     }
 
     // Sorting helpers
     public static class ErpSorting
     {
-        public static SortField Ascending(string propertyName) =>
-            new() { PropertyName = propertyName, Order = SortOrder.Ascending };
+        public static SortField Ascending(string propertyName) => new() { PropertyName = propertyName, Order = SortOrder.Ascending };
 
-        public static SortField Descending(string propertyName) =>
-            new() { PropertyName = propertyName, Order = SortOrder.Descending };
+        public static SortField Descending(string propertyName) => new() { PropertyName = propertyName, Order = SortOrder.Descending };
     }
 
     // Specialized specifications with domain-specific methods

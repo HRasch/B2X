@@ -8,6 +8,43 @@
 
 ## Session: 3. Januar 2026
 
+### Rate-Limit Prevention & Token Optimization
+
+**Issue**: Frequent rate-limit errors with free Copilot models due to high token consumption.
+
+**Root Causes**:
+1. Too many agents active simultaneously (6+ parallel)
+2. Verbose brainstorming responses (500+ words)
+3. Redundant context in each message
+4. Open-ended questions triggering long answers
+
+**Solutions Implemented**:
+
+#### 1. Agent Consolidation [GL-008]
+- Max 2 agents per session
+- Use `@Dev` instead of `@Backend/@Frontend/@TechLead`
+- Use `@Quality` instead of `@QA/@Security`
+- Tier-3 agents work via `.ai/` files, not chat
+
+#### 2. Token-Efficient Brainstorming [GL-009]
+- Use constraint-first prompts: `"Max 50 words, bullets only"`
+- Binary questions instead of open-ended: `"A or B?"`
+- Template-based responses with numbered options
+- Request `⭐` for recommendations
+
+**Quick Phrases** (add to prompts):
+```
+"Bullets only, no prose"
+"Max 50 words"
+"3 options, 1 sentence each"
+"Yes/No + 1 reason"
+"Skip explanation, just answer"
+```
+
+**Prevention**: Always specify output constraints in prompts.
+
+---
+
 ### Backend Build Warnings: Comprehensive Fix Session
 
 **Issue**: Backend build failed with 22 errors + 112 warnings across ERP and Admin domains.

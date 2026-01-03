@@ -1,0 +1,11 @@
+sku;article_number;name;description;ean;list_price;currency;manufacturer;manufacturer_part_number
+PSU-500-IND;ART-001;Industrial Power Supply 500W;High efficiency switching power supply for industrial applications. CE certified, RoHS compliant.;5901234123457;299.99;EUR;Siemens;SIEMENS-PSU-500
+CABLE-CAT6-10M;ART-002;Ethernet Cable CAT6 10m;Shielded twisted pair network cable. S/FTP shielding, LSZH jacket.;5901234123464;12.50;EUR;Belden;BELDEN-CAT6-10
+SENSOR-PT100;ART-003;Temperature Sensor PT100;Industrial grade platinum resistance thermometer. Range: -200 to +850°C.;5901234123471;89.00;EUR;Endress+Hauser;EH-PT100-IND
+MOTOR-AC-2KW;ART-004;AC Motor 2kW 3-Phase;Three-phase asynchronous motor. Power: 2kW, Voltage: 400V, Speed: 1450 rpm.;5901234123488;450.00;EUR;ABB;ABB-M2KW-3P
+SWITCH-IND-8P;ART-005;Industrial Switch 8-Port;Managed industrial Ethernet switch. 8x Gigabit ports, DIN rail mount.;5901234123495;189.00;EUR;Phoenix Contact;PHX-SW8-IND
+RELAY-24V-10A;ART-006;Relay 24V DC 10A;Industrial relay module with LED indicator. Coil: 24V DC, Contact: 10A 250V AC.;5901234123501;24.50;EUR;Finder;FINDER-24V-10A
+PLC-CPU-S7;ART-007;PLC CPU Module S7-1200;Siemens S7-1200 CPU with integrated I/O. 14 DI, 10 DO, 2 AI.;5901234123518;589.00;EUR;Siemens;6ES7214-1AG40-0XB0
+HMI-TOUCH-7;ART-008;HMI Touch Panel 7 inch;Industrial touch panel display. 7" TFT, 800x480, IP65 front.;5901234123525;349.00;EUR;Weintek;MT8071iP
+FREQ-DRIVE-5KW;ART-009;Frequency Drive 5.5kW;Variable frequency drive for AC motors. Input: 3x400V, Output: 0-400V.;5901234123532;675.00;EUR;Danfoss;FC-302P5K5
+CABLE-PROFINET;ART-010;Profinet Cable 20m;Industrial Ethernet cable for Profinet. Cat5e, 4-wire, green jacket.;5901234123549;45.00;EUR;Lapp;ETHERLINE-PN-20M

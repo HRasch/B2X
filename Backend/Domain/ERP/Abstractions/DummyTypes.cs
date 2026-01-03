@@ -21,21 +21,18 @@ public static class AsyncEnumerable
 /// </summary>
 public class DummyNVContext : NVShop.Data.NV.Model.INVContext
 {
-    public IQueryable<NVShop.Data.NV.Model.NVArticle> Articles =>
-        new List<NVShop.Data.NV.Model.NVArticle>().AsQueryable();
+    public IQueryable<NVShop.Data.NV.Model.NVArticle> Articles => new List<NVShop.Data.NV.Model.NVArticle>().AsQueryable();
 
-    public IQueryable<NVShop.Data.NV.Model.NVCustomer> Customers =>
-        new List<NVShop.Data.NV.Model.NVCustomer>().AsQueryable();
+    public IQueryable<NVShop.Data.NV.Model.NVCustomer> Customers => new List<NVShop.Data.NV.Model.NVCustomer>().AsQueryable();
 
-    public IQueryable<NVShop.Data.NV.Model.NVOrder> Orders =>
-        new List<NVShop.Data.NV.Model.NVOrder>().AsQueryable();
+    public IQueryable<NVShop.Data.NV.Model.NVOrder> Orders => new List<NVShop.Data.NV.Model.NVOrder>().AsQueryable();
 
-    public IQueryable<NVShop.Data.NV.Model.NVAddress> Addresses =>
-        new List<NVShop.Data.NV.Model.NVAddress>().AsQueryable();
+    public IQueryable<NVShop.Data.NV.Model.NVAddress> Addresses => new List<NVShop.Data.NV.Model.NVAddress>().AsQueryable();
 
     public void Dispose()
     {
         // No-op for dummy implementation
+        GC.SuppressFinalize(this);
     }
 }
 
@@ -54,6 +51,7 @@ public class ConnectionLease : IDisposable
     public void Dispose()
     {
         Context.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
 
@@ -67,17 +65,15 @@ public class ErpConnectionPool : IDisposable
     {
     }
 
-    public Task<NVShop.Data.NV.Model.INVContext> GetContextAsync(string tenantId) =>
-        Task.FromResult<NVShop.Data.NV.Model.INVContext>(new DummyNVContext());
+    public Task<NVShop.Data.NV.Model.INVContext> GetContextAsync(string tenantId) => Task.FromResult<NVShop.Data.NV.Model.INVContext>(new DummyNVContext());
 
-    public Task<ConnectionLease> RentAsync(string tenantId, CancellationToken cancellationToken = default) =>
-        Task.FromResult(new ConnectionLease(new DummyNVContext()));
+    public Task<ConnectionLease> RentAsync(string tenantId, CancellationToken cancellationToken = default) => Task.FromResult(new ConnectionLease(new DummyNVContext()));
 
-    public Task<T> ExecuteAsync<T>(string tenantId, Func<NVShop.Data.NV.Model.INVContext, Task<T>> operation) =>
-        Task.FromResult(default(T)!);
+    public Task<T> ExecuteAsync<T>(string tenantId, Func<NVShop.Data.NV.Model.INVContext, Task<T>> operation) => Task.FromResult(default(T)!);
 
     public void Dispose()
     {
         // Cleanup pooled connections
+        GC.SuppressFinalize(this);
     }
 }

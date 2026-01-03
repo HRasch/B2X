@@ -104,6 +104,7 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - [TypeScript 5.0](./software/typescript/v4-to-v5.md)
 
 ## Recently Updated
+- 03.01.2026: Added Email Template Best Practices guide ([best-practices/email-templates.md](./best-practices/email-templates.md))
 - 02.01.2026: Updated enventa Trade ERP integration guide with resilience pipeline, transaction scopes, and production fixes ([enventa-trade-erp.md](./enventa-trade-erp.md))
 - 02.01.2026: Added ERP architecture review lessons to lessons learned ([lessons.md](./lessons.md))
 - 02.01.2026: Added ArchUnitNET architecture testing guide ([tools-and-tech/archunitnet.md](./tools-and-tech/archunitnet.md))
