@@ -1,4 +1,4 @@
-import { expect, afterEach, vi } from 'vitest';
+import { afterEach, vi } from 'vitest';
 
 // Only cleanup if available (for Vue Test Utils)
 afterEach(() => {
