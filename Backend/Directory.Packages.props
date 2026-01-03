@@ -143,5 +143,6 @@
     <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.1" />
     <PackageVersion Include="Microsoft.Extensions.AI.Anthropic" Version="10.1.1" />
     <PackageVersion Include="Microsoft.Extensions.AI.AzureAIInference" Version="10.1.1" />
+    <PackageVersion Include="OllamaSharp" Version="5.4.12" />
   </ItemGroup>
 </Project>
