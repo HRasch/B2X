@@ -8,6 +8,8 @@ export interface UserDto {
   status: string;
   lastLoginAt: Date;
   emailConfirmed: boolean;
+  roles?: string[];
+  permissions?: string[];
 }
 
 export interface TenantDto {

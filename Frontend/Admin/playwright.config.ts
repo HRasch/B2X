@@ -25,6 +25,36 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
+    },
+    {
+      name: 'accessibility',
+      testMatch: '**/accessibility.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'visual-regression',
+      testMatch: '**/visual-regression.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        screenshot: 'on',
+        trace: 'on',
+      },
+    },
   ],
 
   webServer: {

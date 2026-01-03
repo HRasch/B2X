@@ -10,6 +10,14 @@ using System.Text;
 namespace B2Connect.AuthService.Data;
 
 // Identity User & Role
+public enum AccountType
+{
+    DU, // DomainAdmin
+    SU, // TenantAdmin
+    U,   // User
+    SR   // SalesRep
+}
+
 public class AppUser : IdentityUser
 {
     public string? FirstName { get; set; }
@@ -17,6 +25,8 @@ public class AppUser : IdentityUser
     public string? TenantId { get; set; }
     public bool IsTwoFactorRequired { get; set; }
     public bool IsActive { get; set; } = true;
+    public bool IsDeletable { get; set; } = true; // DomainAdmins cannot be deleted
+    public AccountType AccountType { get; set; } = AccountType.U; // Default to User
 }
 
 public class AppRole : IdentityRole
@@ -87,6 +97,7 @@ public interface IAuthService
     Task<bool> VerifyTwoFactorCodeAsync(string userId, string code);
     Task<Result<IEnumerable<UserDto>>> GetAllUsersAsync(int page, int pageSize, string? search);
     Task<Result<AppUser>> ToggleUserStatusAsync(string userId, bool isActive);
+    Task<Result<bool>> DeactivateUserAsync(string userId);
 }
 
 public class UserDto
@@ -313,6 +324,39 @@ public class AuthService : IAuthService
         return new Result<AppUser>.Success(user, $"User {(isActive ? "activated" : "deactivated")} successfully");
     }
 
+    public async Task<Result<bool>> DeactivateUserAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return new Result<bool>.Failure(ErrorCodes.NotFound, "User not found");
+        }
+
+        // DomainAdmins cannot be deactivated/deleted
+        if (user.AccountType == AccountType.DU)
+        {
+            _logger.LogWarning("Attempted to deactivate DomainAdmin user {UserId} - operation denied", userId);
+            return new Result<bool>.Failure(ErrorCodes.OperationFailed, "DomainAdmin accounts cannot be deactivated");
+        }
+
+        // Check if user is already inactive
+        if (!user.IsActive)
+        {
+            return new Result<bool>.Success(true, "User is already deactivated");
+        }
+
+        user.IsActive = false;
+        var updateResult = await _userManager.UpdateAsync(user);
+
+        if (!updateResult.Succeeded)
+        {
+            return new Result<bool>.Failure(ErrorCodes.OperationFailed, "Failed to deactivate user");
+        }
+
+        _logger.LogInformation("User {UserId} ({AccountType}) deactivated successfully", userId, user.AccountType);
+        return new Result<bool>.Success(true, "User deactivated successfully");
+    }
+
     private async Task<string> GenerateAccessToken(AppUser user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -325,7 +369,8 @@ public class AuthService : IAuthService
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email!),
             new(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-            new("TenantId", user.TenantId ?? "default")
+            new("TenantId", user.TenantId ?? "default"),
+            new("AccountType", user.AccountType.ToString())
         };
 
         // Add roles as claims

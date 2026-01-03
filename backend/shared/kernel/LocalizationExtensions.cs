@@ -21,8 +21,7 @@ public static class LocalizationExtensions
 
         foreach (var property in properties)
         {
-            var value = property.GetValue(entity) as LocalizedContent;
-            if (value != null)
+            if (property.GetValue(entity) is LocalizedContent value)
             {
                 result[property.Name] = value;
             }

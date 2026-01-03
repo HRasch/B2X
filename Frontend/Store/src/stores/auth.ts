@@ -11,6 +11,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuthenticated = computed(() => !!accessToken.value);
 
+  // Role-based computed properties
+  const isAdmin = computed(() => user.value?.roles?.includes('Admin') ?? false);
+  const isContentEditor = computed(() => user.value?.roles?.includes('ContentEditor') ?? false);
+  const isEditor = computed(() => user.value?.roles?.includes('Editor') ?? false);
+  const hasAdminAccess = computed(() => isAdmin.value || isContentEditor.value || isEditor.value);
+
   const login = async (email: string, password: string, selectedTenantId?: string) => {
     try {
       const response = await api.post<AuthResponse>('/auth/login', {
@@ -58,6 +64,10 @@ export const useAuthStore = defineStore('auth', () => {
     refreshToken,
     tenantId,
     isAuthenticated,
+    isAdmin,
+    isContentEditor,
+    isEditor,
+    hasAdminAccess,
     login,
     logout,
     setUser,

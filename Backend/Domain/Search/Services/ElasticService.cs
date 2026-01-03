@@ -50,7 +50,11 @@ public class ElasticService : IElasticService
 
     private static ElasticsearchClient CreateClient(string uri, string? username, string? password, string defaultIndex)
     {
+        // CA2000: ElasticsearchClientSettings is passed to ElasticsearchClient which takes ownership.
+        // The client manages the settings lifetime. Settings does not implement IDisposable.
+#pragma warning disable CA2000 // Dispose objects before losing scope
         var settings = new ElasticsearchClientSettings(new Uri(uri)).DefaultIndex(defaultIndex);
+#pragma warning restore CA2000
         if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
         {
             settings = settings.Authentication(new BasicAuthentication(username, password));

@@ -208,9 +208,7 @@ describe('CustomerLookup Component', () => {
     it('should emit register event', async () => {
       // Find and click the register button
       const buttons = wrapper.findAll('button');
-      const registerBtn = buttons.find((btn: ReturnType<typeof mount>) =>
-        btn.text().includes('Neue Registrierung')
-      );
+      const registerBtn = buttons.find(btn => btn.text().includes('Neue Registrierung'));
 
       if (registerBtn) {
         await registerBtn.trigger('click');

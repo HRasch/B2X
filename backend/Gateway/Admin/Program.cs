@@ -145,7 +145,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization(options => options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin")));
+builder.Services.AddAuthorization(options =>
+{
+    // Admin Frontend - DomainAdmins (DU) and TenantAdmins (SU) allowed
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var accountTypeClaim = context.User.FindFirst("AccountType");
+            return accountTypeClaim != null &&
+                   (accountTypeClaim.Value == "DU" || accountTypeClaim.Value == "SU");
+        }));
+});
 
 // Database
 var dbProvider = builder.Configuration["Database:Provider"] ?? "inmemory";
@@ -153,6 +163,9 @@ if (dbProvider.Equals("inmemory", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseInMemoryDatabase("CatalogDb"));
+
+    builder.Services.AddDbContext<B2Connect.Email.Infrastructure.EmailDbContext>(opt =>
+        opt.UseInMemoryDatabase("EmailDb"));
 
     // Error log storage - use in-memory for development
     builder.Services.AddInMemoryErrorLogStorage();
@@ -162,6 +175,9 @@ else if (dbProvider.Equals("sqlserver", StringComparison.OrdinalIgnoreCase))
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseSqlServer(builder.Configuration.GetConnectionString("Catalog")));
 
+    builder.Services.AddDbContext<B2Connect.Email.Infrastructure.EmailDbContext>(opt =>
+        opt.UseSqlServer(builder.Configuration.GetConnectionString("Email") ?? builder.Configuration.GetConnectionString("Catalog")));
+
     // Error log storage - not supported on SQL Server, use in-memory fallback
     builder.Services.AddInMemoryErrorLogStorage();
 }
@@ -169,6 +185,9 @@ else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
 {
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseNpgsql(builder.Configuration.GetConnectionString("Catalog")));
+
+    builder.Services.AddDbContext<B2Connect.Email.Infrastructure.EmailDbContext>(opt =>
+        opt.UseNpgsql(builder.Configuration.GetConnectionString("Email") ?? builder.Configuration.GetConnectionString("Catalog")));
 
     // Error log storage - use PostgreSQL
     var errorLogConnectionString = builder.Configuration.GetConnectionString("ErrorLogs")
@@ -206,7 +225,8 @@ builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeReposito
 // Email Services
 builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailService, B2Connect.Email.Services.SmtpEmailService>();
 builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailQueueService, B2Connect.Email.Services.EmailQueueService>();
-builder.Services.AddHostedService<B2Connect.Email.Handlers.ProcessEmailQueueJob>();
+builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailMonitoringService, B2Connect.Email.Services.EmailMonitoringService>();
+// builder.Services.AddHostedService<B2Connect.Email.Handlers.ProcessEmailQueueJob>(); // Temporarily disabled due to database setup issues
 
 // Add services
 builder.Services.AddControllers(options =>

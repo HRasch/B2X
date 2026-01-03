@@ -59,7 +59,15 @@ builder.Host.UseWolverine(opts =>
 builder.Services.AddWolverineHttp();
 
 // Add Database
-builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("AuthDb") ?? "Data Source=auth.db"));
+var databaseProvider = builder.Configuration["Database:Provider"] ?? builder.Configuration["Database__Provider"] ?? "sqlite";
+if (databaseProvider.ToLower() == "inmemory")
+{
+    builder.Services.AddDbContext<AuthDbContext>(options => options.UseInMemoryDatabase("AuthDb"));
+}
+else
+{
+    builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("AuthDb") ?? "Data Source=auth.db"));
+}
 
 // Add Identity
 builder.Services
@@ -286,7 +294,9 @@ using (var scope = app.Services.CreateScope())
             TenantId = "default",
             IsActive = true,
             EmailConfirmed = true,
-            IsTwoFactorRequired = false,
+            IsTwoFactorRequired = !app.Environment.IsDevelopment(), // 2FA required in production for DomainAdmins
+            IsDeletable = false, // DomainAdmins cannot be deleted
+            AccountType = AccountType.DU, // DomainAdmin
             SecurityStamp = Guid.NewGuid().ToString(),
             ConcurrencyStamp = Guid.NewGuid().ToString()
         };
@@ -295,11 +305,11 @@ using (var scope = app.Services.CreateScope())
         if (result.Succeeded)
         {
             await userManager.AddToRoleAsync(newAdminUser, "Admin");
-            logger.LogInformation("✅ Demo admin account created (admin@example.com / password)");
+            logger.LogInformation("✅ Demo DomainAdmin account created (admin@example.com / password)");
         }
         else
         {
-            logger.LogWarning("❌ Failed to create demo admin account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+            logger.LogWarning("❌ Failed to create demo DomainAdmin account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
         }
     }
 
@@ -320,6 +330,7 @@ using (var scope = app.Services.CreateScope())
             IsActive = true,
             EmailConfirmed = true,
             IsTwoFactorRequired = false,
+            AccountType = AccountType.U, // User
             SecurityStamp = Guid.NewGuid().ToString(),
             ConcurrencyStamp = Guid.NewGuid().ToString()
         };
@@ -333,6 +344,111 @@ using (var scope = app.Services.CreateScope())
         else
         {
             logger.LogWarning("❌ Failed to create demo user account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+    }
+
+    // Seed domain admin account if it doesn't exist
+    var domainAdminUser = await userManager.FindByEmailAsync("domanadmin.example.com");
+    if (domainAdminUser == null)
+    {
+        var newDomainAdminUser = new AppUser
+        {
+            Id = "domainadmin-001",
+            Email = "domanadmin.example.com",
+            NormalizedEmail = "DOMANADMIN.EXAMPLE.COM",
+            UserName = "domanadmin.example.com",
+            NormalizedUserName = "DOMANADMIN.EXAMPLE.COM",
+            FirstName = "Domain",
+            LastName = "Admin",
+            TenantId = "default",
+            IsActive = true,
+            EmailConfirmed = true,
+            IsTwoFactorRequired = !app.Environment.IsDevelopment(), // 2FA required in production for DomainAdmins
+            IsDeletable = false, // DomainAdmins cannot be deleted
+            AccountType = AccountType.DU, // DomainAdmin
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString()
+        };
+
+        var result = await userManager.CreateAsync(newDomainAdminUser, "password");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newDomainAdminUser, "Admin");
+            logger.LogInformation("✅ Domain admin account created (domanadmin.example.com / password)");
+        }
+        else
+        {
+            logger.LogWarning("❌ Failed to create domain admin account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+    }
+
+    // Seed tenant admin account if it doesn't exist
+    var tenantAdminUser = await userManager.FindByEmailAsync("tenantadmin@example.com");
+    if (tenantAdminUser == null)
+    {
+        var newTenantAdminUser = new AppUser
+        {
+            Id = "tenantadmin-001",
+            Email = "tenantadmin@example.com",
+            NormalizedEmail = "TENANTADMIN@EXAMPLE.COM",
+            UserName = "tenantadmin@example.com",
+            NormalizedUserName = "TENANTADMIN@EXAMPLE.COM",
+            FirstName = "Tenant",
+            LastName = "Admin",
+            TenantId = "tenant-001",
+            IsActive = true,
+            EmailConfirmed = true,
+            IsTwoFactorRequired = false, // TenantAdmins can have 2FA optional
+            IsDeletable = true,
+            AccountType = AccountType.SU, // TenantAdmin
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString()
+        };
+
+        var result = await userManager.CreateAsync(newTenantAdminUser, "password");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newTenantAdminUser, "Admin");
+            logger.LogInformation("✅ Tenant admin account created (tenantadmin@example.com / password)");
+        }
+        else
+        {
+            logger.LogWarning("❌ Failed to create tenant admin account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+    }
+
+    // Seed sales rep account if it doesn't exist
+    var salesRepUser = await userManager.FindByEmailAsync("salesrep@example.com");
+    if (salesRepUser == null)
+    {
+        var newSalesRepUser = new AppUser
+        {
+            Id = "salesrep-001",
+            Email = "salesrep@example.com",
+            NormalizedEmail = "SALESREP@EXAMPLE.COM",
+            UserName = "salesrep@example.com",
+            NormalizedUserName = "SALESREP@EXAMPLE.COM",
+            FirstName = "Sales",
+            LastName = "Representative",
+            TenantId = "tenant-001",
+            IsActive = true,
+            EmailConfirmed = true,
+            IsTwoFactorRequired = false,
+            IsDeletable = true,
+            AccountType = AccountType.SR, // SalesRep
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString()
+        };
+
+        var result = await userManager.CreateAsync(newSalesRepUser, "password");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newSalesRepUser, "User");
+            logger.LogInformation("✅ Sales rep account created (salesrep@example.com / password)");
+        }
+        else
+        {
+            logger.LogWarning("❌ Failed to create sales rep account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
         }
     }
 }

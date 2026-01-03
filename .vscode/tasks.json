@@ -293,7 +293,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/BoundedContexts/Store/API/B2Connect.Store.csproj"
+        "${workspaceFolder}/backend/Gateway/Store/API/B2Connect.Store.csproj"
       ],
       "options": {
         "env": {
@@ -326,7 +326,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj"
+        "${workspaceFolder}/backend/Gateway/Admin/B2Connect.Admin.csproj"
       ],
       "options": {
         "env": {

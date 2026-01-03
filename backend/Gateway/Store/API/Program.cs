@@ -151,7 +151,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    // Store Frontend - All account types allowed (DU, SU, U, SR)
+    options.AddPolicy("StoreAccess", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var accountTypeClaim = context.User.FindFirst("AccountType");
+            return accountTypeClaim != null &&
+                   (accountTypeClaim.Value == "DU" || accountTypeClaim.Value == "SU" ||
+                    accountTypeClaim.Value == "U" || accountTypeClaim.Value == "SR");
+        }));
+});
 
 // Add Input Validation (FluentValidation)
 // builder.Services.AddB2ConnectValidation(); // Disabled pending infrastructure setup

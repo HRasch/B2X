@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace B2Connect.Email.Models;
 
 /// <summary>
@@ -15,6 +17,7 @@ public class EmailMessage
     public bool IsHtml { get; set; } = true;
     public string? TemplateKey { get; set; }
     public Dictionary<string, object> Variables { get; set; } = new();
+    [NotMapped]
     public List<EmailAttachment>? Attachments { get; set; }
     public EmailPriority Priority { get; set; } = EmailPriority.Normal;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

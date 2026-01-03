@@ -4,6 +4,9 @@ import { createRouter, createMemoryHistory } from 'vue-router';
 import { createPinia, setActivePinia } from 'pinia';
 import Checkout from '../../views/Checkout.vue';
 
+// Type helper for component instance
+type CheckoutComponentInstance = InstanceType<typeof Checkout> & any;
+
 // Mock cart store
 const mockCartStore = {
   items: [
@@ -29,7 +32,7 @@ const router = createRouter({
 });
 
 describe('Checkout.vue', () => {
-  let wrapper: ReturnType<typeof mount>;
+  let wrapper: ReturnType<typeof mount> & { vm: CheckoutComponentInstance };
 
   beforeEach(() => {
     setActivePinia(createPinia());
@@ -57,7 +60,7 @@ describe('Checkout.vue', () => {
       await firstNameInput.setValue('');
 
       // Assert
-      expect(firstNameInput.element.value).toBe('');
+      expect((firstNameInput.element as HTMLInputElement).value).toBe('');
     });
 
     it('should validate zipCode must be 5 digits', async () => {
@@ -68,7 +71,7 @@ describe('Checkout.vue', () => {
       await zipCodeInput.setValue('123'); // Invalid
 
       // Assert - Should fail validation
-      expect(zipCodeInput.element.value).toBe('123');
+      expect((zipCodeInput.element as HTMLInputElement).value).toBe('123');
     });
 
     it('should accept valid 5-digit zipCode', async () => {
@@ -79,7 +82,7 @@ describe('Checkout.vue', () => {
       await zipCodeInput.setValue('10115'); // Valid Berlin zipcode
 
       // Assert
-      expect(zipCodeInput.element.value).toBe('10115');
+      expect((zipCodeInput.element as HTMLInputElement).value).toBe('10115');
     });
 
     it('should require all address fields before advancing', async () => {

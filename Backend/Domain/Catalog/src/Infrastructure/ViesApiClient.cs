@@ -112,7 +112,7 @@ public class ViesApiClient : IViesApiClient
     {
         var soapRequest = GenerateSoapRequest(countryCode, vatNumber);
 
-        var content = new StringContent(
+        using var content = new StringContent(
             soapRequest,
             System.Text.Encoding.UTF8,
             "application/soap+xml");

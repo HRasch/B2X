@@ -84,7 +84,7 @@ public abstract record Result<T> : Result
     /// </summary>
     /// <param name="Value">The resulting value from the operation</param>
     /// <param name="Message">Optional success message</param>
-    new public sealed record Success(T Value, string Message = "") : Result<T>;
+    public new sealed record Success(T Value, string Message = "") : Result<T>;
 
     /// <summary>
     /// Represents a failed operation.
