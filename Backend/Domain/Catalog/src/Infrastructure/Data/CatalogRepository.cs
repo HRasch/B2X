@@ -51,6 +51,22 @@ public class CatalogImportRepository : ICatalogImportRepository
             .ToListAsync(ct);
     }
 
+    public async Task<IEnumerable<CatalogImport>> GetByTenantAsync(Guid tenantId, int page, int pageSize, CancellationToken ct = default)
+    {
+        return await _context.CatalogImports
+            .Where(x => x.TenantId == tenantId)
+            .OrderByDescending(x => x.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+    }
+
+    public async Task<int> CountByTenantAsync(Guid tenantId, CancellationToken ct = default)
+    {
+        return await _context.CatalogImports
+            .CountAsync(x => x.TenantId == tenantId, ct);
+    }
+
     public async Task AddAsync(CatalogImport catalogImport, CancellationToken ct = default)
     {
         await _context.CatalogImports.AddAsync(catalogImport, ct);
@@ -114,12 +130,71 @@ public class CatalogProductRepository : ICatalogProductRepository
             .ToListAsync(ct);
     }
 
+    public async Task<IEnumerable<CatalogProduct>> GetByImportIdAsync(Guid importId, int page, int pageSize, CancellationToken ct = default)
+    {
+        return await _context.CatalogProducts
+            .Where(x => x.CatalogImportId == importId)
+            .OrderBy(x => x.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
+    }
+
+    public async Task<int> CountByImportIdAsync(Guid importId, CancellationToken ct = default)
+    {
+        return await _context.CatalogProducts
+            .CountAsync(x => x.CatalogImportId == importId, ct);
+    }
+
+    public async Task<CatalogProduct?> GetByImportAndAidAsync(Guid importId, string supplierAid, CancellationToken ct = default)
+    {
+        return await _context.CatalogProducts
+            .FirstOrDefaultAsync(x => x.CatalogImportId == importId && x.SupplierAid == supplierAid, ct);
+    }
+
+    public async Task AddAsync(CatalogProduct product, CancellationToken ct = default)
+    {
+        await _context.CatalogProducts.AddAsync(product, ct);
+        await _context.SaveChangesAsync(ct);
+
+        _logger.LogInformation("Added catalog product {ProductId}", product.Id);
+    }
+
     public async Task AddRangeAsync(IEnumerable<CatalogProduct> products, CancellationToken ct = default)
     {
         await _context.CatalogProducts.AddRangeAsync(products, ct);
         await _context.SaveChangesAsync(ct);
 
         _logger.LogInformation("Added {Count} catalog products", products.Count());
+    }
+
+    public async Task UpdateAsync(CatalogProduct product, CancellationToken ct = default)
+    {
+        _context.CatalogProducts.Update(product);
+        await _context.SaveChangesAsync(ct);
+
+        _logger.LogInformation("Updated catalog product {ProductId}", product.Id);
+    }
+
+    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
+    {
+        var product = await GetByIdAsync(id, ct);
+        if (product != null)
+        {
+            _context.CatalogProducts.Remove(product);
+            await _context.SaveChangesAsync(ct);
+
+            _logger.LogInformation("Deleted catalog product {ProductId}", id);
+        }
+    }
+
+    public async Task DeleteByImportIdAsync(Guid importId, CancellationToken ct = default)
+    {
+        var products = await GetByCatalogImportIdAsync(importId, ct);
+        _context.CatalogProducts.RemoveRange(products);
+        await _context.SaveChangesAsync(ct);
+
+        _logger.LogInformation("Deleted {Count} products for import {ImportId}", products.Count(), importId);
     }
 
     public async Task DeleteByCatalogImportIdAsync(Guid catalogImportId, CancellationToken ct = default)

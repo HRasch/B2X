@@ -1,145 +1,245 @@
 using B2Connect.Catalog.Application.Adapters;
 using B2Connect.Catalog.Core.Entities;
 using B2Connect.Catalog.Core.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace B2Connect.Catalog.Application.Handlers;
 
 /// <summary>
-/// Wolverine Handler for BMEcat catalog import
-/// POST /api/catalog/import/bmecat
+/// Wolverine Handler for catalog import (BMEcat, icecat, etc.)
+/// Supports multiple import formats through adapter pattern
 /// </summary>
 public class CatalogImportService
 {
-    private readonly ICatalogImportAdapter _adapter;
+    private readonly IServiceProvider _serviceProvider;
     private readonly ICatalogImportRepository _importRepository;
     private readonly ICatalogProductRepository _productRepository;
     private readonly ILogger<CatalogImportService> _logger;
 
     public CatalogImportService(
-        ICatalogImportAdapter adapter,
+        IServiceProvider serviceProvider,
         ICatalogImportRepository importRepository,
         ICatalogProductRepository productRepository,
         ILogger<CatalogImportService> logger)
     {
-        _adapter = adapter;
+        _serviceProvider = serviceProvider;
         _importRepository = importRepository;
         _productRepository = productRepository;
         _logger = logger;
     }
 
     /// <summary>
-    /// Import BMEcat catalog
+    /// Import catalog file using detected format
     /// </summary>
-    public async Task<CatalogImportResponse> ImportBmecat(ImportBmecatRequest request)
+    public async Task<CatalogImport> ImportAsync(Guid tenantId, Stream stream, string format, CancellationToken ct = default)
     {
-        _logger.LogInformation(
-            "Starting BMEcat import for tenant {TenantId}, supplier {SupplierId}",
-            request.TenantId, request.Metadata.SupplierId);
+        // Get adapter for format
+        var adapter = GetAdapterForFormat(format);
+        if (adapter == null)
+        {
+            throw new NotSupportedException($"Catalog format '{format}' is not supported. Supported formats: bmecat, icecat");
+        }
 
-        // Create catalog import record
+        _logger.LogInformation("Starting {Format} catalog import for tenant {TenantId}", format, tenantId);
+
+        // Create import record
         var catalogImport = new CatalogImport
         {
             Id = Guid.NewGuid(),
-            TenantId = request.TenantId,
-            SupplierId = request.Metadata.SupplierId,
-            CatalogId = request.Metadata.CatalogId,
-            ImportTimestamp = request.Metadata.ImportTimestamp,
-            Version = request.Metadata.Version,
-            Description = request.Metadata.Description,
+            TenantId = tenantId,
+            SupplierId = "pending",
+            CatalogId = "pending",
+            ImportTimestamp = DateTime.UtcNow,
             Status = ImportStatus.Processing,
             ProductCount = 0,
             CreatedAt = DateTime.UtcNow
         };
 
-        await _importRepository.AddAsync(catalogImport);
+        await _importRepository.AddAsync(catalogImport, ct);
 
         try
         {
-            // Update metadata with catalog import ID for products
-            request.Metadata.TenantId = catalogImport.Id; // Note: reusing TenantId field temporarily
+            // Parse catalog
+            var metadata = new CatalogMetadata
+            {
+                TenantId = tenantId,
+                ImportTimestamp = DateTime.UtcNow
+            };
 
-            // Import using adapter
-            var result = await _adapter.ImportAsync(request.CatalogStream, request.Metadata);
+            var result = await adapter.ImportAsync(stream, metadata, ct);
+
+            // Update import with catalog metadata
+            catalogImport.SupplierId = result.SupplierId ?? "unknown";
+            catalogImport.CatalogId = result.CatalogId ?? "unknown";
+            catalogImport.Version = result.Version;
+            catalogImport.Description = result.Description;
 
             if (result.Success)
             {
-                // Create products
-                var products = result.Products;
-                // Set correct catalog import ID
-                foreach (var product in products)
+                // Create product records
+                var catalogProducts = result.Products.ToList();
+                foreach (var product in catalogProducts)
                 {
                     product.CatalogImportId = catalogImport.Id;
                 }
-                await _productRepository.AddRangeAsync(products);
 
-                // Update import record
+                await _productRepository.AddRangeAsync(catalogProducts, ct);
+
                 catalogImport.Status = ImportStatus.Completed;
                 catalogImport.ProductCount = result.ProductCount;
                 catalogImport.UpdatedAt = DateTime.UtcNow;
 
-                await _importRepository.UpdateAsync(catalogImport);
+                await _importRepository.UpdateAsync(catalogImport, ct);
 
                 _logger.LogInformation(
-                    "Successfully imported BMEcat catalog {ImportId} with {ProductCount} products",
-                    catalogImport.Id, result.ProductCount);
-
-                return new CatalogImportResponse
-                {
-                    Success = true,
-                    ImportId = catalogImport.Id,
-                    ProductCount = result.ProductCount,
-                    Message = $"Successfully imported {result.ProductCount} products"
-                };
+                    "Successfully imported {Format} catalog {ImportId} with {ProductCount} products from supplier {SupplierId}",
+                    format, catalogImport.Id, result.ProductCount, catalogImport.SupplierId);
             }
             else
             {
-                // Mark as failed
                 catalogImport.Status = ImportStatus.Failed;
+                catalogImport.Description = result.ErrorMessage;
                 catalogImport.UpdatedAt = DateTime.UtcNow;
-                await _importRepository.UpdateAsync(catalogImport);
 
-                _logger.LogWarning(
-                    "BMEcat import failed for {ImportId}: {Error}",
-                    catalogImport.Id, result.ErrorMessage);
+                await _importRepository.UpdateAsync(catalogImport, ct);
 
-                return new CatalogImportResponse
-                {
-                    Success = false,
-                    ImportId = catalogImport.Id,
-                    ErrorMessage = result.ErrorMessage,
-                    ValidationErrors = result.ValidationErrors
-                };
+                _logger.LogWarning("Catalog import failed for {ImportId}: {Error}", catalogImport.Id, result.ErrorMessage);
+                throw new InvalidOperationException(result.ErrorMessage ?? "Import failed");
             }
+
+            return catalogImport;
+        }
+        catch (Exception ex) when (ex is not InvalidOperationException && ex is not NotSupportedException)
+        {
+            catalogImport.Status = ImportStatus.Failed;
+            catalogImport.Description = ex.Message;
+            catalogImport.UpdatedAt = DateTime.UtcNow;
+
+            await _importRepository.UpdateAsync(catalogImport, ct);
+
+            _logger.LogError(ex, "Unexpected error during catalog import {ImportId}", catalogImport.Id);
+            throw new InvalidOperationException($"Import failed: {ex.Message}", ex);
+        }
+    }
+
+    /// <summary>
+    /// Get paginated list of imports for a tenant
+    /// </summary>
+    public async Task<PagedImportResult> GetImportsAsync(Guid tenantId, int page, int pageSize, CancellationToken ct = default)
+    {
+        var imports = await _importRepository.GetByTenantAsync(tenantId, page, pageSize, ct);
+        var totalCount = await _importRepository.CountByTenantAsync(tenantId, ct);
+
+        return new PagedImportResult
+        {
+            Items = imports.Select(MapToDto).ToList(),
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = totalCount,
+            TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+        };
+    }
+
+    /// <summary>
+    /// Get a specific import by ID
+    /// </summary>
+    public async Task<CatalogImportDto?> GetImportAsync(Guid tenantId, Guid importId, CancellationToken ct = default)
+    {
+        var import = await _importRepository.GetByIdAsync(importId, ct);
+        if (import == null || import.TenantId != tenantId)
+        {
+            return null;
+        }
+
+        return MapToDto(import);
+    }
+
+    /// <summary>
+    /// Get products from a specific import
+    /// </summary>
+    public async Task<PagedProductResult> GetImportProductsAsync(Guid tenantId, Guid importId, int page, int pageSize, CancellationToken ct = default)
+    {
+        // Verify import belongs to tenant
+        var import = await _importRepository.GetByIdAsync(importId, ct);
+        if (import == null || import.TenantId != tenantId)
+        {
+            return new PagedProductResult { Items = [], Page = page, PageSize = pageSize, TotalCount = 0, TotalPages = 0 };
+        }
+
+        var products = await _productRepository.GetByImportIdAsync(importId, page, pageSize, ct);
+        var totalCount = await _productRepository.CountByImportIdAsync(importId, ct);
+
+        return new PagedProductResult
+        {
+            Items = products.Select(p => new CatalogProductDto
+            {
+                Id = p.Id,
+                SupplierAid = p.SupplierAid,
+                ProductData = p.ProductData,
+                CreatedAt = p.CreatedAt
+            }).ToList(),
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = totalCount,
+            TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+        };
+    }
+
+    /// <summary>
+    /// Legacy method for BMEcat import - delegates to new ImportAsync
+    /// </summary>
+    public async Task<CatalogImportResponse> ImportBmecat(ImportBmecatRequest request)
+    {
+        try
+        {
+            var result = await ImportAsync(request.TenantId, request.CatalogStream, "bmecat");
+            return new CatalogImportResponse
+            {
+                Success = true,
+                ImportId = result.Id,
+                ProductCount = result.ProductCount,
+                Message = $"Successfully imported {result.ProductCount} products"
+            };
         }
         catch (Exception ex)
         {
-            // Mark as failed
-            catalogImport.Status = ImportStatus.Failed;
-            catalogImport.UpdatedAt = DateTime.UtcNow;
-            await _importRepository.UpdateAsync(catalogImport);
-
-            _logger.LogError(ex, "Unexpected error during BMEcat import {ImportId}", catalogImport.Id);
-
             return new CatalogImportResponse
             {
                 Success = false,
-                ImportId = catalogImport.Id,
-                ErrorMessage = $"Import failed: {ex.Message}"
+                ErrorMessage = ex.Message
             };
         }
     }
 
-    private IEnumerable<CatalogProduct> CreateProductsFromResult(CatalogImportResult result, Guid catalogImportId)
+    private ICatalogImportAdapter? GetAdapterForFormat(string format)
     {
-        // Note: In a real implementation, the adapter would return the products
-        // For now, this is a placeholder - the adapter needs to be updated to return products
-        return Enumerable.Empty<CatalogProduct>();
+        return format.ToLowerInvariant() switch
+        {
+            "bmecat" => _serviceProvider.GetService<ICatalogImportAdapter>(),
+            "icecat" => null, // TODO: Implement IcecatImportAdapter
+            _ => null
+        };
     }
+
+    private static CatalogImportDto MapToDto(CatalogImport import) => new()
+    {
+        Id = import.Id,
+        SupplierId = import.SupplierId,
+        CatalogId = import.CatalogId,
+        ImportTimestamp = import.ImportTimestamp,
+        Version = import.Version,
+        Description = import.Description,
+        Status = import.Status.ToString(),
+        ProductCount = import.ProductCount,
+        CreatedAt = import.CreatedAt,
+        UpdatedAt = import.UpdatedAt
+    };
 }
 
 /// <summary>
-/// Request for BMEcat import
+/// Request for BMEcat import (legacy)
 /// </summary>
 public class ImportBmecatRequest
 {
@@ -158,5 +258,57 @@ public class CatalogImportResponse
     public int ProductCount { get; set; }
     public string? Message { get; set; }
     public string? ErrorMessage { get; set; }
-    public List<string> ValidationErrors { get; set; } = new();
+    public List<string> ValidationErrors { get; set; } = [];
+}
+
+/// <summary>
+/// DTO for catalog import
+/// </summary>
+public class CatalogImportDto
+{
+    public Guid Id { get; set; }
+    public string SupplierId { get; set; } = string.Empty;
+    public string CatalogId { get; set; } = string.Empty;
+    public DateTime ImportTimestamp { get; set; }
+    public string? Version { get; set; }
+    public string? Description { get; set; }
+    public string Status { get; set; } = string.Empty;
+    public int ProductCount { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+}
+
+/// <summary>
+/// DTO for catalog product
+/// </summary>
+public class CatalogProductDto
+{
+    public Guid Id { get; set; }
+    public string SupplierAid { get; set; } = string.Empty;
+    public string ProductData { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; }
+}
+
+/// <summary>
+/// Paged result for imports
+/// </summary>
+public class PagedImportResult
+{
+    public List<CatalogImportDto> Items { get; set; } = [];
+    public int Page { get; set; }
+    public int PageSize { get; set; }
+    public int TotalCount { get; set; }
+    public int TotalPages { get; set; }
+}
+
+/// <summary>
+/// Paged result for products
+/// </summary>
+public class PagedProductResult
+{
+    public List<CatalogProductDto> Items { get; set; } = [];
+    public int Page { get; set; }
+    public int PageSize { get; set; }
+    public int TotalCount { get; set; }
+    public int TotalPages { get; set; }
 }

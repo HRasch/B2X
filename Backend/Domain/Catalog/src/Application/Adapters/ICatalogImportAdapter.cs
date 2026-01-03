@@ -37,16 +37,19 @@ public class CatalogImportResult
     public Guid ImportId { get; set; }
     public List<string> ValidationErrors { get; set; } = new();
     public List<CatalogProduct> Products { get; set; } = new();
+    public string? SupplierId { get; set; }
+    public string? CatalogId { get; set; }
+    public string? Version { get; set; }
+    public string? Description { get; set; }
 }
-
 /// <summary>
 /// Metadata for catalog identification and processing
 /// </summary>
 public class CatalogMetadata
 {
     public Guid TenantId { get; set; }
-    public string SupplierId { get; set; } = string.Empty;
-    public string CatalogId { get; set; } = string.Empty;
+    public string? SupplierId { get; set; }
+    public string? CatalogId { get; set; }
     public DateTime ImportTimestamp { get; set; } = DateTime.UtcNow;
     public string? Version { get; set; }
     public string? Description { get; set; }
