@@ -4,34 +4,48 @@
     <button
       @click="toggleAssistant"
       class="ai-toggle-btn"
-      :class="{ 'active': isVisible }"
+      :class="{ active: isVisible }"
       aria-label="Toggle AI Assistant"
     >
       <svg class="ai-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C13.1 2 14 2.9 14 4V5H16C17.1 5 18 5.9 18 7V19C18 20.1 17.1 21 16 21H8C6.9 21 6 20.1 6 19V7C6 5.9 6.9 5 8 5H10V4C10 2.9 10.9 2 12 2ZM12 4V5H12V4ZM8 7V19H16V7H8ZM10 9H14V11H10V9ZM10 13H14V15H10V13Z" fill="currentColor"/>
+        <path
+          d="M12 2C13.1 2 14 2.9 14 4V5H16C17.1 5 18 5.9 18 7V19C18 20.1 17.1 21 16 21H8C6.9 21 6 20.1 6 19V7C6 5.9 6.9 5 8 5H10V4C10 2.9 10.9 2 12 2ZM12 4V5H12V4ZM8 7V19H16V7H8ZM10 9H14V11H10V9ZM10 13H14V15H10V13Z"
+          fill="currentColor"
+        />
       </svg>
       <span class="ai-label">AI Assistant</span>
     </button>
 
     <!-- AI Assistant Panel -->
-    <div v-if="isVisible" class="ai-panel" :class="{ 'minimized': isMinimized }">
+    <div v-if="isVisible" class="ai-panel" :class="{ minimized: isMinimized }">
       <!-- Panel Header -->
       <div class="ai-header">
         <div class="ai-title">
-          <svg class="ai-brain-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C13.1 2 14 2.9 14 4V5H16C17.1 5 18 5.9 18 7V19C18 20.1 17.1 21 16 21H8C6.9 21 6 20.1 6 19V7C6 5.9 6.9 5 8 5H10V4C10 2.9 10.9 2 12 2ZM12 4V5H12V4ZM8 7V19H16V7H8Z" fill="currentColor"/>
+          <svg
+            class="ai-brain-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2C13.1 2 14 2.9 14 4V5H16C17.1 5 18 5.9 18 7V19C18 20.1 17.1 21 16 21H8C6.9 21 6 20.1 6 19V7C6 5.9 6.9 5 8 5H10V4C10 2.9 10.9 2 12 2ZM12 4V5H12V4ZM8 7V19H16V7H8Z"
+              fill="currentColor"
+            />
           </svg>
           <span>Management AI Assistant</span>
         </div>
         <div class="ai-controls">
           <button @click="isMinimized = !isMinimized" class="control-btn" aria-label="Minimize">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19 13H5V11H19V13Z" fill="currentColor"/>
+              <path d="M19 13H5V11H19V13Z" fill="currentColor" />
             </svg>
           </button>
           <button @click="closeAssistant" class="control-btn" aria-label="Close">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z" fill="currentColor"/>
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"
+                fill="currentColor"
+              />
             </svg>
           </button>
         </div>
@@ -45,19 +59,28 @@
           <div class="action-buttons">
             <button @click="quickAction('analyze-performance')" class="action-btn">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 13H7V11H3V13ZM3 17H7V15H3V17ZM3 9H7V7H3V9ZM13 13H21V11H13V13ZM13 17H21V15H13V17ZM13 9H21V7H13V9Z" fill="currentColor"/>
+                <path
+                  d="M3 13H7V11H3V13ZM3 17H7V15H3V17ZM3 9H7V7H3V9ZM13 13H21V11H13V13ZM13 17H21V15H13V17ZM13 9H21V7H13V9Z"
+                  fill="currentColor"
+                />
               </svg>
               Analyze Performance
             </button>
             <button @click="quickAction('security-audit')" class="action-btn">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 8H17V6C17 3.24 14.76 1 12 1S7 3.24 7 6V8H6C4.9 8 4 8.9 4 10V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V10C20 8.9 19.1 8 18 8ZM12 17C10.9 17 10 16.1 10 15S10.9 13 12 13 14 13.9 14 15 13.1 17 12 17ZM9 8V6C9 4.34 10.34 3 12 3S15 4.34 15 6V8H9Z" fill="currentColor"/>
+                <path
+                  d="M18 8H17V6C17 3.24 14.76 1 12 1S7 3.24 7 6V8H6C4.9 8 4 8.9 4 10V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V10C20 8.9 19.1 8 18 8ZM12 17C10.9 17 10 16.1 10 15S10.9 13 12 13 14 13.9 14 15 13.1 17 12 17ZM9 8V6C9 4.34 10.34 3 12 3S15 4.34 15 6V8H9Z"
+                  fill="currentColor"
+                />
               </svg>
               Security Audit
             </button>
             <button @click="quickAction('optimize-content')" class="action-btn">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM9 13H7V11H9V13ZM9 17H7V15H9V17ZM9 9H7V7H9V9Z" fill="currentColor"/>
+                <path
+                  d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM9 13H7V11H9V13ZM9 17H7V15H9V17ZM9 9H7V7H9V9Z"
+                  fill="currentColor"
+                />
               </svg>
               Content Optimization
             </button>
@@ -71,7 +94,10 @@
               v-for="message in messages"
               :key="message.id"
               class="message"
-              :class="{ 'user': message.sender === 'user', 'assistant': message.sender === 'assistant' }"
+              :class="{
+                user: message.sender === 'user',
+                assistant: message.sender === 'assistant',
+              }"
             >
               <div class="message-content">
                 <div class="message-text" v-html="formatMessage(message.text)"></div>
@@ -106,7 +132,7 @@
               class="send-btn"
             >
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor" />
               </svg>
             </button>
           </div>
@@ -129,287 +155,331 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, onMounted, onUnmounted, watch } from 'vue'
-import { marked } from 'marked'
-import aiService from '@/services/aiService'
+import { ref, nextTick, onMounted, onUnmounted, watch } from 'vue';
+import { marked } from 'marked';
+import aiService from '@/services/aiService';
 
 // Props
 interface Props {
-  tenantId?: string
+  tenantId?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  tenantId: ''
-})
+  tenantId: '',
+});
 
 // Reactive state
-const isVisible = ref(false)
-const isMinimized = ref(false)
-const messages = ref<Array<{
-  id: string
-  sender: 'user' | 'assistant'
-  text: string
-  timestamp: Date
-}>>([])
-const currentMessage = ref('')
-const isTyping = ref(false)
-const currentPage = ref('Dashboard')
-const currentTenant = ref('Default Tenant')
+const isVisible = ref(false);
+const isMinimized = ref(false);
+const messages = ref<
+  Array<{
+    id: string;
+    sender: 'user' | 'assistant';
+    text: string;
+    timestamp: Date;
+  }>
+>([]);
+const currentMessage = ref('');
+const isTyping = ref(false);
+const currentPage = ref('Dashboard');
+const currentTenant = ref('Default Tenant');
 
 // Refs
-const messagesContainer = ref<HTMLElement>()
-const messageInput = ref<HTMLTextAreaElement>()
+const messagesContainer = ref<HTMLElement>();
+const messageInput = ref<HTMLTextAreaElement>();
 
 // Methods
 const toggleAssistant = () => {
-  isVisible.value = !isVisible.value
+  isVisible.value = !isVisible.value;
   if (isVisible.value) {
-    isMinimized.value = false
+    isMinimized.value = false;
     nextTick(() => {
-      messageInput.value?.focus()
-    })
+      messageInput.value?.focus();
+    });
   }
-}
+};
 
 const closeAssistant = () => {
-  isVisible.value = false
-  isMinimized.value = false
-}
+  isVisible.value = false;
+  isMinimized.value = false;
+};
 
 const quickAction = async (action: string) => {
-  let message = ''
+  let message = '';
 
   switch (action) {
     case 'analyze-performance':
-      message = 'Can you analyze the current system performance and provide optimization recommendations?'
-      break
+      message =
+        'Can you analyze the current system performance and provide optimization recommendations?';
+      break;
     case 'security-audit':
-      message = 'Please conduct a security audit of our current setup and provide compliance recommendations.'
-      break
+      message =
+        'Please conduct a security audit of our current setup and provide compliance recommendations.';
+      break;
     case 'optimize-content':
-      message = 'Help me optimize the content on this page for better SEO and user engagement.'
-      break
+      message = 'Help me optimize the content on this page for better SEO and user engagement.';
+      break;
   }
 
   if (message) {
-    currentMessage.value = message
-    await sendMessage()
+    currentMessage.value = message;
+    await sendMessage();
   }
-}
+};
 
 const sendMessage = async () => {
-  if (!currentMessage.value.trim() || isTyping.value) return
+  if (!currentMessage.value.trim() || isTyping.value) return;
 
-  const userMessage = currentMessage.value.trim()
-  currentMessage.value = ''
+  const userMessage = currentMessage.value.trim();
+  currentMessage.value = '';
 
   // Add user message
   messages.value.push({
     id: Date.now().toString(),
     sender: 'user',
     text: userMessage,
-    timestamp: new Date()
-  })
+    timestamp: new Date(),
+  });
 
   // Show typing indicator
-  isTyping.value = true
+  isTyping.value = true;
 
   try {
     // Call MCP server
-    const response = await callMcpTool(userMessage)
+    const response = await callMcpTool(userMessage);
 
     // Add assistant response
     messages.value.push({
       id: (Date.now() + 1).toString(),
       sender: 'assistant',
       text: response,
-      timestamp: new Date()
-    })
+      timestamp: new Date(),
+    });
   } catch (error) {
-    console.error('AI Assistant error:', error)
+    console.error('AI Assistant error:', error);
     messages.value.push({
       id: (Date.now() + 1).toString(),
       sender: 'assistant',
       text: 'Sorry, I encountered an error. Please try again.',
-      timestamp: new Date()
-    })
+      timestamp: new Date(),
+    });
   } finally {
-    isTyping.value = false
+    isTyping.value = false;
     nextTick(() => {
-      scrollToBottom()
-    })
+      scrollToBottom();
+    });
   }
-}
+};
 
 const callMcpTool = async (message: string): Promise<string> => {
   // Determine which tool to use based on message content
-  const toolName = determineTool(message)
-  const args = extractArgs(message, toolName)
+  const toolName = determineTool(message);
+  const args = extractArgs(message, toolName);
 
   try {
     const result = await aiService.callMcpTool({
       name: toolName,
-      arguments: args
-    })
+      arguments: args,
+    });
 
-    return result
+    return result;
   } catch (error) {
-    console.error('AI service error:', error)
-    throw error
+    console.error('AI service error:', error);
+    throw error;
   }
-}
+};
 
 const determineTool = (message: string): string => {
-  const lowerMessage = message.toLowerCase()
+  const lowerMessage = message.toLowerCase();
 
-  if (lowerMessage.includes('performance') || lowerMessage.includes('optimize') || lowerMessage.includes('speed')) {
-    return 'performance_optimization'
+  if (
+    lowerMessage.includes('performance') ||
+    lowerMessage.includes('optimize') ||
+    lowerMessage.includes('speed')
+  ) {
+    return 'performance_optimization';
   }
-  if (lowerMessage.includes('security') || lowerMessage.includes('audit') || lowerMessage.includes('compliance')) {
-    return 'security_compliance'
+  if (
+    lowerMessage.includes('security') ||
+    lowerMessage.includes('audit') ||
+    lowerMessage.includes('compliance')
+  ) {
+    return 'security_compliance';
   }
-  if (lowerMessage.includes('content') || lowerMessage.includes('seo') || lowerMessage.includes('engagement')) {
-    return 'content_optimization'
+  if (
+    lowerMessage.includes('content') ||
+    lowerMessage.includes('seo') ||
+    lowerMessage.includes('engagement')
+  ) {
+    return 'content_optimization';
   }
-  if (lowerMessage.includes('store') || lowerMessage.includes('sales') || lowerMessage.includes('inventory')) {
-    return 'store_operations'
+  if (
+    lowerMessage.includes('store') ||
+    lowerMessage.includes('sales') ||
+    lowerMessage.includes('inventory')
+  ) {
+    return 'store_operations';
   }
-  if (lowerMessage.includes('tenant') || lowerMessage.includes('resource') || lowerMessage.includes('onboard')) {
-    return 'tenant_management'
+  if (
+    lowerMessage.includes('tenant') ||
+    lowerMessage.includes('resource') ||
+    lowerMessage.includes('onboard')
+  ) {
+    return 'tenant_management';
   }
-  if (lowerMessage.includes('integration') || lowerMessage.includes('api') || lowerMessage.includes('webhook')) {
-    return 'integration_management'
+  if (
+    lowerMessage.includes('integration') ||
+    lowerMessage.includes('api') ||
+    lowerMessage.includes('webhook')
+  ) {
+    return 'integration_management';
   }
-  if (lowerMessage.includes('user') || lowerMessage.includes('admin') || lowerMessage.includes('role')) {
-    return 'user_management_assistant'
+  if (
+    lowerMessage.includes('user') ||
+    lowerMessage.includes('admin') ||
+    lowerMessage.includes('role')
+  ) {
+    return 'user_management_assistant';
   }
-  if (lowerMessage.includes('email') || lowerMessage.includes('template') || lowerMessage.includes('campaign')) {
-    return 'email_template_design'
+  if (
+    lowerMessage.includes('email') ||
+    lowerMessage.includes('template') ||
+    lowerMessage.includes('campaign')
+  ) {
+    return 'email_template_design';
   }
-  if (lowerMessage.includes('page') || lowerMessage.includes('layout') || lowerMessage.includes('cms')) {
-    return 'cms_page_design'
+  if (
+    lowerMessage.includes('page') ||
+    lowerMessage.includes('layout') ||
+    lowerMessage.includes('cms')
+  ) {
+    return 'cms_page_design';
   }
-  if (lowerMessage.includes('health') || lowerMessage.includes('system') || lowerMessage.includes('monitor')) {
-    return 'system_health_analysis'
+  if (
+    lowerMessage.includes('health') ||
+    lowerMessage.includes('system') ||
+    lowerMessage.includes('monitor')
+  ) {
+    return 'system_health_analysis';
   }
 
   // Default to content optimization for general queries
-  return 'content_optimization'
-}
+  return 'content_optimization';
+};
 
 const extractArgs = (message: string, toolName: string): any => {
   // Basic argument extraction - can be enhanced with NLP
-  const args: any = {}
+  const args: any = {};
 
   switch (toolName) {
     case 'performance_optimization':
-      args.component = extractComponent(message) || 'system'
-      args.metricType = 'response_time'
-      args.includeHistoricalData = true
-      break
+      args.component = extractComponent(message) || 'system';
+      args.metricType = 'response_time';
+      args.includeHistoricalData = true;
+      break;
     case 'security_compliance':
-      args.assessmentType = 'comprehensive'
-      args.scope = 'all'
-      args.includeRecommendations = true
-      break
+      args.assessmentType = 'comprehensive';
+      args.scope = 'all';
+      args.includeRecommendations = true;
+      break;
     case 'content_optimization':
-      args.contentType = 'web_page'
-      args.content = 'Current page content'
-      break
+      args.contentType = 'web_page';
+      args.content = 'Current page content';
+      break;
     case 'store_operations':
-      args.operation = 'analyze'
-      args.storeId = 'current'
-      args.analysisType = 'performance'
-      break
+      args.operation = 'analyze';
+      args.storeId = 'current';
+      args.analysisType = 'performance';
+      break;
     case 'tenant_management':
-      args.action = 'analyze'
-      args.tenantId = props.tenantId || 'current'
-      break
+      args.action = 'analyze';
+      args.tenantId = props.tenantId || 'current';
+      break;
     case 'integration_management':
-      args.integrationType = 'api'
-      args.action = 'analyze'
-      break
+      args.integrationType = 'api';
+      args.action = 'analyze';
+      break;
     case 'user_management_assistant':
-      args.task = message
-      break
+      args.task = message;
+      break;
     case 'email_template_design':
-      args.emailType = 'marketing'
-      args.contentPurpose = 'engagement'
-      break
+      args.emailType = 'marketing';
+      args.contentPurpose = 'engagement';
+      break;
     case 'cms_page_design':
-      args.pageType = 'landing'
-      args.contentRequirements = 'conversion focused'
-      break
+      args.pageType = 'landing';
+      args.contentRequirements = 'conversion focused';
+      break;
     case 'system_health_analysis':
-      args.component = 'all'
-      args.timeRange = '24h'
-      break
+      args.component = 'all';
+      args.timeRange = '24h';
+      break;
   }
 
-  return args
-}
+  return args;
+};
 
 const extractComponent = (message: string): string => {
-  if (message.includes('database')) return 'database'
-  if (message.includes('api')) return 'api'
-  if (message.includes('frontend')) return 'frontend'
-  if (message.includes('backend')) return 'backend'
-  return 'system'
-}
+  if (message.includes('database')) return 'database';
+  if (message.includes('api')) return 'api';
+  if (message.includes('frontend')) return 'frontend';
+  if (message.includes('backend')) return 'backend';
+  return 'system';
+};
 
 const formatMessage = (text: string): string => {
   // Convert markdown to HTML
-  return marked(text, { breaks: true })
-}
+  return marked(text, { breaks: true });
+};
 
 const formatTime = (timestamp: Date): string => {
-  return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-}
+  return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+};
 
 const scrollToBottom = () => {
   nextTick(() => {
     if (messagesContainer.value) {
-      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
     }
-  })
-}
+  });
+};
 
 // Auto-resize textarea
 const autoResizeTextarea = () => {
   if (messageInput.value) {
-    messageInput.value.style.height = 'auto'
-    messageInput.value.style.height = messageInput.value.scrollHeight + 'px'
+    messageInput.value.style.height = 'auto';
+    messageInput.value.style.height = messageInput.value.scrollHeight + 'px';
   }
-}
+};
 
-watch(currentMessage, autoResizeTextarea)
+watch(currentMessage, autoResizeTextarea);
 
 // Update context based on current route
 const updateContext = () => {
-  const path = window.location.pathname
+  const path = window.location.pathname;
   if (path.includes('/admins')) {
-    currentPage.value = 'Admin Management'
+    currentPage.value = 'Admin Management';
   } else if (path.includes('/stores')) {
-    currentPage.value = 'Store Management'
+    currentPage.value = 'Store Management';
   } else if (path.includes('/email')) {
-    currentPage.value = 'Email Management'
+    currentPage.value = 'Email Management';
   } else if (path.includes('/settings')) {
-    currentPage.value = 'Settings'
+    currentPage.value = 'Settings';
   } else {
-    currentPage.value = 'Dashboard'
+    currentPage.value = 'Dashboard';
   }
-}
+};
 
 // Lifecycle
 onMounted(() => {
-  updateContext()
+  updateContext();
   // Listen for route changes
-  window.addEventListener('popstate', updateContext)
-})
+  window.addEventListener('popstate', updateContext);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('popstate', updateContext)
-})
+  window.removeEventListener('popstate', updateContext);
+});
 </script>
 
 <style scoped>
@@ -676,7 +746,9 @@ onUnmounted(() => {
 }
 
 @keyframes typing {
-  0%, 60%, 100% {
+  0%,
+  60%,
+  100% {
     transform: translateY(0);
     opacity: 0.4;
   }

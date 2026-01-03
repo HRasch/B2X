@@ -56,6 +56,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-027` | Email Template Engine Selection | `.ai/decisions/ADR-027-email-template-engine.md` | Accepted |
 | `ADR-028` | AI Consumption Monitoring for MCP | `.ai/decisions/ADR-028-ai-consumption-monitoring.md` | Proposed |
 | `ADR-029` | Microsoft.Extensions.AI Adoption for MCP Server | `.ai/decisions/ADR-029-microsoft-extensions-ai-adoption.md` | Accepted |
+| `ADR-030` | CMS Tenant Template Overrides Architecture | `.ai/decisions/ADR-030-cms-tenant-template-overrides-architecture.md` | Proposed |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -152,6 +153,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-003` | Email Template System | `.ai/requirements/REQ-003-email-template-system.md` | Draft |
 | `REQ-004` | MCP Server for Tenant Administrators | `.ai/requirements/REQ-004-mcp-server-tenant-admin.md` | Draft |
 | `REQ-004-SPM` | System Prompt Management for MCP Server | `.ai/requirements/REQ-004-system-prompt-management.md` | Draft |
+| `REQ-005` | CMS Tenant Template Overrides with AI Validation | `.ai/requirements/REQ-005-cms-tenant-template-overrides.md` | Draft |
 
 ---
 

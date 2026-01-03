@@ -47,6 +47,7 @@ See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 | `ADR-003` | Aspire Orchestration | ✅ Accepted | High |
 | `ADR-004` | PostgreSQL Multitenancy | ✅ Accepted | High |
 | `ADR-028` | AI Consumption Monitoring for MCP | 📋 Proposed | High |
+| `ADR-030` | CMS Tenant Template Overrides Architecture | 📋 Proposed | High |
 
 #### ADR-001: Event-Driven Architecture with Wolverine CQRS
 - **File:** [ADR-001-event-driven-architecture.md](./ADR-001-event-driven-architecture.md)
@@ -85,6 +86,25 @@ See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 - Implementation: Gateway architecture, rate limiting, cost control
 - Security: API key management, request validation, abuse detection
 - Related: `[ADR-022]`, `[KB-017]`, `[CMP-002]`
+
+#### ADR-030: CMS Tenant Template Overrides Architecture
+- **File:** [ADR-030-cms-tenant-template-overrides-architecture.md](./ADR-030-cms-tenant-template-overrides-architecture.md)
+- **DocID:** `ADR-030`
+- **Status:** 📋 Proposed
+- **Impact:** High - CMS customization and AI integration
+- **Summary:**
+  - Hierarchical template resolution system for tenant overrides
+  - AI-powered validation and Monaco editor integration
+  - Section-based merging with tenant isolation
+  - MCP server extension for template validation tools
+  - Security controls: sandboxing, sanitization, audit logging
+
+**Key Sections:**
+- Context: Business requirements for tenant customization
+- Decision: Extend CMS bounded context with AI validation
+- Implementation: CQRS commands, template resolution service, Monaco integration
+- Security: Template sandboxing, tenant isolation, audit trails
+- Related: `[ADR-004]`, `[ADR-022]`, `[ADR-027]`, `[REQ-004]`, `[REQ-005]`
 
 #### ADR-002: Multi-Database per Bounded Context (Planned)
 - **Status:** 📋 Scheduled for Sprint 1
