@@ -47,6 +47,7 @@
     <Project Path="backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj" />
     <Project Path="backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj" />
     <Project Path="backend/Tests/B2Connect.Shared.Search.Tests/B2Connect.Shared.Search.Tests.csproj" />
+    <Project Path="backend/services/PunchoutAdapters/IdsConnect/B2Connect.IdsConnectAdapter.Tests.csproj" />
   </Folder>
   <Folder Name="/Projektmappenelemente/">
     <File Path="docker-compose.yml" />

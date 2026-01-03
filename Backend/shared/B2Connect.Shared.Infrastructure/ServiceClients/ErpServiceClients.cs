@@ -65,8 +65,10 @@ public class UsageServiceClient : IUsageServiceClient
             _httpClient.DefaultRequestHeaders.Add("X-Tenant-ID", tenantId.ToString());
 
             var query = new List<string>();
-            if (from.HasValue) query.Add($"from={from.Value:O}");
-            if (to.HasValue) query.Add($"to={to.Value:O}");
+            if (from.HasValue)
+                query.Add($"from={from.Value:O}");
+            if (to.HasValue)
+                query.Add($"to={to.Value:O}");
             var queryString = query.Any() ? $"?{string.Join("&", query)}" : "";
 
             var response = await _httpClient.GetAsync($"/api/usage/stats{queryString}", ct);
@@ -135,6 +137,14 @@ public class CustomerDto
     public DateTime LastModified { get; set; }
 }
 
+public class Address
+{
+    public string? Street { get; set; }
+    public string? City { get; set; }
+    public string? PostalCode { get; set; }
+    public string? Country { get; set; }
+}
+
 public class UsageStatsDto
 {
     public int TotalOrders { get; set; }
@@ -149,12 +159,4 @@ public class ProductStatsDto
     public string? Name { get; set; }
     public int OrderCount { get; set; }
     public decimal Revenue { get; set; }
-}
-
-public class Address
-{
-    public string? Street { get; set; }
-    public string? City { get; set; }
-    public string? PostalCode { get; set; }
-    public string? Country { get; set; }
 }

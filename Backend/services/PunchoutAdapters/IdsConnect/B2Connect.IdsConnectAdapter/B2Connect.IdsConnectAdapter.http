@@ -1,0 +1,6 @@
+@B2Connect.IdsConnectAdapter_HostAddress = http://localhost:5172
+
+GET {{B2Connect.IdsConnectAdapter_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

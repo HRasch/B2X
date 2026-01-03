@@ -1,7 +1,7 @@
 # 📚 Document Registry
 
 **Version:** 1.0  
-**Last Updated:** 31. Dezember 2025  
+**Last Updated:** 3. Januar 2026  
 **Owner:** @SARAH
 
 ---
@@ -54,6 +54,10 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-025` | Gateway-Service Communication Strategy | `.ai/decisions/ADR-025-gateway-service-communication-strategy.md` | Accepted |
 | `ADR-026` | BMEcat Catalog Import Architecture | `.ai/decisions/ADR-026-bmecat-catalog-import-architecture.md` | Proposed |
 | `ADR-027` | Email Template Engine Selection | `.ai/decisions/ADR-027-email-template-engine.md` | Accepted |
+| `ADR-028` | ERP API Integration Architecture | `.ai/decisions/ADR-028-erp-bidirectional-integration.md` | Accepted |
+| `ADR-029` | Multi-Format Punchout Integration for Craft Software | `.ai/decisions/ADR-029-multi-format-punchout-integration.md` | Proposed |
+| `ADR-029-BPA` | Business Process Analysis - Punchout Integration | `.ai/decisions/ADR-029-business-process-analysis.md` | Active |
+| `ADR-029-ICAS` | IDS Connect Adapter Specification | `.ai/decisions/ADR-029-ids-connect-adapter-spec.md` | Active |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
