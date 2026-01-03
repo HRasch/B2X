@@ -1,12 +1,90 @@
+using B2Connect.Admin.MCP.Services;
+using B2Connect.Admin.MCP.Middleware;
+using B2Connect.Admin.MCP.Configuration;
+using B2Connect.Admin.MCP.Data;
+using B2Connect.Admin.MCP;
+using Wolverine;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// Configure Serilog
+builder.Host.UseSerilog((context, config) =>
+{
+    config.ReadFrom.Configuration(context.Configuration);
+});
+
+// Add services to the container
 builder.Services.AddOpenApi();
+
+// Database configuration
+builder.Services.AddDbContext<McpDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured")))
+        };
+    });
+
+// Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("TenantAdmin", policy =>
+        policy.RequireClaim("role", "tenant-admin"));
+});
+
+// AI Consumption Gateway (Exclusive AI Access)
+builder.Services.AddSingleton<AiConsumptionGateway>();
+
+// MCP Server
+builder.Services.AddSingleton<IMcpServer, McpServer>();
+
+// AI Providers
+builder.Services.AddSingleton<OpenAiProvider>();
+builder.Services.AddSingleton<AnthropicProvider>();
+builder.Services.AddSingleton<AzureOpenAiProvider>();
+
+// AI Provider Selector
+builder.Services.AddSingleton<AiProviderSelector>();
+
+// Tenant Context
+builder.Services.AddScoped<TenantContext>();
+
+// Caching
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
+// Wolverine CQRS
+builder.Services.AddWolverine(opts =>
+{
+    opts.Policies.AutoApplyTransactions();
+    opts.Policies.UseDurableLocalQueues();
+});
+
+// Health Checks
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -14,28 +92,23 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// Security middleware
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+// Tenant context middleware (must be after auth)
+app.UseMiddleware<TenantContextMiddleware>();
+
+// AI Consumption Control middleware (exclusive access)
+app.UseMiddleware<AiConsumptionControlMiddleware>();
+
+// MCP endpoints
+app.MapMcpEndpoints();
+
+// Health check
+app.MapHealthChecks("/health");
+
+// Remove default weather forecast endpoint
+// (keeping for now as placeholder)
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -78,6 +78,8 @@ Implement an MCP (Model Context Protocol) server that provides AI-powered admini
    - Set monthly budgets and rate limits
    - Monitor usage and costs
    - Configure alerts for budget thresholds
+   - **Exclusive AI consumption monitoring** - track all AI usage by MCP server
+   - **Automated limiting and throttling** - prevent budget overruns
 
 4. **Security Settings**
    - Content filtering levels
@@ -190,6 +192,8 @@ Implement an MCP (Model Context Protocol) server that provides AI-powered admini
 - Encrypted storage of sensitive configuration
 - Rate limiting and abuse prevention
 - GDPR/NIS2/BITV 2.0 compliance
+- **Exclusive AI consumption controls** - MCP server as sole AI consumer
+- **AI usage monitoring and limiting** - comprehensive tracking and budget enforcement
 
 ### Performance Requirements
 - Response time < 2 seconds for tool execution
@@ -309,6 +313,9 @@ Implement an MCP (Model Context Protocol) server that provides AI-powered admini
 - [ ] Multi-provider AI support working
 - [ ] Usage monitoring and cost tracking operational
 - [ ] System prompt editing and versioning functional
+- [ ] **AI consumption strictly limited to MCP server** - no other system components can access AI services
+- [ ] **Comprehensive AI usage monitoring** - all AI calls tracked with tenant and tool attribution
+- [ ] **Automated rate limiting and budget controls** - prevent cost overruns and abuse
 - [ ] Prompt management system fully functional
 - [ ] Tenant-specific prompts customizable via Management frontend
 - [ ] Template variables working correctly
@@ -368,7 +375,7 @@ Implement an MCP (Model Context Protocol) server that provides AI-powered admini
   - Mitigation: Rate limiting, caching, async processing
 
 - **Cost Management**: Uncontrolled AI usage costs
-  - Mitigation: Budget controls, usage monitoring, alerts
+  - Mitigation: Budget controls, usage monitoring, alerts, **exclusive MCP AI access**
 
 ### Low Risk
 - **MCP Protocol Changes**: Specification updates

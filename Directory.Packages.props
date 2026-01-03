@@ -200,6 +200,14 @@
     <PackageVersion Include="AWSSDK.SQS" Version="3.7.400" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- AI PROVIDERS & MCP PROTOCOL                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <PackageVersion Include="ModelContextProtocol" Version="2024.11.5" />
+    <PackageVersion Include="OpenAI" Version="2.0.0" />
+    <PackageVersion Include="Anthropic.SDK" Version="4.7.1" />
+    <PackageVersion Include="Azure.AI.OpenAI" Version="2.0.0" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- SYSTEM PACKAGES (for Abstractions)                                     -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="System.ComponentModel.Annotations" Version="10.0.0" />

@@ -4,10 +4,35 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <!-- MCP Protocol -->
+    <PackageReference Include="ModelContextProtocol" />
+    <!-- AI Providers -->
+    <PackageReference Include="OpenAI" />
+    <PackageReference Include="Anthropic.SDK" />
+    <PackageReference Include="Azure.AI.OpenAI" />
+    <!-- Wolverine CQRS -->
+    <PackageReference Include="WolverineFx" />
+    <!-- Database -->
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
+    <!-- Authentication -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <!-- Encryption -->
+    <PackageReference Include="Azure.Security.KeyVault.Secrets" />
+    <PackageReference Include="Azure.Identity" />
+    <!-- Caching -->
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
+    <!-- Logging -->
+    <PackageReference Include="Serilog.AspNetCore" />
+    <!-- Validation -->
+    <PackageReference Include="FluentValidation.AspNetCore" />
   </ItemGroup>
 
 </Project>
