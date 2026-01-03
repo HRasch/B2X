@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using B2Connect.ErpConnector.Infrastructure.Erp;
-using NLog;
 
 namespace B2Connect.ErpConnector.Infrastructure.Repository
 {
@@ -23,7 +22,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
         where TDto : class, new()
         where TFSEntity : class, IDevFrameworkObject
     {
-        protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         protected readonly EnventaScope Scope;
 
         protected EnventaBaseRepository(EnventaScope scope)
@@ -89,7 +87,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
 
         public virtual TDto Find(string key)
         {
-            Logger.Trace("Find {0} by key: {1}", DtoTypeName, key);
+            Console.WriteLine($"Find {DtoTypeName} by key: {key}");
             var entity = LoadEntity(key);
             return entity != null ? ToDto(entity) : null;
         }
@@ -165,8 +163,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
             IProgress<int> progress = null,
             CancellationToken ct = default)
         {
-            Logger.Trace("Select {0}: where='{1}', orderBy='{2}', offset={3}, limit={4}",
-                DtoTypeName, where, orderBy, offset, limit);
+            Console.WriteLine($"Select {DtoTypeName}: where='{where}', orderBy='{orderBy}', offset={offset}, limit={limit}");
 
             var entities = GetEntities(where, orderBy, offset, limit);
             var count = 0;
@@ -181,7 +178,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
                 yield return ToDto(entity);
             }
 
-            Logger.Trace("Select {0} completed: {1} records", DtoTypeName, count);
+            Console.WriteLine($"Select {DtoTypeName} completed: {count} records");
         }
 
         public virtual Task<IEnumerable<TDto>> SelectAsync(
@@ -277,7 +274,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
 
         public virtual TDto Save(TDto dto)
         {
-            Logger.Debug("Save {0}", DtoTypeName);
+            Console.WriteLine($"Save {DtoTypeName}");
 
             var entity = ToEntity(dto);
             var saved = SaveEntity(entity);
@@ -291,7 +288,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
 
         public virtual void Delete(TDto dto)
         {
-            Logger.Debug("Delete {0}", DtoTypeName);
+            Console.WriteLine($"Delete {DtoTypeName}");
 
             var key = GetKey(dto);
             var entity = LoadEntity(key);

@@ -5,7 +5,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
     using System.Configuration;
     using System.Threading;
     using B2Connect.ErpConnector.Infrastructure.Identity;
-    using NLog;
 
     /// <summary>
     /// Static factory for managing enventa global object pools.
@@ -19,7 +18,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
     /// </summary>
     public static class EnventaGlobalFactory
     {
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
         private static readonly ConcurrentDictionary<string, Lazy<EnventaGlobalPool>> _globalPools
             = new ConcurrentDictionary<string, Lazy<EnventaGlobalPool>>();
         private static readonly EventWaitHandle _globalWaitHandle
@@ -37,7 +35,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
         {
             if (_initialized)
             {
-                Log.Warn("EnventaGlobalFactory already initialized");
+                Console.WriteLine("EnventaGlobalFactory already initialized");
                 return;
             }
 
@@ -45,7 +43,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
             _poolSize = poolSize > 0 ? poolSize : 1;
             _initialized = true;
 
-            Log.Info("EnventaGlobalFactory initialized with pool size {0}", _poolSize);
+            Console.WriteLine($"EnventaGlobalFactory initialized with pool size {_poolSize}");
         }
 
         /// <summary>
@@ -90,7 +88,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
 
         private static EnventaGlobalPool CreateGlobalPool(EnventaIdentity identity)
         {
-            Log.Info("Creating new global pool for {0}", identity);
+            Console.WriteLine($"Creating new global pool for {identity}");
 
             var pool = new EnventaGlobalPool(identity, _poolSize, _globalWaitHandle, _globalObjectFactory);
             pool.Initialize();
@@ -103,7 +101,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
         /// </summary>
         public static void Dispose()
         {
-            Log.Info("Disposing EnventaGlobalFactory");
+            Console.WriteLine("Disposing EnventaGlobalFactory");
 
             foreach (var key in _globalPools.Keys)
             {

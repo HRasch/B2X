@@ -7,7 +7,6 @@ using B2Connect.ErpConnector.Infrastructure.Erp;
 using B2Connect.ErpConnector.Infrastructure.Identity;
 using B2Connect.ErpConnector.Infrastructure.Repository;
 using B2Connect.ErpConnector.Models;
-using NLog;
 
 namespace B2Connect.ErpConnector.Services
 {
@@ -23,7 +22,6 @@ namespace B2Connect.ErpConnector.Services
     /// </summary>
     public class EnventaErpService
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly EnventaActorPool _actorPool;
         private readonly IEnventaIdentityProvider _identityProvider;
 
@@ -31,6 +29,15 @@ namespace B2Connect.ErpConnector.Services
         {
             _identityProvider = identityProvider ?? throw new ArgumentNullException(nameof(identityProvider));
             _actorPool = EnventaActorPool.Instance;
+        }
+
+        /// <summary>
+        /// Creates an ERP service instance with credentials from API key validation.
+        /// This ensures each tenant uses their own ERP credentials.
+        /// </summary>
+        public EnventaErpService(ErpCredentials credentials)
+            : this(new ConfiguredIdentityProvider(credentials.Username, credentials.Password, credentials.BusinessUnit))
+        {
         }
 
         public EnventaErpService() : this(new ConfiguredIdentityProvider("sysadm", "sysadm", "10"))
@@ -58,7 +65,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET DataReader operations</param>
         public Task<ArticleDto> GetArticleAsync(string tenantId, string articleId, string? businessUnit = null, CancellationToken ct = default)
         {
-            Logger.Debug("GetArticle: tenant={0}, articleId={1}, businessUnit={2}", tenantId, articleId, businessUnit);
+            Console.WriteLine($"GetArticle: tenant={tenantId}, articleId={articleId}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>
@@ -82,7 +89,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET DataReader operations</param>
         public Task<CursorPageResponse<ArticleDto>> QueryArticlesAsync(string tenantId, QueryRequest query, string? businessUnit = null, CancellationToken ct = default)
         {
-            Logger.Debug("QueryArticles: tenant={0}, filters={1}, businessUnit={2}", tenantId, query.Filters?.Count ?? 0, businessUnit);
+            Console.WriteLine($"QueryArticles: tenant={tenantId}, filters={query.Filters?.Count ?? 0}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>
@@ -138,7 +145,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET DataReader operations</param>
         public Task<DeltaSyncResponse<ArticleDto>> SyncArticlesAsync(string tenantId, DeltaSyncRequest request, string? businessUnit = null, CancellationToken ct = default)
         {
-            Logger.Debug("SyncArticles: tenant={0}, since={1}, businessUnit={2}", tenantId, request.Since, businessUnit);
+            Console.WriteLine($"SyncArticles: tenant={tenantId}, since={request.Since}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>
@@ -275,7 +282,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET DataReader operations</param>
         public Task<CustomerDto> GetCustomerAsync(string tenantId, string customerNumber, string? businessUnit = null, CancellationToken ct = default)
         {
-            Logger.Debug("GetCustomer: tenant={0}, customerNumber={1}, businessUnit={2}", tenantId, customerNumber, businessUnit);
+            Console.WriteLine($"GetCustomer: tenant={tenantId}, customerNumber={customerNumber}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>
@@ -299,7 +306,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET DataReader operations</param>
         public Task<CursorPageResponse<CustomerDto>> QueryCustomersAsync(string tenantId, QueryRequest query, string? businessUnit = null, CancellationToken ct = default)
         {
-            Logger.Debug("QueryCustomers: tenant={0}, businessUnit={1}", tenantId, businessUnit);
+            Console.WriteLine($"QueryCustomers: tenant={tenantId}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>
@@ -400,7 +407,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET DataReader operations</param>
         public Task<OrderDto> GetOrderAsync(string tenantId, string orderNumber, string? businessUnit = null, CancellationToken ct = default)
         {
-            Logger.Debug("GetOrder: tenant={0}, orderNumber={1}, businessUnit={2}", tenantId, orderNumber, businessUnit);
+            Console.WriteLine($"GetOrder: tenant={tenantId}, orderNumber={orderNumber}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>
@@ -423,7 +430,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET operations</param>
         public Task<OrderDto> CreateOrderAsync(string tenantId, CreateOrderRequest request, string? businessUnit = null, CancellationToken ct = default)
         {
-            Logger.Info("CreateOrder: tenant={0}, customer={1}, businessUnit={2}", tenantId, request.CustomerNumber, businessUnit);
+            Console.WriteLine($"CreateOrder: tenant={tenantId}, customer={request.CustomerNumber}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>
@@ -433,7 +440,7 @@ namespace B2Connect.ErpConnector.Services
                 using (var context = new EnventaContext(_identityProvider))
                 {
                     var order = context.Orders.CreateOrder(request);
-                    Logger.Info("Order created: {0}", order.OrderNumber);
+                    Console.WriteLine($"Order created: {order.OrderNumber}");
                     return order;
                 }
             }, ct);
@@ -449,7 +456,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET DataReader operations</param>
         public Task<CursorPageResponse<OrderDto>> QueryOrdersAsync(string tenantId, QueryRequest query, string? businessUnit = null, CancellationToken ct = default)
         {
-            Logger.Debug("QueryOrders: tenant={0}, businessUnit={1}", tenantId, businessUnit);
+            Console.WriteLine($"QueryOrders: tenant={tenantId}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>
@@ -496,7 +503,7 @@ namespace B2Connect.ErpConnector.Services
         /// <param name="ct">Cancellation token for ADO.NET DataReader operations</param>
         public Task<IEnumerable<OrderDto>> GetCustomerOrdersAsync(string tenantId, string customerNumber, string? businessUnit = null, int? limit = null, CancellationToken ct = default)
         {
-            Logger.Debug("GetCustomerOrders: tenant={0}, customer={1}, businessUnit={2}", tenantId, customerNumber, businessUnit);
+            Console.WriteLine($"GetCustomerOrders: tenant={tenantId}, customer={customerNumber}, businessUnit={businessUnit}");
 
             var actor = _actorPool.GetActor(tenantId, businessUnit);
             return actor.ExecuteAsync((connection, token) =>

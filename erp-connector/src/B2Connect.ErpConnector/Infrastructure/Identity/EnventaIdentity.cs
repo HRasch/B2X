@@ -41,15 +41,25 @@ namespace B2Connect.ErpConnector.Infrastructure.Identity
         /// <summary>
         /// Gets a unique token for pool identification.
         /// Used to maintain separate connection pools per identity.
+        /// NOTE: Does not include password for security - use GetToken() for pool keys only.
         /// </summary>
         public string GetToken()
         {
             return $"{Name}:{BusinessUnit}".ToLowerInvariant();
         }
 
+        /// <summary>
+        /// String representation - NEVER includes password for security.
+        /// </summary>
         public override string ToString()
         {
             return $"EnventaIdentity[{Name}@{BusinessUnit}]";
         }
+
+        /// <summary>
+        /// Check if this identity has valid credentials set.
+        /// Does NOT expose the actual password value.
+        /// </summary>
+        public bool HasCredentials => !string.IsNullOrEmpty(Password);
     }
 }

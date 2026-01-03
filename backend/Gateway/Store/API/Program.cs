@@ -162,6 +162,63 @@ builder.Services.AddAuthorization(options =>
                    (accountTypeClaim.Value == "DU" || accountTypeClaim.Value == "SU" ||
                     accountTypeClaim.Value == "U" || accountTypeClaim.Value == "SR");
         }));
+
+    // ERP Service Account Policies - Based on permissions from ERP connector
+    options.AddPolicy("ErpReadCustomers", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var permissions = context.User.FindFirst("ErpPermissions")?.Value;
+            return isErpServiceAccount && permissions?.Contains("ReadCustomers") == true;
+        }));
+
+    options.AddPolicy("ErpUpdateCustomers", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var permissions = context.User.FindFirst("ErpPermissions")?.Value;
+            return isErpServiceAccount && permissions?.Contains("UpdateCustomers") == true;
+        }));
+
+    options.AddPolicy("ErpReadProducts", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var permissions = context.User.FindFirst("ErpPermissions")?.Value;
+            return isErpServiceAccount && permissions?.Contains("ReadProducts") == true;
+        }));
+
+    options.AddPolicy("ErpUpdateProducts", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var permissions = context.User.FindFirst("ErpPermissions")?.Value;
+            return isErpServiceAccount && permissions?.Contains("UpdateProducts") == true;
+        }));
+
+    options.AddPolicy("ErpReadUsageStats", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var permissions = context.User.FindFirst("ErpPermissions")?.Value;
+            return isErpServiceAccount && permissions?.Contains("ReadUsageStats") == true;
+        }));
+
+    options.AddPolicy("ErpManageAccess", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var permissions = context.User.FindFirst("ErpPermissions")?.Value;
+            return isErpServiceAccount && permissions?.Contains("ManageAccess") == true;
+        }));
+
+    options.AddPolicy("ErpReceiveWebhooks", policy =>
+        policy.RequireAssertion(context =>
+        {
+            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var permissions = context.User.FindFirst("ErpPermissions")?.Value;
+            return isErpServiceAccount && permissions?.Contains("ReceiveWebhooks") == true;
+        }));
 });
 
 // Add Input Validation (FluentValidation)

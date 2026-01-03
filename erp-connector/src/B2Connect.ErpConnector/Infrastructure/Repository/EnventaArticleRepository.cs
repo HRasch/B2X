@@ -107,6 +107,18 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
         }
 
         /// <summary>
+        /// Filter by business unit.
+        /// </summary>
+        public ArticleQueryBuilder WithBusinessUnit(string businessUnit)
+        {
+            if (!string.IsNullOrWhiteSpace(businessUnit))
+            {
+                AddWhere($"BusinessUnit = {EscapeString(businessUnit)}");
+            }
+            return this;
+        }
+
+        /// <summary>
         /// Filter to include only e-commerce enabled articles.
         /// </summary>
         public ArticleQueryBuilder ECommerceEnabled()
@@ -265,7 +277,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
 
         public override ArticleDto Find(string key)
         {
-            Logger.Trace("Find Article by key: {0}", key);
+            Console.WriteLine($"Find Article by key: {key}");
 
             // Mock implementation
             return new ArticleDto
@@ -289,8 +301,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
             IProgress<int> progress = null,
             System.Threading.CancellationToken ct = default)
         {
-            Logger.Trace("Select Articles: where='{0}', orderBy='{1}', offset={2}, limit={3}",
-                where, orderBy, offset, limit);
+            Console.WriteLine($"Select Articles: where='{where}', orderBy='{orderBy}', offset={offset}, limit={limit}");
 
             // Mock implementation - generate sample data
             var totalCount = 50;

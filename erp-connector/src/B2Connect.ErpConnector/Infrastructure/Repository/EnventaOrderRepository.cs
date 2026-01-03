@@ -183,7 +183,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
 
         public override OrderDto Find(string key)
         {
-            Logger.Trace("Find Order by key: {0}", key);
+            Console.WriteLine($"Find Order by key: {key}");
 
             return new OrderDto
             {
@@ -204,7 +204,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
             IProgress<int> progress = null,
             System.Threading.CancellationToken ct = default)
         {
-            Logger.Trace("Select Orders: where='{0}', orderBy='{1}'", where, orderBy);
+            Console.WriteLine($"Select Orders: where='{where}', orderBy='{orderBy}'");
 
             var orders = new List<OrderDto>();
             for (int i = 1; i <= 10; i++)
@@ -241,7 +241,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
 
         public override OrderDto Save(OrderDto dto)
         {
-            Logger.Info("Save Order: {0}", dto.OrderNumber);
+            Console.WriteLine($"Save Order: {dto.OrderNumber}");
 
             // Mock: just return the DTO as-is
             // In production: map to entity, save via ERP, map back
@@ -257,13 +257,10 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
         /// </summary>
         public OrderDto CreateOrder(CreateOrderRequest request)
         {
-            Logger.Info("CreateOrder for customer: {0}", request.CustomerNumber);
+            Console.WriteLine($"CreateOrder for customer: {request.CustomerNumber}");
 
             var order = Create();
             order.CustomerNumber = request.CustomerNumber;
-            order.ShippingAddress = request.ShippingAddress;
-            order.BillingAddress = request.BillingAddress;
-            order.Notes = request.Notes;
 
             if (request.Items != null)
             {

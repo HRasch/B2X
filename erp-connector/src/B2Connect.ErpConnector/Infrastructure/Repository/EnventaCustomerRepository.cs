@@ -164,7 +164,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
 
         public override CustomerDto Find(string key)
         {
-            Logger.Trace("Find Customer by key: {0}", key);
+            Console.WriteLine($"Find Customer by key: {key}");
 
             return new CustomerDto
             {
@@ -186,7 +186,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Repository
             IProgress<int> progress = null,
             System.Threading.CancellationToken ct = default)
         {
-            Logger.Trace("Select Customers: where='{0}', orderBy='{1}'", where, orderBy);
+            Console.WriteLine($"Select Customers: where='{where}', orderBy='{orderBy}'");
 
             var customers = new List<CustomerDto>();
             for (int i = 1; i <= 20; i++)

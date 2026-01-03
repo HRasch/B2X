@@ -10,6 +10,7 @@ namespace B2Connect.Shared.Infrastructure.ServiceClients;
 public interface ICatalogServiceClient
 {
     Task<ProductDto?> GetProductBySkuAsync(string sku, Guid tenantId, CancellationToken ct = default);
+    Task<ProductDto?> GetProductByErpIdAsync(string erpProductId, Guid tenantId, CancellationToken ct = default);
     Task<IEnumerable<ProductDto>> SearchProductsAsync(string query, Guid tenantId, CancellationToken ct = default);
 }
 
@@ -40,6 +41,22 @@ public class CatalogServiceClient : ICatalogServiceClient
         }
     }
 
+    public async Task<ProductDto?> GetProductByErpIdAsync(string erpProductId, Guid tenantId, CancellationToken ct = default)
+    {
+        try
+        {
+            _httpClient.DefaultRequestHeaders.Add("X-Tenant-ID", tenantId.ToString());
+            var response = await _httpClient.GetAsync($"/api/products/erp/{erpProductId}", ct);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<ProductDto>(cancellationToken: ct);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Failed to get product {ErpProductId} from Catalog service", erpProductId);
+            return null;
+        }
+    }
+
     public async Task<IEnumerable<ProductDto>> SearchProductsAsync(string query, Guid tenantId, CancellationToken ct = default)
     {
         try
@@ -58,4 +75,13 @@ public class CatalogServiceClient : ICatalogServiceClient
     }
 }
 
-public record ProductDto(Guid Id, string Sku, string Name, decimal Price, Guid TenantId);
+public record ProductDto(
+    Guid Id,
+    string? ErpProductId,
+    string Sku,
+    string Name,
+    string? Description,
+    decimal Price,
+    int StockLevel,
+    DateTime LastModified,
+    Guid TenantId);
