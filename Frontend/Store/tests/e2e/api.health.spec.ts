@@ -1,6 +1,10 @@
 import { test, expect, APIRequestContext } from '@playwright/test';
 
-const API_BASE = 'http://localhost:5003/api';
+// Health check types
+interface HealthService {
+  status: 'healthy' | 'unhealthy' | 'unavailable';
+}
+
 const GATEWAY_BASE = 'http://localhost:5000/api';
 const AUTH_BASE = 'http://localhost:5001/api';
 const TENANT_BASE = 'http://localhost:5002/api';
@@ -75,13 +79,11 @@ test.describe('Health Check Endpoints', () => {
 
   test.describe('Health Status Values', () => {
     test('should return valid status values', async () => {
-      const validStatuses = ['healthy', 'unhealthy', 'unavailable'];
-
       const response = await request.get('http://localhost:9000/api/health');
       if (response.status() === 200) {
         const data = await response.json();
 
-        Object.values(data.services).forEach((service: any) => {
+        Object.values(data.services).forEach((service: HealthService) => {
           expect(['healthy', 'unhealthy', 'unavailable']).toContain(service.status);
         });
       }
@@ -117,7 +119,7 @@ test.describe('Cross-Service Communication', () => {
     const data = await response.json();
     // At least some services should be reachable
     const reachableServices = Object.values(data.services).filter(
-      (s: any) => s.status === 'healthy'
+      (s: HealthService) => s.status === 'healthy'
     );
 
     expect(reachableServices.length).toBeGreaterThanOrEqual(0);
@@ -195,7 +197,7 @@ test.describe('Service Availability', () => {
 
     if (Object.keys(data.services).length > 0) {
       // Services should have status information
-      Object.values(data.services).forEach((service: any) => {
+      Object.values(data.services).forEach((service: HealthService) => {
         expect(service).toHaveProperty('status');
       });
     }

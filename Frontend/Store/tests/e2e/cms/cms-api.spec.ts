@@ -1,5 +1,29 @@
 import { test, expect, APIRequestContext } from '@playwright/test';
 
+// CMS API Types
+interface CmsWidget {
+  id: string;
+  widgetTypeId: string;
+  category: string;
+  displayName: string;
+  componentPath: string;
+  isEnabled: boolean;
+  defaultSettings: CmsWidgetSetting[];
+  settings?: Record<string, unknown>;
+}
+
+interface CmsWidgetSetting {
+  key: string;
+  displayName: string;
+  type: string;
+}
+
+interface CmsRegion {
+  id: string;
+  name: string;
+  widgets: CmsWidget[];
+}
+
 // Helper to make API requests
 const API_BASE_URL = 'http://localhost:5173/api';
 
@@ -60,7 +84,7 @@ test.describe('CMS API Integration', () => {
     expect(Array.isArray(widgets)).toBe(true);
 
     // All widgets should be in media category
-    widgets.forEach((widget: any) => {
+    widgets.forEach((widget: CmsWidget) => {
       expect(widget.category).toBe('media');
     });
   });
@@ -85,13 +109,13 @@ test.describe('CMS API Integration', () => {
 
     expect(data.regions).toBeInstanceOf(Array);
 
-    data.regions.forEach((region: any) => {
+    data.regions.forEach((region: CmsRegion) => {
       expect(region).toHaveProperty('id');
       expect(region).toHaveProperty('name');
       expect(region).toHaveProperty('widgets');
       expect(Array.isArray(region.widgets)).toBe(true);
 
-      region.widgets.forEach((widget: any) => {
+      region.widgets.forEach((widget: CmsWidget) => {
         expect(widget).toHaveProperty('id');
         expect(widget).toHaveProperty('widgetTypeId');
         expect(widget).toHaveProperty('settings');
@@ -132,7 +156,7 @@ test.describe('CMS Widget Definitions', () => {
       expect(widget).toHaveProperty('defaultSettings');
       expect(Array.isArray(widget.defaultSettings)).toBe(true);
 
-      widget.defaultSettings.forEach((setting: any) => {
+      widget.defaultSettings.forEach((setting: CmsWidgetSetting) => {
         expect(setting).toHaveProperty('key');
         expect(setting).toHaveProperty('displayName');
         expect(setting).toHaveProperty('type');
@@ -144,7 +168,7 @@ test.describe('CMS Widget Definitions', () => {
     const response = await request.get(`${API_BASE_URL}/cms/widgets`);
     const widgets = await response.json();
 
-    const categories = new Set(widgets.map((w: any) => w.category));
+    const categories = new Set(widgets.map((w: CmsWidget) => w.category));
 
     // Should have known categories
     const knownCategories = ['media', 'content', 'products', 'forms'];
@@ -157,7 +181,7 @@ test.describe('CMS Widget Definitions', () => {
     const response = await request.get(`${API_BASE_URL}/cms/widgets`);
     const widgets = await response.json();
 
-    widgets.forEach((widget: any) => {
+    widgets.forEach((widget: CmsWidget) => {
       expect(widget.isEnabled).toBe(true);
     });
   });
@@ -194,8 +218,8 @@ test.describe('CMS Page Types', () => {
     if (response.status() === 200) {
       const data = await response.json();
 
-      const hasProductGrid = data.regions.some((region: any) =>
-        region.widgets.some((widget: any) => widget.widgetTypeId === 'product-grid')
+      const hasProductGrid = data.regions.some((region: CmsRegion) =>
+        region.widgets.some((widget: CmsWidget) => widget.widgetTypeId === 'product-grid')
       );
 
       expect(hasProductGrid).toBe(true);

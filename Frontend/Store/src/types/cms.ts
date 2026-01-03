@@ -7,7 +7,7 @@ export interface PageDefinition {
   pageDescription: string;
   metaKeywords: string;
   templateLayout: string;
-  globalSettings: Record<string, any>;
+  globalSettings: Record<string, unknown>;
   regions: PageRegion[];
   isPublished: boolean;
   publishedAt: string;
@@ -17,7 +17,7 @@ export interface PageRegion {
   id: string;
   name: string;
   order: number;
-  settings: Record<string, any>;
+  settings: Record<string, unknown>;
   widgets: WidgetInstance[];
 }
 
@@ -26,7 +26,7 @@ export interface WidgetInstance {
   widgetTypeId: string;
   componentPath: string;
   order: number;
-  settings: Record<string, any>;
+  settings: Record<string, unknown>;
 }
 
 export interface WidgetDefinition {
@@ -46,10 +46,10 @@ export interface WidgetSetting {
   displayName: string;
   description: string;
   type: WidgetSettingType;
-  defaultValue: any;
+  defaultValue: unknown;
   isRequired: boolean;
   displayOrder: number;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 export type WidgetSettingType =
