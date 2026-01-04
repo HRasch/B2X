@@ -1,13 +1,12 @@
 using System.Linq;
-using B2Connect.Catalog.Services;
 
 namespace B2Connect.Catalog.Endpoints;
 
 public class ProductServiceAdapter : IProductService
 {
-    private readonly IProductService _productService;
+    private readonly B2Connect.Catalog.Services.IProductService _productService;
 
-    public ProductServiceAdapter(IProductService productService)
+    public ProductServiceAdapter(B2Connect.Catalog.Services.IProductService productService)
     {
         _productService = productService;
     }
@@ -27,9 +26,9 @@ public class ProductServiceAdapter : IProductService
 
 public class SearchIndexAdapter : ISearchIndexService
 {
-    private readonly ISearchIndexService _searchService;
+    private readonly B2Connect.Catalog.Services.ISearchIndexService _searchService;
 
-    public SearchIndexAdapter(ISearchIndexService searchService)
+    public SearchIndexAdapter(B2Connect.Catalog.Services.ISearchIndexService searchService)
     {
         _searchService = searchService;
     }

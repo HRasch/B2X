@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'daisyui/daisyui.css';
+@import "tailwindcss";
+@import "daisyui/daisyui.css";
 
 /* Custom component styles - DaisyUI v5 provides btn, card, etc. */
 /* Additional customizations below */

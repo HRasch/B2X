@@ -106,14 +106,14 @@ describe('CustomerTypeSelection.vue', () => {
       const cards = wrapper.findAll('.option-card');
       await cards[0].trigger('click');
 
-      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
+      expect((wrapper.vm as unknown as CustomerTypeSelectionVM).selectedType).toBe('private');
     });
 
     it('should select business customer when clicking the card', async () => {
       const cards = wrapper.findAll('.option-card');
       await cards[1].trigger('click');
 
-      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('business');
+      expect((wrapper.vm as unknown as CustomerTypeSelectionVM).selectedType).toBe('business');
     });
 
     it('should apply selected class to selected card', async () => {
@@ -142,11 +142,11 @@ describe('CustomerTypeSelection.vue', () => {
 
       await cards[0].trigger('click');
       await wrapper.vm.$nextTick();
-      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
+      expect((wrapper.vm as unknown as CustomerTypeSelectionVM).selectedType).toBe('private');
 
       await cards[1].trigger('click');
       await wrapper.vm.$nextTick();
-      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('business');
+      expect((wrapper.vm as unknown as CustomerTypeSelectionVM).selectedType).toBe('business');
     });
   });
 
@@ -178,7 +178,7 @@ describe('CustomerTypeSelection.vue', () => {
 
       await newWrapper.vm.$nextTick();
 
-      expect((newWrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
+      expect((newWrapper.vm as unknown as CustomerTypeSelectionVM).selectedType).toBe('private');
     });
 
     it('should update selected class based on persisted value', async () => {
@@ -207,7 +207,7 @@ describe('CustomerTypeSelection.vue', () => {
 
       await newWrapper.vm.$nextTick();
 
-      expect((newWrapper.vm as CustomerTypeSelectionVM).selectedType).toBeNull();
+      expect((newWrapper.vm as unknown as CustomerTypeSelectionVM).selectedType).toBeNull();
     });
   });
 
@@ -283,7 +283,7 @@ describe('CustomerTypeSelection.vue', () => {
       await cards[0].trigger('click');
       await wrapper.vm.$nextTick();
 
-      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
+      expect((wrapper.vm as unknown as CustomerTypeSelectionVM).selectedType).toBe('private');
     });
 
     it('should have sufficient color contrast (visual check - manual verification needed)', () => {
@@ -312,7 +312,7 @@ describe('CustomerTypeSelection.vue', () => {
       await cards[1].trigger('click');
       await cards[0].trigger('click');
 
-      expect((wrapper.vm as CustomerTypeSelectionVM).selectedType).toBe('private');
+      expect((wrapper.vm as unknown as CustomerTypeSelectionVM).selectedType).toBe('private');
     });
 
     it('should update Continue button state correctly', async () => {
@@ -329,7 +329,7 @@ describe('CustomerTypeSelection.vue', () => {
       const cards = wrapper.findAll('.option-card');
 
       await cards[0].trigger('click');
-      const beforeNavigation = (wrapper.vm as CustomerTypeSelectionVM).selectedType;
+      const beforeNavigation = (wrapper.vm as unknown as CustomerTypeSelectionVM).selectedType;
 
       // Verify localStorage persists the value
       expect(localStorage.getItem('customerTypeSelection')).toBe('private');
@@ -337,3 +337,5 @@ describe('CustomerTypeSelection.vue', () => {
     });
   });
 });
+
+

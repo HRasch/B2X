@@ -55,14 +55,22 @@ builder.Services.AddEndpointsApiExplorer();
 try
 {
     var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"] ?? "http://localhost:9200";
+    // CA2000: ElasticsearchClientSettings is passed to ElasticsearchClient which manages its lifetime
+    // The client is registered as Singleton and lives for the application lifetime
+#pragma warning disable CA2000 // Dispose objects before losing scope
     var settings = new Elastic.Clients.Elasticsearch.ElasticsearchClientSettings(
         new Uri(elasticsearchUri));
+#pragma warning restore CA2000
     var client = new Elastic.Clients.Elasticsearch.ElasticsearchClient(settings);
     builder.Services.AddSingleton(client);
 }
 catch (Exception ex)
 {
-    var logger = LoggerFactory.Create(config => config.AddConsole()).CreateLogger("Program");
+    // CA2000: LoggerFactory is only used briefly for startup logging and will be GC'd
+#pragma warning disable CA2000 // Dispose objects before losing scope
+    using var loggerFactory = LoggerFactory.Create(config => config.AddConsole());
+    var logger = loggerFactory.CreateLogger("Program");
+#pragma warning restore CA2000
     logger.LogWarning(ex, "Failed to configure Elasticsearch client. Search functionality may be limited.");
 }
 

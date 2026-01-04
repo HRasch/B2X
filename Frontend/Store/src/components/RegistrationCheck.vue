@@ -330,7 +330,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   checkRegistrationType,
@@ -442,23 +442,6 @@ function getResultDescription(): string {
     case 'NewCustomer':
     default:
       return 'Sie werden als Neukunde registriert. Füllen Sie das Registrierungsformular aus.';
-  }
-}
-
-/**
- * Get badge class for result
- */
-function getRegistrationBadgeClass(): string {
-  if (!result.value) return 'default';
-
-  switch (result.value.registrationType) {
-    case 'Bestandskunde':
-      return 'success';
-    case 'ExistingCustomer':
-      return 'info';
-    case 'NewCustomer':
-    default:
-      return 'warning';
   }
 }
 

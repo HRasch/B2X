@@ -1,9 +1,9 @@
-namespace B2Connect.Shared.Messaging.Extensions;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Quartz;
 using Wolverine;
+
+namespace B2Connect.Shared.Messaging.Extensions;
 
 /// <summary>
 /// Messaging Extension Methods

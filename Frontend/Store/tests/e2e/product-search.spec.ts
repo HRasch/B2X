@@ -157,9 +157,6 @@ test.describe('Product Search E2E Tests', () => {
     await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
 
-    // Get first page product count
-    const page1Count = await page.locator('[data-testid="product-card"]').count();
-
     // Act - Go to next page
     await page.click('[data-testid="pagination-next"]');
     await page.waitForTimeout(500);
@@ -261,8 +258,6 @@ test.describe('Product Search E2E Tests', () => {
     await page.fill('[data-testid="search-input"]', 'jacket');
     await page.click('[data-testid="search-button"]');
     await page.waitForSelector('[data-testid="product-card"]');
-
-    const initialCount = await page.locator('[data-testid="product-card"]').count();
 
     // Apply filters
     await page.click('[data-testid="filter-category-clothing"]');

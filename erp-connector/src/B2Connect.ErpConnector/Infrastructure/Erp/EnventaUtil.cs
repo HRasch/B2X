@@ -5,7 +5,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
     using B2Connect.ErpConnector.Infrastructure.Identity;
-    using NLog;
 
     /// <summary>
     /// Utility class for common enventa operations.
@@ -19,7 +18,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
     /// </summary>
     public class EnventaUtil : IDisposable
     {
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
         private readonly IEnventaIdentityProvider _provider;
         private bool _disposed;
 
@@ -93,16 +91,21 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
 
                 // Mock implementation based on extension
                 var ext = Path.GetExtension(path)?.ToLowerInvariant();
-                return ext switch
-                {
-                    ".jpg" or ".jpeg" => "image/jpeg",
-                    ".png" => "image/png",
-                    ".gif" => "image/gif",
-                    ".pdf" => "application/pdf",
-                    ".xml" => "application/xml",
-                    ".json" => "application/json",
-                    _ => "application/octet-stream"
-                };
+
+                if (ext == ".jpg" || ext == ".jpeg")
+                    return "image/jpeg";
+                if (ext == ".png")
+                    return "image/png";
+                if (ext == ".gif")
+                    return "image/gif";
+                if (ext == ".pdf")
+                    return "application/pdf";
+                if (ext == ".xml")
+                    return "application/xml";
+                if (ext == ".json")
+                    return "application/json";
+
+                return "application/octet-stream";
             }
         }
 
@@ -152,7 +155,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
             }
             catch (Exception ex)
             {
-                Log.Warn(ex, "Authentication failed for {0}: {1}", identity?.Name, ex.Message);
+                Console.WriteLine($"Authentication failed for {identity?.Name}: {ex.Message}");
                 return false;
             }
         }

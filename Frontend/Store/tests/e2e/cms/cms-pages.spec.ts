@@ -113,8 +113,6 @@ test.describe('Widget Interactions', () => {
       const nextButton = testimonials.locator('button:has-text("Next")').first();
 
       if (await nextButton.isVisible()) {
-        const initialText = await testimonials.locator('p').first().textContent();
-
         await nextButton.click();
         await page.waitForTimeout(500);
 
@@ -131,7 +129,6 @@ test.describe('Widget Interactions', () => {
     const newsletter = page.locator('.newsletter-widget');
     if (await newsletter.isVisible()) {
       const emailInput = newsletter.locator('input[type="email"]');
-      const submitButton = newsletter.locator('button').first();
 
       if (await emailInput.isVisible()) {
         await emailInput.fill('test@example.com');

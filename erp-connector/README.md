@@ -1,6 +1,35 @@
 # B2Connect ERP Connector
 
-**.NET Framework 4.8 Windows Service** for connecting B2Connect to enventa Trade ERP.
+**.NET Framework 4.8 Console Application** for connecting B2Connect to enventa Trade ERP.
+
+## Status
+
+✅ **Build**: Compiles successfully  
+✅ **Run**: Starts HTTP listener on port 5080  
+✅ **Endpoints**: Health, Articles, Customers, Orders
+
+## Quick Start
+
+```bash
+# Build
+cd erp-connector/src/B2Connect.ErpConnector
+dotnet build
+
+# Run (interactive mode)
+.\bin\Debug\B2Connect.ErpConnector.exe
+
+# Run (service mode - for background execution)
+.\bin\Debug\B2Connect.ErpConnector.exe --service
+```
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check with timestamp |
+| `/api/articles` | GET | List of articles (mock data) |
+| `/api/customers` | GET | List of customers (mock data) |
+| `/api/orders` | GET | List of orders (mock data) |
 
 ## Architecture
 
@@ -17,8 +46,8 @@
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                   B2Connect.ErpConnector (.NET 4.8)                     │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────────┐  │
-│  │ OWIN Web API 2  │ → │ EnventaErpService│ → │ EnventaUtil/Scope   │  │
-│  │ (Self-hosted)   │    │ (Business Logic) │    │ (Connection Pool)   │  │
+│  │  HttpListener   │ → │ EnventaErpService│ → │ EnventaUtil/Scope   │  │
+│  │  (Self-hosted)  │    │ (Business Logic) │    │ (Connection Pool)   │  │
 │  └─────────────────┘    └─────────────────┘    └─────────────────────┘  │
 │                                                          │              │
 │                              ┌────────────────────────────┤              │

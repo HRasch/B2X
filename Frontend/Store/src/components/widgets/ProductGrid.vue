@@ -47,8 +47,13 @@
 import { ref, computed } from 'vue';
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 
+interface ProductGridSettings {
+  title?: string;
+  columns?: number;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: ProductGridSettings;
   widgetId: string;
 }
 

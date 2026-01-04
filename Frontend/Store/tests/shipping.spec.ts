@@ -41,12 +41,6 @@ test.describe('Shipping Cost Display - P0.6-US-002', () => {
     await page.click('.add-to-cart-btn');
     await page.goto('http://localhost:5173/cart');
 
-    // Get initial total
-    const totalBefore = await page
-      .locator('.summary-row.total span:last-child')
-      .first()
-      .textContent();
-
     // Select different shipping method
     const secondMethod = page.locator('.shipping-option input').nth(1);
     await secondMethod.click();
@@ -166,7 +160,6 @@ test.describe('Shipping Cost Display - P0.6-US-002', () => {
     await page.goto('http://localhost:5173/cart');
 
     // The country selector should have valid options only
-    const countrySelect = page.locator('select#country');
     const options = page.locator('select#country option');
     const optionCount = await options.count();
 

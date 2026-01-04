@@ -197,7 +197,7 @@ defineProps<{
   isDevelopment?: boolean;
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
   register: [];
   proceed: [customerNumber: string];
 }>();

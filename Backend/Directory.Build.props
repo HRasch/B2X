@@ -25,6 +25,9 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Disable MSBuild node reuse to prevent DLL locking issues -->
+    <UseSharedCompilation>false</UseSharedCompilation>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
     <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->

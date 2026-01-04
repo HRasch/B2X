@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\B2Connect.IdsConnectAdapter\B2Connect.IdsConnectAdapter.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\B2Connect.Shared.Core\B2Connect.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\B2Connect.Shared.Infrastructure\B2Connect.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\..\Domain\ERP\Abstractions\B2Connect.ERP.Abstractions.csproj" />
+    <ProjectReference Include="c:\Users\Holge\repos\B2Connect\backend\Domain\Search\B2Connect.Domain.Search.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

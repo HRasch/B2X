@@ -37,11 +37,6 @@ test.describe('Build Health - Vite Compilation', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // Filter out known non-critical errors
-    const criticalErrors = consoleErrors.filter(
-      err => !err.includes('favicon') && !err.includes('404') && !err.includes('net::ERR')
-    );
-
     // Check for CSS-related errors (Tailwind/DaisyUI)
     const cssErrors = consoleErrors.filter(
       err =>

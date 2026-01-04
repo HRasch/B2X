@@ -77,6 +77,51 @@ public static class ServiceClientExtensions
     }
 
     /// <summary>
+    /// Registers the Customer Service HTTP client with service discovery
+    /// Service name: "http://customer-service" (resolved by Aspire)
+    /// </summary>
+    public static IServiceCollection AddCustomerServiceClient(this IServiceCollection services)
+    {
+        services.AddHttpClient<ICustomerServiceClient, CustomerServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri("http://customer-service");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Registers the Usage Service HTTP client with service discovery
+    /// Service name: "http://usage-service" (resolved by Aspire)
+    /// </summary>
+    public static IServiceCollection AddUsageServiceClient(this IServiceCollection services)
+    {
+        services.AddHttpClient<IUsageServiceClient, UsageServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri("http://usage-service");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Registers the Access Service HTTP client with service discovery
+    /// Service name: "http://access-service" (resolved by Aspire)
+    /// </summary>
+    public static IServiceCollection AddAccessServiceClient(this IServiceCollection services)
+    {
+        services.AddHttpClient<IAccessServiceClient, AccessServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri("http://access-service");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+
+        return services;
+    }
+
+    /// <summary>
     /// Registers ALL service clients at once
     /// Use this in API Gateway or services that need to communicate with multiple services
     /// </summary>
@@ -86,7 +131,10 @@ public static class ServiceClientExtensions
             .AddIdentityServiceClient()
             .AddTenancyServiceClient()
             .AddCatalogServiceClient()
-            .AddLocalizationServiceClient();
+            .AddLocalizationServiceClient()
+            .AddCustomerServiceClient()
+            .AddUsageServiceClient()
+            .AddAccessServiceClient();
 
         return services;
     }

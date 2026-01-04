@@ -2,7 +2,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
 {
     using System;
     using B2Connect.ErpConnector.Infrastructure.Identity;
-    using NLog;
 
     /// <summary>
     /// Disposable scope for enventa ERP operations.
@@ -26,7 +25,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
     /// </summary>
     public class EnventaScope : IDisposable
     {
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
         private EnventaGlobalContext _context;
         private bool _disposed;
 
@@ -39,7 +37,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
                 throw new ArgumentNullException(nameof(identity));
 
             _context = EnventaGlobalFactory.Get(identity);
-            Log.Trace("Created scope for {0}", identity);
+            Console.WriteLine($"Created scope for {identity}");
         }
 
         /// <summary>
@@ -53,7 +51,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
 
             // Get a new context from the pool using the same identity
             _context = EnventaGlobalFactory.Get(context.Identity);
-            Log.Trace("Created nested scope for {0}", context.Identity);
+            Console.WriteLine($"Created nested scope for {context.Identity}");
         }
 
         /// <summary>
@@ -93,7 +91,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
 
             if (_context != null)
             {
-                Log.Trace("Disposing scope for {0}", _context.Identity);
+                Console.WriteLine($"Disposing scope for {_context.Identity}");
                 _context.CloseConnection();
                 EnventaGlobalFactory.Put(_context);
                 _context = null;

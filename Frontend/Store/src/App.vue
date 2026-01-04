@@ -1,5 +1,13 @@
 <template>
   <div id="app" class="min-h-screen flex flex-col bg-base-100">
+    <!-- Skip to main content link for accessibility -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-content px-4 py-2 rounded z-50"
+    >
+      Skip to main content
+    </a>
+
     <!-- Navbar -->
     <nav class="navbar bg-base-200 shadow-lg sticky top-0 z-50">
       <div class="flex-1">
@@ -36,6 +44,22 @@
             </li>
             <li v-else>
               <router-link to="/login" class="btn btn-ghost">Login</router-link>
+            </li>
+            <!-- Admin Mode Toggle -->
+            <li v-if="authStore.hasAdminAccess">
+              <button
+                @click="toggleAdminMode"
+                class="btn btn-ghost"
+                :class="{ 'btn-active': adminStore.isActive }"
+                title="Admin-Modus umschalten"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.409l-7-14z"
+                  />
+                </svg>
+                Admin
+              </button>
             </li>
             <li>
               <LanguageSwitcher />
@@ -89,7 +113,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-1 container mx-auto py-8 px-4">
+    <main id="main-content" tabindex="-1" class="flex-1 container mx-auto py-8 px-4">
       <router-view />
     </main>
 
@@ -97,60 +121,84 @@
     <footer class="footer bg-base-200 text-base-content p-10 mt-auto">
       <nav>
         <header class="footer-title">Services</header>
-        <a class="link link-hover">Branding</a>
-        <a class="link link-hover">Design</a>
-        <a class="link link-hover">Marketing</a>
-        <a class="link link-hover">Advertisement</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Branding</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Design</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Marketing</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#"
+          >Advertisement</a
+        >
       </nav>
       <nav>
         <header class="footer-title">Company</header>
-        <a class="link link-hover">About us</a>
-        <a class="link link-hover">Contact</a>
-        <a class="link link-hover">Jobs</a>
-        <a class="link link-hover">Press kit</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">About us</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Contact</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Jobs</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Press kit</a>
       </nav>
       <nav>
         <header class="footer-title">Legal</header>
-        <a class="link link-hover">Terms of use</a>
-        <a class="link link-hover">Privacy policy</a>
-        <a class="link link-hover">Cookie policy</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#"
+          >Terms of use</a
+        >
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#"
+          >Privacy policy</a
+        >
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#"
+          >Cookie policy</a
+        >
       </nav>
       <form>
         <header class="footer-title">Newsletter</header>
         <fieldset class="form-control w-80">
-          <label class="label">
+          <label class="label" for="newsletter-email">
             <span class="label-text">Enter your email address</span>
           </label>
           <div class="join">
             <input
+              id="newsletter-email"
               type="email"
               placeholder="username@site.com"
               class="input input-bordered join-item"
+              aria-label="Email address for newsletter subscription"
             />
             <button type="submit" class="btn btn-primary join-item">Subscribe</button>
           </div>
         </fieldset>
       </form>
     </footer>
+
+    <!-- Admin FAB -->
+    <AdminFab />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from './stores/auth';
 import { useCartStore } from './stores/cart';
+import { useAdminStore } from './stores/admin';
 import { useRouter } from 'vue-router';
 import LanguageSwitcher from './components/common/LanguageSwitcher.vue';
+import AdminFab from './components/AdminFab.vue';
 
 const authStore = useAuthStore();
 const cartStore = useCartStore();
+const adminStore = useAdminStore();
 const router = useRouter();
 
 /**
  * Handle user logout and redirect to login page.
  */
 const logout = async (): Promise<void> => {
+  adminStore.clearEditableElements(); // Clean up admin mode
   authStore.logout();
   await router.push('/login');
+};
+
+/**
+ * Toggle admin mode for users with admin access.
+ */
+const toggleAdminMode = (): void => {
+  adminStore.toggleMode();
 };
 </script>
 
@@ -238,5 +286,29 @@ const logout = async (): Promise<void> => {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
+}
+
+/* Screen reader only - visible only when focused */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only.focus:not-sr-only {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }
 </style>

@@ -49,8 +49,9 @@ describe('useErpIntegration Composable', () => {
         isActive: true,
       };
 
-      (global.fetch as MockFetch).mockResolvedValueOnce({
+      (global.fetch as unknown as MockFetch).mockResolvedValueOnce({
         ok: true,
+        status: 200,
         json: async () => mockCustomer,
       });
 
@@ -69,7 +70,7 @@ describe('useErpIntegration Composable', () => {
     });
 
     it('should handle network errors gracefully', async () => {
-      (global.fetch as MockFetch).mockRejectedValueOnce(new Error('Network error'));
+      (global.fetch as unknown as MockFetch).mockRejectedValueOnce(new Error('Network error'));
 
       const result = await composable.validateCustomerEmail('test@example.com');
 
@@ -80,8 +81,9 @@ describe('useErpIntegration Composable', () => {
     });
 
     it('should handle 404 response (customer not found)', async () => {
-      (global.fetch as MockFetch).mockResolvedValueOnce({
+      (global.fetch as unknown as MockFetch).mockResolvedValueOnce({
         ok: false,
+        status: 404,
         json: async () => ({
           error: 'NOT_FOUND',
           message: 'Kunde nicht gefunden',
@@ -96,12 +98,13 @@ describe('useErpIntegration Composable', () => {
     });
 
     it('should set isLoading state during fetch', async () => {
-      (global.fetch as MockFetch).mockImplementation(
+      (global.fetch as unknown as MockFetch).mockImplementation(
         () =>
           new Promise(resolve => {
             expect(composable.isLoading.value).toBe(true);
             resolve({
               ok: true,
+              status: 200,
               json: async () => ({
                 customerNumber: 'CUST-001',
                 customerName: 'Test',
@@ -120,8 +123,9 @@ describe('useErpIntegration Composable', () => {
     });
 
     it('should record lookup time', async () => {
-      (global.fetch as MockFetch).mockResolvedValueOnce({
+      (global.fetch as unknown as MockFetch).mockResolvedValueOnce({
         ok: true,
+        status: 200,
         json: async () => ({
           customerNumber: 'CUST-001',
           customerName: 'Test',
@@ -159,8 +163,9 @@ describe('useErpIntegration Composable', () => {
         creditLimit: 50000,
       };
 
-      (global.fetch as MockFetch).mockResolvedValueOnce({
+      (global.fetch as unknown as MockFetch).mockResolvedValueOnce({
         ok: true,
+        status: 200,
         json: async () => mockCustomer,
       });
 
@@ -178,8 +183,9 @@ describe('useErpIntegration Composable', () => {
     });
 
     it('should handle invalid customer number response', async () => {
-      (global.fetch as MockFetch).mockResolvedValueOnce({
+      (global.fetch as unknown as MockFetch).mockResolvedValueOnce({
         ok: false,
+        status: 404,
         json: async () => ({
           error: 'NOT_FOUND',
           message: 'Kunde nicht gefunden',
@@ -261,3 +267,4 @@ describe('useErpIntegration Composable', () => {
     });
   });
 });
+

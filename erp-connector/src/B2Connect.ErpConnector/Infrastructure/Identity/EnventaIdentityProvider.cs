@@ -53,5 +53,11 @@ namespace B2Connect.ErpConnector.Infrastructure.Identity
         }
 
         public EnventaIdentity Get => _identityFactory();
+
+        public EnventaIdentity GetForBusinessUnit(string businessUnit)
+        {
+            var baseIdentity = _identityFactory();
+            return new EnventaIdentity(baseIdentity.Name, baseIdentity.Password, businessUnit);
+        }
     }
 }

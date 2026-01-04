@@ -30,7 +30,7 @@ const locale = getInitialLocale();
 if (typeof i18n.global.locale === 'object' && 'value' in i18n.global.locale) {
   i18n.global.locale.value = locale as Locale;
 } else {
-  (i18n.global as any).locale = locale;
+  (i18n.global as { locale: string }).locale = locale;
 }
 
 // Set document language attribute

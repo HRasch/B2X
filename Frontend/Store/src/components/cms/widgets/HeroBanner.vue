@@ -27,8 +27,16 @@
   </div>
 </template>
 <script setup lang="ts">
+interface HeroBannerSettings {
+  backgroundImage?: string;
+  backgroundColor?: string;
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+}
+
 interface Props {
-  settings?: Record<string, any>;
+  settings?: HeroBannerSettings;
   widgetId?: string;
 }
 

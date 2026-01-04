@@ -5,7 +5,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
     using System.Threading;
     using System.Threading.Tasks;
     using B2Connect.ErpConnector.Infrastructure.Identity;
-    using NLog;
 
     /// <summary>
     /// Pool of enventa global objects per identity.
@@ -20,7 +19,6 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
     internal class EnventaGlobalPool : IDisposable
     {
         private static readonly object _lock = new object();
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
 
         private readonly ConcurrentBag<IFSGlobalObjects> _poolGlobals = new ConcurrentBag<IFSGlobalObjects>();
         private readonly ConcurrentBag<IFSGlobalObjects> _availableGlobals = new ConcurrentBag<IFSGlobalObjects>();
@@ -49,7 +47,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
         /// </summary>
         public void Initialize()
         {
-            Log.Info("Initializing EnventaGlobalPool for {0} with pool size {1}", _identity, _poolSize);
+            Console.WriteLine($"Initializing EnventaGlobalPool for {_identity} with pool size {_poolSize}");
 
             for (int i = 0; i < _poolSize; i++)
             {
@@ -66,7 +64,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
 
             try
             {
-                Log.Debug("Creating new global object {0} for {1}", globalId, _identity);
+                Console.WriteLine($"Creating new global object {globalId} for {_identity}");
 
                 var global = _globalObjectFactory.CreateGlobalObject(globalId);
 
@@ -94,11 +92,11 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
                 // Close connection (will be reopened on next use)
                 global.CloseConnection();
 
-                Log.Debug("Global object {0} created and pooled for {1}", globalId, _identity);
+                Console.WriteLine($"Global object {globalId} created and pooled for {_identity}");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to create global object {0} for {1}: {2}", globalId, _identity, ex.Message);
+                Console.WriteLine($"Failed to create global object {globalId} for {_identity}: {ex.Message}");
                 throw;
             }
         }
@@ -127,7 +125,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
                 }
             }
 
-            Log.Trace("Got global object from pool for {0}", _identity);
+            Console.WriteLine($"Got global object from pool for {_identity}");
             return global;
         }
 
@@ -151,7 +149,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
             _availableGlobals.Add(global);
             _globalWaitHandle.Set();
 
-            Log.Trace("Returned global object to pool for {0}", _identity);
+            Console.WriteLine($"Returned global object to pool for {_identity}");
             return true;
         }
 
@@ -162,7 +160,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
 
             _disposed = true;
 
-            Log.Info("Disposing EnventaGlobalPool for {0}", _identity);
+            Console.WriteLine($"Disposing EnventaGlobalPool for {_identity}");
 
             // Dispose all pooled globals
             while (_poolGlobals.TryTake(out var global))
@@ -173,7 +171,7 @@ namespace B2Connect.ErpConnector.Infrastructure.Erp
                 }
                 catch (Exception ex)
                 {
-                    Log.Warn(ex, "Error disposing global object: {0}", ex.Message);
+                    Console.WriteLine($"Error disposing global object: {ex.Message}");
                 }
             }
 

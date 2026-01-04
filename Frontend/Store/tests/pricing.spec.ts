@@ -45,11 +45,10 @@ test.describe('PAngV Compliance - Price Transparency', () => {
     const summaryRows = page.locator('.summary-row');
 
     const subtotalText = await summaryRows.nth(0).textContent();
-    const taxText = await summaryRows.nth(1).textContent();
+    // Skip tax row - not needed for this test
     const totalText = await summaryRows.nth(2).textContent();
 
     const subtotal = parseFloat(subtotalText?.match(/(\d+,\d{2})/)?.[1]?.replace(',', '.') || '0');
-    const tax = parseFloat(taxText?.match(/(\d+,\d{2})/)?.[1]?.replace(',', '.') || '0');
     const total = parseFloat(totalText?.match(/(\d+,\d{2})/)?.[1]?.replace(',', '.') || '0');
 
     const expectedTotal = subtotal + subtotal * 0.19;
@@ -118,7 +117,6 @@ test.describe('PAngV Compliance - Price Transparency', () => {
     await page.waitForSelector('.item-quantity', { timeout: 5000 });
 
     const quantityInput = page.locator('.item-quantity input').first();
-    const initialQuantity = await quantityInput.inputValue();
 
     await quantityInput.fill('2');
 

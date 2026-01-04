@@ -2,7 +2,6 @@ import { test, expect, APIRequestContext } from '@playwright/test';
 
 const API_BASE = 'http://localhost:5003/api';
 const VALID_TOKEN = 'Bearer test-token'; // Adjust with real token
-const TENANT_ID = 'test-tenant-id'; // Adjust with real tenant ID
 
 test.describe('Localization API - Central Translations', () => {
   let request: APIRequestContext;

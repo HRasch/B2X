@@ -35,8 +35,8 @@ const isDevelopment = import.meta.env.DEV;
  * Build CSS classes/styles from region settings
  */
 const regionStyles = computed(() => {
-  const settings = props.region.settings;
-  const styles: Record<string, any> = {};
+  const settings = props.region.settings as Record<string, string | undefined>;
+  const styles: Record<string, string | undefined> = {};
 
   if (settings.backgroundColor) {
     styles.backgroundColor = settings.backgroundColor;

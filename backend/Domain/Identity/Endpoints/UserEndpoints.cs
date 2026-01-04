@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Wolverine.Http;
 using B2Connect.AuthService.Data;
+using B2Connect.Types;
 
 namespace B2Connect.Identity.Endpoints;
 
@@ -68,8 +69,16 @@ public static class UserEndpoints
         IAuthService authService,
         CancellationToken ct)
     {
-        // TODO: Implement DeactivateUserAsync
-        return Results.NoContent();
+        var result = await authService.DeactivateUserAsync(userId);
+
+        return result.Match(
+            onSuccess: (success, msg) => Results.NoContent(),
+            onFailure: (code, msg) =>
+            {
+                var statusCode = code.GetStatusCode();
+                return Results.StatusCode(statusCode);
+            }
+        );
     }
 }
 

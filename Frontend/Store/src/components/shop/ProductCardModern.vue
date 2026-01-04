@@ -51,14 +51,6 @@ const vatInfo = computed(() => {
   };
 });
 
-// Stock status
-const stockStatus = computed(() => {
-  if (!props.product.inStock) return 'Out of Stock';
-  if (props.product.stockQuantity && props.product.stockQuantity < 5)
-    return `Only ${props.product.stockQuantity} left`;
-  return 'In Stock';
-});
-
 const handleAddToCart = () => {
   emit('add-to-cart', props.product);
 };

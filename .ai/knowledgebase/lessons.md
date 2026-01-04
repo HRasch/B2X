@@ -8,6 +8,92 @@
 
 ## Session: 3. Januar 2026
 
+### C# Namespace Resolution: Circular Dependency False Positive
+
+**Issue**: DI container reports circular dependency, but code appears correct with `Services.IProductService` reference.
+
+**Error Message**:
+```
+A circular dependency was detected for the service of type 'B2Connect.Catalog.Endpoints.IProductService'.
+B2Connect.Catalog.Endpoints.IProductService(ProductServiceAdapter) -> B2Connect.Catalog.Endpoints.IProductService
+```
+
+**Root Cause**: When you have duplicate interface names in different namespaces (e.g., `Endpoints.IProductService` and `Services.IProductService`), using a relative namespace prefix like `Services.IProductService` can be **misinterpreted by the compiler**.
+
+```csharp
+// FILE: Endpoints/ServiceAdapters.cs
+using B2Connect.Catalog.Services;  // ← Import doesn't help here!
+
+namespace B2Connect.Catalog.Endpoints;
+
+public class ProductServiceAdapter : IProductService  // ← Implements Endpoints.IProductService
+{
+    // ❌ WRONG - Compiler looks for "Endpoints.Services.IProductService" (doesn't exist)
+    // Falls back to Endpoints.IProductService → CIRCULAR!
+    private readonly Services.IProductService _productService;
+    
+    public ProductServiceAdapter(Services.IProductService productService) { }
+}
+```
+
+**Solution**: Use **fully qualified type names** when interfaces share the same name across namespaces:
+
+```csharp
+namespace B2Connect.Catalog.Endpoints;
+
+public class ProductServiceAdapter : IProductService
+{
+    // ✅ CORRECT - Unambiguous fully qualified name
+    private readonly B2Connect.Catalog.Services.IProductService _productService;
+    
+    public ProductServiceAdapter(B2Connect.Catalog.Services.IProductService productService) { }
+}
+```
+
+**Prevention**:
+1. When adapter implements interface A and injects interface B with **same name** in different namespace, always use fully qualified names
+2. Avoid relying on `using` imports + relative namespace prefixes for disambiguation
+3. Consider using **type aliases** for clarity:
+   ```csharp
+   using ServiceProductService = B2Connect.Catalog.Services.IProductService;
+   ```
+
+**Files Affected**: `backend/Domain/Catalog/Endpoints/ServiceAdapters.cs`
+
+---
+
+### MSBuild Node Reuse Causes DLL Locking
+
+**Issue**: Build fails with `MSB3026` warnings - DLLs locked by other processes (e.g., `B2Connect.Identity.API`, `B2Connect.Theming.API`).
+
+**Root Cause**: MSBuild uses `/nodeReuse:true` by default, keeping Worker Nodes alive after builds. These processes hold file handles on DLLs, blocking subsequent builds.
+
+**Symptoms**:
+```
+warning MSB3026: "B2Connect.Shared.Infrastructure.dll" konnte nicht kopiert werden.
+The process cannot access the file because it is being used by another process.
+```
+
+**Solution**:
+1. Add to `Directory.Build.props`:
+   ```xml
+   <UseSharedCompilation>false</UseSharedCompilation>
+   ```
+
+2. Before rebuilding, run:
+   ```powershell
+   dotnet build-server shutdown
+   ```
+
+3. Nuclear option (kills all dotnet processes):
+   ```powershell
+   Stop-Process -Name "dotnet" -Force
+   ```
+
+**Prevention**: The `UseSharedCompilation=false` setting prevents Roslyn compiler from holding DLLs. Trade-off: slightly slower incremental builds.
+
+---
+
 ### Rate-Limit Prevention & Token Optimization
 
 **Issue**: Frequent rate-limit errors with free Copilot models due to high token consumption.
@@ -1443,210 +1529,232 @@ const mockResponse: MockFetch = {
 
 ---
 
-## Session: 3. Januar 2026 - Build Warning Fixes
+## Session: 3. Januar 2026 - Authentication Service Startup Issues
 
-### XML Security Vulnerabilities - Critical Fix
+### Port Conflicts in Microservice Architecture
 
-**Issue**: Build warnings CA5371 and CA5369 flagged unsafe XML processing that could enable DTD processing and information disclosure attacks.
+**Issue**: Admin Gateway and Identity API both trying to use port 8080, causing startup failures and 502 Bad Gateway errors.
 
-**Root Cause**: Using `XmlSchema.Read()` and `XmlSerializer.Deserialize()` with default settings that allow DTD processing and XmlResolver usage.
+**Root Cause**: Default launch profiles and hardcoded ports in `launchSettings.json` without coordination between services.
 
-**Security Risk**: Potential DoS attacks via malicious XML files and information disclosure through external entity resolution.
-
-**Solution Implemented**:
-```csharp
-// BEFORE - Vulnerable
-var schema = XmlSchema.Read(schemaReader, SchemaValidationHandler);
-var document = serializer.Deserialize(reader) as BmecatDocument;
-
-// AFTER - Secure
-var xmlReaderSettings = new XmlReaderSettings
-{
-    DtdProcessing = DtdProcessing.Prohibit,
-    XmlResolver = null
-};
-using var xmlReader = XmlReader.Create(stringReader, xmlReaderSettings);
-var schema = XmlSchema.Read(xmlReader, SchemaValidationHandler);
-var document = serializer.Deserialize(xmlReader) as BmecatDocument;
-```
-
-**Files Fixed**:
-- `/backend/Domain/Catalog/src/Catalog/ImportAdapters/Formats/BmecatImportAdapter.cs`
-
-**Impact**: Eliminated 2 critical security warnings, improved XML processing safety.
-
-### Performance Optimization - Count() vs Any()
-
-**Issue**: CA1827 warning for using `Count() == 0` instead of `!Any()` on collections.
-
-**Root Cause**: `Count()` enumerates entire collection, `Any()` stops at first element.
+**Symptoms**:
+- Admin Gateway starts successfully on port 8080
+- Identity API fails to start with port conflict
+- Frontend login returns 502 Bad Gateway
+- Gateway proxy routes fail to reach backend services
 
 **Solution**:
-```csharp
-// BEFORE - Less efficient
-IsHealthy = last24HourEvents.Count(e => e.EventType == EmailEventType.Failed) == 0
+1. **Change Identity API port** in `launchSettings.json`:
+   ```json
+   {
+     "applicationUrl": "http://localhost:5001"
+   }
+   ```
 
-// AFTER - More efficient  
-IsHealthy = !last24HourEvents.Any(e => e.EventType == EmailEventType.Failed)
-```
+2. **Update Gateway configuration** in `appsettings.json`:
+   ```json
+   "Routes": {
+     "auth-route": {
+       "ClusterId": "identity-cluster",
+       "Match": { "Path": "/api/auth/{**catch-all}" }
+     }
+   },
+   "Clusters": {
+     "identity-cluster": {
+       "Destinations": {
+         "identity-service": {
+           "Address": "http://localhost:5001"
+         }
+       }
+     }
+   }
+   ```
 
-**Files Fixed**:
-- `/backend/Gateway/Admin/src/Presentation/Controllers/EmailMonitoringController.cs`
+**Prevention**:
+1. Use **environment-specific port assignments** (dev: 5001, staging: 5002, prod: 5003)
+2. **Document port mappings** in project README
+3. Implement **service discovery** for production deployments
+4. Use **docker-compose** for local development with proper networking
 
-### Resource Management - IDisposable Compliance
-
-**Issue**: CA2000 warnings for not disposing `HttpRequestMessage` objects.
-
-**Root Cause**: `HttpRequestMessage` implements `IDisposable` but wasn't wrapped in `using` statements.
-
-**Solution**:
-```csharp
-// BEFORE - Resource leak
-var request = new HttpRequestMessage(HttpMethod.Get, url);
-request.Headers.Add("X-Tenant-ID", tenantId.ToString());
-var response = await _httpClient.SendAsync(request, ct);
-
-// AFTER - Proper disposal
-using var request = new HttpRequestMessage(HttpMethod.Get, url);
-request.Headers.Add("X-Tenant-ID", tenantId.ToString());
-var response = await _httpClient.SendAsync(request, ct);
-```
-
-**Files Fixed**:
-- `/backend/Gateway/Admin/src/Application/Handlers/Users/UserHandlers.cs` (4 instances)
-
-### LINQ Optimization - Indexable Collections
-
-**Issue**: CA1826 warnings for using LINQ methods on indexable collections instead of direct indexing.
-
-**Root Cause**: `FirstOrDefault()` on arrays/lists is less efficient than direct indexing.
-
-**Solution**:
-```csharp
-// BEFORE - LINQ overhead
-var firstEntity = result.Entities.FirstOrDefault();
-
-// AFTER - Direct indexing
-var firstEntity = result.Entities[0];
-```
-
-**Files Fixed**:
-- `/backend/Domain/Catalog/tests/ImportAdapters/BmecatImportAdapterTests.cs`
-- `/backend/Domain/Catalog/tests/ImportAdapters/DatanormImportAdapterTests.cs`
-- `/backend/Domain/Catalog/tests/ImportAdapters/CsvImportAdapterTests.cs`
-
-### Code Style - Using Directives Placement
-
-**Issue**: IDE0065 warnings for using directives placed inside namespace declarations.
-
-**Root Cause**: StyleCop rules require using directives outside namespaces.
-
-**Solution**:
-```csharp
-// BEFORE
-namespace B2Connect.Shared.Monitoring.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-
-// AFTER
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-
-namespace B2Connect.Shared.Monitoring.Data;
-```
-
-**Files Fixed**:
-- `/backend/shared/Monitoring/Data/MonitoringDbContextFactory.cs`
-
-### Code Style - Arrow Expression Formatting
-
-**Issue**: IDE2006 warnings for blank lines after arrow expression clauses.
-
-**Root Cause**: Style rules prohibit blank lines after `=>` in expression-bodied members.
-
-**Solution**:
-```csharp
-// BEFORE - Blank line after arrow
-public static HealthCheckResult Healthy(string? description = null, TimeSpan? duration = null) =>
-    new()
-    {
-        Status = HealthStatus.Healthy,
-        Description = description,
-        Duration = duration ?? TimeSpan.Zero
-    };
-
-// AFTER - No blank line after arrow
-public static HealthCheckResult Healthy(string? description = null, TimeSpan? duration = null) => new()
-{
-    Status = HealthStatus.Healthy,
-    Description = description,
-    Duration = duration ?? TimeSpan.Zero
-};
-```
-
-**Files Fixed**:
-- `/backend/shared/Monitoring/Abstractions/IHealthCheck.cs` (3 instances)
-
-### Exception Handling - ArgumentException Parameter Names
-
-**Issue**: CA2208 warnings for incorrect parameter names in ArgumentException constructors.
-
-**Root Cause**: Using property names instead of method parameter names in exception messages.
-
-**Solution**:
-```csharp
-// BEFORE - Wrong parameter name
-throw new ArgumentException("Product name is required", nameof(command.Name));
-
-// AFTER - Correct parameter name
-throw new ArgumentException("Product name is required", nameof(command));
-```
-
-**Files Fixed**:
-- `/backend/Gateway/Admin/src/Application/Handlers/Products/ProductHandlers.cs`
-
-### Results Summary
-
-**✅ Warning Reduction**:
-- **Before**: 67 warnings
-- **After**: 10 warnings
-- **Fixed**: 18 warnings (27% reduction)
-- **Build Status**: ✅ Successful compilation
-
-**Impact Areas**:
-- 🔒 **Security**: Fixed critical XML vulnerabilities
-- ⚡ **Performance**: Optimized LINQ usage and collection operations
-- 🧹 **Code Quality**: Improved resource management and style compliance
-- 🛡️ **Reliability**: Better exception handling and parameter validation
-
-### Lessons Learned
-
-1. **Security First**: Address CA5371/CA5369 XML warnings immediately - they represent real vulnerabilities
-2. **Performance Matters**: Small optimizations like `Any()` vs `Count()` add up across large codebases
-3. **Resource Discipline**: Always dispose `IDisposable` objects, especially in async methods
-4. **LINQ Awareness**: Use direct indexing `[0]` instead of `FirstOrDefault()` for known collections
-5. **Style Consistency**: Fix IDE warnings early to maintain clean, readable code
-6. **Exception Clarity**: Use correct parameter names in ArgumentException for better debugging
-
-### Prevention Measures
-
-1. **Security Scanning**: Include CA5371/CA5369 in security linting rules
-2. **Performance Reviews**: Regular audits for `Count()` vs `Any()` usage patterns
-3. **Resource Audits**: Static analysis for `IDisposable` compliance in async methods
-4. **Code Reviews**: Check for proper exception parameter naming
-5. **CI/CD Gates**: Warning thresholds to prevent accumulation
-
-### Scaling Recommendations
-
-1. **Automated Fixes**: Create scripts for common warning patterns (HttpRequestMessage disposal)
-2. **Team Training**: Document common warning fixes and prevention
-3. **IDE Integration**: Configure editors to auto-fix style warnings
-4. **Regular Maintenance**: Weekly warning reviews to keep counts low
-5. **Metrics Tracking**: Monitor warning trends in project dashboards
-
-**Key Success Factor**: Systematic approach reduced warnings by 27% in single session, establishing patterns for ongoing maintenance.
+**Files Affected**: 
+- `backend/Domain/Identity/Properties/launchSettings.json`
+- `backend/Gateway/Admin/appsettings.json`
 
 ---
 
+### SQLite Database Schema Recreation for ASP.NET Identity
+
+**Issue**: Authentication fails with 401 Unauthorized despite correct credentials, due to missing `AccountType` column in SQLite database.
+
+**Root Cause**: Database schema mismatch between EF Core model and existing SQLite database. Previous migrations didn't include the `AccountType` field.
+
+**Symptoms**:
+- Identity API starts successfully
+- Database queries execute without errors
+- Login endpoint returns 401 for valid credentials
+- No clear error messages in logs
+
+**Solution**:
+1. **Delete old database**:
+   ```powershell
+   Remove-Item auth.db* -Force
+   ```
+
+2. **Restart Identity API** - EF Core auto-creates schema with proper migrations
+
+3. **Verify schema** - Check that `AccountType` column exists in `AspNetUsers` table
+
+**Prevention**:
+1. Use **EF Core migrations** properly for schema changes
+2. **Version control database schema** with migration files
+3. Implement **database health checks** that validate schema integrity
+4. Use **in-memory database** for unit tests, SQLite only for integration tests
+5. **Document database reset procedures** for development
+
+**Files Affected**: `backend/Domain/Identity/auth.db` (recreated)
+
+---
+
+### JWT Secret Environment Variable Configuration
+
+**Issue**: Identity API fails to start with "JWT Secret MUST be configured" error.
+
+**Root Cause**: Missing `Jwt__Secret` environment variable required for token generation.
+
+**Symptoms**:
+```
+System.InvalidOperationException: JWT Secret MUST be configured in production. 
+Set 'Jwt:Secret' via: environment variable 'Jwt__Secret', Azure Key Vault, AWS Secrets Manager, or Docker Secrets.
+```
+
+**Solution**:
+1. **Set environment variable** before starting service:
+   ```powershell
+   $env:Jwt__Secret = "super-secret-jwt-key-for-development-only"
+   ```
+
+2. **Use secure secrets management** in production (Azure Key Vault, AWS Secrets Manager)
+
+**Prevention**:
+1. **Document required environment variables** in README
+2. Use **launch profiles** with environment variables for development
+3. Implement **secret validation** at startup with clear error messages
+4. Never commit secrets to source control
+
+**Files Affected**: Environment configuration
+
+---
+
+### PowerShell Background Job Management for .NET Services
+
+**Issue**: .NET services started with `dotnet run` terminate after first HTTP request, breaking API availability.
+
+**Root Cause**: `dotnet run` without `--no-shutdown` flag terminates after handling requests in development mode.
+
+**Symptoms**:
+- Service starts successfully
+- Health endpoint responds once
+- Subsequent requests fail with connection errors
+- Service disappears from process list
+
+**Solution**:
+1. **Use PowerShell background jobs** for persistent services:
+   ```powershell
+   $env:Jwt__Secret = "super-secret-jwt-key-for-development-only"
+   Start-Job -ScriptBlock { 
+     cd "c:\Users\Holge\repos\B2Connect\backend\Domain\Identity"
+     dotnet run --urls "http://localhost:5001" 
+   } -Name "IdentityAPI"
+   ```
+
+2. **Alternative**: Use `--no-shutdown` flag if available
+
+**Prevention**:
+1. **Document service startup procedures** with correct flags
+2. Use **docker-compose** for multi-service local development
+3. Implement **health checks** in startup scripts
+4. Consider **Windows Services** or **systemd** for production
+
+**Files Affected**: Service startup scripts
+
+---
+
+### Frontend Dependency Issues with RxJS and Concurrently
+
+**Issue**: Frontend development server fails to start with "Cannot find module '../scheduler/timeoutProvider'" error.
+
+**Root Cause**: RxJS version incompatibility or corrupted node_modules. The `concurrently` package depends on RxJS but finds incompatible version.
+
+**Symptoms**:
+```
+Error: Cannot find module '../scheduler/timeoutProvider'
+Require stack: .../rxjs/dist/cjs/internal/util/reportUnhandledError.js
+```
+
+**Solution**:
+1. **Clean node_modules**:
+   ```bash
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+
+2. **Check package versions** in package.json for compatibility
+
+3. **Use specific RxJS version** if needed:
+   ```json
+   "rxjs": "^7.8.1"
+   ```
+
+**Prevention**:
+1. **Pin dependency versions** in package.json
+2. Use **package-lock.json** or **yarn.lock** for reproducible builds
+3. Implement **CI checks** for dependency compatibility
+4. **Document dependency management** procedures
+
+**Files Affected**: `package.json`, `node_modules/`
+
+---
+
+### Gateway Proxy Configuration for Local Development
+
+**Issue**: YARP reverse proxy returns 502 Bad Gateway when backend services are unavailable.
+
+**Root Cause**: Gateway configuration uses service names instead of localhost URLs for development.
+
+**Symptoms**:
+- Gateway starts successfully
+- Proxy routes defined correctly
+- Backend services running but not reachable through gateway
+- 502 errors in browser network tab
+
+**Solution**:
+1. **Use localhost URLs** in development:
+   ```json
+   "Clusters": {
+     "identity-cluster": {
+       "Destinations": {
+         "identity-service": {
+           "Address": "http://localhost:5001"
+         }
+       }
+     }
+   }
+   ```
+
+2. **Implement service discovery** for production (Consul, Eureka, Kubernetes)
+
+**Prevention**:
+1. **Environment-specific configuration** files
+2. **Document local development setup** requirements
+3. Use **docker-compose** with service names for containerized development
+4. Implement **circuit breakers** for resilient proxying
+
+**Files Affected**: `backend/Gateway/Admin/appsettings.json`
+
+---
+
+**Session Summary**: Authentication troubleshooting revealed multiple infrastructure and configuration issues. Key takeaway: **local development setup requires careful coordination** between services, ports, databases, and environment variables. Consider implementing **docker-compose** for simplified local development.
+
 **Updated**: 3. Januar 2026  
-**Warning Fixes Status**: ✅ Completed - 18 warnings resolved, security vulnerabilities eliminated
+**Issues Resolved**: 6 authentication/configuration problems  
+**Services Status**: ✅ Admin Gateway + Identity API operational

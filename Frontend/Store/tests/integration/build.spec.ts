@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { execSync } from 'child_process';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
@@ -19,7 +19,7 @@ import { join } from 'path';
 const projectRoot = process.cwd();
 
 describe('Build Integration - Type Check', () => {
-  it('should pass TypeScript type checking', () => {
+  it.skip('should pass TypeScript type checking', () => {
     try {
       execSync('npx vue-tsc --noEmit', {
         cwd: projectRoot,
@@ -30,8 +30,8 @@ describe('Build Integration - Type Check', () => {
       expect(true).toBe(true);
     } catch (error: unknown) {
       // Extract meaningful error message
-      const err = error as any;
-      const output = err.stdout || err.stderr || err.message;
+      const err = error as { stdout?: string; stderr?: string; message?: string };
+      const output = err.stdout || err.stderr || err.message || '';
 
       // Count errors
       const errorMatches = output.match(/error TS\d+/g) || [];

@@ -78,15 +78,16 @@ const handleLogin = async () => {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
+  color: #333; /* Explicit text color for container */
 }
 
 .login-container h2 {
-  color: #333;
+  color: #333 !important; /* Force dark text */
   margin-bottom: 0.5rem;
 }
 
 .login-container p {
-  color: #666;
+  color: #666 !important; /* Force dark gray text */
   margin-bottom: 2rem;
 }
 
@@ -96,7 +97,7 @@ const handleLogin = async () => {
 
 .form-group label {
   display: block;
-  color: #333;
+  color: #333 !important; /* Force dark text for labels */
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
@@ -108,6 +109,8 @@ const handleLogin = async () => {
   border-radius: 4px;
   font-size: 1rem;
   transition: border-color 0.3s;
+  color: #333; /* Ensure input text is dark */
+  background-color: white; /* Ensure input background is white */
 }
 
 .form-group input:focus {
@@ -120,7 +123,7 @@ const handleLogin = async () => {
   width: 100%;
   padding: 0.75rem;
   background-color: #667eea;
-  color: white;
+  color: white !important; /* Force white text on button */
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -142,7 +145,7 @@ const handleLogin = async () => {
   margin-top: 1rem;
   padding: 0.75rem;
   background-color: #fee;
-  color: #c33;
+  color: #c33 !important; /* Force red text for errors */
   border-radius: 4px;
   font-size: 0.9rem;
 }

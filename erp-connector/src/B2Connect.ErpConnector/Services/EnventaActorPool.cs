@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
-using NLog;
 
 namespace B2Connect.ErpConnector.Services
 {
@@ -14,8 +12,7 @@ namespace B2Connect.ErpConnector.Services
     /// </summary>
     public class EnventaErpActor : IDisposable
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly Channel<ErpOperation> _operationQueue;
+        private readonly BlockingCollection<ErpOperation> _operationQueue;
         private readonly Task _workerTask;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
         private readonly string _tenantId;
@@ -30,13 +27,7 @@ namespace B2Connect.ErpConnector.Services
             _tenantId = tenantId;
             _businessUnit = businessUnit;
 
-            _operationQueue = Channel.CreateBounded<ErpOperation>(
-                new BoundedChannelOptions(1000)
-                {
-                    FullMode = BoundedChannelFullMode.Wait,
-                    SingleReader = true,  // Critical: only one reader for thread safety!
-                    SingleWriter = false
-                });
+            _operationQueue = new BlockingCollection<ErpOperation>(boundedCapacity: 1000);
 
             // Initialize ERP connection
             _erpConnection = InitializeErpConnection(tenantId, businessUnit);
@@ -46,7 +37,7 @@ namespace B2Connect.ErpConnector.Services
                 () => ProcessOperationsAsync(_cts.Token),
                 TaskCreationOptions.LongRunning);
 
-            Logger.Info($"ERP Actor created for tenant {tenantId}, business unit {businessUnit ?? "default"}");
+            Console.WriteLine($"ERP Actor created for tenant {tenantId}, business unit {businessUnit ?? "default"}");
         }
 
         /// <summary>
@@ -84,7 +75,7 @@ namespace B2Connect.ErpConnector.Services
                 ct);
 
             // Use synchronous write for .NET 4.8 compatibility
-            if (_operationQueue.Writer.TryWrite(erpOp))
+            if (_operationQueue.TryAdd(erpOp))
             {
                 return tcs.Task;
             }
@@ -103,7 +94,7 @@ namespace B2Connect.ErpConnector.Services
 
         private async Task<TResult> EnqueueAndWaitAsync<TResult>(ErpOperation op, TaskCompletionSource<TResult> tcs, CancellationToken ct)
         {
-            await _operationQueue.Writer.WriteAsync(op, ct).ConfigureAwait(false);
+            _operationQueue.Add(op);
             return await tcs.Task.ConfigureAwait(false);
         }
 
@@ -112,39 +103,36 @@ namespace B2Connect.ErpConnector.Services
         /// </summary>
         private async Task ProcessOperationsAsync(CancellationToken ct)
         {
-            Logger.Info($"ERP Actor worker started for tenant {_tenantId}");
+            Console.WriteLine($"ERP Actor worker started for tenant {_tenantId}");
 
             try
             {
-                while (await _operationQueue.Reader.WaitToReadAsync(ct))
+                foreach (var operation in _operationQueue.GetConsumingEnumerable(ct))
                 {
-                    while (_operationQueue.Reader.TryRead(out var operation))
+                    try
                     {
-                        try
-                        {
-                            // Execute on single thread - thread-safe for enventa
-                            operation.Execute(_erpConnection);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex, $"Error executing ERP operation for tenant {_tenantId}");
-                        }
+                        // Execute on single thread - thread-safe for enventa
+                        operation.Execute(_erpConnection);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error executing ERP operation for tenant {_tenantId}: {ex.Message}");
                     }
                 }
             }
             catch (OperationCanceledException)
             {
-                Logger.Info($"ERP Actor worker cancelled for tenant {_tenantId}");
+                Console.WriteLine($"ERP Actor worker cancelled for tenant {_tenantId}");
             }
             catch (Exception ex)
             {
-                Logger.Fatal(ex, $"Fatal error in ERP Actor worker for tenant {_tenantId}");
+                Console.WriteLine($"Fatal error in ERP Actor worker for tenant {_tenantId}: {ex.Message}");
             }
         }
 
         private object InitializeErpConnection(string tenantId, string? businessUnit)
         {
-            Logger.Info($"Initializing ERP connection for tenant {tenantId}, business unit {businessUnit ?? "default"}");
+            Console.WriteLine($"Initializing ERP connection for tenant {tenantId}, business unit {businessUnit ?? "default"}");
 
             // TODO: Replace with actual enventa connection
             // Example with real enventa:
@@ -161,10 +149,13 @@ namespace B2Connect.ErpConnector.Services
             if (_disposed) return;
             _disposed = true;
 
-            Logger.Info($"Disposing ERP Actor for tenant {_tenantId}...");
+            Console.WriteLine($"Disposing ERP Actor for tenant {_tenantId}...");
 
             // Signal cancellation
             _cts.Cancel();
+
+            // Signal that no more items will be added
+            _operationQueue.CompleteAdding();
 
             // Wait for worker to complete
             try
@@ -184,7 +175,7 @@ namespace B2Connect.ErpConnector.Services
 
             _cts.Dispose();
 
-            Logger.Info($"ERP Actor disposed for tenant {_tenantId}");
+            Console.WriteLine($"ERP Actor disposed for tenant {_tenantId}");
         }
     }
 
@@ -194,7 +185,6 @@ namespace B2Connect.ErpConnector.Services
     /// </summary>
     public class EnventaActorPool : IDisposable
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly Lazy<EnventaActorPool> _instance = new Lazy<EnventaActorPool>(() => new EnventaActorPool());
         private readonly ConcurrentDictionary<string, Lazy<EnventaErpActor>> _actors = new ConcurrentDictionary<string, Lazy<EnventaErpActor>>();
         private bool _disposed;
@@ -203,7 +193,7 @@ namespace B2Connect.ErpConnector.Services
 
         private EnventaActorPool()
         {
-            Logger.Info("ERP Actor Pool initialized");
+            Console.WriteLine("ERP Actor Pool initialized");
         }
 
         /// <summary>
@@ -226,7 +216,7 @@ namespace B2Connect.ErpConnector.Services
                 actorKey,
                 key => new Lazy<EnventaErpActor>(() =>
                 {
-                    Logger.Info($"Creating new ERP actor for tenant {tenantId}, business unit {businessUnit ?? "default"}");
+                    Console.WriteLine($"Creating new ERP actor for tenant {tenantId}, business unit {businessUnit ?? "default"}");
                     return new EnventaErpActor(tenantId, businessUnit);
                 })
             ).Value;
@@ -246,7 +236,7 @@ namespace B2Connect.ErpConnector.Services
             if (_disposed) return;
             _disposed = true;
 
-            Logger.Info("Disposing ERP Actor Pool...");
+            Console.WriteLine("Disposing ERP Actor Pool...");
 
             foreach (var kvp in _actors)
             {
@@ -258,13 +248,13 @@ namespace B2Connect.ErpConnector.Services
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, $"Error disposing actor for tenant {kvp.Key}");
+                        Console.WriteLine($"Error disposing actor for tenant {kvp.Key}: {ex.Message}");
                     }
                 }
             }
 
             _actors.Clear();
-            Logger.Info("ERP Actor Pool disposed");
+            Console.WriteLine("ERP Actor Pool disposed");
         }
     }
 
@@ -298,7 +288,6 @@ namespace B2Connect.ErpConnector.Services
     /// </summary>
     internal class MockErpConnection : IDisposable
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly string _tenantId;
         private readonly string? _businessUnit;
 
@@ -309,12 +298,12 @@ namespace B2Connect.ErpConnector.Services
         {
             _tenantId = tenantId;
             _businessUnit = businessUnit;
-            Logger.Debug($"Mock ERP connection created for tenant {_tenantId}, business unit {_businessUnit ?? "default"}");
+            Console.WriteLine($"Mock ERP connection created for tenant {_tenantId}, business unit {_businessUnit ?? "default"}");
         }
 
         public void Dispose()
         {
-            Logger.Debug($"Mock ERP connection disposed for tenant {_tenantId}, business unit {_businessUnit ?? "default"}");
+            Console.WriteLine($"Mock ERP connection disposed for tenant {_tenantId}, business unit {_businessUnit ?? "default"}");
         }
     }
 }

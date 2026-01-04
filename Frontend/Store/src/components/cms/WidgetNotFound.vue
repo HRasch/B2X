@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 interface Props {
-  settings?: Record<string, any>;
+  settings?: Record<string, string>;
   widgetId?: string;
 }
 

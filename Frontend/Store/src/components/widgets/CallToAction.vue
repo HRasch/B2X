@@ -19,8 +19,16 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 
+interface CallToActionSettings {
+  backgroundColor?: string;
+  heading?: string;
+  description?: string;
+  buttonLink?: string;
+  buttonText?: string;
+}
+
 interface Props {
-  settings: Record<string, any>;
+  settings: CallToActionSettings;
   widgetId: string;
 }
 

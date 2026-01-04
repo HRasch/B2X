@@ -44,6 +44,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/cms/PageDetail.vue'),
       },
       {
+        path: 'pages/:id/edit',
+        name: 'PageBuilder',
+        component: () => import('@/views/PageBuilderView.vue'),
+        meta: { layout: 'fullscreen' },
+      },
+      {
         path: 'templates',
         name: 'CMSTemplates',
         component: () => import('@/views/cms/Templates.vue'),
