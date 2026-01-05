@@ -38,6 +38,11 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - Write unit tests for utility functions
 - Write component tests for user interactions
 - Test accessibility with automated tools
+- **E2E Testing Considerations**:
+  - Use `data-testid` attributes for reliable element selection in e2e tests
+  - Ensure components render consistently for visual regression testing
+  - Test loading states and error conditions that affect user experience
+  - Validate responsive behavior across breakpoints
 
 ## Multilingual Support (i18n)
 - **Always consider multilingualism** in all frontend development

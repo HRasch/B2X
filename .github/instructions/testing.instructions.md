@@ -14,6 +14,21 @@ applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 - **Unit Tests**: Test isolated functions/methods
 - **Integration Tests**: Test component interactions
 - **E2E Tests**: Test complete user flows
+- **Visual Regression Tests**: Detect unintended UI changes with screenshot comparisons
+
+## E2E Testing Strategy
+- **Chunked Execution**: Run e2e tests in manageable chunks (build health → authentication → responsive → visual regression)
+- **Server Management**: Ensure dev server is running and accessible before test execution
+- **Configuration Consistency**: Use baseURL configuration instead of hardcoded localhost URLs
+- **Cross-Browser Coverage**: Test critical user journeys across supported browsers
+- **Responsive Validation**: Test key interactions at mobile, tablet, and desktop breakpoints
+
+## Visual Regression Testing
+- **Baseline Creation**: Run tests first to establish baseline screenshots after major UI changes
+- **Screenshot Management**: Store snapshots in `tests/e2e/*.spec.ts-snapshots/` directory
+- **Threshold Configuration**: Use appropriate pixel difference thresholds (0.1 = 10% tolerance)
+- **Component Focus**: Capture screenshots of critical UI components and layouts
+- **CI/CD Integration**: Include in automated pipelines to catch visual regressions
 
 ## Best Practices
 - Test behavior, not implementation
@@ -36,22 +51,21 @@ applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 - Business logic: >80% coverage
 - UI components: Test user interactions
 
-## Test Naming Convention
-```
-describe('[Component/Function Name]', () => {
-  it('should [expected behavior] when [condition]', () => {
-    // Arrange
-    // Act
-    // Assert
-  });
-});
-```
+## Test Execution Patterns
+- **Systematic Chunking**: Execute tests in logical groups to isolate issues
+- **Incremental Validation**: Fix problems in one chunk before proceeding to next
+- **Baseline Management**: Update visual regression baselines after intentional UI changes
+- **Parallel Execution**: Use single worker for e2e tests to avoid resource conflicts
+- **Resource Cleanup**: Ensure proper cleanup between test runs and server restarts
 
-## Mocking
-- Mock at boundaries (APIs, databases)
-- Reset mocks between tests
-- Use factories for test data
-- Prefer dependency injection over global mocks
+## Debugging & Troubleshooting
+- **Server Connectivity**: Verify dev server is running with `curl -I http://localhost:PORT`
+- **Port Conflicts**: Check for conflicting processes with `lsof -i :PORT`
+- **Process Cleanup**: Kill conflicting processes with `pkill -f "nuxt\|vite"`
+- **Configuration Validation**: Ensure baseURL matches actual server port
+- **Import Path Issues**: Use root-relative paths for shared dependencies (e.g., `../../../node_modules`)
+- **Timeout Management**: Balance test timeouts with server startup time (30s recommended)
+- **Background Execution**: Run servers with `npm run dev > /dev/null 2>&1 &` for stability
 
 ## Multilingual Testing
 - Test translation keys exist in all supported languages
