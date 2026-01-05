@@ -151,19 +151,11 @@ public static class DownloadConnectorCommand
     private static async Task<ConnectorInfo?> FindCompatibleConnectorAsync(string registryUrl, string erpType, string erpVersion)
     {
         using var client = new HttpClient();
-        var url = $"{registryUrl}/find-compatible?erpType={erpType}&version={erpVersion}";
+        var response = await client.GetAsync($"{registryUrl}/find-compatible?erpType={erpType}&erpVersion={erpVersion}");
 
-        try
+        if (response.IsSuccessStatusCode)
         {
-            var response = await client.GetAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<ConnectorInfo>();
-            }
-        }
-        catch (Exception ex)
-        {
-            AnsiConsole.MarkupLine($"[yellow]Warning: Could not find compatible connector: {ex.Message}[/]");
+            return await response.Content.ReadFromJsonAsync<ConnectorInfo>();
         }
 
         return null;
@@ -171,12 +163,11 @@ public static class DownloadConnectorCommand
 
     private static async Task ListAvailableConnectorsAsync(string registryUrl, string erpType)
     {
-        using var client = new HttpClient();
-        var url = $"{registryUrl}/list?erpType={erpType}";
-
         try
         {
-            var response = await client.GetAsync(url);
+            using var client = new HttpClient();
+            var response = await client.GetAsync($"{registryUrl}/list?erpType={erpType}");
+
             if (response.IsSuccessStatusCode)
             {
                 var connectors = await response.Content.ReadFromJsonAsync<List<ConnectorInfo>>();
@@ -185,11 +176,15 @@ public static class DownloadConnectorCommand
                     var table = new Table();
                     table.AddColumn("Name");
                     table.AddColumn("Version");
-                    table.AddColumn("Supported Versions");
+                    table.AddColumn("Supported ERP Versions");
 
-                    foreach (var connector in connectors.Take(5))
+                    foreach (var connector in connectors)
                     {
-                        table.AddRow(connector.Name, connector.Version, string.Join(", ", connector.SupportedVersions ?? new List<string>()));
+                        table.AddRow(
+                            connector.Name,
+                            connector.Version,
+                            string.Join(", ", connector.SupportedVersions ?? new List<string>())
+                        );
                     }
 
                     AnsiConsole.Write(table);
@@ -198,14 +193,20 @@ public static class DownloadConnectorCommand
         }
         catch (Exception ex)
         {
-            AnsiConsole.MarkupLine($"[yellow]Warning: Could not list available connectors: {ex.Message}[/]");
+            AnsiConsole.MarkupLine($"[red]Error listing connectors: {ex.Message}[/]");
         }
     }
 
     private static async Task<bool> ConnectorExistsAsync(string tenantId, string connectorId)
     {
-        var connectorDir = GetTenantConnectorDirectory(tenantId);
-        var connectorPath = Path.Combine(connectorDir, $"{connectorId}.dll");
+        // Check local connector registry
+        var connectorPath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "connectors",
+            tenantId,
+            $"{connectorId}.dll"
+        );
+
         return File.Exists(connectorPath);
     }
 
@@ -224,36 +225,48 @@ public static class DownloadConnectorCommand
 
     private static async Task InstallConnectorAsync(string tenantId, ConnectorInfo connectorInfo, byte[] connectorBytes)
     {
-        var connectorDir = GetTenantConnectorDirectory(tenantId);
+        // Create tenant-specific connector directory
+        var connectorDir = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "connectors",
+            tenantId
+        );
+
         Directory.CreateDirectory(connectorDir);
 
+        // Save connector assembly
         var connectorPath = Path.Combine(connectorDir, $"{connectorInfo.Id}.dll");
         await File.WriteAllBytesAsync(connectorPath, connectorBytes);
 
-        // Create metadata file
-        var metadataPath = Path.Combine(connectorDir, $"{connectorInfo.Id}.metadata.json");
+        // Save connector metadata
+        var metadataPath = Path.Combine(connectorDir, $"{connectorInfo.Id}.json");
         var metadata = new
         {
-            Id = connectorInfo.Id,
-            Name = connectorInfo.Name,
-            Version = connectorInfo.Version,
-            ErpType = connectorInfo.ErpType,
-            SupportedVersions = connectorInfo.SupportedVersions,
+            connectorInfo.Id,
+            connectorInfo.Name,
+            connectorInfo.Version,
+            connectorInfo.ErpType,
+            connectorInfo.SupportedVersions,
             InstalledAt = DateTime.UtcNow,
-            DownloadSize = connectorBytes.Length
+            TenantId = tenantId
         };
 
-        var json = JsonSerializer.Serialize(metadata, new JsonSerializerOptions { WriteIndented = true });
-        await File.WriteAllTextAsync(metadataPath, json);
+        var metadataJson = JsonSerializer.Serialize(metadata, new JsonSerializerOptions { WriteIndented = true });
+        await File.WriteAllTextAsync(metadataPath, metadataJson);
     }
 
     private static async Task<bool> VerifyConnectorInstallationAsync(string tenantId, ConnectorInfo connectorInfo)
     {
         try
         {
-            var connectorDir = GetTenantConnectorDirectory(tenantId);
+            var connectorDir = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "connectors",
+                tenantId
+            );
+
             var connectorPath = Path.Combine(connectorDir, $"{connectorInfo.Id}.dll");
-            var metadataPath = Path.Combine(connectorDir, $"{connectorInfo.Id}.metadata.json");
+            var metadataPath = Path.Combine(connectorDir, $"{connectorInfo.Id}.json");
 
             return File.Exists(connectorPath) && File.Exists(metadataPath);
         }
@@ -263,35 +276,21 @@ public static class DownloadConnectorCommand
         }
     }
 
-    private static string GetTenantConnectorDirectory(string tenantId)
+    private class VersionDetectionResult
     {
-        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        return Path.Combine(home, ".b2connect", "connectors", tenantId);
+        public string? DetectedVersion { get; set; }
+        public bool DetectionSuccessful { get; set; }
+        public string? ErrorMessage { get; set; }
     }
-}
 
-public class ConnectorInfo
-{
-    public string Id { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public string Version { get; set; } = string.Empty;
-    public string ErpType { get; set; } = string.Empty;
-    public List<string>? SupportedVersions { get; set; }
-    public string? Description { get; set; }
-    public bool IsActive { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public long DownloadSizeBytes { get; set; }
-    public string? Requirements { get; set; }
-}
-
-public class VersionDetectionResult
-{
-    public bool Success { get; set; }
-    public string? ErrorMessage { get; set; }
-    public string? DetectedVersion { get; set; }
-    public string? ErpType { get; set; }
-    public bool IsCompatible { get; set; }
-    public bool ConnectionSuccessful { get; set; }
-    public string? AdditionalInfo { get; set; }
-    public string? Suggestion { get; set; }
+    private class ConnectorInfo
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string Version { get; set; } = string.Empty;
+        public string ErpType { get; set; } = string.Empty;
+        public List<string>? SupportedVersions { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+    }
 }
