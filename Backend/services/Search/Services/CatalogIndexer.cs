@@ -48,8 +48,6 @@ public class CatalogIndexer : ICatalogIndexer
                 Locale = (p.locale as string) ?? "en"
             }).ToList();
 
-            // group by tenant and locale
-            var grouped = mapped.GroupBy(d => new { Tenant = (d.Id != null ? ((string?)null) : (string?)null }) );
             // Because source items carried tenant id separately, regroup using original list pairing
             var docsByTenantLang = list.Select(p => new
             {

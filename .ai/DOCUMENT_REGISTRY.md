@@ -64,6 +64,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-032` | CLI Auto-Update Functionality | `.ai/decisions/ADR-032-cli-auto-update-brainstorm.md` | Brainstorm |
 | `ADR-033` | Tenant-Admin Download for ERP-Connector and Administration-CLI Coupled to CLI | `.ai/decisions/ADR-033-tenant-admin-download-erp-connector-cli.md` | Approved |
 | `ADR-034` | Multi-ERP Connector Architecture | `.ai/decisions/ADR-034-multi-erp-connector-architecture.md` | Approved with Conditions |
+| `ADR-035` | MCP-Enabled AI Assistant with CLI Operations Access | `.ai/decisions/ADR-035-mcp-enabled-ai-assistant-cli-operations.md` | Proposed |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---

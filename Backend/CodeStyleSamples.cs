@@ -156,5 +156,4 @@ namespace B2Connect.Backend.CodeStyleSamples
         {
         }
     }
-}</ content >
-< parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / CodeStyleSamples.cs
+}

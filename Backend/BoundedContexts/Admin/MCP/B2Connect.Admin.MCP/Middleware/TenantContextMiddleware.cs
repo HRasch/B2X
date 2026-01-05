@@ -17,6 +17,13 @@ public class TenantContextMiddleware
 
     public async Task InvokeAsync(HttpContext context, TenantContext tenantContext)
     {
+        // Skip tenant context validation for test endpoints
+        if (context.Request.Path.StartsWithSegments("/mcp/test"))
+        {
+            await _next(context);
+            return;
+        }
+
         // Extract tenant ID from JWT claims
         var tenantIdClaim = context.User.FindFirst("tenant_id")?.Value;
 

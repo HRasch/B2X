@@ -90,5 +90,4 @@ namespace B2Connect.Backend.CodeStyleAntiSamples
             readonly string badField;
         }
     }
-}</ content >
-< parameter name = "filePath" >/ Users / holger / Documents / Projekte / B2Connect / backend / CodeStyleAntiSamples.cs
+}

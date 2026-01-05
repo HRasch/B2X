@@ -3,7 +3,7 @@ import { createPinia } from 'pinia';
 import router from './router';
 import { setupAuthMiddleware } from './middleware/auth';
 import { errorLoggingPlugin } from './services/errorLogging';
-import { i18n } from './locales';
+import i18n from './locales';
 import App from './App.vue';
 import './main.css';
 

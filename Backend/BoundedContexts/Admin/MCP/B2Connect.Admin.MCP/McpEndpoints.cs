@@ -39,6 +39,30 @@ public static class McpEndpointExtensions
             return Results.Ok(result);
         });
 
+        // Test endpoint for development (bypasses auth)
+        app.MapPost("/mcp/test/health", async (IMcpServer mcpServer, IServiceProvider serviceProvider) =>
+        {
+            // Create a scope and set up mock tenant context for testing
+            using var scope = serviceProvider.CreateScope();
+            var tenantContext = scope.ServiceProvider.GetRequiredService<TenantContext>();
+            tenantContext.TenantId = "test-tenant"; // Mock tenant for testing
+
+            var args = new Dictionary<string, object>
+            {
+                ["component"] = "all",
+                ["timeRange"] = "24h"
+            };
+            var jsonArgs = JsonSerializer.SerializeToElement(args);
+
+            var request = new CallToolRequest
+            {
+                Name = "system_health_analysis",
+                Arguments = jsonArgs
+            };
+            var result = await mcpServer.CallToolAsync(request);
+            return Results.Ok(result);
+        });
+
         // AI Consumption monitoring endpoints
         app.MapGet("/api/admin/ai-consumption/metrics", async (
             AiConsumptionGateway aiGateway,
