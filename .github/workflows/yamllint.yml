@@ -26,4 +26,4 @@ jobs:
           pip install yamllint
       - name: Run yamllint
         run: |
-          yamllint -c .yamllint "**/*.yml" "**/*.yaml"
+          yamllint -c .yamllint .

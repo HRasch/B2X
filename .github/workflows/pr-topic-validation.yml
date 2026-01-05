@@ -13,23 +13,23 @@ jobs:
   validate-single-topic:
     name: Validate Single Topic PR
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Validate Branch Name
         id: branch-check
         run: |
           BRANCH="${{ github.head_ref }}"
           echo "Branch: $BRANCH"
-          
+
           # Pattern: <type>/<domain>/<issue>-<description>
           # Examples: feature/catalog/57-add-search, fix/identity/123-password-bug
           PATTERN='^(feature|fix|refactor|perf|docs|chore|infra)\/[a-z-]+\/[0-9]+-[a-z0-9-]+$'
-          
+
           if [[ ! $BRANCH =~ $PATTERN ]]; then
             echo "valid=false" >> $GITHUB_OUTPUT
             echo "::error::Branch name doesn't follow convention: <type>/<domain>/<issue>-<description>"
@@ -40,15 +40,15 @@ jobs:
             echo "valid=true" >> $GITHUB_OUTPUT
             echo "✅ Branch name follows convention"
           fi
-      
+
       - name: Analyze Changed Files for Mixed Topics
         id: topic-check
         run: |
           echo "Analyzing changed files for domain boundaries..."
-          
+
           # Get list of changed files
           git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
-          
+
           # Define domain paths
           declare -A domains
           domains["catalog"]="backend/Domain/Catalog"
@@ -56,9 +56,9 @@ jobs:
           domains["identity"]="backend/Domain/Identity"
           domains["search"]="backend/Domain/Search"
           domains["localization"]="backend/Domain/Localization"
-          
+
           touched_domains=()
-          
+
           # Check which domains are touched
           for domain in "${!domains[@]}"; do
             path="${domains[$domain]}"
@@ -66,14 +66,14 @@ jobs:
               touched_domains+=("$domain")
             fi
           done
-          
+
           # Count touched domains
           domain_count=${#touched_domains[@]}
-          
+
           echo "Touched domains: ${touched_domains[*]}"
           echo "count=$domain_count" >> $GITHUB_OUTPUT
           echo "domains=${touched_domains[*]}" >> $GITHUB_OUTPUT
-          
+
           if [ $domain_count -gt 1 ]; then
             echo "::warning::Multiple backend domains touched: ${touched_domains[*]}"
             echo "::warning::Ensure this is justified as single cohesive topic"
@@ -82,24 +82,24 @@ jobs:
             echo "✅ Single domain focus"
             echo "mixed=false" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Check for Common Mixed-Topic Patterns
         id: pattern-check
         run: |
           # Check for common anti-patterns in changed files
-          
+
           # Pattern 1: Multiple unrelated test files
           test_dirs=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | \
                       grep -E '\.test\.|\.spec\.' | \
                       cut -d'/' -f1-3 | \
                       sort -u | \
                       wc -l)
-          
+
           if [ $test_dirs -gt 3 ]; then
             echo "::warning::Many different test directories touched ($test_dirs)"
             echo "::warning::Consider if this represents multiple topics"
           fi
-          
+
           # Pattern 2: Infrastructure + Feature code
           has_infra=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | \
                       grep -E '(docker-compose|Dockerfile|kubernetes/|\.github/workflows)' | \
@@ -107,7 +107,7 @@ jobs:
           has_feature=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | \
                         grep -E '(backend/Domain/|frontend/)' | \
                         wc -l)
-          
+
           if [ $has_infra -gt 0 ] && [ $has_feature -gt 0 ]; then
             echo "::warning::Both infrastructure and feature code changed"
             echo "::warning::Ensure infrastructure changes are required for this feature"
@@ -115,7 +115,7 @@ jobs:
           else
             echo "infra_feature_mix=false" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Post Comment if Mixed Topics Detected
         if: steps.topic-check.outputs.mixed == 'true'
         uses: actions/github-script@v7
@@ -123,55 +123,55 @@ jobs:
           script: |
             const domains = '${{ steps.topic-check.outputs.domains }}';
             const body = `## ⚠️ Mixed-Topic Warning
-            
+
             This PR touches multiple backend domains: **${domains}**
-            
+
             ### Single-Topic Principle
             PRs should focus on ONE cohesive topic for:
             - ✅ Easier code review
             - ✅ Safer rollbacks
             - ✅ Clearer git history
             - ✅ Better traceability
-            
+
             ### Is This Justified?
             If these changes are part of ONE logical feature/fix, please:
             1. ✅ Check "Multiple related components" in PR template
             2. ✅ Explain WHY these domains must change together
             3. ✅ Get approval from @SARAH quality gate
-            
+
             ### If Not Justified
             Consider splitting into separate PRs:
             - One PR per domain/topic
             - Sequence them if there are dependencies
-            
+
             See: [GL-004 Branch Naming Strategy](.ai/guidelines/GL-004-BRANCH_NAMING_STRATEGY.md)
             `;
-            
+
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: body
             });
-      
+
       - name: Summary
         run: |
           echo "### PR Topic Validation Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ steps.branch-check.outputs.valid }}" == "true" ]; then
             echo "✅ Branch name follows convention" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ Branch name invalid" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           if [ "${{ steps.topic-check.outputs.mixed }}" == "true" ]; then
             echo "⚠️ Multiple domains touched: ${{ steps.topic-check.outputs.domains }}" >> $GITHUB_STEP_SUMMARY
             echo "   → Requires justification in PR description" >> $GITHUB_STEP_SUMMARY
           else
             echo "✅ Single domain focus" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Next Steps**:" >> $GITHUB_STEP_SUMMARY
           echo "1. Complete topic declaration in PR template" >> $GITHUB_STEP_SUMMARY

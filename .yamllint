@@ -1,10 +1,32 @@
+---
 extends: default
+
+ignore: |
+  node_modules/
+  .git/
+  .venv/
+  **/node_modules/
+  backend/kubernetes/
+  # External configs that may not follow strict yamllint rules
+  .mega-linter.yml
+  .pre-commit-config.yaml
+  # Legacy/auto-generated files
+  tools/
+
 rules:
   line-length:
     max: 160
     level: warning
   indentation:
     spaces: 2
+    level: warning
   truthy:
-    allowed-values: ["true", "false"]
+    allowed-values: ["true", "false", "on"]
+    level: warning
   key-duplicates: {}
+  document-start:
+    level: warning
+  new-line-at-end-of-file:
+    level: warning
+  comments-indentation:
+    level: warning

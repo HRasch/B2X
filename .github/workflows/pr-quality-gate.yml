@@ -140,7 +140,7 @@ jobs:
             echo "❌ Store coverage ${store_coverage}% is below threshold of 70%"
             exit 1
           fi
-          
+
           # Check Management coverage
           mgmt_coverage=$(jq -r '.total.lines.pct' frontend/Management/coverage/coverage-summary.json)
           echo "Management Coverage: ${mgmt_coverage}%"
@@ -148,7 +148,7 @@ jobs:
             echo "❌ Management coverage ${mgmt_coverage}% is below threshold of 70%"
             exit 1
           fi
-          
+
           echo "✅ All frontend coverage meets threshold"
 
       - name: Upload Coverage Reports
