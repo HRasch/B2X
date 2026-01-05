@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using B2Connect.Utils.Extensions;
+using B2Connect.Shared.Core.Authorization;
+using System;
 
-namespace B2Connect.Middleware;
+namespace B2Connect.Shared.Middleware;
 
 /// <summary>
 /// Tenant context middleware for multitenant applications
@@ -19,7 +21,7 @@ public class TenantContextMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context, ITenantContextAccessor tenantContextAccessor)
+    public async Task InvokeAsync(HttpContext context, ITenantContextAccessor tenantContextAccessor, IServiceProvider serviceProvider)
     {
         var tenantId = context.User.GetTenantId();
 
@@ -109,6 +111,109 @@ public class ExceptionHandlingMiddleware
 }
 
 /// <summary>
+/// Service interface for checking tenant store access mode
+/// </summary>
+public interface ITenantStoreAccessService
+{
+    /// <summary>
+    /// Checks if the tenant's store is publicly accessible.
+    /// </summary>
+    /// <param name="tenantId">The tenant ID to check</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>True if public store, false if closed shop requiring authentication</returns>
+    Task<bool> IsPublicStoreAsync(Guid tenantId, CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// Middleware that enforces store access based on tenant configuration.
+/// For closed shops (IsPublicStore = false), requires authentication.
+/// </summary>
+public class StoreAccessMiddleware
+{
+    private readonly RequestDelegate _next;
+    private readonly ILogger<StoreAccessMiddleware> _logger;
+
+    // Paths that are always public (authentication, health checks, etc.)
+    private static readonly string[] AlwaysPublicPaths =
+    [
+        "/api/auth/",
+        "/api/tenant/visibility",
+        "/health",
+        "/healthz",
+        "/live",
+        "/ready",
+        "/.well-known/",
+        "/swagger",
+        "/metrics"
+    ];
+
+    public StoreAccessMiddleware(RequestDelegate next, ILogger<StoreAccessMiddleware> logger)
+    {
+        _next = next;
+        _logger = logger;
+    }
+
+    public async Task InvokeAsync(
+        HttpContext context,
+        ITenantContextAccessor tenantContextAccessor,
+        IPermissionManager permissionManager)
+    {
+        var path = context.Request.Path.Value ?? string.Empty;
+
+        // Always allow public paths
+        if (IsAlwaysPublicPath(path))
+        {
+            await _next(context);
+            return;
+        }
+
+        var tenantId = tenantContextAccessor.GetTenantId();
+
+        // If no tenant context, continue (let other middleware handle)
+        if (tenantId == Guid.Empty)
+        {
+            await _next(context);
+            return;
+        }
+
+        // Check if tenant allows anonymous browsing (public store)
+        var allowsAnonymousBrowsing = permissionManager.HasPermission(Permissions.Store.BrowseAnonymous);
+
+        if (allowsAnonymousBrowsing)
+        {
+            // Public store - allow all requests
+            await _next(context);
+            return;
+        }
+
+        // Closed shop - require authentication
+        if (!context.User.Identity?.IsAuthenticated ?? true)
+        {
+            _logger.LogInformation(
+                "Unauthenticated access to closed shop denied for tenant {TenantId}, path: {Path}",
+                tenantId, path);
+
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await context.Response.WriteAsJsonAsync(new
+            {
+                success = false,
+                message = "This store requires authentication. Please log in to access.",
+                code = "CLOSED_SHOP_AUTH_REQUIRED"
+            });
+            return;
+        }
+
+        // User is authenticated, allow access
+        await _next(context);
+    }
+
+    private static bool IsAlwaysPublicPath(string path)
+    {
+        return AlwaysPublicPaths.Any(p => path.StartsWith(p, StringComparison.OrdinalIgnoreCase));
+    }
+}
+
+/// <summary>
 /// Extension methods for registering middleware
 /// </summary>
 public static class MiddlewareExtensions
@@ -127,5 +232,14 @@ public static class MiddlewareExtensions
     public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder app)
     {
         return app.UseMiddleware<ExceptionHandlingMiddleware>();
+    }
+
+    /// <summary>
+    /// Adds store access middleware that enforces authentication for closed shops.
+    /// Must be called after UseTenantContext and UseAuthentication.
+    /// </summary>
+    public static IApplicationBuilder UseStoreAccess(this IApplicationBuilder app)
+    {
+        return app.UseMiddleware<StoreAccessMiddleware>();
     }
 }

@@ -32,12 +32,26 @@ public interface IErpOperation
     CancellationToken CancellationToken { get; }
 
     /// <summary>
-    /// Executes the operation and completes the result source.
-    /// This method is called by the Actor worker thread.
+    /// Executes the operation and returns the result. The Actor worker is
+    /// responsible for completing the typed ResultSource after counting
+    /// processed/failed operations to ensure statistics are updated before
+    /// callers observing the ResultSource resume.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token from the worker.</param>
-    /// <returns>Task that completes when the operation is done.</returns>
-    Task ExecuteAndCompleteAsync(CancellationToken cancellationToken);
+    /// <returns>Task that completes with the operation result (boxed).</returns>
+    Task<object?> ExecuteOperationAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Completes the operation with the provided result (worker calls this after counting).
+    /// </summary>
+    /// <param name="result">Boxed result value for the typed ResultSource.</param>
+    void CompleteWithResult(object? result);
+
+    /// <summary>
+    /// Completes the operation with an exception (worker calls this after counting on error).
+    /// </summary>
+    /// <param name="ex">The exception to set.</param>
+    void CompleteWithException(Exception ex);
 }
 
 /// <summary>

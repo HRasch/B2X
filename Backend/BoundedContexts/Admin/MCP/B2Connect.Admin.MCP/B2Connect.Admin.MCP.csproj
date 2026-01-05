@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <IsAspireProjectResource>true</IsAspireProjectResource>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,10 +16,9 @@
     <PackageReference Include="OpenAI" />
     <PackageReference Include="Anthropic.SDK" />
     <PackageReference Include="Azure.AI.OpenAI" />
-    <!-- Microsoft.Extensions.AI -->
+    <!-- Microsoft.Extensions.AI (10.1.1 stable; OpenAI/AzureAIInference are preview-only Jan 2026) -->
     <PackageReference Include="Microsoft.Extensions.AI" />
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
-    <PackageReference Include="Microsoft.Extensions.AI.Anthropic" />
     <PackageReference Include="Microsoft.Extensions.AI.AzureAIInference" />
     <!-- Ollama Support -->
     <PackageReference Include="OllamaSharp" />
@@ -40,6 +40,11 @@
     <PackageReference Include="Serilog.AspNetCore" />
     <!-- Validation -->
     <PackageReference Include="FluentValidation.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ServiceDefaults for Aspire integration -->
+    <ProjectReference Include="../../../../../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

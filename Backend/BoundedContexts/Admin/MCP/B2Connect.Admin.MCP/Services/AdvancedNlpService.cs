@@ -1,5 +1,5 @@
 using B2Connect.Admin.MCP.Data;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2Connect.Admin.MCP.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.Admin.MCP.Services;
@@ -250,23 +250,23 @@ public class AdvancedNlpService
         switch (toolName)
         {
             case "performance_optimization":
-                entities["component"] = ExtractComponent(message);
-                entities["metric"] = ExtractMetric(message);
+                entities["component"] = ExtractComponent(message) ?? "unknown";
+                entities["metric"] = ExtractMetric(message) ?? "unknown";
                 break;
 
             case "store_operations":
-                entities["operation"] = ExtractOperation(message);
-                entities["timeframe"] = ExtractTimeframe(message);
+                entities["operation"] = ExtractOperation(message) ?? "unknown";
+                entities["timeframe"] = ExtractTimeframe(message) ?? "unknown";
                 break;
 
             case "email_template_design":
-                entities["email_type"] = ExtractEmailType(message);
-                entities["purpose"] = ExtractPurpose(message);
+                entities["email_type"] = ExtractEmailType(message) ?? "unknown";
+                entities["purpose"] = ExtractPurpose(message) ?? "unknown";
                 break;
 
             case "cms_page_design":
-                entities["page_type"] = ExtractPageType(message);
-                entities["audience"] = ExtractAudience(message);
+                entities["page_type"] = ExtractPageType(message) ?? "unknown";
+                entities["audience"] = ExtractAudience(message) ?? "unknown";
                 break;
         }
 

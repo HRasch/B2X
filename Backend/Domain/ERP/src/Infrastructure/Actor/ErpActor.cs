@@ -185,30 +185,49 @@ public sealed class ErpActor : IAsyncDisposable
             operation.OperationId,
             _tenant.TenantId);
 
-        // Direct call - no reflection needed
-        // ExecuteAndCompleteAsync handles its own exceptions internally
-        await operation.ExecuteAndCompleteAsync(operation.CancellationToken).ConfigureAwait(false);
-
-        var duration = DateTimeOffset.UtcNow - startTime;
-
-        // Check if operation completed successfully by examining the typed interface
-        if (operation is IErpOperationWithStatus statusOp && statusOp.HasFailed)
+        // Execute operation and obtain the result. The worker will
+        // increment counters before completing the caller's Task to avoid
+        // races where callers resume before statistics are updated.
+        try
         {
-            Interlocked.Increment(ref _errorCount);
-            _logger.LogError(
-                "Operation {OperationId} failed for tenant {TenantId} after {Duration}ms",
-                operation.OperationId,
-                _tenant.TenantId,
-                duration.TotalMilliseconds);
-        }
-        else
-        {
+            var result = await operation.ExecuteOperationAsync(operation.CancellationToken).ConfigureAwait(false);
+
+            var duration = DateTimeOffset.UtcNow - startTime;
+
+            // Operation executed successfully - increment processed count BEFORE completing the caller
             Interlocked.Increment(ref _processedCount);
+
             _logger.LogDebug(
                 "Operation {OperationId} completed in {Duration}ms for tenant {TenantId}",
                 operation.OperationId,
                 duration.TotalMilliseconds,
                 _tenant.TenantId);
+
+            // Complete the typed result for waiting callers
+            try
+            {
+                operation.CompleteWithResult(result);
+            }
+            catch (Exception ex)
+            {
+                Interlocked.Increment(ref _errorCount);
+                operation.CompleteWithException(ex);
+                _logger.LogError(ex, "Failed to complete result for operation {OperationId} on tenant {TenantId}", operation.OperationId, _tenant.TenantId);
+            }
+        }
+        catch (Exception ex)
+        {
+            Interlocked.Increment(ref _errorCount);
+            _logger.LogError(ex, "Operation {OperationId} crashed for tenant {TenantId}", operation.OperationId, _tenant.TenantId);
+
+            try
+            {
+                operation.CompleteWithException(ex);
+            }
+            catch
+            {
+                // Swallow - nothing we can do if completion fails
+            }
         }
     }
 

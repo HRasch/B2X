@@ -1,9 +1,10 @@
 using B2Connect.Admin.MCP.Controllers;
 using B2Connect.Admin.MCP.Data;
 using B2Connect.Admin.MCP.Services;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2Connect.Admin.MCP.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NlpConversationContext = B2Connect.Admin.MCP.Services.ConversationContext;
 
 namespace B2Connect.Admin.MCP.Controllers;
 
@@ -77,14 +78,12 @@ public class ConversationController : ControllerBase
                     Sender = m.Sender,
                     ToolName = m.ToolName,
                     IsError = m.IsError,
-                    CreatedAt = m.CreatedAt,
-                    Entities = m.Entities,
-                    Parameters = m.Parameters
+                    CreatedAt = m.CreatedAt
                 })
                 .ToList(),
-            Context = conversation.Contexts
+            Context = conversation.Context
                 .OrderByDescending(c => c.CreatedAt)
-                .FirstOrDefault()?.Data
+                .FirstOrDefault()?.Value
         };
 
         return Ok(dto);
@@ -97,7 +96,8 @@ public class ConversationController : ControllerBase
     [ProducesResponseType(typeof(ConversationDto), 201)]
     public async Task<IActionResult> CreateConversation([FromBody] CreateConversationRequest request)
     {
-        var conversation = await _conversationService.CreateConversationAsync(request.Title);
+        var userId = User.Identity?.Name ?? "anonymous";
+        var conversation = await _conversationService.CreateConversationAsync(userId, request.Title);
         var dto = new ConversationDto
         {
             Id = conversation.Id,
@@ -121,15 +121,10 @@ public class ConversationController : ControllerBase
     {
         var message = await _conversationService.AddMessageAsync(
             id,
-            request.Content,
             request.Sender,
+            request.Content,
             request.ToolName,
-            request.IsError,
-            request.Entities,
-            request.Parameters);
-
-        if (message == null)
-            return NotFound();
+            isError: request.IsError);
 
         var dto = new MessageDto
         {
@@ -138,9 +133,7 @@ public class ConversationController : ControllerBase
             Sender = message.Sender,
             ToolName = message.ToolName,
             IsError = message.IsError,
-            CreatedAt = message.CreatedAt,
-            Entities = message.Entities,
-            Parameters = message.Parameters
+            CreatedAt = message.CreatedAt
         };
 
         return Created("", dto);
@@ -154,9 +147,13 @@ public class ConversationController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<IActionResult> UpdateContext(int id, [FromBody] UpdateContextRequest request)
     {
-        var success = await _conversationService.SetContextAsync(id, request.ContextData);
-        if (!success)
+        var conversation = await _conversationService.GetConversationAsync(id);
+        if (conversation == null)
             return NotFound();
+
+        // Store context as JSON under a default key
+        var contextJson = System.Text.Json.JsonSerializer.Serialize(request.ContextData);
+        await _conversationService.SetContextAsync(id, "context", contextJson);
 
         return NoContent();
     }
@@ -240,13 +237,13 @@ public class AbTestingController : ControllerBase
                 Id = v.Id,
                 Name = v.Name,
                 Description = v.Description,
-                Weight = v.Weight,
+                Weight = (double)v.Weight,
                 IsControl = v.IsControl
             }).ToList(),
             Statistics = new AbTestStatisticsDto
             {
                 TotalParticipants = t.Results.Count,
-                ConversionRate = t.Variants.Any() ? t.Results.Count(r => r.Converted) / (double)t.Results.Count : 0,
+                ConversionRate = t.Results.Count > 0 ? t.Results.Count(r => r.MetricType == "conversion") / (double)t.Results.Count : 0,
                 BestVariant = t.Variants
                     .OrderByDescending(v => v.Weight)
                     .FirstOrDefault()?.Name ?? "None"
@@ -282,7 +279,7 @@ public class AbTestingController : ControllerBase
                 Id = v.Id,
                 Name = v.Name,
                 Description = v.Description,
-                Weight = v.Weight,
+                Weight = (double)v.Weight,
                 IsControl = v.IsControl
             }).ToList(),
             Results = test.Results.Select(r => new AbTestResultDto
@@ -290,11 +287,11 @@ public class AbTestingController : ControllerBase
                 Id = r.Id,
                 UserId = r.UserId,
                 VariantId = r.VariantId,
-                Converted = r.Converted,
-                ConversionValue = r.ConversionValue,
+                Converted = r.MetricType == "conversion",
+                ConversionValue = r.MetricValue,
                 CreatedAt = r.CreatedAt
             }).ToList(),
-            Statistics = statistics
+            Statistics = MapToStatisticsDto(statistics)
         };
 
         return Ok(dto);
@@ -307,14 +304,31 @@ public class AbTestingController : ControllerBase
     [ProducesResponseType(typeof(AbTestDto), 201)]
     public async Task<IActionResult> CreateTest([FromBody] CreateAbTestRequest request)
     {
+        var userId = User.Identity?.Name ?? "anonymous";
         var test = await _abTestingService.CreateTestAsync(
             request.Name,
             request.Description,
-            request.Variants.Select(v => (v.Name, v.Description, v.Weight, v.IsControl)).ToList());
+            "default", // toolName
+            userId);   // createdBy
+
+        // Add variants to the test
+        foreach (var variant in request.Variants)
+        {
+            await _abTestingService.AddVariantAsync(
+                test.Id,
+                variant.Name,
+                variant.Description,
+                string.Empty, // promptTemplate - simplified API
+                (decimal)variant.Weight,
+                variant.IsControl);
+        }
+
+        // Reload to get variants
+        test = await _abTestingService.GetTestAsync(test.Id);
 
         var dto = new AbTestDto
         {
-            Id = test.Id,
+            Id = test!.Id,
             Name = test.Name,
             Description = test.Description,
             Status = test.Status,
@@ -324,7 +338,7 @@ public class AbTestingController : ControllerBase
                 Id = v.Id,
                 Name = v.Name,
                 Description = v.Description,
-                Weight = v.Weight,
+                Weight = (double)v.Weight,
                 IsControl = v.IsControl
             }).ToList(),
             Statistics = new AbTestStatisticsDto
@@ -359,7 +373,7 @@ public class AbTestingController : ControllerBase
                 Id = variant.Id,
                 Name = variant.Name,
                 Description = variant.Description,
-                Weight = variant.Weight,
+                Weight = (double)variant.Weight,
                 IsControl = variant.IsControl
             }
         };
@@ -375,14 +389,16 @@ public class AbTestingController : ControllerBase
     [ProducesResponseType(400)]
     public async Task<IActionResult> RecordResult(int testId, [FromBody] RecordResultRequest request)
     {
-        var success = await _abTestingService.RecordResultAsync(
-            testId,
-            request.UserId,
-            request.Converted,
-            request.ConversionValue);
+        // Get the variant that was selected for this user
+        var variant = await _abTestingService.SelectVariantAsync(testId, request.UserId);
 
-        if (!success)
-            return BadRequest("Failed to record result");
+        await _abTestingService.RecordResultAsync(
+            testId,
+            variant.Id,
+            0, // conversationId (not tracked in this simplified API)
+            request.UserId,
+            request.Converted ? "conversion" : "view",
+            request.ConversionValue ?? 0m);
 
         return Created("", new { message = "Result recorded successfully" });
     }
@@ -415,6 +431,25 @@ public class AbTestingController : ControllerBase
             return NotFound();
 
         return NoContent();
+    }
+
+    private static AbTestStatisticsDto MapToStatisticsDto(AbTestStatistics statistics)
+    {
+        var variantRates = new Dictionary<string, double>();
+        foreach (var v in statistics.VariantStatistics)
+        {
+            var conversionMetric = v.Metrics.GetValueOrDefault("conversion");
+            variantRates[v.VariantName] = conversionMetric != null ? (double)conversionMetric.Mean : 0;
+        }
+
+        return new AbTestStatisticsDto
+        {
+            TotalParticipants = statistics.VariantStatistics.Sum(v => v.SampleSize),
+            ConversionRate = variantRates.Values.Any() ? variantRates.Values.Average() : 0,
+            BestVariant = variantRates.OrderByDescending(kv => kv.Value).FirstOrDefault().Key ?? "None",
+            VariantConversionRates = variantRates,
+            StatisticalSignificance = null // Could calculate later
+        };
     }
 }
 
@@ -466,7 +501,7 @@ public class NlpController : ControllerBase
     /// Get conversation context for better intent recognition
     /// </summary>
     [HttpGet("context/{conversationId}")]
-    [ProducesResponseType(typeof(ConversationContext), 200)]
+    [ProducesResponseType(typeof(NlpConversationContext), 200)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetConversationContext(int conversationId)
     {

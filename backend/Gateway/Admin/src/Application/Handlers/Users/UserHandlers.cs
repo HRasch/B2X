@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using B2Connect.Admin.Application.Commands.Users;
 using B2Connect.Admin.Application.Handlers;
-using B2Connect.Middleware;
+using B2Connect.Shared.Middleware;
 
 namespace B2Connect.Admin.Application.Handlers.Users;
 

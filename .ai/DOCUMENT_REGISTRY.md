@@ -1,7 +1,7 @@
 # 📚 Document Registry
 
 **Version:** 1.0  
-**Last Updated:** 3. Januar 2026  
+**Last Updated:** 5. Januar 2026  
 **Owner:** @SARAH
 
 ---
@@ -35,6 +35,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT` | Agent Definitions | `.github/agents/` | @SARAH |
 | `PRM` | Prompts | `.github/prompts/` | @SARAH |
 | `INS` | Instructions | `.github/instructions/` | @TechLead |
+| `FH` | Feature Handovers | `.ai/handovers/` | @ProductOwner |
 
 ---
 
@@ -58,6 +59,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-029` | Multi-Format Punchout Integration for Craft Software | `.ai/decisions/ADR-029-multi-format-punchout-integration.md` | Proposed |
 | `ADR-029-BPA` | Business Process Analysis - Punchout Integration | `.ai/decisions/ADR-029-business-process-analysis.md` | Active |
 | `ADR-029-ICAS` | IDS Connect Adapter Specification | `.ai/decisions/ADR-029-ids-connect-adapter-spec.md` | Active |
+| `ADR-030` | Vue-i18n v10 to v11 Migration | `.ai/decisions/ADR-030-vue-i18n-v11-migration.md` | Accepted |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -90,7 +92,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-021` | enventa Trade ERP | `.ai/knowledgebase/enventa-trade-erp.md` | Active |
 | `KB-022` | GitHub Copilot Customization | `.ai/knowledgebase/tools-and-tech/github-copilot-customization.md` | Active |
 | `KB-023` | Email Template Best Practices | `.ai/knowledgebase/best-practices/email-templates.md` | Active |
+| `KB-024` | Microsoft.Extensions.AI | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.AI.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
+| `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
 ### Knowledgebase Subdirectories
 
@@ -117,6 +121,12 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-005` | SARAH Quality Gate Criteria | `.ai/guidelines/GL-005-SARAH_QUALITY_GATE_CRITERIA.md` | Active |
 | `GL-006` | Token Optimization Strategy | `.ai/guidelines/GL-006-TOKEN-OPTIMIZATION-STRATEGY.md` | Active |
 | `GL-007` | Lessons Learned Maintenance Strategy | `.ai/guidelines/GL-007-lessons-maintenance-strategy.md` | Active |
+| `GL-008` | Governance Policies | `.ai/guidelines/GL-008-GOVERNANCE-POLICIES.md` | Active |
+| `GL-009` | AI Behavior Guidelines | `.ai/guidelines/GL-009-AI-BEHAVIOR.md` | Active |
+| `GL-010` | Agent & Artifact Organization | `.ai/guidelines/GL-010-AGENT-ARTIFACT-ORGANIZATION.md` | Active |
+| `GL-011` | Guard Clauses - Coding Style Guidelines | `.ai/guidelines/GL-011-coding-style-guard-clauses.md` | Active |
+| `GL-012` | Frontend Quality Standards | `.ai/guidelines/GL-012-FRONTEND-QUALITY-STANDARDS.md` | Active |
+| `GL-013` | Dependency Management Policy | `.ai/guidelines/GL-013-DEPENDENCY-MANAGEMENT.md` | Active |
 
 ---
 
@@ -150,6 +160,14 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-001` | Monitoring for Scheduler Jobs | `.ai/requirements/REQ-001-monitoring-scheduler-jobs.md` | Draft |
 | `REQ-002` | BMEcat Katalog Import | `.ai/requirements/REQ-002-bmecat-import.md` | Draft |
 | `REQ-003` | Email Template System | `.ai/requirements/REQ-003-email-template-system.md` | Draft |
+
+---
+
+## Registry: Feature Handovers (FH-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `FH-030` | ADR-030 CMS Tenant Template Overrides Handover | `.ai/handovers/ADR-030-cms-tenant-template-overrides-handover.md` | Complete |
 
 ---
 

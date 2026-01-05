@@ -1,70 +1,90 @@
 <template>
-  <div class="min-h-screen bg-gradient-soft-blue flex items-center justify-center p-safe">
-    <soft-card class="w-full max-w-md">
-      <!-- Header -->
-      <div class="text-center mb-safe">
-        <div
-          class="w-16 h-16 rounded-soft-lg bg-gradient-soft-blue flex items-center justify-center mx-auto mb-4"
-        >
-          <span class="text-white font-bold text-2xl">B</span>
+  <div
+    class="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center p-4"
+  >
+    <div class="card bg-base-100 shadow-xl w-full max-w-md">
+      <div class="card-body">
+        <!-- Header -->
+        <div class="text-center mb-6">
+          <div
+            class="w-16 h-16 rounded-lg bg-primary flex items-center justify-center mx-auto mb-4"
+          >
+            <span class="text-primary-content font-bold text-2xl">B</span>
+          </div>
+          <h1 class="text-2xl font-bold text-base-content">B2Connect Admin</h1>
+          <p class="text-base-content/60 text-sm mt-2">Sign in to your account</p>
         </div>
-        <h1 class="heading-md text-soft-900 dark:text-white">B2Connect Admin</h1>
-        <p class="text-soft-600 dark:text-soft-300 text-sm mt-2">Sign in to your account</p>
+
+        <!-- Error Message -->
+        <div v-if="error" class="alert alert-error mb-4">
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{{ error }}</span>
+        </div>
+
+        <!-- Login Form -->
+        <form @submit.prevent="handleLogin" class="space-y-4">
+          <!-- Email -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Email Address</span>
+            </label>
+            <input
+              v-model="email"
+              type="email"
+              placeholder="admin@example.com"
+              class="input input-bordered w-full"
+              required
+            />
+          </div>
+
+          <!-- Password -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Password</span>
+            </label>
+            <input
+              v-model="password"
+              type="password"
+              placeholder="••••••••"
+              class="input input-bordered w-full"
+              required
+            />
+          </div>
+
+          <!-- Remember Me -->
+          <div class="form-control">
+            <label class="label cursor-pointer justify-start gap-2">
+              <input
+                v-model="rememberMe"
+                type="checkbox"
+                class="checkbox checkbox-primary checkbox-sm"
+              />
+              <span class="label-text">Remember me</span>
+            </label>
+          </div>
+
+          <!-- Login Button -->
+          <button type="submit" class="btn btn-primary w-full mt-6" :disabled="loading">
+            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+            {{ loading ? 'Signing in...' : 'Sign In' }}
+          </button>
+        </form>
+
+        <!-- Footer -->
+        <div class="divider mt-6"></div>
+        <div class="text-center">
+          <p class="text-sm text-base-content/60">Demo Account:</p>
+          <p class="font-mono text-sm mt-1">admin@example.com / password</p>
+        </div>
       </div>
-
-      <!-- Error Message -->
-      <div
-        v-if="error"
-        class="mb-4 p-4 bg-danger-50 border border-danger-200 rounded-soft text-danger-700 text-sm"
-      >
-        {{ error }}
-      </div>
-
-      <!-- Login Form -->
-      <form @submit.prevent="handleLogin" class="space-y-4">
-        <!-- Email -->
-        <soft-input
-          v-model="email"
-          type="email"
-          label="Email Address"
-          placeholder="admin@example.com"
-          required
-        />
-
-        <!-- Password -->
-        <soft-input
-          v-model="password"
-          type="password"
-          label="Password"
-          placeholder="••••••••"
-          required
-        />
-
-        <!-- Remember Me -->
-        <label class="flex items-center gap-2 cursor-pointer">
-          <input
-            v-model="rememberMe"
-            type="checkbox"
-            class="w-4 h-4 rounded-soft border-soft-200 text-primary-600 focus:ring-primary-500"
-          />
-          <span class="text-sm text-soft-700 dark:text-soft-300">Remember me</span>
-        </label>
-
-        <!-- Login Button -->
-        <soft-button variant="primary" size="lg" :loading="loading" class="w-full mt-6">
-          {{ loading ? 'Signing in...' : 'Sign In' }}
-        </soft-button>
-      </form>
-
-      <!-- Footer -->
-      <div class="text-center mt-safe pt-safe border-t border-soft-100">
-        <p class="text-sm text-soft-600 dark:text-soft-300">
-          Demo Account: <br />
-          <span class="font-mono text-soft-900 dark:text-white">admin@example.com</span><br />
-          <span class="font-mono text-soft-900 dark:text-white">password</span>
-        </p>
-      </div>
-    </soft-card>
+    </div>
   </div>
 </template>
 
@@ -72,9 +92,6 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import SoftCard from '@/components/soft-ui/SoftCard.vue';
-import SoftButton from '@/components/soft-ui/SoftButton.vue';
-import SoftInput from '@/components/soft-ui/SoftInput.vue';
 
 // Default tenant GUID
 const DEFAULT_TENANT_ID =

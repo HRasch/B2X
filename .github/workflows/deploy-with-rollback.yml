@@ -1,0 +1,281 @@
+name: Deploy with Rollback
+
+on:
+  push:
+    branches: [main, production]
+  workflow_dispatch:
+    inputs:
+      deployment_type:
+        description: 'Deployment type'
+        required: true
+        default: 'blue-green'
+        type: choice
+        options:
+        - blue-green
+        - canary
+        - rollback
+      rollback_version:
+        description: 'Version to rollback to (for rollback type)'
+        required: false
+        type: string
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    name: Build and Push Images
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: actions/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}-backend
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}-frontend
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-blue-green:
+    name: Blue-Green Deployment
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: github.event.inputs.deployment_type == 'blue-green' || github.event_name == 'push'
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Deploy to Green Environment
+        run: |
+          cd backend/kubernetes/helm
+          helm upgrade --install b2connect-green ./ \
+            --namespace b2connect \
+            --set image.tag=${{ needs.build-and-push.outputs.image-tag }} \
+            --set deployment.color=green \
+            --set deployment.type=blue-green \
+            --wait \
+            --timeout=10m
+
+      - name: Run Health Checks
+        run: |
+          echo "Waiting for green deployment to be ready..."
+          kubectl wait --for=condition=available --timeout=300s deployment/b2connect-green -n b2connect
+
+          echo "Running smoke tests..."
+          ./scripts/smoke-test.sh green
+
+      - name: Switch Traffic to Green
+        run: |
+          kubectl patch service b2connect-api-gateway -n b2connect -p '{"spec":{"selector":{"color":"green"}}}'
+          kubectl patch service b2connect-frontend -n b2connect -p '{"spec":{"selector":{"color":"green"}}}'
+
+      - name: Monitor Post-Deployment
+        run: |
+          echo "Monitoring deployment for 5 minutes..."
+          timeout 300 ./scripts/monitor-deployment.sh green || true
+
+      - name: Validate Deployment
+        id: validate
+        run: |
+          if ./scripts/validate-deployment.sh green; then
+            echo "validation=success" >> $GITHUB_OUTPUT
+          else
+            echo "validation=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Mark Green as Stable
+        if: steps.validate.outputs.validation == 'success'
+        run: |
+          kubectl label deployment b2connect-green stable=true -n b2connect
+          kubectl label deployment b2connect-blue stable=false -n b2connect
+
+      - name: Rollback on Failure
+        if: failure() || steps.validate.outputs.validation == 'failed'
+        run: |
+          echo "Deployment failed, rolling back..."
+          kubectl patch service b2connect-api-gateway -n b2connect -p '{"spec":{"selector":{"color":"blue"}}}'
+          kubectl patch service b2connect-frontend -n b2connect -p '{"spec":{"selector":{"color":"blue"}}}'
+
+  deploy-canary:
+    name: Canary Deployment
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: github.event.inputs.deployment_type == 'canary'
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Deploy Canary
+        run: |
+          cd backend/kubernetes/helm
+          helm upgrade --install b2connect-canary ./ \
+            --namespace b2connect \
+            --set image.tag=${{ needs.build-and-push.outputs.image-tag }} \
+            --set deployment.type=canary \
+            --set canary.replicas=1 \
+            --set canary.traffic=10 \
+            --wait \
+            --timeout=10m
+
+      - name: Monitor Canary
+        run: |
+          echo "Monitoring canary deployment for 15 minutes..."
+          timeout 900 ./scripts/monitor-canary.sh || true
+
+      - name: Validate Canary
+        id: validate
+        run: |
+          if ./scripts/validate-canary.sh; then
+            echo "validation=success" >> $GITHUB_OUTPUT
+          else
+            echo "validation=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Scale to Full Deployment
+        if: steps.validate.outputs.validation == 'success'
+        run: |
+          cd backend/kubernetes/helm
+          helm upgrade b2connect-canary ./ \
+            --namespace b2connect \
+            --set canary.traffic=100 \
+            --set canary.replicas=3 \
+            --wait
+
+      - name: Cleanup Canary
+        if: steps.validate.outputs.validation == 'success'
+        run: |
+          kubectl delete deployment b2connect-canary -n b2connect || true
+
+      - name: Rollback Canary
+        if: failure() || steps.validate.outputs.validation == 'failed'
+        run: |
+          echo "Canary failed, cleaning up..."
+          kubectl delete deployment b2connect-canary -n b2connect || true
+
+  rollback:
+    name: Rollback Deployment
+    runs-on: ubuntu-latest
+    if: github.event.inputs.deployment_type == 'rollback'
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Find Stable Version
+        id: find-stable
+        run: |
+          STABLE_TAG=$(kubectl get deployment -l stable=true -n b2connect -o jsonpath='{.items[0].spec.template.spec.containers[0].image}' | sed 's/.*://')
+          if [ -z "$STABLE_TAG" ]; then
+            STABLE_TAG="${{ github.event.inputs.rollback_version }}"
+          fi
+          echo "stable-tag=$STABLE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Rollback to Stable Version
+        run: |
+          cd backend/kubernetes/helm
+          helm upgrade b2connect ./ \
+            --namespace b2connect \
+            --set image.tag=${{ steps.find-stable.outputs.stable-tag }} \
+            --wait \
+            --timeout=10m
+
+      - name: Validate Rollback
+        run: |
+          echo "Validating rollback..."
+          ./scripts/validate-rollback.sh
+
+  monitor-and-alert:
+    name: Monitor and Alert
+    runs-on: ubuntu-latest
+    needs: [deploy-blue-green, deploy-canary, rollback]
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Send Deployment Notification
+        run: |
+          if [ "${{ needs.deploy-blue-green.result }}" == "success" ] || [ "${{ needs.deploy-canary.result }}" == "success" ]; then
+            echo "Deployment successful"
+            # Send success notification to Slack/Teams
+          elif [ "${{ needs.rollback.result }}" == "success" ]; then
+            echo "Rollback completed"
+            # Send rollback notification
+          else
+            echo "Deployment failed"
+            # Send failure alert
+          fi

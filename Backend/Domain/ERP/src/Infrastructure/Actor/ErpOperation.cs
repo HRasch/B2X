@@ -64,21 +64,47 @@ public sealed class ErpOperation<TResult> : IErpOperation<TResult>
     public DateTimeOffset CreatedAt { get; }
 
     /// <inheritdoc/>
-    public async Task ExecuteAndCompleteAsync(CancellationToken cancellationToken)
+    /// <summary>
+    /// Executes the operation and returns the result as boxed object.
+    /// The caller (actor worker) is responsible for completing the typed ResultSource
+    /// to ensure counters are updated _before_ completion is signalled to callers.
+    /// </summary>
+    public async Task<object?> ExecuteOperationAsync(CancellationToken cancellationToken)
     {
+        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(
+            cancellationToken,
+            CancellationToken);
+
+        linkedCts.CancelAfter(Timeout);
+
         try
         {
-            var result = await ExecuteAsync(cancellationToken).ConfigureAwait(false);
-            ResultSource.TrySetResult(result);
+            var result = await _operation(linkedCts.Token).ConfigureAwait(false);
+            return (object?)result!;
         }
-        catch (OperationCanceledException ex)
+        catch (OperationCanceledException) when (linkedCts.IsCancellationRequested)
         {
-            ResultSource.TrySetCanceled(ex.CancellationToken);
+            throw new TimeoutException(
+                $"ERP operation {OperationId} timed out after {Timeout.TotalSeconds} seconds.");
         }
-        catch (Exception ex)
-        {
-            ResultSource.TrySetException(ex);
-        }
+    }
+
+    /// <summary>
+    /// Completes the operation with a typed result (called by the actor worker).
+    /// </summary>
+    /// <param name="result">Boxed result.</param>
+    public void CompleteWithResult(object? result)
+    {
+        ResultSource.TrySetResult((TResult)result!);
+    }
+
+    /// <summary>
+    /// Completes the operation with an exception (called by the actor worker).
+    /// </summary>
+    /// <param name="ex">Exception to set.</param>
+    public void CompleteWithException(Exception ex)
+    {
+        ResultSource.TrySetException(ex);
     }
 
     /// <summary>

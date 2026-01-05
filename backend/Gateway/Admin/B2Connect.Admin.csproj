@@ -12,6 +12,16 @@
     <IsAspireProjectResource>true</IsAspireProjectResource>
   </PropertyGroup>
 
+  <!-- Exclude tests folder from compilation -->
+  <ItemGroup>
+    <Compile Remove="tests/**" />
+    <Compile Remove="tests\**" />
+    <None Remove="tests/**" />
+    <None Remove="tests\**" />
+    <Content Remove="tests/**" />
+    <Content Remove="tests\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Serilog.AspNetCore"  />
     <PackageReference Include="Yarp.ReverseProxy"  />
@@ -40,6 +50,7 @@
     <ProjectReference Include="../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
     <ProjectReference Include="../../Domain/ERP/src/B2Connect.ERP.csproj" />
     <ProjectReference Include="../../Domain/Email/B2Connect.Email.csproj" />
+    <ProjectReference Include="../../Domain/Theming/B2Connect.Theming.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

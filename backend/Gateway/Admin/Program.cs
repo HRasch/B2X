@@ -148,13 +148,51 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization(options =>
 {
     // Admin Frontend - DomainAdmins (DU) and TenantAdmins (SU) allowed
+    // Also allow users with Admin or admin role from Identity Service
     options.AddPolicy("AdminOnly", policy =>
         policy.RequireAssertion(context =>
         {
+            // Check AccountType claim (DU or SU)
             var accountTypeClaim = context.User.FindFirst("AccountType");
-            return accountTypeClaim != null &&
+            var isAdminAccountType = accountTypeClaim != null &&
                    (accountTypeClaim.Value == "DU" || accountTypeClaim.Value == "SU");
+
+            // Check Admin role (from Identity Service)
+            var isAdminRole = context.User.IsInRole("Admin") ||
+                             context.User.IsInRole("admin");
+
+            // Check if user has any admin role
+            var hasAdminRole = context.User.FindAll(System.Security.Claims.ClaimTypes.Role)
+                .Any(c => c.Value.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                         c.Value.Equals("admin", StringComparison.OrdinalIgnoreCase));
+
+            var result = isAdminAccountType || isAdminRole || hasAdminRole;
+
+            // Log for debugging
+            var logger = context.User.Identity?.Name ?? "Unknown";
+            if (!result)
+            {
+                System.Console.WriteLine(
+                    $"[AUTH] Access Denied: AccountType={accountTypeClaim?.Value ?? "missing"}, " +
+                    $"Roles={string.Join(",", context.User.FindAll(System.Security.Claims.ClaimTypes.Role).Select(c => c.Value))}");
+            }
+
+            return result;
         }));
+
+    // Policy for content_manager role
+    options.AddPolicy("ContentManager", policy =>
+        policy.RequireAssertion(context =>
+            context.User.FindAll(System.Security.Claims.ClaimTypes.Role)
+                .Any(c => c.Value.Equals("content_manager", StringComparison.OrdinalIgnoreCase) ||
+                         c.Value.Equals("Admin", StringComparison.OrdinalIgnoreCase))));
+
+    // Policy for catalog_manager role
+    options.AddPolicy("CatalogManager", policy =>
+        policy.RequireAssertion(context =>
+            context.User.FindAll(System.Security.Claims.ClaimTypes.Role)
+                .Any(c => c.Value.Equals("catalog_manager", StringComparison.OrdinalIgnoreCase) ||
+                         c.Value.Equals("Admin", StringComparison.OrdinalIgnoreCase))));
 });
 
 // Database
@@ -209,6 +247,7 @@ if (!string.IsNullOrEmpty(connectionString))
 // ==================== TENANT CONTEXT ====================
 // Register scoped tenant context service for request-level tenant isolation
 builder.Services.AddScoped<ITenantContext, TenantContext>();
+builder.Services.AddScoped<B2Connect.Shared.Middleware.ITenantContextAccessor, B2Connect.Shared.Middleware.TenantContextAccessor>();
 
 // Register Repositories
 builder.Services.AddScoped<IRepository<B2Connect.Admin.Core.Entities.Product>, Repository<B2Connect.Admin.Core.Entities.Product>>();
@@ -226,6 +265,7 @@ builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeReposito
 builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailService, B2Connect.Email.Services.SmtpEmailService>();
 builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailQueueService, B2Connect.Email.Services.EmailQueueService>();
 builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailMonitoringService, B2Connect.Email.Services.EmailMonitoringService>();
+builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailTemplateService, B2Connect.Email.Services.EmailTemplateService>();
 // builder.Services.AddHostedService<B2Connect.Email.Handlers.ProcessEmailQueueJob>(); // Temporarily disabled due to database setup issues
 
 // Add services

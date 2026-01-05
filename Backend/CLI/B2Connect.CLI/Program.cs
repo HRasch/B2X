@@ -5,6 +5,7 @@ using B2Connect.CLI.Commands.AuthCommands;
 using B2Connect.CLI.Commands.MonitoringCommands;
 using B2Connect.CLI.Commands.SystemCommands;
 using B2Connect.CLI.Commands.TenantCommands;
+using B2Connect.CLI.Commands;
 using Spectre.Console;
 
 var rootCommand = new RootCommand("B2Connect CLI - Microservices Management Tool")

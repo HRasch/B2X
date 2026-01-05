@@ -1,0 +1,155 @@
+// ============================================
+// Design Tokens - Colors
+// ============================================
+// Based on demo.eisen-pfeiffer.de design
+// Generates CSS Custom Properties for runtime theming
+// ============================================
+
+@use 'sass:map';
+@use '../abstracts/functions' as fn;
+
+// --------------------------------------------
+// Brand Colors (Eisen-Pfeiffer Style)
+// --------------------------------------------
+
+// Primary: Professional Blue
+$primary: #0066cc !default;
+$primary-palette: fn.generate-palette($primary);
+
+// Secondary: Warm Gray
+$secondary: #6b7280 !default;
+$secondary-palette: fn.generate-palette($secondary);
+
+// Accent: Orange (for CTAs)
+$accent: #ea580c !default;
+$accent-palette: fn.generate-palette($accent);
+
+// --------------------------------------------
+// Semantic Colors
+// --------------------------------------------
+
+$success: #22c55e !default;
+$success-palette: fn.generate-palette($success);
+
+$warning: #f59e0b !default;
+$warning-palette: fn.generate-palette($warning);
+
+$danger: #ef4444 !default;
+$danger-palette: fn.generate-palette($danger);
+
+$info: #3b82f6 !default;
+$info-palette: fn.generate-palette($info);
+
+// --------------------------------------------
+// Neutral Colors
+// --------------------------------------------
+
+$white: #ffffff;
+$black: #000000;
+
+$gray: (
+  50: #f9fafb,
+  100: #f3f4f6,
+  200: #e5e7eb,
+  300: #d1d5db,
+  400: #9ca3af,
+  500: #6b7280,
+  600: #4b5563,
+  700: #374151,
+  800: #1f2937,
+  900: #111827,
+  950: #030712
+);
+
+// --------------------------------------------
+// CSS Custom Properties Output
+// --------------------------------------------
+
+:root {
+  // Brand Colors
+  --primary: #{$primary};
+  @each $shade, $color in $primary-palette {
+    --primary-#{$shade}: #{$color};
+  }
+
+  --secondary: #{$secondary};
+  @each $shade, $color in $secondary-palette {
+    --secondary-#{$shade}: #{$color};
+  }
+
+  --accent: #{$accent};
+  @each $shade, $color in $accent-palette {
+    --accent-#{$shade}: #{$color};
+  }
+
+  // Semantic Colors
+  --success: #{$success};
+  @each $shade, $color in $success-palette {
+    --success-#{$shade}: #{$color};
+  }
+
+  --warning: #{$warning};
+  @each $shade, $color in $warning-palette {
+    --warning-#{$shade}: #{$color};
+  }
+
+  --danger: #{$danger};
+  @each $shade, $color in $danger-palette {
+    --danger-#{$shade}: #{$color};
+  }
+
+  --info: #{$info};
+  @each $shade, $color in $info-palette {
+    --info-#{$shade}: #{$color};
+  }
+
+  // Neutral Colors
+  --white: #{$white};
+  --black: #{$black};
+
+  @each $shade, $color in $gray {
+    --gray-#{$shade}: #{$color};
+  }
+
+  // Semantic Aliases
+  --bg-base: var(--white);
+  --bg-surface: var(--gray-50);
+  --bg-muted: var(--gray-100);
+  --bg-subtle: var(--gray-200);
+
+  --text-base: var(--gray-900);
+  --text-muted: var(--gray-600);
+  --text-subtle: var(--gray-500);
+  --text-disabled: var(--gray-400);
+  --text-inverse: var(--white);
+
+  --border-base: var(--gray-200);
+  --border-strong: var(--gray-300);
+  --border-subtle: var(--gray-100);
+
+  // Link colors
+  --link-color: var(--primary);
+  --link-hover: var(--primary-700);
+  --link-visited: var(--primary-800);
+}
+
+// --------------------------------------------
+// Dark Mode Override (opt-in)
+// --------------------------------------------
+
+[data-theme="dark"],
+.dark {
+  --bg-base: var(--gray-900);
+  --bg-surface: var(--gray-800);
+  --bg-muted: var(--gray-700);
+  --bg-subtle: var(--gray-600);
+
+  --text-base: var(--gray-100);
+  --text-muted: var(--gray-300);
+  --text-subtle: var(--gray-400);
+  --text-disabled: var(--gray-500);
+
+  --border-base: var(--gray-700);
+  --border-strong: var(--gray-600);
+  --border-subtle: var(--gray-800);
+}

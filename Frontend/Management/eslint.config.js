@@ -29,7 +29,7 @@ export default [
       'vue/multi-word-component-names': 'off',
       'vue/block-lang': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-expressions': 'off',
       'no-useless-catch': 'warn',
     },

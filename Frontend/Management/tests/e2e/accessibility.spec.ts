@@ -31,7 +31,7 @@ test.describe('Accessibility Tests', () => {
 
     // Test tab navigation - first element should be focusable
     await page.keyboard.press('Tab');
-    let focusedElement = await page.evaluate(() => document.activeElement?.tagName);
+    const focusedElement = await page.evaluate(() => document.activeElement?.tagName);
 
     // Accept any focusable element (INPUT, BUTTON, A, etc.)
     const focusableTags = ['INPUT', 'BUTTON', 'A', 'SELECT', 'TEXTAREA'];

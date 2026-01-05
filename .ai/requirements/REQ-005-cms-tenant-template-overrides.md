@@ -2,8 +2,9 @@
 docid: REQ-005
 title: CMS Tenant Template Overrides with AI Validation
 owner: @SARAH
-status: Draft
+status: Complete
 created: 2026-01-03
+updated: 2026-01-03
 ---
 
 # REQ-005: CMS Tenant Template Overrides with AI Validation

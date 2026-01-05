@@ -39,3 +39,16 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - Write component tests for user interactions
 - Test accessibility with automated tools
 
+## Multilingual Support (i18n)
+- **Always consider multilingualism** in all frontend development
+- **Never use hardcoded strings** in components - always use translation keys
+- **Keep translations current** - update all language files when adding new UI text
+- **Use vue-i18n properly**:
+  - Import `useI18n` composable for script usage
+  - Use `$t()` in templates for translation calls
+  - Follow consistent key naming: `feature.section.key`
+  - Add translation keys to ALL supported languages simultaneously
+- **Supported languages**: English (en), German (de), French (fr), Spanish (es), Italian (it), Portuguese (pt), Dutch (nl), Polish (pl)
+- **Test translations**: Verify all languages display correctly before committing
+- **Backend integration**: Ensure localization API calls work for dynamic content
+

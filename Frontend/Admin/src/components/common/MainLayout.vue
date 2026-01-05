@@ -1,110 +1,16 @@
 <template>
-  <div
-    class="min-h-screen bg-soft-50 dark:bg-soft-900 transition-colors duration-300"
-    data-test="main-layout"
-  >
-    <!-- Sidebar Navigation -->
-    <aside
-      :class="[
-        'fixed inset-y-0 left-0 w-64 bg-white dark:bg-soft-800 border-r border-soft-100 dark:border-soft-700 shadow-soft-sm transition-transform duration-300 z-50',
-        { '-translate-x-full md:translate-x-0': !sidebarOpen },
-      ]"
-      data-test="sidebar"
-    >
-      <!-- Logo -->
-      <div
-        class="flex items-center justify-between p-safe border-b border-soft-100 dark:border-soft-700"
-      >
-        <div class="flex items-center gap-2">
-          <div
-            class="w-10 h-10 rounded-soft-lg bg-gradient-soft-blue flex items-center justify-center"
-          >
-            <span class="text-white font-bold text-lg">B</span>
-          </div>
-          <div>
-            <h1 class="text-base font-bold text-soft-900 dark:text-white">B2Connect</h1>
-            <p class="text-xs text-soft-500 dark:text-soft-400">Admin</p>
-          </div>
-        </div>
-        <button
-          @click="sidebarOpen = false"
-          class="md:hidden text-soft-400 dark:text-soft-500 hover:text-soft-600 dark:hover:text-soft-400"
-          aria-label="Close sidebar"
-        >
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
+  <div class="drawer lg:drawer-open" data-test="main-layout">
+    <!-- Drawer Toggle (Mobile) -->
+    <input id="admin-drawer" type="checkbox" class="drawer-toggle" v-model="sidebarOpen" />
 
-      <!-- Navigation Menu -->
-      <nav class="p-4 space-y-1" data-test="sidebar-nav">
-        <router-link
-          v-for="item in navItems"
-          :key="item.path"
-          :to="item.path"
-          :class="[
-            'flex items-center gap-3 px-4 py-3 rounded-soft text-sm font-medium transition-all duration-200',
-            'hover:bg-soft-100 dark:hover:bg-soft-700',
-            {
-              'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-soft-sm':
-                isActive(item.path),
-              'text-soft-700 dark:text-soft-300': !isActive(item.path),
-            },
-          ]"
-          :data-test="`nav-link-${item.path}`"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span>{{ item.label }}</span>
-        </router-link>
-      </nav>
-
-      <!-- Divider -->
-      <div class="mx-4 my-6 border-t border-soft-100 dark:border-soft-700" />
-
-      <!-- Settings Section -->
-      <div class="p-4 space-y-1">
-        <ThemeToggle show-menu />
-      </div>
-    </aside>
-
-    <!-- Top Navigation Bar -->
-    <nav
-      class="fixed top-0 right-0 left-0 md:left-64 bg-white dark:bg-soft-800 border-b border-soft-100 dark:border-soft-700 shadow-soft-sm z-40 transition-colors duration-300"
-    >
-      <div class="px-safe py-4 flex items-center justify-between">
-        <!-- Left: Menu Toggle + Breadcrumb -->
-        <div class="flex items-center gap-4">
-          <button
-            @click="sidebarOpen = !sidebarOpen"
-            class="md:hidden text-soft-600 dark:text-soft-300 hover:text-soft-900 dark:hover:text-white transition-colors"
-            aria-label="Toggle sidebar menu"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+    <!-- Main Content Area -->
+    <div class="drawer-content flex flex-col min-h-screen bg-base-200">
+      <!-- Top Navbar -->
+      <nav class="navbar bg-base-100 border-b border-base-300 sticky top-0 z-30">
+        <!-- Mobile Menu Button -->
+        <div class="flex-none lg:hidden">
+          <label for="admin-drawer" class="btn btn-square btn-ghost" aria-label="Open menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -112,196 +18,272 @@
                 d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>
-          </button>
-          <!-- Breadcrumb -->
-          <div class="hidden md:flex items-center gap-2 text-sm text-soft-600 dark:text-soft-400">
-            <span>Dashboard</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+          </label>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="flex-1 px-2">
+          <div class="breadcrumbs text-sm">
+            <ul>
+              <li><span class="text-base-content/60">Admin</span></li>
+              <li>
+                <span class="font-medium">{{ currentPageTitle }}</span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <!-- Right: User Menu -->
-        <div class="flex items-center gap-4">
-          <!-- Notifications -->
-          <button
-            class="relative text-soft-600 dark:text-soft-400 hover:text-soft-900 dark:hover:text-white transition-colors"
-            aria-label="View notifications"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6.002 6.002 0 0 0-4-5.659V5a2 2 0 1 0-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 1 1-6 0v-1m6 0H9"
-              />
-            </svg>
-            <span
-              class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-danger-500"
-              aria-label="New notifications available"
-            />
-          </button>
-
-          <!-- User Dropdown -->
-          <div class="relative" @click="userMenuOpen = !userMenuOpen">
-            <button
-              class="flex items-center gap-3 p-2 rounded-soft hover:bg-soft-100 dark:hover:bg-soft-700 transition-colors"
-              aria-label="User menu"
-              aria-expanded="userMenuOpen"
-              aria-haspopup="true"
-            >
-              <div
-                class="w-8 h-8 rounded-soft-lg bg-gradient-soft-purple flex items-center justify-center text-white text-sm font-semibold"
-              >
-                {{ authStore.user?.email?.charAt(0).toUpperCase() || 'U' }}
-              </div>
-              <div class="hidden sm:block text-left">
-                <p class="text-sm font-medium text-soft-900 dark:text-white">
-                  {{ authStore.user?.email?.split('@')[0] }}
-                </p>
-                <p class="text-xs text-soft-500 dark:text-soft-400">Admin</p>
-              </div>
-              <svg
-                :class="[
-                  'w-4 h-4 transition-transform duration-200',
-                  { 'rotate-180': userMenuOpen },
-                ]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+        <!-- Right Actions -->
+        <div class="flex-none gap-2">
+          <!-- Theme Toggle -->
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                 />
               </svg>
-            </button>
-
-            <!-- Dropdown Menu -->
-            <div
-              v-if="userMenuOpen"
-              @click:outside="userMenuOpen = false"
-              class="absolute right-0 mt-2 w-48 bg-white dark:bg-soft-800 rounded-soft-lg shadow-soft-lg border border-soft-100 dark:border-soft-700 z-50 transition-colors duration-300"
-              role="menu"
-              aria-orientation="vertical"
+            </div>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu bg-base-100 rounded-box z-50 w-40 p-2 shadow-lg border border-base-300"
             >
-              <a
-                href="#"
-                class="block px-4 py-3 text-sm text-soft-700 dark:text-soft-300 hover:bg-soft-50 dark:hover:bg-soft-700 first:rounded-t-soft-lg transition-colors"
-                role="menuitem"
-              >
-                Profile
-              </a>
-              <a
-                href="#"
-                class="block px-4 py-3 text-sm text-soft-700 dark:text-soft-300 hover:bg-soft-50 dark:hover:bg-soft-700 transition-colors"
-                role="menuitem"
-              >
-                Settings
-              </a>
-              <div class="border-t border-soft-100 dark:border-soft-700" role="separator" />
-              <button
-                @click="logout"
-                class="w-full text-left px-4 py-3 text-sm text-danger-600 dark:text-danger-400 hover:bg-danger-50 dark:hover:bg-danger-900/20 last:rounded-b-soft-lg transition-colors font-medium"
-                role="menuitem"
-              >
-                Logout
-              </button>
+              <li>
+                <button @click="setTheme('light')" :class="{ active: currentTheme === 'light' }">
+                  Light
+                </button>
+              </li>
+              <li>
+                <button @click="setTheme('dark')" :class="{ active: currentTheme === 'dark' }">
+                  Dark
+                </button>
+              </li>
+              <li>
+                <button
+                  @click="setTheme('corporate')"
+                  :class="{ active: currentTheme === 'corporate' }"
+                >
+                  Corporate
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Notifications -->
+          <button class="btn btn-ghost btn-circle" aria-label="Notifications">
+            <div class="indicator">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+          </button>
+
+          <!-- User Dropdown -->
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+              <div class="bg-primary text-primary-content rounded-full w-10">
+                <span class="text-sm font-bold">{{ userInitial }}</span>
+              </div>
+            </div>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-lg border border-base-300"
+            >
+              <li class="menu-title">
+                <span>{{ authStore.user?.email }}</span>
+              </li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Settings</a></li>
+              <div class="divider my-1"></div>
+              <li><button @click="logout" class="text-error">Logout</button></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Page Content -->
+      <main class="flex-1 p-4 lg:p-6" data-test="main-content">
+        <router-view />
+      </main>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="drawer-side z-40">
+      <label for="admin-drawer" class="drawer-overlay" aria-label="Close menu"></label>
+      <aside class="bg-base-100 w-64 min-h-full border-r border-base-300" data-test="sidebar">
+        <!-- Logo -->
+        <div class="p-4 border-b border-base-300">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+              <span class="text-primary-content font-bold text-lg">B</span>
+            </div>
+            <div>
+              <h1 class="font-bold text-base-content">B2Connect</h1>
+              <p class="text-xs text-base-content/60">Admin Panel</p>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main
-      class="pt-20 md:pt-20 md:ml-64 min-h-screen bg-soft-50 dark:bg-soft-900 transition-colors duration-300"
-    >
-      <div class="p-safe">
-        <router-view />
-      </div>
-    </main>
+        <!-- Navigation -->
+        <nav class="p-4" data-test="sidebar-nav">
+          <ul class="menu menu-md gap-1">
+            <li v-for="item in navItems" :key="item.path">
+              <router-link
+                :to="item.path"
+                :class="{ active: isActive(item.path) }"
+                :data-test="`nav-link-${item.path}`"
+              >
+                <component :is="item.icon" class="w-5 h-5" />
+                {{ item.label }}
+              </router-link>
+            </li>
+          </ul>
 
-    <!-- Overlay for Mobile -->
-    <div
-      v-if="sidebarOpen"
-      @click="sidebarOpen = false"
-      class="fixed inset-0 bg-black/30 dark:bg-black/50 md:hidden z-40 transition-colors duration-300"
-    />
+          <div class="divider"></div>
+
+          <!-- AI Section -->
+          <ul class="menu menu-md gap-1">
+            <li class="menu-title">AI Management</li>
+            <li>
+              <router-link to="/ai/dashboard" :class="{ active: isActive('/ai') }">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                AI Dashboard
+              </router-link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, computed, onMounted, h, type FunctionalComponent } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
-import ThemeToggle from './ThemeToggle.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 
 const sidebarOpen = ref(false);
-const userMenuOpen = ref(false);
+const currentTheme = ref('corporate');
+
+// Icons as functional components
+const DashboardIcon: FunctionalComponent = () =>
+  h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+    h('path', {
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
+      d: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+    }),
+  ]);
+
+const UsersIcon: FunctionalComponent = () =>
+  h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+    h('path', {
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
+      d: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    }),
+  ]);
+
+const CMSIcon: FunctionalComponent = () =>
+  h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+    h('path', {
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
+      d: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    }),
+  ]);
+
+const ShopIcon: FunctionalComponent = () =>
+  h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+    h('path', {
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
+      d: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z',
+    }),
+  ]);
+
+const JobsIcon: FunctionalComponent = () =>
+  h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+    h('path', {
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
+      d: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
+    }),
+  ]);
+
+const EmailIcon: FunctionalComponent = () =>
+  h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+    h('path', {
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'stroke-width': '2',
+      d: 'M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+    }),
+  ]);
 
 interface NavItem {
   path: string;
   label: string;
+  icon: FunctionalComponent;
 }
 
 const navItems: NavItem[] = [
-  {
-    path: '/dashboard',
-    label: 'Dashboard',
-  },
-  {
-    path: '/users',
-    label: 'Benutzer',
-  },
-  {
-    path: '/cms/pages',
-    label: 'CMS',
-  },
-  {
-    path: '/shop/products',
-    label: 'Shop',
-  },
-  {
-    path: '/jobs/queue',
-    label: 'Jobs',
-  },
+  { path: '/dashboard', label: 'Dashboard', icon: DashboardIcon },
+  { path: '/users', label: 'Benutzer', icon: UsersIcon },
+  { path: '/email/templates', label: 'E-Mail', icon: EmailIcon },
+  { path: '/cms/pages', label: 'CMS', icon: CMSIcon },
+  { path: '/shop/products', label: 'Shop', icon: ShopIcon },
+  { path: '/jobs/queue', label: 'Jobs', icon: JobsIcon },
 ];
 
-const isActive = (path: string) => {
-  return route.path.startsWith(path);
+const currentPageTitle = computed(() => {
+  const path = route.path;
+  const item = navItems.find(i => path.startsWith(i.path));
+  return item?.label || 'Dashboard';
+});
+
+const userInitial = computed(() => authStore.user?.email?.charAt(0).toUpperCase() || 'U');
+
+const isActive = (path: string) => route.path.startsWith(path);
+
+const setTheme = (theme: string) => {
+  currentTheme.value = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('admin-theme', theme);
 };
 
 const logout = async () => {
   await authStore.logout();
   router.push('/login');
 };
+
+onMounted(() => {
+  const savedTheme = localStorage.getItem('admin-theme') || 'corporate';
+  setTheme(savedTheme);
+});
 </script>
-
-<style scoped>
-@reference "../../main.css";
-
-/* Smooth transitions */
-:deep(.router-link-active) {
-  @apply text-primary-600;
-}
-</style>

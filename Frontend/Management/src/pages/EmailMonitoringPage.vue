@@ -534,6 +534,20 @@ const getEventTypeLabel = (eventType: number) => {
   return types[eventType] || 'Unknown';
 };
 
+const getEventClass = (eventType: number) => {
+  const classes = [
+    'event-sent',
+    'event-delivered',
+    'event-opened',
+    'event-clicked',
+    'event-bounced',
+    'event-complained',
+    'event-unsubscribed',
+    'event-failed',
+  ];
+  return classes[eventType] || 'event-unknown';
+};
+
 const sendTestEmail = async () => {
   sendingTest.value = true;
   testResult.value = null;

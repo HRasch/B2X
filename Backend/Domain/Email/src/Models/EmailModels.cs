@@ -137,3 +137,52 @@ public class EmailStatistics
     public double BounceRate => TotalSent > 0 ? (double)TotalBounced / TotalSent * 100 : 0;
     public double DeliveryRate => TotalSent > 0 ? (double)TotalDelivered / TotalSent * 100 : 0;
 }
+
+/// <summary>
+/// Email-Template für wiederverwendbare Email-Inhalte
+/// </summary>
+public class EmailTemplate
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid TenantId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Key { get; set; } = string.Empty;
+    public string Subject { get; set; } = string.Empty;
+    public string Body { get; set; } = string.Empty;
+    public bool IsHtml { get; set; } = true;
+    public Dictionary<string, string> Variables { get; set; } = new();
+    public string? Description { get; set; }
+    public bool IsActive { get; set; } = true;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public string? CreatedBy { get; set; }
+    public string? UpdatedBy { get; set; }
+}
+
+/// <summary>
+/// DTO für Email-Template Erstellung
+/// </summary>
+public class CreateEmailTemplateDto
+{
+    public string Name { get; set; } = string.Empty;
+    public string Key { get; set; } = string.Empty;
+    public string Subject { get; set; } = string.Empty;
+    public string Body { get; set; } = string.Empty;
+    public bool IsHtml { get; set; } = true;
+    public Dictionary<string, string> Variables { get; set; } = new();
+    public string? Description { get; set; }
+}
+
+/// <summary>
+/// DTO für Email-Template Aktualisierung
+/// </summary>
+public class UpdateEmailTemplateDto
+{
+    public string Name { get; set; } = string.Empty;
+    public string Subject { get; set; } = string.Empty;
+    public string Body { get; set; } = string.Empty;
+    public bool IsHtml { get; set; } = true;
+    public Dictionary<string, string> Variables { get; set; } = new();
+    public string? Description { get; set; }
+    public bool IsActive { get; set; } = true;
+}

@@ -2,7 +2,7 @@ using B2Connect.Admin.Application.Commands.Categories;
 using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Admin.Core.Interfaces;
-using B2Connect.Middleware;
+using B2Connect.Shared.Middleware;
 using B2Connect.Types.Localization;
 using Wolverine;
 

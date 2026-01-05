@@ -146,9 +146,12 @@ namespace B2Connect.Domain.ERP.Infrastructure
         public async ValueTask DisposeAsync()
         {
             if (_disposed)
+            {
                 return;
+            }
 
             _disposed = true;
+            GC.SuppressFinalize(this);
 
             _healthCheckTimer?.Dispose();
 

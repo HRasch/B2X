@@ -86,7 +86,7 @@ public class AiConsumptionControlMiddleware
 
         // Allow requests with valid MCP authorization header
         var mcpAuth = context.Request.Headers["X-MCP-Authorization"].ToString();
-        if (!string.IsNullOrEmpty(mcpAuth) && mcpAuth.StartsWith("MCP "))
+        if (!string.IsNullOrEmpty(mcpAuth) && mcpAuth.StartsWith("MCP ", StringComparison.OrdinalIgnoreCase))
         {
             // TODO: Validate MCP authorization token
             return true;

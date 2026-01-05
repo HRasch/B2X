@@ -15,10 +15,14 @@ export default defineConfig({
       reporter: ['text', 'json', 'html', 'lcov'],
       include: ['src/**/*.{ts,vue}'],
       exclude: ['src/main.ts', 'src/**/*.d.ts', 'src/**/*.stories.ts'],
-      statements: 70,
-      branches: 70,
-      functions: 70,
-      lines: 70,
+      thresholds: {
+        global: {
+          branches: 75,
+          functions: 80,
+          lines: 80,
+          statements: 80,
+        },
+      },
     },
   },
   resolve: {

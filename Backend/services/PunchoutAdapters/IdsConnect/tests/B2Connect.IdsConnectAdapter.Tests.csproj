@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\B2Connect.IdsConnectAdapter\B2Connect.IdsConnectAdapter.csproj" />
-    <ProjectReference Include="..\..\..\shared\B2Connect.Shared.Infrastructure\B2Connect.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\B2Connect.Shared.Infrastructure\B2Connect.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

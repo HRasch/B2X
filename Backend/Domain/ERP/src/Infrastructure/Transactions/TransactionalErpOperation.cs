@@ -68,7 +68,7 @@ public sealed class TransactionalErpOperation<TResult> : Actor.IErpOperation<TRe
     public DateTimeOffset CreatedAt { get; }
 
     /// <inheritdoc/>
-    public async Task ExecuteAndCompleteAsync(CancellationToken cancellationToken)
+    public async Task<object?> ExecuteOperationAsync(CancellationToken cancellationToken)
     {
         using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(
             cancellationToken,
@@ -76,43 +76,36 @@ public sealed class TransactionalErpOperation<TResult> : Actor.IErpOperation<TRe
 
         linkedCts.CancelAfter(Timeout);
 
+        await using var scope = await _scopeFactory.CreateScopeAsync(linkedCts.Token).ConfigureAwait(false);
+
         try
         {
-            await using var scope = await _scopeFactory.CreateScopeAsync(linkedCts.Token).ConfigureAwait(false);
-
-            try
-            {
-                var result = await _operation(scope, linkedCts.Token).ConfigureAwait(false);
-                await scope.CommitAsync(linkedCts.Token).ConfigureAwait(false);
-                ResultSource.TrySetResult(result);
-            }
-            catch
-            {
-                // Rollback on any exception
-                if (scope.IsActive && !scope.IsCommitted)
-                {
-                    await scope.RollbackAsync(CancellationToken.None).ConfigureAwait(false);
-                }
-
-                throw;
-            }
+            var result = await _operation(scope, linkedCts.Token).ConfigureAwait(false);
+            await scope.CommitAsync(linkedCts.Token).ConfigureAwait(false);
+            return (object?)result!;
         }
-        catch (OperationCanceledException ex) when (linkedCts.IsCancellationRequested)
+        catch
         {
-            if (ex.CancellationToken == CancellationToken)
+            // Rollback on any exception
+            if (scope.IsActive && !scope.IsCommitted)
             {
-                ResultSource.TrySetCanceled(CancellationToken);
+                await scope.RollbackAsync(CancellationToken.None).ConfigureAwait(false);
             }
-            else
-            {
-                ResultSource.TrySetException(new TimeoutException(
-                    $"Transactional ERP operation {OperationId} timed out after {Timeout.TotalSeconds} seconds."));
-            }
+
+            throw;
         }
-        catch (Exception ex)
-        {
-            ResultSource.TrySetException(ex);
-        }
+    }
+
+    /// <inheritdoc/>
+    public void CompleteWithResult(object? result)
+    {
+        ResultSource.TrySetResult((TResult)result!);
+    }
+
+    /// <inheritdoc/>
+    public void CompleteWithException(Exception ex)
+    {
+        ResultSource.TrySetException(ex);
     }
 }
 

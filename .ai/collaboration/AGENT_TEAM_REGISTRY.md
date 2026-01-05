@@ -40,10 +40,12 @@ See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
   - Model: Claude Haiku 4.5
 
 ### Leadership & Coordination (`AGT-006`)
-- **@TechLead** - `Code Quality, Mentoring, Code Reviews, Optimization`
-  - Guides developers on complex problems
-  - Reviews architectural decisions
-  - Owns: Code quality standards, technical mentoring, knowledgebase (`[KB-*]`)
+- **@TechLead** - `Coding Styles, StyleCop Rules, Linter Rules, Lessons Learned`
+  - Maintains code quality standards and organizational knowledge
+  - Keeps coding styles, linting rules, and lessons learned in sync and organized
+  - Focuses on reducing context size through efficient documentation
+  - Researches internet best practices when struggling with optimization
+  - Consults @copilot-expert for best practices on optimization
   - Model: Claude Haiku 4.5 (advanced analysis)
 
 ### Process Management (`AGT-009`)
@@ -169,7 +171,7 @@ See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
 | **@ScrumMaster** | `sprint/`, `status/` | Sprint plans, daily standups, velocity tracking, task status, retrospectives |
 | **@Security** | `compliance/` | Security audits, compliance checklists, vulnerability reports, threat modeling |
 | **@Legal** | `compliance/` | Legal compliance documents, GDPR reviews, contractual analysis |
-| **@TechLead** | `knowledgebase/`, `decisions/` | Technical guides, best practices, code patterns, performance analysis, mentoring docs |
+| **@TechLead** | `guidelines/`, `knowledgebase/` | Coding styles, StyleCop rules, linter rules, lessons learned maintenance |
 | **@Backend** | `decisions/`, `knowledgebase/` | Backend architecture decisions, API documentation, data model docs, implementation guides |
 | **@Frontend** | `decisions/`, `knowledgebase/` | Frontend architecture decisions, component documentation, state management docs, design system |
 | **@DevOps** | `config/`, `logs/` | Infrastructure configuration, deployment logs, monitoring setup, CI/CD documentation |

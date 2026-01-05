@@ -1,12 +1,21 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath } from 'node:url';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // Suppress noisy proxy errors in demo/test mode
 const isTestMode = process.env.NODE_ENV === 'test' || process.env.CI === 'true';
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    visualizer({
+      filename: 'dist/bundle-analysis.html',
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+    }),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -41,7 +50,7 @@ export default defineConfig({
       }
     : undefined,
   server: {
-    port: parseInt(process.env.PORT || process.env.VITE_PORT || '5174'),
+    port: parseInt(process.env.PORT || process.env.VITE_PORT || '5179'),
     host: '0.0.0.0',
     strictPort: true, // Fail if port is not available
     proxy: {
@@ -75,5 +84,7 @@ export default defineConfig({
         },
       },
     },
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 1000,
   },
 });

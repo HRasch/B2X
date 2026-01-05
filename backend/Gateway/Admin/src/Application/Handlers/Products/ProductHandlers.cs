@@ -3,7 +3,7 @@ using B2Connect.Admin.Application.Handlers;
 using B2Connect.Admin.Core.Interfaces;
 using B2Connect.Admin.Infrastructure.Data;
 using B2Connect.ERP.Infrastructure.DataAccess;
-using B2Connect.Middleware;
+using B2Connect.Shared.Middleware;
 using B2Connect.Types.Localization;
 using Dapper;
 using EFCore.BulkExtensions;

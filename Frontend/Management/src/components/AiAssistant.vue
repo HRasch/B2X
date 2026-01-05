@@ -161,7 +161,7 @@ import aiService from '@/services/aiService';
 
 // Props
 interface Props {
-  tenantId?: string;
+  tenantId?: string | null;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -428,8 +428,9 @@ const extractComponent = (message: string): string => {
 };
 
 const formatMessage = (text: string): string => {
-  // Convert markdown to HTML
-  return marked(text, { breaks: true });
+  // Convert markdown to HTML - marked can return Promise in v14+, so use parseInline
+  const result = marked.parseInline(text) as string;
+  return result;
 };
 
 const formatTime = (timestamp: Date): string => {

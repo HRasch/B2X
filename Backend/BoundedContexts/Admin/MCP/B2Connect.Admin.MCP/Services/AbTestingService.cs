@@ -1,5 +1,5 @@
 using B2Connect.Admin.MCP.Data;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2Connect.Admin.MCP.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.Admin.MCP.Services;
@@ -113,7 +113,7 @@ public class AbTestingService
         var hash = userId.GetHashCode();
         var random = new Random(hash);
         var totalWeight = test.Variants.Sum(v => v.Weight);
-        var randomValue = random.NextDouble() * totalWeight;
+        var randomValue = (decimal)random.NextDouble() * totalWeight;
 
         decimal cumulativeWeight = 0;
         foreach (var variant in test.Variants.OrderBy(v => v.Id))
@@ -240,9 +240,77 @@ public class AbTestingService
         }
     }
 
+    /// <summary>
+    /// Get all tests for the tenant
+    /// </summary>
+    public async Task<List<AbTest>> GetTestsAsync()
+    {
+        return await _dbContext.AbTests
+            .Include(t => t.Variants)
+            .Include(t => t.Results)
+            .Where(t => t.TenantId == _tenantContext.TenantId)
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    /// Get a specific test by ID
+    /// </summary>
+    public async Task<AbTest?> GetTestAsync(int testId)
+    {
+        return await _dbContext.AbTests
+            .Include(t => t.Variants)
+            .Include(t => t.Results)
+            .FirstOrDefaultAsync(t => t.Id == testId && t.TenantId == _tenantContext.TenantId);
+    }
+
+    /// <summary>
+    /// Delete a test
+    /// </summary>
+    public async Task<bool> DeleteTestAsync(int testId)
+    {
+        var test = await _dbContext.AbTests
+            .FirstOrDefaultAsync(t => t.Id == testId && t.TenantId == _tenantContext.TenantId);
+
+        if (test == null)
+            return false;
+
+        _dbContext.AbTests.Remove(test);
+        await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Deleted A/B test {TestId}", testId);
+        return true;
+    }
+
+    /// <summary>
+    /// Update test status
+    /// </summary>
+    public async Task<bool> UpdateTestStatusAsync(int testId, string status)
+    {
+        var test = await _dbContext.AbTests
+            .FirstOrDefaultAsync(t => t.Id == testId && t.TenantId == _tenantContext.TenantId);
+
+        if (test == null)
+            return false;
+
+        test.Status = status;
+        test.UpdatedAt = DateTime.UtcNow;
+
+        if (status == "active" && test.StartDate == null)
+            test.StartDate = DateTime.UtcNow;
+        else if (status == "completed" && test.EndDate == null)
+            test.EndDate = DateTime.UtcNow;
+
+        await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Updated A/B test {TestId} status to {Status}", testId, status);
+        return true;
+    }
+
     private static decimal CalculateMedian(List<decimal> values)
     {
-        if (!values.Any()) return 0;
+        if (!values.Any())
+            return 0;
 
         var sorted = values.OrderBy(v => v).ToList();
         var count = sorted.Count;
@@ -255,7 +323,8 @@ public class AbTestingService
 
     private static decimal CalculateStandardDeviation(List<decimal> values)
     {
-        if (values.Count <= 1) return 0;
+        if (values.Count <= 1)
+            return 0;
 
         var mean = values.Average();
         var sumOfSquares = values.Sum(v => (v - mean) * (v - mean));

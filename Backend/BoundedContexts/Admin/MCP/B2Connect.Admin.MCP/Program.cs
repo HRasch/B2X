@@ -3,6 +3,7 @@ using B2Connect.Admin.MCP.Middleware;
 using B2Connect.Admin.MCP.Configuration;
 using B2Connect.Admin.MCP.Data;
 using B2Connect.Admin.MCP;
+using B2Connect.ServiceDefaults;
 using Wolverine;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +12,9 @@ using System.Text;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Service Defaults (Health checks, Service Discovery, OpenTelemetry)
+builder.Host.AddServiceDefaults();
 
 // Configure Serilog
 builder.Host.UseSerilog((context, config) =>
@@ -52,9 +56,6 @@ builder.Services.AddAuthorization(options =>
 // AI Consumption Gateway (Exclusive AI Access)
 builder.Services.AddSingleton<AiConsumptionGateway>();
 
-// MCP Server
-builder.Services.AddSingleton<IMcpServer, McpServer>();
-
 // AI Providers using Microsoft.Extensions.AI
 builder.Services.AddSingleton<OpenAiProvider>();
 builder.Services.AddSingleton<AnthropicProvider>();
@@ -69,8 +70,15 @@ builder.Services.AddSingleton<DataSanitizationService>();
 // AI Provider Selector
 builder.Services.AddSingleton<AiProviderSelector>();
 
-// Tenant Context
+// Tenant Context (scoped - per request)
 builder.Services.AddScoped<TenantContext>();
+
+// Advanced NLP and Conversation Services (scoped - depend on DbContext and TenantContext)
+builder.Services.AddScoped<AdvancedNlpService>();
+builder.Services.AddScoped<ConversationService>();
+
+// MCP Server (singleton - uses IServiceProvider to create scopes for scoped services)
+builder.Services.AddSingleton<IMcpServer, McpServer>();
 
 // MCP Tools
 builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.CmsPageDesignTool>();
@@ -83,6 +91,7 @@ builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.StoreOperationsTool>();
 builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.SecurityComplianceTool>();
 builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.PerformanceOptimizationTool>();
 builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.IntegrationManagementTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.TemplateValidationTool>();
 
 // Caching
 builder.Services.AddStackExchangeRedisCache(options =>
@@ -95,6 +104,13 @@ builder.Services.AddWolverine(opts =>
 {
     opts.Policies.AutoApplyTransactions();
     opts.Policies.UseDurableLocalQueues();
+});
+
+// HTTP Client for CMS Validation Service
+builder.Services.AddHttpClient<CmsValidationClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["CmsValidation:BaseUrl"] ?? "http://localhost:8080");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
 // Health Checks

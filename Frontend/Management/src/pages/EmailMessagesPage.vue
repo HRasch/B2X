@@ -247,11 +247,11 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue';
 import { emailMonitoringService } from '@/services/emailMonitoringService';
-import type { EmailMessage, EmailStatus } from '@/services/emailMonitoringService';
+import type { EmailMessage } from '@/services/emailMonitoringService';
 
 // Types
 interface EmailFilters {
-  status: EmailStatus | '';
+  status: string;
   search: string;
 }
 
@@ -381,7 +381,7 @@ const getRowClass = (email: EmailMessage) => {
   };
 };
 
-const getStatusClass = (status: EmailStatus) => {
+const getStatusClass = (status: string) => {
   return `status-badge status-${status.toLowerCase()}`;
 };
 

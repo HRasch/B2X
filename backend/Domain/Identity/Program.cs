@@ -1,8 +1,9 @@
 using B2Connect.ServiceDefaults;
 using B2Connect.AuthService.Data;
 using B2Connect.Shared.Infrastructure;
+using B2Connect.Shared.Infrastructure.Validation;
 using B2Connect.Shared.Messaging.Extensions;
-using B2Connect.Middleware;
+using B2Connect.Shared.Middleware;
 using B2Connect.Identity.Handlers;
 using B2Connect.Identity.Interfaces;
 using B2Connect.Identity.Services;
@@ -20,6 +21,31 @@ using Wolverine;
 using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ===== CONFIGURATION VALIDATION =====
+// Validate configuration early to fail fast with clear error messages
+try
+{
+    var tempServices = new ServiceCollection();
+    tempServices.AddLogging();
+    tempServices.AddSingleton<IConfiguration>(builder.Configuration);
+    var tempProvider = tempServices.BuildServiceProvider();
+    var validator = new ConfigurationValidator(builder.Configuration, tempProvider.GetRequiredService<ILogger<ConfigurationValidator>>());
+    validator.ValidateAll();
+}
+catch (ConfigurationValidationException ex)
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine("❌ CONFIGURATION VALIDATION FAILED");
+    Console.WriteLine("===================================");
+    foreach (var error in ex.Errors)
+    {
+        Console.WriteLine(error.ToString());
+        Console.WriteLine();
+    }
+    Console.ResetColor();
+    throw;
+}
 
 // Logging
 builder.Host.UseSerilog((context, config) =>

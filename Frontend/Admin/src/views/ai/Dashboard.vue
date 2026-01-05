@@ -11,7 +11,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <div
               class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center"
             >
@@ -37,7 +37,7 @@
 
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <div
               class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center"
             >
@@ -63,7 +63,7 @@
 
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <div
               class="w-8 h-8 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center"
             >
@@ -91,7 +91,7 @@
 
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <div
               class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center"
             >
@@ -127,7 +127,7 @@
             to="/ai/prompts"
             class="flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <svg
                 class="w-6 h-6 text-blue-600 dark:text-blue-400"
                 fill="currentColor"
@@ -154,7 +154,7 @@
             to="/ai/providers"
             class="flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <svg
                 class="w-6 h-6 text-green-600 dark:text-green-400"
                 fill="currentColor"
@@ -177,7 +177,7 @@
             to="/ai/consumption"
             class="flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <svg
                 class="w-6 h-6 text-purple-600 dark:text-purple-400"
                 fill="currentColor"
@@ -193,6 +193,105 @@
               <p class="text-sm text-gray-500 dark:text-gray-400">Monitor AI usage and costs</p>
             </div>
           </router-link>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Assistant Input -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-8">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">AI Assistant</h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+          Ask questions or get help with AI management tasks
+        </p>
+      </div>
+      <div class="p-6">
+        <div class="space-y-4">
+          <div class="flex space-x-4">
+            <div class="flex-1">
+              <input
+                v-model="aiQuery"
+                type="text"
+                placeholder="Ask me anything about AI management..."
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                @keyup.enter="submitQuery"
+              />
+            </div>
+            <button
+              @click="submitQuery"
+              :disabled="!aiQuery.trim() || isQuerying"
+              class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+            >
+              <svg v-if="isQuerying" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+              <span v-else>
+                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span>{{ isQuerying ? 'Processing...' : 'Ask' }}</span>
+            </button>
+          </div>
+
+          <!-- Response Area -->
+          <div v-if="aiResponse" class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+            <div class="flex items-start space-x-3">
+              <div class="shrink-0">
+                <div
+                  class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center"
+                >
+                  <svg
+                    class="w-5 h-5 text-blue-600 dark:text-blue-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-900 dark:text-white whitespace-pre-wrap">
+                  {{ aiResponse }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Suggested Queries -->
+          <div class="border-t border-gray-200 dark:border-gray-600 pt-4">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Try asking:</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                v-for="suggestion in querySuggestions"
+                :key="suggestion"
+                @click="aiQuery = suggestion"
+                class="px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              >
+                {{ suggestion }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -229,7 +328,7 @@
             class="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700 last:border-b-0"
           >
             <div class="flex items-center">
-              <div class="flex-shrink-0">
+              <div class="shrink-0">
                 <div
                   class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center"
                 >
@@ -279,8 +378,59 @@ const recentActivity = ref([
   // Mock data - will be replaced with real API calls
 ]);
 
+// AI Assistant state
+const aiQuery = ref('');
+const aiResponse = ref('');
+const isQuerying = ref(false);
+const querySuggestions = ref([
+  'How do I optimize AI costs?',
+  'What providers are available?',
+  'Show me usage trends',
+  'Help configure a new prompt',
+  'Explain token consumption',
+]);
+
 const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString();
+};
+
+const submitQuery = async () => {
+  if (!aiQuery.value.trim()) return;
+
+  isQuerying.value = true;
+  aiResponse.value = '';
+
+  try {
+    // TODO: Replace with actual AI API call
+    // For now, simulate a response
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Mock responses based on query
+    const query = aiQuery.value.toLowerCase();
+    if (query.includes('cost') || query.includes('optimize')) {
+      aiResponse.value =
+        'To optimize AI costs:\n\n1. Use smaller models for simple tasks\n2. Implement caching for repeated queries\n3. Set usage limits per user/department\n4. Monitor and analyze consumption patterns\n5. Consider on-premise models for high-volume tasks\n\nCurrent monthly cost: $45.67 (125K tokens)';
+    } else if (query.includes('provider')) {
+      aiResponse.value =
+        'Available AI providers:\n\n• OpenAI (GPT-4, GPT-3.5)\n• Anthropic (Claude)\n• Google (Gemini)\n• Local models (Ollama)\n\nCurrently active: 2/3 providers\n\nTo add a provider, go to Configure Providers page.';
+    } else if (query.includes('usage') || query.includes('trend')) {
+      aiResponse.value =
+        'Usage Trends (Last 30 days):\n\n📈 Token consumption: +15%\n💰 Cost increase: +12%\n🔄 API calls: +8%\n\nPeak usage: Weekdays 9-11 AM\nLowest usage: Weekends\n\nRecommendation: Implement usage quotas during peak hours.';
+    } else if (query.includes('prompt')) {
+      aiResponse.value =
+        'To configure system prompts:\n\n1. Go to "Manage System Prompts" page\n2. Create a new prompt or edit existing\n3. Define role, context, and constraints\n4. Test with sample queries\n5. Set as default for specific use cases\n\nCurrent prompts: 5 active, 2 draft';
+    } else if (query.includes('token')) {
+      aiResponse.value =
+        'Token Consumption Explained:\n\n• Input tokens: Text you send to AI\n• Output tokens: AI response text\n• Current usage: 125,000 tokens/month\n• Average cost: $0.0004 per token\n\nTo reduce: Use shorter prompts, avoid verbose instructions, cache common responses.';
+    } else {
+      aiResponse.value = `I understand you're asking about: "${aiQuery.value}"\n\nAs your AI management assistant, I can help with:\n\n• Cost optimization strategies\n• Provider configuration\n• Usage monitoring and trends\n• System prompt management\n• Token consumption analysis\n• Security and compliance guidance\n\nPlease try one of the suggested queries above or rephrase your question!`;
+    }
+  } catch (error) {
+    aiResponse.value =
+      'Sorry, I encountered an error processing your query. Please try again or contact support if the issue persists.';
+  } finally {
+    isQuerying.value = false;
+  }
 };
 
 onMounted(() => {

@@ -6,6 +6,7 @@ using B2Connect.Admin.MCP.Middleware;
 using B2Connect.Admin.MCP.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
@@ -18,22 +19,13 @@ public class McpServer : IMcpServer
 {
     private readonly ILogger<McpServer> _logger;
     private readonly IServiceProvider _serviceProvider;
-    private readonly TenantContext _tenantContext;
-    private readonly AdvancedNlpService _nlpService;
-    private readonly ConversationService _conversationService;
 
     public McpServer(
         ILogger<McpServer> logger,
-        IServiceProvider serviceProvider,
-        TenantContext tenantContext,
-        AdvancedNlpService nlpService,
-        ConversationService conversationService)
+        IServiceProvider serviceProvider)
     {
         _logger = logger;
         _serviceProvider = serviceProvider;
-        _tenantContext = tenantContext;
-        _nlpService = nlpService;
-        _conversationService = conversationService;
     }
 
     public Task<InitializeResult> InitializeAsync(InitializeRequest request)
@@ -55,7 +47,10 @@ public class McpServer : IMcpServer
             }
         };
 
-        _logger.LogInformation("MCP Server initialized for tenant {TenantId}", _tenantContext.TenantId);
+        // TenantContext is scoped - get it from service provider when needed
+        using var scope = _serviceProvider.CreateScope();
+        var tenantContext = scope.ServiceProvider.GetService<TenantContext>();
+        _logger.LogInformation("MCP Server initialized for tenant {TenantId}", tenantContext?.TenantId ?? "unknown");
         return Task.FromResult(result);
     }
 
@@ -84,7 +79,9 @@ public class McpServer : IMcpServer
             CreateToolDefinition("performance_optimization", "Analyze and improve system performance",
                 typeof(PerformanceOptimizationArgs)),
             CreateToolDefinition("integration_management", "Manage external integrations and APIs",
-                typeof(IntegrationManagementArgs))
+                typeof(IntegrationManagementArgs)),
+            CreateToolDefinition("template_validation", "Validate CMS templates for syntax, security, and best practices (ADR-030)",
+                typeof(TemplateValidationArgs))
         };
 
         return Task.FromResult(new ListToolsResult { Tools = tools });
@@ -149,8 +146,13 @@ public class McpServer : IMcpServer
                 };
             }
 
+            // Create scope for scoped services
+            using var scope = _serviceProvider.CreateScope();
+            var nlpService = scope.ServiceProvider.GetRequiredService<AdvancedNlpService>();
+            var conversationService = scope.ServiceProvider.GetRequiredService<ConversationService>();
+
             // Analyze intent using NLP service
-            var analysis = await _nlpService.AnalyzeIntentAsync(userMessage, conversationId);
+            var analysis = await nlpService.AnalyzeIntentAsync(userMessage, conversationId);
 
             _logger.LogInformation("NLP Analysis - Tool: {Tool}, Confidence: {Confidence}",
                 analysis.ToolName, analysis.Confidence);
@@ -158,14 +160,11 @@ public class McpServer : IMcpServer
             // Store the user message in conversation if conversationId provided
             if (conversationId.HasValue)
             {
-                await _conversationService.AddMessageAsync(
+                await conversationService.AddMessageAsync(
                     conversationId.Value,
-                    userMessage,
                     "user",
-                    analysis.ToolName,
-                    false,
-                    analysis.Entities,
-                    analysis.Parameters);
+                    userMessage,
+                    analysis.ToolName);
             }
 
             // Execute the recommended tool
@@ -174,14 +173,11 @@ public class McpServer : IMcpServer
             // Store the assistant response
             if (conversationId.HasValue)
             {
-                await _conversationService.AddMessageAsync(
+                await conversationService.AddMessageAsync(
                     conversationId.Value,
-                    toolResult,
                     "assistant",
-                    analysis.ToolName,
-                    false,
-                    analysis.Entities,
-                    analysis.Parameters);
+                    toolResult,
+                    analysis.ToolName);
             }
 
             // Return result with analysis metadata
@@ -267,10 +263,14 @@ public class McpServer : IMcpServer
 
     private string GetJsonType(Type type)
     {
-        if (type == typeof(string)) return "string";
-        if (type == typeof(int) || type == typeof(long)) return "integer";
-        if (type == typeof(float) || type == typeof(double)) return "number";
-        if (type == typeof(bool)) return "boolean";
+        if (type == typeof(string))
+            return "string";
+        if (type == typeof(int) || type == typeof(long))
+            return "integer";
+        if (type == typeof(float) || type == typeof(double))
+            return "number";
+        if (type == typeof(bool))
+            return "boolean";
         if (type.IsArray || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>)))
             return "array";
         return "object";
@@ -278,7 +278,8 @@ public class McpServer : IMcpServer
 
     private async Task<string> ExecuteToolAsync(string toolName, JsonElement? arguments)
     {
-        if (arguments == null) throw new ArgumentException("Arguments are required");
+        if (arguments == null)
+            throw new ArgumentException("Arguments are required");
 
         return toolName switch
         {
@@ -293,6 +294,7 @@ public class McpServer : IMcpServer
             "security_compliance" => await ExecuteSecurityComplianceTool(arguments.Value),
             "performance_optimization" => await ExecutePerformanceOptimizationTool(arguments.Value),
             "integration_management" => await ExecuteIntegrationManagementTool(arguments.Value),
+            "template_validation" => await ExecuteTemplateValidationTool(arguments.Value),
             _ => throw new ArgumentException($"Unknown tool: {toolName}")
         };
     }
@@ -373,5 +375,13 @@ public class McpServer : IMcpServer
         var toolArgs = JsonSerializer.Deserialize<IntegrationManagementArgs>(args.GetRawText());
         var tool = _serviceProvider.GetRequiredService<IntegrationManagementTool>();
         return await tool.ExecuteAsync(toolArgs!);
+    }
+
+    private async Task<string> ExecuteTemplateValidationTool(JsonElement args)
+    {
+        var toolArgs = JsonSerializer.Deserialize<TemplateValidationArgs>(args.GetRawText());
+        var tool = _serviceProvider.GetRequiredService<TemplateValidationTool>();
+        var result = await tool.ExecuteAsync(toolArgs!);
+        return System.Text.Json.JsonSerializer.Serialize(result);
     }
 }

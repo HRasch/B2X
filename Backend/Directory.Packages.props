@@ -136,13 +136,16 @@
     <PackageVersion Include="Npgsql" Version="10.0.0" />
     <!-- AI Providers & MCP Protocol -->
     <PackageVersion Include="ModelContextProtocol" Version="0.5.0-preview.1" />
-    <PackageVersion Include="OpenAI" Version="2.0.0" />
-    <PackageVersion Include="Anthropic.SDK" Version="4.7.1" />
-    <PackageVersion Include="Azure.AI.OpenAI" Version="2.0.0" />
+    <PackageVersion Include="OpenAI" Version="2.8.0" />
+    <PackageVersion Include="Anthropic.SDK" Version="5.8.0" />
+    <PackageVersion Include="Azure.AI.OpenAI" Version="2.1.0" />
+    <!-- Microsoft.Extensions.AI: 10.1.1 is stable, OpenAI/AzureAIInference only have preview versions (Jan 2026) -->
     <PackageVersion Include="Microsoft.Extensions.AI" Version="10.1.1" />
-    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.1" />
-    <PackageVersion Include="Microsoft.Extensions.AI.Anthropic" Version="10.1.1" />
-    <PackageVersion Include="Microsoft.Extensions.AI.AzureAIInference" Version="10.1.1" />
+    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.1-preview.1.25612.2" />
+    <PackageVersion Include="Microsoft.Extensions.AI.AzureAIInference" Version="10.0.0-preview.1.25559.3" />
     <PackageVersion Include="OllamaSharp" Version="5.4.12" />
+    <!-- Code Analysis -->
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
   </ItemGroup>
 </Project>

@@ -118,17 +118,37 @@ export const useAuthStore = defineStore('auth', () => {
 
   function hasPermission(permission: string): boolean {
     if (!user.value) return false;
+    // Wildcard permission grants all permissions
+    if (user.value.permissions.some((p: { name: string }) => p.name === '*')) return true;
     return user.value.permissions.some((p: { name: string }) => p.name === permission);
   }
 
   function hasRole(role: string): boolean {
     if (!user.value) return false;
-    return user.value.roles.some((r: { name: string }) => r.name === role);
+    // Admin role has access to all resources (acts as "all" role)
+    const isAdmin = user.value.roles.some(
+      (r: { name: string }) =>
+        r.name.toLowerCase() === 'admin' || r.name.toLowerCase() === 'administrator'
+    );
+    if (isAdmin) return true;
+    // Check for specific role (case-insensitive)
+    return user.value.roles.some(
+      (r: { name: string }) => r.name.toLowerCase() === role.toLowerCase()
+    );
   }
 
   function hasAnyRole(roles: string[]): boolean {
     if (!user.value) return false;
-    return user.value.roles.some((r: { name: string }) => roles.includes(r.name));
+    // Admin role has access to all resources
+    const isAdmin = user.value.roles.some(
+      (r: { name: string }) =>
+        r.name.toLowerCase() === 'admin' || r.name.toLowerCase() === 'administrator'
+    );
+    if (isAdmin) return true;
+    // Check for any specific role (case-insensitive)
+    return user.value.roles.some((r: { name: string }) =>
+      roles.map(role => role.toLowerCase()).includes(r.name.toLowerCase())
+    );
   }
 
   async function updateProfile(data: Partial<AdminUser>) {

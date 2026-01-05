@@ -5,6 +5,26 @@
 global:
   environment: production
   domain: b2connect.local
+
+# Deployment Strategy
+deployment:
+  type: rolling  # rolling, blue-green, canary
+  color: blue    # blue or green (for blue-green)
+  canary:
+    enabled: false
+    replicas: 1
+    traffic: 10  # percentage of traffic to canary
+  rollback:
+    enabled: true
+    timeout: 600  # seconds
+    healthCheckDelay: 30  # seconds after rollout
+
+# Image settings
+image:
+  registry: ghcr.io
+  repository: yourusername/b2connect
+  tag: latest
+  pullPolicy: IfNotPresent
   
 # PostgreSQL Configuration
 postgres:
@@ -154,6 +174,24 @@ monitoring:
     enabled: true
   grafana:
     enabled: true
+  alerting:
+    enabled: true
+    rules:
+      - name: high_error_rate
+        query: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        threshold: 0.05
+        severity: critical
+        description: "High error rate detected"
+      - name: slow_response_time
+        query: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2.0
+        threshold: 2.0
+        severity: warning
+        description: "Slow response times detected"
+      - name: deployment_failure
+        query: kube_deployment_status_replicas_unavailable > 0
+        threshold: 0
+        severity: critical
+        description: "Deployment has unavailable replicas"
 
 # Logging
 logging:

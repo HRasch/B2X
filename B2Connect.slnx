@@ -25,6 +25,7 @@
     <Project Path="backend/Domain/ERP/src/B2Connect.ERP.csproj" />
     <Project Path="backend/Domain/Identity/B2Connect.Identity.API.csproj" />
     <Project Path="backend/Domain/Localization/B2Connect.Localization.API.csproj" />
+    <Project Path="backend/Domain/PatternAnalysis/B2Connect.PatternAnalysis.csproj" />
     <Project Path="backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj" />
     <Project Path="backend/Domain/Theming/B2Connect.Theming.API.csproj" />
     <Project Path="backend/Domain/Theming/Layout/B2Connect.Theming.Layout.csproj" />
@@ -52,6 +53,7 @@
     <Project Path="backend/Domain/ERP/tests/B2Connect.ERP.Tests.csproj" />
     <Project Path="backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj" />
     <Project Path="backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj" />
+    <Project Path="backend/Domain/PatternAnalysis/tests/B2Connect.PatternAnalysis.Tests.csproj" />
     <Project Path="backend/Tests/B2Connect.Shared.Search.Tests/B2Connect.Shared.Search.Tests.csproj" />
     <Project Path="backend/services/PunchoutAdapters/IdsConnect/tests/B2Connect.IdsConnectAdapter.Tests.csproj" />
   </Folder>

@@ -1,109 +1,163 @@
 <template>
-  <div class="flex items-center gap-2">
-    <!-- Toggle Button -->
+  <div class="theme-toggle">
+    <!-- Simple Icon Button -->
     <button
-      @click="themeStore.toggleTheme"
-      :title="toggleTitle"
-      class="relative inline-flex items-center justify-center p-2 rounded-lg transition-all duration-300 hover:bg-soft-100 dark:hover:bg-soft-800"
+      v-if="!showMenu && !showLabel"
+      type="button"
+      @click="toggleTheme"
+      :aria-label="currentTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+      class="btn btn-ghost btn-circle"
     >
       <!-- Sun Icon (Light Mode) -->
       <svg
-        v-if="themeStore.effectiveTheme === 'dark'"
-        class="w-5 h-5 text-soft-600 dark:text-soft-400 transition-all duration-300"
-        fill="currentColor"
+        v-if="currentTheme === 'light'"
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
         viewBox="0 0 24 24"
       >
         <path
-          d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm0-2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM11 1h2v3h-2V1zm0 18h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.071 6.05 5.657 7.464 3.515 4.93zM16.95 16.95l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-6.364l3 .001V12h-3v-1.414zM1 11v2h3v-2H1zm6.05-6.05L7.464 5.657 5.343 3.536l1.414-1.414 2.121 2.121z"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
         />
       </svg>
-
       <!-- Moon Icon (Dark Mode) -->
-      <svg
-        v-else
-        class="w-5 h-5 text-soft-600 dark:text-soft-400 transition-all duration-300"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
-          d="M10 7a7 7 0 0 0 12 5.338A9.002 9.002 0 1 1 10 7zm0 2a5 5 0 0 1 7.953 2.495A7.001 7.001 0 1 0 10 9z"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
         />
       </svg>
     </button>
 
-    <!-- Label (optional) -->
-    <span v-if="showLabel" class="text-sm font-medium text-soft-700 dark:text-soft-300">
-      {{ themeStore.effectiveTheme === 'dark' ? 'Dark' : 'Light' }}
-    </span>
-
-    <!-- Menu (optional) -->
-    <div
-      v-if="showMenu"
-      class="flex items-center gap-1 ml-2 pl-2 border-l border-soft-200 dark:border-soft-700"
+    <!-- Button with Label -->
+    <button
+      v-else-if="showLabel && !showMenu"
+      type="button"
+      @click="toggleTheme"
+      class="btn btn-ghost gap-2"
     >
-      <button
-        @click="themeStore.setTheme('light')"
-        :class="[
-          'px-2 py-1 text-xs rounded transition-colors',
-          themeStore.theme === 'light'
-            ? 'bg-primary-100 text-primary-600 dark:bg-primary-900 dark:text-primary-300'
-            : 'text-soft-600 dark:text-soft-400 hover:bg-soft-100 dark:hover:bg-soft-800',
-        ]"
-        title="Light Mode"
+      <!-- Sun Icon (Light Mode) -->
+      <svg
+        v-if="currentTheme === 'light'"
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
       >
-        Light
-      </button>
-      <button
-        @click="themeStore.setTheme('dark')"
-        :class="[
-          'px-2 py-1 text-xs rounded transition-colors',
-          themeStore.theme === 'dark'
-            ? 'bg-primary-100 text-primary-600 dark:bg-primary-900 dark:text-primary-300'
-            : 'text-soft-600 dark:text-soft-400 hover:bg-soft-100 dark:hover:bg-soft-800',
-        ]"
-        title="Dark Mode"
-      >
-        Dark
-      </button>
-      <button
-        @click="themeStore.setTheme('auto')"
-        :class="[
-          'px-2 py-1 text-xs rounded transition-colors',
-          themeStore.theme === 'auto'
-            ? 'bg-primary-100 text-primary-600 dark:bg-primary-900 dark:text-primary-300'
-            : 'text-soft-600 dark:text-soft-400 hover:bg-soft-100 dark:hover:bg-soft-800',
-        ]"
-        title="Auto (Follow System)"
-      >
-        Auto
-      </button>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+        />
+      </svg>
+      <!-- Moon Icon (Dark Mode) -->
+      <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+        />
+      </svg>
+      <span>{{ currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div v-else-if="showMenu" class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          />
+        </svg>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+        <li>
+          <a @click="setTheme('light')" :class="{ active: currentTheme === 'light' }">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              />
+            </svg>
+            Light Mode
+          </a>
+        </li>
+        <li>
+          <a @click="setTheme('dark')" :class="{ active: currentTheme === 'dark' }">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            </svg>
+            Dark Mode
+          </a>
+        </li>
+        <li>
+          <a @click="setTheme('auto')" :class="{ active: currentTheme === 'auto' }">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            Auto (System)
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/theme';
 import { computed } from 'vue';
+import { useThemeStore } from '@/stores/theme';
 
 interface Props {
   showLabel?: boolean;
   showMenu?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   showLabel: false,
   showMenu: false,
 });
 
 const themeStore = useThemeStore();
 
-const toggleTitle = computed(() => {
-  return themeStore.effectiveTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-});
+const currentTheme = computed(() => themeStore.currentTheme);
+
+const toggleTheme = () => {
+  themeStore.toggleTheme();
+};
+
+const setTheme = (theme: 'light' | 'dark' | 'auto') => {
+  themeStore.setTheme(theme);
+};
 </script>
 
 <style scoped>
-button {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.theme-toggle {
+  display: inline-block;
+}
+
+.dropdown-content .active {
+  @apply bg-primary text-primary-content;
 }
 </style>

@@ -27,6 +27,7 @@
     <PackageReference Include="WolverineFx"  />
     <PackageReference Include="WolverineFx.Http"  />
     <PackageReference Include="Serilog.AspNetCore"  />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,7 @@
     <ProjectReference Include="../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
     <ProjectReference Include="../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
     <ProjectReference Include="../../shared/B2Connect.Shared.Messaging/B2Connect.Shared.Messaging.csproj" />
+    <ProjectReference Include="../Tenancy/B2Connect.Tenancy.API.csproj" />
   </ItemGroup>
 
 </Project>

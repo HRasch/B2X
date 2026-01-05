@@ -53,3 +53,10 @@ describe('[Component/Function Name]', () => {
 - Use factories for test data
 - Prefer dependency injection over global mocks
 
+## Multilingual Testing
+- Test translation keys exist in all supported languages
+- Verify translation loading and switching functionality
+- Test localization API endpoints for proper responses
+- Include multilingual scenarios in E2E tests
+- Validate date/number formatting across locales
+

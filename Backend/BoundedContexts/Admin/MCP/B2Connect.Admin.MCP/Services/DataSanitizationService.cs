@@ -107,7 +107,7 @@ public class DataSanitizationService
 
             return new SanitizationResult
             {
-                SanitizedContent = content.Substring(0, _options.MaxContentLength) + "...[TRUNCATED]",
+                SanitizedContent = string.Concat(content.AsSpan(0, _options.MaxContentLength), "...[TRUNCATED]"),
                 IsModified = true,
                 DetectedPatterns = new List<string> { "content_too_long" },
                 OriginalLength = content.Length

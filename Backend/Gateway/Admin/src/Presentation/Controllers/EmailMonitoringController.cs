@@ -375,7 +375,7 @@ public class EmailMonitoringController : ApiControllerBase
         return NoContent();
     }
 
-    private Guid GetTenantId()
+    private new Guid GetTenantId()
     {
         var tenantIdHeader = Request.Headers["X-Tenant-ID"].FirstOrDefault();
         return Guid.TryParse(tenantIdHeader, out var tenantId) ? tenantId : Guid.Empty;

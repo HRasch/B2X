@@ -1,0 +1,48 @@
+// ============================================
+// Main SCSS Entry Point
+// ============================================
+// Import order matters! Follow this sequence:
+// 1. Abstracts (functions, mixins - no output)
+// 2. Tokens (CSS custom properties)
+// 3. Base (reset, typography)
+// 4. Components
+// 5. Utilities
+// ============================================
+
+// --------------------------------------------
+// 1. Abstracts (no CSS output)
+// --------------------------------------------
+@use 'abstracts/functions';
+@use 'abstracts/mixins';
+
+// --------------------------------------------
+// 2. Design Tokens (CSS Custom Properties)
+// --------------------------------------------
+@use 'tokens/colors';
+@use 'tokens/typography';
+@use 'tokens/spacing';
+
+// --------------------------------------------
+// 3. Base Styles
+// --------------------------------------------
+// @use 'base/reset';       // Optional: use if not using Tailwind's preflight
+// @use 'base/typography';  // Optional: heading styles
+
+// --------------------------------------------
+// 4. Components
+// --------------------------------------------
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/forms';
+// @use 'components/navigation';
+// @use 'components/modals';
+// @use 'components/alerts';
+// @use 'components/badges';
+// @use 'components/tables';
+
+// --------------------------------------------
+// 5. Utilities (optional - Tailwind covers most)
+// --------------------------------------------
+// @use 'utilities/spacing';
+// @use 'utilities/display';
+// @use 'utilities/flex';

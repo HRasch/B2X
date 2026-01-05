@@ -1,6 +1,7 @@
 using B2Connect.Admin.MCP.Data;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2Connect.Admin.MCP.Middleware;
 using Microsoft.EntityFrameworkCore;
+using DataConversationContext = B2Connect.Admin.MCP.Data.ConversationContext;
 
 namespace B2Connect.Admin.MCP.Services;
 
@@ -72,6 +73,53 @@ public class ConversationService
     }
 
     /// <summary>
+    /// Get all active conversations for the tenant
+    /// </summary>
+    public async Task<List<Conversation>> GetConversationsAsync(int limit = 50)
+    {
+        return await _dbContext.Conversations
+            .Include(c => c.Messages)
+            .Where(c => c.TenantId == _tenantContext.TenantId && c.IsActive)
+            .OrderByDescending(c => c.UpdatedAt)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    /// Delete a conversation
+    /// </summary>
+    public async Task<bool> DeleteConversationAsync(int conversationId)
+    {
+        var conversation = await _dbContext.Conversations
+            .FirstOrDefaultAsync(c => c.Id == conversationId && c.TenantId == _tenantContext.TenantId);
+
+        if (conversation == null)
+            return false;
+
+        _dbContext.Conversations.Remove(conversation);
+        await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation("Deleted conversation {ConversationId}", conversationId);
+        return true;
+    }
+
+    /// <summary>
+    /// Search conversations by content
+    /// </summary>
+    public async Task<List<Conversation>> SearchConversationsAsync(string query, int limit = 20)
+    {
+        return await _dbContext.Conversations
+            .Include(c => c.Messages)
+            .Where(c => c.TenantId == _tenantContext.TenantId &&
+                       c.IsActive &&
+                       (c.Title.Contains(query) ||
+                        c.Messages.Any(m => m.Content.Contains(query))))
+            .OrderByDescending(c => c.UpdatedAt)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    /// <summary>
     /// Add a message to a conversation
     /// </summary>
     public async Task<ConversationMessage> AddMessageAsync(int conversationId, string sender, string content,
@@ -113,7 +161,7 @@ public class ConversationService
 
         if (context == null)
         {
-            context = new ConversationContext
+            context = new DataConversationContext
             {
                 ConversationId = conversationId,
                 Key = key,

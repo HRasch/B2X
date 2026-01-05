@@ -192,7 +192,10 @@ namespace B2Connect.Domain.ERP.Sync
             int maxRetries = 3)
         {
             var record = await _repository.GetByB2ConnectIdAsync(b2ConnectId, entityType);
-            if (record == null) return;
+            if (record == null)
+            {
+                return;
+            }
 
             record.ErrorMessage = errorMessage;
             record.RetryCount++;

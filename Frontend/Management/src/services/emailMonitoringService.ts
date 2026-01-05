@@ -13,9 +13,13 @@ export interface EmailMessage {
   id: string;
   tenantId: string;
   toEmail: string;
+  to: string;
+  cc?: string;
+  bcc?: string;
+  priority?: 'Low' | 'Normal' | 'High';
   subject: string;
   body: string;
-  status: EmailStatus;
+  status: string;
   retryCount: number;
   maxRetries: number;
   nextRetryAt?: string;
@@ -182,7 +186,7 @@ export const emailMonitoringService = {
 
   async getEmailMessages(
     params?: {
-      status?: EmailStatus;
+      status?: string;
       search?: string;
       skip?: number;
       take?: number;
@@ -216,6 +220,15 @@ export const emailMonitoringService = {
   async cancelEmailMessage(id: string, tenantId?: string): Promise<{ data: void }> {
     const headers = tenantId ? { 'X-Tenant-ID': tenantId } : {};
     const response = await apiClient.post(`/admin/email/messages/${id}/cancel`, {}, { headers });
+    return response;
+  },
+
+  async testSmtpConnection(
+    settings: SmtpSettings,
+    tenantId?: string
+  ): Promise<{ data: SmtpTestResult }> {
+    const headers = tenantId ? { 'X-Tenant-ID': tenantId } : {};
+    const response = await apiClient.post('/admin/email/smtp/test', settings, { headers });
     return response;
   },
 };

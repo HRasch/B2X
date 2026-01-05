@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
+import { storeVisibilityService } from '../services/storeVisibilityService';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -79,9 +80,29 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   const requiresAuth = to.meta?.requiresAuth === true;
+
+  // Check if store requires authentication (closed shop mode)
+  // Skip check for login/register routes to avoid infinite redirect
+  const isAuthRoute = ['Login', 'CustomerTypeSelection', 'PrivateCustomerRegistration'].includes(
+    to.name as string
+  );
+
+  if (!isAuthRoute && !authStore.isAuthenticated) {
+    try {
+      const storeRequiresAuth = await storeVisibilityService.requiresAuthentication();
+      if (storeRequiresAuth) {
+        // Closed shop: redirect to login
+        next({ name: 'Login', query: { redirect: to.fullPath } });
+        return;
+      }
+    } catch (error) {
+      // On error, default to allowing access (fail-open for public stores)
+      console.warn('Failed to check store visibility:', error);
+    }
+  }
 
   if (requiresAuth && !authStore.isAuthenticated) {
     // Redirect to login if authentication is required but user is not authenticated

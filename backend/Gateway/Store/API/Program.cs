@@ -1,6 +1,8 @@
 using B2Connect.ServiceDefaults;
 using B2Connect.Shared.Infrastructure.Extensions;
-using B2Connect.Middleware;
+using B2Connect.Shared.Infrastructure.Authorization;
+using B2Connect.Shared.Middleware;
+using B2Connect.Utils.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -221,6 +223,9 @@ builder.Services.AddAuthorization(options =>
         }));
 });
 
+// Add MVC Controllers
+builder.Services.AddControllers();
+
 // Add Input Validation (FluentValidation)
 // builder.Services.AddB2ConnectValidation(); // Disabled pending infrastructure setup
 
@@ -248,6 +253,21 @@ builder.Services.AddReverseProxy()
         });
     });
 
+// Add HTTP Context Accessor (required for authorization accessors)
+builder.Services.AddHttpContextAccessor();
+
+// Add Tenant Context (required for tenant settings accessor)
+builder.Services.AddScoped<B2Connect.Shared.Tenancy.Infrastructure.Context.ITenantContext, B2Connect.Shared.Tenancy.Infrastructure.Context.TenantContext>();
+
+// Add Tenant Context Accessor (required for StoreAccessMiddleware)
+builder.Services.AddScoped<B2Connect.Shared.Middleware.ITenantContextAccessor, B2Connect.Shared.Middleware.TenantContextAccessor>();
+
+// Add Unified Authorization System
+builder.Services.AddUnifiedAuthorization();
+builder.Services.AddScoped<B2Connect.Shared.Infrastructure.Authorization.ITenantSettingsAccessor, B2Connect.Gateway.Store.Authorization.TenantSettingsAccessor>();
+builder.Services.AddScoped<B2Connect.Shared.Infrastructure.Authorization.IUserPermissionAccessor, B2Connect.Gateway.Store.Authorization.UserPermissionAccessor>();
+builder.Services.AddScoped<B2Connect.Shared.Infrastructure.Authorization.IRolePermissionAccessor, B2Connect.Gateway.Store.Authorization.RolePermissionAccessor>();
+
 var app = builder.Build();
 app.UseRouting();
 
@@ -259,6 +279,31 @@ app.UseRouting();
 
 app.UseCors("AllowStoreFrontend");
 
+// ==================== TENANT CONTEXT MIDDLEWARE ====================
+// Custom middleware that extends the base TenantContextMiddleware to also set ITenantContext
+app.Use(async (context, next) =>
+{
+    var tenantId = context.User.GetTenantId();
+
+    if (tenantId == Guid.Empty && context.Request.Headers.TryGetValue("X-Tenant-ID", out var headerValue) && Guid.TryParse(headerValue.ToString(), out var headerId))
+    {
+        tenantId = headerId;
+    }
+
+    if (tenantId != Guid.Empty)
+    {
+        // Set in both contexts
+        var tenantContextAccessor = context.RequestServices.GetRequiredService<B2Connect.Shared.Middleware.ITenantContextAccessor>();
+        var tenantContext = (B2Connect.Shared.Tenancy.Infrastructure.Context.TenantContext)context.RequestServices.GetRequiredService<B2Connect.Shared.Tenancy.Infrastructure.Context.ITenantContext>();
+
+        tenantContextAccessor.SetTenantId(tenantId);
+        tenantContext.TenantId = tenantId;
+        context.Items["TenantId"] = tenantId;
+    }
+
+    await next(context);
+});
+
 // HTTPS Redirection & HSTS (Security Headers)
 if (!app.Environment.IsDevelopment())
 {
@@ -266,9 +311,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+// Service Defaults (Health checks, Service Discovery)
+app.UseServiceDefaults();
+
 // Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Store Access Control (must be after authentication)
+app.UseStoreAccess();
 
 // Mock endpoints for development (when services are not available)
 if (app.Environment.IsDevelopment())
@@ -293,6 +344,9 @@ if (app.Environment.IsDevelopment())
         new { id = 3, name = "Clothing" }
     }));
 }
+
+// Map API Controllers
+app.MapControllers();
 
 // YARP Reverse Proxy
 app.MapReverseProxy();

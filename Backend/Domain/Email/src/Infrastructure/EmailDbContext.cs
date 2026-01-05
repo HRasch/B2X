@@ -1,5 +1,6 @@
 using B2Connect.Email.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace B2Connect.Email.Infrastructure;
 
@@ -15,6 +16,7 @@ public class EmailDbContext : DbContext
 
     public DbSet<EmailEvent> EmailEvents { get; set; }
     public DbSet<EmailMessage> EmailMessages { get; set; }
+    public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -85,10 +87,10 @@ public class EmailDbContext : DbContext
                 .HasMaxLength(100);
 
             entity.Property(e => e.Variables)
-                .HasColumnType("jsonb");
-
-            entity.Property(e => e.Attachments)
-                .HasColumnType("jsonb");
+                .HasColumnType("jsonb")
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<Dictionary<string, object>>(v, new JsonSerializerOptions()) ?? new Dictionary<string, object>());
 
             entity.Property(e => e.Priority)
                 .IsRequired()
@@ -113,6 +115,54 @@ public class EmailDbContext : DbContext
             entity.HasIndex(e => e.ScheduledFor);
 
             entity.ToTable("email_messages");
+        });
+
+        // EmailTemplate configuration
+        modelBuilder.Entity<EmailTemplate>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.TenantId)
+                .IsRequired();
+
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            entity.Property(e => e.Key)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.Subject)
+                .IsRequired()
+                .HasMaxLength(500);
+
+            entity.Property(e => e.Body)
+                .IsRequired();
+
+            entity.Property(e => e.Variables)
+                .HasColumnType("jsonb")
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, new JsonSerializerOptions()) ?? new Dictionary<string, string>());
+
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000);
+
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(100);
+
+            entity.Property(e => e.UpdatedBy)
+                .HasMaxLength(100);
+
+            // Indexes for performance
+            entity.HasIndex(e => e.TenantId);
+            entity.HasIndex(e => new { e.TenantId, e.Key })
+                .IsUnique();
+            entity.HasIndex(e => new { e.TenantId, e.IsActive });
+            entity.HasIndex(e => new { e.TenantId, e.CreatedAt });
+
+            entity.ToTable("email_templates");
         });
     }
 }

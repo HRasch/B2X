@@ -44,6 +44,13 @@ public class Tenant : Entity
     public DateTime? SuspendedAt { get; set; }
     public string? SuspensionReason { get; set; }
     public Dictionary<string, string> Metadata { get; set; } = [];
+
+    /// <summary>
+    /// Whether the store frontend is publicly accessible without authentication.
+    /// When false, users must authenticate to access the store (closed shop / B2B).
+    /// Default is true (public B2C store).
+    /// </summary>
+    public bool IsPublicStore { get; set; } = true;
 }
 
 /// <summary>

@@ -361,8 +361,9 @@ public class AbTestVariant
     public bool IsControl { get; set; } = false;
     public DateTime CreatedAt { get; set; }
 
-    // Navigation property
+    // Navigation properties
     public AbTest Test { get; set; } = null!;
+    public ICollection<AbTestResult> Results { get; set; } = new List<AbTestResult>();
 }
 
 public class AbTestResult

@@ -16,7 +16,7 @@
       >
         <div class="flex items-center justify-between">
           <div class="flex items-center">
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <div
                 :class="[
                   'w-10 h-10 rounded-lg flex items-center justify-center',

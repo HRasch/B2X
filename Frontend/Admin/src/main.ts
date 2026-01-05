@@ -3,6 +3,7 @@ import { createPinia } from 'pinia';
 import router from './router';
 import { setupAuthMiddleware } from './middleware/auth';
 import { errorLoggingPlugin } from './services/errorLogging';
+import { i18n } from './locales';
 import App from './App.vue';
 import './main.css';
 
@@ -19,6 +20,7 @@ const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
+app.use(i18n);
 
 // Initialize error logging (captures Vue errors, unhandled rejections, network errors)
 app.use(errorLoggingPlugin, { router });

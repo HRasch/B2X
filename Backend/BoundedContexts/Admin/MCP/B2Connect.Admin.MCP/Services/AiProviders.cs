@@ -1,16 +1,15 @@
 using Microsoft.Extensions.AI;
-using OpenAI;
 using B2Connect.Admin.MCP.Services;
 using Microsoft.Extensions.Logging;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
 using Anthropic;
 using Anthropic.SDK;
-using Azure.AI.OpenAI;
-using Microsoft.Extensions.AI.OpenAI;
-using Microsoft.Extensions.AI.Anthropic;
-using Microsoft.Extensions.AI.AzureAIInference;
 using System.ClientModel;
+
+// Explicit type aliases to avoid ambiguity
+using AiChatMessage = Microsoft.Extensions.AI.ChatMessage;
+using AiChatRole = Microsoft.Extensions.AI.ChatRole;
 
 namespace B2Connect.Admin.MCP.Services;
 
@@ -90,27 +89,27 @@ public class OpenAiProvider : IAIProvider
         var apiKey = await GetApiKeyAsync(tenantId, ProviderName);
 
         // Create OpenAI client using Microsoft.Extensions.AI
-        var client = new OpenAIClient(apiKey).AsChatClient(model);
+        IChatClient client = new OpenAI.Chat.ChatClient(model, apiKey).AsIChatClient();
 
         // Add tenant-specific system prompt
-        var messages = new List<ChatMessage>
+        var messages = new List<AiChatMessage>
         {
-            new ChatMessage(ChatRole.System, sanitizedPrompt),
-            new ChatMessage(ChatRole.User, sanitizedMessage)
+            new AiChatMessage(AiChatRole.System, sanitizedPrompt),
+            new AiChatMessage(AiChatRole.User, sanitizedMessage)
         };
 
-        var response = await client.CompleteAsync(messages, new ChatOptions(), cancellationToken);
+        var response = await client.GetResponseAsync(messages, null, cancellationToken);
 
         // Extract token usage from response metadata if available
         var tokensUsed = 0;
         if (response.Usage?.TotalTokenCount is not null)
         {
-            tokensUsed = response.Usage.TotalTokenCount.Value;
+            tokensUsed = (int)response.Usage.TotalTokenCount.Value;
         }
 
         return new AiResponse
         {
-            Content = response.Message.Text ?? string.Empty,
+            Content = response.Text ?? string.Empty,
             TokensUsed = tokensUsed,
             Model = model
         };
@@ -203,26 +202,34 @@ public class AnthropicProvider : IAIProvider
 
         var apiKey = await GetApiKeyAsync(tenantId, ProviderName);
 
-        // Create Anthropic client using Microsoft.Extensions.AI
-        var client = new AnthropicClient(apiKey).AsChatClient(model);
+        // Create Anthropic client using IChatClient interface
+        IChatClient client = new AnthropicClient(apiKey).Messages;
 
-        var messages = new List<ChatMessage>
+        var messages = new List<AiChatMessage>
         {
-            new ChatMessage(ChatRole.System, sanitizedPrompt),
-            new ChatMessage(ChatRole.User, sanitizedMessage)
+            new AiChatMessage(AiChatRole.System, sanitizedPrompt),
+            new AiChatMessage(AiChatRole.User, sanitizedMessage)
         };
 
-        var response = await client.CompleteAsync(messages, new ChatOptions(), cancellationToken);
+        var options = new ChatOptions
+        {
+            ModelId = model,
+            MaxOutputTokens = 4096,
+            Temperature = 1.0f
+        };
 
+        var response = await client.GetResponseAsync(messages, options, cancellationToken);
+
+        // Extract token usage from response
         var tokensUsed = 0;
         if (response.Usage?.TotalTokenCount is not null)
         {
-            tokensUsed = response.Usage.TotalTokenCount.Value;
+            tokensUsed = (int)response.Usage.TotalTokenCount.Value;
         }
 
         return new AiResponse
         {
-            Content = response.Message.Text ?? string.Empty,
+            Content = response.Text ?? string.Empty,
             TokensUsed = tokensUsed,
             Model = model
         };
@@ -315,26 +322,27 @@ public class AzureOpenAiProvider : IAIProvider
         var endpoint = await GetEndpointAsync(tenantId);
 
         // Create Azure OpenAI client using Microsoft.Extensions.AI
-        var client = new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(apiKey))
-            .AsChatClient(model);
+        IChatClient client = new Azure.AI.OpenAI.AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(apiKey))
+            .GetChatClient(model)
+            .AsIChatClient();
 
-        var messages = new List<ChatMessage>
+        var messages = new List<AiChatMessage>
         {
-            new ChatMessage(ChatRole.System, sanitizedPrompt),
-            new ChatMessage(ChatRole.User, sanitizedMessage)
+            new AiChatMessage(AiChatRole.System, sanitizedPrompt),
+            new AiChatMessage(AiChatRole.User, sanitizedMessage)
         };
 
-        var response = await client.CompleteAsync(messages, new ChatOptions(), cancellationToken);
+        var response = await client.GetResponseAsync(messages, null, cancellationToken);
 
         var tokensUsed = 0;
         if (response.Usage?.TotalTokenCount is not null)
         {
-            tokensUsed = response.Usage.TotalTokenCount.Value;
+            tokensUsed = (int)response.Usage.TotalTokenCount.Value;
         }
 
         return new AiResponse
         {
-            Content = response.Message.Text ?? string.Empty,
+            Content = response.Text ?? string.Empty,
             TokensUsed = tokensUsed,
             Model = model
         };
@@ -446,25 +454,26 @@ public class OllamaProvider : IAIProvider
 
         var endpoint = GetEndpoint(tenantId);
 
-        // Create Ollama client using OllamaSharp with Microsoft.Extensions.AI
-        var ollamaClient = new OllamaSharp.OllamaApiClient(endpoint);
-        var chatClient = ollamaClient.AsChatClient(model);
+        // Create Ollama client using OllamaSharp - implements IChatClient directly
+        var ollamaClient = new OllamaSharp.OllamaApiClient(new Uri(endpoint), model);
+        IChatClient chatClient = ollamaClient;
 
-        var messages = new List<ChatMessage>
+        var messages = new List<AiChatMessage>
         {
-            new ChatMessage(ChatRole.System, sanitizedPrompt),
-            new ChatMessage(ChatRole.User, sanitizedMessage)
+            new AiChatMessage(AiChatRole.System, sanitizedPrompt),
+            new AiChatMessage(AiChatRole.User, sanitizedMessage)
         };
 
-        var response = await chatClient.CompleteAsync(messages, new ChatOptions(), cancellationToken);
+        var response = await chatClient.GetResponseAsync(messages, null, cancellationToken);
 
         // Note: Ollama doesn't provide token usage in the same way as cloud providers
         // We estimate based on input/output length for consumption monitoring
-        var estimatedTokens = EstimateTokenCount(sanitizedPrompt, sanitizedMessage, response.Message.Text ?? string.Empty);
+        var responseText = response.Text ?? string.Empty;
+        var estimatedTokens = EstimateTokenCount(sanitizedPrompt, sanitizedMessage, responseText);
 
         return new AiResponse
         {
-            Content = response.Message.Text ?? string.Empty,
+            Content = responseText,
             TokensUsed = estimatedTokens,
             Model = model
         };
@@ -565,33 +574,29 @@ public class GitHubModelsProvider : IAIProvider
 
         var apiKey = await GetApiKeyAsync(tenantId, ProviderName);
 
-        // GitHub Models uses OpenAI-compatible API
-        // Create OpenAI client pointing to GitHub Models endpoint
-        var client = new OpenAIClient(
-            new ApiKeyCredential(apiKey),
-            new OpenAIClientOptions
-            {
-                Endpoint = new Uri("https://models.inference.ai.azure.com")
-            }
-        ).AsChatClient(model);
+        // GitHub Models uses Azure AI Inference API
+        IChatClient client = new Azure.AI.Inference.ChatCompletionsClient(
+            new Uri("https://models.inference.ai.azure.com"),
+            new Azure.AzureKeyCredential(apiKey)
+        ).AsIChatClient(model);
 
-        var messages = new List<ChatMessage>
+        var messages = new List<AiChatMessage>
         {
-            new ChatMessage(ChatRole.System, sanitizedPrompt),
-            new ChatMessage(ChatRole.User, sanitizedMessage)
+            new AiChatMessage(AiChatRole.System, sanitizedPrompt),
+            new AiChatMessage(AiChatRole.User, sanitizedMessage)
         };
 
-        var response = await client.CompleteAsync(messages, new ChatOptions(), cancellationToken);
+        var response = await client.GetResponseAsync(messages, null, cancellationToken);
 
         var tokensUsed = 0;
         if (response.Usage?.TotalTokenCount is not null)
         {
-            tokensUsed = response.Usage.TotalTokenCount.Value;
+            tokensUsed = (int)response.Usage.TotalTokenCount.Value;
         }
 
         return new AiResponse
         {
-            Content = response.Message.Text ?? string.Empty,
+            Content = response.Text ?? string.Empty,
             TokensUsed = tokensUsed,
             Model = model
         };

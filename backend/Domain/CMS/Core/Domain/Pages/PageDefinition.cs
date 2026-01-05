@@ -25,6 +25,12 @@ namespace B2Connect.CMS.Core.Domain.Pages
         public DateTime UpdatedAt { get; set; }
         public int Version { get; set; }
 
+        // Template Override Support (ADR-030)
+        public bool IsTemplateOverride { get; set; } // True if this is a tenant-specific override
+        public string? BaseTemplateKey { get; set; } // Reference to base template if this is an override
+        public Dictionary<string, string> OverrideSections { get; set; } = new(); // Section-level overrides
+        public TemplateOverrideMetadata? OverrideMetadata { get; set; }
+
         public PageDefinition()
         {
         }

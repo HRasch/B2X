@@ -34,3 +34,10 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 - Mock external dependencies
 - Aim for >80% code coverage
 
+## Localization Support
+- Maintain localization API endpoints for frontend i18n support
+- Ensure all user-facing strings are properly localized
+- Implement caching for localization data to improve performance
+- Support all configured languages: English (en), German (de), French (fr), Spanish (es), Italian (it), Portuguese (pt), Dutch (nl), Polish (pl)
+- Validate localization keys exist before deployment
+

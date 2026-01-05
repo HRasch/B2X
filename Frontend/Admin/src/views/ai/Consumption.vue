@@ -11,7 +11,7 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <div
               class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center"
             >
@@ -41,7 +41,7 @@
 
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <div
               class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center"
             >
@@ -71,7 +71,7 @@
 
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <div
               class="w-8 h-8 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center"
             >
@@ -101,7 +101,7 @@
 
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <div
               class="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center"
             >

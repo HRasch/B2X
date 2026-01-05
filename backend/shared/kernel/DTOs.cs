@@ -11,6 +11,12 @@ public record TenantDto
     public string? Description { get; init; }
     public string? LogoUrl { get; init; }
     public string Status { get; init; } = "Active";
+
+    /// <summary>
+    /// Whether the store frontend is publicly accessible without authentication.
+    /// When false, users must authenticate to access the store (closed shop / B2B).
+    /// </summary>
+    public bool IsPublicStore { get; init; } = true;
 }
 
 /// <summary>

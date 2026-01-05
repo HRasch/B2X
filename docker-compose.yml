@@ -18,6 +18,24 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
 
@@ -35,6 +53,24 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
 
@@ -55,6 +91,24 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
 
@@ -73,9 +127,27 @@ services:
       - elasticsearch-data:/usr/share/elasticsearch/data
     healthcheck:
       test: ["CMD-SHELL", "curl -s http://localhost:9200 >/dev/null || exit 1"]
-      interval: 10s
-      timeout: 5s
+      interval: 30s
+      timeout: 10s
       retries: 5
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 300s
+    # Graceful shutdown
+    stop_grace_period: 120s
+    stop_signal: SIGTERM
     networks:
       - b2connect
 
@@ -105,9 +177,32 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    # Enhanced health checks
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:7002/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 300s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
 
   # Tenancy Service
   tenancy-service:
@@ -130,9 +225,32 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    # Enhanced health checks
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:7003/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 300s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
 
   # Localization Service
   localization-service:
@@ -155,9 +273,32 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    # Enhanced health checks
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:7004/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 300s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
 
   # Catalog Service
   catalog-service:
@@ -183,9 +324,32 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+    # Enhanced health checks
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:7005/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 300s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
 
   # Theming Service
   theming-service:
@@ -202,9 +366,32 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+    # Enhanced health checks
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:7008/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 300s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
 
   # ==================== API GATEWAYS ====================
 
@@ -238,9 +425,32 @@ services:
         condition: service_started
       catalog-service:
         condition: service_started
+    # Enhanced health checks
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 300s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
 
   # Admin Gateway (Protected API)
   admin-gateway:
@@ -271,9 +481,32 @@ services:
         condition: service_healthy
       identity-service:
         condition: service_started
+    # Enhanced health checks
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 300s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
 
   # ==================== FRONTENDS ====================
 
@@ -296,9 +529,32 @@ services:
     depends_on:
       store-gateway:
         condition: service_started
+    # Enhanced health checks for Node.js
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5173 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
     command: npm run dev -- --host 0.0.0.0
 
   # Frontend Admin (Vue 3 + Vite)
@@ -320,9 +576,32 @@ services:
     depends_on:
       admin-gateway:
         condition: service_started
+    # Enhanced health checks for Node.js
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5174 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits and requests
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+    # Graceful shutdown
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
     networks:
       - b2connect
-    restart: unless-stopped
     command: npm run dev -- --host 0.0.0.0
 
 volumes:

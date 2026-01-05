@@ -37,7 +37,7 @@ public class AiProviderSelector
     /// <summary>
     /// Get the AI provider for a tenant based on their configuration
     /// </summary>
-    public async Task<IAIProvider> GetProviderForTenantAsync(string tenantId, string preferredProvider = null)
+    public async Task<IAIProvider> GetProviderForTenantAsync(string tenantId, string? preferredProvider = null)
     {
         // TODO: Retrieve tenant's preferred provider from database
         // For now, use preferredProvider parameter or default to OpenAI
@@ -63,7 +63,7 @@ public class AiProviderSelector
         string model,
         string prompt,
         string userMessage,
-        string preferredProvider = null,
+        string? preferredProvider = null,
         CancellationToken cancellationToken = default)
     {
         var provider = await GetProviderForTenantAsync(tenantId, preferredProvider);

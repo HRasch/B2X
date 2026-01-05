@@ -246,6 +246,31 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: '/email',
+    meta: {
+      requiresAuth: true,
+      layout: 'main',
+      requiredRole: 'content_manager',
+    },
+    children: [
+      {
+        path: 'templates',
+        name: 'EmailTemplates',
+        component: () => import('@/views/email/EmailTemplatesList.vue'),
+      },
+      {
+        path: 'templates/create',
+        name: 'EmailTemplateCreate',
+        component: () => import('@/views/email/EmailTemplateCreate.vue'),
+      },
+      {
+        path: 'templates/:id/edit',
+        name: 'EmailTemplateEdit',
+        component: () => import('@/views/email/EmailTemplateEdit.vue'),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
@@ -253,20 +278,46 @@ const router = createRouter({
   routes,
 });
 
-// Navigation Guard für Authentication
-router.beforeEach((to, from, next) => {
+// Navigation Guard für Authentication und Authorization
+router.beforeEach((to, _from, next) => {
   const authStore = useAuthStore();
   const requiresAuth = to.meta.requiresAuth ?? true; // Default: Auth required
 
+  // Check authentication
   if (requiresAuth && !authStore.isAuthenticated) {
-    // Nicht authentifiziert → Login
+    // Not authenticated → Redirect to login
     next({ name: 'Login', query: { redirect: to.fullPath } });
-  } else if (!requiresAuth && authStore.isAuthenticated && to.name === 'Login') {
-    // Schon eingeloggt und versucht Login zu öffnen → Dashboard
-    next({ name: 'Dashboard' });
-  } else {
-    next();
+    return;
   }
+
+  // Redirect authenticated user from login to dashboard
+  if (!requiresAuth && authStore.isAuthenticated && to.name === 'Login') {
+    // Already logged in and trying to access login → Go to dashboard
+    next({ name: 'Dashboard' });
+    return;
+  }
+
+  // Check role-based access
+  const requiredRole = to.meta.requiredRole as string | undefined;
+  if (requiredRole && authStore.isAuthenticated && !authStore.hasRole(requiredRole)) {
+    // User lacks required role → Unauthorized
+    next({ name: 'Unauthorized' });
+    return;
+  }
+
+  // Check permission-based access
+  const requiredPermission = to.meta.requiredPermission as string | undefined;
+  if (
+    requiredPermission &&
+    authStore.isAuthenticated &&
+    !authStore.hasPermission(requiredPermission)
+  ) {
+    // User lacks required permission → Unauthorized
+    next({ name: 'Unauthorized' });
+    return;
+  }
+
+  next();
 });
 
 export default router;

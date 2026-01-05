@@ -1,4 +1,4 @@
-import apiClient from './api';
+// Note: apiClient removed as it's not used in this service
 
 export interface McpToolCall {
   name: string;
@@ -39,9 +39,9 @@ class AiService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.getAuthToken()}`
+          Authorization: `Bearer ${this.getAuthToken()}`,
         },
-        body: JSON.stringify(toolCall)
+        body: JSON.stringify(toolCall),
       });
 
       if (!response.ok) {
@@ -68,8 +68,8 @@ class AiService {
       const response = await fetch(`${this.baseUrl}/api/admin/ai-consumption/metrics`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${this.getAuthToken()}`
-        }
+          Authorization: `Bearer ${this.getAuthToken()}`,
+        },
       });
 
       if (!response.ok) {
@@ -86,19 +86,21 @@ class AiService {
   /**
    * Get available MCP tools
    */
-  async getAvailableTools(): Promise<Array<{
-    name: string;
-    description: string;
-    inputSchema: any;
-  }>> {
+  async getAvailableTools(): Promise<
+    Array<{
+      name: string;
+      description: string;
+      inputSchema: any;
+    }>
+  > {
     try {
       const response = await fetch(`${this.baseUrl}/mcp/tools/list`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.getAuthToken()}`
+          Authorization: `Bearer ${this.getAuthToken()}`,
         },
-        body: JSON.stringify({})
+        body: JSON.stringify({}),
       });
 
       if (!response.ok) {
@@ -122,8 +124,8 @@ class AiService {
       arguments: {
         contentType: 'text_analysis',
         content: text,
-        targetKeywords: context ? [context] : undefined
-      }
+        targetKeywords: context ? [context] : undefined,
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -138,8 +140,8 @@ class AiService {
       arguments: {
         component,
         metricType: 'response_time',
-        includeHistoricalData: true
-      }
+        includeHistoricalData: true,
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -154,8 +156,8 @@ class AiService {
       arguments: {
         assessmentType: 'comprehensive',
         scope,
-        includeRecommendations: true
-      }
+        includeRecommendations: true,
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -170,8 +172,8 @@ class AiService {
       arguments: {
         operation,
         storeId,
-        analysisType: 'performance'
-      }
+        analysisType: 'performance',
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -185,8 +187,8 @@ class AiService {
       name: 'system_health_analysis',
       arguments: {
         component,
-        timeRange
-      }
+        timeRange,
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -201,8 +203,8 @@ class AiService {
       arguments: {
         pageType,
         contentRequirements,
-        targetAudience: 'general'
-      }
+        targetAudience: 'general',
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -217,8 +219,8 @@ class AiService {
       arguments: {
         emailType,
         contentPurpose,
-        brandGuidelines: 'professional'
-      }
+        brandGuidelines: 'professional',
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -232,8 +234,8 @@ class AiService {
       name: 'user_management_assistant',
       arguments: {
         task,
-        userContext: 'admin_portal'
-      }
+        userContext: 'admin_portal',
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -248,8 +250,8 @@ class AiService {
       arguments: {
         action,
         tenantId,
-        resourceType: 'general'
-      }
+        resourceType: 'general',
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -263,8 +265,8 @@ class AiService {
       name: 'integration_management',
       arguments: {
         integrationType,
-        action
-      }
+        action,
+      },
     };
 
     return this.callMcpTool(toolCall);
@@ -276,44 +278,84 @@ class AiService {
   determineToolFromMessage(message: string): string {
     const lowerMessage = message.toLowerCase();
 
-    if (lowerMessage.includes('performance') || lowerMessage.includes('optimize') ||
-        lowerMessage.includes('speed') || lowerMessage.includes('slow')) {
+    if (
+      lowerMessage.includes('performance') ||
+      lowerMessage.includes('optimize') ||
+      lowerMessage.includes('speed') ||
+      lowerMessage.includes('slow')
+    ) {
       return 'performance_optimization';
     }
-    if (lowerMessage.includes('security') || lowerMessage.includes('audit') ||
-        lowerMessage.includes('compliance') || lowerMessage.includes('vulnerability')) {
+    if (
+      lowerMessage.includes('security') ||
+      lowerMessage.includes('audit') ||
+      lowerMessage.includes('compliance') ||
+      lowerMessage.includes('vulnerability')
+    ) {
       return 'security_compliance';
     }
-    if (lowerMessage.includes('content') || lowerMessage.includes('seo') ||
-        lowerMessage.includes('engagement') || lowerMessage.includes('page')) {
+    if (
+      lowerMessage.includes('content') ||
+      lowerMessage.includes('seo') ||
+      lowerMessage.includes('engagement') ||
+      lowerMessage.includes('page')
+    ) {
       return 'content_optimization';
     }
-    if (lowerMessage.includes('store') || lowerMessage.includes('sales') ||
-        lowerMessage.includes('inventory') || lowerMessage.includes('revenue')) {
+    if (
+      lowerMessage.includes('store') ||
+      lowerMessage.includes('sales') ||
+      lowerMessage.includes('inventory') ||
+      lowerMessage.includes('revenue')
+    ) {
       return 'store_operations';
     }
-    if (lowerMessage.includes('tenant') || lowerMessage.includes('resource') ||
-        lowerMessage.includes('onboard') || lowerMessage.includes('multi-tenant')) {
+    if (
+      lowerMessage.includes('tenant') ||
+      lowerMessage.includes('resource') ||
+      lowerMessage.includes('onboard') ||
+      lowerMessage.includes('multi-tenant')
+    ) {
       return 'tenant_management';
     }
-    if (lowerMessage.includes('integration') || lowerMessage.includes('api') ||
-        lowerMessage.includes('webhook') || lowerMessage.includes('connect')) {
+    if (
+      lowerMessage.includes('integration') ||
+      lowerMessage.includes('api') ||
+      lowerMessage.includes('webhook') ||
+      lowerMessage.includes('connect')
+    ) {
       return 'integration_management';
     }
-    if (lowerMessage.includes('user') || lowerMessage.includes('admin') ||
-        lowerMessage.includes('role') || lowerMessage.includes('permission')) {
+    if (
+      lowerMessage.includes('user') ||
+      lowerMessage.includes('admin') ||
+      lowerMessage.includes('role') ||
+      lowerMessage.includes('permission')
+    ) {
       return 'user_management_assistant';
     }
-    if (lowerMessage.includes('email') || lowerMessage.includes('template') ||
-        lowerMessage.includes('campaign') || lowerMessage.includes('newsletter')) {
+    if (
+      lowerMessage.includes('email') ||
+      lowerMessage.includes('template') ||
+      lowerMessage.includes('campaign') ||
+      lowerMessage.includes('newsletter')
+    ) {
       return 'email_template_design';
     }
-    if (lowerMessage.includes('cms') || lowerMessage.includes('layout') ||
-        lowerMessage.includes('design') || lowerMessage.includes('page')) {
+    if (
+      lowerMessage.includes('cms') ||
+      lowerMessage.includes('layout') ||
+      lowerMessage.includes('design') ||
+      lowerMessage.includes('page')
+    ) {
       return 'cms_page_design';
     }
-    if (lowerMessage.includes('health') || lowerMessage.includes('system') ||
-        lowerMessage.includes('monitor') || lowerMessage.includes('status')) {
+    if (
+      lowerMessage.includes('health') ||
+      lowerMessage.includes('system') ||
+      lowerMessage.includes('monitor') ||
+      lowerMessage.includes('status')
+    ) {
       return 'system_health_analysis';
     }
 
@@ -400,9 +442,19 @@ class AiService {
     return 'marketing';
   }
 
+  private extractPageType(message: string): string {
+    if (message.includes('home') || message.includes('landing')) return 'landing';
+    if (message.includes('product')) return 'product';
+    if (message.includes('category')) return 'category';
+    if (message.includes('about')) return 'about';
+    if (message.includes('contact')) return 'contact';
+    return 'landing';
+  }
+
   private getAuthToken(): string {
     // Get auth token from localStorage or auth service
     return localStorage.getItem('authToken') || '';
   }
+}
 
 export default new AiService();

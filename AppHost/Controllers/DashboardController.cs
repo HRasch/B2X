@@ -13,7 +13,7 @@ public class DashboardController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var client = _httpClientFactory.CreateClient();
+        using var client = _httpClientFactory.CreateClient();
         var services = new List<ServiceStatus>();
 
         var serviceUrls = new[]
@@ -27,7 +27,7 @@ public class DashboardController : Controller
         {
             try
             {
-                var response = await client.GetAsync($"{baseUrl}/health");
+                using var response = await client.GetAsync($"{baseUrl}/health");
                 services.Add(new ServiceStatus
                 {
                     Name = name,
