@@ -1,0 +1,10 @@
+// ============================================
+// SCSS Components Index
+// ============================================
+// Forward all component styles
+// Usage: @use 'components';
+// ============================================
+
+@forward 'buttons';
+@forward 'cards';
+@forward 'forms';
