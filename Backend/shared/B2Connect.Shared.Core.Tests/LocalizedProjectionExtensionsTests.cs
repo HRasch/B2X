@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using B2Connect.Shared.Core;
 using B2Connect.Shared.Core.Extensions;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -46,10 +46,10 @@ public class LocalizedProjectionExtensionsTests
             .FirstOrDefaultAsync();
 
         // Assert
-        result.Should().NotBeNull();
-        result!.Sku.Should().Be("TEST-001");
-        result.Name.Should().Be("Test Produkt"); // German translation
-        result.Price.Should().Be(99.99m);
+        result.ShouldNotBeNull();
+        result!.Sku.ShouldBe("TEST-001");
+        result.Name.ShouldBe("Test Produkt"); // German translation
+        result.Price.ShouldBe(99.99m);
     }
 
     [Fact]
@@ -81,8 +81,8 @@ public class LocalizedProjectionExtensionsTests
             .FirstOrDefaultAsync();
 
         // Assert
-        result.Should().NotBeNull();
-        result!.Name.Should().Be("Default Product"); // Default value
+        result.ShouldNotBeNull();
+        result!.Name.ShouldBe("Default Product"); // Default value
     }
 
     // Test entities and DTOs

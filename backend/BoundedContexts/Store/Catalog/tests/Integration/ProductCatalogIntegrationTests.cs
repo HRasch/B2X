@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace B2Connect.Catalog.Tests.Integration;
@@ -42,8 +42,8 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
-        response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
+        response.Content.Headers.ContentType?.MediaType.ShouldBe("application/json");
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(
+        response.StatusCode.Should.BeOneOf(
             HttpStatusCode.BadRequest,
             HttpStatusCode.NotFound);
     }
@@ -92,7 +92,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     #endregion
@@ -110,8 +110,8 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        response.Content.Headers.ContentType?.MediaType.ShouldBe("application/json");
     }
 
     [Fact]
@@ -125,7 +125,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -139,7 +139,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -153,7 +153,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
     [Fact]
@@ -166,7 +166,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     #endregion
@@ -198,7 +198,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.Created, HttpStatusCode.BadRequest);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.Created, HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -226,7 +226,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -254,7 +254,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -280,7 +280,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -307,7 +307,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     #endregion
@@ -338,7 +338,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -360,7 +360,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 
     #endregion
@@ -381,7 +381,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.NoContent, HttpStatusCode.NotFound, HttpStatusCode.OK);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.NoContent, HttpStatusCode.NotFound, HttpStatusCode.OK);
     }
 
     [Fact]
@@ -398,7 +398,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 
     #endregion
@@ -427,8 +427,8 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response2 = await _fixture.Client.SendAsync(request2);
 
         // Assert - Both succeed but are isolated
-        response1.StatusCode.Should().Be(HttpStatusCode.OK);
-        response2.StatusCode.Should().Be(HttpStatusCode.OK);
+        response1.StatusCode.ShouldBe(HttpStatusCode.OK);
+        response2.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
     [Fact]
@@ -447,7 +447,7 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert - Should not find product from another tenant
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.NotFound, HttpStatusCode.Forbidden);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.NotFound, HttpStatusCode.Forbidden);
     }
 
     #endregion
@@ -475,12 +475,12 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
             var elapsed = DateTime.UtcNow.Ticks - startTime;
             times.Add(elapsed);
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
         // Assert - All requests should complete in reasonable time (< 1 second each)
         var averageTime = TimeSpan.FromTicks(times.Count > 0 ? times[0] / requestCount : 0);
-        averageTime.Should().BeLessThan(TimeSpan.FromSeconds(1));
+        averageTime.ShouldBeLessThan(TimeSpan.FromSeconds(1));
     }
 
     #endregion

@@ -24,7 +24,7 @@ public class NamingConventionTests : ArchitectureTestBase
             .That().ResideInNamespaceMatching(@".*\.Handlers\.")
             .And().AreNotAbstract()
             .And().DoNotHaveNameContaining("Base")
-            .Should().HaveNameEndingWith("Handler")
+            .Should.HaveNameEndingWith("Handler")
             .Because("All message handlers must follow the naming convention *Handler")
             .WithoutRequiringPositiveResults(); // May not have classes in this namespace
 
@@ -39,7 +39,7 @@ public class NamingConventionTests : ArchitectureTestBase
         var rule = ArchRuleDefinition.Classes()
             .That().ResideInNamespaceMatching(@".*\.Validators\.")
             .And().AreNotAbstract()
-            .Should().HaveNameEndingWith("Validator")
+            .Should.HaveNameEndingWith("Validator")
             .Because("All validators must follow the naming convention *Validator")
             .WithoutRequiringPositiveResults(); // May not have Validators namespace yet
 
@@ -55,7 +55,7 @@ public class NamingConventionTests : ArchitectureTestBase
             .That().ResideInNamespaceMatching(@".*\.Controllers\.")
             .And().AreNotAbstract()
             .And().DoNotHaveNameContaining("Base")
-            .Should().HaveNameEndingWith("Controller")
+            .Should.HaveNameEndingWith("Controller")
             .OrShould().HaveNameEndingWith("Endpoint")
             .Because("All API controllers must follow the naming convention *Controller or *Endpoint")
             .WithoutRequiringPositiveResults(); // May not have Controllers namespace
@@ -73,7 +73,7 @@ public class NamingConventionTests : ArchitectureTestBase
             .And().AreNotAbstract()
             .And().DoNotHaveNameContaining("Base")
             .And().DoNotHaveNameContaining("Handler") // Exclude event handlers
-            .Should().HaveNameEndingWith("Event")
+            .Should.HaveNameEndingWith("Event")
             .Because("Domain events must follow the naming convention *Event")
             .WithoutRequiringPositiveResults(); // May not have Events namespace yet
 
@@ -95,7 +95,7 @@ public class NamingConventionTests : ArchitectureTestBase
             .And().DoNotHaveNameContaining("Configuration")
             .And().DoNotHaveNameContaining("Context") // DbContext, etc.
             .And().DoNotHaveNameContaining("Helper")
-            .Should().HaveNameEndingWith("Service")
+            .Should.HaveNameEndingWith("Service")
             .Because("Application services must follow the naming convention *Service")
             .WithoutRequiringPositiveResults(); // May have non-Service classes
 
@@ -109,7 +109,7 @@ public class NamingConventionTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Interfaces()
             .That().ArePublic()
-            .Should().HaveNameStartingWith("I")
+            .Should.HaveNameStartingWith("I")
             .Because("All interfaces must follow C# convention with I prefix");
 
         // Assert
@@ -123,7 +123,7 @@ public class NamingConventionTests : ArchitectureTestBase
         var rule = ArchRuleDefinition.Classes()
             .That().AreAbstract()
             .And().AreNotSealed()
-            .Should().HaveNameEndingWith("Base")
+            .Should.HaveNameEndingWith("Base")
             .OrShould().HaveNameStartingWith("Abstract")
             .OrShould().HaveNameContaining("Base")
             .Because("Abstract base classes should be clearly identifiable")

@@ -25,7 +25,7 @@ public class WolverinePatternTests : ArchitectureTestBase
             .That().HaveNameEndingWith("Handler")
             .And().DoNotResideInNamespaceMatching(@".*Test.*")
             .And().DoNotResideInNamespaceMatching(@".*Mock.*")
-            .Should().ResideInNamespaceMatching(@".*(\.Handlers|\.Endpoints|\.Application).*")
+            .Should.ResideInNamespaceMatching(@".*(\.Handlers|\.Endpoints|\.Application).*")
             .Because("Wolverine handlers must be located in Handlers, Endpoints, or Application namespace for discoverability");
 
         // Assert
@@ -39,7 +39,7 @@ public class WolverinePatternTests : ArchitectureTestBase
         var rule = ArchRuleDefinition.Classes()
             .That().HaveNameEndingWith("Command")
             .And().DoNotResideInNamespaceMatching(@".*Test.*")
-            .Should().ResideInNamespaceMatching(@".*(\.Endpoints|\.Handlers|\.Commands|\.Core\.|\.Application).*")
+            .Should.ResideInNamespaceMatching(@".*(\.Endpoints|\.Handlers|\.Commands|\.Core\.|\.Application).*")
             .Because("Commands should be colocated with their handlers or in domain namespaces");
 
         // Assert
@@ -53,7 +53,7 @@ public class WolverinePatternTests : ArchitectureTestBase
         var rule = ArchRuleDefinition.Classes()
             .That().HaveNameEndingWith("Query")
             .And().DoNotResideInNamespaceMatching(@".*Test.*")
-            .Should().ResideInNamespaceMatching(@".*(\.Endpoints|\.Handlers|\.Queries|\.Application).*")
+            .Should.ResideInNamespaceMatching(@".*(\.Endpoints|\.Handlers|\.Queries|\.Application).*")
             .Because("Queries should be colocated with their handlers or in dedicated namespaces")
             .WithoutRequiringPositiveResults(); // May not have Query classes yet
 
@@ -68,7 +68,7 @@ public class WolverinePatternTests : ArchitectureTestBase
         var rule = ArchRuleDefinition.Classes()
             .That().HaveNameEndingWith("Event")
             .And().ResideInNamespaceMatching(@".*\.Core\.")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"Microsoft\.EntityFrameworkCore.*"))
             .AndShould().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"Microsoft\.AspNetCore.*"))
@@ -86,7 +86,7 @@ public class WolverinePatternTests : ArchitectureTestBase
         var rule = ArchRuleDefinition.Classes()
             .That().HaveNameEndingWith("Handler")
             .And().ResideInNamespaceMatching(@".*\.Handlers\.")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Classes().That().HaveNameEndingWith("Handler")
                     .And().ResideInNamespaceMatching(@".*\.Handlers\."))
             .Because("Handlers should communicate via message bus, not direct dependencies (ADR-001)")

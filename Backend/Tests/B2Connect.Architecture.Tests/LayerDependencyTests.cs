@@ -24,7 +24,7 @@ public class LayerDependencyTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Core\.")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@".*\.Infrastructure\."))
             .Because("Domain Core must be independent of infrastructure concerns (ADR-002)");
 
@@ -38,7 +38,7 @@ public class LayerDependencyTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Core\.")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"Microsoft\.EntityFrameworkCore.*"))
             .Because("Domain Core must be persistence-ignorant - no EF Core dependencies allowed");
 
@@ -52,7 +52,7 @@ public class LayerDependencyTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Core\.")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"Microsoft\.AspNetCore.*"))
             .Because("Domain Core must not depend on web framework concerns");
 
@@ -66,7 +66,7 @@ public class LayerDependencyTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Handlers\.")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@".*\.Controllers\."))
             .Because("Handlers are application layer - must not depend on presentation layer");
 
@@ -80,7 +80,7 @@ public class LayerDependencyTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Infrastructure\.")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@".*\.Controllers\."))
             .Because("Infrastructure layer must not depend on presentation layer");
 

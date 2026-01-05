@@ -17,7 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
-    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Shouldly" />
   </ItemGroup>
 
   <ItemGroup>

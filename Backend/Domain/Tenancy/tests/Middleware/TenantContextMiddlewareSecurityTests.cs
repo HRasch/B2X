@@ -2,7 +2,7 @@ using System.Security.Claims;
 using B2Connect.Shared.Infrastructure.ServiceClients;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -66,8 +66,8 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status403Forbidden);
-        _tenantContext.TenantId.Should().Be(Guid.Empty, "Tenant should not be set on security violation");
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status403Forbidden);
+        _tenantContext.TenantId.ShouldBe(Guid.Empty, "Tenant should not be set on security violation");
     }
 
     [Fact]
@@ -89,8 +89,8 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status200OK);
-        _tenantContext.TenantId.Should().Be(tenantId);
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status200OK);
+        _tenantContext.TenantId.ShouldBe(tenantId);
     }
 
     [Fact]
@@ -111,8 +111,8 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status200OK);
-        _tenantContext.TenantId.Should().Be(tenantId);
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status200OK);
+        _tenantContext.TenantId.ShouldBe(tenantId);
     }
 
     #endregion
@@ -149,8 +149,8 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
-        _tenantContext.TenantId.Should().Be(Guid.Empty);
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status500InternalServerError);
+        _tenantContext.TenantId.ShouldBe(Guid.Empty);
     }
 
     [Fact]
@@ -186,8 +186,8 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status200OK);
-        _tenantContext.TenantId.Should().Be(fallbackTenantId);
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status200OK);
+        _tenantContext.TenantId.ShouldBe(fallbackTenantId);
     }
 
     #endregion
@@ -211,14 +211,14 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
 
         // Response should NOT contain detailed information
         var responseBody = await GetResponseBody(context);
-        responseBody.Should().Contain("Invalid request");
-        responseBody.Should().NotContain("host");
-        responseBody.Should().NotContain("path");
-        responseBody.Should().NotContain("headerProvided");
+        responseBody.ShouldContain("Invalid request");
+        responseBody.ShouldNotContain("host");
+        responseBody.ShouldNotContain("path");
+        responseBody.ShouldNotContain("headerProvided");
     }
 
     #endregion
@@ -247,8 +247,8 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status403Forbidden);
-        _tenantContext.TenantId.Should().Be(Guid.Empty);
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status403Forbidden);
+        _tenantContext.TenantId.ShouldBe(Guid.Empty);
     }
 
     #endregion
@@ -273,7 +273,7 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
     }
 
     [Fact]
@@ -295,8 +295,8 @@ public class TenantContextMiddlewareSecurityTests
         await middleware.InvokeAsync(context, _tenantContext, _mockTenancyClient.Object);
 
         // Assert
-        context.Response.StatusCode.Should().Be(StatusCodes.Status200OK);
-        _tenantContext.TenantId.Should().Be(tenantId);
+        context.Response.StatusCode.ShouldBe(StatusCodes.Status200OK);
+        _tenantContext.TenantId.ShouldBe(tenantId);
     }
 
     #endregion

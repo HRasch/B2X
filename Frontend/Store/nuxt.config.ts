@@ -25,12 +25,14 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       // Bundle analyzer for development
-      process.env.NODE_ENV === 'development' ? visualizer({
-        filename: 'dist/bundle-analysis.html',
-        open: false,
-        gzipSize: true,
-        brotliSize: true,
-      }) : null,
+      process.env.NODE_ENV === 'development'
+        ? visualizer({
+            filename: 'dist/bundle-analysis.html',
+            open: false,
+            gzipSize: true,
+            brotliSize: true,
+          })
+        : null,
     ].filter(Boolean),
     resolve: {
       alias: {

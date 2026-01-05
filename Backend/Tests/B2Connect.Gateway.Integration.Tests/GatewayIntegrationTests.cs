@@ -1,3 +1,5 @@
+extern alias Store;
+
 using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -58,7 +60,7 @@ public class GatewayIntegrationTests
         if (!catalogAddress.EndsWith('/')) catalogAddress += '/';
 
         // Configure and start the Gateway app as a test server, overriding ReverseProxy config
-        var factory = new WebApplicationFactory<Program>()
+        var factory = new WebApplicationFactory<Store::Program>()
             .WithWebHostBuilder(builder =>
             {
                 builder.ConfigureAppConfiguration((context, conf) =>
@@ -126,7 +128,7 @@ public class GatewayIntegrationTests
         var catalogAddress = addressesFeature.Addresses.First();
         if (!catalogAddress.EndsWith('/')) catalogAddress += '/';
 
-        var factory = new WebApplicationFactory<Program>()
+        var factory = new WebApplicationFactory<Store::Program>()
             .WithWebHostBuilder(builder =>
             {
                 builder.ConfigureAppConfiguration((context, conf) =>
@@ -184,7 +186,7 @@ public class GatewayIntegrationTests
         var catalogAddress = addressesFeature.Addresses.First();
         if (!catalogAddress.EndsWith('/')) catalogAddress += '/';
 
-        var factory = new WebApplicationFactory<Program>()
+        var factory = new WebApplicationFactory<Store::Program>()
             .WithWebHostBuilder(builder =>
             {
                 builder.ConfigureAppConfiguration((context, conf) =>

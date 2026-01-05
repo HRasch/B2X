@@ -1,5 +1,5 @@
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -66,7 +66,7 @@ public class CriticalSecurityTestSuite
 
         // Assert: Code MUST validate JWT first
         // This test FAILS if developer uses header without JWT validation
-        jwtTenantId.Should().NotBe(headerTenantId,
+        jwtTenantId.ShouldNotBe(headerTenantId,
             "JWT must be source of truth, header cannot override");
     }
 
@@ -115,7 +115,7 @@ public class CriticalSecurityTestSuite
         var crossTenantLeaked = currentTenantProducts
             .Any(p => p.TenantId == tenant2Id);
 
-        crossTenantLeaked.Should().BeFalse(
+        crossTenantLeaked.Should.BeFalse(
             "Query MUST filter by tenant_id. If test fails, Global Query Filter is missing!");
     }
 
@@ -155,7 +155,7 @@ public class CriticalSecurityTestSuite
         var hasAccess = userTenantId == requestedTenantId;
 
         // Assert: MUST deny access
-        hasAccess.Should().BeFalse(
+        hasAccess.Should.BeFalse(
             "User must only access their own tenant. If test fails, ownership validation is missing!");
     }
 
@@ -216,7 +216,7 @@ public class CriticalSecurityTestSuite
                 host,
                 @"^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$"
             );
-            isValid.Should().BeTrue($"Valid host {host} should be accepted");
+            isValid.Should.BeTrue($"Valid host {host} should be accepted");
         }
 
         foreach (var host in invalidHosts)
@@ -225,7 +225,7 @@ public class CriticalSecurityTestSuite
                 host,
                 @"^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$"
             );
-            isValid.Should().BeFalse($"Invalid host {host} must be rejected");
+            isValid.Should.BeFalse($"Invalid host {host} must be rejected");
         }
     }
 
@@ -272,13 +272,13 @@ public class CriticalSecurityTestSuite
         foreach (var email in validEmails)
         {
             var isValid = System.Text.RegularExpressions.Regex.IsMatch(email, emailRegex);
-            isValid.Should().BeTrue($"Valid email {email} should be accepted");
+            isValid.Should.BeTrue($"Valid email {email} should be accepted");
         }
 
         foreach (var email in invalidEmails)
         {
             var isValid = System.Text.RegularExpressions.Regex.IsMatch(email, emailRegex);
-            isValid.Should().BeFalse($"Invalid email {email} must be rejected");
+            isValid.Should.BeFalse($"Invalid email {email} must be rejected");
         }
     }
 
@@ -320,13 +320,13 @@ public class CriticalSecurityTestSuite
         foreach (var guid in validGuids)
         {
             var isValid = Guid.TryParse(guid, out _);
-            isValid.Should().BeTrue($"Valid GUID {guid} should be accepted");
+            isValid.Should.BeTrue($"Valid GUID {guid} should be accepted");
         }
 
         foreach (var guid in invalidGuids)
         {
             var isValid = Guid.TryParse(guid, out _);
-            isValid.Should().BeFalse($"Invalid GUID {guid} must be rejected");
+            isValid.Should.BeFalse($"Invalid GUID {guid} must be rejected");
         }
     }
 
@@ -374,12 +374,12 @@ public class CriticalSecurityTestSuite
         catch (Exception ex)
         {
             // Assert: Error message must NOT contain sensitive details
-            genericMessage.Should().NotContain(ex.Message,
+            genericMessage.ShouldNotContain(ex.Message,
                 "Error messages must not leak internal details");
 
             // Verify generic message is used instead
             var userFacingError = "Invalid request. Please contact support.";
-            userFacingError.Should().Be(genericMessage);
+            userFacingError.ShouldBe(genericMessage);
         }
     }
 
@@ -416,7 +416,7 @@ public class CriticalSecurityTestSuite
         // Assert: Log message must not contain sensitive keywords
         foreach (var item in sensitiveItems)
         {
-            secureLog.ToLower().Should().NotContain(item.ToLower(),
+            secureLog.ToLower().ShouldNotContain(item.ToLower(),
                 $"Log messages must not contain '{item}'");
         }
     }
@@ -464,7 +464,7 @@ public class CriticalSecurityTestSuite
 
         // Assert: MUST have tenant_id claim
         var hasTenantClaim = missingTenantClaims.Any(c => c.Type == requiredClaim);
-        hasTenantClaim.Should().BeFalse(
+        hasTenantClaim.Should.BeFalse(
             "This test demonstrates the vulnerability - missing required claim");
 
         // With proper validation:
@@ -475,7 +475,7 @@ public class CriticalSecurityTestSuite
         };
 
         hasTenantClaim = properClaims.Any(c => c.Type == requiredClaim);
-        hasTenantClaim.Should().BeTrue("All required claims must be present");
+        hasTenantClaim.Should.BeTrue("All required claims must be present");
     }
 
     /// <summary>
@@ -507,8 +507,8 @@ public class CriticalSecurityTestSuite
         var isExpiredTokenExpired = expiredToken.exp <= now.ToUnixTimestamp();
 
         // Assert
-        isValidTokenExpired.Should().BeFalse("Valid token should not be expired");
-        isExpiredTokenExpired.Should().BeTrue("Expired token should be detected");
+        isValidTokenExpired.Should.BeFalse("Valid token should not be expired");
+        isExpiredTokenExpired.Should.BeTrue("Expired token should be detected");
     }
 
     #endregion
@@ -556,7 +556,7 @@ public class CriticalSecurityTestSuite
         var isSafe = !(useFallback && environment == "Production");
 
         // Assert
-        isSafe.Should().BeTrue(
+        isSafe.Should.BeTrue(
             "Fallback tenant must NEVER be enabled in Production");
     }
 
@@ -597,13 +597,13 @@ public class CriticalSecurityTestSuite
             ) && snippet.Contains("=");
 
             // Assert: Must fail (this is the vulnerability)
-            hasHardcodedSecret.Should().BeTrue(
+            hasHardcodedSecret.Should.BeTrue(
                 "This test demonstrates the vulnerability - secrets should never be hardcoded");
         }
 
         // Correct approach:
         var correctApproach = "var secret = configuration[\"Jwt:Secret\"]";
-        correctApproach.Should().Contain("configuration",
+        correctApproach.ShouldContain("configuration",
             "Secrets must come from configuration, not hardcoded");
     }
 
@@ -647,7 +647,7 @@ public class CriticalSecurityTestSuite
             new Claim("tenant_id", attackerTenantId.ToString())
         };
         var claimedTenant = attackerClaims.First().Value;
-        claimedTenant.Should().NotBe(victimTenantId.ToString(),
+        claimedTenant.ShouldNotBe(victimTenantId.ToString(),
             "Vector 1 FAILED: JWT tenant doesn't match spoofed header");
 
         // Vector 2: Host validation must catch SQL injection
@@ -655,11 +655,11 @@ public class CriticalSecurityTestSuite
             maliciousHost,
             @"^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$"
         );
-        isValidHost.Should().BeFalse(
+        isValidHost.Should.BeFalse(
             "Vector 2 FAILED: SQL injection in host not detected");
 
         // Vector 3: Ownership validation must prevent access
-        accessWithoutOwnership.Should().BeFalse(
+        accessWithoutOwnership.Should.BeFalse(
             "Vector 3 FAILED: Code must validate user owns requested tenant");
     }
 

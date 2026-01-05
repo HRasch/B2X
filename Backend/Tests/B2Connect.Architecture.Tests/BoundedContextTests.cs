@@ -23,7 +23,7 @@ public class BoundedContextTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.CMS}\..*"))
             .Because("Bounded contexts must be isolated - Catalog cannot directly depend on CMS (ADR-001)");
 
@@ -37,7 +37,7 @@ public class BoundedContextTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*"))
             .Because("Bounded contexts must be isolated - Catalog cannot directly depend on Identity (ADR-001)");
 
@@ -51,7 +51,7 @@ public class BoundedContextTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.CMS}\..*")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*"))
             .Because("Bounded contexts must be isolated - CMS cannot directly depend on Catalog (ADR-001)");
 
@@ -65,7 +65,7 @@ public class BoundedContextTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.CMS}\..*")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*"))
             .Because("Bounded contexts must be isolated - CMS cannot directly depend on Identity (ADR-001)");
 
@@ -79,7 +79,7 @@ public class BoundedContextTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*"))
             .Because("Bounded contexts must be isolated - Identity cannot directly depend on Catalog (ADR-001)");
 
@@ -93,7 +93,7 @@ public class BoundedContextTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.CMS}\..*"))
             .Because("Bounded contexts must be isolated - Identity cannot directly depend on CMS (ADR-001)");
 
@@ -107,7 +107,7 @@ public class BoundedContextTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Localization}\..*")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*"))
             .Because("Bounded contexts must be isolated - Localization cannot directly depend on Catalog (ADR-001)");
 
@@ -121,7 +121,7 @@ public class BoundedContextTests : ArchitectureTestBase
         // Arrange & Act
         var rule = ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Search}\..*")
-            .Should().NotDependOnAny(
+            .Should.NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*"))
             .Because("Bounded contexts must be isolated - Search cannot directly depend on Identity (ADR-001)");
 

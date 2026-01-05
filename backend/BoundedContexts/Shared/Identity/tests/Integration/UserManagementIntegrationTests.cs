@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace B2Connect.Identity.Tests.Integration;
@@ -48,7 +48,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -66,7 +66,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -102,7 +102,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
     #endregion
@@ -121,7 +121,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
     [Fact]
@@ -151,7 +151,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -165,7 +165,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
     #endregion
@@ -197,7 +197,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -223,7 +223,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -245,7 +245,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
     #endregion
@@ -276,7 +276,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound, HttpStatusCode.BadRequest);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound, HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -303,7 +303,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -330,7 +330,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
     #endregion
@@ -352,7 +352,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent, HttpStatusCode.NotFound);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent, HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -370,7 +370,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent, HttpStatusCode.NotFound);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent, HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -387,7 +387,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
     #endregion
@@ -418,8 +418,8 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response2 = await _fixture.Client.SendAsync(request2);
 
         // Assert - Both succeed but are isolated
-        response1.StatusCode.Should().Be(HttpStatusCode.OK);
-        response2.StatusCode.Should().Be(HttpStatusCode.OK);
+        response1.StatusCode.ShouldBe(HttpStatusCode.OK);
+        response2.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
     [Fact]
@@ -438,7 +438,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.NotFound, HttpStatusCode.Forbidden);
+        response.StatusCode.Should.BeOneOf(HttpStatusCode.NotFound, HttpStatusCode.Forbidden);
     }
 
     #endregion
@@ -466,7 +466,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
 
     [Fact]
@@ -485,7 +485,7 @@ public class UserManagementIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
 
     #endregion

@@ -29,7 +29,7 @@ IResourceBuilder<ElasticsearchResource>? elasticsearch = null;
 IResourceBuilder<RabbitMQServerResource>? rabbitmq = null;
 IResourceBuilder<PostgresServerResource>? postgres = null;
 
-IResourceBuilder<AzureCdnResource>? cdn = null;
+// IResourceBuilder<AzureCdnResource>? cdn = null;
 
 if (databaseProvider.ToLower() != "inmemory")
 {
@@ -65,9 +65,9 @@ if (databaseProvider.ToLower() != "inmemory")
         port: 5672);
 
     // Azure CDN for translation assets and API caching
-    cdn = builder.AddAzureCdnFrontDoor("cdn")
-        .WithOrigin(storeGateway, "store-api")
-        .WithOrigin(frontendStore, "store-frontend");
+    // cdn = builder.AddAzureCdnFrontDoor("cdn")
+    //     .WithOrigin(storeGateway, "store-api")
+    //     .WithOrigin(frontendStore, "store-frontend");
 }
 
 // Azure Key Vault (Secret Store)

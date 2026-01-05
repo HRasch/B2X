@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace B2Connect.Identity.Tests.Integration;
@@ -48,8 +48,8 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        response.Content.Headers.ContentType?.MediaType.ShouldBe("application/json");
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     #endregion
@@ -151,7 +151,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.StatusCode.ShouldBe(HttpStatusCode.Created);
     }
 
     [Fact]
@@ -178,7 +178,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        response.StatusCode.ShouldBe(HttpStatusCode.Conflict);
     }
 
     [Fact]
@@ -205,7 +205,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -232,7 +232,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     #endregion
@@ -260,7 +260,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
     [Fact]
@@ -284,7 +284,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
@@ -305,7 +305,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.SendAsync(request);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
     #endregion
@@ -319,7 +319,7 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response = await _fixture.Client.GetAsync("/health");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
     #endregion
@@ -362,11 +362,11 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var response2 = await _fixture.Client.SendAsync(request2);
 
         // Assert
-        response1.StatusCode.Should().Be(HttpStatusCode.OK);
-        response2.StatusCode.Should().Be(HttpStatusCode.OK);
+        response1.StatusCode.ShouldBe(HttpStatusCode.OK);
+        response2.StatusCode.ShouldBe(HttpStatusCode.OK);
         // Responses should be isolated per tenant
-        response1.Headers.GetValues("X-Tenant-ID").Should().Contain(tenantId1);
-        response2.Headers.GetValues("X-Tenant-ID").Should().Contain(tenantId2);
+        response1.Headers.GetValues("X-Tenant-ID").ShouldContain(tenantId1);
+        response2.Headers.GetValues("X-Tenant-ID").ShouldContain(tenantId2);
     }
 
     #endregion
@@ -392,8 +392,8 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         var content = await response.Content.ReadAsStringAsync();
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        content.Should().Contain("error") // Should contain error info
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        content.ShouldContain("error") // Should contain error info
             .Or.Contain("errors")
             .Or.Contain("message");
     }

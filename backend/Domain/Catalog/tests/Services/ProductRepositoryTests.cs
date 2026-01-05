@@ -1,5 +1,5 @@
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using Moq;
 
 namespace B2Connect.Catalog.Tests.Services;
@@ -65,11 +65,11 @@ public class ProductRepositoryGetBySkuTests
         var result = await mockRepo.Object.GetBySkuAsync(tenantId, sku);
 
         // Assert
-        result.Should().NotBeNull();
-        result!.Sku.Should().Be(sku);
-        result.TenantId.Should().Be(tenantId);
-        result.Name.Should().Be("Test Product");
-        result.Price.Should().Be(99.99m);
+        result.ShouldNotBeNull();
+        result!.Sku.ShouldBe(sku);
+        result.TenantId.ShouldBe(tenantId);
+        result.Name.ShouldBe("Test Product");
+        result.Price.ShouldBe(99.99m);
 
         mockRepo.Verify(x => x.GetBySkuAsync(tenantId, sku, It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -90,7 +90,7 @@ public class ProductRepositoryGetBySkuTests
         var result = await mockRepo.Object.GetBySkuAsync(tenantId, sku);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -118,9 +118,9 @@ public class ProductRepositoryGetBySkuTests
         var result2 = await mockRepo.Object.GetBySkuAsync(tenantId2, sku);
 
         // Assert
-        result1.Should().NotBeNull();
-        result2.Should().BeNull();
-        result1!.TenantId.Should().Be(tenantId1);
+        result1.ShouldNotBeNull();
+        result2.ShouldBeNull();
+        result1!.TenantId.ShouldBe(tenantId1);
     }
 
     [Theory]
@@ -141,7 +141,7 @@ public class ProductRepositoryGetBySkuTests
         var result = await mockRepo.Object.GetBySkuAsync(tenantId, sku);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -191,9 +191,9 @@ public class ProductRepositoryGetAllTests
         var result = await mockRepo.Object.GetAllAsync(tenantId, 1, 10);
 
         // Assert
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(3);
-        result.All(p => p.TenantId == tenantId).Should().BeTrue();
+        result.ShouldNotBeEmpty();
+        result.Count.ShouldBe(3);
+        result.All(p => p.TenantId == tenantId).ShouldBeTrue();
     }
 
     [Fact]
@@ -216,7 +216,7 @@ public class ProductRepositoryGetAllTests
         var result = await mockRepo.Object.GetAllAsync(tenantId, 1, 2);
 
         // Assert
-        result.Should().HaveCount(2);
+        result.Count.ShouldBe(2);
     }
 
     [Fact]
@@ -249,10 +249,10 @@ public class ProductRepositoryGetAllTests
         var result2 = await mockRepo.Object.GetAllAsync(tenant2, 1, 10);
 
         // Assert
-        result1.Should().HaveCount(1);
-        result2.Should().HaveCount(1);
-        result1[0].TenantId.Should().Be(tenant1);
-        result2[0].TenantId.Should().Be(tenant2);
+        result1.Count.ShouldBe(1);
+        result2.Count.ShouldBe(1);
+        result1[0].TenantId.ShouldBe(tenant1);
+        result2[0].TenantId.ShouldBe(tenant2);
     }
 
     [Fact]
@@ -270,7 +270,7 @@ public class ProductRepositoryGetAllTests
         var result = await mockRepo.Object.GetAllAsync(tenantId, 99, 10);
 
         // Assert
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 }
 
@@ -313,10 +313,10 @@ public class ProductRepositoryAddTests
         var result = await mockRepo.Object.AddAsync(product);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Id.Should().NotBe(Guid.Empty);
-        result.Sku.Should().Be("NEW-PROD");
-        result.TenantId.Should().Be(tenantId);
+        result.ShouldNotBeNull();
+        result.Id.ShouldNotBe(Guid.Empty);
+        result.Sku.ShouldBe("NEW-PROD");
+        result.TenantId.ShouldBe(tenantId);
 
         mockRepo.Verify(x => x.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -354,7 +354,7 @@ public class ProductRepositoryAddTests
         };
 
         // Act & Assert - Validation should occur
-        product.Price.Should().BeLessThan(0); // Current state
+        product.Price.ShouldBeLessThan(0); // Current state
         // In real implementation, AddAsync would validate and reject this
     }
 }
@@ -381,7 +381,7 @@ public class ProductRepositoryExistsTests
         var result = await mockRepo.Object.ExistsBySkuAsync(tenantId, sku);
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Fact]
@@ -400,7 +400,7 @@ public class ProductRepositoryExistsTests
         var result = await mockRepo.Object.ExistsBySkuAsync(tenantId, sku);
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 
     [Fact]
@@ -424,7 +424,7 @@ public class ProductRepositoryExistsTests
         var result2 = await mockRepo.Object.ExistsBySkuAsync(tenant2, sku);
 
         // Assert
-        result1.Should().BeTrue();
-        result2.Should().BeFalse();
+        result1.ShouldBeTrue();
+        result2.ShouldBeFalse();
     }
 }
