@@ -1,4 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import path from 'path';
+import tailwindcss from '@tailwindcss/postcss';
+import { visualizer } from 'rollup-plugin-visualizer';
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
@@ -15,14 +19,71 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/i18n', '@pinia/nuxt'],
 
   // CSS
-  css: ['~/assets/css/main.css'],
+  css: ['./assets/css/main.css'],
 
   // Vite configuration for Tailwind CSS v4 and SSR
   vite: {
+    plugins: [
+      // Bundle analyzer for development
+      process.env.NODE_ENV === 'development' ? visualizer({
+        filename: 'dist/bundle-analysis.html',
+        open: false,
+        gzipSize: true,
+        brotliSize: true,
+      }) : null,
+    ].filter(Boolean),
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname),
+        '~': path.resolve(__dirname),
+      },
+    },
     css: {
       postcss: {
-        plugins: [require('@tailwindcss/postcss')],
+        plugins: [tailwindcss],
       },
+      preprocessorOptions: {
+        scss: {
+          // Make abstracts (functions, mixins) available in all SCSS files
+          additionalData: `
+            @use "@/scss/abstracts/functions" as *;
+            @use "@/scss/abstracts/mixins" as *;
+          `,
+        },
+      },
+      devSourcemap: true,
+    },
+    server: {
+      proxy: {
+        '/api': {
+          target: process.env.VITE_API_GATEWAY_URL || 'http://localhost:8000',
+          changeOrigin: true,
+          secure: false,
+          ws: true,
+          timeout: 30000,
+        },
+        '/ws': {
+          target: process.env.VITE_WS_URL || 'ws://localhost:8000',
+          changeOrigin: true,
+          ws: true,
+          secure: false,
+          timeout: 30000,
+        },
+      },
+    },
+    build: {
+      target: 'esnext',
+      minify: 'terser',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vue: ['vue', 'vue-router', 'pinia'],
+            vendor: ['axios', 'date-fns'],
+          },
+        },
+      },
+      reportCompressedSize: true,
+      chunkSizeWarningLimit: 1000,
     },
     // Optimize for SSR
     ssr: {
@@ -37,6 +98,9 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     // Custom strategy for tenant-scoped routing
     strategy: 'no_prefix',
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   // Pinia store configuration
