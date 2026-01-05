@@ -3,17 +3,20 @@ using System;
 using B2Connect.LocalizationService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace B2Connect.LocalizationService.Migrations
+namespace B2Connect.Localization.Migrations
 {
     [DbContext(typeof(LocalizationDbContext))]
-    partial class LocalizationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260105170619_AddTenantTranslationsFields")]
+    partial class AddTenantTranslationsFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

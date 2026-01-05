@@ -41,6 +41,34 @@ public interface ILocalizationService
     Task<IEnumerable<string>> GetSupportedLanguagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Gets merged translations for a tenant (global + tenant overrides)
+    /// </summary>
+    /// <param name="tenantId">The tenant ID</param>
+    /// <param name="languageCode">The language code</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Merged translations dictionary</returns>
+    Task<Dictionary<string, string>> GetMergedTranslationsAsync(Guid tenantId, string languageCode, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Bulk upserts translations for a tenant
+    /// </summary>
+    /// <param name="tenantId">The tenant ID</param>
+    /// <param name="languageCode">The language code</param>
+    /// <param name="translations">Translations to upsert</param>
+    /// <param name="userId">User performing the update</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    Task BulkUpsertTranslationsAsync(Guid tenantId, string languageCode, Dictionary<string, string> translations, Guid? userId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Resets a tenant translation to global default
+    /// </summary>
+    /// <param name="tenantId">The tenant ID</param>
+    /// <param name="languageCode">The language code</param>
+    /// <param name="keyPath">The translation key path</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    Task ResetTranslationToDefaultAsync(Guid tenantId, string languageCode, string keyPath, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Sets or updates translations for a key
     /// </summary>
     /// <param name="tenantId">Optional tenant ID for tenant-specific translations</param>

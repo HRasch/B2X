@@ -54,6 +54,12 @@ public class LocalizationDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(5000);
 
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true);
+
+            entity.Property(e => e.CreatedBy)
+                .IsRequired(false);
+
             entity.Property(e => e.Translations)
                 .HasConversion(
                     v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),

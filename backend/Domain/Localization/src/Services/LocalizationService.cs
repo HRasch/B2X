@@ -1,26 +1,34 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 using B2Connect.LocalizationService.Data;
 using B2Connect.LocalizationService.Models;
 
 namespace B2Connect.LocalizationService.Services;
 
 /// <summary>
-/// Implementation of localization service with caching support
+/// Implementation of localization service with distributed caching support
 /// </summary>
 public class LocalizationService : ILocalizationService
 {
     private readonly LocalizationDbContext _dbContext;
-    private readonly IMemoryCache _cache;
+    private readonly IDistributedCache _cache;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private const string CACHE_PREFIX = "i18n:";
-    private const int CACHE_DURATION_MINUTES = 60;
+    private static readonly DistributedCacheEntryOptions CacheOptions = new()
+    {
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(60)
+    };
+    private static readonly DistributedCacheEntryOptions SsrCacheOptions = new()
+    {
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24)
+    };
     private static readonly string[] SupportedLanguages = { "en", "de", "fr", "es", "it", "pt", "nl", "pl" };
 
     public LocalizationService(
         LocalizationDbContext dbContext,
-        IMemoryCache cache,
+        IDistributedCache cache,
         IHttpContextAccessor httpContextAccessor)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
@@ -56,9 +64,10 @@ public class LocalizationService : ILocalizationService
 
         var cacheKey = $"{CACHE_PREFIX}{category}:{key}:{language}";
 
-        if (_cache.TryGetValue(cacheKey, out var cachedValue))
+        var cachedValue = await _cache.GetStringAsync(cacheKey, cancellationToken);
+        if (!string.IsNullOrEmpty(cachedValue))
         {
-            return (string)cachedValue!;
+            return cachedValue;
         }
 
         var localized = await _dbContext.LocalizedStrings
@@ -75,19 +84,19 @@ public class LocalizationService : ILocalizationService
         // Try exact language match
         if (localized.Translations.TryGetValue(language, out var value))
         {
-            _cache.Set(cacheKey, value, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+            await _cache.SetStringAsync(cacheKey, value, CacheOptions, cancellationToken);
             return value;
         }
 
         // Fallback to English
         if (localized.Translations.TryGetValue("en", out var fallback))
         {
-            _cache.Set(cacheKey, fallback, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+            await _cache.SetStringAsync(cacheKey, fallback, CacheOptions, cancellationToken);
             return fallback;
         }
 
         // Final fallback to default value
-        _cache.Set(cacheKey, localized.DefaultValue, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+        await _cache.SetStringAsync(cacheKey, localized.DefaultValue, CacheOptions, cancellationToken);
         return localized.DefaultValue;
     }
 
@@ -102,9 +111,10 @@ public class LocalizationService : ILocalizationService
 
         var cacheKey = $"{CACHE_PREFIX}{category}:{language}";
 
-        if (_cache.TryGetValue(cacheKey, out var cachedDict))
+        var cachedJson = await _cache.GetStringAsync(cacheKey, cancellationToken);
+        if (!string.IsNullOrEmpty(cachedJson))
         {
-            return (Dictionary<string, string>)cachedDict!;
+            return JsonSerializer.Deserialize<Dictionary<string, string>>(cachedJson)!;
         }
 
         var strings = await _dbContext.LocalizedStrings
@@ -123,7 +133,8 @@ public class LocalizationService : ILocalizationService
             result[localized.Key] = translatedValue;
         }
 
-        _cache.Set(cacheKey, result, TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+        var resultJson = JsonSerializer.Serialize(result);
+        await _cache.SetStringAsync(cacheKey, resultJson, CacheOptions, cancellationToken);
         return result;
     }
 
@@ -183,6 +194,158 @@ public class LocalizationService : ILocalizationService
 
         await _dbContext.SaveChangesAsync(cancellationToken);
         InvalidateCache(category);
+    }
+
+    public async Task<Dictionary<string, string>> GetMergedTranslationsAsync(Guid tenantId, string languageCode, CancellationToken cancellationToken = default)
+    {
+        languageCode = NormalizeLanguage(languageCode);
+
+        var cacheKey = $"{CACHE_PREFIX}merged:{tenantId}:{languageCode}";
+
+        var cachedJson = await _cache.GetStringAsync(cacheKey, cancellationToken);
+        if (!string.IsNullOrEmpty(cachedJson))
+        {
+            return JsonSerializer.Deserialize<Dictionary<string, string>>(cachedJson)!;
+        }
+
+        // Get all global translations (TenantId is null)
+        var globalTranslations = await _dbContext.LocalizedStrings
+            .AsNoTracking()
+            .Where(ls => ls.TenantId == null && ls.IsActive)
+            .Select(ls => new
+            {
+                Key = $"{ls.Category}.{ls.Key}",
+                Translations = ls.Translations
+            })
+            .ToListAsync(cancellationToken);
+
+        // Get tenant-specific overrides
+        var tenantOverrides = await _dbContext.LocalizedStrings
+            .AsNoTracking()
+            .Where(ls => ls.TenantId == tenantId && ls.IsActive)
+            .Select(ls => new
+            {
+                Key = $"{ls.Category}.{ls.Key}",
+                Translations = ls.Translations
+            })
+            .ToListAsync(cancellationToken);
+
+        // Merge translations: tenant overrides take precedence
+        var merged = new Dictionary<string, string>();
+
+        // Add global translations first
+        foreach (var global in globalTranslations)
+        {
+            if (global.Translations.TryGetValue(languageCode, out var value))
+            {
+                merged[global.Key] = value;
+            }
+            else if (global.Translations.TryGetValue("en", out var fallback))
+            {
+                merged[global.Key] = fallback;
+            }
+        }
+
+        // Override with tenant-specific translations
+        foreach (var tenant in tenantOverrides)
+        {
+            if (tenant.Translations.TryGetValue(languageCode, out var value))
+            {
+                merged[tenant.Key] = value;
+            }
+        }
+
+        var mergedJson = JsonSerializer.Serialize(merged);
+        await _cache.SetStringAsync(cacheKey, mergedJson, CacheOptions, cancellationToken);
+        return merged;
+    }
+
+    public async Task BulkUpsertTranslationsAsync(Guid tenantId, string languageCode, Dictionary<string, string> translations, Guid? userId, CancellationToken cancellationToken = default)
+    {
+        if (translations is null || translations.Count == 0)
+        {
+            throw new ArgumentException("Translations cannot be null or empty", nameof(translations));
+        }
+
+        languageCode = NormalizeLanguage(languageCode);
+
+        foreach (var kvp in translations)
+        {
+            var keyParts = kvp.Key.Split('.', 2);
+            if (keyParts.Length != 2)
+            {
+                throw new ArgumentException($"Invalid key format: {kvp.Key}. Expected 'category.key'", nameof(translations));
+            }
+
+            var category = keyParts[0];
+            var key = keyParts[1];
+
+            var existing = await _dbContext.LocalizedStrings
+                .FirstOrDefaultAsync(
+                    ls => ls.Key == key && ls.Category == category && ls.TenantId == tenantId,
+                    cancellationToken);
+
+            if (existing is null)
+            {
+                existing = new LocalizedString
+                {
+                    Id = Guid.NewGuid(),
+                    Key = key,
+                    Category = category,
+                    TenantId = tenantId,
+                    DefaultValue = kvp.Value,
+                    Translations = new Dictionary<string, string> { [languageCode] = kvp.Value },
+                    IsActive = true,
+                    CreatedBy = userId,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _dbContext.LocalizedStrings.Add(existing);
+            }
+            else
+            {
+                existing.Translations[languageCode] = kvp.Value;
+                existing.UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        InvalidateCache($"tenant:{tenantId}");
+    }
+
+    public async Task ResetTranslationToDefaultAsync(Guid tenantId, string languageCode, string keyPath, CancellationToken cancellationToken = default)
+    {
+        var keyParts = keyPath.Split('.', 2);
+        if (keyParts.Length != 2)
+        {
+            throw new ArgumentException($"Invalid key format: {keyPath}. Expected 'category.key'", nameof(keyPath));
+        }
+
+        var category = keyParts[0];
+        var key = keyParts[1];
+        languageCode = NormalizeLanguage(languageCode);
+
+        var tenantOverride = await _dbContext.LocalizedStrings
+            .FirstOrDefaultAsync(
+                ls => ls.Key == key && ls.Category == category && ls.TenantId == tenantId,
+                cancellationToken);
+
+        if (tenantOverride != null)
+        {
+            // Remove the language-specific override
+            tenantOverride.Translations.Remove(languageCode);
+
+            // If no translations left, deactivate the override
+            if (tenantOverride.Translations.Count == 0)
+            {
+                tenantOverride.IsActive = false;
+            }
+
+            tenantOverride.UpdatedAt = DateTime.UtcNow;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        InvalidateCache($"tenant:{tenantId}");
     }
 
     private static void InvalidateCache(string category)

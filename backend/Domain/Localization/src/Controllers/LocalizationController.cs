@@ -8,7 +8,7 @@ namespace B2Connect.LocalizationService.Controllers;
 /// REST API endpoints for localization and translations
 /// </summary>
 [ApiController]
-[Route("api/localization")]
+[Route("api/v1/localization")]
 [Produces("application/json")]
 public class LocalizationController : ControllerBase
 {
@@ -111,6 +111,118 @@ public class LocalizationController : ControllerBase
     }
 
     /// <summary>
+    /// Gets merged translations for a tenant and language (ADR-039)
+    /// </summary>
+    /// <param name="tenantId">The tenant ID</param>
+    /// <param name="languageCode">The language code (e.g., "en", "de")</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Merged translations (global + tenant overrides)</returns>
+    /// <response code="200">Returns merged translations</response>
+    [HttpGet("{tenantId}/{languageCode}")]
+    public async Task<IActionResult> GetTenantTranslations(
+        [FromRoute] Guid tenantId,
+        [FromRoute] string languageCode,
+        CancellationToken cancellationToken = default)
+    {
+        var translations = await _localizationService.GetMergedTranslationsAsync(tenantId, languageCode, cancellationToken);
+        return Ok(new TenantTranslationsResponse
+        {
+            TenantId = tenantId,
+            LanguageCode = languageCode,
+            Translations = translations
+        });
+    }
+
+    /// <summary>
+    /// Gets SSR-optimized translations for a tenant and language (ADR-039)
+    /// </summary>
+    /// <param name="tenantId">The tenant ID</param>
+    /// <param name="languageCode">The language code (e.g., "en", "de")</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>SSR-optimized translations payload</returns>
+    /// <response code="200">Returns SSR-optimized translations</response>
+    [HttpGet("ssr/{tenantId}/{languageCode}")]
+    public async Task<IActionResult> GetTenantTranslationsSsr(
+        [FromRoute] Guid tenantId,
+        [FromRoute] string languageCode,
+        CancellationToken cancellationToken = default)
+    {
+        var translations = await _localizationService.GetMergedTranslationsAsync(tenantId, languageCode, cancellationToken);
+        return Ok(new SsrTranslationsResponse
+        {
+            TenantId = tenantId,
+            LanguageCode = languageCode,
+            Translations = translations,
+            Timestamp = DateTime.UtcNow
+        });
+    }
+
+    /// <summary>
+    /// Bulk upserts tenant translations (ADR-039)
+    /// </summary>
+    /// <param name="tenantId">The tenant ID</param>
+    /// <param name="languageCode">The language code</param>
+    /// <param name="request">Bulk translation updates</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>No content on success</returns>
+    /// <response code="204">Translations updated successfully</response>
+    /// <response code="401">Unauthorized</response>
+    /// <response code="403">Forbidden - tenant admin required</response>
+    [HttpPost("{tenantId}/{languageCode}")]
+    [Authorize]
+    public async Task<IActionResult> UpsertTenantTranslations(
+        [FromRoute] Guid tenantId,
+        [FromRoute] string languageCode,
+        [FromBody] BulkTranslationUpdateRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        // Verify tenant access
+        var userTenantId = ExtractTenantId();
+        if (userTenantId != tenantId && !User.IsInRole("SuperAdmin"))
+        {
+            return Forbid();
+        }
+
+        var userId = ExtractUserId();
+        await _localizationService.BulkUpsertTranslationsAsync(
+            tenantId, languageCode, request.Translations, userId, cancellationToken);
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Resets a tenant translation key to global default (ADR-039)
+    /// </summary>
+    /// <param name="tenantId">The tenant ID</param>
+    /// <param name="languageCode">The language code</param>
+    /// <param name="keyPath">The translation key path</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>No content on success</returns>
+    /// <response code="204">Translation reset to default</response>
+    /// <response code="401">Unauthorized</response>
+    /// <response code="403">Forbidden - tenant admin required</response>
+    [HttpDelete("{tenantId}/{languageCode}/{keyPath}")]
+    [Authorize]
+    public async Task<IActionResult> ResetTenantTranslation(
+        [FromRoute] Guid tenantId,
+        [FromRoute] string languageCode,
+        [FromRoute] string keyPath,
+        CancellationToken cancellationToken = default)
+    {
+        // Verify tenant access
+        var userTenantId = ExtractTenantId();
+        if (userTenantId != tenantId && !User.IsInRole("SuperAdmin"))
+        {
+            return Forbid();
+        }
+
+        await _localizationService.ResetTranslationToDefaultAsync(
+            tenantId, languageCode, keyPath, cancellationToken);
+
+        return NoContent();
+    }
+
+    /// <summary>
     /// Extracts tenant ID from user claims if available
     /// </summary>
     private Guid? ExtractTenantId()
@@ -122,6 +234,20 @@ public class LocalizationController : ControllerBase
         }
 
         return tenantId;
+    }
+
+    /// <summary>
+    /// Extracts user ID from claims
+    /// </summary>
+    private Guid? ExtractUserId()
+    {
+        var userIdClaim = User.FindFirst("sub") ?? User.FindFirst("userId");
+        if (userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out var userId))
+        {
+            return null;
+        }
+
+        return userId;
     }
 }
 
@@ -152,6 +278,48 @@ public class CategoryResponse
     public string Language { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the translations dictionary</summary>
+    public Dictionary<string, string> Translations { get; set; } = new();
+}
+
+/// <summary>
+/// Response model for tenant translations
+/// </summary>
+public class TenantTranslationsResponse
+{
+    /// <summary>Gets or sets the tenant ID</summary>
+    public Guid TenantId { get; set; }
+
+    /// <summary>Gets or sets the language code</summary>
+    public string LanguageCode { get; set; } = string.Empty;
+
+    /// <summary>Gets or sets the merged translations</summary>
+    public Dictionary<string, string> Translations { get; set; } = new();
+}
+
+/// <summary>
+/// Response model for SSR translations
+/// </summary>
+public class SsrTranslationsResponse
+{
+    /// <summary>Gets or sets the tenant ID</summary>
+    public Guid TenantId { get; set; }
+
+    /// <summary>Gets or sets the language code</summary>
+    public string LanguageCode { get; set; } = string.Empty;
+
+    /// <summary>Gets or sets the merged translations</summary>
+    public Dictionary<string, string> Translations { get; set; } = new();
+
+    /// <summary>Gets or sets the response timestamp</summary>
+    public DateTime Timestamp { get; set; }
+}
+
+/// <summary>
+/// Request model for bulk translation updates
+/// </summary>
+public class BulkTranslationUpdateRequest
+{
+    /// <summary>Gets or sets the translations to update</summary>
     public Dictionary<string, string> Translations { get; set; } = new();
 }
 

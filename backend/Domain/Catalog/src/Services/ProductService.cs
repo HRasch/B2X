@@ -8,6 +8,7 @@ namespace B2Connect.Catalog.Services;
 public interface IProductService
 {
     Task<ProductDto?> GetByIdAsync(Guid tenantId, Guid productId, CancellationToken cancellationToken = default);
+    Task<ProductDto?> GetByBarcodeAsync(Guid tenantId, string barcode, CancellationToken cancellationToken = default);
     Task<PagedResult<ProductDto>> GetPagedAsync(Guid tenantId, int pageNumber = 1, int pageSize = 20, CancellationToken cancellationToken = default);
     Task<ProductDto> CreateAsync(Guid tenantId, CreateProductRequest request, CancellationToken cancellationToken = default);
     Task<ProductDto> UpdateAsync(Guid tenantId, Guid productId, UpdateProductRequest request, CancellationToken cancellationToken = default);

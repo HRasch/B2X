@@ -85,7 +85,11 @@ builder.Services.AddDbContext<LocalizationDbContext>(options =>
 // Services
 builder.Services.AddScoped<ILocalizationService, LocalizationService>();
 builder.Services.AddScoped<IEntityLocalizationService, EntityLocalizationService>();
-builder.Services.AddMemoryCache();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("redis") ?? "localhost:6379";
+    options.InstanceName = "localization:";
+});
 builder.Services.AddHttpContextAccessor();
 
 // Add Authorization (REQUIRED for [Authorize] attributes)

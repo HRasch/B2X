@@ -23,6 +23,12 @@ public class LocalizedString
     /// <summary>Gets or sets the optional tenant ID for tenant-specific overrides</summary>
     public Guid? TenantId { get; set; }
 
+    /// <summary>Gets or sets whether this translation is active</summary>
+    public bool IsActive { get; set; } = true;
+
+    /// <summary>Gets or sets the user who created this translation</summary>
+    public Guid? CreatedBy { get; set; }
+
     /// <summary>Gets or sets the creation timestamp</summary>
     public DateTime CreatedAt { get; set; }
 

@@ -17,6 +17,7 @@ public class Product
     public List<string> Categories { get; set; } = new();
     public string? BrandName { get; set; }
     public List<string> Tags { get; set; } = new();
+    public string? Barcode { get; set; } // Added for barcode scanning support
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public string? CreatedBy { get; set; }

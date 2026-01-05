@@ -29,6 +29,8 @@ IResourceBuilder<ElasticsearchResource>? elasticsearch = null;
 IResourceBuilder<RabbitMQServerResource>? rabbitmq = null;
 IResourceBuilder<PostgresServerResource>? postgres = null;
 
+IResourceBuilder<AzureCdnResource>? cdn = null;
+
 if (databaseProvider.ToLower() != "inmemory")
 {
     // PostgreSQL Database
@@ -61,6 +63,11 @@ if (databaseProvider.ToLower() != "inmemory")
     rabbitmq = builder.AddB2ConnectRabbitMQ(
         name: "rabbitmq",
         port: 5672);
+
+    // Azure CDN for translation assets and API caching
+    cdn = builder.AddAzureCdnFrontDoor("cdn")
+        .WithOrigin(storeGateway, "store-api")
+        .WithOrigin(frontendStore, "store-frontend");
 }
 
 // Azure Key Vault (Secret Store)

@@ -17,6 +17,7 @@ public class ProductDto
     public List<string> Categories { get; set; } = new();
     public string? BrandName { get; set; }
     public List<string> Tags { get; set; } = new();
+    public string? Barcode { get; set; } // Added for barcode scanning support
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public bool IsAvailable { get; set; }
@@ -50,6 +51,7 @@ public class CreateProductRequest
     public List<string>? Categories { get; set; }
     public string? BrandName { get; set; }
     public List<string>? Tags { get; set; }
+    public string? Barcode { get; set; } // Added for barcode scanning support
 }
 
 /// <summary>
@@ -66,6 +68,7 @@ public class UpdateProductRequest
     public List<string>? Categories { get; set; }
     public string? BrandName { get; set; }
     public List<string>? Tags { get; set; }
+    public string? Barcode { get; set; } // Added for barcode scanning support
 }
 
 /// <summary>
