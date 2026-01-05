@@ -38,6 +38,9 @@ Nuxt 3 Framework
   - Implement proper data fetching with `useAsyncData()` and `useFetch()` for reactive, cached data.
   - Use `<NuxtLink>` for internal navigation to leverage prefetching and improve performance.
   - Structure components with clear separation: pages for routing, components for UI, composables for logic.
+  - Use HOST=0.0.0.0 for built servers in testing environments to ensure external accessibility.
+  - Validate server connectivity before running e2e tests to prevent false failures.
+  - Access composables through nuxtApp parameter in plugins for proper context access.
 - Antipatterns:
   - Mixing client-side and server-side logic inappropriately (e.g., accessing browser APIs in server-side code).
   - Manually managing meta tags and head elements instead of using Nuxt's head composables.
@@ -49,6 +52,8 @@ Nuxt 3 Framework
   - Not handling loading and error states properly in data fetching composables.
   - Placing business logic directly in components instead of extracting to composables.
   - Ignoring Nuxt's performance optimizations like payload extraction and code splitting.
+  - Assuming localhost binding works for external test runners in e2e testing.
+  - Ignoring PostCSS warnings that may indicate configuration issues with Tailwind/DaisyUI.
 
 Authentication & Identity (ASP.NET Core Identity)
 - Patterns:
@@ -92,6 +97,28 @@ Code Quality & Legacy Migration (Pilot Phase 2 - Jan 2026)
   - Ignoring ESLint warnings in legacy code - establish exceptions only for truly blocking issues
   - Manual style fixes - automate formatting and enforce via CI/CD
   - Uncontrolled technical debt accumulation - implement regular code quality audits
+
+Playwright E2E Testing
+- Patterns:
+  - Use locators with user-facing attributes (getByRole, getByLabel) over fragile CSS selectors
+  - Chain and filter locators for precise element targeting
+  - Use web-first assertions (toBeVisible, toHaveText) that auto-wait and retry
+  - Test against built/production server for realistic testing environment
+  - Bind built servers to 0.0.0.0 for external test runner accessibility
+  - Validate server connectivity before running tests to avoid false failures
+  - Use setup projects for shared authentication state across tests
+  - Isolate tests with proper beforeEach/afterEach hooks and clean contexts
+  - Prefer soft assertions for collecting multiple failures without stopping execution
+  - Generate locators with codegen tool or VS Code extension for resilient selectors
+- Antipatterns:
+  - Testing implementation details instead of user-visible behavior
+  - Using manual assertions without awaiting expect results
+  - Running tests against dev server with hot reload that may cause timing issues
+  - Assuming localhost server binding works for external test runners
+  - Not validating server health before test execution
+  - Using XPath or complex CSS selectors that break with DOM changes
+  - Testing third-party dependencies without proper mocking
+  - Not isolating test data and state between test runs
 
 References
 - Wolverine README & docs, Vue docs, Pinia docs, Vite docs, ASP.NET Core Identity docs, .NET compatibility docs, OWASP Top Ten.

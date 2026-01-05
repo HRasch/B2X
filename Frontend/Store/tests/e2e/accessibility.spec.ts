@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.describe('Accessibility Tests', () => {
   test('Store homepage should have no critical accessibility violations', async ({ page }) => {
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -23,7 +23,7 @@ test.describe('Accessibility Tests', () => {
   });
 
   test('Product catalog should be accessible', async ({ page }) => {
-    await page.goto('http://localhost:5173/products');
+    await page.goto('/products');
 
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
 
@@ -37,7 +37,7 @@ test.describe('Accessibility Tests', () => {
   });
 
   test('Keyboard navigation works', async ({ page }) => {
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
 
     // Test tab navigation - first element should be focusable
     await page.keyboard.press('Tab');
@@ -83,7 +83,7 @@ test.describe('Accessibility Tests', () => {
   });
 
   test('Product images have alt text', async ({ page }) => {
-    await page.goto('http://localhost:5173/products');
+    await page.goto('/products');
 
     const images = page.locator('img');
     const imageCount = await images.count();
@@ -98,7 +98,7 @@ test.describe('Accessibility Tests', () => {
   });
 
   test('Form inputs have labels', async ({ page }) => {
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
 
     // Check newsletter form in footer
     const newsletterInput = page.locator('input[type="email"]');

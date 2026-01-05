@@ -14,7 +14,7 @@ test.describe('Responsive Design Tests', () => {
       test.use({ viewport: { width: viewport.width, height: viewport.height } });
 
       test('Store homepage layout adapts correctly', async ({ page }) => {
-        await page.goto('http://localhost:5173');
+        await page.goto('/');
 
         // Check if mobile menu exists on small screens
         if (viewport.width < 768) {
@@ -40,7 +40,7 @@ test.describe('Responsive Design Tests', () => {
       });
 
       test('Product grid is responsive', async ({ page }) => {
-        await page.goto('http://localhost:5173/products');
+        await page.goto('/products');
 
         const productCards = page.locator(
           '[data-testid="product-card"], .product-card, [class*="product"]'
@@ -66,7 +66,7 @@ test.describe('Responsive Design Tests', () => {
       });
 
       test('Search and forms are usable on small screens', async ({ page }) => {
-        await page.goto('http://localhost:5173/search');
+        await page.goto('/search');
 
         // Search input should be accessible
         const searchInput = page.locator('input[type="search"], input[placeholder*="search" i]');
@@ -84,7 +84,7 @@ test.describe('Responsive Design Tests', () => {
       });
 
       test('Shopping cart is accessible on mobile', async ({ page }) => {
-        await page.goto('http://localhost:5173');
+        await page.goto('/');
 
         // Look for cart icon/button
         const cartButton = page.locator(
@@ -112,7 +112,7 @@ test.describe('Responsive Design Tests', () => {
     test.skip(browserName === 'webkit');
 
     await page.setViewportSize({ width: 375, height: 667 }); // Mobile portrait
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
 
     // Simulate orientation change
     await page.setViewportSize({ width: 667, height: 375 }); // Mobile landscape

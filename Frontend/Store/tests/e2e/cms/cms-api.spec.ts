@@ -25,7 +25,7 @@ interface CmsRegion {
 }
 
 // Helper to make API requests
-const API_BASE_URL = 'http://localhost:5173/api';
+const API_BASE_URL = '/api';
 
 test.describe('CMS API Integration', () => {
   let request: APIRequestContext;

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Visual Regression Tests', () => {
   test('Store homepage visual baseline', async ({ page }) => {
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
 
     // Wait for dynamic content to load
     await page.waitForLoadState('networkidle');
@@ -16,7 +16,7 @@ test.describe('Visual Regression Tests', () => {
   });
 
   test('Product catalog visual baseline', async ({ page }) => {
-    await page.goto('http://localhost:5173/products');
+    await page.goto('/products');
 
     // Wait for products to load
     await page
@@ -34,7 +34,7 @@ test.describe('Visual Regression Tests', () => {
   });
 
   test('Search page layout consistency', async ({ page }) => {
-    await page.goto('http://localhost:5173/search');
+    await page.goto('/search');
 
     // Focus on search container
     const searchContainer = page.locator('[data-testid="search"], .search, form');
@@ -55,7 +55,7 @@ test.describe('Visual Regression Tests', () => {
 
     for (const bp of breakpoints) {
       await page.setViewportSize({ width: bp.width, height: bp.height });
-      await page.goto('http://localhost:5173');
+      await page.goto('/');
 
       await expect(page).toHaveScreenshot(`store-homepage-${bp.name}.png`, {
         fullPage: true,
@@ -64,7 +64,7 @@ test.describe('Visual Regression Tests', () => {
   });
 
   test('Product card consistency', async ({ page }) => {
-    await page.goto('http://localhost:5173/products');
+    await page.goto('/products');
 
     // Take screenshot of first product card if it exists
     const productCard = page.locator('[data-testid="product-card"], .product-card').first();
@@ -74,7 +74,7 @@ test.describe('Visual Regression Tests', () => {
   });
 
   test('Navigation menu consistency', async ({ page }) => {
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
 
     // Take screenshot of navigation
     const nav = page.locator('nav, [data-testid="navigation"], header');
@@ -84,7 +84,7 @@ test.describe('Visual Regression Tests', () => {
   });
 
   test('Theme consistency', async ({ page }) => {
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
 
     // Check if theme variables are applied correctly
     const rootStyles = await page.evaluate(() => {

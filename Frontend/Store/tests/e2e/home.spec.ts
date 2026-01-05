@@ -34,8 +34,8 @@ test.describe('Authentication Flow', () => {
   test('should display login form', async ({ page }: { page: Page }) => {
     await page.goto('/login');
 
-    // Check for email input
-    const emailInput = page.getByLabel('Email');
+    // Check for email input - be more specific to avoid newsletter form
+    const emailInput = page.locator('#email').first();
     await expect(emailInput).toBeVisible();
 
     // Check for password input
@@ -50,8 +50,8 @@ test.describe('Authentication Flow', () => {
   test('should show error on invalid login', async ({ page }: { page: Page }) => {
     await page.goto('/login');
 
-    // Fill in the form with invalid credentials
-    await page.getByLabel('Email').fill('invalid@example.com');
+    // Fill in the form with invalid credentials - be more specific
+    await page.locator('#email').first().fill('invalid@example.com');
     await page.getByLabel('Password').fill('wrongpassword');
 
     // Submit the form

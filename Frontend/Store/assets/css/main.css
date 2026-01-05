@@ -1,5 +1,12 @@
-@import "daisyui/daisyui.css";
-@reference "tailwindcss";
+@import "../../../node_modules/daisyui/daisyui.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Force some Tailwind classes to be generated */
+.force-tailwind {
+  @apply flex hidden text-center bg-white text-black p-4 m-2 border border-gray-300 rounded;
+}
 
 /* Custom component styles - DaisyUI v5 provides btn, card, etc. */
 /* Additional customizations below */
@@ -10,13 +17,11 @@ html {
 }
 
 /* Focus visible states for accessibility */
-@layer utilities {
-  .focus-visible\:outline-primary:focus-visible {
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color: var(--color-primary-500);
-    outline-offset: 2px;
-  }
+.focus-visible\:outline-primary:focus-visible {
+  outline-style: solid;
+  outline-width: 2px;
+  outline-color: var(--color-primary-500);
+  outline-offset: 2px;
 }
 
 body {

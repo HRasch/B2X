@@ -1,10 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import path from 'path';
-import tailwindcss from '@tailwindcss/postcss';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
+  // Dev server configuration
+  devServer: {
+    host: 'localhost',
+    port: 3000,
+  },
 
   // SSR enabled by default in Nuxt 3
   ssr: true,
@@ -42,7 +49,7 @@ export default defineNuxtConfig({
     },
     css: {
       postcss: {
-        plugins: [tailwindcss],
+        plugins: [tailwindcss, autoprefixer],
       },
       preprocessorOptions: {
         scss: {
@@ -143,11 +150,5 @@ export default defineNuxtConfig({
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
-  },
-
-  // Development server
-  devServer: {
-    port: 3000,
-    host: '0.0.0.0',
   },
 });

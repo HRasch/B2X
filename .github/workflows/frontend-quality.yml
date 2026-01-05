@@ -121,7 +121,7 @@ jobs:
           - frontend: Admin
             port: 5174
           - frontend: Store
-            port: 5173
+            port: 3000
           - frontend: Management
             port: 5175
 

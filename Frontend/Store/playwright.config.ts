@@ -14,11 +14,21 @@ export default defineConfig({
     // 5s timeouts
     actionTimeout: 5000,
     navigationTimeout: 5000,
-    baseURL: 'http://localhost:5173',
+    baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
+
+  // Commented out webServer - run server manually: npm run dev
+  // webServer: {
+  //   command: 'npm run dev -- --port 3000',
+  //   url: 'http://localhost:3000',
+  //   timeout: 120 * 1000,
+  //   reuseExistingServer: !process.env.CI,
+  //   stdout: 'pipe',
+  //   stderr: 'pipe',
+  // },
 
   expect: {
     timeout: 5000,
@@ -60,11 +70,4 @@ export default defineConfig({
       },
     },
   ],
-
-  webServer: {
-    command: 'npm run dev -- --port 5173',
-    url: 'http://localhost:5173',
-    reuseExistingServer: true,
-    timeout: 120000,
-  },
 });

@@ -197,8 +197,8 @@ test.describe('Localization E2E Tests', () => {
     await page.locator('[data-testid="language-option-de"]').click();
 
     // Navigate to another page
-    await page.goto('http://localhost:5173/');
-    await page.goto('http://localhost:5173/shop');
+    await page.goto('/');
+    await page.goto('/shop');
 
     // Language should still be German
     const button2 = page.locator('[data-testid="language-switcher-button"]');

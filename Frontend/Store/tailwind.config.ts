@@ -2,7 +2,14 @@ import type { Config } from 'tailwindcss';
 // DaisyUI v5 is imported via CSS (@import "daisyui"), not as a plugin
 
 export default {
-  content: ['./index.html', './**/*.{vue,js,ts,jsx,tsx}'],
+  content: [
+    './components/**/*.{vue,js,ts,jsx,tsx}',
+    './pages/**/*.{vue,js,ts,jsx,tsx}',
+    './layouts/**/*.{vue,js,ts,jsx,tsx}',
+    './plugins/**/*.{vue,js,ts,jsx,tsx}',
+    './nuxt.config.{js,ts}',
+    './app.vue',
+  ],
   theme: {
     extend: {
       colors: {

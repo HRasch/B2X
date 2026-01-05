@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Product Search E2E Tests', () => {
-  const baseUrl = process.env.STOREFRONT_URL || 'http://localhost:5173';
+  const baseUrl = process.env.STOREFRONT_URL || '';
 
   test.beforeEach(async ({ page }) => {
     // Navigate to StoreFront
