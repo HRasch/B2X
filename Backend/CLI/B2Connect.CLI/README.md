@@ -2,7 +2,91 @@
 
 **Multi-Tenant SaaS Platform Management Suite**
 
-> **⚠️ DEPRECATED:** This unified CLI has been split into specialized tools. See migration guide below.
+> **⚠️ DEPRECATED - DO NOT USE FOR NEW PROJECTS**
+> 
+> This unified CLI tool (`B2Connect.CLI`) is **deprecated** and will be removed in **v3.0.0**.
+> 
+> **Migration Required:** Please migrate to the new specialized CLI tools.
+> See [Migration Guide](#migration-guide) below.
+
+---
+
+## 🚨 Deprecation Notice
+
+**Effective Date:** January 5, 2026  
+**End of Life:** v3.0.0 (Q2 2026)  
+**Support Period:** 2 releases (until v2.10.0)
+
+### Why Deprecated?
+
+This unified CLI mixed two distinct operational contexts:
+1. **Platform Operations** (system management, monitoring)
+2. **Tenant Administration** (user management, catalog operations)
+
+This created security concerns as tenant administrators could potentially access system commands. The new architecture provides:
+- ✅ **Security Isolation:** Clear separation between platform and tenant operations
+- ✅ **Safe Distribution:** Administration CLI can be safely provided to customers
+- ✅ **Better UX:** Context-specific commands for each user role
+
+### Migration Path
+
+**Replace `B2Connect.CLI` with specialized tools:**
+
+| Old Command | New Command |
+|-------------|-------------|
+| `b2connect auth create-user` | `b2connect-admin auth create-user` |
+| `b2connect tenant create` | `b2connect-admin tenant create` |
+| `b2connect system status` | `b2connect-ops health check` |
+| `b2connect monitoring dashboard` | `b2connect-ops monitoring dashboard` |
+
+---
+
+## Migration Guide
+
+### For Platform Operators (DevOps/SRE)
+
+**1. Install Operations CLI:**
+```bash
+dotnet tool uninstall -g B2Connect.CLI
+dotnet tool install -g B2Connect.CLI.Operations
+```
+
+**2. Update Scripts:**
+```bash
+# Before
+b2connect system status
+
+# After
+b2connect-ops health check
+```
+
+### For Tenant Administrators
+
+**1. Install Administration CLI:**
+```bash
+dotnet tool uninstall -g B2Connect.CLI
+dotnet tool install -g B2Connect.CLI.Administration
+```
+
+**2. Update Scripts:**
+```bash
+# Before
+b2connect auth create-user --email user@example.com
+
+# After  
+b2connect-admin auth create-user --email user@example.com
+```
+
+### Automated Migration Script
+
+```bash
+# Download migration script
+curl -o migrate-cli.sh https://raw.githubusercontent.com/b2connect/cli/main/scripts/migrate-cli.sh
+
+# Run migration
+chmod +x migrate-cli.sh
+./migrate-cli.sh
+```
 
 ---
 

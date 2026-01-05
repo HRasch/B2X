@@ -9,7 +9,10 @@ using B2Connect.CLI.Commands;
 using B2Connect.CLI.Shared.Configuration;
 using Spectre.Console;
 
-var rootCommand = new RootCommand("B2Connect CLI - Microservices Management Tool")
+// Show deprecation warning on startup
+ShowDeprecationWarning();
+
+var rootCommand = new RootCommand("B2Connect CLI - Microservices Management Tool [DEPRECATED]")
 {
     TreatUnmatchedTokensAsErrors = true
 };
@@ -90,4 +93,29 @@ static async Task ShowInfo()
     }
 
     AnsiConsole.Write(table);
+}
+
+static void ShowDeprecationWarning()
+{
+    var panel = new Panel(
+        "[yellow]⚠️  DEPRECATION WARNING[/]\n\n" +
+        "[white]This CLI tool (B2Connect.CLI) is deprecated and will be removed in v3.0.0.[/]\n\n" +
+        "[bold]Please migrate to the new CLI tools:[/]\n" +
+        "  • [green]B2Connect.CLI.Operations[/] - For platform operations (internal)\n" +
+        "  • [green]B2Connect.CLI.Administration[/] - For tenant management (customer-facing)\n\n" +
+        "[bold]Migration:[/]\n" +
+        "  dotnet tool install -g B2Connect.CLI.Operations\n" +
+        "  dotnet tool install -g B2Connect.CLI.Administration\n\n" +
+        "[dim]Documentation: https://docs.b2connect.com/cli/migration[/]")
+    {
+        Header = new PanelHeader("[yellow]⚠️  DEPRECATED[/]"),
+        Border = BoxBorder.Double,
+        BorderStyle = new Style(Color.Yellow),
+        Padding = new Padding(2, 1)
+    };
+
+    AnsiConsole.Write(panel);
+    AnsiConsole.WriteLine();
+    AnsiConsole.MarkupLine("[dim]Proceeding with legacy CLI execution...[/]");
+    AnsiConsole.WriteLine();
 }

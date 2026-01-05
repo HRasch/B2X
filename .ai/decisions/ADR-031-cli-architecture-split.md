@@ -210,11 +210,14 @@ b2connect config login --tenant acme-corp
 - Create NuGet package
 - Customer-facing documentation
 
-### Phase 4: Deprecation of Original CLI (Week 4)
-- Mark `B2Connect.CLI` as deprecated
-- Migration guide for existing users
-- Automated migration script
-- Support for legacy CLI for 2 releases
+### Phase 4: Deprecation of Original CLI (Week 4) ✅ IMPLEMENTED
+- ✅ Mark `B2Connect.CLI` as deprecated
+- ✅ Add deprecation warnings on CLI startup
+- ✅ Migration guide for existing users
+- ✅ Automated migration script
+- ✅ Update README with deprecation notice and migration path
+- ⏳ **Not yet released** - Deprecation implemented but not published
+- ⏳ Support for legacy CLI for 2 releases (planned)
 
 ---
 
@@ -524,6 +527,6 @@ b2connect tenant create  # Same command syntax
 
 ---
 
-**Status:** 📋 Proposed - Phase 3 Implemented (Administration CLI)  
+**Status:** 📋 Proposed - Phase 4 Implemented (Legacy CLI Deprecated)  
 **Next Review:** January 12, 2026  
 **Implementation Target:** Q1 2026

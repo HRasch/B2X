@@ -20,7 +20,8 @@ public static class RollbackCommand
             ["-e", "--environment"], getDefaultValue: () => "development", "Target environment: development, staging, production");
 
         var reasonOption = new Option<string>(
-            ["-r", "--reason"], "Reason for rollback (required for audit trail)") { IsRequired = true };
+            ["-r", "--reason"], "Reason for rollback (required for audit trail)")
+        { IsRequired = true };
 
         var timeoutOption = new Option<int>(
             ["-t", "--timeout"], getDefaultValue: () => 600, "Timeout in seconds for rollback operation");
