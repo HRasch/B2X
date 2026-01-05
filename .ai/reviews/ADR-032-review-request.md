@@ -4,6 +4,8 @@
 ## Date: January 5, 2026
 ## Status: Ready for Review
 
+> ⚠️ **Pre-Release Context (GL-014)**: B2Connect is v0.x - backwards compatibility NOT required until v1.0.0
+
 ### Reviewers Needed:
 - @Architect - Architecture design and ADR approval
 - @Security - Security implications and update verification
@@ -26,7 +28,7 @@
 ### Review Checklist:
 - [ ] Architecture sound and scalable
 - [ ] Security measures adequate
-- [ ] Backward compatibility maintained
+- [x] Backward compatibility maintained *(N/A - pre-release per GL-014)*
 - [ ] User experience considerations addressed
 - [ ] Implementation effort reasonable
 - [ ] Business value justified

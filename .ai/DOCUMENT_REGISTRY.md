@@ -134,6 +134,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-011` | Guard Clauses - Coding Style Guidelines | `.ai/guidelines/GL-011-coding-style-guard-clauses.md` | Active |
 | `GL-012` | Frontend Quality Standards | `.ai/guidelines/GL-012-FRONTEND-QUALITY-STANDARDS.md` | Active |
 | `GL-013` | Dependency Management Policy | `.ai/guidelines/GL-013-DEPENDENCY-MANAGEMENT.md` | Active |
+| `GL-014` | Pre-Release Development Phase | `.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md` | Active (until v1.0) |
 
 ---
 

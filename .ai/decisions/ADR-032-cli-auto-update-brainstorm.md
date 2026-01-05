@@ -7,6 +7,11 @@
 
 ---
 
+> ⚠️ **Pre-Release Notice (GL-014)**  
+> B2Connect is currently in v0.x pre-release development. CLI commands and APIs may change without deprecation cycles. Backwards compatibility is NOT guaranteed until v1.0.0 release. See [GL-014] for details.
+
+---
+
 ## Problem Statement
 
 CLI tools need to stay current with:

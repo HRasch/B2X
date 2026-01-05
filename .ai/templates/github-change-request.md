@@ -63,7 +63,7 @@ labels: ["change-request"]
 [Ja / Nein - Details]
 
 **Backward Compatibility:**
-[Ja / Nein / Partial]
+N/A (pre-release v0.x) - See [GL-014]
 
 **Effort Estimate:**
 [XS / S / M / L / XL]

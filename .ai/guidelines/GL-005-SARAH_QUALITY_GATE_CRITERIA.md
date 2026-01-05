@@ -19,6 +19,8 @@ date: 2025-01-02
 
 As coordinator and quality gatekeeper, SARAH reviews PRs to ensure they follow the single-topic principle. This document defines the criteria SARAH uses when evaluating PR topic coherence.
 
+> **Pre-Release Note (GL-014)**: During v0.x development, breaking changes are permitted without deprecation cycles. Focus quality gates on code quality and single-topic enforcement, not backwards compatibility.
+
 ---
 
 ## Review Triggers

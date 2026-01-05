@@ -143,6 +143,7 @@ See [PROMPTS_INDEX.md](../.ai/collaboration/PROMPTS_INDEX.md) for complete refer
 | [GL-008] | Governance Policies | Policy changes, permissions, dependencies |
 | [GL-009] | AI Behavior | Implementation guidelines, fallback procedures |
 | [GL-010] | Agent & Artifact Organization | File structure, agent responsibilities |
+| [GL-014] | Pre-Release Phase | Breaking changes allowed (v0.x) |
 
 ---
 
