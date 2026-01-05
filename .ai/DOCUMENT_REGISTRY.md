@@ -61,6 +61,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-029-ICAS` | IDS Connect Adapter Specification | `.ai/decisions/ADR-029-ids-connect-adapter-spec.md` | Active |
 | `ADR-030` | Vue-i18n v10 to v11 Migration | `.ai/decisions/ADR-030-vue-i18n-v11-migration.md` | Accepted |
 | `ADR-031` | CLI Architecture Split - Operations vs. Administration | `.ai/decisions/ADR-031-cli-architecture-split.md` | Proposed |
+| `ADR-032` | CLI Auto-Update Functionality | `.ai/decisions/ADR-032-cli-auto-update-brainstorm.md` | Brainstorm |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
