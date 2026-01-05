@@ -69,6 +69,58 @@ public class ConsoleOutputService
         AnsiConsole.Write(new Panel(json) { Border = BoxBorder.Rounded });
     }
 
+    public void WriteJson(object data)
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            data,
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+
+        // Use plain text output to avoid markup parsing issues
+        Console.WriteLine(json);
+    }
+
+    public void WriteYaml(object data)
+    {
+        // Simple YAML-like output for now
+        // Could be enhanced with a proper YAML serializer
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            data,
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+
+        // Convert JSON to basic YAML format
+        var yaml = json
+            .Replace("\"", "")
+            .Replace(",", "")
+            .Replace("{", "")
+            .Replace("}", "")
+            .Replace("[", "")
+            .Replace("]", "")
+            .Replace("  ", "  - ");
+
+        // Use plain text output to avoid markup parsing issues
+        Console.WriteLine(yaml);
+    }
+
+    public void WriteSuccess(string message)
+    {
+        Success(message);
+    }
+
+    public void WriteError(string message)
+    {
+        Error(message);
+    }
+
+    public void WriteWarning(string message)
+    {
+        Warning(message);
+    }
+
+    public void WriteInfo(string message)
+    {
+        Info(message);
+    }
+
     public bool Confirm(string question)
     {
         return AnsiConsole.Confirm($"[yellow]{question}[/]");

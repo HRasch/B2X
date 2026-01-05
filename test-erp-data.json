@@ -1,0 +1,20 @@
+[
+  {
+    "id": "test-1",
+    "sku": "AA123456",
+    "email": "test@example.com",
+    "price": 99.99,
+    "tenantId": "tenant-1",
+    "erpType": "enventa",
+    "categoryId": "cat-1"
+  },
+  {
+    "id": "test-2",
+    "sku": "INVALID",
+    "email": "invalid-email",
+    "price": null,
+    "tenantId": "tenant-1",
+    "erpType": "enventa",
+    "categoryId": "cat-1"
+  }
+]

@@ -118,3 +118,12 @@ public class IntelligentAssistantArgs
     public string? UserId { get; set; }
     public bool EnableLearning { get; set; } = true;
 }
+
+/// <summary>
+/// Arguments for Template Validation Tool
+/// </summary>
+public class TemplateValidationArgs
+{
+    public string TemplateKey { get; set; } = string.Empty;
+    public string TemplateContent { get; set; } = string.Empty;
+}

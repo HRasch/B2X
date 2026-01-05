@@ -5,6 +5,7 @@ using B2Connect.CLI.Operations.Commands.HealthCommands;
 using B2Connect.CLI.Operations.Commands.MonitoringCommands;
 using B2Connect.CLI.Operations.Commands.ServiceCommands;
 using B2Connect.CLI.Operations.Commands.DeploymentCommands;
+using B2Connect.CLI.Operations.Commands.ValidationCommands;
 using B2Connect.CLI.Shared.Configuration;
 using Spectre.Console;
 
@@ -36,6 +37,11 @@ var deploymentCommand = new Command("deployment", "Deployment and migration oper
 deploymentCommand.AddCommand(MigrateCommand.Create());
 deploymentCommand.AddCommand(RollbackCommand.Create());
 rootCommand.AddCommand(deploymentCommand);
+
+// Validation Commands
+var validationCommand = new Command("validation", "Data validation operations");
+validationCommand.AddCommand(ValidateErpCommand.Create());
+rootCommand.AddCommand(validationCommand);
 
 // Info Command
 var infoCommand = new Command("info", "Show configuration information");

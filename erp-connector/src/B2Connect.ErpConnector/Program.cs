@@ -63,8 +63,29 @@ namespace B2Connect.ErpConnector
                     Console.WriteLine("==========================================\n");
                 }
 
-                // Initialize ERP service
-                _erpService = new EnventaErpService();
+                // Initialize AI service if enabled
+                LocalAiService aiService = null;
+                var aiProviderSelector = new ErpAiProviderSelector();
+                if (aiProviderSelector.IsAiEnabled)
+                {
+                    try
+                    {
+                        aiService = aiProviderSelector.CreateAiServiceForTenant("default");
+                        Console.WriteLine($"AI processing enabled using {aiProviderSelector.PreferredProvider} provider");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Warning: AI service initialization failed: {ex.Message}");
+                        Console.WriteLine("ERP service will continue without AI capabilities");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("AI processing disabled in configuration");
+                }
+
+                // Initialize ERP service with AI capabilities
+                _erpService = new EnventaErpService(aiService);
 
                 // Start the HTTP listener
                 StartHttpListener();
@@ -254,6 +275,10 @@ namespace B2Connect.ErpConnector
                 else if (path.StartsWith("/api/orders"))
                 {
                     HandleOrdersRequest(request, response, tenantId, authResult);
+                }
+                else if (path.StartsWith("/api/ai"))
+                {
+                    HandleAiRequest(request, response, tenantId, authResult);
                 }
                 else
                 {
@@ -651,6 +676,107 @@ namespace B2Connect.ErpConnector
                 return true;
 
             return _allowedBusinessUnits.Contains(businessUnit);
+        }
+
+        private static async void HandleAiRequest(HttpListenerRequest request, HttpListenerResponse response, string tenantId, ApiKeyValidationResult authResult)
+        {
+            try
+            {
+                var path = request.Url.AbsolutePath.ToLowerInvariant();
+
+                // Check if AI is enabled
+                if (!_erpService.IsAiEnabled)
+                {
+                    response.StatusCode = 503;
+                    WriteJsonResponse(response, new { error = "Service Unavailable", message = "AI processing is not enabled" });
+                    return;
+                }
+
+                if (request.HttpMethod == "POST")
+                {
+                    // POST /api/ai/validate - Validate data with AI
+                    if (path == "/api/ai/validate")
+                    {
+                        using (var reader = new System.IO.StreamReader(request.InputStream))
+                        {
+                            var body = await reader.ReadToEndAsync();
+                            var data = _serializer.Deserialize<dynamic>(body);
+                            var content = data?["data"]?.ToString() ?? "";
+
+                            var aiResponse = await _erpService.ValidateArticleDataWithAiAsync(tenantId, content);
+                            WriteJsonResponse(response, new
+                            {
+                                tenantId,
+                                operation = "validate",
+                                aiResponse.Content,
+                                aiResponse.TokensUsed,
+                                aiResponse.Model,
+                                timestamp = DateTime.UtcNow.ToString("o")
+                            });
+                        }
+                    }
+                    // POST /api/ai/correct - Correct data with AI
+                    else if (path == "/api/ai/correct")
+                    {
+                        using (var reader = new System.IO.StreamReader(request.InputStream))
+                        {
+                            var body = await reader.ReadToEndAsync();
+                            var data = _serializer.Deserialize<dynamic>(body);
+                            var content = data?["data"]?.ToString() ?? "";
+                            var errors = data?["errors"]?.ToString() ?? "";
+
+                            var aiResponse = await _erpService.CorrectArticleDataWithAiAsync(tenantId, content, errors);
+                            WriteJsonResponse(response, new
+                            {
+                                tenantId,
+                                operation = "correct",
+                                aiResponse.Content,
+                                aiResponse.TokensUsed,
+                                aiResponse.Model,
+                                timestamp = DateTime.UtcNow.ToString("o")
+                            });
+                        }
+                    }
+                    // POST /api/ai/process - General AI processing
+                    else if (path == "/api/ai/process")
+                    {
+                        using (var reader = new System.IO.StreamReader(request.InputStream))
+                        {
+                            var body = await reader.ReadToEndAsync();
+                            var data = _serializer.Deserialize<dynamic>(body);
+                            var operation = data?["operation"]?.ToString() ?? "process";
+                            var content = data?["data"]?.ToString() ?? "";
+
+                            var aiResponse = await _erpService.ProcessTenantDataWithAiAsync(tenantId, operation, content);
+                            WriteJsonResponse(response, new
+                            {
+                                tenantId,
+                                operation,
+                                aiResponse.Content,
+                                aiResponse.TokensUsed,
+                                aiResponse.Model,
+                                timestamp = DateTime.UtcNow.ToString("o")
+                            });
+                        }
+                    }
+                    else
+                    {
+                        response.StatusCode = 404;
+                        WriteJsonResponse(response, new { error = "Not Found", message = "AI endpoint not found" });
+                    }
+                }
+                else
+                {
+                    response.StatusCode = 405;
+                    WriteJsonResponse(response, new { error = "Method Not Allowed", message = "Only POST method is supported for AI endpoints" });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"AI request error: {ex.Message}");
+                response.StatusCode = 500;
+                WriteJsonResponse(response, new { error = "Internal Server Error", message = ex.Message });
+            }
         }
     }
 }

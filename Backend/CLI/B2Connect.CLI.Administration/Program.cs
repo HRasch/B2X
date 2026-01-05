@@ -5,10 +5,19 @@ using B2Connect.CLI.Administration.Commands.AuthCommands;
 using B2Connect.CLI.Administration.Commands.TenantCommands;
 using B2Connect.CLI.Administration.Commands.CatalogCommands;
 using B2Connect.CLI.Administration.Commands.HealthCommands;
+using B2Connect.CLI.Administration.Commands.DiscoveryCommands;
+using B2Connect.CLI.Administration.Commands.ConfigCommands;
 using B2Connect.CLI.Shared;
 using B2Connect.CLI.Shared.Configuration;
+using B2Connect.Api.Validation;
+using B2Connect.Api.Connectors;
+// using B2Connect.Connectors; // Commented out - namespace not found
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
+var host = CreateHostBuilder(args).Build();
 var rootCommand = new RootCommand("B2Connect Administration CLI - Tenant Management Tool")
 {
     TreatUnmatchedTokensAsErrors = true
@@ -36,6 +45,18 @@ var healthCommand = new Command("health", "System health monitoring and checks")
 healthCommand.AddCommand(HealthCheckCommand.Create());
 rootCommand.AddCommand(healthCommand);
 
+// Discovery Commands
+var discoveryCommand = new Command("discover", "AI service discovery and exploration");
+discoveryCommand.AddCommand(DiscoverServicesCommand.Create());
+rootCommand.AddCommand(discoveryCommand);
+
+// Configuration Commands
+var configCommand = new Command("config", "Configuration management");
+configCommand.AddCommand(ConfigListCommand.Create());
+configCommand.AddCommand(ConfigGetCommand.Create());
+configCommand.AddCommand(ConfigSetCommand.Create());
+rootCommand.AddCommand(configCommand);
+
 // Info Command
 var infoCommand = new Command("info", "Show configuration information");
 infoCommand.SetHandler(async () => await ShowInfo());
@@ -55,6 +76,18 @@ var parser = new CommandLineBuilder(rootCommand)
     .Build();
 
 return await parser.InvokeAsync(args);
+
+static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureServices((hostContext, services) =>
+        {
+            // Register logging
+            services.AddLogging();
+
+            // Register shared services
+            services.AddSingleton<ConfigurationService>();
+            services.AddSingleton<ConsoleOutputService>();
+        });
 
 static async Task ShowInfo()
 {

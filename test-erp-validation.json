@@ -1,0 +1,26 @@
+[
+  {
+    "id": "12345",
+    "name": "Test Product",
+    "price": -10.0,
+    "sku": "AB123456",
+    "erpType": "enventa",
+    "tenantId": "test-tenant"
+  },
+  {
+    "id": "67890",
+    "name": "Another Product",
+    "price": 25.0,
+    "sku": "XY123456",
+    "erpType": "sap",
+    "tenantId": "test-tenant"
+  },
+  {
+    "id": null,
+    "name": "Invalid Product",
+    "price": 15.0,
+    "sku": "INVALID",
+    "erpType": "enventa",
+    "tenantId": "test-tenant"
+  }
+]

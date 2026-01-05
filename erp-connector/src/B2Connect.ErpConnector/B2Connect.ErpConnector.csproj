@@ -59,6 +59,10 @@
     <Compile Include="Services\ApiKeyManager.cs" />
     <Compile Include="Services\EnventaActorPool.cs" />
     <Compile Include="Services\EnventaErpService.cs" />
+    <Compile Include="Services\LocalAiService.cs" />
+    <Compile Include="Services\OllamaProvider.cs" />
+    <Compile Include="Services\LmStudioProvider.cs" />
+    <Compile Include="Services\ErpAiProviderSelector.cs" />
     <Compile Include="Models\Dtos.cs" />
     <Compile Include="Infrastructure\Identity\EnventaIdentity.cs" />
     <Compile Include="Infrastructure\Identity\EnventaIdentityProvider.cs" />

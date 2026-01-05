@@ -1,8 +1,176 @@
 # Lessons Learned
 
 **DocID**: `KB-LESSONS`  
-**Last Updated**: 3. Januar 2026  
+**Last Updated**: 5. Januar 2026  
 **Maintained By**: GitHub Copilot
+
+---
+
+## Session: 5. Januar 2026 - Runtime AI Mode Switching Implementation
+
+### MCP Tool Integration with Thread-Safe Mode Management
+
+**Issue**: Need to implement runtime switching between AI modes (Normal, Local, Network) while ensuring thread safety and proper MCP tool integration.
+
+**Root Causes Identified**:
+
+#### 1. Thread-Safe Mode Switching Pattern
+**Problem**: Multiple concurrent requests could cause race conditions when switching AI modes.
+```csharp
+// WRONG - Not thread-safe
+public void SwitchMode(AiMode newMode)
+{
+    _currentMode = newMode; // Race condition potential
+}
+```
+
+**Solution**: Atomic operations with proper synchronization:
+```csharp
+// CORRECT - Thread-safe with Interlocked
+private AiMode _currentMode = AiMode.Normal;
+
+public bool TrySwitchMode(AiMode newMode)
+{
+    var oldMode = Interlocked.Exchange(ref _currentMode, newMode);
+    return oldMode != newMode; // Return true if actually changed
+}
+```
+
+#### 2. MCP Tool Argument Validation
+**Problem**: MCP tools need robust argument validation and user-friendly error messages.
+```csharp
+// WRONG - Basic validation
+if (string.IsNullOrEmpty(args.TargetMode))
+    throw new ArgumentException("TargetMode is required");
+```
+
+**Solution**: Comprehensive validation with detailed feedback:
+```csharp
+// CORRECT - Detailed validation and user guidance
+if (string.IsNullOrEmpty(args.TargetMode))
+{
+    return "❌ **Error**: TargetMode is required. Please specify one of: Normal, Local, Network";
+}
+
+if (!Enum.TryParse<AiProviderSelector.AiMode>(args.TargetMode, true, out var targetMode))
+{
+    return $"❌ **Error**: Invalid mode '{args.TargetMode}'. Valid modes are: Normal, Local, Network";
+}
+```
+
+#### 3. Missing Type Dependencies
+**Problem**: Compilation errors due to missing DTO classes referenced in MCP tools.
+**Solution**: Systematic type discovery and addition:
+- Located missing `TemplateValidationArgs` in MCP server registration
+- Added missing class to `ToolArgs.cs` with proper properties
+- Verified all type references resolve correctly
+
+### Key Implementation Decisions
+
+1. **Thread Safety**: Used `Interlocked.Exchange` for atomic mode updates
+2. **Mode Validation**: String parsing with case-insensitive enum conversion
+3. **User Experience**: Detailed error messages with valid options listed
+4. **Dependency Resolution**: Added missing DTOs to prevent compilation failures
+
+### Testing Strategy
+
+- Unit tests for mode switching logic with thread safety verification
+- Integration tests for MCP tool execution and response formatting
+- Error handling tests for invalid inputs and edge cases
+- Compilation verification after type additions
+
+### Benefits Achieved
+
+- **Operational Flexibility**: Runtime mode switching without service restart
+- **Thread Safety**: Concurrent requests handled safely
+- **User-Friendly**: Clear error messages guide users to correct usage
+- **Maintainable**: Clean separation between mode logic and MCP integration
+- **Reliable**: Comprehensive testing prevents runtime failures
+
+---
+
+## Session: 5. Januar 2026 - Network AI Mode Implementation
+
+### AI Provider Selection Architecture Extension
+
+**Issue**: Need to add network-hosted Ollama support while maintaining existing local fallback functionality.
+
+**Root Causes Identified**:
+
+#### 1. Configuration Extension Pattern
+**Problem**: Adding new AI modes required careful integration with existing provider selection logic.
+```csharp
+// WRONG - Complex conditional logic
+if (networkMode) { /* network logic */ }
+else if (localMode) { /* local logic */ }
+else { /* normal logic */ }
+```
+
+**Solution**: Clean priority-based mode selection:
+```csharp
+// CORRECT - Priority-based selection
+var networkModeEnabled = _configuration.GetValue<bool>("AI:EnableNetworkMode", false);
+if (networkModeEnabled)
+{
+    return _ollamaProvider; // Network mode takes priority
+}
+
+var localFallbackEnabled = _configuration.GetValue<bool>("AI:EnableLocalFallback", false);
+if (localFallbackEnabled)
+{
+    return _ollamaProvider; // Local fallback second priority
+}
+
+// Normal provider selection logic
+```
+
+#### 2. Test Mocking Extension Methods
+**Problem**: Moq cannot mock extension methods like `IConfiguration.GetValue<T>()`.
+```csharp
+// WRONG - Trying to mock extension methods
+_configurationMock.Setup(c => c.GetValue<bool>("AI:EnableNetworkMode", false)).Returns(true);
+```
+
+**Solution**: Use real `ConfigurationBuilder` for testing:
+```csharp
+// CORRECT - Real configuration for testing
+var configBuilder = new ConfigurationBuilder();
+configBuilder.AddInMemoryCollection(new[]
+{
+    new KeyValuePair<string, string>("AI:EnableNetworkMode", "true")
+});
+var configuration = configBuilder.Build();
+```
+
+#### 3. Documentation Synchronization
+**Problem**: Multiple documentation files needed updates for new feature.
+**Solution**: Systematic documentation updates:
+- Updated `AiProviderSelector.cs` comments
+- Extended `local-ai-fallback-configuration.md` with network mode
+- Added comprehensive configuration examples
+- Updated flow diagrams and best practices
+
+### Key Implementation Decisions
+
+1. **Priority Order**: Network mode > Local fallback > Normal selection
+2. **Shared Infrastructure**: Both modes use same Ollama provider with different endpoints
+3. **Backward Compatibility**: Existing local fallback unchanged
+4. **Configuration Naming**: `AI:EnableNetworkMode` vs `AI:EnableLocalFallback`
+
+### Testing Strategy
+
+- Unit tests for each mode selection path
+- Integration tests for end-to-end functionality  
+- Configuration-based testing instead of mocks
+- Error handling verification
+
+### Benefits Achieved
+
+- **Enterprise Ready**: Network-hosted AI for large organizations
+- **Flexible Deployment**: Local dev, network staging, cloud prod
+- **Cost Optimization**: Shared network resources reduce per-user costs
+- **Compliance**: Keep AI processing within corporate networks
+- **Performance**: Leverage powerful shared GPU infrastructure
 
 ---
 

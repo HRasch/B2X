@@ -98,6 +98,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-022` | GitHub Copilot Customization | `.ai/knowledgebase/tools-and-tech/github-copilot-customization.md` | Active |
 | `KB-023` | Email Template Best Practices | `.ai/knowledgebase/best-practices/email-templates.md` | Active |
 | `KB-024` | Microsoft.Extensions.AI | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.AI.md` | Active |
+| `KB-025` | Global Local AI Mode Configuration | `.ai/knowledgebase/tools-and-tech/local-ai-fallback-configuration.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 

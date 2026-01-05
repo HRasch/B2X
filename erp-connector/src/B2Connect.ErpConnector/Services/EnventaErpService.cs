@@ -24,11 +24,21 @@ namespace B2Connect.ErpConnector.Services
     {
         private readonly EnventaActorPool _actorPool;
         private readonly IEnventaIdentityProvider _identityProvider;
+        private readonly LocalAiService _aiService;
 
         public EnventaErpService(IEnventaIdentityProvider identityProvider)
+            : this(identityProvider, null)
+        {
+        }
+
+        /// <summary>
+        /// Creates an ERP service instance with AI capabilities
+        /// </summary>
+        public EnventaErpService(IEnventaIdentityProvider identityProvider, LocalAiService aiService)
         {
             _identityProvider = identityProvider ?? throw new ArgumentNullException(nameof(identityProvider));
             _actorPool = EnventaActorPool.Instance;
+            _aiService = aiService; // Can be null if AI is disabled
         }
 
         /// <summary>
@@ -36,11 +46,19 @@ namespace B2Connect.ErpConnector.Services
         /// This ensures each tenant uses their own ERP credentials.
         /// </summary>
         public EnventaErpService(ErpCredentials credentials)
-            : this(new ConfiguredIdentityProvider(credentials.Username, credentials.Password, credentials.BusinessUnit))
+            : this(new ConfiguredIdentityProvider(credentials.Username, credentials.Password, credentials.BusinessUnit), null)
         {
         }
 
-        public EnventaErpService() : this(new ConfiguredIdentityProvider("sysadm", "sysadm", "10"))
+        /// <summary>
+        /// Creates an ERP service instance with AI capabilities
+        /// </summary>
+        public EnventaErpService(ErpCredentials credentials, LocalAiService aiService)
+            : this(new ConfiguredIdentityProvider(credentials.Username, credentials.Password, credentials.BusinessUnit), aiService)
+        {
+        }
+
+        public EnventaErpService() : this(new ConfiguredIdentityProvider("sysadm", "sysadm", "10"), null)
         {
         }
 
@@ -616,6 +634,65 @@ namespace B2Connect.ErpConnector.Services
                 }
             }, ct);
         }
+
+        #endregion
+
+        #region AI-Powered Data Processing
+
+        /// <summary>
+        /// Validate article data using AI for intelligent quality checks
+        /// </summary>
+        /// <param name="tenantId">Tenant identifier</param>
+        /// <param name="articleData">Article data to validate</param>
+        /// <param name="ct">Cancellation token</param>
+        public async Task<AiResponse> ValidateArticleDataWithAiAsync(string tenantId, string articleData, CancellationToken ct = default)
+        {
+            if (_aiService == null)
+            {
+                throw new InvalidOperationException("AI service is not configured for this ERP service instance");
+            }
+
+            return await _aiService.ValidateErpDataAsync(tenantId, "enventa", articleData, ct);
+        }
+
+        /// <summary>
+        /// Correct article data using AI suggestions based on validation errors
+        /// </summary>
+        /// <param name="tenantId">Tenant identifier</param>
+        /// <param name="articleData">Original article data</param>
+        /// <param name="validationErrors">Validation errors to address</param>
+        /// <param name="ct">Cancellation token</param>
+        public async Task<AiResponse> CorrectArticleDataWithAiAsync(string tenantId, string articleData, string validationErrors, CancellationToken ct = default)
+        {
+            if (_aiService == null)
+            {
+                throw new InvalidOperationException("AI service is not configured for this ERP service instance");
+            }
+
+            return await _aiService.CorrectErpDataAsync(tenantId, "enventa", articleData, validationErrors, ct);
+        }
+
+        /// <summary>
+        /// Process tenant data using AI for general operations
+        /// </summary>
+        /// <param name="tenantId">Tenant identifier</param>
+        /// <param name="operation">Operation type (validate, enrich, transform)</param>
+        /// <param name="data">Data to process</param>
+        /// <param name="ct">Cancellation token</param>
+        public async Task<AiResponse> ProcessTenantDataWithAiAsync(string tenantId, string operation, string data, CancellationToken ct = default)
+        {
+            if (_aiService == null)
+            {
+                throw new InvalidOperationException("AI service is not configured for this ERP service instance");
+            }
+
+            return await _aiService.ProcessTenantDataAsync(tenantId, operation, data, ct);
+        }
+
+        /// <summary>
+        /// Check if AI capabilities are available
+        /// </summary>
+        public bool IsAiEnabled => _aiService != null;
 
         #endregion
     }

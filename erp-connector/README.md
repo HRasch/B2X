@@ -14,6 +14,34 @@ The B2Connect ERP Connector Framework provides a pluggable architecture for inte
 - **🔒 Enterprise Security**: End-to-end encryption, audit logging, and compliance
 - **⚡ Performance Optimized**: Connection pooling, caching, and async operations
 - **🛠️ Developer Friendly**: Standardized interfaces and development kits
+- **🤖 AI-Powered Processing**: Local AI integration with Ollama and LMStudio for intelligent data validation and correction
+
+### AI Processing Capabilities
+
+The ERP Connector Framework includes built-in AI processing capabilities for tenant data:
+
+- **🔍 Intelligent Data Validation**: AI-powered validation of ERP data quality and consistency
+- **🔧 Automatic Data Correction**: AI suggestions for fixing data quality issues
+- **📊 Smart Data Processing**: General AI processing for data transformation and enrichment
+- **🏠 Local AI Support**: Uses client-side Ollama or LMStudio for privacy and performance
+- **🏢 Tenant Isolation**: All AI processing respects tenant boundaries and data isolation
+
+#### Supported AI Providers
+
+| Provider | Type | Endpoint | Features |
+|----------|------|----------|----------|
+| **Ollama** | Local | `http://localhost:11434` | DeepSeek Coder, Qwen models, full local control |
+| **LMStudio** | Local | `http://localhost:1234` | OpenAI-compatible API, model switching |
+
+#### AI Configuration
+
+```xml
+<!-- App.config -->
+<add key="AI:Enabled" value="true" />
+<add key="AI:PreferredProvider" value="ollama" />
+<add key="AI:Ollama:Endpoint" value="http://localhost:11434" />
+<add key="AI:LMStudio:Endpoint" value="http://localhost:1234" />
+```
 
 ### Supported ERP Systems
 
@@ -402,6 +430,32 @@ The pluggable framework replaces the monolithic enventa-specific connector with 
 
 ### Customer Operations
 - `GET /api/{erp-type}/customers/{customerId}` - Get customer data
+
+### AI Processing Endpoints
+- `POST /api/ai/validate` - Validate ERP data using AI
+- `POST /api/ai/correct` - Correct ERP data using AI suggestions
+- `POST /api/ai/process` - General AI processing for tenant data
+
+#### AI Validation Example
+```bash
+curl -X POST http://localhost:5081/api/ai/validate \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": "Article data to validate..."
+  }'
+```
+
+#### AI Correction Example
+```bash
+curl -X POST http://localhost:5081/api/ai/correct \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": "Original article data...",
+    "errors": "Validation error messages..."
+  }'
+```
 
 ## Security Considerations
 

@@ -271,6 +271,17 @@ builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailTemplateService, B2C
 // CLI Tools Services (ADR-033: Tenant-Admin Download for CLI and ERP-Connector)
 builder.Services.AddScoped<ICliToolsService, CliToolsService>();
 
+// ERP Data Validation Services
+builder.Services.AddScoped<B2Connect.Api.Validation.IDataValidator<B2Connect.Api.Models.Erp.ErpData>, B2Connect.Api.Validation.ErpDataValidator>();
+builder.Services.AddScoped<B2Connect.Api.Validation.IDataValidator<B2Connect.Api.Models.Erp.ErpData>, B2Connect.Api.Validation.ErpSpecificValidator>();
+builder.Services.AddScoped<B2Connect.Api.Validation.IValidationRulesProvider, B2Connect.Api.Validation.ValidationRulesProvider>();
+builder.Services.AddScoped<B2Connect.Api.Validation.IQuarantineService, B2Connect.Api.Validation.QuarantineService>();
+builder.Services.AddScoped<B2Connect.Api.Validation.IQuarantineRepository, B2Connect.Api.Validation.QuarantineRepository>();
+
+// ERP Connectors
+builder.Services.AddScoped<B2Connect.Api.Connectors.IErpConnector, B2Connect.Api.Connectors.EnventaConnector>();
+builder.Services.AddScoped<B2Connect.Api.Connectors.IErpConnector, B2Connect.Api.Connectors.SapConnector>();
+
 // Add services
 builder.Services.AddControllers(options =>
 {

@@ -27,6 +27,7 @@
     <ProjectReference Include="..\B2Connect.CLI.Shared\B2Connect.CLI.Shared.csproj" />
     <ProjectReference Include="..\..\shared\Monitoring\B2Connect.Shared.Monitoring.csproj" />
     <ProjectReference Include="..\..\shared\kernel\B2Connect.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\Domain\Shared\B2Connect.Api.Validation\B2Connect.Api.Validation.csproj" />
   </ItemGroup>
 
 </Project>
