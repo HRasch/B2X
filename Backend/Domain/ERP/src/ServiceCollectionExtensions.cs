@@ -4,6 +4,8 @@
 
 using B2Connect.ERP.Abstractions;
 using B2Connect.ERP.Abstractions.Http;
+using B2Connect.ERP.Connectors;
+using B2Connect.ERP.Connectors.SAP;
 using B2Connect.ERP.Infrastructure.DataAccess;
 using B2Connect.Domain.ERP.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +40,30 @@ public static class ServiceCollectionExtensions
 
         // Register ERP service
         services.TryAddSingleton<IErpService, ErpService>();
+
+        // Register ERP connectors
+        services.AddErpConnectors();
+
+        return services;
+    }
+
+    /// <summary>
+    /// Adds pluggable ERP connectors to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddErpConnectors(this IServiceCollection services)
+    {
+        // Register connector implementations
+        services.TryAddTransient<FashopErpConnector>();
+        services.TryAddTransient<SapErpConnector>();
+
+        // Register connector factories
+        services.TryAddSingleton<IErpAdapterFactory, FashopErpAdapterFactory>();
+        services.TryAddSingleton<IErpAdapterFactory, SapErpAdapterFactory>();
+
+        // Register connector registry
+        services.TryAddSingleton<IErpConnectorRegistry, ErpConnectorRegistry>();
 
         return services;
     }

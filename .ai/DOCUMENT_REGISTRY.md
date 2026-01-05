@@ -62,6 +62,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-030` | Vue-i18n v10 to v11 Migration | `.ai/decisions/ADR-030-vue-i18n-v11-migration.md` | Accepted |
 | `ADR-031` | CLI Architecture Split - Operations vs. Administration | `.ai/decisions/ADR-031-cli-architecture-split.md` | Proposed |
 | `ADR-032` | CLI Auto-Update Functionality | `.ai/decisions/ADR-032-cli-auto-update-brainstorm.md` | Brainstorm |
+| `ADR-033` | Tenant-Admin Download for ERP-Connector and Administration-CLI Coupled to CLI | `.ai/decisions/ADR-033-tenant-admin-download-erp-connector-cli.md` | Approved |
+| `ADR-034` | Multi-ERP Connector Architecture | `.ai/decisions/ADR-034-multi-erp-connector-architecture.md` | Approved with Conditions |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -162,6 +164,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-001` | Monitoring for Scheduler Jobs | `.ai/requirements/REQ-001-monitoring-scheduler-jobs.md` | Draft |
 | `REQ-002` | BMEcat Katalog Import | `.ai/requirements/REQ-002-bmecat-import.md` | Draft |
 | `REQ-003` | Email Template System | `.ai/requirements/REQ-003-email-template-system.md` | Draft |
+| `REQ-005` | Phase 5 Enterprise ERP Connectors | `.ai/requirements/REQ-005-phase-5-enterprise-connectors.md` | Active |
 
 ---
 

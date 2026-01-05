@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\B2Connect.ERP.csproj" />
+    <ProjectReference Include="..\Abstractions\B2Connect.ERP.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
