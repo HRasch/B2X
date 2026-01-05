@@ -7,6 +7,36 @@ import i18n from './locales';
 import App from './App.vue';
 import './main.css';
 
+// Monaco Editor
+import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor';
+
+// Configure Monaco locale based on current i18n locale
+const configureMonacoLocale = async () => {
+  const currentLocale = localStorage.getItem('locale') || navigator.language.split('-')[0] || 'en';
+
+  // Monaco supported locales mapping
+  const monacoLocales: Record<string, string> = {
+    de: 'de',
+    fr: 'fr',
+    es: 'es',
+    it: 'it',
+    pt: 'pt-br', // Portuguese Brazil
+    pl: 'pl',
+    // nl not supported by Monaco, will use English
+  };
+
+  const monacoLocale = monacoLocales[currentLocale];
+  if (monacoLocale) {
+    try {
+      // Dynamically import the locale file
+      await import(`monaco-editor/esm/vs/nls.${monacoLocale}.js`);
+      console.log(`Monaco locale loaded: ${monacoLocale}`);
+    } catch (error) {
+      console.warn(`Failed to load Monaco locale: ${monacoLocale}`, error);
+    }
+  }
+};
+
 // Default tenant GUID for admin authentication
 const DEFAULT_TENANT_ID =
   import.meta.env.VITE_DEFAULT_TENANT_ID || '00000000-0000-0000-0000-000000000001';
@@ -16,16 +46,25 @@ if (!localStorage.getItem('tenantId')) {
   localStorage.setItem('tenantId', DEFAULT_TENANT_ID);
 }
 
-const app = createApp(App);
+// Initialize the app asynchronously to configure Monaco locale
+const initApp = async () => {
+  const app = createApp(App);
 
-app.use(createPinia());
-app.use(router);
-app.use(i18n);
+  app.use(createPinia());
+  app.use(router);
+  app.use(i18n);
 
-// Initialize error logging (captures Vue errors, unhandled rejections, network errors)
-app.use(errorLoggingPlugin, { router });
+  // Configure and install Monaco Editor with locale support
+  await configureMonacoLocale();
+  app.use(VueMonacoEditorPlugin);
 
-// Setup auth middleware
-setupAuthMiddleware(router);
+  // Initialize error logging (captures Vue errors, unhandled rejections, network errors)
+  app.use(errorLoggingPlugin, { router });
 
-app.mount('#app');
+  // Setup auth middleware
+  setupAuthMiddleware(router);
+
+  app.mount('#app');
+};
+
+initApp();

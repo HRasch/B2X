@@ -140,10 +140,10 @@
         "../../node_modules/@nuxtjs/i18n/dist/types"
       ],
       "#nuxt-i18n/logger": [
-        "./nuxt-i18n-logger.mjs"
+        "./nuxt-i18n-logger"
       ],
       "#app-manifest": [
-        "./manifest/meta/e2df9bce-344a-4e13-ab11-d000056c12c6.json"
+        "./manifest/meta/dev.json"
       ],
       "#components": [
         "./components"
@@ -216,6 +216,6 @@
     "../../node_modules/@nuxt/telemetry/node_modules",
     "../../node_modules/runtime/server",
     "../../node_modules/dist/runtime/server",
-    "../.output"
+    "dev"
   ]
 }

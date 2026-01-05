@@ -1,10 +1,17 @@
 {
   "auth": {
     "login": {
-      "title": "Anmelden",
+      "title": "B2Connect Admin",
+      "subtitle": "Melden Sie sich in Ihrem Konto an",
       "email": "E-Mail-Adresse",
+      "emailPlaceholder": "admin@example.com",
       "password": "Passwort",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Angemeldet bleiben",
+      "signingIn": "Anmeldung...",
       "submit": "Anmelden",
+      "demoAccount": "Demo-Konto:",
+      "demoCredentials": "admin@example.com / password",
       "forgotPassword": "Passwort vergessen?"
     },
     "register": {
@@ -121,6 +128,9 @@
     "invalid_email": "Ungültige E-Mail-Adresse",
     "unauthorized": "Sie sind nicht autorisiert",
     "forbidden": "Zugriff verweigert",
+    "accessDenied": "Zugriff verweigert",
+    "noPermission": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen.",
+    "returnToDashboard": "Zurück zum Dashboard",
     "not_found": "Nicht gefunden",
     "server_error": "Serverfehler. Bitte versuchen Sie es später erneut.",
     "network_error": "Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung.",
@@ -160,6 +170,24 @@
       "steps": "Installationsschritte",
       "configuration": "Konfigurationsvorlage",
       "troubleshooting": "Fehlerbehebung"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcomeBack": "Willkommen zurück, {name}!",
+    "stats": {
+      "totalPages": "Gesamtseiten",
+      "totalProducts": "Gesamtprodukte",
+      "activeJobs": "Aktive Jobs",
+      "systemStatus": "Systemstatus",
+      "healthy": "Gesund"
+    },
+    "quickActions": {
+      "title": "Schnellaktionen",
+      "managePages": "Seiten verwalten",
+      "manageProducts": "Produkte verwalten",
+      "monitorJobs": "Jobs überwachen",
+      "mediaLibrary": "Medienbibliothek"
     }
   },
   "common": {

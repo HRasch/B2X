@@ -57,7 +57,7 @@ const handleAddToCart = () => {
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300">
+  <div class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow duration-300">
     <!-- Product Image Section -->
     <figure class="relative bg-base-200 overflow-hidden h-48">
       <img
@@ -218,7 +218,9 @@ const handleAddToCart = () => {
 
 /* Hover effects */
 .card:hover {
-  @apply shadow-xl;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 figure img {

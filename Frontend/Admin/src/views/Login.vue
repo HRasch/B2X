@@ -11,8 +11,8 @@
           >
             <span class="text-primary-content font-bold text-2xl">B</span>
           </div>
-          <h1 class="text-2xl font-bold text-base-content">B2Connect Admin</h1>
-          <p class="text-base-content/60 text-sm mt-2">Sign in to your account</p>
+          <h1 class="text-2xl font-bold text-base-content">{{ $t('auth.login.title') }}</h1>
+          <p class="text-base-content/60 text-sm mt-2">{{ $t('auth.login.subtitle') }}</p>
         </div>
 
         <!-- Error Message -->
@@ -30,15 +30,14 @@
 
         <!-- Login Form -->
         <form @submit.prevent="handleLogin" class="space-y-4">
-          <!-- Email -->
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Email Address</span>
+              <span class="label-text">{{ $t('auth.login.email') }}</span>
             </label>
             <input
               v-model="email"
               type="email"
-              placeholder="admin@example.com"
+              :placeholder="$t('auth.login.emailPlaceholder')"
               class="input input-bordered w-full"
               required
             />
@@ -47,12 +46,12 @@
           <!-- Password -->
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Password</span>
+              <span class="label-text">{{ $t('auth.login.password') }}</span>
             </label>
             <input
               v-model="password"
               type="password"
-              placeholder="••••••••"
+              :placeholder="$t('auth.login.passwordPlaceholder')"
               class="input input-bordered w-full"
               required
             />
@@ -66,22 +65,22 @@
                 type="checkbox"
                 class="checkbox checkbox-primary checkbox-sm"
               />
-              <span class="label-text">Remember me</span>
+              <span class="label-text">{{ $t('auth.login.rememberMe') }}</span>
             </label>
           </div>
 
           <!-- Login Button -->
           <button type="submit" class="btn btn-primary w-full mt-6" :disabled="loading">
             <span v-if="loading" class="loading loading-spinner loading-sm"></span>
-            {{ loading ? 'Signing in...' : 'Sign In' }}
+            {{ loading ? $t('auth.login.signingIn') : $t('auth.login.submit') }}
           </button>
         </form>
 
         <!-- Footer -->
         <div class="divider mt-6"></div>
         <div class="text-center">
-          <p class="text-sm text-base-content/60">Demo Account:</p>
-          <p class="font-mono text-sm mt-1">admin@example.com / password</p>
+          <p class="text-sm text-base-content/60">{{ $t('auth.login.demoAccount') }}</p>
+          <p class="font-mono text-sm mt-1">{{ $t('auth.login.demoCredentials') }}</p>
         </div>
       </div>
     </div>

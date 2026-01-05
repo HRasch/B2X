@@ -1,10 +1,17 @@
 {
   "auth": {
     "login": {
-      "title": "Iniciar sesión",
+      "title": "B2Connect Admin",
+      "subtitle": "Inicia sesión en tu cuenta",
       "email": "Correo electrónico",
+      "emailPlaceholder": "admin@example.com",
       "password": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Recordarme",
+      "signingIn": "Iniciando sesión...",
       "submit": "Iniciar sesión",
+      "demoAccount": "Cuenta de demostración:",
+      "demoCredentials": "admin@example.com / password",
       "forgotPassword": "¿Olvidaste tu contraseña?"
     },
     "register": {
@@ -121,6 +128,9 @@
     "invalid_email": "Correo electrónico inválido",
     "unauthorized": "No estás autorizado",
     "forbidden": "Acceso denegado",
+    "accessDenied": "Acceso denegado",
+    "noPermission": "No tienes permiso para acceder a esta página.",
+    "returnToDashboard": "Volver al panel de control",
     "not_found": "No encontrado",
     "server_error": "Error del servidor. Por favor intenta de nuevo más tarde.",
     "network_error": "Error de red. Por favor verifica tu conexión.",
@@ -131,5 +141,23 @@
     "invalid_format": "Formato inválido",
     "required_field": "Este campo es obligatorio",
     "invalid_value": "Valor inválido"
+  },
+  "dashboard": {
+    "title": "Panel de control",
+    "welcomeBack": "¡Bienvenido de vuelta, {name}!",
+    "stats": {
+      "totalPages": "Total de páginas",
+      "totalProducts": "Total de productos",
+      "activeJobs": "Trabajos activos",
+      "systemStatus": "Estado del sistema",
+      "healthy": "Saludable"
+    },
+    "quickActions": {
+      "title": "Acciones rápidas",
+      "managePages": "Administrar páginas",
+      "manageProducts": "Administrar productos",
+      "monitorJobs": "Monitorear trabajos",
+      "mediaLibrary": "Biblioteca de medios"
+    }
   }
 }

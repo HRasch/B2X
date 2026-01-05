@@ -1,10 +1,17 @@
 {
   "auth": {
     "login": {
-      "title": "Inloggen",
+      "title": "B2Connect Admin",
+      "subtitle": "Log in op uw account",
       "email": "E-mailadres",
+      "emailPlaceholder": "admin@example.com",
       "password": "Wachtwoord",
-      "submit": "Inloggen",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Onthoud mij",
+      "signingIn": "Aanmelden...",
+      "submit": "Aanmelden",
+      "demoAccount": "Demo-account:",
+      "demoCredentials": "admin@example.com / password",
       "forgotPassword": "Wachtwoord vergeten?"
     },
     "register": {
@@ -116,11 +123,30 @@
       "sendTest": "Test verzenden"
     }
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcomeBack": "Welkom terug, {name}!",
+    "stats": {
+      "totalPages": "Totaal pagina's",
+      "totalProducts": "Totaal producten",
+      "totalOrders": "Totaal bestellingen",
+      "totalUsers": "Totaal gebruikers"
+    },
+    "quickActions": {
+      "managePages": "Pagina's beheren",
+      "manageProducts": "Producten beheren",
+      "manageOrders": "Bestellingen beheren",
+      "manageUsers": "Gebruikers beheren"
+    }
+  },
   "errors": {
     "required": "Dit veld is verplicht",
     "invalid_email": "Ongeldig e-mailadres",
     "unauthorized": "U bent niet gemachtigd",
     "forbidden": "Toegang geweigerd",
+    "accessDenied": "Toegang geweigerd",
+    "noPermission": "U heeft geen toestemming om deze pagina te bekijken.",
+    "returnToDashboard": "Terug naar dashboard",
     "not_found": "Niet gevonden",
     "server_error": "Serverfout. Probeer het later opnieuw.",
     "network_error": "Netwerkfout. Controleer uw verbinding.",

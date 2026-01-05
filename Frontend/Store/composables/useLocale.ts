@@ -1,7 +1,20 @@
 import { useI18n } from 'vue-i18n';
 import { ref, computed, type ComputedRef, type Ref } from 'vue';
-import { SUPPORTED_LOCALES } from '@/locales';
 import type { LocaleCode } from '~/types';
+
+/**
+ * Supported locales with metadata
+ */
+const SUPPORTED_LOCALES = [
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
+  { code: 'pt', name: 'Português', flag: '🇵🇹' },
+  { code: 'nl', name: 'Nederlands', flag: '🇳🇱' },
+  { code: 'pl', name: 'Polski', flag: '🇵🇱' },
+] as const;
 
 /**
  * Type guard to check if a string is a valid locale code
@@ -26,7 +39,7 @@ interface Locale {
 interface UseLocaleReturn {
   locale: ComputedRef<string>;
   currentLocale: ComputedRef<Locale | undefined>;
-  locales: Locale[];
+  locales: readonly Locale[];
   isLoading: Ref<boolean>;
   t: (key: string, ...args: unknown[]) => string;
   setLocale: (code: string) => Promise<void>;
@@ -81,7 +94,7 @@ export function useLocale(): UseLocaleReturn {
     isLoading.value = true;
     try {
       // Update i18n locale (this is the key - must use i18n.locale.value)
-      i18n.locale.value = code as LocaleCode;
+      i18n.locale.value = code as any;
       localStorage.setItem('locale', code);
       document.documentElement.lang = code;
 
@@ -95,12 +108,12 @@ export function useLocale(): UseLocaleReturn {
   const initializeLocale = (): void => {
     const savedLocale = localStorage.getItem('locale');
     if (savedLocale && isValidLocaleCode(savedLocale)) {
-      i18n.locale.value = savedLocale as LocaleCode;
+      i18n.locale.value = savedLocale as any;
     } else {
       const browserLang = navigator.language.split('-')[0];
       const matchedLocale = locales.find(l => l.code === browserLang);
       if (matchedLocale && isValidLocaleCode(matchedLocale.code)) {
-        i18n.locale.value = matchedLocale.code as LocaleCode;
+        i18n.locale.value = matchedLocale.code as any;
         localStorage.setItem('locale', matchedLocale.code);
       }
     }

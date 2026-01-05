@@ -34,28 +34,15 @@ export default defineNuxtConfig({
   i18n: {
     // Disable built-in locale detection for tenant-based routing
     detectBrowserLanguage: false,
-    // Will be configured dynamically based on tenant
-    locales: [
-      { code: 'en', name: 'English', flag: '🇺🇸', file: 'en.json' },
-      { code: 'de', name: 'Deutsch', flag: '🇩🇪', file: 'de.json' },
-      { code: 'fr', name: 'Français', flag: '🇫🇷', file: 'fr.json' },
-      { code: 'es', name: 'Español', flag: '🇪🇸', file: 'es.json' },
-      { code: 'it', name: 'Italiano', flag: '🇮🇹', file: 'it.json' },
-      { code: 'pt', name: 'Português', flag: '🇵🇹', file: 'pt.json' },
-      { code: 'nl', name: 'Nederlands', flag: '🇳🇱', file: 'nl.json' },
-      { code: 'pl', name: 'Polski', flag: '🇵🇱', file: 'pl.json' },
-    ],
     defaultLocale: 'en',
     // Custom strategy for tenant-scoped routing
     strategy: 'no_prefix',
-    // Disable default loading - we'll handle it manually
-    lazy: false,
   },
 
   // Pinia store configuration
-  // pinia: {
-  //   storesDirs: ['./stores/**'],
-  // },
+  pinia: {
+    // storesDirs is not needed in Nuxt 3 - auto-discovery works
+  },
 
   // Runtime config for tenant-specific settings
   runtimeConfig: {

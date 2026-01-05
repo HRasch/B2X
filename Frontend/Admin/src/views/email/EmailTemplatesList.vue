@@ -532,4 +532,99 @@ onMounted(() => {
   font-weight: 500;
   color: #374151;
 }
+
+/* Dark Mode */
+html.dark .email-templates-page {
+  background: #0f172a;
+}
+
+html.dark .page-header {
+  background: #1e293b;
+  border-bottom-color: #334155;
+}
+
+html.dark .header-content h1,
+html.dark .header-content p {
+  color: #f1f5f9;
+}
+
+html.dark .filters-section {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+html.dark .search-input {
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+html.dark .search-input::placeholder {
+  color: #94a3b8;
+}
+
+html.dark .filter-select {
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+html.dark .template-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+html.dark .template-card:hover {
+  border-color: #3b82f6;
+  background: #334155;
+}
+
+html.dark .template-info h3 {
+  color: #f1f5f9;
+}
+
+html.dark .template-key {
+  color: #94a3b8;
+}
+
+html.dark .description {
+  color: #cbd5e1;
+}
+
+html.dark .template-meta {
+  color: #94a3b8;
+}
+
+html.dark .action-btn {
+  color: #94a3b8;
+}
+
+html.dark .action-btn:hover {
+  background: #334155;
+  color: #f1f5f9;
+}
+
+html.dark .action-btn.delete:hover {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+html.dark .empty-state h3,
+html.dark .empty-state p {
+  color: #cbd5e1;
+}
+
+html.dark .page-btn {
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+html.dark .page-btn:hover:not(:disabled) {
+  background: #475569;
+}
+
+html.dark .page-info {
+  color: #f1f5f9;
+}
 </style>

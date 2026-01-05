@@ -2817,6 +2817,96 @@ const { t } = useI18n();
 
 ---
 
+## Session: 5. Januar 2026 - Monaco Editor Localization Implementation
+
+### Context
+User requested changing Monaco editor language to match user locale. Initially interpreted as syntax highlighting language, but clarified to mean Monaco UI localization (menus, tooltips, dialogs).
+
+### Technical Challenge
+- Monaco Editor supports UI localization via locale files
+- Vue Monaco Editor wrapper doesn't expose locale configuration directly
+- Locale files must be loaded before editor initialization
+- Async loading required for dynamic locale detection
+
+### Implementation Approach
+
+#### 1. Locale Detection Strategy
+```typescript
+const currentLocale = localStorage.getItem('locale') || 
+                     navigator.language.split('-')[0] || 'en';
+```
+
+#### 2. Monaco Locale Mapping
+```typescript
+const monacoLocales: Record<string, string> = {
+  'de': 'de',
+  'fr': 'fr', 
+  'es': 'es',
+  'it': 'it',
+  'pt': 'pt-br', // Portuguese Brazil
+  'pl': 'pl'
+  // nl not supported, falls back to English
+};
+```
+
+#### 3. Async Locale Loading
+```typescript
+const configureMonacoLocale = async () => {
+  const monacoLocale = monacoLocales[currentLocale];
+  if (monacoLocale) {
+    await import(`monaco-editor/esm/vs/nls.${monacoLocale}.js`);
+  }
+};
+```
+
+#### 4. App Initialization with Locale
+```typescript
+const initApp = async () => {
+  const app = createApp(App);
+  // ... setup ...
+  await configureMonacoLocale();
+  app.use(VueMonacoEditorPlugin);
+  app.mount('#app');
+};
+```
+
+### Files Modified
+- `frontend/Admin/src/main.ts`: Added async Monaco locale configuration
+- `.ai/knowledgebase/tools-and-tech/monaco-editor-vue.md`: Updated with localization section
+
+### Results
+- ✅ Monaco UI now displays in user's selected language
+- ✅ Fallback to English for unsupported locales (nl)
+- ✅ Build succeeds without errors
+- ✅ No runtime errors during locale loading
+- ✅ Backward compatible with existing functionality
+
+### Lessons Learned
+
+1. **UI vs Syntax Language Confusion**: "Editor language" can mean syntax highlighting OR UI localization - clarify intent
+2. **Async Plugin Initialization**: Vue plugins can be installed asynchronously when needed
+3. **Locale File Loading**: Monaco locale files must be imported dynamically, not bundled
+4. **Fallback Strategy**: Unsupported locales gracefully fall back to English
+5. **Build Impact**: Dynamic imports don't affect production bundle size
+
+### Prevention Measures
+
+1. **Locale Documentation**: Update KB-026 with localization examples for future Monaco usage
+2. **Language Support Matrix**: Document which locales are supported by each component
+3. **Testing**: Add E2E tests for locale switching in Monaco editor
+4. **User Feedback**: Add locale indicator in UI to show current editor language
+
+### Scaling Recommendations
+
+1. **Apply to Other Editors**: CodeMirror, Ace Editor also support localization
+2. **CMS Template Editor**: Extend to ADR-030 Monaco integration for Liquid templates
+3. **Language Detection**: Improve locale detection with user preferences over browser defaults
+4. **RTL Support**: Plan for right-to-left Monaco UI when adding Arabic/Hebrew
+
+**Key Success Factor**: Async initialization pattern enables proper locale loading without blocking app startup.
+
+---
+
 ## Session: 5. Januar 2026 - Frontend Quality Infrastructure Implementation
 
 ### TypeScript Strictness Migration Challenges

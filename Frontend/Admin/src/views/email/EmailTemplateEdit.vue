@@ -146,4 +146,45 @@ onMounted(() => {
     transform: rotate(360deg);
   }
 }
+
+/* Dark Mode */
+html.dark .email-template-edit-page {
+  background: #0f172a;
+}
+
+html.dark .page-header {
+  background: #1e293b;
+  border-bottom-color: #334155;
+}
+
+html.dark .header-content h1 {
+  color: #f1f5f9;
+}
+
+html.dark .header-content p {
+  color: #94a3b8;
+}
+
+html.dark .btn-secondary {
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+html.dark .btn-secondary:hover {
+  background: #475569;
+}
+
+html.dark .editor-container {
+  background: #1e293b;
+}
+
+html.dark .loading-state {
+  color: #f1f5f9;
+}
+
+html.dark .spinner {
+  border-color: #334155;
+  border-top-color: #3b82f6;
+}
 </style>

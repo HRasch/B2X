@@ -1,10 +1,17 @@
 {
   "auth": {
     "login": {
-      "title": "Entrar",
-      "email": "Endereço de e-mail",
+      "title": "B2Connect Admin",
+      "subtitle": "Faça login na sua conta",
+      "email": "E-mail",
+      "emailPlaceholder": "admin@example.com",
       "password": "Senha",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Lembrar-me",
+      "signingIn": "Entrando...",
       "submit": "Entrar",
+      "demoAccount": "Conta de demonstração:",
+      "demoCredentials": "admin@example.com / password",
       "forgotPassword": "Esqueceu a senha?"
     },
     "register": {
@@ -116,11 +123,30 @@
       "sendTest": "Enviar teste"
     }
   },
+  "dashboard": {
+    "title": "Painel de Controle",
+    "welcomeBack": "Bem-vindo de volta, {name}!",
+    "stats": {
+      "totalPages": "Total de páginas",
+      "totalProducts": "Total de produtos",
+      "totalOrders": "Total de pedidos",
+      "totalUsers": "Total de usuários"
+    },
+    "quickActions": {
+      "managePages": "Gerenciar páginas",
+      "manageProducts": "Gerenciar produtos",
+      "manageOrders": "Gerenciar pedidos",
+      "manageUsers": "Gerenciar usuários"
+    }
+  },
   "errors": {
     "required": "Este campo é obrigatório",
     "invalid_email": "E-mail inválido",
     "unauthorized": "Você não está autorizado",
     "forbidden": "Acesso negado",
+    "accessDenied": "Acesso negado",
+    "noPermission": "Você não tem permissão para acessar esta página.",
+    "returnToDashboard": "Voltar ao painel de controle",
     "not_found": "Não encontrado",
     "server_error": "Erro do servidor. Tente novamente mais tarde.",
     "network_error": "Erro de rede. Verifique sua conexão.",

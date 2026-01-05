@@ -5,6 +5,7 @@ Source: https://vuejs.org/
 Summary:
 - Vue 3 is a progressive JavaScript framework for building reactive user interfaces. It provides both the Options API and the Composition API (recommended for complex logic and reusable concerns) and compiles templates into performant render functions.
 - Ecosystem: official router (`vue-router`), state management (`pinia`), devtools, and first-class TypeScript support.
+- Nuxt 3: Full-stack Vue framework built on Vue 3, providing SSR, SSG, file-based routing, auto-imports, and modern development experience.
 
 Core concepts:
 - Reactivity: `ref`, `reactive`, `computed`, and `watch` primitives power change detection.
@@ -18,12 +19,23 @@ Best practices / Actionables:
 - Testing: use `@vue/test-utils` and Vitest/Jest for unit tests; use Playwright or Cypress for E2E.
 - Performance: use lazy-loaded routes, component-level code-splitting, and memoize expensive computations with `computed`.
 
+Nuxt 3 Framework:
+- Latest version: 3.20.2 (as of October 2025)
+- Features: Server-side rendering (SSR), static site generation (SSG), file-based routing, auto-imports, TypeScript support, module system
+- Migration from Nuxt 2: Major rewrite with Vue 3, Nitro engine, new module system. Breaking changes include new config format, composables API, and build system.
+- Migration guide: https://nuxt.com/docs/migration/overview
+- Upgrade command: `npx nuxt upgrade --dedupe`
+
 CLI & tooling:
-- Create app: `npm init vue@latest` or use Vite templates.
-- Dev server: `npm run dev` (via Vite)
+- Create Vue app: `npm init vue@latest` or use Vite templates.
+- Create Nuxt app: `npx nuxi@latest init <project-name>`
+- Dev server: `npm run dev` (via Vite for Vue, Nuxt dev server for Nuxt)
+- Nuxt CLI: `nuxi` commands for building, generating, and managing Nuxt projects
 
 References:
-- Guide: https://vuejs.org/guide/introduction
-- API: https://vuejs.org/api
-- Migration guide: https://v3.vuejs.org/guide/migration/introduction.html
+- Vue Guide: https://vuejs.org/guide/introduction
+- Vue API: https://vuejs.org/api
+- Vue Migration guide: https://v3.vuejs.org/guide/migration/introduction.html
+- Nuxt Docs: https://nuxt.com/docs/getting-started/introduction
+- Nuxt Migration: https://nuxt.com/docs/migration/overview
 

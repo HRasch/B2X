@@ -1,11 +1,18 @@
 {
   "auth": {
     "login": {
-      "title": "Connexion",
+      "title": "B2Connect Admin",
+      "subtitle": "Connectez-vous à votre compte",
       "email": "Adresse e-mail",
+      "emailPlaceholder": "admin@example.com",
       "password": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Se souvenir de moi",
+      "signingIn": "Connexion...",
       "submit": "Se connecter",
-      "forgotPassword": "Mot de passe oublié?"
+      "demoAccount": "Compte de démonstration :",
+      "demoCredentials": "admin@example.com / password",
+      "forgotPassword": "Mot de passe oublié ?"
     },
     "register": {
       "title": "S'inscrire",
@@ -121,6 +128,9 @@
     "invalid_email": "Adresse e-mail invalide",
     "unauthorized": "Vous n'êtes pas autorisé",
     "forbidden": "Accès refusé",
+    "accessDenied": "Accès refusé",
+    "noPermission": "Vous n'avez pas la permission d'accéder à cette page.",
+    "returnToDashboard": "Retour au tableau de bord",
     "not_found": "Non trouvé",
     "server_error": "Erreur serveur. Veuillez réessayer plus tard.",
     "network_error": "Erreur réseau. Veuillez vérifier votre connexion.",
@@ -131,5 +141,23 @@
     "invalid_format": "Format invalide",
     "required_field": "Ce champ est obligatoire",
     "invalid_value": "Valeur invalide"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcomeBack": "Bienvenue, {name} !",
+    "stats": {
+      "totalPages": "Total des pages",
+      "totalProducts": "Total des produits",
+      "activeJobs": "Tâches actives",
+      "systemStatus": "État du système",
+      "healthy": "Sain"
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "managePages": "Gérer les pages",
+      "manageProducts": "Gérer les produits",
+      "monitorJobs": "Surveiller les tâches",
+      "mediaLibrary": "Bibliothèque média"
+    }
   }
 }

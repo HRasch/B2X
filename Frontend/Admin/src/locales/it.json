@@ -1,10 +1,17 @@
 {
   "auth": {
     "login": {
-      "title": "Accedi",
+      "title": "B2Connect Admin",
+      "subtitle": "Accedi al tuo account",
       "email": "Indirizzo email",
+      "emailPlaceholder": "admin@example.com",
       "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Ricordami",
+      "signingIn": "Accesso in corso...",
       "submit": "Accedi",
+      "demoAccount": "Account demo:",
+      "demoCredentials": "admin@example.com / password",
       "forgotPassword": "Password dimenticata?"
     },
     "register": {
@@ -116,11 +123,30 @@
       "sendTest": "Invia prova"
     }
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcomeBack": "Bentornato, {name}!",
+    "stats": {
+      "totalPages": "Pagine totali",
+      "totalProducts": "Prodotti totali",
+      "totalOrders": "Ordini totali",
+      "totalUsers": "Utenti totali"
+    },
+    "quickActions": {
+      "managePages": "Gestisci pagine",
+      "manageProducts": "Gestisci prodotti",
+      "manageOrders": "Gestisci ordini",
+      "manageUsers": "Gestisci utenti"
+    }
+  },
   "errors": {
     "required": "Questo campo è obbligatorio",
     "invalid_email": "Indirizzo email non valido",
     "unauthorized": "Non sei autorizzato",
     "forbidden": "Accesso negato",
+    "accessDenied": "Accesso negato",
+    "noPermission": "Non hai il permesso di accedere a questa pagina.",
+    "returnToDashboard": "Torna alla dashboard",
     "not_found": "Non trovato",
     "server_error": "Errore del server. Riprova più tardi.",
     "network_error": "Errore di rete. Verifica la tua connessione.",

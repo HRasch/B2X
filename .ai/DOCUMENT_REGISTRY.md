@@ -69,6 +69,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-037` | Lifecycle Stages Framework | `.ai/decisions/ADR-037-lifecycle-stages-framework.md` | Accepted |
 | `ADR-038` | Customer Integration Stages Framework | `.ai/decisions/ADR-038-customer-integration-stages.md` | Accepted |
 | `ADR-039` | Agent Instruction Protection Strategy | `.ai/decisions/ADR-039-instruction-protection.md` | Accepted |
+| `ADR-040` | Tenant-Customizable Language Resources | `.ai/decisions/ADR-040-tenant-customizable-language-resources.md` | Proposed |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -103,6 +104,11 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-023` | Email Template Best Practices | `.ai/knowledgebase/best-practices/email-templates.md` | Active |
 | `KB-024` | Microsoft.Extensions.AI | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.AI.md` | Active |
 | `KB-025` | Global Local AI Mode Configuration | `.ai/knowledgebase/tools-and-tech/local-ai-fallback-configuration.md` | Active |
+| `KB-026` | Monaco Editor Vue Integration | `.ai/knowledgebase/tools-and-tech/monaco-editor-vue.md` | Active |
+| `KB-027` | Email Dark Mode Best Practices | `.ai/knowledgebase/best-practices/email-dark-mode.md` | Active |
+| `KB-028` | GrapesJS Email Builder Integration | `.ai/knowledgebase/tools-and-tech/grapesjs-email-builder.md` | Active |
+| `KB-029` | CSS Functions | `.ai/knowledgebase/css-functions.md` | Active |
+| `KB-030` | SVG and CSS Animations | `.ai/knowledgebase/svg-css-animations.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
@@ -173,6 +179,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-003` | Email Template System | `.ai/requirements/REQ-003-email-template-system.md` | Draft |
 | `REQ-005` | Phase 5 Enterprise ERP Connectors | `.ai/requirements/REQ-005-phase-5-enterprise-connectors.md` | Active |
 | `REQ-006` | CLI Customer Integration Commands | `.ai/requirements/REQ-006-cli-customer-integration-commands.md` | Specification |
+| `REQ-007` | Email WYSIWYG Builder | `.ai/requirements/REQ-007-email-wysiwyg-builder.md` | Draft |
 
 ---
 
@@ -241,6 +248,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `INS-003` | Testing Instructions | `.github/instructions/testing.instructions.md` | `**/*.test.*`, `**/*.spec.*` |
 | `INS-004` | DevOps Instructions | `.github/instructions/devops.instructions.md` | `.github/**`, `Dockerfile` |
 | `INS-005` | Security Instructions | `.github/instructions/security.instructions.md` | `**/*` |
+| `INS-006` | AI Mode Switching Instructions | `.github/instructions/ai-mode-switching.instructions.md` | `**/*` |
 
 ---
 

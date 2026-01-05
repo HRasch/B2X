@@ -34,6 +34,8 @@ This index lists curated knowledgebase articles to help agents and developers im
 | `KB-018` | [tools-and-tech/local-llm-models-2025.md](tools-and-tech/local-llm-models-2025.md) | Beste lokale LLM-Modelle für Entwicklung |
 | `KB-020` | [tools-and-tech/archunitnet.md](tools-and-tech/archunitnet.md) | ArchUnitNET architecture testing framework |
 | `KB-021` | [enventa-trade-erp.md](enventa-trade-erp.md) | enventa Trade ERP integration guide |
+| `KB-026` | [tools-and-tech/monaco-editor-vue.md](tools-and-tech/monaco-editor-vue.md) | Monaco Editor Vue.js integration guide |
+| `KB-027` | [best-practices/email-dark-mode.md](best-practices/email-dark-mode.md) | Email Dark Mode Best Practices |
 | `KB-PILOT` | [code-quality-pilot-migration.md](code-quality-pilot-migration.md) | Code quality pilot migration results & patterns |
 | `KB-LESSONS` | [lessons.md](lessons.md) | Lessons learned from development work |
 | `KB-TS-ANY-ELIMINATION` | [typescript-any-elimination-success-story.md](typescript-any-elimination-success-story.md) | TypeScript any type elimination success story |
@@ -104,6 +106,8 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - [TypeScript 5.0](./software/typescript/v4-to-v5.md)
 
 ## Recently Updated
+- 05.01.2026: Added Email Dark Mode Best Practices guide ([best-practices/email-dark-mode.md](./best-practices/email-dark-mode.md))
+- 05.01.2026: Added Monaco Editor Vue.js integration guide ([tools-and-tech/monaco-editor-vue.md](./tools-and-tech/monaco-editor-vue.md))
 - 03.01.2026: Added Email Template Best Practices guide ([best-practices/email-templates.md](./best-practices/email-templates.md))
 - 02.01.2026: Updated enventa Trade ERP integration guide with resilience pipeline, transaction scopes, and production fixes ([enventa-trade-erp.md](./enventa-trade-erp.md))
 - 02.01.2026: Added ERP architecture review lessons to lessons learned ([lessons.md](./lessons.md))

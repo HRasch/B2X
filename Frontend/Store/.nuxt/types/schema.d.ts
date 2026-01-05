@@ -143,9 +143,7 @@ declare module 'nuxt/schema' {
 
       trailingSlash: boolean,
 
-      locales: Array<{
-
-      }>,
+      locales: Array<any>,
 
       detectBrowserLanguage: boolean,
 
@@ -169,39 +167,7 @@ declare module 'nuxt/schema' {
 
       multiDomainLocales: boolean,
 
-      domainLocales: {
-         en: {
-            domain: string,
-         },
-
-         de: {
-            domain: string,
-         },
-
-         fr: {
-            domain: string,
-         },
-
-         es: {
-            domain: string,
-         },
-
-         it: {
-            domain: string,
-         },
-
-         pt: {
-            domain: string,
-         },
-
-         nl: {
-            domain: string,
-         },
-
-         pl: {
-            domain: string,
-         },
-      },
+      domainLocales: any,
    },
   }
 }

@@ -1,10 +1,17 @@
 {
   "auth": {
     "login": {
-      "title": "Login",
+      "title": "B2Connect Admin",
+      "subtitle": "Sign in to your account",
       "email": "Email Address",
+      "emailPlaceholder": "admin@example.com",
       "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Remember me",
+      "signingIn": "Signing in...",
       "submit": "Sign In",
+      "demoAccount": "Demo Account:",
+      "demoCredentials": "admin@example.com / password",
       "forgotPassword": "Forgot Password?"
     },
     "register": {
@@ -107,6 +114,8 @@
       "customerNameExample": "Example: John Doe",
       "plainTextBody": "Plain Text Body",
       "plainTextBodyPlaceholder": "Optional plain text version",
+      "visualMode": "Visual",
+      "codeMode": "Code",
       "previewModalTitle": "Template Preview",
       "testSendModalTitle": "Send Test Email",
       "testEmailAddress": "Test Email Address",
@@ -121,6 +130,9 @@
     "invalid_email": "Invalid email address",
     "unauthorized": "You are not authorized",
     "forbidden": "Access denied",
+    "accessDenied": "Access Denied",
+    "noPermission": "You do not have permission to access this page.",
+    "returnToDashboard": "Return to Dashboard",
     "not_found": "Not found",
     "server_error": "Server error. Please try again later.",
     "network_error": "Network error. Please check your connection.",
@@ -160,6 +172,24 @@
       "steps": "Installation Steps",
       "configuration": "Configuration Template",
       "troubleshooting": "Troubleshooting"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcomeBack": "Welcome back, {name}!",
+    "stats": {
+      "totalPages": "Total Pages",
+      "totalProducts": "Total Products",
+      "activeJobs": "Active Jobs",
+      "systemStatus": "System Status",
+      "healthy": "Healthy"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "managePages": "Manage Pages",
+      "manageProducts": "Manage Products",
+      "monitorJobs": "Monitor Jobs",
+      "mediaLibrary": "Media Library"
     }
   },
   "common": {

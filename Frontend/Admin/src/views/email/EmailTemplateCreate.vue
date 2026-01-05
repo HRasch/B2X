@@ -39,11 +39,20 @@ const onCancelled = () => {
   background: #f9fafb;
 }
 
+html.dark .email-template-create-page {
+  background: #0f172a;
+}
+
 .page-header {
   background: white;
   padding: 2rem;
   border-bottom: 1px solid #e5e7eb;
   margin-bottom: 0;
+}
+
+html.dark .page-header {
+  background: #1e293b;
+  border-bottom-color: #334155;
 }
 
 .header-content h1 {

@@ -26,6 +26,30 @@ Frontend (Vue, Pinia, Vite)
   - Putting heavy business logic inside components instead of stores/composables.
   - Mutating shared state directly from multiple places without clear ownership.
 
+Nuxt 3 Framework
+- Patterns:
+  - Leverage file-based routing and auto-imports for clean, convention-over-configuration development.
+  - Use server-side rendering (SSR) for SEO-critical pages and static generation (SSG) for content-heavy sites.
+  - Create composables for shared logic across pages/components; use Nuxt's auto-import feature extensively.
+  - Implement proper error boundaries with Nuxt's error pages and `useError()` composable.
+  - Use Nuxt modules for reusable functionality and third-party integrations.
+  - Optimize images and assets with Nuxt's built-in image optimization and lazy loading.
+  - Use `useHead()` and `useSeoMeta()` for declarative head management instead of manual DOM manipulation.
+  - Implement proper data fetching with `useAsyncData()` and `useFetch()` for reactive, cached data.
+  - Use `<NuxtLink>` for internal navigation to leverage prefetching and improve performance.
+  - Structure components with clear separation: pages for routing, components for UI, composables for logic.
+- Antipatterns:
+  - Mixing client-side and server-side logic inappropriately (e.g., accessing browser APIs in server-side code).
+  - Manually managing meta tags and head elements instead of using Nuxt's head composables.
+  - Overusing plugins for simple logic that belongs in composables or page components.
+  - Ignoring hydration mismatches between server and client rendering.
+  - Not leveraging Nuxt's built-in features like auto-imports, leading to verbose import statements.
+  - Performing heavy computations in setup functions without proper async handling or lazy loading.
+  - Using traditional Vue Router navigation instead of Nuxt's file-based routing system.
+  - Not handling loading and error states properly in data fetching composables.
+  - Placing business logic directly in components instead of extracting to composables.
+  - Ignoring Nuxt's performance optimizations like payload extraction and code splitting.
+
 Authentication & Identity (ASP.NET Core Identity)
 - Patterns:
   - Enforce confirmed accounts, strong password policies, and MFA for sensitive flows.

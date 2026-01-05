@@ -96,3 +96,116 @@ body {
 .bg-gradient-info {
   background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
 }
+
+/* Dark Mode Support */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+/* Dark mode base backgrounds */
+html.dark .bg-base-100 {
+  background-color: #1e293b !important;
+}
+
+html.dark .bg-base-200 {
+  background-color: #0f172a !important;
+}
+
+html.dark .bg-base-300 {
+  background-color: #334155 !important;
+}
+
+/* Dark mode borders */
+html.dark .border-base-300 {
+  border-color: #334155 !important;
+}
+
+/* Dark mode text colors */
+html.dark .text-base-content {
+  color: #f1f5f9 !important;
+}
+
+html.dark .text-base-content\/60 {
+  color: rgba(241, 245, 249, 0.6) !important;
+}
+
+/* Dark mode cards */
+html.dark .card {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+/* Dark mode inputs and forms */
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background-color: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #94a3b8;
+}
+
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus {
+  border-color: #3b82f6;
+  background-color: #1e293b;
+}
+
+/* Dark mode buttons */
+html.dark .btn-ghost {
+  color: #f1f5f9;
+}
+
+html.dark .btn-ghost:hover {
+  background-color: #334155;
+}
+
+/* Dark mode dropdowns */
+html.dark .dropdown-content {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+/* Dark mode tables */
+html.dark table {
+  color: #f1f5f9;
+}
+
+html.dark th {
+  background-color: #334155;
+  color: #f1f5f9;
+}
+
+html.dark td {
+  border-color: #334155;
+}
+
+html.dark tr:hover {
+  background-color: #334155;
+}
+
+/* Dark mode badges */
+html.dark .badge {
+  border-color: #475569;
+}
+
+/* Dark mode stats */
+html.dark .stat {
+  background-color: #1e293b;
+  color: #f1f5f9;
+}
+
+/* Dark mode dividers */
+html.dark .divider {
+  border-color: #334155;
+}

@@ -1,11 +1,59 @@
 <template>
   <div class="email-template-editor">
-    <div class="editor-header">
+    <div class="editor-header" :class="{ 'unsaved-changes': hasUnsavedChanges }">
       <h2>{{ isEditing ? $t('email.templates.edit') : $t('email.templates.create') }}</h2>
       <div class="actions">
+        <button
+          @click="toggleEmailPreviewMode"
+          class="btn-preview-mode"
+          :title="emailPreviewMode === 'dark' ? 'Preview in light mode' : 'Preview in dark mode'"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span class="preview-mode-label">{{ emailPreviewMode === 'dark' ? '🌙' : '☀️' }}</span>
+        </button>
+        <div class="editor-mode-toggle">
+          <button
+            @click="editorMode = 'visual'"
+            :class="{ active: editorMode === 'visual' }"
+            class="btn-mode"
+          >
+            {{ $t('email.templates.visualMode') }}
+          </button>
+          <button
+            @click="editorMode = 'code'"
+            :class="{ active: editorMode === 'code' }"
+            class="btn-mode"
+          >
+            {{ $t('email.templates.codeMode') }}
+          </button>
+        </div>
         <button @click="preview" class="btn-secondary">{{ $t('email.templates.preview') }}</button>
         <button @click="testSend" class="btn-secondary">{{ $t('email.templates.test') }}</button>
-        <button @click="save" :disabled="!isValid" class="btn-primary">{{ $t('ui.save') }}</button>
+        <button
+          v-if="hasUnsavedChanges"
+          @click="discardChanges"
+          class="btn-secondary"
+          :title="$t('email.templates.discardChanges')"
+        >
+          {{ $t('email.templates.discardChanges') }}
+        </button>
+        <button @click="save" :disabled="!isValid" class="btn-primary">
+          {{ hasUnsavedChanges ? $t('email.templates.saveChanges') : $t('ui.save') }}
+        </button>
       </div>
     </div>
 
@@ -79,14 +127,21 @@
       <div class="form-group">
         <label for="htmlBody">{{ $t('email.templates.htmlBody') }} *</label>
         <div class="editor-container">
-          <textarea
+          <EmailBuilderWYSIWYG
+            v-if="editorMode === 'visual'"
+            v-model="visualContent"
+            :height="'600px'"
+            :preview-mode="emailPreviewMode"
+          />
+          <CodeEditor
+            v-else
             id="htmlBody"
-            v-model="form.htmlBody"
-            required
-            :placeholder="$t('email.templates.htmlBodyPlaceholder')"
-            rows="20"
-            class="code-editor"
-          ></textarea>
+            v-model="codeContent"
+            language="html"
+            :height="'600px'"
+            :theme="monacoTheme"
+            :read-only="false"
+          />
         </div>
         <div class="liquid-help">
           <div>{{ $t('email.templates.liquidVariables') }}</div>
@@ -169,9 +224,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useEmailStore } from '@/stores/email';
+import { useThemeStore } from '@/stores/theme';
+import CodeEditor from '@/components/common/CodeEditor.vue';
+import EmailBuilderWYSIWYG from '@/components/email/EmailBuilderWYSIWYG.vue';
 import type { EmailTemplate, EmailTemplateForm, EmailLayout, LiquidVariable } from '@/types/email';
 
 interface Props {
@@ -190,6 +248,30 @@ const emit = defineEmits<{
 
 const emailStore = useEmailStore();
 const { t } = useI18n();
+
+// Use global theme from theme store
+const themeStore = useThemeStore();
+const globalTheme = computed(() => themeStore.effectiveTheme);
+
+// Computed Monaco theme based on global theme
+const monacoTheme = computed(() => (globalTheme.value === 'dark' ? 'vs-dark' : 'vs-light'));
+
+// Email preview mode (independent from global theme)
+const emailPreviewMode = ref<'light' | 'dark'>('light');
+const toggleEmailPreviewMode = () => {
+  emailPreviewMode.value = emailPreviewMode.value === 'light' ? 'dark' : 'light';
+};
+
+// Editor mode state
+const editorMode = ref<'visual' | 'code'>('visual');
+
+// Draft state for editor content (unsaved changes)
+const draftHtmlBody = ref<string>('');
+
+// Track if there are unsaved changes
+const hasUnsavedChanges = computed(() => {
+  return draftHtmlBody.value !== form.value.htmlBody;
+});
 
 // Form data
 const form = ref<EmailTemplateForm>({
@@ -274,6 +356,53 @@ const previewData = computed(() => {
   };
 });
 
+// Content synchronization between GrapesJS and Monaco (using draft state)
+const visualContent = computed({
+  get: () => draftHtmlBody.value || form.value.htmlBody,
+  set: (value: string) => {
+    draftHtmlBody.value = value;
+  },
+});
+
+const codeContent = computed({
+  get: () => {
+    const content = draftHtmlBody.value || form.value.htmlBody;
+    // Extract body content from full HTML for Monaco editor
+    if (!content) return '';
+    try {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(content, 'text/html');
+      const body = doc.querySelector('body');
+      return body ? body.innerHTML : content;
+    } catch (error) {
+      console.warn('Failed to parse HTML for code editor:', error);
+      return content;
+    }
+  },
+  set: (value: string) => {
+    // Convert Monaco content back to full HTML document
+    const fullHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      body { background-color: #1f2937 !important; color: #f9fafb !important; }
+      .container { background-color: #111827 !important; }
+      a { color: #60a5fa !important; }
+      h1, h2, h3, h4, h5, h6 { color: #f9fafb !important; }
+    }
+  </style>
+</head>
+<body>
+  ${value}
+</body>
+</html>`;
+    draftHtmlBody.value = fullHtml;
+  },
+});
+
 // Methods
 const loadLayouts = async () => {
   try {
@@ -295,6 +424,8 @@ const loadTemplate = () => {
       plainTextBody: props.template.plainTextBody || '',
       layoutId: props.template.layoutId || '',
     };
+    // Initialize draft with current content
+    draftHtmlBody.value = props.template.htmlBody;
   }
 };
 
@@ -302,12 +433,25 @@ const save = async () => {
   if (!isValid.value) return;
 
   try {
+    // Apply draft changes to form before saving
+    if (hasUnsavedChanges.value) {
+      form.value.htmlBody = draftHtmlBody.value;
+    }
+
     const savedTemplate = await emailStore.saveTemplate(form.value, props.isEditing);
     emit('saved', savedTemplate);
+
+    // Clear draft state after successful save
+    draftHtmlBody.value = form.value.htmlBody;
   } catch (error) {
     console.error('Failed to save template:', error);
     // Handle error (show toast, etc.)
   }
+};
+
+const discardChanges = () => {
+  // Reset draft to current form state
+  draftHtmlBody.value = form.value.htmlBody;
 };
 
 const preview = () => {
@@ -343,6 +487,21 @@ onMounted(() => {
   if (props.isEditing) {
     loadTemplate();
   }
+
+  // Warn user about unsaved changes when leaving page
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    if (hasUnsavedChanges.value) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  };
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+  // Cleanup on unmount
+  onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+  });
 });
 </script>
 
@@ -362,9 +521,56 @@ onMounted(() => {
   border-bottom: 1px solid #e5e7eb;
 }
 
+.editor-header.unsaved-changes {
+  border-bottom-color: #f59e0b;
+}
+
+.unsaved-indicator {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 8px;
+  height: 8px;
+  background-color: #f59e0b;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
 .actions {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+
+.editor-mode-toggle {
+  display: flex;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.btn-mode {
+  padding: 0.5rem 1rem;
+  background: #ffffff;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.btn-mode:hover {
+  background: #f9fafb;
+}
+
+.btn-mode.active {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.btn-mode:not(:last-child) {
+  border-right: 1px solid #d1d5db;
 }
 
 .template-form {
@@ -478,6 +684,36 @@ onMounted(() => {
   background: #f9fafb;
 }
 
+.btn-preview-mode {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.btn-preview-mode:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.btn-preview-mode svg {
+  width: 16px;
+  height: 16px;
+}
+
+.preview-mode-label {
+  font-size: 16px;
+  line-height: 1;
+}
+
 .modal {
   position: fixed;
   top: 0;
@@ -544,5 +780,15 @@ onMounted(() => {
   border-radius: 0.25rem;
   padding: 1rem;
   min-height: 400px;
+}
+
+/* Dark mode handled by global html.dark styles in main.css */
+html.dark .btn-preview-mode {
+  border-color: #4b5563;
+}
+
+html.dark .btn-preview-mode:hover {
+  background-color: #374151;
+  border-color: #6b7280;
 }
 </style>

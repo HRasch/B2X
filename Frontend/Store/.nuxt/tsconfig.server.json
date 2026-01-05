@@ -138,7 +138,7 @@
         "../../node_modules/@nuxtjs/i18n/dist/types"
       ],
       "#nuxt-i18n/logger": [
-        "./nuxt-i18n-logger.mjs"
+        "./nuxt-i18n-logger"
       ]
     },
     "lib": [
