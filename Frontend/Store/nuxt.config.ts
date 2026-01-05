@@ -8,18 +8,27 @@ export default defineNuxtConfig({
   // TypeScript
   typescript: {
     strict: true,
-    typeCheck: true
+    typeCheck: true,
   },
+
+  // Modules
+  modules: ['@nuxtjs/i18n', '@pinia/nuxt'],
 
   // CSS
   css: ['~/assets/css/main.css'],
 
-  // Modules
-  modules: [
-    '@nuxtjs/i18n',
-    '@pinia/nuxt',
-    '@nuxtjs/tailwindcss'
-  ],
+  // Vite configuration for Tailwind CSS v4 and SSR
+  vite: {
+    css: {
+      postcss: {
+        plugins: [require('@tailwindcss/postcss')],
+      },
+    },
+    // Optimize for SSR
+    ssr: {
+      noExternal: ['@nuxtjs/i18n'],
+    },
+  },
 
   // i18n configuration for tenant-customizable translations
   i18n: {
@@ -27,25 +36,26 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
     // Will be configured dynamically based on tenant
     locales: [
-      { code: 'en', name: 'English', flag: '🇺🇸' },
-      { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-      { code: 'fr', name: 'Français', flag: '🇫🇷' },
-      { code: 'es', name: 'Español', flag: '🇪🇸' }
+      { code: 'en', name: 'English', flag: '🇺🇸', file: 'en.json' },
+      { code: 'de', name: 'Deutsch', flag: '🇩🇪', file: 'de.json' },
+      { code: 'fr', name: 'Français', flag: '🇫🇷', file: 'fr.json' },
+      { code: 'es', name: 'Español', flag: '🇪🇸', file: 'es.json' },
+      { code: 'it', name: 'Italiano', flag: '🇮🇹', file: 'it.json' },
+      { code: 'pt', name: 'Português', flag: '🇵🇹', file: 'pt.json' },
+      { code: 'nl', name: 'Nederlands', flag: '🇳🇱', file: 'nl.json' },
+      { code: 'pl', name: 'Polski', flag: '🇵🇱', file: 'pl.json' },
     ],
     defaultLocale: 'en',
     // Custom strategy for tenant-scoped routing
     strategy: 'no_prefix',
     // Disable default loading - we'll handle it manually
     lazy: false,
-    langDir: '~/locales/',
-    // Custom locale messages loader
-    vueI18n: '~/i18n.config.ts'
   },
 
   // Pinia store configuration
-  pinia: {
-    storesDirs: ['./stores/**']
-  },
+  // pinia: {
+  //   storesDirs: ['./stores/**'],
+  // },
 
   // Runtime config for tenant-specific settings
   runtimeConfig: {
@@ -55,46 +65,36 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api',
       tenantId: process.env.NUXT_PUBLIC_TENANT_ID,
-      baseUrl: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    }
+      baseUrl: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+    },
   },
 
   // Build configuration
   nitro: {
     // Enable experimental features for better SSR
     experimental: {
-      wasm: true
-    }
-  },
-
-  // Vite configuration
-  vite: {
-    // Optimize for SSR
-    ssr: {
-      noExternal: ['@nuxtjs/i18n']
-    }
+      wasm: true,
+    },
   },
 
   // SEO and meta configuration
   app: {
     head: {
       htmlAttrs: {
-        lang: 'en'
+        lang: 'en',
       },
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'format-detection', content: 'telephone=no' }
+        { name: 'format-detection', content: 'telephone=no' },
       ],
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-      ]
-    }
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    },
   },
 
   // Development server
   devServer: {
     port: 3000,
-    host: '0.0.0.0'
-  }
-})
+    host: '0.0.0.0',
+  },
+});

@@ -24,7 +24,7 @@ import { Resource } from '@opentelemetry/resources';
 import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
-  ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
+  SEMRESATTRS_DEPLOYMENT_ENVIRONMENT,
 } from '@opentelemetry/semantic-conventions';
 
 // Configuration with environment variable fallbacks
@@ -54,7 +54,7 @@ function initTelemetry(): void {
     const resource = new Resource({
       [ATTR_SERVICE_NAME]: config.serviceName,
       [ATTR_SERVICE_VERSION]: config.serviceVersion,
-      [ATTR_DEPLOYMENT_ENVIRONMENT_NAME]: config.environment,
+      [SEMRESATTRS_DEPLOYMENT_ENVIRONMENT]: config.environment,
     });
 
     // Configure OTLP trace exporter with timeout
@@ -91,10 +91,6 @@ function initTelemetry(): void {
           },
           // Enable HTTP instrumentation for API calls
           '@opentelemetry/instrumentation-http': {
-            enabled: true,
-          },
-          // Enable fetch instrumentation
-          '@opentelemetry/instrumentation-fetch': {
             enabled: true,
           },
         }),

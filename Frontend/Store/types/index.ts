@@ -1,3 +1,5 @@
+export type LocaleCode = 'en' | 'de' | 'fr' | 'es' | 'it' | 'pt' | 'nl' | 'pl';
+
 export interface UserDto {
   id: string;
   tenantId: string;

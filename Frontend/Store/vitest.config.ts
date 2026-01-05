@@ -26,7 +26,6 @@ export default defineConfig({
     mockReset: true,
     restoreMocks: true,
     isolate: false,
-    threads: false,
     fileParallelism: false,
     coverage: {
       provider: 'v8',

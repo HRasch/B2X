@@ -14,11 +14,14 @@ export default defineConfig({
     // 5s timeouts
     actionTimeout: 5000,
     navigationTimeout: 5000,
-    expect: { timeout: 5000 },
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
+  },
+
+  expect: {
+    timeout: 5000,
   },
 
   projects: [

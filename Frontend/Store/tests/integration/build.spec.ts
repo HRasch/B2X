@@ -95,7 +95,7 @@ describe('Build Integration - Vite Configuration', () => {
 
 describe('Build Integration - CSS Configuration', () => {
   it('should have valid main.css with Tailwind imports', () => {
-    const cssPath = join(projectRoot, 'src/main.css');
+    const cssPath = join(projectRoot, 'assets/css/main.css');
     expect(existsSync(cssPath), 'main.css should exist').toBe(true);
 
     const content = readFileSync(cssPath, 'utf-8');
@@ -107,7 +107,7 @@ describe('Build Integration - CSS Configuration', () => {
   });
 
   it('should not have deprecated @tailwind directives (Tailwind v4)', () => {
-    const cssPath = join(projectRoot, 'src/main.css');
+    const cssPath = join(projectRoot, 'assets/css/main.css');
     const content = readFileSync(cssPath, 'utf-8');
 
     // Tailwind v4 uses @import, not @tailwind directives
@@ -118,7 +118,7 @@ describe('Build Integration - CSS Configuration', () => {
 
   it('should not have @apply with unknown utility classes', () => {
     // Search for @apply in all .vue and .css files
-    const checkFiles = ['src/main.css'];
+    const checkFiles = ['assets/css/main.css'];
 
     for (const file of checkFiles) {
       const filePath = join(projectRoot, file);
@@ -190,25 +190,24 @@ describe('Build Integration - Entry Points', () => {
 
     const content = readFileSync(indexPath, 'utf-8');
     expect(content).toContain('<div id="app">');
-    expect(content).toContain('src/main.ts');
+    expect(content).toContain('app.vue');
   });
 
-  it('should have valid main.ts', () => {
-    const mainPath = join(projectRoot, 'src/main.ts');
-    expect(existsSync(mainPath), 'main.ts should exist').toBe(true);
-
-    const content = readFileSync(mainPath, 'utf-8');
-    expect(content).toContain('createApp');
-    expect(content).toContain('./main.css');
-    expect(content).toContain('#app');
-  });
-
-  it('should have valid App.vue', () => {
-    const appPath = join(projectRoot, 'src/App.vue');
-    expect(existsSync(appPath), 'App.vue should exist').toBe(true);
+  it('should have valid app.vue', () => {
+    const appPath = join(projectRoot, 'app.vue');
+    expect(existsSync(appPath), 'app.vue should exist').toBe(true);
 
     const content = readFileSync(appPath, 'utf-8');
     expect(content).toContain('<template>');
     expect(content).toContain('<script');
+  });
+
+  it('should have valid nuxt.config.ts', () => {
+    const configPath = join(projectRoot, 'nuxt.config.ts');
+    expect(existsSync(configPath), 'nuxt.config.ts should exist').toBe(true);
+
+    const content = readFileSync(configPath, 'utf-8');
+    expect(content).toContain('defineNuxtConfig');
+    expect(content).toContain('assets/css/main.css');
   });
 });

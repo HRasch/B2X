@@ -46,12 +46,12 @@ export const useAuthStore = defineStore('auth', () => {
 
       // Store in cookies for SSR
       const authCookie = useCookie('auth', { maxAge: 60 * 60 * 24 * 7 }); // 7 days
-      authCookie.value = {
+      authCookie.value = JSON.stringify({
         accessToken: token,
         refreshToken: refresh,
         tenantId: userData.tenantId,
-        user: userData
-      };
+        user: userData,
+      });
 
       return true;
     } catch (error) {

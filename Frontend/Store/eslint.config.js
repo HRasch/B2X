@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import pluginVue from 'eslint-plugin-vue';
 import vueTsEslintConfig from '@vue/eslint-config-typescript';
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
+import noHardcodedStrings from './eslint-rules/no-hardcoded-strings.js';
 
 export default [
   {
@@ -32,6 +33,27 @@ export default [
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-expressions': 'off',
       'no-useless-catch': 'warn',
+    },
+  },
+  {
+    files: ['**/*.vue'],
+    plugins: {
+      custom: {
+        rules: {
+          'no-hardcoded-strings': noHardcodedStrings,
+        },
+      },
+    },
+    rules: {
+      'custom/no-hardcoded-strings': [
+        'error',
+        {
+          ignoreText: ['&nbsp;', ' ', '\n', '\t', '\r'],
+          ignoreAttributes: ['placeholder', 'alt', 'title', 'aria-label'],
+          ignoreDirectives: ['t'],
+          minLength: 3,
+        },
+      ],
     },
   },
 ];

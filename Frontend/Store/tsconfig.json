@@ -25,19 +25,28 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"],
+      "~/*": ["./*"]
     },
 
     "types": ["vite/client", "node", "vitest/globals"]
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
+    ".nuxt/**/*.d.ts",
+    "stores/**/*.ts",
+    "types/**/*.ts",
+    "services/**/*.ts",
+    "components/**/*.vue",
+    "composables/**/*.ts",
+    "pages/**/*.vue",
+    "plugins/**/*.ts",
+    "middleware/**/*.ts",
+    "utils/**/*.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "vite-env.d.ts"
+    "vite-env.d.ts",
+    "*.ts",
+    "*.vue"
   ],
   "exclude": ["node_modules", "dist", "build"]
 }

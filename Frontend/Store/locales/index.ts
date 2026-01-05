@@ -1,5 +1,6 @@
 import { createI18n } from 'vue-i18n';
 import type { I18n } from 'vue-i18n';
+import type { LocaleCode } from '~/types';
 import en from './en.json';
 import de from './de.json';
 import fr from './fr.json';
@@ -25,7 +26,17 @@ export const SUPPORTED_LOCALES = [
  */
 const i18n: I18n = createI18n({
   legacy: false,
-  locale: localStorage.getItem('locale') || navigator.language.split('-')[0] || 'en',
+  locale: (() => {
+    const saved = localStorage.getItem('locale');
+    if (saved && SUPPORTED_LOCALES.some(l => l.code === saved)) {
+      return saved as LocaleCode;
+    }
+    const browser = navigator.language.split('-')[0];
+    if (SUPPORTED_LOCALES.some(l => l.code === browser)) {
+      return browser as LocaleCode;
+    }
+    return 'en';
+  })(),
   fallbackLocale: 'en',
   globalInjection: true,
   messages: {

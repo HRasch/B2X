@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss';
 // DaisyUI v5 is imported via CSS (@import "daisyui"), not as a plugin
 
 export default {
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: ['./index.html', './**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -87,50 +87,6 @@ export default {
         '128': '32rem',
       },
     },
-  },
-  daisyui: {
-    themes: [
-      {
-        light: {
-          'color-scheme': 'light',
-          primary: '#0b98ff',
-          'primary-content': '#ffffff',
-          secondary: '#8b5cf6',
-          'secondary-content': '#ffffff',
-          accent: '#00d9ff',
-          'accent-content': '#000000',
-          neutral: '#2b2d31',
-          'neutral-content': '#d7dadc',
-          'base-100': '#ffffff',
-          'base-200': '#f2f2f2',
-          'base-300': '#e5e5e5',
-          'base-content': '#1f2937',
-          info: '#0284c7',
-          success: '#22c55e',
-          warning: '#f59e0b',
-          error: '#ef4444',
-        },
-        dark: {
-          'color-scheme': 'dark',
-          primary: '#36b0ff',
-          'primary-content': '#000000',
-          secondary: '#a78bfa',
-          'secondary-content': '#000000',
-          accent: '#00d9ff',
-          'accent-content': '#000000',
-          neutral: '#16a34a',
-          'neutral-content': '#f3f4f6',
-          'base-100': '#1f2937',
-          'base-200': '#111827',
-          'base-300': '#0f172a',
-          'base-content': '#f3f4f6',
-          info: '#38bdf8',
-          success: '#4ade80',
-          warning: '#fbbf24',
-          error: '#f87171',
-        },
-      },
-    ],
   },
   // DaisyUI v5 is configured via CSS imports, not plugins
   plugins: [],

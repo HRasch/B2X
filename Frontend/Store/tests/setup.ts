@@ -61,35 +61,35 @@ console.warn = function (...args: unknown[]) {
 
 // Mock dynamic widget imports to suppress load errors in test environment
 // The actual widget components are not needed for unit tests
-vi.mock('./src/components/widgets/HeroBanner.vue', () => ({
+vi.mock('./components/widgets/HeroBanner.vue', () => ({
   default: {
     name: 'HeroBanner',
     template: '<div class="hero-banner">Hero Banner Mock</div>',
   },
 }));
 
-vi.mock('./src/components/widgets/ProductGrid.vue', () => ({
+vi.mock('./components/widgets/ProductGrid.vue', () => ({
   default: {
     name: 'ProductGrid',
     template: '<div class="product-grid">Product Grid Mock</div>',
   },
 }));
 
-vi.mock('./src/components/widgets/Testimonials.vue', () => ({
+vi.mock('./components/widgets/Testimonials.vue', () => ({
   default: {
     name: 'Testimonials',
     template: '<div class="testimonials">Testimonials Mock</div>',
   },
 }));
 
-vi.mock('./src/components/widgets/NewsletterSignup.vue', () => ({
+vi.mock('./components/widgets/NewsletterSignup.vue', () => ({
   default: {
     name: 'NewsletterSignup',
     template: '<div class="newsletter-signup">Newsletter Signup Mock</div>',
   },
 }));
 
-vi.mock('./src/components/cms/WidgetNotFound.vue', () => ({
+vi.mock('./components/cms/WidgetNotFound.vue', () => ({
   default: {
     name: 'WidgetNotFound',
     template: '<div class="widget-not-found">Widget not found</div>',

@@ -68,9 +68,7 @@ const { setTenantLocale } = useTenantI18n();
 const isOpen = ref(false);
 const isLoading = ref(false);
 
-const currentLocale = computed(() =>
-  locales.value.find((loc: any) => loc.code === locale.value)
-);
+const currentLocale = computed(() => locales.value.find((loc: any) => loc.code === locale.value));
 
 const handleSelectLocale = async (code: string) => {
   isOpen.value = false;

@@ -1,41 +1,41 @@
 // composables/useTenantI18n.ts
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
 
 export const useTenantI18n = () => {
-  const { $i18n } = useNuxtApp()
-  const runtimeConfig = useRuntimeConfig()
+  const { t, setLocaleMessage, getLocaleMessage, setLocale, locale } = useI18n();
+  const runtimeConfig = useRuntimeConfig();
 
   // Get tenant from server context or runtime config
   const tenantId = process.server
     ? useRequestEvent()?.context.tenantId || runtimeConfig.public.tenantId
-    : runtimeConfig.public.tenantId
+    : runtimeConfig.public.tenantId;
 
   const loadTenantTranslations = async (locale: string) => {
     try {
       // Load tenant-specific translations from backend
       const response = await $fetch(`/api/translations/${tenantId}/${locale}`, {
-        baseURL: runtimeConfig.public.apiBase
-      })
+        baseURL: runtimeConfig.public.apiBase,
+      });
 
       // Merge with existing messages
-      $i18n.setLocaleMessage(locale, {
-        ...$i18n.getLocaleMessage(locale),
-        ...response
-      })
+      setLocaleMessage(locale, {
+        ...getLocaleMessage(locale),
+        ...(response && typeof response === 'object' ? response : {}),
+      });
     } catch (error) {
-      console.warn(`Failed to load translations for tenant ${tenantId}, locale ${locale}:`, error)
+      console.warn(`Failed to load translations for tenant ${tenantId}, locale ${locale}:`, error);
       // Fallback to default translations
     }
-  }
+  };
 
   const setTenantLocale = async (locale: string) => {
-    await loadTenantTranslations(locale)
-    await $i18n.setLocale(locale)
-  }
+    await loadTenantTranslations(locale);
+    await setLocale(locale);
+  };
 
   return {
     tenantId,
     loadTenantTranslations,
-    setTenantLocale
-  }
-}
+    setTenantLocale,
+  };
+};

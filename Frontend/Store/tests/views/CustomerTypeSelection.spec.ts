@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
-import CustomerTypeSelection from '../../src/views/CustomerTypeSelection.vue';
+import CustomerTypeSelection from '../../pages/CustomerTypeSelection.vue';
 
 // Types for testing
 type CustomerType = 'private' | 'business' | null;
@@ -337,5 +337,3 @@ describe('CustomerTypeSelection.vue', () => {
     });
   });
 });
-
-

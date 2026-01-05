@@ -1,6 +1,14 @@
 import { useI18n } from 'vue-i18n';
 import { ref, computed, type ComputedRef, type Ref } from 'vue';
 import { SUPPORTED_LOCALES } from '@/locales';
+import type { LocaleCode } from '~/types';
+
+/**
+ * Type guard to check if a string is a valid locale code
+ */
+function isValidLocaleCode(code: string): code is (typeof SUPPORTED_LOCALES)[number]['code'] {
+  return SUPPORTED_LOCALES.some(locale => locale.code === code);
+}
 
 /**
  * Locale object structure
@@ -65,7 +73,7 @@ export function useLocale(): UseLocaleReturn {
    */
   const setLocale = async (code: string): Promise<void> => {
     // Validate locale code
-    if (!locales.find(l => l.code === code)) {
+    if (!isValidLocaleCode(code)) {
       console.warn(`Unsupported locale: ${code}`);
       return;
     }
@@ -73,7 +81,7 @@ export function useLocale(): UseLocaleReturn {
     isLoading.value = true;
     try {
       // Update i18n locale (this is the key - must use i18n.locale.value)
-      i18n.locale.value = code;
+      i18n.locale.value = code as LocaleCode;
       localStorage.setItem('locale', code);
       document.documentElement.lang = code;
 
@@ -84,18 +92,15 @@ export function useLocale(): UseLocaleReturn {
     }
   };
 
-  /**
-   * Initialize locale from localStorage or browser preference
-   */
   const initializeLocale = (): void => {
     const savedLocale = localStorage.getItem('locale');
-    if (savedLocale && locales.find(l => l.code === savedLocale)) {
-      i18n.locale.value = savedLocale;
+    if (savedLocale && isValidLocaleCode(savedLocale)) {
+      i18n.locale.value = savedLocale as LocaleCode;
     } else {
       const browserLang = navigator.language.split('-')[0];
       const matchedLocale = locales.find(l => l.code === browserLang);
-      if (matchedLocale) {
-        i18n.locale.value = matchedLocale.code;
+      if (matchedLocale && isValidLocaleCode(matchedLocale.code)) {
+        i18n.locale.value = matchedLocale.code as LocaleCode;
         localStorage.setItem('locale', matchedLocale.code);
       }
     }
