@@ -1,6 +1,7 @@
 using B2Connect.Shared.Monitoring;
 using B2Connect.Shared.Monitoring.Abstractions;
 using B2Connect.Shared.Monitoring.Models;
+using B2Connect.CLI.Shared.Configuration;
 
 namespace B2Connect.CLI.Services;
 

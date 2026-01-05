@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\B2Connect.CLI.Shared\B2Connect.CLI.Shared.csproj" />
     <ProjectReference Include="..\..\shared\Monitoring\B2Connect.Shared.Monitoring.csproj" />
   </ItemGroup>
 

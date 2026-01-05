@@ -1,5 +1,6 @@
 using System.CommandLine;
 using B2Connect.CLI.Services;
+using B2Connect.CLI.Shared;
 using Spectre.Console;
 
 namespace B2Connect.CLI.Commands.MonitoringCommands;
@@ -52,7 +53,7 @@ public static class TestConnectivityCommand
                 {
                     AnsiConsole.WriteLine();
                     AnsiConsole.MarkupLine("[bold]Response Details:[/]");
-                    foreach (var (key, value) in result.Data)
+                    foreach ((string key, object value) in result.Data)
                     {
                         AnsiConsole.MarkupLine($"[dim]{key}:[/] {value}");
                     }
@@ -67,7 +68,7 @@ public static class TestConnectivityCommand
                 {
                     AnsiConsole.WriteLine();
                     AnsiConsole.MarkupLine("[bold]Error Details:[/]");
-                    foreach (var (key, value) in result.Data)
+                    foreach ((string key, object value) in result.Data)
                     {
                         AnsiConsole.MarkupLine($"[dim]{key}:[/] {value}");
                     }

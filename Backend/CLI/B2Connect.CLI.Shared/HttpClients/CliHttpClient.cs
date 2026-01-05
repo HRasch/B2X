@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace B2Connect.CLI.Services;
+namespace B2Connect.CLI.Shared.HttpClients;
 
 /// <summary>
 /// HTTP Client für CLI-Commands zur Kommunikation mit Microservices

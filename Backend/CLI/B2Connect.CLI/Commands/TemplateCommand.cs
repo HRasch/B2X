@@ -2,6 +2,7 @@ using System.CommandLine;
 using System.Text;
 using Spectre.Console;
 using B2Connect.CLI.Services;
+using B2Connect.CLI.Shared;
 
 namespace B2Connect.CLI.Commands;
 

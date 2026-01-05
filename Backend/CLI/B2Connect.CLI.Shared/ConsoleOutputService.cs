@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Spectre.Console;
 
-namespace B2Connect.CLI.Services;
+namespace B2Connect.CLI.Shared;
 
 /// <summary>
 /// Service für formatierte Konsolen-Ausgabe mit Spectre.Console

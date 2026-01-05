@@ -2,13 +2,10 @@
 
 # B2Connect - Port Availability Checker
 # Checks the status of all required ports and provides options to free them
-# Usage: ./check-ports.sh [options]
-# Options:
-#   --check     Check port availability (default)
-#   --free      Free up occupied ports
-#   --monitor   Monitor ports in real-time
+# Usage: ./check-ports.sh [options] [timeout]
+# Compatible with macOS bash 3.2
 
-set -euo pipefail
+set -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -21,43 +18,13 @@ CYAN='\033[0;36m'
 PURPLE='\033[0;35m'
 NC='\033[0m' # No Color
 
-# Port configuration using associative arrays
-declare -A PORTS=(
-    [AuthService]="7002"
-    [TenantService]="7003"
-    [LocalizationService]="7004"
-    [CatalogService]="7005"
-    [ThemingService]="7008"
-    [StoreGateway]="8000"
-    [AdminGateway]="8080"
-    [FrontendStore]="5173"
-    [FrontendAdmin]="5174"
-    [Dashboard]="15500"
-    [Redis]="6379"
-    [PostgreSQL]="5432"
-    [Elasticsearch]="9200"
-    [RabbitMQ]="5672"
-)
-
-declare -A SERVICE_DISPLAY=(
-    [AuthService]="Auth Service"
-    [TenantService]="Tenant Service"
-    [LocalizationService]="Localization Service"
-    [CatalogService]="Catalog Service"
-    [ThemingService]="Theming Service"
-    [StoreGateway]="Store Gateway"
-    [AdminGateway]="Admin Gateway"
-    [FrontendStore]="Frontend Store"
-    [FrontendAdmin]="Frontend Admin"
-    [Dashboard]="Aspire Dashboard"
-    [Redis]="Redis Cache"
-    [PostgreSQL]="PostgreSQL DB"
-    [Elasticsearch]="Elasticsearch"
-    [RabbitMQ]="RabbitMQ"
-)
+# Port configuration (macOS bash 3.x compatible - parallel arrays)
+SERVICE_NAMES=("Auth_Service" "Tenant_Service" "Localization_Service" "Catalog_Service" "Theming_Service" "Store_Gateway" "Admin_Gateway" "MCP_Server" "Frontend_Store" "Frontend_Admin" "Frontend_Management" "Aspire_Dashboard" "Redis" "PostgreSQL" "Elasticsearch" "RabbitMQ")
+SERVICE_PORTS=(7002 7003 7004 7005 7008 8000 8080 8090 5173 5174 5175 15500 6379 5432 9200 5672)
 
 # Command type
 COMMAND="${1:-check}"
+WAIT_TIMEOUT="${2:-30}"
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo -e "${PURPLE}  B2Connect - Port Availability Checker${NC}"
@@ -67,14 +34,14 @@ echo ""
 # Function to check if a port is in use
 is_port_in_use() {
     local port=$1
-    nc -z localhost "$port" 2>/dev/null
+    lsof -ti:$port >/dev/null 2>&1
     return $?
 }
 
 # Function to get the process using a port
 get_process_using_port() {
     local port=$1
-    lsof -i ":$port" 2>/dev/null | awk 'NR>1 {print $1, "(" $2 ")"}' | head -1
+    lsof -i ":$port" 2>/dev/null | awk 'NR>1 {print $1, "(PID:" $2 ")"}' | head -1
 }
 
 # Check port availability
@@ -84,16 +51,17 @@ check_ports() {
     
     local available_count=0
     local occupied_count=0
-    local total_count=${#PORTS[@]}
+    local total_count=${#SERVICE_PORTS[@]}
     
-    for service in "${!PORTS[@]}"; do
-        local port=${PORTS[$service]}
-        local display_name=${SERVICE_DISPLAY[$service]:-$service}
+    for i in "${!SERVICE_PORTS[@]}"; do
+        local port=${SERVICE_PORTS[$i]}
+        local service=${SERVICE_NAMES[$i]}
+        local display_name=$(echo "$service" | tr '_' ' ')
         
         if is_port_in_use "$port"; then
             echo -e "  ${RED}✗${NC} $display_name (Port $port): ${RED}IN USE${NC}"
             local process=$(get_process_using_port "$port")
-            [ ! -z "$process" ] && echo -e "     ${YELLOW}Process: $process${NC}"
+            [ -n "$process" ] && echo -e "     ${YELLOW}Process: $process${NC}"
             occupied_count=$((occupied_count + 1))
         else
             echo -e "  ${GREEN}✓${NC} $display_name (Port $port): ${GREEN}AVAILABLE${NC}"
@@ -106,6 +74,8 @@ check_ports() {
     echo -e "  ${GREEN}Available:${NC} $available_count/$total_count"
     echo -e "  ${RED}In Use:${NC}    $occupied_count/$total_count"
     echo ""
+    
+    return $occupied_count
 }
 
 # Kill process using a port
@@ -114,26 +84,23 @@ free_port() {
     local service=$2
     
     if is_port_in_use "$port"; then
-        echo -e "${YELLOW}[*] Attempting to free port $port ($service)...${NC}"
+        echo -e "${YELLOW}[*] Freeing port $port ($service)...${NC}"
         
-        local pids=$(lsof -i ":$port" 2>/dev/null | awk 'NR>1 {print $2}' | sort -u)
+        local pids=$(lsof -ti:$port 2>/dev/null | sort -u)
         
         if [ -z "$pids" ]; then
             echo -e "${YELLOW}[!] Could not identify process on port $port${NC}"
             return 1
         fi
         
+        # SIGTERM first
         for pid in $pids; do
-            echo -e "${YELLOW}    Sending SIGTERM to PID $pid...${NC}"
             kill -TERM "$pid" 2>/dev/null || true
         done
+        sleep 1
         
-        # Wait a bit
-        sleep 2
-        
-        # Check if ports are freed
+        # Check if ports are freed, else SIGKILL
         if is_port_in_use "$port"; then
-            echo -e "${YELLOW}[!] Process still running, sending SIGKILL...${NC}"
             for pid in $pids; do
                 kill -9 "$pid" 2>/dev/null || true
             done
@@ -148,7 +115,6 @@ free_port() {
             return 0
         fi
     else
-        echo -e "${GREEN}[✓] Port $port is already available${NC}"
         return 0
     fi
 }
@@ -161,9 +127,10 @@ free_ports() {
     local success_count=0
     local failed_count=0
     
-    for service in "${!PORTS[@]}"; do
-        local port=${PORTS[$service]}
-        local display_name=${SERVICE_DISPLAY[$service]:-$service}
+    for i in "${!SERVICE_PORTS[@]}"; do
+        local port=${SERVICE_PORTS[$i]}
+        local service=${SERVICE_NAMES[$i]}
+        local display_name=$(echo "$service" | tr '_' ' ')
         
         if is_port_in_use "$port"; then
             if free_port "$port" "$display_name"; then
@@ -179,6 +146,105 @@ free_ports() {
     echo -e "  ${GREEN}Freed:${NC}  $success_count"
     echo -e "  ${RED}Failed:${NC} $failed_count"
     echo ""
+    
+    return $failed_count
+}
+
+# Wait for ports to become available
+wait_for_ports() {
+    local timeout=${WAIT_TIMEOUT:-30}
+    local check_interval=2
+    local elapsed=0
+    
+    echo -e "${YELLOW}⏳ Waiting for ports to become available (timeout: ${timeout}s)...${NC}"
+    echo ""
+    
+    while [ $elapsed -lt $timeout ]; do
+        local blocked_count=0
+        
+        for i in "${!SERVICE_PORTS[@]}"; do
+            local port=${SERVICE_PORTS[$i]}
+            if is_port_in_use "$port"; then
+                blocked_count=$((blocked_count + 1))
+            fi
+        done
+        
+        if [ $blocked_count -eq 0 ]; then
+            echo -e "${GREEN}✅ All ports are now available!${NC}"
+            return 0
+        fi
+        
+        echo -e "  ${YELLOW}[${elapsed}s] ${blocked_count} port(s) still in use...${NC}"
+        sleep $check_interval
+        elapsed=$((elapsed + check_interval))
+    done
+    
+    echo -e "${RED}❌ Timeout: Some ports are still in use after ${timeout}s${NC}"
+    return 1
+}
+
+# Pre-start check: wait, then free if needed, then verify
+pre_start_check() {
+    echo -e "${CYAN}🚀 Pre-Start Port Check${NC}"
+    echo ""
+    
+    # First, quick check
+    local blocked_count=0
+    for i in "${!SERVICE_PORTS[@]}"; do
+        local port=${SERVICE_PORTS[$i]}
+        if is_port_in_use "$port"; then
+            blocked_count=$((blocked_count + 1))
+        fi
+    done
+    
+    if [ $blocked_count -eq 0 ]; then
+        echo -e "${GREEN}✅ All ports available - ready to start!${NC}"
+        return 0
+    fi
+    
+    echo -e "${YELLOW}⚠️  $blocked_count port(s) in use. Attempting cleanup...${NC}"
+    echo ""
+    
+    # Try waiting briefly first (services might be shutting down)
+    WAIT_TIMEOUT=10
+    if wait_for_ports; then
+        return 0
+    fi
+    
+    echo ""
+    echo -e "${YELLOW}🔧 Ports still blocked. Attempting to free...${NC}"
+    echo ""
+    
+    # Free the ports
+    free_ports
+    
+    # Final verification
+    echo ""
+    echo -e "${CYAN}🔍 Final verification...${NC}"
+    
+    blocked_count=0
+    for i in "${!SERVICE_PORTS[@]}"; do
+        local port=${SERVICE_PORTS[$i]}
+        local service=${SERVICE_NAMES[$i]}
+        local display_name=$(echo "$service" | tr '_' ' ')
+        
+        if is_port_in_use "$port"; then
+            echo -e "  ${RED}❌ Port $port ($display_name) - STILL BLOCKED${NC}"
+            blocked_count=$((blocked_count + 1))
+        fi
+    done
+    
+    echo ""
+    
+    if [ $blocked_count -gt 0 ]; then
+        echo -e "${RED}❌ Pre-start check FAILED: $blocked_count port(s) could not be freed${NC}"
+        echo ""
+        echo -e "${YELLOW}💡 Try: ./scripts/kill-all-services.sh${NC}"
+        return 1
+    fi
+    
+    echo -e "${GREEN}✅ Pre-start check PASSED - ready to start!${NC}"
+    return 0
 }
 
 # Monitor ports in real-time
@@ -195,14 +261,15 @@ monitor_ports() {
         echo -e "${CYAN}Real-time Port Status:${NC}"
         echo ""
         
-        for service in "${!PORTS[@]}"; do
-            local port=${PORTS[$service]}
-            local display_name=${SERVICE_DISPLAY[$service]:-$service}
+        for i in "${!SERVICE_PORTS[@]}"; do
+            local port=${SERVICE_PORTS[$i]}
+            local service=${SERVICE_NAMES[$i]}
+            local display_name=$(echo "$service" | tr '_' ' ')
             
             if is_port_in_use "$port"; then
                 echo -e "  ${RED}✗${NC} $display_name (Port $port): ${RED}IN USE${NC}"
                 local process=$(get_process_using_port "$port")
-                [ ! -z "$process" ] && echo -e "     ${YELLOW}$process${NC}"
+                [ -n "$process" ] && echo -e "     ${YELLOW}$process${NC}"
             else
                 echo -e "  ${GREEN}✓${NC} $display_name (Port $port): ${GREEN}AVAILABLE${NC}"
             fi
@@ -216,40 +283,43 @@ monitor_ports() {
 
 # Help message
 show_help() {
-    echo -e "${CYAN}Usage:${NC} ./check-ports.sh [options]"
+    echo -e "${CYAN}Usage:${NC} ./check-ports.sh [options] [timeout]"
     echo ""
     echo -e "${CYAN}Options:${NC}"
     echo -e "  ${BLUE}--check${NC}      Check port availability (default)"
     echo -e "  ${BLUE}--free${NC}       Free up occupied ports"
+    echo -e "  ${BLUE}--wait${NC}       Wait for ports to become available"
+    echo -e "  ${BLUE}--pre-start${NC}  Pre-start check with automatic cleanup"
     echo -e "  ${BLUE}--monitor${NC}    Monitor ports in real-time"
     echo -e "  ${BLUE}--help${NC}       Show this help message"
     echo ""
     echo -e "${CYAN}Examples:${NC}"
-    echo -e "  ${BLUE}./check-ports.sh${NC}             # Check port status"
-    echo -e "  ${BLUE}./check-ports.sh --free${NC}      # Free occupied ports"
-    echo -e "  ${BLUE}./check-ports.sh --monitor${NC}   # Monitor ports in real-time"
-    echo ""
-    echo -e "${CYAN}Ports Monitored:${NC}"
-    for service in "${!PORTS[@]}"; do
-        local display_name=${SERVICE_DISPLAY[$service]:-$service}
-        echo -e "  ${BLUE}${display_name}${NC} (${PORTS[$service]})"
-    done
+    echo -e "  ${BLUE}./check-ports.sh${NC}                  # Check port status"
+    echo -e "  ${BLUE}./check-ports.sh --free${NC}           # Free occupied ports"
+    echo -e "  ${BLUE}./check-ports.sh --wait 60${NC}        # Wait up to 60s for ports"
+    echo -e "  ${BLUE}./check-ports.sh --pre-start${NC}      # Full pre-start check"
     echo ""
 }
 
 # Main logic
 case "$COMMAND" in
-    --check)
+    --check|check)
         check_ports
         ;;
-    --free)
+    --free|free)
         check_ports
         echo ""
         free_ports
         echo ""
         check_ports
         ;;
-    --monitor)
+    --wait|wait)
+        wait_for_ports
+        ;;
+    --pre-start|pre-start)
+        pre_start_check
+        ;;
+    --monitor|monitor)
         monitor_ports
         ;;
     --help|-h|help)

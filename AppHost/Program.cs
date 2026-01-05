@@ -27,11 +27,12 @@ IResourceBuilder<PostgresDatabaseResource>? monitoringDb = null;
 IResourceBuilder<RedisResource>? redis = null;
 IResourceBuilder<ElasticsearchResource>? elasticsearch = null;
 IResourceBuilder<RabbitMQServerResource>? rabbitmq = null;
+IResourceBuilder<PostgresServerResource>? postgres = null;
 
 if (databaseProvider.ToLower() != "inmemory")
 {
     // PostgreSQL Database
-    var postgres = builder.AddB2ConnectPostgres(
+    postgres = builder.AddB2ConnectPostgres(
         name: "postgres",
         port: 5432,
         username: "postgres");
@@ -69,6 +70,13 @@ if (databaseProvider.ToLower() != "inmemory")
 // Services are discovered via service name, not fixed ports.
 // Aspire automatically assigns dynamic ports - no WithHttpEndpoint needed for internal services.
 
+// STARTUP ORDER STRATEGY:
+// 1. Infrastructure (Postgres, Redis, RabbitMQ, Elasticsearch) - via WaitFor
+// 2. Core Services (Auth, Tenant, Localization) - no inter-service dependencies
+// 3. Domain Services (Catalog, Theming, Monitoring) - may depend on core services
+// 4. Gateways (Store, Admin) - depend on all services they aggregate
+// 5. Frontends - depend on their respective gateways
+
 // Auth Service (Identity) - with Passkeys & JWT
 var authService = builder
     .AddProject("auth-service", "../backend/Domain/Identity/B2Connect.Identity.API.csproj")
@@ -81,7 +89,15 @@ var authService = builder
     .WithAuditLogging()
     .WithEncryption()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting auth service
+if (postgres != null) authService.WaitFor(postgres);
+if (redis != null) authService.WaitFor(redis);
+if (rabbitmq != null) authService.WaitFor(rabbitmq);
 
 // Tenant Service
 var tenantService = builder
@@ -93,7 +109,15 @@ var tenantService = builder
     .WithAuditLogging()
     .WithEncryption()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting tenant service
+if (postgres != null) tenantService.WaitFor(postgres);
+if (redis != null) tenantService.WaitFor(redis);
+if (rabbitmq != null) tenantService.WaitFor(rabbitmq);
 
 // Localization Service
 var localizationService = builder
@@ -104,7 +128,15 @@ var localizationService = builder
     .WithJaegerTracing()
     .WithAuditLogging()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting localization service
+if (postgres != null) localizationService.WaitFor(postgres);
+if (redis != null) localizationService.WaitFor(redis);
+if (rabbitmq != null) localizationService.WaitFor(rabbitmq);
 
 // Catalog Service (with Elasticsearch for Product Search)
 var catalogService = builder
@@ -117,7 +149,16 @@ var catalogService = builder
     .WithConditionalElasticsearchIndexing(databaseProvider)
     .WithAuditLogging()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 90) // Longer timeout for Elasticsearch
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting catalog service
+if (postgres != null) catalogService.WaitFor(postgres);
+if (redis != null) catalogService.WaitFor(redis);
+if (rabbitmq != null) catalogService.WaitFor(rabbitmq);
+if (elasticsearch != null) catalogService.WaitFor(elasticsearch);
 
 // Theming Service
 var themingService = builder
@@ -128,7 +169,15 @@ var themingService = builder
     .WithJaegerTracing()
     .WithAuditLogging()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting theming service
+if (postgres != null) themingService.WaitFor(postgres);
+if (redis != null) themingService.WaitFor(redis);
+if (rabbitmq != null) themingService.WaitFor(rabbitmq);
 
 // Monitoring Service (Phase 2: Connected services monitoring, error logging)
 var monitoringService = builder
@@ -139,7 +188,15 @@ var monitoringService = builder
     .WithJaegerTracing()
     .WithAuditLogging()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting monitoring service
+if (postgres != null) monitoringService.WaitFor(postgres);
+if (redis != null) monitoringService.WaitFor(redis);
+if (rabbitmq != null) monitoringService.WaitFor(rabbitmq);
 
 // MCP Server (AI Assistant for Management Tasks)
 var mcpServer = builder
@@ -155,11 +212,20 @@ var mcpServer = builder
     .WithAuditLogging()
     .WithEncryption()
     .WithRateLimiting()
-    .WithOpenTelemetry();
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 90)
+    .WithResilienceConfiguration();
+
+// MCP Server waits for its referenced services
+mcpServer.WaitFor(authService);
+mcpServer.WaitFor(tenantService);
+mcpServer.WaitFor(monitoringService);
 
 // ===== API GATEWAYS =====
 // Gateways keep fixed ports because frontends connect directly to them.
 // Internal service communication uses Aspire Service Discovery.
+// CRITICAL: Gateways wait for all services they aggregate to prevent hanging.
 
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
@@ -170,7 +236,16 @@ var storeGateway = builder
     .WithReference(localizationService)
     .WithReference(themingService)
     .WithB2ConnectCors("http://localhost:5173", "https://localhost:5173")
-    .WithSecurityDefaults(jwtSecret);
+    .WithSecurityDefaults(jwtSecret)
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 120)
+    .WithResilienceConfiguration();
+
+// Store Gateway waits for all its referenced services
+storeGateway.WaitFor(authService);
+storeGateway.WaitFor(catalogService);
+storeGateway.WaitFor(localizationService);
+storeGateway.WaitFor(themingService);
 
 // Admin API Gateway 
 var adminGateway = builder
@@ -184,12 +259,25 @@ var adminGateway = builder
     .WithReference(monitoringService)
     .WithReference(mcpServer)
     .WithB2ConnectCors("http://localhost:5174", "https://localhost:5174")
-    .WithSecurityDefaults(jwtSecret);
+    .WithSecurityDefaults(jwtSecret)
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 120)
+    .WithResilienceConfiguration();
+
+// Admin Gateway waits for all its referenced services
+adminGateway.WaitFor(authService);
+adminGateway.WaitFor(tenantService);
+adminGateway.WaitFor(catalogService);
+adminGateway.WaitFor(localizationService);
+adminGateway.WaitFor(themingService);
+adminGateway.WaitFor(monitoringService);
+adminGateway.WaitFor(mcpServer);
 
 // ===== FRONTENDS (Vite Vue.js Applications) =====
 // Using native Aspire.Hosting.JavaScript integration (AddViteApp)
 // Documentation: https://aspire.dev/integrations/frameworks/javascript/
 // Fixed ports configured via WithEndpoint (see: https://github.com/dotnet/aspire/issues/12942)
+// Frontends wait for their gateways to be ready before starting
 
 // Frontend Store (Vue 3 + Vite) - Fixed port 5173 for predictable URLs
 var frontendStore = builder
@@ -201,6 +289,9 @@ var frontendStore = builder
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000")
     .WithEnvironment("NODE_ENV", "development");
 
+// Frontend Store waits for Store Gateway
+frontendStore.WaitFor(storeGateway);
+
 // Frontend Admin (Vue 3 + Vite) - Fixed port 5174 for predictable URLs
 var frontendAdmin = builder
     .AddViteApp("frontend-admin", "../frontend/Admin")
@@ -210,6 +301,9 @@ var frontendAdmin = builder
     .WithEnvironment("PORT", "5174")  // Vite reads PORT env var
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
     .WithEnvironment("NODE_ENV", "development");
+
+// Frontend Admin waits for Admin Gateway
+frontendAdmin.WaitFor(adminGateway);
 
 // Frontend Management (Vue 3 + Vite) - Tenant Management Portal - Fixed port 5175
 var frontendManagement = builder
@@ -221,6 +315,10 @@ var frontendManagement = builder
     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080")
     .WithEnvironment("VITE_MCP_SERVER_URL", "http://localhost:8090")
     .WithEnvironment("NODE_ENV", "development");
+
+// Frontend Management waits for Admin Gateway and MCP Server
+frontendManagement.WaitFor(adminGateway);
+frontendManagement.WaitFor(mcpServer);
 
 // Issue #50: Vite build errors are automatically captured by Aspire's built-in logging
 // Logs appear in Aspire Dashboard under each frontend resource

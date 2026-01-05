@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace B2Connect.CLI.Services;
+namespace B2Connect.CLI.Shared.Configuration;
 
 /// <summary>
 /// Service für CLI Konfiguration und Service-Endpoints

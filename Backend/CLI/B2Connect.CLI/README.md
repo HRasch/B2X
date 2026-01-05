@@ -1,20 +1,53 @@
-# B2Connect CLI Tool
+# B2Connect CLI Tools
 
-**Microservices Management & Operations Interface**
+**Multi-Tenant SaaS Platform Management Suite**
+
+> **⚠️ DEPRECATED:** This unified CLI has been split into specialized tools. See migration guide below.
+
+---
+
+## Architecture Overview
+
+B2Connect provides two specialized CLI tools for different operational contexts:
+
+### 🏗️ Operations CLI (`b2connect-ops`)
+**Platform Infrastructure Management**
+- **Target Users:** DevOps, SRE, Platform Engineers
+- **Distribution:** Internal only
+- **Purpose:** System health, monitoring, service management, deployments
+- **Package:** `B2Connect.CLI.Operations`
+
+### 👥 Administration CLI (`b2connect`)
+**Tenant & User Management**
+- **Target Users:** Tenant Administrators, Support Engineers
+- **Distribution:** Customer-facing (public NuGet)
+- **Purpose:** User management, catalog operations, tenant configuration
+- **Package:** `B2Connect.CLI.Administration`
+
+### 🔧 Shared Library
+**Common Foundation**
+- **Purpose:** Shared configuration, HTTP clients, utilities
+- **Package:** `B2Connect.CLI.Shared`
+
+---
 
 ## Installation
 
-### Build as Global Tool
+### Operations CLI (Internal Teams)
 
 ```bash
-cd backend/CLI/B2Connect.CLI
+# Install from internal NuGet feed
+dotnet tool install --global B2Connect.CLI.Operations
 
-# Build and pack
-dotnet build
-dotnet pack -c Release
+# Verify installation
+b2connect-ops --help
+```
 
-# Install globally
-dotnet tool install --global --add-source ./bin/Release B2Connect.CLI
+### Administration CLI (Tenant Administrators)
+
+```bash
+# Install from public NuGet
+dotnet tool install --global B2Connect.CLI.Administration
 
 # Verify installation
 b2connect --help
@@ -23,14 +56,393 @@ b2connect --help
 ### Build from Source
 
 ```bash
-dotnet build backend/CLI/B2Connect.CLI/B2Connect.CLI.csproj
-dotnet run --project backend/CLI/B2Connect.CLI/B2Connect.CLI.csproj -- --help
+# Operations CLI
+cd backend/CLI/B2Connect.CLI.Operations
+dotnet build
+dotnet pack -c Release
+dotnet tool install --global --add-source ./bin/Release B2Connect.CLI.Operations
+
+# Administration CLI
+cd backend/CLI/B2Connect.CLI.Administration
+dotnet build
+dotnet pack -c Release
+dotnet tool install --global --add-source ./bin/Release B2Connect.CLI.Administration
 ```
+
+---
+
+## When to Use Each CLI
+
+### Use Operations CLI (`b2connect-ops`) for:
+- ✅ System health checks and monitoring
+- ✅ Service restarts and scaling
+- ✅ Database migrations and rollbacks
+- ✅ Infrastructure metrics and dashboards
+- ✅ Deployment operations
+- ✅ Cluster-level troubleshooting
+
+### Use Administration CLI (`b2connect`) for:
+- ✅ Creating and managing tenants
+- ✅ User account management
+- ✅ Catalog import/export operations
+- ✅ Tenant configuration
+- ✅ Customer support tasks
+
+---
 
 ## Configuration
 
-Configuration is stored in `~/.b2connect/config.json`:
+### Operations CLI Configuration
+```json
+{
+  "services": {
+    "identity": { "url": "http://localhost:7002" },
+    "catalog": { "url": "http://localhost:7005" }
+  },
+  "environment": "development",
+  "authentication": {
+    "type": "infrastructure",
+    "tokenSource": "B2CONNECT_OPS_TOKEN"
+  }
+}
+```
 
+### Administration CLI Configuration
+```json
+{
+  "services": {
+    "identity": { "url": "https://api.b2connect.com" }
+  },
+  "environment": "production",
+  "authentication": {
+    "type": "tenant-scoped",
+    "tokenSource": "B2CONNECT_TENANT_TOKEN",
+    "tenantId": "your-tenant-id"
+  }
+}
+```
+
+---
+
+## Authentication
+
+### Operations CLI
+```bash
+# Set infrastructure token
+export B2CONNECT_OPS_TOKEN="your-cluster-admin-token"
+
+# Login with infrastructure credentials
+b2connect-ops auth login --cluster-admin
+```
+
+### Administration CLI
+```bash
+# Set tenant-scoped token
+export B2CONNECT_TENANT_TOKEN="your-tenant-api-key"
+
+# Login with tenant credentials
+b2connect auth login --tenant your-tenant-id
+```
+
+---
+
+## Command Examples
+
+### Operations CLI
+```bash
+# Check all services health
+b2connect-ops health check
+
+# View monitoring dashboard
+b2connect-ops monitoring dashboard
+
+# Restart a service
+b2connect-ops service restart catalog
+
+# Run database migration
+b2connect-ops deployment migrate --version 1.2.3
+```
+
+### Administration CLI
+```bash
+# Create new tenant
+b2connect tenant create "Acme Corp" \
+  --admin-email admin@acme.com
+
+# Add user to tenant
+b2connect user add john@acme.com \
+  --tenant acme-corp \
+  --role administrator
+
+# Import product catalog
+b2connect catalog import bmecat \
+  --file products.xml \
+  --tenant acme-corp
+```
+
+---
+
+## Migration from Unified CLI
+
+### ⚠️ Important Changes
+
+| Old Command | New Command | CLI Tool |
+|-------------|-------------|----------|
+| `b2connect system status` | `b2connect-ops health check` | Operations |
+| `b2connect monitoring dashboard` | `b2connect-ops monitoring dashboard` | Operations |
+| `b2connect tenant create` | `b2connect tenant create` | Administration |
+| `b2connect auth create-user` | `b2connect user add` | Administration |
+
+### Automated Migration
+
+```bash
+# Run migration script (provided with new CLIs)
+./scripts/migrate-cli-config.sh --from unified --to split
+
+# This will:
+# 1. Install both new CLI tools
+# 2. Migrate configuration files
+# 3. Update authentication tokens
+# 4. Provide command mapping guide
+```
+
+### Manual Migration Steps
+
+1. **Install new CLIs:**
+   ```bash
+   dotnet tool install --global B2Connect.CLI.Operations
+   dotnet tool install --global B2Connect.CLI.Administration
+   ```
+
+2. **Update authentication:**
+   ```bash
+   # For operations work
+   export B2CONNECT_OPS_TOKEN="your-ops-token"
+
+   # For tenant administration
+   export B2CONNECT_TENANT_TOKEN="your-tenant-token"
+   ```
+
+3. **Update scripts and CI/CD:**
+   ```bash
+   # Replace in scripts
+   sed 's/b2connect system/b2connect-ops health/g' your-scripts.sh
+   sed 's/b2connect tenant/b2connect tenant/g' your-scripts.sh
+   ```
+
+### Breaking Changes
+- **Command syntax changes** for some operations commands
+- **Separate authentication** required for each CLI
+- **Configuration file location** changes (`~/.b2connect/` → `~/.b2connect-ops/` and `~/.b2connect/`)
+- **No unified help** - each CLI has focused command set
+
+---
+
+## Architecture Overview
+
+```
+backend/CLI/
+├── B2Connect.CLI.Shared/              # Shared library
+│   ├── Configuration/                 # Common config handling
+│   ├── HttpClients/                   # HTTP client factories
+│   ├── Services/                      # Output formatting, utilities
+│   └── B2Connect.CLI.Shared.csproj
+│
+├── B2Connect.CLI.Operations/          # Platform operations
+│   ├── Commands/
+│   │   ├── HealthCommands/           # System health checks
+│   │   ├── MonitoringCommands/       # Metrics & dashboards
+│   │   ├── ServiceCommands/          # Service management
+│   │   └── DeploymentCommands/       # Migrations & rollbacks
+│   ├── Program.cs
+│   └── B2Connect.CLI.Operations.csproj
+│
+└── B2Connect.CLI.Administration/      # Tenant administration
+    ├── Commands/
+    │   ├── TenantCommands/           # Tenant CRUD
+    │   ├── UserCommands/             # User management
+    │   └── CatalogCommands/          # Catalog operations
+    ├── Program.cs
+    └── B2Connect.CLI.Administration.csproj
+```
+
+---
+
+## Development
+
+### Project Structure (New Architecture)
+
+Each CLI project follows this structure:
+```
+B2Connect.CLI.{ToolName}/
+├── Commands/
+│   └── {Feature}Commands/
+│       └── {CommandName}Command.cs
+├── Services/
+├── Program.cs
+└── B2Connect.CLI.{ToolName}.csproj
+```
+
+### Adding Commands
+
+1. **For Operations CLI:**
+   ```csharp
+   // In B2Connect.CLI.Operations/Commands/{Feature}Commands/
+   public static class NewCommand
+   {
+       public static Command Create() => new Command("new-command", "Description")
+           .WithHandler(ExecuteAsync);
+   }
+   ```
+
+2. **For Administration CLI:**
+   ```csharp
+   // In B2Connect.CLI.Administration/Commands/{Feature}Commands/
+   public static class NewCommand
+   {
+       public static Command Create() => new Command("new-command", "Description")
+           .WithHandler(ExecuteAsync);
+   }
+   ```
+
+3. **Register in respective Program.cs**
+
+---
+
+## Security Model
+
+### Operations CLI
+- 🔒 **Internal distribution only**
+- 🔒 **Infrastructure-level credentials**
+- 🔒 **Audit logging** for all commands
+- 🔒 **MFA required** for production operations
+
+### Administration CLI
+- 🔒 **Tenant-scoped authentication**
+- 🔒 **No infrastructure access**
+- 🔒 **Rate limiting** per tenant
+- 🔒 **Safe for customer distribution**
+
+---
+
+## Troubleshooting
+
+### Command Not Found
+```bash
+# Check which CLI has the command
+b2connect-ops --help | grep "your-command"
+b2connect --help | grep "your-command"
+
+# Install missing CLI
+dotnet tool install --global B2Connect.CLI.Operations  # or Administration
+```
+
+### Authentication Issues
+```bash
+# For Operations CLI
+echo $B2CONNECT_OPS_TOKEN
+b2connect-ops auth login --cluster-admin
+
+# For Administration CLI
+echo $B2CONNECT_TENANT_TOKEN
+b2connect auth login --tenant your-tenant-id
+```
+
+### Service Connection Failed
+```bash
+# Check service endpoints in config
+b2connect-ops config show
+b2connect config show
+
+# Test connectivity
+curl -H "Authorization: Bearer $TOKEN" https://api.b2connect.com/health
+```
+
+---
+
+## CI/CD Integration
+
+### Operations Pipeline
+```yaml
+- name: Install Operations CLI
+  run: dotnet tool install --global B2Connect.CLI.Operations
+
+- name: Health Check
+  run: b2connect-ops health check
+
+- name: Deploy
+  run: b2connect-ops deployment migrate --env production
+  env:
+    B2CONNECT_OPS_TOKEN: ${{ secrets.OPS_TOKEN }}
+```
+
+### Administration Pipeline
+```yaml
+- name: Install Admin CLI
+  run: dotnet tool install --global B2Connect.CLI.Administration
+
+- name: Setup Tenant
+  run: b2connect tenant create "CI-Test"
+  env:
+    B2CONNECT_TENANT_TOKEN: ${{ secrets.TENANT_TOKEN }}
+```
+
+---
+
+## Roadmap
+
+### Phase 1 (Current) - Architecture Split ✅
+- [x] Shared library extraction
+- [x] Operations CLI implementation
+- [x] Administration CLI implementation
+- [x] Migration guide and scripts
+
+### Phase 2 - Enhanced Features
+- [ ] Interactive shell mode for both CLIs
+- [ ] Configuration wizards
+- [ ] Advanced bulk operations
+- [ ] Webhook management
+- [ ] Analytics commands
+
+### Phase 3 - Ecosystem Integration
+- [ ] Kubernetes operator integration
+- [ ] Terraform provider
+- [ ] Ansible modules
+- [ ] CI/CD marketplace integrations
+
+---
+
+## Support
+
+### Operations CLI
+- **Internal Wiki:** Platform Operations Guide
+- **Support Channel:** #platform-ops Slack
+- **Documentation:** `docs/archive/reference-docs/`
+
+### Administration CLI
+- **Public Docs:** https://docs.b2connect.com/cli
+- **Support Channel:** support@b2connect.com
+- **Documentation:** `docs/user-guides/`
+
+---
+
+## License
+
+**Operations CLI:** Internal Use Only  
+**Administration CLI:** MIT License  
+**Shared Library:** MIT License
+
+---
+
+**Migration Deadline:** March 2026  
+**Legacy CLI Support:** Until Q2 2026  
+**Documentation:** See ADR-031 for full architecture details
+
+## Configuration
+
+Configuration is stored in separate locations for each CLI:
+
+### Operations CLI: `~/.b2connect-ops/config.json`
 ```json
 {
   "services": {
@@ -38,25 +450,52 @@ Configuration is stored in `~/.b2connect/config.json`:
       "url": "http://localhost:7002",
       "description": "Identity Service"
     },
-    "tenancy": {
-      "url": "http://localhost:7003",
-      "description": "Tenancy Service"
-    },
     "catalog": {
       "url": "http://localhost:7005",
       "description": "Catalog Service"
     }
   },
   "environment": "development",
-  "timeout": 30
+  "authentication": {
+    "type": "infrastructure",
+    "tokenSource": "B2CONNECT_OPS_TOKEN"
+  }
+}
+```
+
+### Administration CLI: `~/.b2connect/config.json`
+```json
+{
+  "services": {
+    "identity": {
+      "url": "https://api.b2connect.com",
+      "description": "Identity Service"
+    }
+  },
+  "environment": "production",
+  "authentication": {
+    "type": "tenant-scoped",
+    "tokenSource": "B2CONNECT_TENANT_TOKEN",
+    "tenantId": "required"
+  }
 }
 ```
 
 ## Environment Variables
 
+### Operations CLI
 ```bash
-# Authentication token
-export B2CONNECT_TOKEN="eyJhbGc..."
+# Infrastructure token
+export B2CONNECT_OPS_TOKEN="eyJhbGc..."
+
+# Default environment
+export B2CONNECT_OPS_ENV="production"
+```
+
+### Administration CLI
+```bash
+# Tenant-scoped token
+export B2CONNECT_TENANT_TOKEN="eyJhbGc..."
 
 # Default tenant ID
 export B2CONNECT_TENANT="00000000-0000-0000-0000-000000000000"

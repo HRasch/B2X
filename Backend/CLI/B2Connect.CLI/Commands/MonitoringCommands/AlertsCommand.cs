@@ -1,5 +1,6 @@
 using System.CommandLine;
 using B2Connect.CLI.Services;
+using B2Connect.CLI.Shared;
 using Spectre.Console;
 
 namespace B2Connect.CLI.Commands.MonitoringCommands;

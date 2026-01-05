@@ -6,6 +6,7 @@ using B2Connect.CLI.Commands.MonitoringCommands;
 using B2Connect.CLI.Commands.SystemCommands;
 using B2Connect.CLI.Commands.TenantCommands;
 using B2Connect.CLI.Commands;
+using B2Connect.CLI.Shared.Configuration;
 using Spectre.Console;
 
 var rootCommand = new RootCommand("B2Connect CLI - Microservices Management Tool")
@@ -64,7 +65,7 @@ catch (Exception ex)
 
 static async Task ShowInfo()
 {
-    var config = new B2Connect.CLI.Services.ConfigurationService();
+    var config = new ConfigurationService();
 
     AnsiConsole.Write(
         new Panel(
@@ -83,7 +84,7 @@ static async Task ShowInfo()
     table.AddColumn("URL");
     table.AddColumn("Status");
 
-    foreach (var (name, endpoint) in config.GetAllServices())
+    foreach ((string name, ServiceEndpoint endpoint) in config.GetAllServices())
     {
         table.AddRow(name, endpoint.Url, "✓");
     }

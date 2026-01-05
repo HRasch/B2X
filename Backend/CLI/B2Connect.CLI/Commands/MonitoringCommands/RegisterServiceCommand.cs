@@ -1,5 +1,6 @@
 using System.CommandLine;
 using B2Connect.CLI.Services;
+using B2Connect.CLI.Shared;
 using B2Connect.Shared.Monitoring;
 using B2Connect.Shared.Monitoring.Models;
 using Spectre.Console;

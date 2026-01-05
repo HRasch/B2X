@@ -1,5 +1,7 @@
 using System.CommandLine;
-using B2Connect.CLI.Services;
+using B2Connect.CLI.Shared;
+using B2Connect.CLI.Shared.Configuration;
+using B2Connect.CLI.Shared.HttpClients;
 
 namespace B2Connect.CLI.Commands.SystemCommands;
 
@@ -33,7 +35,7 @@ public static class StatusCommand
 
             var statuses = new List<ServiceStatus>();
 
-            foreach (var (serviceName, endpoint) in services)
+            foreach ((string serviceName, ServiceEndpoint endpoint) in services)
             {
                 var client = new CliHttpClient(endpoint.Url);
                 var status = new ServiceStatus { Service = serviceName, Url = endpoint.Url };

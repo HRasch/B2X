@@ -1,5 +1,7 @@
 using System.CommandLine;
-using B2Connect.CLI.Services;
+using B2Connect.CLI.Shared;
+using B2Connect.CLI.Shared.Configuration;
+using B2Connect.CLI.Shared.HttpClients;
 
 namespace B2Connect.CLI.Commands.TenantCommands;
 

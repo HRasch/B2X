@@ -48,6 +48,7 @@ See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 | `ADR-004` | PostgreSQL Multitenancy | ✅ Accepted | High |
 | `ADR-028` | AI Consumption Monitoring for MCP | 📋 Proposed | High |
 | `ADR-030` | CMS Tenant Template Overrides Architecture | 📋 Proposed | High |
+| `ADR-031` | CLI Architecture Split - Operations vs. Administration | 📋 Proposed | Medium |
 
 #### ADR-001: Event-Driven Architecture with Wolverine CQRS
 - **File:** [ADR-001-event-driven-architecture.md](./ADR-001-event-driven-architecture.md)

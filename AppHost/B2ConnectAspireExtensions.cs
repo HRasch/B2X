@@ -444,4 +444,55 @@ public static class B2ConnectAspireExtensions
     // var frontendAdmin = builder.AddViteApp("frontend-admin", "../Frontend/Admin")
     //     .WithHttpEndpoint(port: 5174, env: "VITE_PORT")
     //     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080");
+
+    // ===== HEALTH CHECK & STARTUP COORDINATION =====
+    // These extensions help manage service startup order and health checks
+
+    /// <summary>
+    /// Configures HTTP health check endpoint for readiness probes.
+    /// </summary>
+    public static IResourceBuilder<ProjectResource> WithHealthCheckEndpoint(
+        this IResourceBuilder<ProjectResource> builder,
+        string path = "/health")
+    {
+        return builder
+            .WithEnvironment("HealthChecks:Enabled", "true")
+            .WithEnvironment("HealthChecks:Path", path)
+            .WithEnvironment("HealthChecks:ReadyPath", "/health/ready")
+            .WithEnvironment("HealthChecks:LivePath", "/health/live");
+    }
+
+    /// <summary>
+    /// Configures graceful startup with timeout handling.
+    /// Services will wait for dependencies but have a maximum timeout to prevent hangs.
+    /// </summary>
+    public static IResourceBuilder<ProjectResource> WithStartupConfiguration(
+        this IResourceBuilder<ProjectResource> builder,
+        int startupTimeoutSeconds = 120,
+        int healthCheckIntervalSeconds = 10)
+    {
+        return builder
+            .WithEnvironment("Startup:TimeoutSeconds", startupTimeoutSeconds.ToString())
+            .WithEnvironment("Startup:HealthCheckIntervalSeconds", healthCheckIntervalSeconds.ToString())
+            .WithEnvironment("Startup:RetryCount", "12")
+            .WithEnvironment("Startup:RetryDelayMs", "5000");
+    }
+
+    /// <summary>
+    /// Configures resilience policies for service connections.
+    /// This helps services handle temporary unavailability of dependencies gracefully.
+    /// </summary>
+    public static IResourceBuilder<ProjectResource> WithResilienceConfiguration(
+        this IResourceBuilder<ProjectResource> builder)
+    {
+        return builder
+            .WithEnvironment("Resilience:Enabled", "true")
+            .WithEnvironment("Resilience:CircuitBreaker:FailureThreshold", "5")
+            .WithEnvironment("Resilience:CircuitBreaker:SamplingDuration", "30")
+            .WithEnvironment("Resilience:CircuitBreaker:MinimumThroughput", "10")
+            .WithEnvironment("Resilience:CircuitBreaker:BreakDuration", "30")
+            .WithEnvironment("Resilience:Retry:MaxRetries", "3")
+            .WithEnvironment("Resilience:Retry:DelayMs", "1000")
+            .WithEnvironment("Resilience:Timeout:TimeoutMs", "30000");
+    }
 }
