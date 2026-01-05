@@ -181,6 +181,104 @@ public class SecureUpdateService
 
 ---
 
+## Command Stability & Backward Compatibility
+
+### Critical Requirement: Released Commands Must Remain Functional
+
+**Core Principle:** Once a CLI command is released to customers, its interface and behavior must remain stable. CLI commands are public APIs with stability guarantees.
+
+#### Command Interface Contract
+```csharp
+// Example: Stable command interface
+[Command("tenant", "create", Description = "Create a new tenant")]
+public class CreateTenantCommand : BaseCommand
+{
+    [Option("--name", Required = true, Description = "Tenant name")]
+    public string Name { get; set; }
+
+    [Option("--domain", Description = "Tenant domain (optional)")]
+    public string? Domain { get; set; }
+
+    // Interface must remain stable once released
+    public override async Task<int> ExecuteAsync()
+    {
+        // Implementation can change, but interface cannot
+    }
+}
+```
+
+#### Breaking Change Policy
+1. **Major Version (X.0.0):** Breaking changes allowed
+2. **Minor Version (x.Y.0):** New features, backward compatible
+3. **Patch Version (x.y.Z):** Bug fixes only
+
+#### Deprecation Strategy
+```csharp
+[Obsolete("Use 'tenant create' instead. Will be removed in v3.0.0")]
+[Command("create-tenant", "Legacy command - use 'tenant create'")]
+public class LegacyCreateTenantCommand : BaseCommand
+{
+    // Keep functional during deprecation period
+}
+```
+
+### Version Pinning for Stability
+**Allow users to pin to specific versions when stability is critical:**
+
+```bash
+# Pin to specific version
+dotnet tool install B2Connect.CLI.Administration --version 2.1.0 --global
+
+# Update only within major version
+b2connect-admin update --allow-major=false
+
+# Enterprise: Lock to approved versions
+export B2CONNECT_CLI_PIN_VERSION="2.1.*"
+```
+
+### Semantic Versioning for CLI
+- **MAJOR:** Breaking command changes, removed commands
+- **MINOR:** New commands, new options (backward compatible)
+- **PATCH:** Bug fixes, security patches, performance improvements
+
+### Backward Compatibility Testing
+```csharp
+[TestFixture]
+public class BackwardCompatibilityTests
+{
+    [Test]
+    public async Task ReleasedCommands_RemainFunctional_AfterUpdate()
+    {
+        // Test all released command interfaces
+        var result = await RunCommand("tenant create --name test");
+        Assert.That(result.ExitCode, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task DeprecatedCommands_WarnButWork()
+    {
+        // Test deprecated commands still function
+        var result = await RunCommand("create-tenant --name test");
+        Assert.That(result.StdErr, Contains("obsolete"));
+        Assert.That(result.ExitCode, Is.EqualTo(0));
+    }
+}
+```
+
+### Migration Path for Breaking Changes
+1. **Phase 1:** Add new command alongside old
+2. **Phase 2:** Mark old command as deprecated with warnings
+3. **Phase 3:** Remove old command in next major version
+4. **Phase 4:** Provide migration scripts for automation
+
+### Enterprise Considerations
+- **Air-gapped environments:** Allow offline version pinning
+- **Change management:** Integration with enterprise approval workflows
+- **Audit trails:** Track which versions are deployed where
+- **Rollback windows:** Extended support for previous versions
+
+---
+
 ## User Experience Design
 
 ### Update Modes
@@ -302,7 +400,7 @@ public class SecureUpdateService
 
 ## Recommended Approach
 
-### Phase 1: Basic Update Notification (Low Risk)
+### Phase 1: Basic Update Notification + Stability Foundation (Low Risk)
 ```bash
 # Add to CLI startup
 b2connect-admin check-updates
@@ -314,18 +412,26 @@ b2connect-admin update
 - Manual update command
 - No automatic downloads
 - Easy rollback via `dotnet tool`
+- **Stability:** Establish semantic versioning policy
+- **Testing:** Basic backward compatibility tests
 
-### Phase 2: Smart Update Service (Medium Risk)
+### Phase 2: Smart Update Service + Command Stability (Medium Risk)
 - Background update checking
 - User notification system
 - Safe update process with rollback
 - Configuration management
+- **Stability:** Command interface contracts
+- **Testing:** Comprehensive backward compatibility test suite
+- **Migration:** Deprecation warnings for changed commands
 
-### Phase 3: Full Automation (High Risk)
+### Phase 3: Full Automation + Enterprise Stability (High Risk)
 - Silent updates for CI/CD
 - Advanced rollback capabilities
 - Enterprise integration
 - Advanced security features
+- **Stability:** Version pinning, enterprise change management
+- **Testing:** Cross-version compatibility matrix
+- **Migration:** Automated migration scripts for breaking changes
 
 ---
 
@@ -358,11 +464,13 @@ public interface IUpdateService
 
 ## Next Steps
 
-1. **Prototype:** Build basic update checker
-2. **Security Review:** Validate approach with @Security
-3. **User Research:** Survey potential users on preferences
-4. **Technical Spike:** Implement proof-of-concept
-5. **Decision:** Create ADR for auto-update feature
+1. **Stability Assessment:** Audit current commands for interface stability
+2. **Versioning Policy:** Define semantic versioning for CLI releases
+3. **Prototype:** Build basic update checker with stability guarantees
+4. **Security Review:** Validate approach with @Security (including stability risks)
+5. **User Research:** Survey potential users on update preferences and stability needs
+6. **Technical Spike:** Implement proof-of-concept with backward compatibility tests
+7. **Decision:** Create ADR for auto-update feature with stability requirements
 
 ---
 
@@ -374,6 +482,10 @@ public interface IUpdateService
 - How to handle beta/pre-release versions?
 - Should we support offline updates?
 - Integration with existing deployment pipelines?
+- **Stability:** How long to support deprecated commands?
+- **Stability:** What constitutes a "breaking change" for CLI commands?
+- **Stability:** How to communicate breaking changes to customers?
+- **Stability:** Should we offer LTS (Long Term Support) versions?
 
 ---
 
