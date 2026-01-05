@@ -3,7 +3,7 @@ using B2Connect.Shared.Monitoring.Abstractions;
 using B2Connect.Shared.Monitoring.Models;
 using B2Connect.CLI.Shared.Configuration;
 
-namespace B2Connect.CLI.Services;
+namespace B2Connect.CLI.Shared;
 
 /// <summary>
 /// HTTP client for communicating with the B2Connect Monitoring service.

@@ -161,7 +161,8 @@ public sealed class CliHttpClient : IDisposable
             _httpClient.Dispose();
             _disposed = true;
         }
-    }}
+    }
+}
 
 /// <summary>
 /// Standardisierte API Response Struktur
