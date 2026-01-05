@@ -6,6 +6,99 @@
 
 ---
 
+## Session: 5. Januar 2026 - Lifecycle Stages Framework (ADR-037)
+
+### Comprehensive Project Lifecycle Management
+
+**Issue**: GL-014 only covered pre-release phase. No framework for managing component lifecycle from experimental to end-of-life.
+
+**Solution Implemented**: 7-stage lifecycle framework with component-level tracking.
+
+#### 1. Stage Definitions Matter
+**Lesson**: Different components need different stability guarantees simultaneously.
+
+```yaml
+# Component-level tracking allows flexible development
+components:
+  core-api:
+    stage: pre-release    # More mature, stricter rules
+  cli:
+    stage: alpha          # Experimental, any change allowed
+  erp-connectors:
+    stage: alpha          # Plugin architecture still evolving
+```
+
+**Why This Works**:
+- CLI can iterate rapidly without affecting core API stability commitments
+- ERP connectors can experiment while main platform stabilizes
+- Clear expectations for each component
+
+#### 2. Configuration-Driven Lifecycle
+**Lesson**: Centralized YAML configuration enables automation and visibility.
+
+```yaml
+# .ai/config/lifecycle.yml - Single source of truth
+project:
+  name: B2Connect
+  default-stage: pre-release
+  current-version: 0.8.0
+
+components:
+  # Each component tracked independently
+```
+
+**Benefits**:
+- CI/CD can read stage and apply appropriate checks
+- Dashboard can display current state automatically
+- Transition history is auditable
+
+#### 3. Transition Criteria as Checklists
+**Lesson**: Define explicit sign-off requirements for stage transitions.
+
+```markdown
+#### Pre-Release → Release Candidate
+- [ ] All planned features implemented
+- [ ] API freeze declared
+- [ ] >80% test coverage achieved
+- [ ] @ProductOwner feature sign-off
+- [ ] @Architect architecture sign-off
+```
+
+**Why**: Prevents premature "stable" declarations and ensures quality gates.
+
+#### 4. CI Validation Workflow Pattern
+**Lesson**: Start with simple validation, add complexity incrementally.
+
+```yaml
+# Phase 1: Validate YAML and stage values
+# Phase 2: Check breaking changes (future)
+# Phase 3: Automated transitions (future)
+```
+
+**Pattern**: Ship working validation immediately, enhance over time.
+
+### Key Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| 7 stages (not 3) | Covers full lifecycle including LTS and deprecation |
+| Component-level | Different parts evolve at different speeds |
+| YAML config | Machine-readable for CI/CD automation |
+| GL-014 integration | Pre-release stage reuses existing guideline |
+
+### Implementation Checklist Pattern
+
+```
+Phase 1: Documentation (ADR)
+Phase 2: Configuration (lifecycle.yml)
+Phase 3: Integration (update existing docs)
+Phase 4: Automation (CI workflow)
+```
+
+**Apply to**: Any significant framework addition - document first, configure, integrate, automate.
+
+---
+
 ## Session: 5. Januar 2026 - Shared ERP Project Architecture (ADR-036)
 
 ### Multi-Targeting for Cross-Framework Code Sharing

@@ -66,6 +66,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-034` | Multi-ERP Connector Architecture | `.ai/decisions/ADR-034-multi-erp-connector-architecture.md` | Approved with Conditions |
 | `ADR-035` | MCP-Enabled AI Assistant with CLI Operations Access | `.ai/decisions/ADR-035-mcp-enabled-ai-assistant-cli-operations.md` | Proposed |
 | `ADR-036` | Shared ERP Project Architecture | `.ai/decisions/ADR-036-shared-erp-project-architecture.md` | Accepted |
+| `ADR-037` | Lifecycle Stages Framework | `.ai/decisions/ADR-037-lifecycle-stages-framework.md` | Accepted |
+| `ADR-038` | Customer Integration Stages Framework | `.ai/decisions/ADR-038-customer-integration-stages.md` | Accepted |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -169,6 +171,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-002` | BMEcat Katalog Import | `.ai/requirements/REQ-002-bmecat-import.md` | Draft |
 | `REQ-003` | Email Template System | `.ai/requirements/REQ-003-email-template-system.md` | Draft |
 | `REQ-005` | Phase 5 Enterprise ERP Connectors | `.ai/requirements/REQ-005-phase-5-enterprise-connectors.md` | Active |
+| `REQ-006` | CLI Customer Integration Commands | `.ai/requirements/REQ-006-cli-customer-integration-commands.md` | Specification |
 
 ---
 
@@ -186,6 +189,16 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 |-------|-------|-----------|--------|
 | `SPR-001` | Sprint / Iteration Template | `.ai/sprint/SPR-001-iteration-template.md` | Active |
 
+---
+
+## Registry: Templates (TPL-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `TPL-001` | Customer Integration Tracker | `.ai/templates/customer-integration-tracker.yml` | Active |
+| `TPL-002` | Customer Integration Checklist | `.ai/templates/customer-integration-checklist.md` | Active |
+
+---
 
 ## Registry: Logs (LOG-*)
 

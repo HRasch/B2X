@@ -8,7 +8,7 @@ status: Active
 # Architecture & Knowledge Base Index
 
 **DocID**: `ADR-INDEX`  
-**Last Updated:** December 31, 2025  
+**Last Updated:** January 5, 2026  
 **Maintained By:** @Architect, @TechLead  
 **Status:** ✅ Active
 
@@ -49,6 +49,8 @@ See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 | `ADR-028` | AI Consumption Monitoring for MCP | 📋 Proposed | High |
 | `ADR-030` | CMS Tenant Template Overrides Architecture | 📋 Proposed | High |
 | `ADR-031` | CLI Architecture Split - Operations vs. Administration | 📋 Proposed | Medium |
+| `ADR-037` | Lifecycle Stages Framework | ✅ Accepted | High |
+| `ADR-038` | Customer Integration Stages Framework | ✅ Accepted | High |
 
 #### ADR-001: Event-Driven Architecture with Wolverine CQRS
 - **File:** [ADR-001-event-driven-architecture.md](./ADR-001-event-driven-architecture.md)
@@ -106,6 +108,46 @@ See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 - Implementation: CQRS commands, template resolution service, Monaco integration
 - Security: Template sandboxing, tenant isolation, audit trails
 - Related: `[ADR-004]`, `[ADR-022]`, `[ADR-027]`, `[REQ-004]`, `[REQ-005]`
+
+#### ADR-037: Lifecycle Stages Framework
+- **File:** [ADR-037-lifecycle-stages-framework.md](./ADR-037-lifecycle-stages-framework.md)
+- **DocID:** `ADR-037`
+- **Status:** ✅ Accepted
+- **Impact:** High - Project governance and versioning
+- **Summary:**
+  - 7-stage lifecycle: Alpha → Pre-Release → RC → Stable → LTS → Maintenance → Deprecated
+  - Component-level stage tracking (different components at different stages)
+  - Stage-specific policies for breaking changes, deprecation, support
+  - CI/CD enforcement and tooling integration
+  - Configuration-driven via `.ai/config/lifecycle.yml`
+
+**Key Sections:**
+- Context: Need for comprehensive lifecycle management beyond GL-014
+- Decision: 7-stage framework with component-level tracking
+- Stage Definitions: Detailed policies per stage
+- Transition Criteria: Sign-off requirements for stage changes
+- Tooling: CI/CD gates, badges, PR templates
+- Related: `[GL-014]`, `[GL-013]`
+
+#### ADR-038: Customer Integration Stages Framework
+- **File:** [ADR-038-customer-integration-stages.md](./ADR-038-customer-integration-stages.md)
+- **DocID:** `ADR-038`
+- **Status:** ✅ Accepted
+- **Impact:** High - Customer onboarding and integration process
+- **Summary:**
+  - 4-stage customer journey: Evaluate → Onboard → Integrate → Optimize
+  - Service tiers: Self-Service (SMB), Guided (Professional), Dedicated (Enterprise)
+  - ERP connector integration workflow (ADR-033, ADR-034)
+  - Success metrics per stage with automation support
+  - CLI commands for stage tracking and verification
+
+**Key Sections:**
+- Context: Standardized customer integration journey needed
+- Decision: 4-stage framework with sub-stages and checklists
+- Stage Definitions: Evaluate, Onboard, Integrate, Optimize
+- Service Tiers: SMB, Professional, Enterprise
+- Tooling: CLI commands, templates, health checks
+- Related: `[ADR-033]`, `[ADR-034]`, `[ADR-037]`, `[TPL-001]`, `[TPL-002]`
 
 #### ADR-002: Multi-Database per Bounded Context (Planned)
 - **Status:** 📋 Scheduled for Sprint 1

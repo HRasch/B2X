@@ -5,7 +5,27 @@
 **Overall Progress**: 60% (Sprint 1 & 2 COMPLETE)  
 **Next Phase**: Sprint 3 - Checkout & Testing  
 **Timeline**: 3 weeks / 40 hours  
-**Last Updated**: 3 Jan 2025, 12:00 UTC
+**Last Updated**: 5 Jan 2026, 12:00 UTC
+
+---
+
+## 🔄 Component Lifecycle Stages
+
+> See [ADR-037](.ai/decisions/ADR-037-lifecycle-stages-framework.md) for full framework
+
+| Component | Stage | Stability | Version |
+|-----------|-------|-----------|---------|
+| Core API | 🟠 Pre-Release | Unstable | 0.8.0 |
+| Store Frontend | 🟠 Pre-Release | Unstable | 0.8.0 |
+| Admin Frontend | 🟠 Pre-Release | Unstable | 0.8.0 |
+| Search Service | 🟠 Pre-Release | Unstable | 0.7.0 |
+| CLI | 🔴 Alpha | Experimental | 0.0.3 |
+| ERP Connectors | 🔴 Alpha | Experimental | 0.0.1 |
+| IDS Connect | 🔴 Alpha | Experimental | 0.0.1 |
+
+**Legend**: 🔴 Alpha (experimental) | 🟠 Pre-Release (unstable) | 🟡 RC | 🟢 Stable
+
+**Governance**: [GL-014](.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md) — Breaking changes allowed
 
 ---
 

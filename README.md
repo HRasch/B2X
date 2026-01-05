@@ -2,12 +2,12 @@
 
 A modern, scalable multitenant SaaS solution combining a comprehensive B2B/B2C e-commerce platform with a Procurement-Platform Gateway. Built with .NET Aspire (C# backend) and Vue.js 3 (frontend), deployable on AWS, Azure, and Google Cloud.
 
-![Version](https://img.shields.io/badge/version-0.x-orange?style=flat-square)
-![Status](https://img.shields.io/badge/status-pre--release-yellow?style=flat-square)
+![Stage](https://img.shields.io/badge/stage-pre--release-orange?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.8.0-blue?style=flat-square)
 ![.NET](https://img.shields.io/badge/.NET-10-512BD4?style=flat-square)
 ![Vue.js](https://img.shields.io/badge/Vue.js-3-4FC08D?style=flat-square)
 
-> ⚠️ **Pre-Release (v0.x)**: APIs and interfaces may change without notice. Not recommended for production use. See [GL-014](.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md) for details.
+> ⚠️ **Pre-Release (v0.x)**: APIs and interfaces may change without notice. Not recommended for production use. See [GL-014](.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md) and [ADR-037](.ai/decisions/ADR-037-lifecycle-stages-framework.md) for lifecycle details.
 
 ## 🚀 Quick Links
 

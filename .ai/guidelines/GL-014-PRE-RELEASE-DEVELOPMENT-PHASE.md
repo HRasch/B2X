@@ -5,6 +5,7 @@ owner: "@SARAH"
 status: Active
 created: 2025-01-05
 effective-until: v1.0.0 Release
+part-of: ADR-037 Lifecycle Stages Framework
 ---
 
 # GL-014: Pre-Release Development Phase Policy
@@ -12,7 +13,10 @@ effective-until: v1.0.0 Release
 **DocID**: `GL-014`  
 **Status**: ✅ Active (until v1.0.0 release)  
 **Owner**: @SARAH  
-**Approved by**: @Architect, @TechLead
+**Approved by**: @Architect, @TechLead  
+**Part of**: [ADR-037] Lifecycle Stages Framework
+
+> 📋 This guideline defines the **Pre-Release stage** within the broader [ADR-037 Lifecycle Stages Framework](./../decisions/ADR-037-lifecycle-stages-framework.md). See ADR-037 for all 7 stages (Alpha → Pre-Release → RC → Stable → LTS → Maintenance → Deprecated).
 
 ---
 
@@ -169,11 +173,26 @@ The following documents reference backwards compatibility and should be interpre
 │  ❌ Deprecation cycles: NOT REQUIRED                    │
 │                                                         │
 │  This policy expires at v1.0.0 release                  │
+│  See: ADR-037 for full lifecycle framework              │
 └─────────────────────────────────────────────────────────┘
 ```
 
 ---
 
+## 10. Component Stages
+
+> Component-level tracking defined in `.ai/config/lifecycle.yml`
+
+| Component | Stage | Notes |
+|-----------|-------|-------|
+| Core API | 🟠 Pre-Release | This guideline applies |
+| Store Frontend | 🟠 Pre-Release | This guideline applies |
+| Admin Frontend | 🟠 Pre-Release | This guideline applies |
+| CLI | 🔴 Alpha | Even fewer constraints |
+| ERP Connectors | 🔴 Alpha | Even fewer constraints |
+
+---
+
 **Maintained by**: @SARAH  
 **Expires**: v1.0.0 Release  
-**Related**: [GL-013] Dependency Management, [ADR-032], [ADR-034]
+**Related**: [GL-013] Dependency Management, [ADR-032], [ADR-034], [ADR-037] Lifecycle Stages
