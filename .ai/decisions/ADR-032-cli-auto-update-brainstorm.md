@@ -213,13 +213,95 @@ public class CreateTenantCommand : BaseCommand
 3. **Patch Version (x.y.Z):** Bug fixes only
 
 #### Deprecation Strategy
+**Deprecated commands must provide clear guidance and remain functional during transition period.**
+
 ```csharp
 [Obsolete("Use 'tenant create' instead. Will be removed in v3.0.0")]
 [Command("create-tenant", "Legacy command - use 'tenant create'")]
 public class LegacyCreateTenantCommand : BaseCommand
 {
-    // Keep functional during deprecation period
+    public override async Task<int> ExecuteAsync()
+    {
+        // Show deprecation warning with guidance
+        await _console.Output.WriteLineAsync(
+            new Markup($"[yellow]⚠️  Command 'create-tenant' is deprecated[/]\n" +
+                      $"   Use: [green]b2connect-admin tenant create --name <name>[/]\n" +
+                      $"   This command will be removed in v3.0.0"));
+
+        // Still execute the command for backward compatibility
+        return await ExecuteTenantCreationLogic();
+    }
 }
+```
+
+### User-Friendly Deprecation Messages
+
+**Console Output Examples:**
+
+```bash
+# Running deprecated command
+$ b2connect-admin create-tenant --name "My Company"
+
+⚠️  Command 'create-tenant' is deprecated
+   New command: b2connect-admin tenant create --name "My Company"
+   Migration: This command will be removed in v3.0.0 (January 2027)
+
+   Proceeding with legacy command execution...
+   ✅ Tenant "My Company" created successfully
+
+# Suggestion for similar commands
+$ b2connect-admin user-add --email john@company.com
+
+⚠️  Command 'user-add' is deprecated
+   New command: b2connect-admin auth create-user --email john@company.com
+   Alternative: b2connect-admin user invite --email john@company.com
+   Migration: This command will be removed in v3.0.0
+
+   Proceeding with legacy command execution...
+   ✅ User john@company.com added successfully
+```
+
+### Deprecation Warning Levels
+
+1. **Info (v2.x):** Show warning but allow execution
+2. **Warning (v2.9+):** Show prominent warning with migration guide
+3. **Error (v3.0):** Command removed, show migration instructions
+
+### Migration Assistance
+
+**Automatic Command Translation:**
+```csharp
+public class CommandMigrator
+{
+    public static string GetMigrationHint(string deprecatedCommand, string[] args)
+    {
+        return deprecatedCommand switch
+        {
+            "create-tenant" => $"b2connect-admin tenant create {string.Join(" ", args)}",
+            "user-add" => $"b2connect-admin auth create-user {string.Join(" ", args)}",
+            "catalog-import" => $"b2connect-admin catalog import {string.Join(" ", args)}",
+            _ => "Please check the documentation for the new command syntax"
+        };
+    }
+}
+```
+
+**Interactive Migration:**
+```bash
+$ b2connect-admin create-tenant --name "Test"
+
+⚠️  Command 'create-tenant' is deprecated
+
+Would you like to:
+  [R] Run the new command automatically
+  [S] Show me the new command syntax
+  [C] Continue with deprecated command
+  [?] Help
+
+Choice: R
+
+Executing: b2connect-admin tenant create --name "Test"
+✅ Tenant "Test" created successfully
 ```
 
 ### Version Pinning for Stability
@@ -255,12 +337,43 @@ public class BackwardCompatibilityTests
     }
 
     [Test]
-    public async Task DeprecatedCommands_WarnButWork()
+    public async Task DeprecatedCommands_ShowMigrationGuidance()
     {
-        // Test deprecated commands still function
+        // Test deprecated commands show helpful migration hints
         var result = await RunCommand("create-tenant --name test");
-        Assert.That(result.StdErr, Contains("obsolete"));
+
+        // Should show deprecation warning
+        Assert.That(result.StdOut, Contains("⚠️"));
+        Assert.That(result.StdOut, Contains("deprecated"));
+        Assert.That(result.StdOut, Contains("tenant create --name test"));
+
+        // Should still execute successfully
         Assert.That(result.ExitCode, Is.EqualTo(0));
+        Assert.That(result.StdOut, Contains("created successfully"));
+    }
+
+    [Test]
+    public async Task DeprecationMessages_AreUserFriendly()
+    {
+        var result = await RunCommand("user-add --email test@example.com");
+
+        // Check for clear migration guidance
+        Assert.That(result.StdOut, Contains("New command:"));
+        Assert.That(result.StdOut, Contains("auth create-user"));
+        Assert.That(result.StdOut, Contains("Will be removed in v"));
+    }
+
+    [Test]
+    public async Task CommandTranslation_WorksCorrectly()
+    {
+        var translator = new CommandMigrator();
+
+        // Test various deprecated command translations
+        Assert.That(translator.GetMigrationHint("create-tenant", ["--name", "Test"]),
+                   Is.EqualTo("b2connect-admin tenant create --name Test"));
+
+        Assert.That(translator.GetMigrationHint("user-add", ["--email", "user@test.com"]),
+                   Is.EqualTo("b2connect-admin auth create-user --email user@test.com"));
     }
 }
 ```
@@ -317,6 +430,50 @@ public class BackwardCompatibilityTests
    Release notes: https://github.com/b2connect/cli/releases/v2.1.0
 
    [U] Update now  [L] Later  [N] Never ask again  [?] More info
+```
+
+### Deprecation User Interface
+
+**Clear, Helpful Deprecation Messages:**
+
+```
+⚠️  Command 'create-tenant' is deprecated
+   New command: b2connect-admin tenant create --name <name>
+   Migration: This command will be removed in v3.0.0 (January 2027)
+
+   Proceeding with legacy command execution...
+   ✅ Tenant "My Company" created successfully
+```
+
+**Interactive Migration Options:**
+
+```
+⚠️  Command 'user-add' is deprecated
+
+Would you like to:
+  [R] Run the new command automatically (recommended)
+  [S] Show me the new command syntax
+  [C] Continue with deprecated command
+  [?] Help
+
+Choice (R/s/c/?):
+```
+
+**Progressive Warning Levels:**
+
+```
+# v2.x - Info Level
+⚠️  'create-tenant' is deprecated. Consider using 'tenant create' instead.
+
+# v2.9+ - Warning Level  
+🚨 DEPRECATED: 'create-tenant' will be removed in v3.0.0
+   Use: b2connect-admin tenant create --name <name>
+   Docs: https://docs.b2connect.com/cli/migration
+
+# v3.0+ - Error Level
+❌ Command 'create-tenant' has been removed
+   Migration: Use 'b2connect-admin tenant create --name <name>'
+   Help: Run 'b2connect-admin tenant create --help'
 ```
 
 ---
