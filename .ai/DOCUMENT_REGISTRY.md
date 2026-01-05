@@ -109,6 +109,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-028` | GrapesJS Email Builder Integration | `.ai/knowledgebase/tools-and-tech/grapesjs-email-builder.md` | Active |
 | `KB-029` | CSS Functions | `.ai/knowledgebase/css-functions.md` | Active |
 | `KB-030` | SVG and CSS Animations | `.ai/knowledgebase/svg-css-animations.md` | Active |
+| `KB-031` | Shouldly Assertion Framework | `.ai/knowledgebase/tools-and-tech/shouldly.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
