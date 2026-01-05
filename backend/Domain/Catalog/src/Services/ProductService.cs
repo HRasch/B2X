@@ -42,6 +42,17 @@ public class ProductService : IProductService
         return Task.FromResult(product?.ToDto());
     }
 
+    public Task<ProductDto?> GetByBarcodeAsync(Guid tenantId, string barcode, CancellationToken cancellationToken = default)
+    {
+        if (!_products.TryGetValue(tenantId, out var tenantProducts))
+        {
+            return Task.FromResult<ProductDto?>(null);
+        }
+
+        var product = tenantProducts.FirstOrDefault(p => p.Barcode == barcode);
+        return Task.FromResult(product?.ToDto());
+    }
+
     public Task<PagedResult<ProductDto>> GetPagedAsync(Guid tenantId, int pageNumber = 1, int pageSize = 20, CancellationToken cancellationToken = default)
     {
         if (!_products.TryGetValue(tenantId, out var tenantProducts))

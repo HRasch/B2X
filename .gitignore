@@ -48,6 +48,8 @@ bld/
 
 # Frontend
 node_modules/
+.nuxt/
+.output/
 dist/
 .vite/
 .cache/

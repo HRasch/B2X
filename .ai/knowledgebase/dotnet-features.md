@@ -3,6 +3,7 @@ Source: https://learn.microsoft.com/dotnet/core/whats-new
 
 Overview:
 - This file summarizes notable runtime, library, and SDK changes introduced across recent .NET releases with focus on .NET 10 (LTS).
+- Latest version: .NET 10.0.101 (released December 9, 2025)
 
 Highlights (NET 10):
 - Runtime: JIT inlining and method devirtualization improvements, AVX10.2 support, better codegen for struct arguments, improved loop inversion, and NativeAOT enhancements.
@@ -21,3 +22,4 @@ References:
 - .NET whats-new: https://learn.microsoft.com/dotnet/core/whats-new
 - .NET 10 overview: https://learn.microsoft.com/dotnet/core/whats-new/dotnet-10/overview
 - ASP.NET Core 10 notes: https://learn.microsoft.com/aspnet/core/release-notes/aspnetcore-10.0
+- Latest download: https://dotnet.microsoft.com/en-us/download/dotnet/10.0
