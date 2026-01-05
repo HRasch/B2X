@@ -369,6 +369,6 @@ Track monthly:
 - [ ] Slim `copilot-instructions.md` from 31KB → 10KB
 - [ ] Trim `Backend.agent.md` (4.2KB → 3KB)
 - [ ] Trim `Frontend.agent.md` (4.1KB → 3KB)
-- [ ] Trim `copilot-expert.agent.md` (3.8KB → 3KB)
+- [ ] Trim `CopilotExpert.agent.md` (3.8KB → 3KB)
 - [ ] Add CI size check workflow
 - [ ] Schedule weekly audit (Mondays)

@@ -45,7 +45,7 @@ See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
   - Keeps coding styles, linting rules, and lessons learned in sync and organized
   - Focuses on reducing context size through efficient documentation
   - Researches internet best practices when struggling with optimization
-  - Consults @copilot-expert for best practices on optimization
+  - Consults @CopilotExpert for best practices on optimization
   - Model: Claude Haiku 4.5 (advanced analysis)
 
 ### Process Management (`AGT-009`)

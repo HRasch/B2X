@@ -478,7 +478,7 @@ When using prompt files with agents:
 │   ├── sarah.agent.md           # Coordinator
 │   ├── backend.agent.md         # .NET development
 │   ├── frontend.agent.md        # Vue.js development
-│   ├── copilot-expert.agent.md  # This specialist
+│   ├── CopilotExpert.agent.md  # This specialist
 │   └── ...
 ├── instructions/
 │   ├── backend.instructions.md  # src/api/**, src/services/**

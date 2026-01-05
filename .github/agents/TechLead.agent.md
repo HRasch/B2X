@@ -44,11 +44,11 @@ Keep these areas **in sync and well organized** to reduce context size for effic
 2. **Organize**: Keep documentation structured and cross-referenced
 3. **Optimize**: Reduce context size through consolidation
 4. **Research**: When struggling with optimization or standards, research internet best practices
-5. **Consult**: Ask @copilot-expert for best practices on reduction strategies
+5. **Consult**: Ask @CopilotExpert for best practices on reduction strategies
 
 ## REDUCTION STRATEGIES
 
-Regularly consult @copilot-expert for:
+Regularly consult @CopilotExpert for:
 - **Context optimization** techniques
 - **Documentation consolidation** methods
 - **Knowledge base** organization patterns

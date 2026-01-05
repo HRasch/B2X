@@ -68,6 +68,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-036` | Shared ERP Project Architecture | `.ai/decisions/ADR-036-shared-erp-project-architecture.md` | Accepted |
 | `ADR-037` | Lifecycle Stages Framework | `.ai/decisions/ADR-037-lifecycle-stages-framework.md` | Accepted |
 | `ADR-038` | Customer Integration Stages Framework | `.ai/decisions/ADR-038-customer-integration-stages.md` | Accepted |
+| `ADR-039` | Agent Instruction Protection Strategy | `.ai/decisions/ADR-039-instruction-protection.md` | Accepted |
 | `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
 
 ---
@@ -264,7 +265,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-015` | GitManager | `.github/agents/git-manager.agent.md` | Git Workflow |
 | `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation |
 | `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
-| `AGT-018` | CopilotExpert | `.github/agents/copilot-expert.agent.md` | Copilot Configuration |
+| `AGT-018` | CopilotExpert | `.github/agents/CopilotExpert.agent.md` | Copilot Configuration |
 
 **CopilotExpert (AGT-018) EXCLUSIVE Authority:**
 - **ONLY @CopilotExpert** may create, modify, or delete agent definitions (`.github/agents/`)

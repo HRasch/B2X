@@ -61,10 +61,31 @@ docs/**/*.md @TechLead @ProductOwner
 .ai/decisions/**/*.md @Architect @TechLead
 docs/architecture/**/*.md @Architect
 
-# Guidelines & Prompts (MANDATORY @SARAH review)
-.github/copilot-instructions.md @SARAH @TechLead
-.github/agents/**/*.md @SARAH
-.github/prompts/**/*.md @SARAH
+# =============================================================================
+# 🤖 AGENT SYSTEM - PROTECTED (per GL-008 Governance Policies)
+# =============================================================================
+# EXCLUSIVE @CopilotExpert Authority:
+# - ONLY @CopilotExpert may create, modify, or delete these files
+# - Policy-level changes require additional @SARAH approval
+# - Other agents MUST REQUEST changes via @CopilotExpert
+# =============================================================================
+
+# Agent Definitions (EXCLUSIVE @CopilotExpert)
+.github/agents/**/*.md @CopilotExpert @SARAH
+
+# Instruction Files (EXCLUSIVE @CopilotExpert)
+.github/instructions/**/*.md @CopilotExpert @TechLead
+
+# Prompt Templates (EXCLUSIVE @CopilotExpert + @SARAH approval)
+.github/prompts/**/*.md @CopilotExpert @SARAH
+
+# Master Copilot Instructions
+.github/copilot-instructions.md @CopilotExpert @SARAH @TechLead
+
+# MCP Configuration
+.vscode/mcp.json @CopilotExpert @DevOps
+
+# Guidelines (SARAH + TechLead)
 .ai/guidelines/**/*.md @SARAH @TechLead
 
 # Testing
