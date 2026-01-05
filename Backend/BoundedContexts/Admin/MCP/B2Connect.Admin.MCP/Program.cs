@@ -68,7 +68,7 @@ builder.Services.Configure<DataSanitizationOptions>(builder.Configuration.GetSec
 builder.Services.AddSingleton<DataSanitizationService>();
 
 // AI Provider Selector
-builder.Services.AddSingleton<AiProviderSelector>();
+builder.Services.AddScoped<AiProviderSelector>();
 
 // Tenant Context (scoped - per request)
 builder.Services.AddScoped<TenantContext>();
@@ -92,6 +92,7 @@ builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.SecurityComplianceTool>();
 builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.PerformanceOptimizationTool>();
 builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.IntegrationManagementTool>();
 builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.TemplateValidationTool>();
+builder.Services.AddScoped<B2Connect.Admin.MCP.Tools.AiModeSwitchingTool>();
 
 // Caching
 builder.Services.AddStackExchangeRedisCache(options =>
