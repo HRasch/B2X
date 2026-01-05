@@ -229,10 +229,14 @@ public class BmecatImportAdapter : ICatalogImportAdapter
             {
                 result.ValidationErrors.Add($"Catalog ID mismatch: expected {metadata.CatalogId}, found {currentCatalogId}");
             }
+
+            // Set success based on validation
+            result.Success = !result.ValidationErrors.Any();
         }
         catch (XmlException ex)
         {
             result.ValidationErrors.Add($"XML parsing error: {ex.Message}");
+            result.Success = false;
             throw;
         }
 
