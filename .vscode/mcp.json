@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "b2connect-admin": {
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "backend/BoundedContexts/Admin/MCP/B2Connect.Admin.MCP/B2Connect.Admin.MCP.csproj"
+      ],
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:8091",
+        "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true"
+      },
+      "disabled": false
+    }
+  }
+}

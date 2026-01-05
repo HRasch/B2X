@@ -131,5 +131,42 @@
     "invalid_format": "Invalid format",
     "required_field": "This field is required",
     "invalid_value": "Invalid value"
+  },
+  "tools": {
+    "cli": {
+      "title": "Administration CLI & Tools",
+      "subtitle": "Download and manage command-line tools for tenant administration and ERP integration",
+      "administration": {
+        "description": "Powerful command-line interface for managing your B2Connect tenant. Create users, manage catalogs, configure settings, and automate administrative tasks."
+      },
+      "erp": {
+        "description": "Connector for integrating your ERP system with B2Connect. Synchronize data, manage orders, inventory, and seamless data exchange."
+      }
+    },
+    "version": "Latest Version",
+    "supportedOS": "Supported Operating Systems",
+    "updated": "Last Updated",
+    "download": "Download",
+    "downloading": "Downloading...",
+    "instructions": "Installation Instructions",
+    "selectOS": "Select Operating System",
+    "selectVersion": "Select Version",
+    "erp": {
+      "selectType": "Select ERP System",
+      "selectPlaceholder": "Choose your ERP system..."
+    },
+    "instructions": {
+      "prerequisites": "Prerequisites",
+      "steps": "Installation Steps",
+      "configuration": "Configuration Template",
+      "troubleshooting": "Troubleshooting"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "close": "Close",
+    "download": "Download",
+    "downloading": "Downloading..."
   }
 }

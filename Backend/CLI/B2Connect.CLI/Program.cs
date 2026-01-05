@@ -2,6 +2,7 @@ using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using B2Connect.CLI.Commands.AuthCommands;
+using B2Connect.CLI.Commands.ErpCommands;
 using B2Connect.CLI.Commands.MonitoringCommands;
 using B2Connect.CLI.Commands.SystemCommands;
 using B2Connect.CLI.Commands.TenantCommands;
@@ -40,6 +41,13 @@ monitoringCommand.AddCommand(TestConnectivityCommand.Create());
 monitoringCommand.AddCommand(ServiceStatusCommand.Create());
 monitoringCommand.AddCommand(AlertsCommand.Create());
 rootCommand.AddCommand(monitoringCommand);
+
+// ERP Commands
+var erpCommand = new Command("erp", "ERP connector management");
+erpCommand.AddCommand(DownloadConnectorCommand.Create());
+erpCommand.AddCommand(DetectVersionCommand.Create());
+erpCommand.AddCommand(ListConnectorsCommand.Create());
+rootCommand.AddCommand(erpCommand);
 
 // Info Command
 var infoCommand = new Command("info", "Show configuration information");

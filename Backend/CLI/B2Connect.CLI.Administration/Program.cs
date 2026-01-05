@@ -4,6 +4,7 @@ using System.CommandLine.Parsing;
 using B2Connect.CLI.Administration.Commands.AuthCommands;
 using B2Connect.CLI.Administration.Commands.TenantCommands;
 using B2Connect.CLI.Administration.Commands.CatalogCommands;
+using B2Connect.CLI.Administration.Commands.HealthCommands;
 using B2Connect.CLI.Shared;
 using B2Connect.CLI.Shared.Configuration;
 using Spectre.Console;
@@ -29,6 +30,11 @@ var catalogCommand = new Command("catalog", "Catalog management operations");
 catalogCommand.AddCommand(ImportCatalogCommand.Create());
 catalogCommand.AddCommand(ExportCatalogCommand.Create());
 rootCommand.AddCommand(catalogCommand);
+
+// Health Commands
+var healthCommand = new Command("health", "System health monitoring and checks");
+healthCommand.AddCommand(HealthCheckCommand.Create());
+rootCommand.AddCommand(healthCommand);
 
 // Info Command
 var infoCommand = new Command("info", "Show configuration information");

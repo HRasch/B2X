@@ -268,6 +268,9 @@ builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailMonitoringService, B
 builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailTemplateService, B2Connect.Email.Services.EmailTemplateService>();
 // builder.Services.AddHostedService<B2Connect.Email.Handlers.ProcessEmailQueueJob>(); // Temporarily disabled due to database setup issues
 
+// CLI Tools Services (ADR-033: Tenant-Admin Download for CLI and ERP-Connector)
+builder.Services.AddScoped<ICliToolsService, CliToolsService>();
+
 // Add services
 builder.Services.AddControllers(options =>
 {

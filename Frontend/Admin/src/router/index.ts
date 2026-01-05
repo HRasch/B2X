@@ -207,6 +207,21 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/tools',
+    meta: {
+      requiresAuth: true,
+      layout: 'main',
+      requiredRole: 'admin',
+    },
+    children: [
+      {
+        path: 'cli',
+        name: 'CliTools',
+        component: () => import('@/views/tools/CliToolsView.vue'),
+      },
+    ],
+  },
+  {
     path: '/ai',
     meta: {
       requiresAuth: true,
@@ -268,6 +283,21 @@ const routes: RouteRecordRaw[] = [
         path: 'templates/:id/edit',
         name: 'EmailTemplateEdit',
         component: () => import('@/views/email/EmailTemplateEdit.vue'),
+      },
+    ],
+  },
+  {
+    path: '/tools',
+    meta: {
+      requiresAuth: true,
+      layout: 'main',
+      requiredRole: 'admin',
+    },
+    children: [
+      {
+        path: 'cli',
+        name: 'CliTools',
+        component: () => import('@/views/tools/CliToolsView.vue'),
       },
     ],
   },

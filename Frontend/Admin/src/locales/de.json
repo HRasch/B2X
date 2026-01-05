@@ -131,5 +131,42 @@
     "invalid_format": "Ungültiges Format",
     "required_field": "Dieses Feld ist erforderlich",
     "invalid_value": "Ungültiger Wert"
+  },
+  "tools": {
+    "cli": {
+      "title": "Administration CLI & Tools",
+      "subtitle": "Befehlszeilen-Tools für Tenant-Verwaltung und ERP-Integration herunterladen und verwalten",
+      "administration": {
+        "description": "Leistungsstarke Befehlszeilen-Schnittstelle zur Verwaltung Ihres B2Connect Tenants. Benutzer erstellen, Kataloge verwalten, Einstellungen konfigurieren und administrative Aufgaben automatisieren."
+      },
+      "erp": {
+        "description": "Connector zur Integration Ihres ERP-Systems mit B2Connect. Daten synchronisieren, Bestellungen, Lagerbestände und nahtlosen Datenaustausch verwalten."
+      }
+    },
+    "version": "Aktuelle Version",
+    "supportedOS": "Unterstützte Betriebssysteme",
+    "updated": "Zuletzt aktualisiert",
+    "download": "Herunterladen",
+    "downloading": "Wird heruntergeladen...",
+    "instructions": "Installationsanleitung",
+    "selectOS": "Betriebssystem auswählen",
+    "selectVersion": "Version auswählen",
+    "erp": {
+      "selectType": "ERP-System auswählen",
+      "selectPlaceholder": "Wählen Sie Ihr ERP-System..."
+    },
+    "instructions": {
+      "prerequisites": "Voraussetzungen",
+      "steps": "Installationsschritte",
+      "configuration": "Konfigurationsvorlage",
+      "troubleshooting": "Fehlerbehebung"
+    }
+  },
+  "common": {
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "close": "Schließen",
+    "download": "Herunterladen",
+    "downloading": "Wird heruntergeladen..."
   }
 }

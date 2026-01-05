@@ -172,7 +172,6 @@ namespace B2Connect.SearchService.Services
                 _ => $"products_{language?.ToLower() ?? DefaultLanguage}"
             };
         }
-        }
 
         /// <summary>
         /// Setup RabbitMQ connection and declare exchange/queue
@@ -371,7 +370,17 @@ namespace B2Connect.SearchService.Services
                     throw new Exception($"Failed to update product in {indexName}: {response.DebugInformation}");
                 }
 
-                _logger.LogInformation - delete from all language indexes
+                _logger.LogInformation("Updated product {ProductId} in index {IndexName}", @event.ProductId, indexName);
+
+                if (!response.IsValidResponse)
+                {
+                    throw new Exception($"Failed to update product in {indexName}: {response.DebugInformation}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handle product deleted event - delete from all language indexes
         /// </summary>
         private async Task HandleProductDeletedAsync(ProductDeletedEvent @event)
         {
