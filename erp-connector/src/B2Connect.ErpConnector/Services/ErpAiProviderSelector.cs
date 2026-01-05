@@ -47,13 +47,21 @@ namespace B2Connect.ErpConnector.Services
         /// </summary>
         public LocalAiService CreateAiServiceForTenant(string tenantId)
         {
+            return CreateAiServiceForTenant(tenantId, null);
+        }
+
+        /// <summary>
+        /// Create AI service for tenant data processing with performance monitoring
+        /// </summary>
+        public LocalAiService CreateAiServiceForTenant(string tenantId, PerformanceMonitor performanceMonitor)
+        {
             if (!_aiEnabled)
             {
-                return new LocalAiService(new OllamaProvider(), false);
+                return new LocalAiService(new OllamaProvider(), false, performanceMonitor);
             }
 
             var provider = GetProviderForTenant(tenantId);
-            return new LocalAiService(provider, true);
+            return new LocalAiService(provider, true, performanceMonitor);
         }
 
         /// <summary>

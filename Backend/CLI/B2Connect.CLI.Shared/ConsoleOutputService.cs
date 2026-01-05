@@ -35,6 +35,13 @@ public class ConsoleOutputService
         AnsiConsole.WriteLine();
     }
 
+    public void SubHeader(string title)
+    {
+        AnsiConsole.WriteLine();
+        AnsiConsole.Write(new Rule($"[bold cyan]{title}[/]") { Justification = Justify.Left });
+        AnsiConsole.WriteLine();
+    }
+
     public void Table<T>(IEnumerable<T> items, params (string Header, Func<T, string> Selector)[] columns) where T : class
     {
         var table = new Table();

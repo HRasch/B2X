@@ -53,6 +53,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Web" />
   </ItemGroup>
+  <!-- Reference shared ERP projects for common interfaces and validation -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\backend\shared\B2Connect.Shared.Erp.Core\B2Connect.Shared.Erp.Core.csproj" />
+    <ProjectReference Include="..\..\..\backend\shared\B2Connect.Shared.Erp.Validation\B2Connect.Shared.Erp.Validation.csproj" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Models\TenantApiKey.cs" />
@@ -63,6 +68,7 @@
     <Compile Include="Services\OllamaProvider.cs" />
     <Compile Include="Services\LmStudioProvider.cs" />
     <Compile Include="Services\ErpAiProviderSelector.cs" />
+    <Compile Include="Services\PerformanceMonitor.cs" />
     <Compile Include="Models\Dtos.cs" />
     <Compile Include="Infrastructure\Identity\EnventaIdentity.cs" />
     <Compile Include="Infrastructure\Identity\EnventaIdentityProvider.cs" />

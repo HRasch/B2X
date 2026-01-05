@@ -51,6 +51,9 @@
     <ProjectReference Include="../../Domain/ERP/src/B2Connect.ERP.csproj" />
     <ProjectReference Include="../../Domain/Email/B2Connect.Email.csproj" />
     <ProjectReference Include="../../Domain/Theming/B2Connect.Theming.API.csproj" />
+    <!-- ERP Validation and Connectors (ADR-036) -->
+    <ProjectReference Include="../../Domain/Shared/B2Connect.Api.Validation/B2Connect.Api.Validation.csproj" />
+    <ProjectReference Include="../../Connectors/B2Connect.Connectors.csproj" />
   </ItemGroup>
 
   <ItemGroup>

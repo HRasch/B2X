@@ -34,6 +34,12 @@ namespace B2Connect.ErpConnector
 
             // Check if running in service/daemon mode
             var serviceMode = args.Length > 0 && args[0] == "--service";
+            var benchmarkMode = args.Length > 0 && args[0] == "--benchmark";
+
+            if (benchmarkMode)
+            {
+                return RunBenchmarkMode(args);
+            }
 
             try
             {
@@ -70,7 +76,7 @@ namespace B2Connect.ErpConnector
                 {
                     try
                     {
-                        aiService = aiProviderSelector.CreateAiServiceForTenant("default");
+                        aiService = aiProviderSelector.CreateAiServiceForTenant("default", performanceMonitor);
                         Console.WriteLine($"AI processing enabled using {aiProviderSelector.PreferredProvider} provider");
                     }
                     catch (Exception ex)
@@ -84,8 +90,26 @@ namespace B2Connect.ErpConnector
                     Console.WriteLine("AI processing disabled in configuration");
                 }
 
-                // Initialize ERP service with AI capabilities
-                _erpService = new EnventaErpService(aiService);
+                // Initialize performance monitoring
+                var performanceEnabled = bool.TryParse(ConfigurationManager.AppSettings["PerformanceMonitoring:Enabled"], out var perfEnabled) && perfEnabled;
+                PerformanceMonitor performanceMonitor = null;
+                if (performanceEnabled)
+                {
+                    var reportingInterval = TimeSpan.FromMinutes(5); // Default 5 minutes
+                    if (TimeSpan.TryParse(ConfigurationManager.AppSettings["PerformanceMonitoring:ReportingInterval"], out var interval))
+                    {
+                        reportingInterval = interval;
+                    }
+                    performanceMonitor = new PerformanceMonitor(true, reportingInterval);
+                    Console.WriteLine($"Performance monitoring enabled (reporting every {reportingInterval.TotalMinutes} minutes)");
+                }
+                else
+                {
+                    Console.WriteLine("Performance monitoring disabled");
+                }
+
+                // Initialize ERP service with AI and performance monitoring capabilities
+                _erpService = new EnventaErpService(aiService, performanceMonitor);
 
                 // Start the HTTP listener
                 StartHttpListener();
@@ -777,6 +801,143 @@ namespace B2Connect.ErpConnector
                 response.StatusCode = 500;
                 WriteJsonResponse(response, new { error = "Internal Server Error", message = ex.Message });
             }
+        }
+
+        /// <summary>
+        /// Run performance benchmarking mode
+        /// </summary>
+        private static int RunBenchmarkMode(string[] args)
+        {
+            Console.WriteLine("=== ERP Connector Performance Benchmark ===");
+
+            try
+            {
+                _cts = new CancellationTokenSource();
+
+                // Load configuration
+                _baseAddress = ConfigurationManager.AppSettings["BaseAddress"] ?? "http://localhost:5080";
+                _legacyApiKey = ConfigurationManager.AppSettings["ApiKey"] ?? Environment.GetEnvironmentVariable("ERP_CONNECTOR_API_KEY") ?? "";
+                _useTenantKeys = bool.TryParse(ConfigurationManager.AppSettings["UseTenantKeys"], out var useTenant) && useTenant;
+
+                // Initialize performance monitoring
+                var performanceMonitor = new PerformanceMonitor(true, TimeSpan.FromSeconds(30));
+
+                // Initialize AI service if enabled
+                LocalAiService aiService = null;
+                var aiProviderSelector = new ErpAiProviderSelector();
+                if (aiProviderSelector.IsAiEnabled)
+                {
+                    try
+                    {
+                        aiService = aiProviderSelector.CreateAiServiceForTenant("benchmark-tenant", performanceMonitor);
+                        Console.WriteLine($"AI processing enabled for benchmarking using {aiProviderSelector.PreferredProvider} provider");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Warning: AI service initialization failed: {ex.Message}");
+                        Console.WriteLine("Benchmark will continue without AI capabilities");
+                    }
+                }
+
+                // Initialize ERP service with performance monitoring
+                _erpService = new EnventaErpService(aiService, performanceMonitor);
+
+                // Run benchmarks
+                Console.WriteLine("Starting performance benchmarks...");
+                RunBenchmarks(performanceMonitor).Wait();
+
+                // Export final results
+                Console.WriteLine("\n=== Final Benchmark Results ===");
+                Console.WriteLine(performanceMonitor.ExportMetrics());
+
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Benchmark failed: {ex.Message}");
+                return 1;
+            }
+        }
+
+        /// <summary>
+        /// Run performance benchmark tests
+        /// </summary>
+        private static async Task RunBenchmarks(PerformanceMonitor performanceMonitor)
+        {
+            Console.WriteLine("Running ERP operation benchmarks...");
+
+            // Benchmark GetArticle operations
+            await BenchmarkGetArticle("benchmark-tenant", 10);
+
+            // Benchmark QueryArticles operations
+            await BenchmarkQueryArticles("benchmark-tenant", 5);
+
+            // Benchmark AI operations if available
+            if (_erpService != null)
+            {
+                await BenchmarkAiOperations("benchmark-tenant", 3);
+            }
+
+            // Wait for final metrics report
+            await Task.Delay(1000);
+        }
+
+        /// <summary>
+        /// Benchmark GetArticle operations
+        /// </summary>
+        private static async Task BenchmarkGetArticle(string tenantId, int iterations)
+        {
+            Console.WriteLine($"Benchmarking GetArticle operations ({iterations} iterations)...");
+
+            for (int i = 0; i < iterations; i++)
+            {
+                try
+                {
+                    // Use a test article ID - this may fail in real ERP but that's ok for benchmarking
+                    await _erpService.GetArticleAsync(tenantId, $"TEST{i:D4}");
+                }
+                catch (Exception)
+                {
+                    // Expected for test data - we just want timing
+                }
+            }
+        }
+
+        /// <summary>
+        /// Benchmark QueryArticles operations
+        /// </summary>
+        private static async Task BenchmarkQueryArticles(string tenantId, int iterations)
+        {
+            Console.WriteLine($"Benchmarking QueryArticles operations ({iterations} iterations)...");
+
+            for (int i = 0; i < iterations; i++)
+            {
+                try
+                {
+                    var query = new QueryRequest
+                    {
+                        Take = 10,
+                        Skip = i * 10
+                    };
+                    await _erpService.QueryArticlesAsync(tenantId, query);
+                }
+                catch (Exception)
+                {
+                    // Expected for test data - we just want timing
+                }
+            }
+        }
+
+        /// <summary>
+        /// Benchmark AI operations
+        /// </summary>
+        private static async Task BenchmarkAiOperations(string tenantId, int iterations)
+        {
+            Console.WriteLine($"Benchmarking AI operations ({iterations} iterations)...");
+
+            // This would require the LocalAiService to be properly configured
+            // For now, we'll skip if not available
+            Console.WriteLine("AI benchmarking skipped - requires proper AI service configuration");
         }
     }
 }

@@ -43,6 +43,110 @@ The ERP Connector Framework includes built-in AI processing capabilities for ten
 <add key="AI:LMStudio:Endpoint" value="http://localhost:1234" />
 ```
 
+### Performance Monitoring & Benchmarking
+
+The ERP Connector includes comprehensive performance monitoring and benchmarking capabilities to track and optimize ERP operations.
+
+#### Features
+
+- **📊 Real-time Metrics**: Track execution times, throughput, and error rates for all ERP operations
+- **⏱️ Operation Timing**: Automatic timing of database queries, API calls, and AI processing
+- **📈 Performance Reports**: Periodic console reports with detailed statistics
+- **🏃 Benchmarking Mode**: Dedicated benchmarking mode for performance testing
+- **🔍 Tenant-specific Metrics**: Separate metrics tracking per tenant for multi-tenant analysis
+
+#### Performance Monitoring Configuration
+
+```xml
+<!-- App.config -->
+<add key="PerformanceMonitoring:Enabled" value="true" />
+<add key="PerformanceMonitoring:ReportingInterval" value="00:05:00" />
+```
+
+#### Benchmarking Mode
+
+Run performance benchmarks using the `--benchmark` command-line argument:
+
+```bash
+# Run performance benchmarks
+./B2Connect.ErpConnector.exe --benchmark
+
+# Example output:
+=== ERP Connector Performance Benchmark ===
+AI processing enabled for benchmarking using ollama provider
+Starting performance benchmarks...
+Benchmarking GetArticle operations (10 iterations)...
+Benchmarking QueryArticles operations (5 iterations)...
+AI benchmarking skipped - requires proper AI service configuration
+
+=== PERFORMANCE METRICS ===
+Session Time: 45.23s
+GetArticle_benchmark-tenant: 10 calls, avg=125.3ms, min=98.2ms, max=156.7ms, 0.22 calls/sec, error=0.00%
+QueryArticles_benchmark-tenant: 5 calls, avg=234.1ms, min=198.5ms, max=289.3ms, 0.11 calls/sec, error=0.00%
+```
+
+#### Monitored Operations
+
+| Operation | Description | Metrics Tracked |
+|-----------|-------------|-----------------|
+| `GetArticle_{tenant}` | Single article retrieval | Response time, success rate |
+| `QueryArticles_{tenant}` | Article queries with filtering | Query time, result count, pagination |
+| `AI_ProcessTenantData_{tenant}_{operation}` | AI data processing | Processing time, token usage |
+| `AI_ValidateErpData_{tenant}` | AI data validation | Validation time, accuracy metrics |
+
+#### Metrics Export
+
+Performance metrics can be exported in JSON format for analysis:
+
+```json
+{
+  "SessionTimeSeconds": 45.23,
+  "Operations": [
+    {
+      "OperationName": "GetArticle_tenant1",
+      "TotalCalls": 150,
+      "SuccessfulCalls": 148,
+      "FailedCalls": 2,
+      "AverageDurationMs": 125.3,
+      "MinDurationMs": 98.2,
+      "MaxDurationMs": 156.7,
+      "TotalDurationMs": 18795.0,
+      "CallsPerSecond": 3.31,
+      "ErrorRate": 0.013
+    }
+  ]
+}
+```
+
+#### ERP Connector CLI Integration
+
+The ERP Connector integrates with the B2Connect Administration CLI for comprehensive benchmarking and monitoring:
+
+```bash
+# Run ERP connector benchmarks
+b2connect-admin metrics benchmark --service erp-connector --duration 60 --concurrency 5
+
+# View ERP connector metrics
+b2connect-admin metrics view --service erp-connector --time-range 24h
+
+# Configure ERP connector monitoring
+b2connect-admin metrics config set monitoring.enabled true
+b2connect-admin metrics config set metrics.collection_interval_seconds 30
+
+# View active alerts
+b2connect-admin metrics alerts list --service erp-connector
+```
+
+#### ERP Connector-Specific Metrics
+
+| Metric | Description | Collection Method |
+|--------|-------------|-------------------|
+| `GetArticle` | Article retrieval performance | Automatic timing |
+| `QueryArticles` | Article query performance | Automatic timing |
+| `AI_ProcessTenantData` | AI processing performance | Automatic timing |
+| `ConnectionPool` | Database connection usage | Pool monitoring |
+| `ActorPool` | Thread actor utilization | Pool monitoring |
+
 ### Supported ERP Systems
 
 | ERP System | Status | Framework | Capabilities |

@@ -36,11 +36,18 @@ namespace B2Connect.ErpConnector.Services
     {
         private readonly ILocalAiProvider _provider;
         private readonly bool _aiEnabled;
+        private readonly PerformanceMonitor _performanceMonitor;
 
         public LocalAiService(ILocalAiProvider provider, bool aiEnabled = true)
+            : this(provider, aiEnabled, null)
+        {
+        }
+
+        public LocalAiService(ILocalAiProvider provider, bool aiEnabled, PerformanceMonitor performanceMonitor)
         {
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
             _aiEnabled = aiEnabled;
+            _performanceMonitor = performanceMonitor;
         }
 
         /// <summary>
@@ -62,15 +69,29 @@ namespace B2Connect.ErpConnector.Services
                 };
             }
 
-            var prompt = GetPromptForOperation(operation);
-            var userMessage = $"Tenant: {tenantId}\nData: {data}";
+            return await (_performanceMonitor?.TimeOperationAsync($"AI_ProcessTenantData_{tenantId}_{operation}", async () =>
+            {
+                var prompt = GetPromptForOperation(operation);
+                var userMessage = $"Tenant: {tenantId}\nData: {data}";
 
-            return await _provider.ExecuteChatCompletionAsync(
-                tenantId,
-                GetDefaultModel(),
-                prompt,
-                userMessage,
-                cancellationToken);
+                return await _provider.ExecuteChatCompletionAsync(
+                    tenantId,
+                    GetDefaultModel(),
+                    prompt,
+                    userMessage,
+                    cancellationToken);
+            }) ?? Task.Run(async () =>
+            {
+                var prompt = GetPromptForOperation(operation);
+                var userMessage = $"Tenant: {tenantId}\nData: {data}";
+
+                return await _provider.ExecuteChatCompletionAsync(
+                    tenantId,
+                    GetDefaultModel(),
+                    prompt,
+                    userMessage,
+                    cancellationToken);
+            }));
         }
 
         /// <summary>

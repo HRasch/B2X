@@ -18,4 +18,9 @@
     <PackageReference Include="System.ComponentModel.Annotations" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Shared ERP Core for common interfaces and models (ADR-036) -->
+    <ProjectReference Include="..\..\..\shared\B2Connect.Shared.Erp.Core\B2Connect.Shared.Erp.Core.csproj" />
+  </ItemGroup>
+
 </Project>

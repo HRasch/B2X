@@ -6,6 +6,86 @@
 
 ---
 
+## Session: 5. Januar 2026 - Shared ERP Project Architecture (ADR-036)
+
+### Multi-Targeting for Cross-Framework Code Sharing
+
+**Issue**: Code duplication across 4+ ERP implementations targeting different .NET frameworks (.NET Framework 4.8, .NET 8.0, .NET 10.0).
+
+**Root Causes Identified**:
+
+#### 1. Central Package Management (CPM) Compatibility
+**Problem**: Multi-targeting projects with explicit version requirements fail with CPM enabled.
+```xml
+<!-- WRONG - CPM conflicts with conditional package versions -->
+<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+  <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+</ItemGroup>
+```
+
+**Solution**: Disable CPM for multi-targeting projects:
+```xml
+<!-- CORRECT - Disable CPM for compatibility packages -->
+<PropertyGroup>
+  <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+</PropertyGroup>
+
+<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'net48'">
+  <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+  <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+</ItemGroup>
+```
+
+#### 2. Missing Usings in .NET Standard/Framework
+**Problem**: `ImplicitUsings` doesn't work in older frameworks, causing `System` namespace missing errors.
+```csharp
+// WRONG - Relies on implicit usings
+public interface IErpAdapterFactory
+{
+    Version Version { get; } // Error: 'Version' not found
+}
+```
+
+**Solution**: Explicit usings in shared code:
+```csharp
+// CORRECT - Explicit System using for cross-framework compatibility
+using System;
+
+public interface IErpAdapterFactory
+{
+    Version Version { get; }
+}
+```
+
+#### 3. Project Reference Path Resolution
+**Problem**: Relative paths from different solution contexts resolve incorrectly.
+```xml
+<!-- WRONG - Incorrect relative path depth -->
+<ProjectReference Include="..\..\..\..\shared\..." />
+```
+
+**Solution**: Verify paths from each project's actual location:
+```xml
+<!-- CORRECT - Validated from project location -->
+<ProjectReference Include="..\..\..\shared\B2Connect.Shared.Erp.Core\..." />
+```
+
+### Key Implementation Decisions
+
+1. **Target Frameworks**: `netstandard2.1;net48;net8.0;net10.0` for maximum compatibility
+2. **CPM Exclusion**: Disable for shared projects with conditional dependencies
+3. **Explicit Namespaces**: Always include `System` for cross-framework code
+4. **Backward Compatibility**: Deprecated old project as facade referencing new shared projects
+
+### Benefits Achieved
+
+- **Single Source of Truth**: 1 interface definition instead of 4
+- **Consistent Models**: Canonical DTOs shared across all frameworks
+- **Reduced Maintenance**: Changes propagate automatically
+- **Clear Ownership**: Shared projects are framework-agnostic
+
+---
+
 ## Session: 5. Januar 2026 - Runtime AI Mode Switching Implementation
 
 ### MCP Tool Integration with Thread-Safe Mode Management

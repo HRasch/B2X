@@ -7,6 +7,7 @@ using B2Connect.CLI.Administration.Commands.CatalogCommands;
 using B2Connect.CLI.Administration.Commands.HealthCommands;
 using B2Connect.CLI.Administration.Commands.DiscoveryCommands;
 using B2Connect.CLI.Administration.Commands.ConfigCommands;
+using B2Connect.CLI.Administration.Commands.MetricsCommands;
 using B2Connect.CLI.Shared;
 using B2Connect.CLI.Shared.Configuration;
 using B2Connect.Api.Validation;
@@ -49,6 +50,14 @@ rootCommand.AddCommand(healthCommand);
 var discoveryCommand = new Command("discover", "AI service discovery and exploration");
 discoveryCommand.AddCommand(DiscoverServicesCommand.Create());
 rootCommand.AddCommand(discoveryCommand);
+
+// Metrics Commands
+var metricsCommand = new Command("metrics", "Metrics, monitoring, and benchmarking");
+metricsCommand.AddCommand(BenchmarkCommand.Create());
+metricsCommand.AddCommand(MetricsConfigCommand.Create());
+metricsCommand.AddCommand(MetricsViewCommand.Create());
+metricsCommand.AddCommand(MetricsAlertsCommand.Create());
+rootCommand.AddCommand(metricsCommand);
 
 // Configuration Commands
 var configCommand = new Command("config", "Configuration management");

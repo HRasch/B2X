@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
     <RootNamespace>B2Connect.Shared.ErpConnector</RootNamespace>
     <AssemblyName>B2Connect.Shared.ErpConnector</AssemblyName>
+    <Description>
+      DEPRECATED: Use B2Connect.Shared.Erp.Core and B2Connect.Shared.Erp.Validation instead.
+      This project is kept for backward compatibility only (ADR-036).
+    </Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\B2Connect.Shared.Core\B2Connect.Shared.Core.csproj" />
     <ProjectReference Include="..\B2Connect.Shared.Data\B2Connect.Shared.Data.csproj" />
+    <!-- New shared ERP projects (ADR-036) -->
+    <ProjectReference Include="..\B2Connect.Shared.Erp.Core\B2Connect.Shared.Erp.Core.csproj" />
+    <ProjectReference Include="..\B2Connect.Shared.Erp.Validation\B2Connect.Shared.Erp.Validation.csproj" />
   </ItemGroup>
 
 </Project>

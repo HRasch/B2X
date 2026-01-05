@@ -45,6 +45,12 @@
     <Project Path="backend/shared/utils/B2Connect.Utils.csproj" />
   </Folder>
 
+  <!-- Backend: Shared ERP (Multi-targeting for .NET Framework 4.8, .NET 8.0, .NET 10.0) -->
+  <Folder Name="/backend/Shared/ERP/">
+    <Project Path="backend/shared/B2Connect.Shared.Erp.Core/B2Connect.Shared.Erp.Core.csproj" />
+    <Project Path="backend/shared/B2Connect.Shared.Erp.Validation/B2Connect.Shared.Erp.Validation.csproj" />
+  </Folder>
+
   <!-- Backend: Tests -->
   <Folder Name="/backend/Tests/">
     <Project Path="backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj" />

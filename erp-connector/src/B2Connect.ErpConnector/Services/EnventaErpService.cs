@@ -25,9 +25,10 @@ namespace B2Connect.ErpConnector.Services
         private readonly EnventaActorPool _actorPool;
         private readonly IEnventaIdentityProvider _identityProvider;
         private readonly LocalAiService _aiService;
+        private readonly PerformanceMonitor _performanceMonitor;
 
         public EnventaErpService(IEnventaIdentityProvider identityProvider)
-            : this(identityProvider, null)
+            : this(identityProvider, null, null)
         {
         }
 
@@ -35,10 +36,19 @@ namespace B2Connect.ErpConnector.Services
         /// Creates an ERP service instance with AI capabilities
         /// </summary>
         public EnventaErpService(IEnventaIdentityProvider identityProvider, LocalAiService aiService)
+            : this(identityProvider, aiService, null)
+        {
+        }
+
+        /// <summary>
+        /// Creates an ERP service instance with AI and performance monitoring capabilities
+        /// </summary>
+        public EnventaErpService(IEnventaIdentityProvider identityProvider, LocalAiService aiService, PerformanceMonitor performanceMonitor)
         {
             _identityProvider = identityProvider ?? throw new ArgumentNullException(nameof(identityProvider));
             _actorPool = EnventaActorPool.Instance;
             _aiService = aiService; // Can be null if AI is disabled
+            _performanceMonitor = performanceMonitor; // Can be null if monitoring is disabled
         }
 
         /// <summary>
@@ -46,7 +56,7 @@ namespace B2Connect.ErpConnector.Services
         /// This ensures each tenant uses their own ERP credentials.
         /// </summary>
         public EnventaErpService(ErpCredentials credentials)
-            : this(new ConfiguredIdentityProvider(credentials.Username, credentials.Password, credentials.BusinessUnit), null)
+            : this(new ConfiguredIdentityProvider(credentials.Username, credentials.Password, credentials.BusinessUnit), null, null)
         {
         }
 
@@ -85,16 +95,31 @@ namespace B2Connect.ErpConnector.Services
         {
             Console.WriteLine($"GetArticle: tenant={tenantId}, articleId={articleId}, businessUnit={businessUnit}");
 
-            var actor = _actorPool.GetActor(tenantId, businessUnit);
-            return actor.ExecuteAsync((connection, token) =>
+            return _performanceMonitor?.TimeOperationAsync($"GetArticle_{tenantId}", () =>
             {
-                token.ThrowIfCancellationRequested();
-                var identityProvider = GetIdentityProviderForBusinessUnit(businessUnit);
-                using (var context = new EnventaContext(identityProvider))
+                var actor = _actorPool.GetActor(tenantId, businessUnit);
+                return actor.ExecuteAsync((connection, token) =>
                 {
-                    return context.Articles.Find(articleId);
-                }
-            }, ct);
+                    token.ThrowIfCancellationRequested();
+                    var identityProvider = GetIdentityProviderForBusinessUnit(businessUnit);
+                    using (var context = new EnventaContext(identityProvider))
+                    {
+                        return context.Articles.Find(articleId);
+                    }
+                }, ct);
+            }) ?? Task.Run(() =>
+            {
+                var actor = _actorPool.GetActor(tenantId, businessUnit);
+                return actor.ExecuteAsync((connection, token) =>
+                {
+                    token.ThrowIfCancellationRequested();
+                    var identityProvider = GetIdentityProviderForBusinessUnit(businessUnit);
+                    using (var context = new EnventaContext(identityProvider))
+                    {
+                        return context.Articles.Find(articleId);
+                    }
+                }, ct);
+            });
         }
 
         /// <summary>
@@ -109,48 +134,95 @@ namespace B2Connect.ErpConnector.Services
         {
             Console.WriteLine($"QueryArticles: tenant={tenantId}, filters={query.Filters?.Count ?? 0}, businessUnit={businessUnit}");
 
-            var actor = _actorPool.GetActor(tenantId, businessUnit);
-            return actor.ExecuteAsync((connection, token) =>
+            return _performanceMonitor?.TimeOperationAsync($"QueryArticles_{tenantId}", () =>
             {
-                token.ThrowIfCancellationRequested();
-                var identityProvider = GetIdentityProviderForBusinessUnit(businessUnit);
-                using (var context = new EnventaContext(identityProvider))
+                var actor = _actorPool.GetActor(tenantId, businessUnit);
+                return actor.ExecuteAsync((connection, token) =>
                 {
-                    // Build query using type-safe query builder
-                    var queryBuilder = context.Articles.Query();
-
-                    // Apply filters from request
-                    ApplyArticleFilters(queryBuilder, query.Filters);
-
-                    // Apply sorting
-                    ApplyArticleSorting(queryBuilder, query.Sorting);
-
-                    // Get total count before pagination
-                    var totalCount = queryBuilder.Count();
-
-                    // Apply pagination
-                    if (query.Skip.HasValue)
-                        queryBuilder.Skip(query.Skip.Value);
-                    if (query.Take.HasValue)
-                        queryBuilder.Take(query.Take.Value);
-
-                    // Execute query
-                    var articles = queryBuilder.Execute().ToList();
-
-                    var skip = query.Skip ?? 0;
-                    var take = query.Take ?? 100;
-
-                    return new CursorPageResponse<ArticleDto>
+                    token.ThrowIfCancellationRequested();
+                    var identityProvider = GetIdentityProviderForBusinessUnit(businessUnit);
+                    using (var context = new EnventaContext(identityProvider))
                     {
-                        Items = articles,
-                        TotalCount = totalCount,
-                        HasMore = skip + take < totalCount,
-                        NextCursor = skip + take < totalCount
-                            ? Convert.ToBase64String(BitConverter.GetBytes(skip + take))
-                            : null
-                    };
-                }
-            }, ct);
+                        // Build query using type-safe query builder
+                        var queryBuilder = context.Articles.Query();
+
+                        // Apply filters from request
+                        ApplyArticleFilters(queryBuilder, query.Filters);
+
+                        // Apply sorting
+                        ApplyArticleSorting(queryBuilder, query.Sorting);
+
+                        // Get total count before pagination
+                        var totalCount = queryBuilder.Count();
+
+                        // Apply pagination
+                        if (query.Skip.HasValue)
+                            queryBuilder.Skip(query.Skip.Value);
+                        if (query.Take.HasValue)
+                            queryBuilder.Take(query.Take.Value);
+
+                        // Execute query
+                        var articles = queryBuilder.Execute().ToList();
+
+                        var skip = query.Skip ?? 0;
+                        var take = query.Take ?? 100;
+
+                        return new CursorPageResponse<ArticleDto>
+                        {
+                            Items = articles,
+                            TotalCount = totalCount,
+                            HasMore = skip + take < totalCount,
+                            NextCursor = skip + take < totalCount
+                                ? Convert.ToBase64String(BitConverter.GetBytes(skip + take))
+                                : null
+                        };
+                    }
+                }, ct);
+            }) ?? Task.Run(() =>
+            {
+                var actor = _actorPool.GetActor(tenantId, businessUnit);
+                return actor.ExecuteAsync((connection, token) =>
+                {
+                    token.ThrowIfCancellationRequested();
+                    var identityProvider = GetIdentityProviderForBusinessUnit(businessUnit);
+                    using (var context = new EnventaContext(identityProvider))
+                    {
+                        // Build query using type-safe query builder
+                        var queryBuilder = context.Articles.Query();
+
+                        // Apply filters from request
+                        ApplyArticleFilters(queryBuilder, query.Filters);
+
+                        // Apply sorting
+                        ApplyArticleSorting(queryBuilder, query.Sorting);
+
+                        // Get total count before pagination
+                        var totalCount = queryBuilder.Count();
+
+                        // Apply pagination
+                        if (query.Skip.HasValue)
+                            queryBuilder.Skip(query.Skip.Value);
+                        if (query.Take.HasValue)
+                            queryBuilder.Take(query.Take.Value);
+
+                        // Execute query
+                        var articles = queryBuilder.Execute().ToList();
+
+                        var skip = query.Skip ?? 0;
+                        var take = query.Take ?? 100;
+
+                        return new CursorPageResponse<ArticleDto>
+                        {
+                            Items = articles,
+                            TotalCount = totalCount,
+                            HasMore = skip + take < totalCount,
+                            NextCursor = skip + take < totalCount
+                                ? Convert.ToBase64String(BitConverter.GetBytes(skip + take))
+                                : null
+                        };
+                    }
+                }, ct);
+            });
         }
 
         /// <summary>
