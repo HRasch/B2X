@@ -1,0 +1,22 @@
+{
+  "title": "Dashboard",
+  "welcome": "Welcome, {{firstName}} {{lastName}}!",
+  "email": "Email",
+  "tenantId": "Tenant ID",
+  "statistics": {
+    "title": "Statistics",
+    "description": "Your dashboard statistics will appear here."
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "description": "Recent activities will be displayed here."
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "manageTenants": "Manage Tenants",
+    "accountSettings": "Account Settings"
+  },
+  "alerts": {
+    "settingsComingSoon": "Settings will be implemented soon"
+  }
+}

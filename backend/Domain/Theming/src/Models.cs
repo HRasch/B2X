@@ -115,7 +115,31 @@ public class ThemeVariant
 }
 
 /// <summary>
-/// Variable data types
+/// Design Token - Extracted from design systems (Figma, etc.)
+/// </summary>
+public class DesignToken
+{
+    /// <summary>Token name</summary>
+    public string Name { get; set; } = null!;
+
+    /// <summary>Token value</summary>
+    public string Value { get; set; } = null!;
+
+    /// <summary>Token category</summary>
+    public string Category { get; set; } = null!;
+
+    /// <summary>Token type</summary>
+    public VariableType Type { get; set; } = VariableType.String;
+
+    /// <summary>Source system (Figma, etc.)</summary>
+    public string Source { get; set; } = null!;
+
+    /// <summary>Path in design system</summary>
+    public string Path { get; set; } = null!;
+}
+
+/// <summary>
+/// Variable type enumeration
 /// </summary>
 public enum VariableType
 {

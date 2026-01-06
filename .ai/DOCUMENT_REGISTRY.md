@@ -1,7 +1,7 @@
 # 📚 Document Registry
 
 **Version:** 1.0  
-**Last Updated:** 5. Januar 2026  
+**Last Updated:** 6. Januar 2026  
 **Owner:** @SARAH
 
 ---
@@ -70,7 +70,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-038` | Customer Integration Stages Framework | `.ai/decisions/ADR-038-customer-integration-stages.md` | Accepted |
 | `ADR-039` | Agent Instruction Protection Strategy | `.ai/decisions/ADR-039-instruction-protection.md` | Accepted |
 | `ADR-040` | Tenant-Customizable Language Resources | `.ai/decisions/ADR-040-tenant-customizable-language-resources.md` | Proposed |
-| `ADR-INDEX` | Decisions Index | `.ai/decisions/INDEX.md` | Active |
+| `ADR-041` | Figma-based Tenant Design Integration | `.ai/decisions/ADR-041-figma-based-tenant-design-integration.md` | Accepted |
+| `ADR-042` | Internationalization Strategy for ESLint Error Reduction | `.ai/decisions/ADR-042-internationalization-strategy.md` | Proposed |
+| `ADR-043` | Paid Services Infrastructure | `.ai/decisions/ADR-043-paid-services-infrastructure.md` | Proposed |
 
 ---
 
@@ -145,6 +147,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-012` | Frontend Quality Standards | `.ai/guidelines/GL-012-FRONTEND-QUALITY-STANDARDS.md` | Active |
 | `GL-013` | Dependency Management Policy | `.ai/guidelines/GL-013-DEPENDENCY-MANAGEMENT.md` | Active |
 | `GL-014` | Pre-Release Development Phase | `.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md` | Active (until v1.0) |
+| `GL-042` | Token-Optimized i18n Strategy | `.ai/guidelines/GL-042-TOKEN-OPTIMIZED-I18N-STRATEGY.md` | Active |
 
 ---
 

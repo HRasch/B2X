@@ -101,17 +101,60 @@
     "previousPage": "← Previous",
     "nextPage": "Next →"
   },
-  "tenants": {
-    "title": "Tenants Management",
-    "newTenant": "+ New Tenant",
-    "noTenantsFound": "No tenants found. Create your first tenant to get started.",
-    "createNewTenant": "Create New Tenant",
-    "name": "Name",
-    "slug": "Slug",
-    "description": "Description",
-    "create": "Create",
-    "edit": "Edit",
-    "delete": "Delete",
-    "cancel": "Cancel"
-  }
-}
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "account": "My Account",
+    "orders": "Order History",
+    "login": "Login",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "tenants": "Tenants",
+    "accountSettings": "Account Settings"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "statistics": "Statistics",
+    "recentActivity": "Recent Activity",
+    "quickActions": "Quick Actions",
+    "manageTenants": "Manage Tenants",
+    "accountSettings": "Account Settings"
+  },
+  "legal": {
+    "privacyPolicy": "Privacy Policy",
+    "termsAndConditions": "Terms and Conditions",
+    "withdrawalRights": "Withdrawal Rights (14 Days)",
+    "withdrawalRightsTitle": "Your Withdrawal Rights",
+    "withdrawalRightsText": "You have the right to withdraw from this contract within 14 days without giving any reason.",
+    "withdrawalFristen": "Withdrawal Periods",
+    "beginn": "Begin: Day after receipt of goods",
+    "dauer": "Duration: 14 days",
+    "form": "Form: Simple written statement",
+    "ausnahmen": "Exceptions",
+    "ausnahmenText": "Withdrawal right does not apply to goods that are made to customer specifications or clearly personalized.",
+    "digitaleInhalte": "Digital Content after Download",
+    "maßgeschneiderte": "Customized or perishable goods",
+    "warenNachZustellung": "Goods after delivery that have been unsealed",
+    "rueckgabeverfahren": "Return Procedure",
+    "rueckgabeverfahrenText": "Send the goods back to us within 14 days. You bear the direct costs of returning the goods.",
+    "kontakt": "Contact",
+    "kontaktText": "Withdrawal notices should be sent to: support@b2connect.com",
+    "rechtsgrundlage": "Legal Basis:",
+    "rechtsgrundlageText": "§§ 355-359 BGB (German Civil Code)",
+    "haftung": "6. Liability",
+    "haftungText": "Liability for damages...",
+    "datenschutz": "7. Data Protection",
+    "datenschutzText": "See Data Protection Declaration",
+    "schlussbestimmungen": "8. Final Provisions",
+    "schlussbestimmungenText": "German law applies...",
+    "verstanden": "Understood"
+  },
+  "widgets": {
+    "testimonials": {
+      "previous": "← Previous",
+      "next": "Next →"
+    }
+  },

@@ -51,6 +51,7 @@ See [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) for all DocIDs.
 | `ADR-031` | CLI Architecture Split - Operations vs. Administration | 📋 Proposed | Medium |
 | `ADR-037` | Lifecycle Stages Framework | ✅ Accepted | High |
 | `ADR-038` | Customer Integration Stages Framework | ✅ Accepted | High |
+| `ADR-042` | Internationalization Strategy for ESLint Error Reduction | 📋 Proposed | High |
 
 #### ADR-001: Event-Driven Architecture with Wolverine CQRS
 - **File:** [ADR-001-event-driven-architecture.md](./ADR-001-event-driven-architecture.md)

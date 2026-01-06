@@ -2,6 +2,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { createPinia, setActivePinia } from 'pinia';
+import { createI18n } from 'vue-i18n';
+import en from '../../src/locales/en.json';
 import Checkout from '@/views/Checkout.vue';
 import { useCartStore } from '@/stores/cart';
 
@@ -88,10 +90,22 @@ const router = createRouter({
 describe('Checkout.vue', () => {
   let wrapper: ReturnType<typeof mount>;
   let pinia: ReturnType<typeof createPinia>;
+  let i18n: ReturnType<typeof createI18n>;
 
   beforeEach(() => {
     pinia = createPinia();
     setActivePinia(pinia);
+
+    // Create i18n instance
+    i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      fallbackLocale: 'en',
+      globalInjection: true,
+      messages: { en },
+      missingWarn: false,
+      missingFallbackWarn: false,
+    });
 
     // Initialize cart store with test items BEFORE mounting component
     const cartStore = useCartStore();
@@ -102,7 +116,7 @@ describe('Checkout.vue', () => {
 
     wrapper = mount(Checkout, {
       global: {
-        plugins: [router, pinia],
+        plugins: [router, pinia, i18n],
       },
     });
   });

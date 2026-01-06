@@ -3,6 +3,13 @@ import { ref, computed } from 'vue';
 import { api } from '~/services/api';
 import type { UserDto, AuthResponse } from '~/types';
 
+interface AuthCookieData {
+  accessToken: string;
+  refreshToken: string;
+  tenantId: string;
+  user: UserDto;
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<UserDto | null>(null);
   const accessToken = ref<string | null>(null);
@@ -13,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
   if (process.client) {
     const cookies = useCookie('auth');
     if (cookies.value) {
-      const authData = cookies.value as any;
+      const authData = cookies.value as AuthCookieData;
       accessToken.value = authData.accessToken;
       refreshToken.value = authData.refreshToken;
       tenantId.value = authData.tenantId;

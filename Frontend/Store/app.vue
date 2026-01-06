@@ -5,14 +5,14 @@
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-content px-4 py-2 rounded z-50"
     >
-      Skip to main content
+      {{ $t('app.skipToMain') }}
     </a>
 
     <!-- Navbar -->
     <nav class="navbar bg-base-200 shadow-lg sticky top-0 z-50">
       <div class="flex-1">
         <NuxtLink to="/" class="btn btn-ghost normal-case text-xl text-primary font-bold">
-          B2Connect
+          {{ $t('app.brand') }}
         </NuxtLink>
       </div>
       <div class="flex-none gap-2">
@@ -20,30 +20,34 @@
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1 gap-2">
             <li>
-              <NuxtLink to="/" class="btn btn-ghost">Home</NuxtLink>
+              <NuxtLink to="/" class="btn btn-ghost">{{ $t('navigation.home') }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/shop" class="btn btn-ghost">Shop</NuxtLink>
+              <NuxtLink to="/shop" class="btn btn-ghost">{{ $t('navigation.shop') }}</NuxtLink>
             </li>
             <li>
               <NuxtLink to="/cart" class="btn btn-ghost gap-2">
-                Cart
+                {{ $t('navigation.cart') }}
                 <span v-if="cartStore.items.length" class="badge badge-primary">
                   {{ cartStore.items.length }}
                 </span>
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/dashboard" class="btn btn-ghost">Dashboard</NuxtLink>
+              <NuxtLink to="/dashboard" class="btn btn-ghost">{{
+                $t('navigation.dashboard')
+              }}</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/tenants" class="btn btn-ghost">Tenants</NuxtLink>
+              <NuxtLink to="/tenants" class="btn btn-ghost">{{
+                $t('navigation.tenants')
+              }}</NuxtLink>
             </li>
             <li v-if="authStore.isAuthenticated">
-              <button @click="logout" class="btn btn-ghost">Logout</button>
+              <button @click="logout" class="btn btn-ghost">{{ $t('navigation.logout') }}</button>
             </li>
             <li v-else>
-              <NuxtLink to="/login" class="btn btn-ghost">Login</NuxtLink>
+              <NuxtLink to="/login" class="btn btn-ghost">{{ $t('navigation.login') }}</NuxtLink>
             </li>
             <!-- Admin Mode Toggle -->
             <li v-if="authStore.hasAdminAccess">
@@ -58,7 +62,7 @@
                     d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.409l-7-14z"
                   />
                 </svg>
-                Admin
+                {{ $t('app.admin') }}
               </button>
             </li>
             <li>
@@ -86,23 +90,31 @@
             </svg>
           </label>
           <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><NuxtLink to="/">Home</NuxtLink></li>
-            <li><NuxtLink to="/shop">Shop</NuxtLink></li>
+            <li>
+              <NuxtLink to="/">{{ $t('navigation.home') }}</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/shop">{{ $t('navigation.shop') }}</NuxtLink>
+            </li>
             <li>
               <NuxtLink to="/cart" class="gap-2">
-                Cart
+                {{ $t('navigation.cart') }}
                 <span v-if="cartStore.items.length" class="badge badge-primary">
                   {{ cartStore.items.length }}
                 </span>
               </NuxtLink>
             </li>
-            <li><NuxtLink to="/dashboard">Dashboard</NuxtLink></li>
-            <li><NuxtLink to="/tenants">Tenants</NuxtLink></li>
+            <li>
+              <NuxtLink to="/dashboard">{{ $t('navigation.dashboard') }}</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/tenants">{{ $t('navigation.tenants') }}</NuxtLink>
+            </li>
             <li v-if="authStore.isAuthenticated">
-              <a @click="logout">Logout</a>
+              <a @click="logout">{{ $t('navigation.logout') }}</a>
             </li>
             <li v-else>
-              <NuxtLink to="/login">Login</NuxtLink>
+              <NuxtLink to="/login">{{ $t('navigation.login') }}</NuxtLink>
             </li>
             <li>
               <LanguageSwitcher />
@@ -120,38 +132,52 @@
     <!-- Footer -->
     <footer class="footer bg-base-200 text-base-content p-10 mt-auto">
       <nav>
-        <header class="footer-title">Services</header>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Branding</a>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Design</a>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Marketing</a>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#"
-          >Advertisement</a
-        >
+        <header class="footer-title">{{ $t('app.services') }}</header>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.branding')
+        }}</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.design')
+        }}</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.marketing')
+        }}</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.advertisement')
+        }}</a>
       </nav>
       <nav>
-        <header class="footer-title">Company</header>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">About us</a>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Contact</a>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Jobs</a>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">Press kit</a>
+        <header class="footer-title">{{ $t('app.company') }}</header>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.aboutUs')
+        }}</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.contact')
+        }}</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.jobs')
+        }}</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.pressKit')
+        }}</a>
       </nav>
       <nav>
-        <header class="footer-title">Legal</header>
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#"
-          >Terms of use</a
-        >
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#"
-          >Privacy policy</a
-        >
-        <a class="link link-hover text-base-content hover:text-primary-focus" href="#"
-          >Cookie policy</a
-        >
+        <header class="footer-title">{{ $t('app.legal') }}</header>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.termsOfUse')
+        }}</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.privacyPolicy')
+        }}</a>
+        <a class="link link-hover text-base-content hover:text-primary-focus" href="#">{{
+          $t('app.cookiePolicy')
+        }}</a>
       </nav>
       <form>
-        <header class="footer-title">Newsletter</header>
+        <header class="footer-title">{{ $t('app.newsletter') }}</header>
         <fieldset class="form-control w-80">
           <label class="label" for="newsletter-email">
-            <span class="label-text">Enter your email address</span>
+            <span class="label-text">{{ $t('app.enterEmail') }}</span>
           </label>
           <div class="join">
             <input
@@ -161,7 +187,9 @@
               class="input input-bordered join-item"
               aria-label="Email address for newsletter subscription"
             />
-            <button type="submit" class="btn btn-primary join-item">Subscribe</button>
+            <button type="submit" class="btn btn-primary join-item">
+              {{ $t('app.subscribe') }}
+            </button>
           </div>
         </fieldset>
       </form>

@@ -1,10 +1,12 @@
 <template>
   <div class="cart-container">
-    <h1>Warenkorb</h1>
+    <h1>{{ t('cart.title') }}</h1>
 
     <div v-if="cartStore.items.length === 0" class="empty-cart">
-      <p>Ihr Warenkorb ist leer</p>
-      <router-link to="/shop" class="continue-shopping"> Zum Einkaufen </router-link>
+      <p>{{ t('cart.empty.title') }}</p>
+      <router-link to="/shop" class="continue-shopping">
+        {{ t('cart.empty.continueShopping') }}
+      </router-link>
     </div>
 
     <div v-else class="cart-content">
@@ -14,7 +16,7 @@
 
           <div class="item-details">
             <h3>{{ item.name }}</h3>
-            <p>Preis: {{ item.price }}€</p>
+            <p>{{ t('cart.table.headers.price') }}: {{ item.price }}€</p>
           </div>
 
           <div class="item-quantity">
@@ -30,32 +32,27 @@
       </div>
 
       <div class="cart-summary">
-        <h2>Zusammenfassung</h2>
+        <h2>{{ t('cart.summary.title') }}</h2>
 
         <div class="summary-row">
-          <span>Zwischensumme:</span>
+          <span>{{ t('cart.summary.pricing.subtotal') }}:</span>
           <span>{{ subtotal.toFixed(2) }}€</span>
         </div>
 
         <div class="summary-row">
-          <span>Steuern (19%):</span>
+          <span>{{ t('cart.summary.pricing.vat', { rate: 19 }) }}:</span>
           <span>{{ tax.toFixed(2) }}€</span>
         </div>
 
         <!-- Shipping Selector (PAngV Compliance) -->
         <div class="shipping-section">
-          <h3>Versand</h3>
+          <h3>{{ t('cart.summary.pricing.shipping') }}</h3>
           <div class="shipping-info">
-            <label for="country">Lieferziel:</label>
+            <label for="country">{{ t('checkout.form.labels.country') }}:</label>
             <select v-model="selectedCountry" id="country" @change="onCountryChange">
-              <option value="">Bitte wählen...</option>
-              <option value="DE">Deutschland</option>
-              <option value="AT">Österreich</option>
-              <option value="BE">Belgien</option>
-              <option value="FR">Frankreich</option>
-              <option value="NL">Niederlande</option>
-              <option value="CH">Schweiz</option>
-              <option value="GB">Großbritannien</option>
+              <option v-for="country in countries" :key="country.code" :value="country.code">
+                {{ country.name }}
+              </option>
             </select>
           </div>
 
@@ -84,18 +81,20 @@
         </div>
 
         <div class="summary-row shipping-row" v-if="selectedShippingMethodId">
-          <span>Versand:</span>
+          <span>{{ t('cart.summary.pricing.shipping') }}:</span>
           <span>+{{ shippingCost.toFixed(2) }}€</span>
         </div>
 
         <div class="summary-row total">
-          <span>Gesamtpreis (inkl. MwSt):</span>
+          <span>{{ t('cart.summary.pricing.total') }}:</span>
           <span>{{ total.toFixed(2) }}€</span>
         </div>
 
-        <button @click="checkout" class="checkout-btn">Zur Kasse gehen</button>
+        <button @click="checkout" class="checkout-btn">{{ t('cart.summary.checkout') }}</button>
 
-        <router-link to="/shop" class="continue-shopping"> Weiter einkaufen </router-link>
+        <router-link to="/shop" class="continue-shopping">
+          {{ t('cart.actions.continueShopping') }}
+        </router-link>
       </div>
     </div>
   </div>
@@ -104,7 +103,10 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useCartStore } from '../stores/cart';
+
+const { t } = useI18n();
 
 interface ShippingMethod {
   id: string;
@@ -132,6 +134,17 @@ const subtotal = computed(() => {
 const tax = computed(() => subtotal.value * 0.19);
 
 const total = computed(() => subtotal.value + tax.value + shippingCost.value);
+
+const countries = computed(() => [
+  { code: '', name: t('checkout.form.countries.placeholder') },
+  { code: 'DE', name: t('checkout.form.countries.DE') },
+  { code: 'AT', name: t('checkout.form.countries.AT') },
+  { code: 'BE', name: t('checkout.form.countries.BE') },
+  { code: 'FR', name: t('checkout.form.countries.FR') },
+  { code: 'NL', name: t('checkout.form.countries.NL') },
+  { code: 'CH', name: t('checkout.form.countries.CH') },
+  { code: 'GB', name: t('checkout.form.countries.GB') },
+]);
 
 const increaseQuantity = (itemId: string) => {
   const item = cartStore.items.find(i => i.id === itemId);

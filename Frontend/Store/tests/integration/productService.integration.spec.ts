@@ -10,6 +10,7 @@
  */
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import axios, { type AxiosInstance } from 'axios';
+import { spawn, ChildProcess } from 'child_process';
 
 // Test configuration
 const API_BASE_URL = process.env.VITE_API_GATEWAY_URL || 'http://localhost:8000';
@@ -17,7 +18,8 @@ const TIMEOUT_MS = 10000;
 
 describe('ProductService Integration Tests', () => {
   let api: AxiosInstance;
-  let backendAvailable = false;
+  let backendAvailable = true; // Start with true, will be set to false if no backend available
+  let mockServerProcess: ChildProcess | null = null;
 
   beforeAll(async () => {
     api = axios.create({
@@ -25,19 +27,70 @@ describe('ProductService Integration Tests', () => {
       timeout: TIMEOUT_MS,
     });
 
-    // Check if backend is available
+    // Try to connect to real backend first
     try {
       const response = await api.get('/health', { timeout: 2000 });
       backendAvailable = response.status === 200;
-      console.log(`Backend available at ${API_BASE_URL}: ${backendAvailable}`);
-    } catch {
-      console.warn(`Backend not available at ${API_BASE_URL} - skipping integration tests`);
-      backendAvailable = false;
+      console.log(`Real backend available at ${API_BASE_URL}: ${backendAvailable}`);
+    } catch (error) {
+      console.log(`Real backend not available at ${API_BASE_URL} - starting mock server`);
+      console.log('Error details:', error.message);
+
+      // Start mock server
+      mockServerProcess = spawn('node', ['tests/integration/mock-server.js'], {
+        cwd: process.cwd(),
+        stdio: ['pipe', 'pipe', 'pipe'],
+      });
+
+      // Log mock server output
+      mockServerProcess.stdout.on('data', data => {
+        console.log('Mock server stdout:', data.toString());
+      });
+
+      mockServerProcess.stderr.on('data', data => {
+        console.log('Mock server stderr:', data.toString());
+      });
+
+      // Wait for mock server to start
+      try {
+        await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => {
+            reject(new Error('Mock server failed to start within 5 seconds'));
+          }, 5000);
+
+          const checkServer = async () => {
+            try {
+              console.log(`Checking mock server at ${API_BASE_URL}/health`);
+              const response = await axios.get(`${API_BASE_URL}/health`, { timeout: 1000 });
+              if (response.status === 200) {
+                clearTimeout(timeout);
+                backendAvailable = true; // Mock server is available
+                console.log('Mock server started successfully');
+                resolve(true);
+              }
+            } catch (checkError) {
+              console.log('Mock server not ready yet, retrying...', checkError.message);
+              setTimeout(checkServer, 500);
+            }
+          };
+
+          checkServer();
+        });
+      } catch (mockError) {
+        console.error('Failed to start mock server:', mockError.message);
+        backendAvailable = false; // Neither real backend nor mock server available
+      }
     }
+
+    console.log(`Final backend availability: ${backendAvailable}`);
   });
 
   afterAll(() => {
-    // Cleanup if needed
+    // Stop mock server if it was started
+    if (mockServerProcess) {
+      mockServerProcess.kill();
+      console.log('Mock server stopped');
+    }
   });
 
   describe('API Route Discovery', () => {

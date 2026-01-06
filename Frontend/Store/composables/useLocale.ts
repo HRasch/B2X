@@ -94,7 +94,7 @@ export function useLocale(): UseLocaleReturn {
     isLoading.value = true;
     try {
       // Update i18n locale (this is the key - must use i18n.locale.value)
-      i18n.locale.value = code as any;
+      i18n.locale.value = code as LocaleCode;
       localStorage.setItem('locale', code);
       document.documentElement.lang = code;
 
@@ -108,12 +108,12 @@ export function useLocale(): UseLocaleReturn {
   const initializeLocale = (): void => {
     const savedLocale = localStorage.getItem('locale');
     if (savedLocale && isValidLocaleCode(savedLocale)) {
-      i18n.locale.value = savedLocale as any;
+      i18n.locale.value = savedLocale as LocaleCode;
     } else {
       const browserLang = navigator.language.split('-')[0];
       const matchedLocale = locales.find(l => l.code === browserLang);
       if (matchedLocale && isValidLocaleCode(matchedLocale.code)) {
-        i18n.locale.value = matchedLocale.code as any;
+        i18n.locale.value = matchedLocale.code as LocaleCode;
         localStorage.setItem('locale', matchedLocale.code);
       }
     }

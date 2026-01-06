@@ -2,9 +2,9 @@
   <div class="w-full">
     <!-- Step Header -->
     <div class="mb-8">
-      <h2 class="text-3xl font-bold mb-2">{{ $t('legal.checkout.title') }}</h2>
+      <h2 class="text-3xl font-bold mb-2">{{ $t('legal.acceptance.title') }}</h2>
       <p class="text-base-content/70">
-        {{ $t('legal.checkout.subtitle') }}
+        {{ $t('legal.acceptance.subtitle') }}
       </p>
     </div>
 
@@ -19,10 +19,10 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            :aria-label="$t('legal.checkout.acceptTerms')"
+            :aria-label="$t('legal.acceptance.acceptTerms')"
           />
           <span class="label-text">
-            {{ $t('legal.checkout.acceptTerms') }}
+            {{ $t('legal.acceptance.acceptTerms') }}
             <span class="text-error">*</span>
           </span>
         </label>
@@ -37,10 +37,10 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            :aria-label="$t('legal.checkout.acceptPrivacy')"
+            :aria-label="$t('legal.acceptance.acceptPrivacy')"
           />
           <span class="label-text">
-            {{ $t('legal.checkout.acceptPrivacy') }}
+            {{ $t('legal.acceptance.acceptPrivacy') }}
             <span class="text-error">*</span>
           </span>
         </label>
@@ -55,17 +55,17 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            :aria-label="$t('legal.checkout.understandWithdrawal')"
+            :aria-label="$t('legal.acceptance.understandWithdrawal')"
           />
           <span class="label-text">
-            {{ $t('legal.checkout.understandWithdrawal') }}
+            {{ $t('legal.acceptance.understandWithdrawal') }}
           </span>
         </label>
       </div>
 
       <!-- Required fields note -->
       <p class="text-sm text-base-content/70 mt-4">
-        {{ $t('legal.checkout.requiredFields') }}
+        {{ $t('legal.acceptance.requiredFields') }}
       </p>
 
       <!-- Error message -->
@@ -112,7 +112,7 @@
     <!-- Action Buttons -->
     <div class="flex gap-2 justify-between">
       <button type="button" @click="goBack" class="btn btn-ghost" :disabled="isSubmitting">
-        {{ $t('legal.checkout.back') }}
+        {{ $t('legal.acceptance.back') }}
       </button>
       <button
         type="button"
@@ -123,7 +123,9 @@
       >
         <span v-if="isSubmitting" class="loading loading-spinner loading-sm"></span>
         {{
-          isSubmitting ? $t('legal.checkout.processing') : $t('legal.checkout.continueToPayment')
+          isSubmitting
+            ? $t('legal.acceptance.processing')
+            : $t('legal.acceptance.continueToPayment')
         }}
       </button>
     </div>
@@ -302,6 +304,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface TermsAcceptance {
   termsAndConditions: boolean;
@@ -337,7 +342,7 @@ const canContinue = computed(
 // Methods
 const continueToPayment = async () => {
   if (!canContinue.value) {
-    errorMessage.value = $t('legal.checkout.acceptTermsError');
+    errorMessage.value = t('legal.acceptance.acceptTermsError');
     return;
   }
 
@@ -366,15 +371,15 @@ const continueToPayment = async () => {
 
     const data = await response.json();
     if (data.success) {
-      successMessage.value = $t('legal.checkout.acceptTermsSuccess');
+      successMessage.value = t('legal.acceptance.acceptTermsSuccess');
       setTimeout(() => {
         emit('continue');
       }, 500);
     } else {
-      errorMessage.value = data.message || $t('legal.checkout.saveError');
+      errorMessage.value = data.message || t('legal.acceptance.saveError');
     }
   } catch (error) {
-    errorMessage.value = $t('legal.checkout.generalError');
+    errorMessage.value = t('legal.acceptance.generalError');
     console.error('Terms acceptance error:', error);
   } finally {
     isSubmitting.value = false;

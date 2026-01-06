@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
+import { createI18n } from 'vue-i18n';
+import en from '../../src/locales/en.json';
 import CustomerTypeSelection from '../../pages/CustomerTypeSelection.vue';
 
 // Types for testing
@@ -12,11 +14,23 @@ interface CustomerTypeSelectionVM {
 
 describe('CustomerTypeSelection.vue', () => {
   let router: ReturnType<typeof createRouter>;
+  let i18n: ReturnType<typeof createI18n>;
   let wrapper: ReturnType<typeof mount>;
 
   beforeEach(async () => {
     // Clear localStorage
     localStorage.clear();
+
+    // Create i18n instance
+    i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      fallbackLocale: 'en',
+      globalInjection: true,
+      messages: { en },
+      missingWarn: false,
+      missingFallbackWarn: false,
+    });
 
     // Create a router instance for testing
     router = createRouter({
@@ -44,7 +58,7 @@ describe('CustomerTypeSelection.vue', () => {
     // Mount component
     wrapper = mount(CustomerTypeSelection, {
       global: {
-        plugins: [router],
+        plugins: [router, i18n],
       },
     });
 

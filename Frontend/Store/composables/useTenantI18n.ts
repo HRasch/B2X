@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 export const useTenantI18n = () => {
   // Only call useI18n() when we're in a component context
-  const { t, setLocaleMessage, getLocaleMessage, setLocale, locale } = useI18n();
+  const { setLocaleMessage, getLocaleMessage, setLocale } = useI18n();
   const runtimeConfig = useRuntimeConfig();
 
   // Get tenant from server context or runtime config

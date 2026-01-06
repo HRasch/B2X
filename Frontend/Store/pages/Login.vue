@@ -1,35 +1,46 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h2>Login to B2Connect</h2>
+      <h2>{{ t('login.title') }}</h2>
 
-      <!-- E2E Test Mode Notice (only visible during E2E tests) -->
       <div v-if="isE2EMode" class="dev-notice">
-        <p>🧪 <strong>E2E Test Mode Active</strong></p>
-        <p class="text-sm">Any email/password will work. Backend not required.</p>
+        <p>
+          🧪 <strong>{{ t('login.e2eMode.title') }}</strong>
+        </p>
+        <p class="text-sm">{{ t('login.e2eMode.description') }}</p>
       </div>
 
       <!-- Development Help (seeded credentials) -->
       <div v-if="isDev && !isE2EMode" class="dev-help">
         <p class="text-sm text-muted">
-          💡 Use seeded credentials: <code>admin@example.com</code> /
-          <code>password</code>
+          {{
+            t('login.devHelp.hint', {
+              email: t('login.devHelp.email'),
+              password: t('login.devHelp.password'),
+            })
+          }}
         </p>
       </div>
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" v-model="email" type="email" placeholder="Enter your email" required />
+          <label for="email">{{ t('login.form.email.label') }}</label>
+          <input
+            id="email"
+            v-model="email"
+            type="email"
+            :placeholder="t('login.form.email.placeholder')"
+            required
+          />
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">{{ t('login.form.password.label') }}</label>
           <input
             id="password"
             v-model="password"
             type="password"
-            placeholder="Enter your password"
+            :placeholder="t('login.form.password.placeholder')"
             required
           />
         </div>
@@ -37,13 +48,13 @@
         <div v-if="error" class="error-message">{{ error }}</div>
 
         <button type="submit" class="btn btn-primary" :disabled="loading">
-          {{ loading ? 'Logging in...' : 'Login' }}
+          {{ loading ? t('login.actions.loggingIn') : t('login.actions.login') }}
         </button>
       </form>
 
       <p class="signup-link">
-        Don't have an account?
-        <router-link to="/register/private">Sign up</router-link>
+        {{ t('login.signup.prompt') }}
+        <router-link to="/register/private">{{ t('login.signup.link') }}</router-link>
       </p>
     </div>
   </div>
@@ -52,8 +63,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth';
 
+const { t } = useI18n();
 const router = useRouter();
 const authStore = useAuthStore();
 

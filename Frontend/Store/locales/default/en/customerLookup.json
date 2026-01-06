@@ -1,0 +1,53 @@
+{
+  "header": {
+    "newRegistration": "New Registration",
+    "welcomeBack": "Welcome Back",
+    "enterEmailPrompt": "Enter your email address to get started",
+    "customerInfoFound": "Customer information found"
+  },
+  "form": {
+    "email": {
+      "label": "Email Address *",
+      "placeholder": "name@example.com",
+      "ariaLabel": "Email Address"
+    },
+    "status": {
+      "searching": "Searching..."
+    },
+    "error": {
+      "title": "Customer Search Error"
+    },
+    "success": {
+      "title": "Customer Found!",
+      "welcomeMessage": "Welcome back, {name}!"
+    },
+    "customerDetails": {
+      "customerNumber": "Customer Number",
+      "customerType": "Customer Type",
+      "privateCustomer": "Private Customer",
+      "businessCustomer": "Business Customer"
+    },
+    "businessDetails": {
+      "title": "Business Information",
+      "company": "Company:",
+      "phone": "Phone:",
+      "country": "Country:",
+      "creditLimit": "Credit Limit:"
+    },
+    "actions": {
+      "searchCustomer": "Search Customer",
+      "searching": "Searching...",
+      "proceed": "Continue",
+      "newSearch": "New Search",
+      "cancel": "Cancel"
+    }
+  },
+  "newCustomer": {
+    "title": "Are you a new customer?",
+    "message": "You can register now and benefit from your saved information later.",
+    "registerButton": "New Registration"
+  },
+  "diagnostic": {
+    "title": "🔧 Diagnostic Info (Dev Only)"
+  }
+}

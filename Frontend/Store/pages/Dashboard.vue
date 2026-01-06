@@ -1,29 +1,35 @@
 <template>
   <div class="dashboard">
-    <h1>Dashboard</h1>
+    <h1>{{ t('dashboard.title') }}</h1>
 
     <div v-if="user" class="user-info">
-      <h2>Welcome, {{ user.firstName }} {{ user.lastName }}!</h2>
-      <p>Email: {{ user.email }}</p>
-      <p>Tenant ID: {{ user.tenantId }}</p>
+      <h2>{{ t('dashboard.welcome', { firstName: user.firstName, lastName: user.lastName }) }}</h2>
+      <p>{{ t('dashboard.email') }}: {{ user.email }}</p>
+      <p>{{ t('dashboard.tenantId') }}: {{ user.tenantId }}</p>
     </div>
 
     <div class="dashboard-grid">
       <div class="card">
-        <h3>Statistics</h3>
-        <p>Your dashboard statistics will appear here.</p>
+        <h3>{{ t('dashboard.statistics.title') }}</h3>
+        <p>{{ t('dashboard.statistics.description') }}</p>
       </div>
 
       <div class="card">
-        <h3>Recent Activity</h3>
-        <p>Recent activities will be displayed here.</p>
+        <h3>{{ t('dashboard.recentActivity.title') }}</h3>
+        <p>{{ t('dashboard.recentActivity.description') }}</p>
       </div>
 
       <div class="card">
-        <h3>Quick Actions</h3>
+        <h3>{{ t('dashboard.quickActions.title') }}</h3>
         <ul>
-          <li><router-link to="/tenants">Manage Tenants</router-link></li>
-          <li><a href="#" @click.prevent="showSettings">Account Settings</a></li>
+          <li>
+            <router-link to="/tenants">{{ t('dashboard.quickActions.manageTenants') }}</router-link>
+          </li>
+          <li>
+            <a href="#" @click.prevent="showSettings">{{
+              t('dashboard.quickActions.accountSettings')
+            }}</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -32,13 +38,15 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth';
 
+const { t } = useI18n();
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
 
 const showSettings = () => {
-  alert('Settings will be implemented soon');
+  alert(t('dashboard.alerts.settingsComingSoon'));
 };
 </script>
 

@@ -35,9 +35,15 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 - Aim for >80% code coverage
 
 ## Localization Support
+
+**Reference**: See [GL-042] for token-optimized i18n patterns.
+
+- **All backend messages must be translated** - error messages, validation messages, notifications
+- Return translation keys (not hardcoded strings) for user-facing messages
+- Use `IStringLocalizer<T>` for server-side localization
 - Maintain localization API endpoints for frontend i18n support
-- Ensure all user-facing strings are properly localized
 - Implement caching for localization data to improve performance
-- Support all configured languages: English (en), German (de), French (fr), Spanish (es), Italian (it), Portuguese (pt), Dutch (nl), Polish (pl)
+- Support languages: en, de, fr, es, it, pt, nl, pl
+- English (`en`) is source of truth for all translations
 - Validate localization keys exist before deployment
 

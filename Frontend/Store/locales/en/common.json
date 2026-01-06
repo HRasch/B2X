@@ -1,0 +1,17 @@
+{
+  "loading": "Loading...",
+  "error": "An error occurred",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "add": "Add",
+  "search": "Search",
+  "filter": "Filter",
+  "sort": "Sort",
+  "next": "Next",
+  "previous": "Previous",
+  "page": "Page",
+  "of": "of",
+  "items": "items"
+}

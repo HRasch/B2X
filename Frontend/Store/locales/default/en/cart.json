@@ -1,0 +1,45 @@
+{
+  "title": "Shopping Cart",
+  "itemCount": "item(s) in your cart",
+  "empty": {
+    "title": "Your cart is empty",
+    "description": "Discover amazing products and add them to your cart.",
+    "continueShopping": "Continue Shopping"
+  },
+  "table": {
+    "headers": {
+      "product": "Product",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total": "Total"
+    }
+  },
+  "actions": {
+    "continueShopping": "Continue Shopping",
+    "remove": "Remove from cart"
+  },
+  "summary": {
+    "title": "Order Summary",
+    "coupon": {
+      "label": "Have a coupon code?",
+      "placeholder": "Enter coupon code",
+      "apply": "Apply"
+    },
+    "pricing": {
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "free": "FREE",
+      "netPrice": "Net Price (excl. VAT)",
+      "vat": "VAT ({{rate}}%)",
+      "total": "Total (incl. VAT)"
+    },
+    "checkout": "Proceed to Checkout →",
+    "guestCheckout": "Continue as Guest",
+    "secure": "🔒 Secure Checkout"
+  },
+  "trust": {
+    "moneyBack": "✓ 30-day money-back guarantee",
+    "returns": "✓ Free returns & exchanges",
+    "ssl": "✓ Secure SSL encrypted checkout"
+  }
+}
