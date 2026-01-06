@@ -76,7 +76,7 @@ jobs:
           echo "- Ensure security MCP tools are available in CI" >> security-audit-report.md
 
       - name: Upload Security Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: weekly-security-audit-${{ github.run_number }}
           path: security-audit-report.md

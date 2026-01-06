@@ -72,7 +72,7 @@ jobs:
       working-directory: frontend/${{ matrix.frontend }}
 
     - name: Upload accessibility report
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       if: always()
       with:
         name: accessibility-report-${{ matrix.frontend }}
@@ -107,7 +107,7 @@ jobs:
       working-directory: frontend/${{ matrix.frontend }}
 
     - name: Upload visual diffs
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       if: always()
       with:
         name: visual-regression-${{ matrix.frontend }}
