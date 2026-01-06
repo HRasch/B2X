@@ -30,10 +30,11 @@
   user-select: none;
   border: 1px solid transparent;
   border-radius: var(--btn-border-radius, 0.375rem);
-  transition: color 150ms ease-in-out,
-              background-color 150ms ease-in-out,
-              border-color 150ms ease-in-out,
-              box-shadow 150ms ease-in-out;
+  transition:
+    color 150ms ease-in-out,
+    background-color 150ms ease-in-out,
+    border-color 150ms ease-in-out,
+    box-shadow 150ms ease-in-out;
 
   &:focus-visible {
     outline: none;
@@ -41,7 +42,8 @@
   }
 
   // Icon sizing
-  svg, .icon {
+  svg,
+  .icon {
     width: 1.25em;
     height: 1.25em;
   }
@@ -148,7 +150,7 @@
   --btn-bg: transparent;
   --btn-border: transparent;
   --btn-color: var(--primary);
-  
+
   background-color: var(--btn-bg);
   border-color: var(--btn-border);
   color: var(--btn-color);
@@ -190,7 +192,7 @@
 .btn-loading {
   position: relative;
   pointer-events: none;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -232,7 +234,7 @@
 
 .btn-group {
   display: inline-flex;
-  
+
   > .btn {
     border-radius: 0;
 
@@ -255,7 +257,7 @@
 .btn-group-vertical {
   display: inline-flex;
   flex-direction: column;
-  
+
   > .btn {
     border-radius: 0;
 

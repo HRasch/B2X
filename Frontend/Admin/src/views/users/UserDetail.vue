@@ -11,7 +11,10 @@
 
     <div v-else-if="userStore.currentUser" class="detail-content">
       <!-- Header -->
-      <PageHeader :title="`${userStore.currentUser.firstName} ${userStore.currentUser.lastName}`" :subtitle="userStore.currentUser.email">
+      <PageHeader
+        :title="`${userStore.currentUser.firstName} ${userStore.currentUser.lastName}`"
+        :subtitle="userStore.currentUser.email"
+      >
         <template #actions>
           <router-link :to="`/users/${userStore.currentUser.id}/edit`" class="btn btn-primary">
             {{ $t('ui.edit') }}

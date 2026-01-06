@@ -328,5 +328,3 @@ describe('CustomerTypeSelection.vue', () => {
     });
   });
 });
-
-

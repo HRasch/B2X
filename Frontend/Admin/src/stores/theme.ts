@@ -2,7 +2,6 @@
  * Theme Store (Pinia)
  * @todo Refactor globalThis type checks to proper typing
  */
- 
 
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';

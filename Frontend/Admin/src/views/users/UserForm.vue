@@ -1,8 +1,6 @@
 <template>
   <div class="user-form-page">
-    <PageHeader
-      :title="isEdit ? $t('users.edit') : $t('users.create')"
-    >
+    <PageHeader :title="isEdit ? $t('users.edit') : $t('users.create')">
       <template #actions>
         <router-link to="/users" class="btn-secondary">
           {{ $t('users.back') }}
@@ -63,10 +61,7 @@
                 />
               </FormGroup>
 
-              <FormGroup
-                :label="$t('users.form.phone')"
-                input-id="phoneNumber"
-              >
+              <FormGroup :label="$t('users.form.phone')" input-id="phoneNumber">
                 <input
                   id="phoneNumber"
                   v-model="form.phoneNumber"
@@ -101,11 +96,7 @@
 
               <div class="checkbox-group">
                 <label>
-                  <input
-                    v-model="form.isActive"
-                    type="checkbox"
-                    data-testid="isActive-input"
-                  />
+                  <input v-model="form.isActive" type="checkbox" data-testid="isActive-input" />
                   {{ $t('users.form.active') }}
                 </label>
               </div>
@@ -115,10 +106,7 @@
           <!-- Profile Section -->
           <FormSection :title="$t('users.form.profile')">
             <FormRow :cols="2">
-              <FormGroup
-                :label="$t('users.form.company')"
-                input-id="companyName"
-              >
+              <FormGroup :label="$t('users.form.company')" input-id="companyName">
                 <input
                   id="companyName"
                   v-model="profile.companyName"
@@ -127,10 +115,7 @@
                 />
               </FormGroup>
 
-              <FormGroup
-                :label="$t('users.form.jobTitle')"
-                input-id="jobTitle"
-              >
+              <FormGroup :label="$t('users.form.jobTitle')" input-id="jobTitle">
                 <input
                   id="jobTitle"
                   v-model="profile.jobTitle"
@@ -141,10 +126,7 @@
             </FormRow>
 
             <FormRow :cols="2">
-              <FormGroup
-                :label="$t('users.form.dateOfBirth')"
-                input-id="dateOfBirth"
-              >
+              <FormGroup :label="$t('users.form.dateOfBirth')" input-id="dateOfBirth">
                 <input
                   id="dateOfBirth"
                   v-model="profile.dateOfBirth"
@@ -153,10 +135,7 @@
                 />
               </FormGroup>
 
-              <FormGroup
-                :label="$t('users.form.nationality')"
-                input-id="nationality"
-              >
+              <FormGroup :label="$t('users.form.nationality')" input-id="nationality">
                 <input
                   id="nationality"
                   v-model="profile.nationality"
@@ -167,10 +146,7 @@
             </FormRow>
 
             <FormRow :cols="2">
-              <FormGroup
-                :label="$t('users.form.preferredLanguage')"
-                input-id="preferredLanguage"
-              >
+              <FormGroup :label="$t('users.form.preferredLanguage')" input-id="preferredLanguage">
                 <select
                   id="preferredLanguage"
                   v-model="profile.preferredLanguage"
@@ -183,10 +159,7 @@
                 </select>
               </FormGroup>
 
-              <FormGroup
-                :label="$t('users.form.timezone')"
-                input-id="timezone"
-              >
+              <FormGroup :label="$t('users.form.timezone')" input-id="timezone">
                 <input
                   id="timezone"
                   v-model="profile.timezone"
@@ -197,16 +170,8 @@
               </FormGroup>
             </FormRow>
 
-            <FormGroup
-              :label="$t('users.form.bio')"
-              input-id="bio"
-            >
-              <textarea
-                id="bio"
-                v-model="profile.bio"
-                rows="4"
-                data-testid="bio-input"
-              ></textarea>
+            <FormGroup :label="$t('users.form.bio')" input-id="bio">
+              <textarea id="bio" v-model="profile.bio" rows="4" data-testid="bio-input"></textarea>
             </FormGroup>
 
             <FormRow :cols="2">

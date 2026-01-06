@@ -18,7 +18,7 @@ $breakpoints: (
   'md': 768px,
   'lg': 1024px,
   'xl': 1280px,
-  '2xl': 1536px
+  '2xl': 1536px,
 ) !default;
 
 /// Media query: min-width (mobile-first)
@@ -183,7 +183,9 @@ $breakpoints: (
 
 /// Card with hover effect
 @mixin card-hover($transform: translateY(-2px), $shadow: 0 4px 12px rgb(0 0 0 / 0.15)) {
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
 
   &:hover {
     transform: $transform;
@@ -213,7 +215,9 @@ $breakpoints: (
   background-color: var(--input-bg);
   border: 1px solid var(--input-border);
   border-radius: 0.375rem;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 
   &::placeholder {
     color: var(--input-placeholder);
@@ -239,7 +243,9 @@ $breakpoints: (
 @mixin focus-ring($color: var(--primary, #3b82f6), $width: 3px, $offset: 0) {
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 $offset var(--bg-base, #fff), 0 0 0 ($width + $offset) $color;
+    box-shadow:
+      0 0 0 $offset var(--bg-base, #fff),
+      0 0 0 ($width + $offset) $color;
   }
 
   &:focus:not(:focus-visible) {
@@ -248,7 +254,9 @@ $breakpoints: (
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 $offset var(--bg-base, #fff), 0 0 0 ($width + $offset) $color;
+    box-shadow:
+      0 0 0 $offset var(--bg-base, #fff),
+      0 0 0 ($width + $offset) $color;
   }
 }
 

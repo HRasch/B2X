@@ -61,7 +61,7 @@
   $rgb: (
     'r': color.red($color),
     'g': color.green($color),
-    'b': color.blue($color)
+    'b': color.blue($color),
   );
 
   @each $channel, $value in $rgb {
@@ -149,7 +149,7 @@
   $size-range: $max - $min;
   $slope: math.div($size-range, $vw-range);
   $intercept: $min - $slope * $vw-min;
-  
+
   @return clamp(#{$min-rem}, #{to-rem($intercept)} + #{$slope * 100}vw, #{$max-rem});
 }
 
@@ -173,7 +173,8 @@
 @function str-replace($string, $search, $replace: '') {
   $index: string.index($string, $search);
   @if $index {
-    @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+    @return string.slice($string, 1, $index - 1) + $replace +
+      str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
   }
   @return $string;
 }

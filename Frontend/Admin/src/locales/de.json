@@ -211,8 +211,7 @@
       "title": "Vorlagen",
       "subtitle": "Seitenvorlagen für Ihren Shop verwalten",
       "coming_soon": "Seitenvorlagenverwaltung kommt bald..."
-    }
-    ,
+    },
     "media": {
       "title": "Mediathek",
       "subtitle": "Medienassets für Ihren Shop verwalten",
@@ -309,8 +308,7 @@
       "loadError": "Benutzer konnte nicht geladen werden",
       "saveError": "Fehler beim Speichern",
       "saving": "Wird gespeichert..."
-    }
-    ,
+    },
     "verified": "Verifiziert",
     "unverified": "Unverifiziert",
     "created": "Beigetreten",

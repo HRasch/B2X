@@ -1,9 +1,6 @@
 <template>
   <div class="space-y-6">
-    <PageHeader
-      :title="$t('jobs.history.title')"
-      :subtitle="$t('jobs.history.subtitle')"
-    />
+    <PageHeader :title="$t('jobs.history.title')" :subtitle="$t('jobs.history.subtitle')" />
 
     <CardContainer
       :title="$t('jobs.history.content_title')"
