@@ -12,6 +12,24 @@ Summary of candidates
 - Notable NuGet candidates: `EFCore.BulkExtensions` (8.x → 9.x), `Microsoft.CodeAnalysis.CSharp` (4.x → 5.x), `Dapper` (patch), `Npgsql` (patch), `Microsoft.Extensions.*` (patches).
 - Notable frontend (npm) candidates: `nuxt` (3 → 4), `pinia` (2 → 3), `tailwindcss` (3 → 4), `date-fns` (3 → 4), multiple OpenTelemetry packages.
 
+Tailwind CSS v4 findings (official upgrade guide summary)
+- Tailwind provides an official upgrade guide and an automated upgrade tool `npx @tailwindcss/upgrade` which handles most of the migration from v3 to v4 (requires Node.js 20+).
+- Major breaking topics to review:
+  - `@tailwind` directives removed; import Tailwind via `@import "tailwindcss"`.
+  - Many utilities renamed (e.g., `shadow`→`shadow-sm`→`shadow-xs`), default scales changed (shadow, radius, blur).
+  - Default `ring` width changed (3px → 1px) and default color changed to `currentColor`.
+  - Removed deprecated utilities and changed selector behaviour for `space-*` and `divide-*` (performance-driven changes).
+  - `@apply` and custom utilities behavior changed; new `@utility` API introduced.
+  - Tailwind v4 targets modern browsers (Safari 16.4+, Chrome 111+, Firefox 128+) — if you must support older browsers, stay on v3.
+  - The upgrade guide documents many renames, preflight changes, and configuration differences — use the upgrade tool and run visual tests.
+
+Reference: Tailwind upgrade guide — https://tailwindcss.com/docs/upgrade-guide
+
+EFCore.BulkExtensions releases
+- The project's releases are on GitHub; recent published artifacts show v8.x releases (example: v8.1.2 published Dec 2024). When upgrading EFCore.BulkExtensions, review release notes and changes to bulk APIs and transaction behavior.
+
+Reference: EFCore.BulkExtensions releases — https://github.com/borisdj/EFCore.BulkExtensions/releases
+
 High-level migration strategy
 1. Apply patch and minor updates first across the repo (safe branch). Verify compilation, unit tests, integration tests, and CI.
 2. Stage major upgrades on separate branches per ecosystem (NuGet-major, frontend-major). Keep each major upgrade focused to minimize blast radius.
