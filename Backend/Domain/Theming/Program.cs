@@ -1,6 +1,6 @@
+using B2Connect.ServiceDefaults;
 using B2Connect.ThemeService.Models;
 using B2Connect.ThemeService.Services;
-using B2Connect.ServiceDefaults;
 using Serilog;
 using Wolverine;
 using Wolverine.Http;

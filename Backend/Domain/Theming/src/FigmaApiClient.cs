@@ -1,7 +1,7 @@
 using System.Net.Http;
 using System.Text.Json;
-using Microsoft.Extensions.Logging;
 using B2Connect.ThemeService.Models;
+using Microsoft.Extensions.Logging;
 
 namespace B2Connect.ThemeService;
 

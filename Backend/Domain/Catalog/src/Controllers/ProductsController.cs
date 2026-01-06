@@ -1,6 +1,6 @@
+using B2Connect.Catalog.Handlers;
 using B2Connect.Catalog.Models;
 using B2Connect.Catalog.Services;
-using B2Connect.Catalog.Handlers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2Connect.Catalog.Controllers;

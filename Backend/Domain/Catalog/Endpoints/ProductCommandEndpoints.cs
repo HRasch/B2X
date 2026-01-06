@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 using Wolverine.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace B2Connect.Catalog.Endpoints;
 

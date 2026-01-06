@@ -1,9 +1,9 @@
+using System.Security.Cryptography;
+using B2Connect.AuthService.Data;
+using B2Connect.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Wolverine.Http;
-using B2Connect.AuthService.Data;
-using B2Connect.Types;
-using System.Security.Cryptography;
 
 namespace B2Connect.Identity.Endpoints;
 

@@ -1,8 +1,8 @@
+using System.Security.Claims;
 using B2Connect.AuthService.Data;
 using B2Connect.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace B2Connect.AuthService.Controllers;
 

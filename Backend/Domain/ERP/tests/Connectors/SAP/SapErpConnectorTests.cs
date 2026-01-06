@@ -13,7 +13,7 @@ using Xunit;
 
 namespace B2Connect.ERP.Tests.Connectors.SAP;
 
-public class SapErpConnectorTests
+public class SapErpConnectorTests : IDisposable
 {
     private readonly ILogger<SapErpConnector> _loggerMock;
     private readonly HttpClient _httpClient;
@@ -364,6 +364,11 @@ public class SapErpConnectorTests
         await Assert.ThrowsAsync<InvalidOperationException>(() => _connector.GetCapabilitiesAsync());
         await Assert.ThrowsAsync<InvalidOperationException>(() => _connector.CreateOrderAsync(new ErpOrder()));
         await Assert.ThrowsAsync<InvalidOperationException>(() => _connector.GetCustomerDataAsync("test"));
+    }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
     }
 }
 

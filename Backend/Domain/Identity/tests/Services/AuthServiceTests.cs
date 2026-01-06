@@ -1,9 +1,9 @@
-using Xunit;
-using Shouldly;
 using B2Connect.AuthService.Data;
 using B2Connect.Identity.Tests.Fixtures;
-using Microsoft.EntityFrameworkCore;
 using B2Connect.Types;
+using Microsoft.EntityFrameworkCore;
+using Shouldly;
+using Xunit;
 
 namespace B2Connect.Identity.Tests.Services;
 

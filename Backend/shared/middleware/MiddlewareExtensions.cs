@@ -1,10 +1,10 @@
+using System;
+using B2Connect.Shared.Core.Authorization;
+using B2Connect.Utils.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using B2Connect.Utils.Extensions;
-using B2Connect.Shared.Core.Authorization;
-using System;
 
 namespace B2Connect.Shared.Middleware;
 

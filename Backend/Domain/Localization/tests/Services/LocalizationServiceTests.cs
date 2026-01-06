@@ -1,11 +1,11 @@
-using Xunit;
-using Moq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.AspNetCore.Http;
 using B2Connect.LocalizationService.Data;
 using B2Connect.LocalizationService.Models;
 using B2Connect.LocalizationService.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Moq;
+using Xunit;
 
 namespace B2Connect.LocalizationService.Tests.Services;
 
@@ -355,6 +355,7 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
     #region Caching Tests
 
     // [Fact] - Disabled due to Moq limitation with extension methods on IDistributedCache
+    [Fact]
     public async Task GetStringAsync_CachesResult_AvoidsDatabaseHits()
     {
         // Arrange

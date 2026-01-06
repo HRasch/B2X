@@ -1,6 +1,6 @@
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace B2Connect.Shared.Infrastructure.Middleware;
 

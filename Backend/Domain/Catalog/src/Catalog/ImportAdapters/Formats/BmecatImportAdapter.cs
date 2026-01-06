@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using B2Connect.Catalog.ImportAdapters;
 using B2Connect.Catalog.ImportAdapters.Models;
+using Microsoft.Extensions.Logging;
 
 namespace B2Connect.Catalog.ImportAdapters.Formats;
 

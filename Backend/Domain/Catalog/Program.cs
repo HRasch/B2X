@@ -1,12 +1,12 @@
-using FluentValidation;
-using B2Connect.Shared.Search.Extensions;
-using B2Connect.Shared.Messaging.Extensions;
 using B2Connect.ServiceDefaults;
+using B2Connect.Shared.Messaging.Extensions;
+using B2Connect.Shared.Search.Extensions;
+using EFCore.NamingConventions;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Wolverine;
 using Wolverine.Http;
-using Microsoft.EntityFrameworkCore;
-using EFCore.NamingConventions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -222,7 +222,10 @@ try
                             _ = searchIndex.IndexProductAsync(productModel);
                         }
                     }
-                    catch (Exception ex) { seedLogger?.LogWarning(ex, "Indexing of a seeded product failed (non-fatal)"); }
+                    catch (Exception ex)
+                    {
+                        seedLogger?.LogWarning(ex, "Indexing of a seeded product failed (non-fatal)");
+                    }
                 }
                 seedLogger?.LogInformation("Indexing trigger completed (fire-and-forget)");
             }

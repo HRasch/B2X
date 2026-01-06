@@ -1,6 +1,6 @@
-using Xunit;
-using Shouldly;
 using Moq;
+using Shouldly;
+using Xunit;
 
 namespace B2Connect.Catalog.Tests.Services;
 

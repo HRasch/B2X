@@ -1,8 +1,8 @@
+using System.Net.Mail;
 using B2Connect.Email.Interfaces;
 using B2Connect.Email.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net.Mail;
 
 namespace B2Connect.Email.Services;
 

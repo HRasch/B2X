@@ -3,6 +3,7 @@ using B2Connect.Catalog.Application.Handlers;
 using FluentValidation;
 
 namespace B2Connect.Catalog.Application.Validators;
+
 public class CalculatePriceValidator : AbstractValidator<CalculatePriceCommand>
 {
     private static readonly string[] ValidEuCountries = new[]

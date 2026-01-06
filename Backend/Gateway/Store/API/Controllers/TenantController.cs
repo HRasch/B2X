@@ -2,9 +2,9 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
+using B2Connect.Shared.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using B2Connect.Shared.Infrastructure.Authorization;
 
 namespace B2Connect.Store.Controllers;
 

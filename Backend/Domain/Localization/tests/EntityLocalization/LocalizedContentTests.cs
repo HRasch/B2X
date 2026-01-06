@@ -1,6 +1,6 @@
-using Xunit;
 using B2Connect.Types.Localization;
 using B2Connect.Types.Utilities;
+using Xunit;
 
 namespace B2Connect.LocalizationService.Tests.EntityLocalization;
 

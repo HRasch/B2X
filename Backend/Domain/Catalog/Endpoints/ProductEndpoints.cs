@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using Wolverine.Http;
 using B2Connect.Catalog.Services;
 using B2Connect.Domain.Search.Services;
+using Microsoft.AspNetCore.Mvc;
+using Wolverine.Http;
 
 namespace B2Connect.Catalog.Endpoints;
 

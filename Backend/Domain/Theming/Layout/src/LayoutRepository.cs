@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using B2Connect.LayoutService.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.LayoutService.Data;
 

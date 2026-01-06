@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
 

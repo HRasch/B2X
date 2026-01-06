@@ -1,8 +1,8 @@
 using System;
-using System.Threading.Tasks;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using B2Connect.Catalog.Core.Entities;
 using B2Connect.Catalog.Core.Services;
 

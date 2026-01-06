@@ -1,6 +1,6 @@
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using B2Connect.Catalog.Core.Entities;
 
 namespace B2Connect.Catalog.Core.Services

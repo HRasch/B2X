@@ -1,6 +1,6 @@
 
-using B2Connect.Catalog.Core.Interfaces;
 using B2Connect.Catalog.Core.Entities;
+using B2Connect.Catalog.Core.Interfaces;
 using B2Connect.Catalog.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;

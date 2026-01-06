@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Builder;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Builder;
 
 namespace B2Connect.Utils.Extensions;
 

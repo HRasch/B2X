@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using B2Connect.LocalizationService.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace B2Connect.LocalizationService.Data;
 

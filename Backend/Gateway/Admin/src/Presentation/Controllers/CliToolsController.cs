@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using B2Connect.Admin.Application.Services;
 using B2Connect.Admin.Presentation.Filters;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace B2Connect.Admin.Presentation.Controllers;
 

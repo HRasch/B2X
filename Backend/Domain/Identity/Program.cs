@@ -1,25 +1,25 @@
-using B2Connect.ServiceDefaults;
+using System.Text;
 using B2Connect.AuthService.Data;
+using B2Connect.Identity.Handlers;
+using B2Connect.Identity.Infrastructure;
+using B2Connect.Identity.Infrastructure.Middleware;
+using B2Connect.Identity.Interfaces;
+using B2Connect.Identity.Services;
+using B2Connect.ServiceDefaults;
 using B2Connect.Shared.Infrastructure;
 using B2Connect.Shared.Infrastructure.Validation;
 using B2Connect.Shared.Messaging.Extensions;
 using B2Connect.Shared.Middleware;
-using B2Connect.Identity.Handlers;
-using B2Connect.Identity.Interfaces;
-using B2Connect.Identity.Services;
-using B2Connect.Identity.Infrastructure;
-using B2Connect.Identity.Infrastructure.Middleware;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using System.Text;
 using Wolverine;
 using Wolverine.Http;
-using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 

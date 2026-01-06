@@ -1,12 +1,12 @@
+using System.Text;
 using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Infrastructure.Extensions;
 using B2Connect.Shared.Infrastructure.Authorization;
+using B2Connect.Shared.Infrastructure.Extensions;
 using B2Connect.Shared.Middleware;
 using B2Connect.Utils.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using System.Text;
 using Yarp.ReverseProxy.Transforms;
 
 var builder = WebApplication.CreateBuilder(args);

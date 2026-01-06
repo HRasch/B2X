@@ -1,8 +1,8 @@
+using B2Connect.LayoutService.Data;
+using B2Connect.LayoutService.Models;
+using B2Connect.LayoutService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using B2Connect.LayoutService.Models;
-using B2Connect.LayoutService.Data;
-using B2Connect.LayoutService.Services;
 
 namespace B2Connect.LayoutService.Controllers;
 

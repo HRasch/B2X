@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using B2Connect.LocalizationService.Data;
-using B2Connect.LocalizationService.Services;
 using B2Connect.LocalizationService.Middleware;
-using B2Connect.Shared.Messaging.Extensions;
+using B2Connect.LocalizationService.Services;
 using B2Connect.ServiceDefaults;
+using B2Connect.Shared.Messaging.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Wolverine;
 using Wolverine.Http;

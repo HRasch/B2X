@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Schema;
+using B2Connect.Shared.Infrastructure.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using B2Connect.Shared.Infrastructure.Authentication;
 
 namespace B2Connect.Shared.Infrastructure.Validation;
 

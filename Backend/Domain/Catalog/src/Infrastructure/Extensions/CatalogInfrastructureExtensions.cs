@@ -1,6 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
 using B2Connect.Catalog.Core.Services;
 using B2Connect.Catalog.Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace B2Connect.Catalog.Infrastructure.Extensions
 {
