@@ -89,7 +89,7 @@
                   <div class="user-details">
                     <strong>{{ user.firstName }} {{ user.lastName }}</strong>
                   </div>
->>>>>>> origin/master
+                  >>>>>>> origin/master
                 </div>
               </td>
               <td class="email-cell">
@@ -144,62 +144,64 @@
                     <i class="icon-trash" aria-hidden="true"></i>
                   </button>
                 </div>
+              </td>
+              <td class="email-cell">
+                <a :href="`mailto:${user.email}`" class="email-link">
+                  {{ user.email }}
+                </a>
+                <span v-if="user.isEmailVerified" class="badge badge-success">{{
+                  $t('users.email.verified')
+                }}</span>
+                <span v-else class="badge badge-warning">{{ $t('users.email.unverified') }}</span>
+              </td>
+              <td class="phone-cell">
+                {{ user.phoneNumber || '—' }}
+              </td>
+              <td class="status-cell">
+                <span
+                  :class="['status-badge', user.isActive ? 'status-active' : 'status-inactive']"
+                >
+                  {{ user.isActive ? $t('users.status.active') : $t('users.status.inactive') }}
+                </span>
+              </td>
+              <td class="date-cell">
+                {{ formatDate(user.createdAt) }}
+              </td>
+              <td class="date-cell">
+                {{ formatDate(user.lastLoginAt) }}
+              </td>
+              <td class="actions-cell">
+                <div class="action-buttons">
+                  <router-link
+                    :to="`/users/${user.id}`"
+                    class="btn-icon"
+                    :aria-label="`View user ${user.firstName} ${user.lastName}`"
+                    data-testid="view-user-btn"
+                  >
+                    <i class="icon-eye" aria-hidden="true"></i>
+                  </router-link>
+                  <router-link
+                    :to="`/users/${user.id}/edit`"
+                    class="btn-icon"
+                    :aria-label="`Edit user ${user.firstName} ${user.lastName}`"
+                    data-testid="edit-user-btn"
+                  >
+                    <i class="icon-edit" aria-hidden="true"></i>
+                  </router-link>
+                  <button
+                    @click="confirmDelete(user.id)"
+                    class="btn-icon btn-danger"
+                    :aria-label="`Delete user ${user.firstName} ${user.lastName}`"
+                    data-testid="delete-user-btn"
+                  >
+                    <i class="icon-trash" aria-hidden="true"></i>
+                  </button>
                 </div>
-              </div>
-            </td>
-            <td class="email-cell">
-              <a :href="`mailto:${user.email}`" class="email-link">
-                {{ user.email }}
-              </a>
-              <span v-if="user.isEmailVerified" class="badge badge-success">{{ $t('users.email.verified') }}</span>
-              <span v-else class="badge badge-warning">{{ $t('users.email.unverified') }}</span>
-            </td>
-            <td class="phone-cell">
-              {{ user.phoneNumber || '—' }}
-            </td>
-            <td class="status-cell">
-              <span :class="['status-badge', user.isActive ? 'status-active' : 'status-inactive']">
-                {{ user.isActive ? $t('users.status.active') : $t('users.status.inactive') }}
-              </span>
-            </td>
-            <td class="date-cell">
-              {{ formatDate(user.createdAt) }}
-            </td>
-            <td class="date-cell">
-              {{ formatDate(user.lastLoginAt) }}
-            </td>
-            <td class="actions-cell">
-              <div class="action-buttons">
-                <router-link
-                  :to="`/users/${user.id}`"
-                  class="btn-icon"
-                  :aria-label="`View user ${user.firstName} ${user.lastName}`"
-                  data-testid="view-user-btn"
-                >
-                  <i class="icon-eye" aria-hidden="true"></i>
-                </router-link>
-                <router-link
-                  :to="`/users/${user.id}/edit`"
-                  class="btn-icon"
-                  :aria-label="`Edit user ${user.firstName} ${user.lastName}`"
-                  data-testid="edit-user-btn"
-                >
-                  <i class="icon-edit" aria-hidden="true"></i>
-                </router-link>
-                <button
-                  @click="confirmDelete(user.id)"
-                  class="btn-icon btn-danger"
-                  :aria-label="`Delete user ${user.firstName} ${user.lastName}`"
-                  data-testid="delete-user-btn"
-                >
-                  <i class="icon-trash" aria-hidden="true"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Pagination -->
       <div v-if="userStore.totalPages > 1" class="pagination">

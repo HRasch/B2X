@@ -58,7 +58,7 @@
 .card-text {
   margin: 0;
   color: var(--text-base);
-  
+
   &:not(:last-child) {
     margin-bottom: 0.75rem;
   }
@@ -181,7 +181,7 @@
 .card-primary {
   --card-bg: var(--primary-50);
   --card-border: var(--primary-200);
-  
+
   .card-header {
     background-color: var(--primary-100);
     border-color: var(--primary-200);
@@ -191,7 +191,7 @@
 .card-success {
   --card-bg: var(--success-50);
   --card-border: var(--success-200);
-  
+
   .card-header {
     background-color: var(--success-100);
     border-color: var(--success-200);
@@ -201,7 +201,7 @@
 .card-warning {
   --card-bg: var(--warning-50);
   --card-border: var(--warning-200);
-  
+
   .card-header {
     background-color: var(--warning-100);
     border-color: var(--warning-200);
@@ -211,7 +211,7 @@
 .card-danger {
   --card-bg: var(--danger-50);
   --card-border: var(--danger-200);
-  
+
   .card-header {
     background-color: var(--danger-100);
     border-color: var(--danger-200);
@@ -286,7 +286,7 @@
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     line-height: 1.3;
-    
+
     @include mx.line-clamp(2);
   }
 
@@ -311,11 +311,11 @@
   .product-availability {
     margin-top: 0.5rem;
     font-size: var(--font-size-xs);
-    
+
     &.in-stock {
       color: var(--success);
     }
-    
+
     &.out-of-stock {
       color: var(--danger);
     }
@@ -333,9 +333,15 @@
 }
 
 // Fixed column card grid
-.card-grid-2 { grid-template-columns: repeat(2, 1fr); }
-.card-grid-3 { grid-template-columns: repeat(3, 1fr); }
-.card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.card-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.card-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
 
 @include mx.media-down('md') {
   .card-grid-3,

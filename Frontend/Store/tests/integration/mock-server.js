@@ -34,7 +34,7 @@ app.get('/api/catalog/products', (req, res) => {
       category: 'Electronics',
       imageUrl: '/images/test-product-1.jpg',
       inStock: true,
-      createdAt: '2024-01-01T00:00:00Z'
+      createdAt: '2024-01-01T00:00:00Z',
     },
     {
       id: '550e8400-e29b-41d4-a716-446655440001',
@@ -44,23 +44,24 @@ app.get('/api/catalog/products', (req, res) => {
       category: 'Electronics',
       imageUrl: '/images/test-product-2.jpg',
       inStock: true,
-      createdAt: '2024-01-02T00:00:00Z'
-    }
+      createdAt: '2024-01-02T00:00:00Z',
+    },
   ];
 
   // Filter by search term
   let filteredProducts = mockProducts;
   if (search) {
-    filteredProducts = mockProducts.filter(product =>
-      product.name.toLowerCase().includes(search.toString().toLowerCase()) ||
-      product.description.toLowerCase().includes(search.toString().toLowerCase())
+    filteredProducts = mockProducts.filter(
+      product =>
+        product.name.toLowerCase().includes(search.toString().toLowerCase()) ||
+        product.description.toLowerCase().includes(search.toString().toLowerCase())
     );
   }
 
   // Filter by category
   if (category) {
-    filteredProducts = filteredProducts.filter(product =>
-      product.category.toLowerCase() === category.toString().toLowerCase()
+    filteredProducts = filteredProducts.filter(
+      product => product.category.toLowerCase() === category.toString().toLowerCase()
     );
   }
 
@@ -74,7 +75,7 @@ app.get('/api/catalog/products', (req, res) => {
     totalCount: filteredProducts.length,
     page: parseInt(page.toString()),
     pageSize: parseInt(pageSize.toString()),
-    totalPages: Math.ceil(filteredProducts.length / parseInt(pageSize.toString()))
+    totalPages: Math.ceil(filteredProducts.length / parseInt(pageSize.toString())),
   });
 });
 
@@ -94,10 +95,10 @@ app.get('/api/catalog/products/:id', (req, res) => {
     specifications: {
       brand: 'Test Brand',
       model: 'TP-001',
-      warranty: '2 years'
+      warranty: '2 years',
     },
     createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
+    updatedAt: '2024-01-01T00:00:00Z',
   };
 
   if (id === '550e8400-e29b-41d4-a716-446655440000') {
@@ -114,10 +115,10 @@ app.get('/api/v1/products', (req, res) => {
       {
         id: '550e8400-e29b-41d4-a716-446655440000',
         name: 'Test Product 1 (v1)',
-        price: 99.99
-      }
+        price: 99.99,
+      },
     ],
-    total: 1
+    total: 1,
   });
 });
 
@@ -130,15 +131,15 @@ app.get('/api/v2/products', (req, res) => {
         name: 'Test Product 1 (v2)',
         price: 99.99,
         metadata: {
-          version: '2.0'
-        }
-      }
+          version: '2.0',
+        },
+      },
     ],
     meta: {
       total: 1,
       page: 1,
-      pageSize: 10
-    }
+      pageSize: 10,
+    },
   });
 });
 
@@ -151,15 +152,15 @@ app.post('/api/catalog/products/search', (req, res) => {
       id: '550e8400-e29b-41d4-a716-446655440000',
       name: 'Test Product 1',
       score: 0.95,
-      highlights: ['Test Product']
-    }
+      highlights: ['Test Product'],
+    },
   ];
 
   res.json({
     items: mockResults,
     total: 1,
     query: query,
-    took: 15 // milliseconds
+    took: 15, // milliseconds
   });
 });
 
@@ -181,7 +182,7 @@ app.get('/api/catalog/products', (req, res) => {
     totalCount: 0,
     page: 1,
     pageSize: 10,
-    totalPages: 0
+    totalPages: 0,
   });
 });
 

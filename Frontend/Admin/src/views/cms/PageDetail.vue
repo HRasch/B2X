@@ -1,9 +1,6 @@
 <template>
   <div class="space-y-6">
-    <PageHeader
-      :title="$t('cms.page_detail.title')"
-      :subtitle="$t('cms.page_detail.subtitle')"
-    >
+    <PageHeader :title="$t('cms.page_detail.title')" :subtitle="$t('cms.page_detail.subtitle')">
       <template #actions>
         <router-link
           to="/cms/pages"

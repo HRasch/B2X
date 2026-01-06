@@ -314,4 +314,3 @@ describe('RegistrationCheck.vue', () => {
     expect(wrapper.html()).toContain('85%');
   });
 });
-

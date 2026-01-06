@@ -213,8 +213,7 @@
       "title": "Templates",
       "subtitle": "Manage page templates for your store",
       "coming_soon": "Page template management coming soon..."
-    }
-  ,
+    },
     "media": {
       "title": "Media Library",
       "subtitle": "Manage media assets for your store",
@@ -329,8 +328,7 @@
       "loadError": "User could not be loaded",
       "saveError": "Error saving user",
       "saving": "Saving..."
-    }
-    ,
+    },
     "verified": "Verified",
     "unverified": "Unverified",
     "created": "Created",

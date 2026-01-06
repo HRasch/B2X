@@ -10,11 +10,11 @@ function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, 'utf8'));
 }
 
-const localeFiles = languages.map((f) => path.join(localesDir, f));
+const localeFiles = languages.map(f => path.join(localesDir, f));
 
-const locales = localeFiles.map((p) => ({ path: p, data: loadJson(p) }));
+const locales = localeFiles.map(p => ({ path: p, data: loadJson(p) }));
 
-if (locales.some((l) => !l.data)) {
+if (locales.some(l => !l.data)) {
   console.warn('Some locale files are missing under', localesDir);
   process.exit(0);
 }
@@ -32,14 +32,14 @@ function flatten(obj, prefix = '') {
   }, {});
 }
 
-const flattened = locales.map((l) => ({ path: l.path, keys: Object.keys(flatten(l.data)) }));
+const flattened = locales.map(l => ({ path: l.path, keys: Object.keys(flatten(l.data)) }));
 
 const base = flattened[0];
 
 const missing = [];
 for (let i = 1; i < flattened.length; i++) {
   const lang = flattened[i];
-  base.keys.forEach((k) => {
+  base.keys.forEach(k => {
     if (!lang.keys.includes(k)) missing.push({ key: k, missingIn: path.basename(lang.path) });
   });
 }
@@ -50,5 +50,5 @@ if (missing.length === 0) {
 }
 
 console.log('Missing keys:');
-missing.forEach((m) => console.log(` - ${m.key} (missing in ${m.missingIn})`));
+missing.forEach(m => console.log(` - ${m.key} (missing in ${m.missingIn})`));
 process.exit(2);

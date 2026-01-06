@@ -1,6 +1,9 @@
 <template>
   <div class="category-form">
-    <PageHeader :title="$t(isEditMode ? 'catalog.categories.edit' : 'catalog.categories.create')" :subtitle="$t('catalog.categories.subtitle')" />
+    <PageHeader
+      :title="$t(isEditMode ? 'catalog.categories.edit' : 'catalog.categories.create')"
+      :subtitle="$t('catalog.categories.subtitle')"
+    />
 
     <CardContainer>
       <!-- Form would be implemented here -->

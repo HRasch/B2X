@@ -10,25 +10,34 @@
 // Font Families
 // --------------------------------------------
 
-$font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif !default;
+$font-family-base:
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  Arial,
+  'Noto Sans',
+  sans-serif !default;
 $font-family-heading: $font-family-base !default;
-$font-family-mono: 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
+$font-family-mono:
+  'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
 
 // --------------------------------------------
 // Font Sizes (Modular Scale)
 // --------------------------------------------
 
 // Base: 16px, Scale: 1.25 (Major Third)
-$font-size-xs: 0.75rem !default;     // 12px
-$font-size-sm: 0.875rem !default;    // 14px
-$font-size-base: 1rem !default;      // 16px
-$font-size-lg: 1.125rem !default;    // 18px
-$font-size-xl: 1.25rem !default;     // 20px
-$font-size-2xl: 1.5rem !default;     // 24px
-$font-size-3xl: 1.875rem !default;   // 30px
-$font-size-4xl: 2.25rem !default;    // 36px
-$font-size-5xl: 3rem !default;       // 48px
-$font-size-6xl: 3.75rem !default;    // 60px
+$font-size-xs: 0.75rem !default; // 12px
+$font-size-sm: 0.875rem !default; // 14px
+$font-size-base: 1rem !default; // 16px
+$font-size-lg: 1.125rem !default; // 18px
+$font-size-xl: 1.25rem !default; // 20px
+$font-size-2xl: 1.5rem !default; // 24px
+$font-size-3xl: 1.875rem !default; // 30px
+$font-size-4xl: 2.25rem !default; // 36px
+$font-size-5xl: 3rem !default; // 48px
+$font-size-6xl: 3.75rem !default; // 60px
 
 // --------------------------------------------
 // Font Weights
@@ -115,7 +124,8 @@ $letter-spacing-widest: 0.1em !default;
 // --------------------------------------------
 
 // Headings
-h1, .h1 {
+h1,
+.h1 {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-bold);
@@ -123,35 +133,40 @@ h1, .h1 {
   letter-spacing: var(--letter-spacing-tight);
 }
 
-h2, .h2 {
+h2,
+.h2 {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
 }
 
-h3, .h3 {
+h3,
+.h3 {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-snug);
 }
 
-h4, .h4 {
+h4,
+.h4 {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-snug);
 }
 
-h5, .h5 {
+h5,
+.h5 {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-normal);
 }
 
-h6, .h6 {
+h6,
+.h6 {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
@@ -187,7 +202,8 @@ h6, .h6 {
 }
 
 // Small/caption text
-.small, small {
+.small,
+small {
   font-size: var(--font-size-sm);
 }
 
@@ -197,7 +213,8 @@ h6, .h6 {
 }
 
 // Code
-code, .code {
+code,
+.code {
   font-family: var(--font-family-mono);
   font-size: 0.875em;
 }

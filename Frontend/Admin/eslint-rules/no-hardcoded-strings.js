@@ -37,14 +37,17 @@ export default {
       },
     ],
     messages: {
-      hardcodedString: 'Hardcoded string "{{text}}" should be internationalized with $t() or v-t directive',
+      hardcodedString:
+        'Hardcoded string "{{text}}" should be internationalized with $t() or v-t directive',
     },
   },
 
   create(context) {
     const options = context.options[0] || {};
     const ignoreText = new Set(options.ignoreText || ['&nbsp;', ' ', '\n', '\t', '\r']);
-    const ignoreAttributes = new Set(options.ignoreAttributes || ['placeholder', 'alt', 'title', 'aria-label']);
+    const ignoreAttributes = new Set(
+      options.ignoreAttributes || ['placeholder', 'alt', 'title', 'aria-label']
+    );
     const ignoreDirectives = new Set(options.ignoreDirectives || ['t']);
     const minLength = options.minLength || 3;
 
@@ -56,7 +59,7 @@ export default {
         }
 
         const sourceCode = context.sourceCode.getText();
-        
+
         // Extract template content (rough approximation)
         const templateMatch = sourceCode.match(/<template>([\s\S]*?)<\/template>/);
         if (!templateMatch) {
@@ -64,14 +67,14 @@ export default {
         }
 
         const templateContent = templateMatch[1];
-        
+
         // Find text content between tags (simple regex approach)
         const textMatches = templateContent.match(/>([^<>{}]+)</g);
-        
+
         if (textMatches) {
           textMatches.forEach(match => {
             const text = match.slice(1, -1).trim(); // Remove > and <
-            
+
             // Skip empty or ignored text
             if (!text || ignoreText.has(text)) {
               return;
@@ -95,7 +98,7 @@ export default {
               // Find the position in the source
               const index = sourceCode.indexOf(match);
               const loc = context.sourceCode.getLocFromIndex(index + 1); // +1 to skip the >
-              
+
               context.report({
                 loc,
                 messageId: 'hardcodedString',
