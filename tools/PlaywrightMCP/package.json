@@ -1,0 +1,28 @@
+{
+  "name": "playwright-mcp",
+  "version": "1.0.0",
+  "description": "Playwright MCP Server for B2Connect - Browser automation and E2E testing",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "playwright",
+    "browser-automation",
+    "testing",
+    "e2e"
+  ],
+  "author": "B2Connect Team",
+  "license": "MIT",
+  "dependencies": {
+    "@playwright/mcp": "^0.0.54"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  }
+}

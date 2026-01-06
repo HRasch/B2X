@@ -44,17 +44,19 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
   - Test loading states and error conditions that affect user experience
   - Validate responsive behavior across breakpoints
 
-## TypeScript Code Analysis (MCP)
+## MCP-Enhanced Development Tools
+
+### TypeScript Analysis (MCP)
 
 **Reference**: See [KB-053] TypeScript MCP Integration Guide for comprehensive usage.
 
-### MCP Tools for Development
+#### MCP Tools for Development
 - **Symbol Search**: `typescript-mcp/search_symbols` for finding components, interfaces, types
 - **Type Analysis**: `typescript-mcp/analyze_types` for automated type checking
 - **Usage Tracking**: `typescript-mcp/find_usages` for refactoring impact assessment
 - **Symbol Details**: `typescript-mcp/get_symbol_info` for detailed type information
 
-### Development Workflow
+#### Development Workflow
 ```typescript
 // Before implementing new components
 typescript-mcp/search_symbols pattern="*Component" workspacePath="frontend/Store"
@@ -66,11 +68,115 @@ typescript-mcp/analyze_types workspacePath="frontend/Store" filePath="src/compon
 typescript-mcp/find_usages symbolName="UserProfile" workspacePath="frontend/Store" filePath="src/types/user.ts"
 ```
 
+### Vue.js Component Analysis (MCP)
+
+**Reference**: See [KB-054] Vue MCP Integration Guide for detailed workflows.
+
+#### Component Development Workflow
+- **Before creating**: Use `vue-mcp/analyze_vue_component` to study similar patterns
+- **Structure validation**: Run `vue-mcp/find_component_usage` to check component dependencies
+- **Composition API**: Analyze reactive variables, computed properties, and methods
+- **Template analysis**: Validate directives and element structure
+
+#### i18n Compliance (MANDATORY)
+```typescript
+// Validate all components for hardcoded strings
+vue-mcp/validate_i18n_keys workspacePath="frontend/Store" componentPath="src/components/UserProfile.vue"
+```
+- **ZERO hardcoded strings allowed** - all text must use translation keys
+- Run validation before every commit
+- Following [GL-042] token-optimized i18n strategy
+- Supported languages: en, de, fr, es, it, pt, nl, pl
+
+#### Responsive Design Validation
+```typescript
+// Check responsive patterns and breakpoint usage
+vue-mcp/check_responsive_design filePath="src/components/ProductCard.vue" workspacePath="frontend/Store"
+```
+- Validates Tailwind CSS responsive classes
+- Ensures mobile-first design patterns
+- Checks breakpoint consistency
+
+#### Pinia Store Analysis
+```typescript
+// Analyze store structure and patterns
+vue-mcp/analyze_pinia_store filePath="src/stores/user.ts" workspacePath="frontend/Store"
+```
+- Validates state, getters, and actions structure
+- Checks composition patterns
+- Ensures proper store organization
+
+### HTML/CSS Quality Analysis (MCP)
+
+**Reference**: See [KB-056] HTML/CSS MCP Usage Guide.
+
+#### Semantic HTML Validation
+```typescript
+// Analyze HTML structure and semantics
+htmlcss-mcp/analyze_html_structure workspacePath="frontend/Store" filePath="pages/index.html"
+```
+- Document type and meta tags validation
+- Heading hierarchy checks
+- Semantic HTML5 element usage
+- Link and image alt text validation
+
+#### Accessibility Checks (WCAG Compliance)
+```typescript
+// Run axe-core accessibility audits
+htmlcss-mcp/check_html_accessibility workspacePath="frontend/Store" filePath="pages/index.html"
+```
+- **Target: WCAG 2.1 Level AAA compliance**
+- Automated violation detection
+- Severity-based reporting
+- Must pass before PR approval
+
+#### CSS Optimization
+```typescript
+// Analyze CSS structure and find issues
+htmlcss-mcp/analyze_css_structure workspacePath="frontend/Store" filePath="styles/main.css"
+```
+- Detect duplicate selectors
+- Find unnecessary !important usage
+- Identify unused CSS variables
+- Extract color and font palettes
+- Get optimization recommendations
+
+### Security Analysis (MCP)
+
+**Reference**: See [KB-055] Security MCP Best Practices.
+
+#### XSS Vulnerability Scanning
+```typescript
+// Scan frontend code for XSS vulnerabilities
+security-mcp/scan_xss_vulnerabilities workspacePath="frontend/Store"
+```
+- Check output encoding and sanitization
+- Validate CSP (Content Security Policy) usage
+- Detect unsafe DOM manipulation
+
+#### Input Validation
+```typescript
+// Validate input sanitization patterns
+security-mcp/validate_input_sanitization workspacePath="frontend/Store"
+```
+- Check form validation patterns
+- Ensure proper encoding of user inputs
+- Validate allowlists vs denylists
+
+### MCP-Powered Pre-Commit Checklist
+
+Before committing frontend code, run:
+- [ ] `typescript-mcp/analyze_types` - Zero type errors
+- [ ] `vue-mcp/validate_i18n_keys` - No hardcoded strings
+- [ ] `vue-mcp/check_responsive_design` - Responsive patterns valid
+- [ ] `htmlcss-mcp/check_html_accessibility` - WCAG compliant
+- [ ] `security-mcp/scan_xss_vulnerabilities` - No XSS issues
+
 ### Code Review Integration
-- Run type analysis on all modified files
-- Use symbol search for component discovery
-- Validate usage patterns for breaking changes
-- Document complex types with symbol info
+- Run all MCP tools on modified files before requesting review
+- MCP validation must pass before human review begins
+- Document any MCP exceptions with justification in PR description
+- Use MCP symbol search for component discovery and pattern validation
 
 ## Multilingual Support (i18n)
 

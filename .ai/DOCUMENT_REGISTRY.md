@@ -124,7 +124,11 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-053` | TypeScript MCP Integration | `.ai/knowledgebase/tools-and-tech/typescript-mcp-integration.md` | Active |
 | `KB-050` | Plan-Act-Control Practical Guide | `.ai/knowledgebase/KB-050-plan-act-control.md` | Active |
 | `KB-051` | External Knowledge Sync Procedure | `.ai/knowledgebase/KB-051-external-knowledge-sync.md` | Active |
-| `KB-050` | Plan-Act-Control Practical Guide | `.ai/knowledgebase/KB-050-plan-act-control.md` | Active |
+| `KB-052` | Roslyn MCP Server | `.ai/knowledgebase/tools-and-tech/roslyn-mcp.md` | Active |
+| `KB-053` | TypeScript MCP Integration | `.ai/knowledgebase/tools-and-tech/typescript-mcp-integration.md` | Active |
+| `KB-054` | Vue MCP Integration Guide | `.ai/knowledgebase/tools-and-tech/vue-mcp-integration.md` | Active |
+| `KB-055` | Security MCP Best Practices | `.ai/knowledgebase/tools-and-tech/security-mcp-best-practices.md` | Active |
+| `KB-056` | HTML/CSS MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/htmlcss-mcp-usage.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 

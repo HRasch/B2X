@@ -21,18 +21,30 @@ Model Context Protocol (MCP) server for HTML and CSS analysis in the B2Connect p
 
 This project includes several MCP servers for comprehensive frontend development:
 
+### Playwright MCP (Local) ⭐ Recommended
+**Official Microsoft browser automation and E2E testing:**
+- **Repository**: [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp)
+- **Package**: `@playwright/mcp` (25,000+ stars)
+- **Location**: `tools/PlaywrightMCP/`
+- **Features**:
+  - Multi-browser support (Chrome, Firefox, Safari/WebKit)
+  - Browser automation and interaction
+  - Screenshot and PDF generation
+  - Network and console monitoring
+  - E2E testing workflows
+  - Performance profiling
+  - Cross-browser compatibility testing
+
 ### Chrome DevTools MCP (External)
-For browser automation, debugging, and performance testing:
+For Chrome-specific debugging and performance testing:
 - **Repository**: [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp)
 - **Package**: `chrome-devtools-mcp` on npm
 - **Features**:
   - Full Chrome DevTools Protocol access
-  - Browser automation and testing
-  - Performance profiling and analysis
-  - Network monitoring and debugging
-  - Accessibility audits with Chrome DevTools
-  - Screenshot and PDF generation
+  - Chrome-specific debugging features
+  - Advanced performance profiling
   - Element inspection and manipulation
+  - *Note: Use Playwright MCP for cross-browser automation*
 
 ### TypeScript MCP (Local)
 For TypeScript code analysis:

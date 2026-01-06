@@ -87,6 +87,16 @@
       ],
       "env": {},
       "disabled": true
+    },
+    "playwright-mcp": {
+      "command": "node",
+      "args": [
+        "tools/PlaywrightMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
     }
   }
 }
