@@ -67,6 +67,10 @@ security-mcp/validate_input_sanitization workspacePath="."
 # 5. Authentication patterns
 security-mcp/check_authentication workspacePath="backend"
 # Check: Proper auth implementation, session management
+
+# 6. Container security (infrastructure)
+docker-mcp/check_container_security imageName="nginx:latest"
+# Check: Official images, minimal attack surface, no vulnerabilities
 ```
 
 ### Security MCP Integration with Development Workflow
@@ -129,6 +133,30 @@ security-mcp/scan_vulnerabilities workspacePath="."
 // Actions: Update or document exceptions
 ```
 
+#### Infrastructure/Container Security
+```typescript
+// Container Image Security
+docker-mcp/check_container_security imageName="nginx:latest"
+// ✓ Official images with specific tags
+// ✓ Minimal base images (Alpine, Distroless)
+// ✗ Images with known vulnerabilities
+// ✗ Latest tag usage
+
+// Dockerfile Security Analysis
+docker-mcp/analyze_dockerfile dockerfilePath="Dockerfile"
+// ✓ Non-root user execution
+// ✓ Minimal attack surface
+// ✗ Secrets in environment variables
+// ✗ Privilege escalation risks
+
+// Kubernetes Manifest Security
+docker-mcp/validate_kubernetes_manifests manifestPath="k8s/"
+// ✓ Security contexts configured
+// ✓ Resource limits set
+// ✗ Privilege escalation allowed
+// ✗ Insecure pod configurations
+```
+
 ### Security Exception Handling
 
 When MCP tools report issues that cannot be immediately fixed:
@@ -160,6 +188,11 @@ Security MCP results are **mandatory quality gates**:
 
 - **After dependency updates**: Re-run all security MCP tools
 - **Before production deploy**: Full security MCP audit mandatory
+  - `security-mcp/scan_vulnerabilities workspacePath="."`
+  - `security-mcp/check_sql_injection workspacePath="backend"`
+  - `security-mcp/scan_xss_vulnerabilities workspacePath="frontend"`
+  - `docker-mcp/check_container_security` (for all container images)
+  - `docker-mcp/validate_kubernetes_manifests` (for K8s deployments)
 - **Scheduled scans**: Weekly automated security MCP runs
 - **Incident response**: Run security MCP to validate fixes
 

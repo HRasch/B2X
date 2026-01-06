@@ -223,6 +223,12 @@ security-mcp/check_sql_injection workspacePath="backend" || exit 1
 # 4. Accessibility validation
 htmlcss-mcp/check_html_accessibility workspacePath="frontend/Store" filePath="pages/index.html" || exit 1
 
+# 5. Performance validation
+performance-mcp/analyze_code_performance workspacePath="frontend/Store" || exit 1
+
+# 6. Git validation
+git-mcp/validate_commit_messages workspacePath="." count=10 || exit 1
+
 echo "✅ All MCP validations passed - proceeding with tests"
 npm run test:e2e
 ```

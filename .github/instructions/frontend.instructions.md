@@ -171,6 +171,8 @@ Before committing frontend code, run:
 - [ ] `vue-mcp/check_responsive_design` - Responsive patterns valid
 - [ ] `htmlcss-mcp/check_html_accessibility` - WCAG compliant
 - [ ] `security-mcp/scan_xss_vulnerabilities` - No XSS issues
+- [ ] `performance-mcp/analyze_code_performance` - Performance optimized
+- [ ] `git-mcp/validate_commit_messages` - Conventional commit format
 
 ### Code Review Integration
 - Run all MCP tools on modified files before requesting review

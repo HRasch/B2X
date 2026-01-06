@@ -132,6 +132,14 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-054` | Vue MCP Integration Guide | `.ai/knowledgebase/tools-and-tech/vue-mcp-integration.md` | Active |
 | `KB-055` | Security MCP Best Practices | `.ai/knowledgebase/tools-and-tech/security-mcp-best-practices.md` | Active |
 | `KB-056` | HTML/CSS MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/htmlcss-mcp-usage.md` | Active |
+| `KB-057` | Database MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/database-mcp-usage.md` | Active |
+| `KB-058` | Testing MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/testing-mcp-usage.md` | Active |
+| `KB-059` | API Documentation MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/api-documentation-mcp-usage.md` | Active |
+| `KB-060` | i18n MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/i18n-mcp-usage.md` | Active |
+| `KB-061` | Monitoring MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/monitoring-mcp-usage.md` | Active |
+| `KB-062` | Documentation MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/documentation-mcp-usage.md` | Active |
+| `KB-063` | Wolverine MCP Server | `.ai/knowledgebase/tools-and-tech/wolverine-mcp.md` | Active |
+| `KB-064` | Chrome DevTools MCP Server | `.ai/knowledgebase/tools-and-tech/chrome-devtools-mcp.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
