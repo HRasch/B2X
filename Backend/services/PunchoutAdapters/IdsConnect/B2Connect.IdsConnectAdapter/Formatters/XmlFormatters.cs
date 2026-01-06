@@ -30,7 +30,12 @@ public class XmlSerializerInputFormatter : InputFormatter
         {
             var serializer = new XmlSerializer(context.ModelType);
             using var stringReader = new StringReader(xmlContent);
-            var result = serializer.Deserialize(stringReader);
+            using var xmlReader = XmlReader.Create(stringReader, new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Prohibit,
+                XmlResolver = null
+            });
+            var result = serializer.Deserialize(xmlReader);
 
             return await InputFormatterResult.SuccessAsync(result);
         }

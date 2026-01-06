@@ -47,7 +47,7 @@ public class JwtConfigurationValidator
     /// <summary>
     /// Validates JWT secret with security requirements.
     /// </summary>
-    private IEnumerable<JwtValidationError> ValidateSecret()
+    private List<JwtValidationError> ValidateSecret()
     {
         var errors = new List<JwtValidationError>();
         var secret = _configuration["Jwt:Secret"];
@@ -110,7 +110,7 @@ public class JwtConfigurationValidator
     /// <summary>
     /// Validates JWT issuer configuration.
     /// </summary>
-    private IEnumerable<JwtValidationError> ValidateIssuer()
+    private List<JwtValidationError> ValidateIssuer()
     {
         var errors = new List<JwtValidationError>();
         var issuer = _configuration["Jwt:Issuer"];
@@ -161,7 +161,7 @@ public class JwtConfigurationValidator
     /// <summary>
     /// Validates JWT audience configuration.
     /// </summary>
-    private IEnumerable<JwtValidationError> ValidateAudience()
+    private List<JwtValidationError> ValidateAudience()
     {
         var errors = new List<JwtValidationError>();
         var audience = _configuration["Jwt:Audience"];
@@ -201,7 +201,7 @@ public class JwtConfigurationValidator
     /// <summary>
     /// Validates JWT expiration settings.
     /// </summary>
-    private IEnumerable<JwtValidationError> ValidateExpirationSettings()
+    private List<JwtValidationError> ValidateExpirationSettings()
     {
         var errors = new List<JwtValidationError>();
 
@@ -302,7 +302,7 @@ public class JwtConfigurationValidator
     /// <summary>
     /// Validates additional JWT security settings.
     /// </summary>
-    private IEnumerable<JwtValidationError> ValidateSecuritySettings()
+    private List<JwtValidationError> ValidateSecuritySettings()
     {
         var errors = new List<JwtValidationError>();
 

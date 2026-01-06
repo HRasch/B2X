@@ -43,7 +43,7 @@ jobs:
 
       - name: Create KB Sync Issue
         if: steps.find-report.outputs.report_path != ''
-        uses: peter-evans/create-issue@v4
+        uses: peter-evans/create-issue@v5
         with:
           title: KB Sync Report — ${{ github.run_number }}
           body: ${{ steps.find-report.outputs.report_body }}

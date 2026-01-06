@@ -96,14 +96,17 @@ public class ArchitectureValidator
         var boundaryViolations = ScanServiceBoundaries();
         var cqrsViolations = ValidateCqrsPatterns();
 
+        var boundaryList = boundaryViolations.ToList();
+        var cqrsList = cqrsViolations.ToList();
+
         return new ArchitectureComplianceReport
         {
             Timestamp = DateTime.UtcNow,
-            OverallCompliance = CalculateCompliance(result, boundaryViolations, cqrsViolations),
+            OverallCompliance = CalculateCompliance(result, boundaryList, cqrsList),
             AssemblyViolations = result.Violations,
-            BoundaryViolations = boundaryViolations.ToList(),
-            CqrsViolations = cqrsViolations.ToList(),
-            Recommendations = GenerateRecommendations(result, boundaryViolations, cqrsViolations)
+            BoundaryViolations = boundaryList,
+            CqrsViolations = cqrsList,
+            Recommendations = GenerateRecommendations(result, boundaryList, cqrsList)
         };
     }
 
@@ -122,7 +125,7 @@ public class ArchitectureValidator
         _rules.Add(new ResiliencePatternRule());
     }
 
-    private IEnumerable<ArchitectureViolation> ScanForCrossServiceDatabaseAccess()
+    private List<ArchitectureViolation> ScanForCrossServiceDatabaseAccess()
     {
         var violations = new List<ArchitectureViolation>();
 
@@ -136,7 +139,7 @@ public class ArchitectureValidator
 
             // Check for repository patterns accessing other services' data
             var repositories = types.Where(t => t.Name.Contains("Repository") &&
-                                              !t.Namespace?.Contains(assembly.GetName().Name.Split('.')[^1] ?? "") == true);
+                                              !(t.Namespace?.Contains(assembly.GetName().Name?.Split('.')?[^1] ?? "") ?? false));
 
             foreach (var repo in repositories)
             {
@@ -145,7 +148,7 @@ public class ArchitectureValidator
                     Severity = ViolationSeverity.High,
                     Rule = "ServiceBoundary-CrossServiceDataAccess",
                     Message = $"Repository {repo.FullName} appears to access data from another service",
-                    Location = repo.FullName,
+                    Location = repo.FullName ?? repo.Name,
                     AdrReference = "ADR_SERVICE_BOUNDARIES",
                     Recommendation = "Use service APIs instead of direct database access"
                 });
@@ -177,14 +180,17 @@ public class ArchitectureValidator
         {
             var models = assembly.GetTypes()
                 .Where(t => t.Namespace?.Contains("Domain") == true &&
-                           (t.Name.EndsWith("Entity") || t.Name.EndsWith("Model") || t.Name.EndsWith("Dto")));
+                           (t.Name.EndsWith("Entity", StringComparison.OrdinalIgnoreCase) ||
+                            t.Name.EndsWith("Model", StringComparison.OrdinalIgnoreCase) ||
+                            t.Name.EndsWith("Dto", StringComparison.OrdinalIgnoreCase)));
 
             foreach (var model in models)
             {
-                if (!domainModels.ContainsKey(model.FullName))
-                    domainModels[model.FullName] = new List<string>();
+                var fullName = model.FullName ?? model.Name;
+                if (!domainModels.ContainsKey(fullName))
+                    domainModels[fullName] = new List<string>();
 
-                domainModels[model.FullName].Add(assembly.GetName().Name);
+                domainModels[fullName].Add(assembly.GetName().Name ?? "UnknownAssembly");
             }
         }
 
@@ -215,7 +221,8 @@ public class ArchitectureValidator
         foreach (var assembly in assemblies)
         {
             var commandTypes = assembly.GetTypes()
-                .Where(t => t.Name.EndsWith("Command") && !t.Name.EndsWith("Result"));
+                .Where(t => t.Name.EndsWith("Command", StringComparison.OrdinalIgnoreCase) &&
+                           !t.Name.EndsWith("Result", StringComparison.OrdinalIgnoreCase));
 
             foreach (var command in commandTypes)
             {
@@ -227,7 +234,7 @@ public class ArchitectureValidator
                         Severity = ViolationSeverity.Low,
                         Rule = "CQRS-CommandNaming",
                         Message = $"Command {command.Name} doesn't follow CQRS naming convention (VerbNounCommand)",
-                        Location = command.FullName,
+                        Location = command.FullName ?? command.Name,
                         AdrReference = "ADR-001",
                         Recommendation = "Rename to follow VerbNounCommand pattern"
                     });
@@ -248,7 +255,7 @@ public class ArchitectureValidator
         foreach (var assembly in assemblies)
         {
             var eventTypes = assembly.GetTypes()
-                .Where(t => t.Name.EndsWith("Event"));
+                .Where(t => t.Name.EndsWith("Event", StringComparison.OrdinalIgnoreCase));
 
             foreach (var eventType in eventTypes)
             {
@@ -260,7 +267,7 @@ public class ArchitectureValidator
                         Severity = ViolationSeverity.Low,
                         Rule = "CQRS-EventNaming",
                         Message = $"Event {eventType.Name} doesn't follow CQRS naming convention",
-                        Location = eventType.FullName,
+                        Location = eventType.FullName ?? eventType.Name,
                         AdrReference = "ADR-001",
                         Recommendation = "Rename to follow NounVerbEvent or NounStateChangedEvent pattern"
                     });
@@ -279,12 +286,12 @@ public class ArchitectureValidator
     }
 
     private double CalculateCompliance(ArchitectureValidationResult result,
-                                     IEnumerable<ArchitectureViolation> boundaryViolations,
-                                     IEnumerable<ArchitectureViolation> cqrsViolations)
+                                     List<ArchitectureViolation> boundaryViolations,
+                                     List<ArchitectureViolation> cqrsViolations)
     {
         var totalViolations = result.Violations.Count +
-                             boundaryViolations.Count() +
-                             cqrsViolations.Count();
+                             boundaryViolations.Count +
+                             cqrsViolations.Count;
 
         // Base compliance score - adjust based on violation severity
         var baseScore = 100.0;
@@ -306,8 +313,8 @@ public class ArchitectureValidator
     }
 
     private List<string> GenerateRecommendations(ArchitectureValidationResult result,
-                                              IEnumerable<ArchitectureViolation> boundaryViolations,
-                                              IEnumerable<ArchitectureViolation> cqrsViolations)
+                                              List<ArchitectureViolation> boundaryViolations,
+                                              List<ArchitectureViolation> cqrsViolations)
     {
         var recommendations = new List<string>();
         var allViolations = result.Violations
@@ -408,8 +415,8 @@ public class EventDrivenArchitectureRule : IArchitectureRule
 
         // Check for Wolverine usage in services that should be event-driven
         var types = assembly.GetTypes();
-        var hasCommands = types.Any(t => t.Name.EndsWith("Command"));
-        var hasEvents = types.Any(t => t.Name.EndsWith("Event"));
+        var hasCommands = types.Any(t => t.Name.EndsWith("Command", StringComparison.OrdinalIgnoreCase));
+        var hasEvents = types.Any(t => t.Name.EndsWith("Event", StringComparison.OrdinalIgnoreCase));
 
         if (hasCommands && !hasEvents)
         {
@@ -418,7 +425,7 @@ public class EventDrivenArchitectureRule : IArchitectureRule
                 Severity = ViolationSeverity.Medium,
                 Rule = "EventDriven-MissingEvents",
                 Message = $"Assembly {assembly.GetName().Name} has commands but no events - ensure state changes publish events",
-                Location = assembly.FullName,
+                Location = assembly.FullName ?? assembly.GetName().Name ?? "UnknownAssembly",
                 AdrReference = "ADR-001",
                 Recommendation = "Add event publishing for all state-changing commands"
             });
@@ -507,7 +514,7 @@ public class CommunicationPatternRule : IArchitectureRule
                     Severity = ViolationSeverity.Medium,
                     Rule = "Communication-HardcodedUrl",
                     Message = $"Hardcoded URL found in {type.FullName}: {constant}",
-                    Location = type.FullName,
+                    Location = type.FullName ?? type.Name,
                     AdrReference = "ADR-025",
                     Recommendation = "Use Aspire service discovery instead of hardcoded URLs"
                 });
@@ -542,7 +549,7 @@ public class ResiliencePatternRule : IArchitectureRule
                 Severity = ViolationSeverity.Medium,
                 Rule = "Resilience-MissingCircuitBreaker",
                 Message = $"Assembly {assembly.GetName().Name} uses HttpClient but no Polly resilience policies detected",
-                Location = assembly.FullName,
+                Location = assembly.FullName ?? assembly.GetName().Name ?? "UnknownAssembly",
                 AdrReference = "ADR-001",
                 Recommendation = "Add Polly policies for circuit breaker, retry, and timeout handling"
             });

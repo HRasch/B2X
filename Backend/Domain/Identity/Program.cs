@@ -28,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 try
 {
     using var loggerFactory = LoggerFactory.Create(lb => lb.AddConsole());
-    var validator = new ConfigurationValidator(builder.Configuration, loggerFactory.CreateLogger<ConfigurationValidator>());
+    var validator = new ConfigurationValidator(builder.Configuration, loggerFactory.CreateLogger<ConfigurationValidator>(), loggerFactory);
     validator.ValidateAll();
 }
 catch (ConfigurationValidationException ex)

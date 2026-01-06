@@ -4,6 +4,7 @@ using B2Connect.LocalizationService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Moq;
 using Xunit;
 
@@ -13,8 +14,10 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
 {
     private LocalizationDbContext _dbContext = null!;
     private Mock<IDistributedCache> _cacheMock = null!;
+    private IDistributedCache _realCache = null!;
     private Mock<IHttpContextAccessor> _httpContextAccessorMock = null!;
     private B2Connect.LocalizationService.Services.LocalizationService _service = null!;
+    private B2Connect.LocalizationService.Services.LocalizationService _serviceWithRealCache = null!;
     private Mock<HttpContext> _httpContextMock = null!;
 
     public async Task InitializeAsync()
@@ -25,12 +28,14 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
 
         _dbContext = new LocalizationDbContext(options);
         _cacheMock = new Mock<IDistributedCache>();
+        _realCache = new MemoryDistributedCache(Microsoft.Extensions.Options.Options.Create(new Microsoft.Extensions.Caching.Memory.MemoryDistributedCacheOptions()));
 
         _httpContextMock = new Mock<HttpContext>();
         _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
         _httpContextAccessorMock.Setup(x => x.HttpContext).Returns(_httpContextMock.Object);
 
         _service = new B2Connect.LocalizationService.Services.LocalizationService(_dbContext, _cacheMock.Object, _httpContextAccessorMock.Object);
+        _serviceWithRealCache = new B2Connect.LocalizationService.Services.LocalizationService(_dbContext, _realCache, _httpContextAccessorMock.Object);
     }
 
     public async Task DisposeAsync()
@@ -157,7 +162,7 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
         _dbContext.LocalizedStrings.Add(localized);
         await _dbContext.SaveChangesAsync();
 
-        _httpContextAccessorMock.Setup(x => x.HttpContext).Returns((HttpContext)null);
+        _httpContextAccessorMock.Setup(x => x.HttpContext).Returns((HttpContext?)null);
 
         // Act
         var result = await _service.GetStringAsync("default", "ui");
@@ -354,7 +359,6 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
 
     #region Caching Tests
 
-    // [Fact] - Disabled due to Moq limitation with extension methods on IDistributedCache
     [Fact]
     public async Task GetStringAsync_CachesResult_AvoidsDatabaseHits()
     {
@@ -372,20 +376,15 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
         _dbContext.LocalizedStrings.Add(localized);
         await _dbContext.SaveChangesAsync();
 
-        // Setup cache mock to return cached value on first call, then null
-        _cacheMock.SetupSequence(x => x.GetStringAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((string?)null) // First call - cache miss
-            .ReturnsAsync("Cached Value"); // Second call - cache hit
-
         // First call - hits database and caches
-        var result1 = await _service.GetStringAsync("cached", "test", "en");
+        var result1 = await _serviceWithRealCache.GetStringAsync("cached", "test", "en");
 
         // Remove from database to prove caching works
         _dbContext.LocalizedStrings.Remove(localized);
         await _dbContext.SaveChangesAsync();
 
         // Act - Second call should return cached value
-        var result2 = await _service.GetStringAsync("cached", "test", "en");
+        var result2 = await _serviceWithRealCache.GetStringAsync("cached", "test", "en");
 
         // Assert
         Assert.Equal(result1, result2);

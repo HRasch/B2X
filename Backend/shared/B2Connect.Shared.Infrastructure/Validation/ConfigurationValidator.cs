@@ -21,11 +21,11 @@ public class ConfigurationValidator
     private readonly JwtConfigurationValidator _jwtValidator;
     // private readonly Dictionary<string, JsonSchema> _schemas = new();
 
-    public ConfigurationValidator(IConfiguration configuration, ILogger<ConfigurationValidator> logger)
+    public ConfigurationValidator(IConfiguration configuration, ILogger<ConfigurationValidator> logger, ILoggerFactory loggerFactory)
     {
         _configuration = configuration;
         _logger = logger;
-        // _jwtValidator = new JwtConfigurationValidator(configuration, logger);
+        _jwtValidator = new JwtConfigurationValidator(configuration, loggerFactory.CreateLogger<JwtConfigurationValidator>());
         // LoadSchemas();
     }
 

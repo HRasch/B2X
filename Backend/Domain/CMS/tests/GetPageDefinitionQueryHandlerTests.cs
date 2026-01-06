@@ -92,7 +92,7 @@ public class GetPageDefinitionQueryHandlerTests
 
         _repositoryMock
             .Setup(x => x.GetPageByPathAsync(tenantId, pagePath, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((PageDefinition)null);
+            .ReturnsAsync((PageDefinition?)null);
 
         var query = new GetPageDefinitionQuery { TenantId = tenantId, PagePath = pagePath };
 

@@ -4,13 +4,13 @@ namespace B2Connect.PatternAnalysis.Core.Domain;
 
 public class Pattern : AggregateRoot
 {
-    public string Name { get; private set; }
-    public string Description { get; private set; }
+    public required string Name { get; private set; }
+    public required string Description { get; private set; }
     public PatternType Type { get; private set; }
     public SeverityLevel Severity { get; private set; }
     public PatternCategory Category { get; private set; }
-    public string DetectionRule { get; private set; } // Rule or AI prompt for detection
-    public string Suggestion { get; private set; } // Automated suggestion
+    public required string DetectionRule { get; private set; } // Rule or AI prompt for detection
+    public required string Suggestion { get; private set; } // Automated suggestion
     public bool IsActive { get; private set; }
 
     private Pattern() { } // EF

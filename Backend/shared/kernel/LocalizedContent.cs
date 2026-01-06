@@ -45,7 +45,7 @@ public class LocalizedContent
     /// </summary>
     /// <param name="languageCode">Language code (e.g., "en", "de")</param>
     /// <returns>Translated value or empty string if not found</returns>
-    public string Get(string languageCode)
+    public string Get(string? languageCode)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
         {
