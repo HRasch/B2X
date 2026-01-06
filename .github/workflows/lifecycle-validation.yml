@@ -24,12 +24,12 @@ jobs:
           node-version: '20'
 
       - name: Install yaml parser
-        run: npm install -g js-yaml
+        run: npm install js-yaml
 
       - name: Validate lifecycle.yml syntax
         run: |
           node -e "
-            const yaml = require('js-yaml');
+            const yaml = require('./node_modules/js-yaml');
             const fs = require('fs');
             try {
               const doc = yaml.load(fs.readFileSync('.ai/config/lifecycle.yml', 'utf8'));
@@ -87,7 +87,7 @@ jobs:
       - name: Generate lifecycle badge
         run: |
           node -e "
-            const yaml = require('js-yaml');
+            const yaml = require('./node_modules/js-yaml');
             const fs = require('fs');
             const doc = yaml.load(fs.readFileSync('.ai/config/lifecycle.yml', 'utf8'));
 
