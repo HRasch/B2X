@@ -1,28 +1,26 @@
 <template>
   <div class="email-template-edit-page">
-    <div class="page-header">
-      <div class="header-content">
-        <h1>{{ $t('email.templates.edit') }}</h1>
-        <p>{{ $t('email.templates.subtitle') }}</p>
-      </div>
-      <div class="header-actions">
+    <PageHeader :title="$t('email.templates.edit')" :subtitle="$t('email.templates.subtitle')">
+      <template #actions>
         <button @click="cancel" class="btn-secondary">{{ $t('ui.cancel') }}</button>
+      </template>
+    </PageHeader>
+
+    <CardContainer>
+      <div v-if="template" class="editor-container">
+        <EmailTemplateEditor
+          :template="template"
+          :is-editing="true"
+          @saved="onTemplateSaved"
+          @cancelled="onCancelled"
+        />
       </div>
-    </div>
 
-    <div v-if="template" class="editor-container">
-      <EmailTemplateEditor
-        :template="template"
-        :is-editing="true"
-        @saved="onTemplateSaved"
-        @cancelled="onCancelled"
-      />
-    </div>
-
-    <div v-else class="loading-state">
-      <div class="spinner"></div>
-      <p>{{ $t('ui.loading') }}</p>
-    </div>
+      <div v-else class="loading-state">
+        <div class="spinner"></div>
+        <p>{{ $t('ui.loading') }}</p>
+      </div>
+    </CardContainer>
   </div>
 </template>
 

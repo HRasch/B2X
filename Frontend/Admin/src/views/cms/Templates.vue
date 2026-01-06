@@ -1,9 +1,11 @@
 <template>
   <div class="space-y-6">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Templates</h1>
-    <div class="bg-white dark:bg-soft-800 rounded-lg shadow p-8 text-center">
-      <p class="text-gray-500 dark:text-soft-300">Page template management coming soon...</p>
-    </div>
+    <PageHeader :title="$t('cms.templates.title')" :subtitle="$t('cms.templates.subtitle')" />
+    <CardContainer>
+      <div class="text-center p-8">
+        <p class="text-gray-500 dark:text-soft-300">{{ $t('cms.templates.coming_soon') }}</p>
+      </div>
+    </CardContainer>
   </div>
 </template>
 

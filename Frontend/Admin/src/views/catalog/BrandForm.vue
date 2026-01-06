@@ -1,17 +1,16 @@
 <template>
   <div class="brand-form">
-    <div class="header">
-      <h1>{{ isEditMode ? 'Edit Brand' : 'Create Brand' }}</h1>
-      <p class="subtitle">Manage brand information</p>
-    </div>
+    <PageHeader :title="$t(isEditMode ? 'catalog.brands.edit' : 'catalog.brands.create')" :subtitle="$t('catalog.brands.subtitle')" />
 
-    <div class="form-container">
+    <CardContainer>
       <!-- Form would be implemented here -->
       <div class="placeholder-message">
-        <p>Brand form implementation coming soon...</p>
-        <router-link to="/catalog/brands" class="btn btn-secondary"> Back to Brands </router-link>
+        <p>{{ $t('catalog.brands.form.coming_soon') }}</p>
+        <router-link to="/catalog/brands" class="btn btn-secondary">
+          {{ $t('ui.back') }}
+        </router-link>
       </div>
-    </div>
+    </CardContainer>
   </div>
 </template>
 

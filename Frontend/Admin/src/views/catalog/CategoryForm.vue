@@ -1,19 +1,16 @@
 <template>
   <div class="category-form">
-    <div class="header">
-      <h1>{{ isEditMode ? 'Edit Category' : 'Create Category' }}</h1>
-      <p class="subtitle">Manage category information</p>
-    </div>
+    <PageHeader :title="$t(isEditMode ? 'catalog.categories.edit' : 'catalog.categories.create')" :subtitle="$t('catalog.categories.subtitle')" />
 
-    <div class="form-container">
+    <CardContainer>
       <!-- Form would be implemented here -->
       <div class="placeholder-message">
-        <p>Category form implementation coming soon...</p>
+        <p>{{ $t('catalog.categories.form.coming_soon') }}</p>
         <router-link to="/catalog/categories" class="btn btn-secondary">
-          Back to Categories
+          {{ $t('ui.back') }}
         </router-link>
       </div>
-    </div>
+    </CardContainer>
   </div>
 </template>
 

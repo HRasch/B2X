@@ -1,15 +1,10 @@
 <template>
   <div class="space-y-6">
-    <div class="flex items-center gap-4">
-      <router-link to="/jobs/queue" class="btn btn-ghost btn-sm"> ← Back </router-link>
-      <h1 class="text-2xl font-bold text-base-content">Job Details</h1>
-    </div>
+    <PageHeader :title="$t('jobs.detail.title')" :subtitle="$t('jobs.detail.subtitle')" />
 
-    <div class="card bg-base-100 shadow">
-      <div class="card-body">
-        <p class="text-base-content/60">Job details coming soon...</p>
-      </div>
-    </div>
+    <CardContainer>
+      <p class="text-base-content/60">{{ $t('jobs.detail.coming_soon') }}</p>
+    </CardContainer>
   </div>
 </template>
 

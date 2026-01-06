@@ -1,236 +1,271 @@
 <template>
-  <div class="form-container">
-    <div class="form-header">
-      <h1>{{ isEdit ? 'Benutzer bearbeiten' : 'Neuer Benutzer' }}</h1>
-      <router-link to="/users" class="btn-back">← Zurück</router-link>
-    </div>
+  <div class="user-form-page">
+    <PageHeader
+      :title="isEdit ? $t('users.edit') : $t('users.create')"
+    >
+      <template #actions>
+        <router-link to="/users" class="btn-secondary">
+          {{ $t('users.back') }}
+        </router-link>
+      </template>
+    </PageHeader>
 
-    <form @submit.prevent="handleSubmit" class="user-form">
-      <!-- Basic Info Section -->
-      <div class="form-section">
-        <h2>Grundinformationen</h2>
+    <div class="page-content">
+      <CardContainer elevated>
+        <form @submit.prevent="handleSubmit">
+          <!-- Basic Info Section -->
+          <FormSection :title="$t('users.form.basicInfo')">
+            <FormRow :cols="2">
+              <FormGroup
+                :label="$t('users.form.firstName')"
+                input-id="firstName"
+                :error="errors.firstName"
+                required
+              >
+                <input
+                  id="firstName"
+                  v-model="form.firstName"
+                  type="text"
+                  required
+                  data-testid="firstName-input"
+                />
+              </FormGroup>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="firstName">Vorname *</label>
-            <input
-              id="firstName"
-              v-model="form.firstName"
-              type="text"
-              required
-              :class="{ 'has-error': errors.firstName }"
-              data-testid="firstName-input"
-            />
-            <span v-if="errors.firstName" class="error-text">
-              {{ errors.firstName }}
-            </span>
-          </div>
+              <FormGroup
+                :label="$t('users.form.lastName')"
+                input-id="lastName"
+                :error="errors.lastName"
+                required
+              >
+                <input
+                  id="lastName"
+                  v-model="form.lastName"
+                  type="text"
+                  required
+                  data-testid="lastName-input"
+                />
+              </FormGroup>
+            </FormRow>
 
-          <div class="form-group">
-            <label for="lastName">Nachname *</label>
-            <input
-              id="lastName"
-              v-model="form.lastName"
-              type="text"
-              required
-              :class="{ 'has-error': errors.lastName }"
-              data-testid="lastName-input"
-            />
-            <span v-if="errors.lastName" class="error-text">
-              {{ errors.lastName }}
-            </span>
-          </div>
-        </div>
+            <FormRow :cols="2">
+              <FormGroup
+                :label="$t('users.form.email')"
+                input-id="email"
+                :error="errors.email"
+                required
+              >
+                <input
+                  id="email"
+                  v-model="form.email"
+                  type="email"
+                  required
+                  data-testid="email-input"
+                />
+              </FormGroup>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="email">E-Mail *</label>
-            <input
-              id="email"
-              v-model="form.email"
-              type="email"
-              required
-              :class="{ 'has-error': errors.email }"
-              data-testid="email-input"
-            />
-            <span v-if="errors.email" class="error-text">
-              {{ errors.email }}
-            </span>
-          </div>
+              <FormGroup
+                :label="$t('users.form.phone')"
+                input-id="phoneNumber"
+              >
+                <input
+                  id="phoneNumber"
+                  v-model="form.phoneNumber"
+                  type="tel"
+                  data-testid="phoneNumber-input"
+                />
+              </FormGroup>
+            </FormRow>
 
-          <div class="form-group">
-            <label for="phoneNumber">Telefon</label>
-            <input
-              id="phoneNumber"
-              v-model="form.phoneNumber"
-              type="tel"
-              data-testid="phoneNumber-input"
-            />
-          </div>
-        </div>
+            <FormRow :cols="3">
+              <div class="checkbox-group">
+                <label>
+                  <input
+                    v-model="form.isEmailVerified"
+                    type="checkbox"
+                    data-testid="isEmailVerified-input"
+                  />
+                  {{ $t('users.form.emailVerified') }}
+                </label>
+              </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label>
-              <input
-                v-model="form.isEmailVerified"
-                type="checkbox"
-                data-testid="isEmailVerified-input"
-              />
-              E-Mail verifiziert
-            </label>
-          </div>
+              <div class="checkbox-group">
+                <label>
+                  <input
+                    v-model="form.isPhoneVerified"
+                    type="checkbox"
+                    data-testid="isPhoneVerified-input"
+                  />
+                  {{ $t('users.form.phoneVerified') }}
+                </label>
+              </div>
 
-          <div class="form-group">
-            <label>
-              <input
-                v-model="form.isPhoneVerified"
-                type="checkbox"
-                data-testid="isPhoneVerified-input"
-              />
-              Telefon verifiziert
-            </label>
-          </div>
+              <div class="checkbox-group">
+                <label>
+                  <input
+                    v-model="form.isActive"
+                    type="checkbox"
+                    data-testid="isActive-input"
+                  />
+                  {{ $t('users.form.active') }}
+                </label>
+              </div>
+            </FormRow>
+          </FormSection>
 
-          <div class="form-group">
-            <label>
-              <input v-model="form.isActive" type="checkbox" data-testid="isActive-input" />
-              Aktiv
-            </label>
-          </div>
-        </div>
-      </div>
+          <!-- Profile Section -->
+          <FormSection :title="$t('users.form.profile')">
+            <FormRow :cols="2">
+              <FormGroup
+                :label="$t('users.form.company')"
+                input-id="companyName"
+              >
+                <input
+                  id="companyName"
+                  v-model="profile.companyName"
+                  type="text"
+                  data-testid="companyName-input"
+                />
+              </FormGroup>
 
-      <!-- Profile Section -->
-      <div class="form-section">
-        <h2>Profil</h2>
+              <FormGroup
+                :label="$t('users.form.jobTitle')"
+                input-id="jobTitle"
+              >
+                <input
+                  id="jobTitle"
+                  v-model="profile.jobTitle"
+                  type="text"
+                  data-testid="jobTitle-input"
+                />
+              </FormGroup>
+            </FormRow>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="companyName">Unternehmen</label>
-            <input
-              id="companyName"
-              v-model="profile.companyName"
-              type="text"
-              data-testid="companyName-input"
-            />
-          </div>
+            <FormRow :cols="2">
+              <FormGroup
+                :label="$t('users.form.dateOfBirth')"
+                input-id="dateOfBirth"
+              >
+                <input
+                  id="dateOfBirth"
+                  v-model="profile.dateOfBirth"
+                  type="date"
+                  data-testid="dateOfBirth-input"
+                />
+              </FormGroup>
 
-          <div class="form-group">
-            <label for="jobTitle">Berufsbezeichnung</label>
-            <input
-              id="jobTitle"
-              v-model="profile.jobTitle"
-              type="text"
-              data-testid="jobTitle-input"
-            />
-          </div>
-        </div>
+              <FormGroup
+                :label="$t('users.form.nationality')"
+                input-id="nationality"
+              >
+                <input
+                  id="nationality"
+                  v-model="profile.nationality"
+                  type="text"
+                  data-testid="nationality-input"
+                />
+              </FormGroup>
+            </FormRow>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="dateOfBirth">Geburtsdatum</label>
-            <input
-              id="dateOfBirth"
-              v-model="profile.dateOfBirth"
-              type="date"
-              data-testid="dateOfBirth-input"
-            />
-          </div>
+            <FormRow :cols="2">
+              <FormGroup
+                :label="$t('users.form.preferredLanguage')"
+                input-id="preferredLanguage"
+              >
+                <select
+                  id="preferredLanguage"
+                  v-model="profile.preferredLanguage"
+                  data-testid="preferredLanguage-input"
+                >
+                  <option value="de">{{ $t('users.languages.de') }}</option>
+                  <option value="en">{{ $t('users.languages.en') }}</option>
+                  <option value="fr">{{ $t('users.languages.fr') }}</option>
+                  <option value="it">{{ $t('users.languages.it') }}</option>
+                </select>
+              </FormGroup>
 
-          <div class="form-group">
-            <label for="nationality">Nationalität</label>
-            <input
-              id="nationality"
-              v-model="profile.nationality"
-              type="text"
-              data-testid="nationality-input"
-            />
-          </div>
-        </div>
+              <FormGroup
+                :label="$t('users.form.timezone')"
+                input-id="timezone"
+              >
+                <input
+                  id="timezone"
+                  v-model="profile.timezone"
+                  type="text"
+                  :placeholder="$t('users.form.timezonePlaceholder')"
+                  data-testid="timezone-input"
+                />
+              </FormGroup>
+            </FormRow>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="preferredLanguage">Bevorzugte Sprache</label>
-            <select
-              id="preferredLanguage"
-              v-model="profile.preferredLanguage"
-              data-testid="preferredLanguage-input"
+            <FormGroup
+              :label="$t('users.form.bio')"
+              input-id="bio"
             >
-              <option value="de">Deutsch</option>
-              <option value="en">English</option>
-              <option value="fr">Français</option>
-              <option value="it">Italiano</option>
-            </select>
+              <textarea
+                id="bio"
+                v-model="profile.bio"
+                rows="4"
+                data-testid="bio-input"
+              ></textarea>
+            </FormGroup>
+
+            <FormRow :cols="2">
+              <div class="checkbox-group">
+                <label>
+                  <input
+                    v-model="profile.receiveNewsletter"
+                    type="checkbox"
+                    data-testid="receiveNewsletter-input"
+                  />
+                  {{ $t('users.form.newsletter') }}
+                </label>
+              </div>
+
+              <div class="checkbox-group">
+                <label>
+                  <input
+                    v-model="profile.receivePromotionalEmails"
+                    type="checkbox"
+                    data-testid="receivePromotionalEmails-input"
+                  />
+                  {{ $t('users.form.promotionalEmails') }}
+                </label>
+              </div>
+            </FormRow>
+          </FormSection>
+
+          <!-- Error Alert -->
+          <div v-if="submitError" class="alert alert-danger">
+            {{ submitError }}
           </div>
 
-          <div class="form-group">
-            <label for="timezone">Zeitzone</label>
-            <input
-              id="timezone"
-              v-model="profile.timezone"
-              type="text"
-              placeholder="Europe/Berlin"
-              data-testid="timezone-input"
-            />
+          <!-- Submit Buttons -->
+          <div class="form-actions">
+            <router-link to="/users" class="btn-secondary">
+              {{ $t('ui.cancel') }}
+            </router-link>
+            <button type="submit" class="btn-primary" :disabled="submitting">
+              {{ submitting ? $t('users.messages.saving') : $t('ui.save') }}
+            </button>
           </div>
-        </div>
-
-        <div class="form-group">
-          <label for="bio">Bio</label>
-          <textarea id="bio" v-model="profile.bio" rows="4" data-testid="bio-input"></textarea>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>
-              <input
-                v-model="profile.receiveNewsletter"
-                type="checkbox"
-                data-testid="receiveNewsletter-input"
-              />
-              Newsletter abonnieren
-            </label>
-          </div>
-
-          <div class="form-group">
-            <label>
-              <input
-                v-model="profile.receivePromotionalEmails"
-                type="checkbox"
-                data-testid="receivePromotionalEmails-input"
-              />
-              Werbe-E-Mails erhalten
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Error Alert -->
-      <div v-if="submitError" class="alert alert-danger">
-        {{ submitError }}
-      </div>
-
-      <!-- Submit Buttons -->
-      <div class="form-actions">
-        <router-link to="/users" class="btn btn-secondary"> Abbrechen </router-link>
-        <button type="submit" class="btn btn-primary" :disabled="submitting">
-          {{ submitting ? 'Wird gespeichert...' : 'Speichern' }}
-        </button>
-      </div>
-    </form>
+        </form>
+      </CardContainer>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useUserStore } from '@/stores/users';
+import { PageHeader, FormSection, FormRow, FormGroup, CardContainer } from '@/components/layout';
 import type { User, UserProfile } from '@/types/user';
 
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
+const { t } = useI18n();
 
 const isEdit = ref(false);
 const submitting = ref(false);
@@ -267,15 +302,15 @@ onMounted(async () => {
       const user = await userStore.fetchUser(route.params.id as string);
       Object.assign(form, user);
     } catch {
-      submitError.value = 'Benutzer konnte nicht geladen werden';
+      submitError.value = t('users.messages.loadError');
     }
   }
 });
 
 const validateForm = () => {
-  errors.firstName = !form.firstName ? 'Vorname ist erforderlich' : '';
-  errors.lastName = !form.lastName ? 'Nachname ist erforderlich' : '';
-  errors.email = !form.email ? 'E-Mail ist erforderlich' : '';
+  errors.firstName = !form.firstName ? t('users.validation.firstNameRequired') : '';
+  errors.lastName = !form.lastName ? t('users.validation.lastNameRequired') : '';
+  errors.email = !form.email ? t('users.validation.emailRequired') : '';
 
   return !errors.firstName && !errors.lastName && !errors.email;
 };
@@ -295,7 +330,7 @@ const handleSubmit = async () => {
 
     await router.push('/users');
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'Fehler beim Speichern';
+    const errorMessage = error instanceof Error ? error.message : t('users.messages.saveError');
     submitError.value = errorMessage;
   } finally {
     submitting.value = false;
@@ -304,123 +339,43 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-.form-container {
+.user-form-page {
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+.dark .user-form-page {
+  background: #0f172a;
+}
+
+.page-content {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
 }
 
-.form-header {
+.checkbox-group {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
 }
 
-.form-header h1 {
-  margin: 0;
-  font-size: 1.875rem;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.btn-back {
-  color: #3b82f6;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.btn-back:hover {
-  color: #2563eb;
-  text-decoration: underline;
-}
-
-.user-form {
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-}
-
-.form-section {
-  margin-bottom: 2rem;
-}
-
-.form-section h2 {
-  margin: 0 0 1.5rem 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1f2937;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #f3f4f6;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.form-group {
+.checkbox-group label {
   display: flex;
-  flex-direction: column;
-}
-
-.form-group label {
-  margin-bottom: 0.5rem;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 500;
   color: #374151;
+  cursor: pointer;
 }
 
-.form-group input[type='checkbox'],
-.form-group input[type='radio'] {
-  width: auto;
-  margin-right: 0.5rem;
+.dark .checkbox-group label {
+  color: #d1d5db;
 }
 
-.form-group input[type='checkbox'] + label,
-.form-group input[type='radio'] + label {
-  display: inline;
-  margin-bottom: 0;
-  font-weight: normal;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
-  font-family: inherit;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.form-group input.has-error,
-.form-group select.has-error,
-.form-group textarea.has-error {
-  border-color: #ef4444;
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+.checkbox-group input[type='checkbox'] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #3b82f6;
 }
 
 .alert {
@@ -435,16 +390,27 @@ const handleSubmit = async () => {
   border: 1px solid #fca5a5;
 }
 
+.dark .alert-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 .form-actions {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
   margin-top: 2rem;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid #e5e7eb;
 }
 
-.btn {
+.dark .form-actions {
+  border-top-color: #374151;
+}
+
+.btn-primary,
+.btn-secondary {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 0.5rem;
@@ -453,6 +419,7 @@ const handleSubmit = async () => {
   transition: all 0.2s;
   text-decoration: none;
   display: inline-block;
+  font-size: 0.9375rem;
 }
 
 .btn-primary {
@@ -476,5 +443,14 @@ const handleSubmit = async () => {
 
 .btn-secondary:hover {
   background: #d1d5db;
+}
+
+.dark .btn-secondary {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+.dark .btn-secondary:hover {
+  background: #4b5563;
 }
 </style>

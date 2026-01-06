@@ -1,11 +1,9 @@
 <template>
   <div class="space-y-6">
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $t('dashboard.title') }}</h1>
-      <p class="mt-2 text-gray-600 dark:text-soft-300">
-        {{ $t('dashboard.welcomeBack', { name: authStore.user?.firstName }) }}
-      </p>
-    </div>
+    <PageHeader
+      :title="$t('dashboard.title')"
+      :subtitle="$t('dashboard.welcomeBack', { name: authStore.user?.firstName })"
+    />
 
     <!-- Quick Stats -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -44,10 +42,13 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="bg-white dark:bg-soft-800 rounded-lg shadow p-6">
-      <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-        {{ $t('dashboard.quickActions.title') }}
-      </h2>
+    <CardContainer elevated>
+      <template #header>
+        <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+          {{ $t('dashboard.quickActions.title') }}
+        </h2>
+      </template>
+
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <router-link
           to="/cms/pages"
@@ -78,7 +79,7 @@
           <div class="text-sm font-medium">{{ $t('dashboard.quickActions.mediaLibrary') }}</div>
         </router-link>
       </div>
-    </div>
+    </CardContainer>
   </div>
 </template>
 
@@ -88,6 +89,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
 import { useShopStore } from '@/stores/shop';
 import { useJobsStore } from '@/stores/jobs';
+import { PageHeader, CardContainer } from '@/components/layout';
 
 const authStore = useAuthStore();
 const cmsStore = useCmsStore();

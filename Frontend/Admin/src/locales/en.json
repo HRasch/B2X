@@ -192,11 +192,177 @@
       "mediaLibrary": "Media Library"
     }
   },
+  "cms": {
+    "pages": {
+      "title": "Pages",
+      "subtitle": "Manage CMS pages for your store",
+      "loading": "Loading pages...",
+      "no_pages": "No pages yet. Create your first page to get started.",
+      "actions": {
+        "new": "+ New Page"
+      }
+    },
+    "page_detail": {
+      "title": "Page Editor",
+      "subtitle": "Edit and manage page content",
+      "back_to_pages": "Back to Pages",
+      "editor_title": "Page Content",
+      "coming_soon": "Page editor coming soon..."
+    },
+    "templates": {
+      "title": "Templates",
+      "subtitle": "Manage page templates for your store",
+      "coming_soon": "Page template management coming soon..."
+    }
+  ,
+    "media": {
+      "title": "Media Library",
+      "subtitle": "Manage media assets for your store",
+      "coming_soon": "Media library management coming soon..."
+    }
+  },
+  "catalog": {
+    "products": {
+      "title": "Products",
+      "subtitle": "Manage your catalog products",
+      "loading": "Loading products...",
+      "no_products": "No products found",
+      "actions": {
+        "new": "New Product"
+      },
+      "create": "Create Product",
+      "edit": "Edit Product",
+      "form": {
+        "coming_soon": "Product form implementation coming soon..."
+      }
+    },
+    "categories": {
+      "title": "Categories",
+      "subtitle": "Manage product categories",
+      "actions": {
+        "new": "New Category"
+      },
+      "create": "Create Category",
+      "edit": "Edit Category",
+      "form": {
+        "coming_soon": "Category form implementation coming soon..."
+      }
+    },
+    "brands": {
+      "title": "Brands",
+      "subtitle": "Manage product brands",
+      "actions": {
+        "new": "New Brand"
+      },
+      "create": "Create Brand",
+      "edit": "Edit Brand",
+      "form": {
+        "coming_soon": "Brand form implementation coming soon..."
+      }
+    }
+  },
+  "jobs": {
+    "queue": {
+      "title": "Job Queue",
+      "loading": "Loading jobs...",
+      "no_jobs": "No jobs in queue."
+    },
+    "detail": {
+      "title": "Job Details",
+      "subtitle": "View detailed information about this job",
+      "coming_soon": "Job details coming soon..."
+    },
+    "history": {
+      "title": "Job History",
+      "subtitle": "View completed and failed jobs",
+      "content_title": "Job History",
+      "coming_soon": "Job history coming soon..."
+    }
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
     "close": "Close",
     "download": "Download",
     "downloading": "Downloading..."
+  },
+  "users": {
+    "title": "Users",
+    "subtitle": "Manage customer accounts, profiles and addresses",
+    "list": "User List",
+    "create": "New User",
+    "edit": "Edit User",
+    "back": "← Back",
+    "form": {
+      "basicInfo": "Basic Information",
+      "profile": "Profile",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "emailVerified": "Email Verified",
+      "phoneVerified": "Phone Verified",
+      "active": "Active",
+      "company": "Company",
+      "jobTitle": "Job Title",
+      "dateOfBirth": "Date of Birth",
+      "nationality": "Nationality",
+      "preferredLanguage": "Preferred Language",
+      "timezone": "Timezone",
+      "timezonePlaceholder": "Europe/Berlin",
+      "bio": "Bio",
+      "newsletter": "Subscribe to Newsletter",
+      "promotionalEmails": "Receive Promotional Emails"
+    },
+    "languages": {
+      "de": "German",
+      "en": "English",
+      "fr": "French",
+      "it": "Italian"
+    },
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Email is required"
+    },
+    "messages": {
+      "loadError": "User could not be loaded",
+      "saveError": "Error saving user",
+      "saving": "Saving..."
+    }
+    ,
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "created": "Created",
+    "last_login": "Last Login",
+    "never": "Never",
+    "addresses": {
+      "no_addresses": "No addresses stored",
+      "add_address": "Add Address"
+    }
+  },
+  "shop": {
+    "products": {
+      "title": "Products",
+      "loading": "Loading products...",
+      "no_products": "No products found."
+    },
+    "product_detail": {
+      "title": "Product Editor",
+      "subtitle": "Edit and manage product details",
+      "back_to_products": "Back to Products",
+      "editor_title": "Product Information",
+      "coming_soon": "Product editor coming soon..."
+    },
+    "categories": {
+      "title": "Categories",
+      "loading": "Loading categories...",
+      "no_categories": "No categories found."
+    },
+    "pricing": {
+      "title": "Pricing",
+      "loading": "Loading pricing...",
+      "no_pricing": "No pricing rules found."
+    }
   }
 }

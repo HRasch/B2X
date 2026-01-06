@@ -1,20 +1,15 @@
 <template>
   <div class="users-container">
-    <!-- Header -->
-    <div class="users-header">
-      <div class="header-content">
-        <h1>Benutzerverwaltung</h1>
-        <p class="subtitle">Verwalten Sie Kundenkonten, Profile und Adressen</p>
-      </div>
-      <div class="header-actions">
+    <PageHeader :title="$t('users.title')" :subtitle="$t('users.subtitle')">
+      <template #actions>
         <router-link to="/users/create" class="btn btn-primary" data-testid="create-user-btn">
-          <i class="icon-plus"></i> Neuer Benutzer
+          <i class="icon-plus"></i> {{ $t('users.create') }}
         </router-link>
-      </div>
-    </div>
+      </template>
+    </PageHeader>
 
-    <!-- Search & Filter -->
-    <div class="search-filter-section">
+    <CardContainer>
+      <div class="search-filter-section">
       <div class="search-box">
         <input
           v-model="searchQuery"
@@ -63,10 +58,10 @@
     <!-- Empty State -->
     <div v-else-if="!userStore.hasUsers" class="empty-state" data-testid="empty-state">
       <i class="icon-users"></i>
-      <h3>Keine Benutzer gefunden</h3>
-      <p>Beginnen Sie damit, neue Benutzer zu erstellen</p>
+      <h3>{{ $t('users.no_users.title') }}</h3>
+      <p>{{ $t('users.no_users.description') }}</p>
       <router-link to="/users/create" class="btn btn-primary">
-        Ersten Benutzer erstellen
+        {{ $t('users.create') }}
       </router-link>
     </div>
 
@@ -148,6 +143,7 @@
           </tr>
         </tbody>
       </table>
+    </div>
 
       <!-- Pagination -->
       <div v-if="userStore.totalPages > 1" class="pagination">
@@ -171,7 +167,8 @@
           Weiter →
         </button>
       </div>
-    </div>
+
+    </CardContainer>
 
     <!-- Delete Confirmation Modal -->
     <div v-if="showDeleteModal" class="modal-overlay">
@@ -210,6 +207,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useUserStore } from '@/stores/users';
+import { PageHeader, CardContainer } from '@/components/layout';
 
 const userStore = useUserStore();
 const searchQuery = ref('');
