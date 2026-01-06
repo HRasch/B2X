@@ -176,8 +176,12 @@ onMounted(() => {
     <!-- Breadcrumb -->
     <nav class="breadcrumbs text-sm px-4 py-4 max-w-7xl mx-auto">
       <ul>
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/products">Products</router-link></li>
+        <li>
+          <router-link to="/">{{ $t('navigation.home') }}</router-link>
+        </li>
+        <li>
+          <router-link to="/products">{{ $t('navigation.products') }}</router-link>
+        </li>
         <li v-if="product" class="text-base-content/70">{{ product.name }}</li>
       </ul>
     </nav>
@@ -271,7 +275,7 @@ onMounted(() => {
 
           <!-- SKU -->
           <p v-if="product.sku" class="text-sm text-base-content/70 mb-4">
-            SKU: <span class="font-mono">{{ product.sku }}</span>
+            {{ $t('product.sku') }} <span class="font-mono">{{ product.sku }}</span>
           </p>
 
           <!-- Description -->
@@ -285,7 +289,7 @@ onMounted(() => {
           <!-- Price Section with VAT Transparency (Issue #30) -->
           <div class="card bg-green-50 border-l-4 border-green-500 shadow-sm mb-6">
             <div class="card-body">
-              <h3 class="card-title text-base mb-4">Price Overview</h3>
+              <h3 class="card-title text-base mb-4">{{ $t('product.priceOverview') }}</h3>
 
               <!-- Use ProductPrice component for automatic VAT calculation -->
               <ProductPrice
@@ -297,7 +301,7 @@ onMounted(() => {
               />
 
               <p class="text-xs text-gray-500 mt-3">
-                All prices include VAT in accordance with PAngV (Price Indication Ordinance)
+                {{ $t('product.priceIncludesVat') }}
               </p>
             </div>
           </div>
@@ -354,7 +358,7 @@ onMounted(() => {
               class="btn btn-primary flex-1"
             >
               <span v-if="addingToCart" class="loading loading-spinner loading-sm"></span>
-              <span v-else>Add to Cart</span>
+              <span v-else>{{ $t('product.addToCart') }}</span>
             </button>
           </div>
 
@@ -367,7 +371,7 @@ onMounted(() => {
 
           <!-- Share -->
           <div class="flex gap-2 items-center pt-4 border-t border-base-300">
-            <span class="text-sm text-base-content/70">Share:</span>
+            <span class="text-sm text-base-content/70">{{ $t('product.share') }}</span>
             <button class="btn btn-ghost btn-circle btn-sm" title="Share on Facebook">f</button>
             <button class="btn btn-ghost btn-circle btn-sm" title="Share on Twitter">𝕏</button>
             <button class="btn btn-ghost btn-circle btn-sm" title="Copy link">🔗</button>
@@ -377,7 +381,7 @@ onMounted(() => {
 
       <!-- Specifications -->
       <div v-if="product.specifications" class="mt-12">
-        <h2 class="text-2xl font-bold mb-6">Specifications</h2>
+        <h2 class="text-2xl font-bold mb-6">{{ $t('product.specifications') }}</h2>
         <div class="card bg-base-200 shadow-sm overflow-hidden">
           <div class="overflow-x-auto">
             <table class="table w-full">
@@ -394,7 +398,7 @@ onMounted(() => {
 
       <!-- Reviews Section -->
       <div v-if="reviews.length > 0" class="mt-12">
-        <h2 class="text-2xl font-bold mb-6">Customer Reviews</h2>
+        <h2 class="text-2xl font-bold mb-6">{{ $t('product.customerReviews') }}</h2>
 
         <div class="space-y-4">
           <div v-for="review in reviews" :key="review.id" class="card bg-base-200 shadow-sm">
@@ -405,7 +409,7 @@ onMounted(() => {
                   <p class="text-sm text-base-content/70">
                     by <span class="font-semibold">{{ review.author }}</span>
                     <span v-if="review.verified" class="badge badge-sm badge-success ml-2">
-                      ✓ Verified
+                      {{ $t('product.verified') }}
                     </span>
                   </p>
                 </div>

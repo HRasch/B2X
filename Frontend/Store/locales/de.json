@@ -138,17 +138,60 @@
     "previousPage": "← Vorherige",
     "nextPage": "Nächste →"
   },
-  "tenants": {
-    "title": "Mandantenverwaltung",
-    "newTenant": "+ Neuer Mandant",
-    "noTenantsFound": "Keine Mandanten gefunden. Erstellen Sie Ihren ersten Mandanten, um zu beginnen.",
-    "createNewTenant": "Neuen Mandanten erstellen",
-    "name": "Name",
-    "slug": "Slug",
-    "description": "Beschreibung",
-    "create": "Erstellen",
-    "edit": "Bearbeiten",
-    "delete": "Löschen",
-    "cancel": "Abbrechen"
-  }
-}
+  "navigation": {
+    "home": "Startseite",
+    "products": "Produkte",
+    "categories": "Kategorien",
+    "cart": "Warenkorb",
+    "checkout": "Kasse",
+    "account": "Mein Konto",
+    "orders": "Bestellhistorie",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "dashboard": "Dashboard",
+    "tenants": "Mandanten",
+    "accountSettings": "Kontoeinstellungen"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "statistics": "Statistiken",
+    "recentActivity": "Kürzliche Aktivitäten",
+    "quickActions": "Schnellaktionen",
+    "manageTenants": "Mandanten verwalten",
+    "accountSettings": "Kontoeinstellungen"
+  },
+  "legal": {
+    "privacyPolicy": "Datenschutzerklärung",
+    "termsAndConditions": "Allgemeine Geschäftsbedingungen",
+    "withdrawalRights": "Widerrufsrecht (14 Tage)",
+    "withdrawalRightsTitle": "Ihr Widerrufsrecht",
+    "withdrawalRightsText": "Sie haben das Recht, innerhalb von 14 Tagen nach Erhalt der Ware ohne Angabe von Gründen vom Vertrag zurückzutreten.",
+    "withdrawalFristen": "Widerrufsfristen",
+    "beginn": "Beginn: Tag nach Erhalt der Ware",
+    "dauer": "Dauer: 14 Tage",
+    "form": "Form: Einfache schriftliche Erklärung",
+    "ausnahmen": "Ausnahmen",
+    "ausnahmenText": "Widerrufsrecht gilt nicht für Waren, die nach Kundenspezifikation angefertigt oder eindeutig personalisiert wurden.",
+    "digitaleInhalte": "Digitale Inhalte nach Download",
+    "maßgeschneiderte": "Maßgeschneiderte oder verderbliche Waren",
+    "warenNachZustellung": "Waren nach Zustellung, die entsiegelt wurden",
+    "rueckgabeverfahren": "Rückgabeverfahren",
+    "rueckgabeverfahrenText": "Senden Sie die Ware innerhalb von 14 Tagen an uns zurück. Sie tragen die unmittelbaren Kosten der Rücksendung der Waren.",
+    "kontakt": "Kontakt",
+    "kontaktText": "Widerrufe richten Sie an: support@b2connect.com",
+    "rechtsgrundlage": "Rechtsgrundlage:",
+    "rechtsgrundlageText": "§§ 355-359 BGB (Bürgerliches Gesetzbuch)",
+    "haftung": "6. Haftung",
+    "haftungText": "Haftung für Schäden...",
+    "datenschutz": "7. Datenschutz",
+    "datenschutzText": "Siehe Datenschutzerklärung",
+    "schlussbestimmungen": "8. Schlussbestimmungen",
+    "schlussbestimmungenText": "Es gilt deutsches Recht...",
+    "verstanden": "Verstanden"
+  },
+  "widgets": {
+    "testimonials": {
+      "previous": "← Vorherige",
+      "next": "Nächste →"
+    }
+  },

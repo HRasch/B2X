@@ -163,8 +163,8 @@ onMounted(() => {
     <!-- Header -->
     <header class="bg-primary text-primary-content py-6 px-4">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-3xl font-bold mb-2">B2Connect Store</h1>
-        <p class="text-primary-content/90">Find the best products for your business</p>
+        <h1 class="text-3xl font-bold mb-2">{{ $t('products.title') }}</h1>
+        <p class="text-primary-content/90">{{ $t('products.subtitle') }}</p>
       </div>
     </header>
 
@@ -175,7 +175,7 @@ onMounted(() => {
         <div class="flex-1">
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Search products</span>
+              <span class="label-text">{{ $t('products.search.label') }}</span>
             </label>
             <input
               v-model="searchQuery"
@@ -191,13 +191,13 @@ onMounted(() => {
         <div class="w-full md:w-48">
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Sort by</span>
+              <span class="label-text">{{ $t('products.sort.label') }}</span>
             </label>
             <select v-model="sortBy" class="select select-bordered" :disabled="loading">
-              <option value="name">Name (A-Z)</option>
-              <option value="price-asc">Price (Low to High)</option>
-              <option value="price-desc">Price (High to Low)</option>
-              <option value="rating">Rating (High to Low)</option>
+              <option value="name">{{ $t('products.sort.nameAsc') }}</option>
+              <option value="price-asc">{{ $t('products.sort.priceAsc') }}</option>
+              <option value="price-desc">{{ $t('products.sort.priceDesc') }}</option>
+              <option value="rating">{{ $t('products.sort.ratingDesc') }}</option>
             </select>
           </div>
         </div>
@@ -208,12 +208,14 @@ onMounted(() => {
         <aside class="lg:w-48 flex-shrink-0">
           <div class="card bg-base-200 shadow-sm">
             <div class="card-body">
-              <h3 class="card-title text-base mb-4">Filters</h3>
+              <h3 class="card-title text-base mb-4">{{ $t('products.filters.title') }}</h3>
 
               <!-- Category Filter -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text font-semibold">Category</span>
+                  <span class="label-text font-semibold">{{
+                    $t('products.filters.category')
+                  }}</span>
                 </label>
                 <div class="space-y-2">
                   <label v-for="cat in uniqueCategories" :key="cat" class="label cursor-pointer">
@@ -231,18 +233,22 @@ onMounted(() => {
               <!-- Price Range (TODO: Implement) -->
               <div class="form-control mt-4">
                 <label class="label">
-                  <span class="label-text font-semibold">Price Range</span>
+                  <span class="label-text font-semibold">{{
+                    $t('products.filters.priceRange')
+                  }}</span>
                 </label>
                 <div class="flex gap-2 items-center">
                   <input type="range" min="0" max="5000" class="range range-sm flex-1" disabled />
                 </div>
-                <p class="text-xs text-base-content/70 mt-2">€0 - €5000 (coming soon)</p>
+                <p class="text-xs text-base-content/70 mt-2">
+                  {{ $t('products.filters.priceRangeComingSoon') }}
+                </p>
               </div>
 
               <!-- Availability Filter -->
               <div class="form-control mt-4">
                 <label class="label cursor-pointer">
-                  <span class="label-text">In Stock Only</span>
+                  <span class="label-text">{{ $t('products.filters.inStockOnly') }}</span>
                   <input type="checkbox" class="checkbox checkbox-primary" disabled />
                 </label>
               </div>
@@ -257,7 +263,7 @@ onMounted(() => {
             <div>
               <h2 class="text-xl font-semibold">{{ totalProducts }} Products</h2>
               <p v-if="searchQuery" class="text-sm text-base-content/70">
-                Found for:
+                {{ $t('products.results.foundFor') }}
                 <span class="font-semibold">"{{ searchQuery }}"</span>
               </p>
             </div>
@@ -268,7 +274,7 @@ onMounted(() => {
           <div v-if="loading" class="flex justify-center items-center py-12">
             <div class="flex flex-col items-center gap-4">
               <span class="loading loading-spinner loading-lg text-primary"></span>
-              <p class="text-base-content/70">Loading products...</p>
+              <p class="text-base-content/70">{{ $t('products.loading') }}</p>
             </div>
           </div>
 
@@ -277,7 +283,7 @@ onMounted(() => {
             <div>
               <span>{{ error }}</span>
             </div>
-            <button @click="loadProducts" class="btn btn-sm btn-ghost">Retry</button>
+            <button @click="loadProducts" class="btn btn-sm btn-ghost">{{ $t('ui.retry') }}</button>
           </div>
 
           <!-- Products Grid -->
@@ -296,8 +302,8 @@ onMounted(() => {
           <!-- No Products -->
           <div v-else class="text-center py-12">
             <div class="text-6xl mb-4">🔍</div>
-            <h3 class="text-xl font-semibold mb-2">No products found</h3>
-            <p class="text-base-content/70 mb-4">Try adjusting your filters or search query</p>
+            <h3 class="text-xl font-semibold mb-2">{{ $t('products.noProducts.title') }}</h3>
+            <p class="text-base-content/70 mb-4">{{ $t('products.noProducts.message') }}</p>
             <button
               @click="
                 () => {
@@ -307,7 +313,7 @@ onMounted(() => {
               "
               class="btn btn-primary"
             >
-              Clear Filters
+              {{ $t('products.noProducts.clearFilters') }}
             </button>
           </div>
 
@@ -321,7 +327,7 @@ onMounted(() => {
               :disabled="!hasPreviousPage"
               class="btn btn-sm"
             >
-              ← Previous
+              {{ $t('navigation.previous') }}
             </button>
 
             <div class="space-x-1">
@@ -337,7 +343,7 @@ onMounted(() => {
             </div>
 
             <button @click="goToPage(currentPage + 1)" :disabled="!hasNextPage" class="btn btn-sm">
-              Next →
+              {{ $t('navigation.next') }}
             </button>
           </div>
         </main>

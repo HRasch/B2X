@@ -1,0 +1,23 @@
+{
+  "title": "How are you registering?",
+  "subtitle": "Choose the account type that best fits your needs",
+  "private": {
+    "ariaLabel": "Register as a private customer",
+    "title": "Private Customer",
+    "description": "Individual shopper",
+    "details": "For personal purchases and shopping"
+  },
+  "business": {
+    "ariaLabel": "Register as a business customer",
+    "title": "Business Customer",
+    "description": "Company or organization",
+    "details": "For business purchases and B2B operations"
+  },
+  "actions": {
+    "continue": "Continue"
+  },
+  "login": {
+    "prompt": "Already have an account?",
+    "link": "Sign in here"
+  }
+}

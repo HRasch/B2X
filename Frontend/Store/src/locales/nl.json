@@ -1,0 +1,73 @@
+{
+  "auth": {
+    "login": {
+      "title": "Aanmelden",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "submit": "Aanmelden",
+      "forgotPassword": "Wachtwoord vergeten?"
+    },
+    "register": {
+      "title": "Registreren",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "confirmPassword": "Wachtwoord bevestigen",
+      "fullName": "Volledige naam",
+      "submit": "Account aanmaken",
+      "alreadyHaveAccount": "Heeft u al een account?"
+    },
+    "logout": "Afmelden"
+  },
+  "ui": {
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "loading": "Bezig met laden...",
+    "success": "Succes",
+    "error": "Fout",
+    "warning": "Waarschuwing",
+    "close": "Sluiten",
+    "edit": "Bewerken",
+    "add": "Toevoegen",
+    "search": "Zoeken",
+    "filter": "Filteren",
+    "sort": "Sorteren",
+    "export": "Exporteren",
+    "import": "Importeren"
+  },
+  "errors": {
+    "required": "Dit veld is verplicht",
+    "invalid_email": "Ongeldig e-mailadres",
+    "unauthorized": "U bent niet geautoriseerd",
+    "forbidden": "Toegang geweigerd",
+    "not_found": "Niet gevonden",
+    "server_error": "Serverfout. Probeer het later opnieuw.",
+    "network_error": "Netwerkfout. Controleer uw verbinding.",
+    "validation_error": "Validatie mislukt. Controleer uw invoer.",
+    "duplicate": "Dit item bestaat al",
+    "min_length": "Moet minstens {min} tekens zijn",
+    "max_length": "Mag maximaal {max} tekens zijn"
+  },
+  "validation": {
+    "email": "Voer een geldig e-mailadres in",
+    "password": "Wachtwoord moet minstens 8 tekens zijn",
+    "phone": "Voer een geldig telefoonnummer in",
+    "url": "Voer een geldige URL in",
+    "match": "Wachtwoorden komen niet overeen"
+  },
+  "common": {
+    "yes": "Ja",
+    "no": "Nee",
+    "ok": "OK",
+    "back": "Terug",
+    "home": "Start",
+    "language": "Taal",
+    "settings": "Instellingen",
+    "profile": "Profiel",
+    "help": "Help",
+    "about": "Over",
+    "version": "Versie"
+  }
+}

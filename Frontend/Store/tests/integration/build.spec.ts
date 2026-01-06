@@ -190,7 +190,7 @@ describe('Build Integration - Entry Points', () => {
 
     const content = readFileSync(indexPath, 'utf-8');
     expect(content).toContain('<div id="app">');
-    expect(content).toContain('app.vue');
+    expect(content).toContain('main.ts');
   });
 
   it('should have valid app.vue', () => {

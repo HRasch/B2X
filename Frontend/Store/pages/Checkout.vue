@@ -285,10 +285,11 @@ onMounted(() => {
   <div class="checkout-page">
     <div class="container">
       <div class="page-header">
-        <h1>Bestellabschluss</h1>
+        <h1>{{ $t('checkout.header.title') }}</h1>
         <p class="breadcrumb">
-          <router-link to="/shop">Shop</router-link> /
-          <router-link to="/cart">Warenkorb</router-link> / Kasse
+          <router-link to="/shop">{{ $t('checkout.header.breadcrumb.shop') }}</router-link> /
+          <router-link to="/cart">{{ $t('checkout.header.breadcrumb.cart') }}</router-link
+          >{{ $t('checkout.header.breadcrumb.checkout') }}
         </p>
       </div>
 
@@ -323,7 +324,7 @@ onMounted(() => {
       <div class="checkout-content">
         <!-- Order Summary Sidebar (Sticky) -->
         <aside class="order-summary-sidebar">
-          <h3>Bestellübersicht</h3>
+          <h3>{{ $t('checkout.orderSummary.title') }}</h3>
 
           <div class="order-items">
             <div v-for="item in cartStore.items" :key="item.id" class="order-item-summary">
@@ -339,19 +340,19 @@ onMounted(() => {
 
           <div class="price-summary">
             <div class="summary-row">
-              <span>Netto:</span>
+              <span>{{ $t('checkout.orderSummary.netto') }}</span>
               <span>{{ formatPrice(subtotal) }}</span>
             </div>
             <div class="summary-row vat">
-              <span>MwSt (19%):</span>
+              <span>{{ $t('checkout.orderSummary.vat') }}</span>
               <span>{{ formatPrice(vatAmount) }}</span>
             </div>
             <div class="summary-row shipping">
-              <span>Versand:</span>
+              <span>{{ $t('checkout.orderSummary.shipping') }}</span>
               <span>{{ formatPrice(shippingCost) }}</span>
             </div>
             <div class="summary-row total">
-              <span>Gesamt:</span>
+              <span>{{ $t('checkout.orderSummary.total') }}</span>
               <span class="total-amount">{{ formatPrice(total) }}</span>
             </div>
           </div>
@@ -360,15 +361,15 @@ onMounted(() => {
           <div class="trust-badges">
             <div class="badge">
               <span class="badge-icon">🔒</span>
-              <span class="badge-text">SSL verschlüsselt</span>
+              <span class="badge-text">{{ $t('checkout.orderSummary.trustBadges.ssl') }}</span>
             </div>
             <div class="badge">
               <span class="badge-icon">↩️</span>
-              <span class="badge-text">30 Tage Rückgabe</span>
+              <span class="badge-text">{{ $t('checkout.orderSummary.trustBadges.returns') }}</span>
             </div>
             <div class="badge">
               <span class="badge-icon">🚚</span>
-              <span class="badge-text">Versand versichert</span>
+              <span class="badge-text">{{ $t('checkout.orderSummary.trustBadges.insured') }}</span>
             </div>
           </div>
         </aside>
@@ -377,18 +378,18 @@ onMounted(() => {
         <main class="checkout-form-main">
           <!-- STEP 1: Shipping Address -->
           <section v-if="currentStep === 'shipping'" class="checkout-step">
-            <h2>Lieferadresse</h2>
-            <p class="step-description">Geben Sie bitte Ihre Lieferadresse ein</p>
+            <h2>{{ $t('checkout.steps.shippingAddress') }}</h2>
+            <p class="step-description">{{ $t('checkout.form.description') }}</p>
 
             <form @submit.prevent="nextStep">
               <div class="form-grid">
                 <div class="form-group">
-                  <label for="firstName">Vorname *</label>
+                  <label for="firstName">{{ $t('checkout.form.labels.firstName') }}</label>
                   <input
                     id="firstName"
                     v-model="form.firstName"
                     type="text"
-                    placeholder="Max"
+                    :placeholder="$t('checkout.form.placeholders.firstName')"
                     required
                     :aria-invalid="!!errors.firstName"
                     :aria-describedby="errors.firstName ? 'firstName-error' : undefined"
@@ -399,12 +400,12 @@ onMounted(() => {
                 </div>
 
                 <div class="form-group">
-                  <label for="lastName">Nachname *</label>
+                  <label for="lastName">{{ $t('checkout.form.labels.lastName') }}</label>
                   <input
                     id="lastName"
                     v-model="form.lastName"
                     type="text"
-                    placeholder="Mustermann"
+                    :placeholder="$t('checkout.form.placeholders.lastName')"
                     required
                     :aria-invalid="!!errors.lastName"
                     :aria-describedby="errors.lastName ? 'lastName-error' : undefined"
@@ -415,12 +416,12 @@ onMounted(() => {
                 </div>
 
                 <div class="form-group full-width">
-                  <label for="street">Straße und Hausnummer *</label>
+                  <label for="street">{{ $t('checkout.form.labels.streetAddress') }}</label>
                   <input
                     id="street"
                     v-model="form.street"
                     type="text"
-                    placeholder="Hauptstraße 123"
+                    :placeholder="$t('checkout.form.placeholders.streetAddress')"
                     required
                     :aria-invalid="!!errors.street"
                     :aria-describedby="errors.street ? 'street-error' : undefined"
@@ -431,12 +432,12 @@ onMounted(() => {
                 </div>
 
                 <div class="form-group">
-                  <label for="zipCode">Postleitzahl *</label>
+                  <label for="zipCode">{{ $t('checkout.form.labels.postalCode') }}</label>
                   <input
                     id="zipCode"
                     v-model="form.zipCode"
                     type="text"
-                    placeholder="12345"
+                    :placeholder="$t('checkout.form.placeholders.postalCode')"
                     pattern="\d{5}"
                     required
                     :aria-invalid="!!errors.zipCode"
@@ -448,12 +449,12 @@ onMounted(() => {
                 </div>
 
                 <div class="form-group">
-                  <label for="city">Stadt *</label>
+                  <label for="city">{{ $t('checkout.form.labels.city') }}</label>
                   <input
                     id="city"
                     v-model="form.city"
                     type="text"
-                    placeholder="Berlin"
+                    :placeholder="$t('checkout.form.placeholders.city')"
                     required
                     :aria-invalid="!!errors.city"
                     :aria-describedby="errors.city ? 'city-error' : undefined"
@@ -464,7 +465,7 @@ onMounted(() => {
                 </div>
 
                 <div class="form-group">
-                  <label for="country">Land *</label>
+                  <label for="country">{{ $t('checkout.form.labels.country') }}</label>
                   <select
                     id="country"
                     v-model="form.country"
@@ -472,11 +473,13 @@ onMounted(() => {
                     :aria-invalid="!!errors.country"
                     :aria-describedby="errors.country ? 'country-error' : undefined"
                   >
-                    <option value="Germany">Deutschland</option>
-                    <option value="Austria">Österreich</option>
-                    <option value="Belgium">Belgien</option>
-                    <option value="France">Frankreich</option>
-                    <option value="Netherlands">Niederlande</option>
+                    <option value="Germany">{{ $t('checkout.form.countries.germany') }}</option>
+                    <option value="Austria">{{ $t('checkout.form.countries.austria') }}</option>
+                    <option value="Belgium">{{ $t('checkout.form.countries.belgium') }}</option>
+                    <option value="France">{{ $t('checkout.form.countries.france') }}</option>
+                    <option value="Netherlands">
+                      {{ $t('checkout.form.countries.netherlands') }}
+                    </option>
                   </select>
                   <p v-if="errors.country" id="country-error" class="error-message">
                     {{ errors.country }}
@@ -486,10 +489,10 @@ onMounted(() => {
 
               <div class="step-actions">
                 <button type="button" class="btn btn-secondary" @click="goBack">
-                  ← Zurück zum Warenkorb
+                  {{ $t('checkout.buttons.backToCart') }}
                 </button>
                 <button type="submit" class="btn btn-primary" :disabled="!isFormValid">
-                  Weiter zu Versand →
+                  {{ $t('checkout.buttons.continueToShipping') }}
                 </button>
               </div>
             </form>
@@ -497,8 +500,8 @@ onMounted(() => {
 
           <!-- STEP 2: Shipping Method Selection -->
           <section v-if="currentStep === 'shipping-method'" class="checkout-step">
-            <h2>Versandart</h2>
-            <p class="step-description">Wählen Sie Ihre bevorzugte Versandart</p>
+            <h2>{{ $t('checkout.shipping.title') }}</h2>
+            <p class="step-description">{{ $t('checkout.shipping.description') }}</p>
 
             <div class="shipping-options">
               <div
@@ -525,7 +528,9 @@ onMounted(() => {
                   <div class="shipping-description">
                     {{ method.description }}
                   </div>
-                  <div class="shipping-days">⏱️ Lieferzeit: ca. {{ method.days }} Werktag(e)</div>
+                  <div class="shipping-days">
+                    {{ $t('checkout.shipping.deliveryTime', { days: method.days }) }}
+                  </div>
                 </div>
                 <div class="shipping-price">
                   {{ formatPrice(method.price) }}
@@ -539,7 +544,7 @@ onMounted(() => {
 
             <div class="step-actions">
               <button type="button" class="btn btn-secondary" @click="prevStep">
-                ← Zurück zur Adresse
+                {{ $t('checkout.buttons.backToAddress') }}
               </button>
               <button
                 type="button"
@@ -547,18 +552,18 @@ onMounted(() => {
                 @click="nextStep"
                 :disabled="!selectedShippingMethod"
               >
-                Weiter zur Überprüfung →
+                {{ $t('checkout.buttons.continueToReview') }}
               </button>
             </div>
           </section>
 
           <!-- STEP 3: Order Review & Payment -->
           <section v-if="currentStep === 'review'" class="checkout-step">
-            <h2>Überprüfung & Zahlungsart</h2>
+            <h2>{{ $t('checkout.orderReview.title') }}</h2>
 
             <!-- Address Review -->
             <div class="review-section">
-              <h3>Lieferadresse</h3>
+              <h3>{{ $t('checkout.orderReview.shippingAddress') }}</h3>
               <div class="review-content">
                 <p>
                   {{ form.firstName }} {{ form.lastName }}<br />
@@ -567,14 +572,14 @@ onMounted(() => {
                   {{ form.country }}
                 </p>
                 <button type="button" class="link-button" @click="currentStep = 'shipping'">
-                  ✏️ Bearbeiten
+                  {{ $t('checkout.orderReview.edit') }}
                 </button>
               </div>
             </div>
 
             <!-- Shipping Review -->
             <div class="review-section">
-              <h3>Versandart</h3>
+              <h3>{{ $t('checkout.orderReview.shippingMethod') }}</h3>
               <div class="review-content">
                 <p>
                   <strong>{{ selectedShippingMethod.name }}</strong
@@ -583,14 +588,14 @@ onMounted(() => {
                   Kosten: {{ formatPrice(selectedShippingMethod.price) }}
                 </p>
                 <button type="button" class="link-button" @click="currentStep = 'shipping-method'">
-                  ✏️ Bearbeiten
+                  {{ $t('checkout.orderReview.edit') }}
                 </button>
               </div>
             </div>
 
             <!-- Payment Method Selection -->
             <div class="review-section">
-              <h3>Zahlungsart</h3>
+              <h3>{{ $t('checkout.orderReview.paymentMethod') }}</h3>
               <div class="payment-options">
                 <div
                   v-for="method in paymentMethods"
@@ -637,11 +642,11 @@ onMounted(() => {
                   :aria-describedby="errors.terms ? 'terms-error' : undefined"
                 />
                 <span>
-                  Ich akzeptiere die
-                  <router-link to="/terms">Geschäftsbedingungen</router-link>
-                  und die
-                  <router-link to="/privacy">Datenschutzerklärung</router-link>
-                  *
+                  {{ $t('checkout.terms.acceptText') }}
+                  <router-link to="/terms">{{ $t('checkout.terms.termsLink') }}</router-link>
+                  {{ $t('checkout.terms.and') }}
+                  <router-link to="/privacy">{{ $t('checkout.terms.privacyLink') }}</router-link>
+                  {{ $t('checkout.terms.required') }}
                 </span>
               </label>
               <p v-if="errors.terms" id="terms-error" class="error-message">
@@ -653,10 +658,9 @@ onMounted(() => {
             <div class="compliance-notice">
               <p class="notice-icon">✓</p>
               <div class="notice-content">
-                <p class="notice-title">Preisangabenverordnung (PAngV)</p>
+                <p class="notice-title">{{ $t('checkout.compliance.title') }}</p>
                 <p class="notice-text">
-                  Alle angezeigten Preise sind Endpreise und enthalten bereits die gesetzliche
-                  Mehrwertsteuer (MwSt) in Höhe von 19%.
+                  {{ $t('checkout.compliance.content') }}
                 </p>
               </div>
             </div>
@@ -667,7 +671,7 @@ onMounted(() => {
 
             <div class="step-actions">
               <button type="button" class="btn btn-secondary" @click="prevStep">
-                ← Zurück zur Versandart
+                {{ $t('checkout.buttons.backToShipping') }}
               </button>
               <button
                 type="button"
@@ -678,8 +682,8 @@ onMounted(() => {
               >
                 {{
                   isSubmitting
-                    ? 'Bestellung wird verarbeitet...'
-                    : `Bestellung abschließen (${formatPrice(total)})`
+                    ? $t('checkout.buttons.processing')
+                    : `${$t('checkout.buttons.completeOrder')} (${formatPrice(total)})`
                 }}
               </button>
             </div>

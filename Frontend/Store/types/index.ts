@@ -53,3 +53,72 @@ export interface LoginRequest {
   password: string;
   tenantId?: string;
 }
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  b2bPrice: number;
+  image: string;
+  category: string;
+  description: string;
+  inStock: boolean;
+  rating: number;
+  sku?: string;
+  brand?: string;
+  tags?: string;
+  material?: string;
+  stockQuantity?: number;
+  relevanceScore?: number;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  image?: string;
+  parentId?: string;
+  children?: Category[];
+  productCount?: number;
+}
+
+export interface CartItem extends Product {
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  userId: string;
+  items: CartItem[];
+  total: number;
+  status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  createdAt: Date;
+  shippingAddress: Address;
+  billingAddress: Address;
+}
+
+export interface Address {
+  firstName: string;
+  lastName: string;
+  company?: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  phone?: string;
+}
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  avatar?: string;
+  addresses: Address[];
+  preferences: {
+    language: LocaleCode;
+    currency: string;
+    notifications: boolean;
+  };
+}

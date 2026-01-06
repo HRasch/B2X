@@ -1,14 +1,10 @@
 <template>
   <div class="email-template-create-page">
-    <div class="page-header">
-      <div class="header-content">
-        <h1>{{ $t('email.templates.create') }}</h1>
-        <p>{{ $t('email.templates.subtitle') }}</p>
-      </div>
-      <div class="header-actions">
+    <PageHeader :title="$t('email.templates.create')" :subtitle="$t('email.templates.subtitle')">
+      <template #actions>
         <button @click="cancel" class="btn-secondary">{{ $t('ui.cancel') }}</button>
-      </div>
-    </div>
+      </template>
+    </PageHeader>
 
     <EmailTemplateEditor @saved="onTemplateSaved" @cancelled="onCancelled" />
   </div>
@@ -18,10 +14,15 @@
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import EmailTemplateEditor from '@/components/EmailTemplateEditor.vue';
+import { PageHeader } from '@/components/layout';
 import type { EmailTemplate } from '@/types/email';
 
 const router = useRouter();
 const { t } = useI18n();
+
+const cancel = () => {
+  router.push('/email/templates');
+};
 
 const onTemplateSaved = (template: EmailTemplate) => {
   // Navigate to the template list or detail view
@@ -39,37 +40,8 @@ const onCancelled = () => {
   background: #f9fafb;
 }
 
-html.dark .email-template-create-page {
+.dark .email-template-create-page {
   background: #0f172a;
-}
-
-.page-header {
-  background: white;
-  padding: 2rem;
-  border-bottom: 1px solid #e5e7eb;
-  margin-bottom: 0;
-}
-
-html.dark .page-header {
-  background: #1e293b;
-  border-bottom-color: #334155;
-}
-
-.header-content h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #111827;
-}
-
-.header-content p {
-  margin: 0;
-  color: #6b7280;
-}
-
-.header-actions {
-  display: flex;
-  gap: 1rem;
 }
 
 .btn-secondary {
@@ -86,5 +58,15 @@ html.dark .page-header {
 .btn-secondary:hover {
   background: #f9fafb;
   border-color: #9ca3af;
+}
+
+.dark .btn-secondary {
+  background: #374151;
+  color: #e5e7eb;
+  border-color: #4b5563;
+}
+
+.dark .btn-secondary:hover {
+  background: #4b5563;
 }
 </style>

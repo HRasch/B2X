@@ -1,0 +1,48 @@
+{
+  "countryCode": "Country Code",
+  "vatNumber": "VAT Number",
+  "validate": "Validate",
+  "validating": "Validating...",
+  "companyName": "Company Name:",
+  "address": "Address:",
+  "reverseCharge": "Reverse Charge:",
+  "reverseChargeApplies": "0% VAT (applies)",
+  "standardVatRate": "Standard VAT rate",
+  "clearAndStartOver": "Clear & Start Over",
+  "validation": {
+    "required": "Country code and VAT number are required"
+  },
+  "validationHelp": {
+    "title": "VAT Validation Help",
+    "description": "If you cannot provide a valid VAT number, you can continue as a private customer or contact our support team."
+  },
+  "countries": {
+    "AT": "Austria (AT)",
+    "BE": "Belgium (BE)",
+    "BG": "Bulgaria (BG)",
+    "HR": "Croatia (HR)",
+    "CY": "Cyprus (CY)",
+    "CZ": "Czech Republic (CZ)",
+    "DK": "Denmark (DK)",
+    "DE": "Germany (DE)",
+    "EE": "Estonia (EE)",
+    "FI": "Finland (FI)",
+    "FR": "France (FR)",
+    "GR": "Greece (GR)",
+    "HU": "Hungary (HU)",
+    "IE": "Ireland (IE)",
+    "IT": "Italy (IT)",
+    "LV": "Latvia (LV)",
+    "LT": "Lithuania (LT)",
+    "LU": "Luxembourg (LU)",
+    "MT": "Malta (MT)",
+    "NL": "Netherlands (NL)",
+    "PL": "Poland (PL)",
+    "PT": "Portugal (PT)",
+    "RO": "Romania (RO)",
+    "SK": "Slovakia (SK)",
+    "SI": "Slovenia (SI)",
+    "ES": "Spain (ES)",
+    "SE": "Sweden (SE)"
+  }
+}

@@ -1,0 +1,10 @@
+// ============================================
+// SCSS Tokens Index
+// ============================================
+// Forward all design tokens
+// Usage: @use 'tokens' as *;
+// ============================================
+
+@forward 'colors';
+@forward 'typography';
+@forward 'spacing';

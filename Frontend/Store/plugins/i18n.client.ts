@@ -13,7 +13,7 @@ export default defineNuxtPlugin(async nuxtApp => {
       });
 
       // Merge with existing messages using the i18n instance
-      const i18n = nuxtApp.$i18n as any;
+      const i18n = nuxtApp.$i18n;
       i18n.setLocaleMessage(locale, {
         ...i18n.getLocaleMessage(locale),
         ...(response && typeof response === 'object' ? response : {}),
@@ -25,6 +25,6 @@ export default defineNuxtPlugin(async nuxtApp => {
   };
 
   // Load tenant translations for current locale on client-side hydration
-  const i18n = nuxtApp.$i18n as any;
+  const i18n = nuxtApp.$i18n;
   await loadTenantTranslations(i18n.locale.value);
 });

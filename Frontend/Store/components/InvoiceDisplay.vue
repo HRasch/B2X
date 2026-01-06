@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 declare global {
   interface Window {
@@ -70,6 +71,8 @@ const emit = defineEmits<{
   (e: 'download-pdf', invoiceId: string): void;
   (e: 'send-email', invoiceId: string, email: string): void;
 }>();
+
+const { t } = useI18n();
 
 const loading = ref(false);
 const error = ref<string | null>(null);
@@ -208,7 +211,7 @@ onMounted(() => {
             ></path>
           </svg>
         </div>
-        <span class="text-gray-600 dark:text-gray-400">Loading invoice...</span>
+        <span class="text-gray-600 dark:text-gray-400">{{ $t('invoice.loading') }}</span>
       </div>
     </div>
 
@@ -217,14 +220,14 @@ onMounted(() => {
       v-else-if="error"
       class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4"
     >
-      <h3 class="text-red-800 dark:text-red-300 font-semibold mb-1">Error Loading Invoice</h3>
+      <h3 class="text-red-800 dark:text-red-300 font-semibold mb-1">{{ $t('invoice.error') }}</h3>
       <p class="text-red-700 dark:text-red-400 text-sm">{{ error }}</p>
       <button
         v-if="invoiceId"
         @click="fetchInvoice"
         class="mt-3 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition-colors"
       >
-        Retry
+        {{ $t('invoice.retry') }}
       </button>
     </div>
 
@@ -235,7 +238,9 @@ onMounted(() => {
         class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 pb-6 border-b border-gray-200 dark:border-gray-700"
       >
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Invoice</h1>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+            {{ $t('invoice.status.invoice') }}
+          </h1>
           <p class="text-gray-600 dark:text-gray-400 mt-1">
             {{ invoice.invoiceNumber }}
           </p>
@@ -256,7 +261,7 @@ onMounted(() => {
             class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
             aria-label="Reverse Charge: 0% VAT applies"
           >
-            ⚠️ Reverse Charge (0% VAT)
+            {{ $t('invoice.status.reverseCharge') }}
           </span>
 
           <!-- Overdue Badge -->
@@ -265,7 +270,7 @@ onMounted(() => {
             class="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
             aria-label="Invoice is overdue"
           >
-            Overdue
+            {{ $t('invoice.status.overdue') }}
           </span>
         </div>
       </div>
@@ -273,25 +278,33 @@ onMounted(() => {
       <!-- Dates -->
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <div>
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Issued</p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {{ $t('invoice.labels.issued') }}
+          </p>
           <p class="text-lg font-semibold text-gray-900 dark:text-white">
             {{ formattedIssuedAt }}
           </p>
         </div>
         <div>
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Due</p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {{ $t('invoice.labels.due') }}
+          </p>
           <p class="text-lg font-semibold text-gray-900 dark:text-white">
             {{ formattedDueAt }}
           </p>
         </div>
         <div v-if="invoice.paymentStatus">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Payment</p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {{ $t('invoice.labels.payment') }}
+          </p>
           <p class="text-lg font-semibold text-gray-900 dark:text-white">
             {{ invoice.paymentStatus }}
           </p>
         </div>
         <div v-if="invoice.paidAt">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Paid On</p>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {{ $t('invoice.labels.paidOn') }}
+          </p>
           <p class="text-lg font-semibold text-gray-900 dark:text-white">
             {{ new Date(invoice.paidAt).toLocaleDateString('de-DE') }}
           </p>
@@ -307,7 +320,7 @@ onMounted(() => {
           <h3
             class="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-2"
           >
-            From
+            {{ $t('invoice.labels.from') }}
           </h3>
           <div class="text-gray-900 dark:text-white space-y-1">
             <p class="font-semibold">{{ invoice.sellerName }}</p>
@@ -323,7 +336,7 @@ onMounted(() => {
           <h3
             class="text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-2"
           >
-            Bill To
+            {{ $t('invoice.labels.billTo') }}
           </h3>
           <div class="text-gray-900 dark:text-white space-y-1">
             <p class="font-semibold">{{ invoice.buyerName }}</p>
@@ -333,7 +346,7 @@ onMounted(() => {
                 v-if="invoice.reverseChargeApplies"
                 class="text-yellow-600 dark:text-yellow-400 ml-2"
               >
-                (Reverse Charge)
+                {{ $t('invoice.labels.reverseCharge') }}
               </span>
             </p>
             <p v-if="invoice.buyerCountry" class="text-sm">Country: {{ invoice.buyerCountry }}</p>
@@ -350,23 +363,25 @@ onMounted(() => {
           <thead class="bg-gray-100 dark:bg-gray-800">
             <tr>
               <th class="px-4 py-3 text-left font-semibold text-gray-900 dark:text-white">
-                Product
-              </th>
-              <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">Qty</th>
-              <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
-                Unit Price
+                {{ $t('invoice.table.headers.product') }}
               </th>
               <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
-                Subtotal
+                {{ $t('invoice.table.headers.qty') }}
+              </th>
+              <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
+                {{ $t('invoice.table.headers.unitPrice') }}
+              </th>
+              <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
+                {{ $t('invoice.table.headers.subtotal') }}
               </th>
               <th
                 v-if="!invoice.reverseChargeApplies"
                 class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white"
               >
-                Tax
+                {{ $t('invoice.table.headers.tax') }}
               </th>
               <th class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
-                Total
+                {{ $t('invoice.table.headers.total') }}
               </th>
             </tr>
           </thead>
@@ -412,14 +427,18 @@ onMounted(() => {
       <div class="flex justify-end py-6">
         <div class="w-full sm:w-80 space-y-2 border-t border-gray-200 dark:border-gray-700 pt-6">
           <div class="flex justify-between">
-            <span class="text-gray-600 dark:text-gray-400">Subtotal:</span>
+            <span class="text-gray-600 dark:text-gray-400">{{
+              $t('invoice.pricing.subtotal')
+            }}</span>
             <span class="font-semibold text-gray-900 dark:text-white"
               >€{{ invoice.subTotal.toFixed(2) }}</span
             >
           </div>
 
           <div v-if="invoice.shippingCost > 0" class="flex justify-between">
-            <span class="text-gray-600 dark:text-gray-400">Shipping:</span>
+            <span class="text-gray-600 dark:text-gray-400">{{
+              $t('invoice.pricing.shipping')
+            }}</span>
             <span class="font-semibold text-gray-900 dark:text-white"
               >€{{ invoice.shippingCost.toFixed(2) }}</span
             >
@@ -431,7 +450,7 @@ onMounted(() => {
             class="flex justify-between bg-blue-50 dark:bg-blue-900/20 px-3 py-2 rounded"
           >
             <span class="text-gray-600 dark:text-gray-400">
-              VAT ({{ (invoice.taxRate * 100).toFixed(0) }}%):
+              {{ $t('invoice.pricing.vat', { rate: (invoice.taxRate * 100).toFixed(0) }) }}
             </span>
             <span class="font-semibold text-gray-900 dark:text-white"
               >€{{ invoice.taxAmount.toFixed(2) }}</span
@@ -443,7 +462,7 @@ onMounted(() => {
             class="flex justify-between bg-yellow-50 dark:bg-yellow-900/20 px-3 py-2 rounded border border-yellow-200 dark:border-yellow-800"
           >
             <span class="text-yellow-800 dark:text-yellow-200">
-              <strong>Reverse Charge (0% VAT):</strong>
+              <strong>{{ $t('invoice.pricing.reverseCharge') }}</strong>
             </span>
             <span class="font-semibold text-yellow-800 dark:text-yellow-200">€0.00</span>
           </div>
@@ -451,7 +470,9 @@ onMounted(() => {
           <div
             class="flex justify-between text-lg border-t border-gray-200 dark:border-gray-700 pt-2 mt-4"
           >
-            <span class="font-bold text-gray-900 dark:text-white">Total:</span>
+            <span class="font-bold text-gray-900 dark:text-white">{{
+              $t('invoice.pricing.total')
+            }}</span>
             <span class="font-bold text-gray-900 dark:text-white"
               >€{{ invoice.total.toFixed(2) }}</span
             >
@@ -479,8 +500,7 @@ onMounted(() => {
           <div class="text-yellow-800 dark:text-yellow-200 text-sm">
             <p class="font-semibold mb-1">{{ invoice.reverseChargeNote }}</p>
             <p>
-              The VAT shown above does not apply. As a taxable person, you are responsible for
-              paying VAT according to applicable rules in your country.
+              {{ $t('invoice.compliance.vatNotice') }}
             </p>
           </div>
         </div>
@@ -488,9 +508,11 @@ onMounted(() => {
 
       <!-- Payment Terms -->
       <div v-if="invoice.paymentMethod" class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-        <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Payment Information</h4>
+        <h4 class="font-semibold text-gray-900 dark:text-white mb-2">
+          {{ $t('invoice.compliance.paymentInfo') }}
+        </h4>
         <p class="text-gray-600 dark:text-gray-400 text-sm">
-          <strong>Method:</strong> {{ invoice.paymentMethod }}
+          <strong>{{ $t('invoice.compliance.method') }}</strong> {{ invoice.paymentMethod }}
         </p>
       </div>
 
@@ -511,7 +533,7 @@ onMounted(() => {
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
             ></path>
           </svg>
-          Download PDF
+          {{ $t('invoice.actions.downloadPdf') }}
         </button>
 
         <button
@@ -528,7 +550,7 @@ onMounted(() => {
               d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
             ></path>
           </svg>
-          Send Email
+          {{ $t('invoice.actions.sendEmail') }}
         </button>
 
         <button
@@ -545,7 +567,7 @@ onMounted(() => {
               d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
             ></path>
           </svg>
-          Modify
+          {{ $t('invoice.actions.modify') }}
         </button>
 
         <button
@@ -561,14 +583,14 @@ onMounted(() => {
               d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4H7a2 2 0 01-2-2v-4a2 2 0 012-2h10a2 2 0 012 2v4a2 2 0 01-2 2zm-6-4a2 2 0 100-4 2 2 0 000 4z"
             ></path>
           </svg>
-          Print
+          {{ $t('invoice.actions.print') }}
         </button>
       </div>
     </div>
 
     <!-- Empty State -->
     <div v-else class="text-center py-12">
-      <p class="text-gray-600 dark:text-gray-400">No invoice to display</p>
+      <p class="text-gray-600 dark:text-gray-400">{{ $t('invoice.noInvoice') }}</p>
     </div>
   </div>
 </template>

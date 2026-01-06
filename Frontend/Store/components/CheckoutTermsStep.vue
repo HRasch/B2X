@@ -2,9 +2,9 @@
   <div class="w-full">
     <!-- Step Header -->
     <div class="mb-8">
-      <h2 class="text-3xl font-bold mb-2">Bedingungen</h2>
+      <h2 class="text-3xl font-bold mb-2">{{ $t('legal.acceptance.title') }}</h2>
       <p class="text-base-content/70">
-        Bitte akzeptieren Sie die erforderlichen Bedingungen, um fortzufahren
+        {{ $t('legal.acceptance.subtitle') }}
       </p>
     </div>
 
@@ -19,13 +19,10 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            aria-label="Ich akzeptiere die Allgemeinen Geschäftsbedingungen"
+            :aria-label="$t('legal.acceptance.acceptTerms')"
           />
           <span class="label-text">
-            Ich akzeptiere die
-            <button type="button" @click="showTermsModal = true" class="link link-primary">
-              Allgemeinen Geschäftsbedingungen
-            </button>
+            {{ $t('legal.acceptance.acceptTerms') }}
             <span class="text-error">*</span>
           </span>
         </label>
@@ -40,13 +37,10 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            aria-label="Ich akzeptiere die Datenschutzerklärung"
+            :aria-label="$t('legal.acceptance.acceptPrivacy')"
           />
           <span class="label-text">
-            Ich akzeptiere die
-            <button type="button" @click="showPrivacyModal = true" class="link link-primary">
-              Datenschutzerklärung
-            </button>
+            {{ $t('legal.acceptance.acceptPrivacy') }}
             <span class="text-error">*</span>
           </span>
         </label>
@@ -61,20 +55,17 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            aria-label="Ich habe mein Widerrufsrecht verstanden"
+            :aria-label="$t('legal.acceptance.understandWithdrawal')"
           />
           <span class="label-text">
-            Ich verstehe mein
-            <button type="button" @click="showWithdrawalModal = true" class="link link-primary">
-              Widerrufsrecht (14 Tage)
-            </button>
+            {{ $t('legal.acceptance.understandWithdrawal') }}
           </span>
         </label>
       </div>
 
       <!-- Required fields note -->
       <p class="text-sm text-base-content/70 mt-4">
-        <span class="text-error">*</span> Erforderliche Felder
+        {{ $t('legal.acceptance.requiredFields') }}
       </p>
 
       <!-- Error message -->
@@ -121,7 +112,7 @@
     <!-- Action Buttons -->
     <div class="flex gap-2 justify-between">
       <button type="button" @click="goBack" class="btn btn-ghost" :disabled="isSubmitting">
-        Zurück
+        {{ $t('legal.acceptance.back') }}
       </button>
       <button
         type="button"
@@ -131,7 +122,11 @@
         :aria-busy="isSubmitting"
       >
         <span v-if="isSubmitting" class="loading loading-spinner loading-sm"></span>
-        {{ isSubmitting ? 'Wird verarbeitet...' : 'Zur Zahlung' }}
+        {{
+          isSubmitting
+            ? $t('legal.acceptance.processing')
+            : $t('legal.acceptance.continueToPayment')
+        }}
       </button>
     </div>
 
@@ -145,50 +140,52 @@
       >
         <div class="modal modal-open">
           <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
-            <h3 class="font-bold text-lg mb-4">Allgemeine Geschäftsbedingungen</h3>
+            <h3 class="font-bold text-lg mb-4">{{ $t('legal.termsAndConditions.title') }}</h3>
             <div class="divider my-2"></div>
             <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
               <div class="prose prose-sm">
-                <h4 class="font-bold">1. Allgemeine Bestimmungen</h4>
-                <p>
-                  Diese Allgemeinen Geschäftsbedingungen regeln die Beziehung zwischen dem Betreiber
-                  dieses Online-Shops und dem Käufer.
-                </p>
+                <h4 class="font-bold">
+                  {{ $t('legal.termsAndConditions.sections.general.title') }}
+                </h4>
+                <p>{{ $t('legal.termsAndConditions.sections.general.content') }}</p>
 
-                <h4 class="font-bold">2. Produktbeschreibungen</h4>
-                <p>
-                  Alle Produktbeschreibungen sind Angebote zum Verkauf. Ein Vertrag kommt nur
-                  zustande, wenn Sie eine Bestellung aufgeben und wir diese akzeptieren.
-                </p>
+                <h4 class="font-bold">
+                  {{ $t('legal.termsAndConditions.sections.products.title') }}
+                </h4>
+                <p>{{ $t('legal.termsAndConditions.sections.products.content') }}</p>
 
-                <h4 class="font-bold">3. Preise und Zahlungsbedingungen</h4>
-                <p>
-                  Alle Preise enthalten die gültige Mehrwertsteuer. Versandkosten werden separat
-                  berechnet und beim Checkout angezeigt.
-                </p>
+                <h4 class="font-bold">
+                  {{ $t('legal.termsAndConditions.sections.pricing.title') }}
+                </h4>
+                <p>{{ $t('legal.termsAndConditions.sections.pricing.content') }}</p>
 
-                <h4 class="font-bold">4. Lieferung</h4>
-                <p>Lieferzeiten sind unverbindlich. Bei Verzug haften wir nur bei Verschulden.</p>
+                <h4 class="font-bold">
+                  {{ $t('legal.termsAndConditions.sections.delivery.title') }}
+                </h4>
+                <p>{{ $t('legal.termsAndConditions.sections.delivery.content') }}</p>
 
-                <h4 class="font-bold">5. Widerrufsrecht</h4>
-                <p>
-                  Sie haben ein Widerrufsrecht von 14 Tagen ab Erhalt der Ware. Siehe unten für
-                  Details.
-                </p>
+                <h4 class="font-bold">
+                  {{ $t('legal.termsAndConditions.sections.withdrawal.title') }}
+                </h4>
+                <p>{{ $t('legal.termsAndConditions.sections.withdrawal.content') }}</p>
 
-                <h4 class="font-bold">6. Haftung</h4>
-                <p>Haftung für Schäden begrenzt auf Direktschäden bis zur Höhe des Kaufpreises.</p>
+                <h4 class="font-bold">
+                  {{ $t('legal.termsAndConditions.sections.liability.title') }}
+                </h4>
+                <p>{{ $t('legal.termsAndConditions.sections.liability.content') }}</p>
 
-                <h4 class="font-bold">7. Datenschutz</h4>
-                <p>Siehe Datenschutzerklärung für die Behandlung Ihrer Daten.</p>
+                <h4 class="font-bold">
+                  {{ $t('legal.termsAndConditions.sections.privacy.title') }}
+                </h4>
+                <p>{{ $t('legal.termsAndConditions.sections.privacy.content') }}</p>
 
-                <h4 class="font-bold">8. Schlussbestimmungen</h4>
-                <p>Es gilt deutsches Recht. Gerichtsstand ist der Sitz des Unternehmens.</p>
+                <h4 class="font-bold">{{ $t('legal.termsAndConditions.sections.final.title') }}</h4>
+                <p>{{ $t('legal.termsAndConditions.sections.final.content') }}</p>
               </div>
             </div>
             <div class="modal-action">
               <button type="button" @click="showTermsModal = false" class="btn btn-primary">
-                Verstanden
+                {{ $t('legal.termsAndConditions.understood') }}
               </button>
             </div>
           </div>
@@ -205,45 +202,37 @@
       >
         <div class="modal modal-open">
           <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
-            <h3 class="font-bold text-lg mb-4">Datenschutzerklärung</h3>
+            <h3 class="font-bold text-lg mb-4">{{ $t('legal.privacyPolicy.title') }}</h3>
             <div class="divider my-2"></div>
             <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
               <div class="prose prose-sm">
-                <h4 class="font-bold">1. Verantwortlicher</h4>
-                <p>
-                  Verantwortlich für die Datenverarbeitung ist der Betreiber dieses Shops (siehe
-                  Impressum).
-                </p>
+                <h4 class="font-bold">
+                  {{ $t('legal.privacyPolicy.sections.responsible.title') }}
+                </h4>
+                <p>{{ $t('legal.privacyPolicy.sections.responsible.content') }}</p>
 
-                <h4 class="font-bold">2. Erhebung und Verarbeitung</h4>
-                <p>Wir erheben Ihre Daten nur zur Abwicklung Ihres Einkaufs und zum Versand.</p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.collection.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.collection.content') }}</p>
 
-                <h4 class="font-bold">3. Speicherdauer</h4>
-                <p>
-                  Persönliche Daten werden 10 Jahre zur Erfüllung von Steuerpflichten gespeichert.
-                </p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.storage.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.storage.content') }}</p>
 
-                <h4 class="font-bold">4. Ihre Rechte</h4>
-                <p>
-                  Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Datenportabilität.
-                </p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.rights.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.rights.content') }}</p>
 
-                <h4 class="font-bold">5. Cookies</h4>
-                <p>
-                  Wir verwenden technisch notwendige Cookies. Andere Cookies werden mit Ihrer
-                  Einwilligung gespeichert.
-                </p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.cookies.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.cookies.content') }}</p>
 
-                <h4 class="font-bold">6. Sicherheit</h4>
-                <p>Wir schützen Ihre Daten durch Verschlüsselung und sichere Übertragung.</p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.security.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.security.content') }}</p>
 
-                <h4 class="font-bold">7. Datenschutzbeauftragter</h4>
-                <p>Bei Fragen: datenschutz@example.com</p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.contact.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.contact.content') }}</p>
               </div>
             </div>
             <div class="modal-action">
               <button type="button" @click="showPrivacyModal = false" class="btn btn-primary">
-                Verstanden
+                {{ $t('legal.privacyPolicy.understood') }}
               </button>
             </div>
           </div>
@@ -260,48 +249,50 @@
       >
         <div class="modal modal-open">
           <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
-            <h3 class="font-bold text-lg mb-4">Widerrufsrecht (14 Tage)</h3>
+            <h3 class="font-bold text-lg mb-4">{{ $t('legal.withdrawalRights.title') }}</h3>
             <div class="divider my-2"></div>
             <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
               <div class="prose prose-sm">
-                <h4 class="font-bold">Ihr Widerrufsrecht</h4>
-                <p>
-                  Sie haben das Recht, Ihren Kauf innerhalb von 14 Tagen nach Erhalt der Ware zu
-                  widerrufen, ohne einen Grund angeben zu müssen.
-                </p>
+                <h4 class="font-bold">
+                  {{ $t('legal.withdrawalRights.sections.yourRights.title') }}
+                </h4>
+                <p>{{ $t('legal.withdrawalRights.sections.yourRights.content') }}</p>
 
-                <h4 class="font-bold">Widerrufsfristen</h4>
+                <h4 class="font-bold">
+                  {{ $t('legal.withdrawalRights.sections.deadlines.title') }}
+                </h4>
                 <ul class="list-disc list-inside">
-                  <li>Beginn: Tag nach Erhalt der Ware</li>
-                  <li>Dauer: 14 Tage</li>
-                  <li>Form: Einfache schriftliche Mitteilung per E-Mail genügt</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.deadlines.start') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.deadlines.duration') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.deadlines.form') }}</li>
                 </ul>
 
-                <h4 class="font-bold">Ausnahmen</h4>
-                <p>Widerrufsrecht gilt NICHT für:</p>
+                <h4 class="font-bold">
+                  {{ $t('legal.withdrawalRights.sections.exceptions.title') }}
+                </h4>
+                <p>{{ $t('legal.withdrawalRights.sections.exceptions.intro') }}</p>
                 <ul class="list-disc list-inside">
-                  <li>Digitale Inhalte nach Abruf</li>
-                  <li>Maßgeschneiderte oder personalisierte Waren</li>
-                  <li>Waren, die nach Zustellung beschädigt wurden (Ihr Verschulden)</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.exceptions.digital') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.exceptions.customized') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.exceptions.damaged') }}</li>
                 </ul>
 
-                <h4 class="font-bold">Rückgabeverfahren</h4>
-                <p>
-                  Senden Sie die Ware unverzüglich zurück. Versandkosten trägt der Käufer (außer bei
-                  berechtigter Rückgabe).
-                </p>
+                <h4 class="font-bold">
+                  {{ $t('legal.withdrawalRights.sections.returnProcess.title') }}
+                </h4>
+                <p>{{ $t('legal.withdrawalRights.sections.returnProcess.content') }}</p>
 
-                <h4 class="font-bold">Kontakt</h4>
-                <p>Widerrufe richten Sie an: widerruf@example.com</p>
+                <h4 class="font-bold">{{ $t('legal.withdrawalRights.sections.contact.title') }}</h4>
+                <p>{{ $t('legal.withdrawalRights.sections.contact.content') }}</p>
 
                 <p class="text-sm italic mt-4">
-                  <strong>Rechtsgrundlage:</strong> §§ 355-359 BGB (Fernabsatzgesetz)
+                  <strong>{{ $t('legal.withdrawalRights.legalBasis') }}</strong>
                 </p>
               </div>
             </div>
             <div class="modal-action">
               <button type="button" @click="showWithdrawalModal = false" class="btn btn-primary">
-                Verstanden
+                {{ $t('legal.withdrawalRights.understood') }}
               </button>
             </div>
           </div>
@@ -313,6 +304,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface TermsAcceptance {
   termsAndConditions: boolean;
@@ -348,8 +342,7 @@ const canContinue = computed(
 // Methods
 const continueToPayment = async () => {
   if (!canContinue.value) {
-    errorMessage.value =
-      'Bitte akzeptieren Sie die Allgemeinen Geschäftsbedingungen und Datenschutzerklärung';
+    errorMessage.value = t('legal.acceptance.acceptTermsError');
     return;
   }
 
@@ -378,15 +371,15 @@ const continueToPayment = async () => {
 
     const data = await response.json();
     if (data.success) {
-      successMessage.value = 'Bedingungen akzeptiert!';
+      successMessage.value = t('legal.acceptance.acceptTermsSuccess');
       setTimeout(() => {
         emit('continue');
       }, 500);
     } else {
-      errorMessage.value = data.message || 'Fehler beim Verarbeiten';
+      errorMessage.value = data.message || t('legal.acceptance.saveError');
     }
   } catch (error) {
-    errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
+    errorMessage.value = t('legal.acceptance.generalError');
     console.error('Terms acceptance error:', error);
   } finally {
     isSubmitting.value = false;

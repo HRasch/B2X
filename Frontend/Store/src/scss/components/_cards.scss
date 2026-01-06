@@ -1,0 +1,353 @@
+// ============================================
+// Component Styles - Cards
+// ============================================
+// Flexible card component for products, content, etc.
+// ============================================
+
+@use '../abstracts/mixins' as mx;
+
+// --------------------------------------------
+// Card Base
+// --------------------------------------------
+
+.card {
+  @include mx.card;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+// --------------------------------------------
+// Card Parts
+// --------------------------------------------
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--card-header-padding, 1rem 1.25rem);
+  border-bottom: 1px solid var(--card-border, var(--border-base));
+  background-color: var(--card-header-bg, var(--bg-surface));
+}
+
+.card-body {
+  flex: 1 1 auto;
+  padding: var(--card-body-padding, 1.25rem);
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  padding: var(--card-footer-padding, 1rem 1.25rem);
+  border-top: 1px solid var(--card-border, var(--border-base));
+  background-color: var(--card-footer-bg, var(--bg-surface));
+}
+
+.card-title {
+  margin: 0 0 0.5rem;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.card-subtitle {
+  margin: -0.25rem 0 0.5rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.card-text {
+  margin: 0;
+  color: var(--text-base);
+  
+  &:not(:last-child) {
+    margin-bottom: 0.75rem;
+  }
+}
+
+.card-link {
+  color: var(--link-color);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  + .card-link {
+    margin-left: 1rem;
+  }
+}
+
+// --------------------------------------------
+// Card Image
+// --------------------------------------------
+
+.card-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.card-img-top {
+  border-top-left-radius: calc(var(--card-radius, 0.5rem) - 1px);
+  border-top-right-radius: calc(var(--card-radius, 0.5rem) - 1px);
+}
+
+.card-img-bottom {
+  border-bottom-left-radius: calc(var(--card-radius, 0.5rem) - 1px);
+  border-bottom-right-radius: calc(var(--card-radius, 0.5rem) - 1px);
+}
+
+// Overlay content on image
+.card-img-overlay {
+  position: absolute;
+  inset: 0;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  color: white;
+}
+
+// --------------------------------------------
+// Card Variants
+// --------------------------------------------
+
+// Hoverable card
+.card-hover {
+  @include mx.card-hover;
+}
+
+// Clickable card (full card link)
+.card-link-overlay {
+  position: relative;
+
+  > a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  &:hover {
+    @include mx.card-hover;
+  }
+}
+
+// Horizontal card
+.card-horizontal {
+  flex-direction: row;
+
+  .card-img {
+    width: auto;
+    max-width: 40%;
+    object-fit: cover;
+    border-radius: var(--card-radius, 0.5rem) 0 0 var(--card-radius, 0.5rem);
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+// Compact card
+.card-compact {
+  .card-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .card-footer {
+    padding: 0.75rem 1rem;
+  }
+}
+
+// Borderless card
+.card-flat {
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+// --------------------------------------------
+// Card Colors
+// --------------------------------------------
+
+.card-primary {
+  --card-bg: var(--primary-50);
+  --card-border: var(--primary-200);
+  
+  .card-header {
+    background-color: var(--primary-100);
+    border-color: var(--primary-200);
+  }
+}
+
+.card-success {
+  --card-bg: var(--success-50);
+  --card-border: var(--success-200);
+  
+  .card-header {
+    background-color: var(--success-100);
+    border-color: var(--success-200);
+  }
+}
+
+.card-warning {
+  --card-bg: var(--warning-50);
+  --card-border: var(--warning-200);
+  
+  .card-header {
+    background-color: var(--warning-100);
+    border-color: var(--warning-200);
+  }
+}
+
+.card-danger {
+  --card-bg: var(--danger-50);
+  --card-border: var(--danger-200);
+  
+  .card-header {
+    background-color: var(--danger-100);
+    border-color: var(--danger-200);
+  }
+}
+
+// --------------------------------------------
+// Product Card (E-Commerce specific)
+// --------------------------------------------
+
+.product-card {
+  @include mx.card;
+  @include mx.card-hover;
+
+  .product-image {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: var(--bg-surface);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 300ms ease;
+    }
+  }
+
+  &:hover .product-image img {
+    transform: scale(1.05);
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 1;
+    padding: 0.25rem 0.5rem;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-sm);
+  }
+
+  .product-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  &:hover .product-actions {
+    opacity: 1;
+  }
+
+  .product-info {
+    padding: 1rem;
+  }
+
+  .product-brand {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .product-name {
+    margin: 0.25rem 0;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.3;
+    
+    @include mx.line-clamp(2);
+  }
+
+  .product-sku {
+    font-size: var(--font-size-xs);
+    color: var(--text-subtle);
+  }
+
+  .product-price {
+    margin-top: 0.75rem;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--primary);
+  }
+
+  .product-price-original {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+
+  .product-availability {
+    margin-top: 0.5rem;
+    font-size: var(--font-size-xs);
+    
+    &.in-stock {
+      color: var(--success);
+    }
+    
+    &.out-of-stock {
+      color: var(--danger);
+    }
+  }
+}
+
+// --------------------------------------------
+// Card Grid
+// --------------------------------------------
+
+.card-grid {
+  display: grid;
+  gap: var(--card-grid-gap, 1.5rem);
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-grid-min, 280px), 1fr));
+}
+
+// Fixed column card grid
+.card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@include mx.media-down('md') {
+  .card-grid-3,
+  .card-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include mx.media-down('sm') {
+  .card-grid-2,
+  .card-grid-3,
+  .card-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}

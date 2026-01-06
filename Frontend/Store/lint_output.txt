@@ -1,0 +1,656 @@
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/ERP/CustomerLookup.vue
+   23:50  error  Hardcoded string "E-Mail-Adresse *" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+   43:33  error  Hardcoded string "Suche läuft..." should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+   62:37  error  Hardcoded string "Fehler bei der Kunde..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   83:37  error  Hardcoded string "Kunde gefunden!" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+   84:39  error  Hardcoded string "Willkommen zurück," should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   95:69  error  Hardcoded string "Kundennummer" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  101:69  error  Hardcoded string "Kundentyp" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  103:76  error  Hardcoded string "Privatperson" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  104:60  error  Hardcoded string "Geschäftskunde" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  111:49  error  Hardcoded string "Geschäftsinformation..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  113:28  error  Hardcoded string "Firma:" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  114:51  error  Hardcoded string "Telefon:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  115:53  error  Hardcoded string "Land:" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  117:25  error  Hardcoded string "Kreditlimit:" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  139:98  error  Hardcoded string "Weiter" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  166:40  error  Hardcoded string "Sind Sie ein neuer K..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  167:28  error  Hardcoded string "Sie können sich jetz..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  171:80  error  Hardcoded string "Neue Registrierung" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  180:43  error  Hardcoded string "🔧 Diagnostic Info (..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/InvoiceDisplay.vue
+  75:9  warning  't' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/ProductPrice.vue
+   81:57  error  Hardcoded string "Berechne Preis..." should be internationalized with $t() or v-t directive    custom/no-hardcoded-strings
+   86:15  error  Hardcoded string "Produktpreis:" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+   91:15  error  Hardcoded string "Versand:" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+   96:15  error  Hardcoded string "Summe (ohne MwSt.):" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  108:15  error  Hardcoded string "Gesamtpreis:" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/RegistrationCheck.vue
+    6:59  error  Hardcoded string "Registrierungstyp Pr..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+    7:49  error  Hardcoded string "Überprüfen Sie, ob S..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   32:35  error  Hardcoded string "Fehler" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+   75:22  error  Hardcoded string "E-Mail-Adresse" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+   98:22  error  Hardcoded string "Unternehmenstyp" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  108:36  error  Hardcoded string "-- Bitte wählen --" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  109:39  error  Hardcoded string "B2C (Privatperson / ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  110:39  error  Hardcoded string "B2B (Unternehmen / G..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  117:44  error  Hardcoded string "Vorname" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  132:44  error  Hardcoded string "Nachname" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  147:44  error  Hardcoded string "Firmenname" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  162:44  error  Hardcoded string "Telefon" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  228:44  error  Hardcoded string "Ihre Kundendaten:" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  232:45  error  Hardcoded string "Kundennummer:" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  236:45  error  Hardcoded string "Name:" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  240:45  error  Hardcoded string "E-Mail:" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  244:45  error  Hardcoded string "Telefon:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  248:45  error  Hardcoded string "Adresse:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  262:40  error  Hardcoded string "Übereinstimmungsquot..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  280:72  error  Hardcoded string "Neue Prüfung" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  281:86  error  Hardcoded string "Mit Kundendaten fort..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/cms/WidgetNotFound.vue
+  3:46  error  Hardcoded string "Widget not found" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  4:45  error  Hardcoded string "Unable to load the w..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/cms/widgets/ProductGrid.vue
+  15:45  error  Hardcoded string "Add to Cart" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/common/LanguageSwitcher.vue
+  71:63  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/shop/ProductCard.vue
+  13:52  error  Hardcoded string "Nicht verfügbar" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  13:52  error  Hardcoded string "Nicht verfügbar" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  63:8   error  Hardcoded string "In Warenkorb" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/shop/ProductCardModern.vue
+  142:47  error  Hardcoded string "Total" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  155:21  error  Hardcoded string "Net price:" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  159:21  error  Hardcoded string "VAT (19%):" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  164:21  error  Hardcoded string "Total:" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  174:85  error  Hardcoded string "View Details →" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  185:40  error  Hardcoded string "🛒 Add" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  186:24  error  Hardcoded string "Not Available" should be internationalized with $t() or v-t directive   custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/widgets/Testimonials.vue
+  19:79  error  Hardcoded string "← Previous" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  23:75  error  Hardcoded string "Next →" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/pages/Cart.vue
+   3:9   error  Hardcoded string "Warenkorb" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+   6:10  error  Hardcoded string "Ihr Warenkorb ist le..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   7:57  error  Hardcoded string "Zum Einkaufen" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  33:13  error  Hardcoded string "Zusammenfassung" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  36:17  error  Hardcoded string "Zwischensumme:" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  41:17  error  Hardcoded string "Steuern (19%):" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  47:15  error  Hardcoded string "Versand" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  49:34  error  Hardcoded string "Lieferziel:" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  51:32  error  Hardcoded string "Bitte wählen..." should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  52:34  error  Hardcoded string "Deutschland" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  53:34  error  Hardcoded string "Österreich" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  54:34  error  Hardcoded string "Belgien" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  55:34  error  Hardcoded string "Frankreich" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  56:34  error  Hardcoded string "Niederlande" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  57:34  error  Hardcoded string "Schweiz" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  58:34  error  Hardcoded string "Großbritannien" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  87:17  error  Hardcoded string "Versand:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  92:17  error  Hardcoded string "Gesamtpreis (inkl. M..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  96:56  error  Hardcoded string "Zur Kasse gehen" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  98:59  error  Hardcoded string "Weiter einkaufen" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/pages/CustomerTypeSelection.vue
+   5:13  error  Hardcoded string "How are you register..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   6:29  error  Hardcoded string "Choose the account t..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  18:15  error  Hardcoded string "Private Customer" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  19:34  error  Hardcoded string "Individual shopper" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  20:30  error  Hardcoded string "For personal purchas..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  31:15  error  Hardcoded string "Business Customer" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  32:34  error  Hardcoded string "Company or organizat..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  33:30  error  Hardcoded string "For business purchas..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  39:97  error  Hardcoded string "Continue" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  46:12  error  Hardcoded string "Already have an acco..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  48:49  error  Hardcoded string "Sign in here" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/pages/Dashboard.vue
+   3:9   error  Hardcoded string "Dashboard" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  13:13  error  Hardcoded string "Statistics" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  14:12  error  Hardcoded string "Your dashboard stati..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  18:13  error  Hardcoded string "Recent Activity" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  19:12  error  Hardcoded string "Recent activities wi..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  23:13  error  Hardcoded string "Quick Actions" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  25:42  error  Hardcoded string "Manage Tenants" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  26:57  error  Hardcoded string "Account Settings" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/pages/Login.vue
+   4:11  error  Hardcoded string "Login to B2Connect" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   8:23  error  Hardcoded string "E2E Test Mode Active" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+   9:28  error  Hardcoded string "Any email/password w..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  14:39  error  Hardcoded string "💡 Use seeded creden..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  16:17  error  Hardcoded string "password" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  22:30  error  Hardcoded string "Email" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  27:33  error  Hardcoded string "Password" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  44:30  error  Hardcoded string "Don't have an accoun..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  46:45  error  Hardcoded string "Sign up" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/pages/PrivateCustomerRegistration.vue
+  361:32  error  Hardcoded string "Germany (DE)" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  362:32  error  Hardcoded string "Austria (AT)" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  363:32  error  Hardcoded string "Switzerland (CH)" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+  364:32  error  Hardcoded string "France (FR)" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  365:32  error  Hardcoded string "Netherlands (NL)" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+  366:32  error  Hardcoded string "Belgium (BE)" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  367:32  error  Hardcoded string "Luxembourg (LU)" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  368:32  error  Hardcoded string "Poland (PL)" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  369:32  error  Hardcoded string "Czech Republic (CZ)" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/pages/ProductDetail.vue
+  179:33  error  Hardcoded string "Home" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  180:41  error  Hardcoded string "Products" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  273:75  error  Hardcoded string "SKU:" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  288:53  error  Hardcoded string "Price Overview" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  299:53  error  Hardcoded string "All prices include V..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  357:28  error  Hardcoded string "Add to Cart" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  370:56  error  Hardcoded string "Share:" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  380:45  error  Hardcoded string "Specifications" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  397:45  error  Hardcoded string "Customer Reviews" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  407:92  error  Hardcoded string "✓ Verified" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/pages/ShoppingCart.vue
+   65:40  error  Hardcoded string "Shopping Cart" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+   75:63  error  Hardcoded string "Your cart is empty" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   76:48  error  Hardcoded string "Discover amazing pro..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   79:76  error  Hardcoded string "Continue Shopping" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+   94:25  error  Hardcoded string "Product" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+   95:25  error  Hardcoded string "Price" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+   96:25  error  Hardcoded string "Quantity" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+   97:25  error  Hardcoded string "Total" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  124:67  error  Hardcoded string "SKU: ABC-123" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  183:79  error  Hardcoded string "← Continue Shopping" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  192:51  error  Hardcoded string "Order Summary" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  197:52  error  Hardcoded string "Have a coupon code?" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  206:86  error  Hardcoded string "Apply" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  214:54  error  Hardcoded string "Subtotal" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  220:54  error  Hardcoded string "Shipping" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  221:47  error  Hardcoded string "FREE" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  229:54  error  Hardcoded string "Net Price (excl. VAT..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  235:54  error  Hardcoded string "VAT (19%)" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  244:43  error  Hardcoded string "Total (incl. VAT)" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  250:86  error  Hardcoded string "Proceed to Checkout ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  255:57  error  Hardcoded string "Continue as Guest" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  261:60  error  Hardcoded string "🔒 Secure Checkout" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  270:69  error  Hardcoded string "✓ 30-day money-back ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  277:69  error  Hardcoded string "✓ Free returns & exc..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  282:69  error  Hardcoded string "✓ Secure SSL encrypt..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/pages/products.vue
+  166:45   error  Hardcoded string "B2Connect Store" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  167:44   error  Hardcoded string "Find the best produc..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  178:40   error  Hardcoded string "Search products" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  194:40   error  Hardcoded string "Sort by" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  197:36   error  Hardcoded string "Name (A-Z)" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  198:41   error  Hardcoded string "Price (Low to High)" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  199:42   error  Hardcoded string "Price (High to Low)" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  200:38   error  Hardcoded string "Rating (High to Low)" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+  211:53   error  Hardcoded string "Filters" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  216:58   error  Hardcoded string "Category" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  234:58   error  Hardcoded string "Price Range" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  239:62   error  Hardcoded string "€0 - €5000 (coming s..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  245:44   error  Hardcoded string "In Stock Only" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  259:74   error  Hardcoded string "Found for:" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  271:47   error  Hardcoded string "Loading products..." should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  280:72   error  Hardcoded string "Retry" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  299:52   error  Hardcoded string "No products found" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  300:50   error  Hardcoded string "Try adjusting your f..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  309:14   error  Hardcoded string "Clear Filters" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  323:14   error  Hardcoded string "← Previous" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  339:100  error  Hardcoded string "Next →" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/App.vue
+    7:6   error  Hardcoded string "Skip to main content" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+   14:94  error  Hardcoded string "B2Connect" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+   23:57  error  Hardcoded string "Home" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+   23:57  error  Hardcoded string "Home" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+   26:61  error  Hardcoded string "Shop" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+   26:61  error  Hardcoded string "Shop" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+   29:67  error  Hardcoded string "Cart" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+   29:67  error  Hardcoded string "Cart" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+   37:66  error  Hardcoded string "Dashboard" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+   37:66  error  Hardcoded string "Dashboard" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+   40:64  error  Hardcoded string "Tenants" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+   40:64  error  Hardcoded string "Tenants" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+   43:61  error  Hardcoded string "Logout" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+   43:61  error  Hardcoded string "Logout" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+   46:62  error  Hardcoded string "Login" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+   46:62  error  Hardcoded string "Login" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+   60:23  error  Hardcoded string "Admin" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  123:38  error  Hardcoded string "Services" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  124:88  error  Hardcoded string "Branding" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  125:88  error  Hardcoded string "Design" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  126:88  error  Hardcoded string "Marketing" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  128:12  error  Hardcoded string "Advertisement" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  132:38  error  Hardcoded string "Company" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  133:88  error  Hardcoded string "About us" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  134:88  error  Hardcoded string "Contact" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  135:88  error  Hardcoded string "Jobs" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  136:88  error  Hardcoded string "Press kit" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  139:38  error  Hardcoded string "Legal" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  141:12  error  Hardcoded string "Terms of use" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  144:12  error  Hardcoded string "Privacy policy" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  147:12  error  Hardcoded string "Cookie policy" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  151:38  error  Hardcoded string "Newsletter" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  154:38  error  Hardcoded string "Enter your email add..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  164:69  error  Hardcoded string "Subscribe" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/B2BVatIdInput.vue
+  109:44  error  Hardcoded string "Country Code" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  118:28  error  Hardcoded string "Austria (AT)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  119:28  error  Hardcoded string "Belgium (BE)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  120:28  error  Hardcoded string "Bulgaria (BG)" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  121:28  error  Hardcoded string "Croatia (HR)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  122:28  error  Hardcoded string "Cyprus (CY)" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  123:28  error  Hardcoded string "Czech Republic (CZ)" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  124:28  error  Hardcoded string "Denmark (DK)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  125:28  error  Hardcoded string "Germany (DE)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  126:28  error  Hardcoded string "Estonia (EE)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  127:28  error  Hardcoded string "Finland (FI)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  128:28  error  Hardcoded string "France (FR)" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  129:28  error  Hardcoded string "Greece (GR)" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  130:28  error  Hardcoded string "Hungary (HU)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  131:28  error  Hardcoded string "Ireland (IE)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  132:28  error  Hardcoded string "Italy (IT)" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  133:28  error  Hardcoded string "Latvia (LV)" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  134:28  error  Hardcoded string "Lithuania (LT)" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  135:28  error  Hardcoded string "Luxembourg (LU)" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  136:28  error  Hardcoded string "Malta (MT)" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  137:28  error  Hardcoded string "Netherlands (NL)" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  138:28  error  Hardcoded string "Poland (PL)" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  139:28  error  Hardcoded string "Portugal (PT)" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  140:28  error  Hardcoded string "Romania (RO)" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  141:28  error  Hardcoded string "Slovakia (SK)" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  142:28  error  Hardcoded string "Slovenia (SI)" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  143:28  error  Hardcoded string "Spain (ES)" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  144:28  error  Hardcoded string "Sweden (SE)" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  151:44  error  Hardcoded string "VAT Number" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  231:39  error  Hardcoded string "Company Name:" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  235:39  error  Hardcoded string "Address:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  239:39  error  Hardcoded string "Reverse Charge:" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  255:89  error  Hardcoded string "Clear & Start Over" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  279:31  error  Hardcoded string "VAT Validation Help" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  280:30  error  Hardcoded string "If you cannot provid..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/Checkout.vue
+  191:54  error  Hardcoded string "Checkout" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  237:63  error  Hardcoded string "Shipping Address" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  237:63  error  Hardcoded string "Shipping Address" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  244:22  error  Hardcoded string "Street Address" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  265:56  error  Hardcoded string "City" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  287:24  error  Hardcoded string "Postal Code" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  309:24  error  Hardcoded string "Country" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  332:44  error  Hardcoded string "Save this address fo..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  347:18  error  Hardcoded string "Continue to Shipping..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  364:64  error  Hardcoded string "Business Verificatio..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  365:45  error  Hardcoded string "Please provide your ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  376:63  error  Hardcoded string "Shipping Method" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  376:63  error  Hardcoded string "Shipping Method" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  379:39  error  Hardcoded string "Select a shipping me..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  420:16  error  Hardcoded string "Back" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  420:16  error  Hardcoded string "Back" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  427:16  error  Hardcoded string "Continue to Review" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  435:63  error  Hardcoded string "Order Review" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  450:18  error  Hardcoded string "Edit Address" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  471:18  error  Hardcoded string "Change Shipping Meth..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  480:48  error  Hardcoded string "Order Items" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  485:29  error  Hardcoded string "Product" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  486:48  error  Hardcoded string "Qty" should be internationalized with $t() or v-t directive                      custom/no-hardcoded-strings
+  487:48  error  Hardcoded string "Price" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  515:16  error  Hardcoded string "Proceed to Payment" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  526:46  error  Hardcoded string "Order Summary" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  543:25  error  Hardcoded string "Subtotal" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  547:25  error  Hardcoded string "VAT (incl.)" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  551:25  error  Hardcoded string "Shipping" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  560:23  error  Hardcoded string "Total" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  568:42  error  Hardcoded string "Secure Checkout" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  569:22  error  Hardcoded string "Your payment is encr..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/CheckoutTermsStep.vue
+    5:43  error  Hardcoded string "Bedingungen" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+    6:39  error  Hardcoded string "Bitte akzeptieren Si..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   24:36  error  Hardcoded string "Ich akzeptiere die" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   24:36  error  Hardcoded string "Ich akzeptiere die" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   26:92  error  Hardcoded string "Allgemeinen Geschäft..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   47:94  error  Hardcoded string "Datenschutzerklärung" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+   66:36  error  Hardcoded string "Ich verstehe mein" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+   68:97  error  Hardcoded string "Widerrufsrecht (14 T..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   77:42  error  Hardcoded string "Erforderliche Felder" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+  123:92  error  Hardcoded string "Zurück" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  148:48  error  Hardcoded string "Allgemeine Geschäfts..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  152:39  error  Hardcoded string "1. Allgemeine Bestim..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  153:20  error  Hardcoded string "Diese Allgemeinen Ge..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  158:39  error  Hardcoded string "2. Produktbeschreibu..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  159:20  error  Hardcoded string "Alle Produktbeschrei..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  164:39  error  Hardcoded string "3. Preise und Zahlun..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  165:20  error  Hardcoded string "Alle Preise enthalte..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  170:39  error  Hardcoded string "4. Lieferung" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  171:20  error  Hardcoded string "Lieferzeiten sind un..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  173:39  error  Hardcoded string "5. Widerrufsrecht" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  174:20  error  Hardcoded string "Sie haben ein Widerr..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  179:39  error  Hardcoded string "6. Haftung" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  180:20  error  Hardcoded string "Haftung für Schäden ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  182:39  error  Hardcoded string "7. Datenschutz" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  183:20  error  Hardcoded string "Siehe Datenschutzerk..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  185:39  error  Hardcoded string "8. Schlussbestimmung..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  186:20  error  Hardcoded string "Es gilt deutsches Re..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  190:93  error  Hardcoded string "Verstanden" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  190:93  error  Hardcoded string "Verstanden" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  190:93  error  Hardcoded string "Verstanden" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  208:48  error  Hardcoded string "Datenschutzerklärung" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+  212:39  error  Hardcoded string "1. Verantwortlicher" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  213:20  error  Hardcoded string "Verantwortlich für d..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  218:39  error  Hardcoded string "2. Erhebung und Vera..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  219:20  error  Hardcoded string "Wir erheben Ihre Dat..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  221:39  error  Hardcoded string "3. Speicherdauer" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  222:20  error  Hardcoded string "Persönliche Daten we..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  226:39  error  Hardcoded string "4. Ihre Rechte" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  227:20  error  Hardcoded string "Sie haben das Recht ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  231:39  error  Hardcoded string "5. Cookies" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  232:20  error  Hardcoded string "Wir verwenden techni..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  237:39  error  Hardcoded string "6. Sicherheit" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  238:20  error  Hardcoded string "Wir schützen Ihre Da..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  240:39  error  Hardcoded string "7. Datenschutzbeauft..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  241:20  error  Hardcoded string "Bei Fragen: datensch..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  263:48  error  Hardcoded string "Widerrufsrecht (14 T..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  267:39  error  Hardcoded string "Ihr Widerrufsrecht" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  268:20  error  Hardcoded string "Sie haben das Recht,..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  273:39  error  Hardcoded string "Widerrufsfristen" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  275:23  error  Hardcoded string "Beginn: Tag nach Erh..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  276:23  error  Hardcoded string "Dauer: 14 Tage" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  277:23  error  Hardcoded string "Form: Einfache schri..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  280:39  error  Hardcoded string "Ausnahmen" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  281:20  error  Hardcoded string "Widerrufsrecht gilt ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  283:23  error  Hardcoded string "Digitale Inhalte nac..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  284:23  error  Hardcoded string "Maßgeschneiderte ode..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  285:23  error  Hardcoded string "Waren, die nach Zust..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  288:39  error  Hardcoded string "Rückgabeverfahren" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  289:20  error  Hardcoded string "Senden Sie die Ware ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  294:39  error  Hardcoded string "Kontakt" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  295:20  error  Hardcoded string "Widerrufe richten Si..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  298:27  error  Hardcoded string "Rechtsgrundlage:" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  298:52  error  Hardcoded string "§§ 355-359 BGB (Fern..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/ERP/CustomerLookup.vue
+   23:50  error  Hardcoded string "E-Mail-Adresse *" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+   43:33  error  Hardcoded string "Suche läuft..." should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+   62:37  error  Hardcoded string "Fehler bei der Kunde..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   83:37  error  Hardcoded string "Kunde gefunden!" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+   84:39  error  Hardcoded string "Willkommen zurück," should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   95:69  error  Hardcoded string "Kundennummer" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  101:69  error  Hardcoded string "Kundentyp" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  103:76  error  Hardcoded string "Privatperson" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  104:60  error  Hardcoded string "Geschäftskunde" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  111:49  error  Hardcoded string "Geschäftsinformation..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  113:28  error  Hardcoded string "Firma:" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  114:51  error  Hardcoded string "Telefon:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  115:53  error  Hardcoded string "Land:" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  117:25  error  Hardcoded string "Kreditlimit:" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  139:98  error  Hardcoded string "Weiter" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  166:40  error  Hardcoded string "Sind Sie ein neuer K..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  167:28  error  Hardcoded string "Sie können sich jetz..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  171:80  error  Hardcoded string "Neue Registrierung" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  180:43  error  Hardcoded string "🔧 Diagnostic Info (..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/InvoiceDisplay.vue
+  75:9  warning  't' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/ProductPrice.vue
+   81:57  error  Hardcoded string "Berechne Preis..." should be internationalized with $t() or v-t directive    custom/no-hardcoded-strings
+   86:15  error  Hardcoded string "Produktpreis:" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+   91:15  error  Hardcoded string "Versand:" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+   96:15  error  Hardcoded string "Summe (ohne MwSt.):" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  108:15  error  Hardcoded string "Gesamtpreis:" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/RegistrationCheck.vue
+    6:59  error  Hardcoded string "Registrierungstyp Pr..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+    7:49  error  Hardcoded string "Überprüfen Sie, ob S..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   32:35  error  Hardcoded string "Fehler" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+   75:22  error  Hardcoded string "E-Mail-Adresse" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+   98:22  error  Hardcoded string "Unternehmenstyp" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  108:36  error  Hardcoded string "-- Bitte wählen --" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  109:39  error  Hardcoded string "B2C (Privatperson / ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  110:39  error  Hardcoded string "B2B (Unternehmen / G..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  117:44  error  Hardcoded string "Vorname" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  132:44  error  Hardcoded string "Nachname" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  147:44  error  Hardcoded string "Firmenname" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  162:44  error  Hardcoded string "Telefon" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  228:44  error  Hardcoded string "Ihre Kundendaten:" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  232:45  error  Hardcoded string "Kundennummer:" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  236:45  error  Hardcoded string "Name:" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  240:45  error  Hardcoded string "E-Mail:" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  244:45  error  Hardcoded string "Telefon:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  248:45  error  Hardcoded string "Adresse:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  262:40  error  Hardcoded string "Übereinstimmungsquot..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  280:72  error  Hardcoded string "Neue Prüfung" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  281:86  error  Hardcoded string "Mit Kundendaten fort..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/cms/WidgetNotFound.vue
+  3:46  error  Hardcoded string "Widget not found" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  4:45  error  Hardcoded string "Unable to load the w..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/cms/widgets/ProductGrid.vue
+  15:45  error  Hardcoded string "Add to Cart" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/common/ErrorBoundary.vue
+  124:23  warning  'instance' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  124:33  warning  'info' is defined but never used. Allowed unused args must match /^_/u      @typescript-eslint/no-unused-vars
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/shop/ProductCard.vue
+  13:52  error  Hardcoded string "Nicht verfügbar" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  13:52  error  Hardcoded string "Nicht verfügbar" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  63:8   error  Hardcoded string "In Warenkorb" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/shop/ProductCardModern.vue
+  142:47  error  Hardcoded string "Total" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  155:21  error  Hardcoded string "Net price:" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  159:21  error  Hardcoded string "VAT (19%):" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  164:21  error  Hardcoded string "Total:" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  174:85  error  Hardcoded string "View Details →" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  185:40  error  Hardcoded string "🛒 Add" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  186:24  error  Hardcoded string "Not Available" should be internationalized with $t() or v-t directive   custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/components/widgets/Testimonials.vue
+  19:79  error  Hardcoded string "← Previous" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  23:75  error  Hardcoded string "Next →" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/composables/useApiResilience.ts
+  52:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/composables/useLoadingState.ts
+   74:38  warning  'T' is defined but never used                      @typescript-eslint/no-unused-vars
+  129:11  warning  'LoadingStateMixinThis' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/composables/useTheme.ts
+  1:36  warning  'watch' is defined but never used  @typescript-eslint/no-unused-vars
+  3:8   warning  'axios' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/services/resilientApiClient.ts
+  4:10  warning  'useI18n' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/Cart.vue
+   3:9   error  Hardcoded string "Warenkorb" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+   6:10  error  Hardcoded string "Ihr Warenkorb ist le..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   7:57  error  Hardcoded string "Zum Einkaufen" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  33:13  error  Hardcoded string "Zusammenfassung" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  36:17  error  Hardcoded string "Zwischensumme:" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  41:17  error  Hardcoded string "Steuern (19%):" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  47:15  error  Hardcoded string "Versand" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  49:34  error  Hardcoded string "Lieferziel:" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  51:32  error  Hardcoded string "Bitte wählen..." should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  52:34  error  Hardcoded string "Deutschland" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  53:34  error  Hardcoded string "Österreich" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  54:34  error  Hardcoded string "Belgien" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  55:34  error  Hardcoded string "Frankreich" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  56:34  error  Hardcoded string "Niederlande" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  57:34  error  Hardcoded string "Schweiz" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  58:34  error  Hardcoded string "Großbritannien" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  87:17  error  Hardcoded string "Versand:" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  92:17  error  Hardcoded string "Gesamtpreis (inkl. M..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  96:56  error  Hardcoded string "Zur Kasse gehen" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  98:59  error  Hardcoded string "Weiter einkaufen" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/CustomerTypeSelection.vue
+   5:13  error  Hardcoded string "How are you register..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   6:29  error  Hardcoded string "Choose the account t..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  18:15  error  Hardcoded string "Private Customer" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  19:34  error  Hardcoded string "Individual shopper" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  20:30  error  Hardcoded string "For personal purchas..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  31:15  error  Hardcoded string "Business Customer" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  32:34  error  Hardcoded string "Company or organizat..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  33:30  error  Hardcoded string "For business purchas..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  39:97  error  Hardcoded string "Continue" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  46:12  error  Hardcoded string "Already have an acco..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  48:49  error  Hardcoded string "Sign in here" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/Dashboard.vue
+   3:9   error  Hardcoded string "Dashboard" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  13:13  error  Hardcoded string "Statistics" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  14:12  error  Hardcoded string "Your dashboard stati..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  18:13  error  Hardcoded string "Recent Activity" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  19:12  error  Hardcoded string "Recent activities wi..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  23:13  error  Hardcoded string "Quick Actions" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  25:42  error  Hardcoded string "Manage Tenants" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  26:57  error  Hardcoded string "Account Settings" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/Home.vue
+   3:9   error  Hardcoded string "Welcome to B2Connect" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+   4:25  error  Hardcoded string "A modern multitenant..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   7:66  error  Hardcoded string "Get Started" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  11:11  error  Hardcoded string "Your Dashboard" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  12:10  error  Hardcoded string "You are logged in. N..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  13:60  error  Hardcoded string "Go to Dashboard" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  18:13  error  Hardcoded string "Multitenant Architec..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  19:12  error  Hardcoded string "Secure data isolatio..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  22:13  error  Hardcoded string "Microservices" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  23:12  error  Hardcoded string "Scalable microservic..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  26:13  error  Hardcoded string "Real-time Updates" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  27:12  error  Hardcoded string "Event-driven archite..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/Login.vue
+   4:11  error  Hardcoded string "Login to B2Connect" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   8:23  error  Hardcoded string "E2E Test Mode Active" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+   9:28  error  Hardcoded string "Any email/password w..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  14:39  error  Hardcoded string "💡 Use seeded creden..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  16:17  error  Hardcoded string "password" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  22:30  error  Hardcoded string "Email" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  27:33  error  Hardcoded string "Password" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  44:30  error  Hardcoded string "Don't have an accoun..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  46:45  error  Hardcoded string "Sign up" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/NotFound.vue
+  4:9   error  Hardcoded string "Page Not Found" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  5:8   error  Hardcoded string "The page you are loo..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  6:49  error  Hardcoded string "Go Back Home" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/PrivateCustomerRegistration.vue
+  361:32  error  Hardcoded string "Germany (DE)" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  362:32  error  Hardcoded string "Austria (AT)" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  363:32  error  Hardcoded string "Switzerland (CH)" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+  364:32  error  Hardcoded string "France (FR)" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  365:32  error  Hardcoded string "Netherlands (NL)" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+  366:32  error  Hardcoded string "Belgium (BE)" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  367:32  error  Hardcoded string "Luxembourg (LU)" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  368:32  error  Hardcoded string "Poland (PL)" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  369:32  error  Hardcoded string "Czech Republic (CZ)" should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/ProductDetail.vue
+  179:33  error  Hardcoded string "Home" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  180:41  error  Hardcoded string "Products" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  189:41  error  Hardcoded string "Loading product deta..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  199:67  error  Hardcoded string "Retry" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  273:75  error  Hardcoded string "SKU:" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  288:53  error  Hardcoded string "Price Overview" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  299:53  error  Hardcoded string "All prices include V..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  357:28  error  Hardcoded string "Add to Cart" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  370:56  error  Hardcoded string "Share:" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  380:45  error  Hardcoded string "Specifications" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  397:45  error  Hardcoded string "Customer Reviews" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  407:92  error  Hardcoded string "✓ Verified" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/ProductListing.vue
+  166:45   error  Hardcoded string "B2Connect Store" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  167:44   error  Hardcoded string "Find the best produc..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  178:40   error  Hardcoded string "Search products" should be internationalized with $t() or v-t directive          custom/no-hardcoded-strings
+  194:40   error  Hardcoded string "Sort by" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  197:36   error  Hardcoded string "Name (A-Z)" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  198:41   error  Hardcoded string "Price (Low to High)" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  199:42   error  Hardcoded string "Price (High to Low)" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  200:38   error  Hardcoded string "Rating (High to Low)" should be internationalized with $t() or v-t directive     custom/no-hardcoded-strings
+  211:53   error  Hardcoded string "Filters" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+  216:58   error  Hardcoded string "Category" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  234:58   error  Hardcoded string "Price Range" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  239:62   error  Hardcoded string "€0 - €5000 (coming s..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  245:44   error  Hardcoded string "In Stock Only" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  259:74   error  Hardcoded string "Found for:" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  271:47   error  Hardcoded string "Loading products..." should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  280:72   error  Hardcoded string "Retry" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  299:52   error  Hardcoded string "No products found" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  300:50   error  Hardcoded string "Try adjusting your f..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  309:14   error  Hardcoded string "Clear Filters" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  323:14   error  Hardcoded string "← Previous" should be internationalized with $t() or v-t directive               custom/no-hardcoded-strings
+  339:100  error  Hardcoded string "Next →" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/ShoppingCart.vue
+   65:40  error  Hardcoded string "Shopping Cart" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+   75:63  error  Hardcoded string "Your cart is empty" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   76:48  error  Hardcoded string "Discover amazing pro..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+   79:76  error  Hardcoded string "Continue Shopping" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+   94:25  error  Hardcoded string "Product" should be internationalized with $t() or v-t directive                  custom/no-hardcoded-strings
+   95:25  error  Hardcoded string "Price" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+   96:25  error  Hardcoded string "Quantity" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+   97:25  error  Hardcoded string "Total" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  124:67  error  Hardcoded string "SKU: ABC-123" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+  183:79  error  Hardcoded string "← Continue Shopping" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  192:51  error  Hardcoded string "Order Summary" should be internationalized with $t() or v-t directive            custom/no-hardcoded-strings
+  197:52  error  Hardcoded string "Have a coupon code?" should be internationalized with $t() or v-t directive      custom/no-hardcoded-strings
+  206:86  error  Hardcoded string "Apply" should be internationalized with $t() or v-t directive                    custom/no-hardcoded-strings
+  214:54  error  Hardcoded string "Subtotal" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  220:54  error  Hardcoded string "Shipping" should be internationalized with $t() or v-t directive                 custom/no-hardcoded-strings
+  221:47  error  Hardcoded string "FREE" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  229:54  error  Hardcoded string "Net Price (excl. VAT..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  235:54  error  Hardcoded string "VAT (19%)" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+  244:43  error  Hardcoded string "Total (incl. VAT)" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  250:86  error  Hardcoded string "Proceed to Checkout ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  255:57  error  Hardcoded string "Continue as Guest" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  261:60  error  Hardcoded string "🔒 Secure Checkout" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  270:69  error  Hardcoded string "✓ 30-day money-back ..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  277:69  error  Hardcoded string "✓ Free returns & exc..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  282:69  error  Hardcoded string "✓ Secure SSL encrypt..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/Store.vue
+   5:11  error  Hardcoded string "B2Connect Shop" should be internationalized with $t() or v-t directive           custom/no-hardcoded-strings
+  51:10  error  Hardcoded string "Produkte werden gela..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  57:58  error  Hardcoded string "Erneut versuchen" should be internationalized with $t() or v-t directive         custom/no-hardcoded-strings
+  63:12  error  Hardcoded string "Keine Produkte gefun..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  64:50  error  Hardcoded string "Versuchen Sie eine a..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  83:8   error  Hardcoded string "← Vorherige" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  89:98  error  Hardcoded string "Nächste →" should be internationalized with $t() or v-t directive                custom/no-hardcoded-strings
+
+/Users/holger/Documents/Projekte/B2Connect/frontend/Store/src/views/Tenants.vue
+   3:9   error  Hardcoded string "Tenants Management" should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+   6:71  error  Hardcoded string "+ New Tenant" should be internationalized with $t() or v-t directive             custom/no-hardcoded-strings
+   9:41  error  Hardcoded string "Loading tenants..." should be internationalized with $t() or v-t directive       custom/no-hardcoded-strings
+  12:10  error  Hardcoded string "No tenants found. Cr..." should be internationalized with $t() or v-t directive  custom/no-hardcoded-strings
+  26:41  error  Hardcoded string "Edit" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  27:52  error  Hardcoded string "Delete" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  34:13  error  Hardcoded string "Create New Tenant" should be internationalized with $t() or v-t directive        custom/no-hardcoded-strings
+  37:20  error  Hardcoded string "Name" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  41:20  error  Hardcoded string "Slug" should be internationalized with $t() or v-t directive                     custom/no-hardcoded-strings
+  45:20  error  Hardcoded string "Description" should be internationalized with $t() or v-t directive              custom/no-hardcoded-strings
+  49:59  error  Hardcoded string "Create" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+  50:94  error  Hardcoded string "Cancel" should be internationalized with $t() or v-t directive                   custom/no-hardcoded-strings
+
+✖ 557 problems (548 errors, 9 warnings)
+

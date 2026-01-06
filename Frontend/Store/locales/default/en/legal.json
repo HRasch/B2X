@@ -1,0 +1,190 @@
+{
+  "acceptance": {
+    "title": "Terms & Conditions",
+    "subtitle": "Please accept the required terms to continue",
+    "requiredFields": "* Required fields",
+    "back": "Back",
+    "continueToPayment": "Continue to Payment",
+    "processing": "Processing...",
+    "acceptTerms": "I accept the Terms and Conditions",
+    "acceptPrivacy": "I accept the Privacy Policy",
+    "understandWithdrawal": "I understand my 14-day withdrawal right",
+    "acceptTermsError": "Please accept the Terms and Conditions and Privacy Policy",
+    "acceptTermsSuccess": "Terms accepted!",
+    "saveError": "Error saving terms acceptance",
+    "generalError": "An error occurred. Please try again later."
+  },
+  "checkout": {
+    "header": {
+      "title": "Checkout",
+      "stepIndicator": "Step {{currentStep}} of {{totalSteps}}"
+    },
+    "steps": {
+      "shippingAddress": "Shipping Address",
+      "shippingMethod": "Shipping Method",
+      "orderReview": "Order Review"
+    },
+    "form": {
+      "labels": {
+        "streetAddress": "Street Address",
+        "city": "City",
+        "postalCode": "Postal Code",
+        "country": "Country"
+      },
+      "placeholders": {
+        "streetAddress": "123 Main Street",
+        "city": "Berlin",
+        "postalCode": "12345"
+      },
+      "required": "* Required",
+      "saveAddress": "Save this address for future orders"
+    },
+    "validation": {
+      "streetRequired": "Street is required",
+      "cityRequired": "City is required",
+      "postalCodeRequired": "Postal code is required",
+      "countryRequired": "Country is required",
+      "invalidPostalCode": "Invalid German postal code (format: 12345)"
+    },
+    "shipping": {
+      "title": "Shipping Method",
+      "selectMethod": "Select a shipping method",
+      "estimatedDelivery": "Estimated delivery: {{days}} business days",
+      "free": "Free",
+      "businessVerification": {
+        "title": "Business Verification",
+        "description": "Please provide your VAT ID for verification. Valid EU business VAT-IDs may qualify for reverse charge (0% VAT)."
+      }
+    },
+    "orderReview": {
+      "title": "Order Review",
+      "shippingAddress": "Shipping Address",
+      "shippingMethod": "Shipping Method",
+      "orderItems": "Order Items",
+      "editAddress": "Edit Address",
+      "changeShippingMethod": "Change Shipping Method",
+      "estimatedDelivery": "Estimated delivery: {{days}} business days"
+    },
+    "orderSummary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "vatIncluded": "VAT (incl.)",
+      "shipping": "Shipping",
+      "total": "Total",
+      "secureCheckout": "Secure Checkout",
+      "secureDescription": "Your payment is encrypted and secure"
+    },
+    "buttons": {
+      "back": "Back",
+      "continueToShipping": "Continue to Shipping Method",
+      "continueToReview": "Continue to Review",
+      "proceedToPayment": "Proceed to Payment",
+      "editAddress": "Edit Address",
+      "changeShippingMethod": "Change Shipping Method"
+    }
+  },
+  "termsAndConditions": {
+    "title": "Terms and Conditions",
+    "understood": "Understood",
+    "sections": {
+      "general": {
+        "title": "1. General Provisions",
+        "content": "These General Terms and Conditions regulate the relationship between the operator of this online shop and the buyer."
+      },
+      "products": {
+        "title": "2. Product Descriptions",
+        "content": "All product descriptions are offers for sale. A contract is only concluded when you place an order and we accept it."
+      },
+      "pricing": {
+        "title": "3. Prices and Payment Terms",
+        "content": "All prices include the applicable value added tax. Shipping costs are calculated separately and displayed at checkout."
+      },
+      "delivery": {
+        "title": "4. Delivery",
+        "content": "Delivery times are non-binding. We are only liable for delays due to our fault."
+      },
+      "withdrawal": {
+        "title": "5. Right of Withdrawal",
+        "content": "You have a 14-day right of withdrawal from receipt of the goods. See below for details."
+      },
+      "liability": {
+        "title": "6. Liability",
+        "content": "Liability for damages is limited to direct damages up to the amount of the purchase price."
+      },
+      "privacy": {
+        "title": "7. Data Protection",
+        "content": "See Privacy Policy for the handling of your data."
+      },
+      "final": {
+        "title": "8. Final Provisions",
+        "content": "German law applies. The place of jurisdiction is the registered office of the company."
+      }
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "understood": "Understood",
+    "sections": {
+      "responsible": {
+        "title": "1. Responsible Party",
+        "content": "The operator of this shop is responsible for data processing (see imprint)."
+      },
+      "collection": {
+        "title": "2. Collection and Processing",
+        "content": "We only collect your data for the processing of your purchase and shipping."
+      },
+      "storage": {
+        "title": "3. Storage Duration",
+        "content": "Personal data is stored for 10 years to fulfill tax obligations."
+      },
+      "rights": {
+        "title": "4. Your Rights",
+        "content": "You have the right to information, correction, deletion and data portability."
+      },
+      "cookies": {
+        "title": "5. Cookies",
+        "content": "We use technically necessary cookies. Other cookies are stored with your consent."
+      },
+      "security": {
+        "title": "6. Security",
+        "content": "We protect your data through encryption and secure transmission."
+      },
+      "contact": {
+        "title": "7. Data Protection Officer",
+        "content": "For questions: privacy@example.com"
+      }
+    }
+  },
+  "withdrawalRights": {
+    "title": "Right of Withdrawal (14 Days)",
+    "understood": "Understood",
+    "sections": {
+      "yourRights": {
+        "title": "Your Right of Withdrawal",
+        "content": "You have the right to withdraw from your purchase within 14 days of receipt of the goods without giving any reason."
+      },
+      "deadlines": {
+        "title": "Withdrawal Deadlines",
+        "start": "Start: Day after receipt of goods",
+        "duration": "Duration: 14 days",
+        "form": "Form: Simple written notification by email is sufficient"
+      },
+      "exceptions": {
+        "title": "Exceptions",
+        "intro": "Right of withdrawal does NOT apply to:",
+        "digital": "Digital content after download",
+        "customized": "Customized or personalized goods",
+        "damaged": "Goods damaged after delivery (your fault)"
+      },
+      "returnProcess": {
+        "title": "Return Process",
+        "content": "Return the goods immediately. Shipping costs are borne by the buyer (except for justified returns)."
+      },
+      "contact": {
+        "title": "Contact",
+        "content": "Send withdrawals to: withdrawal@example.com"
+      },
+      "legalBasis": "Legal basis: §§ 355-359 BGB (Distance Selling Act)"
+    }
+  }
+}

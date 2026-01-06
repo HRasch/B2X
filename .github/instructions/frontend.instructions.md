@@ -45,15 +45,17 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
   - Validate responsive behavior across breakpoints
 
 ## Multilingual Support (i18n)
-- **Always consider multilingualism** in all frontend development
-- **Never use hardcoded strings** in components - always use translation keys
-- **Keep translations current** - update all language files when adding new UI text
+
+**Reference**: See [GL-042] Token-Optimized i18n Strategy for AI-efficient translation workflows.
+
+- **Never use hardcoded strings** - always use translation keys
+- **English first**: Define keys in `en.json` as source of truth
+- **Batch translations**: Request translations for multiple keys in single AI requests
 - **Use vue-i18n properly**:
   - Import `useI18n` composable for script usage
   - Use `$t()` in templates for translation calls
-  - Follow consistent key naming: `feature.section.key`
-  - Add translation keys to ALL supported languages simultaneously
-- **Supported languages**: English (en), German (de), French (fr), Spanish (es), Italian (it), Portuguese (pt), Dutch (nl), Polish (pl)
-- **Test translations**: Verify all languages display correctly before committing
-- **Backend integration**: Ensure localization API calls work for dynamic content
+  - Follow key naming: `namespace.section.key` (e.g., `auth.login.title`)
+- **Supported languages**: en, de, fr, es, it, pt, nl, pl
+- **Token efficiency**: Don't load all language files - work with keys only
+- **Validation**: Use `scripts/i18n-check.sh` for completeness checks
 

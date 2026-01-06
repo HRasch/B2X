@@ -3,16 +3,19 @@
     <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
       <!-- Header -->
       <h1 class="text-3xl font-bold text-gray-900 mb-2">
-        {{ $t('registration.title') }}
+        {{ $t('registration.privateCustomerRegistration.title') }}
       </h1>
-      <p class="text-gray-600 mb-6">{{ $t('registration.subtitle') }}</p>
+      <p class="text-gray-600 mb-6">
+        {{ $t('registration.privateCustomerRegistration.subtitle') }}
+      </p>
 
       <!-- Form -->
       <form @submit.prevent="submitForm" class="space-y-5" novalidate>
         <!-- Email Field -->
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.email') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.email.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <div class="relative">
             <input
@@ -20,7 +23,7 @@
               v-model="formData.email"
               type="email"
               required
-              aria-label="Email address"
+              :aria-label="$t('registration.privateCustomerRegistration.form.email.ariaLabel')"
               aria-describedby="email-error"
               :aria-invalid="!!errors.email"
               @blur="validateEmail"
@@ -28,7 +31,7 @@
               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
               :class="{ 'border-red-500': errors.email }"
               :disabled="isSubmitting"
-              placeholder="you@example.com"
+              :placeholder="$t('registration.privateCustomerRegistration.form.email.placeholder')"
             />
             <!-- Email availability spinner -->
             <div v-if="emailChecking" class="absolute right-3 top-2.5" aria-hidden="true">
@@ -65,7 +68,8 @@
         <!-- Password Field -->
         <div>
           <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.password') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.password.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <div class="relative">
             <input
@@ -73,14 +77,16 @@
               v-model="formData.password"
               :type="showPassword ? 'text' : 'password'"
               required
-              aria-label="Password"
+              :aria-label="$t('registration.privateCustomerRegistration.form.password.ariaLabel')"
               aria-describedby="password-error password-strength"
               :aria-invalid="!!errors.password"
               @input="validatePassword"
               class="w-full px-4 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
               :class="{ 'border-red-500': errors.password }"
               :disabled="isSubmitting"
-              placeholder="••••••••"
+              :placeholder="
+                $t('registration.privateCustomerRegistration.form.password.placeholder')
+              "
             />
             <!-- Password visibility toggle -->
             <button
@@ -149,21 +155,26 @@
         <!-- Confirm Password Field -->
         <div>
           <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.confirmPassword') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.confirmPassword.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <input
             id="confirmPassword"
             v-model="formData.confirmPassword"
             :type="showPassword ? 'text' : 'password'"
             required
-            aria-label="Confirm password"
+            :aria-label="
+              $t('registration.privateCustomerRegistration.form.confirmPassword.ariaLabel')
+            "
             aria-describedby="confirm-password-error"
             :aria-invalid="!!errors.confirmPassword"
             @input="validatePassword"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.confirmPassword }"
             :disabled="isSubmitting"
-            placeholder="••••••••"
+            :placeholder="
+              $t('registration.privateCustomerRegistration.form.confirmPassword.placeholder')
+            "
           />
           <p
             v-if="errors.confirmPassword"
@@ -178,21 +189,22 @@
         <!-- First Name Field -->
         <div>
           <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.firstName') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.firstName.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <input
             id="firstName"
             v-model="formData.firstName"
             type="text"
             required
-            aria-label="First name"
+            :aria-label="$t('registration.privateCustomerRegistration.form.firstName.ariaLabel')"
             aria-describedby="firstName-error"
             :aria-invalid="!!errors.firstName"
             @blur="validateField('firstName')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.firstName }"
             :disabled="isSubmitting"
-            placeholder="John"
+            :placeholder="$t('registration.privateCustomerRegistration.form.firstName.placeholder')"
           />
           <p
             v-if="errors.firstName"
@@ -207,21 +219,22 @@
         <!-- Last Name Field -->
         <div>
           <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.lastName') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.lastName.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <input
             id="lastName"
             v-model="formData.lastName"
             type="text"
             required
-            aria-label="Last name"
+            :aria-label="$t('registration.privateCustomerRegistration.form.lastName.ariaLabel')"
             aria-describedby="lastName-error"
             :aria-invalid="!!errors.lastName"
             @blur="validateField('lastName')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.lastName }"
             :disabled="isSubmitting"
-            placeholder="Doe"
+            :placeholder="$t('registration.privateCustomerRegistration.form.lastName.placeholder')"
           />
           <p
             v-if="errors.lastName"
@@ -236,7 +249,7 @@
         <!-- Phone Number Field (Optional) -->
         <div>
           <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.phone') }}
+            {{ $t('registration.privateCustomerRegistration.form.phone.label') }}
             {{ !storeConfig.requirePhoneNumber ? '(' + $t('form.optional') + ')' : '' }}
           </label>
           <input
@@ -244,14 +257,14 @@
             v-model="formData.phone"
             type="tel"
             :required="storeConfig.requirePhoneNumber"
-            aria-label="Phone number"
+            :aria-label="$t('registration.privateCustomerRegistration.form.phone.ariaLabel')"
             aria-describedby="phone-error"
             :aria-invalid="!!errors.phone"
             @blur="validateField('phone')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.phone }"
             :disabled="isSubmitting"
-            placeholder="+49123456789"
+            :placeholder="$t('registration.privateCustomerRegistration.form.phone.placeholder')"
           />
           <p v-if="errors.phone" id="phone-error" role="alert" class="text-red-500 text-sm mt-1">
             {{ errors.phone }}
@@ -261,21 +274,26 @@
         <!-- Address Field -->
         <div>
           <label for="address" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.streetAddress') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.streetAddress.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <input
             id="address"
             v-model="formData.streetAddress"
             type="text"
             required
-            aria-label="Street address"
+            :aria-label="
+              $t('registration.privateCustomerRegistration.form.streetAddress.ariaLabel')
+            "
             aria-describedby="address-error"
             :aria-invalid="!!errors.streetAddress"
             @blur="validateField('streetAddress')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.streetAddress }"
             :disabled="isSubmitting"
-            placeholder="123 Main Street"
+            :placeholder="
+              $t('registration.privateCustomerRegistration.form.streetAddress.placeholder')
+            "
           />
           <p
             v-if="errors.streetAddress"
@@ -290,21 +308,22 @@
         <!-- City Field -->
         <div>
           <label for="city" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.city') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.city.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <input
             id="city"
             v-model="formData.city"
             type="text"
             required
-            aria-label="City"
+            :aria-label="$t('registration.privateCustomerRegistration.form.city.ariaLabel')"
             aria-describedby="city-error"
             :aria-invalid="!!errors.city"
             @blur="validateField('city')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.city }"
             :disabled="isSubmitting"
-            placeholder="Berlin"
+            :placeholder="$t('registration.privateCustomerRegistration.form.city.placeholder')"
           />
           <p v-if="errors.city" id="city-error" role="alert" class="text-red-500 text-sm mt-1">
             {{ errors.city }}
@@ -314,21 +333,24 @@
         <!-- Postal Code Field -->
         <div>
           <label for="postalCode" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.postalCode') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.postalCode.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <input
             id="postalCode"
             v-model="formData.postalCode"
             type="text"
             required
-            aria-label="Postal code"
+            :aria-label="$t('registration.privateCustomerRegistration.form.postalCode.ariaLabel')"
             aria-describedby="postalCode-error"
             :aria-invalid="!!errors.postalCode"
             @blur="validateField('postalCode')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.postalCode }"
             :disabled="isSubmitting"
-            placeholder="10115"
+            :placeholder="
+              $t('registration.privateCustomerRegistration.form.postalCode.placeholder')
+            "
           />
           <p
             v-if="errors.postalCode"
@@ -343,13 +365,14 @@
         <!-- Country Field -->
         <div>
           <label for="country" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.country') }} <span class="text-red-500">*</span>
+            {{ $t('registration.privateCustomerRegistration.form.country.label') }}
+            <span class="text-red-500">*</span>
           </label>
           <select
             id="country"
             v-model="formData.country"
             required
-            aria-label="Country"
+            :aria-label="$t('registration.privateCustomerRegistration.form.country.ariaLabel')"
             aria-describedby="country-error"
             :aria-invalid="!!errors.country"
             @change="validateField('country')"
@@ -357,16 +380,36 @@
             :class="{ 'border-red-500': errors.country }"
             :disabled="isSubmitting"
           >
-            <option value="">{{ $t('form.selectCountry') }}</option>
-            <option value="DE">Germany (DE)</option>
-            <option value="AT">Austria (AT)</option>
-            <option value="CH">Switzerland (CH)</option>
-            <option value="FR">France (FR)</option>
-            <option value="NL">Netherlands (NL)</option>
-            <option value="BE">Belgium (BE)</option>
-            <option value="LU">Luxembourg (LU)</option>
-            <option value="PL">Poland (PL)</option>
-            <option value="CZ">Czech Republic (CZ)</option>
+            <option value="">
+              {{ $t('registration.privateCustomerRegistration.form.country.placeholder') }}
+            </option>
+            <option value="DE">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.DE') }}
+            </option>
+            <option value="AT">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.AT') }}
+            </option>
+            <option value="CH">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.CH') }}
+            </option>
+            <option value="FR">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.FR') }}
+            </option>
+            <option value="NL">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.NL') }}
+            </option>
+            <option value="BE">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.BE') }}
+            </option>
+            <option value="LU">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.LU') }}
+            </option>
+            <option value="PL">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.PL') }}
+            </option>
+            <option value="CZ">
+              {{ $t('registration.privateCustomerRegistration.form.country.options.CZ') }}
+            </option>
           </select>
           <p
             v-if="errors.country"
@@ -385,20 +428,22 @@
           "
         >
           <label for="state" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.state') }} ({{ $t('form.optional') }})
+            {{ $t('registration.privateCustomerRegistration.form.state.label') }} ({{
+              $t('form.optional')
+            }})
           </label>
           <input
             id="state"
             v-model="formData.state"
             type="text"
-            aria-label="State or province"
+            :aria-label="$t('registration.privateCustomerRegistration.form.state.ariaLabel')"
             aria-describedby="state-error"
             :aria-invalid="!!errors.state"
             @blur="validateField('state')"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
             :class="{ 'border-red-500': errors.state }"
             :disabled="isSubmitting"
-            placeholder="State / Province"
+            :placeholder="$t('registration.privateCustomerRegistration.form.state.placeholder')"
           />
           <p v-if="errors.state" id="state-error" role="alert" class="text-red-500 text-sm mt-1">
             {{ errors.state }}
@@ -408,13 +453,15 @@
         <!-- Date of Birth (Optional) -->
         <div v-if="storeConfig.showBirthdayField">
           <label for="dateOfBirth" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $t('form.dateOfBirth') }} ({{ $t('form.optional') }})
+            {{ $t('registration.privateCustomerRegistration.form.dateOfBirth.label') }} ({{
+              $t('form.optional')
+            }})
           </label>
           <input
             id="dateOfBirth"
             v-model="formData.dateOfBirth"
             type="date"
-            aria-label="Date of birth"
+            :aria-label="$t('registration.privateCustomerRegistration.form.dateOfBirth.ariaLabel')"
             aria-describedby="dateOfBirth-error"
             :aria-invalid="!!errors.dateOfBirth"
             @blur="validateField('dateOfBirth')"
@@ -442,7 +489,9 @@
               v-model="formData.ageConfirmed"
               type="checkbox"
               required
-              aria-label="I confirm that I am at least 18 years old"
+              :aria-label="
+                $t('registration.privateCustomerRegistration.form.ageConfirmation.ariaLabel')
+              "
               aria-describedby="age-confirm-error"
               ::aria-invalid="!!errors.ageConfirmed"
               class="mt-1 h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
@@ -474,21 +523,23 @@
               v-model="formData.acceptTerms"
               type="checkbox"
               required
-              aria-label="I accept the Terms and Conditions"
+              :aria-label="
+                $t('registration.privateCustomerRegistration.form.acceptTerms.ariaLabel')
+              "
               aria-describedby="terms-error"
               ::aria-invalid="!!errors.acceptTerms"
               class="mt-1 h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
               :disabled="isSubmitting"
             />
             <span class="text-sm text-gray-700">
-              {{ $t('registration.acceptTerms') }}
+              {{ $t('registration.privateCustomerRegistration.messages.acceptTerms') }}
               <a
                 :href="storeConfig.termsOfServiceUrl || '#'"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-blue-600 hover:text-blue-800 underline"
               >
-                {{ $t('registration.termsLink') }}
+                {{ $t('registration.privateCustomerRegistration.links.termsLink') }}
               </a>
               <span class="text-red-500">*</span>
             </span>
@@ -506,7 +557,9 @@
             v-if="storeConfig.withdrawalPolicyCustomText"
             class="mt-3 pt-3 border-t border-blue-200 text-xs text-gray-600"
           >
-            <strong class="block mb-1">{{ $t('registration.withdrawalNotice') }}</strong>
+            <strong class="block mb-1">{{
+              $t('registration.privateCustomerRegistration.messages.withdrawalNotice')
+            }}</strong>
             <p v-html="storeConfig.withdrawalPolicyCustomText" />
           </div>
         </div>
@@ -518,21 +571,23 @@
               v-model="formData.acceptPrivacy"
               type="checkbox"
               required
-              aria-label="I accept the Privacy Policy"
+              :aria-label="
+                $t('registration.privateCustomerRegistration.form.acceptPrivacy.ariaLabel')
+              "
               aria-describedby="privacy-error"
               ::aria-invalid="!!errors.acceptPrivacy"
               class="mt-1 h-4 w-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500"
               :disabled="isSubmitting"
             />
             <span class="text-sm text-gray-700">
-              {{ $t('registration.acceptPrivacy') }}
+              {{ $t('registration.privateCustomerRegistration.messages.acceptPrivacy') }}
               <a
                 :href="storeConfig.privacyPolicyUrl || '#'"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-purple-600 hover:text-purple-800 underline"
               >
-                {{ $t('registration.privacyLink') }}
+                {{ $t('registration.privateCustomerRegistration.links.privacyLink') }}
               </a>
               <span class="text-red-500">*</span>
             </span>
@@ -556,12 +611,14 @@
             <input
               v-model="formData.acceptMarketing"
               type="checkbox"
-              aria-label="I want to receive marketing communications"
+              :aria-label="
+                $t('registration.privateCustomerRegistration.form.acceptMarketing.ariaLabel')
+              "
               class="mt-1 h-4 w-4 text-green-600 rounded focus:ring-2 focus:ring-green-500"
               :disabled="isSubmitting"
             />
             <span class="text-sm text-gray-700">
-              {{ $t('registration.acceptMarketing') }}
+              {{ $t('registration.privateCustomerRegistration.messages.acceptMarketing') }}
             </span>
           </label>
         </div>
@@ -572,7 +629,9 @@
           class="w-full min-h-[48px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           :disabled="isSubmitting || !emailAvailable"
         >
-          <span v-if="!isSubmitting">{{ $t('registration.createAccount') }}</span>
+          <span v-if="!isSubmitting">{{
+            $t('registration.privateCustomerRegistration.actions.createAccount')
+          }}</span>
           <span v-else class="flex items-center justify-center gap-2">
             <svg
               class="animate-spin h-5 w-5"
@@ -594,15 +653,15 @@
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            {{ $t('registration.creating') }}
+            {{ $t('registration.privateCustomerRegistration.actions.creating') }}
           </span>
         </button>
 
         <!-- Login Link -->
         <p class="text-center text-sm text-gray-600 mt-4">
-          {{ $t('registration.alreadyHaveAccount') }}
+          {{ $t('registration.privateCustomerRegistration.messages.alreadyHaveAccount') }}
           <router-link to="/login" class="text-blue-600 hover:text-blue-800 font-medium">
-            {{ $t('registration.loginLink') }}
+            {{ $t('registration.privateCustomerRegistration.links.loginLink') }}
           </router-link>
         </p>
       </form>
@@ -613,7 +672,9 @@
         role="alert"
         class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg"
       >
-        <p class="text-red-800 font-semibold">{{ $t('registration.error') }}</p>
+        <p class="text-red-800 font-semibold">
+          {{ $t('registration.privateCustomerRegistration.messages.error') }}
+        </p>
         <p class="text-red-700 text-sm mt-1">{{ generalError }}</p>
       </div>
     </div>
@@ -978,7 +1039,7 @@ const submitForm = async () => {
     await router.push('/login?registered=true');
   } catch (error) {
     console.error('Registration error:', error);
-    generalError.value = t('registration.networkError');
+    generalError.value = t('registration.privateCustomerRegistration.messages.networkError');
   } finally {
     isSubmitting.value = false;
   }

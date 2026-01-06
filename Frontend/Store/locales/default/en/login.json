@@ -1,0 +1,30 @@
+{
+  "title": "Login to B2Connect",
+  "e2eMode": {
+    "title": "E2E Test Mode Active",
+    "description": "Any email/password will work. Backend not required."
+  },
+  "devHelp": {
+    "hint": "💡 Use seeded credentials: {{email}} / {{password}}",
+    "email": "admin@example.com",
+    "password": "password"
+  },
+  "form": {
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    }
+  },
+  "actions": {
+    "loggingIn": "Logging in...",
+    "login": "Login"
+  },
+  "signup": {
+    "prompt": "Don't have an account?",
+    "link": "Sign up"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "hero": {
+    "title": "Welcome to B2Connect Store",
+    "subtitle": "Discover amazing products with seamless integration and exceptional service",
+    "shopNow": "Shop Now",
+    "browseCategories": "Browse Categories"
+  },
+  "featuredProducts": {
+    "title": "Featured Products",
+    "viewAll": "View All Products"
+  },
+  "categories": {
+    "title": "Shop by Category"
+  },
+  "features": {
+    "title": "Why Choose Us",
+    "quality": {
+      "title": "Premium Quality",
+      "description": "We ensure the highest quality standards for all our products"
+    },
+    "fast": {
+      "title": "Fast Delivery",
+      "description": "Quick and reliable shipping to get your orders to you fast"
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Our customer service team is always here to help you"
+    }
+  },
+  "newsletter": {
+    "title": "Stay Updated",
+    "subtitle": "Subscribe to our newsletter for the latest updates and offers",
+    "subscribe": "Subscribe"
+  },
+  "table": {
+    "headers": {
+      "product": "Product",
+      "qty": "Qty",
+      "price": "Price"
+    }
+  }
+}
