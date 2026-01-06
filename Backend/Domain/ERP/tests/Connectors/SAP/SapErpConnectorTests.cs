@@ -368,7 +368,8 @@ public class SapErpConnectorTests : IDisposable
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        _httpClient?.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
 

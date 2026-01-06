@@ -107,29 +107,22 @@ app.UseAuthorization();
 app.MapWolverineEndpoints();
 
 // Database migration and seeding (non-blocking with error handling)
-_ = app.Services.CreateScope().ServiceProvider
-    .GetRequiredService<LocalizationDbContext>()
-    .Database.EnsureCreatedAsync()
-    .ContinueWith(async t =>
+_ = Task.Run(async () =>
     {
-        if (t.IsCompletedSuccessfully)
+        using var scope = app.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<LocalizationDbContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+        
+        try
         {
-            try
-            {
-                using var scope = app.Services.CreateScope();
-                var dbContext = scope.ServiceProvider.GetRequiredService<LocalizationDbContext>();
-                await LocalizationSeeder.SeedAsync(dbContext);
-            }
-            catch (Exception ex)
-            {
-                var logger = app.Services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "Error seeding localization data");
-            }
+            using var seedScope = app.Services.CreateScope();
+            var seedDbContext = seedScope.ServiceProvider.GetRequiredService<LocalizationDbContext>();
+            await LocalizationSeeder.SeedAsync(seedDbContext);
         }
-        else if (t.IsFaulted)
+        catch (Exception ex)
         {
-            var logger = app.Services.GetRequiredService<ILogger<Program>>();
-            logger.LogError(t.Exception, "Error ensuring database created");
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Error seeding localization data");
         }
     });
 

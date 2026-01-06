@@ -150,7 +150,7 @@ public class ProductRepositoryGetBySkuTests
         // Arrange
         var tenantId = Guid.NewGuid();
         var sku = "PROD-001";
-        var cts = new CancellationTokenSource();
+        using var cts = new CancellationTokenSource();
 
         var mockRepo = new Mock<IProductRepository>();
         mockRepo

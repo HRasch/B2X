@@ -25,8 +25,8 @@ public class IdsConnectMiddleware
         }
 
         // Add IDS Connect headers
-        context.Response.Headers.Add("X-IDS-Version", "2.5");
-        context.Response.Headers.Add("X-IDS-Provider", "B2Connect");
+        context.Response.Headers["X-IDS-Version"] = "2.5";
+        context.Response.Headers["X-IDS-Provider"] = "B2Connect";
 
         await _next(context);
     }
