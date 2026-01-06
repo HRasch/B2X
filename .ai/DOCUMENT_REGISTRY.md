@@ -79,6 +79,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-047` | Multishop / Shared Catalogs Architecture | `.ai/decisions/ADR-047-multishop-shared-catalog.md` | Proposed |
 | `ADR-048` | Tenant-Level Include/Exclude Rules for Shared Catalogs | `.ai/decisions/ADR-048-tenant-level-include-exclude.md` | Proposed |
 
+| `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
+
 ---
 
 ## Registry: Knowledgebase (KB-*)
@@ -117,6 +119,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-029` | CSS Functions | `.ai/knowledgebase/css-functions.md` | Active |
 | `KB-030` | SVG and CSS Animations | `.ai/knowledgebase/svg-css-animations.md` | Active |
 | `KB-031` | Shouldly Assertion Framework | `.ai/knowledgebase/tools-and-tech/shouldly.md` | Active |
+| `KB-050` | Plan-Act-Control Practical Guide | `.ai/knowledgebase/KB-050-plan-act-control.md` | Active |
+| `KB-051` | External Knowledge Sync Procedure | `.ai/knowledgebase/KB-051-external-knowledge-sync.md` | Active |
+| `KB-050` | Plan-Act-Control Practical Guide | `.ai/knowledgebase/KB-050-plan-act-control.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 

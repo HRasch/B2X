@@ -65,7 +65,9 @@ export const useThemeStore = defineStore('theme', () => {
 
     try {
       if (theme.value === 'auto') {
-        effectiveTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        effectiveTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
       } else {
         effectiveTheme.value = theme.value;
       }

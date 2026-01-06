@@ -1,7 +1,3 @@
----
-# Dependabot configuration for B2Connect
-# See: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
-
 version: 2
 updates:
   # Frontend npm packages (monorepo root)
