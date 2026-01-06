@@ -36,7 +36,7 @@ jobs:
 
       - name: Upload report artifact
         if: steps.find-report.outputs.report_path != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: kb-sync-report
           path: ${{ steps.find-report.outputs.report_path }}
