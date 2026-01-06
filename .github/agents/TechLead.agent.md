@@ -1,6 +1,6 @@
 ---
 description: 'Tech Lead responsible for maintaining Coding Styles, StyleCop Rules, Linter Rules and Lessons Learned'
-tools: ['edit', 'execute', 'gitkraken/*', 'search', 'vscode', 'agent']
+tools: ['edit', 'execute', 'gitkraken/*', 'search', 'vscode', 'agent', 'typescript-mcp/*']
 model: 'gpt-5-mini'
 infer: true
 ---
@@ -60,6 +60,33 @@ Regularly consult @CopilotExpert for:
 - Explore tools and techniques for efficient knowledge management
 - Benchmark against successful open-source projects
 - Document findings and implement proven approaches
+
+## MCP Code Analysis Integration
+
+**TypeScript Code Quality Tools** - Use MCP for enhanced code reviews:
+
+### TypeScript Review Tools
+- **typescript-mcp/analyze_types**: Automated type checking and error detection
+- **typescript-mcp/get_symbol_info**: Detailed symbol analysis for complex types
+- **typescript-mcp/find_usages**: Usage tracking for refactoring validation
+- **typescript-mcp/search_symbols**: Pattern-based symbol discovery
+
+### Code Review Workflow
+```bash
+# Automated TypeScript analysis
+@TechLead: /typescript-review
+Component: frontend
+Scope: src/components/
+Focus: types
+
+# Manual MCP tool usage
+typescript-mcp/analyze_types workspacePath="frontend/Store" filePath="src/components/NewComponent.vue"
+```
+
+### Quality Gates
+- **Pre-merge**: Run type analysis on changed files
+- **Architecture Review**: Use symbol analysis for design validation
+- **Refactoring**: Validate usage patterns before changes
 
 ## BOUNDARIES
 

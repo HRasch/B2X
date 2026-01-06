@@ -80,6 +80,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-048` | Tenant-Level Include/Exclude Rules for Shared Catalogs | `.ai/decisions/ADR-048-tenant-level-include-exclude.md` | Proposed |
 
 | `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
+| `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
 
 ---
 
@@ -119,6 +120,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-029` | CSS Functions | `.ai/knowledgebase/css-functions.md` | Active |
 | `KB-030` | SVG and CSS Animations | `.ai/knowledgebase/svg-css-animations.md` | Active |
 | `KB-031` | Shouldly Assertion Framework | `.ai/knowledgebase/tools-and-tech/shouldly.md` | Active |
+| `KB-052` | Roslyn MCP Server | `.ai/knowledgebase/tools-and-tech/roslyn-mcp.md` | Active |
+| `KB-053` | TypeScript MCP Integration | `.ai/knowledgebase/tools-and-tech/typescript-mcp-integration.md` | Active |
 | `KB-050` | Plan-Act-Control Practical Guide | `.ai/knowledgebase/KB-050-plan-act-control.md` | Active |
 | `KB-051` | External Knowledge Sync Procedure | `.ai/knowledgebase/KB-051-external-knowledge-sync.md` | Active |
 | `KB-050` | Plan-Act-Control Practical Guide | `.ai/knowledgebase/KB-050-plan-act-control.md` | Active |
@@ -250,6 +253,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PRM-013` | Context Optimization | `.ai/prompts/context-optimization.prompt.md` | `/context-optimization` |
 | `PRM-014` | Subagent Delegation | `.ai/prompts/subagent-delegation.prompt.md` | `/subagent-delegation` |
 | `PRM-015` | Project Cleanup | `.ai/prompts/project-cleanup.prompt.md` | `/project-cleanup` |
+| `PRM-016` | TypeScript Review | `.github/prompts/typescript-review.prompt.md` | `/typescript-review` |
 
 ---
 

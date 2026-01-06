@@ -44,6 +44,34 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
   - Test loading states and error conditions that affect user experience
   - Validate responsive behavior across breakpoints
 
+## TypeScript Code Analysis (MCP)
+
+**Reference**: See [KB-053] TypeScript MCP Integration Guide for comprehensive usage.
+
+### MCP Tools for Development
+- **Symbol Search**: `typescript-mcp/search_symbols` for finding components, interfaces, types
+- **Type Analysis**: `typescript-mcp/analyze_types` for automated type checking
+- **Usage Tracking**: `typescript-mcp/find_usages` for refactoring impact assessment
+- **Symbol Details**: `typescript-mcp/get_symbol_info` for detailed type information
+
+### Development Workflow
+```typescript
+// Before implementing new components
+typescript-mcp/search_symbols pattern="*Component" workspacePath="frontend/Store"
+
+// During development - type validation
+typescript-mcp/analyze_types workspacePath="frontend/Store" filePath="src/components/NewComponent.vue"
+
+// Before refactoring - usage analysis
+typescript-mcp/find_usages symbolName="UserProfile" workspacePath="frontend/Store" filePath="src/types/user.ts"
+```
+
+### Code Review Integration
+- Run type analysis on all modified files
+- Use symbol search for component discovery
+- Validate usage patterns for breaking changes
+- Document complex types with symbol info
+
 ## Multilingual Support (i18n)
 
 **Reference**: See [GL-042] Token-Optimized i18n Strategy for AI-efficient translation workflows.

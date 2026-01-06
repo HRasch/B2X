@@ -26,6 +26,16 @@
         "LOG_LEVEL": "Information"
       },
       "disabled": false
+    },
+    "typescript-mcp": {
+      "command": "node",
+      "args": [
+        "tools/TypeScriptMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
     }
   }
 }
