@@ -31,7 +31,7 @@ public class BmecatHeader
     public string? CatalogVersion { get; set; }
 
     [XmlElement("CATALOG_DATE")]
-    public DateTime CatalogDate { get; set; }
+    public DateTime? CatalogDate { get; set; }
 
     [XmlElement("SUPPLIER")]
     public string? Supplier { get; set; }
