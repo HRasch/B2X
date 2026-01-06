@@ -322,6 +322,53 @@ wc -c .github/copilot-instructions.md .github/agents/*.md | sort -rn | head -5
 ./scripts/copilot-size-audit.sh
 ```
 
+---
+
+## 💰 Premium Request Budget Management
+
+**Reference**: GitHub Copilot uses "Premium Requests" billing model as of 2025.
+
+### Monthly Budgets by Plan
+| Plan | Monthly Limit | Daily Target | Warning @ | Stop @ |
+|------|---------------|--------------|-----------|--------|
+| Free | 50 | 1-2 | 40 (80%) | 45 (90%) |
+| Pro | 300 | 10 | 240 (80%) | 270 (90%) |
+| Pro+ | 1500 | 50 | 1200 (80%) | 1350 (90%) |
+
+### Session Limits (Circuit Breakers)
+| Metric | Warning | Stop | Action |
+|--------|---------|------|--------|
+| Turns per session | 20 | 30 | Split into subtasks |
+| Files per request | 5 | 8 | Batch with script |
+| Languages per i18n batch | 4 | 8 | Use translation script |
+| Context size estimate | 50KB | 100KB | Trim context |
+
+### Budget Configuration
+See `.ai/config/budget.yml` for project-specific settings.
+
+### Monitoring Commands
+```bash
+# Check current session health
+./scripts/copilot-guardian.sh status
+
+# Get warning if approaching limits
+./scripts/copilot-guardian.sh warn
+
+# Emergency stop protocol
+./scripts/copilot-guardian.sh stop
+```
+
+### Domain-Specific Budgets
+| Domain | Daily Budget | Priority | Justification |
+|--------|--------------|----------|---------------|
+| i18n | 3 requests | Medium | Batch translations |
+| Backend | 5 requests | High | Core features |
+| Frontend | 5 requests | High | Core features |
+| DevOps | 2 requests | Low | Infrastructure |
+| Docs | 2 requests | Low | Non-critical |
+
+---
+
 ### Automated Checks (CI Integration)
 
 Add to `.github/workflows/copilot-size-check.yml`:

@@ -1,0 +1,62 @@
+name: Copilot File Size Check
+
+on:
+  pull_request:
+    paths:
+      - '.github/copilot-instructions.md'
+      - '.github/agents/**'
+      - '.github/instructions/**'
+      - '.github/prompts/**'
+
+jobs:
+  size-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check copilot-instructions.md size
+        run: |
+          if [[ -f .github/copilot-instructions.md ]]; then
+            size=$(wc -c < .github/copilot-instructions.md)
+            if [ $size -gt 10240 ]; then
+              echo "❌ copilot-instructions.md is $size bytes (max: 10240)"
+              exit 1
+            fi
+            echo "✓ copilot-instructions.md: $size bytes"
+          fi
+
+      - name: Check agent file sizes
+        run: |
+          failed=0
+          for f in .github/agents/*.md; do
+            [[ -f "$f" ]] || continue
+            size=$(wc -c < "$f")
+            if [ $size -gt 3072 ]; then
+              echo "❌ $f is $size bytes (max: 3072)"
+              failed=1
+            else
+              echo "✓ $f: $size bytes"
+            fi
+          done
+          exit $failed
+
+      - name: Check instruction file sizes
+        run: |
+          failed=0
+          for f in .github/instructions/*.md; do
+            [[ -f "$f" ]] || continue
+            size=$(wc -c < "$f")
+            if [ $size -gt 2048 ]; then
+              echo "⚠ $f is $size bytes (recommended max: 2048)"
+            else
+              echo "✓ $f: $size bytes"
+            fi
+          done
+
+      - name: Check total size
+        run: |
+          total=$(find .github -name "*.md" -type f -exec wc -c {} \; | awk '{sum+=$1} END {print sum}')
+          echo "Total .github markdown: $total bytes"
+          if [ $total -gt 50000 ]; then
+            echo "⚠ Total exceeds 50KB - consider trimming"
+          fi

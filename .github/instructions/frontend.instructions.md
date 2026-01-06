@@ -44,10 +44,44 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
   - Test loading states and error conditions that affect user experience
   - Validate responsive behavior across breakpoints
 
+## Frontend Placement Decision Tree
+
+**BEFORE creating ANY component, answer:**
+```
+├─ Customer-facing feature?
+│   └─ YES → frontend/Store/ (Port 5173, Gateway 8000)
+│
+├─ Admin/internal operations?
+│   └─ YES → frontend/Admin/ (Port 5174, Gateway 8080)
+│
+└─ Tenant configuration/customization?
+    └─ YES → frontend/Management/ (Port 5175, Gateway 8090)
+```
+
+**Boundary Examples:**
+| Feature | Correct Frontend | Why |
+|---------|------------------|-----|
+| Product listing | Store | Customer browses products |
+| Order management | Admin | Staff processes orders |
+| Tenant branding | Management | Tenant customizes their store |
+| Shopping cart | Store | Customer checkout flow |
+| User permissions | Admin | Staff role management |
+| Email templates | Management | Tenant configures notifications |
+
+**If unsure:** Ask @SARAH for frontend placement decision.
+
 ## Multilingual Support (i18n)
 
 **Reference**: See [GL-042] Token-Optimized i18n Strategy for AI-efficient translation workflows.
 
+### Pre-Flight Checklist (REQUIRED)
+Before implementing ANY user-facing text:
+- [ ] **Key defined** in `locales/en.json` (English = source of truth)
+- [ ] **$t() call used** - NEVER hardcoded strings
+- [ ] **Namespace follows** pattern: `module.section.key`
+- [ ] **Key documented** if complex interpolation
+
+### i18n Rules
 - **Never use hardcoded strings** - always use translation keys
 - **English first**: Define keys in `en.json` as source of truth
 - **Batch translations**: Request translations for multiple keys in single AI requests
@@ -58,4 +92,21 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - **Supported languages**: en, de, fr, es, it, pt, nl, pl
 - **Token efficiency**: Don't load all language files - work with keys only
 - **Validation**: Use `scripts/i18n-check.sh` for completeness checks
+
+### Common Mistakes to Avoid
+```vue
+<!-- ❌ WRONG: Hardcoded text -->
+<button>Submit Order</button>
+
+<!-- ✅ CORRECT: Translation key -->
+<button>{{ $t('checkout.submit_order') }}</button>
+```
+
+```typescript
+// ❌ WRONG: String in validation
+return 'Email is required'
+
+// ✅ CORRECT: Translation key
+return t('validation.email_required')
+```
 

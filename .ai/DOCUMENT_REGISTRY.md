@@ -73,6 +73,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-041` | Figma-based Tenant Design Integration | `.ai/decisions/ADR-041-figma-based-tenant-design-integration.md` | Accepted |
 | `ADR-042` | Internationalization Strategy for ESLint Error Reduction | `.ai/decisions/ADR-042-internationalization-strategy.md` | Proposed |
 | `ADR-043` | Paid Services Infrastructure | `.ai/decisions/ADR-043-paid-services-infrastructure.md` | Proposed |
+| `ADR-044` | Floating Labels vs Traditional Labels Ruleset | `.ai/decisions/ADR-044-floating-labels-ruleset.md` | Accepted |
 
 ---
 
