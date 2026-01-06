@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useCategories } from '@/composables/useCategories';
 import { useCartStore } from '@/stores/cart';
 import ProductCardModern from '@/components/shop/ProductCardModern.vue';
-import type { CategoryWithProducts } from '@/types/catalog';
 
 const route = useRoute();
 const router = useRouter();

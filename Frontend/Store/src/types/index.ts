@@ -38,8 +38,8 @@ export interface CartItem {
 
 export interface NuxtI18nRuntime {
   locale: { value: string };
-  getLocaleMessage(locale: string): Record<string, any> | any;
-  setLocaleMessage(locale: string, messages: Record<string, any>): void;
+  getLocaleMessage(locale: string): Record<string, any> | any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  setLocaleMessage(locale: string, messages: Record<string, any>): void; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface AuthResponse {

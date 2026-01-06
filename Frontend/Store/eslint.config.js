@@ -19,6 +19,7 @@ export default [
       '**/playwright-report/**',
       '**/test-results/**',
       '**/.nuxt/**',
+      '**/.output/**',
       '**/*.js', // Ignore JS files for now
       'components/**', // Ignore root components directory, use src/components/
     ],

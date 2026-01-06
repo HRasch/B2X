@@ -17,8 +17,8 @@ export default defineI18nConfig(() => ({
     locale: 'en',
     messages: {
       en: {
-        common: commonEn as Record<string, any>,
+        common: commonEn as Record<string, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
       },
-    } as Record<string, any>,
+    } as Record<string, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
   },
 }));
