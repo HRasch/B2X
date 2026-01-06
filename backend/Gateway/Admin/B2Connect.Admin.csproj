@@ -35,7 +35,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"  />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  />
     <!-- Performance Optimization (ADR-025) -->
-    <PackageReference Include="Dapper"  />
+    <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="EFCore.BulkExtensions.SqlServer"  />
     <PackageReference Include="EFCore.BulkExtensions.PostgreSql"  />
     <!-- Performance Benchmarking (ADR-025) -->
