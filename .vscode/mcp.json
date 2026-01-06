@@ -68,6 +68,16 @@
         "NODE_ENV": "production"
       },
       "disabled": false
+    },
+    "htmlcss-mcp": {
+      "command": "node",
+      "args": [
+        "tools/HtmlCssMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
     }
   }
 }
