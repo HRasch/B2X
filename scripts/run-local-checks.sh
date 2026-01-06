@@ -11,8 +11,8 @@ echo "[run-local-checks] Starting quick local checks in $ROOT_DIR"
 
 echo "[1/5] dotnet format --verify-no-changes"
 if command -v dotnet >/dev/null 2>&1; then
-  if ! dotnet format --verify-no-changes; then
-    echo "run-local-checks: dotnet format reported issues. Run 'dotnet format' to fix them." >&2
+  if ! dotnet format B2Connect.slnx --verify-no-changes; then
+    echo "run-local-checks: dotnet format reported issues. Run 'dotnet format B2Connect.slnx' to fix them." >&2
     exit 1
   fi
 else
