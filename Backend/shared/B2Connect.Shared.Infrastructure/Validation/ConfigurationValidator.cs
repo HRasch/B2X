@@ -78,7 +78,7 @@ public class ConfigurationValidator
     /// <summary>
     /// Validates database configuration (provider, connection strings).
     /// </summary>
-    private IEnumerable<ConfigurationValidationError> ValidateDatabaseConfiguration()
+    private List<ConfigurationValidationError> ValidateDatabaseConfiguration()
     {
         var errors = new List<ConfigurationValidationError>();
 
@@ -134,7 +134,7 @@ public class ConfigurationValidator
     /// <summary>
     /// Validates service configuration (ports, URLs, service discovery).
     /// </summary>
-    private IEnumerable<ConfigurationValidationError> ValidateServiceConfiguration()
+    private List<ConfigurationValidationError> ValidateServiceConfiguration()
     {
         var errors = new List<ConfigurationValidationError>();
 
@@ -158,7 +158,7 @@ public class ConfigurationValidator
     /// <summary>
     /// Validates CORS configuration.
     /// </summary>
-    private IEnumerable<ConfigurationValidationError> ValidateCorsConfiguration()
+    private List<ConfigurationValidationError> ValidateCorsConfiguration()
     {
         var errors = new List<ConfigurationValidationError>();
 
@@ -199,7 +199,7 @@ public class ConfigurationValidator
     /// <summary>
     /// Validates rate limiting configuration.
     /// </summary>
-    private IEnumerable<ConfigurationValidationError> ValidateRateLimitingConfiguration()
+    private List<ConfigurationValidationError> ValidateRateLimitingConfiguration()
     {
         var errors = new List<ConfigurationValidationError>();
 
@@ -222,7 +222,7 @@ public class ConfigurationValidator
     /// <summary>
     /// Validates port configuration and detects conflicts.
     /// </summary>
-    private IEnumerable<ConfigurationValidationError> ValidatePortConfiguration()
+    private List<ConfigurationValidationError> ValidatePortConfiguration()
     {
         var errors = new List<ConfigurationValidationError>();
 

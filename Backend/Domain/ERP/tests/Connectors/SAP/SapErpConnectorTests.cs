@@ -24,8 +24,10 @@ public class SapErpConnectorTests : IDisposable
         _loggerMock = Substitute.For<ILogger<SapErpConnector>>();
 
         // Create a test HttpClient with a custom handler that returns mock responses
+#pragma warning disable CA2000 // Handler is disposed by HttpClient
         var handler = new TestHttpMessageHandler();
         _httpClient = new HttpClient(handler);
+#pragma warning restore CA2000
 
         _connector = new SapErpConnector(_loggerMock, _httpClient);
     }

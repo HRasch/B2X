@@ -49,7 +49,7 @@ test.describe('Accessibility Tests', () => {
 
     // Test skip links if they exist (allow focus to be inside main content)
     const skipLink = page.locator('a[href="#main-content"]');
-    if ((await skipLink.count()) > 0 && await skipLink.isVisible()) {
+    if ((await skipLink.count()) > 0 && (await skipLink.isVisible())) {
       await skipLink.click();
       const focusedInsideMain = await page.evaluate(() => {
         const active = document.activeElement;

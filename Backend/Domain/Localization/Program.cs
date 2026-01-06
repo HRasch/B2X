@@ -112,7 +112,7 @@ _ = Task.Run(async () =>
         using var scope = app.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<LocalizationDbContext>();
         await dbContext.Database.EnsureCreatedAsync();
-        
+
         try
         {
             using var seedScope = app.Services.CreateScope();
