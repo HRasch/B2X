@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Format backend C# files that are staged
+STAGED_CS_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.cs$' || true)
+if [ -n "$STAGED_CS_FILES" ]; then
+  echo "Formatting staged C# files..."
+  dotnet format B2Connect.slnx --verbosity quiet || true
+  git add $STAGED_CS_FILES
+fi
+
+# Frontend linting
+npx lint-staged
