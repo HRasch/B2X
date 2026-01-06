@@ -34,6 +34,7 @@ See [DOCUMENT_REGISTRY.md](../../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
 | `PRM-013` | `/context-optimization` | Token efficiency | @SARAH |
 | `PRM-014` | `/subagent-delegation` | Delegation routing | @SARAH |
 | `PRM-015` | `/project-cleanup` | Project cleanup | @SARAH |
+| `PRM-016` | `/typescript-review` | TypeScript analysis | @TechLead |
 
 ---
 
@@ -119,11 +120,23 @@ Severity: [P0-critical | P1-high | P2-medium | P3-low]
 Component: [backend | frontend | infrastructure]
 ```
 
+#### 7. **TYPESCRIPT_REVIEW** (`PRM-016`) - TypeScript Analysis
+**When to use**: Code review, refactoring, type safety validation
+**Who runs it**: @TechLead, @Frontend
+**Output**: Type analysis, symbol usage, recommendations
+
+```
+@TechLead: /typescript-review
+Component: [frontend | admin | management]
+Scope: [file-path | component-name | directory]
+Focus: [types | symbols | usage | all]
+```
+
 ---
 
 ### 🔐 Security & Compliance
 
-#### 7. **SECURITY_AUDIT** - Security Review
+#### 8. **SECURITY_AUDIT** - Security Review
 **When to use**: Before merge, security-sensitive changes, compliance audit
 **Who runs it**: @Security
 **Output**: Security assessment, vulnerability report, remediation plan
@@ -139,7 +152,7 @@ Risk Level: [low | medium | high | critical]
 
 ### 📚 Architecture & Design
 
-#### 8. **CREATE_ADR** - Architecture Decision Record
+#### 9. **CREATE_ADR** - Architecture Decision Record
 **When to use**: Major architectural decision, technology choice, pattern selection
 **Who runs it**: @Architect
 **Output**: Documented decision with rationale, alternatives, consequences
@@ -148,7 +161,7 @@ Risk Level: [low | medium | high | critical]
 
 ### 📦 Deployment & Release
 
-#### 9. **DEPLOY** - Deployment & Release Management
+#### 10. **DEPLOY** - Deployment & Release Management
 **When to use**: Feature/release ready for deployment
 **Who runs it**: @DevOps
 **Output**: Deployment confirmation, release notes, rollback procedure
@@ -163,7 +176,7 @@ Type: [feature | hotfix | maintenance]
 
 ---
 
-#### 10. **FEATURE_HANDOVER** - Completion & Handover
+#### 11. **FEATURE_HANDOVER** - Completion & Handover
 **When to use**: Feature development complete, ready for documentation
 **Who runs it**: @ProductOwner, @TechLead
 **Output**: Feature documentation, stakeholder handover, deployment readiness
@@ -327,6 +340,7 @@ Each prompt generates specific artifacts stored in `.ai/`:
 - [x] RUN_TESTS - QA sign-off
 - [x] SECURITY_AUDIT - Security review
 - [x] BUG_ANALYSIS - Bug resolution
+- [x] TYPESCRIPT_REVIEW - TypeScript analysis
 - [x] CREATE_ADR - Architecture decisions
 - [x] DEPLOY - Deployment management
 - [x] FEATURE_HANDOVER - Documentation & release

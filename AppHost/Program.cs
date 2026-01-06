@@ -69,6 +69,20 @@ if (databaseProvider.ToLower() != "inmemory")
     //     .WithOrigin(storeGateway, "store-api")
     //     .WithOrigin(frontendStore, "store-frontend");
 }
+else
+{
+    // When running the full Aspire AppHost with in-memory DB for demos,
+    // also provide an Elasticsearch resource to enable realistic search/indexing
+    // for local development/demo scenarios.
+    elasticsearch = builder.AddB2ConnectElasticsearch(
+        name: "elasticsearch",
+        port: 9200);
+
+    // RabbitMQ is also useful for demo indexing flows; add if needed
+    rabbitmq = builder.AddB2ConnectRabbitMQ(
+        name: "rabbitmq",
+        port: 5672);
+}
 
 // Azure Key Vault (Secret Store)
 
@@ -102,9 +116,12 @@ var authService = builder
     .WithResilienceConfiguration();
 
 // Wait for infrastructure before starting auth service
-if (postgres != null) authService.WaitFor(postgres);
-if (redis != null) authService.WaitFor(redis);
-if (rabbitmq != null) authService.WaitFor(rabbitmq);
+if (postgres != null)
+    authService.WaitFor(postgres);
+if (redis != null)
+    authService.WaitFor(redis);
+if (rabbitmq != null)
+    authService.WaitFor(rabbitmq);
 
 // Tenant Service
 var tenantService = builder
@@ -122,9 +139,12 @@ var tenantService = builder
     .WithResilienceConfiguration();
 
 // Wait for infrastructure before starting tenant service
-if (postgres != null) tenantService.WaitFor(postgres);
-if (redis != null) tenantService.WaitFor(redis);
-if (rabbitmq != null) tenantService.WaitFor(rabbitmq);
+if (postgres != null)
+    tenantService.WaitFor(postgres);
+if (redis != null)
+    tenantService.WaitFor(redis);
+if (rabbitmq != null)
+    tenantService.WaitFor(rabbitmq);
 
 // Localization Service
 var localizationService = builder
@@ -141,9 +161,12 @@ var localizationService = builder
     .WithResilienceConfiguration();
 
 // Wait for infrastructure before starting localization service
-if (postgres != null) localizationService.WaitFor(postgres);
-if (redis != null) localizationService.WaitFor(redis);
-if (rabbitmq != null) localizationService.WaitFor(rabbitmq);
+if (postgres != null)
+    localizationService.WaitFor(postgres);
+if (redis != null)
+    localizationService.WaitFor(redis);
+if (rabbitmq != null)
+    localizationService.WaitFor(rabbitmq);
 
 // Catalog Service (with Elasticsearch for Product Search)
 var catalogService = builder
@@ -162,10 +185,14 @@ var catalogService = builder
     .WithResilienceConfiguration();
 
 // Wait for infrastructure before starting catalog service
-if (postgres != null) catalogService.WaitFor(postgres);
-if (redis != null) catalogService.WaitFor(redis);
-if (rabbitmq != null) catalogService.WaitFor(rabbitmq);
-if (elasticsearch != null) catalogService.WaitFor(elasticsearch);
+if (postgres != null)
+    catalogService.WaitFor(postgres);
+if (redis != null)
+    catalogService.WaitFor(redis);
+if (rabbitmq != null)
+    catalogService.WaitFor(rabbitmq);
+if (elasticsearch != null)
+    catalogService.WaitFor(elasticsearch);
 
 // Theming Service
 var themingService = builder
@@ -182,9 +209,12 @@ var themingService = builder
     .WithResilienceConfiguration();
 
 // Wait for infrastructure before starting theming service
-if (postgres != null) themingService.WaitFor(postgres);
-if (redis != null) themingService.WaitFor(redis);
-if (rabbitmq != null) themingService.WaitFor(rabbitmq);
+if (postgres != null)
+    themingService.WaitFor(postgres);
+if (redis != null)
+    themingService.WaitFor(redis);
+if (rabbitmq != null)
+    themingService.WaitFor(rabbitmq);
 
 // Monitoring Service (Phase 2: Connected services monitoring, error logging)
 var monitoringService = builder
@@ -201,9 +231,12 @@ var monitoringService = builder
     .WithResilienceConfiguration();
 
 // Wait for infrastructure before starting monitoring service
-if (postgres != null) monitoringService.WaitFor(postgres);
-if (redis != null) monitoringService.WaitFor(redis);
-if (rabbitmq != null) monitoringService.WaitFor(rabbitmq);
+if (postgres != null)
+    monitoringService.WaitFor(postgres);
+if (redis != null)
+    monitoringService.WaitFor(redis);
+if (rabbitmq != null)
+    monitoringService.WaitFor(rabbitmq);
 
 // MCP Server (AI Assistant for Management Tasks)
 var mcpServer = builder

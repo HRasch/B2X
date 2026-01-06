@@ -8,6 +8,7 @@ using Moq;
 using Xunit;
 
 namespace B2Connect.Catalog.Tests.Application;
+
 public class PriceCalculationServiceTests : IAsyncLifetime
 {
     private readonly Mock<ITaxRateService> _mockTaxService = new();

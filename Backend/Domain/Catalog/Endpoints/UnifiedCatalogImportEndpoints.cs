@@ -1,6 +1,6 @@
+using B2Connect.Catalog.ImportAdapters;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
-using B2Connect.Catalog.ImportAdapters;
 
 namespace B2Connect.Catalog.Endpoints;
 
@@ -232,9 +232,11 @@ public static class UnifiedCatalogImportEndpoints
 /// <summary>
 /// Request model for unified catalog import
 /// </summary>
-public record UnifiedCatalogImportRequest(
-    IFormFile File,
-    string? Format = null,
-    string? SupplierId = null,
-    string? SourceIdentifier = null,
-    Dictionary<string, string>? CustomProperties = null);
+public class UnifiedCatalogImportRequest
+{
+    public IFormFile File { get; set; } = null!;
+    public string? Format { get; set; }
+    public string? SupplierId { get; set; }
+    public string? SourceIdentifier { get; set; }
+    public Dictionary<string, string>? CustomProperties { get; set; }
+}

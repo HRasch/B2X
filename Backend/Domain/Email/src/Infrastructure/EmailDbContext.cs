@@ -1,6 +1,6 @@
+using System.Text.Json;
 using B2Connect.Email.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
 namespace B2Connect.Email.Infrastructure;
 

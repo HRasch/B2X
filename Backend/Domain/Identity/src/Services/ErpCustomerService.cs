@@ -53,11 +53,11 @@ public class ErpCustomerService : IErpCustomerService
             _logger.LogDebug("ERP Lookup: Kundennummer {CustomerNumber}", customerNumber);
 
             // OData Query beispielsweise: /Customers?$filter=CustomerNumber eq '12345'
-            var request = new HttpRequestMessage(HttpMethod.Get,
+            using var request = new HttpRequestMessage(HttpMethod.Get,
                 $"{_erpBaseUrl}/api/customers?$filter=CustomerNumber eq '{Uri.EscapeDataString(customerNumber)}'");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct);
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogWarning("ERP API Error: {StatusCode} für Kundennummer {CustomerNumber}",
@@ -109,11 +109,11 @@ public class ErpCustomerService : IErpCustomerService
         {
             _logger.LogDebug("ERP Lookup: E-Mail {Email}", email);
 
-            var request = new HttpRequestMessage(HttpMethod.Get,
+            using var request = new HttpRequestMessage(HttpMethod.Get,
                 $"{_erpBaseUrl}/api/customers?$filter=Email eq '{Uri.EscapeDataString(email)}'");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct);
             if (!response.IsSuccessStatusCode)
             {
                 return null;
@@ -162,11 +162,11 @@ public class ErpCustomerService : IErpCustomerService
         {
             _logger.LogDebug("ERP Lookup: Firmenname {CompanyName}", companyName);
 
-            var request = new HttpRequestMessage(HttpMethod.Get,
+            using var request = new HttpRequestMessage(HttpMethod.Get,
                 $"{_erpBaseUrl}/api/customers?$filter=contains(CustomerName, '{Uri.EscapeDataString(companyName)}')");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct);
             if (!response.IsSuccessStatusCode)
             {
                 return null;
@@ -200,10 +200,10 @@ public class ErpCustomerService : IErpCustomerService
     {
         try
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{_erpBaseUrl}/health");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"{_erpBaseUrl}/health");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct);
             var available = response.IsSuccessStatusCode;
 
             _logger.LogInformation("ERP Health Check: {Status}", available ? "OK" : "FAILED");
@@ -220,10 +220,10 @@ public class ErpCustomerService : IErpCustomerService
     {
         try
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"{_erpBaseUrl}/api/sync-status");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"{_erpBaseUrl}/api/sync-status");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct);
             if (!response.IsSuccessStatusCode)
             {
                 return new ErpSyncStatusDto

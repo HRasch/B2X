@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using B2Connect.Core.Interfaces;
-using B2Connect.Types.Domain;
 using B2Connect.Shared.Monitoring.Enums;
+using B2Connect.Types.Domain;
 
 namespace B2Connect.Shared.Monitoring.Data.Entities;
 

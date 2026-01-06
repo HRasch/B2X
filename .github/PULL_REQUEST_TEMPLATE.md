@@ -1,3 +1,38 @@
+<!--
+Required fields for PRs: Plan link (ADR or issue), Acceptance criteria, Tests added.
+-->
+
+## Plan
+
+- Plan / ADR: [link to ADR or issue]
+
+## Acceptance Criteria
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+## Implementation notes
+
+- Short summary of changes
+
+## Tests
+
+- Unit tests: [yes/no]
+- Integration tests: [yes/no]
+- E2E/visual tests: [yes/no]
+
+## How to validate (Control steps)
+
+- CI gates that must pass: build, analyzers, unit tests, smoke e2e, SCA
+- Local quick-check: `scripts/run-local-checks.sh` (or equivalent)
+
+## Checklist
+
+- [ ] Linked Plan / ADR or Issue with acceptance criteria
+- [ ] Small, focused commits
+- [ ] Linters/formatters run and fixed
+- [ ] Tests added and passing locally
+- [ ] Security scan completed (if applicable)
 <!-- Please review the checklist and fill the sections below before creating a PR -->
 
 # Pull Request

@@ -31,7 +31,7 @@ public class BmecatHeader
     public string? CatalogVersion { get; set; }
 
     [XmlElement("CATALOG_DATE")]
-    public DateTime CatalogDate { get; set; }
+    public DateTime? CatalogDate { get; set; }
 
     [XmlElement("SUPPLIER")]
     public string? Supplier { get; set; }
@@ -175,7 +175,7 @@ public class BmecatProductReference
     public string? ArticleNumber { get; set; }
 
     [XmlElement("QUANTITY")]
-    public decimal Quantity { get; set; }
+    public decimal? Quantity { get; set; }
 }
 
 public class BmecatArticlePriceDetails
@@ -190,7 +190,7 @@ public class BmecatArticlePrice
     public string? PriceType { get; set; }
 
     [XmlElement("PRICE_AMOUNT")]
-    public decimal PriceAmount { get; set; }
+    public decimal? PriceAmount { get; set; }
 
     [XmlElement("PRICE_CURRENCY")]
     public string? PriceCurrency { get; set; }
@@ -211,7 +211,7 @@ public class BmecatArticlePrice
 public class BmecatPriceQuantity
 {
     [XmlElement("PRICE_QTY")]
-    public decimal Quantity { get; set; }
+    public decimal? Quantity { get; set; }
 
     [XmlElement("QTY_UNIT")]
     public string? Unit { get; set; }
@@ -226,10 +226,10 @@ public class BmecatArticleOrderDetails
     public string? ContentUnit { get; set; }
 
     [XmlElement("PACKAGE_QUANTITY")]
-    public decimal PackageQuantity { get; set; }
+    public decimal? PackageQuantity { get; set; }
 
     [XmlElement("DELIVERY_TIME")]
-    public int DeliveryTime { get; set; }
+    public int? DeliveryTime { get; set; }
 
     [XmlElement("DELIVERY_TIME_UNIT")]
     public string? DeliveryTimeUnit { get; set; }

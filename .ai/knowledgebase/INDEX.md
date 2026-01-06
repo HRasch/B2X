@@ -34,6 +34,8 @@ This index lists curated knowledgebase articles to help agents and developers im
 | `KB-018` | [tools-and-tech/local-llm-models-2025.md](tools-and-tech/local-llm-models-2025.md) | Beste lokale LLM-Modelle für Entwicklung |
 | `KB-020` | [tools-and-tech/archunitnet.md](tools-and-tech/archunitnet.md) | ArchUnitNET architecture testing framework |
 | `KB-031` | [tools-and-tech/shouldly.md](tools-and-tech/shouldly.md) | Shouldly assertion framework for .NET testing |
+| `KB-052` | [tools-and-tech/roslyn-mcp.md](tools-and-tech/roslyn-mcp.md) | Roslyn MCP Server for code analysis |
+| `KB-053` | [tools-and-tech/typescript-mcp-integration.md](tools-and-tech/typescript-mcp-integration.md) | TypeScript MCP integration guide |
 | `KB-021` | [enventa-trade-erp.md](enventa-trade-erp.md) | enventa Trade ERP integration guide |
 | `KB-026` | [tools-and-tech/monaco-editor-vue.md](tools-and-tech/monaco-editor-vue.md) | Monaco Editor Vue.js integration guide |
 | `KB-027` | [best-practices/email-dark-mode.md](best-practices/email-dark-mode.md) | Email Dark Mode Best Practices |

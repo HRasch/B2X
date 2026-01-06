@@ -2,12 +2,12 @@ using System.Security.Claims;
 using B2Connect.Shared.Infrastructure.ServiceClients;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
 using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
-using Shouldly;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Shouldly;
 using Xunit;
 
 namespace B2Connect.Shared.Tenancy.Tests.Middleware;

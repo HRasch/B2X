@@ -34,7 +34,11 @@ describe('ProductService Integration Tests', () => {
       console.log(`Real backend available at ${API_BASE_URL}: ${backendAvailable}`);
     } catch (error) {
       console.log(`Real backend not available at ${API_BASE_URL} - starting mock server`);
-      console.log('Error details:', error.message);
+      if (error instanceof Error) {
+        console.log('Error details:', error.message);
+      } else {
+        console.log('Error details:', error);
+      }
 
       // Start mock server
       mockServerProcess = spawn('node', ['tests/integration/mock-server.js'], {
@@ -43,11 +47,11 @@ describe('ProductService Integration Tests', () => {
       });
 
       // Log mock server output
-      mockServerProcess.stdout.on('data', data => {
+      mockServerProcess.stdout?.on('data', data => {
         console.log('Mock server stdout:', data.toString());
       });
 
-      mockServerProcess.stderr.on('data', data => {
+      mockServerProcess.stderr?.on('data', data => {
         console.log('Mock server stderr:', data.toString());
       });
 
@@ -69,7 +73,11 @@ describe('ProductService Integration Tests', () => {
                 resolve(true);
               }
             } catch (checkError) {
-              console.log('Mock server not ready yet, retrying...', checkError.message);
+              if (checkError instanceof Error) {
+                console.log('Mock server not ready yet, retrying...', checkError.message);
+              } else {
+                console.log('Mock server not ready yet, retrying...', checkError);
+              }
               setTimeout(checkServer, 500);
             }
           };
@@ -77,7 +85,11 @@ describe('ProductService Integration Tests', () => {
           checkServer();
         });
       } catch (mockError) {
-        console.error('Failed to start mock server:', mockError.message);
+        if (mockError instanceof Error) {
+          console.error('Failed to start mock server:', mockError.message);
+        } else {
+          console.error('Failed to start mock server:', mockError);
+        }
         backendAvailable = false; // Neither real backend nor mock server available
       }
     }

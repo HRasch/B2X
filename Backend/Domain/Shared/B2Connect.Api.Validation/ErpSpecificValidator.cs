@@ -1,6 +1,6 @@
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using B2Connect.Api.Models.Erp;
 using B2Connect.Api.Validation;
 using Microsoft.Extensions.Logging;

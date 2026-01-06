@@ -55,7 +55,8 @@ const handleLogin = async () => {
     authStore.setAuth(token, userId, userEmail);
     router.push('/dashboard');
   } catch (err: unknown) {
-    error.value = (err as any)?.response?.data?.message || 'Login failed. Please try again.';
+    const maybe = err as { response?: { data?: { message?: string } } } | undefined;
+    error.value = maybe?.response?.data?.message ?? 'Login failed. Please try again.';
   } finally {
     loading.value = false;
   }

@@ -75,6 +75,12 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-043` | Paid Services Infrastructure | `.ai/decisions/ADR-043-paid-services-infrastructure.md` | Proposed |
 | `ADR-044` | Floating Labels vs Traditional Labels Ruleset | `.ai/decisions/ADR-044-floating-labels-ruleset.md` | Accepted |
 | `ADR-045` | Unified Layout System | `.ai/decisions/ADR-045-unified-layout-system.md` | Proposed |
+| `ADR-046` | Unified Category Navigation Architecture | `.ai/decisions/ADR-046-unified-category-navigation.md` | Proposed |
+| `ADR-047` | Multishop / Shared Catalogs Architecture | `.ai/decisions/ADR-047-multishop-shared-catalog.md` | Proposed |
+| `ADR-048` | Tenant-Level Include/Exclude Rules for Shared Catalogs | `.ai/decisions/ADR-048-tenant-level-include-exclude.md` | Proposed |
+
+| `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
+| `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
 
 ---
 
@@ -114,6 +120,15 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-029` | CSS Functions | `.ai/knowledgebase/css-functions.md` | Active |
 | `KB-030` | SVG and CSS Animations | `.ai/knowledgebase/svg-css-animations.md` | Active |
 | `KB-031` | Shouldly Assertion Framework | `.ai/knowledgebase/tools-and-tech/shouldly.md` | Active |
+| `KB-052` | Roslyn MCP Server | `.ai/knowledgebase/tools-and-tech/roslyn-mcp.md` | Active |
+| `KB-053` | TypeScript MCP Integration | `.ai/knowledgebase/tools-and-tech/typescript-mcp-integration.md` | Active |
+| `KB-050` | Plan-Act-Control Practical Guide | `.ai/knowledgebase/KB-050-plan-act-control.md` | Active |
+| `KB-051` | External Knowledge Sync Procedure | `.ai/knowledgebase/KB-051-external-knowledge-sync.md` | Active |
+| `KB-052` | Roslyn MCP Server | `.ai/knowledgebase/tools-and-tech/roslyn-mcp.md` | Active |
+| `KB-053` | TypeScript MCP Integration | `.ai/knowledgebase/tools-and-tech/typescript-mcp-integration.md` | Active |
+| `KB-054` | Vue MCP Integration Guide | `.ai/knowledgebase/tools-and-tech/vue-mcp-integration.md` | Active |
+| `KB-055` | Security MCP Best Practices | `.ai/knowledgebase/tools-and-tech/security-mcp-best-practices.md` | Active |
+| `KB-056` | HTML/CSS MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/htmlcss-mcp-usage.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
@@ -242,6 +257,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PRM-013` | Context Optimization | `.ai/prompts/context-optimization.prompt.md` | `/context-optimization` |
 | `PRM-014` | Subagent Delegation | `.ai/prompts/subagent-delegation.prompt.md` | `/subagent-delegation` |
 | `PRM-015` | Project Cleanup | `.ai/prompts/project-cleanup.prompt.md` | `/project-cleanup` |
+| `PRM-016` | TypeScript Review | `.github/prompts/typescript-review.prompt.md` | `/typescript-review` |
 
 ---
 

@@ -13,6 +13,100 @@
         "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true"
       },
       "disabled": false
+    },
+    "roslyn-code-navigator": {
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "tools/RoslynMCP/RoslynMCP.csproj"
+      ],
+      "env": {
+        "DOTNET_ENVIRONMENT": "Production",
+        "LOG_LEVEL": "Information"
+      },
+      "disabled": true
+    },
+    "typescript-mcp": {
+      "command": "node",
+      "args": [
+        "tools/TypeScriptMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
+    },
+    "vue-mcp": {
+      "command": "node",
+      "args": [
+        "tools/VueMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
+    },
+    "wolverine-mcp": {
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "tools/WolverineMCP/WolverineMCP.csproj"
+      ],
+      "env": {
+        "DOTNET_ENVIRONMENT": "Production"
+      },
+      "disabled": true
+    },
+    "security-mcp": {
+      "command": "node",
+      "args": [
+        "tools/SecurityMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
+    },
+    "htmlcss-mcp": {
+      "command": "node",
+      "args": [
+        "tools/HtmlCssMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "env": {},
+      "disabled": true
+    },
+    "playwright-mcp": {
+      "command": "node",
+      "args": [
+        "tools/PlaywrightMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
+    },
+    "b2connect-mcp": {
+      "command": "node",
+      "args": [
+        "tools/B2ConnectMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
     }
   }
 }

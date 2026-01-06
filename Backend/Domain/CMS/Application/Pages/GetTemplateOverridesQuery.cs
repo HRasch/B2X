@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Wolverine;
 using B2Connect.CMS.Core.Domain.Pages;
+using Wolverine;
 
 namespace B2Connect.CMS.Application.Pages
 {

@@ -13,7 +13,7 @@ using Xunit;
 
 namespace B2Connect.ERP.Tests.Connectors.SAP;
 
-public class SapErpConnectorTests
+public class SapErpConnectorTests : IDisposable
 {
     private readonly ILogger<SapErpConnector> _loggerMock;
     private readonly HttpClient _httpClient;
@@ -24,8 +24,10 @@ public class SapErpConnectorTests
         _loggerMock = Substitute.For<ILogger<SapErpConnector>>();
 
         // Create a test HttpClient with a custom handler that returns mock responses
+#pragma warning disable CA2000 // Handler is disposed by HttpClient
         var handler = new TestHttpMessageHandler();
         _httpClient = new HttpClient(handler);
+#pragma warning restore CA2000
 
         _connector = new SapErpConnector(_loggerMock, _httpClient);
     }
@@ -364,6 +366,12 @@ public class SapErpConnectorTests
         await Assert.ThrowsAsync<InvalidOperationException>(() => _connector.GetCapabilitiesAsync());
         await Assert.ThrowsAsync<InvalidOperationException>(() => _connector.CreateOrderAsync(new ErpOrder()));
         await Assert.ThrowsAsync<InvalidOperationException>(() => _connector.GetCustomerDataAsync("test"));
+    }
+
+    public void Dispose()
+    {
+        _httpClient?.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
 

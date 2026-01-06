@@ -1,4 +1,6 @@
 // plugins/i18n.client.ts
+import type { NuxtI18nRuntime } from '~/types';
+
 export default defineNuxtPlugin(async nuxtApp => {
   const runtimeConfig = useRuntimeConfig();
 
@@ -13,7 +15,8 @@ export default defineNuxtPlugin(async nuxtApp => {
       });
 
       // Merge with existing messages using the i18n instance
-      const i18n = nuxtApp.$i18n;
+      const i18n = (nuxtApp as unknown as { $i18n: NuxtI18nRuntime }).$i18n;
+
       i18n.setLocaleMessage(locale, {
         ...i18n.getLocaleMessage(locale),
         ...(response && typeof response === 'object' ? response : {}),
@@ -25,6 +28,7 @@ export default defineNuxtPlugin(async nuxtApp => {
   };
 
   // Load tenant translations for current locale on client-side hydration
-  const i18n = nuxtApp.$i18n;
+  const i18n = (nuxtApp as unknown as { $i18n: NuxtI18nRuntime }).$i18n;
+
   await loadTenantTranslations(i18n.locale.value);
 });

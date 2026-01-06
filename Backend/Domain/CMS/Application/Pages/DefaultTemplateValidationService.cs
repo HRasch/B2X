@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using B2Connect.CMS.Core.Domain.Pages;
 using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using Microsoft.Extensions.Logging;
 
 namespace B2Connect.CMS.Application.Pages;
 
@@ -22,7 +22,7 @@ public class DefaultTemplateValidationService : ITemplateValidationService
     // Security patterns to detect
     private static readonly string[] _xssPatterns = new[]
     {
-        @"<script[^>]*>.*?</script>",
+        @"<script[^>]*>[\s\S]{0,1000}?</script>",
         @"on\w+\s*=",
         @"javascript:",
         @"eval\s*\(",
@@ -35,12 +35,12 @@ public class DefaultTemplateValidationService : ITemplateValidationService
         @"(DROP\s+TABLE)",
         @"(INSERT\s+INTO)",
         @"(DELETE\s+FROM)",
-        @"(UPDATE\s+.*\s+SET)"
+        @"(UPDATE\s+[A-Z_][A-Z0-9_]*\s+SET)"
     };
 
     private static readonly string[] _performancePatterns = new[]
     {
-        @"<img[^>]*>(?!.*loading=)",
+        @"<img(?![^>]*\bloading\s*=\s*[""'][^""']*[""'])[^>]*>",
         @"<script[^>]*src=[^>]*>\s*</script>",
         @"@import\s+url",
     };
@@ -64,16 +64,16 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             template.BaseTemplateKey ?? template.PageType);
 
         // Run all validation checks
-        var syntaxIssues = await ValidateSyntaxAsync(template.TemplateLayout, cancellationToken);
+        var syntaxIssues = await ValidateSyntaxAsync(template.TemplateLayout);
         issues.AddRange(syntaxIssues);
 
-        var securityIssues = await ValidateSecurityAsync(template.TemplateLayout, cancellationToken);
+        var securityIssues = await ValidateSecurityAsync(template.TemplateLayout);
         issues.AddRange(securityIssues);
 
-        var performanceIssues = await ValidatePerformanceAsync(template.TemplateLayout, cancellationToken);
+        var performanceIssues = await ValidatePerformanceAsync(template.TemplateLayout);
         issues.AddRange(performanceIssues);
 
-        var a11yIssues = await ValidateAccessibilityAsync(template.TemplateLayout, cancellationToken);
+        var a11yIssues = await ValidateAccessibilityAsync(template.TemplateLayout);
         issues.AddRange(a11yIssues);
 
         // Determine overall status
@@ -183,8 +183,7 @@ public class DefaultTemplateValidationService : ITemplateValidationService
     }
 
     private async Task<List<ValidationIssue>> ValidateSyntaxAsync(
-        string content,
-        CancellationToken cancellationToken)
+        string content)
     {
         var issues = new List<ValidationIssue>();
 
@@ -195,11 +194,11 @@ public class DefaultTemplateValidationService : ITemplateValidationService
         foreach (Match match in tagPattern.Matches(content))
         {
             var isClosing = !string.IsNullOrEmpty(match.Groups[1].Value);
-            var tagName = match.Groups[2].Value.ToLower();
+            var tagName = match.Groups[2].Value.ToLowerInvariant();
 
             if (isClosing)
             {
-                if (openTags.Count == 0 || openTags.Peek() != tagName)
+                if (openTags.Count == 0 || !string.Equals(openTags.Peek(), tagName))
                 {
                     issues.Add(new ValidationIssue
                     {
@@ -231,12 +230,11 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             });
         }
 
-        return await Task.FromResult(issues);
+        return await Task.FromResult(issues).ConfigureAwait(false);
     }
 
     private async Task<List<ValidationIssue>> ValidateSecurityAsync(
-        string content,
-        CancellationToken cancellationToken)
+        string content)
     {
         var issues = new List<ValidationIssue>();
 
@@ -274,12 +272,11 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             }
         }
 
-        return await Task.FromResult(issues);
+        return await Task.FromResult(issues).ConfigureAwait(false);
     }
 
     private async Task<List<ValidationIssue>> ValidatePerformanceAsync(
-        string content,
-        CancellationToken cancellationToken)
+        string content)
     {
         var issues = new List<ValidationIssue>();
 
@@ -311,12 +308,11 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             });
         }
 
-        return await Task.FromResult(issues);
+        return await Task.FromResult(issues).ConfigureAwait(false);
     }
 
     private async Task<List<ValidationIssue>> ValidateAccessibilityAsync(
-        string content,
-        CancellationToken cancellationToken)
+        string content)
     {
         var issues = new List<ValidationIssue>();
 
@@ -324,19 +320,17 @@ public class DefaultTemplateValidationService : ITemplateValidationService
         var imgPattern = new Regex(@"<img[^>]*>");
         var imgMatches = imgPattern.Matches(content);
 
-        foreach (Match match in imgMatches)
+        var imagesWithoutAlt = imgMatches.Where(match => !match.Value.Contains("alt="));
+        foreach (Match match in imagesWithoutAlt)
         {
-            if (!match.Value.Contains("alt="))
+            issues.Add(new ValidationIssue
             {
-                issues.Add(new ValidationIssue
-                {
-                    Type = ValidationType.Accessibility,
-                    Severity = IssueSeverity.Warning,
-                    Message = "Image missing alt text attribute",
-                    LineNumber = GetLineNumber(content, match.Index),
-                    Suggestion = "Add descriptive alt text: alt=\"description of image\""
-                });
-            }
+                Type = ValidationType.Accessibility,
+                Severity = IssueSeverity.Warning,
+                Message = "Image missing alt text attribute",
+                LineNumber = GetLineNumber(content, match.Index),
+                Suggestion = "Add descriptive alt text: alt=\"description of image\""
+            });
         }
 
         // Check for missing language attribute
@@ -356,7 +350,7 @@ public class DefaultTemplateValidationService : ITemplateValidationService
         var headings = new List<int>();
         foreach (Match match in headingPattern.Matches(content))
         {
-            headings.Add(int.Parse(match.Groups[1].Value));
+            headings.Add(int.Parse(match.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture));
         }
 
         for (int i = 1; i < headings.Count; i++)
@@ -373,10 +367,10 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             }
         }
 
-        return await Task.FromResult(issues);
+        return await Task.FromResult(issues).ConfigureAwait(false);
     }
 
-    private TemplateValidationStatus DetermineValidationStatus(List<ValidationIssue> issues)
+    private static TemplateValidationStatus DetermineValidationStatus(List<ValidationIssue> issues)
     {
         if (!issues.Any())
             return TemplateValidationStatus.Valid;
@@ -390,13 +384,13 @@ public class DefaultTemplateValidationService : ITemplateValidationService
         return TemplateValidationStatus.Valid;
     }
 
-    private bool IsSelfClosingTag(string tagName)
+    private static bool IsSelfClosingTag(string tagName)
     {
         var selfClosingTags = new[] { "img", "br", "hr", "input", "meta", "link", "area", "base", "col", "embed", "source", "track", "wbr" };
         return selfClosingTags.Contains(tagName);
     }
 
-    private int GetLineNumber(string content, int index)
+    private static int GetLineNumber(string content, int index)
     {
         return content.Substring(0, index).Count(c => c == '\n') + 1;
     }
