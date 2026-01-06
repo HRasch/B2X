@@ -41,8 +41,8 @@ describe('WidgetRenderer.vue', () => {
       props: { widget },
     });
 
-    expect(wrapper.props().widget.settings.title).toBe('Test Title');
-    expect(wrapper.props().widget.settings.subtitle).toBe('Test Subtitle');
+    expect((wrapper.props().widget as WidgetInstance).settings.title).toBe('Test Title');
+    expect((wrapper.props().widget as WidgetInstance).settings.subtitle).toBe('Test Subtitle');
   });
 
   it('should have correct CSS class for widget type', () => {
@@ -61,7 +61,7 @@ describe('WidgetRenderer.vue', () => {
     // Since the dynamic component loading fails in test env, check that WidgetRenderer is mounted with correct props
     // and verify the computed property returns the expected async component
     expect(wrapper.exists()).toBe(true);
-    expect(wrapper.props().widget.widgetTypeId).toBe('hero-banner');
+    expect((wrapper.props().widget as WidgetInstance).widgetTypeId).toBe('hero-banner');
   });
 
   it('should accept different widget types', () => {

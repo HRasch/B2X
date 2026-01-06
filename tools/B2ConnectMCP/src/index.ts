@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   CallToolRequestSchema,
   ErrorCode,
   ListToolsRequestSchema,
   McpError,
-} from "@modelcontextprotocol/sdk/types.js";
-import { glob } from "fast-glob";
-import * as fs from "fs/promises";
-import * as path from "path";
-import * as yaml from "js-yaml";
-import { z } from "zod";
+} from '@modelcontextprotocol/sdk/types.js';
+import pkg from 'fast-glob';
+const { glob } = pkg;
+import * as fs from 'fs/promises';
+import * as path from 'path';
+import * as yaml from 'js-yaml';
+import { z } from 'zod';
 
 class B2ConnectMCPServer {
   private server: Server;
@@ -21,8 +22,8 @@ class B2ConnectMCPServer {
   constructor() {
     this.server = new Server(
       {
-        name: "b2connect-mcp-server",
-        version: "1.0.0",
+        name: 'b2connect-mcp-server',
+        version: '1.0.0',
       },
       {
         capabilities: {
@@ -40,106 +41,105 @@ class B2ConnectMCPServer {
       return {
         tools: [
           {
-            name: "validate_tenant_config",
-            description: "Validate tenant configuration files for B2Connect",
+            name: 'validate_tenant_config',
+            description: 'Validate tenant configuration files for B2Connect',
             inputSchema: {
-              type: "object",
+              type: 'object',
               properties: {
                 configPath: {
-                  type: "string",
-                  description: "Path to tenant configuration file"
-                }
+                  type: 'string',
+                  description: 'Path to tenant configuration file',
+                },
               },
-              required: ["configPath"]
-            }
+              required: ['configPath'],
+            },
           },
           {
-            name: "validate_catalog_structure",
-            description: "Validate product catalog structure and metadata",
+            name: 'validate_catalog_structure',
+            description: 'Validate product catalog structure and metadata',
             inputSchema: {
-              type: "object",
+              type: 'object',
               properties: {
                 catalogPath: {
-                  type: "string",
-                  description: "Path to catalog directory or file"
-                }
+                  type: 'string',
+                  description: 'Path to catalog directory or file',
+                },
               },
-              required: ["catalogPath"]
-            }
+              required: ['catalogPath'],
+            },
           },
           {
-            name: "check_erp_integration",
-            description: "Validate ERP integration configurations",
+            name: 'check_erp_integration',
+            description: 'Validate ERP integration configurations',
             inputSchema: {
-              type: "object",
+              type: 'object',
               properties: {
                 erpConfigPath: {
-                  type: "string",
-                  description: "Path to ERP configuration file"
-                }
+                  type: 'string',
+                  description: 'Path to ERP configuration file',
+                },
               },
-              required: ["erpConfigPath"]
-            }
+              required: ['erpConfigPath'],
+            },
           },
           {
-            name: "analyze_domain_models",
-            description: "Analyze domain models for consistency and best practices",
+            name: 'analyze_domain_models',
+            description: 'Analyze domain models for consistency and best practices',
             inputSchema: {
-              type: "object",
+              type: 'object',
               properties: {
                 domainPath: {
-                  type: "string",
-                  description: "Path to domain directory"
-                }
+                  type: 'string',
+                  description: 'Path to domain directory',
+                },
               },
-              required: ["domainPath"]
-            }
+              required: ['domainPath'],
+            },
           },
           {
-            name: "validate_lifecycle_stages",
-            description: "Validate customer integration lifecycle stages",
+            name: 'validate_lifecycle_stages',
+            description: 'Validate customer integration lifecycle stages',
             inputSchema: {
-              type: "object",
+              type: 'object',
               properties: {
                 tenantId: {
-                  type: "string",
-                  description: "Tenant identifier"
-                }
+                  type: 'string',
+                  description: 'Tenant identifier',
+                },
               },
-              required: ["tenantId"]
-            }
-          }
-        ]
+              required: ['tenantId'],
+            },
+          },
+        ],
       };
     });
 
     // Handle tool calls
-    this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    this.server.setRequestHandler(CallToolRequestSchema, async request => {
       const { name, arguments: args } = request.params;
 
       try {
+        if (!args) {
+          throw new McpError(ErrorCode.InvalidParams, `Arguments required for tool: ${name}`);
+        }
+
         switch (name) {
-          case "validate_tenant_config":
-            return await this.validateTenantConfig(args.configPath);
-          case "validate_catalog_structure":
-            return await this.validateCatalogStructure(args.catalogPath);
-          case "check_erp_integration":
-            return await this.checkErpIntegration(args.erpConfigPath);
-          case "analyze_domain_models":
-            return await this.analyzeDomainModels(args.domainPath);
-          case "validate_lifecycle_stages":
-            return await this.validateLifecycleStages(args.tenantId);
+          case 'validate_tenant_config':
+            return await this.validateTenantConfig(args.configPath as string);
+          case 'validate_catalog_structure':
+            return await this.validateCatalogStructure(args.catalogPath as string);
+          case 'check_erp_integration':
+            return await this.checkErpIntegration(args.erpConfigPath as string);
+          case 'analyze_domain_models':
+            return await this.analyzeDomainModels(args.domainPath as string);
+          case 'validate_lifecycle_stages':
+            return await this.validateLifecycleStages(args.tenantId as string);
           default:
-            throw new McpError(
-              ErrorCode.MethodNotFound,
-              `Unknown tool: ${name}`
-            );
+            throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
         }
       } catch (error) {
-        throw new McpError(
-          ErrorCode.InternalError,
-          `Tool execution failed: ${error.message}`
-        );
+        const message = error instanceof Error ? error.message : String(error);
+        throw new McpError(ErrorCode.InternalError, `Tool execution failed: ${message}`);
       }
     });
   }
@@ -154,14 +154,14 @@ class B2ConnectMCPServer {
       const issues = [];
 
       // Validate required fields
-      if (!config.tenantId) issues.push("Missing tenantId");
-      if (!config.name) issues.push("Missing tenant name");
-      if (!config.domain) issues.push("Missing domain");
+      if (!config.tenantId) issues.push('Missing tenantId');
+      if (!config.name) issues.push('Missing tenant name');
+      if (!config.domain) issues.push('Missing domain');
 
       // Validate domain format
       const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (config.domain && !domainRegex.test(config.domain)) {
-        issues.push("Invalid domain format");
+        issues.push('Invalid domain format');
       }
 
       // Validate features configuration
@@ -178,21 +178,23 @@ class B2ConnectMCPServer {
       return {
         content: [
           {
-            type: "text",
-            text: issues.length === 0
-              ? "✅ Tenant configuration is valid"
-              : `❌ Found ${issues.length} issues:\n${issues.map(i => `- ${i}`).join('\n')}`
-          }
-        ]
+            type: 'text',
+            text:
+              issues.length === 0
+                ? '✅ Tenant configuration is valid'
+                : `❌ Found ${issues.length} issues:\n${issues.map(i => `- ${i}`).join('\n')}`,
+          },
+        ],
       };
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         content: [
           {
-            type: "text",
-            text: `❌ Failed to validate tenant config: ${error.message}`
-          }
-        ]
+            type: 'text',
+            text: `❌ Failed to validate tenant config: ${message}`,
+          },
+        ],
       };
     }
   }
@@ -201,7 +203,7 @@ class B2ConnectMCPServer {
     const fullPath = path.resolve(this.workspaceRoot, catalogPath);
 
     try {
-      const files = await glob("**/*.{json,yaml,yml}", { cwd: fullPath });
+      const files = await glob('**/*.{json,yaml,yml}', { cwd: fullPath });
       const issues = [];
 
       for (const file of files) {
@@ -209,9 +211,8 @@ class B2ConnectMCPServer {
         const content = await fs.readFile(filePath, 'utf-8');
 
         try {
-          const data = path.extname(file).toLowerCase() === '.json'
-            ? JSON.parse(content)
-            : yaml.load(content);
+          const data =
+            path.extname(file).toLowerCase() === '.json' ? JSON.parse(content) : yaml.load(content);
 
           // Validate catalog structure
           if (data.products) {
@@ -229,21 +230,23 @@ class B2ConnectMCPServer {
       return {
         content: [
           {
-            type: "text",
-            text: issues.length === 0
-              ? "✅ Catalog structure is valid"
-              : `❌ Found ${issues.length} issues:\n${issues.map(i => `- ${i}`).join('\n')}`
-          }
-        ]
+            type: 'text',
+            text:
+              issues.length === 0
+                ? '✅ Catalog structure is valid'
+                : `❌ Found ${issues.length} issues:\n${issues.map(i => `- ${i}`).join('\n')}`,
+          },
+        ],
       };
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         content: [
           {
-            type: "text",
-            text: `❌ Failed to validate catalog: ${error.message}`
-          }
-        ]
+            type: 'text',
+            text: `❌ Failed to validate catalog structure: ${message}`,
+          },
+        ],
       };
     }
   }
@@ -258,8 +261,8 @@ class B2ConnectMCPServer {
       const issues = [];
 
       // Validate ERP connection settings
-      if (!config.endpoint) issues.push("Missing ERP endpoint");
-      if (!config.apiKey && !config.username) issues.push("Missing authentication credentials");
+      if (!config.endpoint) issues.push('Missing ERP endpoint');
+      if (!config.apiKey && !config.username) issues.push('Missing authentication credentials');
 
       // Validate supported ERP types
       const supportedErps = ['enventa', 'sap', 'microsoft-dynamics', 'oracle'];
@@ -270,9 +273,7 @@ class B2ConnectMCPServer {
       // Validate mapping configurations
       if (config.mappings) {
         const requiredMappings = ['products', 'customers', 'orders'];
-        const missingMappings = requiredMappings.filter(
-          m => !config.mappings[m]
-        );
+        const missingMappings = requiredMappings.filter(m => !config.mappings[m]);
         if (missingMappings.length > 0) {
           issues.push(`Missing mappings: ${missingMappings.join(', ')}`);
         }
@@ -281,21 +282,23 @@ class B2ConnectMCPServer {
       return {
         content: [
           {
-            type: "text",
-            text: issues.length === 0
-              ? "✅ ERP integration configuration is valid"
-              : `❌ Found ${issues.length} issues:\n${issues.map(i => `- ${i}`).join('\n')}`
-          }
-        ]
+            type: 'text',
+            text:
+              issues.length === 0
+                ? '✅ ERP integration configuration is valid'
+                : `❌ Found ${issues.length} issues:\n${issues.map(i => `- ${i}`).join('\n')}`,
+          },
+        ],
       };
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         content: [
           {
-            type: "text",
-            text: `❌ Failed to validate ERP config: ${error.message}`
-          }
-        ]
+            type: 'text',
+            text: `❌ Failed to validate ERP config: ${message}`,
+          },
+        ],
       };
     }
   }
@@ -304,7 +307,7 @@ class B2ConnectMCPServer {
     const fullPath = path.resolve(this.workspaceRoot, domainPath);
 
     try {
-      const csFiles = await glob("**/*.cs", { cwd: fullPath });
+      const csFiles = await glob('**/*.cs', { cwd: fullPath });
       const issues = [];
       const patterns = [];
 
@@ -313,20 +316,20 @@ class B2ConnectMCPServer {
         const content = await fs.readFile(filePath, 'utf-8');
 
         // Check for domain patterns
-        if (content.includes("public class") && content.includes("Entity")) {
+        if (content.includes('public class') && content.includes('Entity')) {
           patterns.push(`${file}: Entity class detected`);
         }
 
-        if (content.includes("ICommand") || content.includes("IQuery")) {
+        if (content.includes('ICommand') || content.includes('IQuery')) {
           patterns.push(`${file}: CQRS pattern detected`);
         }
 
         // Check for potential issues
-        if (content.includes("public string") && !content.includes("[Required]")) {
+        if (content.includes('public string') && !content.includes('[Required]')) {
           issues.push(`${file}: Public string property without validation`);
         }
 
-        if (content.includes("DateTime") && !content.includes("DateTimeOffset")) {
+        if (content.includes('DateTime') && !content.includes('DateTimeOffset')) {
           issues.push(`${file}: Consider using DateTimeOffset for timezone safety`);
         }
       }
@@ -334,19 +337,20 @@ class B2ConnectMCPServer {
       return {
         content: [
           {
-            type: "text",
-            text: `📊 Domain Analysis Complete\n\nPatterns Found:\n${patterns.map(p => `- ${p}`).join('\n')}\n\nIssues:\n${issues.length === 0 ? 'None' : issues.map(i => `- ${i}`).join('\n')}`
-          }
-        ]
+            type: 'text',
+            text: `📊 Domain Analysis Complete\n\nPatterns Found:\n${patterns.map(p => `- ${p}`).join('\n')}\n\nIssues:\n${issues.length === 0 ? 'None' : issues.map(i => `- ${i}`).join('\n')}`,
+          },
+        ],
       };
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         content: [
           {
-            type: "text",
-            text: `❌ Failed to analyze domain models: ${error.message}`
-          }
-        ]
+            type: 'text',
+            text: `❌ Failed to analyze domain models: ${message}`,
+          },
+        ],
       };
     }
   }
@@ -356,31 +360,31 @@ class B2ConnectMCPServer {
     // For now, return a placeholder implementation
 
     const stages = [
-      "initial_contact",
-      "requirements_gathering",
-      "technical_setup",
-      "data_migration",
-      "testing",
-      "go_live",
-      "post_go_live_support"
+      'initial_contact',
+      'requirements_gathering',
+      'technical_setup',
+      'data_migration',
+      'testing',
+      'go_live',
+      'post_go_live_support',
     ];
 
-    const currentStage = "technical_setup"; // This would be fetched from database
+    const currentStage = 'technical_setup'; // This would be fetched from database
 
     return {
       content: [
         {
-          type: "text",
-          text: `📈 Lifecycle Validation for Tenant ${tenantId}\n\nCurrent Stage: ${currentStage}\n\nAvailable Stages:\n${stages.map(s => `- ${s}`).join('\n')}\n\n✅ Lifecycle configuration is valid`
-        }
-      ]
+          type: 'text',
+          text: `📈 Lifecycle Validation for Tenant ${tenantId}\n\nCurrent Stage: ${currentStage}\n\nAvailable Stages:\n${stages.map(s => `- ${s}`).join('\n')}\n\n✅ Lifecycle configuration is valid`,
+        },
+      ],
     };
   }
 
   async run() {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error("B2Connect MCP server running on stdio");
+    console.error('B2Connect MCP server running on stdio');
   }
 }
 
