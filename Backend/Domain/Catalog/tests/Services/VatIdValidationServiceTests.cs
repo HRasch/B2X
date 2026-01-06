@@ -240,7 +240,7 @@ public class VatIdValidationServiceTests
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>(
-            () => service.ShouldApplyReverseCharge((VatValidationResult?)null, "DE", "AT"));
+            () => service.ShouldApplyReverseCharge(null!, "DE", "AT"));
     }
 }
 

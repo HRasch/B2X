@@ -30,6 +30,10 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Quartz" />
     <PackageReference Include="Serilog.AspNetCore" />
+    <!-- Code Analyzers -->
+    <PackageReference Include="SonarAnalyzer.CSharp" />
+    <PackageReference Include="Meziantou.Analyzer" />
+    <PackageReference Include="SerilogAnalyzer" />
   </ItemGroup>
 
 </Project>

@@ -34,6 +34,15 @@
     <PackageReference Include="EFCore.BulkExtensions.SqlServer" />
     <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
     <PackageReference Include="Npgsql" />
+    
+    <!-- gRPC -->
+    <PackageReference Include="Google.Protobuf" />
+    <PackageReference Include="Grpc.Net.Client" />
+    <PackageReference Include="Grpc.Tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos/*.proto" GrpcServices="Client" />
   </ItemGroup>
 
   <ItemGroup>

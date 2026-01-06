@@ -43,6 +43,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Elastic.Clients.Elasticsearch" />
     <PackageReference Include="Bogus" />
+    <!-- Code Analyzers -->
+    <PackageReference Include="SonarAnalyzer.CSharp" />
+    <PackageReference Include="Meziantou.Analyzer" />
+    <PackageReference Include="SerilogAnalyzer" />
   </ItemGroup>
 
   <ItemGroup>

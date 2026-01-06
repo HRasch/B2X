@@ -13,6 +13,19 @@
         "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true"
       },
       "disabled": false
+    },
+    "roslyn-code-navigator": {
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "tools/RoslynMCP/RoslynMCP.csproj"
+      ],
+      "env": {
+        "DOTNET_ENVIRONMENT": "Production",
+        "LOG_LEVEL": "Information"
+      },
+      "disabled": false
     }
   }
 }
