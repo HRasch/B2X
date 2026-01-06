@@ -51,6 +51,7 @@ jobs:
               // Output summary
               console.log('');
               console.log('📋 Component Stages Summary:');
+              for (const [name, config] of Object.entries(doc.components)) {
                 const emoji = {
                   'alpha': '🔴',
                   'pre-release': '🟠',
