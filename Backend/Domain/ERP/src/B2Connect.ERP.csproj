@@ -30,10 +30,10 @@
     <PackageReference Include="StackExchange.Redis" />
 
     <!-- Data Access (ADR-025) -->
-    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Dapper" />
     <PackageReference Include="EFCore.BulkExtensions.SqlServer" />
     <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
-    <PackageReference Include="Npgsql" Version="10.0.1" />
+    <PackageReference Include="Npgsql" />
   </ItemGroup>
 
   <ItemGroup>

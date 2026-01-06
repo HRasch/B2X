@@ -11,7 +11,7 @@
     <PackageReference Include="BenchmarkDotNet" />
     <PackageReference Include="EFCore.BulkExtensions.SqlServer" />
     <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
-    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Dapper" />
   </ItemGroup>
 
   <ItemGroup>

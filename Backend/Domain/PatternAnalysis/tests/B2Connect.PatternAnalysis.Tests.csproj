@@ -19,8 +19,8 @@
     </PackageReference>
     <PackageReference Include="Moq" />
     <PackageReference Include="Shouldly" />
-    <PackageReference Include="Testcontainers" Version="4.10.0" />
-    <PackageReference Include="Testcontainers.PostgreSql" Version="4.10.0" />
+    <PackageReference Include="Testcontainers" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
   </ItemGroup>
 
   <ItemGroup>
