@@ -58,12 +58,12 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  b2bPrice: number;
-  image: string;
-  category: string;
-  description: string;
-  inStock: boolean;
-  rating: number;
+  b2bPrice?: number;
+  image?: string;
+  category?: string;
+  description?: string;
+  inStock?: boolean;
+  rating?: number;
   sku?: string;
   brand?: string;
   tags?: string;
@@ -85,6 +85,12 @@ export interface Category {
 
 export interface CartItem extends Product {
   quantity: number;
+}
+
+export interface NuxtI18nRuntime {
+  locale: { value: string };
+  getLocaleMessage(locale: string): Record<string, any> | any;
+  setLocaleMessage(locale: string, messages: Record<string, any>): void;
 }
 
 export interface Order {

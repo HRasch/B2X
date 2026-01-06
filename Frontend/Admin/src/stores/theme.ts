@@ -10,19 +10,13 @@ import { ref, watch } from 'vue';
 export type Theme = 'light' | 'dark' | 'auto';
 
 // Helper to check if we're in browser
-const isBrowserEnv = (): boolean => {
-  try {
-    return typeof (globalThis as any).window !== 'undefined';
-  } catch {
-    return false;
-  }
-};
+const isBrowserEnv = (): boolean => typeof window !== 'undefined';
 
 // Safe localStorage access
 const getStoredTheme = (): Theme => {
   if (!isBrowserEnv()) return 'auto';
   try {
-    return ((globalThis as any).localStorage?.getItem('theme') as Theme) || 'auto';
+    return (window.localStorage?.getItem('theme') as Theme) || 'auto';
   } catch {
     return 'auto';
   }
@@ -32,7 +26,7 @@ const getStoredTheme = (): Theme => {
 const setStoredTheme = (theme: Theme) => {
   if (!isBrowserEnv()) return;
   try {
-    (globalThis as any).localStorage?.setItem('theme', theme);
+    window.localStorage?.setItem('theme', theme);
   } catch {
     // Ignore localStorage errors
   }
@@ -53,7 +47,7 @@ export const useThemeStore = defineStore('theme', () => {
 
     // Listen to system theme changes
     try {
-      const mediaQuery = (globalThis as any).window.matchMedia('(prefers-color-scheme: dark)');
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       mediaQuery.addEventListener('change', () => {
         if (theme.value === 'auto') {
           updateEffectiveTheme();
@@ -71,10 +65,7 @@ export const useThemeStore = defineStore('theme', () => {
 
     try {
       if (theme.value === 'auto') {
-        effectiveTheme.value = (globalThis as any).window.matchMedia('(prefers-color-scheme: dark)')
-          .matches
-          ? 'dark'
-          : 'light';
+        effectiveTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       } else {
         effectiveTheme.value = theme.value;
       }
@@ -89,7 +80,7 @@ export const useThemeStore = defineStore('theme', () => {
 
     try {
       const isDark = effectiveTheme.value === 'dark';
-      const htmlElement = (globalThis as any).document?.documentElement;
+      const htmlElement = document?.documentElement;
       if (!htmlElement) return;
 
       if (isDark) {

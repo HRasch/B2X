@@ -354,8 +354,10 @@ const sortBy = (field: string) => {
 
 const sortEmails = () => {
   emails.value.sort((a, b) => {
-    let aVal = (a as any)[sortField.value];
-    let bVal = (b as any)[sortField.value];
+    const aRecord = a as unknown as Record<string, unknown>;
+    const bRecord = b as unknown as Record<string, unknown>;
+    let aVal = aRecord[sortField.value];
+    let bVal = bRecord[sortField.value];
 
     if (sortField.value === 'createdAt' && aVal && bVal) {
       aVal = new Date(aVal).getTime();

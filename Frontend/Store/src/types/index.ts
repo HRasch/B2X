@@ -21,6 +21,27 @@ export interface TenantDto {
   status: string;
 }
 
+export interface CartItem {
+  id: string | number;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+  // Compatibility fields used across components/tests
+  qty?: number;
+  category?: string;
+  rating?: number;
+  b2bPrice?: number;
+  description?: string;
+  inStock?: boolean;
+}
+
+export interface NuxtI18nRuntime {
+  locale: { value: string };
+  getLocaleMessage(locale: string): Record<string, any> | any;
+  setLocaleMessage(locale: string, messages: Record<string, any>): void;
+}
+
 export interface AuthResponse {
   accessToken: string;
   refreshToken: string;

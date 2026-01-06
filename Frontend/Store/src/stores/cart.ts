@@ -1,20 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import type { CartItem } from '~/types';
 
-export interface CartItem {
-  id: string | number;
-  name: string;
-  price: number;
-  quantity: number;
-  image?: string;
-  // Compatibility fields used across components/tests
-  qty?: number;
-  category?: string;
-  rating?: number;
-  b2bPrice?: number;
-  description?: string;
-  inStock?: boolean;
-}
+export type { CartItem };
 
 export const useCartStore = defineStore('cart', () => {
   const items = ref<CartItem[]>([]);

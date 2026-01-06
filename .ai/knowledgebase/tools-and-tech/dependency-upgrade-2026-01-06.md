@@ -72,4 +72,38 @@ References
 - `.ai/dependency-updates/nuget-and-npm-candidates-2026-01-06.md` (scan results)
 - Official migration guides: Nuxt 4 migration docs, Tailwind 4 release notes, EFCore.BulkExtensions release notes, Microsoft.CodeAnalysis release notes.
 
+Observed breakages (frontend `Store` after `npm update`)
+
+- Symptoms seen while building `/frontend/Store` after minor/patch updates:
+  - TypeScript errors reporting values of type `unknown` (e.g. `error.message` access) and `TS18046` / `TS18047` style diagnostics.
+  - Object-literal assignment errors where calls to `cartStore.addItem({...})` are missing newly-required fields (e.g. `category`, `rating`, `b2bPrice`, `description`, `inStock`).
+  - Module/type export mismatches (e.g. "declares 'CartItem' locally, but it is not exported").
+  - `i18n` plugin symbols reported as `unknown` in client plugin code.
+
+- Root-cause analysis (internet sources)
+  - TypeScript stricter defaults and new compiler behaviors: TypeScript has progressively tightened defaults and added options that change behavior (notably `useUnknownInCatchVariables` which makes `catch` clause variables `unknown` by default under `strict`), stricter excess-property checks, and new module/emit options (`--verbatimModuleSyntax`, `--moduleResolution bundler`) that affect resolution and type/value distinctions. See TypeScript docs: https://www.typescriptlang.org/tsconfig/#useUnknownInCatchVariables and release notes: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html
+  - Library/type upgrades: when dependency packages (Nuxt, Pinia, vue-i18n, or shared `types` packages) change exported type shapes (add fields to `CartItem`, switch to `export type` vs value exports, or change plugin signatures) existing call sites will fail type-checking until code is adjusted to new shapes.
+  - Framework typing changes: Nuxt/Turbo/Vite/Pinia upgrades commonly bump TypeScript expectations (TS config, lib targets) and change runtime plugin shapes; e.g., `vue-i18n` v11 introduces new APIs and typing surfaces — plugin usage must match the installed `vue-i18n` version.
+
+- Direct links for verification and migration references
+  - TypeScript: `useUnknownInCatchVariables` / TS 5.x release notes — https://www.typescriptlang.org/tsconfig/#useUnknownInCatchVariables and https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html
+  - Pinia docs (typing, API): https://pinia.vuejs.org/
+  - Vite guide: https://vite.dev/guide/
+  - Nuxt upgrade information: https://nuxt.com/docs/getting-started/upgrade-guide
+  - vue-i18n migration guide: https://vue-i18n.intlify.dev/guide/migration/migration-v11.html
+
+- Recommended mitigation steps (practical quick fixes)
+  1. Narrow `catch` variables or set `useUnknownInCatchVariables` / update `tsconfig.json` to match project policy:
+     - Preferred: tighten handler code: `catch (err: unknown) { if (err instanceof Error) console.log(err.message) }`.
+     - Short term: toggle `useUnknownInCatchVariables` to `false` if unavoidable (document the exception).
+  2. Fix object-literal calls by either: supply missing fields, make those fields optional in `CartItem` (if semantically optional), or update the shared `types` package to preserve backwards-compatible optional fields.
+  3. For `CartItem` export/type errors: ensure `stores/cart.ts` and `~/types` export the symbol consistently (use `export type CartItem = ...` and import with `import type { CartItem } from '...'` where appropriate), or export a runtime value when needed.
+  4. For `i18n`/plugin `unknown` symbols: update `vue-i18n` usage to match installed version (or pin `vue-i18n` to the previous working version until migration PR completes). Use the official migration guide for breaking API changes.
+  5. If multiple front-end libs upgraded together (nuxt/pinia/tailwind), consider rolling back to previous lockfile and apply upgrades one-by-one (upgrade order: build tooling (vite) → framework (nuxt) → state (pinia) → UI (tailwind)).
+
+- KB Action Items
+  - Add small code examples to repo showing safe `catch (err: unknown)` handling and `CartItem` compatibility wrappers.
+  - Create a dedicated `frontend/deps/upgrade-minor` branch that pins currently-working versions in `package.json`/lockfile, then apply upgrades one-by-one with quick fixes and visual testing.
+
+
 If you'd like, I can start by automatically applying patch/minor NuGet updates in a branch `deps/upgrade-minor` and run `dotnet build` + tests. Confirm and I'll proceed.

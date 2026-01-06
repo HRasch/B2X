@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCartStore, type CartItem } from '@/stores/cart';
+import { useCartStore } from '@/stores/cart';
+import type { CartItem } from '~/types';
 
 const router = useRouter();
 const cartStore = useCartStore();

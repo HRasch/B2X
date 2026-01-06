@@ -103,7 +103,8 @@ class ErrorLogger {
   installGlobalHandlers(ctxProvider: () => { tenantId?: string; userId?: string; route?: string }) {
     window.addEventListener('error', ev => {
       const ctx = ctxProvider();
-      this.error((ev.error ?? ev.message) as any, {
+      const err = ev.error ?? ev.message;
+      this.error(err, {
         route: ctx.route,
         tenantId: ctx.tenantId,
         userId: ctx.userId,
