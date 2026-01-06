@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import B2BVatIdInput from './B2BVatIdInput.vue';
 import type { ValidateVatIdResponse } from '@/types/vat-validation';
 
@@ -44,6 +45,7 @@ interface CheckoutState {
 }
 
 const router = useRouter();
+const { t } = useI18n();
 
 const state = ref<CheckoutState>({
   currentStep: 1,
@@ -106,21 +108,21 @@ const validateAddress = (): boolean => {
   const { street, city, zip, country } = state.value.address;
 
   if (!street?.trim()) {
-    errors.street = 'Street is required';
+    errors.street = t('checkout.validation.streetRequired');
   }
   if (!city?.trim()) {
-    errors.city = 'City is required';
+    errors.city = t('checkout.validation.cityRequired');
   }
   if (!zip?.trim()) {
-    errors.zip = 'Postal code is required';
+    errors.zip = t('checkout.validation.postalCodeRequired');
   }
   if (!country) {
-    errors.country = 'Country is required';
+    errors.country = t('checkout.validation.countryRequired');
   }
 
   // Basic postal code validation (German format)
   if (zip && country === 'DE' && !/^\d{5}$/.test(zip)) {
-    errors.zip = 'Invalid German postal code (format: 12345)';
+    errors.zip = t('checkout.validation.invalidPostalCode');
   }
 
   state.value.errors = errors;
@@ -180,7 +182,11 @@ const proceedToPayment = () => {
 };
 
 // Step indicators
-const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
+const steps = [
+  t('checkout.steps.shippingAddress'),
+  t('checkout.steps.shippingMethod'),
+  t('checkout.steps.orderReview'),
+];
 </script>
 
 <template>
@@ -188,8 +194,12 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
     <!-- Header -->
     <header class="bg-base-200 border-b border-base-300 py-4" role="banner">
       <div class="max-w-7xl mx-auto px-4">
-        <h1 class="text-3xl font-bold text-base-900">Checkout</h1>
-        <p class="text-base-600 mt-1">Step {{ state.currentStep }} of 3</p>
+        <h1 class="text-3xl font-bold text-base-900">{{ t('checkout.header.title') }}</h1>
+        <p class="text-base-600 mt-1">
+          {{
+            t('checkout.header.stepIndicator', { currentStep: state.currentStep, totalSteps: 3 })
+          }}
+        </p>
       </div>
     </header>
 
@@ -234,21 +244,24 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
         <div class="lg:col-span-2">
           <!-- Step 1: Shipping Address -->
           <section v-if="state.currentStep === 1" aria-label="Shipping Address Form">
-            <h2 class="text-2xl font-bold mb-6 text-base-900">Shipping Address</h2>
+            <h2 class="text-2xl font-bold mb-6 text-base-900">
+              {{ t('checkout.steps.shippingAddress') }}
+            </h2>
 
             <form @submit.prevent="nextStep" class="space-y-4">
               <!-- Street Input -->
               <div class="form-control">
                 <label for="street" class="label">
                   <span class="label-text font-medium"
-                    >Street Address <span class="text-error">*</span></span
+                    >{{ t('checkout.form.labels.streetAddress') }}
+                    <span class="text-error">{{ t('checkout.form.required') }}</span></span
                   >
                 </label>
                 <input
                   id="street"
                   v-model="state.address.street"
                   type="text"
-                  placeholder="123 Main Street"
+                  :placeholder="t('checkout.form.placeholders.streetAddress')"
                   class="input input-bordered w-full"
                   @change="validateAddress"
                   required
@@ -262,13 +275,16 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
               <!-- City Input -->
               <div class="form-control">
                 <label for="city" class="label">
-                  <span class="label-text font-medium">City <span class="text-error">*</span></span>
+                  <span class="label-text font-medium"
+                    >{{ t('checkout.form.labels.city') }}
+                    <span class="text-error">{{ t('checkout.form.required') }}</span></span
+                  >
                 </label>
                 <input
                   id="city"
                   v-model="state.address.city"
                   type="text"
-                  placeholder="Berlin"
+                  :placeholder="t('checkout.form.placeholders.city')"
                   class="input input-bordered w-full"
                   @change="validateAddress"
                   required
@@ -284,14 +300,15 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
                 <div class="form-control">
                   <label for="zip" class="label">
                     <span class="label-text font-medium"
-                      >Postal Code <span class="text-error">*</span></span
+                      >{{ t('checkout.form.labels.postalCode') }}
+                      <span class="text-error">{{ t('checkout.form.required') }}</span></span
                     >
                   </label>
                   <input
                     id="zip"
                     v-model="state.address.zip"
                     type="text"
-                    placeholder="12345"
+                    :placeholder="t('checkout.form.placeholders.postalCode')"
                     class="input input-bordered w-full"
                     @change="validateAddress"
                     required
@@ -306,7 +323,8 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
                 <div class="form-control">
                   <label for="country" class="label">
                     <span class="label-text font-medium"
-                      >Country <span class="text-error">*</span></span
+                      >{{ t('checkout.form.labels.country') }}
+                      <span class="text-error">{{ t('checkout.form.required') }}</span></span
                     >
                   </label>
                   <select
@@ -329,11 +347,11 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
               <!-- Save Address Checkbox -->
               <div class="form-control">
                 <label class="label cursor-pointer">
-                  <span class="label-text">Save this address for future orders</span>
+                  <span class="label-text">{{ t('checkout.form.saveAddress') }}</span>
                   <input
                     type="checkbox"
                     class="checkbox checkbox-primary"
-                    aria-label="Save address for future orders"
+                    :aria-label="t('checkout.form.saveAddress')"
                   />
                 </label>
               </div>
@@ -343,9 +361,9 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
                 <button
                   type="submit"
                   class="btn btn-primary flex-1"
-                  aria-label="Continue to shipping method selection"
+                  :aria-label="t('checkout.buttons.continueToShipping')"
                 >
-                  Continue to Shipping Method
+                  {{ t('checkout.buttons.continueToShipping') }}
                 </button>
               </div>
             </form>
@@ -361,10 +379,11 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
               v-if="state.registrationType === 'B2B'"
               class="mb-8 bg-blue-50 p-6 rounded-lg border border-blue-200"
             >
-              <h3 class="text-lg font-bold mb-4 text-blue-900">Business Verification</h3>
+              <h3 class="text-lg font-bold mb-4 text-blue-900">
+                {{ t('checkout.shipping.businessVerification.title') }}
+              </h3>
               <p class="text-blue-800 mb-4">
-                Please provide your VAT ID for verification. Valid EU business VAT-IDs may qualify
-                for reverse charge (0% VAT).
+                {{ t('checkout.shipping.businessVerification.description') }}
               </p>
               <B2BVatIdInput
                 :seller-country="state.address.country"
@@ -373,10 +392,12 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
               />
             </div>
 
-            <h2 class="text-2xl font-bold mb-6 text-base-900">Shipping Method</h2>
+            <h2 class="text-2xl font-bold mb-6 text-base-900">
+              {{ t('checkout.steps.shippingMethod') }}
+            </h2>
 
             <fieldset class="space-y-4">
-              <legend class="sr-only">Select a shipping method</legend>
+              <legend class="sr-only">{{ t('checkout.shipping.selectMethod') }}</legend>
 
               <div
                 v-for="method in shippingMethods"
@@ -391,21 +412,24 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
                         :value="method.id"
                         v-model="state.selectedShippingMethod"
                         class="radio radio-primary mt-1"
-                        :aria-label="`${method.name} - ${method.cost > 0 ? '€' + method.cost.toFixed(2) : 'Free'} - Estimated ${method.estimatedDays} days`"
+                        :aria-label="`${method.name} - ${method.cost > 0 ? '€' + method.cost.toFixed(2) : t('checkout.shipping.free')} - ${t('checkout.shipping.estimatedDelivery', { days: method.estimatedDays })}`"
                       />
                       <div>
                         <p class="font-medium text-base-900">
                           {{ method.name }}
                         </p>
                         <p class="text-sm text-base-600">
-                          Estimated delivery:
-                          {{ method.estimatedDays }} business days
+                          {{
+                            t('checkout.shipping.estimatedDelivery', { days: method.estimatedDays })
+                          }}
                         </p>
                       </div>
                     </div>
                   </span>
                   <span class="text-lg font-bold text-base-900">
-                    {{ method.cost > 0 ? '€' + method.cost.toFixed(2) : 'Free' }}
+                    {{
+                      method.cost > 0 ? '€' + method.cost.toFixed(2) : t('checkout.shipping.free')
+                    }}
                   </span>
                 </label>
               </div>
@@ -416,28 +440,30 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
               <button
                 @click="previousStep"
                 class="btn btn-outline flex-1"
-                aria-label="Go back to shipping address"
+                :aria-label="t('checkout.buttons.back')"
               >
-                Back
+                {{ t('checkout.buttons.back') }}
               </button>
               <button
                 @click="nextStep"
                 class="btn btn-primary flex-1"
-                aria-label="Continue to order review"
+                :aria-label="t('checkout.buttons.continueToReview')"
               >
-                Continue to Review
+                {{ t('checkout.buttons.continueToReview') }}
               </button>
             </div>
           </section>
 
           <!-- Step 3: Order Review -->
           <section v-if="state.currentStep === 3" aria-label="Order Review and Payment">
-            <h2 class="text-2xl font-bold mb-6 text-base-900">Order Review</h2>
+            <h2 class="text-2xl font-bold mb-6 text-base-900">
+              {{ t('checkout.steps.orderReview') }}
+            </h2>
 
             <!-- Shipping Address Review -->
             <div class="card bg-base-100 border border-base-300 mb-6">
               <div class="card-body">
-                <h3 class="card-title text-lg">Shipping Address</h3>
+                <h3 class="card-title text-lg">{{ t('checkout.orderReview.shippingAddress') }}</h3>
                 <address class="not-italic text-base-700">
                   {{ state.address.street }}<br />
                   {{ state.address.zip }} {{ state.address.city }}<br />
@@ -446,9 +472,9 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
                 <button
                   @click="state.currentStep = 1"
                   class="btn btn-sm btn-ghost mt-4"
-                  aria-label="Edit shipping address"
+                  :aria-label="t('checkout.orderReview.editAddress')"
                 >
-                  Edit Address
+                  {{ t('checkout.orderReview.editAddress') }}
                 </button>
               </div>
             </div>
@@ -456,20 +482,23 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
             <!-- Shipping Method Review -->
             <div class="card bg-base-100 border border-base-300 mb-6">
               <div class="card-body">
-                <h3 class="card-title text-lg">Shipping Method</h3>
+                <h3 class="card-title text-lg">{{ t('checkout.orderReview.shippingMethod') }}</h3>
                 <p class="text-base-700">
                   {{ selectedShippingMethodDetails?.name }}
                 </p>
                 <p class="text-sm text-base-600">
-                  Estimated delivery:
-                  {{ selectedShippingMethodDetails?.estimatedDays }} business days
+                  {{
+                    t('checkout.orderReview.estimatedDelivery', {
+                      days: selectedShippingMethodDetails?.estimatedDays,
+                    })
+                  }}
                 </p>
                 <button
                   @click="state.currentStep = 2"
                   class="btn btn-sm btn-ghost mt-4"
-                  aria-label="Change shipping method"
+                  :aria-label="t('checkout.orderReview.changeShippingMethod')"
                 >
-                  Change Shipping Method
+                  {{ t('checkout.orderReview.changeShippingMethod') }}
                 </button>
               </div>
             </div>
@@ -477,14 +506,14 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
             <!-- Order Items Review -->
             <div class="card bg-base-100 border border-base-300 mb-6">
               <div class="card-body">
-                <h3 class="card-title text-lg">Order Items</h3>
+                <h3 class="card-title text-lg">{{ t('checkout.orderReview.orderItems') }}</h3>
                 <div class="overflow-x-auto">
                   <table class="table w-full">
                     <thead>
                       <tr>
-                        <th>Product</th>
-                        <th class="text-right">Qty</th>
-                        <th class="text-right">Price</th>
+                        <th>{{ t('common.table.headers.product') }}</th>
+                        <th class="text-right">{{ t('common.table.headers.qty') }}</th>
+                        <th class="text-right">{{ t('common.table.headers.price') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -504,16 +533,16 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
               <button
                 @click="previousStep"
                 class="btn btn-outline flex-1"
-                aria-label="Go back to shipping method selection"
+                :aria-label="t('checkout.buttons.back')"
               >
-                Back
+                {{ t('checkout.buttons.back') }}
               </button>
               <button
                 @click="proceedToPayment"
                 class="btn btn-success flex-1"
-                aria-label="Proceed to payment"
+                :aria-label="t('checkout.buttons.proceedToPayment')"
               >
-                Proceed to Payment
+                {{ t('checkout.buttons.proceedToPayment') }}
               </button>
             </div>
           </section>
@@ -523,7 +552,7 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
         <aside aria-label="Order Summary" class="lg:col-span-1">
           <div class="card bg-base-100 border border-base-300 sticky top-4">
             <div class="card-body">
-              <h2 class="card-title text-lg">Order Summary</h2>
+              <h2 class="card-title text-lg">{{ t('checkout.orderSummary.title') }}</h2>
 
               <div class="divider my-2"></div>
 
@@ -540,15 +569,15 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
               <!-- Pricing Breakdown -->
               <div class="space-y-2 text-sm">
                 <div class="flex justify-between">
-                  <span>Subtotal</span>
+                  <span>{{ t('checkout.orderSummary.subtotal') }}</span>
                   <span>€{{ subtotal.toFixed(2) }}</span>
                 </div>
                 <div class="flex justify-between text-base-600">
-                  <span>VAT (incl.)</span>
+                  <span>{{ t('checkout.orderSummary.vatIncluded') }}</span>
                   <span>€{{ totalVat.toFixed(2) }}</span>
                 </div>
                 <div v-if="shippingCost > 0" class="flex justify-between">
-                  <span>Shipping</span>
+                  <span>{{ t('checkout.orderSummary.shipping') }}</span>
                   <span>€{{ shippingCost.toFixed(2) }}</span>
                 </div>
               </div>
@@ -557,7 +586,7 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
 
               <!-- Grand Total -->
               <div class="flex justify-between text-lg font-bold">
-                <span>Total</span>
+                <span>{{ t('checkout.orderSummary.total') }}</span>
                 <span class="text-primary">€{{ grandTotal.toFixed(2) }}</span>
               </div>
 
@@ -565,8 +594,8 @@ const steps = ['Shipping Address', 'Shipping Method', 'Order Review'];
               <div class="mt-4 p-3 bg-info/10 rounded flex items-start gap-2">
                 <span class="text-info text-xl">🔒</span>
                 <div class="text-xs text-base-700">
-                  <p class="font-medium">Secure Checkout</p>
-                  <p>Your payment is encrypted and secure</p>
+                  <p class="font-medium">{{ t('checkout.orderSummary.secureCheckout') }}</p>
+                  <p>{{ t('checkout.orderSummary.secureDescription') }}</p>
                 </div>
               </div>
             </div>
