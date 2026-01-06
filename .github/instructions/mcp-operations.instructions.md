@@ -28,6 +28,9 @@ B2Connect integrates multiple MCP servers to provide AI-assisted code analysis, 
 | HTML structure | HTML/CSS MCP | `htmlcss-mcp/analyze_html_structure` |
 | Accessibility | HTML/CSS MCP | `htmlcss-mcp/check_html_accessibility` |
 | CSS optimization | HTML/CSS MCP | `htmlcss-mcp/analyze_css_structure` |
+| Domain validation | B2Connect MCP | `b2connect-mcp/validate_tenant_config` |
+| Catalog validation | B2Connect MCP | `b2connect-mcp/validate_catalog_structure` |
+| ERP integration | B2Connect MCP | `b2connect-mcp/check_erp_integration` |
 | XSS scanning | Security MCP | `security-mcp/scan_xss_vulnerabilities` |
 
 ---
@@ -42,6 +45,8 @@ B2Connect integrates multiple MCP servers to provide AI-assisted code analysis, 
 | Type analysis | Roslyn MCP | `roslyn-mcp/analyze_types` | Optional* |
 | Handler analysis | Wolverine MCP | `wolverine-mcp/analyze_handlers` | Optional* |
 | DI validation | Wolverine MCP | `wolverine-mcp/validate_di` | Optional* |
+| Domain analysis | B2Connect MCP | `b2connect-mcp/analyze_domain_models` | Always |
+| Lifecycle validation | B2Connect MCP | `b2connect-mcp/validate_lifecycle_stages` | Always |
 | SQL injection | Security MCP | `security-mcp/check_sql_injection` | Always |
 | Input validation | Security MCP | `security-mcp/validate_input_sanitization` | Always |
 | Auth patterns | Security MCP | `security-mcp/check_authentication` | Always |
@@ -209,7 +214,7 @@ npm run test:e2e
     "vue-mcp": { "disabled": false },
     "security-mcp": { "disabled": false },
     "htmlcss-mcp": { "disabled": false },
-    "b2connect-admin": { "disabled": false }
+    "b2connect-mcp": { "disabled": false }
   }
 }
 ```

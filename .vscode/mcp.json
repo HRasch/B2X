@@ -97,6 +97,16 @@
         "NODE_ENV": "production"
       },
       "disabled": false
+    },
+    "b2connect-mcp": {
+      "command": "node",
+      "args": [
+        "tools/B2ConnectMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "disabled": false
     }
   }
 }
