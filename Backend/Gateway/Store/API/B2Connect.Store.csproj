@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2Connect.Store</RootNamespace>
+    <AssemblyName>B2Connect.Store</AssemblyName>
+    <IsAspireProjectResource>true</IsAspireProjectResource>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Yarp.ReverseProxy" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+    <PackageReference Include="WolverineFx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../shared/types/B2Connect.Types.csproj" />
+    <ProjectReference Include="../../../shared/utils/B2Connect.Utils.csproj" />
+    <ProjectReference Include="../../../shared/middleware/B2Connect.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../shared/B2Connect.Shared.Infrastructure/B2Connect.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../Domain/Tenancy/B2Connect.Tenancy.API.csproj" />
+  </ItemGroup>
+</Project>
+
+

@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "B2Connect.CatalogService": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:7005"
+      },
+      "applicationUrl": "http://localhost:7005"
+    }
+  }
+}

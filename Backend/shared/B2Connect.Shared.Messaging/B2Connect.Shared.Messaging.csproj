@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2Connect.Shared.Messaging</RootNamespace>
+    <AssemblyName>B2Connect.Shared.Messaging</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Quartz" />
+    <PackageReference Include="Quartz.Extensions.Hosting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../kernel/B2Connect.Shared.Kernel.csproj" />
+    <ProjectReference Include="../B2Connect.Shared.Core/B2Connect.Shared.Core.csproj" />
+  </ItemGroup>
+
+</Project>
