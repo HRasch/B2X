@@ -51,5 +51,8 @@
     "frontend/**/*.{ts,vue}": [
       "vue-tsc --noEmit"
     ]
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.1"
   }
 }
