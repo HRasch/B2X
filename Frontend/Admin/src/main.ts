@@ -9,6 +9,8 @@ import './main.css';
 
 // Monaco Editor
 import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor';
+// Global layout components
+import { PageHeader, CardContainer, FormSection, FormRow, FormGroup } from '@/components/layout';
 
 // Configure Monaco locale based on current i18n locale
 const configureMonacoLocale = async () => {
@@ -63,6 +65,13 @@ const initApp = async () => {
 
   // Setup auth middleware
   setupAuthMiddleware(router);
+
+  // Register shared layout components globally to simplify migration
+  app.component('PageHeader', PageHeader);
+  app.component('CardContainer', CardContainer);
+  app.component('FormSection', FormSection);
+  app.component('FormRow', FormRow);
+  app.component('FormGroup', FormGroup);
 
   app.mount('#app');
 };

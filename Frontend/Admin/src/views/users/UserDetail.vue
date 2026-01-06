@@ -11,123 +11,106 @@
 
     <div v-else-if="userStore.currentUser" class="detail-content">
       <!-- Header -->
-      <div class="detail-header">
-        <div class="header-top">
-          <router-link to="/users" class="btn-back">← Zurück</router-link>
-          <div class="header-actions">
-            <router-link :to="`/users/${userStore.currentUser.id}/edit`" class="btn btn-primary">
-              Bearbeiten
-            </router-link>
-            <button @click="handleDelete" class="btn btn-danger">Löschen</button>
-          </div>
-        </div>
+      <PageHeader :title="`${userStore.currentUser.firstName} ${userStore.currentUser.lastName}`" :subtitle="userStore.currentUser.email">
+        <template #actions>
+          <router-link :to="`/users/${userStore.currentUser.id}/edit`" class="btn btn-primary">
+            {{ $t('ui.edit') }}
+          </router-link>
+          <button @click="handleDelete" class="btn btn-danger">{{ $t('ui.delete') }}</button>
+        </template>
+      </PageHeader>
 
-        <div class="header-profile">
-          <div class="user-avatar">
-            {{ userStore.currentUser.firstName.charAt(0).toUpperCase() }}
-          </div>
-          <div class="user-profile-info">
-            <h1>
-              {{ userStore.currentUser.firstName }}
-              {{ userStore.currentUser.lastName }}
-            </h1>
-            <p class="user-email">{{ userStore.currentUser.email }}</p>
-            <span
-              :class="[
-                'status-badge',
-                userStore.currentUser.isActive ? 'status-active' : 'status-inactive',
-              ]"
-            >
-              {{ userStore.currentUser.isActive ? 'Aktiv' : 'Inaktiv' }}
-            </span>
-          </div>
-        </div>
+      <!-- Back Link -->
+      <div class="mb-4">
+        <router-link to="/users" class="btn-back">{{ $t('ui.back') }}</router-link>
       </div>
 
       <!-- Tabs -->
-      <div class="tabs">
-        <button
-          v-for="tab in tabs"
-          :key="tab"
-          @click="activeTab = tab"
-          :class="['tab-btn', { active: activeTab === tab }]"
-        >
-          {{ tabLabels[tab] }}
-        </button>
-      </div>
-
-      <!-- Tab Content -->
-      <div class="tab-content">
-        <!-- Overview Tab -->
-        <div v-show="activeTab === 'overview'" class="tab-pane">
-          <div class="info-grid">
-            <div class="info-item">
-              <label>E-Mail</label>
-              <p>{{ userStore.currentUser.email }}</p>
-              <span v-if="userStore.currentUser.isEmailVerified" class="badge badge-success">
-                Verifiziert
-              </span>
-              <span v-else class="badge badge-warning">Unverifiziert</span>
-            </div>
-
-            <div class="info-item">
-              <label>Telefon</label>
-              <p>{{ userStore.currentUser.phoneNumber || '—' }}</p>
-              <span v-if="userStore.currentUser.isPhoneVerified" class="badge badge-success">
-                Verifiziert
-              </span>
-              <span v-else class="badge badge-warning">Unverifiziert</span>
-            </div>
-
-            <div class="info-item">
-              <label>Beigetreten</label>
-              <p>{{ formatDate(userStore.currentUser.createdAt) }}</p>
-            </div>
-
-            <div class="info-item">
-              <label>Letzter Login</label>
-              <p>
-                {{
-                  userStore.currentUser.lastLoginAt
-                    ? formatDate(userStore.currentUser.lastLoginAt)
-                    : 'Nie'
-                }}
-              </p>
-            </div>
-          </div>
+      <CardContainer>
+        <div class="tabs">
+          <button
+            v-for="tab in tabs"
+            :key="tab"
+            @click="activeTab = tab"
+            :class="['tab-btn', { active: activeTab === tab }]"
+          >
+            {{ tabLabels[tab] }}
+          </button>
         </div>
 
-        <!-- Addresses Tab -->
-        <div v-show="activeTab === 'addresses'" class="tab-pane">
-          <div v-if="loadingAddresses" class="loading">
-            <div class="spinner"></div>
-          </div>
-
-          <div v-else-if="addresses.length === 0" class="empty-state">
-            <p>Keine Adressen gespeichert</p>
-            <button @click="showAddressForm = true" class="btn btn-primary">
-              Adresse hinzufügen
-            </button>
-          </div>
-
-          <div v-else class="addresses-list">
-            <div v-for="address in addresses" :key="address.id" class="address-card">
-              <div class="address-header">
-                <h3>{{ address.recipientName }}</h3>
-                <span class="address-type">{{ address.addressType }}</span>
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <!-- Overview Tab -->
+          <div v-show="activeTab === 'overview'" class="tab-pane">
+            <div class="info-grid">
+              <div class="info-item">
+                <label>{{ $t('users.form.email') }}</label>
+                <p>{{ userStore.currentUser.email }}</p>
+                <span v-if="userStore.currentUser.isEmailVerified" class="badge badge-success">
+                  {{ $t('users.verified') }}
+                </span>
+                <span v-else class="badge badge-warning">{{ $t('users.unverified') }}</span>
               </div>
-              <p>{{ address.streetAddress }}</p>
-              <p v-if="address.streetAddress2">{{ address.streetAddress2 }}</p>
-              <p>{{ address.postalCode }} {{ address.city }}</p>
-              <p v-if="address.state">{{ address.state }}</p>
-              <p>{{ address.country }}</p>
-              <button @click="deleteAddress(address.id)" class="btn-icon btn-danger">
-                Löschen
+
+              <div class="info-item">
+                <label>{{ $t('users.form.phone') }}</label>
+                <p>{{ userStore.currentUser.phoneNumber || '—' }}</p>
+                <span v-if="userStore.currentUser.isPhoneVerified" class="badge badge-success">
+                  {{ $t('users.verified') }}
+                </span>
+                <span v-else class="badge badge-warning">{{ $t('users.unverified') }}</span>
+              </div>
+
+              <div class="info-item">
+                <label>{{ $t('users.created') }}</label>
+                <p>{{ formatDate(userStore.currentUser.createdAt) }}</p>
+              </div>
+
+              <div class="info-item">
+                <label>{{ $t('users.last_login') }}</label>
+                <p>
+                  {{
+                    userStore.currentUser.lastLoginAt
+                      ? formatDate(userStore.currentUser.lastLoginAt)
+                      : $t('users.never')
+                  }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Addresses Tab -->
+          <div v-show="activeTab === 'addresses'" class="tab-pane">
+            <div v-if="loadingAddresses" class="loading">
+              <div class="spinner"></div>
+            </div>
+
+            <div v-else-if="addresses.length === 0" class="empty-state">
+              <p>{{ $t('users.addresses.no_addresses') }}</p>
+              <button @click="showAddressForm = true" class="btn btn-primary">
+                {{ $t('users.addresses.add_address') }}
               </button>
             </div>
+
+            <div v-else class="addresses-list">
+              <div v-for="address in addresses" :key="address.id" class="address-card">
+                <div class="address-header">
+                  <h3>{{ address.recipientName }}</h3>
+                  <span class="address-type">{{ address.addressType }}</span>
+                </div>
+                <p>{{ address.streetAddress }}</p>
+                <p v-if="address.streetAddress2">{{ address.streetAddress2 }}</p>
+                <p>{{ address.postalCode }} {{ address.city }}</p>
+                <p v-if="address.state">{{ address.state }}</p>
+                <p>{{ address.country }}</p>
+                <button @click="deleteAddress(address.id)" class="btn-icon btn-danger">
+                  {{ $t('ui.delete') }}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </CardContainer>
 
       <!-- Delete Modal -->
       <div v-if="showDeleteModal" class="modal-overlay">

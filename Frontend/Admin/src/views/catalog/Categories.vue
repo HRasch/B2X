@@ -1,17 +1,15 @@
 <template>
   <div class="catalog-categories">
-    <!-- Header -->
-    <div class="header">
-      <div class="title-section">
-        <h1>Categories</h1>
-        <p class="subtitle">Manage product categories</p>
-      </div>
-      <div class="actions">
+    <PageHeader
+      :title="$t('catalog.categories.title')"
+      :subtitle="$t('catalog.categories.subtitle')"
+    >
+      <template #actions>
         <button @click="goToCreate" class="btn btn-primary">
-          <span class="icon">+</span> New Category
+          <span class="icon">+</span> {{ $t('catalog.categories.actions.new') }}
         </button>
-      </div>
-    </div>
+      </template>
+    </PageHeader>
 
     <!-- Alert Messages -->
     <div v-if="error" class="alert alert-error">
@@ -29,59 +27,60 @@
       Loading categories...
     </div>
 
-    <!-- Categories List -->
     <div v-else>
-      <!-- Tree View for Categories -->
-      <div class="categories-container">
-        <div v-if="rootCategories.length === 0" class="empty-state">
-          <p>No categories found. Create your first category!</p>
-        </div>
-        <div v-else>
-          <div v-for="category in rootCategories" :key="category.id" class="category-item">
-            <div class="category-header">
-              <div class="category-info">
-                <h3>{{ getLocalizedName(category.name) }}</h3>
-                <p class="category-description">
-                  {{ getLocalizedName(category.description) }}
-                </p>
+      <CardContainer>
+        <!-- Categories List -->
+        <div class="categories-container">
+          <div v-if="rootCategories.length === 0" class="empty-state">
+            <p>{{ $t('catalog.categories.no_categories') }}</p>
+          </div>
+          <div v-else>
+            <div v-for="category in rootCategories" :key="category.id" class="category-item">
+              <div class="category-header">
+                <div class="category-info">
+                  <h3>{{ getLocalizedName(category.name) }}</h3>
+                  <p class="category-description">
+                    {{ getLocalizedName(category.description) }}
+                  </p>
+                </div>
+                <div class="category-actions">
+                  <button @click="goToEdit(category.id)" class="btn btn-sm btn-secondary">
+                    Edit
+                  </button>
+                  <button @click="confirmDelete(category.id)" class="btn btn-sm btn-danger">
+                    Delete
+                  </button>
+                </div>
               </div>
-              <div class="category-actions">
-                <button @click="goToEdit(category.id)" class="btn btn-sm btn-secondary">
-                  Edit
-                </button>
-                <button @click="confirmDelete(category.id)" class="btn btn-sm btn-danger">
-                  Delete
-                </button>
-              </div>
-            </div>
-            <!-- Subcategories -->
-            <div v-if="getCategoryChildren(category.id).length > 0" class="subcategories">
-              <div
-                v-for="subcat in getCategoryChildren(category.id)"
-                :key="subcat.id"
-                class="subcategory-item"
-              >
-                <div class="subcategory-header">
-                  <div class="category-info">
-                    <h4>{{ getLocalizedName(subcat.name) }}</h4>
-                    <p class="category-description">
-                      {{ getLocalizedName(subcat.description) }}
-                    </p>
-                  </div>
-                  <div class="category-actions">
-                    <button @click="goToEdit(subcat.id)" class="btn btn-sm btn-secondary">
-                      Edit
-                    </button>
-                    <button @click="confirmDelete(subcat.id)" class="btn btn-sm btn-danger">
-                      Delete
-                    </button>
+              <!-- Subcategories -->
+              <div v-if="getCategoryChildren(category.id).length > 0" class="subcategories">
+                <div
+                  v-for="subcat in getCategoryChildren(category.id)"
+                  :key="subcat.id"
+                  class="subcategory-item"
+                >
+                  <div class="subcategory-header">
+                    <div class="category-info">
+                      <h4>{{ getLocalizedName(subcat.name) }}</h4>
+                      <p class="category-description">
+                        {{ getLocalizedName(subcat.description) }}
+                      </p>
+                    </div>
+                    <div class="category-actions">
+                      <button @click="goToEdit(subcat.id)" class="btn btn-sm btn-secondary">
+                        Edit
+                      </button>
+                      <button @click="confirmDelete(subcat.id)" class="btn btn-sm btn-danger">
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </CardContainer>
     </div>
 
     <!-- Pagination -->

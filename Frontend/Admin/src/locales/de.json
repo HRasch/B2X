@@ -190,11 +190,177 @@
       "mediaLibrary": "Medienbibliothek"
     }
   },
+  "cms": {
+    "pages": {
+      "title": "Seiten",
+      "subtitle": "Verwalten Sie CMS-Seiten für Ihren Shop",
+      "loading": "Seiten werden geladen...",
+      "no_pages": "Noch keine Seiten. Erstellen Sie Ihre erste Seite, um zu beginnen.",
+      "actions": {
+        "new": "+ Neue Seite"
+      }
+    },
+    "page_detail": {
+      "title": "Seiteneditor",
+      "subtitle": "Seiteninhalt bearbeiten und verwalten",
+      "back_to_pages": "Zurück zu Seiten",
+      "editor_title": "Seiteninhalt",
+      "coming_soon": "Seiteneditor kommt bald..."
+    },
+    "templates": {
+      "title": "Vorlagen",
+      "subtitle": "Seitenvorlagen für Ihren Shop verwalten",
+      "coming_soon": "Seitenvorlagenverwaltung kommt bald..."
+    }
+    ,
+    "media": {
+      "title": "Mediathek",
+      "subtitle": "Medienassets für Ihren Shop verwalten",
+      "coming_soon": "Mediathek-Verwaltung kommt bald..."
+    }
+  },
+  "catalog": {
+    "products": {
+      "title": "Produkte",
+      "subtitle": "Verwalten Sie Ihre Katalogprodukte",
+      "loading": "Produkte werden geladen...",
+      "no_products": "Keine Produkte gefunden",
+      "actions": {
+        "new": "Neues Produkt"
+      },
+      "create": "Produkt erstellen",
+      "edit": "Produkt bearbeiten",
+      "form": {
+        "coming_soon": "Produkt-Formular-Implementierung kommt bald..."
+      }
+    },
+    "categories": {
+      "title": "Kategorien",
+      "subtitle": "Produktkategorien verwalten",
+      "actions": {
+        "new": "Neue Kategorie"
+      },
+      "create": "Kategorie erstellen",
+      "edit": "Kategorie bearbeiten",
+      "form": {
+        "coming_soon": "Kategorie-Formular-Implementierung kommt bald..."
+      }
+    },
+    "brands": {
+      "title": "Marken",
+      "subtitle": "Produktmarken verwalten",
+      "actions": {
+        "new": "Neue Marke"
+      },
+      "create": "Marke erstellen",
+      "edit": "Marke bearbeiten",
+      "form": {
+        "coming_soon": "Marken-Formular-Implementierung kommt bald..."
+      }
+    }
+  },
   "common": {
     "loading": "Lädt...",
     "error": "Fehler",
     "close": "Schließen",
     "download": "Herunterladen",
     "downloading": "Wird heruntergeladen..."
+  },
+  "users": {
+    "title": "Benutzer",
+    "subtitle": "Kundenkonten, Profile und Adressen verwalten",
+    "list": "Benutzerliste",
+    "create": "Neuer Benutzer",
+    "edit": "Benutzer bearbeiten",
+    "back": "← Zurück",
+    "form": {
+      "basicInfo": "Grundinformationen",
+      "profile": "Profil",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "emailVerified": "E-Mail verifiziert",
+      "phoneVerified": "Telefon verifiziert",
+      "active": "Aktiv",
+      "company": "Unternehmen",
+      "jobTitle": "Berufsbezeichnung",
+      "dateOfBirth": "Geburtsdatum",
+      "nationality": "Nationalität",
+      "preferredLanguage": "Bevorzugte Sprache",
+      "timezone": "Zeitzone",
+      "timezonePlaceholder": "Europe/Berlin",
+      "bio": "Bio",
+      "newsletter": "Newsletter abonnieren",
+      "promotionalEmails": "Werbe-E-Mails erhalten"
+    },
+    "languages": {
+      "de": "Deutsch",
+      "en": "Englisch",
+      "fr": "Französisch",
+      "it": "Italienisch"
+    },
+    "validation": {
+      "firstNameRequired": "Vorname ist erforderlich",
+      "lastNameRequired": "Nachname ist erforderlich",
+      "emailRequired": "E-Mail ist erforderlich"
+    },
+    "messages": {
+      "loadError": "Benutzer konnte nicht geladen werden",
+      "saveError": "Fehler beim Speichern",
+      "saving": "Wird gespeichert..."
+    }
+    ,
+    "verified": "Verifiziert",
+    "unverified": "Unverifiziert",
+    "created": "Beigetreten",
+    "last_login": "Letzter Login",
+    "never": "Nie",
+    "addresses": {
+      "no_addresses": "Keine Adressen gespeichert",
+      "add_address": "Adresse hinzufügen"
+    }
+  },
+  "jobs": {
+    "queue": {
+      "title": "Job-Warteschlange",
+      "loading": "Jobs werden geladen...",
+      "no_jobs": "Keine Jobs in der Warteschlange."
+    },
+    "detail": {
+      "title": "Job-Details",
+      "subtitle": "Detaillierte Informationen zu diesem Job anzeigen",
+      "coming_soon": "Job-Details kommen bald..."
+    },
+    "history": {
+      "title": "Job-Verlauf",
+      "subtitle": "Abgeschlossene und fehlgeschlagene Jobs anzeigen",
+      "content_title": "Job-Verlauf",
+      "coming_soon": "Job-Verlauf kommt bald..."
+    }
+  },
+  "shop": {
+    "products": {
+      "title": "Produkte",
+      "loading": "Produkte werden geladen...",
+      "no_products": "Keine Produkte gefunden."
+    },
+    "product_detail": {
+      "title": "Produkteditor",
+      "subtitle": "Produktdetails bearbeiten und verwalten",
+      "back_to_products": "Zurück zu Produkten",
+      "editor_title": "Produktinformationen",
+      "coming_soon": "Produkteditor kommt bald..."
+    },
+    "categories": {
+      "title": "Kategorien",
+      "loading": "Kategorien werden geladen...",
+      "no_categories": "Keine Kategorien gefunden."
+    },
+    "pricing": {
+      "title": "Preise",
+      "loading": "Preise werden geladen...",
+      "no_pricing": "Keine Preisregeln gefunden."
+    }
   }
 }

@@ -1,29 +1,31 @@
 <template>
   <div class="space-y-6">
-    <div class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Pages</h1>
-      <router-link
-        to="/cms/pages/new"
-        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      <PageHeader :title="$t('cms.pages.title')" :subtitle="$t('cms.pages.subtitle')">
+        <template #actions>
+          <router-link
+            to="/cms/pages/new"
+            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            {{ $t('cms.pages.actions.new') }}
+          </router-link>
+        </template>
+      </PageHeader>
+
+    <CardContainer>
+      <div v-if="loading" class="text-center py-8">
+        <div class="text-gray-500">{{ $t('cms.pages.loading') }}</div>
+      </div>
+
+      <div
+        v-else-if="cmsStore.pages.length === 0"
+        class="p-8 text-center"
       >
-        + New Page
-      </router-link>
-    </div>
+        <p class="text-gray-500 dark:text-soft-300">
+          {{ $t('cms.pages.no_pages') }}
+        </p>
+      </div>
 
-    <div v-if="loading" class="text-center py-8">
-      <div class="text-gray-500">Loading pages...</div>
-    </div>
-
-    <div
-      v-else-if="cmsStore.pages.length === 0"
-      class="bg-white dark:bg-soft-800 rounded-lg shadow p-8 text-center"
-    >
-      <p class="text-gray-500 dark:text-soft-300">
-        No pages yet. Create your first page to get started.
-      </p>
-    </div>
-
-    <div v-else class="bg-white dark:bg-soft-800 rounded-lg shadow overflow-hidden">
+      <div v-else class="overflow-hidden">
       <table class="w-full">
         <thead class="bg-gray-100 border-b">
           <tr>
@@ -60,12 +62,14 @@
         </tbody>
       </table>
     </div>
+    </CardContainer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useCmsStore } from '@/stores/cms';
+import { PageHeader, CardContainer } from '@/components/layout';
 
 const cmsStore = useCmsStore();
 const loading = cmsStore.loading;
