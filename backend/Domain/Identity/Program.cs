@@ -19,6 +19,7 @@ using Serilog;
 using System.Text;
 using Wolverine;
 using Wolverine.Http;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,11 +27,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Validate configuration early to fail fast with clear error messages
 try
 {
-    var tempServices = new ServiceCollection();
-    tempServices.AddLogging();
-    tempServices.AddSingleton<IConfiguration>(builder.Configuration);
-    var tempProvider = tempServices.BuildServiceProvider();
-    var validator = new ConfigurationValidator(builder.Configuration, tempProvider.GetRequiredService<ILogger<ConfigurationValidator>>());
+    using var loggerFactory = LoggerFactory.Create(lb => lb.AddConsole());
+    var validator = new ConfigurationValidator(builder.Configuration, loggerFactory.CreateLogger<ConfigurationValidator>());
     validator.ValidateAll();
 }
 catch (ConfigurationValidationException ex)

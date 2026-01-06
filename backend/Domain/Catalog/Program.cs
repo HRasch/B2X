@@ -31,7 +31,8 @@ builder.Host.UseWolverine(opts =>
     opts.ServiceName = "CatalogService";
 
     // Enable HTTP Endpoints (Wolverine Mediator)
-    // opts.Http.EnableEndpoints = true;  // TODO: Enable when Wolverine HTTP is properly configured
+    // Enable HTTP Endpoints (Wolverine Mediator)
+    // opts.Http.EnableEndpoints = true; // Disabled: leave Wolverine endpoint discovery off to avoid FormBindingFrame issues
 
     // Discovery configuration
     opts.Discovery.DisableConventionalDiscovery();
@@ -47,8 +48,8 @@ builder.Host.UseWolverine(opts =>
 // Add Wolverine HTTP support (REQUIRED for MapWolverineEndpoints)
 builder.Services.AddWolverineHttp();
 
-// Remove Controllers - using Wolverine HTTP Endpoints instead
-// builder.Services.AddControllers();
+// Register Controllers to enable model binding support (e.g. [FromForm], IFormFile)
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Add Elasticsearch
@@ -78,9 +79,21 @@ catch (Exception ex)
 // Uses PostgreSQL with snake_case naming convention
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? "Host=localhost;Database=b2connect_catalog;Username=postgres;Password=postgres";
+
+// Allow selecting an in-memory provider for local/demo runs via configuration
+var dbProvider = builder.Configuration["Database:Provider"] ?? builder.Configuration["Database__Provider"];
 builder.Services.AddDbContext<B2Connect.Catalog.Infrastructure.Data.CatalogDbContext>(options =>
-    options.UseNpgsql(connectionString)
-        .UseSnakeCaseNamingConvention());
+{
+    if (string.Equals(dbProvider, "inmemory", StringComparison.OrdinalIgnoreCase))
+    {
+        options.UseInMemoryDatabase("b2connect_catalog_inmemory");
+    }
+    else
+    {
+        options.UseNpgsql(connectionString)
+            .UseSnakeCaseNamingConvention();
+    }
+});
 
 // Add Caching (Required for TaxRateService)
 builder.Services.AddMemoryCache();
@@ -131,7 +144,103 @@ var app = builder.Build();
 // Configure middleware
 app.UseServiceDefaults();
 
-// Map Wolverine HTTP Endpoints (replaces MapControllers)
-app.MapWolverineEndpoints();
+// Development-only: seed in-memory database with demo catalog products
+try
+{
+    var configuration = app.Services.GetService<Microsoft.Extensions.Configuration.IConfiguration>();
+    var runtimeDbProvider = configuration?[("Database:Provider")] ?? configuration?[("Database__Provider")];
+    if (string.Equals(runtimeDbProvider, "inmemory", StringComparison.OrdinalIgnoreCase) || builder.Environment.IsDevelopment())
+    {
+        using var scope = app.Services.CreateScope();
+        var cfg = scope.ServiceProvider.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        // Only seed when demo count configured or when running dev
+        var demoCount = cfg.GetValue<int?>("CatalogService:DemoProductCount") ?? 0;
+        if (demoCount <= 0)
+            demoCount = 100; // default demo size
+
+        // Ensure database created and seed CatalogImports/CatalogProducts
+        var db = scope.ServiceProvider.GetService<B2Connect.Catalog.Infrastructure.Data.CatalogDbContext>();
+        if (db != null)
+        {
+            db.Database.EnsureCreated();
+            var seedLogger = scope.ServiceProvider.GetService<ILoggerFactory>()?.CreateLogger("CatalogSeed");
+            seedLogger?.LogInformation("Starting demo seeding: demoCount={DemoCount}", demoCount);
+
+            // Use existing demo product generator
+            B2Connect.Catalog.Endpoints.Dev.DemoProductStore.EnsureInitialized(demoCount, cfg.GetValue<string?>("CatalogService:DemoSector"));
+            var (items, total) = B2Connect.Catalog.Endpoints.Dev.DemoProductStore.GetPage(1, demoCount);
+
+            // Add a CatalogImport record and CatalogProduct rows
+            var import = new B2Connect.Catalog.Core.Entities.CatalogImport
+            {
+                Id = Guid.NewGuid(),
+                TenantId = B2Connect.Shared.Core.SeedConstants.DefaultTenantId,
+                SupplierId = "demo",
+                CatalogId = "demo-catalog",
+                ImportTimestamp = DateTime.UtcNow,
+                Status = B2Connect.Catalog.Core.Entities.ImportStatus.Completed,
+                ProductCount = total,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            db.CatalogImports.Add(import);
+
+            foreach (var p in items)
+            {
+                try
+                {
+                    var json = System.Text.Json.JsonSerializer.Serialize(p);
+                    var product = new B2Connect.Catalog.Core.Entities.CatalogProduct
+                    {
+                        Id = Guid.NewGuid(),
+                        CatalogImportId = import.Id,
+                        SupplierAid = p.sku?.ToString() ?? Guid.NewGuid().ToString(),
+                        ProductData = json,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    db.CatalogProducts.Add(product);
+                }
+                catch (Exception) { /* swallow individual product serialization errors during seeding */ }
+            }
+
+            db.SaveChanges();
+
+            // Trigger indexing for realistic search infrastructure if available
+            var searchIndex = scope.ServiceProvider.GetService<B2Connect.Catalog.Services.ISearchIndexService>();
+            if (searchIndex != null)
+            {
+                seedLogger?.LogInformation("SearchIndexService resolved; indexing {Count} seeded products (fire-and-forget)", total);
+                foreach (var p in items)
+                {
+                    try
+                    {
+                        var json = System.Text.Json.JsonSerializer.Serialize(p);
+                        var productModel = System.Text.Json.JsonSerializer.Deserialize<B2Connect.Catalog.Models.Product>(json, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        if (productModel != null)
+                        {
+                            // Index product (async fire-and-forget)
+                            _ = searchIndex.IndexProductAsync(productModel);
+                        }
+                    }
+                    catch (Exception ex) { seedLogger?.LogWarning(ex, "Indexing of a seeded product failed (non-fatal)"); }
+                }
+                seedLogger?.LogInformation("Indexing trigger completed (fire-and-forget)");
+            }
+            else
+            {
+                seedLogger?.LogInformation("SearchIndexService not registered; skipping indexing.");
+            }
+        }
+    }
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetService<ILoggerFactory>()?.CreateLogger("CatalogSeed");
+    logger?.LogWarning(ex, "Demo seeding failed (non-fatal)");
+}
+
+// Map endpoints
+// Prefer MVC controllers mapping to avoid Wolverine Form binding discovery crash in some environments
+app.MapControllers();
 
 app.Run();

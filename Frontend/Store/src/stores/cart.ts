@@ -2,11 +2,18 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export interface CartItem {
-  id: string;
+  id: string | number;
   name: string;
   price: number;
   quantity: number;
-  image: string;
+  image?: string;
+  // Compatibility fields used across components/tests
+  qty?: number;
+  category?: string;
+  rating?: number;
+  b2bPrice?: number;
+  description?: string;
+  inStock?: boolean;
 }
 
 export const useCartStore = defineStore('cart', () => {

@@ -3,6 +3,7 @@ import { createPinia } from 'pinia';
 import router from './router';
 import { setupAuthMiddleware } from './middleware/auth';
 import { errorLoggingPlugin } from './services/errorLogging';
+import { errorLogger } from './services/errorLogger';
 import i18n from './locales';
 import App from './App.vue';
 import './main.css';
@@ -62,6 +63,14 @@ const initApp = async () => {
 
   // Initialize error logging (captures Vue errors, unhandled rejections, network errors)
   app.use(errorLoggingPlugin, { router });
+
+  // Install simple client-side logger that forwards to backend error endpoint
+  errorLogger.installGlobalHandlers(() => ({
+    tenantId: localStorage.getItem('tenantId') || undefined,
+    userId: localStorage.getItem('userId') || undefined,
+    route: router.currentRoute.value?.path,
+  }));
+  errorLogger.start();
 
   // Setup auth middleware
   setupAuthMiddleware(router);

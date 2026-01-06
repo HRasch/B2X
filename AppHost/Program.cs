@@ -69,6 +69,20 @@ if (databaseProvider.ToLower() != "inmemory")
     //     .WithOrigin(storeGateway, "store-api")
     //     .WithOrigin(frontendStore, "store-frontend");
 }
+else
+{
+    // When running the full Aspire AppHost with in-memory DB for demos,
+    // also provide an Elasticsearch resource to enable realistic search/indexing
+    // for local development/demo scenarios.
+    elasticsearch = builder.AddB2ConnectElasticsearch(
+        name: "elasticsearch",
+        port: 9200);
+
+    // RabbitMQ is also useful for demo indexing flows; add if needed
+    rabbitmq = builder.AddB2ConnectRabbitMQ(
+        name: "rabbitmq",
+        port: 5672);
+}
 
 // Azure Key Vault (Secret Store)
 

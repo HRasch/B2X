@@ -76,14 +76,14 @@ public class IntegrationTestFixture : IAsyncLifetime
         string token = null,
         string tenantId = null)
     {
-        var request = CreateAuthenticatedRequest(HttpMethod.Post, uri, token, tenantId);
+        using var request = CreateAuthenticatedRequest(HttpMethod.Post, uri, token, tenantId);
         request.Content = JsonContent.Create(content);
 
-        var response = await Client.SendAsync(request);
+        using var response = await Client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadAsAsync<T>();
-        return result;
+        var result = await response.Content.ReadFromJsonAsync<T>();
+        return result!;
     }
 
     /// <summary>
@@ -94,12 +94,12 @@ public class IntegrationTestFixture : IAsyncLifetime
         string token = null,
         string tenantId = null)
     {
-        var request = CreateAuthenticatedRequest(HttpMethod.Get, uri, token, tenantId);
-        var response = await Client.SendAsync(request);
+        using var request = CreateAuthenticatedRequest(HttpMethod.Get, uri, token, tenantId);
+        using var response = await Client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadAsAsync<T>();
-        return result;
+        var result = await response.Content.ReadFromJsonAsync<T>();
+        return result!;
     }
 }
 

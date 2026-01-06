@@ -41,7 +41,7 @@ public class ErpHttpClient : IErpClient, IDisposable
     /// </summary>
     public async Task<ConnectorHealthResponse> GetHealthAsync(CancellationToken ct = default)
     {
-        var response = await _httpClient.GetAsync(ErpApiEndpoints.Health, ct);
+        using var response = await _httpClient.GetAsync(ErpApiEndpoints.Health, ct);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<ConnectorHealthResponse>(_jsonOptions, ct)
             ?? throw new InvalidOperationException("Failed to deserialize health response");
@@ -62,7 +62,7 @@ public class ErpHttpClient : IErpClient, IDisposable
         var url = BuildUrl(ErpApiEndpoints.Articles, request.Cursor, request.PageSize);
         using var httpRequest = CreateRequest(HttpMethod.Get, url, tenantId);
 
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<CursorPageResponse<ArticleDto>>(_jsonOptions, ct)
@@ -86,7 +86,7 @@ public class ErpHttpClient : IErpClient, IDisposable
             url += $"&continuationToken={Uri.EscapeDataString(request.ContinuationToken)}";
 
         using var httpRequest = CreateRequest(HttpMethod.Get, url, tenantId);
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<DeltaSyncResponse<ArticleDto>>(_jsonOptions, ct)
@@ -144,7 +144,7 @@ public class ErpHttpClient : IErpClient, IDisposable
         using var httpRequest = CreateRequest(HttpMethod.Post, ErpApiEndpoints.ArticlesBatch, tenantId);
         httpRequest.Content = JsonContent.Create(request, options: _jsonOptions);
 
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<BatchWriteResponse<ArticleDto>>(_jsonOptions, ct)
@@ -166,7 +166,7 @@ public class ErpHttpClient : IErpClient, IDisposable
         var url = BuildUrl(ErpApiEndpoints.Customers, request.Cursor, request.PageSize);
         using var httpRequest = CreateRequest(HttpMethod.Get, url, tenantId);
 
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<CursorPageResponse<CustomerDto>>(_jsonOptions, ct)
@@ -190,7 +190,7 @@ public class ErpHttpClient : IErpClient, IDisposable
             url += $"&continuationToken={Uri.EscapeDataString(request.ContinuationToken)}";
 
         using var httpRequest = CreateRequest(HttpMethod.Get, url, tenantId);
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<DeltaSyncResponse<CustomerDto>>(_jsonOptions, ct)
@@ -244,7 +244,7 @@ public class ErpHttpClient : IErpClient, IDisposable
         using var httpRequest = CreateRequest(HttpMethod.Post, ErpApiEndpoints.CustomersBatch, tenantId);
         httpRequest.Content = JsonContent.Create(request, options: _jsonOptions);
 
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<BatchWriteResponse<CustomerDto>>(_jsonOptions, ct)
@@ -266,7 +266,7 @@ public class ErpHttpClient : IErpClient, IDisposable
         var url = BuildUrl(ErpApiEndpoints.Orders, request.Cursor, request.PageSize);
         using var httpRequest = CreateRequest(HttpMethod.Get, url, tenantId);
 
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<CursorPageResponse<OrderDto>>(_jsonOptions, ct)
@@ -290,7 +290,7 @@ public class ErpHttpClient : IErpClient, IDisposable
             url += $"&continuationToken={Uri.EscapeDataString(request.ContinuationToken)}";
 
         using var httpRequest = CreateRequest(HttpMethod.Get, url, tenantId);
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<DeltaSyncResponse<OrderDto>>(_jsonOptions, ct)
@@ -344,7 +344,7 @@ public class ErpHttpClient : IErpClient, IDisposable
         using var httpRequest = CreateRequest(HttpMethod.Post, ErpApiEndpoints.OrdersBatch, tenantId);
         httpRequest.Content = JsonContent.Create(request, options: _jsonOptions);
 
-        var response = await _httpClient.SendAsync(httpRequest, ct);
+        using var response = await _httpClient.SendAsync(httpRequest, ct);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<BatchWriteResponse<OrderDto>>(_jsonOptions, ct)

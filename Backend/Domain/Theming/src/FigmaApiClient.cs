@@ -1,6 +1,9 @@
 using System.Net.Http;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using B2Connect.ThemeService.Models;
+
+namespace B2Connect.ThemeService;
 
 /// <summary>
 /// Figma API Client for fetching design tokens and assets
@@ -53,7 +56,7 @@ public class FigmaApiClient : IFigmaApiClient
         {
             _logger.LogInformation("Fetching Figma file data for file key: {FileKey}", fileKey);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.figma.com/v1/files/{fileKey}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.figma.com/v1/files/{fileKey}");
             request.Headers.Add("X-Figma-Token", accessToken);
 
             var response = await _httpClient.SendAsync(request, cancellationToken);
@@ -129,7 +132,8 @@ public class FigmaApiClient : IFigmaApiClient
 
     private async Task ExtractTokensFromNodeAsync(FigmaNode node, List<DesignToken> tokens, string path)
     {
-        var currentPath = string.IsNullOrEmpty(path) ? node.Name : $"{path}.{node.Name}";
+        var nodeName = node.Name ?? "unnamed";
+        var currentPath = string.IsNullOrEmpty(path) ? nodeName : $"{path}.{nodeName}";
 
         // Extract fills (colors)
         if (node.Fills != null && node.Fills.Any())

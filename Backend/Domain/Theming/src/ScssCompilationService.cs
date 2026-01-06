@@ -258,13 +258,13 @@ public class ScssCompilationService : IScssCompilationService
             var trimmed = line.Trim();
 
             // Skip comments
-            if (trimmed.StartsWith("//") || trimmed.StartsWith("/*"))
+            if (trimmed.StartsWith("//", StringComparison.Ordinal) || trimmed.StartsWith("/*", StringComparison.Ordinal))
             {
                 continue;
             }
 
             // Convert $variable: value; to --variable: value;
-            if (trimmed.StartsWith("$") && trimmed.Contains(':'))
+            if (trimmed.Length > 0 && trimmed[0] == '$' && trimmed.Contains(':'))
             {
                 var parts = trimmed.TrimEnd(';').Split(':', 2);
                 if (parts.Length == 2)
@@ -293,9 +293,9 @@ public class ScssCompilationService : IScssCompilationService
             var trimmed = line.Trim();
 
             // Skip SCSS-only syntax
-            if (trimmed.StartsWith("$") || trimmed.StartsWith("@use") ||
-                trimmed.StartsWith("@import") || trimmed.StartsWith("@mixin") ||
-                trimmed.StartsWith("@include") || trimmed.StartsWith("@function"))
+            if ((trimmed.Length > 0 && trimmed[0] == '$') || trimmed.StartsWith("@use", StringComparison.Ordinal) ||
+                trimmed.StartsWith("@import", StringComparison.Ordinal) || trimmed.StartsWith("@mixin", StringComparison.Ordinal) ||
+                trimmed.StartsWith("@include", StringComparison.Ordinal) || trimmed.StartsWith("@function", StringComparison.Ordinal))
             {
                 continue;
             }
@@ -335,8 +335,14 @@ public class ScssCompilationService : IScssCompilationService
                 endIndex++;
             }
 
-            var varName = result.Substring(startIndex + 1, endIndex - startIndex - 1);
-            result = result.Substring(0, startIndex) + $"var(--{varName})" + result.Substring(endIndex);
+            var varName = new string(result.AsSpan(startIndex + 1, endIndex - startIndex - 1));
+            var sb = new StringBuilder(result.Length - (endIndex - startIndex - 1) + 10);
+            sb.Append(result, 0, startIndex);
+            sb.Append("var(--");
+            sb.Append(varName);
+            sb.Append(')');
+            sb.Append(result, endIndex, result.Length - endIndex);
+            result = sb.ToString();
             startIndex = endIndex;
         }
 

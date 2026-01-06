@@ -30,8 +30,8 @@ public class ArchitectureValidator
     /// <returns>Validation results with any violations found.</returns>
     public ArchitectureValidationResult ValidateAssemblies(IEnumerable<Assembly>? assemblies = null)
     {
-        var targetAssemblies = assemblies ?? AppDomain.CurrentDomain.GetAssemblies()
-            .Where(a => a.FullName?.Contains("B2Connect") == true);
+        var targetAssemblies = (assemblies ?? AppDomain.CurrentDomain.GetAssemblies()
+            .Where(a => a.FullName?.Contains("B2Connect") == true)).ToList();
 
         var results = new ArchitectureValidationResult();
 
@@ -128,7 +128,7 @@ public class ArchitectureValidator
 
         // Look for direct database access patterns that cross service boundaries
         var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(a => a.FullName?.Contains("B2Connect") == true);
+            .Where(a => a.FullName?.Contains("B2Connect") == true).ToList();
 
         foreach (var assembly in assemblies)
         {
@@ -162,14 +162,14 @@ public class ArchitectureValidator
         return Enumerable.Empty<ArchitectureViolation>();
     }
 
-    private IEnumerable<ArchitectureViolation> ScanForSharedDomainModels()
+    private List<ArchitectureViolation> ScanForSharedDomainModels()
     {
         var violations = new List<ArchitectureViolation>();
 
         // Look for domain models referenced across multiple service assemblies
         var assemblies = AppDomain.CurrentDomain.GetAssemblies()
             .Where(a => a.FullName?.Contains("B2Connect") == true &&
-                       a.FullName.Contains("Domain"));
+                       a.FullName.Contains("Domain")).ToList();
 
         var domainModels = new Dictionary<string, List<string>>();
 
@@ -205,12 +205,12 @@ public class ArchitectureValidator
         return violations;
     }
 
-    private IEnumerable<ArchitectureViolation> ValidateCommandNaming()
+    private List<ArchitectureViolation> ValidateCommandNaming()
     {
         var violations = new List<ArchitectureViolation>();
 
         var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(a => a.FullName?.Contains("B2Connect") == true);
+            .Where(a => a.FullName?.Contains("B2Connect") == true).ToList();
 
         foreach (var assembly in assemblies)
         {
@@ -238,12 +238,12 @@ public class ArchitectureValidator
         return violations;
     }
 
-    private IEnumerable<ArchitectureViolation> ValidateEventNaming()
+    private List<ArchitectureViolation> ValidateEventNaming()
     {
         var violations = new List<ArchitectureViolation>();
 
         var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(a => a.FullName?.Contains("B2Connect") == true);
+            .Where(a => a.FullName?.Contains("B2Connect") == true).ToList();
 
         foreach (var assembly in assemblies)
         {
@@ -310,19 +310,18 @@ public class ArchitectureValidator
                                               IEnumerable<ArchitectureViolation> cqrsViolations)
     {
         var recommendations = new List<string>();
-
         var allViolations = result.Violations
             .Concat(boundaryViolations)
             .Concat(cqrsViolations)
             .ToList();
 
-        if (allViolations.Any(v => v.Rule.StartsWith("ServiceBoundary")))
+        if (allViolations.Any(v => v.Rule.StartsWith("ServiceBoundary", StringComparison.Ordinal)))
         {
             recommendations.Add("Review service boundaries and ensure each service owns its domain entities");
             recommendations.Add("Replace direct database access with service API calls");
         }
 
-        if (allViolations.Any(v => v.Rule.StartsWith("CQRS")))
+        if (allViolations.Any(v => v.Rule.StartsWith("CQRS", StringComparison.Ordinal)))
         {
             recommendations.Add("Ensure commands and events follow CQRS naming conventions");
             recommendations.Add("Verify all state changes publish appropriate events");

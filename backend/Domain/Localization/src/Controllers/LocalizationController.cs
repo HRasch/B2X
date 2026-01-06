@@ -118,7 +118,7 @@ public class LocalizationController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Merged translations (global + tenant overrides)</returns>
     /// <response code="200">Returns merged translations</response>
-    [HttpGet("{tenantId}/{languageCode}")]
+    [HttpGet("tenant/{tenantId:guid}/{languageCode}")]
     public async Task<IActionResult> GetTenantTranslations(
         [FromRoute] Guid tenantId,
         [FromRoute] string languageCode,
@@ -141,7 +141,7 @@ public class LocalizationController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>SSR-optimized translations payload</returns>
     /// <response code="200">Returns SSR-optimized translations</response>
-    [HttpGet("ssr/{tenantId}/{languageCode}")]
+    [HttpGet("tenant/ssr/{tenantId:guid}/{languageCode}")]
     public async Task<IActionResult> GetTenantTranslationsSsr(
         [FromRoute] Guid tenantId,
         [FromRoute] string languageCode,
@@ -168,7 +168,7 @@ public class LocalizationController : ControllerBase
     /// <response code="204">Translations updated successfully</response>
     /// <response code="401">Unauthorized</response>
     /// <response code="403">Forbidden - tenant admin required</response>
-    [HttpPost("{tenantId}/{languageCode}")]
+    [HttpPost("tenant/{tenantId:guid}/{languageCode}")]
     [Authorize]
     public async Task<IActionResult> UpsertTenantTranslations(
         [FromRoute] Guid tenantId,
@@ -201,7 +201,7 @@ public class LocalizationController : ControllerBase
     /// <response code="204">Translation reset to default</response>
     /// <response code="401">Unauthorized</response>
     /// <response code="403">Forbidden - tenant admin required</response>
-    [HttpDelete("{tenantId}/{languageCode}/{keyPath}")]
+    [HttpDelete("tenant/{tenantId:guid}/{languageCode}/{keyPath}")]
     [Authorize]
     public async Task<IActionResult> ResetTenantTranslation(
         [FromRoute] Guid tenantId,

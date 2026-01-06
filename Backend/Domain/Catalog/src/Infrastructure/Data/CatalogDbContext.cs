@@ -20,6 +20,9 @@ public class CatalogDbContext : DbContext
     {
     }
 
+    /// <summary>Catalog share rules for tenant/customer include/exclude semantics</summary>
+    public DbSet<CatalogShareRule> CatalogShareRules => Set<CatalogShareRule>();
+
     /// <summary>EU Tax Rates for VAT calculations</summary>
     public DbSet<TaxRate> TaxRates => Set<TaxRate>();
 
@@ -183,6 +186,64 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(x => new { x.CatalogImportId, x.SupplierAid })
                 .IsUnique()
                 .HasDatabaseName("IX_CatalogProduct_ImportId_SupplierAid");
+        });
+
+        // Configure CatalogShareRule entity
+        modelBuilder.Entity<CatalogShareRule>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+
+            entity.Property(x => x.Id)
+                .ValueGeneratedNever();
+
+            entity.Property(x => x.CatalogShareId)
+                .IsRequired();
+
+            entity.Property(x => x.TargetType)
+                .IsRequired();
+
+            entity.Property(x => x.TargetId)
+                .IsRequired();
+
+            entity.Property(x => x.Priority)
+                .IsRequired();
+
+            entity.Property(x => x.Active)
+                .IsRequired();
+
+            entity.Property(x => x.AllowOverride)
+                .IsRequired();
+
+            // JSON columns stored as text
+            entity.Property(x => x.IncludedCategorySlugsJson)
+                .HasColumnType("text")
+                .IsRequired(false);
+
+            entity.Property(x => x.ExcludedCategorySlugsJson)
+                .HasColumnType("text")
+                .IsRequired(false);
+
+            entity.Property(x => x.IncludedBrandIdsJson)
+                .HasColumnType("text")
+                .IsRequired(false);
+
+            entity.Property(x => x.ExcludedBrandIdsJson)
+                .HasColumnType("text")
+                .IsRequired(false);
+
+            entity.Property(x => x.IncludedProductIdsJson)
+                .HasColumnType("text")
+                .IsRequired(false);
+
+            entity.Property(x => x.ExcludedProductIdsJson)
+                .HasColumnType("text")
+                .IsRequired(false);
+
+            entity.HasIndex(x => x.CatalogShareId)
+                .HasDatabaseName("IX_CatalogShareRule_CatalogShareId");
+
+            entity.HasIndex(x => new { x.TargetType, x.TargetId })
+                .HasDatabaseName("IX_CatalogShareRule_Target");
         });
     }
 }

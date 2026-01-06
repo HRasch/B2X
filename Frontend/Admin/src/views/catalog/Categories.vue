@@ -24,7 +24,7 @@
     <!-- Loading -->
     <div v-if="loading" class="loading">
       <div class="spinner"></div>
-      Loading categories...
+      {{ $t('catalog.categories.loading') }}
     </div>
 
     <div v-else>
@@ -45,10 +45,10 @@
                 </div>
                 <div class="category-actions">
                   <button @click="goToEdit(category.id)" class="btn btn-sm btn-secondary">
-                    Edit
+                    {{ $t('catalog.categories.actions.edit') }}
                   </button>
                   <button @click="confirmDelete(category.id)" class="btn btn-sm btn-danger">
-                    Delete
+                    {{ $t('catalog.categories.actions.delete') }}
                   </button>
                 </div>
               </div>
@@ -68,10 +68,10 @@
                     </div>
                     <div class="category-actions">
                       <button @click="goToEdit(subcat.id)" class="btn btn-sm btn-secondary">
-                        Edit
+                        {{ $t('catalog.categories.actions.edit') }}
                       </button>
                       <button @click="confirmDelete(subcat.id)" class="btn btn-sm btn-danger">
-                        Delete
+                        {{ $t('catalog.categories.actions.delete') }}
                       </button>
                     </div>
                   </div>
@@ -98,12 +98,14 @@
 
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useCatalogStore } from '@/stores/catalog';
 import type { Category, LocalizedContent, LocalizedString } from '@/types/catalog';
 
 const router = useRouter();
 const catalogStore = useCatalogStore();
+const { t } = useI18n();
 
 // Computed Properties
 const categories = computed(() => catalogStore.categories);
@@ -151,7 +153,7 @@ function confirmDelete(id: string) {
   const category = categories.value.find((c: Category) => c.id === id);
   if (
     category &&
-    confirm(`Are you sure you want to delete "${getLocalizedName(category.name)}"?`)
+    confirm(t('catalog.categories.deleteConfirm', { name: getLocalizedName(category.name) }))
   ) {
     catalogStore.deleteCategory(id);
   }

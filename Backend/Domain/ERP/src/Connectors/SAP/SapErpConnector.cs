@@ -49,7 +49,7 @@ public class SapErpConnector : IErpConnector
         // Validate configuration
         if (string.IsNullOrEmpty(config.ErpType) || !config.ErpType.Equals("sap", StringComparison.OrdinalIgnoreCase))
         {
-            throw new ArgumentException("Invalid ERP type. Expected 'sap'.", nameof(config.ErpType));
+            throw new ArgumentException("Invalid ERP type. Expected 'sap'.", nameof(config));
         }
 
         // Validate required SAP settings
