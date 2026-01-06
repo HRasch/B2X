@@ -63,7 +63,7 @@ public class ViesApiClient : IViesApiClient
         {
             try
             {
-                var result = await CallViesApiAsync(countryCode, vatNumber, cancellationToken);
+                var result = await CallViesApiAsync(countryCode, vatNumber, cancellationToken).ConfigureAwait(false);
                 _logger.LogInformation("VAT validation successful: {CountryCode}{VatNumber} -> Valid={IsValid}",
                     countryCode, vatNumber, result.IsValid);
                 return result;
@@ -72,10 +72,10 @@ public class ViesApiClient : IViesApiClient
             {
                 // Exponential backoff: 2^attempt seconds (1s, 2s, 4s)
                 var delaySeconds = Math.Pow(2, attempt);
-                _logger.LogWarning("VIES API call failed (attempt {Attempt}/{MaxRetries}): {Message}. Retrying in {DelaySeconds}s",
-                    attempt + 1, MaxRetries, ex.Message, delaySeconds);
+                _logger.LogWarning(ex, "VIES API call failed (attempt {Attempt}/{MaxRetries}). Retrying in {DelaySeconds}s",
+                    attempt + 1, MaxRetries, delaySeconds);
 
-                await Task.Delay((int)(delaySeconds * 1000), cancellationToken);
+                await Task.Delay((int)(delaySeconds * 1000), cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -117,10 +117,10 @@ public class ViesApiClient : IViesApiClient
             System.Text.Encoding.UTF8,
             "application/soap+xml");
 
-        var response = await _httpClient.PostAsync(ViesEndpoint, content, cancellationToken);
+        var response = await _httpClient.PostAsync(ViesEndpoint, content, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
 
-        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         return ParseViesResponse(responseBody, countryCode, vatNumber);
     }
 

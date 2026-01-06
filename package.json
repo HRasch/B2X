@@ -19,6 +19,12 @@
     "type-check": "npm run type-check --workspaces",
     "format": "prettier --write \"frontend/**/*.{js,ts,vue,json,css,scss,md}\"",
     "format:check": "prettier --check \"frontend/**/*.{js,ts,vue,json,css,scss,md}\"",
+    "format:backend": "dotnet format B2Connect.slnx",
+    "format:all": "npm run format && npm run format:backend && npm run format:tools",
+    "format:tools": "for dir in tools/TypeScriptMCP tools/VueMCP tools/HtmlCssMCP tools/SecurityMCP tools/WolverineMCP tools/B2ConnectMCP tools/PlaywrightMCP; do [ -d \"$dir\" ] && (cd \"$dir\" && npm run format 2>/dev/null) || true; done",
+    "check:backend": "dotnet format B2Connect.slnx --verify-no-changes",
+    "check:tools": "for dir in tools/TypeScriptMCP tools/VueMCP tools/HtmlCssMCP tools/SecurityMCP tools/WolverineMCP tools/B2ConnectMCP tools/PlaywrightMCP; do [ -d \"$dir\" ] && (cd \"$dir\" && npm run format:check 2>/dev/null) || true; done",
+    "check:all": "npm run format:check && npm run check:backend && npm run check:tools",
     "legacy-cleanup": "node scripts/legacy-code-cleanup.js",
     "prepare": "husky"
   },
@@ -41,10 +47,22 @@
     "prettier": "^3.3.3"
   },
   "lint-staged": {
+  "lint-staged": {
+    "*.cs": [
+      "dotnet format --include"
+    ],
+    "tools/**/*.{ts,js,json}": [
+      "prettier --write --ignore-unknown",
+      "eslint --fix"
+    ],
     "frontend/**/*.{js,ts,vue}": [
       "prettier --write",
       "eslint --fix"
     ],
+    "frontend/**/*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
     "frontend/**/*.{json,css,scss,md}": [
       "prettier --write"
     ],

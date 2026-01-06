@@ -13,6 +13,15 @@ namespace B2Connect.Catalog.src.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            CreateCatalogImportsTable(migrationBuilder);
+            CreateTaxRatesTable(migrationBuilder);
+            CreateCatalogProductsTable(migrationBuilder);
+            InsertTaxRatesData(migrationBuilder);
+            CreateIndexes(migrationBuilder);
+        }
+
+        private void CreateCatalogImportsTable(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.CreateTable(
                 name: "CatalogImports",
                 columns: table => new
@@ -33,7 +42,10 @@ namespace B2Connect.Catalog.src.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_CatalogImports", x => x.Id);
                 });
+        }
 
+        private void CreateTaxRatesTable(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.CreateTable(
                 name: "TaxRates",
                 columns: table => new
@@ -52,7 +64,10 @@ namespace B2Connect.Catalog.src.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_TaxRates", x => x.Id);
                 });
+        }
 
+        private void CreateCatalogProductsTable(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.CreateTable(
                 name: "CatalogProducts",
                 columns: table => new
@@ -73,7 +88,10 @@ namespace B2Connect.Catalog.src.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+        }
 
+        private void InsertTaxRatesData(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.InsertData(
                 table: "TaxRates",
                 columns: new[] { "Id", "CountryCode", "CountryName", "EffectiveDate", "EndDate", "ReducedVatRate", "StandardVatRate" },
@@ -107,7 +125,10 @@ namespace B2Connect.Catalog.src.Infrastructure.Migrations
                     { new Guid("f0cdc4d5-bd8a-4c3e-a648-47ee70f451ac"), "HR", "Croatia", new DateTime(2026, 1, 3, 9, 21, 19, 39, DateTimeKind.Utc).AddTicks(1890), null, 13m, 25m },
                     { new Guid("fc330729-33b3-486f-8f5f-3b95cacacf6e"), "PT", "Portugal", new DateTime(2026, 1, 3, 9, 21, 19, 39, DateTimeKind.Utc).AddTicks(1980), null, 13m, 23m }
                 });
+        }
 
+        private void CreateIndexes(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.CreateIndex(
                 name: "IX_CatalogImport_CompositeKey",
                 table: "CatalogImports",

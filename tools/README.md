@@ -2,6 +2,55 @@
 
 This directory contains Model Context Protocol (MCP) servers that enhance GitHub Copilot and other AI coding assistants with specialized analysis capabilities for the B2Connect project.
 
+## Code Style Compliance
+
+All C# tools in this directory follow the same coding standards as the main backend:
+
+- **Configuration Inheritance**: `Directory.Build.props` imports backend standards
+- **StyleCop Rules**: `stylecop.json` enforces consistent code style
+- **EditorConfig**: Root `.editorconfig` applies to all C# files
+- **Automatic Formatting**: Pre-commit hooks format C# code automatically
+
+### TypeScript MCP Tools
+
+All TypeScript-based MCP servers (TypeScriptMCP, VueMCP, HtmlCssMCP, SecurityMCP, etc.) follow consistent code style:
+
+- **Prettier**: `tools/.prettierrc` - Consistent formatting
+- **ESLint**: `tools/.eslintrc.js` - TypeScript linting rules
+- **Automatic Formatting**: Pre-commit hooks format TypeScript files
+- **Scripts**: Each tool has `format`, `format:check`, `lint`, `lint:fix` scripts
+
+### Development Workflow
+
+**Before Committing:**
+```bash
+# Format all code (frontend + backend + tools)
+npm run format:all
+
+# Check formatting without changes
+npm run check:all
+```
+
+**Manual Formatting:**
+```bash
+# Format specific tool project
+dotnet format tools/RoslynMCP/RoslynMCP.csproj
+
+# Format TypeScript MCP tools
+cd tools/TypeScriptMCP && npm run format
+
+# Format all tools
+npm run format:tools
+```
+
+**Pre-commit Hooks:**
+Git pre-commit hooks automatically format staged files:
+- ✅ C# files (`.cs`) with `dotnet format`
+- ✅ TypeScript files (`.ts`, `.js`, `.json`) with Prettier
+- ✅ Frontend files with Prettier + ESLint
+
+---
+
 ## Available MCP Servers
 
 ### Local Servers (Custom Built)

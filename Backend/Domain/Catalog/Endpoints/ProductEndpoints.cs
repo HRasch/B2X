@@ -47,7 +47,7 @@ public static class ProductEndpoints
             }
         }
 
-        var product = await productService.GetBySkuAsync(resolvedTenant, sku, ct);
+        var product = await productService.GetBySkuAsync(resolvedTenant, sku, ct).ConfigureAwait(false);
 
         if (product == null)
         {
@@ -72,13 +72,13 @@ public static class ProductEndpoints
                 Price = Convert.ToDecimal(product.price ?? product.Price ?? 0m),
                 DiscountPrice = product.discountPrice != null ? (decimal?)Convert.ToDecimal(product.discountPrice) : null,
                 StockQuantity = product.stockQuantity != null ? Convert.ToInt32(product.stockQuantity) : 0,
-                IsActive = product.isActive != null ? Convert.ToBoolean(product.isActive) : true,
+                IsActive = (bool?)product.isActive ?? true,
                 Categories = new List<string>(),
                 BrandName = Convert.ToString(product.brandName ?? product.BrandName),
                 Tags = new List<string>(),
                 CreatedAt = product.createdAt != null ? Convert.ToDateTime(product.createdAt) : DateTime.UtcNow,
                 UpdatedAt = product.updatedAt != null ? Convert.ToDateTime(product.updatedAt) : DateTime.UtcNow,
-                IsAvailable = product.isAvailable != null ? Convert.ToBoolean(product.isAvailable) : true
+                IsAvailable = (bool?)product.isAvailable ?? true
             };
 
             return Results.Ok(mapped);
@@ -118,7 +118,7 @@ public static class ProductEndpoints
             }
         }
 
-        var results = await searchService.SearchAsync(resolvedTenant, q, 1, 20, ct);
+        var results = await searchService.SearchAsync(resolvedTenant, q, 1, 20, ct).ConfigureAwait(false);
         return Results.Ok(results);
     }
 

@@ -2,7 +2,7 @@
  * Theme Store (Pinia)
  * @todo Refactor globalThis type checks to proper typing
  */
-/* eslint-disable @typescript-eslint/no-explicit-any -- globalThis browser detection */
+ 
 
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';

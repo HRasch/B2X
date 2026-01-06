@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using B2Connect.Tools.RoslynMCP.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
-using B2Connect.Tools.RoslynMCP.Services;
 
 namespace B2Connect.Tools.RoslynMCP.Tools;
 
@@ -41,7 +41,8 @@ public sealed class SymbolSearchTools
             foreach (var project in solution.Projects.Where(p => p.SupportsCompilation))
             {
                 var compilation = await _codeAnalysis.GetCompilationAsync(project);
-                if (compilation is null) continue;
+                if (compilation is null)
+                    continue;
 
                 var symbols = GetAllSymbols(compilation.GlobalNamespace)
                     .Where(s => typeFilter.Contains(s.Kind) &&
@@ -50,10 +51,12 @@ public sealed class SymbolSearchTools
                 foreach (var symbol in symbols)
                 {
                     results.Add(CreateSymbolResult(symbol, project));
-                    if (results.Count >= maxResults) break;
+                    if (results.Count >= maxResults)
+                        break;
                 }
 
-                if (results.Count >= maxResults) break;
+                if (results.Count >= maxResults)
+                    break;
             }
 
             return FormatResults(results.OrderBy(r => r.Name).ToList());
@@ -77,7 +80,8 @@ public sealed class SymbolSearchTools
             foreach (var project in solution.Projects.Where(p => p.SupportsCompilation))
             {
                 var compilation = await _codeAnalysis.GetCompilationAsync(project);
-                if (compilation is null) continue;
+                if (compilation is null)
+                    continue;
 
                 var symbol = GetAllSymbols(compilation.GlobalNamespace)
                     .FirstOrDefault(s => s.Name.Equals(symbolName, StringComparison.OrdinalIgnoreCase));
@@ -111,7 +115,8 @@ public sealed class SymbolSearchTools
             foreach (var project in solution.Projects.Where(p => p.SupportsCompilation))
             {
                 var compilation = await _codeAnalysis.GetCompilationAsync(project);
-                if (compilation is null) continue;
+                if (compilation is null)
+                    continue;
 
                 var methods = GetAllSymbols(compilation.GlobalNamespace)
                     .OfType<IMethodSymbol>()
@@ -188,12 +193,14 @@ public sealed class SymbolSearchTools
             foreach (var project in solution.Projects.Where(p => p.SupportsCompilation))
             {
                 var compilation = await _codeAnalysis.GetCompilationAsync(project);
-                if (compilation is null) continue;
+                if (compilation is null)
+                    continue;
 
                 targetSymbol = GetAllSymbols(compilation.GlobalNamespace)
                     .FirstOrDefault(s => s.Name.Equals(symbolName, StringComparison.OrdinalIgnoreCase));
 
-                if (targetSymbol is not null) break;
+                if (targetSymbol is not null)
+                    break;
             }
 
             if (targetSymbol is null)
@@ -292,7 +299,8 @@ public sealed class SymbolSearchTools
     {
         var regexPattern = "^" + Regex.Escape(pattern).Replace("\\*", ".*").Replace("\\?", ".") + "$";
         var options = RegexOptions.Compiled;
-        if (ignoreCase) options |= RegexOptions.IgnoreCase;
+        if (ignoreCase)
+            options |= RegexOptions.IgnoreCase;
         return new Regex(regexPattern, options);
     }
 
@@ -396,12 +404,14 @@ public sealed class SymbolSearchTools
         var complexity = 1; // Base complexity
 
         var location = method.Locations.FirstOrDefault();
-        if (location?.SourceTree is null) return complexity;
+        if (location?.SourceTree is null)
+            return complexity;
 
         var text = location.SourceTree.GetText().ToString();
         var span = location.SourceSpan;
 
-        if (span.Start >= text.Length || span.End > text.Length) return complexity;
+        if (span.Start >= text.Length || span.End > text.Length)
+            return complexity;
 
         var methodText = text.Substring(span.Start, Math.Min(span.Length, text.Length - span.Start));
 

@@ -49,7 +49,7 @@ public class ProductService : IProductService
             return Task.FromResult<ProductDto?>(null);
         }
 
-        var product = tenantProducts.FirstOrDefault(p => p.Barcode == barcode);
+        var product = tenantProducts.FirstOrDefault(p => string.Equals(p.Barcode, barcode));
         return Task.FromResult(product?.ToDto());
     }
 
@@ -112,7 +112,7 @@ public class ProductService : IProductService
         _logger.LogInformation("Product created: {ProductId} for tenant {TenantId}", product.Id, tenantId);
 
         // Index in Elasticsearch
-        await _searchIndex.IndexProductAsync(product, cancellationToken);
+        await _searchIndex.IndexProductAsync(product, cancellationToken).ConfigureAwait(false);
 
         return product.ToDto();
     }
@@ -130,6 +130,20 @@ public class ProductService : IProductService
             throw new KeyNotFoundException($"Product {productId} not found");
         }
 
+        UpdateProductFields(product, request);
+
+        product.UpdatedAt = DateTime.UtcNow;
+
+        _logger.LogInformation("Product updated: {ProductId} for tenant {TenantId}", product.Id, tenantId);
+
+        // Update in Elasticsearch
+        await _searchIndex.IndexProductAsync(product, cancellationToken).ConfigureAwait(false);
+
+        return product.ToDto();
+    }
+
+    private static void UpdateProductFields(Product product, UpdateProductRequest request)
+    {
         // Update fields
         if (!string.IsNullOrEmpty(request.Name))
         {
@@ -175,15 +189,6 @@ public class ProductService : IProductService
         {
             product.Tags = request.Tags;
         }
-
-        product.UpdatedAt = DateTime.UtcNow;
-
-        _logger.LogInformation("Product updated: {ProductId} for tenant {TenantId}", product.Id, tenantId);
-
-        // Update in Elasticsearch
-        await _searchIndex.IndexProductAsync(product, cancellationToken);
-
-        return product.ToDto();
     }
 
     public async Task<bool> DeleteAsync(Guid tenantId, Guid productId, CancellationToken cancellationToken = default)
@@ -204,7 +209,7 @@ public class ProductService : IProductService
         _logger.LogInformation("Product deleted: {ProductId} for tenant {TenantId}", product.Id, tenantId);
 
         // Delete from Elasticsearch
-        await _searchIndex.DeleteProductAsync(product.Id, cancellationToken);
+        await _searchIndex.DeleteProductAsync(product.Id, cancellationToken).ConfigureAwait(false);
 
         return true;
     }

@@ -24,7 +24,7 @@ public class TaxRateRepository : ITaxRateRepository
             .Where(x => x.CountryCode.Equals(countryCode, StringComparison.CurrentCultureIgnoreCase) &&
                        x.EffectiveDate <= DateTime.UtcNow &&
                        (!x.EndDate.HasValue || x.EndDate > DateTime.UtcNow))
-            .FirstOrDefaultAsync(ct);
+            .FirstOrDefaultAsync(ct).ConfigureAwait(false);
 
         if (result == null)
         {
@@ -40,15 +40,15 @@ public class TaxRateRepository : ITaxRateRepository
             .Where(x => x.EffectiveDate <= DateTime.UtcNow &&
                        (!x.EndDate.HasValue || x.EndDate > DateTime.UtcNow))
             .OrderBy(x => x.CountryCode)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
     }
 
     public async Task AddAsync(TaxRate taxRate, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(taxRate);
 
-        await _context.TaxRates.AddAsync(taxRate, ct);
-        await _context.SaveChangesAsync(ct);
+        await _context.TaxRates.AddAsync(taxRate, ct).ConfigureAwait(false);
+        await _context.SaveChangesAsync(ct).ConfigureAwait(false);
 
         _logger.LogInformation("Tax rate added: {CountryCode} - {Rate}%",
             taxRate.CountryCode, taxRate.StandardVatRate);
@@ -60,7 +60,7 @@ public class TaxRateRepository : ITaxRateRepository
 
         taxRate.UpdatedAt = DateTime.UtcNow;
         _context.TaxRates.Update(taxRate);
-        await _context.SaveChangesAsync(ct);
+        await _context.SaveChangesAsync(ct).ConfigureAwait(false);
 
         _logger.LogInformation("Tax rate updated: {CountryCode} - {Rate}%",
             taxRate.CountryCode, taxRate.StandardVatRate);

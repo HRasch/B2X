@@ -57,7 +57,7 @@ public class CatalogImportService
             CreatedAt = DateTime.UtcNow
         };
 
-        await _importRepository.AddAsync(catalogImport, ct);
+        await _importRepository.AddAsync(catalogImport, ct).ConfigureAwait(false);
 
         try
         {
@@ -69,7 +69,7 @@ public class CatalogImportService
                 CustomSchemaPath = customSchemaPath
             };
 
-            var result = await adapter.ImportAsync(stream, metadata, ct);
+            var result = await adapter.ImportAsync(stream, metadata, ct).ConfigureAwait(false);
 
             // Update import with catalog metadata
             catalogImport.SupplierId = result.SupplierId ?? "unknown";
@@ -86,13 +86,13 @@ public class CatalogImportService
                     product.CatalogImportId = catalogImport.Id;
                 }
 
-                await _productRepository.AddRangeAsync(catalogProducts, ct);
+                await _productRepository.AddRangeAsync(catalogProducts, ct).ConfigureAwait(false);
 
                 catalogImport.Status = ImportStatus.Completed;
                 catalogImport.ProductCount = result.ProductCount;
                 catalogImport.UpdatedAt = DateTime.UtcNow;
 
-                await _importRepository.UpdateAsync(catalogImport, ct);
+                await _importRepository.UpdateAsync(catalogImport, ct).ConfigureAwait(false);
 
                 _logger.LogInformation(
                     "Successfully imported {Format} catalog {ImportId} with {ProductCount} products from supplier {SupplierId}",
@@ -104,7 +104,7 @@ public class CatalogImportService
                 catalogImport.Description = result.ErrorMessage;
                 catalogImport.UpdatedAt = DateTime.UtcNow;
 
-                await _importRepository.UpdateAsync(catalogImport, ct);
+                await _importRepository.UpdateAsync(catalogImport, ct).ConfigureAwait(false);
 
                 _logger.LogWarning("Catalog import failed for {ImportId}: {Error}", catalogImport.Id, result.ErrorMessage);
                 throw new InvalidOperationException(result.ErrorMessage ?? "Import failed");
@@ -118,7 +118,7 @@ public class CatalogImportService
             catalogImport.Description = ex.Message;
             catalogImport.UpdatedAt = DateTime.UtcNow;
 
-            await _importRepository.UpdateAsync(catalogImport, ct);
+            await _importRepository.UpdateAsync(catalogImport, ct).ConfigureAwait(false);
 
             _logger.LogError(ex, "Unexpected error during catalog import {ImportId}", catalogImport.Id);
             throw new InvalidOperationException($"Import failed: {ex.Message}", ex);
@@ -130,8 +130,8 @@ public class CatalogImportService
     /// </summary>
     public async Task<PagedImportResult> GetImportsAsync(Guid tenantId, int page, int pageSize, CancellationToken ct = default)
     {
-        var imports = await _importRepository.GetByTenantAsync(tenantId, page, pageSize, ct);
-        var totalCount = await _importRepository.CountByTenantAsync(tenantId, ct);
+        var imports = await _importRepository.GetByTenantAsync(tenantId, page, pageSize, ct).ConfigureAwait(false);
+        var totalCount = await _importRepository.CountByTenantAsync(tenantId, ct).ConfigureAwait(false);
 
         return new PagedImportResult
         {
@@ -148,7 +148,7 @@ public class CatalogImportService
     /// </summary>
     public async Task<CatalogImportDto?> GetImportAsync(Guid tenantId, Guid importId, CancellationToken ct = default)
     {
-        var import = await _importRepository.GetByIdAsync(importId, ct);
+        var import = await _importRepository.GetByIdAsync(importId, ct).ConfigureAwait(false);
         if (import == null || import.TenantId != tenantId)
         {
             return null;
@@ -163,14 +163,14 @@ public class CatalogImportService
     public async Task<PagedProductResult> GetImportProductsAsync(Guid tenantId, Guid importId, int page, int pageSize, CancellationToken ct = default)
     {
         // Verify import belongs to tenant
-        var import = await _importRepository.GetByIdAsync(importId, ct);
+        var import = await _importRepository.GetByIdAsync(importId, ct).ConfigureAwait(false);
         if (import == null || import.TenantId != tenantId)
         {
             return new PagedProductResult { Items = [], Page = page, PageSize = pageSize, TotalCount = 0, TotalPages = 0 };
         }
 
-        var products = await _productRepository.GetByImportIdAsync(importId, page, pageSize, ct);
-        var totalCount = await _productRepository.CountByImportIdAsync(importId, ct);
+        var products = await _productRepository.GetByImportIdAsync(importId, page, pageSize, ct).ConfigureAwait(false);
+        var totalCount = await _productRepository.CountByImportIdAsync(importId, ct).ConfigureAwait(false);
 
         return new PagedProductResult
         {
@@ -195,7 +195,7 @@ public class CatalogImportService
     {
         try
         {
-            var result = await ImportAsync(request.TenantId, request.CatalogStream, "bmecat");
+            var result = await ImportAsync(request.TenantId, request.CatalogStream, "bmecat").ConfigureAwait(false);
             return new CatalogImportResponse
             {
                 Success = true,

@@ -25,7 +25,7 @@ public static class ProductCommandEndpoints
         var commandWithTenant = command with { TenantId = tenantId };
 
         // Publish command via Wolverine
-        var result = await messageBus.InvokeAsync<ProductDto>(commandWithTenant, ct);
+        var result = await messageBus.InvokeAsync<ProductDto>(commandWithTenant, ct).ConfigureAwait(false);
 
         return Results.Created($"/api/products/{result.Sku}", result);
     }
@@ -44,7 +44,7 @@ public static class ProductCommandEndpoints
     {
         var commandWithTenant = command with { TenantId = tenantId, Sku = sku };
 
-        var result = await messageBus.InvokeAsync<ProductDto>(commandWithTenant, ct);
+        var result = await messageBus.InvokeAsync<ProductDto>(commandWithTenant, ct).ConfigureAwait(false);
 
         if (result == null)
         {
@@ -67,7 +67,7 @@ public static class ProductCommandEndpoints
     {
         var command = new DeleteProductCommand(tenantId, sku);
 
-        await messageBus.InvokeAsync(command, ct);
+        await messageBus.InvokeAsync(command, ct).ConfigureAwait(false);
 
         return Results.NoContent();
     }

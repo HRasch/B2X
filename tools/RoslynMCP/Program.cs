@@ -1,10 +1,10 @@
+using B2Connect.Tools.RoslynMCP.Services;
+using B2Connect.Tools.RoslynMCP.Tools;
 using Microsoft.Build.Locator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
-using B2Connect.Tools.RoslynMCP.Services;
-using B2Connect.Tools.RoslynMCP.Tools;
 
 // Register MSBuild before anything else
 MSBuildLocator.RegisterDefaults();

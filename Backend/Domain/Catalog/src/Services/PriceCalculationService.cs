@@ -37,7 +37,7 @@ public class PriceCalculationService : IPriceCalculationService
 
     // VAT rates per EU country (as of 2025)
     // Note: This should eventually come from database for easy updates
-    private static readonly Dictionary<string, (decimal Standard, decimal? Reduced)> VatRates = new()
+    private static readonly Dictionary<string, (decimal Standard, decimal? Reduced)> VatRates = new(StringComparer.Ordinal)
     {
         // EU Countries - Standard VAT rates
         { "AT", (20.00m, 10.00m) },    // Austria: 20% standard, 10% reduced
@@ -102,7 +102,7 @@ public class PriceCalculationService : IPriceCalculationService
         var vatRate = await GetVatRateAsync(
             destinationCountry.ToUpper(System.Globalization.CultureInfo.CurrentCulture),
             cancellationToken
-        );
+        ).ConfigureAwait(false);
 
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
         _logger.LogDebug(
@@ -118,21 +118,7 @@ public class PriceCalculationService : IPriceCalculationService
         var priceIncludingVat = Math.Round(basePrice + vatAmount, 2);
 
         // Apply discount if specified
-        decimal? discountAmount = null;
-        decimal? finalPrice = priceIncludingVat;  // Default: final price = price including VAT
-        decimal? originalPrice = null;
-
-        if (discountPercentage.HasValue && discountPercentage > 0)
-        {
-            discountAmount = Math.Round(priceIncludingVat * discountPercentage.Value / 100, 2);
-            finalPrice = Math.Round(priceIncludingVat - discountAmount.Value, 2);
-            originalPrice = priceIncludingVat;
-
-            _logger.LogDebug(
-                "Applied discount - Original: {Original}, Discount: {Discount}%, Amount: {Amount}, Final: {Final}",
-                originalPrice, discountPercentage, discountAmount, finalPrice
-            );
-        }
+        var (discountAmount, finalPrice, originalPrice) = CalculateDiscount(priceIncludingVat, discountPercentage);
 
         var result = new PriceBreakdownDto
         {
@@ -154,7 +140,26 @@ public class PriceCalculationService : IPriceCalculationService
             vatRate
         );
 
-        return await Task.FromResult(result);
+        return await Task.FromResult(result).ConfigureAwait(false);
+    }
+
+    private (decimal? DiscountAmount, decimal? FinalPrice, decimal? OriginalPrice) CalculateDiscount(decimal priceIncludingVat, decimal? discountPercentage)
+    {
+        if (discountPercentage.HasValue && discountPercentage > 0)
+        {
+            var discountAmount = Math.Round(priceIncludingVat * discountPercentage.Value / 100, 2);
+            var finalPrice = Math.Round(priceIncludingVat - discountAmount, 2);
+            var originalPrice = priceIncludingVat;
+
+            _logger.LogDebug(
+                "Applied discount - Original: {Original}, Discount: {Discount}%, Amount: {Amount}, Final: {Final}",
+                originalPrice, discountPercentage, discountAmount, finalPrice
+            );
+
+            return (discountAmount, finalPrice, originalPrice);
+        }
+
+        return (null, priceIncludingVat, null);
     }
 
     /// <summary>
@@ -176,6 +181,6 @@ public class PriceCalculationService : IPriceCalculationService
             return 19.00m;
         }
 
-        return await Task.FromResult(rates.Standard);
+        return await Task.FromResult(rates.Standard).ConfigureAwait(false);
     }
 }

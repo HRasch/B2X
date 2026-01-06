@@ -24,7 +24,7 @@ public class ProductCreatedEventHandler
             @event.TenantId);
 
         // TODO: Publish to search index
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -49,7 +49,7 @@ public class ProductUpdatedEventHandler
             @event.TenantId);
 
         // TODO: Update in search index
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -73,7 +73,7 @@ public class ProductDeletedEventHandler
             @event.TenantId);
 
         // TODO: Remove from search index
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -98,7 +98,7 @@ public class ProductStockUpdatedEventHandler
             @event.TenantId);
 
         // TODO: Notify inventory management, send low stock alerts
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -124,6 +124,6 @@ public class ProductPriceChangedEventHandler
             @event.TenantId);
 
         // TODO: Update cache, notify pricing service
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }

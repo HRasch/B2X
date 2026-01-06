@@ -224,7 +224,7 @@ public class CsvImportAdapter : IFormatAdapter
                     continue;
                 }
 
-                var fieldMap = new Dictionary<string, string>();
+                var fieldMap = new Dictionary<string, string>(StringComparer.Ordinal);
                 for (int j = 0; j < headerFields.Count && j < fields.Count; j++)
                 {
                     fieldMap[headerFields[j]] = fields[j];
@@ -278,7 +278,8 @@ public class CsvImportAdapter : IFormatAdapter
         var currentField = new System.Text.StringBuilder();
         var inQuotes = false;
 
-        for (int i = 0; i < line.Length; i++)
+        int i = 0;
+        while (i < line.Length)
         {
             var c = line[i];
 
@@ -288,7 +289,7 @@ public class CsvImportAdapter : IFormatAdapter
                 if (i + 1 < line.Length && line[i + 1] == '"')
                 {
                     currentField.Append('"');
-                    i++;
+                    i++; // Skip next quote
                 }
                 else
                 {
@@ -304,6 +305,7 @@ public class CsvImportAdapter : IFormatAdapter
             {
                 currentField.Append(c);
             }
+            i++;
         }
 
         fields.Add(currentField.ToString().Trim());

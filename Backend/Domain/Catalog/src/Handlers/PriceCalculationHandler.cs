@@ -70,7 +70,7 @@ public class PriceCalculationHandler
                 request.BasePrice,
                 request.DestinationCountry,
                 request.DiscountPercentage,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation(
                 "Price calculation successful: {ProductPrice} → {FinalPrice} EUR",
@@ -82,12 +82,12 @@ public class PriceCalculationHandler
         catch (ArgumentException ex)
         {
             _logger.LogWarning(ex, "Price calculation validation error");
-            throw;
+            throw new ArgumentException("Invalid price calculation parameters", ex);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error during price calculation");
-            throw;
+            throw new InvalidOperationException("Price calculation failed", ex);
         }
     }
 }

@@ -31,7 +31,7 @@ public class BmecatImportAdapter : IFormatAdapter
     public string FormatName => "BMEcat";
     public IReadOnlyList<string> SupportedExtensions => new[] { ".xml" };
 
-    private static readonly Dictionary<string, string> SchemaPathsByVersion = new()
+    private static readonly Dictionary<string, string> SchemaPathsByVersion = new(StringComparer.Ordinal)
     {
         { "1.2", "schemas/bmecat-1-2.xsd" },
         { "2005", "schemas/bmecat-2005.xsd" },
@@ -85,7 +85,7 @@ public class BmecatImportAdapter : IFormatAdapter
             }
 
             // Layer 2: Schema validation (detailed error reporting)
-            var schemaValidationResult = await ValidateWithSchemaAsync(content, version, cancellationToken);
+            var schemaValidationResult = await ValidateWithSchemaAsync(content, version).ConfigureAwait(false);
             errors.AddRange(schemaValidationResult.Errors);
             warnings.AddRange(schemaValidationResult.Warnings);
 
@@ -93,7 +93,7 @@ public class BmecatImportAdapter : IFormatAdapter
                 return ValidationResult.WithBoth(errors.ToArray(), warnings.ToArray());
 
             // Layer 3: Deserialize with XmlSerializer (type-safe validation)
-            var deserializationResult = await DeserializeAndValidateAsync(content, cancellationToken);
+            var deserializationResult = await DeserializeAndValidateAsync(content, cancellationToken).ConfigureAwait(false);
             errors.AddRange(deserializationResult.Errors);
             warnings.AddRange(deserializationResult.Warnings);
 
@@ -131,7 +131,7 @@ public class BmecatImportAdapter : IFormatAdapter
         try
         {
             // Deserialize document
-            var doc = await DeserializeDocumentAsync(content, cancellationToken);
+            var doc = await DeserializeDocumentAsync(content, cancellationToken).ConfigureAwait(false);
             if (doc == null)
             {
                 return new ParseResult(entities, new ImportStatistics(0, 0, 0), warnings);
@@ -142,14 +142,13 @@ public class BmecatImportAdapter : IFormatAdapter
 
             // Parse header metadata
             var catalogName = doc.Header?.CatalogName ?? "BMEcat Catalog";
-            var catalogVersion = doc.Header?.CatalogVersion ?? "1.0";
 
             // Parse articles
             foreach (var article in doc.Articles)
             {
                 try
                 {
-                    var entity = MapArticleToCatalogEntity(article, supplierId, metadata);
+                    var entity = MapArticleToCatalogEntity(article, supplierId);
                     if (entity != null)
                     {
                         entities.Add(entity);
@@ -196,8 +195,7 @@ public class BmecatImportAdapter : IFormatAdapter
     /// </summary>
     private async Task<ValidationResult> ValidateWithSchemaAsync(
         string content,
-        string version,
-        CancellationToken cancellationToken)
+        string version)
     {
         var errors = new List<ValidationError>();
         var warnings = new List<ValidationWarning>();
@@ -288,7 +286,7 @@ public class BmecatImportAdapter : IFormatAdapter
 
         try
         {
-            var doc = await DeserializeDocumentAsync(content, cancellationToken);
+            var doc = await DeserializeDocumentAsync(content, cancellationToken).ConfigureAwait(false);
             if (doc == null)
             {
                 errors.Add(new ValidationError(
@@ -363,7 +361,7 @@ public class BmecatImportAdapter : IFormatAdapter
             try
             {
                 var serializer = _serializerFactory.CreateSerializer<BmecatDocument>();
-                using var stringReader = new System.IO.StringReader(content);
+                using var stringReader = new StringReader(content);
                 var readerSettings = new XmlReaderSettings
                 {
                     DtdProcessing = DtdProcessing.Prohibit,
@@ -376,16 +374,15 @@ public class BmecatImportAdapter : IFormatAdapter
             {
                 return null;
             }
-        }, cancellationToken);
+        }, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Map BMEcat article to canonical CatalogEntity
     /// </summary>
-    private CatalogEntity? MapArticleToCatalogEntity(
+    private static CatalogEntity? MapArticleToCatalogEntity(
         BmecatArticle article,
-        string supplierId,
-        ImportMetadata metadata)
+        string supplierId)
     {
         if (article.Details == null)
             return null;
@@ -400,7 +397,7 @@ public class BmecatImportAdapter : IFormatAdapter
 
         if (article.PriceDetails?.Prices.Any() == true)
         {
-            var defaultPrice = article.PriceDetails.Prices.FirstOrDefault(p => p.PriceType == "net_price")
+            var defaultPrice = article.PriceDetails.Prices.FirstOrDefault(p => string.Equals(p.PriceType, "net_price"))
                 ?? article.PriceDetails.Prices.FirstOrDefault();
 
             if (defaultPrice != null)
@@ -410,7 +407,23 @@ public class BmecatImportAdapter : IFormatAdapter
             }
         }
 
-        var attributes = new Dictionary<string, string>();
+        var attributes = BuildArticleAttributes(details, article);
+
+        return new CatalogEntity(
+            ExternalId: externalId,
+            SupplierId: supplierId,
+            Name: name,
+            Description: details.Remarks,
+            Ean: details.Ean,
+            ManufacturerPartNumber: details.ManufacturerAid,
+            ListPrice: price,
+            Currency: currency ?? "EUR",
+            Attributes: attributes);
+    }
+
+    private static Dictionary<string, string> BuildArticleAttributes(BmecatArticleDetails details, BmecatArticle article)
+    {
+        var attributes = new Dictionary<string, string>(StringComparer.Ordinal);
 
         // Add keywords as attributes
         if (details.Keywords.Any())
@@ -437,16 +450,7 @@ public class BmecatImportAdapter : IFormatAdapter
         if (!string.IsNullOrEmpty(details.Remarks))
             attributes["remarks"] = details.Remarks;
 
-        return new CatalogEntity(
-            ExternalId: externalId,
-            SupplierId: supplierId,
-            Name: name,
-            Description: details.Remarks,
-            Ean: details.Ean,
-            ManufacturerPartNumber: details.ManufacturerAid,
-            ListPrice: price,
-            Currency: currency ?? "EUR",
-            Attributes: attributes);
+        return attributes;
     }
 
     /// <summary>
@@ -457,11 +461,12 @@ public class BmecatImportAdapter : IFormatAdapter
         // Try to extract version attribute
         var match = System.Text.RegularExpressions.Regex.Match(
             content,
-            @"<BMECAT\s+version=""([^""]+)""",
-            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            @"<BMECAT\s+version=""(?<version>[^""]+)""",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.ExplicitCapture,
+            TimeSpan.FromSeconds(5));
 
         if (match.Success)
-            return match.Groups[1].Value;
+            return match.Groups["version"].Value;
 
         // Fallback detection by content patterns
         if (content.Contains("xmlns:bmecat", StringComparison.OrdinalIgnoreCase))
@@ -475,7 +480,7 @@ public class BmecatImportAdapter : IFormatAdapter
     /// Load schema content (from resources or file system)
     /// Returns null if schema not found
     /// </summary>
-    private string? LoadSchemaContent(string schemaPath)
+    private static string? LoadSchemaContent(string schemaPath)
     {
         try
         {

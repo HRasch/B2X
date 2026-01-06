@@ -1,8 +1,8 @@
 using System.ComponentModel;
+using B2Connect.Tools.RoslynMCP.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
-using B2Connect.Tools.RoslynMCP.Services;
 
 namespace B2Connect.Tools.RoslynMCP.Tools;
 
@@ -144,13 +144,15 @@ public sealed class DependencyTools
             foreach (var project in solution.Projects)
             {
                 var projectLayer = GetProjectLayer(project.Name, layerOrder);
-                if (projectLayer < 0) continue;
+                if (projectLayer < 0)
+                    continue;
 
                 foreach (var refProject in solution.Projects.Where(p =>
                     project.ProjectReferences.Any(r => r.ProjectId == p.Id)))
                 {
                     var refLayer = GetProjectLayer(refProject.Name, layerOrder);
-                    if (refLayer < 0) continue;
+                    if (refLayer < 0)
+                        continue;
 
                     // Check if referencing an outer layer from an inner layer
                     if (projectLayer < refLayer && !refProject.Name.Contains("Tests"))
