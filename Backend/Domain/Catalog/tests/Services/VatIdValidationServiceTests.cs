@@ -132,7 +132,7 @@ public class VatIdValidationServiceTests
 
         // Pre-populate cache
         var json = System.Text.Json.JsonSerializer.Serialize(cachedResult);
-        mockCache.SetStringAsync("vat:AT:987654321", json, new DistributedCacheEntryOptions(), CancellationToken.None).GetAwaiter().GetResult();
+        await mockCache.SetStringAsync("vat:AT:987654321", json, new DistributedCacheEntryOptions(), CancellationToken.None);
 
         // Act
         var actual = await service.ValidateVatIdAsync("AT", "987654321", CancellationToken.None);
@@ -240,7 +240,7 @@ public class VatIdValidationServiceTests
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>(
-            () => service.ShouldApplyReverseCharge(null, "DE", "AT"));
+            () => service.ShouldApplyReverseCharge(null!, "DE", "AT"));
     }
 }
 

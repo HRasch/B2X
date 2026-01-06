@@ -23,6 +23,8 @@ rules:
   truthy:
     allowed-values: ["true", "false", "on"]
     level: warning
+  trailing-spaces:
+    level: warning
   key-duplicates: {}
   document-start:
     level: warning

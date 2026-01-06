@@ -1,7 +1,7 @@
-using B2Connect.Shared.Core.Authorization;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using B2Connect.Shared.Core.Authorization;
 using B2Connect.Shared.Infrastructure.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace B2Connect.Gateway.Store.Authorization;
 

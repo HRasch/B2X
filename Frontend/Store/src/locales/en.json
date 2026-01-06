@@ -118,5 +118,22 @@
         "continueToShipping": "Continue to Shipping"
       }
     }
+  },
+  "categories": {
+    "title": "Categories",
+    "subtitle": "Browse our product categories",
+    "category": "Category",
+    "productCount": "{count} product(s)",
+    "viewProducts": "View Products",
+    "noCategories": "No Categories Found",
+    "noCategoriesDescription": "There are no product categories available at the moment.",
+    "categoryNotFound": "Category Not Found",
+    "categoryNotFoundDescription": "The category you're looking for doesn't exist or has been removed.",
+    "viewAllCategories": "View All Categories",
+    "subcategories": "Subcategories",
+    "productsInCategory": "Products in {category}",
+    "noProducts": "No Products Found",
+    "noProductsDescription": "There are no products in this category yet.",
+    "browseOtherCategories": "Browse Other Categories"
   }
 }

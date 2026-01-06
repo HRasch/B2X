@@ -148,9 +148,9 @@ public class GatewayIntegrationTests
 
         using var client = factory.CreateClient();
 
-        var request = new HttpRequestMessage(HttpMethod.Get, "/api/v2/products");
+        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/v2/products");
         request.Headers.Add("X-Test-Header", "header-value-123");
-        var res = await client.SendAsync(request);
+        using var res = await client.SendAsync(request);
         res.StatusCode.ShouldBe(HttpStatusCode.OK);
 
         var content = await res.Content.ReadAsStringAsync();

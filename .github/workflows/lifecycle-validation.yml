@@ -13,7 +13,7 @@ jobs:
   validate-lifecycle:
     name: Validate Lifecycle Stages
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,24 +24,22 @@ jobs:
           node-version: '20'
 
       - name: Install yaml parser
-        run: npm install -g js-yaml
+        run: npm install js-yaml
 
       - name: Validate lifecycle.yml syntax
         run: |
           node -e "
-            const yaml = require('js-yaml');
+            const yaml = require('./node_modules/js-yaml');
             const fs = require('fs');
             try {
               const doc = yaml.load(fs.readFileSync('.ai/config/lifecycle.yml', 'utf8'));
               console.log('✅ lifecycle.yml is valid YAML');
-              
+
               // Validate required fields
               if (!doc.project) throw new Error('Missing project section');
               if (!doc.components) throw new Error('Missing components section');
               if (!doc['stage-policies']) throw new Error('Missing stage-policies section');
-              
-              console.log('✅ Required sections present');
-              
+
               // Validate component stages
               const validStages = ['alpha', 'pre-release', 'release-candidate', 'stable', 'lts', 'maintenance', 'deprecated'];
               for (const [name, config] of Object.entries(doc.components)) {
@@ -49,8 +47,7 @@ jobs:
                   throw new Error(\`Invalid stage '\${config.stage}' for component '\${name}'\`);
                 }
               }
-              console.log('✅ All component stages are valid');
-              
+
               // Output summary
               console.log('');
               console.log('📋 Component Stages Summary:');
@@ -66,7 +63,7 @@ jobs:
                 }[config.stage];
                 console.log(\`  \${emoji} \${name}: \${config.stage} (v\${config.version})\`);
               }
-              
+
             } catch (e) {
               console.error('❌ Validation failed:', e.message);
               process.exit(1);
@@ -77,26 +74,26 @@ jobs:
         if: always()
         run: |
           echo "📋 Checking for breaking changes in stable components..."
-          
+
           # This is a placeholder for future implementation
           # In a real scenario, this would:
           # 1. Parse lifecycle.yml to find stable/lts components
           # 2. Run breaking change detection tools
           # 3. Fail if breaking changes detected without major version bump
-          
+
           echo "ℹ️ All components currently in pre-release or alpha - breaking changes allowed"
           echo "✅ Breaking change check passed (pre-release phase)"
 
       - name: Generate lifecycle badge
         run: |
           node -e "
-            const yaml = require('js-yaml');
+            const yaml = require('./node_modules/js-yaml');
             const fs = require('fs');
             const doc = yaml.load(fs.readFileSync('.ai/config/lifecycle.yml', 'utf8'));
-            
+
             const stage = doc.project['default-stage'];
             const version = doc.project['current-version'];
-            
+
             const colors = {
               'alpha': 'red',
               'pre-release': 'orange',
@@ -106,7 +103,7 @@ jobs:
               'maintenance': 'lightgrey',
               'deprecated': 'black'
             };
-            
+
             const badgeUrl = \`https://img.shields.io/badge/stage-\${stage}-\${colors[stage]}?style=flat-square\`;
             console.log('📛 Lifecycle Badge URL:', badgeUrl);
             console.log('📛 Version Badge URL:', \`https://img.shields.io/badge/version-\${version}-blue?style=flat-square\`);
@@ -117,7 +114,7 @@ jobs:
     name: Alpha Component Checks
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -132,10 +129,10 @@ jobs:
           echo "✅ Alpha stage allows breaking changes without notice"
 
   pre-release-checks:
-    name: Pre-Release Component Checks  
+    name: Pre-Release Component Checks
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4

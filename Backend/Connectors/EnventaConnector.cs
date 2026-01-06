@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Api.Validation;
 using B2Connect.Api.Models.Erp;
+using B2Connect.Api.Validation;
 using Microsoft.Extensions.Logging;
 
 namespace B2Connect.Api.Connectors;

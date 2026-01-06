@@ -1,9 +1,9 @@
+using System.Text.Json;
 using B2Connect.Catalog.Application.Adapters;
 using B2Connect.Catalog.Core.Entities;
 using B2Connect.Catalog.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace B2Connect.Catalog.Application.Handlers;
 

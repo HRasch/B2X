@@ -47,3 +47,150 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 - English (`en`) is source of truth for all translations
 - Validate localization keys exist before deployment
 
+## MCP-Enhanced Development (Optional - Enable When Needed)
+
+### Roslyn MCP for C# Analysis
+
+**Status**: Disabled by default (enable in `.vscode/mcp.json`)  
+**Reference**: See [KB-052] Roslyn MCP Server documentation
+
+**Use Cases**:
+- Symbol search across C# codebase
+- Type analysis and compile-time validation
+- Find usages before refactoring
+- Code structure analysis
+
+**Enable Roslyn MCP**:
+```json
+// .vscode/mcp.json
+{
+  "mcpServers": {
+    "roslyn-code-navigator": {
+      "disabled": false  // Change from true
+    }
+  }
+}
+```
+
+**Available Tools**:
+```csharp
+// Symbol search
+roslyn-mcp/search_symbols pattern="*Handler" workspacePath="backend/Domain"
+
+// Type analysis
+roslyn-mcp/analyze_types workspacePath="backend/Domain/Catalog"
+
+// Find usages
+roslyn-mcp/find_usages symbolName="CreateProductCommand" workspacePath="backend"
+
+// Get symbol info
+roslyn-mcp/get_symbol_info symbolName="ProductRepository" workspacePath="backend"
+```
+
+---
+
+### Wolverine MCP for CQRS Analysis
+
+**Status**: Disabled by default (enable in `.vscode/mcp.json`)  
+**Reference**: See Wolverine MCP documentation in `tools/WolverineMCP/`
+
+**Use Cases**:
+- Analyze Wolverine message handlers
+- Validate CQRS patterns
+- Check dependency injection setup
+- Analyze PostgreSQL queries in handlers
+
+**Enable Wolverine MCP**:
+```json
+// .vscode/mcp.json
+{
+  "mcpServers": {
+    "wolverine-mcp": {
+      "disabled": false  // Change from true
+    }
+  }
+}
+```
+
+**Available Tools**:
+```csharp
+// Analyze handlers
+wolverine-mcp/analyze_handlers workspacePath="backend/Domain"
+
+// Validate DI
+wolverine-mcp/validate_di workspacePath="backend/Domain"
+
+// Analyze queries
+wolverine-mcp/analyze_queries workspacePath="backend/Domain"
+```
+
+---
+
+### Security MCP Integration (Always Enabled)
+
+**Reference**: See [KB-055] Security MCP Best Practices
+
+**Mandatory Pre-Commit Checks**:
+```bash
+# 1. SQL injection detection
+security-mcp/check_sql_injection workspacePath="backend"
+
+# 2. Input validation
+security-mcp/validate_input_sanitization workspacePath="backend"
+
+# 3. Authentication patterns
+security-mcp/check_authentication workspacePath="backend"
+
+# 4. Dependency vulnerabilities
+security-mcp/scan_vulnerabilities workspacePath="."
+```
+
+**Integration with Development**:
+- Run security MCP on all data access code
+- Validate authentication/authorization patterns
+- Check for SQL injection vulnerabilities
+- Ensure parameterized queries only
+
+---
+
+### MCP-Powered Backend Workflow
+
+When Roslyn and Wolverine MCPs are enabled:
+
+```bash
+# Before implementing new handler
+roslyn-mcp/search_symbols pattern="*Handler" workspacePath="backend/Domain"
+wolverine-mcp/analyze_handlers workspacePath="backend/Domain/Catalog"
+
+# During development
+roslyn-mcp/analyze_types workspacePath="backend/Domain/Catalog"
+
+# Before refactoring
+roslyn-mcp/find_usages symbolName="ProductService" workspacePath="backend"
+
+# Security validation (always)
+security-mcp/check_sql_injection workspacePath="backend/Domain/Catalog"
+security-mcp/validate_input_sanitization workspacePath="backend/Domain/Catalog"
+```
+
+---
+
+### When to Enable Optional MCPs
+
+**Enable Roslyn MCP when**:
+- Large-scale refactoring across multiple projects
+- Need to analyze symbol usage patterns
+- Working on complex type hierarchies
+- Investigating compilation issues
+
+**Enable Wolverine MCP when**:
+- Implementing new CQRS handlers
+- Validating message routing patterns
+- Optimizing query performance
+- Checking DI container configuration
+
+**Keep Security MCP always enabled**:
+- Continuous security validation
+- Pre-commit security checks
+- Dependency vulnerability monitoring
+

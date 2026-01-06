@@ -1,5 +1,10 @@
-@import "tailwindcss";
 @import "daisyui/daisyui.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* DaisyUI (if installed as a postcss/tailwind plugin this may be optional) */
 
 /* Force some Tailwind classes to be generated */
 .force-tailwind {

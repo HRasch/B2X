@@ -76,7 +76,7 @@ public class ErpDataValidator : IDataValidator<ErpData>
         return results;
     }
 
-    private IEnumerable<ValidationResult> ValidateFormatRules(ErpData data)
+    private List<ValidationResult> ValidateFormatRules(ErpData data)
     {
         var results = new List<ValidationResult>();
 

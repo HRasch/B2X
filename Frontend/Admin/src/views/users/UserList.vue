@@ -10,84 +10,140 @@
 
     <CardContainer>
       <div class="search-filter-section">
-      <div class="search-box">
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Nach E-Mail, Name oder Telefon suchen..."
-          @keyup.enter="handleSearch"
-          class="search-input"
-          data-testid="user-search-input"
-        />
-        <button @click="handleSearch" class="search-btn" data-testid="search-btn">
-          <i class="icon-search"></i> Suchen
-        </button>
+        <div class="search-box">
+          <input
+            v-model="searchQuery"
+            type="text"
+            :placeholder="$t('users.placeholders.search')"
+            @keyup.enter="handleSearch"
+            class="search-input"
+            data-testid="user-search-input"
+          />
+          <button @click="handleSearch" class="search-btn" data-testid="search-btn">
+            <i class="icon-search"></i> {{ $t('users.actions.search') }}
+          </button>
+        </div>
+
+        <div class="filter-options">
+          <select v-model="filterStatus" class="filter-select">
+            <option value="">{{ $t('users.filters.allStatus') }}</option>
+            <option value="active">{{ $t('users.status.active') }}</option>
+            <option value="inactive">{{ $t('users.status.inactive') }}</option>
+          </select>
+
+          <select v-model="sortBy" class="filter-select">
+            <option value="updated">{{ $t('users.sort.updated') }}</option>
+            <option value="name">{{ $t('users.sort.name') }}</option>
+            <option value="email">{{ $t('users.sort.email') }}</option>
+          </select>
+        </div>
       </div>
 
-      <div class="filter-options">
-        <select v-model="filterStatus" class="filter-select">
-          <option value="">Alle Status</option>
-          <option value="active">Aktiv</option>
-          <option value="inactive">Inaktiv</option>
-        </select>
-
-        <select v-model="sortBy" class="filter-select">
-          <option value="updated">Neueste</option>
-          <option value="name">Name A-Z</option>
-          <option value="email">E-Mail A-Z</option>
-        </select>
+      <!-- Loading State -->
+      <div v-if="userStore.isLoading" class="loading-state" data-testid="loading">
+        <div class="spinner"></div>
+        <p>{{ $t('users.loading') }}</p>
       </div>
-    </div>
 
-    <!-- Loading State -->
-    <div v-if="userStore.isLoading" class="loading-state" data-testid="loading">
-      <div class="spinner"></div>
-      <p>Benutzer werden geladen...</p>
-    </div>
-
-    <!-- Error State -->
-    <div v-else-if="userStore.error" class="alert alert-danger" role="alert">
-      <i class="icon-alert-circle"></i>
-      <div>
-        <strong>Fehler beim Laden der Benutzer</strong>
-        <p>{{ userStore.error }}</p>
+      <!-- Error State -->
+      <div v-else-if="userStore.error" class="alert alert-danger" role="alert">
+        <i class="icon-alert-circle"></i>
+        <div>
+          <strong>{{ $t('users.errors.loadFailed') }}</strong>
+          <p>{{ userStore.error }}</p>
+        </div>
+        <button @click="userStore.clearError" class="close-btn" data-testid="close-error">×</button>
       </div>
-      <button @click="userStore.clearError" class="close-btn" data-testid="close-error">×</button>
-    </div>
 
-    <!-- Empty State -->
-    <div v-else-if="!userStore.hasUsers" class="empty-state" data-testid="empty-state">
-      <i class="icon-users"></i>
-      <h3>{{ $t('users.no_users.title') }}</h3>
-      <p>{{ $t('users.no_users.description') }}</p>
-      <router-link to="/users/create" class="btn btn-primary">
-        {{ $t('users.create') }}
-      </router-link>
-    </div>
+      <!-- Empty State -->
+      <div v-else-if="!userStore.hasUsers" class="empty-state" data-testid="empty-state">
+        <i class="icon-users"></i>
+        <h3>{{ $t('users.no_users.title') }}</h3>
+        <p>{{ $t('users.no_users.description') }}</p>
+        <router-link to="/users/create" class="btn btn-primary">
+          {{ $t('users.create') }}
+        </router-link>
+      </div>
 
-    <!-- Users Table -->
-    <div v-else class="users-table-container">
-      <table class="users-table" role="table">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">E-Mail</th>
-            <th scope="col">Telefon</th>
-            <th scope="col">Status</th>
-            <th scope="col">Beigetreten</th>
-            <th scope="col">Letzter Login</th>
-            <th scope="col">Aktionen</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in sortedUsers" :key="user.id" class="user-row">
-            <td class="name-cell">
-              <div class="user-info">
-                <div class="user-avatar">
-                  {{ user.firstName.charAt(0).toUpperCase() }}
+      <!-- Users Table -->
+      <div v-else class="users-table-container">
+        <table class="users-table" role="table">
+          <thead>
+            <tr>
+              <th scope="col">{{ $t('users.table.name') }}</th>
+              <th scope="col">{{ $t('users.table.email') }}</th>
+              <th scope="col">{{ $t('users.table.phone') }}</th>
+              <th scope="col">{{ $t('users.table.status') }}</th>
+              <th scope="col">{{ $t('users.table.joined') }}</th>
+              <th scope="col">{{ $t('users.table.lastLogin') }}</th>
+              <th scope="col">{{ $t('users.table.actions') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in sortedUsers" :key="user.id" class="user-row">
+              <td class="name-cell">
+                <div class="user-info">
+                  <div class="user-avatar">
+                    {{ user.firstName.charAt(0).toUpperCase() }}
+                  </div>
+                  <div class="user-details">
+                    <strong>{{ user.firstName }} {{ user.lastName }}</strong>
+                  </div>
+>>>>>>> origin/master
                 </div>
-                <div class="user-details">
-                  <strong>{{ user.firstName }} {{ user.lastName }}</strong>
+              </td>
+              <td class="email-cell">
+                <a :href="`mailto:${user.email}`" class="email-link">
+                  {{ user.email }}
+                </a>
+                <span v-if="user.isEmailVerified" class="badge badge-success">{{
+                  $t('users.emailVerified')
+                }}</span>
+                <span v-else class="badge badge-warning">{{ $t('users.emailUnverified') }}</span>
+              </td>
+              <td class="phone-cell">
+                {{ user.phoneNumber || '—' }}
+              </td>
+              <td class="status-cell">
+                <span
+                  :class="['status-badge', user.isActive ? 'status-active' : 'status-inactive']"
+                >
+                  {{ user.isActive ? $t('users.status.active') : $t('users.status.inactive') }}
+                </span>
+              </td>
+              <td class="date-cell">
+                {{ formatDate(user.createdAt) }}
+              </td>
+              <td class="date-cell">
+                {{ formatDate(user.lastLoginAt) }}
+              </td>
+              <td class="actions-cell">
+                <div class="action-buttons">
+                  <router-link
+                    :to="`/users/${user.id}`"
+                    class="btn-icon"
+                    :aria-label="`View user ${user.firstName} ${user.lastName}`"
+                    data-testid="view-user-btn"
+                  >
+                    <i class="icon-eye" aria-hidden="true"></i>
+                  </router-link>
+                  <router-link
+                    :to="`/users/${user.id}/edit`"
+                    class="btn-icon"
+                    :aria-label="`Edit user ${user.firstName} ${user.lastName}`"
+                    data-testid="edit-user-btn"
+                  >
+                    <i class="icon-edit" aria-hidden="true"></i>
+                  </router-link>
+                  <button
+                    @click="handleDelete(user.id)"
+                    class="btn-icon btn-danger"
+                    :aria-label="`Delete user ${user.firstName} ${user.lastName}`"
+                    data-testid="delete-user-btn"
+                  >
+                    <i class="icon-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
                 </div>
               </div>
             </td>
@@ -95,15 +151,15 @@
               <a :href="`mailto:${user.email}`" class="email-link">
                 {{ user.email }}
               </a>
-              <span v-if="user.isEmailVerified" class="badge badge-success">Verifiziert</span>
-              <span v-else class="badge badge-warning">Unverifiziert</span>
+              <span v-if="user.isEmailVerified" class="badge badge-success">{{ $t('users.email.verified') }}</span>
+              <span v-else class="badge badge-warning">{{ $t('users.email.unverified') }}</span>
             </td>
             <td class="phone-cell">
               {{ user.phoneNumber || '—' }}
             </td>
             <td class="status-cell">
               <span :class="['status-badge', user.isActive ? 'status-active' : 'status-inactive']">
-                {{ user.isActive ? 'Aktiv' : 'Inaktiv' }}
+                {{ user.isActive ? $t('users.status.active') : $t('users.status.inactive') }}
               </span>
             </td>
             <td class="date-cell">
@@ -131,7 +187,7 @@
                   <i class="icon-edit" aria-hidden="true"></i>
                 </router-link>
                 <button
-                  @click="handleDelete(user.id)"
+                  @click="confirmDelete(user.id)"
                   class="btn-icon btn-danger"
                   :aria-label="`Delete user ${user.firstName} ${user.lastName}`"
                   data-testid="delete-user-btn"
@@ -152,11 +208,11 @@
           :disabled="userStore.pagination.page === 1"
           class="pagination-btn"
         >
-          ← Zurück
+          {{ $t('ui.previous') }}
         </button>
 
         <div class="pagination-info">
-          Seite {{ userStore.pagination.page }} von {{ userStore.totalPages }}
+          {{ $t('ui.pageInfo', { page: userStore.pagination.page, total: userStore.totalPages }) }}
         </div>
 
         <button
@@ -164,22 +220,20 @@
           :disabled="userStore.pagination.page >= userStore.totalPages"
           class="pagination-btn"
         >
-          Weiter →
+          {{ $t('ui.next') }}
         </button>
       </div>
-
     </CardContainer>
 
     <!-- Delete Confirmation Modal -->
     <div v-if="showDeleteModal" class="modal-overlay">
       <div class="modal-dialog">
         <div class="modal-header">
-          <h4>Benutzer löschen?</h4>
+          <h4>{{ $t('users.modals.deleteTitle') }}</h4>
         </div>
         <div class="modal-body">
           <p>
-            Möchten Sie diesen Benutzer wirklich löschen? Diese Aktion kann nicht rückgängig gemacht
-            werden.
+            {{ $t('users.modals.deleteBody') }}
           </p>
         </div>
         <div class="modal-footer">
@@ -188,7 +242,7 @@
             class="btn btn-secondary"
             data-testid="cancel-delete-btn"
           >
-            Abbrechen
+            {{ $t('ui.cancel') }}
           </button>
           <button
             @click="confirmDelete"
@@ -196,7 +250,7 @@
             :disabled="deleting"
             data-testid="confirm-delete-btn"
           >
-            {{ deleting ? 'Wird gelöscht...' : 'Löschen' }}
+            {{ deleting ? $t('users.deleting') : $t('users.delete') }}
           </button>
         </div>
       </div>

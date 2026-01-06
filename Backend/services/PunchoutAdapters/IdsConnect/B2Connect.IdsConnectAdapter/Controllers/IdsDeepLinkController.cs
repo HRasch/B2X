@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using B2Connect.Domain.Search.Services;
 using B2Connect.IdsConnectAdapter.Models;
 using B2Connect.Shared.Infrastructure.ServiceClients;
-using B2Connect.Domain.Search.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace B2Connect.IdsConnectAdapter.Controllers;
 

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using B2Connect.Catalog.ImportAdapters.Formats;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using B2Connect.Catalog.ImportAdapters.Formats;
 
 namespace B2Connect.Catalog.ImportAdapters;
 

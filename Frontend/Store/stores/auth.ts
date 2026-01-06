@@ -20,11 +20,15 @@ export const useAuthStore = defineStore('auth', () => {
   if (process.client) {
     const cookies = useCookie('auth');
     if (cookies.value) {
-      const authData = cookies.value as AuthCookieData;
-      accessToken.value = authData.accessToken;
-      refreshToken.value = authData.refreshToken;
-      tenantId.value = authData.tenantId;
-      user.value = authData.user;
+      try {
+        const authData = JSON.parse(cookies.value as string) as AuthCookieData;
+        accessToken.value = authData.accessToken;
+        refreshToken.value = authData.refreshToken;
+        tenantId.value = authData.tenantId;
+        user.value = authData.user;
+      } catch (err) {
+        console.warn('Failed to parse auth cookie', err);
+      }
     }
   }
 

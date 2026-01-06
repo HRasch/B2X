@@ -121,7 +121,6 @@ public class ShippingCostServiceTests : IAsyncLifetime
         var subtotal = 100m;
         var shippingMethodId = "dhl-express";
         var country = "DE";
-        var expectedShipping = 4.99m;
         var expectedTotal = 104.99m;
 
         // Act

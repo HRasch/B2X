@@ -44,7 +44,7 @@ public class FashopErpConnector : IErpConnector
         // Validate configuration
         if (string.IsNullOrEmpty(config.ErpType) || !config.ErpType.Equals("fashop", StringComparison.OrdinalIgnoreCase))
         {
-            throw new ArgumentException("Invalid ERP type. Expected 'fashop'.", nameof(config.ErpType));
+            throw new ArgumentException("Invalid ERP type. Expected 'fashop'.", nameof(config));
         }
 
         // TODO: Implement actual Fashop connection initialization

@@ -1,6 +1,6 @@
+using B2Connect.Email.Infrastructure;
 using B2Connect.Email.Interfaces;
 using B2Connect.Email.Models;
-using B2Connect.Email.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

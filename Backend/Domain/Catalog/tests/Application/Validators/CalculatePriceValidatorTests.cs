@@ -4,6 +4,7 @@ using B2Connect.Catalog.Application.Validators;
 using Xunit;
 
 namespace B2Connect.Catalog.Tests.Application.Validators;
+
 public class CalculatePriceValidatorTests
 {
     private readonly CalculatePriceValidator _validator = new();
