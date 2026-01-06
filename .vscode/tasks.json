@@ -437,6 +437,39 @@
       ],
       "cwd": "${workspaceFolder}/Frontend/Management",
       "group": "build"
+    },
+    {
+      "label": "copilot-guardian-status",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/copilot-guardian.sh",
+      "args": ["status"],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "copilot-guardian-warn",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/copilot-guardian.sh",
+      "args": ["warn"],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "copilot-guardian-audit",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/copilot-guardian.sh",
+      "args": ["audit"],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
     }
   ]
 }

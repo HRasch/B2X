@@ -75,12 +75,15 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-043` | Paid Services Infrastructure | `.ai/decisions/ADR-043-paid-services-infrastructure.md` | Proposed |
 | `ADR-044` | Floating Labels vs Traditional Labels Ruleset | `.ai/decisions/ADR-044-floating-labels-ruleset.md` | Accepted |
 | `ADR-045` | Unified Layout System | `.ai/decisions/ADR-045-unified-layout-system.md` | Proposed |
+<<<<<<< HEAD
+=======
 | `ADR-046` | Unified Category Navigation Architecture | `.ai/decisions/ADR-046-unified-category-navigation.md` | Proposed |
 | `ADR-047` | Multishop / Shared Catalogs Architecture | `.ai/decisions/ADR-047-multishop-shared-catalog.md` | Proposed |
 | `ADR-048` | Tenant-Level Include/Exclude Rules for Shared Catalogs | `.ai/decisions/ADR-048-tenant-level-include-exclude.md` | Proposed |
 
 | `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
 | `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
+>>>>>>> origin/master
 
 ---
 

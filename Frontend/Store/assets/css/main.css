@@ -8,7 +8,7 @@
 
 /* Force some Tailwind classes to be generated */
 .force-tailwind {
-  @apply flex hidden text-center bg-white text-black p-4 m-2 border border-gray-300 rounded;
+  @apply hidden text-center bg-white text-black p-4 m-2 border border-gray-300 rounded;
 }
 
 /* Custom component styles - DaisyUI v5 provides btn, card, etc. */
