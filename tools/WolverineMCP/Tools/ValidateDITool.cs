@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using McpSharp.Server;
+using McpDotNet.Server;
 using B2Connect.Tools.WolverineMCP.Services;
 
 namespace B2Connect.Tools.WolverineMCP.Tools;
@@ -7,23 +7,16 @@ namespace B2Connect.Tools.WolverineMCP.Tools;
 /// <summary>
 /// MCP tools for validating dependency injection.
 /// </summary>
-[McpServerToolType]
-public class ValidateDITool
+[McpToolType]
+public class ValidateDITool(DependencyInjectionService diService)
 {
-    private readonly DependencyInjectionService _diService;
-
-    public ValidateDITool(DependencyInjectionService diService)
-    {
-        _diService = diService;
-    }
-
-    [McpServerTool, Description("Validate dependency injection setup in Wolverine handlers")]
+    [McpTool, Description("Validates dependency injection setup in Wolverine handlers and services.")]
     public async Task<string> ValidateDIAsync(
         [Description("Workspace root directory")] string workspacePath)
     {
         try
         {
-            var results = await _diService.ValidateDependencyInjectionAsync(workspacePath);
+            var results = await diService.ValidateDependencyInjectionAsync(workspacePath);
 
             var output = "DI validation results:\n";
             foreach (var result in results)

@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using McpSharp.Server;
+using McpDotNet.Server;
 using B2Connect.Tools.WolverineMCP.Services;
 
 namespace B2Connect.Tools.WolverineMCP.Tools;
@@ -7,23 +7,16 @@ namespace B2Connect.Tools.WolverineMCP.Tools;
 /// <summary>
 /// MCP tools for analyzing queries.
 /// </summary>
-[McpServerToolType]
-public class AnalyzeQueriesTool
+[McpToolType]
+public class AnalyzeQueriesTool(QueryOptimizationService queryService)
 {
-    private readonly QueryOptimizationService _queryService;
-
-    public AnalyzeQueriesTool(QueryOptimizationService queryService)
-    {
-        _queryService = queryService;
-    }
-
-    [McpServerTool, Description("Analyze PostgreSQL queries in Wolverine handlers")]
+    [McpTool, Description("Analyzes PostgreSQL queries in Wolverine handlers for optimization opportunities.")]
     public async Task<string> AnalyzeQueriesAsync(
         [Description("Workspace root directory")] string workspacePath)
     {
         try
         {
-            var results = await _queryService.AnalyzeQueriesAsync(workspacePath);
+            var results = await queryService.AnalyzeQueriesAsync(workspacePath);
 
             var output = "Query analysis results:\n";
             foreach (var result in results)

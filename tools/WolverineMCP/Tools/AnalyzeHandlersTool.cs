@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using McpSharp.Server;
+using McpDotNet.Server;
 using B2Connect.Tools.WolverineMCP.Services;
 
 namespace B2Connect.Tools.WolverineMCP.Tools;
@@ -7,23 +7,16 @@ namespace B2Connect.Tools.WolverineMCP.Tools;
 /// <summary>
 /// MCP tools for analyzing Wolverine handlers.
 /// </summary>
-[McpServerToolType]
-public class AnalyzeHandlersTool
+[McpToolType]
+public class AnalyzeHandlersTool(WolverineAnalysisService analysisService)
 {
-    private readonly WolverineAnalysisService _analysisService;
-
-    public AnalyzeHandlersTool(WolverineAnalysisService analysisService)
-    {
-        _analysisService = analysisService;
-    }
-
-    [McpServerTool, Description("Analyze Wolverine message handlers for CQRS patterns")]
+    [McpTool, Description("Analyzes Wolverine message handlers in the codebase to identify CQRS patterns and potential issues.")]
     public async Task<string> AnalyzeHandlersAsync(
         [Description("Workspace root directory")] string workspacePath)
     {
         try
         {
-            var results = await _analysisService.AnalyzeHandlersAsync(workspacePath);
+            var results = await analysisService.AnalyzeHandlersAsync(workspacePath);
 
             var output = $"Found {results.Count()} handlers:\n";
             foreach (var result in results)

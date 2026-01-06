@@ -14,6 +14,38 @@ import glob from 'fast-glob';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
+// Input validation utilities
+class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
+function validateString(value: any, fieldName: string, minLength = 1, maxLength = 1000): string {
+  if (typeof value !== 'string') {
+    throw new ValidationError(`${fieldName} must be a string`);
+  }
+  if (value.length < minLength) {
+    throw new ValidationError(`${fieldName} must be at least ${minLength} characters`);
+  }
+  if (value.length > maxLength) {
+    throw new ValidationError(`${fieldName} must be at most ${maxLength} characters`);
+  }
+  return value;
+}
+
+function validateWorkspacePath(workspacePath: any): string {
+  const path = validateString(workspacePath, 'workspacePath', 1, 500);
+
+  // Prevent path traversal attacks
+  if (path.includes('..') || path.includes('../') || path.startsWith('/')) {
+    throw new ValidationError('workspacePath must be a relative path without .. or absolute paths');
+  }
+
+  return path;
+}
+
 // Main MCP Server class
 class SecurityMCP {
   private server: Server;
@@ -131,6 +163,9 @@ class SecurityMCP {
             throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
         }
       } catch (error) {
+        if (error instanceof ValidationError) {
+          throw new McpError(ErrorCode.InvalidParams, error.message);
+        }
         if (error instanceof McpError) {
           throw error;
         }
@@ -140,6 +175,8 @@ class SecurityMCP {
   }
 
   private async handleScanVulnerabilities(args: { workspacePath: string }) {
+    const workspacePath = validateWorkspacePath(args.workspacePath);
+
     // TODO: Implement vulnerability scanning
     return {
       content: [
@@ -152,6 +189,8 @@ class SecurityMCP {
   }
 
   private async handleCheckSqlInjection(args: { workspacePath: string }) {
+    const workspacePath = validateWorkspacePath(args.workspacePath);
+
     // TODO: Implement SQL injection checking
     return {
       content: [
@@ -164,6 +203,8 @@ class SecurityMCP {
   }
 
   private async handleValidateInputSanitization(args: { workspacePath: string }) {
+    const workspacePath = validateWorkspacePath(args.workspacePath);
+
     // TODO: Implement input sanitization validation
     return {
       content: [
@@ -176,6 +217,8 @@ class SecurityMCP {
   }
 
   private async handleCheckAuthentication(args: { workspacePath: string }) {
+    const workspacePath = validateWorkspacePath(args.workspacePath);
+
     // TODO: Implement authentication checking
     return {
       content: [
@@ -188,6 +231,8 @@ class SecurityMCP {
   }
 
   private async handleScanXssVulnerabilities(args: { workspacePath: string }) {
+    const workspacePath = validateWorkspacePath(args.workspacePath);
+
     // TODO: Implement XSS scanning
     return {
       content: [

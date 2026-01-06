@@ -17,6 +17,41 @@ Model Context Protocol (MCP) server for HTML and CSS analysis in the B2Connect p
 - **Optimization Suggestions**: Get recommendations for improving CSS
 - **File Discovery**: Find all CSS files in the workspace
 
+## Related MCP Servers
+
+This project includes several MCP servers for comprehensive frontend development:
+
+### Chrome DevTools MCP (External)
+For browser automation, debugging, and performance testing:
+- **Repository**: [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp)
+- **Package**: `chrome-devtools-mcp` on npm
+- **Features**:
+  - Full Chrome DevTools Protocol access
+  - Browser automation and testing
+  - Performance profiling and analysis
+  - Network monitoring and debugging
+  - Accessibility audits with Chrome DevTools
+  - Screenshot and PDF generation
+  - Element inspection and manipulation
+
+### TypeScript MCP (Local)
+For TypeScript code analysis:
+- Symbol search and type analysis
+- Usage tracking and refactoring support
+- See `tools/TypeScriptMCP/`
+
+### Vue MCP (Local)
+For Vue.js component analysis:
+- Component structure analysis
+- Composition API support
+- See `tools/VueMCP/`
+
+### Security MCP (Local)
+For security analysis:
+- Vulnerability scanning
+- Security best practices validation
+- See `tools/SecurityMCP/`
+
 ## Installation
 
 ```bash
