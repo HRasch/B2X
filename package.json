@@ -47,22 +47,16 @@
     "prettier": "^3.3.3"
   },
   "lint-staged": {
-  "lint-staged": {
     "*.cs": [
-      "dotnet format --include"
+      "dotnet format B2Connect.slnx --verbosity quiet"
     ],
     "tools/**/*.{ts,js,json}": [
-      "prettier --write --ignore-unknown",
-      "eslint --fix"
+      "prettier --write --ignore-unknown"
     ],
     "frontend/**/*.{js,ts,vue}": [
       "prettier --write",
       "eslint --fix"
     ],
-    "frontend/**/*.{json,css,scss,md}": [
-      "prettier --write"
-    ]
-  },
     "frontend/**/*.{json,css,scss,md}": [
       "prettier --write"
     ],
