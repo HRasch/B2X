@@ -1,6 +1,20 @@
 using B2Connect.Aspire.Extensions;
+using B2Connect.AppHost.Configuration;
+using B2Connect.AppHost.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
+
+// ===== TESTING CONFIGURATION =====
+// Load testing configuration (mode: persisted|temporary, environment: development|testing|ci)
+var testingConfig = builder.Configuration.GetTestingConfiguration();
+
+// Note: TestingConfiguration and TestDataOrchestrator are not registered as services
+// in the AppHost since seeding functionality is now handled by the separate B2Connect.Seeding.API
+// builder.Services.AddSingleton(testingConfig);
+// builder.Services.AddTestDataOrchestrator(testingConfig);
+
+// Add MVC services for web interface
+// builder.Services.AddControllersWithViews(); // Removed - using separate seeding API
 
 // JWT Secret Configuration
 var jwtSecret = builder.Configuration["Jwt:Secret"]
@@ -278,6 +292,38 @@ var mcpServer = builder
 mcpServer.WaitFor(authService);
 mcpServer.WaitFor(tenantService);
 mcpServer.WaitFor(monitoringService);
+
+// Seeding API (Test Data Management)
+var seedingApi = builder
+    .AddProject("seeding-api", "../B2Connect.Seeding.API/B2Connect.Seeding.API.csproj")
+    .WithHttpEndpoint(port: 8095, name: "seeding-http")  // Fixed port for seeding API
+    .WithReference(authService)
+    .WithReference(tenantService)
+    .WithReference(catalogService)
+    .WithReference(localizationService)
+    .WithConditionalPostgresConnection(authDb, databaseProvider)
+    .WithConditionalPostgresConnection(tenantDb, databaseProvider)
+    .WithConditionalPostgresConnection(catalogDb, databaseProvider)
+    .WithConditionalPostgresConnection(localizationDb, databaseProvider)
+    .WithConditionalPostgresConnection(layoutDb, databaseProvider)
+    .WithConditionalPostgresConnection(adminDb, databaseProvider)
+    .WithConditionalPostgresConnection(storeDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithEncryption()
+    .WithRateLimiting()
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Seeding API waits for its referenced services
+seedingApi.WaitFor(authService);
+seedingApi.WaitFor(tenantService);
+seedingApi.WaitFor(catalogService);
+seedingApi.WaitFor(localizationService);
 
 // ===== API GATEWAYS =====
 // Gateways keep fixed ports because frontends connect directly to them.

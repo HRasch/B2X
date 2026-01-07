@@ -156,6 +156,48 @@
         "description": "Connector for integrating your ERP system with B2Connect. Synchronize data, manage orders, inventory, and seamless data exchange."
       }
     },
+    "seeding": {
+      "title": "Test Data Seeding",
+      "subtitle": "Initialize and manage test data for development and testing environments",
+      "currentStatus": "Current Status",
+      "isSeeded": "Data Seeded",
+      "lastSeededAt": "Last Seeded",
+      "seededWith": "Seeded With",
+      "tenantCount": "Tenants",
+      "userCount": "Users",
+      "productCount": "Products",
+      "actions": "Seeding Actions",
+      "lastOperation": "Last Operation",
+      "seedAll": {
+        "title": "Seed All Data",
+        "description": "Initialize complete test environment with tenants, users, products, and CMS content",
+        "button": "Seed All"
+      },
+      "seedCore": {
+        "title": "Seed Core Services",
+        "description": "Initialize essential services: authentication, tenant management, and localization",
+        "button": "Seed Core"
+      },
+      "seedCatalog": {
+        "title": "Seed Catalog",
+        "description": "Initialize product catalog with categories, products, and pricing information",
+        "button": "Seed Catalog"
+      },
+      "seedCms": {
+        "title": "Seed CMS",
+        "description": "Initialize content management system with pages, templates, and media",
+        "button": "Seed CMS"
+      },
+      "resetAll": {
+        "title": "Reset All Data",
+        "description": "Clear all test data and reset to initial state for clean testing environment",
+        "button": "Reset All",
+        "confirmTitle": "Confirm Reset",
+        "confirmMessage": "Are you sure you want to reset all test data? This action cannot be undone.",
+        "warningMessage": "All existing test data will be permanently deleted.",
+        "confirmButton": "Yes, Reset All"
+      }
+    },
     "version": "Latest Version",
     "supportedOS": "Supported Operating Systems",
     "updated": "Last Updated",

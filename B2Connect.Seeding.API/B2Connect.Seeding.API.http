@@ -1,0 +1,6 @@
+@B2Connect.Seeding.API_HostAddress = http://localhost:5072
+
+GET {{B2Connect.Seeding.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

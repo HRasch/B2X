@@ -5,7 +5,8 @@
       "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
+      "program": "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj",
+      "preLaunchTask": "build-apphost",
       "args": [],
       "cwd": "${workspaceFolder}/AppHost",
       "stopAtEntry": false,
@@ -36,7 +37,8 @@
     {
       "name": "🚀 Full Stack (PostgreSQL)",
       "type": "coreclr",
-      "request": "launch",
+      "request": "launch",B2Connect.AppHost.csproj",
+      "preLaunchTask": "build-apphost
       "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
       "args": [],
       "cwd": "${workspaceFolder}/AppHost",

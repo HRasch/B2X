@@ -219,6 +219,11 @@ const routes: RouteRecordRaw[] = [
         name: 'CliTools',
         component: () => import('@/views/tools/CliToolsView.vue'),
       },
+      {
+        path: 'seeding',
+        name: 'Seeding',
+        component: () => import('@/views/tools/SeedingView.vue'),
+      },
     ],
   },
   {
@@ -298,6 +303,11 @@ const routes: RouteRecordRaw[] = [
         path: 'cli',
         name: 'CliTools',
         component: () => import('@/views/tools/CliToolsView.vue'),
+      },
+      {
+        path: 'seeding',
+        name: 'Seeding',
+        component: () => import('@/views/tools/SeedingView.vue'),
       },
     ],
   },
