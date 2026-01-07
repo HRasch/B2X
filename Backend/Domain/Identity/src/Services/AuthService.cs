@@ -12,6 +12,7 @@ namespace B2Connect.AuthService.Data;
 // Identity User & Role
 public enum AccountType
 {
+    SA, // SuperAdmin (Platform-level admin for Management portal)
     DU, // DomainAdmin
     SU, // TenantAdmin
     U,   // User

@@ -275,6 +275,18 @@ using (var scope = app.Services.CreateScope())
     db.Database.EnsureCreatedAsync().GetAwaiter().GetResult();
 
     // Seed demo roles if they don't exist
+    if (!await roleManager.RoleExistsAsync("SuperAdmin").ConfigureAwait(false))
+    {
+        await roleManager.CreateAsync(new AppRole
+        {
+            Id = "superadmin-role",
+            Name = "SuperAdmin",
+            NormalizedName = "SUPERADMIN",
+            Description = "Platform-level administrator with full access to Management portal"
+        }).ConfigureAwait(false);
+        logger.LogInformation("✅ SuperAdmin role created");
+    }
+
     if (!await roleManager.RoleExistsAsync("Admin").ConfigureAwait(false))
     {
         await roleManager.CreateAsync(new AppRole
@@ -435,6 +447,41 @@ using (var scope = app.Services.CreateScope())
         else
         {
             logger.LogWarning("❌ Failed to create tenant admin account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+    }
+
+    // Seed SuperAdmin account for Management portal if it doesn't exist
+    var superAdminUser = await userManager.FindByEmailAsync("superadmin@b2connect.io").ConfigureAwait(false);
+    if (superAdminUser == null)
+    {
+        var newSuperAdminUser = new AppUser
+        {
+            Id = "superadmin-001",
+            Email = "superadmin@b2connect.io",
+            NormalizedEmail = "SUPERADMIN@B2CONNECT.IO",
+            UserName = "superadmin@b2connect.io",
+            NormalizedUserName = "SUPERADMIN@B2CONNECT.IO",
+            FirstName = "Super",
+            LastName = "Admin",
+            TenantId = null, // Platform-level, no tenant
+            IsActive = true,
+            EmailConfirmed = true,
+            IsTwoFactorRequired = !app.Environment.IsDevelopment(), // 2FA required in production
+            IsDeletable = false, // SuperAdmins cannot be deleted
+            AccountType = AccountType.SA, // SuperAdmin
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString()
+        };
+
+        var result = await userManager.CreateAsync(newSuperAdminUser, "SuperAdmin123!").ConfigureAwait(false);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newSuperAdminUser, "SuperAdmin").ConfigureAwait(false);
+            logger.LogInformation("✅ SuperAdmin account created for Management portal (superadmin@b2connect.io / SuperAdmin123!)");
+        }
+        else
+        {
+            logger.LogWarning("❌ Failed to create SuperAdmin account: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
         }
     }
 
