@@ -111,13 +111,8 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     // Custom strategy for tenant-scoped routing
     strategy: 'no_prefix',
-    // Enable lazy loading for better performance
-    lazy: true,
     // Directory for locale files
     langDir: 'locales/',
-    bundle: {
-      optimizeTranslationDirective: false,
-    },
   },
 
   // Pinia store configuration
