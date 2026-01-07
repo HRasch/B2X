@@ -30,12 +30,10 @@ public class OrderItem
     [Column("quantity")]
     public int Quantity { get; set; }
 
-    [Column("unit_price")]
-    [Column(TypeName = "decimal(18,2)")]
+    [Column("unit_price", TypeName = "decimal(18,2)")]
     public decimal UnitPrice { get; set; }
 
-    [Column("total_price")]
-    [Column(TypeName = "decimal(18,2)")]
+    [Column("total_price", TypeName = "decimal(18,2)")]
     public decimal TotalPrice { get; set; }
 
     [Column("created_at")]

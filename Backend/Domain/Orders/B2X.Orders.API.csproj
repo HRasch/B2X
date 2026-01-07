@@ -59,8 +59,7 @@
     <ProjectReference Include="../../shared/B2X.Shared.Search/B2X.Shared.Search.csproj" />
     <ProjectReference Include="../Catalog/B2X.Catalog.API.csproj" />
     <ProjectReference Include="../Identity/B2X.Identity.API.csproj" />
-    <ProjectReference Include="../Email/B2X.Email.API.csproj" />
+    <ProjectReference Include="../Email/B2X.Email.csproj" />
   </ItemGroup>
 
-</Project></content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/backend/Domain/Orders/B2X.Orders.API.csproj
+</Project>
