@@ -129,24 +129,55 @@
       }
     }
   },
-  "categories": {
-    "title": "Categories",
-    "subtitle": "Browse our product categories",
-    "allCategories": "All Categories",
-    "category": "Category",
-    "productsCount": "{count} product(s)",
-    "viewProducts": "View Products",
-    "noCategories": "No Categories Found",
-    "noCategoriesDescription": "There are no product categories available at the moment.",
-    "categoryNotFound": "Category Not Found",
-    "categoryNotFoundDescription": "The category you're looking for doesn't exist or has been removed.",
-    "viewAllCategories": "View All Categories",
-    "subcategories": "Subcategories",
-    "productsInCategory": "Products in {category}",
-    "productsComingSoon": "Products coming soon...",
-    "noProducts": "No Products Found",
-    "noProductsDescription": "There are no products in this category yet.",
-    "browseOtherCategories": "Browse Other Categories"
+  "checkout": {
+    "steps": {
+      "shipping": "Shipping",
+      "payment": "Payment",
+      "review": "Review"
+    },
+    "shipping": {
+      "address": {
+        "title": "Shipping Address",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "street": "Street Address",
+        "city": "City",
+        "postalCode": "Postal Code",
+        "country": "Country"
+      }
+    },
+    "payment": {
+      "method": {
+        "title": "Payment Method",
+        "card": "Credit/Debit Card",
+        "paypal": "PayPal",
+        "invoice": "Invoice"
+      },
+      "card": {
+        "number": "Card Number",
+        "expiry": "Expiry Date",
+        "cvc": "CVC"
+      }
+    },
+    "review": {
+      "title": "Review Your Order",
+      "shipping": "Shipping Address",
+      "payment": "Payment Method"
+    },
+    "orderSummary": {
+      "title": "Order Summary",
+      "quantity": "Qty",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total": "Total"
+    },
+    "actions": {
+      "back": "Back",
+      "continue": "Continue",
+      "placeOrder": "Place Order",
+      "processing": "Processing..."
+    }
   },
   "registrationCheck": {
       "title": "Check Registration Type",

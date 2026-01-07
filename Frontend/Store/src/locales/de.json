@@ -186,6 +186,86 @@
     "noProductsDescription": "In dieser Kategorie sind noch keine Produkte vorhanden.",
     "browseOtherCategories": "Andere Kategorien durchsuchen"
   },
+  "checkout": {
+    "title": "Kasse",
+    "subtitle": "Schließen Sie Ihren Einkauf ab",
+    "step": "Schritt {current} von {total}",
+    "steps": {
+      "shipping": "Versand",
+      "payment": "Zahlung",
+      "review": "Überprüfung"
+    },
+    "shipping": {
+      "title": "Versandinformationen",
+      "subtitle": "Geben Sie Ihre Versandadresse ein",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer",
+      "address": "Adresse",
+      "street": "Straße und Hausnummer",
+      "city": "Stadt",
+      "state": "Bundesland",
+      "zipCode": "Postleitzahl",
+      "country": "Land",
+      "saveAddress": "Adresse für zukünftige Bestellungen speichern",
+      "useBillingAddress": "Rechnungsadresse verwenden",
+      "continueToPayment": "Weiter zur Zahlung"
+    },
+    "payment": {
+      "title": "Zahlungsmethode",
+      "subtitle": "Wählen Sie Ihre bevorzugte Zahlungsmethode",
+      "methods": {
+        "creditCard": "Kreditkarte",
+        "debitCard": "Debitkarte",
+        "paypal": "PayPal",
+        "bankTransfer": "Banküberweisung",
+        "cashOnDelivery": "Nachnahme"
+      },
+      "cardNumber": "Kartennummer",
+      "expiryDate": "Ablaufdatum (MM/JJ)",
+      "cvv": "CVV",
+      "cardholderName": "Karteninhaber",
+      "billingAddress": "Rechnungsadresse",
+      "sameAsShipping": "Gleich wie Versandadresse",
+      "continueToReview": "Weiter zur Überprüfung"
+    },
+    "review": {
+      "title": "Bestellung überprüfen",
+      "subtitle": "Überprüfen Sie Ihre Bestellung vor dem Abschluss",
+      "shippingAddress": "Versandadresse",
+      "billingAddress": "Rechnungsadresse",
+      "paymentMethod": "Zahlungsmethode",
+      "orderSummary": "Bestellübersicht",
+      "subtotal": "Zwischensumme",
+      "shipping": "Versand",
+      "tax": "Steuer",
+      "total": "Gesamt",
+      "freeShipping": "Kostenloser Versand",
+      "editShipping": "Versand bearbeiten",
+      "editPayment": "Zahlung bearbeiten",
+      "placeOrder": "Bestellung aufgeben",
+      "termsAndConditions": "Ich akzeptiere die Allgemeinen Geschäftsbedingungen",
+      "privacyPolicy": "Datenschutzrichtlinie",
+      "termsRequired": "Sie müssen die Allgemeinen Geschäftsbedingungen akzeptieren"
+    },
+    "order": {
+      "success": "Bestellung erfolgreich!",
+      "successMessage": "Vielen Dank für Ihre Bestellung. Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
+      "orderNumber": "Bestellnummer",
+      "orderDate": "Bestelldatum",
+      "estimatedDelivery": "Voraussichtliche Lieferung",
+      "trackOrder": "Bestellung verfolgen",
+      "continueShopping": "Weiter einkaufen"
+    },
+    "errors": {
+      "shippingRequired": "Versandinformationen sind erforderlich",
+      "paymentRequired": "Zahlungsmethode ist erforderlich",
+      "termsRequired": "Sie müssen die Allgemeinen Geschäftsbedingungen akzeptieren",
+      "invalidCard": "Ungültige Kartendaten",
+      "paymentFailed": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut."
+    }
+  },
   "widgets": {
     "notFound": "Widget nicht gefunden",
     "notFoundDescription": "Das Widget-Komponent konnte nicht geladen werden. Bitte überprüfen Sie die Widget-Typ-ID.",
