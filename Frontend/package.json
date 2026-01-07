@@ -31,5 +31,9 @@
     "vue3",
     "frontend",
     "monorepo"
-  ]
+  ],
+  "dependencies": {
+    "@pinia/nuxt": "^0.11.3",
+    "pinia": "^3.0.4"
+  }
 }
