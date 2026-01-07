@@ -2,7 +2,7 @@ using B2Connect.ServiceDefaults;
 using B2Connect.Shared.Monitoring.Abstractions;
 using B2Connect.Shared.Monitoring.Services;
 using B2Connect.Shared.Monitoring.Data;
-using B2Connect.Middleware;
+using B2Connect.Shared.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Wolverine;

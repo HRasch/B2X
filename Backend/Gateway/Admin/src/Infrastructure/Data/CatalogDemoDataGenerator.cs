@@ -30,7 +30,7 @@ public static class CatalogDemoDataGenerator
 
         var categories = GenerateCategories();
         var brands = GenerateBrands();
-        var products = GenerateProducts(productCount, categories, brands);
+        var products = GenerateProducts(productCount, brands);
 
         return (categories, brands, products);
     }

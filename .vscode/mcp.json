@@ -219,13 +219,19 @@
       },
       "disabled": false
     },
-    "kb-mcp": {
-      "command": "python",
-      "args": ["-u", "tools/KnowledgeBaseMCP/src/server.py"],
+    "monitoring-mcp": {
+      "command": "node",
+      "args": [
+        "scripts/mcp-console-logger.js",
+        "monitoring-mcp",
+        "node",
+        "tools/MonitoringMCP/dist/index.js"
+      ],
       "env": {
-        "PYTHONUNBUFFERED": "1"
+        "NODE_ENV": "production",
+        "LOG_TO_CONSOLE": "true"
       },
       "disabled": false
-    }
+    },
   }
 }

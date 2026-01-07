@@ -2,47 +2,47 @@
   <div class="modal-overlay" @click="close">
     <div class="modal-content" @click.stop>
       <div class="modal-header">
-        <h2>Invite Administrator</h2>
+        <h2>{{ $t('admins.invite') }}</h2>
         <button @click="close" class="btn-close">×</button>
       </div>
 
       <form @submit.prevent="handleInviteAdmin">
         <div class="form-group">
-          <label for="email">Email Address</label>
+          <label for="email">{{ $t('admins.email') }}</label>
           <input
             id="email"
             v-model="form.email"
             type="email"
             required
-            placeholder="admin@example.com"
+            :placeholder="$t('admins.placeholders.email')"
           />
         </div>
 
         <div class="form-group">
-          <label for="firstName">First Name</label>
-          <input id="firstName" v-model="form.firstName" type="text" required placeholder="John" />
+          <label for="firstName">{{ $t('admins.firstName') }}</label>
+          <input id="firstName" v-model="form.firstName" type="text" required :placeholder="$t('admins.placeholders.firstName')" />
         </div>
 
         <div class="form-group">
-          <label for="lastName">Last Name</label>
-          <input id="lastName" v-model="form.lastName" type="text" required placeholder="Doe" />
+          <label for="lastName">{{ $t('admins.lastName') }}</label>
+          <input id="lastName" v-model="form.lastName" type="text" required :placeholder="$t('admins.placeholders.lastName')" />
         </div>
 
         <div class="form-group">
-          <label for="role">Role</label>
+          <label for="role">{{ $t('admins.role') }}</label>
           <select id="role" v-model="form.role" required>
-            <option value="TenantAdmin">Tenant Admin</option>
-            <option value="StoreManager">Store Manager</option>
-            <option value="SuperAdmin">Super Admin</option>
+            <option value="TenantAdmin">{{ $t('admins.roles.TenantAdmin') }}</option>
+            <option value="StoreManager">{{ $t('admins.roles.StoreManager') }}</option>
+            <option value="SuperAdmin">{{ $t('admins.roles.SuperAdmin') }}</option>
           </select>
         </div>
 
         <div v-if="error" class="error-message">{{ error }}</div>
 
         <div class="modal-actions">
-          <button type="button" @click="close" class="btn-cancel">Cancel</button>
+          <button type="button" @click="close" class="btn-cancel">{{ $t('admins.cancel') }}</button>
           <button type="submit" :disabled="loading" class="btn-submit">
-            {{ loading ? 'Sending Invite...' : 'Send Invite' }}
+            {{ loading ? $t('admins.inviting') : $t('admins.inviteAdmin') }}
           </button>
         </div>
       </form>

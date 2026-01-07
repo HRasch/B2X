@@ -1,22 +1,22 @@
 <template>
   <div class="login-page">
     <div class="login-container">
-      <h2>Tenant Management Portal</h2>
-      <p>Sign in to manage your stores and administrators</p>
+      <h2>{{ $t('auth.login.title') }}</h2>
+      <p>{{ $t('auth.login.subtitle') }}</p>
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" v-model="email" type="email" required placeholder="admin@example.com" />
+          <label for="email">{{ $t('auth.login.email') }}</label>
+          <input id="email" v-model="email" type="email" required :placeholder="$t('auth.login.emailPlaceholder')" />
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
-          <input id="password" v-model="password" type="password" required placeholder="••••••••" />
+          <label for="password">{{ $t('auth.login.password') }}</label>
+          <input id="password" v-model="password" type="password" required :placeholder="$t('auth.login.passwordPlaceholder')" />
         </div>
 
         <button type="submit" :disabled="loading" class="btn-submit">
-          {{ loading ? 'Signing in...' : 'Sign in' }}
+          {{ loading ? $t('auth.login.signingIn') : $t('auth.login.submit') }}
         </button>
 
         <div v-if="error" class="error-message">

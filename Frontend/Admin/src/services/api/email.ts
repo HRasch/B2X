@@ -131,7 +131,7 @@ export const emailApi = {
   async previewTemplate(
     templateKey: string,
     locale: string,
-    sampleData?: Record<string, any>
+    sampleData?: Record<string, unknown>
   ): Promise<EmailTemplatePreview> {
     const response = await apiClient.post('/api/admin/email/preview', {
       templateKey,

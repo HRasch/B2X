@@ -218,6 +218,12 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-005` | Phase 5 Enterprise ERP Connectors | `.ai/requirements/REQ-005-phase-5-enterprise-connectors.md` | Active |
 | `REQ-006` | CLI Customer Integration Commands | `.ai/requirements/REQ-006-cli-customer-integration-commands.md` | Specification |
 | `REQ-007` | Email WYSIWYG Builder | `.ai/requirements/REQ-007-email-wysiwyg-builder.md` | Draft |
+| `REQ-SMART-DATA-INTEGRATION` | Smart Data Integration Assistant | `.ai/requirements/REQ-SMART-DATA-INTEGRATION.md` | Active |
+| `ANALYSIS-SMART-DATA-INTEGRATION-BACKEND` | Smart Data Integration Assistant - Backend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-BACKEND.md` | Analysis Complete |
+| `ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND` | Smart Data Integration Assistant - Frontend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND.md` | Analysis Complete |
+| `ANALYSIS-SMART-DATA-INTEGRATION-SECURITY` | Smart Data Integration Assistant - Security Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-SECURITY.md` | Analysis Complete |
+| `ANALYSIS-SMART-DATA-INTEGRATION-ARCHITECT` | Smart Data Integration Assistant - Architecture Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-ARCHITECT.md` | Analysis Complete |
+| `CONSOLIDATION-SMART-DATA-INTEGRATION` | Smart Data Integration Assistant - Consolidated Analysis | `.ai/requirements/CONSOLIDATION-SMART-DATA-INTEGRATION.md` | Consolidation Complete |
 
 ---
 
@@ -283,6 +289,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `BS-REFACTOR-001` | Refactoring Efficiency Strategy | `.ai/brainstorm/REFACTORING-EFFICIENCY-STRATEGY.md` | Active |
+| `BS-SPRINT-EXECUTION-TRACKING` | GitHub-Based Sprint Execution Tracking | `.ai/brainstorm/BS-SPRINT-EXECUTION-TRACKING.md` | Brainstorm |
 
 ---
 

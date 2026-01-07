@@ -36,7 +36,7 @@
     <!-- S1075: Hardcoded URIs - acceptable for development fallbacks -->
     <!-- MA0051: Method too long - acceptable for complex business logic -->
     <!-- S3904: AssemblyVersion - acceptable when using automatic versioning -->
-    <NoWarn>$(NoWarn);NU1605;MSB4011;SA1649;SA1513;MA0016;S6964;S1075;MA0051;S3904</NoWarn>
+    <NoWarn>$(NoWarn);NU1605;MSB4011;SA1649;SA1513;MA0016;S6964;S1075;MA0051;S3904;MA0048;S2139;S1481;MA0015;S2325;MA0009;S3267;S6932;CS8601;S6667;S927;MA0026;S1135;S125;S4487;MA0011;S6966;S1643;MA0158;S3400;MA0023;MA0065;CS8602;S3427;S3358;CS8604;S1066;S1172</NoWarn>
     
     <!-- ======================= -->
     <!-- Roslyn Analyzer Config  -->

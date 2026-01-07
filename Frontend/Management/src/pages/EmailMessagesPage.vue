@@ -360,16 +360,19 @@ const sortEmails = () => {
   emails.value.sort((a, b) => {
     const aRecord = a as unknown as Record<string, unknown>;
     const bRecord = b as unknown as Record<string, unknown>;
-    let aVal = aRecord[sortField.value];
-    let bVal = bRecord[sortField.value];
+    let aVal: unknown = aRecord[sortField.value];
+    let bVal: unknown = bRecord[sortField.value];
 
     if (sortField.value === 'createdAt' && aVal && bVal) {
-      aVal = new Date(aVal).getTime();
-      bVal = new Date(bVal).getTime();
+      aVal = new Date(aVal as string | number | Date).getTime();
+      bVal = new Date(bVal as string | number | Date).getTime();
     }
 
-    if (aVal < bVal) return sortDirection.value === 'asc' ? -1 : 1;
-    if (aVal > bVal) return sortDirection.value === 'asc' ? 1 : -1;
+    const aNum = typeof aVal === 'number' ? aVal : typeof aVal === 'string' ? parseFloat(aVal) : 0;
+    const bNum = typeof bVal === 'number' ? bVal : typeof bVal === 'string' ? parseFloat(bVal) : 0;
+
+    if (aNum < bNum) return sortDirection.value === 'asc' ? -1 : 1;
+    if (aNum > bNum) return sortDirection.value === 'asc' ? 1 : -1;
     return 0;
   });
 };
@@ -407,7 +410,7 @@ const goToPage = (page: number) => {
 };
 
 // Debounced search
-let searchTimeout: NodeJS.Timeout | null = null;
+let searchTimeout: number | null = null;
 const debouncedSearch = () => {
   if (searchTimeout) clearTimeout(searchTimeout);
   searchTimeout = setTimeout(() => {

@@ -12,7 +12,8 @@
       "submit": "Iniciar sesión",
       "demoAccount": "Cuenta de demostración:",
       "demoCredentials": "admin@example.com / password",
-      "forgotPassword": "¿Olvidaste tu contraseña?"
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "loginError": "Error de inicio de sesión. Por favor, inténtelo de nuevo."
     },
     "register": {
       "title": "Registrarse",

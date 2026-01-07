@@ -1,35 +1,35 @@
 <template>
   <div class="dashboard-page">
-    <h1>Dashboard</h1>
+    <h1>{{ $t('dashboard.title') }}</h1>
 
     <div class="welcome-section">
-      <h2>Welcome, {{ authStore.email }}</h2>
-      <p>Manage your store instances and administrator identities</p>
+      <h2>{{ $t('dashboard.welcome', { email: authStore.email }) }}</h2>
+      <p>{{ $t('dashboard.subtitle') }}</p>
     </div>
 
     <div class="stats-grid">
       <div class="stat-card">
-        <h3>Store Instances</h3>
+        <h3>{{ $t('dashboard.stats.storeInstances') }}</h3>
         <p class="stat-value">{{ storeStore.storeCount }}</p>
-        <router-link to="/stores" class="link">View Stores →</router-link>
+        <router-link to="/stores" class="link">{{ $t('dashboard.links.viewStores') }}</router-link>
       </div>
 
       <div class="stat-card">
-        <h3>Administrators</h3>
+        <h3>{{ $t('dashboard.stats.administrators') }}</h3>
         <p class="stat-value">{{ adminStore.admins.length }}</p>
-        <router-link to="/admins" class="link">Manage Admins →</router-link>
+        <router-link to="/admins" class="link">{{ $t('dashboard.links.manageAdmins') }}</router-link>
       </div>
 
       <div class="stat-card">
-        <h3>Email Monitoring</h3>
+        <h3>{{ $t('dashboard.stats.emailMonitoring') }}</h3>
         <p class="stat-value">Monitor</p>
-        <router-link to="/email-monitoring" class="link">View Email Status →</router-link>
+        <router-link to="/email-monitoring" class="link">{{ $t('dashboard.links.viewEmailStatus') }}</router-link>
       </div>
 
       <div class="stat-card">
-        <h3>Quick Actions</h3>
-        <router-link to="/stores" class="action-btn">Create Store</router-link>
-        <router-link to="/admins" class="action-btn">Add Administrator</router-link>
+        <h3>{{ $t('dashboard.stats.quickActions') }}</h3>
+        <router-link to="/stores" class="action-btn">{{ $t('dashboard.links.createStore') }}</router-link>
+        <router-link to="/admins" class="action-btn">{{ $t('dashboard.links.addAdministrator') }}</router-link>
       </div>
     </div>
   </div>

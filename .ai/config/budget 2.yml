@@ -1,0 +1,86 @@
+---
+# Copilot Premium Request Budget Configuration
+# Reference: GL-006 Token Optimization Strategy
+# Last Updated: 2025-01-06
+
+# GitHub Copilot Plan Configuration
+copilot:
+  plan: pro  # free | pro | pro_plus
+  monthly_limit: 300
+  reset_day: 1  # Day of month when budget resets
+
+# Budget Allocation
+budgets:
+  daily:
+    total: 10
+    domains:
+      backend: 3
+      frontend: 3
+      i18n: 2
+      devops: 1
+      docs: 1
+
+  weekly:
+    total: 60
+    reserve: 10  # Emergency reserve
+
+# Circuit Breaker Thresholds
+thresholds:
+  # Monthly budget thresholds (percentage)
+  monthly:
+    warning: 80    # 240 requests for Pro
+    critical: 90   # 270 requests for Pro
+    stop: 95       # 285 requests for Pro
+
+  # Session limits (absolute values)
+  session:
+    max_turns: 30
+    warn_turns: 20
+    max_files: 8
+    warn_files: 5
+    max_context_kb: 100
+    warn_context_kb: 50
+
+# Session Management
+session_limits:
+  max_duration_minutes: 60
+  cooldown_minutes: 15
+  daily_sessions: 8
+
+# i18n Specific Settings
+i18n:
+  max_languages_per_batch: 4
+  max_keys_per_request: 50
+  prefer_script: true  # Use scripts/i18n-batch.sh instead of AI
+
+# Domain Priority Override
+# Higher priority domains get budget first
+priority:
+  critical:
+    - backend
+    - frontend
+  normal:
+    - i18n
+    - devops
+  low:
+    - docs
+
+# Monitoring Configuration
+monitoring:
+  log_file: .ai/logs/copilot-usage.log
+  alert_channel: github_issue  # github_issue | slack | none
+  auto_report: weekly
+
+# Emergency Protocols
+emergency:
+  # When monthly budget exhausted
+  budget_exhausted:
+    - switch_to_local_model
+    - notify_team
+    - log_incident
+
+  # When session limit hit
+  session_limit:
+    - save_context_summary
+    - suggest_split_task
+    - cooldown_15min

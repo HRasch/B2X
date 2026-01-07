@@ -23,15 +23,14 @@ IResourceBuilder<PostgresDatabaseResource>? layoutDb = null;
 IResourceBuilder<PostgresDatabaseResource>? adminDb = null;
 IResourceBuilder<PostgresDatabaseResource>? storeDb = null;
 IResourceBuilder<PostgresDatabaseResource>? monitoringDb = null;
+IResourceBuilder<PostgresDatabaseResource>? smartDataIntegrationDb = null;
 
 IResourceBuilder<RedisResource>? redis = null;
 IResourceBuilder<ElasticsearchResource>? elasticsearch = null;
 IResourceBuilder<RabbitMQServerResource>? rabbitmq = null;
 IResourceBuilder<PostgresServerResource>? postgres = null;
 
-// IResourceBuilder<AzureCdnResource>? cdn = null;
-
-if (!string.Equals(databaseProvider.ToLower(), "inmemory", StringComparison.Ordinal))
+if (!string.Equals(databaseProvider.ToLower(System.Globalization.CultureInfo.InvariantCulture), "inmemory", StringComparison.Ordinal))
 {
     // PostgreSQL Database
     postgres = builder.AddB2ConnectPostgres(
@@ -48,6 +47,7 @@ if (!string.Equals(databaseProvider.ToLower(), "inmemory", StringComparison.Ordi
     adminDb = postgres.AddB2ConnectDatabase("admin");
     storeDb = postgres.AddB2ConnectDatabase("store");
     monitoringDb = postgres.AddB2ConnectDatabase("monitoring");
+    smartDataIntegrationDb = postgres.AddB2ConnectDatabase("smartdataintegration");
 
     // Redis Cache
     redis = builder.AddB2ConnectRedis(
@@ -63,11 +63,6 @@ if (!string.Equals(databaseProvider.ToLower(), "inmemory", StringComparison.Ordi
     rabbitmq = builder.AddB2ConnectRabbitMQ(
         name: "rabbitmq",
         port: 5672);
-
-    // Azure CDN for translation assets and API caching
-    // cdn = builder.AddAzureCdnFrontDoor("cdn")
-    //     .WithOrigin(storeGateway, "store-api")
-    //     .WithOrigin(frontendStore, "store-frontend");
 }
 else
 {
@@ -215,6 +210,28 @@ if (redis != null)
     themingService.WaitFor(redis);
 if (rabbitmq != null)
     themingService.WaitFor(rabbitmq);
+
+// Smart Data Integration Service
+var smartDataIntegrationService = builder
+    .AddProject("smartdataintegration-service", "../backend/Domain/SmartDataIntegration/API/B2Connect.SmartDataIntegration.API.csproj")
+    .WithConditionalPostgresConnection(smartDataIntegrationDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithRateLimiting()
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting smart data integration service
+if (postgres != null)
+    smartDataIntegrationService.WaitFor(postgres);
+if (redis != null)
+    smartDataIntegrationService.WaitFor(redis);
+if (rabbitmq != null)
+    smartDataIntegrationService.WaitFor(rabbitmq);
 
 // Monitoring Service (Phase 2: Connected services monitoring, error logging)
 var monitoringService = builder
@@ -364,4 +381,5 @@ frontendManagement.WaitFor(mcpServer);
 // Logs appear in Aspire Dashboard under each frontend resource
 // No custom code needed - AddViteApp() handles stdout/stderr forwarding
 
-builder.Build().Run();
+var app = builder.Build();
+await app.RunAsync().ConfigureAwait(false);

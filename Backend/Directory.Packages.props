@@ -31,9 +31,11 @@
     <PackageVersion Include="RabbitMQ.Client" Version="7.2.0" />
     <PackageVersion Include="MassTransit.RabbitMQ" Version="8.4.1" />
     <!-- Distributed Tracing -->
-    <PackageVersion Include="OpenTelemetry" Version="1.9.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.Jaeger" Version="1.9.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0" />
+    <PackageVersion Include="OpenTelemetry" Version="1.14.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Jaeger" Version="1.14.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.14.0-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.14.0" />
     <!-- Data Access (10.0.1 required for Identity.EntityFrameworkCore compatibility) -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.1" />
@@ -52,8 +54,8 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Enrichers.Environment" Version="2.3.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.9.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.14.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
@@ -120,7 +122,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="8.0.0" />
     <!-- OpenTelemetry -->
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.11.2" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.14.0" />
     <!-- gRPC for ERP Integration -->
     <PackageVersion Include="Grpc.Net.Client" Version="2.67.0" />
     <PackageVersion Include="Google.Protobuf" Version="3.30.2" />
@@ -144,6 +146,10 @@
     <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.1-preview.1.25612.2" />
     <PackageVersion Include="Microsoft.Extensions.AI.AzureAIInference" Version="10.0.0-preview.1.25559.3" />
     <PackageVersion Include="OllamaSharp" Version="5.4.12" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.ML" Version="4.0.1" />
+    <PackageVersion Include="Microsoft.ML.FastTree" Version="4.0.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <!-- Code Analysis -->
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.14.0" />

@@ -31,6 +31,7 @@
     <ProjectReference Include="../backend/Domain/Localization/B2Connect.Localization.API.csproj" />
     <ProjectReference Include="../backend/Domain/Catalog/B2Connect.Catalog.API.csproj" />
     <ProjectReference Include="../backend/Domain/Theming/B2Connect.Theming.API.csproj" />
+    <ProjectReference Include="../backend/Domain/SmartDataIntegration/API/B2Connect.SmartDataIntegration.API.csproj" />
     <ProjectReference Include="../backend/Gateway/Store/API/B2Connect.Store.csproj" />
     <ProjectReference Include="../backend/Gateway/Admin/B2Connect.Admin.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { defineNuxtConfig } from 'nuxt/config';
 import path from 'path';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';

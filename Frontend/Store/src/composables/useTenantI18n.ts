@@ -1,5 +1,4 @@
 // composables/useTenantI18n.ts
-import { useI18n } from 'vue-i18n';
 
 export const useTenantI18n = () => {
   // Only call useI18n() when we're in a component context

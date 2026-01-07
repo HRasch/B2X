@@ -1,0 +1,203 @@
+{
+  "auth": {
+    "login": {
+      "title": "Tenant-Management-Portal",
+      "subtitle": "Melden Sie sich an, um Ihre Shops und Administratoren zu verwalten",
+      "email": "E-Mail",
+      "emailPlaceholder": "admin@example.com",
+      "password": "Passwort",
+      "passwordPlaceholder": "••••••••",
+      "signingIn": "Anmeldung läuft...",
+      "submit": "Anmelden",
+      "error": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Zugangsdaten."
+    },
+    "logout": "Abmelden"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Willkommen, {{email}}",
+    "subtitle": "Verwalten Sie Ihre Shop-Instanzen und Administrator-Identitäten",
+    "stats": {
+      "storeInstances": "Shop-Instanzen",
+      "administrators": "Administratoren",
+      "emailMonitoring": "E-Mail-Überwachung",
+      "quickActions": "Schnellaktionen"
+    },
+    "links": {
+      "viewStores": "Shops anzeigen →",
+      "manageAdmins": "Admins verwalten →",
+      "viewEmailStatus": "E-Mail-Status anzeigen →",
+      "createStore": "Shop erstellen",
+      "addAdministrator": "Administrator hinzufügen"
+    }
+  },
+  "stores": {
+    "title": "Shop-Instanzen",
+    "create": "Shop erstellen",
+    "loading": "Shops werden geladen...",
+    "empty": "Keine Shop-Instanzen gefunden",
+    "createFirst": "Ersten Shop erstellen",
+    "name": "Shop-Name",
+    "domain": "Domain",
+    "status": "Status",
+    "statuses": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "suspended": "Gesperrt"
+    },
+    "actions": {
+      "viewDetails": "Details anzeigen",
+      "delete": "Löschen"
+    },
+    "placeholders": {
+      "name": "Mein Shop",
+      "domain": "meinshop.example.com"
+    },
+    "creating": "Wird erstellt...",
+    "createStore": "Shop erstellen",
+    "cancel": "Abbrechen",
+    "error": "Shop konnte nicht erstellt werden"
+  },
+  "admins": {
+    "title": "Administratoren",
+    "invite": "Administrator einladen",
+    "loading": "Administratoren werden geladen...",
+    "empty": "Keine Administratoren gefunden",
+    "addFirst": "Ersten Administrator hinzufügen",
+    "email": "E-Mail-Adresse",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "role": "Rolle",
+    "status": "Status",
+    "roles": {
+      "TenantAdmin": "Tenant-Admin",
+      "StoreManager": "Shop-Manager",
+      "SuperAdmin": "Super-Admin"
+    },
+    "actions": {
+      "viewDetails": "Details anzeigen",
+      "delete": "Löschen"
+    },
+    "placeholders": {
+      "email": "admin@example.com",
+      "firstName": "Max",
+      "lastName": "Mustermann"
+    },
+    "inviting": "Einladung wird versendet...",
+    "inviteAdmin": "Einladung senden",
+    "cancel": "Abbrechen",
+    "error": "Administrator konnte nicht eingeladen werden"
+  },
+  "email": {
+    "monitoring": {
+      "title": "E-Mail-Überwachung",
+      "subtitle": "Überwachen Sie E-Mail-Zustellung, Fehler und Leistungsmetriken",
+      "loading": "E-Mails werden geladen...",
+      "empty": "Keine E-Mails gefunden",
+      "subject": "Betreff",
+      "recipient": "Empfänger",
+      "status": "Status",
+      "sentAt": "Gesendet am",
+      "actions": {
+        "viewDetails": "Details anzeigen",
+        "retry": "Erneut versuchen",
+        "cancel": "Abbrechen"
+      },
+      "statuses": {
+        "sent": "Gesendet",
+        "failed": "Fehlgeschlagen",
+        "pending": "Ausstehend",
+        "cancelled": "Abgebrochen",
+        "bounced": "Unzustellbar"
+      },
+      "filter": {
+        "all": "Alle",
+        "sent": "Gesendet",
+        "failed": "Fehlgeschlagen",
+        "pending": "Ausstehend",
+        "bounced": "Unzustellbar"
+      },
+      "search": "E-Mails suchen...",
+      "noResults": "Keine E-Mails entsprechen Ihrer Suche",
+      "timeRange": "Zeitraum",
+      "ranges": {
+        "24h": "Letzte 24 Stunden",
+        "7d": "Letzte 7 Tage",
+        "30d": "Letzte 30 Tage",
+        "custom": "Benutzerdefinierter Bereich"
+      },
+      "health": {
+        "systemHealth": "Systemzustand",
+        "healthy": "Gesund",
+        "issuesDetected": "Probleme erkannt",
+        "emailsSent24h": "E-Mails gesendet (24h)",
+        "failedEmails24h": "Fehlgeschlagene E-Mails (24h)",
+        "bouncedEmails24h": "Unzustellbare E-Mails (24h)"
+      },
+      "details": {
+        "title": "E-Mail-Details",
+        "close": "Schließen",
+        "retry": "E-Mail erneut versuchen",
+        "cancel": "E-Mail abbrechen",
+        "retrying": "Wird wiederholt...",
+        "cancelling": "Wird abgebrochen...",
+        "retrySuccess": "E-Mail-Wiederholung initiiert",
+        "cancelSuccess": "E-Mail abgebrochen",
+        "retryError": "E-Mail-Wiederholung fehlgeschlagen",
+        "cancelError": "E-Mail-Abbruch fehlgeschlagen"
+      }
+    }
+  },
+  "ui": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "loading": "Lädt...",
+    "success": "Erfolg",
+    "error": "Fehler",
+    "warning": "Warnung",
+    "close": "Schließen",
+    "edit": "Bearbeiten",
+    "add": "Hinzufügen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "export": "Exportieren",
+    "import": "Importieren",
+    "create": "Erstellen",
+    "view": "Anzeigen",
+    "back": "Zurück",
+    "submit": "Absenden",
+    "confirm": "Bestätigen",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "errors": {
+    "required": "Dieses Feld ist erforderlich",
+    "invalid_email": "Ungültige E-Mail-Adresse",
+    "unauthorized": "Sie sind nicht berechtigt",
+    "forbidden": "Zugriff verweigert",
+    "not_found": "Nicht gefunden",
+    "server_error": "Serverfehler. Bitte versuchen Sie es später erneut.",
+    "network_error": "Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung.",
+    "validation_error": "Validierung fehlgeschlagen. Bitte überprüfen Sie Ihre Eingabe.",
+    "duplicate": "Dieses Element existiert bereits",
+    "min_length": "Muss mindestens {{min}} Zeichen lang sein",
+    "max_length": "Darf maximal {{max}} Zeichen lang sein"
+  },
+  "common": {
+    "yes": "Ja",
+    "no": "Nein",
+    "ok": "OK",
+    "back": "Zurück",
+    "home": "Startseite",
+    "language": "Sprache",
+    "settings": "Einstellungen",
+    "profile": "Profil",
+    "help": "Hilfe",
+    "about": "Über",
+    "version": "Version"
+  }
+}

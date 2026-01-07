@@ -12,7 +12,8 @@
       "submit": "Se connecter",
       "demoAccount": "Compte de démonstration :",
       "demoCredentials": "admin@example.com / password",
-      "forgotPassword": "Mot de passe oublié ?"
+      "forgotPassword": "Mot de passe oublié ?",
+      "loginError": "Échec de la connexion. Veuillez réessayer."
     },
     "register": {
       "title": "S'inscrire",

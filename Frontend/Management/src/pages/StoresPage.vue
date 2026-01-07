@@ -1,23 +1,23 @@
 <template>
   <div class="stores-page">
     <div class="page-header">
-      <h1>Store Instances</h1>
-      <button @click="isCreateModalOpen = true" class="btn-primary">+ Create Store</button>
+      <h1>{{ $t('stores.title') }}</h1>
+      <button @click="isCreateModalOpen = true" class="btn-primary">+ {{ $t('stores.create') }}</button>
     </div>
 
-    <div v-if="loading" class="loading">Loading stores...</div>
+    <div v-if="loading" class="loading">{{ $t('stores.loading') }}</div>
     <div v-else-if="stores.length === 0" class="empty-state">
-      <p>No store instances found</p>
-      <button @click="isCreateModalOpen = true" class="btn-secondary">Create First Store</button>
+      <p>{{ $t('stores.empty') }}</p>
+      <button @click="isCreateModalOpen = true" class="btn-secondary">{{ $t('stores.createFirst') }}</button>
     </div>
     <div v-else class="stores-grid">
       <div v-for="store in stores" :key="store.id" class="store-card">
         <h3>{{ store.name }}</h3>
         <p class="domain">{{ store.domain }}</p>
-        <p class="status" :class="store.status">{{ store.status }}</p>
+        <p class="status" :class="store.status">{{ $t(`stores.statuses.${store.status}`) }}</p>
         <div class="card-actions">
-          <router-link :to="`/stores/${store.id}`" class="btn-link">View Details</router-link>
-          <button @click="deleteStoreInstance(store.id)" class="btn-delete">Delete</button>
+          <router-link :to="`/stores/${store.id}`" class="btn-link">{{ $t('stores.actions.viewDetails') }}</router-link>
+          <button @click="deleteStoreInstance(store.id)" class="btn-delete">{{ $t('stores.actions.delete') }}</button>
         </div>
       </div>
     </div>

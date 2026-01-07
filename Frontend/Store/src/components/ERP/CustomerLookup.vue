@@ -3,13 +3,17 @@
     <!-- Header -->
     <div>
       <h1 class="text-3xl font-bold">
-        {{ isNewCustomer ? 'Neue Registrierung' : 'Willkommen zurück' }}
+        {{
+          isNewCustomer
+            ? $t('erp.customerLookup.newRegistration')
+            : $t('erp.customerLookup.welcomeBack')
+        }}
       </h1>
       <p class="mt-2 text-base-content/70">
         {{
           isNewCustomer
-            ? 'Geben Sie Ihre E-Mail-Adresse ein, um zu beginnen'
-            : 'Kundeninformationen gefunden'
+            ? $t('erp.customerLookup.enterEmailToStart')
+            : $t('erp.customerLookup.customerInfoFound')
         }}
       </p>
     </div>
@@ -20,7 +24,7 @@
         <!-- Email Input -->
         <div class="form-control w-full">
           <label class="label">
-            <span class="label-text font-medium">E-Mail-Adresse *</span>
+            <span class="label-text font-medium">{{ $t('erp.customerLookup.emailLabel') }}</span>
           </label>
           <input
             id="email"
@@ -40,7 +44,7 @@
         <!-- Lookup Status -->
         <div v-if="isLoading" class="flex items-center gap-2 text-info">
           <div class="loading loading-spinner loading-sm"></div>
-          <span class="text-sm">Suche läuft...</span>
+          <span class="text-sm">{{ $t('erp.customerLookup.searching') }}</span>
         </div>
 
         <!-- Error Alert -->
@@ -59,7 +63,7 @@
             />
           </svg>
           <div>
-            <h3 class="font-medium">Fehler bei der Kundensuche</h3>
+            <h3 class="font-medium">{{ $t('erp.customerLookup.searchError') }}</h3>
             <div class="text-xs mt-1">{{ error }}</div>
           </div>
         </div>
@@ -80,9 +84,10 @@
             />
           </svg>
           <div>
-            <h3 class="font-medium">Kunde gefunden!</h3>
+            <h3 class="font-medium">{{ $t('erp.customerLookup.customerFound') }}</h3>
             <div class="text-sm mt-1">
-              Willkommen zurück, <strong>{{ customer.customerName }}</strong
+              {{ $t('erp.customerLookup.welcomeBackWithName') }}
+              <strong>{{ customer.customerName }}</strong
               >!
             </div>
           </div>
@@ -92,29 +97,45 @@
         <div class="mt-4 space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p class="text-xs uppercase tracking-wide opacity-70">Kundennummer</p>
+              <p class="text-xs uppercase tracking-wide opacity-70">
+                {{ $t('erp.customerLookup.customerNumber') }}
+              </p>
               <p class="mt-1 text-lg font-semibold">
                 {{ customer!.customerNumber }}
               </p>
             </div>
             <div>
-              <p class="text-xs uppercase tracking-wide opacity-70">Kundentyp</p>
+              <p class="text-xs uppercase tracking-wide opacity-70">
+                {{ $t('erp.customerLookup.customerType') }}
+              </p>
               <p class="mt-1">
-                <span v-if="isPrivateCustomer" class="badge badge-primary"> Privatperson </span>
-                <span v-else class="badge badge-secondary"> Geschäftskunde </span>
+                <span v-if="isPrivateCustomer" class="badge badge-primary">
+                  {{ $t('erp.customerLookup.privateCustomer') }}
+                </span>
+                <span v-else class="badge badge-secondary">
+                  {{ $t('erp.customerLookup.businessCustomer') }}
+                </span>
               </p>
             </div>
           </div>
 
           <!-- Business Details -->
           <div v-if="isBusinessCustomer" class="mt-4 border-t border-base-300 pt-4">
-            <p class="text-sm font-medium mb-2">Geschäftsinformationen</p>
+            <p class="text-sm font-medium mb-2">{{ $t('erp.customerLookup.businessInfo') }}</p>
             <div class="space-y-1 text-sm">
-              <div><strong>Firma:</strong> {{ customer!.customerName }}</div>
-              <div v-if="customer!.phone"><strong>Telefon:</strong> {{ customer!.phone }}</div>
-              <div v-if="customer!.country"><strong>Land:</strong> {{ customer!.country }}</div>
+              <div>
+                <strong>{{ $t('erp.customerLookup.company') }}</strong> {{ customer!.customerName }}
+              </div>
+              <div v-if="customer!.phone">
+                <strong>{{ $t('erp.customerLookup.phone') }}</strong> {{ customer!.phone }}
+              </div>
+              <div v-if="customer!.country">
+                <strong>{{ $t('erp.customerLookup.country') }}</strong> {{ customer!.country }}
+              </div>
               <div v-if="customer!.creditLimit">
-                <strong>Kreditlimit:</strong> €{{ customer!.creditLimit.toLocaleString('de-DE') }}
+                <strong>{{ $t('erp.customerLookup.creditLimit') }}</strong> €{{
+                  customer!.creditLimit.toLocaleString('de-DE')
+                }}
               </div>
             </div>
           </div>

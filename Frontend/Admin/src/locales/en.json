@@ -12,7 +12,8 @@
       "submit": "Sign In",
       "demoAccount": "Demo Account:",
       "demoCredentials": "admin@example.com / password",
-      "forgotPassword": "Forgot Password?"
+      "forgotPassword": "Forgot Password?",
+      "loginError": "Login failed. Please try again."
     },
     "register": {
       "title": "Register",
@@ -190,6 +191,32 @@
       "manageProducts": "Manage Products",
       "monitorJobs": "Monitor Jobs",
       "mediaLibrary": "Media Library"
+    },
+    "metrics": {
+      "title": "Global Analytics Dashboard",
+      "timeRanges": {
+        "lastHour": "Last Hour",
+        "last24Hours": "Last 24 Hours",
+        "last7Days": "Last 7 Days",
+        "last30Days": "Last 30 Days"
+      },
+      "aiResourceEfficiency": "AI Resource Efficiency",
+      "complianceCoverage": "Compliance Coverage",
+      "feedbackAnalytics": "Feedback Analytics",
+      "sentiment": {
+        "positive": "Positive",
+        "neutral": "Neutral",
+        "negative": "Negative"
+      },
+      "keyInsights": "Key Insights",
+      "performanceBenchmarks": "Performance Benchmarks",
+      "globalMetricsOverview": "Global Metrics Overview",
+      "metrics": {
+        "activeUsers": "Active Users",
+        "apiRequests": "API Requests",
+        "errorRate": "Error Rate",
+        "avgResponseTime": "Avg Response Time"
+      }
     }
   },
   "cms": {

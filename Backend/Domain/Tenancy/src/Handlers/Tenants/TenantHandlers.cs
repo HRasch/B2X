@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using B2Connect.Tenancy.Models;
 using B2Connect.Tenancy.Repositories;
 using B2Connect.Tenancy.Services;
@@ -9,6 +10,14 @@ using Wolverine.Attributes;
 namespace B2Connect.Tenancy.Handlers.Tenants;
 
 /// <summary>
+/// Activity source for tenant operations tracing.
+/// </summary>
+internal static class TenantActivities
+{
+    internal static readonly ActivitySource Source = new("B2Connect.Tenancy");
+}
+
+/// <summary>
 /// Wolverine handlers for tenant management operations.
 /// </summary>
 public static class TenantHandlers
@@ -18,6 +27,7 @@ public static class TenantHandlers
     /// </summary>
     [WolverineHandler]
     public static async Task<CreateTenantResponse> Handle(
+        Envelope envelope,
         CreateTenantCommand command,
         ITenantRepository tenantRepository,
         ITenantDomainRepository domainRepository,
@@ -25,10 +35,23 @@ public static class TenantHandlers
         ILogger<CreateTenantCommand> logger,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("Creating new tenant: {Name} with slug: {Slug}", command.Name, command.Slug);
+        using var activity = TenantActivities.Source.StartActivity("CreateTenant", ActivityKind.Internal);
+        activity?.SetTag("tenant.slug", command.Slug);
+        activity?.SetTag("correlation.id", envelope.CorrelationId);
+
+        logger.LogInformation("Creating new tenant: {Name} with slug: {Slug}, CorrelationId: {CorrelationId}",
+            command.Name, command.Slug, envelope.CorrelationId);
 
         // Normalize slug
         var slug = command.Slug.Trim().ToLowerInvariant();
+
+        // Simulate error for testing correlation (POC)
+        if (string.Equals(slug, "error", StringComparison.Ordinal))
+        {
+            activity?.SetTag("error.type", "SimulatedError");
+            activity?.SetStatus(ActivityStatusCode.Error, "Simulated error for testing");
+            throw new InvalidOperationException("Simulated error for tracing POC");
+        }
 
         // Validate slug uniqueness
         if (await tenantRepository.SlugExistsAsync(slug, null, cancellationToken).ConfigureAwait(false))
@@ -49,6 +72,8 @@ public static class TenantHandlers
 
         await tenantRepository.CreateAsync(tenant, cancellationToken).ConfigureAwait(false);
         logger.LogInformation("Tenant created: {TenantId}", tenant.Id);
+
+        activity?.SetTag("tenant.id", tenant.Id);
 
         // Create automatic subdomain (primary)
         var subdomainName = $"{slug}.b2connect.de";

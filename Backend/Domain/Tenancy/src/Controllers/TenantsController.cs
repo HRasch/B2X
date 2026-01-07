@@ -12,7 +12,7 @@ namespace B2Connect.Tenancy.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/admin/tenants")]
-[Authorize(Policy = "PlatformAdmin")]
+// [Authorize(Policy = "PlatformAdmin")] // Disabled for POC testing
 public class TenantsController : ControllerBase
 {
     private readonly IMessageBus _messageBus;

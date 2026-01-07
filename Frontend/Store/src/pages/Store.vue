@@ -103,6 +103,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '../stores/cart';
 import ProductCard from '../components/shop/ProductCard.vue';
 import { ProductService, type Product, type SearchResponse } from '../services/productService';
+import { analyticsService } from '../services/analyticsService';
 
 const cartStore = useCartStore();
 
@@ -210,6 +211,7 @@ const addToCart = (product: Product) => {
  */
 onMounted(() => {
   loadProducts();
+  analyticsService.trackEvent('page_view', { page: 'store' });
 });
 
 /**

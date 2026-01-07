@@ -194,5 +194,34 @@
       "previous": "← Vorherige",
       "next": "Nächste →"
     }
+  },
+  "erp": {
+    "customerLookup": {
+      "newRegistration": "Neue Registrierung",
+      "welcomeBack": "Willkommen zurück",
+      "enterEmailToStart": "Geben Sie Ihre E-Mail-Adresse ein, um zu beginnen",
+      "customerInfoFound": "Kundeninformationen gefunden",
+      "emailLabel": "E-Mail-Adresse *",
+      "searching": "Suche läuft...",
+      "searchError": "Fehler bei der Kundensuche",
+      "customerFound": "Kunde gefunden!",
+      "welcomeBackWithName": "Willkommen zurück,",
+      "customerNumber": "Kundennummer",
+      "customerType": "Kundentyp",
+      "privateCustomer": "Privatperson",
+      "businessCustomer": "Geschäftskunde",
+      "businessInfo": "Geschäftsinformationen",
+      "company": "Firma:",
+      "phone": "Telefon:",
+      "country": "Land:",
+      "creditLimit": "Kreditlimit:",
+      "continue": "Weiter",
+      "customerSearch": "Kundensuche",
+      "newSearch": "Neue Suche",
+      "cancel": "Abbrechen",
+      "newCustomerQuestion": "Sind Sie ein neuer Kunde?",
+      "newCustomerDescription": "Sie können sich jetzt registrieren und später von Ihren gespeicherten Informationen profitieren.",
+      "diagnosticInfo": "🔧 Diagnostic Info (Dev Only)"
+    }
   }
 }

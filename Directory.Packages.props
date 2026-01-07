@@ -85,6 +85,7 @@
     <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.14.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.Jaeger" Version="1.14.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.14.0-beta.1" />
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.14.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
@@ -109,6 +110,7 @@
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.1" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- HEALTH CHECKS (9.0.0)                                                   -->
@@ -210,12 +212,15 @@
     <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.1-preview.1.25612.2" />
     <PackageVersion Include="Microsoft.Extensions.AI.AzureAIInference" Version="10.0.0-preview.1.25559.3" />
     <PackageVersion Include="OllamaSharp" Version="5.4.12" />
+    <PackageVersion Include="Microsoft.ML" Version="4.0.1" />
+    <PackageVersion Include="Microsoft.ML.FastTree" Version="4.0.1" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- SYSTEM PACKAGES (for Abstractions)                                     -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="System.ComponentModel.Annotations" Version="10.0.0" />
     <PackageVersion Include="System.Text.Json" Version="10.0.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- gRPC (for ERP Integration)                                              -->

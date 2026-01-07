@@ -110,6 +110,31 @@ echo "✅ Security MCP pre-test validation passed"
 - Event handling
 - External service mocking
 
+### Runtime Health Check (@QA)
+**Command**: `scripts/runtime-health-check.sh`
+- Execute after Unit/Integration tests
+- Validates backend services runtime health via MonitoringMCP
+- Focus: Store Gateway (port 8000) and other critical services
+- **Policy**: Build blocks on health check failure (exit code 1)
+- Simulates error scenarios for validation
+
+**Integration Steps**:
+```bash
+# After unit/integration tests pass
+echo "🔍 Running Runtime Health Check..."
+./scripts/runtime-health-check.sh
+if [ $? -ne 0 ]; then
+  echo "❌ Runtime health check failed - blocking build"
+  exit 1
+fi
+echo "✅ Runtime health check passed"
+```
+
+**Error Simulation for Testing**:
+- Stop backend services to simulate downtime
+- Modify health endpoints to return errors
+- Test network isolation scenarios
+
 ### E2E Tests (Frontend)
 **Scope**: Critical user journeys
 
