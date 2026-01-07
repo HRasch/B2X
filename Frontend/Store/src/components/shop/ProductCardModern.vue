@@ -139,7 +139,7 @@ const handleAddToCart = () => {
       <div class="price-section">
         <!-- Main Price -->
         <div class="flex justify-between items-baseline mb-1">
-          <span class="text-sm font-semibold">Total</span>
+          <span class="text-sm font-semibold">{{ $t('pricing.totalLabel') }}</span>
           <span class="text-2xl font-bold text-primary">
             {{ formattedPrice }}
           </span>
@@ -152,16 +152,16 @@ const handleAddToCart = () => {
           </summary>
           <div class="collapse-content text-xs space-y-1 p-2">
             <div class="flex justify-between">
-              <span>Net price:</span>
+              <span>{{ $t('pricing.netPrice') }}</span>
               <span>€{{ vatInfo.net }}</span>
             </div>
             <div class="flex justify-between">
-              <span>VAT (19%):</span>
+              <span>{{ $t('pricing.vat', { rate: 19 }) }}</span>
               <span>€{{ vatInfo.vat }}</span>
             </div>
             <div class="divider my-1"></div>
             <div class="flex justify-between font-semibold">
-              <span>Total:</span>
+              <span>{{ $t('pricing.total') }}:</span>
               <span>€{{ vatInfo.total }}</span>
             </div>
           </div>
@@ -172,7 +172,7 @@ const handleAddToCart = () => {
       <div class="card-actions justify-between items-center mt-4">
         <!-- Quick View (Link to Detail) -->
         <router-link :to="`/product/${product.id}`" class="link link-hover text-sm">
-          View Details →
+          {{ $t('products.viewDetails') }}
         </router-link>
 
         <!-- Add to Cart Button -->
@@ -182,8 +182,8 @@ const handleAddToCart = () => {
           :class="['btn btn-sm', product.inStock ? 'btn-primary' : 'btn-disabled']"
           aria-label="`Add ${product.name} to cart`"
         >
-          <span v-if="product.inStock">🛒 Add</span>
-          <span v-else>Not Available</span>
+          <span v-if="product.inStock">{{ $t('products.addToCart') }}</span>
+          <span v-else>{{ $t('products.notAvailable') }}</span>
         </button>
       </div>
     </div>

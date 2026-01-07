@@ -10,7 +10,7 @@
         v-if="!product.inStock"
         class="absolute inset-0 bg-black/50 flex items-center justify-center"
       >
-        <span class="text-white font-bold text-sm">Nicht verfügbar</span>
+        <span class="text-white font-bold text-sm">{{ $t('products.notAvailable') }}</span>
       </div>
     </figure>
 
@@ -61,9 +61,11 @@
         @click="$emit('add-to-cart', product)"
         class="btn btn-primary w-full mt-auto"
       >
-        In Warenkorb
+        {{ $t('products.addToCart') }}
       </button>
-      <button v-else class="btn btn-disabled w-full mt-auto">Nicht verfügbar</button>
+      <button v-else class="btn btn-disabled w-full mt-auto">
+        {{ $t('products.notAvailable') }}
+      </button>
     </div>
   </div>
 </template>

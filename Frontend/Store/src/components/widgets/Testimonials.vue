@@ -16,11 +16,11 @@
 
         <!-- Navigation -->
         <div v-if="testimonials.length > 1" class="card-body flex flex-row justify-center gap-4">
-          <button class="btn btn-sm btn-outline" @click="previousTestimonial">← Previous</button>
+          <button class="btn btn-sm btn-outline" @click="previousTestimonial">{{ $t('widgets.previous') }}</button>
           <span class="flex items-center px-4">
             {{ currentIndex + 1 }} / {{ testimonials.length }}
           </span>
-          <button class="btn btn-sm btn-outline" @click="nextTestimonial">Next →</button>
+          <button class="btn btn-sm btn-outline" @click="nextTestimonial">{{ $t('widgets.next') }}</button>
         </div>
       </div>
     </div>

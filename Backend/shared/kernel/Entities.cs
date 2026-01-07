@@ -51,6 +51,12 @@ public class Tenant : Entity
     /// Default is true (public B2C store).
     /// </summary>
     public bool IsPublicStore { get; set; } = true;
+
+    /// <summary>
+    /// Supported languages for this tenant (ISO 639-1 codes).
+    /// Defaults to German and English.
+    /// </summary>
+    public List<string> SupportedLanguages { get; set; } = ["de", "en"];
 }
 
 /// <summary>

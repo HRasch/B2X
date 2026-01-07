@@ -3,9 +3,9 @@
     <!-- Page Header -->
     <div class="bg-base-200 py-12">
       <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-base-900 mb-2">Registrierungstyp Prüfen</h1>
+        <h1 class="text-4xl font-bold text-base-900 mb-2">{{ $t('registrationCheck.title') }}</h1>
         <p class="text-lg text-base-content/70">
-          Überprüfen Sie, ob Sie bereits als Bestandskunde registriert sind
+          {{ $t('registrationCheck.subtitle') }}
         </p>
       </div>
     </div>
@@ -29,7 +29,7 @@
             />
           </svg>
           <div>
-            <h4 class="font-bold">Fehler</h4>
+            <h4 class="font-bold">{{ $t('registrationCheck.error') }}</h4>
             <p>{{ error }}</p>
           </div>
           <button class="btn btn-sm btn-ghost" @click="error = null">✕</button>
@@ -72,7 +72,7 @@
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-bold"
-                    >E-Mail-Adresse <span class="text-error">*</span></span
+                    >{{ $t('registrationCheck.email') }} <span class="text-error">*</span></span
                   >
                 </label>
                 <input
@@ -95,7 +95,8 @@
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-bold"
-                    >Unternehmenstyp <span class="text-error">*</span></span
+                    >{{ $t('registrationCheck.businessType') }}
+                    <span class="text-error">*</span></span
                   >
                 </label>
                 <select
@@ -105,16 +106,16 @@
                   required
                   data-testid="business-type-select"
                 >
-                  <option value="">-- Bitte wählen --</option>
-                  <option value="B2C">B2C (Privatperson / Einzelunternehmer)</option>
-                  <option value="B2B">B2B (Unternehmen / GmbH / GmbH & Co. KG)</option>
+                  <option value="">{{ $t('registrationCheck.businessTypeOptions.select') }}</option>
+                  <option value="B2C">{{ $t('registrationCheck.businessTypeOptions.b2c') }}</option>
+                  <option value="B2B">{{ $t('registrationCheck.businessTypeOptions.b2b') }}</option>
                 </select>
               </div>
 
               <!-- Optional: First Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">Vorname</span>
+                  <span class="label-text">{{ $t('registrationCheck.firstName') }}</span>
                 </label>
                 <input
                   id="firstName"
@@ -129,7 +130,7 @@
               <!-- Optional: Last Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">Nachname</span>
+                  <span class="label-text">{{ $t('registrationCheck.lastName') }}</span>
                 </label>
                 <input
                   id="lastName"
@@ -144,7 +145,7 @@
               <!-- Optional: Company Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">Firmenname</span>
+                  <span class="label-text">{{ $t('registrationCheck.companyName') }}</span>
                 </label>
                 <input
                   id="companyName"
@@ -159,7 +160,7 @@
               <!-- Optional: Phone -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">Telefon</span>
+                  <span class="label-text">{{ $t('registrationCheck.phone') }}</span>
                 </label>
                 <input
                   id="phone"
@@ -181,7 +182,7 @@
                 data-testid="submit-button"
               >
                 <span v-if="isLoading" class="loading loading-spinner loading-sm"></span>
-                {{ isLoading ? 'Prüfen läuft...' : 'Prüfen' }}
+                {{ isLoading ? $t('registrationCheck.checking') : $t('registrationCheck.check') }}
               </button>
             </div>
           </form>
@@ -225,27 +226,27 @@
               <!-- ERP Data (if found) -->
               <div v-if="result.erpData" class="divider"></div>
               <div v-if="result.erpData" class="overflow-x-auto">
-                <h4 class="font-bold mb-4">Ihre Kundendaten:</h4>
+                <h4 class="font-bold mb-4">{{ $t('registrationCheck.customerData') }}</h4>
                 <table class="table table-sm w-full">
                   <tbody>
                     <tr>
-                      <td class="font-bold">Kundennummer:</td>
+                      <td class="font-bold">{{ $t('registrationCheck.customerNumber') }}</td>
                       <td>{{ result.erpData.customerNumber }}</td>
                     </tr>
                     <tr>
-                      <td class="font-bold">Name:</td>
+                      <td class="font-bold">{{ $t('registrationCheck.name') }}</td>
                       <td>{{ result.erpData.name }}</td>
                     </tr>
                     <tr>
-                      <td class="font-bold">E-Mail:</td>
+                      <td class="font-bold">{{ $t('registrationCheck.emailLabel') }}</td>
                       <td>{{ result.erpData.email }}</td>
                     </tr>
                     <tr v-if="result.erpData.phone">
-                      <td class="font-bold">Telefon:</td>
+                      <td class="font-bold">{{ $t('registrationCheck.phoneLabel') }}</td>
                       <td>{{ result.erpData.phone }}</td>
                     </tr>
                     <tr v-if="result.erpData.address">
-                      <td class="font-bold">Adresse:</td>
+                      <td class="font-bold">{{ $t('registrationCheck.address') }}</td>
                       <td>
                         {{ result.erpData.address }}<br />
                         {{ result.erpData.postalCode }} {{ result.erpData.city }}<br />
@@ -259,7 +260,7 @@
               <!-- Confidence Score (if duplicate detected) -->
               <div v-if="result.confidenceScore" class="mt-6">
                 <div class="flex justify-between items-center mb-2">
-                  <p class="font-bold">Übereinstimmungsquote:</p>
+                  <p class="font-bold">{{ $t('registrationCheck.matchScore') }}</p>
                   <span class="font-bold text-lg">{{ result.confidenceScore }}%</span>
                 </div>
                 <progress
@@ -277,15 +278,19 @@
                     result.registrationType === 'ExistingCustomer'
                   "
                 >
-                  <button class="btn btn-secondary" @click="resetForm">Neue Prüfung</button>
+                  <button class="btn btn-secondary" @click="resetForm">
+                    {{ $t('registrationCheck.newCheck') }}
+                  </button>
                   <button class="btn btn-primary" @click="continueWithBestandskunde">
-                    Mit Kundendaten fortfahren
+                    {{ $t('registrationCheck.continueWithData') }}
                   </button>
                 </template>
                 <template v-else>
-                  <button class="btn btn-secondary" @click="resetForm">Zurück</button>
+                  <button class="btn btn-secondary" @click="resetForm">
+                    {{ $t('registrationCheck.back') }}
+                  </button>
                   <button class="btn btn-primary" @click="continueWithNewRegistration">
-                    Registrierung fortsetzen
+                    {{ $t('registrationCheck.continueRegistration') }}
                   </button>
                 </template>
               </div>
@@ -310,17 +315,16 @@
           ></path>
         </svg>
         <div>
-          <h3 class="font-bold">Informationen</h3>
+          <h3 class="font-bold">{{ $t('registrationCheck.info.title') }}</h3>
           <div class="text-sm">
             <p>
-              <strong>Bestandskunde:</strong> Sie sind bereits in unserem System registriert. Ihre
-              Daten werden automatisch vorausgefüllt.
+              <strong>{{ $t('registrationCheck.info.existingCustomer') }}</strong>
             </p>
             <p class="mt-2">
-              <strong>Neukunde:</strong> Sie werden zur regulären Registrierung weitergeleitet.
+              <strong>{{ $t('registrationCheck.info.newCustomer') }}</strong>
             </p>
             <p class="mt-2">
-              Die Prüfung wird anhand von E-Mail, Name und optional Telefon/Adresse durchgeführt.
+              {{ $t('registrationCheck.info.checkDescription') }}
             </p>
           </div>
         </div>
@@ -332,6 +336,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import {
   checkRegistrationType,
   validateEmail,
@@ -341,6 +346,7 @@ import {
 } from '@/services/registrationService';
 
 const router = useRouter();
+const { t } = useI18n();
 
 // Form State
 const formData = ref<CheckRegistrationTypeRequest>({
@@ -365,7 +371,7 @@ const result = ref<CheckRegistrationTypeResponse | null>(null);
 function validateEmailField() {
   emailError.value = null;
   if (formData.value.email && !validateEmail(formData.value.email)) {
-    emailError.value = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+    emailError.value = t('registrationCheck.validation.invalidEmail');
   }
 }
 
@@ -379,7 +385,7 @@ async function handleCheckRegistration() {
 
   // Validate email
   if (!validateEmail(formData.value.email)) {
-    emailError.value = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+    emailError.value = t('registrationCheck.validation.invalidEmail');
     return;
   }
 
@@ -391,20 +397,20 @@ async function handleCheckRegistration() {
 
     if (response.success) {
       result.value = response;
-      successMessage.value = `Registrierungstyp bestimmt: ${formatRegistrationType(
-        response.registrationType
-      )}`;
+      successMessage.value = t('errors.registrationTypeDetermined', {
+        type: formatRegistrationType(response.registrationType),
+      });
 
       // Scroll to results
       setTimeout(() => {
         document.querySelector('.results-section')?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     } else {
-      error.value = response.message || response.error || 'Fehler beim Prüfen der Registrierung';
+      error.value = response.message || response.error || t('errors.registrationCheckFailed');
     }
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
-    error.value = `Fehler: ${errorMsg}`;
+    error.value = t('errors.registrationCheckError', { message: errorMsg });
     console.error('CheckRegistrationType error:', err);
   } finally {
     isLoading.value = false;
@@ -419,12 +425,12 @@ function getResultTitle(): string {
 
   switch (result.value.registrationType) {
     case 'Bestandskunde':
-      return '✓ Sie sind bereits registriert';
+      return t('registrationCheck.results.existing');
     case 'ExistingCustomer':
-      return '✓ Sie sind bereits Kunde';
+      return t('registrationCheck.results.existingCustomer');
     case 'NewCustomer':
     default:
-      return 'Registrierung erforderlich';
+      return t('registrationCheck.results.newRequired');
   }
 }
 
@@ -436,12 +442,12 @@ function getResultDescription(): string {
 
   switch (result.value.registrationType) {
     case 'Bestandskunde':
-      return 'Ihre Kundendaten wurden gefunden. Sie können sich mit vereinfachter Registrierung anmelden.';
+      return t('registrationCheck.results.existingDescription');
     case 'ExistingCustomer':
-      return 'Wir haben Ihre Daten in unserem System gefunden.';
+      return t('registrationCheck.results.existingCustomerDescription');
     case 'NewCustomer':
     default:
-      return 'Sie werden als Neukunde registriert. Füllen Sie das Registrierungsformular aus.';
+      return t('registrationCheck.results.newRequiredDescription');
   }
 }
 

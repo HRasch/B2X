@@ -49,6 +49,14 @@ export interface AuthResponse {
   user: UserDto;
 }
 
+// Global window type declarations
+declare global {
+  interface Window {
+    $tenantStore?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+    $i18n?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  }
+}
+
 export interface ApiResponse<T> {
   data: T;
   success: boolean;
@@ -114,4 +122,15 @@ export interface Product {
   material?: string;
   stockQuantity?: number;
   relevanceScore?: number;
+}
+
+export interface TenantStore {
+  currentTenant: TenantConfig | null;
+  supportedLanguages: string[];
+  isLoading: boolean;
+  error: string | null;
+  isMultiLanguageEnabled: boolean;
+  tenantLanguages: string[];
+  defaultLanguage: string;
+  loadTenantConfig: (tenantId?: string) => Promise<void>;
 }

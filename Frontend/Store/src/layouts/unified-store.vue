@@ -71,7 +71,7 @@
     >
       <div class="max-w-7xl mx-auto px-4 py-6">
         <p class="text-center text-gray-600 dark:text-gray-400">
-          © 2024 B2Connect. All rights reserved.
+          {{ $t('footer.copyright') }}
         </p>
       </div>
     </footer>

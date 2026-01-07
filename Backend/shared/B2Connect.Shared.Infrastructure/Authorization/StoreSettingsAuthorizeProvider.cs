@@ -95,4 +95,9 @@ public class TenantSettings
     /// Gets or sets whether guest checkout is allowed.
     /// </summary>
     public bool AllowGuestCheckout { get; init; } = true;
+
+    /// <summary>
+    /// Gets or sets the supported languages for this tenant (ISO 639-1 codes).
+    /// </summary>
+    public IReadOnlyList<string> SupportedLanguages { get; init; } = ["de", "en"];
 }

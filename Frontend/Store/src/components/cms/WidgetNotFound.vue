@@ -1,8 +1,8 @@
 <template>
   <div class="widget-not-found bg-yellow-50 border border-yellow-200 rounded p-4 my-4">
-    <p class="text-yellow-700 font-semibold">Widget not found</p>
+    <p class="text-yellow-700 font-semibold">{{ $t('widgets.notFound') }}</p>
     <p class="text-yellow-600 text-sm mt-1">
-      Unable to load the widget component. Please check the widget type ID.
+      {{ $t('widgets.notFoundDescription') }}
     </p>
   </div>
 </template>

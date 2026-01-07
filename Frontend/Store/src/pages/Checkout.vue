@@ -129,9 +129,9 @@
                         class="select select-bordered"
                         required
                       >
-                        <option value="DE">Deutschland</option>
-                        <option value="AT">Österreich</option>
-                        <option value="CH">Schweiz</option>
+                        <option value="DE">{{ $t('countries.DE') }}</option>
+                        <option value="AT">{{ $t('countries.AT') }}</option>
+                        <option value="CH">{{ $t('countries.CH') }}</option>
                       </select>
                     </div>
                   </div>

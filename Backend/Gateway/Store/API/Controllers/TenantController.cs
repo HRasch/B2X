@@ -81,6 +81,89 @@ public class TenantController : ControllerBase
             });
         }
     }
+
+    /// <summary>
+    /// Gets the tenant configuration including supported languages and settings.
+    /// This endpoint is public to allow the frontend to configure itself based on tenant settings.
+    /// </summary>
+    /// <returns>Tenant configuration</returns>
+    [HttpGet("config")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(TenantConfigurationResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetTenantConfiguration(CancellationToken cancellationToken)
+    {
+        // Get tenant ID from header or context
+        if (!Request.Headers.TryGetValue("X-Tenant-ID", out var tenantIdHeader) ||
+            !Guid.TryParse(tenantIdHeader.ToString(), out var tenantId))
+        {
+            return BadRequest(new
+            {
+                success = false,
+                message = "X-Tenant-ID header is required"
+            });
+        }
+
+        try
+        {
+            // Get tenant settings including supported languages
+            var settings = _tenantSettingsAccessor.GetSettings();
+
+            return Ok(new TenantConfigurationResponse
+            {
+                TenantId = tenantId,
+                IsPublicStore = settings?.IsPublicStore ?? true,
+                ShowPricesToAnonymous = settings?.ShowPricesToAnonymous ?? true,
+                AllowGuestCheckout = settings?.AllowGuestCheckout ?? true,
+                SupportedLanguages = settings?.SupportedLanguages ?? ["de", "en"]
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting tenant configuration for tenant {TenantId}", tenantId);
+
+            // Default configuration on error
+            return Ok(new TenantConfigurationResponse
+            {
+                TenantId = tenantId,
+                IsPublicStore = true,
+                ShowPricesToAnonymous = true,
+                AllowGuestCheckout = true,
+                SupportedLanguages = ["de", "en"]
+            });
+        }
+    }
+}
+
+/// <summary>
+/// Response DTO for tenant configuration.
+/// </summary>
+public record TenantConfigurationResponse
+{
+    /// <summary>
+    /// The tenant ID.
+    /// </summary>
+    public Guid TenantId { get; init; }
+
+    /// <summary>
+    /// Whether the store is publicly accessible without authentication.
+    /// </summary>
+    public bool IsPublicStore { get; init; }
+
+    /// <summary>
+    /// Whether prices are displayed to anonymous users.
+    /// </summary>
+    public bool ShowPricesToAnonymous { get; init; }
+
+    /// <summary>
+    /// Whether guest checkout is allowed.
+    /// </summary>
+    public bool AllowGuestCheckout { get; init; }
+
+    /// <summary>
+    /// Supported languages for this tenant (ISO 639-1 codes).
+    /// </summary>
+    public IReadOnlyList<string> SupportedLanguages { get; init; } = ["de", "en"];
 }
 
 /// <summary>
