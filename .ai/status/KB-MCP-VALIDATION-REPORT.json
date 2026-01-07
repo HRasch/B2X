@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-01-07T07:37:25.932365",
+  "tests": {
+    "database_integrity": {
+      "status": "PASS",
+      "documents": 104,
+      "indexed": 104,
+      "tables": 7
+    },
+    "search_performance": {
+      "status": "PASS",
+      "average_ms": 0.79,
+      "max_ms": 1.0,
+      "queries_tested": 5
+    },
+    "article_retrieval": {
+      "status": "PASS",
+      "docid": "KB-INDEX",
+      "size_kb": 9.1962890625,
+      "retrieval_ms": 0.02
+    },
+    "category_filtering": {
+      "status": "PASS",
+      "categories": {
+        "architecture": {
+          "count": 3,
+          "ms": 0.02
+        },
+        "best-practices": {
+          "count": 2,
+          "ms": 0.01
+        },
+        "general": {
+          "count": 68,
+          "ms": 0.01
+        },
+        "patterns": {
+          "count": 3,
+          "ms": 0.01
+        },
+        "tools": {
+          "count": 28,
+          "ms": 0.01
+        }
+      }
+    }
+  },
+  "metrics": {
+    "phase_1_savings_percent": 92,
+    "phase_1_kb_reduction": {
+      "before": "15 KB",
+      "after": "0.3-2 KB",
+      "saved": "13-14.7 KB"
+    },
+    "phase_2_savings_percent": 75,
+    "phase_2_overhead_reduction": {
+      "before": "41 KB",
+      "after": "10 KB",
+      "saved": "31 KB"
+    },
+    "combined_savings_percent": 84,
+    "combined_impact": {
+      "before": "66 KB",
+      "after": "10.5 KB",
+      "saved": "55.5 KB"
+    }
+  },
+  "status": "PASS"
+}

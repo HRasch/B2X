@@ -30,7 +30,7 @@ public class PriceCalculationServiceTests : IAsyncLifetime
         _mockTaxService.Setup(x => x.GetVatRateAsync("FR", It.IsAny<CancellationToken>()))
             .ReturnsAsync(20.00m);
 
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     public Task DisposeAsync() => Task.CompletedTask;
@@ -139,7 +139,7 @@ public class PriceCalculationServiceTests : IAsyncLifetime
 
         // Assert
         Assert.False(result.Success);
-        Assert.Contains("must be greater than 0", result.Message);
+        Assert.Contains("must be greater than 0", result.Message, StringComparison.Ordinal);
     }
 
     [Fact]

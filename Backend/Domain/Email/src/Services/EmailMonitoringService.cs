@@ -39,7 +39,7 @@ public class EmailMonitoringService : IEmailMonitoringService
             };
 
             _dbContext.EmailEvents.Add(emailEvent);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("Recorded email event: {EventType} for email {EmailId}",
                 eventType, emailId);
@@ -47,7 +47,7 @@ public class EmailMonitoringService : IEmailMonitoringService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to record email event for email {EmailId}", emailId);
-            throw;
+            throw new InvalidOperationException($"Failed to record email event for email {emailId}", ex);
         }
     }
 
@@ -61,7 +61,7 @@ public class EmailMonitoringService : IEmailMonitoringService
             .Where(e => e.TenantId == tenantId &&
                        e.OccurredAt >= fromDate &&
                        e.OccurredAt <= toDate)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
 
         return new EmailStatistics
         {
@@ -83,7 +83,7 @@ public class EmailMonitoringService : IEmailMonitoringService
             .Where(e => e.TenantId == tenantId)
             .OrderByDescending(e => e.OccurredAt)
             .Take(limit)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<List<EmailEvent>> GetEmailErrorsAsync(
@@ -100,6 +100,6 @@ public class EmailMonitoringService : IEmailMonitoringService
                         e.EventType == EmailEventType.Bounced ||
                         e.EventType == EmailEventType.Complained))
             .OrderByDescending(e => e.OccurredAt)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 }

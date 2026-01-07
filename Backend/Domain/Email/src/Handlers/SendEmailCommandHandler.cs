@@ -39,7 +39,7 @@ public class SendEmailCommandHandler
         };
 
         // Queue the email instead of sending immediately
-        await _queueService.QueueEmailAsync(emailMessage, cancellationToken);
+        await _queueService.QueueEmailAsync(emailMessage, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Email {EmailId} queued for sending", emailMessage.Id);
 

@@ -44,55 +44,22 @@ public class TermsAcceptanceService
 
         try
         {
-            // 1. Validate input
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            // Validate input
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
             if (!validationResult.IsValid)
             {
-                _logger.LogWarning(
-                    "Terms acceptance validation failed for {CustomerId}",
-                    request.CustomerId);
-
-                return new RecordTermsAcceptanceResponse
-                {
-                    Success = false,
-                    Error = "VALIDATION_ERROR",
-                    Message = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage))
-                };
+                return CreateValidationErrorResponse(request.CustomerId, validationResult.Errors);
             }
 
-            // 2. Validate all required checkboxes are checked
+            // Validate required acceptances
             if (!request.AcceptTermsAndConditions || !request.AcceptPrivacyPolicy)
             {
-                _logger.LogWarning(
-                    "Required terms not accepted by {CustomerId}",
-                    request.CustomerId);
-
-                return new RecordTermsAcceptanceResponse
-                {
-                    Success = false,
-                    Error = "INCOMPLETE_ACCEPTANCE",
-                    Message = "Sie müssen den Allgemeinen Geschäftsbedingungen und der Datenschutzerklärung zustimmen"
-                };
+                return CreateIncompleteAcceptanceResponse(request.CustomerId);
             }
 
-            // 3. Create acceptance log entry
-            var acceptanceLog = new TermsAcceptanceLog
-            {
-                Id = Guid.NewGuid(),
-                TenantId = tenantId,
-                CustomerId = request.CustomerId,
-                TermsVersion = GenerateTermsVersionHash(),
-                AcceptedAt = DateTime.UtcNow,
-                AcceptedTermsAndConditions = request.AcceptTermsAndConditions,
-                AcceptedPrivacyPolicy = request.AcceptPrivacyPolicy,
-                AcceptedWithdrawalRight = request.AcceptWithdrawalRight,
-                IpAddress = ipAddress,
-                UserAgent = userAgent,
-                CreatedBy = request.CustomerId,
-                CreatedAt = DateTime.UtcNow
-            };
+            // Create and record acceptance
+            var acceptanceLog = CreateAcceptanceLog(tenantId, request, ipAddress, userAgent);
 
-            // 4. Return response (actual DB save would be handled by repository/DbContext)
             _logger.LogInformation(
                 "Terms acceptance recorded successfully for {CustomerId}: {AcceptanceId}",
                 request.CustomerId, acceptanceLog.Id);
@@ -111,13 +78,71 @@ public class TermsAcceptanceService
                 "Error recording terms acceptance for {CustomerId}",
                 request.CustomerId);
 
-            return new RecordTermsAcceptanceResponse
-            {
-                Success = false,
-                Error = "INTERNAL_ERROR",
-                Message = "Ein Fehler ist bei der Speicherung aufgetreten. Bitte versuchen Sie es später erneut."
-            };
+            return CreateInternalErrorResponse();
         }
+    }
+
+    private RecordTermsAcceptanceResponse CreateValidationErrorResponse(
+        string customerId,
+        IEnumerable<FluentValidation.Results.ValidationFailure> errors)
+    {
+        _logger.LogWarning(
+            "Terms acceptance validation failed for {CustomerId}",
+            customerId);
+
+        return new RecordTermsAcceptanceResponse
+        {
+            Success = false,
+            Error = "VALIDATION_ERROR",
+            Message = string.Join("; ", errors.Select(e => e.ErrorMessage))
+        };
+    }
+
+    private RecordTermsAcceptanceResponse CreateIncompleteAcceptanceResponse(string customerId)
+    {
+        _logger.LogWarning(
+            "Required terms not accepted by {CustomerId}",
+            customerId);
+
+        return new RecordTermsAcceptanceResponse
+        {
+            Success = false,
+            Error = "INCOMPLETE_ACCEPTANCE",
+            Message = "Sie müssen den Allgemeinen Geschäftsbedingungen und der Datenschutzerklärung zustimmen"
+        };
+    }
+
+    private TermsAcceptanceLog CreateAcceptanceLog(
+        Guid tenantId,
+        RecordTermsAcceptanceRequest request,
+        string ipAddress,
+        string userAgent)
+    {
+        return new TermsAcceptanceLog
+        {
+            Id = Guid.NewGuid(),
+            TenantId = tenantId,
+            CustomerId = request.CustomerId,
+            TermsVersion = CurrentTermsVersion,
+            AcceptedAt = DateTime.UtcNow,
+            AcceptedTermsAndConditions = request.AcceptTermsAndConditions,
+            AcceptedPrivacyPolicy = request.AcceptPrivacyPolicy,
+            AcceptedWithdrawalRight = request.AcceptWithdrawalRight,
+            IpAddress = ipAddress,
+            UserAgent = userAgent,
+            CreatedBy = request.CustomerId,
+            CreatedAt = DateTime.UtcNow
+        };
+    }
+
+    private static RecordTermsAcceptanceResponse CreateInternalErrorResponse()
+    {
+        return new RecordTermsAcceptanceResponse
+        {
+            Success = false,
+            Error = "INTERNAL_ERROR",
+            Message = "Ein Fehler ist bei der Speicherung aufgetreten. Bitte versuchen Sie es später erneut."
+        };
     }
 
     /// <summary>
@@ -137,8 +162,8 @@ public class TermsAcceptanceService
             return false;
         }
 
-        var currentVersion = GenerateTermsVersionHash();
-        var isCurrentVersion = lastAcceptance.TermsVersion == currentVersion;
+        var currentVersion = CurrentTermsVersion;
+        var isCurrentVersion = string.Equals(lastAcceptance.TermsVersion, currentVersion, StringComparison.Ordinal);
 
         if (!isCurrentVersion)
         {
@@ -153,15 +178,10 @@ public class TermsAcceptanceService
     }
 
     /// <summary>
-    /// Generate hash of current terms version
-    /// In production, this would hash actual T&C document from DB
+    /// Current terms version hash
+    /// In production, this would be a hash of actual T&C document from DB
     /// </summary>
-    private static string GenerateTermsVersionHash()
-    {
-        // For now, return a fixed version
-        // In production: Hash(termsContent + privacyContent + withdrawalContent)
-        return "v1.0.0-2025-12-29";
-    }
+    private const string CurrentTermsVersion = "v1.0.0-2025-12-29";
 }
 
 /// <summary>

@@ -76,9 +76,6 @@ public class RolePermissionAccessor : IRolePermissionAccessor
                         Permissions.Order.ViewPurchaseInfo
                     });
                     break;
-
-                case "customer":
-                case "user":
                 default:
                     permissions.AddRange(new[]
                     {
@@ -93,7 +90,7 @@ public class RolePermissionAccessor : IRolePermissionAccessor
             }
         }
 
-        return permissions.Distinct().ToList().AsReadOnly();
+        return permissions.Distinct(StringComparer.Ordinal).ToList().AsReadOnly();
     }
 
     /// <inheritdoc />
@@ -139,6 +136,6 @@ public class RolePermissionAccessor : IRolePermissionAccessor
             }
         }
 
-        return forbidden.Count > 0 ? forbidden.Distinct().ToList().AsReadOnly() : null;
+        return forbidden.Count > 0 ? forbidden.Distinct(StringComparer.Ordinal).ToList().AsReadOnly() : null;
     }
 }

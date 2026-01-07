@@ -12,7 +12,7 @@
             <span v-if="product.price" class="product-price">
               {{ formatPrice(product.price) }}
             </span>
-            <button class="add-to-cart-btn">{{ $t('product.addToCart') }}</button>
+            <button class="add-to-cart-btn">Add to Cart</button>
           </div>
         </div>
       </div>

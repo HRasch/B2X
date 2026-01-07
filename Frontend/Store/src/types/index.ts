@@ -72,3 +72,46 @@ export interface LoginRequest {
   password: string;
   tenantId?: string;
 }
+
+export type LocaleCode = 'en' | 'de' | 'fr' | 'es' | 'it' | 'pt' | 'nl' | 'pl';
+
+export interface Address {
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+export interface Order {
+  id: string;
+  items: CartItem[];
+  total: number;
+  status: string;
+  createdAt: Date;
+}
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  addresses: Address[];
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  b2bPrice: number;
+  image: string;
+  categories: string[];
+  description: string;
+  inStock: boolean;
+  rating: number;
+  sku?: string;
+  brand?: string;
+  tags?: string;
+  material?: string;
+  stockQuantity?: number;
+  relevanceScore?: number;
+}

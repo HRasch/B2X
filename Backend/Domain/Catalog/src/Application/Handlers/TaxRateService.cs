@@ -51,7 +51,7 @@ public class TaxRateService : ITaxRateService
         }
 
         // Get from database
-        var taxRate = await _repository.GetByCountryCodeAsync(normalizedCode, ct);
+        var taxRate = await _repository.GetByCountryCodeAsync(normalizedCode, ct).ConfigureAwait(false);
 
         if (taxRate == null)
         {
@@ -81,7 +81,7 @@ public class TaxRateService : ITaxRateService
         }
 
         // Get from database
-        var rates = await _repository.GetAllActiveAsync(ct);
+        var rates = await _repository.GetAllActiveAsync(ct).ConfigureAwait(false);
 
         var dtos = rates.Select(r => new TaxRateDto(
             r.CountryCode,
@@ -116,7 +116,7 @@ public class TaxRateService : ITaxRateService
         };
 
         // Save to database
-        await _repository.AddAsync(taxRate, ct);
+        await _repository.AddAsync(taxRate, ct).ConfigureAwait(false);
 
         // Invalidate cache
         InvalidateCache(cmd.CountryCode);

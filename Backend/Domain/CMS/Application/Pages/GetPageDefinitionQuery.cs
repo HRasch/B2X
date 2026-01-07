@@ -61,7 +61,7 @@ namespace B2Connect.CMS.Application.Pages
             var page = await _repository.GetPageByPathAsync(
                 request.TenantId!,
                 request.PagePath!,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             if (page?.IsPublished != true)
             {
@@ -131,7 +131,7 @@ namespace B2Connect.CMS.Application.Pages
         public string PageDescription { get; set; } = null!;
         public string MetaKeywords { get; set; } = null!;
         public string TemplateLayout { get; set; } = null!;
-        public Dictionary<string, object> GlobalSettings { get; set; } = new();
+        public Dictionary<string, object> GlobalSettings { get; set; } = new(StringComparer.Ordinal);
         public List<RegionDto> Regions { get; set; } = new();
         public bool IsPublished { get; set; }
         public DateTime PublishedAt { get; set; }
@@ -142,7 +142,7 @@ namespace B2Connect.CMS.Application.Pages
         public string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
         public int Order { get; set; }
-        public Dictionary<string, object> Settings { get; set; } = new();
+        public Dictionary<string, object> Settings { get; set; } = new(StringComparer.Ordinal);
         public List<WidgetInstanceDto> Widgets { get; set; } = new();
     }
 
@@ -152,6 +152,6 @@ namespace B2Connect.CMS.Application.Pages
         public string WidgetTypeId { get; set; } = null!;
         public string ComponentPath { get; set; } = null!;
         public int Order { get; set; }
-        public Dictionary<string, object> Settings { get; set; } = new();
+        public Dictionary<string, object> Settings { get; set; } = new(StringComparer.Ordinal);
     }
 }

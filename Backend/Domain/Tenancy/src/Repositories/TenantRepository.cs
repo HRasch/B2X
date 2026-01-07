@@ -54,7 +54,7 @@ public class TenantRepository : ITenantRepository
 
         return await query
             .OrderBy(t => t.Name)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<(IReadOnlyList<Tenant> Items, int TotalCount)> GetPagedAsync(
@@ -79,13 +79,13 @@ public class TenantRepository : ITenantRepository
                 t.Slug.ToLower().Contains(term));
         }
 
-        var totalCount = await query.CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken).ConfigureAwait(false);
 
         var items = await query
             .OrderBy(t => t.Name)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
 
         return (items, totalCount);
     }
@@ -96,7 +96,7 @@ public class TenantRepository : ITenantRepository
         tenant.UpdatedAt = DateTime.UtcNow;
 
         _context.Tenants.Add(tenant);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return tenant;
     }
@@ -106,7 +106,7 @@ public class TenantRepository : ITenantRepository
         tenant.UpdatedAt = DateTime.UtcNow;
 
         _context.Tenants.Update(tenant);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return tenant;
     }

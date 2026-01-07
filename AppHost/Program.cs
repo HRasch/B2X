@@ -31,7 +31,7 @@ IResourceBuilder<PostgresServerResource>? postgres = null;
 
 // IResourceBuilder<AzureCdnResource>? cdn = null;
 
-if (databaseProvider.ToLower() != "inmemory")
+if (!string.Equals(databaseProvider.ToLower(), "inmemory", StringComparison.Ordinal))
 {
     // PostgreSQL Database
     postgres = builder.AddB2ConnectPostgres(

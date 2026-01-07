@@ -1,0 +1,23 @@
+{
+  "name": "kb-mcp-server",
+  "version": "1.0.0",
+  "description": "Knowledge Base MCP Server - Efficient KB Document Access",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/server.ts",
+    "start": "node dist/server.js",
+    "test": "node --test dist/*.test.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.4.0",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "glob": "^10.3.10"
+  }
+}

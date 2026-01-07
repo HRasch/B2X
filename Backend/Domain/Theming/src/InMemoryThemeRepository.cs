@@ -8,8 +8,8 @@ namespace B2Connect.ThemeService.Models;
 public class InMemoryThemeRepository : IThemeRepository
 {
     private readonly ConcurrentDictionary<Guid, Theme> _themes = new();
-    private readonly ConcurrentDictionary<string, List<DesignVariable>> _variables = new();
-    private readonly ConcurrentDictionary<string, List<ThemeVariant>> _variants = new();
+    private readonly ConcurrentDictionary<string, List<DesignVariable>> _variables = new(StringComparer.Ordinal);
+    private readonly ConcurrentDictionary<string, List<ThemeVariant>> _variants = new(StringComparer.Ordinal);
 
     #region Theme Operations
 
@@ -54,7 +54,7 @@ public class InMemoryThemeRepository : IThemeRepository
 
     public Task<bool> ThemeNameExistsAsync(Guid tenantId, string name)
     {
-        var exists = _themes.Values.Any(t => t.TenantId == tenantId && t.Name == name);
+        var exists = _themes.Values.Any(t => t.TenantId == tenantId && string.Equals(t.Name, name, StringComparison.Ordinal));
         return Task.FromResult(exists);
     }
 
@@ -188,7 +188,7 @@ public class InMemoryThemeRepository : IThemeRepository
 
     public async Task<string> GenerateCSSAsync(Guid tenantId, Guid themeId)
     {
-        var variables = await GetDesignVariablesAsync(tenantId, themeId);
+        var variables = await GetDesignVariablesAsync(tenantId, themeId).ConfigureAwait(false);
         var css = ":root {\n";
         foreach (var v in variables)
         {
@@ -200,9 +200,9 @@ public class InMemoryThemeRepository : IThemeRepository
 
     public async Task<string> GenerateThemeJSONAsync(Guid tenantId, Guid themeId)
     {
-        var theme = await GetThemeByIdAsync(tenantId, themeId);
-        var variables = await GetDesignVariablesAsync(tenantId, themeId);
-        var variants = await GetThemeVariantsAsync(tenantId, themeId);
+        var theme = await GetThemeByIdAsync(tenantId, themeId).ConfigureAwait(false);
+        var variables = await GetDesignVariablesAsync(tenantId, themeId).ConfigureAwait(false);
+        var variants = await GetThemeVariantsAsync(tenantId, themeId).ConfigureAwait(false);
 
         return System.Text.Json.JsonSerializer.Serialize(new
         {
@@ -218,7 +218,7 @@ public class InMemoryThemeRepository : IThemeRepository
 
     public async Task<Theme> PublishThemeAsync(Guid tenantId, Guid themeId)
     {
-        var theme = await GetThemeByIdAsync(tenantId, themeId);
+        var theme = await GetThemeByIdAsync(tenantId, themeId).ConfigureAwait(false);
         if (theme == null)
         {
             throw new KeyNotFoundException($"Theme {themeId} not found");
@@ -230,7 +230,7 @@ public class InMemoryThemeRepository : IThemeRepository
 
     public async Task<Theme> UnpublishThemeAsync(Guid tenantId, Guid themeId)
     {
-        var theme = await GetThemeByIdAsync(tenantId, themeId);
+        var theme = await GetThemeByIdAsync(tenantId, themeId).ConfigureAwait(false);
         if (theme == null)
         {
             throw new KeyNotFoundException($"Theme {themeId} not found");
@@ -248,7 +248,7 @@ public class InMemoryThemeRepository : IThemeRepository
             t.IsActive = false;
         }
 
-        var theme = await GetThemeByIdAsync(tenantId, themeId);
+        var theme = await GetThemeByIdAsync(tenantId, themeId).ConfigureAwait(false);
         if (theme == null)
         {
             throw new KeyNotFoundException($"Theme {themeId} not found");
@@ -260,7 +260,7 @@ public class InMemoryThemeRepository : IThemeRepository
 
     public async Task<Theme> DeactivateThemeAsync(Guid tenantId, Guid themeId)
     {
-        var theme = await GetThemeByIdAsync(tenantId, themeId);
+        var theme = await GetThemeByIdAsync(tenantId, themeId).ConfigureAwait(false);
         if (theme == null)
         {
             throw new KeyNotFoundException($"Theme {themeId} not found");

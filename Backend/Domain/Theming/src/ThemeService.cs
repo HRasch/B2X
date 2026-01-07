@@ -26,7 +26,7 @@ public class ThemeService : IThemeService
         }
 
         // Check for duplicate name
-        var nameExists = await _repository.ThemeNameExistsAsync(tenantId, request.Name);
+        var nameExists = await _repository.ThemeNameExistsAsync(tenantId, request.Name).ConfigureAwait(false);
         if (nameExists)
         {
             throw new InvalidOperationException($"Theme '{request.Name}' already exists for this tenant");
@@ -49,7 +49,7 @@ public class ThemeService : IThemeService
             UpdatedAt = DateTime.UtcNow
         };
 
-        return await _repository.CreateThemeAsync(tenantId, theme);
+        return await _repository.CreateThemeAsync(tenantId, theme).ConfigureAwait(false);
     }
 
     public Task<Theme?> GetThemeByIdAsync(Guid tenantId, Guid themeId)
@@ -76,7 +76,7 @@ public class ThemeService : IThemeService
     {
         // Get existing theme
         var theme = await _repository.GetThemeByIdAsync(tenantId, themeId)
-            ?? throw new KeyNotFoundException($"Theme '{themeId}' not found");
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Theme '{themeId}' not found");
 
         // Update fields if provided (use locals to help the compiler infer non-null values)
         var reqName = request?.Name;
@@ -113,12 +113,12 @@ public class ThemeService : IThemeService
         theme.Version++;
         theme.UpdatedAt = DateTime.UtcNow;
 
-        return await _repository.UpdateThemeAsync(tenantId, themeId, theme);
+        return await _repository.UpdateThemeAsync(tenantId, themeId, theme).ConfigureAwait(false);
     }
 
     public async Task DeleteThemeAsync(Guid tenantId, Guid themeId)
     {
-        await _repository.DeleteThemeAsync(tenantId, themeId);
+        await _repository.DeleteThemeAsync(tenantId, themeId).ConfigureAwait(false);
     }
 
     #endregion
@@ -158,7 +158,7 @@ public class ThemeService : IThemeService
     public async Task<DesignVariable> UpdateDesignVariableAsync(Guid tenantId, Guid themeId, Guid variableId, UpdateDesignVariableRequest request)
     {
         // Get existing variable
-        var variables = await _repository.GetDesignVariablesAsync(tenantId, themeId);
+        var variables = await _repository.GetDesignVariablesAsync(tenantId, themeId).ConfigureAwait(false);
         var variable = variables.FirstOrDefault(v => v.Id == variableId)
             ?? throw new KeyNotFoundException($"Variable '{variableId}' not found");
 
@@ -184,7 +184,7 @@ public class ThemeService : IThemeService
         variable.Type = request?.Type ?? variable.Type;
         variable.UpdatedAt = DateTime.UtcNow;
 
-        return await _repository.UpdateDesignVariableAsync(tenantId, themeId, variableId, variable);
+        return await _repository.UpdateDesignVariableAsync(tenantId, themeId, variableId, variable).ConfigureAwait(false);
     }
 
     public Task<List<DesignVariable>> GetDesignVariablesAsync(Guid tenantId, Guid themeId)
@@ -194,7 +194,7 @@ public class ThemeService : IThemeService
 
     public async Task RemoveDesignVariableAsync(Guid tenantId, Guid themeId, Guid variableId)
     {
-        await _repository.RemoveDesignVariableAsync(tenantId, themeId, variableId);
+        await _repository.RemoveDesignVariableAsync(tenantId, themeId, variableId).ConfigureAwait(false);
     }
 
     #endregion
@@ -216,7 +216,7 @@ public class ThemeService : IThemeService
             ThemeId = themeId,
             Name = request.Name ?? string.Empty,
             Description = request.Description ?? string.Empty,
-            VariableOverrides = request.VariableOverrides ?? new Dictionary<string, string>(),
+            VariableOverrides = request.VariableOverrides ?? new Dictionary<string, string>(StringComparer.Ordinal),
             IsEnabled = true,
             CreatedAt = DateTime.UtcNow
         };
@@ -232,7 +232,7 @@ public class ThemeService : IThemeService
     public async Task<ThemeVariant> UpdateThemeVariantAsync(Guid tenantId, Guid themeId, Guid variantId, UpdateThemeVariantRequest request)
     {
         // Get existing variant
-        var variants = await _repository.GetThemeVariantsAsync(tenantId, themeId);
+        var variants = await _repository.GetThemeVariantsAsync(tenantId, themeId).ConfigureAwait(false);
         var variant = variants.FirstOrDefault(v => v.Id == variantId)
             ?? throw new KeyNotFoundException($"Variant '{variantId}' not found");
 
@@ -259,12 +259,12 @@ public class ThemeService : IThemeService
             variant.IsEnabled = request.IsEnabled.Value;
         }
 
-        return await _repository.UpdateThemeVariantAsync(tenantId, themeId, variantId, variant);
+        return await _repository.UpdateThemeVariantAsync(tenantId, themeId, variantId, variant).ConfigureAwait(false);
     }
 
     public async Task RemoveThemeVariantAsync(Guid tenantId, Guid themeId, Guid variantId)
     {
-        await _repository.RemoveThemeVariantAsync(tenantId, themeId, variantId);
+        await _repository.RemoveThemeVariantAsync(tenantId, themeId, variantId).ConfigureAwait(false);
     }
 
     #endregion

@@ -20,7 +20,7 @@ public class FakeErpProvider : IErpProvider
     public string ProviderName => "Fake";
 
     // Seed-Daten für konsistente Test-Szenarien
-    private static readonly Dictionary<string, ErpCustomerDto> FakeCustomerDatabase = new()
+    private static readonly Dictionary<string, ErpCustomerDto> FakeCustomerDatabase = new(StringComparer.Ordinal)
     {
         // B2C Customers
         {
@@ -112,7 +112,7 @@ public class FakeErpProvider : IErpProvider
     };
 
     // Mapping für E-Mail-Suche
-    private static readonly Dictionary<string, string> EmailToCustomerNumber = new()
+    private static readonly Dictionary<string, string> EmailToCustomerNumber = new(StringComparer.Ordinal)
     {
         { "max.mustermann@example.com", "CUST-001" },
         { "erika.musterfrau@example.com", "CUST-002" },
@@ -122,7 +122,7 @@ public class FakeErpProvider : IErpProvider
     };
 
     // Mapping für Firmennamen-Suche
-    private static readonly Dictionary<string, string> CompanyNameToCustomerNumber = new()
+    private static readonly Dictionary<string, string> CompanyNameToCustomerNumber = new(StringComparer.Ordinal)
     {
         { "techcorp gmbh", "CUST-100" },
         { "innovatelabs ag", "CUST-101" },

@@ -44,61 +44,76 @@ public class PriceCalculationService
 
         try
         {
-            // 1. Validate input
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            // Validate input
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
             if (!validationResult.IsValid)
             {
-                _logger.LogWarning("Price validation failed: {Errors}",
-                    string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage)));
-
-                return new PriceBreakdownResponse
-                {
-                    Success = false,
-                    Error = "VALIDATION_ERROR",
-                    Message = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage))
-                };
+                return CreateValidationErrorResponse(validationResult.Errors);
             }
 
-            // 2. Get VAT rate for destination country (use fallback if null)
+            // Calculate price with VAT
             var destination = request.DestinationCountry ?? "DE";
-            var vatRate = await _taxService.GetVatRateAsync(destination, cancellationToken);
+            var vatRate = await _taxService.GetVatRateAsync(destination, cancellationToken).ConfigureAwait(false);
 
-            // 3. Calculate VAT amount
-            var vatAmount = request.ProductPrice * (vatRate / 100);
-            var totalWithVat = request.ProductPrice + vatAmount;
+            var breakdown = CalculatePriceBreakdown(request, vatRate, destination);
 
-            // 4. Build response with transparent breakdown
-            var response = new PriceBreakdownResponse
+            return new PriceBreakdownResponse
             {
                 Success = true,
-                Breakdown = new PriceBreakdown(
-                    ProductPrice: request.ProductPrice,
-                    VatRate: vatRate,
-                    VatAmount: Math.Round(vatAmount, 2),
-                    TotalWithVat: Math.Round(totalWithVat, 2),
-                    CurrencyCode: request.CurrencyCode ?? "EUR",
-                    ShippingCost: request.ShippingCost ?? 0,
-                    FinalTotal: Math.Round(totalWithVat + (request.ShippingCost ?? 0), 2),
-                    DestinationCountry: destination
-                )
+                Breakdown = breakdown
             };
-
-            _logger.LogInformation(
-                "Price calculated successfully: {ProductPrice}€ + {VatAmount}€ VAT = {Total}€",
-                request.ProductPrice, vatAmount, totalWithVat);
-
-            return response;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error calculating price for {Country}", request.DestinationCountry ?? "(none)");
-            return new PriceBreakdownResponse
-            {
-                Success = false,
-                Error = "CALCULATION_ERROR",
-                Message = "An error occurred while calculating price. Please try again."
-            };
+            return CreateCalculationErrorResponse();
         }
+    }
+
+    private PriceBreakdownResponse CreateValidationErrorResponse(IEnumerable<FluentValidation.Results.ValidationFailure> errors)
+    {
+        var errorMessage = string.Join("; ", errors.Select(e => e.ErrorMessage));
+        _logger.LogWarning("Price validation failed: {Errors}", errorMessage);
+
+        return new PriceBreakdownResponse
+        {
+            Success = false,
+            Error = "VALIDATION_ERROR",
+            Message = errorMessage
+        };
+    }
+
+    private PriceBreakdown CalculatePriceBreakdown(CalculatePriceCommand request, decimal vatRate, string destination)
+    {
+        var vatAmount = request.ProductPrice * (vatRate / 100);
+        var totalWithVat = request.ProductPrice + vatAmount;
+        var shippingCost = request.ShippingCost ?? 0;
+        var finalTotal = totalWithVat + shippingCost;
+
+        _logger.LogInformation(
+            "Price calculated successfully: {ProductPrice}€ + {VatAmount}€ VAT = {Total}€",
+            request.ProductPrice, vatAmount, totalWithVat);
+
+        return new PriceBreakdown(
+            ProductPrice: request.ProductPrice,
+            VatRate: vatRate,
+            VatAmount: Math.Round(vatAmount, 2),
+            TotalWithVat: Math.Round(totalWithVat, 2),
+            CurrencyCode: request.CurrencyCode ?? "EUR",
+            ShippingCost: shippingCost,
+            FinalTotal: Math.Round(finalTotal, 2),
+            DestinationCountry: destination
+        );
+    }
+
+    private static PriceBreakdownResponse CreateCalculationErrorResponse()
+    {
+        return new PriceBreakdownResponse
+        {
+            Success = false,
+            Error = "CALCULATION_ERROR",
+            Message = "An error occurred while calculating price. Please try again."
+        };
     }
 
     /// <summary>

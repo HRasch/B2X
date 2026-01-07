@@ -168,7 +168,7 @@ public static class CatalogDemoDbExtensions
     {
         var environment = configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") ?? "Production";
         var useInMemory = configuration.GetValue<bool>("CatalogService:UseInMemoryDatabase",
-            environment == "Development");
+string.Equals(environment, "Development", StringComparison.Ordinal));
 
         if (useInMemory)
         {
@@ -212,7 +212,7 @@ public static class CatalogDemoDbExtensions
 
             var useInMemory = scope.ServiceProvider
                 .GetRequiredService<IConfiguration>()
-                .GetValue<bool>("CatalogService:UseInMemoryDatabase", environment == "Development");
+                .GetValue<bool>("CatalogService:UseInMemoryDatabase", string.Equals(environment, "Development", StringComparison.Ordinal));
 
             if (useInMemory)
             {
@@ -224,10 +224,10 @@ public static class CatalogDemoDbExtensions
                     logger.LogInformation("Initializing in-memory catalog database with demo data");
 
                     // Ensure database is created
-                    await context.Database.EnsureCreatedAsync();
+                    await context.Database.EnsureCreatedAsync().ConfigureAwait(false);
 
                     // Seed if empty
-                    if (!await context.Products.AnyAsync())
+                    if (!await context.Products.AnyAsync().ConfigureAwait(false))
                     {
                         var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
                         var configuredCount = config.GetValue<int?>("CatalogService:DemoProductCount");
@@ -240,7 +240,7 @@ public static class CatalogDemoDbExtensions
                         context.Brands.AddRange(brands);
                         context.Products.AddRange(products);
 
-                        await context.SaveChangesAsync();
+                        await context.SaveChangesAsync().ConfigureAwait(false);
                         logger.LogInformation("Demo database seeded successfully");
                     }
                 }

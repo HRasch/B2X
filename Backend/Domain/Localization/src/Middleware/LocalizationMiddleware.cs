@@ -39,6 +39,6 @@ public class LocalizationMiddleware
         System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo(language);
         System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo(language);
 
-        await _next(context);
+        await _next(context).ConfigureAwait(false);
     }
 }

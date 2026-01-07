@@ -30,7 +30,7 @@ public class EmailTemplateService : IEmailTemplateService
         return await _dbContext.EmailTemplates
             .Where(t => t.TenantId == tenantId)
             .OrderByDescending(t => t.UpdatedAt)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -40,7 +40,7 @@ public class EmailTemplateService : IEmailTemplateService
         CancellationToken cancellationToken = default)
     {
         return await _dbContext.EmailTemplates
-            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken);
+            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -50,7 +50,7 @@ public class EmailTemplateService : IEmailTemplateService
         CancellationToken cancellationToken = default)
     {
         return await _dbContext.EmailTemplates
-            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Key == key && t.IsActive, cancellationToken);
+            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Key == key && t.IsActive, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -62,7 +62,7 @@ public class EmailTemplateService : IEmailTemplateService
     {
         // Check if key already exists
         var existingTemplate = await _dbContext.EmailTemplates
-            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Key == dto.Key, cancellationToken);
+            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Key == dto.Key, cancellationToken).ConfigureAwait(false);
 
         if (existingTemplate != null)
         {
@@ -84,7 +84,7 @@ public class EmailTemplateService : IEmailTemplateService
         };
 
         _dbContext.EmailTemplates.Add(template);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Created email template {TemplateId} for tenant {TenantId}", template.Id, tenantId);
 
@@ -100,7 +100,7 @@ public class EmailTemplateService : IEmailTemplateService
         CancellationToken cancellationToken = default)
     {
         var template = await _dbContext.EmailTemplates
-            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken);
+            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken).ConfigureAwait(false);
 
         if (template == null)
         {
@@ -117,7 +117,7 @@ public class EmailTemplateService : IEmailTemplateService
         template.UpdatedAt = DateTime.UtcNow;
         template.UpdatedBy = updatedBy;
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Updated email template {TemplateId} for tenant {TenantId}", templateId, tenantId);
 
@@ -131,7 +131,7 @@ public class EmailTemplateService : IEmailTemplateService
         CancellationToken cancellationToken = default)
     {
         var template = await _dbContext.EmailTemplates
-            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken);
+            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken).ConfigureAwait(false);
 
         if (template == null)
         {
@@ -139,7 +139,7 @@ public class EmailTemplateService : IEmailTemplateService
         }
 
         _dbContext.EmailTemplates.Remove(template);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Deleted email template {TemplateId} for tenant {TenantId}", templateId, tenantId);
     }
@@ -153,7 +153,7 @@ public class EmailTemplateService : IEmailTemplateService
         CancellationToken cancellationToken = default)
     {
         var template = await _dbContext.EmailTemplates
-            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken);
+            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken).ConfigureAwait(false);
 
         if (template == null)
         {
@@ -164,7 +164,7 @@ public class EmailTemplateService : IEmailTemplateService
         template.UpdatedAt = DateTime.UtcNow;
         template.UpdatedBy = updatedBy;
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Toggled email template {TemplateId} status to {IsActive} for tenant {TenantId}",
             templateId, isActive, tenantId);
@@ -181,7 +181,7 @@ public class EmailTemplateService : IEmailTemplateService
         CancellationToken cancellationToken = default)
     {
         var template = await _dbContext.EmailTemplates
-            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken);
+            .FirstOrDefaultAsync(t => t.TenantId == tenantId && t.Id == templateId, cancellationToken).ConfigureAwait(false);
 
         if (template == null)
         {
@@ -190,7 +190,7 @@ public class EmailTemplateService : IEmailTemplateService
 
         // Merge template variables with test variables
         var variables = new Dictionary<string, object>(template.Variables
-            .ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value));
+            .ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value, StringComparer.Ordinal), StringComparer.Ordinal);
 
         if (testVariables != null)
         {

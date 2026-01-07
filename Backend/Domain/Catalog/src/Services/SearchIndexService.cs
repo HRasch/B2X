@@ -41,7 +41,7 @@ public class SearchIndexService : ISearchIndexService
                 i => i
                     .Index(indexName)
                     .Id(product.Id.ToString()),
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             if (!response.IsSuccess())
             {
@@ -66,7 +66,7 @@ public class SearchIndexService : ISearchIndexService
             var response = await _client.DeleteAsync<Product>(
                 productId.ToString(),
                 d => d.Index("products_*"),
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             if (response.IsSuccess())
             {
@@ -97,7 +97,7 @@ public class SearchIndexService : ISearchIndexService
                         .Fuzziness("AUTO")
                     )
                 ),
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             if (!searchResponse.IsSuccess())
             {

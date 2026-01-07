@@ -24,12 +24,12 @@ public class ApiExceptionHandlingMiddleware
     {
         try
         {
-            await _next(context);
+            await _next(context).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception in request pipeline");
-            await HandleExceptionAsync(context, ex);
+            await HandleExceptionAsync(context, ex).ConfigureAwait(false);
         }
     }
 

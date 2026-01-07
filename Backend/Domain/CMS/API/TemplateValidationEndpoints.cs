@@ -48,7 +48,7 @@ public static class TemplateValidationEndpoints
             var result = request.ValidationScope?.ToLower() switch
             {
                 "content" => await validationService.ValidateTemplateContentAsync(
-                    tenantId, request.TemplateKey, request.TemplateContent, cancellationToken),
+                    tenantId, request.TemplateKey, request.TemplateContent, cancellationToken).ConfigureAwait(false),
                 _ => await validationService.ValidateTemplateAsync(
                     new PageDefinition
                     {
@@ -58,6 +58,7 @@ public static class TemplateValidationEndpoints
                         PageTitle = request.TemplateKey,
                         TemplateLayout = request.TemplateContent
                     }, cancellationToken)
+.ConfigureAwait(false)
             };
 
             logger.LogInformation(

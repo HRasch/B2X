@@ -35,7 +35,7 @@ public class CreateTemplateOverrideCommandHandler : ICommandHandler<CreateTempla
 
     public async Task<PageDefinition> Handle(
         CreateTemplateOverrideCommand command,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(
             "Creating template override: TenantId={TenantId}, TemplateKey={TemplateKey}",
@@ -43,7 +43,7 @@ public class CreateTemplateOverrideCommandHandler : ICommandHandler<CreateTempla
 
         // Get base template
         var baseTemplate = await _templateRepository.GetBaseTemplateAsync(
-            command.TemplateKey, cancellationToken);
+            command.TemplateKey, cancellationToken).ConfigureAwait(false);
 
         if (baseTemplate == null)
         {
@@ -73,18 +73,18 @@ public class CreateTemplateOverrideCommandHandler : ICommandHandler<CreateTempla
         };
 
         // Save override
-        templateOverride = await _templateRepository.SaveOverrideAsync(templateOverride, cancellationToken);
+        templateOverride = await _templateRepository.SaveOverrideAsync(templateOverride, cancellationToken).ConfigureAwait(false);
 
         // Validate asynchronously (don't block creation)
         _ = Task.Run(async () =>
         {
             var validationResult = await _validationService.ValidateTemplateAsync(
-                templateOverride, cancellationToken);
+                templateOverride, cancellationToken).ConfigureAwait(false);
             templateOverride.OverrideMetadata!.ValidationStatus = validationResult.OverallStatus;
             templateOverride.OverrideMetadata!.ValidationResults = validationResult.ValidationResults
                 .Select(v => $"{v.Severity}: {v.Message}")
                 .ToList();
-            await _templateRepository.SaveOverrideAsync(templateOverride, cancellationToken);
+            await _templateRepository.SaveOverrideAsync(templateOverride, cancellationToken).ConfigureAwait(false);
         }, cancellationToken);
 
         _logger.LogInformation(
@@ -116,14 +116,14 @@ public class PublishTemplateOverrideCommandHandler : ICommandHandler<PublishTemp
 
     public async Task<Unit> Handle(
         PublishTemplateOverrideCommand command,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(
             "Publishing template override: TenantId={TenantId}, TemplateKey={TemplateKey}",
             command.TenantId, command.TemplateKey);
 
         var templateOverride = await _templateRepository.GetTenantOverrideAsync(
-            command.TenantId, command.TemplateKey, cancellationToken);
+            command.TenantId, command.TemplateKey, cancellationToken).ConfigureAwait(false);
 
         if (templateOverride == null)
         {
@@ -146,11 +146,11 @@ public class PublishTemplateOverrideCommandHandler : ICommandHandler<PublishTemp
             templateOverride.OverrideMetadata.PublishedAt = DateTime.UtcNow;
         }
 
-        await _templateRepository.SaveOverrideAsync(templateOverride, cancellationToken);
+        await _templateRepository.SaveOverrideAsync(templateOverride, cancellationToken).ConfigureAwait(false);
 
         // Invalidate cache to force reload
         await _resolutionService.InvalidateCacheAsync(
-            command.TenantId, command.TemplateKey, cancellationToken);
+            command.TenantId, command.TemplateKey, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation(
             "Template override published: TenantId={TenantId}, TemplateKey={TemplateKey}",

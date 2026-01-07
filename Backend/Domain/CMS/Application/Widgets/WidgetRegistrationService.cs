@@ -84,7 +84,7 @@ namespace B2Connect.CMS.Application.Widgets
                         DisplayOrder = 6,
                         DefaultValue = "center",
                         Metadata = new Dictionary<string, object>
-                        {
+(StringComparer.Ordinal) {
                             { "options", value }
                         }
                     },
@@ -126,7 +126,7 @@ namespace B2Connect.CMS.Application.Widgets
                         DisplayOrder = 2,
                         DefaultValue = "3",
                         Metadata = new Dictionary<string, object>
-                        {
+(StringComparer.Ordinal) {
                             { "options", new[] { "1", "2", "3", "4", "6" } }
                         }
                     },
@@ -140,7 +140,7 @@ namespace B2Connect.CMS.Application.Widgets
                         DisplayOrder = 4,
                         DefaultValue = "newest",
                         Metadata = new Dictionary<string, object>
-                        {
+(StringComparer.Ordinal) {
                             { "options", new[] { "newest", "popular", "price-asc", "price-desc", "rating" } }
                         }
                     },
@@ -181,7 +181,7 @@ namespace B2Connect.CMS.Application.Widgets
                         DisplayOrder = 3,
                         DefaultValue = "3",
                         Metadata = new Dictionary<string, object>
-                        {
+(StringComparer.Ordinal) {
                             { "options", new[] { "2", "3", "4" } }
                         }
                     }
@@ -322,7 +322,7 @@ namespace B2Connect.CMS.Application.Widgets
                         DisplayOrder = 3,
                         DefaultValue = "16:9",
                         Metadata = new Dictionary<string, object>
-                        {
+(StringComparer.Ordinal) {
                             { "options", new[] { "16:9", "4:3", "1:1" } }
                         }
                     }

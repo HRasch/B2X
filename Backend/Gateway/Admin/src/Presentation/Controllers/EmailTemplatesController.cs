@@ -12,7 +12,7 @@ namespace B2Connect.Admin.Presentation.Controllers;
 [Route("api/admin/email/templates")]
 [ApiController]
 [ValidateTenant]
-// [Authorize] // Temporarily disabled for testing
+[Authorize]
 public class EmailTemplatesController : ApiControllerBase
 {
     private readonly IEmailTemplateService _templateService;

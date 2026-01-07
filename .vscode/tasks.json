@@ -470,6 +470,20 @@
         "reveal": "always",
         "panel": "new"
       }
+    },
+    {
+      "label": "mcp-console-monitor",
+      "type": "shell",
+      "command": "echo",
+      "args": [
+        "MCP Console Logging integriert. Starte VS Code neu und prüfe Output Panel für MCP-Server-Logs."
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false
+      }
     }
   ]
 }

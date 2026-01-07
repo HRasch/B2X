@@ -16,6 +16,8 @@ Coordinate testing efforts, ensure quality gates, verify compliance requirements
 - Quality gate enforcement
 - Compliance verification
 - Bug triage and tracking
+- **NEU**: Use-Case-Decomposition für KOMPLEX Anforderungen
+- **NEU**: Requirements Analysis Integration (Testbarkeit, Edge Cases)
 
 ## Test Targets
 | Type | Coverage | Owner |

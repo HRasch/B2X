@@ -51,7 +51,7 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<ProductResult> Handle(CreateProductCommand command, CancellationToken ct)
+    public async Task<ProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -86,7 +86,7 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
             CreatedAt = DateTime.UtcNow
         };
 
-        await _repository.AddAsync(product, ct);
+        await _repository.AddAsync(product, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Product {ProductId} created successfully", product.Id);
 
@@ -110,7 +110,7 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, Produc
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<ProductResult> Handle(UpdateProductCommand command, CancellationToken ct)
+    public async Task<ProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -118,7 +118,7 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, Produc
             "Updating product {ProductId} for tenant {TenantId}",
             command.ProductId, tenantId);
 
-        var product = await _repository.GetByIdAsync(tenantId, command.ProductId, ct);
+        var product = await _repository.GetByIdAsync(tenantId, command.ProductId, cancellationToken).ConfigureAwait(false);
         if (product == null)
         {
             throw new KeyNotFoundException($"Product {command.ProductId} not found");
@@ -135,7 +135,7 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, Produc
         product.BrandId = command.BrandId;
         product.UpdatedAt = DateTime.UtcNow;
 
-        await _repository.UpdateAsync(product, ct);
+        await _repository.UpdateAsync(product, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Product {ProductId} updated successfully", product.Id);
 
@@ -154,10 +154,10 @@ public class GetProductHandler : IQueryHandler<GetProductQuery, ProductResult?>
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<ProductResult?> Handle(GetProductQuery query, CancellationToken ct)
+    public async Task<ProductResult?> Handle(GetProductQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var product = await _repository.GetByIdAsync(tenantId, query.ProductId, ct);
+        var product = await _repository.GetByIdAsync(tenantId, query.ProductId, cancellationToken).ConfigureAwait(false);
 
         if (product == null)
         {
@@ -179,10 +179,10 @@ public class GetProductBySkuHandler : IQueryHandler<GetProductBySkuQuery, Produc
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<ProductResult?> Handle(GetProductBySkuQuery query, CancellationToken ct)
+    public async Task<ProductResult?> Handle(GetProductBySkuQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var product = await _repository.GetBySkuAsync(tenantId, query.Sku, ct);
+        var product = await _repository.GetBySkuAsync(tenantId, query.Sku, cancellationToken).ConfigureAwait(false);
 
         if (product == null)
         {
@@ -204,10 +204,10 @@ public class GetAllProductsHandler : IQueryHandler<GetAllProductsQuery, IEnumera
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<ProductResult>> Handle(GetAllProductsQuery query, CancellationToken ct)
+    public async Task<IEnumerable<ProductResult>> Handle(GetAllProductsQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var products = await _repository.GetAllAsync(tenantId, ct);
+        var products = await _repository.GetAllAsync(tenantId, cancellationToken).ConfigureAwait(false);
 
         return products.Select(ProductMapper.ToResult);
     }
@@ -229,7 +229,7 @@ public class DeleteProductHandler : ICommandHandler<DeleteProductCommand, bool>
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<bool> Handle(DeleteProductCommand command, CancellationToken ct)
+    public async Task<bool> Handle(DeleteProductCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -237,13 +237,13 @@ public class DeleteProductHandler : ICommandHandler<DeleteProductCommand, bool>
             "Deleting product {ProductId} from tenant {TenantId}",
             command.ProductId, tenantId);
 
-        var product = await _repository.GetByIdAsync(tenantId, command.ProductId, ct);
+        var product = await _repository.GetByIdAsync(tenantId, command.ProductId, cancellationToken).ConfigureAwait(false);
         if (product == null)
         {
             return false;
         }
 
-        await _repository.DeleteAsync(tenantId, command.ProductId, ct);
+        await _repository.DeleteAsync(tenantId, command.ProductId, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Product {ProductId} deleted successfully", command.ProductId);
         return true;
@@ -264,10 +264,10 @@ public class GetProductBySlugHandler : IQueryHandler<GetProductBySlugQuery, Prod
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<ProductResult?> Handle(GetProductBySlugQuery query, CancellationToken ct)
+    public async Task<ProductResult?> Handle(GetProductBySlugQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var product = await _repository.GetBySlugAsync(tenantId, query.Slug, ct);
+        var product = await _repository.GetBySlugAsync(tenantId, query.Slug, cancellationToken).ConfigureAwait(false);
 
         if (product == null)
         {
@@ -292,10 +292,10 @@ public class GetProductsByCategoryHandler : IQueryHandler<GetProductsByCategoryQ
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<ProductResult>> Handle(GetProductsByCategoryQuery query, CancellationToken ct)
+    public async Task<IEnumerable<ProductResult>> Handle(GetProductsByCategoryQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var products = await _repository.GetByCategoryAsync(tenantId, query.CategoryId, ct);
+        var products = await _repository.GetByCategoryAsync(tenantId, query.CategoryId, cancellationToken).ConfigureAwait(false);
 
         return products.Select(ProductMapper.ToResult);
     }
@@ -315,10 +315,10 @@ public class GetProductsByBrandHandler : IQueryHandler<GetProductsByBrandQuery, 
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<ProductResult>> Handle(GetProductsByBrandQuery query, CancellationToken ct)
+    public async Task<IEnumerable<ProductResult>> Handle(GetProductsByBrandQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var products = await _repository.GetByBrandAsync(tenantId, query.BrandId, ct);
+        var products = await _repository.GetByBrandAsync(tenantId, query.BrandId, cancellationToken).ConfigureAwait(false);
 
         return products.Select(ProductMapper.ToResult);
     }
@@ -338,10 +338,10 @@ public class GetFeaturedProductsHandler : IQueryHandler<GetFeaturedProductsQuery
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<ProductResult>> Handle(GetFeaturedProductsQuery query, CancellationToken ct)
+    public async Task<IEnumerable<ProductResult>> Handle(GetFeaturedProductsQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var products = await _repository.GetFeaturedAsync(tenantId, query.Take, ct);
+        var products = await _repository.GetFeaturedAsync(tenantId, query.Take, cancellationToken).ConfigureAwait(false);
 
         return products.Select(ProductMapper.ToResult);
     }
@@ -361,10 +361,10 @@ public class GetNewProductsHandler : IQueryHandler<GetNewProductsQuery, IEnumera
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<ProductResult>> Handle(GetNewProductsQuery query, CancellationToken ct)
+    public async Task<IEnumerable<ProductResult>> Handle(GetNewProductsQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var products = await _repository.GetNewestAsync(tenantId, query.Take, ct);
+        var products = await _repository.GetNewestAsync(tenantId, query.Take, cancellationToken).ConfigureAwait(false);
 
         return products.Select(ProductMapper.ToResult);
     }
@@ -384,7 +384,7 @@ public class SearchProductsHandler : IQueryHandler<SearchProductsQuery, (IEnumer
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<(IEnumerable<ProductResult>, int)> Handle(SearchProductsQuery query, CancellationToken ct)
+    public async Task<(IEnumerable<ProductResult>, int)> Handle(SearchProductsQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         var (products, total) = await _repository.SearchAsync(
@@ -392,7 +392,7 @@ public class SearchProductsHandler : IQueryHandler<SearchProductsQuery, (IEnumer
             query.SearchTerm,
             query.PageNumber,
             query.PageSize,
-            ct);
+            cancellationToken).ConfigureAwait(false);
 
         var results = products.Select(ProductMapper.ToResult);
 
@@ -414,14 +414,14 @@ public class GetProductsPagedHandler : IQueryHandler<GetProductsPagedQuery, (IEn
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<(IEnumerable<ProductResult>, int)> Handle(GetProductsPagedQuery query, CancellationToken ct)
+    public async Task<(IEnumerable<ProductResult>, int)> Handle(GetProductsPagedQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         var (products, total) = await _repository.GetPagedAsync(
             tenantId,
             query.PageNumber,
             query.PageSize,
-            ct);
+            cancellationToken).ConfigureAwait(false);
 
         var results = products.Select(ProductMapper.ToResult);
 
@@ -456,7 +456,7 @@ public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsComma
         this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<BulkImportResult> Handle(BulkImportProductsCommand command, CancellationToken ct)
+    public async Task<BulkImportResult> Handle(BulkImportProductsCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         var importId = Guid.NewGuid();
@@ -523,7 +523,7 @@ public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsComma
                     CalculateStats = true
                 };
 
-                await _dbContext.BulkInsertAsync(validProducts, bulkConfig, cancellationToken: ct);
+                await _dbContext.BulkInsertAsync(validProducts, bulkConfig, cancellationToken: cancellationToken).ConfigureAwait(false);
                 importedCount = validProducts.Count;
 
                 _logger.LogInformation(
@@ -574,7 +574,7 @@ public class GetAllProductsForIndexHandler : IQueryHandler<GetAllProductsForInde
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<IEnumerable<ProductIndexResult>> Handle(GetAllProductsForIndexQuery query, CancellationToken ct)
+    public async Task<IEnumerable<ProductIndexResult>> Handle(GetAllProductsForIndexQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -604,7 +604,7 @@ public class GetAllProductsForIndexHandler : IQueryHandler<GetAllProductsForInde
         var products = await connection.QueryAsync<ProductIndexResult>(
             sql,
             new { TenantId = tenantId },
-            commandTimeout: 300); // 5 Minuten Timeout für große Datasets
+            commandTimeout: 300).ConfigureAwait(false); // 5 Minuten Timeout für große Datasets
 
         _logger.LogInformation(
             "Retrieved {Count} products for search indexing for tenant {TenantId}",

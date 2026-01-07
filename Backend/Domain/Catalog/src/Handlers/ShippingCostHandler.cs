@@ -36,7 +36,7 @@ public class ShippingCostHandler
         try
         {
             // Validate input
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
             if (!validationResult.IsValid)
             {
                 _logger.LogWarning("Validation failed for shipping methods request");
@@ -52,7 +52,7 @@ public class ShippingCostHandler
                 request.DestinationCountry,
                 request.TotalWeight,
                 request.OrderTotal,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("GetShippingMethods completed: {Count} methods returned",
                 response.Methods.Count);

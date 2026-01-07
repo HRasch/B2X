@@ -38,7 +38,7 @@ public class GetUsersHandler : IQueryHandler<GetUsersQuery, UsersListResult?>
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<UsersListResult?> Handle(GetUsersQuery query, CancellationToken ct)
+    public async Task<UsersListResult?> Handle(GetUsersQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         _logger.LogInformation("Fetching users for tenant {TenantId}", tenantId);
@@ -49,7 +49,7 @@ public class GetUsersHandler : IQueryHandler<GetUsersQuery, UsersListResult?>
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("X-Tenant-ID", tenantId.ToString());
 
-        var response = await _httpClient.SendAsync(request, ct);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -57,7 +57,7 @@ public class GetUsersHandler : IQueryHandler<GetUsersQuery, UsersListResult?>
             return null;
         }
 
-        var content = await response.Content.ReadAsStringAsync(ct);
+        var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         var users = JsonSerializer.Deserialize<IEnumerable<UserResult>>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -86,7 +86,7 @@ public class GetUserHandler : IQueryHandler<GetUserQuery, UserResult?>
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<UserResult?> Handle(GetUserQuery query, CancellationToken ct)
+    public async Task<UserResult?> Handle(GetUserQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         _logger.LogInformation("Fetching user {UserId} for tenant {TenantId}", query.UserId, tenantId);
@@ -96,7 +96,7 @@ public class GetUserHandler : IQueryHandler<GetUserQuery, UserResult?>
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("X-Tenant-ID", tenantId.ToString());
 
-        var response = await _httpClient.SendAsync(request, ct);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
         if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
@@ -110,7 +110,7 @@ public class GetUserHandler : IQueryHandler<GetUserQuery, UserResult?>
             return null;
         }
 
-        var content = await response.Content.ReadAsStringAsync(ct);
+        var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         return JsonSerializer.Deserialize<UserResult>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -137,7 +137,7 @@ public class CreateUserHandler : ICommandHandler<CreateUserCommand, UserResult?>
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<UserResult?> Handle(CreateUserCommand command, CancellationToken ct)
+    public async Task<UserResult?> Handle(CreateUserCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         _logger.LogInformation(
@@ -161,16 +161,16 @@ public class CreateUserHandler : ICommandHandler<CreateUserCommand, UserResult?>
         };
         request.Headers.Add("X-Tenant-ID", tenantId.ToString());
 
-        var response = await _httpClient.SendAsync(request, ct);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
-            var errorContent = await response.Content.ReadAsStringAsync(ct);
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             throw new InvalidOperationException($"Failed to create user: {errorContent}");
         }
 
-        var content = await response.Content.ReadAsStringAsync(ct);
+        var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         return JsonSerializer.Deserialize<UserResult>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -197,7 +197,7 @@ public class UpdateUserHandler : ICommandHandler<UpdateUserCommand, UserResult?>
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<UserResult?> Handle(UpdateUserCommand command, CancellationToken ct)
+    public async Task<UserResult?> Handle(UpdateUserCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         _logger.LogInformation(
@@ -221,7 +221,7 @@ public class UpdateUserHandler : ICommandHandler<UpdateUserCommand, UserResult?>
         };
         request.Headers.Add("X-Tenant-ID", tenantId.ToString());
 
-        var response = await _httpClient.SendAsync(request, ct);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
         if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
@@ -232,11 +232,11 @@ public class UpdateUserHandler : ICommandHandler<UpdateUserCommand, UserResult?>
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("Identity Service returned {StatusCode}", response.StatusCode);
-            var errorContent = await response.Content.ReadAsStringAsync(ct);
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             throw new InvalidOperationException($"Failed to update user: {errorContent}");
         }
 
-        var content = await response.Content.ReadAsStringAsync(ct);
+        var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         return JsonSerializer.Deserialize<UserResult>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -263,7 +263,7 @@ public class DeleteUserHandler : ICommandHandler<DeleteUserCommand, bool>
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<bool> Handle(DeleteUserCommand command, CancellationToken ct)
+    public async Task<bool> Handle(DeleteUserCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         _logger.LogInformation(
@@ -275,7 +275,7 @@ public class DeleteUserHandler : ICommandHandler<DeleteUserCommand, bool>
         using var request = new HttpRequestMessage(HttpMethod.Delete, url);
         request.Headers.Add("X-Tenant-ID", tenantId.ToString());
 
-        var response = await _httpClient.SendAsync(request, ct);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
         if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
         {

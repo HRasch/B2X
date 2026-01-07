@@ -16,6 +16,9 @@ export default defineNuxtConfig({
   // SSR enabled by default in Nuxt 3
   ssr: true,
 
+  // Source directory
+  srcDir: 'src',
+
   // TypeScript
   typescript: {
     strict: true,
@@ -43,8 +46,8 @@ export default defineNuxtConfig({
     ].filter(Boolean),
     resolve: {
       alias: {
-        '@': path.resolve(__dirname),
-        '~': path.resolve(__dirname),
+        '@': path.resolve(__dirname, 'src'),
+        '~': path.resolve(__dirname, 'src'),
       },
     },
     css: {

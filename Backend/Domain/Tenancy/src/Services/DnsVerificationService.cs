@@ -33,7 +33,7 @@ public class DnsVerificationService : IDnsVerificationService
 
         try
         {
-            var result = await _dnsClient.QueryAsync(txtRecordName, QueryType.TXT, cancellationToken: cancellationToken);
+            var result = await _dnsClient.QueryAsync(txtRecordName, QueryType.TXT, cancellationToken: cancellationToken).ConfigureAwait(false);
 
             if (result.HasError)
             {

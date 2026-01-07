@@ -60,14 +60,24 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useLocale } from '@/composables/useLocale';
+import { useI18n } from 'vue-i18n';
+import { useTenantI18n } from '~/composables/useTenantI18n';
 
-const { locale, currentLocale, locales, isLoading, setLocale } = useLocale();
+const { locale, locales } = useI18n();
+const { setTenantLocale } = useTenantI18n();
 const isOpen = ref(false);
+const isLoading = ref(false);
+
+const currentLocale = computed(() => locales.value.find((loc: any) => loc.code === locale.value));
 
 const handleSelectLocale = async (code: string) => {
   isOpen.value = false;
-  await setLocale(code);
+  isLoading.value = true;
+  try {
+    await setTenantLocale(code);
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 

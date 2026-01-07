@@ -59,9 +59,6 @@ builder.Host.UseSerilog((context, config) =>
 builder.Host.AddServiceDefaults();
 
 // Add Wolverine with HTTP Endpoints
-var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
-var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
-
 builder.Host.UseWolverine(opts =>
 {
     opts.ServiceName = "IdentityService";
@@ -84,7 +81,7 @@ builder.Services.AddWolverineHttp();
 
 // Add Database
 var databaseProvider = builder.Configuration["Database:Provider"] ?? builder.Configuration["Database__Provider"] ?? "sqlite";
-if (databaseProvider.ToLower() == "inmemory")
+if (string.Equals(databaseProvider.ToLower(System.Globalization.CultureInfo.InvariantCulture), "inmemory", StringComparison.Ordinal))
 {
     builder.Services.AddDbContext<AuthDbContext>(options => options.UseInMemoryDatabase("AuthDb"));
 }
@@ -275,10 +272,10 @@ using (var scope = app.Services.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-    db.Database.EnsureCreated();
+    db.Database.EnsureCreatedAsync().GetAwaiter().GetResult();
 
     // Seed demo roles if they don't exist
-    if (!await roleManager.RoleExistsAsync("Admin"))
+    if (!await roleManager.RoleExistsAsync("Admin").ConfigureAwait(false))
     {
         await roleManager.CreateAsync(new AppRole
         {
@@ -286,11 +283,11 @@ using (var scope = app.Services.CreateScope())
             Name = "Admin",
             NormalizedName = "ADMIN",
             Description = "Administrator role with full access"
-        });
+        }).ConfigureAwait(false);
         logger.LogInformation("✅ Admin role created");
     }
 
-    if (!await roleManager.RoleExistsAsync("User"))
+    if (!await roleManager.RoleExistsAsync("User").ConfigureAwait(false))
     {
         await roleManager.CreateAsync(new AppRole
         {
@@ -298,12 +295,12 @@ using (var scope = app.Services.CreateScope())
             Name = "User",
             NormalizedName = "USER",
             Description = "Standard user role"
-        });
+        }).ConfigureAwait(false);
         logger.LogInformation("✅ User role created");
     }
 
     // Seed demo admin account if it doesn't exist
-    var adminUser = await userManager.FindByEmailAsync("admin@example.com");
+    var adminUser = await userManager.FindByEmailAsync("admin@example.com").ConfigureAwait(false);
     if (adminUser == null)
     {
         var newAdminUser = new AppUser
@@ -325,10 +322,10 @@ using (var scope = app.Services.CreateScope())
             ConcurrencyStamp = Guid.NewGuid().ToString()
         };
 
-        var result = await userManager.CreateAsync(newAdminUser, "password");
+        var result = await userManager.CreateAsync(newAdminUser, "password").ConfigureAwait(false);
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(newAdminUser, "Admin");
+            await userManager.AddToRoleAsync(newAdminUser, "Admin").ConfigureAwait(false);
             logger.LogInformation("✅ Demo DomainAdmin account created (admin@example.com / password)");
         }
         else
@@ -338,7 +335,7 @@ using (var scope = app.Services.CreateScope())
     }
 
     // Seed demo user account if it doesn't exist
-    var demoUser = await userManager.FindByEmailAsync("user@example.com");
+    var demoUser = await userManager.FindByEmailAsync("user@example.com").ConfigureAwait(false);
     if (demoUser == null)
     {
         var newDemoUser = new AppUser
@@ -359,10 +356,10 @@ using (var scope = app.Services.CreateScope())
             ConcurrencyStamp = Guid.NewGuid().ToString()
         };
 
-        var result = await userManager.CreateAsync(newDemoUser, "password");
+        var result = await userManager.CreateAsync(newDemoUser, "password").ConfigureAwait(false);
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(newDemoUser, "User");
+            await userManager.AddToRoleAsync(newDemoUser, "User").ConfigureAwait(false);
             logger.LogInformation("✅ Demo user account created (user@example.com / password)");
         }
         else
@@ -372,7 +369,7 @@ using (var scope = app.Services.CreateScope())
     }
 
     // Seed domain admin account if it doesn't exist
-    var domainAdminUser = await userManager.FindByEmailAsync("domanadmin.example.com");
+    var domainAdminUser = await userManager.FindByEmailAsync("domanadmin.example.com").ConfigureAwait(false);
     if (domainAdminUser == null)
     {
         var newDomainAdminUser = new AppUser
@@ -394,10 +391,10 @@ using (var scope = app.Services.CreateScope())
             ConcurrencyStamp = Guid.NewGuid().ToString()
         };
 
-        var result = await userManager.CreateAsync(newDomainAdminUser, "password");
+        var result = await userManager.CreateAsync(newDomainAdminUser, "password").ConfigureAwait(false);
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(newDomainAdminUser, "Admin");
+            await userManager.AddToRoleAsync(newDomainAdminUser, "Admin").ConfigureAwait(false);
             logger.LogInformation("✅ Domain admin account created (domanadmin.example.com / password)");
         }
         else
@@ -407,7 +404,7 @@ using (var scope = app.Services.CreateScope())
     }
 
     // Seed tenant admin account if it doesn't exist
-    var tenantAdminUser = await userManager.FindByEmailAsync("tenantadmin@example.com");
+    var tenantAdminUser = await userManager.FindByEmailAsync("tenantadmin@example.com").ConfigureAwait(false);
     if (tenantAdminUser == null)
     {
         var newTenantAdminUser = new AppUser
@@ -429,10 +426,10 @@ using (var scope = app.Services.CreateScope())
             ConcurrencyStamp = Guid.NewGuid().ToString()
         };
 
-        var result = await userManager.CreateAsync(newTenantAdminUser, "password");
+        var result = await userManager.CreateAsync(newTenantAdminUser, "password").ConfigureAwait(false);
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(newTenantAdminUser, "Admin");
+            await userManager.AddToRoleAsync(newTenantAdminUser, "Admin").ConfigureAwait(false);
             logger.LogInformation("✅ Tenant admin account created (tenantadmin@example.com / password)");
         }
         else
@@ -442,7 +439,7 @@ using (var scope = app.Services.CreateScope())
     }
 
     // Seed sales rep account if it doesn't exist
-    var salesRepUser = await userManager.FindByEmailAsync("salesrep@example.com");
+    var salesRepUser = await userManager.FindByEmailAsync("salesrep@example.com").ConfigureAwait(false);
     if (salesRepUser == null)
     {
         var newSalesRepUser = new AppUser
@@ -464,10 +461,10 @@ using (var scope = app.Services.CreateScope())
             ConcurrencyStamp = Guid.NewGuid().ToString()
         };
 
-        var result = await userManager.CreateAsync(newSalesRepUser, "password");
+        var result = await userManager.CreateAsync(newSalesRepUser, "password").ConfigureAwait(false);
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(newSalesRepUser, "User");
+            await userManager.AddToRoleAsync(newSalesRepUser, "User").ConfigureAwait(false);
             logger.LogInformation("✅ Sales rep account created (salesrep@example.com / password)");
         }
         else
@@ -510,5 +507,5 @@ app.MapWolverineEndpoints();
 app.MapGet("/", () => "Auth Service is running");
 // Health endpoints provided by UseServiceDefaults() - see ADR-025
 
-await app.RunAsync();
+await app.RunAsync().ConfigureAwait(false);
 

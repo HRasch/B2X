@@ -39,7 +39,7 @@ public class TenantDomainRepository : ITenantDomainRepository
             .Where(d => d.TenantId == tenantId)
             .OrderBy(d => d.IsPrimary ? 0 : 1)
             .ThenBy(d => d.DomainName)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public Task<TenantDomain?> GetPrimaryDomainAsync(Guid tenantId, CancellationToken cancellationToken = default)
@@ -59,7 +59,7 @@ public class TenantDomainRepository : ITenantDomainRepository
                 d.DomainName.ToLower() == normalizedDomain &&
                 d.VerificationStatus == DomainVerificationStatus.Verified &&
                 d.Tenant.Status == TenantStatus.Active,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
         return domain?.TenantId;
     }
@@ -67,24 +67,24 @@ public class TenantDomainRepository : ITenantDomainRepository
     public async Task<TenantDomain> CreateAsync(TenantDomain domain, CancellationToken cancellationToken = default)
     {
         _context.TenantDomains.Add(domain);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return domain;
     }
 
     public async Task<TenantDomain> UpdateAsync(TenantDomain domain, CancellationToken cancellationToken = default)
     {
         _context.TenantDomains.Update(domain);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return domain;
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var domain = await _context.TenantDomains.FindAsync([id], cancellationToken);
+        var domain = await _context.TenantDomains.FindAsync([id], cancellationToken).ConfigureAwait(false);
         if (domain != null)
         {
             _context.TenantDomains.Remove(domain);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -107,7 +107,7 @@ public class TenantDomainRepository : ITenantDomainRepository
         // Unset all primary domains for this tenant
         var tenantDomains = await _context.TenantDomains
             .Where(d => d.TenantId == tenantId)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
 
         foreach (var domain in tenantDomains)
         {
@@ -121,7 +121,7 @@ public class TenantDomainRepository : ITenantDomainRepository
             primaryDomain.IsPrimary = true;
         }
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 
     // SSL methods will be implemented in Phase 3
@@ -149,6 +149,6 @@ public class TenantDomainRepository : ITenantDomainRepository
                 d.VerificationExpiresAt.HasValue &&
                 d.VerificationExpiresAt.Value > DateTime.UtcNow)
             .OrderBy(d => d.LastVerificationCheck ?? d.CreatedAt)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 }

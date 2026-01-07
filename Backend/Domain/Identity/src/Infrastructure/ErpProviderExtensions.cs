@@ -88,7 +88,7 @@ public static class ErpProviderExtensions
         var fallbackName = erpSection.GetValue<string>("FallbackProvider") ?? "Fake";
         var useResilience = erpSection.GetValue<bool>("UseResilience", true);
 
-        if (useResilience && providerName != fallbackName)
+        if (useResilience && !string.Equals(providerName, fallbackName, StringComparison.Ordinal))
         {
             return services.AddResilientErpProvider(providerName, fallbackName);
         }

@@ -36,7 +36,7 @@ public class CreateTemplateOverrideHandler
         var validation = await _validationService.ValidateTemplateContentAsync(
             command.TenantId,
             command.TemplateKey,
-            command.TemplateContent);
+            command.TemplateContent).ConfigureAwait(false);
 
         if (!validation.IsValid)
         {
@@ -60,7 +60,7 @@ public class CreateTemplateOverrideHandler
             OverrideSections = command.OverrideSections
         };
 
-        var saved = await _repository.SaveOverrideAsync(pageDefinition);
+        var saved = await _repository.SaveOverrideAsync(pageDefinition).ConfigureAwait(false);
 
         return new TemplateOverrideResult(
             true,
@@ -98,7 +98,7 @@ public class UpdateTemplateOverrideHandler
         var validation = await _validationService.ValidateTemplateContentAsync(
             command.TenantId,
             command.TemplateKey,
-            command.TemplateContent);
+            command.TemplateContent).ConfigureAwait(false);
 
         if (!validation.IsValid)
         {
@@ -106,7 +106,7 @@ public class UpdateTemplateOverrideHandler
         }
 
         // Get existing override or create new
-        var existing = await _repository.GetTenantOverrideAsync(command.TenantId, command.TemplateKey);
+        var existing = await _repository.GetTenantOverrideAsync(command.TenantId, command.TemplateKey).ConfigureAwait(false);
 
         var pageDefinition = existing ?? new PageDefinition(
             command.TenantId,
@@ -119,7 +119,7 @@ public class UpdateTemplateOverrideHandler
         pageDefinition.OverrideSections = command.OverrideSections;
         pageDefinition.Version++;
 
-        await _repository.SaveOverrideAsync(pageDefinition);
+        await _repository.SaveOverrideAsync(pageDefinition).ConfigureAwait(false);
 
         return new TemplateOverrideResult(true, "Updated", pageDefinition.Id, validation);
     }
@@ -147,7 +147,7 @@ public class PublishTemplateOverrideHandler
             "Publishing template override: TenantId={TenantId}, Key={Key}",
             command.TenantId, command.TemplateKey);
 
-        await _repository.PublishOverrideAsync(command.TenantId, command.TemplateKey);
+        await _repository.PublishOverrideAsync(command.TenantId, command.TemplateKey).ConfigureAwait(false);
 
         return new TemplateOverrideResult(true, "Published", null, null);
     }
@@ -175,7 +175,7 @@ public class DeleteTemplateOverrideHandler
             "Deleting template override: TenantId={TenantId}, Key={Key}",
             command.TenantId, command.TemplateKey);
 
-        await _repository.DeleteOverrideAsync(command.TenantId, command.TemplateKey);
+        await _repository.DeleteOverrideAsync(command.TenantId, command.TemplateKey).ConfigureAwait(false);
 
         return new TemplateOverrideResult(true, "Deleted", null, null);
     }
@@ -206,7 +206,7 @@ public class ValidateTemplateOverrideHandler
             "Validating template override: TenantId={TenantId}, Key={Key}",
             command.TenantId, command.TemplateKey);
 
-        var template = await _repository.GetTenantOverrideAsync(command.TenantId, command.TemplateKey);
+        var template = await _repository.GetTenantOverrideAsync(command.TenantId, command.TemplateKey).ConfigureAwait(false);
 
         if (template == null)
         {
@@ -220,7 +220,7 @@ public class ValidateTemplateOverrideHandler
             };
         }
 
-        return await _validationService.ValidateTemplateAsync(template);
+        return await _validationService.ValidateTemplateAsync(template).ConfigureAwait(false);
     }
 }
 
@@ -249,7 +249,7 @@ public class ValidateTemplateContentHandler
         return await _validationService.ValidateTemplateContentAsync(
             command.TenantId,
             command.TemplateKey,
-            command.TemplateContent);
+            command.TemplateContent).ConfigureAwait(false);
     }
 }
 

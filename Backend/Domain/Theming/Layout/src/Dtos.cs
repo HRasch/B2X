@@ -14,7 +14,7 @@ public static class LocalizationHelper
     /// </summary>
     public static string GetLocalizedValue(
         string baseValue,
-        Dictionary<string, string>? translations,
+        IDictionary<string, string>? translations,
         string languageCode,
         string defaultLanguage = "en")
     {
@@ -30,7 +30,7 @@ public static class LocalizationHelper
         }
 
         // Try default language if different from requested
-        if (languageCode != defaultLanguage &&
+        if (!string.Equals(languageCode, defaultLanguage, StringComparison.Ordinal) &&
             translations.TryGetValue(defaultLanguage, out var defaultValue) &&
             !string.IsNullOrEmpty(defaultValue))
         {
@@ -74,7 +74,7 @@ public class CmsPageDto
     public string Description { get; set; } = null!;
 
     /// <summary>Sections within this page (localized)</summary>
-    public List<CmsSectionDto> Sections { get; set; } = new();
+    public IList<CmsSectionDto> Sections { get; set; } = new List<CmsSectionDto>();
 
     /// <summary>Page visibility status</summary>
     public PageVisibility Visibility { get; set; } = PageVisibility.Draft;
@@ -113,7 +113,7 @@ public class CmsSectionDto
     public SectionLayout Layout { get; set; } = SectionLayout.FullWidth;
 
     /// <summary>Components within this section (localized)</summary>
-    public List<CmsComponentDto> Components { get; set; } = new();
+    public IList<CmsComponentDto> Components { get; set; } = new List<CmsComponentDto>();
 
     /// <summary>Whether the section is visible on the live site</summary>
     public bool IsVisible { get; set; } = true;
@@ -165,7 +165,7 @@ public class CreatePageRequestDto
     public string Description { get; set; } = null!;
 
     /// <summary>Additional translations (optional)</summary>
-    public Dictionary<string, CreatePageTranslationDto> Translations { get; set; } = new();
+    public IDictionary<string, CreatePageTranslationDto> Translations { get; set; } = new Dictionary<string, CreatePageTranslationDto>(StringComparer.Ordinal);
 }
 
 /// <summary>
@@ -201,7 +201,7 @@ public class UpdatePageRequestDto
     public string? Description { get; set; }
 
     /// <summary>Translation updates (optional)</summary>
-    public Dictionary<string, UpdatePageTranslationDto>? Translations { get; set; }
+    public IDictionary<string, UpdatePageTranslationDto>? Translations { get; set; }
 
     /// <summary>Updated visibility</summary>
     public PageVisibility? Visibility { get; set; }

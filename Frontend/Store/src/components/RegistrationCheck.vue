@@ -3,9 +3,9 @@
     <!-- Page Header -->
     <div class="bg-base-200 py-12">
       <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-base-900 mb-2">{{ t('registration.check.title') }}</h1>
+        <h1 class="text-4xl font-bold text-base-900 mb-2">Registrierungstyp Prüfen</h1>
         <p class="text-lg text-base-content/70">
-          {{ t('registration.check.subtitle') }}
+          Überprüfen Sie, ob Sie bereits als Bestandskunde registriert sind
         </p>
       </div>
     </div>
@@ -29,7 +29,7 @@
             />
           </svg>
           <div>
-            <h4 class="font-bold">{{ t('registration.check.alerts.error') }}</h4>
+            <h4 class="font-bold">Fehler</h4>
             <p>{{ error }}</p>
           </div>
           <button class="btn btn-sm btn-ghost" @click="error = null">✕</button>
@@ -68,11 +68,11 @@
         <div class="card-body">
           <form @submit.prevent="handleCheckRegistration">
             <div class="grid grid-cols-1 gap-4">
+              <!-- Email Input -->
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-bold"
-                    >{{ t('registration.check.form.email.label') }}
-                    <span class="text-error">*</span></span
+                    >E-Mail-Adresse <span class="text-error">*</span></span
                   >
                 </label>
                 <input
@@ -81,7 +81,7 @@
                   type="email"
                   class="input input-bordered"
                   :class="emailError ? 'input-error' : ''"
-                  :placeholder="t('registration.check.form.email.placeholder')"
+                  placeholder="beispiel@unternehmen.de"
                   required
                   data-testid="email-input"
                   @blur="validateEmailField"
@@ -95,8 +95,7 @@
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-bold"
-                    >{{ t('registration.check.form.businessType.label') }}
-                    <span class="text-error">*</span></span
+                    >Unternehmenstyp <span class="text-error">*</span></span
                   >
                 </label>
                 <select
@@ -106,25 +105,23 @@
                   required
                   data-testid="business-type-select"
                 >
-                  <option value="">
-                    {{ t('registration.check.form.businessType.placeholder') }}
-                  </option>
-                  <option value="B2C">{{ t('registration.check.form.businessType.b2c') }}</option>
-                  <option value="B2B">{{ t('registration.check.form.businessType.b2b') }}</option>
+                  <option value="">-- Bitte wählen --</option>
+                  <option value="B2C">B2C (Privatperson / Einzelunternehmer)</option>
+                  <option value="B2B">B2B (Unternehmen / GmbH / GmbH & Co. KG)</option>
                 </select>
               </div>
 
               <!-- Optional: First Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">{{ t('registration.check.form.firstName.label') }}</span>
+                  <span class="label-text">Vorname</span>
                 </label>
                 <input
                   id="firstName"
                   v-model="formData.firstName"
                   type="text"
                   class="input input-bordered"
-                  :placeholder="t('registration.check.form.firstName.placeholder')"
+                  placeholder="Max"
                   data-testid="first-name-input"
                 />
               </div>
@@ -132,14 +129,14 @@
               <!-- Optional: Last Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">{{ t('registration.check.form.lastName.label') }}</span>
+                  <span class="label-text">Nachname</span>
                 </label>
                 <input
                   id="lastName"
                   v-model="formData.lastName"
                   type="text"
                   class="input input-bordered"
-                  :placeholder="t('registration.check.form.lastName.placeholder')"
+                  placeholder="Mustermann"
                   data-testid="last-name-input"
                 />
               </div>
@@ -147,16 +144,14 @@
               <!-- Optional: Company Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">{{
-                    t('registration.check.form.companyName.label')
-                  }}</span>
+                  <span class="label-text">Firmenname</span>
                 </label>
                 <input
                   id="companyName"
                   v-model="formData.companyName"
                   type="text"
                   class="input input-bordered"
-                  :placeholder="t('registration.check.form.companyName.placeholder')"
+                  placeholder="Mustercompany GmbH"
                   data-testid="company-name-input"
                 />
               </div>
@@ -164,14 +159,14 @@
               <!-- Optional: Phone -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">{{ t('registration.check.form.phone.label') }}</span>
+                  <span class="label-text">Telefon</span>
                 </label>
                 <input
                   id="phone"
                   v-model="formData.phone"
                   type="tel"
                   class="input input-bordered"
-                  :placeholder="t('registration.check.form.phone.placeholder')"
+                  placeholder="+49 (0) 123 456789"
                   data-testid="phone-input"
                 />
               </div>
@@ -186,11 +181,7 @@
                 data-testid="submit-button"
               >
                 <span v-if="isLoading" class="loading loading-spinner loading-sm"></span>
-                {{
-                  isLoading
-                    ? t('registration.check.buttons.checking')
-                    : t('registration.check.buttons.check')
-                }}
+                {{ isLoading ? 'Prüfen läuft...' : 'Prüfen' }}
               </button>
             </div>
           </form>
@@ -234,29 +225,27 @@
               <!-- ERP Data (if found) -->
               <div v-if="result.erpData" class="divider"></div>
               <div v-if="result.erpData" class="overflow-x-auto">
-                <h4 class="font-bold mb-4">{{ t('registration.check.results.customerData') }}</h4>
+                <h4 class="font-bold mb-4">Ihre Kundendaten:</h4>
                 <table class="table table-sm w-full">
                   <tbody>
                     <tr>
-                      <td class="font-bold">
-                        {{ t('registration.check.results.customerNumber') }}
-                      </td>
+                      <td class="font-bold">Kundennummer:</td>
                       <td>{{ result.erpData.customerNumber }}</td>
                     </tr>
                     <tr>
-                      <td class="font-bold">{{ t('registration.check.results.name') }}</td>
+                      <td class="font-bold">Name:</td>
                       <td>{{ result.erpData.name }}</td>
                     </tr>
                     <tr>
-                      <td class="font-bold">{{ t('registration.check.results.email') }}</td>
+                      <td class="font-bold">E-Mail:</td>
                       <td>{{ result.erpData.email }}</td>
                     </tr>
                     <tr v-if="result.erpData.phone">
-                      <td class="font-bold">{{ t('registration.check.results.phone') }}</td>
+                      <td class="font-bold">Telefon:</td>
                       <td>{{ result.erpData.phone }}</td>
                     </tr>
                     <tr v-if="result.erpData.address">
-                      <td class="font-bold">{{ t('registration.check.results.address') }}</td>
+                      <td class="font-bold">Adresse:</td>
                       <td>
                         {{ result.erpData.address }}<br />
                         {{ result.erpData.postalCode }} {{ result.erpData.city }}<br />
@@ -270,7 +259,7 @@
               <!-- Confidence Score (if duplicate detected) -->
               <div v-if="result.confidenceScore" class="mt-6">
                 <div class="flex justify-between items-center mb-2">
-                  <p class="font-bold">{{ t('registration.check.results.matchScore') }}</p>
+                  <p class="font-bold">Übereinstimmungsquote:</p>
                   <span class="font-bold text-lg">{{ result.confidenceScore }}%</span>
                 </div>
                 <progress
@@ -288,19 +277,15 @@
                     result.registrationType === 'ExistingCustomer'
                   "
                 >
-                  <button class="btn btn-secondary" @click="resetForm">
-                    {{ t('registration.check.buttons.newCheck') }}
-                  </button>
+                  <button class="btn btn-secondary" @click="resetForm">Neue Prüfung</button>
                   <button class="btn btn-primary" @click="continueWithBestandskunde">
-                    {{ t('registration.check.buttons.continueWithData') }}
+                    Mit Kundendaten fortfahren
                   </button>
                 </template>
                 <template v-else>
-                  <button class="btn btn-secondary" @click="resetForm">
-                    {{ t('registration.check.buttons.back') }}
-                  </button>
+                  <button class="btn btn-secondary" @click="resetForm">Zurück</button>
                   <button class="btn btn-primary" @click="continueWithNewRegistration">
-                    {{ t('registration.check.buttons.continueRegistration') }}
+                    Registrierung fortsetzen
                   </button>
                 </template>
               </div>
@@ -325,16 +310,17 @@
           ></path>
         </svg>
         <div>
-          <h3 class="font-bold">{{ t('registration.check.info.title') }}</h3>
+          <h3 class="font-bold">Informationen</h3>
           <div class="text-sm">
             <p>
-              <strong>{{ t('registration.check.info.existingCustomer') }}</strong>
+              <strong>Bestandskunde:</strong> Sie sind bereits in unserem System registriert. Ihre
+              Daten werden automatisch vorausgefüllt.
             </p>
             <p class="mt-2">
-              <strong>{{ t('registration.check.info.newCustomer') }}</strong>
+              <strong>Neukunde:</strong> Sie werden zur regulären Registrierung weitergeleitet.
             </p>
             <p class="mt-2">
-              {{ t('registration.check.info.checkDetails') }}
+              Die Prüfung wird anhand von E-Mail, Name und optional Telefon/Adresse durchgeführt.
             </p>
           </div>
         </div>
@@ -346,7 +332,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
 import {
   checkRegistrationType,
   validateEmail,
@@ -355,7 +340,6 @@ import {
   type CheckRegistrationTypeResponse,
 } from '@/services/registrationService';
 
-const { t } = useI18n();
 const router = useRouter();
 
 // Form State
@@ -435,11 +419,12 @@ function getResultTitle(): string {
 
   switch (result.value.registrationType) {
     case 'Bestandskunde':
+      return '✓ Sie sind bereits registriert';
     case 'ExistingCustomer':
-      return t('registration.check.results.existingCustomer.title');
+      return '✓ Sie sind bereits Kunde';
     case 'NewCustomer':
     default:
-      return t('registration.check.results.newCustomer.title');
+      return 'Registrierung erforderlich';
   }
 }
 
@@ -451,11 +436,12 @@ function getResultDescription(): string {
 
   switch (result.value.registrationType) {
     case 'Bestandskunde':
+      return 'Ihre Kundendaten wurden gefunden. Sie können sich mit vereinfachter Registrierung anmelden.';
     case 'ExistingCustomer':
-      return t('registration.check.results.existingCustomer.description');
+      return 'Wir haben Ihre Daten in unserem System gefunden.';
     case 'NewCustomer':
     default:
-      return t('registration.check.results.newCustomer.description');
+      return 'Sie werden als Neukunde registriert. Füllen Sie das Registrierungsformular aus.';
   }
 }
 

@@ -105,7 +105,7 @@ public class ThemeVariant
     public string Description { get; set; } = null!;
 
     /// <summary>Overridden variables for this variant</summary>
-    public Dictionary<string, string> VariableOverrides { get; set; } = new();
+    public Dictionary<string, string> VariableOverrides { get; set; } = new(StringComparer.Ordinal);
 
     /// <summary>Whether this variant is enabled</summary>
     public bool IsEnabled { get; set; } = true;

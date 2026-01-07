@@ -169,7 +169,7 @@ public class HierarchicalTemplateResolver : ITemplateResolutionService
     private readonly ITemplateRepository _repository;
     private readonly ITemplateValidationService _validationService;
     private readonly ILogger<HierarchicalTemplateResolver> _logger;
-    private readonly Dictionary<string, (string Content, DateTime Expires)> _cache = new();
+    private readonly Dictionary<string, (string Content, DateTime Expires)> _cache = new(StringComparer.Ordinal);
     private readonly TimeSpan _cacheExpiration = TimeSpan.FromMinutes(15);
 
     public HierarchicalTemplateResolver(
@@ -197,17 +197,17 @@ public class HierarchicalTemplateResolver : ITemplateResolutionService
         }
 
         // Resolve hierarchically
-        var baseTemplate = await _repository.GetBaseTemplateAsync(templateKey, cancellationToken);
+        var baseTemplate = await _repository.GetBaseTemplateAsync(templateKey, cancellationToken).ConfigureAwait(false);
         if (baseTemplate == null)
         {
             throw new InvalidOperationException($"Base template '{templateKey}' not found");
         }
 
-        var tenantOverride = await _repository.GetTenantOverrideAsync(tenantId, templateKey, cancellationToken);
+        var tenantOverride = await _repository.GetTenantOverrideAsync(tenantId, templateKey, cancellationToken).ConfigureAwait(false);
 
         string resolved = tenantOverride != null
             ? await MergeTemplatesAsync(baseTemplate, tenantOverride, cancellationToken)
-            : baseTemplate.TemplateLayout;
+.ConfigureAwait(false) : baseTemplate.TemplateLayout;
 
         // Cache result
         _cache[cacheKey] = (resolved, DateTime.UtcNow.Add(_cacheExpiration));
@@ -223,13 +223,13 @@ public class HierarchicalTemplateResolver : ITemplateResolutionService
         string templateKey,
         CancellationToken cancellationToken = default)
     {
-        var baseTemplate = await _repository.GetBaseTemplateAsync(templateKey, cancellationToken);
+        var baseTemplate = await _repository.GetBaseTemplateAsync(templateKey, cancellationToken).ConfigureAwait(false);
         if (baseTemplate == null)
         {
             throw new InvalidOperationException($"Base template '{templateKey}' not found");
         }
 
-        var tenantOverride = await _repository.GetTenantOverrideAsync(tenantId, templateKey, cancellationToken);
+        var tenantOverride = await _repository.GetTenantOverrideAsync(tenantId, templateKey, cancellationToken).ConfigureAwait(false);
 
         if (tenantOverride == null)
         {
@@ -239,7 +239,7 @@ public class HierarchicalTemplateResolver : ITemplateResolutionService
         // Return override with base template metadata merged
         if (tenantOverride.GlobalSettings != null && baseTemplate.GlobalSettings != null)
         {
-            var merged = new Dictionary<string, object>(baseTemplate.GlobalSettings);
+            var merged = new Dictionary<string, object>(baseTemplate.GlobalSettings, StringComparer.Ordinal);
             foreach (var item in tenantOverride.GlobalSettings)
             {
                 merged[item.Key] = item.Value;
@@ -258,7 +258,7 @@ public class HierarchicalTemplateResolver : ITemplateResolutionService
         var cacheKey = $"{tenantId}:{templateKey}";
         _cache.Remove(cacheKey);
         _logger.LogInformation("Invalidated cache for {CacheKey}", cacheKey);
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     public async Task<string> MergeTemplatesAsync(
@@ -279,6 +279,6 @@ public class HierarchicalTemplateResolver : ITemplateResolutionService
         _logger.LogDebug("Merged templates with {SectionCount} override sections",
             templateOverride.OverrideSections.Count);
 
-        return await Task.FromResult(merged);
+        return await Task.FromResult(merged).ConfigureAwait(false);
     }
 }

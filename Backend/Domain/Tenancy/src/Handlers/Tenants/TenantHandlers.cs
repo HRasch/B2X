@@ -31,7 +31,7 @@ public static class TenantHandlers
         var slug = command.Slug.Trim().ToLowerInvariant();
 
         // Validate slug uniqueness
-        if (await tenantRepository.SlugExistsAsync(slug, null, cancellationToken))
+        if (await tenantRepository.SlugExistsAsync(slug, null, cancellationToken).ConfigureAwait(false))
         {
             throw new InvalidOperationException($"Slug '{slug}' is already in use.");
         }
@@ -47,14 +47,14 @@ public static class TenantHandlers
             Metadata = command.Metadata ?? []
         };
 
-        await tenantRepository.CreateAsync(tenant, cancellationToken);
+        await tenantRepository.CreateAsync(tenant, cancellationToken).ConfigureAwait(false);
         logger.LogInformation("Tenant created: {TenantId}", tenant.Id);
 
         // Create automatic subdomain (primary)
         var subdomainName = $"{slug}.b2connect.de";
 
         // Check if subdomain is available
-        if (await domainRepository.DomainExistsAsync(subdomainName, null, cancellationToken))
+        if (await domainRepository.DomainExistsAsync(subdomainName, null, cancellationToken).ConfigureAwait(false))
         {
             throw new InvalidOperationException($"Subdomain '{subdomainName}' is already in use.");
         }
@@ -71,12 +71,12 @@ public static class TenantHandlers
             SslStatus = SslStatus.Active // Covered by wildcard cert
         };
 
-        await domainRepository.CreateAsync(primaryDomain, cancellationToken);
+        await domainRepository.CreateAsync(primaryDomain, cancellationToken).ConfigureAwait(false);
         logger.LogInformation("Primary subdomain created: {Domain} for tenant: {TenantId}",
             subdomainName, tenant.Id);
 
         // Invalidate domain cache
-        await domainLookupService.InvalidateCacheAsync(subdomainName, cancellationToken);
+        await domainLookupService.InvalidateCacheAsync(subdomainName, cancellationToken).ConfigureAwait(false);
 
         return new CreateTenantResponse(tenant.Id, slug, subdomainName);
     }
@@ -95,7 +95,7 @@ public static class TenantHandlers
         logger.LogInformation("Updating tenant: {TenantId}", command.TenantId);
 
         var tenant = await tenantRepository.GetByIdAsync(command.TenantId, cancellationToken)
-            ?? throw new KeyNotFoundException($"Tenant {command.TenantId} not found.");
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Tenant {command.TenantId} not found.");
 
         // Apply updates
         if (!string.IsNullOrWhiteSpace(command.Name))
@@ -129,11 +129,11 @@ public static class TenantHandlers
             tenant.Metadata = command.Metadata;
         }
 
-        await tenantRepository.UpdateAsync(tenant, cancellationToken);
+        await tenantRepository.UpdateAsync(tenant, cancellationToken).ConfigureAwait(false);
         logger.LogInformation("Tenant updated: {TenantId}", command.TenantId);
 
         // Get domains for response
-        var domains = await domainRepository.GetByTenantIdAsync(tenant.Id, cancellationToken);
+        var domains = await domainRepository.GetByTenantIdAsync(tenant.Id, cancellationToken).ConfigureAwait(false);
 
         return MapToDetailDto(tenant, domains);
     }
@@ -151,10 +151,10 @@ public static class TenantHandlers
         logger.LogInformation("Archiving tenant: {TenantId}", command.TenantId);
 
         var tenant = await tenantRepository.GetByIdAsync(command.TenantId, cancellationToken)
-            ?? throw new KeyNotFoundException($"Tenant {command.TenantId} not found.");
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Tenant {command.TenantId} not found.");
 
         tenant.Status = TenantStatus.Archived;
-        await tenantRepository.UpdateAsync(tenant, cancellationToken);
+        await tenantRepository.UpdateAsync(tenant, cancellationToken).ConfigureAwait(false);
 
         logger.LogInformation("Tenant archived: {TenantId}", command.TenantId);
         return true;
@@ -170,13 +170,13 @@ public static class TenantHandlers
         ITenantDomainRepository domainRepository,
         CancellationToken cancellationToken)
     {
-        var tenant = await tenantRepository.GetByIdAsync(query.TenantId, cancellationToken);
+        var tenant = await tenantRepository.GetByIdAsync(query.TenantId, cancellationToken).ConfigureAwait(false);
         if (tenant == null)
         {
             return null;
         }
 
-        var domains = await domainRepository.GetByTenantIdAsync(tenant.Id, cancellationToken);
+        var domains = await domainRepository.GetByTenantIdAsync(tenant.Id, cancellationToken).ConfigureAwait(false);
         return MapToDetailDto(tenant, domains);
     }
 
@@ -195,12 +195,12 @@ public static class TenantHandlers
             query.PageSize,
             query.Status,
             query.SearchTerm,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
 
         var items = new List<TenantListItemDto>();
         foreach (var tenant in tenants)
         {
-            var domains = await domainRepository.GetByTenantIdAsync(tenant.Id, cancellationToken);
+            var domains = await domainRepository.GetByTenantIdAsync(tenant.Id, cancellationToken).ConfigureAwait(false);
             var primaryDomain = domains.FirstOrDefault(d => d.IsPrimary);
 
             items.Add(new TenantListItemDto(

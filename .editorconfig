@@ -192,19 +192,19 @@ csharp_preserve_single_line_blocks = true
 
 # Naming rules
 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 
-dotnet_naming_rule.types_should_be_pascal_case.severity = warning
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = warning
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.private_or_internal_field_should_be_underscore_prefix.severity = warning
+dotnet_naming_rule.private_or_internal_field_should_be_underscore_prefix.severity = suggestion
 dotnet_naming_rule.private_or_internal_field_should_be_underscore_prefix.symbols = private_or_internal_field
 dotnet_naming_rule.private_or_internal_field_should_be_underscore_prefix.style = underscore_prefix
 
@@ -212,7 +212,7 @@ dotnet_naming_rule.async_methods_should_be_async_suffix.severity = suggestion
 dotnet_naming_rule.async_methods_should_be_async_suffix.symbols = async_methods
 dotnet_naming_rule.async_methods_should_be_async_suffix.style = async_suffix
 
-dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = warning
+dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case
 

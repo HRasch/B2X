@@ -19,7 +19,7 @@ public class LayoutService : ILayoutService
 
     #region Page Operations
 
-    public async Task<CmsPageDto> CreatePageAsync(Guid tenantId, CreatePageRequest request)
+    public async Task<CmsPageDto> CreatePageAsync(Guid tenantId, CreatePageRequest request, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(request?.Title))
         {
@@ -31,15 +31,15 @@ public class LayoutService : ILayoutService
             throw new ArgumentException("Slug is required", nameof(request));
         }
 
-        var slugExists = await _repository.PageSlugExistsAsync(tenantId, request.Slug);
+        var slugExists = await _repository.PageSlugExistsAsync(tenantId, request.Slug, cancellationToken).ConfigureAwait(false);
         if (slugExists)
         {
             throw new InvalidOperationException($"Page slug '{request.Slug}' already exists");
         }
 
-        var titleTranslations = new Dictionary<string, string>();
-        var slugTranslations = new Dictionary<string, string>();
-        var descriptionTranslations = new Dictionary<string, string>();
+        var titleTranslations = new Dictionary<string, string>(StringComparer.Ordinal);
+        var slugTranslations = new Dictionary<string, string>(StringComparer.Ordinal);
+        var descriptionTranslations = new Dictionary<string, string>(StringComparer.Ordinal);
 
         if (request.Translations != null)
         {
@@ -67,41 +67,41 @@ public class LayoutService : ILayoutService
             UpdatedAt = DateTime.UtcNow
         };
 
-        var createdPage = await _repository.CreatePageAsync(tenantId, page);
+        var createdPage = await _repository.CreatePageAsync(tenantId, page, cancellationToken).ConfigureAwait(false);
         return MapPageToDto(createdPage, _defaultLanguage);
     }
 
-    public async Task<CmsPageDto?> GetPageByIdAsync(Guid tenantId, Guid pageId, string languageCode)
+    public async Task<CmsPageDto?> GetPageByIdAsync(Guid tenantId, Guid pageId, string languageCode, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
         {
             throw new ArgumentException("Language code is required", nameof(languageCode));
         }
 
-        var page = await _repository.GetPageByIdAsync(tenantId, pageId);
+        var page = await _repository.GetPageByIdAsync(tenantId, pageId, cancellationToken).ConfigureAwait(false);
         return page == null ? null : MapPageToDto(page, languageCode);
     }
 
-    public async Task<List<CmsPageDto>> GetPagesByTenantAsync(Guid tenantId, string languageCode)
+    public async Task<IList<CmsPageDto>> GetPagesByTenantAsync(Guid tenantId, string languageCode, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
         {
             throw new ArgumentException("Language code is required", nameof(languageCode));
         }
 
-        var pages = await _repository.GetPagesByTenantAsync(tenantId);
+        var pages = await _repository.GetPagesByTenantAsync(tenantId, cancellationToken).ConfigureAwait(false);
         return pages.Select(p => MapPageToDto(p, languageCode)).ToList();
     }
 
-    public async Task<CmsPageDto> UpdatePageAsync(Guid tenantId, Guid pageId, UpdatePageRequest request, string languageCode)
+    public async Task<CmsPageDto> UpdatePageAsync(Guid tenantId, Guid pageId, UpdatePageRequest request, string languageCode, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
         {
             throw new ArgumentException("Language code is required", nameof(languageCode));
         }
 
-        var page = await _repository.GetPageByIdAsync(tenantId, pageId)
-            ?? throw new InvalidOperationException($"Page {pageId} not found");
+        var page = await _repository.GetPageByIdAsync(tenantId, pageId, cancellationToken)
+            .ConfigureAwait(false) ?? throw new InvalidOperationException($"Page {pageId} not found");
 
         if (!string.IsNullOrWhiteSpace(request?.Title))
         {
@@ -120,9 +120,9 @@ public class LayoutService : ILayoutService
 
         if (request?.Translations != null)
         {
-            page.TitleTranslations ??= new Dictionary<string, string>();
-            page.SlugTranslations ??= new Dictionary<string, string>();
-            page.DescriptionTranslations ??= new Dictionary<string, string>();
+            page.TitleTranslations ??= new Dictionary<string, string>(StringComparer.Ordinal);
+            page.SlugTranslations ??= new Dictionary<string, string>(StringComparer.Ordinal);
+            page.DescriptionTranslations ??= new Dictionary<string, string>(StringComparer.Ordinal);
 
             foreach (var kvp in request.Translations)
             {
@@ -151,20 +151,20 @@ public class LayoutService : ILayoutService
         page.UpdatedAt = DateTime.UtcNow;
         page.Version++;
 
-        var updated = await _repository.UpdatePageAsync(tenantId, page);
+        var updated = await _repository.UpdatePageAsync(tenantId, page, cancellationToken).ConfigureAwait(false);
         return MapPageToDto(updated, languageCode);
     }
 
-    public Task<bool> DeletePageAsync(Guid tenantId, Guid pageId)
+    public Task<bool> DeletePageAsync(Guid tenantId, Guid pageId, CancellationToken cancellationToken = default)
     {
-        return _repository.DeletePageAsync(tenantId, pageId);
+        return _repository.DeletePageAsync(tenantId, pageId, cancellationToken);
     }
 
     #endregion
 
     #region Section Operations
 
-    public async Task<CmsSection> AddSectionAsync(Guid tenantId, Guid pageId, AddSectionRequest request)
+    public async Task<CmsSection> AddSectionAsync(Guid tenantId, Guid pageId, AddSectionRequest request, CancellationToken cancellationToken = default)
     {
         // Validate input
         if (string.IsNullOrWhiteSpace(request?.Type))
@@ -173,8 +173,8 @@ public class LayoutService : ILayoutService
         }
 
         // Get current page to determine next order
-        var page = await _repository.GetPageByIdAsync(tenantId, pageId)
-            ?? throw new KeyNotFoundException($"Page '{pageId}' not found");
+        var page = await _repository.GetPageByIdAsync(tenantId, pageId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Page '{pageId}' not found");
 
         // Create section
         var section = new CmsSection
@@ -184,32 +184,32 @@ public class LayoutService : ILayoutService
             Type = request.Type,
             Layout = request.Layout,
             Order = page.Sections.Count, // Add to end
-            Settings = request.Settings ?? new Dictionary<string, object>(),
+            Settings = request.Settings ?? new Dictionary<string, object>(StringComparer.Ordinal),
             Components = new List<CmsComponent>(),
             IsVisible = true,
             CreatedAt = DateTime.UtcNow
         };
 
         // Persist and return
-        return await _repository.AddSectionAsync(tenantId, pageId, section);
+        return await _repository.AddSectionAsync(tenantId, pageId, section, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<bool> RemoveSectionAsync(Guid tenantId, Guid pageId, Guid sectionId)
+    public async Task<bool> RemoveSectionAsync(Guid tenantId, Guid pageId, Guid sectionId, CancellationToken cancellationToken = default)
     {
-        await _repository.RemoveSectionAsync(tenantId, pageId, sectionId);
+        await _repository.RemoveSectionAsync(tenantId, pageId, sectionId, cancellationToken).ConfigureAwait(false);
         return true;
     }
 
-    public Task<bool> ReorderSectionsAsync(Guid tenantId, Guid pageId, List<(Guid SectionId, int Order)> order)
+    public Task<bool> ReorderSectionsAsync(Guid tenantId, Guid pageId, IList<(Guid SectionId, int Order)> order, CancellationToken cancellationToken = default)
     {
-        return _repository.ReorderSectionsAsync(tenantId, pageId, order);
+        return _repository.ReorderSectionsAsync(tenantId, pageId, order, cancellationToken);
     }
 
     #endregion
 
     #region Component Operations
 
-    public async Task<CmsComponentDto> AddComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, AddComponentRequest request, string languageCode)
+    public async Task<CmsComponentDto> AddComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, AddComponentRequest request, string languageCode, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
         {
@@ -227,25 +227,25 @@ public class LayoutService : ILayoutService
             SectionId = sectionId,
             Type = request.Type,
             Content = request.Content,
-            ContentTranslations = request.ContentTranslations ?? new Dictionary<string, string>(),
-            Order = request.Order,
-            IsVisible = request.IsVisible,
+            ContentTranslations = request.ContentTranslations ?? new Dictionary<string, string>(StringComparer.Ordinal),
+            Order = request.Order ?? 0,
+            IsVisible = request.IsVisible ?? true,
             CreatedAt = DateTime.UtcNow
         };
 
-        var created = await _repository.AddComponentAsync(tenantId, pageId, sectionId, component);
+        var created = await _repository.AddComponentAsync(tenantId, pageId, sectionId, component, cancellationToken).ConfigureAwait(false);
         return MapComponentToDto(created, languageCode);
     }
 
-    public async Task<CmsComponentDto> UpdateComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, UpdateComponentRequest request, string languageCode)
+    public async Task<CmsComponentDto> UpdateComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, UpdateComponentRequest request, string languageCode, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
         {
             throw new ArgumentException("Language code is required", nameof(languageCode));
         }
 
-        var page = await _repository.GetPageByIdAsync(tenantId, pageId)
-            ?? throw new KeyNotFoundException($"Page {pageId} not found");
+        var page = await _repository.GetPageByIdAsync(tenantId, pageId, cancellationToken)
+            .ConfigureAwait(false) ?? throw new KeyNotFoundException($"Page {pageId} not found");
 
         var section = page.Sections.FirstOrDefault(s => s.Id == sectionId)
             ?? throw new KeyNotFoundException($"Section {sectionId} not found");
@@ -260,7 +260,7 @@ public class LayoutService : ILayoutService
 
         if (request?.ContentTranslations != null)
         {
-            component.ContentTranslations ??= new Dictionary<string, string>();
+            component.ContentTranslations ??= new Dictionary<string, string>(StringComparer.Ordinal);
             foreach (var kvp in request.ContentTranslations)
             {
                 if (!string.IsNullOrWhiteSpace(kvp.Value))
@@ -280,42 +280,42 @@ public class LayoutService : ILayoutService
             component.IsVisible = request.IsVisible.Value;
         }
 
-        var updated = await _repository.UpdateComponentAsync(tenantId, pageId, sectionId, componentId, component);
+        var updated = await _repository.UpdateComponentAsync(tenantId, pageId, sectionId, componentId, component, cancellationToken).ConfigureAwait(false);
         return MapComponentToDto(updated, languageCode);
     }
 
-    public Task<bool> RemoveComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId)
+    public Task<bool> RemoveComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, CancellationToken cancellationToken = default)
     {
-        return _repository.RemoveComponentAsync(tenantId, pageId, sectionId, componentId);
+        return _repository.RemoveComponentAsync(tenantId, pageId, sectionId, componentId, cancellationToken);
     }
 
     #endregion
 
     #region Component Definitions
 
-    public Task<List<ComponentDefinition>> GetComponentDefinitionsAsync()
+    public Task<IList<ComponentDefinition>> GetComponentDefinitionsAsync(CancellationToken cancellationToken = default)
     {
-        return _repository.GetComponentDefinitionsAsync();
+        return _repository.GetComponentDefinitionsAsync(cancellationToken);
     }
 
-    public Task<ComponentDefinition?> GetComponentDefinitionAsync(string componentType)
+    public Task<ComponentDefinition?> GetComponentDefinitionAsync(string componentType, CancellationToken cancellationToken = default)
     {
-        return _repository.GetComponentDefinitionAsync(componentType);
+        return _repository.GetComponentDefinitionAsync(componentType, cancellationToken);
     }
 
     #endregion
 
     #region Preview
 
-    public async Task<string> GeneratePreviewHtmlAsync(Guid tenantId, Guid pageId, string languageCode)
+    public async Task<string> GeneratePreviewHtmlAsync(Guid tenantId, Guid pageId, string languageCode, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(languageCode))
         {
             throw new ArgumentException("Language code is required", nameof(languageCode));
         }
 
-        var page = await _repository.GetPageByIdAsync(tenantId, pageId)
-            ?? throw new KeyNotFoundException($"Page {pageId} not found");
+        var page = await _repository.GetPageByIdAsync(tenantId, pageId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Page {pageId} not found");
 
         return GenerateHtml(page, languageCode);
     }

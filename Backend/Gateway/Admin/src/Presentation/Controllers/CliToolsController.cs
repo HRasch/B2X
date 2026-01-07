@@ -11,7 +11,7 @@ namespace B2Connect.Admin.Presentation.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-// [Authorize]
+[Authorize]
 [ValidateTenant]
 [Produces("application/json")]
 public class CliToolsController : ApiControllerBase

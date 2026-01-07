@@ -30,14 +30,14 @@ const emit = defineEmits<{
   'validation-result': [result: VatValidationResult];
 }>();
 
+const { t } = useI18n();
+
 // State
 const vatNumber = ref(props.modelValue);
 const countryCode = ref('DE');
 const isValidating = ref(false);
 const validationResult = ref<VatValidationResult | null>(null);
 const error = ref<string | null>(null);
-
-const { t } = useI18n();
 
 // Computed
 const fullVatId = computed(() => `${countryCode.value}${vatNumber.value}`);
@@ -46,7 +46,7 @@ const isValid = computed(() => validationResult.value?.isValid ?? false);
 // Methods
 const validateVatId = async () => {
   if (!countryCode.value || !vatNumber.value) {
-    error.value = t('vat.validation.required');
+    error.value = t('common.error');
     return;
   }
 
@@ -74,12 +74,12 @@ const validateVatId = async () => {
     validationResult.value = result;
 
     if (!result.isValid) {
-      error.value = result.message || 'VAT ID could not be validated. Please verify and try again.';
+      error.value = result.message || t('common.error');
     }
 
     emit('validation-result', result);
   } catch (e) {
-    error.value = `Validation failed: ${e instanceof Error ? e.message : 'Unknown error'}`;
+    error.value = `${t('common.error')}: ${e instanceof Error ? e.message : 'Unknown error'}`;
     console.error('VAT validation error:', e);
   } finally {
     isValidating.value = false;
@@ -109,7 +109,7 @@ const clearValidation = () => {
     <!-- Country Code Select -->
     <div class="form-control">
       <label for="countryCode" class="label">
-        <span class="label-text font-bold">{{ t('vat.countryCode') }}</span>
+        <span class="label-text font-bold">{{ $t('vat.countryCode') }}</span>
       </label>
       <select
         id="countryCode"
@@ -118,40 +118,40 @@ const clearValidation = () => {
         @change="handleCountryChange"
         class="select select-bordered"
       >
-        <option value="AT">{{ t('vat.countries.AT') }}</option>
-        <option value="BE">{{ t('vat.countries.BE') }}</option>
-        <option value="BG">{{ t('vat.countries.BG') }}</option>
-        <option value="HR">{{ t('vat.countries.HR') }}</option>
-        <option value="CY">{{ t('vat.countries.CY') }}</option>
-        <option value="CZ">{{ t('vat.countries.CZ') }}</option>
-        <option value="DK">{{ t('vat.countries.DK') }}</option>
-        <option value="DE">{{ t('vat.countries.DE') }}</option>
-        <option value="EE">{{ t('vat.countries.EE') }}</option>
-        <option value="FI">{{ t('vat.countries.FI') }}</option>
-        <option value="FR">{{ t('vat.countries.FR') }}</option>
-        <option value="GR">{{ t('vat.countries.GR') }}</option>
-        <option value="HU">{{ t('vat.countries.HU') }}</option>
-        <option value="IE">{{ t('vat.countries.IE') }}</option>
-        <option value="IT">{{ t('vat.countries.IT') }}</option>
-        <option value="LV">{{ t('vat.countries.LV') }}</option>
-        <option value="LT">{{ t('vat.countries.LT') }}</option>
-        <option value="LU">{{ t('vat.countries.LU') }}</option>
-        <option value="MT">{{ t('vat.countries.MT') }}</option>
-        <option value="NL">{{ t('vat.countries.NL') }}</option>
-        <option value="PL">{{ t('vat.countries.PL') }}</option>
-        <option value="PT">{{ t('vat.countries.PT') }}</option>
-        <option value="RO">{{ t('vat.countries.RO') }}</option>
-        <option value="SK">{{ t('vat.countries.SK') }}</option>
-        <option value="SI">{{ t('vat.countries.SI') }}</option>
-        <option value="ES">{{ t('vat.countries.ES') }}</option>
-        <option value="SE">{{ t('vat.countries.SE') }}</option>
+        <option value="AT">{{ $t('vat.countries.AT') }}</option>
+        <option value="BE">{{ $t('vat.countries.BE') }}</option>
+        <option value="BG">{{ $t('vat.countries.BG') }}</option>
+        <option value="HR">{{ $t('vat.countries.HR') }}</option>
+        <option value="CY">{{ $t('vat.countries.CY') }}</option>
+        <option value="CZ">{{ $t('vat.countries.CZ') }}</option>
+        <option value="DK">{{ $t('vat.countries.DK') }}</option>
+        <option value="DE">{{ $t('vat.countries.DE') }}</option>
+        <option value="EE">{{ $t('vat.countries.EE') }}</option>
+        <option value="FI">{{ $t('vat.countries.FI') }}</option>
+        <option value="FR">{{ $t('vat.countries.FR') }}</option>
+        <option value="GR">{{ $t('vat.countries.GR') }}</option>
+        <option value="HU">{{ $t('vat.countries.HU') }}</option>
+        <option value="IE">{{ $t('vat.countries.IE') }}</option>
+        <option value="IT">{{ $t('vat.countries.IT') }}</option>
+        <option value="LV">{{ $t('vat.countries.LV') }}</option>
+        <option value="LT">{{ $t('vat.countries.LT') }}</option>
+        <option value="LU">{{ $t('vat.countries.LU') }}</option>
+        <option value="MT">{{ $t('vat.countries.MT') }}</option>
+        <option value="NL">{{ $t('vat.countries.NL') }}</option>
+        <option value="PL">{{ $t('vat.countries.PL') }}</option>
+        <option value="PT">{{ $t('vat.countries.PT') }}</option>
+        <option value="RO">{{ $t('vat.countries.RO') }}</option>
+        <option value="SK">{{ $t('vat.countries.SK') }}</option>
+        <option value="SI">{{ $t('vat.countries.SI') }}</option>
+        <option value="ES">{{ $t('vat.countries.ES') }}</option>
+        <option value="SE">{{ $t('vat.countries.SE') }}</option>
       </select>
     </div>
 
     <!-- VAT Number Input -->
     <div class="form-control">
       <label for="vatNumber" class="label">
-        <span class="label-text font-bold">{{ t('vat.vatNumber') }}</span>
+        <span class="label-text font-bold">{{ $t('vat.vatNumber') }}</span>
       </label>
       <div class="flex gap-2">
         <input
@@ -174,7 +174,7 @@ const clearValidation = () => {
           class="btn btn-primary"
         >
           <span v-if="isValidating" class="loading loading-spinner loading-sm"></span>
-          {{ isValidating ? t('vat.validating') : t('vat.validate') }}
+          {{ isValidating ? $t('vat.validating') : $t('vat.validate') }}
         </button>
       </div>
       <label class="label">
@@ -231,15 +231,15 @@ const clearValidation = () => {
           <!-- Company Info -->
           <div v-if="validationResult.isValid" class="space-y-3">
             <div v-if="validationResult.companyName" class="flex justify-between">
-              <span class="font-bold">{{ t('vat.companyName') }}</span>
+              <span class="font-bold">{{ $t('vat.companyName') }}</span>
               <span>{{ validationResult.companyName }}</span>
             </div>
             <div v-if="validationResult.companyAddress" class="flex flex-col gap-1">
-              <span class="font-bold">{{ t('vat.address') }}</span>
+              <span class="font-bold">{{ $t('vat.address') }}:</span>
               <span class="text-sm">{{ validationResult.companyAddress }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="font-bold">{{ t('vat.reverseCharge') }}</span>
+              <span class="font-bold">{{ $t('vat.reverseCharge') }}:</span>
               <span
                 :class="{
                   'badge badge-success': validationResult.reverseChargeApplies,
@@ -248,8 +248,8 @@ const clearValidation = () => {
               >
                 {{
                   validationResult.reverseChargeApplies
-                    ? t('vat.reverseChargeApplies')
-                    : t('vat.standardVatRate')
+                    ? $t('vat.reverseChargeApplies')
+                    : $t('vat.standardVatRate')
                 }}
               </span>
             </div>
@@ -258,7 +258,7 @@ const clearValidation = () => {
           <!-- Action Buttons -->
           <div class="flex gap-2 mt-4 border-t pt-4">
             <button type="button" @click="clearValidation" class="btn btn-ghost flex-1">
-              {{ t('vat.clearAndStartOver') }}
+              {{ $t('vat.clearAndStartOver') }}
             </button>
           </div>
         </div>
@@ -281,9 +281,9 @@ const clearValidation = () => {
         ></path>
       </svg>
       <div>
-        <h3 class="font-bold">{{ t('vat.validationHelp.title') }}</h3>
+        <h3 class="font-bold">{{ $t('vat.validationHelp.title') }}</h3>
         <div class="text-xs">
-          {{ t('vat.validationHelp.description') }}
+          {{ $t('vat.validationHelp.description') }}
         </div>
       </div>
     </div>

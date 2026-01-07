@@ -52,7 +52,7 @@ public class InvoiceHandler
         try
         {
             // Validate input
-            var validationResult = await _generateValidator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _generateValidator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
             if (!validationResult.IsValid)
             {
                 _logger.LogWarning("Invoice generation validation failed for order {OrderId}", request.OrderId);
@@ -64,7 +64,7 @@ public class InvoiceHandler
             }
 
             // Generate invoice
-            var invoice = await _invoiceService.GenerateInvoiceAsync(request.OrderId, cancellationToken);
+            var invoice = await _invoiceService.GenerateInvoiceAsync(request.OrderId, cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation(
                 "Invoice {InvoiceNumber} generated for order {OrderId}, reverse charge: {ReverseCharge}",
@@ -110,7 +110,7 @@ public class InvoiceHandler
         try
         {
             // Validate input
-            var validationResult = await _modifyValidator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _modifyValidator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
             if (!validationResult.IsValid)
             {
                 _logger.LogWarning("Invoice modification validation failed for order {OrderId}", request.OrderId);
@@ -122,7 +122,7 @@ public class InvoiceHandler
             }
 
             // Get invoice by order ID
-            var invoice = await _invoiceService.GetInvoiceByOrderIdAsync(request.OrderId, cancellationToken);
+            var invoice = await _invoiceService.GetInvoiceByOrderIdAsync(request.OrderId, cancellationToken).ConfigureAwait(false);
             if (invoice == null)
             {
                 _logger.LogWarning("Invoice not found for order {OrderId}", request.OrderId);
@@ -143,7 +143,7 @@ public class InvoiceHandler
                     invoice.Id,
                     request.BuyerVatId,
                     request.BuyerCountry,
-                    cancellationToken);
+                    cancellationToken).ConfigureAwait(false);
 
                 _logger.LogInformation(
                     "Reverse charge applied to invoice {InvoiceNumber}. Tax: {OldTax:F2} → {NewTax:F2}, Total: {OldTotal:F2} → {NewTotal:F2}",
@@ -153,7 +153,7 @@ public class InvoiceHandler
             {
                 // Revert to normal VAT (default 19% for Germany)
                 const decimal correctTaxRate = 0.19m; // TODO: Get from TaxRateService based on country
-                invoice = await _invoiceService.RemoveReverseChargeAsync(invoice.Id, correctTaxRate, cancellationToken);
+                invoice = await _invoiceService.RemoveReverseChargeAsync(invoice.Id, correctTaxRate, cancellationToken).ConfigureAwait(false);
 
                 _logger.LogInformation(
                     "Reverse charge removed from invoice {InvoiceNumber}. Tax: {OldTax:F2} → {NewTax:F2}, Total: {OldTotal:F2} → {NewTotal:F2}",

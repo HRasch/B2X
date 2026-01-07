@@ -73,14 +73,14 @@ public class ReturnManagementService : IReturnManagementService
             orderId, tenantId);
 
         // 1. Validate order exists and belongs to tenant
-        var order = await _orderRepository.GetByIdAsync(orderId, ct);
+        var order = await _orderRepository.GetByIdAsync(orderId, ct).ConfigureAwait(false);
         if (order is null || order.TenantId != tenantId)
         {
             throw new InvalidOperationException($"Order {orderId} not found for tenant {tenantId}");
         }
 
         // 2. Validate withdrawal period (VVVG §357: 14 days from delivery)
-        var validation = await ValidateReturnAsync(orderId, ct);
+        var validation = await ValidateReturnAsync(orderId, ct).ConfigureAwait(false);
         if (!validation.IsValid)
         {
             _logger.LogWarning(
@@ -90,8 +90,8 @@ public class ReturnManagementService : IReturnManagementService
         }
 
         // 3. Check if return already exists
-        var existingReturns = await _returnRepository.GetByOrderIdAsync(orderId, ct);
-        if (existingReturns.Any(r => r.Status != Rejected))
+        var existingReturns = await _returnRepository.GetByOrderIdAsync(orderId, ct).ConfigureAwait(false);
+        if (existingReturns.Any(r => !string.Equals(r.Status, Rejected, StringComparison.Ordinal)))
         {
             throw new InvalidOperationException($"Active return already exists for order {orderId}");
         }
@@ -106,7 +106,7 @@ public class ReturnManagementService : IReturnManagementService
             TenantId = tenantId,
             UserId = userId,
             OrderId = orderId,
-            ReturnNumber = GenerateReturnNumber(tenantId),
+            ReturnNumber = GenerateReturnNumber(),
             Reason = reason,
             ReturnAllItems = returnAllItems,
             Status = Requested,
@@ -119,7 +119,7 @@ public class ReturnManagementService : IReturnManagementService
             RequestedAt = DateTime.UtcNow
         };
 
-        await _returnRepository.AddAsync(returnRequest, ct);
+        await _returnRepository.AddAsync(returnRequest, ct).ConfigureAwait(false);
 
         // 6. Audit log
         await _auditService.LogAsync(
@@ -135,7 +135,7 @@ public class ReturnManagementService : IReturnManagementService
                 RefundAmount = refundAmount,
                 DaysAfterDelivery = validation.DaysAfterDelivery
             },
-            ct: ct);
+            ct: ct).ConfigureAwait(false);
 
         _logger.LogInformation(
             "Return request created: {ReturnNumber}, Refund: {RefundAmount}",
@@ -150,7 +150,7 @@ public class ReturnManagementService : IReturnManagementService
     public async Task<ReturnValidationResult> ValidateReturnAsync(Guid orderId, CancellationToken ct = default)
     {
         ValidationHelper.ValidateGuidNotEmpty(orderId, "Order ID");
-        var order = await _orderRepository.GetByIdAsync(orderId, ct);
+        var order = await _orderRepository.GetByIdAsync(orderId, ct).ConfigureAwait(false);
 
         if (order is null)
         {
@@ -208,7 +208,7 @@ public class ReturnManagementService : IReturnManagementService
     /// </summary>
     public async Task<ReturnRequest> ProcessReturnAsync(Guid returnId, CancellationToken ct = default)
     {
-        var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
+        var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct).ConfigureAwait(false);
         if (returnRequest is null)
         {
             throw new InvalidOperationException($"Return {returnId} not found");
@@ -218,7 +218,7 @@ public class ReturnManagementService : IReturnManagementService
         returnRequest.ReturnReceivedAt = DateTime.UtcNow;
         returnRequest.ModifiedAt = DateTime.UtcNow;
 
-        await _returnRepository.UpdateAsync(returnRequest, ct);
+        await _returnRepository.UpdateAsync(returnRequest, ct).ConfigureAwait(false);
 
         _logger.LogInformation(
             "Return processed: {ReturnNumber}, Amount: {RefundAmount}",
@@ -235,7 +235,7 @@ public class ReturnManagementService : IReturnManagementService
         ValidationHelper.ValidateGuidNotEmpty(returnId, "Return ID");
         ValidationHelper.ValidateStringNotEmpty(refundMethod, "Refund Method");
 
-        var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
+        var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct).ConfigureAwait(false);
         if (returnRequest is null)
         {
             throw new InvalidOperationException($"Return {returnId} not found");
@@ -262,7 +262,7 @@ public class ReturnManagementService : IReturnManagementService
             })
         };
 
-        await _refundRepository.AddAsync(refund, ct);
+        await _refundRepository.AddAsync(refund, ct).ConfigureAwait(false);
 
         // Update return status
         returnRequest.Status = Refunded;
@@ -271,7 +271,7 @@ public class ReturnManagementService : IReturnManagementService
         returnRequest.RefundTransactionId = refund.Id.ToString();
         returnRequest.ModifiedAt = DateTime.UtcNow;
 
-        await _returnRepository.UpdateAsync(returnRequest, ct);
+        await _returnRepository.UpdateAsync(returnRequest, ct).ConfigureAwait(false);
 
         // Audit log
         await _auditService.LogAsync(
@@ -281,7 +281,7 @@ public class ReturnManagementService : IReturnManagementService
             entityType: "Refund",
             entityId: refund.Id,
             changes: new { Amount = refund.RefundAmount, Method = refundMethod },
-            ct: ct);
+            ct: ct).ConfigureAwait(false);
 
         _logger.LogInformation(
             "Refund processed: {RefundNumber}, Amount: {RefundAmount}, Method: {RefundMethod}",
@@ -298,7 +298,7 @@ public class ReturnManagementService : IReturnManagementService
         ValidationHelper.ValidateGuidNotEmpty(returnId, "Return ID");
         ValidationHelper.ValidateStringNotEmpty(carrierCode, "Carrier Code");
 
-        var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct);
+        var returnRequest = await _returnRepository.GetByIdAsync(returnId, ct).ConfigureAwait(false);
         if (returnRequest == null)
         {
             throw new InvalidOperationException($"Return {returnId} not found");
@@ -314,7 +314,7 @@ public class ReturnManagementService : IReturnManagementService
         returnRequest.Status = ReturnStatus.Approved;
         returnRequest.ModifiedAt = DateTime.UtcNow;
 
-        await _returnRepository.UpdateAsync(returnRequest, ct);
+        await _returnRepository.UpdateAsync(returnRequest, ct).ConfigureAwait(false);
 
         _logger.LogInformation(
             "Return label generated: {ReturnNumber}, Carrier: {Carrier}",
@@ -337,7 +337,7 @@ public class ReturnManagementService : IReturnManagementService
         return order.TotalPrice;
     }
 
-    private static string GenerateReturnNumber(Guid tenantId)
+    private static string GenerateReturnNumber()
     {
         var timestamp = DateTime.UtcNow.ToString("yyyyMMdd");
         var random = Guid.NewGuid().ToString().Substring(0, 8).ToUpper(System.Globalization.CultureInfo.CurrentCulture);

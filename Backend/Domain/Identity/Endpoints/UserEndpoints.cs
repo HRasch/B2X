@@ -69,7 +69,7 @@ public static class UserEndpoints
         IAuthService authService,
         CancellationToken ct)
     {
-        var result = await authService.DeactivateUserAsync(userId);
+        var result = await authService.DeactivateUserAsync(userId, ct).ConfigureAwait(false);
 
         return result.Match(
             onSuccess: (success, msg) => Results.NoContent(),

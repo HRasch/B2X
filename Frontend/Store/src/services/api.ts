@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance } from 'axios';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '~/stores/auth';
 
 const api: AxiosInstance = axios.create({
   baseURL: '/api',

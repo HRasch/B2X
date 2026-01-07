@@ -28,14 +28,14 @@ public class ProductRepository : Repository<Product>, IProductRepository
     {
         return await _dbSet
             .Where(p => p.TenantId == tenantId && p.CategoryId == categoryId)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<Product>> GetByBrandAsync(Guid tenantId, Guid brandId, CancellationToken ct = default)
     {
         return await _dbSet
             .Where(p => p.TenantId == tenantId && p.BrandId == brandId)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<Product>> GetFeaturedAsync(Guid tenantId, int take = 10, CancellationToken ct = default)
@@ -44,7 +44,7 @@ public class ProductRepository : Repository<Product>, IProductRepository
             .Where(p => p.TenantId == tenantId && p.IsFeatured && p.IsActive)
             .OrderBy(p => p.CreatedAt)
             .Take(take)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<Product>> GetNewestAsync(Guid tenantId, int take = 10, CancellationToken ct = default)
@@ -53,7 +53,7 @@ public class ProductRepository : Repository<Product>, IProductRepository
             .Where(p => p.TenantId == tenantId && p.IsNew && p.IsActive)
             .OrderByDescending(p => p.CreatedAt)
             .Take(take)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
     }
 
     public async Task<(IEnumerable<Product>, int)> SearchAsync(Guid tenantId, string searchTerm, int pageNumber, int pageSize, CancellationToken ct = default)
@@ -62,12 +62,12 @@ public class ProductRepository : Repository<Product>, IProductRepository
         var query = _dbSet
             .Where(p => p.TenantId == tenantId && p.IsActive && p.Sku.ToLower(System.Globalization.CultureInfo.CurrentCulture).Contains(lowerTerm));
 
-        var total = await query.CountAsync(ct);
+        var total = await query.CountAsync(ct).ConfigureAwait(false);
         var items = await query
             .OrderByDescending(p => p.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
 
         return (items, total);
     }
@@ -88,12 +88,12 @@ public class ProductRepository : Repository<Product>, IProductRepository
     public async Task<(IEnumerable<Product> Items, int Total)> GetPagedAsync(Guid tenantId, int pageNumber, int pageSize, CancellationToken ct = default)
     {
         var query = _dbSet.Where(p => p.TenantId == tenantId && p.IsActive);
-        var total = await query.CountAsync(ct);
+        var total = await query.CountAsync(ct).ConfigureAwait(false);
         var items = await query
             .OrderByDescending(p => p.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
 
         return (items, total);
     }

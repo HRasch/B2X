@@ -16,15 +16,11 @@
 
         <!-- Navigation -->
         <div v-if="testimonials.length > 1" class="card-body flex flex-row justify-center gap-4">
-          <button class="btn btn-sm btn-outline" @click="previousTestimonial">
-            {{ t('navigation.previous') }}
-          </button>
+          <button class="btn btn-sm btn-outline" @click="previousTestimonial">← Previous</button>
           <span class="flex items-center px-4">
             {{ currentIndex + 1 }} / {{ testimonials.length }}
           </span>
-          <button class="btn btn-sm btn-outline" @click="nextTestimonial">
-            {{ t('navigation.next') }}
-          </button>
+          <button class="btn btn-sm btn-outline" @click="nextTestimonial">Next →</button>
         </div>
       </div>
     </div>
@@ -33,9 +29,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n();
 
 interface TestimonialItem {
   text: string;

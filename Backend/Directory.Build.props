@@ -31,7 +31,12 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
     <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
-    <NoWarn>$(NoWarn);NU1605;MSB4011;SA1649;SA1513</NoWarn>
+    <!-- MA0016: Collection abstractions - acceptable for DTOs -->
+    <!-- S6964: Value types in controllers - acceptable for required business fields -->
+    <!-- S1075: Hardcoded URIs - acceptable for development fallbacks -->
+    <!-- MA0051: Method too long - acceptable for complex business logic -->
+    <!-- S3904: AssemblyVersion - acceptable when using automatic versioning -->
+    <NoWarn>$(NoWarn);NU1605;MSB4011;SA1649;SA1513;MA0016;S6964;S1075;MA0051;S3904</NoWarn>
     
     <!-- ======================= -->
     <!-- Roslyn Analyzer Config  -->

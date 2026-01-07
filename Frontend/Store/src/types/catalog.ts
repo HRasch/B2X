@@ -1,3 +1,5 @@
+import type { Product } from './index';
+
 export interface Category {
   id: string;
   name: string;

@@ -80,7 +80,7 @@ builder.Services.AddCors(options =>
                         return false;
                     }
 
-                    return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                    return string.Equals(uri.Host, "localhost", StringComparison.Ordinal) || string.Equals(uri.Host, "127.0.0.1", StringComparison.Ordinal);
                 })
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -155,7 +155,7 @@ builder.Services.AddAuthorization(options =>
             // Check AccountType claim (DU or SU)
             var accountTypeClaim = context.User.FindFirst("AccountType");
             var isAdminAccountType = accountTypeClaim != null &&
-                   (accountTypeClaim.Value == "DU" || accountTypeClaim.Value == "SU");
+                   (string.Equals(accountTypeClaim.Value, "DU", StringComparison.Ordinal) || string.Equals(accountTypeClaim.Value, "SU", StringComparison.Ordinal));
 
             // Check Admin role (from Identity Service)
             var isAdminRole = context.User.IsInRole("Admin") ||
@@ -358,4 +358,4 @@ app.MapReverseProxy();
 app.MapGet("/", () => "Admin API Gateway is running");
 // Health endpoints provided by UseServiceDefaults() - see ADR-025
 
-await app.RunAsync();
+await app.RunAsync().ConfigureAwait(false);

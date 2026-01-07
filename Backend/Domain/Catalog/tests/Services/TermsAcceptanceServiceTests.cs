@@ -31,7 +31,7 @@ public class TermsAcceptanceServiceTests : IAsyncLifetime
         _validator = new RecordTermsAcceptanceValidator();
         _service = new TermsAcceptanceService(_mockLogger.Object, _validator);
 
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     public Task DisposeAsync() => Task.CompletedTask;
@@ -85,7 +85,7 @@ public class TermsAcceptanceServiceTests : IAsyncLifetime
         // Assert
         Assert.False(result.Success);
         Assert.Equal("INCOMPLETE_ACCEPTANCE", result.Error);
-        Assert.Contains("Allgemeinen Geschäftsbedingungen", result.Message);
+        Assert.Contains("Allgemeinen Geschäftsbedingungen", result.Message, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public class TermsAcceptanceServiceTests : IAsyncLifetime
         // Assert
         Assert.False(result.Success);
         Assert.Equal("VALIDATION_ERROR", result.Error);
-        Assert.Contains("Kunden-ID", result.Message);
+        Assert.Contains("Kunden-ID", result.Message, StringComparison.Ordinal);
     }
 
     [Fact]

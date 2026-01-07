@@ -1,7 +1,7 @@
 # 📚 Document Registry
 
-**Version:** 1.0  
-**Last Updated:** 6. Januar 2026  
+**Version:** 1.1  
+**Last Updated:** 7. Januar 2026  
 **Owner:** @SARAH
 
 ---
@@ -36,6 +36,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PRM` | Prompts | `.github/prompts/` | @SARAH |
 | `INS` | Instructions | `.github/instructions/` | @TechLead |
 | `FH` | Feature Handovers | `.ai/handovers/` | @ProductOwner |
+| `BS` | Brainstorm & Strategy | `.ai/brainstorm/` | @SARAH |
+| `COMM` | Communications & Templates | `.ai/brainstorm/` | @SARAH |
 
 ---
 
@@ -75,15 +77,11 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-043` | Paid Services Infrastructure | `.ai/decisions/ADR-043-paid-services-infrastructure.md` | Proposed |
 | `ADR-044` | Floating Labels vs Traditional Labels Ruleset | `.ai/decisions/ADR-044-floating-labels-ruleset.md` | Accepted |
 | `ADR-045` | Unified Layout System | `.ai/decisions/ADR-045-unified-layout-system.md` | Proposed |
-<<<<<<< HEAD
-=======
 | `ADR-046` | Unified Category Navigation Architecture | `.ai/decisions/ADR-046-unified-category-navigation.md` | Proposed |
 | `ADR-047` | Multishop / Shared Catalogs Architecture | `.ai/decisions/ADR-047-multishop-shared-catalog.md` | Proposed |
 | `ADR-048` | Tenant-Level Include/Exclude Rules for Shared Catalogs | `.ai/decisions/ADR-048-tenant-level-include-exclude.md` | Proposed |
-
 | `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
 | `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
->>>>>>> origin/master
 
 ---
 
@@ -277,6 +275,62 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PRM-014` | Subagent Delegation | `.ai/prompts/subagent-delegation.prompt.md` | `/subagent-delegation` |
 | `PRM-015` | Project Cleanup | `.ai/prompts/project-cleanup.prompt.md` | `/project-cleanup` |
 | `PRM-016` | TypeScript Review | `.github/prompts/typescript-review.prompt.md` | `/typescript-review` |
+
+---
+
+## Registry: Brainstorm & Strategy (BS-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `BS-REFACTOR-001` | Refactoring Efficiency Strategy | `.ai/brainstorm/REFACTORING-EFFICIENCY-STRATEGY.md` | Active |
+
+---
+
+## Registry: Communications (COMM-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `COMM-REFACTOR-001` | Launch Communication - Refactoring Strategy | `.ai/brainstorm/COMM-REFACTOR-001.md` | Ready |
+
+---
+
+## Registry: Reviews (REV-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `REV-REFACTOR-001` | Review Request - Refactoring Strategy | `.ai/brainstorm/REVIEW-REQUEST-REFACTORING-STRATEGY.md` | In Review |
+
+---
+
+## Registry: Planning (PLAN-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `PLAN-PILOT-001` | Pilot Refactoring Candidates | `.ai/brainstorm/PILOT-REFACTORING-CANDIDATES.md` | Planning |
+
+---
+
+## Registry: Quick Start (QS-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `QS-REFACTOR` | Quick Start - Refactoring Implementation | `.ai/brainstorm/QUICKSTART-REFACTOR.md` | Active |
+
+---
+
+## Registry: Status & Dashboards (STATUS-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `STATUS-REFACTOR-STRATEGY` | Status Dashboard - Refactoring Strategy | `.ai/brainstorm/STATUS-REFACTOR-STRATEGY.md` | Active |
+
+---
+
+## Registry: Indexes (INDEX-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `REFACTOR-INDEX` | Index - Refactoring Efficiency Strategy Suite | `.ai/brainstorm/REFACTOR-INDEX.md` | Active |
 
 ---
 

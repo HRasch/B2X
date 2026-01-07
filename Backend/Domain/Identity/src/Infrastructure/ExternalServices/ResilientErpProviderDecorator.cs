@@ -37,7 +37,7 @@ public class ResilientErpProviderDecorator : IErpProvider
             _logger.LogInformation("[RESILIENT] Attempting GetCustomerByNumber via {Provider}",
                 _primaryProvider.ProviderName);
 
-            var result = await _primaryProvider.GetCustomerByNumberAsync(customerNumber, ct);
+            var result = await _primaryProvider.GetCustomerByNumberAsync(customerNumber, ct).ConfigureAwait(false);
             if (result != null)
             {
                 _logger.LogInformation("[RESILIENT] Successfully found customer via {Provider}",
@@ -55,13 +55,13 @@ public class ResilientErpProviderDecorator : IErpProvider
 
             try
             {
-                return await _fallbackProvider.GetCustomerByNumberAsync(customerNumber, ct);
+                return await _fallbackProvider.GetCustomerByNumberAsync(customerNumber, ct).ConfigureAwait(false);
             }
             catch (Exception fallbackEx)
             {
                 _logger.LogError(fallbackEx,
-                    "[RESILIENT] Fallback provider {Fallback} also failed",
-                    _fallbackProvider.ProviderName);
+                    "[RESILIENT] Fallback provider {Fallback} also failed for customer number {CustomerNumber}",
+                    _fallbackProvider.ProviderName, customerNumber);
                 throw;
             }
         }
@@ -74,7 +74,7 @@ public class ResilientErpProviderDecorator : IErpProvider
             _logger.LogInformation("[RESILIENT] Attempting GetCustomerByEmail via {Provider}",
                 _primaryProvider.ProviderName);
 
-            var result = await _primaryProvider.GetCustomerByEmailAsync(email, ct);
+            var result = await _primaryProvider.GetCustomerByEmailAsync(email, ct).ConfigureAwait(false);
             if (result != null)
             {
                 _logger.LogInformation("[RESILIENT] Successfully found customer via {Provider}",
@@ -92,13 +92,13 @@ public class ResilientErpProviderDecorator : IErpProvider
 
             try
             {
-                return await _fallbackProvider.GetCustomerByEmailAsync(email, ct);
+                return await _fallbackProvider.GetCustomerByEmailAsync(email, ct).ConfigureAwait(false);
             }
             catch (Exception fallbackEx)
             {
                 _logger.LogError(fallbackEx,
-                    "[RESILIENT] Fallback provider {Fallback} also failed",
-                    _fallbackProvider.ProviderName);
+                    "[RESILIENT] Fallback provider {Fallback} also failed for email {Email}",
+                    _fallbackProvider.ProviderName, email);
                 throw;
             }
         }
@@ -111,7 +111,7 @@ public class ResilientErpProviderDecorator : IErpProvider
             _logger.LogInformation("[RESILIENT] Attempting GetCustomerByCompanyName via {Provider}",
                 _primaryProvider.ProviderName);
 
-            var result = await _primaryProvider.GetCustomerByCompanyNameAsync(companyName, ct);
+            var result = await _primaryProvider.GetCustomerByCompanyNameAsync(companyName, ct).ConfigureAwait(false);
             if (result != null)
             {
                 _logger.LogInformation("[RESILIENT] Successfully found customer via {Provider}",
@@ -129,13 +129,13 @@ public class ResilientErpProviderDecorator : IErpProvider
 
             try
             {
-                return await _fallbackProvider.GetCustomerByCompanyNameAsync(companyName, ct);
+                return await _fallbackProvider.GetCustomerByCompanyNameAsync(companyName, ct).ConfigureAwait(false);
             }
             catch (Exception fallbackEx)
             {
                 _logger.LogError(fallbackEx,
-                    "[RESILIENT] Fallback provider {Fallback} also failed",
-                    _fallbackProvider.ProviderName);
+                    "[RESILIENT] Fallback provider {Fallback} also failed for company name {CompanyName}",
+                    _fallbackProvider.ProviderName, companyName);
                 throw;
             }
         }
@@ -148,7 +148,7 @@ public class ResilientErpProviderDecorator : IErpProvider
             _logger.LogInformation("[RESILIENT] Checking availability of {Provider}",
                 _primaryProvider.ProviderName);
 
-            var isAvailable = await _primaryProvider.IsAvailableAsync(ct);
+            var isAvailable = await _primaryProvider.IsAvailableAsync(ct).ConfigureAwait(false);
             if (isAvailable)
             {
                 _logger.LogInformation("[RESILIENT] {Provider} is available", _primaryProvider.ProviderName);
@@ -173,17 +173,17 @@ public class ResilientErpProviderDecorator : IErpProvider
             _logger.LogInformation("[RESILIENT] Attempting GetSyncStatus via {Provider}",
                 _primaryProvider.ProviderName);
 
-            return await _primaryProvider.GetSyncStatusAsync(ct);
+            return await _primaryProvider.GetSyncStatusAsync(ct).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex,
-                "[RESILIENT] Primary provider {Provider} failed getting sync status, using fallback",
-                _primaryProvider.ProviderName);
+               "[RESILIENT] Primary provider {Provider} failed getting sync status, using fallback",
+               _primaryProvider.ProviderName);
 
             try
             {
-                return await _fallbackProvider.GetSyncStatusAsync(ct);
+                return await _fallbackProvider.GetSyncStatusAsync(ct).ConfigureAwait(false);
             }
             catch (Exception fallbackEx)
             {

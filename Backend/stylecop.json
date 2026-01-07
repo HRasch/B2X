@@ -56,7 +56,82 @@
     }
   },
   "rules": {
+    "SA1402": {
+      "severity": "none"
+    },
     "SA1111": {
+      "severity": "none"
+    },
+    "SA1009": {
+      "severity": "none"
+    },
+    "SA1518": {
+      "severity": "warning"
+    },
+    "SA1210": {
+      "severity": "none"
+    },
+    "SA1129": {
+      "severity": "none"
+    },
+    "SA1401": {
+      "severity": "none"
+    },
+    "SA1600": {
+      "severity": "none"
+    },
+    "SA1601": {
+      "severity": "none"
+    },
+    "SA1602": {
+      "severity": "none"
+    },
+    "SA1604": {
+      "severity": "none"
+    },
+    "SA1611": {
+      "severity": "none"
+    },
+    "SA1615": {
+      "severity": "none"
+    },
+    "SA1618": {
+      "severity": "none"
+    },
+    "SA1623": {
+      "severity": "none"
+    },
+    "SA1629": {
+      "severity": "none"
+    },
+    "SA1633": {
+      "severity": "none"
+    },
+    "SA1634": {
+      "severity": "none"
+    },
+    "SA1635": {
+      "severity": "none"
+    },
+    "SA1636": {
+      "severity": "none"
+    },
+    "SA1637": {
+      "severity": "none"
+    },
+    "SA1638": {
+      "severity": "none"
+    },
+    "SA1640": {
+      "severity": "none"
+    },
+    "SA1641": {
+      "severity": "none"
+    },
+    "SA1642": {
+      "severity": "none"
+    },
+    "SA1643": {
       "severity": "none"
     }
   }

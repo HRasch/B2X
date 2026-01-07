@@ -11,7 +11,7 @@ public class TemplateOverride
     public string TemplateKey { get; set; } = string.Empty;
     public string? BaseTemplateKey { get; set; }
     public string TemplateContent { get; set; } = string.Empty;
-    public Dictionary<string, string> OverrideSections { get; set; } = new();
+    public Dictionary<string, string> OverrideSections { get; set; } = new(StringComparer.Ordinal);
     public int Version { get; set; } = 1;
     public bool IsPublished { get; set; }
     public DateTime CreatedAt { get; set; }

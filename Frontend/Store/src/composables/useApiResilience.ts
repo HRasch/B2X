@@ -48,10 +48,8 @@ export function useApiResilience<T>(
       return response.data;
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
-      state.error.value =
-        (axiosError.response?.data as { message?: string })?.message ||
-        axiosError.message ||
-        t('api.unknownError');
+      const errorData = axiosError.response?.data as { message?: string } | undefined;
+      state.error.value = errorData?.message || axiosError.message || t('api.unknownError');
 
       if (options.showToastOnError !== false) {
         toast.error(state.error.value);

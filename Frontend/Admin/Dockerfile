@@ -44,11 +44,26 @@ RUN npm run build
 # ===== PRODUCTION STAGE =====
 FROM nginx:alpine AS production
 
+# Create non-root user for security
+RUN addgroup -g 1001 -S appgroup && \
+    adduser -S appuser -u 1001 -G appgroup
+
 # Copy custom nginx config for SPA routing
-COPY nginx.conf /etc/nginx/conf.d/default.conf 2>/dev/null || true
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built app from builder
 COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Change ownership of nginx files to non-root user
+RUN chown -R appuser:appgroup /usr/share/nginx/html && \
+    chown -R appuser:appgroup /var/cache/nginx && \
+    chown -R appuser:appgroup /var/log/nginx && \
+    chown -R appuser:appgroup /etc/nginx/conf.d && \
+    touch /var/run/nginx.pid && \
+    chown -R appuser:appgroup /var/run/nginx.pid
+
+# Switch to non-root user
+USER appuser
 
 # Expose port
 EXPOSE 5174

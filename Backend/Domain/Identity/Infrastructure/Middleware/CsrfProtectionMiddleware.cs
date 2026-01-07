@@ -29,7 +29,7 @@ public class CsrfProtectionMiddleware
             IsAuthEndpoint(path) ||
             IsPublicEndpoint(path))
         {
-            await _next(context);
+            await _next(context).ConfigureAwait(false);
             return;
         }
 
@@ -39,18 +39,18 @@ public class CsrfProtectionMiddleware
 
         if (string.IsNullOrEmpty(csrfTokenFromCookie) ||
             string.IsNullOrEmpty(csrfTokenFromHeader) ||
-            csrfTokenFromCookie != csrfTokenFromHeader)
+!string.Equals(csrfTokenFromCookie, csrfTokenFromHeader, StringComparison.Ordinal))
         {
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             await context.Response.WriteAsJsonAsync(new
             {
                 error = "CSRF token validation failed",
                 message = "Invalid or missing CSRF token"
-            });
+            }).ConfigureAwait(false);
             return;
         }
 
-        await _next(context);
+        await _next(context).ConfigureAwait(false);
     }
 
     private static bool IsSafeMethod(string method)

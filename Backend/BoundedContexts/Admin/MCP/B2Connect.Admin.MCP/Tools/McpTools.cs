@@ -1,6 +1,7 @@
 using B2Connect.Admin.MCP.Services;
 using B2Connect.Admin.MCP.Middleware;
 using B2Connect.Admin.MCP.Models;
+using B2Connect.CMS.Core.Domain.Pages;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Diagnostics;

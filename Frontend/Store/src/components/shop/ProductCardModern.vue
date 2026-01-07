@@ -57,7 +57,7 @@ const handleAddToCart = () => {
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300">
+  <div class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow duration-300">
     <!-- Product Image Section -->
     <figure class="relative bg-base-200 overflow-hidden h-48">
       <img
@@ -139,7 +139,7 @@ const handleAddToCart = () => {
       <div class="price-section">
         <!-- Main Price -->
         <div class="flex justify-between items-baseline mb-1">
-          <span class="text-sm font-semibold">{{ $t('product.price.total') }}</span>
+          <span class="text-sm font-semibold">Total</span>
           <span class="text-2xl font-bold text-primary">
             {{ formattedPrice }}
           </span>
@@ -152,16 +152,16 @@ const handleAddToCart = () => {
           </summary>
           <div class="collapse-content text-xs space-y-1 p-2">
             <div class="flex justify-between">
-              <span>{{ $t('product.price.netPrice') }}</span>
+              <span>Net price:</span>
               <span>€{{ vatInfo.net }}</span>
             </div>
             <div class="flex justify-between">
-              <span>{{ $t('product.price.vat', { rate: 19 }) }}</span>
+              <span>VAT (19%):</span>
               <span>€{{ vatInfo.vat }}</span>
             </div>
             <div class="divider my-1"></div>
             <div class="flex justify-between font-semibold">
-              <span>{{ $t('product.price.total') }}</span>
+              <span>Total:</span>
               <span>€{{ vatInfo.total }}</span>
             </div>
           </div>
@@ -172,7 +172,7 @@ const handleAddToCart = () => {
       <div class="card-actions justify-between items-center mt-4">
         <!-- Quick View (Link to Detail) -->
         <router-link :to="`/product/${product.id}`" class="link link-hover text-sm">
-          {{ $t('product.viewDetails') }}
+          View Details →
         </router-link>
 
         <!-- Add to Cart Button -->
@@ -182,8 +182,8 @@ const handleAddToCart = () => {
           :class="['btn btn-sm', product.inStock ? 'btn-primary' : 'btn-disabled']"
           aria-label="`Add ${product.name} to cart`"
         >
-          <span v-if="product.inStock">{{ $t('product.addToCart') }}</span>
-          <span v-else>{{ $t('product.notAvailable') }}</span>
+          <span v-if="product.inStock">🛒 Add</span>
+          <span v-else>Not Available</span>
         </button>
       </div>
     </div>
@@ -218,7 +218,9 @@ const handleAddToCart = () => {
 
 /* Hover effects */
 .card:hover {
-  @apply shadow-xl;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 figure img {

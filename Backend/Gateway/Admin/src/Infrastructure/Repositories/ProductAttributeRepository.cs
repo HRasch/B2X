@@ -24,7 +24,7 @@ public class ProductAttributeRepository : Repository<ProductAttribute>, IProduct
         return await _dbSet
             .Where(a => a.IsActive)
             .OrderBy(a => a.DisplayOrder)
-            .ToListAsync();
+            .ToListAsync().ConfigureAwait(false);
     }
 
     public Task<ProductAttribute?> GetWithOptionsAsync(Guid id)
@@ -39,7 +39,7 @@ public class ProductAttributeRepository : Repository<ProductAttribute>, IProduct
         return await _dbSet
             .Where(a => a.IsActive && a.IsSearchable)
             .OrderBy(a => a.DisplayOrder)
-            .ToListAsync();
+            .ToListAsync().ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<ProductAttribute>> GetFilterableAsync()
@@ -48,6 +48,6 @@ public class ProductAttributeRepository : Repository<ProductAttribute>, IProduct
             .Where(a => a.IsActive && a.IsFilterable)
             .Include(a => a.Options)
             .OrderBy(a => a.DisplayOrder)
-            .ToListAsync();
+            .ToListAsync().ConfigureAwait(false);
     }
 }

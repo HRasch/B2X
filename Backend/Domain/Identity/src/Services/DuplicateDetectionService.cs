@@ -34,7 +34,7 @@ public partial class DuplicateDetectionService : IDuplicateDetectionService
         string? phone = null,
         CancellationToken ct = default)
     {
-        await Task.Delay(10, ct); // Simulate async work
+        await Task.Delay(10, ct).ConfigureAwait(false); // Simulate async work
 
         var result = new DuplicateCheckResultDto();
 
@@ -43,107 +43,23 @@ public partial class DuplicateDetectionService : IDuplicateDetectionService
             return result;
         }
 
-        var potentialDuplicates = new List<PotentialDuplicateDto>();
-
-        // 1. Exakte Email-Übereinstimmung (höchste Priorität)
-        var exactEmailMatch = _registeredUsers.FirstOrDefault(u =>
-            u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-
-        if (exactEmailMatch != default)
+        var potentialDuplicates = CheckForExactEmailMatch(email);
+        if (potentialDuplicates.Count > 0)
         {
-            _logger.LogWarning("Exakte Email-Übereinstimmung gefunden: {Email}", email);
-            potentialDuplicates.Add(new PotentialDuplicateDto
-            {
-                UserId = exactEmailMatch.UserId,
-                UserName = exactEmailMatch.UserName,
-                Email = exactEmailMatch.Email,
-                SimilarityScore = 100,
-                MatchingSource = "EXACT_EMAIL",
-                RegisteredDate = exactEmailMatch.RegisteredDate,
-                IsActive = exactEmailMatch.IsActive
-            });
-
+            result.PotentialDuplicates = potentialDuplicates;
+            result.DuplicatesFound = true;
             result.ConfidenceScore = 100;
             result.ShouldBlock = true;
-        }
-        else
-        {
-            // 2. Fuzzy Email-Matching (ähnliche Emails wie typos)
-            foreach (var user in _registeredUsers)
-            {
-                var similarity = CalculateEmailSimilarity(email, user.Email);
-                if (similarity >= EmailSimilarityThreshold)
-                {
-                    _logger.LogWarning("Ähnliche Email gefunden: {Email} vs {ExistingEmail} ({Score}%)",
-                        email, user.Email, similarity);
-                    potentialDuplicates.Add(new PotentialDuplicateDto
-                    {
-                        UserId = user.UserId,
-                        UserName = user.UserName,
-                        Email = user.Email,
-                        SimilarityScore = similarity,
-                        MatchingSource = "FUZZY_EMAIL",
-                        RegisteredDate = user.RegisteredDate,
-                        IsActive = user.IsActive
-                    });
-                }
-            }
-
-            // 3. Name-Matching (wenn Vorname/Nachname vorhanden)
-            if (!string.IsNullOrWhiteSpace(firstName) || !string.IsNullOrWhiteSpace(lastName))
-            {
-                var fullName = $"{firstName ?? ""} {lastName ?? ""}".Trim();
-
-                foreach (var user in _registeredUsers)
-                {
-                    var similarity = CalculateNameSimilarity(fullName, user.UserName);
-                    if (similarity >= NameSimilarityThreshold)
-                    {
-                        // Prüfe, ob dieser Benutzer nicht bereits in der Liste ist
-                        if (!potentialDuplicates.Any(p => p.UserId == user.UserId))
-                        {
-                            _logger.LogWarning("Ähnlicher Name gefunden: {Name} vs {ExistingName} ({Score}%)",
-                                fullName, user.UserName, similarity);
-                            potentialDuplicates.Add(new PotentialDuplicateDto
-                            {
-                                UserId = user.UserId,
-                                UserName = user.UserName,
-                                Email = user.Email,
-                                SimilarityScore = similarity,
-                                MatchingSource = "FUZZY_NAME",
-                                RegisteredDate = user.RegisteredDate,
-                                IsActive = user.IsActive
-                            });
-                        }
-                    }
-                }
-            }
-
-            // 4. Telefon-Matching (wenn Nummer vorhanden)
-            if (!string.IsNullOrWhiteSpace(phone))
-            {
-                var cleanPhone = CleanPhoneNumber(phone);
-                foreach (var user in _registeredUsers)
-                {
-                    if (user.Phone != null && CleanPhoneNumber(user.Phone) == cleanPhone && !potentialDuplicates.Any(p => p.UserId == user.UserId))
-                    {
-                        _logger.LogWarning("Gleiche Telefonnummer gefunden: {Phone}", phone);
-                        potentialDuplicates.Add(new PotentialDuplicateDto
-                        {
-                            UserId = user.UserId,
-                            UserName = user.UserName,
-                            Email = user.Email,
-                            SimilarityScore = 95,
-                            MatchingSource = "EXACT_PHONE",
-                            RegisteredDate = user.RegisteredDate,
-                            IsActive = user.IsActive
-                        });
-                    }
-                }
-            }
+            result.Recommendation = "Diese E-Mail-Adresse ist bereits registriert. Bitte verwenden Sie eine andere oder setzen Sie Ihr Passwort zurück.";
+            return result;
         }
 
-        result.PotentialDuplicates = potentialDuplicates;
+        // Check for fuzzy matches
+        potentialDuplicates.AddRange(CheckForFuzzyEmailMatches(email));
+        potentialDuplicates.AddRange(CheckForNameMatches(firstName, lastName));
+        potentialDuplicates.AddRange(CheckForPhoneMatches(phone));
+
+        result.PotentialDuplicates = potentialDuplicates.DistinctBy(p => p.UserId).ToList();
         result.DuplicatesFound = potentialDuplicates.Count > 0;
 
         if (result.DuplicatesFound)
@@ -151,17 +67,126 @@ public partial class DuplicateDetectionService : IDuplicateDetectionService
             result.ConfidenceScore = potentialDuplicates.Max(p => p.SimilarityScore);
             result.ShouldBlock = result.ConfidenceScore >= 90;
 
-            if (result.ShouldBlock)
-            {
-                result.Recommendation = "Diese E-Mail-Adresse ist bereits registriert. Bitte verwenden Sie eine andere oder setzen Sie Ihr Passwort zurück.";
-            }
-            else
-            {
-                result.Recommendation = "Ähnliche Konten gefunden. Bitte überprüfen Sie, ob einer der aufgelisteten Konten Ihnen gehört.";
-            }
+            result.Recommendation = result.ShouldBlock
+                ? "Diese E-Mail-Adresse ist bereits registriert. Bitte verwenden Sie eine andere oder setzen Sie Ihr Passwort zurück."
+                : "Ähnliche Konten gefunden. Bitte überprüfen Sie, ob einer der aufgelisteten Konten Ihnen gehört.";
         }
 
         return result;
+    }
+
+    private List<PotentialDuplicateDto> CheckForExactEmailMatch(string email)
+    {
+        var exactEmailMatch = _registeredUsers.FirstOrDefault(u =>
+            u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+
+        if (exactEmailMatch != default)
+        {
+            _logger.LogWarning("Exakte Email-Übereinstimmung gefunden: {Email}", email);
+            return new List<PotentialDuplicateDto>
+            {
+                new PotentialDuplicateDto
+                {
+                    UserId = exactEmailMatch.UserId,
+                    UserName = exactEmailMatch.UserName,
+                    Email = exactEmailMatch.Email,
+                    SimilarityScore = 100,
+                    MatchingSource = "EXACT_EMAIL",
+                    RegisteredDate = exactEmailMatch.RegisteredDate,
+                    IsActive = exactEmailMatch.IsActive
+                }
+            };
+        }
+
+        return new List<PotentialDuplicateDto>();
+    }
+
+    private List<PotentialDuplicateDto> CheckForFuzzyEmailMatches(string email)
+    {
+        var matches = new List<PotentialDuplicateDto>();
+
+        foreach (var user in _registeredUsers)
+        {
+            var similarity = CalculateEmailSimilarity(email, user.Email);
+            if (similarity >= EmailSimilarityThreshold)
+            {
+                _logger.LogWarning("Ähnliche Email gefunden: {Email} vs {ExistingEmail} ({Score}%)",
+                    email, user.Email, similarity);
+                matches.Add(new PotentialDuplicateDto
+                {
+                    UserId = user.UserId,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    SimilarityScore = similarity,
+                    MatchingSource = "FUZZY_EMAIL",
+                    RegisteredDate = user.RegisteredDate,
+                    IsActive = user.IsActive
+                });
+            }
+        }
+
+        return matches;
+    }
+
+    private List<PotentialDuplicateDto> CheckForNameMatches(string? firstName, string? lastName)
+    {
+        var matches = new List<PotentialDuplicateDto>();
+
+        if (!string.IsNullOrWhiteSpace(firstName) || !string.IsNullOrWhiteSpace(lastName))
+        {
+            var fullName = $"{firstName ?? ""} {lastName ?? ""}".Trim();
+
+            foreach (var user in _registeredUsers)
+            {
+                var similarity = CalculateNameSimilarity(fullName, user.UserName);
+                if (similarity >= NameSimilarityThreshold)
+                {
+                    _logger.LogWarning("Ähnlicher Name gefunden: {Name} vs {ExistingName} ({Score}%)",
+                        fullName, user.UserName, similarity);
+                    matches.Add(new PotentialDuplicateDto
+                    {
+                        UserId = user.UserId,
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        SimilarityScore = similarity,
+                        MatchingSource = "FUZZY_NAME",
+                        RegisteredDate = user.RegisteredDate,
+                        IsActive = user.IsActive
+                    });
+                }
+            }
+        }
+
+        return matches;
+    }
+
+    private List<PotentialDuplicateDto> CheckForPhoneMatches(string? phone)
+    {
+        var matches = new List<PotentialDuplicateDto>();
+
+        if (!string.IsNullOrWhiteSpace(phone))
+        {
+            var cleanPhone = CleanPhoneNumber(phone);
+            foreach (var user in _registeredUsers)
+            {
+                if (user.Phone != null && string.Equals(CleanPhoneNumber(user.Phone), cleanPhone, StringComparison.Ordinal))
+                {
+                    _logger.LogWarning("Gleiche Telefonnummer gefunden: {Phone}", phone);
+                    matches.Add(new PotentialDuplicateDto
+                    {
+                        UserId = user.UserId,
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        SimilarityScore = 95,
+                        MatchingSource = "EXACT_PHONE",
+                        RegisteredDate = user.RegisteredDate,
+                        IsActive = user.IsActive
+                    });
+                }
+            }
+        }
+
+        return matches;
     }
 
     public int CalculateEmailSimilarity(string email1, string email2)
@@ -195,8 +220,8 @@ public partial class DuplicateDetectionService : IDuplicateDetectionService
         }
 
         // Normalisierung: Leerzeichen, Bindestriche, etc.
-        name1 = MyRegex().Replace(name1.ToLower(System.Globalization.CultureInfo.CurrentCulture), " ").Trim();
-        name2 = MyRegex().Replace(name2.ToLower(System.Globalization.CultureInfo.CurrentCulture), " ").Trim();
+        name1 = WhitespaceRegex().Replace(name1.ToLower(System.Globalization.CultureInfo.CurrentCulture), " ").Trim();
+        name2 = WhitespaceRegex().Replace(name2.ToLower(System.Globalization.CultureInfo.CurrentCulture), " ").Trim();
 
         return LevenshteinDistance(name1, name2);
     }
@@ -213,9 +238,11 @@ public partial class DuplicateDetectionService : IDuplicateDetectionService
 
         for (var i = 0; i <= length1; distances[i, 0] = i++)
         {
+            // Initialize first column
         }
         for (var j = 0; j <= length2; distances[0, j] = j++)
         {
+            // Initialize first row
         }
 
         for (var i = 1; i <= length1; i++)
@@ -242,7 +269,7 @@ public partial class DuplicateDetectionService : IDuplicateDetectionService
 
     private static string CleanPhoneNumber(string phone)
     {
-        return System.Text.RegularExpressions.Regex.Replace(phone, @"[^\d]", "");
+        return new string(phone.Where(char.IsDigit).ToArray());
     }
 
     private void InitializeDemoData()
@@ -254,5 +281,5 @@ public partial class DuplicateDetectionService : IDuplicateDetectionService
     }
 
     [System.Text.RegularExpressions.GeneratedRegex(@"\s+")]
-    private static partial System.Text.RegularExpressions.Regex MyRegex();
+    private static partial System.Text.RegularExpressions.Regex WhitespaceRegex();
 }

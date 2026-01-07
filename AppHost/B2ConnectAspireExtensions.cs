@@ -250,10 +250,6 @@ public static class B2ConnectAspireExtensions
         this IResourceBuilder<ProjectResource> builder,
         params string[] origins)
     {
-        var corsOrigins = origins.Length > 0
-            ? string.Join(";", origins)
-            : "http://localhost:5173;http://localhost:5174;https://localhost:5173;https://localhost:5174";
-
         return builder
             .WithEnvironment("Cors:AllowedOrigins:0", "http://localhost:5173")
             .WithEnvironment("Cors:AllowedOrigins:1", "http://localhost:5174")
@@ -296,7 +292,7 @@ public static class B2ConnectAspireExtensions
         int httpsPort = 443)
     {
         return builder
-            .WithEnvironment("ASPNETCORE_HTTPS_PORT", httpsPort.ToString())
+            .WithEnvironment("ASPNETCORE_HTTPS_PORT", httpsPort.ToString(System.Globalization.CultureInfo.InvariantCulture))
             .WithEnvironment("ASPNETCORE_Kestrel:Certificates:Default:Path", "/app/certs/server.pfx")
             .WithEnvironment("ASPNETCORE_Kestrel:Certificates:Default:Password", "")
             .WithEnvironment("ASPNETCORE_Kestrel:Protocols", "Http1AndHttp2");
@@ -360,7 +356,7 @@ public static class B2ConnectAspireExtensions
         IResourceBuilder<PostgresDatabaseResource>? postgresDb,
         string databaseProvider) where T : IResourceWithEnvironment
     {
-        if (databaseProvider.ToLower() != "inmemory" && postgresDb != null)
+        if (!string.Equals(databaseProvider, "inmemory", StringComparison.OrdinalIgnoreCase) && postgresDb != null)
         {
             return resource.WithReference(postgresDb);
         }
@@ -375,7 +371,7 @@ public static class B2ConnectAspireExtensions
         IResourceBuilder<RedisResource>? redis,
         string databaseProvider) where T : IResourceWithEnvironment
     {
-        if (databaseProvider.ToLower() != "inmemory" && redis != null)
+        if (!string.Equals(databaseProvider, "inmemory", StringComparison.OrdinalIgnoreCase) && redis != null)
         {
             return resource.WithReference(redis);
         }
@@ -390,7 +386,7 @@ public static class B2ConnectAspireExtensions
         IResourceBuilder<RabbitMQServerResource>? rabbitmq,
         string databaseProvider) where T : IResourceWithEnvironment
     {
-        if (databaseProvider.ToLower() != "inmemory" && rabbitmq != null)
+        if (!string.Equals(databaseProvider, "inmemory", StringComparison.OrdinalIgnoreCase) && rabbitmq != null)
         {
             return resource.WithReference(rabbitmq);
         }
@@ -406,7 +402,7 @@ public static class B2ConnectAspireExtensions
         string databaseProvider,
         string indexName) where T : IResourceWithEnvironment
     {
-        if (databaseProvider.ToLower() != "inmemory" && elasticsearch != null)
+        if (!string.Equals(databaseProvider, "inmemory", StringComparison.OrdinalIgnoreCase) && elasticsearch != null)
         {
             return resource.WithReference(elasticsearch);
         }
@@ -420,7 +416,7 @@ public static class B2ConnectAspireExtensions
         this IResourceBuilder<T> resource,
         string databaseProvider) where T : IResourceWithEnvironment
     {
-        if (databaseProvider.ToLower() != "inmemory")
+        if (!string.Equals(databaseProvider, "inmemory", StringComparison.OrdinalIgnoreCase))
         {
             // Add Elasticsearch indexing logic here if needed
             return resource;
@@ -442,8 +438,7 @@ public static class B2ConnectAspireExtensions
     //     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8000");
     //
     // var frontendAdmin = builder.AddViteApp("frontend-admin", "../Frontend/Admin")
-    //     .WithHttpEndpoint(port: 5174, env: "VITE_PORT")
-    //     .WithEnvironment("VITE_API_GATEWAY_URL", "http://localhost:8080");
+    //     .WithHttpEndpoint(port: 5174, env: "VITE_PORT");
 
     // ===== HEALTH CHECK & STARTUP COORDINATION =====
     // These extensions help manage service startup order and health checks
@@ -472,8 +467,8 @@ public static class B2ConnectAspireExtensions
         int healthCheckIntervalSeconds = 10)
     {
         return builder
-            .WithEnvironment("Startup:TimeoutSeconds", startupTimeoutSeconds.ToString())
-            .WithEnvironment("Startup:HealthCheckIntervalSeconds", healthCheckIntervalSeconds.ToString())
+            .WithEnvironment("Startup:TimeoutSeconds", startupTimeoutSeconds.ToString(System.Globalization.CultureInfo.InvariantCulture))
+            .WithEnvironment("Startup:HealthCheckIntervalSeconds", healthCheckIntervalSeconds.ToString(System.Globalization.CultureInfo.InvariantCulture))
             .WithEnvironment("Startup:RetryCount", "12")
             .WithEnvironment("Startup:RetryDelayMs", "5000");
     }

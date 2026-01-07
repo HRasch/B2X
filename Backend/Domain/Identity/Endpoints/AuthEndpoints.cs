@@ -30,7 +30,7 @@ public static class AuthEndpoints
             Password = command.Password
         };
 
-        var result = await authService.LoginAsync(request);
+        var result = await authService.LoginAsync(request, ct).ConfigureAwait(false);
 
         return result.Match(
             onSuccess: (response, msg) =>
@@ -81,7 +81,7 @@ public static class AuthEndpoints
             return Results.Unauthorized();
         }
 
-        var result = await authService.RefreshTokenAsync(refreshToken);
+        var result = await authService.RefreshTokenAsync(refreshToken, ct).ConfigureAwait(false);
 
         return result.Match(
             onSuccess: (response, msg) =>

@@ -114,6 +114,8 @@ vue-mcp/check_accessibility filePath="src/components/LoginForm.vue"
 
 ### E2E Testing with Chrome DevTools MCP (Optional)
 
+**Reference**: See [KB-064] Chrome DevTools MCP Server.
+
 **Status**: Disabled by default (enable for advanced E2E testing)
 
 **Enable Chrome DevTools MCP**:
@@ -159,22 +161,122 @@ chrome-devtools-mcp/network-monitor enable=true
 
 ---
 
-### Security Testing Integration
+### Database MCP for Data Integrity Testing
 
-**Pre-Test Security Validation**:
+**Reference**: See [KB-057] Database MCP Usage Guide.
+
+**Database Test Validation**:
 ```bash
-# 1. Frontend security scan
-security-mcp/scan_xss_vulnerabilities workspacePath="frontend/Store"
+# Validate test database schema
+database-mcp/validate_schema connectionString="Server=localhost;Database=b2connect_test"
 
-# 2. Backend security scan  
-security-mcp/check_sql_injection workspacePath="backend"
-security-mcp/validate_input_sanitization workspacePath="backend"
+# Check test data migrations
+database-mcp/check_migrations workspacePath="backend" migrationPath="TestMigrations"
 
-# 3. Dependency vulnerability check
-security-mcp/scan_vulnerabilities workspacePath="."
+# Analyze test query performance
+database-mcp/analyze_queries workspacePath="backend/Domain" queryFile="TestQueries.cs"
+
+# Validate multi-tenant test setup
+database-mcp/validate_multitenancy workspacePath="backend" tenantConfig="appsettings.Testing.json"
 ```
 
-**Policy**: Security MCP must pass GREEN before running test suite
+### API Documentation MCP for Contract Testing
+
+**Reference**: See [KB-059] API Documentation MCP Usage Guide.
+
+**API Test Validation**:
+```bash
+# Validate OpenAPI specs for testing
+api-mcp/validate_openapi filePath="backend/Gateway/Store/openapi.yaml"
+
+# Check API contracts in tests
+api-mcp/validate_contracts workspacePath="backend/Gateway"
+
+# Detect breaking changes in test APIs
+api-mcp/check_breaking_changes oldSpec="v1.0/openapi.yaml" newSpec="v2.0/openapi.yaml"
+
+# Validate test API schemas
+api-mcp/validate_schemas workspacePath="backend"
+```
+
+### i18n MCP for Localization Testing
+
+**Reference**: See [KB-060] i18n MCP Usage Guide.
+
+**Localization Test Validation**:
+```bash
+# Validate translation keys in tests
+i18n-mcp/validate_translation_keys workspacePath="frontend/Store" localePath="locales"
+
+# Check missing translations in test data
+i18n-mcp/check_missing_translations workspacePath="frontend/Store" baseLocale="en"
+
+# Validate translation consistency in tests
+i18n-mcp/validate_consistency workspacePath="frontend/Store"
+
+# Check pluralization in test scenarios
+i18n-mcp/check_pluralization workspacePath="frontend/Store" locale="de"
+```
+
+### Monitoring MCP for Test Observability
+
+**Reference**: See [KB-061] Monitoring MCP Usage Guide.
+
+**Test Monitoring Setup**:
+```bash
+# Collect test execution metrics
+monitoring-mcp/collect_application_metrics serviceName="test-runner"
+
+# Monitor test environment performance
+monitoring-mcp/monitor_system_performance hostName="test-server-01"
+
+# Track test failures and errors
+monitoring-mcp/track_errors serviceName="test-suite"
+
+# Analyze test logs
+monitoring-mcp/analyze_logs filePath="logs/test-results.log"
+
+# Validate test health checks
+monitoring-mcp/validate_health_checks serviceName="test-services"
+```
+
+### Documentation MCP for Test Documentation
+
+**Reference**: See [KB-062] Documentation MCP Usage Guide.
+
+**Test Documentation Validation**:
+```bash
+# Validate test documentation
+docs-mcp/validate_documentation filePath="docs/testing/test-strategy.md"
+
+# Check links in test docs
+docs-mcp/check_links workspacePath="docs/testing"
+
+# Analyze test documentation quality
+docs-mcp/analyze_content_quality filePath="README.md"
+
+# Validate test documentation structure
+docs-mcp/validate_structure workspacePath="docs/testing"
+```
+
+### Docker MCP for Container Testing
+
+**Reference**: See Docker MCP tools in MCP Operations Guide.
+
+**Container Test Validation**:
+```bash
+# Validate test container images
+docker-mcp/check_container_security imageName="b2connect/test-runner:latest"
+
+# Analyze test Dockerfiles
+docker-mcp/analyze_dockerfile filePath="Dockerfile.test"
+
+# Check test Kubernetes manifests
+docker-mcp/validate_kubernetes_manifests filePath="k8s/test-deployment.yaml"
+
+# Monitor test container health
+docker-mcp/monitor_container_health containerName="test-runner"
+```
 
 ---
 

@@ -39,7 +39,7 @@ public class SmtpEmailService : IEmailService
             _logger.LogInformation("Sending email to {To} with subject '{Subject}'",
                 message.To, message.Subject);
 
-            await smtpClient.SendMailAsync(mailMessage, cancellationToken);
+            await smtpClient.SendMailAsync(mailMessage, cancellationToken).ConfigureAwait(false);
 
             result.Success = true;
             result.Status = EmailSendStatus.Sent;
@@ -53,7 +53,7 @@ public class SmtpEmailService : IEmailService
                 message.Id,
                 EmailEventType.Sent,
                 $"MessageId: {result.MessageId}",
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -68,7 +68,7 @@ public class SmtpEmailService : IEmailService
                 message.Id,
                 EmailEventType.Failed,
                 $"Error: {ex.Message}",
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
         }
 
         return result;
@@ -91,7 +91,7 @@ public class SmtpEmailService : IEmailService
             TemplateKey = "test"
         };
 
-        var result = await SendEmailAsync(testMessage, cancellationToken);
+        var result = await SendEmailAsync(testMessage, cancellationToken).ConfigureAwait(false);
 
         // Mark as test in monitoring
         if (_monitoringService != null)
@@ -100,7 +100,7 @@ public class SmtpEmailService : IEmailService
                 testMessage.Id,
                 result.Success ? EmailEventType.Sent : EmailEventType.Failed,
                 "[TEST EMAIL]",
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
         }
 
         return result;
@@ -164,20 +164,4 @@ public class SmtpEmailService : IEmailService
 
         return mailMessage;
     }
-}
-
-/// <summary>
-/// SMTP-Konfiguration
-/// </summary>
-public class SmtpSettings
-{
-    public string Host { get; set; } = "localhost";
-    public int Port { get; set; } = 587;
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public bool EnableSsl { get; set; } = true;
-    public int Timeout { get; set; } = 30000; // 30 seconds
-    public string FromEmail { get; set; } = string.Empty;
-    public string FromName { get; set; } = string.Empty;
-    public string Domain { get; set; } = "b2connect.local";
 }

@@ -286,7 +286,7 @@ public class UpdateAccessRequest
 public class ErpWebhookRequest
 {
     public string EventType { get; set; } = string.Empty;
-    public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
+    public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>(StringComparer.Ordinal);
 }
 
 // Domain Events (for Wolverine CQRS)
@@ -315,12 +315,12 @@ public record CustomerCreatedInErp
 {
     public Guid TenantId { get; init; }
     public string? ErpCustomerId { get; init; }
-    public Dictionary<string, object> CustomerData { get; init; } = new();
+    public Dictionary<string, object> CustomerData { get; init; } = new(StringComparer.Ordinal);
 }
 
 public record ProductUpdatedInErp
 {
     public Guid TenantId { get; init; }
     public string? ErpProductId { get; init; }
-    public Dictionary<string, object> ProductData { get; init; } = new();
+    public Dictionary<string, object> ProductData { get; init; } = new(StringComparer.Ordinal);
 }

@@ -236,7 +236,7 @@
 
           <div class="email-body">
             <label>Body:</label>
-            <div class="body-content" v-html="selectedEmail.body"></div>
+            <div class="body-content" v-html="safeEmailBody"></div>
           </div>
         </div>
       </div>
@@ -247,6 +247,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue';
 import { emailMonitoringService } from '@/services/emailMonitoringService';
+import { useSafeHtml } from '@/utils/sanitize';
 import type { EmailMessage } from '@/services/emailMonitoringService';
 
 // Types
@@ -276,6 +277,9 @@ const totalEmails = ref(0);
 // Sorting
 const sortField = ref<string>('createdAt');
 const sortDirection = ref<'asc' | 'desc'>('desc');
+
+// Computed properties
+const safeEmailBody = useSafeHtml(selectedEmail.value?.body || '');
 
 // Computed
 const totalPages = computed(() => Math.ceil(totalEmails.value / pageSize.value));

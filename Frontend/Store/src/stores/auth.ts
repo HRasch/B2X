@@ -1,13 +1,36 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { api } from '../services/api';
-import type { UserDto, AuthResponse } from '../types';
+import { api } from '~/services/api';
+import type { UserDto, AuthResponse } from '~/types';
+
+interface AuthCookieData {
+  accessToken: string;
+  refreshToken: string;
+  tenantId: string;
+  user: UserDto;
+}
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<UserDto | null>(null);
-  const accessToken = ref<string | null>(localStorage.getItem('access_token'));
-  const refreshToken = ref<string | null>(localStorage.getItem('refresh_token'));
-  const tenantId = ref<string | null>(localStorage.getItem('tenant_id'));
+  const accessToken = ref<string | null>(null);
+  const refreshToken = ref<string | null>(null);
+  const tenantId = ref<string | null>(null);
+
+  // Initialize from cookies on client-side
+  if (process.client) {
+    const cookies = useCookie('auth');
+    if (cookies.value) {
+      try {
+        const authData = JSON.parse(cookies.value as string) as AuthCookieData;
+        accessToken.value = authData.accessToken;
+        refreshToken.value = authData.refreshToken;
+        tenantId.value = authData.tenantId;
+        user.value = authData.user;
+      } catch (err) {
+        console.warn('Failed to parse auth cookie', err);
+      }
+    }
+  }
 
   const isAuthenticated = computed(() => !!accessToken.value);
 
@@ -32,9 +55,14 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = userData;
       tenantId.value = userData.tenantId;
 
-      localStorage.setItem('access_token', token);
-      localStorage.setItem('refresh_token', refresh);
-      localStorage.setItem('tenant_id', userData.tenantId);
+      // Store in cookies for SSR
+      const authCookie = useCookie('auth', { maxAge: 60 * 60 * 24 * 7 }); // 7 days
+      authCookie.value = JSON.stringify({
+        accessToken: token,
+        refreshToken: refresh,
+        tenantId: userData.tenantId,
+        user: userData,
+      });
 
       return true;
     } catch (error) {
@@ -49,9 +77,9 @@ export const useAuthStore = defineStore('auth', () => {
     refreshToken.value = null;
     tenantId.value = null;
 
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('tenant_id');
+    // Clear cookie
+    const authCookie = useCookie('auth');
+    authCookie.value = null;
   };
 
   const setUser = (userData: UserDto) => {

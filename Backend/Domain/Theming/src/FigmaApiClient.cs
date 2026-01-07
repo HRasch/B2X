@@ -59,10 +59,10 @@ public class FigmaApiClient : IFigmaApiClient
             using var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.figma.com/v1/files/{fileKey}");
             request.Headers.Add("X-Figma-Token", accessToken);
 
-            var response = await _httpClient.SendAsync(request, cancellationToken);
+            var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
-            var content = await response.Content.ReadAsStringAsync(cancellationToken);
+            var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             var fileData = JsonSerializer.Deserialize<FigmaFileData>(content, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -104,7 +104,7 @@ public class FigmaApiClient : IFigmaApiClient
             // Extract tokens from document structure
             foreach (var node in fileData.Nodes.Values)
             {
-                await ExtractTokensFromNodeAsync(node, tokens, "");
+                await ExtractTokensFromNodeAsync(node, tokens, "").ConfigureAwait(false);
             }
 
             // Extract from variables if available (Figma Variables API)
@@ -138,7 +138,7 @@ public class FigmaApiClient : IFigmaApiClient
         // Extract fills (colors)
         if (node.Fills != null && node.Fills.Any())
         {
-            foreach (var fill in node.Fills.Where(f => f.Type == "SOLID"))
+            foreach (var fill in node.Fills.Where(f => string.Equals(f.Type, "SOLID", StringComparison.Ordinal)))
             {
                 if (fill.Color != null)
                 {
@@ -159,7 +159,7 @@ public class FigmaApiClient : IFigmaApiClient
         // Extract strokes (border colors)
         if (node.Strokes != null && node.Strokes.Any())
         {
-            foreach (var stroke in node.Strokes.Where(s => s.Type == "SOLID"))
+            foreach (var stroke in node.Strokes.Where(s => string.Equals(s.Type, "SOLID", StringComparison.Ordinal)))
             {
                 if (stroke.Color != null)
                 {
@@ -178,7 +178,7 @@ public class FigmaApiClient : IFigmaApiClient
         }
 
         // Extract text styles
-        if (node.Type == "TEXT" && node.Style != null)
+        if (string.Equals(node.Type, "TEXT", StringComparison.Ordinal) && node.Style != null)
         {
             if (node.Style.FontSize.HasValue)
             {
@@ -225,7 +225,7 @@ public class FigmaApiClient : IFigmaApiClient
         {
             foreach (var child in node.Children)
             {
-                await ExtractTokensFromNodeAsync(child, tokens, currentPath);
+                await ExtractTokensFromNodeAsync(child, tokens, currentPath).ConfigureAwait(false);
             }
         }
     }

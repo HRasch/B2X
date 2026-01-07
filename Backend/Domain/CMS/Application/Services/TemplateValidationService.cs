@@ -31,7 +31,7 @@ public class TemplateValidationService : ITemplateValidationService
             template.TenantId,
             template.PageType,
             template.TemplateLayout,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<TemplateValidationResult> ValidateTemplateContentAsync(
@@ -63,7 +63,7 @@ public class TemplateValidationService : ITemplateValidationService
         stopwatch.Stop();
         result.ExecutionTimeMs = stopwatch.ElapsedMilliseconds;
 
-        return await Task.FromResult(result);
+        return await Task.FromResult(result).ConfigureAwait(false);
     }
 
     public async Task<List<AiSuggestion>> GetSuggestionsAsync(
@@ -85,7 +85,7 @@ public class TemplateValidationService : ITemplateValidationService
             });
         }
 
-        return await Task.FromResult(suggestions);
+        return await Task.FromResult(suggestions).ConfigureAwait(false);
     }
 
     public async Task RecordSuggestionFeedbackAsync(
@@ -97,6 +97,6 @@ public class TemplateValidationService : ITemplateValidationService
             "Recorded suggestion feedback: SuggestionId={SuggestionId}, Accepted={Accepted}",
             suggestionId, accepted);
 
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }

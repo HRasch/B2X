@@ -21,10 +21,7 @@
         "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:4317",
         "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true",
         "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
-        "Database__Provider": "inmemory",
-        "Jwt__Secret": "dev-jwt-secret-minimum-32-characters-required!!!",
-        "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
-        "Azure__KeyVault__UseMocked": "true"
+        "Database__Provider": "inmemory"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
@@ -46,10 +43,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
         "Database__Provider": "postgres",
-        "Database__Password": "postgres",
-        "Redis__Password": "",
-        "Elasticsearch__Password": "elastic",
-        "RabbitMQ__Password": "guest",
         "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
         "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
       },

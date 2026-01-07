@@ -31,12 +31,14 @@ public static class CmsTestDataSeeder
             Name = "header",
             Order = 1,
             RegionSettings = new Dictionary<string, object>
+(StringComparer.Ordinal)
             {
                 { "padding", "0" }
             }
         };
 
         headerRegion.AddWidget("hero-banner", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "title", "Welcome to B2Connect" },
             { "subtitle", "Discover amazing products at great prices" },
@@ -55,12 +57,14 @@ public static class CmsTestDataSeeder
             Name = "main",
             Order = 2,
             RegionSettings = new Dictionary<string, object>
+(StringComparer.Ordinal)
             {
                 { "padding", "2rem" }
             }
         };
 
         mainRegion.AddWidget("feature-grid", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "title", "Why Shop With Us?" },
             { "columns", "3" },
@@ -68,19 +72,19 @@ public static class CmsTestDataSeeder
                 "features", new List<object>
                 {
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "icon", "🚚" },
                         { "title", "Free Shipping" },
                         { "description", "On orders over $100" }
                     },
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "icon", "💳" },
                         { "title", "Secure Payment" },
                         { "description", "100% encrypted transactions" }
                     },
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "icon", "⭐" },
                         { "title", "Quality Guaranteed" },
                         { "description", "Premium products only" }
@@ -90,6 +94,7 @@ public static class CmsTestDataSeeder
         });
 
         var productWidget1 = mainRegion.AddWidget("product-grid", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "title", "Featured Products" },
             { "columns", "3" },
@@ -99,6 +104,7 @@ public static class CmsTestDataSeeder
         });
 
         mainRegion.AddWidget("testimonials", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "title", "What Our Customers Say" },
             { "autoplay", true },
@@ -107,19 +113,19 @@ public static class CmsTestDataSeeder
                 "testimonials", new List<object>
                 {
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "text", "Best shopping experience I've had! Fast shipping and excellent quality." },
                         { "author", "Sarah Johnson" },
                         { "title", "Verified Buyer" }
                     },
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "text", "Great products, friendly customer service, and fair prices." },
                         { "author", "Mike Chen" },
                         { "title", "Verified Buyer" }
                     },
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "text", "Highly recommend! The quality exceeded my expectations." },
                         { "author", "Emma Wilson" },
                         { "title", "Verified Buyer" }
@@ -136,12 +142,14 @@ public static class CmsTestDataSeeder
             Name = "footer",
             Order = 3,
             RegionSettings = new Dictionary<string, object>
+(StringComparer.Ordinal)
             {
                 { "padding", "2rem" }
             }
         };
 
         footerRegion.AddWidget("call-to-action", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "heading", "Ready to Start Shopping?" },
             { "description", "Browse our collection and find exactly what you're looking for." },
@@ -151,6 +159,7 @@ public static class CmsTestDataSeeder
         });
 
         footerRegion.AddWidget("newsletter-signup", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "heading", "Subscribe to Our Newsletter" },
             { "placeholder", "Enter your email address" },
@@ -184,6 +193,7 @@ public static class CmsTestDataSeeder
         };
 
         headerRegion.AddWidget("hero-banner", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "title", "Our Products" },
             { "subtitle", "Find exactly what you need" },
@@ -201,6 +211,7 @@ public static class CmsTestDataSeeder
         };
 
         mainRegion.AddWidget("product-grid", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "title", "" },
             { "columns", "2" },
@@ -220,6 +231,7 @@ public static class CmsTestDataSeeder
         };
 
         sidebarRegion.AddWidget("call-to-action", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "heading", "Need Help?" },
             { "description", "Our customer service team is here to assist you." },
@@ -254,6 +266,7 @@ public static class CmsTestDataSeeder
         };
 
         mainRegion.AddWidget("hero-banner", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "title", "About B2Connect" },
             { "subtitle", "Our Story and Vision" },
@@ -262,6 +275,7 @@ public static class CmsTestDataSeeder
         });
 
         mainRegion.AddWidget("text-block", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             {
                 "content", @"<h2>Our Mission</h2>
@@ -280,6 +294,7 @@ We believe in creating value for our customers through innovation, reliability, 
         });
 
         mainRegion.AddWidget("feature-grid", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             { "title", "Our Achievements" },
             { "columns", "3" },
@@ -287,19 +302,19 @@ We believe in creating value for our customers through innovation, reliability, 
                 "features", new List<object>
                 {
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "icon", "👥" },
                         { "title", "50K+ Customers" },
                         { "description", "Trusted by thousands worldwide" }
                     },
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "icon", "📦" },
                         { "title", "100K+ Orders" },
                         { "description", "Successfully delivered" }
                     },
                     new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "icon", "⭐" },
                         { "title", "4.8/5 Rating" },
                         { "description", "Average customer rating" }
@@ -334,6 +349,7 @@ We believe in creating value for our customers through innovation, reliability, 
         };
 
         mainRegion.AddWidget("text-block", new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             {
                 "content", @"<h1>Contact Us</h1>
@@ -462,7 +478,7 @@ public static class CmsWidgetSeeder
                     DisplayOrder = 2,
                     DefaultValue = "3",
                     Metadata = new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "options", value }
                     }
                 },
@@ -476,7 +492,7 @@ public static class CmsWidgetSeeder
                     DisplayOrder = 4,
                     DefaultValue = "newest",
                     Metadata = new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "options", new[] { "newest", "popular", "price-asc", "price-desc", "rating" } }
                     }
                 }
@@ -515,7 +531,7 @@ public static class CmsWidgetSeeder
                     DisplayOrder = 3,
                     DefaultValue = "3",
                     Metadata = new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "options", ColumnOptions }
                     }
                 }
@@ -662,7 +678,7 @@ public static class CmsWidgetSeeder
                     DisplayOrder = 3,
                     DefaultValue = "16:9",
                     Metadata = new Dictionary<string, object>
-                    {
+(StringComparer.Ordinal) {
                         { "options", AspectRatioOptions }
                     }
                 }

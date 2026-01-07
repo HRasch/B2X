@@ -1,7 +1,9 @@
 using System.Text.Json;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -58,6 +60,22 @@ public static class Extensions
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
 
+            // Rate limiting - simplified implementation
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                options.OnRejected = async (context, token) =>
+                {
+                    context.HttpContext.Response.ContentType = "application/json";
+                    await context.HttpContext.Response.WriteAsync("{\"error\":\"Rate limit exceeded. Please try again later.\"}", token).ConfigureAwait(false);
+                };
+            });
+
+            // Input validation with FluentValidation
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+
             services.AddLogging(logging =>
             {
                 logging.AddConsole();
@@ -71,6 +89,9 @@ public static class Extensions
     {
         // Add long-running request detection early in the pipeline
         // app.UseLongRunningRequestDetection(); // Temporarily disabled for debugging
+
+        // Rate limiting
+        app.UseRateLimiter();
 
         // Standard health check endpoints per ADR-025
         app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
@@ -119,7 +140,7 @@ public static class Extensions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true
-        }));
+        })).ConfigureAwait(false);
     }
 
     /// <summary>

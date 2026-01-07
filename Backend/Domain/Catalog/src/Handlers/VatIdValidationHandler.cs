@@ -61,66 +61,86 @@ public class VatIdValidationHandler
         try
         {
             // Validate request
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
             if (!validationResult.IsValid)
             {
-                _logger.LogWarning("VAT validation request invalid: {Errors}",
-                    string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage)));
-
-                return new ValidateVatIdResponse
-                {
-                    IsValid = false,
-                    Message = "Invalid request: " + string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage)),
-                    ExpiresAt = DateTime.UtcNow.AddDays(1)
-                };
+                return CreateInvalidRequestResponse(validationResult.Errors);
             }
 
             // Validate VAT ID via VIES
             var validation = await _vatService.ValidateVatIdAsync(
                 request.CountryCode,
                 request.VatNumber,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             // Determine reverse charge
-            var reverseChargeApplies = false;
-            if (!string.IsNullOrWhiteSpace(request.BuyerCountry) && !string.IsNullOrWhiteSpace(request.SellerCountry))
-            {
-                reverseChargeApplies = _vatService.ShouldApplyReverseCharge(
-                    validation,
-                    request.BuyerCountry,
-                    request.SellerCountry);
-            }
+            var reverseChargeApplies = DetermineReverseCharge(validation, request);
 
-            var response = new ValidateVatIdResponse
-            {
-                IsValid = validation.IsValid,
-                VatId = validation.VatId,
-                CompanyName = validation.CompanyName,
-                CompanyAddress = validation.CompanyAddress,
-                ReverseChargeApplies = reverseChargeApplies,
-                Message = validation.IsValid
-                    ? (reverseChargeApplies
-                        ? "Reverse charge applies - 0% VAT"
-                        : "Valid VAT ID - standard VAT applies")
-                    : "Invalid VAT ID",
-                ExpiresAt = validation.ExpiresAt
-            };
-
-            _logger.LogInformation("VAT validation response: IsValid={IsValid}, ReverseCharge={ReverseCharge}",
-                response.IsValid, response.ReverseChargeApplies);
-
-            return response;
+            return CreateValidationResponse(validation, reverseChargeApplies);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error during VAT validation");
-
-            return new ValidateVatIdResponse
-            {
-                IsValid = false,
-                Message = "An error occurred during validation. Please try again later.",
-                ExpiresAt = DateTime.UtcNow.AddHours(1)
-            };
+            return CreateErrorResponse();
         }
+    }
+
+    private ValidateVatIdResponse CreateInvalidRequestResponse(IEnumerable<FluentValidation.Results.ValidationFailure> errors)
+    {
+        var errorMessage = string.Join("; ", errors.Select(e => e.ErrorMessage));
+        _logger.LogWarning("VAT validation request invalid: {Errors}", errorMessage);
+
+        return new ValidateVatIdResponse
+        {
+            IsValid = false,
+            Message = "Invalid request: " + errorMessage,
+            ExpiresAt = DateTime.UtcNow.AddDays(1)
+        };
+    }
+
+    private bool DetermineReverseCharge(VatValidationResult validation, ValidateVatIdRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.BuyerCountry) || string.IsNullOrWhiteSpace(request.SellerCountry))
+        {
+            return false;
+        }
+
+        return _vatService.ShouldApplyReverseCharge(
+            validation,
+            request.BuyerCountry,
+            request.SellerCountry);
+    }
+
+    private ValidateVatIdResponse CreateValidationResponse(VatValidationResult validation, bool reverseChargeApplies)
+    {
+        var response = new ValidateVatIdResponse
+        {
+            IsValid = validation.IsValid,
+            VatId = validation.VatId,
+            CompanyName = validation.CompanyName,
+            CompanyAddress = validation.CompanyAddress,
+            ReverseChargeApplies = reverseChargeApplies,
+            Message = validation.IsValid
+                ? (reverseChargeApplies
+                    ? "Reverse charge applies - 0% VAT"
+                    : "Valid VAT ID - standard VAT applies")
+                : "Invalid VAT ID",
+            ExpiresAt = validation.ExpiresAt
+        };
+
+        _logger.LogInformation("VAT validation response: IsValid={IsValid}, ReverseCharge={ReverseCharge}",
+            response.IsValid, response.ReverseChargeApplies);
+
+        return response;
+    }
+
+    private static ValidateVatIdResponse CreateErrorResponse()
+    {
+        return new ValidateVatIdResponse
+        {
+            IsValid = false,
+            Message = "An error occurred during validation. Please try again later.",
+            ExpiresAt = DateTime.UtcNow.AddHours(1)
+        };
     }
 }

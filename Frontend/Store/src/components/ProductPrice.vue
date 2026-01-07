@@ -78,22 +78,22 @@ const formatPrice = (price: number, currency: string = 'EUR') => {
     <div v-if="error" class="text-red-600 text-sm">{{ error }}</div>
 
     <!-- Loading State -->
-    <div v-if="isLoading" class="text-gray-400 text-sm">{{ $t('product.price.calculating') }}</div>
+    <div v-if="isLoading" class="text-gray-400 text-sm">Berechne Preis...</div>
 
     <!-- Price Breakdown (Details) -->
     <div v-if="showBreakdown && breakdown && !isLoading" class="border-t pt-2 text-sm">
       <div class="flex justify-between text-gray-700">
-        <span>{{ $t('product.price.productPrice') }}</span>
+        <span>Produktpreis:</span>
         <span>{{ formatPrice(breakdown.productPrice, currencyCode) }}</span>
       </div>
 
       <div v-if="breakdown.shippingCost > 0" class="flex justify-between text-gray-700">
-        <span>{{ $t('product.price.shipping') }}</span>
+        <span>Versand:</span>
         <span>{{ formatPrice(breakdown.shippingCost, currencyCode) }}</span>
       </div>
 
       <div class="flex justify-between font-semibold border-t mt-1 pt-1">
-        <span>{{ $t('product.price.subtotalExclVat') }}</span>
+        <span>Summe (ohne MwSt.):</span>
         <span>{{
           formatPrice(breakdown.productPrice + (breakdown.shippingCost || 0), currencyCode)
         }}</span>
@@ -105,7 +105,7 @@ const formatPrice = (price: number, currency: string = 'EUR') => {
       </div>
 
       <div class="flex justify-between font-bold border-t mt-1 pt-1 text-lg">
-        <span>{{ $t('product.price.totalPrice') }}</span>
+        <span>Gesamtpreis:</span>
         <span>{{ formatPrice(breakdown.finalTotal, currencyCode) }}</span>
       </div>
     </div>

@@ -4,6 +4,7 @@
  * Phase 1 MVP
  */
 import { computed } from 'vue';
+import { useSafeHtml } from '@/utils/sanitize';
 import type { TextWidgetConfig, ResponsiveValue, Alignment } from '@/types/widgets';
 
 interface Props {
@@ -40,6 +41,8 @@ const containerStyle = computed(() => ({
   maxWidth: props.config.maxWidth || 'none',
 }));
 
+const safeContent = useSafeHtml(props.config.content || '');
+
 const containerClass = computed(() => [
   'widget-text',
   `text-${alignment.value}`,
@@ -61,13 +64,13 @@ function handleContentUpdate(event: Event) {
       v-if="isEditing"
       class="widget-text__content widget-text__content--editable"
       contenteditable="true"
-      v-html="config.content"
+      v-html="safeContent"
       @blur="handleContentUpdate"
       @keydown.enter.prevent
     />
 
     <!-- Display mode: static HTML -->
-    <div v-else class="widget-text__content" v-html="config.content" />
+    <div v-else class="widget-text__content" v-html="safeContent" />
   </div>
 </template>
 

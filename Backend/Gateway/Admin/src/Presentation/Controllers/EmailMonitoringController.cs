@@ -105,7 +105,7 @@ public class EmailMonitoringController : ApiControllerBase
             .GroupBy(e => e.EventType)
             .ToDictionary(
                 g => g.Key.ToString(),
-                g => g.Count());
+                g => g.Count(), StringComparer.Ordinal);
 
         return Ok(stats);
     }

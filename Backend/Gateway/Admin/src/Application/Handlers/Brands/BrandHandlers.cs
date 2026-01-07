@@ -43,7 +43,7 @@ public class CreateBrandHandler : ICommandHandler<CreateBrandCommand, BrandResul
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<BrandResult> Handle(CreateBrandCommand command, CancellationToken ct)
+    public async Task<BrandResult> Handle(CreateBrandCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -76,7 +76,7 @@ public class CreateBrandHandler : ICommandHandler<CreateBrandCommand, BrandResul
             CreatedAt = DateTime.UtcNow
         };
 
-        await _repository.AddAsync(brand, ct);
+        await _repository.AddAsync(brand, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Brand {BrandId} created successfully", brand.Id);
 
@@ -103,7 +103,7 @@ public class UpdateBrandHandler : ICommandHandler<UpdateBrandCommand, BrandResul
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<BrandResult> Handle(UpdateBrandCommand command, CancellationToken ct)
+    public async Task<BrandResult> Handle(UpdateBrandCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -111,7 +111,7 @@ public class UpdateBrandHandler : ICommandHandler<UpdateBrandCommand, BrandResul
             "Updating brand {BrandId} for tenant {TenantId}",
             command.BrandId, tenantId);
 
-        var brand = await _repository.GetByIdAsync(tenantId, command.BrandId, ct);
+        var brand = await _repository.GetByIdAsync(tenantId, command.BrandId, cancellationToken).ConfigureAwait(false);
         if (brand == null)
         {
             throw new KeyNotFoundException($"Brand {command.BrandId} not found");
@@ -126,7 +126,7 @@ public class UpdateBrandHandler : ICommandHandler<UpdateBrandCommand, BrandResul
             : null;
         brand.UpdatedAt = DateTime.UtcNow;
 
-        await _repository.UpdateAsync(brand, ct);
+        await _repository.UpdateAsync(brand, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Brand {BrandId} updated successfully", command.BrandId);
 
@@ -153,7 +153,7 @@ public class DeleteBrandHandler : ICommandHandler<DeleteBrandCommand, bool>
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<bool> Handle(DeleteBrandCommand command, CancellationToken ct)
+    public async Task<bool> Handle(DeleteBrandCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -161,13 +161,13 @@ public class DeleteBrandHandler : ICommandHandler<DeleteBrandCommand, bool>
             "Deleting brand {BrandId} from tenant {TenantId}",
             command.BrandId, tenantId);
 
-        var brand = await _repository.GetByIdAsync(tenantId, command.BrandId, ct);
+        var brand = await _repository.GetByIdAsync(tenantId, command.BrandId, cancellationToken).ConfigureAwait(false);
         if (brand == null)
         {
             return false;
         }
 
-        await _repository.DeleteAsync(tenantId, command.BrandId, ct);
+        await _repository.DeleteAsync(tenantId, command.BrandId, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Brand {BrandId} deleted successfully", command.BrandId);
         return true;
@@ -188,10 +188,10 @@ public class GetBrandHandler : IQueryHandler<GetBrandQuery, BrandResult?>
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<BrandResult?> Handle(GetBrandQuery query, CancellationToken ct)
+    public async Task<BrandResult?> Handle(GetBrandQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var brand = await _repository.GetByIdAsync(tenantId, query.BrandId, ct);
+        var brand = await _repository.GetByIdAsync(tenantId, query.BrandId, cancellationToken).ConfigureAwait(false);
 
         if (brand == null)
         {
@@ -216,10 +216,10 @@ public class GetBrandBySlugHandler : IQueryHandler<GetBrandBySlugQuery, BrandRes
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<BrandResult?> Handle(GetBrandBySlugQuery query, CancellationToken ct)
+    public async Task<BrandResult?> Handle(GetBrandBySlugQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var brand = await _repository.GetBySlugAsync(tenantId, query.Slug, ct);
+        var brand = await _repository.GetBySlugAsync(tenantId, query.Slug, cancellationToken).ConfigureAwait(false);
 
         if (brand == null)
         {
@@ -244,10 +244,10 @@ public class GetActiveBrandsHandler : IQueryHandler<GetActiveBrandsQuery, IEnume
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<BrandResult>> Handle(GetActiveBrandsQuery query, CancellationToken ct)
+    public async Task<IEnumerable<BrandResult>> Handle(GetActiveBrandsQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var brands = await _repository.GetActiveBrandsAsync(tenantId, ct);
+        var brands = await _repository.GetActiveBrandsAsync(tenantId, cancellationToken).ConfigureAwait(false);
 
         return brands.Select(BrandMapper.ToResult);
     }
@@ -267,14 +267,14 @@ public class GetBrandsPagedHandler : IQueryHandler<GetBrandsPagedQuery, (IEnumer
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<(IEnumerable<BrandResult>, int)> Handle(GetBrandsPagedQuery query, CancellationToken ct)
+    public async Task<(IEnumerable<BrandResult>, int)> Handle(GetBrandsPagedQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
         var (brands, total) = await _repository.GetPagedAsync(
             tenantId,
             query.PageNumber,
             query.PageSize,
-            ct);
+            cancellationToken).ConfigureAwait(false);
 
         var results = brands.Select(BrandMapper.ToResult);
 
