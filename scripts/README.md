@@ -80,3 +80,68 @@ Nur bei Edge-Cases (Crashes, Force-Stops) das manuelle Script verwenden.
 | Aspire Dashboard nicht erreichbar | Kill-Script ausführen und erneut starten |
 | Service-Prozess hängt | `./scripts/kill-all-services.sh` |
 | DCP-Controller blockiert | Force-kill über Neubau oder Rechner-Neustart |
+
+## ❤️ Heartbeat-System (Produktion)
+
+Das Heartbeat-System überwacht kontinuierlich die Gesundheit der Backend-Services und führt automatische Neustarts bei Fehlern durch.
+
+### Setup
+
+1. **Slack-Webhook konfigurieren:**
+   - Erstelle einen Slack-Webhook in deinem Workspace
+   - Setze die URL als Environment-Variable: `export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK"`
+
+2. **Systemd Service einrichten (empfohlen für Linux-Produktion):**
+   ```bash
+   # Service-Datei kopieren
+   sudo cp scripts/b2connect-heartbeat.service /etc/systemd/system/
+   sudo cp scripts/b2connect-heartbeat.timer /etc/systemd/system/
+
+   # Pfade anpassen in der .service Datei:
+   # - WorkingDirectory=/path/to/B2Connect
+   # - ExecStart=/path/to/B2Connect/scripts/runtime-health-check.sh ...
+   # - User=b2connect (oder entsprechender User)
+
+   # Service aktivieren und starten
+   sudo systemctl daemon-reload
+   sudo systemctl enable b2connect-heartbeat.timer
+   sudo systemctl start b2connect-heartbeat.timer
+   ```
+
+3. **Cron-Job Alternative (falls systemd nicht verfügbar):**
+   ```bash
+   # Cron-Job hinzufügen (zwei Einträge für 30s Intervall)
+   crontab -e
+   # Füge hinzu:
+   * * * * * /path/to/B2Connect/scripts/runtime-health-check.sh --heartbeat --slack-webhook https://hooks.slack.com/services/YOUR/WEBHOOK
+   * * * * * sleep 30; /path/to/B2Connect/scripts/runtime-health-check.sh --heartbeat --slack-webhook https://hooks.slack.com/services/YOUR/WEBHOOK
+   ```
+
+### Testen in Staging
+
+1. **Staging-Umgebung starten:**
+   ```bash
+   # Services in Staging starten
+   ./scripts/start-aspire.sh
+   ```
+
+2. **Heartbeat testen:**
+   ```bash
+   # Einzel-Check
+   ./scripts/runtime-health-check.sh
+
+   # Heartbeat-Modus (für Test)
+   timeout 120 ./scripts/runtime-health-check.sh --heartbeat --slack-webhook YOUR_TEST_WEBHOOK
+   ```
+
+3. **Logs prüfen:**
+   ```bash
+   journalctl -u b2connect-heartbeat.service -f  # Für systemd
+   # Oder Script-Output direkt
+   ```
+
+### Monitoring
+
+- **Systemd:** `systemctl status b2connect-heartbeat.timer`
+- **Logs:** `journalctl -u b2connect-heartbeat.service`
+- **Slack-Alerts:** Bei Fehlern werden automatische Benachrichtigungen gesendet
