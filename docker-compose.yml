@@ -1,4 +1,6 @@
-﻿services:
+﻿name: B2X
+
+services:
   # ==================== INFRASTRUCTURE ====================
 
   # PostgreSQL Database

@@ -5,7 +5,7 @@ Dev Node Access Script - Connect to optional high-performance development PC.
 This script provides utilities to interact with a local network development node
 running Ollama, Docker, and WSL for AI/ML acceleration and containerized workflows.
 
-Configuration is stored in ~/.b2connect-dev-node.json (NOT in repository).
+Configuration is stored in ~/.b2x-dev-node.json (NOT in repository).
 Use 'dev-node.py configure' to set up your local config.
 
 Usage:
@@ -34,7 +34,7 @@ import urllib.request
 import urllib.error
 
 # Config file location (user home, NOT in repository)
-CONFIG_FILE = Path.home() / ".b2connect-dev-node.json"
+CONFIG_FILE = Path.home() / ".b2x-dev-node.json"
 
 # Default ports
 DEFAULT_OLLAMA_PORT = 11434
@@ -98,7 +98,7 @@ def configure_node(args):
         "ssh_port": ssh_port,
         "ssh_user": ssh_user,
         "docker_port": existing.get("docker_port", DEFAULT_DOCKER_PORT),
-        "description": "B2Connect Dev Node (RTX 5090, 64GB DDR5, Ollama/Docker/WSL)",
+        "description": "B2X Dev Node (RTX 5090, 64GB DDR5, Ollama/Docker/WSL)",
         "configured_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
 
@@ -282,7 +282,7 @@ def docker_command(args):
         return 1
 
     ssh_cmd = f"ssh -o ConnectTimeout=5 -p {config['ssh_port']} {config['ssh_user']}@{config['ip']}"
-    compose_dir = config.get("compose_dir", "~/b2connect-dev-node")
+    compose_dir = config.get("compose_dir", "~/b2x-dev-node")
 
     if args.docker_cmd == "ps":
         cmd = f"{ssh_cmd} docker ps --format 'table {{{{.Names}}}}\\t{{{{.Status}}}}\\t{{{{.Ports}}}}'"
@@ -348,7 +348,7 @@ def deploy_command(args):
     ip = config["ip"]
     ssh_port = config["ssh_port"]
     ssh_user = config["ssh_user"]
-    compose_dir = config.get("compose_dir", "~/b2connect-dev-node")
+    compose_dir = config.get("compose_dir", "~/b2x-dev-node")
 
     print(f"🚀 Deploying dev node stack to {ip}...")
     print("=" * 40)
@@ -448,7 +448,7 @@ def benchmark(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="B2Connect Dev Node Access Script",
+        description="B2X Dev Node Access Script",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )

@@ -133,5 +133,5 @@ Thumbs.db
 .dotnet-tools.json.user
 
 # Dev Node Configuration (local network secrets)
-.b2connect-dev-node.json
+.b2x-dev-node.json
 **/dev-node.local.json
