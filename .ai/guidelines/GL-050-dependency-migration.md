@@ -2,7 +2,7 @@
 docid: GL-050
 title: Dependency Migration Guideline
 owner: @TechLead
-status: Draft
+status: Active
 ---
 
 **Purpose**
