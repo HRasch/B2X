@@ -18,9 +18,96 @@ The Testing MCP provides comprehensive test execution, analysis, and quality ass
 
 - **xUnit**: Primary unit testing framework (.NET)
 - **Jest**: JavaScript/TypeScript testing
+- **Vitest**: Modern Vue/Nuxt testing framework
 - **Playwright**: End-to-end testing
 - **Shouldly**: Assertion library
 - **Moq**: Mocking framework
+
+### Vue/Nuxt Testing with Vitest
+
+**Composable Mocking Strategy**:
+```typescript
+// tests/setup.ts
+import { vi } from 'vitest';
+import { ref } from 'vue';
+
+// Nuxt composables - use vi.stubGlobal for auto-imports
+vi.stubGlobal('useCookie', vi.fn(() => ref(null)));
+vi.stubGlobal('useHead', vi.fn());
+vi.stubGlobal('navigateTo', vi.fn());
+
+// Async data composables
+vi.stubGlobal('useAsyncData', vi.fn(() => ({
+  data: ref(null),
+  pending: ref(false),
+  error: ref(null),
+  refresh: vi.fn()
+})));
+
+// i18n setup for internationalized components
+vi.stubGlobal('useI18n', vi.fn(() => ({
+  t: vi.fn((key: string) => key),
+  locale: ref('en')
+})));
+```
+
+**Component Testing Setup**:
+```typescript
+// tests/components/Component.spec.ts
+import { mount } from '@vue/test-utils';
+import { createI18n } from 'vue-i18n';
+
+const i18n = createI18n({
+  legacy: false,
+  locale: 'en',
+  messages: { en: { /* mock translations */ } }
+});
+
+const createWrapper = (component: any, options = {}) => {
+  return mount(component, {
+    global: {
+      plugins: [i18n],
+      stubs: ['NuxtLink', 'NuxtImg'],
+      ...options.global,
+    },
+  });
+};
+```
+
+**Quality Check Integration**:
+```json
+// package.json scripts
+{
+  "quality-check": "npm run type-check && npm run lint-check && npm run test:coverage",
+  "type-check": "nuxt typecheck",
+  "lint-check": "eslint . --ext .ts,.vue",
+  "test:coverage": "vitest run --coverage"
+}
+```
+
+**Coverage Configuration**:
+```typescript
+// vitest.config.ts
+export default defineConfig({
+  test: {
+    environment: 'happy-dom',
+    setupFiles: ['./tests/setup.ts'],
+    coverage: {
+      include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+      exclude: ['node_modules/**', '.nuxt/**', 'dist/**'],
+      reporter: ['text', 'html', 'json'],
+      thresholds: {
+        global: {
+          statements: 80,
+          branches: 75,
+          functions: 80,
+          lines: 80
+        }
+      }
+    },
+  },
+});
+```
 
 ---
 

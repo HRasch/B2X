@@ -661,6 +661,130 @@ vue-mcp/check_responsive_design filePath="src/components/ProductCard.vue"
 
 ---
 
+## PostCSS and Tailwind CSS Configuration
+
+### ES Module PostCSS Configuration (Tailwind v4)
+
+**Critical for Tailwind v4**: Use ES module syntax in PostCSS configuration.
+
+**Issue**: CommonJS `module.exports` fails in Tailwind v4 environment.
+
+**Solution**: Convert to ES module exports:
+```javascript
+// postcss.config.js - BEFORE (CommonJS - fails in v4)
+module.exports = {
+  plugins: [tailwindcss, autoprefixer]
+};
+
+// postcss.config.js - AFTER (ES modules - works with v4)
+export default {
+  plugins: [tailwindcss, autoprefixer]
+};
+```
+
+**Migration Benefits**:
+- ✅ **Framework Compatibility**: Matches Tailwind v4's ES module requirements
+- ✅ **Build Stability**: Eliminates PostCSS configuration errors
+- ✅ **Future Proofing**: Compatible with modern build tools
+- ✅ **Type Safety**: Better IDE support and error detection
+
+### Tailwind CSS Import Path Resolution
+
+**Issue**: CSS imports failing due to incorrect relative paths in monorepo structures.
+
+**Root Cause**: Asset paths not accounting for nested frontend directory structure.
+
+**Solution**: Use root-relative paths for shared assets:
+```css
+/* BEFORE - Incorrect relative path */
+@import "../../../assets/css/main.css";
+
+/* AFTER - Root-relative path */
+@import "~/assets/css/main.css";
+```
+
+**Path Resolution Benefits**:
+- ✅ **Monorepo Compatibility**: Works regardless of nesting depth
+- ✅ **Build Tool Integration**: Leverages Nuxt/Vite path resolution
+- ✅ **Maintainability**: No path updates needed when moving files
+- ✅ **Convention Alignment**: Follows Nuxt path alias conventions
+
+### CSS Import Strategy for DaisyUI
+
+**Issue**: DaisyUI components not applying styles despite being installed.
+
+**Root Cause**: Incorrect CSS import path for DaisyUI v5.
+
+**Solution**: Use the correct import path:
+```css
+/* CORRECT for DaisyUI v5 */
+@import "../../node_modules/daisyui/daisyui.css";
+
+/* INCORRECT (doesn't exist) */
+@import "../../node_modules/daisyui/dist/full.css";
+```
+
+**Version-Specific Imports**:
+- **DaisyUI v4**: `@import "daisyui/dist/full.css";`
+- **DaisyUI v5**: `@import "daisyui/daisyui.css";`
+
+### PostCSS Plugin Version Matching
+
+**Issue**: Using wrong PostCSS plugin for Tailwind CSS version causing build errors.
+
+**Root Cause**: Tailwind CSS v3.x installed but using `@tailwindcss/postcss` (v4 plugin).
+
+**Critical Configuration Error**:
+```javascript
+// WRONG - Causes "unknown utility class" errors
+import tailwindcss from '@tailwindcss/postcss'; // v4 plugin
+
+// CORRECT - Use v3 plugin for Tailwind CSS v3.x
+import tailwindcss from 'tailwindcss';
+
+// nuxt.config.ts
+vite: {
+  css: {
+    postcss: {
+      plugins: [tailwindcss, autoprefixer]
+    }
+  }
+}
+```
+
+**Detection**: Error message explicitly mentions missing `@reference` directive, which is a v4-only feature.
+
+### CSS Build Optimization
+
+**Issue**: Large CSS bundles due to unused Tailwind classes.
+
+**Solution**: Configure content paths for proper tree-shaking:
+```javascript
+// tailwind.config.js
+export default {
+  content: [
+    "./components/**/*.{js,vue,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./nuxt.config.{js,ts}",
+    "./app.vue"
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+**Optimization Benefits**:
+- ✅ **Bundle Size**: Eliminates unused CSS classes
+- ✅ **Build Performance**: Faster compilation
+- ✅ **Maintenance**: Automatic content detection
+- ✅ **Production Ready**: Optimized for deployment
+
+---
+
 ## Troubleshooting
 
 ### Accessibility False Positives

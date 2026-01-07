@@ -143,6 +143,153 @@ Focus: types
 - **CI/CD Integration**: Include MCP checks in build pipeline
 - **IDE Integration**: Leverage VS Code MCP extension capabilities
 
+## Vue/Nuxt Testing Integration
+
+### Composable Mocking Strategies
+
+**Critical for Vue Testing**: Proper mocking of Nuxt auto-imported composables is essential for reliable component testing.
+
+#### useCookie Mocking (Vitest)
+
+**Issue**: `useCookie` returns plain objects instead of Vue refs, causing JSON parsing errors.
+
+**Solution**: Use `vi.stubGlobal()` for proper Vue reactivity:
+
+```typescript
+// tests/setup.ts - CORRECT approach
+import { vi } from 'vitest';
+import { ref } from 'vue';
+
+// Proper composable mocking
+vi.stubGlobal('useCookie', vi.fn(() => ref(null)));
+vi.stubGlobal('useHead', vi.fn());
+vi.stubGlobal('navigateTo', vi.fn());
+
+// Auth store compatibility
+vi.stubGlobal('useCookie', vi.fn((name: string) => {
+  if (name === 'auth') {
+    // Return proper ref for auth cookie
+    return ref(process.env.NODE_ENV === 'test' ? null : undefined);
+  }
+  return ref(null);
+}));
+```
+
+**Benefits**:
+- ✅ **Vue Reactivity**: Returns proper `ref()` objects
+- ✅ **Type Safety**: Maintains TypeScript compatibility  
+- ✅ **Test Reliability**: Eliminates JSON parsing errors
+- ✅ **SSR Compatible**: Works in both client and server contexts
+
+#### Common Composable Mock Patterns
+
+```typescript
+// tests/setup.ts
+vi.stubGlobal('useAsyncData', vi.fn(() => ({
+  data: ref(null),
+  pending: ref(false),
+  error: ref(null),
+  refresh: vi.fn()
+})));
+
+vi.stubGlobal('useFetch', vi.fn(() => ({
+  data: ref(null),
+  pending: ref(false),
+  error: ref(null)
+})));
+
+vi.stubGlobal('$fetch', vi.fn());
+```
+
+#### Test Environment Detection
+
+**Dual Persistence Strategy**: Support both production (cookies) and test (localStorage) environments:
+
+```typescript
+// src/stores/auth.ts
+const useAuthPersistence = () => {
+  if (process.env.NODE_ENV === 'test') {
+    return {
+      get: () => localStorage.getItem('auth'),
+      set: (value: string) => localStorage.setItem('auth', value),
+      remove: () => localStorage.removeItem('auth'),
+    };
+  } else {
+    const authCookie = useCookie('auth', { 
+      default: () => null,
+      encode: JSON.stringify,
+      decode: JSON.parse,
+    });
+    return {
+      get: () => authCookie.value,
+      set: (value: any) => authCookie.value = value,
+      remove: () => authCookie.value = null,
+    };
+  }
+};
+```
+
+### Component Testing with i18n
+
+**Issue**: Internationalized components fail without proper i18n setup.
+
+**Solution**: Configure Vue i18n plugin in test mounts:
+
+```typescript
+// tests/components/Testimonials.spec.ts
+import { createI18n } from 'vue-i18n';
+
+const i18n = createI18n({
+  legacy: false,
+  locale: 'en',
+  messages: {
+    en: {
+      testimonials: {
+        title: 'Customer Reviews',
+        subtitle: 'What our customers say'
+      }
+    }
+  }
+});
+
+const wrapper = mount(Testimonials, {
+  global: {
+    plugins: [i18n], // Required for $t() usage
+  }
+});
+```
+
+**Policy**: Zero hardcoded strings - all text must use translation keys.
+
+### ESLint Integration for Test Files
+
+**Issue**: ESLint flags unused parameters in mock functions.
+
+**Solution**: Use targeted disable comments:
+
+```typescript
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+vi.mock('#app', () => ({
+  useCookie: vi.fn((name) => ref(null)), // 'name' intentionally unused
+}));
+```
+
+### Quality Check Pipeline Integration
+
+**Coverage Configuration**: Ensure vitest finds test files in quality checks:
+
+```typescript
+// vitest.config.ts
+export default defineConfig({
+  test: {
+    coverage: {
+      include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+      exclude: ['node_modules/**', '.nuxt/**', 'dist/**'],
+    },
+  },
+});
+```
+
 ## Troubleshooting
 
 ### Common Issues
