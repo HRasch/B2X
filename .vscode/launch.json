@@ -37,9 +37,9 @@
     {
       "name": "🚀 Full Stack (PostgreSQL)",
       "type": "coreclr",
-      "request": "launch",B2Connect.AppHost.csproj",
-      "preLaunchTask": "build-apphost
-      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
+      "request": "launch",
+      "program": "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj",
+      "preLaunchTask": "build-apphost",
       "args": [],
       "cwd": "${workspaceFolder}/AppHost",
       "stopAtEntry": false,
@@ -86,6 +86,20 @@
       }
     },
     {
+      "name": "🏢 Frontend Management (Dev)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend/Management/node_modules/.bin/vite",
+      "args": ["--host"],
+      "cwd": "${workspaceFolder}/frontend/Management",
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "pattern": "Local:.*http://localhost:(\\d+)",
+        "uriFormat": "http://localhost:%s",
+        "action": "openExternally"
+      }
+    },
+    {
       "name": "🧪 Frontend Store Tests",
       "type": "node",
       "request": "launch",
@@ -106,10 +120,20 @@
       "skipFiles": ["<node_internals>/**"]
     },
     {
+      "name": "🧪 Frontend Management Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/frontend/Management/node_modules/.bin/vitest",
+      "args": ["run"],
+      "cwd": "${workspaceFolder}/frontend/Management",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
       "name": "Backend Tests (CMS)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/CMS/tests/bin/Debug/net10.0/B2Connect.CMS.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -119,7 +143,7 @@
       "name": "Backend Tests (Catalog)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Catalog/tests/bin/Debug/net10.0/B2Connect.Catalog.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -129,7 +153,7 @@
       "name": "Backend Tests (Localization)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Localization/tests/bin/Debug/net10.0/B2Connect.Localization.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -139,7 +163,7 @@
       "name": "Backend Tests (Identity)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Identity/tests/bin/Debug/net10.0/B2Connect.Identity.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
       "stopAtEntry": false,
@@ -149,9 +173,19 @@
       "name": "Backend Tests (Search)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Search/tests/bin/Debug/net10.0/B2Connect.Shared.Search.Tests.dll",
+      "program": "${workspaceFolder}/backend/Domain/Search/tests/B2Connect.Shared.Search.Tests.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend",
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Backend Tests (AppHost)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/AppHost.Tests/B2Connect.AppHost.Tests.csproj",
+      "args": [],
+      "cwd": "${workspaceFolder}/AppHost.Tests",
       "stopAtEntry": false,
       "console": "integratedTerminal"
     },
@@ -159,7 +193,7 @@
       "name": "🔐 Debug Identity Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Identity/bin/Debug/net10.0/B2Connect.Identity.API.dll",
+      "program": "${workspaceFolder}/backend/Domain/Identity/B2Connect.Identity.API.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend/Domain/Identity",
       "stopAtEntry": false,
@@ -173,7 +207,7 @@
       "name": "🏢 Debug Tenant Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Tenancy/bin/Debug/net10.0/B2Connect.Tenancy.API.dll",
+      "program": "${workspaceFolder}/backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend/Domain/Tenancy",
       "stopAtEntry": false,
@@ -187,7 +221,7 @@
       "name": "📦 Debug Catalog Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Catalog/bin/Debug/net10.0/B2Connect.Catalog.API.dll",
+      "program": "${workspaceFolder}/backend/Domain/Catalog/B2Connect.Catalog.API.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend/Domain/Catalog",
       "stopAtEntry": false,
@@ -201,13 +235,41 @@
       "name": "🔧 Debug Admin API",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Gateway/Admin/bin/Debug/net10.0/B2Connect.Admin.dll",
+      "program": "${workspaceFolder}/backend/Gateway/Admin/B2Connect.Admin.csproj",
       "args": [],
       "cwd": "${workspaceFolder}/backend/Gateway/Admin",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:8080"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "🏪 Debug Store API",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/Gateway/Store/API/B2Connect.Store.csproj",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/Gateway/Store/API",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:8000"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "🌱 Debug Seeding API",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/B2Connect.Seeding.API/B2Connect.Seeding.API.csproj",
+      "args": [],
+      "cwd": "${workspaceFolder}/B2Connect.Seeding.API",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5000"
       },
       "console": "integratedTerminal"
     },
@@ -228,6 +290,18 @@
       "type": "coreclr",
       "request": "attach",
       "processName": "B2Connect.Admin"
+    },
+    {
+      "name": "🔌 Attach to Store API",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "B2Connect.Store"
+    },
+    {
+      "name": "🔌 Attach to Seeding API",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "B2Connect.Seeding.API"
     }
   ],
   "compounds": [
@@ -236,7 +310,9 @@
       "configurations": [
         "🚀 Full Stack",
         "🔌 Attach to Identity Service",
-        "🔌 Attach to Admin API"
+        "🔌 Attach to Admin API",
+        "🔌 Attach to Store API",
+        "🔌 Attach to Seeding API"
       ],
       "stopAll": true
     }

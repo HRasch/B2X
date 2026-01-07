@@ -5,7 +5,7 @@ export interface AnalyticsEvent {
   userId?: string;
   sessionId: string;
   timestamp: Date;
-  properties: Record<string, any>;
+  properties: Record<string, unknown>;
 }
 
 class AnalyticsService {
@@ -25,7 +25,7 @@ class AnalyticsService {
     return sessionId;
   }
 
-  async trackEvent(eventType: string, properties: Record<string, any> = {}) {
+  async trackEvent(eventType: string, properties: Record<string, unknown> = {}) {
     const event: AnalyticsEvent = {
       eventType,
       sessionId: this.sessionId,

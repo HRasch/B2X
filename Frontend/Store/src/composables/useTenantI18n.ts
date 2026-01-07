@@ -2,7 +2,7 @@
 
 export const useTenantI18n = () => {
   // Only call useI18n() when we're in a component context
-  const { setLocaleMessage, getLocaleMessage, setLocale } = useI18n();
+  const { setLocaleMessage, getLocaleMessage, locale } = useI18n();
   const runtimeConfig = useRuntimeConfig();
 
   // Get tenant from server context or runtime config
@@ -28,9 +28,9 @@ export const useTenantI18n = () => {
     }
   };
 
-  const setTenantLocale = async (locale: string) => {
-    await loadTenantTranslations(locale);
-    await setLocale(locale);
+  const setTenantLocale = async (localeCode: string) => {
+    await loadTenantTranslations(localeCode);
+    locale.value = localeCode;
   };
 
   return {

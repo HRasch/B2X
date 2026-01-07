@@ -1,10 +1,23 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
+import { createI18n } from 'vue-i18n';
+import en from '../../../src/locales/en.json';
 import Testimonials from '@/components/widgets/Testimonials.vue';
 
 describe('Testimonials.vue', () => {
+  let i18n: ReturnType<typeof createI18n>;
+
   beforeEach(() => {
     vi.useFakeTimers();
+
+    // Create i18n instance for tests
+    i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      fallbackLocale: 'en',
+      globalInjection: true,
+      messages: { en },
+    });
   });
 
   const createTestimonials = () => [
@@ -35,6 +48,9 @@ describe('Testimonials.vue', () => {
         },
         widgetId: 'testimonials-1',
       },
+      global: {
+        plugins: [i18n],
+      },
     });
 
     expect(wrapper.text()).toContain('What Customers Say');
@@ -49,6 +65,9 @@ describe('Testimonials.vue', () => {
           autoplay: false,
         },
         widgetId: 'testimonials-1',
+      },
+      global: {
+        plugins: [i18n],
       },
     });
 
@@ -65,6 +84,9 @@ describe('Testimonials.vue', () => {
           autoplay: false,
         },
         widgetId: 'testimonials-1',
+      },
+      global: {
+        plugins: [i18n],
       },
     });
 
@@ -84,6 +106,9 @@ describe('Testimonials.vue', () => {
           autoplay: false,
         },
         widgetId: 'testimonials-1',
+      },
+      global: {
+        plugins: [i18n],
       },
     });
 
@@ -105,6 +130,9 @@ describe('Testimonials.vue', () => {
           autoplay: false,
         },
         widgetId: 'testimonials-1',
+      },
+      global: {
+        plugins: [i18n],
       },
     });
 
@@ -133,6 +161,9 @@ describe('Testimonials.vue', () => {
         },
         widgetId: 'testimonials-1',
       },
+      global: {
+        plugins: [i18n],
+      },
     });
 
     expect(wrapper.text()).toContain('1 / 3');
@@ -146,6 +177,9 @@ describe('Testimonials.vue', () => {
           autoplay: false,
         },
         widgetId: 'testimonials-1',
+      },
+      global: {
+        plugins: [i18n],
       },
     });
 

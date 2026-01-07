@@ -1,5 +1,6 @@
 import { createI18n } from 'vue-i18n';
 import type { I18n } from 'vue-i18n';
+import type { WritableComputedRef } from 'vue';
 import type { TenantStore } from '~/types';
 import en from './en.json';
 import de from './de.json';
@@ -93,13 +94,13 @@ export const initializeI18n = async () => {
     }
 
     // Set the locale
-    i18n.global.locale.value = locale;
+    (i18n.global.locale as WritableComputedRef<string>).value = locale;
     localStorage.setItem('locale', locale);
   } catch (error) {
     console.warn('Failed to initialize i18n with tenant config, using defaults:', error);
     // Fallback to basic initialization
     const locale = localStorage.getItem('locale') || navigator.language.split('-')[0] || 'en';
-    i18n.global.locale.value = locale;
+    (i18n.global.locale as WritableComputedRef<string>).value = locale;
   }
 };
 

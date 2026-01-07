@@ -158,7 +158,7 @@
           </button>
 
           <button v-if="hasCustomer" @click="proceedWithCustomer" class="btn btn-success flex-1">
-            Weiter
+            {{ $t('erp.customerLookup.continue') }}
           </button>
 
           <button @click="clearForm" class="btn btn-neutral flex-1">
@@ -184,13 +184,12 @@
         />
       </svg>
       <div>
-        <h2 class="font-semibold mb-1">Sind Sie ein neuer Kunde?</h2>
+        <h2 class="font-semibold mb-1">{{ $t('erp.customerLookup.newCustomerQuestion') }}</h2>
         <p class="text-sm">
-          Sie können sich jetzt registrieren und später von Ihren gespeicherten Informationen
-          profitieren.
+          {{ $t('erp.customerLookup.newCustomerDescription') }}
         </p>
         <button @click="$emit('register')" class="btn btn-sm btn-primary mt-3">
-          Neue Registrierung
+          {{ $t('erp.customerLookup.newRegistration') }}
         </button>
       </div>
     </div>
@@ -198,7 +197,7 @@
     <!-- Diagnostic Info (Development only) -->
     <div v-if="isDevelopment" class="card bg-base-200 shadow-sm">
       <div class="card-body">
-        <p class="font-bold mb-2 text-sm">🔧 Diagnostic Info (Dev Only)</p>
+        <p class="font-bold mb-2 text-sm">{{ $t('erp.customerLookup.diagnosticInfo') }}</p>
         <div class="space-y-1 text-xs font-mono">
           <div>Email: {{ email || '(empty)' }}</div>
           <div>Loading: {{ isLoading }}</div>

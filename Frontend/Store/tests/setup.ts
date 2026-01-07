@@ -1,4 +1,13 @@
 import { afterEach, vi } from 'vitest';
+import { ref } from 'vue';
+
+// Mock Nuxt composables globally
+vi.stubGlobal('useCookie', (_name: string) => {
+  const cookieValue = ref<string | null>(null);
+  return {
+    value: cookieValue,
+  };
+});
 
 // Make i18n available globally for tests
 vi.mock('vue-i18n', async () => {
@@ -31,6 +40,8 @@ vi.mock('vue-i18n', async () => {
           'navigation.next': 'Next →',
           'navigation.home': 'Home',
           'navigation.products': 'Products',
+          'widgets.previous': 'Previous',
+          'widgets.next': 'Next',
           'product.sku': 'SKU:',
           'product.priceOverview': 'Price Overview',
           'product.priceIncludesVat':

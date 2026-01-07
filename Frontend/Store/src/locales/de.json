@@ -167,12 +167,24 @@
     "netPrice": "Netto-Preis:",
     "totalLabel": "Gesamt"
   },
-  "products": {
-    "addToCart": "In den Warenkorb",
-    "inCart": "Im Warenkorb",
-    "notAvailable": "Nicht verfügbar",
-    "outOfStock": "Nicht auf Lager",
-    "viewDetails": "Details ansehen →"
+  "categories": {
+    "title": "Kategorien",
+    "subtitle": "Durchsuchen Sie unsere Produktkategorien",
+    "allCategories": "Alle Kategorien",
+    "category": "Kategorie",
+    "productsCount": "{count} Produkt(e)",
+    "viewProducts": "Produkte ansehen",
+    "noCategories": "Keine Kategorien gefunden",
+    "noCategoriesDescription": "Derzeit sind keine Produktkategorien verfügbar.",
+    "categoryNotFound": "Kategorie nicht gefunden",
+    "categoryNotFoundDescription": "Die gesuchte Kategorie existiert nicht oder wurde entfernt.",
+    "viewAllCategories": "Alle Kategorien ansehen",
+    "subcategories": "Unterkategorien",
+    "productsInCategory": "Produkte in {category}",
+    "productsComingSoon": "Produkte kommen bald...",
+    "noProducts": "Keine Produkte gefunden",
+    "noProductsDescription": "In dieser Kategorie sind noch keine Produkte vorhanden.",
+    "browseOtherCategories": "Andere Kategorien durchsuchen"
   },
   "widgets": {
     "notFound": "Widget nicht gefunden",

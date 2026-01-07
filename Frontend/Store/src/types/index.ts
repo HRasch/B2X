@@ -1,3 +1,5 @@
+import type { TenantConfig } from '~/stores/tenant';
+
 export interface UserDto {
   id: string;
   tenantId: string;

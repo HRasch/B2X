@@ -54,6 +54,7 @@ export const useCategoriesStore = defineStore('categories', () => {
 
       // Mock data for now
       categories.value = [
+        // Root categories
         {
           id: '1',
           name: 'Electronics',
@@ -101,6 +102,90 @@ export const useCategoriesStore = defineStore('categories', () => {
           description: 'Health, wellness, and beauty products',
           image: '/images/categories/health.jpg',
           productCount: 167,
+        },
+        // Electronics subcategories
+        {
+          id: '1-1',
+          name: 'Smartphones',
+          slug: 'electronics/smartphones',
+          description: 'Latest smartphones and mobile devices',
+          image: '/images/categories/smartphones.jpg',
+          parentId: '1',
+          productCount: 89,
+        },
+        {
+          id: '1-2',
+          name: 'Laptops',
+          slug: 'electronics/laptops',
+          description: 'Laptops, notebooks, and computing devices',
+          image: '/images/categories/laptops.jpg',
+          parentId: '1',
+          productCount: 67,
+        },
+        {
+          id: '1-3',
+          name: 'Audio',
+          slug: 'electronics/audio',
+          description: 'Headphones, speakers, and audio equipment',
+          image: '/images/categories/audio.jpg',
+          parentId: '1',
+          productCount: 45,
+        },
+        {
+          id: '1-4',
+          name: 'Gaming',
+          slug: 'electronics/gaming',
+          description: 'Gaming consoles, accessories, and gear',
+          image: '/images/categories/gaming.jpg',
+          parentId: '1',
+          productCount: 44,
+        },
+        // Clothing subcategories
+        {
+          id: '2-1',
+          name: 'Men\'s Clothing',
+          slug: 'clothing/mens',
+          description: 'Fashion for men',
+          image: '/images/categories/mens-clothing.jpg',
+          parentId: '2',
+          productCount: 95,
+        },
+        {
+          id: '2-2',
+          name: 'Women\'s Clothing',
+          slug: 'clothing/womens',
+          description: 'Fashion for women',
+          image: '/images/categories/womens-clothing.jpg',
+          parentId: '2',
+          productCount: 94,
+        },
+        // Home & Garden subcategories
+        {
+          id: '3-1',
+          name: 'Furniture',
+          slug: 'home-garden/furniture',
+          description: 'Home furniture and decor',
+          image: '/images/categories/furniture.jpg',
+          parentId: '3',
+          productCount: 78,
+        },
+        {
+          id: '3-2',
+          name: 'Garden Tools',
+          slug: 'home-garden/garden-tools',
+          description: 'Tools and equipment for gardening',
+          image: '/images/categories/garden-tools.jpg',
+          parentId: '3',
+          productCount: 42,
+        },
+        {
+          id: '3-3',
+          name: 'Home Decor',
+          slug: 'home-garden/home-decor',
+          description: 'Decorative items for your home',
+          image: '/images/categories/home-decor.jpg',
+          parentId: '3',
+          productCount: 36,
         },
       ];
     } catch (err) {

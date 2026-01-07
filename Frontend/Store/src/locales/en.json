@@ -132,8 +132,9 @@
   "categories": {
     "title": "Categories",
     "subtitle": "Browse our product categories",
+    "allCategories": "All Categories",
     "category": "Category",
-    "productCount": "{count} product(s)",
+    "productsCount": "{count} product(s)",
     "viewProducts": "View Products",
     "noCategories": "No Categories Found",
     "noCategoriesDescription": "There are no product categories available at the moment.",
@@ -142,6 +143,7 @@
     "viewAllCategories": "View All Categories",
     "subcategories": "Subcategories",
     "productsInCategory": "Products in {category}",
+    "productsComingSoon": "Products coming soon...",
     "noProducts": "No Products Found",
     "noProductsDescription": "There are no products in this category yet.",
     "browseOtherCategories": "Browse Other Categories"

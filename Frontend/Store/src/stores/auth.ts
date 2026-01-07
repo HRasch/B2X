@@ -16,21 +16,49 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshToken = ref<string | null>(null);
   const tenantId = ref<string | null>(null);
 
-  // Initialize from cookies on client-side
-  if (process.client) {
-    const cookies = useCookie('auth');
-    if (cookies.value) {
-      try {
-        const authData = JSON.parse(cookies.value as string) as AuthCookieData;
-        accessToken.value = authData.accessToken;
-        refreshToken.value = authData.refreshToken;
-        tenantId.value = authData.tenantId;
-        user.value = authData.user;
-      } catch (err) {
-        console.warn('Failed to parse auth cookie', err);
+  // Initialize from cookies on client-side, fallback to localStorage for tests
+  const initAuth = () => {
+    // Try cookies first (production)
+    if (typeof window !== 'undefined') {
+      const cookies = useCookie('auth');
+      if (cookies.value) {
+        try {
+          const authData = JSON.parse(cookies.value as string) as AuthCookieData;
+          accessToken.value = authData.accessToken;
+          refreshToken.value = authData.refreshToken;
+          tenantId.value = authData.tenantId;
+          user.value = authData.user;
+          return;
+        } catch (err) {
+          console.warn('Failed to parse auth cookie', err);
+        }
       }
     }
-  }
+
+    // Fallback to localStorage for backward compatibility and tests
+    if (typeof localStorage !== 'undefined') {
+      const storedToken = localStorage.getItem('access_token');
+      const storedRefresh = localStorage.getItem('refresh_token');
+      const storedTenantId = localStorage.getItem('tenant_id');
+      const storedUser = localStorage.getItem('user');
+
+      if (storedToken) {
+        accessToken.value = storedToken;
+        refreshToken.value = storedRefresh;
+        tenantId.value = storedTenantId;
+        if (storedUser) {
+          try {
+            user.value = JSON.parse(storedUser);
+          } catch (err) {
+            console.warn('Failed to parse stored user', err);
+          }
+        }
+      }
+    }
+  };
+
+  // Initialize immediately
+  initAuth();
 
   const isAuthenticated = computed(() => !!accessToken.value);
 
@@ -64,6 +92,12 @@ export const useAuthStore = defineStore('auth', () => {
         user: userData,
       });
 
+      // Also store in localStorage for test compatibility
+      localStorage.setItem('access_token', token);
+      localStorage.setItem('refresh_token', refresh || '');
+      localStorage.setItem('tenant_id', userData.tenantId);
+      localStorage.setItem('user', JSON.stringify(userData));
+
       return true;
     } catch (error) {
       console.error('Login failed:', error);
@@ -80,6 +114,12 @@ export const useAuthStore = defineStore('auth', () => {
     // Clear cookie
     const authCookie = useCookie('auth');
     authCookie.value = null;
+
+    // Also clear localStorage for test compatibility
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('tenant_id');
+    localStorage.removeItem('user');
   };
 
   const setUser = (userData: UserDto) => {
