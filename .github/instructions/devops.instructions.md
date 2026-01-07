@@ -40,6 +40,23 @@ applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terr
 - Implement network policies
 - Regular security audits of infrastructure
 
+## CI Quality Gates (Proposed)
+- Canonical gate sequence: build → analyzers/format → unit tests → smoke e2e → security scans
+- Fail fast: fail PR early on build/analyzer failures to reduce wasted cycles
+
+## Nightly Audits & KB Sync (Proposed)
+- Schedule nightly/weekly jobs that aggregate CI failures, SCA alerts, and flaky-test metrics
+- Create remediation issues automatically
+- Include weekly KB sync job (see `.github/workflows/kb-sync.yml`)
+
+## Dashboards & Retention (Proposed)
+- Publish gate pass/fail rates to GitHub Checks + README summary or SonarCloud
+- Retain CI artifacts for minimum 30 days to support Control evidence
+
+## Secrets & Policies (Proposed)
+- Enforce secret scanning in CI and block merges on detected secrets
+- Use a central secret store for runtime values
+
 ## MCP-Enhanced DevOps Workflow
 
 **Reference**: See [KB-055] Security MCP Best Practices and MCP Operations Guide for comprehensive tooling.

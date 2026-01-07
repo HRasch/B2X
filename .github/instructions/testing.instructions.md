@@ -68,6 +68,23 @@ applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 - Include multilingual scenarios in E2E tests
 - Validate date/number formatting across locales
 
+## Contract Testing (Proposed)
+- Require consumer-driven contract tests for gateway APIs; run in CI on integration lanes
+- Store contract artifacts/versioning in `.ai/contracts/`
+
+## Visual Regression Policy (Proposed)
+- PRs run focused visual smoke tests; full visual suite runs nightly
+- Baseline updates must reference a review comment and acceptance criteria
+
+## Flaky Test Triage (Proposed)
+- Mark flaky tests, quarantine them, and create remediation tasks with owners
+- Track flaky-test counts and surface in weekly test-health reports
+
+## Metrics & Control (Proposed)
+- Track test pass rates, coverage, and time-to-fix
+- Publish weekly to a testing dashboard or PR checks summary
+- Document `scripts/run-local-checks.sh` usage and troubleshooting tips
+
 ## MCP-Enhanced Testing Strategy
 
 ### Type Safety Validation

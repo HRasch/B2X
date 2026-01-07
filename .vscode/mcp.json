@@ -33,7 +33,7 @@
         "LOG_LEVEL": "Information",
         "LOG_TO_CONSOLE": "false"
       },
-      "disabled": true
+      "disabled": false
     },
     "typescript-mcp": {
       "command": "node",

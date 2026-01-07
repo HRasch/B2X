@@ -82,6 +82,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-048` | Tenant-Level Include/Exclude Rules for Shared Catalogs | `.ai/decisions/ADR-048-tenant-level-include-exclude.md` | Proposed |
 | `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
 | `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
+| `ADR-051` | Rename B2Connect to B2XGate | `.ai/decisions/ADR-051-rename-b2connect-to-b2xgate.md` | Proposed |
 
 ---
 
