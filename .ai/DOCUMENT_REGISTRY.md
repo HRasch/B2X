@@ -161,6 +161,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `GL-INDEX` | Guidelines Index | `.ai/guidelines/README.md` | Active |
+| `QS-001` | Token Optimization Quick Start | `.ai/guidelines/QS-001-TOKEN-OPTIMIZATION-QUICK-START.md` | **ACTIVE NOW** |
 | `GL-001` | Communication Overview | `.ai/guidelines/GL-001-COMMUNICATION-OVERVIEW.md` | Active |
 | `GL-002` | Subagent Delegation | `.ai/guidelines/GL-002-SUBAGENT_DELEGATION.md` | Active |
 | `GL-003` | AI Directory Usage | `.ai/guidelines/GL-003-AI-DIRECTORY-USAGE.md` | Active |
@@ -176,6 +177,12 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-013` | Dependency Management Policy | `.ai/guidelines/GL-013-DEPENDENCY-MANAGEMENT.md` | Active |
 | `GL-014` | Pre-Release Development Phase | `.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md` | Active (until v1.0) |
 | `GL-042` | Token-Optimized i18n Strategy | `.ai/guidelines/GL-042-TOKEN-OPTIMIZED-I18N-STRATEGY.md` | Active |
+| `GL-043` | Smart Attachment Strategy | `.ai/guidelines/GL-043-SMART-ATTACHMENT-STRATEGY.md` | Active |
+| `GL-044` | Fragment-Based File Access Strategy | `.ai/guidelines/GL-044-FRAGMENT-BASED-FILE-ACCESS.md` | Active |
+| `GL-045` | KB-MCP Query Strategy | `.ai/guidelines/GL-045-KB-MCP-QUERY-STRATEGY.md` | Active |
+| `GL-046` | Token Audit & Analysis Framework | `.ai/guidelines/GL-046-TOKEN-AUDIT-FRAMEWORK.md` | Active |
+| `GL-047` | MCP-Orchestration Layer | `.ai/guidelines/GL-047-MCP-ORCHESTRATION-LAYER.md` | Active |
+| `GL-048` | Instruction File Consolidation | `.ai/guidelines/GL-048-INSTRUCTION-FILE-CONSOLIDATION.md` | Active |
 
 ---
 
@@ -186,6 +193,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `WF-001` | Context Optimization | `.ai/workflows/WF-001-context-optimization.workflow.md` | Active |
 | `WF-002` | Subagent Delegation | `.ai/workflows/WF-002-subagent-delegation.workflow.md` | Active |
 | `WF-003` | Dependency Upgrade | `.ai/workflows/WF-003-dependency-upgrade.workflow.md` | Active |
+| `WF-009` | Token Optimization Execution Plan | `.ai/workflows/WF-009-TOKEN-OPTIMIZATION-EXECUTION.md` | Active |
 | `WF-004` | GitHub CLI Quick Reference | `.ai/workflows/WF-004-GITHUB_CLI_QUICK_REFERENCE.md` | Active |
 | `WF-005` | GitHub CLI Implementation | `.ai/workflows/WF-005-GITHUB_CLI_IMPLEMENTATION.md` | Active |
 | `WF-006` | GitHub CLI Sprint How-To | `.ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md` | Active |
@@ -276,8 +284,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 
 | DocID | Title | File Path | Applies To |
 |-------|-------|-----------|------------|
-| `INS-001` | Backend Instructions | `.github/instructions/backend.instructions.md` | `src/api/**`, `src/services/**` |
-| `INS-002` | Frontend Instructions | `.github/instructions/frontend.instructions.md` | `src/components/**`, `src/pages/**` |
+| `INS-001` | Backend Instructions | `.github/instructions/backend-essentials.instructions.md` | `src/api/**`, `src/services/**` |
+| `INS-002` | Frontend Instructions | `.github/instructions/frontend-essentials.instructions.md` | `src/components/**`, `src/pages/**` |
 | `INS-003` | Testing Instructions | `.github/instructions/testing.instructions.md` | `**/*.test.*`, `**/*.spec.*` |
 | `INS-004` | DevOps Instructions | `.github/instructions/devops.instructions.md` | `.github/**`, `Dockerfile` |
 | `INS-005` | Security Instructions | `.github/instructions/security.instructions.md` | `**/*` |
