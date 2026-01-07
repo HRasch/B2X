@@ -25,6 +25,17 @@ Recommended: squash-and-merge for pull requests to keep history tidy.
 - You may enable `commitlint` + `husky` locally to enforce commit message style.
 - Consider adding a lightweight GitHub Action that validates PR titles and runs tests.
 
+### File Organization
+- **Root-level files**: Keep to essential docs only (README, QUICK_START_GUIDE, GOVERNANCE, SECURITY, CONTRIBUTING, LICENSE)
+- **Analysis documents**: Place in `.ai/requirements/` (use `REQ-###-*.md` naming)
+- **Architecture decisions**: Place in `.ai/decisions/` (use `ADR-###-*.md` naming)
+- **Implementation logs**: Place in `.ai/logs/` (use `YYYY-MM-DD-*.md` naming)
+- **Brainstorm/strategy**: Place in `.ai/brainstorm/` (use `BS-*.md` naming)
+- **Historical documents**: Move to `.ai/archive/` after completion or when > 90 days old
+- **Temporary files**: Add to `.gitignore` and remove immediately after use
+
+See [BS-PROJECT-CLEANLINESS-STRATEGY.md](.ai/brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md) for detailed organization policy.
+
 ### Issues
 - Use labels to classify issues. If an issue needs rewording, propose edits in a comment before applying changes.
 

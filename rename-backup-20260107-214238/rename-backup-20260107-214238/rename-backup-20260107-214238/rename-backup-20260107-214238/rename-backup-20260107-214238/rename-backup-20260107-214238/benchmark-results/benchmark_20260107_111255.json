@@ -1,9 +1,0 @@
-{
-  "benchmark_suite": "B2Connect Performance Benchmarks",
-  "timestamp": "20260107_111255",
-  "environment": {
-    "os": "Darwin",
-    "cpu": "Apple M3",
-    "memory": "24GB"
-  },
-  "benchmarks": [

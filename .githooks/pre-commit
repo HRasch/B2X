@@ -1,0 +1,66 @@
+#!/bin/bash
+# Pre-commit hook to validate Central Package Management compliance
+# This hook ensures all .csproj files use CPM and no hardcoded versions
+
+set -e
+
+echo "🔍 Validating Central Package Management compliance..."
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+print_status() {
+    local color=$1
+    local message=$2
+    echo -e "${color}${message}${NC}"
+}
+
+# Check if Directory.Packages.props exists
+if [ ! -f "Directory.Packages.props" ]; then
+    print_status $RED "❌ Directory.Packages.props not found in root directory"
+    exit 1
+fi
+
+# Find all .csproj files
+csproj_files=$(find . -name "*.csproj" -not -path "./bin/*" -not -path "./obj/*" -not -path "./node_modules/*")
+
+violations_found=0
+
+for csproj_file in $csproj_files; do
+    # Check if file has PackageReference with Version attribute
+    if grep -q 'PackageReference.*Version=' "$csproj_file"; then
+        print_status $RED "❌ $csproj_file contains hardcoded package versions"
+        print_status $YELLOW "   Remove Version attributes and ensure packages are defined in Directory.Packages.props"
+        violations_found=$((violations_found + 1))
+    fi
+
+    # Check if file references Directory.Packages.props
+    if ! grep -q 'Directory.Packages.props' "$csproj_file"; then
+        print_status $RED "❌ $csproj_file does not reference Directory.Packages.props"
+        print_status $YELLOW "   Add: <Import Project=\"\$(MSBuildThisFileDirectory)../Directory.Packages.props\" Condition=\"Exists('\$(MSBuildThisFileDirectory)../Directory.Packages.props')\" />"
+        violations_found=$((violations_found + 1))
+    fi
+done
+
+# Check for duplicate Directory.Packages.props files
+duplicate_props=$(find . -name "Directory.Packages.props" | wc -l)
+if [ "$duplicate_props" -gt 1 ]; then
+    print_status $RED "❌ Multiple Directory.Packages.props files found:"
+    find . -name "Directory.Packages.props"
+    print_status $YELLOW "   Keep only the root Directory.Packages.props file"
+    violations_found=$((violations_found + 1))
+fi
+
+if [ $violations_found -eq 0 ]; then
+    print_status $GREEN "✅ All projects comply with Central Package Management"
+    exit 0
+else
+    print_status $RED "❌ Found $violations_found CPM compliance violations"
+    print_status $YELLOW "   Fix violations before committing"
+    print_status $YELLOW "   Run: ./scripts/ci-validate-dependencies.sh --fix"
+    exit 1
+fi</content>
+<parameter name="filePath">c:\Users\Holge\repos\B2Connect\.githooks\pre-commit

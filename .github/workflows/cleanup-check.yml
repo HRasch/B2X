@@ -1,0 +1,160 @@
+name: Cleanup & Duplicate Detection
+
+on:
+  schedule:
+    # Run every Monday at 09:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to run'
+        required: true
+        default: 'detect'
+        type: choice
+        options:
+          - detect
+          - archive
+          - report
+
+jobs:
+  cleanup-check:
+    runs-on: ubuntu-latest
+    name: Duplicate Detection & Cleanup Report
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node (for script utilities)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run duplicate detection
+        run: |
+          bash scripts/detect-duplicates.sh
+        continue-on-error: true
+
+      - name: Check for root-level file violations
+        run: |
+          echo "🔍 Checking root-level files..."
+          ALLOWED_FILES=(
+            "README.md" "QUICK_START_GUIDE.md" "CONTRIBUTING.md" "GOVERNANCE.md"
+            "SECURITY.md" "LICENSE" "B2X.slnx" "Directory.Packages.props"
+            "docker-compose.yml" "package.json" "DEPLOYMENT_PLAN_ENVENTA_ERP_INTEGRATION.md"
+            "LEGACY_CODE_MIGRATION_GUIDE.md" "LEGACY_CODE_CLEANUP_STATUS.md"
+            "MODEL_LICENSES.md" "PROJECT_DASHBOARD.md" "PROJECT_STRUCTURE.md"
+            "QUICK_LOGIN.md"
+          )
+          
+          ROOT_MD_FILES=$(find . -maxdepth 1 -type f -name "*.md" ! -name ".*" | sort)
+          VIOLATIONS=""
+          
+          while IFS= read -r file; do
+            BASENAME=$(basename "$file")
+            if [[ ! " ${ALLOWED_FILES[@]} " =~ " ${BASENAME} " ]]; then
+              VIOLATIONS="$VIOLATIONS\n  ❌ $BASENAME"
+            fi
+          done <<< "$ROOT_MD_FILES"
+          
+          if [[ ! -z "$VIOLATIONS" ]]; then
+            echo -e "⚠️  Root-level file violations detected:$VIOLATIONS"
+            echo ""
+            echo "💡 Please move files to appropriate .ai/ subdirectories:"
+            echo "  - Analysis: .ai/requirements/ (REQ-###-*.md)"
+            echo "  - Architecture: .ai/decisions/ (ADR-###-*.md)"
+            echo "  - Strategy: .ai/brainstorm/ (BS-*.md)"
+            exit 1
+          else
+            echo "✅ All root-level files are whitelisted"
+          fi
+
+      - name: Check for temp files
+        run: |
+          echo "🔍 Checking for temporary files..."
+          TEMP_PATTERNS="temp-|test-|sample-|audit-|analysis-"
+          TEMP_FILES=$(find . -type f -regex ".*\(${TEMP_PATTERNS}\).*\.\(json\|js\|cs\|md\|txt\)$" \
+            ! -path "./.git/*" ! -path "./node_modules/*" ! -path "./.ai/archive/*" \
+            ! -path "./bin/*" ! -path "./obj/*" ! -path "./artifacts/*" 2>/dev/null || true)
+          
+          if [[ ! -z "$TEMP_FILES" ]]; then
+            echo "⚠️  Temporary files found (not in archive):"
+            echo "$TEMP_FILES" | sed 's/^/  ❌ /'
+            echo ""
+            echo "💡 Action: Archive old files or remove if no longer needed"
+            # Don't fail, just warn
+          else
+            echo "✅ No temporary files at root or active directories"
+          fi
+
+      - name: Generate cleanup report
+        if: always()
+        run: |
+          echo "📋 Cleanup Report" > cleanup-report.txt
+          echo "Generated: $(date)" >> cleanup-report.txt
+          echo "" >> cleanup-report.txt
+          
+          # Count files in archive
+          ARCHIVE_COUNT=$(find .ai/archive -type f 2>/dev/null | wc -l)
+          echo "Archived documents: $ARCHIVE_COUNT" >> cleanup-report.txt
+          
+          # Count .ai/ docs
+          AI_DOCS=$(find .ai -maxdepth 2 -name "*.md" ! -path ".ai/archive/*" ! -path ".ai/logs/*" 2>/dev/null | wc -l)
+          echo "Active .ai/ documents: $AI_DOCS" >> cleanup-report.txt
+          
+          # Root file count
+          ROOT_FILES=$(find . -maxdepth 1 -name "*.md" ! -name ".*" 2>/dev/null | wc -l)
+          echo "Root-level .md files: $ROOT_FILES" >> cleanup-report.txt
+          
+          cat cleanup-report.txt
+
+      - name: Upload cleanup logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cleanup-logs
+          path: .ai/cleanup-logs/
+          retention-days: 30
+
+      - name: Comment on PR with report
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('cleanup-report.txt', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🧹 Project Cleanup Report\n\n\`\`\`\n${report}\n\`\`\``
+            });
+
+  archive-old-docs:
+    runs-on: ubuntu-latest
+    name: Archive Old Documents
+    if: github.event.inputs.action == 'archive' || github.event_name == 'schedule'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Archive documents > 90 days old
+        run: bash scripts/archive-old-docs.sh
+
+      - name: Create PR for archived documents
+        if: success()
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: 'chore: archive old documents (automated)'
+          title: 'chore: archive documents older than 90 days'
+          body: |
+            Automated archival of old documents.
+            
+            📋 See `.ai/cleanup-logs/` for details.
+            
+            Please review and merge if appropriate.
+          branch: chore/archive-old-docs
+          delete-branch: true

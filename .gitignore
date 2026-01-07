@@ -135,3 +135,16 @@ Thumbs.db
 # Dev Node Configuration (local network secrets)
 .b2x-dev-node.json
 **/dev-node.local.json
+# Temporary Development & Analysis Files
+# These should be archived to .ai/archive/ or deleted, never committed
+temp-*.json
+temp-*.js
+temp-*.cs
+test-*.json
+sample-*.json
+sample-*.data
+sample-*.js
+*-audit-*.txt
+*-log-*.txt
+*-analysis-*.md
+# Note: Files matching above patterns that are committed should be moved to .ai/archive/
