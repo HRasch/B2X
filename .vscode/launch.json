@@ -5,7 +5,7 @@
       "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj",
+      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
       "preLaunchTask": "build-apphost",
       "args": [],
       "cwd": "${workspaceFolder}/AppHost",
@@ -31,14 +31,13 @@
         "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
         "Azure__KeyVault__UseMocked": "true"
       },
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
+      "console": "externalTerminal"
     },
     {
       "name": "🚀 Full Stack (PostgreSQL)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj",
+      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
       "preLaunchTask": "build-apphost",
       "args": [],
       "cwd": "${workspaceFolder}/AppHost",
@@ -51,18 +50,27 @@
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
-        "Database__Provider": "postgres",
+        "ASPNETCORE_URLS": "http://localhost:15500",
+        "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:4317",
+        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true",
         "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
-        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
+        "Database__Provider": "postgres",
+        "Database__Password": "postgres",
+        "Redis__Password": "",
+        "Elasticsearch__Password": "elastic",
+        "RabbitMQ__Password": "guest",
+        "Jwt__Secret": "dev-jwt-secret-minimum-32-characters-required!!!",
+        "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
+        "Azure__KeyVault__UseMocked": "true"
       },
-      "console": "integratedTerminal"
+      "console": "externalTerminal"
     },
     {
       "name": "📱 Frontend Store (Dev)",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/frontend/Store/node_modules/.bin/vite",
-      "args": ["--host"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}/frontend/Store",
       "console": "integratedTerminal",
       "serverReadyAction": {
@@ -75,8 +83,8 @@
       "name": "🎨 Frontend Admin (Dev)",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/frontend/Admin/node_modules/.bin/vite",
-      "args": ["--host"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}/frontend/Admin",
       "console": "integratedTerminal",
       "serverReadyAction": {
@@ -89,8 +97,8 @@
       "name": "🏢 Frontend Management (Dev)",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/frontend/Management/node_modules/.bin/vite",
-      "args": ["--host"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}/frontend/Management",
       "console": "integratedTerminal",
       "serverReadyAction": {
@@ -103,8 +111,8 @@
       "name": "🧪 Frontend Store Tests",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/frontend/Store/node_modules/.bin/vitest",
-      "args": ["run"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "test"],
       "cwd": "${workspaceFolder}/frontend/Store",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
@@ -113,8 +121,8 @@
       "name": "🧪 Frontend Admin Tests",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/frontend/Admin/node_modules/.bin/vitest",
-      "args": ["run"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "test"],
       "cwd": "${workspaceFolder}/frontend/Admin",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
@@ -123,8 +131,8 @@
       "name": "🧪 Frontend Management Tests",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/frontend/Management/node_modules/.bin/vitest",
-      "args": ["run"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "test"],
       "cwd": "${workspaceFolder}/frontend/Management",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
@@ -274,47 +282,23 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "🔌 Attach to Catalog Service",
+      "name": "🔌 Attach to .NET Process",
       "type": "coreclr",
       "request": "attach",
-      "processName": "B2Connect.Catalog.API"
-    },
-    {
-      "name": "🔌 Attach to Identity Service",
-      "type": "coreclr",
-      "request": "attach",
-      "processName": "B2Connect.Identity.API"
-    },
-    {
-      "name": "🔌 Attach to Admin API",
-      "type": "coreclr",
-      "request": "attach",
-      "processName": "B2Connect.Admin"
-    },
-    {
-      "name": "🔌 Attach to Store API",
-      "type": "coreclr",
-      "request": "attach",
-      "processName": "B2Connect.Store"
-    },
-    {
-      "name": "🔌 Attach to Seeding API",
-      "type": "coreclr",
-      "request": "attach",
-      "processName": "B2Connect.Seeding.API"
+      "processId": "${command:pickProcess}"
     }
   ],
   "compounds": [
     {
-      "name": "🚀 Full Stack + Debug Services",
+      "name": "🚀 Full Stack + Frontends",
       "configurations": [
         "🚀 Full Stack",
-        "🔌 Attach to Identity Service",
-        "🔌 Attach to Admin API",
-        "🔌 Attach to Store API",
-        "🔌 Attach to Seeding API"
+        "📱 Frontend Store (Dev)",
+        "🎨 Frontend Admin (Dev)",
+        "🏢 Frontend Management (Dev)"
       ],
       "stopAll": true
     }
+  ]
   ]
 }
