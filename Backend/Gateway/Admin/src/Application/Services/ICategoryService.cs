@@ -38,7 +38,7 @@ public interface ICategoryService
 public class CreateCategoryDto
 {
     public string Slug { get; set; } = string.Empty;
-    public Dictionary<string, string> Name { get; set; } = new();
+    public Dictionary<string, string> Name { get; set; } = new(StringComparer.Ordinal);
     public Dictionary<string, string>? Description { get; set; }
     public Guid? ParentCategoryId { get; set; }
     public bool IsActive { get; set; } = true;

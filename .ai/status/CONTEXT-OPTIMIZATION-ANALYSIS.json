@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-01-07T07:37:03.423642",
+  "before": {
+    "MCP Operations (full)": 0,
+    "Backend (full)": 0,
+    "Frontend (full)": 0,
+    "KB Articles (attachments)": 15,
+    "Other Instructions": 8
+  },
+  "after": {
+    "Backend Essentials": 1.2,
+    "Frontend Essentials": 1.1,
+    "MCP Quick Reference": 2.0,
+    "KB-MCP Query (average)": 0.5,
+    "Essential Instructions": 4.0
+  },
+  "savings": {
+    "phase1_kb": {
+      "before": 15,
+      "after": 0.5,
+      "reduced": 14.5,
+      "percent": 92
+    },
+    "phase2_overhead": {
+      "before": 23,
+      "after": 8.8,
+      "reduced": 14.2,
+      "percent": 61.7
+    },
+    "combined": {
+      "before": 38,
+      "after": 9.3,
+      "reduced": 28.7,
+      "percent": 75.5
+    }
+  }
+}

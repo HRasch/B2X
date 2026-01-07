@@ -34,6 +34,10 @@ builder.Host.UseWolverine(opts =>
 {
     opts.ServiceName = "CustomerService";
 
+    // Enable OpenTelemetry tracing for Wolverine handlers
+    // TODO: Enable when Wolverine OpenTelemetry integration is available
+    // opts.UseOpenTelemetry();
+
     // Enable HTTP Endpoints (Wolverine Mediator)
     // opts.Http.EnableEndpoints = true;  // TODO: Enable when Wolverine HTTP is properly configured
 

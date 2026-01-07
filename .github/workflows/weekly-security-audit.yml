@@ -1,9 +1,10 @@
+---
 name: Weekly Security Audit
 
 on:
   schedule:
-    - cron: '0 9 * * 1' # Every Monday at 9am
-  workflow_dispatch: # Allow manual trigger
+    - cron: '0 9 * * 1'  # Every Monday at 9am
+  workflow_dispatch:  # Allow manual trigger
 
 jobs:
   security-audit:

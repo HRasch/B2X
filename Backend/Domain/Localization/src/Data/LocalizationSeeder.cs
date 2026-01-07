@@ -12,9 +12,9 @@ public static class LocalizationSeeder
     /// <summary>
     /// Seeds the database with initial localized strings
     /// </summary>
-    public static async Task SeedAsync(LocalizationDbContext dbContext)
+    public static async Task SeedAsync(LocalizationDbContext dbContext, CancellationToken cancellationToken = default)
     {
-        if (await dbContext.LocalizedStrings.AnyAsync())
+        if (await dbContext.LocalizedStrings.AnyAsync(cancellationToken).ConfigureAwait(false))
         {
             return; // Already seeded
         }
@@ -29,7 +29,7 @@ public static class LocalizationSeeder
                 Category = "auth",
                 DefaultValue = "Login",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Login" },
                     { "de", "Anmelden" },
                     { "fr", "Connexion" },
@@ -49,7 +49,7 @@ public static class LocalizationSeeder
                 Category = "auth",
                 DefaultValue = "Logout",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Logout" },
                     { "de", "Abmelden" },
                     { "fr", "Déconnexion" },
@@ -69,7 +69,7 @@ public static class LocalizationSeeder
                 Category = "auth",
                 DefaultValue = "Register",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Register" },
                     { "de", "Registrieren" },
                     { "fr", "S'enregistrer" },
@@ -91,7 +91,7 @@ public static class LocalizationSeeder
                 Category = "ui",
                 DefaultValue = "Save",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Save" },
                     { "de", "Speichern" },
                     { "fr", "Enregistrer" },
@@ -111,7 +111,7 @@ public static class LocalizationSeeder
                 Category = "ui",
                 DefaultValue = "Cancel",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Cancel" },
                     { "de", "Abbrechen" },
                     { "fr", "Annuler" },
@@ -131,7 +131,7 @@ public static class LocalizationSeeder
                 Category = "ui",
                 DefaultValue = "Delete",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Delete" },
                     { "de", "Löschen" },
                     { "fr", "Supprimer" },
@@ -151,7 +151,7 @@ public static class LocalizationSeeder
                 Category = "ui",
                 DefaultValue = "Next",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Next" },
                     { "de", "Weiter" },
                     { "fr", "Suivant" },
@@ -171,7 +171,7 @@ public static class LocalizationSeeder
                 Category = "ui",
                 DefaultValue = "Previous",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Previous" },
                     { "de", "Zurück" },
                     { "fr", "Précédent" },
@@ -193,7 +193,7 @@ public static class LocalizationSeeder
                 Category = "errors",
                 DefaultValue = "This field is required",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "This field is required" },
                     { "de", "Dieses Feld ist erforderlich" },
                     { "fr", "Ce champ est obligatoire" },
@@ -213,7 +213,7 @@ public static class LocalizationSeeder
                 Category = "errors",
                 DefaultValue = "Invalid email address",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "Invalid email address" },
                     { "de", "Ungültige E-Mail-Adresse" },
                     { "fr", "Adresse e-mail invalide" },
@@ -233,7 +233,7 @@ public static class LocalizationSeeder
                 Category = "errors",
                 DefaultValue = "You are not authorized to perform this action",
                 Translations = new Dictionary<string, string>
-                {
+(StringComparer.Ordinal) {
                     { "en", "You are not authorized to perform this action" },
                     { "de", "Sie sind nicht berechtigt, diese Aktion auszuführen" },
                     { "fr", "Vous n'êtes pas autorisé à effectuer cette action" },
@@ -248,7 +248,7 @@ public static class LocalizationSeeder
             },
         };
 
-        await dbContext.LocalizedStrings.AddRangeAsync(strings);
-        await dbContext.SaveChangesAsync();
+        await dbContext.LocalizedStrings.AddRangeAsync(strings, cancellationToken).ConfigureAwait(false);
+        await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 }

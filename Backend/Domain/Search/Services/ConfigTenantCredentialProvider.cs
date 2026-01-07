@@ -10,7 +10,7 @@ namespace B2Connect.Domain.Search.Services;
 /// </summary>
 public class ConfigTenantCredentialProvider : ITenantCredentialProvider
 {
-    private readonly ConcurrentDictionary<string, TenantElasticCredentials> _map = new();
+    private readonly ConcurrentDictionary<string, TenantElasticCredentials> _map = new(StringComparer.Ordinal);
 
     public ConfigTenantCredentialProvider(IConfiguration config)
     {

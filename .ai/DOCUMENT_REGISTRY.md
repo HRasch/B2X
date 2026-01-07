@@ -1,7 +1,7 @@
 # 📚 Document Registry
 
-**Version:** 1.0  
-**Last Updated:** 6. Januar 2026  
+**Version:** 1.1  
+**Last Updated:** 7. Januar 2026  
 **Owner:** @SARAH
 
 ---
@@ -36,6 +36,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PRM` | Prompts | `.github/prompts/` | @SARAH |
 | `INS` | Instructions | `.github/instructions/` | @TechLead |
 | `FH` | Feature Handovers | `.ai/handovers/` | @ProductOwner |
+| `BS` | Brainstorm & Strategy | `.ai/brainstorm/` | @SARAH |
+| `COMM` | Communications & Templates | `.ai/brainstorm/` | @SARAH |
 
 ---
 
@@ -75,15 +77,11 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-043` | Paid Services Infrastructure | `.ai/decisions/ADR-043-paid-services-infrastructure.md` | Proposed |
 | `ADR-044` | Floating Labels vs Traditional Labels Ruleset | `.ai/decisions/ADR-044-floating-labels-ruleset.md` | Accepted |
 | `ADR-045` | Unified Layout System | `.ai/decisions/ADR-045-unified-layout-system.md` | Proposed |
-<<<<<<< HEAD
-=======
 | `ADR-046` | Unified Category Navigation Architecture | `.ai/decisions/ADR-046-unified-category-navigation.md` | Proposed |
 | `ADR-047` | Multishop / Shared Catalogs Architecture | `.ai/decisions/ADR-047-multishop-shared-catalog.md` | Proposed |
 | `ADR-048` | Tenant-Level Include/Exclude Rules for Shared Catalogs | `.ai/decisions/ADR-048-tenant-level-include-exclude.md` | Proposed |
-
 | `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
 | `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
->>>>>>> origin/master
 
 ---
 
@@ -161,6 +159,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `GL-INDEX` | Guidelines Index | `.ai/guidelines/README.md` | Active |
+| `QS-001` | Token Optimization Quick Start | `.ai/guidelines/QS-001-TOKEN-OPTIMIZATION-QUICK-START.md` | **ACTIVE NOW** |
 | `GL-001` | Communication Overview | `.ai/guidelines/GL-001-COMMUNICATION-OVERVIEW.md` | Active |
 | `GL-002` | Subagent Delegation | `.ai/guidelines/GL-002-SUBAGENT_DELEGATION.md` | Active |
 | `GL-003` | AI Directory Usage | `.ai/guidelines/GL-003-AI-DIRECTORY-USAGE.md` | Active |
@@ -176,6 +175,12 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-013` | Dependency Management Policy | `.ai/guidelines/GL-013-DEPENDENCY-MANAGEMENT.md` | Active |
 | `GL-014` | Pre-Release Development Phase | `.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md` | Active (until v1.0) |
 | `GL-042` | Token-Optimized i18n Strategy | `.ai/guidelines/GL-042-TOKEN-OPTIMIZED-I18N-STRATEGY.md` | Active |
+| `GL-043` | Smart Attachment Strategy | `.ai/guidelines/GL-043-SMART-ATTACHMENT-STRATEGY.md` | Active |
+| `GL-044` | Fragment-Based File Access Strategy | `.ai/guidelines/GL-044-FRAGMENT-BASED-FILE-ACCESS.md` | Active |
+| `GL-045` | KB-MCP Query Strategy | `.ai/guidelines/GL-045-KB-MCP-QUERY-STRATEGY.md` | Active |
+| `GL-046` | Token Audit & Analysis Framework | `.ai/guidelines/GL-046-TOKEN-AUDIT-FRAMEWORK.md` | Active |
+| `GL-047` | MCP-Orchestration Layer | `.ai/guidelines/GL-047-MCP-ORCHESTRATION-LAYER.md` | Active |
+| `GL-048` | Instruction File Consolidation | `.ai/guidelines/GL-048-INSTRUCTION-FILE-CONSOLIDATION.md` | Active |
 
 ---
 
@@ -186,6 +191,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `WF-001` | Context Optimization | `.ai/workflows/WF-001-context-optimization.workflow.md` | Active |
 | `WF-002` | Subagent Delegation | `.ai/workflows/WF-002-subagent-delegation.workflow.md` | Active |
 | `WF-003` | Dependency Upgrade | `.ai/workflows/WF-003-dependency-upgrade.workflow.md` | Active |
+| `WF-009` | Token Optimization Execution Plan | `.ai/workflows/WF-009-TOKEN-OPTIMIZATION-EXECUTION.md` | Active |
 | `WF-004` | GitHub CLI Quick Reference | `.ai/workflows/WF-004-GITHUB_CLI_QUICK_REFERENCE.md` | Active |
 | `WF-005` | GitHub CLI Implementation | `.ai/workflows/WF-005-GITHUB_CLI_IMPLEMENTATION.md` | Active |
 | `WF-006` | GitHub CLI Sprint How-To | `.ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md` | Active |
@@ -212,6 +218,12 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-005` | Phase 5 Enterprise ERP Connectors | `.ai/requirements/REQ-005-phase-5-enterprise-connectors.md` | Active |
 | `REQ-006` | CLI Customer Integration Commands | `.ai/requirements/REQ-006-cli-customer-integration-commands.md` | Specification |
 | `REQ-007` | Email WYSIWYG Builder | `.ai/requirements/REQ-007-email-wysiwyg-builder.md` | Draft |
+| `REQ-SMART-DATA-INTEGRATION` | Smart Data Integration Assistant | `.ai/requirements/REQ-SMART-DATA-INTEGRATION.md` | Active |
+| `ANALYSIS-SMART-DATA-INTEGRATION-BACKEND` | Smart Data Integration Assistant - Backend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-BACKEND.md` | Analysis Complete |
+| `ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND` | Smart Data Integration Assistant - Frontend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND.md` | Analysis Complete |
+| `ANALYSIS-SMART-DATA-INTEGRATION-SECURITY` | Smart Data Integration Assistant - Security Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-SECURITY.md` | Analysis Complete |
+| `ANALYSIS-SMART-DATA-INTEGRATION-ARCHITECT` | Smart Data Integration Assistant - Architecture Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-ARCHITECT.md` | Analysis Complete |
+| `CONSOLIDATION-SMART-DATA-INTEGRATION` | Smart Data Integration Assistant - Consolidated Analysis | `.ai/requirements/CONSOLIDATION-SMART-DATA-INTEGRATION.md` | Consolidation Complete |
 
 ---
 
@@ -272,12 +284,69 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 
 ---
 
+## Registry: Brainstorm & Strategy (BS-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `BS-REFACTOR-001` | Refactoring Efficiency Strategy | `.ai/brainstorm/REFACTORING-EFFICIENCY-STRATEGY.md` | Active |
+| `BS-SPRINT-EXECUTION-TRACKING` | GitHub-Based Sprint Execution Tracking | `.ai/brainstorm/BS-SPRINT-EXECUTION-TRACKING.md` | Brainstorm |
+
+---
+
+## Registry: Communications (COMM-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `COMM-REFACTOR-001` | Launch Communication - Refactoring Strategy | `.ai/brainstorm/COMM-REFACTOR-001.md` | Ready |
+
+---
+
+## Registry: Reviews (REV-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `REV-REFACTOR-001` | Review Request - Refactoring Strategy | `.ai/brainstorm/REVIEW-REQUEST-REFACTORING-STRATEGY.md` | In Review |
+
+---
+
+## Registry: Planning (PLAN-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `PLAN-PILOT-001` | Pilot Refactoring Candidates | `.ai/brainstorm/PILOT-REFACTORING-CANDIDATES.md` | Planning |
+
+---
+
+## Registry: Quick Start (QS-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `QS-REFACTOR` | Quick Start - Refactoring Implementation | `.ai/brainstorm/QUICKSTART-REFACTOR.md` | Active |
+
+---
+
+## Registry: Status & Dashboards (STATUS-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `STATUS-REFACTOR-STRATEGY` | Status Dashboard - Refactoring Strategy | `.ai/brainstorm/STATUS-REFACTOR-STRATEGY.md` | Active |
+
+---
+
+## Registry: Indexes (INDEX-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `REFACTOR-INDEX` | Index - Refactoring Efficiency Strategy Suite | `.ai/brainstorm/REFACTOR-INDEX.md` | Active |
+
+---
+
 ## Registry: Instructions (INS-*)
 
 | DocID | Title | File Path | Applies To |
 |-------|-------|-----------|------------|
-| `INS-001` | Backend Instructions | `.github/instructions/backend.instructions.md` | `src/api/**`, `src/services/**` |
-| `INS-002` | Frontend Instructions | `.github/instructions/frontend.instructions.md` | `src/components/**`, `src/pages/**` |
+| `INS-001` | Backend Instructions | `.github/instructions/backend-essentials.instructions.md` | `src/api/**`, `src/services/**` |
+| `INS-002` | Frontend Instructions | `.github/instructions/frontend-essentials.instructions.md` | `src/components/**`, `src/pages/**` |
 | `INS-003` | Testing Instructions | `.github/instructions/testing.instructions.md` | `**/*.test.*`, `**/*.spec.*` |
 | `INS-004` | DevOps Instructions | `.github/instructions/devops.instructions.md` | `.github/**`, `Dockerfile` |
 | `INS-005` | Security Instructions | `.github/instructions/security.instructions.md` | `**/*` |

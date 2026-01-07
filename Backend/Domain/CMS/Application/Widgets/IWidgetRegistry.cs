@@ -21,7 +21,7 @@ namespace B2Connect.CMS.Application.Widgets
 
     public class WidgetRegistry : IWidgetRegistry
     {
-        private readonly Dictionary<string, WidgetDefinition> _widgets = new();
+        private readonly Dictionary<string, WidgetDefinition> _widgets = new(StringComparer.Ordinal);
         private readonly ILogger<WidgetRegistry> _logger;
 
         public WidgetRegistry(ILogger<WidgetRegistry> logger)
@@ -60,14 +60,14 @@ namespace B2Connect.CMS.Application.Widgets
         public IEnumerable<WidgetDefinition> GetWidgetsByCategory(string category)
         {
             return GetAllWidgets()
-                .Where(w => w.Category == category)
+                .Where(w => string.Equals(w.Category, category, StringComparison.Ordinal))
                 .OrderBy(w => w.SortOrder);
         }
 
         public IEnumerable<WidgetDefinition> GetWidgetsForPageType(string pageType)
         {
             return GetAllWidgets()
-                .Where(w => w.AllowedPageTypes.Count == 0 || w.AllowedPageTypes.Contains(pageType))
+                .Where(w => w.AllowedPageTypes.Count == 0 || w.AllowedPageTypes.Contains(pageType, StringComparer.Ordinal))
                 .OrderBy(w => w.SortOrder);
         }
 

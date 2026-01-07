@@ -37,7 +37,7 @@ public static class DatabaseExtensions
             try
             {
                 // For InMemory, just ensure created
-                await context.Database.EnsureCreatedAsync();
+                await context.Database.EnsureCreatedAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {

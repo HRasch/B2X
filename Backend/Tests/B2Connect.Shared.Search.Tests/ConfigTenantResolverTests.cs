@@ -10,6 +10,7 @@ public class ConfigTenantResolverTests
     public void ResolveTenant_ReturnsMappedTenant_WhenHostConfigured()
     {
         var inMemory = new Dictionary<string, string?>
+(StringComparer.Ordinal)
         {
             ["Tenants:Hosts:shop1.example.com"] = "tenant-1111-1111-1111-111111111111",
             ["Tenants:Hosts:shop2.example.com"] = "tenant-2222-2222-2222-222222222222",

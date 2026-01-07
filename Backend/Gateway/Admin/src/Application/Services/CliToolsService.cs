@@ -55,7 +55,7 @@ public class CliToolsService : ICliToolsService
         try
         {
             // Validate tenant can access tools
-            await ValidateTenantAccessAsync(tenantId);
+            await ValidateTenantAccessAsync(tenantId).ConfigureAwait(false);
 
             var tools = new List<CliToolInfo>
             {
@@ -78,7 +78,7 @@ public class CliToolsService : ICliToolsService
             };
 
             _logger.LogInformation("Retrieved available tools for tenant {TenantId}", tenantId);
-            return await Task.FromResult(tools);
+            return await Task.FromResult(tools).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -92,10 +92,10 @@ public class CliToolsService : ICliToolsService
         try
         {
             // Validate tenant access
-            await ValidateTenantAccessAsync(tenantId);
+            await ValidateTenantAccessAsync(tenantId).ConfigureAwait(false);
 
             // Validate version and OS
-            if (!await ValidateVersionAsync("administration-cli", version))
+            if (!await ValidateVersionAsync(version).ConfigureAwait(false))
             {
                 _logger.LogWarning("Invalid version {Version} requested for administration-cli", version);
                 return null;
@@ -138,7 +138,7 @@ public class CliToolsService : ICliToolsService
         try
         {
             // Validate tenant access
-            await ValidateTenantAccessAsync(tenantId);
+            await ValidateTenantAccessAsync(tenantId).ConfigureAwait(false);
 
             // Validate ERP type
             var supportedErpTypes = new[] { "enventa", "craft" };
@@ -149,7 +149,7 @@ public class CliToolsService : ICliToolsService
             }
 
             // Validate version
-            if (!await ValidateVersionAsync("erp-connector", version))
+            if (!await ValidateVersionAsync(version).ConfigureAwait(false))
             {
                 _logger.LogWarning("Invalid version {Version} for ERP-Connector {ERP}", version, erpType);
                 return null;
@@ -187,7 +187,7 @@ public class CliToolsService : ICliToolsService
     {
         try
         {
-            await ValidateTenantAccessAsync(tenantId);
+            await ValidateTenantAccessAsync(tenantId).ConfigureAwait(false);
 
             return toolType.ToLowerInvariant() switch
             {
@@ -207,7 +207,7 @@ public class CliToolsService : ICliToolsService
     {
         try
         {
-            await ValidateTenantAccessAsync(tenantId);
+            await ValidateTenantAccessAsync(tenantId).ConfigureAwait(false);
 
             // Return mock versions - in production, this would query artifact repository
             var versions = new List<CliVersionInfo>
@@ -232,7 +232,7 @@ public class CliToolsService : ICliToolsService
                     BreakingChanges: Array.Empty<string>())
             };
 
-            return await Task.FromResult(versions.OrderByDescending(v => v.ReleaseDate));
+            return await Task.FromResult(versions.OrderByDescending(v => v.ReleaseDate)).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -247,7 +247,7 @@ public class CliToolsService : ICliToolsService
     {
         // TODO: Implement actual tenant validation
         // For now, just log the access
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
         _logger.LogDebug("Validating tenant {TenantId} access", tenantId);
     }
 
@@ -261,7 +261,7 @@ public class CliToolsService : ICliToolsService
         };
     }
 
-    private async Task<bool> ValidateVersionAsync(string toolType, string version)
+    private async Task<bool> ValidateVersionAsync(string version)
     {
         if (version.Equals("latest", StringComparison.OrdinalIgnoreCase))
         {

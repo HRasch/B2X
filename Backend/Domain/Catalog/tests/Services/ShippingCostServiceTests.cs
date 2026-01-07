@@ -62,7 +62,7 @@ public class ShippingCostServiceTests : IAsyncLifetime
 
         // Assert
         Assert.True(result.Success);
-        var dhlMethod = result.Methods.FirstOrDefault(m => m.Id == "dhl-express");
+        var dhlMethod = result.Methods.FirstOrDefault(m => string.Equals(m.Id, "dhl-express", StringComparison.Ordinal));
         Assert.NotNull(dhlMethod);
         Assert.Equal(Math.Round(expectedDHL, 2), dhlMethod.Cost);
     }
@@ -79,7 +79,7 @@ public class ShippingCostServiceTests : IAsyncLifetime
 
         // Assert
         Assert.True(result.Success);
-        var dhlMethod = result.Methods.FirstOrDefault(m => m.Id == "dhl-express");
+        var dhlMethod = result.Methods.FirstOrDefault(m => string.Equals(m.Id, "dhl-express", StringComparison.Ordinal));
         Assert.NotNull(dhlMethod);
         Assert.Equal(Math.Round(expectedDHL, 2), dhlMethod.Cost);
     }
@@ -96,7 +96,7 @@ public class ShippingCostServiceTests : IAsyncLifetime
 
         // Assert
         Assert.True(result.Success);
-        Assert.DoesNotContain(result.Methods, m => m.Provider == "PostNL");
+        Assert.DoesNotContain(result.Methods, m => string.Equals(m.Provider, "PostNL", StringComparison.Ordinal));
         Assert.Equal(2, result.Methods.Count); // Only DHL and DPD
     }
 
@@ -232,7 +232,7 @@ public class ShippingCostServiceTests : IAsyncLifetime
         var countries = new[] { "DE", "AT", "FR", "CH" };
 
         // Act
-        var results = new Dictionary<string, GetShippingMethodsResponse>();
+        var results = new Dictionary<string, GetShippingMethodsResponse>(StringComparer.Ordinal);
         foreach (var country in countries)
         {
             results[country] = await _service.GetShippingMethodsAsync(country, cancellationToken: CancellationToken.None);

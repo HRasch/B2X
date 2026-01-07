@@ -7,6 +7,25 @@
 - **Tech Stack**: .NET 10, Vue.js 3, Wolverine CQRS, PostgreSQL, Elasticsearch
 - **Coordinator**: @SARAH handles coordination, quality-gates, permissions
 
+---
+
+## 📚 Knowledge Base Access (Phase 2 - KB-MCP)
+
+**⚡ START HERE**: [QS-001] Token Optimization Quick Start (5 min read!)
+
+**Use KB-MCP tools for all knowledge lookups** (vs. attachments):
+
+```
+kb-mcp/search_knowledge_base         # Find KB articles by topic
+kb-mcp/get_article docid:"KB-053"    # Get specific article
+kb-mcp/list_by_category              # Browse by category
+```
+
+→ See [MCP-QUICK-REF] for full tool matrix  
+→ See [KB-055] Security MCP Best Practices for detailed workflows
+
+---
+
 ## Document Reference System
 
 Use stable DocIDs for cross-referencing. See [DOCUMENT_REGISTRY.md](../.ai/DOCUMENT_REGISTRY.md).
@@ -55,6 +74,7 @@ Non-developer agents MUST delegate code changes to authorized agents.
 - **Agent Policy Changes**: @CopilotExpert implements, @SARAH approves → See [GL-008]
 - **Dependency Approval**: @Legal + @Architect + @TechLead → See [GL-008]
 - **Architecture Changes**: @Architect + @TechLead approval → See [GL-008]
+- **Smart Attachments**: Load only path-specific instructions → See [GL-043] (50-70% token savings)
 
 ---
 
@@ -83,8 +103,8 @@ Non-developer agents MUST delegate code changes to authorized agents.
 ## Path-specific Instructions
 
 Applied automatically based on file path:
-- `src/api/**` → [backend.instructions.md](instructions/backend.instructions.md)
-- `src/components/**` → [frontend.instructions.md](instructions/frontend.instructions.md)
+- `src/api/**` → [backend-essentials.instructions.md](instructions/backend-essentials.instructions.md)
+- `src/components/**` → [frontend-essentials.instructions.md](instructions/frontend-essentials.instructions.md)
 - `**/*.test.*` → [testing.instructions.md](instructions/testing.instructions.md)
 - `.github/**` → [devops.instructions.md](instructions/devops.instructions.md)
 - `**/*` → [security.instructions.md](instructions/security.instructions.md)
@@ -140,6 +160,12 @@ See [PROMPTS_INDEX.md](../.ai/collaboration/PROMPTS_INDEX.md) for complete refer
 | DocID | Topic | When to Use |
 |-------|-------|-------------|
 | [GL-006] | Token Optimization | Prevent rate limiting |
+| [GL-043] | Smart Attachments | Path-specific instruction loading |
+| [GL-044] | Fragment-Based Access | Minimize file read tokens |
+| [GL-045] | KB-MCP Queries | On-demand knowledge loading |
+| [GL-046] | Token Audit | Measure and identify bottlenecks |
+| [GL-047] | MCP-Orchestration | Intelligent context routing |
+| [GL-048] | Instruction Consolidation | Trim file sizes |
 | [GL-008] | Governance Policies | Policy changes, permissions, dependencies |
 | [GL-009] | AI Behavior | Implementation guidelines, fallback procedures |
 | [GL-010] | Agent & Artifact Organization | File structure, agent responsibilities |

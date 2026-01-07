@@ -27,7 +27,7 @@
     <transition name="fade">
       <div v-if="isOpen" class="language-dropdown" data-testid="language-dropdown" @click.stop>
         <button
-          v-for="loc in locales"
+          v-for="loc in supportedLocales"
           :key="loc.code"
           class="language-option"
           :class="{ active: locale === loc.code }"
@@ -59,15 +59,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useLocale } from '@/composables/useLocale';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useTenantStore } from '~/stores/tenant';
+import { ALL_SUPPORTED_LOCALES } from '~/locales';
 
-const { locale, currentLocale, locales, isLoading, setLocale } = useLocale();
+const { locale } = useI18n();
+const tenantStore = useTenantStore();
 const isOpen = ref(false);
+const isLoading = ref(false);
+
+// Get supported locales based on tenant configuration
+const supportedLocales = computed(() => {
+  const tenantLanguages = tenantStore.supportedLanguages;
+  return ALL_SUPPORTED_LOCALES.filter(loc => tenantLanguages.includes(loc.code));
+});
+
+const currentLocale = computed(() => supportedLocales.value.find(loc => loc.code === locale.value));
 
 const handleSelectLocale = async (code: string) => {
   isOpen.value = false;
-  await setLocale(code);
+  isLoading.value = true;
+  try {
+    // Update i18n locale
+    locale.value = code;
+
+    // Store in localStorage
+    localStorage.setItem('locale', code);
+
+    // Update document language
+    document.documentElement.lang = code;
+  } catch (error) {
+    console.error('Failed to switch language:', error);
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 

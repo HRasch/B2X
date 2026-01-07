@@ -12,7 +12,8 @@
       "submit": "Accedi",
       "demoAccount": "Account demo:",
       "demoCredentials": "admin@example.com / password",
-      "forgotPassword": "Password dimenticata?"
+      "forgotPassword": "Password dimenticata?",
+      "loginError": "Accesso fallito. Riprova."
     },
     "register": {
       "title": "Registrati",

@@ -1,3 +1,4 @@
+---
 name: Deploy with Rollback
 
 on:
@@ -107,6 +108,11 @@ jobs:
             --wait \
             --timeout=10m
 
+      - name: Run Runtime Health Check
+        run: |
+          echo "Running runtime health check after green deployment..."
+          ./scripts/runtime-health-check.sh
+
       - name: Run Health Checks
         run: |
           echo "Waiting for green deployment to be ready..."
@@ -180,6 +186,11 @@ jobs:
             --wait \
             --timeout=10m
 
+      - name: Run Runtime Health Check
+        run: |
+          echo "Running runtime health check after canary deployment..."
+          ./scripts/runtime-health-check.sh
+
       - name: Monitor Canary
         run: |
           echo "Monitoring canary deployment for 15 minutes..."
@@ -252,6 +263,11 @@ jobs:
             --set image.tag=${{ steps.find-stable.outputs.stable-tag }} \
             --wait \
             --timeout=10m
+
+      - name: Run Runtime Health Check
+        run: |
+          echo "Running runtime health check after rollback..."
+          ./scripts/runtime-health-check.sh
 
       - name: Validate Rollback
         run: |

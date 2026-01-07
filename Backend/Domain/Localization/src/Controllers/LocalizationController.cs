@@ -278,7 +278,7 @@ public class CategoryResponse
     public string Language { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the translations dictionary</summary>
-    public Dictionary<string, string> Translations { get; set; } = new();
+    public Dictionary<string, string> Translations { get; set; } = new(StringComparer.Ordinal);
 }
 
 /// <summary>
@@ -293,7 +293,7 @@ public class TenantTranslationsResponse
     public string LanguageCode { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the merged translations</summary>
-    public Dictionary<string, string> Translations { get; set; } = new();
+    public Dictionary<string, string> Translations { get; set; } = new(StringComparer.Ordinal);
 }
 
 /// <summary>
@@ -308,7 +308,7 @@ public class SsrTranslationsResponse
     public string LanguageCode { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the merged translations</summary>
-    public Dictionary<string, string> Translations { get; set; } = new();
+    public Dictionary<string, string> Translations { get; set; } = new(StringComparer.Ordinal);
 
     /// <summary>Gets or sets the response timestamp</summary>
     public DateTime Timestamp { get; set; }
@@ -320,7 +320,7 @@ public class SsrTranslationsResponse
 public class BulkTranslationUpdateRequest
 {
     /// <summary>Gets or sets the translations to update</summary>
-    public Dictionary<string, string> Translations { get; set; } = new();
+    public Dictionary<string, string> Translations { get; set; } = new(StringComparer.Ordinal);
 }
 
 /// <summary>

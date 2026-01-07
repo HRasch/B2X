@@ -1,3 +1,4 @@
+using System.Globalization;
 using B2Connect.Admin.Core.Entities;
 using B2Connect.Shared.Core;
 using B2Connect.Types.Localization;
@@ -29,7 +30,7 @@ public static class CatalogDemoDataGenerator
 
         var categories = GenerateCategories();
         var brands = GenerateBrands();
-        var products = GenerateProducts(productCount, categories, brands);
+        var products = GenerateProducts(productCount, brands);
 
         return (categories, brands, products);
     }
@@ -200,10 +201,10 @@ public static class CatalogDemoDataGenerator
     /// <summary>
     /// Generates realistic product data with variants, images, and documents
     /// </summary>
-    private static List<Product> GenerateProducts(int count, List<Category> categories, List<Brand> brands)
+    private static List<Product> GenerateProducts(int count, List<Brand> brands)
     {
         var products = new List<Product>();
-        var productFaker = CreateProductFaker(categories, brands);
+        var productFaker = CreateProductFaker(brands);
 
         for (int i = 0; i < count; i++)
         {
@@ -217,7 +218,7 @@ public static class CatalogDemoDataGenerator
     /// <summary>
     /// Creates Bogus faker for realistic product generation
     /// </summary>
-    private static Faker<Product> CreateProductFaker(List<Category> categories, List<Brand> brands)
+    private static Faker<Product> CreateProductFaker(List<Brand> brands)
     {
         var productTypes = new[]
         {
@@ -251,9 +252,9 @@ public static class CatalogDemoDataGenerator
                 .Set("de", string.Join(", ", f.Lorem.Words(5)))
                 .Set("fr", string.Join(", ", f.Lorem.Words(5))))
             .RuleFor(p => p.BrandId, f => f.PickRandom(brands).Id)
-            .RuleFor(p => p.Price, f => decimal.Parse(f.Commerce.Price(500, 2500)))
-            .RuleFor(p => p.SpecialPrice, f => f.Random.Bool(0.3f) ? decimal.Parse(f.Commerce.Price(400, 2000)) : null)
-            .RuleFor(p => p.CostPrice, f => decimal.Parse(f.Commerce.Price(300, 1500)))
+            .RuleFor(p => p.Price, f => decimal.Parse(f.Commerce.Price(500, 2500), CultureInfo.InvariantCulture))
+            .RuleFor(p => p.SpecialPrice, f => f.Random.Bool(0.3f) ? decimal.Parse(f.Commerce.Price(400, 2000), CultureInfo.InvariantCulture) : null)
+            .RuleFor(p => p.CostPrice, f => decimal.Parse(f.Commerce.Price(300, 1500), CultureInfo.InvariantCulture))
             .RuleFor(p => p.Weight, f => f.Random.Decimal(1.2m, 2.8m))
             .RuleFor(p => p.WeightUnit, _ => "kg")
             .RuleFor(p => p.StockQuantity, f => f.Random.Int(0, 500))

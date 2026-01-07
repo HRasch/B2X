@@ -68,6 +68,10 @@ public class TenancyDbContext : DbContext
             entity.Property(x => x.LocalizedDescription)
                 .HasColumnType("jsonb");
 
+            entity.Property(x => x.SupportedLanguages)
+                .HasColumnType("jsonb")
+                .HasDefaultValue(new List<string> { "de", "en" });
+
             entity.Property(x => x.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 

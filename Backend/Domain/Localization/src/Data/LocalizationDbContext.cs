@@ -63,13 +63,13 @@ public class LocalizationDbContext : DbContext
             entity.Property(e => e.Translations)
                 .HasConversion(
                     v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
-                    v => System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new Dictionary<string, string>()
+                    v => System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new Dictionary<string, string>(StringComparer.Ordinal)
                 )
                 .Metadata.SetValueComparer(
                     new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<Dictionary<string, string>>(
-                        (c1, c2) => (c1 ?? new()).SequenceEqual(c2 ?? new()),
+                        (c1, c2) => (c1 ?? new(StringComparer.Ordinal)).SequenceEqual(c2 ?? new(StringComparer.Ordinal)),
                         c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                        c => new Dictionary<string, string>(c ?? new())
+                        c => new Dictionary<string, string>(c ?? new(StringComparer.Ordinal), StringComparer.Ordinal)
                     )
                 );
 

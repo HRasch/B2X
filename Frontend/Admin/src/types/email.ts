@@ -164,7 +164,7 @@ export interface EmailTemplatePreview {
 
 export interface EmailTemplateTestSend {
   toAddress: string;
-  sampleData?: Record<string, any>;
+  sampleData?: Record<string, unknown>;
 }
 
 export interface EmailTemplateFilters {

@@ -34,11 +34,11 @@ namespace B2Connect.CMS.Application.Pages
             CancellationToken cancellationToken)
         {
             var overrides = await _templateRepository.GetTenantOverridesAsync(
-                query.TenantId, cancellationToken);
+                query.TenantId, cancellationToken).ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(query.TemplateKey))
             {
-                overrides = overrides.Where(o => o.BaseTemplateKey == query.TemplateKey).ToList();
+                overrides = overrides.Where(o => string.Equals(o.BaseTemplateKey, query.TemplateKey, StringComparison.Ordinal)).ToList();
             }
 
             return overrides.Select(MapToDto).ToList();
@@ -52,7 +52,7 @@ namespace B2Connect.CMS.Application.Pages
                 TenantId = Guid.Parse(pageDefinition.TenantId),
                 TemplateKey = pageDefinition.BaseTemplateKey ?? string.Empty,
                 BaseTemplateKey = pageDefinition.BaseTemplateKey,
-                OverrideSections = new Dictionary<string, string>(), // PageDefinition doesn't have sections
+                OverrideSections = new Dictionary<string, string>(StringComparer.Ordinal), // PageDefinition doesn't have sections
                 Metadata = pageDefinition.OverrideMetadata != null ? new TemplateOverrideMetadataDto
                 {
                     CreatedAt = pageDefinition.OverrideMetadata.CreatedAt,
@@ -78,7 +78,7 @@ namespace B2Connect.CMS.Application.Pages
         public Guid TenantId { get; set; }
         public string TemplateKey { get; set; } = null!;
         public string? BaseTemplateKey { get; set; }
-        public Dictionary<string, string> OverrideSections { get; set; } = new();
+        public Dictionary<string, string> OverrideSections { get; set; } = new(StringComparer.Ordinal);
         public TemplateOverrideMetadataDto Metadata { get; set; } = new();
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

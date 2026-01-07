@@ -25,7 +25,7 @@ builder.Host.AddServiceDefaults();
 var app = builder.Build();
 
 // Apply migrations and ensure database is created
-await app.Services.EnsureDatabaseAsync();
+await app.Services.EnsureDatabaseAsync().ConfigureAwait(false);
 
 // Configure middleware
 app.UseHttpsRedirection();
@@ -46,4 +46,4 @@ using (var scope = app.Services.CreateScope())
     logger.LogInformation("Database Provider: {Provider}", dbContext.GetDatabaseProviderName());
 }
 
-await app.RunAsync();
+await app.RunAsync().ConfigureAwait(false);

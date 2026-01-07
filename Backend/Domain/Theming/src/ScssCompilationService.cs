@@ -32,7 +32,7 @@ public class ScssCompilationService : IScssCompilationService
             _logger.LogInformation("Starting SCSS compilation for Theme {ThemeId}, Tenant {TenantId}", themeId, tenantId);
 
             // Get all enabled modules ordered by category and sort order
-            var modules = await _moduleRepository.GetEnabledModulesAsync(tenantId, themeId);
+            var modules = await _moduleRepository.GetEnabledModulesAsync(tenantId, themeId).ConfigureAwait(false);
 
             if (modules.Count == 0)
             {
@@ -44,7 +44,7 @@ public class ScssCompilationService : IScssCompilationService
             var combinedScss = BuildCombinedScss(modules);
 
             // Compile SCSS to CSS
-            var compilationResult = await CompileScssAsync(combinedScss);
+            var compilationResult = await CompileScssAsync(combinedScss).ConfigureAwait(false);
 
             if (!compilationResult.Success)
             {
@@ -72,7 +72,7 @@ public class ScssCompilationService : IScssCompilationService
                 MinifiedSizeBytes = compilationResult.CssMinified?.Length ?? 0
             };
 
-            await _moduleRepository.SaveCompiledThemeAsync(tenantId, themeId, compiled);
+            await _moduleRepository.SaveCompiledThemeAsync(tenantId, themeId, compiled).ConfigureAwait(false);
 
             stopwatch.Stop();
             compilationResult.CompilationTimeMs = stopwatch.ElapsedMilliseconds;
@@ -97,7 +97,7 @@ public class ScssCompilationService : IScssCompilationService
 
         try
         {
-            var modules = await _moduleRepository.GetEnabledModulesAsync(tenantId, themeId);
+            var modules = await _moduleRepository.GetEnabledModulesAsync(tenantId, themeId).ConfigureAwait(false);
             var combinedScss = BuildCombinedScss(modules);
 
             // Append overrides for preview
@@ -106,7 +106,7 @@ public class ScssCompilationService : IScssCompilationService
                 combinedScss += $"\n\n// === Preview Overrides ===\n{scssOverrides}";
             }
 
-            var result = await CompileScssAsync(combinedScss);
+            var result = await CompileScssAsync(combinedScss).ConfigureAwait(false);
             result.CompilationTimeMs = stopwatch.ElapsedMilliseconds;
 
             return result;
@@ -121,19 +121,19 @@ public class ScssCompilationService : IScssCompilationService
     /// <inheritdoc />
     public async Task<string> GetCompiledCssAsync(Guid tenantId, Guid themeId, bool minified = true)
     {
-        var compiled = await _moduleRepository.GetCompiledThemeAsync(tenantId, themeId);
+        var compiled = await _moduleRepository.GetCompiledThemeAsync(tenantId, themeId).ConfigureAwait(false);
 
         if (compiled == null || compiled.Status != CompilationStatus.Success)
         {
             // Compile on-demand if not cached
-            var result = await CompileThemeAsync(tenantId, themeId);
+            var result = await CompileThemeAsync(tenantId, themeId).ConfigureAwait(false);
             return minified ? result.CssMinified ?? string.Empty : result.Css ?? string.Empty;
         }
 
         // Check if recompilation needed
-        if (await NeedsRecompilationAsync(tenantId, themeId))
+        if (await NeedsRecompilationAsync(tenantId, themeId).ConfigureAwait(false))
         {
-            var result = await CompileThemeAsync(tenantId, themeId);
+            var result = await CompileThemeAsync(tenantId, themeId).ConfigureAwait(false);
             return minified ? result.CssMinified ?? string.Empty : result.Css ?? string.Empty;
         }
 
@@ -143,21 +143,21 @@ public class ScssCompilationService : IScssCompilationService
     /// <inheritdoc />
     public async Task<bool> NeedsRecompilationAsync(Guid tenantId, Guid themeId)
     {
-        var compiled = await _moduleRepository.GetCompiledThemeAsync(tenantId, themeId);
+        var compiled = await _moduleRepository.GetCompiledThemeAsync(tenantId, themeId).ConfigureAwait(false);
 
         if (compiled == null)
         {
             return true;
         }
 
-        var currentHash = await _moduleRepository.CalculateSourceHashAsync(tenantId, themeId);
-        return compiled.SourceHash != currentHash;
+        var currentHash = await _moduleRepository.CalculateSourceHashAsync(tenantId, themeId).ConfigureAwait(false);
+        return !string.Equals(compiled.SourceHash, currentHash, StringComparison.Ordinal);
     }
 
     /// <inheritdoc />
     public async Task InvalidateCacheAsync(Guid tenantId, Guid themeId)
     {
-        await _moduleRepository.DeleteCompiledThemeAsync(tenantId, themeId);
+        await _moduleRepository.DeleteCompiledThemeAsync(tenantId, themeId).ConfigureAwait(false);
         _logger.LogInformation("Cache invalidated for Theme {ThemeId}", themeId);
     }
 
@@ -186,7 +186,7 @@ public class ScssCompilationService : IScssCompilationService
         var orderedModules = modules
             .OrderBy(m => (int)m.Category)
             .ThenBy(m => m.SortOrder)
-            .ThenBy(m => m.Name);
+            .ThenBy(m => m.Name, StringComparer.Ordinal);
 
         ScssModuleCategory? lastCategory = null;
 
@@ -232,7 +232,7 @@ public class ScssCompilationService : IScssCompilationService
             var css = ConvertScssVariablesToCss(scssContent);
             var cssMinified = MinifyCss(css);
 
-            return await Task.FromResult(CompilationResult.Ok(css, cssMinified, 0));
+            return await Task.FromResult(CompilationResult.Ok(css, cssMinified, 0)).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

@@ -157,6 +157,7 @@
 <script setup lang="ts">
 import { ref, nextTick, onMounted, onUnmounted, watch } from 'vue';
 import { marked } from 'marked';
+import { sanitizeHtml } from '@/utils/sanitize';
 import aiService from '@/services/aiService';
 
 // Props
@@ -430,7 +431,8 @@ const extractComponent = (message: string): string => {
 const formatMessage = (text: string): string => {
   // Convert markdown to HTML - marked can return Promise in v14+, so use parseInline
   const result = marked.parseInline(text) as string;
-  return result;
+  // Sanitize the HTML to prevent XSS attacks
+  return sanitizeHtml(result);
 };
 
 const formatTime = (timestamp: Date): string => {

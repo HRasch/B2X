@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { defineNuxtConfig } from 'nuxt/config';
 import path from 'path';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
@@ -15,6 +16,9 @@ export default defineNuxtConfig({
 
   // SSR enabled by default in Nuxt 3
   ssr: true,
+
+  // Source directory
+  srcDir: 'src',
 
   // TypeScript
   typescript: {
@@ -43,8 +47,8 @@ export default defineNuxtConfig({
     ].filter(Boolean),
     resolve: {
       alias: {
-        '@': path.resolve(__dirname),
-        '~': path.resolve(__dirname),
+        '@': path.resolve(__dirname, 'src'),
+        '~': path.resolve(__dirname, 'src'),
       },
     },
     css: {

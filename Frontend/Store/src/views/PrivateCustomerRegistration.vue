@@ -527,7 +527,7 @@
             class="mt-3 pt-3 border-t border-blue-200 text-xs text-gray-600"
           >
             <strong class="block mb-1">{{ $t('registration.withdrawalNotice') }}</strong>
-            <p v-html="storeConfig.withdrawalPolicyCustomText" />
+            <p v-html="safeWithdrawalText" />
           </div>
         </div>
 
@@ -644,6 +644,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useSafeHtml } from '@/utils/sanitize';
 
 interface FormData {
   email: string;
@@ -712,6 +713,8 @@ const storeConfig = ref<StoreConfig>({
   withdrawalPolicyCustomText:
     'Sie haben das Recht, innerhalb von 14 Tagen nach dem Kauf die Ware ohne Angabe von Gründen zurückzugeben.',
 });
+
+const safeWithdrawalText = useSafeHtml(storeConfig.value.withdrawalPolicyCustomText);
 
 const errors = ref<Partial<Record<keyof FormData, string>>>({});
 const showPassword = ref(false);

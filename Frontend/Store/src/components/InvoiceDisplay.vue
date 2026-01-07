@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 declare global {
   interface Window {
@@ -70,6 +71,8 @@ const emit = defineEmits<{
   (e: 'download-pdf', invoiceId: string): void;
   (e: 'send-email', invoiceId: string, email: string): void;
 }>();
+
+const { t } = useI18n();
 
 const loading = ref(false);
 const error = ref<string | null>(null);

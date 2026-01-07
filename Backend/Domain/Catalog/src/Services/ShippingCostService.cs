@@ -53,7 +53,7 @@ public class ShippingCostService
     };
 
     // Country-specific shipping cost adjustments (in EUR)
-    private static readonly Dictionary<string, decimal> CountryShippingMultipliers = new()
+    private static readonly Dictionary<string, decimal> CountryShippingMultipliers = new(StringComparer.Ordinal)
     {
         // Germany
         { "DE", 1.0m },
@@ -190,7 +190,7 @@ public class ShippingCostService
 
         // Get shipping cost
         var shippingResponse = await GetShippingMethodsAsync(
-            destinationCountry, totalWeight, subtotal, cancellationToken);
+            destinationCountry, totalWeight, subtotal, cancellationToken).ConfigureAwait(false);
 
         if (!shippingResponse.Success)
         {
@@ -199,7 +199,7 @@ public class ShippingCostService
         }
 
         var selectedMethod = shippingResponse.Methods
-            .FirstOrDefault(m => m.Id == shippingMethodId);
+            .FirstOrDefault(m => string.Equals(m.Id, shippingMethodId, StringComparison.Ordinal));
 
         if (selectedMethod == null)
         {

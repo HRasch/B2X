@@ -54,7 +54,7 @@ public class ProductDto
     public Guid TenantId { get; set; }
     public string Sku { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
-    public Dictionary<string, string> Name { get; set; } = new();
+    public Dictionary<string, string> Name { get; set; } = new(StringComparer.Ordinal);
     public Dictionary<string, string>? ShortDescription { get; set; }
     public Dictionary<string, string>? Description { get; set; }
     public decimal Price { get; set; }
@@ -79,18 +79,18 @@ public class ProductVariantDto
 {
     public Guid Id { get; set; }
     public string Sku { get; set; } = string.Empty;
-    public Dictionary<string, string> Name { get; set; } = new();
+    public Dictionary<string, string> Name { get; set; } = new(StringComparer.Ordinal);
     public decimal? Price { get; set; }
     public int StockQuantity { get; set; }
     public bool IsActive { get; set; }
-    public Dictionary<string, string> AttributeValues { get; set; } = new();
+    public Dictionary<string, string> AttributeValues { get; set; } = new(StringComparer.Ordinal);
 }
 
 public class CreateProductDto
 {
     public string Sku { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
-    public Dictionary<string, string> Name { get; set; } = new();
+    public Dictionary<string, string> Name { get; set; } = new(StringComparer.Ordinal);
     public Dictionary<string, string>? ShortDescription { get; set; }
     public Dictionary<string, string>? Description { get; set; }
     public decimal Price { get; set; }
@@ -117,7 +117,7 @@ public class CategoryDto
 {
     public Guid Id { get; set; }
     public string Slug { get; set; } = string.Empty;
-    public Dictionary<string, string> Name { get; set; } = new();
+    public Dictionary<string, string> Name { get; set; } = new(StringComparer.Ordinal);
     public Dictionary<string, string>? Description { get; set; }
     public int ProductCount { get; set; }
     public bool IsActive { get; set; }

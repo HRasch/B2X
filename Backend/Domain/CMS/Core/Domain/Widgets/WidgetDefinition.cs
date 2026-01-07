@@ -53,7 +53,7 @@ namespace B2Connect.CMS.Core.Domain.Widgets
         public object? DefaultValue { get; set; }
         public bool IsRequired { get; set; }
         public int DisplayOrder { get; set; }
-        public Dictionary<string, object> Metadata { get; set; } = new(); // Validation rules, options, etc.
+        public Dictionary<string, object> Metadata { get; set; } = new(StringComparer.Ordinal); // Validation rules, options, etc.
 
         public WidgetSetting()
         {

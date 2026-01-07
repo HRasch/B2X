@@ -18,6 +18,13 @@
     },
     "logout": "Logout"
   },
+  "fields": {
+    "email": "Email Address",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "fullName": "Full Name"
+  },
   "ui": {
     "save": "Save",
     "cancel": "Cancel",
@@ -48,7 +55,10 @@
     "validation_error": "Validation failed. Please check your input.",
     "duplicate": "This item already exists",
     "min_length": "Must be at least {min} characters",
-    "max_length": "Must be at most {max} characters"
+    "max_length": "Must be at most {max} characters",
+    "registrationCheckFailed": "Error checking registration",
+    "registrationCheckError": "Error: {message}",
+    "registrationTypeDetermined": "Registration type determined: {type}"
   },
   "validation": {
     "email": "Please enter a valid email",
@@ -135,5 +145,92 @@
     "noProducts": "No Products Found",
     "noProductsDescription": "There are no products in this category yet.",
     "browseOtherCategories": "Browse Other Categories"
+  },
+  "registrationCheck": {
+      "title": "Check Registration Type",
+      "subtitle": "Verify if you are already registered as an existing customer",
+      "error": "Error",
+      "email": "Email Address",
+      "businessType": "Business Type",
+      "businessTypeOptions": {
+        "select": "-- Please select --",
+        "b2c": "B2C (Individual / Sole Proprietor)",
+        "b2b": "B2B (Company / GmbH / GmbH & Co. KG)"
+      },
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "companyName": "Company Name",
+      "phone": "Phone",
+      "check": "Check",
+      "checking": "Checking...",
+      "customerData": "Your Customer Data:",
+      "customerNumber": "Customer Number:",
+      "name": "Name:",
+      "emailLabel": "Email:",
+      "phoneLabel": "Phone:",
+      "address": "Address:",
+      "matchScore": "Match Score:",
+      "newCheck": "New Check",
+      "continueWithData": "Continue with Customer Data",
+      "back": "Back",
+      "continueRegistration": "Continue Registration",
+      "info": {
+        "title": "Information",
+        "existingCustomer": "Existing Customer: You are already registered in our system. Your data will be pre-filled automatically.",
+        "newCustomer": "New Customer: You will be redirected to the regular registration process.",
+        "checkDescription": "The check is performed based on email, name and optionally phone/address."
+      },
+      "results": {
+        "existing": "✓ You are already registered",
+        "existingDescription": "Your customer data was found. You can log in with simplified registration.",
+        "existingCustomer": "✓ You are already a customer",
+        "existingCustomerDescription": "We found your data in our system.",
+        "newRequired": "Registration Required",
+        "newRequiredDescription": "You will be registered as a new customer. Please fill out the registration form."
+      },
+      "validation": {
+        "invalidEmail": "Please enter a valid email address"
+      }
+  },
+  "pricing": {
+    "calculatePrice": "Calculate price...",
+    "productPrice": "Product price:",
+    "shipping": "Shipping:",
+    "subtotal": "Subtotal (excl. VAT):",
+    "vat": "VAT ({rate}%):",
+    "total": "Total price:",
+    "includingVat": "incl. {rate}% VAT",
+    "netPrice": "Net price:",
+    "totalLabel": "Total"
+  },
+  "products": {
+    "addToCart": "Add to Cart",
+    "inCart": "In Cart",
+    "notAvailable": "Not Available",
+    "outOfStock": "Out of Stock",
+    "viewDetails": "View Details →"
+  },
+  "widgets": {
+    "notFound": "Widget not found",
+    "notFoundDescription": "Unable to load the widget component. Please check the widget type ID.",
+    "previous": "← Previous",
+    "next": "Next →"
+  },
+  "footer": {
+    "copyright": "© 2024 B2Connect. All rights reserved."
+  },
+  "countries": {
+    "DE": "Germany",
+    "AT": "Austria",
+    "CH": "Switzerland"
+  },
+  "erp": {
+    "customerLookup": {
+      "continue": "Continue",
+      "newCustomerQuestion": "Are you a new customer?",
+      "newCustomerDescription": "You can register now with simplified registration.",
+      "newRegistration": "New Registration",
+      "diagnosticInfo": "🔧 Diagnostic Info (Debug)"
+    }
   }
 }

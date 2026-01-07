@@ -3,9 +3,9 @@
     <!-- Page Header -->
     <div class="bg-base-200 py-12">
       <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-base-900 mb-2">{{ t('registration.check.title') }}</h1>
+        <h1 class="text-4xl font-bold text-base-900 mb-2">{{ $t('registrationCheck.title') }}</h1>
         <p class="text-lg text-base-content/70">
-          {{ t('registration.check.subtitle') }}
+          {{ $t('registrationCheck.subtitle') }}
         </p>
       </div>
     </div>
@@ -29,7 +29,7 @@
             />
           </svg>
           <div>
-            <h4 class="font-bold">{{ t('registration.check.alerts.error') }}</h4>
+            <h4 class="font-bold">{{ $t('registrationCheck.error') }}</h4>
             <p>{{ error }}</p>
           </div>
           <button class="btn btn-sm btn-ghost" @click="error = null">✕</button>
@@ -68,11 +68,11 @@
         <div class="card-body">
           <form @submit.prevent="handleCheckRegistration">
             <div class="grid grid-cols-1 gap-4">
+              <!-- Email Input -->
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-bold"
-                    >{{ t('registration.check.form.email.label') }}
-                    <span class="text-error">*</span></span
+                    >{{ $t('registrationCheck.email') }} <span class="text-error">*</span></span
                   >
                 </label>
                 <input
@@ -81,7 +81,7 @@
                   type="email"
                   class="input input-bordered"
                   :class="emailError ? 'input-error' : ''"
-                  :placeholder="t('registration.check.form.email.placeholder')"
+                  placeholder="beispiel@unternehmen.de"
                   required
                   data-testid="email-input"
                   @blur="validateEmailField"
@@ -95,7 +95,7 @@
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-bold"
-                    >{{ t('registration.check.form.businessType.label') }}
+                    >{{ $t('registrationCheck.businessType') }}
                     <span class="text-error">*</span></span
                   >
                 </label>
@@ -106,25 +106,23 @@
                   required
                   data-testid="business-type-select"
                 >
-                  <option value="">
-                    {{ t('registration.check.form.businessType.placeholder') }}
-                  </option>
-                  <option value="B2C">{{ t('registration.check.form.businessType.b2c') }}</option>
-                  <option value="B2B">{{ t('registration.check.form.businessType.b2b') }}</option>
+                  <option value="">{{ $t('registrationCheck.businessTypeOptions.select') }}</option>
+                  <option value="B2C">{{ $t('registrationCheck.businessTypeOptions.b2c') }}</option>
+                  <option value="B2B">{{ $t('registrationCheck.businessTypeOptions.b2b') }}</option>
                 </select>
               </div>
 
               <!-- Optional: First Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">{{ t('registration.check.form.firstName.label') }}</span>
+                  <span class="label-text">{{ $t('registrationCheck.firstName') }}</span>
                 </label>
                 <input
                   id="firstName"
                   v-model="formData.firstName"
                   type="text"
                   class="input input-bordered"
-                  :placeholder="t('registration.check.form.firstName.placeholder')"
+                  placeholder="Max"
                   data-testid="first-name-input"
                 />
               </div>
@@ -132,14 +130,14 @@
               <!-- Optional: Last Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">{{ t('registration.check.form.lastName.label') }}</span>
+                  <span class="label-text">{{ $t('registrationCheck.lastName') }}</span>
                 </label>
                 <input
                   id="lastName"
                   v-model="formData.lastName"
                   type="text"
                   class="input input-bordered"
-                  :placeholder="t('registration.check.form.lastName.placeholder')"
+                  placeholder="Mustermann"
                   data-testid="last-name-input"
                 />
               </div>
@@ -147,16 +145,14 @@
               <!-- Optional: Company Name -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">{{
-                    t('registration.check.form.companyName.label')
-                  }}</span>
+                  <span class="label-text">{{ $t('registrationCheck.companyName') }}</span>
                 </label>
                 <input
                   id="companyName"
                   v-model="formData.companyName"
                   type="text"
                   class="input input-bordered"
-                  :placeholder="t('registration.check.form.companyName.placeholder')"
+                  placeholder="Mustercompany GmbH"
                   data-testid="company-name-input"
                 />
               </div>
@@ -164,14 +160,14 @@
               <!-- Optional: Phone -->
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text">{{ t('registration.check.form.phone.label') }}</span>
+                  <span class="label-text">{{ $t('registrationCheck.phone') }}</span>
                 </label>
                 <input
                   id="phone"
                   v-model="formData.phone"
                   type="tel"
                   class="input input-bordered"
-                  :placeholder="t('registration.check.form.phone.placeholder')"
+                  placeholder="+49 (0) 123 456789"
                   data-testid="phone-input"
                 />
               </div>
@@ -186,11 +182,7 @@
                 data-testid="submit-button"
               >
                 <span v-if="isLoading" class="loading loading-spinner loading-sm"></span>
-                {{
-                  isLoading
-                    ? t('registration.check.buttons.checking')
-                    : t('registration.check.buttons.check')
-                }}
+                {{ isLoading ? $t('registrationCheck.checking') : $t('registrationCheck.check') }}
               </button>
             </div>
           </form>
@@ -234,29 +226,27 @@
               <!-- ERP Data (if found) -->
               <div v-if="result.erpData" class="divider"></div>
               <div v-if="result.erpData" class="overflow-x-auto">
-                <h4 class="font-bold mb-4">{{ t('registration.check.results.customerData') }}</h4>
+                <h4 class="font-bold mb-4">{{ $t('registrationCheck.customerData') }}</h4>
                 <table class="table table-sm w-full">
                   <tbody>
                     <tr>
-                      <td class="font-bold">
-                        {{ t('registration.check.results.customerNumber') }}
-                      </td>
+                      <td class="font-bold">{{ $t('registrationCheck.customerNumber') }}</td>
                       <td>{{ result.erpData.customerNumber }}</td>
                     </tr>
                     <tr>
-                      <td class="font-bold">{{ t('registration.check.results.name') }}</td>
+                      <td class="font-bold">{{ $t('registrationCheck.name') }}</td>
                       <td>{{ result.erpData.name }}</td>
                     </tr>
                     <tr>
-                      <td class="font-bold">{{ t('registration.check.results.email') }}</td>
+                      <td class="font-bold">{{ $t('registrationCheck.emailLabel') }}</td>
                       <td>{{ result.erpData.email }}</td>
                     </tr>
                     <tr v-if="result.erpData.phone">
-                      <td class="font-bold">{{ t('registration.check.results.phone') }}</td>
+                      <td class="font-bold">{{ $t('registrationCheck.phoneLabel') }}</td>
                       <td>{{ result.erpData.phone }}</td>
                     </tr>
                     <tr v-if="result.erpData.address">
-                      <td class="font-bold">{{ t('registration.check.results.address') }}</td>
+                      <td class="font-bold">{{ $t('registrationCheck.address') }}</td>
                       <td>
                         {{ result.erpData.address }}<br />
                         {{ result.erpData.postalCode }} {{ result.erpData.city }}<br />
@@ -270,7 +260,7 @@
               <!-- Confidence Score (if duplicate detected) -->
               <div v-if="result.confidenceScore" class="mt-6">
                 <div class="flex justify-between items-center mb-2">
-                  <p class="font-bold">{{ t('registration.check.results.matchScore') }}</p>
+                  <p class="font-bold">{{ $t('registrationCheck.matchScore') }}</p>
                   <span class="font-bold text-lg">{{ result.confidenceScore }}%</span>
                 </div>
                 <progress
@@ -289,18 +279,18 @@
                   "
                 >
                   <button class="btn btn-secondary" @click="resetForm">
-                    {{ t('registration.check.buttons.newCheck') }}
+                    {{ $t('registrationCheck.newCheck') }}
                   </button>
                   <button class="btn btn-primary" @click="continueWithBestandskunde">
-                    {{ t('registration.check.buttons.continueWithData') }}
+                    {{ $t('registrationCheck.continueWithData') }}
                   </button>
                 </template>
                 <template v-else>
                   <button class="btn btn-secondary" @click="resetForm">
-                    {{ t('registration.check.buttons.back') }}
+                    {{ $t('registrationCheck.back') }}
                   </button>
                   <button class="btn btn-primary" @click="continueWithNewRegistration">
-                    {{ t('registration.check.buttons.continueRegistration') }}
+                    {{ $t('registrationCheck.continueRegistration') }}
                   </button>
                 </template>
               </div>
@@ -325,16 +315,16 @@
           ></path>
         </svg>
         <div>
-          <h3 class="font-bold">{{ t('registration.check.info.title') }}</h3>
+          <h3 class="font-bold">{{ $t('registrationCheck.info.title') }}</h3>
           <div class="text-sm">
             <p>
-              <strong>{{ t('registration.check.info.existingCustomer') }}</strong>
+              <strong>{{ $t('registrationCheck.info.existingCustomer') }}</strong>
             </p>
             <p class="mt-2">
-              <strong>{{ t('registration.check.info.newCustomer') }}</strong>
+              <strong>{{ $t('registrationCheck.info.newCustomer') }}</strong>
             </p>
             <p class="mt-2">
-              {{ t('registration.check.info.checkDetails') }}
+              {{ $t('registrationCheck.info.checkDescription') }}
             </p>
           </div>
         </div>
@@ -355,8 +345,8 @@ import {
   type CheckRegistrationTypeResponse,
 } from '@/services/registrationService';
 
-const { t } = useI18n();
 const router = useRouter();
+const { t } = useI18n();
 
 // Form State
 const formData = ref<CheckRegistrationTypeRequest>({
@@ -381,7 +371,7 @@ const result = ref<CheckRegistrationTypeResponse | null>(null);
 function validateEmailField() {
   emailError.value = null;
   if (formData.value.email && !validateEmail(formData.value.email)) {
-    emailError.value = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+    emailError.value = t('registrationCheck.validation.invalidEmail');
   }
 }
 
@@ -395,7 +385,7 @@ async function handleCheckRegistration() {
 
   // Validate email
   if (!validateEmail(formData.value.email)) {
-    emailError.value = 'Bitte geben Sie eine gültige E-Mail-Adresse ein';
+    emailError.value = t('registrationCheck.validation.invalidEmail');
     return;
   }
 
@@ -407,20 +397,20 @@ async function handleCheckRegistration() {
 
     if (response.success) {
       result.value = response;
-      successMessage.value = `Registrierungstyp bestimmt: ${formatRegistrationType(
-        response.registrationType
-      )}`;
+      successMessage.value = t('errors.registrationTypeDetermined', {
+        type: formatRegistrationType(response.registrationType),
+      });
 
       // Scroll to results
       setTimeout(() => {
         document.querySelector('.results-section')?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     } else {
-      error.value = response.message || response.error || 'Fehler beim Prüfen der Registrierung';
+      error.value = response.message || response.error || t('errors.registrationCheckFailed');
     }
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
-    error.value = `Fehler: ${errorMsg}`;
+    error.value = t('errors.registrationCheckError', { message: errorMsg });
     console.error('CheckRegistrationType error:', err);
   } finally {
     isLoading.value = false;
@@ -435,11 +425,12 @@ function getResultTitle(): string {
 
   switch (result.value.registrationType) {
     case 'Bestandskunde':
+      return t('registrationCheck.results.existing');
     case 'ExistingCustomer':
-      return t('registration.check.results.existingCustomer.title');
+      return t('registrationCheck.results.existingCustomer');
     case 'NewCustomer':
     default:
-      return t('registration.check.results.newCustomer.title');
+      return t('registrationCheck.results.newRequired');
   }
 }
 
@@ -451,11 +442,12 @@ function getResultDescription(): string {
 
   switch (result.value.registrationType) {
     case 'Bestandskunde':
+      return t('registrationCheck.results.existingDescription');
     case 'ExistingCustomer':
-      return t('registration.check.results.existingCustomer.description');
+      return t('registrationCheck.results.existingCustomerDescription');
     case 'NewCustomer':
     default:
-      return t('registration.check.results.newCustomer.description');
+      return t('registrationCheck.results.newRequiredDescription');
   }
 }
 

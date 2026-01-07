@@ -33,7 +33,7 @@ public class CalculatePriceValidatorTests
 
         // Assert
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.PropertyName == "ProductPrice");
+        Assert.Contains(result.Errors, e => string.Equals(e.PropertyName, "ProductPrice", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class CalculatePriceValidatorTests
 
         // Assert
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.PropertyName == "DestinationCountry");
+        Assert.Contains(result.Errors, e => string.Equals(e.PropertyName, "DestinationCountry", StringComparison.Ordinal));
     }
 
     [Fact]

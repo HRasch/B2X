@@ -1,8 +1,9 @@
+---
 name: Security Scans (CodeQL + Snyk)
 
 on:
   schedule:
-    - cron: '0 4 * * 0' # weekly on Sunday at 04:00 UTC
+    - cron: '0 4 * * 0'  # weekly on Sunday at 04:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -11,15 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v4
         with:
           languages:
             - csharp
             - javascript
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
+        uses: github/codeql-action/autobuild@v4
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v4
 
   snyk-scan:
     runs-on: ubuntu-latest
@@ -27,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '18'
       - name: Install dependencies (frontend)

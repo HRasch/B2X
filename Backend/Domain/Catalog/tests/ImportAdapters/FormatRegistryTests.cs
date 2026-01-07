@@ -37,9 +37,9 @@ public class FormatRegistryTests
         var adapters = _registry.GetAllAdapters();
 
         Assert.Equal(3, adapters.Count);
-        Assert.Contains(adapters, a => a.FormatId == "bmecat");
-        Assert.Contains(adapters, a => a.FormatId == "datanorm");
-        Assert.Contains(adapters, a => a.FormatId == "csv");
+        Assert.Contains(adapters, a => string.Equals(a.FormatId, "bmecat", StringComparison.Ordinal));
+        Assert.Contains(adapters, a => string.Equals(a.FormatId, "datanorm", StringComparison.Ordinal));
+        Assert.Contains(adapters, a => string.Equals(a.FormatId, "csv", StringComparison.Ordinal));
     }
 
     [Theory]

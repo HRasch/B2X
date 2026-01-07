@@ -8,7 +8,7 @@ status: Active
 # 🎯 Development Cycle Prompts - Quick Reference
 
 **DocID**: `PRM-INDEX`  
-**Last Updated**: 31. Dezember 2025  
+**Last Updated**: 7. Januar 2026  
 **Status**: ✅ All Core Prompts Created
 
 See [DOCUMENT_REGISTRY.md](../../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
@@ -336,7 +336,7 @@ Each prompt generates specific artifacts stored in `.ai/`:
 
 - [x] START_FEATURE - Feature initiation
 - [x] REQUIREMENTS_ANALYSIS - Multi-agent analysis
-- [x] CODE_REVIEW - Quality gate
+- [x] CODE_REVIEW - Code gate
 - [x] RUN_TESTS - QA sign-off
 - [x] SECURITY_AUDIT - Security review
 - [x] BUG_ANALYSIS - Bug resolution
@@ -345,10 +345,15 @@ Each prompt generates specific artifacts stored in `.ai/`:
 - [x] DEPLOY - Deployment management
 - [x] FEATURE_HANDOVER - Documentation & release
 - [x] SPRINT_CYCLE - Sprint management
+- [x] AGENT_REMOVAL - Agent deactivation
+- [x] AGENT_CREATION - Agent creation
+- [x] CONTEXT_OPTIMIZATION - Token efficiency
+- [x] SUBAGENT_DELEGATION - Delegation routing
+- [x] PROJECT_CLEANUP - Project cleanup
 
-**Status**: ✅ All core prompts documented and ready for use
+**Status**: ✅ All 16 core prompts documented and ready for use
 
 ---
 
-**Last Updated**: 30. Dezember 2025  
-**Next Review**: 15. Januar 2026
+**Last Updated**: 7. Januar 2026  
+**Next Review**: 15. Februar 2026

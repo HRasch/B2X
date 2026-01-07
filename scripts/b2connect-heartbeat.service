@@ -1,0 +1,15 @@
+[Unit]
+Description=B2Connect Runtime Health Check Heartbeat
+After=network.target
+
+[Service]
+Type=simple
+User=b2connect
+WorkingDirectory=/path/to/B2Connect
+ExecStart=/path/to/B2Connect/scripts/runtime-health-check.sh --heartbeat --slack-webhook https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
+Restart=always
+RestartSec=5
+Environment=SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
+
+[Install]
+WantedBy=multi-user.target

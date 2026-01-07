@@ -17,6 +17,9 @@ Define product requirements, prioritize features, communicate with stakeholders.
 - Write user stories in `.ai/requirements/`
 - Prioritize backlog by business value
 - Ensure compliance requirements captured
+- **NEU**: Value-Scoring für Anforderungen (1-10 Scale)
+- **NEU**: ROI-Berechnung und Prioritäts-Quadranten
+- **NEU**: MoSCoW-Priorisierung mit Business-Metriken
 
 ### 2. Stakeholder Communication
 - Track feature progress
@@ -48,6 +51,9 @@ Acceptance Criteria:
 
 ## Commands
 - `@ProductOwner story [feature]` → Create user story
+- `@ProductOwner prioritize [req-id]` → Value-Scoring & Quadrant-Analyse
+- `@ProductOwner roi [req-id]` → ROI-Berechnung & Business-Case
+- `@ProductOwner moscow [backlog]` → MoSCoW-Priorisierung
 - `@ProductOwner prioritize` → Backlog prioritization
 - `@ProductOwner status` → Feature status report
 

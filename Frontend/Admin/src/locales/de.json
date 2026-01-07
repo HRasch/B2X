@@ -12,7 +12,8 @@
       "submit": "Anmelden",
       "demoAccount": "Demo-Konto:",
       "demoCredentials": "admin@example.com / password",
-      "forgotPassword": "Passwort vergessen?"
+      "forgotPassword": "Passwort vergessen?",
+      "loginError": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut."
     },
     "register": {
       "title": "Registrieren",
@@ -188,6 +189,32 @@
       "manageProducts": "Produkte verwalten",
       "monitorJobs": "Jobs überwachen",
       "mediaLibrary": "Medienbibliothek"
+    },
+    "metrics": {
+      "title": "Globale Analytics Dashboard",
+      "timeRanges": {
+        "lastHour": "Letzte Stunde",
+        "last24Hours": "Letzte 24 Stunden",
+        "last7Days": "Letzte 7 Tage",
+        "last30Days": "Letzte 30 Tage"
+      },
+      "aiResourceEfficiency": "KI-Ressourceneffizienz",
+      "complianceCoverage": "Compliance-Abdeckung",
+      "feedbackAnalytics": "Feedback-Analytics",
+      "sentiment": {
+        "positive": "Positiv",
+        "neutral": "Neutral",
+        "negative": "Negativ"
+      },
+      "keyInsights": "Wichtige Erkenntnisse",
+      "performanceBenchmarks": "Leistungsbenchmarks",
+      "globalMetricsOverview": "Globale Metriken Übersicht",
+      "metrics": {
+        "activeUsers": "Aktive Benutzer",
+        "apiRequests": "API-Anfragen",
+        "errorRate": "Fehlerrate",
+        "avgResponseTime": "Durchschnittliche Antwortzeit"
+      }
     }
   },
   "cms": {

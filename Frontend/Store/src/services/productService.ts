@@ -6,7 +6,7 @@ export interface Product {
   price: number;
   b2bPrice: number;
   image: string;
-  category: string;
+  categories: string[];
   description: string;
   inStock: boolean;
   rating: number;

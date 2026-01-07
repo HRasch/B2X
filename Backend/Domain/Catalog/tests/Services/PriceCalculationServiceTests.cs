@@ -1,3 +1,4 @@
+using System.Globalization;
 using B2Connect.Catalog.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -166,11 +167,11 @@ public class PriceCalculationServiceTests
 
         // Assert - F2 always produces exactly 2 decimal places
         // Note: Uses system locale (German: comma separator, US: period)
-        var vatFormatted = result.VatAmount.ToString("F2");
+        var vatFormatted = result.VatAmount.ToString("F2", CultureInfo.InvariantCulture);
         var vatHasDecimal = vatFormatted.Contains('.') || vatFormatted.Contains(',');
         Assert.True(vatHasDecimal, $"VatAmount '{vatFormatted}' must have decimal separator");
 
-        var priceFormatted = result.PriceIncludingVat.ToString("F2");
+        var priceFormatted = result.PriceIncludingVat.ToString("F2", CultureInfo.InvariantCulture);
         var priceHasDecimal = priceFormatted.Contains('.') || priceFormatted.Contains(',');
         Assert.True(priceHasDecimal, $"PriceIncludingVat '{priceFormatted}' must have decimal separator");
     }

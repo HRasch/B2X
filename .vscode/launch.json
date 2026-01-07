@@ -5,7 +5,8 @@
       "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
+      "program": "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj",
+      "preLaunchTask": "build-apphost",
       "args": [],
       "cwd": "${workspaceFolder}/AppHost",
       "stopAtEntry": false,
@@ -22,6 +23,10 @@
         "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true",
         "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
         "Database__Provider": "inmemory",
+        "Database__Password": "postgres",
+        "Redis__Password": "",
+        "Elasticsearch__Password": "elastic",
+        "RabbitMQ__Password": "guest",
         "Jwt__Secret": "dev-jwt-secret-minimum-32-characters-required!!!",
         "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
         "Azure__KeyVault__UseMocked": "true"
@@ -32,7 +37,8 @@
     {
       "name": "🚀 Full Stack (PostgreSQL)",
       "type": "coreclr",
-      "request": "launch",
+      "request": "launch",B2Connect.AppHost.csproj",
+      "preLaunchTask": "build-apphost
       "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
       "args": [],
       "cwd": "${workspaceFolder}/AppHost",
@@ -46,10 +52,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
         "Database__Provider": "postgres",
-        "Database__Password": "postgres",
-        "Redis__Password": "",
-        "Elasticsearch__Password": "elastic",
-        "RabbitMQ__Password": "guest",
         "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
         "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
       },

@@ -35,7 +35,7 @@ public class EmailQueueService : IEmailQueueService
         message.Status = message.ScheduledFor > DateTime.UtcNow ? EmailStatus.Scheduled : EmailStatus.Queued;
 
         _dbContext.EmailMessages.Add(message);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Email {EmailId} queued for tenant {TenantId}", message.Id, message.TenantId);
     }
@@ -52,7 +52,7 @@ public class EmailQueueService : IEmailQueueService
             .OrderByDescending(e => e.Priority)
             .ThenBy(e => e.CreatedAt)
             .Take(batchSize)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
 
         // Mark as processing
         foreach (var email in emails)
@@ -60,7 +60,7 @@ public class EmailQueueService : IEmailQueueService
             email.Status = EmailStatus.Processing;
         }
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Retrieved {Count} emails for processing", emails.Count);
 
@@ -70,7 +70,7 @@ public class EmailQueueService : IEmailQueueService
     /// <inheritdoc />
     public async Task MarkEmailAsSentAsync(Guid emailId, string messageId, CancellationToken cancellationToken = default)
     {
-        var email = await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken);
+        var email = await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken).ConfigureAwait(false);
         if (email == null)
         {
             _logger.LogWarning("Email {EmailId} not found for marking as sent", emailId);
@@ -81,7 +81,7 @@ public class EmailQueueService : IEmailQueueService
         email.SentAt = DateTime.UtcNow;
         email.MessageId = messageId;
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Email {EmailId} marked as sent with message ID {MessageId}", emailId, messageId);
     }
@@ -89,7 +89,7 @@ public class EmailQueueService : IEmailQueueService
     /// <inheritdoc />
     public async Task MarkEmailAsFailedAsync(Guid emailId, string errorMessage, CancellationToken cancellationToken = default)
     {
-        var email = await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken);
+        var email = await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken).ConfigureAwait(false);
         if (email == null)
         {
             _logger.LogWarning("Email {EmailId} not found for marking as failed", emailId);
@@ -117,13 +117,13 @@ public class EmailQueueService : IEmailQueueService
                 emailId, email.RetryCount, email.MaxRetries, email.NextRetryAt);
         }
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task RetryEmailAsync(Guid emailId, CancellationToken cancellationToken = default)
     {
-        var email = await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken);
+        var email = await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken).ConfigureAwait(false);
         if (email == null)
         {
             _logger.LogWarning("Email {EmailId} not found for manual retry", emailId);
@@ -134,7 +134,7 @@ public class EmailQueueService : IEmailQueueService
         email.NextRetryAt = DateTime.UtcNow;
         email.LastError = null;
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Email {EmailId} manually queued for retry", emailId);
     }
@@ -159,19 +159,19 @@ public class EmailQueueService : IEmailQueueService
             .OrderByDescending(e => e.CreatedAt)
             .Skip(skip)
             .Take(take)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<EmailMessage?> GetEmailByIdAsync(Guid emailId, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken);
+        return await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task CancelEmailAsync(Guid emailId, CancellationToken cancellationToken = default)
     {
-        var email = await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken);
+        var email = await _dbContext.EmailMessages.FindAsync(new object[] { emailId }, cancellationToken).ConfigureAwait(false);
         if (email == null)
         {
             _logger.LogWarning("Email {EmailId} not found for cancellation", emailId);
@@ -186,7 +186,7 @@ public class EmailQueueService : IEmailQueueService
 
         email.Status = EmailStatus.Cancelled;
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Email {EmailId} cancelled", emailId);
     }

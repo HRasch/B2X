@@ -29,7 +29,7 @@ public class InvoiceRepository : IInvoiceRepository
             invoice.InvoiceNumber, invoice.OrderId);
 
         _context.Invoices.Add(invoice);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return invoice;
     }
@@ -39,7 +39,7 @@ public class InvoiceRepository : IInvoiceRepository
         _logger.LogInformation("Updating invoice {InvoiceNumber}", invoice.InvoiceNumber);
 
         _context.Invoices.Update(invoice);
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return invoice;
     }
@@ -75,7 +75,7 @@ public class InvoiceRepository : IInvoiceRepository
     {
         _logger.LogInformation("Deleting invoice {InvoiceId}", id);
 
-        var invoice = await _context.Invoices.FindAsync(new object[] { id }, cancellationToken);
+        var invoice = await _context.Invoices.FindAsync(new object[] { id }, cancellationToken).ConfigureAwait(false);
         if (invoice == null)
         {
             return;
@@ -83,6 +83,6 @@ public class InvoiceRepository : IInvoiceRepository
 
         invoice.IsDeleted = true;
         invoice.DeletedAt = DateTime.UtcNow;
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 }

@@ -102,6 +102,101 @@ logger.info('User created', { userId, password }); // EXPOSED!
 
 ---
 
+## Store Legal Compliance (Issue #15) - Current Status
+
+**Issue #15: "Implement Store Legal Compliance" - EU E-Commerce Requirements**
+
+### Critical Gaps Identified (Blockers for Sprint Implementation)
+
+#### 1. Legal Documents Missing (TMG & GDPR Violation)
+- ❌ **No Impressum page** - Required by TMG §5
+- ❌ **No full Privacy Policy page** - Required by GDPR Art. 13/14  
+- ❌ **No Terms & Conditions page** - Required for all e-commerce
+- ✅ Partial: Footer links exist but lead to "#" (placeholders)
+
+#### 2. Checkout Compliance Missing (GDPR & Contract Law Violation)
+- ❌ **No Terms acceptance checkbox** in checkout - Required before purchase
+- ❌ **No Privacy Policy acceptance** in checkout - Recommended
+- ❌ **No acceptance logging** with timestamp & version
+
+#### 3. Price Display Non-Compliant (PAngV Violation)
+- ❌ **Tax shown separately** (€100 + 19% VAT) instead of included (€119 inkl. MwSt)
+- ❌ **Shipping costs not visible** before checkout completion
+- ❌ **No dynamic shipping recalculation** on country change
+
+#### 4. Backend Services Missing (Multiple Violations)
+- ❌ **No LegalDocumentsService** - Cannot store/manage shop-specific legal docs
+- ❌ **No VatIdValidationService** - Cannot validate EU VAT-IDs for B2B
+- ❌ **No ReturnManagementService** - Cannot enforce 14-day withdrawal period
+- ❌ **InvoiceService exists** but lacks VAT breakdown & encryption
+
+#### 5. B2B VAT Handling Missing (AStV Violation)
+- ❌ **No VIES API integration** for VAT-ID validation
+- ❌ **No reverse charge logic** for intra-EU B2B transactions
+- ❌ **No VAT-ID storage** with validation expiry
+
+### Required Changes for Approval
+
+#### Frontend (@Frontend Coordination Required)
+1. **Create legal document pages**:
+   - `/legal/impressum` - Shop-specific Impressum
+   - `/legal/privacy` - GDPR-compliant Privacy Policy  
+   - `/legal/terms` - Terms & Conditions with withdrawal notice
+
+2. **Update Checkout.vue**:
+   - Add Terms & Privacy checkboxes (Terms required, Privacy optional)
+   - Block order placement without Terms acceptance
+   - Log acceptance with timestamp, version, IP
+
+3. **Update price displays**:
+   - Show "€119,00 inkl. MwSt" everywhere
+   - Show shipping costs before checkout
+   - Dynamic shipping on country selection
+
+#### Backend (New Services Required)
+1. **LegalDocumentsService** - CRUD for shop legal documents with versioning
+2. **VatIdValidationService** - VIES API integration for EU VAT validation  
+3. **ReturnManagementService** - 14-day window calculation & enforcement
+4. **Enhanced InvoiceService** - VAT breakdown, encryption, 10-year archival
+
+### Validation Against Laws
+
+#### GDPR (Data Protection)
+- ❌ **Privacy Policy**: Must include data processing purposes, legal basis, retention periods
+- ❌ **Consent**: Must be explicit, granular, withdrawable
+- ❌ **Data Subject Rights**: Access, rectification, erasure, portability
+- ❌ **Audit Logging**: All data processing must be logged
+
+#### PAnGV (Price Transparency)  
+- ❌ **Final Price Display**: Must show price including VAT
+- ❌ **Shipping Visibility**: Costs must be shown before purchase
+- ❌ **No Hidden Costs**: All fees visible upfront
+
+#### TMG (Legal Disclosure)
+- ❌ **Impressum**: Required company info, contact details, VAT-ID
+- ❌ **Link Visibility**: Must be accessible on every page
+
+#### VVVG (Consumer Rights)
+- ❌ **14-Day Returns**: Must be enforced from delivery date
+- ❌ **Return Form**: Must be downloadable/printable
+- ❌ **Refund Processing**: Within 14 days of withdrawal request
+
+### Approval Status
+❌ **NOT APPROVED** for Sprint Implementation
+
+**Reason**: Multiple critical compliance violations that would expose B2Connect to fines (€5,000-€300,000) and legal action.
+
+**Next Steps**:
+1. Implement missing backend services (LegalDocumentsService, VatIdValidationService, ReturnManagementService)
+2. Create frontend legal document pages with @Frontend coordination
+3. Update checkout flow for mandatory Terms acceptance
+4. Convert all price displays to include VAT
+5. Re-request legal review before sprint start
+
+**Coordinated with**: @Frontend for UI changes required
+
+---
+
 ## PAngV Checklist (Store/Pricing)
 
 **If you handle prices, shipping, or invoicing:**
@@ -354,5 +449,5 @@ cat .github/prompts/compliance-integration.prompt.md
 
 ---
 
-**Last Updated**: 30. Dezember 2025  
+**Last Updated**: 7. Januar 2026  
 **Print This & Keep It Handy!** 📋

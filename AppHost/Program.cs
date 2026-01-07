@@ -1,6 +1,20 @@
 using B2Connect.Aspire.Extensions;
+using B2Connect.AppHost.Configuration;
+using B2Connect.AppHost.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
+
+// ===== TESTING CONFIGURATION =====
+// Load testing configuration (mode: persisted|temporary, environment: development|testing|ci)
+var testingConfig = builder.Configuration.GetTestingConfiguration();
+
+// Note: TestingConfiguration and TestDataOrchestrator are not registered as services
+// in the AppHost since seeding functionality is now handled by the separate B2Connect.Seeding.API
+// builder.Services.AddSingleton(testingConfig);
+// builder.Services.AddTestDataOrchestrator(testingConfig);
+
+// Add MVC services for web interface
+// builder.Services.AddControllersWithViews(); // Removed - using separate seeding API
 
 // JWT Secret Configuration
 var jwtSecret = builder.Configuration["Jwt:Secret"]
@@ -23,15 +37,14 @@ IResourceBuilder<PostgresDatabaseResource>? layoutDb = null;
 IResourceBuilder<PostgresDatabaseResource>? adminDb = null;
 IResourceBuilder<PostgresDatabaseResource>? storeDb = null;
 IResourceBuilder<PostgresDatabaseResource>? monitoringDb = null;
+IResourceBuilder<PostgresDatabaseResource>? smartDataIntegrationDb = null;
 
 IResourceBuilder<RedisResource>? redis = null;
 IResourceBuilder<ElasticsearchResource>? elasticsearch = null;
 IResourceBuilder<RabbitMQServerResource>? rabbitmq = null;
 IResourceBuilder<PostgresServerResource>? postgres = null;
 
-// IResourceBuilder<AzureCdnResource>? cdn = null;
-
-if (databaseProvider.ToLower() != "inmemory")
+if (!string.Equals(databaseProvider.ToLower(System.Globalization.CultureInfo.InvariantCulture), "inmemory", StringComparison.Ordinal))
 {
     // PostgreSQL Database
     postgres = builder.AddB2ConnectPostgres(
@@ -48,6 +61,7 @@ if (databaseProvider.ToLower() != "inmemory")
     adminDb = postgres.AddB2ConnectDatabase("admin");
     storeDb = postgres.AddB2ConnectDatabase("store");
     monitoringDb = postgres.AddB2ConnectDatabase("monitoring");
+    smartDataIntegrationDb = postgres.AddB2ConnectDatabase("smartdataintegration");
 
     // Redis Cache
     redis = builder.AddB2ConnectRedis(
@@ -63,11 +77,6 @@ if (databaseProvider.ToLower() != "inmemory")
     rabbitmq = builder.AddB2ConnectRabbitMQ(
         name: "rabbitmq",
         port: 5672);
-
-    // Azure CDN for translation assets and API caching
-    // cdn = builder.AddAzureCdnFrontDoor("cdn")
-    //     .WithOrigin(storeGateway, "store-api")
-    //     .WithOrigin(frontendStore, "store-frontend");
 }
 else
 {
@@ -216,6 +225,28 @@ if (redis != null)
 if (rabbitmq != null)
     themingService.WaitFor(rabbitmq);
 
+// Smart Data Integration Service
+var smartDataIntegrationService = builder
+    .AddProject("smartdataintegration-service", "../backend/Domain/SmartDataIntegration/API/B2Connect.SmartDataIntegration.API.csproj")
+    .WithConditionalPostgresConnection(smartDataIntegrationDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithRateLimiting()
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting smart data integration service
+if (postgres != null)
+    smartDataIntegrationService.WaitFor(postgres);
+if (redis != null)
+    smartDataIntegrationService.WaitFor(redis);
+if (rabbitmq != null)
+    smartDataIntegrationService.WaitFor(rabbitmq);
+
 // Monitoring Service (Phase 2: Connected services monitoring, error logging)
 var monitoringService = builder
     .AddProject("monitoring-service", "../backend/BoundedContexts/Monitoring/API/B2Connect.Monitoring.csproj")
@@ -261,6 +292,38 @@ var mcpServer = builder
 mcpServer.WaitFor(authService);
 mcpServer.WaitFor(tenantService);
 mcpServer.WaitFor(monitoringService);
+
+// Seeding API (Test Data Management)
+var seedingApi = builder
+    .AddProject("seeding-api", "../B2Connect.Seeding.API/B2Connect.Seeding.API.csproj")
+    .WithHttpEndpoint(port: 8095, name: "seeding-http")  // Fixed port for seeding API
+    .WithReference(authService)
+    .WithReference(tenantService)
+    .WithReference(catalogService)
+    .WithReference(localizationService)
+    .WithConditionalPostgresConnection(authDb, databaseProvider)
+    .WithConditionalPostgresConnection(tenantDb, databaseProvider)
+    .WithConditionalPostgresConnection(catalogDb, databaseProvider)
+    .WithConditionalPostgresConnection(localizationDb, databaseProvider)
+    .WithConditionalPostgresConnection(layoutDb, databaseProvider)
+    .WithConditionalPostgresConnection(adminDb, databaseProvider)
+    .WithConditionalPostgresConnection(storeDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithEncryption()
+    .WithRateLimiting()
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Seeding API waits for its referenced services
+seedingApi.WaitFor(authService);
+seedingApi.WaitFor(tenantService);
+seedingApi.WaitFor(catalogService);
+seedingApi.WaitFor(localizationService);
 
 // ===== API GATEWAYS =====
 // Gateways keep fixed ports because frontends connect directly to them.
@@ -364,4 +427,5 @@ frontendManagement.WaitFor(mcpServer);
 // Logs appear in Aspire Dashboard under each frontend resource
 // No custom code needed - AddViteApp() handles stdout/stderr forwarding
 
-builder.Build().Run();
+var app = builder.Build();
+await app.RunAsync().ConfigureAwait(false);

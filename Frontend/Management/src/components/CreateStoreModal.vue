@@ -2,42 +2,42 @@
   <div class="modal-overlay" @click="close">
     <div class="modal-content" @click.stop>
       <div class="modal-header">
-        <h2>Create Store Instance</h2>
+        <h2>{{ $t('stores.createStore') }}</h2>
         <button @click="close" class="btn-close">×</button>
       </div>
 
       <form @submit.prevent="handleCreateStore">
         <div class="form-group">
-          <label for="name">Store Name</label>
-          <input id="name" v-model="form.name" type="text" required placeholder="My Store" />
+          <label for="name">{{ $t('stores.name') }}</label>
+          <input id="name" v-model="form.name" type="text" required :placeholder="$t('stores.placeholders.name')" />
         </div>
 
         <div class="form-group">
-          <label for="domain">Domain</label>
+          <label for="domain">{{ $t('stores.domain') }}</label>
           <input
             id="domain"
             v-model="form.domain"
             type="text"
             required
-            placeholder="mystore.example.com"
+            :placeholder="$t('stores.placeholders.domain')"
           />
         </div>
 
         <div class="form-group">
-          <label for="status">Status</label>
+          <label for="status">{{ $t('stores.status') }}</label>
           <select id="status" v-model="form.status" required>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            <option value="suspended">Suspended</option>
+            <option value="active">{{ $t('stores.statuses.active') }}</option>
+            <option value="inactive">{{ $t('stores.statuses.inactive') }}</option>
+            <option value="suspended">{{ $t('stores.statuses.suspended') }}</option>
           </select>
         </div>
 
         <div v-if="error" class="error-message">{{ error }}</div>
 
         <div class="modal-actions">
-          <button type="button" @click="close" class="btn-cancel">Cancel</button>
+          <button type="button" @click="close" class="btn-cancel">{{ $t('stores.cancel') }}</button>
           <button type="submit" :disabled="loading" class="btn-submit">
-            {{ loading ? 'Creating...' : 'Create Store' }}
+            {{ loading ? $t('stores.creating') : $t('stores.createStore') }}
           </button>
         </div>
       </form>

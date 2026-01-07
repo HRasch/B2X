@@ -15,7 +15,7 @@ public class ElasticService : IElasticService
     private readonly string? _defaultUsername;
     private readonly string? _defaultPassword;
     private readonly ITenantCredentialProvider? _tenantCredentialProvider;
-    private readonly ConcurrentDictionary<string, ElasticsearchClient> _tenantClients = new();
+    private readonly ConcurrentDictionary<string, ElasticsearchClient> _tenantClients = new(StringComparer.Ordinal);
 
     public ElasticService(string uri, string? username = null, string? password = null, ITenantCredentialProvider? tenantCredentialProvider = null)
     {
@@ -90,18 +90,18 @@ public class ElasticService : IElasticService
     {
         var client = GetClientForTenant(tenantId, language);
         var index = GetIndexName(tenantId, language);
-        var exists = await client.Indices.ExistsAsync(index);
+        var exists = await client.Indices.ExistsAsync(index).ConfigureAwait(false);
         if (exists.Exists)
         {
             return;
         }
 
-        await client.Indices.CreateAsync(index);
+        await client.Indices.CreateAsync(index).ConfigureAwait(false);
     }
 
     public async Task<SearchResponseDto> SearchAsync(SearchRequestDto request, string? tenantId = null, string? language = null)
     {
-        await EnsureIndexAsync(tenantId, language);
+        await EnsureIndexAsync(tenantId, language).ConfigureAwait(false);
 
         var client = GetClientForTenant(tenantId, language);
 
@@ -110,7 +110,7 @@ public class ElasticService : IElasticService
 
         // Build query
         Query? query;
-        if (string.IsNullOrWhiteSpace(request.Query) || request.Query == "*")
+        if (string.IsNullOrWhiteSpace(request.Query) || string.Equals(request.Query, "*", StringComparison.Ordinal))
         {
             query = new MatchAllQuery();
         }
@@ -143,7 +143,7 @@ public class ElasticService : IElasticService
             Query = query ?? new MatchAllQuery()
         };
 
-        var resp = await client.SearchAsync<ProductDocument>(searchRequest);
+        var resp = await client.SearchAsync<ProductDocument>(searchRequest).ConfigureAwait(false);
 
         var total = resp.Total;
         return new SearchResponseDto
@@ -159,7 +159,7 @@ public class ElasticService : IElasticService
     {
         var client = GetClientForTenant(tenantId, language);
         var index = GetIndexName(tenantId, language);
-        var resp = await client.GetAsync<ProductDocument>(id, g => g.Index(index));
+        var resp = await client.GetAsync<ProductDocument>(id, g => g.Index(index)).ConfigureAwait(false);
         return resp.Found ? resp.Source : null;
     }
 
@@ -168,13 +168,13 @@ public class ElasticService : IElasticService
         var client = GetClientForTenant(tenantId, language);
         var index = GetIndexName(tenantId, language);
         // ensure index exists
-        var exists = await client.Indices.ExistsAsync(index);
+        var exists = await client.Indices.ExistsAsync(index).ConfigureAwait(false);
         if (!exists.Exists)
         {
-            await client.Indices.CreateAsync(index);
+            await client.Indices.CreateAsync(index).ConfigureAwait(false);
         }
 
-        var bulk = await client.BulkAsync(b => b.IndexMany(documents));
+        var bulk = await client.BulkAsync(b => b.IndexMany(documents)).ConfigureAwait(false);
         if (bulk.Errors)
         {
             // TODO: handle per-item failures (log or throw)
@@ -185,7 +185,7 @@ public class ElasticService : IElasticService
     {
         var client = GetClientForTenant(tenantId, language);
         var index = GetIndexName(tenantId, language) + "-meta";
-        var resp = await client.GetAsync<dynamic>("seeded", g => g.Index(index));
+        var resp = await client.GetAsync<dynamic>("seeded", g => g.Index(index)).ConfigureAwait(false);
         return resp.Found;
     }
 
@@ -194,6 +194,6 @@ public class ElasticService : IElasticService
         var client = GetClientForTenant(tenantId, language);
         var index = GetIndexName(tenantId, language) + "-meta";
         var doc = new { seededAt = DateTime.UtcNow, count };
-        await client.IndexAsync(doc, i => i.Index(index).Id("seeded"));
+        await client.IndexAsync(doc, i => i.Index(index).Id("seeded")).ConfigureAwait(false);
     }
 }

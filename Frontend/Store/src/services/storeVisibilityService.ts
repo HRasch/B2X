@@ -1,5 +1,5 @@
 import { api } from './api';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '~/stores/auth';
 
 export interface StoreVisibilityResponse {
   isPublicStore: boolean;

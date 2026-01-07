@@ -38,13 +38,6 @@ public class DefaultTemplateValidationService : ITemplateValidationService
         @"(UPDATE\s+[A-Z_][A-Z0-9_]*\s+SET)"
     };
 
-    private static readonly string[] _performancePatterns = new[]
-    {
-        @"<img(?![^>]*\bloading\s*=\s*[""'][^""']*[""'])[^>]*>",
-        @"<script[^>]*src=[^>]*>\s*</script>",
-        @"@import\s+url",
-    };
-
     public DefaultTemplateValidationService(
         TenantContext tenantContext,
         ILogger<DefaultTemplateValidationService> logger)
@@ -64,16 +57,16 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             template.BaseTemplateKey ?? template.PageType);
 
         // Run all validation checks
-        var syntaxIssues = await ValidateSyntaxAsync(template.TemplateLayout);
+        var syntaxIssues = await ValidateSyntaxAsync(template.TemplateLayout).ConfigureAwait(false);
         issues.AddRange(syntaxIssues);
 
-        var securityIssues = await ValidateSecurityAsync(template.TemplateLayout);
+        var securityIssues = await ValidateSecurityAsync(template.TemplateLayout).ConfigureAwait(false);
         issues.AddRange(securityIssues);
 
-        var performanceIssues = await ValidatePerformanceAsync(template.TemplateLayout);
+        var performanceIssues = await ValidatePerformanceAsync(template.TemplateLayout).ConfigureAwait(false);
         issues.AddRange(performanceIssues);
 
-        var a11yIssues = await ValidateAccessibilityAsync(template.TemplateLayout);
+        var a11yIssues = await ValidateAccessibilityAsync(template.TemplateLayout).ConfigureAwait(false);
         issues.AddRange(a11yIssues);
 
         // Determine overall status
@@ -105,7 +98,7 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             TemplateLayout = content
         };
 
-        return await ValidateTemplateAsync(template, cancellationToken);
+        return await ValidateTemplateAsync(template, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<List<AiSuggestion>> GetSuggestionsAsync(
@@ -166,7 +159,7 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             });
         }
 
-        return await Task.FromResult(suggestions);
+        return await Task.FromResult(suggestions).ConfigureAwait(false);
     }
 
     public async Task RecordSuggestionFeedbackAsync(
@@ -179,7 +172,7 @@ public class DefaultTemplateValidationService : ITemplateValidationService
             "Recorded suggestion feedback: SuggestionId={SuggestionId}, Accepted={Accepted}",
             suggestionId, accepted);
 
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     private async Task<List<ValidationIssue>> ValidateSyntaxAsync(

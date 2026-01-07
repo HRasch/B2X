@@ -31,9 +31,6 @@ builder.Services.AddWolverineHttp();
 // Add Authorization (REQUIRED for [Authorize] attributes)
 builder.Services.AddAuthorization();
 
-// Remove Controllers - using Wolverine HTTP Endpoints
-// builder.Services.AddControllers();
-
 var app = builder.Build();
 
 // Service defaults middleware
@@ -47,4 +44,4 @@ app.UseAuthorization();
 app.MapWolverineEndpoints();
 app.MapGet("/", () => "Tenant Service is running");
 
-await app.RunAsync();
+await app.RunAsync().ConfigureAwait(false);

@@ -56,7 +56,7 @@ public partial class TenantContextMiddleware
         var path = context.Request.Path.Value?.ToLowerInvariant() ?? "";
         if (IsPublicEndpoint(path))
         {
-            await _next(context);
+            await _next(context).ConfigureAwait(false);
             return;
         }
 
@@ -95,7 +95,7 @@ public partial class TenantContextMiddleware
             {
                 success = false,
                 error = "Access denied. Please contact support if this persists."
-            });
+            }).ConfigureAwait(false);
             return;
         }
 
@@ -115,7 +115,7 @@ public partial class TenantContextMiddleware
                 var userId = ExtractUserIdFromJwt(context);
                 if (userId.HasValue)
                 {
-                    var hasAccess = await tenancyClient.ValidateTenantAccessAsync(tenantId.Value, userId.Value);
+                    var hasAccess = await tenancyClient.ValidateTenantAccessAsync(tenantId.Value, userId.Value).ConfigureAwait(false);
                     if (!hasAccess)
                     {
                         _logger.LogWarning(
@@ -127,7 +127,7 @@ public partial class TenantContextMiddleware
                         {
                             success = false,
                             error = "Access denied. Please contact support if this persists."
-                        });
+                        }).ConfigureAwait(false);
                         return;
                     }
                 }
@@ -150,7 +150,7 @@ public partial class TenantContextMiddleware
                 {
                     success = false,
                     error = "Invalid request. Please contact support."
-                });
+                }).ConfigureAwait(false);
                 return;
             }
 
@@ -158,7 +158,7 @@ public partial class TenantContextMiddleware
 
             try
             {
-                var tenant = await tenancyClient.GetTenantByDomainAsync(host);
+                var tenant = await tenancyClient.GetTenantByDomainAsync(host).ConfigureAwait(false);
                 if (tenant?.IsActive == true)
                 {
                     tenantId = tenant.Id;
@@ -192,7 +192,7 @@ public partial class TenantContextMiddleware
                 {
                     success = false,
                     error = "Service configuration error. Please contact support."
-                });
+                }).ConfigureAwait(false);
                 return;
             }
 
@@ -221,7 +221,7 @@ public partial class TenantContextMiddleware
             {
                 success = false,
                 error = "Invalid request. Please contact support if this persists."
-            });
+            }).ConfigureAwait(false);
             return;
         }
 
@@ -231,7 +231,7 @@ public partial class TenantContextMiddleware
 
         _logger.LogDebug("Request processing with Tenant ID: {TenantId}", tenantId.Value);
 
-        await _next(context);
+        await _next(context).ConfigureAwait(false);
     }
 
     /// <summary>

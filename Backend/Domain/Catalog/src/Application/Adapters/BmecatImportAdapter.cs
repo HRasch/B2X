@@ -42,7 +42,7 @@ public class BmecatImportAdapter : ICatalogImportAdapter
             }
 
             // Detect BMEcat version and set up validation
-            var (version, settings) = await SetupValidationAsync(catalogStream, metadata, result, cancellationToken);
+            var (version, settings) = await SetupValidationAsync(catalogStream, metadata, result, cancellationToken).ConfigureAwait(false);
             if (!result.Success)
             {
                 return result;
@@ -52,7 +52,7 @@ public class BmecatImportAdapter : ICatalogImportAdapter
             catalogStream.Position = 0;
 
             // Parse and validate XML
-            var products = await ParseBmecatXmlAsync(catalogStream, metadata, result, settings, cancellationToken);
+            var products = await ParseBmecatXmlAsync(catalogStream, metadata, result, cancellationToken).ConfigureAwait(false);
 
             if (!result.Success)
             {
@@ -87,7 +87,7 @@ public class BmecatImportAdapter : ICatalogImportAdapter
         {
             // Read the beginning of the file to detect version
             var buffer = new byte[1024];
-            var bytesRead = await catalogStream.ReadAsync(buffer, cancellationToken);
+            var bytesRead = await catalogStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false);
             var xmlStart = System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
             // Detect BMEcat version from XML declaration or root element
@@ -150,8 +150,7 @@ public class BmecatImportAdapter : ICatalogImportAdapter
         Stream catalogStream,
         CatalogMetadata metadata,
         CatalogImportResult result,
-        XmlReaderSettings settings,
-        CancellationToken cancellationToken)
+                CancellationToken cancellationToken)
     {
         var products = new List<CatalogProduct>();
         var readerSettings = CreateXmlReaderSettings();
@@ -163,10 +162,10 @@ public class BmecatImportAdapter : ICatalogImportAdapter
             string? currentSupplierId = null;
             string? currentCatalogId = null;
             var inArticle = false;
-            var currentArticle = new Dictionary<string, string>();
+            var currentArticle = new Dictionary<string, string>(StringComparer.Ordinal);
             string? currentElement = null;
 
-            while (await reader.ReadAsync())
+            while (await reader.ReadAsync().ConfigureAwait(false))
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
@@ -175,15 +174,15 @@ public class BmecatImportAdapter : ICatalogImportAdapter
                     case XmlNodeType.Element:
                         currentElement = reader.Name;
 
-                        if (reader.Name == "SUPPLIER_ID" && reader.Depth == 2) // HEADER/SUPPLIER_ID
+                        if (string.Equals(reader.Name, "SUPPLIER_ID", StringComparison.Ordinal) && reader.Depth == 2) // HEADER/SUPPLIER_ID
                         {
-                            currentSupplierId = await reader.ReadElementContentAsStringAsync();
+                            currentSupplierId = await reader.ReadElementContentAsStringAsync().ConfigureAwait(false);
                         }
-                        else if (reader.Name == "CATALOG_ID" && reader.Depth == 2) // HEADER/CATALOG_ID
+                        else if (string.Equals(reader.Name, "CATALOG_ID", StringComparison.Ordinal) && reader.Depth == 2) // HEADER/CATALOG_ID
                         {
-                            currentCatalogId = await reader.ReadElementContentAsStringAsync();
+                            currentCatalogId = await reader.ReadElementContentAsStringAsync().ConfigureAwait(false);
                         }
-                        else if (reader.Name == "ARTICLE")
+                        else if (string.Equals(reader.Name, "ARTICLE", StringComparison.Ordinal))
                         {
                             inArticle = true;
                             currentArticle.Clear();
@@ -198,12 +197,12 @@ public class BmecatImportAdapter : ICatalogImportAdapter
                     case XmlNodeType.CDATA:
                         if (inArticle && currentElement != null && IsProductElement(currentElement))
                         {
-                            currentArticle[currentElement] = await reader.GetValueAsync();
+                            currentArticle[currentElement] = await reader.GetValueAsync().ConfigureAwait(false);
                         }
                         break;
 
                     case XmlNodeType.EndElement:
-                        if (reader.Name == "ARTICLE" && inArticle)
+                        if (string.Equals(reader.Name, "ARTICLE", StringComparison.Ordinal) && inArticle)
                         {
                             // Process completed article
                             var product = CreateCatalogProduct(currentArticle, metadata);
@@ -220,12 +219,12 @@ public class BmecatImportAdapter : ICatalogImportAdapter
             }
 
             // Validate header information
-            if (currentSupplierId != null && currentSupplierId != metadata.SupplierId)
+            if (currentSupplierId != null && !string.Equals(currentSupplierId, metadata.SupplierId, StringComparison.Ordinal))
             {
                 result.ValidationErrors.Add($"Supplier ID mismatch: expected {metadata.SupplierId}, found {currentSupplierId}");
             }
 
-            if (currentCatalogId != null && currentCatalogId != metadata.CatalogId)
+            if (currentCatalogId != null && !string.Equals(currentCatalogId, metadata.CatalogId, StringComparison.Ordinal))
             {
                 result.ValidationErrors.Add($"Catalog ID mismatch: expected {metadata.CatalogId}, found {currentCatalogId}");
             }

@@ -64,7 +64,7 @@ public class VatIdValidationService : IVatIdValidationService
         var cacheKey = $"vat:{countryCode}:{vatNumber}";
 
         // Check cache first
-        var cached = await _cache.GetStringAsync(cacheKey, cancellationToken);
+        var cached = await _cache.GetStringAsync(cacheKey, cancellationToken).ConfigureAwait(false);
         if (!string.IsNullOrEmpty(cached))
         {
             _logger.LogInformation("VAT validation cache hit: {CountryCode}{VatNumber}", countryCode, vatNumber);
@@ -76,14 +76,14 @@ public class VatIdValidationService : IVatIdValidationService
             countryCode, vatNumber);
 
         // Call VIES API
-        var result = await _viesClient.ValidateVatIdAsync(countryCode, vatNumber, cancellationToken);
+        var result = await _viesClient.ValidateVatIdAsync(countryCode, vatNumber, cancellationToken).ConfigureAwait(false);
 
         // Cache the result
         var cacheOptions = new DistributedCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(result.IsValid ? 365 : 1)
         };
-        await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(result), cacheOptions, cancellationToken);
+        await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(result), cacheOptions, cancellationToken).ConfigureAwait(false);
 
         return result;
     }

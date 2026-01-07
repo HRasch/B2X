@@ -149,7 +149,7 @@ public class DatanormImportAdapter : IFormatAdapter
         var lines = content.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
         string? currentSupplierId = metadata.SupplierId;
-        var currentArticle = new Dictionary<string, string>();
+        var currentArticle = new Dictionary<string, string>(StringComparer.Ordinal);
         var validItems = 0;
         var skippedItems = 0;
 
@@ -245,7 +245,7 @@ public class DatanormImportAdapter : IFormatAdapter
         // Position 31-90: Article name/description
         // Position 91-98: Supplier code
 
-        var article = new Dictionary<string, string>();
+        var article = new Dictionary<string, string>(StringComparer.Ordinal);
 
         try
         {

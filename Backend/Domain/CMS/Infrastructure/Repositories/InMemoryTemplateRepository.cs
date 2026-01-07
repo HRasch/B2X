@@ -15,8 +15,8 @@ namespace B2Connect.CMS.Infrastructure.Repositories
     /// </summary>
     public class InMemoryTemplateRepository : ITemplateRepository
     {
-        private readonly ConcurrentDictionary<string, TemplateOverride> _overrides = new();
-        private readonly ConcurrentDictionary<string, List<TemplateOverride>> _history = new();
+        private readonly ConcurrentDictionary<string, TemplateOverride> _overrides = new(StringComparer.Ordinal);
+        private readonly ConcurrentDictionary<string, List<TemplateOverride>> _history = new(StringComparer.Ordinal);
 
         public Task<PageDefinition?> GetTenantOverrideAsync(
             string tenantId,

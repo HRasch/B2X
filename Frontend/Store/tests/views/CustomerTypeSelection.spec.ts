@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { createI18n } from 'vue-i18n';
 import en from '../../src/locales/en.json';
-import CustomerTypeSelection from '../../pages/CustomerTypeSelection.vue';
+import CustomerTypeSelection from '../../src/pages/CustomerTypeSelection.vue';
 
 // Types for testing
 type CustomerType = 'private' | 'business' | null;

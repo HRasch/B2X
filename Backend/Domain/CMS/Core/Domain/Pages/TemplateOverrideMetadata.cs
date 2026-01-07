@@ -41,7 +41,7 @@ public class TemplateOverrideMetadata
     /// <summary>
     /// AI-powered suggestions for improvements (confidence scores included)
     /// </summary>
-    public Dictionary<string, decimal> AiSuggestions { get; set; } = new();
+    public Dictionary<string, decimal> AiSuggestions { get; set; } = new(StringComparer.Ordinal);
 
     /// <summary>
     /// Whether this override is currently live/published
@@ -81,12 +81,12 @@ public class TemplateOverrideMetadata
     /// <summary>
     /// Security considerations for this override
     /// </summary>
-    public Dictionary<string, object> SecurityMetadata { get; set; } = new();
+    public Dictionary<string, object> SecurityMetadata { get; set; } = new(StringComparer.Ordinal);
 
     /// <summary>
     /// Performance metrics for rendered template
     /// </summary>
-    public Dictionary<string, double> PerformanceMetrics { get; set; } = new();
+    public Dictionary<string, double> PerformanceMetrics { get; set; } = new(StringComparer.Ordinal);
 }
 
 /// <summary>

@@ -32,14 +32,16 @@ public static class DomainHandlers
             command.DomainName, command.TenantId);
 
         // Verify tenant exists
-        var tenant = await tenantRepository.GetByIdAsync(command.TenantId, cancellationToken)
-            ?? throw new KeyNotFoundException($"Tenant {command.TenantId} not found.");
+        if (await tenantRepository.GetByIdAsync(command.TenantId, cancellationToken).ConfigureAwait(false) == null)
+        {
+            throw new KeyNotFoundException($"Tenant {command.TenantId} not found.");
+        }
 
         // Normalize domain name
         var domainName = command.DomainName.Trim().ToLowerInvariant();
 
         // Check if domain already exists
-        if (await domainRepository.DomainExistsAsync(domainName, null, cancellationToken))
+        if (await domainRepository.DomainExistsAsync(domainName, null, cancellationToken).ConfigureAwait(false))
         {
             throw new InvalidOperationException($"Domain '{domainName}' is already in use.");
         }
@@ -70,19 +72,19 @@ public static class DomainHandlers
             domain.SslStatus = SslStatus.None;
         }
 
-        await domainRepository.CreateAsync(domain, cancellationToken);
+        await domainRepository.CreateAsync(domain, cancellationToken).ConfigureAwait(false);
         logger.LogInformation("Domain {Domain} created with ID {DomainId}", domainName, domain.Id);
 
         // Set as primary if requested
         if (command.SetAsPrimary)
         {
-            await domainRepository.SetPrimaryAsync(command.TenantId, domain.Id, cancellationToken);
+            await domainRepository.SetPrimaryAsync(command.TenantId, domain.Id, cancellationToken).ConfigureAwait(false);
             logger.LogInformation("Domain {Domain} set as primary for tenant {TenantId}",
                 domainName, command.TenantId);
         }
 
         // Invalidate cache
-        await domainLookupService.InvalidateCacheAsync(domainName, cancellationToken);
+        await domainLookupService.InvalidateCacheAsync(domainName, cancellationToken).ConfigureAwait(false);
 
         // Generate DNS instructions for custom domains
         DnsInstructionsDto? dnsInstructions = null;
@@ -121,7 +123,7 @@ public static class DomainHandlers
             command.DomainId, command.TenantId);
 
         var domain = await domainRepository.GetByIdAsync(command.DomainId, cancellationToken)
-            ?? throw new KeyNotFoundException($"Domain {command.DomainId} not found.");
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Domain {command.DomainId} not found.");
 
         // Verify domain belongs to tenant
         if (domain.TenantId != command.TenantId)
@@ -130,7 +132,7 @@ public static class DomainHandlers
         }
 
         // Cannot remove the last domain
-        var domains = await domainRepository.GetByTenantIdAsync(command.TenantId, cancellationToken);
+        var domains = await domainRepository.GetByTenantIdAsync(command.TenantId, cancellationToken).ConfigureAwait(false);
         if (domains.Count <= 1)
         {
             throw new InvalidOperationException("Cannot remove the last domain. Tenant must have at least one domain.");
@@ -142,15 +144,15 @@ public static class DomainHandlers
             var newPrimary = domains.FirstOrDefault(d => d.Id != command.DomainId);
             if (newPrimary != null)
             {
-                await domainRepository.SetPrimaryAsync(command.TenantId, newPrimary.Id, cancellationToken);
+                await domainRepository.SetPrimaryAsync(command.TenantId, newPrimary.Id, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        await domainRepository.DeleteAsync(command.DomainId, cancellationToken);
+        await domainRepository.DeleteAsync(command.DomainId, cancellationToken).ConfigureAwait(false);
         logger.LogInformation("Domain {DomainId} removed", command.DomainId);
 
         // Invalidate cache
-        await domainLookupService.InvalidateCacheAsync(domain.DomainName, cancellationToken);
+        await domainLookupService.InvalidateCacheAsync(domain.DomainName, cancellationToken).ConfigureAwait(false);
 
         return true;
     }
@@ -170,7 +172,7 @@ public static class DomainHandlers
         logger.LogInformation("Verifying domain {DomainId}", command.DomainId);
 
         var domain = await domainRepository.GetByIdAsync(command.DomainId, cancellationToken)
-            ?? throw new KeyNotFoundException($"Domain {command.DomainId} not found.");
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Domain {command.DomainId} not found.");
 
         // Check if already verified
         if (domain.VerificationStatus == DomainVerificationStatus.Verified)
@@ -183,7 +185,7 @@ public static class DomainHandlers
         {
             // Generate new token
             domain.GenerateVerificationToken();
-            await domainRepository.UpdateAsync(domain, cancellationToken);
+            await domainRepository.UpdateAsync(domain, cancellationToken).ConfigureAwait(false);
 
             return new VerifyDomainResponse(
                 false,
@@ -195,18 +197,18 @@ public static class DomainHandlers
         var verificationResult = await dnsVerificationService.VerifyDomainAsync(
             domain.DomainName,
             domain.VerificationToken!,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
 
         if (verificationResult.IsVerified)
         {
             domain.MarkAsVerified();
             domain.SslStatus = SslStatus.Provisioning; // Trigger SSL provisioning
 
-            await domainRepository.UpdateAsync(domain, cancellationToken);
+            await domainRepository.UpdateAsync(domain, cancellationToken).ConfigureAwait(false);
             logger.LogInformation("Domain {Domain} verified successfully", domain.DomainName);
 
             // Invalidate cache to reflect new status
-            await domainLookupService.InvalidateCacheAsync(domain.DomainName, cancellationToken);
+            await domainLookupService.InvalidateCacheAsync(domain.DomainName, cancellationToken).ConfigureAwait(false);
 
             return new VerifyDomainResponse(
                 true,
@@ -216,7 +218,7 @@ public static class DomainHandlers
         else
         {
             domain.MarkVerificationFailed();
-            await domainRepository.UpdateAsync(domain, cancellationToken);
+            await domainRepository.UpdateAsync(domain, cancellationToken).ConfigureAwait(false);
 
             logger.LogWarning("Domain {Domain} verification failed: {Reason}",
                 domain.DomainName, verificationResult.FailureReason);
@@ -242,7 +244,7 @@ public static class DomainHandlers
             command.DomainId, command.TenantId);
 
         var domain = await domainRepository.GetByIdAsync(command.DomainId, cancellationToken)
-            ?? throw new KeyNotFoundException($"Domain {command.DomainId} not found.");
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Domain {command.DomainId} not found.");
 
         // Verify domain belongs to tenant
         if (domain.TenantId != command.TenantId)
@@ -256,7 +258,7 @@ public static class DomainHandlers
             throw new InvalidOperationException("Only verified domains can be set as primary.");
         }
 
-        await domainRepository.SetPrimaryAsync(command.TenantId, command.DomainId, cancellationToken);
+        await domainRepository.SetPrimaryAsync(command.TenantId, command.DomainId, cancellationToken).ConfigureAwait(false);
         logger.LogInformation("Domain {DomainId} set as primary", command.DomainId);
 
         return true;
@@ -272,7 +274,7 @@ public static class DomainHandlers
         IConfiguration configuration,
         CancellationToken cancellationToken)
     {
-        var domains = await domainRepository.GetByTenantIdAsync(query.TenantId, cancellationToken);
+        var domains = await domainRepository.GetByTenantIdAsync(query.TenantId, cancellationToken).ConfigureAwait(false);
         var proxyHost = configuration.GetValue("Tenancy:ProxyHost", DefaultProxyHost);
 
         return domains.Select(d => MapToDetailDto(d, proxyHost)).ToList();
@@ -288,7 +290,7 @@ public static class DomainHandlers
         IConfiguration configuration,
         CancellationToken cancellationToken)
     {
-        var domain = await domainRepository.GetByIdAsync(query.DomainId, cancellationToken);
+        var domain = await domainRepository.GetByIdAsync(query.DomainId, cancellationToken).ConfigureAwait(false);
         if (domain == null)
         {
             return null;

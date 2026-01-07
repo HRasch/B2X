@@ -1,8 +1,8 @@
 <template>
   <div class="email-monitoring-page">
     <div class="header">
-      <h1>Email Monitoring</h1>
-      <p>Monitor email delivery, failures, and performance metrics</p>
+      <h1>{{ $t('email.monitoring.title') }}</h1>
+      <p>{{ $t('email.monitoring.subtitle') }}</p>
     </div>
 
     <!-- Health Status Cards -->
@@ -11,42 +11,42 @@
         class="health-card"
         :class="{ healthy: healthStatus.isHealthy, unhealthy: !healthStatus.isHealthy }"
       >
-        <h3>System Health</h3>
+        <h3>{{ $t('email.monitoring.health.systemHealth') }}</h3>
         <div class="health-indicator">
           <span
             class="status-dot"
             :class="{ healthy: healthStatus.isHealthy, unhealthy: !healthStatus.isHealthy }"
           ></span>
           <span class="status-text">{{
-            healthStatus.isHealthy ? 'Healthy' : 'Issues Detected'
+            healthStatus.isHealthy ? $t('email.monitoring.health.healthy') : $t('email.monitoring.health.issuesDetected')
           }}</span>
         </div>
       </div>
 
       <div class="metric-card">
-        <h3>Emails Sent (24h)</h3>
+        <h3>{{ $t('email.monitoring.health.emailsSent24h') }}</h3>
         <p class="metric-value">{{ healthStatus.totalEmailsLast24Hours }}</p>
       </div>
 
       <div class="metric-card" :class="{ error: healthStatus.failedEmailsLast24Hours > 0 }">
-        <h3>Failed Emails (24h)</h3>
+        <h3>{{ $t('email.monitoring.health.failedEmails24h') }}</h3>
         <p class="metric-value">{{ healthStatus.failedEmailsLast24Hours }}</p>
       </div>
 
       <div class="metric-card" :class="{ warning: healthStatus.bouncedEmailsLast24Hours > 0 }">
-        <h3>Bounced Emails (24h)</h3>
+        <h3>{{ $t('email.monitoring.health.bouncedEmails24h') }}</h3>
         <p class="metric-value">{{ healthStatus.bouncedEmailsLast24Hours }}</p>
       </div>
     </div>
 
     <!-- Date Range Selector -->
     <div class="date-range-selector">
-      <label for="dateRange">Time Range:</label>
+      <label for="dateRange">{{ $t('email.monitoring.timeRange') }}:</label>
       <select id="dateRange" v-model="selectedRange" @change="updateDateRange">
-        <option value="24h">Last 24 Hours</option>
-        <option value="7d">Last 7 Days</option>
-        <option value="30d">Last 30 Days</option>
-        <option value="custom">Custom Range</option>
+        <option value="24h">{{ $t('email.monitoring.ranges.24h') }}</option>
+        <option value="7d">{{ $t('email.monitoring.ranges.7d') }}</option>
+        <option value="30d">{{ $t('email.monitoring.ranges.30d') }}</option>
+        <option value="custom">{{ $t('email.monitoring.ranges.custom') }}</option>
       </select>
 
       <div v-if="selectedRange === 'custom'" class="custom-range">

@@ -157,5 +157,34 @@
       "previous": "← Previous",
       "next": "Next →"
     }
+  },
+  "erp": {
+    "customerLookup": {
+      "newRegistration": "New Registration",
+      "welcomeBack": "Welcome back",
+      "enterEmailToStart": "Enter your email address to get started",
+      "customerInfoFound": "Customer information found",
+      "emailLabel": "Email Address *",
+      "searching": "Searching...",
+      "searchError": "Error searching for customer",
+      "customerFound": "Customer found!",
+      "welcomeBackWithName": "Welcome back,",
+      "customerNumber": "Customer Number",
+      "customerType": "Customer Type",
+      "privateCustomer": "Private Person",
+      "businessCustomer": "Business Customer",
+      "businessInfo": "Business Information",
+      "company": "Company:",
+      "phone": "Phone:",
+      "country": "Country:",
+      "creditLimit": "Credit Limit:",
+      "continue": "Continue",
+      "customerSearch": "Customer Search",
+      "newSearch": "New Search",
+      "cancel": "Cancel",
+      "newCustomerQuestion": "Are you a new customer?",
+      "newCustomerDescription": "You can register now and benefit from your saved information later.",
+      "diagnosticInfo": "🔧 Diagnostic Info (Dev Only)"
+    }
   }
 }

@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const PORT = process.env.ADMIN_PORT ?? process.env.PORT ?? '5174';
+
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
@@ -12,7 +14,7 @@ export default defineConfig({
   expect: { timeout: 5000 },
 
   use: {
-    baseURL: 'http://localhost:5174',
+    baseURL: `http://localhost:${PORT}`,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -58,8 +60,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'npm run dev -- --port 5174',
-    url: 'http://localhost:5174',
+    command: `npm run dev -- --port ${PORT}`,
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: true,
     timeout: 120000,
   },

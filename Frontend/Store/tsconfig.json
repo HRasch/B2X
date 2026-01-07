@@ -25,11 +25,11 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "~/*": ["./*"]
+      "@/*": ["./src/*"],
+      "~/*": ["./src/*"]
     },
 
-    "types": ["vite/client", "node", "vitest/globals"]
+    "types": ["vite/client", "node", "vitest/globals", "@nuxtjs/i18n", "nuxt"]
   },
   "include": [
     ".nuxt/**/*.d.ts",

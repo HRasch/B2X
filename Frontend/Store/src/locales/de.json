@@ -48,7 +48,10 @@
     "validation_error": "Validierung fehlgeschlagen. Bitte überprüfen Sie Ihre Eingabe.",
     "duplicate": "Dieses Element existiert bereits",
     "min_length": "Muss mindestens {min} Zeichen lang sein",
-    "max_length": "Darf maximal {max} Zeichen lang sein"
+    "max_length": "Darf maximal {max} Zeichen lang sein",
+    "registrationCheckFailed": "Fehler beim Prüfen der Registrierung",
+    "registrationCheckError": "Fehler: {message}",
+    "registrationTypeDetermined": "Registrierungstyp bestimmt: {type}"
   },
   "validation": {
     "email": "Bitte geben Sie eine gültige E-Mail ein",
@@ -106,5 +109,83 @@
     "loginLink": "Hier anmelden",
     "error": "Registrierungsfehler. Bitte versuchen Sie es später erneut.",
     "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung."
+  },
+  "registrationCheck": {
+    "title": "Registrierungstyp Prüfen",
+    "subtitle": "Überprüfen Sie, ob Sie bereits als Bestandskunde registriert sind",
+    "error": "Fehler",
+    "email": "E-Mail-Adresse",
+    "businessType": "Unternehmenstyp",
+    "businessTypeOptions": {
+      "select": "-- Bitte wählen --",
+      "b2c": "B2C (Privatperson / Einzelunternehmer)",
+      "b2b": "B2B (Unternehmen / GmbH / GmbH & Co. KG)"
+    },
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "companyName": "Firmenname",
+    "phone": "Telefon",
+    "check": "Prüfen",
+    "checking": "Prüfen läuft...",
+    "customerData": "Ihre Kundendaten:",
+    "customerNumber": "Kundennummer:",
+    "name": "Name:",
+    "emailLabel": "E-Mail:",
+    "phoneLabel": "Telefon:",
+    "address": "Adresse:",
+    "matchScore": "Übereinstimmungsquote:",
+    "newCheck": "Neue Prüfung",
+    "continueWithData": "Mit Kundendaten fortfahren",
+    "back": "Zurück",
+    "continueRegistration": "Registrierung fortsetzen",
+    "info": {
+      "title": "Informationen",
+      "existingCustomer": "Bestandskunde: Sie sind bereits in unserem System registriert. Ihre Daten werden automatisch vorausgefüllt.",
+      "newCustomer": "Neukunde: Sie werden zur regulären Registrierung weitergeleitet.",
+      "checkDescription": "Die Prüfung wird anhand von E-Mail, Name und optional Telefon/Adresse durchgeführt."
+    },
+    "results": {
+      "existing": "✓ Sie sind bereits registriert",
+      "existingDescription": "Ihre Kundendaten wurden gefunden. Sie können sich mit vereinfachter Registrierung anmelden.",
+      "existingCustomer": "✓ Sie sind bereits Kunde",
+      "existingCustomerDescription": "Wir haben Ihre Daten in unserem System gefunden.",
+      "newRequired": "Registrierung erforderlich",
+      "newRequiredDescription": "Sie werden als Neukunde registriert. Füllen Sie das Registrierungsformular aus."
+    },
+    "validation": {
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+    }
+  },
+  "pricing": {
+    "calculatePrice": "Berechne Preis...",
+    "productPrice": "Produktpreis:",
+    "shipping": "Versand:",
+    "subtotal": "Summe (ohne MwSt.):",
+    "vat": "MwSt. ({rate}%):",
+    "total": "Gesamtpreis:",
+    "includingVat": "inkl. {rate}% MwSt.",
+    "netPrice": "Netto-Preis:",
+    "totalLabel": "Gesamt"
+  },
+  "products": {
+    "addToCart": "In den Warenkorb",
+    "inCart": "Im Warenkorb",
+    "notAvailable": "Nicht verfügbar",
+    "outOfStock": "Nicht auf Lager",
+    "viewDetails": "Details ansehen →"
+  },
+  "widgets": {
+    "notFound": "Widget nicht gefunden",
+    "notFoundDescription": "Das Widget-Komponent konnte nicht geladen werden. Bitte überprüfen Sie die Widget-Typ-ID.",
+    "previous": "← Zurück",
+    "next": "Weiter →"
+  },
+  "footer": {
+    "copyright": "© 2024 B2Connect. Alle Rechte vorbehalten."
+  },
+  "countries": {
+    "DE": "Deutschland",
+    "AT": "Österreich",
+    "CH": "Schweiz"
   }
 }

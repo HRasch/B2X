@@ -18,7 +18,7 @@ namespace B2Connect.CMS.Core.Domain.Pages
         public string MetaKeywords { get; set; } = null!;
         public string TemplateLayout { get; set; } = null!; // 'sidebar', 'full-width', 'three-column'
         public List<PageRegion> Regions { get; set; } = new();
-        public Dictionary<string, object> GlobalSettings { get; set; } = new();
+        public Dictionary<string, object> GlobalSettings { get; set; } = new(StringComparer.Ordinal);
         public bool IsPublished { get; set; }
         public DateTime PublishedAt { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -28,7 +28,7 @@ namespace B2Connect.CMS.Core.Domain.Pages
         // Template Override Support (ADR-030)
         public bool IsTemplateOverride { get; set; } // True if this is a tenant-specific override
         public string? BaseTemplateKey { get; set; } // Reference to base template if this is an override
-        public Dictionary<string, string> OverrideSections { get; set; } = new(); // Section-level overrides
+        public Dictionary<string, string> OverrideSections { get; set; } = new(StringComparer.Ordinal); // Section-level overrides
         public TemplateOverrideMetadata? OverrideMetadata { get; set; }
 
         public PageDefinition()
@@ -65,7 +65,7 @@ namespace B2Connect.CMS.Core.Domain.Pages
 
         public void AddRegion(PageRegion region)
         {
-            if (Regions.Any(r => r.Name == region.Name))
+            if (Regions.Any(r => string.Equals(r.Name, region.Name, StringComparison.Ordinal)))
             {
                 throw new InvalidOperationException($"Region '{region.Name}' already exists");
             }
@@ -76,7 +76,7 @@ namespace B2Connect.CMS.Core.Domain.Pages
 
         public void RemoveRegion(string regionName)
         {
-            var region = Regions.FirstOrDefault(r => r.Name == regionName);
+            var region = Regions.FirstOrDefault(r => string.Equals(r.Name, regionName, StringComparison.Ordinal));
             if (region == null)
             {
                 return;
@@ -97,7 +97,7 @@ namespace B2Connect.CMS.Core.Domain.Pages
         public int Order { get; set; }
         public int MaxWidgets { get; set; } = -1; // -1 = unlimited
         public List<WidgetInstance> Widgets { get; set; } = new();
-        public Dictionary<string, object> RegionSettings { get; set; } = new();
+        public Dictionary<string, object> RegionSettings { get; set; } = new(StringComparer.Ordinal);
 
         public WidgetInstance AddWidget(string widgetTypeId, Dictionary<string, object> settings)
         {
@@ -122,7 +122,7 @@ namespace B2Connect.CMS.Core.Domain.Pages
 
         public void RemoveWidget(string widgetId)
         {
-            var widget = Widgets.FirstOrDefault(w => w.Id == widgetId);
+            var widget = Widgets.FirstOrDefault(w => string.Equals(w.Id, widgetId, StringComparison.Ordinal));
             if (widget == null)
             {
                 return;
@@ -149,7 +149,7 @@ namespace B2Connect.CMS.Core.Domain.Pages
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string WidgetTypeId { get; set; } = null!; // Reference to widget definition
         public int Order { get; set; }
-        public Dictionary<string, object> Settings { get; set; } = new();
+        public Dictionary<string, object> Settings { get; set; } = new(StringComparer.Ordinal);
         public bool IsEnabled { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; }

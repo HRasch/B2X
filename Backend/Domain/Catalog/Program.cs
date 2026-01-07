@@ -23,7 +23,7 @@ builder.Host.UseSerilog((context, config) =>
 builder.Host.AddServiceDefaults();
 
 // Add Wolverine with HTTP Endpoints
-var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
+var rabbitMqUri = builder.Configuration["RabbitMq:Uri"];
 var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
 
 builder.Host.UseWolverine(opts =>
@@ -55,7 +55,7 @@ builder.Services.AddEndpointsApiExplorer();
 // Add Elasticsearch
 try
 {
-    var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"] ?? "http://localhost:9200";
+    var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"];
     // CA2000: ElasticsearchClientSettings is passed to ElasticsearchClient which manages its lifetime
     // The client is registered as Singleton and lives for the application lifetime
 #pragma warning disable CA2000 // Dispose objects before losing scope
@@ -77,8 +77,7 @@ catch (Exception ex)
 
 // Add Database Context (Issue #30: Price Calculation Persistence)
 // Uses PostgreSQL with snake_case naming convention
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Database=b2connect_catalog;Username=postgres;Password=postgres";
+var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 
 // Allow selecting an in-memory provider for local/demo runs via configuration
 var dbProvider = builder.Configuration["Database:Provider"] ?? builder.Configuration["Database__Provider"];

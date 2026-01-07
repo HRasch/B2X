@@ -48,7 +48,7 @@ public class InMemoryScssModuleRepository : IScssModuleRepository
                 .Where(m => m.TenantId == tenantId && m.ThemeId == themeId)
                 .OrderBy(m => (int)m.Category)
                 .ThenBy(m => m.SortOrder)
-                .ThenBy(m => m.Name)
+                .ThenBy(m => m.Name, StringComparer.Ordinal)
                 .ToList();
             return Task.FromResult(modules);
         }
@@ -62,7 +62,7 @@ public class InMemoryScssModuleRepository : IScssModuleRepository
                 .Where(m => m.TenantId == tenantId && m.ThemeId == themeId && m.IsEnabled)
                 .OrderBy(m => (int)m.Category)
                 .ThenBy(m => m.SortOrder)
-                .ThenBy(m => m.Name)
+                .ThenBy(m => m.Name, StringComparer.Ordinal)
                 .ToList();
             return Task.FromResult(modules);
         }
@@ -75,7 +75,7 @@ public class InMemoryScssModuleRepository : IScssModuleRepository
             var modules = _modules.Values
                 .Where(m => m.TenantId == tenantId && m.ThemeId == themeId && m.Category == category)
                 .OrderBy(m => m.SortOrder)
-                .ThenBy(m => m.Name)
+                .ThenBy(m => m.Name, StringComparer.Ordinal)
                 .ToList();
             return Task.FromResult(modules);
         }
@@ -173,7 +173,7 @@ public class InMemoryScssModuleRepository : IScssModuleRepository
 
     public async Task CloneModulesToThemeAsync(Guid tenantId, Guid sourceThemeId, Guid targetThemeId)
     {
-        var sourceModules = await GetModulesByThemeAsync(tenantId, sourceThemeId);
+        var sourceModules = await GetModulesByThemeAsync(tenantId, sourceThemeId).ConfigureAwait(false);
 
         foreach (var source in sourceModules)
         {
@@ -188,7 +188,7 @@ public class InMemoryScssModuleRepository : IScssModuleRepository
                 Description = source.Description
             };
 
-            await CreateModuleAsync(tenantId, targetThemeId, clone);
+            await CreateModuleAsync(tenantId, targetThemeId, clone).ConfigureAwait(false);
         }
     }
 
@@ -202,7 +202,7 @@ public class InMemoryScssModuleRepository : IScssModuleRepository
             module.TenantId = tenantId;
             module.ThemeId = themeId;
             module.IsSystem = true;
-            await CreateModuleAsync(tenantId, themeId, module);
+            await CreateModuleAsync(tenantId, themeId, module).ConfigureAwait(false);
         }
     }
 

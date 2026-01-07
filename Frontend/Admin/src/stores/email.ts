@@ -34,8 +34,9 @@ export const useEmailStore = defineStore('email', () => {
 
       const response = await emailApi.getTemplates(filters);
       templates.value = response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const errorObj = err as { response?: { data?: unknown } };
+      error.value = errorObj.response?.data || {
         code: 'FETCH_ERROR',
         message: 'Failed to fetch templates',
       };
@@ -51,8 +52,9 @@ export const useEmailStore = defineStore('email', () => {
     try {
       const response = await emailApi.getTemplate(id);
       return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const errorObj = err as { response?: { data?: unknown } };
+      error.value = errorObj.response?.data || {
         code: 'FETCH_ERROR',
         message: 'Failed to fetch template',
       };

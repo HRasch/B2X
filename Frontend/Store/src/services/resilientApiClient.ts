@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '~/stores/auth';
 import { toast } from 'vue3-toastify';
 
 interface ResilienceConfig {

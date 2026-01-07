@@ -24,24 +24,24 @@ public class Repository<T> : IRepository<T> where T : class
 
     public virtual async Task<T?> GetByIdAsync(Guid tenantId, Guid id, CancellationToken ct = default)
     {
-        return await _dbSet.FindAsync(new object[] { id }, cancellationToken: ct);
+        return await _dbSet.FindAsync(new object[] { id }, cancellationToken: ct).ConfigureAwait(false);
     }
 
     public virtual async Task<IEnumerable<T>> GetAllAsync(Guid tenantId, CancellationToken ct = default)
     {
-        return await _dbSet.ToListAsync(ct);
+        return await _dbSet.ToListAsync(ct).ConfigureAwait(false);
     }
 
     public virtual async Task<IEnumerable<T>> GetByConditionAsync(Guid tenantId, Func<T, bool> predicate, CancellationToken ct = default)
     {
-        return await Task.FromResult(_dbSet.Where(predicate).ToList());
+        return await Task.FromResult(_dbSet.Where(predicate).ToList()).ConfigureAwait(false);
     }
 
     public virtual async Task AddAsync(T entity, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(entity);
 
-        await _dbSet.AddAsync(entity, ct);
+        await _dbSet.AddAsync(entity, ct).ConfigureAwait(false);
     }
 
     public virtual async Task UpdateAsync(T entity, CancellationToken ct = default)
@@ -49,12 +49,12 @@ public class Repository<T> : IRepository<T> where T : class
         ArgumentNullException.ThrowIfNull(entity);
 
         _dbSet.Update(entity);
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     public virtual async Task DeleteAsync(Guid tenantId, Guid id, CancellationToken ct = default)
     {
-        var entity = await GetByIdAsync(tenantId, id, ct);
+        var entity = await GetByIdAsync(tenantId, id, ct).ConfigureAwait(false);
         if (entity == null)
         {
             return;
@@ -70,7 +70,7 @@ public class Repository<T> : IRepository<T> where T : class
 
     public virtual async Task<bool> ExistsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
     {
-        var entity = await GetByIdAsync(tenantId, id, ct);
+        var entity = await GetByIdAsync(tenantId, id, ct).ConfigureAwait(false);
         return entity != null;
     }
 }

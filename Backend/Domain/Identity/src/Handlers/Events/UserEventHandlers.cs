@@ -24,7 +24,7 @@ public class UserRegisteredEventHandler
             @event.TenantId);
 
         // TODO: Send welcome email, create CRM record
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -50,7 +50,7 @@ public class UserLoggedInEventHandler
             @event.TenantId);
 
         // TODO: Track analytics, update last login time
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -75,7 +75,7 @@ public class PasswordResetEventHandler
             @event.TenantId);
 
         // TODO: Send password reset confirmation email
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -100,7 +100,7 @@ public class EmailVerifiedEventHandler
             @event.TenantId);
 
         // TODO: Update user permissions, send confirmation
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -126,6 +126,6 @@ public class UserRoleChangedEventHandler
             @event.TenantId);
 
         // TODO: Clear cached permissions, notify user
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }

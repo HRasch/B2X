@@ -26,6 +26,7 @@
     <Project Path="backend/Domain/Identity/B2Connect.Identity.API.csproj" />
     <Project Path="backend/Domain/Localization/B2Connect.Localization.API.csproj" />
     <Project Path="backend/Domain/PatternAnalysis/B2Connect.PatternAnalysis.csproj" />
+    <Project Path="backend/Domain/SmartDataIntegration/API/B2Connect.SmartDataIntegration.API.csproj" />
     <Project Path="backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj" />
     <Project Path="backend/Domain/Theming/B2Connect.Theming.API.csproj" />
     <Project Path="backend/Domain/Theming/Layout/B2Connect.Theming.Layout.csproj" />

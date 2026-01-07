@@ -24,7 +24,7 @@ public class BrandRepository : Repository<Brand>, IBrandRepository
         return await _dbSet
             .Where(b => b.TenantId == tenantId && b.IsActive)
             .OrderBy(b => b.DisplayOrder)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
     }
 
     public Task<Brand?> GetWithProductsAsync(Guid tenantId, Guid id, CancellationToken ct = default)
@@ -38,12 +38,12 @@ public class BrandRepository : Repository<Brand>, IBrandRepository
     public async Task<(IEnumerable<Brand> Items, int Total)> GetPagedAsync(Guid tenantId, int pageNumber, int pageSize, CancellationToken ct = default)
     {
         var query = _dbSet.Where(b => b.TenantId == tenantId && b.IsActive);
-        var total = await query.CountAsync(ct);
+        var total = await query.CountAsync(ct).ConfigureAwait(false);
         var items = await query
             .OrderBy(b => b.DisplayOrder)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync(ct);
+            .ToListAsync(ct).ConfigureAwait(false);
 
         return (items, total);
     }

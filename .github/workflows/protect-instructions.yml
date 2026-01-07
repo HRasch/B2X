@@ -5,6 +5,7 @@
 # DocID: Related to ADR-039
 # =============================================================================
 
+---
 name: 🔒 Instruction Protection
 
 on:
@@ -37,7 +38,7 @@ jobs:
       - name: Check Agent File Structure
         run: |
           echo "🔍 Validating agent file structure..."
-          
+
           # Check all agent files have required frontmatter
           for file in .github/agents/*.agent.md; do
             if [ -f "$file" ]; then
@@ -48,7 +49,7 @@ jobs:
               echo "✅ $file has valid structure"
             fi
           done
-          
+
           # Check instruction files have applyTo
           for file in .github/instructions/*.instructions.md; do
             if [ -f "$file" ]; then
@@ -59,15 +60,15 @@ jobs:
               echo "✅ $file has applyTo defined"
             fi
           done
-          
+
           echo "✅ All files have valid structure"
 
       - name: Check Required Sections in Agents
         run: |
           echo "🔍 Checking agent required sections..."
-          
+
           REQUIRED_SECTIONS=("Role" "Responsibilities" "Permissions")
-          
+
           for file in .github/agents/*.agent.md; do
             if [ -f "$file" ]; then
               for section in "${REQUIRED_SECTIONS[@]}"; do
@@ -77,7 +78,7 @@ jobs:
               done
             fi
           done
-          
+
           echo "✅ Section check complete"
 
   # ===========================================================================
@@ -93,7 +94,7 @@ jobs:
       - name: Check for Sensitive Patterns
         run: |
           echo "🔍 Scanning for sensitive patterns..."
-          
+
           SENSITIVE_PATTERNS=(
             "password"
             "secret"
@@ -102,9 +103,9 @@ jobs:
             "credential"
             "private[_-]?key"
           )
-          
+
           FILES=$(find .github/agents .github/instructions .github/prompts -name "*.md" 2>/dev/null || true)
-          
+
           FOUND_ISSUES=0
           for file in $FILES; do
             for pattern in "${SENSITIVE_PATTERNS[@]}"; do
@@ -114,18 +115,18 @@ jobs:
               fi
             done
           done
-          
+
           if [ $FOUND_ISSUES -eq 1 ]; then
             echo "❌ Security review required - potential sensitive data detected"
             exit 1
           fi
-          
+
           echo "✅ No sensitive patterns detected"
 
       - name: Check for Dangerous Permissions
         run: |
           echo "🔍 Checking for dangerous permission patterns..."
-          
+
           DANGEROUS_PATTERNS=(
             "sudo"
             "rm -rf"
@@ -133,9 +134,9 @@ jobs:
             "eval\("
             "exec\("
           )
-          
+
           FILES=$(find .github/agents .github/instructions .github/prompts -name "*.md" 2>/dev/null || true)
-          
+
           for file in $FILES; do
             for pattern in "${DANGEROUS_PATTERNS[@]}"; do
               if grep -iE "$pattern" "$file" 2>/dev/null; then
@@ -143,7 +144,7 @@ jobs:
               fi
             done
           done
-          
+
           echo "✅ Permission check complete"
 
   # ===========================================================================
@@ -161,12 +162,12 @@ jobs:
       - name: Generate Change Report
         run: |
           echo "📋 Generating change report..."
-          
+
           echo "## 🔒 Protected Files Modified" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "The following protected instruction files were modified:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           git diff --name-only HEAD~1 HEAD -- \
             '.github/agents/' \
             '.github/instructions/' \
@@ -174,14 +175,14 @@ jobs:
             '.github/copilot-instructions.md' \
             '.vscode/mcp.json' | while read file; do
               echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
-              
+
               # Generate checksum for audit trail
               if [ -f "$file" ]; then
                 CHECKSUM=$(sha256sum "$file" | cut -d' ' -f1)
                 echo "  - SHA256: \`${CHECKSUM:0:16}...\`" >> $GITHUB_STEP_SUMMARY
               fi
           done
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### ⚠️ Review Requirements" >> $GITHUB_STEP_SUMMARY
           echo "- Per [GL-008]: These files require @CopilotExpert approval" >> $GITHUB_STEP_SUMMARY
@@ -212,10 +213,10 @@ jobs:
       - name: Check Document Registry Updates
         run: |
           echo "🔍 Checking if Document Registry needs update..."
-          
+
           # Check if new agent files were added
           NEW_AGENTS=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- '.github/agents/*.agent.md' 2>/dev/null || true)
-          
+
           if [ -n "$NEW_AGENTS" ]; then
             echo "⚠️ New agent files detected:"
             echo "$NEW_AGENTS"
@@ -223,10 +224,10 @@ jobs:
             echo "📋 Remember to update .ai/DOCUMENT_REGISTRY.md with new AGT-* entries"
             echo "::warning::New agent files require Document Registry update"
           fi
-          
+
           # Check if new prompt files were added
           NEW_PROMPTS=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- '.github/prompts/*.prompt.md' 2>/dev/null || true)
-          
+
           if [ -n "$NEW_PROMPTS" ]; then
             echo "⚠️ New prompt files detected:"
             echo "$NEW_PROMPTS"
@@ -238,7 +239,7 @@ jobs:
       - name: Verify CODEOWNERS Alignment
         run: |
           echo "🔍 Verifying CODEOWNERS coverage..."
-          
+
           # Check that all agent system paths are in CODEOWNERS
           if [ -f ".github/CODEOWNERS" ]; then
             if ! grep -q ".github/agents/" .github/CODEOWNERS; then

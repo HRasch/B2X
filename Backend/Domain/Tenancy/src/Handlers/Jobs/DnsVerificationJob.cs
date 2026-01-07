@@ -30,7 +30,7 @@ public class DnsVerificationJob(
 
         try
         {
-            var pendingDomains = await _domainRepository.GetPendingVerificationDomainsAsync();
+            var pendingDomains = await _domainRepository.GetPendingVerificationDomainsAsync().ConfigureAwait(false);
 
             if (!pendingDomains.Any())
             {
@@ -42,7 +42,7 @@ public class DnsVerificationJob(
 
             foreach (var domain in pendingDomains)
             {
-                await ProcessDomainVerificationAsync(domain);
+                await ProcessDomainVerificationAsync(domain).ConfigureAwait(false);
             }
 
             _logger.LogInformation("Completed DNS verification job");
@@ -50,7 +50,7 @@ public class DnsVerificationJob(
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred during DNS verification job");
-            throw;
+            throw new InvalidOperationException("DNS verification job failed", ex);
         }
     }
 
@@ -63,16 +63,16 @@ public class DnsVerificationJob(
 
             // Attempt DNS verification
             var verificationResult = await _dnsVerificationService.VerifyDomainAsync(
-                domain.DomainName, domain.VerificationToken!);
+                domain.DomainName, domain.VerificationToken!).ConfigureAwait(false);
 
             if (verificationResult.IsVerified)
             {
                 // Domain verification successful
                 domain.MarkAsVerified();
-                await _domainRepository.UpdateAsync(domain);
+                await _domainRepository.UpdateAsync(domain).ConfigureAwait(false);
 
                 // Invalidate cache to ensure new routing takes effect
-                await _domainLookupService.InvalidateCacheAsync(domain.DomainName);
+                await _domainLookupService.InvalidateCacheAsync(domain.DomainName).ConfigureAwait(false);
 
                 _logger.LogInformation("Domain {DomainName} verification successful",
                     domain.DomainName);
@@ -81,7 +81,7 @@ public class DnsVerificationJob(
             {
                 // Domain verification failed - increment attempt counter
                 domain.IncrementVerificationAttempt();
-                await _domainRepository.UpdateAsync(domain);
+                await _domainRepository.UpdateAsync(domain).ConfigureAwait(false);
 
                 _logger.LogWarning("Domain {DomainName} verification failed (attempt {Attempt})",
                     domain.DomainName, domain.VerificationAttempts);
@@ -90,7 +90,7 @@ public class DnsVerificationJob(
                 if (domain.VerificationAttempts >= 10)
                 {
                     domain.VerificationStatus = DomainVerificationStatus.Failed;
-                    await _domainRepository.UpdateAsync(domain);
+                    await _domainRepository.UpdateAsync(domain).ConfigureAwait(false);
 
                     _logger.LogWarning("Domain {DomainName} marked as failed after {Attempts} attempts",
                         domain.DomainName, domain.VerificationAttempts);
@@ -104,7 +104,7 @@ public class DnsVerificationJob(
 
             // Increment attempt counter even on exception
             domain.IncrementVerificationAttempt();
-            await _domainRepository.UpdateAsync(domain);
+            await _domainRepository.UpdateAsync(domain).ConfigureAwait(false);
         }
     }
 }

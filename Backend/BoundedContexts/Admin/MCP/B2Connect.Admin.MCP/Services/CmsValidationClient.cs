@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using B2Connect.Admin.MCP.Tools;
+using B2Connect.CMS.Core.Domain.Pages;
 using Microsoft.Extensions.Logging;
 
 namespace B2Connect.Admin.MCP.Services;

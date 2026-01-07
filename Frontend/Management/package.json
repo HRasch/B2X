@@ -27,11 +27,14 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/dompurify": "^3.0.5",
     "axios": "^1.13.2",
+    "dompurify": "^3.3.1",
     "marked": "^14.1.2",
     "pinia": "^2.2.6",
     "typescript": "^5.9.3",
     "vue": "^3.5.26",
+    "vue-i18n": "^11.2.8",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {

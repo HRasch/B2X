@@ -25,7 +25,7 @@ public class PageCreatedEventHandler
             @event.TenantId);
 
         // TODO: Clear cache, update sitemap
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -51,7 +51,7 @@ public class PageUpdatedEventHandler
             @event.TenantId);
 
         // TODO: Clear cache, update CDN
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -77,7 +77,7 @@ public class PagePublishedEventHandler
             @event.TenantId);
 
         // TODO: Invalidate cache, update search index, notify subscribers
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -101,7 +101,7 @@ public class PageUnpublishedEventHandler
             @event.TenantId);
 
         // TODO: Remove from cache and search index
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }
 
@@ -125,6 +125,6 @@ public class PageDeletedEventHandler
             @event.TenantId);
 
         // TODO: Remove from all caches and indexes
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 }

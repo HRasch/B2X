@@ -1,3 +1,4 @@
+---
 name: PR Quality Gate
 
 on:
@@ -272,7 +273,6 @@ jobs:
           # HTML/CSS MCP accessibility check
           echo "Running HTML/CSS MCP accessibility validation..."
           htmlcss-mcp/check_html_accessibility workspacePath="frontend/Store" filePath="pages/index.html" || echo "HTML/CSS MCP not available in CI"
-          
           # Chrome DevTools MCP performance audit (if available)
           echo "Running Chrome DevTools MCP performance validation..."
           chrome-devtools-mcp/lighthouse url="http://localhost:3000" || echo "Chrome DevTools MCP not available in CI"
@@ -339,7 +339,7 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_LINTERS: SPELL_CSPELL # Customize as needed
+          DISABLE_LINTERS: SPELL_CSPELL  # Customize as needed
           FILTER_REGEX_EXCLUDE: '(node_modules|bin|obj|coverage|\.git)'
 
       - name: GitHub CodeQL Security Analysis

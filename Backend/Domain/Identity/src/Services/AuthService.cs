@@ -49,13 +49,13 @@ public class AuthDbContext : IdentityDbContext<AppUser, AppRole, string>
             Id = "admin-role",
             Name = "Admin",
             NormalizedName = "ADMIN",
-            Description = "Administrator role with full access"
+            Description = "Administrator role with full access",
+            ConcurrencyStamp = "admin-role-concurrency-stamp-001"
         };
 
         builder.Entity<AppRole>().HasData(adminRole);
 
         // Seed Admin User
-        var hasher = new PasswordHasher<AppUser>();
         var adminUser = new AppUser
         {
             Id = "admin-001",
@@ -69,11 +69,11 @@ public class AuthDbContext : IdentityDbContext<AppUser, AppRole, string>
             IsActive = true,
             EmailConfirmed = true,
             IsTwoFactorRequired = false,
-            SecurityStamp = Guid.NewGuid().ToString(),
-            ConcurrencyStamp = Guid.NewGuid().ToString()
+            SecurityStamp = "admin-security-stamp-001",
+            ConcurrencyStamp = "admin-concurrency-stamp-001",
+            PasswordHash = "AQAAAAIAAYagAAAAEN7xlcM7+QF0BazMFn8WcIT2TOxzdYJrF8wAmVLoYHGhl4KIltB9chtzz65vmEG9jA=="
         };
 
-        adminUser.PasswordHash = hasher.HashPassword(adminUser, "password");
         builder.Entity<AppUser>().HasData(adminUser);
 
         // Assign Admin Role to Admin User
@@ -90,14 +90,14 @@ public class AuthDbContext : IdentityDbContext<AppUser, AppRole, string>
 // Services
 public interface IAuthService
 {
-    Task<Result<AuthResponse>> LoginAsync(LoginRequest request);
-    Task<Result<AuthResponse>> RefreshTokenAsync(string refreshToken);
-    Task<Result<AppUser>> GetUserByIdAsync(string userId);
-    Task<Result<AuthResponse>> EnableTwoFactorAsync(string userId);
-    Task<bool> VerifyTwoFactorCodeAsync(string userId, string code);
-    Task<Result<IEnumerable<UserDto>>> GetAllUsersAsync(int page, int pageSize, string? search);
-    Task<Result<AppUser>> ToggleUserStatusAsync(string userId, bool isActive);
-    Task<Result<bool>> DeactivateUserAsync(string userId);
+    Task<Result<AuthResponse>> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default);
+    Task<Result<AuthResponse>> RefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default);
+    Task<Result<AppUser>> GetUserByIdAsync(string userId, CancellationToken cancellationToken = default);
+    Task<Result<AuthResponse>> EnableTwoFactorAsync(string userId, CancellationToken cancellationToken = default);
+    Task<bool> VerifyTwoFactorCodeAsync(string userId, string code, CancellationToken cancellationToken = default);
+    Task<Result<IEnumerable<UserDto>>> GetAllUsersAsync(int page, int pageSize, string? search, CancellationToken cancellationToken = default);
+    Task<Result<AppUser>> ToggleUserStatusAsync(string userId, bool isActive, CancellationToken cancellationToken = default);
+    Task<Result<bool>> DeactivateUserAsync(string userId, CancellationToken cancellationToken = default);
 }
 
 public class UserDto
@@ -125,11 +125,11 @@ public class AuthService : IAuthService
         _logger = logger;
     }
 
-    public async Task<Result<AuthResponse>> LoginAsync(LoginRequest request)
+    public async Task<Result<AuthResponse>> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
+        var user = await _userManager.FindByEmailAsync(request.Email).ConfigureAwait(false);
 
-        if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
+        if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password).ConfigureAwait(false))
         {
             return new Result<AuthResponse>.Failure(ErrorCodes.InvalidCredentials, ErrorCodes.InvalidCredentials.ToMessage());
         }
@@ -140,7 +140,7 @@ public class AuthService : IAuthService
         }
 
         // Check if 2FA is required
-        if (user.IsTwoFactorRequired && !request.Skip2FA)
+        if (user.IsTwoFactorRequired && !(request.Skip2FA ?? false))
         {
             var response = new AuthResponse
             {
@@ -153,14 +153,14 @@ public class AuthService : IAuthService
             return new Result<AuthResponse>.Success(response, ErrorCodes.TwoFactorRequired.ToMessage());
         }
 
-        var accessToken = await GenerateAccessToken(user);
-        var refreshToken = await GenerateRefreshToken(user);
+        var accessToken = await GenerateAccessToken(user).ConfigureAwait(false);
+        var refreshToken = await GenerateRefreshToken(user).ConfigureAwait(false);
 
         _logger.LogInformation("User {Email} logged in successfully", user.Email);
 
         var loginResponse = new AuthResponse
         {
-            User = await MapToUserInfo(user),
+            User = await MapToUserInfo(user).ConfigureAwait(false),
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             ExpiresIn = 3600
@@ -169,7 +169,7 @@ public class AuthService : IAuthService
         return new Result<AuthResponse>.Success(loginResponse, "Login successful");
     }
 
-    public async Task<Result<AuthResponse>> RefreshTokenAsync(string refreshToken)
+    public async Task<Result<AuthResponse>> RefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default)
     {
         // Validate the refresh token is not empty
         if (string.IsNullOrWhiteSpace(refreshToken))
@@ -191,7 +191,7 @@ public class AuthService : IAuthService
             return new Result<AuthResponse>.Failure(ErrorCodes.InvalidToken, "Invalid token: user ID not found");
         }
 
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
 
         if (user?.IsActive != true)
         {
@@ -199,12 +199,12 @@ public class AuthService : IAuthService
         }
 
         // Generate new tokens
-        var newAccessToken = await GenerateAccessToken(user);
-        var newRefreshToken = await GenerateRefreshToken(user);
+        var newAccessToken = await GenerateAccessToken(user).ConfigureAwait(false);
+        var newRefreshToken = await GenerateRefreshToken(user).ConfigureAwait(false);
 
         var response = new AuthResponse
         {
-            User = await MapToUserInfo(user),
+            User = await MapToUserInfo(user).ConfigureAwait(false),
             AccessToken = newAccessToken,
             RefreshToken = newRefreshToken,
             ExpiresIn = 3600
@@ -213,28 +213,28 @@ public class AuthService : IAuthService
         return new Result<AuthResponse>.Success(response, "Token refreshed successfully");
     }
 
-    public async Task<Result<AppUser>> GetUserByIdAsync(string userId)
+    public async Task<Result<AppUser>> GetUserByIdAsync(string userId, CancellationToken cancellationToken = default)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
         return user == null
             ? new Result<AppUser>.Failure(ErrorCodes.NotFound, ErrorCodes.NotFound.ToMessage())
             : new Result<AppUser>.Success(user, "User loaded successfully");
     }
 
-    public async Task<Result<AuthResponse>> EnableTwoFactorAsync(string userId)
+    public async Task<Result<AuthResponse>> EnableTwoFactorAsync(string userId, CancellationToken cancellationToken = default)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
         if (user == null)
         {
             return new Result<AuthResponse>.Failure(ErrorCodes.NotFound, ErrorCodes.NotFound.ToMessage());
         }
 
         user.IsTwoFactorRequired = true;
-        await _userManager.UpdateAsync(user);
+        await _userManager.UpdateAsync(user).ConfigureAwait(false);
 
         var response = new AuthResponse
         {
-            User = await MapToUserInfo(user),
+            User = await MapToUserInfo(user).ConfigureAwait(false),
             AccessToken = string.Empty,
             RefreshToken = string.Empty,
             ExpiresIn = 0,
@@ -244,19 +244,19 @@ public class AuthService : IAuthService
         return new Result<AuthResponse>.Success(response, ErrorCodes.TwoFactorEnabled.ToMessage());
     }
 
-    public async Task<bool> VerifyTwoFactorCodeAsync(string userId, string code)
+    public async Task<bool> VerifyTwoFactorCodeAsync(string userId, string code, CancellationToken cancellationToken = default)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
         if (user == null)
         {
             return false;
         }
 
         // For demo: accept "123456"
-        return code == "123456";
+        return string.Equals(code, "123456", StringComparison.Ordinal);
     }
 
-    public async Task<Result<IEnumerable<UserDto>>> GetAllUsersAsync(int page, int pageSize, string? search)
+    public async Task<Result<IEnumerable<UserDto>>> GetAllUsersAsync(int page, int pageSize, string? search, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -271,16 +271,16 @@ public class AuthService : IAuthService
                     (u.LastName != null && u.LastName.ToLower(System.Globalization.CultureInfo.CurrentCulture).Contains(search)));
             }
 
-            var users = query
+            var users = await query
                 .OrderBy(u => u.Email)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync(cancellationToken).ConfigureAwait(false);
 
             var userDtos = new List<UserDto>();
             foreach (var user in users)
             {
-                var roles = await _userManager.GetRolesAsync(user);
+                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
                 userDtos.Add(new UserDto
                 {
                     Id = user.Id,
@@ -304,16 +304,16 @@ public class AuthService : IAuthService
         }
     }
 
-    public async Task<Result<AppUser>> ToggleUserStatusAsync(string userId, bool isActive)
+    public async Task<Result<AppUser>> ToggleUserStatusAsync(string userId, bool isActive, CancellationToken cancellationToken = default)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
         if (user == null)
         {
             return new Result<AppUser>.Failure(ErrorCodes.NotFound, "User not found");
         }
 
         user.IsActive = isActive;
-        var updateResult = await _userManager.UpdateAsync(user);
+        var updateResult = await _userManager.UpdateAsync(user).ConfigureAwait(false);
 
         if (!updateResult.Succeeded)
         {
@@ -324,9 +324,9 @@ public class AuthService : IAuthService
         return new Result<AppUser>.Success(user, $"User {(isActive ? "activated" : "deactivated")} successfully");
     }
 
-    public async Task<Result<bool>> DeactivateUserAsync(string userId)
+    public async Task<Result<bool>> DeactivateUserAsync(string userId, CancellationToken cancellationToken = default)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
         if (user == null)
         {
             return new Result<bool>.Failure(ErrorCodes.NotFound, "User not found");
@@ -346,7 +346,7 @@ public class AuthService : IAuthService
         }
 
         user.IsActive = false;
-        var updateResult = await _userManager.UpdateAsync(user);
+        var updateResult = await _userManager.UpdateAsync(user).ConfigureAwait(false);
 
         if (!updateResult.Succeeded)
         {
@@ -374,7 +374,7 @@ public class AuthService : IAuthService
         };
 
         // Add roles as claims
-        var roles = await _userManager.GetRolesAsync(user);
+        var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
         _logger.LogInformation("Roles for user {Email}: {Roles}", user.Email, string.Join(", ", roles));
 
         // Fallback: If user is admin@example.com and has no roles, add Admin role
@@ -444,7 +444,7 @@ public class AuthService : IAuthService
                 ValidateAudience = true,
                 ValidAudience = _configuration["Jwt:Audience"] ?? "B2Connect.Admin",
                 ValidateLifetime = false // Allow expired tokens for refresh
-            }, out SecurityToken validatedToken);
+            }, out _);
 
             return principal;
         }
@@ -456,7 +456,7 @@ public class AuthService : IAuthService
 
     private async Task<UserInfo> MapToUserInfo(AppUser user)
     {
-        var roles = (await _userManager.GetRolesAsync(user)).ToArray();
+        var roles = (await _userManager.GetRolesAsync(user).ConfigureAwait(false)).ToArray();
         return new UserInfo
         {
             Id = user.Id,
@@ -486,8 +486,8 @@ public class LoginRequest
 {
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public bool RememberMe { get; set; }
-    public bool Skip2FA { get; set; }
+    public bool? RememberMe { get; set; }
+    public bool? Skip2FA { get; set; }
 }
 
 public class AuthResponse

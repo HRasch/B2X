@@ -33,7 +33,7 @@ public class BrandDto
 {
     public Guid Id { get; set; }
     public string Slug { get; set; } = string.Empty;
-    public Dictionary<string, string> Name { get; set; } = new();
+    public Dictionary<string, string> Name { get; set; } = new(StringComparer.Ordinal);
     public Dictionary<string, string>? Description { get; set; }
     public string? LogoUrl { get; set; }
     public string? WebsiteUrl { get; set; }
@@ -44,7 +44,7 @@ public class BrandDto
 public class CreateBrandDto
 {
     public string Slug { get; set; } = string.Empty;
-    public Dictionary<string, string> Name { get; set; } = new();
+    public Dictionary<string, string> Name { get; set; } = new(StringComparer.Ordinal);
     public Dictionary<string, string>? Description { get; set; }
     public string? LogoUrl { get; set; }
     public string? WebsiteUrl { get; set; }

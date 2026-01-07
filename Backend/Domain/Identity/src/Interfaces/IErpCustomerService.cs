@@ -101,7 +101,7 @@ public class ErpCustomerDto
     /// <summary>
     /// Hinzugefügte Metadaten
     /// </summary>
-    public Dictionary<string, object> AdditionalData { get; set; } = new();
+    public Dictionary<string, object> AdditionalData { get; set; } = new(StringComparer.Ordinal);
 }
 
 /// <summary>

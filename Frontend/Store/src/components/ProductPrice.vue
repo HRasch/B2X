@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { PriceBreakdown } from '@/types/pricing';
+
+const { t } = useI18n();
 
 interface Props {
   productPrice: number;
@@ -71,41 +74,43 @@ const formatPrice = (price: number, currency: string = 'EUR') => {
     <!-- Main Price Display -->
     <div class="text-lg font-semibold" v-if="breakdown">
       <span class="text-2xl">{{ formatPrice(breakdown.finalTotal, currencyCode) }}</span>
-      <span class="text-sm text-gray-600 ml-1">inkl. {{ breakdown.vatRate }}% MwSt.</span>
+      <span class="text-sm text-gray-600 ml-1">{{
+        t('pricing.includingVat', { rate: breakdown.vatRate })
+      }}</span>
     </div>
 
     <!-- Error State -->
     <div v-if="error" class="text-red-600 text-sm">{{ error }}</div>
 
     <!-- Loading State -->
-    <div v-if="isLoading" class="text-gray-400 text-sm">{{ $t('product.price.calculating') }}</div>
+    <div v-if="isLoading" class="text-gray-400 text-sm">{{ t('pricing.calculatePrice') }}</div>
 
     <!-- Price Breakdown (Details) -->
     <div v-if="showBreakdown && breakdown && !isLoading" class="border-t pt-2 text-sm">
       <div class="flex justify-between text-gray-700">
-        <span>{{ $t('product.price.productPrice') }}</span>
+        <span>{{ t('pricing.productPrice') }}</span>
         <span>{{ formatPrice(breakdown.productPrice, currencyCode) }}</span>
       </div>
 
       <div v-if="breakdown.shippingCost > 0" class="flex justify-between text-gray-700">
-        <span>{{ $t('product.price.shipping') }}</span>
+        <span>{{ t('pricing.shipping') }}</span>
         <span>{{ formatPrice(breakdown.shippingCost, currencyCode) }}</span>
       </div>
 
       <div class="flex justify-between font-semibold border-t mt-1 pt-1">
-        <span>{{ $t('product.price.subtotalExclVat') }}</span>
+        <span>{{ t('pricing.subtotal') }}</span>
         <span>{{
           formatPrice(breakdown.productPrice + (breakdown.shippingCost || 0), currencyCode)
         }}</span>
       </div>
 
       <div class="flex justify-between text-green-700 font-semibold">
-        <span>MwSt. ({{ breakdown.vatRate }}%):</span>
+        <span>{{ t('pricing.vat', { rate: breakdown.vatRate }) }}</span>
         <span>{{ formatPrice(breakdown.vatAmount, currencyCode) }}</span>
       </div>
 
       <div class="flex justify-between font-bold border-t mt-1 pt-1 text-lg">
-        <span>{{ $t('product.price.totalPrice') }}</span>
+        <span>{{ t('pricing.total') }}</span>
         <span>{{ formatPrice(breakdown.finalTotal, currencyCode) }}</span>
       </div>
     </div>

@@ -55,7 +55,7 @@ public class DomainLookupService : IDomainLookupService
         // L2: Check distributed cache
         try
         {
-            var distributedValue = await _distributedCache.GetStringAsync(cacheKey, cancellationToken);
+            var distributedValue = await _distributedCache.GetStringAsync(cacheKey, cancellationToken).ConfigureAwait(false);
             if (!string.IsNullOrEmpty(distributedValue))
             {
                 var tenantId = Guid.Parse(distributedValue);
@@ -75,12 +75,12 @@ public class DomainLookupService : IDomainLookupService
         }
 
         // L3: Database lookup
-        var resolvedTenantId = await _domainRepository.ResolveTenantIdAsync(normalizedDomain, cancellationToken);
+        var resolvedTenantId = await _domainRepository.ResolveTenantIdAsync(normalizedDomain, cancellationToken).ConfigureAwait(false);
 
         if (resolvedTenantId.HasValue)
         {
             // Populate caches
-            await PopulateCachesAsync(cacheKey, resolvedTenantId.Value, cancellationToken);
+            await PopulateCachesAsync(cacheKey, resolvedTenantId.Value, cancellationToken).ConfigureAwait(false);
             _logger.LogDebug("Domain {Domain} resolved from database: {TenantId}",
                 normalizedDomain, resolvedTenantId);
         }
@@ -106,7 +106,7 @@ public class DomainLookupService : IDomainLookupService
         // Remove from L2
         try
         {
-            await _distributedCache.RemoveAsync(cacheKey, cancellationToken);
+            await _distributedCache.RemoveAsync(cacheKey, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -119,11 +119,11 @@ public class DomainLookupService : IDomainLookupService
     public async Task InvalidateTenantCacheAsync(Guid tenantId, CancellationToken cancellationToken = default)
     {
         // Get all domains for the tenant
-        var domains = await _domainRepository.GetByTenantIdAsync(tenantId, cancellationToken);
+        var domains = await _domainRepository.GetByTenantIdAsync(tenantId, cancellationToken).ConfigureAwait(false);
 
         foreach (var domain in domains)
         {
-            await InvalidateCacheAsync(domain.DomainName, cancellationToken);
+            await InvalidateCacheAsync(domain.DomainName, cancellationToken).ConfigureAwait(false);
         }
 
         _logger.LogInformation("Cache invalidated for all domains of tenant {TenantId}", tenantId);
@@ -142,7 +142,7 @@ public class DomainLookupService : IDomainLookupService
                 AbsoluteExpirationRelativeToNow = DistributedCacheDuration
             };
 
-            await _distributedCache.SetStringAsync(cacheKey, tenantId.ToString(), options, cancellationToken);
+            await _distributedCache.SetStringAsync(cacheKey, tenantId.ToString(), options, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

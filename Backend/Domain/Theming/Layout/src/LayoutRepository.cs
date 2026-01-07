@@ -18,28 +18,28 @@ public class LayoutRepository : ILayoutRepository
 
     #region Page Operations
 
-    public async Task<CmsPage> CreatePageAsync(Guid tenantId, CmsPage page)
+    public async Task<CmsPage> CreatePageAsync(Guid tenantId, CmsPage page, CancellationToken cancellationToken = default)
     {
         page.TenantId = tenantId;
         page.CreatedAt = DateTime.UtcNow;
         page.UpdatedAt = DateTime.UtcNow;
 
         _context.Pages.Add(page);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return page;
     }
 
-    public Task<CmsPage?> GetPageByIdAsync(Guid tenantId, Guid pageId)
+    public Task<CmsPage?> GetPageByIdAsync(Guid tenantId, Guid pageId, CancellationToken cancellationToken = default)
     {
         return _context.Pages
             .AsNoTracking()
             .Include(p => p.Sections)
             .ThenInclude(s => s.Components)
-            .FirstOrDefaultAsync(p => p.Id == pageId && p.TenantId == tenantId);
+            .FirstOrDefaultAsync(p => p.Id == pageId && p.TenantId == tenantId, cancellationToken);
     }
 
-    public Task<List<CmsPage>> GetPagesByTenantAsync(Guid tenantId)
+    public Task<IList<CmsPage>> GetPagesByTenantAsync(Guid tenantId, CancellationToken cancellationToken = default)
     {
         return _context.Pages
             .AsNoTracking()
@@ -47,20 +47,21 @@ public class LayoutRepository : ILayoutRepository
             .OrderByDescending(p => p.CreatedAt)
             .Include(p => p.Sections)
             .ThenInclude(s => s.Components)
-            .ToListAsync();
+            .ToListAsync(cancellationToken)
+            .ContinueWith(t => (IList<CmsPage>)t.Result, cancellationToken);
     }
 
-    public Task<bool> PageSlugExistsAsync(Guid tenantId, string slug)
+    public Task<bool> PageSlugExistsAsync(Guid tenantId, string slug, CancellationToken cancellationToken = default)
     {
         return _context.Pages
-            .AnyAsync(p => p.TenantId == tenantId && p.Slug == slug);
+            .AnyAsync(p => p.TenantId == tenantId && p.Slug == slug, cancellationToken);
     }
 
-    public async Task<CmsPage> UpdatePageAsync(Guid tenantId, CmsPage page)
+    public async Task<CmsPage> UpdatePageAsync(Guid tenantId, CmsPage page, CancellationToken cancellationToken = default)
     {
         var existingPage = await _context.Pages
-            .FirstOrDefaultAsync(p => p.Id == page.Id && p.TenantId == tenantId)
-            ?? throw new KeyNotFoundException($"Page {page.Id} not found for tenant {tenantId}");
+            .FirstOrDefaultAsync(p => p.Id == page.Id && p.TenantId == tenantId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Page {page.Id} not found for tenant {tenantId}");
 
         existingPage.Title = page.Title;
         existingPage.Slug = page.Slug;
@@ -72,19 +73,19 @@ public class LayoutRepository : ILayoutRepository
         existingPage.UpdatedAt = DateTime.UtcNow;
         existingPage.UpdatedBy = page.UpdatedBy;
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return existingPage;
     }
 
-    public async Task<bool> DeletePageAsync(Guid tenantId, Guid pageId)
+    public async Task<bool> DeletePageAsync(Guid tenantId, Guid pageId, CancellationToken cancellationToken = default)
     {
         var page = await _context.Pages
-            .FirstOrDefaultAsync(p => p.Id == pageId && p.TenantId == tenantId)
-            ?? throw new KeyNotFoundException($"Page {pageId} not found for tenant {tenantId}");
+            .FirstOrDefaultAsync(p => p.Id == pageId && p.TenantId == tenantId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Page {pageId} not found for tenant {tenantId}");
 
         _context.Pages.Remove(page);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return true;
     }
 
@@ -92,37 +93,37 @@ public class LayoutRepository : ILayoutRepository
 
     #region Section Operations
 
-    public async Task<CmsSection> AddSectionAsync(Guid tenantId, Guid pageId, CmsSection section)
+    public async Task<CmsSection> AddSectionAsync(Guid tenantId, Guid pageId, CmsSection section, CancellationToken cancellationToken = default)
     {
         var page = await _context.Pages
-            .FirstOrDefaultAsync(p => p.Id == pageId && p.TenantId == tenantId)
-            ?? throw new KeyNotFoundException($"Page {pageId} not found for tenant {tenantId}");
+            .FirstOrDefaultAsync(p => p.Id == pageId && p.TenantId == tenantId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Page {pageId} not found for tenant {tenantId}");
 
         section.PageId = pageId;
         section.CreatedAt = DateTime.UtcNow;
 
         _context.Sections.Add(section);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return section;
     }
 
-    public async Task<bool> RemoveSectionAsync(Guid tenantId, Guid pageId, Guid sectionId)
+    public async Task<bool> RemoveSectionAsync(Guid tenantId, Guid pageId, Guid sectionId, CancellationToken cancellationToken = default)
     {
         var section = await _context.Sections
-            .FirstOrDefaultAsync(s => s.Id == sectionId && s.PageId == pageId)
-            ?? throw new KeyNotFoundException($"Section {sectionId} not found");
+            .FirstOrDefaultAsync(s => s.Id == sectionId && s.PageId == pageId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Section {sectionId} not found");
 
         _context.Sections.Remove(section);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return true;
     }
 
-    public async Task<bool> ReorderSectionsAsync(Guid tenantId, Guid pageId, List<(Guid SectionId, int Order)> sectionOrders)
+    public async Task<bool> ReorderSectionsAsync(Guid tenantId, Guid pageId, IList<(Guid SectionId, int Order)> sectionOrders, CancellationToken cancellationToken = default)
     {
         var sections = await _context.Sections
             .Where(s => s.PageId == pageId && sectionOrders.Select(so => so.SectionId).Contains(s.Id))
-            .ToListAsync();
+            .ToListAsync(cancellationToken).ConfigureAwait(false);
 
         foreach (var (sectionId, order) in sectionOrders)
         {
@@ -133,7 +134,7 @@ public class LayoutRepository : ILayoutRepository
             }
         }
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return true;
     }
 
@@ -141,26 +142,26 @@ public class LayoutRepository : ILayoutRepository
 
     #region Component Operations
 
-    public async Task<CmsComponent> AddComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, CmsComponent component)
+    public async Task<CmsComponent> AddComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, CmsComponent component, CancellationToken cancellationToken = default)
     {
         var section = await _context.Sections
-            .FirstOrDefaultAsync(s => s.Id == sectionId && s.PageId == pageId)
-            ?? throw new KeyNotFoundException($"Section {sectionId} not found");
+            .FirstOrDefaultAsync(s => s.Id == sectionId && s.PageId == pageId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Section {sectionId} not found");
 
         component.SectionId = sectionId;
         component.CreatedAt = DateTime.UtcNow;
 
         _context.Components.Add(component);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return component;
     }
 
-    public async Task<CmsComponent> UpdateComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, CmsComponent component)
+    public async Task<CmsComponent> UpdateComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, CmsComponent component, CancellationToken cancellationToken = default)
     {
         var existingComponent = await _context.Components
-            .FirstOrDefaultAsync(c => c.Id == componentId && c.SectionId == sectionId)
-            ?? throw new KeyNotFoundException($"Component {componentId} not found");
+            .FirstOrDefaultAsync(c => c.Id == componentId && c.SectionId == sectionId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Component {componentId} not found");
 
         existingComponent.Type = component.Type;
         existingComponent.Content = component.Content;
@@ -170,19 +171,19 @@ public class LayoutRepository : ILayoutRepository
         existingComponent.IsVisible = component.IsVisible;
         existingComponent.Order = component.Order;
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return existingComponent;
     }
 
-    public async Task<bool> RemoveComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId)
+    public async Task<bool> RemoveComponentAsync(Guid tenantId, Guid pageId, Guid sectionId, Guid componentId, CancellationToken cancellationToken = default)
     {
         var component = await _context.Components
-            .FirstOrDefaultAsync(c => c.Id == componentId && c.SectionId == sectionId)
-            ?? throw new KeyNotFoundException($"Component {componentId} not found");
+            .FirstOrDefaultAsync(c => c.Id == componentId && c.SectionId == sectionId, cancellationToken)
+.ConfigureAwait(false) ?? throw new KeyNotFoundException($"Component {componentId} not found");
 
         _context.Components.Remove(component);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return true;
     }
 
@@ -190,28 +191,28 @@ public class LayoutRepository : ILayoutRepository
 
     #region Component Definition Operations
 
-    public Task<List<ComponentDefinition>> GetComponentDefinitionsAsync()
+    public Task<IList<ComponentDefinition>> GetComponentDefinitionsAsync(CancellationToken cancellationToken = default)
     {
-        return _context.ComponentDefinitions
+        return Task.FromResult<IList<ComponentDefinition>>(_context.ComponentDefinitions
             .AsNoTracking()
             .OrderBy(c => c.DisplayName)
-            .ToListAsync();
+            .ToList());
     }
 
-    public Task<ComponentDefinition?> GetComponentDefinitionAsync(string componentType)
+    public Task<ComponentDefinition?> GetComponentDefinitionAsync(string componentType, CancellationToken cancellationToken = default)
     {
         return _context.ComponentDefinitions
             .AsNoTracking()
-            .FirstOrDefaultAsync(c => c.ComponentType == componentType);
+            .FirstOrDefaultAsync(c => c.ComponentType == componentType, cancellationToken);
     }
 
     #endregion
 
     #region Preview Generation
 
-    public async Task<string> GeneratePreviewHtmlAsync(Guid tenantId, Guid pageId)
+    public async Task<string> GeneratePreviewHtmlAsync(Guid tenantId, Guid pageId, CancellationToken cancellationToken = default)
     {
-        var page = await GetPageByIdAsync(tenantId, pageId);
+        var page = await GetPageByIdAsync(tenantId, pageId, cancellationToken).ConfigureAwait(false);
         if (page == null)
         {
             throw new KeyNotFoundException($"Page {pageId} not found");
@@ -260,7 +261,7 @@ public class LayoutRepository : ILayoutRepository
         html.AppendLine("</body>");
         html.AppendLine("</html>");
 
-        return await Task.FromResult(html.ToString());
+        return await Task.FromResult(html.ToString()).ConfigureAwait(false);
     }
 
     #endregion

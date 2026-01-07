@@ -36,14 +36,14 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                     t.TenantId == tenantGuid &&
                     t.TemplateKey == templateKey &&
                     t.IsPublished,
-                    cancellationToken);
+                    cancellationToken).ConfigureAwait(false);
 
             if (templateOverride == null)
                 return null;
 
             // Get metadata separately
             var metadata = await _context.TemplateOverrideMetadata
-                .FirstOrDefaultAsync(m => m.OverrideId == templateOverride.Id, cancellationToken);
+                .FirstOrDefaultAsync(m => m.OverrideId == templateOverride.Id, cancellationToken).ConfigureAwait(false);
 
             return new PageDefinition
             {
@@ -86,14 +86,14 @@ namespace B2Connect.CMS.Infrastructure.Repositories
 
             var overrides = await _context.TemplateOverrides
                 .Where(t => t.TenantId == tenantGuid && t.IsPublished)
-                .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken).ConfigureAwait(false);
 
             var result = new List<PageDefinition>();
             foreach (var templateOverride in overrides)
             {
                 // Get metadata separately
                 var metadata = await _context.TemplateOverrideMetadata
-                    .FirstOrDefaultAsync(m => m.OverrideId == templateOverride.Id, cancellationToken);
+                    .FirstOrDefaultAsync(m => m.OverrideId == templateOverride.Id, cancellationToken).ConfigureAwait(false);
 
                 result.Add(new PageDefinition
                 {
@@ -148,7 +148,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                 .FirstOrDefaultAsync(t =>
                     t.TenantId == tenantGuid &&
                     t.TemplateKey == pageDefinition.BaseTemplateKey,
-                    cancellationToken);
+                    cancellationToken).ConfigureAwait(false);
 
             if (existingOverride != null)
             {
@@ -162,7 +162,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                 if (pageDefinition.OverrideMetadata != null)
                 {
                     var existingMetadata = await _context.TemplateOverrideMetadata
-                        .FirstOrDefaultAsync(m => m.OverrideId == existingOverride.Id, cancellationToken);
+                        .FirstOrDefaultAsync(m => m.OverrideId == existingOverride.Id, cancellationToken).ConfigureAwait(false);
 
                     if (existingMetadata != null)
                     {
@@ -194,7 +194,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                 );
 
                 _context.TemplateOverrides.Add(templateOverride);
-                await _context.SaveChangesAsync(cancellationToken); // Save to get the ID
+                await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false); // Save to get the ID
 
                 if (pageDefinition.OverrideMetadata != null)
                 {
@@ -207,7 +207,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                 }
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
             // Return updated page definition
             return pageDefinition;
@@ -227,7 +227,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                 .FirstOrDefaultAsync(t =>
                     t.TenantId == tenantGuid &&
                     t.TemplateKey == templateKey,
-                    cancellationToken);
+                    cancellationToken).ConfigureAwait(false);
 
             if (templateOverride == null)
                 throw new InvalidOperationException($"Template override not found for tenant {tenantId} and key {templateKey}");
@@ -238,7 +238,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
 
             // Update metadata separately
             var metadata = await _context.TemplateOverrideMetadata
-                .FirstOrDefaultAsync(m => m.OverrideId == templateOverride.Id, cancellationToken);
+                .FirstOrDefaultAsync(m => m.OverrideId == templateOverride.Id, cancellationToken).ConfigureAwait(false);
 
             if (metadata != null)
             {
@@ -249,7 +249,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
             }
 
             _context.TemplateOverrides.Update(templateOverride);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
         private void UpdateMetadataFromPageDefinition(
@@ -274,14 +274,14 @@ namespace B2Connect.CMS.Infrastructure.Repositories
             CancellationToken cancellationToken = default)
         {
             // Get tenant override first
-            var tenantOverride = await GetTenantOverrideAsync(tenantId, templateKey, cancellationToken);
+            var tenantOverride = await GetTenantOverrideAsync(tenantId, templateKey, cancellationToken).ConfigureAwait(false);
             if (tenantOverride != null)
             {
                 return tenantOverride;
             }
 
             // Fall back to base template
-            return await GetBaseTemplateAsync(templateKey, cancellationToken);
+            return await GetBaseTemplateAsync(templateKey, cancellationToken).ConfigureAwait(false);
         }
 
 
@@ -292,7 +292,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
             CancellationToken cancellationToken = default)
         {
             // For now, return current override as history (versioning not fully implemented)
-            var currentOverride = await GetTenantOverrideAsync(tenantId, templateKey, cancellationToken);
+            var currentOverride = await GetTenantOverrideAsync(tenantId, templateKey, cancellationToken).ConfigureAwait(false);
             return currentOverride != null ? new List<PageDefinition> { currentOverride } : new List<PageDefinition>();
         }
 
@@ -311,7 +311,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                 .FirstOrDefaultAsync(t =>
                     t.TenantId == tenantGuid &&
                     t.TemplateKey == templateKey,
-                    cancellationToken);
+                    cancellationToken).ConfigureAwait(false);
 
             if (templateOverride != null)
             {
@@ -321,7 +321,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
 
                 // Update metadata separately
                 var metadata = await _context.TemplateOverrideMetadata
-                    .FirstOrDefaultAsync(m => m.OverrideId == templateOverride.Id, cancellationToken);
+                    .FirstOrDefaultAsync(m => m.OverrideId == templateOverride.Id, cancellationToken).ConfigureAwait(false);
 
                 if (metadata != null)
                 {
@@ -330,7 +330,7 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                     metadata.LastModifiedBy = "system";
                 }
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -347,12 +347,12 @@ namespace B2Connect.CMS.Infrastructure.Repositories
                 .FirstOrDefaultAsync(t =>
                     t.TenantId == tenantGuid &&
                     t.TemplateKey == templateKey,
-                    cancellationToken);
+                    cancellationToken).ConfigureAwait(false);
 
             if (templateOverride != null)
             {
                 _context.TemplateOverrides.Remove(templateOverride);
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }

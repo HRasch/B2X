@@ -52,7 +52,7 @@ public static class CatalogImportEndpoints
         try
         {
             using var stream = request.File.OpenReadStream();
-            var result = await catalogImportService.ImportAsync(tenantId, stream, format, request.CustomSchemaPath, ct);
+            var result = await catalogImportService.ImportAsync(tenantId, stream, format, request.CustomSchemaPath, ct).ConfigureAwait(false);
 
             return Results.Ok(new CatalogImportResponse
             {
@@ -92,7 +92,7 @@ public static class CatalogImportEndpoints
             return Results.BadRequest(new { Message = "X-Tenant-ID header is required" });
         }
 
-        var imports = await catalogImportService.GetImportsAsync(tenantId, page, pageSize, ct);
+        var imports = await catalogImportService.GetImportsAsync(tenantId, page, pageSize, ct).ConfigureAwait(false);
         return Results.Ok(imports);
     }
 
@@ -112,7 +112,7 @@ public static class CatalogImportEndpoints
             return Results.BadRequest(new { Message = "X-Tenant-ID header is required" });
         }
 
-        var import = await catalogImportService.GetImportAsync(tenantId, id, ct);
+        var import = await catalogImportService.GetImportAsync(tenantId, id, ct).ConfigureAwait(false);
         if (import == null)
         {
             return Results.NotFound(new { Message = $"Import with ID '{id}' not found" });
@@ -139,7 +139,7 @@ public static class CatalogImportEndpoints
             return Results.BadRequest(new { Message = "X-Tenant-ID header is required" });
         }
 
-        var products = await catalogImportService.GetImportProductsAsync(tenantId, id, page, pageSize, ct);
+        var products = await catalogImportService.GetImportProductsAsync(tenantId, id, page, pageSize, ct).ConfigureAwait(false);
         return Results.Ok(products);
     }
 
@@ -175,13 +175,13 @@ public static class CatalogImportEndpoints
 
         // Try to detect from file extension
         var extension = Path.GetExtension(fileName)?.ToLowerInvariant();
-        if (extension == ".bmecat")
+        if (string.Equals(extension, ".bmecat", StringComparison.Ordinal))
         {
             return "bmecat";
         }
 
         // Default to bmecat for XML files (most common in B2B)
-        if (extension == ".xml" || contentType.Contains("xml", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(extension, ".xml", StringComparison.Ordinal) || contentType.Contains("xml", StringComparison.OrdinalIgnoreCase))
         {
             return "bmecat";
         }

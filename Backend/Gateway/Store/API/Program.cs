@@ -74,7 +74,7 @@ builder.Services.AddCors(options =>
                         return false;
                     }
 
-                    return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                    return string.Equals(uri.Host, "localhost", StringComparison.Ordinal) || string.Equals(uri.Host, "127.0.0.1", StringComparison.Ordinal);
                 })
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -161,15 +161,15 @@ builder.Services.AddAuthorization(options =>
         {
             var accountTypeClaim = context.User.FindFirst("AccountType");
             return accountTypeClaim != null &&
-                   (accountTypeClaim.Value == "DU" || accountTypeClaim.Value == "SU" ||
-                    accountTypeClaim.Value == "U" || accountTypeClaim.Value == "SR");
+                   (string.Equals(accountTypeClaim.Value, "DU", StringComparison.Ordinal) || string.Equals(accountTypeClaim.Value, "SU", StringComparison.Ordinal) ||
+string.Equals(accountTypeClaim.Value, "U", StringComparison.Ordinal) || string.Equals(accountTypeClaim.Value, "SR", StringComparison.Ordinal));
         }));
 
     // ERP Service Account Policies - Based on permissions from ERP connector
     options.AddPolicy("ErpReadCustomers", policy =>
         policy.RequireAssertion(context =>
         {
-            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var isErpServiceAccount = string.Equals(context.User.FindFirst("IsErpServiceAccount")?.Value, "true", StringComparison.Ordinal);
             var permissions = context.User.FindFirst("ErpPermissions")?.Value;
             return isErpServiceAccount && permissions?.Contains("ReadCustomers") == true;
         }));
@@ -177,7 +177,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ErpUpdateCustomers", policy =>
         policy.RequireAssertion(context =>
         {
-            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var isErpServiceAccount = string.Equals(context.User.FindFirst("IsErpServiceAccount")?.Value, "true", StringComparison.Ordinal);
             var permissions = context.User.FindFirst("ErpPermissions")?.Value;
             return isErpServiceAccount && permissions?.Contains("UpdateCustomers") == true;
         }));
@@ -185,7 +185,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ErpReadProducts", policy =>
         policy.RequireAssertion(context =>
         {
-            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var isErpServiceAccount = string.Equals(context.User.FindFirst("IsErpServiceAccount")?.Value, "true", StringComparison.Ordinal);
             var permissions = context.User.FindFirst("ErpPermissions")?.Value;
             return isErpServiceAccount && permissions?.Contains("ReadProducts") == true;
         }));
@@ -193,7 +193,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ErpUpdateProducts", policy =>
         policy.RequireAssertion(context =>
         {
-            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var isErpServiceAccount = string.Equals(context.User.FindFirst("IsErpServiceAccount")?.Value, "true", StringComparison.Ordinal);
             var permissions = context.User.FindFirst("ErpPermissions")?.Value;
             return isErpServiceAccount && permissions?.Contains("UpdateProducts") == true;
         }));
@@ -201,7 +201,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ErpReadUsageStats", policy =>
         policy.RequireAssertion(context =>
         {
-            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var isErpServiceAccount = string.Equals(context.User.FindFirst("IsErpServiceAccount")?.Value, "true", StringComparison.Ordinal);
             var permissions = context.User.FindFirst("ErpPermissions")?.Value;
             return isErpServiceAccount && permissions?.Contains("ReadUsageStats") == true;
         }));
@@ -209,7 +209,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ErpManageAccess", policy =>
         policy.RequireAssertion(context =>
         {
-            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var isErpServiceAccount = string.Equals(context.User.FindFirst("IsErpServiceAccount")?.Value, "true", StringComparison.Ordinal);
             var permissions = context.User.FindFirst("ErpPermissions")?.Value;
             return isErpServiceAccount && permissions?.Contains("ManageAccess") == true;
         }));
@@ -217,7 +217,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ErpReceiveWebhooks", policy =>
         policy.RequireAssertion(context =>
         {
-            var isErpServiceAccount = context.User.FindFirst("IsErpServiceAccount")?.Value == "true";
+            var isErpServiceAccount = string.Equals(context.User.FindFirst("IsErpServiceAccount")?.Value, "true", StringComparison.Ordinal);
             var permissions = context.User.FindFirst("ErpPermissions")?.Value;
             return isErpServiceAccount && permissions?.Contains("ReceiveWebhooks") == true;
         }));
@@ -301,7 +301,7 @@ app.Use(async (context, next) =>
         context.Items["TenantId"] = tenantId;
     }
 
-    await next(context);
+    await next(context).ConfigureAwait(false);
 });
 
 // HTTPS Redirection & HSTS (Security Headers)

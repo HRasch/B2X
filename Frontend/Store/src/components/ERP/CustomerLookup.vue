@@ -5,15 +5,15 @@
       <h1 class="text-3xl font-bold">
         {{
           isNewCustomer
-            ? t('customerLookup.header.newRegistration')
-            : t('customerLookup.header.welcomeBack')
+            ? $t('erp.customerLookup.newRegistration')
+            : $t('erp.customerLookup.welcomeBack')
         }}
       </h1>
       <p class="mt-2 text-base-content/70">
         {{
           isNewCustomer
-            ? t('customerLookup.header.enterEmailPrompt')
-            : t('customerLookup.header.customerInfoFound')
+            ? $t('erp.customerLookup.enterEmailToStart')
+            : $t('erp.customerLookup.customerInfoFound')
         }}
       </p>
     </div>
@@ -24,17 +24,17 @@
         <!-- Email Input -->
         <div class="form-control w-full">
           <label class="label">
-            <span class="label-text font-medium">{{ t('customerLookup.form.email.label') }}</span>
+            <span class="label-text font-medium">{{ $t('erp.customerLookup.emailLabel') }}</span>
           </label>
           <input
             id="email"
             v-model="email"
             type="email"
-            :placeholder="t('customerLookup.form.email.placeholder')"
+            placeholder="name@example.com"
             :disabled="isLoading || hasCustomer"
             @blur="validateEmail"
             class="input input-bordered w-full"
-            :aria-label="t('customerLookup.form.email.ariaLabel')"
+            aria-label="E-Mail-Adresse"
           />
           <label v-if="emailError" class="label">
             <span class="label-text-alt text-error">{{ emailError }}</span>
@@ -44,7 +44,7 @@
         <!-- Lookup Status -->
         <div v-if="isLoading" class="flex items-center gap-2 text-info">
           <div class="loading loading-spinner loading-sm"></div>
-          <span class="text-sm">{{ t('customerLookup.form.status.searching') }}</span>
+          <span class="text-sm">{{ $t('erp.customerLookup.searching') }}</span>
         </div>
 
         <!-- Error Alert -->
@@ -63,7 +63,7 @@
             />
           </svg>
           <div>
-            <h3 class="font-medium">{{ t('customerLookup.form.error.title') }}</h3>
+            <h3 class="font-medium">{{ $t('erp.customerLookup.searchError') }}</h3>
             <div class="text-xs mt-1">{{ error }}</div>
           </div>
         </div>
@@ -84,9 +84,11 @@
             />
           </svg>
           <div>
-            <h3 class="font-medium">{{ t('customerLookup.form.success.title') }}</h3>
+            <h3 class="font-medium">{{ $t('erp.customerLookup.customerFound') }}</h3>
             <div class="text-sm mt-1">
-              {{ t('customerLookup.form.success.welcomeMessage', { name: customer.customerName }) }}
+              {{ $t('erp.customerLookup.welcomeBackWithName') }}
+              <strong>{{ customer.customerName }}</strong
+              >!
             </div>
           </div>
         </div>
@@ -96,7 +98,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p class="text-xs uppercase tracking-wide opacity-70">
-                {{ t('customerLookup.form.customerDetails.customerNumber') }}
+                {{ $t('erp.customerLookup.customerNumber') }}
               </p>
               <p class="mt-1 text-lg font-semibold">
                 {{ customer!.customerNumber }}
@@ -104,39 +106,34 @@
             </div>
             <div>
               <p class="text-xs uppercase tracking-wide opacity-70">
-                {{ t('customerLookup.form.customerDetails.customerType') }}
+                {{ $t('erp.customerLookup.customerType') }}
               </p>
               <p class="mt-1">
-                <span v-if="isPrivateCustomer" class="badge badge-primary">{{
-                  t('customerLookup.form.customerDetails.privateCustomer')
-                }}</span>
-                <span v-else class="badge badge-secondary">{{
-                  t('customerLookup.form.customerDetails.businessCustomer')
-                }}</span>
+                <span v-if="isPrivateCustomer" class="badge badge-primary">
+                  {{ $t('erp.customerLookup.privateCustomer') }}
+                </span>
+                <span v-else class="badge badge-secondary">
+                  {{ $t('erp.customerLookup.businessCustomer') }}
+                </span>
               </p>
             </div>
           </div>
 
           <!-- Business Details -->
           <div v-if="isBusinessCustomer" class="mt-4 border-t border-base-300 pt-4">
-            <p class="text-sm font-medium mb-2">
-              {{ t('customerLookup.form.businessDetails.title') }}
-            </p>
+            <p class="text-sm font-medium mb-2">{{ $t('erp.customerLookup.businessInfo') }}</p>
             <div class="space-y-1 text-sm">
               <div>
-                <strong>{{ t('customerLookup.form.businessDetails.company') }}</strong>
-                {{ customer!.customerName }}
+                <strong>{{ $t('erp.customerLookup.company') }}</strong> {{ customer!.customerName }}
               </div>
               <div v-if="customer!.phone">
-                <strong>{{ t('customerLookup.form.businessDetails.phone') }}</strong>
-                {{ customer!.phone }}
+                <strong>{{ $t('erp.customerLookup.phone') }}</strong> {{ customer!.phone }}
               </div>
               <div v-if="customer!.country">
-                <strong>{{ t('customerLookup.form.businessDetails.country') }}</strong>
-                {{ customer!.country }}
+                <strong>{{ $t('erp.customerLookup.country') }}</strong> {{ customer!.country }}
               </div>
               <div v-if="customer!.creditLimit">
-                <strong>{{ t('customerLookup.form.businessDetails.creditLimit') }}</strong> €{{
+                <strong>{{ $t('erp.customerLookup.creditLimit') }}</strong> €{{
                   customer!.creditLimit.toLocaleString('de-DE')
                 }}
               </div>
@@ -157,23 +154,15 @@
             :disabled="!email || isLoading"
             class="btn btn-primary flex-1"
           >
-            {{
-              isLoading
-                ? t('customerLookup.form.actions.searching')
-                : t('customerLookup.form.actions.searchCustomer')
-            }}
+            {{ isLoading ? 'Suche läuft...' : 'Kundensuche' }}
           </button>
 
           <button v-if="hasCustomer" @click="proceedWithCustomer" class="btn btn-success flex-1">
-            {{ t('customerLookup.form.actions.proceed') }}
+            Weiter
           </button>
 
           <button @click="clearForm" class="btn btn-neutral flex-1">
-            {{
-              hasCustomer
-                ? t('customerLookup.form.actions.newSearch')
-                : t('customerLookup.form.actions.cancel')
-            }}
+            {{ hasCustomer ? 'Neue Suche' : 'Abbrechen' }}
           </button>
         </div>
       </div>
@@ -195,12 +184,13 @@
         />
       </svg>
       <div>
-        <h2 class="font-semibold mb-1">{{ t('customerLookup.newCustomer.title') }}</h2>
+        <h2 class="font-semibold mb-1">Sind Sie ein neuer Kunde?</h2>
         <p class="text-sm">
-          {{ t('customerLookup.newCustomer.message') }}
+          Sie können sich jetzt registrieren und später von Ihren gespeicherten Informationen
+          profitieren.
         </p>
         <button @click="$emit('register')" class="btn btn-sm btn-primary mt-3">
-          {{ t('customerLookup.newCustomer.registerButton') }}
+          Neue Registrierung
         </button>
       </div>
     </div>
@@ -208,7 +198,7 @@
     <!-- Diagnostic Info (Development only) -->
     <div v-if="isDevelopment" class="card bg-base-200 shadow-sm">
       <div class="card-body">
-        <p class="font-bold mb-2 text-sm">{{ t('customerLookup.diagnostic.title') }}</p>
+        <p class="font-bold mb-2 text-sm">🔧 Diagnostic Info (Dev Only)</p>
         <div class="space-y-1 text-xs font-mono">
           <div>Email: {{ email || '(empty)' }}</div>
           <div>Loading: {{ isLoading }}</div>
@@ -222,7 +212,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useErpIntegration } from '@/composables/useErpIntegration';
 
 defineProps<{
@@ -233,9 +222,6 @@ const emit = defineEmits<{
   register: [];
   proceed: [customerNumber: string];
 }>();
-
-// i18n
-const { t } = useI18n();
 
 // ERP Integration
 const { validateCustomerEmail, hasCustomer, customer, isLoading, error, clearCustomer } =

@@ -1,0 +1,164 @@
+{
+  "auth": {
+    "login": {
+      "title": "Tenant Management Portal",
+      "subtitle": "Sign in to manage your stores and administrators",
+      "email": "Email",
+      "emailPlaceholder": "admin@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "signingIn": "Signing in...",
+      "submit": "Sign in",
+      "error": "Login failed. Please check your credentials."
+    },
+    "logout": "Sign out"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {{email}}",
+    "subtitle": "Manage your store instances and administrator identities",
+    "stats": {
+      "storeInstances": "Store Instances",
+      "administrators": "Administrators",
+      "emailMonitoring": "Email Monitoring",
+      "quickActions": "Quick Actions"
+    },
+    "links": {
+      "viewStores": "View Stores →",
+      "manageAdmins": "Manage Admins →",
+      "viewEmailStatus": "View Email Status →",
+      "createStore": "Create Store",
+      "addAdministrator": "Add Administrator"
+    }
+  },
+  "stores": {
+    "title": "Store Instances",
+    "create": "Create Store",
+    "loading": "Loading stores...",
+    "empty": "No store instances found",
+    "createFirst": "Create First Store",
+    "name": "Store Name",
+    "domain": "Domain",
+    "status": "Status",
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "suspended": "Suspended"
+    },
+    "actions": {
+      "viewDetails": "View Details",
+      "delete": "Delete"
+    },
+    "placeholders": {
+      "name": "My Store",
+      "domain": "mystore.example.com"
+    },
+    "creating": "Creating...",
+    "createStore": "Create Store",
+    "cancel": "Cancel",
+    "error": "Failed to create store"
+  },
+  "admins": {
+    "title": "Administrators",
+    "invite": "Invite Administrator",
+    "loading": "Loading administrators...",
+    "empty": "No administrators found",
+    "addFirst": "Add First Administrator",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "actions": {
+      "viewDetails": "View Details",
+      "delete": "Delete"
+    },
+    "placeholders": {
+      "email": "admin@example.com"
+    },
+    "inviting": "Inviting...",
+    "inviteAdmin": "Invite Administrator",
+    "cancel": "Cancel",
+    "error": "Failed to invite administrator"
+  },
+  "email": {
+    "monitoring": {
+      "title": "Email Monitoring",
+      "loading": "Loading emails...",
+      "empty": "No emails found",
+      "subject": "Subject",
+      "recipient": "Recipient",
+      "status": "Status",
+      "sentAt": "Sent At",
+      "actions": {
+        "viewDetails": "View Details",
+        "retry": "Retry",
+        "cancel": "Cancel"
+      },
+      "statuses": {
+        "sent": "Sent",
+        "failed": "Failed",
+        "pending": "Pending",
+        "cancelled": "Cancelled"
+      },
+      "filter": {
+        "all": "All",
+        "sent": "Sent",
+        "failed": "Failed",
+        "pending": "Pending"
+      },
+      "search": "Search emails...",
+      "noResults": "No emails match your search"
+    }
+  },
+  "ui": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "close": "Close",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "create": "Create",
+    "view": "View",
+    "back": "Back",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalid_email": "Invalid email address",
+    "unauthorized": "You are not authorized",
+    "forbidden": "Access denied",
+    "not_found": "Not found",
+    "server_error": "Server error. Please try again later.",
+    "network_error": "Network error. Please check your connection.",
+    "validation_error": "Validation failed. Please check your input.",
+    "duplicate": "This item already exists",
+    "min_length": "Must be at least {{min}} characters long",
+    "max_length": "Must be at most {{max}} characters long"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "back": "Back",
+    "home": "Home",
+    "language": "Language",
+    "settings": "Settings",
+    "profile": "Profile",
+    "help": "Help",
+    "about": "About",
+    "version": "Version"
+  }
+}

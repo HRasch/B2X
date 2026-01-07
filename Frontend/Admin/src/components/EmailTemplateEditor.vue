@@ -177,7 +177,7 @@
           <div class="preview-subject">
             {{ $t('email.templates.subject') }}: {{ previewData.subject }}
           </div>
-          <div class="preview-body" v-html="previewData.htmlBody"></div>
+          <div class="preview-body" v-html="safePreviewBody"></div>
         </div>
       </div>
     </div>
@@ -228,6 +228,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useEmailStore } from '@/stores/email';
 import { useThemeStore } from '@/stores/theme';
+import { useSafeHtml } from '@/utils/sanitize';
 import CodeEditor from '@/components/common/CodeEditor.vue';
 import EmailBuilderWYSIWYG from '@/components/email/EmailBuilderWYSIWYG.vue';
 import type { EmailTemplate, EmailTemplateForm, EmailLayout, LiquidVariable } from '@/types/email';
@@ -355,6 +356,8 @@ const previewData = computed(() => {
     htmlBody: form.value.htmlBody,
   };
 });
+
+const safePreviewBody = useSafeHtml(previewData.value.htmlBody);
 
 // Content synchronization between GrapesJS and Monaco (using draft state)
 const visualContent = computed({

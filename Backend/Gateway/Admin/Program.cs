@@ -80,7 +80,7 @@ builder.Services.AddCors(options =>
                         return false;
                     }
 
-                    return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+                    return string.Equals(uri.Host, "localhost", StringComparison.Ordinal) || string.Equals(uri.Host, "127.0.0.1", StringComparison.Ordinal);
                 })
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -155,7 +155,7 @@ builder.Services.AddAuthorization(options =>
             // Check AccountType claim (DU or SU)
             var accountTypeClaim = context.User.FindFirst("AccountType");
             var isAdminAccountType = accountTypeClaim != null &&
-                   (accountTypeClaim.Value == "DU" || accountTypeClaim.Value == "SU");
+                   (string.Equals(accountTypeClaim.Value, "DU", StringComparison.Ordinal) || string.Equals(accountTypeClaim.Value, "SU", StringComparison.Ordinal));
 
             // Check Admin role (from Identity Service)
             var isAdminRole = context.User.IsInRole("Admin") ||
@@ -273,17 +273,18 @@ builder.Services.AddScoped<ICliToolsService, CliToolsService>();
 
 // ERP Data Validation Services - Use shared ERP validation (ADR-036)
 // Note: These registrations reference the consolidated shared ERP validation types
-builder.Services.AddScoped<B2Connect.Api.Validation.IDataValidator<B2Connect.Api.Models.Erp.ErpData>, B2Connect.Api.Validation.ErpDataValidator>();
-builder.Services.AddScoped<B2Connect.Api.Validation.IDataValidator<B2Connect.Api.Models.Erp.ErpData>, B2Connect.Api.Validation.ErpSpecificValidator>();
+// builder.Services.AddScoped<B2Connect.Api.Validation.IDataValidator<B2Connect.Api.Models.Erp.ErpData>, B2Connect.Api.Validation.ErpDataValidator>();
+// builder.Services.AddScoped<B2Connect.Api.Validation.IDataValidator<B2Connect.Api.Models.Erp.ErpData>, B2Connect.Api.Validation.ErpSpecificValidator>();
 // TODO: Implement ValidationRulesProvider, QuarantineRepository to complete validation pipeline
 // builder.Services.AddScoped<B2Connect.Api.Validation.IValidationRulesProvider, B2Connect.Api.Validation.ValidationRulesProvider>();
+// builder.Services.AddScoped<B2Connect.Api.Validation.IErpConnector, B2Connect.Api.Connectors.EnventaConnector>();
+// builder.Services.AddScoped<B2Connect.Api.Validation.IErpConnector, B2Connect.Api.Connectors.SapConnector>();
 // builder.Services.AddScoped<B2Connect.Api.Validation.IQuarantineService, B2Connect.Api.Validation.QuarantineService>();
 // builder.Services.AddScoped<B2Connect.Api.Validation.IQuarantineRepository, B2Connect.Api.Validation.QuarantineRepository>();
 
 // ERP Connectors - Use shared ERP connector interfaces (ADR-036)
-// TODO: Update to use B2Connect.Shared.Erp.Core.Interfaces.IErpConnector
-// builder.Services.AddScoped<B2Connect.Api.Connectors.IErpConnector, B2Connect.Api.Connectors.EnventaConnector>();
-// builder.Services.AddScoped<B2Connect.Api.Connectors.IErpConnector, B2Connect.Api.Connectors.SapConnector>();
+builder.Services.AddScoped<B2Connect.ERP.Abstractions.IErpConnector, B2Connect.ERP.Connectors.FashopErpConnector>();
+builder.Services.AddScoped<B2Connect.ERP.Abstractions.IErpConnector, B2Connect.ERP.Connectors.SAP.SapErpConnector>();
 
 // Add services
 builder.Services.AddControllers(options =>
@@ -358,4 +359,4 @@ app.MapReverseProxy();
 app.MapGet("/", () => "Admin API Gateway is running");
 // Health endpoints provided by UseServiceDefaults() - see ADR-025
 
-await app.RunAsync();
+await app.RunAsync().ConfigureAwait(false);

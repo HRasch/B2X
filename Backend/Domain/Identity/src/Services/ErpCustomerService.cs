@@ -41,7 +41,7 @@ public class ErpCustomerService : IErpCustomerService
         }
 
         var cacheKey = $"{CacheKeyPrefix}number:{customerNumber}";
-        var cached = await _cache.GetStringAsync(cacheKey, ct);
+        var cached = await _cache.GetStringAsync(cacheKey, ct).ConfigureAwait(false);
         if (cached != null)
         {
             _logger.LogDebug("ERP Cache HIT für Kundennummer: {CustomerNumber}", customerNumber);
@@ -57,7 +57,7 @@ public class ErpCustomerService : IErpCustomerService
                 $"{_erpBaseUrl}/api/customers?$filter=CustomerNumber eq '{Uri.EscapeDataString(customerNumber)}'");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            using var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogWarning("ERP API Error: {StatusCode} für Kundennummer {CustomerNumber}",
@@ -65,7 +65,7 @@ public class ErpCustomerService : IErpCustomerService
                 return null;
             }
 
-            var content = await response.Content.ReadAsStringAsync(ct);
+            var content = await response.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
             var customers = JsonSerializer.Deserialize<List<ErpCustomerDto>>(content) ?? new();
             var customer = customers.FirstOrDefault();
 
@@ -76,7 +76,7 @@ public class ErpCustomerService : IErpCustomerService
                     cacheKey,
                     JsonSerializer.Serialize(customer),
                     new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(CacheDurationMinutes) },
-                    ct);
+                    ct).ConfigureAwait(false);
 
                 _logger.LogInformation("ERP Kunde gefunden: {CustomerNumber} -> {CustomerName}", customerNumber, customer.CustomerName);
             }
@@ -98,7 +98,7 @@ public class ErpCustomerService : IErpCustomerService
         }
 
         var cacheKey = $"{CacheKeyPrefix}email:{email.ToLower(System.Globalization.CultureInfo.CurrentCulture)}";
-        var cached = await _cache.GetStringAsync(cacheKey, ct);
+        var cached = await _cache.GetStringAsync(cacheKey, ct).ConfigureAwait(false);
         if (cached != null)
         {
             _logger.LogDebug("ERP Cache HIT für E-Mail: {Email}", email);
@@ -113,13 +113,13 @@ public class ErpCustomerService : IErpCustomerService
                 $"{_erpBaseUrl}/api/customers?$filter=Email eq '{Uri.EscapeDataString(email)}'");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            using var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            var content = await response.Content.ReadAsStringAsync(ct);
+            var content = await response.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
             var customers = JsonSerializer.Deserialize<List<ErpCustomerDto>>(content) ?? new();
             var customer = customers.FirstOrDefault();
 
@@ -129,7 +129,7 @@ public class ErpCustomerService : IErpCustomerService
                     cacheKey,
                     JsonSerializer.Serialize(customer),
                     new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(CacheDurationMinutes) },
-                    ct);
+                    ct).ConfigureAwait(false);
 
                 _logger.LogInformation("ERP Kunde gefunden: {Email} -> {CustomerName}", email, customer.CustomerName);
             }
@@ -151,7 +151,7 @@ public class ErpCustomerService : IErpCustomerService
         }
 
         var cacheKey = $"{CacheKeyPrefix}company:{companyName.ToLower(System.Globalization.CultureInfo.CurrentCulture)}";
-        var cached = await _cache.GetStringAsync(cacheKey, ct);
+        var cached = await _cache.GetStringAsync(cacheKey, ct).ConfigureAwait(false);
         if (cached != null)
         {
             _logger.LogDebug("ERP Cache HIT für Firmenname: {CompanyName}", companyName);
@@ -166,13 +166,13 @@ public class ErpCustomerService : IErpCustomerService
                 $"{_erpBaseUrl}/api/customers?$filter=contains(CustomerName, '{Uri.EscapeDataString(companyName)}')");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            using var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            var content = await response.Content.ReadAsStringAsync(ct);
+            var content = await response.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
             var customers = JsonSerializer.Deserialize<List<ErpCustomerDto>>(content) ?? new();
             var customer = customers.FirstOrDefault();
 
@@ -182,7 +182,7 @@ public class ErpCustomerService : IErpCustomerService
                     cacheKey,
                     JsonSerializer.Serialize(customer),
                     new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(CacheDurationMinutes) },
-                    ct);
+                    ct).ConfigureAwait(false);
 
                 _logger.LogInformation("ERP Kunde gefunden: {CompanyName} -> {CustomerNumber}", companyName, customer.CustomerNumber);
             }
@@ -203,7 +203,7 @@ public class ErpCustomerService : IErpCustomerService
             using var request = new HttpRequestMessage(HttpMethod.Get, $"{_erpBaseUrl}/health");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            using var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct).ConfigureAwait(false);
             var available = response.IsSuccessStatusCode;
 
             _logger.LogInformation("ERP Health Check: {Status}", available ? "OK" : "FAILED");
@@ -223,7 +223,7 @@ public class ErpCustomerService : IErpCustomerService
             using var request = new HttpRequestMessage(HttpMethod.Get, $"{_erpBaseUrl}/api/sync-status");
             request.Headers.Add("Authorization", $"Bearer {_erpApiKey}");
 
-            using var response = await _httpClient.SendAsync(request, ct);
+            using var response = await _httpClient.SendAsync(request, ct).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
                 return new ErpSyncStatusDto
@@ -233,7 +233,7 @@ public class ErpCustomerService : IErpCustomerService
                 };
             }
 
-            var content = await response.Content.ReadAsStringAsync(ct);
+            var content = await response.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
             var status = JsonSerializer.Deserialize<ErpSyncStatusDto>(content) ?? new();
 
             return status;

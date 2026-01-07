@@ -70,6 +70,7 @@ public class LogsController : ApiControllerBase
 
             // Log with structured data for easy querying
             using (_logger.BeginScope(new Dictionary<string, object>
+(StringComparer.Ordinal)
             {
                 ["ErrorId"] = entry.Id,
                 ["Fingerprint"] = error.Fingerprint ?? "unknown",

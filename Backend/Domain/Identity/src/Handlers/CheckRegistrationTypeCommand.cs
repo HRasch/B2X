@@ -111,7 +111,7 @@ public class CheckRegistrationTypeCommandValidator : AbstractValidator<CheckRegi
             .MaximumLength(20).WithMessage("Telefonnummer zu lang");
 
         RuleFor(x => x.BusinessType)
-            .Must(x => x == "PRIVATE" || x == "BUSINESS")
+            .Must(x => string.Equals(x, "PRIVATE", StringComparison.Ordinal) || string.Equals(x, "BUSINESS", StringComparison.Ordinal))
             .WithMessage("Geschäftstyp muss PRIVATE oder BUSINESS sein");
 
         // Kundennummer optional, aber wenn vorhanden dann validieren

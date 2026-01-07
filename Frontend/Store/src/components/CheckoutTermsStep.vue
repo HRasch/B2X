@@ -2,9 +2,9 @@
   <div class="w-full">
     <!-- Step Header -->
     <div class="mb-8">
-      <h2 class="text-3xl font-bold mb-2">{{ t('legal.acceptance.title') }}</h2>
+      <h2 class="text-3xl font-bold mb-2">{{ $t('legal.acceptance.title') }}</h2>
       <p class="text-base-content/70">
-        {{ t('legal.acceptance.subtitle') }}
+        {{ $t('legal.acceptance.subtitle') }}
       </p>
     </div>
 
@@ -19,10 +19,10 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            :aria-label="t('legal.acceptance.acceptTerms')"
+            :aria-label="$t('legal.acceptance.acceptTerms')"
           />
           <span class="label-text">
-            {{ t('legal.acceptance.acceptTerms') }}
+            {{ $t('legal.acceptance.acceptTerms') }}
             <span class="text-error">*</span>
           </span>
         </label>
@@ -37,10 +37,10 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            :aria-label="t('legal.acceptance.acceptPrivacy')"
+            :aria-label="$t('legal.acceptance.acceptPrivacy')"
           />
           <span class="label-text">
-            {{ t('legal.acceptance.acceptPrivacy') }}
+            {{ $t('legal.acceptance.acceptPrivacy') }}
             <span class="text-error">*</span>
           </span>
         </label>
@@ -55,17 +55,17 @@
             type="checkbox"
             class="checkbox checkbox-primary"
             :disabled="isSubmitting"
-            :aria-label="t('legal.acceptance.understandWithdrawal')"
+            :aria-label="$t('legal.acceptance.understandWithdrawal')"
           />
           <span class="label-text">
-            {{ t('legal.acceptance.understandWithdrawal') }}
+            {{ $t('legal.acceptance.understandWithdrawal') }}
           </span>
         </label>
       </div>
 
       <!-- Required fields note -->
       <p class="text-sm text-base-content/70 mt-4">
-        {{ t('legal.acceptance.requiredFields') }}
+        {{ $t('legal.acceptance.requiredFields') }}
       </p>
 
       <!-- Error message -->
@@ -112,7 +112,7 @@
     <!-- Action Buttons -->
     <div class="flex gap-2 justify-between">
       <button type="button" @click="goBack" class="btn btn-ghost" :disabled="isSubmitting">
-        {{ t('legal.acceptance.back') }}
+        {{ $t('legal.acceptance.back') }}
       </button>
       <button
         type="button"
@@ -123,7 +123,9 @@
       >
         <span v-if="isSubmitting" class="loading loading-spinner loading-sm"></span>
         {{
-          isSubmitting ? t('legal.acceptance.processing') : t('legal.acceptance.continueToPayment')
+          isSubmitting
+            ? $t('legal.acceptance.processing')
+            : $t('legal.acceptance.continueToPayment')
         }}
       </button>
     </div>
@@ -138,60 +140,52 @@
       >
         <div class="modal modal-open">
           <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
-            <h3 class="font-bold text-lg mb-4">{{ t('legal.termsAndConditions.title') }}</h3>
+            <h3 class="font-bold text-lg mb-4">{{ $t('legal.termsAndConditions.title') }}</h3>
             <div class="divider my-2"></div>
             <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
               <div class="prose prose-sm">
                 <h4 class="font-bold">
-                  {{ t('legal.termsAndConditions.sections.general.title') }}
+                  {{ $t('legal.termsAndConditions.sections.general.title') }}
                 </h4>
-                <p>
-                  {{ t('legal.termsAndConditions.sections.general.content') }}
-                </p>
+                <p>{{ $t('legal.termsAndConditions.sections.general.content') }}</p>
 
                 <h4 class="font-bold">
-                  {{ t('legal.termsAndConditions.sections.products.title') }}
+                  {{ $t('legal.termsAndConditions.sections.products.title') }}
                 </h4>
-                <p>
-                  {{ t('legal.termsAndConditions.sections.products.content') }}
-                </p>
+                <p>{{ $t('legal.termsAndConditions.sections.products.content') }}</p>
 
                 <h4 class="font-bold">
-                  {{ t('legal.termsAndConditions.sections.pricing.title') }}
+                  {{ $t('legal.termsAndConditions.sections.pricing.title') }}
                 </h4>
-                <p>
-                  {{ t('legal.termsAndConditions.sections.pricing.content') }}
-                </p>
+                <p>{{ $t('legal.termsAndConditions.sections.pricing.content') }}</p>
 
                 <h4 class="font-bold">
-                  {{ t('legal.termsAndConditions.sections.delivery.title') }}
+                  {{ $t('legal.termsAndConditions.sections.delivery.title') }}
                 </h4>
-                <p>{{ t('legal.termsAndConditions.sections.delivery.content') }}</p>
+                <p>{{ $t('legal.termsAndConditions.sections.delivery.content') }}</p>
 
                 <h4 class="font-bold">
-                  {{ t('legal.termsAndConditions.sections.withdrawal.title') }}
+                  {{ $t('legal.termsAndConditions.sections.withdrawal.title') }}
                 </h4>
-                <p>
-                  {{ t('legal.termsAndConditions.sections.withdrawal.content') }}
-                </p>
+                <p>{{ $t('legal.termsAndConditions.sections.withdrawal.content') }}</p>
 
                 <h4 class="font-bold">
-                  {{ t('legal.termsAndConditions.sections.liability.title') }}
+                  {{ $t('legal.termsAndConditions.sections.liability.title') }}
                 </h4>
-                <p>{{ t('legal.termsAndConditions.sections.liability.content') }}</p>
+                <p>{{ $t('legal.termsAndConditions.sections.liability.content') }}</p>
 
                 <h4 class="font-bold">
-                  {{ t('legal.termsAndConditions.sections.privacy.title') }}
+                  {{ $t('legal.termsAndConditions.sections.privacy.title') }}
                 </h4>
-                <p>{{ t('legal.termsAndConditions.sections.privacy.content') }}</p>
+                <p>{{ $t('legal.termsAndConditions.sections.privacy.content') }}</p>
 
-                <h4 class="font-bold">{{ t('legal.termsAndConditions.sections.final.title') }}</h4>
-                <p>{{ t('legal.termsAndConditions.sections.final.content') }}</p>
+                <h4 class="font-bold">{{ $t('legal.termsAndConditions.sections.final.title') }}</h4>
+                <p>{{ $t('legal.termsAndConditions.sections.final.content') }}</p>
               </div>
             </div>
             <div class="modal-action">
               <button type="button" @click="showTermsModal = false" class="btn btn-primary">
-                {{ t('legal.termsAndConditions.understood') }}
+                {{ $t('legal.termsAndConditions.understood') }}
               </button>
             </div>
           </div>
@@ -208,43 +202,37 @@
       >
         <div class="modal modal-open">
           <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
-            <h3 class="font-bold text-lg mb-4">{{ t('legal.privacyPolicy.title') }}</h3>
+            <h3 class="font-bold text-lg mb-4">{{ $t('legal.privacyPolicy.title') }}</h3>
             <div class="divider my-2"></div>
             <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
               <div class="prose prose-sm">
-                <h4 class="font-bold">{{ t('legal.privacyPolicy.sections.responsible.title') }}</h4>
-                <p>
-                  {{ t('legal.privacyPolicy.sections.responsible.content') }}
-                </p>
+                <h4 class="font-bold">
+                  {{ $t('legal.privacyPolicy.sections.responsible.title') }}
+                </h4>
+                <p>{{ $t('legal.privacyPolicy.sections.responsible.content') }}</p>
 
-                <h4 class="font-bold">{{ t('legal.privacyPolicy.sections.collection.title') }}</h4>
-                <p>{{ t('legal.privacyPolicy.sections.collection.content') }}</p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.collection.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.collection.content') }}</p>
 
-                <h4 class="font-bold">{{ t('legal.privacyPolicy.sections.storage.title') }}</h4>
-                <p>
-                  {{ t('legal.privacyPolicy.sections.storage.content') }}
-                </p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.storage.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.storage.content') }}</p>
 
-                <h4 class="font-bold">{{ t('legal.privacyPolicy.sections.rights.title') }}</h4>
-                <p>
-                  {{ t('legal.privacyPolicy.sections.rights.content') }}
-                </p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.rights.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.rights.content') }}</p>
 
-                <h4 class="font-bold">{{ t('legal.privacyPolicy.sections.cookies.title') }}</h4>
-                <p>
-                  {{ t('legal.privacyPolicy.sections.cookies.content') }}
-                </p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.cookies.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.cookies.content') }}</p>
 
-                <h4 class="font-bold">{{ t('legal.privacyPolicy.sections.security.title') }}</h4>
-                <p>{{ t('legal.privacyPolicy.sections.security.content') }}</p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.security.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.security.content') }}</p>
 
-                <h4 class="font-bold">{{ t('legal.privacyPolicy.sections.contact.title') }}</h4>
-                <p>{{ t('legal.privacyPolicy.sections.contact.content') }}</p>
+                <h4 class="font-bold">{{ $t('legal.privacyPolicy.sections.contact.title') }}</h4>
+                <p>{{ $t('legal.privacyPolicy.sections.contact.content') }}</p>
               </div>
             </div>
             <div class="modal-action">
               <button type="button" @click="showPrivacyModal = false" class="btn btn-primary">
-                {{ t('legal.privacyPolicy.understood') }}
+                {{ $t('legal.privacyPolicy.understood') }}
               </button>
             </div>
           </div>
@@ -261,54 +249,50 @@
       >
         <div class="modal modal-open">
           <div class="modal-box w-11/12 max-w-2xl max-h-[90vh]" @click.stop>
-            <h3 class="font-bold text-lg mb-4">{{ t('legal.withdrawalRights.title') }}</h3>
+            <h3 class="font-bold text-lg mb-4">{{ $t('legal.withdrawalRights.title') }}</h3>
             <div class="divider my-2"></div>
             <div class="overflow-y-auto max-h-[calc(90vh-200px)] space-y-4">
               <div class="prose prose-sm">
                 <h4 class="font-bold">
-                  {{ t('legal.withdrawalRights.sections.yourRights.title') }}
+                  {{ $t('legal.withdrawalRights.sections.yourRights.title') }}
                 </h4>
-                <p>
-                  {{ t('legal.withdrawalRights.sections.yourRights.content') }}
-                </p>
+                <p>{{ $t('legal.withdrawalRights.sections.yourRights.content') }}</p>
 
                 <h4 class="font-bold">
-                  {{ t('legal.withdrawalRights.sections.deadlines.title') }}
+                  {{ $t('legal.withdrawalRights.sections.deadlines.title') }}
                 </h4>
                 <ul class="list-disc list-inside">
-                  <li>{{ t('legal.withdrawalRights.sections.deadlines.start') }}</li>
-                  <li>{{ t('legal.withdrawalRights.sections.deadlines.duration') }}</li>
-                  <li>{{ t('legal.withdrawalRights.sections.deadlines.form') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.deadlines.start') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.deadlines.duration') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.deadlines.form') }}</li>
                 </ul>
 
                 <h4 class="font-bold">
-                  {{ t('legal.withdrawalRights.sections.exceptions.title') }}
+                  {{ $t('legal.withdrawalRights.sections.exceptions.title') }}
                 </h4>
-                <p>{{ t('legal.withdrawalRights.sections.exceptions.intro') }}</p>
+                <p>{{ $t('legal.withdrawalRights.sections.exceptions.intro') }}</p>
                 <ul class="list-disc list-inside">
-                  <li>{{ t('legal.withdrawalRights.sections.exceptions.digital') }}</li>
-                  <li>{{ t('legal.withdrawalRights.sections.exceptions.customized') }}</li>
-                  <li>{{ t('legal.withdrawalRights.sections.exceptions.damaged') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.exceptions.digital') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.exceptions.customized') }}</li>
+                  <li>{{ $t('legal.withdrawalRights.sections.exceptions.damaged') }}</li>
                 </ul>
 
                 <h4 class="font-bold">
-                  {{ t('legal.withdrawalRights.sections.returnProcess.title') }}
+                  {{ $t('legal.withdrawalRights.sections.returnProcess.title') }}
                 </h4>
-                <p>
-                  {{ t('legal.withdrawalRights.sections.returnProcess.content') }}
-                </p>
+                <p>{{ $t('legal.withdrawalRights.sections.returnProcess.content') }}</p>
 
-                <h4 class="font-bold">{{ t('legal.withdrawalRights.sections.contact.title') }}</h4>
-                <p>{{ t('legal.withdrawalRights.sections.contact.content') }}</p>
+                <h4 class="font-bold">{{ $t('legal.withdrawalRights.sections.contact.title') }}</h4>
+                <p>{{ $t('legal.withdrawalRights.sections.contact.content') }}</p>
 
                 <p class="text-sm italic mt-4">
-                  <strong>{{ t('legal.withdrawalRights.legalBasis') }}</strong>
+                  <strong>{{ $t('legal.withdrawalRights.legalBasis') }}</strong>
                 </p>
               </div>
             </div>
             <div class="modal-action">
               <button type="button" @click="showWithdrawalModal = false" class="btn btn-primary">
-                {{ t('legal.withdrawalRights.understood') }}
+                {{ $t('legal.withdrawalRights.understood') }}
               </button>
             </div>
           </div>
@@ -320,6 +304,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface TermsAcceptance {
   termsAndConditions: boolean;
@@ -384,15 +371,15 @@ const continueToPayment = async () => {
 
     const data = await response.json();
     if (data.success) {
-      successMessage.value = 'Bedingungen akzeptiert!';
+      successMessage.value = t('legal.acceptance.acceptTermsSuccess');
       setTimeout(() => {
         emit('continue');
       }, 500);
     } else {
-      errorMessage.value = data.message || 'Fehler beim Verarbeiten';
+      errorMessage.value = data.message || t('legal.acceptance.saveError');
     }
   } catch (error) {
-    errorMessage.value = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
+    errorMessage.value = t('legal.acceptance.generalError');
     console.error('Terms acceptance error:', error);
   } finally {
     isSubmitting.value = false;

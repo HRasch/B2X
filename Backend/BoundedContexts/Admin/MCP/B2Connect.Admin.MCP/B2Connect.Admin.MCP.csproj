@@ -45,6 +45,8 @@
   <ItemGroup>
     <!-- ServiceDefaults for Aspire integration -->
     <ProjectReference Include="../../../../../ServiceDefaults/B2Connect.ServiceDefaults.csproj" />
+    <!-- CMS Domain for template validation -->
+    <ProjectReference Include="../../../../Domain/CMS/B2Connect.CMS.csproj" />
   </ItemGroup>
 
 </Project>

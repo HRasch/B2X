@@ -45,9 +45,9 @@ public class CreateProductRequest
     public required string Sku { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
-    public decimal Price { get; set; }
+    public required decimal Price { get; set; }
     public decimal? DiscountPrice { get; set; }
-    public int StockQuantity { get; set; }
+    public required int StockQuantity { get; set; }
     public List<string>? Categories { get; set; }
     public string? BrandName { get; set; }
     public List<string>? Tags { get; set; }
@@ -81,22 +81,22 @@ public class PriceBreakdownDto
     /// <summary>
     /// Product price without VAT
     /// </summary>
-    public decimal ProductPrice { get; set; }
+    public required decimal ProductPrice { get; set; }
 
     /// <summary>
     /// VAT rate as percentage (e.g., 19 for 19%)
     /// </summary>
-    public decimal VatRate { get; set; }
+    public required decimal VatRate { get; set; }
 
     /// <summary>
     /// Calculated VAT amount
     /// </summary>
-    public decimal VatAmount { get; set; }
+    public required decimal VatAmount { get; set; }
 
     /// <summary>
     /// Final price including VAT - THIS IS WHAT CUSTOMERS SEE
     /// </summary>
-    public decimal PriceIncludingVat { get; set; }
+    public required decimal PriceIncludingVat { get; set; }
 
     /// <summary>
     /// Discount amount if applicable

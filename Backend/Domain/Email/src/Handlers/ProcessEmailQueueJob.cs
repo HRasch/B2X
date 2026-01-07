@@ -13,7 +13,7 @@ public class ProcessEmailQueueJob : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<ProcessEmailQueueJob> _logger;
-    private Timer _timer;
+    private Timer? _timer;
 
     public ProcessEmailQueueJob(
         IServiceProvider serviceProvider,
@@ -28,11 +28,11 @@ public class ProcessEmailQueueJob : BackgroundService
         _logger.LogInformation("Email Queue Processor started");
 
         // Start the timer to run every 30 seconds
-        _timer = new Timer(async _ => await ProcessQueueAsync(stoppingToken),
+        _timer = new Timer(_ => ProcessQueueAsync(stoppingToken),
                           null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
 
         // Keep the service running
-        await Task.Delay(Timeout.Infinite, stoppingToken);
+        await Task.Delay(Timeout.Infinite, stoppingToken).ConfigureAwait(false);
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
@@ -41,7 +41,7 @@ public class ProcessEmailQueueJob : BackgroundService
 
         _timer?.Change(Timeout.Infinite, 0);
 
-        await base.StopAsync(cancellationToken);
+        await base.StopAsync(cancellationToken).ConfigureAwait(false);
     }
 
     private async Task ProcessQueueAsync(CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ public class ProcessEmailQueueJob : BackgroundService
 
         try
         {
-            var pendingEmails = await queueService.GetPendingEmailsAsync(batchSize: 10, cancellationToken);
+            var pendingEmails = await queueService.GetPendingEmailsAsync(batchSize: 10, cancellationToken).ConfigureAwait(false);
 
             if (!pendingEmails.Any())
             {
@@ -70,24 +70,24 @@ public class ProcessEmailQueueJob : BackgroundService
                 {
                     _logger.LogInformation("Sending email {EmailId} to {To}", email.Id, email.To);
 
-                    var result = await emailService.SendEmailAsync(email, cancellationToken);
+                    var result = await emailService.SendEmailAsync(email, cancellationToken).ConfigureAwait(false);
 
                     if (result.Success)
                     {
-                        await queueService.MarkEmailAsSentAsync(email.Id, result.MessageId ?? string.Empty, cancellationToken);
+                        await queueService.MarkEmailAsSentAsync(email.Id, result.MessageId ?? string.Empty, cancellationToken).ConfigureAwait(false);
                         _logger.LogInformation("Email {EmailId} sent successfully", email.Id);
                     }
                     else
                     {
                         var errorMessage = result.ErrorMessage ?? "Unknown error";
-                        await queueService.MarkEmailAsFailedAsync(email.Id, errorMessage, cancellationToken);
+                        await queueService.MarkEmailAsFailedAsync(email.Id, errorMessage, cancellationToken).ConfigureAwait(false);
                         _logger.LogWarning("Email {EmailId} failed to send: {Error}", email.Id, errorMessage);
                     }
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Error processing email {EmailId}", email.Id);
-                    await queueService.MarkEmailAsFailedAsync(email.Id, ex.Message, cancellationToken);
+                    await queueService.MarkEmailAsFailedAsync(email.Id, ex.Message, cancellationToken).ConfigureAwait(false);
                 }
             }
         }

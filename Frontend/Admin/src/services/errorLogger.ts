@@ -1,5 +1,6 @@
 // Simple client-side error logger for Admin frontend
 import axios from 'axios';
+import type { App, ComponentInternalInstance } from 'vue';
 
 type LogLevel = 'error' | 'warn' | 'info';
 
@@ -86,10 +87,10 @@ class ErrorLogger {
   }
 
   installVueHandler(
-    app: any,
+    app: App,
     ctxProvider: () => { tenantId?: string; userId?: string; route?: string }
   ) {
-    app.config.errorHandler = (err: Error, vm: any, info: string) => {
+    app.config.errorHandler = (err: Error, vm: ComponentInternalInstance, info: string) => {
       const ctx = ctxProvider();
       this.error(err, {
         component: vm?.$options?.name || info,

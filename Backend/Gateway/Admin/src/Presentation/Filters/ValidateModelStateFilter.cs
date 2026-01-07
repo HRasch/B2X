@@ -21,8 +21,8 @@ public class ValidateModelStateFilter : IActionFilter
     public void OnActionExecuting(ActionExecutingContext context)
     {
         // Überspringe Filter für GET/DELETE Requests (ohne Body)
-        if (context.HttpContext.Request.Method == HttpMethods.Get ||
-            context.HttpContext.Request.Method == HttpMethods.Delete)
+        if (string.Equals(context.HttpContext.Request.Method, HttpMethods.Get, StringComparison.Ordinal) ||
+string.Equals(context.HttpContext.Request.Method, HttpMethods.Delete, StringComparison.Ordinal))
         {
             return;
         }

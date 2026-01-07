@@ -15,7 +15,7 @@ public class LocalizedString
     public string Category { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the translations dictionary (language code -> translation)</summary>
-    public Dictionary<string, string> Translations { get; set; } = new();
+    public Dictionary<string, string> Translations { get; set; } = new(StringComparer.Ordinal);
 
     /// <summary>Gets or sets the default English value (fallback)</summary>
     public string DefaultValue { get; set; } = string.Empty;

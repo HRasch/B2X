@@ -14,7 +14,7 @@ namespace B2Connect.Admin.Presentation.Controllers;
 /// public class ProductsController : ApiControllerBase { }
 /// </summary>
 [ApiController]
-// [Authorize] // Temporarily disabled for testing
+[Authorize]
 [Produces("application/json")]
 public abstract class ApiControllerBase : ControllerBase
 {

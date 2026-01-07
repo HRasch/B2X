@@ -23,9 +23,6 @@ builder.Host.UseSerilog((context, config) =>
 builder.Host.AddServiceDefaults();
 
 // Add Wolverine with HTTP Endpoints
-var rabbitMqUri = builder.Configuration["RabbitMq:Uri"] ?? "amqp://guest:guest@localhost:5672";
-var useRabbitMq = builder.Configuration.GetValue<bool>("Messaging:UseRabbitMq");
-
 builder.Host.UseWolverine(opts =>
 {
     opts.ServiceName = "LocalizationService";
@@ -33,28 +30,19 @@ builder.Host.UseWolverine(opts =>
     opts.Discovery.DisableConventionalDiscovery();
     opts.Discovery.IncludeAssembly(typeof(Program).Assembly);
 
-    // RabbitMQ integration (requires Wolverine.RabbitMq package)
-    // if (useRabbitMq)
-    // {
-    //     opts.UseRabbitMq(rabbitMqUri);
-    // }
 });
 
 // Add Wolverine HTTP support (REQUIRED for MapWolverineEndpoints)
 builder.Services.AddWolverineHttp();
 
 // Remove Controllers - using Wolverine HTTP Endpoints
-// builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Database
-var connectionString = builder.Configuration.GetConnectionString("LocalizationDb");
-var provider = builder.Configuration.GetValue<string>("Database:Provider", "PostgreSQL").ToLower(System.Globalization.CultureInfo.CurrentCulture);
-
 builder.Services.AddDbContext<LocalizationDbContext>(options =>
 {
     var provider = builder.Configuration.GetValue<string>("Database:Provider", "inmemory").ToLower(System.Globalization.CultureInfo.CurrentCulture);
-    if (provider == "inmemory")
+    if (string.Equals(provider, "inmemory", StringComparison.Ordinal))
     {
         options.UseInMemoryDatabase("LocalizationDb");
     }
@@ -111,13 +99,13 @@ _ = Task.Run(async () =>
     {
         using var scope = app.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<LocalizationDbContext>();
-        await dbContext.Database.EnsureCreatedAsync();
+        await dbContext.Database.EnsureCreatedAsync().ConfigureAwait(false);
 
         try
         {
             using var seedScope = app.Services.CreateScope();
             var seedDbContext = seedScope.ServiceProvider.GetRequiredService<LocalizationDbContext>();
-            await LocalizationSeeder.SeedAsync(seedDbContext);
+            await LocalizationSeeder.SeedAsync(seedDbContext, CancellationToken.None).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -126,4 +114,4 @@ _ = Task.Run(async () =>
         }
     });
 
-await app.RunAsync();
+await app.RunAsync().ConfigureAwait(false);

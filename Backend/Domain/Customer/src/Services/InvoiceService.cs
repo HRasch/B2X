@@ -80,7 +80,7 @@ public class InvoiceService : IInvoiceService
     {
         _logger.LogInformation("Modifying invoice {InvoiceId}", invoiceId);
 
-        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken).ConfigureAwait(false);
         if (invoice is null)
         {
             _logger.LogWarning("Invoice {InvoiceId} not found", invoiceId);
@@ -111,12 +111,12 @@ public class InvoiceService : IInvoiceService
         invoice.ModifiedAt = DateTime.UtcNow;
         invoice.Total = invoice.SubTotal + invoice.TaxAmount + invoice.ShippingCost;
 
-        return await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
+        return await _invoiceRepository.UpdateAsync(invoice, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Invoice> GetInvoiceByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
     {
-        var invoice = await _invoiceRepository.GetByOrderIdAsync(orderId, cancellationToken);
+        var invoice = await _invoiceRepository.GetByOrderIdAsync(orderId, cancellationToken).ConfigureAwait(false);
         if (invoice == null)
         {
             _logger.LogWarning("Invoice for order {OrderId} not found", orderId);
@@ -128,7 +128,7 @@ public class InvoiceService : IInvoiceService
 
     public async Task<Invoice> GetInvoiceByNumberAsync(string invoiceNumber, CancellationToken cancellationToken = default)
     {
-        var invoice = await _invoiceRepository.GetByInvoiceNumberAsync(invoiceNumber, cancellationToken);
+        var invoice = await _invoiceRepository.GetByInvoiceNumberAsync(invoiceNumber, cancellationToken).ConfigureAwait(false);
         if (invoice == null)
         {
             _logger.LogWarning("Invoice with number {InvoiceNumber} not found", invoiceNumber);
@@ -142,7 +142,7 @@ public class InvoiceService : IInvoiceService
     {
         _logger.LogInformation("Applying reverse charge to invoice {InvoiceId} for VAT-ID {VatId}", invoiceId, buyerVatId);
 
-        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken).ConfigureAwait(false);
         if (invoice == null)
         {
             throw new InvalidOperationException($"Invoice {invoiceId} not found");
@@ -165,14 +165,14 @@ public class InvoiceService : IInvoiceService
             "Reverse charge applied. Tax reduced from {OldTax:F2} to {NewTax:F2}, total from {OldTotal:F2} to {NewTotal:F2}",
             oldTaxAmount, invoice.TaxAmount, oldTotal, invoice.Total);
 
-        return await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
+        return await _invoiceRepository.UpdateAsync(invoice, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Invoice> RemoveReverseChargeAsync(Guid invoiceId, decimal correctTaxRate, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Removing reverse charge from invoice {InvoiceId}, applying {TaxRate}% tax", invoiceId, correctTaxRate * 100);
 
-        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken).ConfigureAwait(false);
         if (invoice == null)
         {
             throw new InvalidOperationException($"Invoice {invoiceId} not found");
@@ -193,14 +193,14 @@ public class InvoiceService : IInvoiceService
             "Reverse charge removed. Tax increased from {OldTax:F2} to {NewTax:F2}, total from {OldTotal:F2} to {NewTotal:F2}",
             oldTaxAmount, invoice.TaxAmount, oldTotal, invoice.Total);
 
-        return await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
+        return await _invoiceRepository.UpdateAsync(invoice, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<byte[]> GenerateInvoicePdfAsync(Guid invoiceId, CancellationToken cancellationToken = default)
     {
         // TODO: Implement PDF generation (Issue #32)
         // Use iTextSharp or PdfSharp library
-        await Task.Delay(10, cancellationToken);
+        await Task.Delay(10, cancellationToken).ConfigureAwait(false);
         return Array.Empty<byte>();
     }
 
@@ -208,7 +208,7 @@ public class InvoiceService : IInvoiceService
     {
         // TODO: Implement E-Rechnung XML generation (Issue #33)
         // Generate ZUGFeRD 2.0 compliant XML
-        await Task.Delay(10, cancellationToken);
+        await Task.Delay(10, cancellationToken).ConfigureAwait(false);
         return string.Empty;
     }
 

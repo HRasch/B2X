@@ -43,7 +43,7 @@ public class CreateCategoryHandler : ICommandHandler<CreateCategoryCommand, Cate
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<CategoryResult> Handle(CreateCategoryCommand command, CancellationToken ct)
+    public async Task<CategoryResult> Handle(CreateCategoryCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -76,7 +76,7 @@ public class CreateCategoryHandler : ICommandHandler<CreateCategoryCommand, Cate
             CreatedAt = DateTime.UtcNow
         };
 
-        await _repository.AddAsync(category, ct);
+        await _repository.AddAsync(category, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Category {CategoryId} created successfully", category.Id);
 
@@ -103,7 +103,7 @@ public class UpdateCategoryHandler : ICommandHandler<UpdateCategoryCommand, Cate
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<CategoryResult> Handle(UpdateCategoryCommand command, CancellationToken ct)
+    public async Task<CategoryResult> Handle(UpdateCategoryCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -111,7 +111,7 @@ public class UpdateCategoryHandler : ICommandHandler<UpdateCategoryCommand, Cate
             "Updating category {CategoryId} for tenant {TenantId}",
             command.CategoryId, tenantId);
 
-        var category = await _repository.GetByIdAsync(tenantId, command.CategoryId, ct);
+        var category = await _repository.GetByIdAsync(tenantId, command.CategoryId, cancellationToken).ConfigureAwait(false);
         if (category == null)
         {
             throw new KeyNotFoundException($"Category {command.CategoryId} not found");
@@ -125,7 +125,7 @@ public class UpdateCategoryHandler : ICommandHandler<UpdateCategoryCommand, Cate
             : null;
         category.ParentCategoryId = command.ParentId;
 
-        await _repository.UpdateAsync(category, ct);
+        await _repository.UpdateAsync(category, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Category {CategoryId} updated successfully", command.CategoryId);
 
@@ -152,7 +152,7 @@ public class DeleteCategoryHandler : ICommandHandler<DeleteCategoryCommand, bool
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<bool> Handle(DeleteCategoryCommand command, CancellationToken ct)
+    public async Task<bool> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
 
@@ -160,13 +160,13 @@ public class DeleteCategoryHandler : ICommandHandler<DeleteCategoryCommand, bool
             "Deleting category {CategoryId} from tenant {TenantId}",
             command.CategoryId, tenantId);
 
-        var category = await _repository.GetByIdAsync(tenantId, command.CategoryId, ct);
+        var category = await _repository.GetByIdAsync(tenantId, command.CategoryId, cancellationToken).ConfigureAwait(false);
         if (category == null)
         {
             return false;
         }
 
-        await _repository.DeleteAsync(tenantId, command.CategoryId, ct);
+        await _repository.DeleteAsync(tenantId, command.CategoryId, cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Category {CategoryId} deleted successfully", command.CategoryId);
         return true;
@@ -187,10 +187,10 @@ public class GetCategoryHandler : IQueryHandler<GetCategoryQuery, CategoryResult
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<CategoryResult?> Handle(GetCategoryQuery query, CancellationToken ct)
+    public async Task<CategoryResult?> Handle(GetCategoryQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var category = await _repository.GetByIdAsync(tenantId, query.CategoryId, ct);
+        var category = await _repository.GetByIdAsync(tenantId, query.CategoryId, cancellationToken).ConfigureAwait(false);
 
         if (category == null)
         {
@@ -215,10 +215,10 @@ public class GetCategoryBySlugHandler : IQueryHandler<GetCategoryBySlugQuery, Ca
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<CategoryResult?> Handle(GetCategoryBySlugQuery query, CancellationToken ct)
+    public async Task<CategoryResult?> Handle(GetCategoryBySlugQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var category = await _repository.GetBySlugAsync(tenantId, query.Slug, ct);
+        var category = await _repository.GetBySlugAsync(tenantId, query.Slug, cancellationToken).ConfigureAwait(false);
 
         if (category == null)
         {
@@ -243,10 +243,10 @@ public class GetRootCategoriesHandler : IQueryHandler<GetRootCategoriesQuery, IE
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<CategoryResult>> Handle(GetRootCategoriesQuery query, CancellationToken ct)
+    public async Task<IEnumerable<CategoryResult>> Handle(GetRootCategoriesQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var categories = await _repository.GetRootCategoriesAsync(tenantId, ct);
+        var categories = await _repository.GetRootCategoriesAsync(tenantId, cancellationToken).ConfigureAwait(false);
 
         return categories.Select(CategoryMapper.ToResult);
     }
@@ -266,10 +266,10 @@ public class GetChildCategoriesHandler : IQueryHandler<GetChildCategoriesQuery, 
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<CategoryResult>> Handle(GetChildCategoriesQuery query, CancellationToken ct)
+    public async Task<IEnumerable<CategoryResult>> Handle(GetChildCategoriesQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var categories = await _repository.GetChildCategoriesAsync(tenantId, query.ParentId, ct);
+        var categories = await _repository.GetChildCategoriesAsync(tenantId, query.ParentId, cancellationToken).ConfigureAwait(false);
 
         return categories.Select(CategoryMapper.ToResult);
     }
@@ -289,10 +289,10 @@ public class GetCategoryHierarchyHandler : IQueryHandler<GetCategoryHierarchyQue
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<CategoryResult>> Handle(GetCategoryHierarchyQuery query, CancellationToken ct)
+    public async Task<IEnumerable<CategoryResult>> Handle(GetCategoryHierarchyQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var categories = await _repository.GetHierarchyAsync(tenantId, ct);
+        var categories = await _repository.GetHierarchyAsync(tenantId, cancellationToken).ConfigureAwait(false);
 
         return categories.Select(CategoryMapper.ToResult);
     }
@@ -312,10 +312,10 @@ public class GetActiveCategoriesHandler : IQueryHandler<GetActiveCategoriesQuery
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
     }
 
-    public async Task<IEnumerable<CategoryResult>> Handle(GetActiveCategoriesQuery query, CancellationToken ct)
+    public async Task<IEnumerable<CategoryResult>> Handle(GetActiveCategoriesQuery query, CancellationToken cancellationToken = default)
     {
         var tenantId = _tenantContext.GetTenantId();
-        var categories = await _repository.GetActiveCategoriesAsync(tenantId, ct);
+        var categories = await _repository.GetActiveCategoriesAsync(tenantId, cancellationToken).ConfigureAwait(false);
 
         return categories.Select(CategoryMapper.ToResult);
     }
