@@ -1,4 +1,4 @@
-# REQ-007 Backend Analysis: Email WYSIWYG Builder
+﻿# REQ-007 Backend Analysis: Email WYSIWYG Builder
 
 **DocID**: `REQ-007-BACKEND-ANALYSIS`  
 **Owner**: @Backend  
@@ -201,4 +201,4 @@ public class EmailTemplate
 1. Datenmodell Review mit @Architect  
 2. API Design Approval mit @TechLead  
 3. Integration Testing Plan mit @QA</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/REQ-007-backend-analysis.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/REQ-007-backend-analysis.md

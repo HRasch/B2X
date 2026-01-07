@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <PackageId>B2X.CLI.Shared</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>B2X Team</Authors>
+    <Description>Shared library for B2X CLI tools containing common services and utilities</Description>
+    <!-- Disable CPM for shared library (own dependency management) -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="Spectre.Console" Version="0.49.1" />
+    <PackageReference Include="Spectre.Console.Json" Version="0.49.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Monitoring\B2X.Shared.Monitoring.csproj" />
+  </ItemGroup>
+
+</Project>

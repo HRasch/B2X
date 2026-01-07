@@ -1,7 +1,7 @@
-{
+﻿{
   "name": "wolverine-mcp-server",
   "version": "1.0.0",
-  "description": "MCP server for .NET/Wolverine CQRS analysis in B2Connect",
+  "description": "MCP server for .NET/Wolverine CQRS analysis in B2X",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -20,7 +20,7 @@
     "mcp",
     "backend"
   ],
-  "author": "B2Connect Backend Team",
+  "author": "B2X Backend Team",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.5.0",

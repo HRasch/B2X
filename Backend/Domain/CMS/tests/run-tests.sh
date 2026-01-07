@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 # CMS Testing Script
 # Comprehensive testing for CMS Widget System
 
@@ -76,7 +76,7 @@ if $BACKEND_ONLY; then
     print_section "Running Backend Tests"
     
     print_info "Testing: Widget Registry"
-    cd backend/Tests/B2Connect.CMS.Tests
+    cd backend/Tests/B2X.CMS.Tests
     dotnet test -k "WidgetRegistryTests" -v minimal || true
     print_success "Widget Registry Tests Complete"
     
@@ -164,7 +164,7 @@ echo -e "${GREEN}✓ Test Suite Complete!${NC}"
 echo ""
 echo -e "${YELLOW}Test Results:${NC}"
 if $BACKEND_ONLY; then
-    echo "  - Backend: /backend/Tests/B2Connect.CMS.Tests/"
+    echo "  - Backend: /backend/Tests/B2X.CMS.Tests/"
 fi
 if $FRONTEND_ONLY; then
     echo "  - Frontend: npm test"

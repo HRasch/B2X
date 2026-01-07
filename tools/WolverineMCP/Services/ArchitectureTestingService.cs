@@ -1,9 +1,9 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
-namespace B2Connect.Tools.WolverineMCP.Services;
+namespace B2X.Tools.WolverineMCP.Services;
 
 /// <summary>
 /// Service for running architecture tests using Roslyn.

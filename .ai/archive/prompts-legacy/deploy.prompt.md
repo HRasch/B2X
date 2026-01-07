@@ -1,4 +1,4 @@
-# 🚀 DEPLOY - Deployment & Release Management
+﻿# 🚀 DEPLOY - Deployment & Release Management
 
 **Trigger**: Feature/release ready for deployment
 **Coordinator**: @DevOps
@@ -124,7 +124,7 @@ npm run e2e:smoke
 
 ```bash
 # Health checks
-curl -f https://api.b2connect.de/health
+curl -f https://api.B2X.de/health
 
 # Database integrity
 ./scripts/verify-database.sh production

@@ -1,4 +1,4 @@
-# REQ-007: Email WYSIWYG Builder - Security Analysis
+﻿# REQ-007: Email WYSIWYG Builder - Security Analysis
 
 **DocID**: `REQ-007-SECURITY-ANALYSIS`  
 **Owner**: @Security  
@@ -223,4 +223,4 @@ REQ-007 kann implementiert werden, erfordert jedoch umfassende Security-Maßnahm
 ---
 
 **Maintained by**: @Security | **Size target**: <5 KB</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/REQ-007-security-analysis.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/REQ-007-security-analysis.md

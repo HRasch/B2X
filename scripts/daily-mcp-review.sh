@@ -1,7 +1,7 @@
-#!/bin/bash
-# B2Connect MCP Automated Daily Review Script
+﻿#!/bin/bash
+# B2X MCP Automated Daily Review Script
 # Runs every morning at 09:00 to validate MCP health and generate reports
-# Setup: crontab -e -> 0 9 * * * /path/to/B2Connect/scripts/daily-mcp-review.sh
+# Setup: crontab -e -> 0 9 * * * /path/to/B2X/scripts/daily-mcp-review.sh
 
 set -e
 

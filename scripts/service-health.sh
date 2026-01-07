@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Service Health Quick Check
+# B2X Service Health Quick Check
 # Fast detection of gateway-service communication issues
 # 
 # Usage: ./scripts/service-health.sh [options]
@@ -127,7 +127,7 @@ check_aspire_services() {
 
 print_header() {
     echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
-    echo -e "${CYAN}  B2Connect Service Health Check${NC}"
+    echo -e "${CYAN}  B2X Service Health Check${NC}"
     echo -e "${CYAN}  $(timestamp)${NC}"
     echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
     echo ""

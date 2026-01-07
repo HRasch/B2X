@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2X.Shared.Infrastructure</RootNamespace>
+    <AssemblyName>B2X.Shared.Infrastructure</AssemblyName>
+  </PropertyGroup>
+
+  <!-- Exclude tests folder from main project -->
+  <ItemGroup>
+    <Compile Remove="tests/**" />
+    <None Remove="tests/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="EFCore.NamingConventions" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../B2X.Shared.Core/B2X.Shared.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,6 @@
-# MCP Servers for B2Connect
+﻿# MCP Servers for B2X
 
-This directory contains Model Context Protocol (MCP) servers that enhance GitHub Copilot and other AI coding assistants with specialized analysis capabilities for the B2Connect project.
+This directory contains Model Context Protocol (MCP) servers that enhance GitHub Copilot and other AI coding assistants with specialized analysis capabilities for the B2X project.
 
 ## Code Style Compliance
 
@@ -233,7 +233,7 @@ Set `"disabled": true` to disable a server, or `"disabled": false` to enable it.
 ```json
 {
   "mcpServers": {
-    "b2connect-admin": { "disabled": false },
+    "B2X-admin": { "disabled": false },
     "roslyn-code-navigator": { "disabled": true },
     "typescript-mcp": { "disabled": false },
     "vue-mcp": { "disabled": false },
@@ -340,7 +340,7 @@ MCP (Model Context Protocol) allows AI assistants to:
 **.NET Servers**:
 - HTTP-based communication
 - Persistent processes
-- Examples: Wolverine, Roslyn, B2Connect Admin
+- Examples: Wolverine, Roslyn, B2X Admin
 
 ## Performance Considerations
 

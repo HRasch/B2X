@@ -1,4 +1,4 @@
-# TypeScript MCP Server for B2Connect
+﻿# TypeScript MCP Server for B2X
 
 A Model Context Protocol (MCP) server providing TypeScript code analysis tools for AI-assisted development, complementing the existing RoslynMCP for C#.
 

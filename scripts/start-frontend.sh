@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Quick Start Script
+# B2X Quick Start Script
 
 set -euo pipefail
 
-echo "🚀 B2Connect Projekt wird gestartet..."
+echo "🚀 B2X Projekt wird gestartet..."
 echo ""
 
 # Frontend starten

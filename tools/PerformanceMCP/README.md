@@ -1,4 +1,4 @@
-# Performance MCP Server
+﻿# Performance MCP Server
 
 A Model Context Protocol (MCP) server for code performance analysis, profiling, memory optimization, and benchmark generation. This server helps identify performance bottlenecks and optimization opportunities across different programming languages.
 
@@ -150,9 +150,9 @@ performance-mcp/performance_benchmarks codeSnippet="arr.reduce((sum, val) => sum
 - **C#**: Use `ArrayPool<T>` for large arrays, prefer `Span<T>` for slicing
 - **Python**: Use list comprehensions, avoid global variable access in loops
 
-## Integration with B2Connect
+## Integration with B2X
 
-This MCP server integrates with the B2Connect development workflow to provide:
+This MCP server integrates with the B2X development workflow to provide:
 
 - **Pre-commit Performance Checks**: Automatic performance analysis before commits
 - **Code Review Performance**: Performance impact assessment during reviews

@@ -1,6 +1,6 @@
-# Playwright MCP Server
+﻿# Playwright MCP Server
 
-Official Microsoft Playwright MCP server integration for B2Connect project.
+Official Microsoft Playwright MCP server integration for B2X project.
 
 ## Overview
 

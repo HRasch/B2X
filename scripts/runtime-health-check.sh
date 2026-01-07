@@ -1,6 +1,6 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# Runtime Health Check Script for B2Connect
+# Runtime Health Check Script for B2X
 # Proof-of-Concept for MonitoringMCP integration in development workflows
 # Focus: Backend services (e.g., Store Gateway on port 8000)
 # Extended for Heartbeat System with Escalation
@@ -53,19 +53,19 @@ send_slack_alert() {
 attempt_restart() {
     if [ $RESTART_ATTEMPTS -ge $MAX_RESTART_ATTEMPTS ]; then
         echo "❌ Max restart attempts reached. Manual intervention required."
-        send_slack_alert "🚨 B2Connect: Max restart attempts reached. Manual intervention required."
+        send_slack_alert "🚨 B2X: Max restart attempts reached. Manual intervention required."
         exit 1
     fi
 
     echo "🔄 Attempting service restart..."
-    send_slack_alert "🔄 B2Connect: Attempting service restart (attempt $((RESTART_ATTEMPTS + 1)))"
+    send_slack_alert "🔄 B2X: Attempting service restart (attempt $((RESTART_ATTEMPTS + 1)))"
 
     # Kill all services
     ./scripts/kill-all-services.sh
 
     # Start backend services
     echo "Starting backend services..."
-    dotnet run --project AppHost/B2Connect.AppHost.csproj &
+    dotnet run --project AppHost/B2X.AppHost.csproj &
     BACKEND_PID=$!
 
     # Wait a bit for startup
@@ -85,7 +85,7 @@ perform_health_check() {
     if echo "$RESPONSE" | jq -e '.error' >/dev/null 2>&1; then
         echo "❌ Health check FAILED:"
         echo "$RESPONSE" | jq '.error'
-        send_slack_alert "❌ B2Connect Health Check FAILED: $(echo "$RESPONSE" | jq -r '.error.message')"
+        send_slack_alert "❌ B2X Health Check FAILED: $(echo "$RESPONSE" | jq -r '.error.message')"
         attempt_restart
         return 1
     elif echo "$RESPONSE" | jq -e '.result' >/dev/null 2>&1; then
@@ -96,7 +96,7 @@ perform_health_check() {
         # Check if any service is unhealthy
         if echo "$RESULT" | grep -q "❌ Unhealthy"; then
             echo "❌ Health check FAILED: Some services are unhealthy"
-            send_slack_alert "❌ B2Connect Health Check FAILED: Some services are unhealthy\n$RESULT"
+            send_slack_alert "❌ B2X Health Check FAILED: Some services are unhealthy\n$RESULT"
             attempt_restart
             return 1
         else
@@ -108,7 +108,7 @@ perform_health_check() {
     else
         echo "⚠️  Unexpected response format:"
         echo "$RESPONSE"
-        send_slack_alert "⚠️ B2Connect: Unexpected health check response format"
+        send_slack_alert "⚠️ B2X: Unexpected health check response format"
         return 1
     fi
 }
@@ -116,7 +116,7 @@ perform_health_check() {
 # Main logic
 if [ "$HEARTBEAT_MODE" = true ]; then
     echo "Starting heartbeat mode (interval: ${HEARTBEAT_INTERVAL}s)..."
-    send_slack_alert "❤️ B2Connect Heartbeat System started"
+    send_slack_alert "❤️ B2X Heartbeat System started"
 
     while true; do
         perform_health_check

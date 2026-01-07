@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Deployment Validation
+# B2X Deployment Validation
 # Comprehensive validation of deployment health and functionality
 #
 # Usage: ./scripts/validate-deployment.sh [environment]
@@ -40,49 +40,49 @@ get_service_url() {
 
     case $env in
         blue)
-            echo "http://blue-$service.b2connect.local"
+            echo "http://blue-$service.B2X.local"
             ;;
         green)
-            echo "http://green-$service.b2connect.local"
+            echo "http://green-$service.B2X.local"
             ;;
         canary)
-            echo "http://canary-$service.b2connect.local"
+            echo "http://canary-$service.B2X.local"
             ;;
         current)
-            echo "http://$service.b2connect.local"
+            echo "http://$service.B2X.local"
             ;;
         *)
-            echo "http://$service.b2connect.local"
+            echo "http://$service.B2X.local"
             ;;
     esac
 }
 
 # Validate Kubernetes resources
 validate_kubernetes() {
-    local deployment="b2connect-$ENVIRONMENT"
+    local deployment="B2X-$ENVIRONMENT"
     if [ "$ENVIRONMENT" = "current" ]; then
-        deployment="b2connect"
+        deployment="B2X"
     fi
 
     log "Validating Kubernetes resources for $deployment..."
 
     # Check deployment exists and is ready
-    if ! kubectl get deployment $deployment -n b2connect >/dev/null 2>&1; then
+    if ! kubectl get deployment $deployment -n B2X >/dev/null 2>&1; then
         error "Deployment $deployment not found"
         return 1
     fi
 
     # Check rollout status
-    if ! kubectl rollout status deployment/$deployment -n b2connect --timeout=60s >/dev/null 2>&1; then
+    if ! kubectl rollout status deployment/$deployment -n B2X --timeout=60s >/dev/null 2>&1; then
         error "Deployment rollout failed"
         return 1
     fi
 
     # Check pod status
-    local unhealthy_pods=$(kubectl get pods -n b2connect -l app=$deployment --no-headers | grep -v Running | wc -l)
+    local unhealthy_pods=$(kubectl get pods -n B2X -l app=$deployment --no-headers | grep -v Running | wc -l)
     if [ "$unhealthy_pods" -gt 0 ]; then
         error "Found $unhealthy_pods unhealthy pods"
-        kubectl get pods -n b2connect -l app=$deployment
+        kubectl get pods -n B2X -l app=$deployment
         return 1
     fi
 

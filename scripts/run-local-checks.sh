@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 set -euo pipefail
 
 # Quick local validation script for developers.
@@ -11,8 +11,8 @@ echo "[run-local-checks] Starting quick local checks in $ROOT_DIR"
 
 echo "[1/5] dotnet format --verify-no-changes"
 if command -v dotnet >/dev/null 2>&1; then
-  if ! dotnet format B2Connect.slnx --verify-no-changes; then
-    echo "run-local-checks: dotnet format reported issues. Run 'dotnet format B2Connect.slnx' to fix them." >&2
+  if ! dotnet format B2X.slnx --verify-no-changes; then
+    echo "run-local-checks: dotnet format reported issues. Run 'dotnet format B2X.slnx' to fix them." >&2
     exit 1
   fi
 else
@@ -20,10 +20,10 @@ else
 fi
 
 echo "[2/5] dotnet build"
-dotnet build B2Connect.slnx --configuration Debug
+dotnet build B2X.slnx --configuration Debug
 
 echo "[3/5] dotnet test (unit/integration)"
-dotnet test B2Connect.slnx --no-build --verbosity minimal
+dotnet test B2X.slnx --no-build --verbosity minimal
 
 if [ -d frontend/Store ]; then
   echo "[4/5] Frontend lint (Store)"

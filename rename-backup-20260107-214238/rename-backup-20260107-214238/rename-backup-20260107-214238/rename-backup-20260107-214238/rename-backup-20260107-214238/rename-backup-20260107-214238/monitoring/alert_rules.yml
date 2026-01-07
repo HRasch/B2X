@@ -1,0 +1,56 @@
+groups:
+- name: b2connect-alerts
+  rules:
+  - alert: ServiceDown
+    expr: up == 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Service {{ $labels.job }} is down"
+      description: "Service {{ $labels.job }} has been down for more than 5 minutes."
+
+  - alert: HighErrorRate
+    expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate on {{ $labels.service }}"
+      description: "Error rate is {{ $value }}% on {{ $labels.service }}"
+
+  - alert: HighLatency
+    expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 5
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High latency on {{ $labels.service }}"
+      description: "95th percentile latency is {{ $value }}s on {{ $labels.service }}"
+
+  - alert: DatabaseConnectionIssues
+    expr: rate(postgres_connection_errors_total[5m]) > 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Database connection issues"
+      description: "High rate of database connection errors: {{ $value }}"
+
+  - alert: ElasticsearchUnhealthy
+    expr: elasticsearch_cluster_health_status{status!="green"} == 1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Elasticsearch cluster unhealthy"
+      description: "Elasticsearch cluster status is {{ $labels.status }}"
+
+  - alert: RedisMemoryHigh
+    expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Redis memory usage high"
+      description: "Redis memory usage is {{ $value }}%"

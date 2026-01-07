@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Service Cleanup Script
-# Stops all running B2Connect services
+# B2X Service Cleanup Script
+# Stops all running B2X services
 
 set -euo pipefail
 
-echo "Stopping B2Connect services..."
+echo "Stopping B2X services..."
 
 # Kill all dotnet processes
 pkill -f "dotnet run" || echo "No dotnet processes found"
@@ -19,4 +19,4 @@ for port in 5001 5002 5003 6000 15500; do
 done
 
 echo "✓ All services stopped"
-echo "Logs saved in /tmp/b2connect-*.log"
+echo "Logs saved in /tmp/B2X-*.log"

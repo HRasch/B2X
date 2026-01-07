@@ -1,0 +1,131 @@
+---
+# B2Connect Rollback Job
+# Kubernetes Job for automated rollback operations
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: b2connect-rollback-job
+  namespace: b2connect
+  labels:
+    app: b2connect
+    component: rollback
+spec:
+  backoffLimit: 0  # Don't retry on failure
+  activeDeadlineSeconds: 600  # 10 minutes timeout
+  template:
+    metadata:
+      labels:
+        app: b2connect
+        component: rollback
+    spec:
+      serviceAccountName: b2connect-deployer
+      containers:
+      - name: rollback
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          set -euo pipefail
+
+          echo "Starting rollback job..."
+
+          # Get current deployment info
+          CURRENT_DEPLOYMENT=$(kubectl get deployment -l stable=true -n b2connect -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || echo "b2connect-blue")
+
+          if [ "$CURRENT_DEPLOYMENT" = "b2connect-blue" ]; then
+            ROLLBACK_TO="b2connect-green"
+            NEW_STABLE="green"
+            OLD_STABLE="blue"
+          else
+            ROLLBACK_TO="b2connect-blue"
+            NEW_STABLE="blue"
+            OLD_STABLE="green"
+          fi
+
+          echo "Rolling back from $CURRENT_DEPLOYMENT to $ROLLBACK_TO"
+
+          # Switch traffic to rollback deployment
+          kubectl patch service b2connect-api-gateway -n b2connect --type='json' -p='[{"op": "replace", "path": "/spec/selector/color", "value": "'$NEW_STABLE'"}]'
+          kubectl patch service b2connect-frontend -n b2connect --type='json' -p='[{"op": "replace", "path": "/spec/selector/color", "value": "'$NEW_STABLE'"}]'
+
+          # Update stable labels
+          kubectl label deployment $ROLLBACK_TO stable=true --overwrite -n b2connect
+          kubectl label deployment $CURRENT_DEPLOYMENT stable=false --overwrite -n b2connect
+
+          # Wait for traffic to stabilize
+          sleep 30
+
+          # Validate rollback
+          if kubectl exec -n b2connect deployment/$ROLLBACK_TO -- curl -f http://localhost/health; then
+            echo "Rollback validation successful"
+
+            # Send success notification (would integrate with notification system)
+            echo "✅ Rollback completed successfully"
+          else
+            echo "❌ Rollback validation failed"
+            exit 1
+          fi
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+        env:
+        - name: KUBECONFIG
+          value: /etc/kubeconfig/config
+        volumeMounts:
+        - name: kubeconfig
+          mountPath: /etc/kubeconfig
+          readOnly: true
+      volumes:
+      - name: kubeconfig
+        secret:
+          secretName: kubeconfig
+      restartPolicy: Never
+
+---
+# Service Account for Rollback Operations
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: b2connect-deployer
+  namespace: b2connect
+
+---
+# Role for Deployment Operations
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: b2connect-deployer-role
+  namespace: b2connect
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments", "replicasets"]
+  verbs: ["get", "list", "watch", "patch", "update", "label"]
+- apiGroups: [""]
+  resources: ["services", "pods", "pods/exec"]
+  verbs: ["get", "list", "watch", "patch", "update"]
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["create", "get", "list", "watch", "delete"]
+
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: b2connect-deployer-binding
+  namespace: b2connect
+subjects:
+- kind: ServiceAccount
+  name: b2connect-deployer
+  namespace: b2connect
+roleRef:
+  kind: Role
+  name: b2connect-deployer-role
+  apiGroup: rbac.authorization.k8s.io

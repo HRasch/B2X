@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Rollback Validation
+# B2X Rollback Validation
 # Validates rollback deployment and ensures system stability
 #
 # Usage: ./scripts/validate-rollback.sh
@@ -41,22 +41,22 @@ validate_rollback_deployment() {
     log "Validating rollback deployment..."
 
     # Check if stable deployment exists
-    if ! kubectl get deployment b2connect -n b2connect >/dev/null 2>&1; then
+    if ! kubectl get deployment B2X -n B2X >/dev/null 2>&1; then
         error "Stable deployment not found after rollback"
         return 1
     fi
 
     # Check rollout status
-    if ! kubectl rollout status deployment/b2connect -n b2connect --timeout=120s >/dev/null 2>&1; then
+    if ! kubectl rollout status deployment/B2X -n B2X --timeout=120s >/dev/null 2>&1; then
         error "Rollback deployment rollout failed"
         return 1
     fi
 
     # Check pod health
-    local unhealthy_pods=$(kubectl get pods -n b2connect -l app=b2connect --no-headers | grep -v Running | wc -l)
+    local unhealthy_pods=$(kubectl get pods -n B2X -l app=B2X --no-headers | grep -v Running | wc -l)
     if [ "$unhealthy_pods" -gt 0 ]; then
         error "Found $unhealthy_pods unhealthy pods after rollback"
-        kubectl get pods -n b2connect -l app=b2connect
+        kubectl get pods -n B2X -l app=B2X
         return 1
     fi
 
@@ -72,7 +72,7 @@ validate_service_endpoints() {
     local failed=0
 
     for service in "${services[@]}"; do
-        local url="http://$service.b2connect.local/health"
+        local url="http://$service.B2X.local/health"
 
         for i in $(seq 1 $RETRIES); do
             if curl -f -s --max-time $TIMEOUT "$url" > /dev/null 2>&1; then
@@ -104,7 +104,7 @@ validate_data_consistency() {
     # This would check database consistency, cache invalidation, etc.
     # For now, perform basic connectivity check
 
-    local url="http://api-gateway.b2connect.local/api/v1/system/db-health"
+    local url="http://api-gateway.B2X.local/api/v1/system/db-health"
 
     for i in $(seq 1 $RETRIES); do
         local response=$(curl -f -s --max-time $TIMEOUT -w "%{http_code}" "$url" 2>/dev/null || echo "000")
@@ -130,7 +130,7 @@ validate_performance() {
     log "Validating performance after rollback..."
 
     local service="api-gateway"
-    local url="http://$service.b2connect.local/health"
+    local url="http://$service.B2X.local/health"
 
     # Measure response times
     local total_time=0
@@ -165,15 +165,15 @@ validate_cleanup() {
     log "Validating rollback cleanup..."
 
     # Check for leftover canary deployments
-    if kubectl get deployment b2connect-canary -n b2connect >/dev/null 2>&1; then
+    if kubectl get deployment B2X-canary -n B2X >/dev/null 2>&1; then
         warn "Canary deployment still exists, should be cleaned up"
     fi
 
     # Check for failed/old pods
-    local failed_pods=$(kubectl get pods -n b2connect --field-selector=status.phase!=Running,status.phase!=Succeeded --no-headers | wc -l)
+    local failed_pods=$(kubectl get pods -n B2X --field-selector=status.phase!=Running,status.phase!=Succeeded --no-headers | wc -l)
     if [ "$failed_pods" -gt 0 ]; then
         warn "Found $failed_pods failed/old pods that should be cleaned up"
-        kubectl get pods -n b2connect --field-selector=status.phase!=Running,status.phase!=Succeeded
+        kubectl get pods -n B2X --field-selector=status.phase!=Running,status.phase!=Succeeded
     fi
 
     success "Cleanup validation completed"

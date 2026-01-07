@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Aspire Hosting - Stop all services
+# B2X Aspire Hosting - Stop all services
 # Gracefully stops the .NET Aspire orchestration
 
 set -euo pipefail
@@ -19,7 +19,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}  B2Connect - .NET Aspire - Stopping Services${NC}"
+echo -e "${BLUE}  B2X - .NET Aspire - Stopping Services${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo ""
 

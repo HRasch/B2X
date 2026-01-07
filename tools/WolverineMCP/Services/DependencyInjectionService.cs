@@ -1,11 +1,11 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace B2Connect.Tools.WolverineMCP.Services;
+namespace B2X.Tools.WolverineMCP.Services;
 
 /// <summary>
 /// Result of dependency injection validation.
@@ -197,7 +197,7 @@ public sealed class DependencyInjectionService
     }
     public async Task<IEnumerable<DependencyValidationResult>> ValidateDependencyInjectionAsync(string workspacePath)
     {
-        var solutionPath = Path.Combine(workspacePath, "B2Connect.slnx");
+        var solutionPath = Path.Combine(workspacePath, "B2X.slnx");
         if (!File.Exists(solutionPath))
         {
             throw new FileNotFoundException("Solution file not found", solutionPath);

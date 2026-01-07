@@ -1,4 +1,4 @@
-# CMS Testing Summary
+﻿# CMS Testing Summary
 
 ## Overview
 
@@ -17,7 +17,7 @@ Complete test suite for the CMS Widget System with 48+ test cases covering unit,
 ## Backend Tests (26 Tests)
 
 ### 1. Widget Registry Tests (8 tests)
-**File**: `backend/Tests/B2Connect.CMS.Tests/WidgetRegistryTests.cs`
+**File**: `backend/Tests/B2X.CMS.Tests/WidgetRegistryTests.cs`
 
 - Register and retrieve widgets
 - Filter by category and page type
@@ -25,7 +25,7 @@ Complete test suite for the CMS Widget System with 48+ test cases covering unit,
 - Sorting and ordering
 
 ### 2. Page Definition Tests (10 tests)
-**File**: `backend/Tests/B2Connect.CMS.Tests/PageDefinitionTests.cs`
+**File**: `backend/Tests/B2X.CMS.Tests/PageDefinitionTests.cs`
 
 - Page creation and initialization
 - Add/remove regions
@@ -35,7 +35,7 @@ Complete test suite for the CMS Widget System with 48+ test cases covering unit,
 - Widget limits
 
 ### 3. Query Handler Tests (4 tests)
-**File**: `backend/Tests/B2Connect.CMS.Tests/GetPageDefinitionQueryHandlerTests.cs`
+**File**: `backend/Tests/B2X.CMS.Tests/GetPageDefinitionQueryHandlerTests.cs`
 
 - Fetch published pages
 - Reject unpublished pages
@@ -43,7 +43,7 @@ Complete test suite for the CMS Widget System with 48+ test cases covering unit,
 - Filter disabled widgets
 
 ### 4. End-to-End Tests (4 tests)
-**File**: `backend/Tests/B2Connect.CMS.Tests/CmsEndToEndTests.cs`
+**File**: `backend/Tests/B2X.CMS.Tests/CmsEndToEndTests.cs`
 
 - Complete page creation flow
 - Multiple page management
@@ -52,7 +52,7 @@ Complete test suite for the CMS Widget System with 48+ test cases covering unit,
 
 **Run Backend Tests:**
 ```bash
-dotnet test backend/Tests/B2Connect.CMS.Tests/
+dotnet test backend/Tests/B2X.CMS.Tests/
 ```
 
 ## Frontend Component Tests (25 Tests)
@@ -178,7 +178,7 @@ var widgets = CmsWidgetSeeder.GetDefaultWidgets();
 ### Run All Tests
 ```bash
 # Backend
-dotnet test backend/Tests/B2Connect.CMS.Tests/ -v normal
+dotnet test backend/Tests/B2X.CMS.Tests/ -v normal
 
 # Frontend
 npm run test tests/
@@ -190,7 +190,7 @@ npm run test:e2e tests/e2e/cms/
 ### Run Specific Test
 ```bash
 # Backend
-dotnet test backend/Tests/B2Connect.CMS.Tests/ -k "WidgetRegistry"
+dotnet test backend/Tests/B2X.CMS.Tests/ -k "WidgetRegistry"
 
 # Frontend
 npm run test -- WidgetRenderer.spec.ts
@@ -357,7 +357,7 @@ public static PageDefinition CreatePageWithNewWidget()
 ## Documentation
 
 - **CMS Feature**: `/backend/services/CMS/README.md`
-- **Testing Guide**: `/backend/Tests/B2Connect.CMS.Tests/TESTING.md`
+- **Testing Guide**: `/backend/Tests/B2X.CMS.Tests/TESTING.md`
 - **API Reference**: Integrated OpenAPI docs
 
 ## Next Steps

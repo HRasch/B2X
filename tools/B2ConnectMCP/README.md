@@ -1,10 +1,10 @@
-# B2Connect MCP Server
+﻿# B2X MCP Server
 
-Custom Model Context Protocol server for B2Connect domain-specific validations and AI assistance.
+Custom Model Context Protocol server for B2X domain-specific validations and AI assistance.
 
 ## Overview
 
-The B2Connect MCP server provides specialized tools for validating and analyzing B2Connect-specific configurations, domain models, and integration setups. It extends the development workflow with domain-aware intelligence.
+The B2X MCP server provides specialized tools for validating and analyzing B2X-specific configurations, domain models, and integration setups. It extends the development workflow with domain-aware intelligence.
 
 ## Tools
 
@@ -12,41 +12,41 @@ The B2Connect MCP server provides specialized tools for validating and analyzing
 Validates tenant configuration files for required fields, domain format, and feature configurations.
 
 ```bash
-b2connect-mcp/validate_tenant_config configPath="config/tenant.json"
+B2X-mcp/validate_tenant_config configPath="config/tenant.json"
 ```
 
 ### validate_catalog_structure
 Validates product catalog structure and metadata for consistency and completeness.
 
 ```bash
-b2connect-mcp/validate_catalog_structure catalogPath="backend/Domain/Catalog"
+B2X-mcp/validate_catalog_structure catalogPath="backend/Domain/Catalog"
 ```
 
 ### check_erp_integration
 Validates ERP integration configurations for supported systems and proper mappings.
 
 ```bash
-b2connect-mcp/check_erp_integration erpConfigPath="connectors/enventa/config.json"
+B2X-mcp/check_erp_integration erpConfigPath="connectors/enventa/config.json"
 ```
 
 ### analyze_domain_models
 Analyzes domain models for consistency, patterns, and best practices.
 
 ```bash
-b2connect-mcp/analyze_domain_models domainPath="backend/Domain"
+B2X-mcp/analyze_domain_models domainPath="backend/Domain"
 ```
 
 ### validate_lifecycle_stages
 Validates customer integration lifecycle stages and progress tracking.
 
 ```bash
-b2connect-mcp/validate_lifecycle_stages tenantId="tenant-123"
+B2X-mcp/validate_lifecycle_stages tenantId="tenant-123"
 ```
 
 ## Installation
 
 ```bash
-cd tools/B2ConnectMCP
+cd tools/B2XMCP
 npm install
 npm run build
 ```
@@ -71,9 +71,9 @@ Add to `.vscode/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "b2connect-mcp": {
+    "B2X-mcp": {
       "command": "node",
-      "args": ["tools/B2ConnectMCP/dist/index.js"],
+      "args": ["tools/B2XMCP/dist/index.js"],
       "disabled": false
     }
   }
@@ -85,25 +85,25 @@ Add to `.vscode/mcp.json`:
 ### Pre-Commit Validation
 ```bash
 # Validate tenant configs before commit
-b2connect-mcp/validate_tenant_config configPath="config/tenants/"
+B2X-mcp/validate_tenant_config configPath="config/tenants/"
 
 # Check domain model consistency
-b2connect-mcp/analyze_domain_models domainPath="backend/Domain"
+B2X-mcp/analyze_domain_models domainPath="backend/Domain"
 ```
 
 ### CI/CD Integration
 ```bash
 # Validate catalog structure in CI
-b2connect-mcp/validate_catalog_structure catalogPath="backend/Domain/Catalog"
+B2X-mcp/validate_catalog_structure catalogPath="backend/Domain/Catalog"
 
 # Check ERP integrations
-b2connect-mcp/check_erp_integration erpConfigPath="connectors/"
+B2X-mcp/check_erp_integration erpConfigPath="connectors/"
 ```
 
 ### Development Assistance
 ```bash
 # Get lifecycle stage guidance
-b2connect-mcp/validate_lifecycle_stages tenantId="current-tenant"
+B2X-mcp/validate_lifecycle_stages tenantId="current-tenant"
 ```
 
 ## Dependencies

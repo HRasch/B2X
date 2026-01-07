@@ -1,8 +1,8 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
  * TypeScript MCP Live Demo
- * Demonstrates real usage of MCP tools on B2Connect frontend code
+ * Demonstrates real usage of MCP tools on B2X frontend code
  */
 
 import { spawn } from 'child_process';
@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '../../');
 
-console.log('🎯 TypeScript MCP Live Demo - B2Connect Frontend Analysis');
+console.log('🎯 TypeScript MCP Live Demo - B2X Frontend Analysis');
 console.log('==========================================================\n');
 
 // Start MCP server from project root

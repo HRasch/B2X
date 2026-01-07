@@ -1,4 +1,4 @@
-# 🧹 Backend & Artifacts Cleanup Report - 30.12.2025
+﻿# 🧹 Backend & Artifacts Cleanup Report - 30.12.2025
 
 **Status**: ✅ COMPLETE - Repository optimized!  
 **Impact**: **-800M+ removed, 73% size reduction**
@@ -57,7 +57,7 @@ Domain/CMS/bin             (57M)
 ... and all obj/ folders
 ```
 
-**Regenerate with**: `dotnet build B2Connect.slnx`
+**Regenerate with**: `dotnet build B2X.slnx`
 
 ### 2. Frontend Dependencies (193M)
 `frontend/node_modules/` - npm dependencies
@@ -72,7 +72,7 @@ Domain/CMS/bin             (57M)
 ### 4. AppHost Build Artifacts (72M)
 `AppHost/bin/` and `AppHost/obj/`
 
-**Regenerate with**: `dotnet build AppHost/B2Connect.AppHost.csproj`
+**Regenerate with**: `dotnet build AppHost/B2X.AppHost.csproj`
 
 ### 5. Test Reports (2M+)
 - `**/test-results/`
@@ -102,8 +102,8 @@ After cleanup, rebuild all components:
 
 ```bash
 # Backend
-dotnet build B2Connect.slnx
-dotnet test B2Connect.slnx
+dotnet build B2X.slnx
+dotnet test B2X.slnx
 
 # Frontend
 npm install

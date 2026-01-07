@@ -1,4 +1,4 @@
-# B2Connect Dev Node
+﻿# B2X Dev Node
 
 GPU-accelerated AI development environment for local network access.
 
@@ -41,12 +41,12 @@ docker run --rm --gpus all nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi
 1. **Copy files** to the dev node:
    ```bash
    # From your macOS machine
-   scp -r tools/dev-node user@192.168.1.117:~/b2connect-dev-node/
+   scp -r tools/dev-node user@192.168.1.117:~/B2X-dev-node/
    ```
 
 2. **Start the stack**:
    ```bash
-   cd ~/b2connect-dev-node
+   cd ~/B2X-dev-node
    docker compose up -d
    ```
 
@@ -173,7 +173,7 @@ netsh interface portproxy show all
 
 ```bash
 # Check container resources
-docker stats b2connect-ollama
+docker stats B2X-ollama
 
 # Unload models from memory
 curl http://localhost:11434/api/generate -d '{"model": "llama3.2", "keep_alive": 0}'
@@ -199,7 +199,7 @@ docker compose up -d
 docker system prune -a
 
 # Backup models
-docker run --rm -v b2connect-ollama-data:/data -v $(pwd):/backup \
+docker run --rm -v B2X-ollama-data:/data -v $(pwd):/backup \
     alpine tar czf /backup/ollama-models-backup.tar.gz /data
 
 # View logs

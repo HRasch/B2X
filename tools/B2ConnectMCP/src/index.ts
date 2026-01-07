@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -15,14 +15,14 @@ import * as path from 'path';
 import * as yaml from 'js-yaml';
 import { z } from 'zod';
 
-class B2ConnectMCPServer {
+class B2XMCPServer {
   private server: Server;
   private workspaceRoot: string = process.cwd();
 
   constructor() {
     this.server = new Server(
       {
-        name: 'b2connect-mcp-server',
+        name: 'B2X-mcp-server',
         version: '1.0.0',
       },
       {
@@ -42,7 +42,7 @@ class B2ConnectMCPServer {
         tools: [
           {
             name: 'validate_tenant_config',
-            description: 'Validate tenant configuration files for B2Connect',
+            description: 'Validate tenant configuration files for B2X',
             inputSchema: {
               type: 'object',
               properties: {
@@ -384,10 +384,10 @@ class B2ConnectMCPServer {
   async run() {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error('B2Connect MCP server running on stdio');
+    console.error('B2X MCP server running on stdio');
   }
 }
 
 // Run the server
-const server = new B2ConnectMCPServer();
+const server = new B2XMCPServer();
 server.run().catch(console.error);

@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2X.Catalog</RootNamespace>
+    <AssemblyName>B2X.Catalog.API</AssemblyName>
+    <IsAspireProjectResource>true</IsAspireProjectResource>
+  </PropertyGroup>
+
+  <!-- Exclude tests folders from compilation -->
+  <ItemGroup>
+    <Compile Remove="tests/**" />
+    <Compile Remove="tests\**" />
+    <Compile Remove="src/Tests/**" />
+    <Compile Remove="src\Tests\**" />
+    <Compile Remove="**/tests/**" />
+    <Compile Remove="**/Tests/**" />
+    <None Remove="tests/**" />
+    <None Remove="tests\**" />
+    <None Remove="src/Tests/**" />
+    <None Remove="src\Tests\**" />
+    <Content Remove="tests/**" />
+    <Content Remove="tests\**" />
+    <Content Remove="src/Tests/**" />
+    <Content Remove="src\Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="EFCore.NamingConventions"  />
+    <PackageReference Include="MediatR"  />
+    <PackageReference Include="FluentValidation"  />
+    <PackageReference Include="AutoMapper"  />
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.Http" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Elastic.Clients.Elasticsearch" />
+    <PackageReference Include="Bogus" />
+    <!-- Code Analyzers -->
+    <PackageReference Include="SonarAnalyzer.CSharp" />
+    <PackageReference Include="Meziantou.Analyzer" />
+    <PackageReference Include="SerilogAnalyzer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../shared/kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../shared/middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../shared/B2X.Shared.Messaging/B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="../../shared/B2X.Shared.Search/B2X.Shared.Search.csproj" />
+    <ProjectReference Include="../Search/B2X.Domain.Search.csproj" />
+  </ItemGroup>
+
+</Project>
+
+

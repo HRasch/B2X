@@ -1,7 +1,7 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# B2Connect Service Cleanup Script v2.0
-# Stoppt alle laufenden B2Connect Services und gibt Ports frei
+# B2X Service Cleanup Script v2.0
+# Stoppt alle laufenden B2X Services und gibt Ports frei
 # Verbessert: Robustere DCP-Terminierung, Port-Validierung pro Service
 
 set -o pipefail
@@ -11,7 +11,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MAX_RETRIES=10
 RETRY_DELAY=0.5
 
-# Alle B2Connect Ports (einfache Arrays für macOS bash 3.x Kompatibilität)
+# Alle B2X Ports (einfache Arrays für macOS bash 3.x Kompatibilität)
 SERVICE_NAMES=("Auth_Service" "Tenant_Service" "Localization_Service" "Catalog_Service" "Theming_Service" "Store_Gateway" "Admin_Gateway" "Frontend_Store" "Frontend_Admin" "Aspire_Dashboard" "Redis")
 SERVICE_PORTS=(7002 7003 7004 7005 7008 8000 8080 5173 5174 15500 6379)
 
@@ -57,7 +57,7 @@ kill_processes() {
     fi
 }
 
-echo "🛑 B2Connect Service Cleanup v2.0"
+echo "🛑 B2X Service Cleanup v2.0"
 echo "=================================="
 echo ""
 
@@ -66,7 +66,7 @@ echo "📤 Phase 1: Graceful shutdown..."
 
 # 1.1 Orchestration zuerst (kontrolliert Child-Prozesse)
 echo "  → Stopping Orchestration..."
-kill_processes "B2Connect.AppHost" false
+kill_processes "B2X.AppHost" false
 sleep 1
 
 # 1.2 DCP Controller (hält alle Ports)
@@ -98,16 +98,16 @@ for i in {1..5}; do
     sleep 0.5
 done
 
-# 2.2 Alle B2Connect .NET Prozesse
+# 2.2 Alle B2X .NET Prozesse
 echo "  → Force killing .NET services..."
-kill_processes "B2Connect.AppHost" true
-kill_processes "B2Connect.Identity" true
-kill_processes "B2Connect.Tenancy" true
-kill_processes "B2Connect.Localization" true
-kill_processes "B2Connect.Catalog" true
-kill_processes "B2Connect.Theming" true
-kill_processes "B2Connect.Store" true
-kill_processes "B2Connect.Admin" true
+kill_processes "B2X.AppHost" true
+kill_processes "B2X.Identity" true
+kill_processes "B2X.Tenancy" true
+kill_processes "B2X.Localization" true
+kill_processes "B2X.Catalog" true
+kill_processes "B2X.Theming" true
+kill_processes "B2X.Store" true
+kill_processes "B2X.Admin" true
 kill_processes "Aspire.Dashboard" true
 sleep 1
 

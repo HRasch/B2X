@@ -1,4 +1,4 @@
-# B2Connect Dev Node - Docker Compose Stack
+﻿# B2X Dev Node - Docker Compose Stack
 #
 # GPU-accelerated AI development environment for local network access.
 # Deploy to high-performance dev node (RTX 5090, 64GB DDR5, etc.)
@@ -23,8 +23,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: b2connect-dev-node:latest
-    container_name: b2connect-ollama
+    image: B2X-dev-node:latest
+    container_name: B2X-ollama
     restart: unless-stopped
     ports:
       - "11434:11434"
@@ -48,14 +48,14 @@ services:
       retries: 3
       start_period: 60s
     labels:
-      - "com.b2connect.service=dev-node"
-      - "com.b2connect.component=ollama"
+      - "com.B2X.service=dev-node"
+      - "com.B2X.component=ollama"
 
   # Optional: Open WebUI for Ollama (browser-based chat interface)
   # Uncomment to enable web interface at http://<dev-node-ip>:3000
   # webui:
   #   image: ghcr.io/open-webui/open-webui:main
-  #   container_name: b2connect-webui
+  #   container_name: B2X-webui
   #   restart: unless-stopped
   #   ports:
   #     - "3000:8080"
@@ -67,15 +67,15 @@ services:
   #     ollama:
   #       condition: service_healthy
   #   labels:
-  #     - "com.b2connect.service=dev-node"
-  #     - "com.b2connect.component=webui"
+  #     - "com.B2X.service=dev-node"
+  #     - "com.B2X.component=webui"
 
 volumes:
   ollama-data:
-    name: b2connect-ollama-data
+    name: B2X-ollama-data
   # webui-data:
-  #   name: b2connect-webui-data
+  #   name: B2X-webui-data
 
 networks:
   default:
-    name: b2connect-dev-network
+    name: B2X-dev-network

@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+﻿import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -44,8 +44,8 @@ setTimeout(() => {
     params: {
       name: 'analyze_types',
       arguments: {
-        workspacePath: '/Users/holger/Documents/Projekte/B2Connect/frontend/Store',
-        filePath: '/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/RegistrationCheck.spec.ts'
+        workspacePath: '/Users/holger/Documents/Projekte/B2X/frontend/Store',
+        filePath: '/Users/holger/Documents/Projekte/B2X/frontend/Store/components/RegistrationCheck.spec.ts'
       }
     }
   };

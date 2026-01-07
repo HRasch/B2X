@@ -1,4 +1,4 @@
-# Database MCP Server
+﻿# Database MCP Server
 
 A Model Context Protocol (MCP) server for database analysis, query optimization, and schema validation. This server provides AI-assisted tools for working with PostgreSQL, MySQL, and Elasticsearch databases.
 
@@ -124,9 +124,9 @@ npm run lint
 - **SQL Server**: T-SQL analysis and validation
 - **Elasticsearch**: Index mapping validation and search optimization
 
-## Integration with B2Connect
+## Integration with B2X
 
-This MCP server integrates with the B2Connect development workflow to provide:
+This MCP server integrates with the B2X development workflow to provide:
 
 - **Pre-commit validation**: Automatic SQL analysis before commits
 - **Migration reviews**: Safety checks for database schema changes

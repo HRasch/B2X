@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
  * MCP Rate Limiter
@@ -18,7 +18,7 @@ const DEFAULT_LIMITS = {
   'vue-mcp': 400,
   'security-mcp': 300,
   'htmlcss-mcp': 200,
-  'b2connect-mcp': 300,
+  'B2X-mcp': 300,
   'database-mcp': 250,
   'documentation-mcp': 200,
   'performance-mcp': 150,

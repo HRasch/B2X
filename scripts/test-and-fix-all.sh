@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-# Comprehensive Test & Fix Script for B2Connect
+﻿#!/usr/bin/env bash
+# Comprehensive Test & Fix Script for B2X
 # Runs all quality checks and fixes issues
 
 set -euo pipefail
@@ -31,17 +31,17 @@ cd "$PROJECT_ROOT"
 
 # 1.1: Fix StyleCop and Analyzer Warnings
 log "Fixing code style and analyzer warnings..."
-if dotnet format B2Connect.slnx --verify-no-changes; then
+if dotnet format B2X.slnx --verify-no-changes; then
     success "Code formatting OK"
 else
     warn "Applying automatic formatting..."
-    dotnet format B2Connect.slnx
+    dotnet format B2X.slnx
     success "Code formatted"
 fi
 
 # 1.2: Build Backend
 log "Building backend..."
-if dotnet build B2Connect.slnx --no-restore; then
+if dotnet build B2X.slnx --no-restore; then
     success "Backend build successful"
 else
     error "Backend build failed"
@@ -50,7 +50,7 @@ fi
 
 # 1.3: Run Backend Tests
 log "Running backend tests..."
-if dotnet test B2Connect.slnx --no-build --verbosity minimal; then
+if dotnet test B2X.slnx --no-build --verbosity minimal; then
     success "Backend tests passed"
 else
     error "Backend tests failed"
@@ -59,7 +59,7 @@ fi
 
 # 1.4: Generate Coverage Report
 log "Generating backend coverage report..."
-dotnet test B2Connect.slnx --no-build --collect:"XPlat Code Coverage" --verbosity quiet
+dotnet test B2X.slnx --no-build --collect:"XPlat Code Coverage" --verbosity quiet
 success "Coverage report generated"
 
 # ============================================
@@ -245,8 +245,8 @@ cat > "$REPORT_DIR/quality-report.md" << EOF
 **Generated:** $(date)
 
 ## Backend Status
-- Build: $(dotnet build B2Connect.slnx --no-restore > /dev/null 2>&1 && echo "✅ PASS" || echo "❌ FAIL")
-- Tests: $(dotnet test B2Connect.slnx --no-build --verbosity quiet > /dev/null 2>&1 && echo "✅ PASS" || echo "❌ FAIL")
+- Build: $(dotnet build B2X.slnx --no-restore > /dev/null 2>&1 && echo "✅ PASS" || echo "❌ FAIL")
+- Tests: $(dotnet test B2X.slnx --no-build --verbosity quiet > /dev/null 2>&1 && echo "✅ PASS" || echo "❌ FAIL")
 - Code Style: $(dotnet format --verify-no-changes > /dev/null 2>&1 && echo "✅ PASS" || echo "⚠️ WARNINGS")
 
 ## Frontend Store Status

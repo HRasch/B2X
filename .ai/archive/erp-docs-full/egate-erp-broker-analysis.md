@@ -1,4 +1,4 @@
-# eGate ERP Broker Implementation Analysis
+﻿# eGate ERP Broker Implementation Analysis
 
 **DocID**: `KB-020`  
 **Status**: Draft  
@@ -614,11 +614,11 @@ public static IFSGlobalObjects EnableCaching(this IFSGlobalObjects global)
 
 ---
 
-## 6. Implications for B2Connect Design
+## 6. Implications for B2X Design
 
 ### 6.1 Recommended Patterns to Adopt
 
-| Pattern | eGate Implementation | B2Connect Recommendation |
+| Pattern | eGate Implementation | B2X Recommendation |
 |---------|---------------------|--------------------------|
 | **Connection Pooling** | `FSGlobalPool` with `ConcurrentBag` | Implement similar pool with `SemaphoreSlim` for .NET 10 async |
 | **Scoped Context** | `FSScope` with `IDisposable` | Use `AsyncLocal<T>` for async context propagation |
@@ -662,7 +662,7 @@ The eGate codebase reveals these .NET Framework 4.8 constraints:
 
 ---
 
-**Next Steps for B2Connect**:
+**Next Steps for B2X**:
 1. Define `IErpConnectionPool` interface abstracting FSGlobalPool pattern
 2. Create `IErpScope` for scoped connection management
 3. Design `IErpQueryBuilder<T>` with gRPC streaming support

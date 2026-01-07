@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # PR Quality Gate - Local Pre-flight Check
 # Run this before creating a PR to catch issues early
 
@@ -7,7 +7,7 @@ set -e
 echo "🚀 Running PR Quality Pre-flight Checks..."
 echo ""
 
-BACKEND_DIR="/Users/holger/Documents/Projekte/B2Connect"
+BACKEND_DIR="/Users/holger/Documents/Projekte/B2X"
 FRONTEND_STORE="${BACKEND_DIR}/frontend/Store"
 FRONTEND_MGMT="${BACKEND_DIR}/frontend/Management"
 
@@ -75,7 +75,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 # Backend tests
 echo "  → Running backend tests..."
-if dotnet test B2Connect.slnx --verbosity quiet --no-build; then
+if dotnet test B2X.slnx --verbosity quiet --no-build; then
     echo "    ✅ Backend tests passed"
 else
     echo "    ❌ Backend tests failed"

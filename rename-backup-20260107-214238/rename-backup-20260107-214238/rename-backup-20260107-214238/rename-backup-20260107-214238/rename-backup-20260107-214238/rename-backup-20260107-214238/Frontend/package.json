@@ -1,0 +1,39 @@
+{
+  "name": "b2connect-frontend-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "B2Connect Frontend Monorepo - Store, Admin, and Management portals",
+  "workspaces": [
+    "Store",
+    "Admin",
+    "Management"
+  ],
+  "scripts": {
+    "dev:store": "npm run dev -w Store",
+    "dev:admin": "npm run dev -w Admin",
+    "dev:management": "npm run dev -w Management",
+    "build:all": "npm run build -w Store && npm run build -w Admin && npm run build -w Management",
+    "test:all": "npm run test -w Store && npm run test -w Admin && npm run test -w Management",
+    "type-check:all": "npm run type-check -w Store && npm run type-check -w Admin && npm run type-check -w Management",
+    "lint:all": "npm run lint -w Store && npm run lint -w Admin && npm run lint -w Management",
+    "quality-check:all": "npm run quality-check -w Store && npm run quality-check -w Admin && npm run quality-check -w Management",
+    "install:all": "npm install",
+    "clean": "rm -rf node_modules Store/node_modules Admin/node_modules Management/node_modules",
+    "update:check": "npm outdated",
+    "update:minor": "npm update"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "keywords": [
+    "b2connect",
+    "vue3",
+    "frontend",
+    "monorepo"
+  ],
+  "dependencies": {
+    "@pinia/nuxt": "^0.11.3",
+    "pinia": "^3.0.4"
+  }
+}

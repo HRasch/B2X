@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Smoke Tests for Deployment Validation
+# B2X Smoke Tests for Deployment Validation
 # Runs basic functionality tests against deployed services
 #
 # Usage: ./scripts/smoke-test.sh [environment]
@@ -40,19 +40,19 @@ get_service_url() {
 
     case $env in
         blue)
-            echo "http://blue-$service.b2connect.local"
+            echo "http://blue-$service.B2X.local"
             ;;
         green)
-            echo "http://green-$service.b2connect.local"
+            echo "http://green-$service.B2X.local"
             ;;
         canary)
-            echo "http://canary-$service.b2connect.local"
+            echo "http://canary-$service.B2X.local"
             ;;
         current)
-            echo "http://$service.b2connect.local"
+            echo "http://$service.B2X.local"
             ;;
         *)
-            echo "http://$service.b2connect.local"
+            echo "http://$service.B2X.local"
             ;;
     esac
 }

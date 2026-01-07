@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 import { spawn } from 'child_process';
 import path from 'path';
@@ -61,7 +61,7 @@ async function testTool(toolName, args) {
 }
 
 async function runTests() {
-  const testFile = '/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/RegistrationCheck.spec.ts';
+  const testFile = '/Users/holger/Documents/Projekte/B2X/frontend/Store/components/RegistrationCheck.spec.ts';
 
   console.log('🧪 Testing TypeScript MCP Server with real project files...\n');
 

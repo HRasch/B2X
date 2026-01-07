@@ -1,11 +1,11 @@
-# CMS Testing Guide
+﻿# CMS Testing Guide
 
 Complete testing suite for the CMS Widget System including unit tests, integration tests, E2E tests, and test data seeding.
 
 ## Test Structure
 
 ```
-backend/Tests/B2Connect.CMS.Tests/
+backend/Tests/B2X.CMS.Tests/
 ├── WidgetRegistryTests.cs              # Widget registry unit tests
 ├── PageDefinitionTests.cs              # Page domain model tests
 ├── GetPageDefinitionQueryHandlerTests.cs # Query handler tests
@@ -33,7 +33,7 @@ Tests the widget registry service that manages available widgets.
 
 ```bash
 # Run widget registry tests
-dotnet test backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj -k WidgetRegistryTests
+dotnet test backend/Tests/B2X.CMS.Tests/B2X.CMS.Tests.csproj -k WidgetRegistryTests
 ```
 
 **Test Coverage:**
@@ -52,7 +52,7 @@ Tests the page definition aggregate root and its entities.
 
 ```bash
 # Run page definition tests
-dotnet test backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj -k PageDefinitionTests
+dotnet test backend/Tests/B2X.CMS.Tests/B2X.CMS.Tests.csproj -k PageDefinitionTests
 ```
 
 **Test Coverage:**
@@ -82,7 +82,7 @@ Tests the CQRS query handler for fetching page definitions.
 
 ```bash
 # Run query handler tests
-dotnet test backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj -k GetPageDefinitionQueryHandlerTests
+dotnet test backend/Tests/B2X.CMS.Tests/B2X.CMS.Tests.csproj -k GetPageDefinitionQueryHandlerTests
 ```
 
 **Test Coverage:**
@@ -98,7 +98,7 @@ Tests complete workflows from page creation to query execution.
 
 ```bash
 # Run E2E tests
-dotnet test backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj -k CmsEndToEndTests
+dotnet test backend/Tests/B2X.CMS.Tests/B2X.CMS.Tests.csproj -k CmsEndToEndTests
 ```
 
 **Test Coverage:**
@@ -111,13 +111,13 @@ dotnet test backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj -k CmsE
 
 ```bash
 # Run all CMS tests
-dotnet test backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj
+dotnet test backend/Tests/B2X.CMS.Tests/B2X.CMS.Tests.csproj
 
 # With verbose output
-dotnet test backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj -v normal
+dotnet test backend/Tests/B2X.CMS.Tests/B2X.CMS.Tests.csproj -v normal
 
 # With coverage report
-dotnet test backend/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj /p:CollectCoverage=true /p:CoverageFormat=opencover
+dotnet test backend/Tests/B2X.CMS.Tests/B2X.CMS.Tests.csproj /p:CollectCoverage=true /p:CoverageFormat=opencover
 ```
 
 ## Frontend Component Tests
@@ -394,7 +394,7 @@ public class CustomTestDataSeeder
 
 ```bash
 # Backend tests
-dotnet test backend/Tests/B2Connect.CMS.Tests/
+dotnet test backend/Tests/B2X.CMS.Tests/
 
 # Frontend component tests
 npm run test tests/components/cms
@@ -408,7 +408,7 @@ npm run test:e2e tests/e2e/cms
 ```bash
 # Run tests with CI flags
 # Backend
-dotnet test backend/Tests/B2Connect.CMS.Tests/ /p:CI=true
+dotnet test backend/Tests/B2X.CMS.Tests/ /p:CI=true
 
 # Frontend
 npm run test:ci tests/
@@ -485,13 +485,13 @@ npm run test:e2e:ci tests/e2e/
 
 ```bash
 # Clear build cache
-dotnet clean backend/Tests/B2Connect.CMS.Tests/
+dotnet clean backend/Tests/B2X.CMS.Tests/
 
 # Rebuild
-dotnet build backend/Tests/B2Connect.CMS.Tests/
+dotnet build backend/Tests/B2X.CMS.Tests/
 
 # Run with verbose logging
-dotnet test backend/Tests/B2Connect.CMS.Tests/ -v normal
+dotnet test backend/Tests/B2X.CMS.Tests/ -v normal
 ```
 
 ### Frontend Test Issues
@@ -543,7 +543,7 @@ jobs:
           dotnet-version: '10.0'
       
       - name: Backend Tests
-        run: dotnet test backend/Tests/B2Connect.CMS.Tests/
+        run: dotnet test backend/Tests/B2X.CMS.Tests/
       
       - name: Setup Node
         uses: actions/setup-node@v3

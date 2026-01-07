@@ -1,4 +1,4 @@
-# REQ-007: Email WYSIWYG Builder - ProductOwner Analysis
+﻿# REQ-007: Email WYSIWYG Builder - ProductOwner Analysis
 
 **Anforderung**: Email WYSIWYG Builder mit Drag&Drop für Marketing-Teams  
 **Framework**: Requirements Analysis v2.0  
@@ -9,7 +9,7 @@
 
 ### Value-Score: 9/10
 **Begründung**:  
-Der Email WYSIWYG Builder adressiert ein kritisches Bedürfnis von Marketing-Teams, die derzeit auf technische Ressourcen oder externe Tools angewiesen sind. Drag&Drop-Funktionalität ermöglicht es Nicht-Technikern, professionelle Emails zu erstellen, was die Time-to-Market für Marketing-Kampagnen erheblich reduziert. Dies stärkt die Autonomie der Marketing-Abteilung und reduziert Abhängigkeiten von IT-Ressourcen. In einer B2B-Plattform wie B2Connect ist Email-Marketing ein Kernkanal für Kundenkommunikation, wodurch dieses Feature direkt zu höherer Kundenzufriedenheit und gesteigerten Conversion-Raten beiträgt.
+Der Email WYSIWYG Builder adressiert ein kritisches Bedürfnis von Marketing-Teams, die derzeit auf technische Ressourcen oder externe Tools angewiesen sind. Drag&Drop-Funktionalität ermöglicht es Nicht-Technikern, professionelle Emails zu erstellen, was die Time-to-Market für Marketing-Kampagnen erheblich reduziert. Dies stärkt die Autonomie der Marketing-Abteilung und reduziert Abhängigkeiten von IT-Ressourcen. In einer B2B-Plattform wie B2X ist Email-Marketing ein Kernkanal für Kundenkommunikation, wodurch dieses Feature direkt zu höherer Kundenzufriedenheit und gesteigerten Conversion-Raten beiträgt.
 
 ### Effort-Score: 6/10
 **Begründung**:  

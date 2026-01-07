@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../backend/Gateway/Admin/B2Connect.Admin.csproj" />
+    <ProjectReference Include="../../backend/Gateway/Admin/B2X.Admin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

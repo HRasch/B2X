@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "B2Connect.Identity.API": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Jwt__Secret": "M2kgF4qtC0oAISTYgkaT/YjyIhCNRxJgeO4T4NjhDpk=",
+        "Database__Provider": "sqlite",
+        "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!"
+      },
+      "applicationUrl": "http://127.0.0.1:5001"
+    }
+  }
+}

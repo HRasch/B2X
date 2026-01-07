@@ -1,6 +1,6 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-LOG_FILE="/tmp/b2connect-port-test.log"
+LOG_FILE="/tmp/B2X-port-test.log"
 echo "=== Port Lifecycle Test $(date) ===" > "$LOG_FILE"
 
 echo "📊 Test 1: Welche Prozesse blockieren Port 8080 JETZT?"
@@ -12,7 +12,7 @@ ps aux | grep -E "dcpctrl|dcpproc" | grep -v grep | tee -a "$LOG_FILE"
 
 echo ""
 echo "🛑 Test 3: Führe kill-all-services.sh aus..."
-/Users/holger/Documents/Projekte/B2Connect/scripts/kill-all-services.sh 2>&1 | tee -a "$LOG_FILE"
+/Users/holger/Documents/Projekte/B2X/scripts/kill-all-services.sh 2>&1 | tee -a "$LOG_FILE"
 
 echo ""
 echo "⏱️  Test 4: Warte 3 Sekunden..."

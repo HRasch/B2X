@@ -1,6 +1,6 @@
-# Monitoring MCP Server
+﻿# Monitoring MCP Server
 
-MCP server for service monitoring, telemetry collection, and log analysis in the B2Connect project.
+MCP server for service monitoring, telemetry collection, and log analysis in the B2X project.
 
 ## Features
 
@@ -174,4 +174,4 @@ The Monitoring MCP server provides a standardized interface for:
 - System performance metrics
 - Alert configuration and management
 
-It serves as a bridge between development tools and the B2Connect monitoring infrastructure.
+It serves as a bridge between development tools and the B2X monitoring infrastructure.

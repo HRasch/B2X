@@ -1,10 +1,10 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
-namespace B2Connect.Tools.WolverineMCP.Services;
+namespace B2X.Tools.WolverineMCP.Services;
 
 /// <summary>
 /// Result of handler analysis.
@@ -84,7 +84,7 @@ public sealed class WolverineAnalysisService : IDisposable
 
     public async Task<IEnumerable<HandlerAnalysisResult>> AnalyzeHandlersAsync(string workspacePath)
     {
-        var solutionPath = Path.Combine(workspacePath, "B2Connect.slnx");
+        var solutionPath = Path.Combine(workspacePath, "B2X.slnx");
         if (!File.Exists(solutionPath))
         {
             throw new FileNotFoundException("Solution file not found", solutionPath);

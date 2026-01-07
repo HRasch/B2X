@@ -1,0 +1,138 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "indentation": {
+      "indentationSize": 4,
+      "tabSize": 4,
+      "useTabs": false
+    },
+    "orderingRules": {
+      "systemUsingDirectivesFirst": true,
+      "usingDirectivesPlacement": "outsideNamespace",
+      "blankLinesBetweenUsingGroups": "allow",
+      "elementOrder": [
+        "kind",
+        "accessibility",
+        "constant",
+        "static",
+        "readonly"
+      ]
+    },
+    "namingRules": {
+      "allowCommonHungarianPrefixes": true,
+      "allowedHungarianPrefixes": [],
+      "allowedNamespaceComponents": [],
+      "tupleElementNameCasing": "PascalCase",
+      "includeInferredTupleElementNames": false
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require",
+      "allowConsecutiveUsings": true,
+      "allowDoWhileOnClosingBrace": false
+    },
+    "documentationRules": {
+      "companyName": "B2Connect GmbH",
+      "copyrightText": "Copyright (c) {companyName}. All rights reserved.",
+      "xmlHeader": false,
+      "documentInterfaces": false,
+      "documentExposedElements": false,
+      "documentInternalElements": false,
+      "documentPrivateElements": false,
+      "documentPrivateFields": false,
+      "documentationCulture": "en-US",
+      "fileNamingConvention": "stylecop",
+      "excludeFromPunctuationCheck": [
+        "seealso"
+      ]
+    },
+    "maintainabilityRules": {
+      "topLevelTypes": [
+        "class",
+        "interface",
+        "struct",
+        "enum",
+        "delegate"
+      ]
+    }
+  },
+  "rules": {
+    "SA1402": {
+      "severity": "none"
+    },
+    "SA1111": {
+      "severity": "none"
+    },
+    "SA1009": {
+      "severity": "none"
+    },
+    "SA1518": {
+      "severity": "warning"
+    },
+    "SA1210": {
+      "severity": "none"
+    },
+    "SA1129": {
+      "severity": "none"
+    },
+    "SA1401": {
+      "severity": "none"
+    },
+    "SA1600": {
+      "severity": "none"
+    },
+    "SA1601": {
+      "severity": "none"
+    },
+    "SA1602": {
+      "severity": "none"
+    },
+    "SA1604": {
+      "severity": "none"
+    },
+    "SA1611": {
+      "severity": "none"
+    },
+    "SA1615": {
+      "severity": "none"
+    },
+    "SA1618": {
+      "severity": "none"
+    },
+    "SA1623": {
+      "severity": "none"
+    },
+    "SA1629": {
+      "severity": "none"
+    },
+    "SA1633": {
+      "severity": "none"
+    },
+    "SA1634": {
+      "severity": "none"
+    },
+    "SA1635": {
+      "severity": "none"
+    },
+    "SA1636": {
+      "severity": "none"
+    },
+    "SA1637": {
+      "severity": "none"
+    },
+    "SA1638": {
+      "severity": "none"
+    },
+    "SA1640": {
+      "severity": "none"
+    },
+    "SA1641": {
+      "severity": "none"
+    },
+    "SA1642": {
+      "severity": "none"
+    },
+    "SA1643": {
+      "severity": "none"
+    }
+  }
+}

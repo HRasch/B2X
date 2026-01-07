@@ -1,8 +1,8 @@
-{
+﻿{
   "name": "htmlcss-mcp-server",
   "version": "1.0.0",
   "type": "module",
-  "description": "MCP server for HTML/CSS analysis in B2Connect",
+  "description": "MCP server for HTML/CSS analysis in B2X",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -24,7 +24,7 @@
     "semantic-html",
     "css-analysis"
   ],
-  "author": "B2Connect Frontend Team",
+  "author": "B2X Frontend Team",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.5.0",

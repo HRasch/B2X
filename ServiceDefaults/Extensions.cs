@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -15,10 +15,10 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
 
-namespace B2Connect.ServiceDefaults;
+namespace B2X.ServiceDefaults;
 
 /// <summary>
-/// Health check configuration options for B2Connect services.
+/// Health check configuration options for B2X services.
 /// Configure via IConfiguration section "HealthChecks".
 /// </summary>
 public class HealthCheckOptions
@@ -305,7 +305,7 @@ public static class Extensions
 
     public static IHostApplicationBuilder AddOpenTelemetry(this IHostApplicationBuilder builder)
     {
-        var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? "b2connect";
+        var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? "B2X";
         var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
 
         builder.Services.AddOpenTelemetry()

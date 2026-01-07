@@ -1,10 +1,10 @@
-using System.ComponentModel;
-using B2Connect.Tools.RoslynMCP.Services;
+﻿using System.ComponentModel;
+using B2X.Tools.RoslynMCP.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
 
-namespace B2Connect.Tools.RoslynMCP.Tools;
+namespace B2X.Tools.RoslynMCP.Tools;
 
 /// <summary>
 /// MCP tools for analyzing dependencies in C# solutions.
@@ -71,7 +71,7 @@ public sealed class DependencyTools
     [McpServerTool, Description("Find which namespaces are used across projects to identify coupling")]
     public async Task<string> FindNamespaceUsagesAsync(
         [Description("The solution file path (.sln or .slnx)")] string solutionPath,
-        [Description("Namespace pattern to search for (e.g., 'B2Connect.Domain')")] string namespacePattern)
+        [Description("Namespace pattern to search for (e.g., 'B2X.Domain')")] string namespacePattern)
     {
         try
         {

@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Port Cleanup & Start Script
+# B2X Port Cleanup & Start Script
 
 set -euo pipefail
 
-echo "🔧 B2Connect - Port Überprüfung & Startup"
+echo "🔧 B2X - Port Überprüfung & Startup"
 echo "==========================================="
 echo ""
 

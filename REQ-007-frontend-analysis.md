@@ -1,4 +1,4 @@
-# REQ-007: Email WYSIWYG Builder - Frontend Analysis
+﻿# REQ-007: Email WYSIWYG Builder - Frontend Analysis
 
 **DocID**: `REQ-007-FRONTEND-ANALYSIS`  
 **Owner**: @Frontend  
@@ -220,4 +220,4 @@ Die Frontend-Implementierung ist komplex aber manageable mit Vue.js 3. Fokussier
 2. Prototype mit grundlegendem Drag&Drop entwickeln
 3. Widget-Library Design und Implementierung
 4. Integration mit bestehendem EmailService testen</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/REQ-007-frontend-analysis.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/REQ-007-frontend-analysis.md

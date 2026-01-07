@@ -1,10 +1,10 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# Token Audit Script for B2Connect
+# Token Audit Script for B2X
 # Run monthly to identify token waste and optimization opportunities
 # Usage: ./audit-tokens.sh
 
-echo "🔍 B2Connect Token Audit Report"
+echo "🔍 B2X Token Audit Report"
 echo "================================"
 echo "Date: $(date)"
 echo ""

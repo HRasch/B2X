@@ -1,4 +1,4 @@
-# SubAgent Tier 2 & 3 Deployment Guide
+﻿# SubAgent Tier 2 & 3 Deployment Guide
 
 **Phase**: Phase 2-3 Extended Rollout  
 **Timeline**: January 13, 2026 - Early February 2026  
@@ -241,7 +241,7 @@
 
 - **Slack Channel**: `#subagent-support` for questions
 - **Office Hours**: Thursday 2 PM (weekly, 1 hour)
-- **Feedback Form**: https://github.com/b2connect/issues/new?template=subagent-feedback.md
+- **Feedback Form**: https://github.com/B2X/issues/new?template=subagent-feedback.md
 - **Documentation Wiki**: `.ai/guidelines/SUBAGENT_USER_GUIDE.md`
 
 ---

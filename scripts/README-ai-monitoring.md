@@ -1,8 +1,8 @@
-# 🤖 AI Cost Monitoring & Optimization System
+﻿# 🤖 AI Cost Monitoring & Optimization System
 
 **Part of the Agent Escalation System for cost-effective AI usage**
 
-This system provides comprehensive monitoring, optimization, and automatic model selection for GitHub Copilot and other AI usage in the B2Connect project.
+This system provides comprehensive monitoring, optimization, and automatic model selection for GitHub Copilot and other AI usage in the B2X project.
 
 ## 📊 Features
 

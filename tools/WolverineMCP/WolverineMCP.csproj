@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
-    <RootNamespace>B2Connect.Tools.WolverineMCP</RootNamespace>
+    <RootNamespace>B2X.Tools.WolverineMCP</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

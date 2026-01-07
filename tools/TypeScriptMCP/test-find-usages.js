@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+﻿import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -44,9 +44,9 @@ setTimeout(() => {
     params: {
       name: 'find_usages',
       arguments: {
-        workspacePath: '/Users/holger/Documents/Projekte/B2Connect/frontend/Store',
+        workspacePath: '/Users/holger/Documents/Projekte/B2X/frontend/Store',
         symbolName: 'RegistrationCheckVM',
-        filePath: '/Users/holger/Documents/Projekte/B2Connect/frontend/Store/components/RegistrationCheck.spec.ts'
+        filePath: '/Users/holger/Documents/Projekte/B2X/frontend/Store/components/RegistrationCheck.spec.ts'
       }
     }
   };

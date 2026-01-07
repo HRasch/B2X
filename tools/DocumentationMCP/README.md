@@ -1,4 +1,4 @@
-# Documentation MCP Server
+﻿# Documentation MCP Server
 
 A Model Context Protocol (MCP) server for automated documentation generation, validation, and maintenance. This server helps maintain high-quality documentation across the development lifecycle.
 
@@ -139,9 +139,9 @@ npm run lint
 - **Python**: Docstring extraction
 - **Multiple Output Formats**: Markdown, HTML, JSON
 
-## Integration with B2Connect
+## Integration with B2X
 
-This MCP server integrates with the B2Connect development workflow to provide:
+This MCP server integrates with the B2X development workflow to provide:
 
 - **Pre-commit validation**: Automatic README and documentation checks
 - **PR documentation**: Ensures documentation is updated with code changes

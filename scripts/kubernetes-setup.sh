@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Kubernetes Setup Script
-# Vorbereitet den Kubernetes-Cluster für B2Connect Deployment
+# B2X Kubernetes Setup Script
+# Vorbereitet den Kubernetes-Cluster für B2X Deployment
 
 set -euo pipefail
 
@@ -13,8 +13,8 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Konfiguration
-NAMESPACE="b2connect"
-RELEASE_NAME="b2connect"
+NAMESPACE="B2X"
+RELEASE_NAME="B2X"
 CHART_PATH="./backend/kubernetes/helm"
 REGISTRY="${REGISTRY:-docker.io}"
 REGISTRY_SECRET="${REGISTRY_SECRET:-regcred}"
@@ -96,7 +96,7 @@ create_registry_secret() {
         --docker-server="$REGISTRY" \
         --docker-username="$REGISTRY_USERNAME" \
         --docker-password="$REGISTRY_PASSWORD" \
-        --docker-email="admin@b2connect.local" \
+        --docker-email="admin@B2X.local" \
         --namespace="$NAMESPACE" \
         --dry-run=client \
         -o yaml | kubectl apply -f -
@@ -118,9 +118,9 @@ create_db_secrets() {
     POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-$(openssl rand -base64 32)}"
     
     # Verbindungsstrings mit Passwort
-    AUTH_CONNECTION_STRING="Server=postgres;Port=5432;Database=b2connect_auth;User Id=b2connect;Password=$POSTGRES_PASSWORD;"
-    TENANT_CONNECTION_STRING="Server=postgres;Port=5432;Database=b2connect_tenant;User Id=b2connect;Password=$POSTGRES_PASSWORD;"
-    LOCALIZATION_CONNECTION_STRING="Server=postgres;Port=5432;Database=b2connect_localization;User Id=b2connect;Password=$POSTGRES_PASSWORD;"
+    AUTH_CONNECTION_STRING="Server=postgres;Port=5432;Database=B2X_auth;User Id=B2X;Password=$POSTGRES_PASSWORD;"
+    TENANT_CONNECTION_STRING="Server=postgres;Port=5432;Database=B2X_tenant;User Id=B2X;Password=$POSTGRES_PASSWORD;"
+    LOCALIZATION_CONNECTION_STRING="Server=postgres;Port=5432;Database=B2X_localization;User Id=B2X;Password=$POSTGRES_PASSWORD;"
     
     # Erstelle Secret
     kubectl create secret generic db-secrets \
@@ -257,7 +257,7 @@ wait_for_deployments() {
 # Zeige Deployment-Status
 show_status() {
     echo ""
-    echo -e "${BLUE}=== B2Connect Deployment Status ===${NC}"
+    echo -e "${BLUE}=== B2X Deployment Status ===${NC}"
     echo ""
     
     log_info "Namespace: $NAMESPACE"
@@ -299,7 +299,7 @@ setup_port_forwarding() {
 main() {
     echo ""
     echo -e "${BLUE}╔════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║  B2Connect Kubernetes Setup Script        ║${NC}"
+    echo -e "${BLUE}║  B2X Kubernetes Setup Script        ║${NC}"
     echo -e "${BLUE}║  Aspire 10 - Microservices Hosting       ║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════╝${NC}"
     echo ""
@@ -335,7 +335,7 @@ main() {
     show_status
     setup_port_forwarding
     
-    log_success "B2Connect Kubernetes Setup abgeschlossen!"
+    log_success "B2X Kubernetes Setup abgeschlossen!"
 }
 
 # Starte wenn direkt aufgerufen

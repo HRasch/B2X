@@ -1,8 +1,8 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
  * TypeScript MCP Integration Test
- * Verifies that MCP tools are working correctly in the B2Connect environment
+ * Verifies that MCP tools are working correctly in the B2X environment
  */
 
 import { spawn } from 'child_process';

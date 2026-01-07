@@ -1,0 +1,10 @@
+namespace B2Connect.Domain.Search.Services;
+
+public interface ITenantResolver
+{
+    /// <summary>
+    /// Resolve tenant id from a hostname (eg. shop1.example.com -> tenant id string).
+    /// Returns null when no mapping is found.
+    /// </summary>
+    string? ResolveTenantIdFromHost(string host);
+}

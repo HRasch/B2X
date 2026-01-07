@@ -1,4 +1,4 @@
-# Roslyn MCP Server for B2Connect
+﻿# Roslyn MCP Server for B2X
 
 A custom Model Context Protocol (MCP) server providing Roslyn-powered C# code analysis tools for AI-assisted development.
 
@@ -23,7 +23,7 @@ The MCP server is configured in `.vscode/mcp.json` and integrates with GitHub Co
 ### Example Queries
 
 ```
-Search for all classes ending with 'Service' in B2Connect.slnx
+Search for all classes ending with 'Service' in B2X.slnx
 ```
 
 ```

@@ -1,6 +1,6 @@
-# Dev Node Setup - Step by Step Guide
+﻿# Dev Node Setup - Step by Step Guide
 
-Quick setup guide for the B2Connect GPU-accelerated dev node (RTX 5090, 64GB DDR5, Windows 11 DE).
+Quick setup guide for the B2X GPU-accelerated dev node (RTX 5090, 64GB DDR5, Windows 11 DE).
 
 ---
 
@@ -101,11 +101,11 @@ Du solltest deine RTX 5090 in der Ausgabe sehen!
 
 **In PowerShell:**
 ```powershell
-mkdir $HOME\b2connect-dev-node
-cd $HOME\b2connect-dev-node
+mkdir $HOME\B2X-dev-node
+cd $HOME\B2X-dev-node
 ```
 
-Merke dir den Pfad (z.B. `C:\Users\Holger\b2connect-dev-node`)
+Merke dir den Pfad (z.B. `C:\Users\Holger\B2X-dev-node`)
 
 ---
 
@@ -114,7 +114,7 @@ Merke dir den Pfad (z.B. `C:\Users\Holger\b2connect-dev-node`)
 ### Schritt 6: Verbindung konfigurieren
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect
+cd /Users/holger/Documents/Projekte/B2X
 
 # Konfiguration starten
 python3 scripts/dev-node.py configure
@@ -159,7 +159,7 @@ Dies kopiert die Docker-Dateien auf deinen Windows PC.
 **PowerShell öffnen** und zum Dev Node Ordner navigieren:
 
 ```powershell
-cd $HOME\b2connect-dev-node
+cd $HOME\B2X-dev-node
 
 # Docker Image bauen
 docker compose build
@@ -171,7 +171,7 @@ docker compose up -d
 docker compose ps
 ```
 
-Du solltest `b2connect-ollama` als "running" sehen.
+Du solltest `B2X-ollama` als "running" sehen.
 
 ---
 
@@ -194,7 +194,7 @@ Warte bis der Download abgeschlossen ist (kann einige Minuten dauern).
 ### Schritt 11: Alles überprüfen
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect
+cd /Users/holger/Documents/Projekte/B2X
 
 # Status prüfen
 python3 scripts/dev-node.py status
@@ -251,7 +251,7 @@ python3 scripts/dev-node.py docker start   # Stack starten
 ### Vom Windows PC (PowerShell):
 
 ```powershell
-cd $HOME\b2connect-dev-node
+cd $HOME\B2X-dev-node
 
 docker compose up -d      # Starten
 docker compose down       # Stoppen
@@ -289,7 +289,7 @@ docker run --rm --gpus all nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi
 docker system df
 
 # Container-Speichernutzung prüfen
-docker stats b2connect-ollama
+docker stats B2X-ollama
 ```
 
 ### Docker-Befehle funktionieren nicht in PowerShell
@@ -299,7 +299,7 @@ Stelle sicher dass Docker Desktop läuft (prüfe das Symbol im System-Tray / Inf
 
 ## Optional: Web UI aktivieren
 
-Bearbeite `$HOME\b2connect-dev-node\docker-compose.yml` auf dem Windows PC:
+Bearbeite `$HOME\B2X-dev-node\docker-compose.yml` auf dem Windows PC:
 1. Entferne die Kommentare beim `webui` Service-Abschnitt
 2. Entferne die Kommentare bei `webui-data` Volume
 3. Neu starten: `docker compose up -d`

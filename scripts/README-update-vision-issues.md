@@ -1,4 +1,4 @@
-Update Vision Issues helper
+﻿Update Vision Issues helper
 ===========================
 
 This helper script finds open issues labeled `vision` in this repository and posts a suggested rewrite (or updates the issue body when run with `--apply`).
@@ -13,7 +13,7 @@ Run (suggest only)
 ```bash
 export GITHUB_TOKEN=ghp_xxx
 export REPO_OWNER=your-org-or-user
-export REPO_NAME=B2Connect
+export REPO_NAME=B2X
 node scripts/update-vision-issues.js
 ```
 
@@ -22,7 +22,7 @@ Run (apply changes)
 ```bash
 export GITHUB_TOKEN=ghp_xxx
 export REPO_OWNER=your-org-or-user
-export REPO_NAME=B2Connect
+export REPO_NAME=B2X
 node scripts/update-vision-issues.js --apply
 ```
 

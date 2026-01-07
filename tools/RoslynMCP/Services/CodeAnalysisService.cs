@@ -1,9 +1,9 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Tools.RoslynMCP.Services;
+namespace B2X.Tools.RoslynMCP.Services;
 
 /// <summary>
 /// Service for loading and caching Roslyn workspaces and solutions.

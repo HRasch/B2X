@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Health Check Script
+# B2X Health Check Script
 
 set -euo pipefail
 
-echo "🏥 B2Connect Health Check"
+echo "🏥 B2X Health Check"
 echo "=========================="
 echo ""
 

@@ -1,6 +1,6 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# B2Connect Aspire Start Script
+# B2X Aspire Start Script
 # Führt Pre-Flight Checks durch und startet dann Aspire
 # Usage: ./start-aspire.sh [--force]
 
@@ -21,7 +21,7 @@ NC='\033[0m'
 FORCE_START=${1:-}
 
 echo -e "${BLUE}════════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}  B2Connect Aspire Launcher${NC}"
+echo -e "${BLUE}  B2X Aspire Launcher${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -34,7 +34,7 @@ OPTIONAL_PORTS=(5173 5174 6379 5432 9200 5672)
 # ═══════════════════════════════════════════════════════════════
 echo -e "${YELLOW}[1/4] Prüfe laufende Instanzen...${NC}"
 
-ORCHESTRATION_RUNNING=$(pgrep -f "B2Connect.AppHost" 2>/dev/null | wc -l | tr -d ' ')
+ORCHESTRATION_RUNNING=$(pgrep -f "B2X.AppHost" 2>/dev/null | wc -l | tr -d ' ')
 DCP_RUNNING=$(pgrep -f "dcpctrl" 2>/dev/null | wc -l | tr -d ' ')
 
 if [ "$ORCHESTRATION_RUNNING" -gt 0 ] || [ "$DCP_RUNNING" -gt 0 ]; then
@@ -106,7 +106,7 @@ echo -e "${GREEN}  ✅ .NET SDK $DOTNET_VERSION${NC}"
 # ═══════════════════════════════════════════════════════════════
 echo -e "${YELLOW}[4/4] Prüfe Orchestration Build...${NC}"
 
-if [ ! -f "$ORCHESTRATION_DIR/bin/Debug/net10.0/B2Connect.AppHost.dll" ]; then
+if [ ! -f "$ORCHESTRATION_DIR/bin/Debug/net10.0/B2X.AppHost.dll" ]; then
     echo -e "${YELLOW}  → Build erforderlich...${NC}"
     cd "$ORCHESTRATION_DIR"
     dotnet build -c Debug --nologo -v q

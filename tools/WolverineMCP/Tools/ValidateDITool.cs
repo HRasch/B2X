@@ -1,8 +1,8 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using McpDotNet.Server;
-using B2Connect.Tools.WolverineMCP.Services;
+using B2X.Tools.WolverineMCP.Services;
 
-namespace B2Connect.Tools.WolverineMCP.Tools;
+namespace B2X.Tools.WolverineMCP.Tools;
 
 /// <summary>
 /// MCP tools for validating dependency injection.

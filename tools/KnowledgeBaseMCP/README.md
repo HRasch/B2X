@@ -1,4 +1,4 @@
-# Knowledge Base MCP Server
+﻿# Knowledge Base MCP Server
 
 Fast, efficient knowledge base access via MCP protocol. Reduces token usage by ~90% compared to loading full KB articles as attachments.
 
@@ -219,7 +219,7 @@ DEBUG=kb-mcp npm start
 
 ## License
 
-B2Connect Project
+B2X Project
 
 ---
 

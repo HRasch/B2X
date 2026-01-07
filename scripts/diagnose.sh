@@ -1,10 +1,10 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# B2Connect Aspire Diagnostics Script
+# B2X Aspire Diagnostics Script
 # Helps identify why services don't show in the Aspire Dashboard
 
 echo "??????????????????????????????????????????????????????????????"
-echo "?        B2Connect Aspire Diagnostics                         ?"
+echo "?        B2X Aspire Diagnostics                         ?"
 echo "??????????????????????????????????????????????????????????????"
 echo ""
 
@@ -13,7 +13,7 @@ echo "?? Checking current directory..."
 if [ -f "AppHost/Program.cs" ]; then
     echo "? Found AppHost/Program.cs"
 else
-    echo "? Not in B2Connect root directory! Run from: C:\Users\Holge\repos\B2Connect"
+    echo "? Not in B2X root directory! Run from: C:\Users\Holge\repos\B2X"
     exit 1
 fi
 
@@ -22,13 +22,13 @@ echo "?? Checking required files..."
 
 # Check if all .csproj files exist
 services=(
-    "backend/Domain/Identity/B2Connect.Identity.API.csproj"
-    "backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj"
-    "backend/Domain/Localization/B2Connect.Localization.API.csproj"
-    "backend/Domain/Catalog/B2Connect.Catalog.API.csproj"
-    "backend/Domain/Theming/B2Connect.Theming.API.csproj"
-    "backend/Gateway/Store/API/B2Connect.Store.csproj"
-    "backend/Gateway/Admin/B2Connect.Admin.csproj"
+    "backend/Domain/Identity/B2X.Identity.API.csproj"
+    "backend/Domain/Tenancy/B2X.Tenancy.API.csproj"
+    "backend/Domain/Localization/B2X.Localization.API.csproj"
+    "backend/Domain/Catalog/B2X.Catalog.API.csproj"
+    "backend/Domain/Theming/B2X.Theming.API.csproj"
+    "backend/Gateway/Store/API/B2X.Store.csproj"
+    "backend/Gateway/Admin/B2X.Admin.csproj"
 )
 
 for service in "${services[@]}"; do
@@ -54,7 +54,7 @@ done
 
 echo ""
 echo "?? Checking Docker containers..."
-docker ps --format "table {{.Names}}\t{{.Status}}" | grep -E "b2connect|postgres|redis|rabbitmq|elasticsearch" || echo "No B2Connect containers running"
+docker ps --format "table {{.Names}}\t{{.Status}}" | grep -E "B2X|postgres|redis|rabbitmq|elasticsearch" || echo "No B2X containers running"
 
 echo ""
 echo "?? Testing connectivity..."
