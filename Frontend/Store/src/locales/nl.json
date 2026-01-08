@@ -69,5 +69,41 @@
     "help": "Help",
     "about": "Over",
     "version": "Versie"
+  },
+  "product": {
+    "stock": {
+      "inStock": "Op voorraad",
+      "outOfStock": "Niet op voorraad",
+      "lowStock": "Beperkte voorraad",
+      "available": "{count} beschikbaar",
+      "soldOut": "Uitverkocht"
+    },
+    "reviews": {
+      "title": "Beoordelingen",
+      "averageRating": "Gemiddelde beoordeling",
+      "totalReviews": "{count} beoordelingen",
+      "writeReview": "Schrijf een beoordeling",
+      "noReviews": "Nog geen beoordelingen",
+      "rating": "Beoordeling",
+      "review": "Beoordeling",
+      "submit": "Verzenden",
+      "anonymous": "Anoniem"
+    },
+    "share": {
+      "title": "Delen",
+      "copyLink": "Link kopiëren",
+      "shareOn": "Delen op {platform}",
+      "linkCopied": "Link gekopieerd naar klembord"
+    }
+  },
+  "accessibility": {
+    "skipToMain": "Naar hoofdinhoud springen"
+  },
+  "layout": {
+    "header": "Koptekst",
+    "sidebar": "Zijbalk",
+    "mainContent": "Hoofdinhoud",
+    "footer": "Voettekst",
+    "toggleSidebar": "Zijbalk in-/uitschakelen"
   }
 }

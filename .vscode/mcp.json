@@ -150,20 +150,6 @@
       },
       "disabled": false
     },
-    "database-mcp": {
-      "command": "node",
-      "args": [
-        "scripts/mcp-console-logger.js",
-        "database-mcp",
-        "node",
-        "tools/DatabaseMCP/dist/index.js"
-      ],
-      "env": {
-        "NODE_ENV": "production",
-        "LOG_TO_CONSOLE": "true"
-      },
-      "disabled": false
-    },
     "documentation-mcp": {
       "command": "node",
       "args": [

@@ -69,5 +69,31 @@
     "help": "Aiuto",
     "about": "Informazioni",
     "version": "Versione"
+  },
+  "product": {
+    "sku": "SKU",
+    "reviews": {
+      "count": "({{count}} recensioni)",
+      "viewAll": "Visualizza tutte le recensioni ({{total}} totali)"
+    },
+    "stock": {
+      "inStock": "✓ Disponibile",
+      "outOfStock": "✗ Esaurito",
+      "available": "({{quantity}} disponibile)"
+    },
+    "share": "Condividi",
+    "shareOnFacebook": "Condividi su Facebook",
+    "shareOnTwitter": "Condividi su Twitter",
+    "copyLink": "Copia link"
+  },
+  "accessibility": {
+    "skipToMain": "Vai al contenuto principale"
+  },
+  "layout": {
+    "header": "Intestazione",
+    "sidebar": "Barra laterale",
+    "mainContent": "Contenuto principale",
+    "footer": "Piè di pagina",
+    "toggleSidebar": "Attiva/disattiva barra laterale"
   }
 }

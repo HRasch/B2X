@@ -1,11 +1,9 @@
 ﻿<template>
-  <div
-    class="unified-store-layout min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-  >
+  <div class="unified-store-layout min-h-screen flex flex-col bg-base-200 text-base-content">
     <!-- Skip to main content link for accessibility -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-content px-4 py-2 rounded-md z-50"
       :aria-label="$t('accessibility.skipToMain')"
     >
       {{ $t('accessibility.skipToMain') }}
@@ -14,11 +12,11 @@
     <!-- Header -->
     <header
       role="banner"
-      class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
+      class="bg-base-100 border-b border-base-300"
       :aria-label="$t('layout.header')"
     >
-      <div class="max-w-7xl mx-auto px-4 py-4">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+      <div class="max-w-7xl mx-auto p-lg">
+        <h1 class="text-heading-3 text-base-content">
           {{ $route.meta?.title || 'B2X Store' }}
         </h1>
       </div>
@@ -30,7 +28,7 @@
       <aside
         v-if="$slots.sidebar"
         role="complementary"
-        class="hidden lg:block w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700"
+        class="hidden lg:block w-64 bg-base-100 border-r border-base-300"
         :aria-label="$t('layout.sidebar')"
       >
         <slot name="sidebar" />
@@ -45,7 +43,7 @@
         <div class="absolute inset-0 bg-black bg-opacity-50" />
         <aside
           role="complementary"
-          class="relative w-64 h-full bg-white dark:bg-gray-800 shadow-xl"
+          class="relative w-64 h-full bg-base-100 shadow-xl"
           :aria-label="$t('layout.sidebar')"
         >
           <slot name="sidebar" />
@@ -56,7 +54,7 @@
       <main
         id="main-content"
         role="main"
-        class="flex-1 p-4 lg:p-6 overflow-auto"
+        class="flex-1 p-lg overflow-auto"
         :aria-label="$t('layout.mainContent')"
       >
         <slot />
@@ -66,11 +64,11 @@
     <!-- Footer -->
     <footer
       role="contentinfo"
-      class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto"
+      class="bg-base-100 border-t border-base-300 mt-auto"
       :aria-label="$t('layout.footer')"
     >
-      <div class="max-w-7xl mx-auto px-4 py-6">
-        <p class="text-center text-gray-600 dark:text-gray-400">
+      <div class="max-w-7xl mx-auto p-lg">
+        <p class="text-center text-body-sm text-base-content/70">
           {{ $t('footer.copyright') }}
         </p>
       </div>
@@ -79,7 +77,7 @@
     <!-- Mobile menu button (if sidebar exists) -->
     <button
       v-if="$slots.sidebar"
-      class="fixed bottom-4 right-4 lg:hidden bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-30"
+      class="fixed bottom-4 right-4 lg:hidden btn-primary-standard p-md rounded-full shadow-lg z-30"
       @click="toggleMobileSidebar"
       :aria-label="$t('layout.toggleSidebar')"
       aria-expanded="false"
@@ -99,14 +97,19 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useHead } from '#app';
+import { useI18n } from 'vue-i18n';
+
+// i18n setup
+const { t, locale } = useI18n();
 
 // Reactive state for mobile sidebar
 const showMobileSidebar = ref(false);
 
 // SEO and meta configuration
 useHead({
+  title: t('common.brand'),
   htmlAttrs: {
-    lang: 'en', // Will be overridden by i18n locale
+    lang: locale,
   },
   meta: [
     { charset: 'utf-8' },

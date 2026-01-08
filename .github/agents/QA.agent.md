@@ -51,6 +51,33 @@ dotnet test B2X.slnx -v minimal
 dotnet test backend/Domain/Catalog/tests/
 ```
 
+## 🔄 Subagent for Test Analysis (Token-Optimized)
+
+Use `#runSubagent` for test coverage and gap analysis:
+
+### Coverage Gap Analysis
+```text
+Analyze test coverage with #runSubagent:
+- Parse coverage reports per domain (Catalog, CMS, Identity)
+- Identify uncovered critical paths
+- Check for missing edge case tests
+
+Return ONLY: coverage_by_domain + gaps_list + priority_tests_needed
+```
+**Benefit**: ~50% token savings, parallel domain analysis
+
+### Test Health Check
+```text
+Check test health with #runSubagent:
+- Identify flaky tests from recent runs
+- Find slow tests (>5s execution)
+- Check for disabled/skipped tests
+
+Return ONLY: flaky_tests + slow_tests + skipped_count + remediation_owners
+```
+
+**When to use**: Sprint planning, before releases, test maintenance
+
 ## Delegation
 - Backend tests → @Backend
 - Frontend tests → @Frontend

@@ -37,6 +37,35 @@ dotnet test backend/Domain/[Svc]/tests -v minimal
 - [ ] FluentValidation?
 - [ ] Build + tests pass?
 
+## 🔄 Subagent for Backend Validation (Token-Optimized)
+
+Use `#runSubagent` for comprehensive .NET analysis:
+
+### Wolverine Pattern Validation
+```text
+Validate Wolverine patterns with #runSubagent:
+- Check all handlers use Wolverine (not MediatR)
+- Validate CQRS command/query separation
+- Check saga orchestration patterns
+- Verify message handler dependencies
+
+Return ONLY: pattern_violations + migration_needed + fix_examples
+```
+**Benefit**: ~40% token savings, isolated pattern analysis
+
+### Pre-Commit Backend Check
+```text
+Pre-commit validation with #runSubagent:
+- Run Roslyn type analysis
+- Check TenantId filter on all queries
+- Validate FluentValidation on commands
+- Check PII encryption calls
+
+Return ONLY: type_errors + missing_tenant_filters + validation_gaps
+```
+
+**When to use**: Before commits, PR reviews, refactoring
+
 ## References
 - [KB-006] Wolverine patterns
 - [INS-001] Backend instructions

@@ -7,9 +7,9 @@ export interface Product {
   sku?: string;
   description: string;
   price: number;
-  b2bPrice?: number;
+  b2bPrice: number;
   image: string;
-  category: string;
+  categories: string[];
   rating: number;
   inStock: boolean;
   stockQuantity?: number;
@@ -74,7 +74,7 @@ const handleAddToCart = () => {
       </div>
       <!-- Category Badge -->
       <div class="absolute top-2 left-2">
-        <div class="badge badge-primary">{{ product.category }}</div>
+        <div class="badge badge-primary">{{ product.categories[0] }}</div>
       </div>
     </figure>
 

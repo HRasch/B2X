@@ -71,7 +71,7 @@ public class ProductsController : ApiControllerBase
     /// HTTP: GET /api/products/sku/{sku}
     /// </summary>
     [HttpGet("sku/{sku}")]
-    public async Task<ActionResult<ProductResult>> GetProductBySky(string sku, CancellationToken ct)
+    public async Task<ActionResult<ProductResult>> GetProductBySku(string sku, CancellationToken ct)
     {
         _logger.LogInformation("Fetching product by SKU {Sku}", sku);
 

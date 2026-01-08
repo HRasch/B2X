@@ -279,5 +279,31 @@
     "DE": "Deutschland",
     "AT": "Österreich",
     "CH": "Schweiz"
+  },
+  "product": {
+    "sku": "Artikelnummer",
+    "reviews": {
+      "count": "({{count}} Bewertungen)",
+      "viewAll": "Alle Bewertungen anzeigen ({{total}} insgesamt)"
+    },
+    "stock": {
+      "inStock": "✓ Auf Lager",
+      "outOfStock": "✗ Nicht auf Lager",
+      "available": "({{quantity}} verfügbar)"
+    },
+    "share": "Teilen",
+    "shareOnFacebook": "Auf Facebook teilen",
+    "shareOnTwitter": "Auf Twitter teilen",
+    "copyLink": "Link kopieren"
+  },
+  "accessibility": {
+    "skipToMain": "Zum Hauptinhalt springen"
+  },
+  "layout": {
+    "header": "Kopfzeile",
+    "sidebar": "Seitenleiste",
+    "mainContent": "Hauptinhalt",
+    "footer": "Fußzeile",
+    "toggleSidebar": "Seitenleiste umschalten"
   }
 }

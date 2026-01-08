@@ -5,7 +5,29 @@
       "email": "Email Address",
       "password": "Password",
       "submit": "Sign In",
-      "forgotPassword": "Forgot Password?"
+      "forgotPassword": "Forgot Password?",
+      "devHelp": {
+        "email": "Use: admin@b2x.com",
+        "password": "Use: admin123",
+        "hint": "Demo credentials for testing"
+      },
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Enter your email"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password"
+        }
+      },
+      "actions": {
+        "login": "Login"
+      },
+      "signup": {
+        "prompt": "Don't have an account?",
+        "link": "Sign up"
+      }
     },
     "register": {
       "title": "Register",
@@ -78,7 +100,52 @@
     "profile": "Profile",
     "help": "Help",
     "about": "About",
-    "version": "Version"
+    "version": "Version",
+    "skipToMain": "Skip to main content",
+    "brand": "B2X Store"
+  },
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories",
+    "search": "Search",
+    "cart": "Cart",
+    "account": "Account",
+    "admin": "Admin",
+    "shop": "Shop",
+    "dashboard": "Dashboard",
+    "tenants": "Tenants",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "accessibility": {
+    "skipToMain": "Skip to main content"
+  },
+  "layout": {
+    "header": "Header",
+    "sidebar": "Sidebar",
+    "mainContent": "Main content",
+    "footer": "Footer",
+    "toggleSidebar": "Toggle sidebar"
+  },
+  "app": {
+    "services": "Services",
+    "branding": "Branding",
+    "design": "Design",
+    "marketing": "Marketing",
+    "advertisement": "Advertisement",
+    "company": "Company",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "jobs": "Jobs",
+    "pressKit": "Press Kit",
+    "legal": "Legal",
+    "termsOfUse": "Terms of Use",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "newsletter": "Newsletter",
+    "enterEmail": "Enter your email",
+    "subscribe": "Subscribe"
   },
   "legal": {
     "checkout": {
@@ -241,7 +308,29 @@
     "inCart": "In Cart",
     "notAvailable": "Not Available",
     "outOfStock": "Out of Stock",
-    "viewDetails": "View Details →"
+    "viewDetails": "View Details →",
+    "search": {
+      "label": "Search products...",
+      "placeholder": "Enter product name or SKU"
+    },
+    "sort": {
+      "label": "Sort by",
+      "nameAsc": "Name (A-Z)",
+      "priceAsc": "Price (Low to High)",
+      "priceDesc": "Price (High to Low)",
+      "ratingDesc": "Rating (High to Low)"
+    },
+    "filters": {
+      "title": "Filters",
+      "category": "Category",
+      "priceRange": "Price Range"
+    },
+    "results": {
+      "showing": "Showing {from}-{to} of {total} products",
+      "perPage": "per page"
+    },
+    "noResults": "No products found",
+    "noResultsDescription": "Try adjusting your search or filters"
   },
   "widgets": {
     "notFound": "Widget not found",
@@ -265,5 +354,21 @@
       "newRegistration": "New Registration",
       "diagnosticInfo": "🔧 Diagnostic Info (Debug)"
     }
+  },
+  "product": {
+    "sku": "SKU",
+    "reviews": {
+      "count": "({{count}} reviews)",
+      "viewAll": "View All Reviews ({{total}} total)"
+    },
+    "stock": {
+      "inStock": "✓ In Stock",
+      "outOfStock": "✗ Out of Stock",
+      "available": "({{quantity}} available)"
+    },
+    "share": "Share",
+    "shareOnFacebook": "Share on Facebook",
+    "shareOnTwitter": "Share on Twitter",
+    "copyLink": "Copy link"
   }
 }

@@ -35,8 +35,8 @@ builder.Host.UseWolverine(opts =>
 // Add Wolverine HTTP support (REQUIRED for MapWolverineEndpoints)
 builder.Services.AddWolverineHttp();
 
-// Remove Controllers - using Wolverine HTTP Endpoints
-builder.Services.AddEndpointsApiExplorer();
+// Add Controllers instead of Wolverine endpoints
+builder.Services.AddControllers();
 
 // Database
 builder.Services.AddDbContext<LocalizationDbContext>(options =>
@@ -91,8 +91,8 @@ app.UseHttpsRedirection();
 app.UseMiddleware<LocalizationMiddleware>();
 app.UseAuthorization();
 
-// Map Wolverine HTTP Endpoints (replaces MapControllers)
-app.MapWolverineEndpoints();
+// Map Controllers instead of Wolverine endpoints
+app.MapControllers();
 
 // Database migration and seeding (non-blocking with error handling)
 _ = Task.Run(async () =>

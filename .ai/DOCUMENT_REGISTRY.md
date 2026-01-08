@@ -150,6 +150,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-064` | Chrome DevTools MCP Server | `.ai/knowledgebase/tools-and-tech/chrome-devtools-mcp.md` | Active |
 | `KB-065` | Nuxt 4 Monorepo Configuration | `.ai/knowledgebase/tools-and-tech/nuxt4-monorepo-config.md` | Active |
 | `KB-066` | npm Package Updates Guide | `.ai/knowledgebase/dependency-updates/npm-package-updates.md` | Active |
+| `KB-067` | VS Code Agent Sessions & Subagents | `.ai/knowledgebase/tools-and-tech/vscode-agent-sessions.md` | Active |
+| `KB-068` | Vue to Nuxt Migration Guide | `.ai/knowledgebase/tools-and-tech/vue-to-nuxt-migration.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
@@ -218,6 +220,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `WF-007` | GitHub Scrum/Kanban Workflow | `.ai/workflows/WF-007-GITHUB_SCRUM_KANBAN_WORKFLOW.md` | Active |
 | `WF-008` | Update GitHub Issues Sprint | `.ai/workflows/WF-008-update-github-issues-sprint.md` | Active |
 | `WF-010` | Documentation Maintenance & Quality | `.ai/workflows/WF-010-DOCUMENTATION-MAINTENANCE.md` | Active |
+| `WF-015` | Bugfix Workflow with runSubagent | `.ai/workflows/WF-015-bugfix-workflow.md` | Active |
 | `WF-CLEANUP-SETUP` | Project Cleanup Setup Guide | `.ai/workflows/WF-CLEANUP-SETUP.md` | Active |
 
 ---

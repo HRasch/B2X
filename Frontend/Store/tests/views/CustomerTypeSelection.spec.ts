@@ -3,6 +3,13 @@ import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { createI18n } from 'vue-i18n';
 import en from '../../src/locales/en.json';
+import de from '../../src/locales/de.json';
+import fr from '../../src/locales/fr.json';
+import es from '../../src/locales/es.json';
+import itLocale from '../../src/locales/it.json';
+import pt from '../../src/locales/pt.json';
+import nl from '../../src/locales/nl.json';
+import pl from '../../src/locales/pl.json';
 import CustomerTypeSelection from '../../src/pages/CustomerTypeSelection.vue';
 
 // Types for testing
@@ -27,7 +34,16 @@ describe('CustomerTypeSelection.vue', () => {
       locale: 'en',
       fallbackLocale: 'en',
       globalInjection: true,
-      messages: { en },
+      messages: {
+        en,
+        de,
+        fr,
+        es,
+        it: itLocale,
+        pt,
+        nl,
+        pl,
+      },
       missingWarn: false,
       missingFallbackWarn: false,
     });

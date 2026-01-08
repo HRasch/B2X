@@ -69,5 +69,41 @@
     "help": "Pomoc",
     "about": "O nas",
     "version": "Wersja"
+  },
+  "product": {
+    "stock": {
+      "inStock": "W magazynie",
+      "outOfStock": "Brak w magazynie",
+      "lowStock": "Niski stan magazynowy",
+      "available": "{count} dostępne",
+      "soldOut": "Wyprzedane"
+    },
+    "reviews": {
+      "title": "Opinie",
+      "averageRating": "Średnia ocena",
+      "totalReviews": "{count} opinii",
+      "writeReview": "Napisz opinię",
+      "noReviews": "Brak opinii",
+      "rating": "Ocena",
+      "review": "Opinia",
+      "submit": "Wyślij",
+      "anonymous": "Anonimowy"
+    },
+    "share": {
+      "title": "Udostępnij",
+      "copyLink": "Kopiuj link",
+      "shareOn": "Udostępnij na {platform}",
+      "linkCopied": "Link skopiowany do schowka"
+    }
+  },
+  "accessibility": {
+    "skipToMain": "Przejdź do głównej treści"
+  },
+  "layout": {
+    "header": "Nagłówek",
+    "sidebar": "Pasek boczny",
+    "mainContent": "Treść główna",
+    "footer": "Stopka",
+    "toggleSidebar": "Przełącz pasek boczny"
   }
 }

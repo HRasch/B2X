@@ -17,31 +17,31 @@
     <!-- Product Info -->
     <div class="card-body flex flex-col flex-1">
       <!-- Product Name -->
-      <h3 class="card-title text-base line-clamp-2" data-testid="product-name">
+      <h3 class="card-title text-body line-clamp-2" data-testid="product-name">
         {{ product.name }}
       </h3>
 
       <!-- Rating -->
-      <div class="flex items-center gap-1">
+      <div class="flex items-center gap-xs">
         <span class="text-yellow-500">★</span>
-        <span class="text-sm">{{ product.rating }}</span>
+        <span class="text-body-sm">{{ product.rating }}</span>
       </div>
 
       <!-- Description -->
-      <p class="text-sm opacity-70 line-clamp-2">{{ product.description }}</p>
+      <p class="text-body-sm opacity-70 line-clamp-2">{{ product.description }}</p>
 
       <!-- Pricing Section -->
-      <div class="divider my-2"></div>
-      <div class="bg-base-200 rounded-lg p-3 mb-4">
-        <div class="flex justify-between items-start mb-2">
-          <span class="text-3xl font-bold text-primary" data-testid="product-price">
+      <div class="divider my-sm"></div>
+      <div class="bg-base-200 rounded-lg p-md mb-lg">
+        <div class="flex justify-between items-start mb-sm">
+          <span class="text-heading-3 text-primary" data-testid="product-price">
             {{ formatPrice(displayPrice()) }}
           </span>
         </div>
-        <p class="text-xs opacity-70">inkl. MwSt {{ (vatRate() * 100).toFixed(0) }}%</p>
+        <p class="text-caption opacity-70">inkl. MwSt {{ (vatRate() * 100).toFixed(0) }}%</p>
         <div
           v-if="product.priceBreakdown?.OriginalPrice || product.priceBreakdown?.DiscountAmount"
-          class="mt-2 flex gap-2"
+          class="mt-sm flex gap-sm"
         >
           <span
             v-if="product.priceBreakdown?.OriginalPrice"

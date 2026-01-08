@@ -13,7 +13,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // B2X Brand Colors
+        // B2X Brand Colors - Use these instead of Tailwind defaults
         primary: {
           50: '#f0f7ff',
           100: '#e0f0ff',
@@ -38,30 +38,6 @@ export default {
           800: '#5b21b6',
           900: '#4c1d95',
         },
-        success: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#145231',
-        },
-        warning: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
-        },
         danger: {
           50: '#fef2f2',
           100: '#fee2e2',
@@ -74,6 +50,27 @@ export default {
           800: '#991b1b',
           900: '#7f1d1d',
         },
+        // DaisyUI semantic colors - prefer these over Tailwind defaults
+        base: {
+          100: 'hsl(var(--b1))',
+          200: 'hsl(var(--b2))',
+          300: 'hsl(var(--b3))',
+          content: 'hsl(var(--bc))',
+        },
+        'primary-content': 'hsl(var(--pc))',
+        'secondary-content': 'hsl(var(--sc))',
+        accent: 'hsl(var(--a))',
+        'accent-content': 'hsl(var(--ac))',
+        neutral: 'hsl(var(--n))',
+        'neutral-content': 'hsl(var(--nc))',
+        info: 'hsl(var(--in))',
+        'info-content': 'hsl(var(--inc))',
+        success: 'hsl(var(--su))',
+        'success-content': 'hsl(var(--suc))',
+        warning: 'hsl(var(--wa))',
+        'warning-content': 'hsl(var(--wac))',
+        error: 'hsl(var(--er))',
+        'error-content': 'hsl(var(--erc))',
       },
       fontFamily: {
         sans: [
@@ -91,7 +88,28 @@ export default {
         ],
       },
       spacing: {
+        // Design tokens for consistent spacing
+        xs: '0.25rem', // 4px
+        sm: '0.5rem', // 8px
+        md: '1rem', // 16px
+        lg: '1.5rem', // 24px
+        xl: '2rem', // 32px
+        '2xl': '3rem', // 48px
+        '3xl': '4rem', // 64px
         '128': '32rem',
+      },
+      fontSize: {
+        // Typography scale for consistency
+        xs: ['0.75rem', { lineHeight: '1rem' }], // 12px
+        sm: ['0.875rem', { lineHeight: '1.25rem' }], // 14px
+        base: ['1rem', { lineHeight: '1.5rem' }], // 16px
+        lg: ['1.125rem', { lineHeight: '1.75rem' }], // 18px
+        xl: ['1.25rem', { lineHeight: '1.75rem' }], // 20px
+        '2xl': ['1.5rem', { lineHeight: '2rem' }], // 24px
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }], // 30px
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }], // 36px
+        '5xl': ['3rem', { lineHeight: '1' }], // 48px
+        '6xl': ['3.75rem', { lineHeight: '1' }], // 60px
       },
       boxShadow: {
         xs: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
