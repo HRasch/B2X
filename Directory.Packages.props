@@ -7,7 +7,27 @@
   IMPORTANT: This is the ONLY file for package versions.
   DO NOT create another Directory.Packages.props in subfolders!
   
-  VERSION COMPATIBILITY RULES:
+  🚨 DEPENDENCY DOWNGRADE POLICY 🚨
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DO NOT DOWNGRADE package versions without explicit approval and documentation!
+  
+  Reasons for version locks:
+  • Microsoft.AspNetCore.Mvc.Core: Version 2.3.9 (latest available, 10.0.1 doesn't exist)
+  • Entity Framework Core: Version 10.0.1 (required for .NET 10.0 compatibility)
+  • Aspire packages: Version 13.1.0 (latest stable, keep all Aspire packages in sync)
+  • OpenTelemetry: Version 1.14.0 (latest stable, keep all OTEL packages in sync)
+  • Wolverine: Version 5.9.2 (latest stable, keep all Wolverine packages in sync)
+  • Microsoft.Extensions.AI.OpenAI: Version 10.1.1-preview.1.25612.2 (updated from 10.0.0-preview.1.25612.2 - latest preview)
+  
+  Before changing ANY version:
+  1. Check NuGet.org for availability
+  2. Test build compatibility across all target frameworks
+  3. Run full test suite
+  4. Document the change reason in commit message
+  5. Update this header with new version rationale
+  
+  Last Updated: 8. Januar 2026 (Updated Microsoft.Extensions.AI.OpenAI to latest preview)
+  ═══════════════════════════════════════════════════════════════════════════════
   ┌─────────────────────────────────────────┬───────────────────────────────────┐
   │ Package Group                           │ Rule                              │
   ├─────────────────────────────────────────┼───────────────────────────────────┤
@@ -217,7 +237,7 @@
     <PackageVersion Include="Anthropic.SDK" Version="5.8.0" />
     <PackageVersion Include="Azure.AI.OpenAI" Version="2.2.0" />
     <PackageVersion Include="Microsoft.Extensions.AI" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.0.0-preview.1.25612.2" />
+    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.1-preview.1.25612.2" />
     <PackageVersion Include="Microsoft.Extensions.AI.AzureAIInference" Version="10.0.0-preview.1.25559.3" />
     <PackageVersion Include="OllamaSharp" Version="5.4.12" />
     <PackageVersion Include="Microsoft.ML" Version="4.0.1" />
