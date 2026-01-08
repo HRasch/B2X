@@ -5,9 +5,6 @@ using B2X.Aspire.Extensions;
 var builder = DistributedApplication.CreateBuilder(args);
 
 // ===== TESTING CONFIGURATION =====
-// Load testing configuration (mode: persisted|temporary, environment: development|testing|ci)
-var testingConfig = builder.Configuration.GetTestingConfiguration();
-
 // Note: TestingConfiguration and TestDataOrchestrator are not registered as services
 // in the AppHost since seeding functionality is now handled by the separate B2X.Seeding.API
 // builder.Services.AddSingleton(testingConfig);

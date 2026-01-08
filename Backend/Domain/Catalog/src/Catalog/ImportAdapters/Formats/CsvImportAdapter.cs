@@ -374,7 +374,7 @@ public class CsvImportAdapter : IFormatAdapter
         return null;
     }
 
-    private record ColumnMap(List<string> Headers)
+    private sealed record ColumnMap(List<string> Headers)
     {
         public string[] SkuColumnNames => ["sku", "article_number", "product_id", "product_code"];
         public string[] NameColumnNames => ["name", "title", "product_name"];

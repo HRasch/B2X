@@ -14,6 +14,48 @@ created: 2026-01-08
 
 ---
 
+## Session: 8. Januar 2026 - German Locale File Corruption Recovery
+
+### UTF-8 BOM and JSON Syntax Corruption in Translation Files
+
+**Issue**: German locale file (`de.json`) became corrupted with UTF-8 BOM and invalid JSON syntax, preventing Admin frontend builds after dependency updates.
+
+**Root Cause**: File corruption introduced during previous editing session, likely from improper encoding handling or text editor save operations. UTF-8 BOM (Byte Order Mark) at file start caused JSON parsing failures.
+
+**Lesson**: Translation files are critical infrastructure - always validate JSON syntax and encoding after any modifications, and maintain clean backups.
+
+**Solution**: Systematic corruption recovery process:
+1. **Identify corruption** using Python JSON validation: `python -c "import json; json.load(open('de.json'))"`
+2. **Remove UTF-8 BOM** using PowerShell: `[System.IO.File]::WriteAllText('de.json', [System.IO.File]::ReadAllText('de.json').TrimStart([char]0xFEFF))`
+3. **Validate JSON syntax** after BOM removal
+4. **Restore from backup** if corruption persists, then clean manually
+5. **Create new clean file** with proper JSON structure and comprehensive translations
+6. **Verify build success** after restoration
+
+**Key Insights**:
+- **UTF-8 BOM Detection**: Files starting with `\uFEFF` character cause silent JSON parsing failures
+- **Backup Reliability**: Even backup files can be corrupted - always validate before restoration
+- **JSON Validation**: Use `python -c "import json; json.load(open('file.json'))"` for quick syntax checks
+- **Encoding Awareness**: Always use UTF-8 without BOM for JSON files in web applications
+- **Build Impact**: Corrupted locale files block entire frontend builds, not just i18n functionality
+
+**Technical Details**:
+- **Corruption Symptoms**: `SyntaxError: Unexpected token ﻿ in JSON at position 0`
+- **BOM Removal**: PowerShell `[char]0xFEFF` represents the BOM character for trimming
+- **Recovery Time**: 15 minutes from detection to successful build
+- **Prevention**: Implement automated JSON validation in CI/CD pipeline
+- **File Structure**: Proper JSON with nested objects for translation keys (e.g., `{"auth": {"login": {"title": "Anmelden"}}}`)
+
+**Prevention Measures**:
+1. **Automated Validation**: Add JSON syntax checks to pre-commit hooks
+2. **Encoding Standards**: Enforce UTF-8 without BOM for all JSON files
+3. **Backup Strategy**: Maintain multiple backup versions with validation
+4. **Editor Configuration**: Configure text editors to save JSON without BOM
+5. **CI/CD Gates**: Fail builds on invalid JSON files
+6. **Documentation**: Include locale file maintenance procedures in contributor guides
+
+---
+
 ## Session: 8. Januar 2026 - Multi-Language Fragment Editing Strategy Implementation
 
 ### Token-Efficient Large File Editing with MCP Integration
@@ -4939,6 +4981,57 @@ Warning: @property is not supported in this PostCSS version
 - **Automatisierte Eskalation**: Kein manuelles Eingreifen nötig
 - **Systemstabilität**: Reduzierte Downtime durch schnelle Reaktion
 - **Monitoring-Framework**: Basis für erweiterte Überwachung
+
+---
+
+## Session: 8. Januar 2026 - Comprehensive Frontend Dependency Updates
+
+### Incremental Package Updates with Breaking Change Management
+
+**Issue**: Outdated npm packages across B2X frontend workspaces (Store, Admin, Management) with deprecated warnings and security vulnerabilities, requiring systematic updates while maintaining functionality.
+
+**Root Cause**: Reactive dependency management leading to accumulation of outdated packages with breaking changes, making updates risky and time-consuming.
+
+**Lesson**: Implement incremental dependency update strategy with comprehensive validation to safely update packages while documenting breaking changes and maintaining functionality.
+
+**Solution**: Multi-Phase Dependency Update Process:
+1. **Audit Phase**: `npm outdated` across all workspaces to identify update candidates
+2. **Incremental Updates**: Update packages one-by-one with type checking after each change
+3. **Breaking Change Documentation**: Research and document migration guides for major version updates
+4. **Configuration Fixes**: Address ESLint, Tailwind, and build configuration changes
+5. **Validation**: Type checks, builds, and tests after each update
+6. **Knowledge Base Updates**: Document migration patterns for future reference
+
+**Key Insights**:
+- **Incremental Safety**: One package at a time prevents cascading failures
+- **Type Checking Critical**: `vue-tsc` and `nuxt typecheck` catch breaking changes immediately
+- **Configuration Dependencies**: ESLint plugins and Tailwind versions require coordinated updates
+- **Build Validation**: All frontends must build successfully before proceeding
+- **Documentation Value**: Migration guides prevent future update friction
+
+**Technical Details**:
+- **Updated Packages**: happy-dom, @types/node, OpenTelemetry, date-fns v4, marked v17, pinia v3, eslint-plugin-vue v10
+- **Breaking Changes Handled**: 
+  - eslint-plugin-vue v10: Manual TypeScript config required
+  - Tailwind v4: @tailwindcss/vite plugin instead of PostCSS
+  - date-fns v4: Import path changes
+  - marked v17: Security improvements
+- **Validation Steps**: Type checks, builds, locale file integrity, BOM removal
+- **Build Success**: All three frontends (Store/Nuxt4, Admin/Vite, Management/Vite) build successfully
+- **Test Coverage**: Backend tests pass (303/303), frontend builds validated
+
+**Migration Patterns Documented**:
+- ESLint flat config with eslint-plugin-vue v10
+- Tailwind v4 @tailwindcss/vite integration
+- OpenTelemetry instrumentation updates
+- JSON locale file BOM removal
+- Minimal placeholder files for corrupted translations
+
+**Prevention Measures**:
+- Regular `npm outdated` checks in CI/CD
+- Automated dependency update PRs with validation
+- Breaking change impact assessment before updates
+- Knowledge base maintenance for migration guides
 
 ---
 

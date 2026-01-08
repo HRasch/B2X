@@ -52,6 +52,52 @@ git checkout -b pre-update-backup
 git checkout main
 ```
 
+### 4. Handle Deprecated Packages
+
+**Common Deprecated Packages and Fixes**:
+
+#### inflight@1.0.6 (Memory Leak)
+- **Cause**: Used by glob@7.x and other packages
+- **Fix**: Update transitive dependencies or use alternatives
+- **Alternative**: Use `lru-cache` for async request coalescing
+- **Detection**: `npm warn deprecated inflight@1.0.6`
+
+#### glob@7.2.3 (No Longer Supported)
+- **Cause**: Used by file processing packages like `replace-in-file`
+- **Fix**: Update packages to use glob@9+ or disable features using old glob
+- **Detection**: `npm warn deprecated glob@7.2.3`
+
+#### @koa/router@12.0.2 (Security & Bug Fixes)
+- **Cause**: Used by development tools like `tailwind-config-viewer`
+- **Fix**: Upgrade to v15+ or disable the tool
+- **Detection**: `npm warn deprecated @koa/router@12.0.2`
+
+#### keygrip@1.1.0 (No Longer Supported)
+- **Cause**: Used by `cookies` package in Koa-based tools
+- **Fix**: Update or remove dependent packages
+- **Detection**: `npm warn deprecated keygrip@1.1.0`
+
+#### backbone-undo@0.2.6 (No Longer Supported)
+- **Cause**: Legacy undo/redo functionality
+- **Fix**: Replace with modern alternatives or remove
+- **Detection**: `npm warn deprecated backbone-undo@0.2.6`
+
+**General Fix Strategy**:
+1. Identify the root package causing the warning: `npm ls <deprecated-package>`
+2. Update the direct dependency or disable the feature
+3. Example: Disable Tailwind config viewer to remove deprecated dependencies
+   ```typescript
+   // nuxt.config.ts
+   modules: ['@nuxtjs/tailwindcss'],
+   tailwindcss: {
+     viewer: false,  // Disables tailwind-config-viewer and its deprecated deps
+   }
+   ```
+
+---
+
+---
+
 ---
 
 ## Update Strategies
@@ -195,6 +241,53 @@ export default [
 npm run type-check  # Check for type errors
 npm run build       # Verify runtime compatibility
 ```
+
+### date-fns (v3 → v4)
+
+**New Features**:
+- Time zone support via `@date-fns/tz` package
+- Context `in` option for time zone calculations
+
+**Breaking Changes**:
+- ESM-first (CommonJS still supported)
+- Type changes (run type checker after upgrade)
+- Function arguments can be mixed types with normalization
+
+**Migration**:
+```typescript
+// Time zone usage
+import { addDays, startOfDay } from "date-fns";
+import { tz } from "@date-fns/tz";
+
+startOfDay(addDays(Date.now(), 5, { in: tz("Asia/Singapore") }));
+```
+
+**Detection**: Type errors after upgrade
+
+### marked (v14 → v17)
+
+**Breaking Changes**:
+- Changed how consecutive text tokens work in lists
+- Simplified listItem renderer
+- Checkbox token changes in list tokenizer
+
+**Migration**:
+- Test markdown rendering, especially lists
+- Update custom renderers if using listItem
+
+**Detection**: Changed list rendering output
+
+### @types/node (v22 → v25)
+
+**Breaking Changes**:
+- Type definitions for newer Node.js APIs
+- Potential type strictness changes
+
+**Migration**:
+- Run type checker
+- Update Node.js version if needed
+
+**Detection**: Type errors related to Node.js APIs
 
 ---
 

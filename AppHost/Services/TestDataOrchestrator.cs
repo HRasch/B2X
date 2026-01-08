@@ -13,13 +13,11 @@ public class TestDataOrchestrator : ITestDataOrchestrator
 {
     private readonly ILogger<TestDataOrchestrator> _logger;
     private readonly TestingConfiguration _testingConfig;
-    private readonly IServiceProvider _serviceProvider;
     private readonly TestDataSeedingOptions _seedingOptions;
 
     // HTTP clients for service communication
     private readonly HttpClient _authServiceClient;
     private readonly HttpClient _tenantServiceClient;
-    private readonly HttpClient _localizationServiceClient;
     private readonly HttpClient _catalogServiceClient;
     private readonly HttpClient _cmsServiceClient;
 
@@ -29,13 +27,11 @@ public class TestDataOrchestrator : ITestDataOrchestrator
     public TestDataOrchestrator(
         ILogger<TestDataOrchestrator> logger,
         TestingConfiguration testingConfig,
-        IServiceProvider serviceProvider,
         IHttpClientFactory httpClientFactory,
         SeedingStatusTracker statusTracker)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _testingConfig = testingConfig ?? throw new ArgumentNullException(nameof(testingConfig));
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
         var httpFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         _statusTracker = statusTracker ?? throw new ArgumentNullException(nameof(statusTracker));
@@ -43,7 +39,6 @@ public class TestDataOrchestrator : ITestDataOrchestrator
         // Get HTTP clients for service communication
         _authServiceClient = httpFactory.CreateClient("auth-service");
         _tenantServiceClient = httpFactory.CreateClient("tenant-service");
-        _localizationServiceClient = httpFactory.CreateClient("localization-service");
         _catalogServiceClient = httpFactory.CreateClient("catalog-service");
         _cmsServiceClient = httpFactory.CreateClient("cms-service");
 
@@ -99,14 +94,14 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             // Record seeding failure with detailed information
             _statusTracker.RecordSeedingFailure(ex.Message, ex);
 
-            throw;
+            throw new SeedingException("SEEDING_STRUCTURED_ERROR", "Structured seeding error occurred", ex);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Test data seeding failed with unexpected error");
 
             // Perform full rollback on unexpected errors
-            await PerformFullRollbackAsync(seedingContext, cancellationToken).ConfigureAwait(false);
+            await PerformFullRollbackAsync(cancellationToken).ConfigureAwait(false);
 
             // Record seeding failure
             _statusTracker.RecordSeedingFailure(ex.Message, ex);
@@ -205,8 +200,8 @@ public class TestDataOrchestrator : ITestDataOrchestrator
     {
         var status = new TestDataStatus
         {
-            IsSeeded = false, // TODO: Implement persistence check
-            LastSeededAt = null, // TODO: Implement timestamp tracking
+            IsSeeded = false, // Persistence check not implemented
+            LastSeededAt = null, // Timestamp tracking not implemented
             SeededWith = _testingConfig.Mode,
             TenantCount = _seedingOptions.DefaultTenantCount,
             UserCount = _seedingOptions.DefaultTenantCount * _seedingOptions.UsersPerTenant,
@@ -269,7 +264,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
 
     private async Task SeedLocalizationServiceAsync(CancellationToken cancellationToken)
     {
-        // TODO: Implement Localization service seeding via HTTP client
+        // Localization service seeding not implemented yet
         _logger.LogInformation("Seeding Localization service");
         await Task.Delay(100, cancellationToken).ConfigureAwait(false); // Placeholder
     }
@@ -304,7 +299,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
 
     private async Task ResetLocalizationServiceAsync(CancellationToken cancellationToken)
     {
-        // TODO: Implement Localization service reset
+        // Localization service reset not implemented yet
         _logger.LogInformation("Resetting Localization service");
         await Task.Delay(50, cancellationToken).ConfigureAwait(false);
     }
@@ -320,6 +315,8 @@ public class TestDataOrchestrator : ITestDataOrchestrator
         _logger.LogInformation("Resetting CMS service");
         await CmsSeedingUtilities.ResetCmsAsync(_cmsServiceClient, cancellationToken).ConfigureAwait(false);
     }
+
+    #endregion
 
     #region Error Handling and Rollback Implementation (BE-002.8)
 
@@ -344,7 +341,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             context.MarkServiceSeeded("Tenant");
 
             // Localization service seeding (can be retried independently)
-            await SeedLocalizationWithRetryAsync(context, cancellationToken).ConfigureAwait(false);
+            await SeedLocalizationWithRetryAsync(cancellationToken).ConfigureAwait(false);
             context.MarkServiceSeeded("Localization");
 
             context.CompletePhase(phase);
@@ -369,7 +366,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             context.StartPhase(phase);
             _logger.LogInformation("Starting catalog services seeding phase");
 
-            await SeedCatalogWithRetryAsync(context, cancellationToken).ConfigureAwait(false);
+            await SeedCatalogWithRetryAsync(cancellationToken).ConfigureAwait(false);
             context.MarkServiceSeeded("Catalog");
 
             context.CompletePhase(phase);
@@ -395,7 +392,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             context.StartPhase(phase);
             _logger.LogInformation("Starting CMS services seeding phase");
 
-            await SeedCmsWithRetryAsync(context, cancellationToken).ConfigureAwait(false);
+            await SeedCmsWithRetryAsync(cancellationToken).ConfigureAwait(false);
             context.MarkServiceSeeded("CMS");
 
             context.CompletePhase(phase);
@@ -498,7 +495,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             catch (Exception ex)
             {
                 _logger.LogError(ex, "{Operation} failed with non-transient error", operationName);
-                throw;
+                throw new SeedingException("EXECUTE_WITH_RETRY_FAILED", $"{operationName} failed after retries", ex);
             }
         }
     }

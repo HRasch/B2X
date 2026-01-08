@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config';
 import path from 'path';
-import autoprefixer from 'autoprefixer';
 import { visualizer } from 'rollup-plugin-visualizer';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -31,7 +31,6 @@ export default defineNuxtConfig({
   // PostCSS configuration
   postcss: {
     plugins: {
-      '@tailwindcss/postcss': {},
       autoprefixer: {},
     },
   },
@@ -42,6 +41,7 @@ export default defineNuxtConfig({
   // Vite configuration for Tailwind CSS v4 and SSR
   vite: {
     plugins: [
+      tailwindcss(),
       // Bundle analyzer for development
       process.env.NODE_ENV === 'development'
         ? visualizer({
