@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -49,6 +49,10 @@
 
   <ItemGroup>
     <ProjectReference Include="../../shared/B2X.Shared.Messaging/B2X.Shared.Messaging.csproj" />
+
   </ItemGroup>
 
 </Project>
+
+
+

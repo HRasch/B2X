@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -23,8 +23,14 @@
 
   <ItemGroup>
     <ProjectReference Include="../B2X.Legal.API.csproj" />
+
     <ProjectReference Include="../../shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+
     <ProjectReference Include="../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+
   </ItemGroup>
 
 </Project>
+
+
+

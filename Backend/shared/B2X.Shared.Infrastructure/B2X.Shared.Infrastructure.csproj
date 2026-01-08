@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -32,7 +32,13 @@
 
   <ItemGroup>
     <ProjectReference Include="../kernel/B2X.Shared.Kernel.csproj" />
+
     <ProjectReference Include="../B2X.Shared.Core/B2X.Shared.Core.csproj" />
+
   </ItemGroup>
 
 </Project>
+
+
+
+

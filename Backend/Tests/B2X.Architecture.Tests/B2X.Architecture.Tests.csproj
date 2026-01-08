@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -23,11 +23,21 @@
   <!-- Reference all domain assemblies for architecture analysis -->
   <ItemGroup>
     <ProjectReference Include="../../Domain/Catalog/B2X.Catalog.API.csproj" />
+
     <ProjectReference Include="../../Domain/CMS/B2X.CMS.csproj" />
+
     <ProjectReference Include="../../Domain/Identity/B2X.Identity.API.csproj" />
+
     <ProjectReference Include="../../Domain/Localization/B2X.Localization.API.csproj" />
+
     <ProjectReference Include="../../Domain/Search/B2X.Domain.Search.csproj" />
+
     <ProjectReference Include="../../shared/kernel/B2X.Shared.Kernel.csproj" />
+
   </ItemGroup>
 
 </Project>
+
+
+
+

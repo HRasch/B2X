@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -27,7 +27,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\B2X.ERP.csproj" />
+
     <ProjectReference Include="..\Abstractions\B2X.ERP.Abstractions.csproj" />
+
   </ItemGroup>
 
 </Project>
+
+
+
+
