@@ -2,10 +2,10 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Contracts;
-using B2Connect.ERP.Core;
+using B2X.ERP.Contracts;
+using B2X.ERP.Core;
 
-namespace B2Connect.ERP.Services;
+namespace B2X.ERP.Services;
 
 /// <summary>
 /// Manages ERP/PIM/CRM provider lifecycle and access.

@@ -1,6 +1,6 @@
-using B2Connect.Shared.Monitoring;
+using B2X.Shared.Monitoring;
 
-namespace B2Connect.Shared.Monitoring.Models;
+namespace B2X.Shared.Monitoring.Models;
 
 /// <summary>
 /// Represents a connected service in the monitoring system.

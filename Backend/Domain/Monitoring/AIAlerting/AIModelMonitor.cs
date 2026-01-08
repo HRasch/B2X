@@ -1,4 +1,4 @@
-// B2Connect.Monitoring.AIAlerting
+﻿// B2X.Monitoring.AIAlerting
 // Advanced Alerting for AI Model Performance Degradation
 // DocID: SPR-027-AI-ALERTING
 
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace B2Connect.Monitoring.AIAlerting
+namespace B2X.Monitoring.AIAlerting
 {
     /// <summary>
     /// AI Model Performance Monitoring and Alerting System

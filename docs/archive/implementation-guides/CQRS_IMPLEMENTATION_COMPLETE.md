@@ -1,4 +1,4 @@
-# CQRS Implementation Status - ProductsController ✅
+﻿# CQRS Implementation Status - ProductsController ✅
 
 **Date**: 27. Dezember 2025  
 **Status**: ✅ COMPLETE - Alle 13 Methoden implementiert  
@@ -183,7 +183,7 @@ public async Task<ActionResult<ProductResult>> GetProduct(Guid id, CancellationT
 Die Handler nutzen diese Repository-Methoden. Diese **müssen** in `IProductRepository` vorhanden sein:
 
 ```csharp
-namespace B2Connect.Admin.Core.Interfaces;
+namespace B2X.Admin.Core.Interfaces;
 
 public interface IProductRepository
 {
@@ -247,7 +247,7 @@ Sicherstellen, dass alle fehlenden Methoden in `ProductRepository` implementiert
 dotnet build
 
 # Run
-dotnet run --project backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj
+dotnet run --project backend/BoundedContexts/Admin/API/B2X.Admin.csproj
 
 # Test Endpoints
 curl http://localhost:8080/api/products

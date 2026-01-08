@@ -1,11 +1,11 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# SEO Validation Script for B2Connect Store Frontend
+# SEO Validation Script for B2X Store Frontend
 # Runs Lighthouse audits on the store frontend to validate SEO improvements
 
 set -e
 
-echo "🚀 Starting SEO Validation for B2Connect Store Frontend"
+echo "🚀 Starting SEO Validation for B2X Store Frontend"
 echo "=================================================="
 
 # Configuration

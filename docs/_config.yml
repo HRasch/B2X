@@ -1,9 +1,9 @@
-# GitHub Pages Jekyll Configuration
-# For B2Connect Documentation Site
+﻿# GitHub Pages Jekyll Configuration
+# For B2X Documentation Site
 
-title: B2Connect Documentation
-description: Complete User & Admin Documentation for B2Connect SaaS Platform
-url: https://b2connect.github.io
+title: B2X Documentation
+description: Complete User & Admin Documentation for B2X SaaS Platform
+url: https://B2X.github.io
 
 # Theme
 theme: jekyll-theme-minimal
@@ -57,15 +57,15 @@ exclude:
 # SEO settings
 google_site_verification: ""
 twitter:
-  username: b2connect
+  username: B2X
 
 # Social media
 social:
-  name: B2Connect
+  name: B2X
   links:
-    - https://github.com/b2connect
-    - https://twitter.com/b2connect
-    - https://www.linkedin.com/company/b2connect
+    - https://github.com/B2X
+    - https://twitter.com/B2X
+    - https://www.linkedin.com/company/B2X
 
 # Search
 search_enabled: true
@@ -73,4 +73,4 @@ search:
   rel: true
 
 # Footer
-footer_content: "Copyright © 2025 B2Connect. All rights reserved."
+footer_content: "Copyright © 2025 B2X. All rights reserved."

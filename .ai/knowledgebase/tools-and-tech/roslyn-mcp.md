@@ -1,4 +1,12 @@
 ---
+docid: KB-181
+title: Roslyn Mcp
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-052
 title: Roslyn MCP Server for Code Analysis
 owner: GitHub Copilot
@@ -42,10 +50,10 @@ The MCP server can leverage additional Roslyn analyzers for enhanced analysis:
 
 ### In VS Code Chat
 ```
-Analyze dependencies for the B2Connect solution
+Analyze dependencies for the B2X solution
 Find all usages of TenantContext
 Search for classes ending with 'Service'
-Analyze complexity of methods in B2Connect.Catalog
+Analyze complexity of methods in B2X.Catalog
 ```
 
 ### Integration Benefits
@@ -77,7 +85,7 @@ The server is configured in `.vscode/mcp.json`:
 
 ### Development Workflow Integration
 1. **Pre-Commit Analysis**: Run dependency checks before committing changes
-   - Command: "Analyze dependencies for B2Connect"
+   - Command: "Analyze dependencies for B2X"
    - Ensures no circular references are introduced
 
 2. **Code Review Enhancement**: Use during PR reviews
@@ -146,7 +154,7 @@ The server is configured in `.vscode/mcp.json`:
 ## Future Enhancements
 
 - Integrate additional analyzers (SonarAnalyzer, Meziantou, xunit, Serilog) into MCP tools
-- Custom analyzers for B2Connect patterns
+- Custom analyzers for B2X patterns
 - Code generation tools
 - Integration with GitHub Copilot for suggestions
 - Performance profiling integration

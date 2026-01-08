@@ -1,4 +1,12 @@
 ---
+docid: KB-173
+title: Htmlcss Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-056
 title: HTML/CSS MCP Usage Guide
 owner: @Frontend
@@ -69,7 +77,7 @@ The HTML/CSS MCP server provides automated analysis tools for HTML structure val
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>B2Connect - Product Catalog</title>
+  <title>B2X - Product Catalog</title>
   <meta name="description" content="Browse our product catalog">
 </head>
 <body>
@@ -427,7 +435,7 @@ echo "✅ HTML/CSS validation passed"
 
 ### Compliance Targets
 
-| Level | Description | B2Connect Target |
+| Level | Description | B2X Target |
 |-------|-------------|------------------|
 | **A** | Minimum accessibility | ✅ 100% compliance |
 | **AA** | Enhanced accessibility | ✅ 100% compliance |

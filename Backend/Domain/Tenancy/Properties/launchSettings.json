@@ -1,6 +1,6 @@
-{
+﻿{
   "profiles": {
-    "B2Connect.Tenancy.API": {
+    "B2X.Tenancy.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

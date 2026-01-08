@@ -1,14 +1,14 @@
-# How to Log In
+﻿# How to Log In
 
-This guide shows you how to access your B2Connect account.
+This guide shows you how to access your B2X account.
 
 ---
 
 ## Logging In on a Computer
 
-### Step 1: Go to B2Connect
+### Step 1: Go to B2X
 1. Open your web browser (Chrome, Firefox, Safari, Edge)
-2. Go to **www.b2connect.com**
+2. Go to **www.B2X.com**
 
 ### Step 2: Click Log In
 1. Click the **"Log In"** button (top right corner)
@@ -28,7 +28,7 @@ You'll see your dashboard and can start shopping! 🎉
 
 ### iPhone / iPad
 1. Open Safari or your preferred browser
-2. Go to **www.b2connect.com**
+2. Go to **www.B2X.com**
 3. Tap the menu icon (☰) in top right
 4. Tap **"Log In"**
 5. Enter email and password
@@ -36,7 +36,7 @@ You'll see your dashboard and can start shopping! 🎉
 
 ### Android
 1. Open your browser (Chrome, Firefox, etc.)
-2. Go to **www.b2connect.com**
+2. Go to **www.B2X.com**
 3. Tap the menu (☰) at top right
 4. Tap **"Log In"**
 5. Enter email and password
@@ -62,7 +62,7 @@ You'll see your dashboard and can start shopping! 🎉
 ### "Wrong Email or Password"
 
 **What does this mean?**  
-B2Connect couldn't find an account with that email and password combination.
+B2X couldn't find an account with that email and password combination.
 
 **How to fix:**
 1. ✓ Check your email spelling (no extra spaces)
@@ -73,7 +73,7 @@ B2Connect couldn't find an account with that email and password combination.
 ### "Account Not Found"
 
 **What does this mean?**  
-You don't have a B2Connect account yet.
+You don't have a B2X account yet.
 
 **How to fix:**
 1. Click **"Sign Up"** instead
@@ -113,7 +113,7 @@ You tried logging in too many times with wrong passwords. For security, we locke
 ✅ **DO:**
 - Use a unique password (not used elsewhere)
 - Log out after using public computers
-- Check website URL is `www.b2connect.com`
+- Check website URL is `www.B2X.com`
 
 ❌ **DON'T:**
 - Share your password with anyone
@@ -125,10 +125,10 @@ You tried logging in too many times with wrong passwords. For security, we locke
 ## Frequent Questions
 
 **Q: Is my password safe?**  
-A: Yes! Passwords are encrypted and never stored as plain text. Even B2Connect employees can't see your password.
+A: Yes! Passwords are encrypted and never stored as plain text. Even B2X employees can't see your password.
 
 **Q: Can I use the same password everywhere?**  
-A: No! Use a unique password for B2Connect. If your password is used elsewhere and that site is hacked, hackers could access your B2Connect account.
+A: No! Use a unique password for B2X. If your password is used elsewhere and that site is hacked, hackers could access your B2X account.
 
 **Q: How long can I stay logged in?**  
 A: About 1 hour before automatic logout for security. If logged in longer, we'll ask you to log in again.

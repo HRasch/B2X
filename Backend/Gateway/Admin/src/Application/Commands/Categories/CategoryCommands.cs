@@ -1,4 +1,4 @@
-namespace B2Connect.Admin.Application.Commands.Categories;
+namespace B2X.Admin.Application.Commands.Categories;
 
 /// <summary>
 /// Category Commands & Queries - CQRS Pattern

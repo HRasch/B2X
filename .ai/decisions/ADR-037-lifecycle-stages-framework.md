@@ -1,4 +1,12 @@
 ---
+docid: ADR-080
+title: ADR 037 Lifecycle Stages Framework
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-037
 title: Lifecycle Stages Framework
 status: Accepted
@@ -19,7 +27,7 @@ related: "GL-014, GL-013"
 
 ## Context
 
-B2Connect is currently in pre-release development (version 0.x), governed by [GL-014]. As the project matures toward v1.0 and beyond, we need a comprehensive lifecycle management framework that:
+B2X is currently in pre-release development (version 0.x), governed by [GL-014]. As the project matures toward v1.0 and beyond, we need a comprehensive lifecycle management framework that:
 
 1. **Defines clear stages** from experimental to end-of-life
 2. **Sets expectations** for stability, breaking changes, and support
@@ -43,7 +51,7 @@ We will implement a **7-stage lifecycle framework** with both project-level and 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    B2Connect Lifecycle Stages                    │
+│                    B2X Lifecycle Stages                    │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌──────────┐    ┌─────────────┐    ┌────────────────┐         │
@@ -102,7 +110,7 @@ We will implement a **7-stage lifecycle framework** with both project-level and 
 
 **Transition to Pre-Release**: When feature concept is proven and worth developing.
 
-#### 2. Pre-Release (`0.x.x`) — *Current B2Connect Stage*
+#### 2. Pre-Release (`0.x.x`) — *Current B2X Stage*
 
 **Purpose**: Active feature development, API design iteration.
 
@@ -200,7 +208,7 @@ Different components can be at different lifecycle stages:
 ```yaml
 # .ai/config/lifecycle.yml (proposed)
 project:
-  name: B2Connect
+  name: B2X
   default-stage: pre-release
   version: 0.8.0
 

@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Catalog.ImportAdapters;
+using B2X.Catalog.ImportAdapters;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.ImportAdapters.Formats;
+namespace B2X.Catalog.ImportAdapters.Formats;
 
 /// <summary>
 /// Import adapter for CSV (Comma-Separated Values) format
@@ -49,7 +49,7 @@ public class CsvImportAdapter : IFormatAdapter
             return 0.95;
 
         // Content-based: look for CSV structure
-        var lines = content.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        var lines = content.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
 
         if (lines.Length < 2)
             return 0.0; // Need at least header + 1 data row
@@ -87,7 +87,7 @@ public class CsvImportAdapter : IFormatAdapter
 
         try
         {
-            var lines = content.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+            var lines = content.Split(["\r\n", "\r", "\n"], StringSplitOptions.None)
                 .Where(l => !string.IsNullOrWhiteSpace(l))
                 .ToList();
 
@@ -199,7 +199,7 @@ public class CsvImportAdapter : IFormatAdapter
         var entities = new List<CatalogEntity>();
         var warnings = new List<ParseWarning>();
 
-        var lines = content.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+        var lines = content.Split(["\r\n", "\r", "\n"], StringSplitOptions.None)
             .Where(l => !string.IsNullOrWhiteSpace(l))
             .ToList();
 
@@ -374,14 +374,14 @@ public class CsvImportAdapter : IFormatAdapter
         return null;
     }
 
-    private record ColumnMap(List<string> Headers)
+    private sealed record ColumnMap(List<string> Headers)
     {
-        public string[] SkuColumnNames => new[] { "sku", "article_number", "product_id", "product_code" };
-        public string[] NameColumnNames => new[] { "name", "title", "product_name" };
-        public string[] DescriptionColumnNames => new[] { "description", "long_description", "details" };
-        public string[] EanColumnNames => new[] { "ean", "gtin", "ean_code", "barcode" };
-        public string[] MfgPartNumberColumnNames => new[] { "mfg_part_number", "manufacturer_part_number", "mpn", "part_number" };
-        public string[] PriceColumnNames => new[] { "price", "list_price", "msrp", "retail_price" };
-        public string[] CurrencyColumnNames => new[] { "currency", "currency_code", "currency_iso" };
+        public string[] SkuColumnNames => ["sku", "article_number", "product_id", "product_code"];
+        public string[] NameColumnNames => ["name", "title", "product_name"];
+        public string[] DescriptionColumnNames => ["description", "long_description", "details"];
+        public string[] EanColumnNames => ["ean", "gtin", "ean_code", "barcode"];
+        public string[] MfgPartNumberColumnNames => ["mfg_part_number", "manufacturer_part_number", "mpn", "part_number"];
+        public string[] PriceColumnNames => ["price", "list_price", "msrp", "retail_price"];
+        public string[] CurrencyColumnNames => ["currency", "currency_code", "currency_iso"];
     }
 }

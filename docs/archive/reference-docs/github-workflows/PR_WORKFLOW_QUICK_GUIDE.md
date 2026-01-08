@@ -1,4 +1,4 @@
-# Pull Request Workflow - Quick Guide
+﻿# Pull Request Workflow - Quick Guide
 
 **Fast reference for developers opening pull requests**  
 **For full details**: See [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](../../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow)
@@ -9,11 +9,11 @@
 
 ```bash
 # 1. Build & test locally
-dotnet build B2Connect.slnx
-dotnet test B2Connect.slnx
+dotnet build B2X.slnx
+dotnet test B2X.slnx
 
 # 2. Check coverage
-dotnet test B2Connect.slnx --collect:"XPlat Code Coverage"
+dotnet test B2X.slnx --collect:"XPlat Code Coverage"
 # Target: >= 80%
 
 # 3. Code style

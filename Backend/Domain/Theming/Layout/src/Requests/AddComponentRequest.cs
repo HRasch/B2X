@@ -1,4 +1,4 @@
-namespace B2Connect.LayoutService.Data;
+namespace B2X.LayoutService.Data;
 
 /// <summary>
 /// Request to add a new component to a section

@@ -1,4 +1,4 @@
-namespace B2Connect.AppHost.Configuration;
+namespace B2X.AppHost.Configuration;
 
 /// <summary>
 /// Configuration for test environment and storage mode selection.

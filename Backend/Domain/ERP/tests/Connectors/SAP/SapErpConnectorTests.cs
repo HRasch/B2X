@@ -5,13 +5,13 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
-using B2Connect.ERP.Abstractions;
-using B2Connect.ERP.Connectors.SAP;
+using B2X.ERP.Abstractions;
+using B2X.ERP.Connectors.SAP;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;
 
-namespace B2Connect.ERP.Tests.Connectors.SAP;
+namespace B2X.ERP.Tests.Connectors.SAP;
 
 public class SapErpConnectorTests : IDisposable
 {

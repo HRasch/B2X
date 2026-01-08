@@ -1,12 +1,12 @@
-using B2Connect.Admin.Application.Commands.Brands;
-using B2Connect.Admin.Application.Handlers;
-using B2Connect.Admin.Core.Entities;
-using B2Connect.Admin.Core.Interfaces;
-using B2Connect.Shared.Middleware;
-using B2Connect.Types.Localization;
+using B2X.Admin.Application.Commands.Brands;
+using B2X.Admin.Application.Handlers;
+using B2X.Admin.Core.Entities;
+using B2X.Admin.Core.Interfaces;
+using B2X.Shared.Middleware;
+using B2X.Types.Localization;
 using Wolverine;
 
-namespace B2Connect.Admin.Application.Handlers.Brands;
+namespace B2X.Admin.Application.Handlers.Brands;
 
 /// <summary>
 /// Helper method for converting Brand entities to BrandResult DTOs

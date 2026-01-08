@@ -1,4 +1,4 @@
-# ✅ PR Quality Gate - Implementation Summary
+﻿# ✅ PR Quality Gate - Implementation Summary
 
 **Date**: 2. Januar 2026  
 **Status**: 🎯 Ready for Activation  
@@ -156,7 +156,7 @@ Frontend using ESLint 9 flat config, but `package.json` has old flags:
 ### Backend Build
 Need to build before running format check:
 ```bash
-dotnet build B2Connect.slnx
+dotnet build B2X.slnx
 dotnet format --verify-no-changes
 ```
 

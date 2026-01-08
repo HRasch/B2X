@@ -1,4 +1,4 @@
-# Port-Blockierung Problem & Lösung
+﻿# Port-Blockierung Problem & Lösung
 
 ## Problem
 
@@ -66,8 +66,8 @@ lsof -i :8080
 # Töte Prozess auf Port
 lsof -ti:15500 | xargs kill -9
 
-# Töte alle B2Connect Prozesse
-pkill -f "B2Connect"
+# Töte alle B2X Prozesse
+pkill -f "B2X"
 pkill -f "Aspire"
 ```
 
@@ -84,7 +84,7 @@ pkill -f "Aspire"
 # Trap SIGTERM/SIGINT und leite an Child-Prozesse weiter
 trap 'kill -TERM $ASPIRE_PID; exit 0' SIGTERM SIGINT
 
-dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj &
+dotnet run --project backend/Orchestration/B2X.Orchestration.csproj &
 ASPIRE_PID=$!
 
 wait $ASPIRE_PID
@@ -103,15 +103,15 @@ Dann in tasks.json:
 ### 1. Vor jedem Start cleanup ausführen
 
 ```bash
-./scripts/kill-all-services.sh && dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+./scripts/kill-all-services.sh && dotnet run --project backend/Orchestration/B2X.Orchestration.csproj
 ```
 
 ### 2. Alias in .zshrc/.bashrc
 
 ```bash
 # ~/.zshrc
-alias b2c-kill="~/Documents/Projekte/B2Connect/scripts/kill-all-services.sh"
-alias b2c-start="b2c-kill && cd ~/Documents/Projekte/B2Connect && dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj"
+alias b2c-kill="~/Documents/Projekte/B2X/scripts/kill-all-services.sh"
+alias b2c-start="b2c-kill && cd ~/Documents/Projekte/B2X && dotnet run --project backend/Orchestration/B2X.Orchestration.csproj"
 ```
 
 ### 3. Pre-launch Task in VS Code
@@ -130,7 +130,7 @@ In `.vscode/tasks.json`:
 ### Aktive Ports prüfen
 
 ```bash
-# Alle B2Connect Ports
+# Alle B2X Ports
 lsof -i :7002 -i :7003 -i :7004 -i :7005 -i :7008 -i :8000 -i :8080 -i :5173 -i :5174 -i :15500
 ```
 
@@ -199,18 +199,18 @@ dotnet build-server shutdown
 ```bash
 # 1. Repository klonen
 git clone <repo>
-cd B2Connect
+cd B2X
 
 # 2. Cleanup ausführen (falls vorige Session crashed)
 ./scripts/kill-all-services.sh
 
 # 3. Services starten
-dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+dotnet run --project backend/Orchestration/B2X.Orchestration.csproj
 
 # 4. Bei Problemen: Force-Kill und restart
 Ctrl+C
 ./scripts/kill-all-services.sh
-dotnet run --project backend/Orchestration/B2Connect.Orchestration.csproj
+dotnet run --project backend/Orchestration/B2X.Orchestration.csproj
 ```
 
 ---

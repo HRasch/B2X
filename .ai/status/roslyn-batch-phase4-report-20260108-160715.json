@@ -1,0 +1,43 @@
+{
+  "Errors": [
+    {
+      "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+      "Domain": "CMS",
+      "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+      "Timestamp": "2026-01-08T16:07:11.5050226+01:00"
+    },
+    {
+      "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+      "Domain": "CMS",
+      "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+      "Timestamp": "2026-01-08T16:07:11.5051316+01:00"
+    },
+    {
+      "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+      "Domain": "CMS",
+      "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+      "Timestamp": "2026-01-08T16:07:11.5051486+01:00"
+    },
+    {
+      "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+      "Domain": "CMS",
+      "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+      "Timestamp": "2026-01-08T16:07:11.5051668+01:00"
+    }
+  ],
+  "Predictions": [
+    {
+      "Recommendation": "Review code for async void patterns",
+      "RiskScore": 0.96,
+      "Pattern": "async void",
+      "Severity": "High"
+    },
+    {
+      "Recommendation": "Review code for null reference patterns",
+      "RiskScore": 0.72,
+      "Pattern": "null reference",
+      "Severity": "Critical"
+    }
+  ],
+  "Domain": "CMS"
+}

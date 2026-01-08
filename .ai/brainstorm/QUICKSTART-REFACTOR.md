@@ -1,4 +1,12 @@
 ---
+docid: BS-024
+title: QUICKSTART REFACTOR
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: QUICKSTART-REFACTOR
 title: Quick Start - Refactoring Efficiency Strategy Implementation
 owner: "@SARAH"

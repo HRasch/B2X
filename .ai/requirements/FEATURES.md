@@ -1,4 +1,12 @@
-# B2Connect — Feature Extract (for @ProductOwner)
+---
+docid: REQ-047
+title: FEATURES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# B2X — Feature Extract (for @ProductOwner)
 
 Purpose: canonical feature list split by priority with a short description and acceptance criteria.
 

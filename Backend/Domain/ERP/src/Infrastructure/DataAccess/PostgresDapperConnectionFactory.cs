@@ -1,8 +1,8 @@
 using System.Data;
-using B2Connect.ERP.Infrastructure.DataAccess;
+using B2X.ERP.Infrastructure.DataAccess;
 using Npgsql;
 
-namespace B2Connect.ERP.Infrastructure.DataAccess;
+namespace B2X.ERP.Infrastructure.DataAccess;
 
 /// <summary>
 /// PostgreSQL implementation of the Dapper connection factory.

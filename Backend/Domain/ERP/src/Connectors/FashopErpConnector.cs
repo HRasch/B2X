@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.ERP.Abstractions;
+using B2X.ERP.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.ERP.Connectors;
+namespace B2X.ERP.Connectors;
 
 /// <summary>
 /// ERP connector for enventa Fashop retail system.
@@ -139,7 +139,7 @@ public class FashopErpConnector : IErpConnector
         // 1. Querying products with variants
         // 2. Retrieving pricing tiers
         // 3. Getting promotion data
-        // 4. Mapping to B2Connect catalog format
+        // 4. Mapping to B2X catalog format
         // 5. Handling incremental sync
 
         _logger.LogInformation("Catalog sync completed");
@@ -156,7 +156,7 @@ public class FashopErpConnector : IErpConnector
 
         // TODO: Implement POS/retail order creation
         // This would involve:
-        // 1. Mapping B2Connect order to Fashop format
+        // 1. Mapping B2X order to Fashop format
         // 2. Handling product variants
         // 3. Applying retail pricing
         // 4. Creating POS transaction
@@ -188,7 +188,7 @@ public class FashopErpConnector : IErpConnector
         // 1. Querying customer with retail profile
         // 2. Getting purchase history
         // 3. Retrieving loyalty information
-        // 4. Mapping to B2Connect format
+        // 4. Mapping to B2X format
 
         return new ErpCustomerData
         {

@@ -1,4 +1,4 @@
-# B2Connect Lifecycle Stage Configuration
+﻿# B2X Lifecycle Stage Configuration
 # See ADR-037 for full lifecycle stages framework
 #
 # Stages: alpha | pre-release | release-candidate | stable | lts | maintenance | deprecated
@@ -7,7 +7,7 @@
 # Owner: @SARAH
 
 project:
-  name: B2Connect
+  name: B2X
   current-version: 0.8.0
   default-stage: pre-release
   

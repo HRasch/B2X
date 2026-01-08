@@ -1,9 +1,9 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# B2Connect Full Stack Startup Script
+# B2X Full Stack Startup Script
 # Starts all services (Backend + Frontend) using Docker Compose + Aspire
 
-echo "?? B2Connect Full Stack Startup"
+echo "?? B2X Full Stack Startup"
 echo "================================"
 
 # Check if Docker is running

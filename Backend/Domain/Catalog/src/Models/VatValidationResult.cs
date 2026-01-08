@@ -1,4 +1,4 @@
-namespace B2Connect.Catalog.Models;
+namespace B2X.Catalog.Models;
 
 /// <summary>
 /// Result of VAT ID validation against VIES API

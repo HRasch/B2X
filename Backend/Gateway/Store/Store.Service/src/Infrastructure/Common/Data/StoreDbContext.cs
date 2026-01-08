@@ -1,8 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using B2Connect.Store.Core.Common.Entities;
-using B2Connect.Store.Core.Store.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using B2X.Store.Core.Common.Entities;
+using B2X.Store.Core.Store.Entities;
 
-namespace B2Connect.Store.Infrastructure.Common.Data;
+namespace B2X.Store.Infrastructure.Common.Data;
 
 /// <summary>
 /// Entity Framework Core DbContext for Store Service

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using B2Connect.SmartDataIntegration.Models;
-using B2Connect.SmartDataIntegration.Services;
+using B2X.SmartDataIntegration.Models;
+using B2X.SmartDataIntegration.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.SmartDataIntegration.Infrastructure.Data;
+namespace B2X.SmartDataIntegration.Infrastructure.Data;
 
 /// <summary>
 /// Repository implementation for Smart Data Integration operations

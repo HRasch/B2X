@@ -1,12 +1,12 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Localization Implementation Verification Script
+# B2X Localization Implementation Verification Script
 # Verifies that all Phase 1 (Backend) and Phase 2 (Frontend) components are in place
 
 set -euo pipefail
 
 echo "╔════════════════════════════════════════════════════════════════╗"
-echo "║   B2Connect Localization Implementation Verification           ║"
+echo "║   B2X Localization Implementation Verification           ║"
 echo "║   Checking Phase 1 (Backend) and Phase 2 (Frontend)            ║"
 echo "╚════════════════════════════════════════════════════════════════╝"
 echo ""
@@ -80,7 +80,7 @@ check_file "backend/services/LocalizationService/Tests/LocalizationServiceTests.
 check_file "backend/services/LocalizationService/Tests/LocalizationControllerTests.cs" "LocalizationController tests"
 
 # Check backend csproj
-check_file "backend/services/LocalizationService/B2Connect.LocalizationService.csproj" "LocalizationService project file"
+check_file "backend/services/LocalizationService/B2X.LocalizationService.csproj" "LocalizationService project file"
 
 echo ""
 echo "📋 PHASE 2: Frontend Implementation (Vue.js 3)"

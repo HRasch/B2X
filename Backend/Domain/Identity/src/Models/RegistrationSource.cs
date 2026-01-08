@@ -1,4 +1,4 @@
-namespace B2Connect.Identity.Models;
+namespace B2X.Identity.Models;
 
 /// <summary>
 /// Registrierungsquelle (wo kommt der Registrierungsprozess her?)

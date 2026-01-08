@@ -1,9 +1,9 @@
-using B2Connect.Shared.Core;
-using B2Connect.Tenancy.Models;
-using B2Connect.Types.Domain;
+using B2X.Shared.Core;
+using B2X.Tenancy.Models;
+using B2X.Types.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Tenancy.Infrastructure.Data;
+namespace B2X.Tenancy.Infrastructure.Data;
 
 /// <summary>
 /// Database context for Tenancy Service.

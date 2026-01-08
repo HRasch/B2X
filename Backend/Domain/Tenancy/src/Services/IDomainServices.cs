@@ -1,4 +1,4 @@
-namespace B2Connect.Tenancy.Services;
+namespace B2X.Tenancy.Services;
 
 /// <summary>
 /// Service for looking up tenant IDs from domain names with caching.

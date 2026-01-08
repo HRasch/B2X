@@ -1,4 +1,4 @@
-# 📚 Documentation Quick Reference
+﻿# 📚 Documentation Quick Reference
 
 **Lost? Start here!**
 
@@ -14,15 +14,15 @@
 ## 🤖 AI Agent System
 
 - **[Agent Team Registry](.ai/collaboration/AGENT_TEAM_REGISTRY.md)** - Authoritative agent directory (15 specialized agents)
-- **[Agent Quick Reference](./.ai/knowledgebase/INDEX.md)** - Fast agent lookup by task type
-- **[AI Knowledge Base](./.ai/knowledgebase/INDEX.md)** - Trigger keywords for AI documentation lookup
+- **[Agent Quick Reference](KB-INDEX)** - Fast agent lookup by task type
+- **[AI Knowledge Base](KB-INDEX)** - Trigger keywords for AI documentation lookup
 
 ---
 
 ## 🏗️ Architecture & Design
 
 - **[Architecture Index](./architecture/INDEX.md)** - System design documentation hub
-- **[Software Definition](./architecture/SOFTWARE_DEFINITION.md)** - What is B2Connect?
+- **[Software Definition](./architecture/SOFTWARE_DEFINITION.md)** - What is B2X?
 - **[Bounded Contexts](./architecture/)** - Domain-driven design boundaries
 
 ---

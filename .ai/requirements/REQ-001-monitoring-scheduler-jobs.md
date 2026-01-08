@@ -1,3 +1,11 @@
+---
+docid: REQ-050
+title: REQ 001 Monitoring Scheduler Jobs
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # REQ-001: Monitoring for Scheduler Jobs
 
 **DocID**: `REQ-001`  

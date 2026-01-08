@@ -2,7 +2,7 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-namespace B2Connect.ERP.Core;
+namespace B2X.ERP.Core;
 
 /// <summary>
 /// Contains tenant-specific context for ERP operations.

@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using B2Connect.Store.Core.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using B2X.Store.Core.Common.Interfaces;
 
-namespace B2Connect.Store.Infrastructure.Common.Repositories;
+namespace B2X.Store.Infrastructure.Common.Repositories;
 
 /// <summary>
 /// Generic repository implementation

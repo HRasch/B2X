@@ -1,4 +1,12 @@
 ---
+docid: KB-159
+title: Svg Css Animations
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-030
 title: SVG and CSS Animations
 owner: @Frontend
@@ -14,7 +22,7 @@ status: Active
 
 ## Overview
 
-This knowledge base article covers SVG and CSS animations, including patterns, antipatterns, and best practices for the B2Connect project. Animations enhance user experience but must be used judiciously for performance and accessibility.
+This knowledge base article covers SVG and CSS animations, including patterns, antipatterns, and best practices for the B2X project. Animations enhance user experience but must be used judiciously for performance and accessibility.
 
 ## CSS Animations
 

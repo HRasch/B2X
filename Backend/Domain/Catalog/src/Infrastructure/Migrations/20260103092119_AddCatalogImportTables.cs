@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace B2Connect.Catalog.src.Infrastructure.Migrations
+namespace B2X.Catalog.src.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class AddCatalogImportTables : Migration

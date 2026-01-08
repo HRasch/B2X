@@ -1,7 +1,7 @@
-using B2Connect.Catalog.Models;
-using B2Connect.Catalog.Services;
+using B2X.Catalog.Models;
+using B2X.Catalog.Services;
 
-namespace B2Connect.Catalog.Handlers;
+namespace B2X.Catalog.Handlers;
 
 /// <summary>
 /// Handler interface for product queries

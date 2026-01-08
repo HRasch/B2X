@@ -1,3 +1,11 @@
+---
+docid: COLLAB-005
+title: AGENT_ACCOUNTABILITY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🎯 AGENT RESPONSIBILITY & ACCOUNTABILITY MATRIX
 
 **Authority:** @SARAH (Coordinator)  

@@ -1,3 +1,11 @@
+---
+docid: STATUS-014
+title: INTEGRATION_STATUS_SUMMARY_2025_12_30
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Document Integration Status Summary
 **Date**: 30. Dezember 2025  
 **Status**: Ongoing Integration  

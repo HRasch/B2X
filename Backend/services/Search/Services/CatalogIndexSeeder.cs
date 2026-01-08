@@ -1,7 +1,7 @@
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace B2Connect.Services.Search.Services;
+namespace B2X.Services.Search.Services;
 
 public class CatalogIndexSeeder : IHostedService
 {

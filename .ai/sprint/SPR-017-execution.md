@@ -1,4 +1,12 @@
 ---
+docid: SPR-113
+title: SPR 017 Execution
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-017
 title: Sprint 2026-17 Execution - AI Validation Maturity & Ethical Testing Frameworks
 owner: @ScrumMaster

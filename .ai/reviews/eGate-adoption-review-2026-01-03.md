@@ -1,4 +1,12 @@
-# 🔍 eGate Enventa Adoption - Architecture & Technical Review
+---
+docid: REV-002
+title: EGate Adoption Review 2026 01 03
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🔍 eGate Enventa Adoption - Architecture & Technical Review
 
 **Date**: January 3, 2026  
 **Reviewers**: @Architect, @TechLead  
@@ -36,7 +44,7 @@ Proposed: Actor → Scoped FS API (explicit transaction management)
 ```
 
 **Strengths**:
-- Follows Unit of Work pattern already established in B2Connect
+- Follows Unit of Work pattern already established in B2X
 - Consistent with Entity Framework Core's DbContext lifecycle
 - Enables proper rollback on failures
 
@@ -134,7 +142,7 @@ services.AddEnventaRepositories(options =>
 
 **Current**:
 ```
-B2Connect (.NET 10) ──HTTP/JSON──► ERP Connector (.NET 4.8)
+B2X (.NET 10) ──HTTP/JSON──► ERP Connector (.NET 4.8)
 ```
 
 **Observation**: This is acceptable for current scale, but consider:
@@ -356,7 +364,7 @@ public interface IEnventaMetrics
 
 ### @Architect
 **Status**: ✅ **APPROVED**
-- Architecture is sound and consistent with B2Connect patterns
+- Architecture is sound and consistent with B2X patterns
 - Phased approach correctly prioritizes critical items
 - Connection pooling design maintains tenant isolation
 - Recommend adding observability from Phase 1

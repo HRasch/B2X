@@ -6,27 +6,8 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { userService } from '@/services/api/userService';
-import type {
-  User,
-  UserProfile,
-  Address,
-  UserApiError,
-  UserFilters,
-  UserSearchFilters,
-} from '@/types/user';
+import type { User, UserApiError } from '@/types/user';
 import type { ApiError } from '@/types/api';
-
-interface _UsersState {
-  users: User[];
-  currentUser: User | null;
-  loading: boolean;
-  error: string | null;
-  pagination: {
-    page: number;
-    pageSize: number;
-    total: number;
-  };
-}
 
 export const useUserStore = defineStore('users', () => {
   const users = ref<User[]>([]);

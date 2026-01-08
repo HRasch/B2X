@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-109
+title: SubAgent NIS2.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ````chatagent
 ```chatagent
 ---

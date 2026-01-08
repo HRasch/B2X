@@ -1,4 +1,12 @@
 ---
+docid: INS-010
+title: Devops.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terraform/**"
 ---
 
@@ -40,6 +48,23 @@ applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terr
 - Implement network policies
 - Regular security audits of infrastructure
 
+## CI Quality Gates (Proposed)
+- Canonical gate sequence: build → analyzers/format → unit tests → smoke e2e → security scans
+- Fail fast: fail PR early on build/analyzer failures to reduce wasted cycles
+
+## Nightly Audits & KB Sync (Proposed)
+- Schedule nightly/weekly jobs that aggregate CI failures, SCA alerts, and flaky-test metrics
+- Create remediation issues automatically
+- Include weekly KB sync job (see `.github/workflows/kb-sync.yml`)
+
+## Dashboards & Retention (Proposed)
+- Publish gate pass/fail rates to GitHub Checks + README summary or SonarCloud
+- Retain CI artifacts for minimum 30 days to support Control evidence
+
+## Secrets & Policies (Proposed)
+- Enforce secret scanning in CI and block merges on detected secrets
+- Use a central secret store for runtime values
+
 ## MCP-Enhanced DevOps Workflow
 
 **Reference**: See [KB-055] Security MCP Best Practices and MCP Operations Guide for comprehensive tooling.
@@ -51,7 +76,7 @@ applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terr
 **Container Security Validation**:
 ```bash
 # Scan Docker images for vulnerabilities
-docker-mcp/check_container_security imageName="b2connect/api:latest"
+docker-mcp/check_container_security imageName="B2X/api:latest"
 
 # Validate Dockerfile best practices
 docker-mcp/analyze_dockerfile filePath="Dockerfile"
@@ -60,7 +85,7 @@ docker-mcp/analyze_dockerfile filePath="Dockerfile"
 docker-mcp/validate_kubernetes_manifests filePath="k8s/deployment.yaml"
 
 # Monitor container health
-docker-mcp/monitor_container_health containerName="b2connect-api"
+docker-mcp/monitor_container_health containerName="B2X-api"
 ```
 
 **Docker Compose Analysis**:
@@ -165,4 +190,114 @@ docs-mcp/analyze_content_quality filePath="README.md"
 - [ ] `monitoring-mcp/collect_application_metrics` - Metrics collection active
 - [ ] `monitoring-mcp/monitor_system_performance` - System performance baseline
 - [ ] `docker-mcp/monitor_container_health` - Container health checks
+
+## Large File Editing Strategy ([GL-043])
+
+When editing large infrastructure files (>200 lines), use the Multi-Language Fragment Editing approach with Docker MCP for infrastructure:
+
+### Pre-Edit Analysis
+```bash
+# Infrastructure dependency analysis
+docker-mcp/analyze_docker_compose filePath="docker-compose.yml"
+
+# Security vulnerability assessment
+docker-mcp/check_container_security imageName="B2X/api:latest"
+
+# Kubernetes manifest validation
+docker-mcp/validate_kubernetes_manifests filePath="k8s/deployment.yaml"
+```
+
+### Fragment-Based Editing Patterns
+```yaml
+# Fragment: Service configuration (82% token savings)
+services:
+  api:
+    image: b2x/api:latest
+    # Edit only service-specific config
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Database__Provider=PostgreSQL
+    ports:
+      - "8080:80"
+    # Reference external networks/volumes
+    networks:
+      - b2x-network
+    volumes:
+      - logs:/app/logs
+```
+
+**Docker MCP Workflows**:
+```bash
+# 1. Dockerfile analysis and optimization
+docker-mcp/analyze_dockerfile filePath="Dockerfile"
+docker-mcp/optimize_dockerfile filePath="Dockerfile"
+
+# 2. Container security scanning
+docker-mcp/check_container_security imageName="B2X/api:latest"
+docker-mcp/scan_vulnerabilities workspacePath="." target="docker-images"
+
+# 3. Compose file validation
+docker-mcp/analyze_docker_compose filePath="docker-compose.yml"
+docker-mcp/check_service_dependencies filePath="docker-compose.yml"
+
+# 4. Kubernetes manifest validation
+docker-mcp/validate_kubernetes_manifests filePath="k8s/deployment.yaml"
+docker-mcp/validate_kubernetes_manifests filePath="k8s/service.yaml"
+
+# 5. Infrastructure monitoring setup
+docker-mcp/monitor_container_health containerName="B2X-api"
+```
+
+### Integration with Infrastructure MCP Tools
+```bash
+# Monitoring configuration
+monitoring-mcp/configure_alerts serviceName="api-gateway" metric="response_time" threshold="500ms"
+
+# Security policy validation
+security-mcp/validate_network_policies filePath="k8s/network-policies.yaml"
+
+# GitOps validation
+git-mcp/validate_commit_messages workspacePath="." count=10
+```
+
+### Quality Gates
+- Always run `docker-mcp/analyze_dockerfile` after Dockerfile edits
+- Use `docker-mcp/check_container_security` for security validation
+- Validate Kubernetes manifests with `docker-mcp/validate_kubernetes_manifests`
+- Monitor container health with dedicated MCP tools
+
+**Token Savings**: 82% vs. reading entire infrastructure files | **Quality**: Security and dependency validation with container health monitoring
+
+## Large File Editing Strategy ([GL-053])
+
+When editing large infrastructure files (>200 lines), use the Multi-Language Fragment Editing approach:
+
+### Pre-Edit Analysis
+```bash
+# Infrastructure validation
+docker-mcp/analyze_dockerfile filePath="Dockerfile"
+docker-mcp/validate_kubernetes_manifests filePath="k8s/deployment.yaml"
+
+# Security audit
+security-mcp/scan_vulnerabilities workspacePath="infrastructure"
+```
+
+### Fragment-Based Editing
+```bash
+# Read targeted sections only
+read_file("docker-compose.yml", startLine: 45, endLine: 85)
+
+# Apply infrastructure refactoring
+docker-mcp/analyze_docker_compose filePath="docker-compose.yml"
+
+# Validate changes
+docker-mcp/check_container_security imageName="nginx:latest"
+```
+
+### Quality Gates
+- Always run infrastructure validation after edits
+- Use `docker-mcp` and `security-mcp` for compliance checks
+- Test deployments in staging environment
+
+**Token Savings**: 70-85% vs. reading entire infrastructure files | **Quality**: Infrastructure security validation
 

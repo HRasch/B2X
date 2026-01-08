@@ -1,4 +1,4 @@
-# Admin Portal – Benutzerhandbuch
+﻿# Admin Portal – Benutzerhandbuch
 
 > **Zielgruppe**: Systemadministratoren, Tenant-Manager  
 > **Version**: 1.0  
@@ -8,7 +8,7 @@
 
 ## Übersicht
 
-Das Admin Portal ist die zentrale Verwaltungsoberfläche für die B2Connect B2B-Plattform. Hier verwalten Administratoren Produkte, Kategorien, Benutzer und CMS-Inhalte.
+Das Admin Portal ist die zentrale Verwaltungsoberfläche für die B2X B2B-Plattform. Hier verwalten Administratoren Produkte, Kategorien, Benutzer und CMS-Inhalte.
 
 ## Schnellzugriff
 
@@ -47,7 +47,7 @@ Nach der Anmeldung sehen Sie das Dashboard mit:
 ## Support
 
 Bei Fragen oder Problemen:
-- 📧 E-Mail: support@b2connect.de
+- 📧 E-Mail: support@B2X.de
 - 📞 Telefon: +49 (0) 123 456789
 - 💬 Chat: Im Admin Portal verfügbar
 

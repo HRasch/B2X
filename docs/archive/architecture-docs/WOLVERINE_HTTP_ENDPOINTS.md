@@ -1,14 +1,14 @@
-# Wolverine HTTP Endpoints Pattern
+ï»¿# Wolverine HTTP Endpoints Pattern
 
-## Übersicht
+## ï¿½bersicht
 
-B2Connect Domain-Services verwenden **Wolverine HTTP Endpoints** statt klassischen ASP.NET Core Controllern. Dies ermöglicht eine konsistente CQRS-Architektur und nahtlose Integration mit Wolverine Messaging.
+B2X Domain-Services verwenden **Wolverine HTTP Endpoints** statt klassischen ASP.NET Core Controllern. Dies ermï¿½glicht eine konsistente CQRS-Architektur und nahtlose Integration mit Wolverine Messaging.
 
 ## Warum Wolverine HTTP statt Controller?
 
-? **Konsistenz** - Commands/Queries werden einheitlich über Wolverine behandelt  
-? **CQRS-First** - Natürliche Trennung von Read/Write Operations  
-? **Weniger Boilerplate** - Keine Controller-Klassen nötig  
+? **Konsistenz** - Commands/Queries werden einheitlich ï¿½ber Wolverine behandelt  
+? **CQRS-First** - Natï¿½rliche Trennung von Read/Write Operations  
+? **Weniger Boilerplate** - Keine Controller-Klassen nï¿½tig  
 ? **Auto-Discovery** - Endpoints werden automatisch registriert  
 ? **Mediator Pattern** - Direkte Integration mit `IMessageBus`  
 
@@ -49,7 +49,7 @@ app.Run();
 ```csharp
 using Wolverine.Http;
 
-namespace B2Connect.CatalogService.Endpoints;
+namespace B2X.CatalogService.Endpoints;
 
 public static class ProductEndpoints
 {
@@ -98,7 +98,7 @@ public static class ProductEndpoints
 | `[WolverineGet]` | GET | Daten abrufen |
 | `[WolverinePost]` | POST | Ressourcen erstellen |
 | `[WolverinePut]` | PUT | Ressourcen aktualisieren |
-| `[WolverineDelete]` | DELETE | Ressourcen löschen |
+| `[WolverineDelete]` | DELETE | Ressourcen lï¿½schen |
 | `[WolverinePatch]` | PATCH | Partielle Updates |
 
 ## Parameter Binding
@@ -390,11 +390,11 @@ public static class ProductEndpoints
 
 ? **Static Methods** - Endpoints als statische Methoden definieren  
 ? **CancellationToken** - Immer als letzter Parameter  
-? **IResult Return Type** - Für flexible Responses  
-? **Tenant Isolation** - Immer `X-Tenant-ID` Header prüfen  
+? **IResult Return Type** - Fï¿½r flexible Responses  
+? **Tenant Isolation** - Immer `X-Tenant-ID` Header prï¿½fen  
 ? **Separate Handlers** - Commands/Queries in eigenen Handler-Klassen  
 ? **Logging** - ILogger per DI injizieren  
-? **Validation** - FluentValidation für Input-Checks  
+? **Validation** - FluentValidation fï¿½r Input-Checks  
 
 ? **Keine Controller-Klassen** mehr  
 ? **Kein ControllerBase** erben  

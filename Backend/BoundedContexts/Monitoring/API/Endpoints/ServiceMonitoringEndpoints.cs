@@ -1,10 +1,10 @@
-using B2Connect.Shared.Monitoring;
-using B2Connect.Shared.Monitoring.Abstractions;
-using B2Connect.Shared.Monitoring.Models;
+﻿using B2X.Shared.Monitoring;
+using B2X.Shared.Monitoring.Abstractions;
+using B2X.Shared.Monitoring.Models;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 
-namespace B2Connect.Monitoring.Endpoints;
+namespace B2X.Monitoring.Endpoints;
 
 /// <summary>
 /// Endpoints for monitoring connected services.

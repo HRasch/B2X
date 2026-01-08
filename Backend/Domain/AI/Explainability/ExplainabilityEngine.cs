@@ -1,4 +1,4 @@
-// B2Connect.AI.Explainability
+﻿// B2X.AI.Explainability
 // AI Model Explainability Framework Implementation
 // DocID: SPR-027-AI-EXPLAIN
 
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace B2Connect.AI.Explainability
+namespace B2X.AI.Explainability
 {
     /// <summary>
     /// AI Model Explainability Engine using SHAP/LIME approaches

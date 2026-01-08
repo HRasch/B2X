@@ -1,4 +1,12 @@
-# GitHub Copilot Customization Guide
+---
+docid: KB-170
+title: Github Copilot Customization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# GitHub Copilot Customization Guide
 
 **DocID**: `KB-022`  
 **Version**: 1.1  
@@ -223,7 +231,7 @@ Reference existing components: [components](../src/components/)
 
 ## 4. MCP Servers Configuration
 
-Model Context Protocol (MCP) extends Copilot with external tools. In B2Connect, all MCP servers must enforce tenant isolation at every level to prevent cross-tenant data access.
+Model Context Protocol (MCP) extends Copilot with external tools. In B2X, all MCP servers must enforce tenant isolation at every level to prevent cross-tenant data access.
 
 ### Configuration File
 
@@ -467,7 +475,7 @@ When using prompt files with agents:
 
 ---
 
-## 8. B2Connect Configuration
+## 8. B2X Configuration
 
 ### Current Structure
 

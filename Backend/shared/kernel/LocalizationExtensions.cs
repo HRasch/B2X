@@ -1,8 +1,8 @@
 using System.Reflection;
-using B2Connect.Types.Domain;
-using B2Connect.Types.Localization;
+using B2X.Types.Domain;
+using B2X.Types.Localization;
 
-namespace B2Connect.Types.Extensions;
+namespace B2X.Types.Extensions;
 
 /// <summary>
 /// Extension methods for working with localized content in entities

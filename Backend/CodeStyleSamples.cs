@@ -1,4 +1,4 @@
-// Code Style Samples for B2Connect Backend
+﻿// Code Style Samples for B2X Backend
 // This file demonstrates StyleCop-compliant code patterns
 // Based on backend/stylecop.json configuration
 
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace B2Connect.Backend.CodeStyleSamples
+namespace B2X.Backend.CodeStyleSamples
 {
     /// <summary>
     /// Sample class demonstrating proper StyleCop compliance.

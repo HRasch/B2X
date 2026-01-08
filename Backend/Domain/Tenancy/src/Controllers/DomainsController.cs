@@ -1,9 +1,9 @@
-using B2Connect.Tenancy.Handlers.Domains;
+using B2X.Tenancy.Handlers.Domains;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
-namespace B2Connect.Tenancy.Controllers;
+namespace B2X.Tenancy.Controllers;
 
 /// <summary>
 /// Controller for domain management operations.

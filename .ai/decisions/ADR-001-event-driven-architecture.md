@@ -1,15 +1,23 @@
-# ADR-001: Event-Driven Architecture with Wolverine CQRS
+---
+docid: ADR-053
+title: ADR 001 Event Driven Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-001: Event-Driven Architecture with Wolverine CQRS
 
 **Status:** Accepted  
 **Date:** December 30, 2025  
-**Context:** B2Connect microservices architecture  
+**Context:** B2X microservices architecture  
 **Decision Authors:** @Architect, @TechLead
 
 ---
 
 ## Problem
 
-B2Connect needs to coordinate work across multiple bounded contexts (Catalog, CMS, Identity, Customer, Order services) with:
+B2X needs to coordinate work across multiple bounded contexts (Catalog, CMS, Identity, Customer, Order services) with:
 - Loose coupling between services
 - Eventual consistency guarantees
 - Asynchronous processing capabilities

@@ -1,4 +1,12 @@
 ---
+docid: KB-078
+title: Css Functions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-029
 title: CSS Functions
 owner: GitHub Copilot

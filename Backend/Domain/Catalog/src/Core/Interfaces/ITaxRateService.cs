@@ -1,4 +1,4 @@
-namespace B2Connect.Catalog.Core.Interfaces;
+namespace B2X.Catalog.Core.Interfaces;
 
 /// <summary>
 /// Service contract for tax rate operations

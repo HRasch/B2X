@@ -1,4 +1,12 @@
 ---
+docid: REQ-045
+title: CONSOLIDATION SMART DATA INTEGRATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: CONSOLIDATION-SMART-DATA-INTEGRATION
 title: Smart Data Integration Assistant - Consolidated Analysis
 owner: @SARAH
@@ -239,4 +247,4 @@ All agent analyses are positive with strong architectural alignment and manageab
 **Timeline**: 6-7 weeks
 **Date**: 7. Januar 2026
 **@SARAH**</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/CONSOLIDATION-SMART-DATA-INTEGRATION.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/CONSOLIDATION-SMART-DATA-INTEGRATION.md

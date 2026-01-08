@@ -1,13 +1,13 @@
-using B2Connect.CMS.Application.Pages;
-using B2Connect.CMS.Application.Widgets;
-using B2Connect.CMS.Core.Domain.Pages;
-using B2Connect.CMS.Core.Domain.Widgets;
+using B2X.CMS.Application.Pages;
+using B2X.CMS.Application.Widgets;
+using B2X.CMS.Core.Domain.Pages;
+using B2X.CMS.Core.Domain.Widgets;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.CMS.Tests;
+namespace B2X.CMS.Tests;
 
 /// <summary>
 /// Unit tests for GetPageDefinitionQueryHandler

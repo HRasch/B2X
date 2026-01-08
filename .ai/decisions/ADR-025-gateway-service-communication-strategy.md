@@ -1,4 +1,12 @@
-# ADR-025: Gateway-Service Communication Strategy
+---
+docid: ADR-062
+title: ADR 025 Gateway Service Communication Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-025: Gateway-Service Communication Strategy
 
 **Status**: Accepted  
 **Date**: 2. Januar 2026  
@@ -9,7 +17,7 @@
 
 ## Context
 
-The B2Connect architecture uses API Gateways (Store, Admin) that communicate with domain services (Identity, Catalog, Theming, etc.). Currently, we face recurring issues:
+The B2X architecture uses API Gateways (Store, Admin) that communicate with domain services (Identity, Catalog, Theming, etc.). Currently, we face recurring issues:
 
 1. **Port conflicts** - Services fail to start due to occupied ports
 2. **Configuration mismatches** - Hardcoded URLs don't match actual service addresses
@@ -139,7 +147,7 @@ Create `/scripts/service-health.sh`:
 
 ```bash
 #!/usr/bin/env bash
-# B2Connect Service Health Quick Check
+# B2X Service Health Quick Check
 # Usage: ./scripts/service-health.sh [--verbose] [--json]
 
 set -euo pipefail
@@ -218,7 +226,7 @@ check_aspire_services() {
 
 # Main
 echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
-echo -e "${CYAN}  B2Connect Service Health Check${NC}"
+echo -e "${CYAN}  B2X Service Health Check${NC}"
 echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -399,7 +407,7 @@ lsof -i :8000
 # Kill specific process
 kill -9 $(lsof -t -i:8000)
 
-# Or kill all B2Connect processes
+# Or kill all B2X processes
 ./scripts/kill-all-services.sh
 ```
 
@@ -492,7 +500,7 @@ Result:  Build fails with CS1705 assembly version mismatch
 **Rule**: ONE `Directory.Packages.props` file at repository root. No duplicates.
 
 ```
-B2Connect/
+B2X/
 ├── Directory.Packages.props    ← ONLY file for package versions
 ├── Directory.Build.props       ← Build settings (no versions)
 ├── backend/

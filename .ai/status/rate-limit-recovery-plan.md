@@ -1,4 +1,12 @@
-# 🚨 Rate Limit Emergency Recovery Plan
+---
+docid: STATUS-038
+title: Rate Limit Recovery Plan
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🚨 Rate Limit Emergency Recovery Plan
 
 **Date**: 2026-01-03  
 **Coordinator**: @SARAH  
@@ -77,4 +85,4 @@
 **Emergency Protocol**: Activated per GL-007 rate limit optimization  
 **Recovery Coordinator**: @SARAH  
 **Next Check**: 14:51 for cooldown completion</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/status/rate-limit-recovery-plan.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/status/rate-limit-recovery-plan.md

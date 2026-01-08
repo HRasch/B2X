@@ -1,8 +1,16 @@
-# ADR-034: Multi-ERP Connector Architecture
+---
+docid: ADR-077
+title: ADR 034 Multi Erp Connector Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-034: Multi-ERP Connector Architecture
 
 **Status:** Approved with Conditions  
 **Date:** January 5, 2026  
-**Context:** B2Connect multi-tenant SaaS platform  
+**Context:** B2X multi-tenant SaaS platform  
 **Decision Authors:** @Architect, @Backend, @Security, @DevOps, @TechLead, @ProductOwner, @Legal, @Support, @DocMaintainer
 
 ---
@@ -187,7 +195,7 @@ Following ADR-033's approval of downloadable ERP-connector coupled to CLI, and b
                       │
                       ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                 B2Connect Core Services                      │
+│                 B2X Core Services                      │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
 │  │   Catalog   │ │   Orders    │ │   Search    │            │
 │  │  Service    │ │  Service    │ │  Service    │            │
@@ -262,17 +270,17 @@ public interface IErpAdapterFactory
 **Tenant Self-Service Workflow:**
 ```bash
 # Discover supported ERPs
-b2connect erp list-supported
+B2X erp list-supported
 
 # Download specific connector
-b2connect erp download-connector --erp-type sap --version latest
+B2X erp download-connector --erp-type sap --version latest
 
 # Configure with guided wizard
-b2connect erp configure-connector --erp-type sap --interactive
+B2X erp configure-connector --erp-type sap --interactive
 
 # Monitor and manage
-b2connect erp status-connector --erp-type sap
-b2connect erp update-connector --erp-type sap --version 1.1.0
+B2X erp status-connector --erp-type sap
+B2X erp update-connector --erp-type sap --version 1.1.0
 ```
 
 ---
@@ -474,4 +482,4 @@ b2connect erp update-connector --erp-type sap --version 1.1.0
 **Status:** Approved with Conditions  
 **Next Review:** January 12, 2026  
 **Implementation Target:** Q1 2026</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-034-multi-erp-connector-architecture.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-034-multi-erp-connector-architecture.md

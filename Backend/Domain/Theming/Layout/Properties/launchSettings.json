@@ -1,6 +1,6 @@
-{
+﻿{
   "profiles": {
-    "B2Connect.Theming.Layout": {
+    "B2X.Theming.Layout": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

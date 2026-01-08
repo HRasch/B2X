@@ -1,4 +1,12 @@
-# GrapesJS Email Builder Integration
+---
+docid: KB-172
+title: Grapesjs Email Builder
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# GrapesJS Email Builder Integration
 
 **DocID**: `KB-028`  
 **Last Updated**: 5. Januar 2026  
@@ -9,7 +17,7 @@
 
 ## Overview
 
-GrapesJS is a free, open-source web builder framework that provides a drag-and-drop interface for creating HTML templates. In B2Connect, it's integrated as the WYSIWYG email template editor in the Admin frontend, allowing users to visually design email templates without coding.
+GrapesJS is a free, open-source web builder framework that provides a drag-and-drop interface for creating HTML templates. In B2X, it's integrated as the WYSIWYG email template editor in the Admin frontend, allowing users to visually design email templates without coding.
 
 ## Key Features
 
@@ -292,7 +300,7 @@ const css = editor.getCss();
 console.log({ html, css });
 ```
 
-## Integration with B2Connect
+## Integration with B2X
 
 In the Admin frontend, GrapesJS is used in:
 
@@ -316,4 +324,4 @@ In the Admin frontend, GrapesJS is used in:
 - [GL-012] Frontend Quality Standards
 
 **Last Reviewed**: 5. Januar 2026</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/knowledgebase/tools-and-tech/grapesjs-email-builder.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/knowledgebase/tools-and-tech/grapesjs-email-builder.md

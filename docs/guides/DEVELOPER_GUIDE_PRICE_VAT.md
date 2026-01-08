@@ -1,4 +1,4 @@
-# Developer Guide: Price Calculation & VAT Validation
+﻿# Developer Guide: Price Calculation & VAT Validation
 
 **Issues**: #30, #31  
 **Framework**: .NET 10.0 + Wolverine  
@@ -46,7 +46,7 @@ backend/Domain/Catalog/
 │   ├── API/                           # Presentation layer
 │   │   └── Program.cs                 (DI configuration)
 │   │
-│   └── B2Connect.Catalog.API.csproj
+│   └── B2X.Catalog.API.csproj
 │
 └── tests/
     ├── PriceCalculationServiceTests.cs
@@ -66,7 +66,7 @@ backend/Domain/Catalog/
 
 ```csharp
 // ✅ CORRECT: Wolverine pattern
-namespace B2Connect.Catalog.Application.Handlers
+namespace B2X.Catalog.Application.Handlers
 {
     public class PriceCalculationHandler
     {
@@ -87,7 +87,7 @@ namespace B2Connect.Catalog.Application.Handlers
     }
 }
 
-// ❌ WRONG: MediatR pattern (not used in B2Connect)
+// ❌ WRONG: MediatR pattern (not used in B2X)
 public record CalculatePriceCommand : IRequest<CalculatePriceResponse>;
 public class CalculatePriceHandler : IRequestHandler<...> { }
 ```

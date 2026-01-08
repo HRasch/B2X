@@ -1,9 +1,17 @@
 ---
+docid: UNKNOWN-124
+title: CatalogShareRuleRefactorProposal
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 title: CatalogShareRule Refactor Proposal
 owner: @SARAH
 ---
 
-Kurz: Konkreter Vorschlag zur Übernahme des IRuleManager-Patterns (IsVisible/Rules) in B2Connect für `CatalogShare`-Regeln. Enthält Interface-Spezifikation, Entity-Design, NEST-Beispiele, Migrations- und Testplan.
+Kurz: Konkreter Vorschlag zur Übernahme des IRuleManager-Patterns (IsVisible/Rules) in B2X für `CatalogShare`-Regeln. Enthält Interface-Spezifikation, Entity-Design, NEST-Beispiele, Migrations- und Testplan.
 
 1) Ziel
 - Einheitliche Rule-Engine (`ICatalogShareRuleManager`) die Scoped-Rules (Tenant/Customer/CustomerGroup) auflöst und eine serialisierbare `EffectiveRuleSet` liefert.

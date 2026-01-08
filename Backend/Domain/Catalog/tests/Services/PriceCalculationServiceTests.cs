@@ -1,10 +1,10 @@
 using System.Globalization;
-using B2Connect.Catalog.Services;
+using B2X.Catalog.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Catalog.Tests.Services;
+namespace B2X.Catalog.Tests.Services;
 
 /// <summary>
 /// Unit tests for PriceCalculationService

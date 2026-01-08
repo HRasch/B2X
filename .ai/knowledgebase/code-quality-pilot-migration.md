@@ -1,3 +1,11 @@
+---
+docid: KB-075
+title: Code Quality Pilot Migration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Code Quality Pilot Migration - Phase 2 Results
 
 **Date:** January 3, 2026  

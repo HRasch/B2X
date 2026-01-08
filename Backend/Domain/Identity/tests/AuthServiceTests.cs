@@ -1,5 +1,5 @@
-using B2Connect.AuthService.Data;
-using B2Connect.Types;
+using B2X.AuthService.Data;
+using B2X.Types;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +9,7 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.AuthService.Tests;
+namespace B2X.AuthService.Tests;
 
 public class AuthServiceTests : IAsyncLifetime
 {
@@ -44,8 +44,8 @@ public class AuthServiceTests : IAsyncLifetime
         // Add Configuration
         var configMock = new Mock<IConfiguration>();
         configMock.Setup(x => x["Jwt:Secret"]).Returns("test-secret-key-for-testing-purposes");
-        configMock.Setup(x => x["Jwt:Issuer"]).Returns("B2Connect.Test");
-        configMock.Setup(x => x["Jwt:Audience"]).Returns("B2Connect.Admin.Test");
+        configMock.Setup(x => x["Jwt:Issuer"]).Returns("B2X.Test");
+        configMock.Setup(x => x["Jwt:Audience"]).Returns("B2X.Admin.Test");
         services.AddSingleton(configMock.Object);
 
         // Add Logging

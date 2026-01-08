@@ -1,7 +1,7 @@
-using B2Connect.LayoutService.Data;
-using B2Connect.LayoutService.Models;
+using B2X.LayoutService.Data;
+using B2X.LayoutService.Models;
 
-namespace B2Connect.LayoutService.Services;
+namespace B2X.LayoutService.Services;
 
 /// <summary>
 /// Layout Service - Business logic for CMS page building

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using B2Connect.CMS.Core.Domain.Widgets;
+using B2X.CMS.Core.Domain.Widgets;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CMS.Application.Widgets
+namespace B2X.CMS.Application.Widgets
 {
     /// <summary>
     /// Service to initialize and register all available widgets

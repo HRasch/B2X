@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using B2Connect.Store.Core.Common.Entities;
-using B2Connect.Store.Core.Common.Interfaces;
-using B2Connect.Store.Infrastructure.Common.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using B2X.Store.Core.Common.Entities;
+using B2X.Store.Core.Common.Interfaces;
+using B2X.Store.Infrastructure.Common.Data;
 
-namespace B2Connect.Store.Infrastructure.Common.Repositories;
+namespace B2X.Store.Infrastructure.Common.Repositories;
 
 /// <summary>
 /// Repository implementation for Country entity

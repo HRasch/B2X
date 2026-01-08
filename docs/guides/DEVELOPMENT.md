@@ -1,6 +1,6 @@
-# Development Guidelines
+﻿# Development Guidelines
 
-Guidelines for working on B2Connect features, architecture decisions, and coding standards.
+Guidelines for working on B2X features, architecture decisions, and coding standards.
 
 ## 📋 What's in This Document
 

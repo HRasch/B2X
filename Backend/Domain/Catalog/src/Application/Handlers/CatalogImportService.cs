@@ -1,11 +1,11 @@
 using System.Text.Json;
-using B2Connect.Catalog.Application.Adapters;
-using B2Connect.Catalog.Core.Entities;
-using B2Connect.Catalog.Core.Interfaces;
+using B2X.Catalog.Application.Adapters;
+using B2X.Catalog.Core.Entities;
+using B2X.Catalog.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.Application.Handlers;
+namespace B2X.Catalog.Application.Handlers;
 
 /// <summary>
 /// Wolverine Handler for catalog import (BMEcat, icecat, etc.)

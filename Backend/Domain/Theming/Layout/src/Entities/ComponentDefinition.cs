@@ -1,4 +1,4 @@
-namespace B2Connect.LayoutService.Models;
+namespace B2X.LayoutService.Models;
 
 public class ComponentDefinition
 {

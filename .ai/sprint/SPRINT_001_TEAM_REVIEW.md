@@ -1,4 +1,12 @@
-# 🔍 Sprint 001 Team Review: All Planned Issues
+---
+docid: SPR-151
+title: SPRINT_001_TEAM_REVIEW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🔍 Sprint 001 Team Review: All Planned Issues
 
 **Review Date:** December 30, 2025  
 **Review Type:** Pre-Sprint Alignment Review  
@@ -28,7 +36,7 @@ Comprehensive team review of all planned Sprint 001 issues to ensure:
 **Priority:** P1 (High)
 
 #### 📝 Scope
-Update B2Connect to latest stable package versions across:
+Update B2X to latest stable package versions across:
 - ServiceDefaults
 - Domain projects (Catalog, CMS, Localization, Identity, Search)
 - BoundedContexts (Store, Admin)
@@ -114,7 +122,7 @@ Update B2Connect to latest stable package versions across:
 **Priority:** P0 (Critical)
 
 #### 📝 Scope
-Modernize B2Connect Store frontend with:
+Modernize B2X Store frontend with:
 - Tailwind CSS component library
 - Responsive design (mobile-first)
 - WCAG 2.1 AA accessibility
@@ -239,7 +247,7 @@ Modernize B2Connect Store frontend with:
 **Priority:** P0 (Critical - Legal)
 
 #### 📝 Scope
-Implement complete EU e-commerce legal compliance for B2Connect Store:
+Implement complete EU e-commerce legal compliance for B2X Store:
 - PAngV (Price Indication Ordinance)
 - VVVG (Distance Selling Regulation)
 - TMG (Teleservices Data Protection Act)

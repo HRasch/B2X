@@ -1,4 +1,12 @@
-# StyleCop Analyzers Documentation
+---
+docid: KB-184
+title: Stylecop Analyzers
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# StyleCop Analyzers Documentation
 
 **DocID**: `KB-019`  
 **Last Updated**: 2. Januar 2026  
@@ -30,7 +38,7 @@ StyleCop Analyzers is an implementation of StyleCop rules using the .NET Compile
 
 ### Version Recommendation
 
-For **B2Connect (.NET 10)**, use **1.2.0-beta.556** for full modern C# support:
+For **B2X (.NET 10)**, use **1.2.0-beta.556** for full modern C# support:
 
 ```xml
 <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
@@ -180,7 +188,7 @@ StyleCop Analyzers uses two configuration mechanisms:
 {
   "settings": {
     "documentationRules": {
-      "companyName": "B2Connect GmbH",
+      "companyName": "B2X GmbH",
       "copyrightText": "Copyright (c) {companyName}. All rights reserved.",
       "xmlHeader": true,
       "documentInterfaces": true,
@@ -312,11 +320,11 @@ StyleCop 1.2.0+ supports `.editorconfig` for many settings:
 stylecop.orderingRules.usingDirectivesPlacement = outsideNamespace
 
 # Documentation
-stylecop.documentationRules.companyName = B2Connect GmbH
+stylecop.documentationRules.companyName = B2X GmbH
 stylecop.documentationRules.documentInternalElements = false
 
 # File header
-file_header_template = Copyright (c) B2Connect GmbH. All rights reserved.
+file_header_template = Copyright (c) B2X GmbH. All rights reserved.
 ```
 
 ---
@@ -395,7 +403,7 @@ Create a NuGet package with shared configuration:
 
 ---
 
-## B2Connect Style Rules & Conventions
+## B2X Style Rules & Conventions
 
 ### Project-Specific Style Guidelines
 
@@ -416,7 +424,7 @@ Create a NuGet package with shared configuration:
 - **Public APIs**: Full XML documentation required
 - **Internal Classes**: Optional documentation
 - **Private Members**: No documentation required
-- **Company Name**: "B2Connect GmbH"
+- **Company Name**: "B2X GmbH"
 - **Copyright**: "Copyright (c) {companyName}. All rights reserved."
 
 #### Spacing & Formatting
@@ -619,7 +627,7 @@ public class MyClass
 }
 ```
 
-**Note**: B2Connect disables this rule as modern IDEs make member access clear.
+**Note**: B2X disables this rule as modern IDEs make member access clear.
 
 #### SA1106: Code must not contain empty statements
 **Description**: No standalone semicolons or empty blocks.
@@ -655,7 +663,7 @@ Method(param1,
        param2); // closing paren on last param line
 ```
 
-**Note**: B2Connect disables this rule for better readability with long parameter lists.
+**Note**: B2X disables this rule for better readability with long parameter lists.
 
 #### SA1116: Split parameters must start on line after declaration
 **Description**: Multi-line parameters should be properly formatted.
@@ -937,7 +945,7 @@ private int _fieldName;
 private int fieldName;
 ```
 
-**Note**: B2Connect allows underscore prefix for private fields.
+**Note**: B2X allows underscore prefix for private fields.
 
 #### SA1310: Field names must not contain underscore
 **Description**: Field names should not contain underscores.
@@ -1095,7 +1103,7 @@ public class MyClass { }
 
 **✅ Correct:**
 ```csharp
-// Copyright (c) B2Connect GmbH. All rights reserved.
+// Copyright (c) B2X GmbH. All rights reserved.
 public class MyClass { }
 ```
 
@@ -1421,7 +1429,7 @@ var list = new List<int>
 
 ## Common Violations & Quick Fixes
 
-### Most Common Issues in B2Connect
+### Most Common Issues in B2X
 
 1. **SA1200**: Using directives inside namespace
    - **Fix**: Move all `using` statements before namespace declaration
@@ -1447,7 +1455,7 @@ var list = new List<int>
 - **VS Code**: Install "C# FixFormat" extension for similar functionality
 - **Rider**: Built-in StyleCop support with quick fixes
 
-### Suppressed Rules in B2Connect
+### Suppressed Rules in B2X
 
 Based on `stylecop.json`, the following rules are disabled:
 
@@ -1456,7 +1464,7 @@ Based on `stylecop.json`, the following rules are disabled:
 
 ---
 
-## Best Practices for B2Connect Development
+## Best Practices for B2X Development
 
 ### Code Style Consistency
 - Always run StyleCop analysis before committing
@@ -1519,9 +1527,9 @@ Ensure StyleCop runs in CI/CD pipeline:
 Create project-specific rule sets for different components:
 
 ```xml
-<!-- B2Connect.ruleset -->
+<!-- B2X.ruleset -->
 <?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="B2Connect Rules" ToolsVersion="15.0">
+<RuleSet Name="B2X Rules" ToolsVersion="15.0">
   <Include Path="minimumrecommendedrules.ruleset" Action="Default" />
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1101" Action="None" /> <!-- Disable this. prefix requirement -->
@@ -2311,6 +2319,6 @@ using System.Linq;
 
 ---
 
-**B2Connect StyleCop Configuration**: Updated for project conventions  
+**B2X StyleCop Configuration**: Updated for project conventions  
 **Last Reviewed**: January 2026  
 **Next Review**: July 2026

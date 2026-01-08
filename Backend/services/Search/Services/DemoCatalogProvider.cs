@@ -1,9 +1,9 @@
-using B2Connect.Catalog.Endpoints.Dev;
+﻿using B2X.Catalog.Endpoints.Dev;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace B2Connect.Services.Search.Services;
+namespace B2X.Services.Search.Services;
 
 public class DemoCatalogProvider : ICatalogProductProvider
 {

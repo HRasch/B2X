@@ -1,4 +1,4 @@
-# 🤖 KI-Assistenten Richtlinien & Prompt-Bibliothek
+﻿# 🤖 KI-Assistenten Richtlinien & Prompt-Bibliothek
 
 **Zielgruppe:** Development Team  
 **Status:** AI Guidelines & Prompt Collection  
@@ -280,7 +280,7 @@ Nach KI-Codegen:
 Generate a [HTTP_METHOD] endpoint in [ServiceName]Service for [FEATURE]
 
 **Requirements:**
-- Response Format: Standard B2Connect Response (success, data, errors, timestamp, traceId)
+- Response Format: Standard B2X Response (success, data, errors, timestamp, traceId)
 - Authentication: JWT Token (user must have [ROLE] role)
 - Authorization: Tenant isolation (user.TenantId == request.TenantId)
 - Input Validation: FluentValidation validator in separate class

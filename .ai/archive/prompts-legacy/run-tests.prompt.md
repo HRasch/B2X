@@ -1,4 +1,12 @@
-# 🧪 RUN_TESTS - Quality Assurance & Testing Cycle
+---
+docid: UNKNOWN-025
+title: Run Tests.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+﻿# 🧪 RUN_TESTS - Quality Assurance & Testing Cycle
 
 **Trigger**: Feature ready for testing or before merge
 **Coordinator**: @QA
@@ -62,7 +70,7 @@ Environment: development | staging | production
 ```bash
 # Backend tests
 cd backend
-dotnet test B2Connect.slnx -v minimal
+dotnet test B2X.slnx -v minimal
 
 # Frontend tests
 cd frontend/{Management|Store|Admin}

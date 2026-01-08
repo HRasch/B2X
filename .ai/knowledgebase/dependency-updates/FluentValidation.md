@@ -1,4 +1,12 @@
 ---
+docid: KB-088
+title: FluentValidation
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: FluentValidation
 current_versions:
   - Directory.Packages.props: 11.9.2

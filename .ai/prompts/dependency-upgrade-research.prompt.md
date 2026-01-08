@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-180
+title: Dependency Upgrade Research.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Dependency Upgrade Research Workflow
 
 ## Ziel

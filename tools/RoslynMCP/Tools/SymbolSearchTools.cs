@@ -1,11 +1,11 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
-using B2Connect.Tools.RoslynMCP.Services;
+using B2X.Tools.RoslynMCP.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
 
-namespace B2Connect.Tools.RoslynMCP.Tools;
+namespace B2X.Tools.RoslynMCP.Tools;
 
 /// <summary>
 /// MCP tools for searching symbols in C# solutions.

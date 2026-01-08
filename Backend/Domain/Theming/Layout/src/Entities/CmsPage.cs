@@ -1,4 +1,4 @@
-namespace B2Connect.LayoutService.Models;
+namespace B2X.LayoutService.Models;
 
 /// <summary>
 /// CMS Page - Represents a single customizable page in the storefront

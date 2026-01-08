@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.CMS.Application.Pages;
-using B2Connect.CMS.Core.Domain.Pages;
+using B2X.CMS.Application.Pages;
+using B2X.CMS.Core.Domain.Pages;
 
-namespace B2Connect.CMS.Infrastructure.Repositories
+namespace B2X.CMS.Infrastructure.Repositories
 {
     /// <summary>
     /// In-memory template repository implementation (ADR-030)

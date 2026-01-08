@@ -1,7 +1,7 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# B2Connect CLI Migration Script
-# Automates migration from B2Connect.CLI to specialized CLIs
+# B2X CLI Migration Script
+# Automates migration from B2X.CLI to specialized CLIs
 # Version: 1.0.0
 # Date: January 5, 2026
 
@@ -15,14 +15,14 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-OPERATIONS_CLI="B2Connect.CLI.Operations"
-ADMINISTRATION_CLI="B2Connect.CLI.Administration"
-OLD_CLI="B2Connect.CLI"
+OPERATIONS_CLI="B2X.CLI.Operations"
+ADMINISTRATION_CLI="B2X.CLI.Administration"
+OLD_CLI="B2X.CLI"
 
 # Functions
 print_header() {
     echo -e "${BLUE}=====================================${NC}"
-    echo -e "${BLUE}B2Connect CLI Migration Tool${NC}"
+    echo -e "${BLUE}B2X CLI Migration Tool${NC}"
     echo -e "${BLUE}=====================================${NC}"
     echo ""
 }
@@ -153,8 +153,8 @@ update_scripts() {
             print_info "No script files found"
         else
             echo "$script_files" | while read -r file; do
-                if grep -q "b2connect " "$file"; then
-                    print_warning "Found b2connect commands in: $file"
+                if grep -q "B2X " "$file"; then
+                    print_warning "Found B2X commands in: $file"
                     echo "  Please review and update manually."
                 fi
             done
@@ -169,13 +169,13 @@ show_migration_summary() {
     echo ""
     
     if [ "$INSTALL_OPERATIONS" = true ]; then
-        print_success "Operations CLI installed: b2connect-ops"
-        echo "  Example: b2connect-ops health check"
+        print_success "Operations CLI installed: B2X-ops"
+        echo "  Example: B2X-ops health check"
     fi
     
     if [ "$INSTALL_ADMINISTRATION" = true ]; then
-        print_success "Administration CLI installed: b2connect-admin"
-        echo "  Example: b2connect-admin tenant create --name 'Test'"
+        print_success "Administration CLI installed: B2X-admin"
+        echo "  Example: B2X-admin tenant create --name 'Test'"
     fi
     
     echo ""
@@ -183,13 +183,13 @@ show_migration_summary() {
     echo "1. Update your scripts with new command names"
     echo "2. Update environment variables:"
     if [ "$INSTALL_OPERATIONS" = true ]; then
-        echo "   - Operations: B2CONNECT_OPS_TOKEN"
+        echo "   - Operations: B2X_OPS_TOKEN"
     fi
     if [ "$INSTALL_ADMINISTRATION" = true ]; then
-        echo "   - Administration: B2CONNECT_TENANT_TOKEN"
+        echo "   - Administration: B2X_TENANT_TOKEN"
     fi
     echo "3. Test your workflows"
-    echo "4. Review migration guide: https://docs.b2connect.com/cli/migration"
+    echo "4. Review migration guide: https://docs.B2X.com/cli/migration"
     echo ""
 }
 
@@ -198,18 +198,18 @@ verify_installation() {
     print_info "Verifying installation..."
     
     if [ "$INSTALL_OPERATIONS" = true ]; then
-        if command -v b2connect-ops &> /dev/null; then
-            print_success "b2connect-ops is available"
+        if command -v B2X-ops &> /dev/null; then
+            print_success "B2X-ops is available"
         else
-            print_error "b2connect-ops command not found. Try: source ~/.bashrc"
+            print_error "B2X-ops command not found. Try: source ~/.bashrc"
         fi
     fi
     
     if [ "$INSTALL_ADMINISTRATION" = true ]; then
-        if command -v b2connect-admin &> /dev/null; then
-            print_success "b2connect-admin is available"
+        if command -v B2X-admin &> /dev/null; then
+            print_success "B2X-admin is available"
         else
-            print_error "b2connect-admin command not found. Try: source ~/.bashrc"
+            print_error "B2X-admin command not found. Try: source ~/.bashrc"
         fi
     fi
 }

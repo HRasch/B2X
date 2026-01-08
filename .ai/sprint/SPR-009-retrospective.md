@@ -1,4 +1,12 @@
 ---
+docid: SPR-093
+title: SPR 009 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-009-RETRO
 title: Sprint 2026-09 Retrospective - Advanced Analytics & Performance Monitoring
 owner: @ScrumMaster

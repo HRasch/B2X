@@ -1,12 +1,12 @@
 using System.Security.Claims;
-using B2Connect.LocalizationService.Controllers;
-using B2Connect.LocalizationService.Services;
+using B2X.LocalizationService.Controllers;
+using B2X.LocalizationService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace B2Connect.LocalizationService.Tests.Controllers;
+namespace B2X.LocalizationService.Tests.Controllers;
 
 public class LocalizationControllerTests
 {

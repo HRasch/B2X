@@ -1,12 +1,12 @@
-#!/usr/bin/env bash
-# B2Connect Service Orchestrator for macOS
+﻿#!/usr/bin/env bash
+# B2X Service Orchestrator for macOS
 # Startet alle Services in separaten Terminals
 
 set -euo pipefail
 
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo "🚀 B2Connect Service Orchestrator Starting..."
+echo "🚀 B2X Service Orchestrator Starting..."
 echo ""
 
 # Colors
@@ -37,10 +37,10 @@ run_service() {
     
     echo -e "${BLUE}▶ Starting $name (Port $port)...${NC}"
     cd "$path"
-    dotnet run > /tmp/b2connect_${name}.log 2>&1 &
+    dotnet run > /tmp/B2X_${name}.log 2>&1 &
     local pid=$!
     echo "  PID: $pid"
-    echo $pid > /tmp/b2connect_${name}.pid
+    echo $pid > /tmp/B2X_${name}.pid
     sleep 2
 }
 
@@ -50,10 +50,10 @@ cleanup() {
     echo -e "${YELLOW}🛑 Stopping all services...${NC}"
     
     for service in auth tenant localization; do
-        if [ -f "/tmp/b2connect_${service}.pid" ]; then
-            pid=$(cat /tmp/b2connect_${service}.pid)
+        if [ -f "/tmp/B2X_${service}.pid" ]; then
+            pid=$(cat /tmp/B2X_${service}.pid)
             kill $pid 2>/dev/null || true
-            rm /tmp/b2connect_${service}.pid
+            rm /tmp/B2X_${service}.pid
         fi
     done
     
@@ -83,9 +83,9 @@ echo "  • Customer App:   Port 5173 (npm run dev)"
 echo "  • Admin App:      Port 5174 (npm run dev -- --port 5174)"
 echo ""
 echo -e "${YELLOW}View logs:${NC}"
-echo "  • tail -f /tmp/b2connect_auth.log"
-echo "  • tail -f /tmp/b2connect_tenant.log"
-echo "  • tail -f /tmp/b2connect_localization.log"
+echo "  • tail -f /tmp/B2X_auth.log"
+echo "  • tail -f /tmp/B2X_tenant.log"
+echo "  • tail -f /tmp/B2X_localization.log"
 echo ""
 echo -e "${YELLOW}Press Ctrl+C to stop all services${NC}"
 

@@ -1,4 +1,4 @@
-# Copilot Instructions Optimization Report
+﻿# Copilot Instructions Optimization Report
 
 **Date**: 29. Dezember 2025  
 **Status**: ✅ Complete  
@@ -271,7 +271,7 @@ Create `copilot-instructions-quick-refs.md` with:
 
 Link to short (~5 min) video tutorials:
 - "Setting up your first Wolverine service" (Backend)
-- "Vue.js component patterns in B2Connect" (Frontend)
+- "Vue.js component patterns in B2X" (Frontend)
 - "Debugging with Aspire dashboard" (DevOps)
 
 ### Phase 4: Interactive Decision Trees

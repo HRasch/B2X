@@ -1,6 +1,6 @@
-using B2Connect.Email.Models;
+using B2X.Email.Models;
 
-namespace B2Connect.Email.Interfaces;
+namespace B2X.Email.Interfaces;
 
 /// <summary>
 /// Service für Email-Monitoring und Analytics

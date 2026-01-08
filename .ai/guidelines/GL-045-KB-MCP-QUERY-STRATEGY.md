@@ -1,4 +1,12 @@
 ---
+docid: GL-081
+title: GL 045 KB MCP QUERY STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: GL-045
 title: KB-MCP Query Strategy - Dynamic Knowledge Loading
 owner: "@SARAH"
@@ -85,7 +93,7 @@ kb-mcp/search_knowledge_base
 
 ### Strategy 1: Project-Specific Knowledge
 
-**Scenario**: Need B2Connect-specific patterns
+**Scenario**: Need B2X-specific patterns
 
 **Query Pattern**:
 ```bash

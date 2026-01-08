@@ -1,8 +1,8 @@
-# Service Discovery Configuration
+ï»¿# Service Discovery Configuration
 
-## Übersicht
+## ï¿½bersicht
 
-B2Connect nutzt **Aspire Service Discovery** für die Inter-Service-Kommunikation. Services kommunizieren über **Service-Namen** statt hardcodierter URLs/Ports.
+B2X nutzt **Aspire Service Discovery** fï¿½r die Inter-Service-Kommunikation. Services kommunizieren ï¿½ber **Service-Namen** statt hardcodierter URLs/Ports.
 
 ## Service-Namen (Aspire Registry)
 
@@ -23,7 +23,7 @@ B2Connect nutzt **Aspire Service Discovery** für die Inter-Service-Kommunikation
 ```csharp
 // backend/Orchestration/Program.cs
 var authService = builder
-    .AddProject("auth-service", "../BoundedContexts/Shared/Identity/B2Connect.Identity.API.csproj")
+    .AddProject("auth-service", "../BoundedContexts/Shared/Identity/B2X.Identity.API.csproj")
     .WithHttpEndpoint(port: 7002, targetPort: 7002, name: "auth-service");
 ```
 
@@ -48,7 +48,7 @@ builder.ConfigureServices((context, services) =>
 ### 3. Services registrieren HttpClients mit Service-Namen
 
 ```csharp
-// backend/shared/B2Connect.Shared.Infrastructure/Extensions/ServiceClientExtensions.cs
+// backend/shared/B2X.Shared.Infrastructure/Extensions/ServiceClientExtensions.cs
 services.AddHttpClient<IIdentityServiceClient, IdentityServiceClient>(client =>
 {
     // Service Discovery resolves "http://auth-service" automatically
@@ -81,7 +81,7 @@ services.AddHttpClient<IIdentityServiceClient, IdentityServiceClient>(client =>
 
 ```csharp
 // In Program.cs
-using B2Connect.Shared.Infrastructure.Extensions;
+using B2X.Shared.Infrastructure.Extensions;
 
 // Alle Service Clients registrieren
 builder.Services.AddAllServiceClients();
@@ -116,7 +116,7 @@ public class ProductController : ControllerBase
 ## Vorteile
 
 ? **Keine hardcodierten URLs** - Services finden sich automatisch  
-? **Umgebungs-unabhängig** - Funktioniert in Dev, Docker, Kubernetes  
+? **Umgebungs-unabhï¿½ngig** - Funktioniert in Dev, Docker, Kubernetes  
 ? **Automatisches Load Balancing** - Aspire verteilt Last  
 ? **Resilience** - Circuit Breaker, Retry-Policies integriert  
 ? **Health Checks** - Nur gesunde Services erhalten Traffic  
@@ -138,7 +138,7 @@ dotnet run
 Falls du Services einzeln startest, musst du Umgebungsvariablen setzen:
 
 ```bash
-# Überschreibt Service Discovery mit localhost
+# ï¿½berschreibt Service Discovery mit localhost
 export SERVICES__AUTH__0=http://localhost:7002
 export SERVICES__CATALOG__0=http://localhost:7005
 
@@ -153,14 +153,14 @@ dotnet run --project backend/BoundedContexts/Store/API
 System.InvalidOperationException: No service endpoints found for 'http://auth-service'
 ```
 
-**Lösung**: Aspire Orchestration läuft nicht. Starte:
+**Lï¿½sung**: Aspire Orchestration lï¿½uft nicht. Starte:
 ```bash
 cd backend/Orchestration && dotnet run
 ```
 
 ### Service Discovery deaktiviert
 
-Falls Service Discovery nicht funktioniert, prüfe `Program.cs`:
+Falls Service Discovery nicht funktioniert, prï¿½fe `Program.cs`:
 
 ```csharp
 // Muss vorhanden sein

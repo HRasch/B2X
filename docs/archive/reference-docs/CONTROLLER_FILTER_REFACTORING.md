@@ -1,4 +1,4 @@
-# Controller Refactoring - Attribute Filter Pattern
+﻿# Controller Refactoring - Attribute Filter Pattern
 
 **Status**: ✅ Implemented  
 **Date**: 27. Dezember 2025  
@@ -346,7 +346,7 @@ builder.Services.AddControllers(options =>
 });
 
 // Import hinzufügen:
-using B2Connect.Admin.Presentation.Filters;
+using B2X.Admin.Presentation.Filters;
 ```
 
 ---

@@ -4,7 +4,7 @@ using Polly;
 using Polly.CircuitBreaker;
 using Polly.Retry;
 
-namespace B2Connect.Identity.Infrastructure;
+namespace B2X.Identity.Infrastructure;
 
 /// <summary>
 /// Resilience pattern extensions for HttpClient using Polly

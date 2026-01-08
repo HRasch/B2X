@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using B2Connect.CMS.Core.Domain.Pages;
-using B2Connect.CMS.Core.Domain.Widgets;
+using B2X.CMS.Core.Domain.Pages;
+using B2X.CMS.Core.Domain.Widgets;
 
-namespace B2Connect.CMS.Infrastructure.Seeding;
+namespace B2X.CMS.Infrastructure.Seeding;
 
 /// <summary>
 /// Seeding service for CMS test data
@@ -18,7 +18,7 @@ public static class CmsTestDataSeeder
             tenantId,
             "home",
             "/",
-            "Welcome to B2Connect",
+            "Welcome to B2X",
             "full-width")
         {
             PageDescription = "Discover premium products from our carefully curated collection",
@@ -40,7 +40,7 @@ public static class CmsTestDataSeeder
         headerRegion.AddWidget("hero-banner", new Dictionary<string, object>
 (StringComparer.Ordinal)
         {
-            { "title", "Welcome to B2Connect" },
+            { "title", "Welcome to B2X" },
             { "subtitle", "Discover amazing products at great prices" },
             { "backgroundImage", "/images/hero-home.jpg" },
             { "ctaText", "Shop Now" },
@@ -178,7 +178,7 @@ public static class CmsTestDataSeeder
             tenantId,
             "product-listing",
             "/products",
-            "Products - B2Connect",
+            "Products - B2X",
             "sidebar")
         {
             PageDescription = "Browse our complete product catalog",
@@ -252,10 +252,10 @@ public static class CmsTestDataSeeder
             tenantId,
             "about",
             "/about",
-            "About B2Connect",
+            "About B2X",
             "full-width")
         {
-            PageDescription = "Learn more about B2Connect and our mission",
+            PageDescription = "Learn more about B2X and our mission",
             MetaKeywords = "about, company, mission"
         };
 
@@ -268,7 +268,7 @@ public static class CmsTestDataSeeder
         mainRegion.AddWidget("hero-banner", new Dictionary<string, object>
 (StringComparer.Ordinal)
         {
-            { "title", "About B2Connect" },
+            { "title", "About B2X" },
             { "subtitle", "Our Story and Vision" },
             { "backgroundImage", "/images/about-hero.jpg" },
             { "height", 400 }
@@ -279,7 +279,7 @@ public static class CmsTestDataSeeder
         {
             {
                 "content", @"<h2>Our Mission</h2>
-<p>B2Connect is dedicated to providing high-quality products and exceptional customer service. 
+<p>B2X is dedicated to providing high-quality products and exceptional customer service. 
 We believe in creating value for our customers through innovation, reliability, and transparency.</p>
 
 <h2>Our Values</h2>
@@ -335,7 +335,7 @@ We believe in creating value for our customers through innovation, reliability, 
             tenantId,
             "contact",
             "/contact",
-            "Contact B2Connect",
+            "Contact B2X",
             "full-width")
         {
             PageDescription = "Get in touch with our customer support team",
@@ -356,8 +356,8 @@ We believe in creating value for our customers through innovation, reliability, 
 <p>We'd love to hear from you. Please fill out the form below and we'll respond within 24 hours.</p>
 
 <h3>Other Ways to Reach Us</h3>
-<p><strong>Email:</strong> support@b2connect.com</p>
-<p><strong>Phone:</strong> 1-800-B2CONNECT</p>
+<p><strong>Email:</strong> support@B2X.com</p>
+<p><strong>Phone:</strong> 1-800-B2X</p>
 <p><strong>Hours:</strong> Monday - Friday, 9 AM - 5 PM EST</p>"
             },
             { "maxWidth", 600 }

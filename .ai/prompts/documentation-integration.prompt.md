@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-182
+title: Documentation Integration.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Documentation Integration Prompt
 
 **Type**: Standard Process Prompt

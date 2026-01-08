@@ -2,13 +2,13 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Abstractions;
-using B2Connect.ERP.Abstractions.Http;
-using B2Connect.ERP.Commands;
-using B2Connect.ERP.Queries;
+using B2X.ERP.Abstractions;
+using B2X.ERP.Abstractions.Http;
+using B2X.ERP.Commands;
+using B2X.ERP.Queries;
 using Wolverine;
 
-namespace B2Connect.ERP.Examples;
+namespace B2X.ERP.Examples;
 
 /// <summary>
 /// Example usage of the ERP CQRS layer with Wolverine.

@@ -1,12 +1,12 @@
-using Xunit;
+﻿using Xunit;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
-using B2Connect.LayoutService.Controllers;
-using B2Connect.LayoutService.Models;
-using B2Connect.LayoutService.Data;
-using B2Connect.LayoutService.Services;
+using B2X.LayoutService.Controllers;
+using B2X.LayoutService.Models;
+using B2X.LayoutService.Data;
+using B2X.LayoutService.Services;
 
-namespace B2Connect.LayoutService.Tests;
+namespace B2X.LayoutService.Tests;
 
 /// <summary>
 /// Controller Tests für Layout Service - RESTful API

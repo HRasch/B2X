@@ -1,7 +1,7 @@
-using B2Connect.Admin.Infrastructure.Data.ReadModel;
+using B2X.Admin.Infrastructure.Data.ReadModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Admin.Infrastructure.Data;
+namespace B2X.Admin.Infrastructure.Data;
 
 /// <summary>
 /// CQRS Read Model Database Context

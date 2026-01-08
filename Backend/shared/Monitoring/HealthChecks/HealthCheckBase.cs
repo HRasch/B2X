@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Shared.Monitoring.Abstractions;
+using B2X.Shared.Monitoring.Abstractions;
 
-namespace B2Connect.Shared.Monitoring.HealthChecks;
+namespace B2X.Shared.Monitoring.HealthChecks;
 
 /// <summary>
 /// Base class for health check implementations.

@@ -1,3 +1,11 @@
+---
+docid: GL-099
+title: SUBAGENT_GOVERNANCE_METRICS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Governance & Metrics Framework
 
 **Purpose**: Define decision authority, approval gates, and success metrics  

@@ -1,7 +1,7 @@
-using B2Connect.Admin.Core.Entities;
-using B2Connect.Types;
+using B2X.Admin.Core.Entities;
+using B2X.Types;
 
-namespace B2Connect.Admin.Application.Services;
+namespace B2X.Admin.Application.Services;
 
 /// <summary>
 /// Service interface for Product operations

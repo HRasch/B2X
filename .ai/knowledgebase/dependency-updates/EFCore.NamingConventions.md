@@ -1,4 +1,12 @@
 ---
+docid: KB-085
+title: EFCore.NamingConventions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: EFCore.NamingConventions
 current_version: 10.0.0-rc.2
 source_files:

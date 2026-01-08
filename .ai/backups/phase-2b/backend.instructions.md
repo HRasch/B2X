@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-119
+title: Backend.Instructions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backend/**"
 ---
 
@@ -133,7 +141,7 @@ wolverine-mcp/analyze_queries workspacePath="backend/Domain"
 **Schema and Migration Validation**:
 ```csharp
 // Validate database schema
-database-mcp/validate_schema connectionString="Server=localhost;Database=b2connect"
+database-mcp/validate_schema connectionString="Server=localhost;Database=B2X"
 
 # Check migration scripts
 database-mcp/check_migrations workspacePath="backend/Domain" migrationPath="Migrations"
@@ -142,7 +150,7 @@ database-mcp/check_migrations workspacePath="backend/Domain" migrationPath="Migr
 database-mcp/analyze_queries workspacePath="backend/Domain/Catalog" queryFile="ProductQueries.cs"
 
 // Optimize database indexes
-database-mcp/optimize_indexes connectionString="Server=localhost;Database=b2connect"
+database-mcp/optimize_indexes connectionString="Server=localhost;Database=B2X"
 
 // Validate multi-tenant setup
 database-mcp/validate_multitenancy workspacePath="backend" tenantConfig="appsettings.json"
@@ -280,7 +288,7 @@ roslyn-mcp/analyze_types workspacePath="backend/Domain/Catalog"
 roslyn-mcp/find_usages symbolName="ProductService" workspacePath="backend"
 
 # Database validation (always)
-database-mcp/validate_schema connectionString="Server=localhost;Database=b2connect"
+database-mcp/validate_schema connectionString="Server=localhost;Database=B2X"
 database-mcp/analyze_queries workspacePath="backend/Domain/Catalog"
 
 # API documentation (always)

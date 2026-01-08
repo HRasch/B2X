@@ -1,4 +1,4 @@
-# DaisyUI Component Inventory for B2Connect Store
+﻿# DaisyUI Component Inventory for B2X Store
 
 **Date**: 29. Dezember 2025  
 **Status**: ✅ Configured and Ready for Implementation  
@@ -6,11 +6,11 @@
 
 ---
 
-## 🎯 Component Mapping: DaisyUI → B2Connect Store
+## 🎯 Component Mapping: DaisyUI → B2X Store
 
 ### **Navigation & Layout**
 
-| DaisyUI Component | B2Connect Usage                      | Vue File                     | Priority | Status     |
+| DaisyUI Component | B2X Usage                      | Vue File                     | Priority | Status     |
 | ----------------- | ------------------------------------ | ---------------------------- | -------- | ---------- |
 | `navbar`          | Store header with logo, search, cart | `components/StoreHeader.vue` | P0       | 📋 Planned |
 | `drawer`          | Mobile sidebar menu                  | `components/MobileMenu.vue`  | P0       | 📋 Planned |
@@ -22,7 +22,7 @@
 
 ### **Product Listing & Cards**
 
-| DaisyUI Component | B2Connect Usage                  | Vue File                      | Priority | Status      |
+| DaisyUI Component | B2X Usage                  | Vue File                      | Priority | Status      |
 | ----------------- | -------------------------------- | ----------------------------- | -------- | ----------- |
 | `card`            | Product card container           | `components/ProductCard.vue`  | P0       | 📋 Planned  |
 | `image`           | Product image with overlay       | `components/ProductImage.vue` | P0       | 📋 Planned  |
@@ -34,7 +34,7 @@
 
 ### **Buttons & Actions**
 
-| DaisyUI Component | B2Connect Usage                           | Vue File                        | Priority | Status      |
+| DaisyUI Component | B2X Usage                           | Vue File                        | Priority | Status      |
 | ----------------- | ----------------------------------------- | ------------------------------- | -------- | ----------- |
 | `btn`             | All buttons (add to cart, checkout, etc.) | Global Utility                  | P0       | ✅ Built-in |
 | `btn-group`       | Related buttons (size selector)           | Global Utility                  | P1       | 📋 Planned  |
@@ -45,7 +45,7 @@
 
 ### **Forms & Input**
 
-| DaisyUI Component | B2Connect Usage                      | Vue File                   | Priority | Status      |
+| DaisyUI Component | B2X Usage                      | Vue File                   | Priority | Status      |
 | ----------------- | ------------------------------------ | -------------------------- | -------- | ----------- |
 | `input`           | Text inputs (search, address, etc.)  | Global Utility             | P0       | ✅ Built-in |
 | `select`          | Dropdown selects (country, category) | Global Utility             | P1       | ✅ Built-in |
@@ -59,7 +59,7 @@
 
 ### **Modals & Overlays**
 
-| DaisyUI Component | B2Connect Usage               | Vue File                  | Priority | Status     |
+| DaisyUI Component | B2X Usage               | Vue File                  | Priority | Status     |
 | ----------------- | ----------------------------- | ------------------------- | -------- | ---------- |
 | `modal`           | Dialogs (confirm, quick view) | `components/Modal.vue`    | P1       | 📋 Planned |
 | `alert`           | Error/success messages        | `components/Alert.vue`    | P0       | 📋 Planned |
@@ -69,7 +69,7 @@
 
 ### **Tables & Lists**
 
-| DaisyUI Component | B2Connect Usage           | Vue File                   | Priority | Status      |
+| DaisyUI Component | B2X Usage           | Vue File                   | Priority | Status      |
 | ----------------- | ------------------------- | -------------------------- | -------- | ----------- |
 | `table`           | Cart items, order history | `components/CartTable.vue` | P0       | 📋 Planned  |
 | `divider`         | Visual separator          | CSS Utility                | P1       | ✅ Built-in |
@@ -78,7 +78,7 @@
 
 ### **Pricing & Cart**
 
-| DaisyUI Component | B2Connect Usage              | Vue File                        | Priority | Status     |
+| DaisyUI Component | B2X Usage              | Vue File                        | Priority | Status     |
 | ----------------- | ---------------------------- | ------------------------------- | -------- | ---------- |
 | `stat`            | Price breakdown (Net + VAT)  | `components/PriceBreakdown.vue` | P0       | 📋 Planned |
 | `steps`           | Checkout progress (step 1-3) | `components/CheckoutSteps.vue`  | P0       | 📋 Planned |
@@ -121,7 +121,7 @@ These wrap DaisyUI components for reusability:
 
 ### **Light Theme**
 
-- **Primary**: `#0b98ff` (B2Connect Blue)
+- **Primary**: `#0b98ff` (B2X Blue)
 - **Secondary**: `#8b5cf6` (Purple)
 - **Success**: `#22c55e` (Green)
 - **Warning**: `#f59e0b` (Amber)

@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss';
+﻿import type { Config } from 'tailwindcss';
 // DaisyUI v5 is imported via CSS (@import "daisyui"), not as a plugin
 
 export default {
@@ -13,7 +13,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // B2Connect Brand Colors
+        // B2X Brand Colors
         primary: {
           50: '#f0f7ff',
           100: '#e0f0ff',

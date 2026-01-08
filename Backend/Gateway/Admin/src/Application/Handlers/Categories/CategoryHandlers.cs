@@ -1,12 +1,12 @@
-using B2Connect.Admin.Application.Commands.Categories;
-using B2Connect.Admin.Application.Handlers;
-using B2Connect.Admin.Core.Entities;
-using B2Connect.Admin.Core.Interfaces;
-using B2Connect.Shared.Middleware;
-using B2Connect.Types.Localization;
+using B2X.Admin.Application.Commands.Categories;
+using B2X.Admin.Application.Handlers;
+using B2X.Admin.Core.Entities;
+using B2X.Admin.Core.Interfaces;
+using B2X.Shared.Middleware;
+using B2X.Types.Localization;
 using Wolverine;
 
-namespace B2Connect.Admin.Application.Handlers.Categories;
+namespace B2X.Admin.Application.Handlers.Categories;
 
 /// <summary>
 /// Helper method for converting Category entities to CategoryResult DTOs

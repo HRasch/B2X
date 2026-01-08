@@ -1,4 +1,4 @@
-# 📁 Documentation Location Quick Card
+﻿# 📁 Documentation Location Quick Card
 
 **Print this or keep handy!**
 
@@ -9,19 +9,19 @@
 ### Issue Implementation → `collaborate/sprint/{N}/execution/`
 ```
 Example: ISSUE_30_IMPLEMENTATION_COMPLETE.md
-Location: B2Connect/collaborate/sprint/1/execution/
+Location: B2X/collaborate/sprint/1/execution/
 ```
 
 ### Sprint Planning → `collaborate/sprint/{N}/planning/`
 ```
 Example: SPRINT_1_KICKOFF.md
-Location: B2Connect/collaborate/sprint/1/planning/
+Location: B2X/collaborate/sprint/1/planning/
 ```
 
 ### Sprint Retrospective → `collaborate/sprint/{N}/retrospective/`
 ```
 Example: SPRINT_1_RETROSPECTIVE.md
-Location: B2Connect/collaborate/sprint/1/retrospective/
+Location: B2X/collaborate/sprint/1/retrospective/
 ```
 
 ### PR Documentation → `collaborate/pr/{PR_NUM}/`
@@ -35,7 +35,7 @@ Examples:
 ### Lessons Learned → `collaborate/lessons-learned/`
 ```
 Example: 2025-12-30-build-first-rule.md
-Location: B2Connect/collaborate/lessons-learned/
+Location: B2X/collaborate/lessons-learned/
 ```
 
 ### Team Agreements → `collaborate/agreements/`
@@ -49,9 +49,9 @@ Examples: coding-standards.md, process-agreements.md
 
 ```
 Wrong:
-  B2Connect/ISSUE_30_*.md
-  B2Connect/PHASE_3_*.md
-  B2Connect/SPRINT_*.md
+  B2X/ISSUE_30_*.md
+  B2X/PHASE_3_*.md
+  B2X/SPRINT_*.md
 ```
 
 ---

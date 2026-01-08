@@ -1,4 +1,12 @@
 ---
+docid: ADR-083
+title: ADR 040 Tenant Customizable Language Resources
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-039
 title: Tenant-Customizable Language Resources
 status: Proposed
@@ -10,7 +18,7 @@ created: 2026-01-05
 
 ## Context
 
-B2Connect is a multi-tenant application supporting 8 languages (en, de, fr, es, it, pt, nl, pl). Currently, all tenants share the same global translations stored as static JSON files in the frontend. This limits tenant-specific customization needs for:
+B2X is a multi-tenant application supporting 8 languages (en, de, fr, es, it, pt, nl, pl). Currently, all tenants share the same global translations stored as static JSON files in the frontend. This limits tenant-specific customization needs for:
 
 - Brand-specific terminology
 - Industry-specific language

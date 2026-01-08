@@ -1,4 +1,4 @@
-namespace B2Connect.Admin.Application.Handlers;
+namespace B2X.Admin.Application.Handlers;
 
 /// <summary>
 /// Command handler interface for Wolverine CQRS pattern

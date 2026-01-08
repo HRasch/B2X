@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace B2Connect.Shared.Monitoring.Migrations
+namespace B2X.Shared.Monitoring.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMonitoringSchema : Migration

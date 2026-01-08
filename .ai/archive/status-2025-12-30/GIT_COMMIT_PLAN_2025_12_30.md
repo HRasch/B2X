@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-051
+title: GIT_COMMIT_PLAN_2025_12_30
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # Git Commit Plan: KB Integration Phase 1 Preparation
 **Status: READY FOR COMMIT**  
 **Date: 30. Dezember 2025**  

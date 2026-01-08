@@ -1,4 +1,12 @@
 ---
+docid: STATUS-024
+title: Mcp Optimization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: MCP-OPT-001
 title: Token Bleeding Prävention - Status Report
 owner: "@SARAH"

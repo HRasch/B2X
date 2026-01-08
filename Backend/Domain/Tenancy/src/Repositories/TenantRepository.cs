@@ -1,9 +1,9 @@
-using B2Connect.Tenancy.Infrastructure.Data;
-using B2Connect.Tenancy.Models;
-using B2Connect.Types.Domain;
+using B2X.Tenancy.Infrastructure.Data;
+using B2X.Tenancy.Models;
+using B2X.Types.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Tenancy.Repositories;
+namespace B2X.Tenancy.Repositories;
 
 /// <summary>
 /// EF Core implementation of ITenantRepository.

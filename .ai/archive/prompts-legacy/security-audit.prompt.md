@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-026
+title: Security Audit.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 agent: Security
 description: Security review and compliance checklist
 ---

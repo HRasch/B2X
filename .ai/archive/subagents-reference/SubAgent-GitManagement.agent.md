@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-102
+title: SubAgent GitManagement.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ```chatagent
 ---
 description: 'Git workflow, branching strategy, and repository management specialist'

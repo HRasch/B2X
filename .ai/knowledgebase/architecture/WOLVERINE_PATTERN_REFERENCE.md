@@ -1,7 +1,15 @@
-# 🚀 Wolverine Pattern Reference
+---
+docid: KB-070
+title: WOLVERINE_PATTERN_REFERENCE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🚀 Wolverine Pattern Reference
 
 **Audience**: Backend developers  
-**Purpose**: Authoritative guide for Wolverine CQRS patterns in B2Connect  
+**Purpose**: Authoritative guide for Wolverine CQRS patterns in B2X  
 **Critical**: NOT MediatR - Wolverine services are plain POCO classes
 
 ---
@@ -40,7 +48,7 @@ public class ProductService
 ## ❌ ANTIPATTERN: MediatR (DO NOT USE)
 
 ```csharp
-// ❌ WRONG for B2Connect
+// ❌ WRONG for B2X
 public record CreateProductCommand(string Name, decimal Price) 
     : IRequest<CreateProductResponse>;
 
@@ -58,7 +66,7 @@ public class CreateProductHandler
 // DI: builder.Services.AddMediatR();  // ❌ NEVER do this
 ```
 
-**Why NOT**: B2Connect uses **Wolverine**, not MediatR. Different CQRS model.
+**Why NOT**: B2X uses **Wolverine**, not MediatR. Different CQRS model.
 
 ---
 
@@ -425,7 +433,7 @@ public async Task<Response> MyMethod(MyCommand cmd, CancellationToken ct)
 ## Reference
 
 **Wolverine Docs**: https://wolverine.netlify.app  
-**B2Connect Bounded Contexts**: See DDD_BOUNDED_CONTEXTS_REFERENCE.md  
+**B2X Bounded Contexts**: See DDD_BOUNDED_CONTEXTS_REFERENCE.md  
 **Error Handling**: See ERROR_HANDLING_PATTERNS.md  
 **Feature Implementation**: See FEATURE_IMPLEMENTATION_PATTERNS.md
 

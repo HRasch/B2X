@@ -1,4 +1,12 @@
-# ADR-044: Floating Labels vs Traditional Labels - Ruleset
+---
+docid: ADR-088
+title: ADR 044 Floating Labels Ruleset
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-044: Floating Labels vs Traditional Labels - Ruleset
 
 **Status**: Accepted  
 **Date**: 6. Januar 2026  
@@ -10,7 +18,7 @@
 
 ## Context
 
-B2Connect has three frontend applications (Store, Admin, Management) that require form input patterns. We need clear rules for when to use floating labels vs traditional labels to ensure consistency, accessibility, and optimal user experience.
+B2X has three frontend applications (Store, Admin, Management) that require form input patterns. We need clear rules for when to use floating labels vs traditional labels to ensure consistency, accessibility, and optimal user experience.
 
 Current state:
 - Placeholder comments exist in `_forms.scss` for floating labels

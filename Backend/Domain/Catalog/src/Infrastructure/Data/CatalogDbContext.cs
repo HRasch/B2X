@@ -1,7 +1,7 @@
-using B2Connect.Catalog.Core.Entities;
+using B2X.Catalog.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Catalog.Infrastructure.Data;
+namespace B2X.Catalog.Infrastructure.Data;
 
 /// <summary>
 /// Database context for Catalog Service

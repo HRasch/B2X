@@ -1,3 +1,11 @@
+---
+docid: KB-192
+title: Wolverine
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 
 Title: Wolverine (JasperFx) — messaging & CQRS overview
 Source: https://github.com/JasperFx/wolverine, https://wolverinefx.net/

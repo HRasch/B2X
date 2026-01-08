@@ -1,10 +1,10 @@
-using B2Connect.Admin.Presentation.Filters;
-using B2Connect.Email.Interfaces;
-using B2Connect.Email.Models;
+using B2X.Admin.Presentation.Filters;
+using B2X.Email.Interfaces;
+using B2X.Email.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Admin.Presentation.Controllers;
+namespace B2X.Admin.Presentation.Controllers;
 
 /// <summary>
 /// Controller für Email-Template Verwaltung

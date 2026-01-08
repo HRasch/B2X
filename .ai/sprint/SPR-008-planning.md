@@ -1,4 +1,12 @@
 ---
+docid: SPR-089
+title: SPR 008 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-008-PLANNING
 title: Sprint 2026-08 Planning - User Experience Enhancements & Feedback Systems
 owner: @ScrumMaster

@@ -1,4 +1,12 @@
-# 🔍 Admin Frontend Review Request
+---
+docid: UNKNOWN-131
+title: Review Request
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🔍 Admin Frontend Review Request
 
 **DocID**: Review-AdminFrontend-2026-01-01  
 **Requested**: 1. Januar 2026  
@@ -101,7 +109,7 @@
 ## Deliverables
 
 Each agent should document findings in:
-`/Users/holger/Documents/Projekte/B2Connect/.ai/issues/admin-frontend-review/{agent}-review.md`
+`/Users/holger/Documents/Projekte/B2X/.ai/issues/admin-frontend-review/{agent}-review.md`
 
 Format:
 ```markdown

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-141
+title: Agent Knowledge Responses
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Title: Agent knowledge responses
 Status: open
 

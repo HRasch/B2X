@@ -1,6 +1,6 @@
-# Event Validation & Domain Events Implementation
+﻿# Event Validation & Domain Events Implementation
 
-Complete guide to domain event validation, middleware integration, and event-driven patterns in B2Connect.
+Complete guide to domain event validation, middleware integration, and event-driven patterns in B2X.
 
 ## Overview
 

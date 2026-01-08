@@ -1,4 +1,12 @@
-# REQ-117: Core Monitoring Infrastructure
+---
+docid: REQ-063
+title: REQ 117 Core Monitoring Infrastructure
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# REQ-117: Core Monitoring Infrastructure
 
 **DocID**: `REQ-117`  
 **Status**: Draft | **Owner**: @ProductOwner  
@@ -6,7 +14,7 @@
 **Full Details**: `.ai/archive/requirements-full/REQ-117-core-monitoring-infrastructure.md`
 
 ## Summary
-Implement comprehensive core monitoring infrastructure to detect runtime errors immediately and reduce system downtime. This covers application health, performance metrics, error tracking, and alerting across all B2Connect services.
+Implement comprehensive core monitoring infrastructure to detect runtime errors immediately and reduce system downtime. This covers application health, performance metrics, error tracking, and alerting across all B2X services.
 
 ## User Story
 As a DevOps engineer, I want comprehensive monitoring infrastructure so that I can detect runtime errors immediately and reduce downtime.
@@ -87,4 +95,4 @@ As a DevOps engineer, I want comprehensive monitoring infrastructure so that I c
 - ADR-024: Scheduler Job Monitoring Architecture
 - REQ-001: Monitoring for Scheduler Jobs
 - Existing Aspire monitoring integration</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-117-core-monitoring-infrastructure.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-117-core-monitoring-infrastructure.md

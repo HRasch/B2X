@@ -1,4 +1,12 @@
 ---
+docid: SPR-076
+title: SPR 004 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-004
 title: Sprint 2026-04 Planning - ERP Integration Phase 1
 owner: @ScrumMaster
@@ -18,7 +26,7 @@ status: Planning
 - Establish foundation for ERP system integration
 - Implement core data synchronization capabilities
 - Ensure reliable, scalable integration architecture
-- Validate integration with existing B2Connect workflows
+- Validate integration with existing B2X workflows
 
 ## Commitment
 - Planned Story Points: 40
@@ -33,13 +41,13 @@ status: Planning
   - Establish error handling and retry mechanisms
 
 - [ ] **ERP-002: Product Data Synchronization** — @Backend — 6 SP
-  - Implement bidirectional product sync (B2Connect ↔ ERP)
+  - Implement bidirectional product sync (B2X ↔ ERP)
   - Handle product variants, pricing, and inventory levels
   - Create conflict resolution strategies for data discrepancies
   - Add sync status monitoring and manual override capabilities
 
 - [ ] **ERP-003: Order Integration** — @Backend — 6 SP
-  - Implement order export from B2Connect to ERP
+  - Implement order export from B2X to ERP
   - Handle order status synchronization
   - Create order transformation mappings
   - Add order validation and error reporting

@@ -1,6 +1,6 @@
-using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Messaging.Extensions;
-using B2Connect.Shared.Search.Extensions;
+using B2X.ServiceDefaults;
+using B2X.Shared.Messaging.Extensions;
+using B2X.Shared.Search.Extensions;
 using EFCore.NamingConventions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -81,11 +81,11 @@ var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 
 // Allow selecting an in-memory provider for local/demo runs via configuration
 var dbProvider = builder.Configuration["Database:Provider"] ?? builder.Configuration["Database__Provider"];
-builder.Services.AddDbContext<B2Connect.Catalog.Infrastructure.Data.CatalogDbContext>(options =>
+builder.Services.AddDbContext<B2X.Catalog.Infrastructure.Data.CatalogDbContext>(options =>
 {
     if (string.Equals(dbProvider, "inmemory", StringComparison.OrdinalIgnoreCase))
     {
-        options.UseInMemoryDatabase("b2connect_catalog_inmemory");
+        options.UseInMemoryDatabase("B2X_catalog_inmemory");
     }
     else
     {
@@ -99,32 +99,32 @@ builder.Services.AddMemoryCache();
 
 // Issue #30: B2C Price Transparency (PAngV)
 // Add Tax Rate Services for VAT calculation
-builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ITaxRateRepository,
-    B2Connect.Catalog.Infrastructure.Data.TaxRateRepository>();
-builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ITaxRateService,
-    B2Connect.Catalog.Application.Handlers.TaxRateService>();
-builder.Services.AddScoped<B2Connect.Catalog.Application.Handlers.PriceCalculationService>();
-builder.Services.AddScoped<B2Connect.Catalog.Application.Validators.CalculatePriceValidator>();
+builder.Services.AddScoped<B2X.Catalog.Core.Interfaces.ITaxRateRepository,
+    B2X.Catalog.Infrastructure.Data.TaxRateRepository>();
+builder.Services.AddScoped<B2X.Catalog.Core.Interfaces.ITaxRateService,
+    B2X.Catalog.Application.Handlers.TaxRateService>();
+builder.Services.AddScoped<B2X.Catalog.Application.Handlers.PriceCalculationService>();
+builder.Services.AddScoped<B2X.Catalog.Application.Validators.CalculatePriceValidator>();
 
 // BMEcat Import Services (REQ-002)
-builder.Services.AddScoped<B2Connect.Catalog.Application.Adapters.ICatalogImportAdapter,
-    B2Connect.Catalog.Application.Adapters.BmecatImportAdapter>();
-builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ICatalogImportRepository,
-    B2Connect.Catalog.Infrastructure.Data.CatalogImportRepository>();
-builder.Services.AddScoped<B2Connect.Catalog.Core.Interfaces.ICatalogProductRepository,
-    B2Connect.Catalog.Infrastructure.Data.CatalogProductRepository>();
-builder.Services.AddScoped<B2Connect.Catalog.Application.Handlers.CatalogImportService>();
+builder.Services.AddScoped<B2X.Catalog.Application.Adapters.ICatalogImportAdapter,
+    B2X.Catalog.Application.Adapters.BmecatImportAdapter>();
+builder.Services.AddScoped<B2X.Catalog.Core.Interfaces.ICatalogImportRepository,
+    B2X.Catalog.Infrastructure.Data.CatalogImportRepository>();
+builder.Services.AddScoped<B2X.Catalog.Core.Interfaces.ICatalogProductRepository,
+    B2X.Catalog.Infrastructure.Data.CatalogProductRepository>();
+builder.Services.AddScoped<B2X.Catalog.Application.Handlers.CatalogImportService>();
 
 // TODO: Add application services (ProductService, QueryHandlers, etc.) once implemented
 // NOTE: Return Management Services moved to Customer domain (Story 8: Widerrufsmanagement)
 // The ReturnApiHandler, Validators, Repositories have been migrated to Customer domain
 // per domain migration strategy (PR #41)
 // Register CatalogService implementations and endpoint adapters
-builder.Services.AddScoped<B2Connect.Catalog.Services.ISearchIndexService, B2Connect.Catalog.Services.SearchIndexService>();
-builder.Services.AddScoped<B2Connect.Catalog.Services.IProductService, B2Connect.Catalog.Services.ProductService>();
+builder.Services.AddScoped<B2X.Catalog.Services.ISearchIndexService, B2X.Catalog.Services.SearchIndexService>();
+builder.Services.AddScoped<B2X.Catalog.Services.IProductService, B2X.Catalog.Services.ProductService>();
 
-builder.Services.AddScoped<B2Connect.Catalog.Endpoints.IProductService, B2Connect.Catalog.Endpoints.ProductServiceAdapter>();
-builder.Services.AddScoped<B2Connect.Catalog.Endpoints.ISearchIndexService, B2Connect.Catalog.Endpoints.SearchIndexAdapter>();
+builder.Services.AddScoped<B2X.Catalog.Endpoints.IProductService, B2X.Catalog.Endpoints.ProductServiceAdapter>();
+builder.Services.AddScoped<B2X.Catalog.Endpoints.ISearchIndexService, B2X.Catalog.Endpoints.SearchIndexAdapter>();
 
 // Add Authorization (REQUIRED for [Authorize] attributes)
 builder.Services.AddAuthorization();
@@ -134,8 +134,8 @@ builder.Services.AddAuthorization();
 // Development-only stub services to enable frontend/gateway integration
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddSingleton<B2Connect.Catalog.Endpoints.IProductService, B2Connect.Catalog.Endpoints.DevProductService>();
-    builder.Services.AddSingleton<B2Connect.Catalog.Endpoints.ISearchIndexService, B2Connect.Catalog.Endpoints.DevSearchIndexService>();
+    builder.Services.AddSingleton<B2X.Catalog.Endpoints.IProductService, B2X.Catalog.Endpoints.DevProductService>();
+    builder.Services.AddSingleton<B2X.Catalog.Endpoints.ISearchIndexService, B2X.Catalog.Endpoints.DevSearchIndexService>();
 }
 
 var app = builder.Build();
@@ -158,7 +158,7 @@ try
             demoCount = 100; // default demo size
 
         // Ensure database created and seed CatalogImports/CatalogProducts
-        var db = scope.ServiceProvider.GetService<B2Connect.Catalog.Infrastructure.Data.CatalogDbContext>();
+        var db = scope.ServiceProvider.GetService<B2X.Catalog.Infrastructure.Data.CatalogDbContext>();
         if (db != null)
         {
             db.Database.EnsureCreated();
@@ -166,18 +166,18 @@ try
             seedLogger?.LogInformation("Starting demo seeding: demoCount={DemoCount}", demoCount);
 
             // Use existing demo product generator
-            B2Connect.Catalog.Endpoints.Dev.DemoProductStore.EnsureInitialized(demoCount, cfg.GetValue<string?>("CatalogService:DemoSector"));
-            var (items, total) = B2Connect.Catalog.Endpoints.Dev.DemoProductStore.GetPage(1, demoCount);
+            B2X.Catalog.Endpoints.Dev.DemoProductStore.EnsureInitialized(demoCount, cfg.GetValue<string?>("CatalogService:DemoSector"));
+            var (items, total) = B2X.Catalog.Endpoints.Dev.DemoProductStore.GetPage(1, demoCount);
 
             // Add a CatalogImport record and CatalogProduct rows
-            var import = new B2Connect.Catalog.Core.Entities.CatalogImport
+            var import = new B2X.Catalog.Core.Entities.CatalogImport
             {
                 Id = Guid.NewGuid(),
-                TenantId = B2Connect.Shared.Core.SeedConstants.DefaultTenantId,
+                TenantId = B2X.Shared.Core.SeedConstants.DefaultTenantId,
                 SupplierId = "demo",
                 CatalogId = "demo-catalog",
                 ImportTimestamp = DateTime.UtcNow,
-                Status = B2Connect.Catalog.Core.Entities.ImportStatus.Completed,
+                Status = B2X.Catalog.Core.Entities.ImportStatus.Completed,
                 ProductCount = total,
                 CreatedAt = DateTime.UtcNow
             };
@@ -189,7 +189,7 @@ try
                 try
                 {
                     var json = System.Text.Json.JsonSerializer.Serialize(p);
-                    var product = new B2Connect.Catalog.Core.Entities.CatalogProduct
+                    var product = new B2X.Catalog.Core.Entities.CatalogProduct
                     {
                         Id = Guid.NewGuid(),
                         CatalogImportId = import.Id,
@@ -205,7 +205,7 @@ try
             db.SaveChanges();
 
             // Trigger indexing for realistic search infrastructure if available
-            var searchIndex = scope.ServiceProvider.GetService<B2Connect.Catalog.Services.ISearchIndexService>();
+            var searchIndex = scope.ServiceProvider.GetService<B2X.Catalog.Services.ISearchIndexService>();
             if (searchIndex != null)
             {
                 seedLogger?.LogInformation("SearchIndexService resolved; indexing {Count} seeded products (fire-and-forget)", total);
@@ -214,7 +214,7 @@ try
                     try
                     {
                         var json = System.Text.Json.JsonSerializer.Serialize(p);
-                        var productModel = System.Text.Json.JsonSerializer.Deserialize<B2Connect.Catalog.Models.Product>(json, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        var productModel = System.Text.Json.JsonSerializer.Deserialize<B2X.Catalog.Models.Product>(json, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                         if (productModel != null)
                         {
                             // Index product (async fire-and-forget)

@@ -1,10 +1,10 @@
 using System.Text.Json;
-using B2Connect.Tenancy.Repositories;
+using B2X.Tenancy.Repositories;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Tenancy.Services;
+namespace B2X.Tenancy.Services;
 
 /// <summary>
 /// Service for looking up tenant IDs from domain names with multi-level caching.

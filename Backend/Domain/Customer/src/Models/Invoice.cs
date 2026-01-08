@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace B2Connect.Customer.Models;
+namespace B2X.Customer.Models;
 
 /// <summary>
 /// Invoice Entity - Document generated from order
@@ -30,7 +30,7 @@ public class Invoice
     public string Status { get; set; } = "Draft"; // "Draft", "Issued", "Paid", "Cancelled"
 
     // Parties
-    public string SellerName { get; set; } = string.Empty; // "B2Connect GmbH"
+    public string SellerName { get; set; } = string.Empty; // "B2X GmbH"
     public string SellerVatId { get; set; } = string.Empty; // "DE123456789"
     public string SellerAddress { get; set; } = string.Empty;
 

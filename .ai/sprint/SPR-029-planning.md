@@ -1,4 +1,12 @@
-# SPR-029: Sprint 2026-29 Planning - Advanced AI Governance Scaling & Automated Model Lifecycle
+---
+docid: SPR-144
+title: SPR 029 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# SPR-029: Sprint 2026-29 Planning - Advanced AI Governance Scaling & Automated Model Lifecycle
 
 **DocID**: SPR-029  
 **Date**: 7. Januar 2026  
@@ -172,4 +180,4 @@
 ---
 
 *Planning completed: 7. Januar 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-029-planning.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-029-planning.md

@@ -1,8 +1,8 @@
 using System;
-using B2Connect.Shared.Core.Entities;
-using B2Connect.Shared.Kernel;
+using B2X.Shared.Core.Entities;
+using B2X.Shared.Kernel;
 
-namespace B2Connect.SmartDataIntegration.Models
+namespace B2X.SmartDataIntegration.Models
 {
     /// <summary>
     /// Represents an individual mapping rule within a data mapping configuration

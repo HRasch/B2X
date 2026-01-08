@@ -1,3 +1,11 @@
+---
+docid: COLLAB-027
+title: SARAH_REQUESTS_EXPERTISE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SARAH Requests Help from Agents
 
 ## Überblick

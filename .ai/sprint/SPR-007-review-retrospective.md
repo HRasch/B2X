@@ -1,4 +1,12 @@
 ---
+docid: SPR-086
+title: SPR 007 Review Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-007-REVIEW
 title: Sprint 2026-07 Review & Retrospective - Process Improvements & Real ERP Testing
 owner: @ScrumMaster
@@ -100,4 +108,4 @@ phase: review
 
 ## Zusammenfassung
 Sprint 2026-07 erfolgreich abgeschlossen mit 100% Velocity. Stakeholder-Feedback positiv, Prozesse verbessert. Action Items für kontinuierliche Verbesserung definiert. Nächster Sprint geplant.</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-007-review-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-007-review-retrospective.md

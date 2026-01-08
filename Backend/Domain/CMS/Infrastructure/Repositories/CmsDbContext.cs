@@ -1,8 +1,8 @@
 using System;
-using B2Connect.CMS.Core.Domain.Pages;
+using B2X.CMS.Core.Domain.Pages;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.CMS.Infrastructure.Repositories
+namespace B2X.CMS.Infrastructure.Repositories
 {
     /// <summary>
     /// Entity Framework DbContext for CMS domain (ADR-030 Phase 3)

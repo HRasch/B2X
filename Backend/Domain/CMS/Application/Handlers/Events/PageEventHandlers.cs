@@ -1,7 +1,7 @@
-using B2Connect.Shared.Messaging.Events;
+using B2X.Shared.Messaging.Events;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CMS.Handlers.Events;
+namespace B2X.CMS.Handlers.Events;
 
 /// <summary>
 /// Handler for PageCreatedEvent

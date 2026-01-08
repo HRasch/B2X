@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Catalog.ImportAdapters;
+using B2X.Catalog.ImportAdapters;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.ImportAdapters.Formats;
+namespace B2X.Catalog.ImportAdapters.Formats;
 
 /// <summary>
 /// Import adapter for Datanorm format (German product catalog standard)

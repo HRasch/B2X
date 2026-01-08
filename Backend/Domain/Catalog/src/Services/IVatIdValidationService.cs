@@ -1,6 +1,6 @@
-using B2Connect.Catalog.Models;
+using B2X.Catalog.Models;
 
-namespace B2Connect.Catalog.Services;
+namespace B2X.Catalog.Services;
 
 /// <summary>
 /// Service for B2B VAT ID validation and reverse charge determination

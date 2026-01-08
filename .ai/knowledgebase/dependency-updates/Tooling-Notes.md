@@ -1,4 +1,12 @@
 ---
+docid: KB-102
+title: Tooling Notes
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Tooling Notes / Next Steps
 created_by: SARAH
 created_at: 2025-12-30

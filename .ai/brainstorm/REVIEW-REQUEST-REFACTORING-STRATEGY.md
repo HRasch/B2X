@@ -1,4 +1,12 @@
 ---
+docid: BS-028
+title: REVIEW REQUEST REFACTORING STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: REV-REFACTOR-001
 title: Review Request - Refactoring Efficiency Strategy
 owner: "@SARAH"

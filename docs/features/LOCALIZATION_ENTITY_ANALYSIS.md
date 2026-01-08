@@ -1,4 +1,4 @@
-# B2Connect - Mehrsprachigkeits-Analyse nach Service
+﻿# B2X - Mehrsprachigkeits-Analyse nach Service
 
 ## Übersicht
 Detaillierte Analyse der Entitäten in verschiedenen Services und deren Mehrsprachigkeits-Unterstützung.

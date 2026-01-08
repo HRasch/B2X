@@ -1,4 +1,4 @@
-# 📊 COPILOT PERFORMANCE COMPARISON CHART
+﻿# 📊 COPILOT PERFORMANCE COMPARISON CHART
 
 ## Visual Representation der Messungen
 
@@ -211,7 +211,7 @@ Straight-to-Solution:
 ### 8️⃣ SCALABILITY
 
 ```
-As B2Connect grows:
+As B2X grows:
 - More files
 - More developers
 - More complex issues

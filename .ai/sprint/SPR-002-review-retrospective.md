@@ -1,4 +1,12 @@
-# SPR-002: Sprint 2026-02 Review & Retrospective
+---
+docid: SPR-070
+title: SPR 002 Review Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# SPR-002: Sprint 2026-02 Review & Retrospective
 
 **DocID**: SPR-002-Review  
 **Date**: 5. Februar 2026  
@@ -62,4 +70,4 @@
 
 ## Zusammenfassung
 Sprint 2026-02 erfolgreich mit 40 SP Completion (100% Ziel). Legal Compliance vollständig implementiert, alle regulatorischen Anforderungen erfüllt. Retrospective identifizierte Verbesserungen in Agent-Koordination und Testing. Nächster Sprint fokussiert auf Advanced Features und ERP-Integration.</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-002-review-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-002-review-retrospective.md

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-161
+title: AGENT_MANAGEMENT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent & Guideline Management Permissions
 
 ## Exclusive Authority: SARAH

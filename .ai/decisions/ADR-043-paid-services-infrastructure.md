@@ -1,4 +1,12 @@
-# ADR-043: Paid Services Infrastructure
+---
+docid: ADR-087
+title: ADR 043 Paid Services Infrastructure
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-043: Paid Services Infrastructure
 
 **Status**: Proposed  
 **Date**: 2026-01-06  
@@ -9,7 +17,7 @@
 
 ## Context and Problem Statement
 
-B2Connect needs infrastructure to support additional paid services beyond the core platform. This includes:
+B2X needs infrastructure to support additional paid services beyond the core platform. This includes:
 - Tiered subscription management per tenant
 - Usage-based billing for compute-intensive features
 - Feature entitlement checking at service boundaries
@@ -185,7 +193,7 @@ These services require separate customer activation and billing due to external 
 ### 5. Domain Model
 
 ```csharp
-// B2Connect.Billing.Domain
+// B2X.Billing.Domain
 
 public sealed record TenantSubscription
 {

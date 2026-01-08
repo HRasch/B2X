@@ -1,10 +1,10 @@
-using B2Connect.Tenancy.Models;
-using B2Connect.Tenancy.Repositories;
-using B2Connect.Types.Domain;
+using B2X.Tenancy.Models;
+using B2X.Tenancy.Repositories;
+using B2X.Types.Domain;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Tenancy.Tests.Repositories;
+namespace B2X.Tenancy.Tests.Repositories;
 
 public class TenantDomainRepositoryTests
 {
@@ -20,7 +20,7 @@ public class TenantDomainRepositoryTests
     {
         // Arrange
         var tenantId = Guid.NewGuid();
-        var domainName = "test.b2connect.de";
+        var domainName = "test.B2X.de";
 
         _mockRepo.Setup(r => r.ResolveTenantIdAsync(domainName, It.IsAny<CancellationToken>()))
             .ReturnsAsync(tenantId);
@@ -55,7 +55,7 @@ public class TenantDomainRepositoryTests
         var tenantId = Guid.NewGuid();
         var domains = new List<TenantDomain>
         {
-            new() { Id = Guid.NewGuid(), TenantId = tenantId, DomainName = "primary.b2connect.de", IsPrimary = true },
+            new() { Id = Guid.NewGuid(), TenantId = tenantId, DomainName = "primary.B2X.de", IsPrimary = true },
             new() { Id = Guid.NewGuid(), TenantId = tenantId, DomainName = "secondary.example.com", IsPrimary = false }
         };
 
@@ -74,7 +74,7 @@ public class TenantDomainRepositoryTests
     public async Task DomainExistsAsync_WithExistingDomain_ReturnsTrue()
     {
         // Arrange
-        var domainName = "existing.b2connect.de";
+        var domainName = "existing.B2X.de";
 
         _mockRepo.Setup(r => r.DomainExistsAsync(domainName, null, It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
@@ -90,7 +90,7 @@ public class TenantDomainRepositoryTests
     public async Task DomainExistsAsync_WithExcludedId_ExcludesFromCheck()
     {
         // Arrange
-        var domainName = "existing.b2connect.de";
+        var domainName = "existing.B2X.de";
         var excludeId = Guid.NewGuid();
 
         _mockRepo.Setup(r => r.DomainExistsAsync(domainName, excludeId, It.IsAny<CancellationToken>()))

@@ -1,4 +1,4 @@
-# 🔧 Security Hardening - Implementierungs-Guide
+﻿# 🔧 Security Hardening - Implementierungs-Guide
 
 Dieser Guide behandelt die kritischen Sicherheitsprobleme und deren Lösungen.
 
@@ -8,7 +8,7 @@ Dieser Guide behandelt die kritischen Sicherheitsprobleme und deren Lösungen.
 ```csharp
 // ❌ AKTUELL - GEFÄHRLICH
 var jwtSecret = builder.Configuration["Jwt:Secret"] 
-    ?? "B2Connect-Super-Secret-Key-For-Development-Only-32chars!";
+    ?? "B2X-Super-Secret-Key-For-Development-Only-32chars!";
 ```
 
 Dieser Default-Secret könnte in Production verwendet werden!
@@ -54,9 +54,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
             ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2Connect",
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2X",
             ValidateAudience = true,
-            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2Connect",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2X",
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromSeconds(60) // 60 Sekunden Toleranz
         };
@@ -75,8 +75,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     }
   },
   "Jwt": {
-    "Issuer": "B2Connect",
-    "Audience": "B2Connect",
+    "Issuer": "B2X",
+    "Audience": "B2X",
     "TokenExpiration": 3600,
     "RefreshTokenExpiration": 604800
   }
@@ -95,8 +95,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     }
   },
   "Jwt": {
-    "Issuer": "B2Connect",
-    "Audience": "B2Connect",
+    "Issuer": "B2X",
+    "Audience": "B2X",
     "TokenExpiration": 900,
     "RefreshTokenExpiration": 604800
   }
@@ -114,8 +114,8 @@ ASPNETCORE_URLS=http://+:8080
 
 # JWT Configuration
 JWT_SECRET=dev-secret-32-chars-minimum-required!
-JWT_ISSUER=B2Connect
-JWT_AUDIENCE=B2Connect
+JWT_ISSUER=B2X
+JWT_AUDIENCE=B2X
 
 # Database
 Database__Provider=inmemory
@@ -149,7 +149,7 @@ if (!app.Environment.IsDevelopment())
     var secret = await secretsManager.GetSecretValueAsync(
         new GetSecretValueRequest 
         { 
-            SecretId = "b2connect/jwt-secret" 
+            SecretId = "B2X/jwt-secret" 
         });
     
     jwtSecret = secret.SecretString;
@@ -224,7 +224,7 @@ builder.Services.AddCors(options =>
 {
   "Cors": {
     "AllowedOrigins": [
-      "https://admin.b2connect.com"
+      "https://admin.B2X.com"
     ]
   }
 }
@@ -270,7 +270,7 @@ WITH SUBJECT = 'TDE Certificate';
 CREATE ASYMMETRIC KEY TDE_Key
 ENCRYPTION BY CERTIFICATE TDE_Cert;
 
-ALTER DATABASE b2connect
+ALTER DATABASE B2X
 SET ENCRYPTION ON;
 ```
 
@@ -281,7 +281,7 @@ SET ENCRYPTION ON;
 ```csharp
 #nullable enable
 
-namespace B2Connect.Identity.Core.Entities;
+namespace B2X.Identity.Core.Entities;
 
 public class User : BaseEntity
 {
@@ -312,7 +312,7 @@ public class User : BaseEntity
 using System.Security.Cryptography;
 using System.Text;
 
-namespace B2Connect.Infrastructure.Encryption;
+namespace B2X.Infrastructure.Encryption;
 
 public interface IEncryptionService
 {
@@ -453,7 +453,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Security.Claims;
 
-namespace B2Connect.Infrastructure.Audit;
+namespace B2X.Infrastructure.Audit;
 
 public interface IAuditableEntity
 {
@@ -546,9 +546,9 @@ public class AuditInterceptor : SaveChangesInterceptor
 **Datei:** `backend/BoundedContexts/Shared/Identity/src/Core/Entities/User.cs`
 
 ```csharp
-using B2Connect.Infrastructure.Audit;
+using B2X.Infrastructure.Audit;
 
-namespace B2Connect.Identity.Core.Entities;
+namespace B2X.Identity.Core.Entities;
 
 public class User : BaseEntity, IAuditableEntity
 {

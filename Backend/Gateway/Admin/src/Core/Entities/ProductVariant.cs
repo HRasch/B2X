@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using B2Connect.Types.Localization;
+using B2X.Types.Localization;
 
-namespace B2Connect.Admin.Core.Entities;
+namespace B2X.Admin.Core.Entities;
 
 /// <summary>
 /// Product variant (e.g., different sizes, colors) with multilingual support

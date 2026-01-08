@@ -1,6 +1,6 @@
-# Vue.js MCP Server
+﻿# Vue.js MCP Server
 
-A Model Context Protocol (MCP) server for Vue.js development assistance in the B2Connect project. This server provides AI-powered analysis and tooling for Vue 3 components, Pinia state management, Vite tooling, i18n validation, and responsive design checks.
+A Model Context Protocol (MCP) server for Vue.js development assistance in the B2X project. This server provides AI-powered analysis and tooling for Vue 3 components, Pinia state management, Vite tooling, i18n validation, and responsive design checks.
 
 ## Features
 
@@ -99,9 +99,9 @@ Analyzes Pinia store structure and patterns.
 - `filePath`: Path to the Pinia store file
 - `workspacePath`: Workspace root directory
 
-## Integration with B2Connect
+## Integration with B2X
 
-This MCP server is designed to work with the B2Connect frontend architecture:
+This MCP server is designed to work with the B2X frontend architecture:
 
 - **Vue 3** with Composition API
 - **Nuxt 3** framework
@@ -125,4 +125,4 @@ This is a **prototype implementation** with basic functionality. Full features w
 
 ## Contributing
 
-Follow B2Connect development guidelines and coordinate with @Frontend agent for feature additions.
+Follow B2X development guidelines and coordinate with @Frontend agent for feature additions.

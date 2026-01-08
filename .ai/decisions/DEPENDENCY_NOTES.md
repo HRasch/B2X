@@ -1,4 +1,12 @@
-# Dependency Update Notes
+---
+docid: ADR-109
+title: DEPENDENCY_NOTES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Dependency Update Notes
 
 **Date:** December 30, 2025  
 **Owner:** @Backend  
@@ -9,7 +17,7 @@
 
 ## Updates Applied
 
-### ✅ B2Connect.Shared.Infrastructure
+### ✅ B2X.Shared.Infrastructure
 - **Package:** Polly
 - **From:** 8.4.0
 - **To:** 8.6.5
@@ -18,7 +26,7 @@
 - **Type:** Patch update (no breaking changes)
 - **Dependents:** 6 projects use this package
 
-### ✅ B2Connect.Customer.API
+### ✅ B2X.Customer.API
 - **Package:** Polly
 - **From:** 8.4.0
 - **To:** 8.6.5
@@ -32,7 +40,7 @@
 
 ### Build Status
 ```
-✅ dotnet build B2Connect.slnx
+✅ dotnet build B2X.slnx
    - 0 Errors
    - 149 Warnings (pre-existing, unrelated to Polly update)
    - Build Time: 10.99s
@@ -69,12 +77,12 @@
 ## Testing Verification
 
 ### Projects Using Polly
-1. **B2Connect.Shared.Infrastructure**
+1. **B2X.Shared.Infrastructure**
    - Used by: 6 dependent projects
    - Status: ✅ Builds successfully
    - Retry/circuit-breaker policies: ✅ Unaffected
 
-2. **B2Connect.Customer.API**
+2. **B2X.Customer.API**
    - Used by: Standalone
    - Status: ✅ Builds successfully
    - Retry logic: ✅ Unaffected

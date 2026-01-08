@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Customer.Models;
+using B2X.Customer.Models;
 
-namespace B2Connect.Customer.Interfaces;
+namespace B2X.Customer.Interfaces;
 
 /// <summary>
 /// Interface for invoice generation and modification

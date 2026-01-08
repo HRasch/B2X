@@ -1,4 +1,12 @@
-# 🔍 ERP Domain Architecture Review
+---
+docid: REV-003
+title: ERP ARCHITECTURE REVIEW 2026 01 02
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🔍 ERP Domain Architecture Review
 
 **Date**: 2. Januar 2026  
 **Reviewers**: @Architect, @Enventa  
@@ -264,7 +272,7 @@ public class EnventaQueryAdapter
 ## 📁 Reviewed Files
 
 ### Core Structure ✅
-- `B2Connect.ERP.csproj` - Projekt-Struktur korrekt
+- `B2X.ERP.csproj` - Projekt-Struktur korrekt
 - `ServiceCollectionExtensions.cs` - DI-Registrierung
 
 ### Contracts ✅

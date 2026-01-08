@@ -1,4 +1,4 @@
-namespace B2Connect.Types;
+namespace B2X.Types;
 
 /// <summary>
 /// Result type for operations that can succeed or fail without returning a value.

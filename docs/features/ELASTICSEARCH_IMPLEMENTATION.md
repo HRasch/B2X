@@ -1,4 +1,4 @@
-# Elasticsearch Integration & Full-Text Search
+﻿# Elasticsearch Integration & Full-Text Search
 
 Comprehensive guide to Elasticsearch integration for product search, indexing, and multilingual support.
 
@@ -37,7 +37,7 @@ Return Results with Relevance Score
 ```bash
 ELASTICSEARCH_ENABLED=true
 ELASTICSEARCH_URL=http://localhost:9200
-ELASTICSEARCH_INDEX_PREFIX=b2connect
+ELASTICSEARCH_INDEX_PREFIX=B2X
 ELASTICSEARCH_DEFAULT_LANGUAGE=en
 ```
 
@@ -453,7 +453,7 @@ public async Task<SearchResults> SearchByLanguageAsync(
 ### Check Index Health
 
 ```bash
-curl -X GET "localhost:9200/b2connect-products/_stats"
+curl -X GET "localhost:9200/B2X-products/_stats"
 ```
 
 ### Reindex with New Mapping
@@ -462,7 +462,7 @@ curl -X GET "localhost:9200/b2connect-products/_stats"
 public async Task ReindexWithNewMappingAsync(Guid tenantId)
 {
     // Create new index with updated mapping
-    var newIndexName = $"b2connect-products-{DateTime.Now:yyyyMMdd}";
+    var newIndexName = $"B2X-products-{DateTime.Now:yyyyMMdd}";
     await _client.CreateIndexAsync(newIndexName);
     
     // Copy data from old index
@@ -470,7 +470,7 @@ public async Task ReindexWithNewMappingAsync(Guid tenantId)
     {
         Source = new ReindexSource
         {
-            Index = "b2connect-products"
+            Index = "B2X-products"
         },
         Destination = new ReindexDestination
         {
@@ -482,7 +482,7 @@ public async Task ReindexWithNewMappingAsync(Guid tenantId)
     
     // Switch alias
     await _client.AliasAsync(a => a
-        .Remove(r => r.Index("b2connect-products").Alias("products"))
+        .Remove(r => r.Index("B2X-products").Alias("products"))
         .Add(add => add.Index(newIndexName).Alias("products"))
     );
 }
@@ -512,9 +512,9 @@ public async Task ReindexWithNewMappingAsync(Guid tenantId)
 - Run reindex: `POST /api/v1/catalog/reindex`
 
 ### Slow search queries
-- Check index size: `GET /b2connect-products/_stats`
+- Check index size: `GET /B2X-products/_stats`
 - Consider adding more shards
-- Profile queries: `GET /b2connect-products/_search/profile`
+- Profile queries: `GET /B2X-products/_search/profile`
 
 ## References
 

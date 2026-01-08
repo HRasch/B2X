@@ -1,3 +1,11 @@
+---
+docid: PROP-006
+title: Security Instructions Proposal
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Proposed additions to `.github/instructions/security.instructions.md` (for CopilotExpert review):
 
 1) Automated SCA & alerting:

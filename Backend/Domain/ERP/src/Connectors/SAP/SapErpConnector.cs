@@ -5,10 +5,10 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.ERP.Abstractions;
+using B2X.ERP.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.ERP.Connectors.SAP;
+namespace B2X.ERP.Connectors.SAP;
 
 /// <summary>
 /// ERP connector for SAP ERP/S4HANA systems.
@@ -163,10 +163,10 @@ public class SapErpConnector : IErpConnector
 
             var materialsData = await response.Content.ReadFromJsonAsync<JsonElement>(cancellationToken: cancellationToken);
 
-            // TODO: Process SAP materials data and map to B2Connect catalog format
+            // TODO: Process SAP materials data and map to B2X catalog format
             // This would involve:
             // 1. Parsing SAP Material data structure
-            // 2. Mapping to B2Connect product schema
+            // 2. Mapping to B2X product schema
             // 3. Handling classifications, pricing, variants
             // 4. Bulk insert/update operations
 

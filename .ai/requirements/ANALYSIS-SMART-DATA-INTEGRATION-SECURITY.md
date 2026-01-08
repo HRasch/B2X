@@ -1,4 +1,12 @@
 ---
+docid: REQ-043
+title: ANALYSIS SMART DATA INTEGRATION SECURITY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ANALYSIS-SMART-DATA-INTEGRATION-SECURITY
 title: Smart Data Integration Assistant - Security Analysis
 owner: @Security
@@ -382,4 +390,4 @@ The Smart Data Integration Assistant can be implemented securely with the recomm
 **Risk Level**: 🔶 MEDIUM (Acceptable with mitigations)
 **Date**: 7. Januar 2026
 **@Security**</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-SECURITY.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-SECURITY.md

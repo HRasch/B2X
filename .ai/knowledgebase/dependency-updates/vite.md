@@ -1,4 +1,12 @@
 ---
+docid: KB-104
+title: Vite
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: vite
 current_version: "6.0.5 (Store), 7.3.0 (Admin)"
 source_files:

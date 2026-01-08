@@ -1,4 +1,12 @@
-# Documentation MCP Usage Guide
+---
+docid: KB-167
+title: Documentation Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Documentation MCP Usage Guide
 
 **DocID**: `KB-062`  
 **Title**: Documentation MCP Usage Guide  
@@ -10,7 +18,7 @@
 
 ## Overview
 
-The Documentation MCP (Model Context Protocol) server provides comprehensive documentation validation and quality assurance for B2Connect. It ensures documentation accuracy, completeness, accessibility, and maintainability across all documentation formats and languages.
+The Documentation MCP (Model Context Protocol) server provides comprehensive documentation validation and quality assurance for B2X. It ensures documentation accuracy, completeness, accessibility, and maintainability across all documentation formats and languages.
 
 **Documentation Scope**: Markdown, reStructuredText, plain text, AsciiDoc, and other documentation formats
 
@@ -282,7 +290,7 @@ rules:
 To install the package, run the following command:
 
 ```bash
-npm install b2connect
+npm install B2X
 ```
 
 <!-- ❌ BAD: Unclear and verbose -->
@@ -304,7 +312,7 @@ In order to get the package installed on your system, you will need to execute t
 <!-- ✅ GOOD: Complete, runnable examples -->
 ```typescript
 // src/services/api.ts
-import { ApiClient } from '@b2connect/core'
+import { ApiClient } from '@B2X/core'
 
 export class ProductService {
   private client: ApiClient
@@ -389,7 +397,7 @@ Code blocks for examples
 
 ```markdown
 <!-- ✅ GOOD: Descriptive alt text -->
-![B2Connect architecture diagram showing frontend, backend, and database layers](docs/images/architecture.png)
+![B2X architecture diagram showing frontend, backend, and database layers](docs/images/architecture.png)
 
 <!-- ❌ BAD: Missing or poor alt text -->
 ![Image](diagram.png)
@@ -562,7 +570,7 @@ jobs:
 
 ```yaml
 # mkdocs.yml
-site_name: B2Connect Documentation
+site_name: B2X Documentation
 docs_dir: docs/
 
 plugins:
@@ -591,8 +599,8 @@ extra:
 ```javascript
 // docusaurus.config.js
 module.exports = {
-  title: 'B2Connect',
-  url: 'https://docs.b2connect.com',
+  title: 'B2X',
+  url: 'https://docs.B2X.com',
 
   plugins: [
     [
@@ -601,7 +609,7 @@ module.exports = {
         id: 'docs',
         path: 'docs',
         routeBasePath: 'docs',
-        editUrl: 'https://github.com/b2connect/docs/edit/main/',
+        editUrl: 'https://github.com/B2X/docs/edit/main/',
         sidebarPath: require.resolve('./sidebars.js'),
 
         // Documentation MCP integration
@@ -668,4 +676,4 @@ echo "✅ Documentation validation complete"
 **Maintained by**: @DocMaintainer  
 **Last Review**: 6. Januar 2026  
 **Next Review**: 6. Februar 2026</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/knowledgebase/tools-and-tech/documentation-mcp-usage.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/knowledgebase/tools-and-tech/documentation-mcp-usage.md

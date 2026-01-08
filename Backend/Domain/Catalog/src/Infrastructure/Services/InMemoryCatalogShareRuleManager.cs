@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using B2Connect.Catalog.Core.Entities;
-using B2Connect.Catalog.Core.Services;
+using B2X.Catalog.Core.Entities;
+using B2X.Catalog.Core.Services;
 
-namespace B2Connect.Catalog.Infrastructure.Services
+namespace B2X.Catalog.Infrastructure.Services
 {
     /// <summary>
     /// Minimal in-memory implementation of ICatalogShareRuleManager.

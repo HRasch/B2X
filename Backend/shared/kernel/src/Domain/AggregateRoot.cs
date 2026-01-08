@@ -1,4 +1,4 @@
-namespace B2Connect.Shared.Kernel;
+namespace B2X.Shared.Kernel;
 
 /// <summary>
 /// Minimal base class for aggregate roots used by multiple domain projects.

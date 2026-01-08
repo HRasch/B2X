@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace B2Connect.Catalog.ImportAdapters;
+namespace B2X.Catalog.ImportAdapters;
 
 /// <summary>
 /// Interface for catalog import adapters supporting different file formats

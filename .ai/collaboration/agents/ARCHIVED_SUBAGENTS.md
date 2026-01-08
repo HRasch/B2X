@@ -1,3 +1,11 @@
+---
+docid: COLLAB-001
+title: ARCHIVED_SUBAGENTS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Resource Library — "Lazy Experts"
 
 This file indexes SubAgent definition files that were consolidated into higher-level "family" agents and are now maintained as a resource library. These SubAgents are not outdated — they're "lazy experts": compact, specialist templates that encapsulate expert knowledge for on-demand use. The canonical guidance and ownership remain in the consolidated family files; the items in `.github/agents/subagents/` are available for quick reference and reuse.

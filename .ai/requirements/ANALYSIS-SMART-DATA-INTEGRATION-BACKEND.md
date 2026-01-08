@@ -1,4 +1,12 @@
 ---
+docid: REQ-041
+title: ANALYSIS SMART DATA INTEGRATION BACKEND
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ANALYSIS-SMART-DATA-INTEGRATION-BACKEND
 title: Smart Data Integration Assistant - Backend Analysis
 owner: @Backend
@@ -166,7 +174,7 @@ public class ModelTrainingService
 ## 🔗 Integration Points
 
 ### Existing Systems
-- **ERP Connectors**: Extend `B2Connect.ERP` project
+- **ERP Connectors**: Extend `B2X.ERP` project
 - **Database**: PostgreSQL with existing tenant isolation
 - **Caching**: Redis for performance optimization
 - **Message Queue**: Event-driven updates for real-time status
@@ -313,4 +321,4 @@ The Smart Data Integration Assistant is technically feasible and aligns with our
 **Analysis Complete**: ✅ APPROVED for implementation
 **Date**: 7. Januar 2026
 **@Backend**</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-BACKEND.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-BACKEND.md

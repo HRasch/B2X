@@ -1,4 +1,4 @@
-# ✅ ERP Provider Pattern - COMPLETE IMPLEMENTATION
+﻿# ✅ ERP Provider Pattern - COMPLETE IMPLEMENTATION
 
 **Status**: ✅ PRODUCTION READY  
 **Build**: ✅ 0 ERRORS (77 warnings - all framework)  
@@ -190,13 +190,13 @@ public class CheckRegistrationTypeService
 ### Run Tests
 ```bash
 # Test just the ERP provider tests
-dotnet test backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj --filter "ErpProvider"
+dotnet test backend/Domain/Identity/tests/B2X.Identity.Tests.csproj --filter "ErpProvider"
 
 # Test all Identity tests
-dotnet test backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj
+dotnet test backend/Domain/Identity/tests/B2X.Identity.Tests.csproj
 
 # Test everything
-dotnet test B2Connect.slnx
+dotnet test B2X.slnx
 ```
 
 ---
@@ -387,7 +387,7 @@ public async Task<ErpCustomerDto?> GetCustomer(string email)
 {
   "Logging": {
     "LogLevel": {
-      "B2Connect.Identity.Infrastructure": "Debug"
+      "B2X.Identity.Infrastructure": "Debug"
     }
   }
 }

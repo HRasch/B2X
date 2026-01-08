@@ -1,10 +1,10 @@
 using System.Text.Json;
-using B2Connect.Catalog.Infrastructure;
-using B2Connect.Catalog.Models;
+using B2X.Catalog.Infrastructure;
+using B2X.Catalog.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.Services;
+namespace B2X.Catalog.Services;
 
 /// <summary>
 /// B2B VAT ID validation service with caching and reverse charge logic

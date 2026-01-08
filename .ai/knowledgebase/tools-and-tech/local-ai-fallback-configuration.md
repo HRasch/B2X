@@ -1,4 +1,12 @@
 ---
+docid: KB-175
+title: Local Ai Fallback Configuration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-025
 title: Global Local AI Mode Configuration
 owner: GitHub Copilot
@@ -16,7 +24,7 @@ status: Active
 
 ## Overview
 
-The B2Connect MCP server supports **three AI modes**:
+The B2X MCP server supports **three AI modes**:
 
 1. **Network Mode**: Uses network-hosted Ollama servers for all AI requests
 2. **Local Fallback Mode**: Forces all agents to use local Ollama when external providers are rate limited
@@ -430,4 +438,4 @@ This provides flexible AI assistance with options for network infrastructure, lo
 - [KB-018: Local LLM Models 2025](../tools-and-tech/local-llm-models-2025.md)
 - [KB-024: Microsoft.Extensions.AI](../dependency-updates/Microsoft.Extensions.AI.md)
 - [ADR-029: Microsoft.Extensions.AI Adoption](../decisions/ADR-029-microsoft-extensions-ai-adoption.md)</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/knowledgebase/tools-and-tech/local-ai-fallback-configuration.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/knowledgebase/tools-and-tech/local-ai-fallback-configuration.md

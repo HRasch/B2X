@@ -1,4 +1,12 @@
 ---
+docid: INS-012
+title: Mcp Quick Reference.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: MCP-QUICK-REF
 title: MCP Tools Quick Reference
 applyTo: "**/*"
@@ -45,7 +53,7 @@ kb-mcp/list_by_category
 | **vue-mcp** | Component analysis, i18n, responsive | Vue components |
 | **database-mcp** | Schema, queries, migrations | Database changes |
 | **docker-mcp** | Container security, K8s validation | DevOps changes |
-| **b2connect-mcp** | Domain validation, catalog checks | Business logic |
+| **B2X-mcp** | Domain validation, catalog checks | Business logic |
 | **htmlcss-mcp** | Accessibility, CSS optimization | Frontend styling |
 | **git-mcp** | Commit validation, branch strategy | Pre-commit |
 

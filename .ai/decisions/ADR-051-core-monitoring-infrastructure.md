@@ -1,4 +1,12 @@
-# Core Monitoring Infrastructure Architecture - ADR
+---
+docid: ADR-095
+title: ADR 051 Core Monitoring Infrastructure
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Core Monitoring Infrastructure Architecture - ADR
 
 **DocID**: `ADR-051`  
 **Title**: Core Monitoring Infrastructure for Runtime Error Detection and Downtime Reduction  
@@ -10,7 +18,7 @@
 
 ## Context
 
-B2Connect requires a comprehensive core monitoring infrastructure to detect runtime errors immediately and reduce system downtime. This goes beyond scheduler job monitoring (ADR-024) to cover all application services, infrastructure components, and business-critical processes.
+B2X requires a comprehensive core monitoring infrastructure to detect runtime errors immediately and reduce system downtime. This goes beyond scheduler job monitoring (ADR-024) to cover all application services, infrastructure components, and business-critical processes.
 
 **Requirements**:
 - **Runtime Error Detection**: Immediate identification of application failures, exceptions, and performance issues

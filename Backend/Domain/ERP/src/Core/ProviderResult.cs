@@ -2,7 +2,7 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-namespace B2Connect.ERP.Core;
+namespace B2X.ERP.Core;
 
 /// <summary>
 /// Represents the result of an ERP provider operation with standardized error handling.

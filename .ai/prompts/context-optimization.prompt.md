@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-179
+title: Context Optimization.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent Context Optimization Prompt
 
 ## Purpose

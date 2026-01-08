@@ -1,6 +1,6 @@
-# Agent Collaboration Graph
+﻿# Agent Collaboration Graph
 
-This diagram illustrates the collaboration structure among the B2Connect project agents, coordinated by @SARAH.
+This diagram illustrates the collaboration structure among the B2X project agents, coordinated by @SARAH.
 
 ```mermaid
 flowchart TD

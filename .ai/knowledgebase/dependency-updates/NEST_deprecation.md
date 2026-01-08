@@ -1,3 +1,11 @@
+---
+docid: KB-093
+title: NEST_deprecation
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # NEST (.NET) Deprecation Notice
 
 Summary

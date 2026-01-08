@@ -2,9 +2,9 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Core;
+using B2X.ERP.Core;
 
-namespace B2Connect.ERP.Services;
+namespace B2X.ERP.Services;
 
 /// <summary>
 /// Service for synchronizing master data from ERP systems.

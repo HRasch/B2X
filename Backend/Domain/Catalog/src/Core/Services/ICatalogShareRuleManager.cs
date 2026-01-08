@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using B2Connect.Catalog.Core.Entities;
+using B2X.Catalog.Core.Entities;
 
-namespace B2Connect.Catalog.Core.Services
+namespace B2X.Catalog.Core.Services
 {
     public interface ICatalogShareRuleManager
     {

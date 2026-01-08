@@ -1,4 +1,4 @@
-# Store Backend Read-Services Implementation - COMPLETE ✅
+﻿# Store Backend Read-Services Implementation - COMPLETE ✅
 
 ## Overview
 Successfully implemented Read-Only Services (CQRS Read Model) for the Store backend configuration service. All services have been created, tested, and integrated into the application.
@@ -305,18 +305,18 @@ All services are registered as **Scoped** to ensure per-request isolation and pr
 
 ### Build Results
 ```
-✅ B2Connect.Store net10.0 Successful
+✅ B2X.Store net10.0 Successful
 ✅ All dependencies resolved
 ✅ 0 Errors
 ✅ 0 Warnings
 ```
 
 ### Service Dependencies
-- ✅ B2Connect.ServiceDefaults
-- ✅ B2Connect.Shared.Kernel
-- ✅ B2Connect.Shared.Middleware
-- ✅ B2Connect.Types
-- ✅ B2Connect.Utils
+- ✅ B2X.ServiceDefaults
+- ✅ B2X.Shared.Kernel
+- ✅ B2X.Shared.Middleware
+- ✅ B2X.Types
+- ✅ B2X.Utils
 
 ### Integrated with
 - ✅ Backend Store Gateway (port 6000)
@@ -391,7 +391,7 @@ backend/services/Store/
 │       │
 │       └── Program.cs
 │
-└── B2Connect.Store.csproj
+└── B2X.Store.csproj
 ```
 
 ---
@@ -454,11 +454,11 @@ backend/services/Store/
 ### Development Environment
 ```bash
 # Build Store service
-cd c:\Users\Holge\repos\B2Connect
-dotnet build .\backend\services\Store\B2Connect.Store.csproj
+cd c:\Users\Holge\repos\B2X
+dotnet build .\backend\services\Store\B2X.Store.csproj
 
 # Run Store service (with backend gateway)
-dotnet run --project .\backend\services\Store\B2Connect.Store.csproj
+dotnet run --project .\backend\services\Store\B2X.Store.csproj
 ```
 
 ### API Access

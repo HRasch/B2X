@@ -1,10 +1,10 @@
-# Localization & i18n Implementation
+﻿# Localization & i18n Implementation
 
 Complete guide to multi-language support with LocalizedContent, translation management, and frontend localization.
 
 ## Overview
 
-B2Connect supports unlimited languages through the `LocalizedContent` pattern:
+B2X supports unlimited languages through the `LocalizedContent` pattern:
 
 - **Flexible Language Support** - Add any language without code changes
 - **Database-Backed** - Translations stored with entities

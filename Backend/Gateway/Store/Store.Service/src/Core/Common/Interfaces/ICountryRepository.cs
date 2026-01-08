@@ -1,6 +1,6 @@
-using B2Connect.Store.Core.Common.Entities;
+﻿using B2X.Store.Core.Common.Entities;
 
-namespace B2Connect.Store.Core.Common.Interfaces;
+namespace B2X.Store.Core.Common.Interfaces;
 
 /// <summary>
 /// Repository interface for Country operations

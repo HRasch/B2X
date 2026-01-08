@@ -1,6 +1,6 @@
-{
+﻿{
   "profiles": {
-    "B2Connect.CMS": {
+    "B2X.CMS": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

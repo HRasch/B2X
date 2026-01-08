@@ -1,7 +1,7 @@
-using B2Connect.Returns.Core.Entities;
+﻿using B2X.Returns.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Returns.Infrastructure.Data;
+namespace B2X.Returns.Infrastructure.Data;
 
 /// <summary>
 /// Entity Framework Core DbContext für Returns (Withdrawal Rights Management)

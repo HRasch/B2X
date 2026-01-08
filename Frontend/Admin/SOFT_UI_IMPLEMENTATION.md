@@ -1,4 +1,4 @@
-# ✨ Admin Frontend - Soft UI Design System Integration
+﻿# ✨ Admin Frontend - Soft UI Design System Integration
 
 ## 🎉 Implementiert
 
@@ -69,7 +69,7 @@ Dein Admin-Frontend wurde vollständig mit dem **Soft UI Dashboard Design System
 Installiere die erforderliche Tailwind CSS Forms Extension:
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect/frontend-admin
+cd /Users/holger/Documents/Projekte/B2X/frontend-admin
 
 # Falls noch nicht installiert
 npm install -D @tailwindcss/forms

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace B2Connect.Email.Migrations
+namespace B2X.Email.Migrations
 {
     /// <inheritdoc />
     public partial class AddEmailTemplateTable : Migration

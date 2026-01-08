@@ -3,7 +3,7 @@
  * WidgetRenderer - Dynamically renders widgets based on type
  * Handles selection, hover states, and editing mode
  */
-import { computed, inject } from 'vue';
+import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { usePageBuilderStore } from '@/stores/pageBuilder';
 import { getWidgetComponent } from './widgets';
@@ -90,13 +90,6 @@ function handleConfigUpdate(config: Partial<typeof props.widget.config>) {
 const hasChildren = computed(() => {
   return 'children' in props.widget.config && Array.isArray(props.widget.config.children);
 });
-
-const children = computed(() => {
-  if (hasChildren.value) {
-    return props.widget.config.children as WidgetBase[];
-  }
-  return [];
-});
 </script>
 
 <template>
@@ -162,7 +155,7 @@ const children = computed(() => {
       @update:config="handleConfigUpdate"
     >
       <!-- Slot for nested widgets -->
-      <template v-if="hasChildren" #widget="{ widget: childWidget, index }">
+      <template v-if="hasChildren" #widget="{ widget: childWidget }">
         <WidgetRenderer :widget="childWidget" :depth="depth + 1" />
       </template>
     </component>

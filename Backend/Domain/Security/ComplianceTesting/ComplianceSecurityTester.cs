@@ -1,4 +1,4 @@
-// B2Connect.Security.ComplianceTesting
+﻿// B2X.Security.ComplianceTesting
 // Automated Security Testing in Compliance Pipelines
 // DocID: SPR-027-SECURITY-TESTING
 
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace B2Connect.Security.ComplianceTesting
+namespace B2X.Security.ComplianceTesting
 {
     /// <summary>
     /// Automated Security Testing Framework for Compliance Pipelines

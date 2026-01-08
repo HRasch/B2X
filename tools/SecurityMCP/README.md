@@ -1,6 +1,6 @@
-# Security MCP Server
+﻿# Security MCP Server
 
-A Model Context Protocol (MCP) server for security analysis and OWASP compliance in the B2Connect project. This server provides AI-powered security scanning and vulnerability detection.
+A Model Context Protocol (MCP) server for security analysis and OWASP compliance in the B2X project. This server provides AI-powered security scanning and vulnerability detection.
 
 ## Features
 
@@ -82,9 +82,9 @@ Scans for potential XSS vulnerabilities in frontend code.
 **Parameters:**
 - `workspacePath`: Workspace root directory
 
-## Integration with B2Connect
+## Integration with B2X
 
-This MCP server is designed to work with the B2Connect security requirements:
+This MCP server is designed to work with the B2X security requirements:
 
 - **OWASP Top Ten** compliance ([KB-010])
 - **Input validation** following security instructions
@@ -107,4 +107,4 @@ This is a **basic skeleton implementation**. Full security scanning features nee
 
 ## Contributing
 
-Follow B2Connect security guidelines and coordinate with @Security agent for feature additions.
+Follow B2X security guidelines and coordinate with @Security agent for feature additions.

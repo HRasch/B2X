@@ -1,4 +1,12 @@
-# Phase 5: Enterprise Tier 1 Connectors (SAP, Dynamics, Oracle) - Feature Specification
+---
+docid: REQ-066
+title: REQ PHASE5 ERP TIER1 CONNECTORS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Phase 5: Enterprise Tier 1 Connectors (SAP, Dynamics, Oracle) - Feature Specification
 
 **DocID**: `REQ-PHASE5-ERP-TIER1-CONNECTORS`  
 **Status**: Planning  
@@ -152,7 +160,7 @@ Phase 5 extends the ERP connector framework established in Phase 4 (enventa Fash
   - Unit tests for connection logic
 - **Task 1.3**: SAP DTOs and contracts (@Backend)
   - Define data transfer objects
-  - Map SAP data structures to B2Connect models
+  - Map SAP data structures to B2X models
   - Validation logic
 
 ### Sprint 2: SAP Data Sync (Weeks 3-4)

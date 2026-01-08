@@ -2,11 +2,11 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.Shared.Infrastructure.Authorization;
+using B2X.Shared.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Store.Controllers;
+namespace B2X.Store.Controllers;
 
 /// <summary>
 /// Controller for tenant-related operations in the store frontend.

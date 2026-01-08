@@ -1,6 +1,6 @@
-# Backlog Refinement: Admin-Frontend Store Management Dashboard
+﻿# Backlog Refinement: Admin-Frontend Store Management Dashboard
 
-**Epic:** [#18 Admin-Frontend: Store Management Dashboard & Control Panel](https://github.com/HRasch/B2Connect/issues/18)  
+**Epic:** [#18 Admin-Frontend: Store Management Dashboard & Control Panel](https://github.com/HRasch/B2X/issues/18)  
 **Date:** 28. Dezember 2025  
 **Team:** Frontend Developers (2-3 FTE)  
 **Total Epic Effort:** ~200-240 hours (6-8 weeks)

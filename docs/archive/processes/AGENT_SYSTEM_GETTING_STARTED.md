@@ -1,4 +1,4 @@
-# 🚀 Agent System Getting Started Guide
+﻿# 🚀 Agent System Getting Started Guide
 
 **Time to Set Up:** 5 minutes  
 **First Use:** Immediate  
@@ -68,7 +68,7 @@ Each agent has its own context with only the relevant documents, patterns, and c
 
 ### Step 1: Open Terminal
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect
+cd /Users/holger/Documents/Projekte/B2X
 ```
 
 ### Step 2: Activate Your Role Agent

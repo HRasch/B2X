@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 
 declare global {
@@ -26,7 +26,7 @@ interface Invoice {
   issuedAt: string;
   dueAt: string;
 
-  // Seller (B2Connect)
+  // Seller (B2X)
   sellerName: string;
   sellerVatId: string;
   sellerAddress: string;

@@ -1,4 +1,12 @@
-# Production Bug Capture & Handling Strategy
+---
+docid: GL-064
+title: GL 004 Production Bug Handling
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Production Bug Capture & Handling Strategy
 
 **DocID**: `GL-004`
 **Owner**: `@SARAH`
@@ -178,7 +186,7 @@ WARNING: Slow request detected. Method: GET, Path: /api/catalog/products, Durati
 
 1. **Set environment variables**:
    ```bash
-   OTEL_SERVICE_NAME=b2connect-admin
+   OTEL_SERVICE_NAME=B2X-admin
    OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
    ```
 

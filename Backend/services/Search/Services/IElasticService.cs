@@ -1,6 +1,6 @@
-using B2Connect.Search.Models;
+﻿using B2X.Search.Models;
 
-namespace B2Connect.Search.Services;
+namespace B2X.Search.Services;
 
 public interface IElasticService
 {

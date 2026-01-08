@@ -1,4 +1,4 @@
-# Getting Started with B2Connect
+﻿# Getting Started with B2X
 
 Welcome! This guide gets you up and running in **5 minutes**.
 
@@ -13,8 +13,8 @@ Welcome! This guide gets you up and running in **5 minutes**.
 
 ### 1. Clone & Install Dependencies
 ```bash
-git clone <repo-url> B2Connect
-cd B2Connect
+git clone <repo-url> B2X
+cd B2X
 dotnet restore
 npm install --prefix frontend
 npm install --prefix frontend-admin
@@ -45,7 +45,7 @@ Services available at:
 ## 📚 Next Steps
 
 **New to the project?**
-→ Read [DEVELOPMENT.md](DEVELOPMENT.md) for architecture overview
+→ Read [DOC-005] for architecture overview
 
 **Need to debug something?**
 → See [docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md)
@@ -63,12 +63,12 @@ Services available at:
 
 ### Build Backend
 ```bash
-dotnet build backend/B2Connect.slnx
+dotnet build backend/B2X.slnx
 ```
 
 ### Test Backend
 ```bash
-dotnet test backend/B2Connect.slnx
+dotnet test backend/B2X.slnx
 # Or from VS Code: Press F5 → "Run Backend Tests"
 ```
 
@@ -88,8 +88,8 @@ npm run build --prefix frontend
 | Document | Purpose |
 |----------|---------|
 | [README.md](README.md) | Project overview & architecture |
-| [DEVELOPMENT.md](DEVELOPMENT.md) | Development workflow & guidelines |
-| [.copilot-specs.md](.copilot-specs.md) | Coding standards & patterns (24 sections) |
+| [DOC-005] | Development workflow & guidelines |
+| [.copilot-specs.md](DOC-009) | Coding standards & patterns (24 sections) |
 | [docs/architecture/ASPIRE_GUIDE.md](docs/architecture/ASPIRE_GUIDE.md) | Aspire setup & microservices |
 | [docs/guides/TESTING_GUIDE.md](docs/guides/TESTING_GUIDE.md) | Testing approach (unit/integration/E2E) |
 | [docs/features/](docs/features/) | Feature implementations (one file per feature) |
@@ -104,8 +104,8 @@ lsof -i :9000 | grep LISTEN | awk '{print $2}' | xargs kill -9
 
 **Dependencies Not Installing?**
 ```bash
-dotnet clean backend/B2Connect.slnx
-dotnet restore backend/B2Connect.slnx
+dotnet clean backend/B2X.slnx
+dotnet restore backend/B2X.slnx
 ```
 
 **Frontend Not Loading?**

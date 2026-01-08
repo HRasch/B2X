@@ -1,4 +1,12 @@
 ---
+docid: KB-105
+title: Vue
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: vue
 current_version: 3.5.13
 source_files:

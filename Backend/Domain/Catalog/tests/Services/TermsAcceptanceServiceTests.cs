@@ -1,10 +1,10 @@
-using B2Connect.Catalog.Handlers;
-using B2Connect.Catalog.Models;
+using B2X.Catalog.Handlers;
+using B2X.Catalog.Models;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Catalog.Tests.Services;
+namespace B2X.Catalog.Tests.Services;
 
 /// <summary>
 /// Unit tests for Terms Acceptance Service

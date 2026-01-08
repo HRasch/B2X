@@ -1,10 +1,10 @@
-using B2Connect.Catalog.ImportAdapters;
-using B2Connect.Catalog.ImportAdapters.Formats;
+using B2X.Catalog.ImportAdapters;
+using B2X.Catalog.ImportAdapters.Formats;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Catalog.Tests.ImportAdapters;
+namespace B2X.Catalog.Tests.ImportAdapters;
 
 /// <summary>
 /// Unit tests for FormatRegistry

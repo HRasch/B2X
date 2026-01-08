@@ -1,4 +1,4 @@
-# Authentication Implementation Guide for Developers
+﻿# Authentication Implementation Guide for Developers
 
 **Last Updated**: 29 December 2025  
 **Audience**: Backend developers implementing authentication in microservices  
@@ -24,7 +24,7 @@
 
 **Step 1: Create a POCO command**
 ```csharp
-namespace B2Connect.Identity.Handlers;
+namespace B2X.Identity.Handlers;
 
 public class LoginCommand
 {

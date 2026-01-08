@@ -1,20 +1,20 @@
 using System.Diagnostics;
-using B2Connect.Tenancy.Models;
-using B2Connect.Tenancy.Repositories;
-using B2Connect.Tenancy.Services;
-using B2Connect.Types.Domain;
+using B2X.Tenancy.Models;
+using B2X.Tenancy.Repositories;
+using B2X.Tenancy.Services;
+using B2X.Types.Domain;
 using Microsoft.Extensions.Logging;
 using Wolverine;
 using Wolverine.Attributes;
 
-namespace B2Connect.Tenancy.Handlers.Tenants;
+namespace B2X.Tenancy.Handlers.Tenants;
 
 /// <summary>
 /// Activity source for tenant operations tracing.
 /// </summary>
 internal static class TenantActivities
 {
-    internal static readonly ActivitySource Source = new("B2Connect.Tenancy");
+    internal static readonly ActivitySource Source = new("B2X.Tenancy");
 }
 
 /// <summary>
@@ -76,7 +76,7 @@ public static class TenantHandlers
         activity?.SetTag("tenant.id", tenant.Id);
 
         // Create automatic subdomain (primary)
-        var subdomainName = $"{slug}.b2connect.de";
+        var subdomainName = $"{slug}.B2X.de";
 
         // Check if subdomain is available
         if (await domainRepository.DomainExistsAsync(subdomainName, null, cancellationToken).ConfigureAwait(false))

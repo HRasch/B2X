@@ -1,4 +1,12 @@
 ---
+docid: BS-013
+title: BS SPRINT EXECUTION TRACKING
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: BS-SPRINT-EXECUTION-TRACKING
 title: Brainstorm - GitHub-Based Sprint Execution Tracking
 owner: @ScrumMaster
@@ -291,4 +299,4 @@ type  description            issue reference
 **Owner:** @ScrumMaster  
 **Review Date:** January 14, 2026  
 **Status:** Brainstorm - Ready for Discussion</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/brainstorm/BS-SPRINT-EXECUTION-TRACKING.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/brainstorm/BS-SPRINT-EXECUTION-TRACKING.md

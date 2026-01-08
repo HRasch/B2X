@@ -1,4 +1,4 @@
-# GitHub Pages Setup & Deployment Guide
+﻿# GitHub Pages Setup & Deployment Guide
 
 **Zielgruppe:** Development Team, DevOps Engineers  
 **Status:** Setup Guide für Dokumentation als Website  
@@ -39,13 +39,13 @@ docs/ Verzeichnis
 
 GitHub Settings
     → Pages → Build from: docs/ on main branch
-    → Custom domain: (optional) docs.b2connect.com
+    → Custom domain: (optional) docs.B2X.com
     → HTTPS: Enabled (automatisch)
 
 Website verfügbar unter:
-    https://b2connect.github.io
+    https://B2X.github.io
     oder
-    https://docs.b2connect.com (mit Custom Domain)
+    https://docs.B2X.com (mit Custom Domain)
 ```
 
 ---
@@ -80,11 +80,11 @@ bundle install
 ### 2. Repository-Zugriff
 
 ```bash
-# Stellen Sie sicher, dass Sie Push-Zugriff auf B2Connect haben
+# Stellen Sie sicher, dass Sie Push-Zugriff auf B2X haben
 git remote -v
 # Sollte zeigen:
-# origin  https://github.com/b2connect/B2Connect.git (fetch)
-# origin  https://github.com/b2connect/B2Connect.git (push)
+# origin  https://github.com/B2X/B2X.git (fetch)
+# origin  https://github.com/B2X/B2X.git (push)
 ```
 
 ### 3. Git-Grundlagen
@@ -104,7 +104,7 @@ git checkout main
 ### Schritt 1: Repository-Struktur prüfen
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect
+cd /Users/holger/Documents/Projekte/B2X
 
 # Überprüfen Sie, dass docs/ Verzeichnis existiert
 ls -la docs/
@@ -124,7 +124,7 @@ ls -la docs/
 
 Überprüfen Sie die Einstellungen:
 ```yaml
-title: B2Connect Documentation
+title: B2X Documentation
 theme: jekyll-theme-minimal
 plugins:
   - jekyll-feed
@@ -142,12 +142,12 @@ Falls nicht vorhanden, erstellen Sie:
 cat > docs/index.md << 'EOF'
 ---
 layout: default
-title: B2Connect Documentation
+title: B2X Documentation
 ---
 
-# 📚 B2Connect Dokumentation
+# 📚 B2X Dokumentation
 
-Willkommen zur offiziellen B2Connect Dokumentation!
+Willkommen zur offiziellen B2X Dokumentation!
 
 ## Für Wen?
 
@@ -163,7 +163,7 @@ Willkommen zur offiziellen B2Connect Dokumentation!
 
 ## 🆘 Hilfe & Support
 
-- **E-Mail:** support@b2connect.com
+- **E-Mail:** support@B2X.com
 - **Telefon:** +1-800-xxx-xxxx
 - **Live Chat:** Mo-Fr 09:00-18:00 CET
 
@@ -180,7 +180,7 @@ EOF
 Alle Dokumentationsdateien sollten im `docs/` Verzeichnis sein:
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect
+cd /Users/holger/Documents/Projekte/B2X
 
 # Überprüfen Sie Dateien
 ls docs/*.md
@@ -197,7 +197,7 @@ ls docs/*.md
 
 **Öffnen Sie:**
 ```
-https://github.com/b2connect/B2Connect/settings/pages
+https://github.com/B2X/B2X/settings/pages
 ```
 
 **Konfigurieren Sie:**
@@ -211,7 +211,7 @@ https://github.com/b2connect/B2Connect/settings/pages
    - ☑️ Ja (Empfohlen)
 
 3. **Custom domain (Optional):**
-   - Hostname: `docs.b2connect.com`
+   - Hostname: `docs.B2X.com`
    - Klicken Sie "Save"
    - DNS-Records konfigurieren (siehe unten)
 
@@ -229,14 +229,14 @@ Settings → Pages
 
 ### Schritt 6: DNS Configuration (Optional, für Custom Domain)
 
-Falls Sie `docs.b2connect.com` verwenden möchten:
+Falls Sie `docs.B2X.com` verwenden möchten:
 
 **Bei Ihrem Domain-Provider (GoDaddy, Namecheap, etc.):**
 
 ```
 Type: CNAME
 Name: docs
-Value: b2connect.github.io
+Value: B2X.github.io
 TTL: 3600
 ```
 
@@ -256,8 +256,8 @@ TTL: 3600
 **Verifizierung:**
 ```bash
 # Warten Sie 24 Stunden, dann:
-nslookup docs.b2connect.com
-# Sollte zeigen: b2connect.github.io
+nslookup docs.B2X.com
+# Sollte zeigen: B2X.github.io
 ```
 
 ---
@@ -265,8 +265,8 @@ nslookup docs.b2connect.com
 ### Schritt 7: Git Changes hochladen
 
 ```bash
-# In Ihr B2Connect Repository gehen
-cd /Users/holger/Documents/Projekte/B2Connect
+# In Ihr B2X Repository gehen
+cd /Users/holger/Documents/Projekte/B2X
 
 # Status überprüfen
 git status
@@ -293,7 +293,7 @@ git push origin main
 Nach dem Push prüfen Sie die **Actions**:
 
 ```
-https://github.com/b2connect/B2Connect/actions
+https://github.com/B2X/B2X/actions
 ```
 
 **Sie sollten sehen:**
@@ -318,7 +318,7 @@ Klicken Sie auf die fehlgeschlagene Action
 **Website sollte jetzt verfügbar sein:**
 
 ```
-https://b2connect.github.io
+https://B2X.github.io
 ```
 
 **Was Sie sehen sollten:**
@@ -497,9 +497,9 @@ title: Seitentitel
 **Überprüfen Sie DNS:**
 ```bash
 # Überprüfen Sie DNS-Einträge
-nslookup docs.b2connect.com
+nslookup docs.B2X.com
 
-# Sollte zeigen: b2connect.github.io
+# Sollte zeigen: B2X.github.io
 ```
 
 **Falls nicht funktioniert:**
@@ -517,7 +517,7 @@ nslookup docs.b2connect.com
 
 ```bash
 # Überprüfen Sie Ladezeit
-curl -w '@curl-format.txt' -o /dev/null -s https://b2connect.github.io
+curl -w '@curl-format.txt' -o /dev/null -s https://B2X.github.io
 
 # Überprüfen Sie Links (lokal)
 cd docs/
@@ -528,7 +528,7 @@ bundle exec htmlproofer ./_site/ --disable-external
 ### Sicherheits-Header überprüfen
 
 ```bash
-curl -I https://b2connect.github.io
+curl -I https://B2X.github.io
 
 # Sollte zeigen:
 # Strict-Transport-Security: max-age=31536000

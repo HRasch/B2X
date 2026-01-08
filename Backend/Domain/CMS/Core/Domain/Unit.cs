@@ -1,4 +1,4 @@
-namespace B2Connect.CMS.Core.Domain;
+namespace B2X.CMS.Core.Domain;
 
 /// <summary>
 /// Represents a void return type for functional operations (ADR-030)

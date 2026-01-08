@@ -116,7 +116,7 @@ const discount = computed(() => {
           <circle cx="20" cy="21" r="1" />
           <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
         </svg>
-        In den Warenkorb
+        {{ $t('pageBuilder.productCard.addToCart') }}
       </button>
     </div>
 
@@ -127,7 +127,7 @@ const discount = computed(() => {
           d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
         />
       </svg>
-      <span>Produkt auswählen</span>
+      <span>{{ $t('pageBuilder.productCard.selectProduct') }}</span>
     </div>
   </div>
 </template>

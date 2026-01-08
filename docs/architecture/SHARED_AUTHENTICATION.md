@@ -1,4 +1,4 @@
-# Shared Authentication Strategy
+﻿# Shared Authentication Strategy
 
 ## Überblick
 
@@ -14,7 +14,7 @@ Beide Gateways (Store und Admin) verwenden **denselben JWT-Authentifizierungsmec
 └────────┬────────┘     - User Management
          │
          │ JWT Token
-         │ (mit Secret: "B2Connect-Super-Secret...")
+         │ (mit Secret: "B2X-Super-Secret...")
          │
     ┌────┴────┐
     │         │
@@ -32,9 +32,9 @@ Beide Gateways (Store und Admin) verwenden **denselben JWT-Authentifizierungsmec
 ```json
 {
   "Jwt": {
-    "Secret": "B2Connect-Super-Secret-Key-For-Development-Only-32chars!",
-    "Issuer": "B2Connect",
-    "Audience": "B2Connect",  // <- Gleich für Store und Admin!
+    "Secret": "B2X-Super-Secret-Key-For-Development-Only-32chars!",
+    "Issuer": "B2X",
+    "Audience": "B2X",  // <- Gleich für Store und Admin!
     "ExpirationMinutes": 60
   }
 }
@@ -233,7 +233,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowStoreFrontend", policy =>
     {
         policy
-            .WithOrigins("https://store.b2connect.com") // Production URL
+            .WithOrigins("https://store.B2X.com") // Production URL
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -248,7 +248,7 @@ builder.Services.AddCors(options =>
 public static string GenerateTestToken(string userId, string[] roles)
 {
     var tokenHandler = new JwtSecurityTokenHandler();
-    var key = Encoding.UTF8.GetBytes("B2Connect-Super-Secret-Key-For-Development-Only-32chars!");
+    var key = Encoding.UTF8.GetBytes("B2X-Super-Secret-Key-For-Development-Only-32chars!");
     
     var tokenDescriptor = new SecurityTokenDescriptor
     {
@@ -258,8 +258,8 @@ public static string GenerateTestToken(string userId, string[] roles)
             new Claim(ClaimTypes.Email, "test@example.com")
         }.Concat(roles.Select(r => new Claim(ClaimTypes.Role, r)))),
         Expires = DateTime.UtcNow.AddHours(1),
-        Issuer = "B2Connect",
-        Audience = "B2Connect",
+        Issuer = "B2X",
+        Audience = "B2X",
         SigningCredentials = new SigningCredentials(
             new SymmetricSecurityKey(key), 
             SecurityAlgorithms.HmacSha256Signature)
@@ -278,8 +278,8 @@ var storeToken = GenerateTestToken("user-456", new[] { "User" });
 Wenn später Microservices getrennt deployed werden:
 
 1. **Identity Service** bleibt zentral
-2. **Store API** deployed auf `store.b2connect.com`
-3. **Admin API** deployed auf `admin.b2connect.com`
+2. **Store API** deployed auf `store.B2X.com`
+3. **Admin API** deployed auf `admin.B2X.com`
 4. **Gleicher JWT-Secret** über Environment Variables synchronisiert
 
 ```bash
@@ -295,7 +295,7 @@ export JWT_SECRET="production-secret-key-from-key-vault"
 | Auth | JWT (shared) | JWT (shared) | JWT Generator |
 | Zugriff | Public + Auth | Admin-Only | Public Login |
 | Token akzeptiert | Alle gültigen | Alle gültigen | Generiert Tokens |
-| Audience | "B2Connect" | "B2Connect" | "B2Connect" |
+| Audience | "B2X" | "B2X" | "B2X" |
 | Rollen-Check | Optional | Required (Admin) | N/A |
 
 **Kernprinzip**: **Eine Authentifizierung, mehrere Autorisierungen** ✅

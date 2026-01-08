@@ -1,4 +1,12 @@
 ---
+docid: KB-188
+title: Wolverine Mcp
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-063
 title: Wolverine MCP Server for CQRS Analysis
 owner: GitHub Copilot
@@ -13,7 +21,7 @@ status: Active
 
 ## Overview
 
-The Wolverine MCP Server provides specialized analysis tools for Wolverine CQRS patterns, message handlers, dependency injection validation, and PostgreSQL query optimization within the B2Connect backend architecture.
+The Wolverine MCP Server provides specialized analysis tools for Wolverine CQRS patterns, message handlers, dependency injection validation, and PostgreSQL query optimization within the B2X backend architecture.
 
 ## Status & Configuration
 

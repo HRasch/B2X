@@ -1,4 +1,4 @@
-# Projektstruktur Reorganisation - Store / Admin / Common Separation
+﻿# Projektstruktur Reorganisation - Store / Admin / Common Separation
 
 ## ✅ Abgeschlossene Struktur
 
@@ -86,41 +86,41 @@ src/
 ## 📋 Namespaces
 
 ### Core Entities
-- **Common Entities**: `B2Connect.Store.Core.Common.Entities`
+- **Common Entities**: `B2X.Store.Core.Common.Entities`
   - Store, Language, Country (Shared across all domains)
   
-- **Store Entities**: `B2Connect.Store.Core.Store.Entities`
+- **Store Entities**: `B2X.Store.Core.Store.Entities`
   - PaymentMethod, ShippingMethod (Store-specific)
 
 ### Core Interfaces
-- **Common Interfaces**: `B2Connect.Store.Core.Common.Interfaces`
+- **Common Interfaces**: `B2X.Store.Core.Common.Interfaces`
   - IRepository, IStoreRepository, ILanguageRepository, ICountryRepository
   
-- **Store Interfaces**: `B2Connect.Store.Core.Store.Interfaces`
+- **Store Interfaces**: `B2X.Store.Core.Store.Interfaces`
   - IPaymentMethodRepository, IShippingMethodRepository
 
 ### Application Services
-- **Write Services**: `B2Connect.Store.Application.Store.Services`
+- **Write Services**: `B2X.Store.Application.Store.Services`
   - StoreService, LanguageService, CountryService, PaymentMethodService, ShippingMethodService
   
-- **Read Services**: `B2Connect.Store.Application.Store.ReadServices`
+- **Read Services**: `B2X.Store.Application.Store.ReadServices`
   - StoreReadService, LanguageReadService, CountryReadService, PaymentMethodReadService, ShippingMethodReadService
 
 ### Infrastructure
-- **Common Repositories**: `B2Connect.Store.Infrastructure.Common.Repositories`
+- **Common Repositories**: `B2X.Store.Infrastructure.Common.Repositories`
   - Repository<T>, StoreRepository, LanguageRepository, CountryRepository
   
-- **Common Data**: `B2Connect.Store.Infrastructure.Common.Data`
+- **Common Data**: `B2X.Store.Infrastructure.Common.Data`
   - StoreDbContext
   
-- **Store Repositories**: `B2Connect.Store.Infrastructure.Store.Repositories`
+- **Store Repositories**: `B2X.Store.Infrastructure.Store.Repositories`
   - PaymentMethodRepository, ShippingMethodRepository
 
 ### Presentation Controllers
-- **Admin**: `B2Connect.Store.Presentation.Controllers.Admin`
+- **Admin**: `B2X.Store.Presentation.Controllers.Admin`
   - StoresController, LanguagesController, CountriesController, PaymentMethodsController, ShippingMethodsController
   
-- **Public**: `B2Connect.Store.Presentation.Controllers.Public`
+- **Public**: `B2X.Store.Presentation.Controllers.Public`
   - PublicStoresController, PublicLanguagesController, PublicCountriesController, PublicPaymentMethodsController, PublicShippingMethodsController
 
 ## 🔑 Key Separation Principles

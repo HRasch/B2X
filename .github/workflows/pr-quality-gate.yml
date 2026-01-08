@@ -1,10 +1,12 @@
----
+﻿---
 name: PR Quality Gate
 
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches: [main, develop]
+  push:
+    branches: [main]
 
 concurrency:
   group: pr-quality-${{ github.event.pull_request.number }}
@@ -82,6 +84,11 @@ jobs:
           base: ${{ github.event.pull_request.base.sha }}
           head: ${{ github.event.pull_request.head.sha }}
 
+      - name: Documentation - Metadata Validation
+        run: |
+          chmod +x scripts/validate-metadata.sh
+          ./scripts/validate-metadata.sh
+
   # Stage 2: Unit Tests (< 5 min)
   unit-tests:
     name: Unit Tests + Coverage
@@ -104,14 +111,14 @@ jobs:
           cache-dependency-path: 'frontend/*/package-lock.json'
 
       - name: Backend - Restore Dependencies
-        run: dotnet restore B2Connect.slnx
+        run: dotnet restore B2X.slnx
 
       - name: Backend - Build
-        run: dotnet build B2Connect.slnx --no-restore --configuration Release
+        run: dotnet build B2X.slnx --no-restore --configuration Release
 
       - name: Backend - Run Unit Tests with Coverage
         run: |
-          dotnet test B2Connect.slnx \
+          dotnet test B2X.slnx \
             --no-build \
             --configuration Release \
             --collect:"XPlat Code Coverage" \
@@ -193,7 +200,7 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: b2connect_test
+          POSTGRES_DB: B2X_test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -225,10 +232,10 @@ jobs:
 
       - name: Run Integration Tests
         env:
-          ConnectionStrings__PostgreSQL: "Host=localhost;Database=b2connect_test;Username=postgres;Password=postgres"
+          ConnectionStrings__PostgreSQL: "Host=localhost;Database=B2X_test;Username=postgres;Password=postgres"
           Elasticsearch__Url: "http://localhost:9200"
         run: |
-          dotnet test B2Connect.slnx \
+          dotnet test B2X.slnx \
             --filter "Category=Integration" \
             --configuration Release \
             --logger "trx;LogFileName=integration-test-results.trx"
@@ -260,7 +267,7 @@ jobs:
 
       - name: Start Backend Services
         run: |
-          dotnet run --project AppHost/B2Connect.AppHost.csproj &
+          dotnet run --project AppHost/B2X.AppHost.csproj &
           sleep 30  # Wait for services to start
 
       - name: Run E2E Tests
@@ -327,7 +334,7 @@ jobs:
       - name: License Compliance Check
         run: |
           dotnet tool install --global dotnet-project-licenses
-          dotnet-project-licenses --input B2Connect.slnx --export-license-texts --output-directory licenses
+          dotnet-project-licenses --input B2X.slnx --export-license-texts --output-directory licenses
           # Check for GPL/AGPL licenses
           if grep -r "GPL\|AGPL" licenses/; then
             echo "❌ Incompatible license found"

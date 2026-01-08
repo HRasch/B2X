@@ -1,4 +1,12 @@
 ---
+docid: GL-084
+title: GL 048 INSTRUCTION FILE CONSOLIDATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-048
 title: Instruction File Consolidation & Refactoring
 owner: "@CopilotExpert"

@@ -1,6 +1,6 @@
-# Bestellungen verwalten
+﻿# Bestellungen verwalten
 
-Verfolgen und verwalten Sie Ihre Bestellungen bei B2Connect.
+Verfolgen und verwalten Sie Ihre Bestellungen bei B2X.
 
 ---
 
@@ -217,7 +217,7 @@ A: Ihre Bestellhistorie ist unbegrenzt in Ihrem Konto verfügbar.
 
 ## 🆘 Hilfe benötigt?
 
-- **E-Mail**: support@b2connect.com
+- **E-Mail**: support@B2X.com
 - **Telefon**: +49 (0)800 123 4567
 - **Live-Chat**: Mo-Fr 9-17 Uhr
 

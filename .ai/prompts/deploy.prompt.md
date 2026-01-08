@@ -1,4 +1,12 @@
-# 🚀 DEPLOY - Deployment & Release Management
+---
+docid: UNKNOWN-181
+title: Deploy.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🚀 DEPLOY - Deployment & Release Management
 
 **Trigger**: Feature/release ready for deployment
 **Coordinator**: @DevOps
@@ -124,7 +132,7 @@ npm run e2e:smoke
 
 ```bash
 # Health checks
-curl -f https://api.b2connect.de/health
+curl -f https://api.B2X.de/health
 
 # Database integrity
 ./scripts/verify-database.sh production

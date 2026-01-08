@@ -1,12 +1,12 @@
-using B2Connect.Tenancy.Repositories;
-using B2Connect.Tenancy.Services;
+using B2X.Tenancy.Repositories;
+using B2X.Tenancy.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Tenancy.Tests.Services;
+namespace B2X.Tenancy.Tests.Services;
 
 public class DomainLookupServiceTests : IDisposable
 {
@@ -35,8 +35,8 @@ public class DomainLookupServiceTests : IDisposable
     {
         // Arrange
         var tenantId = Guid.NewGuid();
-        var domainName = "cached.b2connect.de";
-        var cacheKey = $"tenant:domain:{domainName}";
+        var domainName = "cached.B2X.de";
+        var cacheKey = $"tenant:domain:{domainName.ToLowerInvariant()}";
 
         _memoryCache.Set(cacheKey, (Guid?)tenantId);
 
@@ -53,9 +53,9 @@ public class DomainLookupServiceTests : IDisposable
     {
         // Arrange
         var tenantId = Guid.NewGuid();
-        var domainName = "uncached.b2connect.de";
+        var domainName = "uncached.B2X.de";
 
-        _mockRepo.Setup(r => r.ResolveTenantIdAsync(domainName, It.IsAny<CancellationToken>()))
+        _mockRepo.Setup(r => r.ResolveTenantIdAsync(domainName.ToLowerInvariant(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(tenantId);
 
         _mockDistributedCache.Setup(c => c.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
@@ -66,7 +66,7 @@ public class DomainLookupServiceTests : IDisposable
 
         // Assert
         Assert.Equal(tenantId, result);
-        _mockRepo.Verify(r => r.ResolveTenantIdAsync(domainName, It.IsAny<CancellationToken>()), Times.Once);
+        _mockRepo.Verify(r => r.ResolveTenantIdAsync(domainName.ToLowerInvariant(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -74,8 +74,8 @@ public class DomainLookupServiceTests : IDisposable
     {
         // Arrange
         var tenantId = Guid.NewGuid();
-        var domainName = "TEST.B2CONNECT.DE";
-        var normalizedDomain = "test.b2connect.de";
+        var domainName = "TEST.B2X.DE";
+        var normalizedDomain = "test.b2x.de";
 
         _mockRepo.Setup(r => r.ResolveTenantIdAsync(normalizedDomain, It.IsAny<CancellationToken>()))
             .ReturnsAsync(tenantId);
@@ -115,8 +115,8 @@ public class DomainLookupServiceTests : IDisposable
     {
         // Arrange
         var tenantId = Guid.NewGuid();
-        var domainName = "toclear.b2connect.de";
-        var cacheKey = $"tenant:domain:{domainName}";
+        var domainName = "toclear.B2X.de";
+        var cacheKey = $"tenant:domain:{domainName.ToLowerInvariant()}";
 
         _memoryCache.Set(cacheKey, (Guid?)tenantId);
         Assert.True(_memoryCache.TryGetValue(cacheKey, out _));
@@ -132,14 +132,14 @@ public class DomainLookupServiceTests : IDisposable
     public async Task InvalidateCacheAsync_RemovesFromDistributedCache()
     {
         // Arrange
-        var domainName = "toclear.b2connect.de";
+        var domainName = "toclear.B2X.de";
 
         // Act
         await _service.InvalidateCacheAsync(domainName);
 
         // Assert
         _mockDistributedCache.Verify(c => c.RemoveAsync(
-            It.Is<string>(k => k.Contains(domainName)),
+            $"tenant:domain:{domainName.ToLowerInvariant()}",
             It.IsAny<CancellationToken>()), Times.Once);
     }
 

@@ -1,4 +1,12 @@
-# Architecture Decision Record: Service Boundaries & Domain Integration
+---
+docid: ADR-103
+title: ADR_SERVICE_BOUNDARIES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Architecture Decision Record: Service Boundaries & Domain Integration
 
 **Date:** December 30, 2025  
 **Author:** @Architect  
@@ -9,14 +17,14 @@
 
 ## Decision
 
-**Establish clear service boundaries** for B2Connect microservices architecture to prevent coupling, enable independent scaling, and clarify ownership across bounded contexts.
+**Establish clear service boundaries** for B2X microservices architecture to prevent coupling, enable independent scaling, and clarify ownership across bounded contexts.
 
 ---
 
 ## Context
 
 ### Current State
-B2Connect is organized around multiple bounded contexts (Catalog, CMS, Customer, Identity, Tenancy, etc.), each with domain logic and APIs. However, inter-service communication patterns and data flow boundaries need explicit documentation.
+B2X is organized around multiple bounded contexts (Catalog, CMS, Customer, Identity, Tenancy, etc.), each with domain logic and APIs. However, inter-service communication patterns and data flow boundaries need explicit documentation.
 
 ### Problem
 - **Unclear boundaries:** When should services communicate vs. replicate data?
@@ -38,7 +46,7 @@ B2Connect is organized around multiple bounded contexts (Catalog, CMS, Customer,
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    B2Connect System                      │
+│                    B2X System                      │
 ├─────────────────────────────────────────────────────────┤
 │                                                           │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │

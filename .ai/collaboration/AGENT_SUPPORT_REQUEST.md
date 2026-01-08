@@ -1,3 +1,11 @@
+---
+docid: COLLAB-011
+title: AGENT_SUPPORT_REQUEST
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent Support Request Process
 
 ## Wer kann SARAH um Unterstützung bitten?

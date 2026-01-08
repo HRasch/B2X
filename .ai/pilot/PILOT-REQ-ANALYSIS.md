@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-164
+title: PILOT REQ ANALYSIS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PILOT-REQ-ANALYSIS
 title: "Pilot: Neue Anforderungsanalyse testen"
 owner: "@SARAH"

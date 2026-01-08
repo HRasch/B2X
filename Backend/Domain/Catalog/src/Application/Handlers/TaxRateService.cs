@@ -1,11 +1,11 @@
 
-using B2Connect.Catalog.Core.Entities;
-using B2Connect.Catalog.Core.Interfaces;
-using B2Connect.Catalog.Models;
+using B2X.Catalog.Core.Entities;
+using B2X.Catalog.Core.Interfaces;
+using B2X.Catalog.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.Application.Handlers;
+namespace B2X.Catalog.Application.Handlers;
 /// <summary>
 /// Tax rate service implementation with caching
 /// Issue #30: B2C Price Transparency (PAngV)
@@ -105,7 +105,7 @@ public class TaxRateService : ITaxRateService
         ArgumentNullException.ThrowIfNull(cmd);
 
         // Create entity
-        var taxRate = new B2Connect.Catalog.Core.Entities.TaxRate
+        var taxRate = new B2X.Catalog.Core.Entities.TaxRate
         {
             CountryCode = cmd.CountryCode,
             StandardVatRate = cmd.StandardVatRate,

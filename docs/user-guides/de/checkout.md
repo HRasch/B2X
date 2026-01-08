@@ -1,6 +1,6 @@
-# Bestellvorgang (Checkout)
+﻿# Bestellvorgang (Checkout)
 
-Diese Anleitung führt Sie durch den 3-Schritte-Bestellprozess bei B2Connect.
+Diese Anleitung führt Sie durch den 3-Schritte-Bestellprozess bei B2X.
 
 ---
 
@@ -179,6 +179,6 @@ A: Prüfen Sie Ihre Kartendaten oder wählen Sie eine andere Zahlungsart. Bei Pr
 
 ## 🆘 Hilfe benötigt?
 
-- **E-Mail**: support@b2connect.com
+- **E-Mail**: support@B2X.com
 - **Telefon**: +49 (0)800 123 4567
 - **Live-Chat**: Mo-Fr 9-17 Uhr

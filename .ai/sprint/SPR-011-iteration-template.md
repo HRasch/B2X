@@ -1,4 +1,12 @@
 ---
+docid: SPR-098
+title: SPR 011 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-011
 title: Sprint 2026-11 Planning - ML Governance & Real-Time Analytics Optimization
 owner: @ScrumMaster
@@ -139,4 +147,4 @@ Statistical calculations → Validation framework → Audit trails → Complianc
 - **Cross-Team Dependencies:** @Backend/@DevOps for ML monitoring; @Frontend/@DevOps for real-time optimization; @QA/@Backend for statistical frameworks
 - **Technical Debt Allocation:** 10% capacity reserved for ML governance infrastructure improvements
 - **Stakeholder Engagement:** Weekly check-ins scheduled for ML monitoring validation and real-time performance assessment</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-011-iteration-template.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-011-iteration-template.md

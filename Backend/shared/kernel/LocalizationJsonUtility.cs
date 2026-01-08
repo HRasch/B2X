@@ -1,8 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using B2Connect.Types.Localization;
+using B2X.Types.Localization;
 
-namespace B2Connect.Types.Utilities;
+namespace B2X.Types.Utilities;
 
 /// <summary>
 /// Utility class for working with JSON serialization of LocalizedContent

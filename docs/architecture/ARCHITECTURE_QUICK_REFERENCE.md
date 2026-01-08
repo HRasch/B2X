@@ -1,6 +1,6 @@
-# Architecture Quick Reference
+﻿# Architecture Quick Reference
 
-**B2Connect Updated Architecture** | 28. Dezember 2025
+**B2X Updated Architecture** | 28. Dezember 2025
 
 ---
 
@@ -91,25 +91,25 @@ const products = await catalogService.getProducts(tenantId)
 
 ### Installation
 ```bash
-dotnet build backend/CLI/B2Connect.CLI/B2Connect.CLI.csproj
-dotnet tool install --global --add-source ./nupkg B2Connect.CLI
+dotnet build backend/CLI/B2X.CLI/B2X.CLI.csproj
+dotnet tool install --global --add-source ./nupkg B2X.CLI
 ```
 
 ### Usage
 ```bash
 # Auth
-b2connect auth create-user email@example.com --password secret123
+B2X auth create-user email@example.com --password secret123
 
 # Tenant
-b2connect tenant create "Company" --admin-email admin@company.com
+B2X tenant create "Company" --admin-email admin@company.com
 
 # Products
-b2connect product create "SKU-001" "Name" --price 99.99
+B2X product create "SKU-001" "Name" --price 99.99
 
 # System
-b2connect migrate --service Identity
-b2connect seed --service Catalog --file data.json
-b2connect status --all
+B2X migrate --service Identity
+B2X seed --service Catalog --file data.json
+B2X status --all
 ```
 
 ---
@@ -139,7 +139,7 @@ backend/
 │   ├── Catalog/src/
 │   ├── CMS/src/
 │   └── ...
-├── CLI/B2Connect.CLI/
+├── CLI/B2X.CLI/
 ├── Orchestration/
 └── shared/
 
@@ -181,13 +181,13 @@ Frontend/
 
 ```bash
 # Aspire (recommended)
-dotnet run --project AppHost/B2Connect.AppHost.csproj
+dotnet run --project AppHost/B2X.AppHost.csproj
 
 # Manual
-dotnet run --project backend/Domain/Identity/src/B2Connect.Identity.csproj
+dotnet run --project backend/Domain/Identity/src/B2X.Identity.csproj
 
 # CLI
-b2connect start
+B2X start
 ```
 
 ---

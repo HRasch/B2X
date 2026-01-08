@@ -1,5 +1,5 @@
-{
-  "title": "Login to B2Connect",
+﻿{
+  "title": "Login to B2X",
   "e2eMode": {
     "title": "E2E Test Mode Active",
     "description": "Any email/password will work. Backend not required."

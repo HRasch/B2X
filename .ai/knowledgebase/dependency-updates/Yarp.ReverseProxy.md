@@ -1,4 +1,12 @@
 ---
+docid: KB-108
+title: Yarp.ReverseProxy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Yarp.ReverseProxy
 current_version: 2.3.0
 source_files:

@@ -1,7 +1,7 @@
-using B2Connect.Tenancy.Models;
-using B2Connect.Types.Domain;
+using B2X.Tenancy.Models;
+using B2X.Types.Domain;
 
-namespace B2Connect.Tenancy.Handlers.Tenants;
+namespace B2X.Tenancy.Handlers.Tenants;
 
 #region DTOs
 

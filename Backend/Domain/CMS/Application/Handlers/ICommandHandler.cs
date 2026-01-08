@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace B2Connect.CMS.Application.Handlers;
+namespace B2X.CMS.Application.Handlers;
 
 /// <summary>
 /// Command handler interface for Wolverine CQRS pattern

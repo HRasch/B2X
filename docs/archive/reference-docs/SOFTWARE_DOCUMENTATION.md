@@ -1,4 +1,4 @@
-# 📚 Software-Dokumentation (Technische Dokumentation)
+﻿# 📚 Software-Dokumentation (Technische Dokumentation)
 
 **Dokument-Owner:** Documentation Team  
 **Status:** Comprehensive Technical Reference  
@@ -9,7 +9,7 @@
 
 ## Übersicht
 
-Die B2Connect Software-Dokumentation bietet technische Referenzen, API-Spezifikationen, Deploymentanleitungen und Entwickler-Workflows.
+Die B2X Software-Dokumentation bietet technische Referenzen, API-Spezifikationen, Deploymentanleitungen und Entwickler-Workflows.
 
 ---
 
@@ -328,7 +328,7 @@ var users = await db.Users
   "Database__Provider": "postgresql",
   "Database__ConnectionString": "Host=db.staging;...",
   "Jwt__Secret": "${JWT_SECRET}",  -- From secrets manager
-  "Cors__AllowedOrigins": ["https://staging.admin.b2connect.com"],
+  "Cors__AllowedOrigins": ["https://staging.admin.B2X.com"],
   "Logging__LogLevel__Default": "Information"
 }
 ```
@@ -339,7 +339,7 @@ var users = await db.Users
   "Database__Provider": "postgresql",
   "Database__ConnectionString": "${DB_CONNECTION_STRING}",
   "Jwt__Secret": "${JWT_SECRET}",  -- Must be set
-  "Cors__AllowedOrigins": ["https://admin.b2connect.com"],
+  "Cors__AllowedOrigins": ["https://admin.B2X.com"],
   "Logging__LogLevel__Default": "Error",
   "EnableDataEncryption": true,
   "EnableAuditLogging": true
@@ -358,7 +358,7 @@ RUN dotnet build -c Release
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=build /src/bin/Release/net10.0/publish .
-ENTRYPOINT ["dotnet", "B2Connect.Orchestration.dll"]
+ENTRYPOINT ["dotnet", "B2X.Orchestration.dll"]
 
 EXPOSE 8000 8080
 HEALTHCHECK --interval=30s CMD curl -f http://localhost:8000/health
@@ -370,32 +370,32 @@ HEALTHCHECK --interval=30s CMD curl -f http://localhost:8000/health
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: b2connect-api
+  name: B2X-api
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: b2connect-api
+      app: B2X-api
   template:
     metadata:
       labels:
-        app: b2connect-api
+        app: B2X-api
     spec:
       containers:
       - name: api
-        image: b2connect:latest
+        image: B2X:latest
         ports:
         - containerPort: 8000
         env:
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
-              name: b2connect-secrets
+              name: B2X-secrets
               key: jwt-secret
         - name: DATABASE_CONNECTION_STRING
           valueFrom:
             secretKeyRef:
-              name: b2connect-secrets
+              name: B2X-secrets
               key: db-connection
         livenessProbe:
           httpGet:

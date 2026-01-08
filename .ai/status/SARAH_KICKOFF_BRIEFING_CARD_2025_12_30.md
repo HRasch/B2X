@@ -1,3 +1,11 @@
+---
+docid: STATUS-040
+title: SARAH_KICKOFF_BRIEFING_CARD_2025_12_30
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # @SARAH Kickoff Briefing Card
 **Knowledge Base Integration Phase 1 - Week of 2-6 Januar 2026**
 

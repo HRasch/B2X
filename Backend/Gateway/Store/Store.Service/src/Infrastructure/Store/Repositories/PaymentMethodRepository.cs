@@ -1,15 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using B2Connect.Store.Core.Store.Entities;
-using B2Connect.Store.Core.Store.Interfaces;
-using B2Connect.Store.Infrastructure.Common.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using B2X.Store.Core.Store.Entities;
+using B2X.Store.Core.Store.Interfaces;
+using B2X.Store.Infrastructure.Common.Data;
 
-namespace B2Connect.Store.Infrastructure.Store.Repositories;
+namespace B2X.Store.Infrastructure.Store.Repositories;
 
 /// <summary>
 /// Repository implementation for PaymentMethod entity
 /// Store-specific repository for Payment Method management
 /// </summary>
-public class PaymentMethodRepository : B2Connect.Store.Infrastructure.Common.Repositories.Repository<PaymentMethod>, IPaymentMethodRepository
+public class PaymentMethodRepository : B2X.Store.Infrastructure.Common.Repositories.Repository<PaymentMethod>, IPaymentMethodRepository
 {
     public PaymentMethodRepository(StoreDbContext context) : base(context)
     {

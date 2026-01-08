@@ -1,13 +1,13 @@
-using B2Connect.AuthService.Controllers;
-using B2Connect.AuthService.Data;
-using B2Connect.Types;
+using B2X.AuthService.Controllers;
+using B2X.AuthService.Data;
+using B2X.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.AuthService.Tests;
+namespace B2X.AuthService.Tests;
 
 public class AuthControllerTests
 {

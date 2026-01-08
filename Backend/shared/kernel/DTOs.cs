@@ -1,4 +1,4 @@
-namespace B2Connect.Types.DTOs;
+namespace B2X.Types.DTOs;
 
 /// <summary>
 /// DTO for tenant creation/update requests

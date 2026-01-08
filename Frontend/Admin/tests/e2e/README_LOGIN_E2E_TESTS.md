@@ -1,4 +1,4 @@
-# Admin Frontend - Login E2E Tests
+﻿# Admin Frontend - Login E2E Tests
 
 ## Übersicht
 
@@ -138,11 +138,11 @@ Diese E2E-Tests validieren den kompletten Login-Flow im Admin-Frontend, einschli
 
 ```bash
 # 1. Backend muss laufen (Aspire Orchestration)
-cd /Users/holger/Documents/Projekte/B2Connect/AppHost
+cd /Users/holger/Documents/Projekte/B2X/AppHost
 dotnet run
 
 # 2. Admin Frontend muss laufen
-cd /Users/holger/Documents/Projekte/B2Connect/frontend/Admin
+cd /Users/holger/Documents/Projekte/B2X/frontend/Admin
 npm install
 npm run dev
 ```
@@ -150,7 +150,7 @@ npm run dev
 ### Alle Tests ausführen
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect/frontend/Admin
+cd /Users/holger/Documents/Projekte/B2X/frontend/Admin
 
 # Alle E2E-Tests
 npm run test:e2e

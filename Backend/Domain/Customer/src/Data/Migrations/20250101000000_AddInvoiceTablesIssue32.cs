@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace B2Connect.Customer.Data.Migrations;
+namespace B2X.Customer.Data.Migrations;
 
 /// <inheritdoc />
 public partial class AddInvoiceTablesIssue32 : Migration

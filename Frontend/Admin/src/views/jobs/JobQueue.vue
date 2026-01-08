@@ -20,10 +20,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Job Name</th>
-                  <th>Status</th>
-                  <th>Progress</th>
-                  <th>Actions</th>
+                  <th>{{ $t('jobs.queue.jobName') }}</th>
+                  <th>{{ $t('jobs.queue.status') }}</th>
+                  <th>{{ $t('jobs.queue.progress') }}</th>
+                  <th>{{ $t('jobs.queue.actions') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,21 +47,21 @@
                   <td>
                     <div class="flex gap-2">
                       <router-link :to="`/jobs/${job.id}`" class="btn btn-ghost btn-xs">
-                        View
+                        {{ $t('jobs.queue.view') }}
                       </router-link>
                       <button
                         v-if="job.status === 'failed'"
                         @click="retryJob(job.id)"
                         class="btn btn-success btn-xs"
                       >
-                        Retry
+                        {{ $t('jobs.queue.retry') }}
                       </button>
                       <button
                         v-if="job.status === 'running'"
                         @click="cancelJob(job.id)"
                         class="btn btn-error btn-xs"
                       >
-                        Cancel
+                        {{ $t('jobs.queue.cancel') }}
                       </button>
                     </div>
                   </td>

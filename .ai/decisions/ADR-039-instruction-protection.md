@@ -1,4 +1,12 @@
 ---
+docid: ADR-082
+title: ADR 039 Instruction Protection
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-039
 title: Agent Instruction Protection Strategy
 status: Accepted
@@ -18,7 +26,7 @@ decision-makers:
 
 ## Context
 
-The B2Connect project uses a sophisticated multi-agent AI system with:
+The B2X project uses a sophisticated multi-agent AI system with:
 - **18 specialized agents** defined in `.github/agents/`
 - **5 instruction files** in `.github/instructions/`
 - **15+ prompt templates** in `.github/prompts/`

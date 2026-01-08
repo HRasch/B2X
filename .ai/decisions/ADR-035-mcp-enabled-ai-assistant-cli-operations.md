@@ -1,4 +1,12 @@
 ---
+docid: ADR-078
+title: ADR 035 Mcp Enabled Ai Assistant Cli Operations
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-035
 title: MCP-Enabled AI Assistant with CLI Operations Access
 status: Proposed
@@ -10,7 +18,7 @@ date: 2026-01-05
 
 ## Context
 
-The B2Connect administration requires intelligent troubleshooting capabilities. Previous brainstorming explored three approaches:
+The B2X administration requires intelligent troubleshooting capabilities. Previous brainstorming explored three approaches:
 
 1. **Direct CLI Integration**: Embed AI directly in CLI commands
 2. **Admin Frontend Integration**: Use existing AI assistant in admin UI
@@ -25,8 +33,8 @@ This ADR proposes the third approach as the optimal solution.
 ### Implementation Details
 
 #### MCP Server Enhancement
-- Extend existing `B2Connect.Admin.MCP` server with CLI operation tools
-- Add `SystemHealthAnalysisTool` that executes `b2connect-admin health check` commands
+- Extend existing `B2X.Admin.MCP` server with CLI operation tools
+- Add `SystemHealthAnalysisTool` that executes `B2X-admin health check` commands
 - Enable AI assistant to call CLI operations programmatically via Process.Start
 
 #### CLI Health Commands
@@ -84,4 +92,4 @@ This ADR proposes the third approach as the optimal solution.
 
 - [ADR-030](../decisions/ADR-030-cms-tenant-template-overrides-architecture.md) - MCP server for AI integration
 - [GL-008](../guidelines/GL-008-GOVERNANCE-POLICIES.md) - Governance policies for MCP configuration</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-035-mcp-enabled-ai-assistant-cli-operations.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-035-mcp-enabled-ai-assistant-cli-operations.md

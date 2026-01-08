@@ -1,4 +1,12 @@
 ---
+docid: PROP-012
+title: Testing.Instructions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 --
 

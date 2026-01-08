@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace B2Connect.LayoutService.Data;
+namespace B2X.LayoutService.Data;
 
 /// <summary>
 /// Extension methods for configuring Database and Entity Framework Core

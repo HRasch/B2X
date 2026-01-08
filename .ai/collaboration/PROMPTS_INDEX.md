@@ -1,4 +1,12 @@
 ---
+docid: COLLAB-024
+title: PROMPTS_INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PRM-INDEX
 title: Development Cycle Prompts - Quick Reference
 owner: "@SARAH"
@@ -35,6 +43,12 @@ See [DOCUMENT_REGISTRY.md](../../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
 | `PRM-014` | `/subagent-delegation` | Delegation routing | @SARAH |
 | `PRM-015` | `/project-cleanup` | Project cleanup | @SARAH |
 | `PRM-016` | `/typescript-review` | TypeScript analysis | @TechLead |
+| `PRM-017` | `/bug-null-check` | Quick null reference fix | @TechLead |
+| `PRM-018` | `/bug-async-race` | Quick async race fix | @TechLead |
+| `PRM-019` | `/bug-type-mismatch` | Quick type mismatch fix | @TechLead |
+| `PRM-020` | `/bug-i18n-missing` | Quick i18n key fix | @TechLead |
+| `PRM-021` | `/bug-lint-fix` | Quick linting fix | @TechLead |
+| `PRM-022` | `/auto-lessons-learned` | Auto-generate lessons | @TechLead |
 
 ---
 
@@ -120,7 +134,74 @@ Severity: [P0-critical | P1-high | P2-medium | P3-low]
 Component: [backend | frontend | infrastructure]
 ```
 
-#### 7. **TYPESCRIPT_REVIEW** (`PRM-016`) - TypeScript Analysis
+#### 6.1 **BUG_NULL_CHECK** (`PRM-017`) - Quick Null Reference Fix
+**When to use**: Null reference errors in code
+**Who runs it**: @TechLead, @Frontend
+**Output**: Defensive null checks applied
+
+```
+@TechLead: /bug-null-check
+File: [path/to/file.vue]
+Variable: [nullVariable]
+```
+
+#### 6.2 **BUG_ASYNC_RACE** (`PRM-018`) - Quick Async Race Fix
+**When to use**: Race conditions in async operations
+**Who runs it**: @TechLead, @Frontend
+**Output**: Race condition prevention applied
+
+```
+@TechLead: /bug-async-race
+Component: [ComponentName]
+Operation: [asyncOperation]
+```
+
+#### 6.3 **BUG_TYPE_MISMATCH** (`PRM-019`) - Quick Type Mismatch Fix
+**When to use**: TypeScript type errors
+**Who runs it**: @TechLead, @Frontend
+**Output**: Type safety restored
+
+```
+@TechLead: /bug-type-mismatch
+File: [path/to/file.ts]
+Error: [type error message]
+```
+
+#### 6.4 **BUG_I18N_MISSING** (`PRM-020`) - Quick i18n Key Fix
+**When to use**: Missing translation keys
+**Who runs it**: @TechLead, @Frontend
+**Output**: Translation keys added
+
+```
+@TechLead: /bug-i18n-missing
+Key: [missing.key]
+Languages: [en, de, fr]
+```
+
+#### 6.5 **BUG_LINT_FIX** (`PRM-021`) - Quick Linting Fix
+**When to use**: Linting errors need fixing
+**Who runs it**: @TechLead, @Frontend
+**Output**: Code style corrected
+
+```
+@TechLead: /bug-lint-fix
+File: [path/to/file.vue]
+Rule: [eslint-rule-name]
+```
+
+#### 7. **AUTO_LESSONS_LEARNED** (`PRM-022`) - Auto-Generate Lessons
+**When to use**: After fixing a bug to capture learnings
+**Who runs it**: @TechLead
+**Output**: Formatted lesson entry for knowledge base
+
+```
+@TechLead: /auto-lessons-learned
+Bug: [brief description]
+Fix: [what was done]
+Lesson: [key takeaway]
+```
+
+#### 8. **TYPESCRIPT_REVIEW** (`PRM-016`) - TypeScript Analysis
 **When to use**: Code review, refactoring, type safety validation
 **Who runs it**: @TechLead, @Frontend
 **Output**: Type analysis, symbol usage, recommendations
@@ -340,6 +421,12 @@ Each prompt generates specific artifacts stored in `.ai/`:
 - [x] RUN_TESTS - QA sign-off
 - [x] SECURITY_AUDIT - Security review
 - [x] BUG_ANALYSIS - Bug resolution
+- [x] BUG_NULL_CHECK - Quick null reference fix
+- [x] BUG_ASYNC_RACE - Quick async race fix
+- [x] BUG_TYPE_MISMATCH - Quick type mismatch fix
+- [x] BUG_I18N_MISSING - Quick i18n key fix
+- [x] BUG_LINT_FIX - Quick linting fix
+- [x] AUTO_LESSONS_LEARNED - Auto-generate lessons
 - [x] TYPESCRIPT_REVIEW - TypeScript analysis
 - [x] CREATE_ADR - Architecture decisions
 - [x] DEPLOY - Deployment management
@@ -351,7 +438,7 @@ Each prompt generates specific artifacts stored in `.ai/`:
 - [x] SUBAGENT_DELEGATION - Delegation routing
 - [x] PROJECT_CLEANUP - Project cleanup
 
-**Status**: ✅ All 16 core prompts documented and ready for use
+**Status**: ✅ All 22 core prompts documented and ready for use
 
 ---
 

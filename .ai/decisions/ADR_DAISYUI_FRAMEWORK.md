@@ -1,4 +1,12 @@
-# Architecture Decision Record: DaisyUI Component Framework
+---
+docid: ADR-102
+title: ADR_DAISYUI_FRAMEWORK
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Architecture Decision Record: DaisyUI Component Framework
 
 **Date:** December 30, 2025  
 **Author:** @Architect  
@@ -9,7 +17,7 @@
 
 ## Decision
 
-**Adopt DaisyUI v5 as the official component framework** for B2Connect frontend applications. DaisyUI provides production-ready, accessible, and customizable components built on Tailwind CSS.
+**Adopt DaisyUI v5 as the official component framework** for B2X frontend applications. DaisyUI provides production-ready, accessible, and customizable components built on Tailwind CSS.
 
 ---
 
@@ -41,7 +49,7 @@
 
 ```
 ┌─────────────────────────────────────────────────┐
-│        B2Connect Component Stack                │
+│        B2X Component Stack                │
 ├─────────────────────────────────────────────────┤
 │                                                  │
 │  Application Layer (Vue 3 Components)           │
@@ -50,7 +58,7 @@
 │           ↓                                      │
 │  Tailwind CSS Utilities (Styling)               │
 │           ↓                                      │
-│  Custom Themes (B2Connect Branding)             │
+│  Custom Themes (B2X Branding)             │
 │           ↓                                      │
 │  Browser APIs                                   │
 │                                                  │
@@ -194,8 +202,8 @@ export default {
   daisyui: {
     themes: [
       {
-        b2connect: {
-          "primary": "#0b98ff",      // B2Connect blue
+        B2X: {
+          "primary": "#0b98ff",      // B2X blue
           "secondary": "#8b5cf6",    // Purple
           "accent": "#f59e0b",       // Amber
           "neutral": "#3f3f46",      // Dark gray

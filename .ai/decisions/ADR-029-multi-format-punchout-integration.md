@@ -1,4 +1,12 @@
-# ADR-029: Multi-Format Punchout Integration for Craft Software
+---
+docid: ADR-071
+title: ADR 029 Multi Format Punchout Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-029: Multi-Format Punchout Integration for Craft Software
 
 **Status:** Proposed  
 **Date:** January 3, 2026  
@@ -7,14 +15,14 @@
 
 ## Context
 
-B2Connect needs to integrate with German craft software systems (Handwerkersoftware) like Taifun, MSoft, and GWS to enable seamless procurement workflows between wholesalers and skilled trades. The integration must support four separate ITEK B2B standards as independent interfaces:
+B2X needs to integrate with German craft software systems (Handwerkersoftware) like Taifun, MSoft, and GWS to enable seamless procurement workflows between wholesalers and skilled trades. The integration must support four separate ITEK B2B standards as independent interfaces:
 
 - **IDS Connect**: Shop system interface for direct catalog access
 - **Open Masterdata**: Webservice for product data exchange  
 - **OSD**: Open Shop Display punchout interface
 - **OCI**: SAP Open Catalog Interface for punchout catalogs
 
-Each interface has its own communication protocol but serves similar purposes in connecting craft software with B2Connect's catalog and ordering systems.
+Each interface has its own communication protocol but serves similar purposes in connecting craft software with B2X's catalog and ordering systems.
 
 ## Decision
 
@@ -37,7 +45,7 @@ Implement a **modular punchout gateway architecture** with four independent adap
                       │
                       ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                 B2Connect Punchout Gateway                  │
+│                 B2X Punchout Gateway                  │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
 │  │ IDS Connect │ │ Open Master │ │    OSD     │ │    OCI     │ │
 │  │  Adapter    │ │   Adapter   │ │  Adapter   │ │  Adapter   │ │
@@ -54,7 +62,7 @@ Implement a **modular punchout gateway architecture** with four independent adap
                       │
                       ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                 B2Connect Core Services                      │
+│                 B2X Core Services                      │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
 │  │   Catalog   │ │   Orders    │ │   Search    │            │
 │  │  Service    │ │  Service    │ │  Service    │            │
@@ -129,7 +137,7 @@ Implement a **modular punchout gateway architecture** with four independent adap
 
 ### Data Mapping & Transformation
 - Each adapter handles format-specific data mapping
-- Unified internal data model for B2Connect core services
+- Unified internal data model for B2X core services
 - Configurable field mappings per tenant
 
 ### Error Handling & Resilience
@@ -184,7 +192,7 @@ Implement a **modular punchout gateway architecture** with four independent adap
 
 The modular adapter architecture provides the flexibility needed to support multiple ITEK standards while maintaining clean separation of concerns. Each adapter can be developed, tested, and deployed independently, reducing risk and enabling incremental delivery.
 
-This approach enables B2Connect to serve the German craft software ecosystem effectively, supporting seamless procurement workflows for skilled trades using their preferred software systems.
+This approach enables B2X to serve the German craft software ecosystem effectively, supporting seamless procurement workflows for skilled trades using their preferred software systems.
 
 ## Next Steps
 

@@ -1,4 +1,12 @@
 ---
+docid: SPR-075
+title: SPR 004 Erp Integration Process
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-004-PROCESS
 title: Sprint 2026-04 Execution Process - ERP Integration Phase 1 & Process Improvements
 owner: @ScrumMaster
@@ -41,7 +49,7 @@ phase: execution
   - Error handling and retry mechanisms
 
 - **ERP-002: Product Data Synchronization** (6 SP)
-  - Bidirectional sync (B2Connect ↔ ERP)
+  - Bidirectional sync (B2X ↔ ERP)
   - Product variants, pricing, inventory handling
   - Conflict resolution and monitoring
 

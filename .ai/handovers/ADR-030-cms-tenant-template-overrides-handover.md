@@ -1,4 +1,12 @@
-# ADR-030 CMS Tenant Template Overrides - Feature Handover
+---
+docid: FH-001
+title: ADR 030 Cms Tenant Template Overrides Handover
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-030 CMS Tenant Template Overrides - Feature Handover
 
 **DocID**: `FH-030`  
 **Feature**: CMS Tenant Template Overrides with AI Validation  
@@ -11,7 +19,7 @@
 
 ## 🎯 **Feature Overview**
 
-**ADR-030** implements tenant-specific template customization with hierarchical resolution and AI-powered validation for the B2Connect CMS system.
+**ADR-030** implements tenant-specific template customization with hierarchical resolution and AI-powered validation for the B2X CMS system.
 
 ### **Business Value**
 - **Tenant Customization**: Each tenant can override base templates without affecting others

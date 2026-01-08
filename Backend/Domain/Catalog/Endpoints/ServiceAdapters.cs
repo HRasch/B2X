@@ -1,12 +1,12 @@
 using System.Linq;
 
-namespace B2Connect.Catalog.Endpoints;
+namespace B2X.Catalog.Endpoints;
 
 public class ProductServiceAdapter : IProductService
 {
-    private readonly B2Connect.Catalog.Services.IProductService _productService;
+    private readonly B2X.Catalog.Services.IProductService _productService;
 
-    public ProductServiceAdapter(B2Connect.Catalog.Services.IProductService productService)
+    public ProductServiceAdapter(B2X.Catalog.Services.IProductService productService)
     {
         _productService = productService;
     }
@@ -18,7 +18,7 @@ public class ProductServiceAdapter : IProductService
         return item;
     }
 
-    public async Task<B2Connect.Catalog.Models.PagedResult<B2Connect.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
+    public async Task<B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
     {
         return await _productService.SearchAsync(tenantId, searchTerm, pageNumber, pageSize, ct).ConfigureAwait(false);
     }
@@ -26,14 +26,14 @@ public class ProductServiceAdapter : IProductService
 
 public class SearchIndexAdapter : ISearchIndexService
 {
-    private readonly B2Connect.Catalog.Services.ISearchIndexService _searchService;
+    private readonly B2X.Catalog.Services.ISearchIndexService _searchService;
 
-    public SearchIndexAdapter(B2Connect.Catalog.Services.ISearchIndexService searchService)
+    public SearchIndexAdapter(B2X.Catalog.Services.ISearchIndexService searchService)
     {
         _searchService = searchService;
     }
 
-    public async Task<B2Connect.Catalog.Models.PagedResult<B2Connect.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
+    public async Task<B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
     {
         return await _searchService.SearchAsync(tenantId, searchTerm, pageNumber, pageSize, ct).ConfigureAwait(false);
     }

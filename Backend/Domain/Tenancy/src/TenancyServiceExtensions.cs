@@ -1,10 +1,10 @@
-using B2Connect.Tenancy.Infrastructure.Data;
-using B2Connect.Tenancy.Repositories;
-using B2Connect.Tenancy.Services;
+using B2X.Tenancy.Infrastructure.Data;
+using B2X.Tenancy.Repositories;
+using B2X.Tenancy.Services;
 using DnsClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Tenancy;
+namespace B2X.Tenancy;
 
 /// <summary>
 /// Extension methods for configuring Tenancy services in DI container.

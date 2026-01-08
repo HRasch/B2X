@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace B2Connect.CMS.Core.Domain.Pages
+namespace B2X.CMS.Core.Domain.Pages
 {
     /// <summary>
     /// Page definition stored in database

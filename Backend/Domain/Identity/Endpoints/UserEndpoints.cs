@@ -1,9 +1,9 @@
-using B2Connect.AuthService.Data;
-using B2Connect.Types;
+using B2X.AuthService.Data;
+using B2X.Types;
 using Microsoft.AspNetCore.Authorization;
 using Wolverine.Http;
 
-namespace B2Connect.Identity.Endpoints;
+namespace B2X.Identity.Endpoints;
 
 /// <summary>
 /// User management endpoints using Wolverine HTTP

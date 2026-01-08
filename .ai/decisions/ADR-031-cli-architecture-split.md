@@ -1,15 +1,23 @@
-# ADR-031: CLI Architecture Split - Operations vs. Administration
+---
+docid: ADR-074
+title: ADR 031 Cli Architecture Split
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-031: CLI Architecture Split - Operations vs. Administration
 
 **Status:** Proposed  
 **Date:** January 5, 2026  
-**Context:** B2Connect multi-tenant SaaS platform  
+**Context:** B2X multi-tenant SaaS platform  
 **Decision Authors:** @Architect, @Backend, @Security, @DevOps
 
 ---
 
 ## Problem
 
-The current B2Connect CLI (`b2connect`) combines two distinct operational contexts:
+The current B2X CLI (`B2X`) combines two distinct operational contexts:
 
 1. **Platform Operations** - System management, monitoring, infrastructure operations
 2. **Tenant Administration** - User management, catalog operations, tenant configuration
@@ -42,7 +50,7 @@ This unified approach creates several concerns:
 ## Current Architecture
 
 ```
-backend/CLI/B2Connect.CLI/
+backend/CLI/B2X.CLI/
 ├── Commands/
 │   ├── AuthCommands/           # Tenant: User management
 │   ├── MonitoringCommands/     # Platform: System monitoring
@@ -51,18 +59,18 @@ backend/CLI/B2Connect.CLI/
 ├── Program.cs
 └── Services/
 
-Single entry point: b2connect
-Single package: B2Connect.CLI
+Single entry point: B2X
+Single package: B2X.CLI
 Single authentication model
 ```
 
 **Current Usage:**
 ```bash
 # Mixed commands - all in one CLI
-b2connect system health-check      # Platform operation
-b2connect tenant create             # Tenant operation
-b2connect auth create-user          # Tenant operation
-b2connect monitoring dashboard      # Platform operation
+B2X system health-check      # Platform operation
+B2X tenant create             # Tenant operation
+B2X auth create-user          # Tenant operation
+B2X monitoring dashboard      # Platform operation
 ```
 
 ---
@@ -71,19 +79,19 @@ b2connect monitoring dashboard      # Platform operation
 
 **Split the CLI into two separate tools with distinct purposes:**
 
-### 1. B2Connect.CLI.Operations (Internal Platform Management)
+### 1. B2X.CLI.Operations (Internal Platform Management)
 - **Target Users:** DevOps, SRE, Platform Engineers
 - **Distribution:** Internal only, not customer-facing
 - **Authentication:** Infrastructure/cluster credentials
 - **Purpose:** System health, monitoring, service management
 
-### 2. B2Connect.CLI.Administration (Tenant Management)
+### 2. B2X.CLI.Administration (Tenant Management)
 - **Target Users:** Tenant Administrators, Support Engineers
 - **Distribution:** Can be provided to customers
 - **Authentication:** Tenant-scoped API tokens
 - **Purpose:** User management, catalog operations, tenant config
 
-### 3. B2Connect.CLI.Shared (Common Foundation)
+### 3. B2X.CLI.Shared (Common Foundation)
 - **Shared library** for both CLIs
 - Configuration management
 - HTTP clients
@@ -95,7 +103,7 @@ b2connect monitoring dashboard      # Platform operation
 
 ```
 backend/CLI/
-├── B2Connect.CLI.Shared/              # Shared library
+├── B2X.CLI.Shared/              # Shared library
 │   ├── Configuration/
 │   │   ├── CliConfiguration.cs
 │   │   └── ServiceEndpoints.cs
@@ -104,9 +112,9 @@ backend/CLI/
 │   │   └── RetryPolicyFactory.cs
 │   ├── Services/
 │   │   └── OutputFormatter.cs
-│   └── B2Connect.CLI.Shared.csproj
+│   └── B2X.CLI.Shared.csproj
 │
-├── B2Connect.CLI.Operations/          # Platform operators
+├── B2X.CLI.Operations/          # Platform operators
 │   ├── Commands/
 │   │   ├── HealthCommands/
 │   │   │   ├── CheckHealthCommand.cs
@@ -121,9 +129,9 @@ backend/CLI/
 │   │       ├── MigrateCommand.cs
 │   │       └── RollbackCommand.cs
 │   ├── Program.cs
-│   └── B2Connect.CLI.Operations.csproj
+│   └── B2X.CLI.Operations.csproj
 │
-└── B2Connect.CLI.Administration/      # Tenant administrators
+└── B2X.CLI.Administration/      # Tenant administrators
     ├── Commands/
     │   ├── TenantCommands/
     │   │   ├── CreateTenantCommand.cs
@@ -137,7 +145,7 @@ backend/CLI/
     │       ├── ImportCatalogCommand.cs
     │       └── ExportCatalogCommand.cs
     ├── Program.cs
-    └── B2Connect.CLI.Administration.csproj
+    └── B2X.CLI.Administration.csproj
 ```
 
 ### Command Structure
@@ -145,34 +153,34 @@ backend/CLI/
 #### Operations CLI (Internal)
 ```bash
 # Installation
-dotnet tool install -g B2Connect.CLI.Operations
+dotnet tool install -g B2X.CLI.Operations
 
 # Usage
-b2connect-ops health check
-b2connect-ops monitoring dashboard
-b2connect-ops service restart catalog
-b2connect-ops deployment migrate --env production
-b2connect-ops metrics --service all
+B2X-ops health check
+B2X-ops monitoring dashboard
+B2X-ops service restart catalog
+B2X-ops deployment migrate --env production
+B2X-ops metrics --service all
 
 # Authentication
-export B2CONNECT_OPS_TOKEN="cluster-admin-token"
-b2connect-ops config set-endpoint --env production
+export B2X_OPS_TOKEN="cluster-admin-token"
+B2X-ops config set-endpoint --env production
 ```
 
 #### Administration CLI (Can be distributed)
 ```bash
 # Installation
-dotnet tool install -g B2Connect.CLI.Administration
+dotnet tool install -g B2X.CLI.Administration
 
 # Usage
-b2connect tenant create --name "Acme Corp"
-b2connect user add john@acme.com --tenant acme-corp
-b2connect catalog import bmecat --file catalog.xml
-b2connect user assign-role --user john@acme.com --role admin
+B2X tenant create --name "Acme Corp"
+B2X user add john@acme.com --tenant acme-corp
+B2X catalog import bmecat --file catalog.xml
+B2X user assign-role --user john@acme.com --role admin
 
 # Authentication
-export B2CONNECT_TENANT_TOKEN="tenant-scoped-api-key"
-b2connect config login --tenant acme-corp
+export B2X_TENANT_TOKEN="tenant-scoped-api-key"
+B2X config login --tenant acme-corp
 ```
 
 ---
@@ -180,7 +188,7 @@ b2connect config login --tenant acme-corp
 ## Implementation Plan
 
 ### Phase 1: Shared Library Extraction (Week 1) ✅ COMPLETE
-- ✅ Create `B2Connect.CLI.Shared` project
+- ✅ Create `B2X.CLI.Shared` project
 - ✅ Extract common configuration handling
 - ✅ Extract HTTP client factories  
 - ✅ Extract output formatting utilities
@@ -190,14 +198,14 @@ b2connect config login --tenant acme-corp
 - ✅ Verify CLI builds and runs successfully
 
 ### Phase 2: Operations CLI (Week 2) ⏳ IMPLEMENTED
-- ⏳ Create `B2Connect.CLI.Operations` project
+- ⏳ Create `B2X.CLI.Operations` project
 - ⏳ Move system/monitoring/deployment commands
 - ⏳ Implement infrastructure authentication
 - ⏳ Create NuGet package
 - ⏳ Internal documentation
 
 ### Phase 3: Administration CLI (Week 2-3) ✅ IMPLEMENTED
-- ✅ Create `B2Connect.CLI.Administration` project
+- ✅ Create `B2X.CLI.Administration` project
 - ✅ Move tenant/user/catalog commands from original CLI
 - ✅ Implement tenant-scoped authentication
 - ✅ Create NuGet package structure
@@ -211,7 +219,7 @@ b2connect config login --tenant acme-corp
 - Customer-facing documentation
 
 ### Phase 4: Deprecation of Original CLI (Week 4) ✅ IMPLEMENTED
-- ✅ Mark `B2Connect.CLI` as deprecated
+- ✅ Mark `B2X.CLI` as deprecated
 - ✅ Add deprecation warnings on CLI startup
 - ✅ Migration guide for existing users
 - ✅ Automated migration script
@@ -228,9 +236,9 @@ b2connect config login --tenant acme-corp
 {
   "authentication": {
     "type": "infrastructure",
-    "tokenSource": "B2CONNECT_OPS_TOKEN",
+    "tokenSource": "B2X_OPS_TOKEN",
     "scopes": ["cluster:read", "cluster:write", "monitoring:read"],
-    "audience": "https://ops.b2connect.internal"
+    "audience": "https://ops.B2X.internal"
   }
 }
 ```
@@ -240,9 +248,9 @@ b2connect config login --tenant acme-corp
 {
   "authentication": {
     "type": "tenant-scoped",
-    "tokenSource": "B2CONNECT_TENANT_TOKEN",
+    "tokenSource": "B2X_TENANT_TOKEN",
     "scopes": ["tenant:admin", "users:manage", "catalog:write"],
-    "audience": "https://api.b2connect.com",
+    "audience": "https://api.B2X.com",
     "tenantId": "required"
   }
 }
@@ -336,8 +344,8 @@ b2connect config login --tenant acme-corp
 
 ### Alternative 1: Single CLI with Command Namespacing
 ```bash
-b2connect ops:health check
-b2connect admin:tenant create
+B2X ops:health check
+B2X admin:tenant create
 ```
 
 **Pros:**
@@ -357,8 +365,8 @@ b2connect admin:tenant create
 ### Alternative 2: Feature Flags in Single CLI
 ```bash
 # Different builds with different features
-b2connect --mode=operations health check
-b2connect --mode=administration tenant create
+B2X --mode=operations health check
+B2X --mode=administration tenant create
 ```
 
 **Pros:**
@@ -398,43 +406,43 @@ b2connect --mode=administration tenant create
 
 ```bash
 # Before
-dotnet tool install -g B2Connect.CLI
-b2connect system health-check
+dotnet tool install -g B2X.CLI
+B2X system health-check
 
 # After
-dotnet tool install -g B2Connect.CLI.Operations
-b2connect-ops health check
+dotnet tool install -g B2X.CLI.Operations
+B2X-ops health check
 
 # Migration script provided
-./scripts/migrate-cli-config.sh --from b2connect --to b2connect-ops
+./scripts/migrate-cli-config.sh --from B2X --to B2X-ops
 ```
 
 ### For Tenant Administrators
 
 ```bash
 # Before
-dotnet tool install -g B2Connect.CLI
-b2connect tenant create
+dotnet tool install -g B2X.CLI
+B2X tenant create
 
 # After
-dotnet tool install -g B2Connect.CLI.Administration
-b2connect tenant create  # Same command syntax
+dotnet tool install -g B2X.CLI.Administration
+B2X tenant create  # Same command syntax
 
 # Migration script provided
-./scripts/migrate-cli-config.sh --from b2connect --to b2connect
+./scripts/migrate-cli-config.sh --from B2X --to B2X
 ```
 
 ### For CI/CD Pipelines
 
 ```yaml
 # Before
-- run: b2connect auth create-user
+- run: B2X auth create-user
 
 # After - Operations pipeline
-- run: b2connect-ops deployment migrate
+- run: B2X-ops deployment migrate
 
 # After - Administration pipeline
-- run: b2connect user add
+- run: B2X user add
 ```
 
 ---
@@ -471,7 +479,7 @@ b2connect tenant create  # Same command syntax
 - Troubleshooting runbook
 
 ### Administration CLI Documentation
-- Public installation guide (docs.b2connect.com)
+- Public installation guide (docs.B2X.com)
 - Customer-facing command reference
 - Authentication flow
 - Use case examples
@@ -522,7 +530,7 @@ b2connect tenant create  # Same command syntax
 ### Internal
 - [KB-014] Git Commit Strategy
 - [GL-008] Governance Policies
-- Current CLI README: `backend/CLI/B2Connect.CLI/README.md`
+- Current CLI README: `backend/CLI/B2X.CLI/README.md`
 - Authentication Design: `.ai/decisions/ADR-025-gateway-service-communication-strategy.md`
 
 ---

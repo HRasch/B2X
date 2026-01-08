@@ -1,5 +1,5 @@
----
-# B2Connect Monitoring Infrastructure for Kubernetes
+﻿---
+# B2X Monitoring Infrastructure for Kubernetes
 # Deploys Prometheus, Grafana, Elasticsearch, Kibana, Alertmanager, Jaeger
 
 apiVersion: v1
@@ -34,12 +34,12 @@ data:
         static_configs:
           - targets: ['localhost:9090']
 
-      - job_name: 'b2connect-services'
+      - job_name: 'B2X-services'
         kubernetes_sd_configs:
           - role: pod
             namespaces:
               names:
-                - b2connect
+                - B2X
         relabel_configs:
           - source_labels: [__meta_kubernetes_pod_label_app]
             target_label: service_name
@@ -56,7 +56,7 @@ data:
 
   alert_rules.yml: |
     groups:
-    - name: b2connect-alerts
+    - name: B2X-alerts
       rules:
       - alert: ServiceDown
         expr: up == 0
@@ -87,7 +87,7 @@ data:
   alertmanager.yml: |
     global:
       smtp_smarthost: 'smtp.example.com:587'
-      smtp_from: 'alerts@b2connect.com'
+      smtp_from: 'alerts@B2X.com'
 
     route:
       group_by: ['alertname']

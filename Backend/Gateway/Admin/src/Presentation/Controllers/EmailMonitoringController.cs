@@ -1,11 +1,11 @@
-using B2Connect.Email.Interfaces;
-using B2Connect.Email.Models;
-using B2Connect.Email.Services;
+using B2X.Email.Interfaces;
+using B2X.Email.Models;
+using B2X.Email.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace B2Connect.Admin.Presentation.Controllers;
+namespace B2X.Admin.Presentation.Controllers;
 
 /// <summary>
 /// Controller für Email-Monitoring und Analytics
@@ -182,9 +182,9 @@ public class EmailMonitoringController : ApiControllerBase
             Password = "", // Never return actual password
             EnableSsl = true,
             Timeout = 30000,
-            FromEmail = "noreply@b2connect.com",
-            FromName = "B2Connect",
-            Domain = "b2connect.com"
+            FromEmail = "noreply@B2X.com",
+            FromName = "B2X",
+            Domain = "B2X.com"
         };
 
         return Ok(settings);

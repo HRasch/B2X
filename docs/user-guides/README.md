@@ -1,4 +1,4 @@
-# B2Connect User Guides - Choose Your Language
+﻿# B2X User Guides - Choose Your Language
 
 **Choose your preferred language / Wählen Sie Ihre bevorzugte Sprache:**
 
@@ -39,7 +39,7 @@ Zugriff auf Anleitungen zur Unterstützung:
 ### Getting Started / Erste Schritte
 - How to create your account
 - Your first login
-- Understanding B2Connect features
+- Understanding B2X features
 
 ### Authentication / Authentifizierung
 - Login from desktop or mobile
@@ -63,12 +63,12 @@ Zugriff auf Anleitungen zur Unterstützung:
 ## 🆘 Quick Help / Schnelle Hilfe
 
 ### English
-- **Email**: support@b2connect.com
+- **Email**: support@B2X.com
 - **Live Chat**: Available on website (9 AM - 5 PM, Monday-Friday)
 - **Phone**: +49 (0)800 123 4567
 
 ### Deutsch
-- **E-Mail**: support@b2connect.com
+- **E-Mail**: support@B2X.com
 - **Live-Chat**: Auf der Website verfügbar (9 Uhr - 17 Uhr, Montag-Freitag)
 - **Telefon**: +49 (0)800 123 4567
 
@@ -107,7 +107,7 @@ Currently available:
 - **README.md** - Complete guide index & FAQ
 
 ### German Version (./de/)
-- **getting-started.md** - Erste Schritte mit B2Connect
+- **getting-started.md** - Erste Schritte mit B2X
 - **login.md** - So melden Sie sich an
 - **reset-password.md** - Passwort vergessen?
 - **account-security.md** - Kontotipps zur Sicherheit
@@ -152,7 +152,7 @@ Your information is safe:
 We'd love to hear from you!
 
 Have suggestions for improving these guides?
-- Email us: feedback@b2connect.com
+- Email us: feedback@B2X.com
 - Let us know what topics you'd like covered
 - Report any inaccuracies or issues
 

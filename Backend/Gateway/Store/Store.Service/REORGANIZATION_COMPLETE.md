@@ -1,4 +1,4 @@
-# Store Backend Reorganization - Complete
+﻿# Store Backend Reorganization - Complete
 
 ## Summary
 The Store backend project has been successfully reorganized with a Store / Admin / Common separation pattern. All files have been migrated to their new locations with updated namespaces and import statements.
@@ -45,27 +45,27 @@ src/Presentation/Controllers/
 ## Namespace Updates
 
 ### Write Services (Admin)
-- **Old**: `B2Connect.Store.Application.Services`
-- **New**: `B2Connect.Store.Application.Store.Services`
-- **Entities**: `B2Connect.Store.Core.Store.Entities`
-- **Interfaces**: `B2Connect.Store.Core.Store.Interfaces`
+- **Old**: `B2X.Store.Application.Services`
+- **New**: `B2X.Store.Application.Store.Services`
+- **Entities**: `B2X.Store.Core.Store.Entities`
+- **Interfaces**: `B2X.Store.Core.Store.Interfaces`
 
 ### Read Services (Public)
-- **Old**: `B2Connect.Store.Application.Services`
-- **New**: `B2Connect.Store.Application.Store.ReadServices`
-- **Entities**: `B2Connect.Store.Core.Store.Entities`
-- **Interfaces**: `B2Connect.Store.Core.Store.Interfaces`
+- **Old**: `B2X.Store.Application.Services`
+- **New**: `B2X.Store.Application.Store.ReadServices`
+- **Entities**: `B2X.Store.Core.Store.Entities`
+- **Interfaces**: `B2X.Store.Core.Store.Interfaces`
 
 ### Admin Controllers
-- **Old**: `B2Connect.Store.Presentation.Controllers`
-- **New**: `B2Connect.Store.Presentation.Controllers.Admin`
-- **Service Reference**: `B2Connect.Store.Application.Store.Services`
-- **Entities**: `B2Connect.Store.Core.Store.Entities`
+- **Old**: `B2X.Store.Presentation.Controllers`
+- **New**: `B2X.Store.Presentation.Controllers.Admin`
+- **Service Reference**: `B2X.Store.Application.Store.Services`
+- **Entities**: `B2X.Store.Core.Store.Entities`
 
 ### Public Controllers
-- **New**: `B2Connect.Store.Presentation.Controllers.Public`
-- **Service Reference**: `B2Connect.Store.Application.Store.ReadServices`
-- **Entities**: `B2Connect.Store.Core.Store.Entities`
+- **New**: `B2X.Store.Presentation.Controllers.Public`
+- **Service Reference**: `B2X.Store.Application.Store.ReadServices`
+- **Entities**: `B2X.Store.Core.Store.Entities`
 
 ## Files Created (New Locations)
 
@@ -119,8 +119,8 @@ New public endpoints available at `/api/public/`:
 
 ### Updated Entity References
 All files now reference entities from their correct locations:
-- Store entities: `B2Connect.Store.Core.Store.Entities`
-- Store interfaces: `B2Connect.Store.Core.Store.Interfaces`
+- Store entities: `B2X.Store.Core.Store.Entities`
+- Store interfaces: `B2X.Store.Core.Store.Interfaces`
 
 ## Important Notes
 

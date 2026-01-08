@@ -1,3 +1,11 @@
+---
+docid: ADR-061
+title: ADR 025 Dapper Ef Extensions Evaluation
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # ADR-025: Dapper & EF Extensions Evaluation
 
 **Status**: Accepted  

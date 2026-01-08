@@ -1,4 +1,12 @@
 ---
+docid: STATUS-015
+title: KB MCP PHASE 1 STATUS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-MCP-PHASE-1
 title: Knowledge Base MCP - Phase 1 Completion Status
 date: 2026-01-07

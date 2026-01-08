@@ -1,6 +1,6 @@
-using B2Connect.Identity.Interfaces;
+using B2X.Identity.Interfaces;
 
-namespace B2Connect.Identity.Infrastructure.ExternalServices;
+namespace B2X.Identity.Infrastructure.ExternalServices;
 
 /// <summary>
 /// Factory zur Erstellung von ERP-Providern basierend auf Konfiguration

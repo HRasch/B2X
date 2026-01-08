@@ -1,4 +1,12 @@
-# KB-MCP Phase 2a Validation - Team Review
+---
+docid: STATUS-020
+title: KB MCP TEAM VALIDATION NOTICE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# KB-MCP Phase 2a Validation - Team Review
 
 **Date**: 7. Januar 2026  
 **Status**: Phase 2a Complete - Ready for Team Validation  
@@ -49,7 +57,7 @@
 Run this command daily to check system health:
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect
+cd /Users/holger/Documents/Projekte/B2X
 ./tools/KnowledgeBaseMCP/monitor-validation.sh
 ```
 

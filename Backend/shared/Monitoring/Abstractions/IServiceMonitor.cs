@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Shared.Monitoring.Models;
+using B2X.Shared.Monitoring.Models;
 
-namespace B2Connect.Shared.Monitoring.Abstractions;
+namespace B2X.Shared.Monitoring.Abstractions;
 
 /// <summary>
 /// Interface for monitoring connected services.

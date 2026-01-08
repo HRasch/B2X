@@ -1,4 +1,12 @@
-# Component Migration Roadmap & Progress
+---
+docid: ADR-114
+title: MIGRATION_ROADMAP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Component Migration Roadmap & Progress
 
 **Date:** December 30, 2025  
 **Owner:** @Frontend  
@@ -212,7 +220,7 @@
 ✅ Responsive design: Mobile, tablet, desktop  
 ✅ Accessibility: WCAG 2.1 AA compliance  
 ✅ Performance: Bundle size impact  
-✅ Component usage: Using B2Connect design system  
+✅ Component usage: Using B2X design system  
 ✅ Code quality: Clean, maintainable code  
 ✅ Test coverage: Unit tests for logic  
 

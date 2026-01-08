@@ -1,6 +1,6 @@
-using B2Connect.Catalog.Core.Entities;
+using B2X.Catalog.Core.Entities;
 
-namespace B2Connect.Catalog.Application.Adapters;
+namespace B2X.Catalog.Application.Adapters;
 
 /// <summary>
 /// Adapter interface for importing product catalogs from various formats

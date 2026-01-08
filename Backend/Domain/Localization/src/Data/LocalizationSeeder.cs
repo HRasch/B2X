@@ -1,8 +1,8 @@
-using B2Connect.LocalizationService.Data;
-using B2Connect.LocalizationService.Models;
+using B2X.LocalizationService.Data;
+using B2X.LocalizationService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.LocalizationService.Data;
+namespace B2X.LocalizationService.Data;
 
 /// <summary>
 /// Seeder for initializing localization database with base translations

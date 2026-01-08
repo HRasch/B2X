@@ -1,13 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
   ═══════════════════════════════════════════════════════════════════════════════
-  B2Connect - SINGLE SOURCE OF TRUTH for Package Versions
+  B2X - SINGLE SOURCE OF TRUTH for Package Versions
   ═══════════════════════════════════════════════════════════════════════════════
   
   IMPORTANT: This is the ONLY file for package versions.
   DO NOT create another Directory.Packages.props in subfolders!
   
-  VERSION COMPATIBILITY RULES:
+  🚨 DEPENDENCY DOWNGRADE POLICY 🚨
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DO NOT DOWNGRADE package versions without explicit approval and documentation!
+  
+  Reasons for version locks:
+  • Microsoft.AspNetCore.Mvc.Core: Version 2.3.9 (latest available, 10.0.1 doesn't exist)
+  • Entity Framework Core: Version 10.0.1 (required for .NET 10.0 compatibility)
+  • Aspire packages: Version 13.1.0 (latest stable, keep all Aspire packages in sync)
+  • OpenTelemetry: Version 1.14.0 (latest stable, keep all OTEL packages in sync)
+  • Wolverine: Version 5.9.2 (latest stable, keep all Wolverine packages in sync)
+  • Microsoft.Extensions.AI.OpenAI: Version 10.1.1-preview.1.25612.2 (updated from 10.0.0-preview.1.25612.2 - latest preview)
+  • Azure.AI.OpenAI: Version 2.1.0 (latest stable, 2.2.0 does not exist)
+  
+  Before changing ANY version:
+  1. Check NuGet.org for availability
+  2. Test build compatibility across all target frameworks
+  3. Run full test suite
+  4. Document the change reason in commit message
+  5. Update this header with new version rationale
+  
+  Last Updated: 8. Januar 2026 (Fixed Azure.AI.OpenAI version from non-existent 2.2.0 to 2.1.0)
+  ═══════════════════════════════════════════════════════════════════════════════
   ┌─────────────────────────────────────────┬───────────────────────────────────┐
   │ Package Group                           │ Rule                              │
   ├─────────────────────────────────────────┼───────────────────────────────────┤
@@ -19,7 +40,7 @@
   │ Microsoft.Extensions.*                  │ Keep at .NET version (10.0.x)    │
   └─────────────────────────────────────────┴───────────────────────────────────┘
   
-  Last Updated: 2. Januar 2026
+  Last Updated: 7. Januar 2026 (Fixed version inconsistencies)
   ═══════════════════════════════════════════════════════════════════════════════
 -->
 <Project>
@@ -43,20 +64,22 @@
     <!-- POSTGRESQL / NPGSQL (10.0.0 - compatible with EF Core 10.0.x)           -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="Npgsql" Version="10.0.1" />
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.0-rc.2" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- ASP.NET CORE (10.0.1)                                                   -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Http" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.9" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="8.0.0" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- ASPIRE HOSTING (13.1.0 - keep ALL Aspire packages in sync)              -->
@@ -75,6 +98,7 @@
     <!-- WOLVERINE CQRS (5.9.2 - keep ALL Wolverine packages in sync)            -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="WolverineFx" Version="5.9.2" />
+    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.Http" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.PostgreSQL" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.RabbitMq" Version="5.9.2" />
@@ -98,6 +122,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
@@ -105,6 +130,7 @@
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
@@ -189,7 +215,9 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="Dapper" Version="2.1.66" />
     <PackageVersion Include="DnsClient" Version="1.8.0" />
-    <PackageVersion Include="EFCore.BulkExtensions" Version="8.1.3" />
+    <PackageVersion Include="EFCore.BulkExtensions" Version="10.0.0" />
+    <PackageVersion Include="EFCore.BulkExtensions.SqlServer" Version="10.0.0-rc.2" />
+    <PackageVersion Include="EFCore.BulkExtensions.PostgreSql" Version="10.0.0-rc.2" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- CLOUD PROVIDERS (Azure & AWS)                                           -->
@@ -205,11 +233,12 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- AI PROVIDERS & MCP PROTOCOL                                             -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <PackageVersion Include="ModelContextProtocol" Version="2024.11.5" />
+    <PackageVersion Include="ModelContextProtocol" Version="0.5.0-preview.1" />
+    <PackageVersion Include="mcpdotnet" Version="1.2.0.1" />
     <PackageVersion Include="OpenAI" Version="2.8.0" />
     <PackageVersion Include="Anthropic.SDK" Version="5.8.0" />
-    <PackageVersion Include="Azure.AI.OpenAI" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.Extensions.AI" Version="10.1.1" />
+    <PackageVersion Include="Azure.AI.OpenAI" Version="2.1.0" />
+    <PackageVersion Include="Microsoft.Extensions.AI" Version="10.0.0" />
     <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.1.1-preview.1.25612.2" />
     <PackageVersion Include="Microsoft.Extensions.AI.AzureAIInference" Version="10.0.0-preview.1.25559.3" />
     <PackageVersion Include="OllamaSharp" Version="5.4.12" />
@@ -219,21 +248,22 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- SYSTEM PACKAGES (for Abstractions)                                     -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <PackageVersion Include="System.ComponentModel.Annotations" Version="10.0.0" />
+    <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageVersion Include="System.Text.Json" Version="10.0.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- gRPC (for ERP Integration)                                              -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <PackageVersion Include="Google.Protobuf" Version="3.30.2" />
+    <PackageVersion Include="Google.Protobuf" Version="3.33.2" />
     <PackageVersion Include="Grpc.Net.Client" Version="2.67.0" />
     <PackageVersion Include="Grpc.Tools" Version="2.67.0" />
+    <PackageVersion Include="Grpc.Core" Version="2.46.6" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- CLI TOOLS                                                               -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <PackageVersion Include="Spectre.Console" Version="0.49.1" />
+    <PackageVersion Include="Spectre.Console" Version="0.54.0" />
     <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.24302.3" />
     <PackageVersion Include="System.CommandLine.Binding" Version="2.0.0-beta4.24302.3" />
 
@@ -247,6 +277,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.14.0" />
     <PackageVersion Include="Microsoft.Build.Locator" Version="1.7.8" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
@@ -262,7 +293,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- TESTING                                                                 -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="FluentAssertions" Version="8.8.0" />
@@ -275,5 +306,7 @@
     <PackageVersion Include="TngTech.ArchUnitNET.xUnit" Version="0.13.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.1" />
+    <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,12 @@
 ---
+docid: REQ-055
+title: REQ 005 Cms Tenant Template Overrides
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: REQ-005
 title: CMS Tenant Template Overrides with AI Validation
 owner: @SARAH
@@ -256,4 +264,4 @@ public class TemplateOverrideMetadata
 **Analysis Contributors**: @ProductOwner, @Architect, @Backend, @Frontend, @Security, @QA  
 **Next Review**: 2026-01-10  
 **Status**: Draft - Ready for detailed technical analysis</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-005-cms-tenant-template-overrides.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-005-cms-tenant-template-overrides.md

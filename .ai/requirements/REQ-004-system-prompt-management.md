@@ -1,4 +1,12 @@
 ---
+docid: REQ-054
+title: REQ 004 System Prompt Management
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: REQ-004-SPM
 title: System Prompt Management for MCP Server
 owner: @SARAH
@@ -437,4 +445,4 @@ public class PromptAuditService
 - Async operations for non-blocking updates
 
 This design provides tenant-admins with powerful customization capabilities while maintaining security, performance, and usability standards.</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-004-system-prompt-management.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-004-system-prompt-management.md

@@ -1,4 +1,12 @@
-# B2Connect — 2‑Sprint MVP Plan
+---
+docid: REQ-068
+title: SPRINT_PLAN
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# B2X — 2‑Sprint MVP Plan
 
 Purpose: pragmatic first two sprints to deliver a shippable MVP (focus on P0). Link to created P0 issues for implementation.
 
@@ -10,10 +18,10 @@ Sprint length: 2 weeks each. Goal: deliver a working demo storefront + core plat
 - Focus: Core API foundation, authentication, developer DX and minimal storefront wiring.
 
 - Tasks:
-  - `Core API` — basic product & SKU models, CRUD endpoints ([issue #76](https://github.com/HRasch/B2Connect/issues/76))
-  - `Auth & RBAC` — JWT/API key support, admin role model ([issue #77](https://github.com/HRasch/B2Connect/issues/77))
-  - `Developer DX` — OpenAPI + GraphQL Playground + quickstart docs ([issue #83](https://github.com/HRasch/B2Connect/issues/83))
-  - `Starter Storefront wiring` — connect Next.js demo to staging API (skeleton) ([issue #82](https://github.com/HRasch/B2Connect/issues/82))
+  - `Core API` — basic product & SKU models, CRUD endpoints ([issue #76](https://github.com/HRasch/B2X/issues/76))
+  - `Auth & RBAC` — JWT/API key support, admin role model ([issue #77](https://github.com/HRasch/B2X/issues/77))
+  - `Developer DX` — OpenAPI + GraphQL Playground + quickstart docs ([issue #83](https://github.com/HRasch/B2X/issues/83))
+  - `Starter Storefront wiring` — connect Next.js demo to staging API (skeleton) ([issue #82](https://github.com/HRasch/B2X/issues/82))
 
 - Acceptance criteria:
   - CRUD operations functional end-to-end locally.
@@ -24,10 +32,10 @@ Sprint length: 2 weeks each. Goal: deliver a working demo storefront + core plat
 - Focus: Checkout & Orders, import/export and eventing; make demo checkout complete.
 
 - Tasks:
-  - `Checkout & Payments` — cart → checkout → order flow; integrate sandbox adapter ([issue #78](https://github.com/HRasch/B2Connect/issues/78))
-  - `Order Management & Fulfillment` — status transitions and webhooks ([issue #79](https://github.com/HRasch/B2Connect/issues/79))
-  - `Product Import/Export` — CSV import (validation) ([issue #80](https://github.com/HRasch/B2Connect/issues/80))
-  - `Webhooks & Eventing` — event subscriptions and delivery retries ([issue #81](https://github.com/HRasch/B2Connect/issues/81))
+  - `Checkout & Payments` — cart → checkout → order flow; integrate sandbox adapter ([issue #78](https://github.com/HRasch/B2X/issues/78))
+  - `Order Management & Fulfillment` — status transitions and webhooks ([issue #79](https://github.com/HRasch/B2X/issues/79))
+  - `Product Import/Export` — CSV import (validation) ([issue #80](https://github.com/HRasch/B2X/issues/80))
+  - `Webhooks & Eventing` — event subscriptions and delivery retries ([issue #81](https://github.com/HRasch/B2X/issues/81))
 
 - Acceptance criteria:
   - Demo storefront can complete checkout and create an order in the API.

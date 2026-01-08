@@ -1,6 +1,6 @@
-# Wolverine MCP Server
+﻿# Wolverine MCP Server
 
-A Model Context Protocol (MCP) server for .NET/Wolverine CQRS analysis in the B2Connect project. This server provides AI-powered analysis for Wolverine message handlers, dependency injection, and PostgreSQL queries.
+A Model Context Protocol (MCP) server for .NET/Wolverine CQRS analysis in the B2X project. This server provides AI-powered analysis for Wolverine message handlers, dependency injection, and PostgreSQL queries.
 
 ## Features
 
@@ -60,9 +60,9 @@ Analyzes PostgreSQL queries in Wolverine handlers.
 **Parameters:**
 - `workspacePath`: Workspace root directory
 
-## Integration with B2Connect
+## Integration with B2X
 
-This MCP server is designed to work with the B2Connect backend architecture:
+This MCP server is designed to work with the B2X backend architecture:
 
 - **.NET 8+** with C# 12
 - **Wolverine** CQRS framework
@@ -83,4 +83,4 @@ This is a **basic skeleton implementation**. Full features need to be implemente
 
 ## Contributing
 
-Follow B2Connect development guidelines and coordinate with @Backend agent for feature additions.
+Follow B2X development guidelines and coordinate with @Backend agent for feature additions.

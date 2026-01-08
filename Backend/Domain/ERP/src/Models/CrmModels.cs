@@ -2,7 +2,7 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-namespace B2Connect.ERP.Models;
+namespace B2X.ERP.Models;
 
 /// <summary>
 /// Customer information from CRM system.

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="cli-tools-container">
     <!-- Header -->
     <div class="cli-header">
@@ -30,7 +30,7 @@
       <div class="tool-card">
         <div class="tool-header">
           <i class="icon-terminal"></i>
-          <h2>Administration CLI</h2>
+          <h2>{{ $t('tools.cli.administration.title') }}</h2>
         </div>
 
         <div class="tool-content">
@@ -46,9 +46,9 @@
             <div class="info-item">
               <span class="label">{{ $t('tools.supportedOS') }}:</span>
               <span class="value">
-                <span class="badge">Windows</span>
-                <span class="badge">Linux</span>
-                <span class="badge">macOS</span>
+                <span class="badge">{{ $t('tools.os.windows') }}</span>
+                <span class="badge">{{ $t('tools.os.linux') }}</span>
+                <span class="badge">{{ $t('tools.os.macos') }}</span>
               </span>
             </div>
             <div class="info-item">
@@ -78,7 +78,7 @@
           <div class="version-selector">
             <label>{{ $t('tools.selectVersion') }}:</label>
             <select v-model="selectedAdminVersion" class="version-select">
-              <option value="latest">Latest</option>
+              <option value="latest">{{ $t('tools.versions.latest') }}</option>
               <option v-for="v in administrationCliVersions" :key="v.version" :value="v.version">
                 {{ v.version }} ({{ formatDate(v.releaseDate) }})
               </option>
@@ -103,7 +103,7 @@
       <div class="tool-card">
         <div class="tool-header">
           <i class="icon-link"></i>
-          <h2>ERP Connector</h2>
+          <h2>{{ $t('tools.cli.erp.title') }}</h2>
         </div>
 
         <div class="tool-content">
@@ -119,8 +119,8 @@
             <div class="info-item">
               <span class="label">{{ $t('tools.supportedOS') }}:</span>
               <span class="value">
-                <span class="badge">Windows</span>
-                <span class="badge">Linux</span>
+                <span class="badge">{{ $t('tools.os.windows') }}</span>
+                <span class="badge">{{ $t('tools.os.linux') }}</span>
               </span>
             </div>
             <div class="info-item">
@@ -136,8 +136,8 @@
             <label>{{ $t('tools.erp.selectType') }}:</label>
             <select v-model="selectedErpType" class="erp-select">
               <option value="">{{ $t('tools.erp.selectPlaceholder') }}</option>
-              <option value="enventa">enventa Trade ERP</option>
-              <option value="craft">Craft Software</option>
+              <option value="enventa">{{ $t('tools.cli.erp.enventaTradeErp') }}</option>
+              <option value="craft">{{ $t('tools.cli.erp.craftSoftware') }}</option>
             </select>
           </div>
 
@@ -160,7 +160,7 @@
           <div class="version-selector">
             <label>{{ $t('tools.selectVersion') }}:</label>
             <select v-model="selectedErpVersion" class="version-select">
-              <option value="latest">Latest</option>
+              <option value="latest">{{ $t('tools.versions.latest') }}</option>
               <option v-for="v in erpConnectorVersions" :key="v.version" :value="v.version">
                 {{ v.version }} ({{ formatDate(v.releaseDate) }})
               </option>
@@ -256,15 +256,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import {
   cliToolsApi,
   type CliToolInfo,
   type CliVersionInfo,
   type CliInstallationInstructions,
 } from '@/services/api/cliTools';
-
-const { t } = useI18n();
 
 // State
 const isLoading = ref(true);
@@ -330,7 +327,7 @@ const downloadAdminCli = async () => {
       selectedAdminVersion.value,
       selectedAdminOs.value
     );
-    downloadBlob(blob, `b2connect-cli-${selectedAdminVersion.value}-${selectedAdminOs.value}`);
+    downloadBlob(blob, `B2X-cli-${selectedAdminVersion.value}-${selectedAdminOs.value}`);
   } catch (error) {
     console.error('Error downloading Administration-CLI:', error);
     errorMessage.value = 'Failed to download Administration-CLI. Please try again.';

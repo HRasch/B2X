@@ -1,10 +1,10 @@
-using Xunit;
+﻿using Xunit;
 using Moq;
 using Microsoft.EntityFrameworkCore;
-using B2Connect.LayoutService.Data;
-using B2Connect.LayoutService.Models;
+using B2X.LayoutService.Data;
+using B2X.LayoutService.Models;
 
-namespace B2Connect.LayoutService.Tests;
+namespace B2X.LayoutService.Tests;
 
 /// <summary>
 /// Integration Tests für Layout Service mit InMemory Database

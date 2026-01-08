@@ -2,12 +2,12 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Contracts;
-using B2Connect.ERP.Core;
-using B2Connect.ERP.Models;
-using B2Connect.ERP.Services;
+using B2X.ERP.Contracts;
+using B2X.ERP.Core;
+using B2X.ERP.Models;
+using B2X.ERP.Services;
 
-namespace B2Connect.ERP.Providers.Enventa;
+namespace B2X.ERP.Providers.Enventa;
 
 /// <summary>
 /// Fake implementation of all ERP provider interfaces for Mac development.

@@ -1,10 +1,10 @@
-using B2Connect.Email.Interfaces;
-using B2Connect.Email.Models;
-using B2Connect.Shared.Messaging.Commands;
+using B2X.Email.Interfaces;
+using B2X.Email.Models;
+using B2X.Shared.Messaging.Commands;
 using Microsoft.Extensions.Logging;
 using Wolverine.Attributes;
 
-namespace B2Connect.Email.Handlers;
+namespace B2X.Email.Handlers;
 
 /// <summary>
 /// Wolverine Handler für SendEmailCommand

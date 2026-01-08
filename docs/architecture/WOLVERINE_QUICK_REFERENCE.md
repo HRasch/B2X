@@ -1,6 +1,6 @@
-# 🚀 Wolverine Quick Reference - For B2Connect Developers
+﻿# 🚀 Wolverine Quick Reference - For B2X Developers
 
-**Purpose:** Quick lookup for correct Wolverine patterns in B2Connect  
+**Purpose:** Quick lookup for correct Wolverine patterns in B2X  
 **For:** New features, Story implementations, API endpoint creation
 
 ---
@@ -22,7 +22,7 @@ public class MyService
 // Route: POST /mymethod (auto-generated from method name)
 ```
 
-### ❌ DO NOT USE (MediatR - Wrong for B2Connect)
+### ❌ DO NOT USE (MediatR - Wrong for B2X)
 ```csharp
 // ❌ Wrong Pattern
 public record MyCommand(string Prop) : IRequest<MyResponse>;
@@ -191,7 +191,7 @@ backend/Domain/
 | **DI Registration** | `AddScoped<Service>()` | `AddMediatR()` |
 | **Method Name** | Becomes HTTP route | Explicit in attribute |
 | **Event Handlers** | `Handle(EventType)` | Custom or MediatR behavior |
-| **Use in B2Connect** | ✅ CORRECT | ❌ DO NOT USE |
+| **Use in B2X** | ✅ CORRECT | ❌ DO NOT USE |
 
 ---
 

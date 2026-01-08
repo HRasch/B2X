@@ -1,4 +1,12 @@
 ---
+docid: SPR-080
+title: SPR 005 Review Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-005-REVIEW
 title: Sprint 2026-05 Review & Retrospective - ERP Integration Phase 2 & Testing Enhancements
 owner: @ScrumMaster

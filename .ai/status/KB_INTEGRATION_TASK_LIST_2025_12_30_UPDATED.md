@@ -1,3 +1,11 @@
+---
+docid: STATUS-023
+title: KB_INTEGRATION_TASK_LIST_2025_12_30_UPDATED
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📚 Knowledge Base Integration Task List - UPDATED
 
 **Date**: 30. Dezember 2025  

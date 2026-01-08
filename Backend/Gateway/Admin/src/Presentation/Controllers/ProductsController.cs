@@ -1,11 +1,11 @@
-using B2Connect.Admin.Application.Commands.Products;
-using B2Connect.Admin.Application.DTOs;
-using B2Connect.Admin.Presentation.Filters;
+using B2X.Admin.Application.Commands.Products;
+using B2X.Admin.Application.DTOs;
+using B2X.Admin.Presentation.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
-namespace B2Connect.Admin.Presentation.Controllers;
+namespace B2X.Admin.Presentation.Controllers;
 
 /// <summary>
 /// Products Controller - HTTP Layer Only (CQRS Pattern)

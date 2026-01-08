@@ -1,4 +1,12 @@
 ---
+docid: SPR-102
+title: SPR 012 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-012-RETRO
 title: Sprint 2026-12 Retrospective - ML Maturity & Infrastructure Scaling
 owner: @ScrumMaster
@@ -156,4 +164,4 @@ status: Completed
 
 ---
 *Retrospective conducted: 19. März 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-012-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-012-retrospective.md

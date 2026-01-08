@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace B2Connect.Orders.Core.Entities;
+namespace B2X.Orders.Core.Entities;
 
 /// <summary>
 /// Order entity representing a customer order
@@ -27,20 +27,16 @@ public class Order
     [StringLength(20)]
     public string Status { get; set; } = "pending";
 
-    [Column("total_amount")]
-    [Column(TypeName = "decimal(18,2)")]
+    [Column("total_amount", TypeName = "decimal(18,2)")]
     public decimal TotalAmount { get; set; }
 
-    [Column("subtotal")]
-    [Column(TypeName = "decimal(18,2)")]
+    [Column("subtotal", TypeName = "decimal(18,2)")]
     public decimal Subtotal { get; set; }
 
-    [Column("tax_amount")]
-    [Column(TypeName = "decimal(18,2)")]
+    [Column("tax_amount", TypeName = "decimal(18,2)")]
     public decimal TaxAmount { get; set; }
 
-    [Column("shipping_amount")]
-    [Column(TypeName = "decimal(18,2)")]
+    [Column("shipping_amount", TypeName = "decimal(18,2)")]
     public decimal ShippingAmount { get; set; }
 
     [Column("currency")]

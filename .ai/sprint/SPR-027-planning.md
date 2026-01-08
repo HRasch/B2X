@@ -1,4 +1,12 @@
-# SPR-027: Sprint 2026-27 Planning - AI Model Governance & Advanced Compliance Intelligence
+---
+docid: SPR-139
+title: SPR 027 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# SPR-027: Sprint 2026-27 Planning - AI Model Governance & Advanced Compliance Intelligence
 
 **DocID**: SPR-027  
 **Date**: 30. September 2026  
@@ -155,4 +163,4 @@
 ---
 
 *Planning completed: 30. September 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-027-planning.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-027-planning.md

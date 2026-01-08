@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace B2Connect.Catalog.Infrastructure.Data;
+namespace B2X.Catalog.Infrastructure.Data;
 
 /// <summary>
 /// Design-time factory for CatalogDbContext.
@@ -16,7 +16,7 @@ public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbCont
         // Use a default connection string for design-time operations
         // This is only used for generating migrations, not for runtime
         optionsBuilder.UseNpgsql(
-            "Host=localhost;Database=b2connect_catalog;Username=postgres;Password=postgres",
+            "Host=localhost;Database=B2X_catalog;Username=postgres;Password=postgres",
             npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "catalog"));
 
         return new CatalogDbContext(optionsBuilder.Options);

@@ -1,30 +1,30 @@
-version: '3.8'
+﻿version: '3.8'
 
 services:
   # PostgreSQL Database
   postgres:
     image: postgres:16.11
-    container_name: b2connect-postgres
+    container_name: B2X-postgres
     environment:
-      POSTGRES_USER: b2connect
-      POSTGRES_PASSWORD: b2connect_dev_password
-      POSTGRES_DB: b2connect_db
+      POSTGRES_USER: B2X
+      POSTGRES_PASSWORD: B2X_dev_password
+      POSTGRES_DB: B2X_db
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U b2connect"]
+      test: ["CMD-SHELL", "pg_isready -U B2X"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - b2connect
+      - B2X
 
   # Redis Cache
   redis:
     image: redis:8.4.0
-    container_name: b2connect-redis
+    container_name: B2X-redis
     ports:
       - "6379:6379"
     command: redis-server --appendonly yes
@@ -36,14 +36,14 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - b2connect
+      - B2X
 
   # API Gateway
   api-gateway:
     build:
       context: .
       dockerfile: services/api-gateway/Dockerfile
-    container_name: b2connect-api-gateway
+    container_name: B2X-api-gateway
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:5000
@@ -59,7 +59,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - b2connect
+      - B2X
     restart: unless-stopped
 
   # Auth Service
@@ -67,12 +67,12 @@ services:
     build:
       context: .
       dockerfile: services/auth-service/Dockerfile
-    container_name: b2connect-auth-service
+    container_name: B2X-auth-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:5001
       ASPNETCORE_HTTP_PORTS: 5001
-      ConnectionStrings__AuthDb: Host=postgres;Port=5432;Database=b2connect_auth;Username=b2connect;Password=b2connect_dev_password
+      ConnectionStrings__AuthDb: Host=postgres;Port=5432;Database=B2X_auth;Username=B2X;Password=B2X_dev_password
       Redis__Host: redis
       Redis__Port: 6379
     ports:
@@ -88,7 +88,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - b2connect
+      - B2X
     restart: unless-stopped
 
   # Tenant Service
@@ -96,12 +96,12 @@ services:
     build:
       context: .
       dockerfile: services/tenant-service/Dockerfile
-    container_name: b2connect-tenant-service
+    container_name: B2X-tenant-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:5002
       ASPNETCORE_HTTP_PORTS: 5002
-      ConnectionStrings__TenantDb: Host=postgres;Port=5432;Database=b2connect_tenant;Username=b2connect;Password=b2connect_dev_password
+      ConnectionStrings__TenantDb: Host=postgres;Port=5432;Database=B2X_tenant;Username=B2X;Password=B2X_dev_password
       Redis__Host: redis
       Redis__Port: 6379
     ports:
@@ -117,7 +117,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - b2connect
+      - B2X
     restart: unless-stopped
 
   # Localization Service
@@ -125,12 +125,12 @@ services:
     build:
       context: .
       dockerfile: services/LocalizationService/Dockerfile
-    container_name: b2connect-localization-service
+    container_name: B2X-localization-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:5003
       ASPNETCORE_HTTP_PORTS: 5003
-      ConnectionStrings__LocalizationDb: Host=postgres;Port=5432;Database=b2connect_localization;Username=b2connect;Password=b2connect_dev_password
+      ConnectionStrings__LocalizationDb: Host=postgres;Port=5432;Database=B2X_localization;Username=B2X;Password=B2X_dev_password
       Database__Provider: PostgreSQL
     ports:
       - "5003:5003"
@@ -143,7 +143,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - b2connect
+      - B2X
     restart: unless-stopped
 
   # AppHost Dashboard & Orchestrator
@@ -151,7 +151,7 @@ services:
     build:
       context: .
       dockerfile: services/AppHost/Dockerfile
-    container_name: b2connect-apphost
+    container_name: B2X-apphost
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:9000
@@ -173,7 +173,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - b2connect
+      - B2X
     restart: unless-stopped
 
 volumes:
@@ -183,5 +183,5 @@ volumes:
     driver: local
 
 networks:
-  b2connect:
+  B2X:
     driver: bridge

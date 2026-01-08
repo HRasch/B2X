@@ -1,4 +1,12 @@
-# ADR-042: Internationalization Strategy for ESLint Error Reduction
+---
+docid: ADR-086
+title: ADR 042 Internationalization Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-042: Internationalization Strategy for ESLint Error Reduction
 
 **DocID**: `ADR-042`  
 **Status**: Proposed | **Owner**: @Frontend  
@@ -8,7 +16,7 @@
 
 ## Context
 
-The B2Connect Store frontend currently has 242 ESLint errors related to hardcoded strings, requiring internationalization. The current manual approach of adding i18n keys to all 8 supported languages (English, German, French, Spanish, Italian, Portuguese, Dutch, Polish) is time-intensive and repetitive.
+The B2X Store frontend currently has 242 ESLint errors related to hardcoded strings, requiring internationalization. The current manual approach of adding i18n keys to all 8 supported languages (English, German, French, Spanish, Italian, Portuguese, Dutch, Polish) is time-intensive and repetitive.
 
 Current progress: 85% complete (426/668 errors eliminated) through manual component-by-component internationalization.
 
@@ -166,4 +174,4 @@ function extractHardcodedStrings(eslintOutput) {
 **Status**: Proposed  
 **Next Steps**: Implement AI translation script and begin Phase 1  
 **Review Date**: 2026-01-13</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-042-internationalization-strategy.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-042-internationalization-strategy.md

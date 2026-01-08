@@ -1,4 +1,12 @@
-# ADR-041: Figma-based Tenant Design Integration
+---
+docid: ADR-085
+title: ADR 041 Figma Based Tenant Design Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-041: Figma-based Tenant Design Integration
 
 **DocID**: `ADR-041`  
 **Status**: Accepted | **Owner**: @Architect  
@@ -8,9 +16,9 @@
 
 ## Context
 
-The B2Connect platform requires tenant-customizable UI designs to support white-labeling and brand customization. Current theming system (ADR-040) provides basic CSS/SCSS customization, but lacks visual design tools for non-technical users. Tenants need an intuitive way to customize their storefront designs without deep technical knowledge.
+The B2X platform requires tenant-customizable UI designs to support white-labeling and brand customization. Current theming system (ADR-040) provides basic CSS/SCSS customization, but lacks visual design tools for non-technical users. Tenants need an intuitive way to customize their storefront designs without deep technical knowledge.
 
-The feasibility analysis revealed that Figma's API provides robust capabilities for design token extraction, component library synchronization, and automated asset generation. This would enable tenants to design in Figma and automatically sync changes to their B2Connect instances.
+The feasibility analysis revealed that Figma's API provides robust capabilities for design token extraction, component library synchronization, and automated asset generation. This would enable tenants to design in Figma and automatically sync changes to their B2X instances.
 
 ## Options Considered
 
@@ -69,7 +77,7 @@ Implement Figma API integration for tenant design customization with the followi
 - **AI-Supported Integration**: AI analyzes Figma exports for code generation, conflict resolution, and optimizations.
 - **Component Gallery**: Shared Figma library with pre-built components for tenant reuse.
 - **Server-Side Models**: C# models for components with metadata, configs, and i18n support.
-- **AI-Generated Templates**: Dynamic template creation based on B2Connect's UI state.
+- **AI-Generated Templates**: Dynamic template creation based on B2X's UI state.
 - **MCP Integration**: Use MCP for layout-design via CLI commands and AI assistants.
 - **Versioning Strategy**: Database-backed versions with rollback, audit trails, and auto-drafts for AI changes.
 - **Testmode**: Preview links for staging environments with A/B testing and automated validation.

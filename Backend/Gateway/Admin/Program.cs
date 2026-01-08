@@ -1,15 +1,15 @@
 using System.Text;
-using B2Connect.Admin.Application.Services;
-using B2Connect.Admin.Core.Interfaces;
-using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.Admin.Infrastructure.Repositories;
-using B2Connect.Admin.Presentation.Filters;
-using B2Connect.ERP;
-using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Infrastructure.Extensions;
-using B2Connect.Shared.Infrastructure.Logging;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
-using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
+using B2X.Admin.Application.Services;
+using B2X.Admin.Core.Interfaces;
+using B2X.Admin.Infrastructure.Data;
+using B2X.Admin.Infrastructure.Repositories;
+using B2X.Admin.Presentation.Filters;
+using B2X.ERP;
+using B2X.ServiceDefaults;
+using B2X.Shared.Infrastructure.Extensions;
+using B2X.Shared.Infrastructure.Logging;
+using B2X.Shared.Tenancy.Infrastructure.Context;
+using B2X.Shared.Tenancy.Infrastructure.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -101,7 +101,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add Rate Limiting
-// builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
+// builder.Services.AddB2XRateLimiting(builder.Configuration);
 
 // Get JWT Secret from configuration
 var jwtSecret = builder.Configuration["Jwt:Secret"];
@@ -139,8 +139,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2Connect",
-            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2Connect",
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2X",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2X",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
         };
     });
@@ -202,7 +202,7 @@ if (dbProvider.Equals("inmemory", StringComparison.OrdinalIgnoreCase))
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseInMemoryDatabase("CatalogDb"));
 
-    builder.Services.AddDbContext<B2Connect.Email.Infrastructure.EmailDbContext>(opt =>
+    builder.Services.AddDbContext<B2X.Email.Infrastructure.EmailDbContext>(opt =>
         opt.UseInMemoryDatabase("EmailDb"));
 
     // Error log storage - use in-memory for development
@@ -213,7 +213,7 @@ else if (dbProvider.Equals("sqlserver", StringComparison.OrdinalIgnoreCase))
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseSqlServer(builder.Configuration.GetConnectionString("Catalog")));
 
-    builder.Services.AddDbContext<B2Connect.Email.Infrastructure.EmailDbContext>(opt =>
+    builder.Services.AddDbContext<B2X.Email.Infrastructure.EmailDbContext>(opt =>
         opt.UseSqlServer(builder.Configuration.GetConnectionString("Email") ?? builder.Configuration.GetConnectionString("Catalog")));
 
     // Error log storage - not supported on SQL Server, use in-memory fallback
@@ -224,7 +224,7 @@ else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
     builder.Services.AddDbContext<CatalogDbContext>(opt =>
         opt.UseNpgsql(builder.Configuration.GetConnectionString("Catalog")));
 
-    builder.Services.AddDbContext<B2Connect.Email.Infrastructure.EmailDbContext>(opt =>
+    builder.Services.AddDbContext<B2X.Email.Infrastructure.EmailDbContext>(opt =>
         opt.UseNpgsql(builder.Configuration.GetConnectionString("Email") ?? builder.Configuration.GetConnectionString("Catalog")));
 
     // Error log storage - use PostgreSQL
@@ -247,10 +247,10 @@ if (!string.IsNullOrEmpty(connectionString))
 // ==================== TENANT CONTEXT ====================
 // Register scoped tenant context service for request-level tenant isolation
 builder.Services.AddScoped<ITenantContext, TenantContext>();
-builder.Services.AddScoped<B2Connect.Shared.Middleware.ITenantContextAccessor, B2Connect.Shared.Middleware.TenantContextAccessor>();
+builder.Services.AddScoped<B2X.Shared.Middleware.ITenantContextAccessor, B2X.Shared.Middleware.TenantContextAccessor>();
 
 // Register Repositories
-builder.Services.AddScoped<IRepository<B2Connect.Admin.Core.Entities.Product>, Repository<B2Connect.Admin.Core.Entities.Product>>();
+builder.Services.AddScoped<IRepository<B2X.Admin.Core.Entities.Product>, Repository<B2X.Admin.Core.Entities.Product>>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
@@ -262,29 +262,29 @@ builder.Services.AddScoped<IProductAttributeRepository, ProductAttributeReposito
 // builder.Services.AddScoped<IBrandService, BrandService>();
 
 // Email Services
-builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailService, B2Connect.Email.Services.SmtpEmailService>();
-builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailQueueService, B2Connect.Email.Services.EmailQueueService>();
-builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailMonitoringService, B2Connect.Email.Services.EmailMonitoringService>();
-builder.Services.AddScoped<B2Connect.Email.Interfaces.IEmailTemplateService, B2Connect.Email.Services.EmailTemplateService>();
-// builder.Services.AddHostedService<B2Connect.Email.Handlers.ProcessEmailQueueJob>(); // Temporarily disabled due to database setup issues
+builder.Services.AddScoped<B2X.Email.Interfaces.IEmailService, B2X.Email.Services.SmtpEmailService>();
+builder.Services.AddScoped<B2X.Email.Interfaces.IEmailQueueService, B2X.Email.Services.EmailQueueService>();
+builder.Services.AddScoped<B2X.Email.Interfaces.IEmailMonitoringService, B2X.Email.Services.EmailMonitoringService>();
+builder.Services.AddScoped<B2X.Email.Interfaces.IEmailTemplateService, B2X.Email.Services.EmailTemplateService>();
+// builder.Services.AddHostedService<B2X.Email.Handlers.ProcessEmailQueueJob>(); // Temporarily disabled due to database setup issues
 
 // CLI Tools Services (ADR-033: Tenant-Admin Download for CLI and ERP-Connector)
 builder.Services.AddScoped<ICliToolsService, CliToolsService>();
 
 // ERP Data Validation Services - Use shared ERP validation (ADR-036)
 // Note: These registrations reference the consolidated shared ERP validation types
-// builder.Services.AddScoped<B2Connect.Api.Validation.IDataValidator<B2Connect.Api.Models.Erp.ErpData>, B2Connect.Api.Validation.ErpDataValidator>();
-// builder.Services.AddScoped<B2Connect.Api.Validation.IDataValidator<B2Connect.Api.Models.Erp.ErpData>, B2Connect.Api.Validation.ErpSpecificValidator>();
+// builder.Services.AddScoped<B2X.Api.Validation.IDataValidator<B2X.Api.Models.Erp.ErpData>, B2X.Api.Validation.ErpDataValidator>();
+// builder.Services.AddScoped<B2X.Api.Validation.IDataValidator<B2X.Api.Models.Erp.ErpData>, B2X.Api.Validation.ErpSpecificValidator>();
 // TODO: Implement ValidationRulesProvider, QuarantineRepository to complete validation pipeline
-// builder.Services.AddScoped<B2Connect.Api.Validation.IValidationRulesProvider, B2Connect.Api.Validation.ValidationRulesProvider>();
-// builder.Services.AddScoped<B2Connect.Api.Validation.IErpConnector, B2Connect.Api.Connectors.EnventaConnector>();
-// builder.Services.AddScoped<B2Connect.Api.Validation.IErpConnector, B2Connect.Api.Connectors.SapConnector>();
-// builder.Services.AddScoped<B2Connect.Api.Validation.IQuarantineService, B2Connect.Api.Validation.QuarantineService>();
-// builder.Services.AddScoped<B2Connect.Api.Validation.IQuarantineRepository, B2Connect.Api.Validation.QuarantineRepository>();
+// builder.Services.AddScoped<B2X.Api.Validation.IValidationRulesProvider, B2X.Api.Validation.ValidationRulesProvider>();
+// builder.Services.AddScoped<B2X.Api.Validation.IErpConnector, B2X.Api.Connectors.EnventaConnector>();
+// builder.Services.AddScoped<B2X.Api.Validation.IErpConnector, B2X.Api.Connectors.SapConnector>();
+// builder.Services.AddScoped<B2X.Api.Validation.IQuarantineService, B2X.Api.Validation.QuarantineService>();
+// builder.Services.AddScoped<B2X.Api.Validation.IQuarantineRepository, B2X.Api.Validation.QuarantineRepository>();
 
 // ERP Connectors - Use shared ERP connector interfaces (ADR-036)
-builder.Services.AddScoped<B2Connect.ERP.Abstractions.IErpConnector, B2Connect.ERP.Connectors.FashopErpConnector>();
-builder.Services.AddScoped<B2Connect.ERP.Abstractions.IErpConnector, B2Connect.ERP.Connectors.SAP.SapErpConnector>();
+builder.Services.AddScoped<B2X.ERP.Abstractions.IErpConnector, B2X.ERP.Connectors.FashopErpConnector>();
+builder.Services.AddScoped<B2X.ERP.Abstractions.IErpConnector, B2X.ERP.Connectors.SAP.SapErpConnector>();
 
 // Add services
 builder.Services.AddControllers(options =>
@@ -298,7 +298,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 
 // Add Input Validation (FluentValidation)
-// builder.Services.AddB2ConnectValidation();
+// builder.Services.AddB2XValidation();
 
 // Configure HSTS options (production)
 builder.Services.AddHsts(options =>

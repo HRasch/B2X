@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace B2Connect.ERP.Abstractions
+namespace B2X.ERP.Abstractions
 {
     /// <summary>
     /// Improved query builder using Specification pattern with better performance and composability

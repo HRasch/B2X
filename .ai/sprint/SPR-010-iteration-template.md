@@ -1,4 +1,12 @@
 ---
+docid: SPR-095
+title: SPR 010 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-010
 title: Sprint 2026-10 Planning - Analytics & Monitoring Maturity Enhancements
 owner: @ScrumMaster
@@ -140,4 +148,4 @@ User interactions → Real-time analytics → Mobile dashboards
 - **Cross-Team Dependencies:** @Backend/@DevOps coordination for tracing and performance; @Frontend/@Backend for analytics UX
 - **Technical Debt Allocation:** 10% capacity reserved for addressing monitoring infrastructure improvements
 - **Stakeholder Engagement:** Weekly check-ins scheduled for analytics UX validation and alerting accuracy assessment</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-010-Analytics-Monitoring-Maturity-Enhancements/SPR-010-iteration-template.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-010-Analytics-Monitoring-Maturity-Enhancements/SPR-010-iteration-template.md

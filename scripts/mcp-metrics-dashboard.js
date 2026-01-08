@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
  * MCP Token Metrics Dashboard
@@ -270,7 +270,7 @@ function generateHTMLDashboard(metrics) {
     </div>
     
     <div class="footer">
-      <p>B2Connect MCP Optimization Dashboard • Phase 1 Active</p>
+      <p>B2X MCP Optimization Dashboard • Phase 1 Active</p>
       <p>Next Review: 2026-01-08 09:00</p>
     </div>
   </div>

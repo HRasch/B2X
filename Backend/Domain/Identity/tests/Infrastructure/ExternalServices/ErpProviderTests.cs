@@ -1,11 +1,11 @@
-using B2Connect.Identity.Infrastructure.ExternalServices;
-using B2Connect.Identity.Interfaces;
-using B2Connect.Identity.Models;
+using B2X.Identity.Infrastructure.ExternalServices;
+using B2X.Identity.Interfaces;
+using B2X.Identity.Models;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Identity.Tests.Infrastructure.ExternalServices;
+namespace B2X.Identity.Tests.Infrastructure.ExternalServices;
 
 public class FakeErpProviderTests
 {

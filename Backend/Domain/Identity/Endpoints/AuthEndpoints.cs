@@ -1,11 +1,11 @@
 using System.Security.Cryptography;
-using B2Connect.AuthService.Data;
-using B2Connect.Types;
+using B2X.AuthService.Data;
+using B2X.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Wolverine.Http;
 
-namespace B2Connect.Identity.Endpoints;
+namespace B2X.Identity.Endpoints;
 
 /// <summary>
 /// Authentication endpoints using Wolverine HTTP with secure cookie-based authentication

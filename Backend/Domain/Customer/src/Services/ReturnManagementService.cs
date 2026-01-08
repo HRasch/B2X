@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Customer.Models;
-using B2Connect.Customer.Utilities;
+using B2X.Customer.Models;
+using B2X.Customer.Utilities;
 using Microsoft.Extensions.Logging;
-using static B2Connect.Customer.Models.ReturnStatus;
-using static B2Connect.Customer.Models.ReturnValidation;
+using static B2X.Customer.Models.ReturnStatus;
+using static B2X.Customer.Models.ReturnValidation;
 
-namespace B2Connect.Customer.Services;
+namespace B2X.Customer.Services;
 
 /// <summary>
 /// ReturnManagementService - Handles 14-day withdrawal rights (VVVG §357 ff)
@@ -306,7 +306,7 @@ public class ReturnManagementService : IReturnManagementService
 
         // TODO: Integrate with carrier API (DHL, DPD, Deutsche Post)
         // For now, generate a mock label URL
-        var labelUrl = $"https://returns.b2connect.local/{returnId}/label.pdf";
+        var labelUrl = $"https://returns.B2X.local/{returnId}/label.pdf";
 
         returnRequest.ReturnCarrier = carrierCode;
         returnRequest.ReturnLabelUrl = labelUrl;

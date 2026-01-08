@@ -1,8 +1,8 @@
-using B2Connect.LocalizationService.Data;
+using B2X.LocalizationService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace B2Connect.LocalizationService.Data;
+namespace B2X.LocalizationService.Data;
 
 /// <summary>
 /// Factory for creating LocalizationDbContext instances at design time (migrations, etc.)
@@ -20,7 +20,7 @@ public class LocalizationDbContextFactory : IDesignTimeDbContextFactory<Localiza
 
         // Use environment variable or default development connection string
         var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__LocalizationDb")
-            ?? "Host=localhost;Database=b2connect_localization;Username=postgres;Password=postgres";
+            ?? "Host=localhost;Database=B2X_localization;Username=postgres;Password=postgres";
 
         optionsBuilder.UseNpgsql(connectionString);
 

@@ -1,11 +1,11 @@
 using System.Text.Json;
-using B2Connect.LocalizationService.Data;
-using B2Connect.LocalizationService.Models;
+using B2X.LocalizationService.Data;
+using B2X.LocalizationService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace B2Connect.LocalizationService.Services;
+namespace B2X.LocalizationService.Services;
 
 /// <summary>
 /// Implementation of localization service with distributed caching support

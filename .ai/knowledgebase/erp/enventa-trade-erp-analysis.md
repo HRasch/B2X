@@ -1,4 +1,12 @@
-# enventa Trade ERP - Technische Analyse
+---
+docid: KB-116
+title: Enventa Trade Erp Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# enventa Trade ERP - Technische Analyse
 
 **Status:** Draft  
 **Date:** 2026-01-02  
@@ -230,7 +238,7 @@ public class SyncRecordStore
 
 ---
 
-## 3. Threading-Strategie für B2Connect
+## 3. Threading-Strategie für B2X
 
 ### 3.1 Problem: Keine Parallelität möglich
 
@@ -238,7 +246,7 @@ Da enventa ERP nicht thread-safe ist, müssen wir eine Serialisierungsstrategie 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    B2Connect Requests                            │
+│                    B2X Requests                            │
 │              (Multiple concurrent requests)                      │
 └────────────────────────────┬────────────────────────────────────┘
                              │
@@ -376,7 +384,7 @@ public class EnventaActorPool : IDisposable
 
 ---
 
-## 4. Datenzugriffs-Design für B2Connect
+## 4. Datenzugriffs-Design für B2X
 
 ### 4.1 Repository-Pattern mit Thread-Safety
 
@@ -691,7 +699,7 @@ public class EnventaCacheLayer
 
 ---
 
-## 6. Empfehlungen für B2Connect
+## 6. Empfehlungen für B2X
 
 ### 6.1 Must-Have
 

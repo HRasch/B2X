@@ -1,8 +1,8 @@
-# B2Connect Aspire Orchestration Specification
+﻿# B2X Aspire Orchestration Specification
 
 ## Overview
 
-B2Connect uses **.NET Aspire** as the central orchestration and service management platform. Aspire provides automated service discovery, health checking, observability, and lifecycle management for all microservices in the B2Connect ecosystem.
+B2X uses **.NET Aspire** as the central orchestration and service management platform. Aspire provides automated service discovery, health checking, observability, and lifecycle management for all microservices in the B2X ecosystem.
 
 ---
 
@@ -12,7 +12,7 @@ B2Connect uses **.NET Aspire** as the central orchestration and service manageme
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│        B2Connect Aspire Orchestration Host           │
+│        B2X Aspire Orchestration Host           │
 │              (AppHost - Port 15500)                 │
 │                                                     │
 │  ┌─────────────────────────────────────────────┐   │
@@ -95,11 +95,11 @@ B2Connect uses **.NET Aspire** as the central orchestration and service manageme
 ```csharp
 // In AppHost Program.cs
 var apiGateway = builder
-    .AddProject<Projects.B2Connect_ApiGateway>("api-gateway")
+    .AddProject<Projects.B2X_ApiGateway>("api-gateway")
     .WithHttpEndpoint(port: 5000);
 
 var authService = builder
-    .AddProject<Projects.B2Connect_AuthService>("auth-service")
+    .AddProject<Projects.B2X_AuthService>("auth-service")
     .WithHttpEndpoint(port: 5001)
     .WithReference(postgres);  // Automatic dependency injection
 ```
@@ -165,7 +165,7 @@ Aspire respects dependency ordering:
 **Configuration in AppHost:**
 ```csharp
 var authService = builder
-    .AddProject<Projects.B2Connect_AuthService>("auth-service")
+    .AddProject<Projects.B2X_AuthService>("auth-service")
     .WithReference(postgres)  // Wait for postgres
     .WaitFor(postgres);        // Explicit wait condition
 ```
@@ -290,18 +290,18 @@ This provides:
 
 ```csharp
 var postgres = builder.AddPostgres("postgres")
-    .AddDatabase("b2connect-db");
+    .AddDatabase("B2X-db");
 
 var redis = builder.AddRedis("redis");
 
 var apiGateway = builder
-    .AddProject<Projects.B2Connect_ApiGateway>("api-gateway")
+    .AddProject<Projects.B2X_ApiGateway>("api-gateway")
     .WithReference(authService)
     .WithReference(tenantService)
     .WithHttpEndpoint(port: 5000);
 
 var authService = builder
-    .AddProject<Projects.B2Connect_AuthService>("auth-service")
+    .AddProject<Projects.B2X_AuthService>("auth-service")
     .WithReference(postgres)
     .WithHttpEndpoint(port: 5001);
 ```
@@ -340,7 +340,7 @@ dotnet run
 ```yaml
 services:
   apphost:
-    image: b2connect:aspire
+    image: B2X:aspire
     ports:
       - "15500:15500"
     environment:
@@ -524,9 +524,9 @@ var myService = builder
 
 ## Conclusion
 
-Aspire provides a modern, integrated platform for managing B2Connect's microservices ecosystem. It handles the complexity of service orchestration, allowing developers to focus on business logic rather than infrastructure concerns.
+Aspire provides a modern, integrated platform for managing B2X's microservices ecosystem. It handles the complexity of service orchestration, allowing developers to focus on business logic rather than infrastructure concerns.
 
-**Key Takeaway:** All B2Connect services are now managed through a single, unified orchestration platform (Aspire AppHost), providing automatic discovery, health monitoring, and observability for the entire system.
+**Key Takeaway:** All B2X services are now managed through a single, unified orchestration platform (Aspire AppHost), providing automatic discovery, health monitoring, and observability for the entire system.
 
 ---
 

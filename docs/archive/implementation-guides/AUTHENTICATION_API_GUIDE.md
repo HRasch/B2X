@@ -1,4 +1,4 @@
-# B2Connect Authentication API Guide
+﻿# B2X Authentication API Guide
 
 **Last Updated**: 29 December 2025  
 **Service**: Identity Service (Port 7002)  
@@ -21,7 +21,7 @@
 
 ## Overview
 
-The B2Connect Identity Service provides JWT-based authentication for all microservices. It implements:
+The B2X Identity Service provides JWT-based authentication for all microservices. It implements:
 
 - **User Authentication**: Login with email/password
 - **Token Management**: JWT access and refresh tokens
@@ -938,8 +938,8 @@ Payload:
   "TenantId": "default",
   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin",
   "exp": 1767005194,
-  "iss": "B2Connect",
-  "aud": "B2Connect.Admin"
+  "iss": "B2X",
+  "aud": "B2X.Admin"
 }
 
 Signature: HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-192
+title: Subagent Delegation.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Delegation Prompt
 
 ## Purpose

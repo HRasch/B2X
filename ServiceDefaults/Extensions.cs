@@ -15,10 +15,10 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
 
-namespace B2Connect.ServiceDefaults;
+namespace B2X.ServiceDefaults;
 
 /// <summary>
-/// Health check configuration options for B2Connect services.
+/// Health check configuration options for B2X services.
 /// Configure via IConfiguration section "HealthChecks".
 /// </summary>
 public class HealthCheckOptions
@@ -32,59 +32,6 @@ public class HealthCheckOptions
 
 public static class Extensions
 {
-    public static IHostBuilder AddServiceDefaults(this IHostBuilder builder)
-    {
-        builder.UseSerilog((context, configuration) =>
-            configuration
-                .MinimumLevel.Information()
-                .WriteTo.Console()
-                .Enrich.FromLogContext()
-        );
-
-        builder.ConfigureServices((context, services) =>
-        {
-            // Add Service Discovery
-            services.AddServiceDiscovery();
-
-            // Configure HttpClient defaults with Service Discovery
-            services.ConfigureHttpClientDefaults(http =>
-            {
-                // Enable service discovery for all HttpClients
-                http.AddServiceDiscovery();
-
-                // Add standard resilience policies
-                http.AddStandardResilienceHandler();
-            });
-
-            // Health checks
-            services.AddHealthChecks()
-                .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
-
-            // Rate limiting - simplified implementation
-            services.AddRateLimiter(options =>
-            {
-                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-
-                options.OnRejected = async (context, token) =>
-                {
-                    context.HttpContext.Response.ContentType = "application/json";
-                    await context.HttpContext.Response.WriteAsync("{\"error\":\"Rate limit exceeded. Please try again later.\"}", token).ConfigureAwait(false);
-                };
-            });
-
-            // Input validation with FluentValidation
-            services.AddFluentValidationAutoValidation();
-            services.AddFluentValidationClientsideAdapters();
-
-            services.AddLogging(logging =>
-            {
-                logging.AddConsole();
-            });
-        });
-
-        return builder;
-    }
-
     public static IApplicationBuilder UseServiceDefaults(this WebApplication app)
     {
         // Add long-running request detection early in the pipeline
@@ -284,6 +231,59 @@ public static class Extensions
         return app.UseMiddleware<LongRunningRequestMiddleware>(warningThreshold, criticalThreshold);
     }
 
+    public static IHostBuilder AddServiceDefaults(this IHostBuilder builder)
+    {
+        builder.UseSerilog((context, configuration) =>
+            configuration
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .Enrich.FromLogContext()
+        );
+
+        builder.ConfigureServices((context, services) =>
+        {
+            // Add Service Discovery
+            services.AddServiceDiscovery();
+
+            // Configure HttpClient defaults with Service Discovery
+            services.ConfigureHttpClientDefaults(http =>
+            {
+                // Enable service discovery for all HttpClients
+                http.AddServiceDiscovery();
+
+                // Add standard resilience policies
+                http.AddStandardResilienceHandler();
+            });
+
+            // Health checks
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+
+            // Rate limiting - simplified implementation
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                options.OnRejected = async (context, token) =>
+                {
+                    context.HttpContext.Response.ContentType = "application/json";
+                    await context.HttpContext.Response.WriteAsync("{\"error\":\"Rate limit exceeded. Please try again later.\"}", token).ConfigureAwait(false);
+                };
+            });
+
+            // Input validation with FluentValidation
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+
+            services.AddLogging(logging =>
+            {
+                logging.AddConsole();
+            });
+        });
+
+        return builder;
+    }
+
     public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
     {
         builder.Services.AddServiceDiscovery();
@@ -305,7 +305,7 @@ public static class Extensions
 
     public static IHostApplicationBuilder AddOpenTelemetry(this IHostApplicationBuilder builder)
     {
-        var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? "b2connect";
+        var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? "B2X";
         var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
 
         builder.Services.AddOpenTelemetry()

@@ -1,4 +1,4 @@
-# B2Connect Scripts
+﻿# B2X Scripts
 
 ## 📋 Übersicht
 
@@ -7,7 +7,7 @@ Utility-Scripts für Entwicklung und Testen.
 ## 🛠️ Skripte
 
 ### `kill-all-services.sh`
-Stoppt alle B2Connect Services und gibt Ports frei.
+Stoppt alle B2X Services und gibt Ports frei.
 
 **Verwendung:**
 ```bash
@@ -24,7 +24,7 @@ Stoppt alle B2Connect Services und gibt Ports frei.
 ```bash
 # Port freigeben und erneut starten
 ./scripts/kill-all-services.sh
-dotnet run --project backend/AppHost/B2Connect.AppHost.csproj
+dotnet run --project backend/AppHost/B2X.AppHost.csproj
 ```
 
 ### `start-aspire.sh`
@@ -39,7 +39,7 @@ Prüft welche Services welche Ports belegen.
 
 **Output:**
 ```
-=== B2Connect Service Port Status ===
+=== B2X Service Port Status ===
 Port 7002 (Auth): AVAILABLE / ACTIVE (PID: 1234)
 Port 7003 (Tenant): AVAILABLE
 Port 8080 (Admin Gateway): ACTIVE (PID: 5678)
@@ -50,7 +50,7 @@ Port 8080 (Admin Gateway): ACTIVE (PID: 5678)
 
 1. **Aspire verwenden** - Für normale Entwicklung
    ```bash
-   dotnet run --project backend/AppHost/B2Connect.AppHost.csproj
+   dotnet run --project backend/AppHost/B2X.AppHost.csproj
    ```
 
 2. **Manueller Cleanup** - Nur wenn nötig
@@ -94,18 +94,18 @@ Das Heartbeat-System überwacht kontinuierlich die Gesundheit der Backend-Servic
 2. **Systemd Service einrichten (empfohlen für Linux-Produktion):**
    ```bash
    # Service-Datei kopieren
-   sudo cp scripts/b2connect-heartbeat.service /etc/systemd/system/
-   sudo cp scripts/b2connect-heartbeat.timer /etc/systemd/system/
+   sudo cp scripts/B2X-heartbeat.service /etc/systemd/system/
+   sudo cp scripts/B2X-heartbeat.timer /etc/systemd/system/
 
    # Pfade anpassen in der .service Datei:
-   # - WorkingDirectory=/path/to/B2Connect
-   # - ExecStart=/path/to/B2Connect/scripts/runtime-health-check.sh ...
-   # - User=b2connect (oder entsprechender User)
+   # - WorkingDirectory=/path/to/B2X
+   # - ExecStart=/path/to/B2X/scripts/runtime-health-check.sh ...
+   # - User=B2X (oder entsprechender User)
 
    # Service aktivieren und starten
    sudo systemctl daemon-reload
-   sudo systemctl enable b2connect-heartbeat.timer
-   sudo systemctl start b2connect-heartbeat.timer
+   sudo systemctl enable B2X-heartbeat.timer
+   sudo systemctl start B2X-heartbeat.timer
    ```
 
 3. **Cron-Job Alternative (falls systemd nicht verfügbar):**
@@ -113,8 +113,8 @@ Das Heartbeat-System überwacht kontinuierlich die Gesundheit der Backend-Servic
    # Cron-Job hinzufügen (zwei Einträge für 30s Intervall)
    crontab -e
    # Füge hinzu:
-   * * * * * /path/to/B2Connect/scripts/runtime-health-check.sh --heartbeat --slack-webhook https://hooks.slack.com/services/YOUR/WEBHOOK
-   * * * * * sleep 30; /path/to/B2Connect/scripts/runtime-health-check.sh --heartbeat --slack-webhook https://hooks.slack.com/services/YOUR/WEBHOOK
+   * * * * * /path/to/B2X/scripts/runtime-health-check.sh --heartbeat --slack-webhook https://hooks.slack.com/services/YOUR/WEBHOOK
+   * * * * * sleep 30; /path/to/B2X/scripts/runtime-health-check.sh --heartbeat --slack-webhook https://hooks.slack.com/services/YOUR/WEBHOOK
    ```
 
 ### Testen in Staging
@@ -136,12 +136,12 @@ Das Heartbeat-System überwacht kontinuierlich die Gesundheit der Backend-Servic
 
 3. **Logs prüfen:**
    ```bash
-   journalctl -u b2connect-heartbeat.service -f  # Für systemd
+   journalctl -u B2X-heartbeat.service -f  # Für systemd
    # Oder Script-Output direkt
    ```
 
 ### Monitoring
 
-- **Systemd:** `systemctl status b2connect-heartbeat.timer`
-- **Logs:** `journalctl -u b2connect-heartbeat.service`
+- **Systemd:** `systemctl status B2X-heartbeat.timer`
+- **Logs:** `journalctl -u B2X-heartbeat.service`
 - **Slack-Alerts:** Bei Fehlern werden automatische Benachrichtigungen gesendet

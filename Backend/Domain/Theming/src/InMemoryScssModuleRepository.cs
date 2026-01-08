@@ -1,8 +1,8 @@
 using System.Security.Cryptography;
 using System.Text;
-using B2Connect.ThemeService.Models;
+using B2X.ThemeService.Models;
 
-namespace B2Connect.ThemeService.Repositories;
+namespace B2X.ThemeService.Repositories;
 
 /// <summary>
 /// In-Memory SCSS Module Repository for development/testing

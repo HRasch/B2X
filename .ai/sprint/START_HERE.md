@@ -1,3 +1,11 @@
+---
+docid: SPR-153
+title: START_HERE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 ITERATION 001 - START HERE
 
 **Date:** December 30, 2025  

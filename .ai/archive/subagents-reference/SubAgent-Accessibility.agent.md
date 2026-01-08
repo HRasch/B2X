@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-085
+title: SubAgent Accessibility.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ````chatagent
 ```chatagent
 ---

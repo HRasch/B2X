@@ -1,5 +1,4 @@
 import js from '@eslint/js';
-import pluginVue from 'eslint-plugin-vue';
 import vueTsEslintConfig from '@vue/eslint-config-typescript';
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 import noHardcodedStrings from './eslint-rules/no-hardcoded-strings.js';
@@ -25,7 +24,6 @@ export default [
     ],
   },
   js.configs.recommended,
-  ...pluginVue.configs['flat/essential'],
   ...vueTsEslintConfig(),
   skipFormatting,
   {

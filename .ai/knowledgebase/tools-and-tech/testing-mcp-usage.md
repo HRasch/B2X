@@ -1,4 +1,12 @@
-# Testing MCP Usage Guide
+---
+docid: KB-185
+title: Testing Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Testing MCP Usage Guide
 
 **DocID**: `KB-058`
 **Title**: Testing MCP Usage Guide
@@ -10,7 +18,7 @@
 
 ## Overview
 
-The Testing MCP provides comprehensive test execution, analysis, and quality assurance tools for the B2Connect project. It ensures code quality through automated testing, coverage analysis, and performance validation across unit, integration, and end-to-end test suites.
+The Testing MCP provides comprehensive test execution, analysis, and quality assurance tools for the B2X project. It ensures code quality through automated testing, coverage analysis, and performance validation across unit, integration, and end-to-end test suites.
 
 ---
 
@@ -335,7 +343,7 @@ jobs:
 
 ```bash
 # Test database connection
-TEST_DATABASE_CONNECTION="Host=localhost;Database=b2connect_test"
+TEST_DATABASE_CONNECTION="Host=localhost;Database=B2X_test"
 
 # Test environment settings
 ASPNETCORE_ENVIRONMENT="Testing"

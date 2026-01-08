@@ -1,4 +1,4 @@
-# 🚀 QUICK START - P0 Critical Issues Behebung
+﻿# 🚀 QUICK START - P0 Critical Issues Behebung
 
 **Start-Datum:** Montag, 30. Dezember 2025  
 **Team:** 2 Senior Developers (Pair Programming)  
@@ -14,7 +14,7 @@ Was: Fix 4 kritische Sicherheitslücken
 Wann: Diese Woche (Mo-Fr)
 Wer: 2 Devs im Pair
 Wie: Day-by-day Roadmap folgen
-Wo: /Users/holger/Documents/Projekte/B2Connect
+Wo: /Users/holger/Documents/Projekte/B2X
 
 Dokumente:
 1. CRITICAL_ISSUES_ROADMAP.md ← Main Roadmap
@@ -61,7 +61,7 @@ Tagsüber: Implementation + Pair Programming
 **Problem:** 
 ```csharp
 // ❌ BAD
-var jwtSecret = "B2Connect-Super-Secret-Key-For-Development-Only-32chars!";
+var jwtSecret = "B2X-Super-Secret-Key-For-Development-Only-32chars!";
 ```
 
 **Lösung:**
@@ -101,7 +101,7 @@ policy.WithOrigins(corsOrigins);
 
 **appsettings.Production.json:**
 ```json
-{ "Cors": { "AllowedOrigins": ["https://admin.b2connect.com"] } }
+{ "Cors": { "AllowedOrigins": ["https://admin.B2X.com"] } }
 ```
 
 → Siehe [CRITICAL_ISSUES_ROADMAP.md - P0.2](QUICK_START_P0.md#p02-cors-zu-permissiv-beheben)
@@ -153,8 +153,8 @@ public class AuditInterceptor : SaveChangesInterceptor
 
 ### 1. Team einrichten
 ```bash
-# 1. Beide Developer öffnen B2Connect in VS Code
-cd /Users/holger/Documents/Projekte/B2Connect
+# 1. Beide Developer öffnen B2X in VS Code
+cd /Users/holger/Documents/Projekte/B2X
 
 # 2. Branch für P0 Fixes erstellen
 git checkout -b security/p0-critical-fixes
@@ -233,7 +233,7 @@ Program.cs            ← Security Config
 dotnet test backend/BoundedContexts/Shared/Identity/tests/ -v minimal
 
 # Build Check
-dotnet build backend/B2Connect.slnx
+dotnet build backend/B2X.slnx
 
 # Manual Test
 dotnet run --project backend/BoundedContexts/Admin/API
@@ -247,7 +247,7 @@ curl http://localhost:8080/health
 dotnet test backend/BoundedContexts/*/tests/ -v minimal
 
 # Full Build
-dotnet build backend/B2Connect.slnx
+dotnet build backend/B2X.slnx
 
 # Orchestration Test
 cd backend/Orchestration
@@ -257,10 +257,10 @@ dotnet run
 ### Freitag (Final)
 ```bash
 # Full Test Suite
-dotnet test backend/B2Connect.slnx
+dotnet test backend/B2X.slnx
 
 # Build Full Stack
-dotnet build backend/B2Connect.slnx
+dotnet build backend/B2X.slnx
 
 # Health Check All Services
 curl http://localhost:8080/health

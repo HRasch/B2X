@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.CMS.Core.Domain.Pages;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2X.CMS.Core.Domain.Pages;
+using B2X.Shared.Tenancy.Infrastructure.Context;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CMS.Application.Pages;
+namespace B2X.CMS.Application.Pages;
 
 /// <summary>
 /// Default implementation of template validation service (ADR-030)

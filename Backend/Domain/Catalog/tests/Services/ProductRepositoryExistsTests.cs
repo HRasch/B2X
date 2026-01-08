@@ -2,7 +2,7 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.Catalog.Tests.Services;
+namespace B2X.Catalog.Tests.Services;
 
 /// <summary>
 /// Unit tests for Product Repository ExistsBySkuAsync

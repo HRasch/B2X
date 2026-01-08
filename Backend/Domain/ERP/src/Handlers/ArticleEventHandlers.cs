@@ -2,11 +2,11 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Events;
+using B2X.ERP.Events;
 using Microsoft.Extensions.Logging;
 using Wolverine;
 
-namespace B2Connect.ERP.Handlers;
+namespace B2X.ERP.Handlers;
 
 /// <summary>
 /// Event handlers for article-related events.

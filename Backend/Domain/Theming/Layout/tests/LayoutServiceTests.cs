@@ -1,10 +1,10 @@
-using Xunit;
+﻿using Xunit;
 using Moq;
-using B2Connect.LayoutService.Services;
-using B2Connect.LayoutService.Models;
-using B2Connect.LayoutService.Data;
+using B2X.LayoutService.Services;
+using B2X.LayoutService.Models;
+using B2X.LayoutService.Data;
 
-namespace B2Connect.LayoutService.Tests;
+namespace B2X.LayoutService.Tests;
 
 /// <summary>
 /// Test Suite für Layout Service - Page Management

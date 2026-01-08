@@ -1,4 +1,12 @@
-# Database MCP Usage Guide
+---
+docid: KB-165
+title: Database Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Database MCP Usage Guide
 
 **DocID**: `KB-057`
 **Title**: Database MCP Usage Guide
@@ -10,7 +18,7 @@
 
 ## Overview
 
-The Database MCP provides comprehensive analysis and validation tools for PostgreSQL and Elasticsearch databases in the B2Connect project. It ensures data integrity, query performance, and multi-tenant configuration compliance.
+The Database MCP provides comprehensive analysis and validation tools for PostgreSQL and Elasticsearch databases in the B2X project. It ensures data integrity, query performance, and multi-tenant configuration compliance.
 
 ---
 
@@ -215,7 +223,7 @@ jobs:
 
 ```bash
 # Database connection
-DATABASE_CONNECTION="Host=localhost;Database=b2connect;Username=user;Password=password"
+DATABASE_CONNECTION="Host=localhost;Database=B2X;Username=user;Password=password"
 
 # Elasticsearch configuration
 ELASTICSEARCH_HOSTS="http://localhost:9200"
@@ -357,12 +365,12 @@ database-mcp/optimize_indexes workspacePath="backend" --recommend
 
 ```csharp
 // Entity Framework context validation
-public class B2ConnectDbContext : DbContext
+public class B2XDbContext : DbContext
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Database MCP will validate this configuration
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(B2ConnectDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(B2XDbContext).Assembly);
     }
 }
 ```

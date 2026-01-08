@@ -1,9 +1,9 @@
 using System.Text.Json;
-using B2Connect.Shared.Infrastructure.Logging;
+using B2X.Shared.Infrastructure.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Admin.Presentation.Controllers;
+namespace B2X.Admin.Presentation.Controllers;
 
 /// <summary>
 /// Controller for receiving and processing frontend error logs.

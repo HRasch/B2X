@@ -1,4 +1,4 @@
-namespace B2Connect.Search.Models;
+﻿namespace B2X.Search.Models;
 
 public class SearchResponseDto
 {

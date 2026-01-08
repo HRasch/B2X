@@ -1,4 +1,12 @@
-# 🏗️ Iteration 001 Architecture & Technical Review
+---
+docid: SPR-148
+title: SPRINT_001_ARCHITECT_TECHLEAD_REVIEW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🏗️ Iteration 001 Architecture & Technical Review
 
 **Review Date:** December 30, 2025  
 **Reviewed By:** @Architect, @TechLead  
@@ -416,7 +424,7 @@ Accessibility Testing:     Automated (axe) + Manual
 Problem: How to coordinate distributed transactions across services?
 Solution: Saga Pattern with Wolverine orchestration
 Implementation: 
-  - Orchestrator-based (recommended for B2Connect)
+  - Orchestrator-based (recommended for B2X)
   - Choreography-based (alternative, more complex)
 Consequences:
   - Eventual consistency required

@@ -1,4 +1,4 @@
-# Backend API Implementation Roadmap
+﻿# Backend API Implementation Roadmap
 
 **Objective:** Admin API Endpoints für User Management implementieren  
 **Frontend Status:** ✅ Komplett (wartet auf Backend)  
@@ -366,10 +366,10 @@ POST /api/admin/users/{userId}/reset-password
 
 ```csharp
 using Microsoft.AspNetCore.Mvc;
-using B2Connect.Shared.User.Interfaces;
+using B2X.Shared.User.Interfaces;
 using MediatR;
 
-namespace B2Connect.Admin.API.Controllers;
+namespace B2X.Admin.API.Controllers;
 
 [ApiController]
 [Route("api/admin/users")]
@@ -564,7 +564,7 @@ public class UsersController : ControllerBase
 ```csharp
 using System.ComponentModel.DataAnnotations;
 
-namespace B2Connect.Admin.API.Requests;
+namespace B2X.Admin.API.Requests;
 
 public record CreateUserRequest(
     [Required] string Email,
@@ -588,11 +588,11 @@ public record CreateUserProfileRequest(
 
 ```csharp
 using Microsoft.EntityFrameworkCore;
-using B2Connect.Shared.User.Core.Models;
-using B2Connect.Shared.User.Core.Interfaces;
-using B2Connect.Shared.User.Infrastructure.Data;
+using B2X.Shared.User.Core.Models;
+using B2X.Shared.User.Core.Interfaces;
+using B2X.Shared.User.Infrastructure.Data;
 
-namespace B2Connect.Shared.User.Infrastructure.Repositories;
+namespace B2X.Shared.User.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {

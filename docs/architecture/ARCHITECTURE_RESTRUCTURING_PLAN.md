@@ -1,7 +1,7 @@
-# B2Connect Architecture Restructuring Plan
+﻿# B2X Architecture Restructuring Plan
 
 ## Overview
-This document outlines the reorganization of the B2Connect project structure to align with Domain-Driven Design (DDD), Microservice, and Clean Architecture principles.
+This document outlines the reorganization of the B2X project structure to align with Domain-Driven Design (DDD), Microservice, and Clean Architecture principles.
 
 ---
 
@@ -55,7 +55,7 @@ This document outlines the reorganization of the B2Connect project structure to 
 backend/
 ├── services/
 │   ├── Gateway/                          (API Gateway - Entry point)
-│   │   ├── B2Connect.Gateway.csproj
+│   │   ├── B2X.Gateway.csproj
 │   │   └── src/
 │   │       ├── Endpoints/               (API routes)
 │   │       ├── Middleware/              (Gateway middleware)
@@ -63,11 +63,11 @@ backend/
 │   │       └── Program.cs
 │   │
 │   ├── Identity/                        (Auth - Bounded Context)
-│   │   ├── B2Connect.Identity.API.csproj
-│   │   ├── B2Connect.Identity.Core.csproj
-│   │   ├── B2Connect.Identity.Application.csproj
-│   │   ├── B2Connect.Identity.Infrastructure.csproj
-│   │   ├── B2Connect.Identity.Tests.csproj
+│   │   ├── B2X.Identity.API.csproj
+│   │   ├── B2X.Identity.Core.csproj
+│   │   ├── B2X.Identity.Application.csproj
+│   │   ├── B2X.Identity.Infrastructure.csproj
+│   │   ├── B2X.Identity.Tests.csproj
 │   │   └── src/
 │   │       ├── API/                     (Endpoints, Controllers)
 │   │       ├── Core/                    (Domain: Entities, Value Objects, Aggregates)
@@ -75,11 +75,11 @@ backend/
 │   │       └── Infrastructure/          (Database, External Services, Repositories)
 │   │
 │   ├── Catalog/                         (Catalog - Bounded Context)
-│   │   ├── B2Connect.Catalog.API.csproj
-│   │   ├── B2Connect.Catalog.Core.csproj
-│   │   ├── B2Connect.Catalog.Application.csproj
-│   │   ├── B2Connect.Catalog.Infrastructure.csproj
-│   │   ├── B2Connect.Catalog.Tests.csproj
+│   │   ├── B2X.Catalog.API.csproj
+│   │   ├── B2X.Catalog.Core.csproj
+│   │   ├── B2X.Catalog.Application.csproj
+│   │   ├── B2X.Catalog.Infrastructure.csproj
+│   │   ├── B2X.Catalog.Tests.csproj
 │   │   └── src/
 │   │       ├── API/                     (Endpoints, Controllers)
 │   │       ├── Core/                    (Domain: Product, Category, Aggregates)
@@ -87,11 +87,11 @@ backend/
 │   │       └── Infrastructure/          (Database, Search, Repositories)
 │   │
 │   ├── Tenancy/                         (Tenant - Bounded Context)
-│   │   ├── B2Connect.Tenancy.API.csproj
-│   │   ├── B2Connect.Tenancy.Core.csproj
-│   │   ├── B2Connect.Tenancy.Application.csproj
-│   │   ├── B2Connect.Tenancy.Infrastructure.csproj
-│   │   ├── B2Connect.Tenancy.Tests.csproj
+│   │   ├── B2X.Tenancy.API.csproj
+│   │   ├── B2X.Tenancy.Core.csproj
+│   │   ├── B2X.Tenancy.Application.csproj
+│   │   ├── B2X.Tenancy.Infrastructure.csproj
+│   │   ├── B2X.Tenancy.Tests.csproj
 │   │   └── src/
 │   │       ├── API/
 │   │       ├── Core/                    (Domain: Tenant, Subscription)
@@ -99,11 +99,11 @@ backend/
 │   │       └── Infrastructure/
 │   │
 │   ├── Theming/                         (Theme - Bounded Context)
-│   │   ├── B2Connect.Theming.API.csproj
-│   │   ├── B2Connect.Theming.Core.csproj
-│   │   ├── B2Connect.Theming.Application.csproj
-│   │   ├── B2Connect.Theming.Infrastructure.csproj
-│   │   ├── B2Connect.Theming.Tests.csproj
+│   │   ├── B2X.Theming.API.csproj
+│   │   ├── B2X.Theming.Core.csproj
+│   │   ├── B2X.Theming.Application.csproj
+│   │   ├── B2X.Theming.Infrastructure.csproj
+│   │   ├── B2X.Theming.Tests.csproj
 │   │   └── src/
 │   │       ├── API/
 │   │       ├── Core/                    (Domain: Theme, Layout, Component)
@@ -111,11 +111,11 @@ backend/
 │   │       └── Infrastructure/
 │   │
 │   ├── Localization/                    (i18n - Bounded Context)
-│   │   ├── B2Connect.Localization.API.csproj
-│   │   ├── B2Connect.Localization.Core.csproj
-│   │   ├── B2Connect.Localization.Application.csproj
-│   │   ├── B2Connect.Localization.Infrastructure.csproj
-│   │   ├── B2Connect.Localization.Tests.csproj
+│   │   ├── B2X.Localization.API.csproj
+│   │   ├── B2X.Localization.Core.csproj
+│   │   ├── B2X.Localization.Application.csproj
+│   │   ├── B2X.Localization.Infrastructure.csproj
+│   │   ├── B2X.Localization.Tests.csproj
 │   │   └── src/
 │   │       ├── API/
 │   │       ├── Core/                    (Domain: Language, Translation)
@@ -123,18 +123,18 @@ backend/
 │   │       └── Infrastructure/
 │   │
 │   ├── Orchestration/                   (Aspire Host)
-│   │   ├── B2Connect.Orchestration.csproj
+│   │   ├── B2X.Orchestration.csproj
 │   │   └── Program.cs
 │   │
 │   └── Defaults/                        (Shared Defaults)
-│       ├── B2Connect.ServiceDefaults.csproj
+│       ├── B2X.ServiceDefaults.csproj
 │       └── Extensions/
 │
 ├── shared/
-│   ├── B2Connect.Shared.csproj          (Facade for all shared)
+│   ├── B2X.Shared.csproj          (Facade for all shared)
 │   │
 │   ├── Kernel/                          (Core abstractions - ALL layers depend on this)
-│   │   ├── B2Connect.Shared.Kernel.csproj
+│   │   ├── B2X.Shared.Kernel.csproj
 │   │   └── src/
 │   │       ├── Abstractions/            (Interfaces, Base Classes)
 │   │       │   ├── IEntity.cs
@@ -150,14 +150,14 @@ backend/
 │   │       └── Extensions/              (Core extensions)
 │   │
 │   ├── Domain/                          (Domain events, specifications, domain services)
-│   │   ├── B2Connect.Shared.Domain.csproj
+│   │   ├── B2X.Shared.Domain.csproj
 │   │   └── src/
 │   │       ├── Events/                  (Base domain events)
 │   │       ├── Specifications/          (Reusable specs)
 │   │       └── ValueObjects/            (Shared VOs: Id, Email, etc)
 │   │
 │   ├── Application/                     (CQRS, MediaTR handlers, pipelines)
-│   │   ├── B2Connect.Shared.Application.csproj
+│   │   ├── B2X.Shared.Application.csproj
 │   │   └── src/
 │   │       ├── Behaviors/               (Validation, Logging, Transaction)
 │   │       ├── DTOs/                    (Common DTOs)
@@ -165,7 +165,7 @@ backend/
 │   │       └── Handlers/                (Base handlers)
 │   │
 │   ├── Infrastructure/                  (EF Core, Data Context, Repositories)
-│   │   ├── B2Connect.Shared.Infrastructure.csproj
+│   │   ├── B2X.Shared.Infrastructure.csproj
 │   │   └── src/
 │   │       ├── Persistence/             (DbContext, Migrations)
 │   │       │   ├── Design/
@@ -176,28 +176,28 @@ backend/
 │   │       └── UnitOfWork/
 │   │
 │   ├── Messaging/                       (Event bus, message handling)
-│   │   ├── B2Connect.Shared.Messaging.csproj
+│   │   ├── B2X.Shared.Messaging.csproj
 │   │   └── src/
 │   │       ├── Events/                  (Integration events)
 │   │       ├── Handlers/                (Event handlers)
 │   │       └── Bus/                     (Message bus abstraction)
 │   │
 │   ├── Search/                          (Elasticsearch integration)
-│   │   ├── B2Connect.Shared.Search.csproj
+│   │   ├── B2X.Shared.Search.csproj
 │   │   └── src/
 │   │       ├── Indexing/
 │   │       ├── Queries/
 │   │       └── Configurations/
 │   │
 │   ├── Validation/                      (Fluent Validation, Custom validators)
-│   │   ├── B2Connect.Shared.Validation.csproj
+│   │   ├── B2X.Shared.Validation.csproj
 │   │   └── src/
 │   │       ├── Rules/
 │   │       ├── Extensions/
 │   │       └── Validators/
 │   │
 │   ├── Middleware/                      (Cross-cutting middleware)
-│   │   ├── B2Connect.Shared.Middleware.csproj
+│   │   ├── B2X.Shared.Middleware.csproj
 │   │   └── src/
 │   │       ├── Logging/
 │   │       ├── ErrorHandling/
@@ -206,7 +206,7 @@ backend/
 │   │       └── Localization/
 │   │
 │   └── Tools/                           (Utilities, Helpers)
-│       ├── B2Connect.Shared.Tools.csproj
+│       ├── B2X.Shared.Tools.csproj
 │       └── src/
 │           ├── Extensions/
 │           ├── Helpers/
@@ -214,8 +214,8 @@ backend/
 │           └── Formatters/
 │
 └── tests/                               (Integration & E2E tests)
-    ├── B2Connect.IntegrationTests.csproj
-    ├── B2Connect.E2ETests.csproj
+    ├── B2X.IntegrationTests.csproj
+    ├── B2X.E2ETests.csproj
     └── Common/
         └── TestFixtures/
 ```
@@ -312,7 +312,7 @@ services/Catalog/
 │   │
 │   └── Program.cs                     (Service startup)
 │
-└── B2Connect.Catalog.{Layer}.csproj   (Project files for each layer)
+└── B2X.Catalog.{Layer}.csproj   (Project files for each layer)
 ```
 
 ---
@@ -321,20 +321,20 @@ services/Catalog/
 
 ### Naming Convention
 ```
-B2Connect.[BoundedContext].{Layer}.csproj
+B2X.[BoundedContext].{Layer}.csproj
 
 Examples:
-- B2Connect.Catalog.API.csproj           (API endpoints)
-- B2Connect.Catalog.Core.csproj          (Domain layer)
-- B2Connect.Catalog.Application.csproj   (Application layer)
-- B2Connect.Catalog.Infrastructure.csproj(Infrastructure layer)
-- B2Connect.Catalog.Tests.csproj         (Unit/Integration tests)
+- B2X.Catalog.API.csproj           (API endpoints)
+- B2X.Catalog.Core.csproj          (Domain layer)
+- B2X.Catalog.Application.csproj   (Application layer)
+- B2X.Catalog.Infrastructure.csproj(Infrastructure layer)
+- B2X.Catalog.Tests.csproj         (Unit/Integration tests)
 
 Shared:
-- B2Connect.Shared.Kernel.csproj         (Core abstractions)
-- B2Connect.Shared.Domain.csproj         (Domain patterns)
-- B2Connect.Shared.Application.csproj    (CQRS/Handlers)
-- B2Connect.Shared.Infrastructure.csproj (Data access)
+- B2X.Shared.Kernel.csproj         (Core abstractions)
+- B2X.Shared.Domain.csproj         (Domain patterns)
+- B2X.Shared.Application.csproj    (CQRS/Handlers)
+- B2X.Shared.Infrastructure.csproj (Data access)
 ```
 
 ### Dependency Rules (Acyclic)

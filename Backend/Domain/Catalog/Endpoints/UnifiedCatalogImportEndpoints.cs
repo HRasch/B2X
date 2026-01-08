@@ -1,8 +1,8 @@
-using B2Connect.Catalog.ImportAdapters;
+using B2X.Catalog.ImportAdapters;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 
-namespace B2Connect.Catalog.Endpoints;
+namespace B2X.Catalog.Endpoints;
 
 /// <summary>
 /// Unified Wolverine HTTP Endpoints for Catalog Import

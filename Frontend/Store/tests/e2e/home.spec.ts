@@ -1,11 +1,11 @@
-import { test, expect, type Page } from '@playwright/test';
+﻿import { test, expect, type Page } from '@playwright/test';
 
-test.describe('B2Connect Home Page', () => {
+test.describe('B2X Home Page', () => {
   test('should display the home page', async ({ page }: { page: Page }) => {
     await page.goto('/');
 
     // Check if the main heading exists
-    const heading = page.getByRole('heading', { name: /Welcome to B2Connect/i });
+    const heading = page.getByRole('heading', { name: /Welcome to B2X/i });
     await expect(heading).toBeVisible();
   });
 

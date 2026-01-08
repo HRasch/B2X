@@ -1,7 +1,7 @@
-using B2Connect.Identity.Models;
+using B2X.Identity.Models;
 using FluentValidation;
 
-namespace B2Connect.Identity.Handlers;
+namespace B2X.Identity.Handlers;
 
 /// <summary>
 /// Wolverine Command: Prüfung des Registrierungstyps (Neu- oder Bestandskunde)

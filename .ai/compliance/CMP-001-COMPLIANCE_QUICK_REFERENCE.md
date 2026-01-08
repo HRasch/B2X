@@ -1,4 +1,12 @@
-# 🚀 Compliance Quick Reference - Developer Guide
+---
+docid: CMP-002
+title: CMP 001 COMPLIANCE_QUICK_REFERENCE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🚀 Compliance Quick Reference - Developer Guide
 
 **One-pager for developers** - Print & keep handy!
 
@@ -184,7 +192,7 @@ logger.info('User created', { userId, password }); // EXPOSED!
 ### Approval Status
 ❌ **NOT APPROVED** for Sprint Implementation
 
-**Reason**: Multiple critical compliance violations that would expose B2Connect to fines (€5,000-€300,000) and legal action.
+**Reason**: Multiple critical compliance violations that would expose B2X to fines (€5,000-€300,000) and legal action.
 
 **Next Steps**:
 1. Implement missing backend services (LegalDocumentsService, VatIdValidationService, ReturnManagementService)

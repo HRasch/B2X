@@ -1,4 +1,4 @@
-namespace B2Connect.CMS.Core.Domain
+namespace B2X.CMS.Core.Domain
 {
     /// <summary>
     /// Base class for domain aggregate roots

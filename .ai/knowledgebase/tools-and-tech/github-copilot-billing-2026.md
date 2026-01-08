@@ -1,4 +1,12 @@
 ---
+docid: KB-169
+title: Github Copilot Billing 2026
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-022
 title: GitHub Copilot Billing, Plans & Rate Limits (2026)
 owner: GitHub Copilot
@@ -232,7 +240,7 @@ Visit: [github.com/settings/billing/overview](https://github.com/settings/billin
 
 ---
 
-## B2Connect Implementation
+## B2X Implementation
 
 Your project's Copilot configuration:
 
@@ -271,7 +279,7 @@ Your project's Copilot configuration:
 
 - [AI Cost Monitoring & Optimization](./ai-cost-optimization.md)
 - [GitHub Copilot Models (KB-016)](./github-copilot-models.md)
-- [B2Connect Copilot Instructions](./.github/copilot-instructions.md)
+- [B2X Copilot Instructions](./.github/copilot-instructions.md)
 
 ---
 

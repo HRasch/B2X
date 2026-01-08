@@ -1,4 +1,12 @@
 ---
+docid: SPR-110
+title: SPR 015 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-015-RETRO
 title: Sprint 2026-15 Retrospective - Ethical AI Refinement & Enterprise Scaling
 owner: @ScrumMaster
@@ -163,4 +171,4 @@ Sprint 2026-15 demonstrated exceptional execution in advancing ethical AI and en
 The identified improvement areas provide clear direction for next sprints, focusing on advanced AI features, intelligent infrastructure, and global compliance automation. With strong stakeholder alignment and proven delivery capability, the team is well-positioned for continued success in enterprise-grade AI and scaling solutions.
 
 *Document maintained by @ScrumMaster | Last updated: 29. April 2026*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-015-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-015-retrospective.md

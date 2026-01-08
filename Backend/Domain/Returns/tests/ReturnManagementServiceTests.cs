@@ -1,13 +1,13 @@
-using Xunit;
+﻿using Xunit;
 using Moq;
 using FluentValidation;
-using B2Connect.Returns.Core.Entities;
-using B2Connect.Returns.Application.Commands;
-using B2Connect.Returns.Application.Services;
-using B2Connect.Returns.Application.Validators;
+using B2X.Returns.Core.Entities;
+using B2X.Returns.Application.Commands;
+using B2X.Returns.Application.Services;
+using B2X.Returns.Application.Validators;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Returns.Tests;
+namespace B2X.Returns.Tests;
 
 /// <summary>
 /// Unit tests for ReturnManagementService (14-day VVVG compliance).

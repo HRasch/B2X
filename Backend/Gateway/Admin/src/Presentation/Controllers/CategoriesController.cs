@@ -1,10 +1,10 @@
-using B2Connect.Admin.Application.Commands.Categories;
-using B2Connect.Admin.Presentation.Filters;
+using B2X.Admin.Application.Commands.Categories;
+using B2X.Admin.Presentation.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
-namespace B2Connect.Admin.Presentation.Controllers;
+namespace B2X.Admin.Presentation.Controllers;
 
 /// <summary>
 /// API Controller for Category operations - HTTP Layer Only (CQRS Pattern)

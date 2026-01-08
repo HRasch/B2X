@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-138
+title: ADR 045 Migrate Pages
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: "Migrate Pages.vue to unified layout components (ADR-045)"
 owner: "@CMS"
 estimate: 0.5d

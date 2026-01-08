@@ -1,12 +1,12 @@
+using B2X.AppHost.Configuration;
+using B2X.AppHost.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using B2Connect.AppHost.Configuration;
-using B2Connect.AppHost.Services;
 
-namespace B2Connect.AppHost.Extensions;
+namespace B2X.AppHost.Extensions;
 
 /// <summary>
 /// Extensions for conditional service configuration based on testing mode.

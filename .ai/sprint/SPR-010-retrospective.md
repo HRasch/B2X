@@ -1,4 +1,12 @@
 ---
+docid: SPR-096
+title: SPR 010 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-010-RETRO
 title: Sprint 2026-10 Retrospective - Analytics & Monitoring Maturity Enhancements
 owner: @ScrumMaster
@@ -154,4 +162,4 @@ status: Completed
 
 ---
 *Retrospective conducted: 18. Februar 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-010-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-010-retrospective.md

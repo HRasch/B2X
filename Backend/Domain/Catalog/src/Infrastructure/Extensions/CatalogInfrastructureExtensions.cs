@@ -1,8 +1,8 @@
-using B2Connect.Catalog.Core.Services;
-using B2Connect.Catalog.Infrastructure.Services;
+using B2X.Catalog.Core.Services;
+using B2X.Catalog.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace B2Connect.Catalog.Infrastructure.Extensions
+namespace B2X.Catalog.Infrastructure.Extensions
 {
     public static class CatalogInfrastructureExtensions
     {

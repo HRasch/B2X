@@ -1,4 +1,12 @@
 ---
+docid: PRM-045
+title: Feature Handover.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: ProductOwner
 description: Create a Feature Handover document for handoff
 ---

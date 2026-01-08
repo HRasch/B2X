@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace B2Connect.CMS.Core.Domain.Pages;
+namespace B2X.CMS.Core.Domain.Pages;
 
 /// <summary>
 /// Metadata for template overrides with validation and versioning (ADR-030)

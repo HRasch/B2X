@@ -1,4 +1,12 @@
 ---
+docid: KB-187
+title: Vue Mcp Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-054
 title: Vue MCP Integration Guide
 owner: @CopilotExpert
@@ -306,7 +314,7 @@ The Vue MCP server enforces [GL-042] token-optimized i18n strategy:
 ```typescript
 // ❌ WRONG - Hardcoded string
 <template>
-  <h1>Welcome to B2Connect</h1>
+  <h1>Welcome to B2X</h1>
 </template>
 
 // ✅ CORRECT - Translation key

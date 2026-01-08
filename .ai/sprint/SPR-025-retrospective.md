@@ -1,4 +1,12 @@
 ---
+docid: SPR-134
+title: SPR 025 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-025-RETRO
 title: Sprint 2026-25 Retrospective - AI Performance Tuning & Global Analytics Scaling
 owner: @ScrumMaster

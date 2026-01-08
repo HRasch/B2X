@@ -1,4 +1,4 @@
-namespace B2Connect.Shared.Monitoring.Infrastructure.Context;
+namespace B2X.Shared.Monitoring.Infrastructure.Context;
 
 /// <summary>
 /// Provides access to the current tenant context in the request scope.

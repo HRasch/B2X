@@ -1,4 +1,12 @@
 ---
+docid: PRM-051
+title: Security Audit.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: Security
 description: Security review and compliance checklist
 ---

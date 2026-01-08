@@ -1,4 +1,4 @@
-namespace B2Connect.ERP.Abstractions;
+namespace B2X.ERP.Abstractions;
 
 // Dummy implementations for compilation when actual enventa assemblies are not available
 // The ERP Connector (.NET 4.8) contains the actual DAL implementation

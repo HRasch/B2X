@@ -1,4 +1,12 @@
 ---
+docid: SPR-088
+title: SPR 008 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-008
 title: Sprint 2026-08 Planning - User Experience Enhancements & Feedback Systems
 owner: @ScrumMaster
@@ -184,4 +192,4 @@ Based on retrospective insights from Sprint 2026-07 (real ERP testing success, d
 - @Backend: Begin FEEDBACK-COLLECTION API
 - @QA: Prepare accessibility testing tools
 - @ProductOwner: Review UX mockups</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-008-iteration-template.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-008-iteration-template.md

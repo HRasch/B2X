@@ -1,4 +1,12 @@
-# Issue: Standardize Backend Structure - Domain vs BoundedContexts
+---
+docid: UNKNOWN-143
+title: ARCHITECTURE_DECISION_DOMAIN_vs_BOUNDEDCONTEXTS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Issue: Standardize Backend Structure - Domain vs BoundedContexts
 
 **Title**: Standardize Backend Directory Structure: Align with DDD Terminology  
 **Type**: Architecture Decision  
@@ -60,7 +68,7 @@ backend/
 3. **KB files**: Update 6 files (WOLVERINE, DDD, ERROR, VUE3, ASPIRE, FEATURES)
 4. **Guides**: Update GETTING_STARTED.md, DEVELOPER_GUIDE.md
 5. **Tasks**: Update tasks.json paths
-6. **Optional**: Rename namespaces `B2Connect.Store.X` → `B2Connect.Domain.Store.X`
+6. **Optional**: Rename namespaces `B2X.Store.X` → `B2X.Domain.Store.X`
 
 **Effort**: 1.5 hours (docs only) or 4 hours (with namespaces)
 

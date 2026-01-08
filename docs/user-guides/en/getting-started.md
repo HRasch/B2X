@@ -1,12 +1,12 @@
-# Getting Started with B2Connect
+﻿# Getting Started with B2X
 
-Welcome to B2Connect! This guide will help you get started with your account.
+Welcome to B2X! This guide will help you get started with your account.
 
 ---
 
-## What is B2Connect?
+## What is B2X?
 
-B2Connect is an online shopping platform where you can:
+B2X is an online shopping platform where you can:
 - Browse products
 - Place orders
 - Track deliveries
@@ -17,7 +17,7 @@ B2Connect is an online shopping platform where you can:
 
 ## Do You Need an Account?
 
-**Yes!** To use B2Connect, you need a free account.
+**Yes!** To use B2X, you need a free account.
 
 ### Why Create an Account?
 ✅ Save your delivery address  
@@ -37,7 +37,7 @@ B2Connect is an online shopping platform where you can:
 ### Step 2: Enter Your Email
 1. Type your email address
 2. Click **"Next"**
-3. B2Connect will check if you already have an account
+3. B2X will check if you already have an account
 
 ### Step 3: Choose Your Password
 1. Create a strong password (at least 8 characters)
@@ -47,7 +47,7 @@ B2Connect is an online shopping platform where you can:
 
 ### Step 4: Verify Your Email
 1. Check your email inbox
-2. Look for the email from B2Connect
+2. Look for the email from B2X
 3. Click the **"Verify Email"** link
 4. Your account is ready!
 

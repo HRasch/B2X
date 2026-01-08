@@ -1,4 +1,4 @@
-# Store-Queries mit Sprach-Parameter - IMPLEMENTIERUNG ABGESCHLOSSEN ✅
+﻿# Store-Queries mit Sprach-Parameter - IMPLEMENTIERUNG ABGESCHLOSSEN ✅
 
 **Status: BUILD ERFOLGREICH - Keine Fehler!**
 
@@ -101,12 +101,12 @@ GET /api/layout/pages/abc?lang=es
 ## 📊 Build-Status
 
 ```
-✅ B2Connect.Theming.Layout: BUILD ERFOLGREICH
+✅ B2X.Theming.Layout: BUILD ERFOLGREICH
    - 0 Fehler
    - 0 Warnungen
    - Alle 20+ Tests für Updates bereit
 
-✅ B2Connect (Full Solution): BUILD ERFOLGREICH
+✅ B2X (Full Solution): BUILD ERFOLGREICH
    - 1 Warnung (nicht-kritisch)
 ```
 

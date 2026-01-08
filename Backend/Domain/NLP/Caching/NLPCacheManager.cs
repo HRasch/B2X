@@ -1,4 +1,4 @@
-// B2Connect.NLP.Caching
+﻿// B2X.NLP.Caching
 // Advanced Caching for NLP Processing
 // DocID: SPR-027-NLP-CACHING
 
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using StackExchange.Redis;
 
-namespace B2Connect.NLP.Caching
+namespace B2X.NLP.Caching
 {
     /// <summary>
     /// Distributed Redis-based NLP Caching Layer

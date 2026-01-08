@@ -1,4 +1,4 @@
-# Vite Build Error Logging in Aspire
+﻿# Vite Build Error Logging in Aspire
 
 **Issue**: #50  
 **Status**: ✅ IMPLEMENTED  
@@ -108,7 +108,7 @@ public async Task FrontendStore_BuildsWithoutErrors()
 {
     // Start Aspire app
     await using var app = await DistributedApplicationTestingBuilder
-        .CreateAsync<Projects.B2Connect_AppHost>();
+        .CreateAsync<Projects.B2X_AppHost>();
     
     await app.StartAsync();
     

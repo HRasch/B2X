@@ -40,25 +40,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
 import QuarantineManager from './QuarantineManager.vue';
 
-const { t } = useI18n();
 const selectedErpType = ref('enventa');
 const validationResults = ref([]);
 const quarantinedRecords = ref([]);
 const isValidating = ref(false);
 
 const loadValidationRules = async () => {
-  const response = await fetch(`/api/validation/rules/${selectedErpType.value}`);
+  await fetch(`/api/validation/rules/${selectedErpType.value}`);
   // Load ERP-specific rules
 };
 
 const runValidation = async () => {
   isValidating.value = true;
   try {
-    const response = await fetch('/api/validation/erp/run', {
+    await fetch('/api/validation/erp/run', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ erpType: selectedErpType.value }),
@@ -74,7 +72,7 @@ const runValidation = async () => {
 const runConnectorValidation = async () => {
   isValidating.value = true;
   try {
-    const response = await fetch(`/api/connectors/${selectedErpType.value}/validate`, {
+    await fetch(`/api/connectors/${selectedErpType.value}/validate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data: {} }), // Sample data
@@ -86,7 +84,7 @@ const runConnectorValidation = async () => {
   }
 };
 
-const handleQuarantineResolution = resolution => {
+const handleQuarantineResolution = _resolution => {
   // Handle resolution
 };
 </script>

@@ -1,7 +1,7 @@
-using B2Connect.AppHost.Configuration;
 using System.Net.Http.Json;
+using B2X.AppHost.Configuration;
 
-namespace B2Connect.AppHost.Services;
+namespace B2X.AppHost.Services;
 
 /// <summary>
 /// Utilities for seeding CMS data in test environments.
@@ -31,7 +31,7 @@ public static class CmsSeedingUtilities
 
         foreach (var tenantId in TestDataContext.Current.GetAllTenantIds())
         {
-            await SeedCmsForTenantAsync(cmsServiceClient, tenantId, pageCount, templateCount, cancellationToken);
+            await SeedCmsForTenantAsync(cmsServiceClient, tenantId, pageCount, templateCount, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -57,16 +57,16 @@ public static class CmsSeedingUtilities
             CreatedBy = "TestDataOrchestrator"
         };
 
-        var response = await client.PostAsJsonAsync("/api/cms/seed", request, cancellationToken);
+        var response = await client.PostAsJsonAsync("/api/cms/seed", request, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             throw new InvalidOperationException(
                 $"Failed to seed CMS for tenant {tenantId}: {response.StatusCode} - {errorContent}");
         }
 
-        var result = await response.Content.ReadFromJsonAsync<CmsSeedingResponse>(cancellationToken: cancellationToken);
+        var result = await response.Content.ReadFromJsonAsync<CmsSeedingResponse>(cancellationToken: cancellationToken).ConfigureAwait(false);
         if (result != null && result.PageIds != null)
         {
             // Store page IDs for later reference
@@ -89,7 +89,7 @@ public static class CmsSeedingUtilities
 
         foreach (var tenantId in TestDataContext.Current.GetAllTenantIds())
         {
-            await ResetCmsForTenantAsync(cmsServiceClient, tenantId, cancellationToken);
+            await ResetCmsForTenantAsync(cmsServiceClient, tenantId, cancellationToken).ConfigureAwait(false);
         }
 
         // Clear page references
@@ -109,11 +109,11 @@ public static class CmsSeedingUtilities
     {
         try
         {
-            var response = await client.DeleteAsync($"/api/cms/seed/{tenantId}", cancellationToken);
+            var response = await client.DeleteAsync($"/api/cms/seed/{tenantId}", cancellationToken).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode && response.StatusCode != System.Net.HttpStatusCode.NotFound)
             {
-                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                 // Log warning but don't fail - CMS might not exist
                 Console.WriteLine($"Warning: Failed to reset CMS for tenant {tenantId}: {response.StatusCode} - {errorContent}");
             }

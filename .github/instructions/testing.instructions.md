@@ -1,4 +1,12 @@
 ---
+docid: INS-014
+title: Testing.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 ---
 
@@ -67,6 +75,23 @@ applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 - Test localization API endpoints for proper responses
 - Include multilingual scenarios in E2E tests
 - Validate date/number formatting across locales
+
+## Contract Testing (Proposed)
+- Require consumer-driven contract tests for gateway APIs; run in CI on integration lanes
+- Store contract artifacts/versioning in `.ai/contracts/`
+
+## Visual Regression Policy (Proposed)
+- PRs run focused visual smoke tests; full visual suite runs nightly
+- Baseline updates must reference a review comment and acceptance criteria
+
+## Flaky Test Triage (Proposed)
+- Mark flaky tests, quarantine them, and create remediation tasks with owners
+- Track flaky-test counts and surface in weekly test-health reports
+
+## Metrics & Control (Proposed)
+- Track test pass rates, coverage, and time-to-fix
+- Publish weekly to a testing dashboard or PR checks summary
+- Document `scripts/run-local-checks.sh` usage and troubleshooting tips
 
 ## MCP-Enhanced Testing Strategy
 
@@ -168,7 +193,7 @@ chrome-devtools-mcp/network-monitor enable=true
 **Database Test Validation**:
 ```bash
 # Validate test database schema
-database-mcp/validate_schema connectionString="Server=localhost;Database=b2connect_test"
+database-mcp/validate_schema connectionString="Server=localhost;Database=B2X_test"
 
 # Check test data migrations
 database-mcp/check_migrations workspacePath="backend" migrationPath="TestMigrations"
@@ -266,7 +291,7 @@ docs-mcp/validate_structure workspacePath="docs/testing"
 **Container Test Validation**:
 ```bash
 # Validate test container images
-docker-mcp/check_container_security imageName="b2connect/test-runner:latest"
+docker-mcp/check_container_security imageName="B2X/test-runner:latest"
 
 # Analyze test Dockerfiles
 docker-mcp/analyze_dockerfile filePath="Dockerfile.test"
@@ -399,4 +424,97 @@ vue-mcp/analyze_bundle workspacePath="frontend/Store"
 - MCP validation failures should fail test suite
 - Document MCP exceptions in test reports
 - Re-run MCP after fixing issues to verify resolution
+
+## Large File Editing Strategy ([GL-043])
+
+When editing large test files (>200 lines), use the Multi-Language Fragment Editing approach with Testing MCP integration:
+
+### Pre-Edit Analysis
+```bash
+# Test structure analysis
+testing-mcp/validate_test_coverage workspacePath="backend" testFile="ServiceTests.cs"
+
+# Mock validation
+testing-mcp/analyze_mocks workspacePath="backend" testFile="ServiceTests.cs"
+
+# Test data integrity check
+testing-mcp/validate_test_data workspacePath="backend" testFile="IntegrationTests.cs"
+```
+
+### Fragment-Based Editing Patterns
+```csharp
+// Fragment: Test method (82% token savings)
+[Fact]
+public async Task ProcessOrder_ValidRequest_ReturnsSuccess()
+{
+    // Arrange - edit only test setup
+    var request = new OrderRequest { /* test data */ };
+    var mockValidator = new Mock<IOrderValidator>();
+    
+    // Act - single test action
+    var result = await _sut.ProcessOrderAsync(request);
+    
+    // Assert - focused assertions
+    result.IsSuccess.Should().BeTrue();
+}
+```
+
+**Testing MCP Workflows**:
+```bash
+# 1. Test coverage validation
+testing-mcp/validate_test_coverage workspacePath="backend" testFile="ServiceTests.cs"
+
+# 2. Mock analysis and validation
+testing-mcp/analyze_mocks workspacePath="backend" testFile="ServiceTests.cs"
+testing-mcp/validate_mock_setup testFile="ServiceTests.cs"
+
+# 3. Test data integrity
+testing-mcp/validate_test_data workspacePath="backend" testFile="IntegrationTests.cs"
+
+# 4. Performance test validation
+testing-mcp/analyze_performance_tests workspacePath="backend" testFile="LoadTests.cs"
+
+# 5. Contract test validation
+testing-mcp/validate_contract_tests workspacePath="backend/Gateway" testFile="ApiContractTests.cs"
+```
+
+### Integration with Other MCP Tools
+```bash
+# Database test validation
+database-mcp/validate_schema connectionString="Server=localhost;Database=B2X_test"
+
+# API documentation validation
+api-mcp/validate_openapi filePath="backend/Gateway/Store/openapi.yaml"
+
+# i18n test validation
+i18n-mcp/validate_translation_keys workspacePath="frontend/Store" localePath="locales"
+```
+
+### Quality Gates
+- Always run `runTests()` after edits
+- Use `testing-mcp/validate_test_coverage` for test validation
+- Ensure no regression in coverage metrics (>80% maintained)
+- Validate mock integrity and test data consistency
+
+**Token Savings**: 82% vs. reading entire test files | **Quality**: Test integrity validation with coverage enforcement
+
+## Temp-File Usage for Token Optimization
+
+For large test outputs (e.g., coverage reports, logs >1KB), save to temp files to reduce token consumption:
+
+```bash
+# Auto-save large test output
+OUTPUT=$(dotnet test --verbosity minimal 2>&1)
+if [ $(echo "$OUTPUT" | wc -c) -gt 1024 ]; then
+  bash scripts/temp-file-manager.sh create "$OUTPUT" txt
+else
+  echo "$OUTPUT"
+fi
+
+# Reference in prompts/responses
+"See temp file: .ai/temp/task-uuid.json (5KB saved)"
+```
+
+- Auto-cleanup after 1 hour or task completion.
+- Complements [GL-006] token optimization strategy.
 

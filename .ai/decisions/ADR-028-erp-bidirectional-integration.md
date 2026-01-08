@@ -1,17 +1,25 @@
-# ERP Bidirectional Integration Architecture
+---
+docid: ADR-067
+title: ADR 028 Erp Bidirectional Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ERP Bidirectional Integration Architecture
 
 **Status:** Proposed  
 **Date:** January 3, 2026  
-**Context:** enventa Trade ERP needs API access to B2Connect for customer updates, access management, usage stats, and product data synchronization  
+**Context:** enventa Trade ERP needs API access to B2X for customer updates, access management, usage stats, and product data synchronization  
 **Decision Authors:** @Architect, @Backend
 
 ---
 
 ## Problem
 
-enventa Trade ERP currently uses RESTier.NET over OData to access B2Connect, but this creates security and architectural challenges:
+enventa Trade ERP currently uses RESTier.NET over OData to access B2X, but this creates security and architectural challenges:
 
-- **Security Gap**: ERP can access B2Connect APIs without proper authentication boundaries
+- **Security Gap**: ERP can access B2X APIs without proper authentication boundaries
 - **Tight Coupling**: Direct OData exposure creates tight coupling between systems
 - **No Tenant Isolation**: ERP operations aren't properly scoped to tenants
 - **Legacy Technology**: RESTier.NET/OData may not align with modern .NET 10 architecture
@@ -33,7 +41,7 @@ enventa Trade ERP currently uses RESTier.NET over OData to access B2Connect, but
                                     │ HTTPS + API Key
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                      B2Connect API Gateway                          │
+│                      B2X API Gateway                          │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐  │
 │  │   ERP Gateway   │    │  Auth Service   │    │  CQRS Bus       │  │
 │  │   (/api/erp/*)  │◄───┤  (JWT/API Key)  │◄───┤  (Wolverine)    │  │
@@ -165,7 +173,7 @@ public async Task<IActionResult> QueryCustomers([FromBody] CustomerQuery query)
 
 #### ✅ Operations
 - **Monitoring**: Built-in metrics and health checks
-- **Rate Limiting**: Prevent ERP from overwhelming B2Connect
+- **Rate Limiting**: Prevent ERP from overwhelming B2X
 - **Circuit Breaker**: Fail gracefully if ERP is unavailable
 
 ### Implementation Steps
@@ -223,4 +231,4 @@ public async Task<IActionResult> QueryCustomers([FromBody] CustomerQuery query)
 2. Implement ERP gateway infrastructure
 3. Add authentication to existing OData endpoints
 4. Test with enventa Trade ERP integration</content>
-<parameter name="filePath">c:\Users\Holge\repos\B2Connect\.ai\decisions\ADR-028-erp-bidirectional-integration.md
+<parameter name="filePath">c:\Users\Holge\repos\B2X\.ai\decisions\ADR-028-erp-bidirectional-integration.md

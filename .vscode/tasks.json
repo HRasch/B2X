@@ -1,4 +1,4 @@
-{
+﻿{
   "version": "2.0.0",
   "tasks": [
     {
@@ -7,7 +7,7 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj"
+        "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -26,7 +26,7 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/B2Connect.slnx"
+        "${workspaceFolder}/B2X.slnx"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -40,7 +40,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/B2Connect.slnx",
+        "${workspaceFolder}/B2X.slnx",
         "-v",
         "minimal"
       ],
@@ -56,7 +56,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/Catalog/tests/B2X.Catalog.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -71,7 +71,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/CMS/tests/B2Connect.CMS.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/CMS/tests/B2X.CMS.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -86,7 +86,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Localization/tests/B2Connect.Localization.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/Localization/tests/B2X.Localization.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -101,7 +101,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Identity/tests/B2Connect.Identity.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/Identity/tests/B2X.Identity.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -116,7 +116,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Search/tests/B2Connect.Shared.Search.Tests.csproj",
+        "${workspaceFolder}/backend/Domain/Search/tests/B2X.Shared.Search.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -181,7 +181,7 @@
         "args": [
           "run",
           "--project",
-          "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj"
+          "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
         ],
         "options": {
           "cwd": "${workspaceFolder}/AppHost",
@@ -199,8 +199,8 @@
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": ".*B2Connect Application Host.*",
-          "endsPattern": ".*✅ B2Connect Application Host initialized.*"
+          "beginsPattern": ".*B2X Application Host.*",
+          "endsPattern": ".*✅ B2X Application Host initialized.*"
         }
       },
       "presentation": {
@@ -293,7 +293,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/Gateway/Store/API/B2Connect.Store.csproj"
+        "${workspaceFolder}/backend/Gateway/Store/API/B2X.Store.csproj"
       ],
       "options": {
         "env": {
@@ -326,7 +326,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/Gateway/Admin/B2Connect.Admin.csproj"
+        "${workspaceFolder}/backend/Gateway/Admin/B2X.Admin.csproj"
       ],
       "options": {
         "env": {
@@ -412,7 +412,7 @@
       "command": "dotnet",
       "args": [
         "build",
-        "${workspaceFolder}/AppHost/B2Connect.AppHost.csproj"
+        "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {

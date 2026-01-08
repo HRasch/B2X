@@ -1,3 +1,11 @@
+---
+docid: SPR-069
+title: SPR 002 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-002: Sprint 2026-02 Planning
 
 **DocID**: SPR-002  

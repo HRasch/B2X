@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
-using B2Connect.Shared.AOP;
-using B2Connect.Shared.Validators;
+using B2X.Shared.AOP;
+using B2X.Shared.Validators;
 
-namespace B2Connect.Shared.Extensions;
+namespace B2X.Shared.Extensions;
 
 /// <summary>
 /// Extension methods for configuring AOP and Validation

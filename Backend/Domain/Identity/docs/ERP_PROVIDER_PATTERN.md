@@ -1,4 +1,4 @@
-# ERP Provider Pattern & Faker Implementation
+﻿# ERP Provider Pattern & Faker Implementation
 
 ## Overview
 
@@ -125,7 +125,7 @@ services.AddFakeErpProvider();
 {
   "Logging": {
     "LogLevel": {
-      "B2Connect.Identity": "Debug"
+      "B2X.Identity": "Debug"
     }
   }
 }
@@ -387,7 +387,7 @@ All operations log with `[FAKE ERP]`, `[RESILIENT]`, or `[Primary]` prefixes for
 {
   "Logging": {
     "LogLevel": {
-      "B2Connect.Identity.Infrastructure.ExternalServices": "Debug"
+      "B2X.Identity.Infrastructure.ExternalServices": "Debug"
     }
   }
 }

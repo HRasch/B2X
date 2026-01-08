@@ -1,6 +1,6 @@
-# Kontotipps zur Sicherheit
+﻿# Kontotipps zur Sicherheit
 
-Halten Sie Ihr B2Connect-Konto sicher! Befolgen Sie diese einfachen Schritte.
+Halten Sie Ihr B2X-Konto sicher! Befolgen Sie diese einfachen Schritte.
 
 ---
 
@@ -26,7 +26,7 @@ Halten Sie Ihr B2Connect-Konto sicher! Befolgen Sie diese einfachen Schritte.
 
 Wer sollte Ihr Passwort NICHT haben:
 - ❌ Freunde und Familie
-- ❌ B2Connect-Mitarbeiter (Sie werden es niemals fragen!)
+- ❌ B2X-Mitarbeiter (Sie werden es niemals fragen!)
 - ❌ Ihr Ehepartner oder Partner
 - ❌ Kundensupport-Personal
 
@@ -43,24 +43,24 @@ Wer sollte Ihr Passwort NICHT haben:
 **Zu Hause (Ihr Computer):**
 - ✅ Es ist sicherer, „Angemeldet bleiben" zu verwenden
 
-### 4. Verwenden Sie nur das offizielle B2Connect
+### 4. Verwenden Sie nur das offizielle B2X
 
 ✅ **SICHER:**
-- Website: `https://www.b2connect.com`
+- Website: `https://www.B2X.com`
 - Offizielle mobile App (iOS oder Android)
-- Offizielle B2Connect-E-Mails (von `@b2connect.com`)
+- Offizielle B2X-E-Mails (von `@B2X.com`)
 
 ❌ **NICHT SICHER:**
-- Websites, die wie B2Connect aussehen, aber eine andere URL haben
-- Unbekannte Apps, die behaupten, B2Connect zu sein
+- Websites, die wie B2X aussehen, aber eine andere URL haben
+- Unbekannte Apps, die behaupten, B2X zu sein
 - E-Mails, die Sie auffordern, Ihr Passwort zu "bestätigen"
 
 ### 5. Überprüfen Sie, ob E-Mails echt sind
 
 **Betrüger versenden gefälschte E-Mails!** So erkennen Sie sie:
 
-✅ **Echte B2Connect-E-Mails:**
-- Kommen von `@b2connect.com` oder `noreply@b2connect.com`
+✅ **Echte B2X-E-Mails:**
+- Kommen von `@B2X.com` oder `noreply@B2X.com`
 - Behandeln Sie als "[Ihr Name]"
 - Handeln von Dingen, die Sie getan haben (Bestellungen, Anmeldung usw.)
 
@@ -69,9 +69,9 @@ Wer sollte Ihr Passwort NICHT haben:
 - Sagen "Lieber Kunde" (nicht Ihr Name)
 - Bitten Sie, "Ihr Konto zu verifizieren" oder "Zahlung zu bestätigen"
 - Enthalten verdächtige Links
-- Fragen Sie nach Ihrem Passwort (B2Connect fragt NIEMALS danach!)
+- Fragen Sie nach Ihrem Passwort (B2X fragt NIEMALS danach!)
 
-**Im Zweifelsfall:** Gehen Sie direkt zu B2Connect.com, anstatt auf E-Mail-Links zu klicken.
+**Im Zweifelsfall:** Gehen Sie direkt zu B2X.com, anstatt auf E-Mail-Links zu klicken.
 
 ---
 
@@ -88,7 +88,7 @@ Die Zwei-Faktor-Authentifizierung fügt eine zusätzliche Sicherheitsebene hinzu
 ```
 Sie melden sich mit E-Mail und Passwort an
         ↓
-B2Connect sendet einen Code an Ihr Telefon
+B2X sendet einen Code an Ihr Telefon
         ↓
 Sie geben den Code ein
         ↓
@@ -120,7 +120,7 @@ Selbst wenn jemand Ihr Passwort stiehlt, können er sich nicht ohne Ihr Telefon 
 **Mit Authenticator-App:**
 1. Geben Sie E-Mail und Passwort ein
 2. Öffnen Sie Google Authenticator oder Authy-App
-3. Finden Sie B2Connect-Code (ändert sich alle 30 Sekunden)
+3. Finden Sie B2X-Code (ändert sich alle 30 Sekunden)
 4. Geben Sie den Code auf der Anmeldeseite ein
 5. Sie sind drin!
 
@@ -148,7 +148,7 @@ Wenn Sie 2FA aktivieren, erhalten Sie Sicherungscodes. **Speichern Sie sie an ei
 
 ### Sie haben Ihr Telefon verloren (und haben 2FA aktiviert)
 
-1. Gehen Sie zur B2Connect-Anmeldeseite
+1. Gehen Sie zur B2X-Anmeldeseite
 2. Klicken Sie auf "Kann nicht auf meinen 2FA-Code zugreifen?"
 3. Geben Sie Ihre E-Mail ein
 4. Verwenden Sie einen Ihrer Sicherungscodes
@@ -168,7 +168,7 @@ Wenn Sie 2FA aktivieren, erhalten Sie Sicherungscodes. **Speichern Sie sie an ei
 Wenn Ihr E-Mail-Konto kompromittiert ist:
 
 1. **Ändern Sie das E-Mail-Passwort sofort** (auf Gmail, Outlook usw.)
-2. [Setzen Sie Ihr B2Connect-Passwort zurück](./reset-password.md)
+2. [Setzen Sie Ihr B2X-Passwort zurück](./reset-password.md)
 3. Überprüfen Sie Ihre E-Mail-Weiterleitungsregeln (Hacker fügen diese manchmal hinzu)
 4. Aktivieren Sie 2FA auf Ihrem E-Mail-Konto
 5. [Kontaktieren Sie den Support](../README.md), wenn nötig
@@ -215,7 +215,7 @@ Passwort-Manager speichern Ihre Passwörter sicher:
 **F: Wie oft sollte ich mein Passwort ändern?**  
 A: Nur wenn Sie denken, dass es kompromittiert ist. Das häufige Ändern von Passwörtern ist nicht erforderlich, wenn Sie ein sicheres Passwort verwenden.
 
-**F: Ist B2Connect sicher zum Einkaufen?**  
+**F: Ist B2X sicher zum Einkaufen?**  
 A: Ja! Wir verwenden Sicherheitsstandards der Branche (HTTPS, Verschlüsselung). Ihre Zahlungsinformationen werden von sicheren Zahlungsanbietern verarbeitet.
 **F: Verkaufen Sie meine persönlichen Daten?**  
 A: Niemals! Ihre Daten werden nur für Bestellungen und Kundendienst verwendet.

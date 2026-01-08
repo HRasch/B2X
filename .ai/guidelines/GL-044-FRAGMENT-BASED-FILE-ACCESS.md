@@ -1,4 +1,12 @@
 ---
+docid: GL-080
+title: GL 044 FRAGMENT BASED FILE ACCESS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-044
 title: Fragment-Based File Access Strategy
 owner: "@SARAH"

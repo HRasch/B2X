@@ -1,4 +1,12 @@
-# Email Template Best Practices
+---
+docid: KB-072
+title: Email Templates
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Email Template Best Practices
 
 **DocID**: `KB-BP-EMAIL`  
 **Last Updated**: 2026-01-03  
@@ -595,7 +603,7 @@ Creating HTML emails that render consistently across email clients requires unde
 
 ---
 
-## B2Connect Implementation
+## B2X Implementation
 
 ### Email Templates Location
 - Backend templates: `backend/services/email/templates/`

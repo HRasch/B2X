@@ -200,16 +200,32 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 // Composables
-const { t } = useI18n();
+
+// Types
+interface LastOperation {
+  operation: string;
+  success: boolean;
+  response: unknown;
+  timestamp: string;
+  error: string | null;
+}
+
+interface SeedingStatus {
+  isSeeded: boolean;
+  lastSeededAt: string | null;
+  seededWith: string | null;
+  tenantCount: number;
+  userCount: number;
+  productCount: number;
+}
 
 // Reactive state
-const seedingStatus = ref({
+const seedingStatus = ref<SeedingStatus>({
   isSeeded: false,
-  lastSeededAt: null as string | null,
-  seededWith: null as string | null,
+  lastSeededAt: null,
+  seededWith: null,
   tenantCount: 0,
   userCount: 0,
   productCount: 0,
@@ -219,7 +235,7 @@ const isRefreshing = ref(false);
 const statusLoading = ref(false);
 const statusError = ref('');
 const isSeeding = ref(false);
-const lastOperation = ref(null as any);
+const lastOperation = ref<LastOperation | null>(null);
 const showResetConfirm = ref(false);
 
 // Methods
@@ -233,10 +249,10 @@ const refreshStatus = async () => {
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    const data = await response.json();
+    const data = (await response.json()) as SeedingStatus;
     seedingStatus.value = data.status;
-  } catch (error: any) {
-    statusError.value = error.message;
+  } catch (error: unknown) {
+    statusError.value = (error as Error).message;
   } finally {
     statusLoading.value = false;
     isRefreshing.value = false;
@@ -280,7 +296,7 @@ const performSeedingOperation = async (operation: string, url: string) => {
       },
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as { error?: string };
 
     if (!response.ok) {
       throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
@@ -296,13 +312,13 @@ const performSeedingOperation = async (operation: string, url: string) => {
 
     // Refresh status after successful operation
     await refreshStatus();
-  } catch (error: any) {
+  } catch (error: unknown) {
     lastOperation.value = {
       operation,
       success: false,
       response: null,
       timestamp: startTime.toISOString(),
-      error: error.message,
+      error: (error as Error).message,
     };
   } finally {
     isSeeding.value = false;

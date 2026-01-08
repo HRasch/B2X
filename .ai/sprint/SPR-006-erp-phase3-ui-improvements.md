@@ -1,4 +1,12 @@
 ---
+docid: SPR-081
+title: SPR 006 Erp Phase3 Ui Improvements
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-006-ERP-PHASE3-UI-IMPROVEMENTS
 title: Sprint 2026-06 Execution - ERP Integration Phase 3 & UI/UX Improvements
 owner: @ScrumMaster

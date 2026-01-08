@@ -2,7 +2,7 @@
 
 export interface McpToolCall {
   name: string;
-  arguments: Record<string, any>;
+  arguments: Record<string, unknown>;
 }
 
 export interface McpToolResponse {
@@ -90,7 +90,7 @@ class AiService {
     Array<{
       name: string;
       description: string;
-      inputSchema: any;
+      inputSchema: Record<string, unknown>;
     }>
   > {
     try {
@@ -366,8 +366,8 @@ class AiService {
   /**
    * Extract arguments from user message for the determined tool
    */
-  extractArgsFromMessage(message: string, toolName: string): Record<string, any> {
-    const args: Record<string, any> = {};
+  extractArgsFromMessage(message: string, toolName: string): Record<string, unknown> {
+    const args: Record<string, unknown> = {};
 
     switch (toolName) {
       case 'performance_optimization':

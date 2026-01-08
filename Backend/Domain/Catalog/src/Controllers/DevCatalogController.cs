@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Catalog.API.Controllers;
+namespace B2X.Catalog.API.Controllers;
 
 [ApiController]
 [Route("api/catalog")]
 public class DevCatalogController : ControllerBase
 {
-    private readonly B2Connect.Catalog.Infrastructure.Data.CatalogDbContext _db;
+    private readonly B2X.Catalog.Infrastructure.Data.CatalogDbContext _db;
 
-    public DevCatalogController(B2Connect.Catalog.Infrastructure.Data.CatalogDbContext db)
+    public DevCatalogController(B2X.Catalog.Infrastructure.Data.CatalogDbContext db)
     {
         _db = db;
     }
@@ -21,7 +21,7 @@ public class DevCatalogController : ControllerBase
             return BadRequest(new { error = "X-Tenant-ID header is required" });
 
         var imports = await _db.CatalogImports
-            .Where(i => i.TenantId == tenantId || i.TenantId == B2Connect.Shared.Core.SeedConstants.DefaultTenantId)
+            .Where(i => i.TenantId == tenantId || i.TenantId == B2X.Shared.Core.SeedConstants.DefaultTenantId)
             .OrderByDescending(i => i.ImportTimestamp)
             .Select(i => new
             {

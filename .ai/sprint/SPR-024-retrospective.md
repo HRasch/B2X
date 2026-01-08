@@ -1,4 +1,12 @@
 ---
+docid: SPR-132
+title: SPR 024 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-024-RETRO
 title: Sprint 2026-24 Retrospective - AI Resource Optimization & Global Compliance Expansion
 owner: @ScrumMaster
@@ -258,7 +266,7 @@ Sprint 2026-24 successfully delivered the majority of planned objectives for AI 
 - **@QA:** Thorough validation of global and optimization features
 
 ### Team Achievement
-The team demonstrated remarkable technical proficiency and collaborative excellence in Sprint 2026-24. The successful AI resource optimization and global compliance expansion establish B2Connect as a leader in efficient, compliant, and globally scalable AI solutions.
+The team demonstrated remarkable technical proficiency and collaborative excellence in Sprint 2026-24. The successful AI resource optimization and global compliance expansion establish B2X as a leader in efficient, compliant, and globally scalable AI solutions.
 
 ## Next Steps
 

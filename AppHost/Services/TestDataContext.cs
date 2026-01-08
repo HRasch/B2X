@@ -1,4 +1,4 @@
-namespace B2Connect.AppHost.Services;
+namespace B2X.AppHost.Services;
 
 /// <summary>
 /// Thread-safe context for tracking test data across seeding operations.
@@ -7,7 +7,7 @@ namespace B2Connect.AppHost.Services;
 public class TestDataContext
 {
     private static readonly AsyncLocal<TestDataContext> _current = new();
-    private readonly Dictionary<string, Guid> _tenantSlugs = new();
+    private readonly Dictionary<string, Guid> _tenantSlugs = new(StringComparer.Ordinal);
     private readonly Dictionary<Guid, List<Guid>> _tenantUsers = new();
     private readonly Dictionary<Guid, List<Guid>> _tenantProducts = new();
     private readonly Dictionary<Guid, List<Guid>> _tenantPages = new();

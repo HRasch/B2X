@@ -1,4 +1,4 @@
-# 👥 Benutzerdokumentation (User Guide)
+﻿# 👥 Benutzerdokumentation (User Guide)
 
 **Zielgruppe:** Store-Kunden, Admin-Benutzer  
 **Status:** User-Friendly Documentation  
@@ -22,7 +22,7 @@
 
 #### 1. Konto erstellen
 
-1. Rufen Sie die **B2Connect Store** auf
+1. Rufen Sie die **B2X Store** auf
 2. Klicken Sie auf **"Registrieren"** oder **"Sign Up"**
 3. Geben Sie ein:
    - **E-Mail-Adresse** (für Benachrichtigungen)
@@ -252,7 +252,7 @@ Unten auf der Seite → "Kontakt" oder "Support"
 
 **Oder direkt:**
 ```
-support@b2connect.com
+support@B2X.com
 Telefon: +1-800-xxx-xxxx
 Chat: Klicken Sie auf 💬 "Live Chat" (Öffnungszeiten beachten)
 ```
@@ -265,7 +265,7 @@ Chat: Klicken Sie auf 💬 "Live Chat" (Öffnungszeiten beachten)
 
 **Zugriff:**
 ```
-https://admin.b2connect.com
+https://admin.B2X.com
 → Admin Login
 ```
 
@@ -554,7 +554,7 @@ Zeitraum: Letzte 7 Tage
 A: Der Versand dauert normalerweise 3-5 Werktage. Mit Express-Versand 1-2 Werktage.
 
 **F: Kann ich eine Bestellung stornieren?**
-A: Ja, wenn die Bestellung noch nicht versendet wurde. Rufen Sie den Support an: support@b2connect.com
+A: Ja, wenn die Bestellung noch nicht versendet wurde. Rufen Sie den Support an: support@B2X.com
 
 **F: Wie kann ich ein Produkt zurückgeben?**
 A: Innerhalb von 30 Tagen nach Kauf. Rufen Sie Support an für ein Rückgabeformular.
@@ -587,16 +587,16 @@ A: Reports → Analytics → Wählen Sie Report-Typ → Filtern Sie nach Datum/K
 
 ### Kundenservice
 
-**E-Mail:** support@b2connect.com  
+**E-Mail:** support@B2X.com  
 **Telefon:** +1-800-xxx-xxxx  
 **Live Chat:** Verfügbar Mo-Fr 09:00-18:00 CET  
 **Bearbeitungszeit:** Normalerweise innerhalb von 24 Stunden
 
 ### Entwickler & Technischer Support
 
-**E-Mail:** dev-support@b2connect.com  
-**Dokumentation:** https://docs.b2connect.com  
-**GitHub Issues:** https://github.com/b2connect/issues
+**E-Mail:** dev-support@B2X.com  
+**Dokumentation:** https://docs.B2X.com  
+**GitHub Issues:** https://github.com/B2X/issues
 
 ---
 
@@ -610,9 +610,9 @@ A: Reports → Analytics → Wählen Sie Report-Typ → Filtern Sie nach Datum/K
 - ✅ Regelmäßige Sicherheits-Updates
 
 **Weitere Informationen:**
-- 📄 [Datenschutzerklärung](https://b2connect.com/privacy)
-- 📄 [Nutzungsbedingungen](https://b2connect.com/terms)
-- 📄 [Cookie-Richtlinie](https://b2connect.com/cookies)
+- 📄 [Datenschutzerklärung](https://B2X.com/privacy)
+- 📄 [Nutzungsbedingungen](https://B2X.com/terms)
+- 📄 [Cookie-Richtlinie](https://B2X.com/cookies)
 
 ---
 

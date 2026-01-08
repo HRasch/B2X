@@ -1,8 +1,8 @@
-using B2Connect.LocalizationService.Data;
-using B2Connect.LocalizationService.Middleware;
-using B2Connect.LocalizationService.Services;
-using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Messaging.Extensions;
+using B2X.LocalizationService.Data;
+using B2X.LocalizationService.Middleware;
+using B2X.LocalizationService.Services;
+using B2X.ServiceDefaults;
+using B2X.Shared.Messaging.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Wolverine;
@@ -53,7 +53,7 @@ builder.Services.AddDbContext<LocalizationDbContext>(options =>
         {
             if (builder.Environment.IsDevelopment())
             {
-                connectionString = "Host=localhost;Database=b2connect_localization;Username=postgres;Password=postgres";
+                connectionString = "Host=localhost;Database=B2X_localization;Username=postgres;Password=postgres";
                 System.Console.WriteLine(
                     "⚠️ Using DEVELOPMENT database credentials. This MUST be changed in production. " +
                     "Set 'ConnectionStrings:LocalizationDb' via environment variables or Azure Key Vault.");

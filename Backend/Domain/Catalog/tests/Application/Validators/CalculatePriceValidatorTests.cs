@@ -1,9 +1,9 @@
 
-using B2Connect.Catalog.Application.Handlers;
-using B2Connect.Catalog.Application.Validators;
+using B2X.Catalog.Application.Handlers;
+using B2X.Catalog.Application.Validators;
 using Xunit;
 
-namespace B2Connect.Catalog.Tests.Application.Validators;
+namespace B2X.Catalog.Tests.Application.Validators;
 
 public class CalculatePriceValidatorTests
 {

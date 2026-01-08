@@ -1,3 +1,11 @@
+---
+docid: SPR-044
+title: ISSUES_STATUS_UPDATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📊 Sprint 001: Planned Issues Status Update
 
 **Date:** December 30, 2025 (Sprint Start)  

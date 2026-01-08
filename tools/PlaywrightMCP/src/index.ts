@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
- * Playwright MCP Server for B2Connect
+ * Playwright MCP Server for B2X
  *
  * This server provides browser automation capabilities using the official
  * Microsoft Playwright MCP implementation.

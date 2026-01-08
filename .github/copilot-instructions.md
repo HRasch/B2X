@@ -1,9 +1,17 @@
-# GitHub Copilot Instructions
+---
+docid: DOC-014
+title: Copilot Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+﻿# GitHub Copilot Instructions
 
 **DocID**: `INS-000` (Master Instructions)
 
 ## Project Context
-- **Project**: B2Connect - Multi-Agent Development Framework
+- **Project**: B2X - Multi-Agent Development Framework
 - **Tech Stack**: .NET 10, Vue.js 3, Wolverine CQRS, PostgreSQL, Elasticsearch
 - **Coordinator**: @SARAH handles coordination, quality-gates, permissions
 

@@ -2,11 +2,11 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Core;
+using B2X.ERP.Core;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.ERP.Tests.Core;
+namespace B2X.ERP.Tests.Core;
 
 /// <summary>
 /// Tests for the ProviderResult class.

@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
   "settings": {
     "indentation": {
@@ -31,7 +31,7 @@
       "allowDoWhileOnClosingBrace": false
     },
     "documentationRules": {
-      "companyName": "B2Connect GmbH",
+      "companyName": "B2X GmbH",
       "copyrightText": "Copyright (c) {companyName}. All rights reserved.",
       "xmlHeader": false,
       "documentInterfaces": false,

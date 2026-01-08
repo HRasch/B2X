@@ -291,26 +291,6 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-  {
-    path: '/tools',
-    meta: {
-      requiresAuth: true,
-      layout: 'main',
-      requiredRole: 'admin',
-    },
-    children: [
-      {
-        path: 'cli',
-        name: 'CliTools',
-        component: () => import('@/views/tools/CliToolsView.vue'),
-      },
-      {
-        path: 'seeding',
-        name: 'Seeding',
-        component: () => import('@/views/tools/SeedingView.vue'),
-      },
-    ],
-  },
 ];
 
 const router = createRouter({

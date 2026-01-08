@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +8,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using B2Connect.Shared.Messaging.Events;
-using B2Connect.SearchService.Models;
+using B2X.Shared.Messaging.Events;
+using B2X.SearchService.Models;
 using System.Text.Json;
 
-namespace B2Connect.SearchService.Services
+namespace B2X.SearchService.Services
 {
     /// <summary>
     /// Service that consumes product events from RabbitMQ and updates Elasticsearch indexes

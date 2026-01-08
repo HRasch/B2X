@@ -1,4 +1,12 @@
 ---
+docid: ADR-090
+title: ADR 046 Unified Category Navigation
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-046
 title: Unified Category Navigation Architecture
 status: Accepted
@@ -12,7 +20,7 @@ accepted: 2026-01-06
 
 ## Context
 
-The B2Connect Store frontend requires a hierarchical category navigation system to allow customers to browse products by category. Currently:
+The B2X Store frontend requires a hierarchical category navigation system to allow customers to browse products by category. Currently:
 
 - Products have a `Categories` array field (string-based)
 - Admin gateway has full category management with hierarchical structure
@@ -1235,4 +1243,4 @@ Phase 1 approach chosen because:
 - Ensure mobile-responsive design
 - Add proper loading and error states
 - Include i18n support for category names</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-046-unified-category-navigation.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-046-unified-category-navigation.md

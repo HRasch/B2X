@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect - Port Availability Checker
+# B2X - Port Availability Checker
 # Checks the status of all required ports and provides options to free them
 # Usage: ./check-ports.sh [options] [timeout]
 # Compatible with macOS bash 3.2
@@ -27,7 +27,7 @@ COMMAND="${1:-check}"
 WAIT_TIMEOUT="${2:-30}"
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-echo -e "${PURPLE}  B2Connect - Port Availability Checker${NC}"
+echo -e "${PURPLE}  B2X - Port Availability Checker${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -255,7 +255,7 @@ monitor_ports() {
     while true; do
         clear
         echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-        echo -e "${PURPLE}  B2Connect - Port Monitor${NC}"
+        echo -e "${PURPLE}  B2X - Port Monitor${NC}"
         echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
         echo ""
         echo -e "${CYAN}Real-time Port Status:${NC}"

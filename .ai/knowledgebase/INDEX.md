@@ -1,4 +1,12 @@
 ---
+docid: KB-119
+title: INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-INDEX
 title: Knowledgebase Index
 owner: GitHub Copilot (AI)

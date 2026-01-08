@@ -1,7 +1,7 @@
+using B2X.AppHost.Configuration;
 using Microsoft.Extensions.Configuration;
-using B2Connect.AppHost.Configuration;
 
-namespace B2Connect.AppHost.Extensions;
+namespace B2X.AppHost.Extensions;
 
 /// <summary>
 /// Extensions for Testing Configuration binding and validation.

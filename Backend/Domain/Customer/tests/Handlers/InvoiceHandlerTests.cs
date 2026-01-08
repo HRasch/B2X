@@ -1,16 +1,16 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Customer.Handlers;
-using B2Connect.Customer.Interfaces;
-using B2Connect.Customer.Models;
-using B2Connect.Customer.Services;
+using B2X.Customer.Handlers;
+using B2X.Customer.Interfaces;
+using B2X.Customer.Models;
+using B2X.Customer.Services;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Customer.Tests.Handlers;
+namespace B2X.Customer.Tests.Handlers;
 
 /// <summary>
 /// Unit tests for InvoiceHandler (Wolverine HTTP Endpoints)

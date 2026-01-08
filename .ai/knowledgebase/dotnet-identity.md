@@ -1,3 +1,11 @@
+---
+docid: KB-112
+title: Dotnet Identity
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 
 Title: ASP.NET Core Identity — summary
 Source: https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity

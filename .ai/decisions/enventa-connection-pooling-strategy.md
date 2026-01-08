@@ -1,4 +1,12 @@
-# enventa Connection Pooling Strategy
+---
+docid: ADR-111
+title: Enventa Connection Pooling Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# enventa Connection Pooling Strategy
 
 **Created**: 2. Januar 2026  
 **Authors**: @Architect, @Enventa  
@@ -12,7 +20,7 @@
 enventa Trade ERP has a **very expensive initialization** (>2 seconds per tenant):
 - BusinessUnit must be set during initialization (`FSUtil.SetBusinessUnit()`)
 - Re-initializing on every request causes unacceptable latency (>2s per request)
-- enventa is multi-tenant via BusinessUnit (similar to B2Connect's tenant isolation)
+- enventa is multi-tenant via BusinessUnit (similar to B2X's tenant isolation)
 - Connection state must be maintained for performance
 
 ## Architecture Decision

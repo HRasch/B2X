@@ -1,8 +1,8 @@
-using B2Connect.ThemeService.Models;
+using B2X.ThemeService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Admin.Presentation.Controllers;
+namespace B2X.Admin.Presentation.Controllers;
 
 /// <summary>
 /// Theme SCSS Controller - Manage SCSS modules and trigger compilation

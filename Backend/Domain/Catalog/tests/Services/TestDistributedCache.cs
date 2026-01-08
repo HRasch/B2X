@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace B2Connect.Catalog.Tests.Services;
+namespace B2X.Catalog.Tests.Services;
 
 /// <summary>
 /// Test implementation of IDistributedCache for VAT validation tests

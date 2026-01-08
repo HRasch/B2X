@@ -1,4 +1,4 @@
-namespace B2Connect.Domain.Search.Services;
+namespace B2X.Domain.Search.Services;
 
 public interface ITenantResolver
 {

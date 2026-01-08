@@ -1,9 +1,17 @@
 ---
+docid: KB-118
+title: Governance
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 title: Governance & P0 Playbook (migrated)
 source: .ai/knowledgebase/governance.md (migrated)
 ---
 
-# 📋 B2Connect Requirements & Governance Documentation
+# 📋 B2X Requirements & Governance Documentation
 
 **Version:** 1.0  
 **Status:** Active for P0 Week (Dec 30 - Jan 3)  
@@ -13,7 +21,7 @@ source: .ai/knowledgebase/governance.md (migrated)
 
 ## 🎯 What's New?
 
-This documentation package anchors all requirements and GitHub workflows for B2Connect development. Everything needed for the **P0 Critical Week** is here.
+This documentation package anchors all requirements and GitHub workflows for B2X development. Everything needed for the **P0 Critical Week** is here.
 
 ---
 
@@ -144,7 +152,7 @@ Automatically appears on all PRs
 ### 6. **Contributing Guidelines** (Community)
 
 #### [.github/CONTRIBUTING.md](../../CONTRIBUTING.md)
-How to contribute to B2Connect
+How to contribute to B2X
 - Code of conduct
 - Development setup
 - Code style guidelines (C#, TypeScript)

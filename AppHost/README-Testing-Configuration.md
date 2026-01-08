@@ -1,8 +1,8 @@
-# Testing Configuration Setup Guide
+﻿# Testing Configuration Setup Guide
 
 ## Overview
 
-The B2Connect AppHost now supports configurable testing environments that can operate in either **persisted** (PostgreSQL) or **temporary** (in-memory) modes. This allows for flexible testing strategies across different environments.
+The B2X AppHost now supports configurable testing environments that can operate in either **persisted** (PostgreSQL) or **temporary** (in-memory) modes. This allows for flexible testing strategies across different environments.
 
 ## Configuration Structure
 
@@ -59,8 +59,8 @@ Each service should configure its DbContext conditionally based on the testing m
 
 ```csharp
 // In your service's Program.cs
-using B2Connect.AppHost.Configuration;
-using B2Connect.AppHost.Extensions;
+using B2X.AppHost.Configuration;
+using B2X.AppHost.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -186,7 +186,7 @@ Enable debug logging to see configuration details:
 {
   "Logging": {
     "LogLevel": {
-      "B2Connect.AppHost": "Debug"
+      "B2X.AppHost": "Debug"
     }
   }
 }

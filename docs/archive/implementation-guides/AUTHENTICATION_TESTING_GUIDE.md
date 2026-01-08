@@ -1,7 +1,7 @@
-# Authentication Testing Guide
+﻿# Authentication Testing Guide
 
 **Last Updated**: 29 December 2025  
-**Purpose**: Comprehensive testing strategy for authentication across B2Connect  
+**Purpose**: Comprehensive testing strategy for authentication across B2X  
 **Status**: ✅ Production Ready
 
 ---
@@ -358,8 +358,8 @@ public class JwtTokenServiceTests : IAsyncLifetime
         var config = new Dictionary<string, string>
         {
             {"Jwt:Secret", "this-is-a-very-long-secret-key-for-testing-256-bits"},
-            {"Jwt:Issuer", "B2Connect"},
-            {"Jwt:Audience", "B2Connect"},
+            {"Jwt:Issuer", "B2X"},
+            {"Jwt:Audience", "B2X"},
             {"Jwt:ExpirationSeconds", "3600"}
         };
         

@@ -1,4 +1,12 @@
 ---
+docid: KB-182
+title: Security Mcp Best Practices
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-055
 title: Security MCP Best Practices
 owner: @Security

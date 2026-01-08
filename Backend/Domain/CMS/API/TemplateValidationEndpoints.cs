@@ -1,12 +1,12 @@
-using B2Connect.CMS.Application.Pages;
-using B2Connect.CMS.Core.Domain.Pages;
+using B2X.CMS.Application.Pages;
+using B2X.CMS.Core.Domain.Pages;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CMS.API.Endpoints;
+namespace B2X.CMS.API.Endpoints;
 
 /// <summary>
 /// Template validation endpoints for ADR-030 Phase 2

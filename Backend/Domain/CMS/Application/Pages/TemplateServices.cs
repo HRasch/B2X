@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.CMS.Core.Domain.Pages;
+using B2X.CMS.Core.Domain.Pages;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CMS.Application.Pages;
+namespace B2X.CMS.Application.Pages;
 
 /// <summary>
 /// Repository for managing template overrides (ADR-030)

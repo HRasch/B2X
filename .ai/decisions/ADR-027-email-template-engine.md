@@ -1,4 +1,12 @@
-# ADR-027: Email Template Engine Selection
+---
+docid: ADR-065
+title: ADR 027 Email Template Engine
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-027: Email Template Engine Selection
 
 **DocID**: `ADR-027`  
 **Status**: Accepted  
@@ -10,7 +18,7 @@
 
 ## Context
 
-B2Connect benötigt ein Email-Template-System, das es Tenant-Admins und Content-Creators ermöglicht, personalisierte Email-Vorlagen zu erstellen. Die Templates müssen dynamische Variablen unterstützen (z.B. `{{ order.number }}`, `{{ customer.firstName }}`).
+B2X benötigt ein Email-Template-System, das es Tenant-Admins und Content-Creators ermöglicht, personalisierte Email-Vorlagen zu erstellen. Die Templates müssen dynamische Variablen unterstützen (z.B. `{{ order.number }}`, `{{ customer.firstName }}`).
 
 ### Requirements
 
@@ -430,7 +438,7 @@ public class CachedEmailTemplateRenderer : IEmailTemplateRenderer
 - ✅ Simple: Non-technical users can edit templates
 - ✅ Fast: Efficient rendering, caching support
 - ✅ Proven: Used by Shopify for millions of emails
-- ✅ Extensible: Custom filters for B2Connect needs
+- ✅ Extensible: Custom filters for B2X needs
 - ✅ Maintainable: Clean separation of concerns
 
 ### Negative

@@ -1,6 +1,6 @@
-# frontend-tenant
+﻿# frontend-tenant
 
-B2Connect Tenant Management Portal - Manage store instances and administrator identities.
+B2X Tenant Management Portal - Manage store instances and administrator identities.
 
 ## Overview
 
@@ -132,14 +132,14 @@ Create `.env.local` or use environment-specific `.env.development`:
 
 ```
 VITE_API_BASE_URL=http://localhost:8080/api
-VITE_APP_NAME=B2Connect Tenant Management
+VITE_APP_NAME=B2X Tenant Management
 VITE_JWT_TOKEN_KEY=auth_token
 VITE_APP_ENV=development
 ```
 
 ## API Integration
 
-The frontend connects to the B2Connect backend APIs:
+The frontend connects to the B2X backend APIs:
 
 ### Base URL
 
@@ -227,7 +227,7 @@ Update `.env.production` with production API URL before building.
 
 ## License
 
-Copyright © 2025 B2Connect. All rights reserved.
+Copyright © 2025 B2X. All rights reserved.
 
 ## Support
 
@@ -235,4 +235,4 @@ For issues or questions:
 
 1. Check existing GitHub issues
 2. Create new issue with detailed description
-3. Contact support@b2connect.com
+3. Contact support@B2X.com

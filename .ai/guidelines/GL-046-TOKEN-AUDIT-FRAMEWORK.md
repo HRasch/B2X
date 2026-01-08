@@ -1,4 +1,12 @@
 ---
+docid: GL-082
+title: GL 046 TOKEN AUDIT FRAMEWORK
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: GL-046
 title: Token Audit & Analysis Framework
 owner: "@SARAH"
@@ -92,7 +100,7 @@ File Size    | Old Approach | New Approach | Savings
 300+         | read_file    | semantic     | 70-85%
 ```
 
-**For B2Connect codebase**:
+**For B2X codebase**:
 - ~15 files > 300 lines (backend handlers, services)
 - Using GL-044: **~10,000-15,000 tokens saved per audit cycle**
 

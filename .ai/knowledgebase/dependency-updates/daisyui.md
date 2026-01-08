@@ -1,4 +1,12 @@
 ---
+docid: KB-084
+title: Daisyui
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: daisyui
 current_version: 5.5.14
 source_files:

@@ -1,8 +1,8 @@
-# Frontend CMS & Layout Builder
+﻿# Frontend CMS & Layout Builder
 
 ## Overview
 
-B2Connect includes an integrated Content Management System (CMS) and Visual Layout Builder that enables customers to create and customize their storefront layout and theme without coding. This system provides enterprise-grade customization capabilities while maintaining brand consistency and performance.
+B2X includes an integrated Content Management System (CMS) and Visual Layout Builder that enables customers to create and customize their storefront layout and theme without coding. This system provides enterprise-grade customization capabilities while maintaining brand consistency and performance.
 
 ## Architecture
 

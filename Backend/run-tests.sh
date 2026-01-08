@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Backend Test Runner
+# B2X Backend Test Runner
 # Executes all backend tests with proper error handling
 
 set -euo pipefail
@@ -16,7 +16,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}  B2Connect - Backend Test Runner${NC}"
+echo -e "${BLUE}  B2X - Backend Test Runner${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -28,7 +28,7 @@ fi
 
 # Run CMS Tests
 echo -e "${YELLOW}[*] Running CMS Unit Tests...${NC}"
-if dotnet test "$PROJECT_ROOT/Tests/B2Connect.CMS.Tests/B2Connect.CMS.Tests.csproj" -v minimal; then
+if dotnet test "$PROJECT_ROOT/Tests/B2X.CMS.Tests/B2X.CMS.Tests.csproj" -v minimal; then
     echo -e "${GREEN}[✓] CMS Tests passed${NC}"
 else
     echo -e "${RED}[✗] CMS Tests failed${NC}"

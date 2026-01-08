@@ -1,3 +1,11 @@
+---
+docid: GL-100
+title: SUBAGENT_LEARNING_SYSTEM
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Learning System: Continuous Improvement Framework
 
 **Purpose**: Systematically improve SubAgent instructions based on real-world usage  

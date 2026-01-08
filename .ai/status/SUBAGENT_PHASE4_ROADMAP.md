@@ -1,4 +1,12 @@
-# Phase 4 SubAgent Roadmap: Domain-Specific & Advanced Specialization
+---
+docid: STATUS-049
+title: SUBAGENT_PHASE4_ROADMAP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Phase 4 SubAgent Roadmap: Domain-Specific & Advanced Specialization
 
 **Status**: PLANNING (Early Feb 2026 onward)  
 **Phase 3 Success Gate**: >70% adoption + >35% context reduction  
@@ -14,7 +22,7 @@
 
 Phase 1-3 provided **generic expertise** (e.g., @SubAgent-DDD, @SubAgent-Security).
 
-Phase 4 provides **domain-specific expertise** focused on B2Connect's actual bounded contexts:
+Phase 4 provides **domain-specific expertise** focused on B2X's actual bounded contexts:
 
 ```
 Phase 1-3 (Generic)          Phase 4 (Domain-Specific)
@@ -281,7 +289,7 @@ Phase 1-3 (Generic)          Phase 4 (Domain-Specific)
 ---
 
 #### @SubAgent-DatabasePerformance
-**Focus**: PostgreSQL optimization for B2Connect  
+**Focus**: PostgreSQL optimization for B2X  
 **Expertise**:
 - Query plan analysis
 - Index strategy (B-tree, partial, GiST)
@@ -363,7 +371,7 @@ Phase 1-3 (Generic)          Phase 4 (Domain-Specific)
 ---
 
 #### @SubAgent-APISecurity
-**Focus**: API security for B2Connect  
+**Focus**: API security for B2X  
 **Expertise**:
 - CORS policy configuration
 - API key management
@@ -378,14 +386,14 @@ Phase 1-3 (Generic)          Phase 4 (Domain-Specific)
 - Validating API requests
 - Audit logging setup
 
-**Example**: "Configure CORS to allow only store.b2connect.de origin for Store APIs"
+**Example**: "Configure CORS to allow only store.B2X.de origin for Store APIs"
 
 ---
 
 ### Tier 4D: Cross-Cutting Concerns (3-4 agents)
 
 #### @SubAgent-EventSourcing
-**Focus**: Event sourcing patterns for B2Connect  
+**Focus**: Event sourcing patterns for B2X  
 **Expertise**:
 - Event store design
 - Event versioning & migration
@@ -445,7 +453,7 @@ Phase 1-3 (Generic)          Phase 4 (Domain-Specific)
 ---
 
 #### @SubAgent-Instrumentation
-**Focus**: Observability & monitoring for B2Connect  
+**Focus**: Observability & monitoring for B2X  
 **Expertise**:
 - Structured logging design
 - Metrics collection (Prometheus)
@@ -783,7 +791,7 @@ Mechanism:
 
 ### Specialized Domains
 ```
-Current (Phase 4): B2Connect-wide agents
+Current (Phase 4): B2X-wide agents
 Phase 5+: Feature team specialists
 
 Example:

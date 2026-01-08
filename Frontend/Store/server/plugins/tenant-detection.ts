@@ -1,15 +1,15 @@
-// server/plugins/tenant-detection.ts
+﻿// server/plugins/tenant-detection.ts
 export default defineNitroPlugin(nitroApp => {
   nitroApp.hooks.hook('request', event => {
     const host = getHeader(event, 'host') || '';
     const url = getRequestURL(event);
 
     // Extract tenant from subdomain or path
-    // Example: tenant1.store.b2connect.com or /tenant/tenant1/
+    // Example: tenant1.store.B2X.com or /tenant/tenant1/
     let tenantId = 'default';
 
-    // Check for subdomain (tenant.store.b2connect.com)
-    const subdomainMatch = host.match(/^([a-zA-Z0-9-]+)\.store\.b2connect\.com$/);
+    // Check for subdomain (tenant.store.B2X.com)
+    const subdomainMatch = host.match(/^([a-zA-Z0-9-]+)\.store\.B2X\.com$/);
     if (subdomainMatch) {
       tenantId = subdomainMatch[1];
     } else {

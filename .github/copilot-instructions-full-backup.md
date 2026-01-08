@@ -1,4 +1,12 @@
-# GitHub Copilot Instructions
+---
+docid: DOC-013
+title: Copilot Instructions Full Backup
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+﻿# GitHub Copilot Instructions
 
 Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.
 
@@ -120,7 +128,7 @@ If any new dependency is proposed, `@Architect` MUST:
 - Check the latest released version information from authoritative sources on the internet (official package registry, release notes, or vendor page).
 - If the dependency has changed since the version known to the project's default LLM context (gpt-5-mini), ask `@SARAH` to perform targeted internet research and extend the `.ai/knowledgebase/` with a concise summary of breaking changes between the LLM-known version and the latest release. The summary should include migration notes, API diffs, and links to official changelogs or migration guides.
 - For dependencies or APIs that are not covered or are unknown to the LLM, coordinate the creation of the following artifacts and add them to `.ai/knowledgebase/` (or `.ai/decisions/` when appropriate):
-  - **API How-To** — minimal examples showing integration patterns used by B2Connect.
+  - **API How-To** — minimal examples showing integration patterns used by B2X.
   - **Summary** — key behaviors, configuration points, and known limitations.
   - **Migration Guide** — step-by-step instructions to migrate from the currently referenced version to the target version, including code snippets and test/verification steps.
 

@@ -1,8 +1,8 @@
-using B2Connect.Shared.Infrastructure.ServiceClients;
+using B2X.Shared.Infrastructure.ServiceClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Store.Controllers;
+namespace B2X.Store.Controllers;
 
 /// <summary>
 /// Example controller demonstrating Service Discovery usage

@@ -1,4 +1,12 @@
 ---
+docid: GL-077
+title: GL 014 PRE RELEASE DEVELOPMENT PHASE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: GL-014
 title: Pre-Release Development Phase Policy
 owner: "@SARAH"
@@ -22,7 +30,7 @@ part-of: ADR-037 Lifecycle Stages Framework
 
 ## 1. Purpose
 
-This guideline establishes that **B2Connect is in pre-release development** (version 0.x) and therefore:
+This guideline establishes that **B2X is in pre-release development** (version 0.x) and therefore:
 
 1. **No backwards compatibility guarantees** are required
 2. **Breaking changes are permitted** without deprecation cycles
@@ -164,7 +172,7 @@ The following documents reference backwards compatibility and should be interpre
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  B2Connect Version: 0.x (PRE-RELEASE)                   │
+│  B2X Version: 0.x (PRE-RELEASE)                   │
 │                                                         │
 │  ✅ Breaking changes: ALLOWED                           │
 │  ✅ API refactoring: ALLOWED                            │

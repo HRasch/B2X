@@ -1,8 +1,8 @@
-using B2Connect.AppHost.Services;
+using B2X.AppHost.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.AppHost.Controllers;
+namespace B2X.AppHost.Controllers;
 
 /// <summary>
 /// API endpoints for test data seeding operations.

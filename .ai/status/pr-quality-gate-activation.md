@@ -1,3 +1,11 @@
+---
+docid: STATUS-037
+title: Pr Quality Gate Activation
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 PR Quality Gate - Activation Checklist
 
 **Date**: 2. Januar 2026  

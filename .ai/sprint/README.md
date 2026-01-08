@@ -1,3 +1,11 @@
+---
+docid: SPR-062
+title: README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Sprint / Iteration Documents
 
 Naming convention: `SPR-[NUMBER]-[SHORT_NAME]` (e.g. `SPR-001-sprint-template`).

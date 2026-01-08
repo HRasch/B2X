@@ -5,7 +5,7 @@
 using Microsoft.Extensions.Logging;
 using NVShop.Data.NV.Model;
 
-namespace B2Connect.Domain.ERP.Infrastructure;
+namespace B2X.Domain.ERP.Infrastructure;
 
 /// <summary>
 /// Factory for creating ERP connections.

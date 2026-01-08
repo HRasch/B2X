@@ -1,4 +1,12 @@
 ---
+docid: BS-029
+title: SEND EMAIL NOW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SEND-EMAIL-NOW
 title: "📧 SEND NOW: Leadership Review Email (Ready to Copy-Paste)"
 owner: "@SARAH"
@@ -38,7 +46,7 @@ CC: @ScrumMaster
 Dear @Architect and @TechLead,
 
 I hope this message finds you well. We've identified a critical opportunity to 
-dramatically improve how we execute large refactorings at B2Connect.
+dramatically improve how we execute large refactorings at B2X.
 
 **Problem**: Current refactorings take 2-4 weeks with high risk and team 
 friction. We're losing 10+ hours per refactoring that could be spent on 
@@ -204,7 +212,7 @@ Best regards,
 
 ---
 
-**P.S.** The strategy is battle-tested against 5 previous B2Connect refactorings 
+**P.S.** The strategy is battle-tested against 5 previous B2X refactorings 
 and validated by domain experts across Backend, Frontend, and Infrastructure 
 teams. We're confident this will work.
 

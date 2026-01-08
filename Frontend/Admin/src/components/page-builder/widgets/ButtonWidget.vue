@@ -15,10 +15,6 @@ const props = withDefaults(defineProps<Props>(), {
   isEditing: false,
 });
 
-const emit = defineEmits<{
-  (e: 'update:config', config: Partial<ButtonWidgetConfig>): void;
-}>();
-
 // Resolve responsive value
 function resolveResponsive<T>(value: ResponsiveValue<T> | T | undefined, fallback: T): T {
   if (!value) return fallback;

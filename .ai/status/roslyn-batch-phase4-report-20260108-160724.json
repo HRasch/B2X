@@ -1,0 +1,18 @@
+{
+  "Errors": [],
+  "Predictions": [
+    {
+      "Recommendation": "Review code for async void patterns",
+      "RiskScore": 0.96,
+      "Pattern": "async void",
+      "Severity": "High"
+    },
+    {
+      "Recommendation": "Review code for null reference patterns",
+      "RiskScore": 0.72,
+      "Pattern": "null reference",
+      "Severity": "Critical"
+    }
+  ],
+  "Domain": "Localization"
+}

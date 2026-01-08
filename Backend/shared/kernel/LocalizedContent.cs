@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace B2Connect.Types.Localization;
+namespace B2X.Types.Localization;
 
 /// <summary>
 /// Represents translated content stored as JSON in entity properties.

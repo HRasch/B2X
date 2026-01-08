@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace B2Connect.ERP.Infrastructure.DataAccess;
+namespace B2X.ERP.Infrastructure.DataAccess;
 
 /// <summary>
 /// Factory interface for creating database connections for Dapper operations.

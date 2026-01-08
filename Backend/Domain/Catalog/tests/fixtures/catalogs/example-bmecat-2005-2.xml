@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <BMECAT version="2005.2">
   <HEADER>
     <CATALOG_NAME>Electronics Catalog 2026</CATALOG_NAME>
@@ -6,7 +6,7 @@
     <CATALOG_DATE>2026-01-03</CATALOG_DATE>
     <SUPPLIER>ACME Electronics GmbH</SUPPLIER>
     <SUPPLIER_AID>ACME-2026</SUPPLIER_AID>
-    <CUSTOMER>B2Connect Test</CUSTOMER>
+    <CUSTOMER>B2X Test</CUSTOMER>
     <TERRITORY>DE</TERRITORY>
     <CURRENCY>EUR</CURRENCY>
     <LANGUAGE>deu</LANGUAGE>

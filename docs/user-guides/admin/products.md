@@ -1,4 +1,4 @@
-# Produktverwaltung – Admin Guide
+﻿# Produktverwaltung – Admin Guide
 
 > **Modul**: Katalog → Produkte  
 > **Zielgruppe**: Produktmanager, Administratoren  
@@ -8,7 +8,7 @@
 
 ## Übersicht
 
-Die Produktverwaltung ermöglicht das Erstellen, Bearbeiten und Verwalten aller Produkte im B2Connect-Katalog.
+Die Produktverwaltung ermöglicht das Erstellen, Bearbeiten und Verwalten aller Produkte im B2X-Katalog.
 
 ## Produktliste
 

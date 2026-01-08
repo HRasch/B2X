@@ -1,6 +1,6 @@
-using B2Connect.Shared.Kernel;
+﻿using B2X.Shared.Kernel;
 
-namespace B2Connect.MLGovernance.Core.Domain;
+namespace B2X.MLGovernance.Core.Domain;
 
 public class ModelAuditTrail : Entity
 {

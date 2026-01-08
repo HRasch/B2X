@@ -1,8 +1,8 @@
-using B2Connect.Search.Models;
+﻿using B2X.Search.Models;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.QueryDsl;
 
-namespace B2Connect.Search.Services;
+namespace B2X.Search.Services;
 
 public class ElasticService : IElasticService
 {

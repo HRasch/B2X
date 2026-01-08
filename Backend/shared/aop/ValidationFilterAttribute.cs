@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace B2Connect.Shared.AOP;
+namespace B2X.Shared.AOP;
 
 /// <summary>
 /// AOP filter for automatic model state validation

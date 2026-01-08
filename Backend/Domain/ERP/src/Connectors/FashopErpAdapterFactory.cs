@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using B2Connect.ERP.Abstractions;
+using B2X.ERP.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace B2Connect.ERP.Connectors;
+namespace B2X.ERP.Connectors;
 
 /// <summary>
 /// Factory for creating Fashop ERP connector instances.

@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
- * Legacy Code Cleanup Script for B2Connect - Phase 2 Enhanced
+ * Legacy Code Cleanup Script for B2X - Phase 2 Enhanced
  *
  * This script identifies and fixes common legacy code patterns:
  * - Old import statements
@@ -22,7 +22,7 @@ const isPhase3 = args.includes('--phase3');
 const limitIndex = args.indexOf('--limit');
 const limit = limitIndex !== -1 && args[limitIndex + 1] ? parseInt(args[limitIndex + 1]) : null;
 
-console.log(`🧹 B2Connect Legacy Code Cleanup Script (${isPhase3 ? 'Phase 3' : 'Phase 2 Enhanced'})`);
+console.log(`🧹 B2X Legacy Code Cleanup Script (${isPhase3 ? 'Phase 3' : 'Phase 2 Enhanced'})`);
 console.log('========================================================\n');
 
 if (isPhase3) {

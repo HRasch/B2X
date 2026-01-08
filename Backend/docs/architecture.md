@@ -1,8 +1,8 @@
-# B2Connect Architecture
+﻿# B2X Architecture
 
 ## Overview
 
-B2Connect is a modern multitenant SaaS platform combining a B2B/B2C e-commerce shop with a Procurement-Platform Gateway. It's built with a microservices architecture, leveraging .NET Aspire for orchestration, Wolverine for message-driven patterns, and Vue.js 3 for the frontend.
+B2X is a modern multitenant SaaS platform combining a B2B/B2C e-commerce shop with a Procurement-Platform Gateway. It's built with a microservices architecture, leveraging .NET Aspire for orchestration, Wolverine for message-driven patterns, and Vue.js 3 for the frontend.
 
 ## Key Features
 
@@ -254,15 +254,15 @@ CREATE POLICY tenant_isolation ON users
 ```csharp
 // Example from AppHost/Program.cs
 var postgres = builder.AddPostgres("postgres")
-    .AddDatabase("b2connect-db");
+    .AddDatabase("B2X-db");
 
 var authService = builder
-    .AddProject<Projects.B2Connect_AuthService>("auth-service")
+    .AddProject<Projects.B2X_AuthService>("auth-service")
     .WithReference(postgres)
     .WithHttpEndpoint(port: 5001);
 
 var apiGateway = builder
-    .AddProject<Projects.B2Connect_ApiGateway>("api-gateway")
+    .AddProject<Projects.B2X_ApiGateway>("api-gateway")
     .WithReference(authService)
     .WithHttpEndpoint(port: 5000);
 ```
@@ -326,7 +326,7 @@ Aspire Dashboard shows:
 
 ## Frontend CMS & Layout Builder
 
-B2Connect includes an integrated Content Management System (CMS) that enables customers to build and customize their storefront layout and design without coding.
+B2X includes an integrated Content Management System (CMS) that enables customers to build and customize their storefront layout and design without coding.
 
 ### CMS Architecture
 

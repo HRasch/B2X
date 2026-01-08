@@ -1,3 +1,11 @@
+---
+docid: KB-154
+title: Semantic Search Elasticsearch
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Semantic Search with Elasticsearch — Summary
 
 This note summarizes a practical approach to apply semantic (vector) search using Elasticsearch (ES 8+). It focuses on architecture, index design, queries, and operational considerations.

@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Builder;
 
-namespace B2Connect.Utils.Extensions;
+namespace B2X.Utils.Extensions;
 
 /// <summary>
 /// Utility extension methods for ASP.NET Core

@@ -1,4 +1,12 @@
 ---
+docid: BS-022
+title: LAUNCH REFACTOR
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: LAUNCH-REFACTOR
 title: "🚀 LAUNCH: Refactoring Efficiency Strategy - GO!"
 owner: "@SARAH"
@@ -441,7 +449,7 @@ This initiative will:
 - ✅ Improve **team morale & confidence**
 - ✅ Enable **+8-16 features per year** (freed-up time)
 
-**The future of refactoring at B2Connect starts NOW.**
+**The future of refactoring at B2X starts NOW.**
 
 Let's go! 🚀
 

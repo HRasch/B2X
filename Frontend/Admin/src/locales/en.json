@@ -1,7 +1,7 @@
-{
+﻿{
   "auth": {
     "login": {
-      "title": "B2Connect Admin",
+      "title": "B2X Admin",
       "subtitle": "Sign in to your account",
       "email": "Email Address",
       "emailPlaceholder": "admin@example.com",
@@ -52,6 +52,42 @@
     "confirm": "Confirm",
     "yes": "Yes",
     "no": "No"
+  },
+  "layout": {
+    "breadcrumb": {
+      "admin": "Admin"
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "corporate": "Corporate",
+      "lightMode": "Light Mode",
+      "darkMode": "Dark Mode",
+      "autoSystem": "Auto (System)",
+      "switchToLight": "Switch to light mode",
+      "switchToDark": "Switch to dark mode"
+    },
+    "userMenu": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "logo": {
+      "title": "B2X",
+      "subtitle": "Admin Panel"
+    },
+    "navigation": {
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "email": "Email",
+      "cms": "CMS",
+      "shop": "Shop",
+      "jobs": "Jobs",
+      "cliTools": "CLI Tools",
+      "seeding": "Seeding",
+      "aiManagement": "AI Management",
+      "aiDashboard": "AI Dashboard"
+    }
   },
   "email": {
     "templates": {
@@ -113,6 +149,10 @@
       "liquidVariables": "Liquid Variables",
       "customerName": "Customer full name",
       "customerNameExample": "Example: John Doe",
+      "customerNameVariable": "customer.name",
+      "customerEmail": "Customer email",
+      "customerEmailExample": "john@example.com",
+      "closeButton": "×",
       "plainTextBody": "Plain Text Body",
       "plainTextBodyPlaceholder": "Optional plain text version",
       "visualMode": "Visual",
@@ -150,10 +190,14 @@
       "title": "Administration CLI & Tools",
       "subtitle": "Download and manage command-line tools for tenant administration and ERP integration",
       "administration": {
-        "description": "Powerful command-line interface for managing your B2Connect tenant. Create users, manage catalogs, configure settings, and automate administrative tasks."
+        "title": "Administration CLI",
+        "description": "Powerful command-line interface for managing your B2X tenant. Create users, manage catalogs, configure settings, and automate administrative tasks."
       },
       "erp": {
-        "description": "Connector for integrating your ERP system with B2Connect. Synchronize data, manage orders, inventory, and seamless data exchange."
+        "title": "ERP Connector",
+        "description": "Connector for integrating your ERP system with B2X. Synchronize data, manage orders, inventory, and seamless data exchange.",
+        "enventaTradeErp": "enventa Trade ERP",
+        "craftSoftware": "Craft Software"
       }
     },
     "seeding": {
@@ -206,6 +250,14 @@
     "instructions": "Installation Instructions",
     "selectOS": "Select Operating System",
     "selectVersion": "Select Version",
+    "os": {
+      "windows": "Windows",
+      "linux": "Linux",
+      "macos": "macOS"
+    },
+    "versions": {
+      "latest": "Latest"
+    },
     "erp": {
       "selectType": "Select ERP System",
       "selectPlaceholder": "Choose your ERP system..."
@@ -259,6 +311,23 @@
         "errorRate": "Error Rate",
         "avgResponseTime": "Avg Response Time"
       }
+    },
+    "main": {
+      "title": "Dashboard",
+      "salesOverview": "Sales Overview",
+      "last7Days": "Last 7 days",
+      "chartPlaceholder": "Chart Placeholder",
+      "recentActivity": "Recent Activity",
+      "latestUpdates": "Latest updates",
+      "recentUsers": "Recent Users",
+      "newRegistrations": "New registrations",
+      "name": "Name",
+      "email": "Email",
+      "status": "Status",
+      "joined": "Joined",
+      "createNew": "Create New",
+      "viewAll": "View All",
+      "moreOptions": "More Options"
     }
   },
   "cms": {
@@ -290,19 +359,30 @@
     }
   },
   "catalog": {
-    "products": {
-      "title": "Products",
-      "subtitle": "Manage your catalog products",
-      "loading": "Loading products...",
-      "no_products": "No products found",
-      "actions": {
-        "new": "New Product"
-      },
-      "create": "Create Product",
-      "edit": "Edit Product",
-      "form": {
-        "coming_soon": "Product form implementation coming soon..."
-      }
+    "overview": {
+      "title": "Catalog Management",
+      "subtitle": "Manage products, categories, and brands",
+      "totalProducts": "Total Products",
+      "viewAll": "View all →",
+      "totalCategories": "Total Categories",
+      "totalBrands": "Total Brands",
+      "quickActions": "Quick Actions",
+      "createProduct": "Create Product",
+      "createProductDesc": "Add a new product to the catalog",
+      "createCategory": "Create Category",
+      "createCategoryDesc": "Add a new product category",
+      "createBrand": "Create Brand",
+      "createBrandDesc": "Add a new product brand",
+      "manage": "Manage",
+      "products": "Products",
+      "productsDesc": "View and manage all products",
+      "manageProducts": "Manage Products →",
+      "categories": "Categories",
+      "categoriesDesc": "Organize products with categories",
+      "manageCategories": "Manage Categories →",
+      "brands": "Brands",
+      "brandsDesc": "Manage product brands",
+      "manageBrands": "Manage Brands →"
     },
     "categories": {
       "title": "Categories",
@@ -319,6 +399,15 @@
     "brands": {
       "title": "Brands",
       "subtitle": "Manage product brands",
+      "loading": "Loading brands...",
+      "no_brands": "No brands found. Create your first brand to get started.",
+      "website": "Website",
+      "active": "Active",
+      "inactive": "Inactive",
+      "delete": "Delete",
+      "status": "Status",
+      "search": "Search",
+      "all_status": "All Status",
       "actions": {
         "new": "New Brand"
       },
@@ -333,7 +422,14 @@
     "queue": {
       "title": "Job Queue",
       "loading": "Loading jobs...",
-      "no_jobs": "No jobs in queue."
+      "no_jobs": "No jobs in queue.",
+      "jobName": "Job Name",
+      "status": "Status",
+      "progress": "Progress",
+      "actions": "Actions",
+      "view": "View",
+      "retry": "Retry",
+      "cancel": "Cancel"
     },
     "detail": {
       "title": "Job Details",
@@ -396,7 +492,8 @@
     "messages": {
       "loadError": "User could not be loaded",
       "saveError": "Error saving user",
-      "saving": "Saving..."
+      "saving": "Saving...",
+      "loading": "Loading user..."
     },
     "verified": "Verified",
     "unverified": "Unverified",
@@ -423,13 +520,347 @@
     },
     "categories": {
       "title": "Categories",
+      "subtitle": "Category management for organizing products",
       "loading": "Loading categories...",
       "no_categories": "No categories found."
     },
     "pricing": {
-      "title": "Pricing",
+      "title": "Pricing Rules",
+      "subtitle": "Pricing rules management for products",
       "loading": "Loading pricing...",
       "no_pricing": "No pricing rules found."
+    }
+  },
+  "ai": {
+    "systemPrompts": {
+      "title": "System Prompts",
+      "subtitle": "Manage AI assistant behaviors and responses for different tools",
+      "new": "New Prompt",
+      "toolType": "Tool Type",
+      "allTools": "All Tools",
+      "cmsPageDesign": "CMS Page Design",
+      "emailTemplateDesign": "Email Template Design",
+      "contentOptimization": "Content Optimization",
+      "userManagement": "User Management",
+      "systemHealthAnalysis": "System Health Analysis",
+      "status": "Status",
+      "allStatus": "All Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "search": "Search",
+      "searchPlaceholder": "Search prompts...",
+      "promptsCount": "System Prompts",
+      "toolLabel": "Tool:",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "edit": "Edit",
+      "noPrompts": "No prompts found",
+      "getStarted": "Get started by creating your first system prompt.",
+      "createNew": "Create New System Prompt",
+      "selectToolType": "Select Tool Type",
+      "promptKey": "Prompt Key",
+      "promptContent": "Prompt Content",
+      "promptKeyPlaceholder": "e.g., page_layout_guidelines",
+      "promptContentPlaceholder": "Enter the system prompt content...",
+      "cancel": "Cancel",
+      "createPrompt": "Create Prompt"
+    },
+    "systemPromptDetail": {
+      "currentVersion": "Current Version",
+      "versionHistory": "Version History",
+      "current": "Current",
+      "updated": "Updated",
+      "view": "View",
+      "restore": "Restore",
+      "statistics": "Statistics",
+      "totalVersions": "Total Versions",
+      "created": "Created",
+      "lastUpdated": "Last Updated",
+      "characterCount": "Character Count",
+      "recentUsage": "Recent Usage",
+      "noRecentUsage": "No recent usage",
+      "editSystemPrompt": "Edit System Prompt",
+      "promptContent": "Prompt Content",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "version": "Version",
+      "restoreThisVersion": "Restore This Version",
+      "close": "Close",
+      "edit": "Edit"
+    },
+    "dashboard": {
+      "title": "AI Management Dashboard",
+      "subtitle": "Monitor and manage your tenant's AI systems and MCP server",
+      "mcpServer": "MCP Server",
+      "online": "Online",
+      "activeProviders": "Active Providers",
+      "monthlyUsage": "Monthly Usage",
+      "monthlyCost": "Monthly Cost",
+      "quickActions": "Quick Actions",
+      "manageSystemPrompts": "Manage System Prompts",
+      "manageSystemPromptsDesc": "Configure AI assistant behaviors and responses",
+      "configureProviders": "Configure Providers",
+      "configureProvidersDesc": "Set up AI provider configurations",
+      "viewConsumption": "View Consumption",
+      "viewConsumptionDesc": "Monitor AI usage and costs",
+      "aiAssistant": "AI Assistant",
+      "aiAssistantDesc": "Ask questions or get help from AI",
+      "tryAsking": "Try asking:",
+      "recentActivity": "Recent AI Activity",
+      "noRecentActivity": "No recent activity",
+      "noRecentActivityDesc": "AI usage data will appear here"
+    },
+    "consumption": {
+      "title": "AI Consumption",
+      "subtitle": "Monitor AI usage, costs, and performance metrics",
+      "totalRequests": "Total Requests",
+      "totalCost": "Total Cost",
+      "avgResponseTime": "Avg Response Time",
+      "errorRate": "Error Rate",
+      "usageTrends": "Usage Trends",
+      "requestsOverTime": "Requests Over Time",
+      "chartPlaceholder": "Chart will be implemented soon",
+      "costByProvider": "Cost by Provider",
+      "recentActivity": "Recent Activity",
+      "timestamp": "Timestamp",
+      "provider": "Provider",
+      "model": "Model",
+      "tokens": "Tokens",
+      "cost": "Cost",
+      "status": "Status"
+    },
+    "providers": {
+      "title": "AI Providers",
+      "subtitle": "Configure AI provider connections and settings for your tenant",
+      "models": "Models",
+      "apiKey": "API Key",
+      "apiKeyDescription": "Your API key is encrypted and stored securely",
+      "availableModels": "Available Models",
+      "defaultModel": "Default Model",
+      "defaultModelPlaceholder": "Select default model",
+      "monthlyBudget": "Monthly Budget ($)",
+      "monthlyBudgetDescription": "Set a monthly spending limit for this provider",
+      "enableProvider": "Enable this provider",
+      "cancel": "Cancel",
+      "saveConfiguration": "Save Configuration",
+      "testingConnection": "Testing Connection",
+      "configured": "Configured",
+      "notConfigured": "Not configured"
+    },
+    "status": {
+      "title": "MCP Server Status",
+      "subtitle": "Monitor MCP server health, connections, and system performance",
+      "serverStatus": "Server Status",
+      "activeClients": "Active Clients",
+      "activeSessions": "Active Sessions",
+      "uptime": "Uptime",
+      "serverMetrics": "Server Metrics",
+      "cpuUsage": "CPU Usage",
+      "memoryUsage": "Memory Usage",
+      "responseTime": "Response Time",
+      "throughput": "Throughput",
+      "recentEvents": "Recent Events",
+      "activeConnections": "Active Connections",
+      "clientId": "Client ID",
+      "tenant": "Tenant",
+      "connectedSince": "Connected Since",
+      "lastActivity": "Last Activity",
+      "status": "Status",
+      "serverControls": "Server Controls",
+      "restarting": "Restarting...",
+      "restartServer": "Restart Server",
+      "clearing": "Clearing...",
+      "clearCache": "Clear Cache",
+      "exportLogs": "Export Logs",
+      "checking": "Checking...",
+      "runHealthCheck": "Run Health Check"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "changeImage": "Change image",
+    "remove": "Remove",
+    "emailCannotBeChanged": "Email address cannot be changed",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "saveChanges": "Save changes"
+  },
+  "product": {
+    "grid": {
+      "sortBy": "Sort by:",
+      "relevance": "Relevance",
+      "priceAsc": "Price ascending",
+      "priceDesc": "Price descending",
+      "nameAsc": "Name A-Z",
+      "nameDesc": "Name Z-A",
+      "newest": "Newest",
+      "filter": "Filter",
+      "priceRange": "Price: €50 - €200",
+      "source": {
+        "category": "Category",
+        "manual": "Manual",
+        "bestseller": "Bestseller",
+        "new": "New Arrivals",
+        "sale": "Sale"
+      },
+      "badge": {
+        "new": "New",
+        "sale": "Sale",
+        "bestseller": "Bestseller"
+      },
+      "mock": {
+        "product1": "Cordless Drill Pro",
+        "product2": "Circular Saw 1800W",
+        "product3": "Tool Box 156-piece",
+        "product4": "Hammer Drill",
+        "product5": "Angle Grinder 125mm",
+        "product6": "Jigsaw with Orbital Action",
+        "product7": "Belt Sander 750W",
+        "product8": "Random Orbital Sander"
+      }
+    }
+  },
+  "cart": {
+    "summary": {
+      "items": "Items",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "free": "Free",
+      "taxIncluded": "incl. VAT",
+      "redeem": "Redeem",
+      "total": "Total",
+      "sslEncrypted": "SSL-encrypted",
+      "buyerProtection": "Buyer protection"
+    }
+  },
+  "pim": {
+    "sync": {
+      "title": "PIM Sync Dashboard",
+      "refresh": "Refresh",
+      "loading": "Loading dashboard data...",
+      "error": "Error:",
+      "retry": "Retry",
+      "activeSyncs": "Active Syncs",
+      "noActiveSyncs": "No active syncs",
+      "latestSync": "Latest Sync",
+      "statistics": "Statistics",
+      "recentHistory": "Recent History",
+      "productsProcessed": "Products Processed",
+      "indexed": "Indexed",
+      "failed": "Failed",
+      "currentLanguage": "Current Language",
+      "duration": "Duration",
+      "eta": "ETA",
+      "calculating": "Calculating...",
+      "started": "Started:",
+      "productsIndexed": "Products Indexed",
+      "completed": "Completed",
+      "detailedErrors": "Detailed Errors:",
+      "completedSyncs": "Completed Syncs",
+      "failedSyncs": "Failed Syncs",
+      "successRate": "Success Rate",
+      "totalProductsIndexed": "Total Products Indexed",
+      "avgSyncDuration": "Avg Sync Duration",
+      "provider": "Provider",
+      "status": "Status",
+      "products": "Products",
+      "allProviders": "All Providers"
+    }
+  },
+  "pageBuilder": {
+    "title": "Page Builder",
+    "save": "Save",
+    "publish": "Publish",
+    "palette": {
+      "title": "Widgets",
+      "subtitle": "Drag & Drop or Click"
+    },
+    "emptyPage": {
+      "title": "Page is empty",
+      "description": "Drag widgets from the left palette here or click on a widget to add it."
+    },
+    "configurator": {
+      "title": "Configuration",
+      "selectWidget": "Select a widget to configure",
+      "widget": "Widget",
+      "general": "General",
+      "visible": "Visible",
+      "text": "Text",
+      "htmlTag": "HTML Tag",
+      "paragraph": "Paragraph (p)",
+      "heading1": "Heading 1 (h1)",
+      "heading2": "Heading 2 (h2)",
+      "heading3": "Heading 3 (h3)",
+      "heading4": "Heading 4 (h4)",
+      "heading5": "Heading 5 (h5)",
+      "heading6": "Heading 6 (h6)",
+      "inline": "Inline (span)",
+      "alignment": "Alignment",
+      "left": "Left",
+      "center": "Center",
+      "right": "Right",
+      "imageUrl": "Image URL",
+      "altText": "Alt Text",
+      "size": "Size",
+      "fit": "Fit",
+      "fill": "Fill"
+    },
+    "accountDashboard": {
+      "welcome": {
+        "subtitle": "Here you can find an overview of your account."
+      },
+      "quickLinks": {
+        "title": "Quick Access"
+      },
+      "recentOrders": {
+        "title": "Recent Orders",
+        "viewAll": "View All"
+      },
+      "editHint": "Account Dashboard Widget"
+    },
+    "addressBook": {
+      "title": "My Addresses",
+      "addNew": "New Address",
+      "defaultBadge": "Default",
+      "edit": "Edit",
+      "delete": "Delete",
+      "addNewCard": "Add New Address",
+      "editHint": "Address Book Widget - Max. {{count}} Addresses"
+    },
+    "searchBox": {
+      "recentSearches": "Recent Searches",
+      "categories": "Categories",
+      "products": "Products",
+      "viewAllResults": "View All Results"
+    },
+    "orderHistory": {
+      "title": "My Orders",
+      "previous": "Previous",
+      "next": "Next",
+      "editHint": "Order History Widget - {{count}} entries per page"
+    },
+    "wishlist": {
+      "title": "My Wishlist",
+      "discoverProducts": "Discover Products",
+      "addToCart": "Add to Cart"
+    },
+    "image": {
+      "selectImage": "Select Image",
+      "loadError": "Image could not be loaded"
+    },
+    "miniCart": {
+      "title": "Shopping Cart",
+      "subtotal": "Total"
+    },
+    "productCard": {
+      "addToCart": "Add to Cart",
+      "selectProduct": "Select Product"
+    },
+    "view": {
+      "closeButton": "×",
+      "loading": "Loading..."
     }
   }
 }

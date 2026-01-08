@@ -1,3 +1,11 @@
+---
+docid: GL-053
+title: AGENT REMOVAL GUIDE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent Removal Quick Guide
 
 **For:** @SARAH managing agent lifecycle  

@@ -1,4 +1,12 @@
 ---
+docid: SPR-118
+title: SPR 018 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-018-RETRO
 title: Sprint 2026-18 Retrospective - AI Validation Automation & Ethical Expansion
 owner: @ScrumMaster
@@ -227,7 +235,7 @@ Sprint 2026-18 successfully delivered all planned objectives for AI Validation A
 - **@QA:** Thorough validation testing and quality assurance
 
 ### Team Achievement
-The entire team demonstrated outstanding commitment, collaboration, and technical excellence throughout Sprint 2026-18. The successful delivery of AI Validation Automation & Ethical Expansion sets a new standard for B2Connect's AI capabilities and ethical leadership.
+The entire team demonstrated outstanding commitment, collaboration, and technical excellence throughout Sprint 2026-18. The successful delivery of AI Validation Automation & Ethical Expansion sets a new standard for B2X's AI capabilities and ethical leadership.
 
 ## Next Steps
 

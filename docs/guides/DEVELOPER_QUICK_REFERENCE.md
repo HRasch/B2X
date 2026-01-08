@@ -1,4 +1,4 @@
-# Development Process Quick Reference Card
+﻿# Development Process Quick Reference Card
 
 **Print This** | **Keep on Desk** | **Follow Always**
 
@@ -27,7 +27,7 @@ Confirm: Acceptance criteria clear
 
 ### Phase 2️⃣ - DEVELOP (Days 2-3)
 ```
-BUILD GATE #1: dotnet build B2Connect.slnx
+BUILD GATE #1: dotnet build B2X.slnx
     ↓ FAIL? FIX IMMEDIATELY
     ↓ PASS? Continue
 
@@ -35,7 +35,7 @@ Write code + tests (80%+ coverage)
     ↓
 Mark agent changes: 🤖 AGENT-GENERATED
     ↓
-BUILD GATE #2: dotnet test B2Connect.slnx
+BUILD GATE #2: dotnet test B2X.slnx
     ↓ FAIL? FIX IMMEDIATELY
     ↓ PASS? Push to GitHub
 
@@ -86,8 +86,8 @@ Deploy to production
 
 | Gate | When | Command | If Fail |
 |------|------|---------|---------|
-| **#1** | Before commit | `dotnet build B2Connect.slnx` | Fix now, cannot commit |
-| **#2** | Before push | `dotnet test B2Connect.slnx` | Fix now, cannot push |
+| **#1** | Before commit | `dotnet build B2X.slnx` | Fix now, cannot commit |
+| **#2** | Before push | `dotnet test B2X.slnx` | Fix now, cannot push |
 | **#3** | PR submitted | CI runs automatically | Developer fixes immediately |
 
 ```
@@ -182,8 +182,8 @@ public class MyService { ... }
 
 ## 📋 Checklist Before Pushing PR
 
-- [ ] Code compiles: `dotnet build B2Connect.slnx` ✅
-- [ ] All tests pass: `dotnet test B2Connect.slnx` ✅
+- [ ] Code compiles: `dotnet build B2X.slnx` ✅
+- [ ] All tests pass: `dotnet test B2X.slnx` ✅
 - [ ] Coverage >= 80%: `--collect:"XPlat Code Coverage"` ✅
 - [ ] No hardcoded secrets ✅
 - [ ] Agent changes marked: `// 🤖` ✅
@@ -220,7 +220,7 @@ SLA:
 
 ### If local build fails:
 ```
-1. dotnet build B2Connect.slnx
+1. dotnet build B2X.slnx
 2. Read error message carefully
 3. Fix the issue
 4. Re-run dotnet build

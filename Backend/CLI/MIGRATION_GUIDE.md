@@ -1,7 +1,7 @@
-# B2Connect CLI Migration Guide
+﻿# B2X CLI Migration Guide
 
-**From:** `B2Connect.CLI` (Unified CLI)  
-**To:** Specialized CLI Tools (`B2Connect.CLI.Operations` + `B2Connect.CLI.Administration`)  
+**From:** `B2X.CLI` (Unified CLI)  
+**To:** Specialized CLI Tools (`B2X.CLI.Operations` + `B2X.CLI.Administration`)  
 **Migration Deadline:** v3.0.0 (Q2 2026)
 
 ---
@@ -21,7 +21,7 @@
 
 ## Why Migrate?
 
-The unified `B2Connect.CLI` has been deprecated due to:
+The unified `B2X.CLI` has been deprecated due to:
 
 ### Security Concerns
 - Mixed platform operations and tenant administration in single tool
@@ -41,26 +41,26 @@ The unified `B2Connect.CLI` has been deprecated due to:
 
 ```bash
 # Uninstall old CLI
-dotnet tool uninstall -g B2Connect.CLI
+dotnet tool uninstall -g B2X.CLI
 
 # Install Operations CLI
-dotnet tool install -g B2Connect.CLI.Operations
+dotnet tool install -g B2X.CLI.Operations
 
 # Verify installation
-b2connect-ops --help
+B2X-ops --help
 ```
 
 ### For Tenant Administrators
 
 ```bash
 # Uninstall old CLI
-dotnet tool uninstall -g B2Connect.CLI
+dotnet tool uninstall -g B2X.CLI
 
 # Install Administration CLI
-dotnet tool install -g B2Connect.CLI.Administration
+dotnet tool install -g B2X.CLI.Administration
 
 # Verify installation
-b2connect-admin --help
+B2X-admin --help
 ```
 
 ---
@@ -68,45 +68,45 @@ b2connect-admin --help
 ## Command Mapping
 
 ### Authentication & User Management
-→ **Migrate to:** `B2Connect.CLI.Administration`
+→ **Migrate to:** `B2X.CLI.Administration`
 
 | Old Command | New Command |
 |-------------|-------------|
-| `b2connect auth create-user` | `b2connect-admin auth create-user` |
-| `b2connect auth login` | `b2connect-admin auth login` |
+| `B2X auth create-user` | `B2X-admin auth create-user` |
+| `B2X auth login` | `B2X-admin auth login` |
 
 ### Tenant Management
-→ **Migrate to:** `B2Connect.CLI.Administration`
+→ **Migrate to:** `B2X.CLI.Administration`
 
 | Old Command | New Command |
 |-------------|-------------|
-| `b2connect tenant create` | `b2connect-admin tenant create` |
+| `B2X tenant create` | `B2X-admin tenant create` |
 
 ### Catalog Operations
-→ **Migrate to:** `B2Connect.CLI.Administration`
+→ **Migrate to:** `B2X.CLI.Administration`
 
 | Old Command | New Command |
 |-------------|-------------|
-| `b2connect catalog import` | `b2connect-admin catalog import` |
-| `b2connect catalog export` | `b2connect-admin catalog export` |
+| `B2X catalog import` | `B2X-admin catalog import` |
+| `B2X catalog export` | `B2X-admin catalog export` |
 
 ### System Operations
-→ **Migrate to:** `B2Connect.CLI.Operations`
+→ **Migrate to:** `B2X.CLI.Operations`
 
 | Old Command | New Command |
 |-------------|-------------|
-| `b2connect system status` | `b2connect-ops health check` |
-| `b2connect system health-check` | `b2connect-ops health check` |
+| `B2X system status` | `B2X-ops health check` |
+| `B2X system health-check` | `B2X-ops health check` |
 
 ### Monitoring
-→ **Migrate to:** `B2Connect.CLI.Operations`
+→ **Migrate to:** `B2X.CLI.Operations`
 
 | Old Command | New Command |
 |-------------|-------------|
-| `b2connect monitoring register-service` | `b2connect-ops monitoring register` |
-| `b2connect monitoring test-connectivity` | `b2connect-ops health connectivity` |
-| `b2connect monitoring service-status` | `b2connect-ops monitoring status` |
-| `b2connect monitoring alerts` | `b2connect-ops monitoring alerts` |
+| `B2X monitoring register-service` | `B2X-ops monitoring register` |
+| `B2X monitoring test-connectivity` | `B2X-ops health connectivity` |
+| `B2X monitoring service-status` | `B2X-ops monitoring status` |
+| `B2X monitoring alerts` | `B2X-ops monitoring alerts` |
 
 ---
 
@@ -116,18 +116,18 @@ b2connect-admin --help
 
 **Are you a Platform Operator or Tenant Administrator?**
 
-- **Platform Operator (DevOps/SRE):** Install `B2Connect.CLI.Operations`
-- **Tenant Administrator:** Install `B2Connect.CLI.Administration`
+- **Platform Operator (DevOps/SRE):** Install `B2X.CLI.Operations`
+- **Tenant Administrator:** Install `B2X.CLI.Administration`
 - **Both roles:** Install both CLIs
 
 ### Step 2: Install New CLI(s)
 
 ```bash
 # For platform operators
-dotnet tool install -g B2Connect.CLI.Operations
+dotnet tool install -g B2X.CLI.Operations
 
 # For tenant administrators
-dotnet tool install -g B2Connect.CLI.Administration
+dotnet tool install -g B2X.CLI.Administration
 ```
 
 ### Step 3: Update Scripts
@@ -137,14 +137,14 @@ dotnet tool install -g B2Connect.CLI.Administration
 ```bash
 # Before
 #!/bin/bash
-b2connect auth create-user \
+B2X auth create-user \
   --email john@company.com \
   --password SecureP@ss123 \
   --role admin
 
 # After
 #!/bin/bash
-b2connect-admin auth create-user \
+B2X-admin auth create-user \
   --email john@company.com \
   --password SecureP@ss123 \
   --role admin
@@ -155,35 +155,35 @@ b2connect-admin auth create-user \
 **Operations CLI:**
 ```bash
 # Before
-export B2CONNECT_TOKEN="your-token"
+export B2X_TOKEN="your-token"
 
 # After
-export B2CONNECT_OPS_TOKEN="cluster-admin-token"
+export B2X_OPS_TOKEN="cluster-admin-token"
 ```
 
 **Administration CLI:**
 ```bash
 # Before
-export B2CONNECT_TOKEN="your-token"
+export B2X_TOKEN="your-token"
 
 # After
-export B2CONNECT_TENANT_TOKEN="tenant-scoped-api-key"
+export B2X_TENANT_TOKEN="tenant-scoped-api-key"
 ```
 
 ### Step 5: Test
 
 ```bash
 # Test Operations CLI
-b2connect-ops health check
+B2X-ops health check
 
 # Test Administration CLI
-b2connect-admin auth login --email admin@example.com
+B2X-admin auth login --email admin@example.com
 ```
 
 ### Step 6: Uninstall Old CLI
 
 ```bash
-dotnet tool uninstall -g B2Connect.CLI
+dotnet tool uninstall -g B2X.CLI
 ```
 
 ---
@@ -202,7 +202,7 @@ We provide an automated migration script that:
 
 ```bash
 # Download migration script
-curl -o migrate-cli.sh https://raw.githubusercontent.com/b2connect/cli/main/scripts/migrate-cli.sh
+curl -o migrate-cli.sh https://raw.githubusercontent.com/B2X/cli/main/scripts/migrate-cli.sh
 
 # Make executable
 chmod +x migrate-cli.sh
@@ -231,43 +231,43 @@ chmod +x migrate-cli.sh
 **Before:**
 ```yaml
 - name: Install CLI
-  run: dotnet tool install -g B2Connect.CLI
+  run: dotnet tool install -g B2X.CLI
 
 - name: Create Tenant
-  run: b2connect tenant create --name "Test Tenant"
+  run: B2X tenant create --name "Test Tenant"
 ```
 
 **After:**
 ```yaml
 - name: Install Administration CLI
-  run: dotnet tool install -g B2Connect.CLI.Administration
+  run: dotnet tool install -g B2X.CLI.Administration
 
 - name: Create Tenant
-  run: b2connect-admin tenant create --name "Test Tenant"
+  run: B2X-admin tenant create --name "Test Tenant"
   env:
-    B2CONNECT_TENANT_TOKEN: ${{ secrets.TENANT_API_KEY }}
+    B2X_TENANT_TOKEN: ${{ secrets.TENANT_API_KEY }}
 ```
 
 ### Azure DevOps
 
 **Before:**
 ```yaml
-- script: dotnet tool install -g B2Connect.CLI
+- script: dotnet tool install -g B2X.CLI
   displayName: 'Install CLI'
 
-- script: b2connect system status
+- script: B2X system status
   displayName: 'Check System Status'
 ```
 
 **After:**
 ```yaml
-- script: dotnet tool install -g B2Connect.CLI.Operations
+- script: dotnet tool install -g B2X.CLI.Operations
   displayName: 'Install Operations CLI'
 
-- script: b2connect-ops health check
+- script: B2X-ops health check
   displayName: 'Check System Health'
   env:
-    B2CONNECT_OPS_TOKEN: $(OpsToken)
+    B2X_OPS_TOKEN: $(OpsToken)
 ```
 
 ### GitLab CI
@@ -276,18 +276,18 @@ chmod +x migrate-cli.sh
 ```yaml
 deploy:
   script:
-    - dotnet tool install -g B2Connect.CLI
-    - b2connect system status
+    - dotnet tool install -g B2X.CLI
+    - B2X system status
 ```
 
 **After:**
 ```yaml
 deploy:
   script:
-    - dotnet tool install -g B2Connect.CLI.Operations
-    - b2connect-ops health check
+    - dotnet tool install -g B2X.CLI.Operations
+    - B2X-ops health check
   variables:
-    B2CONNECT_OPS_TOKEN: $OPS_TOKEN
+    B2X_OPS_TOKEN: $OPS_TOKEN
 ```
 
 ---
@@ -302,7 +302,7 @@ deploy:
 dotnet tool list -g
 
 # Reinstall if missing
-dotnet tool install -g B2Connect.CLI.Administration
+dotnet tool install -g B2X.CLI.Administration
 ```
 
 ### Issue: Authentication errors with new CLI
@@ -312,10 +312,10 @@ dotnet tool install -g B2Connect.CLI.Administration
 **Solution:**
 ```bash
 # Operations CLI uses different token
-export B2CONNECT_OPS_TOKEN="your-cluster-admin-token"
+export B2X_OPS_TOKEN="your-cluster-admin-token"
 
 # Administration CLI uses tenant-scoped token
-export B2CONNECT_TENANT_TOKEN="your-tenant-api-key"
+export B2X_TENANT_TOKEN="your-tenant-api-key"
 ```
 
 ### Issue: Scripts fail after migration
@@ -327,8 +327,8 @@ export B2CONNECT_TENANT_TOKEN="your-tenant-api-key"
 ### Issue: Need both CLIs but getting conflicts
 
 **Solution:** Both CLIs can coexist. They use different executable names:
-- Operations: `b2connect-ops`
-- Administration: `b2connect-admin`
+- Operations: `B2X-ops`
+- Administration: `B2X-admin`
 
 ---
 
@@ -359,29 +359,29 @@ export B2CONNECT_TENANT_TOKEN="your-tenant-api-key"
 
 ### Q: What about my configuration files?
 
-**A:** The new CLIs use the same configuration format from `B2Connect.CLI.Shared`. Your existing `~/.b2connect/config.json` will work with both new CLIs.
+**A:** The new CLIs use the same configuration format from `B2X.CLI.Shared`. Your existing `~/.B2X/config.json` will work with both new CLIs.
 
 ### Q: How do I report migration issues?
 
-**A:** Open an issue on GitHub: https://github.com/b2connect/cli/issues
+**A:** Open an issue on GitHub: https://github.com/B2X/cli/issues
 
 ### Q: Can I run both old and new CLIs simultaneously?
 
-**A:** Yes, during the migration period. The old CLI executable is `b2connect`, while the new ones are `b2connect-ops` and `b2connect-admin`.
+**A:** Yes, during the migration period. The old CLI executable is `B2X`, while the new ones are `B2X-ops` and `B2X-admin`.
 
 ---
 
 ## Support
 
 ### Documentation
-- **Operations CLI:** https://docs.b2connect.com/cli/operations
-- **Administration CLI:** https://docs.b2connect.com/cli/administration
-- **Migration Help:** https://docs.b2connect.com/cli/migration
+- **Operations CLI:** https://docs.B2X.com/cli/operations
+- **Administration CLI:** https://docs.B2X.com/cli/administration
+- **Migration Help:** https://docs.B2X.com/cli/migration
 
 ### Getting Help
-- **GitHub Issues:** https://github.com/b2connect/cli/issues
+- **GitHub Issues:** https://github.com/B2X/cli/issues
 - **Slack:** #cli-support (internal)
-- **Email:** support@b2connect.com
+- **Email:** support@B2X.com
 
 ---
 

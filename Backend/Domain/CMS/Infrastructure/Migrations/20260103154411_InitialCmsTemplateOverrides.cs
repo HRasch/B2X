@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace B2Connect.CMS.Infrastructure.Migrations;
+namespace B2X.CMS.Infrastructure.Migrations;
 
 /// <inheritdoc />
 public partial class InitialCmsTemplateOverrides : Migration

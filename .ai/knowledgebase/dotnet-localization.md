@@ -1,3 +1,11 @@
+---
+docid: KB-113
+title: Dotnet Localization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 
 Title: ASP.NET Core Localization & Globalization — summary
 Source: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization

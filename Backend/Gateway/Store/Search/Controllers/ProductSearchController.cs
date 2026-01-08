@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Elastic.Clients.Elasticsearch;
@@ -6,11 +6,11 @@ using Elastic.Clients.Elasticsearch.QueryDsl;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using B2Connect.SearchService.Models;
+using B2X.SearchService.Models;
 using System.Text.Json;
 using System.Diagnostics;
 
-namespace B2Connect.SearchService.Controllers
+namespace B2X.SearchService.Controllers
 {
     /// <summary>
     /// API endpoints for product search and catalog browsing

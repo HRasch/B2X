@@ -1,6 +1,6 @@
-{
+﻿{
   "profiles": {
-    "B2Connect.Store": {
+    "B2X.Store": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

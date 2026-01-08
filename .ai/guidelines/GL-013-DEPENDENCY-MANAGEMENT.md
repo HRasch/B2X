@@ -1,4 +1,12 @@
 ---
+docid: GL-076
+title: GL 013 DEPENDENCY MANAGEMENT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: GL-013
 title: Dependency Management Policy
 owner: "@TechLead"
@@ -15,7 +23,7 @@ status: Active
 
 ## Purpose
 
-Establish consistent dependency management across B2Connect to prevent version drift, security vulnerabilities, and breaking changes.
+Establish consistent dependency management across B2X to prevent version drift, security vulnerabilities, and breaking changes.
 
 ---
 
@@ -118,6 +126,15 @@ These require manual migration planning:
 ---
 
 ## Workflow
+
+### Dependency Update Process
+
+When performing dependency updates (whether automated via Dependabot or manual):
+
+- Always check the internet for the latest available version using official package registries (npm, NuGet, etc.)
+- Verify version compatibility with current codebase
+- Review changelog/release notes for breaking changes
+- Test thoroughly before merging
 
 ### Weekly Dependency Review
 

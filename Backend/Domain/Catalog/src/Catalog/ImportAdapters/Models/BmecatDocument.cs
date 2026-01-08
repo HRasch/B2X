@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace B2Connect.Catalog.ImportAdapters.Models;
+namespace B2X.Catalog.ImportAdapters.Models;
 
 /// <summary>
 /// BMEcat XML document model for deserialization.

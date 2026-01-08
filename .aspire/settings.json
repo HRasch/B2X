@@ -1,3 +1,3 @@
-{
-  "appHostPath": "../backend/services/Orchestration/B2Connect.Orchestration.csproj"
+﻿{
+  "appHostPath": "../backend/services/Orchestration/B2X.Orchestration.csproj"
 }

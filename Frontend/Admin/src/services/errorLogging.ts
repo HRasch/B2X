@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Production Error Logging Service
  *
  * Captures, logs, and reports errors in production for easy debugging.
@@ -331,7 +331,7 @@ class ErrorLoggingService {
 
     // Persist to localStorage for crash recovery
     try {
-      localStorage.setItem('b2connect_error_queue', JSON.stringify(this.errorQueue.slice(-20)));
+      localStorage.setItem('B2X_error_queue', JSON.stringify(this.errorQueue.slice(-20)));
     } catch {
       // localStorage might be full or unavailable
     }

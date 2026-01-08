@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace B2Connect.ERP.Abstractions;
+namespace B2X.ERP.Abstractions;
 
 // Enums matching eGate patterns
 public enum ArticleState

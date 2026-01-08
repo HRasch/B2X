@@ -1,4 +1,4 @@
-# CQRS Implementation - Schnell-Referenz & Nächste Schritte
+﻿# CQRS Implementation - Schnell-Referenz & Nächste Schritte
 
 **Status**: ✅ ProductsController CQRS Implementation Complete  
 **Date**: 27. Dezember 2025
@@ -22,7 +22,7 @@ builder.Host.UseWolverine(opts =>
 {
     // Handler-Discovery
     opts.Handlers.DiscoverHandlersFromAssemblyContaining<
-        B2Connect.Admin.Application.Handlers.Products.CreateProductHandler>();
+        B2X.Admin.Application.Handlers.Products.CreateProductHandler>();
 });
 
 // Im builder.Services Section:
@@ -33,11 +33,11 @@ builder.Services.AddWolverine();
 
 ```bash
 # Build
-cd /Users/holger/Documents/Projekte/B2Connect
-dotnet build B2Connect.slnx
+cd /Users/holger/Documents/Projekte/B2X
+dotnet build B2X.slnx
 
 # Run Admin API
-dotnet run --project backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj
+dotnet run --project backend/BoundedContexts/Admin/API/B2X.Admin.csproj
 
 # Test Endpoint (in anderem Terminal)
 curl -H "X-Tenant-ID: 00000000-0000-0000-0000-000000000001" \
@@ -70,7 +70,7 @@ Die folgenden Methoden **müssen** in `IProductRepository` + `ProductRepository`
 ```csharp
 // In Core/Interfaces/IProductRepository.cs
 
-namespace B2Connect.Admin.Core.Interfaces;
+namespace B2X.Admin.Core.Interfaces;
 
 public interface IProductRepository
 {
@@ -295,10 +295,10 @@ var wolverine = serviceProvider.GetRequiredService<IMessageBus>();
 
 ```bash
 # 1. Build
-dotnet build backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj
+dotnet build backend/BoundedContexts/Admin/API/B2X.Admin.csproj
 
 # 2. Run
-dotnet run --project backend/BoundedContexts/Admin/API/B2Connect.Admin.csproj &
+dotnet run --project backend/BoundedContexts/Admin/API/B2X.Admin.csproj &
 
 # 3. Test GET (needs TenantId header!)
 curl -H "X-Tenant-ID: 00000000-0000-0000-0000-000000000001" \

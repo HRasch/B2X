@@ -1,8 +1,8 @@
-using B2Connect.Domain.Search.Models;
-using B2Connect.Domain.Search.Services;
+﻿using B2X.Domain.Search.Models;
+using B2X.Domain.Search.Services;
 using Microsoft.Extensions.Configuration;
 
-namespace B2Connect.Services.Search.Services;
+namespace B2X.Services.Search.Services;
 
 public interface ICatalogIndexer
 {

@@ -1,4 +1,4 @@
-# API Endpoints: Price Calculation & VAT Validation
+﻿# API Endpoints: Price Calculation & VAT Validation
 
 **Version**: 1.0  
 **Last Updated**: 29. Dezember 2025  
@@ -9,7 +9,7 @@
 
 ## Overview
 
-B2Connect provides two core API endpoints for price and VAT management:
+B2X provides two core API endpoints for price and VAT management:
 
 1. **Price Calculation API** - Calculate VAT-transparent pricing for B2C customers (19 EU countries)
 2. **VAT-ID Validation API** - Validate B2B customer VAT-IDs and determine reverse charge applicability

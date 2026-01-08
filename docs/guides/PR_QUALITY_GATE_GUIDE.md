@@ -1,4 +1,4 @@
-# PR Quality Gate - Quick Start Guide
+﻿# PR Quality Gate - Quick Start Guide
 
 **Date**: 2. Januar 2026  
 **Status**: ✅ Ready for Use  
@@ -25,7 +25,7 @@ We now have **automated PR quality gates** that ensure:
 **1. Run tests locally**:
 ```bash
 # Backend
-dotnet test B2Connect.slnx
+dotnet test B2X.slnx
 
 # Frontend
 cd frontend/Store && npm run test

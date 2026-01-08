@@ -1,4 +1,4 @@
-global:
+﻿global:
   scrape_interval: 15s
   evaluation_interval: 15s
 
@@ -16,27 +16,31 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
+  - job_name: 'pushgateway'
+    static_configs:
+      - targets: ['pushgateway:9091']
+
   - job_name: 'aspire-dashboard'
     static_configs:
       - targets: ['host.docker.internal:18888']
     scrape_interval: 30s
 
-  - job_name: 'b2connect-services'
+  - job_name: 'B2X-services'
     dns_sd_configs:
       - names:
-          - 'b2connect-identity-service'
-          - 'b2connect-catalog-service'
-          - 'b2connect-cms-service'
-          - 'b2connect-localization-service'
-          - 'b2connect-search-service'
-          - 'b2connect-store-gateway'
-          - 'b2connect-admin-gateway'
+          - 'B2X-identity-service'
+          - 'B2X-catalog-service'
+          - 'B2X-cms-service'
+          - 'B2X-localization-service'
+          - 'B2X-search-service'
+          - 'B2X-store-gateway'
+          - 'B2X-admin-gateway'
         type: 'A'
         port: 80
     relabel_configs:
       - source_labels: [__meta_dns_name]
         target_label: service_name
-        regex: 'b2connect-(.*)'
+        regex: 'B2X-(.*)'
         replacement: '${1}'
 
   - job_name: 'infrastructure'

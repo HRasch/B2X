@@ -1,6 +1,6 @@
-using B2Connect.ThemeService.Models;
+using B2X.ThemeService.Models;
 
-namespace B2Connect.ThemeService.Services;
+namespace B2X.ThemeService.Services;
 
 /// <summary>
 /// Theme Service - Business logic for theme management

@@ -1,6 +1,6 @@
-# E2E Tests für Admin Frontend
+﻿# E2E Tests für Admin Frontend
 
-Umfassende End-to-End Tests für das B2Connect Admin Frontend mit Playwright.
+Umfassende End-to-End Tests für das B2X Admin Frontend mit Playwright.
 
 ## Test-Übersicht
 

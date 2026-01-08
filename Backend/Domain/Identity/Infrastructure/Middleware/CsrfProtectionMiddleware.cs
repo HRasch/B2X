@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace B2Connect.Identity.Infrastructure.Middleware;
+namespace B2X.Identity.Infrastructure.Middleware;
 
 /// <summary>
 /// CSRF Protection Middleware

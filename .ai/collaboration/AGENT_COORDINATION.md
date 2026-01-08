@@ -1,3 +1,11 @@
+---
+docid: COLLAB-007
+title: AGENT_COORDINATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent Coordination Framework
 
 ## Überblick

@@ -1,4 +1,12 @@
-# REQ-007: Email WYSIWYG Builder with Drag & Drop
+---
+docid: REQ-058
+title: REQ 007 Email Wysiwyg Builder
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# REQ-007: Email WYSIWYG Builder with Drag & Drop
 
 **DocID**: `REQ-007`  
 **Status**: Draft  
@@ -178,7 +186,7 @@ Enhance the email template editor with a WYSIWYG (What You See Is What You Get) 
 - Styling needs customization for brand consistency
 - Learning curve for advanced customization
 
-**Recommendation:** ⭐ Best fit for B2Connect
+**Recommendation:** ⭐ Best fit for B2X
 
 #### Option 2: Unlayer (Commercial)
 **Pros:**
@@ -206,7 +214,7 @@ Enhance the email template editor with a WYSIWYG (What You See Is What You Get) 
 #### Option 4: Custom Builder (Build from Scratch)
 **Pros:**
 - Full control
-- Perfect integration with B2Connect
+- Perfect integration with B2X
 - No licensing costs
 
 **Cons:**
@@ -253,10 +261,10 @@ src/components/email/
 - [ ] Basic widget library (text, image, button, divider)
 
 ### Phase 3: Custom Widgets (1 week)
-- [ ] B2Connect-specific widgets (product grid, customer info)
+- [ ] B2X-specific widgets (product grid, customer info)
 - [ ] Liquid variable insertion UI
 - [ ] Brand color palette integration
-- [ ] Custom fonts from B2Connect theme
+- [ ] Custom fonts from B2X theme
 
 ### Phase 4: Polish & UX (1 week)
 - [ ] Multilingual support (i18n)

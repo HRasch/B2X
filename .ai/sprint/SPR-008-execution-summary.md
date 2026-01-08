@@ -1,3 +1,11 @@
+---
+docid: SPR-087
+title: SPR 008 Execution Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-008: Sprint Execution Summary - User Experience Enhancements & Feedback Systems
 
 ## Sprint Overview

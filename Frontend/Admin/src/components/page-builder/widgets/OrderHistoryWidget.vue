@@ -10,10 +10,6 @@ const props = defineProps<{
   isEditing?: boolean;
 }>();
 
-const emit = defineEmits<{
-  (e: 'update:config', config: OrderHistoryWidgetConfig): void;
-}>();
-
 const searchQuery = ref('');
 const statusFilter = ref('all');
 
@@ -96,7 +92,7 @@ function getStatusClass(status: string): string {
 <template>
   <div :class="['order-history', { 'order-history--editing': isEditing }]">
     <div class="order-history__header">
-      <h2 class="order-history__title">Meine Bestellungen</h2>
+      <h2 class="order-history__title">{{ $t('pageBuilder.orderHistory.title') }}</h2>
     </div>
 
     <!-- Filters -->
@@ -190,14 +186,20 @@ function getStatusClass(status: string): string {
         1-{{ mockOrders.length }} von {{ mockOrders.length }} Bestellungen
       </span>
       <div class="order-history__pagination-btns">
-        <button class="order-history__pagination-btn" disabled>Zurück</button>
-        <button class="order-history__pagination-btn" disabled>Weiter</button>
+        <button class="order-history__pagination-btn" disabled>
+          {{ $t('pageBuilder.orderHistory.previous') }}
+        </button>
+        <button class="order-history__pagination-btn" disabled>
+          {{ $t('pageBuilder.orderHistory.next') }}
+        </button>
       </div>
     </div>
 
     <!-- Edit Mode Indicator -->
     <div v-if="isEditing" class="order-history__edit-hint">
-      <span>Bestellhistorie Widget - {{ config.ordersPerPage ?? 10 }} Einträge pro Seite</span>
+      <span>{{
+        $t('pageBuilder.orderHistory.editHint', { count: config.ordersPerPage ?? 10 })
+      }}</span>
     </div>
   </div>
 </template>

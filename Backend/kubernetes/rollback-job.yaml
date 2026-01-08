@@ -1,14 +1,14 @@
----
-# B2Connect Rollback Job
+﻿---
+# B2X Rollback Job
 # Kubernetes Job for automated rollback operations
 
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: b2connect-rollback-job
-  namespace: b2connect
+  name: B2X-rollback-job
+  namespace: B2X
   labels:
-    app: b2connect
+    app: B2X
     component: rollback
 spec:
   backoffLimit: 0  # Don't retry on failure
@@ -16,10 +16,10 @@ spec:
   template:
     metadata:
       labels:
-        app: b2connect
+        app: B2X
         component: rollback
     spec:
-      serviceAccountName: b2connect-deployer
+      serviceAccountName: B2X-deployer
       containers:
       - name: rollback
         image: bitnami/kubectl:latest
@@ -33,14 +33,14 @@ spec:
           echo "Starting rollback job..."
 
           # Get current deployment info
-          CURRENT_DEPLOYMENT=$(kubectl get deployment -l stable=true -n b2connect -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || echo "b2connect-blue")
+          CURRENT_DEPLOYMENT=$(kubectl get deployment -l stable=true -n B2X -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || echo "B2X-blue")
 
-          if [ "$CURRENT_DEPLOYMENT" = "b2connect-blue" ]; then
-            ROLLBACK_TO="b2connect-green"
+          if [ "$CURRENT_DEPLOYMENT" = "B2X-blue" ]; then
+            ROLLBACK_TO="B2X-green"
             NEW_STABLE="green"
             OLD_STABLE="blue"
           else
-            ROLLBACK_TO="b2connect-blue"
+            ROLLBACK_TO="B2X-blue"
             NEW_STABLE="blue"
             OLD_STABLE="green"
           fi
@@ -48,18 +48,18 @@ spec:
           echo "Rolling back from $CURRENT_DEPLOYMENT to $ROLLBACK_TO"
 
           # Switch traffic to rollback deployment
-          kubectl patch service b2connect-api-gateway -n b2connect --type='json' -p='[{"op": "replace", "path": "/spec/selector/color", "value": "'$NEW_STABLE'"}]'
-          kubectl patch service b2connect-frontend -n b2connect --type='json' -p='[{"op": "replace", "path": "/spec/selector/color", "value": "'$NEW_STABLE'"}]'
+          kubectl patch service B2X-api-gateway -n B2X --type='json' -p='[{"op": "replace", "path": "/spec/selector/color", "value": "'$NEW_STABLE'"}]'
+          kubectl patch service B2X-frontend -n B2X --type='json' -p='[{"op": "replace", "path": "/spec/selector/color", "value": "'$NEW_STABLE'"}]'
 
           # Update stable labels
-          kubectl label deployment $ROLLBACK_TO stable=true --overwrite -n b2connect
-          kubectl label deployment $CURRENT_DEPLOYMENT stable=false --overwrite -n b2connect
+          kubectl label deployment $ROLLBACK_TO stable=true --overwrite -n B2X
+          kubectl label deployment $CURRENT_DEPLOYMENT stable=false --overwrite -n B2X
 
           # Wait for traffic to stabilize
           sleep 30
 
           # Validate rollback
-          if kubectl exec -n b2connect deployment/$ROLLBACK_TO -- curl -f http://localhost/health; then
+          if kubectl exec -n B2X deployment/$ROLLBACK_TO -- curl -f http://localhost/health; then
             echo "Rollback validation successful"
 
             # Send success notification (would integrate with notification system)
@@ -93,16 +93,16 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: b2connect-deployer
-  namespace: b2connect
+  name: B2X-deployer
+  namespace: B2X
 
 ---
 # Role for Deployment Operations
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: b2connect-deployer-role
-  namespace: b2connect
+  name: B2X-deployer-role
+  namespace: B2X
 rules:
 - apiGroups: ["apps"]
   resources: ["deployments", "replicasets"]
@@ -119,13 +119,13 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: b2connect-deployer-binding
-  namespace: b2connect
+  name: B2X-deployer-binding
+  namespace: B2X
 subjects:
 - kind: ServiceAccount
-  name: b2connect-deployer
-  namespace: b2connect
+  name: B2X-deployer
+  namespace: B2X
 roleRef:
   kind: Role
-  name: b2connect-deployer-role
+  name: B2X-deployer-role
   apiGroup: rbac.authorization.k8s.io

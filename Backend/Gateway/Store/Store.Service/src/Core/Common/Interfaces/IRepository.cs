@@ -1,4 +1,4 @@
-namespace B2Connect.Store.Core.Common.Interfaces;
+﻿namespace B2X.Store.Core.Common.Interfaces;
 
 /// <summary>
 /// Generic repository interface for database operations

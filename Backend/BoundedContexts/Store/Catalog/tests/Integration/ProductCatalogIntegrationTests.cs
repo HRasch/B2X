@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.Catalog.Tests.Integration;
+namespace B2X.Catalog.Tests.Integration;
 
 /// <summary>
 /// Integration tests for Product API endpoints

@@ -1,4 +1,12 @@
-# ADR-026: ERP Connector Startup Performance Optimization
+---
+docid: ADR-064
+title: ADR 026 Erp Startup Performance Optimization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-026: ERP Connector Startup Performance Optimization
 
 **Status**: Proposed  
 **Date**: 2026-01-03  
@@ -347,9 +355,9 @@ public IFSGlobalObjects GetGlobal() => GetGlobalAsync().GetAwaiter().GetResult()
 
 ## References
 
-- [EnventaGlobalPool.cs](../../erp-connector/src/B2Connect.ErpConnector/Infrastructure/Erp/EnventaGlobalPool.cs)
-- [EnventaGlobalFactory.cs](../../erp-connector/src/B2Connect.ErpConnector/Infrastructure/Erp/EnventaGlobalFactory.cs)
-- [ErpConnectorService.cs](../../erp-connector/src/B2Connect.ErpConnector/ErpConnectorService.cs)
+- [EnventaGlobalPool.cs](../../erp-connector/src/B2X.ErpConnector/Infrastructure/Erp/EnventaGlobalPool.cs)
+- [EnventaGlobalFactory.cs](../../erp-connector/src/B2X.ErpConnector/Infrastructure/Erp/EnventaGlobalFactory.cs)
+- [ErpConnectorService.cs](../../erp-connector/src/B2X.ErpConnector/ErpConnectorService.cs)
 - [ADR-023] ERP Plugin Architecture
 - [KB-021] enventa Trade ERP
 - eGate Reference: FSGlobalPool, FSGlobalFactory patterns

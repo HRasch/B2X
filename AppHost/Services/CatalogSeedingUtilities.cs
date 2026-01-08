@@ -1,7 +1,7 @@
-using B2Connect.AppHost.Configuration;
 using System.Net.Http.Json;
+using B2X.AppHost.Configuration;
 
-namespace B2Connect.AppHost.Services;
+namespace B2X.AppHost.Services;
 
 /// <summary>
 /// Utilities for seeding catalog data in test environments.
@@ -30,7 +30,7 @@ public static class CatalogSeedingUtilities
 
         foreach (var tenantId in TestDataContext.Current.GetAllTenantIds())
         {
-            await SeedCatalogForTenantAsync(catalogServiceClient, tenantId, productCount, cancellationToken);
+            await SeedCatalogForTenantAsync(catalogServiceClient, tenantId, productCount, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -55,16 +55,16 @@ public static class CatalogSeedingUtilities
             CreatedBy = "TestDataOrchestrator"
         };
 
-        var response = await client.PostAsJsonAsync("/api/catalog/seed", request, cancellationToken);
+        var response = await client.PostAsJsonAsync("/api/catalog/seed", request, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             throw new InvalidOperationException(
                 $"Failed to seed catalog for tenant {tenantId}: {response.StatusCode} - {errorContent}");
         }
 
-        var result = await response.Content.ReadFromJsonAsync<CatalogSeedingResponse>(cancellationToken: cancellationToken);
+        var result = await response.Content.ReadFromJsonAsync<CatalogSeedingResponse>(cancellationToken: cancellationToken).ConfigureAwait(false);
         if (result != null && result.ProductIds != null)
         {
             // Store product IDs for later reference
@@ -87,7 +87,7 @@ public static class CatalogSeedingUtilities
 
         foreach (var tenantId in TestDataContext.Current.GetAllTenantIds())
         {
-            await ResetCatalogForTenantAsync(catalogServiceClient, tenantId, cancellationToken);
+            await ResetCatalogForTenantAsync(catalogServiceClient, tenantId, cancellationToken).ConfigureAwait(false);
         }
 
         // Clear product references
@@ -107,11 +107,11 @@ public static class CatalogSeedingUtilities
     {
         try
         {
-            var response = await client.DeleteAsync($"/api/catalog/seed/{tenantId}", cancellationToken);
+            var response = await client.DeleteAsync($"/api/catalog/seed/{tenantId}", cancellationToken).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode && response.StatusCode != System.Net.HttpStatusCode.NotFound)
             {
-                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                var errorContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                 // Log warning but don't fail - catalog might not exist
                 Console.WriteLine($"Warning: Failed to reset catalog for tenant {tenantId}: {response.StatusCode} - {errorContent}");
             }

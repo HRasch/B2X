@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using B2Connect.SmartDataIntegration.Models;
+using B2X.SmartDataIntegration.Models;
 
-namespace B2Connect.SmartDataIntegration.Services
+namespace B2X.SmartDataIntegration.Services
 {
     /// <summary>
     /// Interface for validating data mapping configurations and executions

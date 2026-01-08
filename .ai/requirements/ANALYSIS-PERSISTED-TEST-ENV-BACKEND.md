@@ -1,4 +1,12 @@
 ---
+docid: REQ-037
+title: ANALYSIS PERSISTED TEST ENV BACKEND
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ANALYSIS-PERSISTED-TEST-ENV-BACKEND
 title: Persisted Test Environment - Backend Analysis
 owner: @Backend
@@ -17,7 +25,7 @@ related: REQ-PERSISTED-TEST-ENVIRONMENT.md
 
 ## Executive Summary
 
-The B2Connect backend is **well-positioned** to support persisted test environments. Current architecture already supports:
+The B2X backend is **well-positioned** to support persisted test environments. Current architecture already supports:
 - Configuration-driven storage selection (`Database:Provider` setting)
 - Existing in-memory and PostgreSQL support
 - Multiple independent bounded contexts with separate databases
@@ -469,7 +477,7 @@ public class CreateTenantRequest
 # appsettings.CI.json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=postgres-test;Database=b2connect_ci;User=test;Password=test;"
+    "DefaultConnection": "Server=postgres-test;Database=B2X_ci;User=test;Password=test;"
   },
   "Testing": {
     "Mode": "persisted",
@@ -492,7 +500,7 @@ public class CreateTenantRequest
 ### Access Control
 - [ ] Test-only endpoints protected by `[Environment("Testing")]` attribute
 - [ ] Tenant creation limited to SuperAdmin role
-- [ ] Test tokens issued with `aud="b2connect-test"` claim
+- [ ] Test tokens issued with `aud="B2X-test"` claim
 
 ### Database Isolation
 - [ ] Test databases separate from production

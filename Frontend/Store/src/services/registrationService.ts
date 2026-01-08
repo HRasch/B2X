@@ -1,9 +1,9 @@
-/**
+﻿/**
  * Registration API Service
  * Story 8: Check Customer Registration Type
  *
  * Calls Wolverine HTTP endpoint: POST /checkregistrationtype
- * Location: B2Connect.Identity.API on port 7002
+ * Location: B2X.Identity.API on port 7002
  */
 
 import axios from 'axios';

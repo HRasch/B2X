@@ -1,4 +1,12 @@
-# enventa Trade ERP - Integration Guide
+---
+docid: KB-115
+title: Enventa Trade Erp
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# enventa Trade ERP - Integration Guide
 
 **DocID**: `KB-021`  
 **Owner**: @Enventa  
@@ -222,13 +230,13 @@ public class EnventaConnectionPool
 - **Batch size**: 1000 records per transaction
 - **Connection pooling**: 1 connection per tenant (single-threaded)
 
-## B2Connect Integration Architecture
+## B2X Integration Architecture
 
 ### Communication Strategy
 
 ```
 ┌──────────────┐       gRPC        ┌──────────────────────┐
-│  B2Connect   │◄──────────────────►│  enventa Provider    │
+│  B2X   │◄──────────────────►│  enventa Provider    │
 │  (.NET 10)   │    Streaming       │  (.NET Fwk 4.8)      │
 └──────────────┘                    └──────────────────────┘
        │                                      │
@@ -478,7 +486,7 @@ await _erpActor.ExecuteAsync(async () =>
 
 ## Data Model Mappings
 
-| enventa Model | B2Connect Model | Notes |
+| enventa Model | B2X Model | Notes |
 |---------------|-----------------|-------|
 | `IcECArticle` | `PimProduct` | Product master data |
 | `NVKunde` | `CrmCustomer` | Customer information |
@@ -766,7 +774,7 @@ _logger.LogInformation("ERP operation: {Operation} took {Duration}ms",
 🚧 **In Progress:**
 - Actual gRPC client implementations (currently throw `NotImplementedException`)
 - enventa adapter service (.NET Framework 4.8 container)
-- Concrete data model mappings (enventa → B2Connect)
+- Concrete data model mappings (enventa → B2X)
 
 📋 **Planned:**
 - Windows container deployment for .NET Framework 4.8 adapter
@@ -1316,7 +1324,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 }
 ```
 
-### Key Lessons for B2Connect
+### Key Lessons for B2X
 
 1. **Hybrid Data Strategy for Large Catalogs**:
    - **Master Data** (1.5M articles, 30M attributes) → Synchronized to PostgreSQL + Elasticsearch
@@ -1349,7 +1357,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 
 10. **Testing**: Integration tests with real enventa instances (not mocks)
 
-### Recommended Approach for B2Connect
+### Recommended Approach for B2X
 
 **Hybrid Data Architecture** (eGate-proven pattern):
 
@@ -1388,7 +1396,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│  B2Connect .NET 10 (Linux Container)                   │
+│  B2X .NET 10 (Linux Container)                   │
 │                                                        │
 │  ┌──────────────────────────────────────────────────┐ │
 │  │  gRPC Client (enventa provider)                  │ │
@@ -1430,23 +1438,23 @@ public class DependencyRegistrar : IDependencyRegistrar
 - Still requires handling 1.5M articles (doesn't solve large catalog problem)
 
 **Why Not Pure Direct FS**:
-- B2Connect runs .NET 10 (not compatible with .NET Framework 4.8 assemblies)
+- B2X runs .NET 10 (not compatible with .NET Framework 4.8 assemblies)
 - Cross-framework boundary requires gRPC or similar
 
 **Final Pattern**:
 - **Master Data Sync**: Background jobs → PostgreSQL + Elasticsearch
 - **Live Customer Queries**: Windows Container with Direct FS API (eGate's FS_47 approach)
-- **gRPC Bridge**: .NET 10 ↔ .NET Framework 4.8 (B2Connect's current approach)
+- **gRPC Bridge**: .NET 10 ↔ .NET Framework 4.8 (B2X's current approach)
 - **Connection Pool**: Per-tenant actors with 30min idle timeout
 - **Incremental Sync**: ModifiedDate watermarks for each entity type
 - **Master Data Sync**: Background jobs → PostgreSQL + Elasticsearch
 - **Live Customer Queries**: Windows Container with Direct FS API (eGate's FS_47 approach)
-- **gRPC Bridge**: .NET 10 ↔ .NET Framework 4.8 (B2Connect's current approach)
+- **gRPC Bridge**: .NET 10 ↔ .NET Framework 4.8 (B2X's current approach)
 - **Connection Pool**: Per-tenant actors with 30min idle timeout
 - **Incremental Sync**: ModifiedDate watermarks for each entity type
 - **enventa Native Entities**: `IcEC*` types from `NV.ERP.*` namespace
 - **enventa Framework**: `FrameworkSystems.*`, `FS.*` for data access
-- **B2Connect DTOs**: Map enventa entities → B2Connect domain models
+- **B2X DTOs**: Map enventa entities → B2X domain models
 - **Actor Pattern**: One actor per tenant (like eGate's architecture)
 - **Resilience Pipeline**: Polly-based Circuit Breaker, Retry, Timeout
 - **Transaction Scopes**: FSUtil-compatible transaction abstraction
@@ -1467,10 +1475,10 @@ public class DependencyRegistrar : IDependencyRegistrar
 ```bash
 # Build ERP domain
 cd backend/Domain/ERP
-dotnet build src/B2Connect.ERP.csproj
+dotnet build src/B2X.ERP.csproj
 
 # Run tests
-dotnet test tests/B2Connect.ERP.Tests.csproj --verbosity minimal
+dotnet test tests/B2X.ERP.Tests.csproj --verbosity minimal
 
 # Register provider in DI
 services.AddErpServices();

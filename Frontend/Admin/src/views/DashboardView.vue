@@ -2,7 +2,7 @@
   <div class="space-y-6">
     <!-- Header -->
     <div>
-      <h1 class="text-2xl font-bold text-base-content">Dashboard</h1>
+      <h1 class="text-2xl font-bold text-base-content">{{ $t('dashboard.main.title') }}</h1>
       <p class="text-base-content/60 mt-1">Welcome back, {{ authStore.user?.email }}</p>
     </div>
 
@@ -38,10 +38,10 @@
       <!-- Chart Card -->
       <div class="card bg-base-100 shadow">
         <div class="card-body">
-          <h2 class="card-title">Sales Overview</h2>
-          <p class="text-base-content/60 text-sm">Last 7 days</p>
+          <h2 class="card-title">{{ $t('dashboard.main.salesOverview') }}</h2>
+          <p class="text-base-content/60 text-sm">{{ $t('dashboard.main.last7Days') }}</p>
           <div class="h-48 bg-base-200 rounded-lg flex items-center justify-center mt-4">
-            <p class="text-base-content/40">Chart Placeholder</p>
+            <p class="text-base-content/40">{{ $t('dashboard.main.chartPlaceholder') }}</p>
           </div>
         </div>
       </div>
@@ -49,8 +49,8 @@
       <!-- Recent Activity -->
       <div class="card bg-base-100 shadow">
         <div class="card-body">
-          <h2 class="card-title">Recent Activity</h2>
-          <p class="text-base-content/60 text-sm">Latest updates</p>
+          <h2 class="card-title">{{ $t('dashboard.main.recentActivity') }}</h2>
+          <p class="text-base-content/60 text-sm">{{ $t('dashboard.main.latestUpdates') }}</p>
           <div class="space-y-3 mt-4">
             <div
               v-for="activity in recentActivity"
@@ -76,16 +76,16 @@
       <!-- Users Table -->
       <div class="card bg-base-100 shadow lg:col-span-2">
         <div class="card-body">
-          <h2 class="card-title">Recent Users</h2>
-          <p class="text-base-content/60 text-sm">New registrations</p>
+          <h2 class="card-title">{{ $t('dashboard.main.recentUsers') }}</h2>
+          <p class="text-base-content/60 text-sm">{{ $t('dashboard.main.newRegistrations') }}</p>
           <div class="overflow-x-auto mt-4">
             <table class="table">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Status</th>
-                  <th>Joined</th>
+                  <th>{{ $t('dashboard.main.name') }}</th>
+                  <th>{{ $t('dashboard.main.email') }}</th>
+                  <th>{{ $t('dashboard.main.status') }}</th>
+                  <th>{{ $t('dashboard.main.joined') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -117,9 +117,9 @@
 
     <!-- Action Buttons -->
     <div class="flex flex-wrap gap-3 pt-4">
-      <button class="btn btn-primary">Create New</button>
-      <button class="btn btn-outline">View All</button>
-      <button class="btn btn-ghost">More Options</button>
+      <button class="btn btn-primary">{{ $t('dashboard.main.createNew') }}</button>
+      <button class="btn btn-outline">{{ $t('dashboard.main.viewAll') }}</button>
+      <button class="btn btn-ghost">{{ $t('dashboard.main.moreOptions') }}</button>
     </div>
   </div>
 </template>

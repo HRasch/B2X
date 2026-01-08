@@ -1,4 +1,12 @@
-# Service Communication Guide
+---
+docid: KB-069
+title: SERVICE_COMMUNICATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Service Communication Guide
 
 **Last Updated:** December 30, 2025  
 **Maintained By:** @Architect, @TechLead  
@@ -8,7 +16,7 @@
 
 ## Overview
 
-Guide to how services in B2Connect communicate with each other, including sync/async patterns, event contracts, and best practices.
+Guide to how services in B2X communicate with each other, including sync/async patterns, event contracts, and best practices.
 
 ---
 
@@ -593,7 +601,7 @@ _logger.LogInformation("Processing {Event} [Correlation: {CorrelationId}]",
 
 ## References
 
-- [B2Connect Architecture Review](../../decisions/ARCHITECTURE_REVIEW_2025_12_30.md)
+- [B2X Architecture Review](../../decisions/ARCHITECTURE_REVIEW_2025_12_30.md)
 - [ADR-001: Event-Driven Architecture](../../decisions/ADR-001-event-driven-architecture.md)
 - [Wolverine Documentation](https://wolverine.netlify.app/)
 - [Service Communication Patterns](https://microservices.io/patterns/communication-style/messaging.html)

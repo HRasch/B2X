@@ -1,3 +1,11 @@
+---
+docid: COLLAB-009
+title: AGENT_EXECUTION_TRIGGER
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚨 @SARAH AGENT EXECUTION TRIGGER - PHASE 1 MOBILIZATION
 
 **Authority:** @SARAH (Coordinator)  

@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+﻿import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -44,7 +44,7 @@ setTimeout(() => {
     params: {
       name: 'search_symbols',
       arguments: {
-        workspacePath: '/Users/holger/Documents/Projekte/B2Connect/frontend/Store',
+        workspacePath: '/Users/holger/Documents/Projekte/B2X/frontend/Store',
         pattern: 'RegistrationCheckVM'
       }
     }

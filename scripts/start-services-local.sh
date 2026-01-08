@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Local Service Discovery Startup Script
+# B2X Local Service Discovery Startup Script
 # Starts all backend services with proper service discovery configuration
 
 set -euo pipefail
@@ -15,7 +15,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}  B2Connect Local Service Startup (Service Discovery Mode)${NC}"
+echo -e "${BLUE}  B2X Local Service Startup (Service Discovery Mode)${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 
 # Kill any existing processes on our ports
@@ -40,7 +40,7 @@ for i in "${!SERVICE_NAMES[@]}"; do
     
     if [ -d "$service_path" ]; then
         echo -e "${GREEN}  ✓${NC} Starting $service_display (port $service_port)..."
-        (cd "$service_path" && dotnet run > /tmp/b2connect-${service_name}.log 2>&1 &)
+        (cd "$service_path" && dotnet run > /tmp/B2X-${service_name}.log 2>&1 &)
     fi
 done
 
@@ -83,7 +83,7 @@ echo -e "    VITE_API_GATEWAY_URL=http://localhost:6000 npm run dev"
 echo ""
 echo -e "${BLUE}───────────────────────────────────────────────────────────────${NC}"
 echo -e "${GREEN}Service logs:${NC}"
-echo -e "  tail -f /tmp/b2connect-*.log"
+echo -e "  tail -f /tmp/B2X-*.log"
 echo ""
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 

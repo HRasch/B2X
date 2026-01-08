@@ -1,4 +1,12 @@
 ---
+docid: KB-081
+title: AWSSDK.Core
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: AWSSDK.Core
 current_version: 3.7.400
 source_files:

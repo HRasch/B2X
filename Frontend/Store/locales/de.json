@@ -1,4 +1,4 @@
-{
+﻿{
   "auth": {
     "login": {
       "title": "Anmelden",
@@ -119,7 +119,7 @@
     "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung."
   },
   "store": {
-    "title": "B2Connect Shop",
+    "title": "B2X Shop",
     "subtitle": "Finden Sie die besten Produkte für Ihr Unternehmen",
     "searchPlaceholder": "Nach Name, SKU oder Beschreibung suchen...",
     "searchTime": "Suchzeit: {time}ms",
@@ -178,7 +178,7 @@
     "rueckgabeverfahren": "Rückgabeverfahren",
     "rueckgabeverfahrenText": "Senden Sie die Ware innerhalb von 14 Tagen an uns zurück. Sie tragen die unmittelbaren Kosten der Rücksendung der Waren.",
     "kontakt": "Kontakt",
-    "kontaktText": "Widerrufe richten Sie an: support@b2connect.com",
+    "kontaktText": "Widerrufe richten Sie an: support@B2X.com",
     "rechtsgrundlage": "Rechtsgrundlage:",
     "rechtsgrundlageText": "§§ 355-359 BGB (Bürgerliches Gesetzbuch)",
     "haftung": "6. Haftung",

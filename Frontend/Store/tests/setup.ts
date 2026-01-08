@@ -1,4 +1,4 @@
-import { afterEach, vi } from 'vitest';
+﻿import { afterEach, vi } from 'vitest';
 import { ref } from 'vue';
 
 // Mock Nuxt composables globally
@@ -51,7 +51,7 @@ vi.mock('vue-i18n', async () => {
           'product.specifications': 'Specifications',
           'product.customerReviews': 'Customer Reviews',
           'product.verified': '✓ Verified',
-          'products.title': 'B2Connect Store',
+          'products.title': 'B2X Store',
           'products.subtitle': 'Find the best products for your business',
           'products.search.label': 'Search products',
           'products.sort.label': 'Sort by',
@@ -98,7 +98,7 @@ vi.mock('vue-i18n', async () => {
           'dashboard.sections.actions.title': 'Quick Actions',
           'dashboard.sections.actions.manageTenants': 'Manage Tenants',
           'dashboard.sections.actions.settings': 'Account Settings',
-          'home.title': 'Welcome to B2Connect',
+          'home.title': 'Welcome to B2X',
           'home.subtitle': 'A modern multitenant SaaS platform for seamless business connectivity',
           'home.getStarted': 'Get Started',
           'home.dashboard.title': 'Your Dashboard',
@@ -117,7 +117,7 @@ vi.mock('vue-i18n', async () => {
           'notFound.message': 'The page you are looking for does not exist.',
           'notFound.goHome': 'Go Back Home',
           'product.skuLabel': 'SKU:',
-          'store.title': 'B2Connect Shop',
+          'store.title': 'B2X Shop',
           'store.loading': 'Loading products...',
           'store.error': 'Error loading products:',
           'store.retry': 'Try Again',

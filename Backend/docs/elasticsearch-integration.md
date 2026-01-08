@@ -1,4 +1,4 @@
-# Elasticsearch Integration für B2Connect Shop Platform
+﻿# Elasticsearch Integration für B2X Shop Platform
 
 **Version**: 1.0  
 **Status**: ✅ Complete  
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Elasticsearch ist das Herzstück der Such- und Katalog-Funktionalität in B2Connect. Das System ermöglicht:
+Elasticsearch ist das Herzstück der Such- und Katalog-Funktionalität in B2X. Das System ermöglicht:
 - ⚡ **Sub-Millisekunden-Suche** über Millionen von Produkten
 - 🔄 **Echtzeit-Index-Updates** beim Hinzufügen/Ändern von Produkten im Admin
 - 🎯 **Facettierte Suche** mit komplexen Filtern
@@ -62,7 +62,7 @@ Elasticsearch ist das Herzstück der Such- und Katalog-Funktionalität in B2Conn
                                        ▼
                             ┌──────────────────────────────┐
                             │   Elasticsearch Cluster      │
-                            │  (b2connect-products Index)  │
+                            │  (B2X-products Index)  │
                             └──────────┬───────────────────┘
                                        │
                                        ▼
@@ -81,7 +81,7 @@ Elasticsearch ist das Herzstück der Such- und Katalog-Funktionalität in B2Conn
 **Production Setup:**
 ```yaml
 # elasticsearch.yml
-cluster.name: b2connect-production
+cluster.name: B2X-production
 node.name: node-1
 node.roles: [master, data, ingest]
 
@@ -261,7 +261,7 @@ public class ProductCreatedEventHandler
             var response = await _elasticsearch.IndexAsync(
                 new IndexRequest<ProductIndexDocument>
                 {
-                    Index = "b2connect-products",
+                    Index = "B2X-products",
                     Id = product.Id.ToString(),
                     Document = indexDocument,
                     Refresh = Refresh.True  // Sofort verfügbar
@@ -337,7 +337,7 @@ public async Task<IActionResult> SearchProducts(
     [FromQuery] int pageSize = 10,
     [FromQuery] int pageNumber = 1)
 {
-    var searchRequest = new SearchRequest("b2connect-products")
+    var searchRequest = new SearchRequest("B2X-products")
     {
         Query = new MultiMatchQuery
         {
@@ -506,7 +506,7 @@ public class CachedSearchService : ISearchService
 
 **Force Merge (nach Bulk-Operationen):**
 ```
-POST /b2connect-products/_forcemerge?max_num_segments=1
+POST /B2X-products/_forcemerge?max_num_segments=1
 ```
 
 **Segment Management:**
@@ -517,7 +517,7 @@ public class IndexMaintenanceService
     {
         // Force merge nach bulk imports
         var response = await _elasticsearch.ForceMergeAsync(
-            new ForceMergeRequest("b2connect-products")
+            new ForceMergeRequest("B2X-products")
             {
                 MaxNumberOfSegments = 1
             });
@@ -545,8 +545,8 @@ Dashboard Metrics:
 
 **Prometheus Metrics:**
 ```
-elasticsearch_indices_docs_total{index="b2connect-products"}
-elasticsearch_indices_store_size_bytes{index="b2connect-products"}
+elasticsearch_indices_docs_total{index="B2X-products"}
+elasticsearch_indices_store_size_bytes{index="B2X-products"}
 elasticsearch_search_query_time_seconds
 elasticsearch_indexing_time_seconds
 elasticsearch_search_request_cache_hit_count
@@ -576,12 +576,12 @@ public class BackupService
 {
     public async Task CreateDailySnapshotAsync()
     {
-        var snapshotName = $"b2connect-products-{DateTime.UtcNow:yyyy-MM-dd}";
+        var snapshotName = $"B2X-products-{DateTime.UtcNow:yyyy-MM-dd}";
         
         await _elasticsearch.SnapshotAsync(
             new SnapshotRequest("backup-repository", snapshotName)
             {
-                Indices = "b2connect-products",
+                Indices = "B2X-products",
                 IncludeGlobalState = false
             });
     }
@@ -589,13 +589,13 @@ public class BackupService
     public async Task RestoreFromSnapshotAsync(string snapshotName)
     {
         // Close index vor Restore
-        await _elasticsearch.CloseIndexAsync("b2connect-products");
+        await _elasticsearch.CloseIndexAsync("B2X-products");
         
         // Restore
         await _elasticsearch.RestoreAsync(
             new RestoreRequest("backup-repository", snapshotName)
             {
-                Indices = "b2connect-products"
+                Indices = "B2X-products"
             });
     }
 }
@@ -610,7 +610,7 @@ public class IndexRebuildService
 {
     public async Task RebuildIndexAsync(string tenantId)
     {
-        var newIndexName = $"b2connect-products-rebuild-{DateTime.UtcNow:yyyyMMdd-HHmmss}";
+        var newIndexName = $"B2X-products-rebuild-{DateTime.UtcNow:yyyyMMdd-HHmmss}";
         
         // 1. Erstelle neuen Index
         await _elasticsearch.CreateIndexAsync(newIndexName);
@@ -621,7 +621,7 @@ public class IndexRebuildService
         
         foreach (var group in batch)
         {
-            var bulkRequest = new BulkRequest("b2connect-products");
+            var bulkRequest = new BulkRequest("B2X-products");
             foreach (var product in group)
             {
                 bulkRequest.Operations.Add(
@@ -636,18 +636,18 @@ public class IndexRebuildService
         }
         
         // 3. Verifiziere
-        var oldCount = await CountDocuments("b2connect-products");
+        var oldCount = await CountDocuments("B2X-products");
         var newCount = await CountDocuments(newIndexName);
         
         if (oldCount == newCount)
         {
             // 4. Switch Alias (Zero Downtime)
             await _elasticsearch.AliasAsync(a => a
-                .Remove(r => r.Index("b2connect-products-v1").Alias("b2connect-products"))
-                .Add(add => add.Index(newIndexName).Alias("b2connect-products")));
+                .Remove(r => r.Index("B2X-products-v1").Alias("B2X-products"))
+                .Add(add => add.Index(newIndexName).Alias("B2X-products")));
             
             // 5. Lösche alten Index
-            await _elasticsearch.DeleteIndexAsync("b2connect-products-v1");
+            await _elasticsearch.DeleteIndexAsync("B2X-products-v1");
         }
     }
 }
@@ -682,7 +682,7 @@ public class IndexRebuildService
 
 **Lösung:**
 ```json
-PUT /b2connect-products/_settings
+PUT /B2X-products/_settings
 {
   "refresh_interval": "1s"  // Statt 5s
 }
@@ -692,7 +692,7 @@ PUT /b2connect-products/_settings
 
 **Debugging:**
 ```
-GET /b2connect-products/_search?pretty
+GET /B2X-products/_search?pretty
 {
   "profile": true,
   "query": { ... }

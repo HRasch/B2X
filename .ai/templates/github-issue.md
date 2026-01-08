@@ -1,4 +1,12 @@
 ---
+docid: TPL-012
+title: Github Issue
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 name: AI Agent Issue
 about: Issue-Template mit Multi-Agent Perspektive
 title: "[TITLE]"

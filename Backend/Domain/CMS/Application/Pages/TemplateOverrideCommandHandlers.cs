@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.CMS.Application.Handlers;
-using B2Connect.CMS.Core.Domain;
-using B2Connect.CMS.Core.Domain.Pages;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2X.CMS.Application.Handlers;
+using B2X.CMS.Core.Domain;
+using B2X.CMS.Core.Domain.Pages;
+using B2X.Shared.Tenancy.Infrastructure.Context;
 using Microsoft.Extensions.Logging;
 using Wolverine;
 
-namespace B2Connect.CMS.Application.Pages;
+namespace B2X.CMS.Application.Pages;
 
 /// <summary>
 /// Handler for creating template overrides (ADR-030 Phase 1)

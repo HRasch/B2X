@@ -1,4 +1,12 @@
-# Lessons Learned Maintenance Strategy
+---
+docid: GL-067
+title: GL 007 Lessons Maintenance Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Lessons Learned Maintenance Strategy
 
 **DocID**: `GL-007`  
 **Title**: Lessons Learned Maintenance Strategy  
@@ -297,4 +305,4 @@ grep "^## " .ai/knowledgebase/lessons.md | sort | uniq -d
 **Content Owner**: GitHub Copilot  
 **Approval**: @SARAH  
 **Next Review**: 3. April 2026</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/guidelines/GL-007-lessons-maintenance-strategy.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/guidelines/GL-007-lessons-maintenance-strategy.md

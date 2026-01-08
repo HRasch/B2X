@@ -1,4 +1,4 @@
-# GitHub PR Setup & Configuration
+﻿# GitHub PR Setup & Configuration
 
 **Instructions for setting up GitHub to enforce the PR workflow**
 
@@ -74,10 +74,10 @@ jobs:
         run: dotnet restore
       
       - name: Build
-        run: dotnet build B2Connect.slnx --configuration Release --no-restore
+        run: dotnet build B2X.slnx --configuration Release --no-restore
         
       - name: Test
-        run: dotnet test B2Connect.slnx --configuration Release --no-build --logger "trx" --collect:"XPlat Code Coverage"
+        run: dotnet test B2X.slnx --configuration Release --no-build --logger "trx" --collect:"XPlat Code Coverage"
         
       - name: Check Coverage
         run: |
@@ -484,7 +484,7 @@ Every Friday, Scrum Master should:
 
 → Ask in #dev-process or @tech-lead
 
-**Specific to B2Connect?**
+**Specific to B2X?**
 
 → See [DEVELOPMENT_PROCESS_FRAMEWORK.md §7](../../../guides/DEVELOPMENT_PROCESS_FRAMEWORK.md#-pull-request-workflow)
 

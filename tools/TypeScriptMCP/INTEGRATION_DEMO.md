@@ -1,7 +1,7 @@
-# TypeScript MCP Integration Demo
+﻿# TypeScript MCP Integration Demo
 
 **Date**: 6. Januar 2026
-**Purpose**: Demonstrate practical usage of TypeScript MCP tools in B2Connect development
+**Purpose**: Demonstrate practical usage of TypeScript MCP tools in B2X development
 
 ## Demo Scenario: Component Refactoring
 

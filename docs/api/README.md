@@ -1,14 +1,14 @@
-# B2Connect API Reference
+﻿# B2X API Reference
 
 > **Version**: 1.0  
-> **Base URL**: `https://api.b2connect.de`  
+> **Base URL**: `https://api.B2X.de`  
 > **Authentication**: Bearer Token (JWT)
 
 ---
 
 ## Overview
 
-The B2Connect API follows RESTful conventions and uses JSON for request/response bodies. All endpoints require authentication unless specified otherwise.
+The B2X API follows RESTful conventions and uses JSON for request/response bodies. All endpoints require authentication unless specified otherwise.
 
 ## Quick Links
 
@@ -772,8 +772,8 @@ X-RateLimit-Reset: 1642345678
 The API uses URL versioning (future):
 
 ```
-https://api.b2connect.de/v1/products
-https://api.b2connect.de/v2/products
+https://api.B2X.de/v1/products
+https://api.B2X.de/v2/products
 ```
 
 Currently, all endpoints use v1 (implied).
@@ -786,12 +786,12 @@ Currently, all endpoints use v1 (implied).
 
 ```bash
 # Login
-curl -X POST https://api.b2connect.de/api/auth/login \
+curl -X POST https://api.B2X.de/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"user@example.com","password":"secret"}'
 
 # Get Products
-curl https://api.b2connect.de/api/products \
+curl https://api.B2X.de/api/products \
   -H "Authorization: Bearer <token>"
 ```
 
@@ -799,7 +799,7 @@ curl https://api.b2connect.de/api/products \
 
 ```typescript
 // Using fetch
-const response = await fetch('https://api.b2connect.de/api/products', {
+const response = await fetch('https://api.B2X.de/api/products', {
   headers: {
     'Authorization': `Bearer ${accessToken}`,
     'Content-Type': 'application/json'
@@ -815,7 +815,7 @@ using var client = new HttpClient();
 client.DefaultRequestHeaders.Authorization = 
     new AuthenticationHeaderValue("Bearer", accessToken);
 
-var response = await client.GetAsync("https://api.b2connect.de/api/products");
+var response = await client.GetAsync("https://api.B2X.de/api/products");
 var products = await response.Content.ReadFromJsonAsync<ProductsResponse>();
 ```
 
@@ -829,4 +829,4 @@ var products = await response.Content.ReadFromJsonAsync<ProductsResponse>();
 
 ---
 
-*For questions or support, contact: api-support@b2connect.de*
+*For questions or support, contact: api-support@B2X.de*

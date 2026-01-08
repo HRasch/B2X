@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace B2Connect.Catalog.Core.Entities
+namespace B2X.Catalog.Core.Entities
 {
     public enum CatalogShareRuleTargetType
     {

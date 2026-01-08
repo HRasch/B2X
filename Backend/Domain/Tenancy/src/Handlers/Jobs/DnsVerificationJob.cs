@@ -1,9 +1,9 @@
-using B2Connect.Tenancy.Models;
-using B2Connect.Tenancy.Repositories;
-using B2Connect.Tenancy.Services;
+using B2X.Tenancy.Models;
+using B2X.Tenancy.Repositories;
+using B2X.Tenancy.Services;
 using Wolverine;
 
-namespace B2Connect.Tenancy.Handlers.Jobs;
+namespace B2X.Tenancy.Handlers.Jobs;
 
 /// <summary>
 /// Background job that periodically verifies pending domain DNS configurations.

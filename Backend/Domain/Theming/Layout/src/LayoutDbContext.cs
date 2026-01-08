@@ -1,7 +1,7 @@
-using B2Connect.LayoutService.Models;
+using B2X.LayoutService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.LayoutService.Data;
+namespace B2X.LayoutService.Data;
 
 /// <summary>
 /// Entity Framework Core DbContext for Layout Service

@@ -1,4 +1,12 @@
 ---
+docid: GL-075
+title: GL 012 FRONTEND QUALITY STANDARDS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: GL-012
 title: Frontend Quality Standards
 owner: "@TechLead"
@@ -15,7 +23,7 @@ status: Active
 
 ## Overview
 
-This guideline establishes quality standards for all B2Connect frontend projects (Store, Admin, Management). These standards ensure consistent code quality, type safety, and maintainability across the codebase.
+This guideline establishes quality standards for all B2X frontend projects (Store, Admin, Management). These standards ensure consistent code quality, type safety, and maintainability across the codebase.
 
 ---
 

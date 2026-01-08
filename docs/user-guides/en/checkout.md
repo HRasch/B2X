@@ -1,6 +1,6 @@
-# Checkout Process
+﻿# Checkout Process
 
-This guide walks you through the 3-step checkout process at B2Connect.
+This guide walks you through the 3-step checkout process at B2X.
 
 ---
 
@@ -179,6 +179,6 @@ A: Check your card details or choose a different payment method. Contact support
 
 ## 🆘 Need Help?
 
-- **Email**: support@b2connect.com
+- **Email**: support@B2X.com
 - **Phone**: +49 (0)800 123 4567
 - **Live Chat**: Mon-Fri 9am-5pm

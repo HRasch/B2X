@@ -1,11 +1,11 @@
 using System.Reflection;
-using B2Connect.Core.Interfaces;
-using B2Connect.Shared.Monitoring.Data.Entities;
-using B2Connect.Shared.Monitoring.Infrastructure.Context;
-using B2Connect.Types.Domain;
+using B2X.Core.Interfaces;
+using B2X.Shared.Monitoring.Data.Entities;
+using B2X.Shared.Monitoring.Infrastructure.Context;
+using B2X.Types.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Shared.Monitoring.Data;
+namespace B2X.Shared.Monitoring.Data;
 
 /// <summary>
 /// Entity Framework Core DbContext for Monitoring Service
@@ -40,7 +40,7 @@ public class MonitoringDbContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             // Use PostgreSQL for design-time operations
-            optionsBuilder.UseNpgsql("Host=localhost;Database=B2Connect_Monitoring;Username=postgres;Password=password");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=B2X_Monitoring;Username=postgres;Password=password");
         }
     }
 

@@ -1,15 +1,15 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
-using B2Connect.IdsConnectAdapter.Controllers;
-using B2Connect.IdsConnectAdapter.Models;
-using B2Connect.Shared.Infrastructure.ServiceClients;
-using B2Connect.Domain.Search.Services;
+using B2X.IdsConnectAdapter.Controllers;
+using B2X.IdsConnectAdapter.Models;
+using B2X.Shared.Infrastructure.ServiceClients;
+using B2X.Domain.Search.Services;
 
-namespace B2Connect.IdsConnectAdapter.Tests.Controllers;
+namespace B2X.IdsConnectAdapter.Tests.Controllers;
 
 public class IdsDeepLinkControllerTests : IClassFixture<WebApplicationFactory<Program>>
 {

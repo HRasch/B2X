@@ -1,4 +1,12 @@
 ---
+docid: SPR-122
+title: SPR 020 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-020
 title: Sprint 2026-20 Execution - AI Excellence Expansion & Global Compliance
 owner: @ScrumMaster

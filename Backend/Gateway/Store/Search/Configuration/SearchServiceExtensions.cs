@@ -1,12 +1,12 @@
-using Elastic.Clients.Elasticsearch;
+﻿using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using StackExchange.Redis;
-using B2Connect.SearchService.Services;
+using B2X.SearchService.Services;
 
-namespace B2Connect.SearchService.Configuration
+namespace B2X.SearchService.Configuration
 {
     /// <summary>
     /// Extension methods for configuring Elasticsearch, RabbitMQ, and Redis

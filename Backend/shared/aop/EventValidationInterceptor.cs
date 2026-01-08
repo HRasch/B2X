@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using B2Connect.Types;
-using B2Connect.Shared.Validators;
+using B2X.Types;
+using B2X.Shared.Validators;
 
-namespace B2Connect.Shared.AOP;
+namespace B2X.Shared.AOP;
 
 /// <summary>
 /// Middleware for validating domain events before publishing

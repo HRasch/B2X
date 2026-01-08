@@ -1,3 +1,11 @@
+---
+docid: SPR-051
+title: ITERATION_001_OVERVIEW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🎯 Iteration 001 Executive Overview
 
 **Purpose:** High-level summary of Iteration 001 for stakeholders, team leads, and quick reference  

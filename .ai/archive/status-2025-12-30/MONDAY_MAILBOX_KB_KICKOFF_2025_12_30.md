@@ -1,4 +1,12 @@
-# 📧 MONDAY MAILBOX: KB Integration Kickoff
+---
+docid: UNKNOWN-056
+title: MONDAY_MAILBOX_KB_KICKOFF_2025_12_30
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+﻿# 📧 MONDAY MAILBOX: KB Integration Kickoff
 **From: @SARAH** | **To: @Backend, @Frontend, @DevOps** | **Time: Monday 09:00 UTC**
 
 ---
@@ -17,7 +25,7 @@ We have a **special project** this week that will make our lives significantly e
 
 ## The Problem We're Solving
 
-Imagine you're a new developer joining B2Connect.
+Imagine you're a new developer joining B2X.
 
 **Day 1 question:** "How do I create an API endpoint?"  
 **Current answer:** 30-minute explanation from architecture lead  
@@ -300,7 +308,7 @@ Meeting link: TBD (I'll send Sunday)
 Zoom/Slack: Same as always  
 Questions: `@SARAH` anytime
 
-Thank you for investing in making B2Connect a place where we document what we know, teach what we've learned, and empower everyone to do their best work.
+Thank you for investing in making B2X a place where we document what we know, teach what we've learned, and empower everyone to do their best work.
 
 This week is going to be productive, collaborative, and honestly? Kind of fun. We're capturing institutional knowledge that's been in people's heads for years.
 
@@ -310,7 +318,7 @@ See you Monday!
 
 **@SARAH**  
 Coordinator  
-*Making B2Connect an excellent place to code*
+*Making B2X an excellent place to code*
 
 ---
 

@@ -1,8 +1,16 @@
-# ADR-033: Tenant-Admin Download for ERP-Connector and Administration-CLI Coupled to CLI
+---
+docid: ADR-076
+title: ADR 033 Tenant Admin Download Erp Connector Cli
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-033: Tenant-Admin Download for ERP-Connector and Administration-CLI Coupled to CLI
 
 **Status:** Approved  
 **Date:** January 5, 2026  
-**Context:** B2Connect multi-tenant SaaS platform  
+**Context:** B2X multi-tenant SaaS platform  
 **Decision Authors:** @Architect, @Backend, @Security, @DevOps, @TechLead, @ProductOwner, @Legal, @Support, @DocMaintainer
 
 ---
@@ -27,7 +35,7 @@ Following the CLI architecture split in ADR-031, where the administration CLI is
 - **Technical Feasibility:** Distribution, versioning, and support implications
 
 ### Business Context
-- Tenant-admins need to integrate their ERP systems with B2Connect
+- Tenant-admins need to integrate their ERP systems with B2X
 - Current process requires manual ERP-connector setup and configuration
 - Opportunity to simplify onboarding by providing downloadable tools
 - Risk of exposing internal infrastructure or compromising security
@@ -172,9 +180,9 @@ Administration CLI (Downloadable to Tenants)
 ### Download Flow
 ```bash
 # Tenant admin downloads and configures ERP-connector
-b2connect erp download-connector --version latest
-b2connect erp configure-connector --erp-type enventa --connection-string "..."
-b2connect erp start-connector --background
+B2X erp download-connector --version latest
+B2X erp configure-connector --erp-type enventa --connection-string "..."
+B2X erp start-connector --background
 ```
 
 ### Security Model

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace B2Connect.Shared.Monitoring.Data;
+namespace B2X.Shared.Monitoring.Data;
 
 /// <summary>
 /// Design-time factory for creating MonitoringDbContext instances during EF Core migrations.
@@ -16,8 +16,8 @@ namespace B2Connect.Shared.Monitoring.Data;
 /// <remarks>
 /// Usage:
 /// <code>
-/// dotnet ef migrations add MigrationName --project backend/shared/Monitoring/B2Connect.Shared.Monitoring.csproj
-/// dotnet ef database update --project backend/shared/Monitoring/B2Connect.Shared.Monitoring.csproj
+/// dotnet ef migrations add MigrationName --project backend/shared/Monitoring/B2X.Shared.Monitoring.csproj
+/// dotnet ef database update --project backend/shared/Monitoring/B2X.Shared.Monitoring.csproj
 /// </code>
 /// </remarks>
 public class MonitoringDbContextFactory : IDesignTimeDbContextFactory<MonitoringDbContext>
@@ -41,7 +41,7 @@ public class MonitoringDbContextFactory : IDesignTimeDbContextFactory<Monitoring
 
         // Try to get connection string from configuration, fallback to default for migrations
         var connectionString = configuration.GetConnectionString("MonitoringDb")
-            ?? "Host=localhost;Port=5432;Database=B2Connect_Monitoring;Username=postgres;Password=postgres";
+            ?? "Host=localhost;Port=5432;Database=B2X_Monitoring;Username=postgres;Password=postgres";
 
         optionsBuilder.UseNpgsql(connectionString, npgsqlOptions =>
         {

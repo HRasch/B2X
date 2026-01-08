@@ -1,4 +1,12 @@
 ---
+docid: REQ-039
+title: ANALYSIS PERSISTED TEST ENV SECURITY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ANALYSIS-PERSISTED-TEST-ENV-SECURITY
 title: Persisted Test Environment - Security Analysis
 owner: @Security
@@ -199,7 +207,7 @@ public class BackupService
 {
   "users": [
     {
-      "email": "test.admin@b2connect.local",
+      "email": "test.admin@B2X.local",
       "name": "Test Admin",
       "password": "TestPassword123!",
       "isTestData": true,
@@ -322,7 +330,7 @@ var testApiKey = builder.Configuration["Testing:ApiKey"]
 
 // ✅ BETTER - Secret management
 var client = new SecretClient(
-    vaultUri: new Uri("https://b2connect-kv.vault.azure.net/"),
+    vaultUri: new Uri("https://B2X-kv.vault.azure.net/"),
     credential: new DefaultAzureCredential()
 );
 

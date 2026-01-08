@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
 
-namespace B2Connect.Identity.Infrastructure.Middleware;
+namespace B2X.Identity.Infrastructure.Middleware;
 
 /// <summary>
 /// Global exception handling middleware for API resilience

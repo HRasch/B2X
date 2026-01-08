@@ -1,4 +1,4 @@
-# B2Connect - Design Decisions
+﻿# B2X - Design Decisions
 
 **Owner**: @software-architect  
 **Last Updated**: 29. Dezember 2025  
@@ -10,14 +10,14 @@
 
 ## Overview
 
-This document tracks significant architectural decisions made for B2Connect. For formal records, see [ADR/ folder](./ADR/).
+This document tracks significant architectural decisions made for B2X. For formal records, see [ADR/ folder](./ADR/).
 
 ---
 
 ## 1. DDD Microservices Architecture
 
 ### Context
-B2Connect needs independent scaling of different business capabilities:
+B2X needs independent scaling of different business capabilities:
 - Product catalog (high read, low write, large data volume potential)
 - Checkout (high write during peak, must be scalable)
 - Inventory (synchronized with ERP, real-time critical)
@@ -459,7 +459,7 @@ See [ADR-003: Aspire Orchestration](../../.ai/decisions/INDEX.md)
 ## 6. Multi-Tenancy: X-Tenant-ID Header + Global Filter
 
 ### Context
-B2Connect serves 100+ shops, each with separate data. Need to prevent:
+B2X serves 100+ shops, each with separate data. Need to prevent:
 - Shop A seeing Shop B's customers
 - Cross-tenant data leaks
 - Authorization bypass

@@ -1,11 +1,11 @@
-using B2Connect.Shared.Core.Authorization;
-using B2Connect.Shared.Infrastructure.Authorization;
-using B2Connect.Shared.Infrastructure.ServiceClients;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
-using B2Connect.Tenancy.Models;
+using B2X.Shared.Core.Authorization;
+using B2X.Shared.Infrastructure.Authorization;
+using B2X.Shared.Infrastructure.ServiceClients;
+using B2X.Shared.Tenancy.Infrastructure.Context;
+using B2X.Tenancy.Models;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Gateway.Store.Authorization;
+namespace B2X.Gateway.Store.Authorization;
 
 /// <summary>
 /// Implementation of ITenantSettingsAccessor for the Store Gateway.

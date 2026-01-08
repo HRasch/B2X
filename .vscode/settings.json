@@ -1,5 +1,5 @@
-{
-  "dotnet.defaultSolutionOrFolder": "B2Connect.slnx",
+﻿{
+  "dotnet.defaultSolutionOrFolder": "B2X.slnx",
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp",
     "editor.formatOnSave": true,

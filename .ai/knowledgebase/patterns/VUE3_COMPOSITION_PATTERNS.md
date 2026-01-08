@@ -1,7 +1,15 @@
-# 🎨 Vue 3 Composition Patterns
+---
+docid: KB-147
+title: VUE3_COMPOSITION_PATTERNS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🎨 Vue 3 Composition Patterns
 
 **Audience**: Frontend developers  
-**Purpose**: Consistent Vue3 component patterns across B2Connect  
+**Purpose**: Consistent Vue3 component patterns across B2X  
 **Framework**: Vue.js 3, TypeScript, Pinia, Vite
 
 ---

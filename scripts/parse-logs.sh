@@ -1,13 +1,13 @@
-#!/bin/bash
-# B2Connect Log Parsing and Indexing Script
+﻿#!/bin/bash
+# B2X Log Parsing and Indexing Script
 # Parses application logs and indexes them into Elasticsearch
 
 set -e
 
 # Configuration
 ELASTICSEARCH_URL="http://localhost:9200"
-LOG_DIR="/Users/holger/Documents/Projekte/B2Connect/logs"
-INDEX_NAME="b2connect-logs-$(date +%Y-%m-%d)"
+LOG_DIR="/Users/holger/Documents/Projekte/B2X/logs"
+INDEX_NAME="B2X-logs-$(date +%Y-%m-%d)"
 
 # Create index if it doesn't exist
 create_index() {

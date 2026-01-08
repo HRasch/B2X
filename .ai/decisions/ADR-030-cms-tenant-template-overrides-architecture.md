@@ -1,4 +1,12 @@
 ---
+docid: ADR-072
+title: ADR 030 Cms Tenant Template Overrides Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-030
 title: CMS Tenant Template Overrides Architecture
 owner: @SARAH
@@ -10,7 +18,7 @@ created: 2026-01-03
 
 ## Context
 
-B2Connect requires a CMS system that allows tenants to customize store templates with their branding while maintaining system security and performance. The system must support AI-powered validation and helpful advice, plus Monaco editor integration with AI suggestions.
+B2X requires a CMS system that allows tenants to customize store templates with their branding while maintaining system security and performance. The system must support AI-powered validation and helpful advice, plus Monaco editor integration with AI suggestions.
 
 **Business Requirements:**
 - Tenants need brand-specific template customizations
@@ -450,4 +458,4 @@ export default {
 **Next Review**: 2026-01-10
 
 **Implementation Start**: Phase 1 - Week of 2026-01-13</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-030-cms-tenant-template-overrides-architecture.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-030-cms-tenant-template-overrides-architecture.md

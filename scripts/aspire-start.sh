@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Aspire Hosting Setup
+# B2X Aspire Hosting Setup
 # Orchestrates all microservices with centralized .NET Aspire orchestration
 # Includes: CatalogService, AuthService, LocalizationService, etc.
 # Usage: ./aspire-start.sh [Environment] [BuildConfig] [Port]
@@ -39,7 +39,7 @@ declare -A SERVICE_PORTS=(
 )
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-echo -e "${PURPLE}  B2Connect - .NET Aspire Central Orchestration${NC}"
+echo -e "${PURPLE}  B2X - .NET Aspire Central Orchestration${NC}"
 echo -e "${PURPLE}  With Catalog Service, Event Validation & Multi-Language Support${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
 echo -e "${CYAN}Environment:${NC}     $ENVIRONMENT"

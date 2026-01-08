@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-163
+title: PILOT REQ 007
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PILOT-REQ-007
 title: "Pilot: REQ-007 Email WYSIWYG Builder - Neue Analyse v2.0"
 owner: "@SARAH"

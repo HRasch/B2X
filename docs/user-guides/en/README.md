@@ -1,17 +1,17 @@
-# B2Connect User Guides - English
+﻿# B2X User Guides - English
 
-Welcome to the B2Connect user documentation! Find answers to your questions about account management, security, and getting started.
+Welcome to the B2X user documentation! Find answers to your questions about account management, security, and getting started.
 
 ---
 
 ## 📚 Available Guides
 
 ### Getting Started
-- **[Getting Started](./getting-started.md)** - First time on B2Connect? Learn how to create an account and start shopping
+- **[Getting Started](./getting-started.md)** - First time on B2X? Learn how to create an account and start shopping
 - **[Registration](./registration.md)** - Create account (Private or Business customer)
 
 ### Shopping
-- **[Shopping at B2Connect](./shopping.md)** - Find products, search and add to cart
+- **[Shopping at B2X](./shopping.md)** - Find products, search and add to cart
 - **[Checkout Process](./checkout.md)** - 3-step order process explained
 - **[Managing Orders](./orders.md)** - Track orders, invoices, returns
 
@@ -55,7 +55,7 @@ Welcome to the B2Connect user documentation! Find answers to your questions abou
 ## ❓ Frequently Asked Questions
 
 ### Account Creation & Setup
-**Q: Is it free to create a B2Connect account?**  
+**Q: Is it free to create a B2X account?**  
 A: Yes! Creating an account is completely free.
 
 **Q: Do I need an account to browse products?**  
@@ -75,14 +75,14 @@ A: Check the spelling of your email and password. Remember, passwords are case-s
 A: Yes! You can be logged in on your phone, computer, and tablet at the same time.
 
 ### Security
-**Q: Is my data safe on B2Connect?**  
+**Q: Is my data safe on B2X?**  
 A: Yes! We use industry-standard encryption and security practices.
 
 **Q: What is 2-factor authentication?**  
 A: It's extra security that requires your phone plus your password. [Learn more](./account-security.md#two-factor-authentication-2fa).
 
 **Q: Should I use the same password everywhere?**  
-A: No! Use a unique password for B2Connect. [See why](./account-security.md).
+A: No! Use a unique password for B2X. [See why](./account-security.md).
 
 ---
 
@@ -90,8 +90,8 @@ A: No! Use a unique password for B2Connect. [See why](./account-security.md).
 
 ### Contact Support
 If you have a question not answered here:
-- **Email**: support@b2connect.com
-- **Live Chat**: Available on B2Connect website (9 AM - 5 PM, 5 days/week)
+- **Email**: support@B2X.com
+- **Live Chat**: Available on B2X website (9 AM - 5 PM, 5 days/week)
 - **Phone**: +49 (0)800 123 4567
 
 ### Report a Problem
@@ -112,7 +112,7 @@ If you have a question not answered here:
 
 ## 📋 Complete Guide Index
 
-1. Getting Started with B2Connect
+1. Getting Started with B2X
 2. How to Log In
 3. How to Reset Your Password
 4. Account Security Tips
@@ -135,5 +135,5 @@ If you have a question not answered here:
 ---
 
 **Have feedback?** We'd love to hear from you!  
-Help us improve these guides by contacting support@b2connect.com
+Help us improve these guides by contacting support@B2X.com
 

@@ -1,4 +1,12 @@
-# BMEcat - Business Messaging e-Catalog Format
+---
+docid: KB-074
+title: Bmecat
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# BMEcat - Business Messaging e-Catalog Format
 
 **Last Updated**: 3. Januar 2026  
 **Maintained By**: GitHub Copilot  
@@ -58,7 +66,7 @@ backend/Domain/Catalog/src/Infrastructure/Schemas/
 
 ---
 
-## B2Connect Implementation
+## B2X Implementation
 
 ### Version Detection
 
@@ -157,7 +165,7 @@ Common XSD validation errors and causes:
 
 ---
 
-## B2Connect Test Data
+## B2X Test Data
 
 Sample BMEcat 1.2 test file:
 ```xml
@@ -223,7 +231,7 @@ No automatic migration tool available; manual mapping required.
 ## Related Documentation
 
 - [BMEcat Official Specification](https://www.bme.de/services/bmecat/) (German)
-- [B2Connect Catalog Import Architecture](../../decisions/ADR-026-bmecat-catalog-import-architecture.md)
+- [B2X Catalog Import Architecture](../../decisions/ADR-026-bmecat-catalog-import-architecture.md)
 - [Adapter Pattern Implementation](./bmecat-import-adapter.md)
 
 ---

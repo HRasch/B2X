@@ -1,4 +1,4 @@
-# 🚀 B2Connect Documentation - Quick Access Guide
+﻿# 🚀 B2X Documentation - Quick Access Guide
 
 **Alle wichtigen Links und Ressourcen auf einen Blick**
 
@@ -67,7 +67,7 @@
 | Dokument | Zweck | Link |
 |----------|-------|------|
 | **USER_GUIDE.md** | Kundenguide & Admin-Guide | [docs/USER_GUIDE.md](../archive/reference-docs/USER_GUIDE.md) |
-| **GitHub Pages** | Online-Dokumentation | https://b2connect.github.io |
+| **GitHub Pages** | Online-Dokumentation | https://B2X.github.io |
 
 ### Technische Dokumentation
 | Dokument | Zweck | Link |
@@ -211,7 +211,7 @@
 ls -la docs/*.md
 
 # View Online
-https://b2connect.github.io
+https://B2X.github.io
 
 # Deploy Changes
 git add docs/
@@ -219,7 +219,7 @@ git commit -m "docs: update documentation"
 git push origin main
 
 # Check Status
-https://github.com/b2connect/B2Connect/actions
+https://github.com/B2X/B2X/actions
 ```
 
 ---

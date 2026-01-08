@@ -1,6 +1,6 @@
-{
+﻿{
   "version": "1.0",
-  "description": "B2Connect Role-Based Copilot Context Management",
+  "description": "B2X Role-Based Copilot Context Management",
   "lastUpdated": "2025-12-28",
   "contexts": {
     "backend": {

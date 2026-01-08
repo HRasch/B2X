@@ -1,4 +1,4 @@
-# B2Connect Development Process Framework
+﻿# B2X Development Process Framework
 
 **Version**: 1.0  
 **Last Updated**: 29. Dezember 2025  
@@ -220,11 +220,11 @@ As a [role], I want [feature], so that [value]
 #### Gate: Before Commit
 ```bash
 # MANDATORY: Developer must run BEFORE committing
-dotnet build B2Connect.slnx
+dotnet build B2X.slnx
   → If FAIL: Fix immediately, cannot commit
   → If PASS: Continue to testing
   
-dotnet test B2Connect.slnx -v minimal
+dotnet test B2X.slnx -v minimal
   → If FAIL: Fix immediately, cannot commit
   → If PASS: Can commit
 ```
@@ -232,8 +232,8 @@ dotnet test B2Connect.slnx -v minimal
 #### Gate: Before Push to GitHub
 ```bash
 # Run full suite locally
-dotnet build B2Connect.slnx    # Must succeed
-dotnet test B2Connect.slnx --collect:"XPlat Code Coverage"
+dotnet build B2X.slnx    # Must succeed
+dotnet test B2X.slnx --collect:"XPlat Code Coverage"
   → Coverage report shows >= 80% on changed code
   → If < 80%: Add tests, cannot push
   
@@ -245,8 +245,8 @@ grep -r "// 🤖" backend/Domain/[Service]/src
 #### Gate: Before PR Merge (CI Pipeline)
 ```yaml
 # GitHub Actions MUST all pass
-✅ Build: dotnet build B2Connect.slnx
-✅ Test: dotnet test B2Connect.slnx
+✅ Build: dotnet build B2X.slnx
+✅ Test: dotnet test B2X.slnx
 ✅ Coverage: >= 75% (GitHub Actions enforces)
 ✅ Lint: StyleCop, ESLint (no warnings as errors)
 ✅ Security: SonarQube scan (no critical issues)
@@ -258,11 +258,11 @@ grep -r "// 🤖" backend/Domain/[Service]/src
 #### Gate: Before Staging Deployment
 ```bash
 # Full build on staging environment
-dotnet build -c Release B2Connect.slnx
+dotnet build -c Release B2X.slnx
   → If FAIL: Deployment blocked
   
 # All integration tests
-dotnet test B2Connect.slnx --filter "Category=Integration"
+dotnet test B2X.slnx --filter "Category=Integration"
   → If FAIL: Deployment blocked
 ```
 
@@ -530,7 +530,7 @@ Responsible Developer (Only)
     ├─ Implement with Test-Driven Development (TDD)
     │
     ├─ BUILD GATE #1: Compile Before Continuing
-    │   └─ dotnet build B2Connect.slnx
+    │   └─ dotnet build B2X.slnx
     │   └─ If FAIL: Fix immediately, cannot proceed
     │
     ├─ Questions During Development:
@@ -580,7 +580,7 @@ Responsible Developer
     └─ Push to feature branch (auto-trigger CI)
        ↓
 [GITHUB ACTIONS CI - BUILD GATE #3]
-    ├─ Build: dotnet build B2Connect.slnx
+    ├─ Build: dotnet build B2X.slnx
     │  └─ If FAIL: Developer fixes immediately, CI re-runs
     ├─ Test: dotnet test (all services)
     │  └─ If FAIL: Developer fixes immediately, CI re-runs
@@ -1355,10 +1355,10 @@ Store questions in GitHub Discussions:
 
 ```bash
 # MANDATORY: Run before ANY commit
-dotnet build B2Connect.slnx
+dotnet build B2X.slnx
   → If FAIL: Fix immediately, cannot commit
   
-dotnet test B2Connect.slnx -v minimal
+dotnet test B2X.slnx -v minimal
   → If FAIL: Fix immediately, cannot commit
 
 # Code quality check
@@ -1377,7 +1377,7 @@ grep -r "// 🤖" backend/Domain/[Service]/src
 cd Frontend/Store && npm run test -- --coverage
 
 # Backend coverage
-dotnet test B2Connect.slnx --collect:"XPlat Code Coverage"
+dotnet test B2X.slnx --collect:"XPlat Code Coverage"
 # Must show: >= 80% for new code
 ```
 
@@ -1385,8 +1385,8 @@ dotnet test B2Connect.slnx --collect:"XPlat Code Coverage"
 
 ```yaml
 # .github/workflows/ci.yml
-- Build: dotnet build B2Connect.slnx
-- Test: dotnet test B2Connect.slnx
+- Build: dotnet build B2X.slnx
+- Test: dotnet test B2X.slnx
 - Coverage Report: Show coverage per service
 - Security: SonarQube analysis
 - Lint: StyleCop + ESLint

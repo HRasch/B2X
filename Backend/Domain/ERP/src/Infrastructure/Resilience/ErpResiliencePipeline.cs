@@ -8,7 +8,7 @@ using Polly.CircuitBreaker;
 using Polly.Retry;
 using Polly.Timeout;
 
-namespace B2Connect.ERP.Infrastructure.Resilience;
+namespace B2X.ERP.Infrastructure.Resilience;
 
 /// <summary>
 /// Resilience pipeline for ERP operations using Polly.

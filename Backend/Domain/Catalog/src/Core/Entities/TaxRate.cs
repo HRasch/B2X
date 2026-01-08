@@ -1,4 +1,4 @@
-namespace B2Connect.Catalog.Core.Entities;
+namespace B2X.Catalog.Core.Entities;
 
 /// <summary>
 /// TaxRate entity - Domain model for VAT rates per country

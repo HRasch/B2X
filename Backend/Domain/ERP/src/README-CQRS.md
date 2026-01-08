@@ -1,17 +1,17 @@
-# ERP CQRS Integration with Wolverine
+﻿# ERP CQRS Integration with Wolverine
 
 ## Overview
 
 This implementation provides a **hybrid architecture** that combines:
 
 1. **Actor Pattern** in the ERP Connector (.NET 4.8) - handles thread-safety for enventa ERP
-2. **CQRS with Wolverine** in the main B2Connect backend (.NET 10) - provides command/query separation and event-driven architecture
+2. **CQRS with Wolverine** in the main B2X backend (.NET 10) - provides command/query separation and event-driven architecture
 
 ## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                        B2Connect Backend (.NET 10)                      │
+│                        B2X Backend (.NET 10)                      │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────────┐  │
 │  │   CQRS Layer    │ → │   Wolverine     │ → │   ErpService         │  │
 │  │ (Commands/      │    │   Message Bus  │    │   (HTTP Client)      │  │
@@ -156,7 +156,7 @@ While Akka.NET is powerful, it would be **overkill** for this use case:
 
 - **Complexity**: Steep learning curve and configuration overhead
 - **Scope**: Actor pattern already solved by custom implementation
-- **Integration**: Wolverine already adopted in B2Connect (ADR-001)
+- **Integration**: Wolverine already adopted in B2X (ADR-001)
 - **Maintenance**: Custom actor pattern is simpler and purpose-built
 
 ## Summary

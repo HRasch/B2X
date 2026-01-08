@@ -1,4 +1,12 @@
 ---
+docid: STATUS-018
+title: KB MCP PHASE 2B COMPLETE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-MCP-PHASE-2B-COMPLETE
 title: Phase 2b - Attachment Removal Complete
 owner: @SARAH

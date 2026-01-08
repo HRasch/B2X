@@ -2,9 +2,9 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Core;
+using B2X.ERP.Core;
 
-namespace B2Connect.ERP.Infrastructure.Transactions;
+namespace B2X.ERP.Infrastructure.Transactions;
 
 /// <summary>
 /// ERP operation that executes within a transaction scope.

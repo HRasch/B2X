@@ -1,10 +1,10 @@
-# Catalog Service Implementation
+﻿# Catalog Service Implementation
 
 Complete reference for the Catalog Service: API endpoints, models, validators, and usage examples.
 
 ## Overview
 
-The Catalog Service manages product data, categories, and brands for B2Connect. It provides:
+The Catalog Service manages product data, categories, and brands for B2X. It provides:
 - Complete CRUD operations for products, categories, brands
 - Multi-language content support (LocalizedContent)
 - Elasticsearch integration for full-text search

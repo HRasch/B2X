@@ -1,4 +1,4 @@
-# Frontend-Tenant: Tenant Management Portal
+﻿# Frontend-Tenant: Tenant Management Portal
 
 **Status**: ✅ Ready for Development  
 **Last Updated**: December 27, 2025  
@@ -8,13 +8,13 @@
 
 ## Overview
 
-The **frontend-tenant** application is a dedicated portal for managing B2Connect tenant operations, specifically:
+The **frontend-tenant** application is a dedicated portal for managing B2X tenant operations, specifically:
 
 1. **Store Instance Management** - Create, configure, and manage multiple store instances
 2. **Administrator Identity Management** - Manage administrator users and their permissions
 3. **Tenant Configuration** - Configure tenant-specific settings and multi-tenancy features
 
-This is the third and final frontend in the B2Connect system:
+This is the third and final frontend in the B2X system:
 - **frontend-store** (Port 5173): Public-facing e-commerce storefront
 - **frontend-admin** (Port 5174): Admin panel for product/content management
 - **frontend-tenant** (Port 5175): Tenant management portal (NEW)
@@ -23,7 +23,7 @@ This is the third and final frontend in the B2Connect system:
 
 ## Architecture
 
-### Role in B2Connect
+### Role in B2X
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -349,7 +349,7 @@ Content-Type: application/json
 
 ```
 VITE_API_BASE_URL=http://localhost:8080/api
-VITE_APP_NAME=B2Connect Tenant Management
+VITE_APP_NAME=B2X Tenant Management
 VITE_JWT_TOKEN_KEY=auth_token
 VITE_APP_ENV=development
 ```
@@ -358,7 +358,7 @@ VITE_APP_ENV=development
 
 ```
 VITE_API_BASE_URL=/api
-VITE_APP_NAME=B2Connect Tenant Management
+VITE_APP_NAME=B2X Tenant Management
 VITE_JWT_TOKEN_KEY=auth_token
 VITE_APP_ENV=production
 ```

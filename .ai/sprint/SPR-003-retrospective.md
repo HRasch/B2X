@@ -1,4 +1,12 @@
 ---
+docid: SPR-073
+title: SPR 003 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-003-RETRO
 title: Sprint 2026-03 Retrospective - Advanced Monitoring & User Feedback
 owner: @ScrumMaster

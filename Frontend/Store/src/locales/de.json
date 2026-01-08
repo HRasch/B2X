@@ -1,4 +1,4 @@
-{
+﻿{
   "auth": {
     "login": {
       "title": "Anmelden",
@@ -273,7 +273,7 @@
     "next": "Weiter →"
   },
   "footer": {
-    "copyright": "© 2024 B2Connect. Alle Rechte vorbehalten."
+    "copyright": "© 2024 B2X. Alle Rechte vorbehalten."
   },
   "countries": {
     "DE": "Deutschland",

@@ -1,4 +1,4 @@
-# VS Code Aspire Configuration Update
+﻿# VS Code Aspire Configuration Update
 
 **Date**: 2025-12-26  
 **Status**: ✅ COMPLETE
@@ -38,7 +38,7 @@ export LOCALIZATION_ENABLED="true"
 {
   "name": "Catalog Service (Debug)",
   "type": "coreclr",
-  "program": ".../CatalogService/bin/Debug/net10.0/B2Connect.CatalogService.dll",
+  "program": ".../CatalogService/bin/Debug/net10.0/B2X.CatalogService.dll",
   "env": {
     "ASPNETCORE_URLS": "http://localhost:9001",
     "ELASTICSEARCH_ENABLED": "true",

@@ -1,4 +1,12 @@
-# SPR-028: Sprint 2026-28 Planning - Advanced AI Model Versioning & Predictive Maintenance
+---
+docid: SPR-141
+title: SPR 028 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# SPR-028: Sprint 2026-28 Planning - Advanced AI Model Versioning & Predictive Maintenance
 
 **DocID**: SPR-028  
 **Date**: 7. Januar 2026  
@@ -158,4 +166,4 @@
 ---
 
 *Planning completed: 7. Januar 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-028-planning.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-028-planning.md

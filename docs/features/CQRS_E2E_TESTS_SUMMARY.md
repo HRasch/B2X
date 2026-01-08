@@ -1,4 +1,4 @@
-# CQRS E2E Test Suite ✅
+﻿# CQRS E2E Test Suite ✅
 
 ## Überblick
 
@@ -135,7 +135,7 @@ dotnet test backend/Tests/CatalogService.Tests
 
 ### Spezifische Test-Klasse ausführen:
 ```bash
-dotnet test --filter "ClassName=B2Connect.CatalogService.Tests.CQRS.CQRSEndToEndTests"
+dotnet test --filter "ClassName=B2X.CatalogService.Tests.CQRS.CQRSEndToEndTests"
 ```
 
 ### Mit Verbose Output:

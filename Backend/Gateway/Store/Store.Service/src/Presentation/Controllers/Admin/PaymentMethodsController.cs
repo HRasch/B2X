@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using B2Connect.Store.Application.Store.Services;
-using B2Connect.Store.Core.Common.Entities;
-using B2Connect.Store.Core.Store.Entities;
+using B2X.Store.Application.Store.Services;
+using B2X.Store.Core.Common.Entities;
+using B2X.Store.Core.Store.Entities;
 
-namespace B2Connect.Store.Presentation.Controllers.Admin;
+namespace B2X.Store.Presentation.Controllers.Admin;
 
 [ApiController]
 [Route("api/payment-methods")]

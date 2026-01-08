@@ -1,4 +1,4 @@
-# 🚀 RabbitMQ & Jaeger Integration in Aspire
+﻿# 🚀 RabbitMQ & Jaeger Integration in Aspire
 
 **Status**: ✅ Konfiguriert & Bereit zum Starten
 
@@ -63,7 +63,7 @@
 
 ```csharp
 // Program.cs
-var rabbitmq = builder.AddB2ConnectRabbitMQ(
+var rabbitmq = builder.AddB2XRabbitMQ(
     name: "rabbitmq",
     port: 5672);
 ```
@@ -78,7 +78,7 @@ var rabbitmq = builder.AddB2ConnectRabbitMQ(
 
 ```csharp
 // Program.cs
-var jaeger = builder.AddB2ConnectJaeger(
+var jaeger = builder.AddB2XJaeger(
     name: "jaeger");
 ```
 
@@ -93,9 +93,9 @@ var jaeger = builder.AddB2ConnectJaeger(
 ```csharp
 // Auth Service mit RabbitMQ & Jaeger
 var authService = builder
-    .AddProject<Projects.B2Connect_Identity_API>("auth-service")
+    .AddProject<Projects.B2X_Identity_API>("auth-service")
     .WithHttpEndpoint(port: 7002, targetPort: 7002, name: "auth-service")
-    .WithPostgresConnection(postgres, "b2connect_auth")
+    .WithPostgresConnection(postgres, "B2X_auth")
     .WithRedisConnection(redis)
     .WithRabbitMQConnection(rabbitmq)      // ← RabbitMQ
     .WithJaegerTracing(jaeger)             // ← Jaeger
@@ -117,7 +117,7 @@ await _messagePublisher.PublishAsync(
         Email = email,
         CreatedAt = DateTime.UtcNow
     },
-    exchange: "b2connect.users",
+    exchange: "B2X.users",
     routingKey: "user.created"
 );
 ```
@@ -133,7 +133,7 @@ await _messageConsumer.SubscribeAsync<UserCreatedEvent>(
         await _localizationService.CreateUserDefaultsAsync(message.UserId);
     },
     queue: "localization.users",
-    exchange: "b2connect.users",
+    exchange: "B2X.users",
     routingKey: "user.created"
 );
 ```
@@ -148,7 +148,7 @@ public class RabbitMQConfiguration : IWolverinePolicy
     {
         // Topic Exchange für Events
         options.UseRabbitMq()
-            .BindExchange("b2connect.users", ExchangeType.Topic)
+            .BindExchange("B2X.users", ExchangeType.Topic)
             .AutoDeclareExchangesAndQueues();
 
         // Register Handlers
@@ -195,7 +195,7 @@ public class ProductService
 
     public ProductService()
     {
-        _activitySource = new ActivitySource("B2Connect.Catalog");
+        _activitySource = new ActivitySource("B2X.Catalog");
     }
 
     public async Task<Product> GetProductAsync(string id)
@@ -381,9 +381,9 @@ public async Task MessagePublished_ConsumerReceives_EventProcessed()
 
 ```csharp
 // Production Configuration
-builder.Configuration["RabbitMQ:Username"] = "b2connect-user";
+builder.Configuration["RabbitMQ:Username"] = "B2X-user";
 builder.Configuration["RabbitMQ:Password"] = "[from Azure Key Vault]";
-builder.Configuration["RabbitMQ:VirtualHost"] = "/b2connect";
+builder.Configuration["RabbitMQ:VirtualHost"] = "/B2X";
 ```
 
 ### Jaeger Access Control

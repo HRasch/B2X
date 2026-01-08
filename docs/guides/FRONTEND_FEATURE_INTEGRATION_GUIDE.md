@@ -1,4 +1,4 @@
-# Frontend Feature Integration Guide
+﻿# Frontend Feature Integration Guide
 
 **Last Updated**: December 26, 2025  
 **Status**: Production-Ready  
@@ -29,7 +29,7 @@
 
 ## Overview
 
-The Frontend is the customer-facing e-commerce interface for B2Connect. It provides:
+The Frontend is the customer-facing e-commerce interface for B2X. It provides:
 
 - **Product Discovery**: Browse, search, filter products
 - **Shopping Cart**: Add/remove items, manage quantities
@@ -515,7 +515,7 @@ Das Store-Frontend sichert Hochverfügbarkeit durch eine **Command Query Respons
 **File**: `backend/services/Catalog/Application/ReadCommands/SearchProductsReadCommand.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Application.ReadCommands
+namespace B2X.Catalog.Application.ReadCommands
 {
     /// <summary>
     /// Read command for searching products via ElasticSearch
@@ -666,7 +666,7 @@ namespace B2Connect.Catalog.Application.ReadCommands
 **File**: `backend/services/Catalog/Application/EventHandlers/ProductUpdatedEventHandler.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Application.EventHandlers
+namespace B2X.Catalog.Application.EventHandlers
 {
     /// <summary>
     /// Background service that listens to domain events
@@ -1044,7 +1044,7 @@ onMounted(initializeFilters);
 **File**: `backend/services/Catalog/Infrastructure/EventPublishing/DomainEventPublisher.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Infrastructure.EventPublishing
+namespace B2X.Catalog.Infrastructure.EventPublishing
 {
     public class DomainEventPublisher : IDomainEventPublisher
     {
@@ -1161,7 +1161,7 @@ Preise und Verfügbarkeit werden **nicht direkt auf den Produkten gespeichert**.
 **File**: `backend/services/Catalog/Core/Domain/Providers/IInventoryProvider.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Core.Domain.Providers
+namespace B2X.Catalog.Core.Domain.Providers
 {
     /// <summary>
     /// Provider interface for retrieving pricing and availability data
@@ -1232,7 +1232,7 @@ namespace B2Connect.Catalog.Core.Domain.Providers
 **File**: `backend/services/Catalog/Infrastructure/Providers/SapErpProvider.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Infrastructure.Providers
+namespace B2X.Catalog.Infrastructure.Providers
 {
     public class SapErpProvider : IInventoryProvider
     {
@@ -1412,7 +1412,7 @@ namespace B2Connect.Catalog.Infrastructure.Providers
 **File**: `backend/services/Catalog/Infrastructure/Providers/OracleErpProvider.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Infrastructure.Providers
+namespace B2X.Catalog.Infrastructure.Providers
 {
     public class OracleErpProvider : IInventoryProvider
     {
@@ -1516,7 +1516,7 @@ namespace B2Connect.Catalog.Infrastructure.Providers
 **File**: `backend/services/Catalog/Infrastructure/Providers/EventaTradeErpProvider.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Infrastructure.Providers
+namespace B2X.Catalog.Infrastructure.Providers
 {
     /// <summary>
     /// Provider for enventa Trade ERP integration
@@ -1925,7 +1925,7 @@ namespace B2Connect.Catalog.Infrastructure.Providers
 **File**: `backend/services/Catalog/Application/ReadCommands/GetProductAvailabilityReadCommand.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Application.ReadCommands
+namespace B2X.Catalog.Application.ReadCommands
 {
     /// <summary>
     /// Read command that fetches product pricing & availability
@@ -2322,7 +2322,7 @@ const addToCartButtonClass = computed(() => {
 **File**: `backend/services/Catalog/Application/Configuration/ProviderConfiguration.cs`
 
 ```csharp
-namespace B2Connect.Catalog.Application.Configuration
+namespace B2X.Catalog.Application.Configuration
 {
     /// <summary>
     /// Service to manage tenant-specific provider configurations
@@ -3463,7 +3463,7 @@ export function getOptimizedImageUrl(
 
 router.beforeEach((to, from, next) => {
   // Update document title
-  document.title = (to.meta.title as string) || 'B2Connect Shop';
+  document.title = (to.meta.title as string) || 'B2X Shop';
 
   // Update meta tags
   const metaDescription = document.querySelector('meta[name="description"]');
@@ -3719,6 +3719,6 @@ const loadCart = () => {
 
 ---
 
-**Maintained by**: B2Connect Development Team  
+**Maintained by**: B2X Development Team  
 **Last Updated**: December 26, 2025  
 **Status**: Production Ready

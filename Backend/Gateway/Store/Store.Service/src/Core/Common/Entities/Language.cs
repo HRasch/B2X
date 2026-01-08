@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace B2Connect.Store.Core.Common.Entities;
+namespace B2X.Store.Core.Common.Entities;
 
 /// <summary>
 /// Language entity for multilingual support

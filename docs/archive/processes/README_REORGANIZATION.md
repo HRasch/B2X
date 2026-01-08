@@ -1,4 +1,4 @@
-# 📚 Dokumentation - Neuorganisation
+﻿# 📚 Dokumentation - Neuorganisation
 
 **Status:** ✅ Abgeschlossen  
 **Datum:** 26. Dezember 2025
@@ -38,7 +38,7 @@ Die umfangreiche Dokumentation (65+ Dateien) wurde konsolidiert:
 ## 📂 Neue Struktur
 
 ```
-B2Connect/
+B2X/
 ├── docs/
 │   ├── DEVELOPER_GUIDE.md          ⭐ NEUER GUIDE
 │   ├── archived/                    (alte Dokumentation)

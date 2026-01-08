@@ -1,4 +1,12 @@
-# Monaco Editor - Vue.js Integration
+---
+docid: KB-178
+title: Monaco Editor Vue
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Monaco Editor - Vue.js Integration
 
 **DocID**: `KB-026`  
 **Status**: Active  
@@ -258,7 +266,7 @@ const initApp = async () => {
 initApp();
 ```
 
-### B2Connect Implementation
+### B2X Implementation
 
 **Location**: `frontend/Admin/src/main.ts`
 
@@ -538,7 +546,7 @@ Monaco provides similar features with better TypeScript/IntelliSense support. Ma
 
 ---
 
-## B2Connect Implementation
+## B2X Implementation
 
 **Location**: `frontend/Admin/src/components/common/CodeEditor.vue`
 

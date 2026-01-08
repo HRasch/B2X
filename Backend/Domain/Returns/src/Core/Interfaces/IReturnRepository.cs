@@ -1,6 +1,6 @@
-using B2Connect.Returns.Core.Entities;
+﻿using B2X.Returns.Core.Entities;
 
-namespace B2Connect.Returns.Core.Interfaces;
+namespace B2X.Returns.Core.Interfaces;
 
 /// <summary>
 /// Repository interface für Return-Entität (Withdrawal Rights)

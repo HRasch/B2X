@@ -1,4 +1,4 @@
-# Authentication - Production Deployment Readiness
+﻿# Authentication - Production Deployment Readiness
 
 **Last Updated**: 29 December 2025  
 **Service**: Identity Service (Port 7002)  
@@ -136,11 +136,11 @@ All metrics within acceptable range
 git pull origin feat/p0.6-us-001-b2c-price-transparency
 
 # 2. Run full test suite
-dotnet test B2Connect.slnx -v minimal
+dotnet test B2X.slnx -v minimal
 # Expected: 204/204 passing
 
 # 3. Build release
-dotnet build -c Release B2Connect.slnx
+dotnet build -c Release B2X.slnx
 
 # 4. Check for security issues
 dotnet list package --vulnerable
@@ -236,8 +236,8 @@ SELECT COUNT(*) FROM AspNetUsers;
   },
   "Jwt": {
     "Secret": "***",                          // From KeyVault
-    "Issuer": "B2Connect",
-    "Audience": "B2Connect",
+    "Issuer": "B2X",
+    "Audience": "B2X",
     "ExpirationSeconds": 3600
   },
   "TwoFactor": {
@@ -250,8 +250,8 @@ SELECT COUNT(*) FROM AspNetUsers;
   },
   "Cors": {
     "Origins": [
-      "https://store.b2connect.de",
-      "https://admin.b2connect.de"
+      "https://store.B2X.de",
+      "https://admin.B2X.de"
     ]
   }
 }
@@ -435,7 +435,7 @@ jobs:
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'b2connect-identity-prod'
+          app-name: 'B2X-identity-prod'
           package: './publish'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
       
@@ -562,7 +562,7 @@ CTO (24/7 Critical):      +49 xxx-xxx-xxxx (call only)
 
 **Last Updated**: 29 December 2025  
 **Deployment Date**: [To be scheduled]  
-**Service**: B2Connect Identity Service (Port 7002)  
+**Service**: B2X Identity Service (Port 7002)  
 **Branch**: feat/p0.6-us-001-b2c-price-transparency  
 **Commit**: 3e2671c
 
@@ -578,7 +578,7 @@ curl http://identity-service:7002/health
 ./scripts/smoke-tests.sh
 
 # Monitor logs
-kubectl logs -f deployment/identity-service -n b2connect
+kubectl logs -f deployment/identity-service -n B2X
 ```
 
 ### Week 1 Review

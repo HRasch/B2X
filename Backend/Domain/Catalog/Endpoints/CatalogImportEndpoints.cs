@@ -1,10 +1,10 @@
-using B2Connect.Catalog.Application.Handlers;
-using B2Connect.Catalog.Models;
-using B2Connect.Catalog.Services;
+using B2X.Catalog.Application.Handlers;
+using B2X.Catalog.Models;
+using B2X.Catalog.Services;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 
-namespace B2Connect.Catalog.Endpoints;
+namespace B2X.Catalog.Endpoints;
 
 /// <summary>
 /// Wolverine HTTP Endpoints for Catalog Import (BMEcat, icecat)

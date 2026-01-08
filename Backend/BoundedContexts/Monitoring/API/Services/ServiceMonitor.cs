@@ -1,11 +1,11 @@
-using B2Connect.Shared.Monitoring.Abstractions;
-using B2Connect.Shared.Monitoring.Data;
-using B2Connect.Shared.Monitoring.Data.Entities;
-using B2Connect.Shared.Monitoring.Models;
-using B2Connect.Shared.Monitoring;
+﻿using B2X.Shared.Monitoring.Abstractions;
+using B2X.Shared.Monitoring.Data;
+using B2X.Shared.Monitoring.Data.Entities;
+using B2X.Shared.Monitoring.Models;
+using B2X.Shared.Monitoring;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Shared.Monitoring.Services;
+namespace B2X.Shared.Monitoring.Services;
 
 /// <summary>
 /// Service for monitoring connected services (ERP, PIM, CRM, etc.).

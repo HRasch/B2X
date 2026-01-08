@@ -1,4 +1,12 @@
 ---
+docid: KB-087
+title: Elastic.Clients.Elasticsearch
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Elastic.Clients.Elasticsearch
 current_version: 9.2.2
 source_files:

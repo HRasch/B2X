@@ -1,13 +1,21 @@
-# ADR-024: Dapr Evaluation - Deferred
+---
+docid: ADR-059
+title: ADR 024 Dapr Evaluation Deferred
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-024: Dapr Evaluation - Deferred
 
 **Status**: Accepted  
 **Date**: 2. Januar 2026  
 **Deciders**: @SARAH, @Architect, @Backend, @DevOps, @TechLead  
-**Technical Story**: Team Brainstorming - Dapr im B2Connect-Projekt
+**Technical Story**: Team Brainstorming - Dapr im B2X-Projekt
 
 ## Context
 
-Das Team evaluierte den Einsatz von [Dapr (Distributed Application Runtime)](https://dapr.io/) als ergänzende oder alternative Infrastruktur für B2Connect.
+Das Team evaluierte den Einsatz von [Dapr (Distributed Application Runtime)](https://dapr.io/) als ergänzende oder alternative Infrastruktur für B2X.
 
 ### Aktueller Tech-Stack
 
@@ -23,7 +31,7 @@ Das Team evaluierte den Einsatz von [Dapr (Distributed Application Runtime)](htt
 
 ### Dapr Capabilities vs. Aktuelle Lösung
 
-| Capability | Dapr | B2Connect (aktuell) | Overlap |
+| Capability | Dapr | B2X (aktuell) | Overlap |
 |------------|------|---------------------|---------|
 | Service Invocation | Sidecar-Proxy | Direkte HTTP/gRPC | Vollständig |
 | State Management | Pluggable Stores | EF Core + PostgreSQL | Vollständig |

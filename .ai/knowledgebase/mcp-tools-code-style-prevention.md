@@ -1,4 +1,12 @@
-# MCP Tools Code Style Prevention
+---
+docid: KB-142
+title: Mcp Tools Code Style Prevention
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# MCP Tools Code Style Prevention
 
 **Date**: 6. Januar 2026  
 **Status**: ✅ Implemented
@@ -16,7 +24,7 @@ TypeScript-based MCP tools (TypeScriptMCP, VueMCP, HtmlCssMCP, SecurityMCP, etc.
 - HtmlCssMCP
 - SecurityMCP
 - WolverineMCP
-- B2ConnectMCP
+- B2XMCP
 - PlaywrightMCP
 
 **Added scripts:**

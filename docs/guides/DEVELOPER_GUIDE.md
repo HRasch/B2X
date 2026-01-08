@@ -1,6 +1,6 @@
-# B2Connect - Entwicklerdokumentation
+﻿# B2X - Entwicklerdokumentation
 
-> Deine umfassende Ressource für die Entwicklung an B2Connect
+> Deine umfassende Ressource für die Entwicklung an B2X
 
 ## 📋 Inhaltsverzeichnis
 
@@ -32,7 +32,7 @@
 ```bash
 # 1. Repository klonen
 git clone <your-repo>
-cd B2Connect
+cd B2X
 
 # 2. Backend starten
 cd AppHost
@@ -80,7 +80,7 @@ Alle Services verwenden automatisch eine In-Memory-Datenbank beim Development-St
 ## 📁 Projektstruktur
 
 ```
-B2Connect/
+B2X/
 ├── backend/
 │   ├── BoundedContexts/                # DDD Bounded Contexts
 │   │   ├── Store/                      # 🛒 Public Storefront (Read-only APIs)

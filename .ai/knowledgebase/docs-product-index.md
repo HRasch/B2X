@@ -1,3 +1,11 @@
+---
+docid: KB-109
+title: Docs Product Index
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Product Documentation Index (docs/)
 
 This page points to product-related documentation found under the repository 

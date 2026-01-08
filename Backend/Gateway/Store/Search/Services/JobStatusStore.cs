@@ -1,6 +1,6 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 
-namespace B2Connect.Gateway.Store.Search.Services;
+namespace B2X.Gateway.Store.Search.Services;
 
 public record JobStatus(string JobId, string Status, DateTimeOffset StartedAt, DateTimeOffset? CompletedAt = null, string? Message = null);
 

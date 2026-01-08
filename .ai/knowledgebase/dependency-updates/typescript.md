@@ -1,4 +1,12 @@
 ---
+docid: KB-103
+title: Typescript
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: typescript
 current_version: 5.9.3
 source_files:

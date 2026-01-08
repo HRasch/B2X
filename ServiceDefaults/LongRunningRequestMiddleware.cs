@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.ServiceDefaults;
+namespace B2X.ServiceDefaults;
 
 /// <summary>
 /// Middleware that detects and logs requests that exceed a configurable duration threshold.

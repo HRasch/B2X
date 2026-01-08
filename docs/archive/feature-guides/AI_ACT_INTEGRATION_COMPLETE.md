@@ -1,4 +1,4 @@
-# ✅ AI Act Compliance Integration - Complete
+﻿# ✅ AI Act Compliance Integration - Complete
 
 **Status:** ✅ COMPLETE | **Date:** 28. Dezember 2025
 
@@ -6,7 +6,7 @@
 
 ## Summary
 
-The EU AI Act compliance requirements (P0.7) have been **fully integrated** into the B2Connect compliance roadmap. This brings B2Connect into full regulatory compliance with:
+The EU AI Act compliance requirements (P0.7) have been **fully integrated** into the B2X compliance roadmap. This brings B2X into full regulatory compliance with:
 
 - ✅ NIS2 Directive (network security)
 - ✅ GDPR (data protection)
@@ -34,13 +34,13 @@ The EU AI Act compliance requirements (P0.7) have been **fully integrated** into
 ### 3. **AI Risk Classification Framework**
 ```
 4 Risk Levels defined:
-├─ Prohibited (banned entirely) - Not applicable to B2Connect
+├─ Prohibited (banned entirely) - Not applicable to B2X
 ├─ High-Risk (fraud detection) - Full P0.7 compliance
 ├─ Limited-Risk (duplicate detection, moderation) - Transparency required
 └─ Minimal-Risk (recommendations, pricing) - Audit logging
 ```
 
-### 4. **B2Connect AI Systems Cataloged**
+### 4. **B2X AI Systems Cataloged**
 | System | Risk Level | Compliance |
 |--------|-----------|-----------|
 | Fraud Detection | HIGH-RISK | Full P0.7 (50 hours) |
@@ -113,7 +113,7 @@ Phase 0: Weeks 1-10  (P0.1-P0.7)
 2. **AI_ACT_OVERVIEW.md** (200+ lines)
    - Quick reference guide
    - Risk classification table
-   - B2Connect AI systems catalog
+   - B2X AI systems catalog
    - Compliance checklist
    - FAQ
 
@@ -134,7 +134,7 @@ Phase 0: Weeks 1-10  (P0.1-P0.7)
 
 ---
 
-## Key Requirements: What B2Connect Must Do
+## Key Requirements: What B2X Must Do
 
 ### HIGH-RISK AI (Fraud Detection)
 - ✅ Complete risk assessment documented
@@ -350,7 +350,7 @@ If any ❌ → HOLD all Phase 1 deployments
 
 3. **AI_ACT_OVERVIEW.md**
    - Quick reference guide (200+ lines)
-   - Risk classification, B2Connect catalog, FAQ
+   - Risk classification, B2X catalog, FAQ
 
 4. **COMPLIANCE_QUICK_START_CHECKLIST.md**
    - Getting started guide

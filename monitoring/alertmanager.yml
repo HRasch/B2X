@@ -1,7 +1,7 @@
-global:
+﻿global:
   smtp_smarthost: 'smtp.example.com:587'
-  smtp_from: 'alerts@b2connect.com'
-  smtp_auth_username: 'alerts@b2connect.com'
+  smtp_from: 'alerts@B2X.com'
+  smtp_auth_username: 'alerts@B2X.com'
   smtp_auth_password: 'password'
 
 route:

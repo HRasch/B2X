@@ -1,8 +1,8 @@
-using B2Connect.Shared.Monitoring.Data.Entities;
+using B2X.Shared.Monitoring.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace B2Connect.Shared.Monitoring.Data.Configurations;
+namespace B2X.Shared.Monitoring.Data.Configurations;
 
 /// <summary>
 /// Configurations for monitoring entities - minimal EF Core mappings.

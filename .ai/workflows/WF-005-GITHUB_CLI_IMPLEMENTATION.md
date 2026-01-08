@@ -1,3 +1,11 @@
+---
+docid: WF-016
+title: WF 005 GITHUB_CLI_IMPLEMENTATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GitHub CLI Sprint Management - Implementation Guide
 
 **Created:** 2025-12-30  

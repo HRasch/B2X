@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="drawer lg:drawer-open" data-test="main-layout">
     <!-- Drawer Toggle (Mobile) -->
     <input id="admin-drawer" type="checkbox" class="drawer-toggle" v-model="sidebarOpen" />
@@ -25,7 +25,9 @@
         <div class="flex-1 px-2">
           <div class="breadcrumbs text-sm">
             <ul>
-              <li><span class="text-base-content/60">Admin</span></li>
+              <li>
+                <span class="text-base-content/60">{{ $t('layout.breadcrumb.admin') }}</span>
+              </li>
               <li>
                 <span class="font-medium">{{ currentPageTitle }}</span>
               </li>
@@ -53,12 +55,12 @@
             >
               <li>
                 <button @click="setTheme('light')" :class="{ active: currentTheme === 'light' }">
-                  Light
+                  {{ $t('layout.theme.light') }}
                 </button>
               </li>
               <li>
                 <button @click="setTheme('dark')" :class="{ active: currentTheme === 'dark' }">
-                  Dark
+                  {{ $t('layout.theme.dark') }}
                 </button>
               </li>
               <li>
@@ -66,7 +68,7 @@
                   @click="setTheme('corporate')"
                   :class="{ active: currentTheme === 'corporate' }"
                 >
-                  Corporate
+                  {{ $t('layout.theme.corporate') }}
                 </button>
               </li>
             </ul>
@@ -101,10 +103,18 @@
               <li class="menu-title">
                 <span>{{ authStore.user?.email }}</span>
               </li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Settings</a></li>
+              <li>
+                <a href="#">{{ $t('layout.userMenu.profile') }}</a>
+              </li>
+              <li>
+                <a href="#">{{ $t('layout.userMenu.settings') }}</a>
+              </li>
               <div class="divider my-1"></div>
-              <li><button @click="logout" class="text-error">Logout</button></li>
+              <li>
+                <button @click="logout" class="text-error">
+                  {{ $t('layout.userMenu.logout') }}
+                </button>
+              </li>
             </ul>
           </div>
         </div>
@@ -127,8 +137,8 @@
               <span class="text-primary-content font-bold text-lg">B</span>
             </div>
             <div>
-              <h1 class="font-bold text-base-content">B2Connect</h1>
-              <p class="text-xs text-base-content/60">Admin Panel</p>
+              <h1 class="font-bold text-base-content">{{ $t('layout.logo.title') }}</h1>
+              <p class="text-xs text-base-content/60">{{ $t('layout.logo.subtitle') }}</p>
             </div>
           </div>
         </div>
@@ -152,7 +162,7 @@
 
           <!-- AI Section -->
           <ul class="menu menu-md gap-1">
-            <li class="menu-title">AI Management</li>
+            <li class="menu-title">{{ $t('layout.navigation.aiManagement') }}</li>
             <li>
               <router-link to="/ai/dashboard" :class="{ active: isActive('/ai') }">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +173,7 @@
                     d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                AI Dashboard
+                {{ $t('layout.navigation.aiDashboard') }}
               </router-link>
             </li>
           </ul>
@@ -273,14 +283,14 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { path: '/dashboard', label: 'Dashboard', icon: DashboardIcon },
-  { path: '/users', label: 'Benutzer', icon: UsersIcon },
-  { path: '/email/templates', label: 'E-Mail', icon: EmailIcon },
-  { path: '/cms/pages', label: 'CMS', icon: CMSIcon },
-  { path: '/shop/products', label: 'Shop', icon: ShopIcon },
-  { path: '/jobs/queue', label: 'Jobs', icon: JobsIcon },
-  { path: '/tools/cli', label: 'CLI Tools', icon: CliToolsIcon },
-  { path: '/tools/seeding', label: 'Seeding', icon: SeedingIcon },
+  { path: '/dashboard', label: $t('layout.navigation.dashboard'), icon: DashboardIcon },
+  { path: '/users', label: $t('layout.navigation.users'), icon: UsersIcon },
+  { path: '/email/templates', label: $t('layout.navigation.email'), icon: EmailIcon },
+  { path: '/cms/pages', label: $t('layout.navigation.cms'), icon: CMSIcon },
+  { path: '/shop/products', label: $t('layout.navigation.shop'), icon: ShopIcon },
+  { path: '/jobs/queue', label: $t('layout.navigation.jobs'), icon: JobsIcon },
+  { path: '/tools/cli', label: $t('layout.navigation.cliTools'), icon: CliToolsIcon },
+  { path: '/tools/seeding', label: $t('layout.navigation.seeding'), icon: SeedingIcon },
 ];
 
 const currentPageTitle = computed(() => {

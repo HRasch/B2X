@@ -1,7 +1,7 @@
-using B2Connect.Domain.Search.Services;
-using B2Connect.Gateway.Store.Search.Services;
+﻿using B2X.Domain.Search.Services;
+using B2X.Gateway.Store.Search.Services;
 
-namespace B2Connect.Gateway.Store.Search.Jobs;
+namespace B2X.Gateway.Store.Search.Jobs;
 
 public class CreateIndicesJob
 {

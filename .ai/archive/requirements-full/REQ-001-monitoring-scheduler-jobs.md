@@ -1,4 +1,12 @@
-# Monitoring for Scheduler Jobs: Requirements Analysis
+---
+docid: UNKNOWN-041
+title: REQ 001 Monitoring Scheduler Jobs
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+﻿# Monitoring for Scheduler Jobs: Requirements Analysis
 
 **DocID**: `REQ-001`  
 **Title**: Health Monitoring and Job Status Visualization for ERP/PIM/CRM Scheduler Jobs  
@@ -9,7 +17,7 @@
 **Consolidated By**: @SARAH  
 
 ## Overview
-This document captures the requirements for implementing comprehensive health monitoring, error logging, and status/progress visualization for scheduler jobs handling ERP/PIM/CRM integrations in B2Connect. The system must provide both backend monitoring capabilities and frontend visualization in the admin interface.
+This document captures the requirements for implementing comprehensive health monitoring, error logging, and status/progress visualization for scheduler jobs handling ERP/PIM/CRM integrations in B2X. The system must provide both backend monitoring capabilities and frontend visualization in the admin interface.
 
 ## Business Context
 Scheduler jobs are critical for maintaining data synchronization across ERP (enventa Trade), PIM, and CRM systems. Failures can lead to data inconsistencies, operational disruptions, and compliance issues. Management needs high-level visibility, while operational teams require detailed job monitoring.
@@ -112,7 +120,7 @@ Scheduler jobs are critical for maintaining data synchronization across ERP (env
    - Generate detailed test report with pass/fail status
 
 7. **CLI Status Monitoring**
-   - Extend existing B2Connect CLI (`b2c`) with monitoring commands:
+   - Extend existing B2X CLI (`b2c`) with monitoring commands:
      - System health overview
      - Job status listing and filtering
      - Connected services status
@@ -245,7 +253,7 @@ Scheduler jobs are critical for maintaining data synchronization across ERP (env
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    Admin BFF (B2Connect.Admin)                  │
+│                    Admin BFF (B2X.Admin)                  │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌────────────────┐  │
 │  │ Health API      │  │ Job Status API  │  │ Metrics API    │  │
 │  └────────┬────────┘  └────────┬────────┘  └───────┬────────┘  │
@@ -600,7 +608,7 @@ b2c monitor resources --top           # Top resource consumers
 $ b2c monitor health
 
 ╔══════════════════════════════════════════════════════════════╗
-║  B2Connect System Health                     ✓ HEALTHY       ║
+║  B2X System Health                     ✓ HEALTHY       ║
 ╠══════════════════════════════════════════════════════════════╣
 ║  Component          Status    Latency    Uptime    CPU  Mem  ║
 ╠══════════════════════════════════════════════════════════════╣
@@ -676,7 +684,7 @@ Use 'b2c monitor errors <error-id>' for details.
 **Configuration**:
 ```bash
 # Set API endpoint
-b2c config set api-url https://admin.b2connect.local
+b2c config set api-url https://admin.B2X.local
 
 # Authenticate
 b2c auth login                        # Interactive login
@@ -733,11 +741,11 @@ public enum CommunicationErrorType
 - Leverage Wolverine's retry policies with monitoring hooks
 
 #### Implementation Approach
-1. Create `B2Connect.Shared.Monitoring` package
+1. Create `B2X.Shared.Monitoring` package
 2. Implement job tracking middleware for Wolverine handlers
 3. Add health check contributors per domain
 4. SignalR hub for real-time updates
-5. **Extend existing B2Connect CLI** (`backend/CLI/B2Connect.CLI/`)
+5. **Extend existing B2X CLI** (`backend/CLI/B2X.CLI/`)
    - Add `Commands/MonitorCommands/` for health, services, errors
    - Add `Commands/JobCommands/` for job management
    - Implement table and JSON output formatters
@@ -1220,7 +1228,7 @@ This requirements document covers a **comprehensive monitoring solution** with f
 | Job State Storage | PostgreSQL | Transactional integrity, existing infrastructure |
 | Log Storage | Elasticsearch | Full-text search, time-series queries |
 | Metrics | OpenTelemetry + Prometheus | Industry standard, Aspire integration |
-| CLI Framework | Extend existing B2Connect.CLI | Reuse authentication, configuration |
+| CLI Framework | Extend existing B2X.CLI | Reuse authentication, configuration |
 
 ### Implementation Phases (Recommended)
 | Phase | Scope | Priority | Estimate |

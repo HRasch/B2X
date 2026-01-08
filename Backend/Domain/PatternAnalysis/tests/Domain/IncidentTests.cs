@@ -2,11 +2,11 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.PatternAnalysis.Core.Domain;
+using B2X.PatternAnalysis.Core.Domain;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.PatternAnalysis.Tests.Domain;
+namespace B2X.PatternAnalysis.Tests.Domain;
 
 /// <summary>
 /// Unit tests for the Incident domain entity.

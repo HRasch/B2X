@@ -1,4 +1,12 @@
-# REQ-007: Email WYSIWYG Builder - ProductOwner Analysis
+---
+docid: REQ-059
+title: REQ 007 Productowner Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# REQ-007: Email WYSIWYG Builder - ProductOwner Analysis
 
 **Anforderung**: Email WYSIWYG Builder mit Drag&Drop für Marketing-Teams  
 **Framework**: Requirements Analysis v2.0  
@@ -9,7 +17,7 @@
 
 ### Value-Score: 9/10
 **Begründung**:  
-Der Email WYSIWYG Builder adressiert ein kritisches Bedürfnis von Marketing-Teams, die derzeit auf technische Ressourcen oder externe Tools angewiesen sind. Drag&Drop-Funktionalität ermöglicht es Nicht-Technikern, professionelle Emails zu erstellen, was die Time-to-Market für Marketing-Kampagnen erheblich reduziert. Dies stärkt die Autonomie der Marketing-Abteilung und reduziert Abhängigkeiten von IT-Ressourcen. In einer B2B-Plattform wie B2Connect ist Email-Marketing ein Kernkanal für Kundenkommunikation, wodurch dieses Feature direkt zu höherer Kundenzufriedenheit und gesteigerten Conversion-Rates beiträgt.
+Der Email WYSIWYG Builder adressiert ein kritisches Bedürfnis von Marketing-Teams, die derzeit auf technische Ressourcen oder externe Tools angewiesen sind. Drag&Drop-Funktionalität ermöglicht es Nicht-Technikern, professionelle Emails zu erstellen, was die Time-to-Market für Marketing-Kampagnen erheblich reduziert. Dies stärkt die Autonomie der Marketing-Abteilung und reduziert Abhängigkeiten von IT-Ressourcen. In einer B2B-Plattform wie B2X ist Email-Marketing ein Kernkanal für Kundenkommunikation, wodurch dieses Feature direkt zu höherer Kundenzufriedenheit und gesteigerten Conversion-Rates beiträgt.
 
 ### Effort-Score: 6/10
 **Begründung**:  
@@ -107,4 +115,4 @@ REQ-007 bietet exzellenten ROI bei manageablem Risiko und sollte in Sprint 2-3 i
 **Confidence**: High  
 **Blockiert von**: Keine  
 **Beeinflusst**: REQ-035 (MCP CLI - Koordination nötig)</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-007-productowner-analysis.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-007-productowner-analysis.md

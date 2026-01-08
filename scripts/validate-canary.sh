@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Canary Deployment Validation
+# B2X Canary Deployment Validation
 # Validates canary deployment against success criteria
 #
 # Usage: ./scripts/validate-canary.sh
@@ -152,7 +152,7 @@ check_resources() {
     log "Checking system resource usage..."
 
     # Check canary pod resource usage
-    local resource_usage=$(kubectl top pods -n b2connect -l app=b2connect-canary --no-headers 2>/dev/null || echo "N/A")
+    local resource_usage=$(kubectl top pods -n B2X -l app=B2X-canary --no-headers 2>/dev/null || echo "N/A")
 
     if [ "$resource_usage" = "N/A" ]; then
         warn "Could not retrieve resource usage metrics"

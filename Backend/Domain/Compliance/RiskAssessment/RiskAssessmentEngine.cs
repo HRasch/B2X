@@ -1,4 +1,4 @@
-// B2Connect.Compliance.RiskAssessment
+﻿// B2X.Compliance.RiskAssessment
 // Enhanced Automated Compliance Risk Assessment
 // DocID: SPR-027-COMPLIANCE-RISK
 
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace B2Connect.Compliance.RiskAssessment
+namespace B2X.Compliance.RiskAssessment
 {
     /// <summary>
     /// ML-powered Risk Assessment Engine
@@ -35,7 +35,7 @@ namespace B2Connect.Compliance.RiskAssessment
         {
             var assessment = await _riskModel.PredictRiskAsync(request);
 
-            if (assessment.RiskScore > 0.8) // High risk threshold
+            if (assessment.RiskScore > 0.8m) // High risk threshold
             {
                 await _alertService.SendAlertAsync(new RiskAlert
                 {

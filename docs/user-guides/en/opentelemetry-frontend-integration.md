@@ -1,4 +1,4 @@
-# OpenTelemetry Frontend Integration Guide
+﻿# OpenTelemetry Frontend Integration Guide
 
 **Last Updated**: 29. Dezember 2025  
 **Issue**: #51 - Integrate Vite Frontend with OpenTelemetry on Aspire
@@ -7,7 +7,7 @@
 
 ## Overview
 
-This guide explains how to enable distributed tracing and metrics for B2Connect frontend applications (Store & Admin) using OpenTelemetry with Aspire Dashboard integration.
+This guide explains how to enable distributed tracing and metrics for B2X frontend applications (Store & Admin) using OpenTelemetry with Aspire Dashboard integration.
 
 ## Prerequisites
 
@@ -175,8 +175,8 @@ If seeing too many spans:
 
 - [OpenTelemetry JS Getting Started](https://opentelemetry.io/docs/languages/js/getting-started/nodejs/)
 - [Aspire Telemetry Configuration](https://aspire.dev/fundamentals/telemetry/)
-- [Issue #51 - OpenTelemetry Integration](https://github.com/HRasch/B2Connect/issues/51)
-- [Issue #50 - Vite Build Error Capture](https://github.com/HRasch/B2Connect/issues/50)
+- [Issue #51 - OpenTelemetry Integration](https://github.com/HRasch/B2X/issues/51)
+- [Issue #50 - Vite Build Error Capture](https://github.com/HRasch/B2X/issues/50)
 
 ---
 

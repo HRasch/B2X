@@ -1,6 +1,6 @@
 using System;
 
-namespace B2Connect.SmartDataIntegration.Models
+namespace B2X.SmartDataIntegration.Models
 {
     /// <summary>
     /// Represents a data field in a source or target system

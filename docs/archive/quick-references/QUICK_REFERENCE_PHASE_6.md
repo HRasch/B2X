@@ -1,4 +1,4 @@
-# ⚡ PHASE 6 QUICK REFERENCE CARD
+﻿# ⚡ PHASE 6 QUICK REFERENCE CARD
 
 **Print this or bookmark it!**
 
@@ -33,9 +33,9 @@ Labels: enhancement, refactoring, typescript, code-quality, ready-for-review, ba
 
 | Action | URL |
 |--------|-----|
-| **Create Issue** | https://github.com/HRasch/B2Connect/issues/new |
-| **Create PR** | https://github.com/HRasch/B2Connect/compare/main...feature/issue-53-code-quality |
-| **View B2Connect** | https://github.com/HRasch/B2Connect |
+| **Create Issue** | https://github.com/HRasch/B2X/issues/new |
+| **Create PR** | https://github.com/HRasch/B2X/compare/main...feature/issue-53-code-quality |
+| **View B2X** | https://github.com/HRasch/B2X |
 
 ---
 
@@ -120,7 +120,7 @@ What you do:
 
 | Issue | Solution |
 |-------|----------|
-| Can't find GitHub link | Use: https://github.com/HRasch/B2Connect/issues/new |
+| Can't find GitHub link | Use: https://github.com/HRasch/B2X/issues/new |
 | Forgot what to copy | See: PHASE_6_EXECUTION_REPORT.md |
 | Need detailed steps | See: GITHUB_OPERATIONS_MANUAL.md |
 | Checks failing | Check GitHub PR for error details |

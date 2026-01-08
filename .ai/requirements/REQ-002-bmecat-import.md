@@ -1,4 +1,12 @@
 ---
+docid: REQ-051
+title: REQ 002 Bmecat Import
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: REQ-002
 title: BMEcat Katalog Import
 owner: @ProductOwner
@@ -295,4 +303,4 @@ Als Händler möchte ich BMEcat-Kataloge von Handelsverbänden importieren könn
 
 **Status**: ✅ Finalized - Ready for Implementation  
 **Next**: Start development in next sprint</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-002-bmecat-import.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-002-bmecat-import.md

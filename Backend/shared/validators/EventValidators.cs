@@ -1,7 +1,7 @@
-using FluentValidation;
-using B2Connect.Types;
+﻿using FluentValidation;
+using B2X.Types;
 
-namespace B2Connect.Shared.Validators;
+namespace B2X.Shared.Validators;
 
 /// <summary>
 /// Base validator for domain events

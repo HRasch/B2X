@@ -1,6 +1,6 @@
-# B2Connect Frontend (Customer App)
+﻿# B2X Frontend (Customer App)
 
-Vue 3 + TypeScript customer-facing application for B2Connect marketplace.
+Vue 3 + TypeScript customer-facing application for B2X marketplace.
 
 ## Quick Start
 

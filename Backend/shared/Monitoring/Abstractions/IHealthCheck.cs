@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace B2Connect.Shared.Monitoring.Abstractions;
+namespace B2X.Shared.Monitoring.Abstractions;
 
 /// <summary>
 /// Represents a health check that can be executed to determine the health status of a component.

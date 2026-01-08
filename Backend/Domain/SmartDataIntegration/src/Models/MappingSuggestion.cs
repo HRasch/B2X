@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace B2Connect.SmartDataIntegration.Models
+namespace B2X.SmartDataIntegration.Models
 {
     /// <summary>
     /// Represents an AI-generated suggestion for data mapping

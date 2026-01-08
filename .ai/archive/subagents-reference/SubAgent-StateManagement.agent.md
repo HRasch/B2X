@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-115
+title: SubAgent StateManagement.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ````chatagent
 ```chatagent
 ---

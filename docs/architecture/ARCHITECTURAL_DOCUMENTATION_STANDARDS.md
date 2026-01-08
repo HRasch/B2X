@@ -1,4 +1,4 @@
-# Architectural Documentation Standards
+﻿# Architectural Documentation Standards
 
 **Owner**: @software-architect  
 **Last Updated**: 30. Dezember 2025  
@@ -8,7 +8,7 @@
 
 ## 🎯 Purpose
 
-Establish clear, up-to-date architectural documentation for B2Connect covering:
+Establish clear, up-to-date architectural documentation for B2X covering:
 - **Software Definition**: What the system is, its purpose, constraints
 - **Design Decisions**: Why architectural choices were made
 - **Estimations**: Resource requirements, capacity, scalability
@@ -53,7 +53,7 @@ docs/architecture/
 
 ### 1. SOFTWARE_DEFINITION.md
 
-**Purpose**: Describe what B2Connect IS
+**Purpose**: Describe what B2X IS
 
 **Must Include**:
 - [ ] **Vision**: One sentence (what problem does it solve?)
@@ -66,10 +66,10 @@ docs/architecture/
 
 **Example Format**:
 ```markdown
-# Software Definition - B2Connect
+# Software Definition - B2X
 
 ## Vision
-B2Connect is a multi-tenant SaaS e-commerce platform enabling EU businesses to sell online with full compliance.
+B2X is a multi-tenant SaaS e-commerce platform enabling EU businesses to sell online with full compliance.
 
 ## Core Functions
 - **Multi-tenant Store**: Each shop operates independently with isolated data
@@ -107,7 +107,7 @@ B2Connect is a multi-tenant SaaS e-commerce platform enabling EU businesses to s
 ```markdown
 ## Microservices Architecture (DDD)
 
-**Context**: B2Connect needs independent scaling of product catalog vs. checkout
+**Context**: B2X needs independent scaling of product catalog vs. checkout
 
 **Options Considered**:
 - Monolith (all features in one service)

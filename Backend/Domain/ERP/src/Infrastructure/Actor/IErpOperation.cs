@@ -2,9 +2,9 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Core;
+using B2X.ERP.Core;
 
-namespace B2Connect.ERP.Infrastructure.Actor;
+namespace B2X.ERP.Infrastructure.Actor;
 
 /// <summary>
 /// Base interface for ERP operations that must be serialized through the Actor.

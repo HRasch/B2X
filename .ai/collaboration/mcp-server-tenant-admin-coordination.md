@@ -1,4 +1,12 @@
-# MCP Server for Tenant Administrators - Implementation Coordination
+---
+docid: COLLAB-022
+title: Mcp Server Tenant Admin Coordination
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# MCP Server for Tenant Administrators - Implementation Coordination
 
 **DocID**: `COORD-001` (MCP Server Implementation)
 
@@ -7,17 +15,17 @@
 **Date**: 2026-01-03
 
 ## Overview
-Implementation of MCP (Model Context Protocol) server to provide AI-powered tools for tenant administrators in the B2Connect platform.
+Implementation of MCP (Model Context Protocol) server to provide AI-powered tools for tenant administrators in the B2X platform.
 
 ## Objectives
 - Enable AI assistants to perform administrative tasks for tenants
 - Provide secure, context-aware tool access
-- Integrate with existing B2Connect architecture
+- Integrate with existing B2X architecture
 
 ## Phase 1: Foundation (2 weeks - Start: 2026-01-03, End: 2026-01-17)
 
 ### Scope
-- MCP server project setup in B2Connect solution
+- MCP server project setup in B2X solution
 - Basic authentication and tenant context middleware
 - Tool registration framework
 - Database schema for AI configurations and system prompts
@@ -111,7 +119,7 @@ Implementation of MCP (Model Context Protocol) server to provide AI-powered tool
 
 ### 1. Project Structure
 - Location: `backend/BoundedContexts/Admin/MCP/`
-- Project Name: `B2Connect.Admin.MCP.csproj`
+- Project Name: `B2X.Admin.MCP.csproj`
 - Type: ASP.NET Core Web API with MCP protocol support
 
 ### 2. MCP Protocol Implementation
@@ -140,7 +148,7 @@ Implementation of MCP (Model Context Protocol) server to provide AI-powered tool
 - .NET 8+ (align with project stack)
 - MCP SDK (if available) or custom implementation
 - PostgreSQL for configuration storage
-- Existing B2Connect authentication system
+- Existing B2X authentication system
 
 ## Risk Assessment
 - **High**: MCP protocol compatibility with AI clients

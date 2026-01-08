@@ -1,4 +1,12 @@
-# ADR: Enhanced EF Core Localized DTO Projections Pattern
+---
+docid: ADR-100
+title: ADR Enhanced Localized Dto Projections
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR: Enhanced EF Core Localized DTO Projections Pattern
 
 **Date:** January 1, 2026  
 **Status:** Accepted  
@@ -214,4 +222,4 @@ public class LocalizableAttribute : Attribute
 ---
 
 **Status:** ✅ Accepted - Attribute-based approach enables gradual enhancement while maintaining backward compatibility and improving type safety.</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-enhanced-localized-dto-projections.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-enhanced-localized-dto-projections.md

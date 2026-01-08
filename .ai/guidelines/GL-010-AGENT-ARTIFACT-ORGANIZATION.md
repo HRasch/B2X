@@ -1,3 +1,11 @@
+---
+docid: GL-073
+title: GL 010 AGENT ARTIFACT ORGANIZATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GL-010: Agent & Artifact Organization
 
 **DocID**: `GL-010`  
@@ -86,6 +94,27 @@ See [AGENT_TEAM_REGISTRY.md](../collaboration/AGENT_TEAM_REGISTRY.md) for comple
 | `.ai/status/` | Task tracking | @ScrumMaster |
 | `.ai/templates/` | GitHub templates | @SARAH |
 | `.ai/workflows/` | Dev workflows | @SARAH |
+| `.ai/archive/` | Historical documents | @DocMaintainer |
+| `.ai/cleanup-logs/` | Cleanup audit logs | @DocMaintainer |
+
+### Archive & Cleanup Policy
+
+**Root-Level File Policy**:
+- ✅ **Keep at root**: README.md, QUICK_START_GUIDE.md, CONTRIBUTING.md, GOVERNANCE.md, SECURITY.md, LICENSE, `*.slnx`, `docker-compose.yml`, `Directory.Packages.props`
+- ❌ **Never at root**: Analysis documents, reports, logs, temporary files, test data, duplicates
+
+**Document Lifecycle**:
+1. **Active**: In appropriate `.ai/` subdirectory (requirements, decisions, logs, etc.)
+2. **Superseded**: Move to `.ai/archive/` when no longer maintained
+3. **Old**: Auto-archive documents > 90 days without updates
+4. **Expired**: Delete from archive after 6 months (coordinate with @SARAH)
+
+**Duplicate Prevention**:
+- Use [DOCUMENT_REGISTRY.md](../DOCUMENT_REGISTRY.md) DocID system for all documents
+- Search archive before creating new docs
+- Name files consistently (e.g., `REQ-###-*.md`, not `REQ-007-backend-analysis 2.md`)
+
+See [BS-PROJECT-CLEANLINESS-STRATEGY.md](../brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md) for detailed cleanup governance.
 
 ### Folder Rules
 

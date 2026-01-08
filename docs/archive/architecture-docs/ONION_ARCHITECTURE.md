@@ -1,4 +1,4 @@
-# Onion Architecture für B2Connect Backends
+﻿# Onion Architecture für B2X Backends
 
 ## Architektur-Überblick
 
@@ -121,7 +121,7 @@ Infrastructure ──────────────┘
 
 ### 1. Core Layer (Geschäftsregeln)
 ```csharp
-namespace B2Connect.Store.Core.Entities;
+namespace B2X.Store.Core.Entities;
 
 public class Product
 {
@@ -141,7 +141,7 @@ public class Product
 
 ### 2. Application Layer (Use Cases)
 ```csharp
-namespace B2Connect.Store.Application.Services;
+namespace B2X.Store.Application.Services;
 
 public interface IProductService
 {
@@ -163,7 +163,7 @@ public class ProductService : IProductService
 
 ### 3. Infrastructure Layer (Datenbankzugriff)
 ```csharp
-namespace B2Connect.Store.Infrastructure.Repositories;
+namespace B2X.Store.Infrastructure.Repositories;
 
 public class ProductRepository : IProductRepository
 {
@@ -178,7 +178,7 @@ public class ProductRepository : IProductRepository
 
 ### 4. Presentation Layer (API)
 ```csharp
-namespace B2Connect.Store.Presentation.Controllers;
+namespace B2X.Store.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -221,7 +221,7 @@ backend-store/
 │   ├── Application/    (Use cases)
 │   ├── Infrastructure/ (Data access)
 │   └── Presentation/   (API Gateway)
-├── B2Connect.Store.csproj
+├── B2X.Store.csproj
 └── Properties/
 ```
 
@@ -233,7 +233,7 @@ backend-admin/
 │   ├── Application/    (Use cases)
 │   ├── Infrastructure/ (Data access)
 │   └── Presentation/   (API Gateway)
-├── B2Connect.Admin.csproj
+├── B2X.Admin.csproj
 └── Properties/
 ```
 

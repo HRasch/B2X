@@ -1,4 +1,12 @@
 ---
+docid: KB-120
+title: KB 050 Plan Act Control
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-050
 title: Plan-Act-Control Practical Guide
 owner: @SARAH
@@ -7,7 +15,7 @@ status: Active
 
 # Plan-Act-Control Practical Guide
 
-This KB article explains how to apply the Plan‑Act‑Control engineering loop in practice for the B2Connect codebase.
+This KB article explains how to apply the Plan‑Act‑Control engineering loop in practice for the B2X codebase.
 
 Summary:
 - Plan: Create a short plan (ADR or issue) with acceptance criteria and a minimal test plan. Link it from PRs.

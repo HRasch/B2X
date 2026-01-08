@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Threading.Channels;
-using B2Connect.ERP.Core;
+using B2X.ERP.Core;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.ERP.Infrastructure.Actor;
+namespace B2X.ERP.Infrastructure.Actor;
 
 /// <summary>
 /// Thread-safe Actor for serialized ERP access.

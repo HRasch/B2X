@@ -1,4 +1,12 @@
-````chatagent
+---
+docid: UNKNOWN-087
+title: SubAgent APIDesign.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+﻿````chatagent
 ```chatagent
 ---
 description: 'SubAgent specialized in HTTP API design patterns, RESTful conventions, and error handling strategies'
@@ -62,7 +70,7 @@ Structure:
 @Backend says: "Need API design patterns for [endpoint description]"
 
 ## Output Example
-See: https://github.com/b2connect/api-design-patterns (reference)
+See: https://github.com/B2X/api-design-patterns (reference)
 
 ## Notes
 - Keep focused on design patterns, not implementation details

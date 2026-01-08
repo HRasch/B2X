@@ -1,3 +1,11 @@
+---
+docid: COLLAB-004
+title: AGENTS_READ_THIS_NOW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 AGENTS: READ THIS NOW
 
 **From:** @SARAH (Coordinator)  

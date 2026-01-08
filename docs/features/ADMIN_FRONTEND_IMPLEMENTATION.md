@@ -1,6 +1,6 @@
-# Admin Frontend Implementation
+﻿# Admin Frontend Implementation
 
-Complete guide to the B2Connect Admin Frontend: components, state management, forms, and deployment.
+Complete guide to the B2X Admin Frontend: components, state management, forms, and deployment.
 
 ## Overview
 

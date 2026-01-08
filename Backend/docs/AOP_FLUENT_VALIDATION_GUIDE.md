@@ -1,8 +1,8 @@
-# AOP & FluentValidation Implementation Guide
+﻿# AOP & FluentValidation Implementation Guide
 
 ## Overview
 
-This document describes the AOP (Aspect Oriented Programming) and FluentValidation implementation for the B2Connect CatalogService. It demonstrates clean, maintainable controller code with separated cross-cutting concerns.
+This document describes the AOP (Aspect Oriented Programming) and FluentValidation implementation for the B2X CatalogService. It demonstrates clean, maintainable controller code with separated cross-cutting concerns.
 
 ## Key Benefits
 

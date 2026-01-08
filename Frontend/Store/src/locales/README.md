@@ -1,8 +1,8 @@
-# Frontend Localization - Vue.js i18n
+﻿# Frontend Localization - Vue.js i18n
 
 ## Overview
 
-This directory contains the Vue.js 3 internationalization (i18n) setup using vue-i18n v9 for the B2Connect frontend application.
+This directory contains the Vue.js 3 internationalization (i18n) setup using vue-i18n v9 for the B2X frontend application.
 
 ## Structure
 
@@ -349,4 +349,4 @@ When adding or modifying translations:
 
 ## License
 
-Part of B2Connect - See root LICENSE file
+Part of B2X - See root LICENSE file

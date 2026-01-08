@@ -1,3 +1,11 @@
+---
+docid: GL-095
+title: README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Guidelines Index
 
 Dieses Verzeichnis enthält organisierte Guidelines für alle Aspekte der Projektverwaltung und Entwicklung, gepflegt von SARAH.

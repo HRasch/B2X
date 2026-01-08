@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.CMS.Application.Widgets;
-using B2Connect.CMS.Core.Domain.Pages;
+using B2X.CMS.Application.Widgets;
+using B2X.CMS.Core.Domain.Pages;
 using Microsoft.Extensions.Logging;
 using Wolverine;
 
-namespace B2Connect.CMS.Application.Pages
+namespace B2X.CMS.Application.Pages
 {
     /// <summary>
     /// Query to retrieve page definition from database

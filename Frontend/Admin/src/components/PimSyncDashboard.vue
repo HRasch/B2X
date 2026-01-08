@@ -2,32 +2,32 @@
   <div class="pimsync-dashboard">
     <!-- Header -->
     <div class="dashboard-header">
-      <h1>📊 PIM Sync Dashboard</h1>
-      <button @click="refreshDashboard" class="btn-refresh">🔄 Refresh</button>
+      <h1>📊 {{ $t('pim.sync.title') }}</h1>
+      <button @click="refreshDashboard" class="btn-refresh">🔄 {{ $t('pim.sync.refresh') }}</button>
     </div>
 
     <!-- Loading State -->
     <div v-if="loading" class="loading">
       <div class="spinner"></div>
-      Loading dashboard data...
+      {{ $t('pim.sync.loading') }}
     </div>
 
     <!-- Error State -->
     <div v-else-if="error" class="error-banner">
-      ⚠️ Error: {{ error }}
-      <button @click="refreshDashboard">Retry</button>
+      ⚠️ {{ $t('pim.sync.error') }} {{ error }}
+      <button @click="refreshDashboard">{{ $t('pim.sync.retry') }}</button>
     </div>
 
     <!-- Dashboard Content -->
     <div v-else class="dashboard-content">
       <!-- Active Syncs Section -->
       <section class="section active-syncs" v-if="dashboard.activeSyncCount > 0">
-        <h2>🔄 Active Syncs ({{ dashboard.activeSyncCount }})</h2>
+        <h2>🔄 {{ $t('pim.sync.activeSyncs') }} ({{ dashboard.activeSyncCount }})</h2>
 
         <div v-for="sync in dashboard.activeSyncs" :key="sync.syncRunId" class="sync-card">
           <!-- Provider Name -->
           <div class="sync-header">
-            <h3>{{ sync.providerName || '🌐 All Providers' }}</h3>
+            <h3>{{ sync.providerName || $t('pim.sync.allProviders') }}</h3>
             <span class="status-badge running">{{ sync.status }}</span>
           </div>
 
@@ -45,54 +45,56 @@
           <!-- Details Grid -->
           <div class="details-grid">
             <div class="detail-item">
-              <label>Products Processed</label>
+              <label>{{ $t('pim.sync.productsProcessed') }}</label>
               <span class="value">{{ sync.productsProcessed }} / {{ sync.totalProducts }}</span>
             </div>
             <div class="detail-item">
-              <label>Indexed</label>
+              <label>{{ $t('pim.sync.indexed') }}</label>
               <span class="value success">{{ sync.productsIndexed }}</span>
             </div>
             <div class="detail-item">
-              <label>Failed</label>
+              <label>{{ $t('pim.sync.failed') }}</label>
               <span class="value" :class="{ warning: sync.productsFailed > 0 }">
                 {{ sync.productsFailed }}
               </span>
             </div>
             <div class="detail-item">
-              <label>Current Language</label>
+              <label>{{ $t('pim.sync.currentLanguage') }}</label>
               <span class="value">{{ sync.currentLanguage || '-' }}</span>
             </div>
             <div class="detail-item">
-              <label>Duration</label>
+              <label>{{ $t('pim.sync.duration') }}</label>
               <span class="value">{{ formatDuration(sync.duration) }}</span>
             </div>
             <div class="detail-item">
-              <label>ETA</label>
+              <label>{{ $t('pim.sync.eta') }}</label>
               <span class="value">
                 {{
                   sync.estimatedTimeRemaining
                     ? formatDuration(sync.estimatedTimeRemaining)
-                    : 'Calculating...'
+                    : $t('pim.sync.calculating')
                 }}
               </span>
             </div>
           </div>
 
           <!-- Started At -->
-          <div class="timestamp">Started: {{ formatDateTime(sync.startedAt) }}</div>
+          <div class="timestamp">
+            {{ $t('pim.sync.started') }} {{ formatDateTime(sync.startedAt) }}
+          </div>
         </div>
       </section>
 
       <!-- No Active Syncs -->
-      <div v-else class="no-active-syncs">✅ No active syncs</div>
+      <div v-else class="no-active-syncs">✅ {{ $t('pim.sync.noActiveSyncs') }}</div>
 
       <!-- Latest Sync Section -->
       <section class="section latest-sync" v-if="dashboard.latestSync">
-        <h2>📋 Latest Sync</h2>
+        <h2>📋 {{ $t('pim.sync.latestSync') }}</h2>
 
         <div class="sync-card" :class="dashboard.latestSync.status.toLowerCase()">
           <div class="sync-header">
-            <h3>{{ dashboard.latestSync.providerName || 'All Providers' }}</h3>
+            <h3>{{ dashboard.latestSync.providerName || $t('pim.sync.allProviders') }}</h3>
             <span class="status-badge" :class="dashboard.latestSync.status.toLowerCase()">
               {{ dashboard.latestSync.status }}
             </span>
@@ -101,27 +103,27 @@
           <!-- Details -->
           <div class="details-grid">
             <div class="detail-item">
-              <label>Products Indexed</label>
+              <label>{{ $t('pim.sync.productsIndexed') }}</label>
               <span class="value">{{ dashboard.latestSync.productsIndexed }}</span>
             </div>
             <div class="detail-item">
-              <label>Duration</label>
+              <label>{{ $t('pim.sync.duration') }}</label>
               <span class="value">{{ formatDuration(dashboard.latestSync.duration) }}</span>
             </div>
             <div class="detail-item">
-              <label>Completed</label>
+              <label>{{ $t('pim.sync.completed') }}</label>
               <span class="value">{{ formatDateTime(dashboard.latestSync.completedAt) }}</span>
             </div>
           </div>
 
           <!-- Error Message -->
           <div v-if="dashboard.latestSync.errorMessage" class="error-message">
-            <strong>Error:</strong> {{ dashboard.latestSync.errorMessage }}
+            <strong>{{ $t('pim.sync.error') }}</strong> {{ dashboard.latestSync.errorMessage }}
           </div>
 
           <!-- Detailed Errors -->
           <div v-if="dashboard.latestSync.detailedErrors.length > 0" class="detailed-errors">
-            <h4>Detailed Errors:</h4>
+            <h4>{{ $t('pim.sync.detailedErrors') }}</h4>
             <ul>
               <li v-for="(err, idx) in dashboard.latestSync.detailedErrors.slice(0, 5)" :key="idx">
                 {{ err }}
@@ -137,57 +139,57 @@
 
       <!-- Statistics Section -->
       <section class="section statistics">
-        <h2>📈 Statistics</h2>
+        <h2>📈 {{ $t('pim.sync.statistics') }}</h2>
 
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-value">
               {{ dashboard.statistics.totalSyncsCompleted }}
             </div>
-            <div class="stat-label">Completed Syncs</div>
+            <div class="stat-label">{{ $t('pim.sync.completedSyncs') }}</div>
           </div>
 
           <div class="stat-card">
             <div class="stat-value">
               {{ dashboard.statistics.totalSyncsFailed }}
             </div>
-            <div class="stat-label">Failed Syncs</div>
+            <div class="stat-label">{{ $t('pim.sync.failedSyncs') }}</div>
           </div>
 
           <div class="stat-card">
             <div class="stat-value success">{{ dashboard.statistics.successRate.toFixed(2) }}%</div>
-            <div class="stat-label">Success Rate</div>
+            <div class="stat-label">{{ $t('pim.sync.successRate') }}</div>
           </div>
 
           <div class="stat-card">
             <div class="stat-value">
               {{ formatNumber(dashboard.statistics.totalProductsIndexed) }}
             </div>
-            <div class="stat-label">Total Products Indexed</div>
+            <div class="stat-label">{{ $t('pim.sync.totalProductsIndexed') }}</div>
           </div>
 
           <div class="stat-card">
             <div class="stat-value">
               {{ formatDuration(dashboard.statistics.averageSyncDuration) }}
             </div>
-            <div class="stat-label">Avg Sync Duration</div>
+            <div class="stat-label">{{ $t('pim.sync.avgSyncDuration') }}</div>
           </div>
         </div>
       </section>
 
       <!-- Recent History Section -->
       <section class="section recent-history" v-if="dashboard.recentHistory.length > 0">
-        <h2>🕐 Recent History</h2>
+        <h2>🕐 {{ $t('pim.sync.recentHistory') }}</h2>
 
         <div class="history-table-container">
           <table class="history-table">
             <thead>
               <tr>
-                <th>Provider</th>
-                <th>Status</th>
-                <th>Products</th>
-                <th>Duration</th>
-                <th>Completed</th>
+                <th>{{ $t('pim.sync.provider') }}</th>
+                <th>{{ $t('pim.sync.status') }}</th>
+                <th>{{ $t('pim.sync.products') }}</th>
+                <th>{{ $t('pim.sync.duration') }}</th>
+                <th>{{ $t('pim.sync.completed') }}</th>
               </tr>
             </thead>
             <tbody>

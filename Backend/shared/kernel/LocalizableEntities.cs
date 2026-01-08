@@ -1,6 +1,6 @@
-using B2Connect.Types.Localization;
+using B2X.Types.Localization;
 
-namespace B2Connect.Types.Domain;
+namespace B2X.Types.Domain;
 
 /// <summary>
 /// Represents a product or service with localized name and description

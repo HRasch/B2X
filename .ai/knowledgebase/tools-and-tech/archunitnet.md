@@ -1,4 +1,12 @@
-# ArchUnitNET - Architecture Testing Framework
+---
+docid: KB-163
+title: Archunitnet
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ArchUnitNET - Architecture Testing Framework
 
 **Last Updated**: 2. Januar 2026  
 **Maintained By**: GitHub Copilot  
@@ -21,7 +29,7 @@
 | Aspect | Details |
 |--------|---------|
 | **Purpose** | Automated architecture testing for .NET |
-| **Version** | 0.13.1 (current in B2Connect) |
+| **Version** | 0.13.1 (current in B2X) |
 | **Test Framework** | xUnit integration |
 | **.NET Support** | .NET 6, 7, 8, 9, 10 |
 | **Pattern** | Fluent API for readable rules |
@@ -107,9 +115,9 @@ public void Domain_Core_Should_Not_Depend_On_Infrastructure()
 public void Catalog_Should_Not_Depend_On_CMS()
 {
     var rule = Types()
-        .That().ResideInNamespace("B2Connect.Catalog.*", useRegularExpressions: true)
+        .That().ResideInNamespace("B2X.Catalog.*", useRegularExpressions: true)
         .Should().NotDependOnAny(
-            Types().That().ResideInNamespace("B2Connect.CMS.*", useRegularExpressions: true))
+            Types().That().ResideInNamespace("B2X.CMS.*", useRegularExpressions: true))
         .Because("Bounded contexts must be isolated");
 
     rule.Check(Architecture);
@@ -184,13 +192,13 @@ public void Services_Should_Have_Service_Suffix()
 
 ---
 
-## B2Connect Implementation
+## B2X Implementation
 
 ### Project Structure
 
 ```
-backend/Tests/B2Connect.Architecture.Tests/
-├── B2Connect.Architecture.Tests.csproj
+backend/Tests/B2X.Architecture.Tests/
+├── B2X.Architecture.Tests.csproj
 ├── ArchitectureTestBase.cs      ← Shared architecture loading
 ├── LayerDependencyTests.cs      ← Clean architecture rules
 ├── BoundedContextTests.cs       ← BC isolation rules
@@ -207,19 +215,19 @@ public abstract class ArchitectureTestBase
         .LoadAssemblies(
             typeof(Catalog.Core.Entities.TaxRate).Assembly,
             typeof(CMS.Core.Domain.Pages.PageDefinition).Assembly,
-            typeof(B2Connect.AuthService.Data.AppUser).Assembly,
+            typeof(B2X.AuthService.Data.AppUser).Assembly,
             typeof(LocalizationService.Models.LocalizedString).Assembly,
             typeof(Domain.Search.Models.ProductDocument).Assembly,
-            typeof(B2Connect.Types.Domain.Entity).Assembly)
+            typeof(B2X.Types.Domain.Entity).Assembly)
         .Build();
 
     protected static class BoundedContexts
     {
-        public const string Catalog = "B2Connect.Catalog";
-        public const string CMS = "B2Connect.CMS";
-        public const string Identity = "B2Connect.AuthService";
-        public const string Localization = "B2Connect.LocalizationService";
-        public const string Search = "B2Connect.Domain.Search";
+        public const string Catalog = "B2X.Catalog";
+        public const string CMS = "B2X.CMS";
+        public const string Identity = "B2X.AuthService";
+        public const string Localization = "B2X.LocalizationService";
+        public const string Search = "B2X.Domain.Search";
     }
 }
 ```
@@ -367,10 +375,10 @@ public class LayerDependencyTests : ArchitectureTestBase
 
 ```bash
 # Run only architecture tests
-dotnet test backend/Tests/B2Connect.Architecture.Tests -v minimal
+dotnet test backend/Tests/B2X.Architecture.Tests -v minimal
 
 # Run as part of full test suite
-dotnet test B2Connect.slnx --filter "Category=Architecture"
+dotnet test B2X.slnx --filter "Category=Architecture"
 ```
 
 ### VS Code Task
@@ -382,7 +390,7 @@ dotnet test B2Connect.slnx --filter "Category=Architecture"
   "type": "shell",
   "args": [
     "test",
-    "${workspaceFolder}/backend/Tests/B2Connect.Architecture.Tests/B2Connect.Architecture.Tests.csproj",
+    "${workspaceFolder}/backend/Tests/B2X.Architecture.Tests/B2X.Architecture.Tests.csproj",
     "-v", "minimal"
   ],
   "group": "test"
@@ -415,7 +423,7 @@ dotnet test B2Connect.slnx --filter "Category=Architecture"
 
 | Version | .NET Support | Key Changes |
 |---------|--------------|-------------|
-| 0.13.1 | .NET 6-10 | Current B2Connect version |
+| 0.13.1 | .NET 6-10 | Current B2X version |
 | 0.13.0 | .NET 6-10 | Performance improvements |
 | 0.12.x | .NET 6-9 | Initial stable release |
 

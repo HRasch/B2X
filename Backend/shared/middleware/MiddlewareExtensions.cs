@@ -1,12 +1,12 @@
 using System;
-using B2Connect.Shared.Core.Authorization;
-using B2Connect.Utils.Extensions;
+using B2X.Shared.Core.Authorization;
+using B2X.Utils.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Shared.Middleware;
+namespace B2X.Shared.Middleware;
 
 /// <summary>
 /// Tenant context middleware for multitenant applications

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.CMS.Application.Pages;
-using B2Connect.CMS.Core.Domain.Pages;
+using B2X.CMS.Application.Pages;
+using B2X.CMS.Core.Domain.Pages;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CMS.Application.Services;
+namespace B2X.CMS.Application.Services;
 
 /// <summary>
 /// Implementation of template validation service (ADR-030 Phase 2)

@@ -1,4 +1,12 @@
 ---
+docid: TPL-009
+title: Github Bug
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 name: 🐛 Bug Report
 about: Issue-Template für Bug Reports
 title: "[BUG] [TITLE]"

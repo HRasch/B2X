@@ -1,10 +1,10 @@
-using B2Connect.LayoutService.Data;
-using B2Connect.LayoutService.Models;
-using B2Connect.LayoutService.Services;
+using B2X.LayoutService.Data;
+using B2X.LayoutService.Models;
+using B2X.LayoutService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.LayoutService.Controllers;
+namespace B2X.LayoutService.Controllers;
 
 /// <summary>
 /// REST API Controller for Layout Service

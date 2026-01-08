@@ -1,6 +1,6 @@
-using B2Connect.LocalizationService.Data;
-using B2Connect.LocalizationService.Models;
-using B2Connect.LocalizationService.Services;
+using B2X.LocalizationService.Data;
+using B2X.LocalizationService.Models;
+using B2X.LocalizationService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Moq;
 using Xunit;
 
-namespace B2Connect.LocalizationService.Tests.Services;
+namespace B2X.LocalizationService.Tests.Services;
 
 public class LocalizationServiceTests : IAsyncLifetime, IDisposable
 {
@@ -16,8 +16,8 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
     private Mock<IDistributedCache> _cacheMock = null!;
     private IDistributedCache _realCache = null!;
     private Mock<IHttpContextAccessor> _httpContextAccessorMock = null!;
-    private B2Connect.LocalizationService.Services.LocalizationService _service = null!;
-    private B2Connect.LocalizationService.Services.LocalizationService _serviceWithRealCache = null!;
+    private B2X.LocalizationService.Services.LocalizationService _service = null!;
+    private B2X.LocalizationService.Services.LocalizationService _serviceWithRealCache = null!;
     private Mock<HttpContext> _httpContextMock = null!;
 
     public async Task InitializeAsync()
@@ -34,8 +34,8 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
         _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
         _httpContextAccessorMock.Setup(x => x.HttpContext).Returns(_httpContextMock.Object);
 
-        _service = new B2Connect.LocalizationService.Services.LocalizationService(_dbContext, _cacheMock.Object, _httpContextAccessorMock.Object);
-        _serviceWithRealCache = new B2Connect.LocalizationService.Services.LocalizationService(_dbContext, _realCache, _httpContextAccessorMock.Object);
+        _service = new B2X.LocalizationService.Services.LocalizationService(_dbContext, _cacheMock.Object, _httpContextAccessorMock.Object);
+        _serviceWithRealCache = new B2X.LocalizationService.Services.LocalizationService(_dbContext, _realCache, _httpContextAccessorMock.Object);
     }
 
     public async Task DisposeAsync()

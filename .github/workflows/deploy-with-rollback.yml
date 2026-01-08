@@ -1,4 +1,4 @@
----
+﻿---
 name: Deploy with Rollback
 
 on:
@@ -100,8 +100,8 @@ jobs:
       - name: Deploy to Green Environment
         run: |
           cd backend/kubernetes/helm
-          helm upgrade --install b2connect-green ./ \
-            --namespace b2connect \
+          helm upgrade --install B2X-green ./ \
+            --namespace B2X \
             --set image.tag=${{ needs.build-and-push.outputs.image-tag }} \
             --set deployment.color=green \
             --set deployment.type=blue-green \
@@ -116,15 +116,15 @@ jobs:
       - name: Run Health Checks
         run: |
           echo "Waiting for green deployment to be ready..."
-          kubectl wait --for=condition=available --timeout=300s deployment/b2connect-green -n b2connect
+          kubectl wait --for=condition=available --timeout=300s deployment/B2X-green -n B2X
 
           echo "Running smoke tests..."
           ./scripts/smoke-test.sh green
 
       - name: Switch Traffic to Green
         run: |
-          kubectl patch service b2connect-api-gateway -n b2connect -p '{"spec":{"selector":{"color":"green"}}}'
-          kubectl patch service b2connect-frontend -n b2connect -p '{"spec":{"selector":{"color":"green"}}}'
+          kubectl patch service B2X-api-gateway -n B2X -p '{"spec":{"selector":{"color":"green"}}}'
+          kubectl patch service B2X-frontend -n B2X -p '{"spec":{"selector":{"color":"green"}}}'
 
       - name: Monitor Post-Deployment
         run: |
@@ -144,15 +144,15 @@ jobs:
       - name: Mark Green as Stable
         if: steps.validate.outputs.validation == 'success'
         run: |
-          kubectl label deployment b2connect-green stable=true -n b2connect
-          kubectl label deployment b2connect-blue stable=false -n b2connect
+          kubectl label deployment B2X-green stable=true -n B2X
+          kubectl label deployment B2X-blue stable=false -n B2X
 
       - name: Rollback on Failure
         if: failure() || steps.validate.outputs.validation == 'failed'
         run: |
           echo "Deployment failed, rolling back..."
-          kubectl patch service b2connect-api-gateway -n b2connect -p '{"spec":{"selector":{"color":"blue"}}}'
-          kubectl patch service b2connect-frontend -n b2connect -p '{"spec":{"selector":{"color":"blue"}}}'
+          kubectl patch service B2X-api-gateway -n B2X -p '{"spec":{"selector":{"color":"blue"}}}'
+          kubectl patch service B2X-frontend -n B2X -p '{"spec":{"selector":{"color":"blue"}}}'
 
   deploy-canary:
     name: Canary Deployment
@@ -177,8 +177,8 @@ jobs:
       - name: Deploy Canary
         run: |
           cd backend/kubernetes/helm
-          helm upgrade --install b2connect-canary ./ \
-            --namespace b2connect \
+          helm upgrade --install B2X-canary ./ \
+            --namespace B2X \
             --set image.tag=${{ needs.build-and-push.outputs.image-tag }} \
             --set deployment.type=canary \
             --set canary.replicas=1 \
@@ -210,8 +210,8 @@ jobs:
         if: steps.validate.outputs.validation == 'success'
         run: |
           cd backend/kubernetes/helm
-          helm upgrade b2connect-canary ./ \
-            --namespace b2connect \
+          helm upgrade B2X-canary ./ \
+            --namespace B2X \
             --set canary.traffic=100 \
             --set canary.replicas=3 \
             --wait
@@ -219,13 +219,13 @@ jobs:
       - name: Cleanup Canary
         if: steps.validate.outputs.validation == 'success'
         run: |
-          kubectl delete deployment b2connect-canary -n b2connect || true
+          kubectl delete deployment B2X-canary -n B2X || true
 
       - name: Rollback Canary
         if: failure() || steps.validate.outputs.validation == 'failed'
         run: |
           echo "Canary failed, cleaning up..."
-          kubectl delete deployment b2connect-canary -n b2connect || true
+          kubectl delete deployment B2X-canary -n B2X || true
 
   rollback:
     name: Rollback Deployment
@@ -249,7 +249,7 @@ jobs:
       - name: Find Stable Version
         id: find-stable
         run: |
-          STABLE_TAG=$(kubectl get deployment -l stable=true -n b2connect -o jsonpath='{.items[0].spec.template.spec.containers[0].image}' | sed 's/.*://')
+          STABLE_TAG=$(kubectl get deployment -l stable=true -n B2X -o jsonpath='{.items[0].spec.template.spec.containers[0].image}' | sed 's/.*://')
           if [ -z "$STABLE_TAG" ]; then
             STABLE_TAG="${{ github.event.inputs.rollback_version }}"
           fi
@@ -258,8 +258,8 @@ jobs:
       - name: Rollback to Stable Version
         run: |
           cd backend/kubernetes/helm
-          helm upgrade b2connect ./ \
-            --namespace b2connect \
+          helm upgrade B2X ./ \
+            --namespace B2X \
             --set image.tag=${{ steps.find-stable.outputs.stable-tag }} \
             --wait \
             --timeout=10m

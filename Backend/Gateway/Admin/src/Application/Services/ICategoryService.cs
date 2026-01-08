@@ -1,6 +1,6 @@
-using B2Connect.Admin.Core.Entities;
+using B2X.Admin.Core.Entities;
 
-namespace B2Connect.Admin.Application.Services;
+namespace B2X.Admin.Application.Services;
 
 /// <summary>
 /// Service interface for Category operations

@@ -1,4 +1,12 @@
 ---
+docid: GL-086
+title: GL 050 Dependency Migration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-050
 title: Dependency Migration Guideline
 owner: @TechLead

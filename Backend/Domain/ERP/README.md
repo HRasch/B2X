@@ -1,10 +1,10 @@
-# ERP Domain - enventa Integration Implementation
+﻿# ERP Domain - enventa Integration Implementation
 
 ## Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        B2Connect (.NET 10)                          │
+│                        B2X (.NET 10)                          │
 │  ┌────────────────────┐    ┌────────────────────────────────────┐  │
 │  │ ERP.Abstractions   │    │ ERP Service                        │  │
 │  │ - DTOs             │    │ - HTTP Client                      │  │
@@ -89,14 +89,14 @@ POST /api/articles/batch
 ```
 backend/Domain/ERP/
 ├── Abstractions/                    # .NET 10 - Shared contracts
-│   ├── B2Connect.ERP.Abstractions.csproj
+│   ├── B2X.ERP.Abstractions.csproj
 │   ├── ErpDtos.cs                   # Entity DTOs
 │   ├── NVShopTypes.cs               # INVContext interface & models
 │   └── Http/
 │       └── ErpHttpContracts.cs      # HTTP communication contracts
 │
-├── src/                             # .NET 10 - B2Connect ERP service
-│   ├── B2Connect.ERP.csproj
+├── src/                             # .NET 10 - B2X ERP service
+│   ├── B2X.ERP.csproj
 │   ├── Services/                    # ERP service implementation
 │   ├── Sync/                        # Delta sync consumer
 │   └── Infrastructure/              # HTTP client, resilience
@@ -147,7 +147,7 @@ Bulk operations with detailed error reporting.
 - `Task<T>` for async (no IAsyncEnumerable)
 - GZip via `System.IO.Compression`
 
-### .NET 10 (B2Connect)
+### .NET 10 (B2X)
 - Native `System.Text.Json`
 - `IAsyncEnumerable<T>` for streaming consumption
 - `HttpClient` with `SocketsHttpHandler`
@@ -167,7 +167,7 @@ Bulk operations with detailed error reporting.
 - Thread-safe via Actor pattern
 
 ### 6. Service Interface (`ErpService.cs`)
-- Clean interface for B2Connect application
+- Clean interface for B2X application
 - Async streaming for large datasets
 - Batch operations for performance
 
@@ -211,7 +211,7 @@ Console.WriteLine($"Synced {result.SuccessCount}/{result.ProcessedCount} article
 
 ✅ **Type Safety**: Strongly typed DTOs and query builders  
 ✅ **Performance**: Batch operations, streaming, connection pooling  
-✅ **Maintainability**: Clean separation between B2Connect and ERP logic  
+✅ **Maintainability**: Clean separation between B2X and ERP logic  
 ✅ **Scalability**: Per-tenant isolation, async operations  
 ✅ **Compatibility**: Cross-framework communication via gRPC  
 ✅ **Testability**: Mockable interfaces, isolated components  

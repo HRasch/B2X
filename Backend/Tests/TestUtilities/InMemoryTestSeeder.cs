@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Bogus;
 using Microsoft.AspNetCore.Identity;
-using B2Connect.AuthService.Data;
-using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.Shared.Core;
+using B2X.AuthService.Data;
+using B2X.Admin.Infrastructure.Data;
+using B2X.Shared.Core;
 
-namespace B2Connect.Tests.Utilities;
+namespace B2X.Tests.Utilities;
 
 /// <summary>
 /// Utility methods to seed in-memory test databases with bogus/demo data.

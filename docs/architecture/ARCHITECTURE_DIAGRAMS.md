@@ -1,4 +1,4 @@
-# B2Connect Architecture Diagram
+﻿# B2X Architecture Diagram
 
 **Last Updated**: 28. Dezember 2025
 
@@ -58,11 +58,11 @@
 ├────────────────────────────────────────────────────────────────────────┤
 │                                                                        │
 │  PostgreSQL (5432)              Redis (6379)                         │
-│  ├─ b2connect_identity          ├─ Sessions                         │
-│  ├─ b2connect_tenancy           ├─ Cache                            │
-│  ├─ b2connect_catalog           └─ Temporary Data                   │
-│  ├─ b2connect_cms                                                    │
-│  └─ b2connect_search            Elasticsearch (9200)                │
+│  ├─ B2X_identity          ├─ Sessions                         │
+│  ├─ B2X_tenancy           ├─ Cache                            │
+│  ├─ B2X_catalog           └─ Temporary Data                   │
+│  ├─ B2X_cms                                                    │
+│  └─ B2X_search            Elasticsearch (9200)                │
 │                                  └─ Full-text Search Index          │
 │                                                                        │
 └────────────────────────────────────────────────────────────────────────┘
@@ -71,12 +71,12 @@
 ┌────────────┴─────────────────────────────────────────────────────────┐
 │                    CLI LAYER (Operations)                             │
 ├──────────────────────────────────────────────────────────────────────┤
-│  b2connect auth create-user                                          │
-│  b2connect tenant create                                             │
-│  b2connect product import-csv                                        │
-│  b2connect migrate --service Identity                                │
-│  b2connect seed --service Catalog                                    │
-│  b2connect status --all                                              │
+│  B2X auth create-user                                          │
+│  B2X tenant create                                             │
+│  B2X product import-csv                                        │
+│  B2X migrate --service Identity                                │
+│  B2X seed --service Catalog                                    │
+│  B2X status --all                                              │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -205,7 +205,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  User runs: b2connect auth create-user email@x.com  │
+│  User runs: B2X auth create-user email@x.com  │
 └─────────────────────────────────────────────────────┘
                         ▼
         ┌──────────────────────────────┐
@@ -318,7 +318,7 @@ No manual service-to-service calls needed.
 ```
 ┌──────────────────────────────────────────────────────────┐
 │              ASPIRE ORCHESTRATION                        │
-│  (dotnet run --project AppHost/B2Connect.AppHost.csproj)            │
+│  (dotnet run --project AppHost/B2X.AppHost.csproj)            │
 │                                                          │
 │  Dashboard: http://localhost:15500                       │
 │  ├─ Shows all running services                          │
@@ -358,7 +358,7 @@ Or for production:
 
 ```
 ┌────────────────────────────────────────────────────┐
-│           B2Connect Technology Stack               │
+│           B2X Technology Stack               │
 ├────────────────────────────────────────────────────┤
 │                                                    │
 │  Backend:                                          │

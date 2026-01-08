@@ -1,4 +1,4 @@
-# B2Connect Workflows - Quick Reference Card (PHASE 4)
+﻿# B2X Workflows - Quick Reference Card (PHASE 4)
 
 **Print & Bookmark This Page**  
 **Last Updated**: 29. Dezember 2025  

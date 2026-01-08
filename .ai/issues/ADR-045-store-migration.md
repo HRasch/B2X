@@ -1,4 +1,12 @@
-# ADR-045: Unified Layout System - Store Page Migration
+---
+docid: UNKNOWN-139
+title: ADR 045 Store Migration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-045: Unified Layout System - Store Page Migration
 
 **Status**: Completed  
 **Priority**: P1 (High)  
@@ -44,4 +52,4 @@ Migrate Store pages to `UnifiedStoreLayout.vue`:
 - htmlcss-mcp/check_html_accessibility: Attempted (tools not available in terminal)
 
 **Note**: MCP validation recommended for production, but migration complete with ESLint passing.</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/issues/ADR-045-store-migration.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/issues/ADR-045-store-migration.md

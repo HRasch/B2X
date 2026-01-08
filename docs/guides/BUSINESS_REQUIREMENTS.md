@@ -1,6 +1,6 @@
-# Business Requirements & Roadmap
+﻿# Business Requirements & Roadmap
 
-Overview of B2Connect features, current status, and planned enhancements.
+Overview of B2X features, current status, and planned enhancements.
 
 ## 🎯 Core Features (Implemented)
 
@@ -129,7 +129,7 @@ Overview of B2Connect features, current status, and planned enhancements.
 
 ## 💰 Pricing Model
 
-B2Connect supports:
+B2X supports:
 - **B2B**: Volume-based pricing, tiered discounts, contract pricing
 - **B2C**: Standard retail pricing, promotional discounts
 - **Hybrid**: Mixed B2B/B2C for same customer

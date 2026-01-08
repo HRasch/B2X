@@ -1,4 +1,4 @@
-using B2Connect.Admin.Tests.Benchmarks;
+﻿using B2X.Admin.Tests.Benchmarks;
 using BenchmarkDotNet.Running;
 
 // ─────────────────────────────────────────────────────────────────────────────

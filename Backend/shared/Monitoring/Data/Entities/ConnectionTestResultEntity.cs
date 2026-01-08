@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using B2Connect.Core.Interfaces;
-using B2Connect.Types.Domain;
+using B2X.Core.Interfaces;
+using B2X.Types.Domain;
 
-namespace B2Connect.Shared.Monitoring.Data.Entities;
+namespace B2X.Shared.Monitoring.Data.Entities;
 
 /// <summary>
 /// Entity representing a connection test result in the database.

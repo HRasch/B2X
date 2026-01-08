@@ -1,4 +1,12 @@
-# 🏗️ Architecture Review Request: Domain vs BoundedContexts
+---
+docid: STATUS-004
+title: ARCHITECT_REVIEW_DOMAIN_vs_BOUNDEDCONTEXTS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🏗️ Architecture Review Request: Domain vs BoundedContexts
 
 **To**: @Architect  
 **Date**: 30. Dezember 2025  
@@ -60,8 +68,8 @@ backend/Domain/              ← Proposed structure (DDD terminology)
    - Never (current structure is fine)
 
 3. **Namespace changes**: Should we also rename namespaces?
-   - `B2Connect.Store.Catalog` → Keep as-is
-   - `B2Connect.Domain.Store.Catalog` → Add Domain layer
+   - `B2X.Store.Catalog` → Keep as-is
+   - `B2X.Domain.Store.Catalog` → Add Domain layer
    - Something else?
 
 4. **Related**: Any other structural decisions pending?

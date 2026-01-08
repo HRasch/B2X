@@ -1,6 +1,14 @@
-# B2Connect — MVP Backlog
+---
+docid: REQ-048
+title: MVP_BACKLOG
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
 
-This file lists a prioritized, minimal set of features to ship an initial, market-viable product (MVP) for B2Connect. Each item includes a short description, priority, rough effort estimate and suggested owner.
+﻿# B2X — MVP Backlog
+
+This file lists a prioritized, minimal set of features to ship an initial, market-viable product (MVP) for B2X. Each item includes a short description, priority, rough effort estimate and suggested owner.
 
 Notes on estimates: effort shown as **S/M/L** (Small ≈ 1-2 dev-weeks, Medium ≈ 3-6 dev-weeks, Large ≈ 2+ months) assuming a small cross-functional team.
 

@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using B2Connect.Types.Localization;
-using ShopEntity = B2Connect.Store.Core.Common.Entities.Shop;
+using B2X.Types.Localization;
+using ShopEntity = B2X.Store.Core.Common.Entities.Shop;
 
-namespace B2Connect.Store.Core.Store.Entities;
+namespace B2X.Store.Core.Store.Entities;
 
 /// <summary>
 /// Shipping method entity for delivery configuration

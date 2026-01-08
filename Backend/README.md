@@ -1,4 +1,4 @@
-# B2Connect Backend
+﻿# B2X Backend
 
 ASP.NET Core microservices platform with .NET Aspire orchestration.
 
@@ -35,7 +35,7 @@ backend/
 ├── infrastructure/              # IaC (Terraform, Kubernetes)
 ├── kubernetes/                  # K8s configs
 ├── docs/                        # Documentation
-├── B2Connect.sln               # Solution file
+├── B2X.sln               # Solution file
 └── Directory.Packages.props    # NuGet config
 ```
 

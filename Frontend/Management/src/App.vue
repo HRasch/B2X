@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div class="app-container">
     <nav class="navbar">
       <div class="nav-brand">
-        <h1>B2Connect Tenant Management</h1>
+        <h1>B2X Tenant Management</h1>
       </div>
       <div v-if="authStore.isAuthenticated" class="nav-menu">
         <router-link to="/dashboard">Dashboard</router-link>
@@ -20,7 +20,7 @@
     </main>
 
     <footer class="footer">
-      <p>&copy; 2025 B2Connect. All rights reserved.</p>
+      <p>&copy; 2025 B2X. All rights reserved.</p>
     </footer>
 
     <!-- AI Assistant -->

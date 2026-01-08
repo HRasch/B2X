@@ -1,15 +1,15 @@
-using System.Diagnostics;
-using B2Connect.Admin.Application.Commands.Products;
-using B2Connect.Admin.Core.Entities;
-using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
-using B2Connect.Types.Localization;
+﻿using System.Diagnostics;
+using B2X.Admin.Application.Commands.Products;
+using B2X.Admin.Core.Entities;
+using B2X.Admin.Infrastructure.Data;
+using B2X.Shared.Tenancy.Infrastructure.Context;
+using B2X.Types.Localization;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Admin.Tests.Benchmarks;
+namespace B2X.Admin.Tests.Benchmarks;
 
 /// <summary>
 /// Test implementation of ITenantContext for benchmarks

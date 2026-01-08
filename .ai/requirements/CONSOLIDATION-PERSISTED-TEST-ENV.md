@@ -1,4 +1,12 @@
 ---
+docid: REQ-044
+title: CONSOLIDATION PERSISTED TEST ENV
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: CONSOLIDATION-PERSISTED-TEST-ENV
 title: Persisted Test Environment - Consolidated Analysis
 owner: @SARAH
@@ -24,7 +32,7 @@ related_analyses:
 
 ## 🎯 Feature Overview
 
-**Goal**: Enable B2Connect to support both **persisted test environments** (PostgreSQL with persistent data) and **temporary test environments** (in-memory for unit/integration tests), with initial seeding for Management-Frontend services and a tenant creation UI.
+**Goal**: Enable B2X to support both **persisted test environments** (PostgreSQL with persistent data) and **temporary test environments** (in-memory for unit/integration tests), with initial seeding for Management-Frontend services and a tenant creation UI.
 
 **Key Deliverables**:
 1. Configuration-driven storage mode selection

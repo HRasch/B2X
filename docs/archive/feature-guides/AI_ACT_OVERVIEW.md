@@ -1,4 +1,4 @@
-# 🤖 EU AI Act Compliance Overview (Quick Reference)
+﻿# 🤖 EU AI Act Compliance Overview (Quick Reference)
 
 **Status:** Quick Reference | **Last Updated:** 28. Dezember 2025
 
@@ -25,7 +25,7 @@
 │    - Social credit systems                      │
 │    - Biometric mass surveillance                │
 │    - Manipulation of vulnerable groups          │
-│    B2Connect Impact: ❌ NONE (we don't use these)│
+│    B2X Impact: ❌ NONE (we don't use these)│
 └─────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────┐
@@ -33,7 +33,7 @@
 │    ✅ Fraud Detection (payment systems)          │
 │    - Educational/employment decisions           │
 │    - Law enforcement decisions                  │
-│    B2Connect Action: FULL P0.7 compliance       │
+│    B2X Action: FULL P0.7 compliance       │
 └─────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────┐
@@ -42,7 +42,7 @@
 │    ✅ Content Moderation (user reviews)          │
 │    - Chatbots                                   │
 │    - Emotion recognition                       │
-│    B2Connect Action: Transparency labels        │
+│    B2X Action: Transparency labels        │
 └─────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────┐
@@ -50,13 +50,13 @@
 │    ✅ Product Recommendations (browsing history)│
 │    ✅ Dynamic Pricing (supply/demand)           │
 │    - Spam filters                               │
-│    B2Connect Action: Basic audit trail          │
+│    B2X Action: Basic audit trail          │
 └─────────────────────────────────────────────────┘
 ```
 
 ---
 
-## B2Connect AI Systems Categorization
+## B2X AI Systems Categorization
 
 | AI System | Purpose | Risk Level | B2C Impact | B2B Impact | Compliance Effort |
 |-----------|---------|-----------|-----------|-----------|-------------------|
@@ -69,7 +69,7 @@
 
 ---
 
-## Compliance Checklist: What B2Connect Must Do
+## Compliance Checklist: What B2X Must Do
 
 ### ✅ Immediate (Weeks 1-2)
 
@@ -192,15 +192,15 @@
 - External audit (hire auditor)
 - Notified body (EU-certified auditor)
 
-**B2Connect:** Internal audit for Phase 0.7 ✅
+**B2X:** Internal audit for Phase 0.7 ✅
 
 ### 4. Transparency & User Rights (Art. 22)
 
 **What:** Users affected by the AI must be informed:
 - "Your payment was flagged by our AI fraud detection system"
 - "Reasons: Large amount + international transaction + unusual merchant type"
-- "You can request more details: fraud-support@b2connect.com"
-- "You can dispute this decision: appeal-form.b2connect.com"
+- "You can request more details: fraud-support@B2X.com"
+- "You can dispute this decision: appeal-form.B2X.com"
 
 **How:**
 - Email notification when transaction blocked
@@ -248,7 +248,7 @@
 
 ## Key Articles in AI Act
 
-| Article | Requirement | B2Connect Impact |
+| Article | Requirement | B2X Impact |
 |---------|-------------|-----------------|
 | Art. 6 | Risk assessment | HIGH-RISK AI needs full assessment |
 | Art. 8 | Conformity assessment | Internal audit required |
@@ -395,7 +395,7 @@ All overrides logged:
 
 ---
 
-## B2Connect Action Plan
+## B2X Action Plan
 
 ### Timeline: 10 Weeks (P0.7 in Phase 0)
 
@@ -444,7 +444,7 @@ WEEK 9-10: Testing & Validation
 
 ## FAQ
 
-### Q: Does B2Connect use AI?
+### Q: Does B2X use AI?
 **A:** Yes, for Fraud Detection (HIGH-RISK), Duplicate Detection (LIMITED-RISK), and Recommendations (MINIMAL-RISK).
 
 ### Q: Do we need to comply with AI Act immediately?

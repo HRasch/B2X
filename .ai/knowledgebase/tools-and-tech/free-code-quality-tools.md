@@ -1,4 +1,12 @@
-# Free Code Quality Tools - Implementation Guide
+---
+docid: KB-168
+title: Free Code Quality Tools
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Free Code Quality Tools - Implementation Guide
 
 **Date**: 2. Januar 2026  
 **Owner**: @DevOps + @TechLead  
@@ -272,7 +280,7 @@ If you were planning SonarQube Enterprise:
 
 ---
 
-## Recommended Setup for B2Connect
+## Recommended Setup for B2X
 
 ```yaml
 # .github/workflows/pr-quality-gate.yml

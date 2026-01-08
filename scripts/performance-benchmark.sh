@@ -1,6 +1,6 @@
-#!/bin/bash
+﻿#!/bin/bash
 
-# B2Connect Performance Benchmarking Script for CI/CD
+# B2X Performance Benchmarking Script for CI/CD
 # Automates performance testing and benchmarking within CI/CD pipelines
 
 set -e
@@ -15,7 +15,7 @@ BENCHMARK_FILE="$RESULTS_DIR/benchmark_$TIMESTAMP.json"
 # Create results directory
 mkdir -p "$RESULTS_DIR"
 
-echo "🚀 Starting B2Connect Performance Benchmarking"
+echo "🚀 Starting B2X Performance Benchmarking"
 echo "📊 Results will be saved to: $BENCHMARK_FILE"
 
 # Function to run benchmark
@@ -92,7 +92,7 @@ calculate_variance() {
 # Initialize benchmark file
 cat > "$BENCHMARK_FILE" << EOF
 {
-  "benchmark_suite": "B2Connect Performance Benchmarks",
+  "benchmark_suite": "B2X Performance Benchmarks",
   "timestamp": "$TIMESTAMP",
   "environment": {
     "os": "$(uname -s)",
@@ -103,10 +103,10 @@ cat > "$BENCHMARK_FILE" << EOF
 EOF
 
 # Run backend build benchmark
-run_benchmark "Backend Build" "cd '$PROJECT_ROOT' && dotnet build B2Connect.slnx --configuration Release --verbosity quiet"
+run_benchmark "Backend Build" "cd '$PROJECT_ROOT' && dotnet build B2X.slnx --configuration Release --verbosity quiet"
 
 # Run backend tests benchmark
-run_benchmark "Backend Tests" "cd '$PROJECT_ROOT' && dotnet test B2Connect.slnx --configuration Release --verbosity quiet --no-build"
+run_benchmark "Backend Tests" "cd '$PROJECT_ROOT' && dotnet test B2X.slnx --configuration Release --verbosity quiet --no-build"
 
 # Run API startup benchmark
 run_benchmark "API Startup" "cd '$PROJECT_ROOT/AppHost' && timeout 30 dotnet run --configuration Release --no-build || true" 5

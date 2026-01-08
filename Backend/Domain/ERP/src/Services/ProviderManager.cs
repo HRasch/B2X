@@ -3,12 +3,12 @@
 // </copyright>
 
 using System.Collections.Concurrent;
-using B2Connect.ERP.Contracts;
-using B2Connect.ERP.Core;
-using B2Connect.ERP.Infrastructure.Actor;
+using B2X.ERP.Contracts;
+using B2X.ERP.Core;
+using B2X.ERP.Infrastructure.Actor;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.ERP.Services;
+namespace B2X.ERP.Services;
 
 /// <summary>
 /// Default implementation of <see cref="IProviderManager"/>.

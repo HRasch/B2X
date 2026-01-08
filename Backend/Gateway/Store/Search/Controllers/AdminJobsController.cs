@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using B2Connect.Gateway.Store.Search.Services;
-using B2Connect.Gateway.Store.Search.Jobs;
+﻿using Microsoft.AspNetCore.Mvc;
+using B2X.Gateway.Store.Search.Services;
+using B2X.Gateway.Store.Search.Jobs;
 
-namespace B2Connect.Gateway.Store.Search.Controllers;
+namespace B2X.Gateway.Store.Search.Controllers;
 
 [ApiController]
 [Route("api/admin/jobs/indices")]

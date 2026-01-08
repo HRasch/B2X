@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-186
+title: Requirements Analysis.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: SARAH
 description: Multi-Agent Requirements Analysis - Koordinierte Anforderungsanalyse (v2.0)
 ---

@@ -1,3 +1,11 @@
+---
+docid: KB-157
+title: README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Software Dependency Updates
 
 This directory tracks dependency version updates and migration guides.

@@ -1,3 +1,11 @@
+---
+docid: REQ-056
+title: REQ 005 Phase 5 Enterprise Connectors
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Phase 5: Enterprise Tier 1 ERP Connectors
 
 **Status**: 🏗️ Foundation Prepared (Awaiting Customer Test Systems)  

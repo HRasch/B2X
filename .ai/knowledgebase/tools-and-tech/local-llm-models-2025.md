@@ -1,4 +1,12 @@
 ---
+docid: KB-176
+title: Local Llm Models 2025
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-018
 title: Beste lokale LLM-Modelle für Entwicklung (2025/2026)
 owner: GitHub Copilot
@@ -30,7 +38,7 @@ Diese Dokumentation listet die aktuell besten lokalen LLM-Modelle für Softwaree
 | **CodeLlama** | 7B-70B | 4-43GB | Meta's Code-Spezialist | `ollama run codellama:34b` |
 | **Devstral** | 24B | 14GB | Mistral's Coding-Agent | `ollama run devstral` |
 
-**Empfehlung für B2Connect (RTX 5090):**
+**Empfehlung für B2X (RTX 5090):**
 - **Primary**: `deepseek-coder:33b` - Bereits installiert, exzellente Code-Qualität
 - **Secondary**: `qwen2.5-coder:32b` - Für Multi-Sprachen Support
 
@@ -43,7 +51,7 @@ Diese Dokumentation listet die aktuell besten lokalen LLM-Modelle für Softwaree
 | **Qwen3** | 8B-235B | 5-145GB | Thinking + Tools | `ollama run qwen3:30b` |
 | **Phi4-Reasoning** | 14B | 9GB | Microsoft's Reasoning | `ollama run phi4-reasoning` |
 
-**Empfehlung für B2Connect:**
+**Empfehlung für B2X:**
 - **Primary**: `qwen3:30b` (bereits installiert) - Thinking-Modus, Tool-Support
 - **Alternative**: `deepseek-r1:14b` für komplexe Analysen
 
@@ -56,7 +64,7 @@ Diese Dokumentation listet die aktuell besten lokalen LLM-Modelle für Softwaree
 | **Phi4-Mini** | 3.8B | 2.5GB | Ultraschnell | `ollama run phi4-mini` |
 | **Qwen3:4B** | 4B | 2.5GB | Schnell, kompakt | `ollama run qwen3:4b` |
 
-**Empfehlung für B2Connect:**
+**Empfehlung für B2X:**
 - **Primary**: `llama3:8b` (bereits installiert) - ~0.6s Response, gut für einfache Tasks
 
 ### 4. Multimodale Modelle (Vision)
@@ -77,7 +85,7 @@ Diese Dokumentation listet die aktuell besten lokalen LLM-Modelle für Softwaree
 
 ---
 
-## 🎯 B2Connect Dev-Node Konfiguration
+## 🎯 B2X Dev-Node Konfiguration
 
 ### Aktuell installierte Modelle (192.168.1.117)
 
@@ -144,7 +152,7 @@ ollama pull phi4-mini
 
 ## 🔧 Task-Routing Strategie
 
-### Automatisches Routing für B2Connect
+### Automatisches Routing für B2X
 
 ```python
 def select_model(task_type: str, complexity: str) -> str:
@@ -224,7 +232,7 @@ def select_model(task_type: str, complexity: str) -> str:
 - [r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/) - Aktive Community
 - [Artificial Analysis Leaderboard](https://artificialanalysis.ai/leaderboards/models)
 
-### B2Connect Spezifisch
+### B2X Spezifisch
 - Dev-Node Setup: `tools/dev-node/SETUP_GUIDE.md`
 - Dev-Node Script: `scripts/dev-node.py`
 
@@ -235,7 +243,7 @@ def select_model(task_type: str, complexity: str) -> str:
 ### 2026-01-02
 - Initial version created
 - Added benchmark data from artificialanalysis.ai
-- Included B2Connect dev-node recommendations
+- Included B2X dev-node recommendations
 - Added task routing strategy
 
 ---

@@ -1,8 +1,8 @@
-using B2Connect.LocalizationService.Services;
+using B2X.LocalizationService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.LocalizationService.Controllers;
+namespace B2X.LocalizationService.Controllers;
 
 /// <summary>
 /// REST API endpoints for localization and translations

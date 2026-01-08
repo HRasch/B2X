@@ -1,12 +1,12 @@
-#!/bin/bash
-# B2Connect Git Hooks Installation Script
+﻿#!/bin/bash
+# B2X Git Hooks Installation Script
 # Installs pre-commit hook for MCP token optimization
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 HOOKS_DIR="$REPO_ROOT/.git/hooks"
 SCRIPT_DIR="$REPO_ROOT/scripts"
 
-echo "🔧 Installing B2Connect MCP Git Hooks..."
+echo "🔧 Installing B2X MCP Git Hooks..."
 echo ""
 
 # Create hooks directory if it doesn't exist

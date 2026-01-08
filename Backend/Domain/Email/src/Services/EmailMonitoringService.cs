@@ -1,10 +1,10 @@
-using B2Connect.Email.Infrastructure;
-using B2Connect.Email.Interfaces;
-using B2Connect.Email.Models;
+using B2X.Email.Infrastructure;
+using B2X.Email.Interfaces;
+using B2X.Email.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Email.Services;
+namespace B2X.Email.Services;
 
 /// <summary>
 /// Service für Email-Monitoring und Analytics

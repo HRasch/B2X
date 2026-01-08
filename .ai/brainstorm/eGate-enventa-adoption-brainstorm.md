@@ -1,4 +1,12 @@
-# 🎯 Brainstorm: Adopt eGate enventa Interface Patterns
+---
+docid: BS-019
+title: EGate Enventa Adoption Brainstorm
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🎯 Brainstorm: Adopt eGate enventa Interface Patterns
 
 **Date**: January 3, 2026  
 **Coordinator**: @SARAH  
@@ -12,7 +20,7 @@
 ### What is eGate?
 [eGate](https://github.com/NissenVelten/eGate) is a production reference implementation demonstrating best practices for enventa Trade ERP integration, developed by Nissen Velten GmbH.
 
-### Current B2Connect ERP Architecture
+### Current B2X ERP Architecture
 - ✅ **Actor Pattern**: Thread-safe operations per tenant
 - ✅ **Provider Architecture**: Fake/Real provider implementations
 - ✅ **CQRS Handlers**: Command/Event/Query separation
@@ -306,4 +314,4 @@ var products = await _queryBuilder
 
 **Brainstorm Completed**: January 3, 2026  
 **Next Action**: Team approval and Phase 1 kickoff</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/brainstorm/eGate-enventa-adoption-brainstorm.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/brainstorm/eGate-enventa-adoption-brainstorm.md

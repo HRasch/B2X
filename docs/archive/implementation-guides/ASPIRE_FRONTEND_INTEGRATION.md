@@ -1,14 +1,14 @@
-# B2Connect Frontend Integration mit Aspire 13.1.0
+ï»¿# B2X Frontend Integration mit Aspire 13.1.0
 
 ## ?? Situation
 
-Sie verwenden **Aspire 13.1.0**, in der `AddNpmApp` nicht mehr existiert. Das ist okay! Es gibt mehrere Ansätze:
+Sie verwenden **Aspire 13.1.0**, in der `AddNpmApp` nicht mehr existiert. Das ist okay! Es gibt mehrere Ansï¿½tze:
 
 ## ? Empfohlener Ansatz: Docker Compose + Separate Aspire AppHost
 
-Dies ist die **beste Lösung** für Ihre Konfiguration:
+Dies ist die **beste Lï¿½sung** fï¿½r Ihre Konfiguration:
 
-### 1?? Option A: Docker Compose für Alles (Einfachste Lösung)
+### 1?? Option A: Docker Compose fï¿½r Alles (Einfachste Lï¿½sung)
 
 ```bash
 # Startet ALLES in Docker: Backend + Frontend
@@ -18,7 +18,7 @@ docker-compose up -d
 **Vorteile:**
 - Reproduzierbare Umgebung
 - Isoliert von lokaler Umgebung
-- Keine .NET oder Node.js Installation nötig (außer Docker)
+- Keine .NET oder Node.js Installation nï¿½tig (auï¿½er Docker)
 - Hot-reload funktioniert in Containern
 
 **Nachteile:**
@@ -37,12 +37,12 @@ docker-compose up frontend-store frontend-admin
 ```
 
 **Vorteile:**
-- Aspire Dashboard für Service-Monitoring
+- Aspire Dashboard fï¿½r Service-Monitoring
 - Backend direkt debuggbar
 - Frontends in Docker
 - Best of both worlds
 
-### 3?? Option C: Alles Manual (Für lokale Entwicklung)
+### 3?? Option C: Alles Manual (Fï¿½r lokale Entwicklung)
 
 ```bash
 # Terminal 1: Aspire AppHost (orchestriert Backend)
@@ -63,7 +63,7 @@ npm run dev
 **Vorteile:**
 - Maximales Debugging und Kontrolle
 - Hot-reload sehr schnell
-- Keine Docker-Abhängigkeit
+- Keine Docker-Abhï¿½ngigkeit
 
 **Nachteile:**
 - Node.js Installation erforderlich
@@ -73,13 +73,13 @@ npm run dev
 
 Aspire entfernte `AddNpmApp` in Version 13+ wegen:
 
-1. **Komplexität**: Vite braucht Node.js Installation
+1. **Komplexitï¿½t**: Vite braucht Node.js Installation
 2. **Best Practices**: Frontends sollten separat verwaltet werden
 3. **Alternatives**: Docker/Docker Compose ist der Standard
 
 ## ?? Vergleichstabelle
 
-| Ansatz | Komplexität | Debugging | Production-Ready | Empfohlen |
+| Ansatz | Komplexitï¿½t | Debugging | Production-Ready | Empfohlen |
 |--------|-------------|-----------|------------------|-----------|
 | Docker Compose (alles) | Niedrig | Schwierig | ? Sehr gut | ? |
 | Aspire + Docker | Mittel | Gut | ? Gut | ? |
@@ -91,23 +91,23 @@ Aspire entfernte `AddNpmApp` in Version 13+ wegen:
 
 ```bash
 # Clone und Setup
-git clone https://github.com/HRasch/B2Connect.git
-cd B2Connect
+git clone https://github.com/HRasch/B2X.git
+cd B2X
 
-# Stellen Sie sicher, dass Docker läuft
+# Stellen Sie sicher, dass Docker lï¿½uft
 docker ps
 
 # (Optional) Bauen Sie die Images vor:
 docker-compose build
 ```
 
-### Tägliche Nutzung:
+### Tï¿½gliche Nutzung:
 
 ```bash
 # Alles starten
 docker-compose up -d
 
-# Oder für Development mit Aspire:
+# Oder fï¿½r Development mit Aspire:
 cd AppHost && dotnet run
 
 # Frontends (wenn nicht in Docker):
@@ -121,15 +121,15 @@ cd Frontend/Admin && npm run dev
 - **Admin Frontend**: http://localhost:5174
 - **Store API Gateway**: http://localhost:8000
 - **Admin API Gateway**: http://localhost:8080
-- **Aspire Dashboard** (wenn AppHost läuft): http://localhost:15500
+- **Aspire Dashboard** (wenn AppHost lï¿½uft): http://localhost:15500
 
 ## ??? Alternative: Custom Aspire Extension
 
-Falls Sie Frontends doch in Aspire orchestrieren wollen, können Sie eine Custom Extension erstellen:
+Falls Sie Frontends doch in Aspire orchestrieren wollen, kï¿½nnen Sie eine Custom Extension erstellen:
 
 ```csharp
 // AppHost/Extensions/ViteExtensions.cs
-namespace B2Connect.Aspire.Extensions;
+namespace B2X.Aspire.Extensions;
 
 public static class ViteExtensions
 {
@@ -170,7 +170,7 @@ var frontendAdmin = builder
 
 ## ?? Environment-Variablen
 
-Vite liest Variablen mit `VITE_` Präfix:
+Vite liest Variablen mit `VITE_` Prï¿½fix:
 
 **Frontend/Store/vite.config.ts:**
 ```typescript
@@ -213,7 +213,7 @@ docker-compose restart frontend-store
 - [Vite Konfiguration](https://vitejs.dev/config/)
 - [Dockerfile Best Practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 
-## ?? Best Practices für Ihre Situation
+## ?? Best Practices fï¿½r Ihre Situation
 
 1. **Development**: Nutzen Sie **Option C** (Manual) oder **Option B** (Hybrid)
    - Schnellestes Feedback
@@ -227,36 +227,36 @@ docker-compose restart frontend-store
    - Scalierbar
    - Isoliert
 
-## ?? Häufige Probleme
+## ?? Hï¿½ufige Probleme
 
 ### Problem: "Cannot GET /" auf Port 5173
 
-**Lösung:**
-- Stellen Sie sicher, dass `npm run dev` läuft
-- Überprüfen Sie, dass Port 5173 nicht belegt ist: `netstat -ano | findstr :5173`
+**Lï¿½sung:**
+- Stellen Sie sicher, dass `npm run dev` lï¿½uft
+- ï¿½berprï¿½fen Sie, dass Port 5173 nicht belegt ist: `netstat -ano | findstr :5173`
 
 ### Problem: Frontend kann Backend nicht erreichen
 
-**Lösung:**
-- Überprüfen Sie `VITE_API_GATEWAY_URL`
-- Überprüfen Sie, dass Gateway läuft: `curl http://localhost:8000/health`
-- Check Docker network: `docker network inspect b2connect`
+**Lï¿½sung:**
+- ï¿½berprï¿½fen Sie `VITE_API_GATEWAY_URL`
+- ï¿½berprï¿½fen Sie, dass Gateway lï¿½uft: `curl http://localhost:8000/health`
+- Check Docker network: `docker network inspect B2X`
 
 ### Problem: Hot-reload funktioniert nicht
 
-**Lösung:**
+**Lï¿½sung:**
 - Stellen Sie sicher, dass Vite auf `0.0.0.0` lauscht (nicht `localhost`)
-- Überprüfen Sie Dockerfile: `CMD npm run dev -- --host 0.0.0.0`
+- ï¿½berprï¿½fen Sie Dockerfile: `CMD npm run dev -- --host 0.0.0.0`
 
 ---
 
-**Zusammenfassung**: Ihre Konfiguration mit **docker-compose.yml** ist bereits optimal für Aspire 13.1.0! Starten Sie einfach mit:
+**Zusammenfassung**: Ihre Konfiguration mit **docker-compose.yml** ist bereits optimal fï¿½r Aspire 13.1.0! Starten Sie einfach mit:
 
 ```bash
 docker-compose up -d
 ```
 
-Oder für Development:
+Oder fï¿½r Development:
 
 ```bash
 cd AppHost && dotnet run  # Terminal 1: Backend

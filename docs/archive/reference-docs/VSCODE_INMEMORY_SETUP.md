@@ -1,4 +1,4 @@
-# VS Code Launch-Konfiguration für InMemory-Datenbank
+﻿# VS Code Launch-Konfiguration für InMemory-Datenbank
 
 > Schnelles Setup für Entwicklung ohne Datenbank-Installation
 
@@ -143,7 +143,7 @@ Database__Provider=PostgreSQL  # PostgreSQL aktivieren (Standard)
 // "Database provider: InMemory" oder "Database provider: PostgreSQL"
 
 // Im Debug Output suchen nach:
-// "🚀 B2Connect Application Host - Starting"
+// "🚀 B2X Application Host - Starting"
 ```
 
 ## 🔄 Switch zwischen InMemory und PostgreSQL
@@ -182,4 +182,4 @@ dotnet run
 
 **Letzte Aktualisierung:** 26. Dezember 2025
 
-*Viel Spaß beim Entwickeln mit B2Connect! 🚀*
+*Viel Spaß beim Entwickeln mit B2X! 🚀*

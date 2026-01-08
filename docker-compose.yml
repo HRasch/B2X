@@ -1,10 +1,12 @@
+﻿name: B2X
+
 services:
   # ==================== INFRASTRUCTURE ====================
 
   # PostgreSQL Database
   postgres:
     image: postgres:16.11
-    container_name: b2connect-postgres
+    container_name: B2X-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -37,12 +39,12 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Redis Cache
   redis:
     image: redis:8.4.0
-    container_name: b2connect-redis
+    container_name: B2X-redis
     ports:
       - "6379:6379"
     command: redis-server --appendonly yes
@@ -72,12 +74,12 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # RabbitMQ Message Queue
   rabbitmq:
     image: rabbitmq:4.2.2-management
-    container_name: b2connect-rabbitmq
+    container_name: B2X-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
@@ -110,19 +112,19 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Elasticsearch (Full-text search)
   elasticsearch:
     image: elasticsearch:9.2.3
-    container_name: b2connect-elasticsearch
+    container_name: B2X-elasticsearch
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=${ELASTICSEARCH_SECURITY_ENABLED:-false}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-devpassword}
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "9200:9200"
-      - "9300:9300"
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     healthcheck:
@@ -149,12 +151,12 @@ services:
     stop_grace_period: 120s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Kibana (Elasticsearch UI)
   kibana:
     image: kibana:9.2.3
-    container_name: b2connect-kibana
+    container_name: B2X-kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
@@ -184,16 +186,17 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Prometheus (Metrics)
   prometheus:
     image: prom/prometheus:latest
-    container_name: b2connect-prometheus
+    container_name: B2X-prometheus
     ports:
       - "9090:9090"
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/alert_rules.yml:/etc/prometheus/alert_rules.yml
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -224,12 +227,12 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Grafana (Dashboards)
   grafana:
     image: grafana/grafana:latest
-    container_name: b2connect-grafana
+    container_name: B2X-grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
@@ -261,12 +264,12 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Alertmanager (Alerting)
   alertmanager:
     image: prom/alertmanager:latest
-    container_name: b2connect-alertmanager
+    container_name: B2X-alertmanager
     ports:
       - "9093:9093"
     volumes:
@@ -296,12 +299,45 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
+
+  # Pushgateway (Metrics Push)
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: B2X-pushgateway
+    ports:
+      - "9091:9091"
+    command:
+      - '--web.listen-address=:9091'
+      - '--web.telemetry-path=/metrics'
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:9091/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 300s
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
 
   # Jaeger (Tracing)
   jaeger:
     image: jaegertracing/all-in-one:latest
-    container_name: b2connect-jaeger
+    container_name: B2X-jaeger
     environment:
       - COLLECTOR_OTLP_ENABLED=true
     ports:
@@ -329,7 +365,7 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # ==================== MICROSERVICES ====================
 
@@ -338,16 +374,16 @@ services:
     build:
       context: .
       dockerfile: backend/Domain/Identity/Dockerfile
-    container_name: b2connect-identity-service
+    container_name: B2X-identity-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7002
-      ConnectionStrings__AuthDb: "Host=postgres;Port=5432;Database=b2connect_auth;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__AuthDb: "Host=postgres;Port=5432;Database=B2X_auth;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
       RabbitMq__Uri: "amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD}@rabbitmq:5672"
       Jwt__Secret: ${JWT_SECRET}
-      Jwt__Issuer: "B2Connect"
-      Jwt__Audience: "B2Connect"
+      Jwt__Issuer: "B2X"
+      Jwt__Audience: "B2X"
     ports:
       - "7002:7002"
     depends_on:
@@ -382,18 +418,18 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Tenancy Service
   tenancy-service:
     build:
       context: .
       dockerfile: backend/Domain/Tenancy/Dockerfile
-    container_name: b2connect-tenancy-service
+    container_name: B2X-tenancy-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7003
-      ConnectionStrings__TenantDb: "Host=postgres;Port=5432;Database=b2connect_tenancy;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__TenantDb: "Host=postgres;Port=5432;Database=B2X_tenancy;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
       RabbitMq__Uri: "amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD}@rabbitmq:5672"
     ports:
@@ -430,18 +466,18 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Localization Service
   localization-service:
     build:
       context: .
       dockerfile: backend/Domain/Localization/Dockerfile
-    container_name: b2connect-localization-service
+    container_name: B2X-localization-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7004
-      ConnectionStrings__LocalizationDb: "Host=postgres;Port=5432;Database=b2connect_localization;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__LocalizationDb: "Host=postgres;Port=5432;Database=B2X_localization;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
       RabbitMq__Uri: "amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD}@rabbitmq:5672"
     ports:
@@ -478,18 +514,18 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Catalog Service
   catalog-service:
     build:
       context: .
       dockerfile: backend/Domain/Catalog/Dockerfile
-    container_name: b2connect-catalog-service
+    container_name: B2X-catalog-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7005
-      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=b2connect_catalog;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=B2X_catalog;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
       RabbitMq__Uri: "amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD}@rabbitmq:5672"
       Elasticsearch__Uri: "http://elasticsearch:9200"
@@ -529,14 +565,14 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Theming Service
   theming-service:
     build:
       context: .
       dockerfile: backend/Domain/Theming/Dockerfile
-    container_name: b2connect-theming-service
+    container_name: B2X-theming-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:7008
@@ -571,7 +607,7 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # ==================== API GATEWAYS ====================
 
@@ -580,20 +616,21 @@ services:
     build:
       context: .
       dockerfile: backend/Gateway/Store/API/Dockerfile
-    container_name: b2connect-store-gateway
+    container_name: B2X-store-gateway
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:8000
-      ConnectionStrings__StoreDb: "Host=postgres;Port=5432;Database=b2connect_store;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__StoreDb: "Host=postgres;Port=5432;Database=B2X_store;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD}"
       Redis__ConnectionString: "redis:6379"
       RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
       Jwt__Secret: ${JWT_SECRET}
-      Jwt__Issuer: "B2Connect"
-      Jwt__Audience: "B2Connect"
+      Jwt__Issuer: "B2X"
+      Jwt__Audience: "B2X"
       ServiceUrls__Identity: "http://identity-service:7002"
       ServiceUrls__Catalog: "http://catalog-service:7005"
       ServiceUrls__Localization: "http://localization-service:7004"
       ServiceUrls__Theming: "http://theming-service:7008"
+      Cors__AllowedOrigins__0: "http://localhost:5173"
     ports:
       - "8000:8000"
     depends_on:
@@ -630,28 +667,29 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # Admin Gateway (Protected API)
   admin-gateway:
     build:
       context: .
       dockerfile: backend/Gateway/Admin/Dockerfile
-    container_name: b2connect-admin-gateway
+    container_name: B2X-admin-gateway
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
       ASPNETCORE_URLS: http://+:8080
-      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=b2connect_admin;Username=postgres;Password=postgres"
+      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=B2X_admin;Username=postgres;Password=postgres"
       Redis__ConnectionString: "redis:6379"
       RabbitMq__Uri: "amqp://guest:guest@rabbitmq:5672"
       Jwt__Secret: "dev-jwt-secret-minimum-32-characters-required!!!"
-      Jwt__Issuer: "B2Connect"
-      Jwt__Audience: "B2Connect"
+      Jwt__Issuer: "B2X"
+      Jwt__Audience: "B2X"
       ServiceUrls__Identity: "http://identity-service:7002"
       ServiceUrls__Tenancy: "http://tenancy-service:7003"
       ServiceUrls__Catalog: "http://catalog-service:7005"
       ServiceUrls__Localization: "http://localization-service:7004"
       ServiceUrls__Theming: "http://theming-service:7008"
+      Cors__AllowedOrigins__0: "http://localhost:5174"
     ports:
       - "8080:8080"
     depends_on:
@@ -686,7 +724,7 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
 
   # ==================== FRONTENDS ====================
 
@@ -696,9 +734,10 @@ services:
       context: ./frontend/Store
       dockerfile: Dockerfile
       target: development
-    container_name: b2connect-frontend-store
+    container_name: B2X-frontend-store
     environment:
-      VITE_PORT: 5173
+      HOST: 0.0.0.0
+      PORT: 5173
       VITE_API_GATEWAY_URL: http://store-gateway:8000
       NODE_ENV: development
     ports:
@@ -734,7 +773,7 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
     command: npm run dev -- --host 0.0.0.0
 
   # Frontend Admin (Vue 3 + Vite)
@@ -743,7 +782,7 @@ services:
       context: ./frontend/Admin
       dockerfile: Dockerfile
       target: development
-    container_name: b2connect-frontend-admin
+    container_name: B2X-frontend-admin
     environment:
       VITE_PORT: 5174
       VITE_API_GATEWAY_URL: http://admin-gateway:8080
@@ -781,7 +820,7 @@ services:
     stop_grace_period: 30s
     stop_signal: SIGTERM
     networks:
-      - b2connect
+      - B2X
     command: npm run dev -- --host 0.0.0.0
 
 volumes:
@@ -793,5 +832,5 @@ volumes:
   grafana-data:
 
 networks:
-  b2connect:
+  B2X:
     driver: bridge

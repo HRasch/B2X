@@ -1,4 +1,4 @@
-# B2Connect Technical Documentation - Aspire Update
+﻿# B2X Technical Documentation - Aspire Update
 
 ## Documentation Changes & Additions (Dec 25, 2025)
 
@@ -384,7 +384,7 @@ Automatic: Service discovery and health checks
 
 ## Summary
 
-B2Connect now has a **modern, unified service orchestration platform** powered by **.NET Aspire**. All services are:
+B2X now has a **modern, unified service orchestration platform** powered by **.NET Aspire**. All services are:
 
 - **Centrally managed** through AppHost
 - **Automatically discovered** by other services

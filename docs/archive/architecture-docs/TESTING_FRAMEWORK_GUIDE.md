@@ -1,8 +1,8 @@
-# 🧪 Testing Framework & Guidelines (P0.5)
+﻿# 🧪 Testing Framework & Guidelines (P0.5)
 
 ## Overview
 
-B2Connect uses a comprehensive testing framework with:
+B2X uses a comprehensive testing framework with:
 - **xUnit** - Test framework
 - **Moq** - Mocking library
 - **Shouldly** - Assertion library
@@ -207,7 +207,7 @@ dotnet test
 
 ### Specific Project
 ```bash
-dotnet test backend/BoundedContexts/Shared/Identity/tests/B2Connect.Identity.Tests.csproj
+dotnet test backend/BoundedContexts/Shared/Identity/tests/B2X.Identity.Tests.csproj
 ```
 
 ### With Coverage
@@ -258,7 +258,7 @@ dotnet test --filter "FullyQualifiedName~ProductServiceTests.GetProduct_WithVali
 
 ```
 backend/BoundedContexts/Store/Catalog/tests/
-├── B2Connect.Catalog.Tests.csproj
+├── B2X.Catalog.Tests.csproj
 ├── Collections/
 │   ├── IntegrationTestCollection.cs
 │   └── UnitTestCollection.cs

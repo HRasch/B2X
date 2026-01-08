@@ -1,4 +1,12 @@
 ---
+docid: KB-095
+title: OpenTelemetry
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: OpenTelemetry (core/collectors/exporters)
 current_version: "1.14.0 (SDK and OTLP exporter snapshot)"
 source_files:

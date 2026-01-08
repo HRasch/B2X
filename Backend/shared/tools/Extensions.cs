@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace B2Connect.Utils.Extensions;
+namespace B2X.Utils.Extensions;
 
 /// <summary>
 /// Extension methods for claims principal

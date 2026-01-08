@@ -1,7 +1,7 @@
-{
+﻿{
   "auth": {
     "login": {
-      "title": "B2Connect Admin",
+      "title": "B2X Admin",
       "subtitle": "Inicia sesión en tu cuenta",
       "email": "Correo electrónico",
       "emailPlaceholder": "admin@example.com",

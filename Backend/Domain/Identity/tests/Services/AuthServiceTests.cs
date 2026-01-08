@@ -1,11 +1,11 @@
-using B2Connect.AuthService.Data;
-using B2Connect.Identity.Tests.Fixtures;
-using B2Connect.Types;
+using B2X.AuthService.Data;
+using B2X.Identity.Tests.Fixtures;
+using B2X.Types;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.Identity.Tests.Services;
+namespace B2X.Identity.Tests.Services;
 
 /// <summary>
 /// Unit tests for AuthService.LoginAsync

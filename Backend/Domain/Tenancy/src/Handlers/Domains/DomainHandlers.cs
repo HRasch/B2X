@@ -1,19 +1,19 @@
-using B2Connect.Tenancy.Models;
-using B2Connect.Tenancy.Repositories;
-using B2Connect.Tenancy.Services;
+using B2X.Tenancy.Models;
+using B2X.Tenancy.Repositories;
+using B2X.Tenancy.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Wolverine.Attributes;
 
-namespace B2Connect.Tenancy.Handlers.Domains;
+namespace B2X.Tenancy.Handlers.Domains;
 
 /// <summary>
 /// Wolverine handlers for domain management operations.
 /// </summary>
 public static class DomainHandlers
 {
-    private const string DefaultBaseDomain = "b2connect.de";
-    private const string DefaultProxyHost = "proxy.b2connect.de";
+    private const string DefaultBaseDomain = "B2X.de";
+    private const string DefaultProxyHost = "proxy.B2X.de";
 
     /// <summary>
     /// Handles adding a new domain to a tenant.
@@ -93,7 +93,7 @@ public static class DomainHandlers
             var proxyHost = configuration.GetValue("Tenancy:ProxyHost", DefaultProxyHost);
             dnsInstructions = new DnsInstructionsDto(
                 VerificationRecordType: "TXT",
-                VerificationRecordName: $"_b2connect.{domainName}",
+                VerificationRecordName: $"_B2X.{domainName}",
                 VerificationRecordValue: domain.VerificationToken!,
                 CnameRecordName: domainName,
                 CnameRecordValue: proxyHost,
@@ -313,7 +313,7 @@ public static class DomainHandlers
         {
             dnsInstructions = new DnsInstructionsDto(
                 VerificationRecordType: "TXT",
-                VerificationRecordName: $"_b2connect.{domain.DomainName}",
+                VerificationRecordName: $"_B2X.{domain.DomainName}",
                 VerificationRecordValue: domain.VerificationToken,
                 CnameRecordName: domain.DomainName,
                 CnameRecordValue: proxyHost,

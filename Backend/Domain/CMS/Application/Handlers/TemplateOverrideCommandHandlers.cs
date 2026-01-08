@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using B2Connect.CMS.Application.Pages;
-using B2Connect.CMS.Core.Domain.Pages;
+using B2X.CMS.Application.Pages;
+using B2X.CMS.Core.Domain.Pages;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CMS.Application.Handlers;
+namespace B2X.CMS.Application.Handlers;
 
 /// <summary>
 /// Wolverine command handlers for template override operations (ADR-030)

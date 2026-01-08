@@ -1,4 +1,4 @@
-# Customer Integration Tracker Template
+﻿# Customer Integration Tracker Template
 # Reference: ADR-038 Customer Integration Stages Framework
 #
 # Usage: Copy this template for each new customer integration
@@ -6,7 +6,7 @@
 
 customer:
   name: ""                          # Customer company name
-  tenant_id: ""                     # B2Connect tenant ID
+  tenant_id: ""                     # B2X tenant ID
   contact_name: ""                  # Primary contact name
   contact_email: ""                 # Primary contact email
   
@@ -25,7 +25,7 @@ customer:
 # =============================================================================
 # STAGE 1: EVALUATE (Trial/Discovery)
 # Duration: 14-30 days
-# Goal: Customer validates B2Connect fits their business needs
+# Goal: Customer validates B2X fits their business needs
 # =============================================================================
 evaluate:
   status: not_started               # not_started | in_progress | complete | skipped
@@ -233,7 +233,7 @@ onboard:
 # =============================================================================
 # STAGE 3: INTEGRATE (Connect/Deploy)
 # Duration: 2-8 weeks
-# Goal: Full bidirectional data flow between B2Connect and customer systems
+# Goal: Full bidirectional data flow between B2X and customer systems
 # =============================================================================
 integrate:
   status: not_started
@@ -332,7 +332,7 @@ integrate:
           done: false
         - task: "Order mapping defined"
           done: false
-        - task: "Test order created in B2Connect"
+        - task: "Test order created in B2X"
           done: false
         - task: "Test order received in ERP"
           done: false

@@ -1,4 +1,12 @@
-# 🚀 Feature Implementation Patterns
+---
+docid: KB-146
+title: FEATURE_IMPLEMENTATION_PATTERNS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🚀 Feature Implementation Patterns
 
 **Audience**: All developers (backend + frontend)  
 **Purpose**: Unified workflow for implementing new features end-to-end  
@@ -79,7 +87,7 @@ Cross-context?
 ### Step 2: Define Domain Model (Aggregate Root)
 
 ```csharp
-namespace B2Connect.Store.Catalog.Core.Entities;
+namespace B2X.Store.Catalog.Core.Entities;
 
 /// <summary>
 /// Product aggregate root (DDD)
@@ -146,7 +154,7 @@ public class Product
 ### Step 3: Define Commands & Responses
 
 ```csharp
-namespace B2Connect.Store.Catalog.Application.DTOs;
+namespace B2X.Store.Catalog.Application.DTOs;
 
 // Command (input)
 public class CreateProductCommand
@@ -169,7 +177,7 @@ public class CreateProductResponse
 ### Step 4: Define Domain Events
 
 ```csharp
-namespace B2Connect.Store.Catalog.Core.Events;
+namespace B2X.Store.Catalog.Core.Events;
 
 // Event (published by service, subscribed by others)
 public class ProductCreatedEvent
@@ -192,7 +200,7 @@ public class ProductPriceChangedEvent
 ### Step 5: Implement Service (Wolverine Handler)
 
 ```csharp
-namespace B2Connect.Store.Catalog.Application.Services;
+namespace B2X.Store.Catalog.Application.Services;
 
 public class CatalogService
 {
@@ -261,7 +269,7 @@ builder.Services.AddScoped<CatalogService>();
 ### Step 6: Define API Endpoint
 
 ```csharp
-namespace B2Connect.Store.API.Endpoints;
+namespace B2X.Store.API.Endpoints;
 
 public static class ProductEndpoints
 {

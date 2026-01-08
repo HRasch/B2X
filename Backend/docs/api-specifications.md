@@ -1,11 +1,11 @@
-# B2Connect API Specifications
+﻿# B2X API Specifications
 
 ## Overview
-This document describes the REST API endpoints for B2Connect services, including the e-commerce shop platform and procurement gateway.
+This document describes the REST API endpoints for B2X services, including the e-commerce shop platform and procurement gateway.
 
 ## Base URL
 - **Development**: `http://localhost:5000/api`
-- **Production**: `https://api.b2connect.com/api`
+- **Production**: `https://api.B2X.com/api`
 
 ## API Endpoints Structure
 
@@ -315,7 +315,7 @@ API versioning is managed through URL paths:
 - Legacy: `/api/v0/...` (deprecated)
 
 ## WebSocket Events
-Real-time updates via WebSocket at `wss://api.b2connect.com/ws`:
+Real-time updates via WebSocket at `wss://api.B2X.com/ws`:
 - `tenant.created`: New tenant created
 - `tenant.updated`: Tenant updated
 - `user.joined`: User joined tenant
@@ -557,7 +557,7 @@ Synchronize order from procurement platform.
 ```json
 {
   "data": {
-    "b2connectOrderId": "order-uuid",
+    "B2XOrderId": "order-uuid",
     "platformOrderId": "PO-12345",
     "status": "synchronized",
     "mappedItems": 5,
@@ -576,7 +576,7 @@ Get order status for procurement platform.
 {
   "data": {
     "platformOrderId": "PO-12345",
-    "b2connectOrderId": "order-uuid",
+    "B2XOrderId": "order-uuid",
     "status": "shipped",
     "lastUpdated": "2024-01-02T10:30:00Z",
     "items": [

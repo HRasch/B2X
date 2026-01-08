@@ -1,4 +1,12 @@
-# ADR-040: AI Mode Switching Strategy
+---
+docid: ADR-084
+title: ADR 041 Ai Mode Switching Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-040: AI Mode Switching Strategy
 
 **DocID**: `ADR-040`  
 **Status**: Proposed | **Owner**: @CopilotExpert  
@@ -8,7 +16,7 @@
 
 ## Context
 
-The B2Connect Framework requires flexible AI integration to support different deployment environments and compliance requirements. Current implementation relies solely on external APIs, but enterprise customers need options for internal or local AI processing to maintain data sovereignty and reduce external dependencies.
+The B2X Framework requires flexible AI integration to support different deployment environments and compliance requirements. Current implementation relies solely on external APIs, but enterprise customers need options for internal or local AI processing to maintain data sovereignty and reduce external dependencies.
 
 ## Decision
 
@@ -123,4 +131,4 @@ fallback_modes: [network, local]
 ---
 
 **Agents**: @CopilotExpert | **Owner**: @CopilotExpert</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-040-ai-mode-switching-strategy.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-040-ai-mode-switching-strategy.md

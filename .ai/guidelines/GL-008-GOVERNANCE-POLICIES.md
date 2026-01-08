@@ -1,3 +1,11 @@
+---
+docid: GL-070
+title: GL 008 GOVERNANCE POLICIES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GL-008: Governance Policies
 
 **DocID**: `GL-008`  

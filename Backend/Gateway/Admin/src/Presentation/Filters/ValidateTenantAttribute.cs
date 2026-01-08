@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace B2Connect.Admin.Presentation.Filters;
+namespace B2X.Admin.Presentation.Filters;
 
 /// <summary>
 /// Attribute Filter für Tenant-ID Validierung

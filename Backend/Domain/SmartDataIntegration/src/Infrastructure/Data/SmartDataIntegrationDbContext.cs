@@ -1,8 +1,8 @@
-using B2Connect.SmartDataIntegration.Models;
+using B2X.SmartDataIntegration.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace B2Connect.SmartDataIntegration.Infrastructure.Data;
+namespace B2X.SmartDataIntegration.Infrastructure.Data;
 
 /// <summary>
 /// Database context for Smart Data Integration Service
@@ -383,7 +383,7 @@ public class SmartDataIntegrationDbContextFactory : IDesignTimeDbContextFactory<
 
         // Use a default connection string for migrations
         // In production, this will be overridden by the actual connection string
-        var connectionString = "Host=localhost;Port=5432;Database=b2connect_smartdataintegration;Username=postgres;Password=password";
+        var connectionString = "Host=localhost;Port=5432;Database=B2X_smartdataintegration;Username=postgres;Password=password";
 
         optionsBuilder.UseNpgsql(connectionString)
             .UseSnakeCaseNamingConvention();

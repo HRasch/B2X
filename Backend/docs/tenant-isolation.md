@@ -1,7 +1,7 @@
-# Tenant Isolation in B2Connect
+﻿# Tenant Isolation in B2X
 
 ## Overview
-B2Connect implements multi-layered tenant isolation to ensure data security and privacy in a multitenant SaaS environment.
+B2X implements multi-layered tenant isolation to ensure data security and privacy in a multitenant SaaS environment.
 
 ## Isolation Strategies
 

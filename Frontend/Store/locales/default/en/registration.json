@@ -1,4 +1,4 @@
-{
+﻿{
   "check": {
     "title": "Check Registration Type",
     "subtitle": "Verify if you are already registered as an existing customer",
@@ -67,7 +67,7 @@
   },
   "privateCustomerRegistration": {
     "title": "Create your account",
-    "subtitle": "Join B2Connect and start shopping today",
+    "subtitle": "Join B2X and start shopping today",
     "form": {
       "email": {
         "label": "Email Address",

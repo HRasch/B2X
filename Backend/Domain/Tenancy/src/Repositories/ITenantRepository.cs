@@ -1,7 +1,7 @@
-using B2Connect.Tenancy.Models;
-using B2Connect.Types.Domain;
+using B2X.Tenancy.Models;
+using B2X.Types.Domain;
 
-namespace B2Connect.Tenancy.Repositories;
+namespace B2X.Tenancy.Repositories;
 
 /// <summary>
 /// Repository interface for Tenant aggregate operations.

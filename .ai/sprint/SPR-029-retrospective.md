@@ -1,4 +1,12 @@
 ---
+docid: SPR-145
+title: SPR 029 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-029-RETRO
 title: Sprint 2026-29 Retrospective - Advanced AI Governance Scaling & Automated Model Lifecycle
 owner: @ScrumMaster

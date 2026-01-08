@@ -1,4 +1,12 @@
-# Monitoring MCP Usage Guide
+---
+docid: KB-179
+title: Monitoring Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Monitoring MCP Usage Guide
 
 **DocID**: `KB-061`  
 **Title**: Monitoring MCP Usage Guide  
@@ -10,7 +18,7 @@
 
 ## Overview
 
-The Monitoring MCP (Model Context Protocol) server provides comprehensive application and system monitoring capabilities for B2Connect. It enables real-time observability, performance tracking, error monitoring, and health validation across the entire application stack.
+The Monitoring MCP (Model Context Protocol) server provides comprehensive application and system monitoring capabilities for B2X. It enables real-time observability, performance tracking, error monitoring, and health validation across the entire application stack.
 
 **Monitoring Scope**: Application metrics, system performance, error tracking, log analysis, health checks, alert configuration
 
@@ -26,7 +34,7 @@ Collects and analyzes application-level metrics including response times, throug
 monitoring-mcp/collect_application_metrics workspacePath="."
 
 # Collect metrics for specific service
-monitoring-mcp/collect_application_metrics workspacePath="." serviceName="B2Connect.API"
+monitoring-mcp/collect_application_metrics workspacePath="." serviceName="B2X.API"
 ```
 
 ### System Performance Monitoring
@@ -462,7 +470,7 @@ monitoring-mcp/monitor_resources workspacePath="." resources="all" interval="10s
 version: '3.8'
 services:
   app:
-    image: b2connect/app
+    image: B2X/app
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
@@ -495,7 +503,7 @@ services:
 // monitoring/dashboards/overview.json
 {
   "dashboard": {
-    "title": "B2Connect Overview",
+    "title": "B2X Overview",
     "panels": [
       {
         "title": "Response Time",
@@ -533,7 +541,7 @@ public class CustomMetrics
 
     public CustomMetrics(IMeterFactory meterFactory)
     {
-        var meter = meterFactory.Create("B2Connect");
+        var meter = meterFactory.Create("B2X");
 
         _requestsCounter = meter.CreateCounter<long>(
             "http_requests_total",
@@ -570,4 +578,4 @@ public class CustomMetrics
 **Maintained by**: @DevOps  
 **Last Review**: 6. Januar 2026  
 **Next Review**: 6. Februar 2026</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/knowledgebase/tools-and-tech/monitoring-mcp-usage.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/knowledgebase/tools-and-tech/monitoring-mcp-usage.md

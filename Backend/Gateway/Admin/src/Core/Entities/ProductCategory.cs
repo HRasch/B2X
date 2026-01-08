@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace B2Connect.Admin.Core.Entities;
+namespace B2X.Admin.Core.Entities;
 
 /// <summary>
 /// Junction entity for Product-Category relationship (many-to-many)

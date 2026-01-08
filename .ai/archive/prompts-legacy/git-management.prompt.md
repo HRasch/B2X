@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-020
+title: Git Management.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # 🔀 GIT_MANAGEMENT - Branching Strategy & Workflow Design
 
 **Trigger**: Git workflow design, branching strategy, code review process setup

@@ -1,4 +1,12 @@
 ---
+docid: REQ-053
+title: REQ 004 Mcp Server Tenant Admin
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: REQ-004
 title: MCP Server for Tenant Administrators
 owner: @SARAH
@@ -9,13 +17,13 @@ created: 2026-01-03
 # REQ-004: MCP Server for Tenant Administrators
 
 ## Executive Summary
-Implement an MCP (Model Context Protocol) server that provides AI-powered administrative tools for B2Connect tenant-administrators. The server enables administrators to leverage AI for CMS page design, email template creation, system health monitoring, and other administrative tasks while maintaining strict tenant isolation and security.
+Implement an MCP (Model Context Protocol) server that provides AI-powered administrative tools for B2X tenant-administrators. The server enables administrators to leverage AI for CMS page design, email template creation, system health monitoring, and other administrative tasks while maintaining strict tenant isolation and security.
 
 ## Business Value
 - **Efficiency**: AI-assisted administrative workflows reduce manual effort
 - **User Experience**: Intuitive AI-powered tools for complex tasks
 - **Scalability**: Automated assistance scales with tenant growth
-- **Innovation**: Cutting-edge AI integration differentiates B2Connect
+- **Innovation**: Cutting-edge AI integration differentiates B2X
 
 ## Functional Requirements
 
@@ -207,7 +215,7 @@ Implement an MCP (Model Context Protocol) server that provides AI-powered admini
 ### Integration Requirements
 - RESTful APIs for configuration management
 - WebSocket support for real-time updates
-- Integration with existing B2Connect services
+- Integration with existing B2X services
 - Support for multiple AI providers
 - Dynamic prompt loading and caching
 
@@ -286,13 +294,13 @@ Implement an MCP (Model Context Protocol) server that provides AI-powered admini
 ## Dependencies
 
 ### Internal Dependencies
-- B2Connect Identity service for authentication
-- B2Connect CMS API for page management
-- B2Connect Email service for template handling
-- B2Connect Health monitoring service
-- B2Connect Admin APIs for user/content management
-- B2Connect Prompt Management service for tenant prompt storage and retrieval
-- B2Connect Audit service for prompt change logging
+- B2X Identity service for authentication
+- B2X CMS API for page management
+- B2X Email service for template handling
+- B2X Health monitoring service
+- B2X Admin APIs for user/content management
+- B2X Prompt Management service for tenant prompt storage and retrieval
+- B2X Audit service for prompt change logging
 
 ### External Dependencies
 - AI provider APIs (OpenAI, Anthropic, etc.)
@@ -443,4 +451,4 @@ Implement an MCP (Model Context Protocol) server that provides AI-powered admini
 2. Security assessment with @Security
 3. Implementation planning with development teams
 4. Timeline and resource allocation</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-004-mcp-server-tenant-admin.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-004-mcp-server-tenant-admin.md

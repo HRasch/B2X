@@ -1,15 +1,15 @@
-# Architecture Documentation Index
+﻿# Architecture Documentation Index
 
 **Owner**: @software-architect  
 **Last Updated**: 30. Dezember 2025  
-**Purpose**: Single source of truth for B2Connect system architecture (Startup Scale)
+**Purpose**: Single source of truth for B2X system architecture (Startup Scale)
 
 ---
 
 ## 📚 Core Documents (Start Here)
 
 ### 1. [SOFTWARE_DEFINITION.md](./SOFTWARE_DEFINITION.md)
-**What is B2Connect?**
+**What is B2X?**
 - Vision & purpose
 - Scope (what's in/out)
 - Core functions
@@ -132,7 +132,7 @@ Store gateway vs Admin gateway (different auth, different routes)
 
 Visual representations of architecture (created in Mermaid, PlantUML, or Lucidchart):
 
-- **system-context.md** - High-level system context (B2Connect box + external systems)
+- **system-context.md** - High-level system context (B2X box + external systems)
 - **microservice-topology.md** - Services + communication paths
 - **data-flow.md** - How data flows through system
 - **deployment-architecture.md** - Production infrastructure layout
@@ -231,7 +231,7 @@ Track all updates:
 
 | Question | Document |
 |----------|----------|
-| Understand what B2Connect is? | SOFTWARE_DEFINITION.md |
+| Understand what B2X is? | SOFTWARE_DEFINITION.md |
 | Understand why we chose architecture X? | DESIGN_DECISIONS.md or ADR-NNN |
 | Estimate infrastructure costs? | ESTIMATIONS_AND_CAPACITY.md |
 | Set up locally? | ASPIRE_GUIDE.md |
@@ -280,7 +280,7 @@ All architecture documents must have:
 
 ## 🔗 Related Documentation
 
-**Within B2Connect**:
+**Within B2X**:
 - [Backend Instructions](.../../.github/copilot-instructions-backend.md) - Coding standards
 - [Tech Lead Guide](../by-role/TECH_LEAD.md) - Architecture review process
 - [Testing Framework](../archive/architecture-docs/TESTING_FRAMEWORK_GUIDE.md) - Testing strategy

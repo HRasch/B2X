@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace B2Connect.CMS.Core.Domain.Widgets
+namespace B2X.CMS.Core.Domain.Widgets
 {
     /// <summary>
     /// Widget definition - blueprint for widgets

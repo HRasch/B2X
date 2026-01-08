@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Canary Deployment Monitor
+# B2X Canary Deployment Monitor
 # Monitors canary deployment metrics and traffic distribution
 #
 # Usage: ./scripts/monitor-canary.sh [duration]
@@ -58,13 +58,13 @@ check_canary_health() {
     log "Checking canary deployment health..."
 
     # Check if canary deployment exists
-    if ! kubectl get deployment b2connect-canary -n b2connect >/dev/null 2>&1; then
+    if ! kubectl get deployment B2X-canary -n B2X >/dev/null 2>&1; then
         error "Canary deployment not found"
         return 1
     fi
 
     # Check canary pods
-    local unhealthy_pods=$(kubectl get pods -n b2connect -l app=b2connect-canary --no-headers | grep -v Running | wc -l)
+    local unhealthy_pods=$(kubectl get pods -n B2X -l app=B2X-canary --no-headers | grep -v Running | wc -l)
     if [ "$unhealthy_pods" -gt 0 ]; then
         error "Found $unhealthy_pods unhealthy canary pods"
         return 1
@@ -134,7 +134,7 @@ check_traffic_distribution() {
     # For now, simulate expected distribution
 
     local expected_canary=10  # 10% expected
-    local actual_canary=$(kubectl get deployment b2connect-canary -n b2connect -o jsonpath='{.spec.template.metadata.labels.traffic-percentage}' 2>/dev/null || echo "10")
+    local actual_canary=$(kubectl get deployment B2X-canary -n B2X -o jsonpath='{.spec.template.metadata.labels.traffic-percentage}' 2>/dev/null || echo "10")
 
     if [ "$actual_canary" != "$expected_canary" ]; then
         warn "Traffic distribution may not match expected ($expected_canary% vs $actual_canary%)"

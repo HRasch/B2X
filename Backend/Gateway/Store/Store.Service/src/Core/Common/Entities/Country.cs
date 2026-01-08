@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-using B2Connect.Types.Localization;
+﻿using System.ComponentModel.DataAnnotations;
+using B2X.Types.Localization;
 
-namespace B2Connect.Store.Core.Common.Entities;
+namespace B2X.Store.Core.Common.Entities;
 
 /// <summary>
 /// Country entity for geographic management

@@ -1,4 +1,4 @@
-# ? Schnelle Lösung: Aspire Dashboard zeigt Services nicht
+ï»¿# ? Schnelle Lï¿½sung: Aspire Dashboard zeigt Services nicht
 
 ## ?? Schnelle Schritte (3 Minuten)
 
@@ -12,7 +12,7 @@ docker-compose down
 
 ### 2. Clean Build
 ```bash
-dotnet clean B2Connect.slnx
+dotnet clean B2X.slnx
 dotnet build AppHost -c Release
 ```
 
@@ -24,17 +24,17 @@ dotnet run --verbosity diagnostic
 
 # WARTEN Sie, bis Sie sehen:
 # "Listening on http://localhost:15500"
-# DANN öffnen Sie den Browser
+# DANN ï¿½ffnen Sie den Browser
 ```
 
-### 4. Browser öffnen
+### 4. Browser ï¿½ffnen
 ```
 http://localhost:15500
 ```
 
 ---
 
-## ?? Wenn das nicht funktioniert, überprüfen Sie:
+## ?? Wenn das nicht funktioniert, ï¿½berprï¿½fen Sie:
 
 ### Check 1: Ports sind offen?
 ```powershell
@@ -58,19 +58,19 @@ Der AppHost sollte **ohne Fehler** starten. Suchen Sie nach:
 ? "Error", "Exception", "Failed"
 ```
 
-### Check 3: Docker Services überprüfen
+### Check 3: Docker Services ï¿½berprï¿½fen
 ```bash
 # Alle Container sehen
 docker-compose ps
 
 # Sollte zeigen:
-# b2connect-postgres     Up (healthy)
-# b2connect-redis        Up (healthy)
-# b2connect-rabbitmq     Up
+# B2X-postgres     Up (healthy)
+# B2X-redis        Up (healthy)
+# B2X-rabbitmq     Up
 # ...
 ```
 
-### Check 4: Service-Logs überprüfen
+### Check 4: Service-Logs ï¿½berprï¿½fen
 ```bash
 # Spezifischer Service
 docker-compose logs auth-service
@@ -81,28 +81,28 @@ docker-compose logs -f catalog-service | head -50
 
 ---
 
-## ?? Die 5 häufigsten Ursachen & Lösungen
+## ?? Die 5 hï¿½ufigsten Ursachen & Lï¿½sungen
 
-| Problem | Symptom | Lösung |
+| Problem | Symptom | Lï¿½sung |
 |---------|---------|--------|
-| **Services nicht registriert** | "No services in dashboard" | Überprüfen `IsAspireProjectResource>true` in allen .csproj |
-| **AppHost startet nicht** | "Failed to start AppHost" | Überprüfen Kompilierungsfehler: `dotnet build AppHost` |
+| **Services nicht registriert** | "No services in dashboard" | ï¿½berprï¿½fen `IsAspireProjectResource>true` in allen .csproj |
+| **AppHost startet nicht** | "Failed to start AppHost" | ï¿½berprï¿½fen Kompilierungsfehler: `dotnet build AppHost` |
 | **Ports belegt** | "Port 15500 already in use" | Killen Sie alte Prozesse: `netstat -ano \| findstr 15500` |
 | **Docker nicht laufen** | "Cannot connect to Docker" | Starten Sie Docker Desktop |
-| **Netzwerk-Fehler** | "Cannot reach services" | Überprüfen Sie docker network: `docker network inspect b2connect` |
+| **Netzwerk-Fehler** | "Cannot reach services" | ï¿½berprï¿½fen Sie docker network: `docker network inspect B2X` |
 
 ---
 
 ## ?? Debug Ausgabe aktivieren
 
-Für maximale Verbosity:
+Fï¿½r maximale Verbosity:
 
 ```bash
 cd AppHost
 dotnet run --verbosity diagnostic 2>&1 | Tee-Object -FilePath debug.log
 ```
 
-Dann überprüfen Sie `debug.log` auf Fehler.
+Dann ï¿½berprï¿½fen Sie `debug.log` auf Fehler.
 
 ---
 
@@ -111,7 +111,7 @@ Dann überprüfen Sie `debug.log` auf Fehler.
 Wenn gar nichts funktioniert:
 
 ```bash
-# WARNUNG: Das löscht ALLES!
+# WARNUNG: Das lï¿½scht ALLES!
 docker-compose down -v
 docker system prune -a --volumes
 docker network prune
@@ -125,7 +125,7 @@ cd AppHost && dotnet run
 
 ## ? Verifikationschecklist
 
-Bevor Sie aufgeben, überprüfen Sie:
+Bevor Sie aufgeben, ï¿½berprï¿½fen Sie:
 
 - [ ] `dotnet build AppHost` kompiliert **ohne Fehler**
 - [ ] Alle Service .csproj haben `<IsAspireProjectResource>true</IsAspireProjectResource>`
@@ -145,24 +145,24 @@ Bevor Sie aufgeben, überprüfen Sie:
    ```
 
 2. **Browser Dashboard:**
-   - Aspire Dashboard lädt ?
+   - Aspire Dashboard lï¿½dt ?
    - Titelleiste: "Aspire Dashboard" ?
    - Services-Liste sichtbar ?
-   - Grüne Health-Icons neben Services ?
+   - Grï¿½ne Health-Icons neben Services ?
 
 3. **Wenn Services NICHT sichtbar sind:**
-   - Überprüfen Sie AppHost Console auf Fehler
-   - Services benötigen 30-60 Sekunden zum starten
-   - Drücken Sie F5 um zu refreshen
+   - ï¿½berprï¿½fen Sie AppHost Console auf Fehler
+   - Services benï¿½tigen 30-60 Sekunden zum starten
+   - Drï¿½cken Sie F5 um zu refreshen
 
 ---
 
 ## ?? Wenn Sie immer noch Hilfe brauchen:
 
-1. Führen Sie aus: `.\scripts\diagnose.ps1`
+1. Fï¿½hren Sie aus: `.\scripts\diagnose.ps1`
 2. Kopieren Sie **GESAMTE** Ausgabe
 3. Kopieren Sie **GESAMTE** AppHost Console Output
-4. Öffnen Sie ein Issue auf GitHub mit:
+4. ï¿½ffnen Sie ein Issue auf GitHub mit:
    - diagnose.ps1 Ausgabe
    - AppHost Console Output
    - Screenshot vom Browser F12 Console
@@ -177,14 +177,14 @@ Bevor Sie aufgeben, überprüfen Sie:
 # Terminal 1
 cd AppHost && dotnet run
 
-# Terminal 2 (während Terminal 1 läuft)
+# Terminal 2 (wï¿½hrend Terminal 1 lï¿½uft)
 docker-compose logs -f
 
 # Terminal 3
 curl http://localhost:7002/health  # Test einzelner Service
 ```
 
-### Tip 2: Health Checks überprüfen
+### Tip 2: Health Checks ï¿½berprï¿½fen
 ```bash
 # Alle Services
 for port in 7002 7003 7004 7005 7008 8000 8080; do
@@ -202,7 +202,7 @@ done
             "name": "AppHost",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2Connect.AppHost.dll",
+            "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2X.AppHost.dll",
             "args": [],
             "cwd": "${workspaceFolder}/AppHost",
             "stopAtEntry": false,
@@ -214,4 +214,4 @@ done
 
 ---
 
-**Für detaillierte Infos, siehe:** `docs/ASPIRE_DASHBOARD_TROUBLESHOOTING.md`
+**Fï¿½r detaillierte Infos, siehe:** `docs/ASPIRE_DASHBOARD_TROUBLESHOOTING.md`

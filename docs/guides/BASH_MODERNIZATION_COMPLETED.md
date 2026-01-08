@@ -1,7 +1,7 @@
-# Bash Scripts Modernization Report
+﻿# Bash Scripts Modernization Report
 
 ## Summary
-Alle 19 Bash-Skripte im B2Connect-Projekt wurden auf moderne Standards aktualisiert und sind nun Cross-Platform-kompatibel für Windows, Linux und macOS.
+Alle 19 Bash-Skripte im B2X-Projekt wurden auf moderne Standards aktualisiert und sind nun Cross-Platform-kompatibel für Windows, Linux und macOS.
 
 ## Modernisierungsmaßnahmen
 
@@ -49,7 +49,7 @@ Alle Verweise auf die alte AppHost-Struktur wurden aktualisiert.
 2. ✅ `scripts/aspire-run.sh` - AppHost Launcher
 3. ✅ `scripts/aspire-stop.sh` - Service Shutdown
 4. ✅ `backend/run-tests.sh` - Test Runner (komplett rewritten)
-5. ✅ `backend/Tests/B2Connect.CMS.Tests/run-tests.sh` - CMS Test Runner
+5. ✅ `backend/Tests/B2X.CMS.Tests/run-tests.sh` - CMS Test Runner
 
 ### 🟢 Mittlere Priorität (Service Management)
 6. ✅ `scripts/start-all.sh` - Kompletter Service Start
@@ -74,7 +74,7 @@ Alle Verweise auf die alte AppHost-Struktur wurden aktualisiert.
 ### `backend/run-tests.sh`
 **Vorher:** 82 Zeilen mit hardcodierten Pfaden und nicht funktionalen Elementen
 **Nachher:** 35 Zeilen moderner, funktionaler Test-Runner
-- Korrekte Pfade zu `B2Connect.CMS.Tests.csproj`
+- Korrekte Pfade zu `B2X.CMS.Tests.csproj`
 - .NET SDK Validierung vor Test-Ausführung
 - Proper error handling mit Farbausgaben
 - Aktive CMS-Tests statt Legacy-Code

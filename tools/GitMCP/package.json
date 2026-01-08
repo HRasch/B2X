@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "git-mcp-server",
   "version": "1.0.0",
   "description": "Git MCP Server for AI-assisted version control analysis",
@@ -18,7 +18,7 @@
     "ai",
     "analysis"
   ],
-  "author": "B2Connect",
+  "author": "B2X",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.4.0",

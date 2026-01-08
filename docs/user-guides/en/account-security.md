@@ -1,6 +1,6 @@
-# Account Security Tips
+﻿# Account Security Tips
 
-Keep your B2Connect account safe! Follow these simple steps.
+Keep your B2X account safe! Follow these simple steps.
 
 ---
 
@@ -26,7 +26,7 @@ Keep your B2Connect account safe! Follow these simple steps.
 
 Who should NOT have your password:
 - ❌ Friends and family
-- ❌ B2Connect employees (they'll never ask!)
+- ❌ B2X employees (they'll never ask!)
 - ❌ Your spouse or partner
 - ❌ Customer support staff
 
@@ -43,24 +43,24 @@ Who should NOT have your password:
 **At home (your computer):**
 - ✅ Safer to use "Keep me logged in"
 
-### 4. Only Use Official B2Connect
+### 4. Only Use Official B2X
 
 ✅ **SAFE:**
-- Website: `https://www.b2connect.com`
+- Website: `https://www.B2X.com`
 - Official mobile app (iOS or Android)
-- Official B2Connect emails (from `@b2connect.com`)
+- Official B2X emails (from `@B2X.com`)
 
 ❌ **NOT SAFE:**
-- Websites that look like B2Connect but have different URL
-- Unknown apps claiming to be B2Connect
+- Websites that look like B2X but have different URL
+- Unknown apps claiming to be B2X
 - Emails asking you to "confirm your password"
 
 ### 5. Verify Emails Are Real
 
 **Scammers send fake emails!** Here's how to spot them:
 
-✅ **Real B2Connect emails:**
-- Come from `@b2connect.com` or `noreply@b2connect.com`
+✅ **Real B2X emails:**
+- Come from `@B2X.com` or `noreply@B2X.com`
 - Address you as "Dear [Your Name]"
 - Are about things you did (orders, login, etc.)
 
@@ -69,9 +69,9 @@ Who should NOT have your password:
 - Say "Dear Customer" (not your name)
 - Ask you to "verify your account" or "confirm payment"
 - Include suspicious links
-- Ask for your password (B2Connect NEVER asks this!)
+- Ask for your password (B2X NEVER asks this!)
 
-**When in doubt:** Go directly to B2Connect.com instead of clicking email links.
+**When in doubt:** Go directly to B2X.com instead of clicking email links.
 
 ---
 
@@ -88,7 +88,7 @@ Two-factor authentication adds an extra security layer:
 ```
 You log in with email & password
         ↓
-B2Connect sends a code to your phone
+B2X sends a code to your phone
         ↓
 You enter the code
         ↓
@@ -120,7 +120,7 @@ Even if someone steals your password, they can't log in without your phone!
 **With Authenticator App:**
 1. Enter email and password
 2. Open Google Authenticator or Authy app
-3. Find B2Connect code (changes every 30 seconds)
+3. Find B2X code (changes every 30 seconds)
 4. Enter the code on login page
 5. You're in!
 
@@ -148,7 +148,7 @@ When you enable 2FA, you get backup codes. **Save them somewhere safe!**
 
 ### You Lost Your Phone (and have 2FA enabled)
 
-1. Go to B2Connect login page
+1. Go to B2X login page
 2. Click "Can't access your 2FA code?"
 3. Enter your email
 4. Use one of your backup codes
@@ -168,7 +168,7 @@ When you enable 2FA, you get backup codes. **Save them somewhere safe!**
 If your email account is compromised:
 
 1. **Change email password immediately** (on Gmail, Outlook, etc.)
-2. [Reset your B2Connect password](./reset-password.md)
+2. [Reset your B2X password](./reset-password.md)
 3. Check your email forwarding rules (hackers sometimes add these)
 4. Enable 2FA on your email account
 5. [Contact Support](../README.md) if needed
@@ -215,7 +215,7 @@ Password managers securely store your passwords:
 **Q: How often should I change my password?**  
 A: Only if you think it's compromised. Changing passwords frequently isn't necessary if you use a strong password.
 
-**Q: Is B2Connect safe to buy from?**  
+**Q: Is B2X safe to buy from?**  
 A: Yes! We use industry-standard security (HTTPS, encryption). Your payment info is handled by secure payment processors.
 
 **Q: Do you sell my personal information?**  

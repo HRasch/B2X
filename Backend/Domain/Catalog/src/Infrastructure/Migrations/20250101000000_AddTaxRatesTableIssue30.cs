@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace B2Connect.Catalog.Infrastructure.Migrations;
+namespace B2X.Catalog.Infrastructure.Migrations;
 
 /// <inheritdoc />
 public partial class AddTaxRatesTableIssue30 : Migration

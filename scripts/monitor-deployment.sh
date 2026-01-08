@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Deployment Monitor
+# B2X Deployment Monitor
 # Monitors deployment health and performance metrics
 #
 # Usage: ./scripts/monitor-deployment.sh [environment] [duration]
@@ -42,19 +42,19 @@ get_service_url() {
 
     case $env in
         blue)
-            echo "http://blue-$service.b2connect.local"
+            echo "http://blue-$service.B2X.local"
             ;;
         green)
-            echo "http://green-$service.b2connect.local"
+            echo "http://green-$service.B2X.local"
             ;;
         canary)
-            echo "http://canary-$service.b2connect.local"
+            echo "http://canary-$service.B2X.local"
             ;;
         current)
-            echo "http://$service.b2connect.local"
+            echo "http://$service.B2X.local"
             ;;
         *)
-            echo "http://$service.b2connect.local"
+            echo "http://$service.B2X.local"
             ;;
     esac
 }
@@ -94,13 +94,13 @@ check_error_rate() {
 
 # Check CPU and memory usage via Kubernetes metrics
 check_resource_usage() {
-    local deployment="b2connect-$ENVIRONMENT"
+    local deployment="B2X-$ENVIRONMENT"
     if [ "$ENVIRONMENT" = "current" ]; then
-        deployment="b2connect"
+        deployment="B2X"
     fi
 
     # Get pod resource usage
-    kubectl top pods -n b2connect -l app=$deployment --no-headers 2>/dev/null || echo "N/A N/A"
+    kubectl top pods -n B2X -l app=$deployment --no-headers 2>/dev/null || echo "N/A N/A"
 }
 
 # Monitor single service
@@ -152,12 +152,12 @@ monitor_resources() {
 
 # Check deployment rollout status
 check_rollout_status() {
-    local deployment="b2connect-$ENVIRONMENT"
+    local deployment="B2X-$ENVIRONMENT"
     if [ "$ENVIRONMENT" = "current" ]; then
-        deployment="b2connect"
+        deployment="B2X"
     fi
 
-    kubectl rollout status deployment/$deployment -n b2connect --timeout=30s
+    kubectl rollout status deployment/$deployment -n B2X --timeout=30s
 }
 
 # Main monitoring function

@@ -1,4 +1,4 @@
-namespace B2Connect.Returns.Application.Commands;
+﻿namespace B2X.Returns.Application.Commands;
 
 /// <summary>
 /// Command to initiate a customer return within the 14-day VVVG withdrawal period.

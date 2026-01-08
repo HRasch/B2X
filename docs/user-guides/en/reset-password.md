@@ -1,4 +1,4 @@
-# How to Reset Your Password
+﻿# How to Reset Your Password
 
 Forgotten your password? No problem! You can reset it in just a few minutes.
 
@@ -7,7 +7,7 @@ Forgotten your password? No problem! You can reset it in just a few minutes.
 ## Quick Steps
 
 ### Step 1: Go to Login Page
-1. Go to **www.b2connect.com**
+1. Go to **www.B2X.com**
 2. Click **"Log In"** button
 
 ### Step 2: Click "Forgot Password?"
@@ -21,12 +21,12 @@ Forgotten your password? No problem! You can reset it in just a few minutes.
 
 ### Step 4: Check Your Email
 1. Open your email (Gmail, Outlook, etc.)
-2. Look for email from **noreply@b2connect.com**
-3. Subject: **"Reset Your B2Connect Password"**
+2. Look for email from **noreply@B2X.com**
+3. Subject: **"Reset Your B2X Password"**
 4. **Don't see it?** Check Spam/Junk folder
 
 ### Step 5: Click the Reset Link
-1. Open the email from B2Connect
+1. Open the email from B2X
 2. Click **"Reset Password"** button (or copy the link)
 3. The reset page opens (link works for 1 hour only)
 
@@ -81,7 +81,7 @@ Forgotten your password? No problem! You can reset it in just a few minutes.
 ### "Email Not Found"
 
 **What does this mean?**  
-No B2Connect account exists with that email.
+No B2X account exists with that email.
 
 **How to fix:**
 1. Check spelling of email
@@ -94,7 +94,7 @@ No B2Connect account exists with that email.
 The reset link only works for 1 hour. You waited too long.
 
 **How to fix:**
-1. Go back to [password reset page](https://www.b2connect.com/forgot-password)
+1. Go back to [password reset page](https://www.B2X.com/forgot-password)
 2. Enter your email again
 3. Click on the new link
 
@@ -144,7 +144,7 @@ A: [Contact Support](../README.md) with proof of account ownership.
 A: No, not unless you think your account is compromised.
 
 **Q: Can I reuse an old password?**  
-A: No, for security reasons B2Connect won't let you use old passwords.
+A: No, for security reasons B2X won't let you use old passwords.
 
 ---
 
@@ -152,8 +152,8 @@ A: No, for security reasons B2Connect won't let you use old passwords.
 
 ⚠️ **Never reset your password through an email link unless:**
 1. You clicked "Forgot Password?" yourself
-2. The email is from `noreply@b2connect.com`
-3. The URL starts with `https://www.b2connect.com`
+2. The email is from `noreply@B2X.com`
+3. The URL starts with `https://www.B2X.com`
 
 Hackers sometimes send fake password reset emails. Always start from the official website.
 

@@ -1,8 +1,8 @@
-using ModelContextProtocol;
-using B2Connect.Api.Validation;
-using B2Connect.Api.Connectors;
+﻿using ModelContextProtocol;
+using B2X.Api.Validation;
+using B2X.Api.Connectors;
 
-namespace B2Connect.Api.Mcp;
+namespace B2X.Api.Mcp;
 
 public class ErpValidationTool : ITool
 {

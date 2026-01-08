@@ -1,4 +1,4 @@
-# Deployment Plan: enventa Trade ERP Integration (ADR-034)
+﻿# Deployment Plan: enventa Trade ERP Integration (ADR-034)
 
 **Status:** Ready for Production Deployment  
 **Date:** January 5, 2026  
@@ -81,7 +81,7 @@ Build → Test → Security Scan → Sign → Package → Distribute → Deploy
 ### Download Infrastructure
 - **Secure Repository:** Azure Blob Storage with SAS tokens for tenant-specific access
 - **CDN Integration:** Cloudflare CDN for global distribution with caching
-- **API Gateway:** Enhanced B2Connect API for authenticated downloads
+- **API Gateway:** Enhanced B2X API for authenticated downloads
 - **Version Control:** Semantic versioning with backward compatibility checks
 
 ### Tenant Isolation
@@ -194,4 +194,4 @@ Build → Test → Security Scan → Sign → Package → Distribute → Deploy
 **Approved by:** @DevOps, @Backend (pending)  
 **Next Review:** January 12, 2026  
 **Contact:** @SARAH for coordination</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/DEPLOYMENT_PLAN_ENVENTA_ERP_INTEGRATION.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/DEPLOYMENT_PLAN_ENVENTA_ERP_INTEGRATION.md

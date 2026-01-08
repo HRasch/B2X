@@ -1,8 +1,8 @@
-# B2Connect Shop Platform Specifications
+﻿# B2X Shop Platform Specifications
 
 ## Overview
 
-The B2Connect Shop Platform is a comprehensive B2B/B2C e-commerce solution designed to support multi-channel retail operations. It combines modern e-commerce capabilities with enterprise-grade B2B features including tiered pricing, bulk ordering, and procurement platform integration.
+The B2X Shop Platform is a comprehensive B2B/B2C e-commerce solution designed to support multi-channel retail operations. It combines modern e-commerce capabilities with enterprise-grade B2B features including tiered pricing, bulk ordering, and procurement platform integration.
 
 ## Core Components
 
@@ -390,8 +390,8 @@ Content-Type: application/json
     "size": "One Size"
   },
   "images": [
-    "https://cdn.b2connect.com/products/wh-001/main.jpg",
-    "https://cdn.b2connect.com/products/wh-001/detail.jpg"
+    "https://cdn.B2X.com/products/wh-001/main.jpg",
+    "https://cdn.B2X.com/products/wh-001/detail.jpg"
   ],
   "tags": ["bestseller", "new", "electronics"]
 }
@@ -405,7 +405,7 @@ Content-Type: application/json
 
 **Elasticsearch Index Operation:**
 ```
-POST /b2connect-products/_doc/prod-wh-001
+POST /B2X-products/_doc/prod-wh-001
 {
   "id": "prod-wh-001",
   "sku": "WH-001-BLK",
@@ -465,7 +465,7 @@ Content-Type: application/json
 
 **Elasticsearch Update Operation:**
 ```
-POST /b2connect-products/_update/prod-wh-001
+POST /B2X-products/_update/prod-wh-001
 {
   "doc": {
     "name": "Wireless Headphones Pro Max",
@@ -501,7 +501,7 @@ DELETE /api/admin/shop/products/prod-wh-001
 
 **Elasticsearch Delete Operation:**
 ```
-DELETE /b2connect-products/_doc/prod-wh-001
+DELETE /B2X-products/_doc/prod-wh-001
 ```
 
 **StoreFront Behavior:**
@@ -534,7 +534,7 @@ Content-Type: application/json
 
 **Elasticsearch Bulk Operation:**
 ```
-POST /b2connect-products/_bulk
+POST /B2X-products/_bulk
 { "index": { "_id": "prod-p001" } }
 { "sku": "P001", "name": "Product 1", ... }
 { "index": { "_id": "prod-p002" } }
@@ -709,7 +709,7 @@ public class SearchIndexService : IEventConsumer
             var response = await _elasticClient.IndexAsync<ProductDocument>(
                 new IndexRequest<ProductDocument>
                 {
-                    Index = "b2connect-products",
+                    Index = "B2X-products",
                     Id = product.Id,
                     Document = indexDoc
                 });
@@ -743,7 +743,7 @@ public class SearchIndexService : IEventConsumer
             @event.Data.Id,
             new UpdateRequest<ProductDocument>
             {
-                Index = "b2connect-products",
+                Index = "B2X-products",
                 Doc = MapToIndexDocument(product),
                 RetryOnConflict = 3
             });
@@ -753,7 +753,7 @@ public class SearchIndexService : IEventConsumer
     public async Task OnProductDeletedAsync(ProductDeletedEvent @event)
     {
         await _elasticClient.DeleteAsync(
-            new DeleteRequest("b2connect-products", @event.Data.Id));
+            new DeleteRequest("B2X-products", @event.Data.Id));
     }
 
     private ProductDocument MapToIndexDocument(Product product)
@@ -801,7 +801,7 @@ public class SearchIndexService : IEventConsumer
 POST /api/admin/system/rebuild-search-index
 
 Process:
-1. Erstelle neuen Index (b2connect-products-v2)
+1. Erstelle neuen Index (B2X-products-v2)
 2. Starte Background-Job zum Indexieren aller Produkte
 3. Überwache Progress
 4. Verifiziere Dokumenten-Konsistenz

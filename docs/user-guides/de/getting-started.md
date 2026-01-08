@@ -1,12 +1,12 @@
-# Erste Schritte mit B2Connect
+﻿# Erste Schritte mit B2X
 
-Willkommen bei B2Connect! Diese Anleitung hilft Ihnen beim Einstieg in Ihr Konto.
+Willkommen bei B2X! Diese Anleitung hilft Ihnen beim Einstieg in Ihr Konto.
 
 ---
 
-## Was ist B2Connect?
+## Was ist B2X?
 
-B2Connect ist eine Online-Einkaufsplattform, auf der Sie:
+B2X ist eine Online-Einkaufsplattform, auf der Sie:
 - Produkte durchsuchen
 - Bestellungen aufgeben
 - Lieferungen verfolgen
@@ -17,7 +17,7 @@ B2Connect ist eine Online-Einkaufsplattform, auf der Sie:
 
 ## Brauche ich ein Konto?
 
-**Ja!** Um B2Connect zu nutzen, benötigen Sie ein kostenloses Konto.
+**Ja!** Um B2X zu nutzen, benötigen Sie ein kostenloses Konto.
 
 ### Warum ein Konto erstellen?
 ✅ Lieferadresse speichern  
@@ -37,7 +37,7 @@ B2Connect ist eine Online-Einkaufsplattform, auf der Sie:
 ### Schritt 2: E-Mail-Adresse eingeben
 1. Geben Sie Ihre E-Mail-Adresse ein
 2. Klicken Sie auf **"Weiter"**
-3. B2Connect prüft, ob Sie bereits ein Konto haben
+3. B2X prüft, ob Sie bereits ein Konto haben
 
 ### Schritt 3: Passwort wählen
 1. Erstellen Sie ein sicheres Passwort (mindestens 8 Zeichen)
@@ -47,7 +47,7 @@ B2Connect ist eine Online-Einkaufsplattform, auf der Sie:
 
 ### Schritt 4: E-Mail verifizieren
 1. Öffnen Sie Ihr E-Mail-Postfach
-2. Suchen Sie nach der E-Mail von B2Connect
+2. Suchen Sie nach der E-Mail von B2X
 3. Klicken Sie auf den **"E-Mail verifizieren"**-Link
 4. Ihr Konto ist bereit!
 

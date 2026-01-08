@@ -1,4 +1,12 @@
-# ADR-028: AI Consumption Monitoring and Limiting for MCP Server Operations
+---
+docid: ADR-066
+title: ADR 028 Ai Consumption Monitoring
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-028: AI Consumption Monitoring and Limiting for MCP Server Operations
 
 **Status:** Proposed  
 **Date:** 3. Januar 2026  
@@ -9,7 +17,7 @@
 
 ## Problem
 
-The B2Connect platform integrates AI services through MCP (Model Context Protocol) servers for tenant administrators. However, without proper controls, AI consumption could lead to:
+The B2X platform integrates AI services through MCP (Model Context Protocol) servers for tenant administrators. However, without proper controls, AI consumption could lead to:
 
 - **Uncontrolled Costs**: Unlimited AI API calls driving up operational expenses
 - **Resource Abuse**: Malicious or accidental overuse of AI resources

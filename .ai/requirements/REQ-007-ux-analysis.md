@@ -1,4 +1,12 @@
-# REQ-007: Email WYSIWYG Builder - UX Analysis
+---
+docid: REQ-061
+title: REQ 007 Ux Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# REQ-007: Email WYSIWYG Builder - UX Analysis
 
 **Anforderung**: Email WYSIWYG Builder mit Drag&Drop für Marketing-Teams  
 **Framework**: Requirements Analysis v2.0 - @UX Integration Section  
@@ -143,4 +151,4 @@
 
 **Aufwandsschätzung**: UX-Design und Testing - S (Small) - 8-12 Stunden  
 **Konfidenz**: Hoch - Basierend auf etablierten UX-Patterns und Persona-Research</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-007-ux-analysis.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-007-ux-analysis.md

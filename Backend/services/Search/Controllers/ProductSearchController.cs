@@ -1,8 +1,8 @@
-using B2Connect.Domain.Search.Models;
-using B2Connect.Domain.Search.Services;
+﻿using B2X.Domain.Search.Models;
+using B2X.Domain.Search.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Services.Search.Controllers;
+namespace B2X.Services.Search.Controllers;
 
 [ApiController]
 [Route("v2/products")]

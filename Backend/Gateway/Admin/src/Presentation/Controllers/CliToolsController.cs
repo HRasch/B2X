@@ -1,9 +1,9 @@
-using B2Connect.Admin.Application.Services;
-using B2Connect.Admin.Presentation.Filters;
+using B2X.Admin.Application.Services;
+using B2X.Admin.Presentation.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Admin.Presentation.Controllers;
+namespace B2X.Admin.Presentation.Controllers;
 
 /// <summary>
 /// API endpoints for downloading and managing CLI tools

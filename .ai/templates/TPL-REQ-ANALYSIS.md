@@ -1,4 +1,12 @@
 ---
+docid: TPL-016
+title: TPL REQ ANALYSIS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TPL-REQ-ANALYSIS
 title: "Templates: Requirements Analysis v2.0"
 owner: "@SARAH"

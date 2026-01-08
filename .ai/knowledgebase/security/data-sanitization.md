@@ -1,4 +1,12 @@
-# Data Sanitization for AI Providers
+---
+docid: KB-153
+title: Data Sanitization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Data Sanitization for AI Providers
 
 **DocID**: `KB-SECURITY-DATA-SANITIZATION`  
 **Last Updated**: 2026-01-03  
@@ -160,4 +168,4 @@ var validation = sanitizationService.ValidateContent(content, tenantId);
 **Maintained By**: GitHub Copilot  
 **Date Implemented**: 2026-01-03  
 **Security Review**: Required for production deployment</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/knowledgebase/security/data-sanitization.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/knowledgebase/security/data-sanitization.md

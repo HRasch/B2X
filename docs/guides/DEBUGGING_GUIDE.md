@@ -1,4 +1,4 @@
-# 🐛 Debugging Guide - B2Connect
+﻿# 🐛 Debugging Guide - B2X
 
 ## Quick Fix Summary
 
@@ -97,11 +97,11 @@ dotnet build --configuration Debug
    ```bash
    ls -la backend/BoundedContexts/Shared/Identity/bin/Debug/net10.0/*.pdb
    ```
-   Should show files like `B2Connect.Identity.API.pdb`
+   Should show files like `B2X.Identity.API.pdb`
 
 3. **Check You're Debugging the Right Process:**
    - In Debug view, check "CALL STACK" panel
-   - Should show your service name (e.g., `B2Connect.Identity.API`)
+   - Should show your service name (e.g., `B2X.Identity.API`)
 
 4. **Restart VS Code:**
    Sometimes needed after configuration changes

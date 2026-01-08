@@ -1,5 +1,5 @@
-#!/bin/bash
-# B2Connect MCP Token Optimization - System Verification
+﻿#!/bin/bash
+# B2X MCP Token Optimization - System Verification
 # Verifies all components are installed and operational
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
@@ -8,7 +8,7 @@ STATUS_DIR="$REPO_ROOT/.ai/status"
 KB_DIR="$REPO_ROOT/.ai/knowledgebase"
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "B2Connect MCP Token Optimization System - Verification"
+echo "B2X MCP Token Optimization System - Verification"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 

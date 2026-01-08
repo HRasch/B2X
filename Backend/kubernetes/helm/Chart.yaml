@@ -1,22 +1,22 @@
-apiVersion: v2
-name: b2connect
-description: B2Connect Aspire-based Microservices Platform
+﻿apiVersion: v2
+name: B2X
+description: B2X Aspire-based Microservices Platform
 type: application
 version: 1.0.0
 appVersion: "1.0.0"
 
 keywords:
-  - b2connect
+  - B2X
   - aspire
   - microservices
   - kubernetes
 
-home: https://github.com/yourusername/b2connect
+home: https://github.com/yourusername/B2X
 sources:
-  - https://github.com/yourusername/b2connect
+  - https://github.com/yourusername/B2X
 
 maintainers:
-  - name: B2Connect Team
-    email: dev@b2connect.local
+  - name: B2X Team
+    email: dev@B2X.local
 
 dependencies: []

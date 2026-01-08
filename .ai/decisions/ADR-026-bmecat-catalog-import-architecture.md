@@ -1,4 +1,12 @@
-# ADR-026: BMEcat Catalog Import Architecture
+---
+docid: ADR-063
+title: ADR 026 Bmecat Catalog Import Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-026: BMEcat Catalog Import Architecture
 
 **Status**: Proposed  
 **Date**: 3. Januar 2026  
@@ -9,7 +17,7 @@
 
 ## Context
 
-B2Connect needs to support importing product catalogs in BMEcat format, a standard used by trade associations in Germany and Europe. The system must be able to:
+B2X needs to support importing product catalogs in BMEcat format, a standard used by trade associations in Germany and Europe. The system must be able to:
 
 1. Parse BMEcat XML files (version 1.2/2005)
 2. Validate catalog data and structure
@@ -266,4 +274,4 @@ public class ImportProgress
 
 **Status**: Proposed - Ready for Technical Review  
 **Next**: Security review and implementation planning</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-026-bmecat-catalog-import-architecture.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-026-bmecat-catalog-import-architecture.md

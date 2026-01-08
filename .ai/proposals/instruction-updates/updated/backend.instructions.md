@@ -1,4 +1,12 @@
 ---
+docid: PROP-008
+title: Backend.Instructions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backend/**"
 --
 

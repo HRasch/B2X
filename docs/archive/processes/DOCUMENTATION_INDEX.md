@@ -1,4 +1,4 @@
-# 📚 B2Connect - Documentation Index
+﻿# 📚 B2X - Documentation Index
 
 **Last Updated:** 27. Dezember 2025  
 **Status:** ✅ PRODUCTION READY

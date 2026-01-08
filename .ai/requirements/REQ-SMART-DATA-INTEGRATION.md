@@ -1,4 +1,12 @@
 ---
+docid: REQ-067
+title: REQ SMART DATA INTEGRATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: REQ-SMART-DATA-INTEGRATION
 title: Smart Data Integration Assistant - Requirements
 owner: @ProductOwner
@@ -213,4 +221,4 @@ status: Active
 **Approval Status**: ✅ Approved for development
 **Date**: 7. Januar 2026
 **@ProductOwner**</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-SMART-DATA-INTEGRATION.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-SMART-DATA-INTEGRATION.md

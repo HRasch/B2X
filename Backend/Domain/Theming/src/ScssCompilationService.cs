@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
-using B2Connect.ThemeService.Models;
+using B2X.ThemeService.Models;
 
-namespace B2Connect.ThemeService.Services;
+namespace B2X.ThemeService.Services;
 
 /// <summary>
 /// SCSS Compilation Service - Compiles SCSS to CSS using Dart Sass
@@ -177,7 +177,7 @@ public class ScssCompilationService : IScssCompilationService
         var sb = new StringBuilder();
 
         sb.AppendLine("// ============================================");
-        sb.AppendLine("// B2Connect Theme - Auto-generated SCSS");
+        sb.AppendLine("// B2X Theme - Auto-generated SCSS");
         sb.AppendLine($"// Generated: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC");
         sb.AppendLine("// ============================================");
         sb.AppendLine();
@@ -248,7 +248,7 @@ public class ScssCompilationService : IScssCompilationService
     {
         var sb = new StringBuilder();
 
-        sb.AppendLine("/* B2Connect Theme - Compiled CSS */");
+        sb.AppendLine("/* B2X Theme - Compiled CSS */");
         sb.AppendLine(":root {");
 
         // Extract SCSS variables and convert to CSS custom properties

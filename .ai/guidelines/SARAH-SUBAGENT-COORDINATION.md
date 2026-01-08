@@ -1,3 +1,11 @@
+---
+docid: GL-096
+title: SARAH SUBAGENT COORDINATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SARAH's SubAgent Coordination Guide
 
 **Version:** 1.1  

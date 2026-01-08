@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using B2Connect.Shared.Infrastructure.ServiceClients;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
-using B2Connect.Shared.Tenancy.Infrastructure.Middleware;
+using B2X.Shared.Infrastructure.ServiceClients;
+using B2X.Shared.Tenancy.Infrastructure.Context;
+using B2X.Shared.Tenancy.Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -10,7 +10,7 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.Shared.Tenancy.Tests.Middleware;
+namespace B2X.Shared.Tenancy.Tests.Middleware;
 
 /// <summary>
 /// Security-focused integration tests for TenantContextMiddleware.
@@ -282,12 +282,12 @@ public class TenantContextMiddlewareSecurityTests
         // Arrange
         var tenantId = Guid.NewGuid();
         var context = CreateHttpContext();
-        context.Request.Host = new HostString("tenant1.b2connect.com");
+        context.Request.Host = new HostString("tenant1.B2X.com");
         context.Request.Path = "/api/products";
 
         _mockEnvironment.Setup(e => e.EnvironmentName).Returns("Production");
-        _mockTenancyClient.Setup(c => c.GetTenantByDomainAsync("tenant1.b2connect.com", It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new TenantDto(tenantId, "Tenant 1", "tenant1.b2connect.com", true));
+        _mockTenancyClient.Setup(c => c.GetTenantByDomainAsync("tenant1.B2X.com", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new TenantDto(tenantId, "Tenant 1", "tenant1.B2X.com", true));
 
         var middleware = CreateMiddleware();
 

@@ -1,4 +1,4 @@
-namespace B2Connect.Email.Services;
+namespace B2X.Email.Services;
 
 /// <summary>
 /// SMTP-Konfiguration
@@ -13,5 +13,5 @@ public class SmtpSettings
     public int Timeout { get; set; } = 30000; // 30 seconds
     public string FromEmail { get; set; } = string.Empty;
     public string FromName { get; set; } = string.Empty;
-    public string Domain { get; set; } = "b2connect.local";
+    public string Domain { get; set; } = "B2X.local";
 }

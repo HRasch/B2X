@@ -1,11 +1,11 @@
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-using B2Connect.Shared.Infrastructure.ServiceClients;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2X.Shared.Infrastructure.ServiceClients;
+using B2X.Shared.Tenancy.Infrastructure.Context;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-namespace B2Connect.Shared.Tenancy.Infrastructure.Middleware;
+namespace B2X.Shared.Tenancy.Infrastructure.Middleware;
 
 /// <summary>
 /// Middleware that extracts X-Tenant-ID header and sets it in the ITenantContext.

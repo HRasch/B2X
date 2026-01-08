@@ -1,3 +1,11 @@
+---
+docid: GL-097
+title: SUBAGENT_DELEGATION_PATTERNS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent-to-Agent Delegation Patterns & Framework
 
 **Purpose**: Enable efficient, auditable delegation between SubAgents  

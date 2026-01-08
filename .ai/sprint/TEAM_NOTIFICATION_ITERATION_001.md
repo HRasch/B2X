@@ -1,4 +1,12 @@
-# 📢 Iteration 001 Kickoff Notification
+---
+docid: SPR-157
+title: TEAM_NOTIFICATION_ITERATION_001
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 📢 Iteration 001 Kickoff Notification
 
 **TO:** Team (@Backend, @Frontend, @Architect, @ProductOwner, @TechLead, @ScrumMaster, @QA, @Security, @Legal, @DevOps)  
 **FROM:** @ScrumMaster  
@@ -104,8 +112,8 @@ Next: Issue #57 - Start package updates
 
 **Reference:**
 - [SPRINT_001_ARCHITECT_TECHLEAD_REVIEW.md](.ai/sprint/SPRINT_001_ARCHITECT_TECHLEAD_REVIEW.md) - Architecture assessment (8.5/10 ✅)
-- [GitHub Issue #57](https://github.com/HRasch/B2Connect/issues/57) - Dependencies
-- [GitHub Issue #56](https://github.com/HRasch/B2Connect/issues/56) - UI Modernization
+- [GitHub Issue #57](https://github.com/HRasch/B2X/issues/57) - Dependencies
+- [GitHub Issue #56](https://github.com/HRasch/B2X/issues/56) - UI Modernization
 
 ---
 

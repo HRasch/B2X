@@ -1,0 +1,149 @@
+﻿using B2X.Admin.MCP.Services;
+using B2X.Admin.MCP.Middleware;
+using B2X.Admin.MCP.Configuration;
+using B2X.Admin.MCP.Data;
+using B2X.Admin.MCP;
+using B2X.ServiceDefaults;
+using Wolverine;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Serilog;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Service Defaults (Health checks, Service Discovery, OpenTelemetry)
+builder.Host.AddServiceDefaults();
+
+// Configure Serilog
+builder.Host.UseSerilog((context, config) =>
+{
+    config.ReadFrom.Configuration(context.Configuration);
+});
+
+// Add services to the container
+builder.Services.AddOpenApi();
+
+// Database configuration
+builder.Services.AddDbContext<McpDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured")))
+        };
+    });
+
+// Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("TenantAdmin", policy =>
+        policy.RequireClaim("role", "tenant-admin"));
+});
+
+// AI Consumption Gateway (Exclusive AI Access)
+builder.Services.AddSingleton<AiConsumptionGateway>();
+
+// AI Providers using Microsoft.Extensions.AI
+builder.Services.AddSingleton<OpenAiProvider>();
+builder.Services.AddSingleton<AnthropicProvider>();
+builder.Services.AddSingleton<AzureOpenAiProvider>();
+builder.Services.AddSingleton<OllamaProvider>();
+builder.Services.AddSingleton<GitHubModelsProvider>();
+
+// Data Sanitization Service (OWASP compliance)
+builder.Services.Configure<DataSanitizationOptions>(builder.Configuration.GetSection("DataSanitization"));
+builder.Services.AddSingleton<DataSanitizationService>();
+
+// AI Provider Selector
+builder.Services.AddScoped<AiProviderSelector>();
+
+// Tenant Context (scoped - per request)
+builder.Services.AddScoped<TenantContext>();
+
+// Advanced NLP and Conversation Services (scoped - depend on DbContext and TenantContext)
+builder.Services.AddScoped<AdvancedNlpService>();
+builder.Services.AddScoped<ConversationService>();
+
+// MCP Server (singleton - uses IServiceProvider to create scopes for scoped services)
+builder.Services.AddSingleton<IMcpServer, McpServer>();
+
+// MCP Tools
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.CmsPageDesignTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.EmailTemplateDesignTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.SystemHealthAnalysisTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.UserManagementAssistantTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.ContentOptimizationTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.TenantManagementTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.StoreOperationsTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.SecurityComplianceTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.PerformanceOptimizationTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.IntegrationManagementTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.TemplateValidationTool>();
+builder.Services.AddScoped<B2X.Admin.MCP.Tools.AiModeSwitchingTool>();
+
+// Caching
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
+// Wolverine CQRS
+builder.Services.AddWolverine(opts =>
+{
+    opts.Policies.AutoApplyTransactions();
+    opts.Policies.UseDurableLocalQueues();
+});
+
+// HTTP Client for CMS Validation Service
+builder.Services.AddHttpClient<CmsValidationClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["CmsValidation:BaseUrl"] ?? "http://localhost:8080");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+// Health Checks
+builder.Services.AddHealthChecks();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
+app.UseHttpsRedirection();
+
+// Security middleware
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Tenant context middleware (must be after auth)
+app.UseMiddleware<TenantContextMiddleware>();
+
+// AI Consumption Control middleware (exclusive access)
+app.UseMiddleware<AiConsumptionControlMiddleware>();
+
+// MCP endpoints
+app.MapMcpEndpoints();
+
+// Health check
+app.MapHealthChecks("/health");
+
+// Remove default weather forecast endpoint
+// (keeping for now as placeholder)
+
+app.Run();

@@ -1,6 +1,6 @@
-using B2Connect.Admin.Presentation.Controllers;
+using B2X.Admin.Presentation.Controllers;
 
-namespace B2Connect.Admin.Application.Services;
+namespace B2X.Admin.Application.Services;
 
 /// <summary>
 /// Service for managing CLI tool downloads and metadata
@@ -61,8 +61,8 @@ public class CliToolsService : ICliToolsService
             {
                 new CliToolInfo(
                     ToolType: "administration-cli",
-                    Name: "B2Connect Administration CLI",
-                    Description: "Tenant administration and management tool for B2Connect",
+                    Name: "B2X Administration CLI",
+                    Description: "Tenant administration and management tool for B2X",
                     LatestVersion: GetLatestVersion("administration-cli"),
                     IsAvailable: true,
                     SupportedOperatingSystems: new[] { "win", "linux", "osx" },
@@ -285,7 +285,7 @@ public class CliToolsService : ICliToolsService
             ? GetLatestVersion(toolType)
             : version;
 
-        return Path.Combine(artifactDir, toolType, actualVersion, $"b2connect-cli-{osType}");
+        return Path.Combine(artifactDir, toolType, actualVersion, $"B2X-cli-{osType}");
     }
 
     private string ResolveErpConnectorFilePath(string erpType, string version)
@@ -319,15 +319,15 @@ public class CliToolsService : ICliToolsService
                 Steps: new[]
                 {
                     "1. Download the Administration-CLI executable",
-                    "2. Extract to a folder (e.g., C:\\b2connect-cli)",
+                    "2. Extract to a folder (e.g., C:\\B2X-cli)",
                     "3. Add folder to PATH environment variable",
                     "4. Open new Command Prompt",
-                    "5. Run: b2connect info (to verify installation)",
-                    "6. Set environment variable: set B2CONNECT_TENANT_TOKEN=your-api-key",
-                    "7. Run: b2connect tenant list (to test connectivity)"
+                    "5. Run: B2X info (to verify installation)",
+                    "6. Set environment variable: set B2X_TENANT_TOKEN=your-api-key",
+                    "7. Run: B2X tenant list (to test connectivity)"
                 },
                 Prerequisites: new[] { ".NET Runtime 8.0+", "Windows 7 or later" },
-                ConfigurationTemplate: "# b2connect-config.json\n{\n  \"endpoint\": \"https://api.b2connect.local\",\n  \"tenantId\": \"your-tenant-id\",\n  \"apiKey\": \"your-api-key\"\n}",
+                ConfigurationTemplate: "# B2X-config.json\n{\n  \"endpoint\": \"https://api.B2X.local\",\n  \"tenantId\": \"your-tenant-id\",\n  \"apiKey\": \"your-api-key\"\n}",
                 TroubleshootingTips: new[]
                 {
                     "If command not recognized, verify PATH contains CLI folder",
@@ -341,18 +341,18 @@ public class CliToolsService : ICliToolsService
                 Steps: new[]
                 {
                     "1. Download the Administration-CLI binary",
-                    "2. chmod +x ./b2connect-cli",
-                    "3. sudo mv ./b2connect-cli /usr/local/bin/",
-                    "4. Run: b2connect info (to verify installation)",
-                    "5. Export API key: export B2CONNECT_TENANT_TOKEN=your-api-key",
-                    "6. Run: b2connect tenant list (to test connectivity)"
+                    "2. chmod +x ./B2X-cli",
+                    "3. sudo mv ./B2X-cli /usr/local/bin/",
+                    "4. Run: B2X info (to verify installation)",
+                    "5. Export API key: export B2X_TENANT_TOKEN=your-api-key",
+                    "6. Run: B2X tenant list (to test connectivity)"
                 },
                 Prerequisites: new[] { ".NET Runtime 8.0+", "Ubuntu 20.04 LTS or later" },
-                ConfigurationTemplate: "#!/bin/bash\nexport B2CONNECT_ENDPOINT=\"https://api.b2connect.local\"\nexport B2CONNECT_TENANT_ID=\"your-tenant-id\"\nexport B2CONNECT_TENANT_TOKEN=\"your-api-key\"",
+                ConfigurationTemplate: "#!/bin/bash\nexport B2X_ENDPOINT=\"https://api.B2X.local\"\nexport B2X_TENANT_ID=\"your-tenant-id\"\nexport B2X_TENANT_TOKEN=\"your-api-key\"",
                 TroubleshootingTips: new[]
                 {
                     "If .so not found error, install: libssl-dev libkrb5-dev",
-                    "Verify execution permissions: ls -la /usr/local/bin/b2connect-cli",
+                    "Verify execution permissions: ls -la /usr/local/bin/B2X-cli",
                     "Check runtime: dotnet --version"
                 }),
 
@@ -362,18 +362,18 @@ public class CliToolsService : ICliToolsService
                 Steps: new[]
                 {
                     "1. Download the Administration-CLI binary",
-                    "2. chmod +x ./b2connect-cli",
-                    "3. sudo mv ./b2connect-cli /usr/local/bin/",
-                    "4. Run: b2connect info (to verify installation)",
-                    "5. Export API key: export B2CONNECT_TENANT_TOKEN=your-api-key",
-                    "6. Run: b2connect tenant list (to test connectivity)"
+                    "2. chmod +x ./B2X-cli",
+                    "3. sudo mv ./B2X-cli /usr/local/bin/",
+                    "4. Run: B2X info (to verify installation)",
+                    "5. Export API key: export B2X_TENANT_TOKEN=your-api-key",
+                    "6. Run: B2X tenant list (to test connectivity)"
                 },
                 Prerequisites: new[] { ".NET Runtime 8.0+", "macOS 12 or later", "Xcode Command Line Tools" },
-                ConfigurationTemplate: "#!/bin/bash\nexport B2CONNECT_ENDPOINT=\"https://api.b2connect.local\"\nexport B2CONNECT_TENANT_ID=\"your-tenant-id\"\nexport B2CONNECT_TENANT_TOKEN=\"your-api-key\"",
+                ConfigurationTemplate: "#!/bin/bash\nexport B2X_ENDPOINT=\"https://api.B2X.local\"\nexport B2X_TENANT_ID=\"your-tenant-id\"\nexport B2X_TENANT_TOKEN=\"your-api-key\"",
                 TroubleshootingTips: new[]
                 {
-                    "If 'cannot be opened', run: xattr -d com.apple.quarantine ./b2connect-cli",
-                    "Verify installation: which b2connect-cli",
+                    "If 'cannot be opened', run: xattr -d com.apple.quarantine ./B2X-cli",
+                    "Verify installation: which B2X-cli",
                     "Check .NET runtime: dotnet --version"
                 }),
 
@@ -394,18 +394,18 @@ public class CliToolsService : ICliToolsService
                     "2. Run the installer and follow the setup wizard",
                     "3. Select your ERP system type during installation",
                     "4. Configure connection parameters to your ERP",
-                    "5. Set tenant API key for B2Connect integration",
+                    "5. Set tenant API key for B2X integration",
                     "6. Start the connector service",
                     "7. Verify connection in Administration Dashboard"
                 },
                 Prerequisites: new[] { ".NET Framework 4.8+", "Windows Server 2016 or later", "ERP system access credentials" },
-                ConfigurationTemplate: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<configuration>\n  <erp type=\"enventa\">\n    <connection>your-erp-connection-string</connection>\n  </erp>\n  <b2connect>\n    <endpoint>https://api.b2connect.local</endpoint>\n    <tenantId>your-tenant-id</tenantId>\n    <apiKey>your-api-key</apiKey>\n  </b2connect>\n</configuration>",
+                ConfigurationTemplate: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<configuration>\n  <erp type=\"enventa\">\n    <connection>your-erp-connection-string</connection>\n  </erp>\n  <B2X>\n    <endpoint>https://api.B2X.local</endpoint>\n    <tenantId>your-tenant-id</tenantId>\n    <apiKey>your-api-key</apiKey>\n  </B2X>\n</configuration>",
                 TroubleshootingTips: new[]
                 {
                     "If service won't start, check Event Viewer for details",
                     "Verify ERP credentials and connectivity",
                     "Ensure firewall allows outbound HTTPS connections",
-                    "Check logs in: C:\\Program Files\\B2Connect\\ERP-Connector\\logs"
+                    "Check logs in: C:\\Program Files\\B2X\\ERP-Connector\\logs"
                 }),
 
             "linux" => new CliInstallationInstructions(
@@ -414,20 +414,20 @@ public class CliToolsService : ICliToolsService
                 Steps: new[]
                 {
                     "1. Download the ERP-Connector package",
-                    "2. tar xzf b2connect-erp-connector.tar.gz",
-                    "3. cd b2connect-erp-connector",
+                    "2. tar xzf B2X-erp-connector.tar.gz",
+                    "3. cd B2X-erp-connector",
                     "4. sudo ./install.sh",
-                    "5. Edit configuration file at /etc/b2connect/erp-connector.conf",
-                    "6. systemctl start b2connect-erp-connector",
-                    "7. systemctl enable b2connect-erp-connector (to auto-start)"
+                    "5. Edit configuration file at /etc/B2X/erp-connector.conf",
+                    "6. systemctl start B2X-erp-connector",
+                    "7. systemctl enable B2X-erp-connector (to auto-start)"
                 },
                 Prerequisites: new[] { ".NET Runtime 8.0+", "Ubuntu 20.04 LTS or later", "ERP system access", "systemd" },
-                ConfigurationTemplate: "[erp]\ntype=enventa\nconnection_string=your-erp-connection\n\n[b2connect]\nendpoint=https://api.b2connect.local\ntenant_id=your-tenant-id\napi_key=your-api-key",
+                ConfigurationTemplate: "[erp]\ntype=enventa\nconnection_string=your-erp-connection\n\n[B2X]\nendpoint=https://api.B2X.local\ntenant_id=your-tenant-id\napi_key=your-api-key",
                 TroubleshootingTips: new[]
                 {
-                    "Check service status: systemctl status b2connect-erp-connector",
-                    "View logs: journalctl -u b2connect-erp-connector -f",
-                    "Verify permissions: ls -la /etc/b2connect/",
+                    "Check service status: systemctl status B2X-erp-connector",
+                    "View logs: journalctl -u B2X-erp-connector -f",
+                    "Verify permissions: ls -la /etc/B2X/",
                     "Test connectivity: curl -X GET http://localhost:9091/health"
                 }),
 

@@ -1,8 +1,8 @@
-# B2Connect Frontend Integration Guide
+﻿# B2X Frontend Integration Guide
 
 ## ?? Overview
 
-B2Connect has two Vue 3 + Vite frontends:
+B2X has two Vue 3 + Vite frontends:
 
 1. **Frontend/Store** - Public storefront (Port 5173)
    - Customer-facing store interface
@@ -204,20 +204,20 @@ npm run dev
 
 ```bash
 # Build Store frontend
-docker build -t b2connect-store:latest ./Frontend/Store
+docker build -t B2X-store:latest ./Frontend/Store
 
 # Build Admin frontend
-docker build -t b2connect-admin:latest ./Frontend/Admin
+docker build -t B2X-admin:latest ./Frontend/Admin
 
 # Run Store frontend
 docker run -p 5173:5173 \
   -e VITE_API_GATEWAY_URL=http://store-gateway:8000 \
-  b2connect-store:latest
+  B2X-store:latest
 
 # Run Admin frontend
 docker run -p 5174:5174 \
   -e VITE_API_GATEWAY_URL=http://admin-gateway:8080 \
-  b2connect-admin:latest
+  B2X-admin:latest
 ```
 
 ### Multi-stage Dockerfile
@@ -226,10 +226,10 @@ Our Dockerfiles support multiple build targets:
 
 ```bash
 # Development (with hot reload)
-docker build --target development -t b2connect-store:dev ./Frontend/Store
+docker build --target development -t B2X-store:dev ./Frontend/Store
 
 # Production (built + served with `serve`)
-docker build --target production -t b2connect-store:prod ./Frontend/Store
+docker build --target production -t B2X-store:prod ./Frontend/Store
 ```
 
 ## ?? API Integration

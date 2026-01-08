@@ -1,4 +1,12 @@
-Vendor Contracts & References
+---
+docid: CMP-008
+title: Vendor Contracts
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿Vendor Contracts & References
 
 This file lists references to vendor contracts and the recommended storage location.
 
@@ -6,7 +14,7 @@ IMPORTANT: Do NOT store signed contracts or secrets in the public repository. In
 
 Recommended fields per vendor:
 - Vendor: Anthropic
-  - Contract reference: Internal vault path or link (e.g., `vault://contracts/anthropic/b2connect`) — replace with your secure reference
+  - Contract reference: Internal vault path or link (e.g., `vault://contracts/anthropic/B2X`) — replace with your secure reference
   - Contact: Account manager name / email
   - Notes: API key scope restrictions, data retention opt-out status
 

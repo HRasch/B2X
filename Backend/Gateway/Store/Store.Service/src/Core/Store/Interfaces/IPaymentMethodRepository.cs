@@ -1,12 +1,12 @@
-using B2Connect.Store.Core.Store.Entities;
+﻿using B2X.Store.Core.Store.Entities;
 
-namespace B2Connect.Store.Core.Store.Interfaces;
+namespace B2X.Store.Core.Store.Interfaces;
 
 /// <summary>
 /// Repository interface for PaymentMethod operations
 /// Store-specific interface for Payment Method management
 /// </summary>
-public interface IPaymentMethodRepository : B2Connect.Store.Core.Common.Interfaces.IRepository<PaymentMethod>
+public interface IPaymentMethodRepository : B2X.Store.Core.Common.Interfaces.IRepository<PaymentMethod>
 {
     /// <summary>Gets a payment method by code</summary>
     Task<PaymentMethod?> GetByCodeAsync(string code, CancellationToken cancellationToken = default);

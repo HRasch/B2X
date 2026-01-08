@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Elasticsearch.Net;
 
-namespace B2Connect.SearchService.Models
+namespace B2X.SearchService.Models
 {
     /// <summary>
     /// Product document for Elasticsearch index (immutable record)

@@ -1,8 +1,16 @@
-# ADR-021: ArchUnitNET for Automated Architecture Testing
+---
+docid: ADR-055
+title: ADR 021 Archunitnet Architecture Testing
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-021: ArchUnitNET for Automated Architecture Testing
 
 **Status:** Accepted  
 **Date:** January 2, 2026  
-**Context:** B2Connect architecture enforcement  
+**Context:** B2X architecture enforcement  
 **Decision Authors:** @Architect, @TechLead, @Backend, @QA  
 **Coordinated by:** @SARAH
 
@@ -10,7 +18,7 @@
 
 ## Problem
 
-B2Connect has well-documented architecture decisions (ADRs) but no automated enforcement:
+B2X has well-documented architecture decisions (ADRs) but no automated enforcement:
 
 1. **Layer violations go undetected** until code review (human error prone)
 2. **Bounded context isolation** depends on developer discipline
@@ -58,8 +66,8 @@ B2Connect has well-documented architecture decisions (ADRs) but no automated enf
 backend/
 └── Tests/
     └── Architecture/
-        └── B2Connect.Architecture.Tests/
-            ├── B2Connect.Architecture.Tests.csproj
+        └── B2X.Architecture.Tests/
+            ├── B2X.Architecture.Tests.csproj
             ├── ArchitectureTestBase.cs      ← Shared architecture loading
             ├── LayerDependencyTests.cs      ← Clean architecture rules
             ├── BoundedContextTests.cs       ← BC isolation rules
@@ -83,11 +91,11 @@ Types().That().ResideInNamespace("*.Core.*")
 
 ```csharp
 // Catalog must not depend on CMS, Identity, etc.
-Types().That().ResideInNamespace("B2Connect.Catalog.*")
+Types().That().ResideInNamespace("B2X.Catalog.*")
     .Should().NotDependOnAny(
-        Types().That().ResideInNamespace("B2Connect.CMS.*")
-            .Or().ResideInNamespace("B2Connect.Identity.*")
-            .Or().ResideInNamespace("B2Connect.Customer.*"))
+        Types().That().ResideInNamespace("B2X.CMS.*")
+            .Or().ResideInNamespace("B2X.Identity.*")
+            .Or().ResideInNamespace("B2X.Customer.*"))
     .Because("Bounded contexts must be isolated (ADR-001)")
 ```
 

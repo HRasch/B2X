@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div
     class="unified-store-layout min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
   >
@@ -19,7 +19,7 @@
     >
       <div class="max-w-7xl mx-auto px-4 py-4">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {{ $route.meta?.title || 'B2Connect Store' }}
+          {{ $route.meta?.title || 'B2X Store' }}
         </h1>
       </div>
     </header>
@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useHead } from '@nuxtjs/seo';
+import { useHead } from '#app';
 
 // Reactive state for mobile sidebar
 const showMobileSidebar = ref(false);
@@ -116,7 +116,7 @@ useHead({
     { name: 'color-scheme', content: 'light dark' },
     // Open Graph
     { property: 'og:type', content: 'website' },
-    { property: 'og:site_name', content: 'B2Connect Store' },
+    { property: 'og:site_name', content: 'B2X Store' },
     // Twitter Card
     { name: 'twitter:card', content: 'summary_large_image' },
     // WCAG compliance

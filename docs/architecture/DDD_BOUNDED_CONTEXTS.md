@@ -1,4 +1,4 @@
-# B2Connect DDD Bounded Contexts & Onion Architecture
+﻿# B2X DDD Bounded Contexts & Onion Architecture
 
 **Last Reviewed:** 2025-12-31 — maintained by `@Architect`
 
@@ -29,10 +29,10 @@ backend/
 │
 ├── shared/                 # 📦 Shared Libraries (Kernel)
 │   ├── kernel/             # Domain Kernel
-│   ├── B2Connect.Shared.Core/
-│   ├── B2Connect.Shared.Infrastructure/
-│   ├── B2Connect.Shared.Messaging/
-│   └── B2Connect.Shared.Search/
+│   ├── B2X.Shared.Core/
+│   ├── B2X.Shared.Infrastructure/
+│   ├── B2X.Shared.Messaging/
+│   └── B2X.Shared.Search/
 │
 └── Tests/                  # 🧪 Test Projects
 ```
@@ -215,7 +215,7 @@ Core hat KEINE Abhängigkeiten zu äußeren Schichten.
 - [x] Services nach Contexts verschoben
 - [x] Solution-Datei aktualisiert
 - [x] Tasks.json aktualisiert
-- [x] Namespaces angepasst (majority migrated to `B2Connect.Store.*` namespaces)
+- [x] Namespaces angepasst (majority migrated to `B2X.Store.*` namespaces)
 - [x] Project References updated (gateways & services reference updated projects)
 - [ ] Orchestration (Aspire) review & tune remaining
 - [ ] Tests: verify & re-baseline failing tests
@@ -226,9 +226,9 @@ Core hat KEINE Abhängigkeiten zu äußeren Schichten.
 ## Nächste Schritte
 
 1. **Namespaces standardisieren**:
-   - `B2Connect.Store.Catalog.*`
-   - `B2Connect.Admin.API.*`
-   - `B2Connect.Shared.Identity.*`
+   - `B2X.Store.Catalog.*`
+   - `B2X.Admin.API.*`
+   - `B2X.Shared.Identity.*`
 
 2. **Onion-Layers verfeinern**:
    - Core/Application/Infrastructure/Presentation in jedem Service

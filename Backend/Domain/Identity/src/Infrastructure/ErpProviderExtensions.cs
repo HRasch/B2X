@@ -1,8 +1,8 @@
-using B2Connect.Identity.Infrastructure.ExternalServices;
-using B2Connect.Identity.Interfaces;
+using B2X.Identity.Infrastructure.ExternalServices;
+using B2X.Identity.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace B2Connect.Identity.Infrastructure;
+namespace B2X.Identity.Infrastructure;
 
 /// <summary>
 /// Extension-Methoden für ERP-Provider Dependency Injection

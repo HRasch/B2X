@@ -1,4 +1,4 @@
-# 🏗️ Wolverine Architecture Analysis & Error Prevention Guide
+﻿# 🏗️ Wolverine Architecture Analysis & Error Prevention Guide
 
 **Document Purpose:** Root cause analysis of the MediatR vs Wolverine architecture mistake and how to prevent it in future AI-assisted development.
 
@@ -96,11 +96,11 @@ This is **MediatR syntax**, not Wolverine!
 | **DI Config** | `AddMediatR()` + `AddControllers()` | Just `AddScoped<Service>()` |
 | **Use Case** | In-process command bus | Microservices, distributed systems |
 | **Response Type** | `IActionResult` or DTO | DTO directly |
-| **Project Usage** | NOT used in B2Connect | ✅ Used in B2Connect |
+| **Project Usage** | NOT used in B2X | ✅ Used in B2X |
 
 ### Code Pattern Comparison
 
-#### MediatR Pattern (WRONG for B2Connect):
+#### MediatR Pattern (WRONG for B2X):
 ```csharp
 // Step 1: Define command with IRequest
 public record CheckTypeCommand(string Email) : IRequest<CheckTypeResponse>;
@@ -134,7 +134,7 @@ public class RegistrationController : ControllerBase
 // Usage: POST /api/registration/check-type
 ```
 
-#### Wolverine Pattern (CORRECT for B2Connect):
+#### Wolverine Pattern (CORRECT for B2X):
 ```csharp
 // Step 1: Define command as plain POCO
 public class CheckRegistrationTypeCommand
@@ -178,7 +178,7 @@ builder.Services.AddScoped<CheckRegistrationTypeService>();
 ```
 Service Class: CheckRegistrationTypeService
 Method Name: CheckType(CheckRegistrationTypeCommand, CancellationToken)
-Namespace: B2Connect.Identity.Handlers
+Namespace: B2X.Identity.Handlers
 
 Generated Route: POST /checkregistrationtype
 (HTTP verb inferred from method signature: async Task<T> = POST)
@@ -336,10 +336,10 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Produc
 
 ### ⚠️ Important Architecture Decision
 
-**B2Connect uses Wolverine, NOT MediatR** for HTTP endpoints and event handling.
+**B2X uses Wolverine, NOT MediatR** for HTTP endpoints and event handling.
 
 **Why this matters:** Wolverine is specifically designed for distributed microservices,
-while MediatR is for in-process command bus patterns. B2Connect's architecture
+while MediatR is for in-process command bus patterns. B2X's architecture
 requires Wolverine's event-driven messaging and HTTP endpoint auto-discovery.
 
 ---
@@ -349,7 +349,7 @@ requires Wolverine's event-driven messaging and HTTP endpoint auto-discovery.
 #### 1️⃣ Define Command as Plain POCO (NO IRequest interface)
 
 ```csharp
-namespace B2Connect.Identity.Handlers;
+namespace B2X.Identity.Handlers;
 
 public class CheckRegistrationTypeCommand
 {
@@ -367,7 +367,7 @@ public record CreateProductCommand(string Sku, string Name) : IRequest<ProductDt
 #### 2️⃣ Create Service Handler (Plain Class with Public Async Methods)
 
 ```csharp
-namespace B2Connect.Identity.Handlers;
+namespace B2X.Identity.Handlers;
 
 public class CheckRegistrationTypeService
 {
@@ -481,7 +481,7 @@ Content-Type: application/json
 #### 1️⃣ Define Event as Plain POCO
 
 ```csharp
-namespace B2Connect.Identity.Events;
+namespace B2X.Identity.Events;
 
 public class UserRegisteredEvent
 {
@@ -493,7 +493,7 @@ public class UserRegisteredEvent
 #### 2️⃣ Create Event Handler Service
 
 ```csharp
-namespace B2Connect.Identity.Handlers.Events;
+namespace B2X.Identity.Handlers.Events;
 
 public class UserEventHandlers
 {
@@ -607,7 +607,7 @@ Before you write ANY handler code, verify these requirements:
 
 **Reference Implementation:** [backend/Domain/Identity/src/Handlers/CheckRegistrationTypeService.cs](backend/Domain/Identity/src/Handlers/CheckRegistrationTypeService.cs)
 
-This is the **CORRECT pattern** for B2Connect. Use this as a template:
+This is the **CORRECT pattern** for B2X. Use this as a template:
 
 1. Service class in `/Handlers/` folder
 2. Public async methods (not IRequestHandler)
@@ -623,7 +623,7 @@ This is the **CORRECT pattern** for B2Connect. Use this as a template:
 
 - **Wolverine Official:** https://wolverinefx.net/
 - **GitHub Repo:** https://github.com/JasperFx/wolverine
-- **B2Connect Pattern Ref:** See `UserEventHandlers.cs` in Identity service
+- **B2X Pattern Ref:** See `UserEventHandlers.cs` in Identity service
 - **DDD Foundation:** See `/backend/Domain/` structure
 
 ---
@@ -651,7 +651,7 @@ This is the **CORRECT pattern** for B2Connect. Use this as a template:
 
 ```bash
 STEP 1: Pattern Verification
-- [ ] Is this project using Wolverine? YES (default in B2Connect)
+- [ ] Is this project using Wolverine? YES (default in B2X)
 - [ ] Should I use IRequest<T>? NO (that's MediatR)
 - [ ] Should I create [ApiController]? NO (that's traditional ASP.NET Core)
 - [ ] Should I add [HttpPost]? NO (method name IS the route)
@@ -717,7 +717,7 @@ Naming Convention Review:
 
 ```bash
 #!/bin/bash
-# Detect MediatR patterns in B2Connect
+# Detect MediatR patterns in B2X
 
 echo "🔍 Checking for MediatR anti-patterns in implementation..."
 
@@ -798,7 +798,7 @@ Result: ✅ Current implementation
 
 **The error happened because:**
 1. MediatR is more widely known in .NET community
-2. B2Connect uses less common Wolverine pattern
+2. B2X uses less common Wolverine pattern
 3. Copilot instructions didn't explicitly differentiate
 4. No validation checklist to catch the mistake early
 5. No reference to existing correct patterns in codebase

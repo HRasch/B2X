@@ -1,7 +1,7 @@
-using B2Connect.Services.Search.Services;
+﻿using B2X.Services.Search.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Services.Search.Controllers.Admin;
+namespace B2X.Services.Search.Controllers.Admin;
 
 [ApiController]
 [Route("v2/admin/seed")]

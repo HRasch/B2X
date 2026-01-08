@@ -1,4 +1,12 @@
-# Scheduler Job Monitoring Architecture - ADR
+---
+docid: ADR-060
+title: ADR 024 Scheduler Job Monitoring
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Scheduler Job Monitoring Architecture - ADR
 
 **DocID**: `ADR-024`  
 **Title**: Scheduler Job Monitoring with Centralized Aggregation and Distributed Probes  
@@ -10,7 +18,7 @@
 
 ## Context
 
-B2Connect requires comprehensive monitoring for scheduler jobs handling ERP/PIM/CRM integrations. The system needs to provide:
+B2X requires comprehensive monitoring for scheduler jobs handling ERP/PIM/CRM integrations. The system needs to provide:
 
 - **Health monitoring** for all scheduler jobs and connected services
 - **Real-time status updates** for job progress and system health
@@ -37,7 +45,7 @@ Implement **hybrid monitoring architecture** with centralized aggregation and di
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    Admin BFF (B2Connect.Admin)                  │
+│                    Admin BFF (B2X.Admin)                  │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌────────────────┐  │
 │  │ Health API      │  │ Job Status API  │  │ Metrics API    │  │
 │  └────────┬────────┘  └────────┬────────┘  └───────┬────────┘  │
@@ -103,7 +111,7 @@ Implement **hybrid monitoring architecture** with centralized aggregation and di
 - **PostgreSQL**: ACID transactions for job state consistency
 - **Elasticsearch**: Full-text search, time-series queries, aggregation
 - **Separation of concerns**: State vs. analytics data
-- **Existing infrastructure**: Both already in use in B2Connect
+- **Existing infrastructure**: Both already in use in B2X
 
 **Alternatives Considered**:
 - **Single database**: Would require compromises on either consistency or analytics
@@ -223,7 +231,7 @@ Hub: /hubs/job-status
 
 ### CLI Integration
 
-Extend existing `B2Connect.CLI` with monitoring commands:
+Extend existing `B2X.CLI` with monitoring commands:
 
 ```bash
 # Health monitoring
@@ -301,7 +309,7 @@ b2c jobs retry 123e4567-e89b-12d3-a456-426614174000
 - [ ] Build error export functionality for support tickets
 
 ### Phase 4: CLI & Frontend Integration (1 sprint)
-- [ ] Extend B2Connect.CLI with monitoring commands
+- [ ] Extend B2X.CLI with monitoring commands
 - [ ] Build admin frontend dashboard components
 - [ ] Implement real-time updates in Vue.js frontend
 

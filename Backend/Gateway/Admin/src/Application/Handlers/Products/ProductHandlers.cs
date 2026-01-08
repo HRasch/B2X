@@ -1,22 +1,22 @@
-using B2Connect.Admin.Application.Commands.Products;
-using B2Connect.Admin.Application.Handlers;
-using B2Connect.Admin.Core.Interfaces;
-using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.ERP.Infrastructure.DataAccess;
-using B2Connect.Shared.Middleware;
-using B2Connect.Types.Localization;
+using B2X.Admin.Application.Commands.Products;
+using B2X.Admin.Application.Handlers;
+using B2X.Admin.Core.Interfaces;
+using B2X.Admin.Infrastructure.Data;
+using B2X.ERP.Infrastructure.DataAccess;
+using B2X.Shared.Middleware;
+using B2X.Types.Localization;
 using Dapper;
 using EFCore.BulkExtensions;
 using Wolverine;
 
-namespace B2Connect.Admin.Application.Handlers.Products;
+namespace B2X.Admin.Application.Handlers.Products;
 
 /// <summary>
 /// Helper method for converting Product entities to ProductResult DTOs
 /// </summary>
 internal static class ProductMapper
 {
-    public static ProductResult ToResult(B2Connect.Admin.Core.Entities.Product product)
+    public static ProductResult ToResult(B2X.Admin.Core.Entities.Product product)
         => new ProductResult(
             product.Id,
             product.TenantId ?? Guid.Empty,
@@ -71,7 +71,7 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, Produc
         }
 
         // Business Logic
-        var product = new B2Connect.Admin.Core.Entities.Product
+        var product = new B2X.Admin.Core.Entities.Product
         {
             Id = Guid.NewGuid(),
             TenantId = tenantId,
@@ -466,7 +466,7 @@ public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsComma
             command.Products.Count, tenantId, importId);
 
         var errors = new List<string>();
-        var validProducts = new List<B2Connect.Admin.Core.Entities.Product>();
+        var validProducts = new List<B2X.Admin.Core.Entities.Product>();
 
         // Phase 1: Validierung und Mapping
         foreach (var item in command.Products)
@@ -487,7 +487,7 @@ public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsComma
                 }
 
                 // Mapping zu Entity
-                var product = new B2Connect.Admin.Core.Entities.Product
+                var product = new B2X.Admin.Core.Entities.Product
                 {
                     Id = Guid.NewGuid(),
                     TenantId = tenantId,

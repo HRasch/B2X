@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using B2Connect.ERP.Abstractions;
-using B2Connect.ERP.Connectors;
+using B2X.ERP.Abstractions;
+using B2X.ERP.Connectors;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;
 
-namespace B2Connect.ERP.Tests.Connectors;
+namespace B2X.ERP.Tests.Connectors;
 
 public class FashopErpConnectorTests
 {

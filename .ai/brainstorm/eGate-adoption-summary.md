@@ -1,4 +1,12 @@
-# 🚀 eGate enventa Interface Adoption - Executive Summary
+---
+docid: BS-018
+title: EGate Adoption Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🚀 eGate enventa Interface Adoption - Executive Summary
 
 **Brainstorm Session**: January 3, 2026  
 **Outcome**: Comprehensive adoption roadmap for eGate patterns  
@@ -129,4 +137,4 @@ Target:  Actor → Connection Pool → Scoped FS API
 **Business Value**: Significant improvement in ERP reliability and performance
 
 **Next**: Phase 1 implementation kickoff</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/brainstorm/eGate-adoption-summary.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/brainstorm/eGate-adoption-summary.md

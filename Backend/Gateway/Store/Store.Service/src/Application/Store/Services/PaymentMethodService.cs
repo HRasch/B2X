@@ -1,9 +1,9 @@
-using B2Connect.Store.Core.Common.Entities;
-using B2Connect.Store.Core.Common.Interfaces;
-using B2Connect.Store.Core.Store.Entities;
-using B2Connect.Store.Core.Store.Interfaces;
+﻿using B2X.Store.Core.Common.Entities;
+using B2X.Store.Core.Common.Interfaces;
+using B2X.Store.Core.Store.Entities;
+using B2X.Store.Core.Store.Interfaces;
 
-namespace B2Connect.Store.Application.Store.Services;
+namespace B2X.Store.Application.Store.Services;
 
 public interface IPaymentMethodService
 {

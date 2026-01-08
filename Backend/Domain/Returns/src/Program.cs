@@ -1,7 +1,7 @@
-using B2Connect.Returns.Core.Interfaces;
-using B2Connect.Returns.Infrastructure.Data;
-using B2Connect.Returns.Infrastructure.Repositories;
-using B2Connect.Returns.Application.Validators;
+﻿using B2X.Returns.Core.Interfaces;
+using B2X.Returns.Infrastructure.Data;
+using B2X.Returns.Infrastructure.Repositories;
+using B2X.Returns.Application.Validators;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,9 +1,9 @@
 using System.Text;
-using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Infrastructure.Authorization;
-using B2Connect.Shared.Infrastructure.Extensions;
-using B2Connect.Shared.Middleware;
-using B2Connect.Utils.Extensions;
+using B2X.ServiceDefaults;
+using B2X.Shared.Infrastructure.Authorization;
+using B2X.Shared.Infrastructure.Extensions;
+using B2X.Shared.Middleware;
+using B2X.Utils.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -95,7 +95,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add Rate Limiting
-// builder.Services.AddB2ConnectRateLimiting(builder.Configuration); // Disabled pending infrastructure setup
+// builder.Services.AddB2XRateLimiting(builder.Configuration); // Disabled pending infrastructure setup
 
 // Get JWT Secret from configuration
 var jwtSecret = builder.Configuration["Jwt:Secret"];
@@ -133,8 +133,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2Connect",
-            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2Connect",
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2X",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2X",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
         };
 
@@ -227,7 +227,7 @@ string.Equals(accountTypeClaim.Value, "U", StringComparison.Ordinal) || string.E
 builder.Services.AddControllers();
 
 // Add Input Validation (FluentValidation)
-// builder.Services.AddB2ConnectValidation(); // Disabled pending infrastructure setup
+// builder.Services.AddB2XValidation(); // Disabled pending infrastructure setup
 
 // Configure HSTS options (production)
 builder.Services.AddHsts(options =>
@@ -257,16 +257,16 @@ builder.Services.AddReverseProxy()
 builder.Services.AddHttpContextAccessor();
 
 // Add Tenant Context (required for tenant settings accessor)
-builder.Services.AddScoped<B2Connect.Shared.Tenancy.Infrastructure.Context.ITenantContext, B2Connect.Shared.Tenancy.Infrastructure.Context.TenantContext>();
+builder.Services.AddScoped<B2X.Shared.Tenancy.Infrastructure.Context.ITenantContext, B2X.Shared.Tenancy.Infrastructure.Context.TenantContext>();
 
 // Add Tenant Context Accessor (required for StoreAccessMiddleware)
-builder.Services.AddScoped<B2Connect.Shared.Middleware.ITenantContextAccessor, B2Connect.Shared.Middleware.TenantContextAccessor>();
+builder.Services.AddScoped<B2X.Shared.Middleware.ITenantContextAccessor, B2X.Shared.Middleware.TenantContextAccessor>();
 
 // Add Unified Authorization System
 builder.Services.AddUnifiedAuthorization();
-builder.Services.AddScoped<B2Connect.Shared.Infrastructure.Authorization.ITenantSettingsAccessor, B2Connect.Gateway.Store.Authorization.TenantSettingsAccessor>();
-builder.Services.AddScoped<B2Connect.Shared.Infrastructure.Authorization.IUserPermissionAccessor, B2Connect.Gateway.Store.Authorization.UserPermissionAccessor>();
-builder.Services.AddScoped<B2Connect.Shared.Infrastructure.Authorization.IRolePermissionAccessor, B2Connect.Gateway.Store.Authorization.RolePermissionAccessor>();
+builder.Services.AddScoped<B2X.Shared.Infrastructure.Authorization.ITenantSettingsAccessor, B2X.Gateway.Store.Authorization.TenantSettingsAccessor>();
+builder.Services.AddScoped<B2X.Shared.Infrastructure.Authorization.IUserPermissionAccessor, B2X.Gateway.Store.Authorization.UserPermissionAccessor>();
+builder.Services.AddScoped<B2X.Shared.Infrastructure.Authorization.IRolePermissionAccessor, B2X.Gateway.Store.Authorization.RolePermissionAccessor>();
 
 var app = builder.Build();
 app.UseRouting();
@@ -293,8 +293,8 @@ app.Use(async (context, next) =>
     if (tenantId != Guid.Empty)
     {
         // Set in both contexts
-        var tenantContextAccessor = context.RequestServices.GetRequiredService<B2Connect.Shared.Middleware.ITenantContextAccessor>();
-        var tenantContext = (B2Connect.Shared.Tenancy.Infrastructure.Context.TenantContext)context.RequestServices.GetRequiredService<B2Connect.Shared.Tenancy.Infrastructure.Context.ITenantContext>();
+        var tenantContextAccessor = context.RequestServices.GetRequiredService<B2X.Shared.Middleware.ITenantContextAccessor>();
+        var tenantContext = (B2X.Shared.Tenancy.Infrastructure.Context.TenantContext)context.RequestServices.GetRequiredService<B2X.Shared.Tenancy.Infrastructure.Context.ITenantContext>();
 
         tenantContextAccessor.SetTenantId(tenantId);
         tenantContext.TenantId = tenantId;

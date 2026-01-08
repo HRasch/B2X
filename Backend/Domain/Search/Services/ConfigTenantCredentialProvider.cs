@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Configuration;
 
-namespace B2Connect.Domain.Search.Services;
+namespace B2X.Domain.Search.Services;
 
 /// <summary>
 /// Simple IConfiguration-backed tenant credential provider.

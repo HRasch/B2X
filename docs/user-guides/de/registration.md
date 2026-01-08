@@ -1,12 +1,12 @@
-# Registrierung bei B2Connect
+﻿# Registrierung bei B2X
 
-Erstellen Sie Ihr B2Connect-Konto in wenigen Schritten.
+Erstellen Sie Ihr B2X-Konto in wenigen Schritten.
 
 ---
 
 ## 🎯 Kontoarten
 
-B2Connect bietet zwei Kontoarten:
+B2X bietet zwei Kontoarten:
 
 | Art | Für wen? | Vorteile |
 |-----|----------|----------|
@@ -53,7 +53,7 @@ Klicken Sie auf **"Konto erstellen"**
 ### Schritt 6: E-Mail bestätigen
 
 1. Prüfen Sie Ihren Posteingang
-2. Öffnen Sie die E-Mail von B2Connect
+2. Öffnen Sie die E-Mail von B2X
 3. Klicken Sie auf **"E-Mail bestätigen"**
 
 > ✅ Ihr Konto ist jetzt aktiv!
@@ -156,7 +156,7 @@ K4uf3n!B2C_2026
 
 ## 🌍 Unterstützte Länder
 
-B2Connect ist verfügbar für Kunden aus:
+B2X ist verfügbar für Kunden aus:
 
 ### EU-Länder (mit Reverse-Charge für B2B)
 - 🇩🇪 Deutschland
@@ -198,6 +198,6 @@ A: Prüfen Sie den Spam-Ordner. Fordern Sie nach 5 Minuten eine neue E-Mail an.
 
 ## 🆘 Hilfe benötigt?
 
-- **E-Mail**: support@b2connect.com
+- **E-Mail**: support@B2X.com
 - **Telefon**: +49 (0)800 123 4567
 - **Live-Chat**: Mo-Fr 9-17 Uhr

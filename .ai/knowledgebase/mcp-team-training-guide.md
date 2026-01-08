@@ -1,4 +1,12 @@
 ---
+docid: KB-140
+title: Mcp Team Training Guide
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-MCP-TEAM-TRAINING
 title: MCP Token Optimization - Team Training Guide
 owner: "@TechLead"
@@ -10,7 +18,7 @@ date: 2026-01-07
 
 ## Überblick
 
-B2Connect hat ein umfassendes **MCP Token Optimization System** implementiert, das die Token-Nutzung um 60-80% reduziert. Dieses Trainings-Guide ermöglicht jedem Team-Mitglied, das System effektiv zu nutzen.
+B2X hat ein umfassendes **MCP Token Optimization System** implementiert, das die Token-Nutzung um 60-80% reduziert. Dieses Trainings-Guide ermöglicht jedem Team-Mitglied, das System effektiv zu nutzen.
 
 ---
 

@@ -1,4 +1,12 @@
-# API Documentation MCP Usage Guide
+---
+docid: KB-162
+title: Api Documentation Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# API Documentation MCP Usage Guide
 
 **DocID**: `KB-059`
 **Title**: API Documentation MCP Usage Guide
@@ -10,7 +18,7 @@
 
 ## Overview
 
-The API Documentation MCP provides comprehensive OpenAPI specification validation, API contract management, and documentation quality assurance for the B2Connect project. It ensures API consistency, prevents breaking changes, and maintains high-quality documentation across all API endpoints.
+The API Documentation MCP provides comprehensive OpenAPI specification validation, API contract management, and documentation quality assurance for the B2X project. It ensures API consistency, prevents breaking changes, and maintains high-quality documentation across all API endpoints.
 
 ---
 
@@ -261,7 +269,7 @@ jobs:
 ```bash
 # API specification settings
 OPENAPI_VERSION="3.0.3"
-API_BASE_URL="https://api.b2connect.com"
+API_BASE_URL="https://api.B2X.com"
 
 # Documentation settings
 DOCS_MIN_COVERAGE="80"
@@ -347,7 +355,7 @@ public class ProductsController : ControllerBase
 ```yaml
 openapi: 3.0.3
 info:
-  title: B2Connect API
+  title: B2X API
   version: 1.0.0
   description: Product catalog and ordering API
 
@@ -505,7 +513,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "B2Connect API",
+        Title = "B2X API",
         Version = "v1",
         Description = "Product catalog and ordering API"
     });
@@ -530,7 +538,7 @@ builder.Services.AddApiVersioning(options =>
 import { ProductsApi, Product } from './generated-api';
 
 const api = new ProductsApi({
-  basePath: 'https://api.b2connect.com'
+  basePath: 'https://api.B2X.com'
 });
 
 async function getProduct(id: number): Promise<Product> {

@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Cleanup script for macOS CDP port conflicts
 # This script kills lingering dcpctrl processes and frees up ports
 
@@ -8,9 +8,9 @@ echo "🧹 Cleaning up CDP port conflicts..."
 echo "Killing dcpctrl processes..."
 pkill -9 -f "dcpctrl" 2>/dev/null || echo "  No dcpctrl processes found"
 
-# Kill all B2Connect processes
-echo "Killing all B2Connect services..."
-pkill -9 -f "B2Connect" 2>/dev/null || echo "  No B2Connect processes found"
+# Kill all B2X processes
+echo "Killing all B2X services..."
+pkill -9 -f "B2X" 2>/dev/null || echo "  No B2X processes found"
 
 # Give the system a moment to release ports
 sleep 2

@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
+using B2X.AppHost.Configuration;
 using Microsoft.Extensions.Logging;
-using B2Connect.AppHost.Configuration;
 
-namespace B2Connect.AppHost.Services;
+namespace B2X.AppHost.Services;
 
 /// <summary>
 /// Context for tracking seeding operations and their progress for error handling and rollback.
@@ -11,7 +11,7 @@ public class SeedingContext : IDisposable
 {
     private readonly TestingConfiguration _config;
     private readonly ILogger _logger;
-    private readonly ConcurrentDictionary<string, SeedingPhase> _phases = new();
+    private readonly ConcurrentDictionary<string, SeedingPhase> _phases = new(StringComparer.Ordinal);
     private readonly ConcurrentBag<string> _seededServices = new();
     private readonly ConcurrentBag<SeedingError> _errors = new();
     private bool _disposed;
@@ -101,7 +101,7 @@ public class SeedingContext : IDisposable
     /// </summary>
     public IReadOnlyCollection<Exception> GetPhaseErrors(string phaseName)
     {
-        return _errors.Where(e => e.PhaseName == phaseName).Select(e => e.Exception).ToArray();
+        return _errors.Where(e => string.Equals(e.PhaseName, phaseName, StringComparison.Ordinal)).Select(e => e.Exception).ToArray();
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ public class SeedingContext : IDisposable
     /// </summary>
     public IReadOnlyDictionary<string, SeedingPhase> GetPhases()
     {
-        return _phases.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        return _phases.ToDictionary(kvp => kvp.Key, kvp => kvp.Value, StringComparer.Ordinal);
     }
 
     /// <summary>

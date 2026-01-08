@@ -1,4 +1,4 @@
-namespace B2Connect.Email.Models;
+namespace B2X.Email.Models;
 
 /// <summary>
 /// Email-Event für Monitoring

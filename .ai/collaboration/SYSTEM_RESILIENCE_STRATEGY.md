@@ -1,4 +1,12 @@
-# 🔄 System Resilience Strategy - Brainstorming Session
+---
+docid: COLLAB-028
+title: SYSTEM_RESILIENCE_STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🔄 System Resilience Strategy - Brainstorming Session
 
 **DocID**: `WF-RESILIENCE-STRATEGY`  
 **Date**: 4. Januar 2026  
@@ -11,7 +19,7 @@
 
 ## 🎯 Session Objective
 
-Develop a comprehensive strategy to address repeating problems and make the B2Connect system more resilient. Focus on prevention, detection, and recovery mechanisms.
+Develop a comprehensive strategy to address repeating problems and make the B2X system more resilient. Focus on prevention, detection, and recovery mechanisms.
 
 ## 📋 Agenda
 
@@ -144,4 +152,4 @@ Develop a comprehensive strategy to address repeating problems and make the B2Co
 
 **Coordinated by**: @SARAH  
 **Last Updated**: 4. Januar 2026</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/collaboration/SYSTEM_RESILIENCE_STRATEGY.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/collaboration/SYSTEM_RESILIENCE_STRATEGY.md

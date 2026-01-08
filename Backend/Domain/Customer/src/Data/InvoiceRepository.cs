@@ -1,12 +1,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Customer.Interfaces;
-using B2Connect.Customer.Models;
+using B2X.Customer.Interfaces;
+using B2X.Customer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Customer.Data;
+namespace B2X.Customer.Data;
 
 /// <summary>
 /// Repository for Invoice persistence (EF Core)

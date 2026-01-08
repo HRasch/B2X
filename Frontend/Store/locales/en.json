@@ -1,4 +1,4 @@
-{
+﻿{
   "auth": {
     "login": {
       "title": "Login",
@@ -82,7 +82,7 @@
     "version": "Version"
   },
   "store": {
-    "title": "B2Connect Store",
+    "title": "B2X Store",
     "subtitle": "Find the best products for your business",
     "searchPlaceholder": "Search by name, SKU, or description...",
     "searchTime": "Search time: {time}ms",
@@ -141,7 +141,7 @@
     "rueckgabeverfahren": "Return Procedure",
     "rueckgabeverfahrenText": "Send the goods back to us within 14 days. You bear the direct costs of returning the goods.",
     "kontakt": "Contact",
-    "kontaktText": "Withdrawal notices should be sent to: support@b2connect.com",
+    "kontaktText": "Withdrawal notices should be sent to: support@B2X.com",
     "rechtsgrundlage": "Legal Basis:",
     "rechtsgrundlageText": "§§ 355-359 BGB (German Civil Code)",
     "haftung": "6. Liability",

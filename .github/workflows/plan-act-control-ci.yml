@@ -1,4 +1,4 @@
----
+﻿---
 name: Plan-Act-Control CI
 
 on:
@@ -16,11 +16,11 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Restore
-        run: dotnet restore B2Connect.slnx
+        run: dotnet restore B2X.slnx
       - name: Build
-        run: dotnet build B2Connect.slnx --no-restore --configuration Release
+        run: dotnet build B2X.slnx --no-restore --configuration Release
       - name: Run unit tests
-        run: dotnet test B2Connect.slnx --no-build --verbosity minimal
+        run: dotnet test B2X.slnx --no-build --verbosity minimal
 
   frontend-lint:
     runs-on: ubuntu-latest

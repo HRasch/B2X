@@ -1,4 +1,12 @@
-# Admin Frontend Access Denied - Fix Summary
+---
+docid: STATUS-001
+title: ADMIN_ACCESS_DENIED_FIX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Admin Frontend Access Denied - Fix Summary
 
 **Date**: 4. Januar 2026  
 **Issue**: Admin frontend shows "access denied" on all pages, AI input cannot be seeded  
@@ -221,13 +229,13 @@ Test Files  12 passed (12)
 Passed!  - Failed: 0, Passed: 371, Skipped: 0, Duration: ~3s
 
 Tests by module:
-  B2Connect.Customer.Tests          22 tests ✅
-  B2Connect.ERP.Tests               27 tests ✅
-  B2Connect.Tenancy.Tests           37 tests ✅
-  B2Connect.Localization.Tests      52 tests ✅
-  B2Connect.Identity.Tests          60 tests ✅
-  B2Connect.CMS.Tests               35 tests ✅
-  B2Connect.Catalog.Tests          142 tests ✅
+  B2X.Customer.Tests          22 tests ✅
+  B2X.ERP.Tests               27 tests ✅
+  B2X.Tenancy.Tests           37 tests ✅
+  B2X.Localization.Tests      52 tests ✅
+  B2X.Identity.Tests          60 tests ✅
+  B2X.CMS.Tests               35 tests ✅
+  B2X.Catalog.Tests          142 tests ✅
 ```
 
 ---

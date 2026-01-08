@@ -1,6 +1,6 @@
-using B2Connect.Shared.Kernel;
+using B2X.Shared.Kernel;
 
-namespace B2Connect.PatternAnalysis.Core.Domain;
+namespace B2X.PatternAnalysis.Core.Domain;
 
 public class Incident : AggregateRoot
 {

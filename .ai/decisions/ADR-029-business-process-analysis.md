@@ -1,4 +1,12 @@
-# Geschäftsprozesse in B2Connect - Punchout Integration Analyse
+---
+docid: ADR-068
+title: ADR 029 Business Process Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Geschäftsprozesse in B2X - Punchout Integration Analyse
 
 **Status:** Analyse abgeschlossen  
 **Datum:** 3. Januar 2026  
@@ -9,7 +17,7 @@
 
 ## Übersicht der Plattform-Geschäftsprozesse
 
-Basierend auf der Analyse der B2Connect-Architektur unterstützt die Plattform folgende Kern-Geschäftsprozesse, die durch die Punchout-Integration mit den ITEK-Standards erweitert werden sollen:
+Basierend auf der Analyse der B2X-Architektur unterstützt die Plattform folgende Kern-Geschäftsprozesse, die durch die Punchout-Integration mit den ITEK-Standards erweitert werden sollen:
 
 ### 1. **Product Catalog Management** (Katalogverwaltung)
 **Aktuelle Implementierung:**
@@ -33,7 +41,7 @@ Basierend auf der Analyse der B2Connect-Architektur unterstützt die Plattform f
 
 **Punchout-Relevanz:**
 - **Alle Standards**: Kundenkontext für personalisierte Produktangebote
-- **ERP Integration**: Synchronisation von Kundendaten zwischen Handwerkersoftware und B2Connect
+- **ERP Integration**: Synchronisation von Kundendaten zwischen Handwerkersoftware und B2X
 
 ### 3. **Search & Discovery** (Suche und Entdeckung)
 **Aktuelle Implementierung:**
@@ -174,7 +182,7 @@ Basierend auf der Analyse der B2Connect-Architektur unterstützt die Plattform f
 
 ### Geschäftsprozess-Flow
 ```
-Handwerkersoftware → Punchout Adapter → B2Connect Gateway → Core Services → ERP
+Handwerkersoftware → Punchout Adapter → B2X Gateway → Core Services → ERP
                       ↓
                 Produktkatalog ← Preis-Kalkulation ← Lokalisierung
                       ↓
@@ -228,7 +236,7 @@ Handwerkersoftware → Punchout Adapter → B2Connect Gateway → Core Services 
 
 ## Fazit
 
-Die B2Connect-Plattform bietet eine solide Grundlage für die Punchout-Integration mit umfassenden Geschäftsprozessen für:
+Die B2X-Plattform bietet eine solide Grundlage für die Punchout-Integration mit umfassenden Geschäftsprozessen für:
 
 - **Product Management**: Vollständige Katalogverwaltung mit Preis-Kalkulation
 - **Customer Integration**: Bidirektionale ERP-Synchronisation
@@ -236,11 +244,11 @@ Die B2Connect-Plattform bietet eine solide Grundlage für die Punchout-Integrati
 - **Order Processing**: Komplette Bestellabwicklung
 - **Multi-Tenant Architecture**: Sichere Datenisolierung
 
-Die vier ITEK-Standards ergänzen diese Prozesse perfekt und ermöglichen eine nahtlose Integration mit deutscher Handwerkersoftware, wodurch B2Connect zu einer zentralen Plattform für die digitale Beschaffung im Handwerk wird.
+Die vier ITEK-Standards ergänzen diese Prozesse perfekt und ermöglichen eine nahtlose Integration mit deutscher Handwerkersoftware, wodurch B2X zu einer zentralen Plattform für die digitale Beschaffung im Handwerk wird.
 
 **Nächste Schritte:**
 1. Technische Spezifikationen für jeden Adapter erstellen
 2. Mock-Services für Integrationstests entwickeln
 3. Proof-of-Concept für einen Adapter implementieren
 4. Pilot-Integration mit Taifun oder MSoft planen</content>
-<parameter name="filePath">c:\Users\Holge\repos\B2Connect\.ai\decisions\ADR-029-business-process-analysis.md
+<parameter name="filePath">c:\Users\Holge\repos\B2X\.ai\decisions\ADR-029-business-process-analysis.md

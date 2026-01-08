@@ -1,17 +1,17 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
-using B2Connect.IdsConnectAdapter.Controllers;
-using B2Connect.IdsConnectAdapter.Models;
-using B2Connect.Shared.Infrastructure.ServiceClients;
-using B2Connect.Domain.Search.Services;
-using B2Connect.ERP.Abstractions;
+using B2X.IdsConnectAdapter.Controllers;
+using B2X.IdsConnectAdapter.Models;
+using B2X.Shared.Infrastructure.ServiceClients;
+using B2X.Domain.Search.Services;
+using B2X.ERP.Abstractions;
 
-namespace B2Connect.IdsConnectAdapter.Tests.Controllers;
+namespace B2X.IdsConnectAdapter.Tests.Controllers;
 
 public class IdsWarenkorbControllerTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -47,7 +47,7 @@ public class IdsWarenkorbControllerTests : IClassFixture<WebApplicationFactory<P
         _tenantResolverMock.Setup(x => x.ResolveTenantIdFromHost(host)).Returns(tenantId.ToString());
 
         var customerId = "KUNDE001";
-        var customer = new B2Connect.Shared.Infrastructure.ServiceClients.CustomerDto
+        var customer = new B2X.Shared.Infrastructure.ServiceClients.CustomerDto
         {
             Id = Guid.NewGuid(),
             ErpCustomerId = customerId,
@@ -56,7 +56,7 @@ public class IdsWarenkorbControllerTests : IClassFixture<WebApplicationFactory<P
             LastModified = DateTime.UtcNow
         };
         _customerClientMock.Setup(x => x.GetCustomerByErpIdAsync(customerId, tenantId, It.IsAny<CancellationToken>()))
-            .Returns(Task.FromResult<B2Connect.Shared.Infrastructure.ServiceClients.CustomerDto?>(customer));
+            .Returns(Task.FromResult<B2X.Shared.Infrastructure.ServiceClients.CustomerDto?>(customer));
 
         var productSku = "ART001";
         var product = new ProductDto(
@@ -131,7 +131,7 @@ public class IdsWarenkorbControllerTests : IClassFixture<WebApplicationFactory<P
         _tenantResolverMock.Setup(x => x.ResolveTenantIdFromHost(host)).Returns(tenantId.ToString());
 
         var customerId = "KUNDE001";
-        var customer = new B2Connect.Shared.Infrastructure.ServiceClients.CustomerDto
+        var customer = new B2X.Shared.Infrastructure.ServiceClients.CustomerDto
         {
             Id = Guid.NewGuid(),
             ErpCustomerId = customerId,
@@ -140,7 +140,7 @@ public class IdsWarenkorbControllerTests : IClassFixture<WebApplicationFactory<P
             LastModified = DateTime.UtcNow
         };
         _customerClientMock.Setup(x => x.GetCustomerByErpIdAsync(customerId, tenantId, It.IsAny<CancellationToken>()))
-            .Returns(Task.FromResult<B2Connect.Shared.Infrastructure.ServiceClients.CustomerDto?>(customer));
+            .Returns(Task.FromResult<B2X.Shared.Infrastructure.ServiceClients.CustomerDto?>(customer));
 
         var productSku = "NONEXISTENT";
         _catalogClientMock.Setup(x => x.GetProductBySkuAsync(productSku, tenantId))

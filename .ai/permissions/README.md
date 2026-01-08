@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-162
+title: README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent Permissions Directory
 
 Dieses Verzeichnis enthält Permission-Definitionen für Agenten im Projekt, verwaltet von SARAH.

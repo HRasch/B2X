@@ -1,0 +1,234 @@
+{
+  "benchmark_suite": "Token Optimization Benchmarks"
+  "timestamp": "20260108_124152"
+  "description": "Benchmarking token optimization strategies on large project files"
+  "environment": {
+    "os": "Linux"
+    "shell": "bash"
+    "project_root": "/mnt/c/Users/Holge/repos/B2Connect"
+  }
+  "optimization_strategy": "fragment_based_reading"
+  "target_files": 10
+  "results": [
+    {
+      "file": "backend/Domain/ERP/src/obj/Debug/net10.0/Protos/ErpServices.cs"
+      "file_size_bytes": 1072562
+      "file_type": "cs"
+      "total_lines": 29642
+      "traditional_approach": {
+        "read_time_seconds": .015
+        "tokens_used": 268140
+        "memory_mb": 1
+      }
+      "fragment_approach": {
+        "read_time_seconds": .012
+        "tokens_used": 25855
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 242285
+        "savings_percentage": 90
+        "time_overhead_seconds": -.003
+        "memory_savings_mb": 0
+      }
+    }
+    {
+      "file": "Frontend/package-lock.json"
+      "file_size_bytes": 928162
+      "file_type": "json"
+      "total_lines": 24937
+      "traditional_approach": {
+        "read_time_seconds": .008
+        "tokens_used": 309387
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .005
+        "tokens_used": 25696
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 283691
+        "savings_percentage": 91
+        "time_overhead_seconds": -.003
+        "memory_savings_mb": -1
+      }
+    }
+    {
+      "file": "backend/Gateway/Admin/obj/B2X.Admin.csproj.nuget.dgspec.json"
+      "file_size_bytes": 631032
+      "file_type": "json"
+      "total_lines": 10504
+      "traditional_approach": {
+        "read_time_seconds": .008
+        "tokens_used": 210344
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .010
+        "tokens_used": 40192
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 170152
+        "savings_percentage": 80
+        "time_overhead_seconds": .002
+        "memory_savings_mb": -1
+      }
+    }
+    {
+      "file": "backend/Domain/Identity/tests/obj/project.assets.json"
+      "file_size_bytes": 514407
+      "file_type": "json"
+      "total_lines": 10801
+      "traditional_approach": {
+        "read_time_seconds": .006
+        "tokens_used": 171469
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .007
+        "tokens_used": 27617
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 143852
+        "savings_percentage": 83
+        "time_overhead_seconds": .001
+        "memory_savings_mb": -1
+      }
+    }
+    {
+      "file": "backend/Tests/B2X.Shared.Search.Tests/obj/project.assets.json"
+      "file_size_bytes": 511890
+      "file_type": "json"
+      "total_lines": 10726
+      "traditional_approach": {
+        "read_time_seconds": .006
+        "tokens_used": 170630
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .008
+        "tokens_used": 27537
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 143093
+        "savings_percentage": 83
+        "time_overhead_seconds": .002
+        "memory_savings_mb": -1
+      }
+    }
+    {
+      "file": "backend/Domain/Catalog/tests/obj/project.assets.json"
+      "file_size_bytes": 497590
+      "file_type": "json"
+      "total_lines": 10403
+      "traditional_approach": {
+        "read_time_seconds": .007
+        "tokens_used": 165863
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .009
+        "tokens_used": 27635
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 138228
+        "savings_percentage": 83
+        "time_overhead_seconds": .002
+        "memory_savings_mb": -1
+      }
+    }
+    {
+      "file": "backend/Domain/Orders/obj/project.assets.json"
+      "file_size_bytes": 492963
+      "file_type": "json"
+      "total_lines": 10346
+      "traditional_approach": {
+        "read_time_seconds": .008
+        "tokens_used": 164321
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .007
+        "tokens_used": 28154
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 136167
+        "savings_percentage": 82
+        "time_overhead_seconds": -.001
+        "memory_savings_mb": -1
+      }
+    }
+    {
+      "file": "backend/Domain/CMS/tests/obj/project.assets.json"
+      "file_size_bytes": 490911
+      "file_type": "json"
+      "total_lines": 10266
+      "traditional_approach": {
+        "read_time_seconds": .008
+        "tokens_used": 163637
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .009
+        "tokens_used": 27593
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 136044
+        "savings_percentage": 83
+        "time_overhead_seconds": .001
+        "memory_savings_mb": -1
+      }
+    }
+    {
+      "file": "backend/Domain/Localization/tests/obj/project.assets.json"
+      "file_size_bytes": 488044
+      "file_type": "json"
+      "total_lines": 10161
+      "traditional_approach": {
+        "read_time_seconds": .007
+        "tokens_used": 162681
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .008
+        "tokens_used": 27787
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 134894
+        "savings_percentage": 82
+        "time_overhead_seconds": .001
+        "memory_savings_mb": -1
+      }
+    }
+    {
+      "file": "backend/BoundedContexts/Admin/MCP/B2X.Admin.MCP/obj/project.assets.json"
+      "file_size_bytes": 485319
+      "file_type": "json"
+      "total_lines": 10195
+      "traditional_approach": {
+        "read_time_seconds": .013
+        "tokens_used": 161771
+        "memory_mb": 0
+      }
+      "fragment_approach": {
+        "read_time_seconds": .009
+        "tokens_used": 27858
+        "memory_mb": 1
+      }
+      "optimization_metrics": {
+        "token_savings": 133913
+        "savings_percentage": 82
+        "time_overhead_seconds": -.004
+        "memory_savings_mb": -1
+      }
+    }
+  ]
+}

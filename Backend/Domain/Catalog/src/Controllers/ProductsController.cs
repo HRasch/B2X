@@ -1,9 +1,9 @@
-using B2Connect.Catalog.Handlers;
-using B2Connect.Catalog.Models;
-using B2Connect.Catalog.Services;
+using B2X.Catalog.Handlers;
+using B2X.Catalog.Models;
+using B2X.Catalog.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Catalog.Controllers;
+namespace B2X.Catalog.Controllers;
 
 /// <summary>
 /// Products API Controller

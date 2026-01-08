@@ -1,14 +1,14 @@
-# Wie man sich anmeldet
+﻿# Wie man sich anmeldet
 
-Diese Anleitung zeigt Ihnen, wie Sie auf Ihr B2Connect-Konto zugreifen.
+Diese Anleitung zeigt Ihnen, wie Sie auf Ihr B2X-Konto zugreifen.
 
 ---
 
 ## Anmeldung auf einem Computer
 
-### Schritt 1: Gehen Sie zu B2Connect
+### Schritt 1: Gehen Sie zu B2X
 1. Öffnen Sie Ihren Webbrowser (Chrome, Firefox, Safari, Edge)
-2. Gehen Sie zu **www.b2connect.com**
+2. Gehen Sie zu **www.B2X.com**
 
 ### Schritt 2: Klicken Sie auf Anmelden
 1. Klicken Sie auf die **"Anmelden"**-Schaltfläche (oben rechts)
@@ -28,7 +28,7 @@ Sie sehen Ihr Dashboard und können mit dem Einkaufen beginnen! 🎉
 
 ### iPhone / iPad
 1. Öffnen Sie Safari oder Ihren bevorzugten Browser
-2. Gehen Sie zu **www.b2connect.com**
+2. Gehen Sie zu **www.B2X.com**
 3. Tippen Sie auf das Menüsymbol (☰) oben rechts
 4. Tippen Sie auf **"Anmelden"**
 5. Geben Sie E-Mail und Passwort ein
@@ -36,7 +36,7 @@ Sie sehen Ihr Dashboard und können mit dem Einkaufen beginnen! 🎉
 
 ### Android
 1. Öffnen Sie Ihren Browser (Chrome, Firefox usw.)
-2. Gehen Sie zu **www.b2connect.com**
+2. Gehen Sie zu **www.B2X.com**
 3. Tippen Sie auf das Menü (☰) oben rechts
 4. Tippen Sie auf **"Anmelden"**
 5. Geben Sie E-Mail und Passwort ein
@@ -62,7 +62,7 @@ Sie sehen Ihr Dashboard und können mit dem Einkaufen beginnen! 🎉
 ### "Falsche E-Mail oder falsches Passwort"
 
 **Was bedeutet das?**  
-B2Connect konnte kein Konto mit dieser E-Mail und diesem Passwort finden.
+B2X konnte kein Konto mit dieser E-Mail und diesem Passwort finden.
 
 **So beheben Sie das Problem:**
 1. ✓ Überprüfen Sie die Schreibweise der E-Mail (keine zusätzlichen Leerzeichen)
@@ -73,7 +73,7 @@ B2Connect konnte kein Konto mit dieser E-Mail und diesem Passwort finden.
 ### "Konto nicht gefunden"
 
 **Was bedeutet das?**  
-Sie haben noch kein B2Connect-Konto.
+Sie haben noch kein B2X-Konto.
 
 **So beheben Sie das Problem:**
 1. Klicken Sie stattdessen auf **"Registrieren"**
@@ -113,7 +113,7 @@ Sie haben zu viele Male mit falschen Passwörtern versucht, sich anzumelden. Zur
 ✅ **Das sollten Sie tun:**
 - Verwenden Sie ein eindeutiges Passwort (nicht an anderer Stelle verwendet)
 - Melden Sie sich ab, wenn Sie öffentliche Computer nutzen
-- Überprüfen Sie, ob die Website-URL `www.b2connect.com` ist
+- Überprüfen Sie, ob die Website-URL `www.B2X.com` ist
 
 ❌ **Das sollten Sie nicht tun:**
 - Teilen Sie Ihr Passwort mit jemandem
@@ -125,10 +125,10 @@ Sie haben zu viele Male mit falschen Passwörtern versucht, sich anzumelden. Zur
 ## Häufig gestellte Fragen
 
 **F: Ist mein Passwort sicher?**  
-A: Ja! Passwörter sind verschlüsselt und werden nie als Klartext gespeichert. Selbst B2Connect-Mitarbeiter können Ihr Passwort nicht sehen.
+A: Ja! Passwörter sind verschlüsselt und werden nie als Klartext gespeichert. Selbst B2X-Mitarbeiter können Ihr Passwort nicht sehen.
 
 **F: Kann ich überall das gleiche Passwort verwenden?**  
-A: Nein! Verwenden Sie ein eindeutiges Passwort für B2Connect. Wenn Ihr Passwort an anderer Stelle verwendet wird und diese Website gehackt wird, könnten Hacker auf Ihr B2Connect-Konto zugreifen.
+A: Nein! Verwenden Sie ein eindeutiges Passwort für B2X. Wenn Ihr Passwort an anderer Stelle verwendet wird und diese Website gehackt wird, könnten Hacker auf Ihr B2X-Konto zugreifen.
 
 **F: Wie lange kann ich angemeldet bleiben?**  
 A: Etwa 1 Stunde vor automatischer Abmeldung aus Sicherheitsgründen. Falls länger angemeldet, werden wir Sie auffordern, sich erneut anzumelden.

@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # Admin Frontend Login E2E Test Runner
 # =====================================
@@ -10,7 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FRONTEND_DIR="${SCRIPT_DIR}/../frontend/Admin"
 BACKEND_DIR="${SCRIPT_DIR}/../AppHost"
 
-echo "🚀 B2Connect Admin Frontend - Login E2E Tests"
+echo "🚀 B2X Admin Frontend - Login E2E Tests"
 echo "=============================================="
 echo ""
 

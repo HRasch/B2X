@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace B2Connect.LocalizationService.Migrations
+namespace B2X.LocalizationService.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

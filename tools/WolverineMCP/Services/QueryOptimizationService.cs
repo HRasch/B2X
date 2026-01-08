@@ -1,10 +1,10 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 
-namespace B2Connect.Tools.WolverineMCP.Services;
+namespace B2X.Tools.WolverineMCP.Services;
 
 /// <summary>
 /// Result of query analysis.
@@ -134,7 +134,7 @@ public sealed class QueryOptimizationService
 
     public async Task<IEnumerable<QueryAnalysisResult>> AnalyzeQueriesAsync(string workspacePath)
     {
-        var solutionPath = Path.Combine(workspacePath, "B2Connect.slnx");
+        var solutionPath = Path.Combine(workspacePath, "B2X.slnx");
         if (!File.Exists(solutionPath))
         {
             throw new FileNotFoundException("Solution file not found", solutionPath);

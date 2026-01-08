@@ -5,7 +5,9 @@
       v-if="!showMenu && !showLabel"
       type="button"
       @click="toggleTheme"
-      :aria-label="currentTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+      :aria-label="
+        currentTheme === 'dark' ? $t('layout.theme.switchToLight') : $t('layout.theme.switchToDark')
+      "
       class="btn btn-ghost btn-circle"
     >
       <!-- Sun Icon (Light Mode) -->
@@ -65,7 +67,9 @@
           d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
         />
       </svg>
-      <span>{{ currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+      <span>{{
+        currentTheme === 'dark' ? $t('layout.theme.lightMode') : $t('layout.theme.darkMode')
+      }}</span>
     </button>
 
     <!-- Dropdown Menu -->
@@ -91,7 +95,7 @@
                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
               />
             </svg>
-            Light Mode
+            {{ $t('layout.theme.lightMode') }}
           </a>
         </li>
         <li>
@@ -104,7 +108,7 @@
                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
               />
             </svg>
-            Dark Mode
+            {{ $t('layout.theme.darkMode') }}
           </a>
         </li>
         <li>
@@ -117,7 +121,7 @@
                 d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
               />
             </svg>
-            Auto (System)
+            {{ $t('layout.theme.autoSystem') }}
           </a>
         </li>
       </ul>
@@ -134,7 +138,7 @@ interface Props {
   showMenu?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   showLabel: false,
   showMenu: false,
 });

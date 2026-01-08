@@ -1,4 +1,4 @@
-# ERP Provider Integration - Getting Started
+﻿# ERP Provider Integration - Getting Started
 
 ## 🚀 Immediate Integration (No Changes Required!)
 
@@ -182,7 +182,7 @@ The provider system logs all operations. Enable debug logging to see what's happ
   "Logging": {
     "LogLevel": {
       "Default": "Information",
-      "B2Connect.Identity.Infrastructure": "Debug"
+      "B2X.Identity.Infrastructure": "Debug"
     }
   }
 }

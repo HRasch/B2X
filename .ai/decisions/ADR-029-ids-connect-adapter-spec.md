@@ -1,4 +1,12 @@
-# IDS Connect Adapter - Technische Spezifikation
+---
+docid: ADR-069
+title: ADR 029 Ids Connect Adapter Spec
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# IDS Connect Adapter - Technische Spezifikation
 
 **Status:** Spezifikation  
 **Datum:** 3. Januar 2026  
@@ -9,7 +17,7 @@
 
 ## Übersicht
 
-Der IDS Connect Adapter implementiert das **Shop-System-Interface** für direkten Katalogzugriff gemäß dem ITEK IDS Connect Standard. Dieser Adapter ermöglicht Shop-Systemen den direkten Zugriff auf B2Connect's Produktkatalog für Suchen, Anzeigen und Bestellungen.
+Der IDS Connect Adapter implementiert das **Shop-System-Interface** für direkten Katalogzugriff gemäß dem ITEK IDS Connect Standard. Dieser Adapter ermöglicht Shop-Systemen den direkten Zugriff auf B2X's Produktkatalog für Suchen, Anzeigen und Bestellungen.
 
 ### Zweck
 - Direkter Produktkatalog-Zugriff für Shop-Systeme
@@ -22,7 +30,7 @@ Shop-System (Taifun, MSoft, etc.)
     ↓ HTTP/XML
 IDS Connect Adapter
     ↓ Unified Gateway
-B2Connect Core Services (Catalog, Search, Orders)
+B2X Core Services (Catalog, Search, Orders)
 ```
 
 ---
@@ -237,7 +245,7 @@ B2Connect Core Services (Catalog, Search, Orders)
 
 ---
 
-## Integration mit B2Connect Services
+## Integration mit B2X Services
 
 ### Abhängige Services
 - **Catalog Service**: Produkt-Daten und -Suche
@@ -440,11 +448,11 @@ ENV ASPNETCORE_URLS=http://+:8081
 - `Serilog` (Logging)
 
 ### Interne Services
-- B2Connect.Catalog.API
-- B2Connect.Search.API
-- B2Connect.Customer.API
-- B2Connect.Order.API
-- B2Connect.Localization.API
+- B2X.Catalog.API
+- B2X.Search.API
+- B2X.Customer.API
+- B2X.Order.API
+- B2X.Localization.API
 
 ---
 
@@ -467,4 +475,4 @@ ENV ASPNETCORE_URLS=http://+:8081
 - [ADR-029](.ai/decisions/ADR-029-multi-format-punchout-integration.md)
 - [ADR-029-BPA](.ai/decisions/ADR-029-business-process-analysis.md)
 - ITEK IDS Connect Standard Dokumentation</content>
-<parameter name="filePath">c:\Users\Holge\repos\B2Connect\.ai\decisions\ADR-029-ids-connect-adapter-spec.md
+<parameter name="filePath">c:\Users\Holge\repos\B2X\.ai\decisions\ADR-029-ids-connect-adapter-spec.md

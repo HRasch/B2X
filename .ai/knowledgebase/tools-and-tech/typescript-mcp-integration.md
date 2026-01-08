@@ -1,4 +1,12 @@
 ---
+docid: KB-186
+title: Typescript Mcp Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-053
 title: TypeScript MCP Integration Guide
 owner: @CopilotExpert

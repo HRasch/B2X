@@ -1,4 +1,4 @@
-# GitHub Backlog Issue Creation Guide
+﻿# GitHub Backlog Issue Creation Guide
 
 ## 📋 What's Included
 
@@ -58,7 +58,7 @@ gh auth login
 
 ### Option 1: Direct Execution (Recommended)
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect
+cd /Users/holger/Documents/Projekte/B2X
 ./CREATE_BACKLOG_ISSUES.sh
 ```
 
@@ -91,7 +91,7 @@ cd /Users/holger/Documents/Projekte/B2Connect
 ✅ Issue 10 created
 
 🎉 All 10 backlog issues created successfully!
-📍 View them at: https://github.com/holger-b2c/B2Connect/issues
+📍 View them at: https://github.com/holger-b2c/B2X/issues
 ```
 
 ---
@@ -173,7 +173,7 @@ Labels: P0.6, legal, pricing, backend, sprint-1
    ```
 
 5. **Verify in GitHub Web UI:**
-   - Go to https://github.com/holger-b2c/B2Connect/issues
+   - Go to https://github.com/holger-b2c/B2X/issues
    - Filter by label: `P0.6`
    - Should see all 10 issues
 
@@ -263,7 +263,7 @@ After running the script:
 
 - [ ] All 10 issues created (shown in output)
 - [ ] No errors in output
-- [ ] Can view issues on GitHub: https://github.com/holger-b2c/B2Connect/issues
+- [ ] Can view issues on GitHub: https://github.com/holger-b2c/B2X/issues
 - [ ] All issues labeled with `P0.6`
 - [ ] Issues distributed across Sprint 1-4
 - [ ] Each issue has acceptance criteria and subtasks

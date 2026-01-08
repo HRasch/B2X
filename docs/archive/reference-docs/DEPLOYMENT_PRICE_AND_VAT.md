@@ -1,4 +1,4 @@
-# Deployment Guide: Price Calculation & VAT Validation
+﻿# Deployment Guide: Price Calculation & VAT Validation
 
 **Issues**: #30, #31  
 **Services Affected**: Catalog Service (7005)  
@@ -50,7 +50,7 @@ services.AddHttpClient<ViesApiClient>()
     .ConfigureHttpClient(client =>
     {
         client.Timeout = TimeSpan.FromSeconds(10);
-        client.DefaultRequestHeaders.Add("User-Agent", "B2Connect/1.0");
+        client.DefaultRequestHeaders.Add("User-Agent", "B2X/1.0");
     });
 
 // Distributed cache (Redis)
@@ -83,7 +83,7 @@ VAT_CACHE_TTL_INVALID_HOURS=24     # Invalid VAT IDs cached 24 hours
 
 # Database
 DatabaseProvider=PostgreSQL
-DATABASE_CONNECTION_STRING=Host=postgres;Database=b2connect_catalog;Username=postgres;Password=***
+DATABASE_CONNECTION_STRING=Host=postgres;Database=B2X_catalog;Username=postgres;Password=***
 
 # Redis
 REDIS_CONNECTION_STRING=redis:6379
@@ -103,7 +103,7 @@ cd backend/Domain/Catalog/src
 
 # Generate migration for VatIdValidationCache entity
 dotnet ef migrations add AddVatIdValidationCache \
-  --project B2Connect.Catalog.API.csproj \
+  --project B2X.Catalog.API.csproj \
   --output-dir Infrastructure/Migrations
 
 # Review the generated migration
@@ -115,10 +115,10 @@ cat Infrastructure/Migrations/*_AddVatIdValidationCache.cs
 ```bash
 # Update database
 dotnet ef database update \
-  --project B2Connect.Catalog.API.csproj
+  --project B2X.Catalog.API.csproj
 
 # Verify table created
-psql -h postgres -U postgres -d b2connect_catalog \
+psql -h postgres -U postgres -d B2X_catalog \
   -c "\dt vat_id_validations"
 ```
 
@@ -163,19 +163,19 @@ EXPOSE 7005
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
-COPY ["backend/Domain/Catalog/B2Connect.Catalog.API.csproj", "Catalog/"]
-RUN dotnet restore "Catalog/B2Connect.Catalog.API.csproj"
+COPY ["backend/Domain/Catalog/B2X.Catalog.API.csproj", "Catalog/"]
+RUN dotnet restore "Catalog/B2X.Catalog.API.csproj"
 COPY . .
-RUN dotnet build "backend/Domain/Catalog/B2Connect.Catalog.API.csproj" -c Release
+RUN dotnet build "backend/Domain/Catalog/B2X.Catalog.API.csproj" -c Release
 
 FROM build AS publish
-RUN dotnet publish "backend/Domain/Catalog/B2Connect.Catalog.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "backend/Domain/Catalog/B2X.Catalog.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_URLS=http://+:7005
-ENTRYPOINT ["dotnet", "B2Connect.Catalog.API.dll"]
+ENTRYPOINT ["dotnet", "B2X.Catalog.API.dll"]
 ```
 
 ### Docker Compose
@@ -192,7 +192,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DatabaseProvider=PostgreSQL
-      - DATABASE_CONNECTION_STRING=Host=postgres;Database=b2connect_catalog;Username=postgres;Password=postgres
+      - DATABASE_CONNECTION_STRING=Host=postgres;Database=B2X_catalog;Username=postgres;Password=postgres
       - REDIS_CONNECTION_STRING=redis:6379
       - VIES_API_TIMEOUT_SECONDS=10
     depends_on:
@@ -207,7 +207,7 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      - POSTGRES_DB=b2connect_catalog
+      - POSTGRES_DB=B2X_catalog
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -329,13 +329,13 @@ redis-cli TTL "vat:DE:123456789"
 
 ```bash
 # Check vat_id_validations table
-psql -h postgres -U postgres -d b2connect_catalog \
+psql -h postgres -U postgres -d B2X_catalog \
   -c "SELECT COUNT(*) FROM vat_id_validations;"
 
 # Expected: >0 (after first validation)
 
 # List recent validations
-psql -h postgres -U postgres -d b2connect_catalog \
+psql -h postgres -U postgres -d B2X_catalog \
   -c "SELECT vat_id, is_valid, company_name, validated_at 
       FROM vat_id_validations 
       ORDER BY validated_at DESC 

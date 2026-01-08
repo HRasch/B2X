@@ -1,4 +1,12 @@
-# AI Models and Providers Documentation
+---
+docid: KB-161
+title: Ai Models
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# AI Models and Providers Documentation
 
 **Last Updated**: 2026-01-03
 **Maintained By**: GitHub Copilot
@@ -127,7 +135,7 @@ var uri = new Uri("http://localhost:11434");
 
 ---
 
-## Implementation in B2Connect
+## Implementation in B2X
 
 ### Current Providers (Microsoft.Extensions.AI)
 

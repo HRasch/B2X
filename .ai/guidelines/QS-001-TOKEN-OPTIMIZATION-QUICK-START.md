@@ -1,4 +1,12 @@
 ---
+docid: GL-092
+title: QS 001 TOKEN OPTIMIZATION QUICK START
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: QS-001
 title: Token Optimization Quick Start - For Agents NOW
 owner: "@SARAH"

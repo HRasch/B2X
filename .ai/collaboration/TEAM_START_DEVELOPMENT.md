@@ -1,3 +1,11 @@
+---
+docid: COLLAB-030
+title: TEAM_START_DEVELOPMENT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 TEAM ACTIVATION - BEGIN PHASE 1 DEVELOPMENT
 
 **From:** @SARAH (Coordinator)  

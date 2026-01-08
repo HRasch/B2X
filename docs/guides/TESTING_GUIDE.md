@@ -1,4 +1,4 @@
-# B2Connect i18n Testing Guide
+﻿# B2X i18n Testing Guide
 
 ## Quick Start
 
@@ -23,7 +23,7 @@ Tests       8 passed (8)
 
 #### Single Run
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect/frontend
+cd /Users/holger/Documents/Projekte/B2X/frontend
 npm test
 ```
 
@@ -57,7 +57,7 @@ This generates an HTML coverage report in `coverage/` directory.
 #### Step 1: Start Dev Server
 ```bash
 # Terminal 1
-cd /Users/holger/Documents/Projekte/B2Connect/frontend
+cd /Users/holger/Documents/Projekte/B2X/frontend
 npm run dev
 ```
 
@@ -69,7 +69,7 @@ Local:      http://localhost:5173/
 #### Step 2: Run E2E Tests
 ```bash
 # Terminal 2
-cd /Users/holger/Documents/Projekte/B2Connect/frontend
+cd /Users/holger/Documents/Projekte/B2X/frontend
 npm run e2e           # Headless (fastest)
 npm run e2e:ui       # Visual UI (shows test progress)
 npm run e2e:debug    # Debug mode (inspect each step)
@@ -116,7 +116,7 @@ npm run e2e:debug
 3. Then run:
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect/backend/services/LocalizationService
+cd /Users/holger/Documents/Projekte/B2X/backend/services/LocalizationService
 dotnet test
 ```
 

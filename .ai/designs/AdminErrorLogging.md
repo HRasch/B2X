@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-123
+title: AdminErrorLogging
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Admin Frontend Error Logging Design
 owner: @SARAH
 ---

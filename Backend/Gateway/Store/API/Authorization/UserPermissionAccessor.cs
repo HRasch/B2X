@@ -1,14 +1,14 @@
 using System.Security.Claims;
-using B2Connect.Shared.Core.Authorization;
-using B2Connect.Shared.Infrastructure.Authorization;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2X.Shared.Core.Authorization;
+using B2X.Shared.Infrastructure.Authorization;
+using B2X.Shared.Tenancy.Infrastructure.Context;
 using Microsoft.AspNetCore.Http;
 
-namespace B2Connect.Gateway.Store.Authorization;
+namespace B2X.Gateway.Store.Authorization;
 
 /// <summary>
 /// Implementation of IUserPermissionAccessor for the Store Gateway.
-/// Maps eGate "account" concept to B2Connect user permissions.
+/// Maps eGate "account" concept to B2X user permissions.
 /// </summary>
 public class UserPermissionAccessor : IUserPermissionAccessor
 {
@@ -36,7 +36,7 @@ public class UserPermissionAccessor : IUserPermissionAccessor
         }
 
         // Get user permissions from claims or user profile
-        // This maps to eGate "account" permissions (B2Connect user-level permissions)
+        // This maps to eGate "account" permissions (B2X user-level permissions)
         var permissions = user.FindAll("permissions")
             .Select(c => c.Value)
             .ToList();

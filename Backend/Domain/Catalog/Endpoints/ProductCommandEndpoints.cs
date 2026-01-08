@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 using Wolverine.Http;
 
-namespace B2Connect.Catalog.Endpoints;
+namespace B2X.Catalog.Endpoints;
 
 /// <summary>
 /// Command endpoints for Product management (Create, Update, Delete)

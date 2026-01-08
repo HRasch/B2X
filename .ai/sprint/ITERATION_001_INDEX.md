@@ -1,3 +1,11 @@
+---
+docid: SPR-047
+title: ITERATION_001_INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🗂️ Iteration 001 Team Navigation Index
 
 **Purpose:** Central hub for all Iteration 001 documents  

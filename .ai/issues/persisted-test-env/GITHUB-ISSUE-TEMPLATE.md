@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-155
+title: GITHUB ISSUE TEMPLATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 issue_id: gh-issue-persisted-test-env
 title: Persisted Test Environment - Sprint Planning
 created: 2026-01-07
@@ -14,7 +22,7 @@ related_docs:
 
 ## 🎯 Feature Overview
 
-Enable B2Connect to support both **persisted test environments** (PostgreSQL with persistent data) and **temporary test environments** (in-memory for unit/integration tests), with initial seeding for Management-Frontend services and tenant management UI.
+Enable B2X to support both **persisted test environments** (PostgreSQL with persistent data) and **temporary test environments** (in-memory for unit/integration tests), with initial seeding for Management-Frontend services and tenant management UI.
 
 **Priority**: P2 (Medium)  
 **Effort**: 1-2 weeks (6-8 developer-days)  

@@ -1,4 +1,12 @@
 ---
+docid: SPR-123
+title: SPR 020 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-020-RETRO
 title: Sprint 2026-20 Retrospective - AI Excellence Expansion & Global Compliance
 owner: @ScrumMaster
@@ -251,7 +259,7 @@ Sprint 2026-20 successfully delivered all planned objectives for AI Excellence E
 - **@QA:** Thorough validation of complex AI and compliance features
 
 ### Team Achievement
-The entire team demonstrated exceptional collaboration, technical expertise, and commitment to excellence in Sprint 2026-20. The successful expansion of AI capabilities and global compliance establishes B2Connect as a leader in ethical AI and international compliance automation.
+The entire team demonstrated exceptional collaboration, technical expertise, and commitment to excellence in Sprint 2026-20. The successful expansion of AI capabilities and global compliance establishes B2X as a leader in ethical AI and international compliance automation.
 
 ## Next Steps
 
@@ -263,4 +271,4 @@ The entire team demonstrated exceptional collaboration, technical expertise, and
 ---
 
 *Retrospective completed: 9. Juli 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-020-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-020-retrospective.md

@@ -1,12 +1,12 @@
-# Registration at B2Connect
+﻿# Registration at B2X
 
-Create your B2Connect account in just a few steps.
+Create your B2X account in just a few steps.
 
 ---
 
 ## 🎯 Account Types
 
-B2Connect offers two account types:
+B2X offers two account types:
 
 | Type | For whom? | Benefits |
 |------|-----------|----------|
@@ -53,7 +53,7 @@ Click **"Create Account"**
 ### Step 6: Confirm Email
 
 1. Check your inbox
-2. Open the email from B2Connect
+2. Open the email from B2X
 3. Click **"Confirm Email"**
 
 > ✅ Your account is now active!
@@ -156,7 +156,7 @@ Buy!B2C_2026
 
 ## 🌍 Supported Countries
 
-B2Connect is available for customers from:
+B2X is available for customers from:
 
 ### EU Countries (with Reverse-Charge for B2B)
 - 🇩🇪 Germany
@@ -198,6 +198,6 @@ A: Check your spam folder. Request a new email after 5 minutes.
 
 ## 🆘 Need Help?
 
-- **Email**: support@b2connect.com
+- **Email**: support@B2X.com
 - **Phone**: +49 (0)800 123 4567
 - **Live Chat**: Mon-Fri 9am-5pm

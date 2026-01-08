@@ -1,4 +1,12 @@
 ---
+docid: SPR-129
+title: SPR 023 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-023
 title: Sprint 2026-23 Execution - AI Scalability Enhancement & Compliance Adaptation
 owner: @ScrumMaster

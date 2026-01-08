@@ -1,4 +1,12 @@
-# ADR-023: Tenant-Specific MCP Prompt Management
+---
+docid: ADR-058
+title: ADR 023 Tenant Mcp Prompt Management
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-023: Tenant-Specific MCP Prompt Management
 
 **Status**: Proposed  
 **Date**: 2026-01-03  
@@ -9,7 +17,7 @@
 
 ## Context
 
-B2Connect implements an MCP (Model Context Protocol) server for tenant administrators (REQ-004), providing AI-powered tools for CMS design, email templates, and system management. Currently, all tenants use the same system prompts, limiting customization capabilities.
+B2X implements an MCP (Model Context Protocol) server for tenant administrators (REQ-004), providing AI-powered tools for CMS design, email templates, and system management. Currently, all tenants use the same system prompts, limiting customization capabilities.
 
 **Business Need**: Tenants require the ability to customize AI behavior through prompt engineering to match their brand voice, industry-specific terminology, and operational workflows.
 

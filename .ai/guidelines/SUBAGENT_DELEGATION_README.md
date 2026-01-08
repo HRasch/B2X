@@ -1,3 +1,11 @@
+---
+docid: GL-098
+title: SUBAGENT_DELEGATION_README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Delegation System
 
 **Version:** 1.0  

@@ -2,11 +2,11 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.IdsConnectAdapter.Middleware;
+using B2X.IdsConnectAdapter.Middleware;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 
-namespace B2Connect.IdsConnectAdapter.Tests.Middleware;
+namespace B2X.IdsConnectAdapter.Tests.Middleware;
 
 /// <summary>
 /// Unit tests for the IdsConnectMiddleware.
@@ -65,7 +65,7 @@ public sealed class IdsConnectMiddlewareTests
 
         // Assert
         Assert.Equal("2.5", context.Response.Headers["X-IDS-Version"]);
-        Assert.Equal("B2Connect", context.Response.Headers["X-IDS-Provider"]);
+        Assert.Equal("B2X", context.Response.Headers["X-IDS-Provider"]);
     }
 
     [Fact]

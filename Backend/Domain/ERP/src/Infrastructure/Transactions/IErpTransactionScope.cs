@@ -2,7 +2,7 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-namespace B2Connect.ERP.Infrastructure.Transactions;
+namespace B2X.ERP.Infrastructure.Transactions;
 
 /// <summary>
 /// Interface for ERP transaction scopes.

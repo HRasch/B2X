@@ -1,13 +1,13 @@
 using System.Security.Claims;
-using B2Connect.Shared.Core.Authorization;
-using B2Connect.Shared.Infrastructure.Authorization;
+using B2X.Shared.Core.Authorization;
+using B2X.Shared.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Http;
 
-namespace B2Connect.Gateway.Store.Authorization;
+namespace B2X.Gateway.Store.Authorization;
 
 /// <summary>
 /// Implementation of IRolePermissionAccessor for the Store Gateway.
-/// Maps eGate "user" concept to B2Connect userprofile with roles.
+/// Maps eGate "user" concept to B2X userprofile with roles.
 /// </summary>
 public class RolePermissionAccessor : IRolePermissionAccessor
 {

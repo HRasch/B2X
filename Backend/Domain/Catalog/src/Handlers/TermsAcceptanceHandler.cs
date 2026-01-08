@@ -1,8 +1,8 @@
-using B2Connect.Catalog.Models;
+using B2X.Catalog.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.Handlers;
+namespace B2X.Catalog.Handlers;
 
 /// <summary>
 /// Wolverine HTTP Handler for Terms Acceptance

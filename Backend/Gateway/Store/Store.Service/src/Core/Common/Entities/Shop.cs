@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using B2Connect.Types.Localization;
+using B2X.Types.Localization;
 
-namespace B2Connect.Store.Core.Common.Entities;
+namespace B2X.Store.Core.Common.Entities;
 
 /// <summary>
 /// Shop entity representing a retail location or online storefront

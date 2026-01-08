@@ -1,4 +1,12 @@
 ---
+docid: REQ-042
+title: ANALYSIS SMART DATA INTEGRATION FRONTEND
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND
 title: Smart Data Integration Assistant - Frontend Analysis
 owner: @Frontend
@@ -373,4 +381,4 @@ The frontend requirements are well-aligned with our existing Vue.js architecture
 **Analysis Complete**: ✅ APPROVED for implementation
 **Date**: 7. Januar 2026
 **@Frontend**</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND.md

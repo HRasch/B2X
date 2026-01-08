@@ -1,4 +1,12 @@
 ---
+docid: ADR-092
+title: ADR 048 Tenant Level Include Exclude
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: ADR-048
 title: Tenant-Level Include/Exclude Rules for Shared Catalogs
 owner: @SARAH

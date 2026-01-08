@@ -1,8 +1,8 @@
-using B2Connect.Types.Localization;
-using B2Connect.Types.Utilities;
+using B2X.Types.Localization;
+using B2X.Types.Utilities;
 using Xunit;
 
-namespace B2Connect.LocalizationService.Tests.EntityLocalization;
+namespace B2X.LocalizationService.Tests.EntityLocalization;
 
 public class LocalizedContentTests
 {

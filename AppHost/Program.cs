@@ -1,15 +1,12 @@
-using B2Connect.Aspire.Extensions;
-using B2Connect.AppHost.Configuration;
-using B2Connect.AppHost.Extensions;
+using B2X.AppHost.Configuration;
+using B2X.AppHost.Extensions;
+using B2X.Aspire.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
 // ===== TESTING CONFIGURATION =====
-// Load testing configuration (mode: persisted|temporary, environment: development|testing|ci)
-var testingConfig = builder.Configuration.GetTestingConfiguration();
-
 // Note: TestingConfiguration and TestDataOrchestrator are not registered as services
-// in the AppHost since seeding functionality is now handled by the separate B2Connect.Seeding.API
+// in the AppHost since seeding functionality is now handled by the separate B2X.Seeding.API
 // builder.Services.AddSingleton(testingConfig);
 // builder.Services.AddTestDataOrchestrator(testingConfig);
 
@@ -47,34 +44,34 @@ IResourceBuilder<PostgresServerResource>? postgres = null;
 if (!string.Equals(databaseProvider.ToLower(System.Globalization.CultureInfo.InvariantCulture), "inmemory", StringComparison.Ordinal))
 {
     // PostgreSQL Database
-    postgres = builder.AddB2ConnectPostgres(
+    postgres = builder.AddB2XPostgres(
         name: "postgres",
         port: 5432,
         username: "postgres");
 
     // Create all databases
-    authDb = postgres.AddB2ConnectDatabase("auth");
-    tenantDb = postgres.AddB2ConnectDatabase("tenant");
-    localizationDb = postgres.AddB2ConnectDatabase("localization");
-    catalogDb = postgres.AddB2ConnectDatabase("catalog");
-    layoutDb = postgres.AddB2ConnectDatabase("layout");
-    adminDb = postgres.AddB2ConnectDatabase("admin");
-    storeDb = postgres.AddB2ConnectDatabase("store");
-    monitoringDb = postgres.AddB2ConnectDatabase("monitoring");
-    smartDataIntegrationDb = postgres.AddB2ConnectDatabase("smartdataintegration");
+    authDb = postgres.AddB2XDatabase("auth");
+    tenantDb = postgres.AddB2XDatabase("tenant");
+    localizationDb = postgres.AddB2XDatabase("localization");
+    catalogDb = postgres.AddB2XDatabase("catalog");
+    layoutDb = postgres.AddB2XDatabase("layout");
+    adminDb = postgres.AddB2XDatabase("admin");
+    storeDb = postgres.AddB2XDatabase("store");
+    monitoringDb = postgres.AddB2XDatabase("monitoring");
+    smartDataIntegrationDb = postgres.AddB2XDatabase("smartdataintegration");
 
     // Redis Cache
-    redis = builder.AddB2ConnectRedis(
+    redis = builder.AddB2XRedis(
         name: "redis",
         port: 6379);
 
     // Elasticsearch (Full-Text Search & Analytics)
-    elasticsearch = builder.AddB2ConnectElasticsearch(
+    elasticsearch = builder.AddB2XElasticsearch(
         name: "elasticsearch",
         port: 9200);
 
     // RabbitMQ (Asynchronous Message Queue)
-    rabbitmq = builder.AddB2ConnectRabbitMQ(
+    rabbitmq = builder.AddB2XRabbitMQ(
         name: "rabbitmq",
         port: 5672);
 }
@@ -83,12 +80,12 @@ else
     // When running the full Aspire AppHost with in-memory DB for demos,
     // also provide an Elasticsearch resource to enable realistic search/indexing
     // for local development/demo scenarios.
-    elasticsearch = builder.AddB2ConnectElasticsearch(
+    elasticsearch = builder.AddB2XElasticsearch(
         name: "elasticsearch",
         port: 9200);
 
     // RabbitMQ is also useful for demo indexing flows; add if needed
-    rabbitmq = builder.AddB2ConnectRabbitMQ(
+    rabbitmq = builder.AddB2XRabbitMQ(
         name: "rabbitmq",
         port: 5672);
 }
@@ -109,7 +106,7 @@ else
 
 // Auth Service (Identity) - with Passkeys & JWT
 var authService = builder
-    .AddProject("auth-service", "../backend/Domain/Identity/B2Connect.Identity.API.csproj")
+    .AddProject("auth-service", "../backend/Domain/Identity/B2X.Identity.API.csproj")
     .WithConditionalPostgresConnection(authDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -134,7 +131,7 @@ if (rabbitmq != null)
 
 // Tenant Service
 var tenantService = builder
-    .AddProject("tenant-service", "../backend/Domain/Tenancy/B2Connect.Tenancy.API.csproj")
+    .AddProject("tenant-service", "../backend/Domain/Tenancy/B2X.Tenancy.API.csproj")
     .WithConditionalPostgresConnection(tenantDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -157,7 +154,7 @@ if (rabbitmq != null)
 
 // Localization Service
 var localizationService = builder
-    .AddProject("localization-service", "../backend/Domain/Localization/B2Connect.Localization.API.csproj")
+    .AddProject("localization-service", "../backend/Domain/Localization/B2X.Localization.API.csproj")
     .WithConditionalPostgresConnection(localizationDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -179,7 +176,7 @@ if (rabbitmq != null)
 
 // Catalog Service (with Elasticsearch for Product Search)
 var catalogService = builder
-    .AddProject("catalog-service", "../backend/Domain/Catalog/B2Connect.Catalog.API.csproj")
+    .AddProject("catalog-service", "../backend/Domain/Catalog/B2X.Catalog.API.csproj")
     .WithConditionalPostgresConnection(catalogDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -205,7 +202,7 @@ if (elasticsearch != null)
 
 // Theming Service
 var themingService = builder
-    .AddProject("theming-service", "../backend/Domain/Theming/B2Connect.Theming.API.csproj")
+    .AddProject("theming-service", "../backend/Domain/Theming/B2X.Theming.API.csproj")
     .WithConditionalPostgresConnection(layoutDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -227,7 +224,7 @@ if (rabbitmq != null)
 
 // Smart Data Integration Service
 var smartDataIntegrationService = builder
-    .AddProject("smartdataintegration-service", "../backend/Domain/SmartDataIntegration/API/B2Connect.SmartDataIntegration.API.csproj")
+    .AddProject("smartdataintegration-service", "../backend/Domain/SmartDataIntegration/API/B2X.SmartDataIntegration.API.csproj")
     .WithConditionalPostgresConnection(smartDataIntegrationDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -249,7 +246,7 @@ if (rabbitmq != null)
 
 // Monitoring Service (Phase 2: Connected services monitoring, error logging)
 var monitoringService = builder
-    .AddProject("monitoring-service", "../backend/BoundedContexts/Monitoring/API/B2Connect.Monitoring.csproj")
+    .AddProject("monitoring-service", "../backend/BoundedContexts/Monitoring/API/B2X.Monitoring.csproj")
     .WithConditionalPostgresConnection(monitoringDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -271,7 +268,7 @@ if (rabbitmq != null)
 
 // MCP Server (AI Assistant for Management Tasks)
 var mcpServer = builder
-    .AddProject("mcp-server", "../backend/BoundedContexts/Admin/MCP/B2Connect.Admin.MCP/B2Connect.Admin.MCP.csproj")
+    .AddProject("mcp-server", "../backend/BoundedContexts/Admin/MCP/B2X.Admin.MCP/B2X.Admin.MCP.csproj")
     .WithHttpEndpoint(port: 8090, name: "mcp-http")  // Fixed port for MCP server
     .WithReference(authService)
     .WithReference(tenantService)
@@ -295,7 +292,7 @@ mcpServer.WaitFor(monitoringService);
 
 // Seeding API (Test Data Management)
 var seedingApi = builder
-    .AddProject("seeding-api", "../B2Connect.Seeding.API/B2Connect.Seeding.API.csproj")
+    .AddProject("seeding-api", "../B2X.Seeding.API/B2X.Seeding.API.csproj")
     .WithHttpEndpoint(port: 8095, name: "seeding-http")  // Fixed port for seeding API
     .WithReference(authService)
     .WithReference(tenantService)
@@ -332,13 +329,13 @@ seedingApi.WaitFor(localizationService);
 
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
-    .AddProject("store-gateway", "../backend/Gateway/Store/API/B2Connect.Store.csproj")
+    .AddProject("store-gateway", "../backend/Gateway/Store/API/B2X.Store.csproj")
     .WithHttpEndpoint(port: 8000, name: "store-http")  // Fixed port for frontend
     .WithReference(authService)
     .WithReference(catalogService)
     .WithReference(localizationService)
     .WithReference(themingService)
-    .WithB2ConnectCors("http://localhost:5173", "https://localhost:5173")
+    .WithB2XCors("http://localhost:5173", "https://localhost:5173")
     .WithSecurityDefaults(jwtSecret)
     .WithHealthCheckEndpoint()
     .WithStartupConfiguration(startupTimeoutSeconds: 120)
@@ -352,7 +349,7 @@ storeGateway.WaitFor(themingService);
 
 // Admin API Gateway 
 var adminGateway = builder
-    .AddProject("admin-gateway", "../backend/Gateway/Admin/B2Connect.Admin.csproj")
+    .AddProject("admin-gateway", "../backend/Gateway/Admin/B2X.Admin.csproj")
     .WithHttpEndpoint(port: 8080, name: "admin-http")  // Fixed port for frontend
     .WithReference(authService)
     .WithReference(tenantService)
@@ -361,7 +358,7 @@ var adminGateway = builder
     .WithReference(themingService)
     .WithReference(monitoringService)
     .WithReference(mcpServer)
-    .WithB2ConnectCors("http://localhost:5174", "https://localhost:5174")
+    .WithB2XCors("http://localhost:5174", "https://localhost:5174")
     .WithSecurityDefaults(jwtSecret)
     .WithHealthCheckEndpoint()
     .WithStartupConfiguration(startupTimeoutSeconds: 120)

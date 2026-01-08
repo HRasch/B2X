@@ -1,4 +1,12 @@
 ---
+docid: KB-079
+title: Aspire.Hosting
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Aspire.Hosting
 current_version: 13.1.0
 source_files:

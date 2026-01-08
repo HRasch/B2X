@@ -2,14 +2,14 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Core;
-using B2Connect.ERP.Infrastructure.Actor;
+using B2X.ERP.Core;
+using B2X.ERP.Infrastructure.Actor;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.ERP.Tests.Infrastructure.Actor;
+namespace B2X.ERP.Tests.Infrastructure.Actor;
 
 /// <summary>
 /// Tests for the ErpActorPool class.

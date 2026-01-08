@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Deployment Status Check Script
+# B2X Deployment Status Check Script
 # Überprüft den Status aller Services und zeigt System-Informationen
 
 set -euo pipefail
@@ -87,18 +87,18 @@ check_docker_deployment() {
     
     log_info "Checking running containers..."
     
-    # Gettings running containers für B2Connect
-    containers=$(docker ps --filter "label=com.b2connect" -q 2>/dev/null || true)
+    # Gettings running containers für B2X
+    containers=$(docker ps --filter "label=com.B2X" -q 2>/dev/null || true)
     
     if [ -z "$containers" ]; then
-        log_warning "No B2Connect containers running"
+        log_warning "No B2X containers running"
         echo ""
         echo "To start containers, run:"
         echo "  docker-compose -f backend/docker-compose.aspire.yml up -d"
         return 1
     fi
     
-    docker ps --filter "label=com.b2connect" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+    docker ps --filter "label=com.B2X" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
     
     log_success "Docker containers running"
     return 0
@@ -116,16 +116,16 @@ check_kubernetes_deployment() {
     fi
     
     # Prüfe Namespace
-    if ! kubectl get namespace b2connect 2>/dev/null; then
-        log_warning "Namespace 'b2connect' not found"
+    if ! kubectl get namespace B2X 2>/dev/null; then
+        log_warning "Namespace 'B2X' not found"
         echo ""
         echo "To setup Kubernetes, run:"
         echo "  ./kubernetes-setup.sh"
         return 1
     fi
     
-    log_info "Pods in b2connect namespace:"
-    kubectl get pods -n b2connect --no-headers 2>/dev/null | while read line; do
+    log_info "Pods in B2X namespace:"
+    kubectl get pods -n B2X --no-headers 2>/dev/null | while read line; do
         pod_name=$(echo "$line" | awk '{print $1}')
         status=$(echo "$line" | awk '{print $3}')
         
@@ -137,8 +137,8 @@ check_kubernetes_deployment() {
     done
     
     echo ""
-    log_info "Services in b2connect namespace:"
-    kubectl get services -n b2connect --no-headers 2>/dev/null | while read line; do
+    log_info "Services in B2X namespace:"
+    kubectl get services -n B2X --no-headers 2>/dev/null | while read line; do
         svc_name=$(echo "$line" | awk '{print $1}')
         cluster_ip=$(echo "$line" | awk '{print $3}')
         echo "  $svc_name: $cluster_ip"
@@ -178,7 +178,7 @@ check_system_resources() {
     if command -v docker &> /dev/null; then
         if docker ps > /dev/null 2>&1; then
             log_success "Docker daemon running"
-            docker images --filter "reference=b2connect*" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}" 2>/dev/null | head -5
+            docker images --filter "reference=B2X*" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}" 2>/dev/null | head -5
         else
             log_error "Docker daemon not responding"
         fi
@@ -233,7 +233,7 @@ show_health_details() {
 main() {
     echo ""
     echo -e "${BLUE}╔════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║  B2Connect Deployment Status Check        ║${NC}"
+    echo -e "${BLUE}║  B2X Deployment Status Check        ║${NC}"
     echo -e "${BLUE}║  Aspire 10 - Microservices Hosting       ║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════╝${NC}"
     echo ""

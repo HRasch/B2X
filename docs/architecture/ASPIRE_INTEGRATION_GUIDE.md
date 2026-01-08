@@ -1,4 +1,4 @@
-# 🔐 Aspire Integration - Secret Store, PostgreSQL & Passkeys
+﻿# 🔐 Aspire Integration - Secret Store, PostgreSQL & Passkeys
 
 **Datum**: 27. Dezember 2025  
 **Status**: ✅ IMPLEMENTATION COMPLETE
@@ -88,7 +88,7 @@ var keyVault = builder.AddAzureKeyVault("keyvault");
 {
   "Azure": {
     "KeyVault": {
-      "Uri": "https://b2connect-dev.vault.azure.net/"
+      "Uri": "https://B2X-dev.vault.azure.net/"
     },
     "TenantId": "<tenant-id>",
     "ClientId": "<client-id>",
@@ -100,7 +100,7 @@ var keyVault = builder.AddAzureKeyVault("keyvault");
 **Production (Azure)**:
 ```bash
 # Environment Variables oder Managed Identity
-export AZURE_KEYVAULT_ENDPOINT=https://b2connect-prod.vault.azure.net/
+export AZURE_KEYVAULT_ENDPOINT=https://B2X-prod.vault.azure.net/
 export AZURE_TENANT_ID=<tenant-id>
 export AZURE_CLIENT_ID=<client-id>
 export AZURE_CLIENT_SECRET=<client-secret>
@@ -114,30 +114,30 @@ export AZURE_CLIENT_SECRET=<client-secret>
 
 **Databases**:
 ```
-b2connect_admin       - Admin API Data
-b2connect_store       - Store API Data
-b2connect_auth        - Authentication & Passkeys
-b2connect_tenant      - Tenant Management
-b2connect_catalog     - Product Catalog
-b2connect_localization - Translations
-b2connect_layout      - Theming & Layout
+B2X_admin       - Admin API Data
+B2X_store       - Store API Data
+B2X_auth        - Authentication & Passkeys
+B2X_tenant      - Tenant Management
+B2X_catalog     - Product Catalog
+B2X_localization - Translations
+B2X_layout      - Theming & Layout
 ```
 
 **Aspire Configuration**:
 ```csharp
 // AppHost/Program.cs
-var postgres = builder.AddB2ConnectPostgres(
+var postgres = builder.AddB2XPostgres(
     name: "postgres",
     port: 5432,
     username: "postgres");
 
 // In Service
-.WithPostgresConnection(postgres, "b2connect_auth")
+.WithPostgresConnection(postgres, "B2X_auth")
 ```
 
 **Connection String**:
 ```
-Host=localhost;Port=5432;Database=b2connect_auth;Username=postgres;Password=<secure>
+Host=localhost;Port=5432;Database=B2X_auth;Username=postgres;Password=<secure>
 ```
 
 **Features**:
@@ -221,7 +221,7 @@ services.AddPasskeysAuthentication(configuration);
     "Passkeys": {
       "Enabled": true,
       "RP": {
-        "Name": "B2Connect",
+        "Name": "B2X",
         "Origin": "https://localhost:5174"
       },
       "AttestationConveyance": "none",
@@ -287,7 +287,7 @@ const response = await fetch('/api/auth/passkeys/authentication/complete', {
 
 **Aspire Configuration**:
 ```csharp
-var redis = builder.AddB2ConnectRedis(
+var redis = builder.AddB2XRedis(
     name: "redis",
     port: 6379);
 
@@ -354,24 +354,24 @@ services.AddDistributedTokenCache();
 ### Day 1: Setup Infrastructure
 ```bash
 # 1. Create Azure Resources
-az group create --name b2connect-prod --location westeurope
-az keyvault create --name b2connect-vault --resource-group b2connect-prod
-az postgres server create --name b2connect-db --resource-group b2connect-prod
-az redis create --name b2connect-cache --resource-group b2connect-prod
+az group create --name B2X-prod --location westeurope
+az keyvault create --name B2X-vault --resource-group B2X-prod
+az postgres server create --name B2X-db --resource-group B2X-prod
+az redis create --name B2X-cache --resource-group B2X-prod
 
 # 2. Configure Secrets
-az keyvault secret set --vault-name b2connect-vault \
+az keyvault secret set --vault-name B2X-vault \
   --name "Jwt--Secret" --value "<generate-random-32-chars>"
-az keyvault secret set --vault-name b2connect-vault \
+az keyvault secret set --vault-name B2X-vault \
   --name "Database--Password" --value "<secure-password>"
 
 # 3. Configure Managed Identity
-az identity create --name b2connect-identity --resource-group b2connect-prod
-az keyvault set-policy --name b2connect-vault \
+az identity create --name B2X-identity --resource-group B2X-prod
+az keyvault set-policy --name B2X-vault \
   --object-id <identity-object-id> --secret-permissions get list
 
 # 4. Deploy Aspire Orchestration
-dotnet run --project AppHost/B2Connect.AppHost.csproj
+dotnet run --project AppHost/B2X.AppHost.csproj
 ```
 
 ### Day 2: Verify & Test
@@ -380,10 +380,10 @@ dotnet run --project AppHost/B2Connect.AppHost.csproj
 dotnet ef database update --project backend/BoundedContexts/*/API
 
 # 2. Run Tests
-dotnet test B2Connect.slnx
+dotnet test B2X.slnx
 
 # 3. Smoke Tests
-curl -X POST https://api.b2connect.de/auth/passkeys/registration/start
+curl -X POST https://api.B2X.de/auth/passkeys/registration/start
 
 # 4. Monitor Services
 Open Aspire Dashboard: http://localhost:15500
@@ -392,20 +392,20 @@ Open Aspire Dashboard: http://localhost:15500
 ### Day 3: Deploy to Production
 ```bash
 # 1. Azure Container Registry
-az acr build --registry b2connect --image b2connect:latest .
+az acr build --registry B2X --image B2X:latest .
 
 # 2. Azure Container Instances / App Service
-az appservice plan create --name b2connect-plan --resource-group b2connect-prod
-az webapp create --name b2connect-api --resource-group b2connect-prod \
-  --plan b2connect-plan --deployment-container-image-name-user <image>
+az appservice plan create --name B2X-plan --resource-group B2X-prod
+az webapp create --name B2X-api --resource-group B2X-prod \
+  --plan B2X-plan --deployment-container-image-name-user <image>
 
 # 3. Configure Environment Variables
-az webapp config appsettings set --resource-group b2connect-prod \
-  --name b2connect-api --settings \
-  AZURE_KEYVAULT_ENDPOINT=https://b2connect-vault.vault.azure.net/
+az webapp config appsettings set --resource-group B2X-prod \
+  --name B2X-api --settings \
+  AZURE_KEYVAULT_ENDPOINT=https://B2X-vault.vault.azure.net/
 
 # 4. Run Health Checks
-curl https://b2connect.app/health
+curl https://B2X.app/health
 ```
 
 ---
@@ -414,7 +414,7 @@ curl https://b2connect.app/health
 
 **New Files**:
 ```
-✅ AppHost/B2ConnectAspireExtensions.cs    (200 lines)
+✅ AppHost/B2XAspireExtensions.cs    (200 lines)
 ✅ backend/shared/.../Authentication/Passkeys/PasskeysService.cs (400 lines)
 ✅ backend/shared/.../Extensions/SecurityServiceExtensions.cs    (280 lines)
 ```
@@ -463,12 +463,12 @@ curl https://b2connect.app/health
 
 - [ ] Test Build
   ```bash
-  dotnet build B2Connect.slnx
+  dotnet build B2X.slnx
   ```
 
 - [ ] Start Aspire Orchestration
   ```bash
-  dotnet run --project AppHost/B2Connect.AppHost.csproj
+  dotnet run --project AppHost/B2X.AppHost.csproj
   ```
 
 ### This Week
@@ -534,4 +534,4 @@ curl https://b2connect.app/health
 
 **Status**: ✅ **IMPLEMENTATION COMPLETE - READY FOR TESTING**
 
-Next Command: `dotnet build B2Connect.slnx`
+Next Command: `dotnet build B2X.slnx`

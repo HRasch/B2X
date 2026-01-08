@@ -1,6 +1,6 @@
-# HTML/CSS MCP Server
+﻿# HTML/CSS MCP Server
 
-Model Context Protocol (MCP) server for HTML and CSS analysis in the B2Connect project.
+Model Context Protocol (MCP) server for HTML and CSS analysis in the B2X project.
 
 ## Features
 

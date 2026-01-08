@@ -1,7 +1,7 @@
-using B2Connect.AppHost.Configuration;
 using System.Text.Json;
+using B2X.AppHost.Configuration;
 
-namespace B2Connect.AppHost.Services;
+namespace B2X.AppHost.Services;
 
 /// <summary>
 /// Tracks seeding status and timestamps for monitoring and debugging.

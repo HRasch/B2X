@@ -1,3 +1,11 @@
+---
+docid: PROP-003
+title: Frontend Instructions Proposal
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Proposed additions to `.github/instructions/frontend.instructions.md` (for CopilotExpert review):
 
 1) TypeScript & linters:

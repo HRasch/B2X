@@ -1,4 +1,12 @@
 ---
+docid: KB-143
+title: Multi Format Catalog Import
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-023
 title: Multi-Format Catalog Import Architecture
 owner: @Backend
@@ -15,7 +23,7 @@ date: 2026-01-03
 
 ## Overview
 
-B2Connect supports import of product catalogs in multiple formats through a **plugin-based adapter architecture**. Each format has its own adapter that implements `IFormatAdapter`, enabling extensibility without modifying core logic.
+B2X supports import of product catalogs in multiple formats through a **plugin-based adapter architecture**. Each format has its own adapter that implements `IFormatAdapter`, enabling extensibility without modifying core logic.
 
 ### Supported Formats
 
@@ -384,7 +392,7 @@ WIDGET-003,Mini Widget,Compact widget,5901234123459,19.99,EUR
 ### Step 1: Create Adapter Class
 
 ```csharp
-namespace B2Connect.Catalog.ImportAdapters.Formats;
+namespace B2X.Catalog.ImportAdapters.Formats;
 
 public class MyFormatImportAdapter : IFormatAdapter
 {

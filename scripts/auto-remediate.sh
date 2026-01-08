@@ -1,12 +1,12 @@
-#!/bin/bash
-# B2Connect Auto-Remediation Script
+﻿#!/bin/bash
+# B2X Auto-Remediation Script
 # Automatically resolves common issues based on alerts
 
 set -e
 
 # Configuration
-DOCKER_COMPOSE_FILE="/Users/holger/Documents/Projekte/B2Connect/docker-compose.yml"
-PROJECT_DIR="/Users/holger/Documents/Projekte/B2Connect"
+DOCKER_COMPOSE_FILE="/Users/holger/Documents/Projekte/B2X/docker-compose.yml"
+PROJECT_DIR="/Users/holger/Documents/Projekte/B2X"
 
 # Function to restart unhealthy services
 restart_service() {

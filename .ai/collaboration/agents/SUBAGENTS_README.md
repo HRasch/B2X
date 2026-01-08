@@ -1,3 +1,11 @@
+---
+docid: COLLAB-003
+title: SUBAGENTS_README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 
 # Subagents Resource Library ("Lazy Experts")
 

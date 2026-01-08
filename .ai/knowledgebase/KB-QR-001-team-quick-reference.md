@@ -1,4 +1,12 @@
 ---
+docid: KB-123
+title: KB QR 001 Team Quick Reference
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-QR-001
 title: MCP Token Optimization - Team Quick Reference
 owner: "@TechLead"
@@ -206,7 +214,7 @@ tail -100 .ai/logs/mcp-usage/mcp-console.log | grep ERROR
 | Git | 100 | Commit Analysis |
 | Docker | 100 | Container Analysis |
 | Documentation | 100 | Doc Generation |
-| B2Connect | 100 | Domain Analysis |
+| B2X | 100 | Domain Analysis |
 | Roslyn | 0 | **DISABLED** |
 | Wolverine | 0 | **DISABLED** |
 | Chrome DevTools | 0 | **DISABLED** |

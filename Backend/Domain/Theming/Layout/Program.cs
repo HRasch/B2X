@@ -1,6 +1,6 @@
-using B2Connect.LayoutService.Data;
-using B2Connect.LayoutService.Services;
-using B2Connect.ServiceDefaults;
+using B2X.LayoutService.Data;
+using B2X.LayoutService.Services;
+using B2X.ServiceDefaults;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +19,7 @@ builder.Services.AddLayoutDatabase(builder.Configuration);
 builder.Services.AddScoped<ILayoutRepository, LayoutRepository>();
 builder.Services.AddScoped<ILayoutService, LayoutService>();
 
-// Add default B2Connect services (Health checks, OpenTelemetry, etc.)
+// Add default B2X services (Health checks, OpenTelemetry, etc.)
 builder.Host.AddServiceDefaults();
 
 var app = builder.Build();

@@ -1,3 +1,11 @@
+---
+docid: COLLAB-002
+title: SARAH_COORDINATOR
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # @SARAH - System Architect & Rational Helper
 
 **Model**: Claude Haiku 4.5 (efficient coordination)  

@@ -1,10 +1,11 @@
 
-using B2Connect.Catalog.Application.Validators;
-using B2Connect.Catalog.Core.Interfaces;
+using B2X.Catalog.Application.Validators;
+using B2X.Catalog.Core.Interfaces;
+using B2X.Shared.Core.Handlers;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.Application.Handlers;
+namespace B2X.Catalog.Application.Handlers;
 /// <summary>
 /// Wolverine Service Handler for price calculations with VAT transparency
 /// Pattern: Service class + public async methods = automatic HTTP endpoints
@@ -14,19 +15,18 @@ namespace B2Connect.Catalog.Application.Handlers;
 ///   POST /api/catalog/calculateprice
 ///   POST /api/catalog/getpricebreakdown
 /// </summary>
-public class PriceCalculationService
+public class PriceCalculationService : ValidatedBase
 {
     private readonly ITaxRateService _taxService;
-    private readonly ILogger<PriceCalculationService> _logger;
     private readonly CalculatePriceValidator _validator;
 
     public PriceCalculationService(
         ITaxRateService taxService,
         ILogger<PriceCalculationService> logger,
         CalculatePriceValidator validator)
+        : base(logger)
     {
         _taxService = taxService;
-        _logger = logger;
         _validator = validator;
     }
 
@@ -38,17 +38,22 @@ public class PriceCalculationService
         CalculatePriceCommand request,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation(
+        Logger.LogInformation(
             "Price calculation: {Price}€ for {Country}",
             request.ProductPrice, request.DestinationCountry ?? "(none)");
 
         try
         {
             // Validate input
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
-            if (!validationResult.IsValid)
+            var validationError = await ValidateRequestAsync(
+                request,
+                _validator,
+                cancellationToken,
+                errorMessage => CreateValidationErrorResponse(errorMessage)).ConfigureAwait(false);
+
+            if (validationError != null)
             {
-                return CreateValidationErrorResponse(validationResult.Errors);
+                return validationError;
             }
 
             // Calculate price with VAT
@@ -65,15 +70,14 @@ public class PriceCalculationService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error calculating price for {Country}", request.DestinationCountry ?? "(none)");
+            Logger.LogError(ex, "Error calculating price for {Country}", request.DestinationCountry ?? "(none)");
             return CreateCalculationErrorResponse();
         }
     }
 
-    private PriceBreakdownResponse CreateValidationErrorResponse(IEnumerable<FluentValidation.Results.ValidationFailure> errors)
+    private PriceBreakdownResponse CreateValidationErrorResponse(string errorMessage)
     {
-        var errorMessage = string.Join("; ", errors.Select(e => e.ErrorMessage));
-        _logger.LogWarning("Price validation failed: {Errors}", errorMessage);
+        Logger.LogWarning("Price validation failed: {Errors}", errorMessage);
 
         return new PriceBreakdownResponse
         {
@@ -90,7 +94,7 @@ public class PriceCalculationService
         var shippingCost = request.ShippingCost ?? 0;
         var finalTotal = totalWithVat + shippingCost;
 
-        _logger.LogInformation(
+        Logger.LogInformation(
             "Price calculated successfully: {ProductPrice}€ + {VatAmount}€ VAT = {Total}€",
             request.ProductPrice, vatAmount, totalWithVat);
 

@@ -1,4 +1,12 @@
 ---
+docid: SPR-126
+title: SPR 021 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-021-RETRO
 title: Sprint 2026-21 Retrospective - AI Optimization & Global Enhancement
 owner: @ScrumMaster
@@ -251,7 +259,7 @@ Sprint 2026-21 successfully delivered all planned objectives for AI Optimization
 - **@QA:** Thorough validation of all optimizations and enhancements
 
 ### Team Achievement
-The entire team demonstrated exceptional technical expertise, collaborative spirit, and commitment to excellence in Sprint 2026-21. The successful AI optimizations and global enhancements position B2Connect for continued leadership in intelligent, compliant, and user-centric solutions.
+The entire team demonstrated exceptional technical expertise, collaborative spirit, and commitment to excellence in Sprint 2026-21. The successful AI optimizations and global enhancements position B2X for continued leadership in intelligent, compliant, and user-centric solutions.
 
 ## Next Steps
 
@@ -263,4 +271,4 @@ The entire team demonstrated exceptional technical expertise, collaborative spir
 ---
 
 *Retrospective completed: 23. Juli 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-021-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-021-retrospective.md

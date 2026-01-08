@@ -1,4 +1,12 @@
-# CLI Commands Specification: Customer Integration
+---
+docid: REQ-057
+title: REQ 006 Cli Customer Integration Commands
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# CLI Commands Specification: Customer Integration
 # Reference: ADR-038 Customer Integration Stages Framework
 # Owner: @Backend
 # Status: Specification - Ready for Implementation
@@ -13,7 +21,7 @@ Commands are organized by stage and support both interactive and scripted usage.
 ## Command Structure
 
 ```
-b2connect [category] [action] [options]
+B2X [category] [action] [options]
 
 Categories:
   trial         - Trial/evaluation management
@@ -26,12 +34,12 @@ Categories:
 
 ## Stage 1: EVALUATE Commands
 
-### `b2connect trial create`
+### `B2X trial create`
 
 Create a new trial tenant for customer evaluation.
 
 ```bash
-b2connect trial create \
+B2X trial create \
   --company "Customer Corp" \
   --contact-email "admin@customer.com" \
   --plan [basic|professional|enterprise] \
@@ -56,8 +64,8 @@ b2connect trial create \
   "tenantId": "trial-customer-corp-a1b2c3",
   "status": "active",
   "urls": {
-    "store": "https://trial-customer-corp-a1b2c3.b2connect.cloud",
-    "admin": "https://trial-customer-corp-a1b2c3.b2connect.cloud/admin"
+    "store": "https://trial-customer-corp-a1b2c3.B2X.cloud",
+    "admin": "https://trial-customer-corp-a1b2c3.B2X.cloud/admin"
   },
   "credentials": {
     "adminEmail": "admin@customer.com",
@@ -68,28 +76,28 @@ b2connect trial create \
 }
 ```
 
-### `b2connect trial list`
+### `B2X trial list`
 
 List all active trial tenants.
 
 ```bash
-b2connect trial list [--status active|expired|converted] [--output json]
+B2X trial list [--status active|expired|converted] [--output json]
 ```
 
-### `b2connect trial extend`
+### `B2X trial extend`
 
 Extend a trial period.
 
 ```bash
-b2connect trial extend --tenant trial-customer-corp-a1b2c3 --days 14
+B2X trial extend --tenant trial-customer-corp-a1b2c3 --days 14
 ```
 
-### `b2connect trial convert`
+### `B2X trial convert`
 
 Convert trial to production tenant.
 
 ```bash
-b2connect trial convert \
+B2X trial convert \
   --tenant trial-customer-corp-a1b2c3 \
   --production-name "customer-corp" \
   --plan enterprise \
@@ -100,12 +108,12 @@ b2connect trial convert \
 
 ## Stage 2: ONBOARD Commands
 
-### `b2connect tenant create`
+### `B2X tenant create`
 
 Create a production tenant (post-contract).
 
 ```bash
-b2connect tenant create \
+B2X tenant create \
   --name "Customer Corp" \
   --id "customer-corp" \
   --plan [basic|professional|enterprise] \
@@ -113,12 +121,12 @@ b2connect tenant create \
   --from-trial trial-customer-corp-a1b2c3  # Optional: migrate from trial
 ```
 
-### `b2connect tenant configure-domain`
+### `B2X tenant configure-domain`
 
 Configure custom domain for tenant.
 
 ```bash
-b2connect tenant configure-domain \
+B2X tenant configure-domain \
   --tenant customer-corp \
   --domain store.customer.com \
   --ssl [auto|custom] \
@@ -137,27 +145,27 @@ Required DNS Records:
 ┌─────────┬──────────────────────────┬─────────────────────────────────────┐
 │ Type    │ Name                     │ Value                               │
 ├─────────┼──────────────────────────┼─────────────────────────────────────┤
-│ CNAME   │ store.customer.com       │ customer-corp.b2connect.cloud       │
-│ TXT     │ _b2connect.customer.com  │ b2c-verify=a1b2c3d4e5f6             │
+│ CNAME   │ store.customer.com       │ customer-corp.B2X.cloud       │
+│ TXT     │ _B2X.customer.com  │ b2c-verify=a1b2c3d4e5f6             │
 └─────────┴──────────────────────────┴─────────────────────────────────────┘
 
-Run 'b2connect tenant verify-domain --tenant customer-corp' after adding DNS records.
+Run 'B2X tenant verify-domain --tenant customer-corp' after adding DNS records.
 ```
 
-### `b2connect tenant verify-domain`
+### `B2X tenant verify-domain`
 
 Verify DNS configuration.
 
 ```bash
-b2connect tenant verify-domain --tenant customer-corp
+B2X tenant verify-domain --tenant customer-corp
 ```
 
-### `b2connect tenant setup-branding`
+### `B2X tenant setup-branding`
 
 Configure tenant branding.
 
 ```bash
-b2connect tenant setup-branding \
+B2X tenant setup-branding \
   --tenant customer-corp \
   --theme [default|professional|modern|minimal] \
   --primary-color "#1a365d" \
@@ -166,12 +174,12 @@ b2connect tenant setup-branding \
   --favicon ./assets/favicon.ico
 ```
 
-### `b2connect tenant setup-identity`
+### `B2X tenant setup-identity`
 
 Configure identity/authentication.
 
 ```bash
-b2connect tenant setup-identity \
+B2X tenant setup-identity \
   --tenant customer-corp \
   --sso-provider [none|azure-ad|okta|google] \
   --sso-client-id "xxx" \
@@ -179,12 +187,12 @@ b2connect tenant setup-identity \
   --mfa-required true
 ```
 
-### `b2connect tenant verify-readiness`
+### `B2X tenant verify-readiness`
 
 Run onboarding readiness checks.
 
 ```bash
-b2connect tenant verify-readiness --tenant customer-corp [--stage onboard]
+B2X tenant verify-readiness --tenant customer-corp [--stage onboard]
 ```
 
 **Output:**
@@ -208,7 +216,7 @@ Blockers:
 ⚠ Content: Email templates not customized
 
 Next Steps:
-1. Verify DNS records: b2connect tenant verify-domain --tenant customer-corp
+1. Verify DNS records: B2X tenant verify-domain --tenant customer-corp
 2. Customize email templates in Admin Console
 ```
 
@@ -216,24 +224,24 @@ Next Steps:
 
 ## Stage 3: INTEGRATE Commands
 
-### `b2connect integration init`
+### `B2X integration init`
 
 Initialize integration tracking for a tenant.
 
 ```bash
-b2connect integration init \
+B2X integration init \
   --tenant customer-corp \
   --tier [basic|standard|enterprise] \
   --erp-type [enventa|sap|dynamics|oracle|other] \
   --target-go-live 2026-03-01
 ```
 
-### `b2connect integration status`
+### `B2X integration status`
 
 Check integration status and progress.
 
 ```bash
-b2connect integration status --tenant customer-corp [--detailed]
+B2X integration status --tenant customer-corp [--detailed]
 ```
 
 **Output (summary):**
@@ -263,33 +271,33 @@ Active Tasks:
 Blockers: None
 ```
 
-### `b2connect integration report`
+### `B2X integration report`
 
 Generate detailed integration report.
 
 ```bash
-b2connect integration report \
+B2X integration report \
   --tenant customer-corp \
   --format [text|markdown|html|pdf] \
   --output ./reports/customer-corp-integration.md
 ```
 
-### `b2connect integration check-readiness`
+### `B2X integration check-readiness`
 
 Verify readiness for specific stage or go-live.
 
 ```bash
-b2connect integration check-readiness \
+B2X integration check-readiness \
   --tenant customer-corp \
   --stage [integrate|go-live]
 ```
 
-### `b2connect integration update-stage`
+### `B2X integration update-stage`
 
 Manually update integration stage (admin only).
 
 ```bash
-b2connect integration update-stage \
+B2X integration update-stage \
   --tenant customer-corp \
   --stage integrate \
   --substage "3.6 ORDER FLOW" \
@@ -300,22 +308,22 @@ b2connect integration update-stage \
 
 ## Stage 4: OPTIMIZE Commands
 
-### `b2connect integration enable-feature`
+### `B2X integration enable-feature`
 
 Enable advanced features for optimized tenants.
 
 ```bash
-b2connect integration enable-feature \
+B2X integration enable-feature \
   --tenant customer-corp \
   --feature [analytics|recommendations|visual-search|marketplace]
 ```
 
-### `b2connect integration metrics`
+### `B2X integration metrics`
 
 View integration and operational metrics.
 
 ```bash
-b2connect integration metrics \
+B2X integration metrics \
   --tenant customer-corp \
   --period [7d|30d|90d] \
   --metrics [sync-success|orders|uptime|errors]
@@ -325,33 +333,33 @@ b2connect integration metrics \
 
 ## Cross-Stage Commands
 
-### `b2connect integration export`
+### `B2X integration export`
 
 Export integration tracker data.
 
 ```bash
-b2connect integration export \
+B2X integration export \
   --tenant customer-corp \
   --format [yaml|json] \
   --output ./trackers/customer-corp.yml
 ```
 
-### `b2connect integration import`
+### `B2X integration import`
 
 Import/update from tracker file.
 
 ```bash
-b2connect integration import \
+B2X integration import \
   --tenant customer-corp \
   --file ./trackers/customer-corp.yml
 ```
 
-### `b2connect integration notify`
+### `B2X integration notify`
 
 Send stage notifications.
 
 ```bash
-b2connect integration notify \
+B2X integration notify \
   --tenant customer-corp \
   --type [stage-complete|blocker|reminder] \
   --recipients [customer|internal|both]
@@ -393,38 +401,38 @@ All commands support these global options:
 
 | Variable | Description |
 |----------|-------------|
-| `B2CONNECT_API_URL` | API endpoint URL |
-| `B2CONNECT_API_KEY` | API authentication key |
-| `B2CONNECT_TENANT` | Default tenant ID |
-| `B2CONNECT_OUTPUT` | Default output format |
+| `B2X_API_URL` | API endpoint URL |
+| `B2X_API_KEY` | API authentication key |
+| `B2X_TENANT` | Default tenant ID |
+| `B2X_OUTPUT` | Default output format |
 
 ---
 
 ## Implementation Priority
 
 ### Phase 1 (Week 1-2)
-1. `b2connect trial create`
-2. `b2connect trial list`
-3. `b2connect tenant verify-readiness`
-4. `b2connect integration status`
+1. `B2X trial create`
+2. `B2X trial list`
+3. `B2X tenant verify-readiness`
+4. `B2X integration status`
 
 ### Phase 2 (Week 3-4)
-1. `b2connect tenant configure-domain`
-2. `b2connect tenant verify-domain`
-3. `b2connect integration init`
-4. `b2connect integration report`
+1. `B2X tenant configure-domain`
+2. `B2X tenant verify-domain`
+3. `B2X integration init`
+4. `B2X integration report`
 
 ### Phase 3 (Week 5-6)
-1. `b2connect tenant setup-branding`
-2. `b2connect tenant setup-identity`
-3. `b2connect integration check-readiness`
-4. `b2connect integration export/import`
+1. `B2X tenant setup-branding`
+2. `B2X tenant setup-identity`
+3. `B2X integration check-readiness`
+4. `B2X integration export/import`
 
 ### Phase 4 (Week 7-8)
-1. `b2connect trial convert`
-2. `b2connect integration enable-feature`
-3. `b2connect integration metrics`
-4. `b2connect integration notify`
+1. `B2X trial convert`
+2. `B2X integration enable-feature`
+3. `B2X integration metrics`
+4. `B2X integration notify`
 
 ---
 

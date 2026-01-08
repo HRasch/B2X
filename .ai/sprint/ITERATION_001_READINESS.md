@@ -1,3 +1,11 @@
+---
+docid: SPR-053
+title: ITERATION_001_READINESS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # ✅ Iteration 001 Readiness Checklist
 
 **Date:** December 30, 2025  

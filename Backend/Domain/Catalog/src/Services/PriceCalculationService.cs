@@ -1,7 +1,7 @@
-using B2Connect.Catalog.Models;
+using B2X.Catalog.Models;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.Services;
+namespace B2X.Catalog.Services;
 
 /// <summary>
 /// Service for calculating product prices with VAT transparency

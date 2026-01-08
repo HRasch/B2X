@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace B2Connect.Identity.Tests.Integration;
+namespace B2X.Identity.Tests.Integration;
 
 /// <summary>
 /// Base class for integration tests with WebApplicationFactory setup

@@ -1,7 +1,7 @@
-using B2Connect.Customer.Models;
+using B2X.Customer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Customer.Data;
+namespace B2X.Customer.Data;
 
 /// <summary>
 /// Customer Service DbContext

@@ -1,6 +1,6 @@
-using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Messaging.Extensions;
-using B2Connect.SmartDataIntegration;
+using B2X.ServiceDefaults;
+using B2X.Shared.Messaging.Extensions;
+using B2X.SmartDataIntegration;
 using EFCore.NamingConventions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -59,7 +59,7 @@ builder.Services.AddSmartDataIntegration(options =>
 {
     if (string.Equals(dbProvider, "inmemory", StringComparison.OrdinalIgnoreCase))
     {
-        options.UseInMemoryDatabase("b2connect_smartdataintegration_inmemory");
+        options.UseInMemoryDatabase("B2X_smartdataintegration_inmemory");
     }
     else
     {

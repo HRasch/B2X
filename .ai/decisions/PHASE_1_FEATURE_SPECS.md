@@ -1,3 +1,11 @@
+---
+docid: ADR-115
+title: PHASE_1_FEATURE_SPECS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Phase 1 Feature Specifications
 
 **Date:** December 30, 2025  

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace B2Connect.ThemeService.Models;
+namespace B2X.ThemeService.Models;
 
 /// <summary>
 /// Figma file data response from API

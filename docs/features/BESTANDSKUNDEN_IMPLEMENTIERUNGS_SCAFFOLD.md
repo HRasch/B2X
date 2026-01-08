@@ -1,4 +1,4 @@
-# Implementierungs-Scaffold für Bestandskunden-Registrierung
+﻿# Implementierungs-Scaffold für Bestandskunden-Registrierung
 
 Dieses Dokument enthält Production-Ready Code-Templates für die schnelle Implementation.
 
@@ -8,14 +8,14 @@ Dieses Dokument enthält Production-Ready Code-Templates für die schnelle Imple
 
 ### 1. Entities & Value Objects
 
-**Datei:** `backend/Domain/Identity/B2Connect.Identity.Core/Entities/UserRegistration.cs`
+**Datei:** `backend/Domain/Identity/B2X.Identity.Core/Entities/UserRegistration.cs`
 
 ```csharp
 #nullable enable
 
-using B2Connect.Shared.Kernel;
+using B2X.Shared.Kernel;
 
-namespace B2Connect.Identity.Core.Entities;
+namespace B2X.Identity.Core.Entities;
 
 /// <summary>
 /// Aggregate Root für Registrierungsprozess
@@ -184,14 +184,14 @@ public record RegistrationRejectedEvent(
 
 ### 2. Repository Interface
 
-**Datei:** `backend/Domain/Identity/B2Connect.Identity.Core/Interfaces/IUserRegistrationRepository.cs`
+**Datei:** `backend/Domain/Identity/B2X.Identity.Core/Interfaces/IUserRegistrationRepository.cs`
 
 ```csharp
 #nullable enable
 
-using B2Connect.Identity.Core.Entities;
+using B2X.Identity.Core.Entities;
 
-namespace B2Connect.Identity.Core.Interfaces;
+namespace B2X.Identity.Core.Interfaces;
 
 public interface IUserRegistrationRepository
 {
@@ -215,12 +215,12 @@ public interface IUserRegistrationRepository
 
 ### 3. ERP-Service Interface
 
-**Datei:** `backend/Domain/Identity/B2Connect.Identity.Core/Interfaces/IErpCustomerService.cs`
+**Datei:** `backend/Domain/Identity/B2X.Identity.Core/Interfaces/IErpCustomerService.cs`
 
 ```csharp
 #nullable enable
 
-namespace B2Connect.Identity.Core.Interfaces;
+namespace B2X.Identity.Core.Interfaces;
 
 public interface IErpCustomerService
 {
@@ -266,14 +266,14 @@ public record ErpAddressData(
 
 ### 4. CQRS Commands & Queries
 
-**Datei:** `backend/Domain/Identity/B2Connect.Identity.Application/Features/Registration/Commands/CheckRegistrationTypeCommand.cs`
+**Datei:** `backend/Domain/Identity/B2X.Identity.Application/Features/Registration/Commands/CheckRegistrationTypeCommand.cs`
 
 ```csharp
 #nullable enable
 
 using MediatR;
 
-namespace B2Connect.Identity.Application.Features.Registration.Commands;
+namespace B2X.Identity.Application.Features.Registration.Commands;
 
 public record CheckRegistrationTypeCommand(
     Guid TenantId,
@@ -318,17 +318,17 @@ public record AddressDto(
     string Country);
 ```
 
-**Datei:** `backend/Domain/Identity/B2Connect.Identity.Application/Features/Registration/Handlers/CheckRegistrationTypeCommandHandler.cs`
+**Datei:** `backend/Domain/Identity/B2X.Identity.Application/Features/Registration/Handlers/CheckRegistrationTypeCommandHandler.cs`
 
 ```csharp
 #nullable enable
 
 using MediatR;
 using FluentValidation;
-using B2Connect.Identity.Core.Interfaces;
-using B2Connect.Identity.Application.Features.Registration.Commands;
+using B2X.Identity.Core.Interfaces;
+using B2X.Identity.Application.Features.Registration.Commands;
 
-namespace B2Connect.Identity.Application.Features.Registration.Handlers;
+namespace B2X.Identity.Application.Features.Registration.Handlers;
 
 public class CheckRegistrationTypeCommandHandler 
     : IRequestHandler<CheckRegistrationTypeCommand, CheckRegistrationTypeResult>
@@ -473,9 +473,9 @@ public class CheckRegistrationTypeCommandHandler
 #nullable enable
 
 using FluentValidation;
-using B2Connect.Identity.Application.Features.Registration.Commands;
+using B2X.Identity.Application.Features.Registration.Commands;
 
-namespace B2Connect.Identity.Application.Features.Registration.Validators;
+namespace B2X.Identity.Application.Features.Registration.Validators;
 
 public class CheckRegistrationTypeCommandValidator 
     : AbstractValidator<CheckRegistrationTypeCommand>
@@ -497,16 +497,16 @@ public class CheckRegistrationTypeCommandValidator
 
 ### 5. ERP-Service Implementation
 
-**Datei:** `backend/Domain/Identity/B2Connect.Identity.Infrastructure/ExternalServices/SapCustomerService.cs`
+**Datei:** `backend/Domain/Identity/B2X.Identity.Infrastructure/ExternalServices/SapCustomerService.cs`
 
 ```csharp
 #nullable enable
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using B2Connect.Identity.Core.Interfaces;
+using B2X.Identity.Core.Interfaces;
 
-namespace B2Connect.Identity.Infrastructure.ExternalServices;
+namespace B2X.Identity.Infrastructure.ExternalServices;
 
 public class SapCustomerService : IErpCustomerService
 {
@@ -684,9 +684,9 @@ public class ErpIntegrationException : Exception
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using B2Connect.Identity.Application.Features.Registration.Commands;
+using B2X.Identity.Application.Features.Registration.Commands;
 
-namespace B2Connect.Store.API.Controllers;
+namespace B2X.Store.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -1151,11 +1151,11 @@ function handleGoBack() {
 using Xunit;
 using Moq;
 using FluentAssertions;
-using B2Connect.Identity.Application.Features.Registration.Commands;
-using B2Connect.Identity.Application.Features.Registration.Handlers;
-using B2Connect.Identity.Core.Interfaces;
+using B2X.Identity.Application.Features.Registration.Commands;
+using B2X.Identity.Application.Features.Registration.Handlers;
+using B2X.Identity.Core.Interfaces;
 
-namespace B2Connect.Identity.Tests.Features.Registration.Handlers;
+namespace B2X.Identity.Tests.Features.Registration.Handlers;
 
 public class CheckRegistrationTypeCommandHandlerTests
 {

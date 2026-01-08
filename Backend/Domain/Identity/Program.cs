@@ -1,15 +1,15 @@
 using System.Text;
-using B2Connect.AuthService.Data;
-using B2Connect.Identity.Handlers;
-using B2Connect.Identity.Infrastructure;
-using B2Connect.Identity.Infrastructure.Middleware;
-using B2Connect.Identity.Interfaces;
-using B2Connect.Identity.Services;
-using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Infrastructure;
-using B2Connect.Shared.Infrastructure.Validation;
-using B2Connect.Shared.Messaging.Extensions;
-using B2Connect.Shared.Middleware;
+using B2X.AuthService.Data;
+using B2X.Identity.Handlers;
+using B2X.Identity.Infrastructure;
+using B2X.Identity.Infrastructure.Middleware;
+using B2X.Identity.Interfaces;
+using B2X.Identity.Services;
+using B2X.ServiceDefaults;
+using B2X.Shared.Infrastructure;
+using B2X.Shared.Infrastructure.Validation;
+using B2X.Shared.Messaging.Extensions;
+using B2X.Shared.Middleware;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -170,9 +170,9 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2Connect",
+        ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2X",
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2Connect.Admin",
+        ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2X.Admin",
         ValidateLifetime = true
     };
 
@@ -215,10 +215,10 @@ builder.Services.AddCors(options =>
 });
 
 // Add Rate Limiting
-// builder.Services.AddB2ConnectRateLimiting(builder.Configuration);
+// builder.Services.AddB2XRateLimiting(builder.Configuration);
 
 // Add Input Validation (FluentValidation)
-// builder.Services.AddB2ConnectValidation();
+// builder.Services.AddB2XValidation();
 
 // Add services
 builder.Services.AddControllers();
@@ -451,16 +451,16 @@ using (var scope = app.Services.CreateScope())
     }
 
     // Seed SuperAdmin account for Management portal if it doesn't exist
-    var superAdminUser = await userManager.FindByEmailAsync("superadmin@b2connect.io").ConfigureAwait(false);
+    var superAdminUser = await userManager.FindByEmailAsync("superadmin@B2X.io").ConfigureAwait(false);
     if (superAdminUser == null)
     {
         var newSuperAdminUser = new AppUser
         {
             Id = "superadmin-001",
-            Email = "superadmin@b2connect.io",
-            NormalizedEmail = "SUPERADMIN@B2CONNECT.IO",
-            UserName = "superadmin@b2connect.io",
-            NormalizedUserName = "SUPERADMIN@B2CONNECT.IO",
+            Email = "superadmin@B2X.io",
+            NormalizedEmail = "SUPERADMIN@B2X.IO",
+            UserName = "superadmin@B2X.io",
+            NormalizedUserName = "SUPERADMIN@B2X.IO",
             FirstName = "Super",
             LastName = "Admin",
             TenantId = null, // Platform-level, no tenant
@@ -477,7 +477,7 @@ using (var scope = app.Services.CreateScope())
         if (result.Succeeded)
         {
             await userManager.AddToRoleAsync(newSuperAdminUser, "SuperAdmin").ConfigureAwait(false);
-            logger.LogInformation("✅ SuperAdmin account created for Management portal (superadmin@b2connect.io / SuperAdmin123!)");
+            logger.LogInformation("✅ SuperAdmin account created for Management portal (superadmin@B2X.io / SuperAdmin123!)");
         }
         else
         {

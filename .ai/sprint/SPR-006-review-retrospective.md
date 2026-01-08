@@ -1,4 +1,12 @@
 ---
+docid: SPR-083
+title: SPR 006 Review Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-006-REVIEW
 title: Sprint 2026-06 Review & Retrospective - ERP Integration Phase 3 & UI/UX Improvements
 owner: @ScrumMaster

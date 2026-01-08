@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace B2Connect.Localization.Migrations
+namespace B2X.Localization.Migrations
 {
     /// <inheritdoc />
     public partial class AddTenantTranslationsFields : Migration

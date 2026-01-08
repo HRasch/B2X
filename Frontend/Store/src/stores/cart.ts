@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia';
+﻿import { defineStore } from 'pinia';
 import { ref, computed, watch } from 'vue';
 import { CartItem } from '~/types';
 
-const CART_STORAGE_KEY = 'b2connect-cart';
+const CART_STORAGE_KEY = 'B2X-cart';
 
 export const useCartStore = defineStore('cart', () => {
   const items = ref<CartItem[]>([]);

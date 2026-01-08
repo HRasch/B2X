@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace B2Connect.Services.Search.Services;
+namespace B2X.Services.Search.Services;
 
 public class HttpCatalogProvider : ICatalogProductProvider
 {

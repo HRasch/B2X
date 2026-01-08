@@ -1,4 +1,12 @@
 ---
+docid: KB-160
+title: Ai Cost Optimization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-017
 title: AI Cost Monitoring & Optimization
 owner: GitHub Copilot
@@ -16,7 +24,7 @@ status: Active
 
 ## Overview
 
-This guide provides comprehensive strategies for monitoring, optimizing, and managing AI costs across the B2Connect agent system while maintaining quality and productivity.
+This guide provides comprehensive strategies for monitoring, optimizing, and managing AI costs across the B2X agent system while maintaining quality and productivity.
 
 ## 1. Cost Monitoring Infrastructure
 
@@ -331,4 +339,4 @@ done
 **Next Review**: March 2026  
 **Sources**: GitHub Copilot documentation, cost optimization best practices  
 **Related**: [KB-016 GitHub Copilot Models](github-copilot-models.md)</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/knowledgebase/tools-and-tech/ai-cost-optimization.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/knowledgebase/tools-and-tech/ai-cost-optimization.md

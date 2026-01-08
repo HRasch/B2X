@@ -11,7 +11,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace B2Connect.ERP.Abstractions.Http;
+namespace B2X.ERP.Abstractions.Http;
 
 #region Pagination & Cursors
 

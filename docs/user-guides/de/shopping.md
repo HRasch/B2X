@@ -1,4 +1,4 @@
-# Einkaufen bei B2Connect
+﻿# Einkaufen bei B2X
 
 Willkommen! Diese Anleitung zeigt Ihnen, wie Sie Produkte finden, in den Warenkorb legen und bestellen können.
 
@@ -107,6 +107,6 @@ A: B2B-Kunden sehen Nettopreise, B2C-Kunden sehen Bruttopreise inkl. MwSt.
 
 ## 🆘 Hilfe benötigt?
 
-- **E-Mail**: support@b2connect.com
+- **E-Mail**: support@B2X.com
 - **Telefon**: +49 (0)800 123 4567
 - **Live-Chat**: Mo-Fr 9-17 Uhr

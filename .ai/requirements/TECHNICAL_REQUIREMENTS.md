@@ -1,4 +1,12 @@
-# B2Connect — Technical Requirements (for @TechLead)
+---
+docid: REQ-070
+title: TECHNICAL_REQUIREMENTS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# B2X — Technical Requirements (for @TechLead)
 
 Purpose: concrete technical constraints and design decisions to guide implementation and reviews.
 

@@ -1,4 +1,12 @@
-# 🚀 Rate Limit Optimized Agent Strategy
+---
+docid: GL-068
+title: GL 007 Rate Limit Optimization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🚀 Rate Limit Optimized Agent Strategy
 
 ## Problem Analysis
 Current strategy triggers short-term rate limits due to:
@@ -149,4 +157,4 @@ If rate limits still occur:
 **Status**: Ready for implementation  
 **Expected Impact**: 70-80% reduction in rate limit occurrences  
 **Timeline**: Immediate (update agent instructions first)</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/guidelines/GL-007-rate-limit-optimization.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/guidelines/GL-007-rate-limit-optimization.md

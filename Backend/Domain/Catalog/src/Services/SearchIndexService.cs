@@ -1,8 +1,8 @@
-using B2Connect.Catalog.Models;
+using B2X.Catalog.Models;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.QueryDsl;
 
-namespace B2Connect.Catalog.Services;
+namespace B2X.Catalog.Services;
 
 /// <summary>
 /// Service interface for Elasticsearch indexing

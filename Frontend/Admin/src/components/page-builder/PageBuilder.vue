@@ -135,7 +135,7 @@ function handlePublish() {
     <!-- Toolbar -->
     <header class="page-builder__toolbar">
       <div class="page-builder__toolbar-left">
-        <h1 class="page-builder__title">Page Builder</h1>
+        <h1 class="page-builder__title">{{ $t('pageBuilder.title') }}</h1>
         <span v-if="store.page" class="page-builder__page-name">{{ store.page.name }}</span>
       </div>
 
@@ -230,13 +230,13 @@ function handlePublish() {
           class="page-builder__toolbar-btn page-builder__toolbar-btn--secondary"
           @click="handleSave"
         >
-          Speichern
+          {{ $t('pageBuilder.save') }}
         </button>
         <button
           class="page-builder__toolbar-btn page-builder__toolbar-btn--primary"
           @click="handlePublish"
         >
-          Veröffentlichen
+          {{ $t('pageBuilder.publish') }}
         </button>
       </div>
     </header>
@@ -277,10 +277,9 @@ function handlePublish() {
                 d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
               />
             </svg>
-            <h2 class="page-builder__empty-title">Seite ist leer</h2>
+            <h2 class="page-builder__empty-title">{{ $t('pageBuilder.emptyPage.title') }}</h2>
             <p class="page-builder__empty-text">
-              Ziehe Widgets aus der linken Palette hierher<br />
-              oder klicke auf ein Widget, um es hinzuzufügen.
+              {{ $t('pageBuilder.emptyPage.description') }}
             </p>
           </div>
 

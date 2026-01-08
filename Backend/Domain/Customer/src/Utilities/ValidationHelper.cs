@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace B2Connect.Customer.Utilities;
+namespace B2X.Customer.Utilities;
 
 /// <summary>
 /// Consolidated validation helper to eliminate duplicate validation logic across services.

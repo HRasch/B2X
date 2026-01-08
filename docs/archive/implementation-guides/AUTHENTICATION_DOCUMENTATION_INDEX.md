@@ -1,4 +1,4 @@
-# B2Connect Authentication Documentation Index
+﻿# B2X Authentication Documentation Index
 
 **Last Updated**: 29 December 2025 (Updated)  
 **Status**: ✅ Production Ready  
@@ -17,7 +17,7 @@
 
 ## 📚 Documentation Overview
 
-This index helps you navigate the complete authentication documentation for B2Connect. Whether you're a developer, QA engineer, DevOps professional, or security specialist, you'll find exactly what you need.
+This index helps you navigate the complete authentication documentation for B2X. Whether you're a developer, QA engineer, DevOps professional, or security specialist, you'll find exactly what you need.
 
 ---
 

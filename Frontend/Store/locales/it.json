@@ -1,4 +1,4 @@
-{
+﻿{
   "auth": {
     "login": {
       "title": "Accedi",
@@ -74,7 +74,7 @@
     "version": "Versione"
   },
   "store": {
-    "title": "B2Connect Store",
+    "title": "B2X Store",
     "subtitle": "Trova i migliori prodotti per la tua attività",
     "searchPlaceholder": "Cerca per nome, SKU o descrizione...",
     "searchTime": "Tempo di ricerca: {time}ms",

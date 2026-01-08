@@ -1,6 +1,6 @@
-using B2Connect.Catalog.Core.Entities;
+using B2X.Catalog.Core.Entities;
 
-namespace B2Connect.Catalog.Core.Interfaces;
+namespace B2X.Catalog.Core.Interfaces;
 
 /// <summary>
 /// Repository interface for catalog import operations

@@ -1,10 +1,18 @@
-# ADR-032 Team Review Request
+---
+docid: REV-001
+title: ADR 032 Review Request
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-032 Team Review Request
 
 ## Document: CLI Auto-Update Functionality Brainstorm
 ## Date: January 5, 2026
 ## Status: Ready for Review
 
-> ⚠️ **Pre-Release Context (GL-014)**: B2Connect is v0.x - backwards compatibility NOT required until v1.0.0
+> ⚠️ **Pre-Release Context (GL-014)**: B2X is v0.x - backwards compatibility NOT required until v1.0.0
 
 ### Reviewers Needed:
 - @Architect - Architecture design and ADR approval

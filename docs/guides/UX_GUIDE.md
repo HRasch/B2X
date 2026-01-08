@@ -1,4 +1,4 @@
-# 🎨 B2Connect UX Guide
+﻿# 🎨 B2X UX Guide
 
 **Version**: 1.0.0  
 **Last Updated**: 1. Januar 2026  
@@ -29,7 +29,7 @@
 
 ## Overview
 
-B2Connect consists of **three frontend applications**, each serving different user personas:
+B2X consists of **three frontend applications**, each serving different user personas:
 
 | Application | Purpose | Target Users | Tech Stack |
 |-------------|---------|--------------|------------|

@@ -80,7 +80,7 @@ class ErrorLogger {
     try {
       const tenantHeader = payload[0]?.tenantId || localStorage.getItem('tenantId') || '';
       await axios.post(ENDPOINT, body, { headers: { 'X-Tenant-ID': tenantHeader } });
-    } catch (e) {
+    } catch {
       // on failure, requeue and simple backoff
       this.queue.unshift(...payload);
     }

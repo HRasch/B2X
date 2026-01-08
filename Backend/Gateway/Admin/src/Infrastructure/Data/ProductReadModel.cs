@@ -1,8 +1,8 @@
-using B2Connect.Admin.Core.Entities;
+using B2X.Admin.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace B2Connect.Admin.Infrastructure.Data.ReadModel;
+namespace B2X.Admin.Infrastructure.Data.ReadModel;
 
 /// <summary>
 /// CQRS Read Model - Denormalized Product View

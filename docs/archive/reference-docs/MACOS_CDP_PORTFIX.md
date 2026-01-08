@@ -1,4 +1,4 @@
-# 🐛 macOS CDP Port Conflict Fix
+﻿# 🐛 macOS CDP Port Conflict Fix
 
 ## Problem
 Nach dem Schließen des Terminals oder des Debuggers belegt macOS Docker Content Provider (CDP) die verwendeten Ports persistent und gibt sie nicht frei. Dies führt zu Timeout-Fehlern beim Login und anderen Kommunikationsproblemen zwischen Frontend und Backend.
@@ -35,13 +35,13 @@ Services wurden konfiguriert, um **nur auf IPv4 (127.0.0.1)** zu lauschen, nicht
 Für hartnäckige Fälle: Cleanup-Script ausführen
 
 ```bash
-# Alle CDP und B2Connect Prozesse killen
+# Alle CDP und B2X Prozesse killen
 bash ./scripts/cleanup-cdp.sh
 ```
 
 Das Script:
 - ✓ Killtet alle `dcpctrl` Prozesse
-- ✓ Killtet alle `B2Connect` Services
+- ✓ Killtet alle `B2X` Services
 - ✓ Prüft, ob Ports nun frei sind
 
 ## Wann brauchst du das Cleanup Script?

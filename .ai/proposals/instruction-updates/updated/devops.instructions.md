@@ -1,4 +1,12 @@
 ---
+docid: PROP-009
+title: Devops.Instructions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terraform/**"
 --
 

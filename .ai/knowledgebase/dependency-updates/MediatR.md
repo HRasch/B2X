@@ -1,4 +1,12 @@
 ---
+docid: KB-089
+title: MediatR
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: MediatR
 current_version: "14.0.0"
 source_files:

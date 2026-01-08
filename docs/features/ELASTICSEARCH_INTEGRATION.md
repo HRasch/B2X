@@ -1,4 +1,4 @@
-# 🔍 Elasticsearch Integration in Aspire
+﻿# 🔍 Elasticsearch Integration in Aspire
 
 **Status**: ✅ Konfiguriert & Bereit zum Starten
 
@@ -24,9 +24,9 @@ Elasticsearch wurde als **Full-Text Search & Analytics Engine** in Aspire integr
 
 ### Aspire Extensions
 
-#### 1. AddB2ConnectElasticsearch()
+#### 1. AddB2XElasticsearch()
 ```csharp
-var elasticsearch = builder.AddB2ConnectElasticsearch(
+var elasticsearch = builder.AddB2XElasticsearch(
     name: "elasticsearch",
     port: 9200);
 ```
@@ -107,16 +107,16 @@ Indices:
 
 ```csharp
 // Elasticsearch registrieren
-var elasticsearch = builder.AddB2ConnectElasticsearch(
+var elasticsearch = builder.AddB2XElasticsearch(
     name: "elasticsearch",
     port: 9200);
 
 // Catalog Service mit Elasticsearch verbinden
 var catalogService = builder
-    .AddProject<Projects.B2Connect_Catalog_API>("catalog-service")
+    .AddProject<Projects.B2X_Catalog_API>("catalog-service")
     .WithHttpEndpoint(port: 7005, targetPort: 7005, name: "catalog-service", isProxied: false)
     .WithEnvironment("ASPNETCORE_URLS", "http://+:7005")
-    .WithPostgresConnection(postgres, "b2connect_catalog")
+    .WithPostgresConnection(postgres, "B2X_catalog")
     .WithRedisConnection(redis)
     .WithElasticsearchConnection(elasticsearch, "catalog")  // ← NEW
     .WithElasticsearchIndexing()                            // ← NEW
@@ -412,7 +412,7 @@ docker run -d \
 Elasticsearch:Password = "elastic"
 
 # Or from Key Vault (Production)
-export ELASTICSEARCH_PASSWORD=$(az keyvault secret show --vault-name b2connect-vault --name "Elasticsearch--Password" --query value -o tsv)
+export ELASTICSEARCH_PASSWORD=$(az keyvault secret show --vault-name B2X-vault --name "Elasticsearch--Password" --query value -o tsv)
 ```
 
 ### Problem: "Out of memory"

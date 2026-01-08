@@ -1,10 +1,10 @@
-using B2Connect.Admin.Core.Entities;
-using B2Connect.Shared.Core.Entities;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
-using B2Connect.Types.Localization;
+using B2X.Admin.Core.Entities;
+using B2X.Shared.Core.Entities;
+using B2X.Shared.Tenancy.Infrastructure.Context;
+using B2X.Types.Localization;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Admin.Infrastructure.Data;
+namespace B2X.Admin.Infrastructure.Data;
 
 /// <summary>
 /// Entity Framework Core DbContext for Catalog Service

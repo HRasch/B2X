@@ -1,10 +1,10 @@
 using System.Net.Mail;
-using B2Connect.Email.Interfaces;
-using B2Connect.Email.Models;
+using B2X.Email.Interfaces;
+using B2X.Email.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace B2Connect.Email.Services;
+namespace B2X.Email.Services;
 
 /// <summary>
 /// Service für das Versenden von Emails über SMTP mit Monitoring

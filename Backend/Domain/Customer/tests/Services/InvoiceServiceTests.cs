@@ -1,16 +1,16 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Customer.Interfaces;
-using B2Connect.Customer.Models;
-using B2Connect.Customer.Services;
-using B2Connect.Customer.Validators;
+using B2X.Customer.Interfaces;
+using B2X.Customer.Models;
+using B2X.Customer.Services;
+using B2X.Customer.Validators;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Customer.Tests.Services;
+namespace B2X.Customer.Tests.Services;
 
 /// <summary>
 /// Unit tests for InvoiceService
@@ -59,7 +59,7 @@ public class InvoiceServiceTests : IAsyncLifetime
             IssuedAt = DateTime.UtcNow,
             DueAt = DateTime.UtcNow.AddDays(30),
             Status = "Issued",
-            SellerName = "B2Connect GmbH",
+            SellerName = "B2X GmbH",
             SellerVatId = "DE123456789",
             BuyerName = "Customer Company",
             SubTotal = 100m,
@@ -99,7 +99,7 @@ public class InvoiceServiceTests : IAsyncLifetime
             IssuedAt = DateTime.UtcNow,
             DueAt = DateTime.UtcNow.AddDays(30),
             Status = "Issued",
-            SellerName = "B2Connect GmbH",
+            SellerName = "B2X GmbH",
             SellerVatId = "DE123456789",
             BuyerName = "EU Company",
             BuyerVatId = "IT12345678901", // Valid EU VAT ID
@@ -140,7 +140,7 @@ public class InvoiceServiceTests : IAsyncLifetime
             TenantId = _tenantId,
             OrderId = _orderId,
             InvoiceNumber = "INV-2025-000003",
-            SellerName = "B2Connect",
+            SellerName = "B2X",
             BuyerName = "Customer",
             SubTotal = 1000m,
             TaxRate = 0.19m,
@@ -155,7 +155,7 @@ public class InvoiceServiceTests : IAsyncLifetime
             TenantId = _tenantId,
             OrderId = _orderId,
             InvoiceNumber = "INV-2025-000003",
-            SellerName = "B2Connect",
+            SellerName = "B2X",
             BuyerName = "Customer",
             BuyerVatId = "IT12345678901",
             BuyerCountry = "IT",

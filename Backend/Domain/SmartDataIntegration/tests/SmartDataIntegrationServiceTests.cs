@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using B2Connect.SmartDataIntegration.Core;
-using B2Connect.SmartDataIntegration.Models;
-using B2Connect.SmartDataIntegration.Services;
+using B2X.SmartDataIntegration.Core;
+using B2X.SmartDataIntegration.Models;
+using B2X.SmartDataIntegration.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.SmartDataIntegration.Tests;
+namespace B2X.SmartDataIntegration.Tests;
 
 public class SmartDataIntegrationServiceTests
 {

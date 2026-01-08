@@ -1,4 +1,4 @@
-namespace B2Connect.Customer.Models;
+namespace B2X.Customer.Models;
 
 /// <summary>
 /// Constants for invoice statuses and business logic
@@ -34,7 +34,7 @@ public static class InvoiceConfig
     public const string ReverseChargeNote = "Reverse Charge: Art. 199a Directive 2006/112/EC";
 
     /// <summary>Default seller company name (should be loaded from tenant config in production)</summary>
-    public const string DefaultSellerName = "B2Connect GmbH";
+    public const string DefaultSellerName = "B2X GmbH";
 
     /// <summary>Default seller VAT ID (should be loaded from tenant config in production)</summary>
     public const string DefaultSellerVatId = "DE123456789";

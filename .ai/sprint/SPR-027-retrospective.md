@@ -1,4 +1,12 @@
 ---
+docid: SPR-140
+title: SPR 027 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-027-RETRO
 title: Sprint 2026-27 Retrospective - AI Model Governance & Advanced Compliance Intelligence
 owner: @ScrumMaster
@@ -175,4 +183,4 @@ Sprint 2026-27 successfully delivered all planned objectives for AI Model Govern
 ---
 
 *Retrospective completed: 27. October 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-027-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-027-retrospective.md

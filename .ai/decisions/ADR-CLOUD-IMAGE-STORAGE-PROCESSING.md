@@ -1,4 +1,12 @@
-# ADR: Cloud-Based Image Storage with Dynamic Processing
+---
+docid: ADR-099
+title: ADR CLOUD IMAGE STORAGE PROCESSING
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR: Cloud-Based Image Storage with Dynamic Processing
 
 **DocID**: `ADR-CLOUD-IMAGE`  
 **Status**: DRAFT  
@@ -10,7 +18,7 @@
 
 ## Context
 
-B2Connect requires a robust image storage and processing solution to support:
+B2X requires a robust image storage and processing solution to support:
 - Product images (multiple sizes, formats)
 - CMS media assets
 - User-generated content (UGC)
@@ -321,7 +329,7 @@ https://ik.imagekit.io/your_id/image.jpg?tr=w-300,h-200
 - If AGPLv3 is acceptable or commercial license acquired
 - For specific ImageResizer compatibility needs
 
-### Not Recommended for B2Connect:
+### Not Recommended for B2X:
 
 | Option | Reason |
 |--------|--------|
@@ -335,7 +343,7 @@ https://ik.imagekit.io/your_id/image.jpg?tr=w-300,h-200
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         B2Connect                                │
+│                         B2X                                │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     │
@@ -374,20 +382,20 @@ https://ik.imagekit.io/your_id/image.jpg?tr=w-300,h-200
 
 ```
 # Pattern
-https://images.b2connect.io/{signature}/{processing}/{source}
+https://images.B2X.io/{signature}/{processing}/{source}
 
 # Examples
 # Resize to 300x200, WebP format
-https://images.b2connect.io/abc123/rs:fill:300:200/f:webp/plain/s3://products/shoe.jpg
+https://images.B2X.io/abc123/rs:fill:300:200/f:webp/plain/s3://products/shoe.jpg
 
 # Smart crop, AVIF format
-https://images.b2connect.io/abc123/rs:fill:400:400/g:sm/f:avif/plain/s3://products/model.jpg
+https://images.B2X.io/abc123/rs:fill:400:400/g:sm/f:avif/plain/s3://products/model.jpg
 
 # Watermarked product image
-https://images.b2connect.io/abc123/rs:fit:800:600/wm:0.5:ce:10:10:0.3/plain/s3://products/item.jpg
+https://images.B2X.io/abc123/rs:fit:800:600/wm:0.5:ce:10:10:0.3/plain/s3://products/item.jpg
 
 # DPR-aware (2x retina)
-https://images.b2connect.io/abc123/rs:fill:300:200/dpr:2/f:webp/plain/s3://products/shoe.jpg
+https://images.B2X.io/abc123/rs:fill:300:200/dpr:2/f:webp/plain/s3://products/shoe.jpg
 ```
 
 ---
@@ -929,7 +937,7 @@ spec:
         - name: IMGPROXY_MAX_SRC_RESOLUTION
           value: "50"  # 50 megapixels max
         - name: IMGPROXY_ALLOWED_SOURCES
-          value: "s3://b2connect-*"
+          value: "s3://B2X-*"
         resources:
           requests:
             memory: "512Mi"
@@ -1038,8 +1046,8 @@ spec:
 - [Imageflow GitHub](https://github.com/imazen/imageflow)
 - [ImageKit Documentation](https://imagekit.io/docs/)
 - [Cloudinary Documentation](https://cloudinary.com/documentation)
-- [B2Connect Product Vision](../.ai/requirements/PRODUCT_VISION.md)
-- [B2Connect Technical Requirements](../.ai/requirements/TECHNICAL_REQUIREMENTS.md)
+- [B2X Product Vision](../.ai/requirements/PRODUCT_VISION.md)
+- [B2X Technical Requirements](../.ai/requirements/TECHNICAL_REQUIREMENTS.md)
 
 ---
 

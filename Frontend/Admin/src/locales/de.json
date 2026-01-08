@@ -1,7 +1,7 @@
 {
   "auth": {
     "login": {
-      "title": "B2Connect Admin",
+      "title": "B2X Admin",
       "subtitle": "Melden Sie sich in Ihrem Konto an",
       "email": "E-Mail-Adresse",
       "emailPlaceholder": "admin@example.com",
@@ -32,7 +32,7 @@
     "delete": "Löschen",
     "next": "Weiter",
     "previous": "Zurück",
-    "loading": "Lädt...",
+    "loading": "Laden...",
     "success": "Erfolg",
     "error": "Fehler",
     "warning": "Warnung",
@@ -48,344 +48,183 @@
     "view": "Anzeigen",
     "back": "Zurück",
     "submit": "Absenden",
-    "reset": "Zurücksetzen",
     "confirm": "Bestätigen",
-    "yes": "Ja",
-    "no": "Nein"
-  },
-  "email": {
-    "templates": {
-      "title": "E-Mail-Vorlagen",
-      "subtitle": "Verwalten Sie E-Mail-Vorlagen für Ihren Shop",
-      "create": "Vorlage erstellen",
-      "edit": "Vorlage bearbeiten",
-      "delete": "Vorlage löschen",
-      "view": "Vorlage anzeigen",
-      "search": "Vorlagen suchen...",
-      "noTemplates": "Keine E-Mail-Vorlagen gefunden",
-      "loading": "Vorlagen werden geladen...",
-      "name": "Vorlagenname",
-      "key": "Vorlagenschlüssel",
-      "subject": "Betreff",
-      "body": "Inhalt",
-      "variables": "Variablen",
-      "description": "Beschreibung",
-      "locale": "Sprache",
-      "status": "Status",
-      "active": "Aktiv",
-      "inactive": "Inaktiv",
-      "created": "Erstellt",
-      "updated": "Aktualisiert",
-      "actions": "Aktionen",
-      "preview": "Vorschau",
-      "test": "Test",
-      "send": "Senden",
-      "save": "Vorlage speichern",
-      "cancel": "Abbrechen",
-      "deleteConfirm": "Sind Sie sicher, dass Sie diese Vorlage löschen möchten?",
-      "createSuccess": "Vorlage erfolgreich erstellt",
-      "updateSuccess": "Vorlage erfolgreich aktualisiert",
-      "deleteSuccess": "Vorlage erfolgreich gelöscht",
-      "createError": "Vorlage konnte nicht erstellt werden",
-      "updateError": "Vorlage konnte nicht aktualisiert werden",
-      "deleteError": "Vorlage konnte nicht gelöscht werden",
-      "loadError": "Vorlagen konnten nicht geladen werden",
-      "validationError": "Bitte überprüfen Sie das Formular auf Fehler",
-      "duplicateKey": "Vorlagenschlüssel existiert bereits",
-      "invalidKey": "Vorlagenschlüssel muss eindeutig sein und darf nur Buchstaben, Zahlen und Unterstriche enthalten",
-      "requiredField": "Dieses Feld ist erforderlich",
-      "maxLength": "Maximale Länge beträgt {max} Zeichen",
-      "minLength": "Minimale Länge beträgt {min} Zeichen",
-      "invalidEmail": "Ungültiges E-Mail-Format",
-      "allLocales": "Alle Sprachen",
-      "english": "Englisch",
-      "german": "Deutsch",
-      "french": "Französisch",
-      "spanish": "Spanisch",
-      "italian": "Italienisch",
-      "portuguese": "Portugiesisch",
-      "dutch": "Niederländisch",
-      "polish": "Polnisch",
-      "layout": "Layout",
-      "noLayout": "Kein Layout",
-      "htmlBody": "HTML-Inhalt",
-      "htmlBodyPlaceholder": "HTML-Inhalt mit Liquid-Variablen",
-      "liquidVariables": "Liquid-Variablen",
-      "customerName": "Vollständiger Kundenname",
-      "customerNameExample": "Beispiel: Max Mustermann",
-      "plainTextBody": "Nur-Text-Inhalt",
-      "plainTextBodyPlaceholder": "Optionale Nur-Text-Version",
-      "previewModalTitle": "Vorlagenvorschau",
-      "testSendModalTitle": "Test-E-Mail senden",
-      "testEmailAddress": "Test-E-Mail-Adresse",
-      "testEmailPlaceholder": "test@beispiel.de",
-      "sampleData": "Beispieldaten (JSON)",
-      "sampleDataPlaceholder": "{\"kunde\": {\"name\": \"Max Mustermann\"}, \"bestellung\": {\"id\": \"123\"}}",
-      "sendTest": "Test senden"
-    }
-  },
-  "errors": {
-    "required": "Dieses Feld ist erforderlich",
-    "invalid_email": "Ungültige E-Mail-Adresse",
-    "unauthorized": "Sie sind nicht autorisiert",
-    "forbidden": "Zugriff verweigert",
-    "accessDenied": "Zugriff verweigert",
-    "noPermission": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen.",
-    "returnToDashboard": "Zurück zum Dashboard",
-    "not_found": "Nicht gefunden",
-    "server_error": "Serverfehler. Bitte versuchen Sie es später erneut.",
-    "network_error": "Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung.",
-    "validation_error": "Validierung fehlgeschlagen. Bitte überprüfen Sie Ihre Eingabe.",
-    "duplicate": "Dieser Eintrag existiert bereits",
-    "min_length": "Muss mindestens {min} Zeichen lang sein",
-    "max_length": "Darf höchstens {max} Zeichen lang sein",
-    "invalid_format": "Ungültiges Format",
-    "required_field": "Dieses Feld ist erforderlich",
-    "invalid_value": "Ungültiger Wert"
-  },
-  "tools": {
-    "cli": {
-      "title": "Administration CLI & Tools",
-      "subtitle": "Befehlszeilen-Tools für Tenant-Verwaltung und ERP-Integration herunterladen und verwalten",
-      "administration": {
-        "description": "Leistungsstarke Befehlszeilen-Schnittstelle zur Verwaltung Ihres B2Connect Tenants. Benutzer erstellen, Kataloge verwalten, Einstellungen konfigurieren und administrative Aufgaben automatisieren."
-      },
-      "erp": {
-        "description": "Connector zur Integration Ihres ERP-Systems mit B2Connect. Daten synchronisieren, Bestellungen, Lagerbestände und nahtlosen Datenaustausch verwalten."
-      }
-    },
-    "version": "Aktuelle Version",
-    "supportedOS": "Unterstützte Betriebssysteme",
-    "updated": "Zuletzt aktualisiert",
+    "reset": "Zurücksetzen",
+    "refresh": "Aktualisieren",
     "download": "Herunterladen",
-    "downloading": "Wird heruntergeladen...",
-    "instructions": "Installationsanleitung",
-    "selectOS": "Betriebssystem auswählen",
-    "selectVersion": "Version auswählen",
-    "erp": {
-      "selectType": "ERP-System auswählen",
-      "selectPlaceholder": "Wählen Sie Ihr ERP-System..."
-    },
-    "instructions": {
-      "prerequisites": "Voraussetzungen",
-      "steps": "Installationsschritte",
-      "configuration": "Konfigurationsvorlage",
-      "troubleshooting": "Fehlerbehebung"
-    }
+    "upload": "Hochladen",
+    "select": "Auswählen",
+    "selectAll": "Alle auswählen",
+    "deselectAll": "Alle abwählen",
+    "clear": "Löschen",
+    "apply": "Anwenden",
+    "remove": "Entfernen",
+    "move": "Verschieben",
+    "copy": "Kopieren",
+    "paste": "Einfügen",
+    "duplicate": "Duplizieren",
+    "rename": "Umbenennen",
+    "enable": "Aktivieren",
+    "disable": "Deaktivieren",
+    "show": "Anzeigen",
+    "hide": "Ausblenden",
+    "expand": "Erweitern",
+    "collapse": "Zusammenklappen",
+    "open": "Öffnen",
+    "close": "Schließen",
+    "yes": "Ja",
+    "no": "Nein",
+    "ok": "OK",
+    "retry": "Wiederholen",
+    "skip": "Überspringen",
+    "continue": "Fortfahren",
+    "finish": "Beenden",
+    "start": "Starten",
+    "stop": "Stoppen",
+    "pause": "Pausieren",
+    "resume": "Fortsetzen"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "users": "Benutzer",
+    "products": "Produkte",
+    "categories": "Kategorien",
+    "brands": "Marken",
+    "orders": "Bestellungen",
+    "settings": "Einstellungen",
+    "reports": "Berichte",
+    "system": "System",
+    "admin": "Admin",
+    "profile": "Profil",
+    "logout": "Abmelden"
   },
   "dashboard": {
     "title": "Dashboard",
-    "welcomeBack": "Willkommen zurück, {name}!",
+    "welcome": "Willkommen im B2X Admin Panel",
     "stats": {
-      "totalPages": "Gesamtseiten",
+      "totalUsers": "Gesamtbenutzer",
       "totalProducts": "Gesamtprodukte",
-      "activeJobs": "Aktive Jobs",
-      "systemStatus": "Systemstatus",
-      "healthy": "Gesund"
+      "totalOrders": "Gesamtbestellungen",
+      "totalRevenue": "Gesamteinnahmen"
     },
-    "quickActions": {
-      "title": "Schnellaktionen",
-      "managePages": "Seiten verwalten",
-      "manageProducts": "Produkte verwalten",
-      "monitorJobs": "Jobs überwachen",
-      "mediaLibrary": "Medienbibliothek"
-    },
-    "metrics": {
-      "title": "Globale Analytics Dashboard",
-      "timeRanges": {
-        "lastHour": "Letzte Stunde",
-        "last24Hours": "Letzte 24 Stunden",
-        "last7Days": "Letzte 7 Tage",
-        "last30Days": "Letzte 30 Tage"
-      },
-      "aiResourceEfficiency": "KI-Ressourceneffizienz",
-      "complianceCoverage": "Compliance-Abdeckung",
-      "feedbackAnalytics": "Feedback-Analytics",
-      "sentiment": {
-        "positive": "Positiv",
-        "neutral": "Neutral",
-        "negative": "Negativ"
-      },
-      "keyInsights": "Wichtige Erkenntnisse",
-      "performanceBenchmarks": "Leistungsbenchmarks",
-      "globalMetricsOverview": "Globale Metriken Übersicht",
-      "metrics": {
-        "activeUsers": "Aktive Benutzer",
-        "apiRequests": "API-Anfragen",
-        "errorRate": "Fehlerrate",
-        "avgResponseTime": "Durchschnittliche Antwortzeit"
-      }
-    }
-  },
-  "cms": {
-    "pages": {
-      "title": "Seiten",
-      "subtitle": "Verwalten Sie CMS-Seiten für Ihren Shop",
-      "loading": "Seiten werden geladen...",
-      "no_pages": "Noch keine Seiten. Erstellen Sie Ihre erste Seite, um zu beginnen.",
-      "actions": {
-        "new": "+ Neue Seite"
-      }
-    },
-    "page_detail": {
-      "title": "Seiteneditor",
-      "subtitle": "Seiteninhalt bearbeiten und verwalten",
-      "back_to_pages": "Zurück zu Seiten",
-      "editor_title": "Seiteninhalt",
-      "coming_soon": "Seiteneditor kommt bald..."
-    },
-    "templates": {
-      "title": "Vorlagen",
-      "subtitle": "Seitenvorlagen für Ihren Shop verwalten",
-      "coming_soon": "Seitenvorlagenverwaltung kommt bald..."
-    },
-    "media": {
-      "title": "Mediathek",
-      "subtitle": "Medienassets für Ihren Shop verwalten",
-      "coming_soon": "Mediathek-Verwaltung kommt bald..."
-    }
-  },
-  "catalog": {
-    "products": {
-      "title": "Produkte",
-      "subtitle": "Verwalten Sie Ihre Katalogprodukte",
-      "loading": "Produkte werden geladen...",
-      "no_products": "Keine Produkte gefunden",
-      "actions": {
-        "new": "Neues Produkt"
-      },
-      "create": "Produkt erstellen",
-      "edit": "Produkt bearbeiten",
-      "form": {
-        "coming_soon": "Produkt-Formular-Implementierung kommt bald..."
-      }
-    },
-    "categories": {
-      "title": "Kategorien",
-      "subtitle": "Produktkategorien verwalten",
-      "actions": {
-        "new": "Neue Kategorie"
-      },
-      "create": "Kategorie erstellen",
-      "edit": "Kategorie bearbeiten",
-      "form": {
-        "coming_soon": "Kategorie-Formular-Implementierung kommt bald..."
-      }
-    },
-    "brands": {
-      "title": "Marken",
-      "subtitle": "Produktmarken verwalten",
-      "actions": {
-        "new": "Neue Marke"
-      },
-      "create": "Marke erstellen",
-      "edit": "Marke bearbeiten",
-      "form": {
-        "coming_soon": "Marken-Formular-Implementierung kommt bald..."
-      }
-    }
-  },
-  "common": {
-    "loading": "Lädt...",
-    "error": "Fehler",
-    "close": "Schließen",
-    "download": "Herunterladen",
-    "downloading": "Wird heruntergeladen..."
+    "recentActivity": "Kürzliche Aktivitäten",
+    "quickActions": "Schnellaktionen"
   },
   "users": {
     "title": "Benutzer",
-    "subtitle": "Kundenkonten, Profile und Adressen verwalten",
-    "list": "Benutzerliste",
-    "create": "Neuer Benutzer",
-    "edit": "Benutzer bearbeiten",
-    "back": "← Zurück",
-    "form": {
-      "basicInfo": "Grundinformationen",
-      "profile": "Profil",
-      "firstName": "Vorname",
-      "lastName": "Nachname",
-      "email": "E-Mail",
-      "phone": "Telefon",
-      "emailVerified": "E-Mail verifiziert",
-      "phoneVerified": "Telefon verifiziert",
-      "active": "Aktiv",
-      "company": "Unternehmen",
-      "jobTitle": "Berufsbezeichnung",
-      "dateOfBirth": "Geburtsdatum",
-      "nationality": "Nationalität",
-      "preferredLanguage": "Bevorzugte Sprache",
-      "timezone": "Zeitzone",
-      "timezonePlaceholder": "Europe/Berlin",
-      "bio": "Bio",
-      "newsletter": "Newsletter abonnieren",
-      "promotionalEmails": "Werbe-E-Mails erhalten"
+    "addUser": "Benutzer hinzufügen",
+    "editUser": "Benutzer bearbeiten",
+    "deleteUser": "Benutzer löschen",
+    "userDetails": "Benutzerdetails",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "role": "Rolle",
+    "status": "Status",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "admin": "Administrator",
+    "user": "Benutzer",
+    "created": "Erstellt",
+    "lastLogin": "Letzte Anmeldung"
+  },
+  "products": {
+    "title": "Produkte",
+    "addProduct": "Produkt hinzufügen",
+    "editProduct": "Produkt bearbeiten",
+    "deleteProduct": "Produkt löschen",
+    "productDetails": "Produktdetails",
+    "name": "Name",
+    "description": "Beschreibung",
+    "price": "Preis",
+    "category": "Kategorie",
+    "brand": "Marke",
+    "sku": "Artikelnummer",
+    "stock": "Lagerbestand",
+    "image": "Bild",
+    "images": "Bilder",
+    "featured": "Hervorgehoben",
+    "available": "Verfügbar",
+    "outOfStock": "Nicht auf Lager"
+  },
+  "categories": {
+    "title": "Kategorien",
+    "addCategory": "Kategorie hinzufügen",
+    "editCategory": "Kategorie bearbeiten",
+    "deleteCategory": "Kategorie löschen",
+    "categoryDetails": "Kategoriedetails",
+    "name": "Name",
+    "description": "Beschreibung",
+    "parent": "Übergeordnet",
+    "subcategories": "Unterkategorien",
+    "products": "Produkte"
+  },
+  "brands": {
+    "title": "Marken",
+    "addBrand": "Marke hinzufügen",
+    "editBrand": "Marke bearbeiten",
+    "deleteBrand": "Marke löschen",
+    "brandDetails": "Markendetails",
+    "name": "Name",
+    "description": "Beschreibung",
+    "logo": "Logo",
+    "website": "Website"
+  },
+  "orders": {
+    "title": "Bestellungen",
+    "orderDetails": "Bestelldetails",
+    "orderNumber": "Bestellnummer",
+    "customer": "Kunde",
+    "date": "Datum",
+    "status": "Status",
+    "total": "Gesamt",
+    "items": "Artikel",
+    "pending": "Ausstehend",
+    "processing": "In Bearbeitung",
+    "shipped": "Versendet",
+    "delivered": "Geliefert",
+    "cancelled": "Storniert"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "general": "Allgemein",
+    "security": "Sicherheit",
+    "notifications": "Benachrichtigungen",
+    "integrations": "Integrationen",
+    "saveChanges": "Änderungen speichern",
+    "reset": "Zurücksetzen"
+  },
+  "validation": {
+    "required": "Dieses Feld ist erforderlich",
+    "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "minLength": "Mindestens {min} Zeichen erforderlich",
+    "maxLength": "Maximal {max} Zeichen erlaubt",
+    "numeric": "Bitte geben Sie eine gültige Zahl ein",
+    "positive": "Bitte geben Sie eine positive Zahl ein",
+    "url": "Bitte geben Sie eine gültige URL ein"
+  },
+  "messages": {
+    "success": {
+      "saved": "Erfolgreich gespeichert",
+      "deleted": "Erfolgreich gelöscht",
+      "created": "Erfolgreich erstellt",
+      "updated": "Erfolgreich aktualisiert"
     },
-    "languages": {
-      "de": "Deutsch",
-      "en": "Englisch",
-      "fr": "Französisch",
-      "it": "Italienisch"
+    "error": {
+      "generic": "Ein Fehler ist aufgetreten",
+      "network": "Netzwerkfehler",
+      "validation": "Validierungsfehler",
+      "unauthorized": "Nicht autorisiert",
+      "notFound": "Nicht gefunden"
     },
-    "validation": {
-      "firstNameRequired": "Vorname ist erforderlich",
-      "lastNameRequired": "Nachname ist erforderlich",
-      "emailRequired": "E-Mail ist erforderlich"
-    },
-    "messages": {
-      "loadError": "Benutzer konnte nicht geladen werden",
-      "saveError": "Fehler beim Speichern",
-      "saving": "Wird gespeichert..."
-    },
-    "verified": "Verifiziert",
-    "unverified": "Unverifiziert",
-    "created": "Beigetreten",
-    "last_login": "Letzter Login",
-    "never": "Nie",
-    "addresses": {
-      "no_addresses": "Keine Adressen gespeichert",
-      "add_address": "Adresse hinzufügen"
+    "confirm": {
+      "delete": "Sind Sie sicher, dass Sie dies löschen möchten?",
+      "save": "Änderungen speichern?"
     }
   },
-  "jobs": {
-    "queue": {
-      "title": "Job-Warteschlange",
-      "loading": "Jobs werden geladen...",
-      "no_jobs": "Keine Jobs in der Warteschlange."
-    },
-    "detail": {
-      "title": "Job-Details",
-      "subtitle": "Detaillierte Informationen zu diesem Job anzeigen",
-      "coming_soon": "Job-Details kommen bald..."
-    },
-    "history": {
-      "title": "Job-Verlauf",
-      "subtitle": "Abgeschlossene und fehlgeschlagene Jobs anzeigen",
-      "content_title": "Job-Verlauf",
-      "coming_soon": "Job-Verlauf kommt bald..."
-    }
-  },
-  "shop": {
-    "products": {
-      "title": "Produkte",
-      "loading": "Produkte werden geladen...",
-      "no_products": "Keine Produkte gefunden."
-    },
-    "product_detail": {
-      "title": "Produkteditor",
-      "subtitle": "Produktdetails bearbeiten und verwalten",
-      "back_to_products": "Zurück zu Produkten",
-      "editor_title": "Produktinformationen",
-      "coming_soon": "Produkteditor kommt bald..."
-    },
-    "categories": {
-      "title": "Kategorien",
-      "loading": "Kategorien werden geladen...",
-      "no_categories": "Keine Kategorien gefunden."
-    },
-    "pricing": {
-      "title": "Preise",
-      "loading": "Preise werden geladen...",
-      "no_pricing": "Keine Preisregeln gefunden."
-    }
+  "view": {
+    "closeButton": "×",
+    "loading": "Laden..."
   }
 }

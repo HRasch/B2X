@@ -1,4 +1,12 @@
 ---
+docid: SPR-127
+title: SPR 022 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-022
 title: Sprint 2026-22 Planning - AI Validation Enhancement & Compliance Standardization
 owner: @ScrumMaster
@@ -198,4 +206,4 @@ Based on SPR-021 retrospective insights, Sprint 2026-22 focuses on "AI Validatio
 ---
 
 *Planning completed: 21. Juli 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-022-iteration-template.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-022-iteration-template.md

@@ -1,11 +1,11 @@
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using B2Connect.ERP.Abstractions;
-using B2Connect.ERP.Abstractions.Http;
+using B2X.ERP.Abstractions;
+using B2X.ERP.Abstractions.Http;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Domain.ERP.Services;
+namespace B2X.Domain.ERP.Services;
 
 /// <summary>
 /// HTTP client for communicating with Enventa ERP Connector (.NET Framework 4.8).

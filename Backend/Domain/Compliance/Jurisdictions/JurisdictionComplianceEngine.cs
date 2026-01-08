@@ -1,4 +1,4 @@
-// B2Connect.Compliance.Jurisdictions
+﻿// B2X.Compliance.Jurisdictions
 // Emerging Market Jurisdiction Expansion
 // DocID: SPR-027-COMPLIANCE-JURISDICTIONS
 
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace B2Connect.Compliance.Jurisdictions
+namespace B2X.Compliance.Jurisdictions
 {
     /// <summary>
     /// Compliance Engine for Emerging Market Jurisdictions

@@ -1,4 +1,4 @@
-# GitHub & Development Workflows
+﻿# GitHub & Development Workflows
 
 **Version:** 1.0  
 **Last Updated:** 27. Dezember 2025  
@@ -24,7 +24,7 @@
 ### Repository Structure
 
 ```
-B2Connect/
+B2X/
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
 │   │   ├── p0-security-issue.md
@@ -219,7 +219,7 @@ CORS origins were hardcoded, preventing production deployment.
 Moved to configuration-driven approach:
 - Separate config per environment
 - Development: localhost:5174
-- Production: admin.b2connect.com
+- Production: admin.B2X.com
 - Validation on startup
 
 This allows secure production configuration without code changes.
@@ -719,7 +719,7 @@ Current Configuration:
 - https://localhost:5173
 
 Required:
-- Production domain: https://admin.b2connect.com
+- Production domain: https://admin.B2X.com
 - Dynamic configuration per environment
 
 Acceptance Criteria:
@@ -731,7 +731,7 @@ Acceptance Criteria:
 
 Steps to Test:
 1. Deploy to production
-2. Call API from https://admin.b2connect.com
+2. Call API from https://admin.B2X.com
 3. Verify request succeeds
 
 Related: #24, #25
@@ -778,11 +778,11 @@ jobs:
     - Run: dotnet format --verify-no-changes
     
   build:
-    - Run: dotnet build backend/B2Connect.slnx
+    - Run: dotnet build backend/B2X.slnx
     - Report: Build status on PR
     
   test:
-    - Run: dotnet test backend/B2Connect.slnx
+    - Run: dotnet test backend/B2X.slnx
     - Report: Test results + coverage
     - Fail if: Coverage < 40%
     
@@ -852,7 +852,7 @@ git fetch origin
 git rebase origin/develop
 
 # 2. Run all tests locally
-dotnet test backend/B2Connect.slnx
+dotnet test backend/B2X.slnx
 npm run test --prefix frontend-admin
 
 # 3. Run linting
@@ -863,7 +863,7 @@ npm run lint --prefix frontend-admin
 git grep -i 'secret\|password\|api.?key' | grep -v '.example'
 
 # 5. Check code quality
-dotnet build backend/B2Connect.slnx --no-warnings
+dotnet build backend/B2X.slnx --no-warnings
 
 # 6. Commit and push
 git push origin feature/your-branch

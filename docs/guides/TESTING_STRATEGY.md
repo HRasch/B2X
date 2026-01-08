@@ -1,4 +1,4 @@
-# 🧪 Testing Strategy & Implementation Guide
+﻿# 🧪 Testing Strategy & Implementation Guide
 
 ## Aktuelle Test-Coverage: ~3%
 ## Ziel: 80%+ (12 Wochen)
@@ -16,17 +16,17 @@ backend/
 ├── BoundedContexts/
 │   ├── Shared/
 │   │   ├── Identity/
-│   │   │   ├── B2Connect.Identity.API.csproj
+│   │   │   ├── B2X.Identity.API.csproj
 │   │   │   └── tests/
-│   │   │       └── B2Connect.Identity.Tests.csproj  # CREATE
+│   │   │       └── B2X.Identity.Tests.csproj  # CREATE
 │   │   ├── Tenancy/
 │   │   │   └── tests/
-│   │   │       └── B2Connect.Tenancy.Tests.csproj   # CREATE
+│   │   │       └── B2X.Tenancy.Tests.csproj   # CREATE
 ```
 
 #### Schritt 2: Test Project Template
 
-**Datei:** `backend/BoundedContexts/Shared/Identity/tests/B2Connect.Identity.Tests.csproj`
+**Datei:** `backend/BoundedContexts/Shared/Identity/tests/B2X.Identity.Tests.csproj`
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -48,7 +48,7 @@ backend/
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../B2Connect.Identity.API.csproj" />
+    <ProjectReference Include="../B2X.Identity.API.csproj" />
   </ItemGroup>
 
 </Project>
@@ -62,7 +62,7 @@ backend/
 using Microsoft.EntityFrameworkCore;
 using Testcontainers.PostgreSql;
 
-namespace B2Connect.Identity.Tests.Fixtures;
+namespace B2X.Identity.Tests.Fixtures;
 
 public class IdentityTestFixture : IAsyncLifetime
 {
@@ -72,7 +72,7 @@ public class IdentityTestFixture : IAsyncLifetime
     public IdentityTestFixture()
     {
         _container = new PostgreSqlBuilder()
-            .WithDatabase("b2connect_identity_test")
+            .WithDatabase("B2X_identity_test")
             .WithUsername("postgres")
             .WithPassword("postgres")
             .Build();
@@ -120,12 +120,12 @@ public class IdentityTestBase : IAsyncLifetime
 using Xunit;
 using Moq;
 using FluentAssertions;
-using B2Connect.Identity.Core.Entities;
-using B2Connect.Identity.Core.Interfaces;
-using B2Connect.Identity.Application.Services;
-using B2Connect.Identity.Application.DTOs;
+using B2X.Identity.Core.Entities;
+using B2X.Identity.Core.Interfaces;
+using B2X.Identity.Application.Services;
+using B2X.Identity.Application.DTOs;
 
-namespace B2Connect.Identity.Tests.Services;
+namespace B2X.Identity.Tests.Services;
 
 public class IdentityServiceTests
 {
@@ -296,7 +296,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
-namespace B2Connect.Identity.Tests.Integration;
+namespace B2X.Identity.Tests.Integration;
 
 public class IdentityControllerIntegrationTests : IAsyncLifetime
 {

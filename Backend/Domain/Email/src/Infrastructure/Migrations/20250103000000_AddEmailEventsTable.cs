@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace B2Connect.Email.Infrastructure.Migrations;
+namespace B2X.Email.Infrastructure.Migrations;
 
 /// <inheritdoc />
 public partial class AddEmailEventsTable : Migration

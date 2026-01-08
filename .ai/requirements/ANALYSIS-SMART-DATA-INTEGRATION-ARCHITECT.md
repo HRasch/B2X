@@ -1,4 +1,12 @@
 ---
+docid: REQ-040
+title: ANALYSIS SMART DATA INTEGRATION ARCHITECT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ANALYSIS-SMART-DATA-INTEGRATION-ARCHITECT
 title: Smart Data Integration Assistant - Architecture Analysis
 owner: @Architect
@@ -29,7 +37,7 @@ The Smart Data Integration Assistant fits well within our current architecture. 
 #### Existing ERP Integration Architecture
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   ERP Systems   │◄──►│  ERP Connectors  │◄──►│  B2Connect API  │
+│   ERP Systems   │◄──►│  ERP Connectors  │◄──►│  B2X API  │
 │ (SAP, Dynamics, │    │  (Adapters)      │    │  (REST/GraphQL) │
 │  Oracle, etc.)  │    │                  │    │                 │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
@@ -44,7 +52,7 @@ The Smart Data Integration Assistant fits well within our current architecture. 
 #### Proposed Architecture with AI Assistant
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   ERP Systems   │◄──►│  ERP Connectors  │◄──►│  B2Connect API  │
+│   ERP Systems   │◄──►│  ERP Connectors  │◄──►│  B2X API  │
 │ (SAP, Dynamics, │    │  (Smart Adapters)│    │  (REST/GraphQL) │
 │  Oracle, etc.)  │    │                  │    │                 │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
@@ -340,4 +348,4 @@ The Smart Data Integration Assistant architecture is sound and well-integrated w
 **Technical Debt Impact**: 🔶 MODERATE (Manageable with proper planning)
 **Date**: 7. Januar 2026
 **@Architect**</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-ARCHITECT.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-ARCHITECT.md

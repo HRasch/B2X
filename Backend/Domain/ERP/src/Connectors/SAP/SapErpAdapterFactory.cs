@@ -1,9 +1,9 @@
 using System;
 using System.Net.Http;
-using B2Connect.ERP.Abstractions;
+using B2X.ERP.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace B2Connect.ERP.Connectors.SAP;
+namespace B2X.ERP.Connectors.SAP;
 
 /// <summary>
 /// Factory for creating SAP ERP connector instances.

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-088
+title: SubAgent APIIntegration.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ````chatagent
 ```chatagent
 ---

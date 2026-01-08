@@ -2,10 +2,10 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Core;
+using B2X.ERP.Core;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.ERP.Services;
+namespace B2X.ERP.Services;
 
 /// <summary>
 /// Fake implementation of <see cref="ISyncService"/> for Mac development.

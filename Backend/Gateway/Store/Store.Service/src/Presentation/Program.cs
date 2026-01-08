@@ -1,11 +1,11 @@
-using B2Connect.ServiceDefaults;
-using B2Connect.Store.Core.Common.Interfaces;
-using B2Connect.Store.Core.Store.Interfaces;
-using B2Connect.Store.Application.Store.Services;
-using B2Connect.Store.Application.Store.ReadServices;
-using B2Connect.Store.Infrastructure.Common.Repositories;
-using B2Connect.Store.Infrastructure.Common.Data;
-using B2Connect.Store.Infrastructure.Store.Repositories;
+﻿using B2X.ServiceDefaults;
+using B2X.Store.Core.Common.Interfaces;
+using B2X.Store.Core.Store.Interfaces;
+using B2X.Store.Application.Store.Services;
+using B2X.Store.Application.Store.ReadServices;
+using B2X.Store.Infrastructure.Common.Repositories;
+using B2X.Store.Infrastructure.Common.Data;
+using B2X.Store.Infrastructure.Store.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -84,8 +84,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2Connect",
-            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2Connect-Store",
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "B2X",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "B2X-Store",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
         };
     });
@@ -114,7 +114,7 @@ else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
 }
 
 // Register Repositories (Common)
-builder.Services.AddScoped<IRepository<B2Connect.Store.Core.Common.Entities.Shop>, Repository<B2Connect.Store.Core.Common.Entities.Shop>>();
+builder.Services.AddScoped<IRepository<B2X.Store.Core.Common.Entities.Shop>, Repository<B2X.Store.Core.Common.Entities.Shop>>();
 builder.Services.AddScoped<IShopRepository, ShopRepository>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
@@ -143,7 +143,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        Title = "B2Connect Store Configuration API",
+        Title = "B2X Store Configuration API",
         Version = "v1",
         Description = "Store, Language, Country, Payment and Shipping Methods Management",
     });

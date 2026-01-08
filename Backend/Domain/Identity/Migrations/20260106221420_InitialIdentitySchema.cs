@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace B2Connect.Identity.Migrations
+namespace B2X.Identity.Migrations
 {
     /// <inheritdoc />
     public partial class InitialIdentitySchema : Migration

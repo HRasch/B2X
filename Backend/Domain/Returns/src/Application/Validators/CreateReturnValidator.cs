@@ -1,7 +1,7 @@
-using FluentValidation;
-using B2Connect.Returns.Application.Commands;
+﻿using FluentValidation;
+using B2X.Returns.Application.Commands;
 
-namespace B2Connect.Returns.Application.Validators;
+namespace B2X.Returns.Application.Validators;
 
 /// <summary>
 /// Validator for CreateReturnCommand (14-day VVVG withdrawal request).

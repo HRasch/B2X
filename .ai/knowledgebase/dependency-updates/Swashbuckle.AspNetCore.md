@@ -1,4 +1,12 @@
 ---
+docid: KB-101
+title: Swashbuckle.AspNetCore
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Swashbuckle.AspNetCore
 current_version: 10.1.0
 source_files:

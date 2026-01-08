@@ -1,4 +1,12 @@
-# 🏗️ Phase 1 Development: Getting Started
+---
+docid: SPR-058
+title: PHASE_1_DEVELOPMENT_START
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🏗️ Phase 1 Development: Getting Started
 
 **Phase:** Phase 1 - Planning & Setup  
 **Status:** ✅ ACTIVE  
@@ -235,8 +243,8 @@
 | Planning | Full Plan | [ITERATION_001_PLAN.md](./ITERATION_001_PLAN.md) |
 
 **GitHub Issues:**
-- [#57 Dependencies](https://github.com/HRasch/B2Connect/issues/57)
-- [#56 UI Modernization](https://github.com/HRasch/B2Connect/issues/56)
+- [#57 Dependencies](https://github.com/HRasch/B2X/issues/57)
+- [#56 UI Modernization](https://github.com/HRasch/B2X/issues/56)
 
 **Tracking:**
 - Daily Velocity: [ITERATION_001_TRACKING.md](./ITERATION_001_TRACKING.md)

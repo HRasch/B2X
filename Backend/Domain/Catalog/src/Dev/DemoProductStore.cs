@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using B2Connect.Shared.Core;
+using B2X.Shared.Core;
 using Bogus;
 
-namespace B2Connect.Catalog.Endpoints.Dev;
+namespace B2X.Catalog.Endpoints.Dev;
 
 public static class DemoProductStore
 {

@@ -1,4 +1,12 @@
 ---
+docid: REQ-036
+title: ANALYSIS PERSISTED TEST ENV ARCHITECT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ANALYSIS-PERSISTED-TEST-ENV-ARCHITECT
 title: Persisted Test Environment - Architecture Analysis
 owner: @Architect
@@ -17,7 +25,7 @@ related: REQ-PERSISTED-TEST-ENVIRONMENT.md
 
 ## Executive Summary
 
-The Persisted Test Environment feature is **architecturally sound** and aligns with B2Connect's multi-tenant, service-oriented design. The feature:
+The Persisted Test Environment feature is **architecturally sound** and aligns with B2X's multi-tenant, service-oriented design. The feature:
 
 ✅ Follows existing architectural patterns (configuration-driven, multi-tenant aware)  
 ✅ Requires minimal service boundary changes  
@@ -200,8 +208,8 @@ public class TestAuthSeeder : ITestAuthSeeder
     {
         var admin = new AppUser
         {
-            UserName = "test.admin@b2connect.local",
-            Email = "test.admin@b2connect.local",
+            UserName = "test.admin@B2X.local",
+            Email = "test.admin@B2X.local",
             FirstName = "Test",
             LastName = "Admin",
             TenantId = tenantId,

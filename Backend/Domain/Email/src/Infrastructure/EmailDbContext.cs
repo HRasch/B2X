@@ -1,8 +1,8 @@
 using System.Text.Json;
-using B2Connect.Email.Models;
+using B2X.Email.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Email.Infrastructure;
+namespace B2X.Email.Infrastructure;
 
 /// <summary>
 /// Database Context für Email-Monitoring

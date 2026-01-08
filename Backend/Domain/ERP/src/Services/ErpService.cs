@@ -3,13 +3,13 @@
 // </copyright>
 
 using System.Runtime.CompilerServices;
-using B2Connect.ERP.Abstractions;
-using B2Connect.ERP.Abstractions.Http;
+using B2X.ERP.Abstractions;
+using B2X.ERP.Abstractions.Http;
 
-namespace B2Connect.Domain.ERP.Services;
+namespace B2X.Domain.ERP.Services;
 
 /// <summary>
-/// ERP Service interface - consumed by B2Connect application.
+/// ERP Service interface - consumed by B2X application.
 /// Uses DTOs and the HTTP client for ERP operations.
 /// </summary>
 public interface IErpService

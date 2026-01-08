@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-125
+title: CatalogShareRulesAPI
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Catalog Share Rules - API Design
 owner: @SARAH
 ---

@@ -1,8 +1,8 @@
 using System.Xml.Linq;
-using B2Connect.Catalog.Models;
+using B2X.Catalog.Models;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.Infrastructure;
+namespace B2X.Catalog.Infrastructure;
 
 /// <summary>
 /// VIES (VAT Information Exchange System) API client

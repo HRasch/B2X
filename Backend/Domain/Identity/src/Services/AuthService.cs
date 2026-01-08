@@ -1,13 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using B2Connect.Types;
+using B2X.Types;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace B2Connect.AuthService.Data;
+namespace B2X.AuthService.Data;
 
 // Identity User & Role
 public enum AccountType
@@ -392,8 +392,8 @@ public class AuthService : IAuthService
         }
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"] ?? "B2Connect",
-            audience: _configuration["Jwt:Audience"] ?? "B2Connect.Admin",
+            issuer: _configuration["Jwt:Issuer"] ?? "B2X",
+            audience: _configuration["Jwt:Audience"] ?? "B2X.Admin",
             claims: claims,
             expires: DateTime.UtcNow.AddHours(1),
             signingCredentials: credentials
@@ -418,8 +418,8 @@ public class AuthService : IAuthService
         };
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"] ?? "B2Connect",
-            audience: _configuration["Jwt:Audience"] ?? "B2Connect.Admin",
+            issuer: _configuration["Jwt:Issuer"] ?? "B2X",
+            audience: _configuration["Jwt:Audience"] ?? "B2X.Admin",
             claims: claims,
             expires: DateTime.UtcNow.AddDays(7), // 7-day refresh token
             signingCredentials: credentials
@@ -441,9 +441,9 @@ public class AuthService : IAuthService
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
-                ValidIssuer = _configuration["Jwt:Issuer"] ?? "B2Connect",
+                ValidIssuer = _configuration["Jwt:Issuer"] ?? "B2X",
                 ValidateAudience = true,
-                ValidAudience = _configuration["Jwt:Audience"] ?? "B2Connect.Admin",
+                ValidAudience = _configuration["Jwt:Audience"] ?? "B2X.Admin",
                 ValidateLifetime = false // Allow expired tokens for refresh
             }, out _);
 

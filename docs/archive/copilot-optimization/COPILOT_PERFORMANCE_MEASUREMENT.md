@@ -1,7 +1,7 @@
-# 🔬 COPILOT PERFORMANCE MEASUREMENT RESULTS
+﻿# 🔬 COPILOT PERFORMANCE MEASUREMENT RESULTS
 
 **Datum:** 28. Dezember 2025  
-**Baseline:** B2Connect Repo (aktueller Stand)  
+**Baseline:** B2X Repo (aktueller Stand)  
 **Methode:** Statische Analyse + Empirische Formeln
 
 ---

@@ -1,13 +1,13 @@
 
-using B2Connect.Catalog.Application.Handlers;
-using B2Connect.Catalog.Application.Validators;
-using B2Connect.Catalog.Core.Interfaces;
+using B2X.Catalog.Application.Handlers;
+using B2X.Catalog.Application.Validators;
+using B2X.Catalog.Core.Interfaces;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Catalog.Tests.Application;
+namespace B2X.Catalog.Tests.Application;
 
 public class PriceCalculationServiceTests : IAsyncLifetime
 {

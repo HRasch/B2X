@@ -1,0 +1,73 @@
+<Solution>
+  <Folder Name="/backend/Domain/Tenancy/" />
+  <Folder Name="/backend/Domain/Tenancy/tests/">
+    <Project Path="backend/Domain/Tenancy/tests/B2X.Tenancy.Tests.csproj" />
+  </Folder>
+  <!-- Backend: Gateway -->
+  <Folder Name="/backend/Gateway/">
+    <Project Path="backend/Gateway/Admin/B2X.Admin.csproj" />
+    <Project Path="backend/Gateway/Store/API/B2X.Store.csproj" />
+  </Folder>
+  <!-- Backend: BoundedContexts -->
+  <Folder Name="/backend/BoundedContexts/">
+    <Folder Name="/backend/BoundedContexts/Admin/">
+      <Project Path="backend/BoundedContexts/Admin/MCP/B2X.Admin.MCP/B2X.Admin.MCP.csproj" />
+    </Folder>
+  </Folder>
+  <Folder Name="/backend/" />
+
+  <!-- Backend: Domain -->
+  <Folder Name="/backend/Domain/">
+    <Project Path="backend/Domain/Catalog/B2X.Catalog.API.csproj" />
+    <Project Path="backend/Domain/CMS/B2X.CMS.csproj" />
+    <Project Path="backend/Domain/Customer/B2X.Customer.API.csproj" />
+    <Project Path="backend/Domain/Email/B2X.Email.csproj" />
+    <Project Path="backend/Domain/ERP/src/B2X.ERP.csproj" />
+    <Project Path="backend/Domain/Identity/B2X.Identity.API.csproj" />
+    <Project Path="backend/Domain/Localization/B2X.Localization.API.csproj" />
+    <Project Path="backend/Domain/Orders/B2X.Orders.API.csproj" />
+    <Project Path="backend/Domain/PatternAnalysis/B2X.PatternAnalysis.csproj" />
+    <Project Path="backend/Domain/SmartDataIntegration/API/B2X.SmartDataIntegration.API.csproj" />
+    <Project Path="backend/Domain/Tenancy/B2X.Tenancy.API.csproj" />
+    <Project Path="backend/Domain/Theming/B2X.Theming.API.csproj" />
+    <Project Path="backend/Domain/Theming/Layout/B2X.Theming.Layout.csproj" />
+  </Folder>
+
+  <!-- Backend: Shared -->
+  <Folder Name="/backend/Shared/">
+    <Project Path="backend/shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <Project Path="backend/shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <Project Path="backend/shared/B2X.Shared.Messaging/B2X.Shared.Messaging.csproj" />
+    <Project Path="backend/shared/Monitoring/B2X.Shared.Monitoring.csproj" />
+    <Project Path="backend/shared/B2X.Shared.Search/B2X.Shared.Search.csproj" />
+    <Project Path="backend/shared/kernel/B2X.Shared.Kernel.csproj" />
+    <Project Path="backend/shared/middleware/B2X.Shared.Middleware.csproj" />
+    <Project Path="backend/shared/tools/B2X.Shared.Tools.csproj" />
+    <Project Path="backend/shared/types/B2X.Types.csproj" />
+    <Project Path="backend/shared/utils/B2X.Utils.csproj" />
+  </Folder>
+
+  <!-- Backend: Shared ERP (Multi-targeting for .NET Framework 4.8, .NET 8.0, .NET 10.0) -->
+  <Folder Name="/backend/Shared/ERP/">
+    <Project Path="backend/shared/B2X.Shared.Erp.Core/B2X.Shared.Erp.Core.csproj" />
+    <Project Path="backend/shared/B2X.Shared.Erp.Validation/B2X.Shared.Erp.Validation.csproj" />
+  </Folder>
+
+  <!-- Backend: Tests -->
+  <Folder Name="/backend/Tests/">
+    <Project Path="backend/Domain/Catalog/tests/B2X.Catalog.Tests.csproj" />
+    <Project Path="backend/Domain/CMS/tests/B2X.CMS.Tests.csproj" />
+    <Project Path="backend/Domain/Customer/tests/B2X.Customer.Tests.csproj" />
+    <Project Path="backend/Domain/ERP/tests/B2X.ERP.Tests.csproj" />
+    <Project Path="backend/Domain/Identity/tests/B2X.Identity.Tests.csproj" />
+    <Project Path="backend/Domain/Localization/tests/B2X.Localization.Tests.csproj" />
+    <Project Path="backend/Domain/PatternAnalysis/tests/B2X.PatternAnalysis.Tests.csproj" />
+    <Project Path="backend/Tests/B2X.Shared.Search.Tests/B2X.Shared.Search.Tests.csproj" />
+    <Project Path="backend/services/PunchoutAdapters/IdsConnect/tests/B2X.IdsConnectAdapter.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Projektmappenelemente/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Project Path="AppHost/B2X.AppHost.csproj" />
+  <Project Path="ServiceDefaults/B2X.ServiceDefaults.csproj" />
+</Solution>

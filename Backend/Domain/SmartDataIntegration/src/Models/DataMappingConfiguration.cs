@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using B2Connect.Shared.Core.Entities;
-using B2Connect.Shared.Kernel;
+using B2X.Shared.Core.Entities;
+using B2X.Shared.Kernel;
 
-namespace B2Connect.SmartDataIntegration.Models
+namespace B2X.SmartDataIntegration.Models
 {
     /// <summary>
     /// Represents a data mapping configuration between source and target systems

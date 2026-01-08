@@ -1,6 +1,6 @@
-{
+﻿{
   "profiles": {
-    "B2Connect.Identity.API": {
+    "B2X.Identity.API": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {

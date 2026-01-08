@@ -1,10 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
-using B2Connect.Api.Models.Erp;
-using B2Connect.Api.Validation;
+using B2X.Api.Models.Erp;
+using B2X.Api.Validation;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Api.Connectors;
+namespace B2X.Api.Connectors;
 
 public class EnventaConnector : IErpConnector
 {

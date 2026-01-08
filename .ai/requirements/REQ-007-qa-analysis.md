@@ -1,4 +1,12 @@
-# @QA Analyse für REQ-007 Email WYSIWYG Builder (v2.0)
+---
+docid: REQ-060
+title: REQ 007 Qa Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# @QA Analyse für REQ-007 Email WYSIWYG Builder (v2.0)
 
 **Anforderung**: Email WYSIWYG Builder mit Drag&Drop für Marketing-Teams  
 **Framework**: PRM-010 v2.0 - Domain-spezifische Analyse für @QA + Use-Case-Template  
@@ -121,4 +129,4 @@ Marketing Manager (Sarah, 35, 5 Jahre Erfahrung)
 - [ ] HTML Export valide und Client-kompatibel
 - [ ] User Session ohne Datenverlust
 - [ ] Audit-Log für Compliance aktualisiert</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-007-qa-analysis.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-007-qa-analysis.md

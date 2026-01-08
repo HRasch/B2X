@@ -1,4 +1,4 @@
-# Database Schema: Price Calculation & VAT Validation
+﻿# Database Schema: Price Calculation & VAT Validation
 
 **Version**: 1.0  
 **Last Updated**: 29. Dezember 2025  
@@ -81,7 +81,7 @@ CREATE INDEX idx_vat_validations_tenant_country
 ```csharp
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Catalog.Models;
+namespace B2X.Catalog.Models;
 
 public class VatIdValidationCache
 {
@@ -131,7 +131,7 @@ public class VatIdValidationCache
 ```csharp
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Catalog.Data;
+namespace B2X.Catalog.Data;
 
 protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
@@ -210,8 +210,8 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 
 ```bash
 dotnet ef migrations add InitialVatValidationCache \
-  --project backend/Domain/Catalog/src/B2Connect.Catalog.API.csproj \
-  --startup-project backend/Domain/Catalog/src/B2Connect.Catalog.API.csproj \
+  --project backend/Domain/Catalog/src/B2X.Catalog.API.csproj \
+  --startup-project backend/Domain/Catalog/src/B2X.Catalog.API.csproj \
   --context ApplicationDbContext \
   --output-dir Data/Migrations
 ```
@@ -222,7 +222,7 @@ dotnet ef migrations add InitialVatValidationCache \
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace B2Connect.Catalog.Data.Migrations
+namespace B2X.Catalog.Data.Migrations
 {
     public partial class InitialVatValidationCache : Migration
     {
@@ -300,13 +300,13 @@ namespace B2Connect.Catalog.Data.Migrations
 ```bash
 # Development
 dotnet ef database update \
-  --project backend/Domain/Catalog/src/B2Connect.Catalog.API.csproj \
-  --startup-project backend/Domain/Catalog/src/B2Connect.Catalog.API.csproj
+  --project backend/Domain/Catalog/src/B2X.Catalog.API.csproj \
+  --startup-project backend/Domain/Catalog/src/B2X.Catalog.API.csproj
 
 # Production (with confirmation)
 dotnet ef database update \
-  --project backend/Domain/Catalog/src/B2Connect.Catalog.API.csproj \
-  --startup-project backend/Domain/Catalog/src/B2Connect.Catalog.API.csproj \
+  --project backend/Domain/Catalog/src/B2X.Catalog.API.csproj \
+  --startup-project backend/Domain/Catalog/src/B2X.Catalog.API.csproj \
   --environment Production
 ```
 

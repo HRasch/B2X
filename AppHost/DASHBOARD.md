@@ -1,6 +1,6 @@
-# B2Connect Backend Dashboard
+﻿# B2X Backend Dashboard
 
-Ein AdminLTE-basiertes Dashboard zur Überwachung aller B2Connect Microservices.
+Ein AdminLTE-basiertes Dashboard zur Überwachung aller B2X Microservices.
 
 ## Verfügbarkeit
 
@@ -144,7 +144,7 @@ Gibt den Status aller Services im JSON-Format zurück.
 ## Starten
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect/backend/services/AppHost
+cd /Users/holger/Documents/Projekte/B2X/backend/services/AppHost
 dotnet run --urls "http://localhost:9000"
 ```
 

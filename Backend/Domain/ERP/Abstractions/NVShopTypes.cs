@@ -1,10 +1,10 @@
 // NVShop abstraction types for enventa ERP integration
-// These types define the contracts for HTTP communication between B2Connect (.NET 10)
+// These types define the contracts for HTTP communication between B2X (.NET 10)
 // and the ERP Connector (.NET Framework 4.8)
 //
 // Architecture:
-// - B2Connect.ERP.Abstractions (.NET 10): DTOs and interfaces for HTTP communication
-// - B2Connect.ERP (.NET 10): Receives data via HTTP/REST from the connector
+// - B2X.ERP.Abstractions (.NET 10): DTOs and interfaces for HTTP communication
+// - B2X.ERP (.NET 10): Receives data via HTTP/REST from the connector
 // - ERP Connector (.NET 4.8): Separate project with FSGlobalPool, FSUtil, and actual enventa DAL
 
 namespace NVShop.Data.NV.Model;

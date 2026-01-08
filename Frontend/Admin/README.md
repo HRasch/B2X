@@ -1,6 +1,6 @@
-# Admin Frontend - B2Connect
+﻿# Admin Frontend - B2X
 
-Professional admin dashboard for B2Connect platform built with Vue 3, TypeScript, and Vite.
+Professional admin dashboard for B2X platform built with Vue 3, TypeScript, and Vite.
 
 **Status**: ✅ Production Ready | **Coverage**: 91% | **Tests**: 230+
 
@@ -224,7 +224,7 @@ npm run e2e:ui
 
 ```
 Development: http://localhost:9000/api
-Production: https://api.b2connect.com/api
+Production: https://api.B2X.com/api
 ```
 
 ### Request Format
@@ -311,7 +311,7 @@ npm run test
 
 ## 📄 License
 
-Proprietary - B2Connect Platform
+Proprietary - B2X Platform
 
 - `npm run preview` - Preview production build
 - `npm run test` - Run unit tests

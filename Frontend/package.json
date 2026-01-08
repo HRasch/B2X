@@ -1,8 +1,8 @@
 {
-  "name": "b2connect-frontend-monorepo",
+  "name": "B2X-frontend-monorepo",
   "version": "1.0.0",
   "private": true,
-  "description": "B2Connect Frontend Monorepo - Store, Admin, and Management portals",
+  "description": "B2X Frontend Monorepo - Store, Admin, and Management portals",
   "workspaces": [
     "Store",
     "Admin",
@@ -27,12 +27,14 @@
     "npm": ">=10.0.0"
   },
   "keywords": [
-    "b2connect",
+    "B2X",
     "vue3",
     "frontend",
     "monorepo"
   ],
   "dependencies": {
+    "@nuxt/cli": "^3.32.0",
+    "@nuxt/kit": "^3.20.2",
     "@pinia/nuxt": "^0.11.3",
     "pinia": "^3.0.4"
   }

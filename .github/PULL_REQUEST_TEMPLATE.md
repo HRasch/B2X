@@ -1,3 +1,11 @@
+---
+docid: DOC-017
+title: PULL_REQUEST_TEMPLATE
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 <!--
 Required fields for PRs: Plan link (ADR or issue), Acceptance criteria, Tests added.
 -->

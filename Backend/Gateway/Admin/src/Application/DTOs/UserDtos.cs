@@ -1,4 +1,4 @@
-namespace B2Connect.Admin.Application.DTOs;
+namespace B2X.Admin.Application.DTOs;
 
 // AddressType Enum - represents different address purposes
 public enum AddressType

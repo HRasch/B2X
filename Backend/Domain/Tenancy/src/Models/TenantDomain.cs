@@ -1,11 +1,11 @@
-using B2Connect.Types.Domain;
+using B2X.Types.Domain;
 
-namespace B2Connect.Tenancy.Models;
+namespace B2X.Tenancy.Models;
 
 /// <summary>
 /// Represents a domain associated with a tenant.
 /// Each tenant can have multiple domains (one primary, rest secondary).
-/// Supports both subdomains (*.b2connect.de) and custom domains.
+/// Supports both subdomains (*.B2X.de) and custom domains.
 /// </summary>
 public class TenantDomain : Entity
 {
@@ -15,7 +15,7 @@ public class TenantDomain : Entity
     public Guid TenantId { get; set; }
 
     /// <summary>
-    /// The full domain name (e.g., "shop.b2connect.de" or "store.example.com").
+    /// The full domain name (e.g., "shop.B2X.de" or "store.example.com").
     /// Must be unique across all tenants.
     /// </summary>
     public required string DomainName { get; set; }
@@ -130,7 +130,7 @@ public class TenantDomain : Entity
 public enum DomainType
 {
     /// <summary>
-    /// Automatic subdomain under *.b2connect.de.
+    /// Automatic subdomain under *.B2X.de.
     /// No verification required.
     /// </summary>
     Subdomain = 0,

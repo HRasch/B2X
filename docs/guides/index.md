@@ -1,15 +1,15 @@
----
+﻿---
 layout: default
-title: B2Connect Dokumentation
+title: B2X Dokumentation
 ---
 
-# 📚 B2Connect Dokumentation
+# 📚 B2X Dokumentation
 
-Willkommen zur offiziellen B2Connect Dokumentation!
+Willkommen zur offiziellen B2X Dokumentation!
 
-## 🎯 Was ist B2Connect?
+## 🎯 Was ist B2X?
 
-B2Connect ist eine moderne **SaaS-Plattform** für E-Commerce mit:
+B2X ist eine moderne **SaaS-Plattform** für E-Commerce mit:
 - 🛍️ **Online Store** für Kunden
 - ⚙️ **Admin Panel** für Shop-Manager
 - 🚀 **Moderne Architektur** (Microservices, .NET, Vue.js)
@@ -21,7 +21,7 @@ B2Connect ist eine moderne **SaaS-Plattform** für E-Commerce mit:
 
 ### Für Kunden & Store-Nutzer
 
-Erfahren Sie, wie Sie die B2Connect Store nutzen:
+Erfahren Sie, wie Sie die B2X Store nutzen:
 
 📖 **[Kundenguide →](../archive/reference-docs/USER_GUIDE.md#-für-kunden-store)**
 
@@ -140,7 +140,7 @@ Siehe auch: [Sicherheit & Compliance](../archive/reference-docs/USER_GUIDE.md#-d
 
 ### Kundensupport
 
-- **E-Mail:** support@b2connect.com
+- **E-Mail:** support@B2X.com
 - **Telefon:** +1-800-xxx-xxxx
 - **Live Chat:** Mo-Fr 09:00-18:00 CET
 
@@ -184,14 +184,14 @@ Weitere Dokumentation finden Sie in: [DOCUMENTATION_INDEX.md](../archive/process
    - Admin-Probleme → [Admin-Guide](../archive/reference-docs/USER_GUIDE.md)
    - Entwickler-Probleme → [Technische Docs](../archive/reference-docs/SOFTWARE_DOCUMENTATION.md)
 3. **Kontaktieren Sie Support:**
-   - support@b2connect.com
+   - support@B2X.com
    - Live Chat (Mo-Fr 09:00-18:00 CET)
 
 ---
 
 ## 📈 Was kommt noch?
 
-B2Connect wird kontinuierlich verbessert:
+B2X wird kontinuierlich verbessert:
 
 - 🔄 Regelmäßige Updates
 - 🆕 Neue Features
@@ -208,6 +208,6 @@ B2Connect wird kontinuierlich verbessert:
 
 <div style="text-align: center; margin-top: 40px;">
 
-### Viel Erfolg mit B2Connect! 🚀
+### Viel Erfolg mit B2X! 🚀
 
 </div>

@@ -1,12 +1,12 @@
-using B2Connect.Store.Core.Store.Entities;
+﻿using B2X.Store.Core.Store.Entities;
 
-namespace B2Connect.Store.Core.Store.Interfaces;
+namespace B2X.Store.Core.Store.Interfaces;
 
 /// <summary>
 /// Repository interface for ShippingMethod operations
 /// Store-specific interface for Shipping Method management
 /// </summary>
-public interface IShippingMethodRepository : B2Connect.Store.Core.Common.Interfaces.IRepository<ShippingMethod>
+public interface IShippingMethodRepository : B2X.Store.Core.Common.Interfaces.IRepository<ShippingMethod>
 {
     /// <summary>Gets a shipping method by code</summary>
     Task<ShippingMethod?> GetByCodeAsync(string code, CancellationToken cancellationToken = default);

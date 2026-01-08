@@ -1,3 +1,11 @@
+---
+docid: SPR-043
+title: INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📅 Iteration Planning & Tracking Index
 
 **Current Iteration:** Iteration 001  

@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace B2Connect.Returns.Core.Entities;
+namespace B2X.Returns.Core.Entities;
 
 /// <summary>
 /// Return entity representing a customer's withdrawal right within 14-day VVVG period.

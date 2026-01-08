@@ -1,4 +1,4 @@
-# B2Connect - Software Definition
+﻿# B2X - Software Definition
 
 **Owner**: @software-architect  
 **Last Updated**: 29. Dezember 2025  
@@ -10,7 +10,7 @@
 
 ## 🎯 Vision
 
-B2Connect is a **multi-tenant SaaS e-commerce platform** enabling German/EU businesses (B2C retailers, B2B wholesalers, digital merchants) to sell online with full regulatory compliance, integrated ERP connectivity, and AI-powered optimization.
+B2X is a **multi-tenant SaaS e-commerce platform** enabling German/EU businesses (B2C retailers, B2B wholesalers, digital merchants) to sell online with full regulatory compliance, integrated ERP connectivity, and AI-powered optimization.
 
 ---
 
@@ -280,7 +280,7 @@ B2Connect is a **multi-tenant SaaS e-commerce platform** enabling German/EU busi
 
 ## 🎯 Success Metrics
 
-**B2Connect is successful when**:
+**B2X is successful when**:
 
 ✅ **100+ shops** operational (Year 1)  
 ✅ **<500ms** average product list response time  

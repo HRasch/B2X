@@ -1,13 +1,13 @@
-using B2Connect.AppHost.Configuration;
-using B2Connect.AppHost.Services;
-using B2Connect.AppHost.Validation;
+﻿using B2X.AppHost.Configuration;
+using B2X.AppHost.Services;
+using B2X.AppHost.Validation;
 using Bogus;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.AppHost.Tests.Services;
+namespace B2X.AppHost.Tests.Services;
 
 /// <summary>
 /// Unit tests for seeding infrastructure components.
@@ -252,7 +252,7 @@ public class SeedingInfrastructureTests
     public void ValidationResult_ShouldThrowOnCriticalErrors()
     {
         // Arrange
-        var result = new B2Connect.AppHost.Validation.ValidationResult
+        var result = new B2X.AppHost.Validation.ValidationResult
         {
             IsValid = false,
             Errors = ["Critical error", "Warning: This is just a warning"]
@@ -268,7 +268,7 @@ public class SeedingInfrastructureTests
     public void ValidationResult_ShouldNotThrowOnWarningsOnly()
     {
         // Arrange
-        var result = new B2Connect.AppHost.Validation.ValidationResult
+        var result = new B2X.AppHost.Validation.ValidationResult
         {
             IsValid = true,
             Errors = ["Warning: This is just a warning"]

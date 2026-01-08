@@ -1,8 +1,8 @@
-using B2Connect.CMS.Infrastructure.Repositories;
+using B2X.CMS.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace B2Connect.CMS.Infrastructure.Context;
+namespace B2X.CMS.Infrastructure.Context;
 
 public class CmsDbContextFactory : IDesignTimeDbContextFactory<CmsDbContext>
 {
@@ -12,7 +12,7 @@ public class CmsDbContextFactory : IDesignTimeDbContextFactory<CmsDbContext>
 
         // Use a default connection string for migrations
         // In production, this will be configured via dependency injection
-        optionsBuilder.UseNpgsql("Host=localhost;Database=b2connect_cms;Username=postgres;Password=password",
+        optionsBuilder.UseNpgsql("Host=localhost;Database=B2X_cms;Username=postgres;Password=password",
             npgsqlOptions =>
             {
                 npgsqlOptions.MigrationsHistoryTable("__ef_migrations_history", "cms");

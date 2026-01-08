@@ -78,8 +78,8 @@ function getIcon(iconName: string): string {
 <template>
   <div class="widget-palette">
     <div class="widget-palette__header">
-      <h3 class="widget-palette__title">Widgets</h3>
-      <p class="widget-palette__subtitle">Drag & Drop oder Klicken</p>
+      <h3 class="widget-palette__title">{{ $t('pageBuilder.palette.title') }}</h3>
+      <p class="widget-palette__subtitle">{{ $t('pageBuilder.palette.subtitle') }}</p>
     </div>
 
     <div class="widget-palette__categories">

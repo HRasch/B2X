@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 TEST_LOG="/tmp/aspire-startup-test.log"
 echo "=== Aspire Startup Test $(date) ===" > "$TEST_LOG"
@@ -8,7 +8,7 @@ echo ""
 
 # 1. Kill alle Services
 echo "🛑 Schritt 1: Stoppe alle Services..."
-/Users/holger/Documents/Projekte/B2Connect/scripts/kill-all-services.sh >> "$TEST_LOG" 2>&1
+/Users/holger/Documents/Projekte/B2X/scripts/kill-all-services.sh >> "$TEST_LOG" 2>&1
 sleep 2
 
 # 2. Verifiziere Port ist frei
@@ -41,9 +41,9 @@ MONITOR_PID=$!
 echo "🚀 Schritt 4: Starte Aspire Orchestration..."
 echo "[$( date +%H:%M:%S.%3N)] START: dotnet build" | tee -a "$TEST_LOG"
 
-cd /Users/holger/Documents/Projekte/B2Connect/backend/AppHost
+cd /Users/holger/Documents/Projekte/B2X/backend/AppHost
 
-dotnet build B2Connect.AppHost.csproj >> "$TEST_LOG" 2>&1
+dotnet build B2X.AppHost.csproj >> "$TEST_LOG" 2>&1
 BUILD_EXIT=$?
 
 echo "[$( date +%H:%M:%S.%3N)] BUILD FERTIG (Exit: $BUILD_EXIT)" | tee -a "$TEST_LOG"
@@ -74,7 +74,7 @@ echo "🛑 Stoppe Aspire..."
 kill $ASPIRE_PID 2>/dev/null
 sleep 2
 
-/Users/holger/Documents/Projekte/B2Connect/scripts/kill-all-services.sh >> "$TEST_LOG" 2>&1
+/Users/holger/Documents/Projekte/B2X/scripts/kill-all-services.sh >> "$TEST_LOG" 2>&1
 
 echo ""
 echo "📝 Vollständiges Log: cat $TEST_LOG"

@@ -1,15 +1,15 @@
-using B2Connect.Tenancy.Handlers.Jobs;
-using B2Connect.Tenancy.Models;
-using B2Connect.Tenancy.Repositories;
-using B2Connect.Tenancy.Services;
-using B2Connect.Types.Domain;
+using B2X.Tenancy.Handlers.Jobs;
+using B2X.Tenancy.Models;
+using B2X.Tenancy.Repositories;
+using B2X.Tenancy.Services;
+using B2X.Types.Domain;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
 using Wolverine;
 using Xunit;
 
-namespace B2Connect.Tenancy.Tests.Jobs;
+namespace B2X.Tenancy.Tests.Jobs;
 
 /// <summary>
 /// Unit tests for DnsVerificationJob.

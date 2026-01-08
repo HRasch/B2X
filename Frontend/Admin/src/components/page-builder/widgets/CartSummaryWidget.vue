@@ -4,7 +4,7 @@
  */
 import type { CartSummaryWidgetConfig } from '@/types/widgets';
 
-const props = defineProps<{
+defineProps<{
   config: CartSummaryWidgetConfig;
   isEditing?: boolean;
 }>();
@@ -42,38 +42,38 @@ const itemCount = mockCart.items.reduce((sum, item) => sum + item.quantity, 0);
     <template v-else>
       <!-- Item Count -->
       <div v-if="config.showItemCount" class="cart-summary__row cart-summary__row--muted">
-        <span>Artikel</span>
+        <span>{{ $t('cart.summary.items') }}</span>
         <span>{{ itemCount }} Stück</span>
       </div>
 
       <!-- Subtotal -->
       <div v-if="config.showSubtotal" class="cart-summary__row">
-        <span>Zwischensumme</span>
+        <span>{{ $t('cart.summary.subtotal') }}</span>
         <span>{{ mockCart.subtotal.toFixed(2) }} €</span>
       </div>
 
       <!-- Shipping -->
       <div v-if="config.showShipping" class="cart-summary__row">
-        <span>Versand</span>
+        <span>{{ $t('cart.summary.shipping') }}</span>
         <span v-if="mockCart.shipping > 0">{{ mockCart.shipping.toFixed(2) }} €</span>
-        <span v-else class="cart-summary__free">Kostenlos</span>
+        <span v-else class="cart-summary__free">{{ $t('cart.summary.free') }}</span>
       </div>
 
       <!-- Tax -->
       <div v-if="config.showTax" class="cart-summary__row cart-summary__row--muted">
-        <span>inkl. MwSt.</span>
+        <span>{{ $t('cart.summary.taxIncluded') }}</span>
         <span>{{ mockCart.tax.toFixed(2) }} €</span>
       </div>
 
       <!-- Promo Code -->
       <div v-if="config.showPromoCode" class="cart-summary__promo">
         <input type="text" placeholder="Gutscheincode" class="cart-summary__promo-input" />
-        <button class="cart-summary__promo-btn">Einlösen</button>
+        <button class="cart-summary__promo-btn">{{ $t('cart.summary.redeem') }}</button>
       </div>
 
       <!-- Total -->
       <div v-if="config.showTotal" class="cart-summary__row cart-summary__row--total">
-        <span>Gesamtsumme</span>
+        <span>{{ $t('cart.summary.total') }}</span>
         <span>{{ mockCart.total.toFixed(2) }} €</span>
       </div>
 
@@ -97,13 +97,13 @@ const itemCount = mockCart.items.reduce((sum, item) => sum + item.quantity, 0);
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </svg>
-          <span>SSL-verschlüsselt</span>
+          <span>{{ $t('cart.summary.sslEncrypted') }}</span>
         </div>
         <div class="cart-summary__trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span>Käuferschutz</span>
+          <span>{{ $t('cart.summary.buyerProtection') }}</span>
         </div>
       </div>
     </template>

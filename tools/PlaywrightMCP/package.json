@@ -1,7 +1,7 @@
-{
+﻿{
   "name": "playwright-mcp",
   "version": "1.0.0",
-  "description": "Playwright MCP Server for B2Connect - Browser automation and E2E testing",
+  "description": "Playwright MCP Server for B2X - Browser automation and E2E testing",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "testing",
     "e2e"
   ],
-  "author": "B2Connect Team",
+  "author": "B2X Team",
   "license": "MIT",
   "dependencies": {
     "@playwright/mcp": "^0.0.54"

@@ -1,4 +1,12 @@
 ---
+docid: PRM-048
+title: Requirements Analysis.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: SARAH
 description: Multi-Agent Requirements Analysis - Koordinierte Anforderungsanalyse
 ---

@@ -1,3 +1,11 @@
+---
+docid: WF-013
+title: WF 002 Subagent Delegation.Workflow
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Delegation Implementation Workflow
 
 **Version:** 1.0  

@@ -1,4 +1,12 @@
-# Microsoft.Extensions.AI - Unified AI Abstractions
+---
+docid: KB-091
+title: Microsoft.Extensions.AI
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Microsoft.Extensions.AI - Unified AI Abstractions
 
 **DocID**: `KB-SW-MSAI`  
 **Last Updated**: 4. Januar 2026  
@@ -209,9 +217,9 @@ if (response.Usage?.TotalTokenCount is not null)
 
 ---
 
-## B2Connect Implementation
+## B2X Implementation
 
-See [AiProviders.cs](../../../backend/BoundedContexts/Admin/MCP/B2Connect.Admin.MCP/Services/AiProviders.cs) for our multi-provider implementation using Microsoft.Extensions.AI patterns.
+See [AiProviders.cs](../../../backend/BoundedContexts/Admin/MCP/B2X.Admin.MCP/Services/AiProviders.cs) for our multi-provider implementation using Microsoft.Extensions.AI patterns.
 
 **Supported Providers:**
 - OpenAI (GPT-4, GPT-4o, etc.)

@@ -1,4 +1,12 @@
-# Phase 2: DNS & SSL Infrastructure - Planning Document
+---
+docid: REQ-065
+title: REQ PHASE2 DOMAIN INFRASTRUCTURE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Phase 2: DNS & SSL Infrastructure - Planning Document
 
 **DocID**: `REQ-PHASE2-DNS-SSL`  
 **Status**: Planning  
@@ -129,7 +137,7 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - "*.b2connect.de"
+    - "*.B2X.de"
     - "custom-domain.com"
 ```
 
@@ -182,7 +190,7 @@ public class DomainHealthService
 
 ### 2.5 Reverse Proxy Configuration
 
-**Current**: nginx/Traefik with wildcard `*.b2connect.de`
+**Current**: nginx/Traefik with wildcard `*.B2X.de`
 
 **Required Changes**:
 1. Dynamic upstream configuration for custom domains
@@ -313,7 +321,7 @@ ALTER TABLE tenant_domains ADD COLUMN ssl_issuer VARCHAR(100);
 
 1. **Cloudflare vs self-managed SSL**: Should we require Cloudflare proxy for custom domains to simplify SSL?
 2. **DNS propagation delay**: How to handle DNS propagation delays (up to 48 hours)?
-3. **Subdomain wildcards**: Should tenants be able to create `*.tenant.b2connect.de` subdomains?
+3. **Subdomain wildcards**: Should tenants be able to create `*.tenant.B2X.de` subdomains?
 4. **Custom domain limits**: Maximum custom domains per tenant?
 
 ---

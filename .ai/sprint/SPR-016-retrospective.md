@@ -1,4 +1,12 @@
 ---
+docid: SPR-112
+title: SPR 016 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-016-RETRO
 title: Sprint 2026-16 Retrospective - Advanced AI Ethics & Intelligent Infrastructure
 owner: @ScrumMaster

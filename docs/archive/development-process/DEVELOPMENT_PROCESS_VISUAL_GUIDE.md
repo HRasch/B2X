@@ -1,4 +1,4 @@
-# Development Process - Visual Summary
+﻿# Development Process - Visual Summary
 
 **Quick Visual Guide** | **One-Page Reference** | **Share in Team**
 
@@ -46,7 +46,7 @@
 │  ┌─────────────────────────────────────────────────────────────────┐   │
 │  │ BUILD GATE #1: Before Continuing                               │   │
 │  │                                                                 │   │
-│  │  dotnet build B2Connect.slnx                                    │   │
+│  │  dotnet build B2X.slnx                                    │   │
 │  │     ↓ FAIL → Fix immediately (cannot proceed)                  │   │
 │  │     ↓ PASS → Continue                                          │   │
 │  └─────────────────────────────────────────────────────────────────┘   │
@@ -60,7 +60,7 @@
 │  ┌─────────────────────────────────────────────────────────────────┐   │
 │  │ BUILD GATE #2: All Tests Pass Locally                           │   │
 │  │                                                                 │   │
-│  │  dotnet test B2Connect.slnx                                     │   │
+│  │  dotnet test B2X.slnx                                     │   │
 │  │  Coverage >= 80%                                                │   │
 │  │     ↓ FAIL → Fix immediately (cannot push)                     │   │
 │  │     ↓ PASS → Push to GitHub                                    │   │
@@ -78,8 +78,8 @@
 │  ┌─────────────────────────────────────────────────────────────────┐   │
 │  │ BUILD GATE #3: GitHub Actions CI (Automatic)                   │   │
 │  │                                                                 │   │
-│  │  ✅ Build: dotnet build B2Connect.slnx                          │   │
-│  │  ✅ Test: dotnet test B2Connect.slnx                            │   │
+│  │  ✅ Build: dotnet build B2X.slnx                          │   │
+│  │  ✅ Test: dotnet test B2X.slnx                            │   │
 │  │  ✅ Coverage: >= 75%                                            │   │
 │  │  ✅ Lint: StyleCop + ESLint                                     │   │
 │  │     ↓ FAIL → Developer fixes immediately                       │   │
@@ -230,8 +230,8 @@ Efficiency Gains .................... Target: ≥10%
 Before pushing your code:
 
 ```
-□ Code compiles: dotnet build B2Connect.slnx ✅
-□ All tests pass: dotnet test B2Connect.slnx ✅
+□ Code compiles: dotnet build B2X.slnx ✅
+□ All tests pass: dotnet test B2X.slnx ✅
 □ Coverage >= 80% ✅
 □ No hardcoded secrets ✅
 □ Agent changes marked: // 🤖 ✅

@@ -1,4 +1,4 @@
-﻿namespace B2Connect.IdsConnectAdapter.Tests;
+﻿namespace B2X.IdsConnectAdapter.Tests;
 
 public class UnitTest1
 {

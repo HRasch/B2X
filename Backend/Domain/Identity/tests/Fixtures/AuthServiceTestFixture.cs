@@ -1,4 +1,4 @@
-using B2Connect.AuthService.Data;
+using B2X.AuthService.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Identity.Tests.Fixtures;
+namespace B2X.Identity.Tests.Fixtures;
 
 /// <summary>
 /// Base fixture for AuthService tests with in-memory database and Identity setup
@@ -45,8 +45,8 @@ public class AuthServiceTestFixture : IAsyncLifetime
         // Mock configuration for JWT
         var configMock = new Mock<IConfiguration>();
         configMock.Setup(x => x["Jwt:Secret"]).Returns("test-secret-key-minimum-32-characters-required!!!!");
-        configMock.Setup(x => x["Jwt:Issuer"]).Returns("B2Connect.Test");
-        configMock.Setup(x => x["Jwt:Audience"]).Returns("B2Connect.Admin.Test");
+        configMock.Setup(x => x["Jwt:Issuer"]).Returns("B2X.Test");
+        configMock.Setup(x => x["Jwt:Audience"]).Returns("B2X.Admin.Test");
         _services.AddSingleton(configMock.Object);
 
         // Add logging
@@ -57,8 +57,8 @@ public class AuthServiceTestFixture : IAsyncLifetime
         {
             var config = sp.GetRequiredService<IConfiguration>();
             var userManager = sp.GetRequiredService<UserManager<AppUser>>();
-            var logger = sp.GetRequiredService<ILogger<B2Connect.AuthService.Data.AuthService>>();
-            return new B2Connect.AuthService.Data.AuthService(userManager, config, logger);
+            var logger = sp.GetRequiredService<ILogger<B2X.AuthService.Data.AuthService>>();
+            return new B2X.AuthService.Data.AuthService(userManager, config, logger);
         });
 
         // Build service provider

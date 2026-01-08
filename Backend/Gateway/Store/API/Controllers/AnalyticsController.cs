@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using B2Connect.Store.API.Models;
+using B2X.Store.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.Store.API.Controllers
+namespace B2X.Store.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

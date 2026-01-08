@@ -1,4 +1,12 @@
 ---
+docid: ADR-112
+title: INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-INDEX
 title: Architecture & Knowledge Base Index
 owner: "@Architect"
@@ -445,5 +453,5 @@ When new architecture decisions are made:
 
 ---
 
-*This index is the central hub for all B2Connect architecture documentation.*  
+*This index is the central hub for all B2X architecture documentation.*  
 *Keep it current. Link to it from relevant work. Use it to onboard new team members.*

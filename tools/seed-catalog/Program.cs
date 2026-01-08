@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2X.Admin.Infrastructure.Data;
+using B2X.Shared.Tenancy.Infrastructure.Context;
 
-namespace B2Connect.Tools.SeedCatalog
+namespace B2X.Tools.SeedCatalog
 {
     class Program
     {

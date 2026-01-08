@@ -68,7 +68,7 @@ function setResponsiveValue<T>(field: string, value: T) {
 <template>
   <div class="widget-configurator">
     <div class="widget-configurator__header">
-      <h3 class="widget-configurator__title">Konfiguration</h3>
+      <h3 class="widget-configurator__title">{{ $t('pageBuilder.configurator.title') }}</h3>
     </div>
 
     <div v-if="!hasSelection" class="widget-configurator__empty">
@@ -83,13 +83,17 @@ function setResponsiveValue<T>(field: string, value: T) {
           d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
         />
       </svg>
-      <p class="widget-configurator__empty-text">Wähle ein Widget aus, um es zu konfigurieren</p>
+      <p class="widget-configurator__empty-text">
+        {{ $t('pageBuilder.configurator.selectWidget') }}
+      </p>
     </div>
 
     <div v-else class="widget-configurator__content">
       <!-- Widget Name -->
       <div class="widget-configurator__section">
-        <label class="widget-configurator__label">Widget</label>
+        <label class="widget-configurator__label">{{
+          $t('pageBuilder.configurator.widget')
+        }}</label>
         <div class="widget-configurator__widget-info">
           <span class="widget-configurator__widget-type">{{ selectedWidget?.type }}</span>
         </div>
@@ -97,7 +101,9 @@ function setResponsiveValue<T>(field: string, value: T) {
 
       <!-- Common Styles -->
       <div class="widget-configurator__section">
-        <label class="widget-configurator__label">Allgemein</label>
+        <label class="widget-configurator__label">{{
+          $t('pageBuilder.configurator.general')
+        }}</label>
         <div class="widget-configurator__group">
           <!-- Visibility -->
           <label class="widget-configurator__checkbox">
@@ -114,7 +120,7 @@ function setResponsiveValue<T>(field: string, value: T) {
                 })
               "
             />
-            <span>Sichtbar</span>
+            <span>{{ $t('pageBuilder.configurator.visible') }}</span>
           </label>
         </div>
       </div>
@@ -122,7 +128,9 @@ function setResponsiveValue<T>(field: string, value: T) {
       <!-- Text Widget Config -->
       <template v-if="selectedWidget?.type === 'text'">
         <div class="widget-configurator__section">
-          <label class="widget-configurator__label">Text</label>
+          <label class="widget-configurator__label">{{
+            $t('pageBuilder.configurator.text')
+          }}</label>
           <textarea
             :value="getResponsiveValue((selectedWidget.config as TextWidgetConfig).content || '')"
             @input="setResponsiveValue('content', ($event.target as HTMLTextAreaElement).value)"
@@ -132,7 +140,9 @@ function setResponsiveValue<T>(field: string, value: T) {
           />
         </div>
         <div class="widget-configurator__section">
-          <label class="widget-configurator__label">HTML-Tag</label>
+          <label class="widget-configurator__label">{{
+            $t('pageBuilder.configurator.htmlTag')
+          }}</label>
           <select
             :value="(selectedWidget.config as TextWidgetConfig).tag || 'p'"
             @change="
@@ -150,18 +160,20 @@ function setResponsiveValue<T>(field: string, value: T) {
             "
             class="widget-configurator__select"
           >
-            <option value="p">Absatz (p)</option>
-            <option value="h1">Überschrift 1 (h1)</option>
-            <option value="h2">Überschrift 2 (h2)</option>
-            <option value="h3">Überschrift 3 (h3)</option>
-            <option value="h4">Überschrift 4 (h4)</option>
-            <option value="h5">Überschrift 5 (h5)</option>
-            <option value="h6">Überschrift 6 (h6)</option>
-            <option value="span">Inline (span)</option>
+            <option value="p">{{ $t('pageBuilder.configurator.paragraph') }}</option>
+            <option value="h1">{{ $t('pageBuilder.configurator.heading1') }}</option>
+            <option value="h2">{{ $t('pageBuilder.configurator.heading2') }}</option>
+            <option value="h3">{{ $t('pageBuilder.configurator.heading3') }}</option>
+            <option value="h4">{{ $t('pageBuilder.configurator.heading4') }}</option>
+            <option value="h5">{{ $t('pageBuilder.configurator.heading5') }}</option>
+            <option value="h6">{{ $t('pageBuilder.configurator.heading6') }}</option>
+            <option value="span">{{ $t('pageBuilder.configurator.inline') }}</option>
           </select>
         </div>
         <div class="widget-configurator__section">
-          <label class="widget-configurator__label">Ausrichtung</label>
+          <label class="widget-configurator__label">{{
+            $t('pageBuilder.configurator.alignment')
+          }}</label>
           <div class="widget-configurator__button-group">
             <button
               :class="[
@@ -173,7 +185,7 @@ function setResponsiveValue<T>(field: string, value: T) {
               ]"
               @click="updateConfig({ align: 'left' })"
             >
-              Links
+              {{ $t('pageBuilder.configurator.left') }}
             </button>
             <button
               :class="[
@@ -185,7 +197,7 @@ function setResponsiveValue<T>(field: string, value: T) {
               ]"
               @click="updateConfig({ align: 'center' })"
             >
-              Mitte
+              {{ $t('pageBuilder.configurator.center') }}
             </button>
             <button
               :class="[
@@ -197,7 +209,7 @@ function setResponsiveValue<T>(field: string, value: T) {
               ]"
               @click="updateConfig({ align: 'right' })"
             >
-              Rechts
+              {{ $t('pageBuilder.configurator.right') }}
             </button>
           </div>
         </div>
@@ -206,7 +218,9 @@ function setResponsiveValue<T>(field: string, value: T) {
       <!-- Image Widget Config -->
       <template v-else-if="selectedWidget?.type === 'image'">
         <div class="widget-configurator__section">
-          <label class="widget-configurator__label">Bild-URL</label>
+          <label class="widget-configurator__label">{{
+            $t('pageBuilder.configurator.imageUrl')
+          }}</label>
           <input
             type="text"
             :value="getResponsiveValue((selectedWidget.config as ImageWidgetConfig).src || '')"
@@ -216,7 +230,9 @@ function setResponsiveValue<T>(field: string, value: T) {
           />
         </div>
         <div class="widget-configurator__section">
-          <label class="widget-configurator__label">Alt-Text</label>
+          <label class="widget-configurator__label">{{
+            $t('pageBuilder.configurator.altText')
+          }}</label>
           <input
             type="text"
             :value="(selectedWidget.config as ImageWidgetConfig).alt || ''"
@@ -226,7 +242,9 @@ function setResponsiveValue<T>(field: string, value: T) {
           />
         </div>
         <div class="widget-configurator__section">
-          <label class="widget-configurator__label">Größe</label>
+          <label class="widget-configurator__label">{{
+            $t('pageBuilder.configurator.size')
+          }}</label>
           <div class="widget-configurator__button-group">
             <button
               :class="[
@@ -238,7 +256,7 @@ function setResponsiveValue<T>(field: string, value: T) {
               ]"
               @click="updateConfig({ objectFit: 'contain' })"
             >
-              Einpassen
+              {{ $t('pageBuilder.configurator.fit') }}
             </button>
             <button
               :class="[
@@ -250,7 +268,7 @@ function setResponsiveValue<T>(field: string, value: T) {
               ]"
               @click="updateConfig({ objectFit: 'cover' })"
             >
-              Füllen
+              {{ $t('pageBuilder.configurator.fill') }}
             </button>
           </div>
         </div>

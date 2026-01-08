@@ -1,10 +1,10 @@
-using B2Connect.Customer.Data;
-using B2Connect.Customer.Interfaces;
-using B2Connect.Customer.Models;
-using B2Connect.Customer.Services;
-using B2Connect.Customer.Validators;
-using B2Connect.ServiceDefaults;
-using B2Connect.Shared.Messaging.Extensions;
+using B2X.Customer.Data;
+using B2X.Customer.Interfaces;
+using B2X.Customer.Models;
+using B2X.Customer.Services;
+using B2X.Customer.Validators;
+using B2X.ServiceDefaults;
+using B2X.Shared.Messaging.Extensions;
 using EFCore.NamingConventions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +62,7 @@ builder.Services.AddEndpointsApiExplorer();
 // Add Database Context (Issue #32: Invoice Management)
 // Uses PostgreSQL with snake_case naming convention
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Database=b2connect_customer;Username=postgres;Password=postgres";
+    ?? "Host=localhost;Database=B2X_customer;Username=postgres;Password=postgres";
 builder.Services.AddDbContext<CustomerDbContext>(options =>
     options.UseNpgsql(connectionString)
         .UseSnakeCaseNamingConvention());

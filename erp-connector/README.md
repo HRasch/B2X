@@ -1,10 +1,10 @@
-# B2Connect ERP Connector Framework
+﻿# B2X ERP Connector Framework
 
-**Pluggable ERP Integration Framework** for B2Connect multi-tenant SaaS platform. Supports extensible ERP connectors with standardized interfaces, secure distribution, and tenant self-service management.
+**Pluggable ERP Integration Framework** for B2X multi-tenant SaaS platform. Supports extensible ERP connectors with standardized interfaces, secure distribution, and tenant self-service management.
 
 ## Overview
 
-The B2Connect ERP Connector Framework provides a pluggable architecture for integrating with multiple ERP systems. Built on ADR-034 Multi-ERP Connector Architecture, it enables seamless addition of new ERP connectors without modifying the core framework.
+The B2X ERP Connector Framework provides a pluggable architecture for integrating with multiple ERP systems. Built on ADR-034 Multi-ERP Connector Architecture, it enables seamless addition of new ERP connectors without modifying the core framework.
 
 ### Key Features
 
@@ -69,7 +69,7 @@ Run performance benchmarks using the `--benchmark` command-line argument:
 
 ```bash
 # Run performance benchmarks
-./B2Connect.ErpConnector.exe --benchmark
+./B2X.ErpConnector.exe --benchmark
 
 # Example output:
 === ERP Connector Performance Benchmark ===
@@ -120,21 +120,21 @@ Performance metrics can be exported in JSON format for analysis:
 
 #### ERP Connector CLI Integration
 
-The ERP Connector integrates with the B2Connect Administration CLI for comprehensive benchmarking and monitoring:
+The ERP Connector integrates with the B2X Administration CLI for comprehensive benchmarking and monitoring:
 
 ```bash
 # Run ERP connector benchmarks
-b2connect-admin metrics benchmark --service erp-connector --duration 60 --concurrency 5
+B2X-admin metrics benchmark --service erp-connector --duration 60 --concurrency 5
 
 # View ERP connector metrics
-b2connect-admin metrics view --service erp-connector --time-range 24h
+B2X-admin metrics view --service erp-connector --time-range 24h
 
 # Configure ERP connector monitoring
-b2connect-admin metrics config set monitoring.enabled true
-b2connect-admin metrics config set metrics.collection_interval_seconds 30
+B2X-admin metrics config set monitoring.enabled true
+B2X-admin metrics config set metrics.collection_interval_seconds 30
 
 # View active alerts
-b2connect-admin metrics alerts list --service erp-connector
+B2X-admin metrics alerts list --service erp-connector
 ```
 
 #### ERP Connector-Specific Metrics
@@ -180,7 +180,7 @@ b2connect-admin metrics alerts list --service erp-connector
                       │
                       ▼ HTTP/HTTPS (Tenant-Isolated)
 ┌─────────────────────────────────────────────────────────────┐
-│                 B2Connect Core Services                      │
+│                 B2X Core Services                      │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
 │  │   Catalog   │ │   Orders    │ │   Search    │            │
 │  │  Service    │ │  Service    │ │  Service    │            │
@@ -247,7 +247,7 @@ public class ErpConfiguration
 
 ```bash
 # List all available ERP connectors
-b2connect erp list-supported
+B2X erp list-supported
 
 # Output example:
 Available ERP Connectors:
@@ -260,20 +260,20 @@ Available ERP Connectors:
 
 ```bash
 # Download the enventa connector
-b2connect erp download-connector --erp-type enventa --version latest
+B2X erp download-connector --erp-type enventa --version latest
 
 # Verify download
-b2connect erp list-installed
+B2X erp list-installed
 ```
 
 #### 3. Configure Connector
 
 ```bash
 # Interactive configuration wizard
-b2connect erp configure-connector --erp-type enventa --interactive
+B2X erp configure-connector --erp-type enventa --interactive
 
 # Or configure with specific settings
-b2connect erp configure-connector --erp-type enventa \
+B2X erp configure-connector --erp-type enventa \
   --connection-string "Server=ERP-SERVER;Database=ENVENTA;Integrated Security=True" \
   --license-server "LICENSE-SERVER:1234" \
   --base-path "C:\enventa\base"
@@ -283,20 +283,20 @@ b2connect erp configure-connector --erp-type enventa \
 
 ```bash
 # Test ERP connectivity
-b2connect erp test-connection --erp-type enventa
+B2X erp test-connection --erp-type enventa
 
 # Check connector status
-b2connect erp status-connector --erp-type enventa
+B2X erp status-connector --erp-type enventa
 ```
 
 #### 5. Start Services
 
 ```bash
 # Start the ERP connector service
-b2connect erp start-connector --erp-type enventa
+B2X erp start-connector --erp-type enventa
 
 # Enable automatic startup
-b2connect erp enable-autostart --erp-type enventa
+B2X erp enable-autostart --erp-type enventa
 ```
 
 ### For enventa Trade ERP
@@ -337,10 +337,10 @@ Setup follows the same pattern for all supported ERPs:
 
 ```bash
 # Generic setup workflow
-b2connect erp download-connector --erp-type <erp-type>
-b2connect erp configure-connector --erp-type <erp-type> --interactive
-b2connect erp test-connection --erp-type <erp-type>
-b2connect erp start-connector --erp-type <erp-type>
+B2X erp download-connector --erp-type <erp-type>
+B2X erp configure-connector --erp-type <erp-type> --interactive
+B2X erp test-connection --erp-type <erp-type>
+B2X erp start-connector --erp-type <erp-type>
 ```
 
 ## Development Guide for New Connectors
@@ -349,7 +349,7 @@ b2connect erp start-connector --erp-type <erp-type>
 
 ```bash
 # Use the connector template
-dotnet new b2connect-erp-connector -n MyErpConnector
+dotnet new B2X-erp-connector -n MyErpConnector
 cd MyErpConnector
 ```
 
@@ -443,7 +443,7 @@ Assert.IsTrue(result.Success);
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <PackageId>B2Connect.Erp.MyErpConnector</PackageId>
+    <PackageId>B2X.Erp.MyErpConnector</PackageId>
     <Version>1.0.0</Version>
   </PropertyGroup>
 </Project>
@@ -478,42 +478,42 @@ The pluggable framework replaces the monolithic enventa-specific connector with 
 1. **Backup Current Configuration**
    ```bash
    # Export current settings
-   b2connect erp export-config --erp-type enventa > enventa-config-backup.json
+   B2X erp export-config --erp-type enventa > enventa-config-backup.json
    ```
 
 2. **Stop Legacy Connector**
    ```bash
    # Stop old service
-   net stop "B2ConnectErpConnector"
+   net stop "B2XErpConnector"
    ```
 
 3. **Install New Framework**
    ```bash
    # Download and configure new connector
-   b2connect erp download-connector --erp-type enventa --version 2.1.0
-   b2connect erp configure-connector --erp-type enventa --config-file enventa-config-backup.json
+   B2X erp download-connector --erp-type enventa --version 2.1.0
+   B2X erp configure-connector --erp-type enventa --config-file enventa-config-backup.json
    ```
 
 4. **Migrate Data (if needed)**
    - Catalog data automatically resyncs
-   - Order history preserved in B2Connect core
+   - Order history preserved in B2X core
    - Customer data remains in ERP
 
 5. **Start New Connector**
    ```bash
-   b2connect erp start-connector --erp-type enventa
-   b2connect erp enable-autostart --erp-type enventa
+   B2X erp start-connector --erp-type enventa
+   B2X erp enable-autostart --erp-type enventa
    ```
 
 6. **Verify Integration**
    ```bash
-   b2connect erp test-connection --erp-type enventa
-   b2connect erp status-connector --erp-type enventa
+   B2X erp test-connection --erp-type enventa
+   B2X erp status-connector --erp-type enventa
    ```
 
 #### Compatibility
 
-- **API Compatibility**: 100% backward compatible with existing B2Connect integrations
+- **API Compatibility**: 100% backward compatible with existing B2X integrations
 - **Data Compatibility**: All existing data mappings preserved
 - **Performance**: Improved with connection pooling and async operations
 
@@ -583,10 +583,10 @@ curl -X POST http://localhost:5081/api/ai/correct \
 ### Health Monitoring
 ```bash
 # Check all connectors
-b2connect erp health-check
+B2X erp health-check
 
 # Detailed diagnostics
-b2connect erp diagnostics --erp-type enventa
+B2X erp diagnostics --erp-type enventa
 ```
 
 ### Common Issues
@@ -594,28 +594,28 @@ b2connect erp diagnostics --erp-type enventa
 **Connection Failures:**
 ```bash
 # Test connectivity
-b2connect erp test-connection --erp-type enventa --verbose
+B2X erp test-connection --erp-type enventa --verbose
 
 # Check logs
-b2connect erp logs --erp-type enventa --tail 100
+B2X erp logs --erp-type enventa --tail 100
 ```
 
 **Performance Issues:**
 ```bash
 # Monitor performance metrics
-b2connect erp metrics --erp-type enventa
+B2X erp metrics --erp-type enventa
 
 # Adjust connection pool
-b2connect erp configure-connector --erp-type enventa --max-connections 10
+B2X erp configure-connector --erp-type enventa --max-connections 10
 ```
 
 **Update Connectors:**
 ```bash
 # Check for updates
-b2connect erp check-updates
+B2X erp check-updates
 
 # Update specific connector
-b2connect erp update-connector --erp-type enventa --version latest
+B2X erp update-connector --erp-type enventa --version latest
 ```
 
 ## Development & Contribution
@@ -623,14 +623,14 @@ b2connect erp update-connector --erp-type enventa --version latest
 ### Building from Source
 ```bash
 # Clone repository
-git clone https://github.com/b2connect/erp-connector-framework.git
+git clone https://github.com/B2X/erp-connector-framework.git
 cd erp-connector-framework
 
 # Build framework
-dotnet build B2Connect.Erp.Framework.sln
+dotnet build B2X.Erp.Framework.sln
 
 # Run tests
-dotnet test B2Connect.Erp.Framework.sln
+dotnet test B2X.Erp.Framework.sln
 ```
 
 ### Adding New ERP Connectors
@@ -650,9 +650,9 @@ dotnet test B2Connect.Erp.Framework.sln
 **License:** Copyright © NissenVelten Software GmbH 2026. All rights reserved.
 
 **Support:**
-- Documentation: [B2Connect ERP Framework Docs](https://docs.b2connect.com/erp)
-- Issues: [GitHub Issues](https://github.com/b2connect/erp-connector-framework/issues)
-- Enterprise Support: support@b2connect.com
+- Documentation: [B2X ERP Framework Docs](https://docs.B2X.com/erp)
+- Issues: [GitHub Issues](https://github.com/B2X/erp-connector-framework/issues)
+- Enterprise Support: support@B2X.com
 
 **References:**
 - [ADR-034] Multi-ERP Connector Architecture

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using B2Connect.Types.Localization;
+using B2X.Types.Localization;
 
-namespace B2Connect.Admin.Core.Entities;
+namespace B2X.Admin.Core.Entities;
 
 /// <summary>
 /// Product category with multilingual support

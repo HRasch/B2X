@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "monitoring-mcp-server",
   "version": "1.0.0",
   "type": "module",
@@ -23,7 +23,7 @@
     "aspire",
     "dotnet"
   ],
-  "author": "B2Connect Team",
+  "author": "B2X Team",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.5.0",

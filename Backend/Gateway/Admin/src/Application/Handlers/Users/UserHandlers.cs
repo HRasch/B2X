@@ -1,10 +1,10 @@
 using System.Net.Http.Json;
 using System.Text.Json;
-using B2Connect.Admin.Application.Commands.Users;
-using B2Connect.Admin.Application.Handlers;
-using B2Connect.Shared.Middleware;
+using B2X.Admin.Application.Commands.Users;
+using B2X.Admin.Application.Handlers;
+using B2X.Shared.Middleware;
 
-namespace B2Connect.Admin.Application.Handlers.Users;
+namespace B2X.Admin.Application.Handlers.Users;
 
 /// <summary>
 /// Wolverine Message Handlers für User Commands/Queries

@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace B2Connect.Admin.Presentation.Filters;
+namespace B2X.Admin.Presentation.Filters;
 
 /// <summary>
 /// Global Exception Handling Filter

@@ -1,4 +1,4 @@
-# B2Connect CLI Implementation Guide
+﻿# B2X CLI Implementation Guide
 
 **Status**: 🟢 Architecture Defined | Ready for Implementation  
 **Last Updated**: 28. Dezember 2025
@@ -7,7 +7,7 @@
 
 ## Overview
 
-Die **B2Connect CLI** ist ein dotnet-Tool, das alle Backend-Operationen über die Kommandozeile ermöglicht. Dies ermöglicht:
+Die **B2X CLI** ist ein dotnet-Tool, das alle Backend-Operationen über die Kommandozeile ermöglicht. Dies ermöglicht:
 
 - ✅ **Automation**: CI/CD Pipelines, Deployment Scripts
 - ✅ **Local Development**: Schneller Setup, Datenmigrationen
@@ -20,8 +20,8 @@ Die **B2Connect CLI** ist ein dotnet-Tool, das alle Backend-Operationen über di
 ## Projektstruktur
 
 ```
-backend/CLI/B2Connect.CLI/
-├── B2Connect.CLI.csproj              # CLI Tool Definition
+backend/CLI/B2X.CLI/
+├── B2X.CLI.csproj              # CLI Tool Definition
 ├── Program.cs                        # Entry Point
 ├── Commands/
 │   ├── AuthCommands/
@@ -67,17 +67,17 @@ backend/CLI/B2Connect.CLI/
 
 ```bash
 # Build CLI
-cd backend/CLI/B2Connect.CLI
+cd backend/CLI/B2X.CLI
 dotnet build -c Release
 
 # Pack as NuGet Package
 dotnet pack -c Release --output ../../nupkg
 
 # Install global tool
-dotnet tool install --global --add-source ./nupkg B2Connect.CLI
+dotnet tool install --global --add-source ./nupkg B2X.CLI
 
 # Verify installation
-b2connect --version
+B2X --version
 ```
 
 ### 2. Als Local Tool Installieren
@@ -87,16 +87,16 @@ b2connect --version
 dotnet new tool-manifest
 
 # Install local tool
-dotnet tool install B2Connect.CLI --version <latest>
+dotnet tool install B2X.CLI --version <latest>
 
 # Use via dotnet
-dotnet b2connect --help
+dotnet B2X --help
 ```
 
 ### 3. Direktes Ausführen
 
 ```bash
-dotnet run --project backend/CLI/B2Connect.CLI -- <command> <options>
+dotnet run --project backend/CLI/B2X.CLI -- <command> <options>
 ```
 
 ---
@@ -105,15 +105,15 @@ dotnet run --project backend/CLI/B2Connect.CLI -- <command> <options>
 
 ### Format
 ```bash
-b2connect <group> <command> [options] [arguments]
+B2X <group> <command> [options] [arguments]
 ```
 
 ### Beispiele
 ```bash
-b2connect auth create-user john@example.com --password secret123
-b2connect tenant create "Acme Corp" --admin email@acme.com
-b2connect product list --tenant-id <guid> --limit 10
-b2connect migrate --service Identity --latest
+B2X auth create-user john@example.com --password secret123
+B2X tenant create "Acme Corp" --admin email@acme.com
+B2X product list --tenant-id <guid> --limit 10
+B2X migrate --service Identity --latest
 ```
 
 ---
@@ -125,7 +125,7 @@ b2connect migrate --service Identity --latest
 **Beispiel: CreateUserCommand**
 
 ```csharp
-namespace B2Connect.CLI.Commands.AuthCommands;
+namespace B2X.CLI.Commands.AuthCommands;
 
 using Spectre.Console;
 using System.CommandLine;
@@ -356,7 +356,7 @@ public class StatusCommand : Command
 ```csharp
 using System.Text.Json;
 
-namespace B2Connect.CLI.Services;
+namespace B2X.CLI.Services;
 
 public class CliHttpClient
 {
@@ -442,12 +442,12 @@ public class CliResult<T>
 ```csharp
 using System.CommandLine;
 using Spectre.Console;
-using B2Connect.CLI.Commands.AuthCommands;
-using B2Connect.CLI.Commands.TenantCommands;
-using B2Connect.CLI.Commands.ProductCommands;
-using B2Connect.CLI.Commands.SystemCommands;
+using B2X.CLI.Commands.AuthCommands;
+using B2X.CLI.Commands.TenantCommands;
+using B2X.CLI.Commands.ProductCommands;
+using B2X.CLI.Commands.SystemCommands;
 
-var rootCommand = new RootCommand("B2Connect CLI - Manage B2Connect platform")
+var rootCommand = new RootCommand("B2X CLI - Manage B2X platform")
 {
     TreatUnmatchedTokensAsErrors = true
 };
@@ -500,67 +500,67 @@ return await rootCommand.InvokeAsync(args);
 
 ```bash
 # Create user
-b2connect auth create-user john@example.com --password secret123 --tenant-id <guid>
+B2X auth create-user john@example.com --password secret123 --tenant-id <guid>
 
 # Generate token for testing
-b2connect auth generate-token john@example.com --password secret123
+B2X auth generate-token john@example.com --password secret123
 
 # List all users in tenant
-b2connect auth list-users --tenant-id <guid>
+B2X auth list-users --tenant-id <guid>
 
 # Reset user password
-b2connect auth reset-password john@example.com --tenant-id <guid>
+B2X auth reset-password john@example.com --tenant-id <guid>
 ```
 
 ### Tenant Management
 
 ```bash
 # Create new tenant
-b2connect tenant create "Company Name" --admin-email admin@company.com --admin-password initial123
+B2X tenant create "Company Name" --admin-email admin@company.com --admin-password initial123
 
 # List all tenants
-b2connect tenant list
+B2X tenant list
 
 # Show tenant details
-b2connect tenant show <tenant-id>
+B2X tenant show <tenant-id>
 
 # Delete tenant (with confirmation)
-b2connect tenant delete <tenant-id> --force
+B2X tenant delete <tenant-id> --force
 ```
 
 ### Product Management
 
 ```bash
 # Create product
-b2connect product create "SKU-001" "Product Name" \
+B2X product create "SKU-001" "Product Name" \
   --price 99.99 \
   --category "Electronics" \
   --tenant-id <guid>
 
 # Import from CSV
-b2connect product import-csv products.csv --tenant-id <guid>
+B2X product import-csv products.csv --tenant-id <guid>
 
 # Dry run (preview changes)
-b2connect product import-csv products.csv --tenant-id <guid> --dry-run
+B2X product import-csv products.csv --tenant-id <guid> --dry-run
 
 # List products
-b2connect product list --tenant-id <guid> --limit 50
+B2X product list --tenant-id <guid> --limit 50
 ```
 
 ### System Operations
 
 ```bash
 # Run database migrations
-b2connect system migrate --service Identity --latest
+B2X system migrate --service Identity --latest
 
 # Seed database with test data
-b2connect system seed --service Catalog --file data.json
+B2X system seed --service Catalog --file data.json
 
 # Check service status
-b2connect system status --all
+B2X system status --all
 
 # Health check
-b2connect system health
+B2X system health
 ```
 
 ---
@@ -590,9 +590,9 @@ b2connect system health
 ### Environment Variables
 
 ```bash
-export B2CONNECT_IDENTITY_URL=http://localhost:7002
-export B2CONNECT_CATALOG_URL=http://localhost:7005
-export B2CONNECT_ADMIN_PASSWORD=cli-admin-password
+export B2X_IDENTITY_URL=http://localhost:7002
+export B2X_CATALOG_URL=http://localhost:7005
+export B2X_ADMIN_PASSWORD=cli-admin-password
 ```
 
 ---
@@ -619,17 +619,17 @@ jobs:
       
       - name: Install CLI
         run: |
-          cd backend/CLI/B2Connect.CLI
-          dotnet tool install --global --add-source ./nupkg B2Connect.CLI
+          cd backend/CLI/B2X.CLI
+          dotnet tool install --global --add-source ./nupkg B2X.CLI
       
       - name: Run migrations
-        run: b2connect system migrate --service Identity --latest
+        run: B2X system migrate --service Identity --latest
       
       - name: Seed test data
-        run: b2connect system seed --service Catalog --file test-data.json
+        run: B2X system seed --service Catalog --file test-data.json
       
       - name: Verify services
-        run: b2connect system status --all
+        run: B2X system status --all
 ```
 
 ---
@@ -657,16 +657,16 @@ jobs:
 
 ```bash
 # Build CLI
-dotnet build backend/CLI/B2Connect.CLI/B2Connect.CLI.csproj
+dotnet build backend/CLI/B2X.CLI/B2X.CLI.csproj
 
 # Run help
-dotnet run --project backend/CLI/B2Connect.CLI -- --help
+dotnet run --project backend/CLI/B2X.CLI -- --help
 
 # Test create user
-dotnet run --project backend/CLI/B2Connect.CLI -- auth create-user test@example.com --help
+dotnet run --project backend/CLI/B2X.CLI -- auth create-user test@example.com --help
 
 # Test status
-dotnet run --project backend/CLI/B2Connect.CLI -- system status
+dotnet run --project backend/CLI/B2X.CLI -- system status
 ```
 
 ---

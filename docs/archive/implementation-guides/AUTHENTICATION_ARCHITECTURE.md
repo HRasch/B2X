@@ -1,7 +1,7 @@
-# Authentication Architecture Guide
+﻿# Authentication Architecture Guide
 
 **Last Updated**: 29 December 2025  
-**Service**: B2Connect Identity Service  
+**Service**: B2X Identity Service  
 **Status**: ✅ Production Ready
 
 ---
@@ -376,8 +376,8 @@ var tokenDescriptor = new SecurityTokenDescriptor
         new Claim(ClaimTypes.Role, role)
     }),
     Expires = DateTime.UtcNow.AddSeconds(3600),
-    Issuer = "B2Connect",
-    Audience = "B2Connect.Admin",
+    Issuer = "B2X",
+    Audience = "B2X.Admin",
     SigningCredentials = new SigningCredentials(
         new SymmetricSecurityKey(key),
         SecurityAlgorithms.HmacSha256Signature)
@@ -502,8 +502,8 @@ builder.Services
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtSecret)),
-            ValidIssuer = "B2Connect",
-            ValidAudience = "B2Connect.Admin",
+            ValidIssuer = "B2X",
+            ValidAudience = "B2X.Admin",
             ValidateExpiration = true,
             ClockSkew = TimeSpan.Zero
         };
@@ -540,8 +540,8 @@ var parameters = new TokenValidationParameters
 {
     ValidateIssuerSigningKey = true,  // Verify signature
     IssuerSigningKey = key,           // Secret key
-    ValidIssuer = "B2Connect",        // Check iss claim
-    ValidAudience = "B2Connect",      // Check aud claim
+    ValidIssuer = "B2X",        // Check iss claim
+    ValidAudience = "B2X",      // Check aud claim
     ValidateExpiration = true,        // Check exp claim
     ClockSkew = TimeSpan.Zero         // No time tolerance
 };

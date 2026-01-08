@@ -1,4 +1,12 @@
-# Customer Integration Checklists
+---
+docid: TPL-006
+title: Customer Integration Checklist
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Customer Integration Checklists
 # Reference: ADR-038 Customer Integration Stages Framework
 #
 # Quick reference checklists for each integration stage
@@ -197,8 +205,8 @@
 |------|------|-------|-------|
 | Customer PM | | | |
 | Customer Technical | | | |
-| B2Connect CSM | | | |
-| B2Connect Technical | | | |
+| B2X CSM | | | |
+| B2X Technical | | | |
 
 ---
 

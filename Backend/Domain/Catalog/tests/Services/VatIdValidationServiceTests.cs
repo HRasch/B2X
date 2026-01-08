@@ -1,13 +1,13 @@
 using System.Text;
-using B2Connect.Catalog.Infrastructure;
-using B2Connect.Catalog.Models;
-using B2Connect.Catalog.Services;
+using B2X.Catalog.Infrastructure;
+using B2X.Catalog.Models;
+using B2X.Catalog.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace B2Connect.Catalog.Tests.Services;
+namespace B2X.Catalog.Tests.Services;
 
 /// <summary>
 /// Unit tests for VAT ID validation service

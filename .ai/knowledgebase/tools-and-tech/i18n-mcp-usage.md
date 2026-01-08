@@ -1,4 +1,12 @@
-# i18n MCP Usage Guide
+---
+docid: KB-174
+title: I18n Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# i18n MCP Usage Guide
 
 **DocID**: `KB-060`  
 **Title**: i18n MCP Usage Guide  
@@ -10,7 +18,7 @@
 
 ## Overview
 
-The i18n MCP (Internationalization Model Context Protocol) server provides comprehensive internationalization validation and management for B2Connect's multi-language support. It ensures translation completeness, consistency, and proper implementation across all supported languages.
+The i18n MCP (Internationalization Model Context Protocol) server provides comprehensive internationalization validation and management for B2X's multi-language support. It ensures translation completeness, consistency, and proper implementation across all supported languages.
 
 **Supported Languages**: en, de, fr, es, it, pt, nl, pl  
 **Source Language**: English (en) - all translations derive from English keys
@@ -407,4 +415,4 @@ export const i18n = createI18n({
 **Maintained by**: @Frontend  
 **Last Review**: 6. Januar 2026  
 **Next Review**: 6. Februar 2026</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/knowledgebase/tools-and-tech/i18n-mcp-usage.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/knowledgebase/tools-and-tech/i18n-mcp-usage.md

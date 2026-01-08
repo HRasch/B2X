@@ -1,4 +1,12 @@
-# Shouldly - Assertion Framework for .NET
+---
+docid: KB-183
+title: Shouldly
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Shouldly - Assertion Framework for .NET
 
 **Last Updated**: 5. Januar 2026  
 **Maintained By**: GitHub Copilot  
@@ -21,7 +29,7 @@
 | Aspect | Details |
 |--------|---------|
 | **Purpose** | Fluent assertion library for .NET testing |
-| **Version** | 4.2.0 (current in B2Connect) |
+| **Version** | 4.2.0 (current in B2X) |
 | **Test Frameworks** | xUnit, NUnit, MSTest, custom |
 | **.NET Support** | .NET Standard 2.0+, .NET 5+ |
 | **Syntax** | `actual.ShouldBe(expected)` |
@@ -216,7 +224,7 @@ user.ShouldBeActive();
 
 ---
 
-## Common Patterns in B2Connect
+## Common Patterns in B2X
 
 Based on current usage in the codebase:
 
@@ -357,7 +365,7 @@ actual.Name.ShouldBe(expected.Name, "Name should match the expected value");
 
 ---
 
-**Integration Status**: ✅ Fully integrated in B2Connect test suite  
+**Integration Status**: ✅ Fully integrated in B2X test suite  
 **Maintenance**: Low - stable, well-maintained library  
 **Recommendation**: Preferred assertion library for new tests</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/knowledgebase/tools-and-tech/shouldly.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/knowledgebase/tools-and-tech/shouldly.md

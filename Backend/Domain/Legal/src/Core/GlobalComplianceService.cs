@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using B2Connect.Shared.Core;
+using B2X.Shared.Core;
 
-namespace B2Connect.Legal.Core
+namespace B2X.Legal.Core
 {
     /// <summary>
     /// Global Compliance Framework Service

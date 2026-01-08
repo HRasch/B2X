@@ -1,4 +1,12 @@
-# ADR: Entity Localization Pattern - Hybrid Default + Translations
+---
+docid: ADR-101
+title: ADR Entity Localization Pattern
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR: Entity Localization Pattern - Hybrid Default + Translations
 
 **Date:** January 1, 2026  
 **Status:** Accepted  
@@ -7,7 +15,7 @@
 
 ## Context
 
-B2Connect requires multi-language support for domain entities (Products, Categories, Brands, etc.). The solution must support:
+B2X requires multi-language support for domain entities (Products, Categories, Brands, etc.). The solution must support:
 
 1. **Dynamic languages** - New languages can be added without schema changes
 2. **Performant admin search** - Database-indexed search on default language
@@ -200,4 +208,4 @@ public class ProductStoreDto
 
 ---
 
-**Status:** ✅ Accepted - Hybrid pattern provides best balance of simplicity, performance, and flexibility for B2Connect's multi-language requirements.
+**Status:** ✅ Accepted - Hybrid pattern provides best balance of simplicity, performance, and flexibility for B2X's multi-language requirements.

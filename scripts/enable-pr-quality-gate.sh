@@ -1,10 +1,10 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Enable PR Quality Gate - GitHub Branch Protection
 # This script configures GitHub branch protection rules via GitHub CLI
 
 set -e
 
-REPO="B2Connect/b2connect"  # Update with your actual repo
+REPO="B2X/B2X"  # Update with your actual repo
 BRANCH="main"
 
 echo "🔐 Enabling PR Quality Gate for ${REPO}:${BRANCH}"

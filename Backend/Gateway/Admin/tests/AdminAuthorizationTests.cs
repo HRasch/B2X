@@ -1,4 +1,4 @@
-using Xunit;
+﻿using Xunit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace B2Connect.Admin.Tests.Authorization;
+namespace B2X.Admin.Tests.Authorization;
 
 public class AdminAuthorizationTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -42,8 +42,8 @@ public class AdminAuthorizationTests : IClassFixture<WebApplicationFactory<Progr
         }
 
         var token = new JwtSecurityToken(
-            issuer: "B2Connect",
-            audience: "B2Connect",
+            issuer: "B2X",
+            audience: "B2X",
             claims: claims,
             expires: DateTime.UtcNow.AddHours(1),
             signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(
@@ -133,8 +133,8 @@ public class AdminAuthorizationTests : IClassFixture<WebApplicationFactory<Progr
         };
 
         var token = new JwtSecurityToken(
-            issuer: "B2Connect",
-            audience: "B2Connect",
+            issuer: "B2X",
+            audience: "B2X",
             claims: claims,
             expires: DateTime.UtcNow.AddHours(1),
             signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(

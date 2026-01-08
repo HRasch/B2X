@@ -1,4 +1,4 @@
-# 📚 Architecture Documentation Index
+﻿# 📚 Architecture Documentation Index
 
 **Status**: ✅ COMPLETE & GOVERNANCE ENFORCED  
 **Last Updated**: 29. Dezember 2025  
@@ -42,7 +42,7 @@ You can:
 **Start here**: [ARCHITECTURE_QUICK_START.md](ARCHITECTURE_QUICK_REFERENCE.md) (5 min)
 
 You need to know:
-- ✅ What B2Connect is (scope, vision, constraints) → [SOFTWARE_DEFINITION.md](./docs/architecture/SOFTWARE_DEFINITION.md)
+- ✅ What B2X is (scope, vision, constraints) → [SOFTWARE_DEFINITION.md](./docs/architecture/SOFTWARE_DEFINITION.md)
 - ✅ Why architectural patterns are used → [DESIGN_DECISIONS.md](./docs/architecture/DESIGN_DECISIONS.md)
 - ✅ How architecture should be maintained → [ARCHITECTURAL_DOCUMENTATION_STANDARDS.md](./docs/architecture/ARCHITECTURAL_DOCUMENTATION_STANDARDS.md)
 - ✅ What patterns to follow → Reference implementation in code
@@ -71,7 +71,7 @@ You need:
 
 | Document | Purpose | Owner | Access |
 |----------|---------|-------|--------|
-| **SOFTWARE_DEFINITION.md** | What B2Connect is (vision, scope, functions, constraints, assumptions) | @software-architect | Read: All, Write: @software-architect only |
+| **SOFTWARE_DEFINITION.md** | What B2X is (vision, scope, functions, constraints, assumptions) | @software-architect | Read: All, Write: @software-architect only |
 | **DESIGN_DECISIONS.md** | Why architectural choices were made (10 major decisions with trade-offs) | @software-architect | Read: All, Write: @software-architect only |
 | **ESTIMATIONS_AND_CAPACITY.md** | Year 1-3 baseline, growth, costs, team capacity | @software-architect | Read: All, Write: @software-architect only |
 | **ARCHITECTURAL_DOCUMENTATION_STANDARDS.md** | Quality standards, maintenance, templates, enforcement rules | @software-architect | Read: All, Write: @software-architect only |
@@ -199,7 +199,7 @@ Before using this framework:
 ## 🎓 Key Concepts
 
 ### Software Definition
-Answers: "What is B2Connect?" (vision, scope, functions, constraints)
+Answers: "What is B2X?" (vision, scope, functions, constraints)
 
 ### Design Decisions
 Answers: "Why did we choose Wolverine over MediatR?" "Why microservices?" (10 major decisions documented)

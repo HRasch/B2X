@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-132
+title: Security Review
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Admin Frontend Security Review
 
 **DocID**: `SEC-REVIEW-001`  

@@ -1,4 +1,12 @@
 ---
+docid: DOC-015
+title: Refactoring
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 name: "Refactoring: Code Quality Improvement"
 about: "Structured refactoring using the Divide & Conquer + Automation First strategy (BS-REFACTOR-001)"
 title: "Refactoring: [Component/Service Name]"

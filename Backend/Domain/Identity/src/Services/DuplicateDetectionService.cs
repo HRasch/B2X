@@ -1,7 +1,7 @@
-using B2Connect.Identity.Interfaces;
+using B2X.Identity.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Identity.Services;
+namespace B2X.Identity.Services;
 
 /// <summary>
 /// Service für Duplikat-Erkennung in Kundenregistrierungen

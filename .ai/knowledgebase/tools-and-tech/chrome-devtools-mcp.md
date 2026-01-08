@@ -1,4 +1,12 @@
 ---
+docid: KB-164
+title: Chrome Devtools Mcp
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-064
 title: Chrome DevTools MCP Server for E2E Testing
 owner: GitHub Copilot
@@ -13,7 +21,7 @@ status: Active
 
 ## Overview
 
-The Chrome DevTools MCP Server provides browser automation capabilities for end-to-end testing, visual regression testing, performance profiling, and accessibility auditing within the B2Connect frontend testing workflow.
+The Chrome DevTools MCP Server provides browser automation capabilities for end-to-end testing, visual regression testing, performance profiling, and accessibility auditing within the B2X frontend testing workflow.
 
 ## Status & Configuration
 

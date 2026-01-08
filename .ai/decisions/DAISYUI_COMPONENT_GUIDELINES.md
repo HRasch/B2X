@@ -1,4 +1,12 @@
-# B2Connect Frontend Component Guidelines - DaisyUI Framework
+---
+docid: ADR-107
+title: DAISYUI_COMPONENT_GUIDELINES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# B2X Frontend Component Guidelines - DaisyUI Framework
 
 **Date:** December 30, 2025  
 **Owner:** @Architect  
@@ -253,7 +261,7 @@
 ```vue
 <div class="navbar bg-base-100 shadow">
   <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl">B2Connect</a>
+    <a class="btn btn-ghost normal-case text-xl">B2X</a>
   </div>
   <div class="flex-none gap-2">
     <button class="btn btn-ghost">Home</button>
@@ -308,7 +316,7 @@
 ## DaisyUI Theme Colors
 
 ```
-Primary:    #0b98ff (B2Connect blue)
+Primary:    #0b98ff (B2X blue)
 Secondary:  #8b5cf6 (Purple)
 Accent:     #f59e0b (Amber)
 Neutral:    #3f3f46 (Dark gray)

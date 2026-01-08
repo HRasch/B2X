@@ -1,7 +1,7 @@
-using B2Connect.LayoutService.Data;
-using B2Connect.LayoutService.Models;
+using B2X.LayoutService.Data;
+using B2X.LayoutService.Models;
 
-namespace B2Connect.LayoutService.Data
+namespace B2X.LayoutService.Data
 {
     /// <summary>
     /// Request to add a new section to a page

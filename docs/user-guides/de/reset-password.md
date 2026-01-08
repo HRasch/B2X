@@ -1,4 +1,4 @@
-# Wie man sein Passwort zurückgesetzt
+﻿# Wie man sein Passwort zurückgesetzt
 
 Passwort vergessen? Kein Problem! Sie können es in wenigen Minuten zurücksetzen.
 
@@ -7,7 +7,7 @@ Passwort vergessen? Kein Problem! Sie können es in wenigen Minuten zurücksetze
 ## Schnelle Schritte
 
 ### Schritt 1: Gehen Sie zur Anmeldeseite
-1. Gehen Sie zu **www.b2connect.com**
+1. Gehen Sie zu **www.B2X.com**
 2. Klicken Sie auf die **"Anmelden"**-Schaltfläche
 
 ### Schritt 2: Klicken Sie auf "Passwort vergessen?"
@@ -21,12 +21,12 @@ Passwort vergessen? Kein Problem! Sie können es in wenigen Minuten zurücksetze
 
 ### Schritt 4: Überprüfen Sie Ihre E-Mail
 1. Öffnen Sie Ihre E-Mail (Gmail, Outlook usw.)
-2. Suchen Sie nach einer E-Mail von **noreply@b2connect.com**
-3. Betreff: **"Setzen Sie Ihr B2Connect-Passwort zurück"**
+2. Suchen Sie nach einer E-Mail von **noreply@B2X.com**
+3. Betreff: **"Setzen Sie Ihr B2X-Passwort zurück"**
 4. **Sehen Sie es nicht?** Überprüfen Sie den Spam/Junk-Ordner
 
 ### Schritt 5: Klicken Sie auf den Zurücksetzen-Link
-1. Öffnen Sie die E-Mail von B2Connect
+1. Öffnen Sie die E-Mail von B2X
 2. Klicken Sie auf die Schaltfläche **"Passwort zurücksetzen"** (oder kopieren Sie den Link)
 3. Die Zurücksetzen-Seite öffnet sich (Link funktioniert nur 1 Stunde)
 
@@ -81,7 +81,7 @@ Passwort vergessen? Kein Problem! Sie können es in wenigen Minuten zurücksetze
 ### "E-Mail nicht gefunden"
 
 **Was bedeutet das?**  
-Bei B2Connect existiert kein Konto mit dieser E-Mail-Adresse.
+Bei B2X existiert kein Konto mit dieser E-Mail-Adresse.
 
 **Wie man es behebt:**
 1. Überprüfen Sie die Schreibweise der E-Mail
@@ -94,7 +94,7 @@ Bei B2Connect existiert kein Konto mit dieser E-Mail-Adresse.
 Der Zurücksetzen-Link funktioniert nur 1 Stunde. Sie haben zu lange gewartet.
 
 **Wie man es behebt:**
-1. Gehen Sie zurück zur [Seite zum Zurücksetzen des Passworts](https://www.b2connect.com/forgot-password)
+1. Gehen Sie zurück zur [Seite zum Zurücksetzen des Passworts](https://www.B2X.com/forgot-password)
 2. Geben Sie Ihre E-Mail erneut ein
 3. Klicken Sie auf den neuen Link
 
@@ -144,7 +144,7 @@ A: [Kontaktieren Sie den Support](../README.md) mit Eigentumsnachweis.
 A: Nein, es sei denn, Sie denken, dass Ihr Konto kompromittiert ist.
 
 **F: Kann ich ein altes Passwort wiederverwenden?**  
-A: Nein, aus Sicherheitsgründen lässt B2Connect Sie alte Passwörter nicht wiederverwenden.
+A: Nein, aus Sicherheitsgründen lässt B2X Sie alte Passwörter nicht wiederverwenden.
 
 ---
 
@@ -152,8 +152,8 @@ A: Nein, aus Sicherheitsgründen lässt B2Connect Sie alte Passwörter nicht wie
 
 ⚠️ **Setzen Sie Ihr Passwort niemals über einen E-Mail-Link zurück, es sei denn:**
 1. Sie haben selbst auf "Passwort vergessen?" geklickt
-2. Die E-Mail ist von `noreply@b2connect.com`
-3. Die URL beginnt mit `https://www.b2connect.com`
+2. Die E-Mail ist von `noreply@B2X.com`
+3. Die URL beginnt mit `https://www.B2X.com`
 
 Hacker versenden manchmal gefälschte Passwort-Zurücksetzen-E-Mails. Starten Sie immer von der offiziellen Website.
 

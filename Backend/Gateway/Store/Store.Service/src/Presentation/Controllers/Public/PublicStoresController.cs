@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using B2Connect.Store.Application.Store.ReadServices;
-using B2Connect.Store.Core.Common.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using B2X.Store.Application.Store.ReadServices;
+using B2X.Store.Core.Common.Entities;
 
-namespace B2Connect.Store.Presentation.Controllers.Public;
+namespace B2X.Store.Presentation.Controllers.Public;
 
 [ApiController]
 [Route("api/public/shops")]

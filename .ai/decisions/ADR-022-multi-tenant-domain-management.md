@@ -1,4 +1,12 @@
-# ADR-022: Multi-Tenant Domain Management Strategy
+---
+docid: ADR-056
+title: ADR 022 Multi Tenant Domain Management
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-022: Multi-Tenant Domain Management Strategy
 
 **Status**: Proposed  
 **Date**: 2025-01-02  
@@ -9,7 +17,7 @@
 
 ## Context
 
-B2Connect ist eine Multi-Tenant SaaS E-Commerce Plattform. Aktuell existiert grundlegende Tenant-Isolation (TenantId in Entities, Middleware für Context), aber es fehlt:
+B2X ist eine Multi-Tenant SaaS E-Commerce Plattform. Aktuell existiert grundlegende Tenant-Isolation (TenantId in Entities, Middleware für Context), aber es fehlt:
 
 1. **Dynamische Tenant-Erstellung** über Management UI
 2. **Domain-Management** (Custom Domains für Tenants)
@@ -43,7 +51,7 @@ Wir implementieren eine **Hybrid Domain Strategy** mit folgenden Komponenten:
 
 | Typ | Format | SSL | Verifizierung |
 |-----|--------|-----|---------------|
-| **Subdomain** (automatisch) | `{slug}.b2connect.de` | Wildcard-Cert | Keine (automatisch) |
+| **Subdomain** (automatisch) | `{slug}.B2X.de` | Wildcard-Cert | Keine (automatisch) |
 | **Custom Domain** (optional) | `shop.kundendomain.de` | Let's Encrypt | DNS TXT Record |
 
 ### 2. Datenmodell
@@ -128,10 +136,10 @@ Wir implementieren eine **Hybrid Domain Strategy** mit folgenden Komponenten:
 │         Token: "b2c-verify-{random-256bit-hex}"                 │
 │                                                                 │
 │  2. User configures DNS:                                        │
-│     └─► TXT Record: _b2connect.shop.example.com                 │
+│     └─► TXT Record: _B2X.shop.example.com                 │
 │         Value: "b2c-verify-abc123..."                           │
 │     └─► CNAME Record: shop.example.com                          │
-│         Target: proxy.b2connect.de                              │
+│         Target: proxy.B2X.de                              │
 │                                                                 │
 │  3. User clicks "Verify Domain"                                 │
 │     └─► System checks DNS TXT record                            │
@@ -211,7 +219,7 @@ POST   /api/admin/domains/{domainId}/set-primary
                                   │
                     ┌─────────────┴─────────────┐
                     │                           │
-           *.b2connect.de              Custom Domains
+           *.B2X.de              Custom Domains
            (Wildcard Cert)             (Let's Encrypt)
                     │                           │
                     └─────────────┬─────────────┘
@@ -277,7 +285,7 @@ POST   /api/admin/domains/{domainId}/set-primary
 
 ### Alternative 3: Nur Subdomains (kein Custom Domain Support)
 
-**Beschreibung**: Nur `{slug}.b2connect.de` erlauben.
+**Beschreibung**: Nur `{slug}.B2X.de` erlauben.
 
 | Pro | Contra |
 |-----|--------|

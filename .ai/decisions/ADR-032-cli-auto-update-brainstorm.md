@@ -1,4 +1,12 @@
-# CLI Auto-Update Functionality - Brainstorm
+---
+docid: ADR-075
+title: ADR 032 Cli Auto Update Brainstorm
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# CLI Auto-Update Functionality - Brainstorm
 
 **Date:** January 5, 2026  
 **Context:** ADR-031 CLI Architecture Split  
@@ -8,7 +16,7 @@
 ---
 
 > ⚠️ **Pre-Release Notice (GL-014)**  
-> B2Connect is currently in v0.x pre-release development. CLI commands and APIs may change without deprecation cycles. Backwards compatibility is NOT guaranteed until v1.0.0 release. See [GL-014] for details.
+> B2X is currently in v0.x pre-release development. CLI commands and APIs may change without deprecation cycles. Backwards compatibility is NOT guaranteed until v1.0.0 release. See [GL-014] for details.
 
 ---
 
@@ -36,7 +44,7 @@ Current challenges:
 #### Implementation
 ```bash
 # Automatic update check on startup
-dotnet tool update B2Connect.CLI.Administration --global
+dotnet tool update B2X.CLI.Administration --global
 
 # Or via package management
 dotnet tool update --all --global
@@ -93,16 +101,16 @@ public class UpdateService
 **Option B: Internal Update API**
 ```csharp
 // For Operations CLI (internal)
-var updateUrl = "https://updates.b2connect.internal/api/cli-updates";
+var updateUrl = "https://updates.B2X.internal/api/cli-updates";
 
 // For Administration CLI (public)
-var updateUrl = "https://api.b2connect.com/cli-updates";
+var updateUrl = "https://api.B2X.com/cli-updates";
 ```
 
 **Option C: Self-Contained Updater**
 ```bash
 # CLI downloads updater executable
-curl -o updater.exe https://updates.b2connect.com/updater.exe
+curl -o updater.exe https://updates.B2X.com/updater.exe
 ./updater.exe --update-cli --version latest
 ```
 
@@ -230,7 +238,7 @@ public class LegacyCreateTenantCommand : BaseCommand
         // Show deprecation warning with guidance
         await _console.Output.WriteLineAsync(
             new Markup($"[yellow]⚠️  Command 'create-tenant' is deprecated[/]\n" +
-                      $"   Use: [green]b2connect-admin tenant create --name <name>[/]\n" +
+                      $"   Use: [green]B2X-admin tenant create --name <name>[/]\n" +
                       $"   This command will be removed in v3.0.0"));
 
         // Still execute the command for backward compatibility
@@ -245,21 +253,21 @@ public class LegacyCreateTenantCommand : BaseCommand
 
 ```bash
 # Running deprecated command
-$ b2connect-admin create-tenant --name "My Company"
+$ B2X-admin create-tenant --name "My Company"
 
 ⚠️  Command 'create-tenant' is deprecated
-   New command: b2connect-admin tenant create --name "My Company"
+   New command: B2X-admin tenant create --name "My Company"
    Migration: This command will be removed in v3.0.0 (January 2027)
 
    Proceeding with legacy command execution...
    ✅ Tenant "My Company" created successfully
 
 # Suggestion for similar commands
-$ b2connect-admin user-add --email john@company.com
+$ B2X-admin user-add --email john@company.com
 
 ⚠️  Command 'user-add' is deprecated
-   New command: b2connect-admin auth create-user --email john@company.com
-   Alternative: b2connect-admin user invite --email john@company.com
+   New command: B2X-admin auth create-user --email john@company.com
+   Alternative: B2X-admin user invite --email john@company.com
    Migration: This command will be removed in v3.0.0
 
    Proceeding with legacy command execution...
@@ -282,9 +290,9 @@ public class CommandMigrator
     {
         return deprecatedCommand switch
         {
-            "create-tenant" => $"b2connect-admin tenant create {string.Join(" ", args)}",
-            "user-add" => $"b2connect-admin auth create-user {string.Join(" ", args)}",
-            "catalog-import" => $"b2connect-admin catalog import {string.Join(" ", args)}",
+            "create-tenant" => $"B2X-admin tenant create {string.Join(" ", args)}",
+            "user-add" => $"B2X-admin auth create-user {string.Join(" ", args)}",
+            "catalog-import" => $"B2X-admin catalog import {string.Join(" ", args)}",
             _ => "Please check the documentation for the new command syntax"
         };
     }
@@ -293,7 +301,7 @@ public class CommandMigrator
 
 **Interactive Migration:**
 ```bash
-$ b2connect-admin create-tenant --name "Test"
+$ B2X-admin create-tenant --name "Test"
 
 ⚠️  Command 'create-tenant' is deprecated
 
@@ -305,7 +313,7 @@ Would you like to:
 
 Choice: R
 
-Executing: b2connect-admin tenant create --name "Test"
+Executing: B2X-admin tenant create --name "Test"
 ✅ Tenant "Test" created successfully
 ```
 
@@ -314,13 +322,13 @@ Executing: b2connect-admin tenant create --name "Test"
 
 ```bash
 # Pin to specific version
-dotnet tool install B2Connect.CLI.Administration --version 2.1.0 --global
+dotnet tool install B2X.CLI.Administration --version 2.1.0 --global
 
 # Update only within major version
-b2connect-admin update --allow-major=false
+B2X-admin update --allow-major=false
 
 # Enterprise: Lock to approved versions
-export B2CONNECT_CLI_PIN_VERSION="2.1.*"
+export B2X_CLI_PIN_VERSION="2.1.*"
 ```
 
 ### Semantic Versioning for CLI
@@ -375,10 +383,10 @@ public class BackwardCompatibilityTests
 
         // Test various deprecated command translations
         Assert.That(translator.GetMigrationHint("create-tenant", ["--name", "Test"]),
-                   Is.EqualTo("b2connect-admin tenant create --name Test"));
+                   Is.EqualTo("B2X-admin tenant create --name Test"));
 
         Assert.That(translator.GetMigrationHint("user-add", ["--email", "user@test.com"]),
-                   Is.EqualTo("b2connect-admin auth create-user --email user@test.com"));
+                   Is.EqualTo("B2X-admin auth create-user --email user@test.com"));
     }
 }
 ```
@@ -432,7 +440,7 @@ public class BackwardCompatibilityTests
 ```
 🔄 Update available: v2.1.0 (current: v2.0.0)
    New features: Enhanced catalog import, security fixes
-   Release notes: https://github.com/b2connect/cli/releases/v2.1.0
+   Release notes: https://github.com/B2X/cli/releases/v2.1.0
 
    [U] Update now  [L] Later  [N] Never ask again  [?] More info
 ```
@@ -443,7 +451,7 @@ public class BackwardCompatibilityTests
 
 ```
 ⚠️  Command 'create-tenant' is deprecated
-   New command: b2connect-admin tenant create --name <name>
+   New command: B2X-admin tenant create --name <name>
    Migration: This command will be removed in v3.0.0 (January 2027)
 
    Proceeding with legacy command execution...
@@ -472,13 +480,13 @@ Choice (R/s/c/?):
 
 # v2.9+ - Warning Level  
 🚨 DEPRECATED: 'create-tenant' will be removed in v3.0.0
-   Use: b2connect-admin tenant create --name <name>
-   Docs: https://docs.b2connect.com/cli/migration
+   Use: B2X-admin tenant create --name <name>
+   Docs: https://docs.B2X.com/cli/migration
 
 # v3.0+ - Error Level
 ❌ Command 'create-tenant' has been removed
-   Migration: Use 'b2connect-admin tenant create --name <name>'
-   Help: Run 'b2connect-admin tenant create --help'
+   Migration: Use 'B2X-admin tenant create --name <name>'
+   Help: Run 'B2X-admin tenant create --help'
 ```
 
 ---
@@ -565,8 +573,8 @@ Choice (R/s/c/?):
 ### Phase 1: Basic Update Notification + Stability Foundation (Low Risk)
 ```bash
 # Add to CLI startup
-b2connect-admin check-updates
-b2connect-admin update
+B2X-admin check-updates
+B2X-admin update
 ```
 
 **Implementation:**
@@ -613,7 +621,7 @@ b2connect-admin update
 
 ### Shared Library Integration
 ```csharp
-// Add to B2Connect.CLI.Shared
+// Add to B2X.CLI.Shared
 public interface IUpdateService
 {
     Task<UpdateInfo> CheckForUpdates();
@@ -653,4 +661,4 @@ public interface IUpdateService
 
 **Status:** Brainstorm Complete - Ready for prototyping  
 **Next Action:** Create technical spike for basic update notification</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/decisions/ADR-032-cli-auto-update-brainstorm.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/decisions/ADR-032-cli-auto-update-brainstorm.md

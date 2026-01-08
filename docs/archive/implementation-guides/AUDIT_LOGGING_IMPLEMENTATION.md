@@ -1,12 +1,12 @@
-# 📋 Audit Logging Implementation Guide
+﻿# 📋 Audit Logging Implementation Guide
 
 ## Overview
 
-This document explains how audit logging is implemented in B2Connect for P0.4 (Audit Logging).
+This document explains how audit logging is implemented in B2X for P0.4 (Audit Logging).
 
 ## Components
 
-### 1. **IAuditableEntity Interface** (`B2Connect.Shared.Core/Interfaces/`)
+### 1. **IAuditableEntity Interface** (`B2X.Shared.Core/Interfaces/`)
 
 Marks entities that require automatic audit tracking.
 
@@ -23,7 +23,7 @@ public interface IAuditableEntity
 }
 ```
 
-### 2. **AuditableEntity Base Class** (`B2Connect.Shared.Core/Entities/`)
+### 2. **AuditableEntity Base Class** (`B2X.Shared.Core/Entities/`)
 
 Base class implementing the audit interface with sensible defaults.
 
@@ -37,7 +37,7 @@ public abstract class AuditableEntity : IAuditableEntity
 }
 ```
 
-### 3. **AuditInterceptor** (`B2Connect.Shared.Data/Interceptors/`)
+### 3. **AuditInterceptor** (`B2X.Shared.Data/Interceptors/`)
 
 EF Core interceptor that automatically:
 - Sets `CreatedAt` and `CreatedBy` on new entities
@@ -45,7 +45,7 @@ EF Core interceptor that automatically:
 - Implements soft deletes (sets `IsDeleted`, `DeletedAt`, `DeletedBy` instead of hard deleting)
 - Logs all changes via Serilog
 
-### 4. **AuditLogService** (`B2Connect.Shared.Data/Logging/`)
+### 4. **AuditLogService** (`B2X.Shared.Data/Logging/`)
 
 Manual audit logging service for tracking specific actions:
 - Records entity changes with detailed change information

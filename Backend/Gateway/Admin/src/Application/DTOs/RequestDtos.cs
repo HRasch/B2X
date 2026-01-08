@@ -1,6 +1,6 @@
-using B2Connect.Types.Localization;
+using B2X.Types.Localization;
 
-namespace B2Connect.Admin.Application.DTOs;
+namespace B2X.Admin.Application.DTOs;
 
 /// <summary>
 /// Request DTO for creating a product

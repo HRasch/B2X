@@ -1,4 +1,12 @@
 ---
+docid: BS-007
+title: BS ANFORDERUNGSANALYSE VERBESSERUNG
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: BS-ANFORDERUNGEN-001
 title: "Brainstorm: Bessere Anforderungsanalyse - Agent-Struktur & Prozesse"
 owner: "@SARAH"

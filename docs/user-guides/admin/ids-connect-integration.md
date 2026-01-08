@@ -1,8 +1,8 @@
-# IDS Connect Punchout Integration - Ihr Weg zur nahtlosen Handwerksbeschaffung
+﻿# IDS Connect Punchout Integration - Ihr Weg zur nahtlosen Handwerksbeschaffung
 
 ## 🌟 Willkommen in der Zukunft der Handwerksbeschaffung
 
-Stellen Sie sich vor: Ihre Handwerker können direkt aus ihrer vertrauten Software heraus auf den kompletten Produktkatalog von B2Connect zugreifen, Produkte auswählen und Bestellungen aufgeben - alles ohne lästige Doppelarbeit oder manuelle Datenübertragung. Das ist die Magie von IDS Connect, dem etablierten B2B-Standard der ITEK e.V.
+Stellen Sie sich vor: Ihre Handwerker können direkt aus ihrer vertrauten Software heraus auf den kompletten Produktkatalog von B2X zugreifen, Produkte auswählen und Bestellungen aufgeben - alles ohne lästige Doppelarbeit oder manuelle Datenübertragung. Das ist die Magie von IDS Connect, dem etablierten B2B-Standard der ITEK e.V.
 
 **Offizielle Definition (ITEK e.V.):**
 > "IDS steht für Integrierte Daten-Schnittstelle. IDS Connect verknüpft die Handwerkssoftware mit dem Online Shop des Großhandels, um Artikel zu recherchieren und Warenkörbe auszutauschen. Mithilfe der Funktion 'Artikel-Deep-Link' ist darüber hinaus eine direkte Einsicht in aktuelle Preise und die Verfügbarkeit von Artikeln möglich."
@@ -18,11 +18,11 @@ IDS Connect ist der etablierte B2B-Standard der ITEK e.V. für die nahtlose Inte
 
 ### ✨ Die Kernfunktionen nach ITEK Standard
 
-Basierend auf der offiziellen ITEK IDS Connect Spezifikation unterstützt B2Connect diese Kern-Geschäftsprozesse:
+Basierend auf der offiziellen ITEK IDS Connect Spezifikation unterstützt B2X diese Kern-Geschäftsprozesse:
 
 - **🛒 Warenkorb-Prozesse**: Austausch von Warenkörben zwischen Handwerkssoftware und Online-Shop
-  - **Warenkorb senden**: Übertragung von Bestellungen aus der Handwerkssoftware an B2Connect
-  - **Warenkorb empfangen**: Empfang von Warenkörben aus B2Connect zur weiteren Verarbeitung
+  - **Warenkorb senden**: Übertragung von Bestellungen aus der Handwerkssoftware an B2X
+  - **Warenkorb empfangen**: Empfang von Warenkörben aus B2X zur weiteren Verarbeitung
 - **🔍 Online Shop Suche**: Direkte Recherche im Produktkatalog des Großhandels
 - **📋 Artikeldetails**: Abruf detaillierter Produktinformationen zu einzelnen Artikeln
 - **🔗 Artikel-Deep-Link**: Direkte Anzeige von Artikeln im Browser mit aktuellen Preisen und Verfügbarkeit
@@ -32,7 +32,7 @@ Basierend auf der offiziellen ITEK IDS Connect Spezifikation unterstützt B2Conn
 
 ### 📊 Versionsunterstützung - Kompatibilität für alle Handwerkssoftware
 
-B2Connect bietet umfassende IDS Connect Unterstützung für alle relevanten Versionen, um maximale Kompatibilität mit bestehender Handwerkssoftware zu gewährleisten:
+B2X bietet umfassende IDS Connect Unterstützung für alle relevanten Versionen, um maximale Kompatibilität mit bestehender Handwerkssoftware zu gewährleisten:
 
 | IDS Connect Version | Status | Unterstützung | Besonderheiten |
 |---------------------|--------|---------------|----------------|
@@ -53,11 +53,11 @@ B2Connect bietet umfassende IDS Connect Unterstützung für alle relevanten Vers
 - **Version 1.3**: Legacy-Unterstützung für ältere Systeme
 
 **Automatische Versionserkennung:**
-B2Connect erkennt automatisch die vom Client verwendete IDS Connect Version und passt die Kommunikation entsprechend an.
+B2X erkennt automatisch die vom Client verwendete IDS Connect Version und passt die Kommunikation entsprechend an.
 
 ### 🏗️ Unterstützte Handwerkssoftware - Geschäftsprozesse im Vergleich
 
-B2Connect ist im **SHK Connect Verzeichnis** der ITEK registriert und bietet vollständige IDS Connect Kompatibilität für alle relevanten Handwerkssoftware-Anbieter. Die unterstützten Systeme decken unterschiedliche Geschäftsprozesse ab:
+B2X ist im **SHK Connect Verzeichnis** der ITEK registriert und bietet vollständige IDS Connect Kompatibilität für alle relevanten Handwerkssoftware-Anbieter. Die unterstützten Systeme decken unterschiedliche Geschäftsprozesse ab:
 
 #### 🛠️ **Taifun Software GmbH** - Komplette Handwerksverwaltung
 **Unterstützte Geschäftsprozesse:**
@@ -114,7 +114,7 @@ Alle unterstützten Handwerkssoftware-Systeme bieten diese Kernprozesse mit IDS 
 
 ### 🚀 **Zukünftige Erweiterung: Vorgangsportal**
 
-Bei B2Connect ist ein **Vorgangsportal** in Entwicklung, das diese Geschäftsprozesse weiter optimieren wird:
+Bei B2X ist ein **Vorgangsportal** in Entwicklung, das diese Geschäftsprozesse weiter optimieren wird:
 
 **Geplante Vorgangsportal-Funktionen:**
 - **📋 Vorgangsmanagement**: Zentrale Übersicht aller laufenden Projekte
@@ -137,7 +137,7 @@ Bei B2Connect ist ein **Vorgangsportal** in Entwicklung, das diese Geschäftspro
 **Der etablierte IDS Connect Suchprozess nach ITEK Standard:**
 
 1. **🔍 Suchaufruf**: Handwerker startet Produktsuche aus seiner Software heraus
-2. **🌐 Shop-Verbindung**: Software ruft automatisch die Online-Shop-Suche von B2Connect auf
+2. **🌐 Shop-Verbindung**: Software ruft automatisch die Online-Shop-Suche von B2X auf
 3. **📊 Ergebnisse**: Produkte werden direkt in der Handwerkssoftware angezeigt
 4. **🎯 Filter & Sortierung**: Erweiterte Suchoptionen nach Kategorie, Preis, Verfügbarkeit
 
@@ -156,7 +156,7 @@ Bei B2Connect ist ein **Vorgangsportal** in Entwicklung, das diese Geschäftspro
 
 **Variante B: Artikel-Deep-Link (ITEK Standard)**
 - Bei Klick auf einen Artikel öffnet sich der Browser
-- Direkte Anzeige im B2Connect Online-Shop mit aktuellen Preisen
+- Direkte Anzeige im B2X Online-Shop mit aktuellen Preisen
 - Verfügbarkeitsprüfung und sofortige Bestellmöglichkeit
 
 **ITEK Definition des Deep-Link Prozesses:**
@@ -167,9 +167,9 @@ Bei B2Connect ist ein **Vorgangsportal** in Entwicklung, das diese Geschäftspro
 **Der vollständige IDS Connect Bestellprozess nach ITEK Standard:**
 
 1. **📝 Artikelauswahl**: Produkte werden in der Handwerkssoftware ausgewählt
-2. **🛒 Warenkorb-Erstellung**: Automatische Übertragung zur B2Connect Warenkorb-Funktion
+2. **🛒 Warenkorb-Erstellung**: Automatische Übertragung zur B2X Warenkorb-Funktion
 3. **✅ Validierung**: Preise, Verfügbarkeit und Kompatibilität werden geprüft
-4. **📤 Bestellabschluss**: Fertige Bestellung geht direkt an B2Connect
+4. **📤 Bestellabschluss**: Fertige Bestellung geht direkt an B2X
 5. **📋 Bestätigung**: Sofortige Auftragsnummer und Status-Updates
 
 **Die Vorteile des IDS Connect Standards:**
@@ -178,8 +178,8 @@ Bei B2Connect ist ein **Vorgangsportal** in Entwicklung, das diese Geschäftspro
 - **Automatisierte Validierung**: Keine fehlerhaften Bestellungen durch Prüfmechanismen
 
 **Unterstützte Warenkorb-Operationen:**
-- **Warenkorb senden**: Von Handwerkssoftware zu B2Connect (Bestellung aufgeben)
-- **Warenkorb empfangen**: Von B2Connect zur Handwerkssoftware (Bestellungen verarbeiten)
+- **Warenkorb senden**: Von Handwerkssoftware zu B2X (Bestellung aufgeben)
+- **Warenkorb empfangen**: Von B2X zur Handwerkssoftware (Bestellungen verarbeiten)
 
 ## 🔧 Technische Integration - Hinter den Kulissen
 
@@ -195,21 +195,21 @@ IDS Connect verwendet standardisierte Authentifizierungsmechanismen entsprechend
 
 ### 📋 SHK Connect Verzeichnisdienst
 
-B2Connect ist im **SHK Connect Verzeichnis** der ITEK registriert. Dieser Verzeichnisdienst bietet:
+B2X ist im **SHK Connect Verzeichnis** der ITEK registriert. Dieser Verzeichnisdienst bietet:
 
 - **📍 Adressinformationen**: Kontaktdaten und Schnittstellen-Details
 - **🔢 Versionsangaben**: Unterstützte IDS Connect Versionen
-- **🔗 Automatische Erkennung**: Handwerkssoftware findet B2Connect automatisch
+- **🔗 Automatische Erkennung**: Handwerkssoftware findet B2X automatisch
 - **📊 Implementierungsdetails**: Technische Spezifikationen für Integration
 
 **Warum das wichtig ist:**
-- **Automatische Auffindbarkeit**: Handwerkssoftware erkennt B2Connect automatisch
+- **Automatische Auffindbarkeit**: Handwerkssoftware erkennt B2X automatisch
 - **Standardisierte Kommunikation**: Einheitliche Verzeichnisstruktur für alle Marktteilnehmer
 - **Reibungslose Prozesse**: Keine manuelle Konfiguration notwendig
 
 ### 🏢 Service-Architektur - Die Power hinter der Einfachheit
 
-B2Connect nutzt eine moderne Microservice-Architektur für maximale Zuverlässigkeit:
+B2X nutzt eine moderne Microservice-Architektur für maximale Zuverlässigkeit:
 
 - **📚 Katalog-Service**: Ihr umfangreiches Produktuniversum
 - **🔍 Such-Service**: Blitzschnelle, intelligente Suche
@@ -218,9 +218,9 @@ B2Connect nutzt eine moderne Microservice-Architektur für maximale Zuverlässig
 
 ## 🚀 Einrichtung für Kunden - Ihr Weg zum Erfolg
 
-### Schritt 1: 🌟 B2Connect Zugangsdaten konfigurieren - Ihr persönlicher Zugang
+### Schritt 1: 🌟 B2X Zugangsdaten konfigurieren - Ihr persönlicher Zugang
 
-1. **🔑 Zugangsdaten erhalten**: Wenden Sie sich an Ihren B2Connect Ansprechpartner für Zugangsdaten
+1. **🔑 Zugangsdaten erhalten**: Wenden Sie sich an Ihren B2X Ansprechpartner für Zugangsdaten
 2. **🎯 Tenant-Informationen**: Notieren Sie Ihre Tenant-ID und Zugangs-URL
 3. **👤 Benutzerberechtigungen**: Stellen Sie sicher, dass die entsprechenden Benutzerrechte für Punchout-Zugriff vorhanden sind
 4. **🔐 Sicherheitseinstellungen**: Überprüfen Sie die Cookie- und Session-Einstellungen
@@ -228,11 +228,11 @@ B2Connect nutzt eine moderne Microservice-Architektur für maximale Zuverlässig
 ### Schritt 2: 🔗 Handwerkssoftware konfigurieren - Die Verbindung herstellen
 
 1. **🖥️ Software-Konfiguration öffnen**: Navigieren Sie zu den Integrationseinstellungen Ihrer Handwerkssoftware
-2. **🌐 B2Connect IDS Connect URL konfigurieren**:
+2. **🌐 B2X IDS Connect URL konfigurieren**:
    ```
-   https://api.b2connect.de/ids/
+   https://api.B2X.de/ids/
    ```
-3. **👤 Anmeldedaten eintragen**: Geben Sie Benutzername und Passwort für B2Connect ein
+3. **👤 Anmeldedaten eintragen**: Geben Sie Benutzername und Passwort für B2X ein
 4. **🏢 Tenant-ID angeben**: Tragen Sie Ihre spezifische Tenant-Kennung ein
 5. **🧪 Verbindung testen**: Führen Sie einen Verbindungs- und Authentifizierungstest durch
 6. **✅ SSL-Zertifikat validieren**: Stellen Sie sicher, dass die Verbindung über HTTPS läuft
@@ -242,7 +242,7 @@ B2Connect nutzt eine moderne Microservice-Architektur für maximale Zuverlässig
 1. **🛒 Kleine Testbestellung**: Wählen Sie ein günstiges Produkt für den ersten Test
 2. **📤 Bestellung übertragen**: Schicken Sie die Testbestellung über die konfigurierte Verbindung
 3. **🔍 Datenübertragung prüfen**: Verifizieren Sie alle übertragenen Informationen und Cookie-Sessions
-4. **📋 Bestellbestätigung validieren**: Stellen Sie sicher, dass die Bestellung korrekt in B2Connect angekommen ist
+4. **📋 Bestellbestätigung validieren**: Stellen Sie sicher, dass die Bestellung korrekt in B2X angekommen ist
 5. **📞 Support kontaktieren**: Bei Fragen steht unser Integrationsteam jederzeit bereit
 
 ## 📊 Überwachte Prozesse - Transparenz und Zuverlässigkeit
@@ -313,7 +313,7 @@ B2Connect nutzt eine moderne Microservice-Architektur für maximale Zuverlässig
 - **Session-Status**: Eine abgelaufene Session könnte den Zugriff einschränken
 - **Suchfilter**: Die Suche könnte zu restriktiv eingestellt sein
 
-**Lösung:** Melden Sie sich ab und neu an, oder kontaktieren Sie Ihren B2Connect Administrator für eine Berechtigungsanpassung.
+**Lösung:** Melden Sie sich ab und neu an, oder kontaktieren Sie Ihren B2X Administrator für eine Berechtigungsanpassung.
 
 ### 💰 Wie oft werden Produktpreise aktualisiert?
 
@@ -334,7 +334,7 @@ B2Connect nutzt eine moderne Microservice-Architektur für maximale Zuverlässig
 ### ✏️ Können Bestellungen nachträglich geändert werden?
 
 **Flexibilität ist unser Versprechen:**
-- **Web-Interface**: Änderungen können über die B2Connect Weboberfläche vorgenommen werden
+- **Web-Interface**: Änderungen können über die B2X Weboberfläche vorgenommen werden
 - **Status-Tracking**: Ihre Handwerkssoftware zeigt immer den aktuellen Bestellstatus an
 - **Automatische Synchronisation**: Änderungen werden sofort in allen Systemen reflektiert
 - **Audit-Trail**: Vollständige Nachverfolgung aller Änderungen für Compliance
@@ -351,7 +351,7 @@ B2Connect nutzt eine moderne Microservice-Architektur für maximale Zuverlässig
 
 ### 🌐 IDS Connect Funktionen - Nach ITEK Standard
 
-| Funktion | ITEK Beschreibung | Typische Nutzung | B2Connect Status |
+| Funktion | ITEK Beschreibung | Typische Nutzung | B2X Status |
 |----------|-------------------|------------------|------------------|
 | **Online Shop Suche** | Direkte Recherche im Produktkatalog des Großhandels | Produktkatalog durchsuchen | ✅ Vollständig unterstützt |
 | **Artikeldetails** | Abruf von Detailinformationen zu einzelnen Artikeln | Produktinformationen anzeigen | ✅ Vollständig unterstützt |
@@ -385,7 +385,7 @@ Bei Aufruf von IDS Connect erfolgt zunächst eine Authentifizierung über defini
 
 ## 🎉 Ihr Weg in die digitale Zukunft
 
-IDS Connect ist mehr als eine technische Lösung - es ist Ihr Partner für eine effizientere, sicherere und erfolgreichere Zukunft im Handwerk. Mit B2Connect und IDS Connect sind Sie bestens gerüstet für die Anforderungen der digitalen Transformation.
+IDS Connect ist mehr als eine technische Lösung - es ist Ihr Partner für eine effizientere, sicherere und erfolgreichere Zukunft im Handwerk. Mit B2X und IDS Connect sind Sie bestens gerüstet für die Anforderungen der digitalen Transformation.
 
 **Bereit für den nächsten Schritt?** Kontaktieren Sie unser Team für eine persönliche Beratung und Demo!
 
@@ -393,5 +393,5 @@ IDS Connect ist mehr als eine technische Lösung - es ist Ihr Partner für eine 
 
 **📄 Dokument-Version:** 1.1
 **🗓️ Zuletzt aktualisiert:** 3. Januar 2026
-**👥 Für:** B2Connect Administratoren und Integration-Partner
-**💬 Support:** support@b2connect.de | +49 123 456789
+**👥 Für:** B2X Administratoren und Integration-Partner
+**💬 Support:** support@B2X.de | +49 123 456789

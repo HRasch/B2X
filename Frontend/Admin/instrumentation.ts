@@ -1,5 +1,5 @@
-/**
- * OpenTelemetry Instrumentation for B2Connect Frontend Admin
+﻿/**
+ * OpenTelemetry Instrumentation for B2X Frontend Admin
  *
  * This file configures distributed tracing and metrics for the Vite dev server.
  * It exports telemetry data to Aspire via OTLP protocol.

@@ -2,13 +2,13 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.Domain.ERP.Services;
-using B2Connect.ERP.Abstractions;
-using B2Connect.ERP.Events;
-using B2Connect.ERP.Queries;
+using B2X.Domain.ERP.Services;
+using B2X.ERP.Abstractions;
+using B2X.ERP.Events;
+using B2X.ERP.Queries;
 using Wolverine;
 
-namespace B2Connect.ERP.Handlers;
+namespace B2X.ERP.Handlers;
 
 /// <summary>
 /// Wolverine query handlers for customer operations.

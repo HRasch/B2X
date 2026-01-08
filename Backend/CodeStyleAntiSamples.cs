@@ -1,4 +1,4 @@
-// Code Style Anti-Samples for B2Connect Backend
+﻿// Code Style Anti-Samples for B2X Backend
 // This file demonstrates common StyleCop violations
 // DO NOT use these patterns in production code
 
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 
-namespace B2Connect.Backend.CodeStyleAntiSamples
+namespace B2X.Backend.CodeStyleAntiSamples
 {
     // SA1200: Using directives should be placed outside namespace
     // VIOLATION: Usings inside namespace

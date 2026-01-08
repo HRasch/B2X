@@ -1,4 +1,4 @@
-# ? ASPIRE FRONTENDS MIT AddExecutable - PERFEKT GELÖST!
+ï»¿# ? ASPIRE FRONTENDS MIT AddExecutable - PERFEKT GELï¿½ST!
 
 ## ?? Update: Native Aspire Frontend Integration
 
@@ -6,7 +6,7 @@ Ihre Frontends sind jetzt **nativen in Aspire integriert** mit `AddExecutable`!
 
 ---
 
-## ?? Was sich geändert hat
+## ?? Was sich geï¿½ndert hat
 
 ### ? ALT (Manuelle Verwaltung)
 ```bash
@@ -17,7 +17,7 @@ cd Frontend/Admin && npm run dev
 
 ### ? NEU (Aspire Native)
 ```bash
-# Alles über Aspire orchestriert
+# Alles ï¿½ber Aspire orchestriert
 cd AppHost && dotnet run
 # ? Dashboard zeigt alle Services + Frontends!
 ```
@@ -26,7 +26,7 @@ cd AppHost && dotnet run
 
 ## ?? Implementierung
 
-### 1. **AddViteApp Extension** (neue Methode in B2ConnectAspireExtensions.cs)
+### 1. **AddViteApp Extension** (neue Methode in B2XAspireExtensions.cs)
 
 ```csharp
 public static IResourceBuilder<ExecutableResource> AddViteApp(
@@ -97,7 +97,7 @@ cd AppHost
 dotnet run
 ```
 
-### Schritt 2: Dashboard öffnen
+### Schritt 2: Dashboard ï¿½ffnen
 ```
 http://localhost:15500
 ```
@@ -117,7 +117,7 @@ frontend-admin        ? Running   (Port 5174)
 ????????????????????????????????????????
 ```
 
-### Schritt 4: Frontends öffnen
+### Schritt 4: Frontends ï¿½ffnen
 - Store: http://localhost:5173
 - Admin: http://localhost:5174
 
@@ -125,13 +125,13 @@ frontend-admin        ? Running   (Port 5174)
 
 ## ?? Wie AddExecutable funktioniert
 
-### Was wird ausgeführt:
+### Was wird ausgefï¿½hrt:
 ```bash
-# Für Frontend Store:
+# Fï¿½r Frontend Store:
 cd ../Frontend/Store
 npm run dev
 
-# Für Frontend Admin:
+# Fï¿½r Frontend Admin:
 cd ../Frontend/Admin
 npm run dev
 ```
@@ -144,9 +144,9 @@ npm run dev
 
 ---
 
-## ?? Dateien die geändert wurden
+## ?? Dateien die geï¿½ndert wurden
 
-? **AppHost/B2ConnectAspireExtensions.cs**
+? **AppHost/B2XAspireExtensions.cs**
 - Neue Methode: `AddViteApp()`
 - Komplettiert: `WithOpenTelemetry()`
 - Komplettiert: `WithSecurityDefaults()`
@@ -159,7 +159,7 @@ npm run dev
 
 ## ?? Erweiterte Verwendung
 
-### Mit Abhängigkeiten:
+### Mit Abhï¿½ngigkeiten:
 ```csharp
 var frontendStore = builder.AddViteApp(...)
     .WithReference(storeGateway)  // Frontend kennt Gateway
@@ -195,22 +195,22 @@ var frontendStore = builder.AddViteApp(...)
 
 ---
 
-## ?? Häufige Fragen
+## ?? Hï¿½ufige Fragen
 
 ### F: Was wenn npm nicht installiert ist?
-A: `AddExecutable` funktioniert nur wenn das Kommando existiert. Müssen Sie npm/Node.js installieren.
+A: `AddExecutable` funktioniert nur wenn das Kommando existiert. Mï¿½ssen Sie npm/Node.js installieren.
 
 ### F: Wie setze ich Custom Ports?
-A: Parameter `port` in `AddViteApp()` ändern:
+A: Parameter `port` in `AddViteApp()` ï¿½ndern:
 ```csharp
 var frontendStore = builder.AddViteApp(..., port: 3000);
 ```
 
 ### F: Kann ich npm ci statt npm install nutzen?
-A: Ja, im `npm run dev` ist bereits installiert, aber Sie können das Dockerfile anpassen.
+A: Ja, im `npm run dev` ist bereits installiert, aber Sie kï¿½nnen das Dockerfile anpassen.
 
 ### F: Funktioniert Hot Reload noch?
-A: ? Ja! `npm run dev` lädt automatisch neu. Besser sogar, da Aspire Dashboard alles anzeigt.
+A: ? Ja! `npm run dev` lï¿½dt automatisch neu. Besser sogar, da Aspire Dashboard alles anzeigt.
 
 ---
 
@@ -218,7 +218,7 @@ A: ? Ja! `npm run dev` lädt automatisch neu. Besser sogar, da Aspire Dashboard a
 
 - [Aspire AddExecutable Docs](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/app-host-overview)
 - [Vite Development Server](https://vitejs.dev/guide/#index-html-and-project-root)
-- [Docker Alternative](docker-compose.yml) - Falls Sie Frontends containerisieren möchten
+- [Docker Alternative](docker-compose.yml) - Falls Sie Frontends containerisieren mï¿½chten
 
 ---
 
@@ -228,18 +228,18 @@ A: ? Ja! `npm run dev` lädt automatisch neu. Besser sogar, da Aspire Dashboard a
 - ? Frontend Store in AppHost registriert
 - ? Frontend Admin in AppHost registriert
 - ? Build erfolgreich
-- ? Ready für Startup
+- ? Ready fï¿½r Startup
 
 ---
 
-## ?? Nächste Schritte
+## ?? Nï¿½chste Schritte
 
 1. **Starten Sie AppHost:**
    ```bash
    cd AppHost && dotnet run
    ```
 
-2. **Öffnen Sie Dashboard:**
+2. **ï¿½ffnen Sie Dashboard:**
    ```
    http://localhost:15500
    ```
@@ -248,14 +248,14 @@ A: ? Ja! `npm run dev` lädt automatisch neu. Besser sogar, da Aspire Dashboard a
    - `frontend-store` (Running, Port 5173)
    - `frontend-admin` (Running, Port 5174)
 
-4. **Öffnen Sie die Frontends:**
+4. **ï¿½ffnen Sie die Frontends:**
    - Store: http://localhost:5173
    - Admin: http://localhost:5174
 
 ---
 
-## ?? Glückwunsch!
+## ?? Glï¿½ckwunsch!
 
-Sie haben jetzt **vollständige native Aspire Integration** für Ihre Frontends! ??
+Sie haben jetzt **vollstï¿½ndige native Aspire Integration** fï¿½r Ihre Frontends! ??
 
-Alle Services (Backend + Frontend) werden über einen AppHost orchestriert und im Aspire Dashboard monitored.
+Alle Services (Backend + Frontend) werden ï¿½ber einen AppHost orchestriert und im Aspire Dashboard monitored.

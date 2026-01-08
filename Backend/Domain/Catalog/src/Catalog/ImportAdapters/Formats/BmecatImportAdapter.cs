@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using B2Connect.Catalog.ImportAdapters;
-using B2Connect.Catalog.ImportAdapters.Models;
+using B2X.Catalog.ImportAdapters;
+using B2X.Catalog.ImportAdapters.Models;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.ImportAdapters.Formats;
+namespace B2X.Catalog.ImportAdapters.Formats;
 
 /// <summary>
 /// Import adapter for BMEcat format (Hybrid Approach)
@@ -486,7 +486,7 @@ public class BmecatImportAdapter : IFormatAdapter
         {
             // Try loading from embedded resource
             var assembly = typeof(BmecatImportAdapter).Assembly;
-            var resourceName = $"B2Connect.Catalog.{schemaPath}";
+            var resourceName = $"B2X.Catalog.{schemaPath}";
 
             using var stream = assembly.GetManifestResourceStream(resourceName);
             if (stream != null)

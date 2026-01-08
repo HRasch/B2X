@@ -1,6 +1,6 @@
-# Managing Orders
+﻿# Managing Orders
 
-Track and manage your orders at B2Connect.
+Track and manage your orders at B2X.
 
 ---
 
@@ -217,7 +217,7 @@ A: Your order history is available indefinitely in your account.
 
 ## 🆘 Need Help?
 
-- **Email**: support@b2connect.com
+- **Email**: support@B2X.com
 - **Phone**: +49 (0)800 123 4567
 - **Live Chat**: Mon-Fri 9am-5pm
 

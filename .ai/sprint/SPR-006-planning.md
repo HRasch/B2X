@@ -1,4 +1,12 @@
 ---
+docid: SPR-082
+title: SPR 006 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-006-PLANNING
 title: Sprint 2026-06 Planning - Documentation Process Improvements & Real ERP Testing
 owner: @ScrumMaster

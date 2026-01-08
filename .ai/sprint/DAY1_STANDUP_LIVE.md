@@ -1,3 +1,11 @@
+---
+docid: SPR-037
+title: DAY1_STANDUP_LIVE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📋 Iteration 001 - Day 1 Standup Log & Execution Record
 
 **Date:** December 30, 2025  

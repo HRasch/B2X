@@ -3,12 +3,12 @@
     <!-- Header -->
     <div class="header">
       <div class="title-section">
-        <h1>Brands</h1>
-        <p class="subtitle">Manage product brands</p>
+        <h1>{{ $t('catalog.brands.title') }}</h1>
+        <p class="subtitle">{{ $t('catalog.brands.subtitle') }}</p>
       </div>
       <div class="actions">
         <button @click="goToCreate" class="btn btn-primary">
-          <span class="icon">+</span> New Brand
+          <span class="icon">+</span> {{ $t('catalog.brands.actions.new') }}
         </button>
       </div>
     </div>
@@ -26,13 +26,13 @@
     <!-- Loading -->
     <div v-if="loading" class="loading">
       <div class="spinner"></div>
-      Loading brands...
+      {{ $t('catalog.brands.loading') }}
     </div>
 
     <!-- Brands Grid -->
     <div v-else class="brands-grid">
       <div v-if="brands.length === 0" class="empty-state">
-        <p>No brands found. Create your first brand!</p>
+        <p>{{ $t('catalog.brands.no_brands') }}</p>
       </div>
       <div v-else class="grid-items">
         <div v-for="brand in brands" :key="brand.id" class="brand-card">
@@ -49,16 +49,22 @@
             </p>
             <div class="brand-meta">
               <span v-if="brand.websiteUrl" class="meta-item">
-                <a :href="brand.websiteUrl" target="_blank" rel="noopener noreferrer">Website</a>
+                <a :href="brand.websiteUrl" target="_blank" rel="noopener noreferrer">{{
+                  $t('catalog.brands.website')
+                }}</a>
               </span>
               <span :class="['status', brand.isActive ? 'active' : 'inactive']">
-                {{ brand.isActive ? 'Active' : 'Inactive' }}
+                {{ brand.isActive ? $t('catalog.brands.active') : $t('catalog.brands.inactive') }}
               </span>
             </div>
           </div>
           <div class="brand-actions">
-            <button @click="goToEdit(brand.id)" class="btn btn-sm btn-secondary">Edit</button>
-            <button @click="confirmDelete(brand.id)" class="btn btn-sm btn-danger">Delete</button>
+            <button @click="goToEdit(brand.id)" class="btn btn-sm btn-secondary">
+              {{ $t('catalog.brands.edit') }}
+            </button>
+            <button @click="confirmDelete(brand.id)" class="btn btn-sm btn-danger">
+              {{ $t('catalog.brands.delete') }}
+            </button>
           </div>
         </div>
       </div>
@@ -67,13 +73,15 @@
     <!-- Pagination -->
     <div v-if="!loading && brandsTotalitres > 0" class="pagination">
       <button @click="previousPage" :disabled="brandsPagination.skip === 0" class="btn btn-sm">
-        Previous
+        {{ $t('ui.previous') }}
       </button>
       <span class="page-info">
         Page {{ currentPage }} of {{ totalPages }} ({{ brandsTotalitres }}
         total)
       </span>
-      <button @click="nextPage" :disabled="!hasMoreBrands" class="btn btn-sm">Next</button>
+      <button @click="nextPage" :disabled="!hasMoreBrands" class="btn btn-sm">
+        {{ $t('ui.next') }}
+      </button>
     </div>
   </div>
 </template>

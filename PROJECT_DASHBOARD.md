@@ -1,4 +1,4 @@
-# Modern B2Connect Storefront - Project Dashboard
+﻿# Modern B2X Storefront - Project Dashboard
 
 **Project**: Modern Ecommerce Storefront with DaysUI & Figma Integration  
 **Status**: 🟡 PARTIALLY COMPLETE  
@@ -31,7 +31,7 @@
 
 ## 🔁 Recent PRs
 
-- [#61 chore: agent consolidation — subagents resource library](https://github.com/HRasch/B2Connect/pull/61) — Move SubAgents into `.github/agents/subagents/`, document as "lazy experts", add export-subagent templates (AI/UX/UI/Requirements), and point subagents to `.ai/knowledgebase/` with SARAH fallback. (branch: `chore/agent-consolidation-pr-workflows`)
+- [#61 chore: agent consolidation — subagents resource library](https://github.com/HRasch/B2X/pull/61) — Move SubAgents into `.github/agents/subagents/`, document as "lazy experts", add export-subagent templates (AI/UX/UI/Requirements), and point subagents to `.ai/knowledgebase/` with SARAH fallback. (branch: `chore/agent-consolidation-pr-workflows`)
 
 
 ## 📊 Sprint Progress
@@ -504,7 +504,7 @@ Security:
 
 ```
 ╔═══════════════════════════════════════════════════════════╗
-║  B2Connect Modern Storefront - Project Status             ║
+║  B2X Modern Storefront - Project Status             ║
 ║  ────────────────────────────────────────────────────────  ║
 ║  Overall Progress: 60% (24 of 40 hours)                   ║
 ║                                                            ║
@@ -529,5 +529,5 @@ Security:
 
 **Last Updated**: 6 January 2026, 12:00 UTC  
 **Next Review**: Sprint 3 Completion (Jan 10, 2026)  
-**Project Owner**: B2Connect Team  
+**Project Owner**: B2X Team  
 **GitHub Issue**: #45 (Modern Storefront Initiative)

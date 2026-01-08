@@ -1,7 +1,7 @@
-using B2Connect.Identity.Interfaces;
-using B2Connect.Identity.Models;
+using B2X.Identity.Interfaces;
+using B2X.Identity.Models;
 
-namespace B2Connect.Identity.Infrastructure.ExternalServices;
+namespace B2X.Identity.Infrastructure.ExternalServices;
 
 /// <summary>
 /// Faker ERP Provider für Testing und Entwicklung

@@ -1,4 +1,12 @@
-# B2Connect — System Requirements (for @Architect)
+---
+docid: REQ-069
+title: SYSTEM_REQUIREMENTS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# B2X — System Requirements (for @Architect)
 
 Purpose: system-level requirements to guide architecture decisions, scalability, reliability and compliance.
 

@@ -1,4 +1,12 @@
 ---
+docid: SPR-115
+title: SPR 017 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-017-RETRO
 title: Sprint 2026-17 Retrospective - AI Validation Maturity & Ethical Testing Frameworks
 owner: @ScrumMaster

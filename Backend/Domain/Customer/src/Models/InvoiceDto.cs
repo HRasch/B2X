@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace B2Connect.Customer.Models;
+namespace B2X.Customer.Models;
 
 /// <summary>
 /// Command: Generate invoice from order

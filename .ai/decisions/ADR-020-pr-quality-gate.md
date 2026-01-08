@@ -1,4 +1,12 @@
-# PR Quality Gate Implementation - ADR
+---
+docid: ADR-054
+title: ADR 020 Pr Quality Gate
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# PR Quality Gate Implementation - ADR
 
 **DocID**: `ADR-020`  
 **Title**: PR Quality Gate with Free Code Quality Tools  
@@ -10,7 +18,7 @@
 
 ## Context
 
-B2Connect needs a comprehensive PR quality gate to ensure:
+B2X needs a comprehensive PR quality gate to ensure:
 - All code is tested before merge (80%+ backend, 70%+ frontend coverage)
 - Security vulnerabilities are caught early
 - Code quality standards are maintained

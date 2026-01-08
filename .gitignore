@@ -133,5 +133,19 @@ Thumbs.db
 .dotnet-tools.json.user
 
 # Dev Node Configuration (local network secrets)
-.b2connect-dev-node.json
+.b2x-dev-node.json
 **/dev-node.local.json
+# Temporary Development & Analysis Files
+# These should be archived to .ai/archive/ or deleted, never committed
+.ai/temp/
+temp-*.json
+temp-*.js
+temp-*.cs
+test-*.json
+sample-*.json
+sample-*.data
+sample-*.js
+*-audit-*.txt
+*-log-*.txt
+*-analysis-*.md
+# Note: Files matching above patterns that are committed should be moved to .ai/archive/

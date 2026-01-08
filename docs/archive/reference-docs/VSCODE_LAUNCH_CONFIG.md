@@ -1,4 +1,4 @@
-# VS Code Launch-Konfiguration für B2Connect
+﻿# VS Code Launch-Konfiguration für B2X
 
 ## 🚀 Verfügbare Launch-Konfigurationen
 
@@ -6,7 +6,7 @@
 
 **🚀 Aspire AppHost (InMemory)** ⭐ EMPFOHLEN
 - Startet den kompletten Aspire AppHost mit InMemory-Datenbank
-- Projekt: `backend/services/Orchestration` (B2Connect.Orchestration.csproj)
+- Projekt: `backend/services/Orchestration` (B2X.Orchestration.csproj)
 - Keine PostgreSQL/Docker nötig
 - Alle Services automatisch orchestriert
 - **Shortcut**: `F5` → Wähle "🚀 Aspire AppHost (InMemory)"

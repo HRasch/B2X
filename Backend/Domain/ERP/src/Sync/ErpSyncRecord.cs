@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using B2Connect.ERP.Abstractions;
+using B2X.ERP.Abstractions;
 
-namespace B2Connect.Domain.ERP.Sync
+namespace B2X.Domain.ERP.Sync
 {
     /// <summary>
     /// Sync Record for ERP entity mapping - based on eGate SyncRecord pattern
-    /// Maintains mapping between B2Connect internal IDs and external ERP IDs
+    /// Maintains mapping between B2X internal IDs and external ERP IDs
     /// </summary>
     public class ErpSyncRecord
     {
@@ -16,9 +16,9 @@ namespace B2Connect.Domain.ERP.Sync
         public string ProviderId { get; set; } = string.Empty; // "enventa", "sap", etc.
         public string EntityType { get; set; } = string.Empty; // "Article", "Customer", "Order"
 
-        // B2Connect internal identifiers
-        public Guid B2ConnectId { get; set; }
-        public string B2ConnectEntityType { get; set; } = string.Empty;
+        // B2X internal identifiers
+        public Guid B2XId { get; set; }
+        public string B2XEntityType { get; set; } = string.Empty;
 
         // ERP external identifiers
         public string ErpId { get; set; } = string.Empty;
@@ -56,7 +56,7 @@ namespace B2Connect.Domain.ERP.Sync
     /// </summary>
     public interface IErpSyncRecordRepository
     {
-        Task<ErpSyncRecord?> GetByB2ConnectIdAsync(Guid b2ConnectId, string entityType);
+        Task<ErpSyncRecord?> GetByB2XIdAsync(Guid B2XId, string entityType);
         Task<ErpSyncRecord?> GetByErpIdAsync(string erpId, string entityType, string tenantId, string providerId);
         Task<IEnumerable<ErpSyncRecord>> GetByEntityTypeAsync(string entityType, string tenantId, string providerId);
         Task<IEnumerable<ErpSyncRecord>> GetPendingSyncAsync(string tenantId, string providerId, int limit = 1000);
@@ -86,22 +86,22 @@ namespace B2Connect.Domain.ERP.Sync
         }
 
         /// <summary>
-        /// Get or create sync record for B2Connect entity
+        /// Get or create sync record for B2X entity
         /// </summary>
-        public async Task<ErpSyncRecord> GetOrCreateForB2ConnectAsync(
-            Guid b2ConnectId,
+        public async Task<ErpSyncRecord> GetOrCreateForB2XAsync(
+            Guid B2XId,
             string entityType,
             string tenantId,
             string providerId)
         {
-            var existing = await _repository.GetByB2ConnectIdAsync(b2ConnectId, entityType);
+            var existing = await _repository.GetByB2XIdAsync(B2XId, entityType);
             if (existing != null)
                 return existing;
 
             var record = new ErpSyncRecord
             {
-                B2ConnectId = b2ConnectId,
-                B2ConnectEntityType = entityType,
+                B2XId = B2XId,
+                B2XEntityType = entityType,
                 TenantId = tenantId,
                 ProviderId = providerId,
                 EntityType = entityType,
@@ -151,17 +151,17 @@ namespace B2Connect.Domain.ERP.Sync
         }
 
         /// <summary>
-        /// Link B2Connect and ERP entities
+        /// Link B2X and ERP entities
         /// </summary>
         public async Task LinkEntitiesAsync(
-            Guid b2ConnectId,
+            Guid B2XId,
             string erpId,
             string entityType,
             string tenantId,
             string providerId,
             long rowVersion = 0)
         {
-            var record = await GetOrCreateForB2ConnectAsync(b2ConnectId, entityType, tenantId, providerId);
+            var record = await GetOrCreateForB2XAsync(B2XId, entityType, tenantId, providerId);
             record.ErpId = erpId;
             record.ErpRowVersion = rowVersion;
             record.Status = SyncStatus.Active;
@@ -173,9 +173,9 @@ namespace B2Connect.Domain.ERP.Sync
         /// <summary>
         /// Mark entity as synced
         /// </summary>
-        public async Task MarkSyncedAsync(Guid b2ConnectId, string entityType, long newRowVersion)
+        public async Task MarkSyncedAsync(Guid B2XId, string entityType, long newRowVersion)
         {
-            var record = await _repository.GetByB2ConnectIdAsync(b2ConnectId, entityType);
+            var record = await _repository.GetByB2XIdAsync(B2XId, entityType);
             if (record != null)
             {
                 await _repository.MarkAsSyncedAsync(record.Id, newRowVersion);
@@ -186,12 +186,12 @@ namespace B2Connect.Domain.ERP.Sync
         /// Handle sync failure with retry logic
         /// </summary>
         public async Task HandleSyncFailureAsync(
-            Guid b2ConnectId,
+            Guid B2XId,
             string entityType,
             string errorMessage,
             int maxRetries = 3)
         {
-            var record = await _repository.GetByB2ConnectIdAsync(b2ConnectId, entityType);
+            var record = await _repository.GetByB2XIdAsync(B2XId, entityType);
             if (record == null)
             {
                 return;
@@ -252,7 +252,7 @@ namespace B2Connect.Domain.ERP.Sync
     /// </summary>
     public class SyncError
     {
-        public Guid B2ConnectId { get; set; }
+        public Guid B2XId { get; set; }
         public string ErpId { get; set; } = string.Empty;
         public string EntityType { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;

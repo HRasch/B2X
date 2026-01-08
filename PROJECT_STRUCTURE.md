@@ -1,4 +1,4 @@
-# 📁 B2Connect Project Structure - Post-Cleanup
+﻿# 📁 B2X Project Structure - Post-Cleanup
 
 **Last Updated**: 29. Dezember 2025  
 **Status**: ✅ Clean & Organized  

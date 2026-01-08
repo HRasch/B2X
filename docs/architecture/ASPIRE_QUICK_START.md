@@ -1,4 +1,4 @@
-# 🚀 Quick Start - Aspire Integration
+﻿# 🚀 Quick Start - Aspire Integration
 
 **Status**: ✅ Ready to Use
 
@@ -9,7 +9,7 @@
 ### Install Required NuGet Packages
 
 ```bash
-cd /Users/holger/Documents/Projekte/B2Connect
+cd /Users/holger/Documents/Projekte/B2X
 
 # PostgreSQL Support
 dotnet add package Aspire.Hosting.PostgreSQL --version 8.0.0
@@ -43,7 +43,7 @@ dotnet add package Fido2.NetFramework --version 3.4.0
 {
   "Azure": {
     "KeyVault": {
-      "Uri": "https://b2connect-dev.vault.azure.net/"
+      "Uri": "https://B2X-dev.vault.azure.net/"
     },
     "TenantId": "<your-tenant-id>",
     "ClientId": "<your-client-id>",
@@ -51,8 +51,8 @@ dotnet add package Fido2.NetFramework --version 3.4.0
   },
   "Jwt": {
     "Secret": "dev-jwt-secret-minimum-32-characters-required!!!",
-    "Issuer": "B2Connect",
-    "Audience": "B2Connect"
+    "Issuer": "B2X",
+    "Audience": "B2X"
   },
   "Database": {
     "Password": "postgres"
@@ -71,35 +71,35 @@ dotnet add package Fido2.NetFramework --version 3.4.0
 ```bash
 # 1. Create Key Vault
 az keyvault create \
-  --name b2connect-dev-vault \
-  --resource-group b2connect-dev \
+  --name B2X-dev-vault \
+  --resource-group B2X-dev \
   --location westeurope
 
 # 2. Set Secrets
 az keyvault secret set \
-  --vault-name b2connect-dev-vault \
+  --vault-name B2X-dev-vault \
   --name "Jwt--Secret" \
   --value "$(openssl rand -base64 32)"
 
 az keyvault secret set \
-  --vault-name b2connect-dev-vault \
+  --vault-name B2X-dev-vault \
   --name "Database--Password" \
   --value "$(openssl rand -base64 16)"
 
 az keyvault secret set \
-  --vault-name b2connect-dev-vault \
+  --vault-name B2X-dev-vault \
   --name "Encryption--Key" \
   --value "$(openssl rand -base64 32)"
 
 # 3. Configure Access Policy
 az keyvault set-policy \
-  --name b2connect-dev-vault \
+  --name B2X-dev-vault \
   --object-id $(az ad user show --id you@example.com --query id -o tsv) \
   --secret-permissions get list set delete
 
 # 4. Get Resource IDs for Aspire
 export KEYVAULT_URI=$(az keyvault show \
-  --name b2connect-dev-vault \
+  --name B2X-dev-vault \
   --query properties.vaultUri -o tsv)
 ```
 
@@ -201,7 +201,7 @@ Response:
 {
   "challenge": "base64-encoded-challenge",
   "rp": {
-    "name": "B2Connect",
+    "name": "B2X",
     "id": "localhost"
   },
   "user": {
@@ -265,7 +265,7 @@ fetch('http://localhost:7002/api/auth/passkeys/registration/complete', {
 docker ps | grep postgres
 
 # Connect to DB
-psql -h localhost -U postgres -d b2connect_auth
+psql -h localhost -U postgres -d B2X_auth
 
 # List tables
 \dt
@@ -315,7 +315,7 @@ ab -n 1000 -c 10 http://localhost:7002/api/auth/login
 
 ```bash
 # Connect to PostgreSQL
-psql -h localhost -U postgres -d b2connect_auth
+psql -h localhost -U postgres -d B2X_auth
 
 # Select encrypted column
 SELECT id, email_encrypted, email_iv FROM users LIMIT 1;
@@ -362,13 +362,13 @@ Passkey     | INSERT | user-1  | 2024-01-01 | {"credentialId":"..."}
 docker ps | grep postgres
 
 # If not, create container
-docker run --name postgres-b2connect \
+docker run --name postgres-B2X \
   -e POSTGRES_PASSWORD=postgres \
   -p 5432:5432 \
   -d postgres:16
 
 # Check logs
-docker logs postgres-b2connect
+docker logs postgres-B2X
 ```
 
 ### Redis Connection Failed
@@ -378,7 +378,7 @@ docker logs postgres-b2connect
 docker ps | grep redis
 
 # If not, create container
-docker run --name redis-b2connect \
+docker run --name redis-B2X \
   -p 6379:6379 \
   -d redis:7
 
@@ -390,14 +390,14 @@ redis-cli ping
 
 ```bash
 # Check Managed Identity (if using)
-az identity show --name b2connect-identity
+az identity show --name B2X-identity
 
 # Or check Service Principal Credentials
 az ad sp show --id $(az account show --query user.name -o tsv)
 
 # Add Access Policy
 az keyvault set-policy \
-  --name b2connect-dev-vault \
+  --name B2X-dev-vault \
   --object-id <identity-object-id> \
   --secret-permissions get list
 ```

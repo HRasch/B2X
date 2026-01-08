@@ -1,7 +1,7 @@
-using B2Connect.Customer.Models;
+using B2X.Customer.Models;
 using FluentValidation;
 
-namespace B2Connect.Customer.Validators;
+namespace B2X.Customer.Validators;
 
 /// <summary>
 /// Validator for GenerateInvoiceCommand

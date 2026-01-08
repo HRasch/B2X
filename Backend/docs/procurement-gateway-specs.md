@@ -1,8 +1,8 @@
-# B2Connect Procurement Gateway Specifications
+﻿# B2X Procurement Gateway Specifications
 
 ## Overview
 
-The B2Connect Procurement Gateway is a comprehensive integration platform designed to bridge the gap between B2Connect's e-commerce shop and third-party procurement platforms. It enables seamless order synchronization, inventory visibility, and supplier management across enterprise procurement ecosystems.
+The B2X Procurement Gateway is a comprehensive integration platform designed to bridge the gap between B2X's e-commerce shop and third-party procurement platforms. It enables seamless order synchronization, inventory visibility, and supplier management across enterprise procurement ecosystems.
 
 ## Supported Procurement Platforms
 
@@ -34,7 +34,7 @@ Procurement Platform (PO Creation)
     ↓
 Procurement Gateway (Order Mapping)
     ↓
-B2Connect Shop (Create Order)
+B2X Shop (Create Order)
     ↓
 Order Service (Process Order)
     ↓
@@ -46,8 +46,8 @@ Procurement Platform (ASN, Shipment Status)
 ```
 
 #### Features
-- **Real-time Order Creation**: Create orders in B2Connect immediately
-- **Order Mapping**: Map procurement platform fields to B2Connect schema
+- **Real-time Order Creation**: Create orders in B2X immediately
+- **Order Mapping**: Map procurement platform fields to B2X schema
 - **Duplicate Prevention**: Prevent duplicate order creation
 - **Error Handling**: Retry mechanisms for failed orders
 - **Order Confirmation**: Send confirmation back to procurement platform
@@ -55,7 +55,7 @@ Procurement Platform (ASN, Shipment Status)
 
 #### Order Information Mapping
 ```
-Coupa Purchase Order → B2Connect Order
+Coupa Purchase Order → B2X Order
 ├── PO Number → Order Number
 ├── Line Items → Cart Items
 │   ├── SKU → Product ID
@@ -177,7 +177,7 @@ Performance Dashboard
 #### PO Lifecycle
 1. **PO Creation**: Create in procurement platform
 2. **PO Validation**: Verify availability and pricing
-3. **PO Acceptance**: Confirm in B2Connect
+3. **PO Acceptance**: Confirm in B2X
 4. **PO Execution**: Pick and pack
 5. **PO Fulfillment**: Ship goods
 6. **PO Confirmation**: Send ASN
@@ -321,7 +321,7 @@ Performance Dashboard
              │ Normalized Events
              │
 ┌────────────▼─────────────┐
-│  B2Connect Core          │
+│  B2X Core          │
 │  ├── Order Service       │
 │  ├── Inventory Service   │
 │  ├── Shop Service        │
@@ -334,7 +334,7 @@ Performance Dashboard
 #### Order Synchronization Flow
 1. **PO Created** in procurement platform
 2. **Webhook** triggers Procurement Gateway
-3. **Adapter** maps PO to B2Connect order
+3. **Adapter** maps PO to B2X order
 4. **Order Service** creates order
 5. **Inventory Service** reserves stock
 6. **Payment Service** authorizes payment

@@ -1,8 +1,8 @@
-using B2Connect.Domain.Search.Services;
+﻿using B2X.Domain.Search.Services;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace B2Connect.Domain.Search.Tests;
+namespace B2X.Domain.Search.Tests;
 
 public class ConfigTenantResolverTests
 {

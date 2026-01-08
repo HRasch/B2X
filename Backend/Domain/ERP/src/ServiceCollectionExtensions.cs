@@ -2,17 +2,17 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.Domain.ERP.Services;
-using B2Connect.ERP.Abstractions;
-using B2Connect.ERP.Abstractions.Http;
-using B2Connect.ERP.Connectors;
-using B2Connect.ERP.Connectors.SAP;
-using B2Connect.ERP.Infrastructure.DataAccess;
+using B2X.Domain.ERP.Services;
+using B2X.ERP.Abstractions;
+using B2X.ERP.Abstractions.Http;
+using B2X.ERP.Connectors;
+using B2X.ERP.Connectors.SAP;
+using B2X.ERP.Infrastructure.DataAccess;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Wolverine;
 
-namespace B2Connect.ERP;
+namespace B2X.ERP;
 
 /// <summary>
 /// Extension methods for registering ERP services.

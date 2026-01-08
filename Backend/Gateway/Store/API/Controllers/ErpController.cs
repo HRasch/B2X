@@ -1,9 +1,9 @@
-using B2Connect.Shared.Infrastructure.ServiceClients;
+using B2X.Shared.Infrastructure.ServiceClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
-namespace B2Connect.Store.Controllers;
+namespace B2X.Store.Controllers;
 
 /// <summary>
 /// ERP Integration API Controller

@@ -1,4 +1,4 @@
-# B2Connect - Estimations & Capacity
+﻿# B2X - Estimations & Capacity
 
 **Owner**: @software-architect  
 **Last Updated**: 29. Dezember 2025  

@@ -1,3 +1,11 @@
+---
+docid: ADR-118
+title: PHASE_2_MIGRATION_PROGRESS_UPDATED
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ## Phase 2: Component Migration Progress - UPDATED
 
 **Overall Status**: ✅ Batch 1 COMPLETE (5 SP delivered)  

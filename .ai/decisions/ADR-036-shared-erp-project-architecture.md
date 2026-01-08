@@ -1,18 +1,26 @@
-# ADR-036: Shared ERP Project Architecture
+---
+docid: ADR-079
+title: ADR 036 Shared Erp Project Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-036: Shared ERP Project Architecture
 
 **Status:** Accepted  
 **Date:** January 5, 2026  
-**Context:** B2Connect ERP Connector Architecture  
+**Context:** B2X ERP Connector Architecture  
 **Decision Authors:** @Architect, @TechLead
 
 ---
 
 ## Problem
 
-The B2Connect ERP connector architecture (ADR-034) had significant code duplication across multiple implementations:
+The B2X ERP connector architecture (ADR-034) had significant code duplication across multiple implementations:
 
 1. **Standalone ERP Connector** (`erp-connector/`) - .NET Framework 4.8 console app for enventa Trade ERP
-2. **Backend Shared Library** (`backend/shared/B2Connect.Shared.ErpConnector/`) - .NET 8.0 interfaces
+2. **Backend Shared Library** (`backend/shared/B2X.Shared.ErpConnector/`) - .NET 8.0 interfaces
 3. **Backend Connectors** (`backend/Connectors/`) - .NET 10.0 validation implementations
 4. **ERP Domain** (`backend/Domain/ERP/`) - .NET 10.0 provider pattern implementations
 
@@ -41,7 +49,7 @@ Implement shared projects with multi-targeting to consolidate common ERP code:
 
 ```
 backend/shared/
-├── B2Connect.Shared.Erp.Core/           # Core interfaces & DTOs
+├── B2X.Shared.Erp.Core/           # Core interfaces & DTOs
 │   ├── Interfaces/
 │   │   ├── IErpConnector.cs             # Unified connector interface
 │   │   ├── IErpAdapterFactory.cs        # Factory pattern
@@ -52,7 +60,7 @@ backend/shared/
 │       ├── ErpResults.cs                # Result types
 │       └── ErpDtos.cs                   # Data transfer objects
 │
-└── B2Connect.Shared.Erp.Validation/     # Shared validation logic
+└── B2X.Shared.Erp.Validation/     # Shared validation logic
     ├── IErpDataValidator.cs             # Validator interface
     ├── BaseErpDataValidator.cs          # Base implementation
     └── Validators/
@@ -110,13 +118,13 @@ This allows:
 
 ### Projects Created
 
-1. **B2Connect.Shared.Erp.Core** - Core interfaces and models
-2. **B2Connect.Shared.Erp.Validation** - Shared validation logic
+1. **B2X.Shared.Erp.Core** - Core interfaces and models
+2. **B2X.Shared.Erp.Validation** - Shared validation logic
 
 ### Projects Updated
 
 1. **erp-connector** - Added references to shared projects
-2. **B2Connect.slnx** - Added shared ERP projects to solution
+2. **B2X.slnx** - Added shared ERP projects to solution
 3. **erp-connector solution** - Added shared project references
 
 ---

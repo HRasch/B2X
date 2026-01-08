@@ -1,4 +1,12 @@
-# Code Style Ping-Pong Prevention
+---
+docid: KB-076
+title: Code Style Prevention
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Code Style Ping-Pong Prevention
 
 **Date**: 6. Januar 2026  
 **Status**: ✅ Implemented
@@ -117,7 +125,7 @@ dotnet format VueMCP/VueMCP.csproj
 dotnet format SecurityMCP/SecurityMCP.csproj
 dotnet format HtmlCssMCP/HtmlCssMCP.csproj
 dotnet format WolverineMCP/WolverineMCP.csproj
-dotnet format B2ConnectMCP/B2ConnectMCP.csproj
+dotnet format B2XMCP/B2XMCP.csproj
 ```
 
 ## Next Steps

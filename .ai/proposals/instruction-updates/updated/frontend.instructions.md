@@ -1,4 +1,12 @@
 ---
+docid: PROP-010
+title: Frontend.Instructions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 --
 

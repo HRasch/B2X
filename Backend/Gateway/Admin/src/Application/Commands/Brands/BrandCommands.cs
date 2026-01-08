@@ -1,4 +1,4 @@
-namespace B2Connect.Admin.Application.Commands.Brands;
+namespace B2X.Admin.Application.Commands.Brands;
 
 /// <summary>
 /// Brand Commands & Queries - CQRS Pattern

@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.Identity.Tests.Integration;
+namespace B2X.Identity.Tests.Integration;
 
 /// <summary>
 /// Integration tests for User Management API endpoints

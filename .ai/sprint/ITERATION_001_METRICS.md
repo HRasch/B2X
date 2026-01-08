@@ -1,4 +1,12 @@
-# 📊 Iteration 001 Metrics Dashboard
+---
+docid: SPR-050
+title: ITERATION_001_METRICS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 📊 Iteration 001 Metrics Dashboard
 
 **Purpose:** Single-page reference for iteration status, velocity, and key metrics  
 **Audience:** Team leads, stakeholders, daily standup reference  
@@ -192,7 +200,7 @@ Pace: 5 SP/day → ETA: 5-6 days remaining
 - **Standup Log:** [DAILY_STANDUP_TEMPLATE.md](./DAILY_STANDUP_TEMPLATE.md)
 - **Full Plan:** [ITERATION_001_PLAN.md](./ITERATION_001_PLAN.md)
 - **Architecture:** [SPRINT_001_ARCHITECT_TECHLEAD_REVIEW.md](./SPRINT_001_ARCHITECT_TECHLEAD_REVIEW.md)
-- **GitHub Issues:** [#57](https://github.com/HRasch/B2Connect/issues/57), [#56](https://github.com/HRasch/B2Connect/issues/56), [#15](https://github.com/HRasch/B2Connect/issues/15), [#48](https://github.com/HRasch/B2Connect/issues/48)
+- **GitHub Issues:** [#57](https://github.com/HRasch/B2X/issues/57), [#56](https://github.com/HRasch/B2X/issues/56), [#15](https://github.com/HRasch/B2X/issues/15), [#48](https://github.com/HRasch/B2X/issues/48)
 
 ---
 

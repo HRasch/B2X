@@ -1,0 +1,86 @@
+[
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1669541+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1686158+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Catalog\\ImportAdapters\\Formats\\CsvImportAdapter.cs(377,20): warning S3260: Private record classes which are not derived in the current assembly should be marked as 'sealed'. (https://rules.sonarsource.com/csharp/RSPEC-3260) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1686841+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Services\\TermsAcceptanceService.cs(48,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.16871+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Handlers\\ShippingCostHandler.cs(39,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1687345+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Handlers\\VatIdValidationHandler.cs(64,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.168759+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Application\\Handlers\\PriceCalculationService.cs(48,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1687906+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1688085+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1688351+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Catalog\\ImportAdapters\\Formats\\CsvImportAdapter.cs(377,20): warning S3260: Private record classes which are not derived in the current assembly should be marked as 'sealed'. (https://rules.sonarsource.com/csharp/RSPEC-3260) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1688517+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Services\\TermsAcceptanceService.cs(48,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1688683+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Handlers\\ShippingCostHandler.cs(39,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1688876+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Handlers\\VatIdValidationHandler.cs(64,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1689061+01:00"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Application\\Handlers\\PriceCalculationService.cs(48,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:30:20.1689298+01:00"
+  }
+]

@@ -1,4 +1,4 @@
-{
+﻿{
   "auth": {
     "login": {
       "title": "Aanmelden",
@@ -74,7 +74,7 @@
     "version": "Versie"
   },
   "store": {
-    "title": "B2Connect Store",
+    "title": "B2X Store",
     "subtitle": "Vind de beste producten voor uw bedrijf",
     "searchPlaceholder": "Zoeken op naam, SKU of beschrijving...",
     "searchTime": "Zoektijd: {time}ms",

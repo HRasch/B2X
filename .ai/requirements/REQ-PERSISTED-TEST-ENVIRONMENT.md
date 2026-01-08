@@ -1,4 +1,12 @@
 ---
+docid: REQ-064
+title: REQ PERSISTED TEST ENVIRONMENT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: REQ-PERSISTED-TEST-ENV
 title: Persisted Test Environment
 owner: @ProductOwner
@@ -10,7 +18,7 @@ created: 2026-01-07
 # Persisted Test Environment - Feature Specification
 
 ## 📋 Overview
-Configure B2Connect services to support both **persisted storage** (for realistic test scenarios) and **temporary test environments** (for unit/integration tests), with initial seeding for Management-Frontend services and frontend UI for creating new tenants.
+Configure B2X services to support both **persisted storage** (for realistic test scenarios) and **temporary test environments** (for unit/integration tests), with initial seeding for Management-Frontend services and frontend UI for creating new tenants.
 
 ---
 

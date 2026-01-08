@@ -1,11 +1,11 @@
 using System.Globalization;
-using B2Connect.Admin.Core.Entities;
-using B2Connect.Shared.Core;
-using B2Connect.Types.Localization;
+using B2X.Admin.Core.Entities;
+using B2X.Shared.Core;
+using B2X.Types.Localization;
 using Bogus;
-using LocalizedContent = B2Connect.Types.Localization.LocalizedContent;
+using LocalizedContent = B2X.Types.Localization.LocalizedContent;
 
-namespace B2Connect.Admin.Infrastructure.Data;
+namespace B2X.Admin.Infrastructure.Data;
 
 /// <summary>
 /// Demo data generator for development and testing using Bogus

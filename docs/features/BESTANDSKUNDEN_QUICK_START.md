@@ -1,4 +1,4 @@
-# Bestandskunden-Registrierung: Quick-Start Implementation (2-3 Tage)
+﻿# Bestandskunden-Registrierung: Quick-Start Implementation (2-3 Tage)
 
 **Zieltermin:** KW 2 2026  
 **Geschätzter Aufwand:** 40-48 Stunden  
@@ -32,18 +32,18 @@ Account erstellt, E-Mail-Bestätigung
 
 - [ ] **1.1** Entities erstellen (30 min)
   - `UserRegistration` Entity + Enums
-  - Datei: `backend/Domain/Identity/B2Connect.Identity.Core/Entities/UserRegistration.cs`
+  - Datei: `backend/Domain/Identity/B2X.Identity.Core/Entities/UserRegistration.cs`
   - Copy-Paste aus [BESTANDSKUNDEN_IMPLEMENTIERUNGS_SCAFFOLD.md](../features/BESTANDSKUNDEN_IMPLEMENTIERUNGS_SCAFFOLD.md) Sektion "1. Entities"
 
 - [ ] **1.2** Repository Interfaces (20 min)
   - `IUserRegistrationRepository`
   - `IErpCustomerService`
-  - Datei: `backend/Domain/Identity/B2Connect.Identity.Core/Interfaces/`
+  - Datei: `backend/Domain/Identity/B2X.Identity.Core/Interfaces/`
 
 - [ ] **1.3** Datenbank Migrations (1h)
   ```bash
   cd backend/Domain/Identity
-  dotnet ef migrations add AddUserRegistration -p B2Connect.Identity.Infrastructure -s B2Connect.Identity.API
+  dotnet ef migrations add AddUserRegistration -p B2X.Identity.Infrastructure -s B2X.Identity.API
   dotnet ef database update
   ```
 
@@ -55,7 +55,7 @@ Account erstellt, E-Mail-Bestätigung
 
 - [ ] **2.1** ERP-Service Implementation (2h)
   - `SapCustomerService` oder `CsvCustomerService` (für lokale Tests)
-  - Datei: `backend/Domain/Identity/B2Connect.Identity.Infrastructure/ExternalServices/SapCustomerService.cs`
+  - Datei: `backend/Domain/Identity/B2X.Identity.Infrastructure/ExternalServices/SapCustomerService.cs`
   - Copy-Paste aus Scaffold
 
 - [ ] **2.2** CQRS Handler implementieren (2h)
@@ -189,24 +189,24 @@ Account erstellt, E-Mail-Bestätigung
 
 ```bash
 # 1. Entities erstellen
-code backend/Domain/Identity/B2Connect.Identity.Core/Entities/UserRegistration.cs
+code backend/Domain/Identity/B2X.Identity.Core/Entities/UserRegistration.cs
 # → Copy-Paste aus SCAFFOLD, Sektion 1
 
 # 2. Interfaces erstellen
-code backend/Domain/Identity/B2Connect.Identity.Core/Interfaces/
+code backend/Domain/Identity/B2X.Identity.Core/Interfaces/
 # → IUserRegistrationRepository.cs
 # → IErpCustomerService.cs
 
 # 3. DbContext erweitern
-code backend/Domain/Identity/B2Connect.Identity.Infrastructure/Data/IdentityDbContext.cs
+code backend/Domain/Identity/B2X.Identity.Infrastructure/Data/IdentityDbContext.cs
 # Hinzufügen:
 # public DbSet<UserRegistration> UserRegistrations => Set<UserRegistration>();
 
 # 4. Migration erstellen
 cd backend/Domain/Identity
 dotnet ef migrations add AddUserRegistration \
-  -p B2Connect.Identity.Infrastructure \
-  -s B2Connect.Identity.API
+  -p B2X.Identity.Infrastructure \
+  -s B2X.Identity.API
 
 # 5. Testen
 dotnet test backend/Domain/Identity/tests/ -v minimal
@@ -218,11 +218,11 @@ dotnet test backend/Domain/Identity/tests/ -v minimal
 
 ```bash
 # 1. ERP Service implementieren (oder CSV-Fallback für Tests)
-code backend/Domain/Identity/B2Connect.Identity.Infrastructure/ExternalServices/SapCustomerService.cs
+code backend/Domain/Identity/B2X.Identity.Infrastructure/ExternalServices/SapCustomerService.cs
 # → Copy-Paste aus SCAFFOLD, Sektion 5
 
 # 2. Registrierung in DI Container
-code backend/Domain/Identity/B2Connect.Identity.API/Program.cs
+code backend/Domain/Identity/B2X.Identity.API/Program.cs
 # Hinzufügen:
 services.AddScoped<IErpCustomerService, SapCustomerService>();
 # Oder für lokale Tests:
@@ -249,18 +249,18 @@ dotnet test backend/Domain/Identity/tests/ -v minimal
 
 ```bash
 # 1. Commands & Queries erstellen
-code backend/Domain/Identity/B2Connect.Identity.Application/Features/Registration/Commands/CheckRegistrationTypeCommand.cs
+code backend/Domain/Identity/B2X.Identity.Application/Features/Registration/Commands/CheckRegistrationTypeCommand.cs
 # → Copy-Paste aus SCAFFOLD
 
 # 2. Handler implementieren
-code backend/Domain/Identity/B2Connect.Identity.Application/Features/Registration/Handlers/CheckRegistrationTypeCommandHandler.cs
+code backend/Domain/Identity/B2X.Identity.Application/Features/Registration/Handlers/CheckRegistrationTypeCommandHandler.cs
 # → Copy-Paste aus SCAFFOLD
 
 # 3. Validator erstellen
-code backend/Domain/Identity/B2Connect.Identity.Application/Features/Registration/Validators/CheckRegistrationTypeCommandValidator.cs
+code backend/Domain/Identity/B2X.Identity.Application/Features/Registration/Validators/CheckRegistrationTypeCommandValidator.cs
 
 # 4. In MediatR registrieren
-code backend/Domain/Identity/B2Connect.Identity.API/Program.cs
+code backend/Domain/Identity/B2X.Identity.API/Program.cs
 # Hinzufügen:
 services.AddMediatR(typeof(Program).Assembly);
 
@@ -332,7 +332,7 @@ npm run dev
 ```bash
 # Backend Unit Tests
 cd backend/Domain/Identity/tests
-dotnet test B2Connect.Identity.Tests.csproj -v minimal --logger:"console;verbosity=normal"
+dotnet test B2X.Identity.Tests.csproj -v minimal --logger:"console;verbosity=normal"
 
 # Frontend Unit Tests
 cd Frontend/Store

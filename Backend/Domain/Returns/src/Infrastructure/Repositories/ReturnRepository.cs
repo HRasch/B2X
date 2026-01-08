@@ -1,9 +1,9 @@
-using B2Connect.Returns.Core.Entities;
-using B2Connect.Returns.Core.Interfaces;
-using B2Connect.Returns.Infrastructure.Data;
+﻿using B2X.Returns.Core.Entities;
+using B2X.Returns.Core.Interfaces;
+using B2X.Returns.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Returns.Infrastructure.Repositories;
+namespace B2X.Returns.Infrastructure.Repositories;
 
 /// <summary>
 /// EF Core-basierte Repository-Implementierung für Return-Entität

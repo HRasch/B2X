@@ -2,10 +2,10 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Abstractions;
-using B2Connect.ERP.Abstractions.Http;
+using B2X.ERP.Abstractions;
+using B2X.ERP.Abstractions.Http;
 
-namespace B2Connect.ERP.Commands;
+namespace B2X.ERP.Commands;
 
 /// <summary>
 /// Command to get a single customer.

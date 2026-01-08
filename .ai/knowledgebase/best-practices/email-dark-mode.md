@@ -1,4 +1,12 @@
 ---
+docid: KB-071
+title: Email Dark Mode
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-027
 title: Email Dark Mode Best Practices
 owner: "@Frontend"
@@ -10,7 +18,7 @@ last_updated: 2026-01-05
 
 ## Overview
 
-Modern email clients (iOS Mail, Gmail, Outlook, Apple Mail) support dark mode via `prefers-color-scheme` media queries. B2Connect's email builder automatically includes dark mode support in generated templates.
+Modern email clients (iOS Mail, Gmail, Outlook, Apple Mail) support dark mode via `prefers-color-scheme` media queries. B2X's email builder automatically includes dark mode support in generated templates.
 
 ## How It Works
 
@@ -170,7 +178,7 @@ img {
 }
 ```
 
-## Implementation in B2Connect
+## Implementation in B2X
 
 ### EmailBuilderWYSIWYG.vue
 

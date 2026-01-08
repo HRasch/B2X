@@ -1,4 +1,12 @@
-# Scalability & Performance Guide
+---
+docid: KB-144
+title: SCALABILITY_GUIDE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Scalability & Performance Guide
 
 **Last Updated:** December 30, 2025  
 **Maintained By:** @Architect, @TechLead, @DevOps  
@@ -8,7 +16,7 @@
 
 ## Overview
 
-This guide covers scaling B2Connect from current capacity (1K-5K req/sec) to production-grade systems (10K+ req/sec) and preparing for growth.
+This guide covers scaling B2X from current capacity (1K-5K req/sec) to production-grade systems (10K+ req/sec) and preparing for growth.
 
 ---
 
@@ -79,7 +87,7 @@ spec:
     spec:
       containers:
       - name: catalog
-        image: b2connect/catalog:latest
+        image: B2X/catalog:latest
         resources:
           requests:
             memory: "512Mi"
@@ -219,7 +227,7 @@ public class ProductUpdatedHandler
 services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = configuration.GetConnectionString("Redis");
-    options.InstanceName = "b2connect:";
+    options.InstanceName = "B2X:";
 });
 
 services.AddSingleton<IConnectionMultiplexer>(sp =>

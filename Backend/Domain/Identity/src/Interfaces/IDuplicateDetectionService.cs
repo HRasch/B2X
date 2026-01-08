@@ -1,6 +1,6 @@
-using B2Connect.Identity.Models;
+using B2X.Identity.Models;
 
-namespace B2Connect.Identity.Interfaces;
+namespace B2X.Identity.Interfaces;
 
 /// <summary>
 /// Service für die Erkennung von Duplikaten in Kundenregistrierungen

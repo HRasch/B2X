@@ -1,4 +1,12 @@
 ---
+docid: KB-171
+title: Github Copilot Models
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: KB-016
 title: GitHub Copilot AI Models & Pricing
 owner: GitHub Copilot
@@ -162,7 +170,7 @@ Premium request multipliers determine usage consumption:
 - Gemini 3 Flash/Pro (latest Google models)
 - Raptor mini (specialized fine-tuned model)
 
-## Usage Recommendations for B2Connect
+## Usage Recommendations for B2X
 
 ### Default Model Selection
 - **General coding**: GPT-5 mini (unlimited in Pro, good balance)

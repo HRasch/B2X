@@ -1,13 +1,13 @@
-using Xunit;
+﻿using Xunit;
 using Moq;
-using B2Connect.CatalogService.Controllers;
-using B2Connect.CatalogService.Handlers;
-using B2Connect.CatalogService.Models;
-using B2Connect.CatalogService.Services;
+using B2X.CatalogService.Controllers;
+using B2X.CatalogService.Handlers;
+using B2X.CatalogService.Models;
+using B2X.CatalogService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.CatalogService.Tests;
+namespace B2X.CatalogService.Tests;
 
 public class ProductsControllerTests
 {

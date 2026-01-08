@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <PackageId>B2X.CLI.Administration</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>B2X Team</Authors>
+    <Description>Tenant administration CLI for B2X - User and tenant management operations</Description>
+    <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>B2X-admin</ToolCommandName>
+    <!-- Disable CPM for CLI tool (own dependency management) -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" />
+    <PackageReference Include="Spectre.Console" />
+    <PackageReference Include="Spectre.Console.Json" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\B2X.CLI.Shared\B2X.CLI.Shared.csproj" />
+
+    <ProjectReference Include="..\..\Domain\Shared\B2X.Api.Validation\B2X.Api.Validation.csproj" />
+
+    <ProjectReference Include="..\..\Connectors\B2X.Connectors.csproj" />
+
+  </ItemGroup>
+
+</Project>
+
+

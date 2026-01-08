@@ -1,75 +1,75 @@
-# Project Naming Convention Mapping
+﻿# Project Naming Convention Mapping
 
 ## Services - Layer-Based Naming
-Format: `B2Connect.[BoundedContext].[Layer].csproj`
+Format: `B2X.[BoundedContext].[Layer].csproj`
 
 ### Identity Service
-- OLD: `B2Connect.AuthService.csproj`
-- NEW: `B2Connect.Identity.API.csproj`
-- Tests: `AuthService.Tests.csproj` → `B2Connect.Identity.Tests.csproj`
+- OLD: `B2X.AuthService.csproj`
+- NEW: `B2X.Identity.API.csproj`
+- Tests: `AuthService.Tests.csproj` → `B2X.Identity.Tests.csproj`
 
 ### Tenancy Service
-- OLD: `B2Connect.TenantService.csproj`
-- NEW: `B2Connect.Tenancy.API.csproj`
+- OLD: `B2X.TenantService.csproj`
+- NEW: `B2X.Tenancy.API.csproj`
 
 ### Catalog Service
-- OLD: `B2Connect.CatalogService.csproj`
-- NEW: `B2Connect.Catalog.API.csproj`
-- Tests: `CatalogService.Tests.csproj` → `B2Connect.Catalog.Tests.csproj`
+- OLD: `B2X.CatalogService.csproj`
+- NEW: `B2X.Catalog.API.csproj`
+- Tests: `CatalogService.Tests.csproj` → `B2X.Catalog.Tests.csproj`
 
 ### Theming Service (includes Theme + Layout)
-- OLD: `B2Connect.ThemeService.csproj`
-- NEW: `B2Connect.Theming.API.csproj`
-- OLD: `B2Connect.LayoutService.csproj`
-- NEW: `B2Connect.Theming.Layout.csproj` (or merge into Theming.API)
+- OLD: `B2X.ThemeService.csproj`
+- NEW: `B2X.Theming.API.csproj`
+- OLD: `B2X.LayoutService.csproj`
+- NEW: `B2X.Theming.Layout.csproj` (or merge into Theming.API)
 
 ### Localization Service
-- OLD: `B2Connect.LocalizationService.csproj`
-- NEW: `B2Connect.Localization.API.csproj`
-- Tests: `B2Connect.LocalizationService.Tests.csproj` → `B2Connect.Localization.Tests.csproj`
+- OLD: `B2X.LocalizationService.csproj`
+- NEW: `B2X.Localization.API.csproj`
+- Tests: `B2X.LocalizationService.Tests.csproj` → `B2X.Localization.Tests.csproj`
 
 ### API Gateway
-- OLD: `B2Connect.ApiGateway.csproj`
-- NEW: `B2Connect.Gateway.csproj`
+- OLD: `B2X.ApiGateway.csproj`
+- NEW: `B2X.Gateway.csproj`
 
 ### Orchestration (Aspire)
-- OLD: `B2Connect.AppHost.csproj`
-- NEW: `B2Connect.Orchestration.csproj`
+- OLD: `B2X.AppHost.csproj`
+- NEW: `B2X.Orchestration.csproj`
 
 ### Service Defaults
-- KEEP: `B2Connect.ServiceDefaults.csproj`
+- KEEP: `B2X.ServiceDefaults.csproj`
 
 ---
 
 ## Shared Libraries - Functional Naming
-Format: `B2Connect.Shared.[Function].csproj`
+Format: `B2X.Shared.[Function].csproj`
 
 ### Core/Kernel
-- OLD: `B2Connect.Types.csproj`
-- NEW: `B2Connect.Shared.Kernel.csproj`
+- OLD: `B2X.Types.csproj`
+- NEW: `B2X.Shared.Kernel.csproj`
 
 ### Infrastructure/Data
-- OLD: `B2Connect.Shared.Data.csproj`
-- NEW: `B2Connect.Shared.Infrastructure.csproj`
+- OLD: `B2X.Shared.Data.csproj`
+- NEW: `B2X.Shared.Infrastructure.csproj`
 
 ### Keep As-Is (Good Names)
-- ✓ `B2Connect.Shared.Core.csproj`
-- ✓ `B2Connect.Shared.Search.csproj`
-- ✓ `B2Connect.Shared.Messaging.csproj`
-- ✓ `B2Connect.Shared.Middleware.csproj`
+- ✓ `B2X.Shared.Core.csproj`
+- ✓ `B2X.Shared.Search.csproj`
+- ✓ `B2X.Shared.Messaging.csproj`
+- ✓ `B2X.Shared.Middleware.csproj`
 
 ### Tools/Utilities
-- OLD: `B2Connect.Utils.csproj`
-- NEW: `B2Connect.Shared.Tools.csproj`
-- OLD: `B2Connect.Shared.Extensions.csproj`
-- NEW: `B2Connect.Shared.Tools.csproj` (merge or keep separate as B2Connect.Shared.Extensions.csproj)
+- OLD: `B2X.Utils.csproj`
+- NEW: `B2X.Shared.Tools.csproj`
+- OLD: `B2X.Shared.Extensions.csproj`
+- NEW: `B2X.Shared.Tools.csproj` (merge or keep separate as B2X.Shared.Extensions.csproj)
 
 ### Validation (if separate)
-- CREATE: `B2Connect.Shared.Validation.csproj` (for fluent validation rules)
+- CREATE: `B2X.Shared.Validation.csproj` (for fluent validation rules)
 
 ### Tests
 - OLD: `SearchService.Tests.csproj`
-- NEW: `B2Connect.Shared.Search.Tests.csproj`
+- NEW: `B2X.Shared.Search.Tests.csproj`
 
 ---
 
@@ -93,9 +93,9 @@ Note: LayoutService could be merged into Theming/ or kept separate
 ```
 backend/shared/
 ├── types/                      → kernel/
-├── B2Connect.Shared.Data/      → B2Connect.Shared.Infrastructure/
+├── B2X.Shared.Data/      → B2X.Shared.Infrastructure/
 ├── utils/                      → tools/
-└── B2Connect.Shared.Extensions/ → (merge with tools or keep as extensions/)
+└── B2X.Shared.Extensions/ → (merge with tools or keep as extensions/)
 ```
 
 ---

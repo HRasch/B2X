@@ -1,4 +1,12 @@
-# 📚 DDD Bounded Contexts Reference
+---
+docid: KB-068
+title: DDD_BOUNDED_CONTEXTS_REFERENCE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 📚 DDD Bounded Contexts Reference
 
 **Audience**: All backend developers  
 **Purpose**: Where services live, how contexts communicate, architectural constraints  
@@ -10,7 +18,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    B2Connect Platform                    │
+│                    B2X Platform                    │
 └─────────────────────────────────────────────────────────┘
             │
     ┌───────┴───────┐
@@ -314,24 +322,24 @@ Not full contexts, but important services used by multiple contexts:
 ### Shared Libraries
 ```
 Location: backend/shared/
-├── B2Connect.Shared.Core/            # Domain kernel
+├── B2X.Shared.Core/            # Domain kernel
 │   ├── Entities/                    # Base entity classes
 │   ├── ValueObjects/                # Price, SKU, etc.
 │   ├── Events/                      # DomainEvent base
 │   └── Exceptions/                  # DomainException, etc.
 │
-├── B2Connect.Shared.Infrastructure/   # Cross-context infra
+├── B2X.Shared.Infrastructure/   # Cross-context infra
 │   ├── Repositories/                # Generic repository base
 │   ├── Caching/                     # Redis helpers
 │   ├── Messaging/                   # Event bus wrapper
 │   └── Data/                        # Shared migrations
 │
-├── B2Connect.Shared.Messaging/        # Wolverine integration
+├── B2X.Shared.Messaging/        # Wolverine integration
 │   ├── EventBus/                    # Wolverine IMessageBus
 │   ├── Handlers/                    # Base handler patterns
 │   └── Configuration/               # Wolverine setup
 │
-└── B2Connect.Shared.Search/           # Elasticsearch
+└── B2X.Shared.Search/           # Elasticsearch
     ├── Client/                      # ES client wrapper
     ├── Indexing/                    # Index management
     └── Queries/                     # Search builders

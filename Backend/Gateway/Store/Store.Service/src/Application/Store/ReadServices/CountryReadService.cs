@@ -1,7 +1,7 @@
-using B2Connect.Store.Core.Common.Entities;
-using B2Connect.Store.Core.Common.Interfaces;
+﻿using B2X.Store.Core.Common.Entities;
+using B2X.Store.Core.Common.Interfaces;
 
-namespace B2Connect.Store.Application.Store.ReadServices;
+namespace B2X.Store.Application.Store.ReadServices;
 
 /// <summary>
 /// Read-only service for Country queries

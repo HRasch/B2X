@@ -1,4 +1,12 @@
-# Feature Plan: Implement Core Monitoring Infrastructure (Issue #117)
+---
+docid: UNKNOWN-166
+title: FP 117 Core Monitoring Infrastructure
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Feature Plan: Implement Core Monitoring Infrastructure (Issue #117)
 
 **Feature ID**: FP-117  
 **Title**: Implement Core Monitoring Infrastructure  
@@ -8,7 +16,7 @@
 **Status**: Planning Phase  
 
 ## Overview
-Implement comprehensive monitoring infrastructure to detect runtime errors immediately and reduce system downtime across all B2Connect services.
+Implement comprehensive monitoring infrastructure to detect runtime errors immediately and reduce system downtime across all B2X services.
 
 ## Requirements Summary (from @ProductOwner)
 - Real-time health monitoring for all services

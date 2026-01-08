@@ -1,3 +1,11 @@
+---
+docid: GL-078
+title: GL 042 TOKEN OPTIMIZED I18N STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GL-042: Token-Optimized i18n Translations Strategy
 
 **DocID**: `GL-042`  

@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
- * AI-Assisted Translation Script for B2Connect Internationalization
+ * AI-Assisted Translation Script for B2X Internationalization
  *
  * This script automates the translation of i18n keys using Google Translate API
  * to accelerate ESLint error reduction through internationalization.
@@ -183,7 +183,7 @@ async function main() {
     }
   } else {
     console.log(`
-🤖 B2Connect AI Translation Helper
+🤖 B2X AI Translation Helper
 
 Usage:
   # Process ESLint output file

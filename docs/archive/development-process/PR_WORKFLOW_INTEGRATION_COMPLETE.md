@@ -1,4 +1,4 @@
-# PR Workflow Integration - Complete ✅
+﻿# PR Workflow Integration - Complete ✅
 
 **What was added**: Full pull request workflow integrated into your development process
 
@@ -82,8 +82,8 @@
 
 ### Step 1: Pre-PR (Local)
 ```bash
-dotnet build B2Connect.slnx  # ✅ Must compile
-dotnet test B2Connect.slnx   # ✅ All pass
+dotnet build B2X.slnx  # ✅ Must compile
+dotnet test B2X.slnx   # ✅ All pass
 # Coverage >= 80%, no secrets, issue #XXX linked
 ```
 

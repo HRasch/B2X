@@ -1,3 +1,11 @@
+---
+docid: COLLAB-026
+title: QUALITY_GATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SARAH Quality-Gate Framework
 
 ## Überblick

@@ -1,8 +1,8 @@
-# Store Legal Compliance Implementation (P0.6)
+﻿# Store Legal Compliance Implementation (P0.6)
 
 ## Overview
 
-Implement EU e-commerce legal compliance for B2Connect store (B2C & B2B modes). This ensures all shops can legally operate in the DACH region (Germany, Austria, Switzerland) and wider EU.
+Implement EU e-commerce legal compliance for B2X store (B2C & B2B modes). This ensures all shops can legally operate in the DACH region (Germany, Austria, Switzerland) and wider EU.
 
 **Regulatory Framework:**
 - **PAngV** (Preisangaben-Verordnung): Price transparency requirements

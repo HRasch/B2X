@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using B2Connect.SmartDataIntegration.Models;
+using B2X.SmartDataIntegration.Models;
 
-namespace B2Connect.SmartDataIntegration.Services
+namespace B2X.SmartDataIntegration.Services
 {
     /// <summary>
     /// Main service interface for Smart Data Integration functionality

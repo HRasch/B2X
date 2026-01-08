@@ -1,10 +1,10 @@
-using B2Connect.SmartDataIntegration.Core;
-using B2Connect.SmartDataIntegration.Infrastructure.Data;
-using B2Connect.SmartDataIntegration.Services;
+using B2X.SmartDataIntegration.Core;
+using B2X.SmartDataIntegration.Infrastructure.Data;
+using B2X.SmartDataIntegration.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace B2Connect.SmartDataIntegration;
+namespace B2X.SmartDataIntegration;
 
 /// <summary>
 /// Extension methods for registering Smart Data Integration services

@@ -1,10 +1,10 @@
-import { test, expect } from '@playwright/test';
+﻿import { test, expect } from '@playwright/test';
 
 test.describe('CMS Page Loading', () => {
   test('should load home page successfully', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page).toHaveTitle(/Welcome|B2Connect/);
+    await expect(page).toHaveTitle(/Welcome|B2X/);
     const firstHeading = page.locator('h1, h2').first();
     await expect(firstHeading).toBeVisible();
   });
@@ -13,7 +13,7 @@ test.describe('CMS Page Loading', () => {
     await page.goto('/');
 
     // Check for main heading and subtitle instead of hero-banner
-    const mainHeading = page.locator('h1:has-text("Welcome to B2Connect")');
+    const mainHeading = page.locator('h1:has-text("Welcome to B2X")');
     const subtitle = page.locator('.subtitle');
 
     await expect(mainHeading).toBeVisible();
@@ -174,7 +174,7 @@ test.describe('Page Metadata', () => {
     const titleTag = page.locator('head title');
     const descriptionTag = page.locator('meta[name="description"]');
 
-    await expect(titleTag).toContainText(/Welcome|B2Connect|Home/);
+    await expect(titleTag).toContainText(/Welcome|B2X|Home/);
 
     if (await descriptionTag.isVisible()) {
       const content = await descriptionTag.getAttribute('content');
@@ -203,7 +203,7 @@ test.describe('Responsive Design', () => {
     await page.goto('/');
 
     // Check for main content elements
-    const mainHeading = page.locator('h1:has-text("Welcome to B2Connect")');
+    const mainHeading = page.locator('h1:has-text("Welcome to B2X")');
     await expect(mainHeading).toBeVisible();
 
     // Check that content is still visible
@@ -215,7 +215,7 @@ test.describe('Responsive Design', () => {
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.goto('/');
 
-    const mainHeading = page.locator('h1:has-text("Welcome to B2Connect")');
+    const mainHeading = page.locator('h1:has-text("Welcome to B2X")');
     await expect(mainHeading).toBeVisible();
   });
 
@@ -223,7 +223,7 @@ test.describe('Responsive Design', () => {
     await page.setViewportSize({ width: 1920, height: 1080 });
     await page.goto('/');
 
-    const mainHeading = page.locator('h1:has-text("Welcome to B2Connect")');
+    const mainHeading = page.locator('h1:has-text("Welcome to B2X")');
     await expect(mainHeading).toBeVisible();
   });
 });

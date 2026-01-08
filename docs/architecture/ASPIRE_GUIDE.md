@@ -1,8 +1,8 @@
-# Aspire Orchestration & AppHost Guide
+﻿# Aspire Orchestration & AppHost Guide
 
 ## Overview
 
-.NET Aspire is a cloud-ready stack for building observable, production-ready distributed applications. In B2Connect, Aspire orchestrates all microservices (Catalog Service, Auth Service, Search Service, Order Service) and provides development tooling.
+.NET Aspire is a cloud-ready stack for building observable, production-ready distributed applications. In B2X, Aspire orchestrates all microservices (Catalog Service, Auth Service, Search Service, Order Service) and provides development tooling.
 
 **Key Resources:**
 - Aspire Dashboard: `http://localhost:9000` (when running)
@@ -150,7 +150,7 @@ Then restart Aspire with `dotnet run` from AppHost.
 
 ### "AppHost won't start"
 - Check port 9000 is available: `lsof -i :9000`
-- Kill existing process: `pkill -f B2Connect.AppHost`
+- Kill existing process: `pkill -f B2X.AppHost`
 - Clean build: `dotnet clean && dotnet build`
 
 ### "Service not responding"

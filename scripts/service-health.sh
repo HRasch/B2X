@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 
-# B2Connect Service Health Quick Check
+# B2X Service Health Quick Check
 # Fast detection of gateway-service communication issues
 # 
 # Usage: ./scripts/service-health.sh [options]
@@ -127,7 +127,7 @@ check_aspire_services() {
 
 print_header() {
     echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
-    echo -e "${CYAN}  B2Connect Service Health Check${NC}"
+    echo -e "${CYAN}  B2X Service Health Check${NC}"
     echo -e "${CYAN}  $(timestamp)${NC}"
     echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
     echo ""
@@ -140,8 +140,8 @@ run_health_check() {
     
     # Gateways (always check)
     echo -e "${BLUE}${BOLD}🌐 API Gateways${NC}"
-    check_http_service "Store Gateway" "http://localhost:8001/health" || ((failed++)) || true
-    check_http_service "Admin Gateway" "http://localhost:8081/health" || ((failed++)) || true
+    check_http_service "Store Gateway" "http://localhost:8000/health" || ((failed++)) || true
+    check_http_service "Admin Gateway" "http://localhost:8080/health" || ((failed++)) || true
     
     if [[ "$QUICK_MODE" == "true" ]]; then
         echo ""

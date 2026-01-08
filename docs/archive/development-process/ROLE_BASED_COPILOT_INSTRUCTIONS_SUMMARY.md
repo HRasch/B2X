@@ -1,4 +1,4 @@
-# Role-Based AI Agent Instructions - Implementation Summary
+﻿# Role-Based AI Agent Instructions - Implementation Summary
 
 **Completed**: 28. Dezember 2025  
 **Status**: ✅ All role-specific guides created and linked
@@ -67,7 +67,7 @@
 
 ### For AI Agents:
 ```
-Prompt: "I'm a [backend|frontend|devops|qa|security] developer working on B2Connect"
+Prompt: "I'm a [backend|frontend|devops|qa|security] developer working on B2X"
 Response: Use copilot-instructions-[role].md as PRIMARY context
 Fallback: Use copilot-instructions.md for detailed patterns
 ```

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2Connect.AppHost.Controllers;
+namespace B2X.AppHost.Controllers;
 
 public class DashboardController : Controller
 {

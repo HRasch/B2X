@@ -1,4 +1,12 @@
 ---
+docid: ADR-070
+title: ADR 029 Microsoft Extensions Ai Adoption
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-029
 title: Microsoft.Extensions.AI Adoption for MCP Server
 status: Accepted
@@ -10,7 +18,7 @@ owner: @Backend
 
 ## Context
 
-The B2Connect MCP server requires AI provider integrations for OpenAI, Anthropic, and Azure OpenAI. Initially, we implemented custom IAIProvider interfaces with direct SDK calls. However, since we're not yet released, we have the opportunity to adopt Microsoft's official Microsoft.Extensions.AI library for better long-term maintainability and alignment with .NET ecosystem standards.
+The B2X MCP server requires AI provider integrations for OpenAI, Anthropic, and Azure OpenAI. Initially, we implemented custom IAIProvider interfaces with direct SDK calls. However, since we're not yet released, we have the opportunity to adopt Microsoft's official Microsoft.Extensions.AI library for better long-term maintainability and alignment with .NET ecosystem standards.
 
 ## Decision
 

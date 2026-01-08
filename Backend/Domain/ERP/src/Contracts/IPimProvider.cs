@@ -2,10 +2,10 @@
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 
-using B2Connect.ERP.Core;
-using B2Connect.ERP.Models;
+using B2X.ERP.Core;
+using B2X.ERP.Models;
 
-namespace B2Connect.ERP.Contracts;
+namespace B2X.ERP.Contracts;
 
 /// <summary>
 /// Product Information Management (PIM) provider interface.

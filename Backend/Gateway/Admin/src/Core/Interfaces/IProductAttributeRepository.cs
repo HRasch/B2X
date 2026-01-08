@@ -1,6 +1,6 @@
-using B2Connect.Admin.Core.Entities;
+using B2X.Admin.Core.Entities;
 
-namespace B2Connect.Admin.Core.Interfaces;
+namespace B2X.Admin.Core.Interfaces;
 
 /// <summary>
 /// Repository interface for ProductAttribute operations

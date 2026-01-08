@@ -1,4 +1,12 @@
-# Tailwind CSS Design System Planning
+---
+docid: ADR-119
+title: TAILWIND_DESIGN_SYSTEM
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Tailwind CSS Design System Planning
 
 **Date:** December 30, 2025  
 **Owner:** @Frontend  
@@ -9,7 +17,7 @@
 
 ## Design System Overview
 
-Tailwind CSS design system for B2Connect Store frontend. Built on modern utility-first principles with comprehensive theming.
+Tailwind CSS design system for B2X Store frontend. Built on modern utility-first principles with comprehensive theming.
 
 ---
 

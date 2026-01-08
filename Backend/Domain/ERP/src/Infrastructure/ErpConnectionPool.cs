@@ -3,12 +3,12 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using B2Connect.ERP.Abstractions;
+using B2X.ERP.Abstractions;
 using Microsoft.Extensions.Logging;
 using NVShop.Data.NV;
 using NVShop.Data.NV.Model;
 
-namespace B2Connect.Domain.ERP.Infrastructure
+namespace B2X.Domain.ERP.Infrastructure
 {
     /// <summary>
     /// ERP Connection Pool - based on eGate FSGlobalPool pattern

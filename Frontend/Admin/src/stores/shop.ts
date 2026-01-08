@@ -12,7 +12,6 @@ import type {
   Discount,
   ShopApiError,
   ProductFilters,
-  PricingRuleFilters,
 } from '@/types/shop';
 import type { ApiError } from '@/types/api';
 import { shopApi } from '@/services/api/shop';

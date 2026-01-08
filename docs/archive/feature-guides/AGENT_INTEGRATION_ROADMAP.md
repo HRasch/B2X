@@ -1,4 +1,4 @@
-# Agent Integration Roadmap - Development Process
+﻿# Agent Integration Roadmap - Development Process
 
 **Status**: ✅ COMPLETE  
 **Date**: 29. Dezember 2025  
@@ -9,7 +9,7 @@
 
 ## 🎯 Overview - Four New Specialists Added
 
-This document describes how the four newly created specialist agents integrate into B2Connect's development process.
+This document describes how the four newly created specialist agents integrate into B2X's development process.
 
 ### New Agents (Created 29. Dezember 2025)
 

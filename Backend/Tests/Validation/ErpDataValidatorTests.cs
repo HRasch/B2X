@@ -1,10 +1,10 @@
-using Xunit;
+﻿using Xunit;
 using Moq;
-using B2Connect.Api.Validation;
-using B2Connect.Api.Models.Erp;
+using B2X.Api.Validation;
+using B2X.Api.Models.Erp;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Api.Tests.Validation;
+namespace B2X.Api.Tests.Validation;
 
 public class ErpDataValidatorTests
 {

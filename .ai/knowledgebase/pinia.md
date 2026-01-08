@@ -1,3 +1,11 @@
+---
+docid: KB-149
+title: Pinia
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 
 Title: Pinia — state management for Vue
 Source: https://pinia.vuejs.org/

@@ -1,4 +1,12 @@
 ---
+docid: SPR-092
+title: SPR 009 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-009
 title: Sprint 2026-09 Planning - Advanced Analytics & Performance Monitoring
 owner: @ScrumMaster

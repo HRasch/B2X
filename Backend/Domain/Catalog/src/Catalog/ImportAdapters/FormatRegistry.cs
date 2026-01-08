@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using B2Connect.Catalog.ImportAdapters.Formats;
+using B2X.Catalog.ImportAdapters.Formats;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.ImportAdapters;
+namespace B2X.Catalog.ImportAdapters;
 
 /// <summary>
 /// Registry and auto-detection for format adapters

@@ -1,10 +1,10 @@
 using System.Xml;
 using System.Xml.Schema;
-using B2Connect.Catalog.Application.Adapters;
-using B2Connect.Catalog.Core.Entities;
+using B2X.Catalog.Application.Adapters;
+using B2X.Catalog.Core.Entities;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Catalog.Application.Adapters;
+namespace B2X.Catalog.Application.Adapters;
 
 /// <summary>
 /// BMEcat catalog import adapter

@@ -80,7 +80,7 @@ const toggle = () => {
     <!-- Dropdown/Panel -->
     <div v-if="isOpen || isEditing" class="mini-cart__panel">
       <div class="mini-cart__header">
-        <h3 class="mini-cart__title">Warenkorb</h3>
+        <h3 class="mini-cart__title">{{ $t('pageBuilder.miniCart.title') }}</h3>
         <button class="mini-cart__close" @click="isOpen = false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M6 18L18 6M6 6l12 12" />
@@ -123,7 +123,7 @@ const toggle = () => {
       <!-- Footer -->
       <div v-if="mockCart.items.length > 0" class="mini-cart__footer">
         <div class="mini-cart__subtotal">
-          <span>Summe</span>
+          <span>{{ $t('pageBuilder.miniCart.subtotal') }}</span>
           <span class="mini-cart__subtotal-value">{{ mockCart.total.toFixed(2) }} €</span>
         </div>
 

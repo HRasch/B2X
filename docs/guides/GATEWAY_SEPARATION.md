@@ -1,4 +1,4 @@
-# Gateway Separation - Store vs Admin
+﻿# Gateway Separation - Store vs Admin
 
 ## Übersicht
 
@@ -77,8 +77,8 @@ Die API-Gateways wurden getrennt, um eine klare Trennung zwischen Store-Frontend
 {
   "Jwt": {
     "Secret": "...",
-    "Issuer": "B2Connect",
-    "Audience": "B2Connect-Admin"
+    "Issuer": "B2X",
+    "Audience": "B2X-Admin"
   }
 }
 ```
@@ -107,11 +107,11 @@ VITE_API_URL=http://localhost:6100/api
 
 ```bash
 # Via Aspire Orchestration (empfohlen)
-dotnet run --project backend/services/Orchestration/B2Connect.Orchestration.csproj
+dotnet run --project backend/services/Orchestration/B2X.Orchestration.csproj
 
 # Oder einzeln:
-dotnet run --project backend/services/Gateway.Store/B2Connect.Gateway.Store.csproj
-dotnet run --project backend/services/Gateway.Admin/B2Connect.Gateway.Admin.csproj
+dotnet run --project backend/services/Gateway.Store/B2X.Gateway.Store.csproj
+dotnet run --project backend/services/Gateway.Admin/B2X.Gateway.Admin.csproj
 ```
 
 ## Sicherheitsvorteile

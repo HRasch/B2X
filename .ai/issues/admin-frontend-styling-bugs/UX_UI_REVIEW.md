@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-136
+title: UX_UI_REVIEW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🎨 Admin Frontend Styling Bugs - UX/UI Review
 
 **Date**: 4. Januar 2026  

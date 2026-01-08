@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-185
+title: Project Cleanup.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Project Cleanup Prompt
 
 ## Purpose

@@ -1,11 +1,11 @@
-#!/bin/bash
-# B2Connect MCP Production Monitoring Setup
+﻿#!/bin/bash
+# B2X MCP Production Monitoring Setup
 # Enables automated daily monitoring and reporting
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 SCRIPT_DIR="$REPO_ROOT/scripts"
 
-echo "📊 Setting up B2Connect MCP Production Monitoring..."
+echo "📊 Setting up B2X MCP Production Monitoring..."
 echo ""
 
 # Check if crontab exists
@@ -24,7 +24,7 @@ if echo "$CURRENT_CRON" | grep -q "daily-mcp-review.sh"; then
     echo "✓ Daily MCP review already scheduled in crontab"
 else
     # Create new cron entry
-    NEW_CRON="$CURRENT_CRON"$'\n'"# B2Connect MCP Daily Review - 09:00 UTC"$'\n'"0 9 * * * $SCRIPT_DIR/daily-mcp-review.sh >> $REPO_ROOT/.ai/logs/mcp-usage/cron.log 2>&1"
+    NEW_CRON="$CURRENT_CRON"$'\n'"# B2X MCP Daily Review - 09:00 UTC"$'\n'"0 9 * * * $SCRIPT_DIR/daily-mcp-review.sh >> $REPO_ROOT/.ai/logs/mcp-usage/cron.log 2>&1"
     
     # Install cron entry
     echo "$NEW_CRON" | crontab -

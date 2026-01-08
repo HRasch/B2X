@@ -1,3 +1,11 @@
+---
+docid: SPR-045
+title: ITERATION_001_DAY1
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📊 Iteration 001 - Day 1 Execution Log
 
 **Date:** December 30, 2025  

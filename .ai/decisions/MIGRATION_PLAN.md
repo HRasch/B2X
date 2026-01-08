@@ -1,4 +1,12 @@
-# Dependency Migration Plan
+---
+docid: ADR-113
+title: MIGRATION_PLAN
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Dependency Migration Plan
 
 **Date:** December 30, 2025  
 **Owner:** @Backend  
@@ -12,8 +20,8 @@
 ### Update Sequence
 
 **Order:** Shared-first, then dependents
-1. B2Connect.Shared.Infrastructure (6 projects depend on it)
-2. B2Connect.Customer.API (independent update)
+1. B2X.Shared.Infrastructure (6 projects depend on it)
+2. B2X.Customer.API (independent update)
 
 **Timing:** Sequential to catch any cross-project issues
 
@@ -45,13 +53,13 @@
 
 **Why Deferred:**
 - Major version bump requires careful review
-- Only used in B2Connect.Customer.API (isolated impact)
+- Only used in B2X.Customer.API (isolated impact)
 - Patch update (Polly) is priority
 - No blocking security issues identified
 
 **Phase 2 Plan:**
 1. Research FluentValidation 12.x migration guide
-2. Review B2Connect.Customer.API validation code
+2. Review B2X.Customer.API validation code
 3. Identify required changes in validation rules
 4. Test comprehensively before update
 5. Update and verify
@@ -60,7 +68,7 @@
 
 ## Project Update Map
 
-### B2Connect.Shared.Infrastructure
+### B2X.Shared.Infrastructure
 **Current State:** Polly 8.4.0  
 **Target State:** Polly 8.6.5  
 **Risk:** 🟢 Low (patch update)  
@@ -68,13 +76,13 @@
 
 **Update Process:**
 ```bash
-cd backend/shared/B2Connect.Shared.Infrastructure
+cd backend/shared/B2X.Shared.Infrastructure
 # Update project file or use:
 dotnet add package Polly --version 8.6.5
 ```
 
 **Files Affected:**
-- B2Connect.Shared.Infrastructure.csproj
+- B2X.Shared.Infrastructure.csproj
 
 **Dependencies:** 6 projects depend on this (update first)
 
@@ -83,7 +91,7 @@ dotnet add package Polly --version 8.6.5
 - Integration tests with dependent projects
 - Retry/circuit-breaker scenario tests
 
-### B2Connect.Customer.API
+### B2X.Customer.API
 **Current State:** FluentValidation 11.11.0 + Polly 8.4.0  
 **Target State (Phase 1):** Polly 8.6.5 only  
 **Target State (Phase 2):** FluentValidation 12.1.1  
@@ -98,7 +106,7 @@ dotnet add package Polly --version 8.6.5
 ```
 
 **Testing (Phase 1):**
-- Run B2Connect.Customer.Tests
+- Run B2X.Customer.Tests
 - Verify retry logic still works
 - Verify circuit-breaker patterns function
 
@@ -108,10 +116,10 @@ dotnet add package Polly --version 8.6.5
 
 | Project | Polly | FluentValidation | Status |
 |---------|-------|------------------|--------|
-| B2Connect.Shared.Infrastructure | 8.4.0 → **8.6.5** | — | ✅ Phase 1 |
-| B2Connect.Customer.API | 8.4.0 → **8.6.5** | 11.11.0 (defer) | ✅ Phase 1 |
-| B2Connect.Shared.Core | — | — | ✅ Current |
-| B2Connect.Identity.API | — | — | ✅ Current |
+| B2X.Shared.Infrastructure | 8.4.0 → **8.6.5** | — | ✅ Phase 1 |
+| B2X.Customer.API | 8.4.0 → **8.6.5** | 11.11.0 (defer) | ✅ Phase 1 |
+| B2X.Shared.Core | — | — | ✅ Current |
+| B2X.Identity.API | — | — | ✅ Current |
 | All others | — | — | ✅ Current |
 
 ---
@@ -142,8 +150,8 @@ If issues encountered:
 ## Timeline
 
 **Phase 1 (Current Sprint):**
-- ✅ Update Polly in B2Connect.Shared.Infrastructure (2 SP estimated)
-- ✅ Update Polly in B2Connect.Customer.API (1 SP estimated)
+- ✅ Update Polly in B2X.Shared.Infrastructure (2 SP estimated)
+- ✅ Update Polly in B2X.Customer.API (1 SP estimated)
 - ✅ Test and verify no regressions
 
 **Phase 2 (Next Sprint):**

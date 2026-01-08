@@ -1,4 +1,4 @@
-# Shopping at B2Connect
+﻿# Shopping at B2X
 
 Welcome! This guide shows you how to find products, add them to your cart, and place orders.
 
@@ -107,6 +107,6 @@ A: B2B customers see net prices, B2C customers see gross prices incl. VAT.
 
 ## 🆘 Need Help?
 
-- **Email**: support@b2connect.com
+- **Email**: support@B2X.com
 - **Phone**: +49 (0)800 123 4567
 - **Live Chat**: Mon-Fri 9am-5pm

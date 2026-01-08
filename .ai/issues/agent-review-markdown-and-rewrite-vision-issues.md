@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-142
+title: Agent Review Markdown And Rewrite Vision Issues
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ```markdown
 Title: Agent task — Review `markdown-supported-on-github.md` and rewrite issues labeled "vision"
 Status: open

@@ -1,8 +1,8 @@
-using B2Connect.CMS.Core.Domain.Pages;
+using B2X.CMS.Core.Domain.Pages;
 using Shouldly;
 using Xunit;
 
-namespace B2Connect.CMS.Tests;
+namespace B2X.CMS.Tests;
 
 /// <summary>
 /// Unit tests for PageDefinition aggregate root

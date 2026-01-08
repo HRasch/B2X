@@ -1,10 +1,10 @@
-using B2Connect.Tenancy.Handlers.Domains;
-using B2Connect.Tenancy.Handlers.Tenants;
+using B2X.Tenancy.Handlers.Domains;
+using B2X.Tenancy.Handlers.Tenants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
-namespace B2Connect.Tenancy.Controllers;
+namespace B2X.Tenancy.Controllers;
 
 /// <summary>
 /// API controller for tenant management operations.

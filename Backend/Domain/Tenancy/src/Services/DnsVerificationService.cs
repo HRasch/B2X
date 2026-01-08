@@ -1,7 +1,7 @@
 using DnsClient;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.Tenancy.Services;
+namespace B2X.Tenancy.Services;
 
 /// <summary>
 /// Service for verifying domain ownership via DNS TXT records.
@@ -12,7 +12,7 @@ public class DnsVerificationService : IDnsVerificationService
     private readonly ILookupClient _dnsClient;
     private readonly ILogger<DnsVerificationService> _logger;
 
-    private const string TxtRecordPrefix = "_b2connect.";
+    private const string TxtRecordPrefix = "_B2X.";
 
     public DnsVerificationService(
         ILookupClient dnsClient,

@@ -1,4 +1,12 @@
 ---
+docid: BS-023
+title: PILOT REFACTORING CANDIDATES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PILOT-REFACTOR-001
 title: Candidate Refactorings for Pilot Implementation
 owner: "@TechLead, @Architect"

@@ -1,4 +1,12 @@
-# 🤖 AI Knowledgebase Management - GitHub Copilot Responsibilities
+---
+docid: COLLAB-014
+title: AI_KNOWLEDGEBASE_RESPONSIBILITY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 🤖 AI Knowledgebase Management - GitHub Copilot Responsibilities
 
 **Status**: ✅ ACTIVE  
 **Date**: 30. Dezember 2025  
@@ -54,12 +62,12 @@ This is not optional—it's a core responsibility of the AI assistant working on
   - Coverage: [What it covers]
 
 ## Notes
-[Context about why this documentation matters for B2Connect]
+[Context about why this documentation matters for B2X]
 ```
 
 ### 2. Framework & Library Documentation Index
 
-**What**: Maintain comprehensive index of frameworks and libraries used in B2Connect
+**What**: Maintain comprehensive index of frameworks and libraries used in B2X
 
 **Current Stack Documentation to Maintain**:
 
@@ -143,7 +151,7 @@ This is not optional—it's a core responsibility of the AI assistant working on
 1. [Principle 1] - [Why it matters]
 2. [Principle 2] - [Why it matters]
 
-## B2Connect Application
+## B2X Application
 - [How we apply this principle]
 - [Tools/frameworks we use]
 - [References to internal docs]
@@ -277,8 +285,8 @@ This is not optional—it's a core responsibility of the AI assistant working on
 ## Best Practices
 [Authoritative best practices for this technology]
 
-## B2Connect Implementation
-[How we use this in B2Connect]
+## B2X Implementation
+[How we use this in B2X]
 - Example code
 - Configuration
 - Integration points
@@ -357,7 +365,7 @@ This is not optional—it's a core responsibility of the AI assistant working on
 ```
 "I need to implement state management with Pinia"
 → Check .ai/knowledgebase/libraries/pinia.md
-→ Find official docs, best practices, B2Connect patterns
+→ Find official docs, best practices, B2X patterns
 → Reference in your code
 → If you discover new pattern, update knowledgebase
 ```
@@ -444,7 +452,7 @@ Uses reactive data binding and component-based architecture.
 - Single File Components (.vue)
 - Server-side rendering support
 
-## B2Connect Implementation
+## B2X Implementation
 We use Vue 3 with Composition API + TypeScript for all frontend.
 Integration with Pinia for state management.
 
@@ -500,7 +508,7 @@ Level AA compliance required for:
 - ✅ Semantic HTML
 - ✅ Alt text on images
 
-## B2Connect Implementation
+## B2X Implementation
 All frontend changes must pass WCAG 2.1 AA compliance.
 Automated checks with axe-core and Pa11y.
 

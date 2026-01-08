@@ -10,10 +10,6 @@ const props = defineProps<{
   isEditing?: boolean;
 }>();
 
-const emit = defineEmits<{
-  (e: 'update:config', config: WishlistWidgetConfig): void;
-}>();
-
 // Mock wishlist data
 const mockProducts = [
   {
@@ -69,7 +65,7 @@ const gridColumns = computed(() => getResponsiveValue(props.config.gridColumns ?
 <template>
   <div :class="['wishlist', { 'wishlist--editing': isEditing }]">
     <div class="wishlist__header">
-      <h2 class="wishlist__title">Mein Merkzettel</h2>
+      <h2 class="wishlist__title">{{ $t('pageBuilder.wishlist.title') }}</h2>
       <span class="wishlist__count">{{ mockProducts.length }} Artikel</span>
     </div>
 
@@ -89,7 +85,7 @@ const gridColumns = computed(() => getResponsiveValue(props.config.gridColumns ?
       <p class="wishlist__empty-text">
         {{ config.emptyStateMessage ?? 'Dein Merkzettel ist leer.' }}
       </p>
-      <button class="wishlist__empty-btn">Produkte entdecken</button>
+      <button class="wishlist__empty-btn">{{ $t('pageBuilder.wishlist.discoverProducts') }}</button>
     </div>
 
     <!-- Product List -->
@@ -148,7 +144,7 @@ const gridColumns = computed(() => getResponsiveValue(props.config.gridColumns ?
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              In den Warenkorb
+              {{ $t('pageBuilder.wishlist.addToCart') }}
             </button>
             <button
               v-if="config.showShare"

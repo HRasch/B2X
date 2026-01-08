@@ -1,4 +1,4 @@
-# 🚀 B2Connect Quick Start Guide
+﻿# 🚀 B2X Quick Start Guide
 
 **Last Updated**: 30. Dezember 2025  
 **Status**: ✅ Legacy Cleanup Complete  
@@ -9,13 +9,13 @@
 ## 📋 Choose Your Path
 
 ### 👨‍💼 **Project Leadership**
-- **Tech Lead**: Read [.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md)
-- **Product Owner**: See [`PROJECT_DASHBOARD.md`](./PROJECT_DASHBOARD.md)
+- **Tech Lead**: Read [KB-013]
+- **Product Owner**: See [DOC-006]
 - **Scrum Master**: Check [`.github/agents/scrum-master.agent.md`](./.github/agents/scrum-master.agent.md)
 
 ### 👨‍💻 **Active Development**
 - **Build & Run**: See [README.md](./README.md) Quick Start section
-- **Test Commands**: `dotnet test B2Connect.slnx` (backend) | `npm run test` (frontend)
+- **Test Commands**: `dotnet test B2X.slnx` (backend) | `npm run test` (frontend)
 - **Architecture Docs**: [docs/architecture/](./docs/architecture/)
 
 ### 🎯 **Role-Based Setup** (in `.github/docs/roles/`)
@@ -38,7 +38,7 @@
 ## 🏗️ Directory Structure
 
 ```
-B2Connect/
+B2X/
 ├── .github/              ← Process & copilot instructions
 ├── docs/                 ← Product documentation
 ├── backend/              ← .NET 10 microservices
@@ -53,8 +53,8 @@ B2Connect/
 
 ### **Backend**
 ```bash
-dotnet build B2Connect.slnx
-dotnet test B2Connect.slnx -v minimal
+dotnet build B2X.slnx
+dotnet test B2X.slnx -v minimal
 cd AppHost && dotnet run  # Dashboard: http://localhost:15500
 ```
 

@@ -1,4 +1,4 @@
-# CQRS Pattern mit Wolverine Message Handlers
+﻿# CQRS Pattern mit Wolverine Message Handlers
 
 **Status**: ✅ Implemented  
 **Date**: 27. Dezember 2025  
@@ -70,7 +70,7 @@
 ```csharp
 using Wolverine;
 
-namespace B2Connect.Admin.Application.Commands.Products;
+namespace B2X.Admin.Application.Commands.Products;
 
 /// Command für Create-Operation
 public record CreateProductCommand(
@@ -126,10 +126,10 @@ public record ProductResult(
 
 ```csharp
 using Wolverine;
-using B2Connect.Admin.Application.Commands.Products;
-using B2Connect.Admin.Core.Interfaces;
+using B2X.Admin.Application.Commands.Products;
+using B2X.Admin.Core.Interfaces;
 
-namespace B2Connect.Admin.Application.Handlers.Products;
+namespace B2X.Admin.Application.Handlers.Products;
 
 /// Wolverine Handler für Create Product
 public class CreateProductHandler : ICommandHandler<CreateProductCommand, ProductResult>

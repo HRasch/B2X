@@ -1,4 +1,12 @@
-# SPR-014: Sprint 2026-14 Execution Summary - Model Development Governance & Global Scaling Optimization
+---
+docid: SPR-105
+title: SPR 014 Execution Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# SPR-014: Sprint 2026-14 Execution Summary - Model Development Governance & Global Scaling Optimization
 
 ## Sprint Overview
 - **Sprint Name:** Sprint 2026-14
@@ -191,4 +199,4 @@
 - **@ScrumMaster:** ✅ Approved
 
 **Sprint Status:** ✅ SUCCESSFULLY COMPLETED</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-014-execution-summary.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-014-execution-summary.md

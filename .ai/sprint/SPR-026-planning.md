@@ -1,3 +1,11 @@
+---
+docid: SPR-136
+title: SPR 026 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-026: Sprint 2026-26 Planning - Advanced AI Optimization & Compliance Expansion
 
 **DocID**: SPR-026  

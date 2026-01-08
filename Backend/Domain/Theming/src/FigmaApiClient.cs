@@ -1,9 +1,9 @@
 using System.Net.Http;
 using System.Text.Json;
-using B2Connect.ThemeService.Models;
+using B2X.ThemeService.Models;
 using Microsoft.Extensions.Logging;
 
-namespace B2Connect.ThemeService;
+namespace B2X.ThemeService;
 
 /// <summary>
 /// Figma API Client for fetching design tokens and assets

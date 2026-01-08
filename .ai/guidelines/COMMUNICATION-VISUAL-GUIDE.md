@@ -1,3 +1,11 @@
+---
+docid: GL-058
+title: COMMUNICATION VISUAL GUIDE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent-SubAgent Communication - Visual Guide
 
 Quick visual reference for all communication patterns and workflows.

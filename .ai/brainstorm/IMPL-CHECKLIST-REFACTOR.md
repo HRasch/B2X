@@ -1,4 +1,12 @@
 ---
+docid: BS-021
+title: IMPL CHECKLIST REFACTOR
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: IMPL-CHECKLIST-REFACTOR
 title: Implementation Checklist - Refactoring Strategy
 owner: "@SARAH"

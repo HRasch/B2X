@@ -1,4 +1,12 @@
 ---
+docid: INS-013
+title: Security.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: "**/*"
 ---
 
@@ -38,6 +46,23 @@ applyTo: "**/*"
 - Flag security-sensitive changes for review
 - Document security decisions
 - Report vulnerabilities through proper channels
+
+## Automated SCA & Triage (Proposed)
+- Require Dependabot + scheduled CodeQL and Snyk scans (weekly)
+- Define SLAs for triage and remediation (e.g., CRITICAL: 24h, HIGH: 7d)
+- Critical/high findings must be converted into blocking issues and assigned
+
+## Secret Scanning Enforcement (Proposed)
+- Run pre-commit secret checks locally (e.g., git-secrets, detect-secrets)
+- CI secret scans block merges on detected secrets
+
+## Control Loop (Proposed)
+- CI publishes SCA results to PR checks and weekly audit job
+- Unresolved findings older than X days auto-create escalation issues
+
+## Documentation & Runbooks (Proposed)
+- Add runbooks for common security remediations
+- Maintain contact list for incident escalation
 
 ## MCP-Powered Security Workflow
 

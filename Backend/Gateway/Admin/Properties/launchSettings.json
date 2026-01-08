@@ -1,6 +1,6 @@
-{
+﻿{
   "profiles": {
-    "B2Connect.Admin": {
+    "B2X.Admin": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

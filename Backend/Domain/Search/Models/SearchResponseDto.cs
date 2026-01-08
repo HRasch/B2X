@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace B2Connect.Domain.Search.Models;
+namespace B2X.Domain.Search.Models;
 
 public class SearchResponseDto
 {

@@ -1,4 +1,12 @@
 ---
+docid: SPR-142
+title: SPR 028 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: SPR-028-RETRO
 title: Sprint 2026-28 Retrospective - Advanced AI Model Versioning & Predictive Maintenance
 owner: @ScrumMaster
@@ -187,4 +195,4 @@ Sprint 2026-28 successfully delivered all planned objectives for Advanced AI Mod
 ---
 
 *Retrospective completed: 24. November 2026* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-028-retrospective.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-028-retrospective.md

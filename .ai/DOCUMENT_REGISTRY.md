@@ -1,4 +1,12 @@
-# 📚 Document Registry
+---
+docid: UNKNOWN-126
+title: DOCUMENT_REGISTRY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# 📚 Document Registry
 
 **Version:** 1.1  
 **Last Updated:** 7. Januar 2026  
@@ -82,6 +90,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-048` | Tenant-Level Include/Exclude Rules for Shared Catalogs | `.ai/decisions/ADR-048-tenant-level-include-exclude.md` | Proposed |
 | `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
 | `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
+| `ADR-051` | Rename B2X to B2XGate | `.ai/decisions/ADR-051-rename-B2X-to-b2xgate.md` | Proposed |
+| `ADR-052` | MCP-Enhanced Bugfixing Workflow | `.ai/decisions/ADR-052-mcp-enhanced-bugfixing.md` | Accepted |
 
 ---
 
@@ -138,6 +148,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-062` | Documentation MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/documentation-mcp-usage.md` | Active |
 | `KB-063` | Wolverine MCP Server | `.ai/knowledgebase/tools-and-tech/wolverine-mcp.md` | Active |
 | `KB-064` | Chrome DevTools MCP Server | `.ai/knowledgebase/tools-and-tech/chrome-devtools-mcp.md` | Active |
+| `KB-065` | Nuxt 4 Monorepo Configuration | `.ai/knowledgebase/tools-and-tech/nuxt4-monorepo-config.md` | Active |
+| `KB-066` | npm Package Updates Guide | `.ai/knowledgebase/dependency-updates/npm-package-updates.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
@@ -151,6 +163,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-TOOL` | Tools & Tech | `.ai/knowledgebase/tools-and-tech/` |
 | `KB-SW` | Software Updates | `.ai/knowledgebase/software/` |
 | `KB-OPS` | Operations | `.ai/knowledgebase/operations/` |
+| `KB-DEP` | Dependency Updates | `.ai/knowledgebase/dependency-updates/` |
 
 ---
 
@@ -175,12 +188,19 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-013` | Dependency Management Policy | `.ai/guidelines/GL-013-DEPENDENCY-MANAGEMENT.md` | Active |
 | `GL-014` | Pre-Release Development Phase | `.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md` | Active (until v1.0) |
 | `GL-042` | Token-Optimized i18n Strategy | `.ai/guidelines/GL-042-TOKEN-OPTIMIZED-I18N-STRATEGY.md` | Active |
+| `GL-043` | Multi-Language Fragment Editing Strategy | `.ai/guidelines/GL-043-multi-language-fragment-editing-strategy.md` | Active |
 | `GL-043` | Smart Attachment Strategy | `.ai/guidelines/GL-043-SMART-ATTACHMENT-STRATEGY.md` | Active |
+| `GL-044` | Markdown Fragment Editing Strategy | `.ai/guidelines/GL-044-markdown-fragment-editing.md` | Active |
 | `GL-044` | Fragment-Based File Access Strategy | `.ai/guidelines/GL-044-FRAGMENT-BASED-FILE-ACCESS.md` | Active |
 | `GL-045` | KB-MCP Query Strategy | `.ai/guidelines/GL-045-KB-MCP-QUERY-STRATEGY.md` | Active |
 | `GL-046` | Token Audit & Analysis Framework | `.ai/guidelines/GL-046-TOKEN-AUDIT-FRAMEWORK.md` | Active |
 | `GL-047` | MCP-Orchestration Layer | `.ai/guidelines/GL-047-MCP-ORCHESTRATION-LAYER.md` | Active |
 | `GL-048` | Instruction File Consolidation | `.ai/guidelines/GL-048-INSTRUCTION-FILE-CONSOLIDATION.md` | Active |
+| `GL-049` | Prompt Compression Prototype | `.ai/guidelines/GL-049-PROMPT-COMPRESSION-PROTOTYPE.md` | Active |
+| `GL-050` | Project Documentation Structure in docs/ | `.ai/guidelines/GL-050-PROJECT-DOCS-STRUCTURE.md` | Active |
+| `GL-051` | AI-Ready Documentation Integration Guide | `.ai/guidelines/GL-051-AI-READY-DOCUMENTATION-INTEGRATION.md` | Active |
+| `GL-052` | Role-Based Documentation Access & Audience Segregation | `.ai/guidelines/GL-052-ROLE-BASED-DOCUMENTATION-ACCESS.md` | Active |
+| `GL-053` | Multi-Language Fragment Editing Strategy | `.ai/guidelines/GL-053-multi-language-fragment-editing.md` | Active |
 
 ---
 
@@ -197,6 +217,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `WF-006` | GitHub CLI Sprint How-To | `.ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md` | Active |
 | `WF-007` | GitHub Scrum/Kanban Workflow | `.ai/workflows/WF-007-GITHUB_SCRUM_KANBAN_WORKFLOW.md` | Active |
 | `WF-008` | Update GitHub Issues Sprint | `.ai/workflows/WF-008-update-github-issues-sprint.md` | Active |
+| `WF-010` | Documentation Maintenance & Quality | `.ai/workflows/WF-010-DOCUMENTATION-MAINTENANCE.md` | Active |
+| `WF-CLEANUP-SETUP` | Project Cleanup Setup Guide | `.ai/workflows/WF-CLEANUP-SETUP.md` | Active |
 
 ---
 
@@ -247,8 +269,19 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
+| `TPL-DEVDOC-001` | Developer Documentation Template | `.ai/templates/TPL-DEVDOC-001-DEVELOPER-DOCS-TEMPLATE.md` | Active |
+| `TPL-USERDOC-001` | User Documentation Template | `.ai/templates/TPL-USERDOC-001-USER-DOCS-TEMPLATE.md` | Active |
 | `TPL-001` | Customer Integration Tracker | `.ai/templates/customer-integration-tracker.yml` | Active |
 | `TPL-002` | Customer Integration Checklist | `.ai/templates/customer-integration-checklist.md` | Active |
+| `TPL-SALES-001` | Sales Enablement Documentation Template | `.ai/templates/TPL-SALES-001-SALES-ENABLEMENT-TEMPLATE.md` | Active |
+
+---
+
+## Registry: Sales Documentation (DOCS-SALES-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `DOCS-SALES-001` | B2XGate Platform Overview: Features, Pricing & ROI | `.ai/sales/DOCS-SALES-001-B2XGATE-OVERVIEW.md` | Active |
 
 ---
 
@@ -281,6 +314,18 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PRM-014` | Subagent Delegation | `.ai/prompts/subagent-delegation.prompt.md` | `/subagent-delegation` |
 | `PRM-015` | Project Cleanup | `.ai/prompts/project-cleanup.prompt.md` | `/project-cleanup` |
 | `PRM-016` | TypeScript Review | `.github/prompts/typescript-review.prompt.md` | `/typescript-review` |
+| `PRM-017` | Bug Null Check | `.ai/prompts/bug-null-check.prompt.md` | `/bug-null-check` |
+| `PRM-018` | Bug Async Race | `.ai/prompts/bug-async-race.prompt.md` | `/bug-async-race` |
+| `PRM-019` | Bug Type Mismatch | `.ai/prompts/bug-type-mismatch.prompt.md` | `/bug-type-mismatch` |
+| `PRM-020` | Bug i18n Missing | `.ai/prompts/bug-i18n-missing.prompt.md` | `/bug-i18n-missing` |
+| `PRM-021` | Bug Lint Fix | `.ai/prompts/bug-lint-fix.prompt.md` | `/bug-lint-fix` |
+| `PRM-QUICK-BUG` | Quick Bug-Fix Starter Set | `.github/prompts/bug-quick-starter.prompt.md` | - |
+| `PRM-QBF-NULL` | Quick Null Reference Fix | `.github/prompts/bug-quick-null-check.prompt.md` | `/bug-null-check` |
+| `PRM-QBF-ASYNC` | Quick Async Race Fix | `.github/prompts/bug-quick-async-race.prompt.md` | `/bug-async-race` |
+| `PRM-QBF-TYPE` | Quick Type Mismatch Fix | `.github/prompts/bug-quick-type-mismatch.prompt.md` | `/bug-type-mismatch` |
+| `PRM-QBF-I18N` | Quick i18n Key Fix | `.github/prompts/bug-quick-i18n-missing.prompt.md` | `/bug-i18n-missing` |
+| `PRM-QBF-LINT` | Quick Linting Fix | `.github/prompts/bug-quick-lint-fix.prompt.md` | `/bug-lint-fix` |
+| `PRM-022` | Auto Lessons Learned | `.ai/prompts/auto-lessons-learned.prompt.md` | `/auto-lessons-learned` |
 
 ---
 
@@ -290,6 +335,25 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 |-------|-------|-----------|--------|
 | `BS-REFACTOR-001` | Refactoring Efficiency Strategy | `.ai/brainstorm/REFACTORING-EFFICIENCY-STRATEGY.md` | Active |
 | `BS-SPRINT-EXECUTION-TRACKING` | GitHub-Based Sprint Execution Tracking | `.ai/brainstorm/BS-SPRINT-EXECUTION-TRACKING.md` | Brainstorm |
+| `BS-PROJECT-CLEANLINESS` | Project Cleanliness & Long-Term Organization Strategy | `.ai/brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md` | Active |
+| `BS-DOCUMENTATION-CLEANUP-STRATEGY` | Documentation Cleanup Strategy | `.ai/brainstorm/BS-DOCUMENTATION-CLEANUP-STRATEGY.md` | Brainstorm |
+
+---
+
+## Registry: Status & Dashboards (STATUS-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `STATUS-REFACTOR-STRATEGY` | Status Dashboard - Refactoring Strategy | `.ai/status/STATUS-REFACTOR-STRATEGY.md` | Active |
+| `STATUS-PROJECT-CLEANUP-PHASE-2` | Project Cleanup - Phase 2 Documentation Complete | `.ai/status/STATUS-PROJECT-CLEANUP-PHASE-2.md` | Complete |
+
+---
+
+## Registry: Collaboration (COLLAB-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `COLLAB-REFACTOR-ANALYSIS` | Refactoring Strategy - Multi-Agent Analysis | `.ai/collaboration/REFACTOR-ANALYSIS.md` | Active |
 
 ---
 
@@ -330,6 +394,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `STATUS-REFACTOR-STRATEGY` | Status Dashboard - Refactoring Strategy | `.ai/brainstorm/STATUS-REFACTOR-STRATEGY.md` | Active |
+| `STATUS-PROJECT-CLEANUP-PHASE-2` | Project Cleanup - Phase 2 Documentation Complete | `.ai/logs/STATUS-PROJECT-CLEANUP-PHASE-2.md` | Complete |
 
 ---
 
@@ -351,6 +416,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `INS-004` | DevOps Instructions | `.github/instructions/devops.instructions.md` | `.github/**`, `Dockerfile` |
 | `INS-005` | Security Instructions | `.github/instructions/security.instructions.md` | `**/*` |
 | `INS-006` | AI Mode Switching Instructions | `.github/instructions/ai-mode-switching.instructions.md` | `**/*` |
+| `INS-007` | Dependency Management Instructions | `.github/instructions/dependency-management.instructions.md` | `Directory.Packages.props,**/*.csproj,**/*.fsproj,**/*.vbproj` |
 
 ---
 
@@ -373,7 +439,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-013` | UI | `.github/agents/ui.agent.md` | Components |
 | `AGT-014` | SEO | `.github/agents/seo.agent.md` | Search Optimization |
 | `AGT-015` | GitManager | `.github/agents/git-manager.agent.md` | Git Workflow |
-| `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation |
+| `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation Steward - Quality, Registry, Compliance |
 | `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
 | `AGT-018` | CopilotExpert | `.github/agents/CopilotExpert.agent.md` | Copilot Configuration |
 
@@ -397,6 +463,37 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 
 ---
 
+## Registry: Developer Documentation (DEVDOC-*)
+
+**Location**: `docs/developer/`
+
+| DocID | Category | Title | File Path | Status |
+|-------|----------|-------|-----------|--------|
+| `DEVDOC-ARCH-*` | Architecture | System architecture, design patterns | `docs/developer/architecture/` | TBD |
+| `DEVDOC-API-*` | API | API reference, endpoints, contracts | `docs/developer/api/` | TBD |
+| `DEVDOC-GUIDE-*` | Developer Guides | How-to for developers, patterns | `docs/developer/guides/` | TBD |
+| `DEVDOC-FEAT-*` | Features | Feature technical documentation | `docs/developer/features/` | TBD |
+| `DEVDOC-HOW-*` | How-To | Technical step-by-step guides | `docs/developer/howto/` | TBD |
+| `DEVDOC-FAQ-*` | FAQ | Technical FAQ | `docs/developer/faq/` | TBD |
+
+---
+
+## Registry: User Documentation (USERDOC-*)
+
+**Location**: `docs/user/`
+
+| DocID | Category | Title | File Path | Status |
+|-------|----------|-------|-----------|--------|
+| `USERDOC-START-*` | Getting Started | Installation, onboarding, setup | `docs/user/getting-started/` | TBD |
+| `USERDOC-FEAT-*` | Features | Feature descriptions (user view) | `docs/user/features/` | TBD |
+| `USERDOC-HOW-*` | How-To | Step-by-step user guides | `docs/user/howto/` | TBD |
+| `USERDOC-SYS-*` | System Overview | System description, workflows | `docs/user/system-overview/` | TBD |
+| `USERDOC-PROC-*` | Process Guides | Business process guides | `docs/user/process-guides/` | TBD |
+| `USERDOC-SCREEN-*` | Screen Guide | Page/screen explanations | `docs/user/screen-explanations/` | TBD |
+| `USERDOC-FAQ-*` | FAQ | User FAQ | `docs/user/faq/` | TBD |
+
+---
+
 ## Registry: Documentation (DOC-*)
 
 | DocID | Title | File Path | Status |
@@ -410,6 +507,54 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `DOC-006` | Project Dashboard | `PROJECT_DASHBOARD.md` | Active |
 | `DOC-007` | Governance | `GOVERNANCE.md` | Active |
 | `DOC-008` | UX Guide | `docs/guides/UX_GUIDE.md` | Active |
+| `DOC-009` | Copilot Specifications | `.copilot-specs.md` | Active |
+| `DOC-APPHOST-SPEC` | AppHost Specifications | `APPHOST_SPECIFICATIONS.md` | Active |
+| `DOC-APPHOST-QUICKSTART` | AppHost Quick Start Guide | `APPHOST_QUICKSTART.md` | Active |
+| `DOC-CMS-OVERVIEW` | CMS Business Overview | `CMS_OVERVIEW.md` | Active |
+| `DOC-CMS-IMPLEMENTATION` | CMS Technical Implementation Details | `CMS_IMPLEMENTATION_UPDATE.md` | Active |
+
+---
+
+## Registry: Tasks (TASK-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `TASK-001` | Active Tasks | `.ai/tasks/ACTIVE_TASKS.md` | Active |
+| `TASK-002` | Brief Template | `.ai/tasks/BRIEF_TEMPLATE.md` | Active |
+| `TASK-003` | Progress Template | `.ai/tasks/PROGRESS_TEMPLATE.md` | Active |
+| `TASK-004` | Documentation Improvements Brief | `.ai/tasks/task-001-documentation-improvements/brief.md` | Active |
+| `TASK-005` | Documentation Improvements Progress | `.ai/tasks/task-001-documentation-improvements/progress.md` | Active |
+| `TASK-006` | First Operational Dispatch Brief | `.ai/tasks/task-002-first-operational-dispatch/brief.md` | Active |
+| `TASK-007` | First Operational Dispatch Progress | `.ai/tasks/task-002-first-operational-dispatch/progress.md` | Active |
+
+---
+
+## Registry: Proposals (PROP-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `PROP-001` | Backend Instructions Proposal | `.ai/proposals/instruction-updates/backend-instructions-proposal.md` | Active |
+| `PROP-002` | DevOps Instructions Proposal | `.ai/proposals/instruction-updates/devops-instructions-proposal.md` | Active |
+| `PROP-003` | Frontend Instructions Proposal | `.ai/proposals/instruction-updates/frontend-instructions-proposal.md` | Active |
+| `PROP-004` | PR Ready for CopilotExpert | `.ai/proposals/instruction-updates/PR_READY_FOR_COPILOTEXPERT.md` | Active |
+| `PROP-005` | Instruction Updates README | `.ai/proposals/instruction-updates/README.md` | Active |
+| `PROP-006` | Security Instructions Proposal | `.ai/proposals/instruction-updates/security-instructions-proposal.md` | Active |
+| `PROP-007` | Testing Instructions Proposal | `.ai/proposals/instruction-updates/testing-instructions-proposal.md` | Active |
+| `PROP-008` | Updated Backend Instructions | `.ai/proposals/instruction-updates/updated/backend.instructions.md` | Active |
+| `PROP-009` | Updated DevOps Instructions | `.ai/proposals/instruction-updates/updated/devops.instructions.md` | Active |
+| `PROP-010` | Updated Frontend Instructions | `.ai/proposals/instruction-updates/updated/frontend.instructions.md` | Active |
+| `PROP-011` | Updated Security Instructions | `.ai/proposals/instruction-updates/updated/security.instructions.md` | Active |
+| `PROP-012` | Updated Testing Instructions | `.ai/proposals/instruction-updates/updated/testing.instructions.md` | Active |
+
+---
+
+## Registry: Reviews (REV-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `REV-001` | ADR-032 Review Request | `.ai/reviews/ADR-032-review-request.md` | Active |
+| `REV-002` | eGate Adoption Review 2026-01-03 | `.ai/reviews/eGate-adoption-review-2026-01-03.md` | Active |
+| `REV-003` | ERP Architecture Review 2026-01-02 | `.ai/reviews/ERP-ARCHITECTURE-REVIEW-2026-01-02.md` | Active |
 
 ---
 

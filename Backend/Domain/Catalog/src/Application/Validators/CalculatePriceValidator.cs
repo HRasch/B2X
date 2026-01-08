@@ -1,8 +1,8 @@
 
-using B2Connect.Catalog.Application.Handlers;
+using B2X.Catalog.Application.Handlers;
 using FluentValidation;
 
-namespace B2Connect.Catalog.Application.Validators;
+namespace B2X.Catalog.Application.Validators;
 
 public class CalculatePriceValidator : AbstractValidator<CalculatePriceCommand>
 {

@@ -1,7 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 
-namespace B2Connect.Services.Search.Services;
+namespace B2X.Services.Search.Services;
 
 public interface ICatalogProductProvider
 {

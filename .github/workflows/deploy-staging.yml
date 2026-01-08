@@ -1,4 +1,4 @@
----
+﻿---
 name: Deploy to Staging
 
 on:
@@ -84,8 +84,8 @@ jobs:
       - name: Deploy to Staging
         run: |
           cd backend/kubernetes/helm
-          helm upgrade --install b2connect-staging ./ \
-            --namespace b2connect-staging \
+          helm upgrade --install B2X-staging ./ \
+            --namespace B2X-staging \
             --set image.tag=${{ needs.build-and-push-staging.outputs.image-tag }} \
             --wait \
             --timeout=10m

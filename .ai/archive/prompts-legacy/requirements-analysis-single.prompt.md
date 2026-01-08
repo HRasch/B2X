@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-022
+title: Requirements Analysis Single.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+﻿---
 agent: ProductOwner
 description: Single-Agent Requirements Analysis - Rate limit optimized
 ---
@@ -113,4 +121,4 @@ REQ-XXX-acceptance-criteria.md # Detailed acceptance criteria
 Created: [Date] | Agent: @ProductOwner
 Status: Ready for technical review
 ```</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/prompts/requirements-analysis-single.prompt.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/prompts/requirements-analysis-single.prompt.md

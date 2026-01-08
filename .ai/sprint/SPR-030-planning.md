@@ -1,4 +1,12 @@
-# SPR-030: Sprint 2026-30 Planning - Advanced Monitoring for Governance Nodes & Predictive Resource Allocation
+---
+docid: SPR-146
+title: SPR 030 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# SPR-030: Sprint 2026-30 Planning - Advanced Monitoring for Governance Nodes & Predictive Resource Allocation
 
 **DocID**: SPR-030  
 **Date**: 7. Januar 2027  
@@ -173,4 +181,4 @@
 ---
 
 *Planning completed: 7. Januar 2027* | *@ScrumMaster*</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/sprint/SPR-030-planning.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/sprint/SPR-030-planning.md

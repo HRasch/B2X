@@ -1,8 +1,8 @@
-# Testing Guide: Price Calculation & VAT Validation
+﻿# Testing Guide: Price Calculation & VAT Validation
 
 **Issues**: #30, #31  
 **Test Framework**: xUnit + Moq  
-**Test Assembly**: `B2Connect.Catalog.Tests.csproj`  
+**Test Assembly**: `B2X.Catalog.Tests.csproj`  
 **Coverage Target**: >85%  
 **Status**: All 49 tests passing (100%)
 
@@ -33,12 +33,12 @@ backend/Domain/Catalog/tests/
 cd backend/Domain/Catalog/tests
 
 # Run all Catalog tests
-dotnet test B2Connect.Catalog.Tests.csproj -v minimal
+dotnet test B2X.Catalog.Tests.csproj -v minimal
 
 # Expected: ✅ 49 passed, 0 failed
 
 # Show detailed output
-dotnet test B2Connect.Catalog.Tests.csproj -v detailed
+dotnet test B2X.Catalog.Tests.csproj -v detailed
 ```
 
 ### Specific Test Classes
@@ -68,7 +68,7 @@ dotnet test --filter "ClassName=VatIdValidationServiceTests"
 
 ```bash
 # Auto-run tests on file changes
-dotnet watch test B2Connect.Catalog.Tests.csproj
+dotnet watch test B2X.Catalog.Tests.csproj
 
 # Press 'q' to quit
 ```
@@ -381,7 +381,7 @@ public class CatalogTestFixture : IAsyncLifetime
         _container = new TestcontainersBuilder<PostgresTestcontainer>()
             .WithDatabase(new PostgresTestcontainerConfiguration
             {
-                Database = "b2connect_catalog_test",
+                Database = "B2X_catalog_test",
                 Username = "test",
                 Password = "test"
             })
@@ -476,7 +476,7 @@ dotnet test --filter "Category=Performance" \
   --collect:"XPlat Code Coverage"
 
 # Analyze results
-coverlet ./bin/Debug/net10.0/B2Connect.Catalog.Tests.dll \
+coverlet ./bin/Debug/net10.0/B2X.Catalog.Tests.dll \
   --target "dotnet" \
   --targetargs "test --no-build" \
   --format "opencover"
@@ -501,7 +501,7 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_DB: b2connect_catalog_test
+          POSTGRES_DB: B2X_catalog_test
           POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
@@ -519,7 +519,7 @@ jobs:
     
     - name: Run tests
       run: |
-        dotnet test backend/Domain/Catalog/tests/B2Connect.Catalog.Tests.csproj \
+        dotnet test backend/Domain/Catalog/tests/B2X.Catalog.Tests.csproj \
           --logger "trx" \
           --collect:"XPlat Code Coverage" \
           --configuration Release

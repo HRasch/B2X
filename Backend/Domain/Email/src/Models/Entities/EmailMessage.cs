@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace B2Connect.Email.Models;
+namespace B2X.Email.Models;
 
 /// <summary>
 /// Email-Nachricht

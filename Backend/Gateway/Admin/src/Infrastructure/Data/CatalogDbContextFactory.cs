@@ -1,8 +1,8 @@
-using B2Connect.Admin.Infrastructure.Data;
-using B2Connect.Shared.Tenancy.Infrastructure.Context;
+using B2X.Admin.Infrastructure.Data;
+using B2X.Shared.Tenancy.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.Admin.Infrastructure.Data;
+namespace B2X.Admin.Infrastructure.Data;
 
 /// <summary>
 /// Factory for creating and configuring CatalogDbContext instances

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using B2Connect.ERP.Abstractions;
+using B2X.ERP.Abstractions;
 
-namespace B2Connect.ERP.Connectors;
+namespace B2X.ERP.Connectors;
 
 /// <summary>
 /// Registry for managing ERP connector factories.

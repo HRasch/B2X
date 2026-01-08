@@ -1,4 +1,12 @@
 ---
+docid: ADR-081
+title: ADR 038 Customer Integration Stages
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿---
 docid: ADR-038
 title: Customer Integration Stages Framework
 status: Accepted
@@ -19,7 +27,7 @@ related: "ADR-033, ADR-034, ADR-037"
 
 ## Context
 
-B2Connect is a multi-tenant B2B/B2C e-commerce platform with ERP integration capabilities. As we onboard customers, we need a standardized framework that:
+B2X is a multi-tenant B2B/B2C e-commerce platform with ERP integration capabilities. As we onboard customers, we need a standardized framework that:
 
 1. **Defines clear integration stages** from evaluation to mature production use
 2. **Sets expectations** for timelines, deliverables, and success criteria per stage
@@ -48,7 +56,7 @@ We will implement a **4-stage Customer Integration Framework** with defined sub-
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    B2Connect Customer Integration Journey                    │
+│                    B2X Customer Integration Journey                    │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌──────────┐    ┌───────────┐    ┌───────────┐    ┌───────────────────┐   │
@@ -79,7 +87,7 @@ We will implement a **4-stage Customer Integration Framework** with defined sub-
 ## Stage 1: EVALUATE (Trial/Discovery)
 
 **Duration**: 14-30 days  
-**Goal**: Customer validates B2Connect fits their business needs
+**Goal**: Customer validates B2X fits their business needs
 
 ### Activities
 
@@ -104,12 +112,12 @@ We will implement a **4-stage Customer Integration Framework** with defined sub-
 
 ```bash
 # Trial tenant creation
-b2connect trial create --company "Customer Corp" --plan professional --duration 30
+B2X trial create --company "Customer Corp" --plan professional --duration 30
 
 # Outputs:
 # - Tenant ID: trial-customer-corp-xxx
-# - Admin URL: https://trial-customer-corp.b2connect.cloud/admin
-# - Store URL: https://trial-customer-corp.b2connect.cloud
+# - Admin URL: https://trial-customer-corp.B2X.cloud/admin
+# - Store URL: https://trial-customer-corp.B2X.cloud
 # - API Key: sk_trial_xxx (expires in 30 days)
 ```
 
@@ -157,26 +165,26 @@ b2connect trial create --company "Customer Corp" --plan professional --duration 
 
 ```bash
 # Production tenant creation
-b2connect tenant create \
+B2X tenant create \
   --name "Customer Corp" \
   --plan enterprise \
   --region eu-central
 
 # Domain configuration
-b2connect tenant configure-domain \
+B2X tenant configure-domain \
   --tenant customer-corp \
   --domain store.customer.com \
   --ssl auto
 
 # Branding setup
-b2connect tenant setup-branding \
+B2X tenant setup-branding \
   --tenant customer-corp \
   --theme professional \
   --primary-color "#1a365d" \
   --logo ./assets/logo.svg
 
 # Readiness verification
-b2connect tenant verify-readiness --tenant customer-corp
+B2X tenant verify-readiness --tenant customer-corp
 # Outputs checklist with pass/fail status
 ```
 
@@ -240,18 +248,18 @@ onboarding:
 ## Stage 3: INTEGRATE (Connect/Deploy)
 
 **Duration**: 2-8 weeks (ERP complexity-dependent)  
-**Goal**: Full bidirectional data flow between B2Connect and customer systems
+**Goal**: Full bidirectional data flow between B2X and customer systems
 
 ### Activities
 
 | Integration | Description | Success Criteria |
 |-------------|-------------|------------------|
 | **ERP Connector** | On-premise or cloud connector deployment | Connection test passes |
-| **Catalog Sync** | ERP articles → B2Connect products | Initial sync complete, delta working |
-| **Customer Sync** | ERP customers → B2Connect users | Customer data flows correctly |
-| **Order Flow** | B2Connect orders → ERP | Test order appears in ERP |
-| **Pricing Integration** | ERP price lists → B2Connect | Prices display correctly |
-| **Inventory Sync** | ERP stock levels → B2Connect | Availability shows real-time |
+| **Catalog Sync** | ERP articles → B2X products | Initial sync complete, delta working |
+| **Customer Sync** | ERP customers → B2X users | Customer data flows correctly |
+| **Order Flow** | B2X orders → ERP | Test order appears in ERP |
+| **Pricing Integration** | ERP price lists → B2X | Prices display correctly |
+| **Inventory Sync** | ERP stock levels → B2X | Availability shows real-time |
 | **Payment Gateway** | Stripe, PayPal, invoice, etc. | Test payment succeeds |
 
 ### Integration Tiers
@@ -279,28 +287,28 @@ onboarding:
 
 ```bash
 # Discover available connectors
-b2connect erp list-connectors
+B2X erp list-connectors
 
 # Download connector for specific ERP
-b2connect erp download-connector \
+B2X erp download-connector \
   --erp-type enventa \
   --version latest
 
 # Configure connector
-b2connect erp configure-connector \
+B2X erp configure-connector \
   --erp-type enventa \
   --connection-string "Server=ERP-SERVER;Database=ENVENTA;..." \
   --license-server "LICENSE:1234" \
   --base-path "C:\enventa\base"
 
 # Test connectivity
-b2connect erp test-connection --erp-type enventa
+B2X erp test-connection --erp-type enventa
 
 # Start connector service
-b2connect erp start-connector --erp-type enventa --background
+B2X erp start-connector --erp-type enventa --background
 
 # Verify sync status
-b2connect erp sync-status --erp-type enventa
+B2X erp sync-status --erp-type enventa
 ```
 
 ### Integration Checklist
@@ -503,13 +511,13 @@ stages:
 
 ```bash
 # Check overall integration status
-b2connect integration status --tenant customer-corp
+B2X integration status --tenant customer-corp
 
 # Detailed stage report
-b2connect integration report --tenant customer-corp --format detailed
+B2X integration report --tenant customer-corp --format detailed
 
 # Automated readiness checks
-b2connect integration check-readiness \
+B2X integration check-readiness \
   --tenant customer-corp \
   --stage integrate
 ```
@@ -537,10 +545,10 @@ b2connect integration check-readiness \
 - [ ] Define stage transition criteria
 
 ### Phase 3: CLI Commands (Week 3-4)
-- [ ] Implement `b2connect trial create`
-- [ ] Implement `b2connect tenant verify-readiness`
-- [ ] Implement `b2connect integration status`
-- [ ] Implement `b2connect integration report`
+- [ ] Implement `B2X trial create`
+- [ ] Implement `B2X tenant verify-readiness`
+- [ ] Implement `B2X integration status`
+- [ ] Implement `B2X integration report`
 
 ### Phase 4: Dashboard & Tracking (Week 5-6)
 - [ ] Customer integration progress dashboard (Admin)

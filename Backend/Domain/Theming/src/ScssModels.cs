@@ -1,4 +1,4 @@
-namespace B2Connect.ThemeService.Models;
+namespace B2X.ThemeService.Models;
 
 /// <summary>
 /// SCSS Module - Represents a tenant-specific SCSS file stored in database

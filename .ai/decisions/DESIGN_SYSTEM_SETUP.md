@@ -1,4 +1,12 @@
-# Design System Implementation - Setup Complete
+---
+docid: ADR-110
+title: DESIGN_SYSTEM_SETUP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Design System Implementation - Setup Complete
 
 **Date:** December 30, 2025  
 **Owner:** @Frontend  
@@ -19,7 +27,7 @@ Tailwind CSS is already integrated in the Store frontend project. Configuration 
 - **Version:** Tailwind CSS v4 (detected from package.json)
 - **Status:** Operational and configured
 - **Content Path:** `./index.html`, `./src/**/*.{vue,js,ts,jsx,tsx}`
-- **Theme Extension:** B2Connect custom colors defined
+- **Theme Extension:** B2X custom colors defined
 
 ### ✅ Color Palette (Already Configured)
 - **Primary:** Blue spectrum (#0b98ff)

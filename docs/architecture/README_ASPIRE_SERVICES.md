@@ -1,9 +1,9 @@
-# ?? Zusammenfassung: Aspire Dashboard Services werden nicht angezeigt
+ï»¿# ?? Zusammenfassung: Aspire Dashboard Services werden nicht angezeigt
 
 ## ?? Das Problem
 Services werden nicht im Aspire Dashboard unter http://localhost:15500 angezeigt.
 
-## ? Was ich überprüft habe
+## ? Was ich ï¿½berprï¿½ft habe
 
 1. **IsAspireProjectResource Property** ?
    - Identity Service: ? vorhanden
@@ -26,7 +26,7 @@ Services werden nicht im Aspire Dashboard unter http://localhost:15500 angezeigt
 
 ---
 
-## ?? Die Lösung: TOP 5 Checklist
+## ?? Die Lï¿½sung: TOP 5 Checklist
 
 ### 1?? AppHost richtig starten
 ```bash
@@ -40,25 +40,25 @@ dotnet run
 Listening on http://localhost:15500
 ```
 
-### 2?? Browser öffnen
+### 2?? Browser ï¿½ffnen
 ```
 http://localhost:15500
 ```
 
 ### 3?? Services sollten erscheinen nach ca. 30-60 Sekunden
 Sie sehen:
-- postgres (grün/healthy)
-- redis (grün/healthy)
-- auth-service (gelb/starting ? grün/running)
+- postgres (grï¿½n/healthy)
+- redis (grï¿½n/healthy)
+- auth-service (gelb/starting ? grï¿½n/running)
 - ... (weitere Services)
 
 ### 4?? Falls Services NICHT erscheinen
-Führen Sie aus:
+Fï¿½hren Sie aus:
 ```powershell
 .\scripts\diagnose.ps1
 ```
 
-Überprüfen Sie auf Fehler, besonders:
+ï¿½berprï¿½fen Sie auf Fehler, besonders:
 - IsAspireProjectResource in allen .csproj
 - AppHost Build-Fehler
 - Docker Container Status
@@ -68,7 +68,7 @@ Führen Sie aus:
 ```bash
 # Hard Reset
 docker-compose down -v
-dotnet clean B2Connect.slnx
+dotnet clean B2X.slnx
 dotnet build AppHost
 docker-compose up -d
 cd AppHost && dotnet run --verbosity diagnostic
@@ -80,7 +80,7 @@ cd AppHost && dotnet run --verbosity diagnostic
 
 ### Dokumentation
 - ? `ASPIRE_SERVICES_NOT_SHOWING_FIX.md` - Diese Datei
-- ? `docs/ASPIRE_QUICK_FIX.md` - Schnelle Lösungen
+- ? `docs/ASPIRE_QUICK_FIX.md` - Schnelle Lï¿½sungen
 - ? `docs/ASPIRE_DASHBOARD_TROUBLESHOOTING.md` - Detaillierte Troubleshooting
 
 ### Diagnose-Tools
@@ -99,13 +99,13 @@ cd AppHost && dotnet run --verbosity diagnostic
 
 ```bash
 # 1. In Projekt-Root gehen
-cd C:\Users\Holge\repos\B2Connect
+cd C:\Users\Holge\repos\B2X
 
 # 2. AppHost starten
 cd AppHost
 dotnet run
 
-# 3. Dashboard öffnen (nachdem "Listening..." angezeigt wird)
+# 3. Dashboard ï¿½ffnen (nachdem "Listening..." angezeigt wird)
 # Browser: http://localhost:15500
 
 # 4. Services warten 30-60 Sekunden und dann sichtbar sein
@@ -113,25 +113,25 @@ dotnet run
 
 ---
 
-## ?? Häufigste Probleme & Lösungen
+## ?? Hï¿½ufigste Probleme & Lï¿½sungen
 
-| Problem | Symptom | Lösung |
+| Problem | Symptom | Lï¿½sung |
 |---------|---------|--------|
-| Dashboard lädt nicht | `Cannot GET /` | Port 15500 überprüfen: `netstat -ano \| findstr 15500` |
-| Services sind rot | `Status: Failed` | AppHost Logs überprüfen: `docker-compose logs` |
-| Services nicht sichtbar | Leere Liste | IsAspireProjectResource überprüfen, AppHost neu starten |
+| Dashboard lï¿½dt nicht | `Cannot GET /` | Port 15500 ï¿½berprï¿½fen: `netstat -ano \| findstr 15500` |
+| Services sind rot | `Status: Failed` | AppHost Logs ï¿½berprï¿½fen: `docker-compose logs` |
+| Services nicht sichtbar | Leere Liste | IsAspireProjectResource ï¿½berprï¿½fen, AppHost neu starten |
 | Port bereits belegt | `Address already in use` | Alte Prozesse killen: `Stop-Process -Name dotnet -Force` |
-| Build-Fehler | `error CS...` | `dotnet clean B2Connect.slnx && dotnet build AppHost` |
+| Build-Fehler | `error CS...` | `dotnet clean B2X.slnx && dotnet build AppHost` |
 
 ---
 
-## ?? Diagnose durchführen
+## ?? Diagnose durchfï¿½hren
 
 ```powershell
 # Windows
 .\scripts\diagnose.ps1
 
-# Überprüft:
+# ï¿½berprï¿½ft:
 # ? IsAspireProjectResource in alle .csproj
 # ? AppHost Build-Status
 # ? Docker Container Status
@@ -155,16 +155,16 @@ dotnet run
 ```
 AppHost/
 ??? Program.cs (registriert alle Services)
-??? B2Connect.AppHost.csproj
-??? B2ConnectAspireExtensions.cs
-??? bin/Debug/net10.0/B2Connect.AppHost.dll
+??? B2X.AppHost.csproj
+??? B2XAspireExtensions.cs
+??? bin/Debug/net10.0/B2X.AppHost.dll
 ```
 
 ### Service Pfade
 ```csharp
-// Pfade MÜSSEN relativ zur AppHost-Position sein
+// Pfade Mï¿½SSEN relativ zur AppHost-Position sein
 var authService = builder
-    .AddProject("auth-service", "../backend/Domain/Identity/B2Connect.Identity.API.csproj")
+    .AddProject("auth-service", "../backend/Domain/Identity/B2X.Identity.API.csproj")
     //                           ^^
     //                           2 Ebenen hoch!
 ```
@@ -188,7 +188,7 @@ Nach dem Start sollten Sie sehen:
 2. **Browser Dashboard:**
    - URL: http://localhost:15500
    - Title: "Aspire Dashboard"
-   - Services Liste mit grünen Health Icons
+   - Services Liste mit grï¿½nen Health Icons
 
 3. **Docker Containers:**
    ```
@@ -213,10 +213,10 @@ Bevor Sie aufgeben:
 - [ ] `dotnet build AppHost` kompiliert **ohne Fehler**
 - [ ] `docker-compose ps` zeigt **healthy** Containers
 - [ ] `netstat -ano | findstr 15500` zeigt **LISTENING**
-- [ ] `cd AppHost && dotnet run` läuft **ohne Fehler**
-- [ ] Dashboard **http://localhost:15500** lädt
+- [ ] `cd AppHost && dotnet run` lï¿½uft **ohne Fehler**
+- [ ] Dashboard **http://localhost:15500** lï¿½dt
 - [ ] Sie haben **60 Sekunden gewartet** nach AppHost-Start
-- [ ] Services zeigen mit grünen Icons im Dashboard
+- [ ] Services zeigen mit grï¿½nen Icons im Dashboard
 
 ---
 
@@ -242,8 +242,8 @@ admin-gateway      ? Running
 ????????????????????????????????????????
 ```
 
-**Glückwunsch! ?? AppHost & Dashboard funktionieren!**
+**Glï¿½ckwunsch! ?? AppHost & Dashboard funktionieren!**
 
 ---
 
-**Für technische Details:** `docs/ASPIRE_DASHBOARD_TROUBLESHOOTING.md`
+**Fï¿½r technische Details:** `docs/ASPIRE_DASHBOARD_TROUBLESHOOTING.md`

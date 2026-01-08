@@ -1,4 +1,4 @@
-# Projektstruktur-Trennung: Umsetzungsstatus
+﻿# Projektstruktur-Trennung: Umsetzungsstatus
 
 ## ✅ Abgeschlossene Tasks
 
@@ -12,14 +12,14 @@
 ## ⚠️ Erkannte Probleme
 
 ### Hauptproblem: Namespace-Konflikt
-Der Namespace `B2Connect.Store.Core.Store` kollidiert mit der Entity `Store`:
-- Namespace: `B2Connect.Store.Core.Store.Entities`
+Der Namespace `B2X.Store.Core.Store` kollidiert mit der Entity `Store`:
+- Namespace: `B2X.Store.Core.Store.Entities`
 - Entity Class: `Store` 
 - Fehler: "Store" ist "Namespace", wird aber wie "Typ" verwendet
 
 **Beispiel:**
 ```csharp
-using B2Connect.Store.Core.Store.Entities;
+using B2X.Store.Core.Store.Entities;
 public class StoreRepository : Repository<Store> // ❌ Store ist mehrdeutig
 ```
 
@@ -34,14 +34,14 @@ public class ShippingMethodEntity { ... }
 
 #### Option 2: Namespace umbenennen (EMPFOHLEN)
 ```csharp
-// Statt: B2Connect.Store.Core.Store.Entities
-// Nutze: B2Connect.Store.Core.Configuration.Entities
-// oder:  B2Connect.Store.Core.Domain.Entities
+// Statt: B2X.Store.Core.Store.Entities
+// Nutze: B2X.Store.Core.Configuration.Entities
+// oder:  B2X.Store.Core.Domain.Entities
 ```
 
 #### Option 3: Vollqualifizierte Namen nutzen
 ```csharp
-public class StoreRepository : Repository<global::B2Connect.Store.Core.Store.Entities.Store>
+public class StoreRepository : Repository<global::B2X.Store.Core.Store.Entities.Store>
 ```
 
 ## 📋 Empfohlene Struktur (Korrigierte Version)
@@ -118,26 +118,26 @@ src/
 ## 🔑 Namespaces (Korrigiert)
 
 ```
-B2Connect.Store.Core.Common.Entities            ← Store, Language, Country
-B2Connect.Store.Core.Common.Interfaces          ← IRepository, IStoreRepository, etc.
-B2Connect.Store.Core.Configuration.Entities     ← PaymentMethod, ShippingMethod
-B2Connect.Store.Core.Configuration.Interfaces   ← IPaymentMethodRepository, etc.
+B2X.Store.Core.Common.Entities            ← Store, Language, Country
+B2X.Store.Core.Common.Interfaces          ← IRepository, IStoreRepository, etc.
+B2X.Store.Core.Configuration.Entities     ← PaymentMethod, ShippingMethod
+B2X.Store.Core.Configuration.Interfaces   ← IPaymentMethodRepository, etc.
 
-B2Connect.Store.Application.Services            ← Write Services
-B2Connect.Store.Application.ReadServices        ← Read Services
+B2X.Store.Application.Services            ← Write Services
+B2X.Store.Application.ReadServices        ← Read Services
 
-B2Connect.Store.Infrastructure.Common.Repositories
-B2Connect.Store.Infrastructure.Common.Data
-B2Connect.Store.Infrastructure.Configuration.Repositories
+B2X.Store.Infrastructure.Common.Repositories
+B2X.Store.Infrastructure.Common.Data
+B2X.Store.Infrastructure.Configuration.Repositories
 
-B2Connect.Store.Presentation.Controllers.Admin
-B2Connect.Store.Presentation.Controllers.Public
+B2X.Store.Presentation.Controllers.Admin
+B2X.Store.Presentation.Controllers.Public
 ```
 
 ## 🚀 Nächste Schritte zur Behebung
 
 1. **Namespace umbenennen**
-   - `B2Connect.Store.Core.Store` → `B2Connect.Store.Core.Configuration`
+   - `B2X.Store.Core.Store` → `B2X.Store.Core.Configuration`
    - Alle Dateien in `src/Core/Configuration/` verschieben
    - Alle Usings in Services und Controllers aktualisieren
 
@@ -160,6 +160,6 @@ B2Connect.Store.Presentation.Controllers.Public
 
 ## 📝 Zusammenfassung
 
-Die Reorganisation ist zu **80% abgeschlossen**. Das Hauptproblem ist ein Namespace-Konflikt zwischen dem Ordner `Store` und der Entity `Store`. Die schnellste Lösung ist, den Namespace von `B2Connect.Store.Core.Store` zu `B2Connect.Store.Core.Configuration` oder ähnlich umzubenennen.
+Die Reorganisation ist zu **80% abgeschlossen**. Das Hauptproblem ist ein Namespace-Konflikt zwischen dem Ordner `Store` und der Entity `Store`. Die schnellste Lösung ist, den Namespace von `B2X.Store.Core.Store` zu `B2X.Store.Core.Configuration` oder ähnlich umzubenennen.
 
 Alle Dateien sind bereits in den neuen Ordnern erstellt, die Usings müssen nur angepasst werden.

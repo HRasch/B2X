@@ -1,7 +1,7 @@
-using B2Connect.Tenancy.Models;
+using B2X.Tenancy.Models;
 using Xunit;
 
-namespace B2Connect.Tenancy.Tests.Models;
+namespace B2X.Tenancy.Tests.Models;
 
 public class TenantDomainTests
 {
@@ -130,7 +130,7 @@ public class TenantDomainTests
         {
             Id = Guid.NewGuid(),
             TenantId = Guid.NewGuid(),
-            DomainName = "tenant.b2connect.de",
+            DomainName = "tenant.B2X.de",
             Type = DomainType.Subdomain,
             VerificationStatus = DomainVerificationStatus.Verified,
             SslStatus = SslStatus.Active

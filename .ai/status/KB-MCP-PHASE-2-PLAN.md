@@ -1,4 +1,12 @@
 ---
+docid: STATUS-016
+title: KB MCP PHASE 2 PLAN
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-MCP-PHASE-2
 title: Knowledge Base MCP - Phase 2 Attachment Removal
 date: 2026-01-07

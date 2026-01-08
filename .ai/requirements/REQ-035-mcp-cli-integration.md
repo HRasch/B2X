@@ -1,4 +1,12 @@
-# REQ-035: MCP-Enabled AI Assistant with CLI Operations Access
+---
+docid: REQ-062
+title: REQ 035 Mcp Cli Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# REQ-035: MCP-Enabled AI Assistant with CLI Operations Access
 
 ## Feature Overview
 Implement an MCP (Model Context Protocol) server that enables AI assistants to securely access and execute CLI operations for system administration and troubleshooting. This allows platform operators to use natural language commands through AI tools to perform administrative tasks, providing intelligent diagnostics and automated operational workflows.
@@ -7,7 +15,7 @@ Business Value: Enhances operational efficiency by combining AI intelligence wit
 
 ## Acceptance Criteria
 - [ ] MCP server exposes CLI operations as tools that AI assistants can invoke
-- [ ] AI assistant can execute `b2connect-admin health check` commands via MCP
+- [ ] AI assistant can execute `B2X-admin health check` commands via MCP
 - [ ] Health checks support component-specific analysis (gateway, database, elasticsearch)
 - [ ] Structured CLI output is provided for AI analysis and recommendations
 - [ ] Secure authentication and authorization for CLI operation access
@@ -16,7 +24,7 @@ Business Value: Enhances operational efficiency by combining AI intelligence wit
 - [ ] No security vulnerabilities introduced in MCP-CLI integration
 
 ## Technical Scope
-- Extend `B2Connect.Admin.MCP` server with additional CLI operation tools
+- Extend `B2X.Admin.MCP` server with additional CLI operation tools
 - Complete implementation of database and Elasticsearch health checks in CLI
 - Enhance `SystemHealthAnalysisTool` for comprehensive analysis
 - Implement secure process execution for CLI commands
@@ -26,7 +34,7 @@ Business Value: Enhances operational efficiency by combining AI intelligence wit
 ## Dependencies
 - ADR-030: MCP server for AI integration (existing)
 - ADR-035: This ADR (proposed)
-- CLI administration module (`B2Connect.CLI.Administration`)
+- CLI administration module (`B2X.CLI.Administration`)
 - Wolverine CQRS for backend communication
 - PostgreSQL and Elasticsearch service configurations
 
@@ -78,4 +86,4 @@ Estimated completion: 4-6 weeks
 - [ADR-035](../decisions/ADR-035-mcp-enabled-ai-assistant-cli-operations.md)
 - [ADR-030](../decisions/ADR-030-cms-tenant-template-overrides-architecture.md)
 - [GL-008](../guidelines/GL-008-GOVERNANCE-POLICIES.md)</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/requirements/REQ-035-mcp-cli-integration.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/requirements/REQ-035-mcp-cli-integration.md

@@ -7,15 +7,15 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
-namespace B2Connect.Shared.Monitoring.Infrastructure;
+namespace B2X.Shared.Monitoring.Infrastructure;
 
 /// <summary>
 /// Configuration class for monitoring infrastructure including OpenTelemetry setup.
 /// </summary>
 public class MonitoringConfiguration
 {
-    private const string MeterName = "B2Connect.Metrics";
-    private const string ActivitySourceName = "B2Connect.Tracing";
+    private const string MeterName = "B2X.Metrics";
+    private const string ActivitySourceName = "B2X.Tracing";
 
     /// <summary>
     /// Gets the OpenTelemetry meter for custom metrics.
@@ -33,15 +33,15 @@ public class MonitoringConfiguration
     public static class BusinessMetrics
     {
         public static readonly Counter<long> OrderVolume = Meter.CreateCounter<long>(
-            "b2connect_orders_total",
+            "B2X_orders_total",
             description: "Total number of orders processed");
 
         public static readonly Counter<long> UserSessions = Meter.CreateCounter<long>(
-            "b2connect_user_sessions_total",
+            "B2X_user_sessions_total",
             description: "Total number of user sessions");
 
         public static readonly Histogram<double> ApiLatency = Meter.CreateHistogram<double>(
-            "b2connect_api_latency_seconds",
+            "B2X_api_latency_seconds",
             description: "API request latency in seconds");
     }
 
@@ -51,17 +51,17 @@ public class MonitoringConfiguration
     public static class TenantMetrics
     {
         public static readonly Counter<long> TenantRequests = Meter.CreateCounter<long>(
-            "b2connect_tenant_requests_total",
+            "B2X_tenant_requests_total",
             description: "Total requests per tenant",
             unit: "requests");
 
         public static readonly Histogram<double> TenantLatency = Meter.CreateHistogram<double>(
-            "b2connect_tenant_latency_seconds",
+            "B2X_tenant_latency_seconds",
             description: "Request latency per tenant in seconds",
             unit: "s");
 
         public static readonly UpDownCounter<long> ActiveTenants = Meter.CreateUpDownCounter<long>(
-            "b2connect_active_tenants",
+            "B2X_active_tenants",
             description: "Number of currently active tenants");
     }
 
@@ -70,7 +70,7 @@ public class MonitoringConfiguration
     /// </summary>
     public static void ConfigureOpenTelemetry(IServiceCollection services, IConfiguration configuration)
     {
-        var serviceName = configuration["OTEL_SERVICE_NAME"] ?? "b2connect";
+        var serviceName = configuration["OTEL_SERVICE_NAME"] ?? "B2X";
         var prometheusPort = configuration.GetValue<int>("Prometheus:Port", 9464);
 
         services.AddOpenTelemetry()

@@ -1,3 +1,11 @@
+---
+docid: KB-191
+title: Vue
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 
 Title: Vue.js 3 — Overview
 Source: https://vuejs.org/

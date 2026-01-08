@@ -1,3 +1,11 @@
+---
+docid: GL-069
+title: GL 008 Agent Consolidation Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🎯 Agent Consolidation Strategy (Rate-Limit Optimierung)
 
 **DocID**: `GL-008`  

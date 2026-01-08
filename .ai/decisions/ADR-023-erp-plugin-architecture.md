@@ -1,4 +1,12 @@
-# ADR-023: ERP/CRM/PIM Plugin Architecture
+---
+docid: ADR-057
+title: ADR 023 Erp Plugin Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# ADR-023: ERP/CRM/PIM Plugin Architecture
 
 **Status:** Proposed  
 **Date:** 2026-01-02  
@@ -7,7 +15,7 @@
 
 ## Context
 
-B2Connect requires integration with various ERP/CRM/PIM systems (starting with enventa Trade ERP) while maintaining:
+B2X requires integration with various ERP/CRM/PIM systems (starting with enventa Trade ERP) while maintaining:
 - Multi-tenant isolation
 - Customer-specific customizations
 - System stability and maintainability
@@ -64,7 +72,7 @@ Legacy ERP systems often use .NET Framework 4.8, requiring isolation strategies.
 
 4. **Cross-Framework Communication**
    - Provider containers run .NET Framework 4.8
-   - B2Connect core runs .NET 10
+   - B2X core runs .NET 10
    - Need framework-agnostic communication protocols
 
 ## Decision
@@ -75,7 +83,7 @@ Implement a **Plugin-based Architecture** using containerized ERP providers with
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   B2Connect     │────│  Provider        │────│  ERP Container  │
+│   B2X     │────│  Provider        │────│  ERP Container  │
 │   Core System   │    │  Manager         │    │  (Docker)       │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
                               │
@@ -209,7 +217,7 @@ service ErpProviderService {
 #### Recommended Approach: gRPC with Fallback
 
 ```csharp
-// B2Connect side (.NET 10) - consumes as IAsyncEnumerable
+// B2X side (.NET 10) - consumes as IAsyncEnumerable
 public async IAsyncEnumerable<PimData> StreamProductsAsync(
     ProductFilter filter, 
     TenantContext context,
@@ -582,7 +590,7 @@ public class EnventaActorPool : IDisposable
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    B2Connect Requests                            │
+│                    B2X Requests                            │
 │              (Multiple concurrent requests)                      │
 └────────────────────────────┬────────────────────────────────────┘
                              │
@@ -619,7 +627,7 @@ public class EnventaActorPool : IDisposable
 - **Benefits**: Reduced memory usage, faster time-to-first-result
 
 #### 3. **Hybrid Data Strategy: Sync + Live Query**
-- **Master Data**: Synchronized to B2Connect database (PostgreSQL + Elasticsearch)
+- **Master Data**: Synchronized to B2X database (PostgreSQL + Elasticsearch)
   - Articles, attributes, images, references (1.5M+ articles, 30M+ attributes)
   - Background sync jobs (hourly/nightly, incremental)
   - Acceptable time delay (eventual consistency)
@@ -728,15 +736,15 @@ erp_provider_cache_hit_ratio{provider="enventa"} 0.85
 
 ### Deployment Models
 
-B2Connect supports **two deployment models** for ERP connectors to optimize for different customer scenarios:
+B2X supports **two deployment models** for ERP connectors to optimize for different customer scenarios:
 
 #### Model A: Cloud Deployment (Docker Container)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    B2Connect Cloud (Kubernetes)                  │
+│                    B2X Cloud (Kubernetes)                  │
 │  ┌─────────────────┐    ┌─────────────────────────────────────┐ │
-│  │  B2Connect API  │    │   Windows Container                  │ │
+│  │  B2X API  │    │   Windows Container                  │ │
 │  │  (.NET 10)      │◄──►│   (ERP Connector .NET 4.8)          │ │
 │  │  Linux          │gRPC│   Windows Server Core               │ │
 │  └─────────────────┘    └──────────────┬──────────────────────┘ │
@@ -752,7 +760,7 @@ B2Connect supports **two deployment models** for ERP connectors to optimize for 
 **Wann verwenden:**
 - Customer hat keine On-Premise IT-Infrastruktur
 - ERP-System ist Cloud-basiert oder über VPN erreichbar
-- Managed-Service gewünscht (B2Connect verwaltet Connector)
+- Managed-Service gewünscht (B2X verwaltet Connector)
 
 **Trade-offs:**
 - ➕ Zentral gemanagt, einfaches Update-Deployment
@@ -765,9 +773,9 @@ B2Connect supports **two deployment models** for ERP connectors to optimize for 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    B2Connect Cloud (Kubernetes)                  │
+│                    B2X Cloud (Kubernetes)                  │
 │  ┌─────────────────┐                                            │
-│  │  B2Connect API  │◄──────────────────┐                        │
+│  │  B2X API  │◄──────────────────┐                        │
 │  │  (.NET 10)      │   gRPC over HTTPS │                        │
 │  │  Linux          │                   │                        │
 │  └─────────────────┘                   │                        │
@@ -805,7 +813,7 @@ B2Connect supports **two deployment models** for ERP connectors to optimize for 
 - ➕ Daten bleiben im Kundennetzwerk bis zur Sync
 - ➖ Customer muss Windows Service betreiben
 - ➖ Update-Deployment komplexer (MSI/ClickOnce)
-- ➖ Monitoring muss an B2Connect Cloud gemeldet werden
+- ➖ Monitoring muss an B2X Cloud gemeldet werden
 
 #### Deployment Decision Matrix
 
@@ -837,7 +845,7 @@ public class ErpConnectorService : ServiceControl
                 // gRPC Client für Cloud-Kommunikation
                 services.AddGrpcClient<ErpSync.ErpSyncClient>(options =>
                 {
-                    options.Address = new Uri(context.Configuration["B2Connect:CloudEndpoint"]);
+                    options.Address = new Uri(context.Configuration["B2X:CloudEndpoint"]);
                 });
                 
                 // Actor für Thread-sichere ERP-Zugriffe
@@ -876,9 +884,9 @@ public class Program
         {
             x.Service<ErpConnectorService>();
             x.RunAsLocalSystem();
-            x.SetServiceName("B2ConnectErpConnector");
-            x.SetDisplayName("B2Connect ERP Connector");
-            x.SetDescription("Synchronisiert enventa Trade ERP mit B2Connect Cloud");
+            x.SetServiceName("B2XErpConnector");
+            x.SetDisplayName("B2X ERP Connector");
+            x.SetDescription("Synchronisiert enventa Trade ERP mit B2X Cloud");
             x.StartAutomatically();
             x.EnableServiceRecovery(r => r.RestartService(1)); // Restart nach 1 Minute
         });
@@ -969,7 +977,7 @@ public class ConnectorRegistrationService : ConnectorRegistry.ConnectorRegistryB
   "connectorRegistration": {
     "model": "on-premise",
     "expectedConnectorId": "connector-abc-123",
-    "cloudEndpoint": "https://api.b2connect.cloud/erp",
+    "cloudEndpoint": "https://api.B2X.cloud/erp",
     "features": ["pim", "crm", "orders"]
   }
 }
@@ -982,7 +990,7 @@ public class ConnectorRegistrationService : ConnectorRegistry.ConnectorRegistryB
   "erpProvider": {
     "type": "enventa",
     "deploymentModel": "cloud",
-    "image": "b2connect/erp-enventa:v1.2.3",
+    "image": "B2X/erp-enventa:v1.2.3",
     "config": {
       "connectionString": "...",
       "syncBatchSize": 1000
@@ -991,7 +999,7 @@ public class ConnectorRegistrationService : ConnectorRegistry.ConnectorRegistryB
   "crmProvider": {
     "type": "salesforce",
     "deploymentModel": "cloud",
-    "image": "b2connect/crm-salesforce:v2.1.0"
+    "image": "B2X/crm-salesforce:v2.1.0"
   }
 }
 ```
@@ -1059,7 +1067,7 @@ public class ConnectorRegistrationService : ConnectorRegistry.ConnectorRegistryB
 - **Integrate with enventa's proprietary ORM** via adapter pattern
 - Implement PIM/CRM/ERP interfaces with caching strategies
 - **Implement Connector Registration for On-Premise deployments**
-- Integration testing with B2Connect focusing on performance
+- Integration testing with B2X focusing on performance
 - Optimize for "chatty" ERP operations via batch processing
 - **Validate gRPC streaming** between .NET 4.8 and .NET 10
 
@@ -1132,7 +1140,7 @@ internal class FSGlobalPool : IDisposable
 }
 ```
 
-**B2Connect Adaptation:**
+**B2X Adaptation:**
 ```csharp
 public class ErpConnectionPool : IErpConnectionPool
 {
@@ -1179,7 +1187,7 @@ public override FSQueryList<IcECArticle> BuildConditions(FSQueryList<IcECArticle
 }
 ```
 
-**B2Connect Adaptation (gRPC-friendly):**
+**B2X Adaptation (gRPC-friendly):**
 ```csharp
 public class ArticleQueryBuilder : IErpQueryBuilder<ArticleDto>
 {
@@ -1211,7 +1219,7 @@ var where = rowIds.Batch(1000)
     .Join(" OR ");
 ```
 
-**B2Connect Adaptation:**
+**B2X Adaptation:**
 ```csharp
 public async IAsyncEnumerable<ArticleDto> GetByIdsAsync(
     IEnumerable<string> ids,
@@ -1244,14 +1252,14 @@ public class SyncRecord
 }
 ```
 
-**B2Connect Implementation:**
+**B2X Implementation:**
 ```csharp
 public record ErpSyncMapping(
     Guid Id,
     string TenantId,
     string ProviderId,
     string EntityType,
-    string B2ConnectId,
+    string B2XId,
     string ErpId,
     long ErpRowVersion,
     DateTimeOffset LastSyncUtc
@@ -1269,7 +1277,7 @@ public class SyncMappingProjection : IProjection<ErpSyncMapping>
 
 From eGate analysis:
 
-| Component | Thread-Safety | B2Connect Mitigation |
+| Component | Thread-Safety | B2X Mitigation |
 |-----------|--------------|---------------------|
 | `Login()` | **NOT thread-safe** | Serialize with `SemaphoreSlim` |
 | `GlobalObjectManager.Create()` | Thread-safe | Can parallelize |

@@ -1,4 +1,12 @@
-# Guard Clauses - Coding Style Guidelines
+---
+docid: GL-074
+title: GL 011 Coding Style Guard Clauses
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+﻿# Guard Clauses - Coding Style Guidelines
 
 **DocID**: `GL-010`  
 **Status**: Active  
@@ -7,7 +15,7 @@
 
 ## Overview
 
-Guard clauses are the preferred pattern for input validation in B2Connect. They provide early returns for invalid inputs, reducing code nesting and improving readability. This guideline establishes consistent patterns across the codebase.
+Guard clauses are the preferred pattern for input validation in B2X. They provide early returns for invalid inputs, reducing code nesting and improving readability. This guideline establishes consistent patterns across the codebase.
 
 ## Core Principles
 
@@ -258,7 +266,7 @@ public async Task<Result<User>> CreateUserAsync(CreateUserRequest request)
 }
 ```
 
-## Code Examples from B2Connect
+## Code Examples from B2X
 
 ### Existing Good Examples
 
@@ -394,4 +402,4 @@ public async Task GetProductAsync_WithEmptyId_ThrowsArgumentException()
 
 **Adopted**: 3. Januar 2026  
 **Next Review**: 1. Februar 2026</content>
-<parameter name="filePath">/Users/holger/Documents/Projekte/B2Connect/.ai/guidelines/GL-010-coding-style-guard-clauses.md
+<parameter name="filePath">/Users/holger/Documents/Projekte/B2X/.ai/guidelines/GL-010-coding-style-guard-clauses.md

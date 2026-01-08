@@ -1,7 +1,7 @@
-using B2Connect.LocalizationService.Models;
+using B2X.LocalizationService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace B2Connect.LocalizationService.Data;
+namespace B2X.LocalizationService.Data;
 
 /// <summary>
 /// Entity Framework Core DbContext for localization data

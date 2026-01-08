@@ -1,9 +1,9 @@
-using Xunit;
+﻿using Xunit;
 using Moq;
-using B2Connect.ThemeService.Models;
-using B2Connect.ThemeService.Services;
+using B2X.ThemeService.Models;
+using B2X.ThemeService.Services;
 
-namespace B2Connect.ThemeService.Tests;
+namespace B2X.ThemeService.Tests;
 
 /// <summary>
 /// Test Suite für Theme Service
