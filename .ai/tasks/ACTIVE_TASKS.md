@@ -66,8 +66,33 @@ last-updated: 2026-01-08
 
 ## Current Active Tasks
 
-### [NONE]
-*No active tasks at this time. Ready to dispatch.*
+## TASK-001 � IN-PROGRESS @DocMaintainer — Documentation improvements for multi-chat task management
+
+**Assigned To**: @DocMaintainer  
+**Domain**: documentation  
+**Priority**: P1  
+**Started**: 2026-01-08  
+**Expected Completion**: 2026-01-10  
+**Status File**: `.ai/tasks/task-001-documentation-improvements/progress.md`  
+**Blockers**: None
+
+**Brief**: Address documentation gaps identified in code review for multi-chat system.
+
+**Decision**: Create dedicated documentation chat, load path-specific instructions.
+
+## TASK-002 � IN-PROGRESS @SARAH — First operational task dispatch validation
+
+**Assigned To**: @SARAH  
+**Domain**: coordination  
+**Priority**: P0  
+**Started**: 2026-01-08  
+**Expected Completion**: 2026-01-08  
+**Status File**: `.ai/tasks/task-002-first-operational-dispatch/progress.md`  
+**Blockers**: None
+
+**Brief**: Execute first task dispatch to validate multi-chat workflow and rate-limit coordination.
+
+**Decision**: Self-assigned coordination task to test system operational readiness.
 
 ---
 
