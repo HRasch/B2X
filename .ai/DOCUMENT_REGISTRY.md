@@ -189,6 +189,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-049` | Documentation Structure Framework | `.ai/guidelines/GL-049-DOCUMENTATION-STRUCTURE-FRAMEWORK.md` | Active |
 | `GL-050` | Project Documentation Structure in docs/ | `.ai/guidelines/GL-050-PROJECT-DOCS-STRUCTURE.md` | Active |
 | `GL-051` | AI-Ready Documentation Integration Guide | `.ai/guidelines/GL-051-AI-READY-DOCUMENTATION-INTEGRATION.md` | Active |
+| `GL-052` | Role-Based Documentation Access & Audience Segregation | `.ai/guidelines/GL-052-ROLE-BASED-DOCUMENTATION-ACCESS.md` | Active |
 
 ---
 
