@@ -119,6 +119,15 @@ These require manual migration planning:
 
 ## Workflow
 
+### Dependency Update Process
+
+When performing dependency updates (whether automated via Dependabot or manual):
+
+- Always check the internet for the latest available version using official package registries (npm, NuGet, etc.)
+- Verify version compatibility with current codebase
+- Review changelog/release notes for breaking changes
+- Test thoroughly before merging
+
 ### Weekly Dependency Review
 
 ```mermaid

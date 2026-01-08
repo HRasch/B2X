@@ -8,5 +8,7 @@ Quick map of this workspace to the knowledgebase topics.
 - Frontend Store and Management UI: `frontend/Store`, `frontend/Admin`, `frontend/Management` — see `vue.md`, `pinia.md`, `vite.md`, and `patterns-antipatterns.md`.
 - Localization resources and verification scripts: `backend/Domain/Localization/`, `verify-localization.sh` — see `dotnet-localization.md`.
 - CI / DevOps scripts: `scripts/`, `docker-compose.yml`, `backend/docker-compose.aspire.yml` — refer to `owasp-top-ten.md` and `dotnet-breaking-changes.md` for security and compatibility checks.
+- MCP AI Tools: `backend/BoundedContexts/Admin/MCP/B2X.Admin.MCP/Tools/` — organized as individual tool files (see `patterns-antipatterns.md` for file organization guidelines). Each tool follows AI gateway patterns with tenant context and GDPR compliance.
+- Code Organization: All projects follow systematic refactoring patterns — see `patterns-antipatterns.md` for file size limits and extraction strategies.
 
 When adding or modifying components, update this file with direct file references to help future agents find the right places to change.

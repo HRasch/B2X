@@ -15,10 +15,6 @@ const props = withDefaults(defineProps<Props>(), {
   isEditing: false,
 });
 
-const emit = defineEmits<{
-  (e: 'update:config', config: Partial<ImageWidgetConfig>): void;
-}>();
-
 const isLoaded = ref(false);
 const hasError = ref(false);
 
@@ -105,7 +101,9 @@ function handleImageSelect() {
           <circle cx="8.5" cy="8.5" r="1.5" />
           <path d="M21 15l-5-5L5 21" />
         </svg>
-        <span class="widget-image__placeholder-text">Bild auswählen</span>
+        <span class="widget-image__placeholder-text">{{
+          $t('pageBuilder.image.selectImage')
+        }}</span>
       </div>
 
       <!-- Error state -->
@@ -120,7 +118,7 @@ function handleImageSelect() {
           <circle cx="12" cy="12" r="10" />
           <path d="M12 8v4m0 4h.01" />
         </svg>
-        <span class="widget-image__error-text">Bild konnte nicht geladen werden</span>
+        <span class="widget-image__error-text">{{ $t('pageBuilder.image.loadError') }}</span>
       </div>
 
       <!-- Actual image -->

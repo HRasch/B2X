@@ -45,13 +45,13 @@
             class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between"
           >
             <h2 class="text-lg font-medium text-gray-900 dark:text-white">
-              Current Version (v{{ currentPrompt?.version }})
+              {{ $t('ai.systemPromptDetail.currentVersion') }} (v{{ currentPrompt?.version }})
             </h2>
             <button
               @click="showEditModal = true"
               class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
             >
-              Edit
+              {{ $t('ai.systemPromptDetail.edit') }}
             </button>
           </div>
           <div class="p-6">
@@ -67,7 +67,9 @@
         <!-- Version History -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
           <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-white">Version History</h2>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+              {{ $t('ai.systemPromptDetail.versionHistory') }}
+            </h2>
           </div>
           <div class="divide-y divide-gray-200 dark:divide-gray-700">
             <div
@@ -85,11 +87,11 @@
                       v-if="version.version === currentPrompt?.version"
                       class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
                     >
-                      Current
+                      {{ $t('ai.systemPromptDetail.current') }}
                     </span>
                   </div>
                   <p class="text-sm text-gray-500 dark:text-gray-400">
-                    Updated {{ formatDate(version.createdAt) }}
+                    {{ $t('ai.systemPromptDetail.updated') }} {{ formatDate(version.createdAt) }}
                   </p>
                 </div>
                 <div class="flex items-center space-x-2">
@@ -97,14 +99,14 @@
                     @click="viewVersion(version)"
                     class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
                   >
-                    View
+                    {{ $t('ai.systemPromptDetail.view') }}
                   </button>
                   <button
                     v-if="version.version !== currentPrompt?.version"
                     @click="restoreVersion(version)"
                     class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm"
                   >
-                    Restore
+                    {{ $t('ai.systemPromptDetail.restore') }}
                   </button>
                 </div>
               </div>
@@ -118,29 +120,39 @@
         <!-- Statistics -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
           <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-sm font-medium text-gray-900 dark:text-white">Statistics</h3>
+            <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+              {{ $t('ai.systemPromptDetail.statistics') }}
+            </h3>
           </div>
           <div class="p-6 space-y-4">
             <div class="flex justify-between">
-              <span class="text-sm text-gray-500 dark:text-gray-400">Total Versions</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">{{
+                $t('ai.systemPromptDetail.totalVersions')
+              }}</span>
               <span class="text-sm font-medium text-gray-900 dark:text-white">{{
                 promptVersions.length
               }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-sm text-gray-500 dark:text-gray-400">Created</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">{{
+                $t('ai.systemPromptDetail.created')
+              }}</span>
               <span class="text-sm font-medium text-gray-900 dark:text-white">{{
                 formatDate(currentPrompt?.createdAt)
               }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-sm text-gray-500 dark:text-gray-400">Last Updated</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">{{
+                $t('ai.systemPromptDetail.lastUpdated')
+              }}</span>
               <span class="text-sm font-medium text-gray-900 dark:text-white">{{
                 formatDate(currentPrompt?.updatedAt)
               }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-sm text-gray-500 dark:text-gray-400">Character Count</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">{{
+                $t('ai.systemPromptDetail.characterCount')
+              }}</span>
               <span class="text-sm font-medium text-gray-900 dark:text-white">{{
                 currentPrompt?.content.length
               }}</span>
@@ -151,11 +163,15 @@
         <!-- Usage -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
           <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-sm font-medium text-gray-900 dark:text-white">Recent Usage</h3>
+            <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+              {{ $t('ai.systemPromptDetail.recentUsage') }}
+            </h3>
           </div>
           <div class="p-6">
             <div v-if="recentUsage.length === 0" class="text-center py-4">
-              <p class="text-sm text-gray-500 dark:text-gray-400">No recent usage</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ $t('ai.systemPromptDetail.noRecentUsage') }}
+              </p>
             </div>
             <div v-else class="space-y-3">
               <div
@@ -187,11 +203,13 @@
         @click.stop
       >
         <div class="mt-3">
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Edit System Prompt</h3>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+            {{ $t('ai.systemPromptDetail.editSystemPrompt') }}
+          </h3>
           <form @submit.prevent="saveChanges" class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Prompt Content
+                {{ $t('ai.systemPromptDetail.promptContent') }}
               </label>
               <textarea
                 v-model="editContent"
@@ -207,13 +225,13 @@
                 @click="showEditModal = false"
                 class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
-                Cancel
+                {{ $t('ai.systemPromptDetail.cancel') }}
               </button>
               <button
                 type="submit"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Save Changes
+                {{ $t('ai.systemPromptDetail.saveChanges') }}
               </button>
             </div>
           </form>
@@ -233,7 +251,9 @@
       >
         <div class="mt-3">
           <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-            Version {{ selectedVersion?.version }} ({{ formatDate(selectedVersion?.createdAt) }})
+            {{ $t('ai.systemPromptDetail.version') }} {{ selectedVersion?.version }} ({{
+              formatDate(selectedVersion?.createdAt)
+            }})
           </h3>
           <div class="max-h-96 overflow-y-auto">
             <pre
@@ -247,13 +267,13 @@
               @click="restoreVersion(selectedVersion)"
               class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mr-2"
             >
-              Restore This Version
+              {{ $t('ai.systemPromptDetail.restoreThisVersion') }}
             </button>
             <button
               @click="showVersionModal = false"
               class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
-              Close
+              {{ $t('ai.systemPromptDetail.close') }}
             </button>
           </div>
         </div>
@@ -263,8 +283,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+
+interface Version {
+  version: number;
+  content: string;
+  createdAt: string;
+  createdBy: string;
+}
 
 const route = useRoute();
 const toolType = route.params.toolType as string;
@@ -357,12 +384,12 @@ const saveChanges = async () => {
   showEditModal.value = false;
 };
 
-const viewVersion = (version: any) => {
+const viewVersion = (version: Version) => {
   selectedVersion.value = version;
   showVersionModal.value = true;
 };
 
-const restoreVersion = async (version: any) => {
+const restoreVersion = async (version: Version) => {
   // TODO: Implement API call to restore version
   console.log('Restoring version:', version);
 

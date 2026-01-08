@@ -2,7 +2,7 @@
   <div class="user-detail-container">
     <div v-if="userStore.isLoading" class="loading">
       <div class="spinner"></div>
-      <p>Benutzer wird geladen...</p>
+      <p>{{ $t('users.messages.loading') }}</p>
     </div>
 
     <div v-else-if="userStore.error" class="alert alert-danger">

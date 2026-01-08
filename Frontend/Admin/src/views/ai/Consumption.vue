@@ -1,9 +1,11 @@
 <template>
   <div class="ai-consumption">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">AI Consumption</h1>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        {{ $t('ai.consumption.title') }}
+      </h1>
       <p class="mt-2 text-gray-600 dark:text-gray-400">
-        Monitor AI usage, costs, and performance metrics
+        {{ $t('ai.consumption.subtitle') }}
       </p>
     </div>
 
@@ -31,7 +33,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Requests</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {{ $t('ai.consumption.totalRequests') }}
+            </p>
             <p class="text-2xl font-semibold text-gray-900 dark:text-white">
               {{ formatNumber(totalRequests) }}
             </p>
@@ -61,7 +65,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Cost</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {{ $t('ai.consumption.totalCost') }}
+            </p>
             <p class="text-2xl font-semibold text-gray-900 dark:text-white">
               ${{ formatCurrency(totalCost) }}
             </p>
@@ -91,7 +97,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Avg Response Time</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {{ $t('ai.consumption.avgResponseTime') }}
+            </p>
             <p class="text-2xl font-semibold text-gray-900 dark:text-white">
               {{ formatTime(avgResponseTime) }}
             </p>
@@ -121,7 +129,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Error Rate</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {{ $t('ai.consumption.errorRate') }}
+            </p>
             <p class="text-2xl font-semibold text-gray-900 dark:text-white">
               {{ formatPercentage(errorRate) }}
             </p>
@@ -133,7 +143,9 @@
     <!-- Time Range Selector -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
       <div class="flex items-center justify-between">
-        <h2 class="text-lg font-medium text-gray-900 dark:text-white">Usage Trends</h2>
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+          {{ $t('ai.consumption.usageTrends') }}
+        </h2>
         <div class="flex space-x-2">
           <button
             v-for="range in timeRanges"
@@ -156,7 +168,9 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
       <!-- Usage Over Time -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Requests Over Time</h3>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+          {{ $t('ai.consumption.requestsOverTime') }}
+        </h3>
         <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
           <div class="text-center">
             <svg
@@ -172,14 +186,18 @@
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
               />
             </svg>
-            <p class="text-gray-500 dark:text-gray-400">Chart will be implemented with Chart.js</p>
+            <p class="text-gray-500 dark:text-gray-400">
+              {{ $t('ai.consumption.chartPlaceholder') }}
+            </p>
           </div>
         </div>
       </div>
 
       <!-- Cost Breakdown -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Cost by Provider</h3>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+          {{ $t('ai.consumption.costByProvider') }}
+        </h3>
         <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
           <div class="text-center">
             <svg
@@ -201,7 +219,9 @@
                 d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
               />
             </svg>
-            <p class="text-gray-500 dark:text-gray-400">Chart will be implemented with Chart.js</p>
+            <p class="text-gray-500 dark:text-gray-400">
+              {{ $t('ai.consumption.chartPlaceholder') }}
+            </p>
           </div>
         </div>
       </div>
@@ -210,7 +230,9 @@
     <!-- Recent Activity -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white">Recent Activity</h3>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+          {{ $t('ai.consumption.recentActivity') }}
+        </h3>
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -219,32 +241,32 @@
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Timestamp
+                {{ $t('ai.consumption.timestamp') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Provider
+                {{ $t('ai.consumption.provider') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Model
+                {{ $t('ai.consumption.model') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Tokens
+                {{ $t('ai.consumption.tokens') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Cost
+                {{ $t('ai.consumption.cost') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Status
+                {{ $t('ai.consumption.status') }}
               </th>
             </tr>
           </thead>
@@ -286,7 +308,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 interface Activity {
   id: string;

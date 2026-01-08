@@ -3,8 +3,8 @@
     <!-- Header -->
     <div class="header">
       <div>
-        <h1>Catalog Management</h1>
-        <p class="subtitle">Manage products, categories, and brands</p>
+        <h1>{{ $t('catalog.overview.title') }}</h1>
+        <p class="subtitle">{{ $t('catalog.overview.subtitle') }}</p>
       </div>
     </div>
 
@@ -14,8 +14,10 @@
         <div class="stat-icon products-icon">📦</div>
         <div class="stat-content">
           <div class="stat-value">{{ productsCount }}</div>
-          <div class="stat-label">Total Products</div>
-          <router-link to="/catalog/products" class="stat-link"> View all → </router-link>
+          <div class="stat-label">{{ $t('catalog.overview.totalProducts') }}</div>
+          <router-link to="/catalog/products" class="stat-link">{{
+            $t('catalog.overview.viewAll')
+          }}</router-link>
         </div>
       </div>
 
@@ -23,8 +25,10 @@
         <div class="stat-icon categories-icon">📂</div>
         <div class="stat-content">
           <div class="stat-value">{{ categoriesCount }}</div>
-          <div class="stat-label">Total Categories</div>
-          <router-link to="/catalog/categories" class="stat-link"> View all → </router-link>
+          <div class="stat-label">{{ $t('catalog.overview.totalCategories') }}</div>
+          <router-link to="/catalog/categories" class="stat-link">{{
+            $t('catalog.overview.viewAll')
+          }}</router-link>
         </div>
       </div>
 
@@ -32,56 +36,58 @@
         <div class="stat-icon brands-icon">🏢</div>
         <div class="stat-content">
           <div class="stat-value">{{ brandsCount }}</div>
-          <div class="stat-label">Total Brands</div>
-          <router-link to="/catalog/brands" class="stat-link"> View all → </router-link>
+          <div class="stat-label">{{ $t('catalog.overview.totalBrands') }}</div>
+          <router-link to="/catalog/brands" class="stat-link">{{
+            $t('catalog.overview.viewAll')
+          }}</router-link>
         </div>
       </div>
     </div>
 
     <!-- Quick Actions -->
     <div class="quick-actions">
-      <h2>Quick Actions</h2>
+      <h2>{{ $t('catalog.overview.quickActions') }}</h2>
       <div class="actions-grid">
         <router-link to="/catalog/products/create" class="action-card">
           <div class="action-icon">➕</div>
-          <div class="action-title">Create Product</div>
-          <div class="action-description">Add a new product to the catalog</div>
+          <div class="action-title">{{ $t('catalog.overview.createProduct') }}</div>
+          <div class="action-description">{{ $t('catalog.overview.createProductDesc') }}</div>
         </router-link>
 
         <router-link to="/catalog/categories/create" class="action-card">
           <div class="action-icon">➕</div>
-          <div class="action-title">Create Category</div>
-          <div class="action-description">Add a new product category</div>
+          <div class="action-title">{{ $t('catalog.overview.createCategory') }}</div>
+          <div class="action-description">{{ $t('catalog.overview.createCategoryDesc') }}</div>
         </router-link>
 
         <router-link to="/catalog/brands/create" class="action-card">
           <div class="action-icon">➕</div>
-          <div class="action-title">Create Brand</div>
-          <div class="action-description">Add a new product brand</div>
+          <div class="action-title">{{ $t('catalog.overview.createBrand') }}</div>
+          <div class="action-description">{{ $t('catalog.overview.createBrandDesc') }}</div>
         </router-link>
       </div>
     </div>
 
     <!-- Management Sections -->
     <div class="management-sections">
-      <h2>Manage</h2>
+      <h2>{{ $t('catalog.overview.manage') }}</h2>
       <div class="sections-grid">
         <router-link to="/catalog/products" class="section-card">
-          <div class="section-title">Products</div>
-          <div class="section-description">View and manage all products</div>
-          <div class="section-action">Manage Products →</div>
+          <div class="section-title">{{ $t('catalog.overview.products') }}</div>
+          <div class="section-description">{{ $t('catalog.overview.productsDesc') }}</div>
+          <div class="section-action">{{ $t('catalog.overview.manageProducts') }}</div>
         </router-link>
 
         <router-link to="/catalog/categories" class="section-card">
-          <div class="section-title">Categories</div>
-          <div class="section-description">Organize products with categories</div>
-          <div class="section-action">Manage Categories →</div>
+          <div class="section-title">{{ $t('catalog.overview.categories') }}</div>
+          <div class="section-description">{{ $t('catalog.overview.categoriesDesc') }}</div>
+          <div class="section-action">{{ $t('catalog.overview.manageCategories') }}</div>
         </router-link>
 
         <router-link to="/catalog/brands" class="section-card">
-          <div class="section-title">Brands</div>
-          <div class="section-description">Manage product brands</div>
-          <div class="section-action">Manage Brands →</div>
+          <div class="section-title">{{ $t('catalog.overview.brands') }}</div>
+          <div class="section-description">{{ $t('catalog.overview.brandsDesc') }}</div>
+          <div class="section-action">{{ $t('catalog.overview.manageBrands') }}</div>
         </router-link>
       </div>
     </div>

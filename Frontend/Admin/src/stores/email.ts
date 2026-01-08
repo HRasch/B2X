@@ -6,12 +6,18 @@ import type {
   EmailSendingAccount,
   EmailTemplateForm,
   EmailTemplatePreview,
-  EmailTemplateTestSend,
   EmailTemplateFilters,
   EmailAnalytics,
   EmailApiError,
 } from '@/types/email';
 import { emailApi } from '@/services/api/email';
+
+// Error type for HTTP client errors
+interface HttpError {
+  response?: {
+    data?: EmailApiError;
+  };
+}
 
 export const useEmailStore = defineStore('email', () => {
   // State
@@ -71,17 +77,13 @@ export const useEmailStore = defineStore('email', () => {
     loading.value = true;
     error.value = null;
     try {
-      const url = isEditing
-        ? `/api/email/templates/${form.templateKey}/${form.locale}`
-        : '/api/email/templates';
-      const method = isEditing ? 'put' : 'post';
-
       const response = isEditing
         ? await emailApi.updateTemplate(form.templateKey, form.locale, form)
         : await emailApi.createTemplate(form);
       return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'SAVE_ERROR',
         message: 'Failed to save template',
       };
@@ -97,8 +99,9 @@ export const useEmailStore = defineStore('email', () => {
     try {
       await emailApi.deleteTemplate(id);
       templates.value = templates.value.filter(t => t.id !== id);
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'DELETE_ERROR',
         message: 'Failed to delete template',
       };
@@ -115,8 +118,9 @@ export const useEmailStore = defineStore('email', () => {
       const response = await emailApi.duplicateTemplate(id);
       templates.value.push(response.data);
       return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'DUPLICATE_ERROR',
         message: 'Failed to duplicate template',
       };
@@ -136,8 +140,9 @@ export const useEmailStore = defineStore('email', () => {
         templates.value[index] = response.data;
       }
       return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'PUBLISH_ERROR',
         message: 'Failed to publish template',
       };
@@ -154,8 +159,9 @@ export const useEmailStore = defineStore('email', () => {
       const response = await emailApi.getLayouts();
       layouts.value = response.data;
       return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'FETCH_ERROR',
         message: 'Failed to fetch layouts',
       };
@@ -172,9 +178,6 @@ export const useEmailStore = defineStore('email', () => {
     loading.value = true;
     error.value = null;
     try {
-      const url = isEditing ? `/api/email/layouts/${layout.id}` : '/api/email/layouts';
-      const method = isEditing ? 'put' : 'post';
-
       const response = isEditing
         ? await emailApi.updateLayout(layout.id!, layout)
         : await emailApi.createLayout(
@@ -189,8 +192,12 @@ export const useEmailStore = defineStore('email', () => {
         layouts.value.push(response.data);
       }
       return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || { code: 'SAVE_ERROR', message: 'Failed to save layout' };
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
+        code: 'SAVE_ERROR',
+        message: 'Failed to save layout',
+      };
       throw error.value;
     } finally {
       loading.value = false;
@@ -203,8 +210,9 @@ export const useEmailStore = defineStore('email', () => {
     try {
       await emailApi.deleteLayout(id);
       layouts.value = layouts.value.filter(l => l.id !== id);
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'DELETE_ERROR',
         message: 'Failed to delete layout',
       };
@@ -220,8 +228,9 @@ export const useEmailStore = defineStore('email', () => {
     try {
       const response = await emailApi.getAccounts();
       accounts.value = response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'FETCH_ERROR',
         message: 'Failed to fetch accounts',
       };
@@ -238,9 +247,6 @@ export const useEmailStore = defineStore('email', () => {
     loading.value = true;
     error.value = null;
     try {
-      const url = isEditing ? `/api/email/accounts/${account.id}` : '/api/email/accounts';
-      const method = isEditing ? 'put' : 'post';
-
       const response = isEditing
         ? await emailApi.updateAccount(account.id!, account)
         : await emailApi.createAccount(
@@ -255,8 +261,12 @@ export const useEmailStore = defineStore('email', () => {
         accounts.value.push(response.data);
       }
       return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || { code: 'SAVE_ERROR', message: 'Failed to save account' };
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
+        code: 'SAVE_ERROR',
+        message: 'Failed to save account',
+      };
       throw error.value;
     } finally {
       loading.value = false;
@@ -269,8 +279,9 @@ export const useEmailStore = defineStore('email', () => {
     try {
       await emailApi.deleteAccount(id);
       accounts.value = accounts.value.filter(a => a.id !== id);
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'DELETE_ERROR',
         message: 'Failed to delete account',
       };
@@ -283,15 +294,16 @@ export const useEmailStore = defineStore('email', () => {
   const previewTemplate = async (
     templateKey: string,
     locale: string,
-    sampleData?: Record<string, any>
+    sampleData?: Record<string, unknown>
   ): Promise<EmailTemplatePreview> => {
     loading.value = true;
     error.value = null;
     try {
       const response = await emailApi.previewTemplate(templateKey, locale, sampleData);
       return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'PREVIEW_ERROR',
         message: 'Failed to preview template',
       };
@@ -305,7 +317,7 @@ export const useEmailStore = defineStore('email', () => {
     templateKey: string,
     locale: string,
     toAddress: string,
-    sampleData?: Record<string, any>
+    sampleData?: Record<string, unknown>
   ) => {
     loading.value = true;
     error.value = null;
@@ -316,8 +328,9 @@ export const useEmailStore = defineStore('email', () => {
         toAddress,
         sampleData,
       });
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'TEST_SEND_ERROR',
         message: 'Failed to send test email',
       };
@@ -337,8 +350,9 @@ export const useEmailStore = defineStore('email', () => {
 
       const response = await emailApi.getAnalytics(params);
       analytics.value = response.data;
-    } catch (err: any) {
-      error.value = err.response?.data || {
+    } catch (err: unknown) {
+      const httpError = err as HttpError;
+      error.value = httpError.response?.data || {
         code: 'FETCH_ERROR',
         message: 'Failed to fetch analytics',
       };

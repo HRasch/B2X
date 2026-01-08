@@ -18,10 +18,7 @@
         <h3>{{ $t('dashboard.metrics.aiResourceEfficiency') }}</h3>
         <div class="metric-value">
           <span class="value">{{ aiEfficiency }}%</span>
-          <span
-            class="change"
-            :class="{ positive: aiEfficiencyChange > 0, negative: aiEfficiencyChange < 0 }"
-          >
+          <span class="change" :class="changeClass">
             {{ aiEfficiencyChange > 0 ? '+' : '' }}{{ aiEfficiencyChange }}%
           </span>
         </div>
@@ -49,23 +46,23 @@
 
       <!-- NLP Feedback Analytics -->
       <div class="metric-card">
-        <h3>Feedback Analytics</h3>
+        <h3>{{ $t('dashboard.metrics.feedbackAnalytics') }}</h3>
         <div class="sentiment-breakdown">
           <div class="sentiment-item">
-            <span class="label">Positive</span>
+            <span class="label">{{ $t('dashboard.metrics.sentiment.positive') }}</span>
             <span class="value">{{ feedbackSentiment.positive }}%</span>
           </div>
           <div class="sentiment-item">
-            <span class="label">Neutral</span>
+            <span class="label">{{ $t('dashboard.metrics.sentiment.neutral') }}</span>
             <span class="value">{{ feedbackSentiment.neutral }}%</span>
           </div>
           <div class="sentiment-item">
-            <span class="label">Negative</span>
+            <span class="label">{{ $t('dashboard.metrics.sentiment.negative') }}</span>
             <span class="value">{{ feedbackSentiment.negative }}%</span>
           </div>
         </div>
         <div class="feedback-insights">
-          <h4>Key Insights</h4>
+          <h4>{{ $t('dashboard.metrics.keyInsights') }}</h4>
           <ul>
             <li v-for="insight in feedbackInsights" :key="insight">{{ insight }}</li>
           </ul>
@@ -74,7 +71,7 @@
 
       <!-- Performance Benchmarking -->
       <div class="metric-card">
-        <h3>Performance Benchmarks</h3>
+        <h3>{{ $t('dashboard.metrics.performanceBenchmarks') }}</h3>
         <div class="benchmark-results">
           <div v-for="benchmark in benchmarks" :key="benchmark.name" class="benchmark-item">
             <span class="benchmark-name">{{ benchmark.name }}</span>
@@ -91,22 +88,22 @@
 
       <!-- Global Metrics Overview -->
       <div class="metric-card full-width">
-        <h3>Global Metrics Overview</h3>
+        <h3>{{ $t('dashboard.metrics.globalMetricsOverview') }}</h3>
         <div class="global-metrics">
           <div class="metric-item">
-            <span class="label">Active Users</span>
+            <span class="label">{{ $t('dashboard.metrics.metrics.activeUsers') }}</span>
             <span class="value">{{ globalMetrics.activeUsers }}</span>
           </div>
           <div class="metric-item">
-            <span class="label">API Requests</span>
+            <span class="label">{{ $t('dashboard.metrics.metrics.apiRequests') }}</span>
             <span class="value">{{ globalMetrics.apiRequests }}</span>
           </div>
           <div class="metric-item">
-            <span class="label">Error Rate</span>
+            <span class="label">{{ $t('dashboard.metrics.metrics.errorRate') }}</span>
             <span class="value">{{ globalMetrics.errorRate }}%</span>
           </div>
           <div class="metric-item">
-            <span class="label">Avg Response Time</span>
+            <span class="label">{{ $t('dashboard.metrics.metrics.avgResponseTime') }}</span>
             <span class="value">{{ globalMetrics.avgResponseTime }}ms</span>
           </div>
         </div>
@@ -119,15 +116,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { Chart, registerables } from 'chart.js';
 
 // Register Chart.js components
 Chart.register(...registerables);
-
-// i18n
-const { t } = useI18n();
 
 // Reactive data
 const selectedTimeRange = ref('24h');
@@ -167,6 +160,12 @@ const globalMetrics = ref({
 });
 
 const globalMetricsChart = ref<HTMLCanvasElement>();
+
+// Computed properties
+const changeClass = computed(() => ({
+  positive: aiEfficiencyChange.value > 0,
+  negative: aiEfficiencyChange.value < 0,
+}));
 
 // Methods
 const updateDashboard = async () => {

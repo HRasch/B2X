@@ -115,7 +115,7 @@ const handleSearch = () => {
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
-          Letzte Suchen
+          {{ $t('pageBuilder.searchBox.recentSearches') }}
         </div>
         <div class="search-box__recent">
           <button
@@ -134,7 +134,7 @@ const handleSearch = () => {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
           </svg>
-          Kategorien
+          {{ $t('pageBuilder.searchBox.categories') }}
         </div>
         <ul class="search-box__categories">
           <li v-for="cat in mockCategories" :key="cat.id">
@@ -154,7 +154,7 @@ const handleSearch = () => {
               d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
             />
           </svg>
-          Produkte
+          {{ $t('pageBuilder.searchBox.products') }}
         </div>
         <ul class="search-box__suggestions">
           <li
@@ -175,7 +175,7 @@ const handleSearch = () => {
       <!-- View All Results -->
       <div class="search-box__footer">
         <a href="#" class="search-box__view-all">
-          Alle Ergebnisse anzeigen
+          {{ $t('pageBuilder.searchBox.viewAllResults') }}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 5l7 7-7 7" />
           </svg>

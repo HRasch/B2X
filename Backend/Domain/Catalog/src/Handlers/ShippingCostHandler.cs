@@ -1,5 +1,6 @@
 ﻿using B2X.Catalog.Models;
 using B2X.Catalog.Services;
+using B2X.Shared.Core.Handlers;
 using FluentValidation;
 
 namespace B2X.Catalog.Handlers;
@@ -8,19 +9,18 @@ namespace B2X.Catalog.Handlers;
 /// Wolverine Service Handler for GetShippingMethodsRequest
 /// PAngV Compliance: Shipping costs displayed before checkout
 /// </summary>
-public class ShippingCostHandler
+public class ShippingCostHandler : ValidatedHandlerBase
 {
     private readonly ShippingCostService _shippingCostService;
-    private readonly ILogger<ShippingCostHandler> _logger;
     private readonly GetShippingMethodsRequestValidator _validator;
 
     public ShippingCostHandler(
         ShippingCostService shippingCostService,
         ILogger<ShippingCostHandler> logger,
         GetShippingMethodsRequestValidator validator)
+        : base(logger)
     {
         _shippingCostService = shippingCostService;
-        _logger = logger;
         _validator = validator;
     }
 
@@ -31,20 +31,25 @@ public class ShippingCostHandler
         GetShippingMethodsRequest request,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("GetShippingMethods requested for country: {Country}", request.DestinationCountry);
+        Logger.LogInformation("GetShippingMethods requested for country: {Country}", request.DestinationCountry);
 
         try
         {
             // Validate input
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogWarning("Validation failed for shipping methods request");
-                return new GetShippingMethodsResponse
+            var validationError = await ValidateRequestAsync(
+                request,
+                _validator,
+                cancellationToken,
+                errorMessage => new GetShippingMethodsResponse
                 {
                     Success = false,
-                    Message = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage)),
-                };
+                    Message = errorMessage,
+                });
+
+            if (validationError != null)
+            {
+                Logger.LogWarning("Validation failed for shipping methods request");
+                return validationError;
             }
 
             // Get shipping methods
@@ -54,14 +59,14 @@ public class ShippingCostHandler
                 request.OrderTotal,
                 cancellationToken).ConfigureAwait(false);
 
-            _logger.LogInformation("GetShippingMethods completed: {Count} methods returned",
+            Logger.LogInformation("GetShippingMethods completed: {Count} methods returned",
                 response.Methods.Count);
 
             return response;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in GetShippingMethods for country: {Country}",
+            Logger.LogError(ex, "Error in GetShippingMethods for country: {Country}",
                 request.DestinationCountry);
 
             return new GetShippingMethodsResponse

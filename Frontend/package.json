@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "B2X-frontend-monorepo",
   "version": "1.0.0",
   "private": true,
@@ -33,6 +33,8 @@
     "monorepo"
   ],
   "dependencies": {
+    "@nuxt/cli": "^3.32.0",
+    "@nuxt/kit": "^3.20.2",
     "@pinia/nuxt": "^0.11.3",
     "pinia": "^3.0.4"
   }

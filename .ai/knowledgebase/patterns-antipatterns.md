@@ -120,5 +120,19 @@ Playwright E2E Testing
   - Testing third-party dependencies without proper mocking
   - Not isolating test data and state between test runs
 
+Code Organization & Refactoring
+- Patterns:
+  - Establish file size limits (500 LOC max for complex logic files) and class count limits (1-2 related classes per file).
+  - Use systematic extraction for large monolithic files: create separate files first, then remove from original file.
+  - Implement base classes for common patterns (e.g., ValidatedBase<T> for validation logic) to eliminate duplication.
+  - Maintain build and test validation after each refactoring step to ensure stability.
+  - Document refactoring patterns and triggers in team guidelines for consistent application.
+- Antipatterns:
+  - Allowing files to grow beyond 1000 LOC without splitting into focused components.
+  - Multiple classes in single files creating complexity hotspots and maintenance challenges.
+  - Copy-paste development leading to duplicate validation or business logic patterns.
+  - Large-scale refactoring without incremental validation and testing checkpoints.
+  - Lack of clear file organization guidelines leading to inconsistent project structure.
+
 References
 - Wolverine README & docs, Vue docs, Pinia docs, Vite docs, ASP.NET Core Identity docs, .NET compatibility docs, OWASP Top Ten.

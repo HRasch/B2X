@@ -10,10 +10,6 @@ const props = defineProps<{
   isEditing?: boolean;
 }>();
 
-const emit = defineEmits<{
-  (e: 'update:config', config: AccountDashboardWidgetConfig): void;
-}>();
-
 const quickLinks = computed(() => props.config.quickLinks ?? []);
 
 // Mock data for preview
@@ -52,7 +48,9 @@ function getIconPath(icon?: string): string {
     <!-- Welcome Message -->
     <div v-if="config.showWelcomeMessage" class="account-dashboard__welcome">
       <h1 class="account-dashboard__title">Willkommen zurück, {{ mockUser.name }}!</h1>
-      <p class="account-dashboard__subtitle">Hier findest du eine Übersicht deines Kontos.</p>
+      <p class="account-dashboard__subtitle">
+        {{ $t('pageBuilder.accountDashboard.welcome.subtitle') }}
+      </p>
     </div>
 
     <div
@@ -63,7 +61,9 @@ function getIconPath(icon?: string): string {
     >
       <!-- Quick Links -->
       <div v-if="config.showQuickLinks" class="account-dashboard__section">
-        <h2 class="account-dashboard__section-title">Schnellzugriff</h2>
+        <h2 class="account-dashboard__section-title">
+          {{ $t('pageBuilder.accountDashboard.quickLinks.title') }}
+        </h2>
         <div class="account-dashboard__quick-links">
           <a
             v-for="link in quickLinks"
@@ -85,8 +85,12 @@ function getIconPath(icon?: string): string {
       <!-- Recent Orders -->
       <div v-if="config.showRecentOrders" class="account-dashboard__section">
         <div class="account-dashboard__section-header">
-          <h2 class="account-dashboard__section-title">Letzte Bestellungen</h2>
-          <a href="#" class="account-dashboard__view-all">Alle ansehen</a>
+          <h2 class="account-dashboard__section-title">
+            {{ $t('pageBuilder.accountDashboard.recentOrders.title') }}
+          </h2>
+          <a href="#" class="account-dashboard__view-all">{{
+            $t('pageBuilder.accountDashboard.recentOrders.viewAll')
+          }}</a>
         </div>
         <div class="account-dashboard__orders">
           <div v-for="order in displayedOrders" :key="order.id" class="account-dashboard__order">
@@ -112,7 +116,7 @@ function getIconPath(icon?: string): string {
 
     <!-- Edit Mode Indicator -->
     <div v-if="isEditing" class="account-dashboard__edit-hint">
-      <span>Account Dashboard Widget</span>
+      <span>{{ $t('pageBuilder.accountDashboard.editHint') }}</span>
     </div>
   </div>
 </template>

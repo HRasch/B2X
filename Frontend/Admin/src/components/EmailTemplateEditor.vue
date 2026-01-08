@@ -146,10 +146,10 @@
         <div class="liquid-help">
           <div>{{ $t('email.templates.liquidVariables') }}</div>
           <div class="variables-list">
-            <div class="variable-item">
-              <span>customer.name</span>
-              <span>{{ $t('email.templates.customerName') }}</span>
-              <span>{{ $t('email.templates.customerNameExample') }}</span>
+            <div v-for="variable in liquidVariables" :key="variable.name" class="variable-item">
+              <span>{{ variable.name }}</span>
+              <span>{{ variable.description }}</span>
+              <span>{{ variable.example }}</span>
             </div>
           </div>
         </div>
@@ -171,7 +171,9 @@
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h3>{{ $t('email.templates.previewModalTitle') }}</h3>
-          <button @click="showPreview = false" class="close-btn">&times;</button>
+          <button @click="showPreview = false" class="close-btn">
+            {{ $t('email.templates.closeButton') }}
+          </button>
         </div>
         <div class="preview-content">
           <div class="preview-subject">
@@ -188,7 +190,9 @@
         <form @submit.prevent="sendTestEmail">
           <div class="modal-header">
             <h3>{{ $t('email.templates.testSendModalTitle') }}</h3>
-            <button @click="showTestSend = false" class="close-btn">&times;</button>
+            <button @click="showTestSend = false" class="close-btn">
+              {{ $t('email.templates.closeButton') }}
+            </button>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -225,7 +229,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useEmailStore } from '@/stores/email';
 import { useThemeStore } from '@/stores/theme';
 import { useSafeHtml } from '@/utils/sanitize';
@@ -248,7 +251,6 @@ const emit = defineEmits<{
 }>();
 
 const emailStore = useEmailStore();
-const { t } = useI18n();
 
 // Use global theme from theme store
 const themeStore = useThemeStore();
@@ -297,16 +299,16 @@ const layouts = ref<EmailLayout[]>([]);
 const liquidVariables = ref<LiquidVariable[]>([
   {
     name: 'customer.name',
-    description: 'Customer full name',
+    description: $t('email.templates.customerName'),
     category: 'Customer',
-    example: 'John Doe',
+    example: $t('email.templates.customerNameExample').replace('Example: ', ''),
     type: 'string',
   },
   {
     name: 'customer.email',
-    description: 'Customer email',
+    description: $t('email.templates.customerEmail'),
     category: 'Customer',
-    example: 'john@example.com',
+    example: $t('email.templates.customerEmailExample'),
     type: 'string',
   },
   {

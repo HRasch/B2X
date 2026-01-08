@@ -1,0 +1,22 @@
+­ƒöì Starting CI Dependency Validation...
+[0;32mÔ£à Root Directory.Packages.props found[0m
+[0;32mÔ£à CPM is enabled in root Directory.Packages.props[0m
+[0;32mÔ£à No duplicate Directory.Packages.props files found[0m
+[0;32mÔ£à All .csproj files comply with CPM (no hardcoded versions)[0m
+[0;32mÔ£à No explicit Directory.Packages.props imports found (.NET 10 SDK handles automatically)[0m
+[1;33mÔÜá´©Å  Found .csproj files in tools/ folder - these may bypass CPM:[0m
+tools/RoslynMCP/RoslynMCP.csproj
+tools/seed-catalog/SeedCatalog.csproj
+tools/WolverineMCP/WolverineMCP.csproj
+[1;33m­ƒÆí Consider: Update tools projects to use CPM or document exceptions[0m
+[0;32mÔ£à All package versions follow semantic versioning pattern[0m
+[0;32mÔ£à No duplicate package IDs with conflicting versions[0m
+[0;32m­ƒÄë CI Dependency Validation completed successfully![0m
+
+[0;32m­ƒôè Summary:[0m
+  - Total packages managed: 149
+  - CPM enabled: Ô£à
+  - No duplicates: Ô£à
+  - All projects compliant: Ô£à
+  - Version format valid: Ô£à
+  - No explicit imports: Ô£à

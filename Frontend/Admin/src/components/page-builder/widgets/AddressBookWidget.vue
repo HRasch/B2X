@@ -2,16 +2,12 @@
 /**
  * AddressBookWidget - Customer address management
  */
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import type { AddressBookWidgetConfig } from '@/types/widgets';
 
 const props = defineProps<{
   config: AddressBookWidgetConfig;
   isEditing?: boolean;
-}>();
-
-const emit = defineEmits<{
-  (e: 'update:config', config: AddressBookWidgetConfig): void;
 }>();
 
 // Mock address data
@@ -67,12 +63,12 @@ function getTypeIcon(type: string): string {
 <template>
   <div :class="['address-book', { 'address-book--editing': isEditing }]">
     <div class="address-book__header">
-      <h2 class="address-book__title">Meine Adressen</h2>
+      <h2 class="address-book__title">{{ $t('pageBuilder.addressBook.title') }}</h2>
       <button v-if="config.allowAddNew" class="address-book__add-btn" :disabled="isEditing">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 4v16m8-8H4" />
         </svg>
-        Neue Adresse
+        {{ $t('pageBuilder.addressBook.addNew') }}
       </button>
     </div>
 
@@ -89,7 +85,7 @@ function getTypeIcon(type: string): string {
             v-if="address.isDefault && config.showDefaultBadge"
             class="address-book__default-badge"
           >
-            Standard
+            {{ $t('pageBuilder.addressBook.defaultBadge') }}
           </span>
         </div>
 
@@ -108,7 +104,7 @@ function getTypeIcon(type: string): string {
                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
               />
             </svg>
-            Bearbeiten
+            {{ $t('pageBuilder.addressBook.edit') }}
           </button>
           <button
             v-if="config.allowDelete && !address.isDefault"
@@ -120,7 +116,7 @@ function getTypeIcon(type: string): string {
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
               />
             </svg>
-            Löschen
+            {{ $t('pageBuilder.addressBook.delete') }}
           </button>
         </div>
       </div>
@@ -134,14 +130,16 @@ function getTypeIcon(type: string): string {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M12 4v16m8-8H4" />
           </svg>
-          <span>Neue Adresse hinzufügen</span>
+          <span>{{ $t('pageBuilder.addressBook.addNewCard') }}</span>
         </button>
       </div>
     </div>
 
     <!-- Edit Mode Indicator -->
     <div v-if="isEditing" class="address-book__edit-hint">
-      <span>Adressbuch Widget - Max. {{ config.maxAddresses ?? 10 }} Adressen</span>
+      <span>{{
+        $t('pageBuilder.addressBook.editHint', { count: config.maxAddresses ?? 10 })
+      }}</span>
     </div>
   </div>
 </template>

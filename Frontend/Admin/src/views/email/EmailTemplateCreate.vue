@@ -12,19 +12,17 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
 import EmailTemplateEditor from '@/components/EmailTemplateEditor.vue';
 import { PageHeader } from '@/components/layout';
 import type { EmailTemplate } from '@/types/email';
 
 const router = useRouter();
-const { t } = useI18n();
 
 const cancel = () => {
   router.push('/email/templates');
 };
 
-const onTemplateSaved = (template: EmailTemplate) => {
+const onTemplateSaved = (_template: EmailTemplate) => {
   // Navigate to the template list or detail view
   router.push('/email/templates');
 };

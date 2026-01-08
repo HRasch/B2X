@@ -1,5 +1,6 @@
 ﻿using B2X.Identity.Interfaces;
 using B2X.Identity.Models;
+using B2X.Shared.Core.Handlers;
 using FluentValidation;
 
 namespace B2X.Identity.Handlers;
@@ -19,11 +20,10 @@ namespace B2X.Identity.Handlers;
 /// 3. Registrierungstyp bestimmen
 /// 4. Response mit ERP-Daten (falls gefunden)
 /// </summary>
-public class CheckRegistrationTypeService
+public class CheckRegistrationTypeService : ValidatedBase
 {
     private readonly IErpCustomerService _erpService;
     private readonly IDuplicateDetectionService _duplicateDetectionService;
-    private readonly ILogger<CheckRegistrationTypeService> _logger;
     private readonly CheckRegistrationTypeCommandValidator _validator;
 
     public CheckRegistrationTypeService(
@@ -31,10 +31,10 @@ public class CheckRegistrationTypeService
         IDuplicateDetectionService duplicateDetectionService,
         ILogger<CheckRegistrationTypeService> logger,
         CheckRegistrationTypeCommandValidator validator)
+        : base(logger)
     {
         _erpService = erpService;
         _duplicateDetectionService = duplicateDetectionService;
-        _logger = logger;
         _validator = validator;
     }
 
@@ -45,13 +45,24 @@ public class CheckRegistrationTypeService
         CheckRegistrationTypeCommand request,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("CheckRegistrationType gestartet für Email: {Email}, BusinessType: {BusinessType}",
+        Logger.LogInformation("CheckRegistrationType gestartet für Email: {Email}, BusinessType: {BusinessType}",
             request.Email, request.BusinessType);
 
         try
         {
             // 1. Input validation
-            var validationResponse = await ValidateInputAsync(request, cancellationToken).ConfigureAwait(false);
+            var validationResponse = await ValidateRequestAsync(
+                request,
+                _validator,
+                cancellationToken,
+                errorMessage => new CheckRegistrationTypeResponse
+                {
+                    Success = false,
+                    RegistrationType = RegistrationType.NewCustomer,
+                    Error = "VALIDATION_ERROR",
+                    Message = errorMessage
+                }).ConfigureAwait(false);
+
             if (validationResponse != null)
             {
                 return validationResponse;
@@ -72,7 +83,7 @@ public class CheckRegistrationTypeService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Fehler bei CheckRegistrationType für Email: {Email}",
+            Logger.LogError(ex, "Fehler bei CheckRegistrationType für Email: {Email}",
                 request.Email);
 
             return new CheckRegistrationTypeResponse
@@ -83,25 +94,6 @@ public class CheckRegistrationTypeService
                 Message = "Ein Fehler ist bei der Überprüfung aufgetreten. Bitte versuchen Sie es später erneut."
             };
         }
-    }
-
-    private async Task<CheckRegistrationTypeResponse?> ValidateInputAsync(
-        CheckRegistrationTypeCommand request,
-        CancellationToken cancellationToken)
-    {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
-        if (!validationResult.IsValid)
-        {
-            _logger.LogWarning("Validierungsfehler für Email: {Email}", request.Email);
-            return new CheckRegistrationTypeResponse
-            {
-                Success = false,
-                RegistrationType = RegistrationType.NewCustomer,
-                Error = "VALIDATION_ERROR",
-                Message = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage))
-            };
-        }
-        return null;
     }
 
     private async Task<CheckRegistrationTypeResponse?> CheckForDuplicatesAsync(
@@ -118,7 +110,7 @@ public class CheckRegistrationTypeService
 
         if (duplicateCheck.ShouldBlock && duplicateCheck.ConfidenceScore >= 90)
         {
-            _logger.LogWarning("Duplikat erkannt für Email: {Email} (Score: {Score})",
+            Logger.LogWarning("Duplikat erkannt für Email: {Email} (Score: {Score})",
                 request.Email, duplicateCheck.ConfidenceScore);
 
             return new CheckRegistrationTypeResponse
@@ -146,7 +138,7 @@ public class CheckRegistrationTypeService
 
             if (erpCustomer != null)
             {
-                _logger.LogInformation("ERP-Kunde gefunden nach Kundennummer: {CustomerNumber}",
+                Logger.LogInformation("ERP-Kunde gefunden nach Kundennummer: {CustomerNumber}",
                     request.CustomerNumber);
             }
         }
@@ -159,7 +151,7 @@ public class CheckRegistrationTypeService
 
             if (erpCustomer != null)
             {
-                _logger.LogInformation("ERP-Kunde gefunden nach E-Mail: {Email}", request.Email);
+                Logger.LogInformation("ERP-Kunde gefunden nach E-Mail: {Email}", request.Email);
             }
         }
 
@@ -172,7 +164,7 @@ public class CheckRegistrationTypeService
 
             if (erpCustomer != null)
             {
-                _logger.LogInformation("ERP-Kunde gefunden nach Firmenname: {CompanyName}",
+                Logger.LogInformation("ERP-Kunde gefunden nach Firmenname: {CompanyName}",
                     request.CompanyName);
             }
         }
@@ -192,7 +184,7 @@ public class CheckRegistrationTypeService
             registrationType = RegistrationType.BusinessCustomer;
         }
 
-        _logger.LogInformation("Registrierungstyp bestimmt: {RegistrationType}", registrationType);
+        Logger.LogInformation("Registrierungstyp bestimmt: {RegistrationType}", registrationType);
 
         // Build response with ERP data
         var response = new CheckRegistrationTypeResponse
@@ -227,7 +219,7 @@ public class CheckRegistrationTypeService
             };
         }
 
-        _logger.LogInformation("CheckRegistrationType erfolgreich: {Email} -> {RegistrationType}",
+        Logger.LogInformation("CheckRegistrationType erfolgreich: {Email} -> {RegistrationType}",
             request.Email, response.RegistrationType);
 
         return response;

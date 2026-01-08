@@ -52,7 +52,12 @@ CSPROJ_FILES=$(find . -name "*.csproj" -type f | grep -v "/bin/" | grep -v "/obj
 PROBLEMATIC_FILES=()
 
 for csproj in $CSPROJ_FILES; do
-    # Check for PackageReference with Version attribute (should not exist in CPM)
+    # Skip projects with CPM disabled
+    if grep -q "<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>" "$csproj"; then
+        continue
+    fi
+    
+    # Check for PackageReference with Version attribute (should not exist in CPM-enabled projects)
     if grep -q "<PackageReference.*Version=" "$csproj"; then
         PROBLEMATIC_FILES+=("$csproj")
     fi
@@ -69,7 +74,26 @@ fi
 
 print_status $GREEN "✅ All .csproj files comply with CPM (no hardcoded versions)"
 
-# Check for tools folder projects that might bypass CPM
+# Check that projects do NOT have explicit Directory.Packages.props imports (handled automatically by .NET 10 SDK)
+EXPLICIT_IMPORT_FILES=()
+
+for csproj in $CSPROJ_FILES; do
+    # Check for explicit Import of Directory.Packages.props (should not exist in .NET 10+)
+    if grep -q "Directory.Packages.props" "$csproj"; then
+        EXPLICIT_IMPORT_FILES+=("$csproj")
+    fi
+done
+
+if [ ${#EXPLICIT_IMPORT_FILES[@]} -gt 0 ]; then
+    print_status $RED "❌ Found ${#EXPLICIT_IMPORT_FILES[@]} .csproj files with explicit Directory.Packages.props imports (not needed in .NET 10+):"
+    for file in "${EXPLICIT_IMPORT_FILES[@]}"; do
+        echo "  - $file"
+    done
+    print_status $YELLOW "💡 Fix: Remove explicit Directory.Packages.props imports - they're handled automatically by .NET 10 SDK"
+    exit 1
+fi
+
+print_status $GREEN "✅ No explicit Directory.Packages.props imports found (.NET 10 SDK handles automatically)"
 TOOLS_CSPROJ=$(find tools -name "*.csproj" -type f 2>/dev/null || true)
 
 if [ -n "$TOOLS_CSPROJ" ]; then
@@ -130,5 +154,6 @@ echo "  - CPM enabled: ✅"
 echo "  - No duplicates: ✅"
 echo "  - All projects compliant: ✅"
 echo "  - Version format valid: ✅"
+echo "  - No explicit imports: ✅"
 
 exit 0

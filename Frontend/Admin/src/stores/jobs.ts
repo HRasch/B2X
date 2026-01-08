@@ -5,7 +5,7 @@
 
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Job, ScheduledJob, JobLog, JobsApiError, JobFilters } from '@/types/jobs';
+import type { Job, ScheduledJob, JobLog, JobsApiError } from '@/types/jobs';
 import type { ApiError } from '@/types/api';
 import { jobsApi } from '@/services/api/jobs';
 

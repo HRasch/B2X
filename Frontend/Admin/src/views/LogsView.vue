@@ -1,20 +1,20 @@
 <template>
   <div class="logs-view">
-    <h2>Client Logs</h2>
+    <h2>{{ $t('logs.title') }}</h2>
     <div>
-      <label>Filter: </label>
+      <label>{{ $t('logs.filter') }}</label>
       <input v-model="q" @keyup.enter="load" placeholder="search message/user/route" />
-      <button @click="load">Reload</button>
+      <button @click="load">{{ $t('logs.reload') }}</button>
     </div>
     <table>
       <thead>
         <tr>
-          <th>Time</th>
-          <th>Level</th>
-          <th>Tenant</th>
-          <th>User</th>
-          <th>Route</th>
-          <th>Message</th>
+          <th>{{ $t('logs.time') }}</th>
+          <th>{{ $t('logs.level') }}</th>
+          <th>{{ $t('logs.tenant') }}</th>
+          <th>{{ $t('logs.user') }}</th>
+          <th>{{ $t('logs.route') }}</th>
+          <th>{{ $t('logs.message') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -37,10 +37,20 @@
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
 
+interface LogEntry {
+  id: string;
+  timestamp: string;
+  level: string;
+  tenantId: string;
+  userId: string;
+  route: string;
+  message: string;
+}
+
 export default defineComponent({
   name: 'LogsView',
   setup() {
-    const logs = ref<Array<any>>([]);
+    const logs = ref<Array<LogEntry>>([]);
     const q = ref('');
 
     async function load() {

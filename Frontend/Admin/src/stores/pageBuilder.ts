@@ -12,7 +12,6 @@ import type {
   WidgetType,
   PageData,
   PageSEO,
-  PageBuilderState,
 } from '@/types/widgets';
 import { createWidget } from '@/components/page-builder/widget-registry';
 

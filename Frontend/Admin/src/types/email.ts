@@ -143,7 +143,7 @@ export interface EmailLog {
   subject: string;
   htmlBody: string;
   plainTextBody?: string;
-  context: Record<string, any>;
+  context: Record<string, unknown>;
   accountId: string;
   externalMessageId?: string;
   status: 'sent' | 'delivered' | 'opened' | 'clicked' | 'bounced' | 'failed';

@@ -3,9 +3,11 @@
     <div class="mb-8">
       <div class="flex justify-between items-center">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">System Prompts</h1>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+            {{ $t('ai.systemPrompts.title') }}
+          </h1>
           <p class="mt-2 text-gray-600 dark:text-gray-400">
-            Manage AI assistant behaviors and responses for different tools
+            {{ $t('ai.systemPrompts.subtitle') }}
           </p>
         </div>
         <button
@@ -20,7 +22,7 @@
               d="M12 6v6m0 0v6m0-6h6m-6 0H6"
             />
           </svg>
-          New Prompt
+          {{ $t('ai.systemPrompts.new') }}
         </button>
       </div>
     </div>
@@ -31,41 +33,47 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Tool Type
+              {{ $t('ai.systemPrompts.toolType') }}
             </label>
             <select
               v-model="filters.toolType"
               class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
-              <option value="">All Tools</option>
-              <option value="cms_page_design">CMS Page Design</option>
-              <option value="email_template_design">Email Template Design</option>
-              <option value="content_optimization">Content Optimization</option>
-              <option value="user_management">User Management</option>
-              <option value="system_health">System Health Analysis</option>
+              <option value="">{{ $t('ai.systemPrompts.allTools') }}</option>
+              <option value="cms_page_design">{{ $t('ai.systemPrompts.cmsPageDesign') }}</option>
+              <option value="email_template_design">
+                {{ $t('ai.systemPrompts.emailTemplateDesign') }}
+              </option>
+              <option value="content_optimization">
+                {{ $t('ai.systemPrompts.contentOptimization') }}
+              </option>
+              <option value="user_management">{{ $t('ai.systemPrompts.userManagement') }}</option>
+              <option value="system_health">
+                {{ $t('ai.systemPrompts.systemHealthAnalysis') }}
+              </option>
             </select>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Status
+              {{ $t('ai.systemPrompts.status') }}
             </label>
             <select
               v-model="filters.status"
               class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
-              <option value="">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
+              <option value="">{{ $t('ai.systemPrompts.allStatus') }}</option>
+              <option value="active">{{ $t('ai.systemPrompts.active') }}</option>
+              <option value="inactive">{{ $t('ai.systemPrompts.inactive') }}</option>
             </select>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Search
+              {{ $t('ai.systemPrompts.search') }}
             </label>
             <input
               v-model="filters.search"
               type="text"
-              placeholder="Search prompts..."
+              :placeholder="$t('ai.systemPrompts.searchPlaceholder')"
               class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             />
           </div>
@@ -77,7 +85,7 @@
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <h2 class="text-lg font-medium text-gray-900 dark:text-white">
-          System Prompts ({{ filteredPrompts.length }})
+          {{ $t('ai.systemPrompts.promptsCount') }} ({{ filteredPrompts.length }})
         </h2>
       </div>
       <div class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -100,11 +108,15 @@
                       : 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
                   ]"
                 >
-                  {{ prompt.isActive ? 'Active' : 'Inactive' }}
+                  {{
+                    prompt.isActive
+                      ? $t('ai.systemPrompts.active')
+                      : $t('ai.systemPrompts.inactive')
+                  }}
                 </span>
               </div>
               <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Tool:
+                {{ $t('ai.systemPrompts.toolLabel') }}
                 {{ prompt.toolType.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
               </p>
               <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
@@ -116,7 +128,7 @@
                 :to="`/ai/prompts/${prompt.toolType}/${prompt.key}`"
                 class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium"
               >
-                Edit
+                {{ $t('ai.systemPrompts.edit') }}
               </router-link>
               <button
                 @click="togglePromptStatus(prompt)"
@@ -127,7 +139,11 @@
                     : 'text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300',
                 ]"
               >
-                {{ prompt.isActive ? 'Deactivate' : 'Activate' }}
+                {{
+                  prompt.isActive
+                    ? $t('ai.systemPrompts.deactivate')
+                    : $t('ai.systemPrompts.activate')
+                }}
               </button>
             </div>
           </div>
@@ -148,9 +164,11 @@
             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
           />
         </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No prompts found</h3>
+        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">
+          {{ $t('ai.systemPrompts.noPrompts') }}
+        </h3>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Get started by creating your first system prompt.
+          {{ $t('ai.systemPrompts.getStarted') }}
         </p>
       </div>
     </div>
@@ -167,47 +185,53 @@
       >
         <div class="mt-3">
           <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-            Create New System Prompt
+            {{ $t('ai.systemPrompts.createNew') }}
           </h3>
           <form @submit.prevent="createPrompt" class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Tool Type
+                {{ $t('ai.systemPrompts.toolType') }}
               </label>
               <select
                 v-model="newPrompt.toolType"
                 required
                 class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
-                <option value="">Select Tool Type</option>
-                <option value="cms_page_design">CMS Page Design</option>
-                <option value="email_template_design">Email Template Design</option>
-                <option value="content_optimization">Content Optimization</option>
-                <option value="user_management">User Management</option>
-                <option value="system_health">System Health Analysis</option>
+                <option value="">{{ $t('ai.systemPrompts.selectToolType') }}</option>
+                <option value="cms_page_design">{{ $t('ai.systemPrompts.cmsPageDesign') }}</option>
+                <option value="email_template_design">
+                  {{ $t('ai.systemPrompts.emailTemplateDesign') }}
+                </option>
+                <option value="content_optimization">
+                  {{ $t('ai.systemPrompts.contentOptimization') }}
+                </option>
+                <option value="user_management">{{ $t('ai.systemPrompts.userManagement') }}</option>
+                <option value="system_health">
+                  {{ $t('ai.systemPrompts.systemHealthAnalysis') }}
+                </option>
               </select>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Prompt Key
+                {{ $t('ai.systemPrompts.promptKey') }}
               </label>
               <input
                 v-model="newPrompt.key"
                 type="text"
                 required
-                placeholder="e.g., page_layout_guidelines"
+                :placeholder="$t('ai.systemPrompts.promptKeyPlaceholder')"
                 class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Prompt Content
+                {{ $t('ai.systemPrompts.promptContent') }}
               </label>
               <textarea
                 v-model="newPrompt.content"
                 required
                 rows="8"
-                placeholder="Enter the system prompt content..."
+                :placeholder="$t('ai.systemPrompts.promptContentPlaceholder')"
                 class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               ></textarea>
             </div>
@@ -217,13 +241,13 @@
                 @click="showCreateModal = false"
                 class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
-                Cancel
+                {{ $t('ai.systemPrompts.cancel') }}
               </button>
               <button
                 type="submit"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Create Prompt
+                {{ $t('ai.systemPrompts.createPrompt') }}
               </button>
             </div>
           </form>

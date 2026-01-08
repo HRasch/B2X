@@ -368,9 +368,9 @@ const determineTool = (message: string): string => {
   return 'content_optimization';
 };
 
-const extractArgs = (message: string, toolName: string): any => {
+const extractArgs = (message: string, toolName: string): Record<string, unknown> => {
   // Basic argument extraction - can be enhanced with NLP
-  const args: any = {};
+  const args: Record<string, unknown> = {};
 
   switch (toolName) {
     case 'performance_optimization':

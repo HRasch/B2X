@@ -27,14 +27,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useI18n } from 'vue-i18n';
 import { useEmailStore } from '@/stores/email';
 import EmailTemplateEditor from '@/components/EmailTemplateEditor.vue';
 import type { EmailTemplate } from '@/types/email';
 
 const router = useRouter();
 const route = useRoute();
-const { t } = useI18n();
 const emailStore = useEmailStore();
 
 const template = ref<EmailTemplate | null>(null);
@@ -50,7 +48,7 @@ const loadTemplate = async () => {
   }
 };
 
-const onTemplateSaved = (updatedTemplate: EmailTemplate) => {
+const onTemplateSaved = (_updatedTemplate: EmailTemplate) => {
   // Navigate back to the template list
   router.push('/email/templates');
 };

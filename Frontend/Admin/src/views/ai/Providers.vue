@@ -1,9 +1,11 @@
 <template>
   <div class="ai-providers">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">AI Providers</h1>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        {{ $t('ai.providers.title') }}
+      </h1>
       <p class="mt-2 text-gray-600 dark:text-gray-400">
-        Configure AI provider connections and settings for your tenant
+        {{ $t('ai.providers.subtitle') }}
       </p>
     </div>
 
@@ -42,7 +44,11 @@
                 {{ provider.name }}
               </h3>
               <p class="text-sm text-gray-500 dark:text-gray-400">
-                {{ provider.isConfigured ? 'Configured' : 'Not configured' }}
+                {{
+                  provider.isConfigured
+                    ? $t('ai.providers.configured')
+                    : $t('ai.providers.notConfigured')
+                }}
               </p>
             </div>
           </div>
@@ -63,7 +69,7 @@
 
         <div class="mt-4">
           <div class="flex items-center justify-between text-sm">
-            <span class="text-gray-500 dark:text-gray-400">Models</span>
+            <span class="text-gray-500 dark:text-gray-400">{{ $t('ai.providers.models') }}</span>
             <span class="font-medium text-gray-900 dark:text-white">
               {{ provider.configuredModels.length }} / {{ provider.availableModels.length }}
             </span>
@@ -111,24 +117,24 @@
             <!-- API Key -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                API Key
+                {{ $t('ai.providers.apiKey') }}
               </label>
               <input
                 v-model="configForm.apiKey"
                 type="password"
                 required
-                placeholder="Enter your API key"
+                :placeholder="$t('ai.providers.apiKey')"
                 class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Your API key is encrypted and stored securely.
+                {{ $t('ai.providers.apiKeyDescription') }}
               </p>
             </div>
 
             <!-- Model Selection -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Available Models
+                {{ $t('ai.providers.availableModels') }}
               </label>
               <div
                 class="space-y-2 max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg p-3"
@@ -154,13 +160,13 @@
             <!-- Default Model -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Default Model
+                {{ $t('ai.providers.defaultModel') }}
               </label>
               <select
                 v-model="configForm.defaultModel"
                 class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
-                <option value="">Select default model</option>
+                <option value="">{{ $t('ai.providers.defaultModelPlaceholder') }}</option>
                 <option v-for="model in configForm.selectedModels" :key="model" :value="model">
                   {{ model }}
                 </option>
@@ -170,7 +176,7 @@
             <!-- Monthly Budget -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Monthly Budget ($)
+                {{ $t('ai.providers.monthlyBudget') }}
               </label>
               <input
                 v-model.number="configForm.monthlyBudget"
@@ -181,7 +187,7 @@
                 class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Set a monthly spending limit for this provider (optional).
+                {{ $t('ai.providers.monthlyBudgetDescription') }}
               </p>
             </div>
 
@@ -193,7 +199,7 @@
                 class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label class="ml-2 text-sm text-gray-700 dark:text-gray-300">
-                Enable this provider
+                {{ $t('ai.providers.enableProvider') }}
               </label>
             </div>
 
@@ -205,13 +211,13 @@
                 @click="showConfigModal = false"
                 class="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
-                Cancel
+                {{ $t('ai.providers.cancel') }}
               </button>
               <button
                 type="submit"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Save Configuration
+                {{ $t('ai.providers.saveConfiguration') }}
               </button>
             </div>
           </form>
@@ -247,7 +253,9 @@
               />
             </svg>
           </div>
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-4">Testing Connection</h3>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-4">
+            {{ $t('ai.providers.testingConnection') }}
+          </h3>
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
             {{ testStatus }}
           </p>

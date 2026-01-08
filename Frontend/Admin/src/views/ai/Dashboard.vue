@@ -1,9 +1,11 @@
 <template>
   <div class="ai-dashboard">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">AI Management Dashboard</h1>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        {{ $t('ai.dashboard.title') }}
+      </h1>
       <p class="mt-2 text-gray-600 dark:text-gray-400">
-        Monitor and manage your tenant's AI systems and MCP server
+        {{ $t('ai.dashboard.subtitle') }}
       </p>
     </div>
 
@@ -29,8 +31,10 @@
             </div>
           </div>
           <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">MCP Server</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Online</p>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+              {{ $t('ai.dashboard.mcpServer') }}
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('ai.dashboard.online') }}</p>
           </div>
         </div>
       </div>
@@ -53,7 +57,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Active Providers</h3>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+              {{ $t('ai.dashboard.activeProviders') }}
+            </h3>
             <p class="text-sm text-gray-500 dark:text-gray-400">
               {{ activeProviders }} / {{ totalProviders }}
             </p>
@@ -81,7 +87,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Monthly Usage</h3>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+              {{ $t('ai.dashboard.monthlyUsage') }}
+            </h3>
             <p class="text-sm text-gray-500 dark:text-gray-400">
               {{ monthlyTokens.toLocaleString() }} tokens
             </p>
@@ -109,7 +117,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Monthly Cost</h3>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+              {{ $t('ai.dashboard.monthlyCost') }}
+            </h3>
             <p class="text-sm text-gray-500 dark:text-gray-400">${{ monthlyCost.toFixed(2) }}</p>
           </div>
         </div>
@@ -119,7 +129,9 @@
     <!-- Quick Actions -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-8">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h2 class="text-lg font-medium text-gray-900 dark:text-white">Quick Actions</h2>
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+          {{ $t('ai.dashboard.quickActions') }}
+        </h2>
       </div>
       <div class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -142,10 +154,10 @@
             </div>
             <div class="ml-3">
               <h3 class="text-sm font-medium text-gray-900 dark:text-white">
-                Manage System Prompts
+                {{ $t('ai.dashboard.manageSystemPrompts') }}
               </h3>
               <p class="text-sm text-gray-500 dark:text-gray-400">
-                Configure AI assistant behaviors
+                {{ $t('ai.dashboard.manageSystemPromptsDesc') }}
               </p>
             </div>
           </router-link>
@@ -168,8 +180,12 @@
               </svg>
             </div>
             <div class="ml-3">
-              <h3 class="text-sm font-medium text-gray-900 dark:text-white">Configure Providers</h3>
-              <p class="text-sm text-gray-500 dark:text-gray-400">Set up AI provider connections</p>
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                {{ $t('ai.dashboard.configureProviders') }}
+              </h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ $t('ai.dashboard.configureProvidersDesc') }}
+              </p>
             </div>
           </router-link>
 
@@ -189,8 +205,12 @@
               </svg>
             </div>
             <div class="ml-3">
-              <h3 class="text-sm font-medium text-gray-900 dark:text-white">View Consumption</h3>
-              <p class="text-sm text-gray-500 dark:text-gray-400">Monitor AI usage and costs</p>
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                {{ $t('ai.dashboard.viewConsumption') }}
+              </h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ $t('ai.dashboard.viewConsumptionDesc') }}
+              </p>
             </div>
           </router-link>
         </div>
@@ -200,9 +220,11 @@
     <!-- AI Assistant Input -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-8">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h2 class="text-lg font-medium text-gray-900 dark:text-white">AI Assistant</h2>
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+          {{ $t('ai.dashboard.aiAssistant') }}
+        </h2>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          Ask questions or get help with AI management tasks
+          {{ $t('ai.dashboard.aiAssistantDesc') }}
         </p>
       </div>
       <div class="p-6">
@@ -280,7 +302,9 @@
 
           <!-- Suggested Queries -->
           <div class="border-t border-gray-200 dark:border-gray-600 pt-4">
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Try asking:</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+              {{ $t('ai.dashboard.tryAsking') }}
+            </p>
             <div class="flex flex-wrap gap-2">
               <button
                 v-for="suggestion in querySuggestions"
@@ -299,7 +323,9 @@
     <!-- Recent Activity -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h2 class="text-lg font-medium text-gray-900 dark:text-white">Recent AI Activity</h2>
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+          {{ $t('ai.dashboard.recentActivity') }}
+        </h2>
       </div>
       <div class="p-6">
         <div v-if="recentActivity.length === 0" class="text-center py-8">
@@ -316,9 +342,11 @@
               d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
             />
           </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No recent activity</h3>
+          <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">
+            {{ $t('ai.dashboard.noRecentActivity') }}
+          </h3>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            AI usage data will appear here once tools are used.
+            {{ $t('ai.dashboard.noRecentActivityDesc') }}
           </p>
         </div>
         <div v-else class="space-y-4">
@@ -425,7 +453,7 @@ const submitQuery = async () => {
     } else {
       aiResponse.value = `I understand you're asking about: "${aiQuery.value}"\n\nAs your AI management assistant, I can help with:\n\n• Cost optimization strategies\n• Provider configuration\n• Usage monitoring and trends\n• System prompt management\n• Token consumption analysis\n• Security and compliance guidance\n\nPlease try one of the suggested queries above or rephrase your question!`;
     }
-  } catch (error) {
+  } catch {
     aiResponse.value =
       'Sorry, I encountered an error processing your query. Please try again or contact support if the issue persists.';
   } finally {

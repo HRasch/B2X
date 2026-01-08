@@ -10,10 +10,6 @@ const props = defineProps<{
   isEditing?: boolean;
 }>();
 
-const emit = defineEmits<{
-  (e: 'update:config', config: ProfileFormWidgetConfig): void;
-}>();
-
 // Mock user data
 const mockUser = ref({
   name: 'Max Mustermann',
@@ -59,7 +55,7 @@ function getInitials(name: string): string {
 <template>
   <div :class="['profile-form', { 'profile-form--editing': isEditing }]">
     <div class="profile-form__header">
-      <h2 class="profile-form__title">Mein Profil</h2>
+      <h2 class="profile-form__title">{{ $t('profile.title') }}</h2>
     </div>
 
     <form class="profile-form__form" @submit.prevent>
@@ -78,14 +74,14 @@ function getInitials(name: string): string {
         </div>
         <div v-if="config.allowAvatarUpload" class="profile-form__avatar-actions">
           <button type="button" class="profile-form__avatar-btn" :disabled="isEditing">
-            Bild ändern
+            {{ $t('profile.changeImage') }}
           </button>
           <button
             type="button"
             class="profile-form__avatar-btn profile-form__avatar-btn--secondary"
             :disabled="isEditing"
           >
-            Entfernen
+            {{ $t('profile.remove') }}
           </button>
         </div>
       </div>
@@ -108,17 +104,19 @@ function getInitials(name: string): string {
             }"
           />
           <p v-if="field === 'email' && !config.allowEmailChange" class="profile-form__hint">
-            E-Mail-Adresse kann nicht geändert werden
+            {{ $t('profile.emailCannotBeChanged') }}
           </p>
         </div>
       </div>
 
       <!-- Password Change Section -->
       <div v-if="config.allowPasswordChange" class="profile-form__password-section">
-        <h3 class="profile-form__section-title">Passwort ändern</h3>
+        <h3 class="profile-form__section-title">{{ $t('profile.changePassword') }}</h3>
         <div :class="['profile-form__fields', `profile-form__fields--${layout}`]">
           <div class="profile-form__field">
-            <label for="current-password" class="profile-form__label">Aktuelles Passwort</label>
+            <label for="current-password" class="profile-form__label">{{
+              $t('profile.currentPassword')
+            }}</label>
             <input
               id="current-password"
               type="password"
@@ -128,7 +126,9 @@ function getInitials(name: string): string {
             />
           </div>
           <div class="profile-form__field">
-            <label for="new-password" class="profile-form__label">Neues Passwort</label>
+            <label for="new-password" class="profile-form__label">{{
+              $t('profile.newPassword')
+            }}</label>
             <input
               id="new-password"
               type="password"
@@ -138,7 +138,9 @@ function getInitials(name: string): string {
             />
           </div>
           <div class="profile-form__field">
-            <label for="confirm-password" class="profile-form__label">Passwort bestätigen</label>
+            <label for="confirm-password" class="profile-form__label">{{
+              $t('profile.confirmPassword')
+            }}</label>
             <input
               id="confirm-password"
               type="password"
@@ -153,7 +155,7 @@ function getInitials(name: string): string {
       <!-- Submit Button -->
       <div class="profile-form__actions">
         <button type="submit" class="profile-form__submit" :disabled="isEditing">
-          Änderungen speichern
+          {{ $t('profile.saveChanges') }}
         </button>
       </div>
     </form>

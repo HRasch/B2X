@@ -72,12 +72,12 @@ async function handlePublish() {
     <!-- Error Banner -->
     <div v-if="saveError" class="page-builder-view__error">
       <span>{{ saveError }}</span>
-      <button @click="saveError = null">&times;</button>
+      <button @click="saveError = null">{{ $t('pageBuilder.view.closeButton') }}</button>
     </div>
 
     <!-- Loading State -->
     <div v-if="!pageId" class="page-builder-view__loading">
-      <span>Laden...</span>
+      <span>{{ $t('pageBuilder.view.loading') }}</span>
     </div>
 
     <!-- Page Builder -->

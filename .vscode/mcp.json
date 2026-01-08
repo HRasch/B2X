@@ -119,7 +119,8 @@
       "env": {
         "LOG_TO_CONSOLE": "true"
       },
-      "disabled": true
+      "disabled": false,
+      "description": "Chrome DevTools MCP for runtime debugging - enabled for /debug-runtime and interactive debugging workflows. See ADR-052."
     },
     "playwright-mcp": {
       "command": "node",

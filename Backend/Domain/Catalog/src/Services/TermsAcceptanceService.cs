@@ -1,4 +1,5 @@
 ﻿using B2X.Catalog.Models;
+using B2X.Shared.Core.Handlers;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -14,16 +15,15 @@ namespace B2X.Catalog.Handlers;
 /// - Retrieving acceptance history
 /// - Change detection when terms are updated
 /// </summary>
-public class TermsAcceptanceService
+public class TermsAcceptanceService : ValidatedBase
 {
-    private readonly ILogger<TermsAcceptanceService> _logger;
     private readonly RecordTermsAcceptanceValidator _validator;
 
     public TermsAcceptanceService(
         ILogger<TermsAcceptanceService> logger,
         RecordTermsAcceptanceValidator validator)
+        : base(logger)
     {
-        _logger = logger;
         _validator = validator;
     }
 
@@ -38,17 +38,22 @@ public class TermsAcceptanceService
         string userAgent,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation(
+        Logger.LogInformation(
             "Recording terms acceptance for customer {CustomerId} in tenant {TenantId}",
             request.CustomerId, tenantId);
 
         try
         {
             // Validate input
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
-            if (!validationResult.IsValid)
+            var validationError = await ValidateRequestAsync(
+                request,
+                _validator,
+                cancellationToken,
+                errorMessage => CreateValidationErrorResponse(request.CustomerId, errorMessage));
+
+            if (validationError != null)
             {
-                return CreateValidationErrorResponse(request.CustomerId, validationResult.Errors);
+                return validationError;
             }
 
             // Validate required acceptances
@@ -60,7 +65,7 @@ public class TermsAcceptanceService
             // Create and record acceptance
             var acceptanceLog = CreateAcceptanceLog(tenantId, request, ipAddress, userAgent);
 
-            _logger.LogInformation(
+            Logger.LogInformation(
                 "Terms acceptance recorded successfully for {CustomerId}: {AcceptanceId}",
                 request.CustomerId, acceptanceLog.Id);
 
@@ -73,7 +78,7 @@ public class TermsAcceptanceService
         }
         catch (Exception ex)
         {
-            _logger.LogError(
+            Logger.LogError(
                 ex,
                 "Error recording terms acceptance for {CustomerId}",
                 request.CustomerId);
@@ -84,23 +89,23 @@ public class TermsAcceptanceService
 
     private RecordTermsAcceptanceResponse CreateValidationErrorResponse(
         string customerId,
-        IEnumerable<FluentValidation.Results.ValidationFailure> errors)
+        string errorMessage)
     {
-        _logger.LogWarning(
-            "Terms acceptance validation failed for {CustomerId}",
-            customerId);
+        Logger.LogWarning(
+            "Terms acceptance validation failed for {CustomerId}: {Errors}",
+            customerId, errorMessage);
 
         return new RecordTermsAcceptanceResponse
         {
             Success = false,
             Error = "VALIDATION_ERROR",
-            Message = string.Join("; ", errors.Select(e => e.ErrorMessage))
+            Message = errorMessage
         };
     }
 
     private RecordTermsAcceptanceResponse CreateIncompleteAcceptanceResponse(string customerId)
     {
-        _logger.LogWarning(
+        Logger.LogWarning(
             "Required terms not accepted by {CustomerId}",
             customerId);
 
@@ -156,7 +161,7 @@ public class TermsAcceptanceService
     {
         if (lastAcceptance == null)
         {
-            _logger.LogWarning(
+            Logger.LogWarning(
                 "No terms acceptance found for customer {CustomerId}",
                 customerId);
             return false;
@@ -167,7 +172,7 @@ public class TermsAcceptanceService
 
         if (!isCurrentVersion)
         {
-            _logger.LogWarning(
+            Logger.LogWarning(
                 "Customer {CustomerId} accepted older terms version: {OldVersion} vs {CurrentVersion}",
                 customerId, lastAcceptance.TermsVersion, currentVersion);
         }

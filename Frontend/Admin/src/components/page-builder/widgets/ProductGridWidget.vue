@@ -3,7 +3,10 @@
  * ProductGridWidget - Grid of product cards with filters and pagination
  */
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { ProductGridWidgetConfig } from '@/types/widgets';
+
+const { t } = useI18n();
 
 const props = defineProps<{
   config: ProductGridWidgetConfig;
@@ -14,57 +17,57 @@ const props = defineProps<{
 const mockProducts = [
   {
     id: '1',
-    name: 'Akku-Bohrschrauber Pro',
+    name: t('product.grid.mock.product1'),
     price: 199.99,
     image: 'https://placehold.co/300x300/e2e8f0/475569?text=1',
-    badge: 'Neu',
+    badge: t('product.grid.badge.new'),
   },
   {
     id: '2',
-    name: 'Kreissäge 1800W',
+    name: t('product.grid.mock.product2'),
     price: 149.5,
     originalPrice: 179.99,
     image: 'https://placehold.co/300x300/e2e8f0/475569?text=2',
-    badge: 'Sale',
+    badge: t('product.grid.badge.sale'),
   },
   {
     id: '3',
-    name: 'Werkzeugkoffer 156-tlg',
+    name: t('product.grid.mock.product3'),
     price: 89.99,
     image: 'https://placehold.co/300x300/e2e8f0/475569?text=3',
   },
   {
     id: '4',
-    name: 'Schlagbohrmaschine',
+    name: t('product.grid.mock.product4'),
     price: 129.0,
     image: 'https://placehold.co/300x300/e2e8f0/475569?text=4',
   },
   {
     id: '5',
-    name: 'Winkelschleifer 125mm',
+    name: t('product.grid.mock.product5'),
     price: 79.95,
     image: 'https://placehold.co/300x300/e2e8f0/475569?text=5',
   },
   {
     id: '6',
-    name: 'Stichsäge mit Pendelhub',
+    name: t('product.grid.mock.product6'),
     price: 99.0,
     originalPrice: 119.0,
     image: 'https://placehold.co/300x300/e2e8f0/475569?text=6',
-    badge: 'Sale',
+    badge: t('product.grid.badge.sale'),
   },
   {
     id: '7',
-    name: 'Bandschleifer 750W',
+    name: t('product.grid.mock.product7'),
     price: 159.99,
     image: 'https://placehold.co/300x300/e2e8f0/475569?text=7',
   },
   {
     id: '8',
-    name: 'Exzenterschleifer',
+    name: t('product.grid.mock.product8'),
     price: 69.95,
     image: 'https://placehold.co/300x300/e2e8f0/475569?text=8',
-    badge: 'Bestseller',
+    badge: t('product.grid.badge.bestseller'),
   },
 ];
 
@@ -88,11 +91,11 @@ const displayProducts = computed(() => mockProducts.slice(0, totalProducts.value
 
 const sourceLabel = computed(() => {
   const labels: Record<string, string> = {
-    category: 'Kategorie',
-    manual: 'Manuell',
-    bestseller: 'Bestseller',
-    new: 'Neuheiten',
-    sale: 'Angebote',
+    category: t('product.grid.source.category'),
+    manual: t('product.grid.source.manual'),
+    bestseller: t('product.grid.source.bestseller'),
+    new: t('product.grid.source.new'),
+    sale: t('product.grid.source.sale'),
   };
   return labels[props.config.source] || props.config.source;
 });
@@ -104,14 +107,14 @@ const sourceLabel = computed(() => {
     <div v-if="config.title || config.showSorting" class="product-grid__header">
       <h2 v-if="config.title" class="product-grid__title">{{ config.title }}</h2>
       <div v-if="config.showSorting" class="product-grid__sorting">
-        <label>Sortieren:</label>
+        <label>{{ $t('product.grid.sortBy') }}</label>
         <select class="product-grid__sort-select">
-          <option value="relevance">Relevanz</option>
-          <option value="price-asc">Preis aufsteigend</option>
-          <option value="price-desc">Preis absteigend</option>
-          <option value="name-asc">Name A-Z</option>
-          <option value="name-desc">Name Z-A</option>
-          <option value="newest">Neueste</option>
+          <option value="relevance">{{ $t('product.grid.relevance') }}</option>
+          <option value="price-asc">{{ $t('product.grid.priceAsc') }}</option>
+          <option value="price-desc">{{ $t('product.grid.priceDesc') }}</option>
+          <option value="name-asc">{{ $t('product.grid.nameAsc') }}</option>
+          <option value="name-desc">{{ $t('product.grid.nameDesc') }}</option>
+          <option value="newest">{{ $t('product.grid.newest') }}</option>
         </select>
       </div>
     </div>
@@ -122,11 +125,11 @@ const sourceLabel = computed(() => {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M3 6h18M6 12h12M9 18h6" />
         </svg>
-        Filter
+        {{ $t('product.grid.filter') }}
       </button>
       <div class="product-grid__active-filters">
         <span class="product-grid__filter-tag">
-          Preis: 50€ - 200€
+          {{ $t('product.grid.priceRange') }}
           <button>×</button>
         </span>
       </div>

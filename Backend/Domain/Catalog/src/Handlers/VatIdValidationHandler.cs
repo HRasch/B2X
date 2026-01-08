@@ -1,5 +1,6 @@
 ﻿using B2X.Catalog.Models;
 using B2X.Catalog.Services;
+using B2X.Shared.Core.Handlers;
 using FluentValidation;
 
 namespace B2X.Catalog.Handlers;
@@ -11,20 +12,19 @@ namespace B2X.Catalog.Handlers;
 ///
 /// Issue #31: B2B VAT-ID Validation (AStV Reverse Charge)
 /// </summary>
-public class VatIdValidationHandler
+public class VatIdValidationHandler : ValidatedHandlerBase
 {
     private readonly IVatIdValidationService _vatService;
     private readonly IValidator<ValidateVatIdRequest> _validator;
-    private readonly ILogger<VatIdValidationHandler> _logger;
 
     public VatIdValidationHandler(
         IVatIdValidationService vatService,
         IValidator<ValidateVatIdRequest> validator,
         ILogger<VatIdValidationHandler> logger)
+        : base(logger)
     {
         _vatService = vatService ?? throw new ArgumentNullException(nameof(vatService));
         _validator = validator ?? throw new ArgumentNullException(nameof(validator));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     /// <summary>
@@ -55,16 +55,21 @@ public class VatIdValidationHandler
         ValidateVatIdRequest request,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("VAT validation request: {CountryCode}{VatNumber}",
+        Logger.LogInformation("VAT validation request: {CountryCode}{VatNumber}",
             request.CountryCode, request.VatNumber);
 
         try
         {
             // Validate request
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
-            if (!validationResult.IsValid)
+            var validationError = await ValidateRequestAsync(
+                request,
+                _validator,
+                cancellationToken,
+                errorMessage => CreateInvalidRequestResponse(errorMessage));
+
+            if (validationError != null)
             {
-                return CreateInvalidRequestResponse(validationResult.Errors);
+                return validationError;
             }
 
             // Validate VAT ID via VIES
@@ -80,15 +85,14 @@ public class VatIdValidationHandler
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unexpected error during VAT validation");
+            Logger.LogError(ex, "Unexpected error during VAT validation");
             return CreateErrorResponse();
         }
     }
 
-    private ValidateVatIdResponse CreateInvalidRequestResponse(IEnumerable<FluentValidation.Results.ValidationFailure> errors)
+    private ValidateVatIdResponse CreateInvalidRequestResponse(string errorMessage)
     {
-        var errorMessage = string.Join("; ", errors.Select(e => e.ErrorMessage));
-        _logger.LogWarning("VAT validation request invalid: {Errors}", errorMessage);
+        Logger.LogWarning("VAT validation request invalid: {Errors}", errorMessage);
 
         return new ValidateVatIdResponse
         {
@@ -128,7 +132,7 @@ public class VatIdValidationHandler
             ExpiresAt = validation.ExpiresAt
         };
 
-        _logger.LogInformation("VAT validation response: IsValid={IsValid}, ReverseCharge={ReverseCharge}",
+        Logger.LogInformation("VAT validation response: IsValid={IsValid}, ReverseCharge={ReverseCharge}",
             response.IsValid, response.ReverseChargeApplies);
 
         return response;

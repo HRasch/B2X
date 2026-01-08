@@ -1,9 +1,9 @@
 <template>
   <div class="mcp-status">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">MCP Server Status</h1>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $t('ai.status.title') }}</h1>
       <p class="mt-2 text-gray-600 dark:text-gray-400">
-        Monitor MCP server health, connections, and system performance
+        {{ $t('ai.status.subtitle') }}
       </p>
     </div>
 
@@ -45,7 +45,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Server Status</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {{ $t('ai.status.serverStatus') }}
+            </p>
             <p class="text-lg font-semibold text-gray-900 dark:text-white capitalize">
               {{ serverStatus }}
             </p>
@@ -75,7 +77,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Clients</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {{ $t('ai.status.activeClients') }}
+            </p>
             <p class="text-2xl font-semibold text-gray-900 dark:text-white">
               {{ activeClients }}
             </p>
@@ -105,7 +109,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Sessions</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {{ $t('ai.status.activeSessions') }}
+            </p>
             <p class="text-2xl font-semibold text-gray-900 dark:text-white">
               {{ activeSessions }}
             </p>
@@ -135,7 +141,9 @@
             </div>
           </div>
           <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Uptime</p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {{ $t('ai.status.uptime') }}
+            </p>
             <p class="text-2xl font-semibold text-gray-900 dark:text-white">
               {{ formatUptime(uptime) }}
             </p>
@@ -148,10 +156,14 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
       <!-- Server Metrics -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Server Metrics</h3>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+          {{ $t('ai.status.serverMetrics') }}
+        </h3>
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600 dark:text-gray-400">CPU Usage</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">{{
+              $t('ai.status.cpuUsage')
+            }}</span>
             <div class="flex items-center">
               <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-2">
                 <div class="bg-blue-600 h-2 rounded-full" :style="{ width: cpuUsage + '%' }"></div>
@@ -160,7 +172,9 @@
             </div>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600 dark:text-gray-400">Memory Usage</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">{{
+              $t('ai.status.memoryUsage')
+            }}</span>
             <div class="flex items-center">
               <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-2">
                 <div
@@ -174,13 +188,17 @@
             </div>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600 dark:text-gray-400">Response Time</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">{{
+              $t('ai.status.responseTime')
+            }}</span>
             <span class="text-sm font-medium text-gray-900 dark:text-white"
               >{{ avgResponseTime }}ms</span
             >
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600 dark:text-gray-400">Throughput</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">{{
+              $t('ai.status.throughput')
+            }}</span>
             <span class="text-sm font-medium text-gray-900 dark:text-white"
               >{{ throughput }}/min</span
             >
@@ -190,7 +208,9 @@
 
       <!-- Recent Events -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Recent Events</h3>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+          {{ $t('ai.status.recentEvents') }}
+        </h3>
         <div class="space-y-3 max-h-64 overflow-y-auto">
           <div v-for="event in recentEvents" :key="event.id" class="flex items-start space-x-3">
             <div
@@ -219,7 +239,9 @@
     <!-- Active Connections -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden mb-8">
       <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white">Active Connections</h3>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+          {{ $t('ai.status.activeConnections') }}
+        </h3>
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -228,27 +250,27 @@
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Client ID
+                {{ $t('ai.status.clientId') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Tenant
+                {{ $t('ai.status.tenant') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Connected Since
+                {{ $t('ai.status.connectedSince') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Last Activity
+                {{ $t('ai.status.lastActivity') }}
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Status
+                {{ $t('ai.status.status') }}
               </th>
             </tr>
           </thead>
@@ -288,34 +310,36 @@
 
     <!-- Control Panel -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Server Controls</h3>
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+        {{ $t('ai.status.serverControls') }}
+      </h3>
       <div class="flex flex-wrap gap-4">
         <button
           @click="restartServer"
           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           :disabled="restarting"
         >
-          {{ restarting ? 'Restarting...' : 'Restart Server' }}
+          {{ restarting ? $t('ai.status.restarting') : $t('ai.status.restartServer') }}
         </button>
         <button
           @click="clearCache"
           class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           :disabled="clearingCache"
         >
-          {{ clearingCache ? 'Clearing...' : 'Clear Cache' }}
+          {{ clearingCache ? $t('ai.status.clearing') : $t('ai.status.clearCache') }}
         </button>
         <button
           @click="exportLogs"
           class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
-          Export Logs
+          {{ $t('ai.status.exportLogs') }}
         </button>
         <button
           @click="runHealthCheck"
           class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           :disabled="runningHealthCheck"
         >
-          {{ runningHealthCheck ? 'Checking...' : 'Run Health Check' }}
+          {{ runningHealthCheck ? $t('ai.status.checking') : $t('ai.status.runHealthCheck') }}
         </button>
       </div>
     </div>

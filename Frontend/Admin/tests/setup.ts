@@ -57,7 +57,7 @@ config.global.stubs = {
 
 // Provide simple global mocks for vue-i18n and router used in components
 config.global.mocks = {
-  $t: (key: string, values?: Record<string, any>) => {
+  $t: (key: string, values?: Record<string, unknown>) => {
     if (!key) return '';
     const mappings: Record<string, string> = {
       'dashboard.title': 'Dashboard',
@@ -92,8 +92,8 @@ config.global.mocks = {
     const parts = key.split('.');
     return parts[parts.length - 1].replace(/[-_]/g, ' ').replace(/(^|\s)\S/g, s => s.toUpperCase());
   },
-  $d: (val: any) => val,
-  $n: (val: any) => val,
+  $d: (val: unknown) => val,
+  $n: (val: unknown) => val,
   $router: {
     push: vi.fn(),
     replace: vi.fn(),

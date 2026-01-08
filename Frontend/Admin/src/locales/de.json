@@ -386,6 +386,40 @@
       "title": "Preise",
       "loading": "Preise werden geladen...",
       "no_pricing": "Keine Preisregeln gefunden."
+  },
+  "product": {
+    "grid": {
+      "sortBy": "Sortieren nach:",
+      "relevance": "Relevanz",
+      "priceAsc": "Preis aufsteigend",
+      "priceDesc": "Preis absteigend",
+      "nameAsc": "Name A-Z",
+      "nameDesc": "Name Z-A",
+      "newest": "Neueste",
+      "filter": "Filter",
+      "priceRange": "Preis: €50 - €200",
+      "source": {
+        "category": "Kategorie",
+        "manual": "Manuell",
+        "bestseller": "Bestseller",
+        "new": "Neuheiten",
+        "sale": "Angebote"
+      },
+      "badge": {
+        "new": "Neu",
+        "sale": "Sale",
+        "bestseller": "Bestseller"
+      },
+      "mock": {
+        "product1": "Akku-Bohrschrauber Pro",
+        "product2": "Kreissäge 1800W",
+        "product3": "Werkzeugkoffer 156-tlg",
+        "product4": "Schlagbohrmaschine",
+        "product5": "Winkelschleifer 125mm",
+        "product6": "Stichsäge mit Pendelhub",
+        "product7": "Bandschleifer 750W",
+        "product8": "Exzenterschleifer"
+      }
     }
   }
 }
