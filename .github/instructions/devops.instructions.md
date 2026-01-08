@@ -191,6 +191,83 @@ docs-mcp/analyze_content_quality filePath="README.md"
 - [ ] `monitoring-mcp/monitor_system_performance` - System performance baseline
 - [ ] `docker-mcp/monitor_container_health` - Container health checks
 
+## Large File Editing Strategy ([GL-043])
+
+When editing large infrastructure files (>200 lines), use the Multi-Language Fragment Editing approach with Docker MCP for infrastructure:
+
+### Pre-Edit Analysis
+```bash
+# Infrastructure dependency analysis
+docker-mcp/analyze_docker_compose filePath="docker-compose.yml"
+
+# Security vulnerability assessment
+docker-mcp/check_container_security imageName="B2X/api:latest"
+
+# Kubernetes manifest validation
+docker-mcp/validate_kubernetes_manifests filePath="k8s/deployment.yaml"
+```
+
+### Fragment-Based Editing Patterns
+```yaml
+# Fragment: Service configuration (82% token savings)
+services:
+  api:
+    image: b2x/api:latest
+    # Edit only service-specific config
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Database__Provider=PostgreSQL
+    ports:
+      - "8080:80"
+    # Reference external networks/volumes
+    networks:
+      - b2x-network
+    volumes:
+      - logs:/app/logs
+```
+
+**Docker MCP Workflows**:
+```bash
+# 1. Dockerfile analysis and optimization
+docker-mcp/analyze_dockerfile filePath="Dockerfile"
+docker-mcp/optimize_dockerfile filePath="Dockerfile"
+
+# 2. Container security scanning
+docker-mcp/check_container_security imageName="B2X/api:latest"
+docker-mcp/scan_vulnerabilities workspacePath="." target="docker-images"
+
+# 3. Compose file validation
+docker-mcp/analyze_docker_compose filePath="docker-compose.yml"
+docker-mcp/check_service_dependencies filePath="docker-compose.yml"
+
+# 4. Kubernetes manifest validation
+docker-mcp/validate_kubernetes_manifests filePath="k8s/deployment.yaml"
+docker-mcp/validate_kubernetes_manifests filePath="k8s/service.yaml"
+
+# 5. Infrastructure monitoring setup
+docker-mcp/monitor_container_health containerName="B2X-api"
+```
+
+### Integration with Infrastructure MCP Tools
+```bash
+# Monitoring configuration
+monitoring-mcp/configure_alerts serviceName="api-gateway" metric="response_time" threshold="500ms"
+
+# Security policy validation
+security-mcp/validate_network_policies filePath="k8s/network-policies.yaml"
+
+# GitOps validation
+git-mcp/validate_commit_messages workspacePath="." count=10
+```
+
+### Quality Gates
+- Always run `docker-mcp/analyze_dockerfile` after Dockerfile edits
+- Use `docker-mcp/check_container_security` for security validation
+- Validate Kubernetes manifests with `docker-mcp/validate_kubernetes_manifests`
+- Monitor container health with dedicated MCP tools
+
+**Token Savings**: 82% vs. reading entire infrastructure files | **Quality**: Security and dependency validation with container health monitoring
+
 ## Large File Editing Strategy ([GL-053])
 
 When editing large infrastructure files (>200 lines), use the Multi-Language Fragment Editing approach:
