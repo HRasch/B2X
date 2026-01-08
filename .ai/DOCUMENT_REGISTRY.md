@@ -83,6 +83,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-049` | Plan-Act-Control Engineering Loop | `.ai/decisions/ADR-049-plan-act-control.md` | Proposed |
 | `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
 | `ADR-051` | Rename B2X to B2XGate | `.ai/decisions/ADR-051-rename-B2X-to-b2xgate.md` | Proposed |
+| `ADR-052` | MCP-Enhanced Bugfixing Workflow | `.ai/decisions/ADR-052-mcp-enhanced-bugfixing.md` | Accepted |
 
 ---
 
@@ -139,6 +140,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-062` | Documentation MCP Usage Guide | `.ai/knowledgebase/tools-and-tech/documentation-mcp-usage.md` | Active |
 | `KB-063` | Wolverine MCP Server | `.ai/knowledgebase/tools-and-tech/wolverine-mcp.md` | Active |
 | `KB-064` | Chrome DevTools MCP Server | `.ai/knowledgebase/tools-and-tech/chrome-devtools-mcp.md` | Active |
+| `KB-065` | Nuxt 4 Monorepo Configuration | `.ai/knowledgebase/tools-and-tech/nuxt4-monorepo-config.md` | Active |
+| `KB-066` | npm Package Updates Guide | `.ai/knowledgebase/dependency-updates/npm-package-updates.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
@@ -152,6 +155,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-TOOL` | Tools & Tech | `.ai/knowledgebase/tools-and-tech/` |
 | `KB-SW` | Software Updates | `.ai/knowledgebase/software/` |
 | `KB-OPS` | Operations | `.ai/knowledgebase/operations/` |
+| `KB-DEP` | Dependency Updates | `.ai/knowledgebase/dependency-updates/` |
 
 ---
 
@@ -283,6 +287,18 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PRM-014` | Subagent Delegation | `.ai/prompts/subagent-delegation.prompt.md` | `/subagent-delegation` |
 | `PRM-015` | Project Cleanup | `.ai/prompts/project-cleanup.prompt.md` | `/project-cleanup` |
 | `PRM-016` | TypeScript Review | `.github/prompts/typescript-review.prompt.md` | `/typescript-review` |
+| `PRM-017` | Bug Null Check | `.ai/prompts/bug-null-check.prompt.md` | `/bug-null-check` |
+| `PRM-018` | Bug Async Race | `.ai/prompts/bug-async-race.prompt.md` | `/bug-async-race` |
+| `PRM-019` | Bug Type Mismatch | `.ai/prompts/bug-type-mismatch.prompt.md` | `/bug-type-mismatch` |
+| `PRM-020` | Bug i18n Missing | `.ai/prompts/bug-i18n-missing.prompt.md` | `/bug-i18n-missing` |
+| `PRM-021` | Bug Lint Fix | `.ai/prompts/bug-lint-fix.prompt.md` | `/bug-lint-fix` |
+| `PRM-QUICK-BUG` | Quick Bug-Fix Starter Set | `.github/prompts/bug-quick-starter.prompt.md` | - |
+| `PRM-QBF-NULL` | Quick Null Reference Fix | `.github/prompts/bug-quick-null-check.prompt.md` | `/bug-null-check` |
+| `PRM-QBF-ASYNC` | Quick Async Race Fix | `.github/prompts/bug-quick-async-race.prompt.md` | `/bug-async-race` |
+| `PRM-QBF-TYPE` | Quick Type Mismatch Fix | `.github/prompts/bug-quick-type-mismatch.prompt.md` | `/bug-type-mismatch` |
+| `PRM-QBF-I18N` | Quick i18n Key Fix | `.github/prompts/bug-quick-i18n-missing.prompt.md` | `/bug-i18n-missing` |
+| `PRM-QBF-LINT` | Quick Linting Fix | `.github/prompts/bug-quick-lint-fix.prompt.md` | `/bug-lint-fix` |
+| `PRM-022` | Auto Lessons Learned | `.ai/prompts/auto-lessons-learned.prompt.md` | `/auto-lessons-learned` |
 
 ---
 
@@ -355,6 +371,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `INS-004` | DevOps Instructions | `.github/instructions/devops.instructions.md` | `.github/**`, `Dockerfile` |
 | `INS-005` | Security Instructions | `.github/instructions/security.instructions.md` | `**/*` |
 | `INS-006` | AI Mode Switching Instructions | `.github/instructions/ai-mode-switching.instructions.md` | `**/*` |
+| `INS-007` | Dependency Management Instructions | `.github/instructions/dependency-management.instructions.md` | `Directory.Packages.props,**/*.csproj,**/*.fsproj,**/*.vbproj` |
 
 ---
 

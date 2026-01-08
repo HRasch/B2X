@@ -45,10 +45,7 @@
     <!-- Error State -->
     <div v-else-if="categoriesStore.error" class="alert alert-error mb-8">
       <span>{{ categoriesStore.error }}</span>
-      <button
-        class="btn btn-sm btn-outline"
-        @click="retryLoad"
-      >
+      <button class="btn btn-sm btn-outline" @click="retryLoad">
         {{ $t('common.retry') }}
       </button>
     </div>
@@ -58,7 +55,9 @@
       <!-- Subcategories -->
       <div v-if="subcategories.length > 0" class="mb-12">
         <h2 class="text-2xl font-semibold mb-6">{{ $t('categories.subcategories') }}</h2>
-        <div class="categories-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div
+          class="categories-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
           <div
             v-for="category in subcategories"
             :key="category.id"
@@ -97,7 +96,9 @@
         <h2 class="text-2xl font-semibold mb-6">
           {{ $t('categories.productsInCategory', { category: currentCategory.name }) }}
         </h2>
-        <div class="products-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div
+          class="products-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
           <!-- Product cards would go here -->
           <div class="text-center py-8 text-gray-500">
             {{ $t('categories.productsComingSoon') }}
@@ -107,7 +108,9 @@
 
       <!-- Root Categories -->
       <div v-if="!currentCategory">
-        <div class="categories-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div
+          class="categories-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
           <div
             v-for="category in rootCategories"
             :key="category.id"
@@ -142,6 +145,7 @@
       </div>
 
       <!-- Empty State -->
+      <!-- Empty state -->
       <div
         v-if="!categoriesStore.loading && categoriesStore.categories.length === 0"
         class="text-center py-12"
@@ -149,16 +153,6 @@
         <div class="text-6xl mb-4">📂</div>
         <h3 class="text-xl font-semibold mb-2">{{ $t('categories.noCategories') }}</h3>
         <p class="text-gray-600">{{ $t('categories.noCategoriesDescription') }}</p>
-      </div>
-    </div>
-  </div>
-</template>
-          class="text-center py-12"
-        >
-          <div class="text-6xl mb-4">📂</div>
-          <h3 class="text-xl font-semibold mb-2">{{ $t('categories.noCategories') }}</h3>
-          <p class="text-gray-600">{{ $t('categories.noCategoriesDescription') }}</p>
-        </div>
       </div>
     </div>
   </div>
@@ -175,7 +169,6 @@ definePageMeta({
 
 // Route params
 const route = useRoute();
-const router = useRouter();
 
 // Composables
 const categoriesStore = useCategoriesStore();
@@ -228,7 +221,7 @@ onMounted(async () => {
 });
 
 // Watch for route changes
-watch(currentCategorySlug, async (newSlug) => {
+watch(currentCategorySlug, async newSlug => {
   if (newSlug && !currentCategory.value) {
     // Category not found, redirect to categories index
     await navigateTo('/categories');

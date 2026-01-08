@@ -6,7 +6,7 @@ import CategoriesPage from '~/pages/categories.vue';
 // Mock Nuxt composables
 vi.mock('#app', () => ({
   useRoute: () => ({
-    params: { slug: '' }
+    params: { slug: '' },
   }),
   useRouter: () => ({}),
   navigateTo: vi.fn(),
@@ -14,7 +14,7 @@ vi.mock('#app', () => ({
 }));
 
 describe('CategoriesPage', () => {
-  let wrapper: any;
+  let wrapper: ReturnType<typeof mount>;
 
   beforeEach(() => {
     wrapper = mount(CategoriesPage, {

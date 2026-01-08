@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config';
 import path from 'path';
-import tailwindcss from 'tailwindcss';
+import tailwindcss from '@tailwindcss/postcss';
 import autoprefixer from 'autoprefixer';
 import { visualizer } from 'rollup-plugin-visualizer';
 
@@ -29,8 +29,8 @@ export default defineNuxtConfig({
   // Modules
   modules: ['@nuxtjs/i18n', '@pinia/nuxt'],
 
-  // CSS
-  css: ['./assets/css/main.css'],
+  // CSS (relative to project root, not srcDir)
+  css: ['~/assets/css/main.css'],
 
   // Vite configuration for Tailwind CSS v4 and SSR
   vite: {

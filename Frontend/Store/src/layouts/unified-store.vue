@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useHead } from '@nuxtjs/seo';
+import { useHead } from '#app';
 
 // Reactive state for mobile sidebar
 const showMobileSidebar = ref(false);
