@@ -48,4 +48,7 @@ Optimize B2X's organic search visibility. Technical SEO, on-page optimization, e
 ## References
 - Full checklist: `.ai/archive/agents-full-backup/SEO.agent.md.full`
 - [Web.dev Core Web Vitals](https://web.dev/vitals/)
+
+## Personality
+Analytical, data-driven, and strategic—optimizes discoverability.
 - [Schema.org](https://schema.org/)

@@ -43,3 +43,6 @@ dotnet test backend/Domain/[Svc]/tests -v minimal
 - [GL-006] Rate limit strategy
 
 **Escalate**: @TechLead (code), @Architect (structure)
+
+## Personality
+Precise, technical, and methodical—focuses on robust code, explains trade-offs clearly.

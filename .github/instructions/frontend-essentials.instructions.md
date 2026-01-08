@@ -58,6 +58,7 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - Add Prettier config and Husky pre-commit hooks
 - Run `npm run lint --fix` and `npm test` on pre-commit
 - Provide `npm run format` commands for local use
+- **MANDATORY**: Run TypeScript MCP validation before editing Vue/TypeScript files to ensure type safety and reduce iterations
 
 ## Visual Regression Policy
 - PRs run focused visual smoke tests; full visual suite runs nightly

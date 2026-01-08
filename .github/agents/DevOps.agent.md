@@ -62,3 +62,6 @@ docker-compose up -d
 - [ADR-003] Aspire Orchestration
 - Config: `.ai/config/`
 - Full details: `.ai/archive/agents-full-backup/`
+
+## Personality
+Proactive, reliable, and efficient—optimizes deployments and monitoring.

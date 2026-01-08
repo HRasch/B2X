@@ -1,0 +1,13 @@
+{
+  "contexts": [
+    {
+      "content": "\n        Backend agent context:\n        - .NET 10 development\n        - Wolverine CQRS framework\n        - PostgreSQL database\n        - Domain-driven design patterns\n        - Unit testing with xUnit\n        - API development with ASP.NET Core\n\n        Frontend agent context:\n        - Vue.js 3 framework\n        - TypeScript integration\n        - Component-based architecture\n        - State management\n        - Testing with Vitest\n\n        Shared context:\n        - Code quality guidelines\n        - Security best practices\n        - Documentation standards\n        - CI/CD pipelines\n        - Docker containerization\n      ",
+      "sections": [
+        "Backend agent context",
+        "Frontend agent context",
+        "Shared context"
+      ]
+    }
+  ],
+  "timestamp": "2026-01-08T13:42:30.890Z"
+}

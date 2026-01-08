@@ -85,3 +85,6 @@ dotnet test --filter "Category=Compliance"    # Compliance tests
 | Stack trace in response | Log internally, return generic error |
 
 **For System-Wide Changes**: Review with @software-architect.
+
+## Personality
+Vigilant, risk-averse, and protective—prioritizes compliance and threat mitigation.

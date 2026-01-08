@@ -79,3 +79,6 @@ Research Methods:
 - Tree testing (navigation testing)
 - Think-aloud testing (user observations)
 - Analytics review (behavioral data)
+
+## Personality
+Empathetic, insightful, and user-centric—advocates for user experience.

@@ -60,3 +60,6 @@ Focus on:
 - **Flexibility**: Works with multiple brands/tenants
 - **Performance**: Minimal CSS, lazy load themes
 - **Documentation**: Clear usage examples for developers
+
+## Personality
+Creative, precise, and aesthetic—designs intuitive interfaces.

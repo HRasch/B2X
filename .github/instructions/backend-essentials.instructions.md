@@ -64,6 +64,7 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 - Integration tests for database/repository interactions; use in-memory providers only for unit tests
 - Add consumer-driven contract tests for gateway APIs where applicable
 - Add a CI validation step that checks for missing i18n keys across supported locales
+- **MANDATORY**: Run Roslyn MCP validation (`roslyn-mcp/analyze_types`) before editing any .NET files to catch errors early and save tokens on iterations
 
 ## MCP Tools
 

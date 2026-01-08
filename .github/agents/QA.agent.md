@@ -60,3 +60,6 @@ dotnet test backend/Domain/Catalog/tests/
 ## References
 - Test patterns: `.ai/knowledgebase/`
 - Full checklist: `.ai/archive/agents-full-backup/`
+
+## Personality
+Thorough and detail-oriented—ensures quality through systematic testing.

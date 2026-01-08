@@ -190,12 +190,13 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-042` | Token-Optimized i18n Strategy | `.ai/guidelines/GL-042-TOKEN-OPTIMIZED-I18N-STRATEGY.md` | Active |
 | `GL-043` | Multi-Language Fragment Editing Strategy | `.ai/guidelines/GL-043-multi-language-fragment-editing-strategy.md` | Active |
 | `GL-043` | Smart Attachment Strategy | `.ai/guidelines/GL-043-SMART-ATTACHMENT-STRATEGY.md` | Active |
+| `GL-044` | Markdown Fragment Editing Strategy | `.ai/guidelines/GL-044-markdown-fragment-editing.md` | Active |
 | `GL-044` | Fragment-Based File Access Strategy | `.ai/guidelines/GL-044-FRAGMENT-BASED-FILE-ACCESS.md` | Active |
 | `GL-045` | KB-MCP Query Strategy | `.ai/guidelines/GL-045-KB-MCP-QUERY-STRATEGY.md` | Active |
 | `GL-046` | Token Audit & Analysis Framework | `.ai/guidelines/GL-046-TOKEN-AUDIT-FRAMEWORK.md` | Active |
 | `GL-047` | MCP-Orchestration Layer | `.ai/guidelines/GL-047-MCP-ORCHESTRATION-LAYER.md` | Active |
 | `GL-048` | Instruction File Consolidation | `.ai/guidelines/GL-048-INSTRUCTION-FILE-CONSOLIDATION.md` | Active |
-| `GL-049` | Documentation Structure Framework | `.ai/guidelines/GL-049-DOCUMENTATION-STRUCTURE-FRAMEWORK.md` | Active |
+| `GL-049` | Prompt Compression Prototype | `.ai/guidelines/GL-049-PROMPT-COMPRESSION-PROTOTYPE.md` | Active |
 | `GL-050` | Project Documentation Structure in docs/ | `.ai/guidelines/GL-050-PROJECT-DOCS-STRUCTURE.md` | Active |
 | `GL-051` | AI-Ready Documentation Integration Guide | `.ai/guidelines/GL-051-AI-READY-DOCUMENTATION-INTEGRATION.md` | Active |
 | `GL-052` | Role-Based Documentation Access & Audience Segregation | `.ai/guidelines/GL-052-ROLE-BASED-DOCUMENTATION-ACCESS.md` | Active |

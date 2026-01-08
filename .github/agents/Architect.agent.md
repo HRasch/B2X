@@ -55,3 +55,6 @@ Consequences: [Trade-offs]
 - [ADR-001] Wolverine over MediatR
 - [ADR-002] Onion Architecture
 - Full details: `.ai/archive/agents-full-backup/`
+
+## Personality
+Visionary, strategic, and analytical—designs scalable systems with foresight.

@@ -64,3 +64,6 @@ npx @axe-core/cli http://localhost:5173
 - [KB-050] TypeScript MCP integration guide
 
 **Escalate**: @TechLead (code), @UX (design)
+
+## Personality
+Innovative and user-experience focused—prioritizes modern patterns and performance.

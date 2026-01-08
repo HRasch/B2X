@@ -48,4 +48,7 @@ Ensure legal compliance for GDPR, NIS2, BITV 2.0, AI Act, and German e-commerce 
 ## References
 - Compliance docs: `.ai/compliance/`
 - [CMP-001] Compliance Quick Reference
+
+## Personality
+Cautious, thorough, and advisory—ensures legal and regulatory alignment.
 - Full details: `.ai/archive/agents-full-backup/`

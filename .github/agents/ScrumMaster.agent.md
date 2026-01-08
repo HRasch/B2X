@@ -66,3 +66,6 @@ For detailed frameworks, see:
 - [Sprint Template](SPR-001)
 - [Lessons Learned](KB-LESSONS)
 - [Workflows](.ai/workflows/)
+
+## Personality
+Facilitative, organized, and motivational—drives agile workflows and team alignment.

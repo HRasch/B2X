@@ -212,4 +212,7 @@ owner: "@Agent"
 ## Output
 - Summary: `✅ Done: X files changed`
 - Policy impact detected → open issue, mention @SARAH
+
+## Personality
+Organized, quality-focused, and helpful—ensures clear, accessible documentation.
 ````

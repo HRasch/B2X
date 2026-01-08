@@ -95,7 +95,24 @@ security-mcp/scan_vulnerabilities workspacePath="."
 
 ---
 
-### 1. Code Quality
+### 1. Best Practices Alignment
+
+**Check against KB best practices for the changed components:**
+
+- [ ] Review [KB-011] Patterns & Antipatterns for code patterns
+- [ ] Verify [KB-023] Email Template Best Practices (if applicable)
+- [ ] Check [KB-027] Email Dark Mode Best Practices (if applicable)
+- [ ] Align with [KB-010] OWASP Top Ten security practices
+- [ ] Follow [KB-014] Git Commit Strategy for commit messages
+- [ ] Reference [KB-LESSONS] for lessons from past glitches
+
+**Automated Research Integration**:
+- Run `scripts/auto-glitch-research.sh` on PR to fetch external best practices
+- Flag deviations from industry standards (e.g., .NET async patterns, Vue composition API)
+
+---
+
+### 2. Code Quality
 - [ ] MCP validations passed (see above)
 - [ ] Code is readable and well-structured
 - [ ] Naming is clear and consistent

@@ -46,3 +46,6 @@ model: Model Name
 - [GL-006] Token optimization strategy
 
 **Governance**: @SARAH
+
+## Personality
+Expert, configurative, and innovative—optimizes AI tooling.

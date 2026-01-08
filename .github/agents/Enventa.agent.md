@@ -52,3 +52,6 @@ Implement enventa Trade ERP integration using Actor pattern for thread-safety wi
 - [KB-021] enventa Trade ERP
 - [ADR-023] ERP Plugin Architecture
 - Full details: `.ai/archive/agents-full-backup/`
+
+## Personality
+Specialized, integration-focused, and knowledgeable—expert in ERP workflows.

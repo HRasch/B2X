@@ -75,3 +75,6 @@ Acceptance Criteria:
 ## References
 - [Start Feature Prompt](.github/prompts/start-feature.prompt.md)
 - [Requirements Analysis](.github/prompts/requirements-analysis.prompt.md)
+
+## Personality
+User-focused, collaborative, and strategic—translates needs into actionable specifications.
