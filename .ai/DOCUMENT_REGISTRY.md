@@ -186,6 +186,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-046` | Token Audit & Analysis Framework | `.ai/guidelines/GL-046-TOKEN-AUDIT-FRAMEWORK.md` | Active |
 | `GL-047` | MCP-Orchestration Layer | `.ai/guidelines/GL-047-MCP-ORCHESTRATION-LAYER.md` | Active |
 | `GL-048` | Instruction File Consolidation | `.ai/guidelines/GL-048-INSTRUCTION-FILE-CONSOLIDATION.md` | Active |
+| `GL-049` | Documentation Structure Framework | `.ai/guidelines/GL-049-DOCUMENTATION-STRUCTURE-FRAMEWORK.md` | Active |
 
 ---
 
@@ -310,6 +311,23 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `BS-SPRINT-EXECUTION-TRACKING` | GitHub-Based Sprint Execution Tracking | `.ai/brainstorm/BS-SPRINT-EXECUTION-TRACKING.md` | Brainstorm |
 | `BS-PROJECT-CLEANLINESS` | Project Cleanliness & Long-Term Organization Strategy | `.ai/brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md` | Active |
 | `BS-DOCUMENTATION-CLEANUP-STRATEGY` | Documentation Cleanup Strategy | `.ai/brainstorm/BS-DOCUMENTATION-CLEANUP-STRATEGY.md` | Brainstorm |
+
+---
+
+## Registry: Status & Dashboards (STATUS-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `STATUS-REFACTOR-STRATEGY` | Status Dashboard - Refactoring Strategy | `.ai/status/STATUS-REFACTOR-STRATEGY.md` | Active |
+| `STATUS-PROJECT-CLEANUP-PHASE-2` | Project Cleanup - Phase 2 Documentation Complete | `.ai/status/STATUS-PROJECT-CLEANUP-PHASE-2.md` | Complete |
+
+---
+
+## Registry: Collaboration (COLLAB-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `COLLAB-REFACTOR-ANALYSIS` | Refactoring Strategy - Multi-Agent Analysis | `.ai/collaboration/REFACTOR-ANALYSIS.md` | Active |
 
 ---
 
