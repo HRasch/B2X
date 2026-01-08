@@ -30,3 +30,12 @@ repos:
         language: system
         files: \\.(cs|csproj|sln|slnx)$
         pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: roslyn-batch-analysis
+        name: Roslyn Batch Analysis (Phase 2)
+        entry: powershell.exe -ExecutionPolicy Bypass -File scripts/roslyn-batch-analysis.ps1 -Domain all
+        language: system
+        files: \\.(cs|csproj|sln|slnx)$
+        pass_filenames: false
