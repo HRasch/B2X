@@ -206,6 +206,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `WF-006` | GitHub CLI Sprint How-To | `.ai/workflows/WF-006-GITHUB_CLI_SPRINT_HOWTO.md` | Active |
 | `WF-007` | GitHub Scrum/Kanban Workflow | `.ai/workflows/WF-007-GITHUB_SCRUM_KANBAN_WORKFLOW.md` | Active |
 | `WF-008` | Update GitHub Issues Sprint | `.ai/workflows/WF-008-update-github-issues-sprint.md` | Active |
+| `WF-010` | Documentation Maintenance & Quality | `.ai/workflows/WF-010-DOCUMENTATION-MAINTENANCE.md` | Active |
 | `WF-CLEANUP-SETUP` | Project Cleanup Setup Guide | `.ai/workflows/WF-CLEANUP-SETUP.md` | Active |
 
 ---
@@ -427,7 +428,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-013` | UI | `.github/agents/ui.agent.md` | Components |
 | `AGT-014` | SEO | `.github/agents/seo.agent.md` | Search Optimization |
 | `AGT-015` | GitManager | `.github/agents/git-manager.agent.md` | Git Workflow |
-| `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation |
+| `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation Steward - Quality, Registry, Compliance |
 | `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
 | `AGT-018` | CopilotExpert | `.github/agents/CopilotExpert.agent.md` | Copilot Configuration |
 
