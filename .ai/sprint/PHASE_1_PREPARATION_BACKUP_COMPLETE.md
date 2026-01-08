@@ -1,3 +1,11 @@
+---
+docid: SPR-059
+title: PHASE_1_PREPARATION_BACKUP_COMPLETE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Phase 1: Preparation & Backup - Complete Inventory
 
 **Date**: 2026-01-07

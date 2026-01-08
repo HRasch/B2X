@@ -1,3 +1,11 @@
+---
+docid: BS-011
+title: BS RENAME B2CONNECT TO B2XGATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🔄 Brainstorm: Rename B2Connect → B2X
 
 **DocID**: `BS-RENAME-001`  

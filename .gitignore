@@ -137,6 +137,7 @@ Thumbs.db
 **/dev-node.local.json
 # Temporary Development & Analysis Files
 # These should be archived to .ai/archive/ or deleted, never committed
+.ai/temp/
 temp-*.json
 temp-*.js
 temp-*.cs

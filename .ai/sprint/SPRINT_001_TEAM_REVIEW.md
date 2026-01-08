@@ -1,3 +1,11 @@
+---
+docid: SPR-151
+title: SPRINT_001_TEAM_REVIEW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🔍 Sprint 001 Team Review: All Planned Issues
 
 **Review Date:** December 30, 2025  

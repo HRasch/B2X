@@ -1,3 +1,11 @@
+---
+docid: KB-168
+title: Free Code Quality Tools
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Free Code Quality Tools - Implementation Guide
 
 **Date**: 2. Januar 2026  

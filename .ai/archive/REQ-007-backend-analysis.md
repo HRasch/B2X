@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-032
+title: REQ 007 Backend Analysis
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿# REQ-007 Backend Analysis: Email WYSIWYG Builder
 
 **DocID**: `REQ-007-BACKEND-ANALYSIS`  

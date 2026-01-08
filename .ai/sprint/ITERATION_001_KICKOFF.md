@@ -1,3 +1,11 @@
+---
+docid: SPR-048
+title: ITERATION_001_KICKOFF
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 Iteration 001 Development Kickoff
 
 **Status:** ✅ ACTIVE - Development Started  

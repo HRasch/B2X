@@ -1,3 +1,11 @@
+---
+docid: SPR-107
+title: SPR 014 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-014-RETRO
 title: Sprint 2026-14 Retrospective - Model Development Governance & Global Scaling Optimization

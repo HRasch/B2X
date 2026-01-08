@@ -1,3 +1,11 @@
+---
+docid: SPR-118
+title: SPR 018 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-018-RETRO
 title: Sprint 2026-18 Retrospective - AI Validation Automation & Ethical Expansion

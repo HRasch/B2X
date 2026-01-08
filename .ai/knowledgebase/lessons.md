@@ -1,3 +1,11 @@
+---
+docid: KB-138
+title: Lessons
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Lessons Learned
 
 **DocID**: `KB-LESSONS`  

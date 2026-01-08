@@ -11,11 +11,11 @@ A modern, scalable multitenant SaaS solution combining a comprehensive B2B/B2C e
 
 ## 🚀 Quick Links
 
-- � **[Documentation Quick Reference](docs/QUICK_REFERENCE.md)** - Find the documentation you need
-- 📖 **[AI Knowledge Base](.ai/knowledgebase/INDEX.md)** - AI agent triggers & reference
-- 🚀 **[Quick Start Guide](QUICK_START_GUIDE.md)** - Get started in 5 minutes
-- 🔒 **[Security Instructions](.github/instructions/security.instructions.md)** - Security implementation
-- 📊 **[Project Dashboard](PROJECT_DASHBOARD.md)** - Metrics & status
+- � **[Documentation Quick Reference](DOC-002)** - Find the documentation you need
+- 📖 **[AI Knowledge Base](KB-INDEX)** - AI agent triggers & reference
+- 🚀 **[Quick Start Guide](DOC-001)** - Get started in 5 minutes
+- 🔒 **[Security Instructions](INS-005)** - Security implementation
+- 📊 **[Project Dashboard](DOC-006)** - Metrics & status
 
 ## 📊 Platform Overview
 
@@ -103,7 +103,7 @@ npm install && npm run dev
 - 🔧 **Simple configuration**: Plain .NET Process API - easy to extend
 - 📊 **Clear visibility**: All logs in one terminal
 
-👉 **[Full AppHost Guide →](APPHOST_SPECIFICATIONS.md)** | **[Quick Reference →](APPHOST_QUICKSTART.md)**
+👉 **[Full AppHost Guide →](DOC-APPHOST-SPEC)** | **[Quick Reference →](DOC-APPHOST-QUICKSTART)**
 
 ## 📋 Technology Stack
 
@@ -132,10 +132,10 @@ npm install && npm run dev
 - [Shop Platform Specifications](backend/docs/shop-platform-specs.md)
 - [Procurement Gateway Specifications](backend/docs/procurement-gateway-specs.md)
 - **[Frontend CMS & Layout Builder](backend/docs/cms-frontend-builder.md)** - NEW: Customer-facing customization system
-- **[CMS Overview](CMS_OVERVIEW.md)** - NEW: Business-friendly CMS introduction
-- **[CMS Implementation Details](CMS_IMPLEMENTATION_UPDATE.md)** - NEW: Technical CMS architecture
+- **[CMS Overview](DOC-CMS-OVERVIEW)** - NEW: Business-friendly CMS introduction
+- **[CMS Implementation Details](DOC-CMS-IMPLEMENTATION)** - NEW: Technical CMS architecture
 - [Multitenant Design](backend/docs/tenant-isolation.md)
-- [Development Guidelines](.copilot-specs.md)
+- [Development Guidelines](DOC-009)
 
 ## 🧪 Testing
 
@@ -203,7 +203,7 @@ VITE_APP_NAME=B2X
 3. Refactor while keeping tests green
 
 ### Code Generation with Copilot
-See [.copilot-specs.md](.copilot-specs.md) for detailed guidelines on:
+See [DOC-009] for detailed guidelines on:
 - When to use Copilot (✅ boilerplate, ❌ security-critical code)
 - Review checklist for generated code
 - Multitenant safety requirements
@@ -225,7 +225,7 @@ If your organization requires contract copies or additional compliance artifacts
 ## 📝 Contributing
 
 1. Follow TDD approach - tests first, then implementation
-2. Review [.copilot-specs.md](.copilot-specs.md) for standards
+2. Review [DOC-009] for standards
 3. Ensure all tests pass before submitting PR
 4. Maintain test coverage above 80%
 5. Include documentation for public APIs

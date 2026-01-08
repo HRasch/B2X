@@ -1,4 +1,12 @@
 ---
+docid: TASK-002
+title: BRIEF_TEMPLATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TASK-BRIEF-TEMPLATE
 title: Task Brief Template
 owner: "@SARAH"

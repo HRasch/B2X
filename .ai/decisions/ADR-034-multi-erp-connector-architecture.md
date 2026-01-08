@@ -1,3 +1,11 @@
+---
+docid: ADR-077
+title: ADR 034 Multi Erp Connector Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-034: Multi-ERP Connector Architecture
 
 **Status:** Approved with Conditions  

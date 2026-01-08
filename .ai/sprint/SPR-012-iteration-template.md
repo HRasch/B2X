@@ -1,4 +1,12 @@
 ---
+docid: SPR-100
+title: SPR 012 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-012
 title: Sprint 2026-12 Planning - ML Maturity & Infrastructure Scaling
 owner: @ScrumMaster

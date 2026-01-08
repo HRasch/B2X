@@ -1,3 +1,11 @@
+---
+docid: SPR-132
+title: SPR 024 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-024-RETRO
 title: Sprint 2026-24 Retrospective - AI Resource Optimization & Global Compliance Expansion

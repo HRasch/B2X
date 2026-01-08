@@ -1,3 +1,11 @@
+---
+docid: WF-018
+title: WF 007 GITHUB_SCRUM_KANBAN_WORKFLOW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GitHub-Based Development Workflow
 
 ## Überblick

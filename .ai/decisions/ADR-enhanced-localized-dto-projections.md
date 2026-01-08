@@ -1,3 +1,11 @@
+---
+docid: ADR-100
+title: ADR Enhanced Localized Dto Projections
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR: Enhanced EF Core Localized DTO Projections Pattern
 
 **Date:** January 1, 2026  

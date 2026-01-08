@@ -1,3 +1,11 @@
+---
+docid: SPR-091
+title: Sprint Plan
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Sprint 2026-09: Advanced Analytics & Performance Monitoring
 **Duration:** Jan 21 - Feb 4, 2026 (15 working days)
 

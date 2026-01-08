@@ -1,3 +1,11 @@
+---
+docid: STATUS-054
+title: SUBAGENT_TIER2_3_DEPLOYMENT_GUIDE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# SubAgent Tier 2 & 3 Deployment Guide
 
 **Phase**: Phase 2-3 Extended Rollout  

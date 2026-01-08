@@ -1,4 +1,12 @@
 ---
+docid: GL-079
+title: GL 043 SMART ATTACHMENT STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-043
 title: Smart Attachment Strategy - Path-Specific Loading
 owner: "@SARAH"

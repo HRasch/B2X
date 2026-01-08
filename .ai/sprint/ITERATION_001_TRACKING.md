@@ -1,3 +1,11 @@
+---
+docid: SPR-056
+title: ITERATION_001_TRACKING
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Iteration 001 - Daily Tracking
 
 **Iteration:** Iteration 001: AI-DEV Framework Setup & Foundation  

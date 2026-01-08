@@ -1,3 +1,11 @@
+---
+docid: KB-170
+title: Github Copilot Customization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# GitHub Copilot Customization Guide
 
 **DocID**: `KB-022`  

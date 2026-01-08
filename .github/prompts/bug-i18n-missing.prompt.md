@@ -1,4 +1,12 @@
 ---
+docid: PRM-029
+title: Bug I18n Missing.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for missing i18n translation keys
 ---

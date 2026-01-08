@@ -1,3 +1,11 @@
+---
+docid: AGT-033
+title: SEO.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 description: 'SEO Specialist - Search optimization, metadata, Core Web Vitals'
 tools: ['agent', 'vscode']

@@ -1,3 +1,11 @@
+---
+docid: SPR-119
+title: SPR 019 Execution
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-019
 title: Sprint 2026-19 Execution - Advanced AI Metrics & Compliance Automation

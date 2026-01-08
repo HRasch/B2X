@@ -1,3 +1,11 @@
+---
+docid: BS-019
+title: EGate Enventa Adoption Brainstorm
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🎯 Brainstorm: Adopt eGate enventa Interface Patterns
 
 **Date**: January 3, 2026  

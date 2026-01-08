@@ -1,3 +1,11 @@
+---
+docid: SPR-094
+title: SPR 010 Execution Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-010: Sprint Execution Summary - Analytics & Monitoring Maturity Enhancements
 
 ## Sprint Overview

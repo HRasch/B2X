@@ -1,3 +1,11 @@
+---
+docid: KB-160
+title: Ai Cost Optimization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-017
 title: AI Cost Monitoring & Optimization

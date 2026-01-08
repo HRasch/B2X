@@ -1,3 +1,11 @@
+---
+docid: KB-146
+title: FEATURE_IMPLEMENTATION_PATTERNS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🚀 Feature Implementation Patterns
 
 **Audience**: All developers (backend + frontend)  

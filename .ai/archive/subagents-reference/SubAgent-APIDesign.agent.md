@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-087
+title: SubAgent APIDesign.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿````chatagent
 ```chatagent
 ---

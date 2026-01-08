@@ -1,3 +1,11 @@
+---
+docid: COLLAB-010
+title: AGENT_RESPONSIBILITY_SUMMARY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📊 Agent Responsibility Delegation - Implementation Summary
 
 **Status**: ✅ COMPLETE  

@@ -1,3 +1,11 @@
+---
+docid: SPR-098
+title: SPR 011 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-011
 title: Sprint 2026-11 Planning - ML Governance & Real-Time Analytics Optimization

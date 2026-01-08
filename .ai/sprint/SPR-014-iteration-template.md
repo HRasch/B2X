@@ -1,3 +1,11 @@
+---
+docid: SPR-106
+title: SPR 014 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-014
 title: Sprint 2026-14 Planning - Model Development Governance & Global Scaling Optimization

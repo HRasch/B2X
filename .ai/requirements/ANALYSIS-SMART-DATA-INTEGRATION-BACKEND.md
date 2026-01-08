@@ -1,3 +1,11 @@
+---
+docid: REQ-041
+title: ANALYSIS SMART DATA INTEGRATION BACKEND
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ANALYSIS-SMART-DATA-INTEGRATION-BACKEND
 title: Smart Data Integration Assistant - Backend Analysis

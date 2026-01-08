@@ -1,3 +1,11 @@
+---
+docid: STATUS-020
+title: KB MCP TEAM VALIDATION NOTICE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# KB-MCP Phase 2a Validation - Team Review
 
 **Date**: 7. Januar 2026  

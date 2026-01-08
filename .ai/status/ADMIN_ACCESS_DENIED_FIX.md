@@ -1,3 +1,11 @@
+---
+docid: STATUS-001
+title: ADMIN_ACCESS_DENIED_FIX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Admin Frontend Access Denied - Fix Summary
 
 **Date**: 4. Januar 2026  

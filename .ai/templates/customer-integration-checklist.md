@@ -1,3 +1,11 @@
+---
+docid: TPL-006
+title: Customer Integration Checklist
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Customer Integration Checklists
 # Reference: ADR-038 Customer Integration Stages Framework
 #

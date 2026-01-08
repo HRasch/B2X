@@ -1,4 +1,12 @@
 ---
+docid: PRM-036
+title: Bug Quick Starter.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PRM-QUICK-BUG
 title: Quick Bug-Fix Starter Prompt Set
 owner: @TechLead

@@ -1,4 +1,12 @@
 ---
+docid: GL-089
+title: GL 052 RATE LIMIT COORDINATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-052
 title: Rate-Limit Coordination & Multi-Chat Safety Protocol
 owner: "@SARAH"

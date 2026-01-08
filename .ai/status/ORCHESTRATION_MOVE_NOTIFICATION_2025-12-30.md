@@ -1,4 +1,12 @@
 ---
+docid: STATUS-026
+title: ORCHESTRATION_MOVE_NOTIFICATION_2025 12 30
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Orchestration moved to AppHost
 date: 2025-12-30
 tags: [orchestration, docs, announcement]

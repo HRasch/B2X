@@ -1,4 +1,12 @@
 ---
+docid: TPL-008
+title: EXAMPLE SYSTEM SEGREGATION 001
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: EXAMPLE-SYSTEM-SEGREGATION-001
 title: "Example: System-Segregated Documentation (Store vs Admin vs Management)"
 category: examples

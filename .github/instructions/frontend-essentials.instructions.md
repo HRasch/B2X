@@ -1,4 +1,12 @@
 ---
+docid: INS-011
+title: Frontend Essentials.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 ---
 
@@ -73,7 +81,109 @@ kb-mcp/search_knowledge_base
 
 See [KB-053] TypeScript MCP, [KB-054] Vue MCP, [KB-056] HTML/CSS MCP
 
+## Large File Editing Strategy ([GL-043])
+
+When editing large frontend files (>200 lines), use the Multi-Language Fragment Editing approach with TypeScript MCP and Vue MCP integration:
+
+### Pre-Edit Analysis
+```bash
+# TypeScript analysis
+typescript-mcp/analyze_types workspacePath="frontend/src"
+
+# Vue component analysis
+vue-mcp/analyze_vue_component filePath="src/components/Component.vue"
+
+# i18n validation
+vue-mcp/validate_i18n_keys componentPath="src/components/Component.vue"
+```
+
+### Fragment-Based Editing Patterns
+```typescript
+// Fragment: React component method (75% token savings)
+const handleSubmit = async (formData: FormData) => {
+  try {
+    const response = await apiClient.post('/orders', formData);
+    setOrders(prev => [...prev, response.data]);
+  } catch (error) {
+    setError('Submission failed');
+  }
+};
+```
+
+```vue
+<!-- Fragment: Vue template section (78% token savings) -->
+<template>
+  <div class="order-form">
+    <form @submit.prevent="handleSubmit">
+      <!-- Edit only form fields -->
+    </form>
+  </div>
+</template>
+```
+
+**TypeScript MCP Workflows**:
+```bash
+# 1. Type safety validation
+typescript-mcp/analyze_types workspacePath="frontend/Store" filePath="src/components/ProductCard.vue"
+
+# 2. Fragment refactoring
+typescript-mcp/invoke_refactoring fileUri="Component.ts" name="source.addTypeAnnotation"
+typescript-mcp/invoke_refactoring fileUri="Component.ts" name="source.convertImportFormat"
+
+# 3. Interface validation
+typescript-mcp/validate_interfaces workspacePath="frontend" filePath="types/api.ts"
+
+# 4. Module dependency analysis
+typescript-mcp/analyze_dependencies workspacePath="frontend/src"
+```
+
+**Vue MCP Integration**:
+```bash
+# Component structure validation
+vue-mcp/analyze_vue_component filePath="src/components/LoginForm.vue"
+
+# i18n coverage check (must return zero hardcoded strings)
+vue-mcp/validate_i18n_keys componentPath="src/components/LoginForm.vue"
+
+# Responsive design validation
+vue-mcp/check_responsive_design filePath="src/components/LoginForm.vue"
+
+# Accessibility pre-check
+vue-mcp/check_accessibility filePath="src/components/LoginForm.vue"
+
+# Composition API validation
+vue-mcp/validate_composition_api filePath="src/components/ProductCard.vue"
+```
+
+### Quality Gates
+- Always run `get_errors()` after edits
+- Execute related tests with `runTests()`
+- Use language-specific MCP validation
+- Validate i18n compliance and accessibility
+
+**Token Savings**: 75-78% vs. reading entire files | **Quality**: Type-safe validation with accessibility enforcement
+
+## Temp-File Usage for Token Optimization
+
+For large outputs during task execution (e.g., build logs, test results >1KB), save to temp files to reduce token consumption:
+
+```bash
+# Auto-save large build output
+OUTPUT=$(npm run build 2>&1)
+if [ $(echo "$OUTPUT" | wc -c) -gt 1024 ]; then
+  bash scripts/temp-file-manager.sh create "$OUTPUT" log
+else
+  echo "$OUTPUT"
+fi
+
+# Reference in prompts/responses
+"See temp file: .ai/temp/task-uuid.json (5KB saved)"
+```
+
+- Auto-cleanup after 1 hour or task completion.
+- Complements [GL-006] token optimization strategy.
+
 ---
 
 **Full documentation**: Use `kb-mcp/get_article` or search Knowledge Base  
-**Size**: 1.8 KB (with quality gate additions)
+**Size**: 1.9 KB (with temp-file additions)

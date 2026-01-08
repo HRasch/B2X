@@ -1,3 +1,11 @@
+---
+docid: SPR-146
+title: SPR 030 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# SPR-030: Sprint 2026-30 Planning - Advanced Monitoring for Governance Nodes & Predictive Resource Allocation
 
 **DocID**: SPR-030  

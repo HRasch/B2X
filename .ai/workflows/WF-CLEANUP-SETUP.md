@@ -1,4 +1,12 @@
 ---
+docid: WF-026
+title: WF CLEANUP SETUP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WF-CLEANUP-SETUP
 title: Project Cleanup Setup Guide
 owner: "@DevOps"
@@ -375,7 +383,7 @@ ls -la .ai/cleanup-logs/
 **Questions?** Contact @DevOps or @TechLead
 
 **Related Documents**:
-- [BS-PROJECT-CLEANLINESS-STRATEGY.md](.ai/brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md)
+- [BS-PROJECT-CLEANLINESS]
 - [GL-010 Agent & Artifact Organization](.ai/guidelines/GL-010-AGENT-ARTIFACT-ORGANIZATION.md)
 - [CONTRIBUTING.md](CONTRIBUTING.md)
 

@@ -1,3 +1,11 @@
+---
+docid: KB-174
+title: I18n Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# i18n MCP Usage Guide
 
 **DocID**: `KB-060`  

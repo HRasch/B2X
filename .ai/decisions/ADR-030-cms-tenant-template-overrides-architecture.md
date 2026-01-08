@@ -1,3 +1,11 @@
+---
+docid: ADR-072
+title: ADR 030 Cms Tenant Template Overrides Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-030
 title: CMS Tenant Template Overrides Architecture

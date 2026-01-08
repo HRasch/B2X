@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-001
+title: Egate Erp Broker Analysis
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿# eGate ERP Broker Implementation Analysis
 
 **DocID**: `KB-020`  

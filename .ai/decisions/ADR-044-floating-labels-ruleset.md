@@ -1,3 +1,11 @@
+---
+docid: ADR-088
+title: ADR 044 Floating Labels Ruleset
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-044: Floating Labels vs Traditional Labels - Ruleset
 
 **Status**: Accepted  

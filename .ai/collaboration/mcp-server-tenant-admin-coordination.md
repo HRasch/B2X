@@ -1,3 +1,11 @@
+---
+docid: COLLAB-022
+title: Mcp Server Tenant Admin Coordination
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# MCP Server for Tenant Administrators - Implementation Coordination
 
 **DocID**: `COORD-001` (MCP Server Implementation)

@@ -1,4 +1,12 @@
 ---
+docid: BS-027
+title: RESPONSE TRACKING
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: RESPONSE-TRACKING
 title: "✅ Email Sent - Response Tracking & Approval Handling"
 owner: "@SARAH"

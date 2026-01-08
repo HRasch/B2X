@@ -1,3 +1,11 @@
+---
+docid: REQ-048
+title: MVP_BACKLOG
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# B2X — MVP Backlog
 
 This file lists a prioritized, minimal set of features to ship an initial, market-viable product (MVP) for B2X. Each item includes a short description, priority, rough effort estimate and suggested owner.

@@ -1,4 +1,12 @@
 ---
+docid: TPL-015
+title: TPL DEVDOC 001 DEVELOPER DOCS TEMPLATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TPL-DEVDOC-001
 title: Developer Documentation Template
 category: Documentation Templates

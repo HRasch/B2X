@@ -1,4 +1,12 @@
 ---
+docid: TPL-007
+title: EXAMPLE AI DOCS 001 Complete Documentation Set
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: EXAMPLE-AI-DOCS-001
 title: "Example: Complete AI-Ready Documentation Set"
 category: examples

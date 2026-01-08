@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-002
+title: Enventa Trade Erp Analysis
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿# enventa Trade ERP - Technische Analyse
 
 **Status:** Draft  

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-056
+title: MONDAY_MAILBOX_KB_KICKOFF_2025_12_30
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿# 📧 MONDAY MAILBOX: KB Integration Kickoff
 **From: @SARAH** | **To: @Backend, @Frontend, @DevOps** | **Time: Monday 09:00 UTC**
 

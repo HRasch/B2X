@@ -1,3 +1,11 @@
+---
+docid: GL-057
+title: COMMUNICATION INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent-SubAgent Communication Documentation Index
 
 **Status:** ✅ COMPLETE  

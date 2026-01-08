@@ -1,4 +1,12 @@
 ---
+docid: KB-086
+title: Elastic.Clients.Elasticsearch Legacy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Elastic.Clients.Elasticsearch (legacy / alternate)
 note: created because multiple versions found between manifests
 current_versions:

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-159
+title: README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Issue Collaboration
 
 Zentrale Ablage für Issue-spezifische Zusammenarbeit.

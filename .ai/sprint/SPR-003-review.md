@@ -1,4 +1,12 @@
 ---
+docid: SPR-074
+title: SPR 003 Review
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-003-REVIEW
 title: Sprint 2026-03 Review - Advanced Monitoring & User Feedback
 owner: @ScrumMaster

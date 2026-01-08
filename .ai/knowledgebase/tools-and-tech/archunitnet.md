@@ -1,3 +1,11 @@
+---
+docid: KB-163
+title: Archunitnet
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ArchUnitNET - Architecture Testing Framework
 
 **Last Updated**: 2. Januar 2026  

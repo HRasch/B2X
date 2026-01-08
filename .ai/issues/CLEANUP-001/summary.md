@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-151
+title: Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Project Cleanup Summary - CLEANUP-001
 
 ## Status: ✅ Initiated - P0 Fixes Complete

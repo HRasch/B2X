@@ -1,3 +1,11 @@
+---
+docid: COLLAB-028
+title: SYSTEM_RESILIENCE_STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🔄 System Resilience Strategy - Brainstorming Session
 
 **DocID**: `WF-RESILIENCE-STRATEGY`  

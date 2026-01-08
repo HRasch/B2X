@@ -1,3 +1,11 @@
+---
+docid: BS-018
+title: EGate Adoption Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🚀 eGate enventa Interface Adoption - Executive Summary
 
 **Brainstorm Session**: January 3, 2026  

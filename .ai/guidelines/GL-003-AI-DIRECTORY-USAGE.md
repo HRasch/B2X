@@ -1,3 +1,11 @@
+---
+docid: GL-062
+title: GL 003 AI DIRECTORY USAGE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # .ai Directory Usage Guidelines
 
 **Purpose:** Define what belongs in `.ai/` and what doesn't  

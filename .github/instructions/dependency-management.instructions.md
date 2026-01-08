@@ -1,4 +1,12 @@
 ---
+docid: INS-009
+title: Dependency Management.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: INS-007
 title: Dependency Management Instructions
 owner: "@TechLead"

@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-081
+title: Export SubAgent AI.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 description: 'Export helper for AI-focused handoffs: prompts, model hints, and data formatting.'
 tools: ['read','search','edit']
 model: 'gpt-5-mini'

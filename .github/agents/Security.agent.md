@@ -1,4 +1,12 @@
 ---
+docid: AGT-032
+title: Security.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 description: 'Security Engineer specializing in encryption, authentication, compliance, and incident response'
 tools: ['edit', 'execute', 'gitkraken/*', 'search', 'vscode', 'agent']
 model: 'gpt-5-mini'

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-166
+title: FP 117 Core Monitoring Infrastructure
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Feature Plan: Implement Core Monitoring Infrastructure (Issue #117)
 
 **Feature ID**: FP-117  

@@ -1,4 +1,12 @@
 ---
+docid: KB-098
+title: Quartz
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Quartz
 current_version: 3.15.1
 source_files:

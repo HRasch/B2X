@@ -1,3 +1,11 @@
+---
+docid: KB-094
+title: Npm Package Updates
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # npm Package Updates Guide
 
 **DocID**: `KB-066`  

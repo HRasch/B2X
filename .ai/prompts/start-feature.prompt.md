@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-191
+title: Start Feature.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 START_FEATURE - New Feature Development Cycle
 
 **Trigger**: User has a new feature request or user story

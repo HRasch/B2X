@@ -1,3 +1,11 @@
+---
+docid: COLLAB-008
+title: AGENT_DIRECTIVES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent Directives & Instructions
 
 ## Überblick

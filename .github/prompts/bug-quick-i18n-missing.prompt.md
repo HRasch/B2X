@@ -1,4 +1,12 @@
 ---
+docid: PRM-033
+title: Bug Quick I18n Missing.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PRM-QBF-I18N
 title: Quick Bug Fix - Missing Translation Keys
 command: /bug-i18n-missing

@@ -1,4 +1,12 @@
 ---
+docid: DOC-012
+title: BUGFIXING_QUICK_START
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WF-QUICK-BUGFIX
 title: MCP-Enhanced Bugfixing Quick Start
 owner: @TechLead

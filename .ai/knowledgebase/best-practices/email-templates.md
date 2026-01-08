@@ -1,3 +1,11 @@
+---
+docid: KB-072
+title: Email Templates
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Email Template Best Practices
 
 **DocID**: `KB-BP-EMAIL`  

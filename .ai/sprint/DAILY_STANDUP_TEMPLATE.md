@@ -1,3 +1,11 @@
+---
+docid: SPR-036
+title: DAILY_STANDUP_TEMPLATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📅 Daily Standup Template - Iteration 001
 
 **Purpose:** Quick daily sync for velocity tracking and blocker management  

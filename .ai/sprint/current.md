@@ -1,3 +1,11 @@
+---
+docid: SPR-035
+title: Current
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Sprint 2026-10: Analytics & Monitoring Maturity Enhancements
 
 **Period:** 2026-02-04 - 2026-02-18 (2 weeks)  

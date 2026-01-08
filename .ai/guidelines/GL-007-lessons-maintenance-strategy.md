@@ -1,3 +1,11 @@
+---
+docid: GL-067
+title: GL 007 Lessons Maintenance Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Lessons Learned Maintenance Strategy
 
 **DocID**: `GL-007`  

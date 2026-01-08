@@ -1,4 +1,12 @@
 ---
+docid: BS-016
+title: BS WARNINGS 001 STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: BS-WARNINGS-001
 title: "Effiziente Strategie zum Beheben von Warnings und Errors"
 owner: "@SARAH, @TechLead"

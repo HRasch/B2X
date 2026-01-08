@@ -1,3 +1,11 @@
+---
+docid: SPR-096
+title: SPR 010 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-010-RETRO
 title: Sprint 2026-10 Retrospective - Analytics & Monitoring Maturity Enhancements

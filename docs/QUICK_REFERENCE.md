@@ -14,8 +14,8 @@
 ## 🤖 AI Agent System
 
 - **[Agent Team Registry](.ai/collaboration/AGENT_TEAM_REGISTRY.md)** - Authoritative agent directory (15 specialized agents)
-- **[Agent Quick Reference](./.ai/knowledgebase/INDEX.md)** - Fast agent lookup by task type
-- **[AI Knowledge Base](./.ai/knowledgebase/INDEX.md)** - Trigger keywords for AI documentation lookup
+- **[Agent Quick Reference](KB-INDEX)** - Fast agent lookup by task type
+- **[AI Knowledge Base](KB-INDEX)** - Trigger keywords for AI documentation lookup
 
 ---
 

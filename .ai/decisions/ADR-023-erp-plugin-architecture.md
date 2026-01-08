@@ -1,3 +1,11 @@
+---
+docid: ADR-057
+title: ADR 023 Erp Plugin Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-023: ERP/CRM/PIM Plugin Architecture
 
 **Status:** Proposed  

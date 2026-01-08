@@ -1,3 +1,11 @@
+---
+docid: GL-075
+title: GL 012 FRONTEND QUALITY STANDARDS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: GL-012
 title: Frontend Quality Standards

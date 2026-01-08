@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-129
+title: Frontend Review
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Admin Frontend Code Quality Review
 
 **DocID**: `REV-001`  

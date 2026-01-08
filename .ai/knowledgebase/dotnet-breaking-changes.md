@@ -1,3 +1,11 @@
+---
+docid: KB-110
+title: Dotnet Breaking Changes
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Title: .NET compatibility & breaking-changes — concise guidance
 Source: https://learn.microsoft.com/dotnet/core/compatibility/
 

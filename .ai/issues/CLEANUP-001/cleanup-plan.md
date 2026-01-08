@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-144
+title: Cleanup Plan
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Project Cleanup Plan - CLEANUP-001
 
 ## Executive Summary

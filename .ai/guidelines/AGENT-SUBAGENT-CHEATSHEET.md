@@ -1,3 +1,11 @@
+---
+docid: GL-054
+title: AGENT SUBAGENT CHEATSHEET
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent-SubAgent Communication Cheatsheet
 
 Quick reference for all Copilot agents when communicating with SubAgents.

@@ -1,3 +1,11 @@
+---
+docid: REQ-059
+title: REQ 007 Productowner Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# REQ-007: Email WYSIWYG Builder - ProductOwner Analysis
 
 **Anforderung**: Email WYSIWYG Builder mit Drag&Drop für Marketing-Teams  

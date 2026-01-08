@@ -1,3 +1,11 @@
+---
+docid: COLLAB-006
+title: AGENT_ARTIFACT_RESPONSIBILITY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📋 Agent Responsibility Delegation - `.ai/` Folder Management
 
 **Status**: ✅ ACTIVE  

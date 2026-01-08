@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-027
+title: Sprint Cycle.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # 🔄 SPRINT_CYCLE - Sprint Planning, Execution & Retrospective
 
 **Trigger**: Sprint planning, sprint execution, sprint retrospective

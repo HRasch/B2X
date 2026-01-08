@@ -1,3 +1,11 @@
+---
+docid: SPR-127
+title: SPR 022 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-022
 title: Sprint 2026-22 Planning - AI Validation Enhancement & Compliance Standardization

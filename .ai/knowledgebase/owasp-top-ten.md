@@ -1,3 +1,11 @@
+---
+docid: KB-145
+title: Owasp Top Ten
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 
 Title: OWASP Top Ten — 2025 summary & actions
 Source: https://owasp.org/Top10/2025/

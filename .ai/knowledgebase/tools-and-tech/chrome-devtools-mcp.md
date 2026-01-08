@@ -1,3 +1,11 @@
+---
+docid: KB-164
+title: Chrome Devtools Mcp
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-064
 title: Chrome DevTools MCP Server for E2E Testing

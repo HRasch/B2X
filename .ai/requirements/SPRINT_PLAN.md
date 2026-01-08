@@ -1,3 +1,11 @@
+---
+docid: REQ-068
+title: SPRINT_PLAN
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# B2X — 2‑Sprint MVP Plan
 
 Purpose: pragmatic first two sprints to deliver a shippable MVP (focus on P0). Link to created P0 issues for implementation.

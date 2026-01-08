@@ -1,4 +1,12 @@
 ---
+docid: KB-067
+title: Git Management Subagent
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-AGT-GIT
 title: Git Management SubAgent Knowledgebase
 owner: @CopilotExpert

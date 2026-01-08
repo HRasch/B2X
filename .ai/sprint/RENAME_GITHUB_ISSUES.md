@@ -1,3 +1,11 @@
+---
+docid: SPR-064
+title: RENAME_GITHUB_ISSUES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# GitHub Issues for B2X → B2X Rename
 
 **Created**: 2026-01-07  

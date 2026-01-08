@@ -34,7 +34,7 @@ Recommended: squash-and-merge for pull requests to keep history tidy.
 - **Historical documents**: Move to `.ai/archive/` after completion or when > 90 days old
 - **Temporary files**: Add to `.gitignore` and remove immediately after use
 
-See [BS-PROJECT-CLEANLINESS-STRATEGY.md](.ai/brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md) for detailed organization policy.
+See [BS-PROJECT-CLEANLINESS] for detailed organization policy.
 
 ### Issues
 - Use labels to classify issues. If an issue needs rewording, propose edits in a comment before applying changes.

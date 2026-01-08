@@ -1,3 +1,11 @@
+---
+docid: BS-029
+title: SEND EMAIL NOW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SEND-EMAIL-NOW
 title: "📧 SEND NOW: Leadership Review Email (Ready to Copy-Paste)"

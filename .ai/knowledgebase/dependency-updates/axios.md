@@ -1,4 +1,12 @@
 ---
+docid: KB-082
+title: Axios
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: axios
 current_version: 1.7.7
 source_files:

@@ -1,3 +1,11 @@
+---
+docid: WF-017
+title: WF 006 GITHUB_CLI_SPRINT_HOWTO
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GitHub CLI (gh) Sprint Management How-To Guide
 
 **Version:** 1.0  

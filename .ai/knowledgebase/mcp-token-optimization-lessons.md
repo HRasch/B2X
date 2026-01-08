@@ -1,4 +1,12 @@
 ---
+docid: KB-141
+title: Mcp Token Optimization Lessons
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-MCP-LESSONS
 title: MCP Token Optimization - Lessons Learned
 owner: "@SARAH"

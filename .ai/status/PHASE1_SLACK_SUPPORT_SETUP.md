@@ -1,3 +1,11 @@
+---
+docid: STATUS-032
+title: PHASE1_SLACK_SUPPORT_SETUP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Slack Support Setup
 
 **Channel**: #subagent-support  

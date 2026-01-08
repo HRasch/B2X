@@ -1,4 +1,12 @@
 ---
+docid: GL-088
+title: GL 051 AI READY DOCUMENTATION INTEGRATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-051
 title: AI-Ready Documentation Integration Guide
 category: guidelines

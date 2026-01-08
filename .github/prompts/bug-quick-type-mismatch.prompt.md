@@ -1,4 +1,12 @@
 ---
+docid: PRM-037
+title: Bug Quick Type Mismatch.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PRM-QBF-TYPE
 title: Quick Bug Fix - TypeScript Type Mismatches
 command: /bug-type-mismatch

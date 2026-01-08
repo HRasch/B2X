@@ -1,3 +1,11 @@
+---
+docid: REV-003
+title: ERP ARCHITECTURE REVIEW 2026 01 02
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🔍 ERP Domain Architecture Review
 
 **Date**: 2. Januar 2026  

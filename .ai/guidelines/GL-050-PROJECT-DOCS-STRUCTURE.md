@@ -1,4 +1,12 @@
 ---
+docid: GL-087
+title: GL 050 PROJECT DOCS STRUCTURE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-050
 title: Project Documentation Structure in docs/ Directory
 owner: "@DocMaintainer"

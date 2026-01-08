@@ -1,3 +1,11 @@
+---
+docid: ADR-114
+title: MIGRATION_ROADMAP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Component Migration Roadmap & Progress
 
 **Date:** December 30, 2025  

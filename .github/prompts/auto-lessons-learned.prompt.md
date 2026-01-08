@@ -1,4 +1,12 @@
 ---
+docid: PRM-026
+title: Auto Lessons Learned.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Auto-generate lessons learned entry after bug fix
 ---

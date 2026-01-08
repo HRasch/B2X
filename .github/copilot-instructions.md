@@ -1,3 +1,11 @@
+---
+docid: DOC-014
+title: Copilot Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿# GitHub Copilot Instructions
 
 **DocID**: `INS-000` (Master Instructions)

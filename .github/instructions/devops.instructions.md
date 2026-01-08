@@ -1,3 +1,11 @@
+---
+docid: INS-010
+title: Devops.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 applyTo: ".github/**,Dockerfile,docker-compose*,*.yml,*.yaml,**/infra/**,**/terraform/**"
 ---
@@ -182,4 +190,37 @@ docs-mcp/analyze_content_quality filePath="README.md"
 - [ ] `monitoring-mcp/collect_application_metrics` - Metrics collection active
 - [ ] `monitoring-mcp/monitor_system_performance` - System performance baseline
 - [ ] `docker-mcp/monitor_container_health` - Container health checks
+
+## Large File Editing Strategy ([GL-053])
+
+When editing large infrastructure files (>200 lines), use the Multi-Language Fragment Editing approach:
+
+### Pre-Edit Analysis
+```bash
+# Infrastructure validation
+docker-mcp/analyze_dockerfile filePath="Dockerfile"
+docker-mcp/validate_kubernetes_manifests filePath="k8s/deployment.yaml"
+
+# Security audit
+security-mcp/scan_vulnerabilities workspacePath="infrastructure"
+```
+
+### Fragment-Based Editing
+```bash
+# Read targeted sections only
+read_file("docker-compose.yml", startLine: 45, endLine: 85)
+
+# Apply infrastructure refactoring
+docker-mcp/analyze_docker_compose filePath="docker-compose.yml"
+
+# Validate changes
+docker-mcp/check_container_security imageName="nginx:latest"
+```
+
+### Quality Gates
+- Always run infrastructure validation after edits
+- Use `docker-mcp` and `security-mcp` for compliance checks
+- Test deployments in staging environment
+
+**Token Savings**: 70-85% vs. reading entire infrastructure files | **Quality**: Infrastructure security validation
 

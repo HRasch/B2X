@@ -1,4 +1,12 @@
 ---
+docid: DOCS-SALES-002
+title: DOCS SALES 001 B2XGATE OVERVIEW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: DOCS-SALES-001-B2XGATE-OVERVIEW
 title: "B2XGate Sales Overview: Platform Features, Pricing & ROI"
 category: Documentation

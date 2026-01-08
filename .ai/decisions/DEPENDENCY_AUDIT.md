@@ -1,3 +1,11 @@
+---
+docid: ADR-108
+title: DEPENDENCY_AUDIT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Dependency Audit Report
 
 **Date:** December 30, 2025  

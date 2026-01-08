@@ -1,3 +1,11 @@
+---
+docid: STATUS-052
+title: SUBAGENT_TIER1_DEPLOYMENT_GUIDE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Tier 1 Deployment Guide
 
 **Status**: ✅ READY FOR DEPLOYMENT  

@@ -1,3 +1,11 @@
+---
+docid: CMP-004
+title: COMPLIANCE_ADOPTION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📋 Compliance Documentation Adoption Guide
 
 **Status**: ✅ COMPLETE  

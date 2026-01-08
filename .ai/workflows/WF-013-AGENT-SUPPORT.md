@@ -1,4 +1,12 @@
 ---
+docid: WF-024
+title: WF 013 AGENT SUPPORT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WF-013
 title: Agent Support & Escalation Instructions
 owner: "@SARAH"

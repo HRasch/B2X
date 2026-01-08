@@ -1,3 +1,11 @@
+---
+docid: ADR-101
+title: ADR Entity Localization Pattern
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR: Entity Localization Pattern - Hybrid Default + Translations
 
 **Date:** January 1, 2026  

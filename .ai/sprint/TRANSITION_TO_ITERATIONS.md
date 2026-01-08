@@ -1,3 +1,11 @@
+---
+docid: SPR-158
+title: TRANSITION_TO_ITERATIONS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🔄 Iteration-Based Planning: Transition Complete
 
 **Date:** December 30, 2025  

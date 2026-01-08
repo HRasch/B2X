@@ -1,3 +1,11 @@
+---
+docid: CMP-005
+title: COMPLIANCE_ADOPTION_SUMMARY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # ✅ COMPLIANCE ADOPTION - COMPLETE
 
 **Status**: ✅ COMPLETE  

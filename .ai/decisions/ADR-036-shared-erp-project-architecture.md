@@ -1,3 +1,11 @@
+---
+docid: ADR-079
+title: ADR 036 Shared Erp Project Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-036: Shared ERP Project Architecture
 
 **Status:** Accepted  

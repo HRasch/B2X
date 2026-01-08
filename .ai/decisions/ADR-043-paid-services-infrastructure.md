@@ -1,3 +1,11 @@
+---
+docid: ADR-087
+title: ADR 043 Paid Services Infrastructure
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-043: Paid Services Infrastructure
 
 **Status**: Proposed  

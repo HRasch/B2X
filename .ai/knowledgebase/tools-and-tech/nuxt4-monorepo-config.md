@@ -1,3 +1,11 @@
+---
+docid: KB-180
+title: Nuxt4 Monorepo Config
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Nuxt 4 Monorepo Configuration Guide
 
 **DocID**: `KB-065`  

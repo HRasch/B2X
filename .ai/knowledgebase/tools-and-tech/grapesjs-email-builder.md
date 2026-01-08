@@ -1,3 +1,11 @@
+---
+docid: KB-172
+title: Grapesjs Email Builder
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# GrapesJS Email Builder Integration
 
 **DocID**: `KB-028`  

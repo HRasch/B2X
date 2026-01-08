@@ -1,3 +1,11 @@
+---
+docid: REQ-061
+title: REQ 007 Ux Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# REQ-007: Email WYSIWYG Builder - UX Analysis
 
 **Anforderung**: Email WYSIWYG Builder mit Drag&Drop für Marketing-Teams  

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-048
+title: CLEANUP_REPORT_2025_12_30
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # 🧹 Documentation Cleanup Report - 30.12.2025
 
 **Coordinator**: SARAH  

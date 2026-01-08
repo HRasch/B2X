@@ -1,3 +1,11 @@
+---
+docid: KB-178
+title: Monaco Editor Vue
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Monaco Editor - Vue.js Integration
 
 **DocID**: `KB-026`  

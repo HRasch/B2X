@@ -1,3 +1,11 @@
+---
+docid: GL-077
+title: GL 014 PRE RELEASE DEVELOPMENT PHASE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: GL-014
 title: Pre-Release Development Phase Policy

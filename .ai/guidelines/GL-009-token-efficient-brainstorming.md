@@ -1,3 +1,11 @@
+---
+docid: GL-072
+title: GL 009 Token Efficient Brainstorming
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🧠 Token-Efficient Brainstorming Strategy
 
 **DocID**: `GL-009`  

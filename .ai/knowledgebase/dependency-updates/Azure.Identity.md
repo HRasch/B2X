@@ -1,4 +1,12 @@
 ---
+docid: KB-083
+title: Azure.Identity
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Azure.Identity
 current_version: 1.13.0
 source_files:

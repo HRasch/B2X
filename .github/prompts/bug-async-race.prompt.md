@@ -1,4 +1,12 @@
 ---
+docid: PRM-028
+title: Bug Async Race.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for async race condition bugs
 ---

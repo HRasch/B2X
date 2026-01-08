@@ -1,4 +1,12 @@
 ---
+docid: TPL-017
+title: TPL SALES 001 SALES ENABLEMENT TEMPLATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TPL-SALES-001
 title: Sales Enablement Documentation Template
 category: Template

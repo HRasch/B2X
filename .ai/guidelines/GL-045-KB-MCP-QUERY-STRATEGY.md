@@ -1,3 +1,11 @@
+---
+docid: GL-081
+title: GL 045 KB MCP QUERY STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: GL-045
 title: KB-MCP Query Strategy - Dynamic Knowledge Loading

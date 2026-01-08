@@ -1,3 +1,11 @@
+---
+docid: CMP-003
+title: CMP 002 MCP SERVER SECURITY ASSESSMENT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: CMP-002
 title: MCP Server Security Assessment for REQ-004

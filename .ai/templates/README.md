@@ -1,3 +1,11 @@
+---
+docid: TPL-014
+title: README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Templates
 
 Standardisierte Vorlagen für GitHub Issues, PRs, etc.

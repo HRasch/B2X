@@ -1,3 +1,11 @@
+---
+docid: ADR-081
+title: ADR 038 Customer Integration Stages
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-038
 title: Customer Integration Stages Framework

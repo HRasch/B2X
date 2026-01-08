@@ -1,4 +1,12 @@
 ---
+docid: TASK-005
+title: Progress
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TASK-001
 title: Documentation improvements for multi-chat task management
 owner: "@DocMaintainer"

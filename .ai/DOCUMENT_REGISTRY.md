@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-126
+title: DOCUMENT_REGISTRY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 📚 Document Registry
 
 **Version:** 1.1  
@@ -180,6 +188,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-013` | Dependency Management Policy | `.ai/guidelines/GL-013-DEPENDENCY-MANAGEMENT.md` | Active |
 | `GL-014` | Pre-Release Development Phase | `.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md` | Active (until v1.0) |
 | `GL-042` | Token-Optimized i18n Strategy | `.ai/guidelines/GL-042-TOKEN-OPTIMIZED-I18N-STRATEGY.md` | Active |
+| `GL-043` | Multi-Language Fragment Editing Strategy | `.ai/guidelines/GL-043-multi-language-fragment-editing-strategy.md` | Active |
 | `GL-043` | Smart Attachment Strategy | `.ai/guidelines/GL-043-SMART-ATTACHMENT-STRATEGY.md` | Active |
 | `GL-044` | Fragment-Based File Access Strategy | `.ai/guidelines/GL-044-FRAGMENT-BASED-FILE-ACCESS.md` | Active |
 | `GL-045` | KB-MCP Query Strategy | `.ai/guidelines/GL-045-KB-MCP-QUERY-STRATEGY.md` | Active |
@@ -190,6 +199,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-050` | Project Documentation Structure in docs/ | `.ai/guidelines/GL-050-PROJECT-DOCS-STRUCTURE.md` | Active |
 | `GL-051` | AI-Ready Documentation Integration Guide | `.ai/guidelines/GL-051-AI-READY-DOCUMENTATION-INTEGRATION.md` | Active |
 | `GL-052` | Role-Based Documentation Access & Audience Segregation | `.ai/guidelines/GL-052-ROLE-BASED-DOCUMENTATION-ACCESS.md` | Active |
+| `GL-053` | Multi-Language Fragment Editing Strategy | `.ai/guidelines/GL-053-multi-language-fragment-editing.md` | Active |
 
 ---
 
@@ -496,6 +506,54 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `DOC-006` | Project Dashboard | `PROJECT_DASHBOARD.md` | Active |
 | `DOC-007` | Governance | `GOVERNANCE.md` | Active |
 | `DOC-008` | UX Guide | `docs/guides/UX_GUIDE.md` | Active |
+| `DOC-009` | Copilot Specifications | `.copilot-specs.md` | Active |
+| `DOC-APPHOST-SPEC` | AppHost Specifications | `APPHOST_SPECIFICATIONS.md` | Active |
+| `DOC-APPHOST-QUICKSTART` | AppHost Quick Start Guide | `APPHOST_QUICKSTART.md` | Active |
+| `DOC-CMS-OVERVIEW` | CMS Business Overview | `CMS_OVERVIEW.md` | Active |
+| `DOC-CMS-IMPLEMENTATION` | CMS Technical Implementation Details | `CMS_IMPLEMENTATION_UPDATE.md` | Active |
+
+---
+
+## Registry: Tasks (TASK-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `TASK-001` | Active Tasks | `.ai/tasks/ACTIVE_TASKS.md` | Active |
+| `TASK-002` | Brief Template | `.ai/tasks/BRIEF_TEMPLATE.md` | Active |
+| `TASK-003` | Progress Template | `.ai/tasks/PROGRESS_TEMPLATE.md` | Active |
+| `TASK-004` | Documentation Improvements Brief | `.ai/tasks/task-001-documentation-improvements/brief.md` | Active |
+| `TASK-005` | Documentation Improvements Progress | `.ai/tasks/task-001-documentation-improvements/progress.md` | Active |
+| `TASK-006` | First Operational Dispatch Brief | `.ai/tasks/task-002-first-operational-dispatch/brief.md` | Active |
+| `TASK-007` | First Operational Dispatch Progress | `.ai/tasks/task-002-first-operational-dispatch/progress.md` | Active |
+
+---
+
+## Registry: Proposals (PROP-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `PROP-001` | Backend Instructions Proposal | `.ai/proposals/instruction-updates/backend-instructions-proposal.md` | Active |
+| `PROP-002` | DevOps Instructions Proposal | `.ai/proposals/instruction-updates/devops-instructions-proposal.md` | Active |
+| `PROP-003` | Frontend Instructions Proposal | `.ai/proposals/instruction-updates/frontend-instructions-proposal.md` | Active |
+| `PROP-004` | PR Ready for CopilotExpert | `.ai/proposals/instruction-updates/PR_READY_FOR_COPILOTEXPERT.md` | Active |
+| `PROP-005` | Instruction Updates README | `.ai/proposals/instruction-updates/README.md` | Active |
+| `PROP-006` | Security Instructions Proposal | `.ai/proposals/instruction-updates/security-instructions-proposal.md` | Active |
+| `PROP-007` | Testing Instructions Proposal | `.ai/proposals/instruction-updates/testing-instructions-proposal.md` | Active |
+| `PROP-008` | Updated Backend Instructions | `.ai/proposals/instruction-updates/updated/backend.instructions.md` | Active |
+| `PROP-009` | Updated DevOps Instructions | `.ai/proposals/instruction-updates/updated/devops.instructions.md` | Active |
+| `PROP-010` | Updated Frontend Instructions | `.ai/proposals/instruction-updates/updated/frontend.instructions.md` | Active |
+| `PROP-011` | Updated Security Instructions | `.ai/proposals/instruction-updates/updated/security.instructions.md` | Active |
+| `PROP-012` | Updated Testing Instructions | `.ai/proposals/instruction-updates/updated/testing.instructions.md` | Active |
+
+---
+
+## Registry: Reviews (REV-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `REV-001` | ADR-032 Review Request | `.ai/reviews/ADR-032-review-request.md` | Active |
+| `REV-002` | eGate Adoption Review 2026-01-03 | `.ai/reviews/eGate-adoption-review-2026-01-03.md` | Active |
+| `REV-003` | ERP Architecture Review 2026-01-02 | `.ai/reviews/ERP-ARCHITECTURE-REVIEW-2026-01-02.md` | Active |
 
 ---
 

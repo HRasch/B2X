@@ -1,3 +1,11 @@
+---
+docid: ADR-055
+title: ADR 021 Archunitnet Architecture Testing
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-021: ArchUnitNET for Automated Architecture Testing
 
 **Status:** Accepted  

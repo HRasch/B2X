@@ -1,3 +1,11 @@
+---
+docid: SPR-142
+title: SPR 028 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-028-RETRO
 title: Sprint 2026-28 Retrospective - Advanced AI Model Versioning & Predictive Maintenance

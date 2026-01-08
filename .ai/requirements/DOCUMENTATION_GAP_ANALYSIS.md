@@ -1,3 +1,11 @@
+---
+docid: REQ-046
+title: DOCUMENTATION_GAP_ANALYSIS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 📦 B2X Feature Documentation - Gap Analysis
 
 **DocID**: `REQ-003`  

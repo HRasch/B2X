@@ -1,4 +1,12 @@
 ---
+docid: GL-094
+title: QS AI DOCS QUICK START
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: QS-AI-DOCS
 title: AI-Ready Documentation Quick Start
 category: Quick Start Guides

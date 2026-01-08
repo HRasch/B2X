@@ -1,3 +1,11 @@
+---
+docid: KB-189
+title: Typescript Any Elimination Success Story
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# TypeScript Any Type Elimination - Success Story
 
 **DocID**: `KB-TS-ANY-ELIMINATION`  

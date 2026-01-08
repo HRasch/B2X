@@ -1,3 +1,11 @@
+---
+docid: SPR-041
+title: GITHUB_PROJECTS_UPDATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Sprint Planning Update - GitHub Projects Integration
 
 **Date:** 2025-12-30  

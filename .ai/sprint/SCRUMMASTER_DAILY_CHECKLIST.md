@@ -1,3 +1,11 @@
+---
+docid: SPR-065
+title: SCRUMMASTER_DAILY_CHECKLIST
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📋 @ScrumMaster Daily Operations Checklist
 
 **Responsibility:** Daily standup facilitation, velocity tracking, metrics refresh  

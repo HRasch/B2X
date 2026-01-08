@@ -1,3 +1,11 @@
+---
+docid: ADR-063
+title: ADR 026 Bmecat Catalog Import Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-026: BMEcat Catalog Import Architecture
 
 **Status**: Proposed  

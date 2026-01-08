@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-154
+title: Request Copilotexpert Apply
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Title: Request - apply instruction updates to `.github/instructions/`
 Owner: @CopilotExpert
 CreatedBy: @SARAH

@@ -1,3 +1,11 @@
+---
+docid: SPR-101
+title: SPR 012 Execution Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-012: Sprint Execution Summary - ML Maturity & Infrastructure Scaling
 
 ## Sprint Overview

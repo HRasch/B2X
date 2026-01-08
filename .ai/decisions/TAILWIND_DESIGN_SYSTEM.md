@@ -1,3 +1,11 @@
+---
+docid: ADR-119
+title: TAILWIND_DESIGN_SYSTEM
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Tailwind CSS Design System Planning
 
 **Date:** December 30, 2025  

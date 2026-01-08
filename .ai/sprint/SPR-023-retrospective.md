@@ -1,3 +1,11 @@
+---
+docid: SPR-130
+title: SPR 023 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-023-RETRO
 title: Sprint 2026-23 Retrospective - AI Scalability Enhancement & Compliance Adaptation

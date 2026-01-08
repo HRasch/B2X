@@ -1,3 +1,11 @@
+---
+docid: REQ-062
+title: REQ 035 Mcp Cli Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# REQ-035: MCP-Enabled AI Assistant with CLI Operations Access
 
 ## Feature Overview

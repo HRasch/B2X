@@ -1,4 +1,12 @@
 ---
+docid: AGT-027
+title: Legal.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 description: 'Legal & Compliance - GDPR, NIS2, BITV 2.0, AI Act'
 tools: ['agent', 'vscode', 'read']
 model: claude-haiku-4.5

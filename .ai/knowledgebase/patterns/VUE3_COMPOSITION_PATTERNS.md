@@ -1,3 +1,11 @@
+---
+docid: KB-147
+title: VUE3_COMPOSITION_PATTERNS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🎨 Vue 3 Composition Patterns
 
 **Audience**: Frontend developers  

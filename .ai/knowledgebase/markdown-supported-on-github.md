@@ -1,3 +1,11 @@
+---
+docid: KB-139
+title: Markdown Supported On Github
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Supported Markdown Syntax on GitHub (GFM)
 
 This page summarizes the Markdown features supported by GitHub (GitHub Flavored Markdown — GFM), with short examples and notes about limitations.

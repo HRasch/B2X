@@ -1,3 +1,11 @@
+---
+docid: ADR-068
+title: ADR 029 Business Process Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Geschäftsprozesse in B2X - Punchout Integration Analyse
 
 **Status:** Analyse abgeschlossen  

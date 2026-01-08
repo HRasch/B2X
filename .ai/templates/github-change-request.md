@@ -1,4 +1,12 @@
 ---
+docid: TPL-010
+title: Github Change Request
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 name: 🔄 Change Request
 about: Template für Änderungswünsche und Anpassungen
 title: "[CHANGE] [TITLE]"

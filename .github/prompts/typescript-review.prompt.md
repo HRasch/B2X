@@ -1,3 +1,11 @@
+---
+docid: PRM-055
+title: Typescript Review.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 # TypeScript Code Review Prompt
 
 **DocID**: `PRM-016`

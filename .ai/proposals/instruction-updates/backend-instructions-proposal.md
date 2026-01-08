@@ -1,3 +1,11 @@
+---
+docid: PROP-001
+title: Backend Instructions Proposal
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Proposed additions to `.github/instructions/backend.instructions.md` (for CopilotExpert review):
 
 1) Add Plan-Act-Control section mapping:

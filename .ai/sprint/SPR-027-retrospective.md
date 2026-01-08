@@ -1,3 +1,11 @@
+---
+docid: SPR-140
+title: SPR 027 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-027-RETRO
 title: Sprint 2026-27 Retrospective - AI Model Governance & Advanced Compliance Intelligence

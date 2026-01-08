@@ -1,3 +1,11 @@
+---
+docid: REQ-049
+title: PRODUCT_VISION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Product Vision
 
 ## Vision Statement

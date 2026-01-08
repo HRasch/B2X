@@ -1,3 +1,11 @@
+---
+docid: CMP-008
+title: Vendor Contracts
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿Vendor Contracts & References
 
 This file lists references to vendor contracts and the recommended storage location.

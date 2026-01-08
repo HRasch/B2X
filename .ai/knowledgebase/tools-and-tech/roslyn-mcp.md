@@ -1,3 +1,11 @@
+---
+docid: KB-181
+title: Roslyn Mcp
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-052
 title: Roslyn MCP Server for Code Analysis

@@ -1,3 +1,11 @@
+---
+docid: ADR-117
+title: PHASE_2_MIGRATION_PROGRESS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Phase 2 Development: Component Migration Progress
 
 **Date:** December 30, 2025  

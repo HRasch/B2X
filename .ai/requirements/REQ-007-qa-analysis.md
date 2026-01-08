@@ -1,3 +1,11 @@
+---
+docid: REQ-060
+title: REQ 007 Qa Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# @QA Analyse für REQ-007 Email WYSIWYG Builder (v2.0)
 
 **Anforderung**: Email WYSIWYG Builder mit Drag&Drop für Marketing-Teams  

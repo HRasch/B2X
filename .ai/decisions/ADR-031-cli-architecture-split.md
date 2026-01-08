@@ -1,3 +1,11 @@
+---
+docid: ADR-074
+title: ADR 031 Cli Architecture Split
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-031: CLI Architecture Split - Operations vs. Administration
 
 **Status:** Proposed  

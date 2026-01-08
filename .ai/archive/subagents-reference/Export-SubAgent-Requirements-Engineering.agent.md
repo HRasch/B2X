@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-082
+title: Export SubAgent Requirements Engineering.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 description: 'Export helper for requirements engineering: user stories, acceptance criteria, and testable artifacts.'
 tools: ['read','search','edit']
 model: 'gpt-5-mini'

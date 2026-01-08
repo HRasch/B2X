@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-084
+title: Export SubAgent UX.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 description: 'Export helper for UX handoffs: research summary, personas, goals, and acceptance criteria.'
 tools: ['read','search','edit']
 model: 'gpt-5-mini'

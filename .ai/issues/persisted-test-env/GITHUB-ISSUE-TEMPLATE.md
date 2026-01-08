@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-155
+title: GITHUB ISSUE TEMPLATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 issue_id: gh-issue-persisted-test-env
 title: Persisted Test Environment - Sprint Planning

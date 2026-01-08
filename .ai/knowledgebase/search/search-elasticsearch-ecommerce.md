@@ -1,3 +1,11 @@
+---
+docid: KB-152
+title: Search Elasticsearch Ecommerce
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Elasticsearch for E‑commerce Search & Recommendations — Best Practices
 
 Purpose

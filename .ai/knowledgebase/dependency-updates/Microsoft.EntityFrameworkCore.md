@@ -1,4 +1,12 @@
 ---
+docid: KB-090
+title: Microsoft.EntityFrameworkCore
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Microsoft.EntityFrameworkCore
 current_version: 10.0.1
 source_files:

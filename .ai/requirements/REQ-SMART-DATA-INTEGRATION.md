@@ -1,3 +1,11 @@
+---
+docid: REQ-067
+title: REQ SMART DATA INTEGRATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: REQ-SMART-DATA-INTEGRATION
 title: Smart Data Integration Assistant - Requirements

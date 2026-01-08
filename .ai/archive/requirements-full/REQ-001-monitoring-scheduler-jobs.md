@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-041
+title: REQ 001 Monitoring Scheduler Jobs
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿# Monitoring for Scheduler Jobs: Requirements Analysis
 
 **DocID**: `REQ-001`  

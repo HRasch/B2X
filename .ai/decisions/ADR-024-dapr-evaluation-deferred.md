@@ -1,3 +1,11 @@
+---
+docid: ADR-059
+title: ADR 024 Dapr Evaluation Deferred
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-024: Dapr Evaluation - Deferred
 
 **Status**: Accepted  

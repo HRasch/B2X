@@ -1,3 +1,11 @@
+---
+docid: ADR-104
+title: ARCHITECTURE_REVIEW_2025_12_30
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🏛️ B2X Architecture Review
 
 **Review Date:** December 30, 2025  

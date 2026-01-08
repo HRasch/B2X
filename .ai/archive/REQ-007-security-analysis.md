@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-040
+title: REQ 007 Security Analysis
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿# REQ-007: Email WYSIWYG Builder - Security Analysis
 
 **DocID**: `REQ-007-SECURITY-ANALYSIS`  

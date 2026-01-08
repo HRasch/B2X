@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-172
+title: Bug Async Race.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for async race condition bugs
 ---

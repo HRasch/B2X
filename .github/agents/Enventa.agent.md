@@ -1,4 +1,12 @@
 ---
+docid: AGT-025
+title: Enventa.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 description: 'Enventa ERP Integration - enventa Trade, Actor pattern, gRPC'
 tools: ['agent', 'vscode', 'read', 'edit']
 model: claude-haiku-4.5

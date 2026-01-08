@@ -1,3 +1,11 @@
+---
+docid: KB-115
+title: Enventa Trade Erp
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# enventa Trade ERP - Integration Guide
 
 **DocID**: `KB-021`  

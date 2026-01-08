@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-173
+title: Bug I18n Missing.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for missing i18n translation keys
 ---

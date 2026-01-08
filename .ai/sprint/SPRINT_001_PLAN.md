@@ -1,3 +1,11 @@
+---
+docid: SPR-149
+title: SPRINT_001_PLAN
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 Iteration 001: AI-DEV Framework Setup & Foundation
 
 **Goal:** Establish AI-DEV framework, setup core infrastructure, and plan Phase 1 deliverables  

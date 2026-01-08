@@ -1,3 +1,11 @@
+---
+docid: KB-176
+title: Local Llm Models 2025
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-018
 title: Beste lokale LLM-Modelle für Entwicklung (2025/2026)

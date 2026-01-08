@@ -1,4 +1,12 @@
 ---
+docid: SPR-066
+title: SPR 001 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-001
 title: Sprint 2026-01 Planning
 owner: @ScrumMaster

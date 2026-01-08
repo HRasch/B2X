@@ -1,3 +1,11 @@
+---
+docid: ADR-082
+title: ADR 039 Instruction Protection
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-039
 title: Agent Instruction Protection Strategy

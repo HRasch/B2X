@@ -1,4 +1,12 @@
 ---
+docid: TASK-004
+title: Brief
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TASK-001-BRIEF
 title: Documentation improvements for multi-chat task management
 owner: "@SARAH"

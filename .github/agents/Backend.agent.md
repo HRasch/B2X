@@ -1,3 +1,11 @@
+---
+docid: AGT-020
+title: Backend.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 description: 'Backend: .NET 10, Wolverine CQRS, DDD'
 tools: ['vscode', 'execute', 'read', 'edit', 'copilot-container-tools/*', 'todo']

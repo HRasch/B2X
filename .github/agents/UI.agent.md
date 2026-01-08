@@ -1,4 +1,12 @@
 ---
+docid: AGT-035
+title: UI.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 description: 'UI Expert specializing in design systems, component libraries, theming and visual consistency'
 tools: ['edit', 'search', 'vscode', 'agent']
 model: 'gpt-5-mini'

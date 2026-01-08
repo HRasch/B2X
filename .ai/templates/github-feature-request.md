@@ -1,4 +1,12 @@
 ---
+docid: TPL-011
+title: Github Feature Request
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 name: ✨ Feature Request
 about: Template für neue Features und Funktionen
 title: "[FEATURE] [TITLE]"

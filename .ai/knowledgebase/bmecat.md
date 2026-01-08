@@ -1,3 +1,11 @@
+---
+docid: KB-074
+title: Bmecat
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# BMEcat - Business Messaging e-Catalog Format
 
 **Last Updated**: 3. Januar 2026  

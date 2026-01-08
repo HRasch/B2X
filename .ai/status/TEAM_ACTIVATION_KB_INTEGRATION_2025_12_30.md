@@ -1,3 +1,11 @@
+---
+docid: STATUS-056
+title: TEAM_ACTIVATION_KB_INTEGRATION_2025_12_30
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 Team Activation: Knowledge Base Integration Phase 1
 
 **Date**: 30. Dezember 2025, 18:00 UTC  

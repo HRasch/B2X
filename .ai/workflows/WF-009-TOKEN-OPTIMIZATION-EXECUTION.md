@@ -1,4 +1,12 @@
 ---
+docid: WF-020
+title: WF 009 TOKEN OPTIMIZATION EXECUTION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WF-009
 title: Token Optimization Implementation - 20-Day Execution Plan
 owner: "@SARAH"

@@ -61,7 +61,16 @@ if [ $METADATA_ERRORS -eq 0 ]; then
     echo "✅ Metadata validation passed (no critical issues)"
     exit 0
 else
-    echo "⚠️  Metadata validation found $METADATA_ERRORS issues"
-    echo "These are warnings, not blocking errors"
-    exit 0  # Don't fail CI, just warn
+    echo "❌ Metadata validation failed: $METADATA_ERRORS issues found"
+    echo "Please fix missing metadata fields in the listed files"
+    exit 1  # Fail CI build
+fi
+
+# Run quality monitoring (weekly reports)
+echo ""
+echo "📊 Running documentation quality monitoring..."
+if [ -f "scripts/docs-quality-monitor.sh" ]; then
+    bash scripts/docs-quality-monitor.sh
+else
+    echo "⚠️  Quality monitoring script not found"
 fi

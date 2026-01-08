@@ -77,7 +77,7 @@
         "DOTNET_ENVIRONMENT": "Production",
         "LOG_TO_CONSOLE": "false"
       },
-      "disabled": true
+      "disabled": false
     },
     "security-mcp": {
       "command": "node",
@@ -232,7 +232,33 @@
         "NODE_ENV": "production",
         "LOG_TO_CONSOLE": "true"
       },
+      "disabled": false    },
+    "i18n-mcp": {
+      "command": "node",
+      "args": [
+        "scripts/mcp-console-logger.js",
+        "i18n-mcp",
+        "node",
+        "tools/I18nMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production",
+        "LOG_TO_CONSOLE": "true"
+      },
       "disabled": false
     },
+    "testing-mcp": {
+      "command": "node",
+      "args": [
+        "scripts/mcp-console-logger.js",
+        "testing-mcp",
+        "node",
+        "tools/TestingMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production",
+        "LOG_TO_CONSOLE": "true"
+      },
+      "disabled": false    },
   }
 }

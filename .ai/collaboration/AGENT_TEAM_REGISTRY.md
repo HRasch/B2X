@@ -1,3 +1,11 @@
+---
+docid: COLLAB-012
+title: AGENT_TEAM_REGISTRY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🤖 AI Agent Team Registry
 
 **DocID**: `AGT-INDEX`  

@@ -1,4 +1,12 @@
 ---
+docid: ADR-094
+title: ADR 050 Typescript Mcp Server
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: ADR-050
 title: TypeScript MCP Server for AI-Assisted Development
 owner: @SARAH

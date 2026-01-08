@@ -1,3 +1,11 @@
+---
+docid: WF-011
+title: Project Cleanup.Workflow
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Project Cleanup Workflow
 
 **Version:** 1.0  

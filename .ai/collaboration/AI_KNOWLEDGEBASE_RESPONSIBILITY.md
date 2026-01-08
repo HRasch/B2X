@@ -1,3 +1,11 @@
+---
+docid: COLLAB-014
+title: AI_KNOWLEDGEBASE_RESPONSIBILITY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🤖 AI Knowledgebase Management - GitHub Copilot Responsibilities
 
 **Status**: ✅ ACTIVE  

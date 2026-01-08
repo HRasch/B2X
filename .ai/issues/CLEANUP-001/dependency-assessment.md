@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-146
+title: Dependency Assessment
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Dependency Assessment Report - CLEANUP-001
 
 ## Executive Summary

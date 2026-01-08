@@ -1,3 +1,11 @@
+---
+docid: REQ-042
+title: ANALYSIS SMART DATA INTEGRATION FRONTEND
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND
 title: Smart Data Integration Assistant - Frontend Analysis

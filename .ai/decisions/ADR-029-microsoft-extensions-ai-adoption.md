@@ -1,3 +1,11 @@
+---
+docid: ADR-070
+title: ADR 029 Microsoft Extensions Ai Adoption
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-029
 title: Microsoft.Extensions.AI Adoption for MCP Server

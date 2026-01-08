@@ -1,3 +1,11 @@
+---
+docid: GL-064
+title: GL 004 Production Bug Handling
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Production Bug Capture & Handling Strategy
 
 **DocID**: `GL-004`

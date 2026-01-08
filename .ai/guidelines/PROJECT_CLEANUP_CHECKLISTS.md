@@ -1,3 +1,11 @@
+---
+docid: GL-091
+title: PROJECT_CLEANUP_CHECKLISTS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Project Cleanup Checklists
 
 **Quick Reference for Cleanup Tasks**

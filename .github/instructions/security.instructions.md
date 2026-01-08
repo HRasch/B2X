@@ -1,4 +1,12 @@
 ---
+docid: INS-013
+title: Security.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: "**/*"
 ---
 

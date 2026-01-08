@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-165
+title: Pr_microsoft_extensions_http_resilience
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: "chore(deps): bump Microsoft.Extensions.Http.Resilience to 10.1.0"
 branch: chore/pr-microsoft-extensions-http-resilience-10.1.0
 labels: [dependencies, infra, needs-review]

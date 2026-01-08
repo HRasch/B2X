@@ -1,4 +1,12 @@
 ---
+docid: AGT-019
+title: Architect.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 description: 'System Architect - Design, patterns, ADRs, scalability'
 tools: ['agent', 'vscode', 'read', 'edit']
 model: claude-haiku-4.5

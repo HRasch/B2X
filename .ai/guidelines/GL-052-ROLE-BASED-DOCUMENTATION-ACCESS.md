@@ -1,4 +1,12 @@
 ---
+docid: GL-090
+title: GL 052 ROLE BASED DOCUMENTATION ACCESS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-052
 title: Role-Based Documentation Access & Audience Segmentation
 category: guidelines

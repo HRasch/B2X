@@ -1,3 +1,11 @@
+---
+docid: REV-002
+title: EGate Adoption Review 2026 01 03
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🔍 eGate Enventa Adoption - Architecture & Technical Review
 
 **Date**: January 3, 2026  

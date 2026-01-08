@@ -1,4 +1,12 @@
 ---
+docid: BS-014
+title: BS TASK CLEANUP COMPLETE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: BS-TASK-CLEANUP-COMPLETE
 title: Task Cleanup Infrastructure Complete
 owner: "@SARAH"

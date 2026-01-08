@@ -1,3 +1,11 @@
+---
+docid: WF-012
+title: WF 001 Context Optimization.Workflow
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Context Optimization Workflow
 
 **Version:** 1.0  
@@ -332,7 +340,7 @@ Scripts to help:
 ### Related Documentation
 - [CONTEXT_OPTIMIZATION.md](.ai/guidelines/CONTEXT_OPTIMIZATION.md)
 - [context-optimization.prompt.md](.github/prompts/context-optimization.prompt.md)
-- [Knowledgebase INDEX](.ai/knowledgebase/INDEX.md)
+- [Knowledgebase INDEX](KB-INDEX)
 - [Agent Definitions](.github/agents/)
 
 ---

@@ -1,3 +1,11 @@
+---
+docid: INS-014
+title: Testing.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 ---
@@ -416,4 +424,97 @@ vue-mcp/analyze_bundle workspacePath="frontend/Store"
 - MCP validation failures should fail test suite
 - Document MCP exceptions in test reports
 - Re-run MCP after fixing issues to verify resolution
+
+## Large File Editing Strategy ([GL-043])
+
+When editing large test files (>200 lines), use the Multi-Language Fragment Editing approach with Testing MCP integration:
+
+### Pre-Edit Analysis
+```bash
+# Test structure analysis
+testing-mcp/validate_test_coverage workspacePath="backend" testFile="ServiceTests.cs"
+
+# Mock validation
+testing-mcp/analyze_mocks workspacePath="backend" testFile="ServiceTests.cs"
+
+# Test data integrity check
+testing-mcp/validate_test_data workspacePath="backend" testFile="IntegrationTests.cs"
+```
+
+### Fragment-Based Editing Patterns
+```csharp
+// Fragment: Test method (82% token savings)
+[Fact]
+public async Task ProcessOrder_ValidRequest_ReturnsSuccess()
+{
+    // Arrange - edit only test setup
+    var request = new OrderRequest { /* test data */ };
+    var mockValidator = new Mock<IOrderValidator>();
+    
+    // Act - single test action
+    var result = await _sut.ProcessOrderAsync(request);
+    
+    // Assert - focused assertions
+    result.IsSuccess.Should().BeTrue();
+}
+```
+
+**Testing MCP Workflows**:
+```bash
+# 1. Test coverage validation
+testing-mcp/validate_test_coverage workspacePath="backend" testFile="ServiceTests.cs"
+
+# 2. Mock analysis and validation
+testing-mcp/analyze_mocks workspacePath="backend" testFile="ServiceTests.cs"
+testing-mcp/validate_mock_setup testFile="ServiceTests.cs"
+
+# 3. Test data integrity
+testing-mcp/validate_test_data workspacePath="backend" testFile="IntegrationTests.cs"
+
+# 4. Performance test validation
+testing-mcp/analyze_performance_tests workspacePath="backend" testFile="LoadTests.cs"
+
+# 5. Contract test validation
+testing-mcp/validate_contract_tests workspacePath="backend/Gateway" testFile="ApiContractTests.cs"
+```
+
+### Integration with Other MCP Tools
+```bash
+# Database test validation
+database-mcp/validate_schema connectionString="Server=localhost;Database=B2X_test"
+
+# API documentation validation
+api-mcp/validate_openapi filePath="backend/Gateway/Store/openapi.yaml"
+
+# i18n test validation
+i18n-mcp/validate_translation_keys workspacePath="frontend/Store" localePath="locales"
+```
+
+### Quality Gates
+- Always run `runTests()` after edits
+- Use `testing-mcp/validate_test_coverage` for test validation
+- Ensure no regression in coverage metrics (>80% maintained)
+- Validate mock integrity and test data consistency
+
+**Token Savings**: 82% vs. reading entire test files | **Quality**: Test integrity validation with coverage enforcement
+
+## Temp-File Usage for Token Optimization
+
+For large test outputs (e.g., coverage reports, logs >1KB), save to temp files to reduce token consumption:
+
+```bash
+# Auto-save large test output
+OUTPUT=$(dotnet test --verbosity minimal 2>&1)
+if [ $(echo "$OUTPUT" | wc -c) -gt 1024 ]; then
+  bash scripts/temp-file-manager.sh create "$OUTPUT" txt
+else
+  echo "$OUTPUT"
+fi
+
+# Reference in prompts/responses
+"See temp file: .ai/temp/task-uuid.json (5KB saved)"
+```
+
+- Auto-cleanup after 1 hour or task completion.
+- Complements [GL-006] token optimization strategy.
 

@@ -1,3 +1,11 @@
+---
+docid: KB-184
+title: Stylecop Analyzers
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# StyleCop Analyzers Documentation
 
 **DocID**: `KB-019`  

@@ -1,4 +1,12 @@
 ---
+docid: TPL-018
+title: TPL USERDOC 001 USER DOCS TEMPLATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TPL-USERDOC-001
 title: User Documentation Template
 category: Documentation Templates

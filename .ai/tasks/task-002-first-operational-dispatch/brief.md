@@ -1,4 +1,12 @@
 ---
+docid: TASK-006
+title: Brief
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TASK-002-BRIEF
 title: First Operational Task Dispatch
 owner: "@SARAH"

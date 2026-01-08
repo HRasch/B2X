@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-147
+title: Documentation Assessment
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Documentation Assessment Report - CLEANUP-001
 
 ## Executive Summary

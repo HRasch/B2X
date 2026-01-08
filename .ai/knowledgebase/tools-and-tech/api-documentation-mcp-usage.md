@@ -1,3 +1,11 @@
+---
+docid: KB-162
+title: Api Documentation Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# API Documentation MCP Usage Guide
 
 **DocID**: `KB-059`

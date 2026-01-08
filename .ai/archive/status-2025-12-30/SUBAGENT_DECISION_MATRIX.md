@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-069
+title: SUBAGENT_DECISION_MATRIX
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # SubAgent Decision Matrix - Quick Reference
 
 **Created:** 30.12.2025  

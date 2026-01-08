@@ -1,3 +1,11 @@
+---
+docid: ADR-062
+title: ADR 025 Gateway Service Communication Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-025: Gateway-Service Communication Strategy
 
 **Status**: Accepted  

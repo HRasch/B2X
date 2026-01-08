@@ -1,3 +1,11 @@
+---
+docid: SPR-090
+title: Daily Standups
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Daily Standups - Sprint 2026-09
 
 ## Day 1 (Jan 21): Sprint Kickoff

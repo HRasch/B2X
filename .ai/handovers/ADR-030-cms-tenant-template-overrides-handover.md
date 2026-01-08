@@ -1,3 +1,11 @@
+---
+docid: FH-001
+title: ADR 030 Cms Tenant Template Overrides Handover
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-030 CMS Tenant Template Overrides - Feature Handover
 
 **DocID**: `FH-030`  

@@ -1,3 +1,11 @@
+---
+docid: GL-060
+title: GL 001 COMMUNICATION OVERVIEW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent-SubAgent Communication Overview
 
 **Status:** ✅ GUIDELINES DEFINED  

@@ -1,3 +1,11 @@
+---
+docid: ADR-109
+title: DEPENDENCY_NOTES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Dependency Update Notes
 
 **Date:** December 30, 2025  

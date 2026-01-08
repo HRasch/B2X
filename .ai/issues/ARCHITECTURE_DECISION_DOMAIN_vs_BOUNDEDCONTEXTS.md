@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-143
+title: ARCHITECTURE_DECISION_DOMAIN_vs_BOUNDEDCONTEXTS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Issue: Standardize Backend Structure - Domain vs BoundedContexts
 
 **Title**: Standardize Backend Directory Structure: Align with DDD Terminology  

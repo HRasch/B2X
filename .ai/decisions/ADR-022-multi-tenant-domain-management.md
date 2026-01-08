@@ -1,3 +1,11 @@
+---
+docid: ADR-056
+title: ADR 022 Multi Tenant Domain Management
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-022: Multi-Tenant Domain Management Strategy
 
 **Status**: Proposed  

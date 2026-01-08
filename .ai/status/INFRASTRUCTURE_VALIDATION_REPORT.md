@@ -1,3 +1,11 @@
+---
+docid: STATUS-013
+title: INFRASTRUCTURE_VALIDATION_REPORT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Infrastructure Validation Report
 
 **Date**: 30. Dezember 2025  

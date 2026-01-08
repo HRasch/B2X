@@ -1,3 +1,11 @@
+---
+docid: SPR-121
+title: SPR 019 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-019-RETRO
 title: Sprint 2026-19 Retrospective - Advanced AI Metrics & Compliance Automation

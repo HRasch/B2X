@@ -1,4 +1,12 @@
 ---
+docid: SPR-071
+title: SPR 003 Advanced Monitoring Feedback
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-003
 title: Sprint 2026-03 Execution - Advanced Monitoring & User Feedback
 owner: @ScrumMaster

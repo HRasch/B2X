@@ -1,3 +1,11 @@
+---
+docid: SPR-033
+title: Backlog
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Product Backlog
 
 Priorisierte Liste aller User Stories und Tasks.

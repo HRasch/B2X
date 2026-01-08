@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-122
+title: Nuget And Npm Candidates 2026 01 06
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Dependency upgrade candidates (scan: 2026-01-06)
 
 Summary of candidate updates discovered by scan across the workspace.

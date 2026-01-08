@@ -1,4 +1,12 @@
 ---
+docid: ADR-073
+title: ADR 030 Vue I18n V11 Migration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: ADR-030
 title: Vue-i18n v10 to v11 Migration
 status: Accepted

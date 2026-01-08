@@ -1,4 +1,12 @@
 ---
+docid: GL-085
+title: GL 049 DOCUMENTATION STRUCTURE FRAMEWORK
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-049
 title: Documentation Structure Framework - Clear Category Separation
 owner: "@DocMaintainer"

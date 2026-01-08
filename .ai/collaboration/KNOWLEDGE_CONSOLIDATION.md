@@ -1,3 +1,11 @@
+---
+docid: COLLAB-021
+title: KNOWLEDGE_CONSOLIDATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Knowledge Consolidation Framework
 
 ## Überblick

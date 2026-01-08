@@ -1,3 +1,11 @@
+---
+docid: PROP-007
+title: Testing Instructions Proposal
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Proposed additions to `.github/instructions/testing.instructions.md` (for CopilotExpert review):
 
 1) Contract testing:

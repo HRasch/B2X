@@ -1,4 +1,12 @@
 ---
+docid: WF-021
+title: WF 010 DOCUMENTATION MAINTENANCE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WF-010
 title: Documentation Maintenance & Quality Workflow
 category: Workflows

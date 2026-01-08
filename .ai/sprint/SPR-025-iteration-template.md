@@ -1,3 +1,11 @@
+---
+docid: SPR-133
+title: SPR 025 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-025: Sprint 2026-25 Planning - AI Performance Tuning & Global Analytics Scaling
 
 **DocID**: SPR-025  

@@ -1,3 +1,11 @@
+---
+docid: STATUS-034
+title: PHASE1_TRAINING_MATERIALS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Phase 1 Training Materials
 
 **Duration**: 45 minutes  

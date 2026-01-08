@@ -1,3 +1,11 @@
+---
+docid: COLLAB-023
+title: PROGRESS_TRACKING
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Progress Tracking & GitHub Sync
 
 ## Workflow

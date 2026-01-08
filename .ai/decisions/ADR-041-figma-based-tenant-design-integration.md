@@ -1,3 +1,11 @@
+---
+docid: ADR-085
+title: ADR 041 Figma Based Tenant Design Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-041: Figma-based Tenant Design Integration
 
 **DocID**: `ADR-041`  

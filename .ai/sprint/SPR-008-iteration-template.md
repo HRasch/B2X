@@ -1,3 +1,11 @@
+---
+docid: SPR-088
+title: SPR 008 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-008
 title: Sprint 2026-08 Planning - User Experience Enhancements & Feedback Systems

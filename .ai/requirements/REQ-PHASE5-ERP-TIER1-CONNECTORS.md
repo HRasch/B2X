@@ -1,3 +1,11 @@
+---
+docid: REQ-066
+title: REQ PHASE5 ERP TIER1 CONNECTORS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Phase 5: Enterprise Tier 1 Connectors (SAP, Dynamics, Oracle) - Feature Specification
 
 **DocID**: `REQ-PHASE5-ERP-TIER1-CONNECTORS`  

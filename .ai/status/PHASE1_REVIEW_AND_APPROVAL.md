@@ -1,3 +1,11 @@
+---
+docid: STATUS-031
+title: PHASE1_REVIEW_AND_APPROVAL
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Phase 1 Review & Approval Document
 
 **Date**: 30. Dezember 2025  

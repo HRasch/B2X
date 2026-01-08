@@ -1,3 +1,11 @@
+---
+docid: GL-076
+title: GL 013 DEPENDENCY MANAGEMENT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: GL-013
 title: Dependency Management Policy

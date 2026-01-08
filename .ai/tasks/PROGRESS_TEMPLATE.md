@@ -1,4 +1,12 @@
 ---
+docid: TASK-003
+title: PROGRESS_TEMPLATE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TASK-PROGRESS-TEMPLATE
 title: Task Progress Tracking Template
 owner: "@SARAH"

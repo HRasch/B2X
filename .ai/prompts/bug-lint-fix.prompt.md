@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-174
+title: Bug Lint Fix.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for linting errors
 ---

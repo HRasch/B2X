@@ -1,3 +1,11 @@
+---
+docid: SPR-147
+title: SPR 031 Customer Value Focus
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-031: Sprint 2027-31 Planning - Customer Value Focus: UX Enhancement & AI Data Integration
 
 **DocID**: SPR-031  

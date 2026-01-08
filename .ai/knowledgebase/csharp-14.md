@@ -1,3 +1,11 @@
+---
+docid: KB-077
+title: Csharp 14
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Title: C# 14 — concise summary
 Source: https://learn.microsoft.com/dotnet/csharp/whats-new/csharp-14
 

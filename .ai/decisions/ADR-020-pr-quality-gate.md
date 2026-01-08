@@ -1,3 +1,11 @@
+---
+docid: ADR-054
+title: ADR 020 Pr Quality Gate
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# PR Quality Gate Implementation - ADR
 
 **DocID**: `ADR-020`  

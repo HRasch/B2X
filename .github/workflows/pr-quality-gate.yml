@@ -5,6 +5,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches: [main, develop]
+  push:
+    branches: [main]
 
 concurrency:
   group: pr-quality-${{ github.event.pull_request.number }}
@@ -81,6 +83,11 @@ jobs:
           path: ./
           base: ${{ github.event.pull_request.base.sha }}
           head: ${{ github.event.pull_request.head.sha }}
+
+      - name: Documentation - Metadata Validation
+        run: |
+          chmod +x scripts/validate-metadata.sh
+          ./scripts/validate-metadata.sh
 
   # Stage 2: Unit Tests (< 5 min)
   unit-tests:

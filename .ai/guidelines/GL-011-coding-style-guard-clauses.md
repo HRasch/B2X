@@ -1,3 +1,11 @@
+---
+docid: GL-074
+title: GL 011 Coding Style Guard Clauses
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Guard Clauses - Coding Style Guidelines
 
 **DocID**: `GL-010`  

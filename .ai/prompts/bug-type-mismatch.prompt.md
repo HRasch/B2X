@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-176
+title: Bug Type Mismatch.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for TypeScript type mismatch errors
 ---

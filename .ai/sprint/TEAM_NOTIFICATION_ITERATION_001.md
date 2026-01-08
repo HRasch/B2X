@@ -1,3 +1,11 @@
+---
+docid: SPR-157
+title: TEAM_NOTIFICATION_ITERATION_001
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 📢 Iteration 001 Kickoff Notification
 
 **TO:** Team (@Backend, @Frontend, @Architect, @ProductOwner, @TechLead, @ScrumMaster, @QA, @Security, @Legal, @DevOps)  

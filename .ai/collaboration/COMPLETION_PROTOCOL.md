@@ -1,3 +1,11 @@
+---
+docid: COLLAB-016
+title: COMPLETION_PROTOCOL
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent Completion Protocol
 
 ## Zweck

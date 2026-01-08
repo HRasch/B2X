@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-059
+title: PHASE1_METRICS_DASHBOARD
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # Phase 1 Metrics Dashboard
 
 **Tracking Period**: Jan 6-10, 2026 (Phase 1 week)  

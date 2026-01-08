@@ -1,3 +1,11 @@
+---
+docid: SPR-144
+title: SPR 029 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# SPR-029: Sprint 2026-29 Planning - Advanced AI Governance Scaling & Automated Model Lifecycle
 
 **DocID**: SPR-029  

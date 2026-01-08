@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-053
+title: KB_INTEGRATION_PRESENTATION_2025_12_30
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # 📚 Knowledge Base Integration - Team Presentation
 
 **Date**: 30. Dezember 2025  

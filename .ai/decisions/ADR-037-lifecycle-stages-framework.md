@@ -1,3 +1,11 @@
+---
+docid: ADR-080
+title: ADR 037 Lifecycle Stages Framework
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-037
 title: Lifecycle Stages Framework

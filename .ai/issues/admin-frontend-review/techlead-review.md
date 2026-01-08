@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-133
+title: Techlead Review
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # TechLead Architecture Review: Admin Frontend
 
 **Review Date:** 2026-01-01  

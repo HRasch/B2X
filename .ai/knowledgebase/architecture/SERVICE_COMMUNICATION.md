@@ -1,3 +1,11 @@
+---
+docid: KB-069
+title: SERVICE_COMMUNICATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Service Communication Guide
 
 **Last Updated:** December 30, 2025  

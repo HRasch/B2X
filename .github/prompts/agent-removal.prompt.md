@@ -1,4 +1,12 @@
 ---
+docid: PRM-025
+title: Agent Removal.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: SARAH
 description: Agent removal with process impact analysis and redesign
 ---

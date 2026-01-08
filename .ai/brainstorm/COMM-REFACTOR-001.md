@@ -1,4 +1,12 @@
 ---
+docid: BS-017
+title: COMM REFACTOR 001
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: COMM-REFACTOR-001
 title: "Communication: Launch Refactoring Strategy"
 owner: "@SARAH"

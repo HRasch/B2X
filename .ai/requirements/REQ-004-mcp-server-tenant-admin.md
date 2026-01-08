@@ -1,3 +1,11 @@
+---
+docid: REQ-053
+title: REQ 004 Mcp Server Tenant Admin
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: REQ-004
 title: MCP Server for Tenant Administrators

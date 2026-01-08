@@ -1,3 +1,11 @@
+---
+docid: KB-185
+title: Testing Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Testing MCP Usage Guide
 
 **DocID**: `KB-058`

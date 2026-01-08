@@ -1,3 +1,11 @@
+---
+docid: WF-015
+title: WF 004 GITHUB_CLI_QUICK_REFERENCE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GitHub CLI Sprint Management - Quick Reference Card
 
 **Print or bookmark this for quick access during sprint planning!**

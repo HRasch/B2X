@@ -1,3 +1,11 @@
+---
+docid: ADR-084
+title: ADR 041 Ai Mode Switching Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-040: AI Mode Switching Strategy
 
 **DocID**: `ADR-040`  

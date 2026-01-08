@@ -1,3 +1,11 @@
+---
+docid: REQ-052
+title: REQ 003 Email Template System
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # REQ-003: Email Template System
 
 **DocID**: `REQ-003`  

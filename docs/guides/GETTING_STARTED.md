@@ -45,7 +45,7 @@ Services available at:
 ## 📚 Next Steps
 
 **New to the project?**
-→ Read [DEVELOPMENT.md](DEVELOPMENT.md) for architecture overview
+→ Read [DOC-005] for architecture overview
 
 **Need to debug something?**
 → See [docs/guides/DEBUG_QUICK_REFERENCE.md](docs/guides/DEBUG_QUICK_REFERENCE.md)
@@ -88,8 +88,8 @@ npm run build --prefix frontend
 | Document | Purpose |
 |----------|---------|
 | [README.md](README.md) | Project overview & architecture |
-| [DEVELOPMENT.md](DEVELOPMENT.md) | Development workflow & guidelines |
-| [.copilot-specs.md](.copilot-specs.md) | Coding standards & patterns (24 sections) |
+| [DOC-005] | Development workflow & guidelines |
+| [.copilot-specs.md](DOC-009) | Coding standards & patterns (24 sections) |
 | [docs/architecture/ASPIRE_GUIDE.md](docs/architecture/ASPIRE_GUIDE.md) | Aspire setup & microservices |
 | [docs/guides/TESTING_GUIDE.md](docs/guides/TESTING_GUIDE.md) | Testing approach (unit/integration/E2E) |
 | [docs/features/](docs/features/) | Feature implementations (one file per feature) |

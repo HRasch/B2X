@@ -1,3 +1,11 @@
+---
+docid: KB-111
+title: Dotnet Features
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Title: .NET features (summary focused on .NET 10)
 Source: https://learn.microsoft.com/dotnet/core/whats-new
 

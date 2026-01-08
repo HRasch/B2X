@@ -1,4 +1,12 @@
 ---
+docid: PRM-032
+title: Bug Quick Async Race.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PRM-QBF-ASYNC
 title: Quick Bug Fix - Async Race Conditions
 command: /bug-async-race

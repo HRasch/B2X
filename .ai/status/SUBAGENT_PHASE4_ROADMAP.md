@@ -1,3 +1,11 @@
+---
+docid: STATUS-049
+title: SUBAGENT_PHASE4_ROADMAP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Phase 4 SubAgent Roadmap: Domain-Specific & Advanced Specialization
 
 **Status**: PLANNING (Early Feb 2026 onward)  

@@ -1,3 +1,11 @@
+---
+docid: SPR-108
+title: SPR 015 Execution Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-015: Sprint 2026-15 Execution Summary - Ethical AI Refinement & Enterprise Scaling
 
 ## Sprint Overview

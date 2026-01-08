@@ -1,4 +1,12 @@
 ---
+docid: WF-022
+title: WF 011 TASK DISPATCH
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WF-011
 title: Task Dispatch & Multi-Chat Coordination Workflow
 owner: "@SARAH"

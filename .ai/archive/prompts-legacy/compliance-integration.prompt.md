@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-014
+title: Compliance Integration.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # ✅ COMPLIANCE_INTEGRATION - Governance & Compliance in Development Workflow
 
 **Trigger**: Any feature development, sprint planning, code review, release

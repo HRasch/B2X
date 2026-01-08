@@ -9,8 +9,8 @@
 ## 📋 Choose Your Path
 
 ### 👨‍💼 **Project Leadership**
-- **Tech Lead**: Read [.ai/knowledgebase/governance.md](.ai/knowledgebase/governance.md)
-- **Product Owner**: See [`PROJECT_DASHBOARD.md`](./PROJECT_DASHBOARD.md)
+- **Tech Lead**: Read [KB-013]
+- **Product Owner**: See [DOC-006]
 - **Scrum Master**: Check [`.github/agents/scrum-master.agent.md`](./.github/agents/scrum-master.agent.md)
 
 ### 👨‍💻 **Active Development**

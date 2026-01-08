@@ -1,3 +1,11 @@
+---
+docid: SPR-111
+title: SPR 016 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-016
 title: Sprint 2026-16 Execution - Advanced AI Ethics & Intelligent Infrastructure

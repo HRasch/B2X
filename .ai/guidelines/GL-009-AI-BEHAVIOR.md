@@ -1,3 +1,11 @@
+---
+docid: GL-071
+title: GL 009 AI BEHAVIOR
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GL-009: AI Behavior Guidelines
 
 **DocID**: `GL-009`  

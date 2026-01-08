@@ -1,4 +1,12 @@
 ---
+docid: GL-083
+title: GL 047 MCP ORCHESTRATION LAYER
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-047
 title: MCP-Orchestration Layer - Intelligent Context Routing
 owner: "@SARAH"

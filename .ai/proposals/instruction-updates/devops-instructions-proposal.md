@@ -1,3 +1,11 @@
+---
+docid: PROP-002
+title: Devops Instructions Proposal
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Proposed additions to `.github/instructions/devops.instructions.md` (for CopilotExpert review):
 
 1) CI gates and ordering:

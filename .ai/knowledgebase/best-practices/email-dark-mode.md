@@ -1,3 +1,11 @@
+---
+docid: KB-071
+title: Email Dark Mode
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-027
 title: Email Dark Mode Best Practices

@@ -1,3 +1,11 @@
+---
+docid: SPR-034
+title: CONTINUOUS_TRACKING_PROCESS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🔄 Continuous Velocity Tracking & Daily Refresh
 
 **Purpose:** Automate daily metrics updates and ensure consistent tracking  

@@ -1,4 +1,12 @@
 ---
+docid: BS-008
+title: BS DOCUMENTATION CLEANUP STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: BS-DOCUMENTATION-CLEANUP-STRATEGY
 title: Documentation Cleanup Strategy
 owner: "@DocMaintainer"

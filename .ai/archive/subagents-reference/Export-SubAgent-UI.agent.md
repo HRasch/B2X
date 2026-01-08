@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-083
+title: Export SubAgent UI.Agent
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 description: 'Export helper for UI handoffs: component specs, tokens, and implementation notes.'
 tools: ['read','search','edit']
 model: 'gpt-5-mini'

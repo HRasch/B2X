@@ -1,4 +1,12 @@
 ---
+docid: SPR-078
+title: SPR 005 Erp Phase2 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-005-PLANNING
 title: Sprint 2026-05 Planning - ERP Integration Phase 2 & Testing Enhancements
 owner: @ScrumMaster

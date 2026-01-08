@@ -1,3 +1,11 @@
+---
+docid: KB-167
+title: Documentation Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Documentation MCP Usage Guide
 
 **DocID**: `KB-062`  

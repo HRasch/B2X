@@ -1,3 +1,11 @@
+---
+docid: ADR-083
+title: ADR 040 Tenant Customizable Language Resources
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-039
 title: Tenant-Customizable Language Resources

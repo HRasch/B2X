@@ -1,3 +1,11 @@
+---
+docid: KB-123
+title: KB QR 001 Team Quick Reference
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-QR-001
 title: MCP Token Optimization - Team Quick Reference

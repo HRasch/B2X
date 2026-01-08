@@ -1,3 +1,11 @@
+---
+docid: AGT-029
+title: QA.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 description: 'QA Engineer - Test coordination, quality gates, compliance'
 tools: ['agent', 'vscode', 'execute']

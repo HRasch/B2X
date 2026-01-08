@@ -1,4 +1,12 @@
 ---
+docid: ADR-093
+title: ADR 049 Plan Act Control
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: ADR-049
 title: Plan-Act-Control Engineering Loop
 owner: @SARAH

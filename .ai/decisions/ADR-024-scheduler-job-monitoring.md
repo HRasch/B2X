@@ -1,3 +1,11 @@
+---
+docid: ADR-060
+title: ADR 024 Scheduler Job Monitoring
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Scheduler Job Monitoring Architecture - ADR
 
 **DocID**: `ADR-024`  

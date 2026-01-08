@@ -1,3 +1,11 @@
+---
+docid: STATUS-050
+title: SUBAGENT_STRATEGY_BRIEF
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Strategy - Executive Brief for @SARAH
 
 **Date**: 30.12.2025  

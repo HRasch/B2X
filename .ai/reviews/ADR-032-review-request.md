@@ -1,3 +1,11 @@
+---
+docid: REV-001
+title: ADR 032 Review Request
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-032 Team Review Request
 
 ## Document: CLI Auto-Update Functionality Brainstorm

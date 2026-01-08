@@ -1,3 +1,11 @@
+---
+docid: KB-153
+title: Data Sanitization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Data Sanitization for AI Providers
 
 **DocID**: `KB-SECURITY-DATA-SANITIZATION`  

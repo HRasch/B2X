@@ -1,3 +1,11 @@
+---
+docid: REQ-045
+title: CONSOLIDATION SMART DATA INTEGRATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: CONSOLIDATION-SMART-DATA-INTEGRATION
 title: Smart Data Integration Assistant - Consolidated Analysis

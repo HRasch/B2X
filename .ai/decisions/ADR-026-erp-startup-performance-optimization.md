@@ -1,3 +1,11 @@
+---
+docid: ADR-064
+title: ADR 026 Erp Startup Performance Optimization
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-026: ERP Connector Startup Performance Optimization
 
 **Status**: Proposed  

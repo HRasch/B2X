@@ -1,3 +1,11 @@
+---
+docid: ADR-113
+title: MIGRATION_PLAN
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Dependency Migration Plan
 
 **Date:** December 30, 2025  

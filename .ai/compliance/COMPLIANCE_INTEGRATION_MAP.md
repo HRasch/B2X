@@ -1,3 +1,11 @@
+---
+docid: CMP-006
+title: COMPLIANCE_INTEGRATION_MAP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📊 Compliance Integration Overview
 
 **Complete mapping of compliance into development workflow**

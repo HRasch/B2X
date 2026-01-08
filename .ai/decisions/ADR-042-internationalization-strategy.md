@@ -1,3 +1,11 @@
+---
+docid: ADR-086
+title: ADR 042 Internationalization Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-042: Internationalization Strategy for ESLint Error Reduction
 
 **DocID**: `ADR-042`  

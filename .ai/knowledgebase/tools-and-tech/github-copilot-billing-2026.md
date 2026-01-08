@@ -1,3 +1,11 @@
+---
+docid: KB-169
+title: Github Copilot Billing 2026
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-022
 title: GitHub Copilot Billing, Plans & Rate Limits (2026)

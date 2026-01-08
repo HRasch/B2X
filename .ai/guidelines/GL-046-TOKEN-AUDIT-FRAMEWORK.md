@@ -1,3 +1,11 @@
+---
+docid: GL-082
+title: GL 046 TOKEN AUDIT FRAMEWORK
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: GL-046
 title: Token Audit & Analysis Framework

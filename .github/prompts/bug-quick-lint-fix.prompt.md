@@ -1,4 +1,12 @@
 ---
+docid: PRM-034
+title: Bug Quick Lint Fix.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PRM-QBF-LINT
 title: Quick Bug Fix - Linting and Formatting Violations
 command: /bug-lint-fix

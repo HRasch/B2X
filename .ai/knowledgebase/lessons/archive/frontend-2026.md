@@ -1,3 +1,11 @@
+---
+docid: KB-127
+title: Frontend 2026
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Frontend Lessons Archive - 2026
 
 **DocID**: `KB-LESSONS-FRONTEND-ARCHIVE-2026`  

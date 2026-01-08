@@ -1,3 +1,11 @@
+---
+docid: SPR-055
+title: ITERATION_001_STANDUP_LOG
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📅 Iteration 001 - Daily Standup Log (Active)
 
 **Iteration:** Iteration 001  

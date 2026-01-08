@@ -1,3 +1,11 @@
+---
+docid: KB-188
+title: Wolverine Mcp
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-063
 title: Wolverine MCP Server for CQRS Analysis

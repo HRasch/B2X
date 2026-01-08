@@ -1,3 +1,11 @@
+---
+docid: SPR-131
+title: SPR 024 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-024: Sprint 2026-24 Planning - AI Resource Optimization & Global Compliance Expansion
 
 **DocID**: SPR-024  

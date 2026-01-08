@@ -1,3 +1,11 @@
+---
+docid: KB-175
+title: Local Ai Fallback Configuration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-025
 title: Global Local AI Mode Configuration

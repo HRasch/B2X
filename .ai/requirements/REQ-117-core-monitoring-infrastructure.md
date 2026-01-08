@@ -1,3 +1,11 @@
+---
+docid: REQ-063
+title: REQ 117 Core Monitoring Infrastructure
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# REQ-117: Core Monitoring Infrastructure
 
 **DocID**: `REQ-117`  

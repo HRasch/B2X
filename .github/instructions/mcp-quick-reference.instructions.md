@@ -1,3 +1,11 @@
+---
+docid: INS-012
+title: Mcp Quick Reference.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: MCP-QUICK-REF
 title: MCP Tools Quick Reference

@@ -1,4 +1,12 @@
 ---
+docid: PRM-035
+title: Bug Quick Null Check.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PRM-QBF-NULL
 title: Quick Bug Fix - Null/Undefined Reference Errors
 command: /bug-null-check

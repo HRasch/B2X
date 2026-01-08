@@ -1,4 +1,12 @@
 ---
+docid: ADR-098
+title: ADR 052 Mcp Enhanced Bugfixing
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: ADR-052
 title: MCP-Enhanced Bugfixing Workflow
 status: Proposed

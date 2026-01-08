@@ -1,4 +1,12 @@
 ---
+docid: PRM-023
+title: Adr Create.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: Architect
 description: Architecture Decision Record template
 ---

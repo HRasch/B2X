@@ -1,4 +1,12 @@
 ---
+docid: TASK-001
+title: ACTIVE_TASKS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TASKS-001
 title: Active Task Registry & Dispatch Board
 owner: "@SARAH"

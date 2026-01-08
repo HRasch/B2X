@@ -1,3 +1,11 @@
+---
+docid: ADR-067
+title: ADR 028 Erp Bidirectional Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ERP Bidirectional Integration Architecture
 
 **Status:** Proposed  

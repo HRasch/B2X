@@ -1,4 +1,12 @@
 ---
+docid: KB-092
+title: Microsoft.Extensions.Http.Resilience
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Microsoft.Extensions.Http.Resilience
 current_version: 10.1.0
 source_files:

@@ -1,3 +1,11 @@
+---
+docid: ADR-075
+title: ADR 032 Cli Auto Update Brainstorm
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# CLI Auto-Update Functionality - Brainstorm
 
 **Date:** January 5, 2026  

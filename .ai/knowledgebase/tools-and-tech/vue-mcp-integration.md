@@ -1,3 +1,11 @@
+---
+docid: KB-187
+title: Vue Mcp Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-054
 title: Vue MCP Integration Guide

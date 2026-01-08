@@ -1,3 +1,11 @@
+---
+docid: KB-148
+title: Patterns Antipatterns
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Title: Patterns & Antipatterns — cross-cutting guidance
 Source: curated from official docs and best practices (Microsoft, OWASP, Vue, Pinia, JasperFx)
 

@@ -1,3 +1,11 @@
+---
+docid: REQ-057
+title: REQ 006 Cli Customer Integration Commands
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# CLI Commands Specification: Customer Integration
 # Reference: ADR-038 Customer Integration Stages Framework
 # Owner: @Backend

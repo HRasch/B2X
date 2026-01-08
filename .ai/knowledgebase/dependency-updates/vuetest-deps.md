@@ -1,4 +1,12 @@
 ---
+docid: KB-106
+title: Vuetest Deps
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: frontend-test-and-build-tools
 current_versions:
   - vue-tsc: 3.2.1

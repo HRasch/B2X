@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-124
+title: CatalogShareRuleRefactorProposal
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 title: CatalogShareRule Refactor Proposal
 owner: @SARAH

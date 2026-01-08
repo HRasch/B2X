@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-121
+title: Mcp Operations.Instructions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 applyTo: "**/*"
 ---

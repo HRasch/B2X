@@ -1,3 +1,11 @@
+---
+docid: ADR-065
+title: ADR 027 Email Template Engine
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-027: Email Template Engine Selection
 
 **DocID**: `ADR-027`  

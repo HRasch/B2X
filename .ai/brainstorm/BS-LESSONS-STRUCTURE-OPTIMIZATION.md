@@ -1,3 +1,11 @@
+---
+docid: BS-009
+title: BS LESSONS STRUCTURE OPTIMIZATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Lessons Learned Structure Optimization Brainstorm
 
 **DocID**: `BS-LESSONS-STRUCTURE`  

@@ -1,3 +1,11 @@
+---
+docid: ADR-103
+title: ADR_SERVICE_BOUNDARIES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Architecture Decision Record: Service Boundaries & Domain Integration
 
 **Date:** December 30, 2025  

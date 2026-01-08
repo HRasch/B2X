@@ -1,3 +1,11 @@
+---
+docid: LOG-005
+title: AGENT_MODEL_AUDIT_2025_12_31
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# AGENT MODEL AUDIT
 Date: 2025-12-31
 

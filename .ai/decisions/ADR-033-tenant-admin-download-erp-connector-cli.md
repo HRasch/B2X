@@ -1,3 +1,11 @@
+---
+docid: ADR-076
+title: ADR 033 Tenant Admin Download Erp Connector Cli
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-033: Tenant-Admin Download for ERP-Connector and Administration-CLI Coupled to CLI
 
 **Status:** Approved  

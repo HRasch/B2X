@@ -1,4 +1,12 @@
 ---
+docid: BS-031
+title: WAR ROOM DASHBOARD
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WAR-ROOM-DASHBOARD
 title: "🎯 War Room Dashboard - Execution Command Center (Jan 13-17)"
 owner: "@SARAH"

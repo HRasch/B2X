@@ -1,3 +1,11 @@
+---
+docid: ADR-095
+title: ADR 051 Core Monitoring Infrastructure
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Core Monitoring Infrastructure Architecture - ADR
 
 **DocID**: `ADR-051`  

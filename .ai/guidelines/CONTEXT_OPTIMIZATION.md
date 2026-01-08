@@ -1,3 +1,11 @@
+---
+docid: GL-059
+title: CONTEXT_OPTIMIZATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent Context Optimization Guidelines
 
 ## Ziel

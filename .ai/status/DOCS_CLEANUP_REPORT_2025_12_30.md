@@ -1,3 +1,11 @@
+---
+docid: STATUS-008
+title: DOCS_CLEANUP_REPORT_2025_12_30
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📚 Documentation Cleanup Report - 30. Dezember 2025
 
 **Status**: ✅ **COMPLETE**  

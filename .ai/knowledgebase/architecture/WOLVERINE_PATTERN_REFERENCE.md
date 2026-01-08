@@ -1,3 +1,11 @@
+---
+docid: KB-070
+title: WOLVERINE_PATTERN_REFERENCE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🚀 Wolverine Pattern Reference
 
 **Audience**: Backend developers  

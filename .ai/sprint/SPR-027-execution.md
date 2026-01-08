@@ -1,3 +1,11 @@
+---
+docid: SPR-138
+title: SPR 027 Execution
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-027: Sprint 2026-27 Execution - AI Model Governance & Advanced Compliance Intelligence
 
 **DocID**: SPR-027-EXEC  

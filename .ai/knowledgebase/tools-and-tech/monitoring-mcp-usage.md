@@ -1,3 +1,11 @@
+---
+docid: KB-179
+title: Monitoring Mcp Usage
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Monitoring MCP Usage Guide
 
 **DocID**: `KB-061`  

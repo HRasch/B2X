@@ -1,3 +1,11 @@
+---
+docid: REQ-058
+title: REQ 007 Email Wysiwyg Builder
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# REQ-007: Email WYSIWYG Builder with Drag & Drop
 
 **DocID**: `REQ-007`  

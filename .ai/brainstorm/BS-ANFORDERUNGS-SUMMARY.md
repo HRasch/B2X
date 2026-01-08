@@ -1,3 +1,11 @@
+---
+docid: BS-006
+title: BS ANFORDERUNGS SUMMARY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: BS-ANFORDERUNGS-SUMMARY
 title: "Executive Summary: Requirements Analysis Improvement - OPTION A Confirmed"

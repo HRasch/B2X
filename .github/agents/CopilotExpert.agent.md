@@ -1,4 +1,12 @@
 ---
+docid: AGT-021
+title: CopilotExpert.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 description: 'Copilot Configuration: agents, prompts, instructions'
 tools: ['vscode', 'read', 'edit', 'todo']
 model: 'ollama/qwen2.5-coder:32b@http://192.168.1.117:11434'

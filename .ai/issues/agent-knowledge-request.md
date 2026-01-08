@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-140
+title: Agent Knowledge Request
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Title: Agent knowledge request — additional required knowledge
 Status: open
 

@@ -1,3 +1,11 @@
+---
+docid: KB-183
+title: Shouldly
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Shouldly - Assertion Framework for .NET
 
 **Last Updated**: 5. Januar 2026  

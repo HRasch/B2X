@@ -1,3 +1,11 @@
+---
+docid: KB-159
+title: Svg Css Animations
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-030
 title: SVG and CSS Animations

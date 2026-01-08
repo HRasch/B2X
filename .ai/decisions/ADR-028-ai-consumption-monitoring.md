@@ -1,3 +1,11 @@
+---
+docid: ADR-066
+title: ADR 028 Ai Consumption Monitoring
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-028: AI Consumption Monitoring and Limiting for MCP Server Operations
 
 **Status:** Proposed  

@@ -1,4 +1,12 @@
 ---
+docid: ADR-091
+title: ADR 047 Multishop Shared Catalog
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: ADR-047
 title: Multishop / Shared Catalogs Architecture
 status: Proposed

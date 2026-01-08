@@ -1,4 +1,12 @@
 ---
+docid: BS-005
+title: BS ANFORDERUNGEN SUMMARY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: BS-ANFORDERUNGEN-SUMMARY
 title: "Executive Summary: Bessere Anforderungsanalyse"
 owner: "@SARAH"

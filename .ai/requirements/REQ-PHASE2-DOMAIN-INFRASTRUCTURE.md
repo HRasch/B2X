@@ -1,3 +1,11 @@
+---
+docid: REQ-065
+title: REQ PHASE2 DOMAIN INFRASTRUCTURE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Phase 2: DNS & SSL Infrastructure - Planning Document
 
 **DocID**: `REQ-PHASE2-DNS-SSL`  

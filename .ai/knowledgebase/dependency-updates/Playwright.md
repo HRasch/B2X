@@ -1,4 +1,12 @@
 ---
+docid: KB-096
+title: Playwright
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Playwright
 current_version: 1.48.2
 source_files:

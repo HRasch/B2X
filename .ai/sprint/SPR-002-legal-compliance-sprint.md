@@ -1,3 +1,11 @@
+---
+docid: SPR-068
+title: SPR 002 Legal Compliance Sprint
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-002
 title: Sprint 2026-02 Execution

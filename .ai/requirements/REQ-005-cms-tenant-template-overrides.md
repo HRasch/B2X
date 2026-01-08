@@ -1,3 +1,11 @@
+---
+docid: REQ-055
+title: REQ 005 Cms Tenant Template Overrides
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: REQ-005
 title: CMS Tenant Template Overrides with AI Validation

@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-009
+title: Adr Create.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 agent: Architect
 description: Architecture Decision Record template
 ---

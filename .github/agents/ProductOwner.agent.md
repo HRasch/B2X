@@ -1,4 +1,12 @@
 ---
+docid: AGT-028
+title: ProductOwner.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 description: 'Product Owner - Feature prioritization, requirements, stakeholder communication'
 tools: ['vscode', 'read', 'edit', 'search', 'agent']
 model: claude-haiku-4.5

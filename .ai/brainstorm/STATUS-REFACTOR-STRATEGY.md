@@ -1,4 +1,12 @@
 ---
+docid: BS-030
+title: STATUS REFACTOR STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: STATUS-REFACTOR-STRATEGY
 title: "Status Dashboard: Refactoring Efficiency Strategy Implementation"
 owner: "@SARAH"

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-139
+title: ADR 045 Store Migration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-045: Unified Layout System - Store Page Migration
 
 **Status**: Completed  

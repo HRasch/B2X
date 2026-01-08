@@ -1,3 +1,11 @@
+---
+docid: REQ-051
+title: REQ 002 Bmecat Import
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: REQ-002
 title: BMEcat Katalog Import

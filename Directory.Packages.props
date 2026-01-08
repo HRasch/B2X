@@ -97,6 +97,7 @@
     <!-- WOLVERINE CQRS (5.9.2 - keep ALL Wolverine packages in sync)            -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="WolverineFx" Version="5.9.2" />
+    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.Http" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.PostgreSQL" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.RabbitMq" Version="5.9.2" />
@@ -231,7 +232,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- AI PROVIDERS & MCP PROTOCOL                                             -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <PackageVersion Include="ModelContextProtocol" Version="2024.11.5" />
+    <PackageVersion Include="ModelContextProtocol" Version="0.5.0-preview.1" />
     <PackageVersion Include="mcpdotnet" Version="1.2.0.1" />
     <PackageVersion Include="OpenAI" Version="2.8.0" />
     <PackageVersion Include="Anthropic.SDK" Version="5.8.0" />

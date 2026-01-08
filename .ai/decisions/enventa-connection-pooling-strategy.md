@@ -1,3 +1,11 @@
+---
+docid: ADR-111
+title: Enventa Connection Pooling Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# enventa Connection Pooling Strategy
 
 **Created**: 2. Januar 2026  

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-134
+title: Ui Review
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Admin Frontend - Design System & Accessibility Review
 
 **DocID**: `REV-UI-001`  

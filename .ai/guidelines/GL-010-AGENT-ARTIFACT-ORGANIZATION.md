@@ -1,3 +1,11 @@
+---
+docid: GL-073
+title: GL 010 AGENT ARTIFACT ORGANIZATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GL-010: Agent & Artifact Organization
 
 **DocID**: `GL-010`  

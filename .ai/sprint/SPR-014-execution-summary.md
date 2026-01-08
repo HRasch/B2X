@@ -1,3 +1,11 @@
+---
+docid: SPR-105
+title: SPR 014 Execution Summary
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# SPR-014: Sprint 2026-14 Execution Summary - Model Development Governance & Global Scaling Optimization
 
 ## Sprint Overview

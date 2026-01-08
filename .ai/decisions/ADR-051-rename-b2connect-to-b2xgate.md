@@ -1,3 +1,11 @@
+---
+docid: ADR-096
+title: ADR 051 Rename B2connect To B2xgate
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # ADR-051: Rename B2Connect to B2X
 
 **Status**: Proposed  

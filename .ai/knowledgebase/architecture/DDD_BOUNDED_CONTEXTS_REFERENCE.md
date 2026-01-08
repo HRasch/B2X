@@ -1,3 +1,11 @@
+---
+docid: KB-068
+title: DDD_BOUNDED_CONTEXTS_REFERENCE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 📚 DDD Bounded Contexts Reference
 
 **Audience**: All backend developers  

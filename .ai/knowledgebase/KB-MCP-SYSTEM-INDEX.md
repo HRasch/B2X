@@ -1,3 +1,11 @@
+---
+docid: KB-122
+title: KB MCP SYSTEM INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 title: "B2X MCP Token Optimization - Complete System Documentation"
 docid: KB-MCP-INDEX

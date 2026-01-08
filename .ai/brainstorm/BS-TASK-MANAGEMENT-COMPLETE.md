@@ -1,4 +1,12 @@
 ---
+docid: BS-015
+title: BS TASK MANAGEMENT COMPLETE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: BS-TASK-MANAGEMENT-INFRASTRUCTURE
 title: Task Management Infrastructure - Implementation Summary
 owner: "@SARAH"

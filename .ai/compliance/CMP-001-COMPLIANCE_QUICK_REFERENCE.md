@@ -1,3 +1,11 @@
+---
+docid: CMP-002
+title: CMP 001 COMPLIANCE_QUICK_REFERENCE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🚀 Compliance Quick Reference - Developer Guide
 
 **One-pager for developers** - Print & keep handy!

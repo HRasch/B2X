@@ -1,4 +1,12 @@
 ---
+docid: AGT-026
+title: Frontend.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 description: 'Frontend: Vue.js 3, Composition API, TypeScript'
 tools: ['vscode', 'execute', 'read', 'edit', 'todo', 'typescript-mcp/*']
 model: 'gpt-5-mini'

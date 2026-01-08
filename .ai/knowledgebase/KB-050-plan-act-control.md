@@ -1,3 +1,11 @@
+---
+docid: KB-120
+title: KB 050 Plan Act Control
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-050
 title: Plan-Act-Control Practical Guide

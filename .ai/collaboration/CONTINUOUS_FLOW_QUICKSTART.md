@@ -1,3 +1,11 @@
+---
+docid: COLLAB-019
+title: CONTINUOUS_FLOW_QUICKSTART
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # ⚡ CONTINUOUS FLOW - QUICK START FOR AGENTS
 
 **Model Change:** No more time-based scheduling  

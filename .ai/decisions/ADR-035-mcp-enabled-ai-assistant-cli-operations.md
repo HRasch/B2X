@@ -1,3 +1,11 @@
+---
+docid: ADR-078
+title: ADR 035 Mcp Enabled Ai Assistant Cli Operations
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-035
 title: MCP-Enabled AI Assistant with CLI Operations Access

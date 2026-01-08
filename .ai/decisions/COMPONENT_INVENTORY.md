@@ -1,3 +1,11 @@
+---
+docid: ADR-106
+title: COMPONENT_INVENTORY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Store Frontend Component Inventory
 
 **Date:** December 30, 2025  

@@ -1,4 +1,12 @@
 ---
+docid: TPL-013
+title: Github Pr
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 name: AI Agent PR
 about: Pull Request Template mit Multi-Agent Review
 title: "[PR] [TITLE]"

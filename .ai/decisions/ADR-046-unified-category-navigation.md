@@ -1,3 +1,11 @@
+---
+docid: ADR-090
+title: ADR 046 Unified Category Navigation
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-046
 title: Unified Category Navigation Architecture

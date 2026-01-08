@@ -1,3 +1,11 @@
+---
+docid: KB-144
+title: SCALABILITY_GUIDE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Scalability & Performance Guide
 
 **Last Updated:** December 30, 2025  

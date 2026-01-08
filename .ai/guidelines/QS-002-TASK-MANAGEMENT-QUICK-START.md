@@ -1,4 +1,12 @@
 ---
+docid: GL-093
+title: QS 002 TASK MANAGEMENT QUICK START
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: QS-002
 title: Multi-Chat Task Management Quick Start
 owner: "@SARAH"

@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-024
+title: Requirements Consolidation.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 agent: SARAH
 description: Konsolidierung aller Agent-Analysen für eine Anforderung
 ---

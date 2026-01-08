@@ -1,3 +1,11 @@
+---
+docid: ADR-053
+title: ADR 001 Event Driven Architecture
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-001: Event-Driven Architecture with Wolverine CQRS
 
 **Status:** Accepted  

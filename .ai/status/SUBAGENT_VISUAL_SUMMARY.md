@@ -1,3 +1,11 @@
+---
+docid: STATUS-055
+title: SUBAGENT_VISUAL_SUMMARY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Context Architecture - Visual Summary
 
 **Created:** 30.12.2025  

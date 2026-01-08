@@ -1,3 +1,11 @@
+---
+docid: KB-171
+title: Github Copilot Models
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-016
 title: GitHub Copilot AI Models & Pricing

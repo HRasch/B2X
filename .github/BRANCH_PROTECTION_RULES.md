@@ -1,3 +1,11 @@
+---
+docid: DOC-010
+title: BRANCH_PROTECTION_RULES
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Branch Protection Rules für B2X
 
 ## Empfohlene GitHub Branch Protection Rules

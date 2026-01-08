@@ -1,4 +1,12 @@
 ---
+docid: KB-080
+title: AutoMapper
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: AutoMapper
 current_version: 16.0.0
 source_files:

@@ -1,3 +1,11 @@
+---
+docid: SPR-076
+title: SPR 004 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-004
 title: Sprint 2026-04 Planning - ERP Integration Phase 1

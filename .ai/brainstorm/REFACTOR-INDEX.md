@@ -1,4 +1,12 @@
 ---
+docid: BS-025
+title: REFACTOR INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: REFACTOR-INDEX
 title: "Index: Refactoring Efficiency Strategy (Complete Suite)"
 owner: "@SARAH"

@@ -1,3 +1,11 @@
+---
+docid: PROP-004
+title: PR_READY_FOR_COPILOTEXPERT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Title: Apply proposed instruction updates
 
 Summary:

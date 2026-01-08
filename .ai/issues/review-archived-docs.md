@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-160
+title: Review Archived Docs
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Review: Archived Internal Documentation
 
 Purpose: coordinate a team review of the documentation moved to `.archive/internal-docs/` (PR: https://github.com/HRasch/B2X/pull/95). The goal is to either: 1) retain and move relevant content into the official knowledgebase (`.ai/knowledgebase/` or `docs/`), 2) update or remove repo references that point to archived locations, or 3) permanently delete obsolete documents.

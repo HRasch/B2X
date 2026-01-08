@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-011
+title: Agent Removal.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 agent: SARAH
 description: Agent removal with process impact analysis and redesign
 ---

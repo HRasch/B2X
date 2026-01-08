@@ -1,3 +1,11 @@
+---
+docid: REQ-040
+title: ANALYSIS SMART DATA INTEGRATION ARCHITECT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ANALYSIS-SMART-DATA-INTEGRATION-ARCHITECT
 title: Smart Data Integration Assistant - Architecture Analysis

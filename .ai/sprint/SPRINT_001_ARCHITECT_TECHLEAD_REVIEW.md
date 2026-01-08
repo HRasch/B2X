@@ -1,3 +1,11 @@
+---
+docid: SPR-148
+title: SPRINT_001_ARCHITECT_TECHLEAD_REVIEW
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🏗️ Iteration 001 Architecture & Technical Review
 
 **Review Date:** December 30, 2025  

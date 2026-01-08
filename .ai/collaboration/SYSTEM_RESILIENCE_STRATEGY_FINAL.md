@@ -1,3 +1,11 @@
+---
+docid: COLLAB-029
+title: SYSTEM_RESILIENCE_STRATEGY_FINAL
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🔄 System Resilience Strategy - Final Implementation Plan
 
 **DocID**: `WF-RESILIENCE-STRATEGY`  

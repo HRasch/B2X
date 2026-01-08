@@ -1,3 +1,11 @@
+---
+docid: ADR-071
+title: ADR 029 Multi Format Punchout Integration
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-029: Multi-Format Punchout Integration for Craft Software
 
 **Status:** Proposed  

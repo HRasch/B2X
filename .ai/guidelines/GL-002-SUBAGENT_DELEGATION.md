@@ -1,3 +1,11 @@
+---
+docid: GL-061
+title: GL 002 SUBAGENT_DELEGATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SubAgent Context Delegation Strategy
 
 **Version:** 1.0  

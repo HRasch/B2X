@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-034
+title: REQ 007 Consolidated Analysis
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # Konsolidierte Analyse für REQ-007
 
 ## Executive Summary

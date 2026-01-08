@@ -1,3 +1,11 @@
+---
+docid: ADR-099
+title: ADR CLOUD IMAGE STORAGE PROCESSING
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR: Cloud-Based Image Storage with Dynamic Processing
 
 **DocID**: `ADR-CLOUD-IMAGE`  

@@ -1,4 +1,12 @@
 ---
+docid: KB-166
+title: Dependency Upgrade 2026 01 06
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-DEP-2026-01-06
 title: Dependency Upgrade & Migration Guide (Jan 2026)
 owner: @TechLead

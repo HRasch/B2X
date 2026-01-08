@@ -30,6 +30,11 @@ csproj_files=$(find . -name "*.csproj" -not -path "./bin/*" -not -path "./obj/*"
 violations_found=0
 
 for csproj_file in $csproj_files; do
+    # Skip projects with CPM disabled
+    if grep -q '<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>' "$csproj_file"; then
+        continue
+    fi
+    
     # Check if file has PackageReference with Version attribute
     if grep -q 'PackageReference.*Version=' "$csproj_file"; then
         print_status $RED "❌ $csproj_file contains hardcoded package versions"
@@ -37,12 +42,8 @@ for csproj_file in $csproj_files; do
         violations_found=$((violations_found + 1))
     fi
 
-    # Check if file references Directory.Packages.props
-    if ! grep -q 'Directory.Packages.props' "$csproj_file"; then
-        print_status $RED "❌ $csproj_file does not reference Directory.Packages.props"
-        print_status $YELLOW "   Add: <Import Project=\"\$(MSBuildThisFileDirectory)../Directory.Packages.props\" Condition=\"Exists('\$(MSBuildThisFileDirectory)../Directory.Packages.props')\" />"
-        violations_found=$((violations_found + 1))
-    fi
+    # NOTE: In .NET 10+, Directory.Packages.props imports are automatic
+    # No need to check for explicit imports
 done
 
 # Check for duplicate Directory.Packages.props files

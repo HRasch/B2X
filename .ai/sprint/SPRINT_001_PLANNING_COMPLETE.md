@@ -1,3 +1,11 @@
+---
+docid: SPR-150
+title: SPRINT_001_PLANNING_COMPLETE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Sprint 001 Planning Complete ✅
 
 **Date:** December 30, 2025  

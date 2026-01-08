@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-019
+title: Feature Handover.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 agent: ProductOwner
 description: Create a Feature Handover document for handoff
 ---

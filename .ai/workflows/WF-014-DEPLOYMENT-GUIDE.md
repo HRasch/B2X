@@ -1,4 +1,12 @@
 ---
+docid: WF-025
+title: WF 014 DEPLOYMENT GUIDE
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WF-014
 title: Task Management System - Deployment & Launch Guide
 owner: "@SARAH"

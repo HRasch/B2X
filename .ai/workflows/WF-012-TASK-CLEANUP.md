@@ -1,4 +1,12 @@
 ---
+docid: WF-023
+title: WF 012 TASK CLEANUP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: WF-012
 title: Task Cleanup & Archival Procedure
 owner: "@SARAH"

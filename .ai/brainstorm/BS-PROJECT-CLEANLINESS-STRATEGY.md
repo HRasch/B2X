@@ -1,4 +1,12 @@
 ---
+docid: BS-010
+title: BS PROJECT CLEANLINESS STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: BS-PROJECT-CLEANLINESS
 title: Project Cleanliness & Long-Term Organization Strategy
 owner: "@SARAH"

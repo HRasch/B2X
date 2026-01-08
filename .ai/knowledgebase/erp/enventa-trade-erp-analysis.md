@@ -1,3 +1,11 @@
+---
+docid: KB-116
+title: Enventa Trade Erp Analysis
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# enventa Trade ERP - Technische Analyse
 
 **Status:** Draft  

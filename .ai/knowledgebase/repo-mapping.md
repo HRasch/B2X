@@ -1,3 +1,11 @@
+---
+docid: KB-151
+title: Repo Mapping
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 Repository mapping — where to look
 ---------------------------------
 Quick map of this workspace to the knowledgebase topics.

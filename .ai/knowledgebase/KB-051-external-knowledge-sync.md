@@ -1,4 +1,12 @@
 ---
+docid: KB-121
+title: KB 051 External Knowledge Sync
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-051
 title: External Knowledge Sync Procedure
 owner: @DocMaintainer

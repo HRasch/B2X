@@ -1,3 +1,11 @@
+---
+docid: AGT-023
+title: DevOps.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 description: 'DevOps Engineer - CI/CD, infrastructure, deployment, monitoring'
 tools: ['agent', 'vscode', 'execute']

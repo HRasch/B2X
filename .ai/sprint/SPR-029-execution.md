@@ -1,3 +1,11 @@
+---
+docid: SPR-143
+title: SPR 029 Execution
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # SPR-029: Sprint 2026-29 Execution - Advanced AI Governance Scaling & Automated Model Lifecycle
 
 ## Sprint Overview

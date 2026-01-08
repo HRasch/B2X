@@ -1,3 +1,11 @@
+---
+docid: COLLAB-013
+title: AI_AGENT_TEAM_MODEL
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # AI Agent Team Model
 
 ## Zentrale Einsicht

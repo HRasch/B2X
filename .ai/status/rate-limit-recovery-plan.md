@@ -1,3 +1,11 @@
+---
+docid: STATUS-038
+title: Rate Limit Recovery Plan
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🚨 Rate Limit Emergency Recovery Plan
 
 **Date**: 2026-01-03  

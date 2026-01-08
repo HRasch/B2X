@@ -1,4 +1,12 @@
 ---
+docid: STATUS-019
+title: KB MCP PHASE 2B PLAN
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: KB-MCP-PHASE-2B-PLAN
 title: Phase 2b - Attachment Removal Plan
 owner: @SARAH

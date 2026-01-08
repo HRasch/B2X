@@ -1,3 +1,11 @@
+---
+docid: ADR-107
+title: DAISYUI_COMPONENT_GUIDELINES
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# B2X Frontend Component Guidelines - DaisyUI Framework
 
 **Date:** December 30, 2025  

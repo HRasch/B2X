@@ -1,3 +1,11 @@
+---
+docid: BS-020
+title: EXEC SUMMARY REFACTOR
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: EXEC-REFACTOR
 title: "Executive Summary: Refactoring Efficiency Strategy"

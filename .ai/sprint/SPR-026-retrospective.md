@@ -1,4 +1,12 @@
 ---
+docid: SPR-137
+title: SPR 026 Retrospective
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: SPR-026-RETRO
 title: Sprint 2026-26 Retrospective - Advanced AI Optimization & Compliance Expansion
 owner: @ScrumMaster

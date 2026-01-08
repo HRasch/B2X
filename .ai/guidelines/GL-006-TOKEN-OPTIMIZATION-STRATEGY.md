@@ -1,3 +1,11 @@
+---
+docid: GL-066
+title: GL 006 TOKEN OPTIMIZATION STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # GL-006: Token Optimization Strategy
 
 **DocID**: `GL-006`  
@@ -407,6 +415,42 @@ Track monthly:
 | Total agent files | ~35KB | - | - | <50KB |
 | Rate limit incidents | ? | - | - | 0 |
 | Avg session length | ? | - | - | <30 turns |
+
+---
+
+## 📁 Temp-File Execution Mode
+
+**New Strategy (Jan 2026):** During task execution, store intermediate outputs in `.ai/temp/` to reduce token consumption.
+
+### How It Works
+- **Auto-Save**: Tools detect outputs >1KB and save to temp files (e.g., `task-uuid.json`).
+- **Reference**: Return path + summary instead of full content.
+- **Cleanup**: Auto-delete after 1 hour or task completion.
+
+### Usage
+```bash
+# Create temp file
+./scripts/temp-file-manager.sh create "large output here" json
+
+# List temp files
+./scripts/temp-file-manager.sh list
+
+# Cleanup specific file
+./scripts/temp-file-manager.sh cleanup task-abc123.json
+
+# Cleanup all
+./scripts/temp-file-manager.sh cleanup-all
+```
+
+### Benefits
+- 30-50% token savings for execution-heavy tasks.
+- Prevents context bloat in multi-step workflows.
+- Complements fragment-based access ([GL-044]).
+
+### Integration
+- Update tool wrappers to use `--save-temp` flag.
+- Train agents to reference temp files in prompts.
+- Monitor via token audit ([GL-046]).
 
 ---
 

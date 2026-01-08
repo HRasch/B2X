@@ -1,3 +1,11 @@
+---
+docid: AGT-024
+title: DocMaintainer.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿````chatagent
 ```chatagent
 ---

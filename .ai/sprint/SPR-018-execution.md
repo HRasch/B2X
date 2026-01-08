@@ -1,3 +1,11 @@
+---
+docid: SPR-116
+title: SPR 018 Execution
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-018
 title: Sprint 2026-18 Execution - AI Validation Automation & Ethical Expansion

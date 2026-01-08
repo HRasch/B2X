@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-068
+title: SUBAGENT_CONTEXT_ANALYSIS
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # SubAgent Context Analysis & Recommendations
 
 **Created:** 30.12.2025  

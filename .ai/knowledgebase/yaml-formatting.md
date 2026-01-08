@@ -1,3 +1,11 @@
+---
+docid: KB-193
+title: Yaml Formatting
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # YAML Formatting — Quick Reference
 
 Sources:

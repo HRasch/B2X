@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-012
+title: Bug Analysis.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Bug analysis and root cause investigation
 ---

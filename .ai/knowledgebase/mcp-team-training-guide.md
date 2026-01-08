@@ -1,3 +1,11 @@
+---
+docid: KB-140
+title: Mcp Team Training Guide
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-MCP-TEAM-TRAINING
 title: MCP Token Optimization - Team Training Guide

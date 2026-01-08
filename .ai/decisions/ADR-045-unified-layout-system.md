@@ -1,3 +1,11 @@
+---
+docid: ADR-089
+title: ADR 045 Unified Layout System
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # ADR-045: Unified Layout System for Frontend Applications
 
 **Status**: Proposed  

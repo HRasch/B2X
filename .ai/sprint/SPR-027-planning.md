@@ -1,3 +1,11 @@
+---
+docid: SPR-139
+title: SPR 027 Planning
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# SPR-027: Sprint 2026-27 Planning - AI Model Governance & Advanced Compliance Intelligence
 
 **DocID**: SPR-027  

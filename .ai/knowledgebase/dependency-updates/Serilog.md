@@ -1,4 +1,12 @@
 ---
+docid: KB-100
+title: Serilog
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: Serilog
 current_version: 4.3.0
 source_files:

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-025
+title: Run Tests.Prompt
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿# 🧪 RUN_TESTS - Quality Assurance & Testing Cycle
 
 **Trigger**: Feature ready for testing or before merge

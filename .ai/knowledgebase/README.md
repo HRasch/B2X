@@ -1,3 +1,11 @@
+---
+docid: KB-150
+title: README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 This folder contains curated, concise summaries of external documentation and best-practice references requested by agents.
 
 Files:

@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-070
+title: SUBAGENT_DEPLOYMENT_DASHBOARD
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # SubAgent Ecosystem - Executive Dashboard
 
 **Updated**: January 5, 2026  

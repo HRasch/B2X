@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-150
+title: Security Assessment
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Security Assessment Report - CLEANUP-001
 
 ## Executive Summary

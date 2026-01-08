@@ -1,3 +1,11 @@
+---
+docid: ADR-058
+title: ADR 023 Tenant Mcp Prompt Management
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-023: Tenant-Specific MCP Prompt Management
 
 **Status**: Proposed  

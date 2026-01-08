@@ -1,4 +1,12 @@
 ---
+docid: BS-026
+title: REFACTORING EFFICIENCY STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: BS-REFACTOR-001
 title: Strategie für effiziente große Refactorings
 owner: "@Architect, @TechLead"

@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-175
+title: Bug Null Check.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for null reference bugs
 ---

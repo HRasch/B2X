@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-181
+title: Deploy.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🚀 DEPLOY - Deployment & Release Management
 
 **Trigger**: Feature/release ready for deployment

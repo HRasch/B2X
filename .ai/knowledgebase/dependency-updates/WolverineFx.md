@@ -1,4 +1,12 @@
 ---
+docid: KB-107
+title: WolverineFx
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 title: WolverineFx
 current_version: 5.9.2
 source_files:

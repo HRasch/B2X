@@ -1,3 +1,11 @@
+---
+docid: ADR-110
+title: DESIGN_SYSTEM_SETUP
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Design System Implementation - Setup Complete
 
 **Date:** December 30, 2025  

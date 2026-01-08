@@ -1,4 +1,12 @@
 ---
+docid: PRM-030
+title: Bug Lint Fix.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for linting errors
 ---

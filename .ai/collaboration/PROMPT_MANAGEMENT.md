@@ -1,3 +1,11 @@
+---
+docid: COLLAB-025
+title: PROMPT_MANAGEMENT
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Prompt Management Framework
 
 ## Überblick

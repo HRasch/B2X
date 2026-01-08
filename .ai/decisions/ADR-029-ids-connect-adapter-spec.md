@@ -1,3 +1,11 @@
+---
+docid: ADR-069
+title: ADR 029 Ids Connect Adapter Spec
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# IDS Connect Adapter - Technische Spezifikation
 
 **Status:** Spezifikation  

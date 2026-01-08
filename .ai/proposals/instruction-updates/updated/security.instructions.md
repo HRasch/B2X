@@ -1,4 +1,12 @@
 ---
+docid: PROP-011
+title: Security.Instructions
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: "**/*"
 --
 

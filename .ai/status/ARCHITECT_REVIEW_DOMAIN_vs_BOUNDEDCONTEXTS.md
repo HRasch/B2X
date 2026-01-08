@@ -1,3 +1,11 @@
+---
+docid: STATUS-004
+title: ARCHITECT_REVIEW_DOMAIN_vs_BOUNDEDCONTEXTS
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# 🏗️ Architecture Review Request: Domain vs BoundedContexts
 
 **To**: @Architect  

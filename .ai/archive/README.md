@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-030
+title: README
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 # Archive Directory
 
 This directory contains historical documents, old analysis files, and superseded reports that are no longer actively maintained but retained for reference.

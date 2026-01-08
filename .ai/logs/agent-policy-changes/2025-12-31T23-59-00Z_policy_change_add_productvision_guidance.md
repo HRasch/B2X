@@ -1,4 +1,12 @@
 ---
+docid: LOG-002
+title: 2025 12 31T23 59 00Z_policy_change_add_productvision_guidance
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 timestamp: 2025-12-31T23:59:00Z
 issuer: GitHub Copilot
 approver: PENDING (@SARAH)

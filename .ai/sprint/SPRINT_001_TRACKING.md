@@ -1,3 +1,11 @@
+---
+docid: SPR-152
+title: SPRINT_001_TRACKING
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Sprint 001 - Daily Tracking
 
 **Sprint:** Sprint 001: AI-DEV Framework Setup & Foundation  

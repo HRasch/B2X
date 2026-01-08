@@ -1,4 +1,12 @@
 ---
+docid: TASK-007
+title: Progress
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: TASK-002-PROGRESS
 title: First Operational Dispatch Progress
 owner: "@SARAH"

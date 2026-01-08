@@ -1,3 +1,11 @@
+---
+docid: SPR-155
+title: TEAMS_ACTIVATED
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🚀 TEAMS ACTIVATED FOR DEVELOPMENT
 
 **Activation Time:** December 30, 2025 - 09:00 AM  

@@ -1,3 +1,11 @@
+---
+docid: WF-019
+title: WF 008 Update Github Issues Sprint
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 📋 Instructions: Update GitHub Issue State After Iteration Planning
 
 **Purpose:** Synchronize GitHub issue states with iteration planning decisions  

@@ -1,4 +1,12 @@
 ---
+docid: INS-008
+title: Backend Essentials.Instructions
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backend/**"
 ---
 
@@ -68,7 +76,94 @@ kb-mcp/search_knowledge_base
 
 See [KB-052] Roslyn MCP, [KB-055] Security MCP, [KB-057] Database MCP
 
+## Large File Editing Strategy ([GL-043])
+
+When editing large .NET files (>200 lines), use the Multi-Language Fragment Editing approach with Roslyn MCP and Wolverine MCP integration:
+
+### Pre-Edit Analysis
+```bash
+# Semantic analysis of types and dependencies
+roslyn-mcp/analyze_types workspacePath="backend/Domain/Catalog"
+
+# Find usage patterns and breaking changes
+list_code_usages("ClassName", filePaths: ["backend/**"])
+roslyn-mcp/check_breaking_changes workspacePath="backend" filePath="Service.cs"
+```
+
+### Fragment-Based Editing Patterns
+```csharp
+// Fragment: Business logic method (80% token savings)
+public async Task<Result<Order>> ProcessOrderAsync(OrderRequest request)
+{
+    // Edit only this method body, reference external dependencies
+    var validation = await _validator.ValidateAsync(request);
+    if (!validation.IsValid) return Result.Failure<Order>(validation.Errors);
+    
+    // ... rest of method implementation
+}
+```
+
+**Roslyn MCP Workflows**:
+```bash
+# 1. Type safety validation before edits
+roslyn-mcp/analyze_types workspacePath="backend/Domain/Catalog"
+
+# 2. Fragment extraction and refactoring
+read_file("Service.cs", startLine: 45, endLine: 85)
+roslyn-mcp/invoke_refactoring fileUri="Service.cs" name="source.unusedImports"
+roslyn-mcp/invoke_refactoring fileUri="Service.cs" name="source.addTypeAnnotation"
+
+# 3. Dependency injection validation
+roslyn-mcp/validate_di_container workspacePath="backend" filePath="Program.cs"
+
+# 4. Breaking change detection
+roslyn-mcp/check_breaking_changes workspacePath="backend" filePath="ApiController.cs"
+```
+
+**Wolverine MCP Integration**:
+```bash
+# CQRS pattern validation
+wolverine-mcp/validate_cqrs_patterns workspacePath="backend" filePath="Commands/OrderCommand.cs"
+
+# Message handler analysis
+wolverine-mcp/analyze_message_handlers workspacePath="backend/Domain"
+
+# Saga orchestration validation
+wolverine-mcp/validate_sagas workspacePath="backend" filePath="OrderSaga.cs"
+
+# Event sourcing patterns
+wolverine-mcp/check_event_sourcing workspacePath="backend/Domain/Events"
+```
+
+### Quality Gates
+- Always run `get_errors()` after edits
+- Execute related unit tests with `runTests()`
+- Use `roslyn-mcp/analyze_types` for semantic validation
+- Validate Wolverine patterns with dedicated MCP tools
+
+**Token Savings**: 80% vs. reading entire files | **Quality**: Compiler-level validation with CQRS pattern enforcement
+
+## Temp-File Usage for Token Optimization
+
+For large outputs during task execution (e.g., test results, logs >1KB), save to temp files to reduce token consumption:
+
+```bash
+# Auto-save large test output
+OUTPUT=$(dotnet test --verbosity minimal)
+if [ $(echo "$OUTPUT" | wc -c) -gt 1024 ]; then
+  bash scripts/temp-file-manager.sh create "$OUTPUT" txt
+else
+  echo "$OUTPUT"
+fi
+
+# Reference in prompts/responses
+"See temp file: .ai/temp/task-uuid.json (5KB saved)"
+```
+
+- Auto-cleanup after 1 hour or task completion.
+- Complements [GL-006] token optimization strategy.
+
 ---
 
 **Full documentation**: Use `kb-mcp/get_article` or search Knowledge Base  
-**Size**: 2.0 KB (with governance additions)
+**Size**: 2.1 KB (with temp-file additions)

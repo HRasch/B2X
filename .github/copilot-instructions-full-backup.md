@@ -1,3 +1,11 @@
+---
+docid: DOC-013
+title: Copilot Instructions Full Backup
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 ﻿# GitHub Copilot Instructions
 
 Diese Datei definiert projekt-weite Anweisungen für alle GitHub Copilot Agents.

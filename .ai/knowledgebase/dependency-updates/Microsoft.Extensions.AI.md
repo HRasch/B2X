@@ -1,3 +1,11 @@
+---
+docid: KB-091
+title: Microsoft.Extensions.AI
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Microsoft.Extensions.AI - Unified AI Abstractions
 
 **DocID**: `KB-SW-MSAI`  

@@ -1,4 +1,12 @@
 ---
+docid: PRM-031
+title: Bug Null Check.Prompt
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: TechLead
 description: Quick fix for null reference bugs
 ---

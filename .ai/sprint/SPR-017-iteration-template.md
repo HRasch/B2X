@@ -1,3 +1,11 @@
+---
+docid: SPR-114
+title: SPR 017 Iteration Template
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: SPR-017
 title: Sprint 2026-17 Planning - AI Validation Maturity & Ethical Testing Frameworks

@@ -1,4 +1,12 @@
 ---
+docid: COLLAB-024
+title: PROMPTS_INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: PRM-INDEX
 title: Development Cycle Prompts - Quick Reference
 owner: "@SARAH"

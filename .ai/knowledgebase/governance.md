@@ -1,3 +1,11 @@
+---
+docid: KB-118
+title: Governance
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 title: Governance & P0 Playbook (migrated)
 source: .ai/knowledgebase/governance.md (migrated)

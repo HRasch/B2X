@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-036
+title: REQ 007 Frontend Analysis
+owner: @DocMaintainer
+status: Archived
+created: 2026-01-08
+---
+
 ﻿# REQ-007: Email WYSIWYG Builder - Frontend Analysis
 
 **DocID**: `REQ-007-FRONTEND-ANALYSIS`  

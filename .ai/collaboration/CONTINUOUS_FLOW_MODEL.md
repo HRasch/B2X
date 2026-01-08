@@ -1,3 +1,11 @@
+---
+docid: COLLAB-018
+title: CONTINUOUS_FLOW_MODEL
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # ⚡ CONTINUOUS FLOW EXECUTION MODEL
 
 **Authority:** @SARAH (Coordinator)  

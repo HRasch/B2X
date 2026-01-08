@@ -1,3 +1,11 @@
+---
+docid: ADR-112
+title: INDEX
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ADR-INDEX
 title: Architecture & Knowledge Base Index

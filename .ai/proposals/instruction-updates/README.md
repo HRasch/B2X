@@ -1,3 +1,11 @@
+---
+docid: PROP-005
+title: README
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 This folder contains proposed instruction-file changes for review by @CopilotExpert and @SARAH.
 
 - `backend-instructions-proposal.md` — suggested additions for Plan‑Act‑Control and analyzers.

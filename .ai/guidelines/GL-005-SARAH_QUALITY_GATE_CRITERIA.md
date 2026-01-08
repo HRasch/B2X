@@ -1,4 +1,12 @@
 ---
+docid: GL-065
+title: GL 005 SARAH_QUALITY_GATE_CRITERIA
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-005
 title: SARAH Quality Gate - Single-Topic PR Review Criteria
 owner: "@SARAH"

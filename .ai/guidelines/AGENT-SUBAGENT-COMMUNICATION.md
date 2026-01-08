@@ -1,3 +1,11 @@
+---
+docid: GL-055
+title: AGENT SUBAGENT COMMUNICATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Agent-SubAgent Communication Guide
 
 **Version:** 1.0  

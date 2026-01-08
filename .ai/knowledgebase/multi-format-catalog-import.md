@@ -1,3 +1,11 @@
+---
+docid: KB-143
+title: Multi Format Catalog Import
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: KB-023
 title: Multi-Format Catalog Import Architecture

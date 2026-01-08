@@ -1,4 +1,12 @@
 ---
+docid: GL-063
+title: GL 004 BRANCH_NAMING_STRATEGY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 docid: GL-004
 title: Branch Naming & Single-Topic Strategy
 owner: "@GitManager + @SARAH"

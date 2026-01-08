@@ -1,3 +1,11 @@
+---
+docid: REQ-043
+title: ANALYSIS SMART DATA INTEGRATION SECURITY
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: ANALYSIS-SMART-DATA-INTEGRATION-SECURITY
 title: Smart Data Integration Assistant - Security Analysis

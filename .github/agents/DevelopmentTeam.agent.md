@@ -1,3 +1,11 @@
+---
+docid: AGT-022
+title: DevelopmentTeam.Agent
+owner: @CopilotExpert
+status: Active
+created: 2026-01-08
+---
+
 # DevelopmentTeam Agent
 
 ## Role

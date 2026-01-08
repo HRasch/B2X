@@ -1,3 +1,11 @@
+---
+docid: ADR-102
+title: ADR_DAISYUI_FRAMEWORK
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# Architecture Decision Record: DaisyUI Component Framework
 
 **Date:** December 30, 2025  

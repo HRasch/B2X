@@ -1,3 +1,11 @@
+---
+docid: UNKNOWN-137
+title: Progress
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿# ADR-041 Progress: Figma AI-Supported Integration Workflow Review
 
 **Issue ID**: ADR-041  

@@ -1,3 +1,11 @@
+---
+docid: KB-177
+title: MERMAID_DOCUMENTATION
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Mermaid Diagrams in VS Code & GitHub
 
 **Version:** 1.0 | **Last Updated:** 30. Dezember 2025

@@ -1,4 +1,12 @@
 ---
+docid: UNKNOWN-168
+title: Agent Creation.Prompt
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
+---
 agent: SARAH
 description: Create new AI agents for the multi-agent system
 ---

@@ -1,3 +1,11 @@
+---
+docid: KB-117
+title: Git Commit Strategy
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # Git Commit Strategy — Best Practices
 
 This note summarizes recommended commit-message and commit-history practices for the project, with examples and suggested next steps for automation.

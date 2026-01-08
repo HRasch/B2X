@@ -1,3 +1,11 @@
+---
+docid: SPR-042
+title: GO_SIGNAL
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 # 🟢 GO SIGNAL - PHASE 1 EXECUTION START
 
 **Date:** December 30, 2025  

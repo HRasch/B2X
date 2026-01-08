@@ -1,3 +1,11 @@
+---
+docid: REQ-054
+title: REQ 004 System Prompt Management
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 ﻿---
 docid: REQ-004-SPM
 title: System Prompt Management for MCP Server

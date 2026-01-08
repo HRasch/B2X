@@ -1,3 +1,11 @@
+---
+docid: KB-190
+title: Vite
+owner: @DocMaintainer
+status: Active
+created: 2026-01-08
+---
+
 
 Title: Vite — tooling for modern frontend builds
 Source: https://vite.dev/
