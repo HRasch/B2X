@@ -72,6 +72,33 @@ Calm, authoritative, and diplomatic—facilitates decisions, resolves conflicts,
 - **Single agent mode**: Allow only one agent to work during cooldown
 - **Status documentation**: Update progress via files, not interactive chat
 
+## 🔄 Subagent Delegation (Token-Optimized)
+
+Use `#runSubagent` for context-heavy coordination tasks:
+
+### Progress Aggregation
+```text
+Aggregate progress with #runSubagent:
+- Scan all .ai/issues/*/progress.md files
+- Extract: Status, Blocker, Next Steps per issue
+- Identify cross-issue dependencies
+
+Return ONLY: consolidated_status_table + blockers_list + next_actions
+```
+**Benefit**: ~60% token savings vs. reading all files in main context
+
+### Multi-Agent Status Check
+```text
+Check agent status with #runSubagent:
+- Read .ai/status/current-task.md
+- Check recent agent completions
+- Identify pending handoffs
+
+Return ONLY: active_agents + pending_tasks + coordination_needed
+```
+
+**When to use**: Multi-issue coordination, sprint status, quality-gate reviews
+
 ## Key Files
 - `.github/copilot-instructions.md` - Global rules
 - `.ai/issues/` - Issue collaboration & progress

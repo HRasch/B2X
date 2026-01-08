@@ -21,6 +21,9 @@ export default defineConfig({
   },
   server: {
     port: 5175,
+    hmr: {
+      port: 24680, // Unique HMR port to avoid conflicts
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:8080',

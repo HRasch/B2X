@@ -173,7 +173,6 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'unified-store',
   title: 'Home',
 });
 

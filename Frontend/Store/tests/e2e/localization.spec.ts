@@ -2,10 +2,15 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Localization E2E Tests', () => {
   test.beforeEach(async ({ page }) => {
-    // Clear localStorage before each test
-    await page.evaluate(() => localStorage.clear());
+    // Clear localStorage before each test (handle security restrictions)
+    try {
+      await page.evaluate(() => localStorage.clear());
+    } catch {
+      // Ignore security errors when localStorage is not accessible
+      console.log('localStorage not accessible, skipping clear');
+    }
     // Navigate to app
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
   });
 
   test('should display language switcher in navbar', async ({ page }) => {
@@ -50,7 +55,13 @@ test.describe('Localization E2E Tests', () => {
     await germanOption.click();
 
     // Check if locale was changed
-    const locale = await page.evaluate(() => localStorage.getItem('locale'));
+    const locale = await page.evaluate(() => {
+      try {
+        return localStorage.getItem('locale');
+      } catch {
+        return null; // localStorage not accessible
+      }
+    });
     expect(locale).toBe('de');
   });
 

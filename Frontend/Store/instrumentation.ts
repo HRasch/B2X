@@ -18,9 +18,9 @@
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
-import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
-import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
-import { resourceFromAttributes } from '@opentelemetry/resources';
+// import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
+// import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { Resource } from '@opentelemetry/resources';
 import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
@@ -51,7 +51,7 @@ function initTelemetry(): void {
 
   try {
     // Create resource with service attributes
-    const resource = resourceFromAttributes({
+    const resource = new Resource({
       [ATTR_SERVICE_NAME]: config.serviceName,
       [ATTR_SERVICE_VERSION]: config.serviceVersion,
       [SEMRESATTRS_DEPLOYMENT_ENVIRONMENT]: config.environment,
@@ -64,22 +64,22 @@ function initTelemetry(): void {
     });
 
     // Configure OTLP metrics exporter
-    const metricExporter = new OTLPMetricExporter({
-      url: `${config.otlpEndpoint}/v1/metrics`,
-      timeoutMillis: 5000,
-    });
+    // const metricExporter = new OTLPMetricExporter({
+    //   url: `${config.otlpEndpoint}/v1/metrics`,
+    //   timeoutMillis: 5000,
+    // });
 
     // Configure metric reader with periodic export
-    const metricReader = new PeriodicExportingMetricReader({
-      exporter: metricExporter,
-      exportIntervalMillis: 60000, // Export every 60 seconds
-    });
+    // const metricReader = new PeriodicExportingMetricReader({
+    //   exporter: metricExporter,
+    //   exportIntervalMillis: 60000, // Export every 60 seconds
+    // });
 
     // Initialize the SDK
     const sdk = new NodeSDK({
       resource,
       traceExporter,
-      metricReader,
+      // metricReader, // Temporarily disabled due to version conflicts
       instrumentations: [
         getNodeAutoInstrumentations({
           // Disable noisy instrumentations

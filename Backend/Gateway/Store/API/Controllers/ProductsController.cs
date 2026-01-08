@@ -14,15 +14,18 @@ public class ProductsController : ControllerBase
 {
     private readonly ICatalogServiceClient _catalogService;
     private readonly ILocalizationServiceClient _localizationService;
+    private readonly ISearchServiceClient _searchService;
     private readonly ILogger<ProductsController> _logger;
 
     public ProductsController(
         ICatalogServiceClient catalogService,
         ILocalizationServiceClient localizationService,
+        ISearchServiceClient searchService,
         ILogger<ProductsController> logger)
     {
         _catalogService = catalogService;
         _localizationService = localizationService;
+        _searchService = searchService;
         _logger = logger;
     }
 
@@ -58,14 +61,25 @@ public class ProductsController : ControllerBase
     }
 
     /// <summary>
-    /// Searches products
+    /// Searches products using Elasticsearch
     /// </summary>
     [HttpGet("search")]
     public async Task<IActionResult> SearchProducts(
-        [FromQuery] string q,
-        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId)
+        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
+        [FromQuery] string q = "*",
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        [FromQuery] string? sector = null)
     {
-        var products = await _catalogService.SearchProductsAsync(q, tenantId);
-        return Ok(products);
+        var locale = Request.Headers.AcceptLanguage.FirstOrDefault() ?? "en";
+        var request = new SearchRequestDto(
+            Query: q,
+            Page: page,
+            PageSize: pageSize,
+            Sector: sector,
+            Locale: locale);
+
+        var response = await _searchService.SearchProductsAsync(request, tenantId);
+        return Ok(response);
     }
 }

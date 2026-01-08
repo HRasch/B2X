@@ -71,6 +71,31 @@ applyTo: "src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**"
 - Include quick accessibility checks in CI for critical pages
 - Document Lighthouse/perf thresholds for release
 
+## runSubagent for Vue Component Analysis (Token-Optimized)
+
+For comprehensive component validation, use `#runSubagent` to execute all checks in isolation:
+
+```text
+Validate Vue component with #runSubagent:
+- Analyze component structure and composition API usage
+- Validate i18n keys (must return zero hardcoded strings)
+- Check responsive design breakpoints
+- Run accessibility pre-check (WCAG 2.1)
+- Validate TypeScript types for props/emits
+
+Return ONLY: violations + fix_suggestions + accessibility_score
+```
+
+**Benefits**:
+- ~2000 Token savings per component validation
+- All 5 checks run in isolated context
+- Only actionable violations returned to main context
+- Prevents PRs with i18n or accessibility issues
+
+**When to use**: Before committing Vue component changes, PR reviews
+
+---
+
 ## MCP Tools
 
 For detailed frontend-specific MCP tools documentation:

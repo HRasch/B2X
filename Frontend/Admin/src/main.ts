@@ -32,7 +32,7 @@ const configureMonacoLocale = async () => {
   if (monacoLocale) {
     try {
       // Dynamically import the locale file
-      await import(`monaco-editor/esm/vs/nls.${monacoLocale}.js`);
+      await import(/* @vite-ignore */ `monaco-editor/esm/vs/nls.${monacoLocale}.js`);
       console.log(`Monaco locale loaded: ${monacoLocale}`);
     } catch (error) {
       console.warn(`Failed to load Monaco locale: ${monacoLocale}`, error);

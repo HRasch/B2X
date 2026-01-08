@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "0.2.0",
   "configurations": [
     {
@@ -286,6 +286,36 @@
       "type": "coreclr",
       "request": "attach",
       "processId": "${command:pickProcess}"
+    },
+    {
+      "name": "🌐 Debug Store Frontend (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/frontend/Store",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/src/*"
+      }
+    },
+    {
+      "name": "🎨 Debug Admin Frontend (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5179",
+      "webRoot": "${workspaceFolder}/frontend/Admin",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/src/*"
+      }
+    },
+    {
+      "name": "🏢 Debug Management Frontend (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5175",
+      "webRoot": "${workspaceFolder}/frontend/Management",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/src/*"
+      }
     }
   ],
   "compounds": [
@@ -296,6 +326,30 @@
         "📱 Frontend Store (Dev)",
         "🎨 Frontend Admin (Dev)",
         "🏢 Frontend Management (Dev)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "🔍 Interactive Store Debug",
+      "configurations": [
+        "📱 Frontend Store (Dev)",
+        "🌐 Debug Store Frontend (Chrome)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "🔍 Interactive Admin Debug",
+      "configurations": [
+        "🎨 Frontend Admin (Dev)",
+        "🎨 Debug Admin Frontend (Chrome)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "🔍 Interactive Management Debug",
+      "configurations": [
+        "🏢 Frontend Management (Dev)",
+        "🏢 Debug Management Frontend (Chrome)"
       ],
       "stopAll": true
     }

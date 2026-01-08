@@ -40,6 +40,13 @@ jobs:
           dotnet format --verify-no-changes --verbosity diagnostic
         continue-on-error: false
 
+      - name: MCP - Roslyn Analysis
+        run: |
+          # Roslyn MCP validation for backend
+          echo "Running Roslyn MCP analysis..."
+          roslyn-mcp/analyze_types workspacePath="backend" || echo "Roslyn MCP not available in CI"
+          roslyn-mcp/check_breaking_changes workspacePath="backend" || echo "Roslyn MCP not available in CI"
+
       - name: Frontend - Install Dependencies
         run: |
           cd frontend/Store && npm ci

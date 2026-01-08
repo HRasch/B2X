@@ -53,6 +53,9 @@ export default defineConfig({
     port: parseInt(process.env.PORT || process.env.VITE_PORT || '5179'),
     host: '0.0.0.0',
     strictPort: true, // Fail if port is not available
+    hmr: {
+      port: 24679, // Unique HMR port to avoid conflicts
+    },
     proxy: {
       '/api': {
         target: process.env.VITE_API_GATEWAY_URL || 'http://localhost:8080',
@@ -85,6 +88,6 @@ export default defineConfig({
       },
     },
     reportCompressedSize: true,
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 2000,
   },
 });

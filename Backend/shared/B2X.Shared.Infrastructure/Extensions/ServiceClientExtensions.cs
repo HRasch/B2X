@@ -122,6 +122,21 @@ public static class ServiceClientExtensions
     }
 
     /// <summary>
+    /// Registers the Search Service HTTP client with service discovery
+    /// Service name: "http://search-service" (resolved by Aspire)
+    /// </summary>
+    public static IServiceCollection AddSearchServiceClient(this IServiceCollection services)
+    {
+        services.AddHttpClient<ISearchServiceClient, SearchServiceClient>(client =>
+        {
+            client.BaseAddress = new Uri("http://search-service");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+
+        return services;
+    }
+
+    /// <summary>
     /// Registers ALL service clients at once
     /// Use this in API Gateway or services that need to communicate with multiple services
     /// </summary>
@@ -134,7 +149,8 @@ public static class ServiceClientExtensions
             .AddLocalizationServiceClient()
             .AddCustomerServiceClient()
             .AddUsageServiceClient()
-            .AddAccessServiceClient();
+            .AddAccessServiceClient()
+            .AddSearchServiceClient();
 
         return services;
     }

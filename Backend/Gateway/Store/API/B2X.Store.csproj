@@ -31,6 +31,8 @@
 
     <ProjectReference Include="../../../Domain/Tenancy/B2X.Tenancy.API.csproj" />
 
+    <ProjectReference Include="../../../Domain/Search/B2X.Domain.Search.csproj" />
+
   </ItemGroup>
 </Project>
 

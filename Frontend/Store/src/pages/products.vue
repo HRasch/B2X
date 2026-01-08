@@ -160,28 +160,18 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'unified-store',
-  title: 'Products',
-});
+// Only define page meta in Nuxt environment (not in unit tests)
+if (typeof definePageMeta !== 'undefined') {
+  definePageMeta({
+    layout: 'unified-store',
+    title: 'Products',
+  });
+}
 
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useCartStore } from '@/stores/cart';
 import ProductCardModern from '@/components/shop/ProductCardModern.vue';
-
-interface Product {
-  id: string;
-  name: string;
-  sku?: string;
-  description: string;
-  price: number;
-  b2bPrice?: number;
-  image: string;
-  category: string;
-  rating: number;
-  inStock: boolean;
-  stockQuantity?: number;
-}
+import { ProductService, type Product, type SearchFilters } from '@/services/productService';
 
 const cartStore = useCartStore();
 
@@ -189,68 +179,38 @@ const cartStore = useCartStore();
 const products = ref<Product[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
+const totalCount = ref(0);
+const totalPages = ref(0);
+const hasNextPage = ref(false);
 
 // Filters
 const searchQuery = ref('');
 const selectedCategory = ref('All');
-const sortBy = ref('name'); // name, price-asc, price-desc, rating
+const sortBy = ref('relevance'); // relevance, name, price-asc, price-desc, rating
 const itemsPerPage = ref(12);
 const currentPage = ref(1);
 
 // Computed
 const uniqueCategories = computed(() => {
-  const cats = new Set(products.value.map(p => p.category));
+  const cats = new Set(products.value.flatMap(p => p.categories || []));
   return ['All', ...Array.from(cats).sort()];
 });
 
-const sortedAndFiltered = computed(() => {
-  let result = products.value;
+const filteredProducts = computed(() => products.value);
 
-  // Filter by search
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase();
-    result = result.filter(
-      p =>
-        p.name.toLowerCase().includes(query) ||
-        p.description.toLowerCase().includes(query) ||
-        p.sku?.toLowerCase().includes(query)
-    );
-  }
+const totalProducts = computed(() => totalCount.value);
 
-  // Filter by category
-  if (selectedCategory.value !== 'All') {
-    result = result.filter(p => p.category === selectedCategory.value);
-  }
-
-  // Sort
-  switch (sortBy.value) {
-    case 'price-asc':
-      result = [...result].sort((a, b) => a.price - b.price);
-      break;
-    case 'price-desc':
-      result = [...result].sort((a, b) => b.price - a.price);
-      break;
-    case 'rating':
-      result = [...result].sort((a, b) => b.rating - a.rating);
-      break;
-    case 'name':
-    default:
-      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  return result;
+// Watchers for search and filters
+watch([searchQuery, selectedCategory, sortBy, itemsPerPage], () => {
+  currentPage.value = 1; // Reset to first page when filters change
+  loadProducts();
 });
 
-const totalProducts = computed(() => sortedAndFiltered.value.length);
-const totalPages = computed(() => Math.ceil(totalProducts.value / itemsPerPage.value));
-
-const filteredProducts = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value;
-  return sortedAndFiltered.value.slice(start, start + itemsPerPage.value);
+watch(currentPage, () => {
+  loadProducts();
 });
 
 const hasPreviousPage = computed(() => currentPage.value > 1);
-const hasNextPage = computed(() => currentPage.value < totalPages.value);
 
 const visiblePages = computed(() => {
   const pages = [];
@@ -270,11 +230,26 @@ const loadProducts = async () => {
   error.value = null;
 
   try {
-    // TODO: Replace with actual API call
-    // const response = await productService.getProducts()
-    // products.value = response
+    const filters: SearchFilters = {
+      searchTerm: searchQuery.value || undefined,
+      category: selectedCategory.value !== 'All' ? selectedCategory.value : undefined,
+      sortBy: sortBy.value,
+      onlyAvailable: true,
+    };
 
-    // Mock data for now
+    const response = await ProductService.searchProducts(
+      filters,
+      currentPage.value,
+      itemsPerPage.value
+    );
+
+    products.value = response.items;
+    totalCount.value = response.totalCount;
+    totalPages.value = response.totalPages;
+    hasNextPage.value = response.hasNextPage;
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Failed to load products';
+    // Fallback to mock data if API fails
     products.value = [
       {
         id: '1',
@@ -282,8 +257,9 @@ const loadProducts = async () => {
         sku: 'LP-001',
         description: 'High-performance laptop for professionals',
         price: 1299.99,
+        b2bPrice: 1199.99,
         image: 'https://via.placeholder.com/300x200?text=Laptop',
-        category: 'Electronics',
+        categories: ['Electronics'],
         rating: 4.8,
         inStock: true,
         stockQuantity: 5,
@@ -294,16 +270,16 @@ const loadProducts = async () => {
         sku: 'AC-001',
         description: 'Durable USB-C to USB-C cable',
         price: 19.99,
+        b2bPrice: 17.99,
         image: 'https://via.placeholder.com/300x200?text=USB-C',
-        category: 'Accessories',
+        categories: ['Accessories'],
         rating: 4.5,
         inStock: true,
         stockQuantity: 50,
       },
-      // Add more mock products...
     ];
-  } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Failed to load products';
+    totalCount.value = products.value.length;
+    totalPages.value = 1;
   } finally {
     loading.value = false;
   }

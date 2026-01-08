@@ -18,17 +18,33 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
+    ignoreHTTPSErrors: true,
+    bypassCSP: true,
   },
 
-  // Commented out webServer - run server manually: npm run dev
-  // webServer: {
-  //   command: 'npm run dev -- --port 3000',
-  //   url: 'http://localhost:3000',
-  //   timeout: 120 * 1000,
-  //   reuseExistingServer: !process.env.CI,
-  //   stdout: 'pipe',
-  //   stderr: 'pipe',
-  // },
+  // WebServer for both frontend and mock API
+  webServer: [
+    {
+      command: 'npx json-server --host 127.0.0.1 --port 8001 mock-db.json',
+      url: 'http://127.0.0.1:8001',
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+      stdout: 'pipe',
+      stderr: 'pipe',
+    },
+    {
+      command: 'npm run dev -- --port 3000',
+      url: 'http://localhost:3000',
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+      stdout: 'pipe',
+      stderr: 'pipe',
+      env: {
+        VITE_API_GATEWAY_URL: 'http://127.0.0.1:8001',
+        VITE_STORE_API_URL: 'http://127.0.0.1:8001',
+      },
+    },
+  ],
 
   expect: {
     timeout: 5000,
