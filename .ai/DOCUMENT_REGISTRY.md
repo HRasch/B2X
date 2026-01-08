@@ -188,6 +188,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-048` | Instruction File Consolidation | `.ai/guidelines/GL-048-INSTRUCTION-FILE-CONSOLIDATION.md` | Active |
 | `GL-049` | Documentation Structure Framework | `.ai/guidelines/GL-049-DOCUMENTATION-STRUCTURE-FRAMEWORK.md` | Active |
 | `GL-050` | Project Documentation Structure in docs/ | `.ai/guidelines/GL-050-PROJECT-DOCS-STRUCTURE.md` | Active |
+| `GL-051` | AI-Ready Documentation Integration Guide | `.ai/guidelines/GL-051-AI-READY-DOCUMENTATION-INTEGRATION.md` | Active |
 
 ---
 
@@ -255,6 +256,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
+| `TPL-DEVDOC-001` | Developer Documentation Template | `.ai/templates/TPL-DEVDOC-001-DEVELOPER-DOCS-TEMPLATE.md` | Active |
+| `TPL-USERDOC-001` | User Documentation Template | `.ai/templates/TPL-USERDOC-001-USER-DOCS-TEMPLATE.md` | Active |
 | `TPL-001` | Customer Integration Tracker | `.ai/templates/customer-integration-tracker.yml` | Active |
 | `TPL-002` | Customer Integration Checklist | `.ai/templates/customer-integration-checklist.md` | Active |
 
