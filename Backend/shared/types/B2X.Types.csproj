@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -8,5 +9,10 @@
 
   <ItemGroup>
     <ProjectReference Include="../kernel/B2X.Shared.Kernel.csproj" />
+
   </ItemGroup>
 </Project>
+
+
+
+

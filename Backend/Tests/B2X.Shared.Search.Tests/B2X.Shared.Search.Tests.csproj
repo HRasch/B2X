@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -23,10 +23,19 @@
 
   <ItemGroup>
     <ProjectReference Include="../../Domain/Catalog/B2X.Catalog.API.csproj" />
+
     <ProjectReference Include="../../shared/types/B2X.Types.csproj" />
+
     <ProjectReference Include="../../shared/B2X.Shared.Search/B2X.Shared.Search.csproj" />
+
     <ProjectReference Include="../../shared/kernel/B2X.Shared.Kernel.csproj" />
+
     <ProjectReference Include="../../Domain/Search/B2X.Domain.Search.csproj" />
+
   </ItemGroup>
 
 </Project>
+
+
+
+

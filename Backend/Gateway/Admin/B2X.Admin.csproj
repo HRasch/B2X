@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -44,21 +44,37 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../ServiceDefaults/B2X.ServiceDefaults.csproj" />
+
     <ProjectReference Include="../../shared/kernel/B2X.Shared.Kernel.csproj" />
+
     <ProjectReference Include="../../shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+
     <ProjectReference Include="../../shared/middleware/B2X.Shared.Middleware.csproj" />
+
     <ProjectReference Include="../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+
     <ProjectReference Include="../../Domain/ERP/src/B2X.ERP.csproj" />
+
     <ProjectReference Include="../../Domain/Email/B2X.Email.csproj" />
+
     <ProjectReference Include="../../Domain/Theming/B2X.Theming.API.csproj" />
+
     <!-- ERP Validation and Connectors (ADR-036) -->
     <ProjectReference Include="../../Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
+
     <ProjectReference Include="../../Connectors/B2X.Connectors.csproj" />
+
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../../Domain/Tenancy/B2X.Tenancy.API.csproj" />
+
   </ItemGroup>
 
 </Project>
+
+
+
+
+
 

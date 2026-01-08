@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>B2X.ERP.Abstractions</RootNamespace>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    
     <Description>
       ERP abstraction contracts for HTTP communication between B2X (.NET 10) 
       and ERP Connector (.NET Framework 4.8). Supports massive data loads via 
@@ -21,6 +21,9 @@
   <ItemGroup>
     <!-- Shared ERP Core for common interfaces and models (ADR-036) -->
     <ProjectReference Include="..\..\..\shared\B2X.Shared.Erp.Core\B2X.Shared.Erp.Core.csproj" />
+
   </ItemGroup>
 
 </Project>
+
+
