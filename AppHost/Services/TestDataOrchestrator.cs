@@ -1,7 +1,7 @@
-﻿using B2X.AppHost.Configuration;
+using System.Diagnostics;
+using B2X.AppHost.Configuration;
 using B2X.AppHost.Services;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace B2X.AppHost.Services;
 
@@ -75,13 +75,13 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             _statusTracker.RecordSeedingStart(_testingConfig);
 
             // Phase 1: Core Services (Auth, Tenant, Localization) - Critical path
-            await SeedCoreServicesWithErrorHandlingAsync(seedingContext, cancellationToken);
+            await SeedCoreServicesWithErrorHandlingAsync(seedingContext, cancellationToken).ConfigureAwait(false);
 
             // Phase 2: Catalog Services - Can fail independently
-            await SeedCatalogWithErrorHandlingAsync(seedingContext, cancellationToken);
+            await SeedCatalogWithErrorHandlingAsync(seedingContext, cancellationToken).ConfigureAwait(false);
 
             // Phase 3: CMS Services - Can fail independently
-            await SeedCmsWithErrorHandlingAsync(seedingContext, cancellationToken);
+            await SeedCmsWithErrorHandlingAsync(seedingContext, cancellationToken).ConfigureAwait(false);
 
             // Record successful completion
             var statistics = TestDataContext.Current.GetStatistics();
@@ -94,7 +94,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             _logger.LogError(ex, "Test data seeding failed with structured error: {ErrorCode}", ex.ErrorCode);
 
             // Perform selective rollback based on what was seeded
-            await PerformSelectiveRollbackAsync(seedingContext, cancellationToken);
+            await PerformSelectiveRollbackAsync(seedingContext, cancellationToken).ConfigureAwait(false);
 
             // Record seeding failure with detailed information
             _statusTracker.RecordSeedingFailure(ex.Message, ex);
@@ -106,7 +106,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             _logger.LogError(ex, "Test data seeding failed with unexpected error");
 
             // Perform full rollback on unexpected errors
-            await PerformFullRollbackAsync(seedingContext, cancellationToken);
+            await PerformFullRollbackAsync(seedingContext, cancellationToken).ConfigureAwait(false);
 
             // Record seeding failure
             _statusTracker.RecordSeedingFailure(ex.Message, ex);
@@ -129,13 +129,13 @@ public class TestDataOrchestrator : ITestDataOrchestrator
         _logger.LogInformation("Seeding core services (Auth, Tenant, Localization)");
 
         // 1. Seed Auth Service (users, roles)
-        await SeedAuthServiceAsync(cancellationToken);
+        await SeedAuthServiceAsync(cancellationToken).ConfigureAwait(false);
 
         // 2. Seed Tenant Service (tenants)
-        await SeedTenantServiceAsync(cancellationToken);
+        await SeedTenantServiceAsync(cancellationToken).ConfigureAwait(false);
 
         // 3. Seed Localization Service (languages, translations)
-        await SeedLocalizationServiceAsync(cancellationToken);
+        await SeedLocalizationServiceAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Core services seeding completed");
     }
@@ -155,7 +155,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
         _logger.LogInformation("Seeding catalog data ({ProductCount} products)", _seedingOptions.SampleProductCount);
 
         // Seed catalog service with demo data
-        await SeedCatalogServiceAsync(cancellationToken);
+        await SeedCatalogServiceAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Catalog seeding completed");
     }
@@ -175,7 +175,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
         _logger.LogInformation("Seeding CMS content");
 
         // Seed CMS service with demo pages/content
-        await SeedCmsServiceAsync(cancellationToken);
+        await SeedCmsServiceAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("CMS seeding completed");
     }
@@ -189,11 +189,11 @@ public class TestDataOrchestrator : ITestDataOrchestrator
         _logger.LogWarning("Resetting all test data - this will clear all seeded data");
 
         // Reset in reverse order to avoid foreign key constraints
-        await ResetCmsServiceAsync(cancellationToken);
-        await ResetCatalogServiceAsync(cancellationToken);
-        await ResetLocalizationServiceAsync(cancellationToken);
-        await ResetTenantServiceAsync(cancellationToken);
-        await ResetAuthServiceAsync(cancellationToken);
+        await ResetCmsServiceAsync(cancellationToken).ConfigureAwait(false);
+        await ResetCatalogServiceAsync(cancellationToken).ConfigureAwait(false);
+        await ResetLocalizationServiceAsync(cancellationToken).ConfigureAwait(false);
+        await ResetTenantServiceAsync(cancellationToken).ConfigureAwait(false);
+        await ResetAuthServiceAsync(cancellationToken).ConfigureAwait(false);
 
         _logger.LogInformation("Test data reset completed");
     }
@@ -258,32 +258,32 @@ public class TestDataOrchestrator : ITestDataOrchestrator
     private async Task SeedAuthServiceAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Seeding Auth service with users for {TenantCount} tenants", _seedingOptions.DefaultTenantCount);
-        await UserSeedingUtilities.SeedUsersAsync(_authServiceClient, _testingConfig, cancellationToken);
+        await UserSeedingUtilities.SeedUsersAsync(_authServiceClient, _testingConfig, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task SeedTenantServiceAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Seeding Tenant service with {TenantCount} tenants", _seedingOptions.DefaultTenantCount);
-        await TenantSeedingUtilities.SeedTenantsAsync(_tenantServiceClient, _testingConfig, cancellationToken);
+        await TenantSeedingUtilities.SeedTenantsAsync(_tenantServiceClient, _testingConfig, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task SeedLocalizationServiceAsync(CancellationToken cancellationToken)
     {
         // TODO: Implement Localization service seeding via HTTP client
         _logger.LogInformation("Seeding Localization service");
-        await Task.Delay(100, cancellationToken); // Placeholder
+        await Task.Delay(100, cancellationToken).ConfigureAwait(false); // Placeholder
     }
 
     private async Task SeedCatalogServiceAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Seeding Catalog service with {ProductCount} products", _seedingOptions.SampleProductCount);
-        await CatalogSeedingUtilities.SeedCatalogAsync(_catalogServiceClient, _testingConfig, cancellationToken);
+        await CatalogSeedingUtilities.SeedCatalogAsync(_catalogServiceClient, _testingConfig, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task SeedCmsServiceAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Seeding CMS service");
-        await CmsSeedingUtilities.SeedCmsAsync(_cmsServiceClient, _testingConfig, cancellationToken);
+        await CmsSeedingUtilities.SeedCmsAsync(_cmsServiceClient, _testingConfig, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
@@ -293,48 +293,32 @@ public class TestDataOrchestrator : ITestDataOrchestrator
     private async Task ResetAuthServiceAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Resetting Auth service");
-        await UserSeedingUtilities.ResetUsersAsync(_authServiceClient, cancellationToken);
+        await UserSeedingUtilities.ResetUsersAsync(_authServiceClient, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task ResetTenantServiceAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Resetting Tenant service");
-        await TenantSeedingUtilities.ResetTenantsAsync(_tenantServiceClient, cancellationToken);
+        await TenantSeedingUtilities.ResetTenantsAsync(_tenantServiceClient, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task ResetLocalizationServiceAsync(CancellationToken cancellationToken)
     {
         // TODO: Implement Localization service reset
         _logger.LogInformation("Resetting Localization service");
-        await Task.Delay(50, cancellationToken);
+        await Task.Delay(50, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task ResetCatalogServiceAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Resetting Catalog service");
-        await CatalogSeedingUtilities.ResetCatalogAsync(_catalogServiceClient, cancellationToken);
+        await CatalogSeedingUtilities.ResetCatalogAsync(_catalogServiceClient, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task ResetCmsServiceAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Resetting CMS service");
-        await CmsSeedingUtilities.ResetCmsAsync(_cmsServiceClient, cancellationToken);
-    }
-
-    #endregion
-
-    private async Task TryRollbackAsync(CancellationToken cancellationToken)
-    {
-        try
-        {
-            _logger.LogWarning("Attempting to rollback partial seeding");
-            await ResetAllAsync(cancellationToken);
-            _logger.LogInformation("Rollback completed successfully");
-        }
-        catch (Exception rollbackEx)
-        {
-            _logger.LogError(rollbackEx, "Rollback failed - manual cleanup may be required");
-        }
+        await CmsSeedingUtilities.ResetCmsAsync(_cmsServiceClient, cancellationToken).ConfigureAwait(false);
     }
 
     #region Error Handling and Rollback Implementation (BE-002.8)
@@ -352,15 +336,15 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             _logger.LogInformation("Starting core services seeding phase");
 
             // Auth service seeding (critical - no rollback possible if this fails)
-            await SeedAuthWithRetryAsync(context, cancellationToken);
+            await SeedAuthWithRetryAsync(cancellationToken).ConfigureAwait(false);
             context.MarkServiceSeeded("Auth");
 
             // Tenant service seeding (critical - depends on Auth)
-            await SeedTenantWithRetryAsync(context, cancellationToken);
+            await SeedTenantWithRetryAsync(cancellationToken).ConfigureAwait(false);
             context.MarkServiceSeeded("Tenant");
 
             // Localization service seeding (can be retried independently)
-            await SeedLocalizationWithRetryAsync(context, cancellationToken);
+            await SeedLocalizationWithRetryAsync(context, cancellationToken).ConfigureAwait(false);
             context.MarkServiceSeeded("Localization");
 
             context.CompletePhase(phase);
@@ -385,7 +369,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             context.StartPhase(phase);
             _logger.LogInformation("Starting catalog services seeding phase");
 
-            await SeedCatalogWithRetryAsync(context, cancellationToken);
+            await SeedCatalogWithRetryAsync(context, cancellationToken).ConfigureAwait(false);
             context.MarkServiceSeeded("Catalog");
 
             context.CompletePhase(phase);
@@ -411,7 +395,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             context.StartPhase(phase);
             _logger.LogInformation("Starting CMS services seeding phase");
 
-            await SeedCmsWithRetryAsync(context, cancellationToken);
+            await SeedCmsWithRetryAsync(context, cancellationToken).ConfigureAwait(false);
             context.MarkServiceSeeded("CMS");
 
             context.CompletePhase(phase);
@@ -428,61 +412,61 @@ public class TestDataOrchestrator : ITestDataOrchestrator
     /// <summary>
     /// Seeds auth service with retry logic for transient failures.
     /// </summary>
-    private async Task SeedAuthWithRetryAsync(SeedingContext context, CancellationToken cancellationToken)
+    private async Task SeedAuthWithRetryAsync(CancellationToken cancellationToken)
     {
         await ExecuteWithRetryAsync(
             () => SeedAuthServiceAsync(cancellationToken),
             "Auth",
             maxRetries: 2,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Seeds tenant service with retry logic.
     /// </summary>
-    private async Task SeedTenantWithRetryAsync(SeedingContext context, CancellationToken cancellationToken)
+    private async Task SeedTenantWithRetryAsync(CancellationToken cancellationToken)
     {
         await ExecuteWithRetryAsync(
             () => SeedTenantServiceAsync(cancellationToken),
             "Tenant",
             maxRetries: 2,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Seeds localization service with retry logic.
     /// </summary>
-    private async Task SeedLocalizationWithRetryAsync(SeedingContext context, CancellationToken cancellationToken)
+    private async Task SeedLocalizationWithRetryAsync(CancellationToken cancellationToken)
     {
         await ExecuteWithRetryAsync(
             () => SeedLocalizationServiceAsync(cancellationToken),
             "Localization",
             maxRetries: 3,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Seeds catalog service with retry logic.
     /// </summary>
-    private async Task SeedCatalogWithRetryAsync(SeedingContext context, CancellationToken cancellationToken)
+    private async Task SeedCatalogWithRetryAsync(CancellationToken cancellationToken)
     {
         await ExecuteWithRetryAsync(
             () => SeedCatalogAsync(cancellationToken),
             "Catalog",
             maxRetries: 2,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Seeds CMS service with retry logic.
     /// </summary>
-    private async Task SeedCmsWithRetryAsync(SeedingContext context, CancellationToken cancellationToken)
+    private async Task SeedCmsWithRetryAsync(CancellationToken cancellationToken)
     {
         await ExecuteWithRetryAsync(
             () => SeedCmsAsync(cancellationToken),
             "CMS",
             maxRetries: 2,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -500,7 +484,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
         {
             try
             {
-                await operation();
+                await operation().ConfigureAwait(false);
                 return; // Success
             }
             catch (HttpRequestException ex) when (IsTransientError(ex) && attempt < maxRetries)
@@ -509,7 +493,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
                 _logger.LogWarning(ex, "{Operation} failed with transient error (attempt {Attempt}/{MaxRetries}), retrying...",
                     operationName, attempt, maxRetries + 1);
 
-                await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), cancellationToken);
+                await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -522,7 +506,7 @@ public class TestDataOrchestrator : ITestDataOrchestrator
     /// <summary>
     /// Determines if an HTTP exception represents a transient error that should be retried.
     /// </summary>
-    private bool IsTransientError(HttpRequestException ex)
+    private static bool IsTransientError(HttpRequestException ex)
     {
         // Consider 5xx errors and network timeouts as transient
         return ex.StatusCode.HasValue && (int)ex.StatusCode.Value >= 500;
@@ -540,33 +524,33 @@ public class TestDataOrchestrator : ITestDataOrchestrator
             // Rollback in reverse order of seeding
             var seededServices = context.GetSeededServices();
 
-            if (seededServices.Contains("CMS"))
+            if (seededServices.Contains("CMS", StringComparer.Ordinal))
             {
-                await ResetCmsServiceAsync(cancellationToken);
+                await ResetCmsServiceAsync(cancellationToken).ConfigureAwait(false);
                 _logger.LogInformation("Rolled back CMS service");
             }
 
-            if (seededServices.Contains("Catalog"))
+            if (seededServices.Contains("Catalog", StringComparer.Ordinal))
             {
-                await ResetCatalogServiceAsync(cancellationToken);
+                await ResetCatalogServiceAsync(cancellationToken).ConfigureAwait(false);
                 _logger.LogInformation("Rolled back Catalog service");
             }
 
-            if (seededServices.Contains("Localization"))
+            if (seededServices.Contains("Localization", StringComparer.Ordinal))
             {
-                await ResetLocalizationServiceAsync(cancellationToken);
+                await ResetLocalizationServiceAsync(cancellationToken).ConfigureAwait(false);
                 _logger.LogInformation("Rolled back Localization service");
             }
 
-            if (seededServices.Contains("Tenant"))
+            if (seededServices.Contains("Tenant", StringComparer.Ordinal))
             {
-                await ResetTenantServiceAsync(cancellationToken);
+                await ResetTenantServiceAsync(cancellationToken).ConfigureAwait(false);
                 _logger.LogInformation("Rolled back Tenant service");
             }
 
-            if (seededServices.Contains("Auth"))
+            if (seededServices.Contains("Auth", StringComparer.Ordinal))
             {
-                await ResetAuthServiceAsync(cancellationToken);
+                await ResetAuthServiceAsync(cancellationToken).ConfigureAwait(false);
                 _logger.LogInformation("Rolled back Auth service");
             }
 
@@ -582,13 +566,13 @@ public class TestDataOrchestrator : ITestDataOrchestrator
     /// <summary>
     /// Performs full rollback when unexpected errors occur.
     /// </summary>
-    private async Task PerformFullRollbackAsync(SeedingContext context, CancellationToken cancellationToken)
+    private async Task PerformFullRollbackAsync(CancellationToken cancellationToken)
     {
         _logger.LogWarning("Performing full rollback due to unexpected error");
 
         try
         {
-            await ResetAllAsync(cancellationToken);
+            await ResetAllAsync(cancellationToken).ConfigureAwait(false);
             _logger.LogInformation("Full rollback completed successfully");
         }
         catch (Exception rollbackEx)

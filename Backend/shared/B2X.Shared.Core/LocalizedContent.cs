@@ -1,4 +1,4 @@
-﻿using B2X.Types.Domain;
+using B2X.Types.Domain;
 
 namespace B2X.Shared.Core;
 

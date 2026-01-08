@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Handlers;
+using B2X.Catalog.Handlers;
 using B2X.Catalog.Models;
 using Microsoft.Extensions.Logging;
 using Moq;

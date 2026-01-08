@@ -1,4 +1,4 @@
-﻿using B2X.AppHost.Configuration;
+using B2X.AppHost.Configuration;
 
 namespace B2X.AppHost.Validation;
 
@@ -140,7 +140,7 @@ public static class TestingConfigurationValidator
     private static void ValidateConsistency(TestingConfiguration config, List<string> errors)
     {
         // Mode and environment consistency
-        if (config.IsTemporaryTestMode && config.Environment == "ci")
+        if (config.IsTemporaryTestMode && string.Equals(config.Environment, "ci", StringComparison.Ordinal))
         {
             errors.Add("Warning: Using temporary mode in CI environment. Consider using persisted mode for reliable CI testing.");
         }
@@ -160,7 +160,7 @@ public static class TestingConfigurationValidator
         }
 
         // Performance validations
-        if (config.IsPersistentTestMode && config.Environment == "ci")
+        if (config.IsPersistentTestMode && string.Equals(config.Environment, "ci", StringComparison.Ordinal))
         {
             errors.Add("Warning: Using persistent mode in CI. Ensure database cleanup between test runs.");
         }
@@ -267,7 +267,7 @@ public class ValidationResult
     public void ThrowIfInvalid()
     {
         var criticalErrors = Errors
-            .Where(e => !e.StartsWith("Warning:"))
+            .Where(e => !e.StartsWith("Warning:", StringComparison.Ordinal))
             .ToList();
 
         if (criticalErrors.Count > 0)

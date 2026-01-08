@@ -121,10 +121,10 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=${ELASTICSEARCH_SECURITY_ENABLED:-false}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-devpassword}
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "9200:9200"
-      - "9300:9300"
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     healthcheck:
@@ -196,6 +196,7 @@ services:
       - "9090:9090"
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/alert_rules.yml:/etc/prometheus/alert_rules.yml
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -278,6 +279,39 @@ services:
       - '--storage.path=/alertmanager'
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:9093/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 300s
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
+
+  # Pushgateway (Metrics Push)
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: B2X-pushgateway
+    ports:
+      - "9091:9091"
+    command:
+      - '--web.listen-address=:9091'
+      - '--web.telemetry-path=/metrics'
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:9091/-/healthy || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -596,6 +630,7 @@ services:
       ServiceUrls__Catalog: "http://catalog-service:7005"
       ServiceUrls__Localization: "http://localization-service:7004"
       ServiceUrls__Theming: "http://theming-service:7008"
+      Cors__AllowedOrigins__0: "http://localhost:5173"
     ports:
       - "8000:8000"
     depends_on:
@@ -654,6 +689,7 @@ services:
       ServiceUrls__Catalog: "http://catalog-service:7005"
       ServiceUrls__Localization: "http://localization-service:7004"
       ServiceUrls__Theming: "http://theming-service:7008"
+      Cors__AllowedOrigins__0: "http://localhost:5174"
     ports:
       - "8080:8080"
     depends_on:
@@ -700,7 +736,8 @@ services:
       target: development
     container_name: B2X-frontend-store
     environment:
-      VITE_PORT: 5173
+      HOST: 0.0.0.0
+      PORT: 5173
       VITE_API_GATEWAY_URL: http://store-gateway:8000
       NODE_ENV: development
     ports:

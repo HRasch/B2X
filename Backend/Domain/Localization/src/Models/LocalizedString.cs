@@ -1,4 +1,4 @@
-﻿namespace B2X.LocalizationService.Models;
+namespace B2X.LocalizationService.Models;
 
 /// <summary>
 /// Represents a localized string that can be translated into multiple languages

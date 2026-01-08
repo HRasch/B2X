@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Presentation.Filters;
+using B2X.Admin.Presentation.Filters;
 using B2X.Email.Interfaces;
 using B2X.Email.Models;
 using Microsoft.AspNetCore.Authorization;

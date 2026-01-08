@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace B2X.Admin.Presentation.Filters;

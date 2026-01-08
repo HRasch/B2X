@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Application.Commands.Brands;
+using B2X.Admin.Application.Commands.Brands;
 using B2X.Admin.Application.Handlers;
 using B2X.Admin.Core.Entities;
 using B2X.Admin.Core.Interfaces;

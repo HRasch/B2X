@@ -1,4 +1,4 @@
-﻿using B2X.Tenancy.Infrastructure.Data;
+using B2X.Tenancy.Infrastructure.Data;
 using B2X.Tenancy.Repositories;
 using B2X.Tenancy.Services;
 using DnsClient;

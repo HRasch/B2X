@@ -1,4 +1,4 @@
-﻿namespace B2X.LocalizationService.Services;
+namespace B2X.LocalizationService.Services;
 
 /// <summary>
 /// Service interface for managing localized strings and translations

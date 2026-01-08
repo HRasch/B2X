@@ -1,4 +1,4 @@
-﻿// <copyright file="OrderQueries.cs" company="NissenVelten">
+// <copyright file="OrderQueries.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

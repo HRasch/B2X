@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Core.Authorization;
+namespace B2X.Shared.Core.Authorization;
 
 /// <summary>
 /// Default implementation of IPermissionManager that aggregates multiple authorization providers.

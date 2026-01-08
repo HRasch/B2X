@@ -1,4 +1,4 @@
-﻿using B2X.Tenancy.Infrastructure.Data;
+using B2X.Tenancy.Infrastructure.Data;
 using B2X.Tenancy.Models;
 using B2X.Types.Domain;
 using Microsoft.EntityFrameworkCore;

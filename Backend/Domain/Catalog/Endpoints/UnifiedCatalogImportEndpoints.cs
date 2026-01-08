@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.ImportAdapters;
+using B2X.Catalog.ImportAdapters;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 

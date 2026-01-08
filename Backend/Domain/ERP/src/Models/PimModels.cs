@@ -1,4 +1,4 @@
-﻿// <copyright file="PimModels.cs" company="NissenVelten">
+// <copyright file="PimModels.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

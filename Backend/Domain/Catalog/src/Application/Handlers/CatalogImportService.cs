@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using B2X.Catalog.Application.Adapters;
 using B2X.Catalog.Core.Entities;
 using B2X.Catalog.Core.Interfaces;

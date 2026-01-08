@@ -1,4 +1,4 @@
-﻿namespace B2X.Store.API.Models
+namespace B2X.Store.API.Models
 {
     public class AnalyticsEvent
     {

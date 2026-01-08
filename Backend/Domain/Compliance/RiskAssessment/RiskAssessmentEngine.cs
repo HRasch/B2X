@@ -35,7 +35,7 @@ namespace B2X.Compliance.RiskAssessment
         {
             var assessment = await _riskModel.PredictRiskAsync(request);
 
-            if (assessment.RiskScore > 0.8) // High risk threshold
+            if (assessment.RiskScore > 0.8m) // High risk threshold
             {
                 await _alertService.SendAlertAsync(new RiskAlert
                 {

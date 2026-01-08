@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Models;
+using B2X.Catalog.Models;
 using B2X.Shared.Core.Handlers;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
@@ -49,7 +49,7 @@ public class TermsAcceptanceService : ValidatedBase
                 request,
                 _validator,
                 cancellationToken,
-                errorMessage => CreateValidationErrorResponse(request.CustomerId, errorMessage));
+                errorMessage => CreateValidationErrorResponse(request.CustomerId, errorMessage)).ConfigureAwait(false);
 
             if (validationError != null)
             {

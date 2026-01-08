@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using B2X.Tenancy.Repositories;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;

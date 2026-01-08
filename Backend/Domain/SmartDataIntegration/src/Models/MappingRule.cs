@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using B2X.Shared.Core.Entities;
 using B2X.Shared.Kernel;
 

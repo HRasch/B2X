@@ -1,4 +1,4 @@
-﻿namespace B2X.Types.Domain;
+namespace B2X.Types.Domain;
 
 /// <summary>
 /// Marker interface for value objects in the domain

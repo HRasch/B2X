@@ -1,4 +1,4 @@
-﻿namespace B2X.Api.Models.Erp;
+namespace B2X.Api.Models.Erp;
 
 public class ErpData
 {

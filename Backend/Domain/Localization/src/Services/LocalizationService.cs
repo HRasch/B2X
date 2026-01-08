@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using B2X.LocalizationService.Data;
 using B2X.LocalizationService.Models;
 using Microsoft.AspNetCore.Http;

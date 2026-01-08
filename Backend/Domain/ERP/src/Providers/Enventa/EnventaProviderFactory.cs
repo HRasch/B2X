@@ -1,4 +1,4 @@
-﻿// <copyright file="EnventaProviderFactory.cs" company="NissenVelten">
+// <copyright file="EnventaProviderFactory.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

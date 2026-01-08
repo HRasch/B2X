@@ -1,4 +1,4 @@
-﻿// <copyright file="BaseErpDataValidator.cs" company="NissenVelten">
+// <copyright file="BaseErpDataValidator.cs" company="NissenVelten">
 // Copyright (c) NissenVelten. All rights reserved.
 // </copyright>
 

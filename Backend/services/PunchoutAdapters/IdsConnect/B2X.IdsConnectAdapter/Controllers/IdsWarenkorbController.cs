@@ -1,4 +1,4 @@
-﻿using B2X.Domain.Search.Services;
+using B2X.Domain.Search.Services;
 using B2X.IdsConnectAdapter.Models;
 using B2X.Shared.Infrastructure.ServiceClients;
 using Microsoft.AspNetCore.Mvc;

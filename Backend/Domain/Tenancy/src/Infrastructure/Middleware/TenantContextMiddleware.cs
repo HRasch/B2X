@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 using B2X.Shared.Infrastructure.ServiceClients;
 using B2X.Shared.Tenancy.Infrastructure.Context;

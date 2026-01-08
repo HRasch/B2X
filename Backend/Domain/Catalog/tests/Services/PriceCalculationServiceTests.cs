@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using B2X.Catalog.Services;
 using Microsoft.Extensions.Logging;
 using Moq;

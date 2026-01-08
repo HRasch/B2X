@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Models;
+using B2X.Catalog.Models;
 using B2X.Catalog.Services;
 using B2X.Shared.Core.Handlers;
 using FluentValidation;
@@ -44,7 +44,7 @@ public class ShippingCostHandler : ValidatedHandlerBase
                 {
                     Success = false,
                     Message = errorMessage,
-                });
+                }).ConfigureAwait(false);
 
             if (validationError != null)
             {

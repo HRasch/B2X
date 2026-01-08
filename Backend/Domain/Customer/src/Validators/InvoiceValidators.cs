@@ -1,4 +1,4 @@
-﻿using B2X.Customer.Models;
+using B2X.Customer.Models;
 using FluentValidation;
 
 namespace B2X.Customer.Validators;

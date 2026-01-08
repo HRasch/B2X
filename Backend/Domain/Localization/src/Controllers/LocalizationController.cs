@@ -1,4 +1,4 @@
-﻿using B2X.LocalizationService.Services;
+using B2X.LocalizationService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

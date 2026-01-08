@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using B2X.Identity.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;

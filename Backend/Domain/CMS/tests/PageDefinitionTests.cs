@@ -1,4 +1,4 @@
-﻿using B2X.CMS.Core.Domain.Pages;
+using B2X.CMS.Core.Domain.Pages;
 using Shouldly;
 using Xunit;
 

@@ -1,4 +1,4 @@
-﻿using B2X.LocalizationService.Data;
+using B2X.LocalizationService.Data;
 using B2X.LocalizationService.Models;
 using B2X.LocalizationService.Services;
 using Microsoft.AspNetCore.Http;

@@ -1,4 +1,4 @@
-﻿namespace B2X.Admin.Application.Commands.Products;
+namespace B2X.Admin.Application.Commands.Products;
 
 /// <summary>
 /// Product Commands & Queries - CQRS Pattern

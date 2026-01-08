@@ -1,4 +1,4 @@
-﻿namespace B2X.CatalogService.Models;
+namespace B2X.CatalogService.Models;
 
 /// <summary>
 /// Database entity for caching VAT ID validation results

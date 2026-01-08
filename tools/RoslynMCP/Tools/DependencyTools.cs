@@ -231,15 +231,158 @@ public sealed class DependencyTools
         return false;
     }
 
-    private static int GetProjectLayer(string projectName, string[] layers)
+    [McpServerTool, Description("Analyze cross-domain dependencies and coupling between backend domains")]
+    public async Task<string> AnalyzeCrossDomainDependenciesAsync(
+        [Description("The solution file path (.sln or .slnx)")] string solutionPath,
+        [Description("Comma-separated list of domain names to analyze")] string domains = "Catalog,CMS,Identity,Localization,Search")
     {
-        for (int i = 0; i < layers.Length; i++)
+        try
         {
-            if (projectName.Contains(layers[i], StringComparison.OrdinalIgnoreCase))
+            var solution = await _codeAnalysis.GetSolutionAsync(solutionPath);
+            var domainList = domains.Split(',').Select(d => d.Trim()).ToArray();
+            var results = new List<string>();
+
+            results.Add("# Cross-Domain Dependency Analysis");
+            results.Add($"**Analyzed Domains:** {string.Join(", ", domainList)}");
+            results.Add("");
+
+            // Analyze namespace coupling between domains
+            var domainNamespaces = new Dictionary<string, HashSet<string>>();
+            var domainDependencies = new Dictionary<string, HashSet<string>>();
+
+            foreach (var domain in domainList)
             {
-                return i;
+                domainNamespaces[domain] = new HashSet<string>();
+                domainDependencies[domain] = new HashSet<string>();
+            }
+
+            foreach (var project in solution.Projects)
+            {
+                var domainName = GetDomainFromProjectName(project.Name, domainList);
+                if (domainName == null)
+                    continue;
+
+                // Collect namespaces used by this domain
+                foreach (var document in project.Documents)
+                {
+                    var text = await document.GetTextAsync();
+                    var content = text.ToString();
+                    var usingStatements = ExtractUsingStatements(content);
+
+                    foreach (var ns in usingStatements)
+                    {
+                        domainNamespaces[domainName].Add(ns);
+
+                        // Check if this namespace belongs to another domain
+                        var targetDomain = GetDomainFromNamespace(ns, domainList);
+                        if (targetDomain != null && targetDomain != domainName)
+                        {
+                            domainDependencies[domainName].Add(targetDomain);
+                        }
+                    }
+                }
+            }
+
+            // Generate dependency matrix
+            results.Add("## Dependency Matrix");
+            results.Add("| From \\ To | " + string.Join(" | ", domainList) + " |");
+            results.Add("|" + string.Join("", domainList.Select(_ => "---|")) + "---|");
+
+            foreach (var fromDomain in domainList)
+            {
+                var row = $"| {fromDomain} |";
+                foreach (var toDomain in domainList)
+                {
+                    var hasDependency = domainDependencies[fromDomain].Contains(toDomain);
+                    row += $" {(hasDependency ? "✅" : "❌")} |";
+                }
+                results.Add(row);
+            }
+
+            results.Add("");
+
+            // Detailed coupling analysis
+            results.Add("## Coupling Details");
+            foreach (var domain in domainList)
+            {
+                var dependencies = domainDependencies[domain];
+                var dependents = domainList.Where(d => domainDependencies[d].Contains(domain)).ToList();
+
+                results.Add($"### {domain} Domain");
+                results.Add($"**Depends on:** {string.Join(", ", dependencies.OrderBy(d => d))}");
+                results.Add($"**Used by:** {string.Join(", ", dependents.OrderBy(d => d))}");
+                results.Add($"**Coupling Score:** {dependencies.Count + dependents.Count}/{(domainList.Length - 1) * 2}");
+                results.Add("");
+            }
+
+            // Identify tightly coupled domains
+            var tightCouplings = new List<string>();
+            foreach (var domain in domainList)
+            {
+                var couplingScore = domainDependencies[domain].Count +
+                    domainList.Count(d => domainDependencies[d].Contains(domain));
+
+                if (couplingScore >= domainList.Length - 1)
+                {
+                    tightCouplings.Add($"{domain} (score: {couplingScore})");
+                }
+            }
+
+            if (tightCouplings.Count > 0)
+            {
+                results.Add("## ⚠️ High Coupling Alert");
+                results.Add("The following domains show high coupling that may indicate architectural issues:");
+                results.AddRange(tightCouplings.Select(c => $"- {c}"));
+                results.Add("");
+            }
+
+            return string.Join("\n", results);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error analyzing cross-domain dependencies");
+            return $"Error: {ex.Message}";
+        }
+    }
+
+    private static string? GetDomainFromProjectName(string projectName, string[] domains)
+    {
+        foreach (var domain in domains)
+        {
+            if (projectName.Contains(domain, StringComparison.OrdinalIgnoreCase))
+            {
+                return domain;
             }
         }
-        return -1;
+        return null;
     }
-}
+
+    private static string? GetDomainFromNamespace(string namespaceName, string[] domains)
+    {
+        foreach (var domain in domains)
+        {
+            if (namespaceName.Contains($"B2X.Domain.{domain}", StringComparison.OrdinalIgnoreCase))
+            {
+                return domain;
+            }
+        }
+        return null;
+    }
+
+    private static List<string> ExtractUsingStatements(string content)
+    {
+        var usingStatements = new List<string>();
+        var lines = content.Split('\n');
+
+        foreach (var line in lines)
+        {
+            var trimmed = line.Trim();
+            if (trimmed.StartsWith("using ") && trimmed.EndsWith(";"))
+            {
+                var ns = trimmed.Substring(6, trimmed.Length - 7).Trim();
+                usingStatements.Add(ns);
+            }
+        }
+
+        return usingStatements;
+    }

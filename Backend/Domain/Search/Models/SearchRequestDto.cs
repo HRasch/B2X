@@ -1,4 +1,4 @@
-﻿namespace B2X.Domain.Search.Models;
+namespace B2X.Domain.Search.Models;
 
 public class SearchRequestDto
 {

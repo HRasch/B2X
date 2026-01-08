@@ -1,4 +1,4 @@
-﻿using B2X.Shared.Messaging.Events;
+using B2X.Shared.Messaging.Events;
 using Microsoft.Extensions.Logging;
 
 namespace B2X.Catalog.Handlers.Events;

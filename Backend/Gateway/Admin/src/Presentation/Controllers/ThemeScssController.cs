@@ -1,4 +1,4 @@
-﻿using B2X.ThemeService.Models;
+using B2X.ThemeService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

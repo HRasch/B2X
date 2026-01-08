@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 
 namespace B2X.ERP.Infrastructure.DataAccess;
 

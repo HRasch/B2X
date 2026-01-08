@@ -1,4 +1,4 @@
-﻿// <copyright file="ArticleCommands.cs" company="NissenVelten">
+// <copyright file="ArticleCommands.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

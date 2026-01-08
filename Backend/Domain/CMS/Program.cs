@@ -1,4 +1,4 @@
-﻿using B2X.CMS.API.Endpoints;
+using B2X.CMS.API.Endpoints;
 using B2X.CMS.Application.Pages;
 using Microsoft.EntityFrameworkCore;
 

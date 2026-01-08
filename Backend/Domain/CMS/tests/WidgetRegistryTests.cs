@@ -1,4 +1,4 @@
-﻿using B2X.CMS.Application.Widgets;
+using B2X.CMS.Application.Widgets;
 using B2X.CMS.Core.Domain.Widgets;
 using Microsoft.Extensions.Logging;
 using Moq;

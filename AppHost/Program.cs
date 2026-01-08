@@ -1,6 +1,6 @@
-﻿using B2X.Aspire.Extensions;
 using B2X.AppHost.Configuration;
 using B2X.AppHost.Extensions;
+using B2X.Aspire.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
 

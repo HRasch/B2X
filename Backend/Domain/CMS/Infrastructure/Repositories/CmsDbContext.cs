@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using B2X.CMS.Core.Domain.Pages;
 using Microsoft.EntityFrameworkCore;
 

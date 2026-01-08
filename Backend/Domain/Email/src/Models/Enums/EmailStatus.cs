@@ -1,4 +1,4 @@
-﻿namespace B2X.Email.Models;
+namespace B2X.Email.Models;
 
 /// <summary>
 /// Email-Status für Queue-Verarbeitung

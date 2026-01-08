@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace B2X.IdsConnectAdapter.Middleware;

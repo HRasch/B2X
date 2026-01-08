@@ -1,4 +1,4 @@
-﻿// <copyright file="ArticleQueryHandlers.cs" company="NissenVelten">
+// <copyright file="ArticleQueryHandlers.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

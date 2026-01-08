@@ -1,4 +1,4 @@
-﻿using DnsClient;
+using DnsClient;
 using Microsoft.Extensions.Logging;
 
 namespace B2X.Tenancy.Services;

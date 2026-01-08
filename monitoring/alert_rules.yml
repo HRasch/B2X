@@ -54,3 +54,39 @@
     annotations:
       summary: "Redis memory usage high"
       description: "Redis memory usage is {{ $value }}%"
+
+  - alert: BatchProcessingSlow
+    expr: batch_processing_duration_seconds > 60
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Batch processing is slow"
+      description: "Batch processing for {{ $labels.script }} domain {{ $labels.domain }} took {{ $value }} seconds"
+
+  - alert: BatchProcessingFailed
+    expr: batch_processing_success == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Batch processing failed"
+      description: "Batch processing for {{ $labels.script }} domain {{ $labels.domain }} failed"
+
+  - alert: HighBatchErrorRate
+    expr: batch_processing_error_count > 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High error count in batch processing"
+      description: "Batch processing found {{ $value }} errors for {{ $labels.script }} domain {{ $labels.domain }}"
+
+  - alert: SLABreachCritical
+    expr: batch_processing_critical_error_count > 0
+    for: 4h
+    labels:
+      severity: critical
+    annotations:
+      summary: "SLA breach for critical errors"
+      description: "Critical errors in batch processing for {{ $labels.script }} domain {{ $labels.domain }} not resolved within 4 hours"

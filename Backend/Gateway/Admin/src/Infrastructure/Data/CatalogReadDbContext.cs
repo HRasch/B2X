@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Infrastructure.Data.ReadModel;
+using B2X.Admin.Infrastructure.Data.ReadModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2X.Admin.Infrastructure.Data;

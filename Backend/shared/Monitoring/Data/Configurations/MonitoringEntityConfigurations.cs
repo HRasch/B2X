@@ -1,4 +1,4 @@
-﻿using B2X.Shared.Monitoring.Data.Entities;
+using B2X.Shared.Monitoring.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

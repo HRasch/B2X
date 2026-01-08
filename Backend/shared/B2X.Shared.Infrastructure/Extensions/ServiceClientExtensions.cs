@@ -1,4 +1,4 @@
-﻿using B2X.Shared.Infrastructure.ServiceClients;
+using B2X.Shared.Infrastructure.ServiceClients;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 

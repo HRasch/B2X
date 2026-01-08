@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+using B2X.AppHost.Configuration;
+using B2X.AppHost.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using B2X.AppHost.Configuration;
-using B2X.AppHost.Services;
 
 namespace B2X.AppHost.Extensions;
 

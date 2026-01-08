@@ -1,4 +1,4 @@
-﻿// <copyright file="IErpConnectorRegistry.cs" company="NissenVelten">
+// <copyright file="IErpConnectorRegistry.cs" company="NissenVelten">
 // Copyright (c) NissenVelten. All rights reserved.
 // </copyright>
 

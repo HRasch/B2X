@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Models;
+using B2X.Catalog.Models;
 using B2X.Catalog.Services;
 
 namespace B2X.Catalog.Handlers;

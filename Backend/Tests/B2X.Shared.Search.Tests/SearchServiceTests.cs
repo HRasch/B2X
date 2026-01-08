@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 namespace B2X.Shared.Search.Tests;
 

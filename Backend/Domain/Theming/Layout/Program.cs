@@ -1,4 +1,4 @@
-﻿using B2X.LayoutService.Data;
+using B2X.LayoutService.Data;
 using B2X.LayoutService.Services;
 using B2X.ServiceDefaults;
 using Serilog;

@@ -1,4 +1,4 @@
-﻿// <copyright file="ErpCqrsUsageExample.cs" company="NissenVelten">
+// <copyright file="ErpCqrsUsageExample.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

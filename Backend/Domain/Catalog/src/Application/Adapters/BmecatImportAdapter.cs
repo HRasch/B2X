@@ -1,4 +1,4 @@
-﻿using System.Xml;
+using System.Xml;
 using System.Xml.Schema;
 using B2X.Catalog.Application.Adapters;
 using B2X.Catalog.Core.Entities;

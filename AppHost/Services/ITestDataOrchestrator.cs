@@ -1,4 +1,4 @@
-﻿namespace B2X.AppHost.Services;
+namespace B2X.AppHost.Services;
 
 /// <summary>
 /// Orchestrates deterministic test data seeding across all services.

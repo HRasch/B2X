@@ -1,7 +1,7 @@
-﻿using B2X.AppHost.Configuration;
+using System.Net.Http.Json;
+using B2X.AppHost.Configuration;
 using B2X.Shared.Core;
 using Bogus;
-using System.Net.Http.Json;
 
 namespace B2X.AppHost.Services;
 
@@ -28,11 +28,11 @@ public static class UserSeedingUtilities
 
         foreach (var tenantId in TestDataContext.Current.GetAllTenantIds())
         {
-            await SeedUsersForTenantAsync(authServiceClient, tenantId, usersPerTenant, faker, cancellationToken);
+            await SeedUsersForTenantAsync(authServiceClient, tenantId, usersPerTenant, faker, cancellationToken).ConfigureAwait(false);
         }
 
         // Ensure admin user exists for the default tenant
-        await EnsureAdminUserAsync(authServiceClient, cancellationToken);
+        await EnsureAdminUserAsync(authServiceClient, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public static class UserSeedingUtilities
         for (int i = 0; i < userCount; i++)
         {
             var userRequest = CreateUserRequest(faker, tenantId, i);
-            await CreateUserAsync(client, userRequest, cancellationToken);
+            await CreateUserAsync(client, userRequest, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -88,16 +88,16 @@ public static class UserSeedingUtilities
         UserCreationRequest request,
         CancellationToken cancellationToken)
     {
-        var response = await client.PostAsJsonAsync("/api/users", request, cancellationToken);
+        var response = await client.PostAsJsonAsync("/api/users", request, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             throw new InvalidOperationException(
                 $"Failed to create user '{request.Email}': {response.StatusCode} - {errorContent}");
         }
 
-        var createdUser = await response.Content.ReadFromJsonAsync<UserResponse>(cancellationToken: cancellationToken);
+        var createdUser = await response.Content.ReadFromJsonAsync<UserResponse>(cancellationToken: cancellationToken).ConfigureAwait(false);
         if (createdUser != null)
         {
             // Store user ID for later reference
@@ -130,11 +130,11 @@ public static class UserSeedingUtilities
 
         try
         {
-            var response = await client.PostAsJsonAsync("/api/users", adminRequest, cancellationToken);
+            var response = await client.PostAsJsonAsync("/api/users", adminRequest, cancellationToken).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
-                var createdUser = await response.Content.ReadFromJsonAsync<UserResponse>(cancellationToken: cancellationToken);
+                var createdUser = await response.Content.ReadFromJsonAsync<UserResponse>(cancellationToken: cancellationToken).ConfigureAwait(false);
                 if (createdUser != null)
                 {
                     TestDataContext.Current.AddUserToTenant(SeedConstants.DefaultTenantId, createdUser.Id);
@@ -175,7 +175,7 @@ public static class UserSeedingUtilities
             throw new ArgumentNullException(nameof(authServiceClient));
 
         // Get all test users
-        var response = await authServiceClient.GetAsync("/api/users?testDataOnly=true", cancellationToken);
+        var response = await authServiceClient.GetAsync("/api/users?testDataOnly=true", cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -183,13 +183,13 @@ public static class UserSeedingUtilities
             return;
         }
 
-        var users = await response.Content.ReadFromJsonAsync<List<UserResponse>>(cancellationToken: cancellationToken);
+        var users = await response.Content.ReadFromJsonAsync<List<UserResponse>>(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (users != null)
         {
             foreach (var user in users)
             {
-                await authServiceClient.DeleteAsync($"/api/users/{user.Id}", cancellationToken);
+                await authServiceClient.DeleteAsync($"/api/users/{user.Id}", cancellationToken).ConfigureAwait(false);
             }
         }
     }

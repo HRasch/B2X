@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Models;
+using B2X.Catalog.Models;
 using B2X.Catalog.Services;
 using B2X.Shared.Core.Handlers;
 using FluentValidation;
@@ -65,7 +65,7 @@ public class VatIdValidationHandler : ValidatedHandlerBase
                 request,
                 _validator,
                 cancellationToken,
-                errorMessage => CreateInvalidRequestResponse(errorMessage));
+                errorMessage => CreateInvalidRequestResponse(errorMessage)).ConfigureAwait(false);
 
             if (validationError != null)
             {

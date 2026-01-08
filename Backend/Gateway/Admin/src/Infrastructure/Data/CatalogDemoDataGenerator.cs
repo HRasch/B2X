@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using B2X.Admin.Core.Entities;
 using B2X.Shared.Core;
 using B2X.Types.Localization;

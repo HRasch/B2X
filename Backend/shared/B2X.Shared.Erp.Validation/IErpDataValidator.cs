@@ -1,4 +1,4 @@
-﻿// <copyright file="IErpDataValidator.cs" company="NissenVelten">
+// <copyright file="IErpDataValidator.cs" company="NissenVelten">
 // Copyright (c) NissenVelten. All rights reserved.
 // </copyright>
 

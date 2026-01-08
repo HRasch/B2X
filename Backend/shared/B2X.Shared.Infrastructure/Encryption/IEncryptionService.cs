@@ -1,4 +1,4 @@
-﻿namespace B2X.Infrastructure.Encryption;
+namespace B2X.Infrastructure.Encryption;
 
 /// <summary>
 /// Provides AES encryption/decryption for sensitive data at rest

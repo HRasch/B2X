@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Infrastructure.Logging;
+namespace B2X.Shared.Infrastructure.Logging;
 
 /// <summary>
 /// Abstraction for error log storage.

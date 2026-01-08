@@ -1,4 +1,4 @@
-﻿using B2X.LayoutService.Data;
+using B2X.LayoutService.Data;
 using B2X.LayoutService.Models;
 using B2X.LayoutService.Services;
 using Microsoft.AspNetCore.Mvc;

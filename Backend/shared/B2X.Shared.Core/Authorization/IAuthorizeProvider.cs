@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Core.Authorization;
+namespace B2X.Shared.Core.Authorization;
 
 /// <summary>
 /// Interface for authorization providers that determine permissions.

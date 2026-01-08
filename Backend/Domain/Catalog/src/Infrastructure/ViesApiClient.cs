@@ -1,4 +1,4 @@
-﻿using System.Xml.Linq;
+using System.Xml.Linq;
 using B2X.Catalog.Models;
 using Microsoft.Extensions.Logging;
 

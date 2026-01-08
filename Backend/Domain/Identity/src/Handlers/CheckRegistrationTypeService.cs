@@ -1,4 +1,4 @@
-﻿using B2X.Identity.Interfaces;
+using B2X.Identity.Interfaces;
 using B2X.Identity.Models;
 using B2X.Shared.Core.Handlers;
 using FluentValidation;

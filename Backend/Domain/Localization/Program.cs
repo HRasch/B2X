@@ -1,4 +1,4 @@
-﻿using B2X.LocalizationService.Data;
+using B2X.LocalizationService.Data;
 using B2X.LocalizationService.Middleware;
 using B2X.LocalizationService.Services;
 using B2X.ServiceDefaults;

@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Core;
+namespace B2X.Shared.Core;
 
 /// <summary>
 /// Constants used for seeding demo/development data.

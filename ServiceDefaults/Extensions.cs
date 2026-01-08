@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -32,59 +32,6 @@ public class HealthCheckOptions
 
 public static class Extensions
 {
-    public static IHostBuilder AddServiceDefaults(this IHostBuilder builder)
-    {
-        builder.UseSerilog((context, configuration) =>
-            configuration
-                .MinimumLevel.Information()
-                .WriteTo.Console()
-                .Enrich.FromLogContext()
-        );
-
-        builder.ConfigureServices((context, services) =>
-        {
-            // Add Service Discovery
-            services.AddServiceDiscovery();
-
-            // Configure HttpClient defaults with Service Discovery
-            services.ConfigureHttpClientDefaults(http =>
-            {
-                // Enable service discovery for all HttpClients
-                http.AddServiceDiscovery();
-
-                // Add standard resilience policies
-                http.AddStandardResilienceHandler();
-            });
-
-            // Health checks
-            services.AddHealthChecks()
-                .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
-
-            // Rate limiting - simplified implementation
-            services.AddRateLimiter(options =>
-            {
-                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-
-                options.OnRejected = async (context, token) =>
-                {
-                    context.HttpContext.Response.ContentType = "application/json";
-                    await context.HttpContext.Response.WriteAsync("{\"error\":\"Rate limit exceeded. Please try again later.\"}", token).ConfigureAwait(false);
-                };
-            });
-
-            // Input validation with FluentValidation
-            services.AddFluentValidationAutoValidation();
-            services.AddFluentValidationClientsideAdapters();
-
-            services.AddLogging(logging =>
-            {
-                logging.AddConsole();
-            });
-        });
-
-        return builder;
-    }
-
     public static IApplicationBuilder UseServiceDefaults(this WebApplication app)
     {
         // Add long-running request detection early in the pipeline
@@ -282,6 +229,59 @@ public static class Extensions
         TimeSpan? criticalThreshold = null)
     {
         return app.UseMiddleware<LongRunningRequestMiddleware>(warningThreshold, criticalThreshold);
+    }
+
+    public static IHostBuilder AddServiceDefaults(this IHostBuilder builder)
+    {
+        builder.UseSerilog((context, configuration) =>
+            configuration
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .Enrich.FromLogContext()
+        );
+
+        builder.ConfigureServices((context, services) =>
+        {
+            // Add Service Discovery
+            services.AddServiceDiscovery();
+
+            // Configure HttpClient defaults with Service Discovery
+            services.ConfigureHttpClientDefaults(http =>
+            {
+                // Enable service discovery for all HttpClients
+                http.AddServiceDiscovery();
+
+                // Add standard resilience policies
+                http.AddStandardResilienceHandler();
+            });
+
+            // Health checks
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+
+            // Rate limiting - simplified implementation
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                options.OnRejected = async (context, token) =>
+                {
+                    context.HttpContext.Response.ContentType = "application/json";
+                    await context.HttpContext.Response.WriteAsync("{\"error\":\"Rate limit exceeded. Please try again later.\"}", token).ConfigureAwait(false);
+                };
+            });
+
+            // Input validation with FluentValidation
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+
+            services.AddLogging(logging =>
+            {
+                logging.AddConsole();
+            });
+        });
+
+        return builder;
     }
 
     public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)

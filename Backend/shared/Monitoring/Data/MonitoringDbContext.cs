@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using B2X.Core.Interfaces;
 using B2X.Shared.Monitoring.Data.Entities;
 using B2X.Shared.Monitoring.Infrastructure.Context;

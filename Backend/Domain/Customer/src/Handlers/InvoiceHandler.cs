@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using B2X.Customer.Interfaces;
@@ -60,7 +60,7 @@ public class InvoiceHandler : ValidatedHandlerBase
                 {
                     Success = false,
                     Message = errorMessage
-                });
+                }).ConfigureAwait(false);
 
             if (validationError != null)
             {
@@ -123,7 +123,7 @@ public class InvoiceHandler : ValidatedHandlerBase
                 {
                     Success = false,
                     Message = errorMessage
-                });
+                }).ConfigureAwait(false);
 
             if (validationError != null)
             {

@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Core.Interfaces;
+namespace B2X.Shared.Core.Interfaces;
 
 /// <summary>
 /// Marker interface for entities that have tenant-level isolation.

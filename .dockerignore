@@ -12,8 +12,6 @@ bin
 obj
 coverage
 AppHost
-backend
-ServiceDefaults
 scripts
 docs
 README.md

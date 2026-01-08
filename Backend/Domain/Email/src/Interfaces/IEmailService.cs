@@ -1,4 +1,4 @@
-﻿using B2X.Email.Models;
+using B2X.Email.Models;
 
 namespace B2X.Email.Interfaces;
 

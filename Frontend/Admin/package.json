@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "B2X-admin-frontend",
   "private": true,
   "version": "1.0.0",
@@ -16,7 +16,8 @@
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
     "quality-check": "npm run type-check && npm run lint && npm run test:coverage",
-    "pre-commit": "npm run quality-check",
+    "prepare": "husky install",
+    "pre-commit": "npm run quality-check && pwsh ../../scripts/typescript-batch-analysis.ps1 -Domain Admin",
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
     "e2e:debug": "playwright test --debug",
@@ -73,6 +74,7 @@
     "eslint": "^9.39.2",
     "eslint-plugin-vue": "^9.33.0",
     "happy-dom": "^20.0.11",
+    "husky": "^9.1.6",
     "lighthouse": "^13.0.1",
     "postcss": "^8.5.6",
     "prettier": "^3.7.4",

@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Monitoring.Models;
+namespace B2X.Shared.Monitoring.Models;
 
 /// <summary>
 /// Represents resource metrics for a connected service.

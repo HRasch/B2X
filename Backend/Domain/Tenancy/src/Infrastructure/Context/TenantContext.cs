@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Tenancy.Infrastructure.Context;
+namespace B2X.Shared.Tenancy.Infrastructure.Context;
 
 /// <summary>
 /// Scoped service that holds the current tenant ID for the request.

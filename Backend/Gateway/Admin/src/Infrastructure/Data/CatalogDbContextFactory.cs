@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Infrastructure.Data;
+using B2X.Admin.Infrastructure.Data;
 using B2X.Shared.Tenancy.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 

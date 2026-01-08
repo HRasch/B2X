@@ -1,4 +1,4 @@
-﻿// <copyright file="FakeEnventaErpProvider.cs" company="NissenVelten">
+// <copyright file="FakeEnventaErpProvider.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

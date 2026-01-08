@@ -1,4 +1,4 @@
-﻿using B2X.Shared.Kernel;
+using B2X.Shared.Kernel;
 
 namespace B2X.PatternAnalysis.Core.Domain;
 

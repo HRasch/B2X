@@ -1,4 +1,4 @@
-﻿using B2X.Email.Infrastructure;
+using B2X.Email.Infrastructure;
 using B2X.Email.Interfaces;
 using B2X.Email.Models;
 using Microsoft.EntityFrameworkCore;

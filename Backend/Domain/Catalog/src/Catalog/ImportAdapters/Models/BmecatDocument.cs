@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+using System.Xml.Serialization;
 
 namespace B2X.Catalog.ImportAdapters.Models;
 

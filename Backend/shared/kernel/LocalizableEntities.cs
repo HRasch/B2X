@@ -1,4 +1,4 @@
-﻿using B2X.Types.Localization;
+using B2X.Types.Localization;
 
 namespace B2X.Types.Domain;
 

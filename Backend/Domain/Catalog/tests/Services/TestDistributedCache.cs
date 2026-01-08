@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace B2X.Catalog.Tests.Services;

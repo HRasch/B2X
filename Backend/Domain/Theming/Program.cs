@@ -1,4 +1,4 @@
-﻿using B2X.ServiceDefaults;
+using B2X.ServiceDefaults;
 using B2X.ThemeService.Models;
 using B2X.ThemeService.Services;
 using Serilog;

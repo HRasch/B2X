@@ -1,4 +1,4 @@
-﻿// <copyright file="OrderEvents.cs" company="NissenVelten">
+// <copyright file="OrderEvents.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

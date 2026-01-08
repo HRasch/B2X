@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Core.Entities;
+using B2X.Admin.Core.Entities;
 using B2X.Admin.Core.Interfaces;
 using B2X.Admin.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

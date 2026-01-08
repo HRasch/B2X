@@ -1,4 +1,4 @@
-﻿using B2X.Customer.Models;
+using B2X.Customer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2X.Customer.Data;

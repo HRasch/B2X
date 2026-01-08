@@ -1,4 +1,4 @@
-﻿namespace B2X.Catalog.Models;
+namespace B2X.Catalog.Models;
 
 /// <summary>
 /// Represents a customer's acceptance of Terms & Conditions

@@ -1,4 +1,4 @@
-﻿using B2X.CMS.Application.Pages;
+using B2X.CMS.Application.Pages;
 using B2X.CMS.Core.Domain.Pages;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

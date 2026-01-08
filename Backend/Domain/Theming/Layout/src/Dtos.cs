@@ -1,4 +1,4 @@
-﻿namespace B2X.LayoutService.Models;
+namespace B2X.LayoutService.Models;
 
 /// <summary>
 /// Localization helper for getting localized values

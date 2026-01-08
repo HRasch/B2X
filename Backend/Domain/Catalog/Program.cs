@@ -1,4 +1,4 @@
-﻿using B2X.ServiceDefaults;
+using B2X.ServiceDefaults;
 using B2X.Shared.Messaging.Extensions;
 using B2X.Shared.Search.Extensions;
 using EFCore.NamingConventions;

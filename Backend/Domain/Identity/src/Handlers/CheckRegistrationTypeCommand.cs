@@ -1,4 +1,4 @@
-﻿using B2X.Identity.Models;
+using B2X.Identity.Models;
 using FluentValidation;
 
 namespace B2X.Identity.Handlers;

@@ -1,4 +1,4 @@
-﻿namespace B2X.AppHost.Services;
+namespace B2X.AppHost.Services;
 
 /// <summary>
 /// Exception thrown when seeding operations fail.
@@ -76,6 +76,7 @@ public class SeedingException : Exception
     {
         var message = $"Service '{serviceName}' failed during '{operation}' operation";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["Service"] = serviceName,
             ["Operation"] = operation,
@@ -92,6 +93,7 @@ public class SeedingException : Exception
     {
         var message = $"Service '{serviceName}' failed during seeding phase '{failedPhase}'";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["FailedPhase"] = failedPhase,
             ["Service"] = serviceName
@@ -107,6 +109,7 @@ public class SeedingException : Exception
     {
         var message = $"Network failure communicating with '{serviceName}' at '{endpoint}'";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["Service"] = serviceName,
             ["Endpoint"] = endpoint,
@@ -123,6 +126,7 @@ public class SeedingException : Exception
     {
         var message = $"Network failure during seeding phase '{failedPhase}' at '{endpoint}'";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["FailedPhase"] = failedPhase,
             ["Endpoint"] = endpoint
@@ -138,6 +142,7 @@ public class SeedingException : Exception
     {
         var message = $"Validation failed for '{entityType}': {validationErrors}";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["EntityType"] = entityType,
             ["ValidationErrors"] = validationErrors
@@ -153,6 +158,7 @@ public class SeedingException : Exception
     {
         var message = $"Operation '{operation}' timed out after {timeout.TotalSeconds} seconds";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["Operation"] = operation,
             ["TimeoutSeconds"] = timeout.TotalSeconds
@@ -169,6 +175,7 @@ public class SeedingException : Exception
         var timeout = TimeSpan.FromSeconds(timeoutSeconds);
         var message = $"Operation timed out during seeding phase '{failedPhase}' after {timeout.TotalSeconds} seconds";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["FailedPhase"] = failedPhase,
             ["TimeoutSeconds"] = timeout.TotalSeconds
@@ -184,6 +191,7 @@ public class SeedingException : Exception
     {
         var message = $"Configuration error for '{configKey}': {issue}";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["ConfigKey"] = configKey,
             ["Issue"] = issue
@@ -199,6 +207,7 @@ public class SeedingException : Exception
     {
         var message = $"Configuration error: {issue}";
         var context = new Dictionary<string, object>
+(StringComparer.Ordinal)
         {
             ["Issue"] = issue
         };

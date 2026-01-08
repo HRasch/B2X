@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Core.Entities;
+using B2X.Admin.Core.Entities;
 using B2X.Types;
 
 namespace B2X.Admin.Application.Services;

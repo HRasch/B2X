@@ -1,4 +1,4 @@
-﻿namespace B2X.Catalog.Models;
+namespace B2X.Catalog.Models;
 
 /// <summary>
 /// Tax rate entity for storing VAT rates per country

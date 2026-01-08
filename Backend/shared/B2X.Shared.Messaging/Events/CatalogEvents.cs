@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Messaging.Events;
+namespace B2X.Shared.Messaging.Events;
 
 /// <summary>
 /// Event raised when a product is created

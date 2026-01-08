@@ -1,5 +1,5 @@
-﻿using B2X.AppHost.Configuration;
 using System.Text.Json;
+using B2X.AppHost.Configuration;
 
 namespace B2X.AppHost.Services;
 

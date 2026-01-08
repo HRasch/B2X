@@ -1,4 +1,4 @@
-﻿namespace B2X.Admin.Application.Commands.Users;
+namespace B2X.Admin.Application.Commands.Users;
 
 /// <summary>
 /// User Commands & Queries - CQRS Pattern with Wolverine

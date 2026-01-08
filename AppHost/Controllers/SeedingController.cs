@@ -1,4 +1,4 @@
-﻿using B2X.AppHost.Services;
+using B2X.AppHost.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

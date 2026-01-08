@@ -1,4 +1,4 @@
-﻿using B2X.CMS.Infrastructure.Repositories;
+using B2X.CMS.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

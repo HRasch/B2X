@@ -1,4 +1,4 @@
-﻿using B2X.Email.Interfaces;
+using B2X.Email.Interfaces;
 using B2X.Email.Models;
 using B2X.Email.Services;
 using Microsoft.AspNetCore.Authorization;

@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Core.Entities;
+using B2X.Admin.Core.Entities;
 using B2X.Shared.Core.Entities;
 using B2X.Shared.Tenancy.Infrastructure.Context;
 using B2X.Types.Localization;

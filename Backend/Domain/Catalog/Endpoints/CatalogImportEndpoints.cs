@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Application.Handlers;
+using B2X.Catalog.Application.Handlers;
 using B2X.Catalog.Models;
 using B2X.Catalog.Services;
 using Microsoft.AspNetCore.Mvc;

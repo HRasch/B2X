@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using B2X.ServiceDefaults;
 using B2X.Shared.Infrastructure.Authorization;
 using B2X.Shared.Infrastructure.Extensions;

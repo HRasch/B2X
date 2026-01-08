@@ -1,4 +1,4 @@
-﻿using B2X.Api.Models.Erp;
+using B2X.Api.Models.Erp;
 using Microsoft.Extensions.Logging;
 
 namespace B2X.Api.Validation;

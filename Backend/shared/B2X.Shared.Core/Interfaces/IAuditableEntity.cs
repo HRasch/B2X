@@ -1,4 +1,4 @@
-﻿namespace B2X.Core.Interfaces;
+namespace B2X.Core.Interfaces;
 
 /// <summary>
 /// Interface for entities that support audit logging (CreatedAt, ModifiedAt, soft deletes)

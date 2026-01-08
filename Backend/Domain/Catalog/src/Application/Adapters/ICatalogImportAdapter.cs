@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Core.Entities;
+using B2X.Catalog.Core.Entities;
 
 namespace B2X.Catalog.Application.Adapters;
 

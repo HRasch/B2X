@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using B2X.ERP.Infrastructure.DataAccess;
 using Npgsql;
 

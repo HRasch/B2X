@@ -1,4 +1,4 @@
-﻿using B2X.LayoutService.Models;
+using B2X.LayoutService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2X.LayoutService.Data;

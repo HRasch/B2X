@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using B2X.Store.API.Models;
 using Microsoft.AspNetCore.Mvc;
 

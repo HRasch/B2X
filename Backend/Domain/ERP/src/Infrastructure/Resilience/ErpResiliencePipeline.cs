@@ -1,4 +1,4 @@
-﻿// <copyright file="ErpResiliencePipeline.cs" company="NissenVelten">
+// <copyright file="ErpResiliencePipeline.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

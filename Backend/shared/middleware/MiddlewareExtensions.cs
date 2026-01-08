@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using B2X.Shared.Core.Authorization;
 using B2X.Utils.Extensions;
 using Microsoft.AspNetCore.Builder;

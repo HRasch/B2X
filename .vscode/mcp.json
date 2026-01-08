@@ -247,6 +247,22 @@
       },
       "disabled": false
     },
+    "database-mcp": {
+      "command": "node",
+      "args": [
+        "scripts/mcp-console-logger.js",
+        "database-mcp",
+        "node",
+        "tools/DatabaseMCP/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production",
+        "LOG_TO_CONSOLE": "true",
+        "ELASTICSEARCH_HOSTS": "http://elasticsearch:9200",
+        "DATABASE_CONNECTION": "Host=postgres;Database=B2X;Username=postgres;Password=${POSTGRES_PASSWORD}"
+      },
+      "disabled": false
+    },
     "testing-mcp": {
       "command": "node",
       "args": [

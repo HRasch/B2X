@@ -1,4 +1,4 @@
-﻿using B2X.LocalizationService.Data;
+using B2X.LocalizationService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

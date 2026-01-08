@@ -1,4 +1,4 @@
-﻿
+
 using B2X.Catalog.Application.Validators;
 using B2X.Catalog.Core.Interfaces;
 using B2X.Shared.Core.Handlers;
@@ -49,7 +49,7 @@ public class PriceCalculationService : ValidatedBase
                 request,
                 _validator,
                 cancellationToken,
-                errorMessage => CreateValidationErrorResponse(errorMessage));
+                errorMessage => CreateValidationErrorResponse(errorMessage)).ConfigureAwait(false);
 
             if (validationError != null)
             {

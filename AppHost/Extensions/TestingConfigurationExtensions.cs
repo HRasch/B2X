@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
 using B2X.AppHost.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace B2X.AppHost.Extensions;
 

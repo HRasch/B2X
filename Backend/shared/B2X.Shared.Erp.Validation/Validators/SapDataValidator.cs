@@ -1,4 +1,4 @@
-﻿// <copyright file="SapDataValidator.cs" company="NissenVelten">
+// <copyright file="SapDataValidator.cs" company="NissenVelten">
 // Copyright (c) NissenVelten. All rights reserved.
 // </copyright>
 

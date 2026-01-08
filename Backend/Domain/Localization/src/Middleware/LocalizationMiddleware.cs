@@ -1,4 +1,4 @@
-﻿namespace B2X.LocalizationService.Middleware;
+namespace B2X.LocalizationService.Middleware;
 
 /// <summary>
 /// Middleware for detecting and setting the current language from HTTP requests

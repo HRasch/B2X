@@ -1,4 +1,4 @@
-﻿using B2X.LocalizationService.Models;
+using B2X.LocalizationService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2X.LocalizationService.Data;

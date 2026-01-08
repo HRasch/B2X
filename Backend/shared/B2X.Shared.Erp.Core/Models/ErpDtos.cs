@@ -1,4 +1,4 @@
-﻿// <copyright file="ErpDtos.cs" company="NissenVelten">
+// <copyright file="ErpDtos.cs" company="NissenVelten">
 // Copyright (c) NissenVelten. All rights reserved.
 // </copyright>
 

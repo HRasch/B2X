@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using B2X.AuthService.Data;
 using B2X.Identity.Handlers;
 using B2X.Identity.Infrastructure;

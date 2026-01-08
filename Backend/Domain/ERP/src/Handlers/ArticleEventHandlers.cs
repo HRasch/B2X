@@ -1,4 +1,4 @@
-﻿// <copyright file="ArticleEventHandlers.cs" company="NissenVelten">
+// <copyright file="ArticleEventHandlers.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

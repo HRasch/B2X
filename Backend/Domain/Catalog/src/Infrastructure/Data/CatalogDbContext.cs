@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Core.Entities;
+using B2X.Catalog.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2X.Catalog.Infrastructure.Data;

@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Monitoring;
+namespace B2X.Shared.Monitoring;
 
 /// <summary>
 /// Represents the status of a scheduler job.

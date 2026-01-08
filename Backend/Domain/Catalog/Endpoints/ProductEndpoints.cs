@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Services;
+using B2X.Catalog.Services;
 using B2X.Domain.Search.Services;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;

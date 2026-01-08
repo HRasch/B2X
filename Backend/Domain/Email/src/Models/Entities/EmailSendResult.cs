@@ -1,4 +1,4 @@
-﻿namespace B2X.Email.Models;
+namespace B2X.Email.Models;
 
 /// <summary>
 /// Ergebnis des Email-Versands

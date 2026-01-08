@@ -1,4 +1,4 @@
-﻿
+
 using B2X.Catalog.Application.Handlers;
 using FluentValidation;
 

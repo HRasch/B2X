@@ -1,4 +1,4 @@
-﻿using B2X.ThemeService.Models;
+using B2X.ThemeService.Models;
 
 namespace B2X.ThemeService.Services;
 

@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using B2X.Shared.Infrastructure.ServiceClients;
 using B2X.Shared.Tenancy.Infrastructure.Context;
 using B2X.Shared.Tenancy.Infrastructure.Middleware;

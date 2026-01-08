@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using B2X.Catalog.Infrastructure;
 using B2X.Catalog.Models;
 using Microsoft.Extensions.Caching.Distributed;

@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Text.Json;
 using B2X.ThemeService.Models;
 using Microsoft.Extensions.Logging;

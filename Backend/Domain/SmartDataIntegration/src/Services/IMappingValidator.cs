@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using B2X.SmartDataIntegration.Models;
 
 namespace B2X.SmartDataIntegration.Services

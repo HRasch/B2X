@@ -1,7 +1,7 @@
-﻿using B2X.AppHost.Configuration;
+using System.Net.Http.Json;
+using B2X.AppHost.Configuration;
 using B2X.Shared.Core;
 using Bogus;
-using System.Net.Http.Json;
 
 namespace B2X.AppHost.Services;
 
@@ -29,7 +29,7 @@ public static class TenantSeedingUtilities
         for (int i = 0; i < tenantCount; i++)
         {
             var tenantRequest = CreateTenantRequest(faker, i);
-            await CreateTenantAsync(tenantServiceClient, tenantRequest, cancellationToken);
+            await CreateTenantAsync(tenantServiceClient, tenantRequest, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -80,16 +80,16 @@ public static class TenantSeedingUtilities
         TenantCreationRequest request,
         CancellationToken cancellationToken)
     {
-        var response = await client.PostAsJsonAsync("/api/tenants", request, cancellationToken);
+        var response = await client.PostAsJsonAsync("/api/tenants", request, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+            var errorContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             throw new InvalidOperationException(
                 $"Failed to create tenant '{request.Name}': {response.StatusCode} - {errorContent}");
         }
 
-        var createdTenant = await response.Content.ReadFromJsonAsync<TenantResponse>(cancellationToken: cancellationToken);
+        var createdTenant = await response.Content.ReadFromJsonAsync<TenantResponse>(cancellationToken: cancellationToken).ConfigureAwait(false);
         if (createdTenant != null)
         {
             // Store tenant ID for later use in other seeding operations
@@ -134,7 +134,7 @@ public static class TenantSeedingUtilities
             throw new ArgumentNullException(nameof(tenantServiceClient));
 
         // Get all test tenants
-        var response = await tenantServiceClient.GetAsync("/api/tenants?testDataOnly=true", cancellationToken);
+        var response = await tenantServiceClient.GetAsync("/api/tenants?testDataOnly=true", cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -142,13 +142,13 @@ public static class TenantSeedingUtilities
             return;
         }
 
-        var tenants = await response.Content.ReadFromJsonAsync<List<TenantResponse>>(cancellationToken: cancellationToken);
+        var tenants = await response.Content.ReadFromJsonAsync<List<TenantResponse>>(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (tenants != null)
         {
             foreach (var tenant in tenants)
             {
-                await tenantServiceClient.DeleteAsync($"/api/tenants/{tenant.Id}", cancellationToken);
+                await tenantServiceClient.DeleteAsync($"/api/tenants/{tenant.Id}", cancellationToken).ConfigureAwait(false);
             }
         }
 

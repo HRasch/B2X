@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using B2X.ERP.Abstractions;
 using Microsoft.Extensions.DependencyInjection;

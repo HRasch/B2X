@@ -1,4 +1,4 @@
-﻿using B2X.Shared.Infrastructure.ServiceClients;
+using B2X.Shared.Infrastructure.ServiceClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

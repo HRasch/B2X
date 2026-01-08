@@ -1,4 +1,4 @@
-﻿using Aspire.Hosting;
+using Aspire.Hosting;
 using Microsoft.AspNetCore.Identity;
 
 namespace B2X.Aspire.Extensions;

@@ -1,4 +1,4 @@
-﻿namespace B2X.CMS.Core.Domain.Pages;
+namespace B2X.CMS.Core.Domain.Pages;
 
 /// <summary>
 /// Represents a tenant-specific template override (ADR-030)

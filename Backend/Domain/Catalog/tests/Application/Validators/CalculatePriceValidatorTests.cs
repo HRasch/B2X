@@ -1,4 +1,4 @@
-﻿
+
 using B2X.Catalog.Application.Handlers;
 using B2X.Catalog.Application.Validators;
 using Xunit;

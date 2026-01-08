@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "B2X-tenant",
   "version": "1.0.0",
   "description": "B2X Tenant Management Portal - Manage store instances and administrator identities",
@@ -15,7 +15,8 @@
     "format": "prettier --write src/",
     "type-check": "vue-tsc --noEmit",
     "quality-check": "npm run type-check && npm run lint:check && npm run test:coverage",
-    "pre-commit": "npm run quality-check",
+    "prepare": "husky install",
+    "pre-commit": "npm run quality-check && pwsh ../../scripts/typescript-batch-analysis.ps1 -Domain Management",
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
     "e2e:debug": "playwright test --debug",
@@ -52,6 +53,7 @@
     "autoprefixer": "^10.4.23",
     "eslint": "^9.39.2",
     "eslint-plugin-vue": "^9.33.0",
+    "husky": "^9.1.6",
     "jsdom": "^27.4.0",
     "postcss": "^8.5.6",
     "prettier": "^3.7.4",

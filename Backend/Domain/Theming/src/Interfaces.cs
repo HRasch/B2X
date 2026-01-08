@@ -1,4 +1,4 @@
-﻿namespace B2X.ThemeService.Models;
+namespace B2X.ThemeService.Models;
 
 /// <summary>
 /// Theme Repository Interface - Data access layer for themes

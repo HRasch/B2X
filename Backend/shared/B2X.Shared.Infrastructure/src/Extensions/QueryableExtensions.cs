@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using B2X.Shared.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 

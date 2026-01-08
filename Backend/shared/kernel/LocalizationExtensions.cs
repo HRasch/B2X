@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using B2X.Types.Domain;
 using B2X.Types.Localization;
 

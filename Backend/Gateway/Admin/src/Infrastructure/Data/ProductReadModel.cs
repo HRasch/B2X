@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Core.Entities;
+using B2X.Admin.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

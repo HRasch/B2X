@@ -1,4 +1,4 @@
-﻿using B2X.Tenancy.Models;
+using B2X.Tenancy.Models;
 using Xunit;
 
 namespace B2X.Tenancy.Tests.Models;

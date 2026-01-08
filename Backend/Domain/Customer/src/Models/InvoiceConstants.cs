@@ -1,4 +1,4 @@
-﻿namespace B2X.Customer.Models;
+namespace B2X.Customer.Models;
 
 /// <summary>
 /// Constants for invoice statuses and business logic

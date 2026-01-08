@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Application.Commands.Products;
+using B2X.Admin.Application.Commands.Products;
 using B2X.Admin.Application.Handlers;
 using B2X.Admin.Core.Interfaces;
 using B2X.Admin.Infrastructure.Data;

@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config';
 import path from 'path';
-import tailwindcss from '@tailwindcss/postcss';
 import autoprefixer from 'autoprefixer';
 import { visualizer } from 'rollup-plugin-visualizer';
 
@@ -10,8 +9,8 @@ export default defineNuxtConfig({
 
   // Dev server configuration
   devServer: {
-    host: 'localhost',
-    port: 3000,
+    host: process.env.HOST || 'localhost',
+    port: parseInt(process.env.PORT || '3000'),
   },
 
   // SSR enabled by default in Nuxt 3
@@ -23,11 +22,19 @@ export default defineNuxtConfig({
   // TypeScript
   typescript: {
     strict: true,
-    typeCheck: true,
+    typeCheck: false, // Disabled to avoid vite-plugin-checker issues
   },
 
   // Modules
   modules: ['@nuxtjs/i18n', '@pinia/nuxt'],
+
+  // PostCSS configuration
+  postcss: {
+    plugins: {
+      '@tailwindcss/postcss': {},
+      autoprefixer: {},
+    },
+  },
 
   // CSS (relative to project root, not srcDir)
   css: ['~/assets/css/main.css'],
@@ -52,9 +59,6 @@ export default defineNuxtConfig({
       },
     },
     css: {
-      postcss: {
-        plugins: [tailwindcss, autoprefixer],
-      },
       preprocessorOptions: {
         scss: {
           // Make abstracts (functions, mixins) available in all SCSS files

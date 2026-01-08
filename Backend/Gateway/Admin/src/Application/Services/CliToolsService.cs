@@ -1,4 +1,4 @@
-﻿using B2X.Admin.Presentation.Controllers;
+using B2X.Admin.Presentation.Controllers;
 
 namespace B2X.Admin.Application.Services;
 

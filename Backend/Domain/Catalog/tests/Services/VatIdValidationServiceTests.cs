@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using B2X.Catalog.Infrastructure;
 using B2X.Catalog.Models;
 using B2X.Catalog.Services;

@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using B2X.Email.Models;
 using Microsoft.EntityFrameworkCore;
 

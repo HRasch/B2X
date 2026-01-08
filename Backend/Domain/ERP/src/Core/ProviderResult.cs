@@ -1,4 +1,4 @@
-﻿// <copyright file="ProviderResult.cs" company="NissenVelten">
+// <copyright file="ProviderResult.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

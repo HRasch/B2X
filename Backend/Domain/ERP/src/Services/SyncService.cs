@@ -1,4 +1,4 @@
-﻿// <copyright file="SyncService.cs" company="NissenVelten">
+// <copyright file="SyncService.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

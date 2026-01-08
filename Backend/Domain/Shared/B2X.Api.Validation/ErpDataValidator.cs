@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using B2X.Api.Models.Erp;
 using Microsoft.Extensions.Logging;

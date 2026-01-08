@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using B2X.Types.Localization;
 
 namespace B2X.Admin.Core.Entities;

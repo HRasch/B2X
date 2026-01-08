@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Messaging.Commands;
+namespace B2X.Shared.Messaging.Commands;
 
 /// <summary>
 /// Command to index a product in the search engine

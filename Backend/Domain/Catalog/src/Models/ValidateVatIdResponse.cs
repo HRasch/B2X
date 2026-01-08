@@ -1,4 +1,4 @@
-﻿namespace B2X.Catalog.Models;
+namespace B2X.Catalog.Models;
 
 /// <summary>
 /// Response from VAT ID validation

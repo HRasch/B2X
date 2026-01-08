@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Monitoring.Enums;
+namespace B2X.Shared.Monitoring.Enums;
 
 /// <summary>
 /// Enumeration of communication error types encountered during service integration.

@@ -1,4 +1,4 @@
-﻿namespace B2X.ThemeService.Models;
+namespace B2X.ThemeService.Models;
 
 /// <summary>
 /// SCSS Compilation Service Interface

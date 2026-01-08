@@ -1,4 +1,4 @@
-﻿using B2X.Tenancy.Models;
+using B2X.Tenancy.Models;
 using B2X.Types.Domain;
 
 namespace B2X.Tenancy.Handlers.Tenants;

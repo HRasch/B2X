@@ -1,4 +1,4 @@
-﻿using B2X.ServiceDefaults;
+using B2X.ServiceDefaults;
 using Serilog;
 using Wolverine;
 using Wolverine.Http;

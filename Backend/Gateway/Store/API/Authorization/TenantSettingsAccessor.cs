@@ -1,4 +1,4 @@
-﻿using B2X.Shared.Core.Authorization;
+using B2X.Shared.Core.Authorization;
 using B2X.Shared.Infrastructure.Authorization;
 using B2X.Shared.Infrastructure.ServiceClients;
 using B2X.Shared.Tenancy.Infrastructure.Context;

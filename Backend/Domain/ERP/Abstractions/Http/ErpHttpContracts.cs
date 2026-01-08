@@ -1,4 +1,4 @@
-﻿// HTTP communication contracts for massive data loads
+// HTTP communication contracts for massive data loads
 // Compatible with both .NET Framework 4.8 and .NET 10
 //
 // Key techniques for high-volume data transfer:

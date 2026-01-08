@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Core.Authorization;
+namespace B2X.Shared.Core.Authorization;
 
 /// <summary>
 /// Manages permission checks by aggregating multiple authorization providers.

@@ -1,4 +1,4 @@
-﻿namespace B2X.Email.Services;
+namespace B2X.Email.Services;
 
 /// <summary>
 /// SMTP-Konfiguration

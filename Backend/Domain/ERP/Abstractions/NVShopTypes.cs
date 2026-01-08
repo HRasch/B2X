@@ -1,4 +1,4 @@
-﻿// NVShop abstraction types for enventa ERP integration
+// NVShop abstraction types for enventa ERP integration
 // These types define the contracts for HTTP communication between B2X (.NET 10)
 // and the ERP Connector (.NET Framework 4.8)
 //

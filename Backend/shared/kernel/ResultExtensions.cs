@@ -1,4 +1,4 @@
-﻿namespace B2X.Types;
+namespace B2X.Types;
 
 /// <summary>
 /// Extension methods for Result types.

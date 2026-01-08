@@ -1,4 +1,4 @@
-﻿using B2X.IdsConnectAdapter.Formatters;
+using B2X.IdsConnectAdapter.Formatters;
 using B2X.IdsConnectAdapter.Middleware;
 using B2X.Shared.Infrastructure;
 

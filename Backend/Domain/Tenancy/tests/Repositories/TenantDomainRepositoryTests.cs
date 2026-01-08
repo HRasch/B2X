@@ -1,4 +1,4 @@
-﻿using B2X.Tenancy.Models;
+using B2X.Tenancy.Models;
 using B2X.Tenancy.Repositories;
 using B2X.Types.Domain;
 using Moq;

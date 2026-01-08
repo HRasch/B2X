@@ -1,4 +1,4 @@
-﻿// <copyright file="ProviderManager.cs" company="NissenVelten">
+// <copyright file="ProviderManager.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

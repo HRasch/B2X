@@ -1,4 +1,4 @@
-﻿// <copyright file="IErpAdapterFactory.cs" company="NissenVelten">
+// <copyright file="IErpAdapterFactory.cs" company="NissenVelten">
 // Copyright (c) NissenVelten. All rights reserved.
 // </copyright>
 

@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using B2X.AuthService.Data;
 using B2X.Types;
 using Microsoft.AspNetCore.Authorization;

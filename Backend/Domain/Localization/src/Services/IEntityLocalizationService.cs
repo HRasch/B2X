@@ -1,4 +1,4 @@
-﻿namespace B2X.LocalizationService.Services;
+namespace B2X.LocalizationService.Services;
 
 public interface IEntityLocalizationService
 {

@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Core.Services;
+using B2X.Catalog.Core.Services;
 using B2X.Catalog.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 

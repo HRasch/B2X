@@ -1,4 +1,4 @@
-﻿using B2X.Core.Interfaces;
+using B2X.Core.Interfaces;
 
 namespace B2X.Core.Entities;
 

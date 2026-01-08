@@ -1,4 +1,4 @@
-﻿using B2X.SmartDataIntegration.Models;
+using B2X.SmartDataIntegration.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

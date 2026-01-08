@@ -1,4 +1,4 @@
-﻿using B2X.Catalog.Models;
+using B2X.Catalog.Models;
 using FluentValidation;
 
 namespace B2X.Catalog.Validators;

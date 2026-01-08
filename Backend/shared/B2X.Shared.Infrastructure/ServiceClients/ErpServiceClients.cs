@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using Microsoft.Extensions.Logging;
 
 namespace B2X.Shared.Infrastructure.ServiceClients;

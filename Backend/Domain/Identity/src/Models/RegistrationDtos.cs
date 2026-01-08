@@ -1,4 +1,4 @@
-﻿namespace B2X.Identity.Models;
+namespace B2X.Identity.Models;
 
 /// <summary>
 /// DTO für die Überprüfung des Registrierungstyps

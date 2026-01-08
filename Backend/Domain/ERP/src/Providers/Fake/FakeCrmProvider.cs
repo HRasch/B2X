@@ -1,4 +1,4 @@
-﻿// <copyright file="FakeCrmProvider.cs" company="NissenVelten">
+// <copyright file="FakeCrmProvider.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

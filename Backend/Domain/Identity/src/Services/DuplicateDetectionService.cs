@@ -1,4 +1,4 @@
-﻿using B2X.Identity.Interfaces;
+using B2X.Identity.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace B2X.Identity.Services;

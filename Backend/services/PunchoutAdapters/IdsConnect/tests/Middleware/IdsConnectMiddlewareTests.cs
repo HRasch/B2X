@@ -1,4 +1,4 @@
-﻿// <copyright file="IdsConnectMiddlewareTests.cs" company="NissenVelten">
+// <copyright file="IdsConnectMiddlewareTests.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

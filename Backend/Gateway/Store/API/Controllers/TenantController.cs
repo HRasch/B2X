@@ -1,4 +1,4 @@
-﻿// <copyright file="TenantController.cs" company="NissenVelten">
+// <copyright file="TenantController.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

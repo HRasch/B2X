@@ -1,4 +1,4 @@
-﻿using B2X.Email.Interfaces;
+using B2X.Email.Interfaces;
 using B2X.Email.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,7 +28,7 @@ public class ProcessEmailQueueJob : BackgroundService
         _logger.LogInformation("Email Queue Processor started");
 
         // Start the timer to run every 30 seconds
-        _timer = new Timer(_ => ProcessQueueAsync(stoppingToken),
+        _timer = new Timer(async _ => await ProcessQueueAsync(stoppingToken).ConfigureAwait(false),
                           null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
 
         // Keep the service running

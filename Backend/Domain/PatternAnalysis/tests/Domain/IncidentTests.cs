@@ -1,4 +1,4 @@
-﻿// <copyright file="IncidentTests.cs" company="NissenVelten">
+// <copyright file="IncidentTests.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

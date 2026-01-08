@@ -1,4 +1,4 @@
-﻿namespace B2X.Shared.Core.Entities;
+namespace B2X.Shared.Core.Entities;
 
 /// <summary>
 /// Base entity class with multi-tenant support and audit tracking.

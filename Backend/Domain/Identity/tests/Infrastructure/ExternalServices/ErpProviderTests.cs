@@ -1,4 +1,4 @@
-﻿using B2X.Identity.Infrastructure.ExternalServices;
+using B2X.Identity.Infrastructure.ExternalServices;
 using B2X.Identity.Interfaces;
 using B2X.Identity.Models;
 using Microsoft.Extensions.Logging;

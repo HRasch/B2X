@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using B2X.LocalizationService.Controllers;
 using B2X.LocalizationService.Services;
 using Microsoft.AspNetCore.Http;

@@ -1,4 +1,4 @@
-﻿namespace B2X.ThemeService.Models;
+namespace B2X.ThemeService.Models;
 
 /// <summary>
 /// Theme - Represents a design theme with colors, typography, and variables

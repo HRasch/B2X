@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using B2X.CMS.Core.Domain.Widgets;
 using Microsoft.Extensions.Logging;

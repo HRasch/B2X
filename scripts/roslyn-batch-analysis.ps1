@@ -15,11 +15,33 @@ $ErrorActionPreference = "Stop"
 $backendDomains = @("Catalog", "CMS", "Identity", "Localization", "Search")
 $rootDir = Split-Path -Parent $PSScriptRoot
 $backendDir = Join-Path $rootDir "backend"
+$pushgatewayUrl = "http://localhost:9091/metrics/job/batch_processing"
 
 function Write-Log {
     param([string]$Message, [string]$Level = "INFO")
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     Write-Host "[$timestamp] [$Level] $Message"
+}
+
+function Push-Metrics {
+    param([string]$metrics)
+    
+    Write-Log "Pushing metrics to: $pushgatewayUrl"
+    Write-Log "Metrics content length: $($metrics.Length)"
+    
+    try {
+        # Use curl for reliable metric pushing
+        $tempFile = [System.IO.Path]::GetTempFileName()
+        $metrics | Out-File -FilePath $tempFile -Encoding ASCII -NoNewline
+        Write-Log "Temp file created: $tempFile"
+        $result = & curl.exe -X POST -H "Content-Type: text/plain" --data-binary "@$tempFile" $pushgatewayUrl 2>&1
+        Write-Log "Curl result: $result"
+        Remove-Item $tempFile -Force
+        Write-Log "Metrics pushed to Pushgateway"
+    }
+    catch {
+        Write-Log "Failed to push metrics: $_" "WARN"
+    }
 }
 
 function Get-RoslynErrors {
@@ -211,6 +233,7 @@ function Check-SLA {
 # Main execution
 Write-Log "Starting Roslyn Batch Analysis - Phase 2"
 
+$startTime = Get-Date
 $targetDomains = if ($Domain -eq "all") { $backendDomains } else { @($Domain) }
 
 if ($Parallel) {
@@ -222,6 +245,12 @@ if ($Parallel) {
         $allErrors += $errors
     }
 }
+
+$endTime = Get-Date
+$duration = ($endTime - $startTime).TotalSeconds
+$errorCount = $allErrors.Count
+$criticalErrors = ($allErrors | Where-Object { $_.Error -match "error" }).Count
+$warningCount = ($allErrors | Where-Object { $_.Error -match "warning" }).Count
 
 Write-Log "Analysis complete. Found $($allErrors.Count) issues."
 
@@ -237,5 +266,25 @@ if ($SLA) {
 $reportPath = Join-Path $rootDir ".ai\status\roslyn-batch-report-$(Get-Date -Format 'yyyyMMdd-HHmmss').json"
 $allErrors | ConvertTo-Json | Out-File $reportPath
 Write-Log "Report saved to $reportPath"
+
+# Push metrics to Pushgateway
+$metrics = @"
+# TYPE batch_processing_duration_seconds gauge
+batch_processing_duration_seconds{script="roslyn",domain="$Domain"} $duration
+# TYPE batch_processing_error_count gauge
+batch_processing_error_count{script="roslyn",domain="$Domain"} $errorCount
+# TYPE batch_processing_critical_error_count gauge
+batch_processing_critical_error_count{script="roslyn",domain="$Domain"} $criticalErrors
+# TYPE batch_processing_warning_count gauge
+batch_processing_warning_count{script="roslyn",domain="$Domain"} $warningCount
+# TYPE batch_processing_success gauge
+batch_processing_success{script="roslyn",domain="$Domain"} 1
+"@
+
+# Convert Windows line endings to Unix for Prometheus compatibility
+$metrics = $metrics -replace "`r`n", "`n"
+$metrics = $metrics.TrimEnd("`n") + "`n"
+
+Push-Metrics $metrics
 
 Write-Log "Roslyn Batch Analysis completed."

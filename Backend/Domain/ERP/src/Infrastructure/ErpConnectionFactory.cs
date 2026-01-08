@@ -1,4 +1,4 @@
-﻿// <copyright file="ErpConnectionFactory.cs" company="NissenVelten">
+// <copyright file="ErpConnectionFactory.cs" company="NissenVelten">
 // Copyright (c) NissenVelten Software GmbH. All rights reserved.
 // </copyright>
 

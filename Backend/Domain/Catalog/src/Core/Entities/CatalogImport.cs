@@ -1,4 +1,4 @@
-﻿namespace B2X.Catalog.Core.Entities;
+namespace B2X.Catalog.Core.Entities;
 
 /// <summary>
 /// Represents a catalog import operation

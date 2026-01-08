@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using B2X.Shared.Core.Authorization;
 using B2X.Shared.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Http;
