@@ -187,6 +187,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-047` | MCP-Orchestration Layer | `.ai/guidelines/GL-047-MCP-ORCHESTRATION-LAYER.md` | Active |
 | `GL-048` | Instruction File Consolidation | `.ai/guidelines/GL-048-INSTRUCTION-FILE-CONSOLIDATION.md` | Active |
 | `GL-049` | Documentation Structure Framework | `.ai/guidelines/GL-049-DOCUMENTATION-STRUCTURE-FRAMEWORK.md` | Active |
+| `GL-050` | Project Documentation Structure in docs/ | `.ai/guidelines/GL-050-PROJECT-DOCS-STRUCTURE.md` | Active |
 
 ---
 
@@ -434,6 +435,37 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 - **Note:** @DocMaintainer may NOT modify `.github/agents/`, `.github/prompts/`, `.github/instructions/` (owned by @CopilotExpert)
 
 **Default Agent**: `@SARAH` — Coordinator and primary default for unspecified agent prompts. SARAH is the authoritative coordinator for agent workflows and quality gates.
+
+---
+
+## Registry: Developer Documentation (DEVDOC-*)
+
+**Location**: `docs/developer/`
+
+| DocID | Category | Title | File Path | Status |
+|-------|----------|-------|-----------|--------|
+| `DEVDOC-ARCH-*` | Architecture | System architecture, design patterns | `docs/developer/architecture/` | TBD |
+| `DEVDOC-API-*` | API | API reference, endpoints, contracts | `docs/developer/api/` | TBD |
+| `DEVDOC-GUIDE-*` | Developer Guides | How-to for developers, patterns | `docs/developer/guides/` | TBD |
+| `DEVDOC-FEAT-*` | Features | Feature technical documentation | `docs/developer/features/` | TBD |
+| `DEVDOC-HOW-*` | How-To | Technical step-by-step guides | `docs/developer/howto/` | TBD |
+| `DEVDOC-FAQ-*` | FAQ | Technical FAQ | `docs/developer/faq/` | TBD |
+
+---
+
+## Registry: User Documentation (USERDOC-*)
+
+**Location**: `docs/user/`
+
+| DocID | Category | Title | File Path | Status |
+|-------|----------|-------|-----------|--------|
+| `USERDOC-START-*` | Getting Started | Installation, onboarding, setup | `docs/user/getting-started/` | TBD |
+| `USERDOC-FEAT-*` | Features | Feature descriptions (user view) | `docs/user/features/` | TBD |
+| `USERDOC-HOW-*` | How-To | Step-by-step user guides | `docs/user/howto/` | TBD |
+| `USERDOC-SYS-*` | System Overview | System description, workflows | `docs/user/system-overview/` | TBD |
+| `USERDOC-PROC-*` | Process Guides | Business process guides | `docs/user/process-guides/` | TBD |
+| `USERDOC-SCREEN-*` | Screen Guide | Page/screen explanations | `docs/user/screen-explanations/` | TBD |
+| `USERDOC-FAQ-*` | FAQ | User FAQ | `docs/user/faq/` | TBD |
 
 ---
 
