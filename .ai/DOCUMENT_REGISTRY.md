@@ -261,6 +261,15 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `TPL-USERDOC-001` | User Documentation Template | `.ai/templates/TPL-USERDOC-001-USER-DOCS-TEMPLATE.md` | Active |
 | `TPL-001` | Customer Integration Tracker | `.ai/templates/customer-integration-tracker.yml` | Active |
 | `TPL-002` | Customer Integration Checklist | `.ai/templates/customer-integration-checklist.md` | Active |
+| `TPL-SALES-001` | Sales Enablement Documentation Template | `.ai/templates/TPL-SALES-001-SALES-ENABLEMENT-TEMPLATE.md` | Active |
+
+---
+
+## Registry: Sales Documentation (DOCS-SALES-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `DOCS-SALES-001` | B2XGate Platform Overview: Features, Pricing & ROI | `.ai/sales/DOCS-SALES-001-B2XGATE-OVERVIEW.md` | Active |
 
 ---
 
