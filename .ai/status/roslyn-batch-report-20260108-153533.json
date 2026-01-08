@@ -1,0 +1,294 @@
+[
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9914489+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9932885+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Catalog\\ImportAdapters\\Formats\\CsvImportAdapter.cs(377,20): warning S3260: Private record classes which are not derived in the current assembly should be marked as 'sealed'. (https://rules.sonarsource.com/csharp/RSPEC-3260) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9933852+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Application\\Handlers\\PriceCalculationService.cs(48,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9934286+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Services\\TermsAcceptanceService.cs(48,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9934673+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Handlers\\VatIdValidationHandler.cs(64,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9935073+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Handlers\\ShippingCostHandler.cs(39,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9935403+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9935668+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9937284+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Catalog\\ImportAdapters\\Formats\\CsvImportAdapter.cs(377,20): warning S3260: Private record classes which are not derived in the current assembly should be marked as 'sealed'. (https://rules.sonarsource.com/csharp/RSPEC-3260) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9937842+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Application\\Handlers\\PriceCalculationService.cs(48,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9938223+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Services\\TermsAcceptanceService.cs(48,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9938499+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Handlers\\VatIdValidationHandler.cs(64,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9938958+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj",
+    "Domain": "Catalog",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\src\\Handlers\\ShippingCostHandler.cs(39,35): warning MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed (https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0004.md) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Catalog\\B2X.Catalog.API.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.993924+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7297c2de-b9c6-4a17-b86d-bd7cb3937842",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "1364f695-d00c-42d2-82c0-cfa1ff6549f3"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+    "Domain": "CMS",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:20.4921194+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7b5ebdaa-2a9c-4e3e-b6c8-3ec09712b8b0",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "e6ba70de-0062-4042-8fb3-42efda8ce126"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+    "Domain": "CMS",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:20.4938123+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7b5ebdaa-2a9c-4e3e-b6c8-3ec09712b8b0",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "e6ba70de-0062-4042-8fb3-42efda8ce126"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+    "Domain": "CMS",
+    "Error": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\Microsoft.Common.CurrentVersion.targets(4903,5): warning MSB3026: \"obj\\Debug\\net10.0\\B2X.Utils.dll\" konnte nicht in \"bin\\Debug\\net10.0\\B2X.Utils.dll\" kopiert werden. Wiederholung 1 wird in 1000 ms gestartet. The process cannot access the file 'C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\utils\\obj\\Debug\\net10.0\\B2X.Utils.dll' because it is being used by another process.  [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\utils\\B2X.Utils.csproj]",
+    "Timestamp": "2026-01-08T15:35:20.4939007+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7b5ebdaa-2a9c-4e3e-b6c8-3ec09712b8b0",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "e6ba70de-0062-4042-8fb3-42efda8ce126"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+    "Domain": "CMS",
+    "Error": "CSC : error CS2012: ÔÇ×C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Infrastructure\\obj\\Debug\\net10.0\\B2X.Shared.Infrastructure.dllÔÇ£ kann nicht zum Schreiben ge├Âffnet werden ÔÇô \"The process cannot access the file 'C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Infrastructure\\obj\\Debug\\net10.0\\B2X.Shared.Infrastructure.dll' because it is being used by another process.\" [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Infrastructure\\B2X.Shared.Infrastructure.csproj]",
+    "Timestamp": "2026-01-08T15:35:20.4939453+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7b5ebdaa-2a9c-4e3e-b6c8-3ec09712b8b0",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "e6ba70de-0062-4042-8fb3-42efda8ce126"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+    "Domain": "CMS",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:20.4939865+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7b5ebdaa-2a9c-4e3e-b6c8-3ec09712b8b0",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "e6ba70de-0062-4042-8fb3-42efda8ce126"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+    "Domain": "CMS",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:20.4940208+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7b5ebdaa-2a9c-4e3e-b6c8-3ec09712b8b0",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "e6ba70de-0062-4042-8fb3-42efda8ce126"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+    "Domain": "CMS",
+    "Error": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\Microsoft.Common.CurrentVersion.targets(4903,5): warning MSB3026: \"obj\\Debug\\net10.0\\B2X.Utils.dll\" konnte nicht in \"bin\\Debug\\net10.0\\B2X.Utils.dll\" kopiert werden. Wiederholung 1 wird in 1000 ms gestartet. The process cannot access the file 'C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\utils\\obj\\Debug\\net10.0\\B2X.Utils.dll' because it is being used by another process.  [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\utils\\B2X.Utils.csproj]",
+    "Timestamp": "2026-01-08T15:35:20.4940777+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7b5ebdaa-2a9c-4e3e-b6c8-3ec09712b8b0",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "e6ba70de-0062-4042-8fb3-42efda8ce126"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\CMS\\B2X.CMS.csproj",
+    "Domain": "CMS",
+    "Error": "CSC : error CS2012: ÔÇ×C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Infrastructure\\obj\\Debug\\net10.0\\B2X.Shared.Infrastructure.dllÔÇ£ kann nicht zum Schreiben ge├Âffnet werden ÔÇô \"The process cannot access the file 'C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Infrastructure\\obj\\Debug\\net10.0\\B2X.Shared.Infrastructure.dll' because it is being used by another process.\" [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Infrastructure\\B2X.Shared.Infrastructure.csproj]",
+    "Timestamp": "2026-01-08T15:35:20.4941066+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "7b5ebdaa-2a9c-4e3e-b6c8-3ec09712b8b0",
+    "PSShowComputerName": false,
+    "PSSourceJobInstanceId": "e6ba70de-0062-4042-8fb3-42efda8ce126"
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Identity\\B2X.Identity.API.csproj",
+    "Domain": "Identity",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9351694+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "f7b53870-a4bf-4df9-ac81-c821f39070be",
+    "PSShowComputerName": false
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Identity\\B2X.Identity.API.csproj",
+    "Domain": "Identity",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9389005+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "f7b53870-a4bf-4df9-ac81-c821f39070be",
+    "PSShowComputerName": false
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Identity\\B2X.Identity.API.csproj",
+    "Domain": "Identity",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9391406+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "f7b53870-a4bf-4df9-ac81-c821f39070be",
+    "PSShowComputerName": false
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Identity\\B2X.Identity.API.csproj",
+    "Domain": "Identity",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:23.9392286+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "f7b53870-a4bf-4df9-ac81-c821f39070be",
+    "PSShowComputerName": false
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Localization\\B2X.Localization.API.csproj",
+    "Domain": "Localization",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:22.8879194+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "dce903be-4956-45d4-ac93-bf76df16054b",
+    "PSShowComputerName": false
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Localization\\B2X.Localization.API.csproj",
+    "Domain": "Localization",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:22.8900741+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "dce903be-4956-45d4-ac93-bf76df16054b",
+    "PSShowComputerName": false
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Localization\\B2X.Localization.API.csproj",
+    "Domain": "Localization",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(16,32): warning CA1051: Sichtbare Instanzfelder nicht deklarieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1051) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:22.8901971+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "dce903be-4956-45d4-ac93-bf76df16054b",
+    "PSShowComputerName": false
+  },
+  {
+    "Project": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\Domain\\Localization\\B2X.Localization.API.csproj",
+    "Domain": "Localization",
+    "Error": "C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\Handlers\\ValidatedHandlerBase.cs(34,38): warning CA1068: Die Methode \"B2X.Shared.Core.Handlers.ValidatedBase.ValidateRequestAsync<TRequest, TResponse>(TRequest, FluentValidation.IValidator<TRequest>, System.Threading.CancellationToken, System.Func<string, TResponse>)\" muss CancellationToken als letzten Parameter annehmen. (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [C:\\Users\\Holge\\repos\\B2Connect\\backend\\shared\\B2X.Shared.Core\\B2X.Shared.Core.csproj]",
+    "Timestamp": "2026-01-08T15:35:22.8902471+01:00",
+    "PSComputerName": "localhost",
+    "RunspaceId": "dce903be-4956-45d4-ac93-bf76df16054b",
+    "PSShowComputerName": false
+  }
+]
