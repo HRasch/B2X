@@ -69,5 +69,5 @@
     <File Path="docker-compose.yml" />
   </Folder>
   <Project Path="AppHost/B2X.AppHost.csproj" />
-  <Project Path="ServiceDefaults/B2X.ServiceDefaults.csproj" />
+  <Project Path="src/shared/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 </Solution>

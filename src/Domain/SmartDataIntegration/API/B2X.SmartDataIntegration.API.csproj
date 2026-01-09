@@ -52,7 +52,7 @@
   <ItemGroup>
     <ProjectReference Include="..\src\B2X.SmartDataIntegration.csproj" />
 
-    <ProjectReference Include="../../../../ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../shared/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
     <ProjectReference Include="../../../shared/kernel/B2X.Shared.Kernel.csproj" />
 
