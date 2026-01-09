@@ -349,6 +349,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 |-------|-------|-----------|--------|
 | `STATUS-REFACTOR-STRATEGY` | Status Dashboard - Refactoring Strategy | `.ai/status/STATUS-REFACTOR-STRATEGY.md` | Active |
 | `STATUS-PROJECT-CLEANUP-PHASE-2` | Project Cleanup - Phase 2 Documentation Complete | `.ai/status/STATUS-PROJECT-CLEANUP-PHASE-2.md` | Complete |
+| `STATUS-011` | B2X Project Restructuring Completion | `.ai/status/restructuring-completion-status.md` | Completed |
 
 ---
 
