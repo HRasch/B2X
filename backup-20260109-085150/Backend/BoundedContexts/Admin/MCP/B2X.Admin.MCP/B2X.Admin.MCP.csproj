@@ -44,7 +44,7 @@
 
   <ItemGroup>
     <!-- ServiceDefaults for Aspire integration -->
-    <ProjectReference Include="../../../../../Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
     <!-- CMS Domain for template validation -->
     <ProjectReference Include="../../../../Domain/CMS/B2X.CMS.csproj" />

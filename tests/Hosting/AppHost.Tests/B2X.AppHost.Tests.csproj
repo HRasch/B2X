@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../src/Hosting/AppHost/B2X.AppHost.csproj" />
+    <ProjectReference Include="../../../../src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj" />
 
   </ItemGroup>
 

@@ -1,9 +1,9 @@
 <Solution>
   <!-- AppHost -->
-  <Project Path="src/Hosting/AppHost/B2X.AppHost.csproj" />
+  <Project Path="src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj" />
 
   <!-- ServiceDefaults -->
-  <Project Path="src/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+  <Project Path="src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
   <!-- Store Application -->
   <Folder Name="/src/Store/">
