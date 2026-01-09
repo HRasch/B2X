@@ -10,6 +10,8 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <IsAspireProjectResource>true</IsAspireProjectResource>
+    <GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <!-- Exclude tests folder from compilation -->
@@ -57,7 +59,9 @@
 
     <ProjectReference Include="../../Domain/Email/B2X.Email.csproj" />
 
-    <ProjectReference Include="../../Domain/Theming/B2X.Theming.API.csproj" />
+    <ProjectReference Include="../../../Backend/Domain/Theming/B2X.Theming.API.csproj">
+      <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
+    </ProjectReference>
 
     <!-- ERP Validation and Connectors (ADR-036) -->
     <ProjectReference Include="../../Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
@@ -67,7 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Domain/Tenancy/B2X.Tenancy.API.csproj" />
+    <ProjectReference Include="../../../Backend/Domain/Tenancy/B2X.Tenancy.API.csproj" />
 
   </ItemGroup>
 

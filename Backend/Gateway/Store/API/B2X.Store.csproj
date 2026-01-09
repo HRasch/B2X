@@ -8,6 +8,8 @@
     <RootNamespace>B2X.Store</RootNamespace>
     <AssemblyName>B2X.Store</AssemblyName>
     <IsAspireProjectResource>true</IsAspireProjectResource>
+    <GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +31,9 @@
 
     <ProjectReference Include="../../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../Domain/Tenancy/B2X.Tenancy.API.csproj" />
+    <ProjectReference Include="../../../../Backend/Domain/Tenancy/B2X.Tenancy.API.csproj">
+      <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
+    </ProjectReference>
 
     <ProjectReference Include="../../../Domain/Search/B2X.Domain.Search.csproj" />
 
