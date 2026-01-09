@@ -12,12 +12,12 @@ echo ""
 # Step 1: Build Docker Images
 echo "?? Step 1: Building Docker Images..."
 echo "   Building: B2X-frontend-store:latest"
-docker build -t B2X-frontend-store:latest ./Frontend/Store
+docker build -t B2X-frontend-store:latest ./src/Store
 echo "   ? Done"
 echo ""
 
 echo "   Building: B2X-frontend-admin:latest"
-docker build -t B2X-frontend-admin:latest ./Frontend/Admin
+docker build -t B2X-frontend-admin:latest ./src/Admin
 echo "   ? Done"
 echo ""
 

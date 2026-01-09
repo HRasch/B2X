@@ -23,24 +23,24 @@ echo "Rolling back source code moves..."
 # Move Backend back
 if [ -d "src/Api" ] || [ -d "src/Domain" ] || [ -d "src/Gateway" ]; then
     mkdir -p Backend
-    mv src/Api Backend/ 2>/dev/null || true
-    mv src/BoundedContexts Backend/ 2>/dev/null || true
-    mv src/CLI Backend/ 2>/dev/null || true
-    mv src/Connectors Backend/ 2>/dev/null || true
-    mv src/Domain Backend/ 2>/dev/null || true
-    mv src/Gateway Backend/ 2>/dev/null || true
-    mv src/services Backend/ 2>/dev/null || true
-    mv src/shared Backend/ 2>/dev/null || true
-    mv src/Tests Backend/ 2>/dev/null || true
+    mv src/Api src/ 2>/dev/null || true
+    mv src/BoundedContexts src/ 2>/dev/null || true
+    mv src/CLI src/ 2>/dev/null || true
+    mv src/Connectors src/ 2>/dev/null || true
+    mv src/Domain src/ 2>/dev/null || true
+    mv src/Gateway src/ 2>/dev/null || true
+    mv src/services src/ 2>/dev/null || true
+    mv src/shared src/ 2>/dev/null || true
+    mv src/Tests src/ 2>/dev/null || true
     echo "  ✓ Moved Backend code back"
 fi
 
 # Move Frontend back
 if [ -d "src/admin" ] || [ -d "src/store" ] || [ -d "src/management" ]; then
     mkdir -p Frontend
-    mv src/admin Frontend/Admin 2>/dev/null || true
-    mv src/store Frontend/Store 2>/dev/null || true
-    mv src/management Frontend/Management 2>/dev/null || true
+    mv src/admin src/Admin 2>/dev/null || true
+    mv src/store src/Store 2>/dev/null || true
+    mv src/management src/Management 2>/dev/null || true
     echo "  ✓ Moved Frontend code back"
 fi
 
@@ -61,9 +61,9 @@ if [ -d "src/seeding" ]; then
 fi
 
 # Move tests back
-if [ -d "tests/AppHost.Tests" ]; then
-    mv tests/AppHost.Tests ./
-    echo "  ✓ Moved AppHost.Tests back"
+if [ -d "tests/tests/tests/tests/AppHost.Tests" ]; then
+    mv tests/tests/tests/tests/AppHost.Tests ./
+    echo "  ✓ Moved tests/tests/tests/AppHost.Tests back"
 fi
 
 # Move data files back

@@ -73,7 +73,7 @@ echo -e "${YELLOW}[2/2] Starting Frontend (Vite Dev Server)...${NC}"
 echo -e "${BLUE}═════════════════════════════════════════════${NC}"
 echo ""
 
-cd "$SCRIPT_DIR/Frontend/Admin"
+cd "$SCRIPT_DIR/src/Admin"
 npm run dev &
 FRONTEND_PID=$!
 

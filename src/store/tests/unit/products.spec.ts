@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
-import products from '../../src/pages/products.vue';
+import '../../src/pages/products.vue';
 import { ProductService } from '@/services/productService';
 
 // Mock the ProductService

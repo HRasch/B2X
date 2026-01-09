@@ -8,7 +8,7 @@ echo "🚀 B2X Projekt wird gestartet..."
 echo ""
 
 # Frontend starten
-cd "$(dirname "$0")/../Frontend/Store"
+cd "$(dirname "$0")/../src/Store"
 
 echo "📦 Frontend Dependencies werden überprüft..."
 if [ ! -d "node_modules" ]; then

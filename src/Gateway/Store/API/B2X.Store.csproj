@@ -31,7 +31,7 @@
 
     <ProjectReference Include="../../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../../Backend/Domain/Tenancy/B2X.Tenancy.API.csproj">
+    <ProjectReference Include="../../../../src/Domain/Tenancy/B2X.Tenancy.API.csproj">
       <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
     </ProjectReference>
 

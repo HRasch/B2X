@@ -11,9 +11,9 @@ echo "Updating file references after restructuring..."
 echo "Updating .slnx file..."
 if [ -f "B2X.slnx" ]; then
     # Update project paths in .slnx
-    sed -i.bak 's|Backend/|src/|g' B2X.slnx
-    sed -i.bak 's|Frontend/|src/|g' B2X.slnx
-    sed -i.bak 's|AppHost\.Tests|tests/AppHost.Tests|g' B2X.slnx
+    sed -i.bak 's|src/|src/|g' B2X.slnx
+    sed -i.bak 's|src/|src/|g' B2X.slnx
+    sed -i.bak 's|AppHost\.Tests|tests/tests/tests/tests/AppHost.Tests|g' B2X.slnx
     echo "  ✓ Updated B2X.slnx"
 fi
 
@@ -21,7 +21,7 @@ fi
 echo "Updating package.json..."
 if [ -f "package.json" ]; then
     # Update workspace paths
-    sed -i.bak 's|"Frontend/|"src/|g' package.json
+    sed -i.bak 's|"src/|"src/|g' package.json
     echo "  ✓ Updated package.json"
 fi
 
@@ -46,10 +46,10 @@ find src/ -name "*.ts" -o -name "*.js" -o -name "*.vue" | while read -r file; do
 
     echo "  Updating imports in $file..."
     # Update relative imports that reference moved directories
-    sed -i.bak 's|from '\''\.\./\.\./Backend/|from '\''\.\./\.\./src/|g' "$file"
-    sed -i.bak 's|from '\''\.\./\.\./Frontend/|from '\''\.\./\.\./src/|g' "$file"
-    sed -i.bak 's|import.*'\''\.\./\.\./Backend/|import '\''\.\./\.\./src/|g' "$file"
-    sed -i.bak 's|import.*'\''\.\./\.\./Frontend/|import '\''\.\./\.\./src/|g' "$file"
+    sed -i.bak 's|from '\''\.\./\.\./src/|from '\''\.\./\.\./src/|g' "$file"
+    sed -i.bak 's|from '\''\.\./\.\./src/|from '\''\.\./\.\./src/|g' "$file"
+    sed -i.bak 's|import.*'\''\.\./\.\./src/|import '\''\.\./\.\./src/|g' "$file"
+    sed -i.bak 's|import.*'\''\.\./\.\./src/|import '\''\.\./\.\./src/|g' "$file"
 done
 
 # Update C# using statements
@@ -65,17 +65,17 @@ done
 echo "Updating Docker compose files..."
 find config/ -name "docker-compose*.yml" | while read -r file; do
     echo "  Updating $file..."
-    sed -i.bak 's|./Backend/|./src/|g' "$file"
-    sed -i.bak 's|./Frontend/|./src/|g' "$file"
+    sed -i.bak 's|./src/|./src/|g' "$file"
+    sed -i.bak 's|./src/|./src/|g' "$file"
 done
 
 # Update scripts
 echo "Updating script references..."
 find scripts/ -name "*.sh" | while read -r file; do
     echo "  Updating $file..."
-    sed -i.bak 's|Backend/|src/|g' "$file"
-    sed -i.bak 's|Frontend/|src/|g' "$file"
-    sed -i.bak 's|AppHost\.Tests|tests/AppHost.Tests|g' "$file"
+    sed -i.bak 's|src/|src/|g' "$file"
+    sed -i.bak 's|src/|src/|g' "$file"
+    sed -i.bak 's|AppHost\.Tests|tests/tests/tests/tests/AppHost.Tests|g' "$file"
 done
 
 echo ""

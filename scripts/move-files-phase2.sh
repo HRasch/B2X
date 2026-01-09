@@ -19,13 +19,13 @@ fi
 
 # Move Backend code
 echo "Moving Backend code..."
-if [ -d "Backend/" ]; then
-    mv Backend/* src/ 2>/dev/null || true
+if [ -d "src/" ]; then
+    mv src/* src/ 2>/dev/null || true
     # Move specific subdirectories
     for subdir in Api BoundedContexts CLI Connectors Domain Gateway services shared Tests; do
-        if [ -d "Backend/$subdir" ]; then
-            mv "Backend/$subdir" "src/"
-            echo "  ✓ Backend/$subdir → src/"
+        if [ -d "src/$subdir" ]; then
+            mv "src/$subdir" "src/"
+            echo "  ✓ src/$subdir → src/"
         fi
     done
     # Remove empty Backend directory
@@ -36,26 +36,26 @@ fi
 
 # Move Frontend code
 echo "Moving Frontend code..."
-if [ -d "Frontend/" ]; then
+if [ -d "src/" ]; then
     # Move Admin frontend
-    if [ -d "Frontend/Admin" ]; then
+    if [ -d "src/Admin" ]; then
         mkdir -p src/admin
-        mv Frontend/Admin/* src/admin/ 2>/dev/null || true
-        echo "  ✓ Frontend/Admin → src/admin/"
+        mv src/Admin/* src/admin/ 2>/dev/null || true
+        echo "  ✓ src/Admin → src/admin/"
     fi
 
     # Move Store frontend
-    if [ -d "Frontend/Store" ]; then
+    if [ -d "src/Store" ]; then
         mkdir -p src/store
-        mv Frontend/Store/* src/store/ 2>/dev/null || true
-        echo "  ✓ Frontend/Store → src/store/"
+        mv src/Store/* src/store/ 2>/dev/null || true
+        echo "  ✓ src/Store → src/store/"
     fi
 
     # Move Management frontend
-    if [ -d "Frontend/Management" ]; then
+    if [ -d "src/Management" ]; then
         mkdir -p src/management
-        mv Frontend/Management/* src/management/ 2>/dev/null || true
-        echo "  ✓ Frontend/Management → src/management/"
+        mv src/Management/* src/management/ 2>/dev/null || true
+        echo "  ✓ src/Management → src/management/"
     fi
 
     # Remove empty Frontend directory
@@ -66,9 +66,9 @@ fi
 
 # Move test projects
 echo "Moving test projects..."
-if [ -d "AppHost.Tests/" ]; then
-    mv AppHost.Tests tests/
-    echo "  ✓ AppHost.Tests → tests/"
+if [ -d "tests/tests/tests/AppHost.Tests/" ]; then
+    mv tests/tests/tests/AppHost.Tests tests/
+    echo "  ✓ tests/tests/tests/AppHost.Tests → tests/"
 fi
 
 # Move B2X.Seeding.API

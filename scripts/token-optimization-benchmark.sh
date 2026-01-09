@@ -20,7 +20,7 @@ echo "📊 Results will be saved to: $BENCHMARK_FILE"
 # Large files to benchmark (from PowerShell command)
 LARGE_FILES=(
     "backend/Domain/ERP/src/obj/Debug/net10.0/Protos/ErpServices.cs"
-    "Frontend/package-lock.json"
+    "src/package-lock.json"
     "backend/Gateway/Admin/obj/B2X.Admin.csproj.nuget.dgspec.json"
     "backend/Domain/Identity/tests/obj/project.assets.json"
     "backend/Tests/B2X.Shared.Search.Tests/obj/project.assets.json"

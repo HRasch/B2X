@@ -77,14 +77,14 @@ fix_project_references() {
             local new_line="$line"
 
             # Fix Backend references
-            new_line=$(echo "$new_line" | sed 's|Include="\.\./\.\./Backend/|Include="src/Backend/|g')
-            new_line=$(echo "$new_line" | sed 's|Include="\.\./Backend/|Include="src/Backend/|g')
-            new_line=$(echo "$new_line" | sed 's|Include="Backend/|Include="src/Backend/|g')
+            new_line=$(echo "$new_line" | sed 's|Include="\.\./\.\./src/|Include="src/src/|g')
+            new_line=$(echo "$new_line" | sed 's|Include="\.\./src/|Include="src/src/|g')
+            new_line=$(echo "$new_line" | sed 's|Include="src/|Include="src/src/|g')
 
             # Fix Frontend references
-            new_line=$(echo "$new_line" | sed 's|Include="\.\./\.\./Frontend/|Include="src/Frontend/|g')
-            new_line=$(echo "$new_line" | sed 's|Include="\.\./Frontend/|Include="src/Frontend/|g')
-            new_line=$(echo "$new_line" | sed 's|Include="Frontend/|Include="src/Frontend/|g')
+            new_line=$(echo "$new_line" | sed 's|Include="\.\./\.\./src/|Include="src/src/|g')
+            new_line=$(echo "$new_line" | sed 's|Include="\.\./src/|Include="src/src/|g')
+            new_line=$(echo "$new_line" | sed 's|Include="src/|Include="src/src/|g')
 
             # Fix ServiceDefaults references
             new_line=$(echo "$new_line" | sed 's|Include="\.\./\.\./ServiceDefaults/|Include="src/ServiceDefaults/|g')

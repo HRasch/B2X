@@ -86,7 +86,7 @@ key_files=(
     "src/Api/B2X.Gateway/B2X.Gateway.csproj"
     "src/Domain/Catalog/B2X.Catalog.csproj"
     "src/Gateway/Store/API/B2X.Store.csproj"
-    "tests/AppHost.Tests/AppHost.Tests.csproj"
+    "tests/tests/tests/tests/AppHost.Tests/tests/tests/tests/AppHost.Tests.csproj"
     "docs/project/README.md"
     "config/docker-compose.yml"
 )

@@ -175,7 +175,7 @@ show_menu() {
             echo "0) Pre-flight checks"
             echo "1) Directory structure"
             echo "2) Low-risk moves (data/docs/config)"
-            echo "3) Source code migration (Backend/Frontend/AppHost)"
+            echo "3) Source code migration (src/src/AppHost)"
             echo "4) Reference updates (C#, TypeScript, docs, configs)"
             echo "5) Build validation"
             echo "6) Final validation & documentation"

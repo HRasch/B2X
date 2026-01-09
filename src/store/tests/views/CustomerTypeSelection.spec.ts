@@ -2,15 +2,15 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { createI18n } from 'vue-i18n';
-import en from '../../src/locales/en.json';
-import de from '../../src/locales/de.json';
-import fr from '../../src/locales/fr.json';
-import es from '../../src/locales/es.json';
-import itLocale from '../../src/locales/it.json';
-import pt from '../../src/locales/pt.json';
-import nl from '../../src/locales/nl.json';
-import pl from '../../src/locales/pl.json';
-import CustomerTypeSelection from '../../src/pages/CustomerTypeSelection.vue';
+import '../../src/locales/en.json';
+import '../../src/locales/de.json';
+import '../../src/locales/fr.json';
+import '../../src/locales/es.json';
+import '../../src/locales/it.json';
+import '../../src/locales/pt.json';
+import '../../src/locales/nl.json';
+import '../../src/locales/pl.json';
+import '../../src/pages/CustomerTypeSelection.vue';
 
 // Types for testing
 type CustomerType = 'private' | 'business' | null;

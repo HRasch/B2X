@@ -33,41 +33,41 @@ print_mapping() {
 show_csharp_mappings() {
     print_section "C# Project References (.csproj)"
     print_mapping "../AppHost/B2X.AppHost.csproj" "../src/AppHost/B2X.AppHost.csproj"
-    print_mapping "../Backend/Api/B2X.Api.csproj" "../src/Backend/Api/B2X.Api.csproj"
-    print_mapping "../Backend/Domain/B2X.Domain.csproj" "../src/Backend/Domain/B2X.Domain.csproj"
-    print_mapping "../Frontend/Store/package.json" "../src/Frontend/Store/package.json"
+    print_mapping "../src/Api/B2X.Api.csproj" "../src/src/Api/B2X.Api.csproj"
+    print_mapping "../src/Domain/B2X.Domain.csproj" "../src/src/Domain/B2X.Domain.csproj"
+    print_mapping "../src/Store/package.json" "../src/src/Store/package.json"
 }
 
 show_code_mappings() {
     print_section "C# Code References"
     print_mapping "using B2X.Backend.Domain;" "using B2X.src.Backend.Domain;"
     print_mapping "namespace B2X.Backend.Api" "namespace B2X.src.Backend.Api"
-    print_mapping "\"Backend/Domain/Entities/\"" "\"src/Backend/Domain/Entities/\""
+    print_mapping "\"src/Domain/Entities/\"" "\"src/src/Domain/Entities/\""
 }
 
 show_typescript_mappings() {
     print_section "TypeScript/JavaScript Imports"
-    print_mapping "import { Api } from '../../Backend/Api'" "import { Api } from '../../src/Backend/Api'"
-    print_mapping "import config from '../../../Frontend/Store/config'" "import config from '../../../src/Frontend/Store/config'"
+    print_mapping "import { Api } from '../../src/Api'" "import { Api } from '../../src/src/Api'"
+    print_mapping "import config from '../../../src/Store/config'" "import config from '../../../src/src/Store/config'"
 }
 
 show_markdown_mappings() {
     print_section "Documentation Links"
-    print_mapping "[Backend API](../Backend/Api/README.md)" "[Backend API](../src/Backend/Api/README.md)"
-    print_mapping "[Frontend Guide](../Frontend/Store/docs/guide.md)" "[Frontend Guide](../src/Frontend/Store/docs/guide.md)"
+    print_mapping "[Backend API](../src/Api/README.md)" "[Backend API](../src/src/Api/README.md)"
+    print_mapping "[Frontend Guide](../src/Store/docs/guide.md)" "[Frontend Guide](../src/src/Store/docs/guide.md)"
     print_mapping "[AppHost Config](../AppHost/appsettings.json)" "[AppHost Config](../src/AppHost/appsettings.json)"
 }
 
 show_config_mappings() {
     print_section "Configuration Files"
-    print_mapping "../Backend/appsettings.Development.json" "../src/Backend/appsettings.Development.json"
-    print_mapping "../Frontend/Store/package.json" "../src/Frontend/Store/package.json"
+    print_mapping "../src/appsettings.Development.json" "../src/src/appsettings.Development.json"
+    print_mapping "../src/Store/package.json" "../src/src/Store/package.json"
 }
 
 show_script_mappings() {
     print_section "Build Scripts"
-    print_mapping "./Backend/run-tests.sh" "./src/Backend/run-tests.sh"
-    print_mapping "./Frontend/Store/build.sh" "./src/Frontend/Store/build.sh"
+    print_mapping "./src/run-tests.sh" "./src/src/run-tests.sh"
+    print_mapping "./src/Store/build.sh" "./src/src/Store/build.sh"
 }
 
 show_regex_patterns() {
@@ -124,14 +124,14 @@ show_directory_moves() {
     print_section "Directory Move Summary"
     echo -e "${GREEN}MOVED TO src/:${NC}"
     echo "• AppHost/ → src/AppHost/"
-    echo "• Backend/ → src/Backend/"
-    echo "• Frontend/ → src/Frontend/"
+    echo "• src/ → src/src/"
+    echo "• src/ → src/src/"
     echo "• ServiceDefaults/ → src/ServiceDefaults/"
     echo "• IdsConnectAdapter/ → src/IdsConnectAdapter/"
     echo "• erp-connector/ → src/erp-connector/"
     echo
     echo -e "${GREEN}MOVED TO tests/:${NC}"
-    echo "• AppHost.Tests/ → tests/AppHost.Tests/"
+    echo "• tests/tests/tests/AppHost.Tests/ → tests/tests/tests/tests/AppHost.Tests/"
     echo
     echo -e "${GREEN}MOVED TO docs/project/:${NC}"
     echo "• *.md (root level) → docs/project/"
