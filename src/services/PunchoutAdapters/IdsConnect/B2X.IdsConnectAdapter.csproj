@@ -8,21 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../Domain/Catalog/B2X.Catalog.API.csproj" />
+    <ProjectReference Include="../../../../src/Store/Backend/Catalog/B2X.Catalog.API.csproj" />
 
-    <ProjectReference Include="../../../Domain/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../../src/Store/Backend/Search/B2X.Domain.Search.csproj" />
 
-    <ProjectReference Include="../../../Domain/Customer/B2X.Customer.API.csproj" />
+    <ProjectReference Include="../../../../src/Store/Backend/Customer/B2X.Customer.API.csproj" />
 
-    <ProjectReference Include="../../../Domain/Email/B2X.Email.API.csproj" />
+    <ProjectReference Include="../../../../src/Management/Backend/Email/B2X.Email.csproj" />
 
-    <ProjectReference Include="../../../Domain/Localization/B2X.Localization.API.csproj" />
+    <ProjectReference Include="../../../../src/shared/Domain/Localization/B2X.Localization.API.csproj" />
 
-    <ProjectReference Include="../../../shared/B2X.Shared.csproj" />
+    <ProjectReference Include="../../../../src/shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
   </ItemGroup>
 

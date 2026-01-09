@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2X.Store</RootNamespace>
+    <AssemblyName>B2X.Store</AssemblyName>
+    <IsAspireProjectResource>true</IsAspireProjectResource>
+    <GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Yarp.ReverseProxy" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+    <PackageReference Include="WolverineFx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+
+    <ProjectReference Include="../../../shared/types/B2X.Types.csproj" />
+
+    <ProjectReference Include="../../../shared/utils/B2X.Utils.csproj" />
+
+    <ProjectReference Include="../../../shared/middleware/B2X.Shared.Middleware.csproj" />
+
+    <ProjectReference Include="../../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+
+    <ProjectReference Include="../../../../src/shared/Domain/Tenancy/B2X.Tenancy.API.csproj">
+      <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
+    </ProjectReference>
+
+    <ProjectReference Include="../../../Backend/Search/B2X.Domain.Search.csproj" />
+
+  </ItemGroup>
+</Project>
+
+
+
+
+
+
+

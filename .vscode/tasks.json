@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "2.0.0",
   "tasks": [
     {
@@ -7,7 +7,7 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
+        "${workspaceFolder}/src/Hosting/AppHost/B2X.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -56,7 +56,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Catalog/tests/B2X.Catalog.Tests.csproj",
+        "${workspaceFolder}/tests/Store/Backend/Catalog/B2X.Catalog.Tests/B2X.Catalog.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -71,7 +71,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/CMS/tests/B2X.CMS.Tests.csproj",
+        "${workspaceFolder}/tests/Management/Backend/CMS/B2X.CMS.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -86,7 +86,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Localization/tests/B2X.Localization.Tests.csproj",
+        "${workspaceFolder}/tests/shared/Domain/Localization/B2X.Localization.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -101,7 +101,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Identity/tests/B2X.Identity.Tests.csproj",
+        "${workspaceFolder}/tests/shared/Domain/Identity/B2X.Identity.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -116,7 +116,7 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Search/tests/B2X.Shared.Search.Tests.csproj",
+        "${workspaceFolder}/tests/shared/B2X.Shared.Search.Tests/B2X.Shared.Search.Tests.csproj",
         "-v",
         "minimal"
       ],
@@ -181,10 +181,10 @@
         "args": [
           "run",
           "--project",
-          "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
+          "${workspaceFolder}/src/Hosting/AppHost/B2X.AppHost.csproj"
         ],
         "options": {
-          "cwd": "${workspaceFolder}/AppHost",
+          "cwd": "${workspaceFolder}/src/Hosting/AppHost",
         "env": {
           "ASPNETCORE_ENVIRONMENT": "Development",
           "Database__Provider": "inmemory",
@@ -412,7 +412,7 @@
       "command": "dotnet",
       "args": [
         "build",
-        "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
+        "${workspaceFolder}/src/Hosting/AppHost/B2X.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {

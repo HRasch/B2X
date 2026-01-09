@@ -45,9 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../shared/kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../shared/kernel/B2X.Shared.Kernel.csproj" />
 
     <ProjectReference Include="../../shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
@@ -64,7 +64,7 @@
     </ProjectReference>
 
     <!-- ERP Validation and Connectors (ADR-036) -->
-    <ProjectReference Include="../../Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
+    <ProjectReference Include="../../../shared/Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
 
     <ProjectReference Include="../../Connectors/B2X.Connectors.csproj" />
 

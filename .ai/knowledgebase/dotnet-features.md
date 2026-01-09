@@ -4,6 +4,7 @@ title: Dotnet Features
 owner: @DocMaintainer
 status: Active
 created: 2026-01-08
+updated: 2026-01-09
 ---
 
 Title: .NET features (summary focused on .NET 10)
@@ -25,6 +26,9 @@ Actionables for projects:
 - Test native AOT build paths and container image outputs if using AOT or containerized deployments.
 - Review JSON serializer options if strict serialization or duplicate-property handling matters for your interop/clients.
 - For ASP.NET projects, validate Passkey and identity changes against your auth flows and test WebAssembly preloading for Blazor workloads.
+- **Package Dependencies**: Ensure complete EF Core references - include both `Microsoft.EntityFrameworkCore` (runtime) and `Microsoft.EntityFrameworkCore.Relational` (migrations) plus provider packages like `Npgsql.EntityFrameworkCore.PostgreSQL`
+- **Extension Packages**: Explicitly reference `Microsoft.Extensions.Logging` and `Microsoft.Extensions.Configuration` even in ASP.NET Core projects for ILogger<> and IConfiguration usage
+- **Project References**: Use consistent relative paths with `/src/` prefixes in solution folder structures to prevent "project does not exist" compilation errors
 
 References:
 - .NET whats-new: https://learn.microsoft.com/dotnet/core/whats-new

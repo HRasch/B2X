@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../../Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
     <ProjectReference Include="../../../shared/types/B2X.Types.csproj" />
 

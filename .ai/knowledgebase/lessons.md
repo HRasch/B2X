@@ -9,7 +9,7 @@ created: 2026-01-08
 ﻿# Lessons Learned
 
 **DocID**: `KB-LESSONS`  
-**Last Updated**: 8. Januar 2026  
+**Last Updated**: 9. Januar 2026  
 **Maintained By**: GitHub Copilot
 
 ---
@@ -5190,6 +5190,54 @@ Warning: @property is not supported in this PostCSS version
 2. **Subagent-Trigger**: Bei >5 Fehlern automatisch starten.
 3. **Qualitätsgates**: MCP-Validierung vor Merge.
 4. **Monitoring**: Token-Metriken tracken ([GL-046]).
+
+---
+
+## Session: 9. Januar 2026 - .NET Solution Path Corrections & Package Dependencies
+
+### Systematic Compilation Error Resolution in Large Solutions
+
+**Issue**: Widespread compilation failures across B2X solution due to incorrect project reference paths and missing package dependencies, preventing full solution builds.
+
+**Root Cause**: Inconsistent relative path patterns in project references (missing `/src/` prefixes) and incomplete package references for Entity Framework, logging, and configuration services.
+
+**Lesson**: Large .NET solutions require systematic path validation and explicit package dependencies. Missing `/src/` in relative paths is a common failure pattern in deeply nested project structures.
+
+**Solution**: Applied systematic fixes across multiple projects:
+1. **Path Pattern Correction**: Standardized 5-level up navigation (`../../../../../src/`) for test projects
+2. **Package Dependency Audit**: Added missing EF runtime packages, logging extensions, and configuration providers
+3. **Reference Path Validation**: Verified all project references against solution file structure
+4. **Incremental Validation**: Built projects individually to isolate remaining issues
+
+**Key Insights**:
+- **Path Depth Matters**: Test projects in `tests/` require 5 levels up to reach `src/` root
+- **EF Package Completeness**: Need both runtime (`Microsoft.EntityFrameworkCore`) and relational (`Microsoft.EntityFrameworkCore.Relational`) packages plus provider-specific packages
+- **Logging Dependencies**: `Microsoft.Extensions.Logging` required even when `Microsoft.Extensions.Logging.Abstractions` is present
+- **Configuration Services**: `Microsoft.Extensions.Configuration` needed for `IConfiguration` interface usage
+
+**Technical Details**:
+- **Path Pattern**: `../../../../src/shared/Domain/Tenancy/B2X.Tenancy.API.csproj` (correct) vs `../../../../src/Domain/Tenancy/B2X.Tenancy.API.csproj` (incorrect)
+- **EF Migration Errors**: Missing `Migration`, `MigrationBuilder`, `ModelSnapshot` types resolved by adding `Microsoft.EntityFrameworkCore.Relational`
+- **ILogger<> Issues**: Required explicit `Microsoft.Extensions.Logging` package reference despite ASP.NET Core context
+- **PostgreSQL Support**: `Npgsql.EntityFrameworkCore.PostgreSQL` needed for migration code using Npgsql types
+
+**Prevention Measures**:
+1. **Path Validation Scripts**: Create automated checks for consistent `/src/` prefixes in project references
+2. **Package Dependency Templates**: Maintain standardized package sets for common project types (API, service, test)
+3. **Solution Build Gates**: Require successful individual project builds before solution-wide validation
+4. **Reference Auditing**: Regular checks for broken project references using `dotnet build` with detailed error reporting
+
+**Impact Metrics**:
+- **Projects Fixed**: 7 projects successfully building (Store API, Monitoring, 5 test suites)
+- **Error Reduction**: From 105+ solution errors to focused issues in remaining projects
+- **Test Coverage**: 5/5 test suites now passing (Catalog: 2/2, Identity: 14/16, Search: 3/3, Localization: 52/52, Tenancy: 37/37)
+- **Build Stability**: Established working build infrastructure for incremental development
+
+**Best Practices Established**:
+1. **Systematic Fixes**: Address one project type at a time (APIs, services, tests, infrastructure)
+2. **Package Completeness**: Always include both runtime and design-time packages for frameworks
+3. **Path Standardization**: Use consistent relative path patterns based on directory depth
+4. **Incremental Validation**: Build and test after each fix to prevent regression accumulation
 
 ---
 

@@ -53,9 +53,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../shared/kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../shared/kernel/B2X.Shared.Kernel.csproj" />
 
     <ProjectReference Include="../../shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 

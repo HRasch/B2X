@@ -4,6 +4,7 @@ title: Patterns Antipatterns
 owner: @DocMaintainer
 status: Active
 created: 2026-01-08
+updated: 2026-01-09
 ---
 
 Title: Patterns & Antipatterns — cross-cutting guidance
@@ -141,6 +142,19 @@ Code Organization & Refactoring
   - Copy-paste development leading to duplicate validation or business logic patterns.
   - Large-scale refactoring without incremental validation and testing checkpoints.
   - Lack of clear file organization guidelines leading to inconsistent project structure.
+
+.NET Project Structure & References
+- Patterns:
+  - Use consistent relative path patterns based on directory depth: test projects in `tests/` require 5 levels up (`../../../../../src/`) to reach project root
+  - Include `/src/` prefix in all project reference paths within solution folders (e.g., `../../../../src/shared/Domain/Tenancy/B2X.Tenancy.API.csproj`)
+  - Maintain complete package references for frameworks: EF requires both runtime (`Microsoft.EntityFrameworkCore`) and relational (`Microsoft.EntityFrameworkCore.Relational`) packages plus provider packages
+  - Explicitly reference extension packages even in ASP.NET Core context: `Microsoft.Extensions.Logging` and `Microsoft.Extensions.Configuration` needed for DI services
+  - Validate project references against solution file structure to prevent broken builds
+- Antipatterns:
+  - Inconsistent path patterns causing "project does not exist" errors (missing `/src/` prefixes)
+  - Incomplete package references leading to missing type errors (Migration, ILogger<>, IConfiguration)
+  - Assuming ASP.NET Core projects automatically include all extension packages
+  - Not validating individual project builds before solution-wide compilation
 
 References
 - Wolverine README & docs, Vue docs, Pinia docs, Vite docs, ASP.NET Core Identity docs, .NET compatibility docs, OWASP Top Ten.

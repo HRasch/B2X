@@ -22,7 +22,7 @@
 
     <ProjectReference Include="../../../Domain/Localization/B2X.Localization.API.csproj" />
 
-    <ProjectReference Include="../../../shared/B2X.Shared.csproj" />
+    <ProjectReference Include="../../../src/shared/B2X.Shared.csproj" />
 
   </ItemGroup>
 

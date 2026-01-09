@@ -1,19 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="NEST" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Domain/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../src/Store/Backend/Search/B2X.Domain.Search.csproj" />
 
-    <ProjectReference Include="../../Domain/Catalog/B2X.Catalog.API.csproj" />
+    <ProjectReference Include="../../../src/Store/Backend/Catalog/B2X.Catalog.API.csproj" />
 
   </ItemGroup>
 

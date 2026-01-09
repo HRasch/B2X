@@ -1,6 +1,7 @@
 ﻿using B2X.Domain.Search.Models;
 using B2X.Domain.Search.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace B2X.Services.Search.Services;
 
