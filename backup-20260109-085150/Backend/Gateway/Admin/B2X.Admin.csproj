@@ -59,7 +59,7 @@
 
     <ProjectReference Include="../../Domain/Email/B2X.Email.csproj" />
 
-    <ProjectReference Include="../../Domain/Theming/B2X.Theming.API.csproj">
+    <ProjectReference Include="../../../Backend/Domain/Theming/B2X.Theming.API.csproj">
       <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
     </ProjectReference>
 
@@ -71,9 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Domain/Tenancy/B2X.Tenancy.API.csproj">
-      <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
-    </ProjectReference>
+    <ProjectReference Include="../../../Backend/Domain/Tenancy/B2X.Tenancy.API.csproj" />
 
   </ItemGroup>
 

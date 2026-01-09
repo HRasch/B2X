@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
-    <IsPackable>false</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2X.Compliance.Tests</RootNamespace>
+    <AssemblyName>B2X.Compliance.Tests</AssemblyName>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
@@ -13,24 +14,16 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.collector">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Moq" />
+    <PackageReference Include="Shouldly" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
-
-    <ProjectReference Include="../../../Connectors/B2X.Connectors.csproj" />
-
+    <Compile Include="../Jurisdictions/**/*.cs" />
+    <Compile Include="../RiskAssessment/**/*.cs" />
   </ItemGroup>
 
 </Project>
-
-
-

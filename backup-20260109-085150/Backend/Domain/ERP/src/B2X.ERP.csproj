@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>B2X.ERP</RootNamespace>
+    <Description>
+      ERP service for B2X. Communicates with ERP Connector (.NET 4.8) over HTTP.
+      Supports massive data loads via cursor pagination, delta sync, and streaming.
+    </Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Core Dependencies -->
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    
+    <!-- Resilience -->
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+    
+    <!-- Wolverine for messaging -->
+    <PackageReference Include="WolverineFx" />
+    
+    <!-- Redis for distributed caching -->
+    <PackageReference Include="StackExchange.Redis" />
+
+    <!-- Data Access (ADR-025) -->
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="EFCore.BulkExtensions.SqlServer" />
+    <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
+    <PackageReference Include="Npgsql" />
+    
+    <!-- gRPC -->
+    <PackageReference Include="Google.Protobuf" />
+    <PackageReference Include="Grpc.Net.Client" />
+    <PackageReference Include="Grpc.Tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos/*.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Abstractions\B2X.ERP.Abstractions.csproj" />
+
+  </ItemGroup>
+
+</Project>
+
+
+
+
