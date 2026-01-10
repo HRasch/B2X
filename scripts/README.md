@@ -1,52 +1,216 @@
-﻿# B2X Scripts
+﻿# B2X Scripts Directory
 
-## 📋 Übersicht
+## 📋 Overview
 
-Utility-Scripts für Entwicklung und Testen.
+This directory contains utility scripts for B2X development, testing, and operations. Scripts are organized into categories for better discoverability and maintenance.
 
-## 🛠️ Skripte
+## 📁 Directory Structure
 
-### `kill-all-services.sh`
-Stoppt alle B2X Services und gibt Ports frei.
+### `ai/` - AI and Machine Learning Scripts
+Scripts related to AI model management, cost monitoring, and AI-assisted development tools.
 
-**Verwendung:**
-```bash
-./scripts/kill-all-services.sh
-```
+**Scripts:**
+- `ai-batch-processor.py` - Batch processing for AI operations
+- `ai-cache.py` - AI cache management
+- `ai-cost-monitor.py` / `ai-cost-monitor.sh` - Monitor AI API costs
+- `ai-integration-tests.py` - Test AI integrations
+- `ai-model-selector.py` - Select appropriate AI models
+- `ai-optimization-center.py` - AI performance optimization
+- `ai-quality-scorer.py` - Score AI output quality
+- `README-ai-monitoring.md` - AI monitoring documentation
 
-**Wann verwenden:**
-- 🔴 **Port-Konflikte** - Wenn Services nicht mehr starten weil Ports belegt sind
-- 🔄 **Aspire hängt** - Wenn das Aspire Dashboard nicht antwortet
-- 🧹 **Cleanup vor Neustart** - Nach Crashes oder Force-Stops
-- 🐛 **Debugging** - Wenn Sie sicherstellen wollen dass alle Prozesse weg sind
+### `deployment/` - Deployment and Service Management
+Scripts for starting, stopping, and managing B2X services and deployments.
 
-**Beispiel:**
-```bash
-# Port freigeben und erneut starten
-./scripts/kill-all-services.sh
-dotnet run --project backend/AppHost/B2X.AppHost.csproj
-```
+**Scripts:**
+- `aspire-run.sh` - Run Aspire orchestration
+- `aspire-start.sh` - Start Aspire dashboard
+- `aspire-stop.sh` - Stop Aspire services
+- `kill-all-services.sh` - Stop all B2X services
+- `rollback-mcp.sh` - Rollback MCP deployments
+- `rollback-refactor.sh` - Rollback refactoring changes
+- `start-all-services.sh` - Start all services
+- `start-all.sh` - Start complete stack
+- `start-aspire-with-frontends.sh` - Start Aspire with frontends
+- `start-aspire.sh` - Start Aspire orchestration
+- `start-frontend.sh` - Start frontend services
+- `start-full-stack.sh` - Start complete application stack
+- `start-services-local.sh` - Start services locally
+- `start-vscode.sh` - Start VS Code development environment
+- `stop-services-local.sh` - Stop local services
 
-### `start-aspire.sh`
-Startet Aspire mit Port-Cleanup.
+### `docs/` - Documentation Management
+Scripts for documentation maintenance, auditing, and quality control.
 
-### `check-ports.sh`
-Prüft welche Services welche Ports belegen.
+**Scripts:**
+- `archive-old-docs.sh` - Archive outdated documentation
+- `docs-quality-monitor.sh` - Monitor documentation quality
+- `docs-validation.sh` - Validate documentation
+- `documentation-audit.ps1` - Audit documentation completeness
 
-```bash
-./scripts/check-ports.sh
-```
+### `monitoring/` - System Monitoring and Health Checks
+Scripts for monitoring system health, performance, and service status.
 
-**Output:**
-```
-=== B2X Service Port Status ===
-Port 7002 (Auth): AVAILABLE / ACTIVE (PID: 1234)
-Port 7003 (Tenant): AVAILABLE
-Port 8080 (Admin Gateway): ACTIVE (PID: 5678)
-...
-```
+**Scripts:**
+- `B2X-heartbeat.service` - Systemd service for heartbeat monitoring
+- `B2X-heartbeat.timer` - Timer for heartbeat checks
+- `health-check.sh` - General health checks
+- `monitor-canary.sh` - Canary deployment monitoring
+- `monitor-collaboration.sh` - Collaboration monitoring
+- `monitor-deployment.sh` - Deployment monitoring
+- `monitor-port-8080.sh` - Port 8080 monitoring
+- `service-health.sh` - Service health monitoring
 
-## 🚀 Best Practices
+### `utilities/` - General Utility Scripts
+Miscellaneous utility scripts for development, maintenance, and operations.
+
+**Scripts:**
+- `audit-hardcoded-paths.sh` - Audit hardcoded paths
+- `audit-tokens.sh` - Audit token usage
+- `auto-glitch-research.sh` - Research automation glitches
+- `auto-remediate.sh` - Automatic remediation
+- `clean-duplicate-nuget-obj.sh` - Clean duplicate NuGet objects
+- `cleanup-cdp.sh` - CDP cleanup
+- `cleanup-continuation.sh` - Continuation cleanup
+- `commit-pr-quality-gate.sh` - PR quality gate commits
+- `copilot-guardian.sh` - Copilot monitoring
+- `copilot-size-audit.sh` - Copilot size auditing
+- `create-pr.sh` - Create pull requests
+- `create-refactor-structure.sh` - Create refactoring structure
+- `daily-mcp-review.sh` - Daily MCP reviews
+- `deployment-status.sh` - Deployment status
+- `detect-duplicates.sh` - Detect duplicates
+- `dev-node.py` - Development node utilities
+- `diagnose.sh` - Diagnostic utilities
+- `discover-b2x-references.sh` - Discover B2X references
+- `enable-pr-quality-gate.sh` - Enable PR quality gates
+- `find-archived-references.sh` - Find archived references
+- `fix-project-references.sh` - Fix project references
+- `generate-coverage.ps1` - Generate coverage reports
+- `generate-coverage.sh` - Generate coverage (bash)
+- `generate-features-index.js` - Generate feature index
+- `GITHUB_ISSUE_UPDATES_QUICK_REFERENCE.md` - GitHub issue reference
+- `identify-pilot-files-new.js` - Identify pilot files (new)
+- `identify-pilot-files.js` - Identify pilot files
+- `install-hooks.sh` - Install git hooks
+- `kubernetes-setup.sh` - Kubernetes setup
+- `legacy-code-cleanup.js` - Legacy code cleanup
+- `lessons-maintenance.ps1` - Maintain lessons learned
+- `lessons-workflow-integration.ps1` - Lessons workflow integration
+- `load-test-translations.k6.js` - Load test translations
+- `MANIFEST.sh` - Manifest utilities
+- `markdown-fragment-reader.sh` - Markdown fragment reader
+- `mcp-ab-testing.js` - MCP A/B testing
+- `mcp-audit-trail.js` - MCP audit trail
+- `mcp-cache-manager.js` - MCP cache management
+- `mcp-console-logger.js` - MCP console logging
+- `mcp-daily-report.sh` - MCP daily reports
+- `mcp-metrics-dashboard.js` - MCP metrics dashboard
+- `mcp-rate-limiter.js` - MCP rate limiting
+- `mcp-validation-checklist.sh` - MCP validation checklist
+- `migrate-lessons.ps1` - Migrate lessons
+- `migrate-lessons.sh` - Migrate lessons (bash)
+- `Migrate-Project.ps1` - Project migration
+- `namespace-renamer.ps1` - Namespace renaming
+- `parse-logs.sh` - Log parsing
+- `path-mapping.sh` - Path mapping
+- `performance-benchmark.sh` - Performance benchmarking
+- `pre-commit` - Pre-commit hook
+- `pre-commit-setup.sh` - Setup pre-commit hooks
+- `ProjectMigration.psm1` - Project migration module
+- `prompt-compression-engine-simple.sh` - Simple prompt compression
+- `prompt-compression-engine.sh` - Prompt compression engine
+- `rate-limit-monitor.sh` - Rate limit monitoring
+- `README-Migration.md` - Migration documentation
+- `README-update-vision-issues.md` - Vision issues documentation
+- `refactor-project.sh` - Project refactoring
+- `refactor-start.sh` - Start refactoring
+- `roslyn-batch-analysis-phase4.ps1` - Roslyn batch analysis
+- `roslyn-batch-analysis.ps1` - Roslyn batch analysis
+- `run-gap-analysis.sh` - Run gap analysis
+- `run-local-checks.sh` - Run local checks
+- `run-login-e2e-tests.sh` - Run login E2E tests
+- `runtime-health-check.sh` - Runtime health checks
+- `seo-validation.sh` - SEO validation
+- `setup-docs-quality-schedule.ps1` - Setup docs quality schedule
+- `setup-git-hooks.sh` - Setup git hooks
+- `setup-production-monitoring.sh` - Setup production monitoring
+- `smoke-test.sh` - Smoke testing
+- `temp-file-manager.sh` - Temporary file management
+- `token-monitor.sh` - Token monitoring
+- `token-optimization-benchmark.sh` - Token optimization benchmarking
+- `track-large-file-editing-metrics.sh` - Track large file editing metrics
+- `translate-keys.js` - Translation key utilities
+- `typescript-batch-analysis.ps1` - TypeScript batch analysis
+- `update-dependencies.sh` - Update dependencies
+- `update-kb-sources.sh` - Update knowledge base sources
+- `update-project-namespaces.ps1` - Update project namespaces
+- `update-references.sh` - Update references
+- `update-sprint-issues.sh` - Update sprint issues
+- `update-vision-issues.js` - Update vision issues
+- `verify-installation.sh` - Verify installation
+- `verify-localization.sh` - Verify localization
+- `watch-collaboration.sh` - Watch collaboration
+
+### `validation/` - Validation and Testing Scripts
+Scripts for validation, testing, and quality assurance.
+
+**Scripts:**
+- `check-ai-duplicates.sh` - Check AI duplicates
+- `check-build-configs.sh` - Check build configurations
+- `check-external-deps.sh` - Check external dependencies
+- `check-kb-links.sh` - Check knowledge base links
+- `check-monitoring-configs.sh` - Check monitoring configurations
+- `check-platform-configs.sh` - Check platform configurations
+- `check-ports.sh` - Check port availability
+- `check-security-configs.sh` - Check security configurations
+- `ci-validate-dependencies.sh` - CI dependency validation
+- `pr-preflight-check.sh` - PR preflight checks
+- `pre-commit-cleanup-check.sh` - Pre-commit cleanup checks
+- `test-and-fix-all.sh` - Test and fix all
+- `test-aspire-startup.sh` - Test Aspire startup
+- `test-builds.sh` - Test builds
+- `test-double-start.sh` - Test double start prevention
+- `test-port-lifecycle.sh` - Test port lifecycle
+- `validate-canary.sh` - Validate canary deployments
+- `validate-deployment.sh` - Validate deployments
+- `validate-large-file-edit.sh` - Validate large file edits
+- `validate-metadata.sh` - Validate metadata
+- `validate-moves.sh` - Validate file moves
+- `validate-no-secrets.sh` - Validate no secrets
+- `validate-rollback.sh` - Validate rollbacks
+- `validate-segregation.sh` - Validate segregation
+
+## 🚀 Usage Guidelines
+
+### Finding Scripts
+1. **Check the appropriate subdirectory** based on the task category
+2. **Use the README** in each subdirectory for detailed script descriptions
+3. **Run with `--help`** flag for usage information when available
+
+### Best Practices
+- **Test scripts locally** before using in CI/CD pipelines
+- **Review script permissions** and ensure proper execution context
+- **Update documentation** when modifying scripts
+- **Use absolute paths** when calling scripts from different directories
+
+### Maintenance
+- **Regular review**: Audit scripts quarterly for relevance and security
+- **Update paths**: Keep hardcoded paths current with project structure changes
+- **Remove deprecated**: Archive unused scripts to avoid confusion
+- **Document changes**: Update this README when adding/removing scripts
+
+## 📞 Support
+
+For script-related issues or questions:
+- Check individual script headers for usage examples
+- Review related documentation in `docs/`
+- Contact the development team for assistance
+
+---
+
+**Last Updated**: January 2026
+**Maintained by**: Development Team
 
 1. **Aspire verwenden** - Für normale Entwicklung
    ```bash
