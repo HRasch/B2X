@@ -152,12 +152,22 @@ public class SeedingContext : IDisposable
 
     public void Dispose()
     {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
         if (_disposed)
             return;
 
-        _phases.Clear();
-        _seededServices.Clear();
-        _errors.Clear();
+        if (disposing)
+        {
+            // Dispose managed resources
+            _phases.Clear();
+            _seededServices.Clear();
+            _errors.Clear();
+        }
 
         _disposed = true;
     }

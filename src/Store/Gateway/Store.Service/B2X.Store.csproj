@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <RootNamespace>B2X.Store</RootNamespace>
-    <AssemblyName>B2X.Store</AssemblyName>
+    <AssemblyName>B2X.Store.Service</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,16 +27,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../../src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../../shared/types/B2X.Types.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Types/B2X.Types.csproj" />
 
-    <ProjectReference Include="../../../shared/utils/B2X.Utils.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
 
-    <ProjectReference Include="../../../shared/middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Infrastructure/Middleware/B2X.Shared.Middleware.csproj" />
 
   </ItemGroup>
 </Project>
+
+
+
+
 
 
 

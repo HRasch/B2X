@@ -21,10 +21,11 @@
     <PackageReference Include="Shouldly" />
     <PackageReference Include="Testcontainers" />
     <PackageReference Include="Testcontainers.PostgreSql" />
+    <PackageReference Include="coverlet.collector" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../src/shared/Domain/Localization/B2X.Localization.API.csproj" />
+    <ProjectReference Include="../../../../../../src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
 
   </ItemGroup>
 

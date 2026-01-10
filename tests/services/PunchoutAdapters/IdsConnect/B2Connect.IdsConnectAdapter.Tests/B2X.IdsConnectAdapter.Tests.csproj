@@ -21,11 +21,11 @@
   <ItemGroup>
     <ProjectReference Include="..\B2X.IdsConnectAdapter\B2X.IdsConnectAdapter.csproj" />
 
-    <ProjectReference Include="..\..\..\..\shared\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\src\backend\Shared\Domain\B2X.Shared.Core\B2X.Shared.Core.csproj" />
 
     <ProjectReference Include="..\..\..\..\shared\B2X.Shared.Infrastructure\B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="..\..\..\..\Domain\ERP\Abstractions\B2X.ERP.Abstractions.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/ERP/Abstractions/B2X.ERP.Abstractions.csproj" />
 
     <ProjectReference Include="c:\Users\Holge\repos\B2X\backend\Domain\Search\B2X.Domain.Search.csproj" />
 

@@ -7,7 +7,7 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/src/Hosting/AppHost/B2X.AppHost.csproj"
+        "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -17,7 +17,10 @@
       "presentation": {
         "echo": true,
         "reveal": "silent",
-        "focus": false
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
       }
     },
     {
@@ -32,6 +35,14 @@
       "group": {
         "kind": "build",
         "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
       }
     },
     {
@@ -42,12 +53,60 @@
         "test",
         "${workspaceFolder}/B2X.slnx",
         "-v",
-        "minimal"
+        "minimal",
+        "--collect:\"XPlat Code Coverage\"",
+        "--results-directory",
+        "${workspaceFolder}/coverage",
+        "--settings",
+        "${workspaceFolder}/coverlet.runsettings"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test",
         "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "coverage-report",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "tool",
+        "run",
+        "reportgenerator",
+        "-reports:coverage/**/coverage.opencover.xml",
+        "-targetdir:coverage-report",
+        "-reporttypes:Html;Cobertura;MarkdownSummary"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "clear": false
+      }
+    },
+    {
+      "label": "generate-coverage",
+      "command": "pwsh",
+      "type": "shell",
+      "args": [
+        "-File",
+        "${workspaceFolder}/scripts/generate-coverage.ps1"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "clear": false
       }
     },
     {
@@ -56,13 +115,21 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/tests/Store/Backend/Catalog/B2X.Catalog.Tests/B2X.Catalog.Tests.csproj",
+        "${workspaceFolder}/src/backend/Store/Tests/Catalog/B2X.Catalog.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
       }
     },
     {
@@ -71,13 +138,21 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/tests/Management/Backend/CMS/B2X.CMS.Tests.csproj",
+          "${workspaceFolder}/src/backend/Management/Tests/CMS/B2X.CMS.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
       }
     },
     {
@@ -86,13 +161,18 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/tests/shared/Domain/Localization/B2X.Localization.Tests.csproj",
+        "${workspaceFolder}/src/backend/Shared/Domain/Localization/tests/B2X.Localization.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
       }
     },
     {
@@ -101,13 +181,18 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/tests/shared/Domain/Identity/B2X.Identity.Tests.csproj",
+          "${workspaceFolder}/src/backend/Shared/Domain/Identity/B2X.Identity.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
       }
     },
     {
@@ -116,13 +201,18 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/tests/shared/B2X.Shared.Search.Tests/B2X.Shared.Search.Tests.csproj",
+        "${workspaceFolder}/src/backend/Shared/Infrastructure/Search/B2X.Shared.Search.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
       }
     },
     {
@@ -132,7 +222,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/frontend/Store",
+      "cwd": "${workspaceFolder}/src/Store/Frontend/store",
       "group": {
         "kind": "test"
       }
@@ -145,7 +235,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend/Management",
+      "cwd": "${workspaceFolder}/src/Management/Frontend/management",
       "isBackground": true,
       "problemMatcher": {
         "pattern": {
@@ -170,7 +260,7 @@
         "run",
         "lint"
       ],
-      "cwd": "${workspaceFolder}/frontend/Management",
+      "cwd": "${workspaceFolder}/src/Management/Frontend/management",
       "group": "build"
     },
     {
@@ -181,12 +271,14 @@
         "args": [
           "run",
           "--project",
-          "${workspaceFolder}/src/Hosting/AppHost/B2X.AppHost.csproj"
+          "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj"
         ],
         "options": {
-          "cwd": "${workspaceFolder}/src/Hosting/AppHost",
+          "cwd": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost",
         "env": {
           "ASPNETCORE_ENVIRONMENT": "Development",
+          "ASPNETCORE_URLS": "http://localhost:15500",
+          "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:18888",
           "Database__Provider": "inmemory",
           "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
           "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
@@ -205,7 +297,7 @@
       },
       "presentation": {
         "echo": true,
-        "reveal": "always",
+        "reveal": "silent",
         "group": "startup"
       }
     },
@@ -218,7 +310,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend/Store",
+      "cwd": "${workspaceFolder}/src/Store/Frontend/store",
       "problemMatcher": {
         "pattern": {
           "regexp": "^.*$",
@@ -232,7 +324,7 @@
       },
       "presentation": {
         "echo": true,
-        "reveal": "always"
+        "reveal": "silent"
       }
     },
     {
@@ -244,7 +336,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend/Admin",
+      "cwd": "${workspaceFolder}/src/Admin/Frontend",
       "problemMatcher": {
         "pattern": {
           "regexp": "^(.*)$",
@@ -293,7 +385,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/Gateway/Store/API/B2X.Store.csproj"
+        "${workspaceFolder}/src/backend/Store/API/B2X.Store.csproj"
       ],
       "options": {
         "env": {
@@ -326,7 +418,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/Gateway/Admin/B2X.Admin.csproj"
+        "${workspaceFolder}/src/backend/Admin/Gateway/B2X.Admin.csproj"
       ],
       "options": {
         "env": {
@@ -412,7 +504,7 @@
       "command": "dotnet",
       "args": [
         "build",
-        "${workspaceFolder}/src/Hosting/AppHost/B2X.AppHost.csproj"
+        "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -435,7 +527,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/Frontend/Management",
+      "cwd": "${workspaceFolder}/src/Management/Frontend/management",
       "group": "build"
     },
     {

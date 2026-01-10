@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -21,24 +21,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../../src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../../shared/types/B2X.Types.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Types/B2X.Types.csproj" />
 
-    <ProjectReference Include="../../../shared/utils/B2X.Utils.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
 
-    <ProjectReference Include="../../../shared/middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../../src/shared/middleware/B2X.Shared.Middleware.csproj" />
 
-    <ProjectReference Include="../../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../../src/shared/Domain/Tenancy/B2X.Tenancy.API.csproj">
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj">
       <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
     </ProjectReference>
 
-    <ProjectReference Include="../../../Backend/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../Store/Backend/Search/B2X.Domain.Search.csproj" />
 
   </ItemGroup>
 </Project>
+
 
 
 

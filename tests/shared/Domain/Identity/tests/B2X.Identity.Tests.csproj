@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../src/shared/Domain/Identity/B2X.Identity.API.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
 
   </ItemGroup>
 

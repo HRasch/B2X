@@ -18,11 +18,11 @@
 
     <ProjectReference Include="../../../../src/Store/Backend/Customer/B2X.Customer.API.csproj" />
 
-    <ProjectReference Include="../../../../src/Management/Backend/Email/B2X.Email.csproj" />
+    <ProjectReference Include="../../../../src/backend/Management/Domain/B2X.Email.csproj" />
 
-    <ProjectReference Include="../../../../src/shared/Domain/Localization/B2X.Localization.API.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
 
-    <ProjectReference Include="../../../../src/shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
   </ItemGroup>
 

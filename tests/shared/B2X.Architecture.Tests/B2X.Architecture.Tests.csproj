@@ -24,15 +24,15 @@
   <ItemGroup>
     <ProjectReference Include="../../../src/Store/Backend/Catal../../../../src/shared/Domain/Catalog/B2X.Catalog.API.csproj" />
 
-    <ProjectReference Include="../../../src/Management/Backend/CMS/B2X.CMS.csproj" />
+    <ProjectReference Include="../../../src/backend/Management/Domain/B2X.CMS.csproj" />
 
-    <ProjectReference Include="../../../src/shared/Domain/Identi../../../../src/shared/Domain/Identity/B2X.Identity.API.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
 
-    <ProjectReference Include="../../../src/shared/Domain/Localizati../../../../src/shared/Domain/Localizati../../../../src/shared/Domain/Localization/B2X.Localization.API.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
 
     <ProjectReference Include="../../../src/Store/Backend/Search/B2X.Domain.Search.csproj" />
 
-    <ProjectReference Include="../../../../src/shared/kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 
   </ItemGroup>
 

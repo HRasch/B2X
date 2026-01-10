@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../..\Gateway\Store\API\B2X.Store.csproj">
+    <ProjectReference Include="../../../../backend/Store/API/B2X.Store.csproj">
 
       <Aliases>Store</Aliases>
     </ProjectReference>

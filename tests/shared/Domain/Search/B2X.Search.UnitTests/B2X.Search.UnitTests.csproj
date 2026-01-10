@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Store/Backend/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../../backend/Store/Domain/Search/B2X.Domain.Search.csproj" />
 
-    <ProjectReference Include="../../Store/Gateway/Search/B2X.Store.Search.csproj" />
+    <ProjectReference Include="../../../../backend/Store/Infrastructure/Gateway/Search/B2X.Store.Search.csproj" />
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
   </ItemGroup>

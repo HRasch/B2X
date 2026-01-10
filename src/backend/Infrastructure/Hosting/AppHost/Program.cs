@@ -329,7 +329,7 @@ seedingApi.WaitFor(localizationService);
 
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
-    .AddProject("store-gateway", "../backend/Gateway/Store/API/B2X.Store.csproj")
+    .AddProject("store-gateway", "../Store/API/B2X.Store.csproj")
     .WithHttpEndpoint(port: 8000, name: "store-http")  // Fixed port for frontend
     .WithReference(authService)
     .WithReference(catalogService)

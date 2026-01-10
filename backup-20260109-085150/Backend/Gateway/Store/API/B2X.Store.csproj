@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../../../src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
     <ProjectReference Include="../../../shared/types/B2X.Types.csproj" />
 
@@ -31,7 +31,7 @@
 
     <ProjectReference Include="../../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../../Backend/Domain/Tenancy/B2X.Tenancy.API.csproj">
+    <ProjectReference Include="../../../../src/backend/Domain/Tenancy/B2X.Tenancy.API.csproj">
       <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
     </ProjectReference>
 
@@ -39,6 +39,7 @@
 
   </ItemGroup>
 </Project>
+
 
 
 

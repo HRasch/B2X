@@ -45,17 +45,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../src/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../../src/shared/kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 
-    <ProjectReference Include="../../../src/shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../../src/backend/Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
+
+    <ProjectReference Include="../../../src/backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
     <ProjectReference Include="../../../src/shared/middleware/B2X.Shared.Middleware.csproj" />
 
     <ProjectReference Include="../../../src/shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../src/shared/Domain/ERP/src/B2X.ERP.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Domain/ERP/src/B2X.ERP.csproj" />
 
     <ProjectReference Include="../../../src/Management/Backend/Email/B2X.Email.csproj" />
 

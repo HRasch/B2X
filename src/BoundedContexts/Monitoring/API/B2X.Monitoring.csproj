@@ -20,7 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\shared\Monitoring\B2X.Shared.Monitoring.csproj" />
 
-    <ProjectReference Include="..\..\..\shared\Domain\Identity\B2X.Identity.API.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
 
     <ProjectReference Include="..\..\..\shared\Domain\Tenancy\B2X.Tenancy.API.csproj" />
 

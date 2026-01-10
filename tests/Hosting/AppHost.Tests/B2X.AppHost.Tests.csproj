@@ -16,11 +16,26 @@
     <PackageReference Include="Moq" />
     <PackageReference Include="Shouldly" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Bogus" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="coverlet.collector" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj" />
+    <ProjectReference Include="c:\Users\Holge\repos\B2Connect\src\backend\Infrastructure\Hosting\AppHost\B2X.AppHost.csproj" />
 
   </ItemGroup>
 
 </Project>
+
+
+
+
+
+
+
+
+
+
+
+

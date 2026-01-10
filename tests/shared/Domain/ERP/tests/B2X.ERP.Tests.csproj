@@ -26,9 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\B2X.ERP.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/ERP/src/B2X.ERP.csproj" />
 
-    <ProjectReference Include="..\Abstractions\B2X.ERP.Abstractions.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/ERP/Abstractions/B2X.ERP.Abstractions.csproj" />
 
   </ItemGroup>
 

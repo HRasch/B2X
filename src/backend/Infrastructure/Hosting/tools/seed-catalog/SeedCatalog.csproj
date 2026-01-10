@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../backend/Gateway/Admin/B2X.Admin.csproj" />
+    <ProjectReference Include="../../../../src/backend/Admin/Gateway/B2X.Admin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

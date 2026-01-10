@@ -1,18 +1,18 @@
-﻿{
+{
   "name": "B2X-workspace",
   "version": "1.0.0",
   "description": "B2X - Full Stack Application with .NET Aspire Backend and Vue Frontend",
   "private": true,
   "workspaces": [
-    "src/Store",
-    "src/Admin",
-    "src/Management"
+    "src/Store/Frontend/store",
+    "src/Admin/Frontend",
+    "src/Management/Frontend"
   ],
   "scripts": {
-    "install:all": "npm install && npm install --prefix Frontend/Store && npm install --prefix Frontend/Admin && npm install --prefix Frontend/Management",
-    "dev": "concurrently \"npm --prefix Frontend/Store run dev\" \"npm --prefix Frontend/Admin run dev\" \"npm --prefix Frontend/Management run dev\" --names \"Store,Admin,Tenant\" --prefix name --kill-others-on-exit",
-    "dev:frontend": "npm --prefix Frontend/Store run dev",
-    "dev:admin": "npm --prefix Frontend/Admin run dev",
+    "install:all": "npm install && npm install --prefix src/Store/Frontend/store && npm install --prefix src/Admin/Frontend && npm install --prefix src/Management/Frontend",
+    "dev": "concurrently \"cd src/Store/Frontend/store && npm run dev\" \"npm --prefix src/Admin/Frontend run dev\" \"npm --prefix src/Management/Frontend run dev\" --names \"Store,Admin,Tenant\" --prefix name --kill-others-on-exit",
+    "dev:frontend": "npm --prefix src/Store/Frontend/store run dev",
+    "dev:admin": "npm --prefix src/Admin/Frontend run dev",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
@@ -65,6 +65,8 @@
     ]
   },
   "dependencies": {
+    "@intlify/core-base": "^11.2.8",
+    "@intlify/shared": "^11.2.8",
     "js-yaml": "^4.1.1"
   }
 }

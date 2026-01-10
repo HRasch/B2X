@@ -10,9 +10,9 @@
 
   <ItemGroup>
     <!-- Dependencies on other Shared packages -->
-    <ProjectReference Include="../B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
-    <ProjectReference Include="../types/B2X.Types.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Types/B2X.Types.csproj" />
 
   </ItemGroup>
 

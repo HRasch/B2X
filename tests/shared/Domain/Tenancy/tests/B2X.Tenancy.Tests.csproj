@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../src/shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
+    <ProjectReference Include="../../../../../src/backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
 
     <ProjectReference Include="../../../../../src/shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 

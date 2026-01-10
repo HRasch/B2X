@@ -14,7 +14,6 @@ namespace B2X.AppHost.Tests.Services;
 /// </summary>
 public class SeedingInfrastructureTests
 {
-    private readonly Faker _faker = new();
 
     [Fact]
     public void SeedingContext_ShouldTrackSeedingPhases()
@@ -28,7 +27,7 @@ public class SeedingInfrastructureTests
             Security = new TestSecurityOptions()
         };
         var logger = new Mock<ILogger>().Object;
-        var context = new SeedingContext(config, logger);
+        using var context = new SeedingContext(config, logger);
 
         // Act
         context.StartPhase("Auth");
@@ -52,7 +51,7 @@ public class SeedingInfrastructureTests
             Security = new TestSecurityOptions()
         };
         var logger = new Mock<ILogger>().Object;
-        var context = new SeedingContext(config, logger);
+        using var context = new SeedingContext(config, logger);
         var exception = new Exception("Test failure");
 
         // Act
@@ -70,7 +69,6 @@ public class SeedingInfrastructureTests
         // Arrange
         var errorCode = "SERVICE_FAILURE";
         var failedPhase = "Catalog";
-        var context = new Dictionary<string, object> { ["ServiceName"] = "catalog-service" };
 
         // Act
         var exception = SeedingException.ServiceFailure(failedPhase, "catalog-service");
@@ -145,7 +143,7 @@ public class SeedingInfrastructureTests
         result.IsValid.ShouldBeFalse();
         result.Errors.ShouldContain(e => e.Contains("DefaultTenantCount must be >= 0"));
         result.Errors.ShouldContain(e => e.Contains("UsersPerTenant must be >= 0"));
-        result.Errors.ShouldContain(e => e.Contains("SampleProductCount > 10000 may impact performance"));
+        result.Warnings.ShouldContain(e => e.Contains("SampleProductCount > 10000 may impact performance"));
     }
 
     [Fact]
@@ -196,8 +194,8 @@ public class SeedingInfrastructureTests
 
         // Assert
         result.IsValid.ShouldBeTrue(); // Warnings don't make it invalid
-        result.Errors.ShouldContain(e => e.Contains("High tenant count"));
-        result.Errors.ShouldContain(e => e.Contains("Estimated memory usage"));
+        result.Warnings.ShouldContain(e => e.Contains("High tenant count"));
+        result.Warnings.ShouldContain(e => e.Contains("Estimated memory usage"));
     }
 
     [Fact]
@@ -220,7 +218,7 @@ public class SeedingInfrastructureTests
 
         // Assert
         result.IsValid.ShouldBeTrue();
-        result.Errors.ShouldContain(e => e.Contains("High tenant count in CI"));
+        result.Warnings.ShouldContain(e => e.Contains("High tenant count in CI"));
     }
 
     [Fact]
@@ -245,7 +243,7 @@ public class SeedingInfrastructureTests
         // Assert
         result.IsValid.ShouldBeFalse();
         result.Errors.ShouldContain(e => e.Contains("SeedOnStartup is true but DefaultTenantCount is 0"));
-        result.Errors.ShouldContain(e => e.Contains("Data will be lost on application restart"));
+        result.Warnings.ShouldContain(e => e.Contains("Data will be lost on application restart"));
     }
 
     [Fact]
@@ -255,7 +253,8 @@ public class SeedingInfrastructureTests
         var result = new B2X.AppHost.Validation.ValidationResult
         {
             IsValid = false,
-            Errors = ["Critical error", "Warning: This is just a warning"]
+            Errors = ["Critical error"],
+            Warnings = ["Warning: This is just a warning"]
         };
 
         // Act & Assert
@@ -271,7 +270,8 @@ public class SeedingInfrastructureTests
         var result = new B2X.AppHost.Validation.ValidationResult
         {
             IsValid = true,
-            Errors = ["Warning: This is just a warning"]
+            Errors = [],
+            Warnings = ["Warning: This is just a warning"]
         };
 
         // Act & Assert
@@ -290,7 +290,7 @@ public class SeedingInfrastructureTests
             Security = new TestSecurityOptions()
         };
         var logger = new Mock<ILogger>().Object;
-        var context = new SeedingContext(config, logger);
+        using var context = new SeedingContext(config, logger);
 
         // Act
         context.StartPhase("Auth");
