@@ -13,8 +13,8 @@ $ErrorActionPreference = "Stop"
 
 # Configuration
 $frontendDomains = @("Management", "Store", "Admin")
-$rootDir = Split-Path -Parent $PSScriptRoot
-$frontendDir = Join-Path $rootDir "Frontend"
+$rootDir = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+$frontendDir = Join-Path $rootDir "src"
 $pushgatewayUrl = "http://localhost:9091/metrics/job/batch_processing"
 
 function Write-Log {

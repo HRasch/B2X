@@ -16,8 +16,8 @@ $ErrorActionPreference = "Stop"
 
 # Configuration
 $backendDomains = @("Catalog", "CMS", "Identity", "Localization", "Search", "AI", "PatternAnalysis", "Security")
-$rootDir = Split-Path -Parent $PSScriptRoot
-$backendDir = Join-Path $rootDir "backend"
+$rootDir = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+$backendDir = Join-Path $rootDir "src/backend"
 $pushgatewayUrl = "http://localhost:9091/metrics/job/batch_processing_phase4"
 $roslynMcpPath = Join-Path $rootDir "tools/RoslynMCP/RoslynMCP.csproj"
 $solutionPath = Join-Path $rootDir "B2X.slnx"

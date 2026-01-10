@@ -64,9 +64,9 @@ scripts/
 ## 🔧 Next Steps
 
 ### Immediate Actions
-- [ ] Update hardcoded paths in legacy scripts
-- [ ] Test moved scripts for functionality
-- [ ] Remove/archive deprecated migration scripts
+- [x] Update hardcoded paths in legacy scripts
+- [x] Test moved scripts for functionality
+- [x] Remove/archive deprecated migration scripts
 - [ ] Update CI/CD references to new script paths
 
 ### Ongoing Maintenance

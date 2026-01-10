@@ -110,14 +110,12 @@ Miscellaneous utility scripts for development, maintenance, and operations.
 - `mcp-validation-checklist.sh` - MCP validation checklist
 - `migrate-lessons.ps1` - Migrate lessons
 - `migrate-lessons.sh` - Migrate lessons (bash)
-- `Migrate-Project.ps1` - Project migration
 - `namespace-renamer.ps1` - Namespace renaming
 - `parse-logs.sh` - Log parsing
 - `path-mapping.sh` - Path mapping
 - `performance-benchmark.sh` - Performance benchmarking
 - `pre-commit` - Pre-commit hook
 - `pre-commit-setup.sh` - Setup pre-commit hooks
-- `ProjectMigration.psm1` - Project migration module
 - `prompt-compression-engine-simple.sh` - Simple prompt compression
 - `prompt-compression-engine.sh` - Prompt compression engine
 - `rate-limit-monitor.sh` - Rate limit monitoring
@@ -151,6 +149,8 @@ Miscellaneous utility scripts for development, maintenance, and operations.
 - `verify-installation.sh` - Verify installation
 - `verify-localization.sh` - Verify localization
 - `watch-collaboration.sh` - Watch collaboration
+
+**Archived Scripts:** `Migrate-Project.ps1`, `ProjectMigration.psm1` (deprecated migration scripts moved to `scripts/archive/`)
 
 ### `validation/` - Validation and Testing Scripts
 Scripts for validation, testing, and quality assurance.
