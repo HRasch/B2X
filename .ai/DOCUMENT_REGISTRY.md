@@ -92,6 +92,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
 | `ADR-051` | Rename B2X to B2XGate | `.ai/decisions/ADR-051-rename-B2X-to-b2xgate.md` | Proposed |
 | `ADR-052` | MCP-Enhanced Bugfixing Workflow | `.ai/decisions/ADR-052-mcp-enhanced-bugfixing.md` | Accepted |
+| `ADR-053` | Realtime Debug Architecture | `.ai/decisions/ADR-053-realtime-debug-architecture.md` | Proposed |
 
 ---
 
@@ -281,6 +282,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-005` | Phase 5 Enterprise ERP Connectors | `.ai/requirements/REQ-005-phase-5-enterprise-connectors.md` | Active |
 | `REQ-006` | CLI Customer Integration Commands | `.ai/requirements/REQ-006-cli-customer-integration-commands.md` | Specification |
 | `REQ-007` | Email WYSIWYG Builder | `.ai/requirements/REQ-007-email-wysiwyg-builder.md` | Draft |
+| `REQ-008` | Realtime Debug Functionality | `.ai/requirements/REQ-008-realtime-debug.md` | Draft |
 | `REQ-SMART-DATA-INTEGRATION` | Smart Data Integration Assistant | `.ai/requirements/REQ-SMART-DATA-INTEGRATION.md` | Active |
 | `ANALYSIS-SMART-DATA-INTEGRATION-BACKEND` | Smart Data Integration Assistant - Backend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-BACKEND.md` | Analysis Complete |
 | `ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND` | Smart Data Integration Assistant - Frontend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND.md` | Analysis Complete |
@@ -379,6 +381,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `BS-SPRINT-EXECUTION-TRACKING` | GitHub-Based Sprint Execution Tracking | `.ai/brainstorm/BS-SPRINT-EXECUTION-TRACKING.md` | Brainstorm |
 | `BS-PROJECT-CLEANLINESS` | Project Cleanliness & Long-Term Organization Strategy | `.ai/brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md` | Active |
 | `BS-DOCUMENTATION-CLEANUP-STRATEGY` | Documentation Cleanup Strategy | `.ai/brainstorm/BS-DOCUMENTATION-CLEANUP-STRATEGY.md` | Brainstorm |
+| `BS-REALTIME-DEBUG` | Realtime Debug Functionality Brainstorm | `.ai/brainstorm/BS-REALTIME-DEBUG.md` | Brainstorm |
 
 ---
 
