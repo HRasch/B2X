@@ -48,33 +48,28 @@
   <ItemGroup>
     <ProjectReference Include="../../Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 
-    <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
-    <ProjectReference Include="../../../Shared/Infrastructure/Middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Infrastructure/Middleware/B2X.Shared.Middleware.csproj" />
 
-    <ProjectReference Include="../../../Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../Shared/Domain/ERP/B2X.ERP.csproj" />
+    <ProjectReference Include="c:\Users\Holge\repos\B2Connect\src\backend\Shared\Infrastructure\Messaging\B2X.Shared.Messaging.csproj" />
 
-    <ProjectReference Include="../../../Management/B2X.Email.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Domain/ERP/B2X.ERP.csproj" />
 
-    <ProjectReference Include="../../../Shared/Domain/Theming/B2X.Theming.API.csproj">
-      <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
-    </ProjectReference>
+    <ProjectReference Include="../../../../backend/Management/B2X.Email.csproj" />
 
     <!-- ERP Validation and Connectors (ADR-036) -->
-    <ProjectReference Include="../../../Shared/Domain/ApiValidation/B2X.Api.Validation.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Domain/ApiValidation/B2X.Api.Validation.csproj" />
 
-    <ProjectReference Include="../../../Infrastructure/Connectors/B2X.Connectors.csproj" />
+    <ProjectReference Include="../../../../backend/Infrastructure/Connectors/B2X.Connectors.csproj" />
 
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="../../../Shared/Domain/Tenancy/B2X.Tenancy.API.csproj">
-      <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
-    </ProjectReference>
+    <!-- Domain Services for Catalog Management -->
+    <ProjectReference Include="c:\Users\Holge\repos\B2Connect\src\backend\Store\Domain\Variants\src\B2X.Variants.csproj" />
+    <ProjectReference Include="c:\Users\Holge\repos\B2Connect\src\backend\Store\Domain\Categories\B2X.Categories.csproj" />
 
   </ItemGroup>
 

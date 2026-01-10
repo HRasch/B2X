@@ -106,7 +106,7 @@ else
 
 // Auth Service (Identity) - with Passkeys & JWT
 var authService = builder
-    .AddProject("auth-service", "../backend/Domain/Identity/B2X.Identity.API.csproj")
+    .AddProject("auth-service", "../../../Shared/Domain/Identity/B2X.Identity.API.csproj")
     .WithConditionalPostgresConnection(authDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -131,7 +131,7 @@ if (rabbitmq != null)
 
 // Tenant Service
 var tenantService = builder
-    .AddProject("tenant-service", "../backend/Domain/Tenancy/B2X.Tenancy.API.csproj")
+    .AddProject("tenant-service", "../../../Shared/Domain/Tenancy/B2X.Tenancy.API.csproj")
     .WithConditionalPostgresConnection(tenantDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -154,7 +154,7 @@ if (rabbitmq != null)
 
 // Localization Service
 var localizationService = builder
-    .AddProject("localization-service", "../backend/Domain/Localization/B2X.Localization.API.csproj")
+    .AddProject("localization-service", "../../../Shared/Domain/Localization/B2X.Localization.API.csproj")
     .WithConditionalPostgresConnection(localizationDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -176,7 +176,7 @@ if (rabbitmq != null)
 
 // Catalog Service (with Elasticsearch for Product Search)
 var catalogService = builder
-    .AddProject("catalog-service", "../backend/Domain/Catalog/B2X.Catalog.API.csproj")
+    .AddProject("catalog-service", "../../../Store/Domain/Catalog/B2X.Catalog.API.csproj")
     .WithConditionalPostgresConnection(catalogDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -200,9 +200,53 @@ if (rabbitmq != null)
 if (elasticsearch != null)
     catalogService.WaitFor(elasticsearch);
 
+// Variants Service (Product Variants/SKUs)
+var variantsService = builder
+    .AddProject("variants-service", "../../../Store/Domain/Variants/src/B2X.Variants.csproj")
+    .WithConditionalPostgresConnection(storeDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithRateLimiting()
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting variants service
+if (postgres != null)
+    variantsService.WaitFor(postgres);
+if (redis != null)
+    variantsService.WaitFor(redis);
+if (rabbitmq != null)
+    variantsService.WaitFor(rabbitmq);
+
+// Categories Service (Product Categories)
+var categoriesService = builder
+    .AddProject("categories-service", "../../../Store/Domain/Categories/B2X.Categories.csproj")
+    .WithConditionalPostgresConnection(storeDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithRateLimiting()
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting categories service
+if (postgres != null)
+    categoriesService.WaitFor(postgres);
+if (redis != null)
+    categoriesService.WaitFor(redis);
+if (rabbitmq != null)
+    categoriesService.WaitFor(rabbitmq);
+
 // Theming Service
 var themingService = builder
-    .AddProject("theming-service", "../backend/Domain/Theming/B2X.Theming.API.csproj")
+    .AddProject("theming-service", "../../../Shared/Domain/Theming/B2X.Theming.API.csproj")
     .WithConditionalPostgresConnection(layoutDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -224,7 +268,7 @@ if (rabbitmq != null)
 
 // Smart Data Integration Service
 var smartDataIntegrationService = builder
-    .AddProject("smartdataintegration-service", "../backend/Domain/SmartDataIntegration/API/B2X.SmartDataIntegration.API.csproj")
+    .AddProject("smartdataintegration-service", "../../../Shared/Domain/SmartDataIntegration/API/B2X.SmartDataIntegration.API.csproj")
     .WithConditionalPostgresConnection(smartDataIntegrationDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -246,7 +290,7 @@ if (rabbitmq != null)
 
 // Monitoring Service (Phase 2: Connected services monitoring, error logging)
 var monitoringService = builder
-    .AddProject("monitoring-service", "../backend/BoundedContexts/Monitoring/API/B2X.Monitoring.csproj")
+    .AddProject("monitoring-service", "c:/Users/Holge/repos/B2Connect/src/BoundedContexts/Monitoring/API/B2X.Monitoring.csproj")
     .WithConditionalPostgresConnection(monitoringDb, databaseProvider)
     .WithConditionalRedisConnection(redis, databaseProvider)
     .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
@@ -268,7 +312,7 @@ if (rabbitmq != null)
 
 // MCP Server (AI Assistant for Management Tasks)
 var mcpServer = builder
-    .AddProject("mcp-server", "../backend/BoundedContexts/Admin/MCP/B2X.Admin.MCP/B2X.Admin.MCP.csproj")
+    .AddProject("mcp-server", "c:/Users/Holge/repos/B2Connect/src/AI/MCP/B2X.Admin.MCP/B2X.Admin.MCP.csproj")
     .WithHttpEndpoint(port: 8090, name: "mcp-http")  // Fixed port for MCP server
     .WithReference(authService)
     .WithReference(tenantService)
@@ -292,7 +336,7 @@ mcpServer.WaitFor(monitoringService);
 
 // Seeding API (Test Data Management)
 var seedingApi = builder
-    .AddProject("seeding-api", "../B2X.Seeding.API/B2X.Seeding.API.csproj")
+    .AddProject("seeding-api", "c:/Users/Holge/repos/B2Connect/src/tools/seeders/seeding/B2X.Seeding.API.csproj")
     .WithHttpEndpoint(port: 8095, name: "seeding-http")  // Fixed port for seeding API
     .WithReference(authService)
     .WithReference(tenantService)
@@ -329,10 +373,12 @@ seedingApi.WaitFor(localizationService);
 
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
-    .AddProject("store-gateway", "../Store/API/B2X.Store.csproj")
+    .AddProject("store-gateway", "../../../Store/API/B2X.Store.csproj")
     .WithHttpEndpoint(port: 8000, name: "store-http")  // Fixed port for frontend
     .WithReference(authService)
     .WithReference(catalogService)
+    .WithReference(variantsService)
+    .WithReference(categoriesService)
     .WithReference(localizationService)
     .WithReference(themingService)
     .WithB2XCors("http://localhost:5173", "https://localhost:5173")
@@ -344,16 +390,20 @@ var storeGateway = builder
 // Store Gateway waits for all its referenced services
 storeGateway.WaitFor(authService);
 storeGateway.WaitFor(catalogService);
+storeGateway.WaitFor(variantsService);
+storeGateway.WaitFor(categoriesService);
 storeGateway.WaitFor(localizationService);
 storeGateway.WaitFor(themingService);
 
 // Admin API Gateway 
 var adminGateway = builder
-    .AddProject("admin-gateway", "../backend/Gateway/Admin/B2X.Admin.csproj")
+    .AddProject("admin-gateway", "../../../Admin/Gateway/B2X.Admin.csproj")
     .WithHttpEndpoint(port: 8080, name: "admin-http")  // Fixed port for frontend
     .WithReference(authService)
     .WithReference(tenantService)
     .WithReference(catalogService)
+    .WithReference(variantsService)
+    .WithReference(categoriesService)
     .WithReference(localizationService)
     .WithReference(themingService)
     .WithReference(monitoringService)
@@ -368,6 +418,8 @@ var adminGateway = builder
 adminGateway.WaitFor(authService);
 adminGateway.WaitFor(tenantService);
 adminGateway.WaitFor(catalogService);
+adminGateway.WaitFor(variantsService);
+adminGateway.WaitFor(categoriesService);
 adminGateway.WaitFor(localizationService);
 adminGateway.WaitFor(themingService);
 adminGateway.WaitFor(monitoringService);

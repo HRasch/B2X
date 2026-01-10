@@ -136,6 +136,8 @@ public static class ServiceClientExtensions
         return services;
     }
 
+
+
     /// <summary>
     /// Registers ALL service clients at once
     /// Use this in API Gateway or services that need to communicate with multiple services

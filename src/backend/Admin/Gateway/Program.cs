@@ -1,7 +1,8 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Wolverine;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -120,6 +121,25 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
+
+// Add Wolverine CQRS
+B2X.Shared.Messaging.Extensions.MessagingServiceExtensions.AddWolverineMessaging(builder.Host, opts =>
+{
+    // Configure Wolverine for CQRS with RabbitMQ
+    // TODO: Enable RabbitMQ when properly configured
+    // opts.UseRabbitMq(rabbitConfig =>
+    // {
+    //     rabbitConfig.HostName = builder.Configuration["RabbitMQ:HostName"] ?? "localhost";
+    //     rabbitConfig.Port = int.Parse(builder.Configuration["RabbitMQ:Port"] ?? "5672");
+    //     rabbitConfig.UserName = builder.Configuration["RabbitMQ:UserName"] ?? "guest";
+    //     rabbitConfig.Password = builder.Configuration["RabbitMQ:Password"] ?? "guest";
+    //     rabbitConfig.VirtualHost = builder.Configuration["RabbitMQ:VirtualHost"] ?? "/";
+    // });
+
+    // Register domain handlers
+    opts.Discovery.IncludeAssembly(typeof(B2X.Variants.Handlers.CreateVariantCommand).Assembly);
+    opts.Discovery.IncludeAssembly(typeof(B2X.Categories.Handlers.CreateCategoryCommand).Assembly);
+});
 
 // Add YARP Reverse Proxy
 builder.Services.AddReverseProxy()

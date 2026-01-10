@@ -4,6 +4,16 @@
 
   <!-- ServiceDefaults -->
   <Project Path="src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+  <Folder Name="/src/" />
+  <Folder Name="/src/backend/" />
+  <Folder Name="/src/backend/Shared/" />
+  <Folder Name="/src/backend/Shared/Domain/">
+    <Project Path="src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+  </Folder>
+  <Folder Name="/src/backend/Shared/Infrastructure/" />
+  <Folder Name="/src/backend/Shared/Infrastructure/Messaging/">
+    <Project Path="src/backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
+  </Folder>
 
   <!-- Store Application -->
   <Folder Name="/src/backend/Store/">
@@ -26,9 +36,11 @@
     <!-- Backend -->
     <Folder Name="/backend/Store/Domain/">
       <Project Path="src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
+      <Project Path="src/backend/Store/Domain/Categories/B2X.Categories.csproj" />
       <Project Path="src/backend/Store/Domain/Customer/B2X.Customer.API.csproj" />
       <Project Path="src/backend/Store/Domain/Orders/B2X.Orders.API.csproj" />
       <Project Path="src/backend/Store/Domain/Search/B2X.Domain.Search.csproj" />
+      <Project Path="src/backend/Store/Domain/Variants/src/B2X.Variants.csproj" />
     </Folder>
 
     <!-- CLI -->
@@ -36,6 +48,7 @@
       <Project Path="src/backend/Store/CLI/B2X.CLI.Operations/B2X.CLI.Operations.csproj" />
     </Folder>
   </Folder>
+  <Folder Name="/backend/" />
 
   <!-- Admin Application -->
   <Folder Name="/backend/Admin/">
@@ -111,6 +124,7 @@
   <!-- Services -->
   <Folder Name="/backend/Services/">
   </Folder>
+  <Folder Name="/backend/Infrastructure/" />
 
   <!-- Connectors -->
   <Folder Name="/backend/Infrastructure/Connectors/">

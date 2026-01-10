@@ -40,7 +40,11 @@
 
     <ProjectReference Include="../../Shared/Domain/Identity/B2X.Identity.API.csproj" />
 
-    <ProjectReference Include="../Domain/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../Domain/Variants/src/B2X.Variants.csproj" />
+
+    <ProjectReference Include="../Domain/Categories/B2X.Categories.csproj" />
+
+    <ProjectReference Include="../../Shared/Domain/Search/B2X.Domain.Search.csproj" />
 
   </ItemGroup>
 </Project>

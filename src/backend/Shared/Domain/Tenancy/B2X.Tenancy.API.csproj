@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -7,11 +7,8 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>B2X.Tenancy</RootNamespace>
     <AssemblyName>B2X.Tenancy.API</AssemblyName>
-    <IsAspireProjectResource>true</IsAspireProjectResource>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
-    <GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
-    <DefaultItemExcludes>$(DefaultItemExcludes);tests/**/*</DefaultItemExcludes>
-    <MSBuildWarningsAsMessages>MSB9008</MSBuildWarningsAsMessages>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
   <ItemGroup>
@@ -54,6 +51,15 @@
 
     <ProjectReference Include="../../Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
 
+  </ItemGroup>
+
+  <!-- Exclude web application files from class library -->
+  <ItemGroup>
+    <Compile Remove="Program.cs" />
+    <Compile Remove="appsettings.json" />
+    <Compile Remove="Properties/**" />
+    <Content Remove="appsettings.json" />
+    <None Remove="appsettings.json" />
   </ItemGroup>
 
 </Project>
