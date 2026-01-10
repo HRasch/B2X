@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>B2X.Categories</RootNamespace>
     <AssemblyName>B2X.Categories</AssemblyName>
+    <IsAspireProjectResource>false</IsAspireProjectResource>
   </PropertyGroup>
 
   <ItemGroup>

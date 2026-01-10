@@ -31,13 +31,13 @@
   <ItemGroup>
     <ProjectReference Include="../ServiceDefaults/B2X.ServiceDefaults.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" IsAspireProjectResource="false" />
-    <ProjectReference Include="../../../Shared/Domain/Identity/B2X.Identity.API.csproj" />
-    <ProjectReference Include="../../../Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
-    <ProjectReference Include="../../../Shared/Domain/Localization/B2X.Localization.API.csproj" />
-    <ProjectReference Include="../../../Store/Domain/Catalog/B2X.Catalog.API.csproj" />
-    <ProjectReference Include="../../../Store/Domain/Categories/B2X.Categories.csproj" />
-    <ProjectReference Include="../../../Shared/Domain/Theming/B2X.Theming.API.csproj" />
-    <ProjectReference Include="../../../Shared/Domain/SmartDataIntegration/API/B2X.SmartDataIntegration.API.csproj" />
+    <ProjectReference Include="../../../Shared/Domain/Identity/B2X.Identity.API.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="../../../Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="../../../Shared/Domain/Localization/B2X.Localization.API.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="../../../Store/Domain/Catalog/B2X.Catalog.API.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="../../../Store/Domain/Categories/B2X.Categories.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="../../../Shared/Domain/Theming/B2X.Theming.API.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="../../../Shared/Domain/SmartDataIntegration/API/B2X.SmartDataIntegration.API.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="../../../Store/API/B2X.Store.csproj" />
     <ProjectReference Include="../../../Admin/Gateway/B2X.Admin.csproj" />
   </ItemGroup>

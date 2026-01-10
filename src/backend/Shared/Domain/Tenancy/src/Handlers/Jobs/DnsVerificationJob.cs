@@ -1,6 +1,7 @@
 using B2X.Tenancy.Models;
 using B2X.Tenancy.Repositories;
 using B2X.Tenancy.Services;
+using Microsoft.Extensions.Logging;
 using Wolverine;
 
 namespace B2X.Tenancy.Handlers.Jobs;

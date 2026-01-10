@@ -1,5 +1,6 @@
 using B2X.Tenancy.Handlers.Domains;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 

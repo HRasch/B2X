@@ -8,7 +8,7 @@ set -e
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-RESULTS_DIR="$PROJECT_ROOT/benchmark-results"
+RESULTS_DIR="$PROJECT_ROOT/test-results/benchmark-results"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 BENCHMARK_FILE="$RESULTS_DIR/benchmark_$TIMESTAMP.json"
 

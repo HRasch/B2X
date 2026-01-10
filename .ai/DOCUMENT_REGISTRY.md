@@ -93,6 +93,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-051` | Rename B2X to B2XGate | `.ai/decisions/ADR-051-rename-B2X-to-b2xgate.md` | Proposed |
 | `ADR-052` | MCP-Enhanced Bugfixing Workflow | `.ai/decisions/ADR-052-mcp-enhanced-bugfixing.md` | Accepted |
 | `ADR-053` | Realtime Debug Architecture | `.ai/decisions/ADR-053-realtime-debug-architecture.md` | Proposed |
+| `ADR-054` | Realtime Debug Strategy for Development and Production | `.ai/decisions/ADR-054-realtime-debug-strategy.md` | Proposed |
 
 ---
 
@@ -154,6 +155,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-066` | npm Package Updates Guide | `.ai/knowledgebase/dependency-updates/npm-package-updates.md` | Active |
 | `KB-067` | VS Code Agent Sessions & Subagents | `.ai/knowledgebase/tools-and-tech/vscode-agent-sessions.md` | Active |
 | `KB-068` | Vue to Nuxt Migration Guide | `.ai/knowledgebase/tools-and-tech/vue-to-nuxt-migration.md` | Active |
+| `KB-069` | Realtime Debugging Patterns | `.ai/knowledgebase/tools-and-tech/realtime-debugging-patterns.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 

@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2X.Catalog.Tests</RootNamespace>
+    <AssemblyName>B2X.Catalog.Tests</AssemblyName>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="Testcontainers" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../../../B2Connect/src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
+    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Infrastructure/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="fixtures/**/*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
+
+
+
+

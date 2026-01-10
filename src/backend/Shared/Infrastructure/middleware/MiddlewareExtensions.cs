@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using B2X.Shared.Core.Authorization;
 using B2X.Utils.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -214,6 +215,97 @@ public class StoreAccessMiddleware
 }
 
 /// <summary>
+/// Correlation middleware for debug tracking
+/// Generates and propagates correlation IDs for request tracing
+/// </summary>
+public class CorrelationMiddleware
+{
+    private readonly RequestDelegate _next;
+    private readonly ILogger<CorrelationMiddleware> _logger;
+
+    public CorrelationMiddleware(RequestDelegate next, ILogger<CorrelationMiddleware> logger)
+    {
+        _next = next;
+        _logger = logger;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        // Extract or generate correlation ID
+        var correlationId = ExtractOrGenerateCorrelationId(context);
+
+        // Add to request headers for downstream services
+        context.Request.Headers["X-Correlation-Id"] = correlationId;
+
+        // Add to response headers for client visibility
+        context.Response.Headers["X-Correlation-Id"] = correlationId;
+
+        // Store in HttpContext for use by other middleware/components
+        context.Items["CorrelationId"] = correlationId;
+
+        // Enrich current activity with correlation data
+        if (Activity.Current != null)
+        {
+            Activity.Current.SetTag("correlation.id", correlationId);
+            Activity.Current.SetTag("correlation.tenant_id", context.Items["TenantId"]?.ToString());
+        }
+
+        // Log correlation context
+        using (_logger.BeginScope(new Dictionary<string, object>
+        {
+            ["CorrelationId"] = correlationId,
+            ["TenantId"] = context.Items["TenantId"]?.ToString() ?? "unknown"
+        }))
+        {
+            await _next(context);
+        }
+    }
+
+    private static string ExtractOrGenerateCorrelationId(HttpContext context)
+    {
+        // Try to extract from request headers
+        if (context.Request.Headers.TryGetValue("X-Correlation-Id", out var headerValue) &&
+            !string.IsNullOrWhiteSpace(headerValue.ToString()))
+        {
+            return headerValue.ToString()!;
+        }
+
+        // Try to extract from traceparent header (W3C Trace Context)
+        if (context.Request.Headers.TryGetValue("traceparent", out var traceparentValue) &&
+            !string.IsNullOrWhiteSpace(traceparentValue.ToString()))
+        {
+            // Extract trace ID from traceparent header
+            var parts = traceparentValue.ToString()!.Split('-');
+            if (parts.Length >= 2)
+            {
+                return $"{context.Items["TenantId"]}-{GenerateSessionId()}-{parts[1]}";
+            }
+        }
+
+        // Generate new correlation ID
+        var tenantId = context.Items["TenantId"]?.ToString() ?? "unknown";
+        var sessionId = GenerateSessionId();
+        var requestId = GenerateRequestId();
+
+        return $"{tenantId}-{sessionId}-{requestId}";
+    }
+
+    private static string GenerateSessionId()
+    {
+        // Generate a short session identifier
+        return Guid.NewGuid().ToString("N").Substring(0, 8);
+    }
+
+    private static string GenerateRequestId()
+    {
+        // Use timestamp + random for uniqueness
+        var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var random = Guid.NewGuid().ToString("N").Substring(0, 8);
+        return $"{timestamp:x}-{random}";
+    }
+}
+
+/// <summary>
 /// Extension methods for registering middleware
 /// </summary>
 public static class MiddlewareExtensions
@@ -235,11 +327,69 @@ public static class MiddlewareExtensions
     }
 
     /// <summary>
+    /// Adds correlation middleware for debug tracking.
+    /// Must be called early in the pipeline, after tenant context but before other middleware.
+    /// </summary>
+    public static IApplicationBuilder UseCorrelation(this IApplicationBuilder app)
+    {
+        return app.UseMiddleware<CorrelationMiddleware>();
+    }
+
+    /// <summary>
     /// Adds store access middleware that enforces authentication for closed shops.
     /// Must be called after UseTenantContext and UseAuthentication.
     /// </summary>
     public static IApplicationBuilder UseStoreAccess(this IApplicationBuilder app)
     {
         return app.UseMiddleware<StoreAccessMiddleware>();
+    }
+}
+
+/// <summary>
+/// Extension methods for HttpContext to access correlation ID
+/// </summary>
+public static class HttpContextExtensions
+{
+    private const string CorrelationIdHeader = "X-Correlation-Id";
+    private const string CorrelationIdItemKey = "CorrelationId";
+
+    /// <summary>
+    /// Gets the correlation ID from the current HttpContext
+    /// </summary>
+    /// <param name="context">The HttpContext</param>
+    /// <returns>The correlation ID, or generates a new one if not present</returns>
+    public static string GetCorrelationId(this HttpContext context)
+    {
+        // Try to get from request headers first
+        if (context.Request.Headers.TryGetValue(CorrelationIdHeader, out var headerValue) &&
+            !string.IsNullOrEmpty(headerValue.ToString()))
+        {
+            var correlationId = headerValue.ToString()!;
+            context.Items[CorrelationIdItemKey] = correlationId;
+            return correlationId;
+        }
+
+        // Try to get from context items (set by middleware)
+        if (context.Items.TryGetValue(CorrelationIdItemKey, out var itemValue) &&
+            itemValue is string existingId)
+        {
+            return existingId;
+        }
+
+        // Generate new correlation ID
+        var newId = Guid.NewGuid().ToString();
+        context.Items[CorrelationIdItemKey] = newId;
+        return newId;
+    }
+
+    /// <summary>
+    /// Sets the correlation ID in the HttpContext
+    /// </summary>
+    /// <param name="context">The HttpContext</param>
+    /// <param name="correlationId">The correlation ID to set</param>
+    public static void SetCorrelationId(this HttpContext context, string correlationId)
+    {
+        context.Items[CorrelationIdItemKey] = correlationId;
+        context.Response.Headers[CorrelationIdHeader] = correlationId;
     }
 }

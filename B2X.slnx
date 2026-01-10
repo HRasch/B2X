@@ -137,64 +137,66 @@
   </Folder>
 
   <!-- Tests -->
-  <Folder Name="/tests/">
+  <Folder Name="/src/tests/">
     <!-- Hosting Tests -->
-    <Project Path="tests/Hosting/AppHost.Tests/B2X.AppHost.Tests.csproj" />
+    <Project Path="src/tests/Hosting/AppHost.Tests/B2X.AppHost.Tests.csproj" />
 
     <!-- Store Tests -->
-    <Folder Name="/tests/Store/">
-      <Project Path="tests/Store/Backend/Catalog/B2X.Catalog.Tests/B2X.Catalog.Tests.csproj" />
-      <Project Path="tests/Store/Backend/Customer/tests/B2X.Customer.Tests.csproj" />
-      <Project Path="tests/Store/Backend/Orders/tests/B2X.Orders.Tests.csproj" />
-      <Project Path="tests/Store/Gateway/tests/B2X.Store.Tests.csproj" />
+    <Folder Name="/src/tests/Store/">
+      <Project Path="src/tests/Store/B2X.Store.Tests.csproj" />
+      <Project Path="src/tests/Store/Backend/Catalog/B2X.Catalog.Tests/B2X.Catalog.Tests.csproj" />
+      <Project Path="src/tests/Store/Backend/Customer/tests/B2X.Customer.Tests.csproj" />
+      <Project Path="src/tests/Store/Backend/Orders/tests/B2X.Orders.Tests.csproj" />
+      <Project Path="src/tests/Store/Gateway/tests/B2X.Store.Tests.csproj" />
     </Folder>
 
     <!-- Admin Tests -->
-    <Folder Name="/tests/Admin/">
-      <Project Path="tests/Admin/Backend/Compliance/tests/B2X.Compliance.Tests.csproj" />
-      <Project Path="tests/Admin/Backend/Legal/tests/B2X.Legal.Tests.csproj" />
+    <Folder Name="/src/tests/Admin/">
+      <Project Path="src/tests/Admin/Backend/Compliance/tests/B2X.Compliance.Tests.csproj" />
+      <Project Path="src/tests/Admin/Backend/Legal/tests/B2X.Legal.Tests.csproj" />
     </Folder>
 
     <!-- Management Tests -->
-    <Folder Name="/backend/Management/Tests/">
-      <Project Path="src/backend/Management/Tests/CMS/B2X.CMS.Tests.csproj" />
-      <Project Path="src/backend/Management/Tests/Email/B2X.Email.Tests.csproj" />
+    <Folder Name="/src/tests/Management/">
+      <Project Path="src/tests/Management/CMS/B2X.CMS.Tests.csproj" />
+      <Project Path="src/tests/Management/Email/B2X.Email.Tests.csproj" />
     </Folder>
 
     <!-- Shared Tests -->
-    <Folder Name="/tests/shared/">
+    <Folder Name="/src/tests/shared/">
       <!-- Domain Tests -->
-      <Folder Name="/tests/shared/Domain/">
-        <Project Path="tests/shared/Domain/Identity/B2X.Identity.Tests/B2X.Identity.Tests.csproj" />
-        <Project Path="tests/shared/Domain/Localization/tests/B2X.Localization.Tests.csproj" />
-        <Project Path="tests/shared/Domain/Security/tests/B2X.Security.Tests.csproj" />
-        <Project Path="tests/shared/Domain/Tenancy/tests/B2X.Tenancy.Tests.csproj" />
-        <Project Path="tests/shared/Domain/AI/tests/B2X.AI.Tests.csproj" />
-        <Project Path="tests/shared/Domain/ERP/tests/B2X.ERP.Tests.csproj" />
-        <Project Path="tests/shared/Domain/PatternAnalysis/tests/B2X.PatternAnalysis.Tests.csproj" />
-        <Project Path="tests/shared/Domain/Returns/tests/B2X.Returns.Tests.csproj" />
-        <Project Path="tests/shared/Domain/Search/B2X.Search.Integration/B2X.Search.Integration.csproj" />
-        <Project Path="tests/shared/Domain/Search/B2X.Search.UnitTests/B2X.Search.UnitTests.csproj" />
+      <Folder Name="/src/tests/shared/Domain/">
+        <Project Path="src/tests/shared/Domain/Identity/B2X.Identity.Tests/B2X.Identity.Tests.csproj" />
+        <Project Path="src/tests/shared/Domain/Localization/tests/B2X.Localization.Tests.csproj" />
+        <Project Path="src/tests/shared/Domain/Security/tests/B2X.Security.Tests.csproj" />
+        <Project Path="src/tests/shared/Domain/Tenancy/tests/B2X.Tenancy.Tests.csproj" />
+        <Project Path="src/tests/shared/Domain/AI/tests/B2X.AI.Tests.csproj" />
+        <Project Path="src/tests/shared/Domain/ERP/tests/B2X.ERP.Tests.csproj" />
+        <Project Path="src/tests/shared/Domain/PatternAnalysis/tests/B2X.PatternAnalysis.Tests.csproj" />
+        <Project Path="src/tests/shared/Domain/Returns/tests/B2X.Returns.Tests.csproj" />
+        <Project Path="src/tests/shared/Domain/Search/B2X.Search.Integration/B2X.Search.Integration.csproj" />
+        <Project Path="src/tests/shared/Domain/Search/B2X.Search.UnitTests/B2X.Search.UnitTests.csproj" />
+        <Project Path="src/tests/shared/Domain/SmartDataIntegration/tests/B2X.SmartDataIntegration.Tests.csproj" />
       </Folder>
 
       <!-- Infrastructure Tests -->
-      <Project Path="tests/shared/B2X.Shared.Infrastructure/tests/B2X.Shared.Infrastructure.Tests.csproj" />
+      <Project Path="src/tests/shared/B2X.Shared.Infrastructure/tests/B2X.Shared.Infrastructure.Tests.csproj" />
 
       <!-- Other Shared Tests -->
-      <Project Path="tests/shared/B2X.Architecture.Tests/B2X.Architecture.Tests.csproj" />
-      <Project Path="tests/shared/B2X.Gateway.Integration.Tests/B2X.Gateway.Integration.Tests.csproj" />
-      <Project Path="tests/shared/B2X.Shared.Search.Tests/B2X.Shared.Search.Tests.csproj" />
-      <Project Path="tests/shared/Validation/B2X.Validation.Tests.csproj" />
-      <Project Path="tests/shared/TestUtilities/TestUtilities.csproj" />
+      <Project Path="src/tests/shared/B2X.Architecture.Tests/B2X.Architecture.Tests.csproj" />
+      <Project Path="src/tests/shared/B2X.Gateway.Integration.Tests/B2X.Gateway.Integration.Tests.csproj" />
+      <Project Path="src/tests/shared/B2X.Shared.Search.Tests/B2X.Shared.Search.Tests.csproj" />
+      <Project Path="src/tests/shared/Validation/B2X.Validation.Tests.csproj" />
+      <Project Path="src/tests/shared/TestUtilities/TestUtilities.csproj" />
     </Folder>
 
     <!-- Service Tests -->
-    <Folder Name="/tests/services/">
+    <Folder Name="/src/tests/services/">
     </Folder>
 
     <!-- Bounded Contexts Tests -->
-    <Folder Name="/tests/BoundedContexts/">
-      <Project Path="tests/BoundedContexts/Admin/MCP/B2X.Admin.MCP.Tests/B2X.Admin.MCP.Tests.csproj" />
+    <Folder Name="/src/tests/BoundedContexts/">
+      <Project Path="src/tests/BoundedContexts/Admin/MCP/B2X.Admin.MCP.Tests/B2X.Admin.MCP.Tests.csproj" />
     </Folder>
   </Folder>
 

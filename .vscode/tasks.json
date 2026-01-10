@@ -59,7 +59,7 @@
         "minimal",
         "--collect:\"XPlat Code Coverage\"",
         "--results-directory",
-        "${workspaceFolder}/coverage",
+        "${workspaceFolder}/test-results/coverage",
         "--settings",
         "${workspaceFolder}/coverlet.runsettings"
       ],
@@ -82,8 +82,8 @@
         "tool",
         "run",
         "reportgenerator",
-        "-reports:coverage/**/coverage.opencover.xml",
-        "-targetdir:coverage-report",
+        "-reports:test-results/coverage/**/coverage.opencover.xml",
+        "-targetdir:test-results/coverage-report",
         "-reporttypes:Html;Cobertura;MarkdownSummary"
       ],
       "problemMatcher": "$msCompile",
@@ -225,7 +225,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/src/Store/Frontend/store",
+      "cwd": "${workspaceFolder}/src/frontend/Store",
       "group": {
         "kind": "test"
       }
@@ -238,7 +238,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/src/Management/Frontend/management",
+      "cwd": "${workspaceFolder}/src/frontend/Management",
       "isBackground": true,
       "problemMatcher": {
         "pattern": {
@@ -263,7 +263,7 @@
         "run",
         "lint"
       ],
-      "cwd": "${workspaceFolder}/src/Management/Frontend/management",
+      "cwd": "${workspaceFolder}/src/frontend/Management",
       "group": "build"
     },
     {
@@ -313,7 +313,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/src/Store/Frontend/store",
+      "cwd": "${workspaceFolder}/src/frontend/Store",
       "problemMatcher": {
         "pattern": {
           "regexp": "^.*$",
@@ -339,7 +339,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/src/Admin/Frontend",
+      "cwd": "${workspaceFolder}/src/frontend/Admin",
       "problemMatcher": {
         "pattern": {
           "regexp": "^(.*)$",
@@ -530,7 +530,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/src/Management/Frontend/management",
+      "cwd": "${workspaceFolder}/src/frontend/Management",
       "group": "build"
     },
     {

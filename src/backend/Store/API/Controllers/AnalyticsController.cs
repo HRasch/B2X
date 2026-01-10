@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using B2X.Store.API.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2X.Store.API.Controllers
@@ -20,6 +21,7 @@ namespace B2X.Store.API.Controllers
 
         // Conversion funnel data
         [HttpGet("funnel/{funnelId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetConversionFunnel(string funnelId)
         {
             // Return funnel analysis data
@@ -39,6 +41,8 @@ namespace B2X.Store.API.Controllers
 
         // A/B testing variant assignment
         [HttpGet("ab-test/{testId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Sonarsource", "S6968:Annotate this method with ProducesResponseType containing the return type", Justification = "Anonymous type return is intentional")]
         public IActionResult GetABTestVariant(string testId)
         {
             // Simple random assignment for demo

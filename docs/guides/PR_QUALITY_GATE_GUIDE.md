@@ -141,7 +141,7 @@ npm run test -- -t "test name"
 ```bash
 # Check coverage report
 dotnet test --collect:"XPlat Code Coverage"
-open coverage-report/index.html
+open test-results/coverage-report/index.html
 
 # Add missing tests
 # Especially for new code!

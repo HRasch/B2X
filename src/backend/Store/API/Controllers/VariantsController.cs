@@ -1,5 +1,6 @@
 using B2X.Store.ServiceClients;
 using B2X.Variants.Handlers;
+using B2X.Variants.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

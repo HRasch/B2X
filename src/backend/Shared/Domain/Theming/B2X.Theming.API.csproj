@@ -10,6 +10,7 @@
     <AssemblyName>B2X.Theming.API</AssemblyName>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <IsAspireProjectResource>false</IsAspireProjectResource>
   </PropertyGroup>
 
   <!-- Exclude tests folders and Layout source from compilation -->

@@ -76,8 +76,10 @@ public class CategoryRepository : ICategoryRepository
             _ => sortDescending ? query.OrderByDescending(c => c.DisplayOrder) : query.OrderBy(c => c.DisplayOrder)
         };
 
-        var totalCount = query.Count();
-        var items = query
+        // Materialize query to avoid multiple enumeration (CA1851)
+        var materializedQuery = query.ToList();
+        var totalCount = materializedQuery.Count;
+        var items = materializedQuery
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToList();

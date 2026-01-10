@@ -136,13 +136,13 @@ jobs:
       - name: Backend - Generate Coverage Report
         uses: danielpalme/ReportGenerator-GitHub-Action@5.5.1
         with:
-          reports: 'coverage/**/coverage.opencover.xml'
-          targetdir: 'coverage-report'
+          reports: 'test-results/coverage/**/coverage.opencover.xml'
+          targetdir: 'test-results/coverage-report'
           reporttypes: 'Html;Cobertura;MarkdownSummary'
 
       - name: Backend - Check Coverage Threshold
         run: |
-          coverage=$(grep -oP 'line-rate="\K[0-9.]+' coverage-report/Cobertura.xml | head -1)
+          coverage=$(grep -oP 'line-rate="\K[0-9.]+' test-results/coverage-report/Cobertura.xml | head -1)
           coverage_percent=$(echo "$coverage * 100" | bc)
           echo "Coverage: ${coverage_percent}%"
           if (( $(echo "$coverage_percent < 80" | bc -l) )); then
@@ -186,7 +186,7 @@ jobs:
         with:
           name: coverage-reports
           path: |
-            coverage-report/
+            test-results/coverage-report/
             frontend/Store/coverage/
             frontend/Management/coverage/
 
@@ -194,7 +194,7 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: coverage
-          path: coverage-report/Summary.md
+          path: test-results/coverage-report/Summary.md
 
   # Stage 3: Integration Tests (< 10 min)
   integration-tests:

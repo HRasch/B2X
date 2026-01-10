@@ -19,16 +19,16 @@ echo "📊 Generating coverage reports..."
 # Generate HTML and other reports
 dotnet tool run reportgenerator \
   -reports:"coverage/**/coverage.opencover.xml" \
-  -targetdir:"coverage-report" \
+  -targetdir:"test-results/coverage-report" \
   -reporttypes:"Html;Cobertura;MarkdownSummary;TextSummary"
 
 echo "✅ Coverage reports generated!"
-echo "📁 Reports available in: coverage-report/"
-echo "🌐 Open coverage-report/index.html in your browser"
+echo "📁 Reports available in: test-results/coverage-report/"
+echo "🌐 Open test-results/coverage-report/index.html in your browser"
 
 # Display summary
-if [ -f "coverage-report/Summary.txt" ]; then
+if [ -f "test-results/coverage-report/Summary.txt" ]; then
   echo ""
   echo "📈 Coverage Summary:"
-  cat coverage-report/Summary.txt
+  cat test-results/coverage-report/Summary.txt
 fi

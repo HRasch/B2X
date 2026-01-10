@@ -3,6 +3,8 @@ using B2X.Tenancy.Repositories;
 using B2X.Tenancy.Services;
 using DnsClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace B2X.Tenancy;
 

@@ -11,6 +11,7 @@ namespace B2X.Shared.Core.Handlers;
 /// Base class for handlers and services with common validation patterns.
 /// Eliminates code duplication across handlers and services that use FluentValidation.
 /// </summary>
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "Protected field is intentional for derived classes")]
 public abstract class ValidatedBase
 {
     protected readonly ILogger Logger;
@@ -31,6 +32,7 @@ public abstract class ValidatedBase
     /// <param name="cancellationToken">Cancellation token</param>
     /// <param name="createErrorResponse">Function to create the error response from validation errors</param>
     /// <returns>Null if validation succeeds, error response if validation fails</returns>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1068:CancellationToken parameters must come last", Justification = "Func parameter is optional and comes last for readability")]
     protected async Task<TResponse?> ValidateRequestAsync<TRequest, TResponse>(
         TRequest request,
         IValidator<TRequest> validator,

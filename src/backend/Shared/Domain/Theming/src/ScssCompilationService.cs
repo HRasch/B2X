@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using B2X.ThemeService.Models;
+using Microsoft.Extensions.Logging;
 
 namespace B2X.ThemeService.Services;
 

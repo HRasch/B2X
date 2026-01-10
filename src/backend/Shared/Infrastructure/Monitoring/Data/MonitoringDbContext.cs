@@ -96,6 +96,26 @@ public class MonitoringDbContext : DbContext
     public DbSet<CommunicationErrorEntity> CommunicationErrors => Set<CommunicationErrorEntity>();
 
     /// <summary>
+    /// Gets or sets the debug sessions DbSet.
+    /// </summary>
+    public DbSet<DebugSessionEntity> DebugSessions => Set<DebugSessionEntity>();
+
+    /// <summary>
+    /// Gets or sets the debug errors DbSet.
+    /// </summary>
+    public DbSet<DebugErrorEntity> DebugErrors => Set<DebugErrorEntity>();
+
+    /// <summary>
+    /// Gets or sets the debug feedback DbSet.
+    /// </summary>
+    public DbSet<DebugFeedbackEntity> DebugFeedback => Set<DebugFeedbackEntity>();
+
+    /// <summary>
+    /// Gets or sets the debug actions DbSet.
+    /// </summary>
+    public DbSet<DebugActionEntity> DebugActions => Set<DebugActionEntity>();
+
+    /// <summary>
     /// Configures the model for the context.
     /// </summary>
     /// <param name="modelBuilder">The builder being used to construct the model for this context.</param>
@@ -118,6 +138,12 @@ public class MonitoringDbContext : DbContext
             modelBuilder.Entity<ServiceErrorEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
             modelBuilder.Entity<ConnectionTestResultEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
             modelBuilder.Entity<CommunicationErrorEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
+
+            // Debug entities tenant isolation
+            modelBuilder.Entity<DebugSessionEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
+            modelBuilder.Entity<DebugErrorEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
+            modelBuilder.Entity<DebugFeedbackEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
+            modelBuilder.Entity<DebugActionEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
         }
     }
 

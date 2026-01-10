@@ -32,12 +32,20 @@ builder.Host.UseWolverine(opts =>
 // Add Wolverine HTTP support
 builder.Services.AddWolverineHttp();
 
+// Add SignalR
+builder.Services.AddSignalR();
+
 // Add Database Context
 builder.Services.AddDbContext<MonitoringDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("MonitoringDb")));
 
 // Register Monitoring Services
 builder.Services.AddScoped<IServiceMonitor, ServiceMonitor>();
+builder.Services.AddScoped<B2X.Shared.Monitoring.Abstractions.IDebugEventBroadcaster, DebugEventBroadcaster>();
+
+// Add tenant context
+builder.Services.AddScoped<B2X.Shared.Tenancy.Infrastructure.Context.ITenantContext, B2X.Shared.Tenancy.Infrastructure.Context.TenantContext>();
+builder.Services.AddScoped<B2X.Shared.Middleware.ITenantContextAccessor, B2X.Shared.Middleware.TenantContextAccessor>();
 
 // Add CORS
 builder.Services.AddCors(options =>
@@ -67,7 +75,34 @@ app.UseHttpsRedirection();
 app.UseCors();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+// ==================== TENANT CONTEXT MIDDLEWARE ====================
+app.Use(async (context, next) =>
+{
+    var tenantId = context.User.GetTenantId();
+
+    if (tenantId == Guid.Empty && context.Request.Headers.TryGetValue("X-Tenant-ID", out var headerValue) && Guid.TryParse(headerValue.ToString(), out var headerId))
+    {
+        tenantId = headerId;
+    }
+
+    if (tenantId != Guid.Empty)
+    {
+        // Set in both contexts
+        var tenantContextAccessor = context.RequestServices.GetRequiredService<B2X.Shared.Middleware.ITenantContextAccessor>();
+        var tenantContext = (B2X.Shared.Tenancy.Infrastructure.Context.TenantContext)context.RequestServices.GetRequiredService<B2X.Shared.Tenancy.Infrastructure.Context.ITenantContext>();
+
+        tenantContextAccessor.SetTenantId(tenantId);
+        tenantContext.TenantId = tenantId;
+        context.Items["TenantId"] = tenantId;
+    }
+
+    await next(context).ConfigureAwait(false);
+});
+
 // Map Wolverine endpoints
 app.MapWolverineEndpoints();
+
+// Map SignalR hubs
+app.MapHub<B2X.Monitoring.Hubs.DebugHub>("/debug-hub");
 
 app.Run();

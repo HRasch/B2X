@@ -72,9 +72,9 @@ public class VariantRepository : IVariantRepository
             v.Name.ToLowerInvariant().Contains(searchQuery) ||
             v.Sku.ToLowerInvariant().Contains(searchQuery) ||
             (v.Description?.ToLowerInvariant().Contains(searchQuery) ?? false) ||
-            (v.Barcode?.ToLowerInvariant().Contains(searchQuery) ?? false));
+            (v.Barcode?.ToLowerInvariant().Contains(searchQuery) ?? false)).ToList();
 
-        var totalCount = filteredVariants.Count();
+        var totalCount = filteredVariants.Count;
 
         var items = filteredVariants
             .OrderBy(v => v.DisplayOrder)

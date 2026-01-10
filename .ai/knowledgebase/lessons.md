@@ -9,8 +9,68 @@ created: 2026-01-08
 ﻿# Lessons Learned
 
 **DocID**: `KB-LESSONS`  
-**Last Updated**: 9. Januar 2026  
+**Last Updated**: 10. Januar 2026  
 **Maintained By**: GitHub Copilot
+
+---
+
+## Session: 10. Januar 2026 - Phase 2 Realtime Debug Strategy Implementation
+
+### Complex SignalR Integration in Nuxt 3 with SSR Considerations
+
+**Issue**: Implementing comprehensive realtime debug system with SignalR streaming, user action recording, and feedback widgets across Vue 3/Nuxt 3 frontend and .NET 10 backend, encountering SSR compatibility issues and plugin registration challenges.
+
+**Root Cause**: Nuxt 3's server-side rendering (SSR) environment conflicts with client-side SignalR connections and DOM manipulation, requiring careful separation of client/server code and proper plugin initialization.
+
+**Lesson**: Complex realtime features in Nuxt 3 require explicit ClientOnly wrappers, proper plugin registration in nuxt.config.ts, and careful separation of SSR-safe vs client-only code.
+
+**Solution**: Systematic implementation approach:
+1. **Backend Infrastructure**: SignalR hub (DebugHub.cs) and broadcaster (DebugEventBroadcaster.cs) with tenant context
+2. **Frontend Architecture**: Vue 3 Composition API composables, Pinia stores, and Nuxt plugins
+3. **SSR Compatibility**: ClientOnly wrappers for debug components, conditional SignalR initialization
+4. **Plugin Registration**: Explicit plugin registration in nuxt.config.ts for initialization and routing
+5. **Integration Testing**: Automated component validation and build verification
+
+**Key Insights**:
+- **SSR Impact**: Client-side features (SignalR, DOM manipulation) must be wrapped in ClientOnly components
+- **Plugin Registration**: Nuxt plugins require explicit registration in nuxt.config.ts, not auto-discovery
+- **SignalR Timing**: Connection initialization must happen after client-side hydration
+- **Component Architecture**: Large components (>400 lines) benefit from composition API with focused responsibilities
+- **Build Validation**: Integration tests prevent deployment of incomplete implementations
+
+**Technical Details**:
+- **SignalR Setup**: HubConnectionBuilder with automatic reconnect, tenant headers, and event listeners
+- **Component Size**: DebugTrigger.vue (400+ lines), DebugFeedbackWidget.vue (500+ lines) with comprehensive functionality
+- **Plugin Pattern**: debug-init.js for initialization, debug-guard.js for route protection
+- **SSR Solution**: `<ClientOnly>` wrapper prevents server-side rendering of client-only components
+- **Build Impact**: Zero breaking changes, all builds successful, integration tests passing
+
+**Prevention Measures**:
+1. **SSR-First Design**: Always consider SSR compatibility when adding client-side features
+2. **Plugin Registration**: Explicitly register all Nuxt plugins in nuxt.config.ts
+3. **ClientOnly Usage**: Wrap DOM-manipulating components in ClientOnly tags
+4. **Integration Testing**: Create automated tests to validate component presence and dependencies
+5. **Incremental Implementation**: Build and test after each major component addition
+
+**Code Patterns**:
+```typescript
+// SSR-safe plugin registration in nuxt.config.ts
+export default defineNuxtConfig({
+  plugins: [
+    '~/plugins/debug-init.js',
+    '~/plugins/debug-guard.js'
+  ]
+})
+
+// Client-only component integration
+<template>
+  <ClientOnly>
+    <DebugTrigger />
+  </ClientOnly>
+</template>
+```
+
+**Testing Best Practice**: Integration tests should validate component presence, dependency availability, and build success before manual testing.
 
 ---
 

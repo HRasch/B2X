@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using B2X.Variants.Handlers;
+using B2X.Variants.Models;
 using Microsoft.Extensions.Logging;
 
 namespace B2X.Store.ServiceClients;

@@ -9,6 +9,7 @@
     <AssemblyName>B2X.Tenancy.API</AssemblyName>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <IsAspireProjectResource>false</IsAspireProjectResource>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,7 +48,7 @@
 
     <ProjectReference Include="../../Infrastructure/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
 
     <ProjectReference Include="../../Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
 

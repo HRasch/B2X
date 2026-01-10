@@ -1,60 +1,63 @@
 ﻿# B2X DDD Bounded Contexts & Onion Architecture
 
-**Last Reviewed:** 2025-12-31 — maintained by `@Architect`
+**Last Reviewed:** 2026-01-10 — maintained by `@Architect`
 
-## Neue Struktur (ab Dezember 2025)
+## Current Structure (Unified Backend)
 
-Die Backend-Architektur wurde nach **Domain-Driven Design (DDD)** Prinzipien und **Bounded Contexts** reorganisiert:
+The backend architecture has been reorganized following **Domain-Driven Design (DDD)** principles and **Bounded Contexts**:
 
 ```
-backend/
-├── BoundedContexts/
-│   ├── Store/              # 🛍️ Public Storefront Context
-│   │   ├── API/            # Store Gateway (Port 6000)
-│   │   ├── Catalog/        # Produktkatalog
-│   │   ├── CMS/            # Content Management
-│   │   ├── Theming/        # Design & Layouts
-│   │   ├── Localization/   # i18n
-│   │   └── Search/         # Elasticsearch
-│   │
-│   ├── Admin/              # 🔐 Admin Operations Context
-│   │   └── API/            # Admin Gateway (Port 6100)
-│   │
-│   └── Shared/             # 🔄 Cross-Context Services
-│       ├── Identity/       # Authentication
-│       └── Tenancy/        # Multi-Tenancy
-│
-├── Orchestration/          # ⚙️ Aspire Orchestration
-├── ServiceDefaults/        # ⚙️ Shared Service Defaults
-│
-├── shared/                 # 📦 Shared Libraries (Kernel)
-│   ├── kernel/             # Domain Kernel
-│   ├── B2X.Shared.Core/
-│   ├── B2X.Shared.Infrastructure/
-│   ├── B2X.Shared.Messaging/
-│   └── B2X.Shared.Search/
-│
-└── Tests/                  # 🧪 Test Projects
+src/backend/
+├── Admin/              # 🔐 Admin Operations Context
+│   ├── API/            # Admin Gateway
+│   └── Tests/
+├── Store/              # 🛍️ Public Storefront Context
+│   ├── API/            # Store Gateway
+│   ├── Catalog/        # Product Catalog
+│   ├── CMS/            # Content Management
+│   ├── Theming/        # Design & Layouts
+│   ├── Localization/   # i18n
+│   ├── Search/         # Elasticsearch
+│   └── Tests/
+├── Management/         # ⚙️ Management Operations Context
+│   ├── API/            # Management Gateway
+│   └── Tests/
+├── Infrastructure/     # 🔧 Infrastructure Layer
+│   ├── Hosting/        # Aspire AppHost
+│   ├── ServiceDefaults/ # Shared Service Defaults
+│   └── Tests/
+├── Services/           # 🔄 Cross-Context Services
+│   ├── ERP/            # ERP Connectors
+│   ├── Identity/       # Authentication
+│   ├── Tenancy/        # Multi-Tenancy
+│   └── Tests/
+├── Shared/             # 📦 Shared Libraries (Kernel)
+│   ├── Core/           # Domain Kernel
+│   ├── Infrastructure/ # Shared Infrastructure
+│   ├── Messaging/      # Wolverine Messaging
+│   ├── Search/         # Elasticsearch
+│   └── Tests/
+└── Tests/              # 🧪 Integration Tests
 ```
 
-## Bounded Contexts erklärt
+## Bounded Contexts Explained
 
 ### 1. Store Context (Public Storefront)
 
-**Verantwortung**: Öffentliche, read-only APIs für den Online-Shop
+**Responsibility**: Public, read-only APIs for the online shop
 
 **Services**:
-- **Catalog**: Produkte, Kategorien, Marken, Attribute
-- **CMS**: Seiten, Komponenten, Content
-- **Theming**: Designs, Layouts, Templates, Themes
-- **Localization**: Mehrsprachigkeit, Übersetzungen
-- **Search**: Volltextsuche (Elasticsearch)
+- **Catalog**: Products, categories, brands, attributes
+- **CMS**: Pages, components, content
+- **Theming**: Designs, layouts, templates, themes
+- **Localization**: Multi-language support, translations
+- **Search**: Full-text search (Elasticsearch)
 
-**Charakteristik**:
-- ✅ Read-Only (keine Schreiboperationen)
-- ✅ Öffentlich zugänglich
-- ✅ Hohe Performance (Caching)
-- ✅ Skalierbar
+**Characteristics**:
+- ✅ Read-Only (no write operations)
+- ✅ Publicly accessible
+- ✅ High performance (caching)
+- ✅ Scalable
 
 **Frontend**: `frontend-store` (Port 5173)
 
@@ -62,16 +65,16 @@ backend/
 
 ### 2. Admin Context (Admin Operations)
 
-**Verantwortung**: CRUD-Operationen, Verwaltung, Konfiguration
+**Responsibility**: CRUD operations, administration, configuration
 
 **Services**:
-- **Admin API**: Zentrale Admin-Operationen
-  - Produkt-Management (CRUD)
-  - Content-Management (CRUD)
-  - User-Management
-  - Konfiguration
+- **Admin API**: Central admin operations
+  - Product management (CRUD)
+  - Content management (CRUD)
+  - User management
+  - Configuration
 
-**Charakteristik**:
+**Characteristics**:
 - ✅ Full CRUD
 - ✅ JWT Authentication
 - ✅ Role-Based Authorization
@@ -81,28 +84,63 @@ backend/
 
 ---
 
-### 3. Shared Context (Cross-Context)
+### 3. Management Context (Management Operations)
 
-**Verantwortung**: Services, die von mehreren Contexts genutzt werden
+**Responsibility**: Tenant management, system configuration, monitoring
 
 **Services**:
-- **Identity**: Authentifizierung, User-Verwaltung
-- **Tenancy**: Multi-Tenant Support, Mandanten-Isolation
+- **Management API**: Tenant and system management
+  - Tenant configuration
+  - System settings
+  - Monitoring and health checks
 
-**Charakteristik**:
-- ✅ Kontext-übergreifend
-- ✅ Wiederverwendbar
-- ✅ Keine Business-Logik
+**Characteristics**:
+- ✅ Administrative operations
+- ✅ Multi-tenant aware
+- ✅ System-level configuration
+- ✅ Monitoring integration
+
+**Frontend**: `frontend-management` (Port 5175)
 
 ---
 
-## Onion Architecture (innerhalb jedes Service)
+### 4. Shared Context (Cross-Context Services)
 
-Jeder Service folgt der **Onion Architecture** mit 4 Schichten:
+**Responsibility**: Services used by multiple contexts
+
+**Services**:
+- **Identity**: Authentication, user management
+- **Tenancy**: Multi-tenant support, tenant isolation
+- **ERP**: ERP system connectors
+
+**Characteristics**:
+- ✅ Cross-context
+- ✅ Reusable
+- ✅ No business logic
+
+---
+
+### 5. Infrastructure Context (Technical Infrastructure)
+
+**Responsibility**: Hosting, orchestration, shared infrastructure
+
+**Services**:
+- **AppHost**: .NET Aspire orchestration
+- **ServiceDefaults**: Shared service configuration
+- **Hosting**: Deployment and hosting concerns
+
+**Characteristics**:
+- ✅ Technical infrastructure
+- ✅ Deployment concerns
+- ✅ Shared configuration
+
+## Onion Architecture (within each Service)
+
+Each service follows the **Onion Architecture** with 4 layers:
 
 ```
 Service/
-├── Core/                   # 🎯 Domain Layer (Innerster Ring)
+├── Core/                   # 🎯 Domain Layer (Innermost Ring)
 │   ├── Entities/           # Domain Entities (Product, Category)
 │   ├── ValueObjects/       # Value Objects (Price, SKU)
 │   ├── Interfaces/         # Repository Contracts
@@ -122,7 +160,7 @@ Service/
 │   ├── Caching/            # Redis, Memory Cache
 │   └── Messaging/          # Event Bus
 │
-└── Presentation/           # 🌐 API Layer (Äußerster Ring)
+└── Presentation/           # 🌐 API Layer (Outermost Ring)
     ├── Controllers/        # REST Endpoints
     ├── Middleware/         # Custom Middleware
     ├── Configuration/      # Dependency Injection
@@ -134,14 +172,14 @@ Service/
 ```
 Presentation → Infrastructure → Application → Core
    (API)          (Data)         (Logic)      (Domain)
-   
-Abhängigkeiten zeigen IMMER nach INNEN!
-Core hat KEINE Abhängigkeiten zu äußeren Schichten.
+
+Dependencies ALWAYS point INWARD!
+Core has NO dependencies to outer layers.
 ```
 
 ---
 
-## DDD Patterns verwendet
+## DDD Patterns Used
 
 ### Aggregate Roots
 - `Product` (Catalog)
@@ -149,8 +187,8 @@ Core hat KEINE Abhängigkeiten zu äußeren Schichten.
 - `Theme` (Theming)
 
 ### Repositories
-- Ein Repository pro Aggregate Root
-- Nur Interfaces in Core, Implementierung in Infrastructure
+- One repository per Aggregate Root
+- Only interfaces in Core, implementation in Infrastructure
 
 ### Domain Events
 - `ProductCreatedEvent`
@@ -159,91 +197,95 @@ Core hat KEINE Abhängigkeiten zu äußeren Schichten.
 
 ### Value Objects
 - `Price` (Amount + Currency)
-- `SKU` (eindeutiger Produktcode)
+- `SKU` (unique product code)
 - `LocalizedContent` (Text + Language)
 
 ### CQRS Pattern
-- **Commands**: Schreiboperationen (Admin Context)
-- **Queries**: Leseoperationen (Store Context)
-- Trennung verbessert Performance und Skalierbarkeit
+- **Commands**: Write operations (Admin Context)
+- **Queries**: Read operations (Store Context)
+- Separation improves performance and scalability
 
 ---
 
-## Kommunikation zwischen Contexts
+## Communication between Contexts
 
-### Synchron (HTTP)
-- Store → Shared (Identity für Token-Validierung)
+### Synchronous (HTTP)
+- Store → Shared (Identity for token validation)
 - Admin → Shared (Identity, Tenancy)
 
-### Asynchron (Events)
-- Admin Context publiziert Events → Store Context reagiert
-- Beispiel: `ProductUpdatedEvent` → Elasticsearch Reindex
+### Asynchronous (Events)
+- Admin Context publishes events → Store Context reacts
+- Example: `ProductUpdatedEvent` → Elasticsearch reindex
 
 ### Message Bus
-- **Wolverine** für In-Process Messaging
-- **RabbitMQ/Azure Service Bus** für Microservices (optional)
+- **Wolverine** for in-process messaging
+- **RabbitMQ/Azure Service Bus** for microservices (optional)
 
 ---
 
-## Vorteile dieser Struktur
+## Benefits of this Structure
 
-### ✅ Klare Verantwortlichkeiten
-- Jeder Bounded Context hat eigene Zuständigkeit
-- Keine vermischte Business-Logik
+### ✅ Clear Responsibilities
+- Each Bounded Context has its own responsibility
+- No mixed business logic
 
-### ✅ Skalierbarkeit
-- Store Context kann horizontal skaliert werden
-- Admin Context benötigt weniger Instanzen
+### ✅ Scalability
+- Store Context can be horizontally scaled
+- Admin Context needs fewer instances
 
-### ✅ Wartbarkeit
-- Onion Architecture erzwingt saubere Abhängigkeiten
-- Core bleibt frei von Framework-Code
+### ✅ Maintainability
+- Onion Architecture enforces clean dependencies
+- Core remains free of framework code
 
-### ✅ Testbarkeit
-- Domain-Logik (Core) ist isoliert testbar
-- Mocking von Infrastructure einfach
+### ✅ Testability
+- Domain logic (Core) is isolated and testable
+- Mocking of Infrastructure is simple
 
-### ✅ Deployment-Flexibilität
-- Contexts können unabhängig deployed werden
+### ✅ Deployment Flexibility
+- Contexts can be deployed independently
 - Microservices-ready
 
 ---
 
-## Migration Checklist (status)
+## Migration Status (Completed)
 
-- [x] BoundedContexts Ordner erstellt
-- [x] Services nach Contexts verschoben
-- [x] Solution-Datei aktualisiert
-- [x] Tasks.json aktualisiert
-- [x] Namespaces angepasst (majority migrated to `B2X.Store.*` namespaces)
-- [x] Project References updated (gateways & services reference updated projects)
-- [ ] Orchestration (Aspire) review & tune remaining
-- [ ] Tests: verify & re-baseline failing tests
-- [ ] Dokumentation vervollständigen (link targets, examples)
-
----
-
-## Nächste Schritte
-
-1. **Namespaces standardisieren**:
-   - `B2X.Store.Catalog.*`
-   - `B2X.Admin.API.*`
-   - `B2X.Shared.Identity.*`
-
-2. **Onion-Layers verfeinern**:
-   - Core/Application/Infrastructure/Presentation in jedem Service
-
-3. **Tests reorganisieren**:
-   - `Tests/Store/Catalog.Tests/`
-   - `Tests/Admin/API.Tests/`
-
-4. **CI/CD anpassen**:
-   - Build-Pipelines pro Context
-   - Separate Deployments
+- [x] Unified src/backend/ structure implemented
+- [x] Services moved to appropriate contexts
+- [x] Solution file updated
+- [x] Tasks.json updated
+- [x] Namespaces standardized (B2X.Store.*, B2X.Admin.*, etc.)
+- [x] Project references updated
+- [x] Orchestration (Aspire) configured
+- [x] Tests reorganized and passing
+- [x] Documentation updated
 
 ---
 
-## Ressourcen
+## Next Steps
+
+1. **Performance Optimization**:
+   - Implement caching strategies
+   - Optimize database queries
+   - Add monitoring and metrics
+
+2. **Microservices Evolution**:
+   - Separate deployments per context
+   - API Gateway implementation
+   - Service mesh consideration
+
+3. **Testing Enhancement**:
+   - Integration tests between contexts
+   - Performance testing
+   - Chaos engineering
+
+4. **CI/CD Enhancement**:
+   - Context-specific build pipelines
+   - Automated testing per context
+   - Independent deployments
+
+---
+
+## Resources
 
 - [Onion Architecture](../archive/architecture-docs/ONION_ARCHITECTURE.md)
 - [CQRS Pattern](../../docs/features/CQRS_INTEGRATION_POINT1.md)
