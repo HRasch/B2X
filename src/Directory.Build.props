@@ -26,6 +26,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     
+    <!-- ============================================= -->
+    <!-- Dynamic CPU Optimization (Portable Strategy) -->
+    <!-- ============================================= -->
+    <!-- Auto-detect available processors, use 0 for "all cores" -->
+    <!-- Override via: dotnet build -m:N or set B2X_MAX_CPU_COUNT env var -->
+    <BuildInParallel>true</BuildInParallel>
+    <!-- MaxCpuCount=0 means MSBuild uses all available processors -->
+    <MaxCpuCount Condition="'$(B2X_MAX_CPU_COUNT)' == ''">0</MaxCpuCount>
+    <MaxCpuCount Condition="'$(B2X_MAX_CPU_COUNT)' != ''">$(B2X_MAX_CPU_COUNT)</MaxCpuCount>
+    
     <!-- Disable MSBuild node reuse to prevent DLL locking issues -->
     <UseSharedCompilation>false</UseSharedCompilation>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
@@ -62,6 +72,11 @@
   <!-- StyleCop Configuration -->
   <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <!-- xUnit Parallel Test Configuration (24-Core Optimization) -->
+  <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+    <Content Include="$(MSBuildThisFileDirectory)../xunit.runner.json" Link="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <!-- Exclude tests folders from non-test projects -->

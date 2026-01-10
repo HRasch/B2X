@@ -7,7 +7,8 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj"
+        "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj",
+        "-m"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -29,7 +30,8 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/B2X.slnx"
+        "${workspaceFolder}/B2X.slnx",
+        "-m"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -52,6 +54,7 @@
       "args": [
         "test",
         "${workspaceFolder}/B2X.slnx",
+        "-m",
         "-v",
         "minimal",
         "--collect:\"XPlat Code Coverage\"",
@@ -571,6 +574,44 @@
         "MCP Console Logging integriert. Starte VS Code neu und prüfe Output Panel für MCP-Server-Logs."
       ],
       "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false
+      }
+    },
+    {
+      "label": "full-parallel-build",
+      "dependsOn": [
+        "build-backend",
+        "npm-install-frontend",
+        "npm-install-tenant"
+      ],
+      "dependsOrder": "parallel",
+      "group": {
+        "kind": "build"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "test-all-parallel",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "${workspaceFolder}/B2X.slnx",
+        "-m",
+        "--parallel",
+        "-v",
+        "minimal"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test"
+      },
       "presentation": {
         "echo": true,
         "reveal": "always",
