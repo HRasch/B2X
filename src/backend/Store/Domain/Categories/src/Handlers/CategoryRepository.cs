@@ -68,9 +68,9 @@ public class CategoryRepository : ICategoryRepository
         }
 
         // Apply sorting
-        query = sortBy?.ToLower() switch
+        query = sortBy?.ToLowerInvariant() switch
         {
-            "name" => sortDescending ? query.OrderByDescending(c => c.Name) : query.OrderBy(c => c.Name),
+            "name" => sortDescending ? query.OrderByDescending(c => c.Name, StringComparer.Ordinal) : query.OrderBy(c => c.Name, StringComparer.Ordinal),
             "createdat" => sortDescending ? query.OrderByDescending(c => c.CreatedAt) : query.OrderBy(c => c.CreatedAt),
             "updatedat" => sortDescending ? query.OrderByDescending(c => c.UpdatedAt) : query.OrderBy(c => c.UpdatedAt),
             _ => sortDescending ? query.OrderByDescending(c => c.DisplayOrder) : query.OrderBy(c => c.DisplayOrder)
@@ -127,7 +127,12 @@ public class CategoryRepository : ICategoryRepository
 
     public Task UpdateAsync(Category category)
     {
-        _categories[(category.Id, category.TenantId)] = category;
+        var key = (category.Id, category.TenantId);
+        if (!_categories.ContainsKey(key))
+        {
+            throw new InvalidOperationException($"Category {category.Id} not found for tenant {category.TenantId}");
+        }
+        _categories[key] = category;
         return Task.CompletedTask;
     }
 

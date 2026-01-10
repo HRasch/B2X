@@ -35,7 +35,7 @@ public class CategoryQueryHandler
 
     public async Task<Category?> Handle(GetCategoryByIdQuery query)
     {
-        return await _repository.GetByIdAsync(query.Id, query.TenantId);
+        return await _repository.GetByIdAsync(query.Id, query.TenantId).ConfigureAwait(false);
     }
 
     public async Task<PagedResult<Category>> Handle(GetCategoriesQuery query)
@@ -49,12 +49,12 @@ public class CategoryQueryHandler
             query.PageSize,
             query.SortBy,
             query.SortDescending
-        );
+        ).ConfigureAwait(false);
     }
 
     public async Task<List<CategoryDto>> Handle(GetCategoryHierarchyQuery query)
     {
-        var categories = await _repository.GetHierarchyAsync(query.TenantId, query.RootCategoryId);
+        var categories = await _repository.GetHierarchyAsync(query.TenantId, query.RootCategoryId).ConfigureAwait(false);
         return categories.Select(MapToDto).ToList();
     }
 

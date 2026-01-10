@@ -16,7 +16,7 @@ public class Variant
     public string? Description { get; set; }
 
     // Variant attributes (flexible key-value pairs)
-    public Dictionary<string, string> Attributes { get; set; } = new();
+    public Dictionary<string, string> Attributes { get; set; } = new(StringComparer.Ordinal);
 
     // Pricing (can override product price)
     public decimal? Price { get; set; }
@@ -58,7 +58,7 @@ public class VariantDto
     public string Sku { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public Dictionary<string, string> Attributes { get; set; } = new();
+    public Dictionary<string, string> Attributes { get; set; } = new(StringComparer.Ordinal);
     public decimal? Price { get; set; }
     public decimal? CompareAtPrice { get; set; }
     public int StockQuantity { get; set; }
@@ -85,7 +85,7 @@ public class CreateVariantDto
     public required string Sku { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
-    public Dictionary<string, string> Attributes { get; set; } = new();
+    public Dictionary<string, string> Attributes { get; set; } = new(StringComparer.Ordinal);
     public decimal? Price { get; set; }
     public decimal? CompareAtPrice { get; set; }
     public int StockQuantity { get; set; }
@@ -107,7 +107,7 @@ public class UpdateVariantDto
 {
     public required string Name { get; set; }
     public string? Description { get; set; }
-    public Dictionary<string, string> Attributes { get; set; } = new();
+    public Dictionary<string, string> Attributes { get; set; } = new(StringComparer.Ordinal);
     public decimal? Price { get; set; }
     public decimal? CompareAtPrice { get; set; }
     public int StockQuantity { get; set; }

@@ -75,7 +75,7 @@ public class CategoryCommandHandler
         // Validate parent exists if specified
         if (command.ParentId.HasValue)
         {
-            var parent = await _repository.GetByIdAsync(command.ParentId.Value, command.TenantId);
+            var parent = await _repository.GetByIdAsync(command.ParentId.Value, command.TenantId).ConfigureAwait(false);
             if (parent == null)
             {
                 throw new InvalidOperationException($"Parent category {command.ParentId} not found");
@@ -85,16 +85,16 @@ public class CategoryCommandHandler
         // Prevent circular references
         if (command.ParentId.HasValue)
         {
-            await ValidateNoCircularReference(category.Id, command.ParentId.Value, command.TenantId);
+            await ValidateNoCircularReference(category.Id, command.ParentId.Value, command.TenantId).ConfigureAwait(false);
         }
 
-        await _repository.AddAsync(category);
+        await _repository.AddAsync(category).ConfigureAwait(false);
         return category;
     }
 
     public async Task<Category> Handle(UpdateCategoryCommand command)
     {
-        var category = await _repository.GetByIdAsync(command.Id, command.TenantId);
+        var category = await _repository.GetByIdAsync(command.Id, command.TenantId).ConfigureAwait(false);
         if (category == null)
         {
             throw new InvalidOperationException($"Category {command.Id} not found");
@@ -103,7 +103,7 @@ public class CategoryCommandHandler
         // Validate parent exists if specified
         if (command.ParentId.HasValue)
         {
-            var parent = await _repository.GetByIdAsync(command.ParentId.Value, command.TenantId);
+            var parent = await _repository.GetByIdAsync(command.ParentId.Value, command.TenantId).ConfigureAwait(false);
             if (parent == null)
             {
                 throw new InvalidOperationException($"Parent category {command.ParentId} not found");
@@ -113,7 +113,7 @@ public class CategoryCommandHandler
         // Prevent circular references
         if (command.ParentId.HasValue && command.ParentId.Value != category.ParentId)
         {
-            await ValidateNoCircularReference(command.Id, command.ParentId.Value, command.TenantId);
+            await ValidateNoCircularReference(command.Id, command.ParentId.Value, command.TenantId).ConfigureAwait(false);
         }
 
         category.Name = command.Name;
@@ -129,26 +129,26 @@ public class CategoryCommandHandler
         category.IsVisible = command.IsVisible;
         category.UpdatedAt = DateTime.UtcNow;
 
-        await _repository.UpdateAsync(category);
+        await _repository.UpdateAsync(category).ConfigureAwait(false);
         return category;
     }
 
     public async Task Handle(DeleteCategoryCommand command)
     {
-        var category = await _repository.GetByIdAsync(command.Id, command.TenantId);
+        var category = await _repository.GetByIdAsync(command.Id, command.TenantId).ConfigureAwait(false);
         if (category == null)
         {
             throw new InvalidOperationException($"Category {command.Id} not found");
         }
 
         // Check if category has children
-        var children = await _repository.GetChildrenAsync(command.Id, command.TenantId);
+        var children = await _repository.GetChildrenAsync(command.Id, command.TenantId).ConfigureAwait(false);
         if (children.Any())
         {
             throw new InvalidOperationException($"Cannot delete category {command.Id} because it has child categories");
         }
 
-        await _repository.DeleteAsync(command.Id, command.TenantId);
+        await _repository.DeleteAsync(command.Id, command.TenantId).ConfigureAwait(false);
     }
 
     private async Task ValidateNoCircularReference(Guid categoryId, Guid parentId, Guid tenantId)
@@ -164,7 +164,7 @@ public class CategoryCommandHandler
             }
 
             visited.Add(current);
-            var parent = await _repository.GetByIdAsync(current, tenantId);
+            var parent = await _repository.GetByIdAsync(current, tenantId).ConfigureAwait(false);
             current = parent?.ParentId ?? Guid.Empty;
         }
     }

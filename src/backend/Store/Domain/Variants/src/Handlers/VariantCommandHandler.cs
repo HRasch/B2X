@@ -14,7 +14,7 @@ public record UpdateVariantStockCommand(Guid Id, int NewStockQuantity);
 /// <summary>
 /// Command handler for variant operations
 /// </summary>
-public class VariantCommandHandler
+public static class VariantCommandHandler
 {
     // Create Variant
     public static async Task<Variant> Handle(CreateVariantCommand command, CancellationToken cancellationToken)
