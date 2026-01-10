@@ -1233,3 +1233,20 @@ database-mcp/analyze_queries workspacePath="backend/Domain/Search"
 - **Next Steps**: Monitor startup progress, investigate connection issues
 - **Escalation if needed**: If services don't start within 5 minutes, request @DevOps assistance for diagnostics
 - **Resolution**: All issues resolved. Services are now healthy.
+
+---
+
+# ShoppingCart ERP Submission Task Status
+
+## Active Tasks
+- **ShoppingCart ERP Submission**: Phase 1 (Design) - ADR creation and prototyping
+  - Owner: @SARAH (coordination)
+  - Status: Initiated
+  - Next: @Architect for ADR, @Backend for prototype
+
+## Completed Tasks
+- Brainstorm: Hybrid ShoppingCart submission approach
+
+## Notes
+- Following phased rollout plan
+- Tracking in .ai/issues/shopping-cart-submission/

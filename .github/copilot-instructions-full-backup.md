@@ -250,7 +250,7 @@ Copilot wendet automatisch zusätzliche Instructions an basierend auf dem Dateip
 - **Decisions**: `.ai/decisions/` (ADRs, architectural decisions) → **Managed by @Architect**
 - **Logs**: `.ai/logs/` (execution logs, test reports) → **Managed by responsible agent**
 - **Sprint**: `.ai/sprint/` (sprint planning, tracking) → **Managed by @ScrumMaster**
-- **Issues**: `.ai/issues/` (issue-specific collaboration) → **Managed by issue owner**
+- **Issues**: GitHub Issues (project management) → **Managed by issue owner**
 - **Handovers**: `.ai/handovers/` (feature documentation) → **Managed by @ProductOwner**
 - **Compliance**: `.ai/compliance/` (compliance tracking, audits) → **Managed by @Security, @Legal**
 - **Collaboration**: `.ai/collaboration/` (coordination framework) → **Managed by @SARAH**
@@ -444,6 +444,6 @@ Bei Fragen zu Prozessen, Zuständigkeiten oder Konflikten → `@SARAH`
  - A clear mapping exists between the triggering prompt (or PR/issue) and the resulting file changes (list of files, commit SHA, and PR if applicable).
  - Commits are clean and targeted (only touch files relevant to the change) and include a concise commit message.
  - Detailed documentation, rationale, and migration notes belong in the PR description (not in commit messages). The PR description should link to the originating prompt or request and to any KB/`.ai/` artifacts.
- - The mapping and a short rationale are recorded in the related issue/PR or in `.ai/logs/operations/` or `.ai/issues/{id}/progress.md` for traceability.
+ - The mapping and a short rationale are recorded in the related issue/PR or in `.ai/logs/operations/` or GitHub Issue comments for traceability.
 
 This accountability helps auditing, reviewing, and rolling back changes when necessary.
