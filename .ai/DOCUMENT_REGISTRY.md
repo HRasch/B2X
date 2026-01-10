@@ -134,6 +134,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-029` | CSS Functions | `.ai/knowledgebase/css-functions.md` | Active |
 | `KB-030` | SVG and CSS Animations | `.ai/knowledgebase/svg-css-animations.md` | Active |
 | `KB-031` | Shouldly Assertion Framework | `.ai/knowledgebase/tools-and-tech/shouldly.md` | Active |
+| `KB-092` | Microsoft.Extensions.Http.Resilience | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Http.Resilience.md` | Active |
 | `KB-052` | Roslyn MCP Server | `.ai/knowledgebase/tools-and-tech/roslyn-mcp.md` | Active |
 | `KB-053` | TypeScript MCP Integration | `.ai/knowledgebase/tools-and-tech/typescript-mcp-integration.md` | Active |
 | `KB-054` | GitHub Copilot Agent Skills | `.ai/knowledgebase/tools-and-tech/github-copilot-agent-skills.md` | Active |
@@ -157,6 +158,24 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-067` | VS Code Agent Sessions & Subagents | `.ai/knowledgebase/tools-and-tech/vscode-agent-sessions.md` | Active |
 | `KB-068` | Vue to Nuxt Migration Guide | `.ai/knowledgebase/tools-and-tech/vue-to-nuxt-migration.md` | Active |
 | `KB-069` | Realtime Debugging Patterns | `.ai/knowledgebase/tools-and-tech/realtime-debugging-patterns.md` | Active |
+| `KB-070` | Aspire .NET 10 Compatibility | `.ai/knowledgebase/tools-and-tech/aspire-net10-compatibility.md` | Active |
+| `KB-097` | Polly Resilience Framework | `.ai/knowledgebase/dependency-updates/Polly.md` | Active |
+| `KB-098` | Microsoft.Extensions Libraries Ecosystem | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.md` | Active |
+| `KB-099` | Microsoft.Extensions.Caching | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Caching.md` | Active |
+| `KB-100` | Microsoft.Extensions.Diagnostics | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Diagnostics.md` | Active |
+| `KB-101` | Microsoft.Extensions.Configuration | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Configuration.md` | Active |
+| `KB-102` | Microsoft.Extensions.Logging | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Logging.md` | Active |
+| `KB-103` | Microsoft.Extensions.Options | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Options.md` | Active |
+| `KB-104` | Microsoft.Extensions.Localization | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Localization.md` | Active |
+| `KB-105` | Microsoft.Extensions.Hosting | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Hosting.md` | Active |
+| `KB-106` | Microsoft.Extensions.DependencyInjection | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.DependencyInjection.md` | Active |
+| `KB-107` | Microsoft.Extensions.Telemetry | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Telemetry.md` | Active |
+| `KB-108` | Microsoft.Extensions.Compliance | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Compliance.md` | Active |
+| `KB-109` | Microsoft.Extensions.Caching.Hybrid | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Caching.Hybrid.md` | Active |
+| `KB-110` | Microsoft.Extensions.Http | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Http.md` | Active |
+| `KB-111` | Microsoft.Extensions.ServiceDiscovery | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.ServiceDiscovery.md` | Active |
+| `KB-112` | Microsoft.Extensions.FileProviders | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.FileProviders.md` | Active |
+| `KB-113` | Microsoft.Extensions.Primitives | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Primitives.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
