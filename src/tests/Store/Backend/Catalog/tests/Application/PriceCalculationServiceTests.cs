@@ -16,7 +16,7 @@ public class PriceCalculationServiceTests : IAsyncLifetime
     private PriceCalculationService _service = null!;
     private CalculatePriceValidator _validator = null!;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _validator = new CalculatePriceValidator();
 
@@ -33,7 +33,7 @@ public class PriceCalculationServiceTests : IAsyncLifetime
         await Task.CompletedTask.ConfigureAwait(false);
     }
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     [Fact]
     public async Task CalculatePrice_Germany_Applies19PercentVat()

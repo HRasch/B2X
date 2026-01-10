@@ -16,6 +16,7 @@
     <Compile Remove="tests/**" />
     <Compile Remove="tests\**" />
     <Compile Remove="**/tests/**" />
+    <Compile Remove="src\Services\AuthService.cs" />
     <None Remove="tests/**" />
     <None Remove="tests\**" />
     <Content Remove="tests/**" />
@@ -47,6 +48,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Polly.Extensions.Http" />
     <PackageReference Include="SerilogAnalyzer">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -54,6 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="B2X.Identity.csproj" />
     <ProjectReference Include="../../Domain/B2X.Types/B2X.Types.csproj" />
 
     <ProjectReference Include="../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />

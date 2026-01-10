@@ -446,7 +446,7 @@ npm run e2e -- --headed --debug
 npx playwright show-report
 
 # Coverage report
-open test-results/coverage/index.html
+open reports/test-results/coverage-report/index.html
 ```
 
 ## Best Practices

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../Domain/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../Domain/Search/B2X.Domain.Search.csproj" />
 
   </ItemGroup>
 

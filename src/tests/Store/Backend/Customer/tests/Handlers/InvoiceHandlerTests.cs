@@ -47,7 +47,7 @@ public class InvoiceHandlerTests : IAsyncLifetime
         _orderId = Guid.NewGuid();
     }
 
-    public Task InitializeAsync()
+    public ValueTask InitializeAsync()
     {
         // Setup default validator mocks to return success
         var successResult = new FluentValidation.Results.ValidationResult();
@@ -60,9 +60,9 @@ public class InvoiceHandlerTests : IAsyncLifetime
             .Setup(v => v.ValidateAsync(It.IsAny<ModifyInvoiceCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(successResult);
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     // ===== GENERATE INVOICE ENDPOINT TESTS =====
 

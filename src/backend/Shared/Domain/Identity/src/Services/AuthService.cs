@@ -5,10 +5,12 @@ using B2X.Types;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Wolverine;
 
-namespace B2X.AuthService.Data;
+namespace B2X.Identity.Data;
 
 // Identity User & Role
 public enum AccountType

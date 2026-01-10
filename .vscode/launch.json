@@ -1,7 +1,14 @@
 {
+  // ============================================================================
+  // IMPORTANT: Use F5 (Debug) or Ctrl+F5 (Run) instead of terminal-based
+  // 'dotnet run' to avoid file lock errors (CS2012). VS Code coordinates
+  // builds and service restarts automatically.
+  // See: dotnet/aspire#4981, lessons.md "Aspire Runtime File Locks"
+  // ============================================================================
   "version": "0.2.0",
   "configurations": [
     {
+      // RECOMMENDED: Primary development configuration - prevents file locks
       "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
@@ -31,9 +38,11 @@
         "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
         "Azure__KeyVault__UseMocked": "true"
       },
-      "console": "externalTerminal"
+      // Use integratedTerminal for better VS Code coordination (prevents file locks)
+      "console": "integratedTerminal"
     },
     {
+      // PostgreSQL mode - use when testing with real database
       "name": "🚀 Full Stack (PostgreSQL)",
       "type": "coreclr",
       "request": "launch",
@@ -63,7 +72,8 @@
         "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
         "Azure__KeyVault__UseMocked": "true"
       },
-      "console": "externalTerminal"
+      // Use integratedTerminal for better VS Code coordination (prevents file locks)
+      "console": "integratedTerminal"
     },
     {
       "name": "📱 Frontend Store (Dev)",

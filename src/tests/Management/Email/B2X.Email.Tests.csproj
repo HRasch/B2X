@@ -8,23 +8,20 @@
     <RootNamespace>B2X.Email.Tests</RootNamespace>
     <AssemblyName>B2X.Email.Tests</AssemblyName>
     <IsTestProject>true</IsTestProject>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Moq" />
+<PackageReference Include="xunit.v3.mtp-v2" />
+<PackageReference Include="Moq" />
     <PackageReference Include="Shouldly" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
-    <PackageReference Include="coverlet.collector" />
-  </ItemGroup>
+</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Domain/B2X.Email.csproj" />
+    <ProjectReference Include="../../../../src/backend/Management/Domain/B2X.Email.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,47 @@
 ---
 docid: STATUS-010
-title: Elasticsearch + MCP Dev Integration
+title: Aspire Service Defaults Fix & Documentation
 owner: @DevOps / @Backend
 status: Active
 created: 2026-01-08
 ---
 
-# 🚀 ELASTICSEARCH + MCP INTEGRATION FOR DEV
+# 🔧 ASPIRE SERVICE DEFAULTS FIX
+
+**Status**: ✅ **COMPLETED - DOCUMENTED**  
+**Owner**: @DevOps / @SARAH  
+**Date**: January 10, 2026  
+
+## 🎯 Session Summary
+
+### Issues Fixed
+1. **Rate Limiter Registration Missing**: Fixed `IHostApplicationBuilder.AddServiceDefaults()` to include `AddRateLimiter()` and `AddHealthChecks()`
+2. **Services Crashing**: categories-service, variants-service, monitoring-service, mcp-server all fixed (exit code -532462766 → Running)
+3. **File Lock Conflicts**: Documented solution for MSB3026/MSB3027 build errors
+
+### Documentation Updated
+- ✅ `.ai/knowledgebase/lessons.md` - Added new lessons (Rate Limiter, File Locks)
+- ✅ `src/docs/aspire-orchestration-specs.md` - Added ServiceDefaults overloads warning
+- ✅ `src/docs/aspire-orchestration-specs.md` - Added troubleshooting entries
+
+### Key Files Changed
+- `src/backend/Infrastructure/Hosting/ServiceDefaults/Extensions.cs` - Fixed `AddServiceDefaults()` overload
+
+### Service Status After Fix
+| Service | Status |
+|---------|--------|
+| categories-service | ✅ Running |
+| variants-service | ✅ Running |
+| monitoring-service | ✅ Running |
+| mcp-server | ✅ Running |
+| store-gateway | ✅ Running |
+| 9 services | ⏳ Waiting (Elasticsearch healthy) |
+
+**Coordination**: @SARAH - Documentation complete. Ready for development.
+
+---
+
+# 🚀 PREVIOUS: ELASTICSEARCH + MCP INTEGRATION FOR DEV
 
 **Status**: ✅ **DIAGNOSTICS COMPLETED - ALL SERVICES HEALTHY**  
 **Owner**: @DevOps (diagnostics)  

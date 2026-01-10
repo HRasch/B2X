@@ -34,8 +34,26 @@ public class CatalogProduct
     public string ProductData { get; set; } = string.Empty; // JSON representation of product
     public DateTime CreatedAt { get; set; }
 
+    // Error tracking for individual product imports
+    public ProductImportStatus Status { get; set; } = ProductImportStatus.Pending;
+    public string? ErrorMessage { get; set; }
+    public string? ErrorDetails { get; set; }
+    public DateTime? ProcessedAt { get; set; }
+
     // Navigation property
     public CatalogImport CatalogImport { get; set; } = null!;
+}
+
+/// <summary>
+/// Status of individual product import
+/// </summary>
+public enum ProductImportStatus
+{
+    Pending = 0,
+    Processing = 1,
+    Completed = 2,
+    Failed = 3,
+    Skipped = 4
 }
 
 /// <summary>

@@ -16,7 +16,7 @@ public class EmailTemplateServiceTests : IAsyncLifetime
     private Mock<ILogger<EmailTemplateService>> _loggerMock = null!;
     private readonly Guid _tenantId = Guid.NewGuid();
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var options = new DbContextOptionsBuilder<EmailDbContext>()
             .UseInMemoryDatabase(databaseName: $"EmailTemplateTestDb_{Guid.NewGuid()}")
@@ -29,7 +29,7 @@ public class EmailTemplateServiceTests : IAsyncLifetime
         await _dbContext.Database.EnsureCreatedAsync();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await _dbContext.Database.EnsureDeletedAsync();
         await _dbContext.DisposeAsync();

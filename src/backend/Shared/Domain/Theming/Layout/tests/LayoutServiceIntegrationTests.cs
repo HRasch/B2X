@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 using Moq;
 using Microsoft.EntityFrameworkCore;
 using B2X.LayoutService.Data;
@@ -27,13 +27,13 @@ public class LayoutServiceIntegrationTests : IAsyncLifetime
     }
 
     // IAsyncLifetime für async Setup/Teardown
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         // Ensure database is created
         await _dbContext.Database.EnsureCreatedAsync();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         // Cleanup
         await _dbContext.Database.EnsureDeletedAsync();

@@ -31,8 +31,8 @@ export interface DebugAction {
   element?: string;
   selector?: string;
   url?: string;
-  data?: any;
-  metadata?: Record<string, any>;
+  data?: unknown;
+  metadata?: Record<string, unknown>;
 }
 
 export interface DebugError {
@@ -46,7 +46,7 @@ export interface DebugError {
   line?: number;
   column?: number;
   userAgent: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface DebugFeedback {
@@ -61,7 +61,7 @@ export interface DebugFeedback {
   screenshot?: string;
   userAgent: string;
   url: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface DebugSettings {

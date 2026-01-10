@@ -37,10 +37,22 @@ public class CatalogImportResult
     public Guid ImportId { get; set; }
     public List<string> ValidationErrors { get; set; } = new();
     public List<CatalogProduct> Products { get; set; } = new();
+    public List<ProductImportError> ProductErrors { get; set; } = new();
     public string? SupplierId { get; set; }
     public string? CatalogId { get; set; }
     public string? Version { get; set; }
     public string? Description { get; set; }
+}
+
+/// <summary>
+/// Represents an error that occurred during individual product import
+/// </summary>
+public class ProductImportError
+{
+    public string SupplierAid { get; set; } = string.Empty;
+    public string ErrorMessage { get; set; } = string.Empty;
+    public string? ErrorDetails { get; set; }
+    public DateTime OccurredAt { get; set; } = DateTime.UtcNow;
 }
 /// <summary>
 /// Metadata for catalog identification and processing

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -23,8 +23,8 @@ public class ProductCatalogIntegrationTests : IAsyncLifetime
         _fixture = new IntegrationTestFixture();
     }
 
-    public async Task InitializeAsync() => await _fixture.InitializeAsync();
-    public async Task DisposeAsync() => await _fixture.DisposeAsync();
+    public async ValueTask InitializeAsync() => await _fixture.InitializeAsync();
+    public async ValueTask DisposeAsync() => await _fixture.DisposeAsync();
 
     #region Get Product Endpoint Tests
 
@@ -494,7 +494,7 @@ public class IntegrationTestFixture : IAsyncLifetime
     protected WebApplicationFactory<Program> Factory { get; private set; }
     protected HttpClient Client { get; private set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Factory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(builder =>
@@ -511,7 +511,7 @@ public class IntegrationTestFixture : IAsyncLifetime
         await Task.Delay(100);
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         Client?.Dispose();
         Factory?.Dispose();

@@ -1,219 +1,218 @@
-&lt;template&gt;
-  &lt;div class="catalog-import"&gt;
-    &lt;PageHeader :title="$t('catalog.import.title')" :subtitle="$t('catalog.import.subtitle')"&gt;
-      &lt;template #actions&gt;
-        &lt;router-link to="/catalog" class="btn btn-secondary"&gt;
-          &lt;span class="icon"&gt;←&lt;/span&gt; {{ $t('common.back') }}
-        &lt;/router-link&gt;
-      &lt;/template&gt;
-    &lt;/PageHeader&gt;
+<template>
+  <div class="catalog-import">
+    <PageHeader :title="$t('catalog.import.title')" :subtitle="$t('catalog.import.subtitle')">
+      <template #actions>
+        <router-link to="/catalog" class="btn btn-secondary">
+          <span class="icon">←</span> {{ $t('common.back') }}
+        </router-link>
+      </template>
+    </PageHeader>
 
-    &lt;CardContainer&gt;
-      &lt;!-- Import Form --&gt;
-      &lt;div class="import-form"&gt;
-        &lt;h3&gt;{{ $t('catalog.import.upload.title') }}&lt;/h3&gt;
-        &lt;p&gt;{{ $t('catalog.import.upload.description') }}&lt;/p&gt;
+    <CardContainer>
+      <!-- Import Form -->
+      <div class="import-form">
+        <h3>{{ $t('catalog.import.upload.title') }}</h3>
+        <p>{{ $t('catalog.import.upload.description') }}</p>
 
-        &lt;form @submit.prevent="handleImport" enctype="multipart/form-data"&gt;
-          &lt;div class="form-group"&gt;
-            &lt;label for="file"&gt;{{ $t('catalog.import.file.label') }} *&lt;/label&gt;
-            &lt;input
+        <form @submit.prevent="handleImport" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="file">{{ $t('catalog.import.file.label') }} *</label>
+            <input
               id="file"
               type="file"
               @change="handleFileChange"
               accept=".xml,.csv,.xlsx,.xls"
               required
               class="file-input"
-            /&gt;
-            &lt;small class="help-text"&gt;{{ $t('catalog.import.file.help') }}&lt;/small&gt;
-          &lt;/div&gt;
+            />
+            <small class="help-text">{{ $t('catalog.import.file.help') }}</small>
+          </div>
 
-          &lt;div class="form-group"&gt;
-            &lt;label for="format"&gt;{{ $t('catalog.import.format.label') }}&lt;/label&gt;
-            &lt;select id="format" v-model="importData.format" class="select"&gt;
-              &lt;option value=""&gt;{{ $t('catalog.import.format.auto') }}&lt;/option&gt;
-              &lt;option value="bmecat"&gt;BMEcat XML&lt;/option&gt;
-              &lt;option value="icecat"&gt;icecat XML&lt;/option&gt;
-              &lt;option value="csv"&gt;CSV&lt;/option&gt;
-            &lt;/select&gt;
-            &lt;small class="help-text"&gt;{{ $t('catalog.import.format.help') }}&lt;/small&gt;
-          &lt;/div&gt;
+          <div class="form-group">
+            <label for="format">{{ $t('catalog.import.format.label') }}</label>
+            <select id="format" v-model="importData.format" class="select">
+              <option value="">{{ $t('catalog.import.format.auto') }}</option>
+              <option value="bmecat">BMEcat XML</option>
+              <option value="icecat">icecat XML</option>
+              <option value="csv">CSV</option>
+            </select>
+            <small class="help-text">{{ $t('catalog.import.format.help') }}</small>
+          </div>
 
-          &lt;div class="form-group"&gt;
-            &lt;label for="schema"&gt;{{ $t('catalog.import.schema.label') }}&lt;/label&gt;
-            &lt;input
+          <div class="form-group">
+            <label for="schema">{{ $t('catalog.import.schema.label') }}</label>
+            <input
               id="schema"
               type="text"
               v-model="importData.customSchemaPath"
               placeholder="Optional custom XSD schema path"
               class="text-input"
-            /&gt;
-            &lt;small class="help-text"&gt;{{ $t('catalog.import.schema.help') }}&lt;/small&gt;
-          &lt;/div&gt;
+            />
+            <small class="help-text">{{ $t('catalog.import.schema.help') }}</small>
+          </div>
 
-          &lt;div class="form-actions"&gt;
-            &lt;button type="submit" :disabled="loading || !selectedFile" class="btn btn-primary"&gt;
-              &lt;span v-if="loading" class="spinner"&gt;&lt;/span&gt;
+          <div class="form-actions">
+            <button type="submit" :disabled="loading || !selectedFile" class="btn btn-primary">
+              <span v-if="loading" class="spinner"></span>
               {{ loading ? $t('catalog.import.uploading') : $t('catalog.import.upload') }}
-            &lt;/button&gt;
-          &lt;/div&gt;
-        &lt;/form&gt;
-      &lt;/div&gt;
+            </button>
+          </div>
+        </form>
+      </div>
 
-      &lt;!-- Alert Messages --&gt;
-      &lt;div v-if="error" class="alert alert-error"&gt;
+      <!-- Alert Messages -->
+      <div v-if="error" class="alert alert-error">
         {{ error }}
-        &lt;button @click="clearError" class="close"&gt;×&lt;/button&gt;
-      &lt;/div&gt;
-      &lt;div v-if="successMessage" class="alert alert-success"&gt;
+        <button @click="clearError" class="close">×</button>
+      </div>
+      <div v-if="successMessage" class="alert alert-success">
         {{ successMessage }}
-        &lt;button @click="clearSuccess" class="close"&gt;×&lt;/button&gt;
-      &lt;/div&gt;
+        <button @click="clearSuccess" class="close">×</button>
+      </div>
 
-      &lt;!-- Import History --&gt;
-      &lt;div v-if="imports.length &gt; 0" class="import-history"&gt;
-        &lt;h3&gt;{{ $t('catalog.import.history.title') }}&lt;/h3&gt;
-        &lt;div class="history-list"&gt;
-          &lt;div v-for="importItem in imports" :key="importItem.importId" class="history-item"&gt;
-            &lt;div class="history-header"&gt;
-              &lt;strong&gt;{{ importItem.supplierId }} - {{ importItem.catalogId }}&lt;/strong&gt;
-              &lt;span :class="'status status-' + importItem.status.toLowerCase()"&gt;
+      <!-- Import History -->
+      <div v-if="imports.length > 0" class="import-history">
+        <h3>{{ $t('catalog.import.history.title') }}</h3>
+        <div class="history-list">
+          <div v-for="importItem in imports" :key="importItem.importId" class="history-item">
+            <div class="history-header">
+              <strong>{{ importItem.supplierId }} - {{ importItem.catalogId }}</strong>
+              <span :class="'status status-' + importItem.status.toLowerCase()">
                 {{ importItem.status }}
-              &lt;/span&gt;
-            &lt;/div&gt;
-            &lt;div class="history-details"&gt;
-              &lt;p&gt;{{ importItem.productCount }} {{ $t('catalog.import.products') }}&lt;/p&gt;
-              &lt;p&gt;{{ formatDate(importItem.importTimestamp) }}&lt;/p&gt;
-              &lt;p v-if="importItem.message"&gt;{{ importItem.message }}&lt;/p&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/CardContainer&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+              </span>
+            </div>
+            <div class="history-details">
+              <p>{{ importItem.productCount }} {{ $t('catalog.import.products') }}</p>
+              <p>{{ formatDate(importItem.importTimestamp) }}</p>
+              <p v-if="importItem.message">{{ importItem.message }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </CardContainer>
+  </div>
+</template>
 
-&lt;script setup lang="ts"&gt;
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import PageHeader from '@/components/common/PageHeader.vue'
-import CardContainer from '@/components/common/CardContainer.vue'
-import { catalogApi } from '@/services/catalogApi'
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import PageHeader from '@/components/common/PageHeader.vue';
+import CardContainer from '@/components/common/CardContainer.vue';
+import { catalogApi } from '@/services/catalogApi';
 
 interface ImportData {
-  file: File | null
-  format: string
-  customSchemaPath: string
+  file: File | null;
+  format: string;
+  customSchemaPath: string;
 }
 
 interface ImportResponse {
-  importId: string
-  status: string
-  supplierId: string
-  catalogId: string
-  productCount: number
-  importTimestamp: string
-  message: string
+  importId: string;
+  status: string;
+  supplierId: string;
+  catalogId: string;
+  productCount: number;
+  importTimestamp: string;
+  message: string;
 }
 
 interface ImportHistory {
-  importId: string
-  status: string
-  supplierId: string
-  catalogId: string
-  productCount: number
-  importTimestamp: string
-  message: string
+  importId: string;
+  status: string;
+  supplierId: string;
+  catalogId: string;
+  productCount: number;
+  importTimestamp: string;
+  message: string;
 }
 
-const router = useRouter()
-const selectedFile = ref&lt;File | null&gt;(null)
-const importData = ref&lt;ImportData&gt;({
+const router = useRouter();
+const selectedFile = ref<File | null>(null);
+const importData = ref<ImportData>({
   file: null,
   format: '',
-  customSchemaPath: ''
-})
-const loading = ref(false)
-const error = ref('')
-const successMessage = ref('')
-const imports = ref&lt;ImportHistory[]&gt;([])
+  customSchemaPath: '',
+});
+const loading = ref(false);
+const error = ref('');
+const successMessage = ref('');
+const imports = ref<ImportHistory[]>([]);
 
-const handleFileChange = (event: Event) =&gt; {
-  const target = event.target as HTMLInputElement
-  const file = target.files?.[0]
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
   if (file) {
-    selectedFile.value = file
-    importData.value.file = file
+    selectedFile.value = file;
+    importData.value.file = file;
   }
-}
+};
 
-const handleImport = async () =&gt; {
-  if (!selectedFile.value) return
+const handleImport = async () => {
+  if (!selectedFile.value) return;
 
-  loading.value = true
-  error.value = ''
-  successMessage.value = ''
+  loading.value = true;
+  error.value = '';
+  successMessage.value = '';
 
   try {
-    const formData = new FormData()
-    formData.append('file', selectedFile.value)
+    const formData = new FormData();
+    formData.append('file', selectedFile.value);
     if (importData.value.format) {
-      formData.append('format', importData.value.format)
+      formData.append('format', importData.value.format);
     }
     if (importData.value.customSchemaPath) {
-      formData.append('customSchemaPath', importData.value.customSchemaPath)
+      formData.append('customSchemaPath', importData.value.customSchemaPath);
     }
 
-    const response = await catalogApi.importCatalog(formData)
-    const result: ImportResponse = response.data
+    const response = await catalogApi.importCatalog(formData);
+    const result: ImportResponse = response.data;
 
-    successMessage.value = result.message
-    loadImportHistory() // Refresh history
+    successMessage.value = result.message;
+    loadImportHistory(); // Refresh history
 
     // Reset form
-    selectedFile.value = null
+    selectedFile.value = null;
     importData.value = {
       file: null,
       format: '',
-      customSchemaPath: ''
-    }
-    const fileInput = document.getElementById('file') as HTMLInputElement
-    if (fileInput) fileInput.value = ''
-
+      customSchemaPath: '',
+    };
+    const fileInput = document.getElementById('file') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   } catch (err: any) {
-    error.value = err.response?.data?.message || err.message || 'Import failed'
+    error.value = err.response?.data?.message || err.message || 'Import failed';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
-const loadImportHistory = async () =&gt; {
+const loadImportHistory = async () => {
   try {
-    const response = await catalogApi.getImportHistory()
-    imports.value = response.data
+    const response = await catalogApi.getImportHistory();
+    imports.value = response.data.items;
   } catch (err) {
-    console.error('Failed to load import history:', err)
+    console.error('Failed to load import history:', err);
   }
-}
+};
 
-const formatDate = (dateString: string) =&gt; {
-  return new Date(dateString).toLocaleString()
-}
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleString();
+};
 
-const clearError = () =&gt; {
-  error.value = ''
-}
+const clearError = () => {
+  error.value = '';
+};
 
-const clearSuccess = () =&gt; {
-  successMessage.value = ''
-}
+const clearSuccess = () => {
+  successMessage.value = '';
+};
 
-onMounted(() =&gt; {
-  loadImportHistory()
-})
-&lt;/script&gt;
+onMounted(() => {
+  loadImportHistory();
+});
+</script>
 
-&lt;style scoped&gt;
+<style scoped>
 .catalog-import {
   padding: 1rem;
 }
@@ -252,6 +251,7 @@ onMounted(() =&gt; {
   border-radius: 0.375rem;
   background: var(--bg-primary);
   color: var(--text-primary);
+  font-size: 0.875rem;
 }
 
 .file-input:focus,
@@ -259,13 +259,13 @@ onMounted(() =&gt; {
 .select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+  box-shadow: 0 0 0 2px var(--primary-color-light);
 }
 
 .help-text {
   display: block;
   margin-top: 0.25rem;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
 }
 
@@ -280,14 +280,10 @@ onMounted(() =&gt; {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 0.375rem;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .btn-primary {
@@ -296,7 +292,12 @@ onMounted(() =&gt; {
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--primary-hover);
+  background: var(--primary-color-dark);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .btn-secondary {
@@ -309,26 +310,13 @@ onMounted(() =&gt; {
   background: var(--bg-hover);
 }
 
-.spinner {
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 .alert {
   padding: 1rem;
   border-radius: 0.375rem;
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .alert-error {
@@ -346,7 +334,7 @@ onMounted(() =&gt; {
 .close {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
   color: inherit;
   opacity: 0.7;
@@ -382,14 +370,19 @@ onMounted(() =&gt; {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.history-header strong {
+  color: var(--text-primary);
 }
 
 .status {
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
   font-weight: 500;
+  text-transform: uppercase;
 }
 
 .status-completed {
@@ -417,5 +410,4 @@ onMounted(() =&gt; {
   font-size: 0.875rem;
   color: var(--text-secondary);
 }
-&lt;/style&gt;</content>
-<parameter name="filePath">c:\Users\Holge\repos\B2Connect\src\Admin\Frontend\src\views\catalog\CatalogImport.vue
+</style>

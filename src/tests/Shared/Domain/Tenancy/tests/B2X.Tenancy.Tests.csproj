@@ -8,28 +8,23 @@
     <RootNamespace>B2X.Tenancy.Tests</RootNamespace>
     <AssemblyName>B2X.Tenancy.Tests</AssemblyName>
     <IsTestProject>true</IsTestProject>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Moq" />
+<PackageReference Include="xunit.v3.mtp-v2" />
+<PackageReference Include="Moq" />
     <PackageReference Include="Shouldly" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../src/backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
+    <ProjectReference Include="../../../../../backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
 
-    <ProjectReference Include="../../../../../src/shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../../../backend/Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
   </ItemGroup>
 
 </Project>
-
-
-
 

@@ -20,6 +20,11 @@
     <None Remove="tests\**" />
     <Content Remove="tests/**" />
     <Content Remove="tests\**" />
+    <!-- Exclude CMS-specific files -->
+    <Compile Remove="Program.cs" />
+    <Compile Remove="Application/**/*.cs" />
+    <Compile Remove="Core/**/*.cs" />
+    <Compile Remove="Handlers/**/*.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +53,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../shared/B2X.Shared.Messaging/B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
 
   </ItemGroup>
 

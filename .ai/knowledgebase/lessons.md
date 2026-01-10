@@ -14,6 +14,246 @@ created: 2026-01-08
 
 ---
 
+## Session: 10. Januar 2026 - Aspire 13.x + .NET 10 Assembly Loading Incompatibility
+
+### Aspire.Hosting Package Framework Mismatch with .NET 10
+
+**Issue**: AppHost failed to start with `System.IO.FileNotFoundException: Could not load file or assembly 'Aspire.Hosting, Version=13.1.0.0'` despite successful build and package restore.
+
+**Root Cause**: **Framework target mismatch** between Aspire packages:
+- `Aspire.Hosting.AppHost` SDK (13.1.0) - supports `net10.0` ✅
+- `Aspire.Hosting` runtime library (13.1.0) - only provides `net8.0` assemblies ❌
+
+The `AssetTargetFallback` MSBuild property allowed NuGet *restore* to succeed, but .NET runtime **cannot load net8.0 assemblies** into a net10.0 application without explicit configuration.
+
+**GitHub Issue**: [dotnet/aspire#13611](https://github.com/dotnet/aspire/issues/13611) - Confirmed known issue, fix scheduled for **Aspire 13.2**
+
+**Lesson**: When using preview/edge .NET versions (e.g., .NET 10), verify that **ALL transitive dependencies** ship assemblies for that target framework. MSBuild restore success does NOT guarantee runtime compatibility.
+
+**Solution**: Add `CopyLocalLockFileAssemblies` to force all NuGet dependencies (including net8.0 fallback assemblies) to be copied to the output directory:
+
+```xml
+<!-- B2X.AppHost.csproj -->
+<PropertyGroup>
+  <TargetFramework>net10.0</TargetFramework>
+  <!-- Force copy all dependencies including net8.0 fallback assemblies -->
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  <!-- Allow net8.0 packages as fallback during restore -->
+  <AssetTargetFallback>$(AssetTargetFallback);net8.0</AssetTargetFallback>
+</PropertyGroup>
+```
+
+**Key Insights**:
+- **Build Success ≠ Runtime Success**: NuGet restore and MSBuild can succeed while runtime assembly loading fails
+- **deps.json References**: Check `*.deps.json` for actual assembly paths - if it references `lib/net8.0/` for a net10.0 app, expect runtime issues
+- **CopyLocalLockFileAssemblies**: Forces ALL transitive dependencies to output directory, enabling runtime to find fallback assemblies
+- **AssetTargetFallback**: Only affects NuGet restore, NOT runtime assembly probing
+
+**Diagnostic Commands**:
+```powershell
+# Check what framework a NuGet package targets
+Get-ChildItem "$env:USERPROFILE\.nuget\packages\aspire.hosting\13.1.0\lib" | Select-Object Name
+
+# Check if assemblies exist in output
+Get-ChildItem "bin/Debug/net10.0/" -Filter "Aspire*.dll"
+
+# Verify deps.json assembly paths
+Select-String -Path "bin/Debug/net10.0/*.deps.json" -Pattern "Aspire.Hosting"
+```
+
+**Files Modified**:
+- `src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj` - Added `CopyLocalLockFileAssemblies` and `AssetTargetFallback`
+
+**Prevention Measures**:
+1. **Framework Audit**: Before upgrading to preview .NET versions, verify all critical packages have matching TFM support
+2. **Output Directory Check**: After build, verify key assemblies exist in output directory
+3. **Integration Tests**: AppHost.Tests should start the actual host to catch runtime loading issues
+4. **deps.json Validation**: Add CI check that deps.json doesn't reference incompatible framework folders
+5. **Daily Feed Monitoring**: For edge cases, monitor `aspire-daily` NuGet feed for preview fixes
+
+**Related Issues**:
+- GitHub PR [#12500](https://github.com/dotnet/aspire/pull/12500): "Target net10.0 in client integrations" - Added net10.0 to *client* packages, but NOT hosting packages
+- Aspire 13.2 expected to include full net10.0 hosting support
+
+---
+
+## Session: 10. Januar 2026 - Aspire Service Defaults Inconsistency & Parallel Build File Locks
+
+### Rate Limiter Registration Missing from IHostApplicationBuilder Overload
+
+**Issue**: Multiple Aspire services (categories-service, variants-service, monitoring-service, mcp-server) crashed at startup with exit code -532462766 (CLR exception) and error: `System.InvalidOperationException: Unable to find the required services. Please add all the required services by calling 'IServiceCollection.AddRateLimiter'`
+
+**Root Cause**: The `B2X.ServiceDefaults.Extensions` class had **two different `AddServiceDefaults()` overloads** with inconsistent behavior:
+1. `AddServiceDefaults(this IHostBuilder builder)` - **included** `AddRateLimiter()` registration
+2. `AddServiceDefaults(this IHostApplicationBuilder builder)` - **missing** `AddRateLimiter()` registration
+
+Services using `WebApplication.CreateBuilder()` (which returns `IHostApplicationBuilder`) called the second overload, but then `UseServiceDefaults()` called `app.UseRateLimiter()` which requires the services to be registered.
+
+**Lesson**: When providing multiple extension method overloads for different builder types, ensure **feature parity** between overloads. Missing service registrations cause runtime crashes that are difficult to diagnose.
+
+**Solution**: Added rate limiter and health check registration to the `IHostApplicationBuilder` overload:
+```csharp
+public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
+{
+    builder.Services.AddServiceDiscovery();
+    
+    // Health checks - ADDED
+    builder.Services.AddHealthChecks()
+        .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+
+    // Rate limiting - required by UseServiceDefaults() - ADDED
+    builder.Services.AddRateLimiter(options =>
+    {
+        options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+        options.OnRejected = async (context, token) =>
+        {
+            context.HttpContext.Response.ContentType = "application/json";
+            await context.HttpContext.Response.WriteAsync(
+                "{\"error\":\"Rate limit exceeded.\"}", token);
+        };
+    });
+    
+    builder.AddOpenTelemetry();
+    return builder;
+}
+```
+
+**Key Insights**:
+- **Exit Code -532462766**: This is `0xE0434352` - the CLR exception code indicating an unhandled .NET exception
+- **Exit Code 1**: Generic build/startup failure
+- **Service Dependencies**: `UseRateLimiter()` requires `AddRateLimiter()` - ASP.NET Core throws at runtime, not compile time
+- **Two Overloads Pattern**: `IHostBuilder` (generic host) vs `IHostApplicationBuilder` (WebApplication builder) require parity
+
+**Files Modified**:
+- `src/backend/Infrastructure/Hosting/ServiceDefaults/Extensions.cs` - Lines 285-312
+
+**Prevention Measures**:
+1. **Overload Parity**: When creating multiple extension overloads, copy/maintain identical service registrations
+2. **Runtime Validation**: Add integration tests that start each service type to catch missing registrations
+3. **Documentation**: Comment which services are required by corresponding `Use*` methods
+4. **Code Review**: Require review when modifying ServiceDefaults to check both overloads
+
+---
+
+### Parallel Build File Lock Conflicts in Aspire (CS2012/MSB3026/MSB3027)
+
+**Issue**: Services failed to rebuild with errors:
+- `CS2012: Cannot open 'X.dll' for writing -- The process cannot access the file`
+- `MSB3027: Could not copy "apphost.exe" to "B2X.*.exe". The file is being used by another process.`
+
+**Root Cause**: This is a **known, longstanding MSBuild issue** ([dotnet/sdk#9585](https://github.com/dotnet/sdk/issues/9585) - open since 2018). Race conditions in MSBuild parallel builds occur when:
+1. Multiple projects reference the same shared library
+2. Projects are built with different global properties (TargetFramework, RID)
+3. Aspire orchestrates many services simultaneously, triggering parallel rebuilds
+
+**Lesson**: The fundamental issue is MSBuild's parallel build strategy. The most reliable workaround is **limiting parallel workers** using `-m:2` instead of `-m` (unlimited).
+
+**Implemented Solutions**:
+
+1. **Limited Parallelism** (Primary Fix):
+   - Changed all VS Code build tasks from `-m` to `-m:2`
+   - Balances build speed with stability
+   - This is the approach used by many teams including those at Microsoft
+   
+2. **Pre-Build Check Script** (`scripts/pre-build-check.ps1`):
+   ```powershell
+   # Check for locked files before building
+   .\scripts\pre-build-check.ps1
+   
+   # Auto-clean locked files and kill processes
+   .\scripts\pre-build-check.ps1 -AutoClean
+   ```
+
+3. **Manual Recovery** (when locks occur):
+   ```powershell
+   # Kill all dotnet processes
+   Get-Process dotnet -ErrorAction SilentlyContinue | Stop-Process -Force
+   
+   # Wait for processes to terminate
+   Start-Sleep 3
+   
+   # Clean affected obj folder (if specific file locked)
+   Remove-Item "path/to/project/obj" -Recurse -Force
+   
+   # Then rebuild
+   dotnet build -m:2
+   ```
+
+**Key Insights**:
+- **CS2012**: Compiler cannot write to output file (locked by parallel build)
+- **MSB3026/MSB3027**: File copy errors during build indicate locked executables
+- **Exit Code 1**: Generic build failure (check for CS2012 in output)
+- **-m:2 vs -m**: `-m` uses all CPU cores; `-m:2` limits to 2 workers (more stable)
+- **McAfee Interference**: Antivirus can also lock .NET executables
+- **Retry Logic**: MSBuild retries 10 times with 1s delays before failing
+- **GitHub Issue**: This is tracked in dotnet/sdk#9585 (still open)
+
+**Files Modified**:
+- `.vscode/tasks.json` - All build tasks now use `-m:2`
+- `scripts/pre-build-check.ps1` - New pre-build lock detection script
+
+**Prevention Measures**:
+1. **Stop Before Restart**: Always stop Aspire and kill dotnet processes before code changes
+2. **Use Dashboard**: Restart individual services from Aspire dashboard instead of full restart
+3. **Sequential Builds**: Consider `--no-build` flag after initial successful build
+4. **Clean Shutdown**: Use Ctrl+C on Aspire to gracefully stop all services before rebuilding
+
+---
+
+### Aspire Runtime File Locks vs Build-Time Race Conditions (Two Different Issues)
+
+**Issue**: File lock errors (`CS2012: Cannot open 'B2X.Shared.Kernel.dll' for writing`) continue to occur **during Aspire startup** even after implementing `-m:2` parallelism limit.
+
+**Root Cause**: There are **two distinct types** of file lock problems:
+
+| Type | When | Cause | Solution |
+|------|------|-------|----------|
+| **Build-time race** | During `dotnet build` | Parallel MSBuild workers compete for same file | Use `-m:2` flag |
+| **Runtime lock** | During Aspire startup/rebuild | Running Aspire process holds DLL locks | Use VS Code F5 or `aspire run` |
+
+The `-m:2` fix addresses **build-time race conditions** but does **NOT** solve **runtime file locks** when Aspire is already running.
+
+**Reference**: [dotnet/aspire#4981](https://github.com/dotnet/aspire/issues/4981) - "Cannot rebuild projects due to exe file being locked" (reported by Steve Sanderson from Microsoft, occurred during his .NET@MS presentation)
+
+**Official Answer from David Fowler** (Aug 2025):
+> "When you use `dotnet run` it's expected. When you use Visual Studio or VS Code now and rebuild a specific project, it will restart that project without intervention."
+
+**Lesson**: The Aspire team designed the development workflow around **IDE integration** (VS Code/Visual Studio), not `dotnet run` from terminal. When using IDEs, they coordinate builds and service restarts automatically.
+
+**Solutions** (in order of preference):
+
+1. **Use VS Code's Integrated Debugging** (Recommended):
+   - Run AppHost from VS Code using F5 (debug) or Ctrl+F5 (no debug)
+   - VS Code coordinates builds and restarts services automatically
+   - This is the **intended workflow** by the Aspire team
+
+2. **Use `aspire run` CLI**:
+   ```bash
+   aspire run  # Instead of: dotnet run --project AppHost
+   ```
+
+3. **Use `dotnet watch`**:
+   ```bash
+   dotnet watch --project src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj
+   ```
+
+4. **Dashboard-Based Restart** (Manual workaround):
+   - Open Aspire Dashboard (http://localhost:15500)
+   - Stop the specific service you want to rebuild
+   - Build the project
+   - Start the service again
+
+**Key Insights**:
+- **`dotnet run` is not recommended** for Aspire development - use VS Code F5 instead
+- The IDE handles service coordination that `dotnet run` cannot
+- This is a **known limitation**, not a bug - the Aspire team considers it "expected behavior"
+- Two solutions for two problems: `-m:2` for builds, VS Code for runtime
+
+**Files Modified**:
+- `src/docs/aspire-orchestration-specs.md` - Added new troubleshooting section distinguishing both issues
+
+---
+
 ## Session: 10. Januar 2026 - Phase 2 Realtime Debug Strategy Implementation
 
 ### Complex SignalR Integration in Nuxt 3 with SSR Considerations

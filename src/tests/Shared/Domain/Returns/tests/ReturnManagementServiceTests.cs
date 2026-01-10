@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 using Moq;
 using FluentValidation;
 using B2X.Returns.Core.Entities;
@@ -38,8 +38,8 @@ public class ReturnManagementServiceTests : IAsyncLifetime
         _service = new ReturnManagementService(_validator, _mockLogger.Object);
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask InitializeAsync() => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     // ═══════════════════════════════════════════════════════════════════════════════
     // ✅ POSITIVE TESTS (Should Succeed)

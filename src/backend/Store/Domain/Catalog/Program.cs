@@ -115,6 +115,11 @@ builder.Services.AddScoped<B2X.Catalog.Core.Interfaces.ICatalogProductRepository
     B2X.Catalog.Infrastructure.Data.CatalogProductRepository>();
 builder.Services.AddScoped<B2X.Catalog.Application.Handlers.CatalogImportService>();
 
+// Background Job Services for Async Catalog Import
+builder.Services.AddScoped<B2X.Catalog.Application.BackgroundJobs.ICatalogImportJobService,
+    B2X.Catalog.Application.BackgroundJobs.CatalogImportJobService>();
+builder.Services.AddHostedService<B2X.Catalog.Application.BackgroundJobs.CatalogImportJobProcessor>();
+
 // TODO: Add application services (ProductService, QueryHandlers, etc.) once implemented
 // NOTE: Return Management Services moved to Customer domain (Story 8: Widerrufsmanagement)
 // The ReturnApiHandler, Validators, Repositories have been migrated to Customer domain

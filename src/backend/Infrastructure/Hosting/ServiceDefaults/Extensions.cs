@@ -297,6 +297,22 @@ public static class Extensions
             http.AddServiceDiscovery();
         });
 
+        // Health checks
+        builder.Services.AddHealthChecks()
+            .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+
+        // Rate limiting - required by UseServiceDefaults()
+        builder.Services.AddRateLimiter(options =>
+        {
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+            options.OnRejected = async (context, token) =>
+            {
+                context.HttpContext.Response.ContentType = "application/json";
+                await context.HttpContext.Response.WriteAsync("{\"error\":\"Rate limit exceeded. Please try again later.\"}", token).ConfigureAwait(false);
+            };
+        });
+
         // Add OpenTelemetry configuration
         builder.AddOpenTelemetry();
 

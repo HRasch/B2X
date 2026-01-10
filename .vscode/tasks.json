@@ -1,14 +1,19 @@
 {
+  // ============================================================================
+  // Build tasks use -m:2 to limit parallel MSBuild workers (prevents file locks)
+  // See: dotnet/sdk#9585, lessons.md "Parallel Build File Lock Conflicts"
+  // ============================================================================
   "version": "2.0.0",
   "tasks": [
     {
+      // Primary build task for Aspire - uses -m:2 to prevent race conditions
       "label": "build-apphost",
       "command": "dotnet",
       "type": "shell",
       "args": [
         "build",
         "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj",
-        "-m"
+        "-m:2"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -31,7 +36,7 @@
       "args": [
         "build",
         "${workspaceFolder}/B2X.slnx",
-        "-m"
+        "-m:2"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -53,15 +58,10 @@
       "type": "shell",
       "args": [
         "test",
+        "--solution",
         "${workspaceFolder}/B2X.slnx",
-        "-m",
         "-v",
-        "minimal",
-        "--collect:\"XPlat Code Coverage\"",
-        "--results-directory",
-        "${workspaceFolder}/test-results/coverage",
-        "--settings",
-        "${workspaceFolder}/coverlet.runsettings"
+        "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -82,8 +82,8 @@
         "tool",
         "run",
         "reportgenerator",
-        "-reports:test-results/coverage/**/coverage.opencover.xml",
-        "-targetdir:test-results/coverage-report",
+        "-reports:reports/test-results/coverage/**/coverage.opencover.xml",
+        "-targetdir:reports/test-results/coverage-report",
         "-reporttypes:Html;Cobertura;MarkdownSummary"
       ],
       "problemMatcher": "$msCompile",
@@ -267,17 +267,20 @@
       "group": "build"
     },
     {
+      // Use 'aspire run' to start AppHost with proper service coordination
+      // This prevents file locks (CS2012) when rebuilding while running
+      // See: dotnet/aspire#4981, lessons.md "Aspire Runtime File Locks"
       "label": "backend-start",
       "type": "shell",
       "isBackground": true,
-      "command": "dotnet",
-        "args": [
-          "run",
-          "--project",
-          "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj"
-        ],
-        "options": {
-          "cwd": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost",
+      "command": "aspire",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost",
         "env": {
           "ASPNETCORE_ENVIRONMENT": "Development",
           "ASPNETCORE_URLS": "http://localhost:15500",
@@ -381,6 +384,8 @@
       }
     },
     {
+      // Standalone Store Gateway (without Aspire) - for isolated debugging
+      // Use 'backend-start' task instead for full stack with service coordination
       "label": "store-gateway-start",
       "type": "shell",
       "isBackground": true,
@@ -414,6 +419,8 @@
       }
     },
     {
+      // Standalone Admin Gateway (without Aspire) - for isolated debugging
+      // Use 'backend-start' task instead for full stack with service coordination
       "label": "admin-gateway-start",
       "type": "shell",
       "isBackground": true,
@@ -602,6 +609,7 @@
       "type": "shell",
       "args": [
         "test",
+        "--solution",
         "${workspaceFolder}/B2X.slnx",
         "-m",
         "--parallel",

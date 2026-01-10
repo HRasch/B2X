@@ -42,10 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos/*.proto" GrpcServices="Client" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Abstractions\B2X.ERP.Abstractions.csproj" />
 
   </ItemGroup>

@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../../Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
     <ProjectReference Include="../../../../../backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 

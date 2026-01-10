@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,8 +21,8 @@ public class AuthenticationIntegrationTests : IAsyncLifetime
         _fixture = fixture;
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask InitializeAsync() => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     #region Login Endpoint Tests
 

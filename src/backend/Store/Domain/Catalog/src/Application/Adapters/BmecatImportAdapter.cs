@@ -205,10 +205,10 @@ public class BmecatImportAdapter : ICatalogImportAdapter
                         if (string.Equals(reader.Name, "ARTICLE", StringComparison.Ordinal) && inArticle)
                         {
                             // Process completed article
-                            var product = CreateCatalogProduct(currentArticle, metadata);
+                            var product = CreateCatalogProduct(currentArticle, metadata, result);
                             if (product != null)
                             {
-                                products.Add(product);
+                                result.Products.Add(product);
                             }
                             inArticle = false;
                             currentArticle.Clear();
@@ -373,33 +373,59 @@ public class BmecatImportAdapter : ICatalogImportAdapter
         };
     }
 
-    private CatalogProduct? CreateCatalogProduct(Dictionary<string, string> articleData, CatalogMetadata metadata)
+    private CatalogProduct? CreateCatalogProduct(Dictionary<string, string> articleData, CatalogMetadata metadata, CatalogImportResult result)
     {
         if (!articleData.TryGetValue("SUPPLIER_AID", out var supplierAid) || string.IsNullOrEmpty(supplierAid))
         {
-            _logger.LogWarning("Article missing SUPPLIER_AID, skipping");
+            var error = new ProductImportError
+            {
+                SupplierAid = articleData.GetValueOrDefault("SUPPLIER_AID", "unknown"),
+                ErrorMessage = "Missing or empty SUPPLIER_AID",
+                ErrorDetails = "SUPPLIER_AID is required for product identification",
+                OccurredAt = DateTime.UtcNow
+            };
+            result.ProductErrors.Add(error);
+            _logger.LogWarning("Article missing SUPPLIER_AID, tracking as error: {SupplierAid}", error.SupplierAid);
             return null;
         }
 
-        // Create JSON representation of product data
-        var productJson = System.Text.Json.JsonSerializer.Serialize(new
+        try
         {
-            supplierAid,
-            shortDescription = articleData.GetValueOrDefault("DESCRIPTION_SHORT"),
-            longDescription = articleData.GetValueOrDefault("DESCRIPTION_LONG"),
-            priceAmount = articleData.GetValueOrDefault("PRICE_AMOUNT"),
-            priceCurrency = articleData.GetValueOrDefault("PRICE_CURRENCY"),
-            importedAt = DateTime.UtcNow,
-            metadata
-        });
+            // Create JSON representation of product data
+            var productJson = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                supplierAid,
+                shortDescription = articleData.GetValueOrDefault("DESCRIPTION_SHORT"),
+                longDescription = articleData.GetValueOrDefault("DESCRIPTION_LONG"),
+                priceAmount = articleData.GetValueOrDefault("PRICE_AMOUNT"),
+                priceCurrency = articleData.GetValueOrDefault("PRICE_CURRENCY"),
+                importedAt = DateTime.UtcNow,
+                metadata
+            });
 
-        return new CatalogProduct
+            return new CatalogProduct
+            {
+                Id = Guid.NewGuid(),
+                CatalogImportId = metadata.TenantId, // Will be set by caller
+                SupplierAid = supplierAid,
+                ProductData = productJson,
+                CreatedAt = DateTime.UtcNow,
+                Status = ProductImportStatus.Completed,
+                ProcessedAt = DateTime.UtcNow
+            };
+        }
+        catch (Exception ex)
         {
-            Id = Guid.NewGuid(),
-            CatalogImportId = metadata.TenantId, // Will be set by caller
-            SupplierAid = supplierAid,
-            ProductData = productJson,
-            CreatedAt = DateTime.UtcNow
-        };
+            var error = new ProductImportError
+            {
+                SupplierAid = supplierAid,
+                ErrorMessage = "Failed to process product data",
+                ErrorDetails = ex.Message,
+                OccurredAt = DateTime.UtcNow
+            };
+            result.ProductErrors.Add(error);
+            _logger.LogWarning(ex, "Failed to create product for SUPPLIER_AID {SupplierAid}", supplierAid);
+            return null;
+        }
     }
 }

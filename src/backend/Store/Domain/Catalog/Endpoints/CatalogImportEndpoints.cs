@@ -1,3 +1,4 @@
+using B2X.Catalog.Application.BackgroundJobs;
 using B2X.Catalog.Application.Handlers;
 using B2X.Catalog.Models;
 using B2X.Catalog.Services;
@@ -73,6 +74,87 @@ public static class CatalogImportEndpoints
         {
             return Results.UnprocessableEntity(new { Message = $"Failed to parse catalog: {ex.Message}" });
         }
+    }
+
+    /// <summary>
+    /// POST /api/catalog/import/async
+    /// Import catalog file asynchronously (background processing)
+    /// </summary>
+    [WolverinePost("/api/catalog/import/async")]
+    public static async Task<IResult> ImportCatalogAsync(
+        [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
+        [FromForm] CatalogImportRequest request,
+        ICatalogImportJobService jobService,
+        CancellationToken ct)
+    {
+        // Validate tenant
+        if (tenantId == Guid.Empty)
+        {
+            return Results.BadRequest(new { Message = "X-Tenant-ID header is required" });
+        }
+
+        // Validate file
+        if (request.File == null || request.File.Length == 0)
+        {
+            return Results.BadRequest(new { Message = "File is required" });
+        }
+
+        // Security: Limit file size (50MB)
+        const long maxFileSize = 50 * 1024 * 1024;
+        if (request.File.Length > maxFileSize)
+        {
+            return Results.BadRequest(new { Message = $"File size exceeds maximum allowed ({maxFileSize / 1024 / 1024}MB)" });
+        }
+
+        // Detect format from file extension or content type
+        var format = DetectCatalogFormat(request.File.FileName, request.File.ContentType, request.Format);
+        if (string.IsNullOrEmpty(format))
+        {
+            return Results.BadRequest(new { Message = "Unable to determine catalog format. Please specify 'format' parameter (bmecat, icecat)" });
+        }
+
+        try
+        {
+            using var stream = request.File.OpenReadStream();
+            var job = await jobService.QueueImportJobAsync(tenantId, stream, format, request.CustomSchemaPath, ct).ConfigureAwait(false);
+
+            return Results.Accepted($"/api/catalog/import/jobs/{job.JobId}", new
+            {
+                JobId = job.JobId,
+                Status = job.Status.ToString(),
+                Message = "Catalog import job queued for processing",
+                QueuedAt = job.QueuedAt
+            });
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem($"Failed to queue import job: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// GET /api/catalog/import/jobs/{jobId}
+    /// Get status of an async catalog import job
+    /// </summary>
+    [WolverineGet("/api/catalog/import/jobs/{jobId}")]
+    public static async Task<IResult> GetImportJobStatus(
+        Guid jobId,
+        ICatalogImportJobService jobService,
+        CancellationToken ct)
+    {
+        var status = await jobService.GetJobStatusAsync(jobId, ct).ConfigureAwait(false);
+
+        if (status == null)
+        {
+            return Results.NotFound(new { Message = $"Job {jobId} not found" });
+        }
+
+        return Results.Ok(new
+        {
+            JobId = jobId,
+            Status = status.ToString(),
+            Timestamp = DateTime.UtcNow
+        });
     }
 
     /// <summary>

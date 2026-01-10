@@ -75,11 +75,12 @@
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc" Version="2.3.9" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.9" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.SignalR" Version="10.0.1" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- ASPIRE HOSTING (13.1.0 - keep ALL Aspire packages in sync)              -->
@@ -93,6 +94,7 @@
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.1.0" />
     <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.1.0" />
     <PackageVersion Include="Aspire.Hosting.Redis" Version="13.1.0" />
+    <PackageVersion Include="Aspire.Hosting.Testing" Version="13.1.0" />
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- WOLVERINE CQRS (5.9.2 - keep ALL Wolverine packages in sync)            -->
@@ -121,6 +123,8 @@
     <!-- MICROSOFT.EXTENSIONS.* (10.0.x - keep in sync with .NET version)        -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Distributed" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
@@ -128,6 +132,7 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.1" />
@@ -201,6 +206,7 @@
     <!-- RESILIENCE (Polly 8.x)                                                  -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="Polly" Version="8.6.5" />
+    <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
     <PackageVersion Include="Polly.Caching" Version="3.0.3" />
     <PackageVersion Include="Polly.CircuitBreaker" Version="8.4.0" />
 
@@ -294,6 +300,9 @@
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- TESTING                                                                 -->
+    <!-- Using xunit.v3 with Microsoft Testing Platform (MTP) instead of VSTest  -->
+    <!-- Reason: VSTest has .NET 10 compatibility issues (vstest issue #15029)   -->
+    <!-- MTP works correctly with .NET 10 and is the recommended modern platform -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
@@ -305,9 +314,15 @@
     <PackageVersion Include="Shouldly" Version="4.3.0" />
     <PackageVersion Include="Testcontainers" Version="4.10.0" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="4.10.0" />
-    <PackageVersion Include="TngTech.ArchUnitNET.xUnit" Version="0.13.1" />
+    <PackageVersion Include="TngTech.ArchUnitNET.xUnitV3" Version="0.13.1" />
+    <!-- xunit v3 packages - use mtp-v2 for net10.0 support (MTP v2 has net10.0 TFM) -->
+    <PackageVersion Include="xunit.v3" Version="3.2.1" />
+    <PackageVersion Include="xunit.v3.mtp-v2" Version="3.2.1" />
+    <PackageVersion Include="xunit.v3.mtp-off" Version="3.2.1" />
+    <PackageVersion Include="xunit.v3.runner.inproc.console" Version="3.2.1" />
+    <!-- Legacy xunit 2.x for projects that haven't migrated yet -->
     <PackageVersion Include="xunit" Version="2.9.3" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.1" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
   </ItemGroup>

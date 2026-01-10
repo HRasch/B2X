@@ -430,10 +430,11 @@ adminGateway.WaitFor(mcpServer);
 // Documentation: https://aspire.dev/integrations/frameworks/javascript/
 // Fixed ports configured via WithEndpoint (see: https://github.com/dotnet/aspire/issues/12942)
 // Frontends wait for their gateways to be ready before starting
+// Path: AppHost is at src/backend/Infrastructure/Hosting/AppHost, frontends at src/frontend/*
 
 // Frontend Store (Vue 3 + Vite) - Fixed port 5173 for predictable URLs
 var frontendStore = builder
-    .AddViteApp("frontend-store", "../frontend/Store")
+    .AddViteApp("frontend-store", "../../../../frontend/Store")
     .WithEndpoint("http", endpoint => endpoint.Port = 5173)  // Workaround: modify existing endpoint
     .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
@@ -446,7 +447,7 @@ frontendStore.WaitFor(storeGateway);
 
 // Frontend Admin (Vue 3 + Vite) - Fixed port 5174 for predictable URLs
 var frontendAdmin = builder
-    .AddViteApp("frontend-admin", "../frontend/Admin")
+    .AddViteApp("frontend-admin", "../../../../frontend/Admin")
     .WithEndpoint("http", endpoint => endpoint.Port = 5174)  // Workaround: modify existing endpoint
     .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages
@@ -459,7 +460,7 @@ frontendAdmin.WaitFor(adminGateway);
 
 // Frontend Management (Vue 3 + Vite) - Tenant Management Portal - Fixed port 5175
 var frontendManagement = builder
-    .AddViteApp("frontend-management", "../frontend/Management")
+    .AddViteApp("frontend-management", "../../../../frontend/Management")
     .WithEndpoint("http", endpoint => endpoint.Port = 5175)  // Workaround: modify existing endpoint
     .WithExternalHttpEndpoints()
     .WithNpm(installArgs: ["--force"])  // Force install to handle platform-specific packages

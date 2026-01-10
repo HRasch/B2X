@@ -11,13 +11,13 @@ public class ShippingCostServiceTests : IAsyncLifetime
     private ShippingCostService _service = null!;
     private Mock<ILogger<ShippingCostService>> _mockLogger = null!;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _mockLogger = new Mock<ILogger<ShippingCostService>>();
         _service = new ShippingCostService(_mockLogger.Object);
     }
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     [Fact]
     public async Task GetShippingMethodsAsync_ValidCountry_ReturnsAvailableMethods()

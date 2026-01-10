@@ -17,7 +17,7 @@ export default [
       '**/coverage/**',
       '**/node_modules/**',
       '**/playwright-report/**',
-      'test-results/**',
+      'reports/test-results/**',
       '**/*.js', // Ignore JS files for now
     ],
   },

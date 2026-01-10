@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -15,7 +15,7 @@ public class IntegrationTestFixture : IAsyncLifetime
     protected WebApplicationFactory<Program> Factory { get; private set; }
     protected HttpClient Client { get; private set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Factory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(builder =>
@@ -34,7 +34,7 @@ public class IntegrationTestFixture : IAsyncLifetime
         await Task.Delay(100);
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         Client?.Dispose();
         Factory?.Dispose();

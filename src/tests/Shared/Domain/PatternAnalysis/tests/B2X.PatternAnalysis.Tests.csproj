@@ -8,27 +8,23 @@
     <RootNamespace>B2X.PatternAnalysis.Tests</RootNamespace>
     <AssemblyName>B2X.PatternAnalysis.Tests</AssemblyName>
     <IsTestProject>true</IsTestProject>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Moq" />
+<PackageReference Include="xunit.v3.mtp-v2" />
+<PackageReference Include="Moq" />
     <PackageReference Include="Shouldly" />
     <PackageReference Include="Testcontainers" />
     <PackageReference Include="Testcontainers.PostgreSql" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../B2X.PatternAnalysis.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Domain/PatternAnalysis/B2X.PatternAnalysis.csproj" />
 
   </ItemGroup>
 
 </Project>
-
-
 

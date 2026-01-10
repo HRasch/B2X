@@ -214,8 +214,8 @@ export function isFeatureEnabled(feature: keyof typeof DEBUG_CONFIG.features): b
 export function getConfigValue<T extends keyof typeof DEBUG_CONFIG>(
   section: T,
   key: keyof (typeof DEBUG_CONFIG)[T],
-  defaultValue?: any
-): any {
+  defaultValue?: unknown
+): unknown {
   const envConfig = getEnvironmentConfig();
   const envOverride = envConfig[key as keyof typeof envConfig];
 
@@ -224,7 +224,7 @@ export function getConfigValue<T extends keyof typeof DEBUG_CONFIG>(
   }
 
   const sectionConfig = DEBUG_CONFIG[section];
-  return (sectionConfig as any)[key] || defaultValue;
+  return (sectionConfig as Record<string, unknown>)[key] || defaultValue;
 }
 
 // Export merged config for current environment

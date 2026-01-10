@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -9,7 +9,7 @@
     <AssemblyName>B2X.Tenancy.API</AssemblyName>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <IsAspireProjectResource>false</IsAspireProjectResource>
+    <IsAspireProjectResource>true</IsAspireProjectResource>
   </PropertyGroup>
 
   <ItemGroup>
@@ -54,14 +54,7 @@
 
   </ItemGroup>
 
-  <!-- Exclude web application files from class library -->
-  <ItemGroup>
-    <Compile Remove="Program.cs" />
-    <Compile Remove="appsettings.json" />
-    <Compile Remove="Properties/**" />
-    <Content Remove="appsettings.json" />
-    <None Remove="appsettings.json" />
-  </ItemGroup>
+
 
 </Project>
 

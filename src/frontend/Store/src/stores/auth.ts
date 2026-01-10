@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref, computed, readonly } from 'vue';
+import { ref, computed } from 'vue';
 import { api } from '~/services/api';
 import type { UserDto, AuthResponse } from '~/types';
 
@@ -62,7 +62,7 @@ export const useAuthStore = defineStore('auth', () => {
           return;
         }
       }
-    } catch (err) {
+    } catch {
       // Ignore cookie errors in tests
     }
   };

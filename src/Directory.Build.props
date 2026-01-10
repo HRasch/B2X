@@ -10,6 +10,9 @@
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    <!-- Disable SourceLink in Debug to prevent file locks during development -->
+    <EnableSourceLink>false</EnableSourceLink>
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
   </PropertyGroup>
 
   <!-- Release Configuration -->
@@ -18,6 +21,9 @@
     <DebugSymbols>true</DebugSymbols>
     <Optimize>true</Optimize>
     <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <!-- Enable SourceLink in Release for production debugging -->
+    <EnableSourceLink>true</EnableSourceLink>
+    <EnableSourceControlManagerQueries>true</EnableSourceControlManagerQueries>
   </PropertyGroup>
 
   <!-- Common Build Settings -->
@@ -39,6 +45,13 @@
     <!-- Disable MSBuild node reuse to prevent DLL locking issues -->
     <UseSharedCompilation>false</UseSharedCompilation>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    
+    <!-- ============================================= -->
+    <!-- Build Isolation Settings                      -->
+    <!-- ============================================= -->
+    <!-- CopyLocal=false for Shared projects to reduce file locking -->
+    <!-- Projects reference Shared assemblies from their output dirs -->
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
     <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
     <!-- MA0016: Collection abstractions - acceptable for DTOs -->

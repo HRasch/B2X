@@ -52,7 +52,7 @@ public class SeedingInfrastructureTests
         };
         var logger = new Mock<ILogger>().Object;
         using var context = new SeedingContext(config, logger);
-        var exception = new Exception("Test failure");
+        var exception = new InvalidOperationException("Test failure");
 
         // Act
         context.StartPhase("Tenant");
@@ -299,7 +299,7 @@ public class SeedingInfrastructureTests
 
         context.StartPhase("Tenant");
         context.MarkServiceSeeded("tenant-service");
-        context.FailPhase("Tenant", new Exception("Test failure"));
+        context.FailPhase("Tenant", new InvalidOperationException("Test failure"));
 
         // Assert
         context.GetSeededServices("Auth").ShouldContain("auth-service");

@@ -173,7 +173,7 @@ fi
 if $E2E_ONLY; then
     echo "  - E2E: tests/e2e/cms/"
     if $COVERAGE; then
-        echo "  - Coverage: ./test-results/coverage/"
+        echo "  - Coverage: ./reports/test-results/coverage/"
     fi
 fi
 

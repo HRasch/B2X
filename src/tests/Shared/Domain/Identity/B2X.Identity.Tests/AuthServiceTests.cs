@@ -1,4 +1,4 @@
-﻿using B2X.AuthService.Data;
+using B2X.Identity.Data;
 using B2X.Types;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
 
-namespace B2X.AuthService.Tests;
+namespace B2X.Identity.Tests;
 
 public class AuthServiceTests : IAsyncLifetime
 {
@@ -17,7 +17,7 @@ public class AuthServiceTests : IAsyncLifetime
     private IAuthService _authService = null!;
     private AuthDbContext _dbContext = null!;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var services = new ServiceCollection();
 
@@ -55,8 +55,8 @@ public class AuthServiceTests : IAsyncLifetime
         {
             var config = sp.GetRequiredService<IConfiguration>();
             var userManager = sp.GetRequiredService<UserManager<AppUser>>();
-            var logger = sp.GetRequiredService<ILogger<Data.AuthService>>();
-            return new Data.AuthService(userManager, config, logger);
+            var logger = sp.GetRequiredService<ILogger<AuthService>>();
+            return new AuthService(userManager, config, logger);
         });
 
         _serviceProvider = services.BuildServiceProvider();
@@ -69,7 +69,7 @@ public class AuthServiceTests : IAsyncLifetime
         await SeedTestDataAsync();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await _dbContext.Database.EnsureDeletedAsync();
         _serviceProvider.Dispose();

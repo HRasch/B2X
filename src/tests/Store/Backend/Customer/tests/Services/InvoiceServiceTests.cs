@@ -40,8 +40,8 @@ public class InvoiceServiceTests : IAsyncLifetime
         _orderId = Guid.NewGuid();
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask InitializeAsync() => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     // ===== GENERATE INVOICE TESTS =====
 

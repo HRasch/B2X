@@ -1,5 +1,6 @@
-﻿{
+{
   "dotnet.defaultSolutionOrFolder": "B2X.slnx",
+  "dotnet.testWindow.useTestingPlatformProtocol": true,
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp",
     "editor.formatOnSave": true,

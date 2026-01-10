@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <IsTestProject>true</IsTestProject>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
@@ -11,33 +14,28 @@
 
   <ItemGroup>
     <!-- Test Framework -->
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="Shouldly" />
+<PackageReference Include="xunit.v3.mtp-v2" />
+<PackageReference Include="Shouldly" />
     
     <!-- Architecture Testing -->
-    <PackageReference Include="TngTech.ArchUnitNET.xUnit" />
+    <PackageReference Include="TngTech.ArchUnitNET.xUnitV3" />
   </ItemGroup>
 
   <!-- Reference all domain assemblies for architecture analysis -->
   <ItemGroup>
-    <ProjectReference Include="../../../src/Store/Backend/Catal../../../../src/shared/Domain/Catalog/B2X.Catalog.API.csproj" />
+    <ProjectReference Include="../../../backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
 
-    <ProjectReference Include="../../../src/backend/Management/Domain/B2X.CMS.csproj" />
+    <ProjectReference Include="../../../backend/Management/Domain/B2X.CMS.csproj" />
 
-    <ProjectReference Include="../../../../src/backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
 
-    <ProjectReference Include="../../../../src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
 
-    <ProjectReference Include="../../../src/Store/Backend/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../backend/Store/Domain/Search/B2X.Domain.Search.csproj" />
 
-    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 
   </ItemGroup>
 
 </Project>
-
-
-
 

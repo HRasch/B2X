@@ -6,6 +6,24 @@ B2X uses **.NET Aspire** as the central orchestration and service management pla
 
 ---
 
+## ⚠️ .NET 10 Compatibility Notice (January 2026)
+
+**Current Configuration**: Aspire 13.1.0 with .NET 10.0 target framework
+
+**Known Issue**: `Aspire.Hosting` package (13.1.0) only ships `net8.0` assemblies, causing runtime `FileNotFoundException` when AppHost targets `net10.0`.
+
+**Workaround Applied** (in `B2X.AppHost.csproj`):
+```xml
+<PropertyGroup>
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  <AssetTargetFallback>$(AssetTargetFallback);net8.0</AssetTargetFallback>
+</PropertyGroup>
+```
+
+**Status**: Fix expected in Aspire 13.2. See [dotnet/aspire#13611](https://github.com/dotnet/aspire/issues/13611)
+
+---
+
 ## 1. Aspire Architecture
 
 ### Service Topology
@@ -265,6 +283,28 @@ This provides:
 - Metrics collection
 - Tracing setup
 - CORS handling
+- **Rate limiting** (required by UseServiceDefaults)
+
+#### ⚠️ Important: AddServiceDefaults Overloads
+
+**The ServiceDefaults library provides TWO extension method overloads** - ensure you use the correct one:
+
+| Builder Type | Method | Usage Pattern |
+|--------------|--------|---------------|
+| `IHostBuilder` | `builder.Host.AddServiceDefaults()` | Generic .NET Host |
+| `IHostApplicationBuilder` | `builder.AddServiceDefaults()` | WebApplication.CreateBuilder() |
+
+**Both overloads MUST maintain feature parity** including:
+- Health checks (`AddHealthChecks`)
+- Rate limiting (`AddRateLimiter`)
+- Service discovery
+- OpenTelemetry
+
+**Common Error**: If you see `InvalidOperationException: Unable to find the required services. Please add all the required services by calling 'IServiceCollection.AddRateLimiter'`, this means the service is using an `AddServiceDefaults()` overload that doesn't register rate limiting, but `UseServiceDefaults()` calls `app.UseRateLimiter()`.
+
+**Exit Code -532462766** (0xE0434352) typically indicates this misconfiguration.
+
+See [KB-LESSONS] for full diagnosis and resolution details.
 
 ### 5.2 Startup Configuration
 
@@ -430,6 +470,132 @@ Every 30 seconds:
 | Port already in use | Kill existing process: `kill -9 $(lsof -ti:PORT)` |
 | Service crash on startup | Check service logs in dashboard |
 | Slow startup | Increase health check timeout |
+
+### Service Exits with Code -532462766 or 1
+
+**Exit Code -532462766** (0xE0434352) = CLR unhandled exception
+**Exit Code 1** = General error
+
+**Most Common Cause**: Missing service registration for middleware used in `UseServiceDefaults()`.
+
+**Diagnosis Steps:**
+1. Open Aspire Dashboard (http://localhost:15500)
+2. Click on the failing service
+3. Go to **Console** tab
+4. Look for `System.InvalidOperationException` with message about missing services
+
+**Common Error Messages:**
+
+| Error | Missing Registration | Fix |
+|-------|---------------------|-----|
+| `IServiceCollection.AddRateLimiter` | Rate limiter not registered | Add `AddRateLimiter()` in `AddServiceDefaults()` |
+| `IServiceCollection.AddHealthChecks` | Health checks not registered | Add `AddHealthChecks()` in `AddServiceDefaults()` |
+
+**Root Cause**: The `IHostApplicationBuilder.AddServiceDefaults()` overload may be missing registrations that `UseServiceDefaults()` expects.
+
+**Quick Fix**: Verify both `AddServiceDefaults()` overloads in `B2X.ServiceDefaults/Extensions.cs` have matching service registrations.
+
+### File Lock Errors During Build (CS2012/MSB3026/MSB3027)
+
+**Errors**:
+- `CS2012: Cannot open 'X.dll' for writing -- The process cannot access the file`
+- `MSB3027: Could not copy "apphost.exe" to "B2X.*.exe". The file is being used by another process.`
+
+**Cause**: This is a **known MSBuild issue** ([dotnet/sdk#9585](https://github.com/dotnet/sdk/issues/9585) - open since 2018). Race conditions occur during parallel builds when multiple projects reference shared libraries.
+
+**Prevention Strategy** (Implemented):
+
+1. **Build Tasks Use Limited Parallelism**:
+   - All VS Code build tasks now use `-m:2` instead of `-m`
+   - This limits parallel MSBuild workers to 2 (vs unlimited)
+   - Balances build speed with stability
+
+2. **Pre-Build Check Script**:
+   ```powershell
+   # Check for locked files before building
+   .\scripts\pre-build-check.ps1
+   
+   # Auto-clean locked files and kill processes
+   .\scripts\pre-build-check.ps1 -AutoClean
+   ```
+
+3. **Manual Recovery** (when locks occur):
+   ```powershell
+   # Windows: Kill all dotnet processes
+   Get-Process dotnet -ErrorAction SilentlyContinue | Stop-Process -Force
+   
+   # Linux/macOS
+   pkill -9 dotnet
+   
+   # Wait 3 seconds
+   Start-Sleep 3
+   
+   # Clean specific obj folder if needed
+   Remove-Item "path/to/project/obj" -Recurse -Force
+   
+   # Rebuild with limited parallelism
+   dotnet build -m:2
+   ```
+
+**Key Insight**: The `-maxcpucount:1` or `-m:2` workaround is used by many teams, including those at Microsoft. Full parallelism (`-m`) is known to cause race conditions.
+
+### File Lock Errors During Aspire Startup/Rebuild (CS2012 - Runtime)
+
+**Error**: `CS2012: Cannot open 'B2X.Shared.Kernel.dll' for writing -- The process cannot access the file`
+
+**Context**: This happens when **Aspire is already running** and you try to rebuild a project. This is **different** from the parallel build race condition above.
+
+**Root Cause**: When using `dotnet run` to start AppHost, Aspire doesn't automatically stop and restart individual services during rebuild. The running process holds locks on DLLs.
+
+**Reference**: [dotnet/aspire#4981](https://github.com/dotnet/aspire/issues/4981) - "Cannot rebuild projects due to exe file being locked" (reported by Steve Sanderson, Microsoft)
+
+**Official Answer from David Fowler** (Aug 2025):
+> "When you use `dotnet run` it's expected. When you use Visual Studio or VS Code now and rebuild a specific project, it will restart that project without intervention."
+
+**Solutions** (in order of preference):
+
+1. **Use VS Code's Integrated Debugging** (Recommended):
+   - Run AppHost from VS Code (F5 or Ctrl+F5)
+   - VS Code coordinates builds and restarts services automatically
+   - This is how the Aspire team intended development to work
+
+2. **Use `aspire run` CLI** (Alternative):
+   ```bash
+   # Instead of: dotnet run --project AppHost
+   aspire run
+   ```
+   - The Aspire CLI handles hot reload better than `dotnet run`
+
+3. **Use `dotnet watch`** (For hot reload):
+   ```bash
+   dotnet watch --project src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj
+   ```
+   - Enables hot reload with automatic service restart
+
+4. **Dashboard-Based Restart** (Manual workaround):
+   - Open Aspire Dashboard (http://localhost:15500)
+   - Stop the specific service you want to rebuild
+   - Build the project
+   - Start the service again
+
+5. **Stop All and Rebuild** (Last resort):
+   ```powershell
+   # Stop Aspire completely
+   Get-Process dotnet -ErrorAction SilentlyContinue | Stop-Process -Force
+   
+   # Clean and rebuild
+   .\scripts\pre-build-check.ps1 -AutoClean
+   dotnet build src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj -m:2
+   
+   # Restart Aspire
+   dotnet run --project src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj
+   ```
+
+**Two Types of File Locks**:
+| Type | Cause | Solution |
+|------|-------|----------|
+| Build-time race | Parallel MSBuild workers | Use `-m:2` flag |
+| Runtime lock | Aspire holding DLLs | Use VS Code F5 or `aspire run` |
 
 ### Service Not Registered
 

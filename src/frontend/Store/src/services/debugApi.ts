@@ -36,7 +36,7 @@ class DebugApiService {
 
   private getTenantId(): string | undefined {
     // Extract tenant ID from URL or localStorage
-    const urlMatch = window.location.pathname.match(/^\/t\/([^\/]+)/);
+    const urlMatch = window.location.pathname.match(/^\/t\/([^/]+)/);
     if (urlMatch) {
       return urlMatch[1];
     }
@@ -127,7 +127,7 @@ class DebugApiService {
   private async makeRequest<T>(
     endpoint: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
-    data?: any
+    data?: unknown
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     const headers: HeadersInit = {
@@ -270,7 +270,7 @@ class DebugApiService {
   async healthCheck(): Promise<{ status: 'healthy' | 'unhealthy'; version: string }> {
     try {
       return await this.makeRequest('/health');
-    } catch (error) {
+    } catch {
       return { status: 'unhealthy', version: 'unknown' };
     }
   }

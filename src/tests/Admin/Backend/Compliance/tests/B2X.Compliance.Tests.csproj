@@ -8,22 +8,19 @@
     <RootNamespace>B2X.Compliance.Tests</RootNamespace>
     <AssemblyName>B2X.Compliance.Tests</AssemblyName>
     <IsTestProject>true</IsTestProject>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="xunit.v3.mtp-v2" />
     <PackageReference Include="Moq" />
     <PackageReference Include="Shouldly" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="../Jurisdictions/**/*.cs" />
-    <Compile Include="../RiskAssessment/**/*.cs" />
+    <ProjectReference Include="../../../../../backend/Admin/Domain/Compliance/B2X.Compliance.API.csproj" />
   </ItemGroup>
 
 </Project>

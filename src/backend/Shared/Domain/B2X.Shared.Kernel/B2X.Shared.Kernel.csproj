@@ -7,6 +7,9 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>B2X.Shared.Kernel</RootNamespace>
     <AssemblyName>B2X.Shared.Kernel</AssemblyName>
+    
+    <!-- Produce reference assembly to prevent DLL locking during parallel builds -->
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>

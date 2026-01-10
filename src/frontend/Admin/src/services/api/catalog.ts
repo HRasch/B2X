@@ -391,7 +391,15 @@ export const catalogApi = {
   /**
    * Import a catalog file
    */
-  async importCatalog(formData: FormData): Promise<any> {
+  async importCatalog(formData: FormData): Promise<{
+    importId: string;
+    status: string;
+    supplierId: string;
+    catalogId: string;
+    productCount: number;
+    importTimestamp: string;
+    message: string;
+  }> {
     if (DEMO_MODE) {
       console.warn('[CATALOG] Demo mode - import catalog simulated');
       return delay({
@@ -401,7 +409,7 @@ export const catalogApi = {
         catalogId: 'DEMO_CATALOG',
         productCount: 150,
         importTimestamp: new Date().toISOString(),
-        message: 'Successfully imported 150 products from DEMO_SUPPLIER'
+        message: 'Successfully imported 150 products from DEMO_SUPPLIER',
       });
     }
     return apiClient.post('/api/catalog/import', formData, {
@@ -414,7 +422,23 @@ export const catalogApi = {
   /**
    * Get import history
    */
-  async getImportHistory(page = 1, pageSize = 20): Promise<any> {
+  async getImportHistory(
+    page = 1,
+    pageSize = 20
+  ): Promise<{
+    items: Array<{
+      importId: string;
+      status: string;
+      supplierId: string;
+      catalogId: string;
+      productCount: number;
+      importTimestamp: string;
+      message: string;
+    }>;
+    totalCount: number;
+    page: number;
+    pageSize: number;
+  }> {
     if (DEMO_MODE) {
       console.warn('[CATALOG] Demo mode - get import history simulated');
       return delay({
@@ -426,7 +450,7 @@ export const catalogApi = {
             catalogId: 'Catalog001',
             productCount: 250,
             importTimestamp: new Date(Date.now() - 86400000).toISOString(),
-            message: 'Successfully imported 250 products'
+            message: 'Successfully imported 250 products',
           },
           {
             importId: 'import-2',
@@ -435,12 +459,12 @@ export const catalogApi = {
             catalogId: 'Catalog002',
             productCount: 0,
             importTimestamp: new Date(Date.now() - 172800000).toISOString(),
-            message: 'Import failed: Invalid file format'
-          }
+            message: 'Import failed: Invalid file format',
+          },
         ],
         totalCount: 2,
         page: 1,
-        pageSize: 20
+        pageSize: 20,
       });
     }
     return apiClient.get(`/api/catalog/imports?page=${page}&pageSize=${pageSize}`);

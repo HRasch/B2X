@@ -5,7 +5,7 @@
 // -----------------------------------------------------------------------------
 
 using ArchUnitNET.Fluent;
-using ArchUnitNET.xUnit;
+using TngTech.ArchUnitNET.xUnit;
 using Xunit;
 
 namespace B2X.Architecture.Tests;
@@ -21,112 +21,96 @@ public class BoundedContextTests : ArchitectureTestBase
     public void Catalog_Should_Not_Depend_On_CMS()
     {
         // Arrange & Act
-        var rule = ArchRuleDefinition.Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*")
-            .Should.NotDependOnAny(
+            .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.CMS}\..*"))
-            .Because("Bounded contexts must be isolated - Catalog cannot directly depend on CMS (ADR-001)");
-
-        // Assert
-        rule.Check(Architecture);
+            .Because("Bounded contexts must be isolated - Catalog cannot directly depend on CMS (ADR-001)")
+            .Check(Architecture);
     }
 
     [Fact]
     public void Catalog_Should_Not_Depend_On_Identity()
     {
         // Arrange & Act
-        var rule = ArchRuleDefinition.Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*")
-            .Should.NotDependOnAny(
+            .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*"))
-            .Because("Bounded contexts must be isolated - Catalog cannot directly depend on Identity (ADR-001)");
-
-        // Assert
-        rule.Check(Architecture);
+            .Because("Bounded contexts must be isolated - Catalog cannot directly depend on Identity (ADR-001)")
+            .Check(Architecture);
     }
 
     [Fact]
     public void CMS_Should_Not_Depend_On_Catalog()
     {
         // Arrange & Act
-        var rule = ArchRuleDefinition.Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.CMS}\..*")
-            .Should.NotDependOnAny(
+            .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*"))
-            .Because("Bounded contexts must be isolated - CMS cannot directly depend on Catalog (ADR-001)");
-
-        // Assert
-        rule.Check(Architecture);
+            .Because("Bounded contexts must be isolated - CMS cannot directly depend on Catalog (ADR-001)")
+            .Check(Architecture);
     }
 
     [Fact]
     public void CMS_Should_Not_Depend_On_Identity()
     {
         // Arrange & Act
-        var rule = ArchRuleDefinition.Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.CMS}\..*")
-            .Should.NotDependOnAny(
+            .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*"))
-            .Because("Bounded contexts must be isolated - CMS cannot directly depend on Identity (ADR-001)");
-
-        // Assert
-        rule.Check(Architecture);
+            .Because("Bounded contexts must be isolated - CMS cannot directly depend on Identity (ADR-001)")
+            .Check(Architecture);
     }
 
     [Fact]
     public void Identity_Should_Not_Depend_On_Catalog()
     {
         // Arrange & Act
-        var rule = ArchRuleDefinition.Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*")
-            .Should.NotDependOnAny(
+            .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*"))
-            .Because("Bounded contexts must be isolated - Identity cannot directly depend on Catalog (ADR-001)");
-
-        // Assert
-        rule.Check(Architecture);
+            .Because("Bounded contexts must be isolated - Identity cannot directly depend on Catalog (ADR-001)")
+            .Check(Architecture);
     }
 
     [Fact]
     public void Identity_Should_Not_Depend_On_CMS()
     {
         // Arrange & Act
-        var rule = ArchRuleDefinition.Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*")
-            .Should.NotDependOnAny(
+            .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.CMS}\..*"))
-            .Because("Bounded contexts must be isolated - Identity cannot directly depend on CMS (ADR-001)");
-
-        // Assert
-        rule.Check(Architecture);
+            .Because("Bounded contexts must be isolated - Identity cannot directly depend on CMS (ADR-001)")
+            .Check(Architecture);
     }
 
     [Fact]
     public void Localization_Should_Not_Depend_On_Catalog()
     {
         // Arrange & Act
-        var rule = ArchRuleDefinition.Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Localization}\..*")
-            .Should.NotDependOnAny(
+            .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Catalog}\..*"))
-            .Because("Bounded contexts must be isolated - Localization cannot directly depend on Catalog (ADR-001)");
-
-        // Assert
-        rule.Check(Architecture);
+            .Because("Bounded contexts must be isolated - Localization cannot directly depend on Catalog (ADR-001)")
+            .Check(Architecture);
     }
 
     [Fact]
     public void Search_Should_Not_Depend_On_Identity()
     {
         // Arrange & Act
-        var rule = ArchRuleDefinition.Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching($@"{BoundedContexts.Search}\..*")
-            .Should.NotDependOnAny(
+            .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*"))
-            .Because("Bounded contexts must be isolated - Search cannot directly depend on Identity (ADR-001)");
-
-        // Assert
-        rule.Check(Architecture);
+            .Because("Bounded contexts must be isolated - Search cannot directly depend on Identity (ADR-001)")
+            .Check(Architecture);
     }
 
     // Note: Shared.Kernel and B2X.Types are allowed as shared dependencies

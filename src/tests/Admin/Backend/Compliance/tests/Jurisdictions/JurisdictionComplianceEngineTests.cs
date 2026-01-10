@@ -15,16 +15,22 @@ public class JurisdictionComplianceEngineTests
     {
         _repoMock = new Mock<IJurisdictionRepository>();
         _regulatoryServiceMock = new Mock<IRegulatoryUpdateService>();
+
+        // Setup mock to return test jurisdictions
+        _repoMock
+            .Setup(r => r.GetSupportedJurisdictionsAsync())
+            .ReturnsAsync(new[] { "BR", "MX", "IN", "ZA", "TR", "US", "CA", "GB", "DE", "FR", "JP", "AU", "CN", "KR", "SG", "AR", "CO", "CL", "PE", "VE", "EC", "NG", "KE", "GH", "TZ", "UG", "RW" });
+
         _sut = new JurisdictionComplianceEngine(_repoMock.Object, _regulatoryServiceMock.Object);
     }
 
     #region GetSupportedJurisdictions Tests
 
     [Fact]
-    public void GetSupportedJurisdictions_ShouldReturn15PlusJurisdictions()
+    public async Task GetSupportedJurisdictions_ShouldReturn15PlusJurisdictions()
     {
         // Act
-        var jurisdictions = _sut.GetSupportedJurisdictions().ToList();
+        var jurisdictions = (await _sut.GetSupportedJurisdictions()).ToList();
 
         // Assert
         jurisdictions.Count.ShouldBeGreaterThanOrEqualTo(15);
@@ -36,23 +42,23 @@ public class JurisdictionComplianceEngineTests
     [InlineData("IN")]
     [InlineData("ZA")]
     [InlineData("TR")]
-    public void GetSupportedJurisdictions_ShouldIncludeEmergingMarkets(string code)
+    public async Task GetSupportedJurisdictions_ShouldIncludeEmergingMarkets(string code)
     {
         // Act
-        var jurisdictions = _sut.GetSupportedJurisdictions();
+        var jurisdictions = await _sut.GetSupportedJurisdictions();
 
         // Assert
         jurisdictions.ShouldContain(code);
     }
 
     [Fact]
-    public void GetSupportedJurisdictions_ShouldIncludeLatinAmericaRegion()
+    public async Task GetSupportedJurisdictions_ShouldIncludeLatinAmericaRegion()
     {
         // Arrange
         var latinAmericaCodes = new[] { "BR", "MX", "AR", "CO", "CL", "PE", "VE", "EC" };
 
         // Act
-        var jurisdictions = _sut.GetSupportedJurisdictions().ToList();
+        var jurisdictions = (await _sut.GetSupportedJurisdictions()).ToList();
 
         // Assert
         foreach (var code in latinAmericaCodes)
@@ -62,13 +68,13 @@ public class JurisdictionComplianceEngineTests
     }
 
     [Fact]
-    public void GetSupportedJurisdictions_ShouldIncludeAfricaRegion()
+    public async Task GetSupportedJurisdictions_ShouldIncludeAfricaRegion()
     {
         // Arrange
         var africaCodes = new[] { "ZA", "NG", "KE", "GH", "TZ", "UG", "RW" };
 
         // Act
-        var jurisdictions = _sut.GetSupportedJurisdictions().ToList();
+        var jurisdictions = (await _sut.GetSupportedJurisdictions()).ToList();
 
         // Assert
         foreach (var code in africaCodes)

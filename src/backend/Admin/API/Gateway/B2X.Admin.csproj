@@ -55,7 +55,7 @@
 
     <ProjectReference Include="../../../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../../shared/Domain/ERP/src/B2X.ERP.csproj" />
+    <ProjectReference Include="../../../../Shared/Domain/ERP/impl/B2X.ERP.csproj" />
 
     <ProjectReference Include="../../../../Management/Domain/B2X.Email.csproj" />
 

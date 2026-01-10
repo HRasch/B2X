@@ -30,7 +30,7 @@ public class RiskAssessmentEngineTests
     {
         // Arrange
         var request = CreateTestRequest();
-        var assessment = new B2X.Compliance.RiskAssessment.RiskAssessment
+        var assessment = new RiskAssessmentResult
         {
             Id = "assess-001",
             RiskScore = 0.3m,
@@ -58,7 +58,7 @@ public class RiskAssessmentEngineTests
     {
         // Arrange
         var request = CreateTestRequest();
-        var assessment = new B2X.Compliance.RiskAssessment.RiskAssessment
+        var assessment = new RiskAssessmentResult
         {
             Id = "assess-001",
             RiskScore = 0.9m,
@@ -89,7 +89,7 @@ public class RiskAssessmentEngineTests
     {
         // Arrange - Risk score > 0.8 should trigger alert
         var request = CreateTestRequest();
-        var assessment = new B2X.Compliance.RiskAssessment.RiskAssessment
+        var assessment = new RiskAssessmentResult
         {
             Id = "assess-001",
             RiskScore = 0.81m,
@@ -116,7 +116,7 @@ public class RiskAssessmentEngineTests
     {
         // Arrange - Risk score <= 0.8 should not trigger alert
         var request = CreateTestRequest();
-        var assessment = new B2X.Compliance.RiskAssessment.RiskAssessment
+        var assessment = new RiskAssessmentResult
         {
             Id = "assess-001",
             RiskScore = 0.8m,
@@ -143,7 +143,7 @@ public class RiskAssessmentEngineTests
     {
         // Arrange
         var request = CreateTestRequest();
-        var assessment = new B2X.Compliance.RiskAssessment.RiskAssessment
+        var assessment = new RiskAssessmentResult
         {
             Id = "assess-001",
             RiskScore = 0.5m
@@ -171,7 +171,7 @@ public class RiskAssessmentEngineTests
     {
         // Arrange
         var request = CreateTestRequest();
-        var assessment = new B2X.Compliance.RiskAssessment.RiskAssessment
+        var assessment = new RiskAssessmentResult
         {
             Id = "assess-001",
             RiskScore = 0.4m
@@ -260,7 +260,7 @@ public class RiskAssessmentEngineTests
     public void RiskAssessment_ShouldInitializeCorrectly()
     {
         // Act
-        var assessment = new B2X.Compliance.RiskAssessment.RiskAssessment
+        var assessment = new RiskAssessmentResult
         {
             Id = "assess-001",
             RiskScore = 0.75m,
@@ -329,7 +329,7 @@ public class RiskAssessmentEngineTests
     public void RiskAssessment_RiskLevels_ShouldCorrelateWithScore(string level, decimal score)
     {
         // Act
-        var assessment = new B2X.Compliance.RiskAssessment.RiskAssessment
+        var assessment = new RiskAssessmentResult
         {
             RiskLevel = level,
             RiskScore = score

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR" />
+    <!-- SignalR is included in ASP.NET Core framework since .NET Core 3.0 -->
     <PackageReference Include="WolverineFx" />
     <PackageReference Include="WolverineFx.Http" />
   </ItemGroup>
@@ -21,11 +21,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\backend\Shared\Infrastructure\Monitoring\B2X.Shared.Monitoring.csproj" />
 
-    <ProjectReference Include="../../../../backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Domain\Identity\B2X.Identity.API.csproj" />
 
-    <ProjectReference Include="..\..\..\shared\Domain\Tenancy\B2X.Tenancy.API.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Domain\Tenancy\B2X.Tenancy.API.csproj" />
 
-    <ProjectReference Include="../../../../ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\..\backend\Infrastructure\Hosting\ServiceDefaults\B2X.ServiceDefaults.csproj" />
 
   </ItemGroup>
 

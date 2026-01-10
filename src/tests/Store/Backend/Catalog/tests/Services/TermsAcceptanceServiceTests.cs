@@ -25,7 +25,7 @@ public class TermsAcceptanceServiceTests : IAsyncLifetime
     private readonly Guid _tenantId = Guid.NewGuid();
     private readonly string _customerId = "customer-123";
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _mockLogger = new Mock<ILogger<TermsAcceptanceService>>();
         _validator = new RecordTermsAcceptanceValidator();
@@ -34,7 +34,7 @@ public class TermsAcceptanceServiceTests : IAsyncLifetime
         await Task.CompletedTask.ConfigureAwait(false);
     }
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     [Fact]
     public async Task RecordAcceptanceAsync_AllTermsAccepted_ReturnsSuccess()

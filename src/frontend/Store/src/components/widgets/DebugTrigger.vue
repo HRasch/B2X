@@ -143,6 +143,7 @@ import { useI18n } from 'vue-i18n';
 import { useDebugContext } from '@/composables/useDebugContext';
 import DebugFeedbackWidget from '@/components/widgets/DebugFeedbackWidget.vue';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { t } = useI18n();
 const {
   session,
@@ -152,7 +153,9 @@ const {
   environment,
   startSession: startDebugSession,
   stopSession: stopDebugSession,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   recordAction,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   captureError,
   setDebugEnabled,
 } = useDebugContext();

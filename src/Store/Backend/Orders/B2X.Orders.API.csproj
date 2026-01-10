@@ -51,23 +51,23 @@
   <ItemGroup>
     <ProjectReference Include="../../../../src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../../../backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../../backend/shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 
-    <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
-    <ProjectReference Include="../../../backend/Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../backend/Shared/Infrastructure/Middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
 
-    <ProjectReference Include="../../../backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
 
-    <ProjectReference Include="../../../backend/Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
+    <ProjectReference Include="../../../../backend/Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
 
     <ProjectReference Include="../Catalog/B2X.Catalog.API.csproj" />
 
     <ProjectReference Include="../../../../backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
 
-    <ProjectReference Include="../../../Management/Backend/Email/B2X.Email.API.csproj" />
+    <ProjectReference Include="../../../../backend/Management/Domain/B2X.Email.csproj" />
 
   </ItemGroup>
 

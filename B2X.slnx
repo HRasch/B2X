@@ -1,210 +1,133 @@
 <Solution>
-  <!-- AppHost -->
+  <!-- ===================== -->
+  <!-- INFRASTRUCTURE        -->
+  <!-- ===================== -->
   <Project Path="src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj" />
-
-  <!-- ServiceDefaults -->
   <Project Path="src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+  <Project Path="src/backend/Infrastructure/Connectors/B2X.Connectors.csproj" />
+  <Project Path="src/tools/seeders/seeding/B2X.Seeding.API.csproj" />
+
+  <!-- ===================== -->
+  <!-- SHARED DOMAIN         -->
+  <!-- ===================== -->
+  <Project Path="src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+  <Project Path="src/backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+  <Project Path="src/backend/Shared/Domain/B2X.Types/B2X.Types.csproj" />
+  <Project Path="src/backend/Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
+  <Project Path="src/backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
+  <Project Path="src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
+  <Project Path="src/backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
+  <Project Path="src/backend/Shared/Domain/PatternAnalysis/B2X.PatternAnalysis.csproj" />
+  <Project Path="src/backend/Shared/Domain/Theming/B2X.Theming.API.csproj" />
+  <Project Path="src/backend/Shared/Domain/Theming/Layout/B2X.Theming.Layout.csproj" />
+  <Project Path="src/backend/Shared/Domain/ERP/src/B2X.ERP.csproj" />
+  <Project Path="src/backend/Shared/Domain/ERP/Abstractions/B2X.ERP.Abstractions.csproj" />
+  <Project Path="src/backend/Shared/Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
+  <Project Path="src/backend/Shared/Domain/SmartDataIntegration/src/B2X.SmartDataIntegration.csproj" />
+  <Project Path="src/backend/Shared/Domain/SmartDataIntegration/API/B2X.SmartDataIntegration.API.csproj" />
+
+  <!-- ===================== -->
+  <!-- SHARED INFRASTRUCTURE -->
+  <!-- ===================== -->
+  <Project Path="src/backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
+  <Project Path="src/backend/Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
+  <Project Path="src/backend/Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
+  <Project Path="src/backend/Shared/Infrastructure/Monitoring/B2X.Shared.Monitoring.csproj" />
+
+  <!-- ===================== -->
+  <!-- STORE APPLICATION     -->
+  <!-- ===================== -->
+  <Project Path="src/backend/Store/API/B2X.Store.csproj" />
+  <Project Path="src/backend/Store/Domain/Categories/B2X.Categories.csproj" />
+  <Project Path="src/backend/Store/Domain/Search/B2X.Domain.Search.csproj" />
+  <Project Path="src/backend/Store/Domain/Variants/src/B2X.Variants.csproj" />
+  <Project Path="src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
+  <Project Path="src/Store/Backend/Customer/B2X.Customer.API.csproj" />
+  <Project Path="src/Store/Backend/Orders/B2X.Orders.API.csproj" />
+
+  <!-- ===================== -->
+  <!-- ADMIN APPLICATION     -->
+  <!-- ===================== -->
+  <Project Path="src/backend/Admin/Gateway/B2X.Admin.csproj" />
+  <Project Path="src/backend/Admin/Domain/Legal/B2X.Legal.API.csproj" />
+  <Project Path="src/backend/Admin/CLI/B2X.CLI.Administration/B2X.CLI.Administration.csproj" />
+
+  <!-- ===================== -->
+  <!-- MANAGEMENT APP        -->
+  <!-- ===================== -->
+  <Project Path="src/backend/Management/Domain/B2X.CMS.csproj" />
+  <Project Path="src/backend/Management/Domain/B2X.Email.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - HOSTING       -->
+  <!-- ===================== -->
+  <Project Path="src/tests/Hosting/AppHost.Tests/B2X.AppHost.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - STORE         -->
+  <!-- ===================== -->
+  <Project Path="src/tests/Store/B2X.Store.Tests.csproj" />
+  <Project Path="src/tests/Store/Backend/Catalog/B2X.Catalog.Tests/B2X.Catalog.Tests.csproj" />
+  <Project Path="src/tests/Store/Backend/Customer/tests/B2X.Customer.Tests.csproj" />
+  <Project Path="src/tests/Store/Backend/Orders/tests/B2X.Orders.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - ADMIN         -->
+  <!-- ===================== -->
+  <Project Path="src/tests/Admin/Backend/Compliance/tests/B2X.Compliance.Tests.csproj" />
+  <Project Path="src/tests/Admin/Backend/Legal/tests/B2X.Legal.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - MANAGEMENT    -->
+  <!-- ===================== -->
+  <Project Path="src/tests/Management/CMS/B2X.CMS.Tests.csproj" />
+  <Project Path="src/tests/Management/Email/B2X.Email.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - SHARED DOMAIN -->
+  <!-- ===================== -->
+  <Project Path="src/tests/Shared/Domain/Identity/B2X.Identity.Tests/B2X.Identity.Tests.csproj" />
+  <Project Path="src/tests/Shared/Domain/Localization/tests/B2X.Localization.Tests.csproj" />
+  <Project Path="src/tests/Shared/Domain/Security/tests/B2X.Security.Tests.csproj" />
+  <Project Path="src/tests/Shared/Domain/Tenancy/tests/B2X.Tenancy.Tests.csproj" />
+  <Project Path="src/tests/Shared/Domain/AI/tests/B2X.AI.Tests.csproj" />
+  <Project Path="src/tests/Shared/Domain/ERP/tests/B2X.ERP.Tests.csproj" />
+  <Project Path="src/tests/Shared/Domain/PatternAnalysis/tests/B2X.PatternAnalysis.Tests.csproj" />
+  <Project Path="src/tests/Shared/Domain/Returns/tests/B2X.Returns.Tests.csproj" />
+  <Project Path="src/tests/Shared/Domain/SmartDataIntegration/tests/B2X.SmartDataIntegration.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - SEARCH        -->
+  <!-- ===================== -->
+  <Project Path="src/tests/Shared/Domain/Search/B2X.Search.Integration/B2X.Search.Integration.csproj" />
+  <Project Path="src/tests/Shared/Domain/Search/B2X.Search.UnitTests/B2X.Search.UnitTests.csproj" />
+  <Project Path="src/tests/Shared/B2X.Shared.Search.Tests/B2X.Shared.Search.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - SHARED OTHER  -->
+  <!-- ===================== -->
+  <!-- TODO: Fix B2X.Architecture.Tests - broken project references -->
+  <!-- <Project Path="src/tests/Shared/B2X.Architecture.Tests/B2X.Architecture.Tests.csproj" /> -->
+  <Project Path="src/tests/Shared/B2X.Gateway.Integration.Tests/B2X.Gateway.Integration.Tests.csproj" />
+  <Project Path="src/tests/Shared/B2X.Shared.Infrastructure/tests/B2X.Shared.Infrastructure.Tests.csproj" />
+  <Project Path="src/tests/Shared/Validation/B2X.Validation.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - SERVICES      -->
+  <!-- ===================== -->
+  <Project Path="src/tests/Services/PunchoutAdapters/IdsConnect/tests/B2X.IdsConnectAdapter.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- TESTS - BOUNDED CTX   -->
+  <!-- ===================== -->
+  <Project Path="src/tests/BoundedContexts/Admin/MCP/B2X.Admin.MCP.Tests/B2X.Admin.MCP.Tests.csproj" />
+
+  <!-- ===================== -->
+  <!-- SOLUTION FOLDERS      -->
+  <!-- ===================== -->
   <Folder Name="/src/" />
   <Folder Name="/src/backend/" />
-  <Folder Name="/src/backend/Shared/" />
-  <Folder Name="/src/backend/Shared/Domain/">
-    <Project Path="src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
-  </Folder>
-  <Folder Name="/src/backend/Shared/Infrastructure/" />
-  <Folder Name="/src/backend/Shared/Infrastructure/Messaging/">
-    <Project Path="src/backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
-  </Folder>
-
-  <!-- Store Application -->
-  <Folder Name="/src/backend/Store/">
-    <!-- Frontend -->
-    <Folder Name="/backend/Store/Frontend/">
-      <!-- Add frontend projects here when moved -->
-    </Folder>
-
-    <!-- API -->
-    <Folder Name="/backend/Store/API/">
-      <Project Path="src/backend/Store/API/B2X.Store.csproj" />
-    </Folder>
-
-    <!-- Gateway -->
-    <Folder Name="/backend/Store/Gateway/">
-      <Project Path="src/backend/Store/Infrastructure/Gateway/Search/B2X.Store.Search.csproj" />
-      <Project Path="src/backend/Store/Infrastructure/Gateway/Store.Service/B2X.Store.csproj" />
-    </Folder>
-
-    <!-- Backend -->
-    <Folder Name="/backend/Store/Domain/">
-      <Project Path="src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
-      <Project Path="src/backend/Store/Domain/Categories/B2X.Categories.csproj" />
-      <Project Path="src/backend/Store/Domain/Customer/B2X.Customer.API.csproj" />
-      <Project Path="src/backend/Store/Domain/Orders/B2X.Orders.API.csproj" />
-      <Project Path="src/backend/Store/Domain/Search/B2X.Domain.Search.csproj" />
-      <Project Path="src/backend/Store/Domain/Variants/src/B2X.Variants.csproj" />
-    </Folder>
-
-    <!-- CLI -->
-    <Folder Name="/backend/Store/CLI/">
-      <Project Path="src/backend/Store/CLI/B2X.CLI.Operations/B2X.CLI.Operations.csproj" />
-    </Folder>
-  </Folder>
-  <Folder Name="/backend/" />
-
-  <!-- Admin Application -->
-  <Folder Name="/backend/Admin/">
-    <!-- API -->
-    <Folder Name="/backend/Admin/API/">
-      <Project Path="src/backend/Admin/Gateway/B2X.Admin.csproj" />
-    </Folder>
-
-    <!-- Backend -->
-    <Folder Name="/backend/Admin/Domain/">
-      <Project Path="src/backend/Admin/Domain/Legal/B2X.Legal.API.csproj" />
-    </Folder>
-
-    <!-- CLI -->
-    <Folder Name="/backend/Admin/CLI/">
-      <Project Path="src/backend/Admin/CLI/B2X.CLI.Administration/B2X.CLI.Administration.csproj" />
-    </Folder>
-  </Folder>
-
-  <!-- Management Application -->
-  <Folder Name="/backend/Management/">
-    <!-- Backend -->
-    <Folder Name="/backend/Management/Domain/">
-      <Project Path="src/backend/Management/Domain/B2X.CMS.csproj" />
-      <Project Path="src/backend/Management/Domain/B2X.Email.csproj" />
-    </Folder>
-
-    <!-- CLI -->
-    <Folder Name="/backend/Management/CLI/">
-      <Project Path="src/backend/Management/CLI/B2X.CLI.csproj" />
-    </Folder>
-  </Folder>
-
-  <!-- Shared Components -->
-  <Folder Name="/backend/Shared/">
-    <!-- Domain -->
-    <Folder Name="/backend/Shared/Domain/">
-      <Project Path="src/backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
-      <Project Path="src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
-      <Project Path="src/backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
-      <Project Path="src/backend/Shared/Domain/PatternAnalysis/B2X.PatternAnalysis.csproj" />
-      <Project Path="src/backend/Shared/Domain/Theming/B2X.Theming.API.csproj" />
-      <Project Path="src/backend/Shared/Domain/Theming/Layout/B2X.Theming.Layout.csproj" />
-      <Project Path="src/backend/Shared/Domain/ERP/src/B2X.ERP.csproj" />
-      <Project Path="src/backend/Shared/Domain/ERP/Abstractions/B2X.ERP.Abstractions.csproj" />
-      <Project Path="src/backend/Shared/Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
-      <Project Path="src/backend/Shared/Domain/SmartDataIntegration/src/B2X.SmartDataIntegration.csproj" />
-      <Project Path="src/backend/Shared/Domain/SmartDataIntegration/API/B2X.SmartDataIntegration.API.csproj" />
-    </Folder>
-
-    <!-- Shared Infrastructure -->
-    <Folder Name="/backend/Shared/Infrastructure/">
-      <Project Path="src/backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
-      <Project Path="src/backend/Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
-      <Project Path="src/backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
-      <Project Path="src/backend/Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
-      <Project Path="src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
-      <Project Path="src/backend/Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
-      <Project Path="src/backend/Shared/Infrastructure/Monitoring/B2X.Shared.Monitoring.csproj" />
-      <Project Path="src/backend/Shared/tools/B2X.Shared.Tools.csproj" />
-      <Project Path="src/backend/Shared/Domain/B2X.Types/B2X.Types.csproj" />
-      <Project Path="src/backend/Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
-      <Project Path="src/backend/Shared/B2X.CLI.Shared/B2X.CLI.Shared.csproj" />
-    </Folder>
-
-    <!-- ERP -->
-    <Folder Name="/backend/shared/ERP/">
-      <Project Path="src/backend/Shared/Domain/ERP/Core/B2X.Shared.Erp.Core.csproj" />
-      <Project Path="src/backend/Shared/Domain/ERP/Validation/B2X.Shared.Erp.Validation.csproj" />
-    </Folder>
-  </Folder>
-
-  <!-- Services -->
-  <Folder Name="/backend/Services/">
-  </Folder>
-  <Folder Name="/backend/Infrastructure/" />
-
-  <!-- Connectors -->
-  <Folder Name="/backend/Infrastructure/Connectors/">
-    <Project Path="src/backend/Infrastructure/Connectors/B2X.Connectors.csproj" />
-  </Folder>
-
-  <!-- Seeding -->
-  <Folder Name="/src/seeding/">
-    <Project Path="src/tools/seeders/seeding/B2X.Seeding.API.csproj" />
-  </Folder>
-
-  <!-- Tests -->
-  <Folder Name="/src/tests/">
-    <!-- Hosting Tests -->
-    <Project Path="src/tests/Hosting/AppHost.Tests/B2X.AppHost.Tests.csproj" />
-
-    <!-- Store Tests -->
-    <Folder Name="/src/tests/Store/">
-      <Project Path="src/tests/Store/B2X.Store.Tests.csproj" />
-      <Project Path="src/tests/Store/Backend/Catalog/B2X.Catalog.Tests/B2X.Catalog.Tests.csproj" />
-      <Project Path="src/tests/Store/Backend/Customer/tests/B2X.Customer.Tests.csproj" />
-      <Project Path="src/tests/Store/Backend/Orders/tests/B2X.Orders.Tests.csproj" />
-      <Project Path="src/tests/Store/Gateway/tests/B2X.Store.Tests.csproj" />
-    </Folder>
-
-    <!-- Admin Tests -->
-    <Folder Name="/src/tests/Admin/">
-      <Project Path="src/tests/Admin/Backend/Compliance/tests/B2X.Compliance.Tests.csproj" />
-      <Project Path="src/tests/Admin/Backend/Legal/tests/B2X.Legal.Tests.csproj" />
-    </Folder>
-
-    <!-- Management Tests -->
-    <Folder Name="/src/tests/Management/">
-      <Project Path="src/tests/Management/CMS/B2X.CMS.Tests.csproj" />
-      <Project Path="src/tests/Management/Email/B2X.Email.Tests.csproj" />
-    </Folder>
-
-    <!-- Shared Tests -->
-    <Folder Name="/src/tests/shared/">
-      <!-- Domain Tests -->
-      <Folder Name="/src/tests/shared/Domain/">
-        <Project Path="src/tests/shared/Domain/Identity/B2X.Identity.Tests/B2X.Identity.Tests.csproj" />
-        <Project Path="src/tests/shared/Domain/Localization/tests/B2X.Localization.Tests.csproj" />
-        <Project Path="src/tests/shared/Domain/Security/tests/B2X.Security.Tests.csproj" />
-        <Project Path="src/tests/shared/Domain/Tenancy/tests/B2X.Tenancy.Tests.csproj" />
-        <Project Path="src/tests/shared/Domain/AI/tests/B2X.AI.Tests.csproj" />
-        <Project Path="src/tests/shared/Domain/ERP/tests/B2X.ERP.Tests.csproj" />
-        <Project Path="src/tests/shared/Domain/PatternAnalysis/tests/B2X.PatternAnalysis.Tests.csproj" />
-        <Project Path="src/tests/shared/Domain/Returns/tests/B2X.Returns.Tests.csproj" />
-        <Project Path="src/tests/shared/Domain/Search/B2X.Search.Integration/B2X.Search.Integration.csproj" />
-        <Project Path="src/tests/shared/Domain/Search/B2X.Search.UnitTests/B2X.Search.UnitTests.csproj" />
-        <Project Path="src/tests/shared/Domain/SmartDataIntegration/tests/B2X.SmartDataIntegration.Tests.csproj" />
-      </Folder>
-
-      <!-- Infrastructure Tests -->
-      <Project Path="src/tests/shared/B2X.Shared.Infrastructure/tests/B2X.Shared.Infrastructure.Tests.csproj" />
-
-      <!-- Other Shared Tests -->
-      <Project Path="src/tests/shared/B2X.Architecture.Tests/B2X.Architecture.Tests.csproj" />
-      <Project Path="src/tests/shared/B2X.Gateway.Integration.Tests/B2X.Gateway.Integration.Tests.csproj" />
-      <Project Path="src/tests/shared/B2X.Shared.Search.Tests/B2X.Shared.Search.Tests.csproj" />
-      <Project Path="src/tests/shared/Validation/B2X.Validation.Tests.csproj" />
-      <Project Path="src/tests/shared/TestUtilities/TestUtilities.csproj" />
-    </Folder>
-
-    <!-- Service Tests -->
-    <Folder Name="/src/tests/services/">
-    </Folder>
-
-    <!-- Bounded Contexts Tests -->
-    <Folder Name="/src/tests/BoundedContexts/">
-      <Project Path="src/tests/BoundedContexts/Admin/MCP/B2X.Admin.MCP.Tests/B2X.Admin.MCP.Tests.csproj" />
-    </Folder>
-  </Folder>
-
-  <!-- Bounded Contexts (Legacy) -->
-  <Folder Name="/src/BoundedContexts/">
-  </Folder>
-
-  <!-- Project Files -->
+  <Folder Name="/src/tests/" />
   <Folder Name="/Projektmappenelemente/">
     <File Path="docker-compose.yml" />
   </Folder>

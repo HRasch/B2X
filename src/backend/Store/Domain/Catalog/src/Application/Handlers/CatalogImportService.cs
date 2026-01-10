@@ -79,24 +79,49 @@ public class CatalogImportService
 
             if (result.Success)
             {
-                // Create product records
-                var catalogProducts = result.Products.ToList();
-                foreach (var product in catalogProducts)
+                // Create product records and track errors
+                var catalogProducts = new List<CatalogProduct>();
+                var failedProducts = new List<CatalogProduct>();
+
+                foreach (var product in result.Products)
                 {
                     product.CatalogImportId = catalogImport.Id;
+                    product.Status = ProductImportStatus.Completed;
+                    product.ProcessedAt = DateTime.UtcNow;
+                    catalogProducts.Add(product);
                 }
 
-                await _productRepository.AddRangeAsync(catalogProducts, ct).ConfigureAwait(false);
+                // Add failed products with error details
+                foreach (var error in result.ProductErrors)
+                {
+                    var failedProduct = new CatalogProduct
+                    {
+                        Id = Guid.NewGuid(),
+                        CatalogImportId = catalogImport.Id,
+                        SupplierAid = error.SupplierAid,
+                        ProductData = "{}",
+                        CreatedAt = DateTime.UtcNow,
+                        Status = ProductImportStatus.Failed,
+                        ErrorMessage = error.ErrorMessage,
+                        ErrorDetails = error.ErrorDetails,
+                        ProcessedAt = error.OccurredAt
+                    };
+                    failedProducts.Add(failedProduct);
+                }
+
+                // Save all products (successful and failed)
+                var allProducts = catalogProducts.Concat(failedProducts).ToList();
+                await _productRepository.AddRangeAsync(allProducts, ct).ConfigureAwait(false);
 
                 catalogImport.Status = ImportStatus.Completed;
-                catalogImport.ProductCount = result.ProductCount;
+                catalogImport.ProductCount = catalogProducts.Count; // Only count successful products
                 catalogImport.UpdatedAt = DateTime.UtcNow;
 
                 await _importRepository.UpdateAsync(catalogImport, ct).ConfigureAwait(false);
 
                 _logger.LogInformation(
-                    "Successfully imported {Format} catalog {ImportId} with {ProductCount} products from supplier {SupplierId}",
-                    format, catalogImport.Id, result.ProductCount, catalogImport.SupplierId);
+                    "Successfully imported {Format} catalog {ImportId} with {ProductCount} products from supplier {SupplierId}. {FailedCount} products failed.",
+                    format, catalogImport.Id, catalogProducts.Count, catalogImport.SupplierId, failedProducts.Count);
             }
             else
             {
@@ -179,7 +204,11 @@ public class CatalogImportService
                 Id = p.Id,
                 SupplierAid = p.SupplierAid,
                 ProductData = p.ProductData,
-                CreatedAt = p.CreatedAt
+                CreatedAt = p.CreatedAt,
+                Status = p.Status,
+                ErrorMessage = p.ErrorMessage,
+                ErrorDetails = p.ErrorDetails,
+                ProcessedAt = p.ProcessedAt
             }).ToList(),
             Page = page,
             PageSize = pageSize,
@@ -288,6 +317,12 @@ public class CatalogProductDto
     public string SupplierAid { get; set; } = string.Empty;
     public string ProductData { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
+
+    // Error tracking for individual product imports
+    public ProductImportStatus Status { get; set; }
+    public string? ErrorMessage { get; set; }
+    public string? ErrorDetails { get; set; }
+    public DateTime? ProcessedAt { get; set; }
 }
 
 /// <summary>

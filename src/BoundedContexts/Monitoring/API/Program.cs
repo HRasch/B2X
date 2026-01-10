@@ -47,14 +47,16 @@ builder.Services.AddScoped<B2X.Shared.Monitoring.Abstractions.IDebugEventBroadca
 builder.Services.AddScoped<B2X.Shared.Tenancy.Infrastructure.Context.ITenantContext, B2X.Shared.Tenancy.Infrastructure.Context.TenantContext>();
 builder.Services.AddScoped<B2X.Shared.Middleware.ITenantContextAccessor, B2X.Shared.Middleware.TenantContextAccessor>();
 
-// Add CORS
+// Add CORS - SignalR requires specific origins with AllowCredentials
+var corsOrigins = builder.Configuration.GetValue<string>("CORS:AllowedOrigins") ?? "http://localhost:3000,http://localhost:3001,http://localhost:3002";
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(corsOrigins.Split(','))
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials(); // Required for SignalR
     });
 });
 

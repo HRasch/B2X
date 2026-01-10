@@ -99,7 +99,7 @@ export function getElementSelector(element: HTMLElement): string {
 }
 
 // Sanitize data for privacy
-export function sanitizeData(data: any): any {
+export function sanitizeData(data: unknown): unknown {
   if (!DEBUG_CONFIG.privacy.maskSensitiveData) {
     return data;
   }
@@ -119,7 +119,7 @@ export function sanitizeData(data: any): any {
   }
 
   if (typeof data === 'object' && data !== null) {
-    const sanitized: any = {};
+    const sanitized: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(data)) {
       // Skip sensitive keys
       if (
@@ -174,7 +174,11 @@ export function getViewportInfo(): {
     width: window.innerWidth,
     height: window.innerHeight,
     pixelRatio: window.devicePixelRatio || 1,
-    orientation: (screen as any)?.orientation?.type,
+    orientation: String(
+      (screen as Record<string, unknown>)?.orientation as
+        | (Record<string, unknown> & { type?: string })
+        | undefined
+    ),
   };
 }
 
@@ -194,7 +198,7 @@ export function measurePerformance<T>(name: string, fn: () => T): T {
 }
 
 // Compress data for storage/transmission
-export function compressData(data: any): string {
+export function compressData(data: unknown): string {
   try {
     const jsonString = JSON.stringify(data);
     // Simple compression - in production, use proper compression
@@ -206,7 +210,7 @@ export function compressData(data: any): string {
 }
 
 // Decompress data
-export function decompressData(compressed: string): any {
+export function decompressData(compressed: string): unknown {
   try {
     const jsonString = decodeURIComponent(atob(compressed));
     return JSON.parse(jsonString);
@@ -242,7 +246,7 @@ export function getPageInfo(): {
 }
 
 // Debounce function for performance
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: never[]) => void>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -255,7 +259,7 @@ export function debounce<T extends (...args: any[]) => any>(
 }
 
 // Throttle function for performance
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: never[]) => void>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
@@ -284,8 +288,8 @@ export function isElementVisible(element: HTMLElement): boolean {
 }
 
 // Get element context (surrounding elements)
-export function getElementContext(element: HTMLElement, levels = 2): any {
-  const context: any = {
+export function getElementContext(element: HTMLElement, levels = 2): Record<string, unknown> {
+  const context: Record<string, unknown> = {
     element: getElementSelector(element),
     text: element.textContent?.substring(0, 100),
     attributes: {},
@@ -307,11 +311,11 @@ export function getElementContext(element: HTMLElement, levels = 2): any {
 }
 
 // Format error for logging
-export function formatError(error: Error | ErrorEvent | any): {
+export function formatError(error: Error | ErrorEvent | Record<string, unknown>): {
   message: string;
   stack?: string;
   type: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 } {
   if (error instanceof ErrorEvent) {
     return {

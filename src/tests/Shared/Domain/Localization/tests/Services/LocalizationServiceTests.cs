@@ -20,7 +20,7 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
     private B2X.LocalizationService.Services.LocalizationService _serviceWithRealCache = null!;
     private Mock<HttpContext> _httpContextMock = null!;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var options = new DbContextOptionsBuilder<LocalizationDbContext>()
             .UseInMemoryDatabase(databaseName: $"test_db_{Guid.NewGuid()}")
@@ -38,7 +38,7 @@ public class LocalizationServiceTests : IAsyncLifetime, IDisposable
         _serviceWithRealCache = new B2X.LocalizationService.Services.LocalizationService(_dbContext, _realCache, _httpContextAccessorMock.Object);
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await _dbContext.DisposeAsync();
     }

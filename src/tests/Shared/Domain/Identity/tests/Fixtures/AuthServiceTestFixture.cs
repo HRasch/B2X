@@ -21,7 +21,7 @@ public class AuthServiceTestFixture : IAsyncLifetime
     public IAuthService AuthService { get; private set; } = null!;
     public IConfiguration Configuration { get; private set; } = null!;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         // Configure in-memory database
         _services.AddDbContext<AuthDbContext>(options =>
@@ -72,7 +72,7 @@ public class AuthServiceTestFixture : IAsyncLifetime
         await DbContext.Database.EnsureCreatedAsync();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await DbContext.DisposeAsync();
         ServiceProvider.Dispose();
@@ -143,6 +143,6 @@ public abstract class AuthServiceTestBase : IAsyncLifetime
         await Fixture.DisposeAsync();
     }
 
-    public async Task InitializeAsync() => await InitializeFixtureAsync();
-    public async Task DisposeAsync() => await DisposeFixtureAsync();
+    public async ValueTask InitializeAsync() => await InitializeFixtureAsync();
+    public async ValueTask DisposeAsync() => await DisposeFixtureAsync();
 }

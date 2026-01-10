@@ -1,10 +1,10 @@
 using System.Security.Claims;
-using B2X.AuthService.Data;
+using B2X.Identity.Data;
 using B2X.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace B2X.AuthService.Controllers;
+namespace B2X.Identity.Controllers;
 
 [ApiController]
 [Route("api/auth")]

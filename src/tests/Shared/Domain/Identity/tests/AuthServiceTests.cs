@@ -18,7 +18,7 @@ public class AuthServiceTests : IAsyncLifetime
     private IAuthService _authService = null!;
     private AuthDbContext _dbContext = null!;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var services = new ServiceCollection();
 
@@ -70,7 +70,7 @@ public class AuthServiceTests : IAsyncLifetime
         await SeedTestDataAsync();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await _dbContext.Database.EnsureDeletedAsync();
         _serviceProvider.Dispose();
