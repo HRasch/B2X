@@ -94,6 +94,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-052` | MCP-Enhanced Bugfixing Workflow | `.ai/decisions/ADR-052-mcp-enhanced-bugfixing.md` | Accepted |
 | `ADR-053` | Realtime Debug Architecture | `.ai/decisions/ADR-053-realtime-debug-architecture.md` | Proposed |
 | `ADR-054` | Realtime Debug Strategy for Development and Production | `.ai/decisions/ADR-054-realtime-debug-strategy.md` | Proposed |
+| `ADR-055` | Cloud Platform Selection | `.ai/decisions/ADR-055-cloud-platform-selection.md` | Draft |
 
 ---
 
@@ -492,6 +493,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation Steward - Quality, Registry, Compliance |
 | `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
 | `AGT-018` | CopilotExpert | `.github/agents/CopilotExpert.agent.md` | Copilot Configuration |
+| `AGT-019` | CloudArchitect | `.github/agents/cloud-architect.agent.md` | Cloud Platform Architecture & Strategy |
 
 **CopilotExpert (AGT-018) EXCLUSIVE Authority:**
 - **ONLY @CopilotExpert** may create, modify, or delete agent definitions (`.github/agents/`)

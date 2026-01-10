@@ -36,6 +36,7 @@ See [AGENT_TEAM_REGISTRY.md](../collaboration/AGENT_TEAM_REGISTRY.md) for comple
 | `@DocMaintainer` | `AGT-016` | Documentation | Maintain doc quality, enforce DocID rules, link checks |
 | `@Enventa` | `AGT-017` | ERP Integration | enventa Trade ERP, Provider Architecture, Actor Pattern |
 | `@CopilotExpert` | `AGT-018` | Copilot Config | **EXCLUSIVE:** Agent definitions, prompts, instructions |
+| `@CloudArchitect` | `AGT-019` | Cloud Infrastructure | Cloud platform strategy, cost optimization, cloud-native design |
 
 ### Specialist Agents (Coming Soon)
 - @QA-Frontend (E2E, UI Testing, Playwright)

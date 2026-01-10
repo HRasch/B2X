@@ -60,7 +60,8 @@ Use stable DocIDs for cross-referencing. See [DOCUMENT_REGISTRY.md](../.ai/DOCUM
 | @Frontend | Vue.js 3 | @QA | Testing |
 | @Architect | System Design | @TechLead | Code Quality |
 | @Security | Security | @DevOps | Infrastructure |
-| @CopilotExpert | Copilot Config | @DocMaintainer | Docs |
+| @CloudArchitect | Cloud Platform | @CopilotExpert | Copilot Config |
+| @DocMaintainer | Docs | | |
 
 ---
 
@@ -186,6 +187,7 @@ See [PROMPTS_INDEX.md](../.ai/collaboration/PROMPTS_INDEX.md) for complete refer
 - **@SARAH**: Guidelines, permissions, quality-gate, conflict resolution
 - **@CopilotExpert**: EXCLUSIVE over `.github/agents/`, prompts, instructions
 - **@Architect + @TechLead**: Architecture changes approval
+- **@CloudArchitect**: Cloud platform strategy, cost optimization (with @Architect approval)
 
 For processes, ownership, conflicts → `@SARAH`
 
