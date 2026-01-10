@@ -93,9 +93,9 @@ jobs:
       - name: Run Runtime Health Check
         run: |
           echo "Running runtime health check in staging..."
-          ./scripts/runtime-health-check.sh
+          ./scripts/monitoring/health-check.sh
 
       - name: Validate Staging Deployment
         run: |
           echo "Validating staging deployment..."
-          ./scripts/validate-deployment.sh staging
+          ./scripts/validation/validate-deployment.sh staging

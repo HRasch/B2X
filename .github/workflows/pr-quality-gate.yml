@@ -93,8 +93,8 @@ jobs:
 
       - name: Documentation - Metadata Validation
         run: |
-          chmod +x scripts/validate-metadata.sh
-          ./scripts/validate-metadata.sh
+          chmod +x scripts/validation/validate-metadata.sh
+          ./scripts/validation/validate-metadata.sh
 
   # Stage 2: Unit Tests (< 5 min)
   unit-tests:

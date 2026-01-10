@@ -67,7 +67,7 @@ scripts/
 - [x] Update hardcoded paths in legacy scripts
 - [x] Test moved scripts for functionality
 - [x] Remove/archive deprecated migration scripts
-- [ ] Update CI/CD references to new script paths
+- [x] Update CI/CD references to new script paths
 
 ### Ongoing Maintenance
 - [ ] Quarterly script audit for relevance
