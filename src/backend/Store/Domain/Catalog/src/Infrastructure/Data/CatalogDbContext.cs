@@ -255,5 +255,205 @@ public class CatalogDbContext : DbContext
             entity.HasIndex(x => new { x.TargetType, x.TargetId })
                 .HasDatabaseName("IX_CatalogShareRule_Target");
         });
+
+        // Configure Category entity
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+
+            entity.Property(x => x.Id)
+                .ValueGeneratedNever();
+
+            entity.Property(x => x.TenantId)
+                .IsRequired();
+
+            entity.Property(x => x.Name)
+                .HasMaxLength(200)
+                .IsRequired();
+
+            entity.Property(x => x.Description)
+                .HasMaxLength(1000);
+
+            entity.Property(x => x.Slug)
+                .HasMaxLength(200);
+
+            entity.Property(x => x.ImageUrl)
+                .HasMaxLength(500);
+
+            entity.Property(x => x.Icon)
+                .HasMaxLength(100);
+
+            entity.Property(x => x.MetaTitle)
+                .HasMaxLength(200);
+
+            entity.Property(x => x.MetaDescription)
+                .HasMaxLength(500);
+
+            entity.Property(x => x.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.Property(x => x.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            // Self-referencing relationship for parent-child hierarchy
+            entity.HasOne(x => x.Parent)
+                .WithMany(x => x.Children)
+                .HasForeignKey(x => x.ParentId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete of parent
+
+            // Indexes for performance
+            entity.HasIndex(x => x.TenantId)
+                .HasDatabaseName("IX_Categories_TenantId");
+
+            entity.HasIndex(x => new { x.TenantId, x.Slug })
+                .IsUnique()
+                .HasDatabaseName("IX_Categories_TenantId_Slug");
+
+            entity.HasIndex(x => x.ParentId)
+                .HasDatabaseName("IX_Categories_ParentId");
+
+            entity.HasIndex(x => new { x.TenantId, x.IsActive, x.IsVisible })
+                .HasDatabaseName("IX_Categories_TenantId_Active_Visible");
+        });
+
+        // Configure Product entity
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+
+            entity.Property(x => x.Id)
+                .ValueGeneratedNever();
+
+            entity.Property(x => x.TenantId)
+                .IsRequired();
+
+            entity.Property(x => x.Sku)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            entity.Property(x => x.Name)
+                .HasMaxLength(500)
+                .IsRequired();
+
+            entity.Property(x => x.Description)
+                .HasMaxLength(2000);
+
+            entity.Property(x => x.BrandName)
+                .HasMaxLength(200);
+
+            entity.Property(x => x.Barcode)
+                .HasMaxLength(100);
+
+            entity.Property(x => x.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.Property(x => x.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            // Indexes for performance
+            entity.HasIndex(x => x.TenantId)
+                .HasDatabaseName("IX_Products_TenantId");
+
+            entity.HasIndex(x => new { x.TenantId, x.Sku })
+                .IsUnique()
+                .HasDatabaseName("IX_Products_TenantId_Sku");
+
+            entity.HasIndex(x => new { x.TenantId, x.IsActive })
+                .HasDatabaseName("IX_Products_TenantId_IsActive");
+
+            entity.HasIndex(x => x.CreatedAt)
+                .HasDatabaseName("IX_Products_CreatedAt");
+        });
+
+        // Configure Variant entity
+        modelBuilder.Entity<Variant>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+
+            entity.Property(x => x.Id)
+                .ValueGeneratedNever();
+
+            entity.Property(x => x.ProductId)
+                .IsRequired();
+
+            entity.Property(x => x.Sku)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            entity.Property(x => x.Name)
+                .HasMaxLength(500)
+                .IsRequired();
+
+            entity.Property(x => x.Description)
+                .HasMaxLength(1000);
+
+            entity.Property(x => x.PrimaryImageUrl)
+                .HasMaxLength(500);
+
+            entity.Property(x => x.Barcode)
+                .HasMaxLength(100);
+
+            entity.Property(x => x.Weight)
+                .HasMaxLength(50);
+
+            entity.Property(x => x.Dimensions)
+                .HasMaxLength(100);
+
+            entity.Property(x => x.CreatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.Property(x => x.UpdatedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            // Foreign key relationship to Product
+            entity.HasOne<Product>()
+                .WithMany() // Variants are part of Product aggregate, no navigation property needed
+                .HasForeignKey(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Indexes for performance
+            entity.HasIndex(x => x.ProductId)
+                .HasDatabaseName("IX_Variants_ProductId");
+
+            entity.HasIndex(x => new { x.ProductId, x.Sku })
+                .IsUnique()
+                .HasDatabaseName("IX_Variants_ProductId_Sku");
+
+            entity.HasIndex(x => new { x.ProductId, x.IsActive })
+                .HasDatabaseName("IX_Variants_ProductId_IsActive");
+        });
+
+        // Configure Product-Category many-to-many relationship
+        modelBuilder.Entity<Product>()
+            .HasMany<Category>() // This is a conceptual relationship, not stored
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "ProductCategories",
+                j => j
+                    .HasOne<Category>()
+                    .WithMany()
+                    .HasForeignKey("CategoryId")
+                    .HasConstraintName("FK_ProductCategories_Categories_CategoryId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => j
+                    .HasOne<Product>()
+                    .WithMany()
+                    .HasForeignKey("ProductId")
+                    .HasConstraintName("FK_ProductCategories_Products_ProductId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                j =>
+                {
+                    j.HasKey("ProductId", "CategoryId")
+                        .HasName("PK_ProductCategories");
+
+                    j.HasIndex(new[] { "CategoryId" }, "IX_ProductCategories_CategoryId");
+                    j.HasIndex(new[] { "ProductId" }, "IX_ProductCategories_ProductId");
+                });
     }
 }
