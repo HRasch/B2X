@@ -133,6 +133,6 @@ public class ProductRepositoryGetBySkuTests
         // Act & Assert
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await mockRepo.Object.GetBySkuAsync(tenantId, sku, cts.Token)
-.ConfigureAwait(false));
+);
     }
 }

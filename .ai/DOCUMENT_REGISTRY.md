@@ -57,6 +57,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-002` | Onion Architecture | `.ai/decisions/ADR-002-onion-architecture.md` | Accepted |
 | `ADR-003` | Aspire Orchestration | `.ai/decisions/ADR-003-aspire-orchestration.md` | Accepted |
 | `ADR-004` | PostgreSQL Multitenancy | `.ai/decisions/ADR-004-postgresql-multitenancy.md` | Accepted |
+| `ADR-005` | Phase 4 Velocity-Based Development | `.ai/decisions/ADR-005-phase-4-velocity-based.md` | Missing |
 | `ADR-020` | PR Quality Gate | `.ai/decisions/ADR-020-pr-quality-gate.md` | Accepted |
 | `ADR-021` | ArchUnitNET Architecture Testing | `.ai/decisions/ADR-021-archunitnet-architecture-testing.md` | Accepted |
 | `ADR-022` | Multi-Tenant Domain Management | `.ai/decisions/ADR-022-multi-tenant-domain-management.md` | Proposed |
@@ -95,6 +96,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-053` | Realtime Debug Architecture | `.ai/decisions/ADR-053-realtime-debug-architecture.md` | Proposed |
 | `ADR-054` | Realtime Debug Strategy for Development and Production | `.ai/decisions/ADR-054-realtime-debug-strategy.md` | Proposed |
 | `ADR-055` | Cloud Platform Selection | `.ai/decisions/ADR-055-cloud-platform-selection.md` | Draft |
+| `ADR-056` | SynchronizationContext Policy | `.ai/decisions/ADR-056-synchronization-context-policy.md` | Accepted |
 
 ---
 
@@ -177,6 +179,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-112` | Microsoft.Extensions.FileProviders | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.FileProviders.md` | Active |
 | `KB-113` | Microsoft.Extensions.Primitives | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Primitives.md` | Active |
 | `KB-114` | Central Package Management (CPM) for .NET | `.ai/knowledgebase/dependency-updates/Central-Package-Management.md` | Active |
+| `KB-115` | Dependency Status Report Q1 2026 | `.ai/knowledgebase/dependency-updates/DEPENDENCY-STATUS-2026-01-11.md` | Active |
+| `KB-116` | Dependency Migration Plan Q1 2026 | `.ai/knowledgebase/dependency-updates/MIGRATION-PLAN-Q1-2026.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
@@ -200,6 +204,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 |-------|-------|-----------|--------|
 | `GL-INDEX` | Guidelines Index | `.ai/guidelines/README.md` | Active |
 | `QS-001` | Token Optimization Quick Start | `.ai/guidelines/QS-001-TOKEN-OPTIMIZATION-QUICK-START.md` | **ACTIVE NOW** |
+| `QS-002` | Task Management Quick Start | `.ai/guidelines/QS-002-TASK-MANAGEMENT-QUICK-START.md` | Active |
 | `GL-001` | Communication Overview | `.ai/guidelines/GL-001-COMMUNICATION-OVERVIEW.md` | Active |
 | `GL-002` | Subagent Delegation | `.ai/guidelines/GL-002-SUBAGENT_DELEGATION.md` | Active |
 | `GL-003` | AI Directory Usage | `.ai/guidelines/GL-003-AI-DIRECTORY-USAGE.md` | Active |
@@ -214,6 +219,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-012` | Frontend Quality Standards | `.ai/guidelines/GL-012-FRONTEND-QUALITY-STANDARDS.md` | Active |
 | `GL-013` | Dependency Management Policy | `.ai/guidelines/GL-013-DEPENDENCY-MANAGEMENT.md` | Active |
 | `GL-014` | Pre-Release Development Phase | `.ai/guidelines/GL-014-PRE-RELEASE-DEVELOPMENT-PHASE.md` | Active (until v1.0) |
+| `GL-015` | Post-Release Stability Policy | `.ai/guidelines/GL-015-POST-RELEASE-STABILITY-POLICY.md` | Planned (activates at v1.0) |
 | `GL-042` | Token-Optimized i18n Strategy | `.ai/guidelines/GL-042-TOKEN-OPTIMIZED-I18N-STRATEGY.md` | Active |
 | `GL-043` | Multi-Language Fragment Editing Strategy | `.ai/guidelines/GL-043-multi-language-fragment-editing-strategy.md` | Active |
 | `GL-043` | Smart Attachment Strategy | `.ai/guidelines/GL-043-SMART-ATTACHMENT-STRATEGY.md` | Active |
@@ -229,6 +235,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-052` | Role-Based Documentation Access & Audience Segregation | `.ai/guidelines/GL-052-ROLE-BASED-DOCUMENTATION-ACCESS.md` | Active |
 | `GL-053` | Multi-Language Fragment Editing Strategy | `.ai/guidelines/GL-053-multi-language-fragment-editing.md` | Active |
 | `GL-054` | Documentation Trust Strategy | `.ai/guidelines/GL-054-DOCUMENTATION-TRUST-STRATEGY.md` | Active |
+| `GL-055` | Security MCP Best Practices | `.ai/guidelines/GL-055-SECURITY-MCP-BEST-PRACTICES.md` | Active |
 | `GL-070` | runSubagent Delegation Strategy | `.ai/guidelines/GL-070-RUNSUBAGENT-DELEGATION-STRATEGY.md` | Active |
 
 ---
@@ -260,6 +267,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ARCH-011` | Hosting Infrastructure | `docs/architecture/components/HOSTING_INFRASTRUCTURE.md` | Active |
 | `ARCH-PAT-005` | Database Providers | `docs/architecture/patterns/DATABASE_PROVIDERS.md` | Active |
 | `ARCH-PAT-006` | Cloud Providers | `docs/architecture/patterns/CLOUD_PROVIDERS.md` | Active |
+| `ARCH-CLOUD-001` | Cloud Infrastructure Architecture | `docs/architecture/CLOUD_INFRASTRUCTURE.md` | Active |
+| `ARCH-DEV-001` | Development Infrastructure | `docs/architecture/DEVELOPMENT_INFRASTRUCTURE.md` | Active |
 | `ARCH-FEAT-001` | Catalog Feature | `docs/architecture/features/CATALOG.md` | Active |
 | `ARCH-FEAT-002` | Orders Feature | `docs/architecture/features/ORDERS.md` | Active |
 | `ARCH-FEAT-003` | CMS Feature | `docs/architecture/features/CMS.md` | Active |
@@ -282,6 +291,10 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `WF-007` | GitHub Scrum/Kanban Workflow | `.ai/workflows/WF-007-GITHUB_SCRUM_KANBAN_WORKFLOW.md` | Active |
 | `WF-008` | Update GitHub Issues Sprint | `.ai/workflows/WF-008-update-github-issues-sprint.md` | Active |
 | `WF-010` | Documentation Maintenance & Quality | `.ai/workflows/WF-010-DOCUMENTATION-MAINTENANCE.md` | Active |
+| `WF-011` | Task Dispatch Workflow | `.ai/workflows/WF-011-TASK-DISPATCH.md` | Active |
+| `WF-012` | Task Cleanup & Archival | `.ai/workflows/WF-012-TASK-CLEANUP.md` | Active |
+| `WF-013` | Agent Support & Escalation | `.ai/workflows/WF-013-AGENT-SUPPORT.md` | Active |
+| `WF-014` | Deployment Guide | `.ai/workflows/WF-014-DEPLOYMENT-GUIDE.md` | Active |
 | `WF-015` | Bugfix Workflow with runSubagent | `.ai/workflows/WF-015-bugfix-workflow.md` | Active |
 | `WF-CLEANUP-SETUP` | Project Cleanup Setup Guide | `.ai/workflows/WF-CLEANUP-SETUP.md` | Active |
 
@@ -292,6 +305,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `CMP-001` | Compliance Quick Reference | `.ai/compliance/CMP-001-COMPLIANCE_QUICK_REFERENCE.md` | Active |
+| `CMP-002` | MCP Server Security Assessment | `.ai/compliance/CMP-002-MCP-SERVER-SECURITY-ASSESSMENT.md` | Active |
 
 ---
 
@@ -302,10 +316,13 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-001` | Monitoring for Scheduler Jobs | `.ai/requirements/REQ-001-monitoring-scheduler-jobs.md` | Draft |
 | `REQ-002` | BMEcat Katalog Import | `.ai/requirements/REQ-002-bmecat-import.md` | Draft |
 | `REQ-003` | Email Template System | `.ai/requirements/REQ-003-email-template-system.md` | Draft |
+| `REQ-004` | Phase 4 Enterprise ERP Connectors | `.ai/requirements/REQ-004-phase-4-enterprise-connectors.md` | Draft |
 | `REQ-005` | Phase 5 Enterprise ERP Connectors | `.ai/requirements/REQ-005-phase-5-enterprise-connectors.md` | Active |
 | `REQ-006` | CLI Customer Integration Commands | `.ai/requirements/REQ-006-cli-customer-integration-commands.md` | Specification |
 | `REQ-007` | Email WYSIWYG Builder | `.ai/requirements/REQ-007-email-wysiwyg-builder.md` | Draft |
 | `REQ-008` | Realtime Debug Functionality | `.ai/requirements/REQ-008-realtime-debug.md` | Draft |
+| `REQ-048` | MVP Backlog | `.ai/requirements/MVP_BACKLOG.md` | Active |
+| `REQ-068` | Sprint Plan | `.ai/requirements/SPRINT_PLAN.md` | Active |
 | `REQ-SMART-DATA-INTEGRATION` | Smart Data Integration Assistant | `.ai/requirements/REQ-SMART-DATA-INTEGRATION.md` | Active |
 | `ANALYSIS-SMART-DATA-INTEGRATION-BACKEND` | Smart Data Integration Assistant - Backend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-BACKEND.md` | Analysis Complete |
 | `ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND` | Smart Data Integration Assistant - Frontend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND.md` | Analysis Complete |
@@ -328,6 +345,15 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
 | `SPR-001` | Sprint / Iteration Template | `.ai/sprint/SPR-001-iteration-template.md` | Active |
+| `SPR-012` | SPR 012 Iteration Template | `.ai/sprint/SPR-012-iteration-template.md` | Active |
+| `SPR-013` | SPR 013 Iteration Template | `.ai/sprint/SPR-013-iteration-template.md` | Active |
+| `SPR-014` | SPR 014 Iteration Template | `.ai/sprint/SPR-014-iteration-template.md` | Active |
+| `SPR-015` | SPR 015 Iteration Template | `.ai/sprint/SPR-015-iteration-template.md` | Active |
+| `SPR-012-RETRO` | SPR 012 Retrospective | `.ai/sprint/SPR-012-retrospective.md` | Active |
+| `SPR-013-RETRO` | SPR 013 Retrospective | `.ai/sprint/SPR-013-retrospective.md` | Active |
+| `SPR-014-RETRO` | SPR 014 Retrospective | `.ai/sprint/SPR-014-retrospective.md` | Active |
+| `SPR-015-RETRO` | SPR 015 Retrospective | `.ai/sprint/SPR-015-retrospective.md` | Active |
+| `SPR-016-RETRO` | SPR 016 Retrospective | `.ai/sprint/SPR-016-retrospective.md` | Active |
 
 ---
 
@@ -426,6 +452,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 
 | DocID | Title | File Path | Status |
 |-------|-------|-----------|--------|
+| `COLLAB-001` | Sprint Planning Analysis | `.ai/collaboration/COLLAB-001-sprint-planning.md` | Active |
+| `COLLAB-001-sprint-planning` | Sprint Planning Analysis | `.ai/collaboration/COLLAB-001-sprint-planning.md` | Active |
 | `COLLAB-REFACTOR-ANALYSIS` | Refactoring Strategy - Multi-Agent Analysis | `.ai/collaboration/REFACTOR-ANALYSIS.md` | Active |
 
 ---
@@ -483,6 +511,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 
 | DocID | Title | File Path | Applies To |
 |-------|-------|-----------|------------|
+| `INS-000` | GitHub Copilot Instructions | `.github/copilot-instructions.md` | `**/*` |
 | `INS-001` | Backend Instructions | `.github/instructions/backend-essentials.instructions.md` | `src/api/**`, `src/services/**` |
 | `INS-002` | Frontend Instructions | `.github/instructions/frontend-essentials.instructions.md` | `src/components/**`, `src/pages/**` |
 | `INS-003` | Testing Instructions | `.github/instructions/testing.instructions.md` | `**/*.test.*`, `**/*.spec.*` |
@@ -490,6 +519,10 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `INS-005` | Security Instructions | `.github/instructions/security.instructions.md` | `**/*` |
 | `INS-006` | AI Mode Switching Instructions | `.github/instructions/ai-mode-switching.instructions.md` | `**/*` |
 | `INS-007` | Dependency Management Instructions | `.github/instructions/dependency-management.instructions.md` | `Directory.Packages.props,**/*.csproj,**/*.fsproj,**/*.vbproj` |
+| `INS-008` | Backend Essentials Instructions | `.github/instructions/backend-essentials.instructions.md` | `src/api/**,src/services/**,src/models/**,src/repositories/**,**/backend/**` |
+| `INS-011` | Frontend Essentials Instructions | `.github/instructions/frontend-essentials.instructions.md` | `src/components/**,src/pages/**,src/hooks/**,src/ui/**,**/frontend/**` |
+| `INS-013` | Security Instructions | `.github/instructions/security.instructions.md` | `**/*` |
+| `INS-014` | Testing Instructions | `.github/instructions/testing.instructions.md` | `**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**` |
 
 ---
 

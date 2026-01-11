@@ -31,7 +31,7 @@ public class TermsAcceptanceServiceTests : IAsyncLifetime
         _validator = new RecordTermsAcceptanceValidator();
         _service = new TermsAcceptanceService(_mockLogger.Object, _validator);
 
-        await Task.CompletedTask.ConfigureAwait(false);
+        await Task.CompletedTask;
     }
 
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;

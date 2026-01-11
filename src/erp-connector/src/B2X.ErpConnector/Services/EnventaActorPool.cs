@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
@@ -95,7 +95,7 @@ namespace B2X.ErpConnector.Services
         private async Task<TResult> EnqueueAndWaitAsync<TResult>(ErpOperation op, TaskCompletionSource<TResult> tcs, CancellationToken ct)
         {
             _operationQueue.Add(op);
-            return await tcs.Task.ConfigureAwait(false);
+            return await tcs.Task;
         }
 
         /// <summary>
@@ -146,7 +146,8 @@ namespace B2X.ErpConnector.Services
 
         public void Dispose()
         {
-            if (_disposed) return;
+            if (_disposed)
+                return;
             _disposed = true;
 
             Console.WriteLine($"Disposing ERP Actor for tenant {_tenantId}...");
@@ -233,7 +234,8 @@ namespace B2X.ErpConnector.Services
 
         public void Dispose()
         {
-            if (_disposed) return;
+            if (_disposed)
+                return;
             _disposed = true;
 
             Console.WriteLine("Disposing ERP Actor Pool...");

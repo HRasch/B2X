@@ -9,7 +9,9 @@ namespace B2X.Catalog.Application.BackgroundJobs;
 /// Background service for processing catalog import jobs
 /// Runs periodically to process queued catalog imports
 /// </summary>
+#pragma warning disable VSTHRD110 // Observe result of async calls
 public class CatalogImportJobProcessor : BackgroundService
+#pragma warning restore VSTHRD110
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<CatalogImportJobProcessor> _logger;
@@ -28,11 +30,18 @@ public class CatalogImportJobProcessor : BackgroundService
         _logger.LogInformation("Catalog Import Job Processor started");
 
         // Process jobs immediately on startup, then every 10 seconds
-        _timer = new Timer(_ => _ = ProcessJobsAsync(stoppingToken),
+        _timer = new Timer(TimerCallback,
                           null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
 
         // Keep the service running
-        await Task.Delay(Timeout.Infinite, stoppingToken).ConfigureAwait(false);
+        await Task.Delay(Timeout.Infinite, stoppingToken);
+    }
+
+    private void TimerCallback(object? state)
+    {
+        // Fire and forget - errors are handled in ProcessJobsAsync
+        var task = Task.Run(async () => await ProcessJobsAsync(CancellationToken.None));
+        // Intentionally not awaiting - this is a fire-and-forget background operation
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
@@ -41,7 +50,7 @@ public class CatalogImportJobProcessor : BackgroundService
 
         _timer?.Change(Timeout.Infinite, 0);
 
-        await base.StopAsync(cancellationToken).ConfigureAwait(false);
+        await base.StopAsync(cancellationToken);
     }
 
     private async Task ProcessJobsAsync(CancellationToken cancellationToken)
@@ -51,7 +60,7 @@ public class CatalogImportJobProcessor : BackgroundService
             using var scope = _serviceProvider.CreateScope();
             var jobService = scope.ServiceProvider.GetRequiredService<ICatalogImportJobService>();
 
-            await jobService.ProcessPendingJobsAsync(cancellationToken).ConfigureAwait(false);
+            await jobService.ProcessPendingJobsAsync(cancellationToken);
         }
         catch (Exception ex)
         {

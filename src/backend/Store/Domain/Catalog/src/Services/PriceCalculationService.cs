@@ -102,7 +102,7 @@ public class PriceCalculationService : IPriceCalculationService
         var vatRate = await GetVatRateAsync(
             destinationCountry.ToUpper(System.Globalization.CultureInfo.CurrentCulture),
             cancellationToken
-        ).ConfigureAwait(false);
+        );
 
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
         _logger.LogDebug(

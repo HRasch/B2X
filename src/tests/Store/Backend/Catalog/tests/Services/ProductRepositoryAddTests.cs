@@ -68,7 +68,7 @@ public class ProductRepositoryAddTests
         // Act & Assert
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await mockRepo.Object.AddAsync(product)
-.ConfigureAwait(false));
+);
     }
 
     [Fact]

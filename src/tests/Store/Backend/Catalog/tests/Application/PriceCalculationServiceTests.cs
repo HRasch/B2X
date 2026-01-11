@@ -30,7 +30,7 @@ public class PriceCalculationServiceTests : IAsyncLifetime
         _mockTaxService.Setup(x => x.GetVatRateAsync("FR", It.IsAny<CancellationToken>()))
             .ReturnsAsync(20.00m);
 
-        await Task.CompletedTask.ConfigureAwait(false);
+        await Task.CompletedTask;
     }
 
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;

@@ -43,7 +43,7 @@ public static class UnifiedCatalogImportEndpoints
         {
             // Read file content
             using var streamReader = new System.IO.StreamReader(request.File.OpenReadStream());
-            var content = await streamReader.ReadToEndAsync(ct).ConfigureAwait(false);
+            var content = await streamReader.ReadToEndAsync(ct);
 
             // Auto-detect format or use explicit format if provided
             IFormatAdapter? adapter;
@@ -77,7 +77,7 @@ public static class UnifiedCatalogImportEndpoints
             }
 
             // Validate content
-            var validationResult = await adapter.ValidateAsync(content, ct).ConfigureAwait(false);
+            var validationResult = await adapter.ValidateAsync(content, ct);
             if (!validationResult.IsValid)
             {
                 return Results.BadRequest(new
@@ -100,7 +100,7 @@ public static class UnifiedCatalogImportEndpoints
                 SourceIdentifier: request.SourceIdentifier,
                 CustomProperties: request.CustomProperties);
 
-            var parseResult = await adapter.ParseAsync(content, metadata, ct).ConfigureAwait(false);
+            var parseResult = await adapter.ParseAsync(content, metadata, ct);
 
             return Results.Ok(new
             {
@@ -186,7 +186,7 @@ public static class UnifiedCatalogImportEndpoints
         try
         {
             using var streamReader = new System.IO.StreamReader(request.File.OpenReadStream());
-            var content = await streamReader.ReadToEndAsync(ct).ConfigureAwait(false);
+            var content = await streamReader.ReadToEndAsync(ct);
 
             // Detect or use specified format
             IFormatAdapter? adapter = string.IsNullOrEmpty(request.Format)
@@ -197,7 +197,7 @@ public static class UnifiedCatalogImportEndpoints
                 return Results.BadRequest(new { error = "Unable to detect or invalid format specified" });
 
             // Validate
-            var result = await adapter.ValidateAsync(content, ct).ConfigureAwait(false);
+            var result = await adapter.ValidateAsync(content, ct);
 
             return Results.Ok(new
             {

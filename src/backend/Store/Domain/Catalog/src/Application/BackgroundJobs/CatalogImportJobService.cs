@@ -40,7 +40,7 @@ public class CatalogImportJobService : ICatalogImportJobService
 
         // Store the catalog data temporarily (in production, store in blob storage)
         using var memoryStream = new MemoryStream();
-        await catalogStream.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
+        await catalogStream.CopyToAsync(memoryStream, cancellationToken);
         var catalogData = memoryStream.ToArray();
 
         var jobData = new CatalogImportJobData
@@ -81,7 +81,7 @@ public class CatalogImportJobService : ICatalogImportJobService
             if (cancellationToken.IsCancellationRequested)
                 break;
 
-            await ProcessJobAsync(jobId, jobData, cancellationToken).ConfigureAwait(false);
+            await ProcessJobAsync(jobId, jobData, cancellationToken);
         }
     }
 
@@ -110,7 +110,7 @@ public class CatalogImportJobService : ICatalogImportJobService
                 stream,
                 jobData.Format,
                 jobData.CustomSchemaPath,
-                cancellationToken).ConfigureAwait(false);
+                cancellationToken);
 
             _jobStatuses[jobId] = result.Status == ImportStatus.Completed
                 ? CatalogImportJobStatus.Completed
