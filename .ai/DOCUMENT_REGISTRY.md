@@ -520,6 +520,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-KB-002` | KBVue | `.github/agents/kb-vue.agent.md` | Vue.js/Frontend Knowledge Expert |
 | `AGT-KB-003` | KBSecurity | `.github/agents/kb-security.agent.md` | Security Knowledge Expert |
 | `AGT-KB-004` | KBDotNet | `.github/agents/kb-dotnet.agent.md` | .NET/C# Knowledge Expert |
+| `AGT-KB-005` | KBArchitecture | `.github/agents/kb-architecture.agent.md` | Solution Architecture Knowledge Expert |
+| `AGT-KB-006` | KBGuidelines | `.github/agents/kb-guidelines.agent.md` | Guidelines & Governance Knowledge Expert |
 
 **CopilotExpert (AGT-018) EXCLUSIVE Authority:**
 - **ONLY @CopilotExpert** may create, modify, or delete agent definitions (`.github/agents/`)
