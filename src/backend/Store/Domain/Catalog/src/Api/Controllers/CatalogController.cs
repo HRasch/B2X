@@ -212,9 +212,9 @@ public class CatalogController : ControllerBase
     /// Get a variant by ID
     /// </summary>
     [HttpGet("variants/{id}")]
-    public async Task<ActionResult<Variant>> GetVariant(Guid id)
+    public async Task<ActionResult<Variant>> GetVariant(Guid id, [FromQuery] Guid tenantId)
     {
-        var variant = await _repository.GetVariantByIdAsync(id);
+        var variant = await _repository.GetVariantByIdAsync(id, tenantId);
         if (variant == null)
             return NotFound();
 
@@ -285,9 +285,9 @@ public class CatalogController : ControllerBase
     /// Delete a variant
     /// </summary>
     [HttpDelete("variants/{id}")]
-    public async Task<IActionResult> DeleteVariant(Guid id)
+    public async Task<IActionResult> DeleteVariant(Guid id, [FromQuery] Guid tenantId)
     {
-        var command = new DeleteVariantCommand(id);
+        var command = new DeleteVariantCommand(id, tenantId);
         await _bus.InvokeAsync(command);
         return NoContent();
     }
@@ -296,9 +296,9 @@ public class CatalogController : ControllerBase
     /// Update variant stock
     /// </summary>
     [HttpPatch("variants/{id}/stock")]
-    public async Task<IActionResult> UpdateVariantStock(Guid id, [FromBody] int newStockQuantity)
+    public async Task<IActionResult> UpdateVariantStock(Guid id, [FromBody] int newStockQuantity, [FromQuery] Guid tenantId)
     {
-        var command = new UpdateVariantStockCommand(id, newStockQuantity);
+        var command = new UpdateVariantStockCommand(id, newStockQuantity, tenantId);
         await _bus.InvokeAsync(command);
         return NoContent();
     }

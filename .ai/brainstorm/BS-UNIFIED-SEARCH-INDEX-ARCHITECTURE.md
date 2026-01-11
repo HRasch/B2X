@@ -8722,6 +8722,3754 @@ function buildMultiLevelSortClause(sort: MultiLevelSort): any[] {
 | Dynamische Merkmal-Sortierung | 2 Tage | Phase 2 |
 | Multi-Level-Sortierung | 1 Tag | Phase 2 |
 | Sortier-Präferenzen speichern | 0.5 Tage | Phase 2 |
+| Sortierung in Autocomplete | 1 Tag | Phase 2 |
+| Performance-Optimierung | 1 Tag | Phase 2 |
+
+---
+
+##### Sortier-Präferenzen speichern (User/Session)
+
+> **Use Case**: Benutzer möchte bevorzugte Sortierung nicht bei jedem Besuch neu einstellen.
+
+```typescript
+// Sortier-Präferenzen Struktur
+interface SortPreferences {
+  // Globale Präferenz (für alle Kategorien)
+  defaultSort: string;              // 'relevance_desc', 'price_asc', etc.
+  defaultOrder: 'asc' | 'desc';
+  
+  // Kategorie-spezifische Präferenzen
+  categoryPreferences: Record<string, {
+    sortId: string;
+    order: 'asc' | 'desc';
+  }>;
+  
+  // Letzte Sortierung (für "Zuletzt verwendet")
+  lastUsed: {
+    sortId: string;
+    order: 'asc' | 'desc';
+    timestamp: Date;
+  };
+}
+
+// Speicherorte je nach Kontext
+enum StorageLocation {
+  SESSION = 'session',      // SessionStorage (Browser-Session)
+  LOCAL = 'local',          // LocalStorage (persistent, ohne Login)
+  USER_PROFILE = 'profile'  // Backend (mit Login, geräteübergreifend)
+}
+```
+
+```typescript
+// Composable für Sortier-Präferenzen
+export function useSortPreferences() {
+  const { isAuthenticated, user } = useAuth();
+  
+  // Präferenzen laden
+  const preferences = computed<SortPreferences>(() => {
+    if (isAuthenticated.value) {
+      // Eingeloggt: Aus User-Profil laden
+      return user.value?.sortPreferences || getDefaultPreferences();
+    }
+    // Nicht eingeloggt: Aus LocalStorage
+    return loadFromLocalStorage() || getDefaultPreferences();
+  });
+  
+  // Präferenz speichern
+  async function savePreference(
+    sortId: string, 
+    order: 'asc' | 'desc',
+    categoryId?: string
+  ) {
+    const newPrefs = { ...preferences.value };
+    
+    if (categoryId) {
+      // Kategorie-spezifisch
+      newPrefs.categoryPreferences[categoryId] = { sortId, order };
+    } else {
+      // Global
+      newPrefs.defaultSort = sortId;
+      newPrefs.defaultOrder = order;
+    }
+    
+    // Letzte Sortierung merken
+    newPrefs.lastUsed = { sortId, order, timestamp: new Date() };
+    
+    // Speichern
+    if (isAuthenticated.value) {
+      await api.updateUserPreferences({ sortPreferences: newPrefs });
+    } else {
+      saveToLocalStorage(newPrefs);
+    }
+  }
+  
+  // Präferenz für Kategorie abrufen
+  function getPreferenceForCategory(categoryId: string): { sortId: string; order: 'asc' | 'desc' } {
+    // 1. Kategorie-spezifische Präferenz
+    if (preferences.value.categoryPreferences[categoryId]) {
+      return preferences.value.categoryPreferences[categoryId];
+    }
+    // 2. Globale Präferenz
+    return {
+      sortId: preferences.value.defaultSort,
+      order: preferences.value.defaultOrder
+    };
+  }
+  
+  return {
+    preferences,
+    savePreference,
+    getPreferenceForCategory
+  };
+}
+```
+
+```vue
+<!-- Sortier-Dropdown mit Präferenzen -->
+<template>
+  <div class="sort-selector">
+    <select v-model="selectedSort" @change="onSortChange">
+      <option 
+        v-for="option in sortOptions" 
+        :key="option.id"
+        :value="option.id"
+      >
+        {{ $t(option.label) }}
+        <!-- Zeigt ⭐ wenn dies die gespeicherte Präferenz ist -->
+        <span v-if="option.id === savedPreference?.sortId">⭐</span>
+      </option>
+    </select>
+    
+    <!-- Präferenz speichern Button -->
+    <button 
+      v-if="selectedSort !== savedPreference?.sortId"
+      @click="saveAsDefault"
+      class="save-preference-btn"
+      :title="$t('sort.save_as_default')"
+    >
+      💾
+    </button>
+  </div>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{ categoryId?: string }>();
+const { getPreferenceForCategory, savePreference } = useSortPreferences();
+
+const savedPreference = computed(() => 
+  getPreferenceForCategory(props.categoryId || 'global')
+);
+
+// Initialisierung mit gespeicherter Präferenz
+const selectedSort = ref(savedPreference.value?.sortId || 'relevance_desc');
+
+async function saveAsDefault() {
+  await savePreference(
+    selectedSort.value, 
+    sortDirection.value,
+    props.categoryId
+  );
+}
+</script>
+```
+
+---
+
+##### Sortierung in Autocomplete-Ergebnissen
+
+> **Use Case**: Auch Autocomplete-Vorschläge sollen sinnvoll sortiert sein.
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    AUTOCOMPLETE SORTIERUNG                                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  STANDARD: Nach Relevanz + Boosting                                        │
+│  ════════════════════════════════════                                       │
+│  1. Exakte Treffer zuerst (Name beginnt mit Query)                         │
+│  2. Dann Relevanz-Score (BM25 + Boosts)                                    │
+│  3. Innerhalb gleicher Relevanz: Beliebtheit                               │
+│                                                                             │
+│  KATEGORIEN                         PRODUKTE                               │
+│  ──────────────                     ─────────────────────                  │
+│  1. Treffer-Anzahl (absteigend)     1. Relevanz-Score                      │
+│  2. Alphabetisch                    2. Beliebtheit/Verkaufsrang            │
+│  3. Hierachie-Tiefe                 3. Verfügbarkeit                       │
+│                                                                             │
+│  MARKEN                             SUCHVORSCHLÄGE                          │
+│  ──────────────                     ─────────────────────                  │
+│  1. Beliebtheit                     1. Suchfrequenz (historisch)           │
+│  2. Treffer-Anzahl                  2. Aktualität                          │
+│  3. Alphabetisch                    3. Personalisierung                    │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+```typescript
+interface AutocompleteConfig {
+  // Produkt-Vorschläge
+  products: {
+    maxResults: number;           // Max. 5-8 Produkte
+    sortBy: ProductAutocompleteSortOption[];
+  };
+  
+  // Kategorie-Vorschläge
+  categories: {
+    maxResults: number;           // Max. 3-5 Kategorien
+    sortBy: CategoryAutocompleteSortOption[];
+  };
+  
+  // Marken-Vorschläge
+  brands: {
+    maxResults: number;           // Max. 3 Marken
+    sortBy: BrandAutocompleteSortOption[];
+  };
+  
+  // Suchbegriff-Vorschläge
+  suggestions: {
+    maxResults: number;           // Max. 5 Vorschläge
+    sortBy: SuggestionAutocompleteSortOption[];
+  };
+}
+
+type ProductAutocompleteSortOption = 
+  | 'relevance'         // Standard: Elasticsearch _score
+  | 'exact_match_first' // Exakte Namens-Matches zuerst
+  | 'popularity'        // Beliebtheit/Verkaufsrang
+  | 'availability'      // Lagerware zuerst
+  | 'personalized';     // Basierend auf Kaufhistorie
+
+type CategoryAutocompleteSortOption =
+  | 'product_count'     // Kategorien mit meisten Produkten
+  | 'alphabetical'      // A-Z
+  | 'hierarchy_depth';  // Hauptkategorien vor Unterkategorien
+
+type BrandAutocompleteSortOption =
+  | 'popularity'        // Beliebteste Marken
+  | 'product_count'     // Marken mit meisten Produkten
+  | 'alphabetical';     // A-Z
+
+type SuggestionAutocompleteSortOption =
+  | 'search_frequency'  // Häufigste Suchbegriffe
+  | 'recency'           // Aktuellste Suchbegriffe
+  | 'personalized';     // Basierend auf User-Historie
+```
+
+```typescript
+/**
+ * Autocomplete-Query mit intelligenter Sortierung
+ */
+function buildAutocompleteQuery(
+  query: string,
+  config: AutocompleteConfig,
+  userId?: string
+): any {
+  return {
+    query: {
+      bool: {
+        should: [
+          // Exakte Prefix-Matches höher gewichten
+          {
+            prefix: {
+              'name.keyword': {
+                value: query.toLowerCase(),
+                boost: 10  // Hoher Boost für exakte Matches
+              }
+            }
+          },
+          // Standard-Suche
+          {
+            multi_match: {
+              query,
+              fields: ['name^3', 'sku^2', 'brand_name'],
+              type: 'best_fields',
+              fuzziness: 'AUTO'
+            }
+          }
+        ]
+      }
+    },
+    
+    // Sortierung: Kombiniert Relevanz mit Business-Signalen
+    sort: [
+      '_score',  // Relevanz zuerst
+      { 'popularity_score': { order: 'desc' } },  // Dann Beliebtheit
+      { 'stock.is_in_stock': { order: 'desc' } }  // Lagerware bevorzugt
+    ],
+    
+    // Function Score für zusätzliche Boost-Faktoren
+    rescore: {
+      window_size: 50,
+      query: {
+        rescore_query: {
+          function_score: {
+            functions: [
+              // Personalisierung (wenn eingeloggt)
+              userId && {
+                filter: { terms: { 'brand_id': getUserPreferredBrands(userId) } },
+                weight: 1.5
+              },
+              // Verfügbarkeit
+              {
+                filter: { term: { 'stock.is_in_stock': true } },
+                weight: 1.3
+              },
+              // Neuheiten
+              {
+                filter: { term: { 'is_new': true } },
+                weight: 1.2
+              }
+            ].filter(Boolean),
+            score_mode: 'multiply',
+            boost_mode: 'multiply'
+          }
+        },
+        query_weight: 0.7,
+        rescore_query_weight: 0.3
+      }
+    },
+    
+    size: config.products.maxResults
+  };
+}
+```
+
+```vue
+<!-- Autocomplete-Komponente mit sortierter Anzeige -->
+<template>
+  <div class="autocomplete-dropdown" v-if="isOpen">
+    <!-- Kategorien (sortiert nach Produktanzahl) -->
+    <section v-if="categories.length" class="autocomplete-section">
+      <h4>{{ $t('autocomplete.categories') }}</h4>
+      <ul>
+        <li 
+          v-for="cat in categories" 
+          :key="cat.id"
+          @click="navigateToCategory(cat)"
+        >
+          <span class="category-name">{{ cat.name }}</span>
+          <span class="product-count">({{ cat.productCount }})</span>
+        </li>
+      </ul>
+    </section>
+    
+    <!-- Produkte (sortiert nach Relevanz + Beliebtheit) -->
+    <section v-if="products.length" class="autocomplete-section">
+      <h4>{{ $t('autocomplete.products') }}</h4>
+      <ul>
+        <li 
+          v-for="product in products" 
+          :key="product.id"
+          @click="navigateToProduct(product)"
+        >
+          <img :src="product.thumbnail" :alt="product.name" />
+          <div class="product-info">
+            <span class="product-name">{{ highlightMatch(product.name) }}</span>
+            <span class="product-price">{{ formatPrice(product.price) }}</span>
+            <!-- Verfügbarkeits-Indikator -->
+            <span 
+              class="availability-badge"
+              :class="{ 'in-stock': product.inStock }"
+            >
+              {{ product.inStock ? '✓' : '○' }}
+            </span>
+          </div>
+        </li>
+      </ul>
+    </section>
+    
+    <!-- Suchvorschläge (sortiert nach Häufigkeit) -->
+    <section v-if="suggestions.length" class="autocomplete-section">
+      <h4>{{ $t('autocomplete.suggestions') }}</h4>
+      <ul>
+        <li 
+          v-for="suggestion in suggestions" 
+          :key="suggestion"
+          @click="search(suggestion)"
+        >
+          🔍 {{ highlightMatch(suggestion) }}
+        </li>
+      </ul>
+    </section>
+  </div>
+</template>
+```
+
+---
+
+##### Performance-Optimierung für große Sortierungen
+
+> **Herausforderung**: Bei 100.000+ Produkten kann Sortierung langsam werden, besonders bei dynamischen Feldern.
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    PERFORMANCE-STRATEGIEN                                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  1. FIELD DATA vs DOC VALUES                                               │
+│  ═══════════════════════════                                                │
+│  • Elasticsearch doc_values für Sortier-Felder (default ab ES 5+)          │
+│  • Kein Heap-Speicher für Sortierung benötigt                              │
+│  • Keyword-Felder: Automatisch doc_values                                  │
+│  • Text-Felder: Separates .keyword Subfield                                │
+│                                                                             │
+│  2. EAGER GLOBAL ORDINALS                                                   │
+│  ═══════════════════════════                                                │
+│  • Für häufig sortierte Felder: Ordinals beim Index-Refresh laden         │
+│  • Trade-off: Längerer Refresh vs. schnellere erste Query                 │
+│                                                                             │
+│  3. INDEX SORTING                                                           │
+│  ════════════════                                                           │
+│  • Dokumente bereits beim Indexieren vorsortieren                          │
+│  • Ideal für Standard-Sortierung (z.B. Beliebtheit)                        │
+│  • Nur EINE Vorsortierung pro Index möglich                                │
+│                                                                             │
+│  4. SHALLOW PAGINATION                                                      │
+│  ═════════════════════                                                      │
+│  • Tiefe Pagination vermeiden (from: 10000 ist langsam!)                   │
+│  • Stattdessen: search_after für Cursor-basierte Pagination               │
+│  • Oder: Facetten zur Eingrenzung vor Pagination                           │
+│                                                                             │
+│  5. CACHING                                                                 │
+│  ═════════                                                                  │
+│  • Request Cache für identische Queries                                    │
+│  • Field Data Cache für Sortier-Felder                                     │
+│  • Query Cache für Filter-Kombinationen                                    │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+```json
+// Elasticsearch Index Settings für optimierte Sortierung
+{
+  "settings": {
+    // 1. Index Sorting (Vorsortierung bei Indexierung)
+    "index": {
+      "sort.field": ["popularity_score", "name.keyword"],
+      "sort.order": ["desc", "asc"]
+    },
+    
+    // 2. Refresh-Intervall (Trade-off: Aktualität vs. Performance)
+    "refresh_interval": "5s",
+    
+    // 3. Replicas für Lese-Performance
+    "number_of_replicas": 2
+  },
+  
+  "mappings": {
+    "properties": {
+      // 4. Eager Global Ordinals für häufig sortierte Felder
+      "brand_name": {
+        "type": "keyword",
+        "eager_global_ordinals": true
+      },
+      "category_path": {
+        "type": "keyword",
+        "eager_global_ordinals": true
+      },
+      
+      // 5. Doc Values explizit (für Klarheit)
+      "popularity_score": {
+        "type": "float",
+        "doc_values": true
+      },
+      "default_price": {
+        "type": "scaled_float",
+        "scaling_factor": 100,
+        "doc_values": true
+      }
+    }
+  }
+}
+```
+
+```typescript
+/**
+ * Optimierte Pagination mit search_after
+ */
+interface PaginatedSearchRequest {
+  query: string;
+  filters?: Record<string, any>;
+  sort: SortOption;
+  pageSize: number;
+  searchAfter?: any[];  // Cursor vom vorherigen Request
+}
+
+async function searchWithCursor(
+  request: PaginatedSearchRequest
+): Promise<PaginatedSearchResult> {
+  
+  const esQuery: any = {
+    query: buildQuery(request.query, request.filters),
+    sort: buildSortClause(request.sort),
+    size: request.pageSize,
+    
+    // Tie-breaker für eindeutige Sortierung
+    // WICHTIG: Muss eindeutiges Feld enthalten!
+    sort: [
+      ...buildSortClause(request.sort),
+      { '_id': { order: 'asc' } }  // Eindeutiger Tie-breaker
+    ]
+  };
+  
+  // Cursor für Fortsetzung
+  if (request.searchAfter) {
+    esQuery.search_after = request.searchAfter;
+  }
+  
+  const response = await esClient.search({
+    index: `b2x_${tenantId}_${language}`,
+    body: esQuery
+  });
+  
+  // Cursor für nächste Seite extrahieren
+  const hits = response.hits.hits;
+  const lastHit = hits[hits.length - 1];
+  const nextCursor = lastHit?.sort;
+  
+  return {
+    items: hits.map(h => h._source),
+    hasMore: hits.length === request.pageSize,
+    cursor: nextCursor
+  };
+}
+```
+
+```typescript
+/**
+ * Performance-Monitoring für Sortierung
+ */
+interface SortPerformanceMetrics {
+  queryTime: number;        // Query-Zeit in ms
+  sortTime: number;         // Sortier-Zeit in ms
+  totalDocs: number;        // Gesamtanzahl Dokumente
+  fetchedDocs: number;      // Abgerufene Dokumente
+  cacheHit: boolean;        // Request-Cache getroffen?
+}
+
+async function searchWithMetrics(
+  request: SearchRequest
+): Promise<{ results: SearchResult; metrics: SortPerformanceMetrics }> {
+  
+  const response = await esClient.search({
+    index: `b2x_${tenantId}_${language}`,
+    body: buildSearchQuery(request),
+    // Performance-Profile aktivieren
+    profile: process.env.NODE_ENV === 'development'
+  });
+  
+  const metrics: SortPerformanceMetrics = {
+    queryTime: response.took,
+    sortTime: extractSortTime(response.profile),
+    totalDocs: response.hits.total.value,
+    fetchedDocs: response.hits.hits.length,
+    cacheHit: response._shards.successful > 0 && response.took < 5
+  };
+  
+  // Warnung bei langsamer Sortierung
+  if (metrics.sortTime > 100) {
+    console.warn(`Slow sort detected: ${metrics.sortTime}ms for ${metrics.totalDocs} docs`);
+    // Telemetry senden
+    trackSlowSort(request.sort, metrics);
+  }
+  
+  return {
+    results: mapSearchResults(response),
+    metrics
+  };
+}
+
+/**
+ * Cache-Strategie für häufige Sortierungen
+ */
+const sortResultCache = new LRUCache<string, SearchResult>({
+  max: 1000,           // Max. 1000 Einträge
+  ttl: 1000 * 60 * 5   // 5 Minuten TTL
+});
+
+function getCacheKey(request: SearchRequest): string {
+  return `${request.query}:${request.sort}:${JSON.stringify(request.filters)}`;
+}
+
+async function searchWithCache(request: SearchRequest): Promise<SearchResult> {
+  const cacheKey = getCacheKey(request);
+  
+  // Cache-Hit?
+  const cached = sortResultCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+  
+  // Cache-Miss: Elasticsearch abfragen
+  const result = await executeSearch(request);
+  
+  // Nur cachen wenn:
+  // - Standard-Sortierung (Relevanz, Preis, Name)
+  // - Keine kundenspezifischen Filter
+  // - Erste Seite (page 1)
+  if (isCacheable(request)) {
+    sortResultCache.set(cacheKey, result);
+  }
+  
+  return result;
+}
+```
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    PERFORMANCE BENCHMARKS                                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  Sortierung        10K Docs    100K Docs    1M Docs     Optimierung        │
+│  ─────────────────────────────────────────────────────────────────────────  │
+│  Relevanz          ~15ms       ~45ms        ~150ms      Index Sorting      │
+│  Preis (asc)       ~20ms       ~60ms        ~200ms      Doc Values         │
+│  Name (A-Z)        ~25ms       ~80ms        ~250ms      Eager Ordinals     │
+│  Merkmal (nested)  ~50ms       ~150ms       ~500ms      ⚠️ Denormalize     │
+│  Verfügbarkeit     ~20ms       ~55ms        ~180ms      Doc Values         │
+│                                                                             │
+│  ⚠️ WARNUNG: Nested-Sortierung ist teuer!                                  │
+│  → Lösung: Flache Felder für häufig sortierte Attribute                   │
+│                                                                             │
+│  EMPFEHLUNG:                                                                │
+│  • < 50ms: ✅ Exzellent                                                    │
+│  • 50-100ms: ⚠️ Akzeptabel                                                 │
+│  • > 100ms: ❌ Optimierung erforderlich                                    │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### Optimierungsstrategie für Merkmal-Sortierung
+
+```typescript
+/**
+ * Problem: Nested-Sortierung ist langsam bei vielen Dokumenten
+ * Lösung: Flache Felder für TOP-sortierte Attribute
+ */
+
+// Bei Indexierung: Häufig sortierte Attribute denormalisieren
+function indexProduct(product: Product): IndexDocument {
+  return {
+    // ... andere Felder ...
+    
+    // Nested Attribute (vollständig)
+    attributes: product.attributes,
+    
+    // DENORMALISIERTE flache Felder für Sortierung
+    // (nur für Top-10 sortierte Attribute pro Kategorie)
+    sort_diameter_mm: findAttributeValue(product.attributes, 'diameter_mm'),
+    sort_length_mm: findAttributeValue(product.attributes, 'length_mm'),
+    sort_weight_kg: findAttributeValue(product.attributes, 'weight_kg'),
+    sort_power_watt: findAttributeValue(product.attributes, 'power_watt'),
+    sort_voltage: findAttributeValue(product.attributes, 'voltage'),
+    // ... weitere häufig sortierte Attribute
+  };
+}
+
+// Mapping für flache Sortier-Felder
+const flatSortFieldMapping = {
+  'diameter_mm': 'sort_diameter_mm',
+  'length_mm': 'sort_length_mm',
+  'weight_kg': 'sort_weight_kg',
+  'power_watt': 'sort_power_watt',
+  'voltage': 'sort_voltage'
+};
+
+function buildOptimizedAttributeSort(
+  attributeCode: string,
+  order: 'asc' | 'desc'
+): any[] {
+  // Prüfen ob flaches Feld existiert
+  const flatField = flatSortFieldMapping[attributeCode];
+  
+  if (flatField) {
+    // Schnelle Sortierung über flaches Feld
+    return [
+      { [flatField]: { order, missing: '_last' } },
+      { 'name.keyword': { order: 'asc' } }
+    ];
+  }
+  
+  // Fallback: Langsame Nested-Sortierung
+  console.warn(`Slow nested sort for attribute: ${attributeCode}`);
+  return [
+    {
+      [`attributes.${attributeCode}.numeric_value`]: {
+        order,
+        missing: '_last',
+        nested: {
+          path: 'attributes',
+          filter: { term: { 'attributes.code': attributeCode } }
+        }
+      }
+    },
+    { 'name.keyword': { order: 'asc' } }
+  ];
+}
+```
+
+---
+
+##### A/B-Testing für Sortier-Algorithmen
+
+> **Ziel**: Datengetriebene Optimierung der Sortierung für bessere Conversion.
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    A/B-TEST FRAMEWORK FÜR SORTIERUNG                        │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  TESTBARE HYPOTHESEN                                                        │
+│  ═══════════════════                                                        │
+│  • H1: "Verfügbarkeit zuerst" → Höhere Conversion                          │
+│  • H2: "Personalisierte Sortierung" → Mehr Warenkorbwert                   │
+│  • H3: "Beliebtheit > Relevanz" → Kürzere Suchzeit                         │
+│  • H4: "Preis aufsteigend" Default → Mehr Preissensible Käufe              │
+│                                                                             │
+│  VARIANTEN                                                                  │
+│  ════════════                                                               │
+│  Control:   Standard-Relevanz-Sortierung                                   │
+│  Variant A: Relevanz + Verfügbarkeits-Boost (1.3x)                         │
+│  Variant B: Relevanz + Personalisierung (Kaufhistorie)                     │
+│  Variant C: Hybrid (50% Relevanz, 50% Beliebtheit)                         │
+│                                                                             │
+│  METRIKEN                                                                   │
+│  ════════                                                                   │
+│  Primary:   Conversion Rate (Suche → Kauf)                                 │
+│  Secondary: Time-to-First-Click, Add-to-Cart-Rate, Bounce-Rate             │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+```typescript
+// A/B-Test Konfiguration
+interface SortABTest {
+  id: string;
+  name: string;
+  description: string;
+  variants: SortABVariant[];
+  traffic: number;              // % des Traffics im Test (z.B. 10%)
+  startDate: Date;
+  endDate?: Date;
+  targetMetric: 'conversion' | 'cart_value' | 'click_through';
+  minimumSampleSize: number;    // Statistische Signifikanz
+}
+
+interface SortABVariant {
+  id: string;
+  name: string;
+  weight: number;               // Traffic-Verteilung (z.B. 50/50)
+  sortConfig: SortConfiguration;
+}
+
+interface SortConfiguration {
+  defaultSort: string;          // Default-Sortierung
+  relevanceBoosts: RelevanceBoost[];
+  functionScore?: FunctionScoreConfig;
+}
+
+interface RelevanceBoost {
+  field: string;
+  factor: number;
+  condition?: any;              // Optional: Nur unter bestimmten Bedingungen
+}
+```
+
+```typescript
+/**
+ * A/B-Test Service für Sortierung
+ */
+class SortABTestService {
+  private activeTests: Map<string, SortABTest> = new Map();
+  
+  /**
+   * Variante für User bestimmen (deterministisch!)
+   */
+  getVariantForUser(testId: string, userId: string): SortABVariant | null {
+    const test = this.activeTests.get(testId);
+    if (!test) return null;
+    
+    // Deterministisches Hashing für konsistente Zuordnung
+    const hash = this.hashUserId(userId, testId);
+    const bucket = hash % 100;
+    
+    // Traffic-Check
+    if (bucket >= test.traffic) {
+      return null; // User nicht im Test
+    }
+    
+    // Varianten-Zuordnung basierend auf Gewichtung
+    let cumulative = 0;
+    const variantBucket = hash % 100;
+    
+    for (const variant of test.variants) {
+      cumulative += variant.weight;
+      if (variantBucket < cumulative) {
+        return variant;
+      }
+    }
+    
+    return test.variants[0]; // Fallback: Control
+  }
+  
+  /**
+   * Sortier-Query mit A/B-Test-Variante anpassen
+   */
+  applySortVariant(
+    baseQuery: any,
+    variant: SortABVariant
+  ): any {
+    const modifiedQuery = { ...baseQuery };
+    
+    // Function Score für Boosts anwenden
+    if (variant.sortConfig.relevanceBoosts.length > 0) {
+      modifiedQuery.query = {
+        function_score: {
+          query: baseQuery.query,
+          functions: variant.sortConfig.relevanceBoosts.map(boost => ({
+            field_value_factor: {
+              field: boost.field,
+              factor: boost.factor,
+              modifier: 'log1p',
+              missing: 1
+            }
+          })),
+          score_mode: 'multiply',
+          boost_mode: 'multiply'
+        }
+      };
+    }
+    
+    return modifiedQuery;
+  }
+  
+  /**
+   * Tracking-Event für A/B-Test
+   */
+  async trackEvent(
+    testId: string,
+    variantId: string,
+    userId: string,
+    event: ABTestEvent
+  ): Promise<void> {
+    await this.analyticsService.track({
+      event_type: 'ab_test_event',
+      test_id: testId,
+      variant_id: variantId,
+      user_id: userId,
+      event_name: event.name,
+      event_data: event.data,
+      timestamp: new Date()
+    });
+  }
+  
+  private hashUserId(userId: string, testId: string): number {
+    // Murmurhash oder ähnliches für gleichmäßige Verteilung
+    const combined = `${userId}:${testId}`;
+    let hash = 0;
+    for (let i = 0; i < combined.length; i++) {
+      hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash);
+  }
+}
+
+type ABTestEvent = {
+  name: 'search' | 'click' | 'add_to_cart' | 'purchase';
+  data: Record<string, any>;
+};
+```
+
+```typescript
+// Beispiel: A/B-Test Definition
+const sortRelevanceTest: SortABTest = {
+  id: 'sort-relevance-v1',
+  name: 'Relevanz vs. Verfügbarkeits-Boost',
+  description: 'Testet ob Verfügbarkeits-Boost die Conversion erhöht',
+  variants: [
+    {
+      id: 'control',
+      name: 'Standard-Relevanz',
+      weight: 50,
+      sortConfig: {
+        defaultSort: 'relevance_desc',
+        relevanceBoosts: []
+      }
+    },
+    {
+      id: 'variant_a',
+      name: 'Relevanz + Verfügbarkeit',
+      weight: 50,
+      sortConfig: {
+        defaultSort: 'relevance_desc',
+        relevanceBoosts: [
+          { field: 'stock.is_in_stock', factor: 1.3 },
+          { field: 'stock.available_quantity', factor: 1.1 }
+        ]
+      }
+    }
+  ],
+  traffic: 20,  // 20% des Traffics
+  startDate: new Date('2026-02-01'),
+  targetMetric: 'conversion',
+  minimumSampleSize: 10000
+};
+```
+
+```vue
+<!-- A/B-Test Tracking in Produktliste -->
+<script setup lang="ts">
+const { getVariantForUser, trackEvent } = useSortABTest();
+const { user } = useAuth();
+
+// Variante beim Mount bestimmen
+const variant = computed(() => 
+  getVariantForUser('sort-relevance-v1', user.value?.id || getAnonymousId())
+);
+
+// Suche mit A/B-Variante
+async function performSearch() {
+  const results = await searchProducts({
+    query: searchQuery.value,
+    abVariant: variant.value?.id
+  });
+  
+  // Tracking: Suche durchgeführt
+  if (variant.value) {
+    trackEvent('sort-relevance-v1', variant.value.id, user.value?.id, {
+      name: 'search',
+      data: { query: searchQuery.value, resultCount: results.total }
+    });
+  }
+}
+
+// Tracking: Produktklick
+function onProductClick(product: Product) {
+  if (variant.value) {
+    trackEvent('sort-relevance-v1', variant.value.id, user.value?.id, {
+      name: 'click',
+      data: { productId: product.id, position: product.position }
+    });
+  }
+}
+</script>
+```
+
+---
+
+##### Server-Side-Rendering (SSR) Optimierungen für Sortierung
+
+> **Ziel**: Schnelle First-Contentful-Paint trotz komplexer Sortierung.
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    SSR STRATEGIE FÜR SORTIERUNG                             │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  HERAUSFORDERUNG                                                            │
+│  ═══════════════                                                            │
+│  • Elasticsearch-Query dauert 50-200ms                                     │
+│  • Personalisierte Sortierung braucht User-Context                         │
+│  • SEO braucht konsistentes HTML                                           │
+│                                                                             │
+│  LÖSUNGSANSÄTZE                                                             │
+│  ════════════════                                                           │
+│                                                                             │
+│  1. STATIC GENERATION + CLIENT HYDRATION                                   │
+│     ─────────────────────────────────────                                  │
+│     SSG: Default-Sortierung (Relevanz/Beliebtheit)                         │
+│     Client: Re-fetch mit User-Präferenzen                                  │
+│                                                                             │
+│  2. EDGE CACHING (Vercel/Cloudflare)                                       │
+│     ───────────────────────────────────                                    │
+│     Cache: Standard-Sortierungen pro Kategorie                             │
+│     TTL: 5 Minuten, stale-while-revalidate                                 │
+│                                                                             │
+│  3. STREAMING SSR                                                           │
+│     ────────────────                                                        │
+│     Sofort: Skeleton + Filter                                              │
+│     Gestreamt: Produktliste nach ES-Response                               │
+│                                                                             │
+│  4. PREFETCH HINTS                                                          │
+│     ────────────────                                                        │
+│     <link rel="prefetch"> für wahrscheinliche Sort-Änderungen             │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+```typescript
+// Nuxt 3 SSR mit Sortierung
+// pages/category/[slug].vue
+
+export default defineNuxtRouteMiddleware(async (to) => {
+  const categorySlug = to.params.slug as string;
+  const sortParam = to.query.sort as string || 'relevance_desc';
+  
+  // Cache-Key für ISR (Incremental Static Regeneration)
+  const cacheKey = `category:${categorySlug}:${sortParam}`;
+  
+  // Prüfen ob gecachte Version existiert
+  const cached = await useStorage().getItem(cacheKey);
+  if (cached) {
+    return cached;
+  }
+});
+```
+
+```typescript
+// composables/useSSRSearch.ts
+export function useSSRSearch() {
+  const nuxtApp = useNuxtApp();
+  
+  /**
+   * SSR-optimierte Suche mit Caching-Strategie
+   */
+  async function searchWithSSR(params: SearchParams): Promise<SearchResult> {
+    // 1. Cache-Key generieren (ohne User-spezifische Daten)
+    const cacheKey = generateCacheKey(params);
+    
+    // 2. Auf Server: Daten holen und cachen
+    if (process.server) {
+      const result = await $fetch('/api/search', {
+        method: 'POST',
+        body: {
+          ...params,
+          // Keine Personalisierung auf Server!
+          skipPersonalization: true
+        }
+      });
+      
+      // In Nuxt Payload für Hydration
+      nuxtApp.payload.data[cacheKey] = result;
+      
+      return result;
+    }
+    
+    // 3. Auf Client: Aus Payload oder neu fetchen
+    const fromPayload = nuxtApp.payload.data[cacheKey];
+    if (fromPayload && !params.forceRefresh) {
+      // Hydration: SSR-Daten verwenden
+      // Aber: Im Hintergrund personalisierte Daten nachladen
+      if (params.personalize) {
+        nextTick(() => refreshWithPersonalization(params));
+      }
+      return fromPayload;
+    }
+    
+    // Client-seitiger Fetch
+    return await $fetch('/api/search', {
+      method: 'POST',
+      body: params
+    });
+  }
+  
+  /**
+   * Personalisierung im Hintergrund nachladen
+   */
+  async function refreshWithPersonalization(params: SearchParams) {
+    const personalizedResult = await $fetch('/api/search', {
+      method: 'POST',
+      body: {
+        ...params,
+        personalize: true
+      }
+    });
+    
+    // State aktualisieren (ohne Layout-Shift!)
+    updateSearchResults(personalizedResult, { animate: true });
+  }
+  
+  return { searchWithSSR };
+}
+```
+
+```typescript
+// server/api/search.post.ts (Nuxt 3 Server Route)
+import { defineEventHandler, readBody } from 'h3';
+
+export default defineEventHandler(async (event) => {
+  const body = await readBody(event);
+  const { query, sort, filters, skipPersonalization } = body;
+  
+  // Cache-Control Header für Edge Caching
+  if (skipPersonalization && isStandardSort(sort)) {
+    // Cachebar: Standard-Sortierung ohne Personalisierung
+    setResponseHeader(event, 'Cache-Control', 
+      'public, s-maxage=300, stale-while-revalidate=600'
+    );
+    setResponseHeader(event, 'CDN-Cache-Control', 
+      'public, max-age=300'
+    );
+  } else {
+    // Nicht cachebar: Personalisiert
+    setResponseHeader(event, 'Cache-Control', 
+      'private, no-cache'
+    );
+  }
+  
+  // Elasticsearch Query
+  const result = await searchProducts({
+    query,
+    sort,
+    filters,
+    personalize: !skipPersonalization
+  });
+  
+  return result;
+});
+
+function isStandardSort(sort: string): boolean {
+  const cacheableSorts = [
+    'relevance_desc',
+    'price_asc',
+    'price_desc',
+    'name_asc',
+    'name_desc',
+    'popularity_desc',
+    'newest_desc'
+  ];
+  return cacheableSorts.includes(sort);
+}
+```
+
+```vue
+<!-- Streaming SSR mit Suspense -->
+<template>
+  <div class="product-listing">
+    <!-- Sofort gerendert -->
+    <CategoryHeader :category="category" />
+    <FilterSidebar :filters="filters" />
+    <SortSelector v-model="currentSort" />
+    
+    <!-- Gestreamt nach Daten-Load -->
+    <Suspense>
+      <template #default>
+        <ProductGrid :products="products" />
+      </template>
+      
+      <template #fallback>
+        <!-- Skeleton während ES-Query -->
+        <ProductGridSkeleton :count="12" />
+      </template>
+    </Suspense>
+    
+    <!-- Prefetch für wahrscheinliche Sortierungen -->
+    <Head>
+      <Link 
+        v-for="sort in likelySorts" 
+        :key="sort"
+        rel="prefetch"
+        :href="`/category/${category.slug}?sort=${sort}`"
+      />
+    </Head>
+  </div>
+</template>
+
+<script setup lang="ts">
+const route = useRoute();
+const category = await useCategory(route.params.slug);
+
+// Prefetch wahrscheinliche Sortierungen
+const likelySorts = computed(() => {
+  const current = route.query.sort || 'relevance_desc';
+  const all = ['relevance_desc', 'price_asc', 'price_desc', 'popularity_desc'];
+  return all.filter(s => s !== current).slice(0, 2); // Top 2 Alternativen
+});
+
+// Produkte mit SSR-Optimierung laden
+const { data: products, pending } = await useAsyncData(
+  `products:${category.id}:${route.query.sort}`,
+  () => searchProducts({
+    categoryId: category.id,
+    sort: route.query.sort as string || 'relevance_desc'
+  }),
+  {
+    // Daten zwischen Navigationen behalten
+    getCachedData: (key) => nuxtApp.payload.data[key]
+  }
+);
+</script>
+```
+
+```typescript
+// Prefetch-Strategie für Sort-Änderungen
+export function useSortPrefetch() {
+  const router = useRouter();
+  
+  /**
+   * Prefetch der nächsten wahrscheinlichen Sortierung
+   */
+  function prefetchNextSort(currentSort: string, categoryId: string) {
+    // Wahrscheinlichkeits-Matrix basierend auf Analytics
+    const transitionProbabilities: Record<string, string[]> = {
+      'relevance_desc': ['price_asc', 'popularity_desc'],
+      'price_asc': ['price_desc', 'relevance_desc'],
+      'price_desc': ['price_asc', 'relevance_desc'],
+      'popularity_desc': ['relevance_desc', 'newest_desc'],
+      'newest_desc': ['popularity_desc', 'relevance_desc']
+    };
+    
+    const likelyNextSorts = transitionProbabilities[currentSort] || [];
+    
+    // Prefetch API-Calls für wahrscheinliche Sortierungen
+    likelyNextSorts.forEach(sort => {
+      // Low-priority fetch
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          fetch(`/api/search?categoryId=${categoryId}&sort=${sort}`, {
+            priority: 'low'
+          });
+        });
+      }
+    });
+  }
+  
+  return { prefetchNextSort };
+}
+```
+
+##### Feature-Priorisierung (Erweitert)
+
+| Feature | Aufwand | Phase |
+|---------|---------|-------|
+| Standard-Sortierung (Relevanz, Name, Preis) | 2 Tage | **MVP** |
+| Grundpreis-Sortierung | 0.5 Tage | **MVP** |
+| Bewertung/Neuheit/Beliebtheit | 1 Tag | **MVP** |
+| Verfügbarkeit-Sortierung | 0.5 Tage | **MVP** |
+| Dynamische Merkmal-Sortierung | 2 Tage | Phase 2 |
+| Multi-Level-Sortierung | 1 Tag | Phase 2 |
+| Sortier-Präferenzen speichern | 0.5 Tage | Phase 2 |
+| Sortierung in Autocomplete | 1 Tag | Phase 2 |
+| Performance-Optimierung | 1 Tag | Phase 2 |
+| A/B-Testing Framework | 2 Tage | Phase 3 |
+| SSR-Optimierung | 1.5 Tage | Phase 2 |
+| Edge Caching für Sortierung | 1 Tag | Phase 3 |
+| Prefetch-Strategie | 0.5 Tage | Phase 2 |
+| **ERP-Interceptor (Lastoptimierung)** | **3 Tage** | **MVP** |
+
+---
+
+### 3️⃣.4 ERP-Interceptor: Lastoptimierung für ERP-Systeme
+
+> **Kritisches Problem**: ERP-Systeme sind nicht für hohe Anfragelast ausgelegt!
+> - Typische ERP-Antwortzeit: **200-2000ms**
+> - Concurrent Connections: Oft limitiert auf **10-50**
+> - Keine horizontale Skalierung möglich
+> - **Ein überlastetes ERP = Shop-Ausfall!**
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    ERP-LASTOPTIMIERUNG: ÜBERSICHT                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  HERAUSFORDERUNGEN                                                          │
+│  ═════════════════                                                          │
+│  • ERP-Systeme: 200-2000ms Latenz pro Request                              │
+│  • Connection Limits: 10-50 parallele Verbindungen                         │
+│  • Keine Auto-Scaling Fähigkeit                                            │
+│  • Preisberechnung ist CPU-intensiv im ERP                                 │
+│  • Verfügbarkeitsprüfung kann Lager-Locks erzeugen                         │
+│                                                                             │
+│  LÖSUNGSANSÄTZE                                                             │
+│  ═══════════════                                                            │
+│                                                                             │
+│  1. REQUEST INTERCEPTOR                                                     │
+│     └─ Zentrale Kontrolle aller ERP-Anfragen                               │
+│                                                                             │
+│  2. REQUEST BATCHING                                                        │
+│     └─ Mehrere Anfragen zu einer zusammenfassen                            │
+│                                                                             │
+│  3. DEBOUNCING & THROTTLING                                                 │
+│     └─ Anfragen verzögern/limitieren                                       │
+│                                                                             │
+│  4. INTELLIGENT CACHING                                                     │
+│     └─ Aggressive Caches mit smarter Invalidierung                         │
+│                                                                             │
+│  5. OPTIMISTIC UI                                                           │
+│     └─ Sofort reagieren, später korrigieren                                │
+│                                                                             │
+│  6. PROGRESSIVE LOADING                                                     │
+│     └─ Wichtiges zuerst, Details nachladen                                 │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+#### ERP Request Interceptor (Axios/Fetch)
+
+```typescript
+// composables/useErpInterceptor.ts
+
+interface ErpRequestConfig {
+  endpoint: string;
+  priority: 'critical' | 'high' | 'normal' | 'low';
+  batchable: boolean;           // Kann mit anderen Requests gebündelt werden?
+  cacheTTL?: number;            // Cache-Dauer in Sekunden
+  timeout?: number;             // Max. Wartezeit
+  retryCount?: number;          // Wiederholungsversuche
+}
+
+interface ErpInterceptorConfig {
+  maxConcurrentRequests: number;  // Max. parallele ERP-Requests
+  batchWindowMs: number;          // Zeitfenster für Batching (z.B. 50ms)
+  globalThrottleMs: number;       // Min. Abstand zwischen Requests
+  circuitBreaker: {
+    failureThreshold: number;     // Fehler bis Circuit öffnet
+    resetTimeoutMs: number;       // Zeit bis Circuit wieder schließt
+  };
+}
+
+const DEFAULT_CONFIG: ErpInterceptorConfig = {
+  maxConcurrentRequests: 10,      // Schützt ERP vor Überlastung
+  batchWindowMs: 50,              // 50ms Batching-Fenster
+  globalThrottleMs: 20,           // Min. 20ms zwischen Requests
+  circuitBreaker: {
+    failureThreshold: 5,
+    resetTimeoutMs: 30000         // 30 Sekunden
+  }
+};
+```
+
+```typescript
+/**
+ * ERP Request Interceptor - Zentrale Steuerung aller ERP-Anfragen
+ */
+class ErpRequestInterceptor {
+  private queue: PriorityQueue<QueuedRequest> = new PriorityQueue();
+  private activeRequests: number = 0;
+  private batchBuffer: Map<string, BatchableRequest[]> = new Map();
+  private circuitState: 'closed' | 'open' | 'half-open' = 'closed';
+  private failureCount: number = 0;
+  private cache: LRUCache<string, CachedResponse>;
+  
+  constructor(private config: ErpInterceptorConfig) {
+    this.cache = new LRUCache({ max: 1000, ttl: 1000 * 60 * 5 });
+    this.startBatchProcessor();
+  }
+  
+  /**
+   * Haupt-Entry-Point für alle ERP-Requests
+   */
+  async request<T>(
+    config: ErpRequestConfig,
+    payload: any
+  ): Promise<T> {
+    // 1. Circuit Breaker Check
+    if (this.circuitState === 'open') {
+      throw new ErpUnavailableError('ERP circuit breaker is open');
+    }
+    
+    // 2. Cache Check
+    const cacheKey = this.generateCacheKey(config, payload);
+    const cached = this.cache.get(cacheKey);
+    if (cached && !this.isStale(cached, config.cacheTTL)) {
+      return cached.data as T;
+    }
+    
+    // 3. Batching Check
+    if (config.batchable) {
+      return this.addToBatch<T>(config, payload, cacheKey);
+    }
+    
+    // 4. Queue für Rate Limiting
+    return this.enqueue<T>(config, payload, cacheKey);
+  }
+  
+  /**
+   * Request in Batch-Buffer aufnehmen
+   */
+  private addToBatch<T>(
+    config: ErpRequestConfig,
+    payload: any,
+    cacheKey: string
+  ): Promise<T> {
+    return new Promise((resolve, reject) => {
+      const batchKey = config.endpoint;
+      
+      if (!this.batchBuffer.has(batchKey)) {
+        this.batchBuffer.set(batchKey, []);
+      }
+      
+      this.batchBuffer.get(batchKey)!.push({
+        payload,
+        cacheKey,
+        resolve,
+        reject,
+        addedAt: Date.now()
+      });
+    });
+  }
+  
+  /**
+   * Batch-Processor: Bündelt Requests alle X ms
+   */
+  private startBatchProcessor() {
+    setInterval(() => {
+      this.batchBuffer.forEach((requests, endpoint) => {
+        if (requests.length === 0) return;
+        
+        // Alle gesammelten Requests als Batch senden
+        const batch = requests.splice(0, requests.length);
+        this.processBatch(endpoint, batch);
+      });
+    }, this.config.batchWindowMs);
+  }
+  
+  /**
+   * Batch an ERP senden
+   */
+  private async processBatch(
+    endpoint: string,
+    batch: BatchableRequest[]
+  ) {
+    try {
+      // Ein Request mit allen Payloads
+      const batchPayload = batch.map(b => b.payload);
+      
+      const response = await this.executeRequest(endpoint, {
+        batch: true,
+        items: batchPayload
+      });
+      
+      // Ergebnisse auf einzelne Promises verteilen
+      batch.forEach((request, index) => {
+        const result = response.results[index];
+        
+        // Cache aktualisieren
+        this.cache.set(request.cacheKey, {
+          data: result,
+          cachedAt: Date.now()
+        });
+        
+        request.resolve(result);
+      });
+      
+    } catch (error) {
+      // Alle Requests im Batch fehlgeschlagen
+      batch.forEach(request => request.reject(error));
+      this.handleFailure();
+    }
+  }
+  
+  /**
+   * Request in Priority Queue einreihen
+   */
+  private enqueue<T>(
+    config: ErpRequestConfig,
+    payload: any,
+    cacheKey: string
+  ): Promise<T> {
+    return new Promise((resolve, reject) => {
+      const priority = this.getPriorityScore(config.priority);
+      
+      this.queue.enqueue({
+        config,
+        payload,
+        cacheKey,
+        resolve,
+        reject,
+        enqueuedAt: Date.now()
+      }, priority);
+      
+      this.processQueue();
+    });
+  }
+  
+  /**
+   * Queue abarbeiten (mit Concurrency Limit)
+   */
+  private async processQueue() {
+    while (
+      this.activeRequests < this.config.maxConcurrentRequests &&
+      !this.queue.isEmpty()
+    ) {
+      const request = this.queue.dequeue()!;
+      this.activeRequests++;
+      
+      try {
+        const result = await this.executeRequest(
+          request.config.endpoint,
+          request.payload
+        );
+        
+        // Cache aktualisieren
+        if (request.config.cacheTTL) {
+          this.cache.set(request.cacheKey, {
+            data: result,
+            cachedAt: Date.now()
+          });
+        }
+        
+        request.resolve(result);
+        this.handleSuccess();
+        
+      } catch (error) {
+        request.reject(error);
+        this.handleFailure();
+        
+      } finally {
+        this.activeRequests--;
+        // Throttling
+        await this.delay(this.config.globalThrottleMs);
+        this.processQueue();
+      }
+    }
+  }
+  
+  /**
+   * Circuit Breaker: Failure Handler
+   */
+  private handleFailure() {
+    this.failureCount++;
+    
+    if (this.failureCount >= this.config.circuitBreaker.failureThreshold) {
+      console.warn('ERP Circuit Breaker: Opening circuit');
+      this.circuitState = 'open';
+      
+      // Nach Timeout: Half-Open versuchen
+      setTimeout(() => {
+        this.circuitState = 'half-open';
+      }, this.config.circuitBreaker.resetTimeoutMs);
+    }
+  }
+  
+  private handleSuccess() {
+    if (this.circuitState === 'half-open') {
+      this.circuitState = 'closed';
+    }
+    this.failureCount = 0;
+  }
+  
+  private getPriorityScore(priority: string): number {
+    const scores = { critical: 0, high: 1, normal: 2, low: 3 };
+    return scores[priority] ?? 2;
+  }
+  
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+```
+
+---
+
+#### Request Batching für Preisabfragen
+
+```typescript
+/**
+ * Preis-Batching: Sammelt Preisanfragen und sendet gebündelt
+ */
+class PriceBatchService {
+  private pendingRequests: Map<string, PriceRequest[]> = new Map();
+  private batchTimer: ReturnType<typeof setTimeout> | null = null;
+  
+  /**
+   * Preis für Produkt anfordern (wird gebatched)
+   */
+  async getPrice(
+    productId: string,
+    variantId: string,
+    quantity: number,
+    customerId: string
+  ): Promise<PriceResult> {
+    const batchKey = customerId; // Gruppierung nach Kunde
+    
+    return new Promise((resolve, reject) => {
+      if (!this.pendingRequests.has(batchKey)) {
+        this.pendingRequests.set(batchKey, []);
+      }
+      
+      this.pendingRequests.get(batchKey)!.push({
+        productId,
+        variantId,
+        quantity,
+        resolve,
+        reject
+      });
+      
+      // Batch-Timer starten (falls nicht aktiv)
+      this.scheduleBatch(batchKey);
+    });
+  }
+  
+  private scheduleBatch(batchKey: string) {
+    if (this.batchTimer) return;
+    
+    this.batchTimer = setTimeout(async () => {
+      this.batchTimer = null;
+      await this.executeBatch(batchKey);
+    }, 50); // 50ms Sammelzeit
+  }
+  
+  private async executeBatch(batchKey: string) {
+    const requests = this.pendingRequests.get(batchKey) || [];
+    this.pendingRequests.delete(batchKey);
+    
+    if (requests.length === 0) return;
+    
+    try {
+      // EIN Request für ALLE Preise
+      const response = await erpApi.post('/prices/batch', {
+        customerId: batchKey,
+        items: requests.map(r => ({
+          productId: r.productId,
+          variantId: r.variantId,
+          quantity: r.quantity
+        }))
+      });
+      
+      // Ergebnisse verteilen
+      requests.forEach((request, index) => {
+        request.resolve(response.prices[index]);
+      });
+      
+    } catch (error) {
+      requests.forEach(request => request.reject(error));
+    }
+  }
+}
+
+// Usage in Component
+const priceService = usePriceBatchService();
+
+// Diese 10 Aufrufe werden zu EINEM ERP-Request gebündelt!
+const prices = await Promise.all(
+  products.map(p => priceService.getPrice(p.id, p.variantId, 1, customerId))
+);
+```
+
+---
+
+#### Debouncing für Suchanfragen
+
+```typescript
+// composables/useSearchDebounce.ts
+
+interface DebounceConfig {
+  searchDebounceMs: number;       // Debounce für Texteingabe
+  filterDebounceMs: number;       // Debounce für Filter-Änderungen
+  priceCheckDebounceMs: number;   // Debounce für Preisabfragen
+}
+
+export function useSearchDebounce(config: DebounceConfig = {
+  searchDebounceMs: 300,
+  filterDebounceMs: 150,
+  priceCheckDebounceMs: 500
+}) {
+  
+  /**
+   * Debounced Search - Wartet auf Tipp-Pause
+   */
+  const debouncedSearch = useDebounceFn(
+    async (query: string) => {
+      // Elasticsearch ist schnell - direkt anfragen
+      return await searchProducts(query);
+    },
+    config.searchDebounceMs
+  );
+  
+  /**
+   * Debounced ERP Price Check - Längeres Delay
+   */
+  const debouncedPriceCheck = useDebounceFn(
+    async (productIds: string[], customerId: string) => {
+      // ERP ist langsam - mehr Debounce
+      return await erpPriceBatch(productIds, customerId);
+    },
+    config.priceCheckDebounceMs
+  );
+  
+  /**
+   * Throttled Availability Check - Max 1x pro Sekunde
+   */
+  const throttledAvailability = useThrottleFn(
+    async (productIds: string[]) => {
+      return await erpAvailabilityBatch(productIds);
+    },
+    1000 // Max 1 Request pro Sekunde
+  );
+  
+  return {
+    debouncedSearch,
+    debouncedPriceCheck,
+    throttledAvailability
+  };
+}
+```
+
+---
+
+#### Intelligent Caching Layer
+
+```typescript
+/**
+ * Multi-Level Cache für ERP-Daten
+ */
+class ErpCacheService {
+  // L1: Memory Cache (schnellster Zugriff)
+  private memoryCache: LRUCache<string, CachedData>;
+  
+  // L2: SessionStorage (Browser-Session)
+  private sessionStorage: Storage;
+  
+  // L3: IndexedDB (persistent, große Datenmengen)
+  private indexedDB: IDBDatabase;
+  
+  // Cache-TTLs nach Datentyp
+  private ttlConfig: Record<string, number> = {
+    'price:list': 60 * 60,        // 1 Stunde (Listenpreise ändern selten)
+    'price:customer': 5 * 60,     // 5 Minuten (Kundenpreise öfter)
+    'price:quantity': 2 * 60,     // 2 Minuten (Staffelpreise)
+    'availability': 30,           // 30 Sekunden (Bestand ändert oft)
+    'delivery': 5 * 60,           // 5 Minuten (Lieferzeiten)
+    'product:details': 60 * 60,   // 1 Stunde (Produktdaten)
+  };
+  
+  async get<T>(key: string, type: string): Promise<T | null> {
+    // L1: Memory
+    const memCached = this.memoryCache.get(key);
+    if (memCached && !this.isExpired(memCached, type)) {
+      return memCached.data as T;
+    }
+    
+    // L2: SessionStorage
+    const sessionCached = this.getFromSession(key);
+    if (sessionCached && !this.isExpired(sessionCached, type)) {
+      // Promote to L1
+      this.memoryCache.set(key, sessionCached);
+      return sessionCached.data as T;
+    }
+    
+    // L3: IndexedDB
+    const idbCached = await this.getFromIndexedDB(key);
+    if (idbCached && !this.isExpired(idbCached, type)) {
+      // Promote to L1 + L2
+      this.memoryCache.set(key, idbCached);
+      this.setToSession(key, idbCached);
+      return idbCached.data as T;
+    }
+    
+    return null;
+  }
+  
+  async set<T>(key: string, data: T, type: string): Promise<void> {
+    const cached: CachedData = {
+      data,
+      cachedAt: Date.now(),
+      type
+    };
+    
+    // Alle Level aktualisieren
+    this.memoryCache.set(key, cached);
+    this.setToSession(key, cached);
+    await this.setToIndexedDB(key, cached);
+  }
+  
+  /**
+   * Stale-While-Revalidate Pattern
+   */
+  async getWithRevalidate<T>(
+    key: string,
+    type: string,
+    fetcher: () => Promise<T>
+  ): Promise<T> {
+    const cached = await this.get<T>(key, type);
+    
+    if (cached) {
+      // Sofort gecachte Daten zurückgeben
+      // Im Hintergrund: Revalidieren
+      this.revalidateInBackground(key, type, fetcher);
+      return cached;
+    }
+    
+    // Kein Cache: Fetchen und cachen
+    const fresh = await fetcher();
+    await this.set(key, fresh, type);
+    return fresh;
+  }
+  
+  private async revalidateInBackground<T>(
+    key: string,
+    type: string,
+    fetcher: () => Promise<T>
+  ) {
+    try {
+      const fresh = await fetcher();
+      await this.set(key, fresh, type);
+    } catch {
+      // Silent fail - gecachte Daten bleiben
+    }
+  }
+}
+```
+
+---
+
+#### Optimistic UI Updates
+
+```vue
+<!-- Optimistic UI für Warenkorb -->
+<template>
+  <div class="product-card">
+    <ProductInfo :product="product" />
+    
+    <!-- Preis mit Ladezustand -->
+    <div class="price-display">
+      <template v-if="priceState === 'loading'">
+        <span class="price-estimate">{{ formatPrice(estimatedPrice) }}</span>
+        <span class="price-indicator">~</span>
+        <PulseLoader size="small" />
+      </template>
+      
+      <template v-else-if="priceState === 'loaded'">
+        <span class="price-actual">{{ formatPrice(actualPrice) }}</span>
+        <span v-if="hasDiscount" class="discount-badge">
+          -{{ discountPercent }}%
+        </span>
+      </template>
+      
+      <template v-else-if="priceState === 'error'">
+        <span class="price-estimate">{{ formatPrice(estimatedPrice) }}</span>
+        <span class="price-warning">Preis auf Anfrage</span>
+      </template>
+    </div>
+    
+    <!-- Optimistic Add-to-Cart -->
+    <button 
+      @click="addToCart"
+      :disabled="isAdding"
+      :class="{ 'added': wasAdded }"
+    >
+      <template v-if="wasAdded">
+        ✓ Hinzugefügt
+      </template>
+      <template v-else-if="isAdding">
+        <Spinner size="small" />
+      </template>
+      <template v-else>
+        In den Warenkorb
+      </template>
+    </button>
+  </div>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{ product: Product }>();
+const { addItem, optimisticAdd, rollback } = useCart();
+
+const priceState = ref<'loading' | 'loaded' | 'error'>('loading');
+const actualPrice = ref<number | null>(null);
+const isAdding = ref(false);
+const wasAdded = ref(false);
+
+// Geschätzter Preis aus Index (sofort verfügbar)
+const estimatedPrice = computed(() => props.product.default_price);
+
+// Echter Preis vom ERP (async)
+onMounted(async () => {
+  try {
+    const erpPrice = await erpPriceService.getPrice(
+      props.product.id,
+      props.product.variantId,
+      1
+    );
+    actualPrice.value = erpPrice.netPrice;
+    priceState.value = 'loaded';
+  } catch {
+    priceState.value = 'error';
+  }
+});
+
+async function addToCart() {
+  isAdding.value = true;
+  
+  // 1. OPTIMISTIC: Sofort zum Warenkorb hinzufügen
+  const optimisticId = optimisticAdd({
+    productId: props.product.id,
+    quantity: 1,
+    estimatedPrice: estimatedPrice.value
+  });
+  
+  // 2. UI-Feedback sofort
+  wasAdded.value = true;
+  
+  try {
+    // 3. ACTUAL: ERP-Request (kann dauern!)
+    await addItem({
+      productId: props.product.id,
+      variantId: props.product.variantId,
+      quantity: 1
+    });
+    
+    // Erfolg: Optimistic Update bestätigt
+    
+  } catch (error) {
+    // 4. ROLLBACK: Bei Fehler zurücknehmen
+    rollback(optimisticId);
+    wasAdded.value = false;
+    showError('Artikel konnte nicht hinzugefügt werden');
+    
+  } finally {
+    isAdding.value = false;
+  }
+}
+</script>
+```
+
+---
+
+#### Progressive Loading für Produktlisten
+
+```vue
+<!-- Progressive Loading: Wichtiges zuerst, ERP-Daten später -->
+<template>
+  <div class="product-grid">
+    <ProductCard 
+      v-for="product in products" 
+      :key="product.id"
+      :product="product"
+    >
+      <!-- Phase 1: Sofort aus Elasticsearch (< 100ms) -->
+      <template #immediate>
+        <img :src="product.thumbnail" :alt="product.name" loading="lazy" />
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.brand_name }}</p>
+        <span class="list-price">{{ formatPrice(product.default_price) }}</span>
+      </template>
+      
+      <!-- Phase 2: Verfügbarkeit (200-500ms) -->
+      <template #availability>
+        <Suspense>
+          <AvailabilityBadge :product-id="product.id" />
+          <template #fallback>
+            <AvailabilitySkeleton />
+          </template>
+        </Suspense>
+      </template>
+      
+      <!-- Phase 3: Kundenpreis (500-2000ms) -->
+      <template #customer-price>
+        <Suspense>
+          <CustomerPrice :product-id="product.id" />
+          <template #fallback>
+            <span class="price-loading">
+              {{ formatPrice(product.default_price) }}
+              <LoadingDots />
+            </span>
+          </template>
+        </Suspense>
+      </template>
+      
+      <!-- Phase 4: Lieferzeit (optional, lazy) -->
+      <template #delivery>
+        <LazyDeliveryInfo 
+          v-if="isVisible" 
+          :product-id="product.id" 
+        />
+      </template>
+    </ProductCard>
+  </div>
+</template>
+
+<script setup lang="ts">
+// Progressive Loading Strategy
+const loadingStrategy = {
+  phase1: {
+    source: 'elasticsearch',
+    timeout: 0,           // Sofort
+    data: ['name', 'image', 'list_price', 'brand']
+  },
+  phase2: {
+    source: 'erp-batch',
+    timeout: 100,         // 100ms nach Render
+    data: ['availability'],
+    batch: true           // Für alle sichtbaren Produkte gebündelt
+  },
+  phase3: {
+    source: 'erp-batch',
+    timeout: 300,         // 300ms nach Render
+    data: ['customer_price'],
+    batch: true
+  },
+  phase4: {
+    source: 'erp-lazy',
+    trigger: 'visible',   // Erst wenn sichtbar (IntersectionObserver)
+    data: ['delivery_time']
+  }
+};
+
+// Batch-Loading für sichtbare Produkte
+const { products } = await useAsyncData('products', () => searchProducts(query));
+
+// Phase 2: Verfügbarkeit für alle sichtbare Produkte
+const visibleProductIds = computed(() => 
+  products.value?.filter(p => p.isVisible).map(p => p.id) || []
+);
+
+// Batched ERP-Request
+const { data: availabilities } = await useAsyncData(
+  'availabilities',
+  () => erpBatchAvailability(visibleProductIds.value),
+  {
+    watch: [visibleProductIds],
+    immediate: false,
+    server: false  // Nur Client-seitig
+  }
+);
+</script>
+```
+
+---
+
+#### Loading States & Skeleton UI
+
+```vue
+<!-- components/ProductCard/PriceSkeleton.vue -->
+<template>
+  <div class="price-skeleton">
+    <div class="skeleton-line price-line" />
+    <div class="skeleton-line discount-line" />
+  </div>
+</template>
+
+<style scoped>
+.skeleton-line {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.price-line {
+  width: 80px;
+  height: 24px;
+}
+
+.discount-line {
+  width: 50px;
+  height: 16px;
+  margin-top: 4px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+</style>
+```
+
+```vue
+<!-- components/ProductCard/AvailabilityBadge.vue -->
+<template>
+  <div 
+    class="availability-badge"
+    :class="availabilityClass"
+  >
+    <span class="icon">{{ icon }}</span>
+    <span class="text">{{ text }}</span>
+  </div>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{ productId: string }>();
+
+// Async Setup: Suspense kümmert sich um Loading
+const { data: availability } = await useFetch(
+  `/api/erp/availability/${props.productId}`,
+  {
+    key: `availability-${props.productId}`,
+    // Stale-While-Revalidate
+    getCachedData: (key) => nuxtApp.payload.data[key],
+    // Retry bei Fehlern
+    retry: 2,
+    retryDelay: 1000
+  }
+);
+
+const availabilityClass = computed(() => ({
+  'in-stock': availability.value?.quantity > 10,
+  'low-stock': availability.value?.quantity > 0 && availability.value?.quantity <= 10,
+  'out-of-stock': availability.value?.quantity === 0
+}));
+
+const icon = computed(() => {
+  if (availability.value?.quantity > 10) return '✓';
+  if (availability.value?.quantity > 0) return '!';
+  return '✗';
+});
+
+const text = computed(() => {
+  if (availability.value?.quantity > 10) return 'Auf Lager';
+  if (availability.value?.quantity > 0) return `Nur noch ${availability.value.quantity}`;
+  return 'Nicht verfügbar';
+});
+</script>
+```
+
+---
+
+#### Metriken & Monitoring
+
+```typescript
+/**
+ * ERP Performance Monitoring
+ */
+class ErpMetricsService {
+  private metrics: ErpMetrics = {
+    totalRequests: 0,
+    batchedRequests: 0,
+    cacheHits: 0,
+    cacheMisses: 0,
+    avgResponseTime: 0,
+    circuitBreakerTrips: 0,
+    errorRate: 0
+  };
+  
+  trackRequest(event: RequestEvent) {
+    this.metrics.totalRequests++;
+    
+    if (event.batched) {
+      this.metrics.batchedRequests++;
+    }
+    
+    if (event.cached) {
+      this.metrics.cacheHits++;
+    } else {
+      this.metrics.cacheMisses++;
+    }
+    
+    // Rolling Average für Response Time
+    this.metrics.avgResponseTime = this.calculateRollingAvg(
+      this.metrics.avgResponseTime,
+      event.duration
+    );
+    
+    // An Monitoring senden
+    this.sendToMonitoring();
+  }
+  
+  getHealthStatus(): HealthStatus {
+    return {
+      status: this.metrics.errorRate < 0.05 ? 'healthy' : 'degraded',
+      metrics: {
+        batchEfficiency: this.metrics.batchedRequests / this.metrics.totalRequests,
+        cacheHitRate: this.metrics.cacheHits / (this.metrics.cacheHits + this.metrics.cacheMisses),
+        avgLatency: this.metrics.avgResponseTime,
+        errorRate: this.metrics.errorRate
+      }
+    };
+  }
+}
+```
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    ERP PERFORMANCE DASHBOARD                                │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  REQUESTS         BATCHING          CACHE             LATENCY              │
+│  ═════════        ════════          ═════             ═══════              │
+│  Total: 1,234     Batch Rate: 78%   Hit Rate: 85%    Avg: 450ms           │
+│  /min: 45         Savings: 890 req  L1 Hits: 65%     P95: 1200ms          │
+│                   batched           L2 Hits: 15%     P99: 2500ms          │
+│                                     L3 Hits: 5%                            │
+│                                                                             │
+│  CIRCUIT BREAKER                    ERRORS                                 │
+│  ═══════════════                    ══════                                 │
+│  State: CLOSED ✓                    Rate: 0.5%                             │
+│  Last Trip: 2h ago                  Timeouts: 12                           │
+│  Trip Count: 3                      5xx: 5                                 │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### Feature-Priorisierung: ERP-Interceptor
+
+| Feature | Aufwand | Phase |
+|---------|---------|-------|
+| Request Interceptor (Core) | 1 Tag | **MVP** |
+| Request Batching (Preise) | 1 Tag | **MVP** |
+| Debouncing/Throttling | 0.5 Tage | **MVP** |
+| Multi-Level Cache | 1 Tag | **MVP** |
+| Optimistic UI | 0.5 Tage | **MVP** |
+| Progressive Loading | 1 Tag | Phase 2 |
+| Circuit Breaker | 0.5 Tage | **MVP** |
+| Metrics/Monitoring | 1 Tag | Phase 2 |
+
+**Gesamt MVP: ~4.5 Tage** (kritisch für Produktions-Stabilität!)
+
+---
+
+#### Fallback-Strategien bei ERP-Ausfall
+
+> **Kritisch**: ERP-Ausfall darf den Shop NICHT lahmlegen!
+> Der Kunde muss weiter browsen und bestellen können.
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    GRACEFUL DEGRADATION STRATEGIE                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ERP-STATUS        SHOP-VERHALTEN           USER-EXPERIENCE                │
+│  ══════════        ═══════════════          ════════════════               │
+│                                                                             │
+│  ✅ HEALTHY        Voll funktional          Echtzeit-Preise & Bestand      │
+│     (< 500ms)                                                              │
+│                                                                             │
+│  ⚠️ DEGRADED       Cache-First              Preise "ca." markiert          │
+│     (500-2000ms)   Async-Updates            Bestand "Lieferzeit prüfen"    │
+│                                                                             │
+│  🔶 SLOW           Nur gecachte Daten       "Preis auf Anfrage"            │
+│     (> 2000ms)     Keine neuen ERP-Calls    Bestellung weiter möglich      │
+│                                                                             │
+│  ❌ OFFLINE        Vollständiger Fallback   Listenpreise anzeigen          │
+│     (Circuit Open) Queue für Bestellungen   "Bestellung wird geprüft"      │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+```typescript
+// types/erp-health.ts
+enum ErpHealthStatus {
+  HEALTHY = 'healthy',       // < 500ms, < 1% Fehler
+  DEGRADED = 'degraded',     // 500-2000ms oder 1-5% Fehler
+  SLOW = 'slow',             // > 2000ms
+  OFFLINE = 'offline'        // Circuit Breaker offen
+}
+
+interface FallbackConfig {
+  // Welche Daten bei welchem Status anzeigen
+  priceStrategy: Record<ErpHealthStatus, PriceDisplayStrategy>;
+  availabilityStrategy: Record<ErpHealthStatus, AvailabilityDisplayStrategy>;
+  orderStrategy: Record<ErpHealthStatus, OrderStrategy>;
+}
+
+type PriceDisplayStrategy = 
+  | 'erp_live'              // Echtzeit vom ERP
+  | 'cache_first'           // Cache bevorzugen, async aktualisieren
+  | 'cache_only'            // Nur Cache, keine neuen Requests
+  | 'index_fallback';       // Listenpreis aus Elasticsearch
+
+type AvailabilityDisplayStrategy =
+  | 'erp_live'
+  | 'cache_with_warning'    // "Bestand kann abweichen"
+  | 'hide'                  // Verfügbarkeit nicht anzeigen
+  | 'always_available';     // Optimistisch: "Meist lieferbar"
+
+type OrderStrategy =
+  | 'sync'                  // Bestellung sofort ans ERP
+  | 'async_queue'           // In Queue, später verarbeiten
+  | 'confirm_later';        // Annehmen, später bestätigen
+```
+
+```typescript
+/**
+ * Fallback Service - Zentrale Steuerung der Degradation
+ */
+class ErpFallbackService {
+  private healthStatus: Ref<ErpHealthStatus> = ref(ErpHealthStatus.HEALTHY);
+  private healthHistory: HealthCheckResult[] = [];
+  
+  private config: FallbackConfig = {
+    priceStrategy: {
+      [ErpHealthStatus.HEALTHY]: 'erp_live',
+      [ErpHealthStatus.DEGRADED]: 'cache_first',
+      [ErpHealthStatus.SLOW]: 'cache_only',
+      [ErpHealthStatus.OFFLINE]: 'index_fallback'
+    },
+    availabilityStrategy: {
+      [ErpHealthStatus.HEALTHY]: 'erp_live',
+      [ErpHealthStatus.DEGRADED]: 'cache_with_warning',
+      [ErpHealthStatus.SLOW]: 'hide',
+      [ErpHealthStatus.OFFLINE]: 'always_available'
+    },
+    orderStrategy: {
+      [ErpHealthStatus.HEALTHY]: 'sync',
+      [ErpHealthStatus.DEGRADED]: 'sync',
+      [ErpHealthStatus.SLOW]: 'async_queue',
+      [ErpHealthStatus.OFFLINE]: 'confirm_later'
+    }
+  };
+  
+  /**
+   * Health Check - läuft kontinuierlich im Hintergrund
+   */
+  async checkHealth(): Promise<void> {
+    const startTime = Date.now();
+    
+    try {
+      const response = await fetch('/api/erp/health', {
+        timeout: 5000
+      });
+      
+      const latency = Date.now() - startTime;
+      const success = response.ok;
+      
+      this.recordHealthCheck({ latency, success, timestamp: new Date() });
+      this.updateHealthStatus();
+      
+    } catch (error) {
+      this.recordHealthCheck({ latency: 5000, success: false, timestamp: new Date() });
+      this.updateHealthStatus();
+    }
+  }
+  
+  private updateHealthStatus() {
+    const recent = this.healthHistory.slice(-10); // Letzte 10 Checks
+    const avgLatency = average(recent.map(h => h.latency));
+    const errorRate = recent.filter(h => !h.success).length / recent.length;
+    
+    if (errorRate > 0.5) {
+      this.healthStatus.value = ErpHealthStatus.OFFLINE;
+    } else if (avgLatency > 2000 || errorRate > 0.2) {
+      this.healthStatus.value = ErpHealthStatus.SLOW;
+    } else if (avgLatency > 500 || errorRate > 0.05) {
+      this.healthStatus.value = ErpHealthStatus.DEGRADED;
+    } else {
+      this.healthStatus.value = ErpHealthStatus.HEALTHY;
+    }
+    
+    // Event für UI-Komponenten
+    this.emitStatusChange();
+  }
+  
+  /**
+   * Preis abrufen mit automatischem Fallback
+   */
+  async getPrice(productId: string, customerId: string): Promise<PriceResult> {
+    const strategy = this.config.priceStrategy[this.healthStatus.value];
+    
+    switch (strategy) {
+      case 'erp_live':
+        return this.fetchErpPrice(productId, customerId);
+        
+      case 'cache_first':
+        const cached = await this.cache.get(`price:${productId}:${customerId}`);
+        if (cached) {
+          // Async: Im Hintergrund aktualisieren
+          this.refreshPriceInBackground(productId, customerId);
+          return { ...cached, isCached: true };
+        }
+        return this.fetchErpPrice(productId, customerId);
+        
+      case 'cache_only':
+        const cachedOnly = await this.cache.get(`price:${productId}:${customerId}`);
+        if (cachedOnly) {
+          return { ...cachedOnly, isCached: true, isStale: true };
+        }
+        // Fallback zu Index-Preis
+        return this.getIndexPrice(productId);
+        
+      case 'index_fallback':
+        return this.getIndexPrice(productId);
+    }
+  }
+  
+  /**
+   * Index-Preis als letzter Fallback
+   */
+  private async getIndexPrice(productId: string): Promise<PriceResult> {
+    const product = await this.esClient.get({
+      index: `b2x_${tenantId}_${language}`,
+      id: productId
+    });
+    
+    return {
+      netPrice: product._source.default_price,
+      grossPrice: product._source.default_price * 1.19,
+      isFallback: true,
+      displayHint: 'Listenpreis - Ihr Preis kann abweichen'
+    };
+  }
+}
+```
+
+```vue
+<!-- Komponente mit Fallback-Awareness -->
+<template>
+  <div class="price-display" :class="priceClasses">
+    <!-- Normaler Preis -->
+    <template v-if="!price.isFallback && !price.isStale">
+      <span class="price">{{ formatPrice(price.netPrice) }}</span>
+    </template>
+    
+    <!-- Gecachter/Veralteter Preis -->
+    <template v-else-if="price.isStale">
+      <span class="price stale">
+        ca. {{ formatPrice(price.netPrice) }}
+      </span>
+      <span class="stale-indicator" :title="$t('price.may_differ')">
+        ~
+      </span>
+    </template>
+    
+    <!-- Fallback-Preis (aus Index) -->
+    <template v-else-if="price.isFallback">
+      <span class="price fallback">
+        ab {{ formatPrice(price.netPrice) }}
+      </span>
+      <span class="fallback-hint">
+        {{ price.displayHint }}
+      </span>
+    </template>
+    
+    <!-- ERP komplett offline -->
+    <template v-if="erpStatus === 'offline'">
+      <div class="erp-offline-banner">
+        <WarningIcon />
+        <span>{{ $t('erp.offline_notice') }}</span>
+      </div>
+    </template>
+  </div>
+</template>
+
+<script setup lang="ts">
+const { healthStatus: erpStatus } = useErpFallback();
+
+const priceClasses = computed(() => ({
+  'is-stale': price.value?.isStale,
+  'is-fallback': price.value?.isFallback,
+  'erp-degraded': erpStatus.value !== 'healthy'
+}));
+</script>
+
+<style scoped>
+.price.stale {
+  color: var(--color-warning);
+}
+
+.price.fallback {
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.stale-indicator {
+  font-size: 0.8em;
+  color: var(--color-warning);
+  cursor: help;
+}
+
+.erp-offline-banner {
+  background: var(--color-warning-bg);
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9em;
+}
+</style>
+```
+
+---
+
+#### Queue-basierte Async-Verarbeitung
+
+> **Use Case**: Bestellungen auch bei ERP-Problemen annehmen und später verarbeiten.
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    ASYNC ORDER QUEUE ARCHITECTURE                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────┐      │
+│  │ Frontend│────▶│ Order API   │────▶│ Order Queue │────▶│  ERP    │      │
+│  └─────────┘     └─────────────┘     └─────────────┘     └─────────┘      │
+│       │                 │                   │                  │           │
+│       │                 ▼                   ▼                  │           │
+│       │          ┌───────────┐       ┌───────────┐            │           │
+│       │          │ Immediate │       │ Background │            │           │
+│       │          │ Response  │       │ Processor  │            │           │
+│       │          └───────────┘       └───────────┘            │           │
+│       │                                    │                   │           │
+│       │                                    ▼                   │           │
+│       │                             ┌───────────┐              │           │
+│       ◀─────────────────────────────│  Notify   │◀─────────────┘           │
+│         (WebSocket/Email)           │  Customer │                          │
+│                                     └───────────┘                          │
+│                                                                             │
+│  VORTEILE:                                                                  │
+│  • Shop bleibt verfügbar bei ERP-Ausfall                                   │
+│  • Bestellungen gehen nicht verloren                                       │
+│  • Retry-Logik für fehlgeschlagene Übertragungen                          │
+│  • Lastverteilung zu Stoßzeiten                                            │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+```typescript
+// services/OrderQueueService.ts
+
+interface QueuedOrder {
+  id: string;
+  customerId: string;
+  items: OrderItem[];
+  status: QueuedOrderStatus;
+  attempts: number;
+  createdAt: Date;
+  lastAttempt?: Date;
+  error?: string;
+  erpOrderId?: string;        // Wenn erfolgreich übertragen
+}
+
+enum QueuedOrderStatus {
+  PENDING = 'pending',        // Wartet auf Verarbeitung
+  PROCESSING = 'processing',  // Wird gerade übertragen
+  COMPLETED = 'completed',    // Erfolgreich im ERP
+  FAILED = 'failed',          // Dauerhaft fehlgeschlagen
+  NEEDS_REVIEW = 'needs_review' // Manuelle Prüfung nötig
+}
+
+interface QueueConfig {
+  maxRetries: number;           // Max. Wiederholungsversuche
+  retryDelayMs: number;         // Wartezeit zwischen Versuchen
+  processingTimeout: number;    // Timeout für ERP-Übertragung
+  batchSize: number;            // Bestellungen pro Batch
+}
+
+const DEFAULT_QUEUE_CONFIG: QueueConfig = {
+  maxRetries: 5,
+  retryDelayMs: 60000,          // 1 Minute
+  processingTimeout: 30000,     // 30 Sekunden
+  batchSize: 10
+};
+```
+
+```typescript
+/**
+ * Order Queue Service - Bestellungen async verarbeiten
+ */
+class OrderQueueService {
+  private queue: QueuedOrder[] = [];
+  private isProcessing: boolean = false;
+  
+  constructor(
+    private erpClient: ErpClient,
+    private notificationService: NotificationService,
+    private config: QueueConfig = DEFAULT_QUEUE_CONFIG
+  ) {
+    // Queue-Processor starten
+    this.startProcessor();
+  }
+  
+  /**
+   * Bestellung in Queue aufnehmen
+   */
+  async enqueue(order: CreateOrderRequest): Promise<QueuedOrder> {
+    const queuedOrder: QueuedOrder = {
+      id: generateUUID(),
+      customerId: order.customerId,
+      items: order.items,
+      status: QueuedOrderStatus.PENDING,
+      attempts: 0,
+      createdAt: new Date()
+    };
+    
+    // In Queue speichern (DB/Redis)
+    await this.persistQueue(queuedOrder);
+    this.queue.push(queuedOrder);
+    
+    // Sofortige Bestätigung an Kunden
+    await this.notificationService.sendOrderReceived(queuedOrder);
+    
+    return queuedOrder;
+  }
+  
+  /**
+   * Background Processor - Läuft kontinuierlich
+   */
+  private async startProcessor() {
+    while (true) {
+      if (!this.isProcessing) {
+        await this.processBatch();
+      }
+      
+      // Kurze Pause zwischen Batches
+      await this.delay(5000);
+    }
+  }
+  
+  /**
+   * Batch von Bestellungen verarbeiten
+   */
+  private async processBatch() {
+    this.isProcessing = true;
+    
+    try {
+      // Pending Orders holen
+      const pendingOrders = this.queue
+        .filter(o => o.status === QueuedOrderStatus.PENDING)
+        .slice(0, this.config.batchSize);
+      
+      for (const order of pendingOrders) {
+        await this.processOrder(order);
+      }
+      
+    } finally {
+      this.isProcessing = false;
+    }
+  }
+  
+  /**
+   * Einzelne Bestellung verarbeiten
+   */
+  private async processOrder(order: QueuedOrder) {
+    order.status = QueuedOrderStatus.PROCESSING;
+    order.attempts++;
+    order.lastAttempt = new Date();
+    
+    try {
+      // An ERP senden
+      const erpResult = await this.erpClient.createOrder(order, {
+        timeout: this.config.processingTimeout
+      });
+      
+      // Erfolg!
+      order.status = QueuedOrderStatus.COMPLETED;
+      order.erpOrderId = erpResult.orderId;
+      
+      // Kunde benachrichtigen
+      await this.notificationService.sendOrderConfirmed(order, erpResult);
+      
+    } catch (error) {
+      await this.handleOrderError(order, error);
+    }
+    
+    // Status persistieren
+    await this.persistQueue(order);
+  }
+  
+  /**
+   * Fehlerbehandlung für fehlgeschlagene Bestellungen
+   */
+  private async handleOrderError(order: QueuedOrder, error: Error) {
+    order.error = error.message;
+    
+    if (order.attempts >= this.config.maxRetries) {
+      // Max Retries erreicht
+      order.status = QueuedOrderStatus.NEEDS_REVIEW;
+      
+      // Admin benachrichtigen
+      await this.notificationService.alertAdmin({
+        type: 'order_failed',
+        orderId: order.id,
+        error: error.message,
+        attempts: order.attempts
+      });
+      
+      // Kunde informieren
+      await this.notificationService.sendOrderDelayed(order);
+      
+    } else {
+      // Retry später
+      order.status = QueuedOrderStatus.PENDING;
+      
+      // Exponentielles Backoff
+      const delay = this.config.retryDelayMs * Math.pow(2, order.attempts - 1);
+      console.log(`Order ${order.id} retry in ${delay}ms (attempt ${order.attempts})`);
+    }
+  }
+  
+  /**
+   * Status einer Bestellung abfragen
+   */
+  async getOrderStatus(orderId: string): Promise<OrderStatusResponse> {
+    const order = this.queue.find(o => o.id === orderId);
+    
+    if (!order) {
+      throw new NotFoundError(`Order ${orderId} not found`);
+    }
+    
+    return {
+      orderId: order.id,
+      status: order.status,
+      erpOrderId: order.erpOrderId,
+      estimatedProcessing: this.estimateProcessingTime(order),
+      message: this.getStatusMessage(order)
+    };
+  }
+  
+  private getStatusMessage(order: QueuedOrder): string {
+    switch (order.status) {
+      case QueuedOrderStatus.PENDING:
+        return 'Ihre Bestellung wird in Kürze verarbeitet.';
+      case QueuedOrderStatus.PROCESSING:
+        return 'Ihre Bestellung wird gerade übertragen.';
+      case QueuedOrderStatus.COMPLETED:
+        return `Bestellung erfolgreich! ERP-Nr: ${order.erpOrderId}`;
+      case QueuedOrderStatus.NEEDS_REVIEW:
+        return 'Ihre Bestellung wird manuell geprüft. Wir melden uns.';
+      default:
+        return 'Status unbekannt.';
+    }
+  }
+}
+```
+
+```vue
+<!-- Bestellstatus-Tracking für Kunden -->
+<template>
+  <div class="order-status-tracker">
+    <h3>{{ $t('order.status_title') }}</h3>
+    
+    <!-- Status-Timeline -->
+    <div class="status-timeline">
+      <div 
+        v-for="step in statusSteps" 
+        :key="step.id"
+        class="status-step"
+        :class="{ 
+          'completed': step.completed,
+          'current': step.current,
+          'pending': !step.completed && !step.current
+        }"
+      >
+        <div class="step-icon">
+          <CheckIcon v-if="step.completed" />
+          <SpinnerIcon v-else-if="step.current" />
+          <CircleIcon v-else />
+        </div>
+        <div class="step-content">
+          <span class="step-title">{{ step.title }}</span>
+          <span class="step-time" v-if="step.timestamp">
+            {{ formatTime(step.timestamp) }}
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ERP-Verzögerung Hinweis -->
+    <div v-if="isQueued" class="queue-notice">
+      <InfoIcon />
+      <p>
+        {{ $t('order.queue_notice') }}
+        <br>
+        <small>{{ $t('order.estimated_time', { time: estimatedTime }) }}</small>
+      </p>
+    </div>
+    
+    <!-- Bestellnummer nach Erfolg -->
+    <div v-if="erpOrderId" class="erp-confirmation">
+      <SuccessIcon />
+      <p>
+        {{ $t('order.confirmed') }}
+        <br>
+        <strong>{{ $t('order.erp_number') }}: {{ erpOrderId }}</strong>
+      </p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{ orderId: string }>();
+
+// Polling für Status-Updates
+const { data: orderStatus, refresh } = await useFetch(
+  `/api/orders/${props.orderId}/status`,
+  { 
+    key: `order-status-${props.orderId}`,
+    // Alle 5 Sekunden aktualisieren wenn pending
+    refreshInterval: computed(() => 
+      orderStatus.value?.status === 'pending' ? 5000 : 0
+    )
+  }
+);
+
+const isQueued = computed(() => 
+  ['pending', 'processing'].includes(orderStatus.value?.status)
+);
+
+const erpOrderId = computed(() => orderStatus.value?.erpOrderId);
+
+const statusSteps = computed(() => [
+  {
+    id: 'received',
+    title: $t('order.step.received'),
+    completed: true,
+    timestamp: orderStatus.value?.createdAt
+  },
+  {
+    id: 'processing',
+    title: $t('order.step.processing'),
+    completed: orderStatus.value?.status === 'completed',
+    current: orderStatus.value?.status === 'processing',
+    timestamp: orderStatus.value?.lastAttempt
+  },
+  {
+    id: 'confirmed',
+    title: $t('order.step.confirmed'),
+    completed: orderStatus.value?.status === 'completed',
+    current: false,
+    timestamp: orderStatus.value?.status === 'completed' ? orderStatus.value?.lastAttempt : null
+  }
+]);
+</script>
+```
+
+```typescript
+// Backend: Order API mit Queue-Unterstützung
+// server/api/orders/index.post.ts
+
+export default defineEventHandler(async (event) => {
+  const body = await readBody(event);
+  const { erpFallback, orderQueue } = useServices();
+  
+  // ERP-Health prüfen
+  const erpHealth = await erpFallback.getHealthStatus();
+  
+  if (erpHealth === ErpHealthStatus.HEALTHY) {
+    // Synchron: Direkt ans ERP
+    try {
+      const erpOrder = await erpClient.createOrder(body);
+      return {
+        success: true,
+        orderId: erpOrder.orderId,
+        erpOrderId: erpOrder.erpOrderId,
+        status: 'confirmed'
+      };
+    } catch (error) {
+      // Fallback zu Queue bei Fehler
+      console.warn('ERP sync failed, falling back to queue');
+    }
+  }
+  
+  // Async: In Queue aufnehmen
+  const queuedOrder = await orderQueue.enqueue(body);
+  
+  return {
+    success: true,
+    orderId: queuedOrder.id,
+    status: 'queued',
+    message: 'Ihre Bestellung wurde angenommen und wird in Kürze verarbeitet.',
+    estimatedProcessing: orderQueue.estimateProcessingTime(queuedOrder)
+  };
+});
+```
+
+---
+
+#### Dead Letter Queue & Alerting
+
+```typescript
+/**
+ * Dead Letter Queue für dauerhaft fehlgeschlagene Bestellungen
+ */
+class DeadLetterQueueService {
+  private dlq: QueuedOrder[] = [];
+  
+  /**
+   * Bestellung in DLQ verschieben
+   */
+  async moveToDeadLetter(order: QueuedOrder, reason: string) {
+    order.status = QueuedOrderStatus.FAILED;
+    order.error = reason;
+    
+    // In DLQ speichern
+    this.dlq.push(order);
+    await this.persistDLQ(order);
+    
+    // Alert an Operations-Team
+    await this.alertService.critical({
+      type: 'order_dead_letter',
+      orderId: order.id,
+      customerId: order.customerId,
+      reason,
+      orderValue: this.calculateOrderValue(order),
+      attempts: order.attempts
+    });
+    
+    // Slack/Teams Notification
+    await this.slackNotify({
+      channel: '#shop-alerts',
+      message: `🚨 Bestellung ${order.id} in Dead Letter Queue!\n` +
+               `Kunde: ${order.customerId}\n` +
+               `Grund: ${reason}\n` +
+               `Versuche: ${order.attempts}`
+    });
+  }
+  
+  /**
+   * DLQ Dashboard Daten
+   */
+  async getDLQStats(): Promise<DLQStats> {
+    return {
+      count: this.dlq.length,
+      totalValue: this.dlq.reduce((sum, o) => sum + this.calculateOrderValue(o), 0),
+      byError: this.groupBy(this.dlq, 'error'),
+      oldest: this.dlq.sort((a, b) => a.createdAt - b.createdAt)[0]
+    };
+  }
+  
+  /**
+   * Manuelle Wiederholung einer DLQ-Bestellung
+   */
+  async retryFromDLQ(orderId: string): Promise<void> {
+    const order = this.dlq.find(o => o.id === orderId);
+    if (!order) throw new NotFoundError();
+    
+    // Zurück in Haupt-Queue
+    order.status = QueuedOrderStatus.PENDING;
+    order.attempts = 0;
+    order.error = undefined;
+    
+    await this.orderQueue.enqueue(order);
+    
+    // Aus DLQ entfernen
+    this.dlq = this.dlq.filter(o => o.id !== orderId);
+  }
+}
+```
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    DEAD LETTER QUEUE DASHBOARD                              │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  📊 ÜBERSICHT                          🚨 ALERTS                            │
+│  ════════════                          ══════════                           │
+│  Bestellungen in DLQ: 3                Letzte 24h: 5 Bestellungen          │
+│  Gesamtwert: €4,234.50                 Älteste: vor 2 Stunden              │
+│                                                                             │
+│  FEHLER-VERTEILUNG                                                          │
+│  ══════════════════                                                         │
+│  ERP_TIMEOUT        ████████████░░░░  45%  (2)                             │
+│  INVALID_CUSTOMER   ████░░░░░░░░░░░░  18%  (1)                             │
+│  STOCK_CONFLICT     ░░░░░░░░░░░░░░░░   0%  (0)                             │
+│                                                                             │
+│  AKTIONEN                                                                   │
+│  ═════════                                                                  │
+│  [Alle wiederholen]  [Export CSV]  [Archivieren]                           │
+│                                                                             │
+│  ┌──────────┬────────────┬───────────┬─────────┬──────────────────────────┐│
+│  │ Order-ID │ Kunde      │ Wert      │ Fehler  │ Aktionen                 ││
+│  ├──────────┼────────────┼───────────┼─────────┼──────────────────────────┤│
+│  │ ord-123  │ K-456      │ €1,234.00 │ TIMEOUT │ [Retry] [Details] [Skip] ││
+│  │ ord-124  │ K-789      │ €2,500.50 │ TIMEOUT │ [Retry] [Details] [Skip] ││
+│  │ ord-125  │ K-101      │ €  500.00 │ INVALID │ [Retry] [Details] [Skip] ││
+│  └──────────┴────────────┴───────────┴─────────┴──────────────────────────┘│
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### Feature-Priorisierung: Fallback & Queue
+
+| Feature | Aufwand | Phase |
+|---------|---------|-------|
+| Graceful Degradation (Core) | 1 Tag | **MVP** |
+| Fallback UI-Komponenten | 1 Tag | **MVP** |
+| Order Queue (Basic) | 2 Tage | **MVP** |
+| Queue Processor | 1 Tag | **MVP** |
+| Retry-Logik & Exponential Backoff | 0.5 Tage | **MVP** |
+| Dead Letter Queue | 1 Tag | Phase 2 |
+| DLQ Admin Dashboard | 1 Tag | Phase 2 |
+| Kunden-Benachrichtigungen | 1 Tag | Phase 2 |
+| Health Monitoring & Alerts | 1 Tag | Phase 2 |
+
+**Gesamt MVP: ~5.5 Tage** (unverzichtbar für Produktions-Betrieb!)
+
+---
+
+#### Order-Status-Synchronisation: Webhook vs. Polling
+
+> **Problem**: Verschiedene ERP-Systeme bieten unterschiedliche Integrationsmöglichkeiten.
+> - **Moderne ERPs** (SAP S/4HANA, Microsoft Dynamics): Webhooks/Events
+> - **Legacy ERPs** (enventa, viele On-Premise): Keine Webhooks, nur API-Abfrage
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    ERP-INTEGRATIONS-STRATEGIEN                              │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  STRATEGIE A: WEBHOOKS (Push)         STRATEGIE B: POLLING (Pull)          │
+│  ═════════════════════════════        ════════════════════════════         │
+│                                                                             │
+│  ERP sendet Event bei Änderung        Connector fragt periodisch ab        │
+│  ──────────────────────────────       ──────────────────────────────       │
+│  • Echtzeit-Updates                   • Verzögerung (Polling-Intervall)    │
+│  • Geringe Last                       • Höhere Last auf ERP                │
+│  • Komplexe ERP-Konfiguration         • Einfache ERP-Anbindung             │
+│  • Firewall/Netzwerk beachten         • Keine Inbound-Verbindung nötig     │
+│                                                                             │
+│  Geeignet für:                        Geeignet für:                        │
+│  • SAP S/4HANA                        • enventa Trade                      │
+│  • Microsoft Dynamics 365             • Sage                               │
+│  • Shopify, BigCommerce               • Ältere SAP-Versionen               │
+│  • Moderne Cloud-ERPs                 • On-Premise ohne Webhooks           │
+│                                                                             │
+│  STRATEGIE C: HYBRID                                                        │
+│  ═══════════════════                                                        │
+│  • Webhook als primär (wenn verfügbar)                                     │
+│  • Polling als Fallback/Validierung                                        │
+│  • Reconciliation für verpasste Events                                     │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+##### enventa Trade: Polling-basierte Status-Synchronisation
+
+> **enventa bietet keine Webhooks** - daher polling-basierte Lösung mit Event-Emit im Connector.
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    ENVENTA POLLING ARCHITEKTUR                              │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌───────────────┐    Polling    ┌───────────────┐                         │
+│  │   enventa     │◄──────────────│   Connector   │                         │
+│  │   Trade ERP   │               │   (On-Prem)   │                         │
+│  └───────────────┘               └───────┬───────┘                         │
+│         │                                │                                  │
+│         │ SQL/API                        │ Event Emit                       │
+│         ▼                                ▼                                  │
+│  ┌───────────────┐               ┌───────────────┐                         │
+│  │ Order-Tabelle │               │ Event Bus     │                         │
+│  │ Lieferscheine │               │ (RabbitMQ/    │                         │
+│  │ Rechnungen    │               │  Redis Pub/Sub)│                         │
+│  └───────────────┘               └───────┬───────┘                         │
+│                                          │                                  │
+│                                          ▼                                  │
+│                                  ┌───────────────┐                         │
+│                                  │   B2X API     │───▶ WebSocket/SSE       │
+│                                  │   Gateway     │───▶ Push Notifications   │
+│                                  └───────────────┘───▶ Email                │
+│                                                                             │
+│  POLLING EVENTS                                                             │
+│  ═══════════════                                                            │
+│  • ORDER_CONFIRMED           (Auftrag angelegt)                            │
+│  • ORDER_AWAITING_GOODS      (Warte auf Wareneingang - Bestellware)       │
+│  • ORDER_PRODUCTION_SCHEDULED (Fertigung eingeplant - Produktion)          │
+│  • ORDER_IN_PROGRESS         (In Bearbeitung)                              │
+│  • DELIVERY_NOTE_PRINTED     (Lieferschein gedruckt)                       │
+│  • SHIPMENT_CREATED          (Versand erstellt)                            │
+│  • INVOICE_PRINTED           (Rechnung gedruckt)                           │
+│  • INVOICE_SENT              (Rechnung versendet)                          │
+│  • PAYMENT_RECEIVED          (Zahlung eingegangen)                         │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+```typescript
+// Connector: enventa Order Status Polling Service
+
+interface EnventaOrderStatus {
+  orderNumber: string;
+  erpOrderId: string;
+  status: EnventaOrderState;
+  deliveryNotes: DeliveryNote[];
+  invoices: Invoice[];
+  lastModified: Date;
+}
+
+enum EnventaOrderState {
+  RECEIVED = 0,              // Auftrag eingegangen
+  CONFIRMED = 1,             // Auftrag bestätigt
+  AWAITING_GOODS_RECEIPT = 2, // Warte auf Wareneingang (Bestellware)
+  PRODUCTION_SCHEDULED = 3,   // Fertigung eingeplant (Produktionsstückliste)
+  IN_PICKING = 4,            // In Kommissionierung
+  PARTIALLY_SHIPPED = 5,     // Teilweise versendet
+  SHIPPED = 6,               // Vollständig versendet
+  INVOICED = 7,              // Rechnung erstellt
+  COMPLETED = 8,             // Abgeschlossen
+  CANCELLED = 9              // Storniert
+}
+
+interface DeliveryNote {
+  id: string;
+  number: string;
+  createdAt: Date;
+  printedAt?: Date;
+  trackingNumber?: string;
+  carrier?: string;
+  positions: DeliveryPosition[];
+}
+
+interface Invoice {
+  id: string;
+  number: string;
+  createdAt: Date;
+  printedAt?: Date;
+  sentAt?: Date;
+  totalNet: number;
+  totalGross: number;
+  pdfUrl?: string;
+}
+```
+
+```typescript
+/**
+ * enventa Connector: Order Status Polling Service
+ * Läuft als Background-Service im Connector
+ */
+class EnventaOrderPollingService {
+  private lastPollTime: Date = new Date(0);
+  private orderCache: Map<string, EnventaOrderStatus> = new Map();
+  
+  constructor(
+    private enventaClient: EnventaApiClient,
+    private eventBus: EventBus,
+    private config: PollingConfig
+  ) {}
+  
+  /**
+   * Polling-Loop starten
+   */
+  async startPolling() {
+    console.log(`Starting enventa order polling (interval: ${this.config.intervalMs}ms)`);
+    
+    while (true) {
+      try {
+        await this.pollOrderChanges();
+      } catch (error) {
+        console.error('Polling error:', error);
+        // Kurze Pause bei Fehler
+        await this.delay(this.config.errorRetryMs);
+      }
+      
+      await this.delay(this.config.intervalMs);
+    }
+  }
+  
+  /**
+   * Geänderte Bestellungen abfragen
+   */
+  private async pollOrderChanges() {
+    const changedOrders = await this.enventaClient.query(`
+      SELECT 
+        a.AuftragsNr,
+        a.Status,
+        a.LetzteAenderung,
+        a.KundenNr
+      FROM Auftraege a
+      WHERE a.LetzteAenderung > @lastPoll
+        AND a.Herkunft = 'WEBSHOP'
+      ORDER BY a.LetzteAenderung ASC
+    `, { lastPoll: this.lastPollTime });
+    
+    for (const order of changedOrders) {
+      await this.processOrderChange(order);
+    }
+    
+    if (changedOrders.length > 0) {
+      this.lastPollTime = changedOrders[changedOrders.length - 1].LetzteAenderung;
+    }
+  }
+  
+  /**
+   * Einzelne Bestellung verarbeiten und Events emittieren
+   */
+  private async processOrderChange(order: any) {
+    const orderId = order.AuftragsNr;
+    const previousState = this.orderCache.get(orderId);
+    
+    // Detaillierte Order-Daten laden
+    const currentState = await this.loadFullOrderStatus(orderId);
+    
+    // Welche Änderungen gab es?
+    const changes = this.detectChanges(previousState, currentState);
+    
+    // Events für jede Änderung emittieren
+    for (const change of changes) {
+      await this.emitOrderEvent(change, currentState);
+    }
+    
+    // Cache aktualisieren
+    this.orderCache.set(orderId, currentState);
+  }
+  
+  /**
+   * Änderungen zwischen zwei Zuständen erkennen
+   */
+  private detectChanges(
+    previous: EnventaOrderStatus | undefined,
+    current: EnventaOrderStatus
+  ): OrderChange[] {
+    const changes: OrderChange[] = [];
+    
+    // Status-Änderung?
+    if (!previous || previous.status !== current.status) {
+      changes.push({
+        type: 'STATUS_CHANGED',
+        from: previous?.status,
+        to: current.status
+      });
+    }
+    
+    // Neue Lieferscheine?
+    const previousDeliveryIds = new Set(previous?.deliveryNotes.map(d => d.id) || []);
+    for (const delivery of current.deliveryNotes) {
+      if (!previousDeliveryIds.has(delivery.id)) {
+        changes.push({
+          type: 'DELIVERY_NOTE_CREATED',
+          data: delivery
+        });
+      } else {
+        // Lieferschein gedruckt?
+        const prevDelivery = previous?.deliveryNotes.find(d => d.id === delivery.id);
+        if (!prevDelivery?.printedAt && delivery.printedAt) {
+          changes.push({
+            type: 'DELIVERY_NOTE_PRINTED',
+            data: delivery
+          });
+        }
+      }
+    }
+    
+    // Neue Rechnungen?
+    const previousInvoiceIds = new Set(previous?.invoices.map(i => i.id) || []);
+    for (const invoice of current.invoices) {
+      if (!previousInvoiceIds.has(invoice.id)) {
+        changes.push({
+          type: 'INVOICE_CREATED',
+          data: invoice
+        });
+      } else {
+        const prevInvoice = previous?.invoices.find(i => i.id === invoice.id);
+        
+        // Rechnung gedruckt?
+        if (!prevInvoice?.printedAt && invoice.printedAt) {
+          changes.push({
+            type: 'INVOICE_PRINTED',
+            data: invoice
+          });
+        }
+        
+        // Rechnung versendet?
+        if (!prevInvoice?.sentAt && invoice.sentAt) {
+          changes.push({
+            type: 'INVOICE_SENT',
+            data: invoice
+          });
+        }
+      }
+    }
+    
+    return changes;
+  }
+  
+  /**
+   * Event an Message Bus senden
+   */
+  private async emitOrderEvent(
+    change: OrderChange,
+    order: EnventaOrderStatus
+  ) {
+    const event: OrderStatusEvent = {
+      eventId: generateUUID(),
+      eventType: change.type,
+      orderId: order.orderNumber,
+      erpOrderId: order.erpOrderId,
+      timestamp: new Date(),
+      data: change.data,
+      metadata: {
+        source: 'enventa-connector',
+        pollingCycle: this.lastPollTime.toISOString()
+      }
+    };
+    
+    console.log(`Emitting event: ${change.type} for order ${order.orderNumber}`);
+    
+    // An Event Bus senden
+    await this.eventBus.publish('order.status', event);
+  }
+  
+  /**
+   * Vollständige Order-Details laden
+   */
+  private async loadFullOrderStatus(orderId: string): Promise<EnventaOrderStatus> {
+    // Parallel: Order, Lieferscheine, Rechnungen laden
+    const [order, deliveryNotes, invoices] = await Promise.all([
+      this.enventaClient.getOrder(orderId),
+      this.enventaClient.getDeliveryNotes(orderId),
+      this.enventaClient.getInvoices(orderId)
+    ]);
+    
+    return {
+      orderNumber: order.webshopOrderId,
+      erpOrderId: order.erpOrderId,
+      status: order.status,
+      deliveryNotes,
+      invoices,
+      lastModified: order.lastModified
+    };
+  }
+}
+
+interface PollingConfig {
+  intervalMs: number;       // Polling-Intervall (z.B. 30 Sekunden)
+  errorRetryMs: number;     // Wartezeit bei Fehler
+  batchSize: number;        // Max. Orders pro Polling-Zyklus
+}
+
+const DEFAULT_POLLING_CONFIG: PollingConfig = {
+  intervalMs: 30000,        // 30 Sekunden
+  errorRetryMs: 60000,      // 1 Minute bei Fehler
+  batchSize: 100
+};
+```
+
+---
+
+##### Event-Verarbeitung im B2X Gateway
+
+```typescript
+// B2X Gateway: Order Event Consumer
+
+interface OrderStatusEvent {
+  eventId: string;
+  eventType: OrderEventType;
+  orderId: string;
+  erpOrderId: string;
+  timestamp: Date;
+  data: any;
+  metadata: {
+    source: string;
+    pollingCycle?: string;
+  };
+}
+
+type OrderEventType = 
+  | 'STATUS_CHANGED'
+  | 'ORDER_AWAITING_GOODS'        // Warte auf Wareneingang
+  | 'ORDER_PRODUCTION_SCHEDULED'  // Fertigung eingeplant
+  | 'DELIVERY_NOTE_CREATED'
+  | 'DELIVERY_NOTE_PRINTED'
+  | 'SHIPMENT_CREATED'
+  | 'INVOICE_CREATED'
+  | 'INVOICE_PRINTED'
+  | 'INVOICE_SENT'
+  | 'PAYMENT_RECEIVED';
+
+/**
+ * Wolverine Message Handler für Order-Events
+ */
+public class OrderStatusEventHandler
+{
+    private readonly IOrderRepository _orderRepository;
+    private readonly INotificationService _notificationService;
+    private readonly IWebSocketHub _webSocketHub;
+    
+    public async Task Handle(OrderStatusEvent evt)
+    {
+        // 1. Order in DB aktualisieren
+        var order = await _orderRepository.GetByErpOrderIdAsync(evt.ErpOrderId);
+        if (order == null) return;
+        
+        order.UpdateStatus(MapToB2XStatus(evt.EventType));
+        await _orderRepository.SaveAsync(order);
+        
+        // 2. Kunden benachrichtigen (je nach Event-Typ)
+        await NotifyCustomer(order, evt);
+        
+        // 3. WebSocket Push für Live-Updates
+        await _webSocketHub.SendToUser(
+            order.CustomerId,
+            "order:status",
+            new { orderId = order.Id, status = evt.EventType, data = evt.Data }
+        );
+    }
+    
+    private async Task NotifyCustomer(Order order, OrderStatusEvent evt)
+    {
+        switch (evt.EventType)
+        {
+            case "ORDER_AWAITING_GOODS":
+                // Benachrichtigung: Bestellware, verlängerte Lieferzeit
+                await _notificationService.SendBackorderNotification(
+                    order.Customer,
+                    order,
+                    evt.Data.ExpectedDeliveryDate,
+                    evt.Data.SupplierName
+                );
+                break;
+                
+            case "ORDER_PRODUCTION_SCHEDULED":
+                // Benachrichtigung: Fertigung eingeplant
+                await _notificationService.SendProductionScheduledNotification(
+                    order.Customer,
+                    order,
+                    evt.Data.EstimatedCompletionDate,
+                    evt.Data.ProductionOrderNumber
+                );
+                break;
+                
+            case "DELIVERY_NOTE_PRINTED":
+                // Versandbenachrichtigung
+                await _notificationService.SendShippingNotification(
+                    order.Customer,
+                    order,
+                    evt.Data.TrackingNumber,
+                    evt.Data.Carrier
+                );
+                break;
+                
+            case "INVOICE_SENT":
+                // Rechnungsbenachrichtigung mit PDF-Link
+                await _notificationService.SendInvoiceNotification(
+                    order.Customer,
+                    order,
+                    evt.Data.InvoiceNumber,
+                    evt.Data.PdfUrl
+                );
+                break;
+                
+            case "SHIPMENT_CREATED":
+                // Tracking-Link per Push/Email
+                await _notificationService.SendTrackingInfo(
+                    order.Customer,
+                    order,
+                    evt.Data.TrackingUrl
+                );
+                break;
+        }
+    }
+}
+```
+
+---
+
+##### Frontend: Echtzeit-Status-Updates
+
+```vue
+<!-- OrderStatusTracker.vue - Mit WebSocket-Updates -->
+<template>
+  <div class="order-status-tracker">
+    <h3>{{ $t('order.status_title') }}</h3>
+    
+    <!-- Live-Update Indikator -->
+    <div class="live-indicator" :class="{ connected: isConnected }">
+      <span class="pulse" />
+      {{ isConnected ? $t('order.live_updates') : $t('order.connecting') }}
+    </div>
+    
+    <!-- Status-Timeline -->
+    <div class="status-timeline">
+      <div 
+        v-for="step in statusSteps" 
+        :key="step.id"
+        class="status-step"
+        :class="stepClasses(step)"
+      >
+        <div class="step-icon">
+          <component :is="step.icon" />
+        </div>
+        <div class="step-content">
+          <span class="step-title">{{ $t(step.titleKey) }}</span>
+          <span class="step-time" v-if="step.timestamp">
+            {{ formatDateTime(step.timestamp) }}
+          </span>
+          
+          <!-- Zusatzinfos je nach Step -->
+          <div v-if="step.details" class="step-details">
+            <!-- Tracking-Link -->
+            <a 
+              v-if="step.trackingUrl" 
+              :href="step.trackingUrl" 
+              target="_blank"
+              class="tracking-link"
+            >
+              📦 {{ $t('order.track_shipment') }}
+            </a>
+            
+            <!-- Rechnung Download -->
+            <a 
+              v-if="step.invoicePdfUrl" 
+              :href="step.invoicePdfUrl" 
+              target="_blank"
+              class="invoice-link"
+            >
+              📄 {{ $t('order.download_invoice') }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{ orderId: string }>();
+
+// WebSocket-Verbindung für Live-Updates
+const { status: wsStatus, data: wsData } = useWebSocket(
+  `/ws/orders/${props.orderId}`,
+  {
+    autoReconnect: {
+      retries: 5,
+      delay: 1000,
+      onFailed() {
+        console.warn('WebSocket connection failed, falling back to polling');
+        startPollingFallback();
+      }
+    }
+  }
+);
+
+const isConnected = computed(() => wsStatus.value === 'OPEN');
+
+// Reaktiv auf WebSocket-Events
+watch(wsData, (event) => {
+  if (event?.type === 'order:status') {
+    handleStatusUpdate(event.data);
+  }
+});
+
+// Status-Updates verarbeiten
+function handleStatusUpdate(data: any) {
+  // Timeline aktualisieren
+  updateTimeline(data.status, data.timestamp, data.details);
+  
+  // Toast-Notification
+  showToast({
+    type: 'success',
+    message: getStatusMessage(data.status),
+    duration: 5000
+  });
+}
+
+// Fallback: Polling wenn WebSocket nicht verfügbar
+const pollingInterval = ref<number | null>(null);
+
+function startPollingFallback() {
+  pollingInterval.value = setInterval(async () => {
+    const status = await $fetch(`/api/orders/${props.orderId}/status`);
+    handleStatusUpdate(status);
+  }, 30000); // 30 Sekunden
+}
+
+onUnmounted(() => {
+  if (pollingInterval.value) {
+    clearInterval(pollingInterval.value);
+  }
+});
+
+// Timeline-Schritte berechnen
+const statusSteps = computed(() => [
+  {
+    id: 'confirmed',
+    titleKey: 'order.step.confirmed',
+    icon: CheckCircleIcon,
+    completed: order.value?.status >= OrderStatus.CONFIRMED,
+    timestamp: order.value?.confirmedAt
+  },
+  // Konditionale Schritte für Bestellware/Produktion
+  ...(order.value?.isBackordered ? [{
+    id: 'awaiting_goods',
+    titleKey: 'order.step.awaiting_goods',
+    icon: ClockIcon,
+    completed: order.value?.status > OrderStatus.AWAITING_GOODS_RECEIPT,
+    current: order.value?.status === OrderStatus.AWAITING_GOODS_RECEIPT,
+    timestamp: order.value?.backorderedAt,
+    details: {
+      expectedDelivery: order.value?.expectedGoodsReceiptDate,
+      supplier: order.value?.supplierName
+    }
+  }] : []),
+  ...(order.value?.isProduction ? [{
+    id: 'production',
+    titleKey: 'order.step.production_scheduled',
+    icon: WrenchIcon,
+    completed: order.value?.status > OrderStatus.PRODUCTION_SCHEDULED,
+    current: order.value?.status === OrderStatus.PRODUCTION_SCHEDULED,
+    timestamp: order.value?.productionScheduledAt,
+    details: {
+      estimatedCompletion: order.value?.estimatedProductionDate,
+      productionOrder: order.value?.productionOrderNumber
+    }
+  }] : []),
+  {
+    id: 'processing',
+    titleKey: 'order.step.processing',
+    icon: CogIcon,
+    completed: order.value?.status >= OrderStatus.PROCESSING,
+    current: order.value?.status === OrderStatus.PROCESSING
+  },
+  {
+    id: 'shipped',
+    titleKey: 'order.step.shipped',
+    icon: TruckIcon,
+    completed: order.value?.status >= OrderStatus.SHIPPED,
+    current: order.value?.status === OrderStatus.SHIPPED,
+    timestamp: order.value?.shippedAt,
+    details: {
+      trackingUrl: order.value?.trackingUrl,
+      carrier: order.value?.carrier
+    }
+  },
+  {
+    id: 'invoiced',
+    titleKey: 'order.step.invoiced',
+    icon: DocumentIcon,
+    completed: order.value?.status >= OrderStatus.INVOICED,
+    timestamp: order.value?.invoicedAt,
+    details: {
+      invoicePdfUrl: order.value?.invoicePdfUrl,
+      invoiceNumber: order.value?.invoiceNumber
+    }
+  },
+  {
+    id: 'completed',
+    titleKey: 'order.step.completed',
+    icon: FlagIcon,
+    completed: order.value?.status === OrderStatus.COMPLETED
+  }
+]);
+</script>
+
+<style scoped>
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85em;
+  color: var(--color-muted);
+}
+
+.live-indicator.connected {
+  color: var(--color-success);
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.tracking-link,
+.invoice-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background: var(--color-surface);
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.tracking-link:hover,
+.invoice-link:hover {
+  background: var(--color-surface-hover);
+}
+</style>
+```
+
+---
+
+##### Konfigurierbare Polling-Intervalle
+
+```typescript
+// Connector-Konfiguration per Tenant
+
+interface ConnectorPollingConfig {
+  // Order-Status Polling
+  orderStatus: {
+    enabled: boolean;
+    intervalMs: number;         // Standard: 30s
+    batchSize: number;          // Standard: 100
+    lookbackMinutes: number;    // Wie weit zurück schauen
+  };
+  
+  // Lagerbestand Polling
+  inventory: {
+    enabled: boolean;
+    intervalMs: number;         // Standard: 60s
+    fullSyncIntervalMs: number; // Volle Sync: 1h
+  };
+  
+  // Preise Polling
+  prices: {
+    enabled: boolean;
+    intervalMs: number;         // Standard: 300s (5 Min)
+    changesOnly: boolean;       // Nur geänderte Preise
+  };
+}
+
+// Beispiel: enventa Tenant-Konfiguration
+const enventaTenantConfig: ConnectorPollingConfig = {
+  orderStatus: {
+    enabled: true,
+    intervalMs: 30000,          // 30 Sekunden
+    batchSize: 100,
+    lookbackMinutes: 60         // Letzte Stunde
+  },
+  inventory: {
+    enabled: true,
+    intervalMs: 60000,          // 1 Minute
+    fullSyncIntervalMs: 3600000 // 1 Stunde
+  },
+  prices: {
+    enabled: true,
+    intervalMs: 300000,         // 5 Minuten
+    changesOnly: true
+  }
+};
+```
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    POLLING-LAST OPTIMIERUNG                                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  STRATEGIE: ADAPTIVE POLLING                                               │
+│  ═══════════════════════════                                                │
+│                                                                             │
+│  Geschäftszeiten (8-18 Uhr):                                               │
+│  • Order-Status: alle 30 Sekunden                                          │
+│  • Bestand: alle 60 Sekunden                                               │
+│  • Preise: alle 5 Minuten                                                  │
+│                                                                             │
+│  Außerhalb Geschäftszeiten:                                                │
+│  • Order-Status: alle 5 Minuten                                            │
+│  • Bestand: alle 30 Minuten                                                │
+│  • Preise: alle 2 Stunden                                                  │
+│                                                                             │
+│  Wochenende/Feiertage:                                                     │
+│  • Minimales Polling (alle 30 Min)                                         │
+│  • Oder komplett pausieren                                                 │
+│                                                                             │
+│  LAST-REDUKTION                                                             │
+│  ══════════════                                                             │
+│  • Delta-Queries (nur Änderungen seit letztem Poll)                        │
+│  • Batch-Verarbeitung                                                       │
+│  • Connection Pooling                                                       │
+│  • Caching von unveränderten Daten                                         │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### Feature-Priorisierung: Order-Status-Sync
+
+| Feature | Aufwand | Phase |
+|---------|---------|-------|
+| Polling-Service (Connector) | 2 Tage | **MVP** |
+| Event-Erkennung (Status, Lieferschein, Rechnung) | 1.5 Tage | **MVP** |
+| Event-Bus Integration | 1 Tag | **MVP** |
+| WebSocket Push (Gateway) | 1 Tag | **MVP** |
+| Kunden-Benachrichtigungen | 1 Tag | Phase 2 |
+| Adaptive Polling (Geschäftszeiten) | 0.5 Tage | Phase 2 |
+| Webhook-Integration (andere ERPs) | 2 Tage | Phase 2 |
+| Reconciliation/Recovery | 1 Tag | Phase 2 |
+
+**Gesamt MVP: ~5.5 Tage**
+
+---
 
 ---
 

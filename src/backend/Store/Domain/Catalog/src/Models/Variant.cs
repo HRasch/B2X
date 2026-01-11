@@ -9,6 +9,9 @@ public class Variant
     public Guid Id { get; set; }
     public Guid ProductId { get; set; }
 
+    // Navigation property
+    public Product Product { get; set; } = null!;
+
     // Variant identification
     public required string Sku { get; set; }
     public required string Name { get; set; }

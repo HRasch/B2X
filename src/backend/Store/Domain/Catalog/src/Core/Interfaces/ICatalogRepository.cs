@@ -71,11 +71,12 @@ public interface ICatalogRepository
     Task<bool> CategoryExistsAsync(Guid id, Guid tenantId);
 
     // Variant operations
-    Task<Variant?> GetVariantByIdAsync(Guid id);
+    Task<Variant?> GetVariantByIdAsync(Guid id, Guid tenantId);
     Task<Variant?> GetVariantBySkuAsync(string sku, Guid tenantId);
     Task<IEnumerable<Variant>> GetVariantsByProductIdAsync(Guid productId);
     Task<(IEnumerable<Variant> Items, int TotalCount)> GetVariantsByProductIdPagedAsync(
         Guid productId,
+        Guid tenantId,
         int pageNumber,
         int pageSize);
     Task<(IEnumerable<Variant> Items, int TotalCount)> GetVariantsPagedAsync(
@@ -89,7 +90,7 @@ public interface ICatalogRepository
         int pageSize);
     Task AddVariantAsync(Variant variant);
     Task UpdateVariantAsync(Variant variant);
-    Task DeleteVariantAsync(Guid id);
+    Task DeleteVariantAsync(Guid id, Guid tenantId);
 
     // Cross-entity operations
     Task<IEnumerable<Product>> GetProductsByCategoryHierarchyAsync(Guid categoryId, Guid tenantId, int page = 1, int pageSize = 50);

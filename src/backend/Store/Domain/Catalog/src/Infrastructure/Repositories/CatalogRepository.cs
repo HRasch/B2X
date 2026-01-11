@@ -185,10 +185,11 @@ public class CatalogRepository : ICatalogRepository
     }
 
     // Variant operations
-    public async Task<Variant?> GetVariantByIdAsync(Guid id)
+    public async Task<Variant?> GetVariantByIdAsync(Guid id, Guid tenantId)
     {
         return await _context.Variants
-            .FirstOrDefaultAsync(v => v.Id == id);
+            .Include(v => v.Product)
+            .FirstOrDefaultAsync(v => v.Id == id && v.Product.TenantId == tenantId);
     }
 
     public async Task<Variant?> GetVariantBySkuAsync(string sku, Guid tenantId)
@@ -212,10 +213,13 @@ public class CatalogRepository : ICatalogRepository
 
     public async Task<(IEnumerable<Variant> Items, int TotalCount)> GetVariantsByProductIdPagedAsync(
         Guid productId,
+        Guid tenantId,
         int pageNumber,
         int pageSize)
     {
-        var query = _context.Variants.Where(v => v.ProductId == productId);
+        var query = _context.Variants
+            .Include(v => v.Product)
+            .Where(v => v.ProductId == productId && v.Product.TenantId == tenantId);
         var totalCount = await query.CountAsync();
         var items = await query
             .Skip((pageNumber - 1) * pageSize)
@@ -283,9 +287,9 @@ public class CatalogRepository : ICatalogRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteVariantAsync(Guid id)
+    public async Task DeleteVariantAsync(Guid id, Guid tenantId)
     {
-        var variant = await GetVariantByIdAsync(id);
+        var variant = await GetVariantByIdAsync(id, tenantId);
         if (variant != null)
         {
             _context.Variants.Remove(variant);

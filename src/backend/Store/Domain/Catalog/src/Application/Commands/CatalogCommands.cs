@@ -86,9 +86,9 @@ public record UpdateVariantDto(
 );
 
 public record CreateVariantCommand(CreateVariantDto Variant);
-public record UpdateVariantCommand(Guid Id, UpdateVariantDto Variant);
-public record DeleteVariantCommand(Guid Id);
-public record UpdateVariantStockCommand(Guid Id, int NewStockQuantity);
+public record UpdateVariantCommand(Guid Id, UpdateVariantDto Variant, Guid TenantId);
+public record DeleteVariantCommand(Guid Id, Guid TenantId);
+public record UpdateVariantStockCommand(Guid Id, int NewStockQuantity, Guid TenantId);
 
 /// <summary>
 /// Commands for product operations
@@ -111,16 +111,16 @@ public record CreateProductCommand(
 public record UpdateProductCommand(
     Guid Id,
     Guid TenantId,
-    string Sku,
-    string Name,
+    string? Sku,
+    string? Name,
     string? Description,
-    decimal Price,
+    decimal? Price,
     decimal? DiscountPrice,
-    int StockQuantity,
-    bool IsActive,
-    List<Guid> CategoryIds,
+    int? StockQuantity,
+    bool? IsActive,
+    List<Guid>? CategoryIds,
     string? BrandName,
-    List<string> Tags,
+    List<string>? Tags,
     string? Barcode
 );
 
@@ -148,6 +148,18 @@ public record GetCategoryTreeQuery(Guid TenantId);
 /// </summary>
 public record GetVariantByIdQuery(Guid Id, Guid TenantId);
 public record GetVariantBySkuQuery(string Sku, Guid TenantId);
-public record GetVariantsByProductQuery(Guid ProductId, Guid TenantId, int Page = 1, int PageSize = 20);
-public record GetVariantsQuery(Guid TenantId, string? SearchTerm = null, int Page = 1, int PageSize = 20);
+public record GetVariantsByProductQuery(Guid ProductId, Guid TenantId, int Page = 1, int PageSize = 50);
+public record GetVariantsQuery(
+    Guid TenantId,
+    string? SearchTerm = null,
+    int Page = 1,
+    int PageSize = 20);
 public record SearchVariantsQuery(string Query, Guid TenantId, int Page = 1, int PageSize = 20);
+
+/// <summary>
+/// Queries for product operations
+/// </summary>
+public record GetProductByIdQuery(Guid Id, Guid TenantId);
+public record GetProductsByTenantQuery(Guid TenantId, int Page = 1, int PageSize = 50);
+public record GetProductsByCategoryQuery(Guid CategoryId, Guid TenantId, int Page = 1, int PageSize = 50);
+public record GetProductBySkuQuery(string Sku, Guid TenantId);

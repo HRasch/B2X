@@ -33,6 +33,9 @@ public class CatalogDbContext : DbContext
     /// <summary>Products in the catalog</summary>
     public DbSet<Product> Products => Set<Product>();
 
+    /// <summary>Product-Category relationships</summary>
+    public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
+
     /// <summary>Product variants</summary>
     public DbSet<Variant> Variants => Set<Variant>();
 

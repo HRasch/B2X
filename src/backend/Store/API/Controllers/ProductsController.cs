@@ -1,11 +1,42 @@
-using B2X.Catalog.Core.Commands;
-using B2X.Catalog.Core.Queries;
+using B2X.Catalog.Application.Commands;
+using B2X.Catalog.Models;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
 #pragma warning disable S6960 // This controller has multiple responsibilities and could be split into 2 smaller controllers
 
 namespace B2X.Store.Controllers;
+
+/// <summary>
+/// Request DTOs for product operations
+/// </summary>
+public record CreateProductRequest(
+    string Sku,
+    string Name,
+    string? Description,
+    decimal Price,
+    decimal? DiscountPrice,
+    int StockQuantity,
+    bool IsActive,
+    List<Guid> CategoryIds,
+    string? BrandName,
+    List<string> Tags,
+    string? Barcode
+);
+
+public record ProductUpdateRequest(
+    string? Sku,
+    string? Name,
+    string? Description,
+    decimal? Price,
+    decimal? DiscountPrice,
+    int? StockQuantity,
+    bool? IsActive,
+    List<Guid>? CategoryIds,
+    string? BrandName,
+    List<string>? Tags,
+    string? Barcode
+);
 
 /// <summary>
 /// Products API controller using CQRS pattern with Wolverine
@@ -32,7 +63,7 @@ public class ProductsController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetProduct(Guid id, [FromHeader(Name = "X-Tenant-ID")] Guid tenantId)
     {
-        var query = new GetProductByIdQuery { Id = id, TenantId = tenantId };
+        var query = new GetProductByIdQuery(id, tenantId);
         var result = await _bus.InvokeAsync<Product?>(query);
 
         if (result == null)
@@ -52,12 +83,7 @@ public class ProductsController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 50)
     {
-        var query = new GetProductsByTenantQuery
-        {
-            TenantId = tenantId,
-            Page = page,
-            PageSize = pageSize
-        };
+        var query = new GetProductsByTenantQuery(tenantId, page, pageSize);
 
         var result = await _bus.InvokeAsync<IEnumerable<Product>>(query);
         return Ok(result);
@@ -73,13 +99,7 @@ public class ProductsController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 50)
     {
-        var query = new GetProductsByCategoryQuery
-        {
-            CategoryId = categoryId,
-            TenantId = tenantId,
-            Page = page,
-            PageSize = pageSize
-        };
+        var query = new GetProductsByCategoryQuery(categoryId, tenantId, page, pageSize);
 
         var result = await _bus.InvokeAsync<IEnumerable<Product>>(query);
         return Ok(result);
@@ -90,10 +110,23 @@ public class ProductsController : ControllerBase
     /// </summary>
     [HttpPost]
     public async Task<IActionResult> CreateProduct(
-        [FromBody] CreateProductCommand command,
+        [FromBody] CreateProductRequest request,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId)
     {
-        command.TenantId = tenantId;
+        var command = new CreateProductCommand(
+            tenantId,
+            request.Sku,
+            request.Name,
+            request.Description,
+            request.Price,
+            request.DiscountPrice,
+            request.StockQuantity,
+            request.IsActive,
+            request.CategoryIds,
+            request.BrandName,
+            request.Tags,
+            request.Barcode
+        );
         var result = await _bus.InvokeAsync<Product>(command);
 
         return CreatedAtAction(nameof(GetProduct), new { id = result.Id }, result);
@@ -105,11 +138,24 @@ public class ProductsController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateProduct(
         Guid id,
-        [FromBody] UpdateProductCommand command,
+        [FromBody] ProductUpdateRequest request,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId)
     {
-        command.Id = id;
-        command.TenantId = tenantId;
+        var command = new UpdateProductCommand(
+            id,
+            tenantId,
+            request.Sku,
+            request.Name,
+            request.Description,
+            request.Price,
+            request.DiscountPrice,
+            request.StockQuantity,
+            request.IsActive,
+            request.CategoryIds,
+            request.BrandName,
+            request.Tags,
+            request.Barcode
+        );
         var result = await _bus.InvokeAsync<Product>(command);
 
         return Ok(result);
@@ -121,7 +167,7 @@ public class ProductsController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteProduct(Guid id, [FromHeader(Name = "X-Tenant-ID")] Guid tenantId)
     {
-        var command = new DeleteProductCommand { Id = id, TenantId = tenantId };
+        var command = new DeleteProductCommand(id, tenantId);
         await _bus.InvokeAsync(command);
 
         return NoContent();

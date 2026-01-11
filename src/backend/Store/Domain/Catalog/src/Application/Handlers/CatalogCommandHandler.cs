@@ -99,7 +99,7 @@ public class CatalogCommandHandler
 
     public static async Task<Variant> Handle(UpdateVariantCommand command, ICatalogRepository repository)
     {
-        var variant = await repository.GetVariantByIdAsync(command.Id);
+        var variant = await repository.GetVariantByIdAsync(command.Id, command.TenantId);
         if (variant == null)
             throw new KeyNotFoundException($"Variant {command.Id} not found");
 
@@ -127,12 +127,12 @@ public class CatalogCommandHandler
 
     public static async Task Handle(DeleteVariantCommand command, ICatalogRepository repository)
     {
-        await repository.DeleteVariantAsync(command.Id);
+        await repository.DeleteVariantAsync(command.Id, command.TenantId);
     }
 
     public static async Task Handle(UpdateVariantStockCommand command, ICatalogRepository repository)
     {
-        var variant = await repository.GetVariantByIdAsync(command.Id);
+        var variant = await repository.GetVariantByIdAsync(command.Id, command.TenantId);
         if (variant == null)
             throw new KeyNotFoundException($"Variant {command.Id} not found");
 
@@ -175,19 +175,41 @@ public class CatalogCommandHandler
         if (product == null)
             throw new KeyNotFoundException($"Product {command.Id} not found");
 
-        product.Sku = command.Sku;
-        product.Name = command.Name;
-        product.Description = command.Description;
-        product.Price = command.Price;
-        product.DiscountPrice = command.DiscountPrice;
-        product.StockQuantity = command.StockQuantity;
-        product.IsActive = command.IsActive;
-        product.BrandName = command.BrandName;
-        product.Tags = command.Tags;
-        product.Barcode = command.Barcode;
-        product.UpdatedAt = DateTime.UtcNow;
+        // Update only non-null fields (partial update)
+        if (!string.IsNullOrEmpty(command.Sku))
+            product.Sku = command.Sku;
 
-        product.SetCategories(command.CategoryIds);
+        if (!string.IsNullOrEmpty(command.Name))
+            product.Name = command.Name;
+
+        if (!string.IsNullOrEmpty(command.Description))
+            product.Description = command.Description;
+
+        if (command.Price.HasValue)
+            product.Price = command.Price.Value;
+
+        if (command.DiscountPrice.HasValue)
+            product.DiscountPrice = command.DiscountPrice;
+
+        if (command.StockQuantity.HasValue)
+            product.StockQuantity = command.StockQuantity.Value;
+
+        if (command.IsActive.HasValue)
+            product.IsActive = command.IsActive.Value;
+
+        if (!string.IsNullOrEmpty(command.BrandName))
+            product.BrandName = command.BrandName;
+
+        if (command.Tags != null && command.Tags.Any())
+            product.Tags = command.Tags;
+
+        if (!string.IsNullOrEmpty(command.Barcode))
+            product.Barcode = command.Barcode;
+
+        if (command.CategoryIds != null && command.CategoryIds.Any())
+            product.SetCategories(command.CategoryIds);
+
+        product.UpdatedAt = DateTime.UtcNow;
 
         await repository.UpdateProductAsync(product);
         return product;
@@ -249,7 +271,7 @@ public class CatalogCommandHandler
     // Variant query handlers
     public static async Task<Variant> Handle(GetVariantByIdQuery query, ICatalogRepository repository)
     {
-        var variant = await repository.GetVariantByIdAsync(query.Id);
+        var variant = await repository.GetVariantByIdAsync(query.Id, query.TenantId);
         if (variant == null)
             throw new KeyNotFoundException($"Variant {query.Id} not found");
         return variant;
@@ -265,7 +287,7 @@ public class CatalogCommandHandler
 
     public static async Task<PagedResult<Variant>> Handle(GetVariantsByProductQuery query, ICatalogRepository repository)
     {
-        var (items, totalCount) = await repository.GetVariantsByProductIdPagedAsync(query.ProductId, query.Page, query.PageSize);
+        var (items, totalCount) = await repository.GetVariantsByProductIdPagedAsync(query.ProductId, query.TenantId, query.Page, query.PageSize);
         return new PagedResult<Variant>
         {
             Items = items.ToList(),
@@ -311,5 +333,28 @@ public class CatalogCommandHandler
             PageNumber = query.Page,
             PageSize = query.PageSize
         };
+    }
+
+    // Product query handlers
+    public static async Task<Product?> Handle(GetProductByIdQuery query, ICatalogRepository repository)
+    {
+        return await repository.GetProductByIdAsync(query.Id, query.TenantId);
+    }
+
+    public static async Task<IEnumerable<Product>> Handle(GetProductsByTenantQuery query, ICatalogRepository repository)
+    {
+        return await repository.GetProductsByTenantAsync(query.TenantId, query.Page, query.PageSize);
+    }
+
+    public static async Task<IEnumerable<Product>> Handle(GetProductsByCategoryQuery query, ICatalogRepository repository)
+    {
+        return await repository.GetProductsByCategoryAsync(query.CategoryId, query.TenantId, query.Page, query.PageSize);
+    }
+
+    public static async Task<Product?> Handle(GetProductBySkuQuery query, ICatalogRepository repository)
+    {
+        // Note: This would need to be implemented in the repository if needed
+        // For now, we'll return null as it's not implemented
+        return null;
     }
 }

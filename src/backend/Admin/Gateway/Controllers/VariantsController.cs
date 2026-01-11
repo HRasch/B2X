@@ -156,7 +156,7 @@ public class VariantsController : ControllerBase
 
         try
         {
-            var command = new B2X.Catalog.Application.Commands.UpdateVariantCommand(id, updateDto);
+            var command = new B2X.Catalog.Application.Commands.UpdateVariantCommand(id, updateDto, tenantId);
 
             var result = await _messageBus.InvokeAsync<VariantDto>(command);
 
@@ -184,7 +184,7 @@ public class VariantsController : ControllerBase
     {
         try
         {
-            var command = new B2X.Catalog.Application.Commands.DeleteVariantCommand(id);
+            var command = new B2X.Catalog.Application.Commands.DeleteVariantCommand(id, tenantId);
             await _messageBus.PublishAsync(command);
 
             return NoContent();
