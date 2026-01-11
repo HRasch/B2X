@@ -9,8 +9,37 @@ created: 2026-01-08
 ﻿# Lessons Learned
 
 **DocID**: `KB-LESSONS`  
-**Last Updated**: 10. Januar 2026  
+**Last Updated**: 11. Januar 2026  
 **Maintained By**: GitHub Copilot
+
+---
+
+## Session: 11. Januar 2026 - Token-Optimized Reading Can Mask Document Corruption
+
+### Always Read Full File for Structure Reviews
+
+**Issue**: When reviewing [BS-BACKEND-LOCALIZATION-STRATEGY.md](.ai/brainstorm/BS-BACKEND-LOCALIZATION-STRATEGY.md), initial chunk-based reading made the document appear structurally sound, but full file read revealed extensive corruption (duplicated sections, orphaned content, missing heading markers).
+
+**Root Cause**: Multiple sequential `replace_string_in_file` operations across different editing sessions caused:
+- Orphaned section fragments (lines 61-63, 74-85)
+- Duplicated entire sections (audit, implementation patterns appearing twice)
+- Missing markdown heading markers (## vs plain text)
+- Broken section numbering (1, 2, 3A, 4 [orphaned], 7, 8, 9)
+
+**Why Token-Optimized Reading Failed**: Reading file in chunks (lines 1-100, 200-300, etc.) showed each fragment as "reasonably formatted" because context was missing to see:
+- Section 4 appearing as orphaned bullet points
+- Sections 1-4 duplicated at end of file
+- Inconsistent heading hierarchy
+
+**Lesson**: When reviewing **document structure** (vs. specific code logic), ALWAYS request full file read first to see global structure issues that chunked reading masks.
+
+**Prevention**:
+1. For **structural reviews** → Use `read_file(filePath, 1, totalLines)` 
+2. For **code reviews** → Chunked reading is fine
+3. For **multi-edit documents** → Periodically validate entire structure
+4. After 5+ sequential edits → Full file integrity check recommended
+
+**Related**: See [GL-044] Fragment-Based File Access Strategy - applies to code, not structural document reviews
 
 ---
 

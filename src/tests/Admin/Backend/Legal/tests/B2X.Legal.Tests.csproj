@@ -24,11 +24,12 @@
   <ItemGroup>
     <ProjectReference Include="../../../../backend/Admin/Domain/Legal/B2X.Legal.API.csproj" />
 
-    <ProjectReference Include="../../../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
-    <ProjectReference Include="../../../../backend/Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
   </ItemGroup>
 
 </Project>
+
 

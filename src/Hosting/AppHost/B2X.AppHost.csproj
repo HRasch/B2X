@@ -31,7 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="../../../src/backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" IsAspireProjectResource="false" />
-    <ProjectReference Include="../../../../backend/Shared/Domain/Identity/B2X.Identity.API.csproj" />
+    <ProjectReference Include="..\backend\Shared/Domain/Identity/B2X.Identity.API.csproj" />
     <ProjectReference Include="../../../backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
     <ProjectReference Include="../../../backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
     <ProjectReference Include="../../../../backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
@@ -41,6 +41,7 @@
   </ItemGroup>
 
 </Project>
+
 
 
 

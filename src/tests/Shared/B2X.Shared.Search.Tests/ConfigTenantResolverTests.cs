@@ -1,4 +1,4 @@
-using B2X.Domain.Search.Services;
+using B2X.Search;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 

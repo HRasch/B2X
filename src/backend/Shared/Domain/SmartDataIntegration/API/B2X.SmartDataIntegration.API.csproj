@@ -53,9 +53,9 @@
   <ItemGroup>
     <ProjectReference Include="..\src\B2X.SmartDataIntegration.csproj" />
 
-    <ProjectReference Include="../../../../Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../../../../backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../..\Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 
     <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
@@ -68,6 +68,7 @@
   </ItemGroup>
 
 </Project>
+
 
 
 

@@ -20,8 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../../backend/Shared/Domain/SmartDataIntegration/src/B2X.SmartDataIntegration.csproj" />
+    <ProjectReference Include="../../..\backend\Shared/Domain/SmartDataIntegration/src/B2X.SmartDataIntegration.csproj" />
   </ItemGroup>
 
 </Project>
+
 

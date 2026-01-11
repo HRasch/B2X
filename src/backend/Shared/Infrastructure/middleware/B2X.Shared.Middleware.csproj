@@ -18,15 +18,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\Domain\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
 
     <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
-    <ProjectReference Include="../../../../backend/Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
+    <ProjectReference Include="..\..\Domain\B2X.Utils\B2X.Utils.csproj" />
 
   </ItemGroup>
 
 </Project>
+
 
 
 

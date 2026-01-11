@@ -11,8 +11,7 @@ using B2X.CLI.Administration.Commands.MetricsCommands;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 using B2X.Api.Validation;
-using B2X.Api.Connectors;
-// using B2X.Connectors; // Commented out - namespace not found
+using B2X.Connectors;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

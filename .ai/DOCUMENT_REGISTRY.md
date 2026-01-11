@@ -8,8 +8,8 @@ created: 2026-01-08
 
 ﻿# 📚 Document Registry
 
-**Version:** 1.1  
-**Last Updated:** 7. Januar 2026  
+**Version:** 1.2  
+**Last Updated:** 11. Januar 2026  
 **Owner:** @SARAH
 
 ---
@@ -176,6 +176,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-111` | Microsoft.Extensions.ServiceDiscovery | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.ServiceDiscovery.md` | Active |
 | `KB-112` | Microsoft.Extensions.FileProviders | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.FileProviders.md` | Active |
 | `KB-113` | Microsoft.Extensions.Primitives | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Primitives.md` | Active |
+| `KB-114` | Central Package Management (CPM) for .NET | `.ai/knowledgebase/dependency-updates/Central-Package-Management.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
@@ -404,6 +405,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `BS-PROJECT-CLEANLINESS` | Project Cleanliness & Long-Term Organization Strategy | `.ai/brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md` | Active |
 | `BS-DOCUMENTATION-CLEANUP-STRATEGY` | Documentation Cleanup Strategy | `.ai/brainstorm/BS-DOCUMENTATION-CLEANUP-STRATEGY.md` | Brainstorm |
 | `BS-REALTIME-DEBUG` | Realtime Debug Functionality Brainstorm | `.ai/brainstorm/BS-REALTIME-DEBUG.md` | Brainstorm |
+| `BS-BACKEND-LOCALIZATION-STRATEGY` | Backend Message Localization Strategy | `.ai/brainstorm/BS-BACKEND-LOCALIZATION-STRATEGY.md` | Active |
+| `BS-PROBLEM-SOLVING-001` | Problem-Solving and Refactoring Patterns for KB | `.ai/brainstorm/BS-PROBLEM-SOLVING-REFACTORING-PATTERNS.md` | Brainstorm |
 
 ---
 
@@ -513,6 +516,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
 | `AGT-018` | CopilotExpert | `.github/agents/CopilotExpert.agent.md` | Copilot Configuration |
 | `AGT-019` | CloudArchitect | `.github/agents/cloud-architect.agent.md` | Cloud Platform Architecture & Strategy |
+| `AGT-KB-001` | KBWolverine | `.github/agents/kb-wolverine.agent.md` | Wolverine/CQRS Knowledge Expert |
+| `AGT-KB-002` | KBVue | `.github/agents/kb-vue.agent.md` | Vue.js/Frontend Knowledge Expert |
 
 **CopilotExpert (AGT-018) EXCLUSIVE Authority:**
 - **ONLY @CopilotExpert** may create, modify, or delete agent definitions (`.github/agents/`)

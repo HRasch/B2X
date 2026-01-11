@@ -177,6 +177,21 @@ public class TemplateValidationResult
     public long ExecutionTimeMs { get; set; }
 
     /// <summary>
+    /// Confidence score for the validation (0-100)
+    /// </summary>
+    public double ConfidenceScore { get; set; }
+
+    /// <summary>
+    /// Template key that was validated
+    /// </summary>
+    public string TemplateKey { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Timestamp when validation was performed
+    /// </summary>
+    public DateTime ValidationTimestamp { get; set; }
+
+    /// <summary>
     /// Whether validation was successful
     /// </summary>
     public bool IsValid => OverallStatus is TemplateValidationStatus.Valid or TemplateValidationStatus.ValidWithWarnings;

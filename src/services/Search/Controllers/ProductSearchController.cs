@@ -1,5 +1,4 @@
-﻿using B2X.Domain.Search.Models;
-using B2X.Domain.Search.Services;
+﻿using B2X.Search;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2X.Services.Search.Controllers;

@@ -18,12 +18,8 @@
 <PackageReference Include="Shouldly" />
     
     <!-- Architecture Testing -->
-    <PackageReference Include="TngTech.ArchUnitNET.xUnitV3" />
-  </ItemGroup>
-
-  <!-- Reference all domain assemblies for architecture analysis -->
-  <ItemGroup>
-    <ProjectReference Include="../../../backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
+<PackageReference Include="TngTech.ArchUnitNET" />
+<PackageReference Include="TngTech.ArchUnitNET.xUnitV3" />
 
     <ProjectReference Include="../../../backend/Management/Domain/B2X.CMS.csproj" />
 
@@ -31,7 +27,7 @@
 
     <ProjectReference Include="../../../backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
 
-    <ProjectReference Include="../../../backend/Store/Domain/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Domain/Search/B2X.Search.csproj" />
 
     <ProjectReference Include="../../../backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 

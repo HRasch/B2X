@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace B2X.Domain.Search.Services;
+namespace B2X.Search;
 
 /// <summary>
 /// Configuration-backed tenant resolver. Expects configuration section:

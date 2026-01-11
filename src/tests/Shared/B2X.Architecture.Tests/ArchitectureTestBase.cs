@@ -3,7 +3,7 @@
 // ADR-021: ArchUnitNET for Automated Architecture Testing
 // -----------------------------------------------------------------------------
 
-using ArchUnitNET.Loader;
+using ArchUnitNET;
 using ArchUnitDomain = ArchUnitNET.Domain;
 
 namespace B2X.Architecture.Tests;

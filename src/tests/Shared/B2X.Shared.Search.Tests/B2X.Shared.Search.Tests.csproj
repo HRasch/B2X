@@ -25,13 +25,15 @@
   <ItemGroup>
     <ProjectReference Include="../../../../src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
 
-    <ProjectReference Include="../../../../src/backend/Shared/Domain/Types/B2X.Types/B2X.Types.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Types/B2X.Types.csproj" />
 
-    <ProjectReference Include="../../../../src/backend/Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
-
-    <ProjectReference Include="../../../../src/backend/Shared/Domain/Shared/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Search/B2X.Search.csproj" />
 
     <ProjectReference Include="../../../../src/backend/Store/Domain/Search/B2X.Domain.Search.csproj" />
+
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Search/B2X.Search.csproj" />
 
   </ItemGroup>
 

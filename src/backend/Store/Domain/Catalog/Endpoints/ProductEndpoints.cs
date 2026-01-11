@@ -1,5 +1,4 @@
 using B2X.Catalog.Services;
-using B2X.Domain.Search.Services;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 
@@ -32,7 +31,7 @@ public static class ProductEndpoints
         string sku,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
         IProductService productService,
-        ITenantResolver tenantResolver,
+        B2X.Search.ITenantResolver tenantResolver,
         HttpRequest request,
         CancellationToken ct)
     {
@@ -98,7 +97,7 @@ public static class ProductEndpoints
         [FromQuery] string q,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
         ISearchIndexService searchService,
-        ITenantResolver tenantResolver,
+        B2X.Search.ITenantResolver tenantResolver,
         HttpRequest request,
         CancellationToken ct)
     {
@@ -130,7 +129,7 @@ public static class ProductEndpoints
     public static async Task<IResult> ListProducts(
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
         IProductService productService,
-        ITenantResolver tenantResolver,
+        B2X.Search.ITenantResolver tenantResolver,
         HttpRequest request,
         Microsoft.Extensions.Configuration.IConfiguration configuration,
         CancellationToken ct,

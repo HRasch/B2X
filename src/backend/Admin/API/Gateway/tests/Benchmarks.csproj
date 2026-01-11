@@ -12,6 +12,9 @@
     <PackageReference Include="EFCore.BulkExtensions.SqlServer" />
     <PackageReference Include="EFCore.BulkExtensions.PostgreSql" />
     <PackageReference Include="Dapper" />
+    <PackageReference Include="xunit.v3.mtp-v2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" />
   </ItemGroup>
 
   <ItemGroup>

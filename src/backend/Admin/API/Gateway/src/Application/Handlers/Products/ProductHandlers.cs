@@ -2,7 +2,7 @@ using B2X.Admin.Application.Commands.Products;
 using B2X.Admin.Application.Handlers;
 using B2X.Admin.Core.Interfaces;
 using B2X.Admin.Infrastructure.Data;
-using B2X.ERP.Infrastructure.DataAccess;
+// using B2X.ERP.Infrastructure.DataAccess;
 using B2X.Shared.Middleware;
 using B2X.Types.Localization;
 using Dapper;
@@ -560,16 +560,16 @@ public class BulkImportProductsHandler : ICommandHandler<BulkImportProductsComma
 /// </summary>
 public class GetAllProductsForIndexHandler : IQueryHandler<GetAllProductsForIndexQuery, IEnumerable<ProductIndexResult>>
 {
-    private readonly IDapperConnectionFactory _connectionFactory;
+    // private readonly IDapperConnectionFactory _connectionFactory;
     private readonly ITenantContextAccessor _tenantContext;
     private readonly ILogger<GetAllProductsForIndexHandler> _logger;
 
     public GetAllProductsForIndexHandler(
-        IDapperConnectionFactory connectionFactory,
+        // IDapperConnectionFactory connectionFactory,
         ITenantContextAccessor tenantContext,
         ILogger<GetAllProductsForIndexHandler> logger)
     {
-        _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+        // _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         _tenantContext = tenantContext ?? throw new ArgumentNullException(nameof(tenantContext));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
@@ -580,36 +580,12 @@ public class GetAllProductsForIndexHandler : IQueryHandler<GetAllProductsForInde
 
         _logger.LogInformation("Starting product index retrieval for tenant {TenantId}", tenantId);
 
-        using var connection = _connectionFactory.CreateConnection();
+        // TODO: Implement Dapper-based product retrieval for search indexing
+        // using var connection = _connectionFactory.CreateConnection();
+        // ... Dapper query ...
 
-        // Optimierte Query für Search Index - nur relevante Felder
-        // Join mit Categories und Brands für Namen (ohne Navigation Properties)
-        const string sql = @"
-            SELECT
-                p.id,
-                p.tenant_id,
-                p.name,
-                p.sku,
-                p.price,
-                p.description,
-                c.name as category_name,
-                b.name as brand_name,
-                p.created_at
-            FROM products p
-            LEFT JOIN categories c ON p.category_id = c.id AND p.tenant_id = c.tenant_id
-            LEFT JOIN brands b ON p.brand_id = b.id AND p.tenant_id = b.tenant_id
-            WHERE p.tenant_id = @TenantId
-            ORDER BY p.created_at DESC";
+        _logger.LogWarning("Dapper-based product retrieval not implemented yet for tenant {TenantId}", tenantId);
 
-        var products = await connection.QueryAsync<ProductIndexResult>(
-            sql,
-            new { TenantId = tenantId },
-            commandTimeout: 300).ConfigureAwait(false); // 5 Minuten Timeout für große Datasets
-
-        _logger.LogInformation(
-            "Retrieved {Count} products for search indexing for tenant {TenantId}",
-            products.Count(), tenantId);
-
-        return products;
+        return Enumerable.Empty<ProductIndexResult>();
     }
 }

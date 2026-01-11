@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Serilog;
 using Wolverine;
 using Wolverine.Http;
 
@@ -46,14 +45,8 @@ catch (ConfigurationValidationException ex)
 }
 
 // Logging
-builder.Host.UseSerilog((context, config) =>
-{
-    config
-        .MinimumLevel.Information()
-        // // .Enrich.WithSensitiveDataRedaction() // Disabled
-        .WriteTo.Console()
-        .ReadFrom.Configuration(context.Configuration);
-});
+// TODO: Configure Serilog when .NET 10 extensions are available in Serilog.AspNetCore
+// For now, use default ASP.NET Core logging
 
 // Service Defaults (Health checks, Service Discovery)
 builder.Host.AddServiceDefaults();
