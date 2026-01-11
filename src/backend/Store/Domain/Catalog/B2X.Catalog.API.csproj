@@ -67,6 +67,8 @@
 
     <ProjectReference Include="../../../Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
 
+    <ProjectReference Include="../../Domain/Search/B2X.Domain.Search.csproj" />
+
   </ItemGroup>
 
 </Project>

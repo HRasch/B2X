@@ -1,5 +1,5 @@
 ---
-docid: AGT-KB-006
+docid: AGT-KB-002
 title: KBGuidelines - Guidelines & Governance Knowledge Expert
 owner: @CopilotExpert
 status: Active

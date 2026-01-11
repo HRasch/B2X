@@ -317,7 +317,7 @@
     <PackageVersion Include="Shouldly" Version="4.3.0" />
     <PackageVersion Include="Testcontainers" Version="4.10.0" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="4.10.0" />
-    <PackageVersion Include="TngTech.ArchUnitNET" Version="2.1.0-draft" />
+    <PackageVersion Include="TngTech.ArchUnitNET" Version="0.13.1" />
     <PackageVersion Include="TngTech.ArchUnitNET.xUnitV3" Version="0.13.1" />
     <!-- xunit v3 packages - use mtp-v2 for net10.0 support (MTP v2 has net10.0 TFM) -->
     <PackageVersion Include="xunit.v3" Version="3.2.1" />

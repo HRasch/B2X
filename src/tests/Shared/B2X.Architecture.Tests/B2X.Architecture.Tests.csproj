@@ -9,7 +9,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
-    <RootNamespace>B2X.Architecture.Tests</RootNamespace>
+    <RootNamespace>B2X.ArchitectureTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +20,8 @@
     <!-- Architecture Testing -->
 <PackageReference Include="TngTech.ArchUnitNET" />
 <PackageReference Include="TngTech.ArchUnitNET.xUnitV3" />
+
+    <ProjectReference Include="../../../backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
 
     <ProjectReference Include="../../../backend/Management/Domain/B2X.CMS.csproj" />
 

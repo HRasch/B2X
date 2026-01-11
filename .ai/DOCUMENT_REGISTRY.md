@@ -516,12 +516,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
 | `AGT-018` | CopilotExpert | `.github/agents/CopilotExpert.agent.md` | Copilot Configuration |
 | `AGT-019` | CloudArchitect | `.github/agents/cloud-architect.agent.md` | Cloud Platform Architecture & Strategy |
-| `AGT-KB-001` | KBWolverine | `.github/agents/kb-wolverine.agent.md` | Wolverine/CQRS Knowledge Expert |
-| `AGT-KB-002` | KBVue | `.github/agents/kb-vue.agent.md` | Vue.js/Frontend Knowledge Expert |
-| `AGT-KB-003` | KBSecurity | `.github/agents/kb-security.agent.md` | Security Knowledge Expert |
-| `AGT-KB-004` | KBDotNet | `.github/agents/kb-dotnet.agent.md` | .NET/C# Knowledge Expert |
-| `AGT-KB-005` | KBArchitecture | `.github/agents/kb-architecture.agent.md` | Solution Architecture Knowledge Expert |
-| `AGT-KB-006` | KBGuidelines | `.github/agents/kb-guidelines.agent.md` | Guidelines & Governance Knowledge Expert |
+| `AGT-KB-001` | KBArchitecture | `.github/agents/kb-architecture.agent.md` | Solution Architecture Knowledge Expert |
+| `AGT-KB-002` | KBGuidelines | `.github/agents/kb-guidelines.agent.md` | Guidelines & Governance Knowledge Expert |
 
 **CopilotExpert (AGT-018) EXCLUSIVE Authority:**
 - **ONLY @CopilotExpert** may create, modify, or delete agent definitions (`.github/agents/`)

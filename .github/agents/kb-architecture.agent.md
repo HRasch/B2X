@@ -1,5 +1,5 @@
 ---
-docid: AGT-KB-005
+docid: AGT-KB-001
 title: KBArchitecture - Solution Architecture Knowledge Expert
 owner: @CopilotExpert
 status: Active

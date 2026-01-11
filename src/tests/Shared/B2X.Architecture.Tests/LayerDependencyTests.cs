@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // B2X Architecture Tests - Layer Dependency Rules
 // ADR-021: ArchUnitNET for Automated Architecture Testing
 // ADR-002: Onion/Clean Architecture
@@ -6,11 +6,11 @@
 
 using ArchUnitNET.Domain;
 using ArchUnitNET.Fluent;
-using ArchUnitNET.xUnit;
+using ArchUnitNET.xUnitV3;
 using Xunit;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
-namespace B2X.Architecture.Tests;
+namespace B2X.ArchitectureTests;
 
 /// <summary>
 /// Tests enforcing Clean/Onion Architecture layer dependencies.
@@ -23,59 +23,59 @@ public class LayerDependencyTests : ArchitectureTestBase
     public void Domain_Core_Should_Not_Depend_On_Infrastructure()
     {
         // Arrange & Act
-        Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Core\.")
             .Should().NotDependOnAny(
-                Types().That().ResideInNamespaceMatching(@".*\.Infrastructure\."))
+                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@".*\.Infrastructure\."))
             .Because("Domain Core must be independent of infrastructure concerns (ADR-002)")
-            .Check(Architecture);
+            .Check(B2XArchitecture);
     }
 
     [Fact]
     public void Domain_Core_Should_Not_Depend_On_EntityFramework()
     {
         // Arrange & Act
-        Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Core\.")
             .Should().NotDependOnAny(
-                Types().That().ResideInNamespaceMatching(@"Microsoft\.EntityFrameworkCore.*"))
+                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"Microsoft\.EntityFrameworkCore.*"))
             .Because("Domain Core must be persistence-ignorant - no EF Core dependencies allowed")
-            .Check(Architecture);
+            .Check(B2XArchitecture);
     }
 
     [Fact]
     public void Domain_Core_Should_Not_Depend_On_AspNetCore()
     {
         // Arrange & Act
-        Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Core\.")
             .Should().NotDependOnAny(
-                Types().That().ResideInNamespaceMatching(@"Microsoft\.AspNetCore.*"))
+                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"Microsoft\.AspNetCore.*"))
             .Because("Domain Core must not depend on web framework concerns")
-            .Check(Architecture);
+            .Check(B2XArchitecture);
     }
 
     [Fact]
     public void Handlers_Should_Not_Depend_On_Controllers()
     {
         // Arrange & Act
-        Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Handlers\.")
             .Should().NotDependOnAny(
-                Types().That().ResideInNamespaceMatching(@".*\.Controllers\."))
+                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@".*\.Controllers\."))
             .Because("Handlers are application layer - must not depend on presentation layer")
-            .Check(Architecture);
+            .Check(B2XArchitecture);
     }
 
     [Fact]
     public void Infrastructure_Should_Not_Depend_On_Controllers()
     {
         // Arrange & Act
-        Types()
+        ArchRuleDefinition.Types()
             .That().ResideInNamespaceMatching(@".*\.Infrastructure\.")
             .Should().NotDependOnAny(
-                Types().That().ResideInNamespaceMatching(@".*\.Controllers\."))
+                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@".*\.Controllers\."))
             .Because("Infrastructure layer must not depend on presentation layer")
-            .Check(Architecture);
+            .Check(B2XArchitecture);
     }
 }

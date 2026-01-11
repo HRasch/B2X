@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // B2X Architecture Tests - Shared Test Base
 // ADR-021: ArchUnitNET for Automated Architecture Testing
 // -----------------------------------------------------------------------------
@@ -6,7 +6,7 @@
 using ArchUnitNET.Domain;
 using ArchUnitNET.Loader;
 
-namespace B2X.Architecture.Tests;
+namespace B2X.ArchitectureTests;
 
 /// <summary>
 /// Base class providing shared architecture loading for all architecture tests.
@@ -18,15 +18,15 @@ public abstract class ArchitectureTestBase
     /// The loaded architecture containing all B2X domain assemblies.
     /// Loaded once per test collection for performance.
     /// </summary>
-    protected static readonly Architecture Architecture = new ArchLoader()
+    protected static readonly ArchUnitNET.Domain.Architecture B2XArchitecture = new ArchLoader()
         .LoadAssemblies(
             // Domain assemblies - using marker types from each domain
-            typeof(Catalog.Core.Entities.TaxRate).Assembly,                     // Catalog
+            typeof(B2X.Catalog.Core.Entities.TaxRate).Assembly,                 // Catalog
             typeof(CMS.Core.Domain.Pages.PageDefinition).Assembly,              // CMS
-            typeof(B2X.AuthService.Data.AppUser).Assembly,                // Identity (AuthService namespace)
-            typeof(LocalizationService.Models.LocalizedString).Assembly,        // Localization
-            typeof(Domain.Search.Models.ProductDocument).Assembly,              // Search
-            typeof(B2X.Types.Domain.Entity).Assembly)                     // Shared Kernel
+            typeof(B2X.Identity.Data.AppUser).Assembly,                         // Identity
+            typeof(B2X.LocalizationService.Models.LocalizedString).Assembly,    // Localization
+            typeof(B2X.Search.SearchResult<>).Assembly,                         // Search
+            typeof(B2X.Types.Domain.Entity).Assembly)                           // Shared Kernel
         .Build();
 
     /// <summary>
@@ -36,9 +36,9 @@ public abstract class ArchitectureTestBase
     {
         public const string Catalog = "B2X.Catalog";
         public const string CMS = "B2X.CMS";
-        public const string Identity = "B2X.AuthService";
+        public const string Identity = "B2X.Identity";
         public const string Localization = "B2X.LocalizationService";
-        public const string Search = "B2X.Domain.Search";
+        public const string Search = "B2X.Search";
     }
 
     /// <summary>
