@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using B2X.Types.DTOs;
 
 namespace B2X.Catalog.Endpoints;
 
@@ -39,7 +40,7 @@ public class DevProductService : IProductService
         return Task.FromResult<dynamic?>(product);
     }
 
-    public Task<B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
+    public Task<B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
     {
         var demoCount = _configuration.GetValue<int?>("CatalogService:DemoProductCount");
         if (demoCount > 0)
@@ -48,7 +49,7 @@ public class DevProductService : IProductService
             B2X.Catalog.Endpoints.Dev.DemoProductStore.EnsureInitialized(demoCount.Value, demoSector);
             var (items, total) = B2X.Catalog.Endpoints.Dev.DemoProductStore.GetPage(pageNumber, pageSize);
             var matches = items.Where(p => ((string)p.name).Contains(searchTerm, StringComparison.OrdinalIgnoreCase) || ((string)p.sku).Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
-            return Task.FromResult(new B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>
+            return Task.FromResult(new B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>
             {
                 Items = matches.Select(p => new B2X.Catalog.Models.ProductDto
                 {
@@ -82,7 +83,7 @@ public class DevProductService : IProductService
             }
         };
 
-        return Task.FromResult(new B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>
+        return Task.FromResult(new B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>
         {
             Items = products,
             PageNumber = pageNumber,
@@ -101,7 +102,7 @@ public class DevSearchIndexService : ISearchIndexService
         _configuration = configuration;
     }
 
-    public Task<B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
+    public Task<B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
     {
         var demoCount = _configuration.GetValue<int?>("CatalogService:DemoProductCount");
         if (demoCount > 0)
@@ -110,7 +111,7 @@ public class DevSearchIndexService : ISearchIndexService
             B2X.Catalog.Endpoints.Dev.DemoProductStore.EnsureInitialized(demoCount.Value, demoSector);
             var (items, total) = B2X.Catalog.Endpoints.Dev.DemoProductStore.GetPage(pageNumber, pageSize);
             var matches = items.Where(p => ((string)p.name).Contains(searchTerm, StringComparison.OrdinalIgnoreCase) || ((string)p.sku).Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
-            return Task.FromResult(new B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>
+            return Task.FromResult(new B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>
             {
                 Items = matches.Select(p => new B2X.Catalog.Models.ProductDto
                 {
@@ -144,7 +145,7 @@ public class DevSearchIndexService : ISearchIndexService
             }
         };
 
-        return Task.FromResult(new B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>
+        return Task.FromResult(new B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>
         {
             Items = products,
             PageNumber = pageNumber,

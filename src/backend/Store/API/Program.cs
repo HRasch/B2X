@@ -32,17 +32,6 @@ builder.Host.AddServiceDefaults();
 builder.Services.AddAllServiceClients();
 
 // Register domain-specific service clients
-builder.Services.AddHttpClient<B2X.Store.ServiceClients.IVariantsServiceClient, B2X.Store.ServiceClients.VariantsServiceClient>(client =>
-{
-    client.BaseAddress = new Uri("http://variants-service");
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
-});
-
-builder.Services.AddHttpClient<B2X.Store.ServiceClients.ICategoriesServiceClient, B2X.Store.ServiceClients.CategoriesServiceClient>(client =>
-{
-    client.BaseAddress = new Uri("http://categories-service");
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
-});
 
 // Get CORS origins from configuration
 var corsOrigins = builder.Configuration

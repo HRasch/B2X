@@ -1,5 +1,7 @@
-using B2X.Admin.Application.Commands.Categories;
+using B2X.Catalog.Application.Commands;
+using B2X.Categories.Handlers;
 using B2X.Categories.Models;
+using B2X.Variants.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -41,7 +43,7 @@ public class CategoriesController : ControllerBase
 
         try
         {
-            var command = new CreateCategoryCommand(
+            var command = new B2X.Categories.Handlers.CreateCategoryCommand(
                 tenantId,
                 createDto.Name,
                 createDto.Description,
@@ -80,7 +82,7 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            var query = new GetCategoryByIdQuery(id, tenantId);
+            var query = new B2X.Categories.Handlers.GetCategoryByIdQuery(id, tenantId);
             var result = await _messageBus.InvokeAsync<CategoryDto>(query);
 
             if (result == null)
@@ -137,7 +139,7 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            var query = new GetCategoriesQuery(tenantId, null, parentId, null, page, pageSize);
+            var query = new B2X.Categories.Handlers.GetCategoriesQuery(tenantId, null, parentId, null, page, pageSize);
 
             var result = await _messageBus.InvokeAsync<PagedResult<CategoryDto>>(query);
             return Ok(result);
@@ -158,9 +160,35 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            var query = new GetRootCategoriesQuery(tenantId);
-            var result = await _messageBus.InvokeAsync<IEnumerable<CategoryDto>>(query);
-            return Ok(result);
+            var query = new B2X.Categories.Handlers.GetCategoriesQuery(tenantId, ParentId: null);
+            var result = await _messageBus.InvokeAsync<PagedResult<Category>>(query);
+            var dtos = result.Items.Select(c => new CategoryDto
+            {
+                Id = c.Id,
+                ParentId = c.ParentId,
+                Name = c.Name,
+                Description = c.Description,
+                Slug = c.Slug,
+                ImageUrl = c.ImageUrl,
+                Icon = c.Icon,
+                DisplayOrder = c.DisplayOrder,
+                MetaTitle = c.MetaTitle,
+                MetaDescription = c.MetaDescription,
+                IsActive = c.IsActive,
+                IsVisible = c.IsVisible,
+                Level = c.Level,
+                FullPath = c.FullPath,
+                Children = c.Children.Select(child => new CategoryDto
+                {
+                    Id = child.Id,
+                    Name = child.Name,
+                    DisplayOrder = child.DisplayOrder,
+                    IsActive = child.IsActive
+                }).ToList(),
+                CreatedAt = c.CreatedAt,
+                UpdatedAt = c.UpdatedAt
+            });
+            return Ok(dtos);
         }
         catch (Exception ex)
         {
@@ -178,9 +206,29 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            var query = new GetChildCategoriesQuery(parentId, tenantId);
-            var result = await _messageBus.InvokeAsync<IEnumerable<CategoryDto>>(query);
-            return Ok(result);
+            var query = new B2X.Categories.Handlers.GetCategoriesQuery(tenantId, ParentId: parentId);
+            var result = await _messageBus.InvokeAsync<PagedResult<Category>>(query);
+            var dtos = result.Items.Select(c => new CategoryDto
+            {
+                Id = c.Id,
+                ParentId = c.ParentId,
+                Name = c.Name,
+                Description = c.Description,
+                Slug = c.Slug,
+                ImageUrl = c.ImageUrl,
+                Icon = c.Icon,
+                DisplayOrder = c.DisplayOrder,
+                MetaTitle = c.MetaTitle,
+                MetaDescription = c.MetaDescription,
+                IsActive = c.IsActive,
+                IsVisible = c.IsVisible,
+                Level = c.Level,
+                FullPath = c.FullPath,
+                Children = new List<CategoryDto>(),
+                CreatedAt = c.CreatedAt,
+                UpdatedAt = c.UpdatedAt
+            });
+            return Ok(dtos);
         }
         catch (Exception ex)
         {
@@ -228,7 +276,7 @@ public class CategoriesController : ControllerBase
 
         try
         {
-            var command = new UpdateCategoryCommand(
+            var command = new B2X.Categories.Handlers.UpdateCategoryCommand(
                 id,
                 tenantId,
                 updateDto.Name,
@@ -270,7 +318,7 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            var command = new DeleteCategoryCommand(id, tenantId);
+            var command = new B2X.Categories.Handlers.DeleteCategoryCommand(id, tenantId);
             await _messageBus.InvokeAsync<bool>(command);
 
             return NoContent();
@@ -300,10 +348,35 @@ public class CategoriesController : ControllerBase
 
         try
         {
-            var query = new SearchCategoriesQuery(q, tenantId, page, pageSize);
-
-            var result = await _messageBus.InvokeAsync<PagedResult<CategoryDto>>(query);
-            return Ok(result);
+            var query = new B2X.Categories.Handlers.GetCategoriesQuery(tenantId, SearchTerm: q, PageNumber: page, PageSize: pageSize);
+            var result = await _messageBus.InvokeAsync<PagedResult<Category>>(query);
+            var pagedResult = new PagedResult<CategoryDto>
+            {
+                Items = result.Items.Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    ParentId = c.ParentId,
+                    Name = c.Name,
+                    Description = c.Description,
+                    Slug = c.Slug,
+                    ImageUrl = c.ImageUrl,
+                    Icon = c.Icon,
+                    DisplayOrder = c.DisplayOrder,
+                    MetaTitle = c.MetaTitle,
+                    MetaDescription = c.MetaDescription,
+                    IsActive = c.IsActive,
+                    IsVisible = c.IsVisible,
+                    Level = c.Level,
+                    FullPath = c.FullPath,
+                    Children = new List<CategoryDto>(),
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt
+                }).ToList(),
+                TotalCount = result.TotalCount,
+                PageNumber = result.PageNumber,
+                PageSize = result.PageSize
+            };
+            return Ok(pagedResult);
         }
         catch (Exception ex)
         {

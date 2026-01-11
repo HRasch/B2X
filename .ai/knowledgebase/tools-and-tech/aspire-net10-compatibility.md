@@ -11,45 +11,78 @@ updated: 2026-01-11
 
 **DocID**: `KB-070`  
 **Last Updated**: 11. Januar 2026  
-**Status**: ✅ **RESOLVED** - Upgraded to Aspire 13.1.0 with SDK-based approach
+**Status**: ✅ **RESOLVED** - Workarounds required for Aspire 13.1.0 + .NET 10
 
 ---
 
-## ✅ Resolution (11. Januar 2026)
+## ✅ Final Resolution (11. Januar 2026)
 
-**The compatibility issues with Aspire and .NET 10 have been resolved by upgrading to Aspire 13.1.0 with the modern SDK-based approach.**
+**Aspire 13.1.0 works with .NET 10, but requires specific MSBuild properties because `Aspire.Hosting` and its transitive dependencies (KubernetesClient, etc.) only ship `net8.0`/`net9.0` assemblies.**
 
-### Changes Made
-
-1. **Upgraded from Aspire 8.2.0 → 13.1.0**:
-   - Changed from deprecated workload model to SDK-based approach
-   - Updated `B2X.AppHost.csproj` to use `Sdk="Aspire.AppHost.Sdk/13.1.0"`
-   - Removed `<IsAspireHost>true</IsAspireHost>` property (no longer needed)
-
-2. **Package Updates**:
-   - All Aspire packages updated to 13.1.0 (except Elasticsearch at 13.0.0)
-   - Removed explicit `Aspire.Hosting.AppHost` reference (implicitly provided by SDK)
-   - Updated `nuget.config` to allow Aspire packages from nuget.org
-
-3. **Eliminated Workarounds**:
-   - No longer need `AssetTargetFallback` properties
-   - No longer need `RollForward` to `LatestMajor`
-   - No longer need `CopyLocalLockFileAssemblies`
-
-### New AppHost.csproj Structure
+### Required AppHost.csproj Configuration
 
 ```xml
 <Project Sdk="Aspire.AppHost.Sdk/13.1.0">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
+    
+    <!-- REQUIRED: Allow NuGet to use net8.0/net9.0 packages when net10.0 unavailable -->
+    <AssetTargetFallback>$(AssetTargetFallback);net9.0;net8.0</AssetTargetFallback>
+    
+    <!-- REQUIRED: Allow runtime to load older assemblies -->
+    <RollForward>LatestMajor</RollForward>
+    
+    <!-- REQUIRED: Copy ALL transitive dependencies to output folder -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    
+    <!-- REQUIRED: Enable Aspire host behaviors -->
+    <IsAspireHost>true</IsAspireHost>
+    
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>B2X-apphost</UserSecretsId>
   </PropertyGroup>
-  <!-- Aspire.Hosting.AppHost automatically included by SDK -->
+  
+  <ItemGroup>
+    <!-- REQUIRED: Explicit reference despite SDK -->
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <!-- Other Aspire packages... -->
+  </ItemGroup>
 </Project>
 ```
+
+### Required Directory.Packages.props Entries
+
+```xml
+<!-- Both must be present for central package management -->
+<PackageVersion Include="Aspire.Hosting" Version="13.1.0" />
+<PackageVersion Include="Aspire.Hosting.AppHost" Version="13.1.0" />
+```
+
+### Why Each Property is Required
+
+| Property | Purpose | Without It |
+|----------|---------|------------|
+| `AssetTargetFallback` | Allows NuGet to use net8.0/net9.0 packages | Restore fails or assemblies not copied |
+| `RollForward: LatestMajor` | Allows .NET 10 runtime to load older assemblies | `FileNotFoundException` at runtime |
+| `CopyLocalLockFileAssemblies` | Copies ALL transitive deps (KubernetesClient, etc.) to output | `FileNotFoundException` for transitive deps |
+| `IsAspireHost: true` | Enables Aspire-specific MSBuild behaviors | May miss SDK features |
+| Explicit `Aspire.Hosting.AppHost` | Ensures package is properly resolved | Assembly loading failures |
+
+### Root Cause Analysis
+
+**Package Framework Support in Aspire 13.1.0:**
+
+| Package | net8.0 | net9.0 | net10.0 |
+|---------|--------|--------|---------|
+| `Aspire.Hosting.AppHost` | ✅ | ✅ | ✅ |
+| `Aspire.Hosting` | ✅ | ❌ | ❌ |
+| `Aspire.Hosting.PostgreSQL` | ✅ | ❌ | ❌ |
+| `Aspire.Hosting.Redis` | ✅ | ❌ | ❌ |
+| `KubernetesClient` (transitive) | ✅ | ✅ | ❌ |
+
+The SDK wrapper supports net10.0, but core runtime libraries don't.
 
 ---
 
@@ -204,9 +237,54 @@ Remove the workaround when:
 
 ---
 
+## Troubleshooting Common Issues
+
+### Issue 1: Aspire Exits Immediately in VS Code Terminal
+
+**Symptom**: Aspire starts, prints "Distributed application started", then exits with code 1.
+
+**Cause**: VS Code terminal redirects stdin, making Aspire detect non-interactive environment.
+
+**Solution**: Run Aspire in a separate PowerShell window:
+```powershell
+Start-Process pwsh -ArgumentList '-NoExit', '-Command', 'cd ''path/to/AppHost''; aspire run'
+```
+
+See [KB-LESSONS](../lessons.md) - "Aspire Exits Immediately in VS Code Terminal" for details.
+
+### Issue 2: File Lock Errors (MSB3021)
+
+**Symptom**: Build fails with "Cannot copy file... being used by another process".
+
+**Cause**: VBCSCompiler or previous dotnet processes holding file locks.
+
+**Solution**:
+```powershell
+# Kill all dotnet/compiler processes
+taskkill /F /IM dotnet.exe
+taskkill /F /IM VBCSCompiler.exe
+
+# Clean and rebuild
+dotnet clean B2X.slnx
+dotnet build src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj
+```
+
+### Issue 3: Dashboard Shows No Resources
+
+**Symptom**: Aspire dashboard on http://localhost:15500 shows empty.
+
+**Cause**: Services not yet orchestrated or still starting.
+
+**Solution**: Wait 30-60 seconds for DCP to orchestrate all services, or check stderr logs:
+```powershell
+Get-Content "$env:TEMP\aspire-err.log" -Tail 40
+```
+
+---
+
 ## Related Documentation
 
-- [KB-LESSONS](../lessons.md) - Session 10. Januar 2026
+- [KB-LESSONS](../lessons.md) - Session 11. Januar 2026
 - [Aspire Orchestration Specs](../../src/docs/aspire-orchestration-specs.md)
 - [ADR-003](../../.ai/decisions/ADR-003-aspire-orchestration.md) - Aspire Orchestration Decision
 
@@ -217,3 +295,4 @@ Remove the workaround when:
 | Date | Change | Author |
 |------|--------|--------|
 | 2026-01-10 | Initial documentation of .NET 10 compatibility issue | @Backend |
+| 2026-01-11 | Added troubleshooting section for VS Code stdin, file locks | @SARAH |

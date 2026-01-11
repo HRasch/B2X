@@ -154,7 +154,9 @@
             :disabled="!email || isLoading"
             class="btn btn-primary flex-1"
           >
-            {{ isLoading ? 'Suche läuft...' : 'Kundensuche' }}
+            {{
+              isLoading ? $t('erp.customerLookup.searching') : $t('erp.customerLookup.searchButton')
+            }}
           </button>
 
           <button v-if="hasCustomer" @click="proceedWithCustomer" class="btn btn-success flex-1">
@@ -162,7 +164,7 @@
           </button>
 
           <button @click="clearForm" class="btn btn-neutral flex-1">
-            {{ hasCustomer ? 'Neue Suche' : 'Abbrechen' }}
+            {{ hasCustomer ? $t('erp.customerLookup.newSearch') : $t('erp.customerLookup.cancel') }}
           </button>
         </div>
       </div>
@@ -211,7 +213,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useErpIntegration } from '@/composables/useErpIntegration';
+
+const { t } = useI18n();
 
 defineProps<{
   isDevelopment?: boolean;
@@ -243,7 +248,7 @@ const validateEmail = async () => {
   lastLookupTime.value = result.loadingMs || null;
 
   if (!result.isValid) {
-    emailError.value = result.message || 'Kunde nicht gefunden';
+    emailError.value = result.message || t('erp.customerLookup.customerNotFound');
   }
 };
 

@@ -36,7 +36,7 @@ class ResilientApiClient {
 
   private createClient(): AxiosInstance {
     return axios.create({
-      baseURL: '/api',
+      baseURL: import.meta.env.VITE_API_GATEWAY_URL || '/api',
       timeout: this.config.timeout,
       headers: {
         'Content-Type': 'application/json',

@@ -97,6 +97,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-054` | Realtime Debug Strategy for Development and Production | `.ai/decisions/ADR-054-realtime-debug-strategy.md` | Proposed |
 | `ADR-055` | Cloud Platform Selection | `.ai/decisions/ADR-055-cloud-platform-selection.md` | Draft |
 | `ADR-056` | SynchronizationContext Policy | `.ai/decisions/ADR-056-synchronization-context-policy.md` | Accepted |
+| `ADR-057` | Catalog Domain Consolidation | `.ai/decisions/ADR-057-catalog-domain-consolidation.md` | Proposed |
 
 ---
 
@@ -265,6 +266,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ARCH-009` | Database & Search | `docs/architecture/components/DATABASE_SEARCH.md` | Active |
 | `ARCH-010` | Testing Infrastructure | `docs/architecture/components/TESTING_INFRASTRUCTURE.md` | Active |
 | `ARCH-011` | Hosting Infrastructure | `docs/architecture/components/HOSTING_INFRASTRUCTURE.md` | Active |
+| `ARCH-PORTS-001` | Service Port Assignments | `docs/architecture/components/PORT_ASSIGNMENTS.md` | Active |
 | `ARCH-PAT-005` | Database Providers | `docs/architecture/patterns/DATABASE_PROVIDERS.md` | Active |
 | `ARCH-PAT-006` | Cloud Providers | `docs/architecture/patterns/CLOUD_PROVIDERS.md` | Active |
 | `ARCH-CLOUD-001` | Cloud Infrastructure Architecture | `docs/architecture/CLOUD_INFRASTRUCTURE.md` | Active |
@@ -433,6 +435,8 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `BS-REALTIME-DEBUG` | Realtime Debug Functionality Brainstorm | `.ai/brainstorm/BS-REALTIME-DEBUG.md` | Brainstorm |
 | `BS-BACKEND-LOCALIZATION-STRATEGY` | Backend Message Localization Strategy | `.ai/brainstorm/BS-BACKEND-LOCALIZATION-STRATEGY.md` | Active |
 | `BS-PROBLEM-SOLVING-001` | Problem-Solving and Refactoring Patterns for KB | `.ai/brainstorm/BS-PROBLEM-SOLVING-REFACTORING-PATTERNS.md` | Brainstorm |
+| `BS-FIGMA-THEME-ADOPTION` | Figma-Based Theme Adoption Strategy | `.ai/brainstorm/BS-FIGMA-THEME-ADOPTION-STRATEGY.md` | Brainstorm |
+| `BS-UNIFIED-SEARCH` | Unified Search Index Architecture - Pre-Localized Catalog with Semantic Search | `.ai/brainstorm/BS-UNIFIED-SEARCH-INDEX-ARCHITECTURE.md` | Brainstorm |
 
 ---
 

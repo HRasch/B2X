@@ -9,6 +9,11 @@
  */
 
 export default defineNuxtPlugin(() => {
+  // Skip on server/SSR to avoid window/document access errors
+  if (process.server || typeof window === 'undefined' || typeof document === 'undefined') {
+    return;
+  }
+
   // Check if debug mode should be enabled
   function shouldEnableDebug() {
     // Check URL parameter

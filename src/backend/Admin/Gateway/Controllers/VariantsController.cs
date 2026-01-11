@@ -1,5 +1,4 @@
-using B2X.Admin.Application.Commands.Variants;
-using B2X.Variants.Handlers;
+using B2X.Catalog.Application.Commands;
 using B2X.Variants.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +31,7 @@ public class VariantsController : ControllerBase
     [ProducesResponseType(typeof(VariantDto), 201)]
     [ProducesResponseType(400)]
     public async Task<IActionResult> CreateVariant(
-        [FromBody] CreateVariantDto createDto,
+        [FromBody] B2X.Catalog.Application.Commands.CreateVariantDto createDto,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId)
     {
         if (!ModelState.IsValid)
@@ -42,7 +41,7 @@ public class VariantsController : ControllerBase
 
         try
         {
-            var command = new CreateVariantCommand(createDto);
+            var command = new B2X.Catalog.Application.Commands.CreateVariantCommand(createDto);
 
             // Execute command via Wolverine
             var result = await _messageBus.InvokeAsync<VariantDto>(command);
@@ -69,7 +68,7 @@ public class VariantsController : ControllerBase
     {
         try
         {
-            var query = new GetVariantByIdQuery(id, tenantId);
+            var query = new B2X.Catalog.Application.Commands.GetVariantByIdQuery(id, tenantId);
             var result = await _messageBus.InvokeAsync<VariantDto>(query);
 
             if (result == null)
@@ -96,7 +95,7 @@ public class VariantsController : ControllerBase
     {
         try
         {
-            var query = new GetVariantBySkuQuery(sku, tenantId);
+            var query = new B2X.Catalog.Application.Commands.GetVariantBySkuQuery(sku, tenantId);
             var result = await _messageBus.InvokeAsync<VariantDto>(query);
 
             if (result == null)
@@ -126,7 +125,7 @@ public class VariantsController : ControllerBase
     {
         try
         {
-            var query = new GetVariantsByProductQuery(productId, tenantId, page, pageSize);
+            var query = new B2X.Catalog.Application.Commands.GetVariantsByProductQuery(productId, tenantId, page, pageSize);
 
             var result = await _messageBus.InvokeAsync<PagedResult<VariantDto>>(query);
             return Ok(result);
@@ -147,7 +146,7 @@ public class VariantsController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<IActionResult> UpdateVariant(
         Guid id,
-        [FromBody] UpdateVariantDto updateDto,
+        [FromBody] B2X.Catalog.Application.Commands.UpdateVariantDto updateDto,
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId)
     {
         if (!ModelState.IsValid)
@@ -157,7 +156,7 @@ public class VariantsController : ControllerBase
 
         try
         {
-            var command = new UpdateVariantCommand(id, updateDto);
+            var command = new B2X.Catalog.Application.Commands.UpdateVariantCommand(id, updateDto);
 
             var result = await _messageBus.InvokeAsync<VariantDto>(command);
 
@@ -185,7 +184,7 @@ public class VariantsController : ControllerBase
     {
         try
         {
-            var command = new DeleteVariantCommand(id);
+            var command = new B2X.Catalog.Application.Commands.DeleteVariantCommand(id);
             await _messageBus.PublishAsync(command);
 
             return NoContent();
@@ -215,7 +214,7 @@ public class VariantsController : ControllerBase
 
         try
         {
-            var query = new SearchVariantsQuery(q, tenantId, page, pageSize);
+            var query = new B2X.Catalog.Application.Commands.SearchVariantsQuery(q, tenantId, page, pageSize);
 
             var result = await _messageBus.InvokeAsync<PagedResult<VariantDto>>(query);
             return Ok(result);

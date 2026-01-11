@@ -2,7 +2,7 @@ import axios, { type AxiosInstance } from 'axios';
 import { useAuthStore } from '~/stores/auth';
 
 const api: AxiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_GATEWAY_URL || '/api',
   timeout: 10000,
 });
 

@@ -11,6 +11,10 @@
         "password": "Use: admin123",
         "hint": "Demo credentials for testing"
       },
+      "e2eMode": {
+        "title": "E2E Test Mode",
+        "description": "Running in end-to-end test mode with automated testing"
+      },
       "form": {
         "email": {
           "label": "Email",
@@ -22,7 +26,8 @@
         }
       },
       "actions": {
-        "login": "Login"
+        "login": "Login",
+        "loggingIn": "Logging in..."
       },
       "signup": {
         "prompt": "Don't have an account?",
@@ -102,7 +107,8 @@
     "about": "About",
     "version": "Version",
     "skipToMain": "Skip to main content",
-    "brand": "B2X Store"
+    "brand": "B2X Store",
+    "error": "Error"
   },
   "navigation": {
     "home": "Home",
@@ -332,6 +338,36 @@
     "noResults": "No products found",
     "noResultsDescription": "Try adjusting your search or filters"
   },
+  "home": {
+    "hero": {
+      "title": "Welcome to B2X Store",
+      "subtitle": "Discover amazing products with fast, secure shopping",
+      "shopNow": "Shop Now",
+      "browseCategories": "Browse Categories"
+    },
+    "featuredProducts": {
+      "title": "Featured Products",
+      "viewAll": "View All Products"
+    },
+    "categories": {
+      "title": "Shop by Category"
+    },
+    "features": {
+      "title": "Why Choose B2X?",
+      "quality": {
+        "title": "Premium Quality",
+        "description": "Carefully selected products from trusted suppliers"
+      },
+      "fast": {
+        "title": "Fast Delivery",
+        "description": "Quick and reliable shipping to your doorstep"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Our customer service team is here to help"
+      }
+    }
+  },
   "widgets": {
     "notFound": "Widget not found",
     "notFoundDescription": "Unable to load the widget component. Please check the widget type ID.",
@@ -346,12 +382,77 @@
     "AT": "Austria",
     "CH": "Switzerland"
   },
+  "vat": {
+    "countryCode": "Country Code",
+    "vatNumber": "VAT Number",
+    "validate": "Validate VAT",
+    "validating": "Validating...",
+    "companyName": "Company Name",
+    "address": "Address",
+    "reverseCharge": "Reverse Charge",
+    "reverseChargeApplies": "Applies",
+    "standardVatRate": "Standard Rate",
+    "clearAndStartOver": "Clear and Start Over",
+    "validationHelp": {
+      "title": "VAT Validation Help",
+      "description": "Enter a valid VAT number for the selected country. The system will verify it with the European Commission's VIES service."
+    },
+    "countries": {
+      "AT": "Austria",
+      "BE": "Belgium",
+      "BG": "Bulgaria",
+      "HR": "Croatia",
+      "CY": "Cyprus",
+      "CZ": "Czech Republic",
+      "DK": "Denmark",
+      "EE": "Estonia",
+      "FI": "Finland",
+      "FR": "France",
+      "GR": "Greece",
+      "HU": "Hungary",
+      "IE": "Ireland",
+      "IT": "Italy",
+      "LV": "Latvia",
+      "LT": "Lithuania",
+      "LU": "Luxembourg",
+      "MT": "Malta",
+      "NL": "Netherlands",
+      "PL": "Poland",
+      "PT": "Portugal",
+      "RO": "Romania",
+      "SK": "Slovakia",
+      "SI": "Slovenia",
+      "ES": "Spain",
+      "SE": "Sweden"
+    }
+  },
   "erp": {
     "customerLookup": {
+      "emailLabel": "Email Address",
+      "searching": "Searching for customer...",
+      "searchError": "Customer Search Error",
+      "customerNotFound": "Customer not found",
+      "customerFound": "Customer Found",
+      "welcomeBackWithName": "Welcome back, {name}!",
+      "customerNumber": "Customer Number",
+      "customerType": "Customer Type",
+      "privateCustomer": "Private Customer",
+      "businessCustomer": "Business Customer",
+      "businessInfo": "Business Information",
+      "company": "Company",
+      "phone": "Phone",
+      "country": "Country",
+      "creditLimit": "Credit Limit",
       "continue": "Continue",
+      "searchButton": "Customer Search",
+      "newSearch": "New Search",
+      "cancel": "Cancel",
       "newCustomerQuestion": "Are you a new customer?",
       "newCustomerDescription": "You can register now with simplified registration.",
       "newRegistration": "New Registration",
+      "welcomeBack": "Welcome Back",
+      "enterEmailToStart": "Enter your email address to start the registration process.",
+      "customerInfoFound": "We found your customer information in our system.",
       "diagnosticInfo": "🔧 Diagnostic Info (Debug)"
     }
   },

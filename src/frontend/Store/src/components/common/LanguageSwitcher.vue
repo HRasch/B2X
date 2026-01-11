@@ -85,6 +85,7 @@ const handleSelectLocale = async (code: string) => {
 <style scoped>
 /* Custom styles for active menu item */
 .menu li > a.active {
-  @apply bg-primary text-primary-content;
+  background-color: hsl(var(--p));
+  color: hsl(var(--pc));
 }
 </style>

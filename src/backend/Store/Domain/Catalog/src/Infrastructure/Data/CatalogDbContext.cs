@@ -1,4 +1,5 @@
 using B2X.Catalog.Core.Entities;
+using B2X.Catalog.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2X.Catalog.Infrastructure.Data;
@@ -24,7 +25,16 @@ public class CatalogDbContext : DbContext
     public DbSet<CatalogShareRule> CatalogShareRules => Set<CatalogShareRule>();
 
     /// <summary>EU Tax Rates for VAT calculations</summary>
-    public DbSet<TaxRate> TaxRates => Set<TaxRate>();
+    public DbSet<B2X.Catalog.Core.Entities.TaxRate> TaxRates => Set<B2X.Catalog.Core.Entities.TaxRate>();
+
+    /// <summary>Product categories</summary>
+    public DbSet<Category> Categories => Set<Category>();
+
+    /// <summary>Products in the catalog</summary>
+    public DbSet<Product> Products => Set<Product>();
+
+    /// <summary>Product variants</summary>
+    public DbSet<Variant> Variants => Set<Variant>();
 
     /// <summary>Catalog imports for tracking imported catalogs</summary>
     public DbSet<CatalogImport> CatalogImports => Set<CatalogImport>();
@@ -37,7 +47,7 @@ public class CatalogDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Configure TaxRate entity
-        modelBuilder.Entity<TaxRate>(entity =>
+        modelBuilder.Entity<B2X.Catalog.Core.Entities.TaxRate>(entity =>
         {
             entity.HasKey(x => x.Id);
 
@@ -78,33 +88,33 @@ public class CatalogDbContext : DbContext
 
             // Default EU rates (as of 2024)
             entity.HasData(
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "AT", CountryName = "Austria", StandardVatRate = 20m, ReducedVatRate = 10m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "BE", CountryName = "Belgium", StandardVatRate = 21m, ReducedVatRate = 6m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "BG", CountryName = "Bulgaria", StandardVatRate = 20m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "HR", CountryName = "Croatia", StandardVatRate = 25m, ReducedVatRate = 13m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "CY", CountryName = "Cyprus", StandardVatRate = 19m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "CZ", CountryName = "Czech Republic", StandardVatRate = 21m, ReducedVatRate = 15m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "DK", CountryName = "Denmark", StandardVatRate = 25m, ReducedVatRate = 0m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "EE", CountryName = "Estonia", StandardVatRate = 20m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "FI", CountryName = "Finland", StandardVatRate = 24m, ReducedVatRate = 14m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "FR", CountryName = "France", StandardVatRate = 20m, ReducedVatRate = 5.5m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "DE", CountryName = "Germany", StandardVatRate = 19m, ReducedVatRate = 7m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "GR", CountryName = "Greece", StandardVatRate = 24m, ReducedVatRate = 13m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "HU", CountryName = "Hungary", StandardVatRate = 27m, ReducedVatRate = 18m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "IE", CountryName = "Ireland", StandardVatRate = 23m, ReducedVatRate = 13.5m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "IT", CountryName = "Italy", StandardVatRate = 22m, ReducedVatRate = 10m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "LV", CountryName = "Latvia", StandardVatRate = 21m, ReducedVatRate = 12m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "LT", CountryName = "Lithuania", StandardVatRate = 21m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "LU", CountryName = "Luxembourg", StandardVatRate = 17m, ReducedVatRate = 8m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "MT", CountryName = "Malta", StandardVatRate = 18m, ReducedVatRate = 7m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "NL", CountryName = "Netherlands", StandardVatRate = 21m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "PL", CountryName = "Poland", StandardVatRate = 23m, ReducedVatRate = 8m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "PT", CountryName = "Portugal", StandardVatRate = 23m, ReducedVatRate = 13m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "RO", CountryName = "Romania", StandardVatRate = 19m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "SK", CountryName = "Slovakia", StandardVatRate = 20m, ReducedVatRate = 10m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "SI", CountryName = "Slovenia", StandardVatRate = 22m, ReducedVatRate = 9.5m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "ES", CountryName = "Spain", StandardVatRate = 21m, ReducedVatRate = 10m, EffectiveDate = DateTime.UtcNow, EndDate = null },
-                new TaxRate { Id = Guid.NewGuid(), CountryCode = "SE", CountryName = "Sweden", StandardVatRate = 25m, ReducedVatRate = 12m, EffectiveDate = DateTime.UtcNow, EndDate = null }
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "AT", CountryName = "Austria", StandardVatRate = 20m, ReducedVatRate = 10m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "BE", CountryName = "Belgium", StandardVatRate = 21m, ReducedVatRate = 6m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "BG", CountryName = "Bulgaria", StandardVatRate = 20m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "HR", CountryName = "Croatia", StandardVatRate = 25m, ReducedVatRate = 13m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "CY", CountryName = "Cyprus", StandardVatRate = 19m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "CZ", CountryName = "Czech Republic", StandardVatRate = 21m, ReducedVatRate = 15m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "DK", CountryName = "Denmark", StandardVatRate = 25m, ReducedVatRate = 0m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "EE", CountryName = "Estonia", StandardVatRate = 20m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "FI", CountryName = "Finland", StandardVatRate = 24m, ReducedVatRate = 14m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "FR", CountryName = "France", StandardVatRate = 20m, ReducedVatRate = 5.5m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "DE", CountryName = "Germany", StandardVatRate = 19m, ReducedVatRate = 7m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "GR", CountryName = "Greece", StandardVatRate = 24m, ReducedVatRate = 13m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "HU", CountryName = "Hungary", StandardVatRate = 27m, ReducedVatRate = 18m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "IE", CountryName = "Ireland", StandardVatRate = 23m, ReducedVatRate = 13.5m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "IT", CountryName = "Italy", StandardVatRate = 22m, ReducedVatRate = 10m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "LV", CountryName = "Latvia", StandardVatRate = 21m, ReducedVatRate = 12m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "LT", CountryName = "Lithuania", StandardVatRate = 21m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "LU", CountryName = "Luxembourg", StandardVatRate = 17m, ReducedVatRate = 8m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "MT", CountryName = "Malta", StandardVatRate = 18m, ReducedVatRate = 7m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "NL", CountryName = "Netherlands", StandardVatRate = 21m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "PL", CountryName = "Poland", StandardVatRate = 23m, ReducedVatRate = 8m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "PT", CountryName = "Portugal", StandardVatRate = 23m, ReducedVatRate = 13m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "RO", CountryName = "Romania", StandardVatRate = 19m, ReducedVatRate = 9m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "SK", CountryName = "Slovakia", StandardVatRate = 20m, ReducedVatRate = 10m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "SI", CountryName = "Slovenia", StandardVatRate = 22m, ReducedVatRate = 9.5m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "ES", CountryName = "Spain", StandardVatRate = 21m, ReducedVatRate = 10m, EffectiveDate = DateTime.UtcNow, EndDate = null },
+                new B2X.Catalog.Core.Entities.TaxRate { Id = Guid.NewGuid(), CountryCode = "SE", CountryName = "Sweden", StandardVatRate = 25m, ReducedVatRate = 12m, EffectiveDate = DateTime.UtcNow, EndDate = null }
             );
         });
 

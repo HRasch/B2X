@@ -228,4 +228,38 @@ public class ProductServiceTests
         Assert.NotNull(result);
         Assert.Single(result.Items);
     }
+
+    [Fact]
+    public async Task CreateAsync_WithCategoryIds_ShouldCreateProductWithCategories()
+    {
+        // Arrange
+        var tenantId = Guid.NewGuid();
+        var categoryId1 = Guid.NewGuid();
+        var categoryId2 = Guid.NewGuid();
+        var request = new CreateProductRequest
+        {
+            Sku = "PROD-CAT-001",
+            Name = "Product with Categories",
+            Description = "A product with category assignments",
+            Price = 149.99m,
+            StockQuantity = 5,
+            CategoryIds = new List<Guid> { categoryId1, categoryId2 }
+        };
+
+        _mockSearchIndexService.Setup(x => x.IndexProductAsync(It.IsAny<Product>(), default))
+            .Returns(Task.CompletedTask);
+
+        // Act
+        var result = await _productService.CreateAsync(tenantId, request);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("PROD-CAT-001", result.Sku);
+        Assert.Equal("Product with Categories", result.Name);
+        Assert.Equal(149.99m, result.Price);
+        Assert.NotNull(result.CategoryIds);
+        Assert.Equal(2, result.CategoryIds.Count);
+        Assert.Contains(categoryId1, result.CategoryIds);
+        Assert.Contains(categoryId2, result.CategoryIds);
+    }
 }

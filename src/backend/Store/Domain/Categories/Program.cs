@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add Aspire Service Defaults (OpenTelemetry, Health Checks, etc.)
 builder.AddServiceDefaults();
 
+// Add Wolverine HTTP (required for MapWolverineEndpoints)
+builder.Services.AddWolverineHttp();
+
 // Configure Wolverine for CQRS
 builder.Host.UseWolverine(opts =>
 {

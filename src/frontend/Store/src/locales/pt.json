@@ -5,7 +5,34 @@
       "email": "Endereço de e-mail",
       "password": "Senha",
       "submit": "Entrar",
-      "forgotPassword": "Esqueceu sua senha?"
+      "forgotPassword": "Esqueceu sua senha?",
+      "devHelp": {
+        "email": "Usar: admin@b2x.com",
+        "password": "Usar: admin123",
+        "hint": "Credenciais de demonstração para testes"
+      },
+      "e2eMode": {
+        "title": "Modo de teste E2E",
+        "description": "Executando em modo de teste de ponta a ponta com testes automatizados"
+      },
+      "form": {
+        "email": {
+          "label": "E-mail",
+          "placeholder": "Digite seu e-mail"
+        },
+        "password": {
+          "label": "Senha",
+          "placeholder": "Digite sua senha"
+        }
+      },
+      "actions": {
+        "login": "Entrar",
+        "loggingIn": "Entrando..."
+      },
+      "signup": {
+        "prompt": "Não tem uma conta?",
+        "link": "Inscrever-se"
+      }
     },
     "register": {
       "title": "Registrar",
@@ -68,7 +95,8 @@
     "profile": "Perfil",
     "help": "Ajuda",
     "about": "Sobre",
-    "version": "Versão"
+    "version": "Versão",
+    "error": "Erro"
   },
   "product": {
     "sku": "SKU",
@@ -95,5 +123,112 @@
     "mainContent": "Conteúdo principal",
     "footer": "Rodapé",
     "toggleSidebar": "Alternar barra lateral"
+  },
+  "vat": {
+    "countryCode": "Código do país",
+    "vatNumber": "Número de IVA",
+    "validate": "Validar IVA",
+    "validating": "Validando...",
+    "companyName": "Nome da empresa",
+    "address": "Endereço",
+    "reverseCharge": "Reverse Charge",
+    "reverseChargeApplies": "Aplica-se",
+    "standardVatRate": "Taxa padrão",
+    "clearAndStartOver": "Limpar e começar novamente",
+    "validationHelp": {
+      "title": "Ajuda para validação de IVA",
+      "description": "Insira um número de IVA válido para o país selecionado. O sistema verificará com o serviço VIES da Comissão Europeia."
+    },
+    "countries": {
+      "AT": "Áustria",
+      "BE": "Bélgica",
+      "BG": "Bulgária",
+      "HR": "Croácia",
+      "CY": "Chipre",
+      "CZ": "República Checa",
+      "DK": "Dinamarca",
+      "EE": "Estônia",
+      "FI": "Finlândia",
+      "FR": "França",
+      "GR": "Grécia",
+      "HU": "Hungria",
+      "IE": "Irlanda",
+      "IT": "Itália",
+      "LV": "Letônia",
+      "LT": "Lituânia",
+      "LU": "Luxemburgo",
+      "MT": "Malta",
+      "NL": "Países Baixos",
+      "PL": "Polônia",
+      "PT": "Portugal",
+      "RO": "Romênia",
+      "SK": "Eslováquia",
+      "SI": "Eslovênia",
+      "ES": "Espanha",
+      "SE": "Suécia"
+    }
+  },
+  "erp": {
+    "customerLookup": {
+      "emailLabel": "Endereço de e-mail",
+      "searching": "Procurando cliente...",
+      "searchError": "Erro na busca do cliente",
+      "customerNotFound": "Cliente não encontrado",
+      "customerFound": "Cliente encontrado",
+      "welcomeBackWithName": "Bem-vindo de volta, {name}!",
+      "customerNumber": "Número do cliente",
+      "customerType": "Tipo de cliente",
+      "privateCustomer": "Cliente privado",
+      "businessCustomer": "Cliente empresarial",
+      "businessInfo": "Informações empresariais",
+      "company": "Empresa",
+      "phone": "Telefone",
+      "country": "País",
+      "creditLimit": "Limite de crédito",
+      "continue": "Continuar",
+      "searchButton": "Pesquisa de cliente",
+      "newSearch": "Nova pesquisa",
+      "cancel": "Cancelar",
+      "newCustomerQuestion": "Você é um novo cliente?",
+      "newCustomerDescription": "Você pode se registrar agora com registro simplificado.",
+      "newRegistration": "Novo registro",
+      "welcomeBack": "Bem-vindo de volta",
+      "enterEmailToStart": "Digite seu endereço de e-mail para iniciar o processo de registro.",
+      "customerInfoFound": "Encontramos suas informações de cliente em nosso sistema.",
+      "diagnosticInfo": "🔧 Informações de diagnóstico (Debug)"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Bem-vindo à B2X Store",
+      "subtitle": "Descubra produtos incríveis com compras rápidas e seguras",
+      "shopNow": "Comprar agora",
+      "browseCategories": "Explorar categorias"
+    },
+    "featuredProducts": {
+      "title": "Produtos em destaque",
+      "viewAll": "Ver todos os produtos"
+    },
+    "categories": {
+      "title": "Comprar por categoria"
+    },
+    "features": {
+      "title": "Por que escolher B2X?",
+      "quality": {
+        "title": "Qualidade Premium",
+        "description": "Produtos cuidadosamente selecionados de fornecedores confiáveis"
+      },
+      "fast": {
+        "title": "Entrega rápida",
+        "description": "Envio rápido e confiável diretamente à sua porta"
+      },
+      "support": {
+        "title": "Suporte 24/7",
+        "description": "Nossa equipe de atendimento ao cliente está aqui para ajudar"
+      }
+    }
+  },
+  "pricing": {
+    "includingVat": "IVA incl. {rate}%"
   }
 }

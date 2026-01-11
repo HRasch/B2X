@@ -1,4 +1,5 @@
 using B2X.Catalog.Services;
+using B2X.Types.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 
@@ -8,12 +9,12 @@ namespace B2X.Catalog.Endpoints;
 public interface IProductService
 {
     Task<dynamic?> GetBySkuAsync(Guid tenantId, string sku, CancellationToken ct = default);
-    Task<B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default);
+    Task<B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default);
 }
 
 public interface ISearchIndexService
 {
-    Task<B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default);
+    Task<B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default);
 }
 
 /// <summary>
@@ -72,7 +73,7 @@ public static class ProductEndpoints
                 DiscountPrice = product.discountPrice != null ? (decimal?)Convert.ToDecimal(product.discountPrice) : null,
                 StockQuantity = product.stockQuantity != null ? Convert.ToInt32(product.stockQuantity) : 0,
                 IsActive = (bool?)product.isActive ?? true,
-                Categories = new List<string>(),
+                CategoryIds = new List<Guid>(),
                 BrandName = Convert.ToString(product.brandName ?? product.BrandName),
                 Tags = new List<string>(),
                 CreatedAt = product.createdAt != null ? Convert.ToDateTime(product.createdAt) : DateTime.UtcNow,

@@ -61,6 +61,7 @@
     <!-- Domain Services for Catalog Management -->
     <ProjectReference Include="..\..\Store\Domain\Variants\src\B2X.Variants.csproj" />
     <ProjectReference Include="..\..\Store\Domain\Categories\B2X.Categories.csproj" />
+    <ProjectReference Include="..\..\Store\Domain\Catalog\B2X.Catalog.API.csproj" />
   </ItemGroup>
 
 </Project>

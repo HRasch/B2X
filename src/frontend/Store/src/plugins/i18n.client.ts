@@ -25,6 +25,9 @@ const STATIC_MESSAGES = {
 };
 
 export default defineNuxtPlugin(async nuxtApp => {
+  // Only run on client-side
+  if (process.server) return;
+
   const runtimeConfig = useRuntimeConfig();
 
   // Get tenant from runtime config
@@ -70,13 +73,7 @@ export default defineNuxtPlugin(async nuxtApp => {
   // Load tenant translations for current locale on client-side hydration
   const i18n = (nuxtApp as unknown as { $i18n: NuxtI18nRuntime }).$i18n;
 
-  // Load static translations first for immediate availability
+  // Load tenant translations (static translations are already loaded server-side)
   const currentLocale = i18n.locale.value;
-  const staticTranslations = STATIC_MESSAGES[currentLocale as keyof typeof STATIC_MESSAGES];
-  if (staticTranslations) {
-    i18n.setLocaleMessage(currentLocale, staticTranslations);
-  }
-
-  // Then try to load from API (don't await to not block rendering)
   loadTenantTranslations(currentLocale);
 });

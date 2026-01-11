@@ -32,6 +32,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     
+    <!-- Force NuGet packages to copy to output directory -->
+    <!-- Required for Aspire orchestration to work correctly -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    
     <!-- ============================================= -->
     <!-- Dynamic CPU Optimization (Portable Strategy) -->
     <!-- ============================================= -->
@@ -42,16 +46,25 @@
     <MaxCpuCount Condition="'$(B2X_MAX_CPU_COUNT)' == ''">0</MaxCpuCount>
     <MaxCpuCount Condition="'$(B2X_MAX_CPU_COUNT)' != ''">$(B2X_MAX_CPU_COUNT)</MaxCpuCount>
     
-    <!-- Disable MSBuild node reuse to prevent DLL locking issues -->
+    <!-- ============================================= -->
+    <!-- CRITICAL: Prevent File Locking Issues        -->
+    <!-- ============================================= -->
+    <!-- Disable VBCSCompiler server (shared Roslyn compiler) -->
     <UseSharedCompilation>false</UseSharedCompilation>
+    <!-- Disable MSBuild node reuse - nodes can hold file locks -->
+    <DisableMSBuildNodeReuse>true</DisableMSBuildNodeReuse>
+    <!-- Don't run analyzers in parallel to prevent race conditions -->
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+    <!-- Disable doc generation to reduce file writes -->
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     
     <!-- ============================================= -->
     <!-- Build Isolation Settings                      -->
     <!-- ============================================= -->
-    <!-- CopyLocal=false for Shared projects to reduce file locking -->
-    <!-- Projects reference Shared assemblies from their output dirs -->
-    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <!-- CopyLocal=true required for Aspire orchestration - packages must be in output dir -->
+    <!-- Without this, runtime fails with FileNotFoundException for NuGet package DLLs -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
     <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
     <!-- MA0016: Collection abstractions - acceptable for DTOs -->

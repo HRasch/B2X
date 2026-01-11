@@ -41,9 +41,7 @@
   <!-- Store Domain -->
   <Project Path="src/backend/Store/API/B2X.Store.csproj" />
   <Project Path="src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
-  <Project Path="src/backend/Store/Domain/Categories/B2X.Categories.csproj" />
   <Project Path="src/backend/Store/Domain/Search/B2X.Domain.Search.csproj" />
-  <Project Path="src/backend/Store/Domain/Variants/src/B2X.Variants.csproj" />
   <Project Path="src/backend/Store/Infrastructure/Gateway/Search/B2X.Store.Search.csproj" />
 
   <!-- Admin Domain -->

@@ -1,5 +1,6 @@
 using B2X.Catalog.Models;
 using B2X.Catalog.Services;
+using B2X.Types.DTOs;
 
 namespace B2X.Catalog.Handlers;
 

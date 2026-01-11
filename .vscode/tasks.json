@@ -267,28 +267,21 @@
       "group": "build"
     },
     {
-      // Use 'aspire run' to start AppHost with proper service coordination
-      // This prevents file locks (CS2012) when rebuilding while running
-      // See: dotnet/aspire#4981, lessons.md "Aspire Runtime File Locks"
+      // Use 'aspire run' to start AppHost in a separate interactive window
+      // WORKAROUND: VS Code terminal stdin redirection causes Aspire to exit immediately
+      // See: dotnet/aspire#12242, GitHub Copilot session 2026-01-11
+      // Solution: Start-Process spawns a new interactive PowerShell window
       "label": "backend-start",
       "type": "shell",
       "isBackground": true,
-      "command": "aspire",
+      "command": "Start-Process",
       "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj"
+        "pwsh",
+        "-ArgumentList",
+        "'-NoExit', '-Command', 'cd ''${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost''; $env:Database__Provider=''inmemory''; $env:ASPIRE_ALLOW_UNSECURED_TRANSPORT=''true''; $env:DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=''true''; aspire run --project B2X.AppHost.csproj'"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost",
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development",
-          "ASPNETCORE_URLS": "http://localhost:15500",
-          "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:18888",
-          "Database__Provider": "inmemory",
-          "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
-          "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
-        }
+        "cwd": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost"
       },
       "problemMatcher": {
         "pattern": {

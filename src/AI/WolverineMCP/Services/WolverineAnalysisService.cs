@@ -100,9 +100,9 @@ public sealed class WolverineAnalysisService : IDisposable
                 continue;
 
             var handlers = FindHandlers(compilation);
-            var commands = FindCommands(compilation).ToHashSet(SymbolEqualityComparer.Default);
-            var queries = FindQueries(compilation).ToHashSet(SymbolEqualityComparer.Default);
-            var events = FindEvents(compilation).ToHashSet(SymbolEqualityComparer.Default);
+            var commands = new HashSet<INamedTypeSymbol>(FindCommands(compilation).Cast<INamedTypeSymbol>(), SymbolEqualityComparer.Default);
+            var queries = new HashSet<INamedTypeSymbol>(FindQueries(compilation).Cast<INamedTypeSymbol>(), SymbolEqualityComparer.Default);
+            var events = new HashSet<INamedTypeSymbol>(FindEvents(compilation).Cast<INamedTypeSymbol>(), SymbolEqualityComparer.Default);
 
             foreach (var handler in handlers)
             {

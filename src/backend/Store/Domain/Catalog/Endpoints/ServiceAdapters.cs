@@ -1,4 +1,5 @@
 using System.Linq;
+using B2X.Types.DTOs;
 
 namespace B2X.Catalog.Endpoints;
 
@@ -18,7 +19,7 @@ public class ProductServiceAdapter : IProductService
         return item;
     }
 
-    public async Task<B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
+    public async Task<B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
     {
         return await _productService.SearchAsync(tenantId, searchTerm, pageNumber, pageSize, ct);
     }
@@ -33,7 +34,7 @@ public class SearchIndexAdapter : ISearchIndexService
         _searchService = searchService;
     }
 
-    public async Task<B2X.Catalog.Models.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
+    public async Task<B2X.Types.DTOs.PagedResult<B2X.Catalog.Models.ProductDto>> SearchAsync(Guid tenantId, string searchTerm, int pageNumber = 1, int pageSize = 20, CancellationToken ct = default)
     {
         return await _searchService.SearchAsync(tenantId, searchTerm, pageNumber, pageSize, ct);
     }

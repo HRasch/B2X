@@ -2,7 +2,13 @@
 import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
   compatibilityDate: '2026-01-08',
   devServer: {
     host: 'localhost',
@@ -14,7 +20,12 @@ export default defineNuxtConfig({
     typeCheck: false,
   },
   modules: ['@nuxtjs/i18n', '@pinia/nuxt'],
-  plugins: ['~/plugins/debug-init.js', '~/plugins/debug-guard.js'],
+  plugins: [
+    '~/plugins/debug-init.js',
+    '~/plugins/debug-guard.js',
+    '~/plugins/i18n.server.ts',
+    '~/plugins/i18n.client.ts',
+  ],
   css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {

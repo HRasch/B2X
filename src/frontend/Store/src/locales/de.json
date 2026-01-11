@@ -5,7 +5,34 @@
       "email": "E-Mail-Adresse",
       "password": "Passwort",
       "submit": "Anmelden",
-      "forgotPassword": "Passwort vergessen?"
+      "forgotPassword": "Passwort vergessen?",
+      "devHelp": {
+        "email": "Verwenden: admin@b2x.com",
+        "password": "Verwenden: admin123",
+        "hint": "Demo-Anmeldedaten zum Testen"
+      },
+      "e2eMode": {
+        "title": "E2E-Testmodus",
+        "description": "Läuft im End-to-End-Testmodus mit automatisierten Tests"
+      },
+      "form": {
+        "email": {
+          "label": "E-Mail",
+          "placeholder": "Geben Sie Ihre E-Mail ein"
+        },
+        "password": {
+          "label": "Passwort",
+          "placeholder": "Geben Sie Ihr Passwort ein"
+        }
+      },
+      "actions": {
+        "login": "Anmelden",
+        "loggingIn": "Anmeldung läuft..."
+      },
+      "signup": {
+        "prompt": "Haben Sie noch kein Konto?",
+        "link": "Registrieren"
+      }
     },
     "register": {
       "title": "Registrieren",
@@ -71,7 +98,8 @@
     "profile": "Profil",
     "help": "Hilfe",
     "about": "Über",
-    "version": "Version"
+    "version": "Version",
+    "error": "Fehler"
   },
   "form": {
     "email": "E-Mail-Adresse",
@@ -266,6 +294,36 @@
       "paymentFailed": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut."
     }
   },
+  "home": {
+    "hero": {
+      "title": "Willkommen im B2X Store",
+      "subtitle": "Entdecken Sie tolle Produkte mit schnellem, sicherem Einkaufen",
+      "shopNow": "Jetzt einkaufen",
+      "browseCategories": "Kategorien durchsuchen"
+    },
+    "featuredProducts": {
+      "title": "Ausgewählte Produkte",
+      "viewAll": "Alle Produkte ansehen"
+    },
+    "categories": {
+      "title": "Nach Kategorie einkaufen"
+    },
+    "features": {
+      "title": "Warum B2X wählen?",
+      "quality": {
+        "title": "Premium Qualität",
+        "description": "Sorgfältig ausgewählte Produkte von vertrauenswürdigen Lieferanten"
+      },
+      "fast": {
+        "title": "Schnelle Lieferung",
+        "description": "Schnell und zuverlässiger Versand direkt zu Ihnen nach Hause"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Unser Kundenservice-Team ist für Sie da"
+      }
+    }
+  },
   "widgets": {
     "notFound": "Widget nicht gefunden",
     "notFoundDescription": "Das Widget-Komponent konnte nicht geladen werden. Bitte überprüfen Sie die Widget-Typ-ID.",
@@ -305,5 +363,79 @@
     "mainContent": "Hauptinhalt",
     "footer": "Fußzeile",
     "toggleSidebar": "Seitenleiste umschalten"
+  },
+  "vat": {
+    "countryCode": "Ländercode",
+    "vatNumber": "Umsatzsteuer-ID",
+    "validate": "Umsatzsteuer-ID validieren",
+    "validating": "Validierung läuft...",
+    "companyName": "Firmenname",
+    "address": "Adresse",
+    "reverseCharge": "Reverse Charge",
+    "reverseChargeApplies": "Gilt",
+    "standardVatRate": "Standardsatz",
+    "clearAndStartOver": "Löschen und neu starten",
+    "validationHelp": {
+      "title": "Hilfe zur Umsatzsteuer-Validierung",
+      "description": "Geben Sie eine gültige Umsatzsteuer-ID für das ausgewählte Land ein. Das System überprüft diese mit dem VIES-Dienst der Europäischen Kommission."
+    },
+    "countries": {
+      "AT": "Österreich",
+      "BE": "Belgien",
+      "BG": "Bulgarien",
+      "HR": "Kroatien",
+      "CY": "Zypern",
+      "CZ": "Tschechische Republik",
+      "DK": "Dänemark",
+      "EE": "Estland",
+      "FI": "Finnland",
+      "FR": "Frankreich",
+      "GR": "Griechenland",
+      "HU": "Ungarn",
+      "IE": "Irland",
+      "IT": "Italien",
+      "LV": "Lettland",
+      "LT": "Litauen",
+      "LU": "Luxemburg",
+      "MT": "Malta",
+      "NL": "Niederlande",
+      "PL": "Polen",
+      "PT": "Portugal",
+      "RO": "Rumänien",
+      "SK": "Slowakei",
+      "SI": "Slowenien",
+      "ES": "Spanien",
+      "SE": "Schweden"
+    }
+  },
+  "erp": {
+    "customerLookup": {
+      "emailLabel": "E-Mail-Adresse",
+      "searching": "Kunde wird gesucht...",
+      "searchError": "Fehler bei der Kundensuche",
+      "customerNotFound": "Kunde nicht gefunden",
+      "customerFound": "Kunde gefunden",
+      "welcomeBackWithName": "Willkommen zurück, {name}!",
+      "customerNumber": "Kundennummer",
+      "customerType": "Kundentyp",
+      "privateCustomer": "Privatkunde",
+      "businessCustomer": "Geschäftskunde",
+      "businessInfo": "Geschäftsinformationen",
+      "company": "Firma",
+      "phone": "Telefon",
+      "country": "Land",
+      "creditLimit": "Kreditlimit",
+      "continue": "Fortfahren",
+      "searchButton": "Kundensuche",
+      "newSearch": "Neue Suche",
+      "cancel": "Abbrechen",
+      "newCustomerQuestion": "Sind Sie ein neuer Kunde?",
+      "newCustomerDescription": "Sie können sich jetzt mit vereinfachter Registrierung anmelden.",
+      "newRegistration": "Neue Registrierung",
+      "welcomeBack": "Willkommen zurück",
+      "enterEmailToStart": "Geben Sie Ihre E-Mail-Adresse ein, um den Registrierungsprozess zu starten.",
+      "customerInfoFound": "Wir haben Ihre Kundendaten in unserem System gefunden.",
+      "diagnosticInfo": "🔧 Diagnose-Info (Debug)"
+    }
   }
 }

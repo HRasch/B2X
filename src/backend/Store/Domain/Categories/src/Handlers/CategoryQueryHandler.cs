@@ -1,4 +1,5 @@
 using B2X.Categories.Models;
+using B2X.Types.DTOs;
 using Wolverine;
 
 namespace B2X.Categories.Handlers;

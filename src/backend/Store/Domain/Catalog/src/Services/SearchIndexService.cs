@@ -1,4 +1,5 @@
 using B2X.Catalog.Models;
+using B2X.Types.DTOs;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.QueryDsl;
 

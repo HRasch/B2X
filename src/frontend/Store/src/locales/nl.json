@@ -5,7 +5,34 @@
       "email": "E-mailadres",
       "password": "Wachtwoord",
       "submit": "Aanmelden",
-      "forgotPassword": "Wachtwoord vergeten?"
+      "forgotPassword": "Wachtwoord vergeten?",
+      "devHelp": {
+        "email": "Gebruik: admin@b2x.com",
+        "password": "Gebruik: admin123",
+        "hint": "Demo-inloggegevens voor testen"
+      },
+      "e2eMode": {
+        "title": "E2E-testmodus",
+        "description": "Uitvoering in end-to-end testmodus met geautomatiseerde tests"
+      },
+      "form": {
+        "email": {
+          "label": "E-mail",
+          "placeholder": "Voer uw e-mail in"
+        },
+        "password": {
+          "label": "Wachtwoord",
+          "placeholder": "Voer uw wachtwoord in"
+        }
+      },
+      "actions": {
+        "login": "Aanmelden",
+        "loggingIn": "Aanmelden..."
+      },
+      "signup": {
+        "prompt": "Heeft u nog geen account?",
+        "link": "Registreren"
+      }
     },
     "register": {
       "title": "Registreren",
@@ -68,7 +95,8 @@
     "profile": "Profiel",
     "help": "Help",
     "about": "Over",
-    "version": "Versie"
+    "version": "Versie",
+    "error": "Fout"
   },
   "product": {
     "stock": {
@@ -105,5 +133,112 @@
     "mainContent": "Hoofdinhoud",
     "footer": "Voettekst",
     "toggleSidebar": "Zijbalk in-/uitschakelen"
+  },
+  "vat": {
+    "countryCode": "Landcode",
+    "vatNumber": "BTW-nummer",
+    "validate": "BTW valideren",
+    "validating": "Bezig met valideren...",
+    "companyName": "Bedrijfsnaam",
+    "address": "Adres",
+    "reverseCharge": "Reverse Charge",
+    "reverseChargeApplies": "Van toepassing",
+    "standardVatRate": "Standaardtarief",
+    "clearAndStartOver": "Wissen en opnieuw beginnen",
+    "validationHelp": {
+      "title": "Help bij BTW-validatie",
+      "description": "Voer een geldig BTW-nummer in voor het geselecteerde land. Het systeem controleert dit met de VIES-service van de Europese Commissie."
+    },
+    "countries": {
+      "AT": "Oostenrijk",
+      "BE": "België",
+      "BG": "Bulgarije",
+      "HR": "Kroatië",
+      "CY": "Cyprus",
+      "CZ": "Tsjechië",
+      "DK": "Denemarken",
+      "EE": "Estland",
+      "FI": "Finland",
+      "FR": "Frankrijk",
+      "GR": "Griekenland",
+      "HU": "Hongarije",
+      "IE": "Ierland",
+      "IT": "Italië",
+      "LV": "Letland",
+      "LT": "Litouwen",
+      "LU": "Luxemburg",
+      "MT": "Malta",
+      "NL": "Nederland",
+      "PL": "Polen",
+      "PT": "Portugal",
+      "RO": "Roemenië",
+      "SK": "Slowakije",
+      "SI": "Slovenië",
+      "ES": "Spanje",
+      "SE": "Zweden"
+    }
+  },
+  "erp": {
+    "customerLookup": {
+      "emailLabel": "E-mailadres",
+      "searching": "Klant zoeken...",
+      "searchError": "Fout bij klant zoeken",
+      "customerNotFound": "Klant niet gevonden",
+      "customerFound": "Klant gevonden",
+      "welcomeBackWithName": "Welkom terug, {name}!",
+      "customerNumber": "Klantnummer",
+      "customerType": "Klanttype",
+      "privateCustomer": "Particuliere klant",
+      "businessCustomer": "Zakelijke klant",
+      "businessInfo": "Bedrijfsinformatie",
+      "company": "Bedrijf",
+      "phone": "Telefoon",
+      "country": "Land",
+      "creditLimit": "Kredietlimiet",
+      "continue": "Doorgaan",
+      "searchButton": "Klant zoeken",
+      "newSearch": "Nieuwe zoekopdracht",
+      "cancel": "Annuleren",
+      "newCustomerQuestion": "Bent u een nieuwe klant?",
+      "newCustomerDescription": "U kunt zich nu registreren met vereenvoudigde registratie.",
+      "newRegistration": "Nieuwe registratie",
+      "welcomeBack": "Welkom terug",
+      "enterEmailToStart": "Voer uw e-mailadres in om het registratieproces te starten.",
+      "customerInfoFound": "We hebben uw klantgegevens in ons systeem gevonden.",
+      "diagnosticInfo": "🔧 Diagnostische info (Debug)"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Welkom bij B2X Store",
+      "subtitle": "Ontdek geweldige producten met snel en veilig winkelen",
+      "shopNow": "Nu winkelen",
+      "browseCategories": "Bladeren door categorieën"
+    },
+    "featuredProducts": {
+      "title": "Uitgelichte producten",
+      "viewAll": "Alle producten bekijken"
+    },
+    "categories": {
+      "title": "Winkelen per categorie"
+    },
+    "features": {
+      "title": "Waarom B2X kiezen?",
+      "quality": {
+        "title": "Premium kwaliteit",
+        "description": "Voorzichtig geselecteerde producten van vertrouwde leveranciers"
+      },
+      "fast": {
+        "title": "Snelle levering",
+        "description": "Snelle en betrouwbare verzending rechtstreeks naar uw deur"
+      },
+      "support": {
+        "title": "24/7 ondersteuning",
+        "description": "Ons klantenserviceteam is er om u te helpen"
+      }
+    }
+  },
+  "pricing": {
+    "includingVat": "incl. {rate}% BTW"
   }
 }

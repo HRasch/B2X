@@ -40,8 +40,8 @@ export default defineConfig({
       stdout: 'pipe',
       stderr: 'pipe',
       env: {
-        VITE_API_GATEWAY_URL: 'http://127.0.0.1:8001',
-        VITE_STORE_API_URL: 'http://127.0.0.1:8001',
+        VITE_API_GATEWAY_URL: 'http://localhost:8000',
+        VITE_STORE_API_URL: 'http://localhost:8000',
       },
     },
   ],

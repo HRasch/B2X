@@ -42,10 +42,10 @@ public class VariantRepository : IVariantRepository
             return Task.FromResult((Enumerable.Empty<Variant>(), 0));
         }
 
-        var query = variants.AsQueryable();
-        var totalCount = query.Count();
+        var queryList = variants.ToList();
+        var totalCount = queryList.Count;
 
-        var items = query
+        var items = queryList
             .OrderBy(v => v.DisplayOrder)
             .ThenBy(v => v.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)

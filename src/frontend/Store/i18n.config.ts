@@ -2,26 +2,26 @@ import { defineI18nConfig } from 'nuxt-i18n';
 import en from './src/locales/en.json';
 import de from './src/locales/de.json';
 import fr from './src/locales/fr.json';
+import es from './src/locales/es.json';
+import it from './src/locales/it.json';
+import pt from './src/locales/pt.json';
+import nl from './src/locales/nl.json';
+import pl from './src/locales/pl.json';
 
-// Minimal i18n config used during incremental upgrades. Full translations
-// are kept in JSON under ./locales. This file is intentionally small and
-// uses `// @ts-nocheck` to avoid complex inferred-type errors from
-// @nuxtjs/i18n runtime types while we finish the migration.
+// Nuxt i18n expects vue-i18n options here; keep messages at the top level so
+// all locales are registered on both server and client.
 export default defineI18nConfig(() => ({
   legacy: false,
-  locales: [
-    { code: 'en', iso: 'en-US', name: 'English', flag: '🇬🇧' },
-    { code: 'de', iso: 'de-DE', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'fr', iso: 'fr-FR', name: 'Français', flag: '🇫🇷' },
-  ],
-  defaultLocale: 'en',
-  vueI18n: {
-    legacy: false,
-    locale: 'en',
-    messages: {
-      en,
-      de,
-      fr,
-    },
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: {
+    en,
+    de,
+    fr,
+    es,
+    it,
+    pt,
+    nl,
+    pl,
   },
 }));

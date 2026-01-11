@@ -9,8 +9,314 @@ created: 2026-01-08
 ﻿# Lessons Learned
 
 **DocID**: `KB-LESSONS`  
-**Last Updated**: 11. Januar 2026  
+**Last Updated**: 11. Januar 2026 (Session 2)  
 **Maintained By**: GitHub Copilot
+
+---
+
+## Session: 11. Januar 2026 - Aspire Exits Immediately in VS Code Terminal (stdin Redirection)
+
+### Aspire CLI Exits with Code 1 Immediately After "Distributed application started"
+
+**Issue**: Aspire starts successfully and prints "Distributed application started. Press Ctrl+C to shut down." then immediately exits with exit code 1.
+
+**Root Cause**: VS Code's integrated terminal **redirects stdin**, causing Aspire CLI to detect a non-interactive environment and exit. The Aspire CLI uses `Console.IsInputRedirected` to detect interactive terminals - when stdin is redirected (as in VS Code tasks), it behaves differently.
+
+**Reference**: [dotnet/aspire#12242](https://github.com/dotnet/aspire/pull/12242) - "Handle console input/output redirection in CliHostEnvironment"
+
+**Diagnosis**:
+```
+Terminal output:
+info: Aspire.Hosting.DistributedApplication[[0]]
+      Now listening on: http://localhost:15500
+info: Aspire.Hosting.DistributedApplication[[0]]
+      Distributed application started. Press Ctrl+C to shut down.
+ *  Terminal process terminated with exit code: 1
+```
+
+**Solution**: Run Aspire in a **separate interactive PowerShell window** rather than VS Code's integrated terminal.
+
+**VS Code Task Configuration** (`.vscode/tasks.json`):
+```jsonc
+{
+  "label": "backend-start",
+  "type": "shell",
+  "isBackground": true,
+  "command": "Start-Process",
+  "args": [
+    "pwsh",
+    "-ArgumentList",
+    "'-NoExit', '-Command', 'cd ''${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost''; $env:Database__Provider=''inmemory''; aspire run --project B2X.AppHost.csproj'"
+  ]
+}
+```
+
+**Manual Workaround** (from terminal):
+```powershell
+Start-Process pwsh -ArgumentList '-NoExit', '-Command', 'cd ''C:\path\to\AppHost''; aspire run'
+```
+
+**Why This Works**:
+- `Start-Process` spawns a **new interactive PowerShell window** with proper stdin
+- The `-NoExit` flag keeps the window open (Ctrl+C works for shutdown)
+- Aspire CLI detects an interactive environment and stays running
+
+**Key Insights**:
+1. **VS Code terminals redirect stdin** - this affects any CLI that checks for interactivity
+2. **Aspire CLI is designed for interactive use** - it expects to handle Ctrl+C signals
+3. **The issue is NOT in your code** - it's a VS Code/Aspire CLI interaction
+4. **Build success ≠ Runtime success** - Aspire builds fine but exits immediately at runtime
+
+**Related Issues**:
+- Build file locks (CS2012) - VBCSCompiler holding DLLs - SEPARATE ISSUE
+- MSBuild parallel race conditions - SEPARATE ISSUE (fixed with `-m:2`)
+
+---
+
+## Session: 11. Januar 2026 - Roslyn Type Inference Requires Explicit Cast<T> for IEnumerable Covariance
+
+### IEnumerable<BaseType> Not Inferred Correctly in Generic Method Chains
+
+**Issue**: WolverineMCP build failed with `CS1503` errors:
+```
+error CS1503: Argument 2: cannot convert from 
+'System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.ISymbol>' to 
+'System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.INamedTypeSymbol>'
+```
+
+**Root Cause**: Method chain returns `IEnumerable<ISymbol>` but is assigned to `IEnumerable<INamedTypeSymbol>` without explicit conversion. C# covariance doesn't apply here because the types aren't directly compatible.
+
+**Context**: Code using Roslyn's symbol analysis:
+```csharp
+// Broken - type inference fails
+IEnumerable<INamedTypeSymbol> commands = symbolFinder.FindCommands(types);
+IEnumerable<INamedTypeSymbol> queries = symbolFinder.FindQueries(types);
+IEnumerable<INamedTypeSymbol> events = symbolFinder.FindEvents(types);
+```
+
+**Solution**: Add explicit `.Cast<T>()` to ensure type safety:
+```csharp
+// Fixed - explicit Cast for type conversion
+var commandSymbols = symbolFinder.FindCommands(types).Cast<INamedTypeSymbol>();
+var querySymbols = symbolFinder.FindQueries(types).Cast<INamedTypeSymbol>();
+var eventSymbols = symbolFinder.FindEvents(types).Cast<INamedTypeSymbol>();
+```
+
+**Key Lessons**:
+1. **`IEnumerable<Derived>` is NOT `IEnumerable<Base>`** in method return contexts
+2. **Roslyn symbols** often return `ISymbol` that need explicit type casting
+3. **Use `.Cast<T>()`** from `System.Linq` for safe type conversion
+4. **Prefer `var`** when adding `.Cast<T>()` to avoid redundant type declarations
+
+**When to Apply**:
+- Roslyn symbol analysis returning `IEnumerable<ISymbol>`
+- Any method chain where return type is less specific than expected
+- LINQ queries with mixed type hierarchies
+
+---
+
+## Session: 11. Januar 2026 - Central Package Management (CPM) Missing Versions
+
+### Missing PackageVersion Causes Build Failures Across Solution
+
+**Issue**: Solution build failed with `NU1008` errors:
+```
+error NU1008: Projects that use central package version management should 
+not define the version on the PackageReference items but on the PackageVersion items
+```
+
+**Root Cause**: Projects referenced packages that didn't have versions defined in `Directory.Packages.props`:
+- `TngTech.ArchUnitNET`
+- `Microsoft.Build.Tasks.Core`
+- `System.ComponentModel.Composition`
+
+**Solution**: Add missing package versions to CPM:
+```xml
+<!-- Directory.Packages.props -->
+<ItemGroup>
+  <!-- Architecture Testing -->
+  <PackageVersion Include="TngTech.ArchUnitNET" Version="0.13.1" />
+  
+  <!-- Build Infrastructure -->
+  <PackageVersion Include="Microsoft.Build.Tasks.Core" Version="17.14.8" />
+  
+  <!-- MEF Composition -->
+  <PackageVersion Include="System.ComponentModel.Composition" Version="10.0.1" />
+</ItemGroup>
+```
+
+**Key Lessons**:
+1. **CPM is solution-wide**: Every `<PackageReference>` must have corresponding `<PackageVersion>` in root props
+2. **New projects inherit CPM**: Adding projects that use new packages requires props file updates
+3. **Transitive dependencies**: Some packages (like ArchUnitNET) require explicit version for their dependencies
+4. **Version audit script**: Consider creating a script to detect missing CPM entries
+
+**Prevention**:
+- Add `NU1008` to CI as blocking error (already default)
+- Document CPM process in `CONTRIBUTING.md`
+- Use `dotnet list package --outdated` to audit
+
+---
+
+## Session: 11. Januar 2026 - CopyLocalLockFileAssemblies for NuGet DLL Distribution
+
+### NuGet Package DLLs Not Copied to Output Directory in Aspire Projects
+
+**Issue**: Aspire-orchestrated projects failed at runtime with `FileNotFoundException`:
+```
+System.IO.FileNotFoundException: Could not load file or assembly 
+'Microsoft.AspNetCore.OpenApi, Version=10.0.0.0'
+```
+
+**Root Cause**: NuGet's default behavior only copies **direct project references** to output, not transitive package dependencies. This is problematic for:
+- Aspire projects launching multiple services
+- Plugin architectures
+- Self-contained deployments
+
+**Solution**: Add global setting to `src/Directory.Build.props`:
+```xml
+<PropertyGroup>
+  <!-- Force copy ALL NuGet package DLLs to output directory -->
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+</PropertyGroup>
+```
+
+**What This Property Does**:
+| Before | After |
+|--------|-------|
+| Only project DLLs copied | All DLLs from lock file copied |
+| Runtime resolution via NuGet cache | All deps in bin/ folder |
+| Smaller output but fragile | Larger output but self-contained |
+
+**When to Use**:
+- ✅ Aspire AppHost projects
+- ✅ Plugin/extension architectures
+- ✅ Container deployments needing all DLLs
+- ✅ xcopy-deployable applications
+- ❌ Library projects (consumers should manage their deps)
+
+**Alternative Per-Project**:
+```xml
+<!-- In specific .csproj file -->
+<PropertyGroup>
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+</PropertyGroup>
+```
+
+**Key Lessons**:
+1. **Build success ≠ Runtime success**: DLLs might resolve at build but fail at runtime
+2. **Aspire launches services in isolation**: Each service needs its full dependency set
+3. **Check output folder**: If DLL missing in bin/, this setting is likely the fix
+4. **Global vs Local**: Add to Directory.Build.props for consistency across all projects
+
+---
+
+## Session: 11. Januar 2026 - VBCSCompiler/MSBuild File Locks (CS2012)
+
+### VBCSCompiler Shared Compilation Causes File Locks During Build
+
+**Issue**: Build fails with `CS2012: Cannot open 'B2X.Shared.Core.dll' for writing -- 'The process cannot access the file because it is being used by another process.'`
+
+**Root Cause**: VBCSCompiler shared compilation and MSBuild node reuse keep processes alive that hold file locks on DLLs, preventing rebuilds.
+
+**Solution**: Add these settings to `Directory.Build.props`:
+
+```xml
+<PropertyGroup>
+  <!-- CRITICAL: Prevent File Locking Issues -->
+  <UseSharedCompilation>false</UseSharedCompilation>
+  <DisableMSBuildNodeReuse>true</DisableMSBuildNodeReuse>
+  <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+  <GenerateDocumentationFile>false</GenerateDocumentationFile>
+</PropertyGroup>
+```
+
+**What Each Setting Does**:
+
+| Setting | Purpose |
+|---------|---------|
+| `UseSharedCompilation=false` | Disables VBCSCompiler server that holds file locks |
+| `DisableMSBuildNodeReuse=true` | Prevents MSBuild worker processes from persisting |
+| `RunAnalyzersDuringLiveAnalysis=false` | Prevents analyzer processes from locking files |
+
+**Emergency Cleanup** (when locks persist):
+```powershell
+# Kill all dotnet/compiler processes
+Get-Process -Name "dotnet", "msbuild", "VBCSCompiler", "csc" -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# Clean obj folders
+Remove-Item "path/to/project/obj" -Recurse -Force
+```
+
+**Key Insights**:
+1. **VBCSCompiler stays alive** - It's designed to speed up subsequent builds but causes lock issues
+2. **MSBuild node reuse is problematic** - Disabled by default in some CI scenarios for this reason
+3. **Analyzers can lock files** - Especially during live analysis in IDE
+4. **This is a DIFFERENT issue** from Aspire stdin redirection (exit code 1)
+
+---
+
+## Session: 11. Januar 2026 - Aspire 13.1.0 Runtime FileNotFoundException Fix
+
+### Aspire.Hosting Missing Assembly at Runtime on .NET 10
+
+**Issue**: Aspire AppHost compiled successfully but failed at runtime:
+```
+System.IO.FileNotFoundException: Could not load file or assembly 'Aspire.Hosting'
+```
+
+**Root Cause**:
+- `Aspire.Hosting` 13.1.0 only ships `net8.0` assemblies, NOT `net10.0`
+- Same applies to transitive dependencies like `KubernetesClient`, `Polly`, etc.
+- NuGet restores packages but doesn't copy assemblies when target framework mismatch exists
+- Default `RollForward` policy doesn't bridge major version gaps
+
+**Solution**: Add explicit fallback and copy properties to `B2X.AppHost.csproj`:
+
+```xml
+<PropertyGroup>
+  <!-- REQUIRED: Allow NuGet to accept net8.0/net9.0 packages as fallback -->
+  <AssetTargetFallback>$(AssetTargetFallback);net9.0;net8.0</AssetTargetFallback>
+  
+  <!-- REQUIRED: Allow runtime to load older assemblies with .NET 10 -->
+  <RollForward>LatestMajor</RollForward>
+  
+  <!-- REQUIRED: Force copy ALL transitive dependencies to output folder -->
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  
+  <!-- REQUIRED: Enable Aspire host behaviors -->
+  <IsAspireHost>true</IsAspireHost>
+</PropertyGroup>
+
+<ItemGroup>
+  <!-- REQUIRED: Explicit reference even with SDK -->
+  <PackageReference Include="Aspire.Hosting.AppHost" />
+</ItemGroup>
+```
+
+**Directory.Packages.props must include**:
+```xml
+<PackageVersion Include="Aspire.Hosting.AppHost" Version="13.1.0" />
+```
+
+**Why All Four Properties Are Required**:
+
+| Property | Without It | Error |
+|----------|-----------|-------|
+| `AssetTargetFallback` | NuGet won't copy net8.0 assets | Build succeeds, runtime fails |
+| `RollForward: LatestMajor` | Runtime rejects older assemblies | `FileNotFoundException` |
+| `CopyLocalLockFileAssemblies` | Transitive deps not in output | `FileNotFoundException` for KubernetesClient |
+| `IsAspireHost: true` | Missing Aspire MSBuild behaviors | Various runtime failures |
+
+**Lessons**:
+1. **Build success ≠ Runtime success**: Just because `dotnet build` passes doesn't mean assemblies are correctly deployed
+2. **Check transitive dependencies**: The error may cite `Aspire.Hosting` but the real issue is its dependencies (`KubernetesClient`, etc.)
+3. **AssetTargetFallback is not optional**: Despite SDK claims of net10.0 support, core packages still ship net8.0-only
+4. **CopyLocalLockFileAssemblies is critical**: This forces all transitive dependencies to the output folder
+5. **Don't remove working config during troubleshooting**: If something worked before, preserve the original configuration
+
+**References**: See [KB-070] Aspire .NET 10 Compatibility for full configuration
 
 ---
 

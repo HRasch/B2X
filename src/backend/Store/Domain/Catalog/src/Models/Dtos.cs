@@ -14,27 +14,13 @@ public class ProductDto
     public decimal? DiscountPrice { get; set; }
     public int StockQuantity { get; set; }
     public bool IsActive { get; set; }
-    public List<string> Categories { get; set; } = new();
+    public List<Guid> CategoryIds { get; set; } = new();
     public string? BrandName { get; set; }
     public List<string> Tags { get; set; } = new();
     public string? Barcode { get; set; } // Added for barcode scanning support
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public bool IsAvailable { get; set; }
-}
-
-/// <summary>
-/// Paged result for list responses
-/// </summary>
-public class PagedResult<T>
-{
-    public required List<T> Items { get; set; }
-    public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 20;
-    public int TotalCount { get; set; }
-    public int TotalPages => (TotalCount + PageSize - 1) / PageSize;
-    public bool HasNextPage => PageNumber < TotalPages;
-    public bool HasPreviousPage => PageNumber > 1;
 }
 
 /// <summary>
@@ -48,7 +34,7 @@ public class CreateProductRequest
     public required decimal Price { get; set; }
     public decimal? DiscountPrice { get; set; }
     public required int StockQuantity { get; set; }
-    public List<string>? Categories { get; set; }
+    public List<Guid>? CategoryIds { get; set; }
     public string? BrandName { get; set; }
     public List<string>? Tags { get; set; }
     public string? Barcode { get; set; } // Added for barcode scanning support
@@ -65,7 +51,7 @@ public class UpdateProductRequest
     public decimal? DiscountPrice { get; set; }
     public int? StockQuantity { get; set; }
     public bool? IsActive { get; set; }
-    public List<string>? Categories { get; set; }
+    public List<Guid>? CategoryIds { get; set; }
     public string? BrandName { get; set; }
     public List<string>? Tags { get; set; }
     public string? Barcode { get; set; } // Added for barcode scanning support

@@ -1,4 +1,5 @@
 using B2X.Catalog.Models;
+using B2X.Types.DTOs;
 
 namespace B2X.Catalog.Services;
 
@@ -94,12 +95,17 @@ public class ProductService : IProductService
             Price = request.Price,
             DiscountPrice = request.DiscountPrice,
             StockQuantity = request.StockQuantity,
-            Categories = request.Categories ?? new(),
             BrandName = request.BrandName,
             Tags = request.Tags ?? new(),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
+
+        // Set categories using the new CategoryIds approach
+        if (request.CategoryIds != null && request.CategoryIds.Any())
+        {
+            product.SetCategories(request.CategoryIds);
+        }
 
         if (!_products.TryGetValue(tenantId, out var value))
         {
@@ -175,9 +181,9 @@ public class ProductService : IProductService
             product.IsActive = request.IsActive.Value;
         }
 
-        if (request.Categories != null)
+        if (request.CategoryIds != null)
         {
-            product.Categories = request.Categories;
+            product.SetCategories(request.CategoryIds);
         }
 
         if (!string.IsNullOrEmpty(request.BrandName))
@@ -266,9 +272,11 @@ internal static class ProductExtensions
         DiscountPrice = product.DiscountPrice,
         StockQuantity = product.StockQuantity,
         IsActive = product.IsActive,
-        Categories = product.Categories,
+        CategoryIds = product.CategoryIds.ToList(),
+        // Categories is deprecated - use CategoryIds instead
         BrandName = product.BrandName,
         Tags = product.Tags,
+        Barcode = product.Barcode,
         CreatedAt = product.CreatedAt,
         UpdatedAt = product.UpdatedAt,
         IsAvailable = product.IsAvailable

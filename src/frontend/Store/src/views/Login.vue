@@ -1,23 +1,23 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h2>{{ t('login.title') }}</h2>
+      <h2>{{ t('auth.login.title') }}</h2>
 
       <!-- E2E Test Mode Notice (only visible during E2E tests) -->
       <div v-if="isE2EMode" class="dev-notice">
         <p>
-          🧪 <strong>{{ t('login.e2eMode.title') }}</strong>
+          🧪 <strong>{{ t('auth.login.e2eMode.title') }}</strong>
         </p>
-        <p class="text-sm">{{ t('login.e2eMode.description') }}</p>
+        <p class="text-sm">{{ t('auth.login.e2eMode.description') }}</p>
       </div>
 
       <!-- Development Help (seeded credentials) -->
       <div v-if="isDev && !isE2EMode" class="dev-help">
         <p class="text-sm text-muted">
           {{
-            t('login.devHelp.hint', {
-              email: t('login.devHelp.email'),
-              password: t('login.devHelp.password'),
+            t('auth.login.devHelp.hint', {
+              email: t('auth.login.devHelp.email'),
+              password: t('auth.login.devHelp.password'),
             })
           }}
         </p>
@@ -25,23 +25,23 @@
 
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email">{{ t('login.form.email.label') }}</label>
+          <label for="email">{{ t('auth.login.form.email.label') }}</label>
           <input
             id="email"
             v-model="email"
             type="email"
-            :placeholder="t('login.form.email.placeholder')"
+            :placeholder="t('auth.login.form.email.placeholder')"
             required
           />
         </div>
 
         <div class="form-group">
-          <label for="password">{{ t('login.form.password.label') }}</label>
+          <label for="password">{{ t('auth.login.form.password.label') }}</label>
           <input
             id="password"
             v-model="password"
             type="password"
-            :placeholder="t('login.form.password.placeholder')"
+            :placeholder="t('auth.login.form.password.placeholder')"
             required
           />
         </div>
@@ -49,13 +49,13 @@
         <div v-if="error" class="error-message">{{ error }}</div>
 
         <button type="submit" class="btn btn-primary" :disabled="loading">
-          {{ loading ? t('login.actions.loggingIn') : t('login.actions.login') }}
+          {{ loading ? t('auth.login.actions.loggingIn') : t('auth.login.actions.login') }}
         </button>
       </form>
 
       <p class="signup-link">
-        {{ t('login.signup.prompt') }}
-        <router-link to="/register/private">{{ t('login.signup.link') }}</router-link>
+        {{ t('auth.login.signup.prompt') }}
+        <router-link to="/register/private">{{ t('auth.login.signup.link') }}</router-link>
       </p>
     </div>
   </div>
