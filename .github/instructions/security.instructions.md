@@ -68,9 +68,35 @@ applyTo: "**/*"
 
 **Reference**: See [KB-055] Security MCP Best Practices for detailed workflows.
 
+### runSubagent for Security Audits (Token-Optimized)
+
+For comprehensive security checks, use `#runSubagent` to execute all scans in isolation:
+
+```text
+Analyze security with #runSubagent:
+- Scan dependencies for vulnerabilities (HIGH/CRITICAL only)
+- Check SQL injection patterns in backend/
+- Scan XSS vulnerabilities in frontend/Store
+- Validate input sanitization across codebase
+- Check authentication patterns
+- Audit container security for all images
+
+Return ONLY: blocking_issues + CVE_list + fix_recommendations
+```
+
+**Benefits**:
+- ~3500 Token savings per full security audit
+- Isolated context prevents security findings from polluting main chat
+- Parallel execution of multiple security MCPs
+- Only actionable results returned to main context
+
+**When to use**: Pre-commit, PR reviews, pre-deployment gates
+
+---
+
 ### Mandatory Pre-Commit Security Checks
 
-Run these MCP tools before every commit:
+Run these MCP tools before every commit (or use runSubagent above for all at once):
 
 ```bash
 # 1. Dependency vulnerability scan

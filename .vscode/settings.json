@@ -1,5 +1,6 @@
-﻿{
+{
   "dotnet.defaultSolutionOrFolder": "B2X.slnx",
+  "dotnet.testWindow.useTestingPlatformProtocol": true,
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp",
     "editor.formatOnSave": true,
@@ -46,5 +47,7 @@
   "markdown.extensions.preview.enableKimlEditing": true,
   "[markdown]": {
     "editor.wordWrap": "on"
-  }
+  },
+  "dotnet.preferCSharpExtension": true,
+  "dotnet.defaultSolution": "B2X.sln"
 }

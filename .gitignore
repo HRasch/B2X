@@ -19,6 +19,7 @@ bld/
 .vs/
 .vscode/launch.json
 .vscode/tasks.json.user
+.vscode/*.local.env
 *.code-workspace
 
 ## User-specific files

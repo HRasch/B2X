@@ -49,6 +49,7 @@ See [DOCUMENT_REGISTRY.md](../../.ai/DOCUMENT_REGISTRY.md) for all DocIDs.
 | `PRM-020` | `/bug-i18n-missing` | Quick i18n key fix | @TechLead |
 | `PRM-021` | `/bug-lint-fix` | Quick linting fix | @TechLead |
 | `PRM-022` | `/auto-lessons-learned` | Auto-generate lessons | @TechLead |
+| `PRM-023` | `/cleanup-workspace` | On-demand workspace cleanup | @DocMaintainer |
 
 ---
 
@@ -438,7 +439,7 @@ Each prompt generates specific artifacts stored in `.ai/`:
 - [x] SUBAGENT_DELEGATION - Delegation routing
 - [x] PROJECT_CLEANUP - Project cleanup
 
-**Status**: ✅ All 22 core prompts documented and ready for use
+**Status**: ✅ All 23 core prompts documented and ready for use
 
 ---
 

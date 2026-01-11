@@ -337,6 +337,34 @@ Scripts to help:
 - Generate audit reports
 ```
 
+### MCP Background Processing Integration
+**Strategy:** Leverage Model Context Protocol (MCP) servers for background context optimization tasks.
+
+**Advantages:**
+- Offloads heavy processing (link validation, duplicate detection) to background
+- Reduces interactive session token usage
+- Enables continuous context health monitoring
+- Supports real-time context size tracking
+
+**When to Use:**
+- During long-running tasks requiring context maintenance
+- For periodic health checks without blocking workflow
+- When processing large knowledgebase updates
+- For automated link validation across all agents
+
+**Implementation:**
+1. Deploy MCP server for context analysis (e.g., link checking, size measurement)
+2. Configure background jobs for weekly audits
+3. Integrate notifications for context optimization opportunities
+4. Use MCP for on-demand duplicate detection during handovers
+
+**Background Tasks:**
+- Link validity scanning (.ai/knowledgebase/*, .ai/guidelines/*)
+- Context size monitoring per agent
+- Duplicate content identification
+- Outdated reference cleanup
+- Knowledgebase freshness checks
+
 ### Related Documentation
 - [CONTEXT_OPTIMIZATION.md](.ai/guidelines/CONTEXT_OPTIMIZATION.md)
 - [context-optimization.prompt.md](.github/prompts/context-optimization.prompt.md)

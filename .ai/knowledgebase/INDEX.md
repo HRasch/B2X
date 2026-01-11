@@ -50,6 +50,9 @@ This index lists curated knowledgebase articles to help agents and developers im
 | `KB-PILOT` | [code-quality-pilot-migration.md](code-quality-pilot-migration.md) | Code quality pilot migration results & patterns |
 | `KB-LESSONS` | [lessons.md](lessons.md) | Lessons learned from development work |
 | `KB-TS-ANY-ELIMINATION` | [typescript-any-elimination-success-story.md](typescript-any-elimination-success-story.md) | TypeScript any type elimination success story |
+| `KB-067` | [tools-and-tech/vscode-agent-sessions.md](tools-and-tech/vscode-agent-sessions.md) | VS Code Agent Sessions & Subagents |
+| `KB-068` | [tools-and-tech/vue-to-nuxt-migration.md](tools-and-tech/vue-to-nuxt-migration.md) | Vue to Nuxt Migration Guide |
+| `KB-069` | [tools-and-tech/realtime-debugging-patterns.md](tools-and-tech/realtime-debugging-patterns.md) | Realtime Debugging Patterns |
 
 ## Subdirectories
 
@@ -117,6 +120,7 @@ Zentrale Übersicht aller dokumentierten Software-Versionen, Änderungen und Bes
 - [TypeScript 5.0](./software/typescript/v4-to-v5.md)
 
 ## Recently Updated
+- 10.01.2026: Added Realtime Debugging Patterns guide ([tools-and-tech/realtime-debugging-patterns.md](./tools-and-tech/realtime-debugging-patterns.md))
 - 05.01.2026: Added Email Dark Mode Best Practices guide ([best-practices/email-dark-mode.md](./best-practices/email-dark-mode.md))
 - 05.01.2026: Added Monaco Editor Vue.js integration guide ([tools-and-tech/monaco-editor-vue.md](./tools-and-tech/monaco-editor-vue.md))
 - 03.01.2026: Added Email Template Best Practices guide ([best-practices/email-templates.md](./best-practices/email-templates.md))

@@ -96,6 +96,34 @@ typescript-mcp/analyze_types workspacePath="frontend/Store" filePath="src/compon
 - **Architecture Review**: Use symbol analysis for design validation
 - **Refactoring**: Validate usage patterns before changes
 
+## 🔄 Subagent for Code-Quality Scans (Token-Optimized)
+
+Use `#runSubagent` for pre-review code analysis:
+
+### Pre-Review Code Scan
+```text
+Pre-scan code quality with #runSubagent:
+- Run StyleCop analysis on changed files
+- Check ESLint violations in frontend/
+- Validate against GL-011 Guard Clauses
+- Check for hardcoded strings (i18n compliance)
+
+Return ONLY: violations_count + critical_issues + fix_suggestions
+```
+**Benefit**: ~45% token savings, filters noise before main review
+
+### Lessons Learned Extraction
+```text
+Extract lessons with #runSubagent:
+- Analyze recent bug fixes in git history
+- Identify patterns and anti-patterns
+- Check if already documented in lessons.md
+
+Return ONLY: new_lessons + duplicate_check + category_suggestions
+```
+
+**When to use**: Before code reviews, after bug fixes, documentation updates
+
 ## BOUNDARIES
 
 You are **NOT** responsible for:

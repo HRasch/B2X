@@ -14,11 +14,11 @@ jobs:
 
       - name: Ensure scripts are executable
         run: |
-          chmod +x scripts/update-kb-sources.sh || true
+          chmod +x scripts/utilities/update-kb-sources.sh || true
 
       - name: Run KB sync script
         run: |
-          scripts/update-kb-sources.sh
+          scripts/utilities/update-kb-sources.sh
 
       - name: Find latest report
         id: find-report

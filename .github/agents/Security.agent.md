@@ -75,7 +75,36 @@ grep -r "password\|secret" backend/           # Check for hardcoded secrets
 dotnet test --filter "Category=Compliance"    # Compliance tests
 ```
 
-## 🛑 Common Mistakes
+## � Subagent for Security Audits (Token-Optimized)
+
+Use `#runSubagent` for comprehensive security scans:
+
+### Full Security Scan
+```text
+Full security scan with #runSubagent:
+- Scan dependencies for vulnerabilities (HIGH/CRITICAL only)
+- Check SQL injection patterns in backend/
+- Scan XSS vulnerabilities in frontend/Store
+- Validate PII encryption compliance
+- Audit container security for all images
+
+Return ONLY: blocking_issues + CVE_list + remediation_priority
+```
+**Benefit**: ~70% token savings, isolated context prevents pollution
+
+### PII Compliance Check
+```text
+PII compliance scan with #runSubagent:
+- Find all PII fields (Email, Phone, Name, Address, DOB)
+- Verify encryption with IEncryptionService
+- Check audit logging for PII access
+
+Return ONLY: unencrypted_pii_count + missing_audit_logs + fix_locations
+```
+
+**When to use**: Pre-commit, PR reviews, pre-deployment, compliance audits
+
+## �🛑 Common Mistakes
 
 | Mistake | Fix |
 |---------|-----|

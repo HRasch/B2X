@@ -66,6 +66,31 @@ applyTo: "src/api/**,src/services/**,src/models/**,src/repositories/**,**/backen
 - Add a CI validation step that checks for missing i18n keys across supported locales
 - **MANDATORY**: Run Roslyn MCP validation (`roslyn-mcp/analyze_types`) before editing any .NET files to catch errors early and save tokens on iterations
 
+## runSubagent for Backend Analysis (Token-Optimized)
+
+For comprehensive backend validation, use `#runSubagent` to execute all analyses in isolation:
+
+```text
+Validate backend code with #runSubagent:
+- Run Roslyn type analysis for {workspacePath}
+- Check for breaking changes in public APIs
+- Validate Wolverine CQRS patterns (handlers, sagas, events)
+- Analyze message handler dependencies
+- Validate DI container configuration
+
+Return ONLY: type_errors + breaking_changes + pattern_violations + fix_recommendations
+```
+
+**Benefits**:
+- ~3500 Token savings per backend analysis
+- All 5 checks run in isolated context
+- Only actionable issues returned to main context
+- Prevents regressions in CQRS patterns and public APIs
+
+**When to use**: Before committing .NET changes, PR reviews, refactoring
+
+---
+
 ## MCP Tools
 
 For detailed backend-specific MCP tools documentation:

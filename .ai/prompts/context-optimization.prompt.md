@@ -208,7 +208,7 @@ When task completes:
 ### Handover
 - [ ] Create summary for next agent
 - [ ] Mark essential vs. reference info
-- [ ] Prepare context files in .ai/issues/{id}/
+- [ ] Prepare context files in GitHub Issue comments or attachments
 - [ ] Document discontinuities/gaps
 - [ ] List open questions
 

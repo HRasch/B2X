@@ -1,0 +1,315 @@
+name: B2X-prod
+
+services:
+  # ==================== INFRASTRUCTURE ====================
+
+  # PostgreSQL Database - NO PORT EXPOSURE IN PRODUCTION
+  postgres:
+    image: postgres:16.11
+    container_name: B2X-postgres-prod
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--locale=C.UTF-8"
+    # PORTS REMOVED FOR SECURITY - only accessible via internal network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
+
+  # Redis Cache - NO PORT EXPOSURE IN PRODUCTION
+  redis:
+    image: redis:8.4.0
+    container_name: B2X-redis-prod
+    # PORTS REMOVED FOR SECURITY - only accessible via internal network
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
+
+  # RabbitMQ Message Queue - NO PORT EXPOSURE IN PRODUCTION
+  rabbitmq:
+    image: rabbitmq:4.2.2-management
+    container_name: B2X-rabbitmq-prod
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    # PORTS REMOVED FOR SECURITY - only accessible via internal network
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
+
+  # Elasticsearch - NO PORT EXPOSURE IN PRODUCTION
+  elasticsearch:
+    image: elasticsearch:9.2.3
+    container_name: B2X-elasticsearch-prod
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    # PORTS REMOVED FOR SECURITY - only accessible via internal network
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -u elastic:${ELASTIC_PASSWORD} http://localhost:9200 >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 300s
+    stop_grace_period: 120s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
+
+  # Kibana - NO PORT EXPOSURE IN PRODUCTION
+  kibana:
+    image: kibana:9.2.3
+    container_name: B2X-kibana-prod
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+    # PORTS REMOVED FOR SECURITY - only accessible via internal network
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:5601 >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 300s
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
+
+  # Prometheus - NO PORT EXPOSURE IN PRODUCTION
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: B2X-prometheus-prod
+    # PORTS REMOVED FOR SECURITY - only accessible via internal network
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/alert_rules.yml:/etc/prometheus/alert_rules.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:9090/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 300s
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
+
+  # ==================== APPLICATION ====================
+
+  # B2X API Gateway - ONLY APPLICATION PORTS EXPOSED
+  api-gateway:
+    image: b2x/api-gateway:latest
+    container_name: B2X-api-gateway-prod
+    ports:
+      - "443:443"  # HTTPS only in production
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${SSL_CERT_PASSWORD}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certs/ssl.pfx
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+      - elasticsearch
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -k https://localhost/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 300s
+    stop_grace_period: 30s
+    stop_signal: SIGTERM
+    networks:
+      - B2X
+
+  # B2X Store API
+  store-api:
+    image: b2x/store-api:latest
+    container_name: B2X-store-api-prod
+    # NO PORT EXPOSURE - internal only
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - B2X
+
+  # B2X Admin API
+  admin-api:
+    image: b2x/admin-api:latest
+    container_name: B2X-admin-api-prod
+    # NO PORT EXPOSURE - internal only
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - B2X
+
+  # ==================== NETWORKING ====================
+
+networks:
+  B2X:
+    driver: bridge
+    internal: false  # Allow external access to gateway only
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:
+  elasticsearch-data:
+  prometheus-data:
+  grafana-data:

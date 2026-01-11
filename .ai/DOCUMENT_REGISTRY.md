@@ -8,8 +8,8 @@ created: 2026-01-08
 
 ﻿# 📚 Document Registry
 
-**Version:** 1.1  
-**Last Updated:** 7. Januar 2026  
+**Version:** 1.2  
+**Last Updated:** 11. Januar 2026  
 **Owner:** @SARAH
 
 ---
@@ -92,6 +92,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `ADR-050` | TypeScript MCP Server for AI-Assisted Development | `.ai/decisions/ADR-050-typescript-mcp-server.md` | Accepted |
 | `ADR-051` | Rename B2X to B2XGate | `.ai/decisions/ADR-051-rename-B2X-to-b2xgate.md` | Proposed |
 | `ADR-052` | MCP-Enhanced Bugfixing Workflow | `.ai/decisions/ADR-052-mcp-enhanced-bugfixing.md` | Accepted |
+| `ADR-053` | Realtime Debug Architecture | `.ai/decisions/ADR-053-realtime-debug-architecture.md` | Proposed |
+| `ADR-054` | Realtime Debug Strategy for Development and Production | `.ai/decisions/ADR-054-realtime-debug-strategy.md` | Proposed |
+| `ADR-055` | Cloud Platform Selection | `.ai/decisions/ADR-055-cloud-platform-selection.md` | Draft |
 
 ---
 
@@ -131,8 +134,10 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-029` | CSS Functions | `.ai/knowledgebase/css-functions.md` | Active |
 | `KB-030` | SVG and CSS Animations | `.ai/knowledgebase/svg-css-animations.md` | Active |
 | `KB-031` | Shouldly Assertion Framework | `.ai/knowledgebase/tools-and-tech/shouldly.md` | Active |
+| `KB-092` | Microsoft.Extensions.Http.Resilience | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Http.Resilience.md` | Active |
 | `KB-052` | Roslyn MCP Server | `.ai/knowledgebase/tools-and-tech/roslyn-mcp.md` | Active |
 | `KB-053` | TypeScript MCP Integration | `.ai/knowledgebase/tools-and-tech/typescript-mcp-integration.md` | Active |
+| `KB-054` | GitHub Copilot Agent Skills | `.ai/knowledgebase/tools-and-tech/github-copilot-agent-skills.md` | Active |
 | `KB-050` | Plan-Act-Control Practical Guide | `.ai/knowledgebase/KB-050-plan-act-control.md` | Active |
 | `KB-051` | External Knowledge Sync Procedure | `.ai/knowledgebase/KB-051-external-knowledge-sync.md` | Active |
 | `KB-052` | Roslyn MCP Server | `.ai/knowledgebase/tools-and-tech/roslyn-mcp.md` | Active |
@@ -150,6 +155,28 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `KB-064` | Chrome DevTools MCP Server | `.ai/knowledgebase/tools-and-tech/chrome-devtools-mcp.md` | Active |
 | `KB-065` | Nuxt 4 Monorepo Configuration | `.ai/knowledgebase/tools-and-tech/nuxt4-monorepo-config.md` | Active |
 | `KB-066` | npm Package Updates Guide | `.ai/knowledgebase/dependency-updates/npm-package-updates.md` | Active |
+| `KB-067` | VS Code Agent Sessions & Subagents | `.ai/knowledgebase/tools-and-tech/vscode-agent-sessions.md` | Active |
+| `KB-068` | Vue to Nuxt Migration Guide | `.ai/knowledgebase/tools-and-tech/vue-to-nuxt-migration.md` | Active |
+| `KB-069` | Realtime Debugging Patterns | `.ai/knowledgebase/tools-and-tech/realtime-debugging-patterns.md` | Active |
+| `KB-070` | Aspire .NET 10 Compatibility | `.ai/knowledgebase/tools-and-tech/aspire-net10-compatibility.md` | Active |
+| `KB-097` | Polly Resilience Framework | `.ai/knowledgebase/dependency-updates/Polly.md` | Active |
+| `KB-098` | Microsoft.Extensions Libraries Ecosystem | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.md` | Active |
+| `KB-099` | Microsoft.Extensions.Caching | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Caching.md` | Active |
+| `KB-100` | Microsoft.Extensions.Diagnostics | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Diagnostics.md` | Active |
+| `KB-101` | Microsoft.Extensions.Configuration | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Configuration.md` | Active |
+| `KB-102` | Microsoft.Extensions.Logging | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Logging.md` | Active |
+| `KB-103` | Microsoft.Extensions.Options | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Options.md` | Active |
+| `KB-104` | Microsoft.Extensions.Localization | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Localization.md` | Active |
+| `KB-105` | Microsoft.Extensions.Hosting | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Hosting.md` | Active |
+| `KB-106` | Microsoft.Extensions.DependencyInjection | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.DependencyInjection.md` | Active |
+| `KB-107` | Microsoft.Extensions.Telemetry | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Telemetry.md` | Active |
+| `KB-108` | Microsoft.Extensions.Compliance | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Compliance.md` | Active |
+| `KB-109` | Microsoft.Extensions.Caching.Hybrid | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Caching.Hybrid.md` | Active |
+| `KB-110` | Microsoft.Extensions.Http | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Http.md` | Active |
+| `KB-111` | Microsoft.Extensions.ServiceDiscovery | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.ServiceDiscovery.md` | Active |
+| `KB-112` | Microsoft.Extensions.FileProviders | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.FileProviders.md` | Active |
+| `KB-113` | Microsoft.Extensions.Primitives | `.ai/knowledgebase/dependency-updates/Microsoft.Extensions.Primitives.md` | Active |
+| `KB-114` | Central Package Management (CPM) for .NET | `.ai/knowledgebase/dependency-updates/Central-Package-Management.md` | Active |
 | `KB-AGT-GIT` | Git Management SubAgent | `.ai/knowledgebase/agents/git-management-subagent.md` | Active |
 | `KB-LESSONS` | Lessons Learned | `.ai/knowledgebase/lessons.md` | Active |
 
@@ -201,6 +228,43 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `GL-051` | AI-Ready Documentation Integration Guide | `.ai/guidelines/GL-051-AI-READY-DOCUMENTATION-INTEGRATION.md` | Active |
 | `GL-052` | Role-Based Documentation Access & Audience Segregation | `.ai/guidelines/GL-052-ROLE-BASED-DOCUMENTATION-ACCESS.md` | Active |
 | `GL-053` | Multi-Language Fragment Editing Strategy | `.ai/guidelines/GL-053-multi-language-fragment-editing.md` | Active |
+| `GL-054` | Documentation Trust Strategy | `.ai/guidelines/GL-054-DOCUMENTATION-TRUST-STRATEGY.md` | Active |
+| `GL-070` | runSubagent Delegation Strategy | `.ai/guidelines/GL-070-RUNSUBAGENT-DELEGATION-STRATEGY.md` | Active |
+
+---
+
+## Registry: Architecture (ARCH-*)
+
+| DocID | Title | File Path | Status |
+|-------|-------|-----------|--------|
+| `ARCH-INDEX` | Architecture Documentation Index | `docs/architecture/INDEX.md` | Active |
+| `ARCH-001` | Project Structure - Verified | `docs/architecture/components/PROJECT_STRUCTURE.md` | **AUTHORITATIVE** |
+| `ARCH-002` | Store Gateway | `docs/architecture/components/STORE_GATEWAY.md` | Active |
+| `ARCH-003` | Admin Gateway | `docs/architecture/components/ADMIN_GATEWAY.md` | Active |
+| `ARCH-004` | Management Gateway | `docs/architecture/components/MANAGEMENT_GATEWAY.md` | Active |
+| `ARCH-DEF` | Software Definition | `docs/architecture/SOFTWARE_DEFINITION.md` | Active |
+| `ARCH-DEC` | Design Decisions | `docs/architecture/DESIGN_DECISIONS.md` | Active |
+| `ARCH-DDD` | DDD Bounded Contexts | `docs/architecture/DDD_BOUNDED_CONTEXTS.md` | Active |
+| `ARCH-CAP` | Estimations and Capacity | `docs/architecture/ESTIMATIONS_AND_CAPACITY.md` | Active |
+| `ARCH-STD` | Architectural Documentation Standards | `docs/architecture/ARCHITECTURAL_DOCUMENTATION_STANDARDS.md` | Active |
+| `ARCH-PAT-001` | CQRS Wolverine Patterns | `docs/architecture/patterns/CQRS_WOLVERINE.md` | Active |
+| `ARCH-PAT-002` | Multitenancy Patterns | `docs/architecture/patterns/MULTITENANCY.md` | Active |
+| `ARCH-PAT-003` | Localization Patterns | `docs/architecture/patterns/LOCALIZATION.md` | Active |
+| `ARCH-PAT-004` | Communication Patterns | `docs/architecture/patterns/COMMUNICATION.md` | Active |
+| `ARCH-005` | ERP Connectors | `docs/architecture/components/ERP_CONNECTORS.md` | Active |
+| `ARCH-006` | CLI Tools | `docs/architecture/components/CLI_TOOLS.md` | Active |
+| `ARCH-007` | MCP Integration | `docs/architecture/components/MCP_INTEGRATION.md` | Active |
+| `ARCH-008` | Frontend Architecture | `docs/architecture/components/FRONTEND_ARCHITECTURE.md` | Active |
+| `ARCH-009` | Database & Search | `docs/architecture/components/DATABASE_SEARCH.md` | Active |
+| `ARCH-010` | Testing Infrastructure | `docs/architecture/components/TESTING_INFRASTRUCTURE.md` | Active |
+| `ARCH-011` | Hosting Infrastructure | `docs/architecture/components/HOSTING_INFRASTRUCTURE.md` | Active |
+| `ARCH-PAT-005` | Database Providers | `docs/architecture/patterns/DATABASE_PROVIDERS.md` | Active |
+| `ARCH-PAT-006` | Cloud Providers | `docs/architecture/patterns/CLOUD_PROVIDERS.md` | Active |
+| `ARCH-FEAT-001` | Catalog Feature | `docs/architecture/features/CATALOG.md` | Active |
+| `ARCH-FEAT-002` | Orders Feature | `docs/architecture/features/ORDERS.md` | Active |
+| `ARCH-FEAT-003` | CMS Feature | `docs/architecture/features/CMS.md` | Active |
+| `ARCH-FEAT-004` | Email Editor | `docs/architecture/features/EMAIL_EDITOR.md` | Active |
+| `ARCH-FEAT-005` | Media Management | `docs/architecture/features/MEDIA_MANAGEMENT.md` | Active |
 
 ---
 
@@ -218,6 +282,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `WF-007` | GitHub Scrum/Kanban Workflow | `.ai/workflows/WF-007-GITHUB_SCRUM_KANBAN_WORKFLOW.md` | Active |
 | `WF-008` | Update GitHub Issues Sprint | `.ai/workflows/WF-008-update-github-issues-sprint.md` | Active |
 | `WF-010` | Documentation Maintenance & Quality | `.ai/workflows/WF-010-DOCUMENTATION-MAINTENANCE.md` | Active |
+| `WF-015` | Bugfix Workflow with runSubagent | `.ai/workflows/WF-015-bugfix-workflow.md` | Active |
 | `WF-CLEANUP-SETUP` | Project Cleanup Setup Guide | `.ai/workflows/WF-CLEANUP-SETUP.md` | Active |
 
 ---
@@ -240,6 +305,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `REQ-005` | Phase 5 Enterprise ERP Connectors | `.ai/requirements/REQ-005-phase-5-enterprise-connectors.md` | Active |
 | `REQ-006` | CLI Customer Integration Commands | `.ai/requirements/REQ-006-cli-customer-integration-commands.md` | Specification |
 | `REQ-007` | Email WYSIWYG Builder | `.ai/requirements/REQ-007-email-wysiwyg-builder.md` | Draft |
+| `REQ-008` | Realtime Debug Functionality | `.ai/requirements/REQ-008-realtime-debug.md` | Draft |
 | `REQ-SMART-DATA-INTEGRATION` | Smart Data Integration Assistant | `.ai/requirements/REQ-SMART-DATA-INTEGRATION.md` | Active |
 | `ANALYSIS-SMART-DATA-INTEGRATION-BACKEND` | Smart Data Integration Assistant - Backend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-BACKEND.md` | Analysis Complete |
 | `ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND` | Smart Data Integration Assistant - Frontend Analysis | `.ai/requirements/ANALYSIS-SMART-DATA-INTEGRATION-FRONTEND.md` | Analysis Complete |
@@ -326,6 +392,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PRM-QBF-I18N` | Quick i18n Key Fix | `.github/prompts/bug-quick-i18n-missing.prompt.md` | `/bug-i18n-missing` |
 | `PRM-QBF-LINT` | Quick Linting Fix | `.github/prompts/bug-quick-lint-fix.prompt.md` | `/bug-lint-fix` |
 | `PRM-022` | Auto Lessons Learned | `.ai/prompts/auto-lessons-learned.prompt.md` | `/auto-lessons-learned` |
+| `PRM-023` | Cleanup Workspace | `.github/prompts/cleanup-workspace.prompt.md` | `/cleanup-workspace` |
 
 ---
 
@@ -337,6 +404,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `BS-SPRINT-EXECUTION-TRACKING` | GitHub-Based Sprint Execution Tracking | `.ai/brainstorm/BS-SPRINT-EXECUTION-TRACKING.md` | Brainstorm |
 | `BS-PROJECT-CLEANLINESS` | Project Cleanliness & Long-Term Organization Strategy | `.ai/brainstorm/BS-PROJECT-CLEANLINESS-STRATEGY.md` | Active |
 | `BS-DOCUMENTATION-CLEANUP-STRATEGY` | Documentation Cleanup Strategy | `.ai/brainstorm/BS-DOCUMENTATION-CLEANUP-STRATEGY.md` | Brainstorm |
+| `BS-REALTIME-DEBUG` | Realtime Debug Functionality Brainstorm | `.ai/brainstorm/BS-REALTIME-DEBUG.md` | Brainstorm |
+| `BS-BACKEND-LOCALIZATION-STRATEGY` | Backend Message Localization Strategy | `.ai/brainstorm/BS-BACKEND-LOCALIZATION-STRATEGY.md` | Active |
+| `BS-PROBLEM-SOLVING-001` | Problem-Solving and Refactoring Patterns for KB | `.ai/brainstorm/BS-PROBLEM-SOLVING-REFACTORING-PATTERNS.md` | Brainstorm |
 
 ---
 
@@ -346,6 +416,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 |-------|-------|-----------|--------|
 | `STATUS-REFACTOR-STRATEGY` | Status Dashboard - Refactoring Strategy | `.ai/status/STATUS-REFACTOR-STRATEGY.md` | Active |
 | `STATUS-PROJECT-CLEANUP-PHASE-2` | Project Cleanup - Phase 2 Documentation Complete | `.ai/status/STATUS-PROJECT-CLEANUP-PHASE-2.md` | Complete |
+| `STATUS-011` | B2X Project Restructuring Completion | `.ai/status/restructuring-completion-status.md` | Completed |
+| `STATUS-AUDIT-001` | Complete System Review / Audit | `.ai/status/system-audit-2026-01-10.md` | Complete |
+| `STATUS-012` | runSubagent Strategy Demonstration Complete | `.ai/status/runsubagent-strategy-demo-complete.md` | Complete |
 
 ---
 
@@ -442,6 +515,9 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `AGT-016` | DocMaintainer | `.github/agents/DocMaintainer.agent.md` | Documentation Steward - Quality, Registry, Compliance |
 | `AGT-017` | Enventa | `.github/agents/Enventa.agent.md` | enventa Trade ERP Integration |
 | `AGT-018` | CopilotExpert | `.github/agents/CopilotExpert.agent.md` | Copilot Configuration |
+| `AGT-019` | CloudArchitect | `.github/agents/cloud-architect.agent.md` | Cloud Platform Architecture & Strategy |
+| `AGT-KB-001` | KBArchitecture | `.github/agents/kb-architecture.agent.md` | Solution Architecture Knowledge Expert |
+| `AGT-KB-002` | KBGuidelines | `.github/agents/kb-guidelines.agent.md` | Guidelines & Governance Knowledge Expert |
 
 **CopilotExpert (AGT-018) EXCLUSIVE Authority:**
 - **ONLY @CopilotExpert** may create, modify, or delete agent definitions (`.github/agents/`)
@@ -545,6 +621,7 @@ This registry provides **stable document identifiers (DocIDs)** for cross-refere
 | `PROP-010` | Updated Frontend Instructions | `.ai/proposals/instruction-updates/updated/frontend.instructions.md` | Active |
 | `PROP-011` | Updated Security Instructions | `.ai/proposals/instruction-updates/updated/security.instructions.md` | Active |
 | `PROP-012` | Updated Testing Instructions | `.ai/proposals/instruction-updates/updated/testing.instructions.md` | Active |
+| `PROP-013` | SARAH Agent Definition - runSubagent Integration | `.ai/proposals/agent-updates/SARAH-runSubagent-integration-proposal.md` | Pending @CopilotExpert Review |
 
 ---
 

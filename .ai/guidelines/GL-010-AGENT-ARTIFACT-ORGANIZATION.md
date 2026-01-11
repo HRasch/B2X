@@ -36,6 +36,7 @@ See [AGENT_TEAM_REGISTRY.md](../collaboration/AGENT_TEAM_REGISTRY.md) for comple
 | `@DocMaintainer` | `AGT-016` | Documentation | Maintain doc quality, enforce DocID rules, link checks |
 | `@Enventa` | `AGT-017` | ERP Integration | enventa Trade ERP, Provider Architecture, Actor Pattern |
 | `@CopilotExpert` | `AGT-018` | Copilot Config | **EXCLUSIVE:** Agent definitions, prompts, instructions |
+| `@CloudArchitect` | `AGT-019` | Cloud Infrastructure | Cloud platform strategy, cost optimization, cloud-native design |
 
 ### Specialist Agents (Coming Soon)
 - @QA-Frontend (E2E, UI Testing, Playwright)
@@ -60,7 +61,6 @@ See [AGENT_TEAM_REGISTRY.md](../collaboration/AGENT_TEAM_REGISTRY.md) for comple
 ├── decisions/                  ← Architecture Decision Records (ADR-*)
 ├── guidelines/                 ← Coding & Process Guidelines (GL-*)
 ├── handovers/                  ← Feature Handover Documents
-├── issues/{issue-id}/          ← Issue-spezifische Collaboration
 ├── knowledgebase/              ← Wissensdatenbank (KB-*)
 ├── logs/                       ← Agent Logs (archival-only, ignore in prompts)
 ├── permissions/                ← Agent Permissions
@@ -84,7 +84,6 @@ See [AGENT_TEAM_REGISTRY.md](../collaboration/AGENT_TEAM_REGISTRY.md) for comple
 | `.ai/decisions/` | ADRs | @Architect |
 | `.ai/logs/` | Execution logs | Responsible agent |
 | `.ai/sprint/` | Sprint planning | @ScrumMaster |
-| `.ai/issues/` | Issue collaboration | Issue owner |
 | `.ai/handovers/` | Feature docs | @ProductOwner |
 | `.ai/compliance/` | Compliance tracking | @Security, @Legal |
 | `.ai/collaboration/` | Coordination framework | @SARAH |
@@ -127,6 +126,7 @@ See [BS-PROJECT-CLEANLINESS-STRATEGY.md](../brainstorm/BS-PROJECT-CLEANLINESS-ST
 - Owner: Responsible agent (see table)
 - Purpose: Feature specs, decisions, logs, sprint tracking
 - Scope: Specific to current project work
+- **Policy**: Project management (issues, tasks) must use GitHub Issues. No `.ai/issues/` folder allowed.
 
 ---
 
@@ -146,7 +146,6 @@ See [BS-PROJECT-CLEANLINESS-STRATEGY.md](../brainstorm/BS-PROJECT-CLEANLINESS-ST
 | @SARAH | `collaboration/`, `templates/`, `workflows/` | Coordination, templates |
 | @CopilotExpert | `.github/` (exclusive) | Agents, prompts, instructions |
 | @DocMaintainer | `.ai/` (docs only) | DocID enforcement, link checks |
-| Issue Owner | `issues/{issue-id}/` | Progress notes, blockers, decisions |
 
 ### DocMaintainer Authority
 @DocMaintainer is empowered to update, rename, archive, and fix documentation files under `.ai/`. For policy-level decisions, open an issue and notify @SARAH.

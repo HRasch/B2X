@@ -34,7 +34,7 @@ jobs:
 
       - name: Run duplicate detection
         run: |
-          bash scripts/detect-duplicates.sh
+          bash scripts/utilities/detect-duplicates.sh
         continue-on-error: true
 
       - name: Check for root-level file violations
@@ -142,7 +142,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Archive documents > 90 days old
-        run: bash scripts/archive-old-docs.sh
+        run: bash scripts/docs/archive-old-docs.sh
 
       - name: Create PR for archived documents
         if: success()

@@ -276,6 +276,25 @@ DAY 14+: Task retained 12 months (searchable, metrics available)
 - [ ] ACTIVE_TASKS.md exists (can write to it)
 - [ ] `.ai/logs/` exists (for metrics)
 - [ ] `.ai/knowledgebase/lessons.md` exists (for learnings)
+- [ ] **Quality Gates Active**: [ADR-020] PR Quality Gate implemented
+
+---
+
+## 🔍 Launch Validation Checklist
+
+### MCP Health Checks
+- [ ] **MCP Server Status**: Verify MCP console logging is active (`scripts/mcp-console-monitor.sh`)
+- [ ] **KB-MCP Queries**: Test knowledge base access (`kb-mcp/search_knowledge_base`)
+- [ ] **Tool Integration**: Confirm all MCP tools are registered and functional
+- [ ] **Rate-Limit Monitoring**: Check `.ai/logs/rate-limits/` directory exists and is writable
+- [ ] **Token Optimization**: Validate KB-MCP usage vs. full article embedding
+
+### Cross-Reference Validation
+- [ ] **WF-011 Links**: All references to WF-011 task dispatch are working
+- [ ] **WF-012 Links**: All references to WF-012 cleanup procedures are working  
+- [ ] **WF-013 Links**: All references to WF-013 agent support are working
+- [ ] **GL-052 Links**: All references to GL-052 rate-limit coordination are working
+- [ ] **QS-002 Links**: All references to QS-002 quick start are working
 
 ---
 

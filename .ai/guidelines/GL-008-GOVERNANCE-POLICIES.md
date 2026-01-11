@@ -78,6 +78,7 @@ Routine documentation edits (content fixes, link repairs) do NOT require policy 
 | `@UX`/`@UI` | Design | → Create specs for `@Frontend` |
 | `@DocMaintainer` | Docs only | → `.md` files in `.ai/` only |
 | `@CopilotExpert` | Config only | → `.github/` Copilot files only |
+| `@CloudArchitect` | Cloud design | → Design only, delegate IaC to `@DevOps` |
 
 ### Enforcement
 - Non-developer agents attempting code changes MUST delegate to authorized agents
@@ -88,13 +89,24 @@ Routine documentation edits (content fixes, link repairs) do NOT require policy 
 
 ## Software Architecture Changes
 
-ADRs and major service changes require approval from both `@Architect` and `@TechLead`.
+ADRs and major service changes require approval from both `@Architect` and `@TechLead`. Cloud-related architecture changes also require `@CloudArchitect` review.
 
 ### Process
 1. Create ADR draft in `.ai/decisions/`
 2. @Architect and @TechLead review
-3. Consult @Security, @DevOps as needed
-4. Record approvals in ADR
+3. For cloud-related decisions: @CloudArchitect must also review
+4. Consult @Security, @DevOps as needed
+5. Record approvals in ADR
+
+### Cloud Architecture Decision Authority
+| Decision Type | Required Approvers |
+|---------------|--------------------|
+| Cloud platform selection | @CloudArchitect (propose) + @Architect + @TechLead |
+| Managed service adoption | @CloudArchitect (propose) + @Architect |
+| Cloud security architecture | @CloudArchitect (propose) + @Security |
+| Cloud cost changes >$1k/month | @CloudArchitect + @Architect + @ProductOwner |
+| Multi-region/multi-cloud strategy | @CloudArchitect + @Architect + @TechLead |
+| Infrastructure as Code | @CloudArchitect (design) + @DevOps (implement) |
 
 ---
 

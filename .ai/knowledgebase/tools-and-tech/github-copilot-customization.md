@@ -1,16 +1,16 @@
 ---
-docid: KB-170
+docid: KB-022
 title: Github Copilot Customization
-owner: @DocMaintainer
+owner: @CopilotExpert
 status: Active
 created: 2026-01-08
 ---
 
-﻿# GitHub Copilot Customization Guide
+# GitHub Copilot Customization Guide
 
 **DocID**: `KB-022`  
-**Version**: 1.1  
-**Last Updated**: 3. Januar 2026  
+**Version**: 1.2  
+**Last Updated**: 8. Januar 2026  
 **Maintained By**: @CopilotExpert  
 **Status**: ✅ Current
 
@@ -31,6 +31,89 @@ GitHub Copilot in VS Code supports extensive customization through custom agents
 | MCP Servers | https://code.visualstudio.com/docs/copilot/customization/mcp-servers | External tools |
 | Language Models | https://code.visualstudio.com/docs/copilot/customization/language-models | Model selection |
 | GitHub Docs | https://docs.github.com/en/copilot/customizing-copilot | GitHub-side config |
+| **Blog: Custom Instructions** | https://code.visualstudio.com/blogs/2025/03/26/custom-instructions | Best practices & examples |
+
+---
+
+## 🆕 Key Insights from VS Code Blog (März 2025)
+
+**Source**: [Context is all you need: Better AI results with custom instructions](https://code.visualstudio.com/blogs/2025/03/26/custom-instructions)
+
+### Smaller Prompts, Better Results
+
+Mit einer einfachen `.github/copilot-instructions.md` Datei kann Copilot "getuned" werden:
+
+```markdown
+# Copilot Instructions
+
+This project is a web application built using React and Node.js with MongoDB.
+
+## Coding Standards
+- Use camelCase for variable and function names
+- Use PascalCase for component names
+- Use single quotes for strings
+- Use 2 spaces for indentation
+- Use arrow functions for callbacks
+- Use async/await for asynchronous code
+- Use const for constants, let for reassignable variables
+- Use destructuring for objects and arrays
+- Use template literals for strings with variables
+- Use the latest JavaScript features (ES6+)
+```
+
+**Effekt**: Kürzere Prompts wie `tail recursion` liefern kontextgerechte Antworten im gewünschten Format.
+
+### Customizable Settings
+
+Verschiedene Copilot-Features können per `settings.json` angepasst werden:
+
+```json
+{
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "text": "Be extremely detailed with file changes. Use lots of emojis." }
+  ],
+  "github.copilot.chat.codeGeneration.instructions": [
+    { "file": "./docs/javascript-styles.md" },
+    { "file": "./docs/database-styles.md" }
+  ]
+}
+```
+
+### Model Tone Customization
+
+```markdown
+- If I tell you that you are wrong, think about whether that's true and respond with facts.
+- Avoid apologizing or making conciliatory statements.
+- It is not necessary to agree with the user with "You're right" or "Yes".
+- Avoid hyperbole and excitement, stick to the task at hand.
+```
+
+**Tipp**: Anweisungen im Affirmativ formulieren ("avoid" statt "don't do").
+
+### Code Files as Instructions
+
+Copilot kann auch Code-Dateien als Referenz nutzen:
+
+```json
+{
+  "github.copilot.chat.codeGeneration.instructions": [
+    { "file": "./templates/sequelize-model.js" },
+    { "file": "./schemas/database.sql" }
+  ]
+}
+```
+
+**Use Case**: Template-Dateien + Schema → Copilot generiert konsistente Data-Access-Code.
+
+### Prompt Files mit Cross-References
+
+Prompt-Dateien können sich gegenseitig referenzieren:
+
+```markdown
+<!-- .github/prompts/generate-interface.prompt.md -->
+Generate a TypeScript interface for the table specified by the user. 
+Refer to the [user schema](database_users.prompt.md).
+```
 
 ---
 

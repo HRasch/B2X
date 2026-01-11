@@ -1,7 +1,7 @@
 ﻿# Architecture Documentation Index
 
 **Owner**: @software-architect  
-**Last Updated**: 30. Dezember 2025  
+**Last Updated**: 10. Januar 2026  
 **Purpose**: Single source of truth for B2X system architecture (Startup Scale)
 
 ---
@@ -69,11 +69,46 @@ Formal records of major decisions. Each follows standard format:
 
 | ADR | Title | Deciders | Date |
 |-----|-------|----------|------|
-| [ADR-001](../../.ai/decisions/INDEX.md) | Wolverine over MediatR | @tech-lead, @backend-dev | 2025-09 |
-| [ADR-002](../../.ai/decisions/INDEX.md) | Onion Architecture pattern | @tech-lead, @architect | 2025-09 |
-| [ADR-003](../../.ai/decisions/INDEX.md) | Aspire for local orchestration | @devops-engineer | 2025-10 |
-| [ADR-004](../../.ai/decisions/INDEX.md) | PostgreSQL per service | @architect, @devops | 2025-10 |
+| [ADR-001](../../.ai/decisions/ADR-001-wolverine-over-mediatr.md) | Wolverine over MediatR | @tech-lead, @backend-dev | 2025-09 |
+| [ADR-002](../../.ai/decisions/ADR-002-onion-architecture.md) | Onion Architecture pattern | @tech-lead, @architect | 2025-09 |
+| [ADR-003](../../.ai/decisions/ADR-003-aspire-orchestration.md) | Aspire for local orchestration | @devops-engineer | 2025-10 |
+| [ADR-004](../../.ai/decisions/ADR-004-postgresql-multitenancy.md) | PostgreSQL per service | @architect, @devops | 2025-10 |
 | [ADR-005](./ADR/ADR-005-PHASE_4_VELOCITY_BASED.md) | Velocity-based development | @scrum-master | 2025-12 |
+| [ADR-020](../../.ai/decisions/ADR-020-pr-quality-gate.md) | PR Quality Gate | @tech-lead, @architect | 2025-12 |
+| [ADR-021](../../.ai/decisions/ADR-021-archunitnet-architecture-testing.md) | ArchUnitNET Architecture Testing | @tech-lead, @qa | 2025-12 |
+| [ADR-022](../../.ai/decisions/ADR-022-multi-tenant-domain-management.md) | Multi-Tenant Domain Management | @architect, @backend | 2025-12 |
+| [ADR-023](../../.ai/decisions/ADR-023-erp-plugin-architecture.md) | ERP Plugin Architecture | @architect, @backend | 2025-12 |
+| [ADR-024](../../.ai/decisions/ADR-024-scheduler-job-monitoring.md) | Scheduler Job Monitoring | @architect, @backend | 2025-12 |
+| [ADR-025](../../.ai/decisions/ADR-025-gateway-service-communication-strategy.md) | Gateway-Service Communication Strategy | @architect, @backend | 2025-12 |
+| [ADR-026](../../.ai/decisions/ADR-026-bmecat-catalog-import-architecture.md) | BMEcat Catalog Import Architecture | @architect, @backend | 2025-12 |
+| [ADR-027](../../.ai/decisions/ADR-027-email-template-engine.md) | Email Template Engine Selection | @architect, @backend | 2025-12 |
+| [ADR-028](../../.ai/decisions/ADR-028-erp-bidirectional-integration.md) | ERP API Integration Architecture | @architect, @backend | 2025-12 |
+| [ADR-029](../../.ai/decisions/ADR-029-multi-format-punchout-integration.md) | Multi-Format Punchout Integration | @architect, @backend | 2025-12 |
+| [ADR-030](../../.ai/decisions/ADR-030-vue-i18n-v11-migration.md) | Vue-i18n v10 to v11 Migration | @frontend, @architect | 2025-12 |
+| [ADR-031](../../.ai/decisions/ADR-031-cli-architecture-split.md) | CLI Architecture Split | @architect, @backend | 2025-12 |
+| [ADR-032](../../.ai/decisions/ADR-032-cli-auto-update-brainstorm.md) | CLI Auto-Update Functionality | @architect, @backend | 2025-12 |
+| [ADR-033](../../.ai/decisions/ADR-033-tenant-admin-download-erp-connector-cli.md) | Tenant-Admin Download for ERP-Connector | @architect, @backend | 2025-12 |
+| [ADR-034](../../.ai/decisions/ADR-034-multi-erp-connector-architecture.md) | Multi-ERP Connector Architecture | @architect, @backend | 2025-12 |
+| [ADR-035](../../.ai/decisions/ADR-035-mcp-enabled-ai-assistant-cli-operations.md) | MCP-Enabled AI Assistant | @architect, @backend | 2025-12 |
+| [ADR-036](../../.ai/decisions/ADR-036-shared-erp-project-architecture.md) | Shared ERP Project Architecture | @architect, @backend | 2025-12 |
+| [ADR-037](../../.ai/decisions/ADR-037-lifecycle-stages-framework.md) | Lifecycle Stages Framework | @architect, @backend | 2025-12 |
+| [ADR-038](../../.ai/decisions/ADR-038-customer-integration-stages.md) | Customer Integration Stages Framework | @architect, @backend | 2025-12 |
+| [ADR-039](../../.ai/decisions/ADR-039-instruction-protection.md) | Agent Instruction Protection Strategy | @architect, @backend | 2025-12 |
+| [ADR-040](../../.ai/decisions/ADR-040-tenant-customizable-language-resources.md) | Tenant-Customizable Language Resources | @architect, @frontend | 2025-12 |
+| [ADR-041](../../.ai/decisions/ADR-041-figma-based-tenant-design-integration.md) | Figma-based Tenant Design Integration | @architect, @frontend | 2025-12 |
+| [ADR-042](../../.ai/decisions/ADR-042-internationalization-strategy.md) | Internationalization Strategy | @architect, @frontend | 2025-12 |
+| [ADR-043](../../.ai/decisions/ADR-043-paid-services-infrastructure.md) | Paid Services Infrastructure | @architect, @backend | 2025-12 |
+| [ADR-044](../../.ai/decisions/ADR-044-floating-labels-ruleset.md) | Floating Labels vs Traditional Labels | @architect, @frontend | 2025-12 |
+| [ADR-045](../../.ai/decisions/ADR-045-unified-layout-system.md) | Unified Layout System | @architect, @frontend | 2025-12 |
+| [ADR-046](../../.ai/decisions/ADR-046-unified-category-navigation.md) | Unified Category Navigation Architecture | @architect, @frontend | 2025-12 |
+| [ADR-047](../../.ai/decisions/ADR-047-multishop-shared-catalog.md) | Multishop / Shared Catalogs Architecture | @architect, @backend | 2025-12 |
+| [ADR-048](../../.ai/decisions/ADR-048-tenant-level-include-exclude.md) | Tenant-Level Include/Exclude Rules | @architect, @backend | 2025-12 |
+| [ADR-049](../../.ai/decisions/ADR-049-plan-act-control.md) | Plan-Act-Control Engineering Loop | @architect, @backend | 2025-12 |
+| [ADR-050](../../.ai/decisions/ADR-050-typescript-mcp-server.md) | TypeScript MCP Server | @architect, @frontend | 2025-12 |
+| [ADR-051](../../.ai/decisions/ADR-051-rename-B2X-to-b2xgate.md) | Rename B2X to B2XGate | @architect, @backend | 2025-12 |
+| [ADR-052](../../.ai/decisions/ADR-052-mcp-enhanced-bugfixing.md) | MCP-Enhanced Bugfixing Workflow | @architect, @backend | 2025-12 |
+| [ADR-053](../../.ai/decisions/ADR-053-realtime-debug-architecture.md) | Realtime Debug Architecture | @architect, @backend | 2026-01 |
+| [ADR-054](../../.ai/decisions/ADR-054-realtime-debug-strategy.md) | Realtime Debug Strategy | @architect, @backend | 2026-01 |
 
 ### Create New ADR
 
@@ -172,6 +207,11 @@ Track all updates:
 
 ```markdown
 # Maintenance Log
+
+## 2026-Q1
+- [2026-01-10] Updated DDD_BOUNDED_CONTEXTS.md: Added Monitoring bounded context to reflect Phase 2 realtime debug implementation
+- [2026-01-10] Updated ADR table: Added all recent ADRs (ADR-020 through ADR-054) including realtime debug strategy ADRs
+- [2026-01-10] Updated last modified date to reflect current documentation status
 
 ## 2025-Q4
 - [2025-12-29] Created ADR-005: Velocity-based development

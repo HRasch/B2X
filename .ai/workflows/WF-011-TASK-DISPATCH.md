@@ -152,7 +152,19 @@ Refactor Catalog domain model to follow [ADR-001] Wolverine handlers pattern.
 
 Copy [TASK-PROGRESS-TEMPLATE.md](PROGRESS_TEMPLATE.md), initialize with 🟢 READY status.
 
-### 4. Update `ACTIVE_TASKS.md`
+### 4. Validate Templates
+
+**@SARAH Template Validation Checklist**:
+- [ ] **brief.md**: Contains clear objective, acceptance criteria, scope (in/out), context files to load
+- [ ] **brief.md**: Specifies what NOT to load (critical for token efficiency)
+- [ ] **brief.md**: Links to relevant ADRs, dependencies, blockers
+- [ ] **progress.md**: Initialized with 🟢 READY status and basic task info
+- [ ] **progress.md**: Contains acceptance criteria checklist (copied from brief)
+- [ ] **Templates**: Follow DocID conventions (TASK-XXX-BRIEF, TASK-XXX-PROGRESS)
+- [ ] **File paths**: All referenced files exist and are accessible
+- [ ] **Agent assignment**: Matches domain expertise (@Backend for backend work, etc.)
+
+### 5. Update `ACTIVE_TASKS.md`
 
 Add task to "Current Active Tasks" section:
 
@@ -629,6 +641,21 @@ For each task, verify:
 1. Reply in task dispatch thread
 2. @SARAH updates brief.md if clarification affects acceptance criteria
 3. Continue work
+
+---
+
+## Related Workflows
+
+| Workflow | Purpose | When to Reference |
+|----------|---------|-------------------|
+| **[WF-012]** Task Cleanup & Archival | Post-task cleanup, archiving, metrics | After task completion |
+| **[WF-013]** Agent Support & Escalation | Self-service troubleshooting, escalation paths | When hitting blockers |
+| **[WF-014]** Deployment Guide | System setup, launch validation | Initial system deployment |
+
+**Quick Links**:
+- 🧹 [WF-012] Task Cleanup & Archival → Follow after task completion
+- 📖 [WF-013] Agent Support & Escalation → Read first when stuck
+- 🚀 [WF-014] Deployment Guide → Reference for system setup
 
 ---
 

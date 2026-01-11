@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
+
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Search/B2X.Search.csproj" />
+
+    <ProjectReference Include="../../../../src/backend/Store/Domain/Customer/B2X.Customer.API.csproj" />
+
+    <ProjectReference Include="../../../../src/backend/Management/Domain/Email/B2X.Email.API.csproj" />
+
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
+
+    <ProjectReference Include="../../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+
+  </ItemGroup>
+
+</Project>
+
+
+
+

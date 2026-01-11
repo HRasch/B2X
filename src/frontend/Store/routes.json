@@ -1,0 +1,5 @@
+{
+  "/localization/languages": "/languages",
+  "/localization/category/:category": "/localization_category?name=:category",
+  "/localization/:category/:key": "/localization?category=:category&key=:key"
+}

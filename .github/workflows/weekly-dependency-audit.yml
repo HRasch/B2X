@@ -39,8 +39,8 @@ jobs:
 
     - name: Run dependency audit script
       run: |
-        chmod +x scripts/ci-validate-dependencies.sh
-        ./scripts/ci-validate-dependencies.sh
+        chmod +x scripts/utilities/ci-validate-dependencies.sh
+        ./scripts/utilities/ci-validate-dependencies.sh
 
     - name: Check for outdated packages
       id: outdated-check
@@ -69,8 +69,8 @@ jobs:
     - name: Update dependencies
       if: steps.outdated-check.outputs.outdated == 'true'
       run: |
-        chmod +x scripts/update-dependencies.sh
-        ./scripts/update-dependencies.sh
+        chmod +x scripts/utilities/update-dependencies.sh
+        ./scripts/utilities/update-dependencies.sh
 
     - name: Generate dependency report
       if: steps.outdated-check.outputs.outdated == 'true'
