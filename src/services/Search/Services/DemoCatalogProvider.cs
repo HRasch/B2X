@@ -1,7 +1,7 @@
-﻿using B2X.Catalog.Endpoints.Dev;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using B2X.Catalog.Endpoints.Dev;
 
 namespace B2X.Services.Search.Services;
 

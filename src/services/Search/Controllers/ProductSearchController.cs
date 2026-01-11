@@ -1,4 +1,6 @@
-﻿using B2X.Search;
+using B2X.Domain.Search.Models;
+using B2X.Domain.Search.Services;
+using B2X.Search;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2X.Services.Search.Controllers;
@@ -55,7 +57,8 @@ public class ProductSearchController : ControllerBase
         }
         var locale = Request.Headers["X-Locale"].FirstOrDefault() ?? Request.Headers["Accept-Language"].FirstOrDefault()?.Split(',')[0];
         var doc = await _elastic.GetByIdAsync(id, tenantId, locale);
-        if (doc == null) return NotFound(new { code = "NotFound", message = "Product not found" });
+        if (doc == null)
+            return NotFound(new { code = "NotFound", message = "Product not found" });
         return Ok(doc);
     }
 }

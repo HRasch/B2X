@@ -59,7 +59,8 @@ public class FashopErpConnector : IErpConnector
     /// <returns>A task representing the initialization operation.</returns>
     public Task InitializeAsync(ErpConfiguration config, CancellationToken cancellationToken = default)
     {
-        if (config == null) throw new ArgumentNullException(nameof(config));
+        if (config == null)
+            throw new ArgumentNullException(nameof(config));
         if (string.IsNullOrEmpty(config.ErpType) || config.ErpType != "fashop")
             throw new ArgumentException("Invalid ERP type for Fashop connector", nameof(config));
 

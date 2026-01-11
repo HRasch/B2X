@@ -1,8 +1,8 @@
-﻿using Microsoft.CodeAnalysis;
+using System.Collections.Concurrent;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 
 namespace B2X.Tools.WolverineMCP.Services;
 
@@ -96,12 +96,13 @@ public sealed class WolverineAnalysisService : IDisposable
         foreach (var project in solution.Projects)
         {
             var compilation = await GetCompilationAsync(project);
-            if (compilation is null) continue;
+            if (compilation is null)
+                continue;
 
             var handlers = FindHandlers(compilation);
-            var commands = FindCommands(compilation).ToHashSet();
-            var queries = FindQueries(compilation).ToHashSet();
-            var events = FindEvents(compilation).ToHashSet();
+            var commands = FindCommands(compilation).ToHashSet(SymbolEqualityComparer.Default);
+            var queries = FindQueries(compilation).ToHashSet(SymbolEqualityComparer.Default);
+            var events = FindEvents(compilation).ToHashSet(SymbolEqualityComparer.Default);
 
             foreach (var handler in handlers)
             {
@@ -129,9 +130,12 @@ public sealed class WolverineAnalysisService : IDisposable
                 var messageType = genericType.TypeArguments[0] as INamedTypeSymbol;
                 if (messageType is not null)
                 {
-                    if (commands.Contains(messageType)) return "Command Handler";
-                    if (queries.Contains(messageType)) return "Query Handler";
-                    if (events.Contains(messageType)) return "Event Handler";
+                    if (commands.Contains(messageType))
+                        return "Command Handler";
+                    if (queries.Contains(messageType))
+                        return "Query Handler";
+                    if (events.Contains(messageType))
+                        return "Event Handler";
                 }
             }
         }

@@ -1,11 +1,11 @@
-﻿namespace B2X.ErpConnector.Infrastructure.Erp
-{
-    using System;
-    using System.Collections.Concurrent;
-    using System.Configuration;
-    using System.Threading;
-    using B2X.ErpConnector.Infrastructure.Identity;
+using System;
+using System.Collections.Concurrent;
+using System.Configuration;
+using System.Threading;
+using B2X.ErpConnector.Infrastructure.Identity;
 
+namespace B2X.ErpConnector.Infrastructure.Erp
+{
     /// <summary>
     /// Static factory for managing enventa global object pools.
     /// Based on FSGlobalFactory from eGate.

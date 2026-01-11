@@ -49,5 +49,5 @@
     "editor.wordWrap": "on"
   },
   "dotnet.preferCSharpExtension": true,
-  "dotnet.defaultSolution": "B2X.sln"
+  "dotnet.defaultSolution": "B2X.slnx"
 }

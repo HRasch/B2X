@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -20,11 +20,12 @@ public class HttpCatalogProvider : ICatalogProductProvider
 
     public async Task<(IEnumerable<dynamic> Items, int Total)> GetPageAsync(int page, int pageSize, CancellationToken ct = default)
     {
-        if (string.IsNullOrWhiteSpace(_baseUrl)) return (new object[0], 0);
+        if (string.IsNullOrWhiteSpace(_baseUrl))
+            return (Array.Empty<object>(), 0);
 
         // Expecting API shape { products: [...], total: 123 }
         var url = $"{_baseUrl}/api/products?page={page}&pageSize={pageSize}";
-        var resp = await _http.GetAsync(url, cancellationToken);
+        var resp = await _http.GetAsync(url, ct);
         resp.EnsureSuccessStatusCode();
         using var stream = await resp.Content.ReadAsStreamAsync(ct);
         var doc = await JsonSerializer.DeserializeAsync<JsonElement>(stream, cancellationToken: ct);
@@ -39,6 +40,6 @@ public class HttpCatalogProvider : ICatalogProductProvider
             return (items, total);
         }
 
-        return (new object[0], 0);
+        return (Array.Empty<object>(), 0);
     }
 }

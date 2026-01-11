@@ -1,4 +1,4 @@
-﻿using B2X.Domain.Search.Services;
+using B2X.Domain.Search.Services;
 using B2X.Gateway.Store.Search.Services;
 
 namespace B2X.Gateway.Store.Search.Jobs;

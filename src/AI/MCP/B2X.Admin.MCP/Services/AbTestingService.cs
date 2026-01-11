@@ -1,4 +1,4 @@
-﻿using B2X.Admin.MCP.Data;
+using B2X.Admin.MCP.Data;
 using B2X.Admin.MCP.Middleware;
 using Microsoft.EntityFrameworkCore;
 
@@ -110,7 +110,7 @@ public class AbTestingService
             throw new ArgumentException("Active test with variants not found");
 
         // Use user ID for consistent variant assignment (deterministic)
-        var hash = userId.GetHashCode();
+        var hash = StringComparer.Ordinal.GetHashCode(userId);
         var random = new Random(hash);
         var totalWeight = test.Variants.Sum(v => v.Weight);
         var randomValue = (decimal)random.NextDouble() * totalWeight;

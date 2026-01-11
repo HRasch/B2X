@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using B2X.Shared.Core;
+using Microsoft.Extensions.Logging;
 
 namespace B2X.Legal.Core
 {
@@ -117,10 +117,10 @@ namespace B2X.Legal.Core
     /// </summary>
     public class ComplianceRequest
     {
-        public string OperationId { get; set; }
-        public string OperationType { get; set; }
-        public Dictionary<string, object> Parameters { get; set; }
-        public string UserId { get; set; }
+        public string? OperationId { get; set; }
+        public string? OperationType { get; set; }
+        public Dictionary<string, object>? Parameters { get; set; }
+        public string? UserId { get; set; }
         public DateTime Timestamp { get; set; }
     }
 
@@ -129,9 +129,9 @@ namespace B2X.Legal.Core
     /// </summary>
     public class ComplianceValidationResult
     {
-        public string OperationId { get; set; }
+        public string? OperationId { get; set; }
         public bool IsCompliant { get; set; }
-        public IEnumerable<JurisdictionComplianceResult> JurisdictionResults { get; set; }
+        public IEnumerable<JurisdictionComplianceResult>? JurisdictionResults { get; set; }
         public DateTime ValidationTimestamp { get; set; }
     }
 
@@ -140,10 +140,10 @@ namespace B2X.Legal.Core
     /// </summary>
     public class JurisdictionComplianceResult
     {
-        public string Jurisdiction { get; set; }
+        public string? Jurisdiction { get; set; }
         public bool IsCompliant { get; set; }
-        public IEnumerable<string> Violations { get; set; }
-        public IEnumerable<string> Warnings { get; set; }
+        public IEnumerable<string>? Violations { get; set; }
+        public IEnumerable<string>? Warnings { get; set; }
     }
 
     /// <summary>
@@ -151,12 +151,12 @@ namespace B2X.Legal.Core
     /// </summary>
     public class ComplianceRule
     {
-        public string RuleId { get; set; }
-        public string Jurisdiction { get; set; }
-        public string Category { get; set; }
-        public string Description { get; set; }
+        public string? RuleId { get; set; }
+        public string? Jurisdiction { get; set; }
+        public string? Category { get; set; }
+        public string? Description { get; set; }
         public RuleSeverity Severity { get; set; }
-        public Dictionary<string, object> Conditions { get; set; }
+        public Dictionary<string, object>? Conditions { get; set; }
     }
 
     /// <summary>
@@ -164,9 +164,9 @@ namespace B2X.Legal.Core
     /// </summary>
     public class ComplianceCustomization
     {
-        public string Jurisdiction { get; set; }
-        public IEnumerable<ComplianceRule> CustomRules { get; set; }
-        public Dictionary<string, object> Overrides { get; set; }
+        public string? Jurisdiction { get; set; }
+        public IEnumerable<ComplianceRule>? CustomRules { get; set; }
+        public Dictionary<string, object>? Overrides { get; set; }
     }
 
     /// <summary>
@@ -174,9 +174,9 @@ namespace B2X.Legal.Core
     /// </summary>
     public class JurisdictionInfo
     {
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string Region { get; set; }
+        public string? Code { get; set; }
+        public string? Name { get; set; }
+        public string? Region { get; set; }
         public bool IsActive { get; set; }
     }
 

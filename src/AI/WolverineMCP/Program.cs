@@ -1,11 +1,11 @@
-﻿using Microsoft.Build.Locator;
+using B2X.Tools.WolverineMCP.Services;
+using B2X.Tools.WolverineMCP.Tools;
+using McpDotNet;
+using McpDotNet.Server;
+using Microsoft.Build.Locator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using McpDotNet;
-using McpDotNet.Server;
-using B2X.Tools.WolverineMCP.Services;
-using B2X.Tools.WolverineMCP.Tools;
 
 // Register MSBuild before anything else
 MSBuildLocator.RegisterDefaults();

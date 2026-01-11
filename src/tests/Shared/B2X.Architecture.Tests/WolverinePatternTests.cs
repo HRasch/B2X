@@ -47,11 +47,11 @@ public class WolverinePatternTests : ArchitectureTestBase
     [Fact]
     public void Queries_Should_Be_In_Known_Locations()
     {
-        // B2X allows queries in various locations
+        // B2X allows queries in various locations (including B2X.Search for SearchQuery)
         Classes()
             .That().HaveNameEndingWith("Query")
             .And().DoNotResideInNamespaceMatching(@".*Test.*")
-            .Should().ResideInNamespaceMatching(@".*(\.Endpoints|\.Handlers|\.Queries|\.Application).*")
+            .Should().ResideInNamespaceMatching(@".*(\. Endpoints|\.Handlers|\.Queries|\.Application|\.Search).*")
             .Because("Queries should be colocated with their handlers or in dedicated namespaces")
             .WithoutRequiringPositiveResults() // May not have Query classes yet
             .Check(B2XArchitecture);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -69,6 +69,15 @@ namespace B2X.ErpConnector.Services
         }
 
         public EnventaErpService() : this(new ConfiguredIdentityProvider("sysadm", "sysadm", "10"), null)
+        {
+        }
+
+        /// <summary>
+        /// Creates an ERP service instance with AI and performance monitoring but default identity.
+        /// This is used when starting the service without specific tenant credentials.
+        /// </summary>
+        public EnventaErpService(LocalAiService aiService, PerformanceMonitor performanceMonitor)
+            : this(new ConfiguredIdentityProvider("sysadm", "sysadm", "10"), aiService, performanceMonitor)
         {
         }
 
@@ -283,7 +292,8 @@ namespace B2X.ErpConnector.Services
 
         private void ApplyArticleFilters(ArticleQueryBuilder queryBuilder, List<QueryFilter> filters)
         {
-            if (filters == null) return;
+            if (filters == null)
+                return;
 
             foreach (var filter in filters)
             {
@@ -334,7 +344,8 @@ namespace B2X.ErpConnector.Services
 
         private void ApplyArticleSorting(ArticleQueryBuilder queryBuilder, List<SortField> sorting)
         {
-            if (sorting == null || !sorting.Any()) return;
+            if (sorting == null || !sorting.Any())
+                return;
 
             var sort = sorting.First();
             switch (sort.PropertyName.ToLowerInvariant())
@@ -438,7 +449,8 @@ namespace B2X.ErpConnector.Services
 
         private void ApplyCustomerFilters(CustomerQueryBuilder queryBuilder, List<QueryFilter> filters)
         {
-            if (filters == null) return;
+            if (filters == null)
+                return;
 
             foreach (var filter in filters)
             {
@@ -469,7 +481,8 @@ namespace B2X.ErpConnector.Services
 
         private void ApplyCustomerSorting(CustomerQueryBuilder queryBuilder, List<SortField> sorting)
         {
-            if (sorting == null || !sorting.Any()) return;
+            if (sorting == null || !sorting.Any())
+                return;
 
             var sort = sorting.First();
             switch (sort.PropertyName.ToLowerInvariant())
@@ -609,7 +622,8 @@ namespace B2X.ErpConnector.Services
 
         private void ApplyOrderFilters(OrderQueryBuilder queryBuilder, List<QueryFilter> filters)
         {
-            if (filters == null) return;
+            if (filters == null)
+                return;
 
             foreach (var filter in filters)
             {

@@ -1,11 +1,11 @@
-﻿namespace B2X.ErpConnector.Infrastructure.Erp
-{
-    using System;
-    using System.IO;
-    using System.Linq.Expressions;
-    using System.Text.RegularExpressions;
-    using B2X.ErpConnector.Infrastructure.Identity;
+using System;
+using System.IO;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
+using B2X.ErpConnector.Infrastructure.Identity;
 
+namespace B2X.ErpConnector.Infrastructure.Erp
+{
     /// <summary>
     /// Utility class for common enventa operations.
     /// Based on FSUtil from eGate.

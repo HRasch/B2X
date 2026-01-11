@@ -47,7 +47,8 @@ public class ErpActorPool : IAsyncDisposable
     /// <returns>The ERP actor for the tenant.</returns>
     public async Task<ErpActor> GetOrCreateActorAsync(TenantContext tenantContext)
     {
-        if (tenantContext == null) throw new ArgumentNullException(nameof(tenantContext));
+        if (tenantContext == null)
+            throw new ArgumentNullException(nameof(tenantContext));
 
         return await Task.FromResult(_actors.GetOrAdd(tenantContext.TenantId, _ =>
         {
@@ -78,6 +79,8 @@ public class ErpActorPool : IAsyncDisposable
     public async Task<T> ExecuteAsync<T>(ErpOperation<T> operation)
     {
         var actor = await GetOrCreateActorAsync(operation.TenantContext);
+        // Ensure actor is ready before executing to avoid InvalidOperationException
+        await actor.InitializeAsync((_, _) => Task.CompletedTask);
         return await actor.EnqueueAsync(operation);
     }
 

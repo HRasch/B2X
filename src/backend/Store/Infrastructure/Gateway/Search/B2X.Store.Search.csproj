@@ -17,12 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../Shared/Domain/Search/B2X.Search.csproj" />
-
+    <ProjectReference Include="../../../Domain/Search/B2X.Domain.Search.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
+    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 </Project>
 

@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
@@ -65,7 +65,8 @@ public static class DashboardCommand
             catch (Exception ex)
             {
                 console.Error($"Dashboard error: {ex.Message}");
-                if (refreshInterval == 0) Environment.Exit(1);
+                if (refreshInterval == 0)
+                    Environment.Exit(1);
             }
         } while (refreshInterval > 0);
     }

@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2X.CLI.Services;
@@ -210,10 +210,14 @@ public class EfCoreContextTemplate : ITemplateProvider
 
     private string GetNamespaceSuffix(string name)
     {
-        if (name.Contains("Catalog")) return "Catalog";
-        if (name.Contains("Cms")) return "CMS";
-        if (name.Contains("Identity")) return "Identity";
-        if (name.Contains("Search")) return "Search";
+        if (name.Contains("Catalog"))
+            return "Catalog";
+        if (name.Contains("Cms"))
+            return "CMS";
+        if (name.Contains("Identity"))
+            return "Identity";
+        if (name.Contains("Search"))
+            return "Search";
         return "Shared";
     }
 }

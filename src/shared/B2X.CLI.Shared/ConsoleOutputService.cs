@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Spectre.Console;
 
 namespace B2X.CLI.Shared;

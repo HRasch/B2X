@@ -1,21 +1,19 @@
-﻿extern alias Store;
-
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Shouldly;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
+using Xunit;
 
 namespace B2X.Gateway.Integration.Tests;
 
@@ -57,10 +55,11 @@ public class GatewayIntegrationTests
 
         var addressesFeature = catalogHost.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>();
         var catalogAddress = addressesFeature.Addresses.First();
-        if (!catalogAddress.EndsWith('/')) catalogAddress += '/';
+        if (!catalogAddress.EndsWith('/'))
+            catalogAddress += '/';
 
         // Configure and start the Gateway app as a test server, overriding ReverseProxy config
-        var factory = new WebApplicationFactory<Store::Program>()
+        var factory = new WebApplicationFactory<B2X.Store.Program>()
             .WithWebHostBuilder(builder =>
             {
                 builder.ConfigureAppConfiguration((context, conf) =>
@@ -126,9 +125,10 @@ public class GatewayIntegrationTests
         await catalogHost.StartAsync();
         var addressesFeature = catalogHost.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>();
         var catalogAddress = addressesFeature.Addresses.First();
-        if (!catalogAddress.EndsWith('/')) catalogAddress += '/';
+        if (!catalogAddress.EndsWith('/'))
+            catalogAddress += '/';
 
-        var factory = new WebApplicationFactory<Store::Program>()
+        var factory = new WebApplicationFactory<B2X.Store.Program>()
             .WithWebHostBuilder(builder =>
             {
                 builder.ConfigureAppConfiguration((context, conf) =>
@@ -184,9 +184,10 @@ public class GatewayIntegrationTests
         await catalogHost.StartAsync();
         var addressesFeature = catalogHost.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>();
         var catalogAddress = addressesFeature.Addresses.First();
-        if (!catalogAddress.EndsWith('/')) catalogAddress += '/';
+        if (!catalogAddress.EndsWith('/'))
+            catalogAddress += '/';
 
-        var factory = new WebApplicationFactory<Store::Program>()
+        var factory = new WebApplicationFactory<B2X.Store.Program>()
             .WithWebHostBuilder(builder =>
             {
                 builder.ConfigureAppConfiguration((context, conf) =>

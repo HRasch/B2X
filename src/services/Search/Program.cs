@@ -1,4 +1,6 @@
-﻿using B2X.Domain.Search.Services;
+using B2X.Domain.Search.Services;
+using B2X.Search;
+using B2X.Services.Search.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,7 @@ builder.Services.AddSingleton<IElasticService>(sp =>
 });
 builder.Services.AddSingleton<ITenantResolver, ConfigTenantResolver>();
 // seed demo catalog into tenant indices on startup (development only)
-builder.Services.AddHostedService<B2X.Services.Search.Services.CatalogIndexSeeder>();
+builder.Services.AddHostedService<CatalogIndexSeeder>();
 // Catalog indexing services/providers
 builder.Services.AddSingleton<ICatalogProductProvider, DemoCatalogProvider>();
 var catalogApi = builder.Configuration["Catalog:ApiUrl"];

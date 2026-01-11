@@ -1,4 +1,4 @@
-﻿namespace B2X.Admin.MCP.Models;
+namespace B2X.Admin.MCP.Models;
 
 public class McpInitializeRequest
 {

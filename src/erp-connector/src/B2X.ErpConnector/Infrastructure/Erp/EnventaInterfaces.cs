@@ -1,8 +1,8 @@
-﻿namespace B2X.ErpConnector.Infrastructure.Erp
-{
-    using System;
-    using B2X.ErpConnector.Infrastructure.Identity;
+using System;
+using B2X.ErpConnector.Infrastructure.Identity;
 
+namespace B2X.ErpConnector.Infrastructure.Erp
+{
     // NOTE: These interfaces represent enventa ERP framework types.
     // In production, these would be replaced with actual enventa assembly references:
     // - FS.Hosting.Shared.IDevFrameworkObject

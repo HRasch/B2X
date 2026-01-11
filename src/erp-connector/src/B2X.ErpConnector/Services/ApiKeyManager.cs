@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -270,18 +270,6 @@ namespace B2X.ErpConnector.Services
                 SaveKeys();
                 LogAudit("ERP_CREDS_REMOVED", key.TenantId, $"ERP credentials removed from key: {keyPrefix}");
                 return true;
-            }
-        }
-
-        /// <summary>
-        /// Checks if a key has ERP credentials configured.
-        /// </summary>
-        public bool HasErpCredentials(string keyPrefix)
-        {
-            lock (_lock)
-            {
-                var key = _store.Keys.FirstOrDefault(k => k.KeyPrefix == keyPrefix);
-                return key?.HasErpCredentials ?? false;
             }
         }
 

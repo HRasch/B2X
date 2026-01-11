@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
-    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
-    <ProjectReference Include="../Domain/Tenancy/B2X.Tenancy.API.csproj" />
+    <ProjectReference Include="..\..\Domain\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\Domain\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../Domain/Tenancy/B2X.Tenancy.API.csproj" />
   </ItemGroup>
 
 </Project>

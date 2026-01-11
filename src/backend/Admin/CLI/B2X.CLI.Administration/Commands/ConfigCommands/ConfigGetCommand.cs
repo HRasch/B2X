@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 
@@ -39,7 +39,7 @@ public static class ConfigGetCommand
 
         try
         {
-            string value = null;
+            string? value = null;
             bool isSecret = false;
 
             // Try to get the value
@@ -93,7 +93,6 @@ public static class ConfigGetCommand
             {
                 console.WriteInfo($"{key}: {value}");
             }
-
         }
         catch (Exception ex)
         {

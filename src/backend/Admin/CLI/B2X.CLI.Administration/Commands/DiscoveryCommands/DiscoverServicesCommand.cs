@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 using B2X.CLI.Shared.HttpClients;
@@ -238,11 +238,11 @@ public static class DiscoverServicesCommand
 
     private class AIServiceInfo
     {
-        public string Name { get; set; }
-        public string BaseUrl { get; set; }
-        public string Type { get; set; }
-        public string Endpoint { get; set; }
+        public string? Name { get; set; }
+        public string? BaseUrl { get; set; }
+        public string? Type { get; set; }
+        public string? Endpoint { get; set; }
         public bool IsAvailable { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
 }

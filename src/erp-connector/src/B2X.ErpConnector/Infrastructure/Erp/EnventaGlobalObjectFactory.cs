@@ -1,8 +1,8 @@
-﻿namespace B2X.ErpConnector.Infrastructure.Erp
-{
-    using System;
-    using B2X.ErpConnector.Infrastructure.Identity;
+using System;
+using B2X.ErpConnector.Infrastructure.Identity;
 
+namespace B2X.ErpConnector.Infrastructure.Erp
+{
     /// <summary>
     /// Factory for creating and managing enventa global objects.
     /// Abstracts the actual enventa framework integration.
@@ -84,7 +84,8 @@
                         var item = msg.Items[i];
                         if (item.Level >= 3) // Error level
                         {
-                            if (errors.Length > 0) errors.Append("; ");
+                            if (errors.Length > 0)
+                                errors.Append("; ");
                             errors.Append($"[{item.Code}] {item.Text}");
                         }
                     }
@@ -165,7 +166,8 @@
         {
             for (int i = 0; i < Items.Count; i++)
             {
-                if (Items[i].Level >= 3) return true;
+                if (Items[i].Level >= 3)
+                    return true;
             }
             return false;
         }

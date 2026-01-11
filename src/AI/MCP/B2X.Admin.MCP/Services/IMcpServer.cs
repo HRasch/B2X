@@ -1,4 +1,4 @@
-﻿using ModelContextProtocol;
+using ModelContextProtocol;
 using ModelContextProtocol.Server;
 
 namespace B2X.Admin.MCP.Services;

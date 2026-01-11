@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 using B2X.CLI.Shared.HttpClients;
@@ -107,7 +107,6 @@ public static class RollbackCommand
                 {
                     console.Warning("⚠️  Service health check failed - monitor closely");
                 }
-
             }
             else
             {
@@ -115,7 +114,6 @@ public static class RollbackCommand
                 console.Info("Service may be in an inconsistent state - manual intervention required");
                 Environment.Exit(1);
             }
-
         }
         catch (Exception ex)
         {

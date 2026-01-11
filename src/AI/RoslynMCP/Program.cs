@@ -1,4 +1,4 @@
-﻿using B2X.Tools.RoslynMCP.Services;
+using B2X.Tools.RoslynMCP.Services;
 using B2X.Tools.RoslynMCP.Tools;
 using Microsoft.Build.Locator;
 using Microsoft.Extensions.DependencyInjection;

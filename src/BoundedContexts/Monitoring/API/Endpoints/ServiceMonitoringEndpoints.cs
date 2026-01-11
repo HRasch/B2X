@@ -1,4 +1,4 @@
-﻿using B2X.Shared.Monitoring;
+using B2X.Shared.Monitoring;
 using B2X.Shared.Monitoring.Abstractions;
 using B2X.Shared.Monitoring.Models;
 using Microsoft.AspNetCore.Mvc;

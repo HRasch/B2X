@@ -19,7 +19,7 @@ public class SapErpConnector : IErpConnector
     private readonly ILogger<SapErpConnector> _logger;
     private readonly HttpClient _httpClient;
     private bool _isInitialized;
-    private string _erpVersion = "S/4HANA 2022";
+    private string _erpVersion = "S/4HANA 2022+";
 
     /// <summary>
     /// Gets the ERP type identifier.
@@ -64,11 +64,17 @@ public class SapErpConnector : IErpConnector
     /// <returns>A task representing the initialization operation.</returns>
     public Task InitializeAsync(ErpConfiguration config, CancellationToken cancellationToken = default)
     {
-        if (config == null) throw new ArgumentNullException(nameof(config));
+        if (config == null)
+            throw new ArgumentNullException(nameof(config));
         if (string.IsNullOrEmpty(config.ErpType) || config.ErpType != "sap")
             throw new ArgumentException("Invalid ERP type for SAP connector", nameof(config));
 
-        _erpVersion = config.ErpVersion ?? "S/4HANA 2022";
+        if (!config.ConnectionSettings.TryGetValue("serviceUrl", out var serviceUrl) || string.IsNullOrWhiteSpace(serviceUrl))
+            throw new ArgumentException("SAP connector requires 'serviceUrl' connection setting", nameof(config));
+
+        _erpVersion = string.IsNullOrWhiteSpace(config.ErpVersion)
+            ? "S/4HANA 2022+"
+            : config.ErpVersion;
         _isInitialized = true;
         _logger.LogInformation("SapErpConnector initialized for tenant {TenantId}", config.TenantId);
         return Task.CompletedTask;
@@ -143,6 +149,15 @@ public class SapErpConnector : IErpConnector
             }
         };
 
+        if (_erpVersion.Contains("ECC", StringComparison.OrdinalIgnoreCase))
+        {
+            capabilities.Catalog.SupportsDeltaSync = false;
+            capabilities.Catalog.SupportsRealTimeUpdates = false;
+            capabilities.Order.SupportsReturns = false;
+            capabilities.RealTime.SupportsWebhooks = false;
+            capabilities.RealTime.SupportsPolling = true;
+        }
+
         return Task.FromResult(capabilities);
     }
 
@@ -194,7 +209,7 @@ public class SapErpConnector : IErpConnector
         var result = new ErpOrderResult
         {
             Success = true,
-            ErpOrderId = $"SAP-{order.OrderId}",
+            ErpOrderId = order.OrderId,
             AdditionalData = new Dictionary<string, object>
             {
                 ["status"] = "created",
@@ -219,8 +234,8 @@ public class SapErpConnector : IErpConnector
         var customerData = new ErpCustomerData
         {
             CustomerId = customerId,
-            Name = "SAP Customer",
-            Email = "customer@sap.com"
+            Name = "Sample Customer",
+            Email = "customer@example.com"
         };
 
         return Task.FromResult(customerData);

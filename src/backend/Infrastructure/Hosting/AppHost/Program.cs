@@ -371,6 +371,15 @@ seedingApi.WaitFor(localizationService);
 // Internal service communication uses Aspire Service Discovery.
 // CRITICAL: Gateways wait for all services they aggregate to prevent hanging.
 
+// Reverse Proxy (YARP) - Entry point for all tenant requests
+var reverseProxy = builder
+    .AddProject("reverse-proxy", "../ReverseProxy/B2X.ReverseProxy.csproj")
+    .WithHttpEndpoint(port: 5000, name: "proxy-http")  // Main entry point
+    .WithReference(tenantService)  // For tenant domain resolution
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
 // Store API Gateway (for frontend-store, public read-only endpoints)
 var storeGateway = builder
     .AddProject("store-gateway", "../../../Store/API/B2X.Store.csproj")
@@ -394,6 +403,9 @@ storeGateway.WaitFor(variantsService);
 storeGateway.WaitFor(categoriesService);
 storeGateway.WaitFor(localizationService);
 storeGateway.WaitFor(themingService);
+
+// Reverse Proxy waits for gateways
+reverseProxy.WaitFor(storeGateway);
 
 // Admin API Gateway 
 var adminGateway = builder
@@ -424,6 +436,9 @@ adminGateway.WaitFor(localizationService);
 adminGateway.WaitFor(themingService);
 adminGateway.WaitFor(monitoringService);
 adminGateway.WaitFor(mcpServer);
+
+// Reverse Proxy also waits for Admin Gateway
+reverseProxy.WaitFor(adminGateway);
 
 // ===== FRONTENDS (Vite Vue.js Applications) =====
 // Using native Aspire.Hosting.JavaScript integration (AddViteApp)

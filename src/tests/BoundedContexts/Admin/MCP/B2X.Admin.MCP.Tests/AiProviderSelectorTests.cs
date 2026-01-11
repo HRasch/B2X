@@ -1,18 +1,19 @@
-﻿using B2X.Admin.MCP.Services;
-using B2X.Admin.MCP.Middleware;
-using B2X.Admin.MCP.Tools;
-using B2X.Admin.MCP.Models;
+using System.Net.Http;
 using B2X.Admin.MCP.Data;
+using B2X.Admin.MCP.Middleware;
+using B2X.Admin.MCP.Models;
+using B2X.Admin.MCP.Services;
+using B2X.Admin.MCP.Tools;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Xunit;
 using Moq;
-using System.Net.Http;
+using Xunit;
 
 namespace B2X.Admin.MCP.Tests;
 
-public class AiProviderSelectorTests
+public class AiProviderSelectorTests : IDisposable
 {
     private readonly IConfiguration _configuration;
     private readonly Mock<ILogger<OpenAiProvider>> _openAiLoggerMock;
@@ -21,18 +22,19 @@ public class AiProviderSelectorTests
     private readonly Mock<ILogger<OllamaProvider>> _ollamaLoggerMock;
     private readonly Mock<ILogger<GitHubModelsProvider>> _gitHubLoggerMock;
     private readonly Mock<ILogger<AiProviderSelector>> _selectorLoggerMock;
-    private readonly Mock<McpDbContext> _dbContextMock;
+    private readonly McpDbContext _dbContext;
     private readonly DataSanitizationService _dataSanitizer;
 
     public AiProviderSelectorTests()
     {
         // Use a real configuration for testing
         var configBuilder = new ConfigurationBuilder();
-        configBuilder.AddInMemoryCollection(new[]
+        var baseSettings = new[]
         {
-            new KeyValuePair<string, string>("AI:EnableLocalFallback", "false"),
-            new KeyValuePair<string, string>("AI:EnableNetworkMode", "false")
-        });
+            new KeyValuePair<string, string?>("AI:EnableLocalFallback", "false"),
+            new KeyValuePair<string, string?>("AI:EnableNetworkMode", "false")
+        };
+        configBuilder.AddInMemoryCollection(baseSettings);
         _configuration = configBuilder.Build();
 
         _openAiLoggerMock = new Mock<ILogger<OpenAiProvider>>();
@@ -41,7 +43,10 @@ public class AiProviderSelectorTests
         _ollamaLoggerMock = new Mock<ILogger<OllamaProvider>>();
         _gitHubLoggerMock = new Mock<ILogger<GitHubModelsProvider>>();
         _selectorLoggerMock = new Mock<ILogger<AiProviderSelector>>();
-        _dbContextMock = new Mock<McpDbContext>();
+        var dbOptions = new DbContextOptionsBuilder<McpDbContext>()
+            .UseInMemoryDatabase($"mcp-tests-{Guid.NewGuid()}")
+            .Options;
+        _dbContext = new McpDbContext(dbOptions);
 
         // Create a real DataSanitizationService for testing
         var options = Options.Create(new DataSanitizationOptions());
@@ -54,11 +59,12 @@ public class AiProviderSelectorTests
     {
         // Arrange - Create configuration with local fallback enabled
         var configBuilder = new ConfigurationBuilder();
-        configBuilder.AddInMemoryCollection(new[]
+        var localFallbackSettings = new[]
         {
-            new KeyValuePair<string, string>("AI:EnableLocalFallback", "true"),
-            new KeyValuePair<string, string>("AI:EnableNetworkMode", "false")
-        });
+            new KeyValuePair<string, string?>("AI:EnableLocalFallback", "true"),
+            new KeyValuePair<string, string?>("AI:EnableNetworkMode", "false")
+        };
+        configBuilder.AddInMemoryCollection(localFallbackSettings);
         var configuration = configBuilder.Build();
 
         var ollamaProvider = new OllamaProvider(_ollamaLoggerMock.Object, configuration);
@@ -71,7 +77,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act
         var provider = await selector.GetProviderForTenantAsync("test-tenant", "openai");
@@ -95,7 +101,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             _configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act
         var provider = await selector.GetProviderForTenantAsync("test-tenant", "openai");
@@ -119,7 +125,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             _configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act
         var provider = await selector.GetProviderForTenantAsync("test-tenant", "github-models");
@@ -127,6 +133,12 @@ public class AiProviderSelectorTests
         // Assert
         Assert.Equal("github-models", provider.ProviderName);
         Assert.IsType<GitHubModelsProvider>(provider);
+    }
+
+    public void Dispose()
+    {
+        _dbContext.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     // [Fact]
@@ -168,7 +180,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             _configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act
         var provider = await selector.GetProviderForTenantAsync("test-tenant");
@@ -183,11 +195,12 @@ public class AiProviderSelectorTests
     {
         // Arrange - Create configuration with local fallback enabled
         var configBuilder = new ConfigurationBuilder();
-        configBuilder.AddInMemoryCollection(new[]
+        var localFallbackSettings = new[]
         {
-            new KeyValuePair<string, string>("AI:EnableLocalFallback", "true"),
-            new KeyValuePair<string, string>("AI:EnableNetworkMode", "false")
-        });
+            new KeyValuePair<string, string?>("AI:EnableLocalFallback", "true"),
+            new KeyValuePair<string, string?>("AI:EnableNetworkMode", "false")
+        };
+        configBuilder.AddInMemoryCollection(localFallbackSettings);
         var configuration = configBuilder.Build();
 
         var ollamaProvider = new OllamaProvider(_ollamaLoggerMock.Object, configuration);
@@ -200,7 +213,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act - This will use Ollama directly due to global fallback
         // Note: This test may fail if Ollama is not running, but that's expected for integration testing
@@ -231,7 +244,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             _configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act & Assert - This should try OpenAI first and fail since we don't have API keys configured
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -254,7 +267,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             _configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Initial mode should be Normal
         Assert.Equal(AiProviderSelector.AiMode.Normal, selector.CurrentMode);
@@ -285,7 +298,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             _configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act & Assert - Valid mode names
         Assert.True(selector.TrySwitchMode("network"));
@@ -311,7 +324,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             _configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         var originalMode = selector.CurrentMode;
 
@@ -336,7 +349,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             _configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act - Normal mode should return OpenAI for "openai" preference
         var provider = await selector.GetProviderForTenantAsync("test-tenant", "openai");
@@ -364,11 +377,12 @@ public class AiProviderSelectorTests
     {
         // Arrange - Create configuration with network mode enabled
         var configBuilder = new ConfigurationBuilder();
-        configBuilder.AddInMemoryCollection(new[]
+        var networkModeSettings = new[]
         {
-            new KeyValuePair<string, string>("AI:EnableLocalFallback", "false"),
-            new KeyValuePair<string, string>("AI:EnableNetworkMode", "true")
-        });
+            new KeyValuePair<string, string?>("AI:EnableLocalFallback", "false"),
+            new KeyValuePair<string, string?>("AI:EnableNetworkMode", "true")
+        };
+        configBuilder.AddInMemoryCollection(networkModeSettings);
         var configuration = configBuilder.Build();
 
         var ollamaProvider = new OllamaProvider(_ollamaLoggerMock.Object, configuration);
@@ -381,7 +395,7 @@ public class AiProviderSelectorTests
             _dataSanitizer,
             _selectorLoggerMock.Object,
             configuration,
-            _dbContextMock.Object);
+            _dbContext);
 
         // Act
         var provider = await selector.GetProviderForTenantAsync("test-tenant", "openai");

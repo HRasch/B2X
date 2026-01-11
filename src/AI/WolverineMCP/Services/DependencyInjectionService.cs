@@ -1,9 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace B2X.Tools.WolverineMCP.Services;
 
@@ -75,8 +75,8 @@ public sealed class DependencyInjectionService
 
     private bool IsServiceRegistrationMethod(InvocationExpressionSyntax invocation, SemanticModel semanticModel)
     {
-        var symbol = semanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-        if (symbol is null) return false;
+        if (semanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol symbol)
+            return false;
 
         var methodName = symbol.Name;
         return methodName is "AddTransient" or "AddScoped" or "AddSingleton" or "AddWolverine";
@@ -125,8 +125,8 @@ public sealed class DependencyInjectionService
         var parameters = constructor.ParameterList.Parameters;
         foreach (var parameter in parameters)
         {
-            var parameterSymbol = semanticModel.GetDeclaredSymbol(parameter) as IParameterSymbol;
-            if (parameterSymbol is null) continue;
+            if (semanticModel.GetDeclaredSymbol(parameter) is not IParameterSymbol parameterSymbol)
+                continue;
 
             // Check if parameter type is injectable
             if (!IsInjectableType(parameterSymbol.Type))
@@ -148,8 +148,8 @@ public sealed class DependencyInjectionService
     {
         var issues = new List<DependencyIssue>();
 
-        var propertySymbol = semanticModel.GetDeclaredSymbol(property) as IPropertySymbol;
-        if (propertySymbol is null) return issues;
+        if (semanticModel.GetDeclaredSymbol(property) is not IPropertySymbol propertySymbol)
+            return issues;
 
         if (!IsInjectableType(propertySymbol.Type))
         {
@@ -174,9 +174,12 @@ public sealed class DependencyInjectionService
     private ServiceLifecycle GetServiceLifecycle(InvocationExpressionSyntax registration)
     {
         var methodName = registration.Expression.ToString();
-        if (methodName.Contains("AddSingleton")) return ServiceLifecycle.Singleton;
-        if (methodName.Contains("AddScoped")) return ServiceLifecycle.Scoped;
-        if (methodName.Contains("AddTransient")) return ServiceLifecycle.Transient;
+        if (methodName.Contains("AddSingleton"))
+            return ServiceLifecycle.Singleton;
+        if (methodName.Contains("AddScoped"))
+            return ServiceLifecycle.Scoped;
+        if (methodName.Contains("AddTransient"))
+            return ServiceLifecycle.Transient;
         return ServiceLifecycle.Unknown;
     }
 

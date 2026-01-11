@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using System.Collections.Concurrent;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 
 namespace B2X.Tools.WolverineMCP.Services;
 
@@ -76,7 +76,8 @@ public sealed class ArchitectureTestingService : IDisposable
         foreach (var project in solution.Projects)
         {
             var compilation = await project.GetCompilationAsync();
-            if (compilation is null) continue;
+            if (compilation is null)
+                continue;
 
             var coreTypes = GetTypesInNamespace(compilation, "Core");
             var infrastructureTypes = GetTypesInNamespace(compilation, "Infrastructure");
@@ -124,7 +125,8 @@ public sealed class ArchitectureTestingService : IDisposable
         foreach (var project in solution.Projects)
         {
             var compilation = await project.GetCompilationAsync();
-            if (compilation is null) continue;
+            if (compilation is null)
+                continue;
 
             var allTypes = GetAllTypes(compilation);
             var contextGroups = GroupTypesByBoundedContext(allTypes);
@@ -155,7 +157,8 @@ public sealed class ArchitectureTestingService : IDisposable
         foreach (var project in solution.Projects)
         {
             var compilation = await project.GetCompilationAsync();
-            if (compilation is null) continue;
+            if (compilation is null)
+                continue;
 
             var handlers = FindHandlers(compilation);
             var commands = FindCommands(compilation);
@@ -218,7 +221,8 @@ public sealed class ArchitectureTestingService : IDisposable
         foreach (var project in solution.Projects)
         {
             var compilation = await project.GetCompilationAsync();
-            if (compilation is null) continue;
+            if (compilation is null)
+                continue;
 
             var allTypes = GetAllTypes(compilation);
 

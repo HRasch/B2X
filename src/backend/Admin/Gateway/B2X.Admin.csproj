@@ -46,34 +46,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
-
-    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
-
-    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
-
-    <ProjectReference Include="..\Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
-
-    <ProjectReference Include="..\Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
-
-    <ProjectReference Include="..\Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
-
-    <ProjectReference Include="..\Shared/Domain/ERP/B2X.ERP.csproj" />
-
-    <ProjectReference Include="../../../../backend/Management/Domain/B2X.Email.csproj" />
-
+    <ProjectReference Include="..\..\Infrastructure\Hosting\ServiceDefaults\B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\Shared\Domain\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\Shared\Domain\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Infrastructure\middleware\B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="..\..\Shared\Infrastructure\B2X.Shared.Infrastructure\B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\Infrastructure\Messaging\B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="..\..\Shared\Domain\ERP\impl\B2X.ERP.csproj" />
+    <ProjectReference Include="..\..\Management\Domain\B2X.Email.csproj" />
     <!-- Theming for SCSS Modules -->
-    <ProjectReference Include="..\Shared/Domain/Theming/B2X.Theming.API.csproj" />
-
+    <ProjectReference Include="..\..\Shared\Domain\Theming\B2X.Theming.API.csproj" />
     <!-- ERP Validation and Connectors (ADR-036) -->
-    <ProjectReference Include="..\Shared/Domain/ApiValidation/B2X.Api.Validation.csproj" />
-
-    <ProjectReference Include="../../../../backend/Infrastructure/Connectors/B2X.Connectors.csproj" />
-
+    <ProjectReference Include="..\..\Shared\Domain\Shared\B2X.Api.Validation\B2X.Api.Validation.csproj" />
     <!-- Domain Services for Catalog Management -->
-    <ProjectReference Include="c:\Users\Holge\repos\B2Connect\src\backend\Store\Domain\Variants\src\B2X.Variants.csproj" />
-    <ProjectReference Include="c:\Users\Holge\repos\B2Connect\src\backend\Store\Domain\Categories\B2X.Categories.csproj" />
-
+    <ProjectReference Include="..\..\Store\Domain\Variants\src\B2X.Variants.csproj" />
+    <ProjectReference Include="..\..\Store\Domain\Categories\B2X.Categories.csproj" />
   </ItemGroup>
 
 </Project>

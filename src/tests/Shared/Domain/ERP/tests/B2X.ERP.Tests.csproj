@@ -10,13 +10,16 @@
     <OutputType>Exe</OutputType>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    
   </PropertyGroup>
 
   <ItemGroup>
 <PackageReference Include="xunit.v3.mtp-v2" />
+    <!-- VSTest adapter for VSCode Test Explorer compatibility -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit.runner.visualstudio">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="coverlet.collector">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -28,16 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="B2X.ERP">
-      <HintPath>..\..\..\..\..\backend\Shared\Domain\ERP\impl\bin\Debug\net10.0\B2X.ERP.dll</HintPath>
-    </Reference>
-    <Reference Include="B2X.ERP.Abstractions">
-      <HintPath>..\..\..\..\..\backend\Shared\Domain\ERP\Abstractions\bin\Debug\net10.0\B2X.ERP.Abstractions.dll</HintPath>
-    </Reference>
-
-    <ProjectReference Include="../../../../src/backend/Shared/Domain/ERP/Abstractions/B2X.ERP.Abstractions.csproj" />
-
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Domain\ERP\impl\B2X.ERP.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Domain\ERP\Abstractions\B2X.ERP.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
+
+
 

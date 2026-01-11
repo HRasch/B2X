@@ -1,4 +1,4 @@
-﻿namespace B2X.Admin.MCP.Configuration;
+namespace B2X.Admin.MCP.Configuration;
 
 /// <summary>
 /// Application configuration settings

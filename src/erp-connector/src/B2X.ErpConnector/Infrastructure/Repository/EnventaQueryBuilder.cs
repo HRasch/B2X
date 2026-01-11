@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -177,7 +177,8 @@ namespace B2X.ErpConnector.Infrastructure.Repository
         /// </summary>
         protected void AddWhere(string condition)
         {
-            if (string.IsNullOrWhiteSpace(condition)) return;
+            if (string.IsNullOrWhiteSpace(condition))
+                return;
 
             WhereClause = string.IsNullOrWhiteSpace(WhereClause)
                 ? condition
@@ -189,7 +190,8 @@ namespace B2X.ErpConnector.Infrastructure.Repository
         /// </summary>
         protected static string EscapeString(string value)
         {
-            if (value == null) return "NULL";
+            if (value == null)
+                return "NULL";
             return $"'{value.Replace("'", "''")}'";
         }
     }

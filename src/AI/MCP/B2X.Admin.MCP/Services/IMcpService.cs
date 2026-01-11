@@ -1,4 +1,4 @@
-﻿using B2X.Admin.MCP.Models;
+using B2X.Admin.MCP.Models;
 
 namespace B2X.Admin.MCP.Services;
 

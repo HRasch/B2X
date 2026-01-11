@@ -1,10 +1,10 @@
-﻿using System.CommandLine;
+using System.Collections.Concurrent;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
+using B2X.Shared.Monitoring;
 using B2X.Shared.Monitoring.Abstractions;
 using B2X.Shared.Monitoring.Models;
-using B2X.Shared.Monitoring;
-using System.Collections.Concurrent;
 
 namespace B2X.CLI.Administration.Commands.MetricsCommands;
 
@@ -224,7 +224,8 @@ public static class BenchmarkCommand
 
     private static double Percentile(List<BenchmarkResponse> sortedResponses, double percentile)
     {
-        if (!sortedResponses.Any()) return 0;
+        if (!sortedResponses.Any())
+            return 0;
 
         var index = (int)Math.Ceiling(sortedResponses.Count * percentile) - 1;
         index = Math.Max(0, Math.Min(index, sortedResponses.Count - 1));
@@ -261,7 +262,8 @@ public static class BenchmarkCommand
 
     private static void DisplayBenchmarkSummary(ConsoleOutputService console, List<BenchmarkResult> results)
     {
-        if (!results.Any()) return;
+        if (!results.Any())
+            return;
 
         console.Info($"Services Benchmarked: {results.Count}");
         console.Info($"Total Requests: {results.Sum(r => r.TotalRequests)}");

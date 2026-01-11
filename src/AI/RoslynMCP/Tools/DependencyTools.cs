@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using B2X.Tools.RoslynMCP.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
@@ -231,6 +231,18 @@ public sealed class DependencyTools
         return false;
     }
 
+    private static int GetProjectLayer(string projectName, string[] layerOrder)
+    {
+        for (int i = 0; i < layerOrder.Length; i++)
+        {
+            if (projectName.Contains(layerOrder[i], StringComparison.OrdinalIgnoreCase))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     [McpServerTool, Description("Analyze cross-domain dependencies and coupling between backend domains")]
     public async Task<string> AnalyzeCrossDomainDependenciesAsync(
         [Description("The solution file path (.sln or .slnx)")] string solutionPath,
@@ -386,3 +398,4 @@ public sealed class DependencyTools
 
         return usingStatements;
     }
+}

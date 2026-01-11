@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
-
+    <ProjectReference Include="..\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
   </ItemGroup>
 </Project>
 

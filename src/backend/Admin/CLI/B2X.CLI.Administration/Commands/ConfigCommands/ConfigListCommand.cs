@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 using Spectre.Console;
@@ -177,9 +177,9 @@ public static class ConfigListCommand
 
     private class ConfigItem
     {
-        public string Key { get; set; }
-        public string Value { get; set; }
-        public string Category { get; set; }
+        public string? Key { get; set; }
+        public string? Value { get; set; }
+        public string? Category { get; set; }
         public bool IsSecret { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+using System.Reflection;
+using B2X.Shared.Infrastructure.Validation;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;

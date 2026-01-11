@@ -31,6 +31,7 @@ public sealed class ErpActorTests : IAsyncDisposable
     {
         // Arrange
         _actor = new ErpActor(_tenant, _logger);
+        await _actor.InitializeAsync((t, ct) => Task.CompletedTask);
         var operation = ErpOperation.Create(_tenant, async ct =>
         {
             await Task.Delay(10, ct);
@@ -51,6 +52,7 @@ public sealed class ErpActorTests : IAsyncDisposable
     {
         // Arrange
         _actor = new ErpActor(_tenant, _logger);
+        await _actor.InitializeAsync((t, ct) => Task.CompletedTask);
         var executionOrder = new List<int>();
         var operations = Enumerable.Range(1, 5).Select(i =>
             ErpOperation.Create(_tenant, async ct =>
@@ -78,6 +80,7 @@ public sealed class ErpActorTests : IAsyncDisposable
     {
         // Arrange
         _actor = new ErpActor(_tenant, _logger);
+        await _actor.InitializeAsync((t, ct) => Task.CompletedTask);
         var operation = ErpOperation.Create(_tenant, Task<int> (ct) =>
         {
             throw new InvalidOperationException("Test exception");
@@ -95,6 +98,7 @@ public sealed class ErpActorTests : IAsyncDisposable
     {
         // Arrange
         _actor = new ErpActor(_tenant, _logger);
+        await _actor.InitializeAsync((t, ct) => Task.CompletedTask);
         var operation = ErpOperation.Create(
             _tenant,
             async ct =>
@@ -114,6 +118,7 @@ public sealed class ErpActorTests : IAsyncDisposable
     {
         // Arrange
         _actor = new ErpActor(_tenant, _logger);
+        await _actor.InitializeAsync((t, ct) => Task.CompletedTask);
         var wrongTenant = new TenantContext { TenantId = "different-tenant", TenantName = "Different Tenant" };
         var operation = ErpOperation.Create(wrongTenant, _ => Task.FromResult(42));
 
@@ -128,6 +133,7 @@ public sealed class ErpActorTests : IAsyncDisposable
     {
         // Arrange
         _actor = new ErpActor(_tenant, _logger);
+        await _actor.InitializeAsync((t, ct) => Task.CompletedTask);
         await _actor.DisposeAsync();
 
         var operation = ErpOperation.Create(_tenant, _ => Task.FromResult(42));
@@ -142,6 +148,7 @@ public sealed class ErpActorTests : IAsyncDisposable
     {
         // Arrange
         _actor = new ErpActor(_tenant, _logger);
+        // Not initialized on purpose; queued count should still be zero
 
         // Act & Assert
         _actor.QueuedOperations.ShouldBe(0);

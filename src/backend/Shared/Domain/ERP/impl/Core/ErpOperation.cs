@@ -65,7 +65,14 @@ public class ErpOperation<T>
         {
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             cts.CancelAfter(_timeout.Value);
-            return await _operation(cts.Token);
+            try
+            {
+                return await _operation(cts.Token);
+            }
+            catch (TaskCanceledException) when (cts.IsCancellationRequested)
+            {
+                throw new TimeoutException($"Operation timed out after {_timeout.Value.TotalMilliseconds} ms.");
+            }
         }
         return await _operation(cancellationToken);
     }

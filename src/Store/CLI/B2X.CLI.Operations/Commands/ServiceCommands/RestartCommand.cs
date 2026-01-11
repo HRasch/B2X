@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 using B2X.CLI.Shared.HttpClients;
@@ -96,7 +96,6 @@ public static class RestartCommand
                 console.Info("Check service logs for details");
                 Environment.Exit(1);
             }
-
         }
         catch (Exception ex)
         {

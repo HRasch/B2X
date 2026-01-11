@@ -49,20 +49,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
-
-    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
-
-    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
-
-    <ProjectReference Include="../../Infrastructure/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
-
-    <ProjectReference Include="../../Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
-
-    <ProjectReference Include="../../Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
-
-    <ProjectReference Include="../Tenancy/B2X.Tenancy.API.csproj" />
-
+    <ProjectReference Include="..\..\..\Infrastructure\Hosting\ServiceDefaults\B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\B2X.Shared.Infrastructure\B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\middleware\B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Messaging\B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="..\Tenancy\B2X.Tenancy.API.csproj" />
   </ItemGroup>
 
 </Project>

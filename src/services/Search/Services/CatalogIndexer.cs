@@ -1,4 +1,4 @@
-﻿using B2X.Domain.Search.Models;
+using B2X.Domain.Search.Models;
 using B2X.Domain.Search.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -33,9 +33,10 @@ public class CatalogIndexer : ICatalogIndexer
 
         while (!ct.IsCancellationRequested)
         {
-            var (items, total) = await _provider.GetPageAsync(page, pageSize, cancellationToken);
+            var (items, total) = await _provider.GetPageAsync(page, pageSize, ct);
             var list = items.ToList();
-            if (!list.Any()) break;
+            if (!list.Any())
+                break;
 
             // map items to documents first (assign locale default "en")
             var mapped = list.Select(p => new ProductDocument
@@ -90,7 +91,8 @@ public class CatalogIndexer : ICatalogIndexer
                 }
             }
 
-            if (list.Count < pageSize) break;
+            if (list.Count < pageSize)
+                break;
             page++;
         }
 

@@ -20,7 +20,7 @@ builder.Host.UseSerilog((context, config) =>
 });
 
 // Service Defaults (Health checks, Service Discovery)
-builder.Host.AddServiceDefaults();
+// builder.Host.AddServiceDefaults();
 
 // Add Wolverine with HTTP Endpoints
 var rabbitMqUri = builder.Configuration["RabbitMq:Uri"];

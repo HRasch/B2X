@@ -20,15 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
-
-    <ProjectReference Include="..\B2X.Shared.Data\B2X.Shared.Data.csproj" />
-
+    <ProjectReference Include="..\..\backend\Shared\Domain\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <!-- B2X.Shared.Data removed - project no longer exists -->
     <!-- New shared ERP projects (ADR-036) -->
     <ProjectReference Include="..\B2X.Shared.Erp.Core\B2X.Shared.Erp.Core.csproj" />
-
     <ProjectReference Include="..\B2X.Shared.Erp.Validation\B2X.Shared.Erp.Validation.csproj" />
-
   </ItemGroup>
 
 </Project>

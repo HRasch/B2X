@@ -23,19 +23,22 @@
     <AssemblyName>B2X.AppHost.Tests</AssemblyName>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <!-- MTP test projects must be executables -->
     <OutputType>Exe</OutputType>
-    <!-- Opt-in to Microsoft Testing Platform runner for xunit.v3 -->
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-    <!-- Copy all dependencies to output folder for MTP runtime -->
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- HYBRID: Support both MTP (CLI) and VSTest (VSCode Test Explorer) -->
+    
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Aspire testing support -->
-    <PackageReference Include="Aspire.Hosting.Testing" />
-    <!-- xUnit.net v3 with Microsoft Testing Platform v2 (has net10.0 support) -->
+    <!-- xUnit.net v3 with MTP v2 for CLI -->
     <PackageReference Include="xunit.v3.mtp-v2" />
+    <!-- VSTest adapter for VSCode Test Explorer compatibility -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Moq" />
     <PackageReference Include="Shouldly" />
     <PackageReference Include="Bogus" />
@@ -55,11 +58,12 @@
     <Using Include="System.Net" />
     <Using Include="Microsoft.Extensions.DependencyInjection" />
     <Using Include="Aspire.Hosting.ApplicationModel" />
-    <Using Include="Aspire.Hosting.Testing" />
     <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>
+
+
 
 
 

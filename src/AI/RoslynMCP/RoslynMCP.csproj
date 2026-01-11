@@ -19,6 +19,9 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
     <PackageReference Include="Microsoft.Build.Locator" />
     
+    <!-- Override vulnerable transitive dependency (GHSA-h4j7-5rxr-p4wc) -->
+    <PackageReference Include="Microsoft.Build.Tasks.Core" ExcludeAssets="runtime" />
+    
     <!-- Caching -->
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
   </ItemGroup>

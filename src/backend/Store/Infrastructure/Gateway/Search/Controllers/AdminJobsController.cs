@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using B2X.Gateway.Store.Search.Services;
 using B2X.Gateway.Store.Search.Jobs;
+using B2X.Gateway.Store.Search.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace B2X.Gateway.Store.Search.Controllers;
 

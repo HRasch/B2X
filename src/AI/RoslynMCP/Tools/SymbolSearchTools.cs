@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using B2X.Tools.RoslynMCP.Services;
 using Microsoft.CodeAnalysis;

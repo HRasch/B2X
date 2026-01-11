@@ -1,11 +1,11 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using Xunit;
 using B2X.Gateway.Store.Search.Controllers;
 using B2X.Gateway.Store.Search.Jobs;
 using B2X.Gateway.Store.Search.Services;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Xunit;
 
 namespace B2X.Search.UnitTests;
 

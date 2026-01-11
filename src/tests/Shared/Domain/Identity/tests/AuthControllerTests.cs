@@ -1,5 +1,5 @@
-using B2X.AuthService.Controllers;
-using B2X.AuthService.Data;
+using B2X.Identity.Controllers;
+using B2X.Identity.Data;
 using B2X.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -7,7 +7,7 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2X.AuthService.Tests;
+namespace B2X.Identity.Tests;
 
 public class AuthControllerTests
 {

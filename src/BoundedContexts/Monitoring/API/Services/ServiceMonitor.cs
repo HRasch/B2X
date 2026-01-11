@@ -1,8 +1,8 @@
-﻿using B2X.Shared.Monitoring.Abstractions;
+using B2X.Shared.Monitoring;
+using B2X.Shared.Monitoring.Abstractions;
 using B2X.Shared.Monitoring.Data;
 using B2X.Shared.Monitoring.Data.Entities;
 using B2X.Shared.Monitoring.Models;
-using B2X.Shared.Monitoring;
 using Microsoft.EntityFrameworkCore;
 
 namespace B2X.Shared.Monitoring.Services;

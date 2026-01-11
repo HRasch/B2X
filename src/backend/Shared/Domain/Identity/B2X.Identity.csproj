@@ -38,13 +38,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="src\Controllers\**" />
-    <Compile Remove="src\Endpoints\**" />
-    <Compile Remove="src\Handlers\**" />
-    <Compile Remove="src\Infrastructure\**" />
-    <Compile Remove="Program.cs" />
+    <!-- Exclude all root-level files except specific Data namespace files -->
+    <Compile Remove="**\*.cs" />
+    <Compile Include="src\Services\AuthService.cs" />
+    <!-- Explicitly exclude API-specific folders -->
     <Compile Remove="Endpoints\**" />
     <Compile Remove="Migrations\**" />
+    <Compile Remove="Infrastructure\**" />
+    <Compile Remove="Program.cs" />
   </ItemGroup>
 
 </Project>

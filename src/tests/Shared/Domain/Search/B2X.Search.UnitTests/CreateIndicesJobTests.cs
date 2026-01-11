@@ -1,10 +1,10 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
-using Moq;
-using Xunit;
 using B2X.Domain.Search.Services;
 using B2X.Gateway.Store.Search.Jobs;
 using B2X.Gateway.Store.Search.Services;
+using Moq;
+using Xunit;
 
 namespace B2X.Search.UnitTests;
 

@@ -1,15 +1,15 @@
-﻿using B2X.Admin.MCP.Services;
-using B2X.Admin.MCP.Middleware;
+using System.Text;
+using B2X.Admin.MCP;
 using B2X.Admin.MCP.Configuration;
 using B2X.Admin.MCP.Data;
-using B2X.Admin.MCP;
+using B2X.Admin.MCP.Middleware;
+using B2X.Admin.MCP.Services;
 using B2X.ServiceDefaults;
-using Wolverine;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Serilog;
+using Wolverine;
 
 var builder = WebApplication.CreateBuilder(args);
 

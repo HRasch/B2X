@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace B2X.CLI.Shared.Configuration;
 
@@ -136,7 +136,7 @@ public class ConfigurationService
         return _endpoints.Select(x => (x.Key, x.Value));
     }
 
-    public Dictionary<string, string> GetAllServiceUrls(string environment = null)
+    public Dictionary<string, string> GetAllServiceUrls(string? environment = null)
     {
         return _endpoints.ToDictionary(
             x => x.Key,
@@ -153,6 +153,11 @@ public class ConfigurationService
     public string? GetTenantId()
     {
         return Environment.GetEnvironmentVariable("B2X_TENANT");
+    }
+
+    public string? GetConnectorRegistryUrl()
+    {
+        return Environment.GetEnvironmentVariable("B2X_CONNECTOR_REGISTRY_URL");
     }
 
     public IConfigurationSection? GetSection(string sectionName)
@@ -172,7 +177,7 @@ public class ConfigurationService
         }
     }
 
-    public string? GetValue(string key, string environment = null)
+    public string? GetValue(string key, string? environment = null)
     {
         // Simple key-value lookup - could be extended
         switch (key.ToLower())

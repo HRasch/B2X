@@ -1,7 +1,7 @@
-﻿using B2X.Shared.Monitoring;
+using B2X.CLI.Shared.Configuration;
+using B2X.Shared.Monitoring;
 using B2X.Shared.Monitoring.Abstractions;
 using B2X.Shared.Monitoring.Models;
-using B2X.CLI.Shared.Configuration;
 
 namespace B2X.CLI.Shared;
 

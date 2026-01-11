@@ -1,0 +1,151 @@
+# CI Integration for AI Evaluation Tests
+# Add this section to .github/workflows/dotnet.yml or create a new workflow
+
+name: AI Evaluation Quality Gate
+
+on:
+  pull_request:
+    paths:
+      - 'src/tests/AI.Evaluation/**'
+      - 'src/backend/**'
+      - 'src/frontend/**'
+      - '.github/workflows/ai-eval.yml'
+
+jobs:
+  ai-evaluation:
+    name: AI Quality & Safety Evaluation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Build AI Evaluation project
+        run: dotnet build src/tests/AI.Evaluation/B2X.Tests.AI.Evaluation.csproj -c Release
+        
+      - name: Run AI Evaluation Tests
+        id: ai-eval-tests
+        run: |
+          dotnet test src/tests/AI.Evaluation/B2X.Tests.AI.Evaluation.csproj \
+            -c Release \
+            -v minimal \
+            --collect:"XPlat Code Coverage" \
+            --logger:"console;verbosity=detailed" \
+            --results-directory ./test-results \
+            --diag ./test-results/diagnostics.log
+        continue-on-error: true
+        env:
+          # Use Azure OpenAI if credentials available
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_DEPLOYMENT_NAME: gpt-4
+          
+      - name: Generate AI Eval Report with dotnet aieval
+        id: ai-eval-report
+        if: always()
+        run: |
+          mkdir -p reports/ai-eval
+          dotnet tool install --global Microsoft.Extensions.AI.Evaluation.Console
+          dotnet aieval report \
+            --input test-results \
+            --output reports/ai-eval/report \
+            --format html,json || echo "Report generation skipped (evaluation data not available)"
+        continue-on-error: true
+        
+      - name: Parse AI Eval Results
+        id: eval-results
+        if: always()
+        run: |
+          if [ -f "reports/ai-eval/report.json" ]; then
+            echo "EVAL_SUMMARY=$(cat reports/ai-eval/report.json | jq -r '.summary' || echo 'Report available')" >> $GITHUB_OUTPUT
+            echo "HAS_REPORT=true" >> $GITHUB_OUTPUT
+          else
+            echo "HAS_REPORT=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Upload AI Eval Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-eval-report
+          path: reports/ai-eval/
+          retention-days: 30
+          
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-eval-test-results
+          path: test-results/
+          retention-days: 30
+          
+      - name: Comment PR with AI Eval Summary
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const { readFileSync } = require('fs');
+            
+            let summary = '## 🤖 AI Evaluation Results\n\n';
+            
+            // Check test results
+            try {
+              const testResults = readFileSync('test-results/diagnostics.log', 'utf8');
+              const passed = (testResults.match(/passed/gi) || []).length;
+              const failed = (testResults.match(/failed/gi) || []).length;
+              
+              summary += `| Metric | Result |\n`;
+              summary += `|--------|--------|\n`;
+              summary += `| Tests Passed | ${passed} ✅ |\n`;
+              summary += `| Tests Failed | ${failed} ${failed > 0 ? '❌' : '✅'} |\n`;
+            } catch (e) {
+              summary += '| Tests | Not available |\n';
+            }
+            
+            // Link to report
+            summary += `\n📊 [View Full Evaluation Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n`;
+            
+            // Determine approval requirement
+            if (process.env.AI_EVAL_STATUS === 'warning') {
+              summary += '\n⚠️ **Action Required**: Quality thresholds below optimal. QA approval needed.\n';
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+        continue-on-error: true
+        
+      - name: Fail if Safety Violations Detected
+        if: always() && steps.ai-eval-tests.outcome == 'failure'
+        run: |
+          echo "⚠️ AI Evaluation tests failed. Please review safety and quality metrics."
+          exit 1
+
+  quality-gates:
+    name: Quality Gate Summary
+    needs: ai-evaluation
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Determine Gate Status
+        run: |
+          if [ "${{ needs.ai-evaluation.result }}" == "success" ]; then
+            echo "✅ All AI quality gates passed"
+            exit 0
+          else
+            echo "⚠️ AI quality gates require review"
+            exit 0  # Allow merge with QA approval (blocking happens in main CI)
+          fi

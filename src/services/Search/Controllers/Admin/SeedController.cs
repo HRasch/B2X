@@ -1,4 +1,4 @@
-﻿using B2X.Services.Search.Services;
+using B2X.Services.Search.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

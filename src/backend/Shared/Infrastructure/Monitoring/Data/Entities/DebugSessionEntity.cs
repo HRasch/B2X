@@ -69,6 +69,12 @@ public class DebugSessionEntity : ITenantEntity, IAuditableEntity
     public DateTime LastActivityAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
+    /// Session end timestamp (null for active sessions)
+    /// </summary>
+    [Column("end_time")]
+    public DateTime? EndTime { get; set; }
+
+    /// <summary>
     /// Additional metadata (JSON)
     /// </summary>
     [Column("metadata", TypeName = "jsonb")]

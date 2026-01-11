@@ -1,11 +1,11 @@
-﻿namespace B2X.ErpConnector.Infrastructure.Erp
-{
-    using System;
-    using System.Collections.Concurrent;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using B2X.ErpConnector.Infrastructure.Identity;
+using System;
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
+using B2X.ErpConnector.Infrastructure.Identity;
 
+namespace B2X.ErpConnector.Infrastructure.Erp
+{
     /// <summary>
     /// Pool of enventa global objects per identity.
     /// Based on FSGlobalPool from eGate.
@@ -139,7 +139,11 @@
 
             if (_disposed)
             {
-                try { global.Dispose(); } catch { }
+                try
+                {
+                    global.Dispose();
+                }
+                catch { }
                 return false;
             }
 

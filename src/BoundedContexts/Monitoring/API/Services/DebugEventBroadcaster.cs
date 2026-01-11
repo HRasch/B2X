@@ -1,5 +1,5 @@
-using B2X.Shared.Monitoring.Abstractions;
 using B2X.Monitoring.Hubs;
+using B2X.Shared.Monitoring.Abstractions;
 using B2X.Shared.Monitoring.Data.Entities;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -67,8 +67,11 @@ public class DebugEventBroadcaster : IDebugEventBroadcaster
                 error.StackTrace,
                 error.Component,
                 error.Url,
-                error.Timestamp,
-                error.Context
+                Timestamp = error.CreatedAt,
+                error.ColumnNumber,
+                error.LineNumber,
+                error.SourceFile,
+                error.Level
             };
 
             // Broadcast to tenant group and error subscribers
@@ -99,7 +102,7 @@ public class DebugEventBroadcaster : IDebugEventBroadcaster
                 feedback.Title,
                 feedback.Description,
                 feedback.Rating,
-                feedback.IncludeScreenshot,
+                IncludeScreenshot = feedback.Screenshot != null,
                 feedback.Url,
                 feedback.UserAgent,
                 feedback.Viewport,
@@ -129,10 +132,10 @@ public class DebugEventBroadcaster : IDebugEventBroadcaster
             {
                 action.Id,
                 action.SessionId,
-                action.Type,
-                action.Target,
-                action.Timestamp,
-                action.Data,
+                Type = action.ActionType,
+                Target = action.TargetSelector,
+                Timestamp = action.OccurredAt,
+                Data = action.Metadata,
                 action.Url,
                 action.Coordinates
             };

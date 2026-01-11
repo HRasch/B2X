@@ -1,7 +1,7 @@
-﻿namespace B2X.ErpConnector.Infrastructure.Identity
-{
-    using System;
+using System;
 
+namespace B2X.ErpConnector.Infrastructure.Identity
+{
     /// <summary>
     /// Represents an enventa ERP identity for authentication.
     /// Based on NVIdentity pattern from eGate.

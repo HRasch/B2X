@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -12,13 +12,14 @@
     <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="NEST" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../src/backend/Shared/Domain/Search/B2X.Search.csproj" />
-
-    <ProjectReference Include="../../../src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
-
+    <ProjectReference Include="..\..\backend\Shared\Domain\Search\B2X.Search.csproj" />
+    <ProjectReference Include="..\..\backend\Store\Domain\Search\B2X.Store.Search.csproj" />
+    <ProjectReference Include="..\..\backend\Store\Domain\Catalog\B2X.Catalog.API.csproj" />
+    <ProjectReference Include="..\..\backend\Shared\Infrastructure\B2X.Shared.Infrastructure\B2X.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

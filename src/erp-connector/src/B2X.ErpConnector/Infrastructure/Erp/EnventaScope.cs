@@ -1,8 +1,8 @@
-﻿namespace B2X.ErpConnector.Infrastructure.Erp
-{
-    using System;
-    using B2X.ErpConnector.Infrastructure.Identity;
+using System;
+using B2X.ErpConnector.Infrastructure.Identity;
 
+namespace B2X.ErpConnector.Infrastructure.Erp
+{
     /// <summary>
     /// Disposable scope for enventa ERP operations.
     /// Based on FSScope from eGate.

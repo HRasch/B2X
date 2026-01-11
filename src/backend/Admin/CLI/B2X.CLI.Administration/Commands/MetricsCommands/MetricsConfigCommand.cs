@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 
@@ -71,7 +71,6 @@ public static class MetricsConfigCommand
                 await DisplayConfiguration(console, serviceName);
                 console.Info("");
             }
-
         }
         catch (Exception ex)
         {
@@ -131,7 +130,6 @@ public static class MetricsConfigCommand
             {
                 console.Warning($"Note: Service '{service}' may need to be restarted for changes to take effect.");
             }
-
         }
         catch (Exception ex)
         {
@@ -162,7 +160,6 @@ public static class MetricsConfigCommand
                 console.Warning($"Configuration key '{key}' not found. Using default value.");
                 console.Info($"Default {key} = {GetDefaultConfigurationValue(key)}");
             }
-
         }
         catch (Exception ex)
         {
@@ -194,7 +191,6 @@ public static class MetricsConfigCommand
             {
                 console.Warning($"Service '{service}' may need to be restarted.");
             }
-
         }
         catch (Exception ex)
         {

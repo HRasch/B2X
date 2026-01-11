@@ -1,4 +1,4 @@
-﻿using B2X.Admin.MCP.Data;
+using B2X.Admin.MCP.Data;
 using B2X.Admin.MCP.Middleware;
 using Microsoft.EntityFrameworkCore;
 using DataConversationContext = B2X.Admin.MCP.Data.ConversationContext;

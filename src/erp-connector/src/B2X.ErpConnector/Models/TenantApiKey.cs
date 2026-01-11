@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -288,6 +289,11 @@ namespace B2X.ErpConnector.Models
         public TenantApiKey? Key { get; set; }
         public string? ErrorMessage { get; set; }
         public bool IsAdmin { get; set; }
+
+        /// <summary>
+        /// ERP credentials (decrypted) if configured for this key.
+        /// </summary>
+        public ErpCredentials? ErpCredentials { get; set; }
 
         /// <summary>
         /// Whether this is an ERP service account validation.

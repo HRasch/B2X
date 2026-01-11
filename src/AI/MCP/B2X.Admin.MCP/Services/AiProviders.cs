@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.AI;
-using B2X.Admin.MCP.Services;
-using Microsoft.Extensions.Logging;
-using Azure.Security.KeyVault.Secrets;
-using Azure.Identity;
+using System.ClientModel;
 using Anthropic;
 using Anthropic.SDK;
-using System.ClientModel;
-
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using B2X.Admin.MCP.Services;
+using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Logging;
 // Explicit type aliases to avoid ambiguity
 using AiChatMessage = Microsoft.Extensions.AI.ChatMessage;
 using AiChatRole = Microsoft.Extensions.AI.ChatRole;

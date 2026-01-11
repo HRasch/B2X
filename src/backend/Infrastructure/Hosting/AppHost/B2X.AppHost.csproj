@@ -3,21 +3,17 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <!-- Allow Aspire.Hosting net8.0 assemblies to be used with net10.0 runtime -->
-    <AssetTargetFallback>$(AssetTargetFallback);net9.0;net8.0</AssetTargetFallback>
-    <RollForward>LatestMajor</RollForward>
-    <!-- Copy ALL transitive dependencies to output folder -->
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <RootNamespace>B2X.AppHost</RootNamespace>
     <AssemblyName>B2X.AppHost</AssemblyName>
-    <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>B2X-apphost</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Aspire.Hosting.AppHost is now included automatically by the Aspire.AppHost.Sdk -->
+    <PackageReference Include="Aspire.Hosting.JavaScript" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
     <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
@@ -25,12 +21,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Bogus" />
-    <PackageReference Include="Aspire.Hosting.AppHost" />
     <PackageReference Include="Aspire.Hosting.Redis" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
     <PackageReference Include="Aspire.Hosting.RabbitMQ" />
     <PackageReference Include="Aspire.Hosting.Elasticsearch" />
-    <PackageReference Include="Aspire.Hosting.JavaScript" />
   </ItemGroup>
 
   <ItemGroup>

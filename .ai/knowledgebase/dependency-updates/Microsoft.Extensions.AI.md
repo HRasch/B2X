@@ -11,7 +11,7 @@ created: 2026-01-08
 **Overview**: .NET developers need to integrate and interact with a growing variety of artificial intelligence (AI) services in their apps. The `Microsoft.Extensions.AI` libraries provide a unified approach for representing generative AI components, and enable seamless integration and interoperability with various AI services.
 
 **DocID**: `KB-024`  
-**Last Updated**: 10. Januar 2026  
+**Last Updated**: 11. Januar 2026  
 **Maintained By**: GitHub Copilot  
 **Status**: ✅ Current
 
@@ -23,6 +23,7 @@ created: 2026-01-08
 |---------|--------------|---------|-------|
 | `Microsoft.Extensions.AI.Abstractions` | **10.1.1** | - | Core interfaces and types |
 | `Microsoft.Extensions.AI` | **10.1.1** | - | High-level utilities and middleware |
+| `Microsoft.Extensions.AI.Evaluation` | - | **10.1.0** | AI response evaluation and quality assessment |
 | `Microsoft.Extensions.AI.OpenAI` | - | **10.1.1-preview.1.25612.2** | OpenAI integration |
 | `Microsoft.Extensions.AI.AzureAIInference` | - | **10.0.0-preview.1.25559.3** | Azure AI Inference |
 | `Microsoft.Extensions.AI.Ollama` | - | **10.1.1-preview.1.25612.2** | Ollama integration |
@@ -37,6 +38,25 @@ The `IEmbeddingGenerator<TInput,TEmbedding>` interface represents a generic gene
 
 ### IImageGenerator (Experimental)
 The `IImageGenerator` interface represents a generator for creating images from text prompts or other input. This interface enables applications to integrate image generation capabilities from various AI services through a consistent API.
+
+### Evaluation Framework
+
+The `Microsoft.Extensions.AI.Evaluation` package provides comprehensive evaluation capabilities for AI responses, including quality assessment, safety checks, and NLP-based similarity analysis.
+
+Key components:
+- **IEvaluator**: Interface for implementing custom evaluators
+- **EvaluationResult**: Structured results with scores and metrics
+- **EvaluationThresholds**: Configurable pass/fail criteria
+- **Built-in Evaluators**: Quality, Safety, Relevance, Groundedness
+
+Usage:
+```csharp
+var evaluator = new QualityEvaluator();
+var result = await evaluator.EvaluateAsync(chatResponse, evaluationContext);
+if (result.Score < threshold) { /* handle low quality */ }
+```
+
+This is used in B2X for automated testing of AI integrations and ensuring response quality across tenant configurations.
 
 ## Middleware and Pipeline Features
 

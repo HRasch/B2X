@@ -1,7 +1,7 @@
-﻿using System.CommandLine;
-using B2X.Api.Validation;
-using B2X.Api.Models.Erp;
+using System.CommandLine;
 using System.Text.Json;
+using B2X.Api.Models.Erp;
+using B2X.Api.Validation;
 using Microsoft.Extensions.Logging;
 
 namespace B2X.CLI.Operations.Commands.ValidationCommands;
@@ -236,7 +236,8 @@ public static class ValidateErpCommand
 
     private static string? GetSqlQueryForIssue(string code, string erpType, string tenantId, ErpData? data)
     {
-        if (data?.Id == null) return null;
+        if (data?.Id == null)
+            return null;
 
         return erpType.ToLower() switch
         {

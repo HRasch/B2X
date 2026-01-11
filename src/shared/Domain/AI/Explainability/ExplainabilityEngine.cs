@@ -1,4 +1,4 @@
-﻿// B2X.AI.Explainability
+// B2X.AI.Explainability
 // AI Model Explainability Framework Implementation
 // DocID: SPR-027-AI-EXPLAIN
 
@@ -59,19 +59,19 @@ namespace B2X.AI.Explainability
 
     public class ModelExplanation
     {
-        public string ModelId { get; set; }
-        public Dictionary<string, double> FeatureImportances { get; set; }
-        public string ExplanationText { get; set; }
+        public string? ModelId { get; set; }
+        public Dictionary<string, double>? FeatureImportances { get; set; }
+        public string? ExplanationText { get; set; }
         public double Confidence { get; set; }
     }
 
     public class AuditEntry
     {
-        public string ModelId { get; set; }
-        public string UserId { get; set; }
+        public string? ModelId { get; set; }
+        public string? UserId { get; set; }
         public DateTime Timestamp { get; set; }
-        public object InputData { get; set; }
-        public object Prediction { get; set; }
-        public ModelExplanation Explanation { get; set; }
+        public object? InputData { get; set; }
+        public object? Prediction { get; set; }
+        public ModelExplanation? Explanation { get; set; }
     }
 }

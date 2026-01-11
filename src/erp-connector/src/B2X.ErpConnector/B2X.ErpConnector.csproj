@@ -56,10 +56,8 @@
   </ItemGroup>
   <!-- Reference shared ERP projects for common interfaces and validation -->
   <ItemGroup>
-    <ProjectReference Include="..\..\..\backend\shared\B2X.Shared.Erp.Core\B2X.Shared.Erp.Core.csproj" />
-
-    <ProjectReference Include="..\..\..\backend\shared\B2X.Shared.Erp.Validation\B2X.Shared.Erp.Validation.csproj" />
-
+    <ProjectReference Include="..\..\..\shared\B2X.Shared.Erp.Core\B2X.Shared.Erp.Core.csproj" />
+    <ProjectReference Include="..\..\..\shared\B2X.Shared.Erp.Validation\B2X.Shared.Erp.Validation.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

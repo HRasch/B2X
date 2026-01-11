@@ -1,8 +1,8 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using System.Text;
-using Spectre.Console;
 using B2X.CLI.Services;
 using B2X.CLI.Shared;
+using Spectre.Console;
 
 namespace B2X.CLI.Commands;
 

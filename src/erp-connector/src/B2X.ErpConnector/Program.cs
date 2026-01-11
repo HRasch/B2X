@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -69,6 +69,24 @@ namespace B2X.ErpConnector
                     Console.WriteLine("==========================================\n");
                 }
 
+                // Initialize performance monitoring first (needed by AI service)
+                var performanceEnabled = bool.TryParse(ConfigurationManager.AppSettings["PerformanceMonitoring:Enabled"], out var perfEnabled) && perfEnabled;
+                PerformanceMonitor performanceMonitor = null;
+                if (performanceEnabled)
+                {
+                    var reportingInterval = TimeSpan.FromMinutes(5); // Default 5 minutes
+                    if (TimeSpan.TryParse(ConfigurationManager.AppSettings["PerformanceMonitoring:ReportingInterval"], out var interval))
+                    {
+                        reportingInterval = interval;
+                    }
+                    performanceMonitor = new PerformanceMonitor(true, reportingInterval);
+                    Console.WriteLine($"Performance monitoring enabled (reporting every {reportingInterval.TotalMinutes} minutes)");
+                }
+                else
+                {
+                    Console.WriteLine("Performance monitoring disabled");
+                }
+
                 // Initialize AI service if enabled
                 LocalAiService aiService = null;
                 var aiProviderSelector = new ErpAiProviderSelector();
@@ -88,24 +106,6 @@ namespace B2X.ErpConnector
                 else
                 {
                     Console.WriteLine("AI processing disabled in configuration");
-                }
-
-                // Initialize performance monitoring
-                var performanceEnabled = bool.TryParse(ConfigurationManager.AppSettings["PerformanceMonitoring:Enabled"], out var perfEnabled) && perfEnabled;
-                PerformanceMonitor performanceMonitor = null;
-                if (performanceEnabled)
-                {
-                    var reportingInterval = TimeSpan.FromMinutes(5); // Default 5 minutes
-                    if (TimeSpan.TryParse(ConfigurationManager.AppSettings["PerformanceMonitoring:ReportingInterval"], out var interval))
-                    {
-                        reportingInterval = interval;
-                    }
-                    performanceMonitor = new PerformanceMonitor(true, reportingInterval);
-                    Console.WriteLine($"Performance monitoring enabled (reporting every {reportingInterval.TotalMinutes} minutes)");
-                }
-                else
-                {
-                    Console.WriteLine("Performance monitoring disabled");
                 }
 
                 // Initialize ERP service with AI and performance monitoring capabilities

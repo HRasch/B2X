@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using B2X.SmartDataIntegration.Core;
 using B2X.SmartDataIntegration.Models;

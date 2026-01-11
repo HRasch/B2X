@@ -1,9 +1,9 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
+using B2X.Shared.Monitoring;
 using B2X.Shared.Monitoring.Abstractions;
 using B2X.Shared.Monitoring.Models;
-using B2X.Shared.Monitoring;
 
 namespace B2X.CLI.Administration.Commands.MetricsCommands;
 
@@ -62,7 +62,6 @@ public static class MetricsViewCommand
             {
                 await DisplayMetricsSnapshot(console, service, tenant, timeRange, format, alertsOnly);
             }
-
         }
         catch (Exception ex)
         {

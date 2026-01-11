@@ -1,12 +1,11 @@
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Diagnostics;
 // Integration tests can run against a running ES instance specified by ES_INTEGRATION_URL
 // or start a local Docker Elasticsearch when `USE_TESTCONTAINERS=true`.
 using Elastic.Clients.Elasticsearch;
-
 using Xunit;
 
 namespace B2X.Search.IntegrationTests;
@@ -56,7 +55,10 @@ public class SearchIntegrationTests : IAsyncLifetime
             if (!ready)
             {
                 try
-                { if (!string.IsNullOrWhiteSpace(_dockerContainerId)) Process.Start("docker", $"rm -f {_dockerContainerId}")?.WaitForExit(); }
+                {
+                    if (!string.IsNullOrWhiteSpace(_dockerContainerId))
+                        Process.Start("docker", $"rm -f {_dockerContainerId}")?.WaitForExit();
+                }
                 catch { }
                 throw new InvalidOperationException("Elasticsearch did not become ready in time");
             }

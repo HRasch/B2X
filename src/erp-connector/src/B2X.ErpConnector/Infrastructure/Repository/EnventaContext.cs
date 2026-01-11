@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using B2X.ErpConnector.Infrastructure.Erp;
 using B2X.ErpConnector.Infrastructure.Identity;
 

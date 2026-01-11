@@ -1,4 +1,4 @@
-using B2X.AuthService.Data;
+using B2X.Identity.Data;
 using B2X.Types;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using Moq;
 using Shouldly;
 using Xunit;
 
-namespace B2X.AuthService.Tests;
+namespace B2X.Identity.Tests;
 
 public class AuthServiceTests : IAsyncLifetime
 {

@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Threading.Channels;
 
 namespace B2X.CLI.Services;
@@ -237,9 +237,12 @@ public class ActorTemplate : ITemplateProvider
 
     private string GetNamespaceSuffix(string name)
     {
-        if (name.Contains("Erp") || name.Contains("Enventa")) return "ERP";
-        if (name.Contains("Catalog")) return "Catalog";
-        if (name.Contains("Cms")) return "CMS";
+        if (name.Contains("Erp") || name.Contains("Enventa"))
+            return "ERP";
+        if (name.Contains("Catalog"))
+            return "Catalog";
+        if (name.Contains("Cms"))
+            return "CMS";
         return "Shared";
     }
 }

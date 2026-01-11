@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 using Spectre.Console;
@@ -119,7 +119,6 @@ public static class ScaleCommand
                 console.Error($"❌ Scaling failed - expected {replicas} replicas, got {newReplicaCount}");
                 Environment.Exit(1);
             }
-
         }
         catch (Exception ex)
         {

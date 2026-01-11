@@ -1,8 +1,8 @@
-﻿using Microsoft.CodeAnalysis;
+using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
-using System.Text.RegularExpressions;
 
 namespace B2X.Tools.WolverineMCP.Services;
 
@@ -66,8 +66,8 @@ public sealed class QueryOptimizationService
 
     private bool IsLinqQuery(InvocationExpressionSyntax invocation, SemanticModel semanticModel)
     {
-        var symbol = semanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-        if (symbol is null) return false;
+        if (semanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol symbol)
+            return false;
 
         var methodName = symbol.Name;
         return methodName is "Where" or "Select" or "FirstOrDefault" or "SingleOrDefault" or "ToList" or "Count" or "Any";
@@ -75,8 +75,8 @@ public sealed class QueryOptimizationService
 
     private bool IsRawSqlQuery(InvocationExpressionSyntax invocation, SemanticModel semanticModel)
     {
-        var symbol = semanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-        if (symbol is null) return false;
+        if (semanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol symbol)
+            return false;
 
         var methodName = symbol.Name;
         return methodName.Contains("FromSql") || methodName.Contains("ExecuteSql");
@@ -151,7 +151,8 @@ public sealed class QueryOptimizationService
     {
         // Simple heuristic: check if there are property accesses in loops after queries
         var containingMethod = query.Ancestors().OfType<MethodDeclarationSyntax>().FirstOrDefault();
-        if (containingMethod is null) return false;
+        if (containingMethod is null)
+            return false;
 
         var propertyAccesses = containingMethod.DescendantNodes()
             .OfType<MemberAccessExpressionSyntax>()

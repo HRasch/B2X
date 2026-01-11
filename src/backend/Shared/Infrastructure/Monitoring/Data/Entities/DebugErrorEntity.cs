@@ -75,6 +75,13 @@ public class DebugErrorEntity : ITenantEntity, IAuditableEntity
     public int? ColumnNumber { get; set; }
 
     /// <summary>
+    /// Component/module where error occurred
+    /// </summary>
+    [Column("component")]
+    [StringLength(100)]
+    public string? Component { get; set; }
+
+    /// <summary>
     /// Browser URL where error occurred
     /// </summary>
     [Column("url")]

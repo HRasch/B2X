@@ -365,3 +365,11 @@ app.MapControllers();
 app.MapReverseProxy();
 
 app.Run();
+
+namespace B2X.Store
+{
+    /// <summary>
+    /// Partial class for WebApplicationFactory support in integration tests
+    /// </summary>
+    public partial class Program { }
+}

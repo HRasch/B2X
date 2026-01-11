@@ -1,8 +1,8 @@
-﻿using Xunit;
-using Moq;
-using B2X.Api.Validation;
 using B2X.Api.Models.Erp;
+using B2X.Api.Validation;
 using Microsoft.Extensions.Logging;
+using Moq;
+using Xunit;
 
 namespace B2X.Api.Tests.Validation;
 

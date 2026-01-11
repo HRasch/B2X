@@ -1,11 +1,11 @@
-﻿using Xunit;
-using Shouldly;
-using Microsoft.Extensions.Logging;
-using Moq;
 using B2X.CMS.Application.Pages;
 using B2X.CMS.Application.Widgets;
 using B2X.CMS.Core.Domain.Pages;
 using B2X.CMS.Core.Domain.Widgets;
+using Microsoft.Extensions.Logging;
+using Moq;
+using Shouldly;
+using Xunit;
 
 namespace B2X.CMS.Tests;
 

@@ -97,9 +97,9 @@ public class DebugHub : Hub
     /// </summary>
     public async Task<List<DebugSessionSummary>> GetActiveSessions()
     {
-        var tenantId = Context.GetHttpContext()?.Request.Headers["X-Tenant-Id"].ToString();
+        var tenantIdString = Context.GetHttpContext()?.Request.Headers["X-Tenant-Id"].ToString();
 
-        if (string.IsNullOrEmpty(tenantId))
+        if (string.IsNullOrEmpty(tenantIdString) || !Guid.TryParse(tenantIdString, out var tenantId))
         {
             _logger.LogWarning("GetActiveSessions called without tenant context");
             return new List<DebugSessionSummary>();
@@ -107,14 +107,14 @@ public class DebugHub : Hub
 
         var sessions = await _dbContext.DebugSessions
             .Where(s => s.TenantId == tenantId && s.EndTime == null)
-            .OrderByDescending(s => s.StartTime)
+            .OrderByDescending(s => s.StartedAt)
             .Take(50) // Limit to prevent overload
             .Select(s => new DebugSessionSummary
             {
                 Id = s.Id,
                 CorrelationId = s.CorrelationId,
                 UserId = s.UserId,
-                StartTime = s.StartTime,
+                StartTime = s.StartedAt,
                 UserAgent = s.UserAgent,
                 Environment = s.Environment
             })
@@ -129,9 +129,9 @@ public class DebugHub : Hub
     /// </summary>
     public async Task<List<DebugErrorSummary>> GetRecentErrors(int limit = 20)
     {
-        var tenantId = Context.GetHttpContext()?.Request.Headers["X-Tenant-Id"].ToString();
+        var tenantIdString = Context.GetHttpContext()?.Request.Headers["X-Tenant-Id"].ToString();
 
-        if (string.IsNullOrEmpty(tenantId))
+        if (string.IsNullOrEmpty(tenantIdString) || !Guid.TryParse(tenantIdString, out var tenantId))
         {
             _logger.LogWarning("GetRecentErrors called without tenant context");
             return new List<DebugErrorSummary>();
@@ -146,7 +146,7 @@ public class DebugHub : Hub
                 Id = e.Id,
                 SessionId = e.SessionId,
                 CorrelationId = e.CorrelationId,
-                Severity = e.Severity,
+                Severity = e.Level,
                 Message = e.Message,
                 CreatedAt = e.CreatedAt,
                 Component = e.Component
@@ -162,9 +162,9 @@ public class DebugHub : Hub
     /// </summary>
     public async Task<List<DebugActionSummary>> GetSessionActions(Guid sessionId, int limit = 50)
     {
-        var tenantId = Context.GetHttpContext()?.Request.Headers["X-Tenant-Id"].ToString();
+        var tenantIdString = Context.GetHttpContext()?.Request.Headers["X-Tenant-Id"].ToString();
 
-        if (string.IsNullOrEmpty(tenantId))
+        if (string.IsNullOrEmpty(tenantIdString) || !Guid.TryParse(tenantIdString, out var tenantId))
         {
             _logger.LogWarning("GetSessionActions called without tenant context");
             return new List<DebugActionSummary>();
@@ -179,8 +179,8 @@ public class DebugHub : Hub
                 Id = a.Id,
                 SessionId = a.SessionId,
                 ActionType = a.ActionType,
-                Target = a.Target,
-                Data = a.Data,
+                Target = a.TargetSelector ?? string.Empty,
+                Data = a.Metadata,
                 CreatedAt = a.CreatedAt
             })
             .ToListAsync();

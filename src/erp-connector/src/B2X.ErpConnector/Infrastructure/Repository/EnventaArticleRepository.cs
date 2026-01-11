@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using B2X.ErpConnector.Infrastructure.Erp;
@@ -32,7 +32,8 @@ namespace B2X.ErpConnector.Infrastructure.Repository
         public ArticleQueryBuilder WithArticleIds(IEnumerable<string> articleIds)
         {
             var ids = articleIds?.ToList();
-            if (ids == null || !ids.Any()) return this;
+            if (ids == null || !ids.Any())
+                return this;
 
             var inClause = string.Join(", ", ids.Select(EscapeString));
             AddWhere($"ArticleId IN ({inClause})");

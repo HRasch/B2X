@@ -1,4 +1,4 @@
-﻿using B2X.Infrastructure.Encryption;
+using B2X.Infrastructure.Encryption;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

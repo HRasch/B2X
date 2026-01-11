@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace B2X.CLI.Services;
 
@@ -199,11 +199,16 @@ public class ResiliencePipelineTemplate : ITemplateProvider
 
     private string GetNamespaceSuffix(string name)
     {
-        if (name.Contains("Erp") || name.Contains("Enventa")) return "ERP";
-        if (name.Contains("Catalog")) return "Catalog";
-        if (name.Contains("Cms")) return "CMS";
-        if (name.Contains("Identity")) return "Identity";
-        if (name.Contains("Search")) return "Search";
+        if (name.Contains("Erp") || name.Contains("Enventa"))
+            return "ERP";
+        if (name.Contains("Catalog"))
+            return "Catalog";
+        if (name.Contains("Cms"))
+            return "CMS";
+        if (name.Contains("Identity"))
+            return "Identity";
+        if (name.Contains("Search"))
+            return "Search";
         return "Shared";
     }
 }

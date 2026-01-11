@@ -1,8 +1,8 @@
-﻿using System.CommandLine;
+using System.CommandLine;
+using System.Net.Http.Json;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 using Spectre.Console;
-using System.Net.Http.Json;
 
 namespace B2X.CLI.Commands.ErpCommands;
 

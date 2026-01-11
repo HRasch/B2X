@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using System.Text.Json;
 using B2X.Admin.MCP.Tools;
 using B2X.CMS.Core.Domain.Pages;
@@ -57,13 +57,13 @@ public class CmsValidationClient
                     {
                         new B2X.CMS.Core.Domain.Pages.ValidationIssue
                         {
-                            Severity = "warning",
-                            Category = "service",
+                            Severity = IssueSeverity.Warning,
+                            Type = ValidationType.BestPractices,
                             Message = $"CMS validation service unavailable: {response.StatusCode}",
                             Suggestion = "Check CMS service health and retry validation"
                         }
                     },
-                    OverallStatus = "warning",
+                    OverallStatus = TemplateValidationStatus.ValidWithWarnings,
                     ConfidenceScore = 0.5
                 };
             }
@@ -81,13 +81,13 @@ public class CmsValidationClient
                 {
                     new B2X.CMS.Core.Domain.Pages.ValidationIssue
                     {
-                        Severity = "warning",
-                        Category = "service",
+                        Severity = IssueSeverity.Warning,
+                        Type = ValidationType.BestPractices,
                         Message = "CMS validation service temporarily unavailable",
                         Suggestion = "Validation will be performed when service is restored"
                     }
                 },
-                OverallStatus = "warning",
+                OverallStatus = TemplateValidationStatus.ValidWithWarnings,
                 ConfidenceScore = 0.3
             };
         }

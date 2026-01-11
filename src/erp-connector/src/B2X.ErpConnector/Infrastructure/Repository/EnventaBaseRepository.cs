@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -99,12 +99,14 @@ namespace B2X.ErpConnector.Infrastructure.Repository
 
         public virtual IEnumerable<TDto> Find(IEnumerable<string> keys)
         {
-            if (keys == null) yield break;
+            if (keys == null)
+                yield break;
 
             foreach (var key in keys)
             {
                 var dto = Find(key);
-                if (dto != null) yield return dto;
+                if (dto != null)
+                    yield return dto;
             }
         }
 
@@ -170,7 +172,8 @@ namespace B2X.ErpConnector.Infrastructure.Repository
 
             foreach (var entity in entities)
             {
-                if (ct.IsCancellationRequested) yield break;
+                if (ct.IsCancellationRequested)
+                    yield break;
 
                 count++;
                 progress?.Report(count);
@@ -209,7 +212,8 @@ namespace B2X.ErpConnector.Infrastructure.Repository
         /// </summary>
         protected virtual IEnumerable<TDto> ToDtos(IEnumerable<TFSEntity> entities)
         {
-            if (entities == null) yield break;
+            if (entities == null)
+                yield break;
 
             foreach (var entity in entities)
             {

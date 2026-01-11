@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Web.Script.Serialization;
 
 namespace B2X.ErpConnector.Services
 {
@@ -33,7 +34,8 @@ namespace B2X.ErpConnector.Services
         /// </summary>
         public void RecordOperation(string operationName, TimeSpan duration, bool success = true)
         {
-            if (!_enabled) return;
+            if (!_enabled)
+                return;
 
             var metrics = _metrics.GetOrAdd(operationName, _ => new OperationMetrics(operationName));
             metrics.Record(duration, success);
@@ -44,7 +46,8 @@ namespace B2X.ErpConnector.Services
         /// </summary>
         public T TimeOperation<T>(string operationName, Func<T> operation)
         {
-            if (!_enabled) return operation();
+            if (!_enabled)
+                return operation();
 
             var stopwatch = Stopwatch.StartNew();
             try
@@ -67,7 +70,8 @@ namespace B2X.ErpConnector.Services
         /// </summary>
         public async System.Threading.Tasks.Task<T> TimeOperationAsync<T>(string operationName, Func<System.Threading.Tasks.Task<T>> operation)
         {
-            if (!_enabled) return await operation();
+            if (!_enabled)
+                return await operation();
 
             var stopwatch = Stopwatch.StartNew();
             try
@@ -106,7 +110,8 @@ namespace B2X.ErpConnector.Services
         /// </summary>
         public void ReportMetrics(object state = null)
         {
-            if (!_enabled) return;
+            if (!_enabled)
+                return;
 
             lock (_lock)
             {
@@ -126,7 +131,8 @@ namespace B2X.ErpConnector.Services
         /// </summary>
         public string ExportMetrics()
         {
-            if (!_enabled) return "{}";
+            if (!_enabled)
+                return "{}";
 
             var export = new
             {
@@ -146,7 +152,8 @@ namespace B2X.ErpConnector.Services
                 }).ToList()
             };
 
-            return Newtonsoft.Json.JsonConvert.SerializeObject(export, Newtonsoft.Json.Formatting.Indented);
+            var serializer = new JavaScriptSerializer();
+            return serializer.Serialize(export);
         }
 
         /// <summary>

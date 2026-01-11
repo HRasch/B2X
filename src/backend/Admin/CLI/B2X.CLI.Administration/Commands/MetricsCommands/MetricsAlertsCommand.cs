@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 
@@ -76,9 +76,12 @@ public static class MetricsAlertsCommand
 
             // Build filter parameters
             var filters = new Dictionary<string, object>();
-            if (!string.IsNullOrEmpty(service)) filters["service"] = service;
-            if (!string.IsNullOrEmpty(tenant)) filters["tenantId"] = tenant;
-            if (!string.IsNullOrEmpty(severity)) filters["severity"] = severity;
+            if (!string.IsNullOrEmpty(service))
+                filters["service"] = service;
+            if (!string.IsNullOrEmpty(tenant))
+                filters["tenantId"] = tenant;
+            if (!string.IsNullOrEmpty(severity))
+                filters["severity"] = severity;
 
             var alerts = await monitoringClient.GetResourceAlertsAsync(filters);
 
@@ -176,8 +179,10 @@ public static class MetricsAlertsCommand
             {
                 ["timeRange"] = $"{days}d"
             };
-            if (!string.IsNullOrEmpty(service)) filters["service"] = service;
-            if (!string.IsNullOrEmpty(tenant)) filters["tenantId"] = tenant;
+            if (!string.IsNullOrEmpty(service))
+                filters["service"] = service;
+            if (!string.IsNullOrEmpty(tenant))
+                filters["tenantId"] = tenant;
 
             var alerts = await monitoringClient.GetResourceAlertsAsync(filters);
 
@@ -204,7 +209,6 @@ public static class MetricsAlertsCommand
                 console.Info($"  By severity: {string.Join(", ", severityCounts)}");
                 console.Info("");
             }
-
         }
         catch (Exception ex)
         {
@@ -257,8 +261,7 @@ public static class MetricsAlertsCommand
     {
         try
         {
-            var dict = alert as IDictionary<string, object>;
-            if (dict != null && dict.TryGetValue(propertyName, out var value))
+            if (alert is IDictionary<string, object> dict && dict.TryGetValue(propertyName, out var value))
             {
                 return value?.ToString() ?? defaultValue;
             }

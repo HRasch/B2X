@@ -21,6 +21,7 @@ public class ErpActor : IAsyncDisposable
     private readonly ConcurrentQueue<object> _operationQueue = new();
     private readonly CancellationTokenSource _cts = new();
     private bool _isInitialized;
+    private bool _disposed;
 
     /// <summary>
     /// Gets the number of processed operations.
@@ -83,6 +84,11 @@ public class ErpActor : IAsyncDisposable
     /// <returns>The result of the operation.</returns>
     public async Task<T> EnqueueAsync<T>(ErpOperation<T> operation, CancellationToken cancellationToken = default)
     {
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(ErpActor));
+        }
+
         if (!_isInitialized)
         {
             throw new InvalidOperationException("Actor is not initialized.");
@@ -119,9 +125,16 @@ public class ErpActor : IAsyncDisposable
     /// <returns>A value task representing the dispose operation.</returns>
     public ValueTask DisposeAsync()
     {
+        if (_disposed)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        _disposed = true;
         _cts.Cancel();
         _cts.Dispose();
         _semaphore.Dispose();
+        GC.SuppressFinalize(this);
         return ValueTask.CompletedTask;
     }
 }

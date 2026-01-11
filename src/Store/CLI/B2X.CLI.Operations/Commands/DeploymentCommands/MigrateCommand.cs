@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using B2X.CLI.Shared;
 using B2X.CLI.Shared.Configuration;
 using B2X.CLI.Shared.HttpClients;
@@ -105,7 +105,6 @@ public static class MigrateCommand
             {
                 console.Success("All migrations completed successfully");
             }
-
         }
         catch (Exception ex)
         {

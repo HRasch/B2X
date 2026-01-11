@@ -66,7 +66,7 @@ ArchUnitNET offers framework-specific extensions for seamless integration:
 | Framework | Package | Status | Purpose |
 |-----------|---------|--------|---------|
 | **xUnit** | `TngTech.ArchUnitNET.xUnit` | Stable | ✅ B2X Standard |
-| **xUnit V3** | `TngTech.ArchUnitNET.xUnitV3` | Stable | Latest xUnit support |
+| **xUnit V3** | `TngTech.ArchUnitNET.xUnitV3` | Stable | **B2X Standard** (.NET 10) |
 | **NUnit** | `TngTech.ArchUnitNET.NUnit` | Stable | NUnit integration |
 | **MSTest V2** | `TngTech.ArchUnitNET.MSTestV2` | Stable | Visual Studio test explorer |
 | **TUnit** | `TngTech.ArchUnitNET.TUnit` | New | Modern .NET testing |
@@ -264,16 +264,28 @@ backend/Tests/B2X.Architecture.Tests/
 
 ### Architecture Base Class
 
+> ⚠️ **xUnit V3 Note**: For xUnit V3, use `using ArchUnitNET.xUnitV3;` (NOT `xUnit`). Also add `using Xunit;` for `[Fact]` attributes.
+
 ```csharp
+using ArchUnitNET.Domain;
+using ArchUnitNET.Fluent;
+using ArchUnitNET.Loader;
+using ArchUnitNET.xUnitV3;  // For xUnit V3 - provides Check() extension
+using Xunit;                 // Required for [Fact] attribute
+using static ArchUnitNET.Fluent.ArchRuleDefinition;
+
+namespace B2X.ArchitectureTests;  // Avoid 'Architecture' in namespace name
+
 public abstract class ArchitectureTestBase
 {
-    protected static readonly ArchUnitDomain.Architecture Architecture = new ArchLoader()
+    // Use unique field name to avoid conflict with ArchUnitNET.Domain.Architecture type
+    protected static readonly Architecture B2XArchitecture = new ArchLoader()
         .LoadAssemblies(
-            typeof(Catalog.Core.Entities.TaxRate).Assembly,
-            typeof(CMS.Core.Domain.Pages.PageDefinition).Assembly,
-            typeof(B2X.AuthService.Data.AppUser).Assembly,
-            typeof(LocalizationService.Models.LocalizedString).Assembly,
-            typeof(Domain.Search.Models.ProductDocument).Assembly,
+            typeof(B2X.Catalog.Core.Entities.TaxRate).Assembly,
+            typeof(B2X.CMS.Core.Domain.Pages.PageDefinition).Assembly,
+            typeof(B2X.Identity.Data.AppUser).Assembly,
+            typeof(B2X.LocalizationService.Models.LocalizedString).Assembly,
+            typeof(B2X.Search.SearchResult<>).Assembly,
             typeof(B2X.Types.Domain.Entity).Assembly)
         .Build();
 
@@ -281,9 +293,9 @@ public abstract class ArchitectureTestBase
     {
         public const string Catalog = "B2X.Catalog";
         public const string CMS = "B2X.CMS";
-        public const string Identity = "B2X.AuthService";
+        public const string Identity = "B2X.Identity";           // NOT AuthService
         public const string Localization = "B2X.LocalizationService";
-        public const string Search = "B2X.Domain.Search";
+        public const string Search = "B2X.Search";               // NOT Domain.Search
     }
 }
 ```
@@ -493,6 +505,85 @@ dotnet test *.csproj -c Debug
 .And().DoNotResideInNamespace(".*Mock.*", useRegularExpressions: true)
 ```
 
+#### Issue: CS0234 - 'xUnit' namespace not found (xUnit V3)
+
+**Cause**: Using wrong namespace for xUnit V3
+**Solution**: Use `ArchUnitNET.xUnitV3` instead of `ArchUnitNET.xUnit`
+
+```csharp
+// ❌ Wrong: Old xUnit namespace
+using ArchUnitNET.xUnit;
+
+// ✅ Correct: xUnit V3 namespace
+using ArchUnitNET.xUnitV3;
+```
+
+#### Issue: CS0118 - 'Architecture' is namespace, used as type
+
+**Cause**: Field name conflicts with `ArchUnitNET.Domain.Architecture` type
+**Solution**: Rename field to avoid collision
+
+```csharp
+// ❌ Wrong: Name conflicts with type
+protected static readonly Architecture Architecture = ...;
+
+// ✅ Correct: Unique field name
+protected static readonly Architecture B2XArchitecture = ...;
+```
+
+#### Issue: Missing [Fact] attribute after xUnit V3 migration
+
+**Cause**: `ArchUnitNET.xUnitV3` provides `Check()` extension but NOT `[Fact]` attribute
+**Solution**: Add explicit `using Xunit;`
+
+```csharp
+using ArchUnitNET.xUnitV3;  // Provides Check() extension
+using Xunit;                 // Required for [Fact] attribute
+```
+
+#### Issue: Types() or Classes() unresolved when you have B2X.Types namespace
+
+**Cause**: `B2X.Types` namespace shadows ArchRuleDefinition static members
+**Solution**: Use fully qualified name
+
+```csharp
+// ❌ Wrong: Conflicts with B2X.Types namespace
+using static ArchUnitNET.Fluent.ArchRuleDefinition;
+Types().That()...  // Ambiguous with B2X.Types
+
+// ✅ Correct: Fully qualified
+ArchRuleDefinition.Types().That()...
+```
+
+#### Issue: "The rule requires positive evaluation" error
+
+**Cause**: Rule predicate matches no types (empty result set)
+**Solution**: Add `WithoutRequiringPositiveResults()`
+
+```csharp
+// ❌ Wrong: Fails if no types match
+Types().That().ResideInNamespaceMatching("B2X.Search\\..*")
+    .Should().NotDependOnAny(...)
+    .Check(Architecture);  // Fails if no B2X.Search.* types exist
+
+// ✅ Correct: Allow empty result sets
+Types().That().ResideInNamespaceMatching("B2X.Search\\..*")
+    .Should().NotDependOnAny(...)
+    .WithoutRequiringPositiveResults()
+    .Check(Architecture);
+```
+
+#### Issue: Package version mismatch errors
+
+**Cause**: Core package and test-framework package at different versions
+**Solution**: Use same version for all ArchUnitNET packages
+
+```xml
+<!-- Directory.Packages.props - All must match -->
+<PackageVersion Include="TngTech.ArchUnitNET" Version="0.13.1" />
+<PackageVersion Include="TngTech.ArchUnitNET.xUnitV3" Version="0.13.1" />
+```
+
 ---
 
 ## Integration with CI/CD
@@ -533,14 +624,14 @@ Reference: [ArchUnitNET Debug Artifacts Documentation](https://archunitnet.readt
 
 ---
 
-## Getting Started - Complete Example
+## Getting Started - Complete Example (xUnit V3)
 
 ### Step 1: Create Test Project
 
 ```bash
 dotnet new xunit -n B2X.Architecture.Tests
 cd B2X.Architecture.Tests
-dotnet add package TngTech.ArchUnitNET.xUnit
+dotnet add package TngTech.ArchUnitNET.xUnitV3  # Use xUnitV3 for .NET 10+
 ```
 
 ### Step 2: Create Base Class
@@ -549,16 +640,17 @@ dotnet add package TngTech.ArchUnitNET.xUnit
 using ArchUnitNET.Domain;
 using ArchUnitNET.Loader;
 
-namespace B2X.Architecture.Tests;
+namespace B2X.ArchitectureTests;  // Avoid 'Architecture' in namespace
 
 public abstract class ArchitectureTestBase
 {
     // Load architecture once at class initialization (expensive operation)
-    protected static readonly Architecture Architecture = new ArchLoader()
+    // Use unique field name to avoid conflict with ArchUnitNET.Domain.Architecture
+    protected static readonly Architecture B2XArchitecture = new ArchLoader()
         .LoadAssemblies(
-            typeof(Catalog.Core.Entities.Product).Assembly,
-            typeof(CMS.Core.Domain.Pages.PageDefinition).Assembly,
-            typeof(B2X.AuthService.Data.AppUser).Assembly)
+            typeof(B2X.Catalog.Core.Entities.TaxRate).Assembly,
+            typeof(B2X.CMS.Core.Domain.Pages.PageDefinition).Assembly,
+            typeof(B2X.Identity.Data.AppUser).Assembly)
         .Build();
 }
 ```
@@ -566,13 +658,13 @@ public abstract class ArchitectureTestBase
 ### Step 3: Write Your First Rule
 
 ```csharp
+using ArchUnitNET.Domain;
 using ArchUnitNET.Fluent;
-using ArchUnitNET.xUnit;
-using Xunit;
-
+using ArchUnitNET.xUnitV3;  // xUnit V3 - provides Check() extension
+using Xunit;                 // Required for [Fact] attribute
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
-namespace B2X.Architecture.Tests;
+namespace B2X.ArchitectureTests;
 
 [Collection("Architecture")]
 public class LayerDependencyTests : ArchitectureTestBase
@@ -580,13 +672,13 @@ public class LayerDependencyTests : ArchitectureTestBase
     [Fact]
     public void Domain_Should_Not_Depend_On_Infrastructure()
     {
-        var rule = Types()
-            .That().ResideInNamespace("B2X.Catalog.Core.*", useRegularExpressions: true)
+        // Use ArchRuleDefinition.Types() if you have a B2X.Types namespace conflict
+        ArchRuleDefinition.Types()
+            .That().ResideInNamespaceMatching(@"B2X\.Catalog\.Core\..*")
             .Should().NotDependOnAny(
-                Types().That().ResideInNamespace("B2X.Catalog.Infrastructure.*", useRegularExpressions: true))
-            .Because("Domain must be independent of infrastructure concerns (Clean Architecture)");
-
-        rule.Check(Architecture);
+                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"B2X\.Catalog\.Infrastructure\..*"))
+            .Because("Domain must be independent of infrastructure concerns (Clean Architecture)")
+            .Check(B2XArchitecture);  // Use renamed field
     }
 }
 ```
@@ -598,7 +690,7 @@ public class LayerDependencyTests : ArchitectureTestBase
 dotnet test -c Debug
 
 # Output:
-# ✓ B2X.Architecture.Tests.LayerDependencyTests.Domain_Should_Not_Depend_On_Infrastructure
+# ✓ B2X.ArchitectureTests.LayerDependencyTests.Domain_Should_Not_Depend_On_Infrastructure
 ```
 
 ### Example GitHub Repository

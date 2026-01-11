@@ -2,25 +2,60 @@
 docid: KB-070
 title: Aspire .NET 10 Compatibility
 owner: @Backend
-status: Active
+status: Resolved
 created: 2026-01-10
+updated: 2026-01-11
 ---
 
 # Aspire .NET 10 Compatibility Guide
 
 **DocID**: `KB-070`  
-**Last Updated**: 10. Januar 2026  
-**Status**: Active (Workaround in place, awaiting Aspire 13.2)
+**Last Updated**: 11. Januar 2026  
+**Status**: ✅ **RESOLVED** - Upgraded to Aspire 13.1.0 with SDK-based approach
 
 ---
 
-## Overview
+## ✅ Resolution (11. Januar 2026)
 
-This document describes the compatibility issues between .NET Aspire 13.x and .NET 10, along with the workarounds implemented in the B2X project.
+**The compatibility issues with Aspire and .NET 10 have been resolved by upgrading to Aspire 13.1.0 with the modern SDK-based approach.**
+
+### Changes Made
+
+1. **Upgraded from Aspire 8.2.0 → 13.1.0**:
+   - Changed from deprecated workload model to SDK-based approach
+   - Updated `B2X.AppHost.csproj` to use `Sdk="Aspire.AppHost.Sdk/13.1.0"`
+   - Removed `<IsAspireHost>true</IsAspireHost>` property (no longer needed)
+
+2. **Package Updates**:
+   - All Aspire packages updated to 13.1.0 (except Elasticsearch at 13.0.0)
+   - Removed explicit `Aspire.Hosting.AppHost` reference (implicitly provided by SDK)
+   - Updated `nuget.config` to allow Aspire packages from nuget.org
+
+3. **Eliminated Workarounds**:
+   - No longer need `AssetTargetFallback` properties
+   - No longer need `RollForward` to `LatestMajor`
+   - No longer need `CopyLocalLockFileAssemblies`
+
+### New AppHost.csproj Structure
+
+```xml
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>B2X-apphost</UserSecretsId>
+  </PropertyGroup>
+  <!-- Aspire.Hosting.AppHost automatically included by SDK -->
+</Project>
+```
 
 ---
 
-## The Problem
+## Historical Context (Before 11. Januar 2026)
+
+### Original Problem
 
 ### Symptom
 

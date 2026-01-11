@@ -112,6 +112,7 @@ public class BoundedContextTests : ArchitectureTestBase
             .Should().NotDependOnAny(
                 ArchRuleDefinition.Types().That().ResideInNamespaceMatching($@"{BoundedContexts.Identity}\..*"))
             .Because("Bounded contexts must be isolated - Search cannot directly depend on Identity (ADR-001)")
+            .WithoutRequiringPositiveResults() // Search namespace may have no types with sub-namespaces
             .Check(B2XArchitecture);
     }
 

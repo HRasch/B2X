@@ -1,10 +1,10 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
+using B2X.CLI.Operations.Commands.DeploymentCommands;
 using B2X.CLI.Operations.Commands.HealthCommands;
 using B2X.CLI.Operations.Commands.MonitoringCommands;
 using B2X.CLI.Operations.Commands.ServiceCommands;
-using B2X.CLI.Operations.Commands.DeploymentCommands;
 using B2X.CLI.Operations.Commands.ValidationCommands;
 using B2X.CLI.Shared.Configuration;
 using Spectre.Console;

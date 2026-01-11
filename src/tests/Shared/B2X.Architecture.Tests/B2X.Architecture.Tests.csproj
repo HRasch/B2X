@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
@@ -15,6 +16,12 @@
   <ItemGroup>
     <!-- Test Framework -->
 <PackageReference Include="xunit.v3.mtp-v2" />
+    <!-- VSTest adapter for VSCode Test Explorer compatibility -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
 <PackageReference Include="Shouldly" />
     
     <!-- Architecture Testing -->
@@ -36,4 +43,6 @@
   </ItemGroup>
 
 </Project>
+
+
 

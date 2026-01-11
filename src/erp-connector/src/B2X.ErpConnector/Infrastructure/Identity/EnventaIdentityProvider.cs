@@ -1,7 +1,7 @@
-﻿namespace B2X.ErpConnector.Infrastructure.Identity
-{
-    using System;
+using System;
 
+namespace B2X.ErpConnector.Infrastructure.Identity
+{
     /// <summary>
     /// Provider for the current identity context.
     /// Allows different identity sources (HTTP header, configuration, etc.)

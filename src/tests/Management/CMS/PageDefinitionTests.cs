@@ -1,6 +1,6 @@
-﻿using Xunit;
-using Shouldly;
 using B2X.CMS.Core.Domain.Pages;
+using Shouldly;
+using Xunit;
 
 namespace B2X.CMS.Tests;
 

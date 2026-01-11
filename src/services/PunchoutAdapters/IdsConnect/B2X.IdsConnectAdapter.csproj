@@ -5,25 +5,28 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
   </ItemGroup>
 
+  <!-- Include source files from the subfolder -->
   <ItemGroup>
-    <ProjectReference Include="../../../../src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
+    <Compile Include="B2X.IdsConnectAdapter\**\*.cs" Exclude="B2X.IdsConnectAdapter\obj\**;B2X.IdsConnectAdapter\bin\**" />
+    <Content Include="B2X.IdsConnectAdapter\appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 
-    <ProjectReference Include="../../../../src/backend/Shared/Domain/Search/B2X.Search.csproj" />
-
-    <ProjectReference Include="../../../../src/backend/Store/Domain/Customer/B2X.Customer.API.csproj" />
-
-    <ProjectReference Include="../../../../src/backend/Management/Domain/Email/B2X.Email.API.csproj" />
-
-    <ProjectReference Include="../../../../src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
-
-    <ProjectReference Include="../../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\backend\Store\Domain\Catalog\B2X.Catalog.API.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Domain\Search\B2X.Search.csproj" />
+    <ProjectReference Include="..\..\..\Store\Backend\Customer\B2X.Customer.API.csproj" />
+    <ProjectReference Include="..\..\..\backend\Management\Domain\B2X.Email.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Domain\Localization\B2X.Localization.API.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Domain\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Infrastructure\B2X.Shared.Infrastructure\B2X.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

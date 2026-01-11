@@ -10,8 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
-
+    <ProjectReference Include="..\..\Domain\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
   </ItemGroup>
 
 </Project>

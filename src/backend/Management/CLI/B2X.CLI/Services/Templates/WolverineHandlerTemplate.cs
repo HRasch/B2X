@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace B2X.CLI.Services;
 
@@ -145,10 +145,14 @@ public class WolverineHandlerTemplate : ITemplateProvider
     private string GetNamespaceSuffix(string name)
     {
         // Simple heuristic - could be made more sophisticated
-        if (name.Contains("Catalog") || name.Contains("Product")) return "Catalog.Handlers";
-        if (name.Contains("Cms") || name.Contains("Content")) return "CMS.Handlers";
-        if (name.Contains("Identity") || name.Contains("Auth")) return "Identity.Handlers";
-        if (name.Contains("Search")) return "Search.Handlers";
+        if (name.Contains("Catalog") || name.Contains("Product"))
+            return "Catalog.Handlers";
+        if (name.Contains("Cms") || name.Contains("Content"))
+            return "CMS.Handlers";
+        if (name.Contains("Identity") || name.Contains("Auth"))
+            return "Identity.Handlers";
+        if (name.Contains("Search"))
+            return "Search.Handlers";
         return "Handlers";
     }
 }

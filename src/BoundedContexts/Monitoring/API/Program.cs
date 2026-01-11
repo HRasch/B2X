@@ -1,8 +1,10 @@
-﻿using B2X.ServiceDefaults;
-using B2X.Shared.Monitoring.Abstractions;
-using B2X.Shared.Monitoring.Services;
-using B2X.Shared.Monitoring.Data;
+using B2X.Monitoring.Services;
+using B2X.ServiceDefaults;
 using B2X.Shared.Middleware;
+using B2X.Shared.Monitoring.Abstractions;
+using B2X.Shared.Monitoring.Data;
+using B2X.Shared.Monitoring.Services;
+using B2X.Utils.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Wolverine;
