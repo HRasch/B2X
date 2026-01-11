@@ -3,8 +3,8 @@
 // ADR-021: ArchUnitNET for Automated Architecture Testing
 // -----------------------------------------------------------------------------
 
-using ArchUnitNET;
-using ArchUnitDomain = ArchUnitNET.Domain;
+using ArchUnitNET.Domain;
+using ArchUnitNET.Loader;
 
 namespace B2X.Architecture.Tests;
 
@@ -18,7 +18,7 @@ public abstract class ArchitectureTestBase
     /// The loaded architecture containing all B2X domain assemblies.
     /// Loaded once per test collection for performance.
     /// </summary>
-    protected static readonly ArchUnitDomain.Architecture Architecture = new ArchLoader()
+    protected static readonly Architecture Architecture = new ArchLoader()
         .LoadAssemblies(
             // Domain assemblies - using marker types from each domain
             typeof(Catalog.Core.Entities.TaxRate).Assembly,                     // Catalog

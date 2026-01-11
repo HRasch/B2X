@@ -25,7 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="../../Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../Shared/Domain/B2X.Types/B2X.Types.csproj" />
+    <ProjectReference Include="../shared/types/B2X.Types.csproj" />
 
     <ProjectReference Include="../../Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
 

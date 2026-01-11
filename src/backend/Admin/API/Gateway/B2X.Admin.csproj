@@ -51,7 +51,7 @@
 
     <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
-    <ProjectReference Include="../../../Shared/Infrastructure/Middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
 
     <ProjectReference Include="../../../Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
 

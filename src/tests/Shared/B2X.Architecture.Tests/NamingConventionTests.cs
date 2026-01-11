@@ -3,9 +3,9 @@
 // ADR-021: ArchUnitNET for Automated Architecture Testing
 // -----------------------------------------------------------------------------
 
-using ArchUnitNET;
+using ArchUnitNET.Domain;
 using ArchUnitNET.Fluent;
-using TngTech.ArchUnitNET.xUnitV3;
+using ArchUnitNET.xUnit;
 using Xunit;
 
 namespace B2X.Architecture.Tests;
