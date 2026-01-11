@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>B2X.Search</AssemblyName>
-    <RootNamespace>B2X.Search</RootNamespace>
+    <RootNamespace>B2X.Domain.Search</RootNamespace>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
 

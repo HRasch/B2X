@@ -4,7 +4,7 @@ using B2X.Admin.Core.Interfaces;
 using B2X.Admin.Infrastructure.Data;
 using B2X.Admin.Infrastructure.Repositories;
 using B2X.Admin.Presentation.Filters;
-using B2X.ERP;
+// using B2X.ERP;
 using B2X.ServiceDefaults;
 using B2X.Shared.Infrastructure.Extensions;
 using B2X.Shared.Infrastructure.Logging;
@@ -241,7 +241,7 @@ else if (dbProvider.Equals("postgres", StringComparison.OrdinalIgnoreCase))
 var connectionString = builder.Configuration.GetConnectionString("Catalog");
 if (!string.IsNullOrEmpty(connectionString))
 {
-    builder.Services.AddDataAccess(connectionString);
+    // builder.Services.AddDataAccess(connectionString); // TODO: Implement AddDataAccess extension
 }
 
 // ==================== TENANT CONTEXT ====================

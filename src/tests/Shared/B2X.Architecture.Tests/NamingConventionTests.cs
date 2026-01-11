@@ -3,8 +3,9 @@
 // ADR-021: ArchUnitNET for Automated Architecture Testing
 // -----------------------------------------------------------------------------
 
+using ArchUnitNET.Domain;
 using ArchUnitNET.Fluent;
-using TngTech.ArchUnitNET.xUnit;
+using ArchUnitNET.xUnit;
 using Xunit;
 
 namespace B2X.Architecture.Tests;
@@ -20,7 +21,7 @@ public class NamingConventionTests : ArchitectureTestBase
     public void Handlers_Should_Have_Handler_Suffix()
     {
         // Arrange & Act - Check classes in Handlers namespace follow naming
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().ResideInNamespaceMatching(@".*\.Handlers\.")
             .And().AreNotAbstract()
             .And().DoNotHaveNameContaining("Base")
@@ -34,7 +35,7 @@ public class NamingConventionTests : ArchitectureTestBase
     public void Validators_Should_Have_Validator_Suffix()
     {
         // Arrange & Act
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().ResideInNamespaceMatching(@".*\.Validators\.")
             .And().AreNotAbstract()
             .Should().HaveNameEndingWith("Validator")
@@ -47,7 +48,7 @@ public class NamingConventionTests : ArchitectureTestBase
     public void Controllers_Should_Have_Controller_Suffix()
     {
         // Arrange & Act
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().ResideInNamespaceMatching(@".*\.Controllers\.")
             .And().AreNotAbstract()
             .And().DoNotHaveNameContaining("Base")
@@ -62,7 +63,7 @@ public class NamingConventionTests : ArchitectureTestBase
     public void Events_In_Events_Namespace_Should_Have_Event_Suffix()
     {
         // Arrange & Act
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().ResideInNamespaceMatching(@".*\.Events\.")
             .And().AreNotAbstract()
             .And().DoNotHaveNameContaining("Base")
@@ -77,7 +78,7 @@ public class NamingConventionTests : ArchitectureTestBase
     public void Services_Should_Have_Service_Suffix()
     {
         // Arrange & Act - Services in Services namespace should follow naming
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().ResideInNamespaceMatching(@".*\.Services\.")
             .And().AreNotAbstract()
             .And().DoNotHaveNameContaining("Base")
@@ -97,7 +98,7 @@ public class NamingConventionTests : ArchitectureTestBase
     public void Interfaces_Should_Have_I_Prefix()
     {
         // Arrange & Act
-        ArchRuleDefinition.Interfaces()
+        ArchRule.Interfaces()
             .That().ArePublic()
             .Should().HaveNameStartingWith("I")
             .Because("All interfaces must follow C# convention with I prefix")
@@ -108,7 +109,7 @@ public class NamingConventionTests : ArchitectureTestBase
     public void Abstract_Classes_Should_Have_Base_Suffix_Or_Abstract_Prefix()
     {
         // This is a softer rule - we check but allow exceptions
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().AreAbstract()
             .And().AreNotSealed()
             .Should().HaveNameEndingWith("Base")

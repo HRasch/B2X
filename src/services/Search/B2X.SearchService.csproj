@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../src/Store/Backend/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../src/backend/Shared/Domain/Search/B2X.Search.csproj" />
 
-    <ProjectReference Include="../../../src/Store/Backend/Catalog/B2X.Catalog.API.csproj" />
+    <ProjectReference Include="../../../src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
 
   </ItemGroup>
 

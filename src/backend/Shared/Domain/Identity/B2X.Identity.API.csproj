@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
-    <RootNamespace>B2X.Identity</RootNamespace>
+    <RootNamespace>B2X.Identity.API</RootNamespace>
     <AssemblyName>B2X.Identity.API</AssemblyName>
     <IsAspireProjectResource>true</IsAspireProjectResource>
     <MSBuildWarningsAsMessages>MSB9008</MSBuildWarningsAsMessages>

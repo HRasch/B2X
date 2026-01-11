@@ -12,13 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../src/Store/Backend/Catalog/B2X.Catalog.API.csproj" />
+    <ProjectReference Include="../../../../src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
 
-    <ProjectReference Include="../../../../src/Store/Backend/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/Search/B2X.Search.csproj" />
 
-    <ProjectReference Include="../../../../src/Store/Backend/Customer/B2X.Customer.API.csproj" />
+    <ProjectReference Include="../../../../src/backend/Store/Domain/Customer/B2X.Customer.API.csproj" />
 
-    <ProjectReference Include="../../../../src/backend/Management/Domain/B2X.Email.csproj" />
+    <ProjectReference Include="../../../../src/backend/Management/Domain/Email/B2X.Email.API.csproj" />
 
     <ProjectReference Include="../../../../src/backend/Shared/Domain/Localization/B2X.Localization.API.csproj" />
 

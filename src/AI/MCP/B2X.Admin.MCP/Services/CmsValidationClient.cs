@@ -53,9 +53,9 @@ public class CmsValidationClient
                 {
                     TemplateKey = templateKey,
                     ValidationTimestamp = DateTime.UtcNow,
-                    ValidationResults = new List<ValidationIssue>
+                    ValidationResults = new List<B2X.CMS.Core.Domain.Pages.ValidationIssue>
                     {
-                        new ValidationIssue
+                        new B2X.CMS.Core.Domain.Pages.ValidationIssue
                         {
                             Severity = "warning",
                             Category = "service",
@@ -77,9 +77,9 @@ public class CmsValidationClient
             {
                 TemplateKey = templateKey,
                 ValidationTimestamp = DateTime.UtcNow,
-                ValidationResults = new List<ValidationIssue>
+                ValidationResults = new List<B2X.CMS.Core.Domain.Pages.ValidationIssue>
                 {
-                    new ValidationIssue
+                    new B2X.CMS.Core.Domain.Pages.ValidationIssue
                     {
                         Severity = "warning",
                         Category = "service",

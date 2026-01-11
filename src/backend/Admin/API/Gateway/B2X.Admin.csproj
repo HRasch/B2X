@@ -45,33 +45,37 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../../../Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 
-    <ProjectReference Include="../../../../shared/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
-    <ProjectReference Include="../../../../shared/middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
 
-    <ProjectReference Include="../../../../shared/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="../../../../Shared/Domain/ERP/impl/B2X.ERP.csproj" />
+    <ProjectReference Include="../../../Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
 
-    <ProjectReference Include="../../../../Management/Domain/B2X.Email.csproj" />
+    <ProjectReference Include="../../../Shared/Domain/ERP/impl/B2X.ERP.csproj" />
 
-    <ProjectReference Include="../../../../Shared/Domain/Theming/B2X.Theming.API.csproj">
+    <ProjectReference Include="../../../Management/Domain/B2X.Email.csproj" />
+
+    <ProjectReference Include="../../../Shared/Domain/Theming/B2X.Theming.API.csproj">
       <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
     </ProjectReference>
 
-    <!-- ERP Validation and Connectors (ADR-036) -->
-    <ProjectReference Include="../../../../shared/Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
+    <ProjectReference Include="../../../Shared/Domain/B2X.Types/B2X.Types.csproj" />
 
-    <ProjectReference Include="../../../../Connectors/B2X.Connectors.csproj" />
+    <!-- ERP Validation and Connectors (ADR-036) -->
+    <ProjectReference Include="../../../Shared/Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
+
+    <ProjectReference Include="../../../Infrastructure/Connectors/B2X.Connectors.csproj" />
 
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../Shared/Domain/Tenancy/B2X.Tenancy.API.csproj">
+    <ProjectReference Include="../../../Shared/Domain/Tenancy/B2X.Tenancy.API.csproj">
       <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
     </ProjectReference>
 

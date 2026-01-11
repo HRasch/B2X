@@ -26,12 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../../B2Connect/src/backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
-    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
-    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
-    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Infrastructure/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
-    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
-    <ProjectReference Include="../../../../../../B2Connect/src/backend/Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Store\Domain\Catalog\B2X.Catalog.API.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Domain\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Domain\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Infrastructure\B2X.Shared.Infrastructure\B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Infrastructure\Messaging\B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Infrastructure\Search\B2X.Shared.Search.csproj" />
   </ItemGroup>
 
   <ItemGroup>

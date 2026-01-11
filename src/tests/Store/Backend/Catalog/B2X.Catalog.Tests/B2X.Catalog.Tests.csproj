@@ -23,9 +23,9 @@
   <ItemGroup>
     <ProjectReference Include="../../../../backend/Store/Domain/Catalog/B2X.Catalog.API.csproj" />
 
-    <ProjectReference Include="../../../../backend/Shared/Domain/Shared/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Domain\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
 
-    <ProjectReference Include="../../../../backend/Shared/Domain/Types/B2X.Types/B2X.Types.csproj" />
+    <ProjectReference Include="..\..\..\..\..\backend\Shared\Domain\B2X.Types\B2X.Types.csproj" />
 
   </ItemGroup>
 
@@ -33,4 +33,5 @@
     <PackageReference Include="BouncyCastle.Cryptography" />
   </ItemGroup>
 </Project>
+
 

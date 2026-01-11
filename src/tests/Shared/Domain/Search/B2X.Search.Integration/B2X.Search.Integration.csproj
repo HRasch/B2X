@@ -16,10 +16,11 @@
     <PackageReference Include="Testcontainers" />
     <PackageReference Include="xunit.v3.mtp-v2" />
     <PackageReference Include="Elastic.Clients.Elasticsearch" />
-    <ProjectReference Include="../../../../../../backend/Shared/Domain/Search/B2X.Search.csproj" />
+    <ProjectReference Include="../../..\backend\Shared/Domain/Search/B2X.Search.csproj" />
   </ItemGroup>
 
 </Project>
+
 
 
 

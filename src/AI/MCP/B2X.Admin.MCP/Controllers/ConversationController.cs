@@ -243,7 +243,7 @@ public class AbTestingController : ControllerBase
             Statistics = new AbTestStatisticsDto
             {
                 TotalParticipants = t.Results.Count,
-                ConversionRate = t.Results.Count > 0 ? t.Results.Count(r => r.MetricType == "conversion") / (double)t.Results.Count : 0,
+                ConversionRate = t.Results.Count > 0 ? t.Results.Count(r => r.MetricType.Equals("conversion")) / (double)t.Results.Count : 0,
                 BestVariant = t.Variants
                     .OrderByDescending(v => v.Weight)
                     .FirstOrDefault()?.Name ?? "None"
@@ -287,7 +287,7 @@ public class AbTestingController : ControllerBase
                 Id = r.Id,
                 UserId = r.UserId,
                 VariantId = r.VariantId,
-                Converted = r.MetricType == "conversion",
+                Converted = r.MetricType.Equals("conversion"),
                 ConversionValue = r.MetricValue,
                 CreatedAt = r.CreatedAt
             }).ToList(),
@@ -435,7 +435,7 @@ public class AbTestingController : ControllerBase
 
     private static AbTestStatisticsDto MapToStatisticsDto(AbTestStatistics statistics)
     {
-        var variantRates = new Dictionary<string, double>();
+        var variantRates = new Dictionary<string, double>(StringComparer.Ordinal);
         foreach (var v in statistics.VariantStatistics)
         {
             var conversionMetric = v.Metrics.GetValueOrDefault("conversion");

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../backend/Store/Backend/Orders/B2X.Orders.API.csproj" />
+    <ProjectReference Include="../../../../Store/Backend/Orders/B2X.Orders.API.csproj" />
   </ItemGroup>
 
 </Project>

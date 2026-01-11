@@ -25,7 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="../../Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
 
-    <ProjectReference Include="../../Shared/Domain/B2X.Types/B2X.Types.csproj" />
+    <ProjectReference Include="../shared/types/B2X.Types.csproj" />
 
     <ProjectReference Include="../../Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
 
@@ -43,7 +43,7 @@
 
     <ProjectReference Include="../Domain/Categories/B2X.Categories.csproj" />
 
-    <ProjectReference Include="../../Shared/Domain/Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../Shared/Domain/Search/B2X.Search.csproj" />
 
   </ItemGroup>
 </Project>

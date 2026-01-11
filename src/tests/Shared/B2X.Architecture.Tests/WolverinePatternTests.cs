@@ -4,8 +4,9 @@
 // ADR-001: Event-Driven Architecture with Wolverine CQRS
 // -----------------------------------------------------------------------------
 
+using ArchUnitNET.Domain;
 using ArchUnitNET.Fluent;
-using TngTech.ArchUnitNET.xUnit;
+using ArchUnitNET.xUnit;
 using Xunit;
 
 namespace B2X.Architecture.Tests;
@@ -21,7 +22,7 @@ public class WolverinePatternTests : ArchitectureTestBase
     public void Handlers_Should_Be_In_Handlers_Or_Application_Namespace()
     {
         // B2X allows handlers in .Handlers, .Endpoints, or .Application namespaces
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().HaveNameEndingWith("Handler")
             .And().DoNotResideInNamespaceMatching(@".*Test.*")
             .And().DoNotResideInNamespaceMatching(@".*Mock.*")
@@ -34,7 +35,7 @@ public class WolverinePatternTests : ArchitectureTestBase
     public void Commands_Should_Be_In_Known_Locations()
     {
         // B2X allows commands in various locations (Endpoints, Handlers, Commands, Core.Interfaces)
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().HaveNameEndingWith("Command")
             .And().DoNotResideInNamespaceMatching(@".*Test.*")
             .Should().ResideInNamespaceMatching(@".*(\.Endpoints|\.Handlers|\.Commands|\.Core\.|\.Application).*")
@@ -46,7 +47,7 @@ public class WolverinePatternTests : ArchitectureTestBase
     public void Queries_Should_Be_In_Known_Locations()
     {
         // B2X allows queries in various locations
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().HaveNameEndingWith("Query")
             .And().DoNotResideInNamespaceMatching(@".*Test.*")
             .Should().ResideInNamespaceMatching(@".*(\.Endpoints|\.Handlers|\.Queries|\.Application).*")
@@ -59,13 +60,13 @@ public class WolverinePatternTests : ArchitectureTestBase
     public void Domain_Events_Should_Not_Have_External_Dependencies()
     {
         // Domain events should be simple POCOs without external framework dependencies
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().HaveNameEndingWith("Event")
             .And().ResideInNamespaceMatching(@".*\.Core\.")
             .Should().NotDependOnAny(
-                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"Microsoft\.EntityFrameworkCore.*"))
+                ArchRule.Types().That().ResideInNamespaceMatching(@"Microsoft\.EntityFrameworkCore.*"))
             .AndShould().NotDependOnAny(
-                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"Microsoft\.AspNetCore.*"))
+                ArchRule.Types().That().ResideInNamespaceMatching(@"Microsoft\.AspNetCore.*"))
             .Because("Domain events must be simple POCOs without infrastructure dependencies")
             .WithoutRequiringPositiveResults() // May not have events in Core yet
             .Check(Architecture);
@@ -75,11 +76,11 @@ public class WolverinePatternTests : ArchitectureTestBase
     public void Handlers_Should_Not_Directly_Access_Other_Handlers()
     {
         // Handlers should communicate through the message bus, not direct calls
-        ArchRuleDefinition.Classes()
+        ArchRule.Classes()
             .That().HaveNameEndingWith("Handler")
             .And().ResideInNamespaceMatching(@".*\.Handlers\.")
             .Should().NotDependOnAny(
-                ArchRuleDefinition.Classes().That().HaveNameEndingWith("Handler")
+                ArchRule.Classes().That().HaveNameEndingWith("Handler")
                     .And().ResideInNamespaceMatching(@".*\.Handlers\."))
             .Because("Handlers should communicate via message bus, not direct dependencies (ADR-001)")
             .WithoutRequiringPositiveResults(); // May have no handler-to-handler deps

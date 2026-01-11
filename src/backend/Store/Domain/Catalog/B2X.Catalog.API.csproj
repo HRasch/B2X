@@ -59,13 +59,13 @@
 
     <ProjectReference Include="../../../Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
 
-    <ProjectReference Include="../../../Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../Shared/Infrastructure/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
     <ProjectReference Include="../../../Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
 
-    <ProjectReference Include="../../../Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
+    <ProjectReference Include="../../../Shared/Domain/Search/B2X.Search.csproj" />
 
-    <ProjectReference Include="../Search/B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../Shared/Infrastructure/Search/B2X.Shared.Search.csproj" />
 
   </ItemGroup>
 

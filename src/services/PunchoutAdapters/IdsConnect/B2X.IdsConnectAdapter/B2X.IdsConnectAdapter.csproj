@@ -4,7 +4,6 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <OutputType>Exe</OutputType>
     
   </PropertyGroup>
 
@@ -13,11 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\shared\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <ProjectReference Include="../../../../../../src/backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
 
-    <ProjectReference Include="..\..\..\..\shared\B2X.Shared.Infrastructure\B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../../../../../../src/backend/Shared/Infrastructure/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
-    <ProjectReference Include="..\..\..\..\Domain\Search\B2X.Domain.Search.csproj" />
+    <ProjectReference Include="../../../../../../src/backend/Shared/Domain/Search/B2X.Search.csproj" />
 
   </ItemGroup>
 

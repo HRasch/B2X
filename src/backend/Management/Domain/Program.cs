@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
-builder.Services.AddOpenApi();
+// builder.Services.AddOpenApi();  // TODO: Requires Microsoft.AspNetCore.OpenApi setup
 builder.Services.AddScoped<ITemplateValidationService, DefaultTemplateValidationService>();
 
 // Database configuration (if needed)
@@ -15,7 +15,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    // app.MapOpenApi();  // TODO: Requires Microsoft.AspNetCore.OpenApi setup
 }
 
 // Map template validation endpoints

@@ -20,11 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../backend/Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
+    <ProjectReference Include="../..\backend\Shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
 
-    <ProjectReference Include="../../../../../backend/Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="../..\backend\Shared/Infrastructure/B2X.Shared.Infrastructure/B2X.Shared.Infrastructure.csproj" />
 
   </ItemGroup>
 
 </Project>
+
 

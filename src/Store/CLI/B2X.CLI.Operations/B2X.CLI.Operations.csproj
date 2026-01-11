@@ -18,9 +18,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" />
-    <PackageReference Include="Spectre.Console" />
-    <PackageReference Include="Spectre.Console.Json" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.24302.3" />
+    <PackageReference Include="Spectre.Console" Version="0.54.0" />
+    <PackageReference Include="Spectre.Console.Json" Version="0.49.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,12 +28,13 @@
 
     <ProjectReference Include="..\..\shared\Monitoring\B2X.Shared.Monitoring.csproj" />
 
-    <ProjectReference Include="../../../../backend/Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\backend\Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
 
     <ProjectReference Include="..\..\Domain\Shared\B2X.Api.Validation\B2X.Api.Validation.csproj" />
 
   </ItemGroup>
 
 </Project>
+
 
 

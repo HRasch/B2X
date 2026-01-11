@@ -33,7 +33,7 @@
 
     <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Utils/B2X.Utils.csproj" />
 
-    <ProjectReference Include="../../../backend/Shared/Infrastructure/Middleware/B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="../../../backend/Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
 
   </ItemGroup>
 </Project>

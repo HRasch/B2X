@@ -47,5 +47,6 @@
   "markdown.extensions.preview.enableKimlEditing": true,
   "[markdown]": {
     "editor.wordWrap": "on"
-  }
+  },
+  "dotnet.preferCSharpExtension": true
 }

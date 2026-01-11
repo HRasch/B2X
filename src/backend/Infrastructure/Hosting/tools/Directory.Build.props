@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <!-- Import backend build configuration for consistency -->
-  <Import Project="$(MSBuildThisFileDirectory)\..\backend\Directory.Build.props" />
+  <Import Project="$(MSBuildThisFileDirectory)\..\..\backend\Directory.Build.props" />
   
   <PropertyGroup>
     <!-- Tools-specific overrides if needed -->
