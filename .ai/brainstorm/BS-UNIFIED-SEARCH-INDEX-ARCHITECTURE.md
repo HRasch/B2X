@@ -484,6 +484,54 @@ Statt separater Indizes für Produkte, Kategorien, Marken → **Ein Index mit Ty
       "has_bulk_pricing": { "type": "boolean" },         // Hat Staffelpreise / Mengenrabatte?
       "min_base_price": { "type": "scaled_float", "scaling_factor": 100 }, // Günstigster Grundpreis
       
+      // ═══════════════════════════════════════════════════════════════════════
+      // GRUNDEINHEIT & GRUNDPREIS (PAngV-Compliance)
+      // Pflichtangabe gemäß Preisangabenverordnung (PAngV) für B2C/B2B2C
+      // ═══════════════════════════════════════════════════════════════════════
+      //
+      // DEFINITIONEN:
+      // - Grundeinheit: Kleinste messbare Einheit für Preisvergleiche (1 Stück, 1 Meter, 1 kg, 1 Liter)
+      // - Grundpreis: Preis pro Grundeinheit (ermöglicht Preisvergleich zwischen Verpackungsgrößen)
+      //
+      // WANN PFLICHT (PAngV §2)?
+      // - B2C: Immer bei nach Gewicht, Volumen, Länge oder Fläche verkauften Waren
+      // - B2B: Freiwillig, aber Best Practice für Transparenz
+      //
+      // AUSNAHMEN (PAngV §9):
+      // - Artikel < 10g oder < 10ml
+      // - Sortimente mit verschiedenen Artikeln
+      // - Einzelstücke (z.B. Werkzeugmaschinen)
+      //
+      "base_unit": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "keyword" },                 // UN/ECE Einheitencode: C62 (Stück), MTR (Meter), KGM (kg), LTR (Liter), MTK (m²)
+          "name": { "type": "keyword" },                 // Lokalisierter Name: "Stück", "Meter", "Kilogramm", "Liter", "Quadratmeter"
+          "symbol": { "type": "keyword" },               // Kurzform: "St.", "m", "kg", "l", "m²"
+          "quantity": { "type": "float" },               // Referenzmenge: 1, 100, 1000 (z.B. "pro 100g")
+          "reference_quantity_display": { "type": "keyword" } // "1 kg", "100 g", "1 m", "1 l"
+        }
+      },
+      "base_price_info": {
+        "type": "object",
+        "properties": {
+          "requires_base_price": { "type": "boolean" },  // PAngV-pflichtig?
+          "exemption_reason": { "type": "keyword" },     // Falls nicht: "under_threshold", "assortment", "single_item"
+          "base_price": { "type": "scaled_float", "scaling_factor": 100 }, // Grundpreis (netto)
+          "base_price_gross": { "type": "scaled_float", "scaling_factor": 100 }, // Grundpreis (brutto)
+          "base_price_display": { "type": "keyword" },   // Formatiert: "8,49 € / kg", "0,85 € / m"
+          "content_quantity": { "type": "float" },       // Inhaltsmenge: 0.5 (für 500ml), 2.5 (für 2,5kg)
+          "content_unit_code": { "type": "keyword" },    // UN/ECE: LTR, KGM, MTR
+          "content_unit_name": { "type": "keyword" },    // "Liter", "Kilogramm", "Meter"
+          // Berechnung: base_price = product_price / (content_quantity / base_unit.quantity)
+          "calculation_formula": { "type": "keyword" }   // Für Audit: "8.49 / (0.5 / 1) = 16.98 €/l"
+        }
+      },
+      // Flache Felder für Aggregation/Sortierung
+      "base_price": { "type": "scaled_float", "scaling_factor": 100 },     // Grundpreis (für Sortierung)
+      "base_unit_code": { "type": "keyword" },           // UN/ECE Code der Grundeinheit
+      "has_base_price_display": { "type": "boolean" },   // Hat Grundpreis-Anzeige?
+      
       // TAGS (flexibles Tagging für Produkte und Varianten)
       "tags": {
         "type": "nested",
@@ -1479,6 +1527,31 @@ public class VariantLimitValidator
   "unit_eans": ["4014364100523", "4014364100530", "4014364100547", "4014364100554"],
   "has_bulk_pricing": true,          // Hat Staffelpreise / Mengenrabatte
   "min_base_price": 5.52,            // Günstigster Grundpreis (Palette)
+  
+  // ═══════════════════════════════════════════════════════════════════════
+  // GRUNDEINHEIT & GRUNDPREIS (PAngV-Compliance)
+  // ═══════════════════════════════════════════════════════════════════════
+  "base_unit": {
+    "code": "C62",                    // UN/ECE: Stück
+    "name": "Stück",
+    "symbol": "St.",
+    "quantity": 1,                    // Grundpreis pro 1 Stück
+    "reference_quantity_display": "1 Stück"
+  },
+  "base_price_info": {
+    "requires_base_price": true,      // PAngV-pflichtig (Stückware)
+    "exemption_reason": null,         // Keine Ausnahme
+    "base_price": 8.49,               // Grundpreis netto: 8,49 €/Stück
+    "base_price_gross": 10.10,        // Grundpreis brutto: 10,10 €/Stück
+    "base_price_display": "8,49 €/St.",// Formatierte Anzeige
+    "content_quantity": 1,            // Inhalt: 1 Stück
+    "content_unit_code": "C62",
+    "content_unit_name": "Stück",
+    "calculation_formula": "8.49 / (1 / 1) = 8.49 €/St."
+  },
+  "base_price": 8.49,                 // Für Sortierung
+  "base_unit_code": "C62",
+  "has_base_price_display": true,
   
   // Tags
   "tags": [
@@ -6156,6 +6229,1195 @@ GET b2x_tenant_de/_search
 
 ---
 
+#### 3️⃣.1 Detailliertes Kaufhistorie-Profil
+
+> **🎯 B2B-KILLER-FEATURE: Kundenprofil aus 12 Monaten Kaufhistorie!**
+
+> ⚠️ **WICHTIG: Daten NICHT im Suchindex!**  
+> Kaufdaten bleiben im ERP. Bei der ersten Suche einer Session wird das Profil 
+> on-demand aus dem ERP geladen und für die Session gecacht.
+
+##### Architektur: ERP als Single Source of Truth
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    KAUFHISTORIE-PROFIL ARCHITEKTUR                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ❌ FALSCH: Profil im Suchindex    ✅ RICHTIG: Profil aus ERP              │
+│  ═══════════════════════════════   ══════════════════════════════════════  │
+│                                                                             │
+│  ┌─────────┐      ┌─────────────┐  ┌─────────┐      ┌─────────┐            │
+│  │   ERP   │─────→│ Elasticsearch│  │   ERP   │←────→│  B2X    │            │
+│  └─────────┘ sync │ (Profildaten)│  └─────────┘ live │ Gateway │            │
+│                   └─────────────┘       ↓ 1x/Session └────┬────┘            │
+│                                   ┌─────────────┐         │                 │
+│  • Sync-Aufwand                   │ Redis Cache │←────────┘                 │
+│  • Dateninkonsistenz              │ (30 min TTL)│                           │
+│  • Datenschutz-Risiko             └──────┬──────┘                           │
+│                                          ↓                                  │
+│                                   ┌─────────────┐                           │
+│                                   │ Elasticsearch│                           │
+│                                   │ (Nur Suche)  │                           │
+│                                   └─────────────┘                           │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### Ablauf: Lazy Profile Loading
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    PROFIL-LADEN BEI ERSTER SUCHE                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  1️⃣ Kunde startet Suche → "bohrer"                                        │
+│     ↓                                                                       │
+│  2️⃣ Check: Profil im Session-Cache?                                       │
+│     │                                                                       │
+│     ├─ JA → Profil aus Cache laden (< 1ms)                                 │
+│     │                                                                       │
+│     └─ NEIN → ERP-API aufrufen (einmalig pro Session)                      │
+│              │                                                              │
+│              ├─ GET /api/customers/{id}/purchase-profile                   │
+│              │   └─ ERP berechnet Aggregation (12 Monate)                  │
+│              │                                                              │
+│              ├─ Latenz: 100-500ms (abhängig vom ERP)                       │
+│              │                                                              │
+│              └─ Profil in Redis cachen (TTL: 30 min)                       │
+│     ↓                                                                       │
+│  3️⃣ Elasticsearch-Suche MIT Profil-Boosts                                 │
+│     ↓                                                                       │
+│  4️⃣ Ergebnisse zurückgeben                                                │
+│                                                                             │
+│  ════════════════════════════════════════════════════════════════════════  │
+│                                                                             │
+│  LATENZ-ANALYSE:                                                            │
+│  ─────────────────────────────────────────────────────────────────────────  │
+│  Erste Suche (kein Cache):  100-500ms (ERP) + 50ms (ES) = 150-550ms        │
+│  Folgesuchen (mit Cache):   1ms (Cache) + 50ms (ES) = ~51ms                │
+│                                                                             │
+│  → Akzeptabel! Erste Suche etwas langsamer, dann schnell.                  │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### ERP-API: Kaufhistorie-Endpoint
+
+```typescript
+// ERP liefert aggregierte Kaufdaten - KEINE Rohdaten!
+interface ErpPurchaseProfileResponse {
+  customerId: string;
+  
+  // Aggregierte Statistiken (vom ERP berechnet)
+  summary: {
+    periodMonths: number;           // 12
+    orderCount: number;             // 47
+    positionCount: number;          // 312
+    totalRevenue: number;           // 45230.00
+    currency: string;               // "EUR"
+  };
+  
+  // Top-Marken (bereits aggregiert)
+  topBrands: {
+    brandId: string;
+    brandName: string;
+    purchaseCount: number;
+    purchaseRatio: number;          // 0-1
+  }[];
+  
+  // Top-Kategorien (bereits aggregiert)
+  topCategories: {
+    categoryId: string;
+    categoryName: string;
+    purchaseCount: number;
+    purchaseRatio: number;
+  }[];
+  
+  // Häufig gekaufte Produkte (Top 50)
+  frequentProducts: {
+    sku: string;
+    productId: string;
+    name: string;
+    purchaseCount: number;
+    lastPurchased: string;          // ISO Date
+    avgQuantity: number;
+  }[];
+  
+  // Attribut-Präferenzen (vom ERP extrahiert)
+  attributePreferences?: {
+    attributeCode: string;
+    topValues: { value: string; count: number }[];
+  }[];
+  
+  // Preissegment
+  priceProfile: {
+    avgOrderValue: number;
+    avgItemPrice: number;
+    budgetRatio: number;            // 0-1
+    premiumRatio: number;           // 0-1
+  };
+  
+  // Meta
+  calculatedAt: string;             // Wann hat ERP aggregiert?
+  dataQuality: 'complete' | 'partial' | 'none';
+}
+```
+
+##### B2X Gateway: Profil-Service
+
+```typescript
+class CustomerProfileService {
+  private readonly erpClient: IErpClient;
+  private readonly redisCache: RedisClient;
+  
+  private readonly CACHE_TTL = 30 * 60;  // 30 Minuten
+  private readonly CACHE_PREFIX = 'customer-profile:';
+  
+  /**
+   * Kundenprofil laden - aus Cache oder ERP
+   * Wird bei ERSTER Suche einer Session aufgerufen
+   */
+  async getProfile(
+    customerId: string,
+    tenantId: string
+  ): Promise<CustomerPreferenceProfile | null> {
+    const cacheKey = `${this.CACHE_PREFIX}${tenantId}:${customerId}`;
+    
+    // 1. Aus Cache versuchen
+    const cached = await this.redisCache.get(cacheKey);
+    if (cached) {
+      return JSON.parse(cached) as CustomerPreferenceProfile;
+    }
+    
+    // 2. Aus ERP laden (einmalig pro Session)
+    try {
+      const erpProfile = await this.erpClient.getPurchaseProfile(
+        customerId,
+        tenantId,
+        { monthsBack: 12 }
+      );
+      
+      if (!erpProfile || erpProfile.dataQuality === 'none') {
+        // Neukunde ohne Kaufhistorie
+        return null;
+      }
+      
+      // 3. In internes Format transformieren
+      const profile = this.transformErpProfile(erpProfile);
+      
+      // 4. In Cache speichern
+      await this.redisCache.setex(
+        cacheKey,
+        this.CACHE_TTL,
+        JSON.stringify(profile)
+      );
+      
+      return profile;
+      
+    } catch (error) {
+      // ERP nicht erreichbar → Suche ohne Personalisierung
+      console.warn(`ERP profile fetch failed for ${customerId}:`, error);
+      return null;
+    }
+  }
+  
+  /**
+   * ERP-Response in internes Profil-Format transformieren
+   */
+  private transformErpProfile(
+    erp: ErpPurchaseProfileResponse
+  ): CustomerPreferenceProfile {
+    return {
+      customerId: erp.customerId,
+      
+      analysisWindow: {
+        from: subMonths(new Date(), erp.summary.periodMonths),
+        to: new Date(),
+        orderCount: erp.summary.orderCount,
+        positionCount: erp.summary.positionCount,
+        totalRevenue: erp.summary.totalRevenue
+      },
+      
+      // Marken mit Boost-Scores anreichern
+      brandAffinities: erp.topBrands.map(b => ({
+        brandId: b.brandId,
+        brandName: b.brandName,
+        purchaseCount: b.purchaseCount,
+        purchaseRatio: b.purchaseRatio,
+        boostScore: this.calculateBoostScore(b.purchaseRatio)
+      })),
+      
+      // Kategorien mit Boost-Scores anreichern
+      categoryAffinities: erp.topCategories.map(c => ({
+        categoryId: c.categoryId,
+        categoryName: c.categoryName,
+        purchaseCount: c.purchaseCount,
+        purchaseRatio: c.purchaseRatio,
+        boostScore: this.calculateBoostScore(c.purchaseRatio)
+      })),
+      
+      // Top-Produkte
+      topProducts: erp.frequentProducts.map(p => ({
+        productId: p.productId,
+        sku: p.sku,
+        name: p.name,
+        purchaseCount: p.purchaseCount,
+        lastPurchased: new Date(p.lastPurchased),
+        avgQuantity: p.avgQuantity,
+        boostScore: 3.0  // Bereits gekauft = hoher Boost
+      })),
+      
+      // Attribut-Präferenzen
+      attributePreferences: erp.attributePreferences?.map(a => ({
+        attributeCode: a.attributeCode,
+        preferredValues: a.topValues.map(v => ({
+          value: v.value,
+          frequency: v.count,
+          boostScore: 1.2
+        }))
+      })) || [],
+      
+      // Preis-Segment
+      priceSegment: {
+        avgOrderValue: erp.priceProfile.avgOrderValue,
+        avgItemPrice: erp.priceProfile.avgItemPrice,
+        budgetRatio: erp.priceProfile.budgetRatio,
+        premiumRatio: erp.priceProfile.premiumRatio
+      },
+      
+      // Meta
+      lastUpdated: new Date(erp.calculatedAt),
+      source: 'erp'  // Zur Unterscheidung
+    };
+  }
+  
+  /**
+   * Boost-Score aus Kaufanteil berechnen
+   */
+  private calculateBoostScore(ratio: number): number {
+    if (ratio >= 0.3) return 2.0;   // 30%+ → 2x Boost
+    if (ratio >= 0.2) return 1.8;   // 20%+ → 1.8x
+    if (ratio >= 0.1) return 1.5;   // 10%+ → 1.5x
+    if (ratio >= 0.05) return 1.3;  // 5%+  → 1.3x
+    if (ratio >= 0.02) return 1.1;  // 2%+  → 1.1x
+    return 1.0;                      // <2%  → kein Boost
+  }
+  
+  /**
+   * Cache invalidieren (z.B. nach Bestellung)
+   */
+  async invalidateProfile(customerId: string, tenantId: string): Promise<void> {
+    const cacheKey = `${this.CACHE_PREFIX}${tenantId}:${customerId}`;
+    await this.redisCache.del(cacheKey);
+  }
+}
+```
+
+##### Datenmodell: Customer Preference Profile (gecacht)
+
+```typescript
+interface CustomerPreferenceProfile {
+  customerId: string;
+  tenantId: string;
+  
+  // Zeitraum der Analyse
+  analysisWindow: {
+    from: Date;      // 12 Monate zurück
+    to: Date;
+    orderCount: number;
+    positionCount: number;
+    totalRevenue: number;
+  };
+  
+  // ══════════════════════════════════════════════════════════════
+  // MARKEN-AFFINITÄT
+  // ══════════════════════════════════════════════════════════════
+  brandAffinities: BrandAffinity[];
+  
+  // ══════════════════════════════════════════════════════════════
+  // KATEGORIE-AFFINITÄT (Hierarchisch)
+  // ══════════════════════════════════════════════════════════════
+  categoryAffinities: CategoryAffinity[];
+  
+  // ══════════════════════════════════════════════════════════════
+  // PRODUKT-AFFINITÄT (häufig gekauft)
+  // ══════════════════════════════════════════════════════════════
+  topProducts: ProductAffinity[];
+  
+  // ══════════════════════════════════════════════════════════════
+  // ATTRIBUT-PRÄFERENZEN (aus gekauften Produkten extrahiert)
+  // ══════════════════════════════════════════════════════════════
+  attributePreferences: AttributePreference[];
+  
+  // ══════════════════════════════════════════════════════════════
+  // PREIS-SEGMENT
+  // ══════════════════════════════════════════════════════════════
+  priceSegment: {
+    avgOrderValue: number;
+    avgItemPrice: number;
+    budgetRatio: number;      // 0-1: Anteil günstige Produkte
+    premiumRatio: number;     // 0-1: Anteil Premium-Produkte
+    priceElasticity: 'low' | 'medium' | 'high';  // Reagiert auf Rabatte?
+  };
+  
+  // ══════════════════════════════════════════════════════════════
+  // VERHALTENSMUSTER
+  // ══════════════════════════════════════════════════════════════
+  behaviorPatterns: {
+    avgOrdersPerMonth: number;
+    preferredOrderDays: number[];    // 0=So, 1=Mo, ...
+    preferredOrderHours: number[];   // 0-23
+    expressDeliveryRatio: number;    // Wie oft Express?
+    repeatPurchaseRatio: number;     // Wie viele Wiederkäufe?
+  };
+  
+  // ══════════════════════════════════════════════════════════════
+  // EMBEDDING VECTOR (für kNN-Matching)
+  // ══════════════════════════════════════════════════════════════
+  preferenceVector: number[];  // 256 dim, normalisiert
+  
+  // Meta
+  lastUpdated: Date;
+  version: number;
+}
+
+interface BrandAffinity {
+  brandId: string;
+  brandName: string;
+  purchaseCount: number;
+  purchaseRatio: number;      // 0-1: Anteil am Gesamtkauf
+  recentTrend: 'increasing' | 'stable' | 'decreasing';
+  avgRating?: number;         // Wenn bewertet
+  boostScore: number;         // Berechneter Boost für Suche
+}
+
+interface CategoryAffinity {
+  categoryId: string;
+  categoryPath: string[];     // ['Elektro', 'Installation', 'Kabel']
+  level: number;              // Hierarchie-Tiefe
+  purchaseCount: number;
+  purchaseRatio: number;
+  seasonality?: SeasonalPattern;  // Q1 mehr Heizung, Q2 mehr Klima
+  boostScore: number;
+}
+
+interface ProductAffinity {
+  productId: string;
+  sku: string;
+  name: string;
+  purchaseCount: number;
+  lastPurchased: Date;
+  avgQuantity: number;
+  isConsumable: boolean;      // Verbrauchsmaterial?
+  predictedReorderDate?: Date;
+  boostScore: number;
+}
+
+interface AttributePreference {
+  attributeCode: string;      // 'voltage', 'ip_rating', 'material'
+  preferredValues: {
+    value: string;
+    frequency: number;
+    boostScore: number;
+  }[];
+}
+```
+
+##### Elasticsearch: Personalisierte Suche mit ERP-Profil
+
+```typescript
+class PersonalizedSearchService {
+  private readonly elasticClient: ElasticsearchClient;
+  private readonly profileService: CustomerProfileService;
+  
+  async search(
+    query: string,
+    customerId: string,
+    options: SearchOptions
+  ): Promise<SearchResult[]> {
+    // 1. Kundenprofil aus ERP laden (gecacht)
+    //    → Einmalig pro Session, dann aus Redis-Cache
+    const profile = await this.profileService.getProfile(
+      customerId, 
+      options.tenantId
+    );
+    
+    // 2. Query bauen - MIT oder OHNE Personalisierung
+    const esQuery = profile 
+      ? this.buildPersonalizedQuery(query, profile, options)
+      : this.buildStandardQuery(query, options);
+    
+    // 3. Suche ausführen
+    const results = await this.elasticClient.search({
+      index: `b2x_${options.tenantId}_${options.language}`,
+      body: esQuery
+    });
+    
+    // 4. Ergebnisse anreichern (falls Profil vorhanden)
+    return profile 
+      ? this.enrichResults(results.hits.hits, profile)
+      : results.hits.hits;
+  }
+  
+  private buildPersonalizedQuery(
+    query: string,
+    profile: CustomerPreferenceProfile,
+    options: SearchOptions
+  ): object {
+    const functions: FunctionScoreFunction[] = [];
+    
+    // ═══════════════════════════════════════════════════════════════
+    // 1. MARKEN-BOOST (höchste Priorität)
+    // ═══════════════════════════════════════════════════════════════
+    for (const brand of profile.brandAffinities.slice(0, 10)) {
+      functions.push({
+        filter: { term: { "brand_name.keyword": brand.brandName } },
+        weight: brand.boostScore
+      });
+    }
+    
+    // ═══════════════════════════════════════════════════════════════
+    // 2. KATEGORIE-BOOST
+    // ═══════════════════════════════════════════════════════════════
+    for (const category of profile.categoryAffinities.slice(0, 10)) {
+      functions.push({
+        filter: { term: { "category_id": category.categoryId } },
+        weight: category.boostScore
+      });
+    }
+    
+    // ═══════════════════════════════════════════════════════════════
+    // 3. BEREITS GEKAUFTE PRODUKTE (höchster Boost!)
+    // ═══════════════════════════════════════════════════════════════
+    const purchasedSkus = profile.topProducts.map(p => p.sku);
+    if (purchasedSkus.length > 0) {
+      functions.push({
+        filter: { terms: { "sku": purchasedSkus } },
+        weight: 3.0  // 3x Boost für bereits gekaufte Produkte
+      });
+    }
+    
+    // ═══════════════════════════════════════════════════════════════
+    // 4. ATTRIBUT-PRÄFERENZEN
+    // ═══════════════════════════════════════════════════════════════
+    for (const attrPref of profile.attributePreferences) {
+      for (const valuePref of attrPref.preferredValues.slice(0, 3)) {
+        functions.push({
+          filter: { 
+            term: { [`attributes.${attrPref.attributeCode}`]: valuePref.value } 
+          },
+          weight: valuePref.boostScore
+        });
+      }
+    }
+    
+    // ═══════════════════════════════════════════════════════════════
+    // 5. PREIS-SEGMENT BOOST
+    // ═══════════════════════════════════════════════════════════════
+    if (profile.priceSegment.premiumRatio > 0.3) {
+      // Kunde kauft oft Premium → Premium-Produkte boosten
+      functions.push({
+        filter: { term: { "price_segment": "premium" } },
+        weight: 1.3
+      });
+    } else if (profile.priceSegment.budgetRatio > 0.5) {
+      // Kunde ist preissensitiv → Günstige Produkte boosten
+      functions.push({
+        filter: { term: { "price_segment": "budget" } },
+        weight: 1.3
+      });
+    }
+    
+    // ═══════════════════════════════════════════════════════════════
+    // 6. PREFERENCE VECTOR kNN (für semantische Ähnlichkeit)
+    // ═══════════════════════════════════════════════════════════════
+    if (profile.preferenceVector && profile.preferenceVector.length > 0) {
+      functions.push({
+        script_score: {
+          script: {
+            source: `
+              // Produkte haben auch einen Affinity-Vector
+              if (doc['affinity_vector'].size() == 0) return 1.0;
+              double sim = cosineSimilarity(params.user_vector, 'affinity_vector');
+              // Similarity von -1..1 auf 0.5..1.5 mappen
+              return 0.5 + (sim + 1) * 0.5;
+            `,
+            params: { user_vector: profile.preferenceVector }
+          }
+        }
+      });
+    }
+    
+    // ═══════════════════════════════════════════════════════════════
+    // FINALE QUERY
+    // ═══════════════════════════════════════════════════════════════
+    return {
+      query: {
+        function_score: {
+          query: {
+            bool: {
+              must: [
+                {
+                  multi_match: {
+                    query,
+                    fields: ["name^3", "description", "brand_name^2", "search_keywords^2"],
+                    fuzziness: "AUTO",
+                    operator: "or"
+                  }
+                }
+              ],
+              filter: options.filters || []
+            }
+          },
+          functions,
+          score_mode: "sum",      // Alle Boosts addieren
+          boost_mode: "multiply", // Mit Relevanz-Score multiplizieren
+          max_boost: 5.0          // Maximaler Gesamt-Boost begrenzen
+        }
+      },
+      // Debug: Score-Erklärung für Entwicklung
+      explain: options.debug || false
+    };
+  }
+  
+  // Ergebnisse mit Personalisierungs-Kontext anreichern
+  private enrichResults(
+    hits: SearchHit[],
+    profile: CustomerPreferenceProfile
+  ): EnrichedSearchResult[] {
+    return hits.map(hit => {
+      const product = hit._source as ProductDocument;
+      
+      // Warum wurde dieses Produkt geboostet?
+      const personalizationReasons: string[] = [];
+      
+      // Marken-Match?
+      const brandAffinity = profile.brandAffinities.find(
+        b => b.brandName === product.brand_name
+      );
+      if (brandAffinity && brandAffinity.purchaseRatio > 0.1) {
+        personalizationReasons.push(
+          `Ihre bevorzugte Marke (${Math.round(brandAffinity.purchaseRatio * 100)}% Ihrer Käufe)`
+        );
+      }
+      
+      // Kategorie-Match?
+      const categoryAffinity = profile.categoryAffinities.find(
+        c => c.categoryId === product.category_id
+      );
+      if (categoryAffinity && categoryAffinity.purchaseRatio > 0.1) {
+        personalizationReasons.push(
+          `Häufig gekaufte Kategorie`
+        );
+      }
+      
+      // Bereits gekauft?
+      const previousPurchase = profile.topProducts.find(
+        p => p.sku === product.sku
+      );
+      if (previousPurchase) {
+        personalizationReasons.push(
+          `${previousPurchase.purchaseCount}x gekauft (zuletzt ${formatDate(previousPurchase.lastPurchased)})`
+        );
+      }
+      
+      return {
+        ...product,
+        _score: hit._score,
+        personalization: {
+          isPersonalized: personalizationReasons.length > 0,
+          reasons: personalizationReasons,
+          previousPurchase: previousPurchase ? {
+            count: previousPurchase.purchaseCount,
+            lastDate: previousPurchase.lastPurchased,
+            predictedReorder: previousPurchase.predictedReorderDate
+          } : undefined
+        }
+      };
+    });
+  }
+}
+```
+
+##### Frontend: Personalisierte Suchergebnisse
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  🔍 bohrer                                                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  🎯 FÜR SIE EMPFOHLEN (basierend auf Ihrem Kaufverhalten)       │
+│  ═══════════════════════════════════════════════════════════════│
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ ⭐ Bosch Professional HSS-G 8mm                         │    │
+│  │ ───────────────────────────────────────────────────────│    │
+│  │ €8,49  │  ✓ Auf Lager                                   │    │
+│  │                                                         │    │
+│  │ 🏷️ Ihre bevorzugte Marke (42% Ihrer Käufe)             │    │
+│  │ 🔄 12x gekauft (zuletzt vor 3 Wochen)                   │    │
+│  │ 💡 Nachbestellung fällig?                               │    │
+│  │                                                         │    │
+│  │ [In den Warenkorb] [Wie beim letzten Mal: 50 Stk]      │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ Bosch Professional SDS-Plus 8x160mm                     │    │
+│  │ ───────────────────────────────────────────────────────│    │
+│  │ €12,99  │  ✓ Auf Lager                                  │    │
+│  │                                                         │    │
+│  │ 🏷️ Ihre bevorzugte Marke                               │    │
+│  │ 📂 Häufig gekaufte Kategorie: SDS-Bohrer               │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  ───────────────────────────────────────────────────────────────│
+│  WEITERE ERGEBNISSE                                             │
+│  ───────────────────────────────────────────────────────────────│
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ Makita HSS-G Bohrer Set 19-teilig                       │    │
+│  │ €24,99  │  ✓ Auf Lager                                  │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+##### Collaborative Filtering: "Kunden wie Sie kauften auch..." (Phase 3)
+
+> ⚠️ **Hinweis**: Für echtes Collaborative Filtering müssten Kundenprofile 
+> aggregiert verglichen werden. Da Profile aus dem ERP kommen und nicht im 
+> Suchindex liegen, ist dies **aufwändiger** als produktbasierte Empfehlungen.
+
+**Einfachere Alternative: Produktbasierte Empfehlungen ("Oft zusammen gekauft")**
+
+Diese Daten können direkt aus dem ERP kommen und erfordern kein Kunden-Matching:
+
+```typescript
+// ERP liefert: "Oft zusammen gekauft" pro Produkt
+interface ErpProductAssociationsResponse {
+  productId: string;
+  
+  // Vom ERP berechnet: Welche Produkte werden oft zusammen bestellt?
+  frequentlyBoughtTogether: {
+    productId: string;
+    sku: string;
+    cooccurrenceCount: number;  // Wie oft zusammen bestellt?
+    cooccurrenceRatio: number;  // % der Bestellungen mit diesem Produkt
+  }[];
+  
+  // Vom ERP berechnet: "Kunden kauften auch"
+  alsoViewed?: {
+    productId: string;
+    viewCount: number;
+  }[];
+}
+
+class ProductRecommendationService {
+  private readonly erpClient: IErpClient;
+  private readonly redisCache: RedisClient;
+  
+  async getRecommendations(
+    productId: string,
+    tenantId: string
+  ): Promise<ProductRecommendation[]> {
+    const cacheKey = `product-associations:${tenantId}:${productId}`;
+    
+    // 1. Aus Cache
+    const cached = await this.redisCache.get(cacheKey);
+    if (cached) return JSON.parse(cached);
+    
+    // 2. Aus ERP
+    const associations = await this.erpClient.getProductAssociations(
+      productId,
+      tenantId
+    );
+    
+    const recommendations = associations.frequentlyBoughtTogether.map(a => ({
+      productId: a.productId,
+      sku: a.sku,
+      score: a.cooccurrenceRatio,
+      reason: `${Math.round(a.cooccurrenceRatio * 100)}% der Kunden kaufen auch`
+    }));
+    
+    // 3. Cachen (1h TTL - Assoziationen ändern sich nicht so schnell)
+    await this.redisCache.setex(cacheKey, 3600, JSON.stringify(recommendations));
+    
+    return recommendations;
+  }
+}
+```
+
+**Für echtes Collaborative Filtering (Phase 3):**
+
+Falls gewünscht, könnte das ERP einen Endpoint bereitstellen:
+
+```typescript
+// ERP Endpoint: Ähnliche Kunden (basierend auf ERP-interner Analyse)
+// GET /api/customers/{id}/similar-customers?limit=10
+interface ErpSimilarCustomersResponse {
+  similarCustomers: {
+    customerId: string;
+    similarityScore: number;
+    commonBrands: string[];
+    commonCategories: string[];
+  }[];
+}
+```
+
+##### UX: "Für Sie empfohlen" Widgets
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  🛒 WARENKORB                                                   │
+├─────────────────────────────────────────────────────────────────┤
+│  • Bosch HSS-G 8mm (50 Stk)          €424,50                   │
+│  • Wago Klemmen 3x (100 Stk)         €89,00                    │
+│  ─────────────────────────────────────────────────────────────  │
+│  Zwischensumme:                       €513,50                   │
+│                                                                  │
+│  💡 PASSEND ZU IHRER BESTELLUNG (aus ERP)                       │
+│  ═══════════════════════════════════════════════════════════════│
+│                                                                  │
+│  ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐│
+│  │ Bosch Bit-Set    │ │ Wago Dosenklemme │ │ Kabelbinder Set  ││
+│  │ 32-teilig        │ │ 5x 3-fach        │ │ 500 Stk.         ││
+│  │                  │ │                  │ │                  ││
+│  │ €19,99           │ │ €12,49           │ │ €8,99            ││
+│  │                  │ │                  │ │                  ││
+│  │ "87% kaufen auch"│ │ "Oft zusammen    │ │ "Sie kauften     ││
+│  │ (ERP-Statistik)  │ │  gekauft"        │ │  zuletzt vor     ││
+│  │                  │ │                  │ │  6 Wochen"       ││
+│  │ [+ Hinzufügen]   │ │ [+ Hinzufügen]   │ │ [+ Hinzufügen]   ││
+│  └──────────────────┘ └──────────────────┘ └──────────────────┘│
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+##### Caching-Strategie: ERP-Profil
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    PROFIL-CACHING STRATEGIE                                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  DATENQUELLE: ERP (Single Source of Truth)                                 │
+│  ═══════════════════════════════════════════                               │
+│                                                                             │
+│  • Kaufhistorie wird im ERP aggregiert                                     │
+│  • B2X ruft aggregierte Daten per API ab                                   │
+│  • KEINE Synchronisation von Rohdaten nötig                                │
+│  • KEINE Duplikation der Bestellhistorie                                   │
+│                                                                             │
+│  CACHING IN B2X (Redis):                                                    │
+│  ═══════════════════════                                                    │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ Key: "customer-profile:{tenant}:{customerId}"                       │   │
+│  │ TTL: 30 Minuten                                                     │   │
+│  │ Invalidierung: Nach Bestellung (order.placed Event)                 │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  CACHE-INVALIDIERUNG:                                                       │
+│  ════════════════════                                                       │
+│                                                                             │
+│  1. Bestellung im ERP abgeschlossen                                        │
+│  2. ERP sendet Webhook/Event → B2X                                         │
+│  3. B2X invalidiert Redis-Cache für diesen Kunden                          │
+│  4. Nächste Suche → frisches Profil aus ERP                                │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+```typescript
+// Cache-Invalidierung nach Bestellung
+class OrderEventHandler {
+  private readonly profileService: CustomerProfileService;
+  
+  // Webhook von ERP: Bestellung abgeschlossen
+  async onOrderCompleted(event: OrderCompletedEvent): Promise<void> {
+    // Cache invalidieren → nächste Suche holt frisches Profil
+    await this.profileService.invalidateProfile(
+      event.customerId,
+      event.tenantId
+    );
+  }
+}
+```
+
+##### Vorteile: ERP als Datenquelle
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    VORTEILE DER ERP-ZENTRISCHEN ARCHITEKTUR                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ✅ KEINE DATENDUPLIKATION                                                  │
+│     Kaufhistorie bleibt im ERP, wird nicht kopiert                         │
+│                                                                             │
+│  ✅ IMMER AKTUELL                                                           │
+│     Nach Bestellung → Cache invalidiert → frische Daten                    │
+│                                                                             │
+│  ✅ EINFACHE DSGVO-COMPLIANCE                                               │
+│     Löschung nur im ERP nötig, B2X hat keine persistenten Kundendaten      │
+│                                                                             │
+│  ✅ REDUZIERTE KOMPLEXITÄT                                                  │
+│     Kein Batch-Job, keine Sync-Logik, keine Konfliktauflösung              │
+│                                                                             │
+│  ✅ ERP-HOHEIT BLEIBT                                                       │
+│     ERP definiert, was "12 Monate Kaufhistorie" bedeutet                   │
+│                                                                             │
+│  ⚠️ TRADE-OFF: Erste Suche ~100-500ms langsamer (ERP-Call)                 │
+│     → Akzeptabel, da danach gecacht                                        │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+##### Alternative: Profil im Benutzerprofil mit Background-Job
+
+> **Idee**: Da sich Kaufprofile selten ändern (typisch: 1x täglich/wöchentlich), 
+> kann das Profil im B2X-Benutzerprofil gespeichert und per Hintergrundjob 
+> periodisch aus dem ERP aktualisiert werden.
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│              ALTERNATIVE: PROFIL IM BENUTZERPROFIL (HYBRID)                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ARCHITEKTUR:                                                               │
+│  ════════════                                                               │
+│                                                                             │
+│  ┌─────────┐    Nightly/Hourly    ┌─────────────┐                          │
+│  │   ERP   │─────────────────────→│ Background  │                          │
+│  └─────────┘    Batch-Job         │    Job      │                          │
+│       ↑                           └──────┬──────┘                          │
+│       │                                  │                                  │
+│       │ (nur bei Änderung)               ↓                                  │
+│       │                           ┌─────────────┐                          │
+│       └───────────────────────────│ B2X User    │                          │
+│                                   │   Profile   │                          │
+│                                   │ (PostgreSQL)│                          │
+│                                   └──────┬──────┘                          │
+│                                          │                                  │
+│                                          ↓ direkt (< 5ms)                   │
+│                                   ┌─────────────┐                          │
+│                                   │ Suche mit   │                          │
+│                                   │ Profil-Boost│                          │
+│                                   └─────────────┘                          │
+│                                                                             │
+│  VORTEILE:                                                                  │
+│  ─────────                                                                  │
+│  ✅ Keine Latenz bei erster Suche (Profil bereits da)                      │
+│  ✅ Unabhängig von ERP-Verfügbarkeit bei Suche                             │
+│  ✅ Profil kann mit User-Settings zusammen gespeichert werden              │
+│  ✅ Einfache Erweiterung um manuelle Präferenzen                           │
+│                                                                             │
+│  NACHTEILE:                                                                 │
+│  ──────────                                                                 │
+│  ⚠️ Daten nicht in Echtzeit (max. 1h alt)                                  │
+│  ⚠️ Background-Job-Infrastruktur nötig                                     │
+│  ⚠️ Mehr Speicherplatz in B2X-Datenbank                                    │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Datenmodell: Erweitertes Benutzerprofil**
+
+```typescript
+// Erweiterung des bestehenden User-Entity
+interface UserProfile {
+  userId: string;
+  tenantId: string;
+  
+  // ... bestehende User-Felder ...
+  
+  // ═══════════════════════════════════════════════════════════════
+  // NEU: Kaufhistorie-Profil (vom Background-Job befüllt)
+  // ═══════════════════════════════════════════════════════════════
+  purchaseProfile?: {
+    // Aggregierte Daten aus ERP
+    topBrands: BrandAffinity[];
+    topCategories: CategoryAffinity[];
+    frequentProducts: ProductAffinity[];
+    priceSegment: PriceSegment;
+    
+    // Meta
+    lastSyncedFromErp: Date;
+    erpDataQuality: 'complete' | 'partial' | 'none';
+    nextScheduledSync: Date;
+  };
+  
+  // ═══════════════════════════════════════════════════════════════
+  // OPTIONAL: Manuelle Präferenzen (User kann selbst einstellen)
+  // ═══════════════════════════════════════════════════════════════
+  manualPreferences?: {
+    preferredBrands?: string[];        // "Ich mag Bosch und Makita"
+    excludedBrands?: string[];         // "Zeig mir keine China-Marken"
+    preferredPriceRange?: {
+      min?: number;
+      max?: number;
+    };
+    preferredAttributes?: {            // "Ich brauche immer IP65+"
+      [key: string]: string[];
+    };
+  };
+}
+```
+
+**Background-Job: Profil-Synchronisation**
+
+```typescript
+class PurchaseProfileSyncJob {
+  private readonly erpClient: IErpClient;
+  private readonly userRepository: IUserRepository;
+  
+  // Läuft stündlich oder nächtlich
+  @Scheduled('0 * * * *')  // Jede Stunde
+  async syncAllProfiles(): Promise<void> {
+    // 1. Alle User finden, die Sync brauchen
+    const usersToSync = await this.userRepository.findUsersNeedingProfileSync({
+      lastSyncedBefore: subHours(new Date(), 1),  // Älter als 1h
+      hasErpCustomerId: true
+    });
+    
+    console.log(`Syncing ${usersToSync.length} user profiles from ERP...`);
+    
+    // 2. Parallel (mit Rate-Limit)
+    await pMap(usersToSync, async (user) => {
+      await this.syncSingleProfile(user);
+    }, { concurrency: 10 });
+  }
+  
+  async syncSingleProfile(user: User): Promise<void> {
+    try {
+      // 1. Profil aus ERP holen
+      const erpProfile = await this.erpClient.getPurchaseProfile(
+        user.erpCustomerId,
+        user.tenantId,
+        { monthsBack: 12 }
+      );
+      
+      // 2. In User-Profil speichern
+      await this.userRepository.updatePurchaseProfile(user.id, {
+        topBrands: this.transformBrands(erpProfile.topBrands),
+        topCategories: this.transformCategories(erpProfile.topCategories),
+        frequentProducts: this.transformProducts(erpProfile.frequentProducts),
+        priceSegment: this.transformPriceSegment(erpProfile.priceProfile),
+        lastSyncedFromErp: new Date(),
+        erpDataQuality: erpProfile.dataQuality,
+        nextScheduledSync: addHours(new Date(), 1)
+      });
+      
+    } catch (error) {
+      console.error(`Profile sync failed for user ${user.id}:`, error);
+      // Nicht kritisch - nächster Job-Lauf versucht es erneut
+    }
+  }
+  
+  // Event-basierter Sync nach Bestellung
+  @OnEvent('order.completed')
+  async onOrderCompleted(event: OrderCompletedEvent): Promise<void> {
+    // Sofortiger Sync nach Bestellung (optional)
+    const user = await this.userRepository.findByErpCustomerId(
+      event.customerId,
+      event.tenantId
+    );
+    
+    if (user) {
+      // Profil in 5 Minuten neu syncen (Bestellung muss erst im ERP verarbeitet sein)
+      await this.scheduleSync(user.id, addMinutes(new Date(), 5));
+    }
+  }
+}
+```
+
+**Personalisierte Suche mit gespeichertem Profil**
+
+```typescript
+class PersonalizedSearchService {
+  
+  async search(
+    query: string,
+    userId: string,
+    options: SearchOptions
+  ): Promise<SearchResult[]> {
+    // 1. User mit Profil laden (kein ERP-Call nötig!)
+    const user = await this.userRepository.findById(userId);
+    
+    // 2. Profil vorhanden?
+    const profile = user.purchaseProfile;
+    
+    if (!profile || profile.erpDataQuality === 'none') {
+      // Neukunde oder kein Profil → Standard-Suche
+      return this.standardSearch(query, options);
+    }
+    
+    // 3. Manuelle Präferenzen mit ERP-Profil mergen
+    const mergedProfile = this.mergeWithManualPreferences(
+      profile,
+      user.manualPreferences
+    );
+    
+    // 4. Personalisierte Suche (< 50ms, kein externer Call)
+    return this.searchWithProfile(query, mergedProfile, options);
+  }
+  
+  private mergeWithManualPreferences(
+    erpProfile: PurchaseProfile,
+    manual?: ManualPreferences
+  ): MergedProfile {
+    if (!manual) return erpProfile;
+    
+    return {
+      ...erpProfile,
+      
+      // Manuelle bevorzugte Marken haben höchsten Boost
+      topBrands: [
+        ...(manual.preferredBrands?.map(b => ({
+          brandName: b,
+          boostScore: 3.0,  // Manuell = höchster Boost
+          source: 'manual'
+        })) || []),
+        ...erpProfile.topBrands.map(b => ({
+          ...b,
+          source: 'erp'
+        }))
+      ],
+      
+      // Ausgeschlossene Marken → Negativ-Boost
+      excludedBrands: manual.excludedBrands || []
+    };
+  }
+}
+```
+
+**Vergleich: On-Demand vs. Background-Job**
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    VERGLEICH DER STRATEGIEN                                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│                     ON-DEMAND (ERP-Live)     BACKGROUND-JOB                │
+│                     ══════════════════════   ═════════════════════════     │
+│                                                                             │
+│  Latenz 1. Suche:   100-500ms (ERP-Call)     < 5ms (DB-Read)               │
+│  Latenz Folge:      < 5ms (Cache)            < 5ms (DB-Read)               │
+│                                                                             │
+│  Aktualität:        Real-time (30min Cache)  Max 1h alt (Job-Interval)     │
+│                                                                             │
+│  ERP-Abhängigkeit:  Bei jeder Session        Nur beim Sync                 │
+│                                                                             │
+│  Speicherbedarf:    Nur Redis (temporär)     PostgreSQL (permanent)        │
+│                                                                             │
+│  Komplexität:       Niedrig                  Mittel (Job-Infra nötig)      │
+│                                                                             │
+│  Erweiterbar:       Nur ERP-Daten            + Manuelle Präferenzen        │
+│                                                                             │
+│  ─────────────────────────────────────────────────────────────────────────  │
+│                                                                             │
+│  EMPFEHLUNG:                                                                │
+│  ═══════════                                                                │
+│                                                                             │
+│  • Start mit ON-DEMAND (einfacher, schneller implementiert)                │
+│  • Migration zu BACKGROUND-JOB wenn:                                       │
+│    - ERP-Latenz zu hoch (>500ms)                                           │
+│    - Manuelle Präferenzen gewünscht                                        │
+│    - Offline-Fähigkeit benötigt                                            │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+**UI: Manuelle Präferenzen (Bonus-Feature)**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  ⚙️ MEIN PROFIL > SUCHPRÄFERENZEN                               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  📊 BASIEREND AUF IHRER KAUFHISTORIE                            │
+│  ─────────────────────────────────────────────────────────────  │
+│  Sie kaufen häufig: Bosch (42%), Grohe (18%), Wago (12%)        │
+│  Kategorien: Elektro, Sanitär, Heizung                          │
+│  Zuletzt aktualisiert: vor 2 Stunden                            │
+│                                                                  │
+│  ⭐ IHRE BEVORZUGTEN MARKEN                                     │
+│  ─────────────────────────────────────────────────────────────  │
+│  [✓] Bosch Professional                                         │
+│  [✓] Makita                                                     │
+│  [ ] Hilti                                                      │
+│  [+ Marke hinzufügen]                                           │
+│                                                                  │
+│  🚫 AUSGESCHLOSSENE MARKEN                                       │
+│  ─────────────────────────────────────────────────────────────  │
+│  [✓] "Zeige keine No-Name Produkte"                             │
+│  [Marke ausschließen...]                                        │
+│                                                                  │
+│  💰 PREISBEREICH                                                │
+│  ─────────────────────────────────────────────────────────────  │
+│  [ ] Nur Budget-Produkte                                        │
+│  [✓] Standard + Premium                                         │
+│  [ ] Nur Premium                                                │
+│                                                                  │
+│  [Speichern]                                                    │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+##### ERP-Anforderungen
+
+```typescript
+// ERP muss diesen Endpoint bereitstellen:
+// GET /api/customers/{customerId}/purchase-profile?monthsBack=12
+
+interface ErpPurchaseProfileEndpoint {
+  // Aggregierte Daten - NICHT Rohdaten!
+  // ERP berechnet Statistiken intern
+  
+  // Performance-Anforderung:
+  // • Response < 500ms (optimal: < 200ms)
+  // • Caching im ERP erlaubt (1h TTL)
+  
+  // Fallback bei Neukunden:
+  // • dataQuality: 'none' zurückgeben
+  // • B2X zeigt dann Standard-Ranking
+}
+```
+
+##### Privacy & Opt-Out
+
+```typescript
+interface CustomerPrivacySettings {
+  customerId: string;
+  
+  // Personalisierung
+  enablePersonalizedSearch: boolean;       // Default: true
+  enablePurchaseHistoryTracking: boolean;  // Default: true
+  enableRecommendations: boolean;          // Default: true
+  
+  // DSGVO: Recht auf Löschung wird im ERP umgesetzt
+  // B2X hat nur gecachte, kurzlebige Daten (30 min TTL)
+}
+
+// Bei deaktivierter Personalisierung: Standard-Suche
+async function search(query: string, customerId: string): Promise<SearchResult[]> {
+  const privacySettings = await getPrivacySettings(customerId);
+  
+  if (!privacySettings.enablePersonalizedSearch) {
+    // Standard-Suche ohne ERP-Profil-Abruf
+    return standardSearch(query);
+  }
+  
+  return personalizedSearch(query, customerId);
+}
+```
+
+---
+
 ##### 4️⃣ Voice Search (Phase 2 ◐)
 
 > **B2B Use Case**: Handwerker auf Baustelle, Hände voll, spricht Bestellung
@@ -6449,13 +7711,19 @@ async function conversationalSearch(userQuery: string, context: ChatContext) {
 | Typo-Korrektur | 2 Tage | ⭐⭐⭐⭐ | Hoch | **MVP** |
 | Zero-Result-Handling | 1 Tag | ⭐⭐⭐⭐ | Hoch | **MVP** |
 | Compound-Word Dekomposition | 2 Tage | ⭐⭐⭐⭐ | Hoch | **MVP** |
+| **Grundeinheit & Grundpreis (PAngV)** | 2,5 Tage | ⭐⭐⭐⭐⭐ | **Pflicht** | **MVP** |
+| **Sortierung (Standard + Merkmal)** | 3 Tage | ⭐⭐⭐⭐⭐ | **Pflicht** | **MVP** |
 | Barcode-Scanner | 3 Tage | ⭐⭐⭐⭐ | Mittel | Phase 2 |
 | **OCR Typenschild-Scanner** | 1 Woche | ⭐⭐⭐⭐⭐ | **Hoch** | Phase 2 |
-| Personalisierung | 2 Wochen | ⭐⭐⭐⭐ | Mittel | Phase 2 |
+| **Kaufhistorie-Profil (aus ERP)** | 1 Woche | ⭐⭐⭐⭐⭐ | **Hoch** | **Phase 2** |
+| Dynamische Merkmal-Sortierung | 2 Tage | ⭐⭐⭐⭐ | Hoch | Phase 2 |
+| Personalisierung (function_score) | 3 Tage | ⭐⭐⭐⭐ | Hoch | Phase 2 |
+| Produktbasierte Empfehlungen (ERP) | 3 Tage | ⭐⭐⭐⭐ | Mittel | Phase 2 |
 | Search Merchandising | 1 Woche | ⭐⭐⭐ | Mittel | Phase 2 |
 | Voice Search | 1 Woche | ⭐⭐⭐ | Niedrig | Phase 2 |
 | Predictive Reorder | 2 Wochen | ⭐⭐⭐⭐ | Hoch | Phase 2 |
-| Visual Search (CLIP) | 2 Wochen | ⭐⭐⭐ | Mittel | Phase 2/3 |
+| Collaborative Filtering (ERP-basiert) | 2 Wochen | ⭐⭐⭐ | Mittel | Phase 3 |
+| Visual Search (CLIP) | 2 Wochen | ⭐⭐⭐ | Mittel | Phase 3 |
 | Camera Scanner (Live) | 3 Wochen | ⭐⭐⭐ | Niedrig | Phase 3 |
 | KI-Berater | 4 Wochen | ⭐⭐⭐⭐ | Mittel | Phase 3 |
 
@@ -6482,6 +7750,9 @@ async function conversationalSearch(userQuery: string, context: ChatContext) {
 │                               • **Compound-Word Dekomposition**            │
 │                               • **OCR Typenschild-Scanner**                │
 │                               • **Seriennummern-Tracking**                 │
+│                               • **Kaufhistorie-Personalisierung**          │
+│                               • **"Kunden wie Sie kauften auch"**          │
+│                               • **Grundpreis-Vergleich (PAngV-konform)**   │
 │                                                                             │
 │  UNIQUE SELLING POINTS:                                                     │
 │  ═════════════════════                                                      │
@@ -6491,9 +7762,968 @@ async function conversationalSearch(userQuery: string, context: ChatContext) {
 │  🎯 "Spricht Ihre Sprache" - Pre-localized, keine Übersetzungsverzögerung │
 │  🎯 "Typenschild scannen" - OCR erkennt Artikel, Serie, techn. Daten      │
 │  🎯 "Meine Geräte" - Seriennummern-Tracking mit Wartungs-Erinnerung       │
+│  🎯 "Kennt Ihre Vorlieben" - 12-Monate-Kaufprofil priorisiert Produkte    │
+│  🎯 "Ähnliche Kunden" - Collaborative Filtering für B2B                   │
+│  🎯 "Bester Preis pro Einheit" - Grundpreis bei Staffelpreisen anzeigen   │
 │                                                                             │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+#### 3️⃣.2 Grundeinheit & Grundpreis (PAngV-Compliance)
+
+> **Rechtliche Grundlage**: Die Preisangabenverordnung (PAngV) schreibt vor, dass bei nach Gewicht, Volumen, Länge oder Fläche verkauften Waren der **Grundpreis** (Preis pro Mengeneinheit) anzugeben ist. Dies ermöglicht Verbrauchern den einfachen Preisvergleich.
+
+##### Konzept-Übersicht
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    GRUNDEINHEIT & GRUNDPREIS                                │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  GRUNDEINHEIT (Base Unit)                                                   │
+│  ════════════════════════                                                   │
+│  Die kleinste, standardisierte Einheit für Preisvergleiche:                │
+│  • Stückwaren:    1 Stück (C62)                                            │
+│  • Meterware:     1 Meter (MTR) oder 100 Meter                             │
+│  • Gewicht:       1 Kilogramm (KGM) oder 100 Gramm                         │
+│  • Volumen:       1 Liter (LTR) oder 100 Milliliter                        │
+│  • Fläche:        1 Quadratmeter (MTK)                                     │
+│                                                                             │
+│  GRUNDPREIS (Base Price / Unit Price)                                       │
+│  ═════════════════════════════════════                                      │
+│  Preis bezogen auf die Grundeinheit:                                        │
+│  • Ermöglicht Vergleich: 500ml für 4,99€ vs 1L für 8,99€                   │
+│  • Grundpreis 500ml: 9,98 €/l                                              │
+│  • Grundpreis 1L:    8,99 €/l  ← Günstiger!                                │
+│                                                                             │
+│  BERECHNUNG:                                                                │
+│  ═══════════                                                                │
+│  Grundpreis = Produktpreis / (Inhaltsmenge / Grundeinheit-Menge)           │
+│                                                                             │
+│  Beispiel Schmiermittel 500ml für 12,99€:                                  │
+│  • Inhaltsmenge: 0.5 Liter                                                 │
+│  • Grundeinheit: 1 Liter                                                   │
+│  • Grundpreis = 12.99 / (0.5 / 1) = 25,98 €/l                              │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### UN/ECE Einheitencodes (Recommendation 20)
+
+| Code | Einheit | Deutsch | Anwendung |
+|------|---------|---------|-----------|
+| `C62` | Stück | Stück (St.) | Einzelartikel, Werkzeuge |
+| `MTR` | Meter | Meter (m) | Kabel, Schläuche, Profile |
+| `KGM` | Kilogramm | Kilogramm (kg) | Schüttgut, Chemikalien |
+| `GRM` | Gramm | Gramm (g) | Kleinmengen |
+| `LTR` | Liter | Liter (l) | Flüssigkeiten, Schmiermittel |
+| `MLT` | Milliliter | Milliliter (ml) | Kleingebinde |
+| `MTK` | Quadratmeter | Quadratmeter (m²) | Folien, Platten |
+| `MTQ` | Kubikmeter | Kubikmeter (m³) | Sand, Kies |
+| `CMT` | Zentimeter | Zentimeter (cm) | Präzisionsmaterial |
+| `MMT` | Millimeter | Millimeter (mm) | Dichtungen, Folien |
+
+##### Berechnungslogik (Indexierung)
+
+```typescript
+interface BaseUnitCalculation {
+  // Eingabe: Produktdaten
+  productPrice: number;          // Verkaufspreis (netto)
+  contentQuantity: number;       // Inhaltsmenge (z.B. 0.5 für 500ml)
+  contentUnitCode: string;       // Inhaltseinheit (z.B. "LTR")
+  
+  // Bestimmung der Grundeinheit
+  baseUnitCode: string;          // Referenzeinheit (z.B. "LTR" für 1 Liter)
+  baseUnitQuantity: number;      // Referenzmenge (z.B. 1 für "pro 1 Liter")
+  
+  // Berechnung
+  basePrice: number;             // Grundpreis = productPrice / (contentQuantity / baseUnitQuantity)
+}
+
+/**
+ * Berechnet Grundpreis für PAngV-konforme Anzeige
+ */
+function calculateBasePrice(
+  productPrice: number,
+  contentQuantity: number,
+  baseUnitQuantity: number = 1
+): number {
+  if (contentQuantity <= 0) return productPrice;
+  return productPrice / (contentQuantity / baseUnitQuantity);
+}
+
+// Beispiele:
+// Schmiermittel 500ml für 12,99€ → Grundpreis = 12.99 / (0.5 / 1) = 25,98 €/l
+// Kabel 25m für 49,99€ → Grundpreis = 49.99 / (25 / 1) = 2,00 €/m
+// Schrauben 100 St. für 8,99€ → Grundpreis = 8.99 / (100 / 1) = 0,09 €/St.
+
+/**
+ * Bestimmt die passende Grundeinheit basierend auf Produktkategorie
+ */
+function determineBaseUnit(
+  contentUnitCode: string,
+  contentQuantity: number,
+  productCategory?: string
+): { code: string; quantity: number; display: string } {
+  
+  // Volumen → Liter als Grundeinheit
+  if (['LTR', 'MLT', 'HLT', 'DLT'].includes(contentUnitCode)) {
+    // Kleine Mengen: pro 100ml, sonst pro Liter
+    if (contentQuantity < 1) {
+      return { code: 'MLT', quantity: 100, display: '100 ml' };
+    }
+    return { code: 'LTR', quantity: 1, display: '1 l' };
+  }
+  
+  // Gewicht → Kilogramm als Grundeinheit
+  if (['KGM', 'GRM', 'MGM'].includes(contentUnitCode)) {
+    // Kleine Mengen: pro 100g, sonst pro kg
+    if (contentQuantity < 1) {
+      return { code: 'GRM', quantity: 100, display: '100 g' };
+    }
+    return { code: 'KGM', quantity: 1, display: '1 kg' };
+  }
+  
+  // Länge → Meter als Grundeinheit
+  if (['MTR', 'CMT', 'MMT'].includes(contentUnitCode)) {
+    return { code: 'MTR', quantity: 1, display: '1 m' };
+  }
+  
+  // Fläche → Quadratmeter
+  if (['MTK', 'DMK', 'CMK'].includes(contentUnitCode)) {
+    return { code: 'MTK', quantity: 1, display: '1 m²' };
+  }
+  
+  // Stückware → pro Stück
+  return { code: 'C62', quantity: 1, display: '1 Stück' };
+}
+```
+
+##### PAngV-Pflicht-Prüfung
+
+```typescript
+interface PAngVCheck {
+  requiresBasePrice: boolean;
+  exemptionReason?: 'under_threshold' | 'assortment' | 'single_item' | 'service';
+}
+
+/**
+ * Prüft ob Grundpreisangabe nach PAngV erforderlich ist
+ */
+function checkPAngVRequirement(
+  productType: string,
+  contentQuantity: number,
+  contentUnitCode: string,
+  isAssortment: boolean = false
+): PAngVCheck {
+  
+  // Ausnahme 1: Sortimente (gemischte Zusammenstellungen)
+  if (isAssortment) {
+    return { requiresBasePrice: false, exemptionReason: 'assortment' };
+  }
+  
+  // Ausnahme 2: Dienstleistungen
+  if (productType === 'service') {
+    return { requiresBasePrice: false, exemptionReason: 'service' };
+  }
+  
+  // Ausnahme 3: Artikel unter Mindestmenge (§9 PAngV)
+  const minThresholds: Record<string, number> = {
+    'GRM': 10,    // < 10g
+    'MLT': 10,    // < 10ml
+    'CMT': 10,    // < 10cm
+  };
+  
+  if (minThresholds[contentUnitCode] && contentQuantity < minThresholds[contentUnitCode]) {
+    return { requiresBasePrice: false, exemptionReason: 'under_threshold' };
+  }
+  
+  // Ausnahme 4: Einzelstücke ohne Mengenangabe
+  if (contentUnitCode === 'C62' && contentQuantity === 1) {
+    // Einzelstücke (z.B. Werkzeugmaschinen) - keine Grundpreispflicht
+    return { requiresBasePrice: false, exemptionReason: 'single_item' };
+  }
+  
+  // Grundpreis erforderlich
+  return { requiresBasePrice: true };
+}
+```
+
+##### Frontend-Anzeige
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│  PRODUKTKARTE MIT GRUNDPREIS                                                │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  [Bild]                                                              │   │
+│  │                                                                      │   │
+│  │  WD-40 Multifunktionsöl                                             │   │
+│  │  500 ml Spraydose                                                   │   │
+│  │                                                                      │   │
+│  │  ┌─────────────────────────────────────────┐                        │   │
+│  │  │  €12,99 netto                           │  ← Verkaufspreis       │   │
+│  │  │  (€15,46 brutto inkl. 19% MwSt.)       │                        │   │
+│  │  │  ─────────────────────────────────────  │                        │   │
+│  │  │  Grundpreis: €25,98 / Liter            │  ← PAngV-Pflichtangabe │   │
+│  │  └─────────────────────────────────────────┘                        │   │
+│  │                                                                      │   │
+│  │  [In den Warenkorb]                                                 │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  METERWARE MIT GRUNDPREIS                                                   │
+│  ─────────────────────────────────────────────────────────────────────────  │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  [Bild]                                                              │   │
+│  │                                                                      │   │
+│  │  Elektrokabel NYM-J 3x1,5                                           │   │
+│  │  Rolle 50 Meter                                                     │   │
+│  │                                                                      │   │
+│  │  ┌─────────────────────────────────────────┐                        │   │
+│  │  │  €89,50 netto                           │  ← Preis für 50m      │   │
+│  │  │  (€106,51 brutto inkl. 19% MwSt.)      │                        │   │
+│  │  │  ─────────────────────────────────────  │                        │   │
+│  │  │  Grundpreis: €1,79 / Meter             │  ← Pro Meter           │   │
+│  │  └─────────────────────────────────────────┘                        │   │
+│  │                                                                      │   │
+│  │  Auch als: 25m (€47,25) | 100m (€169,00)                           │   │
+│  │           [€1,89/m]       [€1,69/m] ← Günstiger!                    │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  STAFFELPREIS MIT GRUNDPREIS-VERGLEICH                                      │
+│  ─────────────────────────────────────────────────────────────────────────  │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  Schrauben M8x40 DIN 933                                            │   │
+│  │                                                                      │   │
+│  │  Menge        Preis         Grundpreis                              │   │
+│  │  ─────────────────────────────────────────                          │   │
+│  │  10 Stück     €4,99         €0,50 / Stück                          │   │
+│  │  50 Stück     €19,99        €0,40 / Stück  ↓ 20% günstiger         │   │
+│  │  100 Stück    €34,99        €0,35 / Stück  ↓ 30% günstiger         │   │
+│  │  500 Stück    €149,99       €0,30 / Stück  ↓ 40% günstiger  ⭐     │   │
+│  │                                                                      │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### Vue-Komponente für Grundpreis-Anzeige
+
+```vue
+<template>
+  <div class="price-display">
+    <!-- Hauptpreis -->
+    <div class="main-price">
+      <span class="price-value">{{ formatCurrency(price.netPrice) }}</span>
+      <span class="price-suffix">netto</span>
+    </div>
+    
+    <!-- Bruttopreis (optional) -->
+    <div class="gross-price" v-if="showGross">
+      ({{ formatCurrency(price.grossPrice) }} brutto inkl. {{ formatPercent(price.taxRate) }} MwSt.)
+    </div>
+    
+    <!-- Grundpreis (PAngV) -->
+    <div 
+      class="base-price" 
+      v-if="basePriceInfo?.requiresBasePrice"
+      :title="basePriceInfo.calculationFormula"
+    >
+      <span class="base-price-label">Grundpreis:</span>
+      <span class="base-price-value">{{ basePriceInfo.basePriceDisplay }}</span>
+    </div>
+    
+    <!-- Verkaufseinheiten mit Grundpreis-Vergleich -->
+    <div class="sales-units" v-if="salesUnits.length > 1">
+      <span class="units-label">Auch als:</span>
+      <div 
+        v-for="unit in salesUnits" 
+        :key="unit.unitId"
+        class="unit-option"
+        :class="{ 'best-value': unit.isBestValue }"
+      >
+        <span class="unit-name">{{ unit.unitName }}</span>
+        <span class="unit-price">({{ formatCurrency(unit.pricePerUnit) }})</span>
+        <span class="unit-base-price">{{ formatCurrency(unit.pricePerBaseUnit) }}/{{ baseUnit.symbol }}</span>
+        <span class="savings-badge" v-if="unit.savingsPercent > 0">
+          ↓ {{ unit.savingsPercent }}%
+        </span>
+        <span class="best-value-badge" v-if="unit.isBestValue">⭐</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+interface Props {
+  price: {
+    netPrice: number;
+    grossPrice: number;
+    taxRate: number;
+  };
+  basePriceInfo?: {
+    requiresBasePrice: boolean;
+    basePrice: number;
+    basePriceDisplay: string;
+    calculationFormula?: string;
+  };
+  baseUnit: {
+    code: string;
+    name: string;
+    symbol: string;
+  };
+  salesUnits: Array<{
+    unitId: string;
+    unitName: string;
+    pricePerUnit: number;
+    pricePerBaseUnit: number;
+    savingsPercent: number;
+    isBestValue: boolean;
+  }>;
+  showGross?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  showGross: true
+});
+
+const { t, n } = useI18n();
+
+function formatCurrency(value: number): string {
+  return n(value, 'currency');
+}
+
+function formatPercent(value: number): string {
+  return n(value * 100, 'percent');
+}
+</script>
+
+<style scoped>
+.base-price {
+  font-size: 0.85em;
+  color: var(--color-text-secondary);
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.best-value {
+  background-color: var(--color-success-light);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.savings-badge {
+  color: var(--color-success);
+  font-weight: 600;
+}
+</style>
+```
+
+##### Feature-Priorisierung Update
+
+| Feature | Aufwand | Status |
+|---------|---------|--------|
+| Grundeinheit im Index | ✅ Implementiert | Index-Schema vorhanden |
+| Grundpreis-Berechnung bei Indexierung | 1 Tag | **Phase 1 (MVP)** |
+| PAngV-Prüfung | 0.5 Tage | **Phase 1 (MVP)** |
+| Frontend-Anzeige | 1 Tag | **Phase 1 (MVP)** |
+| Staffelpreis-Grundpreis-Vergleich | 1 Tag | Phase 2 |
+
+---
+
+#### 3️⃣.3 Sortierung (Relevanz, Name, Preis, Merkmale)
+
+> **B2B-Anforderung**: Professionelle Einkäufer erwarten flexible Sortieroptionen, um schnell das passende Produkt zu finden – nach technischen Merkmalen, Grundpreis oder Verfügbarkeit.
+
+##### Sortieroptionen Übersicht
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    SORTIEROPTIONEN                                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  STANDARD-SORTIERUNGEN (immer verfügbar)                                    │
+│  ═══════════════════════════════════════                                    │
+│                                                                             │
+│  📊 RELEVANZ (Standard bei Suche)                                          │
+│     • Elasticsearch _score (BM25 + kNN hybrid)                             │
+│     • + Boosting-Faktoren (Marke, Kategorie, Promo)                        │
+│     • + Personalisierung (Kaufhistorie-Profil)                             │
+│     • ↑ Höchste Relevanz zuerst (Standard)                                 │
+│     • ↓ Niedrigste Relevanz zuerst (selten benötigt)                       │
+│                                                                             │
+│  📝 NAME / BEZEICHNUNG                                                      │
+│     • Alphabetisch nach Produktname                                         │
+│     • ↑ A → Z (aufsteigend)                                                │
+│     • ↓ Z → A (absteigend)                                                 │
+│                                                                             │
+│  💰 PREIS                                                                   │
+│     • Nach Nettopreis (kundenspezifisch wenn eingeloggt)                   │
+│     • ↑ Günstigste zuerst                                                  │
+│     • ↓ Teuerste zuerst                                                    │
+│     • Optional: Nach Grundpreis (€/kg, €/m, €/St.)                         │
+│                                                                             │
+│  ⭐ BEWERTUNG                                                               │
+│     • Nach Kundenbewertung (Sterne)                                        │
+│     • ↑ Beste Bewertung zuerst                                             │
+│     • ↓ Schlechteste zuerst (für Analyse)                                  │
+│                                                                             │
+│  🆕 NEUHEIT                                                                 │
+│     • Nach Erscheinungsdatum                                               │
+│     • ↑ Neueste zuerst                                                     │
+│     • ↓ Älteste zuerst                                                     │
+│                                                                             │
+│  🏆 BELIEBTHEIT                                                             │
+│     • Nach Verkaufsrang / Bestellhäufigkeit                                │
+│     • ↑ Meistverkaufte zuerst                                              │
+│     • ↓ Wenigstverkaufte zuerst                                            │
+│                                                                             │
+│  📦 VERFÜGBARKEIT                                                           │
+│     • Nach Lagerbestand                                                    │
+│     • ↑ Sofort lieferbar zuerst                                            │
+│     • ↓ Längste Lieferzeit zuerst                                          │
+│                                                                             │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  MERKMAL-SORTIERUNGEN (dynamisch basierend auf Kategorie)                  │
+│  ══════════════════════════════════════════════════════════                 │
+│                                                                             │
+│  🔧 TECHNISCHE MERKMALE (Beispiele)                                        │
+│     • Durchmesser: ↑ 1mm → 100mm | ↓ 100mm → 1mm                          │
+│     • Länge: ↑ kurz → lang | ↓ lang → kurz                                │
+│     • Gewicht: ↑ leicht → schwer | ↓ schwer → leicht                      │
+│     • Leistung (Watt): ↑ schwach → stark                                  │
+│     • Drehzahl (U/min): ↑ langsam → schnell                               │
+│     • Spannweite: ↑ klein → groß                                          │
+│                                                                             │
+│  📐 MASS-ATTRIBUTE                                                          │
+│     • Breite, Höhe, Tiefe (mm/cm/m)                                        │
+│     • Volumen (ml/l/m³)                                                    │
+│     • Fläche (cm²/m²)                                                      │
+│                                                                             │
+│  ⚡ LEISTUNGS-ATTRIBUTE                                                     │
+│     • Watt, Ampere, Volt                                                   │
+│     • Nm (Drehmoment)                                                      │
+│     • bar (Druck)                                                          │
+│     • dB(A) (Lautstärke)                                                   │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+##### Elasticsearch Sort-Konfiguration
+
+```typescript
+// Sortieroptionen-Definition
+interface SortOption {
+  id: string;
+  label: string;               // i18n-Key für UI
+  field: string;               // Elasticsearch-Feld
+  order: 'asc' | 'desc';
+  type: 'standard' | 'attribute';
+  attributeCode?: string;      // Für dynamische Merkmal-Sortierung
+  nullHandling?: 'first' | 'last';  // Wo sollen Produkte ohne Wert erscheinen?
+}
+
+// Standard-Sortieroptionen
+const STANDARD_SORT_OPTIONS: SortOption[] = [
+  // Relevanz
+  {
+    id: 'relevance_desc',
+    label: 'sort.relevance.desc',  // "Relevanz"
+    field: '_score',
+    order: 'desc',
+    type: 'standard'
+  },
+  
+  // Name
+  {
+    id: 'name_asc',
+    label: 'sort.name.asc',        // "Name A-Z"
+    field: 'name.keyword',
+    order: 'asc',
+    type: 'standard'
+  },
+  {
+    id: 'name_desc',
+    label: 'sort.name.desc',       // "Name Z-A"
+    field: 'name.keyword',
+    order: 'desc',
+    type: 'standard'
+  },
+  
+  // Preis
+  {
+    id: 'price_asc',
+    label: 'sort.price.asc',       // "Preis aufsteigend"
+    field: 'default_price',        // oder kundenspezifischer Preis
+    order: 'asc',
+    type: 'standard',
+    nullHandling: 'last'
+  },
+  {
+    id: 'price_desc',
+    label: 'sort.price.desc',      // "Preis absteigend"
+    field: 'default_price',
+    order: 'desc',
+    type: 'standard',
+    nullHandling: 'last'
+  },
+  
+  // Grundpreis (PAngV)
+  {
+    id: 'base_price_asc',
+    label: 'sort.base_price.asc',  // "Grundpreis aufsteigend"
+    field: 'base_price',
+    order: 'asc',
+    type: 'standard',
+    nullHandling: 'last'
+  },
+  {
+    id: 'base_price_desc',
+    label: 'sort.base_price.desc', // "Grundpreis absteigend"
+    field: 'base_price',
+    order: 'desc',
+    type: 'standard',
+    nullHandling: 'last'
+  },
+  
+  // Bewertung
+  {
+    id: 'rating_desc',
+    label: 'sort.rating.desc',     // "Beste Bewertung"
+    field: 'review_rating',
+    order: 'desc',
+    type: 'standard',
+    nullHandling: 'last'
+  },
+  
+  // Neuheit
+  {
+    id: 'newest_first',
+    label: 'sort.newest',          // "Neueste zuerst"
+    field: 'lifecycle.launch_date',
+    order: 'desc',
+    type: 'standard',
+    nullHandling: 'last'
+  },
+  
+  // Beliebtheit
+  {
+    id: 'popularity_desc',
+    label: 'sort.popularity',      // "Beliebteste"
+    field: 'popularity_score',
+    order: 'desc',
+    type: 'standard'
+  },
+  {
+    id: 'bestseller',
+    label: 'sort.bestseller',      // "Meistverkauft"
+    field: 'sales_rank',
+    order: 'asc',                  // Rang 1 = bester
+    type: 'standard',
+    nullHandling: 'last'
+  },
+  
+  // Verfügbarkeit
+  {
+    id: 'availability_desc',
+    label: 'sort.availability',    // "Sofort lieferbar zuerst"
+    field: 'stock.available_quantity',
+    order: 'desc',
+    type: 'standard',
+    nullHandling: 'last'
+  }
+];
+```
+
+##### Dynamische Merkmal-Sortierung
+
+```typescript
+/**
+ * Generiert Sortieroptionen basierend auf Kategorie-Attributen
+ */
+function getAttributeSortOptions(
+  categoryId: string,
+  attributes: CategoryAttribute[]
+): SortOption[] {
+  
+  // Nur numerische Attribute können sinnvoll sortiert werden
+  const sortableAttributes = attributes.filter(attr => 
+    attr.type === 'number' || 
+    attr.type === 'dimension' ||
+    attr.type === 'range'
+  );
+  
+  return sortableAttributes.flatMap(attr => [
+    {
+      id: `attr_${attr.code}_asc`,
+      label: `sort.attribute.asc`,  // "${attr.name} aufsteigend"
+      labelParams: { attribute: attr.name },
+      field: `attributes.${attr.code}.value`,
+      order: 'asc' as const,
+      type: 'attribute' as const,
+      attributeCode: attr.code,
+      nullHandling: 'last' as const
+    },
+    {
+      id: `attr_${attr.code}_desc`,
+      label: `sort.attribute.desc`, // "${attr.name} absteigend"
+      labelParams: { attribute: attr.name },
+      field: `attributes.${attr.code}.value`,
+      order: 'desc' as const,
+      type: 'attribute' as const,
+      attributeCode: attr.code,
+      nullHandling: 'last' as const
+    }
+  ]);
+}
+
+// Beispiel: Kategorie "Bohrer"
+const bohrerSortOptions = getAttributeSortOptions('cat-bohrer', [
+  { code: 'diameter_mm', name: 'Durchmesser', type: 'number', unit: 'mm' },
+  { code: 'length_mm', name: 'Länge', type: 'number', unit: 'mm' },
+  { code: 'max_rpm', name: 'Max. Drehzahl', type: 'number', unit: 'U/min' }
+]);
+// Ergebnis: 6 Sortieroptionen (je 2 pro Attribut)
+```
+
+##### Elasticsearch Query mit Sortierung
+
+```typescript
+interface SearchRequest {
+  query: string;
+  filters?: Record<string, any>;
+  sort?: string;          // ID der Sortieroption
+  sortOrder?: 'asc' | 'desc';
+  page?: number;
+  pageSize?: number;
+}
+
+/**
+ * Baut Elasticsearch-Query mit Sortierung
+ */
+function buildSearchQuery(request: SearchRequest): any {
+  const sortOption = getSortOption(request.sort);
+  
+  const query: any = {
+    query: {
+      bool: {
+        must: [
+          // Hauptsuche...
+        ],
+        filter: [
+          // Filter...
+        ]
+      }
+    },
+    
+    // SORTIERUNG
+    sort: buildSortClause(sortOption, request.sortOrder)
+  };
+  
+  return query;
+}
+
+/**
+ * Baut Sort-Clause für Elasticsearch
+ */
+function buildSortClause(
+  option: SortOption,
+  orderOverride?: 'asc' | 'desc'
+): any[] {
+  
+  const order = orderOverride || option.order;
+  
+  // Relevanz-Sortierung
+  if (option.field === '_score') {
+    return [
+      { '_score': { order } },
+      // Tie-breaker: Bei gleicher Relevanz nach Name
+      { 'name.keyword': { order: 'asc' } }
+    ];
+  }
+  
+  // Attribut-Sortierung (nested)
+  if (option.type === 'attribute' && option.attributeCode) {
+    return [
+      {
+        [`attributes.${option.attributeCode}.numeric_value`]: {
+          order,
+          missing: option.nullHandling === 'first' ? '_first' : '_last',
+          nested: {
+            path: 'attributes',
+            filter: {
+              term: { 'attributes.code': option.attributeCode }
+            }
+          }
+        }
+      },
+      // Tie-breaker
+      { 'name.keyword': { order: 'asc' } }
+    ];
+  }
+  
+  // Standard-Sortierung
+  return [
+    {
+      [option.field]: {
+        order,
+        missing: option.nullHandling === 'first' ? '_first' : '_last'
+      }
+    },
+    // Tie-breaker: Bei gleichem Wert nach Name
+    { 'name.keyword': { order: 'asc' } }
+  ];
+}
+```
+
+##### Preis-Sortierung mit Kundenpreisen
+
+```typescript
+/**
+ * Preis-Sortierung berücksichtigt Kundengruppe
+ */
+function buildPriceSortClause(
+  order: 'asc' | 'desc',
+  customerGroupId?: string,
+  priceListId?: string
+): any[] {
+  
+  // Ohne Login: Standard-Listenpreis
+  if (!customerGroupId) {
+    return [
+      { 'default_price': { order, missing: '_last' } },
+      { 'name.keyword': { order: 'asc' } }
+    ];
+  }
+  
+  // Mit Login: Kundengruppen-spezifischer Preis
+  return [
+    {
+      'prices.net_price': {
+        order,
+        missing: '_last',
+        nested: {
+          path: 'prices',
+          filter: {
+            bool: {
+              should: [
+                // 1. Priorität: Spezifische Preisliste
+                priceListId && { term: { 'prices.price_list_id': priceListId } },
+                // 2. Priorität: Kundengruppen-Preis
+                { term: { 'prices.customer_group_id': customerGroupId } },
+                // 3. Priorität: Default-Preis
+                { term: { 'prices.is_default': true } }
+              ].filter(Boolean)
+            }
+          }
+        },
+        mode: 'min' // Bei mehreren passenden: günstigster
+      }
+    },
+    { 'name.keyword': { order: 'asc' } }
+  ];
+}
+```
+
+##### Frontend: Sortier-Dropdown
+
+```vue
+<template>
+  <div class="sort-selector">
+    <label for="sort-select">{{ $t('sort.label') }}</label>
+    
+    <select 
+      id="sort-select"
+      v-model="selectedSort"
+      @change="onSortChange"
+    >
+      <!-- Standard-Sortierungen -->
+      <optgroup :label="$t('sort.group.standard')">
+        <option 
+          v-for="option in standardOptions" 
+          :key="option.id"
+          :value="option.id"
+        >
+          {{ $t(option.label) }}
+        </option>
+      </optgroup>
+      
+      <!-- Merkmal-Sortierungen (dynamisch) -->
+      <optgroup 
+        v-if="attributeOptions.length > 0"
+        :label="$t('sort.group.attributes')"
+      >
+        <option 
+          v-for="option in attributeOptions" 
+          :key="option.id"
+          :value="option.id"
+        >
+          {{ $t(option.label, option.labelParams) }}
+        </option>
+      </optgroup>
+    </select>
+    
+    <!-- Richtungs-Toggle -->
+    <button 
+      class="sort-direction-toggle"
+      @click="toggleDirection"
+      :aria-label="$t('sort.toggle_direction')"
+    >
+      <span v-if="sortDirection === 'asc'">↑</span>
+      <span v-else>↓</span>
+    </button>
+  </div>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{
+  categoryId?: string;
+}>();
+
+const emit = defineEmits<{
+  (e: 'sort-change', sortId: string, direction: 'asc' | 'desc'): void;
+}>();
+
+const selectedSort = ref('relevance_desc');
+const sortDirection = ref<'asc' | 'desc'>('desc');
+
+// Standard-Optionen
+const standardOptions = computed(() => STANDARD_SORT_OPTIONS);
+
+// Dynamische Attribut-Optionen basierend auf Kategorie
+const { data: attributeOptions } = useAsyncData(
+  `sort-options-${props.categoryId}`,
+  () => props.categoryId 
+    ? fetchCategoryAttributeSortOptions(props.categoryId)
+    : Promise.resolve([])
+);
+
+function onSortChange() {
+  emit('sort-change', selectedSort.value, sortDirection.value);
+}
+
+function toggleDirection() {
+  sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
+  emit('sort-change', selectedSort.value, sortDirection.value);
+}
+</script>
+```
+
+##### i18n-Keys für Sortierung
+
+```json
+{
+  "sort": {
+    "label": "Sortieren nach",
+    "toggle_direction": "Sortierrichtung umkehren",
+    "group": {
+      "standard": "Standard",
+      "attributes": "Nach Merkmal"
+    },
+    "relevance": {
+      "desc": "Relevanz"
+    },
+    "name": {
+      "asc": "Name A-Z",
+      "desc": "Name Z-A"
+    },
+    "price": {
+      "asc": "Preis aufsteigend",
+      "desc": "Preis absteigend"
+    },
+    "base_price": {
+      "asc": "Grundpreis aufsteigend",
+      "desc": "Grundpreis absteigend"
+    },
+    "rating": {
+      "desc": "Beste Bewertung"
+    },
+    "newest": "Neueste zuerst",
+    "popularity": "Beliebteste",
+    "bestseller": "Meistverkauft",
+    "availability": "Sofort lieferbar zuerst",
+    "attribute": {
+      "asc": "{attribute} aufsteigend",
+      "desc": "{attribute} absteigend"
+    }
+  }
+}
+```
+
+##### URL-Parameter für Sortierung
+
+```
+# Standard-Sortierungen
+/kategorie/bohrer?sort=relevance           # Relevanz (Standard)
+/kategorie/bohrer?sort=name&order=asc      # Name A-Z
+/kategorie/bohrer?sort=name&order=desc     # Name Z-A
+/kategorie/bohrer?sort=price&order=asc     # Preis aufsteigend
+/kategorie/bohrer?sort=base_price&order=asc # Grundpreis aufsteigend
+/kategorie/bohrer?sort=rating              # Beste Bewertung
+/kategorie/bohrer?sort=newest              # Neueste
+/kategorie/bohrer?sort=bestseller          # Meistverkauft
+
+# Merkmal-Sortierungen (dynamisch)
+/kategorie/bohrer?sort=attr_diameter_mm&order=asc    # Durchmesser ↑
+/kategorie/bohrer?sort=attr_length_mm&order=desc     # Länge ↓
+/kategorie/bohrer?sort=attr_max_rpm&order=desc       # Drehzahl ↓
+```
+
+##### Multi-Level-Sortierung (optional)
+
+```typescript
+// Erweiterte Sortierung: Primär + Sekundär
+interface MultiLevelSort {
+  primary: { field: string; order: 'asc' | 'desc' };
+  secondary?: { field: string; order: 'asc' | 'desc' };
+}
+
+// Beispiel: Erst nach Verfügbarkeit, dann nach Preis
+const multiSort: MultiLevelSort = {
+  primary: { field: 'stock.is_in_stock', order: 'desc' },  // Lagerware zuerst
+  secondary: { field: 'default_price', order: 'asc' }       // Dann günstigste
+};
+
+function buildMultiLevelSortClause(sort: MultiLevelSort): any[] {
+  const clauses: any[] = [];
+  
+  clauses.push({
+    [sort.primary.field]: { order: sort.primary.order }
+  });
+  
+  if (sort.secondary) {
+    clauses.push({
+      [sort.secondary.field]: { order: sort.secondary.order }
+    });
+  }
+  
+  // Tie-breaker
+  clauses.push({ 'name.keyword': { order: 'asc' } });
+  
+  return clauses;
+}
+```
+
+##### Feature-Priorisierung
+
+| Feature | Aufwand | Phase |
+|---------|---------|-------|
+| Standard-Sortierung (Relevanz, Name, Preis) | 2 Tage | **MVP** |
+| Grundpreis-Sortierung | 0.5 Tage | **MVP** |
+| Bewertung/Neuheit/Beliebtheit | 1 Tag | **MVP** |
+| Verfügbarkeit-Sortierung | 0.5 Tage | **MVP** |
+| Dynamische Merkmal-Sortierung | 2 Tage | Phase 2 |
+| Multi-Level-Sortierung | 1 Tag | Phase 2 |
+| Sortier-Präferenzen speichern | 0.5 Tage | Phase 2 |
+
+---
 
 #### Pricing-Strategie: Einfach vs. ERP-Konditioniert
 
