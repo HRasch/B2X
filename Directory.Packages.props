@@ -101,6 +101,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <PackageVersion Include="WolverineFx" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.9.2" />
+    <PackageVersion Include="WolverineFx.FluentValidation" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.Http" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.PostgreSQL" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.RabbitMq" Version="5.9.2" />

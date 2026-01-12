@@ -18,11 +18,11 @@ public class OrdersRepository : IOrdersRepository
     }
 
     // Order operations
-    public async Task<Order?> GetOrderByIdAsync(Guid id, Guid tenantId)
+    public async Task<Order?> GetOrderByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
     {
         return await _context.Orders
             .Include(o => o.Items)
-            .FirstOrDefaultAsync(o => o.Id == id && o.TenantId == tenantId);
+            .FirstOrDefaultAsync(o => o.Id == id && o.TenantId == tenantId, cancellationToken);
     }
 
     public async Task<IEnumerable<Order>> GetOrdersByTenantAsync(
@@ -33,7 +33,8 @@ public class OrdersRepository : IOrdersRepository
         DateTime? fromDate = null,
         DateTime? toDate = null,
         int page = 1,
-        int pageSize = 20)
+        int pageSize = 20,
+        CancellationToken cancellationToken = default)
     {
         var query = _context.Orders
             .Include(o => o.Items)
@@ -58,7 +59,7 @@ public class OrdersRepository : IOrdersRepository
             .OrderByDescending(o => o.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<int> GetOrdersCountByTenantAsync(
@@ -67,7 +68,8 @@ public class OrdersRepository : IOrdersRepository
         string? paymentStatus = null,
         Guid? customerId = null,
         DateTime? fromDate = null,
-        DateTime? toDate = null)
+        DateTime? toDate = null,
+        CancellationToken cancellationToken = default)
     {
         var query = _context.Orders.Where(o => o.TenantId == tenantId);
 
@@ -86,10 +88,10 @@ public class OrdersRepository : IOrdersRepository
         if (toDate.HasValue)
             query = query.Where(o => o.CreatedAt <= toDate.Value);
 
-        return await query.CountAsync();
+        return await query.CountAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Order>> GetOrdersByCustomerAsync(Guid customerId, Guid tenantId, int page = 1, int pageSize = 20)
+    public async Task<IEnumerable<Order>> GetOrdersByCustomerAsync(Guid customerId, Guid tenantId, int page = 1, int pageSize = 20, CancellationToken cancellationToken = default)
     {
         return await _context.Orders
             .Include(o => o.Items)
@@ -97,79 +99,79 @@ public class OrdersRepository : IOrdersRepository
             .OrderByDescending(o => o.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<int> GetOrdersCountByCustomerAsync(Guid customerId, Guid tenantId)
+    public async Task<int> GetOrdersCountByCustomerAsync(Guid customerId, Guid tenantId, CancellationToken cancellationToken = default)
     {
         return await _context.Orders
-            .CountAsync(o => o.CustomerId == customerId && o.TenantId == tenantId);
+            .CountAsync(o => o.CustomerId == customerId && o.TenantId == tenantId, cancellationToken);
     }
 
-    public async Task AddOrderAsync(Order order)
+    public async Task AddOrderAsync(Order order, CancellationToken cancellationToken = default)
     {
-        await _context.Orders.AddAsync(order);
-        await _context.SaveChangesAsync();
+        await _context.Orders.AddAsync(order, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateOrderAsync(Order order)
+    public async Task UpdateOrderAsync(Order order, CancellationToken cancellationToken = default)
     {
         _context.Orders.Update(order);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteOrderAsync(Guid id, Guid tenantId)
+    public async Task DeleteOrderAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
     {
-        var order = await GetOrderByIdAsync(id, tenantId);
+        var order = await GetOrderByIdAsync(id, tenantId, cancellationToken);
         if (order != null)
         {
             _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 
     // Order item operations
-    public async Task<OrderItem?> GetOrderItemByIdAsync(Guid id, Guid tenantId)
+    public async Task<OrderItem?> GetOrderItemByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
     {
         return await _context.OrderItems
             .Include(oi => oi.Order)
-            .FirstOrDefaultAsync(oi => oi.Id == id && oi.Order!.TenantId == tenantId);
+            .FirstOrDefaultAsync(oi => oi.Id == id && oi.Order!.TenantId == tenantId, cancellationToken);
     }
 
-    public async Task<IEnumerable<OrderItem>> GetOrderItemsByOrderIdAsync(Guid orderId, Guid tenantId)
+    public async Task<IEnumerable<OrderItem>> GetOrderItemsByOrderIdAsync(Guid orderId, Guid tenantId, CancellationToken cancellationToken = default)
     {
         return await _context.OrderItems
             .Include(oi => oi.Order)
             .Where(oi => oi.OrderId == orderId && oi.Order!.TenantId == tenantId)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task AddOrderItemAsync(OrderItem orderItem)
+    public async Task AddOrderItemAsync(OrderItem orderItem, CancellationToken cancellationToken = default)
     {
-        await _context.OrderItems.AddAsync(orderItem);
-        await _context.SaveChangesAsync();
+        await _context.OrderItems.AddAsync(orderItem, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateOrderItemAsync(OrderItem orderItem)
+    public async Task UpdateOrderItemAsync(OrderItem orderItem, CancellationToken cancellationToken = default)
     {
         _context.OrderItems.Update(orderItem);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteOrderItemAsync(Guid id, Guid tenantId)
+    public async Task DeleteOrderItemAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
     {
-        var orderItem = await GetOrderItemByIdAsync(id, tenantId);
+        var orderItem = await GetOrderItemByIdAsync(id, tenantId, cancellationToken);
         if (orderItem != null)
         {
             _context.OrderItems.Remove(orderItem);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 
     // Bulk operations
-    public async Task AddOrderItemsAsync(IEnumerable<OrderItem> orderItems)
+    public async Task AddOrderItemsAsync(IEnumerable<OrderItem> orderItems, CancellationToken cancellationToken = default)
     {
-        await _context.OrderItems.AddRangeAsync(orderItems);
-        await _context.SaveChangesAsync();
+        await _context.OrderItems.AddRangeAsync(orderItems, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

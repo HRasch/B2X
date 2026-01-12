@@ -49,5 +49,13 @@
     "editor.wordWrap": "on"
   },
   "dotnet.preferCSharpExtension": true,
-  "dotnet.defaultSolution": "B2X.slnx"
+  "dotnet.defaultSolution": "B2X.slnx",
+  "chat.mcp.serverSampling": {
+    "B2Connect/.vscode/mcp.json: sqlite": {
+      "allowedModels": [
+        "copilot/claude-sonnet-4.5",
+        "ollama/deepseek-coder-v2:latest"
+      ]
+    }
+  }
 }

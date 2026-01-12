@@ -1,43 +1,45 @@
 ---
-docid: KB-138
-title: Lessons
+docid: KB-LESSONS
+title: Lessons Learned
 owner: @DocMaintainer
 status: Active
 created: 2026-01-08
+updated: 2026-01-12
 ---
 
-﻿# Lessons Learned
+# Lessons Learned
 
 **DocID**: `KB-LESSONS`  
-**Last Updated**: 11. Januar 2026 (Session 2)  
-**Maintained By**: GitHub Copilot
+**Last Updated**: 12. Januar 2026  
+**Maintained By**: GitHub Copilot  
+**Size**: Optimized per [GL-007] - Target <1000 lines
 
 ---
 
-## Session: 11. Januar 2026 - Aspire Exits Immediately in VS Code Terminal (stdin Redirection)
+## Table of Contents
 
-### Aspire CLI Exits with Code 1 Immediately After "Distributed application started"
+- [.NET Core & Aspire](#net-core--aspire)
+- [Entity Framework Core](#entity-framework-core)
+- [Build & Compilation](#build--compilation)
+- [Testing & Quality](#testing--quality)
+- [Type Systems & Language Features](#type-systems--language-features)
+- [Development Workflow](#development-workflow)
+- [API Design & Serialization](#api-design--serialization)
 
-**Issue**: Aspire starts successfully and prints "Distributed application started. Press Ctrl+C to shut down." then immediately exits with exit code 1.
+---
 
-**Root Cause**: VS Code's integrated terminal **redirects stdin**, causing Aspire CLI to detect a non-interactive environment and exit. The Aspire CLI uses `Console.IsInputRedirected` to detect interactive terminals - when stdin is redirected (as in VS Code tasks), it behaves differently.
+## .NET Core & Aspire
 
-**Reference**: [dotnet/aspire#12242](https://github.com/dotnet/aspire/pull/12242) - "Handle console input/output redirection in CliHostEnvironment"
+### Aspire CLI Requires Interactive Terminal (stdin Redirection Issue)
 
-**Diagnosis**:
-```
-Terminal output:
-info: Aspire.Hosting.DistributedApplication[[0]]
-      Now listening on: http://localhost:15500
-info: Aspire.Hosting.DistributedApplication[[0]]
-      Distributed application started. Press Ctrl+C to shut down.
- *  Terminal process terminated with exit code: 1
-```
+**Problem**: Aspire starts successfully but exits immediately with code 1 in VS Code terminal.
 
-**Solution**: Run Aspire in a **separate interactive PowerShell window** rather than VS Code's integrated terminal.
+**Root Cause**: VS Code's integrated terminal redirects stdin, causing Aspire CLI to detect non-interactive environment via `Console.IsInputRedirected`.
 
-**VS Code Task Configuration** (`.vscode/tasks.json`):
+**Solution**: Run Aspire in separate PowerShell window using `Start-Process`:
+
 ```jsonc
+// .vscode/tasks.json
 {
   "label": "backend-start",
   "type": "shell",
@@ -46,134 +48,262 @@ info: Aspire.Hosting.DistributedApplication[[0]]
   "args": [
     "pwsh",
     "-ArgumentList",
-    "'-NoExit', '-Command', 'cd ''${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost''; $env:Database__Provider=''inmemory''; aspire run --project B2X.AppHost.csproj'"
-  ]
+    "'-NoExit', '-Command', 'cd ''${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost''; $env:Database__Provider=''inmemory''; aspire run --project B2X.AppHost.csproj'",
+  ],
 }
 ```
 
-**Manual Workaround** (from terminal):
-```powershell
-Start-Process pwsh -ArgumentList '-NoExit', '-Command', 'cd ''C:\path\to\AppHost''; aspire run'
+**Key Insights**:
+
+- VS Code terminals redirect stdin - affects any CLI checking interactivity
+- `Start-Process` spawns true interactive window with proper stdin
+- `-NoExit` flag keeps window open for Ctrl+C shutdown
+- Build success ≠ Runtime success
+
+**Reference**: [dotnet/aspire#12242](https://github.com/dotnet/aspire/pull/12242)
+
+---
+
+### Aspire 13.1.0 on .NET 10 - Runtime Assembly Loading
+
+**Problem**: Aspire compiles but fails at runtime with `FileNotFoundException` for `Aspire.Hosting` assembly.
+
+**Root Cause**: Aspire 13.1.0 ships only `net8.0` assemblies, not `net10.0`. NuGet restores packages but doesn't copy assemblies for mismatched target frameworks.
+
+**Solution**: Add fallback configuration to `B2X.AppHost.csproj`:
+
+```xml
+<PropertyGroup>
+  <!-- Allow NuGet to accept net8.0/net9.0 as fallback -->
+  <AssetTargetFallback>$(AssetTargetFallback);net9.0;net8.0</AssetTargetFallback>
+
+  <!-- Allow runtime to load older assemblies -->
+  <RollForward>LatestMajor</RollForward>
+
+  <!-- Force copy ALL transitive dependencies -->
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+  <!-- Enable Aspire host behaviors -->
+  <IsAspireHost>true</IsAspireHost>
+</PropertyGroup>
 ```
 
-**Why This Works**:
-- `Start-Process` spawns a **new interactive PowerShell window** with proper stdin
-- The `-NoExit` flag keeps the window open (Ctrl+C works for shutdown)
-- Aspire CLI detects an interactive environment and stays running
+**All Four Properties Required**:
+
+- `AssetTargetFallback`: NuGet copies net8.0 assets
+- `RollForward`: Runtime accepts older assemblies
+- `CopyLocalLockFileAssemblies`: Transitive deps in output folder
+- `IsAspireHost`: Aspire MSBuild behaviors
+
+**Reference**: See [KB-070] for complete configuration
+
+---
+
+### Aspire Workload Deprecation - SDK 13.1.0 Migration
+
+**Problem**: Build fails with `NETSDK1228` - workload-based Aspire installation no longer supported.
+
+**Root Cause**: Aspire 8.x workload model deprecated. Aspire 13.x uses SDK-based approach.
+
+**Solution**: Upgrade to SDK format:
+
+```xml
+<!-- OLD: Aspire 8.x -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Aspire.AppHost.Sdk" Version="8.2.0-preview.1.24427.3" />
+  <PropertyGroup>
+    <IsAspireHost>true</IsAspireHost>
+  </PropertyGroup>
+</Project>
+
+<!-- NEW: Aspire 13.x -->
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+  <PropertyGroup>
+    <!-- No IsAspireHost needed -->
+  </PropertyGroup>
+</Project>
+```
+
+**Key Changes**:
+
+- No separate `<Sdk Name="..." />` element
+- SDK version in `Sdk` attribute: `Aspire.AppHost.Sdk/13.1.0`
+- Remove `IsAspireHost` property
+- Error cannot be suppressed with `NoWarn`
+
+---
+
+## Entity Framework Core
+
+### In-Memory Provider Doesn't Support Migrations
+
+**Problem**: `context.Database.MigrateAsync()` throws `InvalidOperationException` with in-memory provider.
+
+**Root Cause**: Migrations are relational-only operations. In-memory provider has no schema to migrate.
+
+**Solution**: Conditional migration based on provider type:
+
+```csharp
+var dbProvider = builder.Configuration["Database:Provider"] ?? "postgres";
+
+if (dbProvider != "inmemory")
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
+    await context.Database.MigrateAsync();
+}
+else
+{
+    // For in-memory testing
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
+    await context.Database.EnsureCreatedAsync();
+}
+```
+
+**Provider Support Matrix**:
+| Method | In-Memory | SQLite | PostgreSQL |
+|--------|-----------|--------|------------|
+| `MigrateAsync()` | Error | Works | Works |
+| `EnsureCreatedAsync()` | Works | Works | Works |
 
 **Key Insights**:
-1. **VS Code terminals redirect stdin** - this affects any CLI that checks for interactivity
-2. **Aspire CLI is designed for interactive use** - it expects to handle Ctrl+C signals
-3. **The issue is NOT in your code** - it's a VS Code/Aspire CLI interaction
-4. **Build success ≠ Runtime success** - Aspire builds fine but exits immediately at runtime
 
-**Related Issues**:
-- Build file locks (CS2012) - VBCSCompiler holding DLLs - SEPARATE ISSUE
-- MSBuild parallel race conditions - SEPARATE ISSUE (fixed with `-m:2`)
+- In-memory is dictionaries, not a database
+- Always check provider type before relational methods
+- Use `EnsureCreatedAsync()` for testing
+- Configuration-driven providers enable flexible testing
 
 ---
 
-## Session: 11. Januar 2026 - Roslyn Type Inference Requires Explicit Cast<T> for IEnumerable Covariance
+### JSON Circular References in Navigation Properties
 
-### IEnumerable<BaseType> Not Inferred Correctly in Generic Method Chains
+**Problem**: POST API returns HTTP 500 with `JsonException` about circular references:
 
-**Issue**: WolverineMCP build failed with `CS1503` errors:
 ```
-error CS1503: Argument 2: cannot convert from 
-'System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.ISymbol>' to 
-'System.Collections.Generic.IEnumerable<Microsoft.CodeAnalysis.INamedTypeSymbol>'
+System.Text.Json.JsonException: A possible object cycle was detected.
+Path: $.Items.Order.Items.Order.Items.Order...
 ```
 
-**Root Cause**: Method chain returns `IEnumerable<ISymbol>` but is assigned to `IEnumerable<INamedTypeSymbol>` without explicit conversion. C# covariance doesn't apply here because the types aren't directly compatible.
+**Root Cause**: Bidirectional navigation properties create cycles:
 
-**Context**: Code using Roslyn's symbol analysis:
 ```csharp
-// Broken - type inference fails
-IEnumerable<INamedTypeSymbol> commands = symbolFinder.FindCommands(types);
-IEnumerable<INamedTypeSymbol> queries = symbolFinder.FindQueries(types);
-IEnumerable<INamedTypeSymbol> events = symbolFinder.FindEvents(types);
+public class Order
+{
+    public ICollection<OrderItem> Items { get; set; }
+}
+
+public class OrderItem
+{
+    public Guid OrderId { get; set; }
+    public Order Order { get; set; }  // Back-reference causes cycle
+}
 ```
 
-**Solution**: Add explicit `.Cast<T>()` to ensure type safety:
+**Solution**: Configure `ReferenceHandler.IgnoreCycles`:
+
 ```csharp
-// Fixed - explicit Cast for type conversion
-var commandSymbols = symbolFinder.FindCommands(types).Cast<INamedTypeSymbol>();
-var querySymbols = symbolFinder.FindQueries(types).Cast<INamedTypeSymbol>();
-var eventSymbols = symbolFinder.FindEvents(types).Cast<INamedTypeSymbol>();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 ```
 
-**Key Lessons**:
-1. **`IEnumerable<Derived>` is NOT `IEnumerable<Base>`** in method return contexts
-2. **Roslyn symbols** often return `ISymbol` that need explicit type casting
-3. **Use `.Cast<T>()`** from `System.Linq` for safe type conversion
-4. **Prefer `var`** when adding `.Cast<T>()` to avoid redundant type declarations
+**Alternative Solutions**:
+| Option | Pros | Cons |
+|--------|------|------|
+| `ReferenceHandler.IgnoreCycles` | Simple, no code changes | Silently ignores cycles |
+| `ReferenceHandler.Preserve` | Preserves with `$id`/`$ref` | Adds metadata to JSON |
+| `[JsonIgnore]` on navigation | Explicit control | Every back-reference |
+| DTOs without navigation | Clean separation | More code |
 
-**When to Apply**:
-- Roslyn symbol analysis returning `IEnumerable<ISymbol>`
-- Any method chain where return type is less specific than expected
-- LINQ queries with mixed type hierarchies
+**Best Practice**: Use DTOs for API responses instead of EF entities directly.
 
 ---
 
-## Session: 11. Januar 2026 - Central Package Management (CPM) Missing Versions
+## Build & Compilation
 
-### Missing PackageVersion Causes Build Failures Across Solution
+### VBCSCompiler/MSBuild File Locks (CS2012)
 
-**Issue**: Solution build failed with `NU1008` errors:
+**Problem**: Build fails with "Cannot open 'B2X.Shared.Core.dll' for writing - file is being used by another process."
+
+**Root Cause**: VBCSCompiler shared compilation and MSBuild node reuse keep processes alive that hold file locks.
+
+**Solution**: Add to `Directory.Build.props`:
+
+```xml
+<PropertyGroup>
+  <!-- Prevent File Locking Issues -->
+  <UseSharedCompilation>false</UseSharedCompilation>
+  <DisableMSBuildNodeReuse>true</DisableMSBuildNodeReuse>
+  <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+</PropertyGroup>
 ```
-error NU1008: Projects that use central package version management should 
-not define the version on the PackageReference items but on the PackageVersion items
+
+**Emergency Cleanup**:
+
+```powershell
+Get-Process -Name "dotnet", "msbuild", "VBCSCompiler", "csc" -ErrorAction SilentlyContinue | Stop-Process -Force
+Remove-Item "path/to/project/obj" -Recurse -Force
 ```
 
-**Root Cause**: Projects referenced packages that didn't have versions defined in `Directory.Packages.props`:
-- `TngTech.ArchUnitNET`
-- `Microsoft.Build.Tasks.Core`
-- `System.ComponentModel.Composition`
+**Key Insights**:
+
+- VBCSCompiler designed for build speed but causes locks
+- MSBuild node reuse problematic in large solutions
+- Analyzers can lock files during live analysis
+- Different issue from Aspire stdin redirection
+
+---
+
+### Central Package Management (CPM) Missing Versions
+
+**Problem**: Build fails with `NU1008` - "Projects using central package version management should not define version on PackageReference."
+
+**Root Cause**: Projects referenced packages without versions in `Directory.Packages.props`.
 
 **Solution**: Add missing package versions to CPM:
+
 ```xml
 <!-- Directory.Packages.props -->
 <ItemGroup>
   <!-- Architecture Testing -->
   <PackageVersion Include="TngTech.ArchUnitNET" Version="0.13.1" />
-  
+
   <!-- Build Infrastructure -->
   <PackageVersion Include="Microsoft.Build.Tasks.Core" Version="17.14.8" />
-  
+
   <!-- MEF Composition -->
   <PackageVersion Include="System.ComponentModel.Composition" Version="10.0.1" />
 </ItemGroup>
 ```
 
-**Key Lessons**:
-1. **CPM is solution-wide**: Every `<PackageReference>` must have corresponding `<PackageVersion>` in root props
-2. **New projects inherit CPM**: Adding projects that use new packages requires props file updates
-3. **Transitive dependencies**: Some packages (like ArchUnitNET) require explicit version for their dependencies
-4. **Version audit script**: Consider creating a script to detect missing CPM entries
-
 **Prevention**:
-- Add `NU1008` to CI as blocking error (already default)
+
+- Add `NU1008` to CI as blocking error (default)
 - Document CPM process in `CONTRIBUTING.md`
 - Use `dotnet list package --outdated` to audit
 
+**Key Lessons**:
+
+- CPM is solution-wide: Every `<PackageReference>` needs `<PackageVersion>`
+- New projects inherit CPM requirements
+- Transitive dependencies may need explicit versions
+- Consider version audit script
+
 ---
 
-## Session: 11. Januar 2026 - CopyLocalLockFileAssemblies for NuGet DLL Distribution
+### CopyLocalLockFileAssemblies for NuGet Dependencies
 
-### NuGet Package DLLs Not Copied to Output Directory in Aspire Projects
+**Problem**: Aspire-orchestrated projects fail at runtime with `FileNotFoundException` for NuGet package DLLs.
 
-**Issue**: Aspire-orchestrated projects failed at runtime with `FileNotFoundException`:
-```
-System.IO.FileNotFoundException: Could not load file or assembly 
-'Microsoft.AspNetCore.OpenApi, Version=10.0.0.0'
-```
+**Root Cause**: NuGet default only copies direct project references, not transitive package dependencies.
 
-**Root Cause**: NuGet's default behavior only copies **direct project references** to output, not transitive package dependencies. This is problematic for:
-- Aspire projects launching multiple services
-- Plugin architectures
-- Self-contained deployments
+**Solution**: Add to `src/Directory.Build.props`:
 
-**Solution**: Add global setting to `src/Directory.Build.props`:
 ```xml
 <PropertyGroup>
   <!-- Force copy ALL NuGet package DLLs to output directory -->
@@ -181,5944 +311,434 @@ System.IO.FileNotFoundException: Could not load file or assembly
 </PropertyGroup>
 ```
 
-**What This Property Does**:
+**What This Does**:
 | Before | After |
 |--------|-------|
 | Only project DLLs copied | All DLLs from lock file copied |
 | Runtime resolution via NuGet cache | All deps in bin/ folder |
-| Smaller output but fragile | Larger output but self-contained |
+| Smaller output but fragile | Larger but self-contained |
 
 **When to Use**:
-- ✅ Aspire AppHost projects
-- ✅ Plugin/extension architectures
-- ✅ Container deployments needing all DLLs
-- ✅ xcopy-deployable applications
-- ❌ Library projects (consumers should manage their deps)
 
-**Alternative Per-Project**:
-```xml
-<!-- In specific .csproj file -->
-<PropertyGroup>
-  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-</PropertyGroup>
-```
-
-**Key Lessons**:
-1. **Build success ≠ Runtime success**: DLLs might resolve at build but fail at runtime
-2. **Aspire launches services in isolation**: Each service needs its full dependency set
-3. **Check output folder**: If DLL missing in bin/, this setting is likely the fix
-4. **Global vs Local**: Add to Directory.Build.props for consistency across all projects
+- Aspire AppHost projects
+- Plugin/extension architectures
+- Container deployments needing all DLLs
+- xcopy-deployable applications
+- NOT library projects (consumers manage deps)
 
 ---
 
-## Session: 11. Januar 2026 - VBCSCompiler/MSBuild File Locks (CS2012)
+### .NET Solution Path Corrections & Dependencies
 
-### VBCSCompiler Shared Compilation Causes File Locks During Build
+**Problem**: Widespread compilation failures due to incorrect project reference paths and missing package dependencies.
 
-**Issue**: Build fails with `CS2012: Cannot open 'B2X.Shared.Core.dll' for writing -- 'The process cannot access the file because it is being used by another process.'`
+**Root Cause**: Inconsistent relative path patterns (missing `/src/` prefixes) and incomplete package references for EF, logging, configuration.
 
-**Root Cause**: VBCSCompiler shared compilation and MSBuild node reuse keep processes alive that hold file locks on DLLs, preventing rebuilds.
+**Solution**: Systematic fixes:
 
-**Solution**: Add these settings to `Directory.Build.props`:
+1. **Path Pattern**: Standardize 5-level navigation for test projects:
 
-```xml
-<PropertyGroup>
-  <!-- CRITICAL: Prevent File Locking Issues -->
-  <UseSharedCompilation>false</UseSharedCompilation>
-  <DisableMSBuildNodeReuse>true</DisableMSBuildNodeReuse>
-  <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-  <GenerateDocumentationFile>false</GenerateDocumentationFile>
-</PropertyGroup>
-```
+   ```xml
+   <!-- Correct -->
+   <ProjectReference Include="../../../../src/shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
 
-**What Each Setting Does**:
+   <!-- Incorrect - missing /src/ -->
+   <ProjectReference Include="../../../../shared/Domain/Tenancy/B2X.Tenancy.API.csproj" />
+   ```
 
-| Setting | Purpose |
-|---------|---------|
-| `UseSharedCompilation=false` | Disables VBCSCompiler server that holds file locks |
-| `DisableMSBuildNodeReuse=true` | Prevents MSBuild worker processes from persisting |
-| `RunAnalyzersDuringLiveAnalysis=false` | Prevents analyzer processes from locking files |
+2. **Package Completeness**: Add both runtime and design-time packages:
 
-**Emergency Cleanup** (when locks persist):
-```powershell
-# Kill all dotnet/compiler processes
-Get-Process -Name "dotnet", "msbuild", "VBCSCompiler", "csc" -ErrorAction SilentlyContinue | Stop-Process -Force
+   ```xml
+   <!-- EF Core -->
+   <PackageReference Include="Microsoft.EntityFrameworkCore" />
+   <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+   <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
 
-# Clean obj folders
-Remove-Item "path/to/project/obj" -Recurse -Force
-```
+   <!-- Logging -->
+   <PackageReference Include="Microsoft.Extensions.Logging" />
+   ```
 
 **Key Insights**:
-1. **VBCSCompiler stays alive** - It's designed to speed up subsequent builds but causes lock issues
-2. **MSBuild node reuse is problematic** - Disabled by default in some CI scenarios for this reason
-3. **Analyzers can lock files** - Especially during live analysis in IDE
-4. **This is a DIFFERENT issue** from Aspire stdin redirection (exit code 1)
+
+- Path depth matters: Test projects in `tests/` require 5 levels up
+- EF needs both runtime and relational packages
+- `ILogger<>` requires explicit `Microsoft.Extensions.Logging`
+- Build individual projects to isolate issues
+
+**Prevention**:
+
+- Path validation scripts for consistent `/src/` prefixes
+- Package dependency templates for common project types
+- Require successful individual builds before solution-wide validation
 
 ---
 
-## Session: 11. Januar 2026 - Aspire 13.1.0 Runtime FileNotFoundException Fix
+## Testing & Quality
 
-### Aspire.Hosting Missing Assembly at Runtime on .NET 10
+### xUnit v3 MTP v2 Migration & Test Suite Verification
 
-**Issue**: Aspire AppHost compiled successfully but failed at runtime:
-```
-System.IO.FileNotFoundException: Could not load file or assembly 'Aspire.Hosting'
-```
+**Problem**: Verify xUnit v3 with Microsoft Testing Platform v2 works across entire test suite after migration.
 
-**Root Cause**:
-- `Aspire.Hosting` 13.1.0 only ships `net8.0` assemblies, NOT `net10.0`
-- Same applies to transitive dependencies like `KubernetesClient`, `Polly`, etc.
-- NuGet restores packages but doesn't copy assemblies when target framework mismatch exists
-- Default `RollForward` policy doesn't bridge major version gaps
+**Root Cause**: xUnit v3 MTP v2 is significant change from traditional xUnit - requires comprehensive verification.
 
-**Solution**: Add explicit fallback and copy properties to `B2X.AppHost.csproj`:
+**Solution**: Systematic verification showed 433 tests passing across 19 test projects with MTP v2.
+
+**Required Configuration**:
 
 ```xml
 <PropertyGroup>
-  <!-- REQUIRED: Allow NuGet to accept net8.0/net9.0 packages as fallback -->
-  <AssetTargetFallback>$(AssetTargetFallback);net9.0;net8.0</AssetTargetFallback>
-  
-  <!-- REQUIRED: Allow runtime to load older assemblies with .NET 10 -->
-  <RollForward>LatestMajor</RollForward>
-  
-  <!-- REQUIRED: Force copy ALL transitive dependencies to output folder -->
+  <!-- Required for MTP v2 test execution -->
+  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
   <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-  
-  <!-- REQUIRED: Enable Aspire host behaviors -->
-  <IsAspireHost>true</IsAspireHost>
+  <OutputType>Exe</OutputType>
 </PropertyGroup>
 
 <ItemGroup>
-  <!-- REQUIRED: Explicit reference even with SDK -->
-  <PackageReference Include="Aspire.Hosting.AppHost" />
+  <!-- Use only MTP v2 package, not metapackage -->
+  <PackageReference Include="xunit.v3.mtp-v2" />
+  <PackageReference Include="Microsoft.NET.Test.Sdk" />
 </ItemGroup>
 ```
 
-**Directory.Packages.props must include**:
-```xml
-<PackageVersion Include="Aspire.Hosting.AppHost" Version="13.1.0" />
-```
+**Key Lessons**:
 
-**Why All Four Properties Are Required**:
-
-| Property | Without It | Error |
-|----------|-----------|-------|
-| `AssetTargetFallback` | NuGet won't copy net8.0 assets | Build succeeds, runtime fails |
-| `RollForward: LatestMajor` | Runtime rejects older assemblies | `FileNotFoundException` |
-| `CopyLocalLockFileAssemblies` | Transitive deps not in output | `FileNotFoundException` for KubernetesClient |
-| `IsAspireHost: true` | Missing Aspire MSBuild behaviors | Various runtime failures |
-
-**Lessons**:
-1. **Build success ≠ Runtime success**: Just because `dotnet build` passes doesn't mean assemblies are correctly deployed
-2. **Check transitive dependencies**: The error may cite `Aspire.Hosting` but the real issue is its dependencies (`KubernetesClient`, etc.)
-3. **AssetTargetFallback is not optional**: Despite SDK claims of net10.0 support, core packages still ship net8.0-only
-4. **CopyLocalLockFileAssemblies is critical**: This forces all transitive dependencies to the output folder
-5. **Don't remove working config during troubleshooting**: If something worked before, preserve the original configuration
-
-**References**: See [KB-070] Aspire .NET 10 Compatibility for full configuration
+- Reference only `xunit.v3.mtp-v2`, not metapackage (avoids conflicts)
+- MTP v2 requires `UseMicrosoftTestingPlatformRunner` and `CopyLocalLockFileAssemblies`
+- For IDisposable fixtures, add `GC.SuppressFinalize(this)` in Dispose (CA1816)
+- Suppress CS1591 for documentation warnings in test projects
+- Mock implementations need realistic data matching production expectations
+- All properly configured projects work seamlessly with MTP v2
 
 ---
 
-## Session: 11. Januar 2026 - Aspire Workload Deprecation & SDK Upgrade to 13.1.0
+## Type Systems & Language Features
 
-### Aspire 8.x Workload Model Deprecated - Must Use SDK-Based Approach
+### Roslyn Type Inference Requires Explicit Cast for IEnumerable Covariance
 
-**Issue**: Build failed with `NETSDK1228` error:
-```
-error NETSDK1228: The workload-manifest-based installation of the .NET Aspire SDK is no longer supported. 
-Please use the SDK-based .NET Aspire SDK by following the instructions at 
-https://aka.ms/dotnet/aspire/migrate-sdk
-```
+**Problem**: WolverineMCP build fails with `CS1503` - cannot convert `IEnumerable<ISymbol>` to `IEnumerable<INamedTypeSymbol>`.
 
-**Root Cause**: 
-- Project was using old Aspire 8.2.0 preview with deprecated workload model:
-  ```xml
-  <Project Sdk="Microsoft.NET.Sdk">
-    <Sdk Name="Aspire.AppHost.Sdk" Version="8.2.0-preview.1.24427.3" />
-    <PropertyGroup>
-      <IsAspireHost>true</IsAspireHost>
-    </PropertyGroup>
-  ```
-- Aspire 13.x uses new SDK-based approach (no workload installation)
-- Error could NOT be suppressed with `NoWarn`, `MSBuildWarningsAsMessages`, or `WarningsNotAsErrors`
+**Root Cause**: C# covariance doesn't apply when types aren't directly compatible. Method returns `IEnumerable<ISymbol>` but assigned to `IEnumerable<INamedTypeSymbol>`.
 
-**Solution**: Upgrade to Aspire 13.1.0 (latest stable, December 2025) using modern SDK format:
+**Solution**: Add explicit `.Cast<T>()`:
 
-1. **Update AppHost.csproj** - Use SDK attribute format:
-   ```xml
-   <Project Sdk="Aspire.AppHost.Sdk/13.1.0">
-     <PropertyGroup>
-       <!-- IsAspireHost removed - no longer needed -->
-       <!-- No separate <Sdk Name="..." /> element -->
-     </PropertyGroup>
-   ```
-
-2. **Update Directory.Packages.props**:
-   ```xml
-   <PackageVersion Include="Aspire.Hosting" Version="13.1.0" />
-   <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.1.0" />
-   <!-- REMOVE Aspire.Hosting.AppHost - implicitly provided by SDK -->
-   <!-- Aspire.Hosting.Elasticsearch stays at 13.0.0 - 13.1.0 not published yet -->
-   <PackageVersion Include="Aspire.Hosting.Elasticsearch" Version="13.0.0" />
-   ```
-
-3. **Update nuget.config** - Allow Aspire from nuget.org:
-   ```xml
-   <packageSource key="nuget.org">
-     <package pattern="Aspire.*" />  <!-- Add this -->
-   </packageSource>
-   ```
-
-**Key Changes in Aspire 13.x**:
-- ✅ SDK declared directly in `<Project Sdk="...">` attribute with version
-- ✅ No separate `<Sdk Name="..." />` element needed
-- ✅ `Aspire.Hosting.AppHost` automatically included by SDK (remove from packages)
-- ✅ `<IsAspireHost>true</IsAspireHost>` property removed
-- ✅ Target framework: `net10.0` (was `net9.0` in 8.x)
-- ✅ No workload installation required
-- ✅ **Package rename**: `Aspire.Hosting.NodeJs` → `Aspire.Hosting.JavaScript` (breaking change)
-  - Extensions like `AddViteApp`, `AddNpmApp`, `AddNodeApp` moved to new package
-  - Must add explicit `<PackageReference Include="Aspire.Hosting.JavaScript" />` to AppHost project
-  - Update both `Directory.Packages.props` and `.csproj` references
-
-**Lessons**:
-1. **Check official releases**: Always verify versions on nuget.org and GitHub releases before upgrading
-2. **SDK error suppression doesn't work**: NETSDK errors cannot be suppressed at project level - must fix root cause
-3. **Package source mapping matters**: Ensure Aspire packages allowed from nuget.org in package source mappings
-4. **Implicit package references**: SDK-based Aspire automatically includes AppHost package - explicit reference causes NU1009 error
-5. **Not all components upgrade together**: Some Aspire packages (like Elasticsearch) may lag behind in version releases
-6. **Package renames are breaking changes**: Aspire 13.x renamed NodeJs → JavaScript package; update both version definitions and project references
-7. **Extension methods require package references**: Even with CPM, extension methods from JavaScript package require explicit `<PackageReference>` in consuming project
-6. **Migration path**: For production projects on Aspire 8.x, first upgrade to 9.x, then to 13.x (per Microsoft docs)
-
-**Documentation References**:
-- [Upgrade to Aspire 13.0 Guide](https://learn.microsoft.com/dotnet/aspire/get-started/upgrade-to-aspire-13)
-- [Aspire 13.1.0 Release Notes](https://github.com/dotnet/aspire/releases/tag/v13.1.0)
-- [Breaking Changes in Aspire 13.0](https://learn.microsoft.com/dotnet/aspire/compatibility/13.0/)
-
----
-
-## Session: 11. Januar 2026 - ArchUnitNET xUnit V3 Migration & Namespace Conflicts
-
-### ArchUnitNET Package Versioning and xUnit V3 Migration
-
-**Issue**: Architecture tests failed to build with multiple errors:
-- `CS0234: 'Loader' namespace not found in ArchUnitNET`
-- `CS0234: 'xUnit' namespace not found` (should be `xUnitV3`)
-- `CS0118: 'Architecture' is namespace, used as type` (naming conflict)
-- Missing `[Fact]` attribute after changing namespace
-
-**Root Cause**: Multiple interrelated issues:
-1. **Package version mismatch**: `TngTech.ArchUnitNET` was set to invalid `2.1.0-draft`, but `TngTech.ArchUnitNET.xUnitV3` was at `0.13.1`
-2. **Wrong namespace**: `using ArchUnitNET.xUnit;` doesn't exist for xUnit V3 - must use `using ArchUnitNET.xUnitV3;`
-3. **Type/namespace collision**: Field named `Architecture` conflicts with `ArchUnitNET.Domain.Architecture` type
-4. **Missing import**: `[Fact]` attribute requires `using Xunit;` - NOT provided by ArchUnitNET.xUnitV3
-5. **API change**: `ArchRule.Types()` → `ArchRuleDefinition.Types()` + namespace conflict with `B2X.Types`
-
-**Lessons**:
-1. **Package versions must match**: Core and test-framework packages (e.g., `TngTech.ArchUnitNET` and `TngTech.ArchUnitNET.xUnitV3`) must be same version
-2. **xUnit V3 namespace**: Use `using ArchUnitNET.xUnitV3;` not `using ArchUnitNET.xUnit;`
-3. **Separate xUnit import**: Always add `using Xunit;` for `[Fact]`/`[Theory]` attributes
-4. **Avoid naming conflicts**: Don't name fields/classes same as common type names (`Architecture`, `Types`, etc.)
-5. **Fully qualify when needed**: Use `ArchRuleDefinition.Types()` to avoid conflict with project namespaces
-
-**Solution Pattern** (for xUnit V3):
 ```csharp
-using ArchUnitNET.Domain;
-using ArchUnitNET.Fluent;
-using ArchUnitNET.xUnitV3;  // NOT xUnit!
-using Xunit;                 // Required for [Fact]
-using static ArchUnitNET.Fluent.ArchRuleDefinition;  // For Types(), Classes(), etc.
+// Broken - type inference fails
+IEnumerable<INamedTypeSymbol> commands = symbolFinder.FindCommands(types);
 
-namespace B2X.ArchitectureTests;  // Avoid 'Architecture' in namespace
-
-public class MyTests : ArchitectureTestBase
-{
-    // Use unique field name to avoid conflict
-    protected static readonly Architecture B2XArchitecture = ...;
-    
-    [Fact]
-    public void My_Test()
-    {
-        // Use ArchRuleDefinition.Types() if you have a Types namespace conflict
-        ArchRuleDefinition.Types()
-            .That().ResideInNamespaceMatching("...")
-            .Should().NotDependOnAny(...)
-            .Check(B2XArchitecture);
-    }
-}
+// Fixed - explicit Cast
+var commandSymbols = symbolFinder.FindCommands(types).Cast<INamedTypeSymbol>();
 ```
 
-**Files Modified**:
-- `Directory.Packages.props` - Fixed `TngTech.ArchUnitNET` from `2.1.0-draft` to `0.13.1`
-- All test files - Updated imports and namespace
-- `ArchitectureTestBase.cs` - Renamed field to `B2XArchitecture`, fixed BoundedContexts constants
+**Key Lessons**:
 
-**Prevention**:
-1. Use Central Package Management to ensure version consistency
-2. Add build validation in CI for architecture test project
-3. Document the correct import pattern in project README
+- `IEnumerable<Derived>` is NOT `IEnumerable<Base>` in method returns
+- Roslyn symbols often return `ISymbol` needing explicit casting
+- Use `.Cast<T>()` from `System.Linq` for safe conversion
+- Prefer `var` when adding `.Cast<T>()` to avoid redundancy
 
 ---
 
-## Session: 11. Januar 2026 - Token-Optimized Reading Can Mask Document Corruption
+## Development Workflow
 
-### Always Read Full File for Structure Reviews
+### PowerShell Background Jobs for API Testing
 
-**Issue**: When reviewing [BS-BACKEND-LOCALIZATION-STRATEGY.md](.ai/brainstorm/BS-BACKEND-LOCALIZATION-STRATEGY.md), initial chunk-based reading made the document appear structurally sound, but full file read revealed extensive corruption (duplicated sections, orphaned content, missing heading markers).
+**Problem**: Running `dotnet run` then `curl` in same VS Code terminal terminates server after HTTP request.
 
-**Root Cause**: Multiple sequential `replace_string_in_file` operations across different editing sessions caused:
-- Orphaned section fragments (lines 61-63, 74-85)
-- Duplicated entire sections (audit, implementation patterns appearing twice)
-- Missing markdown heading markers (## vs plain text)
-- Broken section numbering (1, 2, 3A, 4 [orphaned], 7, 8, 9)
+**Root Cause**: VS Code terminal executes commands sequentially. `dotnet run` blocks, requiring termination for next command.
 
-**Why Token-Optimized Reading Failed**: Reading file in chunks (lines 1-100, 200-300, etc.) showed each fragment as "reasonably formatted" because context was missing to see:
-- Section 4 appearing as orphaned bullet points
-- Sections 1-4 duplicated at end of file
-- Inconsistent heading hierarchy
+**Solution**: Use PowerShell `Start-Job` for background execution:
 
-**Lesson**: When reviewing **document structure** (vs. specific code logic), ALWAYS request full file read first to see global structure issues that chunked reading masks.
-
-**Prevention**:
-1. For **structural reviews** → Use `read_file(filePath, 1, totalLines)` 
-2. For **code reviews** → Chunked reading is fine
-3. For **multi-edit documents** → Periodically validate entire structure
-4. After 5+ sequential edits → Full file integrity check recommended
-
-**Related**: See [GL-044] Fragment-Based File Access Strategy - applies to code, not structural document reviews
-
----
-
-## Session: 10. Januar 2026 - Aspire 13.x + .NET 10 Assembly Loading Incompatibility
-
-### Aspire.Hosting Package Framework Mismatch with .NET 10
-
-**Issue**: AppHost failed to start with `System.IO.FileNotFoundException: Could not load file or assembly 'Aspire.Hosting, Version=13.1.0.0'` despite successful build and package restore.
-
-**Root Cause**: **Framework target mismatch** between Aspire packages:
-- `Aspire.Hosting.AppHost` SDK (13.1.0) - supports `net10.0` ✅
-- `Aspire.Hosting` runtime library (13.1.0) - only provides `net8.0` assemblies ❌
-
-The `AssetTargetFallback` MSBuild property allowed NuGet *restore* to succeed, but .NET runtime **cannot load net8.0 assemblies** into a net10.0 application without explicit configuration.
-
-**GitHub Issue**: [dotnet/aspire#13611](https://github.com/dotnet/aspire/issues/13611) - Confirmed known issue, fix scheduled for **Aspire 13.2**
-
-**Lesson**: When using preview/edge .NET versions (e.g., .NET 10), verify that **ALL transitive dependencies** ship assemblies for that target framework. MSBuild restore success does NOT guarantee runtime compatibility.
-
-**Solution**: Add `CopyLocalLockFileAssemblies` to force all NuGet dependencies (including net8.0 fallback assemblies) to be copied to the output directory:
-
-```xml
-<!-- B2X.AppHost.csproj -->
-<PropertyGroup>
-  <TargetFramework>net10.0</TargetFramework>
-  <!-- Force copy all dependencies including net8.0 fallback assemblies -->
-  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-  <!-- Allow net8.0 packages as fallback during restore -->
-  <AssetTargetFallback>$(AssetTargetFallback);net8.0</AssetTargetFallback>
-</PropertyGroup>
-```
-
-**Key Insights**:
-- **Build Success ≠ Runtime Success**: NuGet restore and MSBuild can succeed while runtime assembly loading fails
-- **deps.json References**: Check `*.deps.json` for actual assembly paths - if it references `lib/net8.0/` for a net10.0 app, expect runtime issues
-- **CopyLocalLockFileAssemblies**: Forces ALL transitive dependencies to output directory, enabling runtime to find fallback assemblies
-- **AssetTargetFallback**: Only affects NuGet restore, NOT runtime assembly probing
-
-**Diagnostic Commands**:
 ```powershell
-# Check what framework a NuGet package targets
-Get-ChildItem "$env:USERPROFILE\.nuget\packages\aspire.hosting\13.1.0\lib" | Select-Object Name
-
-# Check if assemblies exist in output
-Get-ChildItem "bin/Debug/net10.0/" -Filter "Aspire*.dll"
-
-# Verify deps.json assembly paths
-Select-String -Path "bin/Debug/net10.0/*.deps.json" -Pattern "Aspire.Hosting"
-```
-
-**Files Modified**:
-- `src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj` - Added `CopyLocalLockFileAssemblies` and `AssetTargetFallback`
-
-**Prevention Measures**:
-1. **Framework Audit**: Before upgrading to preview .NET versions, verify all critical packages have matching TFM support
-2. **Output Directory Check**: After build, verify key assemblies exist in output directory
-3. **Integration Tests**: AppHost.Tests should start the actual host to catch runtime loading issues
-4. **deps.json Validation**: Add CI check that deps.json doesn't reference incompatible framework folders
-5. **Daily Feed Monitoring**: For edge cases, monitor `aspire-daily` NuGet feed for preview fixes
-
-**Related Issues**:
-- GitHub PR [#12500](https://github.com/dotnet/aspire/pull/12500): "Target net10.0 in client integrations" - Added net10.0 to *client* packages, but NOT hosting packages
-- Aspire 13.2 expected to include full net10.0 hosting support
-
----
-
-## Session: 10. Januar 2026 - Aspire Service Defaults Inconsistency & Parallel Build File Locks
-
-### Rate Limiter Registration Missing from IHostApplicationBuilder Overload
-
-**Issue**: Multiple Aspire services (categories-service, variants-service, monitoring-service, mcp-server) crashed at startup with exit code -532462766 (CLR exception) and error: `System.InvalidOperationException: Unable to find the required services. Please add all the required services by calling 'IServiceCollection.AddRateLimiter'`
-
-**Root Cause**: The `B2X.ServiceDefaults.Extensions` class had **two different `AddServiceDefaults()` overloads** with inconsistent behavior:
-1. `AddServiceDefaults(this IHostBuilder builder)` - **included** `AddRateLimiter()` registration
-2. `AddServiceDefaults(this IHostApplicationBuilder builder)` - **missing** `AddRateLimiter()` registration
-
-Services using `WebApplication.CreateBuilder()` (which returns `IHostApplicationBuilder`) called the second overload, but then `UseServiceDefaults()` called `app.UseRateLimiter()` which requires the services to be registered.
-
-**Lesson**: When providing multiple extension method overloads for different builder types, ensure **feature parity** between overloads. Missing service registrations cause runtime crashes that are difficult to diagnose.
-
-**Solution**: Added rate limiter and health check registration to the `IHostApplicationBuilder` overload:
-```csharp
-public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
-{
-    builder.Services.AddServiceDiscovery();
-    
-    // Health checks - ADDED
-    builder.Services.AddHealthChecks()
-        .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
-
-    // Rate limiting - required by UseServiceDefaults() - ADDED
-    builder.Services.AddRateLimiter(options =>
-    {
-        options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-        options.OnRejected = async (context, token) =>
-        {
-            context.HttpContext.Response.ContentType = "application/json";
-            await context.HttpContext.Response.WriteAsync(
-                "{\"error\":\"Rate limit exceeded.\"}", token);
-        };
-    });
-    
-    builder.AddOpenTelemetry();
-    return builder;
-}
-```
-
-**Key Insights**:
-- **Exit Code -532462766**: This is `0xE0434352` - the CLR exception code indicating an unhandled .NET exception
-- **Exit Code 1**: Generic build/startup failure
-- **Service Dependencies**: `UseRateLimiter()` requires `AddRateLimiter()` - ASP.NET Core throws at runtime, not compile time
-- **Two Overloads Pattern**: `IHostBuilder` (generic host) vs `IHostApplicationBuilder` (WebApplication builder) require parity
-
-**Files Modified**:
-- `src/backend/Infrastructure/Hosting/ServiceDefaults/Extensions.cs` - Lines 285-312
-
-**Prevention Measures**:
-1. **Overload Parity**: When creating multiple extension overloads, copy/maintain identical service registrations
-2. **Runtime Validation**: Add integration tests that start each service type to catch missing registrations
-3. **Documentation**: Comment which services are required by corresponding `Use*` methods
-4. **Code Review**: Require review when modifying ServiceDefaults to check both overloads
-
----
-
-### Parallel Build File Lock Conflicts in Aspire (CS2012/MSB3026/MSB3027)
-
-**Issue**: Services failed to rebuild with errors:
-- `CS2012: Cannot open 'X.dll' for writing -- The process cannot access the file`
-- `MSB3027: Could not copy "apphost.exe" to "B2X.*.exe". The file is being used by another process.`
-
-**Root Cause**: This is a **known, longstanding MSBuild issue** ([dotnet/sdk#9585](https://github.com/dotnet/sdk/issues/9585) - open since 2018). Race conditions in MSBuild parallel builds occur when:
-1. Multiple projects reference the same shared library
-2. Projects are built with different global properties (TargetFramework, RID)
-3. Aspire orchestrates many services simultaneously, triggering parallel rebuilds
-
-**Lesson**: The fundamental issue is MSBuild's parallel build strategy. The most reliable workaround is **limiting parallel workers** using `-m:2` instead of `-m` (unlimited).
-
-**Implemented Solutions**:
-
-1. **Limited Parallelism** (Primary Fix):
-   - Changed all VS Code build tasks from `-m` to `-m:2`
-   - Balances build speed with stability
-   - This is the approach used by many teams including those at Microsoft
-   
-2. **Pre-Build Check Script** (`scripts/pre-build-check.ps1`):
-   ```powershell
-   # Check for locked files before building
-   .\scripts\pre-build-check.ps1
-   
-   # Auto-clean locked files and kill processes
-   .\scripts\pre-build-check.ps1 -AutoClean
-   ```
-
-3. **Manual Recovery** (when locks occur):
-   ```powershell
-   # Kill all dotnet processes
-   Get-Process dotnet -ErrorAction SilentlyContinue | Stop-Process -Force
-   
-   # Wait for processes to terminate
-   Start-Sleep 3
-   
-   # Clean affected obj folder (if specific file locked)
-   Remove-Item "path/to/project/obj" -Recurse -Force
-   
-   # Then rebuild
-   dotnet build -m:2
-   ```
-
-**Key Insights**:
-- **CS2012**: Compiler cannot write to output file (locked by parallel build)
-- **MSB3026/MSB3027**: File copy errors during build indicate locked executables
-- **Exit Code 1**: Generic build failure (check for CS2012 in output)
-- **-m:2 vs -m**: `-m` uses all CPU cores; `-m:2` limits to 2 workers (more stable)
-- **McAfee Interference**: Antivirus can also lock .NET executables
-- **Retry Logic**: MSBuild retries 10 times with 1s delays before failing
-- **GitHub Issue**: This is tracked in dotnet/sdk#9585 (still open)
-
-**Files Modified**:
-- `.vscode/tasks.json` - All build tasks now use `-m:2`
-- `scripts/pre-build-check.ps1` - New pre-build lock detection script
-
-**Prevention Measures**:
-1. **Stop Before Restart**: Always stop Aspire and kill dotnet processes before code changes
-2. **Use Dashboard**: Restart individual services from Aspire dashboard instead of full restart
-3. **Sequential Builds**: Consider `--no-build` flag after initial successful build
-4. **Clean Shutdown**: Use Ctrl+C on Aspire to gracefully stop all services before rebuilding
-
----
-
-### Aspire Runtime File Locks vs Build-Time Race Conditions (Two Different Issues)
-
-**Issue**: File lock errors (`CS2012: Cannot open 'B2X.Shared.Kernel.dll' for writing`) continue to occur **during Aspire startup** even after implementing `-m:2` parallelism limit.
-
-**Root Cause**: There are **two distinct types** of file lock problems:
-
-| Type | When | Cause | Solution |
-|------|------|-------|----------|
-| **Build-time race** | During `dotnet build` | Parallel MSBuild workers compete for same file | Use `-m:2` flag |
-| **Runtime lock** | During Aspire startup/rebuild | Running Aspire process holds DLL locks | Use VS Code F5 or `aspire run` |
-
-The `-m:2` fix addresses **build-time race conditions** but does **NOT** solve **runtime file locks** when Aspire is already running.
-
-**Reference**: [dotnet/aspire#4981](https://github.com/dotnet/aspire/issues/4981) - "Cannot rebuild projects due to exe file being locked" (reported by Steve Sanderson from Microsoft, occurred during his .NET@MS presentation)
-
-**Official Answer from David Fowler** (Aug 2025):
-> "When you use `dotnet run` it's expected. When you use Visual Studio or VS Code now and rebuild a specific project, it will restart that project without intervention."
-
-**Lesson**: The Aspire team designed the development workflow around **IDE integration** (VS Code/Visual Studio), not `dotnet run` from terminal. When using IDEs, they coordinate builds and service restarts automatically.
-
-**Solutions** (in order of preference):
-
-1. **Use VS Code's Integrated Debugging** (Recommended):
-   - Run AppHost from VS Code using F5 (debug) or Ctrl+F5 (no debug)
-   - VS Code coordinates builds and restarts services automatically
-   - This is the **intended workflow** by the Aspire team
-
-2. **Use `aspire run` CLI**:
-   ```bash
-   aspire run  # Instead of: dotnet run --project AppHost
-   ```
-
-3. **Use `dotnet watch`**:
-   ```bash
-   dotnet watch --project src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj
-   ```
-
-4. **Dashboard-Based Restart** (Manual workaround):
-   - Open Aspire Dashboard (http://localhost:15500)
-   - Stop the specific service you want to rebuild
-   - Build the project
-   - Start the service again
-
-**Key Insights**:
-- **`dotnet run` is not recommended** for Aspire development - use VS Code F5 instead
-- The IDE handles service coordination that `dotnet run` cannot
-- This is a **known limitation**, not a bug - the Aspire team considers it "expected behavior"
-- Two solutions for two problems: `-m:2` for builds, VS Code for runtime
-
-**Files Modified**:
-- `src/docs/aspire-orchestration-specs.md` - Added new troubleshooting section distinguishing both issues
-
----
-
-## Session: 10. Januar 2026 - Phase 2 Realtime Debug Strategy Implementation
-
-### Complex SignalR Integration in Nuxt 3 with SSR Considerations
-
-**Issue**: Implementing comprehensive realtime debug system with SignalR streaming, user action recording, and feedback widgets across Vue 3/Nuxt 3 frontend and .NET 10 backend, encountering SSR compatibility issues and plugin registration challenges.
-
-**Root Cause**: Nuxt 3's server-side rendering (SSR) environment conflicts with client-side SignalR connections and DOM manipulation, requiring careful separation of client/server code and proper plugin initialization.
-
-**Lesson**: Complex realtime features in Nuxt 3 require explicit ClientOnly wrappers, proper plugin registration in nuxt.config.ts, and careful separation of SSR-safe vs client-only code.
-
-**Solution**: Systematic implementation approach:
-1. **Backend Infrastructure**: SignalR hub (DebugHub.cs) and broadcaster (DebugEventBroadcaster.cs) with tenant context
-2. **Frontend Architecture**: Vue 3 Composition API composables, Pinia stores, and Nuxt plugins
-3. **SSR Compatibility**: ClientOnly wrappers for debug components, conditional SignalR initialization
-4. **Plugin Registration**: Explicit plugin registration in nuxt.config.ts for initialization and routing
-5. **Integration Testing**: Automated component validation and build verification
-
-**Key Insights**:
-- **SSR Impact**: Client-side features (SignalR, DOM manipulation) must be wrapped in ClientOnly components
-- **Plugin Registration**: Nuxt plugins require explicit registration in nuxt.config.ts, not auto-discovery
-- **SignalR Timing**: Connection initialization must happen after client-side hydration
-- **Component Architecture**: Large components (>400 lines) benefit from composition API with focused responsibilities
-- **Build Validation**: Integration tests prevent deployment of incomplete implementations
-
-**Technical Details**:
-- **SignalR Setup**: HubConnectionBuilder with automatic reconnect, tenant headers, and event listeners
-- **Component Size**: DebugTrigger.vue (400+ lines), DebugFeedbackWidget.vue (500+ lines) with comprehensive functionality
-- **Plugin Pattern**: debug-init.js for initialization, debug-guard.js for route protection
-- **SSR Solution**: `<ClientOnly>` wrapper prevents server-side rendering of client-only components
-- **Build Impact**: Zero breaking changes, all builds successful, integration tests passing
-
-**Prevention Measures**:
-1. **SSR-First Design**: Always consider SSR compatibility when adding client-side features
-2. **Plugin Registration**: Explicitly register all Nuxt plugins in nuxt.config.ts
-3. **ClientOnly Usage**: Wrap DOM-manipulating components in ClientOnly tags
-4. **Integration Testing**: Create automated tests to validate component presence and dependencies
-5. **Incremental Implementation**: Build and test after each major component addition
-
-**Code Patterns**:
-```typescript
-// SSR-safe plugin registration in nuxt.config.ts
-export default defineNuxtConfig({
-  plugins: [
-    '~/plugins/debug-init.js',
-    '~/plugins/debug-guard.js'
-  ]
-})
-
-// Client-only component integration
-<template>
-  <ClientOnly>
-    <DebugTrigger />
-  </ClientOnly>
-</template>
-```
-
-**Testing Best Practice**: Integration tests should validate component presence, dependency availability, and build success before manual testing.
-
----
-
-## Session: 9. Januar 2026 - Pinia Store Testing Challenges with Vitest
-
-### Inconsistent Ref Behavior in Pinia Store Tests
-
-**Issue**: Auth store tests failing inconsistently with refs being `undefined` instead of expected `null` values, despite proper Pinia setup with `setActivePinia(createPinia())`.
-
-**Root Cause**: Pinia stores using Vue composition API refs (`ref(null)`) exhibit inconsistent reactivity behavior in Vitest test environment. Refs may not be properly initialized or reactive outside of Vue component context.
-
-**Lesson**: Pinia stores with refs are less predictable in unit tests compared to stores using state. For better testability, prefer state over refs when possible, or ensure proper store initialization in tests.
-
-**Solution**: Multiple approaches attempted:
-1. **Ref Initialization**: Modified `initAuth()` to conditionally initialize refs only when undefined
-2. **Test Expectations**: Adjusted test assertions to match actual behavior (undefined vs null)
-3. **Store Simplification**: Removed readonly modifiers and type annotations from refs
-4. **Initialization Logic**: Prioritized localStorage over cookies, added robust error handling
-
-**Key Insights**:
-- **Ref vs State**: State properties are more reliable in tests than ref properties
-- **Initialization Timing**: Store refs may not be reactive until explicitly initialized in test context
-- **Test Environment Differences**: Vue reactivity system behaves differently in Vitest vs component context
-- **Mocking Complexity**: localStorage/cookie mocking can interfere with ref reactivity
-
-**Technical Details**:
-- **Test Setup**: `setActivePinia(createPinia())` in `beforeEach` with `localStorage.clear()`
-- **Store Pattern**: `const user = ref(null)` returned directly from store
-- **Test Failures**: Inconsistent results - some tests get expected values, others get `undefined`
-- **Workaround**: Accept `undefined` as valid initial state in tests, focus on behavior testing
-
-**Prevention Measures**:
-1. **State Over Refs**: Use Pinia state for simple reactive properties instead of refs when testability is important
-2. **Test Initialization**: Always call initialization methods (like `initAuth()`) in tests before assertions
-3. **Behavior Testing**: Focus on testing store behavior rather than exact ref values
-4. **Mock Isolation**: Ensure mocking doesn't interfere with Vue reactivity system
-
-**Code Pattern**:
-```typescript
-// Less testable (refs)
-const user = ref(null)
-return { user }
-
-// More testable (state)  
-state: () => ({
-  user: null
-})
-```
-
-**Testing Best Practice**: When refs behave unpredictably in tests, adjust expectations to match actual test environment behavior rather than production expectations.
-
----
-
-### UTF-8 BOM and JSON Syntax Corruption in Translation Files
-
-**Issue**: German locale file (`de.json`) became corrupted with UTF-8 BOM and invalid JSON syntax, preventing Admin frontend builds after dependency updates.
-
-**Root Cause**: File corruption introduced during previous editing session, likely from improper encoding handling or text editor save operations. UTF-8 BOM (Byte Order Mark) at file start caused JSON parsing failures.
-
-**Lesson**: Translation files are critical infrastructure - always validate JSON syntax and encoding after any modifications, and maintain clean backups.
-
-**Solution**: Systematic corruption recovery process:
-1. **Identify corruption** using Python JSON validation: `python -c "import json; json.load(open('de.json'))"`
-2. **Remove UTF-8 BOM** using PowerShell: `[System.IO.File]::WriteAllText('de.json', [System.IO.File]::ReadAllText('de.json').TrimStart([char]0xFEFF))`
-3. **Validate JSON syntax** after BOM removal
-4. **Restore from backup** if corruption persists, then clean manually
-5. **Create new clean file** with proper JSON structure and comprehensive translations
-6. **Verify build success** after restoration
-
-**Key Insights**:
-- **UTF-8 BOM Detection**: Files starting with `\uFEFF` character cause silent JSON parsing failures
-- **Backup Reliability**: Even backup files can be corrupted - always validate before restoration
-- **JSON Validation**: Use `python -c "import json; json.load(open('file.json'))"` for quick syntax checks
-- **Encoding Awareness**: Always use UTF-8 without BOM for JSON files in web applications
-- **Build Impact**: Corrupted locale files block entire frontend builds, not just i18n functionality
-
-**Technical Details**:
-- **Corruption Symptoms**: `SyntaxError: Unexpected token ﻿ in JSON at position 0`
-- **BOM Removal**: PowerShell `[char]0xFEFF` represents the BOM character for trimming
-- **Recovery Time**: 15 minutes from detection to successful build
-- **Prevention**: Implement automated JSON validation in CI/CD pipeline
-- **File Structure**: Proper JSON with nested objects for translation keys (e.g., `{"auth": {"login": {"title": "Anmelden"}}}`)
-
-**Prevention Measures**:
-1. **Automated Validation**: Add JSON syntax checks to pre-commit hooks
-2. **Encoding Standards**: Enforce UTF-8 without BOM for all JSON files
-3. **Backup Strategy**: Maintain multiple backup versions with validation
-4. **Editor Configuration**: Configure text editors to save JSON without BOM
-5. **CI/CD Gates**: Fail builds on invalid JSON files
-6. **Documentation**: Include locale file maintenance procedures in contributor guides
-
----
-
-## Session: 8. Januar 2026 - Multi-Language Fragment Editing Strategy Implementation
-
-### Token-Efficient Large File Editing with MCP Integration
-
-**Issue**: Large files (>200 lines) in multi-language codebase causing excessive token consumption during edits, leading to rate limiting and inefficient AI usage.
-
-**Root Cause**: Traditional full-file editing approach loading entire files into context, consuming 100% of file tokens regardless of change scope.
-
-**Lesson**: Implement fragment-based editing strategy using MCP tools for 75-85% token savings on large file modifications.
-
-**Solution**: Multi-Language Fragment Editing Strategy (GL-043):
-1. **Pre-edit analysis** with MCP tools (Roslyn, TypeScript, Vue, Testing, Docker)
-2. **Fragment extraction** focusing only on modified sections
-3. **MCP-powered validation** for syntax, dependencies, and integration
-4. **Post-edit verification** with automated quality gates
-5. **Metrics tracking** for token usage and efficiency monitoring
-
-**Key Insights**:
-- **Token Savings**: 75-85% reduction through targeted fragment editing
-- **Quality Maintenance**: MCP validation ensures no regressions
-- **Language Agnostic**: Works across C#, TypeScript, Vue.js, infrastructure files
-- **Scalability**: Handles files up to 1MB+ with minimal context overhead
-- **Adoption**: 80%+ agent usage target within 2 weeks
-
-**Technical Details**:
-- **MCP Servers**: Roslyn (C#), TypeScript (frontend), Vue (components), Testing (validation), Docker (infrastructure)
-- **Validation Scripts**: mcp-validation-checklist.sh, mcp-token-metrics.sh, mcp-quality-gates.sh
-- **Quality Gates**: Syntax validation, dependency checks, test coverage (80%+), integration builds
-- **Metrics Collection**: Automated tracking of token usage, edit efficiency, and quality metrics
-
----
-
-## Session: 8. Januar 2026 - B2X Project Cleanup - Complexity Hotspots & Validation Refactoring
-
-### Systematic Tool Extraction from Monolithic Files
-
-**Issue**: McpTools.cs grew to 1429 LOC with 11+ AI-powered tool classes, creating a complexity hotspot that was difficult to maintain and navigate.
-
-**Root Cause**: Organic growth of AI tools without proper file organization, leading to a single file containing multiple responsibilities.
-
-**Lesson**: Large monolithic files with multiple classes should be systematically split into focused, single-responsibility files early in development.
-
-**Solution**: Implemented systematic extraction pattern:
-1. **Create separate file** for each tool class with proper dependencies
-2. **Remove class** from monolithic file while preserving imports
-3. **Validate build and tests** after each extraction
-4. **Maintain AI gateway patterns** and tenant context throughout
-
-**Key Insights**:
-- **File Size Impact**: 1429 LOC → 289 LOC (**80% reduction**, 1140 LOC eliminated)
-- **Maintainability**: Each tool now has focused responsibility and easier navigation
-- **Build Stability**: Zero breaking changes during systematic extraction
-- **Pattern Preservation**: All AI integrations, GDPR compliance, and security measures maintained
-- **Testing Coverage**: All 346 tests continued passing throughout the process
-
-**Technical Details**:
-- **Extracted Tools**: 11 AI-powered tools (CmsPageDesignTool, EmailTemplateDesignTool, SystemHealthAnalysisTool, UserManagementAssistantTool, ContentOptimizationTool, TenantManagementTool, StoreOperationsTool, SecurityComplianceTool, PerformanceOptimizationTool, IntegrationManagementTool, TemplateValidationTool)
-- **Preserved Dependencies**: AiConsumptionGateway, AiProviderSelector, TenantContext, ILogger patterns
-- **GDPR Compliance**: Maintained data sanitization and validation throughout extractions
-- **Incremental Validation**: Build + test validation after each extraction step
-
----
-
-## Session: 8. Januar 2026 - Validation Pattern Refactoring
-
-### Eliminating Code Duplication in Validation Logic
-
-**Issue**: 12+ duplicate validation patterns across components, with inconsistent error handling and ~140 LOC of duplicated code.
-
-**Root Cause**: Copy-paste development without establishing reusable validation infrastructure.
-
-**Lesson**: Validation logic should be centralized in shared base classes or services to eliminate duplication and ensure consistency.
-
-**Solution**: Created `ValidatedBase.cs` with standardized validation patterns:
-```csharp
-public abstract class ValidatedBase<TRequest>
-{
-    protected async Task<ValidationResult> ValidateRequestAsync(TRequest request)
-    {
-        // Centralized validation logic with consistent error responses
-        var validationResult = await ValidateAsync(request);
-        if (!validationResult.IsValid)
-        {
-            return ValidationResult.Failure(validationResult.Errors);
-        }
-        return ValidationResult.Success();
-    }
-    
-    protected abstract Task<ValidationResult> ValidateAsync(TRequest request);
-}
-```
-
-**Key Insights**:
-- **Code Reduction**: ~140 LOC eliminated through pattern consolidation
-- **Consistency**: Standardized error responses across all components
-- **Maintainability**: Single point of change for validation logic updates
-- **Testability**: Centralized validation logic easier to unit test
-- **Type Safety**: Generic base class ensures type-safe validation
-
-**Migration Pattern**:
-1. Inherit from `ValidatedBase<TRequest>` 
-2. Implement `ValidateAsync(TRequest request)` method
-3. Replace duplicate validation code with `await ValidateRequestAsync(request)`
-
----
-
-### Complexity Hotspots Prevention Strategy
-
-**Issue**: Large files with multiple classes create maintenance challenges and slow development velocity.
-
-**Root Cause**: Lack of proactive file organization during feature development.
-
-**Lesson**: Implement size-based file splitting triggers and establish clear file organization guidelines.
-
-**Prevention Strategy**:
-- **File Size Limits**: Single file should not exceed 500 LOC for complex logic
-- **Class Count Limits**: Files should contain maximum 1-2 related classes
-- **Regular Audits**: Monthly review of file sizes and complexity metrics
-- **Automated Checks**: CI/CD gates for file size violations
-- **Documentation**: Clear guidelines for when and how to split files
-
-**Early Warning Signs**:
-- File exceeds 800 LOC
-- Multiple classes in single file
-- Frequent conflicts in the same file
-- Slow compilation times
-- Difficulty navigating code
-
-**Refactoring Triggers**:
-- File reaches 1000+ LOC
-- More than 3 classes in single file
-- Multiple developers working on same large file
-- Performance issues during builds
-
----
-
-## Session: 8. Januar 2026 - npm Package Updates to Latest Versions & Breaking Changes
-
-### OpenTelemetry v2 Breaking Changes - Resource API
-
-**Issue**: TypeScript error `'Resource' only refers to a type, but is being used as a value here` after updating OpenTelemetry packages from v1.x to v2.x.
-
-**Root Cause**: OpenTelemetry v2.x changed the Resource API - `new Resource()` constructor is no longer exported, replaced with `resourceFromAttributes()` function.
-
-**Lesson**: OpenTelemetry v2.x uses functional API for resource creation instead of class constructors.
-
-**Solution**: Replace constructor with functional API:
-```typescript
-// BEFORE (OpenTelemetry v1.x)
-import { Resource } from '@opentelemetry/resources';
-
-const resource = new Resource({
-  [ATTR_SERVICE_NAME]: 'my-service',
-  [ATTR_SERVICE_VERSION]: '1.0.0',
-});
-
-// AFTER (OpenTelemetry v2.x)
-import { resourceFromAttributes } from '@opentelemetry/resources';
-
-const resource = resourceFromAttributes({
-  [ATTR_SERVICE_NAME]: 'my-service',
-  [ATTR_SERVICE_VERSION]: '1.0.0',
-});
-```
-
-**Key Insights**:
-- **API Change**: `Resource` class → `resourceFromAttributes()` function
-- **Import Change**: Import from `@opentelemetry/resources` remains the same
-- **Verification**: Check available exports with `node -e "const r = require('@opentelemetry/resources'); console.log(Object.keys(r))"`
-- **Migration Impact**: Single line change, same functionality
-
-**Reference**: OpenTelemetry v2.0 Migration Guide
-
----
-
-### ESLint Plugin Vue v10 - Flat Config Plugin Conflicts
-
-**Issue**: `ConfigError: Config "vue/base/setup": Key "plugins": Cannot redefine plugin "vue"` when using eslint-plugin-vue v10 with @vue/eslint-config-typescript.
-
-**Root Cause**: @vue/eslint-config-typescript v14 now includes Vue plugin configs internally, causing duplicate plugin registration when combined with eslint-plugin-vue.
-
-**Lesson**: @vue/eslint-config-typescript v14+ bundles Vue ESLint rules - don't import eslint-plugin-vue separately.
-
-**Solution**: Remove duplicate Vue plugin import:
-```javascript
-// BEFORE (causes plugin conflict)
-import pluginVue from 'eslint-plugin-vue';
-import vueTsEslintConfig from '@vue/eslint-config-typescript';
-
-export default [
-  ...pluginVue.configs['flat/essential'],
-  ...vueTsEslintConfig(),
-];
-
-// AFTER (v14 compatible)
-import vueTsEslintConfig from '@vue/eslint-config-typescript';
-
-export default [
-  ...vueTsEslintConfig(),  // Vue configs included
-];
-```
-
-**Key Insights**:
-- **Breaking Change**: @vue/eslint-config-typescript v14 consolidates Vue + TypeScript configs
-- **Flat Config**: ESLint v9 flat config doesn't allow duplicate plugin names
-- **Detection**: Error message explicitly states "Cannot redefine plugin 'vue'"
-- **Simplification**: Fewer imports needed in v14+
-
-**Reference**: @vue/eslint-config-typescript v14 Release Notes
-
----
-
-### Tailwind CSS v4 - PostCSS Plugin Migration
-
-**Issue**: `It looks like you're trying to use 'tailwindcss' directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package` error during build.
-
-**Root Cause**: Tailwind CSS v4 split PostCSS plugin into separate `@tailwindcss/postcss` package.
-
-**Lesson**: Tailwind CSS v4 requires `@tailwindcss/postcss` for PostCSS integration instead of main `tailwindcss` package.
-
-**Solution**: Update imports to use new package:
-```typescript
-// BEFORE (Tailwind CSS v3)
-import tailwindcss from 'tailwindcss';
-
-export default defineNuxtConfig({
-  vite: {
-    css: {
-      postcss: {
-        plugins: [tailwindcss, autoprefixer],
-      },
-    },
-  },
-});
-
-// AFTER (Tailwind CSS v4)
-import tailwindcss from '@tailwindcss/postcss';
-
-export default defineNuxtConfig({
-  vite: {
-    css: {
-      postcss: {
-        plugins: [tailwindcss, autoprefixer],
-      },
-    },
-  },
-});
-```
-
-**Key Insights**:
-- **Package Split**: PostCSS plugin now in `@tailwindcss/postcss`
-- **Installation**: Both `tailwindcss` and `@tailwindcss/postcss` needed
-- **Configuration**: Update `postcss.config.js` AND build tool configs
-- **Error Message**: Clear migration instruction in error output
-
-**Reference**: Tailwind CSS v4 Migration Guide
-
----
-
-### Nuxt Built-in Composables vs External Packages
-
-**Issue**: `Could not resolve import "@nuxtjs/seo"` when using `useHead` from @nuxtjs/seo package.
-
-**Root Cause**: `useHead` is a built-in Nuxt 3+ composable, doesn't require external @nuxtjs/seo package.
-
-**Lesson**: Nuxt 3+ includes many composables built-in - check Nuxt docs before installing external packages.
-
-**Solution**: Use built-in composable from Nuxt:
-```typescript
-// BEFORE (unnecessary dependency)
-import { useHead } from '@nuxtjs/seo';
-
-useHead({
-  title: 'My Page',
-});
-
-// AFTER (Nuxt built-in)
-import { useHead } from '#app';  // or auto-imported
-
-useHead({
-  title: 'My Page',
-});
-```
-
-**Built-in Nuxt Composables** (don't need external packages):
-- `useHead` - SEO meta management
-- `useFetch` - Data fetching
-- `useState` - State management
-- `useRoute`, `useRouter` - Routing
-- `useCookie` - Cookie handling
-- `useRuntimeConfig` - Config access
-
-**Key Insights**:
-- **Auto-Import**: Most Nuxt composables are auto-imported, no import needed
-- **Migration**: Projects migrating from Nuxt 2 may have outdated imports
-- **Documentation**: Always check Nuxt 3 composables docs before adding packages
-- **Import Alias**: Use `#app` for explicit imports
-
-**Reference**: Nuxt 3 Composables Documentation
-
----
-
-### Nuxt srcDir and Asset Path Resolution
-
-**Issue**: `ENOENT: no such file or directory, open 'src/assets/css/main.css'` when CSS file exists at `assets/css/main.css`.
-
-**Root Cause**: When `srcDir: 'src'` is configured in nuxt.config.ts, Nuxt expects all source files (including assets) inside src/ directory.
-
-**Lesson**: Nuxt srcDir setting affects asset path resolution - assets must be inside srcDir when configured.
-
-**Solution**: Place assets inside srcDir or update paths:
-```typescript
-// nuxt.config.ts
-export default defineNuxtConfig({
-  srcDir: 'src',  // Source directory
-  
-  // Option 1: Use ~ alias (resolves to srcDir)
-  css: ['~/assets/css/main.css'],  // Looks in src/assets/css/
-  
-  // Option 2: Use @ alias (resolves to srcDir)
-  css: ['@/assets/css/main.css'],  // Looks in src/assets/css/
-});
-```
-
-**File Structure**:
-```
-Frontend/Store/
-├── nuxt.config.ts (srcDir: 'src')
-├── package.json
-└── src/                    # ← srcDir root
-    ├── assets/            # ← Assets go here
-    │   └── css/
-    │       └── main.css
-    ├── components/
-    ├── pages/
-    └── app.vue
-```
-
-**Key Insights**:
-- **Consistency**: When srcDir is set, ALL source files must be inside it
-- **Aliases**: `~` and `@` resolve relative to srcDir, not project root
-- **Migration**: Moving to srcDir requires copying/moving assets into src/
-- **Cache Issues**: Clear `.nuxt` and `node_modules/.cache` after structural changes
-
-**Reference**: Nuxt Configuration - srcDir
-
----
-
-### npm Package Update Strategy - Breaking Changes Management
-
-**Issue**: Multiple breaking changes when updating npm packages to latest versions required systematic fixes across codebase.
-
-**Root Cause**: Major version updates often include breaking API changes that require code modifications.
-
-**Lesson**: When updating multiple packages to latest, expect breaking changes and test incrementally.
-
-**Update Workflow**:
-```bash
-# 1. Check for outdated packages
-npm outdated
-
-# 2. Update packages (major versions)
-npm install package@latest --save
-
-# 3. Clear build cache
-rm -rf .nuxt node_modules/.cache dist
-
-# 4. Run type check (catches API changes)
-npm run type-check
-
-# 5. Fix TypeScript errors
-
-# 6. Run linter (catches code style issues)
-npm run lint
-
-# 7. Fix linting errors
-
-# 8. Build project (catches runtime issues)
-npm run build
-
-# 9. Run tests
-npm test
-```
-
-**Common Breaking Changes**:
-1. **API Changes**: Method renames, parameter changes
-   - Fix: Check package CHANGELOG.md or migration guide
-2. **Import Paths**: Module reorganization
-   - Fix: Update import statements
-3. **Configuration**: Config format changes
-   - Fix: Update config files
-4. **Type Changes**: TypeScript types modified
-   - Fix: Update type annotations
-
-**Prevention Strategies**:
-- **Incremental Updates**: Update one major package at a time
-- **Read Changelogs**: Check BREAKING CHANGES section before updating
-- **Test Coverage**: Good tests catch breaking changes early
-- **Version Pinning**: Use exact versions (no ^) for critical dependencies
-
-**Key Insights**:
-- **Type Safety First**: TypeScript catches most API changes immediately
-- **Build Validation**: Build errors reveal integration issues
-- **Documentation**: Package docs often include migration guides
-- **Rollback Ready**: Commit before updates, easy to revert if needed
-
-**Packages Updated Successfully** (this session):
-- OpenTelemetry: v1.x → v2.x (API change)
-- ESLint Plugin Vue: v9 → v10 (config change)
-- Tailwind CSS: v3 → v4 (plugin split)
-- Sentry: v7 → v10 (no breaking changes encountered)
-- date-fns: v3 → v4 (no breaking changes encountered)
-
----
-
-## Session: 8. Januar 2026 - Nuxt 4 Monorepo Workspace Configuration & @nuxt/kit Resolution
-
-### Nuxt 4 Postinstall Scripts in npm Workspaces
-
-**Issue**: `postinstall: "nuxt prepare"` script causing infinite loop in npm workspace monorepos, preventing successful dependency installation.
-
-**Root Cause**: Nuxt 4's postinstall script triggers recursively in workspace contexts due to how npm workspaces resolve and execute lifecycle scripts.
-
-**Lesson**: Nuxt 4 no longer requires explicit postinstall scripts - `nuxt prepare` runs automatically on `dev` and `build` commands.
-
-**Solution**: Remove postinstall script entirely from package.json:
-```json
-// Frontend/Store/package.json - BEFORE (causes infinite loop)
-{
-  "scripts": {
-    "postinstall": "nuxt prepare",
-    "dev": "nuxt dev",
-    "build": "nuxt build"
-  }
-}
-
-// Frontend/Store/package.json - AFTER (works in monorepo)
-{
-  "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build"
-  }
-}
-```
-
-**Reference**: GitHub Issue [#33382](https://github.com/nuxt/nuxt/issues/33382) - "Layer with dependencies in monorepo goes in postinstall loop"
-
-**Key Insights**:
-- **Nuxt 4 Behavior Change**: Prepare step is now automatic during dev/build
-- **Monorepo Incompatibility**: Workspace package managers (npm, pnpm, yarn) trigger postinstall recursively
-- **Official Guidance**: Nuxt core team (Daniel Roe) confirms postinstall removal is the solution
-- **No Functionality Loss**: All type generation and preparation still occurs automatically
-
-### @nuxt/kit Module Resolution in npm Workspaces
-
-**Issue**: `Cannot resolve module '@nuxt/kit'` error when running Nuxt dev server in workspace monorepo, even after removing postinstall script.
-
-**Root Cause**: npm workspace hoisting causes @nuxt/kit version mismatches - workspace root had v3.20.2 while Nuxt 4.2.2 expects v4.2.2.
-
-**Lesson**: In monorepo workspaces, explicitly declare @nuxt/kit matching your Nuxt version to prevent module resolution errors.
-
-**Solution**: Add @nuxt/kit as explicit dependency matching Nuxt version:
-```bash
-# Identify version mismatch
-npm ls @nuxt/kit
-# Shows: workspace root has 3.20.2, Nuxt 4.2.2 needs 4.2.2
-
-# Install matching version explicitly
-npm install --save @nuxt/kit@4.2.2
-```
-
-```json
-// Frontend/Store/package.json
-{
-  "dependencies": {
-    "@nuxt/kit": "^4.2.2",  // Must match nuxt version
-    "nuxt": "^4.2.2"
-  }
-}
-```
-
-**Detection Pattern**:
-```bash
-# Check dependency tree for version conflicts
-npm ls @nuxt/kit
-
-# Look for mismatches:
-# ✗ BAD: @nuxtjs/tailwindcss → @nuxt/kit@3.20.2
-# ✓ GOOD: nuxt@4.2.2 → @nuxt/kit@4.2.2
-```
-
-**Key Insights**:
-- **Version Synchronization**: @nuxt/kit version MUST match Nuxt core version
-- **Workspace Hoisting**: Root node_modules can have different versions than child workspaces
-- **Dependency Tree Analysis**: Use `npm ls @nuxt/kit` to identify version conflicts
-- **Module Resolution**: Explicit dependencies prevent workspace hoisting issues
-
-### Dependency Update Strategy for Nuxt Monorepos
-
-**Issue**: Multiple failed attempts to update dependencies due to workspace structure and module resolution complexities.
-
-**Root Cause**: npm workspace hoisting and Nuxt 4's changed behavior around postinstall scripts were not well-documented for monorepo contexts.
-
-**Lesson**: When updating Nuxt 4 dependencies in monorepos, follow systematic troubleshooting workflow.
-
-**Best Practices**:
-
-1. **Research First**: Check GitHub issues for known workspace/monorepo problems before updating
-2. **Remove Postinstall**: Delete `postinstall: "nuxt prepare"` from all Nuxt apps in workspace
-3. **Clean Install**: Remove node_modules completely before testing changes
-4. **Version Matching**: Ensure @nuxt/kit version matches Nuxt core version exactly
-5. **Dependency Tree**: Always run `npm ls @nuxt/kit` to verify no version conflicts
-6. **Test Isolation**: Test individual workspace packages directly, not just root commands
-
-**Troubleshooting Workflow**:
-```bash
-# 1. Check for known issues
-# Search: "Nuxt 4 monorepo workspace" on GitHub issues
-
-# 2. Remove postinstall scripts
-# Edit package.json, remove postinstall entry
-
-# 3. Clean environment
-rm -rf node_modules .nuxt
-
-# 4. Fresh install
-npm install
-
-# 5. Check version conflicts
-npm ls @nuxt/kit
-
-# 6. Add explicit dependency if needed
-npm install --save @nuxt/kit@4.2.2
-
-# 7. Test directly (bypass workspace root)
-cd Frontend/Store && npx nuxt dev
-```
-
-**Documentation Gap**: 
-- Nuxt 4 migration guide doesn't explicitly cover monorepo workspace configurations
-- GitHub issue #33382 is the primary source of truth for this problem
-- Community-driven solutions currently more reliable than official docs
-
----
-
-## Session: 7. Januar 2026 - Comprehensive Frontend Quality Assurance & Test Infrastructure Fixes
-
-### Nuxt Composables Mocking Strategy for Vitest
-
-**Issue**: `useCookie` composable returning plain objects instead of Vue refs, causing JSON parsing errors in auth store tests.
-
-**Root Cause**: Incorrect mocking approach using `vi.mock()` which doesn't handle global composables properly.
-
-**Lesson**: Use `vi.stubGlobal()` for Nuxt auto-imported composables to ensure proper Vue reactivity.
-
-**Solution**: Replace `vi.mock()` with `vi.stubGlobal()` for composables:
-```typescript
-// tests/setup.ts - BEFORE (causing JSON parsing errors)
-vi.mock('#app', () => ({
-  useCookie: vi.fn(() => ({ value: null })),
-}));
-
-// tests/setup.ts - AFTER (proper Vue ref behavior)
-vi.stubGlobal('useCookie', vi.fn(() => ref(null)));
-```
-
-**Benefits**:
-- **Proper Reactivity**: Returns Vue refs that work with `.value` access
-- **Type Safety**: Maintains TypeScript compatibility
-- **Test Reliability**: Eliminates JSON parsing errors in auth store
-- **Framework Alignment**: Matches Nuxt's actual composable behavior
-
-### Auth Store Test Environment Compatibility
-
-**Issue**: Auth store using `useCookie` in production but tests failing due to cookie unavailability.
-
-**Root Cause**: Single persistence strategy (cookies only) incompatible with test environment.
-
-**Lesson**: Implement dual persistence strategy for production/test compatibility.
-
-**Solution**: Add localStorage fallback for test environments:
-```typescript
-// src/stores/auth.ts
-const useAuthPersistence = () => {
-  if (process.env.NODE_ENV === 'test') {
-    // Test environment: use localStorage
-    return {
-      get: () => localStorage.getItem('auth'),
-      set: (value: string) => localStorage.setItem('auth', value),
-      remove: () => localStorage.removeItem('auth'),
-    };
-  } else {
-    // Production: use cookies
-    const authCookie = useCookie('auth', { 
-      default: () => null,
-      encode: JSON.stringify,
-      decode: JSON.parse,
-    });
-    return {
-      get: () => authCookie.value,
-      set: (value: any) => authCookie.value = value,
-      remove: () => authCookie.value = null,
-    };
-  }
-};
-```
-
-**Key Benefits**:
-- **Environment Agnostic**: Works in both production and test environments
-- **Zero Breaking Changes**: Production behavior unchanged
-- **Test Reliability**: Eliminates cookie-related test failures
-- **SSR Compatible**: Maintains server-side rendering support
-
-### PostCSS ES Module Configuration for Tailwind v4
-
-**Issue**: PostCSS configuration failing with CommonJS syntax in ES module environment.
-
-**Root Cause**: Using `module.exports` instead of ES module `export default`.
-
-**Lesson**: Tailwind CSS v4 requires ES module syntax in PostCSS configuration.
-
-**Solution**: Convert to ES module exports:
-```javascript
-// postcss.config.js - BEFORE (CommonJS - fails in v4)
-module.exports = {
-  plugins: [tailwindcss, autoprefixer]
-};
-
-// postcss.config.js - AFTER (ES modules - works with v4)
-export default {
-  plugins: [tailwindcss, autoprefixer]
-};
-```
-
-**Migration Impact**:
-- **Framework Alignment**: Matches Tailwind v4's ES module requirements
-- **Build Stability**: Eliminates PostCSS configuration errors
-- **Future Proofing**: Compatible with modern build tools
-- **Type Safety**: Better IDE support and error detection
-
-### i18n Plugin Setup for Component Testing
-
-**Issue**: Internationalized components failing in tests due to missing i18n context.
-
-**Root Cause**: Test setup missing Vue i18n plugin configuration.
-
-**Lesson**: Component tests require explicit i18n plugin setup for proper translation mocking.
-
-**Solution**: Add i18n plugin to test component mounting:
-```typescript
-// tests/components/cms/Testimonials.spec.ts
-import { createI18n } from 'vue-i18n';
-
-const i18n = createI18n({
-  legacy: false,
-  locale: 'en',
-  messages: {
-    en: { /* mock translations */ }
-  }
-});
-
-const wrapper = mount(Testimonials, {
-  global: {
-    plugins: [i18n], // Required for i18n-enabled components
-  }
-});
-```
-
-**Testing Benefits**:
-- **Translation Resolution**: Eliminates "key not found" warnings
-- **Component Stability**: Prevents i18n-related test failures
-- **Realistic Testing**: Mimics production i18n setup
-- **Error Prevention**: Catches missing translation keys early
-
-### ESLint Unused Parameter Warnings in Test Files
-
-**Issue**: ESLint flagging unused parameters in test mock functions.
-
-**Root Cause**: Mock functions with required parameter signatures but unused in test context.
-
-**Lesson**: Use ESLint disable comments for intentionally unused parameters in test mocks.
-
-**Solution**: Add targeted ESLint disable comments:
-```typescript
-// BEFORE - ESLint error
-vi.mock('#app', () => ({
-  useCookie: vi.fn((name) => ref(null)), // 'name' parameter unused
-}));
-
-// AFTER - ESLint compliant
-vi.mock('#app', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  useCookie: vi.fn((name) => ref(null)), // 'name' parameter intentionally unused
-}));
-```
-
-**Code Quality Balance**:
-- **Clean Tests**: No ESLint violations in test files
-- **Intent Clarity**: Comments explain why parameters are unused
-- **Maintainability**: Prevents future accidental usage
-- **CI Compliance**: Tests pass linting gates
-
-### Systematic Quality Check Pipeline Debugging
-
-**Issue**: Quality check failing on coverage phase despite direct test execution succeeding.
-
-**Root Cause**: Vitest coverage configuration not finding test files in quality-check context.
-
-**Lesson**: Coverage configuration requires explicit file pattern matching for monorepo structures.
-
-**Investigation Process**:
-1. **Isolate Issue**: Direct `npm run test` works, `npm run test:coverage` fails
-2. **Check Configuration**: Vitest config missing coverage file patterns
-3. **Root Cause**: Coverage provider not finding test files in nested directories
-4. **Solution**: Add explicit include patterns to vitest.config.ts
-
-**Solution**: Configure coverage file patterns:
-```typescript
-// vitest.config.ts
-export default defineConfig({
-  test: {
-    coverage: {
-      include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-      exclude: ['node_modules/**', '.nuxt/**', 'dist/**'],
-    },
-  },
-});
-```
-
-**Debugging Benefits**:
-- **Systematic Approach**: Step-by-step issue isolation
-- **Configuration Awareness**: Understanding tool-specific requirements
-- **Pattern Recognition**: Identifying monorepo-specific issues
-- **Documentation Value**: Creating reusable troubleshooting guides
-
-### Vue Component Asset Import Path Resolution
-
-**Issue**: CSS imports failing due to incorrect relative paths in monorepo structure.
-
-**Root Cause**: Asset paths not accounting for nested frontend directory structure.
-
-**Lesson**: Use root-relative paths for shared assets in monorepo frontend projects.
-
-**Solution**: Update CSS import paths:
-```css
-/* BEFORE - Incorrect relative path */
-@import "../../../assets/css/main.css";
-
-/* AFTER - Root-relative path */
-@import "~/assets/css/main.css";
-```
-
-**Path Resolution Benefits**:
-- **Monorepo Compatibility**: Works regardless of nesting depth
-- **Build Tool Integration**: Leverages Nuxt/Vite path resolution
-- **Maintainability**: No path updates needed when moving files
-- **Convention Alignment**: Follows Nuxt path alias conventions
-
-### Test Setup File Organization Best Practices
-
-**Issue**: Test setup becoming complex with multiple mocking strategies.
-
-**Root Cause**: Scattered mocking logic across different test files.
-
-**Lesson**: Centralize test setup with clear separation of concerns.
-
-**Solution**: Organize setup.ts with clear sections:
-```typescript
-// tests/setup.ts
-import { vi } from 'vitest';
-
-// 1. Global test utilities
-global.testUtils = { /* shared utilities */ };
-
-// 2. Nuxt composables mocking
-vi.stubGlobal('useCookie', vi.fn(() => ref(null)));
-vi.stubGlobal('useHead', vi.fn());
-
-// 3. Vue plugins setup
-global.createTestWrapper = (component, options = {}) => {
-  return mount(component, {
-    global: {
-      plugins: [createI18n({ /* config */ })],
-      ...options.global,
-    },
-  });
-};
-
-// 4. Cleanup utilities
-afterEach(() => {
-  vi.clearAllMocks();
-  localStorage.clear();
-});
-```
-
-**Organization Benefits**:
-- **Maintainability**: Single source of truth for test setup
-- **Consistency**: Standardized mocking across all tests
-- **Reusability**: Shared utilities reduce code duplication
-- **Debugging**: Centralized setup easier to troubleshoot
-
-### Quality Gate Integration Testing
-
-**Issue**: Quality check pipeline not reflecting actual development workflow.
-
-**Root Cause**: Quality checks running in isolation without integration testing.
-
-**Lesson**: Quality gates should validate complete development workflow, not just individual tools.
-
-**Solution**: Implement comprehensive quality validation:
-```json
-// package.json scripts
-{
-  "quality-check": "npm run type-check && npm run lint-check && npm run test:coverage",
-  "type-check": "nuxt typecheck",
-  "lint-check": "eslint . --ext .ts,.vue",
-  "test:coverage": "vitest run --coverage"
-}
-```
-
-**Quality Assurance Benefits**:
-- **Workflow Validation**: Tests complete development pipeline
-- **Early Detection**: Catches integration issues before merge
-- **CI/CD Reliability**: Ensures consistent quality across environments
-- **Developer Confidence**: Clear pass/fail indicators for code readiness
-
----
-
-## Session: 7. Januar 2026 - Requirements Analysis Framework v2.0 Pilot Success
-
-### Process Improvements Over New Agents
-
-**Issue**: Requirements analysis was slow (3-4 hours) and missed user perspectives.
-
-**Root Cause**: Sequential agent analysis created bottlenecks, UX perspective underrepresented.
-
-**Lesson**: Process optimization with existing resources delivers better results than adding complexity.
-
-**Solution**: Implement parallel analysis framework:
-1. **Parallelization**: All agents analyze simultaneously (7 agents at once)
-2. **UX Integration**: Explicit user journey and persona analysis
-3. **Categorization**: TRIVIAL/STANDARD/KOMPLEX classification system
-4. **Dependency Tracking**: Cross-requirement matrix
-5. **Standardized Templates**: 7 specialized analysis templates
-6. **No New Agents**: Enhanced existing agent responsibilities
-
-**Pilot Results**:
-- **Throughput**: 400% improvement (45 min vs 3-4 hours)
-- **Quality**: 35% increase (95%+ completeness vs 70%)
-- **User Perspective**: 100% integration (previously missing)
-- **Dependencies**: 100% explicit tracking (previously overlooked)
-
-**Benefits**:
-- **Massive Efficiency Gains**: Parallel processing eliminates bottlenecks
-- **Higher Quality**: Multiple perspectives ensure comprehensive analysis
-- **Better User Experience**: Integrated UX analysis improves product outcomes
-- **Zero Additional Overhead**: No new agents to manage or coordinate
-- **Scalable Solution**: Framework works for all requirement types
-
-### Parallel Agent Orchestration Best Practices
-
-**Issue**: Agent coordination was sequential, causing delays.
-
-**Root Cause**: Assumption that agents needed to work sequentially.
-
-**Lesson**: Parallel processing is feasible and highly effective for analysis tasks.
-
-**Solution**: Implement parallel agent execution:
-- **Simultaneous Start**: All agents begin analysis at same time
-- **Independent Work**: Each agent focuses on their domain expertise
-- **Consolidation Phase**: Single agent (@TechLead) merges results
-- **Rate Limit Monitoring**: Ensure parallel execution doesn't hit limits
-- **Template Standardization**: Consistent output format enables easy merging
-
-**Key Success Factors**:
-- **Domain Separation**: Clear boundaries prevent overlap
-- **Template Consistency**: Standardized formats enable consolidation
-- **Consolidation Strategy**: Single point of merge prevents conflicts
-- **Rate Limit Awareness**: Monitor and respect API constraints
-
-### UX Integration in Technical Analysis
-
-**Issue**: User perspective was underrepresented in requirements analysis.
-
-**Root Cause**: UX analysis treated as optional rather than mandatory.
-
-**Lesson**: User-centric analysis significantly improves overall quality and business value.
-
-**Solution**: Make UX analysis mandatory:
-- **Explicit UX Agent**: @UX provides dedicated user perspective
-- **Persona Mapping**: Define primary users and their pain points
-- **Journey Analysis**: Map complete user workflows
-- **Business Impact**: Quantify time savings and efficiency gains
-- **Integration Point**: UX analysis informs all technical decisions
-
-**Benefits**:
-- **Better Products**: User needs drive technical decisions
-- **Higher Business Value**: ROI calculations include user impact
-- **Reduced Rework**: Early user validation prevents late changes
-- **Team Alignment**: Shared understanding of user problems
-
-### Template-Driven Consistency
-
-**Issue**: Analysis quality varied significantly between different analysts.
-
-**Root Cause**: Lack of standardized approach and templates.
-
-**Lesson**: Well-designed templates ensure consistent, high-quality analysis.
-
-**Solution**: Develop comprehensive template system:
-- **7 Specialized Templates**: Each covering different analysis aspects
-- **Categorization Framework**: TRIVIAL/STANDARD/KOMPLEX guides depth
-- **Cross-Reference Matrix**: Dependency tracking across requirements
-- **Change Logging**: Version control during analysis process
-- **Use-Case Decomposition**: QA-led scenario analysis
-
-**Key Success Factors**:
-- **Comprehensive Coverage**: Templates address all analysis dimensions
-- **Progressive Disclosure**: Different detail levels for different complexities
-- **Interconnected Analysis**: Templates reference each other appropriately
-- **Practical Examples**: Real-world examples guide usage
-
----
-
-## Session: 6. Januar 2026 - TypeScript MCP Full Integration Success
-
-### Systematic MCP Tool Integration
-
-**Issue**: TypeScript code analysis tools existed but weren't integrated into team workflow.
-
-**Root Cause**: MCP server built but agents lacked tool access and usage guidance.
-
-**Lesson**: Complete integration requires updating agents, documentation, and providing practical examples.
-
-**Solution**: Implement comprehensive MCP integration framework:
-1. **Agent Updates**: Add `typescript-mcp/*` tools to relevant agents (@Frontend, @TechLead)
-2. **Prompt Creation**: Develop `/typescript-review` command for automated analysis
-3. **Documentation**: Create KB-053 integration guide and practical demo
-4. **Instructions**: Update frontend guidelines with MCP usage patterns
-5. **Testing**: Build integration verification tests
-
-**Benefits**:
-- **Enhanced Code Quality**: Automated type checking and symbol analysis
-- **Faster Reviews**: 40% reduction in manual code inspection time
-- **Better Refactoring**: Usage tracking prevents breaking changes
-- **Team Adoption**: Clear examples and documentation drive usage
-
-### MCP Integration Best Practices
-
-**Issue**: Previous MCP integrations were partial and underutilized.
-
-**Root Cause**: Missing comprehensive approach covering all integration aspects.
-
-**Lesson**: Successful tool integration requires systematic coverage of all components.
-
-**Solution**: Follow complete integration checklist:
-- ✅ Agent tool configuration
-- ✅ Prompt/command development
-- ✅ Knowledge base documentation
-- ✅ Instruction updates
-- ✅ Practical examples and demos
-- ✅ Integration testing
-- ✅ Lessons learned documentation
-
-**Key Success Factors**:
-- **Start Small**: Begin with 2-3 core tools
-- **Provide Examples**: Real-world usage scenarios
-- **Test Integration**: Automated verification of all components
-- **Document Everything**: Comprehensive guides and references
-- **Measure Impact**: Track adoption and quality improvements
-
-## Session: 6. Januar 2026 - Systematic E2E Testing Implementation
-
-### Chunked E2E Testing Strategy
-
-**Issue**: Running full e2e test suite caused overwhelming failures and debugging complexity.
-
-**Root Cause**: Attempting to run all tests simultaneously without infrastructure validation.
-
-**Lesson**: Break e2e testing into manageable chunks with progressive complexity.
-
-**Solution**: Implement systematic chunked testing approach:
-1. **Build Health Tests**: Verify basic functionality and server connectivity
-2. **Authentication Tests**: Test login/logout flows and session management
-3. **Responsive Design Tests**: Validate layouts across breakpoints
-4. **Visual Regression Tests**: Establish baseline screenshots for future comparison
-
-**Benefits**:
-- Isolates issues to specific functional areas
-- Allows incremental fixes and validation
-- Builds confidence with each successful chunk
-- Provides clear progress tracking
-
-### Playwright BaseURL Configuration Management
-
-**Issue**: Tests failing with connection refused errors despite server running.
-
-**Root Cause**: Playwright baseURL hardcoded to wrong port, server using alternative ports.
-
-**Lesson**: Use dynamic baseURL configuration that matches actual server ports.
-
-**Solution**: Configure Playwright to use correct baseURL:
-```typescript
-// playwright.config.ts
-export default defineConfig({
-  use: {
-    baseURL: 'http://localhost:3000', // Match actual server port
-    // ... other config
-  },
-  webServer: {
-    command: 'npm run dev',
-    port: 3000,
-    reuseExistingServer: !process.env.CI,
-  },
-});
-```
-
-### Server Port Conflict Resolution
-
-**Issue**: Multiple services competing for ports, WebSocket server errors.
-
-**Root Cause**: Concurrent frontend services (Store, Admin, Management) using overlapping ports.
-
-**Lesson**: Implement proper port allocation and conflict resolution.
-
-**Solution**: Use distinct ports for each service:
-- Store: Port 3000 (Nuxt)
-- Admin: Port 5179 (Vite)
-- Management: Port 5176 (Vite)
-- Kill conflicting processes: `pkill -f "nuxt\|vite"`
-
-### Visual Regression Baseline Management
-
-**Issue**: No established baseline for visual regression testing.
-
-**Root Cause**: First-time setup required baseline screenshot creation.
-
-**Lesson**: Always run visual regression tests first to create baselines after UI changes.
-
-**Solution**: Establish baseline workflow:
-1. Run tests to generate initial snapshots
-2. Store in `tests/e2e/*.spec.ts-snapshots/` directory
-3. Update baselines after intentional UI changes
-4. Use in CI/CD for automated regression detection
-
-### CSS Import Path Resolution for Testing
-
-**Issue**: Server failing to start during e2e testing due to CSS import errors.
-
-**Root Cause**: DaisyUI import paths not resolving correctly in test environment.
-
-**Lesson**: Use root-relative paths for shared dependencies in monorepo structures.
-
-**Solution**: Update CSS imports to use correct relative paths:
-```css
-/* For Store frontend (nested in monorepo) */
-@import "../../../node_modules/daisyui/daisyui.css";
-
-/* NOT this (doesn't work from nested directories) */
-@import "../../node_modules/daisyui/daisyui.css";
-```
-
-### Systematic Debugging for E2E Tests
-
-**Issue**: Difficult to diagnose connectivity and configuration issues.
-
-**Root Cause**: Lack of systematic debugging approach for e2e test failures.
-
-**Lesson**: Use structured debugging process for e2e test issues.
-
-**Solution**: Implement debugging checklist:
-1. **Server Status**: `curl -I http://localhost:PORT` to verify server response
-2. **Port Usage**: `lsof -i :PORT` to check port allocation
-3. **Process Management**: `ps aux | grep nuxt` to verify server processes
-4. **Configuration**: Verify baseURL matches actual server port
-5. **Cleanup**: Kill conflicting processes before restarting
-
-### Background Server Management for Testing
-
-**Issue**: Server instability during long test runs.
-
-**Root Cause**: Foreground server processes interrupted by test execution.
-
-**Lesson**: Run development servers in background for stable testing.
-
-**Solution**: Use background execution for server management:
-```bash
-# Start server in background
-npm run dev > /dev/null 2>&1 &
+# Start server as background job
+Start-Job -ScriptBlock {
+    cd "c:\path\to\project"
+    $env:Database__Provider = "inmemory"
+    dotnet run --project Api.csproj --urls "http://localhost:5001"
+} -Name ApiServer
 
 # Wait for startup
-sleep 10
+Start-Sleep -Seconds 15
 
-# Verify server is responding
-curl -s http://localhost:3000/ | head -1
-
-# Run tests
-npx playwright test
+# Test API
+Invoke-WebRequest -Uri "http://localhost:5001/api/v1/orders" `
+    -Headers @{"X-Tenant-ID"="12345678-1234-1234-1234-123456789012"}
 
 # Cleanup
-pkill -f "npm run dev"
+Stop-Job -Name ApiServer
+Remove-Job -Name ApiServer
 ```
 
-## Session: 5. Januar 2026 - Nuxt 3 E2E Testing & Tailwind CSS Configuration Issues
+**Job Management**:
 
-### Tailwind CSS PostCSS Plugin Version Mismatch
-
-**Issue**: Using wrong PostCSS plugin for Tailwind CSS version causing build errors and utility class failures.
-
-**Root Cause**: Tailwind CSS v3.4.19 installed but using `@tailwindcss/postcss` (v4 plugin) instead of `tailwindcss` (v3 plugin).
-
-#### Critical Configuration Error
-**Lesson**: Tailwind CSS v3 requires the `tailwindcss` PostCSS plugin, NOT `@tailwindcss/postcss`.
-
-**Problem**: Using v4 plugin with v3 package causes unknown utility class errors.
-
-**Solution**: Use `tailwindcss` as PostCSS plugin for v3.x versions:
-```typescript
-// nuxt.config.ts
-export default defineNuxtConfig({
-  vite: {
-    css: {
-      postcss: {
-        plugins: [tailwindcss, autoprefixer], // Correct for v3
-      },
-    },
-  },
-});
+```powershell
+Get-Job -Name ApiServer           # Check status
+Receive-Job -Name ApiServer -Keep # View output (keep in buffer)
+Stop-Job -Name ApiServer          # Stop
+Remove-Job -Name ApiServer        # Clean up
 ```
 
-### DaisyUI v5 CSS Import Path Issues
+**Key Lessons**:
 
-**Issue**: DaisyUI components not applying styles despite being installed.
+- PowerShell jobs are stateless - set env vars inside script block
+- Allow 10-15 seconds startup for .NET + EF Core + Wolverine
+- Always clean up jobs - prevent orphaned processes
+- Check job output on failure with `Receive-Job -Keep`
 
-**Root Cause**: Incorrect CSS import path for DaisyUI v5.
+---
 
-**Lesson**: DaisyUI v5 uses different import paths than previous versions.
+## API Design & Serialization
 
-**Solution**: Use the correct import path:
-```css
-/* Correct for DaisyUI v5 */
-@import "../../node_modules/daisyui/daisyui.css";
+### System.Text.Json vs Newtonsoft.Json Defaults
 
-/* NOT this (doesn't exist) */
-@import "../../node_modules/daisyui/dist/full.css";
+**Key Difference**: System.Text.Json has NO default cycle handling, unlike Newtonsoft.Json which handles cycles automatically.
+
+**When Migrating**: Always configure `ReferenceHandler` explicitly:
+
+```csharp
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // System.Text.Json requires explicit cycle handling
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 ```
 
-### Nuxt 3 Static HTML File Interference
+**Best Practice**: Use DTOs for API boundaries to avoid exposing navigation properties entirely.
 
-**Issue**: Vue app not mounting, SSR content not generated.
+---
 
-**Root Cause**: Static `index.html` files in root and `public/` directories interfering with Nuxt SSR.
+---
 
-**Lesson**: Nuxt 3 requires removal of static HTML files for proper SSR functionality.
-
-**Problem**: Static HTML files serve instead of Nuxt-generated content, preventing Vue app mounting.
-
-**Solution**: Remove interfering static files:
-```bash
-# Remove these files when using Nuxt 3 SSR
-rm index.html
-rm public/index.html
-```
-
-### Vue i18n Composables in Nuxt Plugins
-
-**Issue**: "Must be called at the top of a `setup` function" error in plugins.
-
-**Root Cause**: Calling `useI18n()` composable in Nuxt plugin context.
-
-**Lesson**: Composables should only be used in component setup functions, not in plugins.
-
-**Solution**: Access i18n instance directly from `nuxtApp.$i18n` in plugins:
-```typescript
-// plugins/i18n.client.ts
-export default defineNuxtPlugin(async nuxtApp => {
-  // ❌ Wrong - calling composable in plugin
-  // const { t } = useI18n();
-
-  // ✅ Correct - access instance directly
-  const i18n = nuxtApp.$i18n as any;
-  await loadTranslations(i18n.locale.value);
-});
-```
+## Frontend Development & Testing
 
 ### Nuxt 3 Dev Server Host Binding
 
-**Issue**: Playwright connection refused errors.
+**Problem**: Built Nuxt servers only accessible locally, preventing Playwright test connectivity.
 
-**Root Cause**: Nuxt dev server binding to `0.0.0.0` instead of `localhost`.
+**Root Cause**: Default localhost binding prevents external connections from test runners.
 
-**Lesson**: Dev server host configuration affects test connectivity.
+**Solution**: Bind to all interfaces for test accessibility:
 
-**Solution**: Configure dev server to bind to localhost:
-```typescript
-// nuxt.config.ts
-export default defineNuxtConfig({
-  devServer: {
-    host: 'localhost', // Not '0.0.0.0'
-    port: 3000,
-  },
-});
-```
-
-### Route File Naming in Nuxt 3
-
-**Issue**: 404 errors for expected routes.
-
-**Root Cause**: Route files not following Nuxt 3 naming conventions.
-
-**Lesson**: File names determine routes in Nuxt 3 (file-based routing).
-
-**Solution**: Rename files to match expected routes:
 ```bash
-# For /products route
-mv pages/ProductListing.vue pages/products.vue
+# Development
+HOST=0.0.0.0 PORT=3000 npm run dev
+
+# Built server
+HOST=0.0.0.0 PORT=3000 node .output/server/index.mjs
 ```
 
-### E2E Testing Strategy for API-Dependent Apps
+**Playwright Configuration**:
 
-**Issue**: Tests failing due to missing backend API.
-
-**Root Cause**: E2E tests expecting full backend integration.
-
-**Lesson**: Separate build health tests from integration tests.
-
-**Solution**: Create dedicated build health test suite that validates:
-- Vue app mounting
-- CSS compilation
-- Component rendering
-- Static content loading
-
-**Implementation**: Focus on frontend-only validation before full integration testing.
-
----
-
-## Session Summary
-
-**Fixed Issues**:
-- ✅ Tailwind CSS PostCSS plugin version mismatch
-- ✅ DaisyUI v5 import path configuration
-- ✅ Static HTML file interference with Nuxt SSR
-- ✅ Vue i18n composable usage in plugins
-- ✅ Dev server host binding for test connectivity
-- ✅ Route file naming for proper routing
-- ✅ E2E testing strategy separation
-
-**Results**: 48/60 build health tests passing, Vue app mounting correctly, CSS/Tailwind working, DaisyUI components functional.
-
-**Remaining**: API integration tests (expected to fail without backend).
 ```typescript
-// WRONG - Causes "unknown utility class" errors
-import tailwindcss from '@tailwindcss/postcss'; // v4 plugin
-
-// Build fails with:
-// ERROR: Cannot apply unknown utility class bg-white
-```
-
-**Solution**: Import correct plugin for installed version.
-```typescript
-// CORRECT - Use v3 plugin for Tailwind CSS v3.x
-import tailwindcss from 'tailwindcss';
-
-// nuxt.config.ts
-vite: {
-  css: {
-    postcss: {
-      plugins: [tailwindcss, autoprefixer]
-    }
-  }
-}
-```
-
-**Detection**: Error message explicitly mentions missing `@reference` directive, which is a v4-only feature.
-
-### Nuxt 3 Static HTML Interference
-
-**Issue**: Root-level `index.html` file interfering with Nuxt's dynamic HTML generation.
-
-**Root Cause**: Leftover `index.html` from potential Vite project or misconfiguration.
-
-#### Index.html in Nuxt 3 Projects
-**Lesson**: Nuxt 3 generates HTML dynamically - root `index.html` files should NOT exist.
-
-**Problem**: Static HTML file served instead of Nuxt SSR content.
-```html
-<!-- index.html - SHOULD NOT EXIST IN NUXT 3 -->
-<body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.ts"></script>
-</body>
-```
-
-**Symptoms**:
-- Vue app div exists but has no children
-- References to non-existent `/src/main.ts`
-- Server-side rendering not working
-- E2E tests fail because app doesn't mount
-
-**Solution**: Remove or rename the file.
-```bash
-# Backup and remove interfering file
-mv index.html index.html.backup
-```
-
-**Verification**: Nuxt should generate HTML dynamically with server-rendered content, not serve static HTML.
-
-### Playwright WebServer Configuration for Nuxt
-
-**Issue**: Tests failing because no server running during test execution.
-
-**Root Cause**: Removed `webServer` configuration meant tests expected pre-running server.
-
-#### Playwright Auto-Server Startup
-**Lesson**: Configure `webServer` in Playwright to auto-start dev server for tests.
-
-**Problem**: Tests try to connect but no server is running.
-```typescript
-// INCOMPLETE - Tests fail with ERR_CONNECTION_REFUSED
 export default defineConfig({
   use: {
-    baseURL: 'http://127.0.0.1:3000',
-  },
-  // Missing webServer configuration
-});
-```
-
-**Solution**: Add webServer configuration for automatic server management.
-```typescript
-// COMPLETE - Playwright manages server lifecycle
-export default defineConfig({
-  use: {
-    baseURL: 'http://127.0.0.1:3000',
-  },
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://127.0.0.1:3000',
-    timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
+    baseURL: 'http://localhost:3000', // Must match server binding
   },
 });
 ```
 
-**Benefits**:
-- Automatic server startup before tests
-- Proper cleanup after tests complete
-- CI environment gets fresh server each run
-- Development can reuse running server
-
-### Nuxt Build Cache Management
-
-**Issue**: Clearing `.nuxt` and `.output` directories causes import resolution errors.
-
-**Root Cause**: Generated files in `.nuxt` required for Nuxt to run properly.
-
-#### Cache Directory Dependencies
-**Lesson**: `.nuxt` directory contains essential generated code - don't delete without rebuild.
-
-**Problem**: After removing `.nuxt`, imports fail.
-```
-ERROR: Failed to resolve import "#app-manifest"
-Plugin: vite:import-analysis
-```
-
-**What Happened**: Nuxt stores generated code and virtual imports in `.nuxt/` directory. Deleting it requires full rebuild.
-
-**Solution**: Either don't delete, or ensure proper rebuild after clearing.
-```bash
-# If you must clear cache
-rm -rf .nuxt .output
-
-# Then MUST rebuild
-npm run dev  # Regenerates .nuxt directory
-```
-
-**Better Approach**: Let Nuxt manage its own cache - it handles invalidation automatically.
-
-### Nuxt Dev Server Stability Issues
-
-**Issue**: Nuxt dev server shows as started but doesn't accept connections on port 3000.
-
-**Symptoms**:
-- Server logs show successful startup
-- Port 3000 shown as bound
-- `curl localhost:3000` returns connection refused
-- `lsof -i :3000` shows no process
-
-**Potential Causes** (Not fully resolved):
-1. Port binding to `0.0.0.0` vs `127.0.0.1` mismatch
-2. Process exits immediately after startup
-3. Multiple concurrent dev servers (workspace-level npm script)
-4. Index.html interference preventing proper initialization
-
-**Investigation Needed**: @Frontend and @DevOps to diagnose why server exits or doesn't bind correctly.
-
-### Key Implementation Decisions
-
-| Decision | Rationale |
-|----------|-----------|
-| Use `tailwindcss` plugin for v3 | Matches installed package version |
-| Remove root index.html | Nuxt generates HTML dynamically |
-| Configure Playwright webServer | Automatic server lifecycle management |
-| Preserve .nuxt directory | Contains required generated code |
-
-### Troubleshooting Pattern
-
-1. **Check package.json versions**: Ensure PostCSS plugin matches Tailwind version
-2. **Verify no static HTML**: Nuxt projects shouldn't have root index.html
-3. **Configure test infrastructure**: Playwright needs webServer for Nuxt
-4. **Don't clear .nuxt casually**: Contains essential generated code
-5. **Test server connectivity**: Verify server actually binds before running tests
-
-**Critical Files to Review**:
-- `package.json` - Check Tailwind CSS version
-- `nuxt.config.ts` - Verify correct PostCSS plugin import
-- `playwright.config.ts` - Ensure webServer configured
-- Root directory - Verify no `index.html` exists
-
-**Status**: ✅ **RESOLVED** - All issues fixed. Build works, dev server stable, E2E tests passing.
-
-### Build Success After Configuration Fixes
-
-**Issue**: Build failing with exit code 1 despite Tailwind and HTML fixes.
-
-**Root Cause**: Previous build attempts had cached errors or incomplete fixes.
-
-**Resolution**: After implementing all fixes (Tailwind plugin correction, index.html removal, PostCSS config), build now completes successfully.
-
-**Lesson**: Configuration changes may require clean builds or cache clearing.
-
-**Verification**: `npm run build` now produces complete output with "✨ Build complete!" message.
-
-### Nuxt Dev Server Host Binding (CRITICAL FIX)
-
-**Issue**: Nuxt dev server shows as started but doesn't accept connections.
-
-**Root Cause**: Dev server bound to `localhost` DNS name instead of IP address, causing inconsistent resolution.
-
-**Symptoms**:
-- Server logs show successful startup on `http://localhost:3000/`
-- `curl localhost:3000` returns connection refused
-- `lsof -i :3000` shows no bound process
-- Server process exits immediately after startup
-
-**Solution**: Use explicit IP address instead of hostname in `nuxt.config.ts`:
-```typescript
-// WRONG - May cause binding issues
-devServer: {
-  host: 'localhost',
-}
-
-// CORRECT - Explicit IP binding
-devServer: {
-  host: '127.0.0.1',
-  port: 3000,
-}
-```
-
-**Important**: After changing devServer config, clear `.nuxt` cache:
-```bash
-rm -rf .nuxt .output
-npm run dev
-```
-
-**Verification**:
-```bash
-# Check server is bound
-lsof -i:3000
-# Should show node process listening
-
-# Test connectivity
-curl http://127.0.0.1:3000
-# Should return HTML content
-```
-
-### Playwright Test Interruptions (SIGINT)
-
-**Issue**: E2E tests frequently interrupted with exit code 130 (SIGINT).
-
-**Root Cause**: Manual cancellation (Ctrl+C) during long-running tests or timeouts.
-
-**Symptoms**:
-- Tests start successfully
-- Server auto-starts via webServer config
-- Tests run for some time then get interrupted
-- No actual test failures, just process termination
-
-**Lesson**: Long-running E2E tests are susceptible to manual interruption. Consider:
-- Running tests in background/headless mode
-- Using CI/CD for unattended test execution
-- Implementing test timeouts shorter than user patience threshold
-- Adding `--headed` flag for interactive debugging
-
-**Prevention**: 
-```bash
-# Run tests headlessly to avoid accidental interruption
-npx playwright test --headed=false
-
-# Or use CI environment variable
-if [ "$CI" = "true" ]; then
-  npx playwright test --timeout=30000
-else
-  npx playwright test --timeout=120000 --headed
-fi
-```
-
-### Dev Server Connectivity Verification
-
-**Issue**: Dev server appears to start but tests fail to connect.
-
-**Resolution**: Server connectivity verified with `curl localhost:3000` returning HTML content.
-
-**Lesson**: When tests fail with connection errors, verify server is actually responding before debugging test code.
-
-**Quick Check**:
-```bash
-# Verify server is responding
-curl -s http://localhost:3000 | head -10
-
-# Check if port is bound
-lsof -i :3000
-```
-
-**Status Update**: Build issues resolved, dev server stable, test interruptions are user-initiated rather than system failures.
-
-### Tailwind CSS Content Path Configuration for Nuxt 3
-
-**Issue**: Production build failing with manifest import errors after fixing PostCSS plugins.
-
-**Root Cause**: Tailwind CSS content paths included `./index.html` and `./src/**/*` which don't exist in Nuxt 3 structure.
-
-#### Nuxt-Specific Content Paths
-**Lesson**: Tailwind content paths must match Nuxt's file structure, not generic Vite paths.
-
-**Problem**: Build fails with `#app-manifest` import errors.
-```typescript
-// WRONG - Generic Vite paths cause build failures
-export default {
-  content: [
-    './index.html',           // ❌ Doesn't exist in Nuxt
-    './src/**/*.{vue,js,ts}', // ❌ Nuxt uses root-level structure
-    './components/**/*.{vue,js,ts}',
-    // ...
-  ],
-};
-```
-
-**Solution**: Use Nuxt-specific content paths.
-```typescript
-// CORRECT - Nuxt 3 file structure
-export default {
-  content: [
-    './components/**/*.{vue,js,ts,jsx,tsx}',
-    './pages/**/*.{vue,js,ts,jsx,tsx}',
-    './layouts/**/*.{vue,js,ts,jsx,tsx}',
-    './plugins/**/*.{vue,js,ts,jsx,tsx}',
-    './nuxt.config.{js,ts}',
-    './app.vue',
-  ],
-};
-```
-
-**Detection**: Build succeeds after content path correction, manifest imports resolve properly.
-
-### Playwright Test URL Configuration for Nuxt Dev Server
-
-**Issue**: E2E tests failing with `ERR_CONNECTION_REFUSED` on hardcoded ports.
-
-**Root Cause**: Tests using `localhost:5173` (Vite default) instead of configured Nuxt dev server port `3000`.
-
-#### Hardcoded URLs vs BaseURL
-**Lesson**: Use relative URLs in tests when baseURL is configured, avoid hardcoded absolute URLs.
-
-**Problem**: Tests fail because they navigate to wrong port.
-```typescript
-// WRONG - Hardcoded URLs ignore baseURL
-test('should work', async ({ page }) => {
-  await page.goto('http://localhost:5173/'); // ❌ Ignores baseURL
-});
-```
-
-**Solution**: Use relative URLs that work with baseURL.
-```typescript
-// CORRECT - Relative URLs work with baseURL
-test('should work', async ({ page }) => {
-  await page.goto('/'); // ✅ Uses configured baseURL
-});
-```
-
-**Benefits**:
-- Tests work regardless of port changes
-- Consistent with Playwright best practices
-- Easier configuration management
-
-**Bulk Fix**: Replace hardcoded URLs across test files.
-```bash
-# Replace all localhost:5173 with relative paths
-sed -i '' 's|http://localhost:5173/|/|g' tests/e2e/**/*.spec.ts
-```
-
-### Nuxt Dev Server Host Binding for Consistent Connectivity
-
-**Issue**: Dev server starts but tests can't connect, showing `ECONNREFUSED ::1:3000`.
-
-**Root Cause**: Nuxt binding to IPv6 `::1` instead of IPv4 `127.0.0.1`, causing connection issues.
-
-#### IPv6 vs IPv4 Binding
-**Lesson**: Explicitly configure host binding to ensure consistent connectivity.
-
-**Problem**: Server binds to IPv6 but clients connect to IPv4.
-```typescript
-// PROBLEMATIC - May bind to IPv6
-devServer: {
-  port: 3000,
-  // host defaults to undefined, may choose IPv6
-}
-```
-
-**Solution**: Explicitly bind to IPv4 localhost.
-```typescript
-// STABLE - Consistent IPv4 binding
-devServer: {
-  host: '127.0.0.1',
-  port: 3000,
-}
-```
-
-**Verification**: 
-```bash
-# Test connectivity
-curl http://127.0.0.1:3000
-# Should return HTML, not connection refused
-```
-
-**Status Update**: All fixes applied successfully - build working, dev server stable, E2E tests can connect properly.
+**Key Insights**:
+
+- Default localhost binding blocks containerized/external test runners
+- Always use `0.0.0.0` for testing environments
+- Validate connectivity with `curl` before running tests
 
 ---
 
-## Session: 5. Januar 2026 - Lifecycle Stages Framework (ADR-037)
+### TypeScript Strict Mode Migration
 
-### Comprehensive Project Lifecycle Management
+**Problem**: Lax TypeScript settings allowed `any` types and incomplete interfaces.
 
-**Issue**: GL-014 only covered pre-release phase. No framework for managing component lifecycle from experimental to end-of-life.
+**Root Cause**: Missing strict compiler options and gradual ESLint rule adoption needed.
 
-**Solution Implemented**: 7-stage lifecycle framework with component-level tracking.
+**Solution**: Enable strict TypeScript in phases:
 
-#### 1. Stage Definitions Matter
-**Lesson**: Different components need different stability guarantees simultaneously.
-
-```yaml
-# Component-level tracking allows flexible development
-components:
-  core-api:
-    stage: pre-release    # More mature, stricter rules
-  cli:
-    stage: alpha          # Experimental, any change allowed
-  erp-connectors:
-    stage: alpha          # Plugin architecture still evolving
-```
-
-**Why This Works**:
-- CLI can iterate rapidly without affecting core API stability commitments
-- ERP connectors can experiment while main platform stabilizes
-- Clear expectations for each component
-
-#### 2. Configuration-Driven Lifecycle
-**Lesson**: Centralized YAML configuration enables automation and visibility.
-
-```yaml
-# .ai/config/lifecycle.yml - Single source of truth
-project:
-  name: B2X
-  default-stage: pre-release
-  current-version: 0.8.0
-
-components:
-  # Each component tracked independently
-```
-
-**Benefits**:
-- CI/CD can read stage and apply appropriate checks
-- Dashboard can display current state automatically
-- Transition history is auditable
-
-#### 3. Transition Criteria as Checklists
-**Lesson**: Define explicit sign-off requirements for stage transitions.
-
-```markdown
-#### Pre-Release → Release Candidate
-- [ ] All planned features implemented
-- [ ] API freeze declared
-- [ ] >80% test coverage achieved
-- [ ] @ProductOwner feature sign-off
-- [ ] @Architect architecture sign-off
-```
-
-**Why**: Prevents premature "stable" declarations and ensures quality gates.
-
-#### 4. CI Validation Workflow Pattern
-**Lesson**: Start with simple validation, add complexity incrementally.
-
-```yaml
-# Phase 1: Validate YAML and stage values
-# Phase 2: Check breaking changes (future)
-# Phase 3: Automated transitions (future)
-```
-
-**Pattern**: Ship working validation immediately, enhance over time.
-
-### Key Decisions
-
-| Decision | Rationale |
-|----------|-----------|
-| 7 stages (not 3) | Covers full lifecycle including LTS and deprecation |
-| Component-level | Different parts evolve at different speeds |
-| YAML config | Machine-readable for CI/CD automation |
-| GL-014 integration | Pre-release stage reuses existing guideline |
-
-### Implementation Checklist Pattern
-
-```
-Phase 1: Documentation (ADR)
-Phase 2: Configuration (lifecycle.yml)
-Phase 3: Integration (update existing docs)
-Phase 4: Automation (CI workflow)
-```
-
-**Apply to**: Any significant framework addition - document first, configure, integrate, automate.
-
----
-
-## Session: 5. Januar 2026 - Shared ERP Project Architecture (ADR-036)
-
-### Multi-Targeting for Cross-Framework Code Sharing
-
-**Issue**: Code duplication across 4+ ERP implementations targeting different .NET frameworks (.NET Framework 4.8, .NET 8.0, .NET 10.0).
-
-**Root Causes Identified**:
-
-#### 1. Central Package Management (CPM) Compatibility
-**Problem**: Multi-targeting projects with explicit version requirements fail with CPM enabled.
-```xml
-<!-- WRONG - CPM conflicts with conditional package versions -->
-<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-  <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-</ItemGroup>
-```
-
-**Solution**: Disable CPM for multi-targeting projects:
-```xml
-<!-- CORRECT - Disable CPM for compatibility packages -->
-<PropertyGroup>
-  <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
-</PropertyGroup>
-
-<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'net48'">
-  <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-  <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
-</ItemGroup>
-```
-
-#### 2. Missing Usings in .NET Standard/Framework
-**Problem**: `ImplicitUsings` doesn't work in older frameworks, causing `System` namespace missing errors.
-```csharp
-// WRONG - Relies on implicit usings
-public interface IErpAdapterFactory
+```json
+// tsconfig.json - Phase 1
 {
-    Version Version { get; } // Error: 'Version' not found
-}
-```
-
-**Solution**: Explicit usings in shared code:
-```csharp
-// CORRECT - Explicit System using for cross-framework compatibility
-using System;
-
-public interface IErpAdapterFactory
-{
-    Version Version { get; }
-}
-```
-
-#### 3. Project Reference Path Resolution
-**Problem**: Relative paths from different solution contexts resolve incorrectly.
-```xml
-<!-- WRONG - Incorrect relative path depth -->
-<ProjectReference Include="..\..\..\..\shared\..." />
-```
-
-**Solution**: Verify paths from each project's actual location:
-```xml
-<!-- CORRECT - Validated from project location -->
-<ProjectReference Include="..\..\..\shared\B2X.Shared.Erp.Core\..." />
-```
-
-### Key Implementation Decisions
-
-1. **Target Frameworks**: `netstandard2.1;net48;net8.0;net10.0` for maximum compatibility
-2. **CPM Exclusion**: Disable for shared projects with conditional dependencies
-3. **Explicit Namespaces**: Always include `System` for cross-framework code
-4. **Backward Compatibility**: Deprecated old project as facade referencing new shared projects
-
-### Benefits Achieved
-
-- **Single Source of Truth**: 1 interface definition instead of 4
-- **Consistent Models**: Canonical DTOs shared across all frameworks
-- **Reduced Maintenance**: Changes propagate automatically
-- **Clear Ownership**: Shared projects are framework-agnostic
-
----
-
-## Session: 5. Januar 2026 - Runtime AI Mode Switching Implementation
-
-### MCP Tool Integration with Thread-Safe Mode Management
-
-**Issue**: Need to implement runtime switching between AI modes (Normal, Local, Network) while ensuring thread safety and proper MCP tool integration.
-
-**Root Causes Identified**:
-
-#### 1. Thread-Safe Mode Switching Pattern
-**Problem**: Multiple concurrent requests could cause race conditions when switching AI modes.
-```csharp
-// WRONG - Not thread-safe
-public void SwitchMode(AiMode newMode)
-{
-    _currentMode = newMode; // Race condition potential
-}
-```
-
-**Solution**: Atomic operations with proper synchronization:
-```csharp
-// CORRECT - Thread-safe with Interlocked
-private AiMode _currentMode = AiMode.Normal;
-
-public bool TrySwitchMode(AiMode newMode)
-{
-    var oldMode = Interlocked.Exchange(ref _currentMode, newMode);
-    return oldMode != newMode; // Return true if actually changed
-}
-```
-
-#### 2. MCP Tool Argument Validation
-**Problem**: MCP tools need robust argument validation and user-friendly error messages.
-```csharp
-// WRONG - Basic validation
-if (string.IsNullOrEmpty(args.TargetMode))
-    throw new ArgumentException("TargetMode is required");
-```
-
-**Solution**: Comprehensive validation with detailed feedback:
-```csharp
-// CORRECT - Detailed validation and user guidance
-if (string.IsNullOrEmpty(args.TargetMode))
-{
-    return "❌ **Error**: TargetMode is required. Please specify one of: Normal, Local, Network";
-}
-
-if (!Enum.TryParse<AiProviderSelector.AiMode>(args.TargetMode, true, out var targetMode))
-{
-    return $"❌ **Error**: Invalid mode '{args.TargetMode}'. Valid modes are: Normal, Local, Network";
-}
-```
-
-#### 3. Missing Type Dependencies
-**Problem**: Compilation errors due to missing DTO classes referenced in MCP tools.
-**Solution**: Systematic type discovery and addition:
-- Located missing `TemplateValidationArgs` in MCP server registration
-- Added missing class to `ToolArgs.cs` with proper properties
-- Verified all type references resolve correctly
-
-### Key Implementation Decisions
-
-1. **Thread Safety**: Used `Interlocked.Exchange` for atomic mode updates
-2. **Mode Validation**: String parsing with case-insensitive enum conversion
-3. **User Experience**: Detailed error messages with valid options listed
-4. **Dependency Resolution**: Added missing DTOs to prevent compilation failures
-
-### Testing Strategy
-
-- Unit tests for mode switching logic with thread safety verification
-- Integration tests for MCP tool execution and response formatting
-- Error handling tests for invalid inputs and edge cases
-- Compilation verification after type additions
-
-### Benefits Achieved
-
-- **Operational Flexibility**: Runtime mode switching without service restart
-- **Thread Safety**: Concurrent requests handled safely
-- **User-Friendly**: Clear error messages guide users to correct usage
-- **Maintainable**: Clean separation between mode logic and MCP integration
-- **Reliable**: Comprehensive testing prevents runtime failures
-
----
-
-## Session: 5. Januar 2026 - Network AI Mode Implementation
-
-### AI Provider Selection Architecture Extension
-
-**Issue**: Need to add network-hosted Ollama support while maintaining existing local fallback functionality.
-
-**Root Causes Identified**:
-
-#### 1. Configuration Extension Pattern
-**Problem**: Adding new AI modes required careful integration with existing provider selection logic.
-```csharp
-// WRONG - Complex conditional logic
-if (networkMode) { /* network logic */ }
-else if (localMode) { /* local logic */ }
-else { /* normal logic */ }
-```
-
-**Solution**: Clean priority-based mode selection:
-```csharp
-// CORRECT - Priority-based selection
-var networkModeEnabled = _configuration.GetValue<bool>("AI:EnableNetworkMode", false);
-if (networkModeEnabled)
-{
-    return _ollamaProvider; // Network mode takes priority
-}
-
-var localFallbackEnabled = _configuration.GetValue<bool>("AI:EnableLocalFallback", false);
-if (localFallbackEnabled)
-{
-    return _ollamaProvider; // Local fallback second priority
-}
-
-// Normal provider selection logic
-```
-
-#### 2. Test Mocking Extension Methods
-**Problem**: Moq cannot mock extension methods like `IConfiguration.GetValue<T>()`.
-```csharp
-// WRONG - Trying to mock extension methods
-_configurationMock.Setup(c => c.GetValue<bool>("AI:EnableNetworkMode", false)).Returns(true);
-```
-
-**Solution**: Use real `ConfigurationBuilder` for testing:
-```csharp
-// CORRECT - Real configuration for testing
-var configBuilder = new ConfigurationBuilder();
-configBuilder.AddInMemoryCollection(new[]
-{
-    new KeyValuePair<string, string>("AI:EnableNetworkMode", "true")
-});
-var configuration = configBuilder.Build();
-```
-
-#### 3. Documentation Synchronization
-**Problem**: Multiple documentation files needed updates for new feature.
-**Solution**: Systematic documentation updates:
-- Updated `AiProviderSelector.cs` comments
-- Extended `local-ai-fallback-configuration.md` with network mode
-- Added comprehensive configuration examples
-- Updated flow diagrams and best practices
-
-### Key Implementation Decisions
-
-1. **Priority Order**: Network mode > Local fallback > Normal selection
-2. **Shared Infrastructure**: Both modes use same Ollama provider with different endpoints
-3. **Backward Compatibility**: Existing local fallback unchanged
-4. **Configuration Naming**: `AI:EnableNetworkMode` vs `AI:EnableLocalFallback`
-
-### Testing Strategy
-
-- Unit tests for each mode selection path
-- Integration tests for end-to-end functionality  
-- Configuration-based testing instead of mocks
-- Error handling verification
-
-### Benefits Achieved
-
-- **Enterprise Ready**: Network-hosted AI for large organizations
-- **Flexible Deployment**: Local dev, network staging, cloud prod
-- **Cost Optimization**: Shared network resources reduce per-user costs
-- **Compliance**: Keep AI processing within corporate networks
-- **Performance**: Leverage powerful shared GPU infrastructure
-
----
-
-## Session: 3. Januar 2026 - ADR-030 CMS Template Overrides Database Implementation
-
-### PostgreSQL Repository Implementation Challenges
-
-**Issue**: Complex compilation errors (64 initial errors) when implementing PostgreSQL repository for CMS template overrides with EF Core.
-
-**Root Causes Identified**:
-
-#### 1. Missing EF Core DbContext Infrastructure
-**Problem**: Attempted to implement repository without proper EF Core context setup.
-```csharp
-// WRONG - Repository without DbContext
-public class PostgreSqlTemplateRepository : ITemplateRepository
-{
-    // ❌ No DbContext injection
-    // ❌ No entity mappings
-    // ❌ No database schema
-}
-```
-
-**Solution**: Create complete EF Core infrastructure first:
-```csharp
-// CORRECT - Full EF Core setup
-public class CmsDbContext : DbContext
-{
-    public DbSet<TemplateOverride> TemplateOverrides { get; set; }
-    public DbSet<TemplateOverrideMetadata> TemplateOverrideMetadata { get; set; }
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Entity configurations, relationships, indexes
-    }
-}
-```
-
-#### 2. Guid vs String Tenant ID Handling
-**Problem**: Inconsistent tenant ID types between domain models (string) and database entities (Guid).
-```csharp
-// WRONG - Direct string comparison with Guid
-var tenantGuid = Guid.Parse(pageDefinition.TenantId); // ❌ Can throw
-var overrides = await _context.TemplateOverrides
-    .Where(t => t.TenantId == pageDefinition.TenantId) // ❌ Type mismatch
-    .ToListAsync();
-```
-
-**Solution**: Proper Guid parsing with error handling:
-```csharp
-// CORRECT - Safe Guid conversion
-if (!Guid.TryParse(pageDefinition.TenantId, out var tenantGuid))
-    throw new ArgumentException("Invalid tenant ID format", nameof(pageDefinition));
-
-var overrides = await _context.TemplateOverrides
-    .Where(t => t.TenantId == tenantGuid) // ✅ Correct type
-    .ToListAsync();
-```
-
-#### 3. Entity Relationship Misconfiguration
-**Problem**: Incorrect foreign key relationships and cascade delete settings.
-```csharp
-// WRONG - Missing relationship configuration
-modelBuilder.Entity<TemplateOverrideMetadata>()
-    .HasKey(m => m.OverrideId); // ❌ No foreign key relationship
-```
-
-**Solution**: Proper entity relationships with cascade delete:
-```csharp
-// CORRECT - Complete relationship setup
-modelBuilder.Entity<TemplateOverrideMetadata>()
-    .HasKey(m => m.OverrideId);
-    
-modelBuilder.Entity<TemplateOverrideMetadata>()
-    .HasOne<TemplateOverride>()
-    .WithOne(t => t.OverrideMetadata)
-    .HasForeignKey<TemplateOverrideMetadata>(m => m.OverrideId)
-    .OnDelete(DeleteBehavior.Cascade); // ✅ Cascade delete
-```
-
-#### 4. Nullable DateTime Assignment Errors
-**Problem**: Attempting to assign nullable DateTime to non-nullable property.
-```csharp
-// WRONG - Direct nullable assignment
-PublishedAt = templateOverride.PublishedAt, // ❌ Type mismatch
-```
-
-**Solution**: Provide default values for nullable sources:
-```csharp
-// CORRECT - Safe nullable handling
-PublishedAt = templateOverride.PublishedAt ?? templateOverride.CreatedAt,
-```
-
-#### 5. EF Core Migration Tooling Issues
-**Problem**: EF Core CLI tools failing to find proper startup project and context.
-```bash
-# WRONG - Missing design-time factory
-dotnet ef migrations add InitialCms --project CMS.csproj
-# ❌ "Unable to retrieve project metadata"
-```
-
-**Solution**: Create design-time factory for migrations:
-```csharp
-// CORRECT - Design-time factory
-public class CmsDbContextFactory : IDesignTimeDbContextFactory<CmsDbContext>
-{
-    public CmsDbContext CreateDbContext(string[] args)
-    {
-        // Return configured DbContext for migrations
-    }
-}
-```
-
-### ASPDEPR002 OpenAPI Deprecation Fix
-
-**Issue**: `WithOpenApi()` method deprecated warning in ASP.NET Core endpoints.
-
-**Root Cause**: Using deprecated endpoint-specific OpenAPI configuration.
-
-**Solution**: Use global OpenAPI configuration instead:
-```csharp
-// Program.cs - Global configuration ✅
-builder.Services.AddOpenApi();
-app.MapOpenApi();
-
-// Endpoints - Remove redundant calls ✅
-var group = app.MapGroup("/api/templates")
-    .WithName("TemplateValidation");
-// Removed: .WithOpenApi(operation => operation)
-```
-
-**Prevention**: Always check Microsoft documentation for deprecated APIs before implementation.
-
-### Code Analysis Warning Fixes
-
-**Issue**: Multiple CA2208 and CA1310 warnings in repository code.
-
-**Solutions Applied**:
-- **CA2208**: Use correct parameter names in ArgumentException constructors
-- **CA1310**: Add `StringComparison.Ordinal` to string operations
-- **IDE2001**: Split embedded statements onto separate lines
-
-**Prevention**: Enable all code analysis rules and fix warnings immediately.
-
----
-
-## Session: 3. Januar 2026
-
-### C# Namespace Resolution: Circular Dependency False Positive
-
-**Issue**: DI container reports circular dependency, but code appears correct with `Services.IProductService` reference.
-
-**Error Message**:
-```
-A circular dependency was detected for the service of type 'B2X.Catalog.Endpoints.IProductService'.
-B2X.Catalog.Endpoints.IProductService(ProductServiceAdapter) -> B2X.Catalog.Endpoints.IProductService
-```
-
-**Root Cause**: When you have duplicate interface names in different namespaces (e.g., `Endpoints.IProductService` and `Services.IProductService`), using a relative namespace prefix like `Services.IProductService` can be **misinterpreted by the compiler**.
-
-```csharp
-// FILE: Endpoints/ServiceAdapters.cs
-using B2X.Catalog.Services;  // ← Import doesn't help here!
-
-namespace B2X.Catalog.Endpoints;
-
-public class ProductServiceAdapter : IProductService  // ← Implements Endpoints.IProductService
-{
-    // ❌ WRONG - Compiler looks for "Endpoints.Services.IProductService" (doesn't exist)
-    // Falls back to Endpoints.IProductService → CIRCULAR!
-    private readonly Services.IProductService _productService;
-    
-    public ProductServiceAdapter(Services.IProductService productService) { }
-}
-```
-
-**Solution**: Use **fully qualified type names** when interfaces share the same name across namespaces:
-
-```csharp
-namespace B2X.Catalog.Endpoints;
-
-public class ProductServiceAdapter : IProductService
-{
-    // ✅ CORRECT - Unambiguous fully qualified name
-    private readonly B2X.Catalog.Services.IProductService _productService;
-    
-    public ProductServiceAdapter(B2X.Catalog.Services.IProductService productService) { }
-}
-```
-
-**Prevention**:
-1. When adapter implements interface A and injects interface B with **same name** in different namespace, always use fully qualified names
-2. Avoid relying on `using` imports + relative namespace prefixes for disambiguation
-3. Consider using **type aliases** for clarity:
-   ```csharp
-   using ServiceProductService = B2X.Catalog.Services.IProductService;
-   ```
-
-**Files Affected**: `backend/Domain/Catalog/Endpoints/ServiceAdapters.cs`
-
----
-
-### MSBuild Node Reuse Causes DLL Locking
-
-**Issue**: Build fails with `MSB3026` warnings - DLLs locked by other processes (e.g., `B2X.Identity.API`, `B2X.Theming.API`).
-
-**Root Cause**: MSBuild uses `/nodeReuse:true` by default, keeping Worker Nodes alive after builds. These processes hold file handles on DLLs, blocking subsequent builds.
-
-**Symptoms**:
-```
-warning MSB3026: "B2X.Shared.Infrastructure.dll" konnte nicht kopiert werden.
-The process cannot access the file because it is being used by another process.
-```
-
-**Solution**:
-1. Add to `Directory.Build.props`:
-   ```xml
-   <UseSharedCompilation>false</UseSharedCompilation>
-   ```
-
-2. Before rebuilding, run:
-   ```powershell
-   dotnet build-server shutdown
-   ```
-
-3. Nuclear option (kills all dotnet processes):
-   ```powershell
-   Stop-Process -Name "dotnet" -Force
-   ```
-
-**Prevention**: The `UseSharedCompilation=false` setting prevents Roslyn compiler from holding DLLs. Trade-off: slightly slower incremental builds.
-
----
-
-### Rate-Limit Prevention & Token Optimization
-
-**Issue**: Frequent rate-limit errors with free Copilot models due to high token consumption.
-
-**Root Causes**:
-1. Too many agents active simultaneously (6+ parallel)
-2. Verbose brainstorming responses (500+ words)
-3. Redundant context in each message
-4. Open-ended questions triggering long answers
-
-**Solutions Implemented**:
-
-#### 1. Agent Consolidation [GL-008]
-- Max 2 agents per session
-- Use `@Dev` instead of `@Backend/@Frontend/@TechLead`
-- Use `@Quality` instead of `@QA/@Security`
-- Tier-3 agents work via `.ai/` files, not chat
-
-#### 2. Token-Efficient Brainstorming [GL-009]
-- Use constraint-first prompts: `"Max 50 words, bullets only"`
-- Binary questions instead of open-ended: `"A or B?"`
-- Template-based responses with numbered options
-- Request `⭐` for recommendations
-
-**Quick Phrases** (add to prompts):
-```
-"Bullets only, no prose"
-"Max 50 words"
-"3 options, 1 sentence each"
-"Yes/No + 1 reason"
-"Skip explanation, just answer"
-```
-
-**Prevention**: Always specify output constraints in prompts.
-
----
-
-### Backend Build Warnings: Comprehensive Fix Session
-
-**Issue**: Backend build failed with 22 errors + 112 warnings across ERP and Admin domains.
-
-**Root Causes Identified**:
-
-#### 1. SyncResult API Inconsistencies
-**Problem**: `FakeErpProvider.cs` used non-existent properties on `SyncResult` record.
-```csharp
-// WRONG - These properties don't exist
-new SyncResult {
-    Mode = request.Mode,           // ❌ No Mode property
-    TotalEntities = 100,           // ❌ No TotalEntities property  
-    ProcessedEntities = 100,       // ❌ No ProcessedEntities property
-    FailedEntities = 0,            // ❌ No FailedEntities property
-    Status = SyncStatus.Completed  // ❌ No Status property
-}
-```
-
-**Solution**: Use correct `Core.SyncResult` properties:
-```csharp
-// CORRECT - Use actual properties
-new SyncResult {
-    Created = 80,      // ✅ Number of created entities
-    Updated = 15,      // ✅ Number of updated entities  
-    Deleted = 3,       // ✅ Number of deleted entities
-    Skipped = 2,       // ✅ Number of skipped entities
-    Failed = 0,        // ✅ Number of failed entities
-    Duration = TimeSpan.FromSeconds(1),
-    StartedAt = DateTimeOffset.UtcNow.AddSeconds(-1),
-    CompletedAt = DateTimeOffset.UtcNow
-}
-```
-
-#### 2. Model Property Naming Inconsistencies
-**Problem**: Inconsistent property names between model definitions and usage.
-
-**Examples Fixed**:
-- `PimProduct.CreatedDate` → `PimProduct.CreatedAt` (and `ModifiedAt`)
-- `CrmCustomer.Number` → `CrmCustomer.CustomerNumber`  
-- `CrmCustomer.CustomerGroup` → `CrmCustomer.CustomerGroupId` + `CustomerGroupName`
-- `CrmCustomer.CreatedDate` → `CrmCustomer.CreatedAt` (and `ModifiedAt`)
-
-**Prevention**: Always check model definitions before using properties.
-
-#### 3. Required Member Initialization in Records
-**Problem**: C# 14 requires explicit initialization of required members in object initializers.
-
-**Examples Fixed**:
-```csharp
-// BEFORE - Missing required members
-new CrmAddress {
-    Street1 = "123 Main St",
-    City = "Anytown"
-    // ❌ Missing required Id
-}
-
-// AFTER - All required members initialized  
-new CrmAddress {
-    Id = "ADDR001",           // ✅ Required member
-    Street1 = "123 Main St",
-    City = "Anytown"
-}
-```
-
-**Prevention**: When creating records with required members, always initialize ALL required properties.
-
-#### 4. Polly v8 API Changes
-**Problem**: `ErpResiliencePipeline.cs` used outdated Polly v7 API patterns.
-
-**Before (Polly v7 style)**:
-```csharp
-// ❌ Old API - doesn't work with Polly v8
-return await _pipeline.ExecuteAsync(operation, cancellationToken);
-```
-
-**After (Polly v8 style)**:
-```csharp
-// ✅ New API - uses ResilienceContext pool
-var context = ResilienceContextPool.Shared.Get(cancellationToken);
-try {
-    return await _pipeline.ExecuteAsync(
-        async ctx => await operation(ctx.CancellationToken), 
-        context);
-} finally {
-    ResilienceContextPool.Shared.Return(context);
-}
-```
-
-**Prevention**: When upgrading Polly versions, check for breaking API changes in resilience pipeline usage.
-
-#### 5. StyleCop Formatting Rules
-**Problem**: Multiple StyleCop violations causing build warnings.
-
-**Common Fixes Applied**:
-- **SA1518**: Add newline at end of files
-- **SA1009**: Remove space before closing parenthesis in records
-- **SA1210/SA1208**: Order using directives alphabetically (System.* first, then Microsoft.*, then project namespaces)
-
-**Prevention**: Run `dotnet format` regularly and fix StyleCop warnings promptly.
-
-### Impact
-- **Before**: 22 errors + 112 warnings = 134 total issues
-- **After**: ✅ 0 errors + 0 warnings = clean build
-
-### Prevention Rules
-1. **Model Consistency**: Always verify property names against actual model definitions
-2. **API Compatibility**: Test builds after dependency upgrades, especially major versions
-3. **Required Members**: Initialize all required record members explicitly
-4. **Code Formatting**: Fix StyleCop warnings immediately, don't accumulate them
-5. **SyncResult Usage**: Use the correct SyncResult type for each context (Core vs Services)
-
----
-
-## Session: 2. Januar 2026
-
-### Central Package Management: Single Source of Truth
-
-**Issue**: Recurring "version ping-pong" with EF Core, Npgsql, and other dependencies causing build failures (CS1705).
-
-**Root Cause**: TWO `Directory.Packages.props` files with different versions:
-- `/Directory.Packages.props` (root) - one set of versions
-- `/backend/Directory.Packages.props` - conflicting versions
-
-**Example Conflict**:
-```xml
-<!-- Root file -->
-<PackageVersion Include="FluentValidation" Version="11.9.2" />
-<PackageVersion Include="xunit" Version="2.7.1" />
-
-<!-- Backend file (overwrites root!) -->
-<PackageVersion Include="FluentValidation" Version="12.1.1" />
-<PackageVersion Include="xunit" Version="2.9.3" />
-```
-
-**Solution**: DELETE the duplicate file, consolidate to ONE file at root.
-
-```bash
-# Fix
-rm backend/Directory.Packages.props
-# Edit /Directory.Packages.props with consolidated versions
-dotnet restore --force && dotnet build
-```
-
-**Prevention Rule**:
-- **ONE `Directory.Packages.props`** at repository root
-- **NEVER** create another in subfolders
-- Keep package groups in sync (EF Core, Aspire, OpenTelemetry, Wolverine)
-
-**See**: [ADR-025 Appendix: Dependency Version Management]
-
----
-
-### System.CommandLine Beta Version Incompatibilities
-
-**Issue**: CLI project failed to build with 121 errors after upgrading to `System.CommandLine 2.0.0-beta5`.
-
-**Problem**: Beta5 introduced breaking API changes:
-- `AddCommand()` method signature changed
-- `InlineCommandHandler` removed
-- Option constructor syntax changed
-- Different command handler registration pattern
-
-**Solution**: Downgrade to `System.CommandLine 2.0.0-beta4.22272.1`:
-
-```xml
-<!-- ❌ BROKEN - Beta5 has breaking changes -->
-<PackageReference Include="System.CommandLine" Version="2.0.0-beta5.25277.114" />
-
-<!-- ✅ WORKING - Beta4 is stable for current codebase -->
-<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-```
-
-**Key API Differences**:
-```csharp
-// Beta4 - Use SetHandler
-command.SetHandler(async (arg1, arg2) => { ... }, option1, option2);
-
-// Beta5 - Different pattern (broke existing code)
-// InlineCommandHandler removed, AddCommand signature changed
-```
-
-**Lesson**: Pin beta package versions explicitly; don't auto-upgrade beta packages without testing.
-
----
-
-### Spectre.Console API Changes
-
-**Issue**: `Spectre.Console` API methods changed between versions.
-
-**Solution**:
-```csharp
-// ❌ OLD API
-prompt.IsSecret();
-new BarColumn();
-
-// ✅ NEW API (0.49.x)
-prompt.Secret();
-new ProgressBarColumn();
-```
-
-**Lesson**: Console UI libraries frequently change APIs. Check release notes before upgrading.
-
----
-
-### MSB3277 Assembly Version Conflicts - Npgsql + EF Core
-
-**Issue**: Build warning MSB3277 about conflicting versions of `Microsoft.EntityFrameworkCore.Relational` (10.0.0 vs 10.0.1).
-
-**Root Cause**: 
-- Project referenced EF Core 10.0.1 directly
-- `Npgsql.EntityFrameworkCore.PostgreSQL 10.0.0` has transitive dependency on EF Core 10.0.0
-- Two versions of same assembly = MSBuild conflict
-
-**Solution**: Align ALL EF Core packages to the version required by Npgsql:
-
-```xml
-<!-- ✅ All EF Core packages at 10.0.0 for Npgsql compatibility -->
-<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
-<PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0" />
-<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
-<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
-```
-
-**Key Rule**: When using database providers (Npgsql, Pomelo, etc.), match EF Core version to what the provider supports. Check provider's NuGet dependencies.
-
-**Diagnostic**: Use `dotnet build -v diag` to see full dependency chain causing MSB3277.
-
----
-
-### IDisposable for HttpClient Wrappers (CA1001)
-
-**Issue**: StyleCop CA1001 warning - classes owning `HttpClient` must implement `IDisposable`.
-
-**Solution**:
-```csharp
-public sealed class MyHttpClient : IDisposable
-{
-    private readonly HttpClient _httpClient = new();
-    private bool _disposed;
-
-    public void Dispose()
-    {
-        if (!_disposed)
-        {
-            _httpClient.Dispose();
-            _disposed = true;
-        }
-    }
-}
-```
-
-**Lesson**: Any class that creates/owns `HttpClient`, `DbConnection`, or other unmanaged resources must implement `IDisposable`.
-
----
-
-### Static Classes for Command Handlers (RCS1102)
-
-**Issue**: Roslynator RCS1102 - "Make class static" for classes with only static members.
-
-**Context**: CLI command classes that only contain static `BuildCommand()` methods.
-
-**Solution**:
-```csharp
-// ❌ Non-static class with only static members
-public class MyCommand
-{
-    public static Command BuildCommand() { ... }
-}
-
-// ✅ Static class
-public static class MyCommand
-{
-    public static Command BuildCommand() { ... }
-}
-```
-
----
-
-### EF Core Migrations: Never Use AppHost as Startup Project
-
-**Issue**: Added `Microsoft.EntityFrameworkCore.Design` package to AppHost (Aspire Orchestrator) to run EF Core migrations. This is architecturally wrong.
-
-**Problem**: 
-- AppHost is an **orchestrator** - it starts containers, not a data access layer
-- Adding EF Design packages pollutes the host with unnecessary dependencies
-- Creates tight coupling between orchestration and data access concerns
-
-**Solution**: Implement `IDesignTimeDbContextFactory<T>` in the project containing the DbContext:
-
-```csharp
-// In B2X.Shared.Monitoring/Data/MonitoringDbContextFactory.cs
-public class MonitoringDbContextFactory : IDesignTimeDbContextFactory<MonitoringDbContext>
-{
-    public MonitoringDbContext CreateDbContext(string[] args)
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<MonitoringDbContext>();
-        
-        // Use default connection string for migrations
-        var connectionString = "Host=localhost;Port=5432;Database=B2X_Monitoring;...";
-        optionsBuilder.UseNpgsql(connectionString);
-        
-        return new MonitoringDbContext(optionsBuilder.Options, new DesignTimeTenantContext());
-    }
-}
-```
-
-**Correct Migration Command**:
-```bash
-# ✅ CORRECT - Project is its own startup
-dotnet ef migrations add MigrationName \
-  --project backend/shared/Monitoring/B2X.Shared.Monitoring.csproj
-
-# ❌ WRONG - Using AppHost as startup
-dotnet ef migrations add MigrationName \
-  --project backend/shared/Monitoring/B2X.Shared.Monitoring.csproj \
-  --startup-project AppHost/B2X.AppHost.csproj
-```
-
-**Key Rule**: 
-- ❌ NEVER add `Microsoft.EntityFrameworkCore.Design` to AppHost
-- ❌ NEVER add DbContext project references to AppHost just for migrations
-- ✅ ALWAYS implement `IDesignTimeDbContextFactory<T>` in the data project
-- ✅ Use the data project itself as startup for migrations
-
-**Files**: 
-- `backend/shared/Monitoring/Data/MonitoringDbContextFactory.cs` - Design-time factory
-- `AppHost/B2X.AppHost.csproj` - Keep clean (no EF Design, no data project refs)
-
----
-
-### enventa Integration Patterns from eGate Reference Implementation
-
-**Context**: Analyzed [eGate](https://github.com/NissenVelten/eGate) production implementation for enventa Trade ERP integration patterns.
-
-**Discovery**: eGate demonstrates three integration approaches:
-1. **Direct FS API** (FS_45/FS_47) - Best performance, Windows-only
-2. **OData Broker** - Platform-agnostic, requires separate service
-3. **Hybrid** - Direct for high-frequency, OData for low-frequency
-
-**Key Patterns from eGate**:
-- `FSUtil` with `Scope()` pattern for proper cleanup
-- `BusinessUnit` integrated into authentication (not separate call)
-- `NVContext` with 60+ lazy-loaded repositories
-- `Query Builder` pattern for complex queries
-- `AutoMapper` for FS entities → domain models
-- `GlobalWarmup()` for connection pre-warming (tests)
-- Unity DI with `HierarchicalLifetimeManager` for FSUtil
-
-**eGate Code Patterns**:
-```csharp
-// FSUtil Scope Pattern
-using (var scope = _util.Scope())
-{
-    var service = scope.Create<IcECPriceService>();
-    // ... operations are properly scoped and cleaned up
-}
-
-// OData Authentication with BusinessUnit in username
-var credentials = new NetworkCredential(
-    $"{username}@{businessUnit}", password
-);
-
-// Repository Hierarchy (abstraction layers)
-INVSelectRepository<T>           // Base
- ↓ NVBaseRepository<TNV, TFS>     // FSUtil + Mapping
- ↓ NVReadRepository<TNV, TFS>     // GetById, Exists
- ↓ NVQueryReadRepository<TNV, TFS> // Query builder
- ↓ NVCrudRepository<TNV, TFS>     // Insert, Update, Delete
-```
-
-**Recommended for B2X**:
-- **Use Direct FS API** in Windows container (.NET Framework 4.8)
-- **gRPC bridge** to .NET 10 (Linux containers)
-- **Connection Pool** with BusinessUnit-scoped connections
-- **Per-tenant Actor** for thread safety (already implemented in B2X)
-- **Pre-warming** for top N active tenants (like eGate's `GlobalWarmup()`)
-
-**Anti-Pattern**: 
-- ❌ Mixing BusinessUnit selection with separate API calls
-- ✅ eGate always includes BusinessUnit in authentication (part of credentials)
-
-**Best Practice**: 
-- Use eGate's repository pattern for abstraction (60+ repositories vs. direct FS API calls)
-- Lazy-load repositories with `Lazy<T>` for deferred instantiation
-- Scope pattern (`using (var scope = _util.Scope())`) ensures cleanup
-
-**Reference**: 
-- [eGate GitHub](https://github.com/NissenVelten/eGate) - `Broker/FS_47/` for latest implementation
-- [KB-021: enventa Trade ERP](./enventa-trade-erp.md) - Full integration guide
-
----
-
-### enventa Trade ERP Integration - Actor Pattern for Non-Thread-Safe Libraries
-
-**Issue**: Legacy ERP systems like enventa Trade run on .NET Framework 4.8 with proprietary ORMs that are NOT thread-safe. Direct concurrent access causes data corruption.
-
-**Solution**: 
-- ✅ **Actor Pattern** with Channel-based message queue for serialized operations
-- ✅ **Per-tenant Actor instances** managed by `ErpActorPool`
-- ✅ **gRPC streaming** for cross-framework communication (.NET 10 ↔ .NET Framework 4.8)
-
-**Key Implementation**:
-```csharp
-// ❌ WRONG - Concurrent access to non-thread-safe ERP
-await Task.WhenAll(
-    erpProvider.GetProductAsync(id1),
-    erpProvider.GetProductAsync(id2)
-);
-
-// ✅ CORRECT - All operations through Actor pattern
-public class ErpActor
-{
-    private readonly Channel<IErpOperation> _queue;
-    
-    public async Task<T> EnqueueAsync<T>(ErpOperation<T> operation)
-    {
-        await _queue.Writer.WriteAsync(operation);
-        return await operation.ResultSource.Task;
-    }
-    
-    // Single background worker processes all operations sequentially
-    private async Task ProcessOperationsAsync(CancellationToken ct)
-    {
-        await foreach (var op in _queue.Reader.ReadAllAsync(ct))
-            await op.ExecuteAsync(ct);
-    }
-}
-```
-
-**Architecture Pattern**:
-- **Provider Factory** creates one provider instance per tenant
-- **Provider Manager** orchestrates all provider lifecycle
-- **ErpActor** ensures serialized execution per tenant
-- **gRPC Proto** defines service contracts (see `backend/Domain/ERP/src/Protos/`)
-
-**Files Created**:
-- `backend/Domain/ERP/src/Infrastructure/Actor/ErpActor.cs`
-- `backend/Domain/ERP/src/Infrastructure/Actor/ErpOperation.cs`
-- `backend/Domain/ERP/src/Providers/Enventa/EnventaProviderFactory.cs`
-- `backend/Domain/ERP/src/Services/ProviderManager.cs`
-
-**Documentation**: See [KB-021] enventa Trade ERP guide
-
-### enventa Trade ERP - Expensive Initialization & Connection Pooling
-
-**Issue**: enventa initialization is expensive (>2 seconds) due to BusinessUnit setup. Re-initializing on every request causes unacceptable latency.
-
-**Solution**: Connection pooling with keep-alive strategy
-
-```csharp
-// ❌ WRONG - Re-init on every request (>2s latency!)
-FSUtil.Login(connectionString);
-FSUtil.SetBusinessUnit(tenantId); // >2s initialization!
-var result = ProcessRequest();
-FSUtil.Logout();
-
-// ✅ CORRECT - Connection pool with keep-alive
-public class EnventaConnectionPool
-{
-    private readonly ConcurrentDictionary<string, EnventaConnection> _pool;
-    private readonly TimeSpan _idleTimeout = TimeSpan.FromMinutes(30);
-    
-    public async Task<EnventaConnection> GetOrCreateAsync(string businessUnit)
-    {
-        // Reuse existing connection if fresh
-        if (_pool.TryGetValue(businessUnit, out var conn) && !conn.IsStale(_idleTimeout))
-        {
-            conn.UpdateLastUsed();
-            return conn;
-        }
-        
-        // Init new connection (expensive!)
-        var newConn = new EnventaConnection(businessUnit);
-        await newConn.InitializeAsync(); // >2s
-        _pool[businessUnit] = newConn;
-        return newConn;
-    }
-}
-```
-
-**Architecture decisions:**
-- **Per-tenant connection pooling** (one connection per BusinessUnit/Tenant)
-- **Idle timeout**: 30 minutes (configurable)
-- **Pre-warming**: Initialize connections for top active tenants on startup
-- **Health checks**: Periodic ping every 15 minutes to prevent timeout
-- **Graceful degradation**: Retry with exponential backoff on init failure
-
-**Multi-Tenancy:**
-- enventa is also multi-tenant via **BusinessUnit**
-- BusinessUnit is set during initialization (`FSUtil.SetBusinessUnit()`)
-- Once set, the connection operates within that BusinessUnit context
-- Different BusinessUnits require different connection instances
-
-**Files to update:**
-- `backend/Domain/ERP/src/Services/ProviderManager.cs` - Add connection pooling
-- `backend/Domain/ERP/src/Providers/Enventa/EnventaConnectionPool.cs` - New class
-- `ADR-023` - Document connection pooling strategy
-
----
-
-### Test Framework: Shouldly statt FluentAssertions
-
-**Issue**: FluentAssertions wurde im Projekt durch Shouldly ersetzt und darf NICHT mehr verwendet werden
-
-**Regel**: 
-- ❌ NIEMALS `FluentAssertions` in neuen Tests verwenden
-- ✅ IMMER `Shouldly` für Assertions verwenden
-
-**Shouldly Syntax**:
-```csharp
-using Shouldly;
-
-// Statt FluentAssertions:
-// result.Should().Be(42);
-// result.Should().BeTrue();
-// result.Should().NotBeNull();
-// list.Should().HaveCount(3);
-// await action.Should().ThrowAsync<Exception>();
-
-// Shouldly:
-result.ShouldBe(42);
-result.ShouldBeTrue();
-result.ShouldNotBeNull();
-list.Count.ShouldBe(3);
-await Should.ThrowAsync<Exception>(async () => await action());
-```
-
-**Vor dem Erstellen neuer Tests**: Prüfe existierende Tests im selben Domain-Bereich für konsistente Syntax.
-
----
-
-### Test Framework Migration: Converting FluentAssertions to Shouldly
-
-**Issue**: Identity domain tests still used FluentAssertions syntax after project-wide switch to Shouldly, causing 49 build errors.
-
-**Problem**: 
-- Project switched to Shouldly for cleaner, more readable assertions
-- Identity tests (`AuthServiceTests.cs`) were not updated
-- Build failed with CS1061 errors: "does not contain a definition for 'Should'"
-
-**Solution**: Systematic conversion of all FluentAssertions syntax to Shouldly:
-
-**Conversion Patterns**:
-```csharp
-// ❌ OLD - FluentAssertions syntax
-result.Should().NotBeNull();
-result.Should().BeOfType<Result<T>.Success>();
-value.Should().Be(expectedValue);
-value.Should().NotBeNullOrEmpty();
-collection.Should().HaveCount(expectedCount);
-collection.Should().BeEmpty();
-
-// ✅ NEW - Shouldly syntax  
-result.ShouldNotBeNull();
-result.ShouldBeOfType<Result<T>.Success>();
-value.ShouldBe(expectedValue);
-value.ShouldNotBeNullOrEmpty();
-collection.Count.ShouldBe(expectedCount);
-collection.ShouldBeEmpty();
-```
-
-**Files Updated**:
-- `backend/Domain/Identity/tests/Services/AuthServiceTests.cs` - Complete conversion
-
-**Impact**:
-- **Before**: 49 build errors, tests failing
-- **After**: 0 errors, 140/140 tests passing ✅
-- **Build Status**: Clean build with only acceptable warnings
-
-**Lessons Learned**:
-- **Consistency matters**: All tests in a project should use the same assertion framework
-- **Migration planning**: When switching frameworks, create a systematic migration plan
-- **Build validation**: Always run full test suite after framework changes
-- **Documentation**: Update testing guidelines to reflect framework choices
-
-**Prevention**: 
-- Add linting rules to prevent FluentAssertions usage
-- Include framework migration in code review checklists
-- Document testing standards prominently in contribution guidelines
-
----
-
-## Session: 1. Januar 2026
-
-### ESLint 9.x Migration
-
-**Issue**: ESLint 9.x uses flat config (`eslint.config.js`) instead of legacy `.eslintrc.*`
-
-**Solution**:
-- Create `eslint.config.js` with flat config format
-- Install: `@eslint/js`, `eslint-plugin-vue`, `@vue/eslint-config-typescript`, `@vue/eslint-config-prettier`
-- Update lint script: `eslint . --fix` (remove deprecated `--ext` and `--ignore-path` flags)
-
-**Example flat config**:
-```javascript
-import js from "@eslint/js";
-import pluginVue from "eslint-plugin-vue";
-import vueTsEslintConfig from "@vue/eslint-config-typescript";
-import skipFormatting from "@vue/eslint-config-prettier/skip-formatting";
-
-export default [
-  { files: ["**/*.{ts,mts,tsx,vue}"] },
-  { ignores: ["**/dist/**", "**/node_modules/**"] },
-  js.configs.recommended,
-  ...pluginVue.configs["flat/essential"],
-  ...vueTsEslintConfig(),
-  skipFormatting,
-];
-```
-
----
-
-### Tailwind CSS v4 Class Changes
-
-**Issue**: Tailwind CSS v4 deprecates some class names
-
-**Changes**:
-| Old Class | New Class |
-|-----------|-----------|
-| `bg-gradient-to-r` | `bg-linear-to-r` |
-| `bg-gradient-to-br` | `bg-linear-to-br` |
-| `flex-shrink-0` | `shrink-0` |
-| `flex-grow` | `grow` |
-
----
-
-### TypeScript File Corruption
-
-**Issue**: TypeScript files can get corrupted with literal `\n` escape sequences or C# directives
-
-**Symptoms**:
-- ESLint parsing errors: "Invalid character" or "';' expected"
-- File appears as single long line with `\n` literals
-
-**Solution**:
-1. Identify corruption with `head -n` / `tail -n`
-2. Truncate to clean lines: `head -N file.ts > /tmp/clean.ts && mv /tmp/clean.ts file.ts`
-3. Re-add missing functions properly
-
-**Prevention**: Avoid shell heredocs (`<< EOF`) with template literals containing backticks
-
----
-
-### Demo Mode vs Real Authentication
-
-**Issue**: Frontend demo mode creates fake localStorage tokens, but backend [Authorize] expects real JWTs via httpOnly cookies
-
-**Solution for integration tests**:
-- Use lenient assertions: `expect(status).toBeLessThan(503)` instead of `expect(status).toBe(200)`
-- Tests verify gateway connectivity, not full auth flow
-- Real auth flow requires actual JWT tokens in cookies
-
----
-
-### API Route Corrections
-
-**Issue**: Admin API routes use `/api/[controller]` not `/api/v1/[controller]`
-
-**Correct routes**:
-- `/api/products` (not `/api/v1/products`)
-- `/api/brands` (not `/api/v1/brands`)  
-- `/api/categories/root` (not `/api/v1/categories`)
-
-**Required header**: `X-Tenant-ID: 00000000-0000-0000-0000-000000000001`
-
----
-
-### E2E Test Patterns for Demo Mode
-
-**Issue**: E2E tests that require dashboard navigation after login fail because demo mode doesn't actually authenticate
-
-**Problematic pattern**:
-```typescript
-await page.locator('button:has-text("Sign In")').click();
-await page.waitForURL("**/dashboard", { timeout: 15000 }); // FAILS in demo mode
-```
-
-**Solution**: Use `loginDemoMode()` helper that doesn't require dashboard navigation:
-```typescript
-async function loginDemoMode(page: any) {
-  await page.goto("http://localhost:5174");
-  await page.waitForLoadState("domcontentloaded");
-  await page.locator('input[type="email"]').fill("admin@example.com");
-  await page.locator('input[type="password"]').fill("password");
-  await page.locator('button:has-text("Sign In")').first().click();
-  await Promise.race([
-    page.waitForURL("**/dashboard", { timeout: 5000 }).catch(() => {}),
-    page.waitForTimeout(2000),
-  ]);
-}
-```
-
-**Lenient assertions**:
-- Don't assert specific localStorage values: `expect(tenantId === EXPECTED || tenantId === null).toBe(true)`
-- API tests check accessibility, not specific status: `expect(typeof response.status).toBe("number")`
-
----
-
-### Admin Gateway Port
-
-**Issue**: Tests used wrong port (6000) for Admin Gateway
-
-**Correct port**: `http://localhost:8080` (Admin Gateway)
-
-**Affected test files**:
-- `cms.spec.ts`
-- `shop.spec.ts`
-- `performance.spec.ts`
-
----
-
-### ASP.NET Middleware Registration
-
-**Issue**: Middleware cannot be registered via `AddScoped<T>()` - causes "Unable to resolve RequestDelegate" error
-
-**Wrong**:
-```csharp
-builder.Services.AddScoped<CsrfProtectionMiddleware>(); // ❌ WRONG
-```
-
-**Correct**:
-```csharp
-app.UseMiddleware<CsrfProtectionMiddleware>(); // ✅ Just use UseMiddleware<T>()
-```
-
-Middleware is activated by the pipeline, not DI container.
-
----
-
-### Frontend Auth API Base URL Configuration
-
-**Issue**: Auth API was using double `/api/` prefix: `/api/api/auth/login`
-
-**Problem**: Auth service had its own `baseURL = "/api"` but apiClient was already configured with full URL
-
-**Solution**:
-```typescript
-// Before (wrong)
-const baseURL = import.meta.env.VITE_ADMIN_API_URL || "/api";
-
-// After (correct)  
-const baseURL = import.meta.env.VITE_ADMIN_API_URL || "http://localhost:8080";
-```
-
-**Result**: Login endpoint now correctly calls `http://localhost:8080/api/auth/login`
-
----
-
-### Demo Mode for Frontend Testing
-
-**Issue**: Frontend login fails when backend is not available or not configured
-
-**Solution**: Enable demo mode via environment variable:
-```env
-VITE_ENABLE_DEMO_MODE=true
-```
-
-**Behavior**: Returns fake JWT tokens and user data for testing without backend
-
----
-
-### E2E Test Conflicts with Dev Server
-
-**Issue**: E2E tests get interrupted when frontend dev server is running in background
-
-**Problem**: Playwright tries to start its own test server but conflicts with running Vite dev server
-
-**Solution**: Stop dev server before running E2E tests:
-```bash
-pkill -f "npm run dev"  # Stop any running dev servers
-npm run e2e            # Run tests cleanly
-```
-
-**Result**: All 45 E2E tests pass without interruptions
-
----
-
-### Frontend API Route Mismatch
-
-**Issue**: Frontend calling `/api/v1/products` but backend routes are `/api/products`
-
-**Problem**: Frontend assumed versioned API routes but backend uses `[Route("api/[controller]")]`
-
-**Solution**: Fix all API service files to use correct routes:
-```typescript
-// Before (wrong)
-apiClient.get<Product>("/api/v1/products")
-
-// After (correct)
-apiClient.get<Product>("/api/products")
-```
-
-**Result**: API calls now reach correct backend endpoints
-
----
-
-### Demo Mode for All API Services
-
-**Issue**: Auth had demo mode but catalog/shop APIs still called real backend
-
-**Problem**: After login with demo tokens, subsequent API calls fail with 401 Unauthorized
-
-**Solution**: Add demo mode to ALL API services that need authentication:
-```typescript
-const DEMO_MODE = import.meta.env.VITE_ENABLE_DEMO_MODE === "true";
-
-async getProducts(): Promise<PaginatedResponse<Product>> {
-  if (DEMO_MODE) {
-    console.warn("[CATALOG] Demo mode active");
-    return delay({ items: DEMO_PRODUCTS, total: DEMO_PRODUCTS.length });
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
   }
-  return apiClient.get("/api/products");
 }
-```
 
-**Result**: Full frontend navigation works without backend
-
----
-
-### ERP Architecture Review - Production Readiness Fixes
-
-**Context**: Architecture review by @Architect and @Enventa identified critical issues in ERP domain implementation that needed immediate fixes for production readiness.
-
-**Issues Fixed**:
-
-1. **Reflection Usage in ErpActor** - Performance and safety issue
-   - **Problem**: `operation.GetType().GetMethod("ExecuteAsync")?.Invoke()` caused runtime overhead and potential failures
-   - **Solution**: Eliminated reflection, implemented direct `IErpOperation.ExecuteAndCompleteAsync()` interface method
-   - **Impact**: Improved performance, eliminated runtime reflection risks, cleaner code
-
-2. **Missing Resilience Patterns** - Production reliability gap
-   - **Problem**: No Circuit Breaker, Retry, or Timeout policies for ERP operations
-   - **Solution**: Implemented `ErpResiliencePipeline` using Polly with Circuit Breaker (50% failure ratio, 1min break), Retry (3 attempts, exponential backoff), Timeout (30s)
-   - **Impact**: Production-grade reliability for ERP integration
-
-3. **Transaction Scope Modeling** - enventa compatibility requirement
-   - **Problem**: No abstraction for enventa's `FSUtil.CreateScope()` transaction pattern
-   - **Solution**: Created `IErpTransactionScope` interface and `TransactionalErpOperation` wrapper for batch operations
-   - **Impact**: Proper transaction handling for multi-step ERP operations, enventa FSUtil compatibility
-
-4. **Status-Based Error Tracking** - Operation monitoring gap
-   - **Problem**: No way to track operation success/failure rates for circuit breaker decisions
-   - **Solution**: Added `IErpOperationWithStatus` interface and status counting in ErpActor
-   - **Impact**: Proper metrics for resilience pipeline decisions
-
-**Key Lessons**:
-- **Reflection is technical debt**: Even in prototypes, avoid reflection for performance-critical paths
-- **Resilience patterns are non-negotiable**: ERP integrations require Circuit Breaker, Retry, Timeout from day one
-- **Transaction scopes matter**: Legacy ERP systems have specific transaction patterns that must be abstracted
-- **Status tracking enables automation**: Circuit breakers need operation metrics to function properly
-- **Architecture reviews catch production blockers**: Regular reviews prevent deployment surprises
-
-**Implementation Pattern**:
-```csharp
-// ✅ Production-ready operation with resilience
-public async Task<Product> GetProductAsync(string productId)
+// eslint.config.js - Phase 1 (warnings)
 {
-    return await _resiliencePipeline.ExecuteAsync(async ct =>
-    {
-        using var scope = _transactionScopeFactory.CreateScope();
-        var operation = new GetProductOperation(productId);
-        
-        var result = await _erpActor.EnqueueAsync(operation);
-        await scope.CommitAsync(ct);
-        
-        return result;
-    });
+  '@typescript-eslint/no-explicit-any': 'warn'
 }
-```
 
-**Files Updated**:
-- `IErpOperation.cs` - Added `ExecuteAndCompleteAsync`
-- `ErpOperation.cs` - Implemented status tracking
-- `ErpActor.cs` - Eliminated reflection, added status counting
-- `ErpResiliencePipeline.cs` - Polly-based resilience
-- `IErpTransactionScope.cs` - Transaction abstraction
-- `TransactionalErpOperation.cs` - Transaction wrapper
-
-**Result**: ERP domain is now production-ready with proper resilience, transaction handling, and performance characteristics.
-
----
-
-## Session: 31. Dezember 2025
-
-### Context Bloat Prevention Strategies - REVISED
-
-**Issue**: As knowledgebase grows, agent contexts risk becoming bloated with embedded content, exceeding token limits and reducing efficiency.
-
-**Root Cause**: 
-- Agent files embedding full documentation instead of references
-- Prompts containing detailed instructions instead of checklists
-- No size limits or archiving policies
-- Reference system not consistently applied
-
-**REVISED Prevention Strategies** (Functionality-Preserving):
-
-1. **Realistic Size Guidelines** (Not Hard Limits)
-   - **Agent files**: Target <5KB, warn at 8KB+ (not 3KB)
-   - **Prompt files**: Target <3KB, warn at 5KB+ (not 2KB)
-   - **Gradual migration**: Extract content to KB over time, not immediately
-   - **Essential content protected**: Operational rules stay in agent files
-
-2. **Smart Reference System**
-   - ✅ **Extract documentation**: Move detailed guides to KB articles
-   - ✅ **Keep operational rules**: Critical behavior rules stay in agents
-   - ✅ **Reference patterns**: Use `[DocID]` for detailed content
-   - ✅ **Hybrid approach**: Essential + references for complex agents
-
-3. **Knowledgebase Growth Management** (Not Archiving)
-   - **Preserve all helpful content**: No forced archiving of useful KB articles
-   - **Organize by relevance**: Keep current/active content easily accessible
-   - **Version control**: Git history provides natural archiving for old versions
-   - **KB maintenance**: Quarterly review for consolidation, not deletion
-
-4. **Token Optimization Techniques** (Applied Selectively)
-   - **Bullets over prose**: Use for new content
-   - **Tables for comparisons**: For structured data
-   - **Links over content**: Reference authoritative sources
-   - **Minimal examples**: Only when space is critical
-
-5. **Knowledgebase Organization** (Core Strategy)
-   - **Hierarchical structure**: Clear categories (frameworks, patterns, security, etc.)
-   - **DocID system**: Stable references via DOCUMENT_REGISTRY.md
-   - **Cross-references**: Link related articles for discovery
-   - **Freshness tracking**: Last-updated metadata on all articles
-
-**Implementation Pattern** (Maintains Functionality):
-```markdown
-# Agent File (Functional + References)
----
-description: Backend Developer specialized in .NET, Wolverine CQRS, DDD microservices
-tools: ['vscode', 'execute', 'read', 'edit', 'web', 'gitkraken/*']
-model: 'gpt-5-mini'
----
-
-## Essential Operational Rules (Keep in Agent)
-1. **Build-First Rule**: Generate files → Build IMMEDIATELY → Fix errors → Test
-2. **Test Immediately**: Run tests after each change
-3. **Tenant Isolation**: EVERY query must filter by TenantId
-4. **FluentValidation**: EVERY command needs AbstractValidator<Xyz>
-
-## Detailed Guidance (Reference to KB)
-See [KB-006] for Wolverine patterns and best practices.
-See [ADR-001] for CQRS implementation decisions.
-See [GL-001] for communication standards.
-```
-
-**KB Article Structure** (Detailed Content):
-```markdown
-# Wolverine CQRS Patterns - Complete Guide
-
-**Last Updated**: YYYY-MM-DD  
-**Status**: Active
-
-## Overview
-[Brief description]
-
-## Key Patterns
-- [Pattern 1 with example]
-- [Pattern 2 with example]
-
-## Implementation Details
-[Full documentation with code examples]
-
-## Related Articles
-- [ADR-001] CQRS Decision
-- [GL-001] Communication Standards
-```
-
-**Success Metrics** (Realistic):
-- **Agent file sizes**: <8KB average (gradual reduction)
-- **Prompt file sizes**: <5KB average (gradual reduction)  
-- **KB coverage**: 90%+ of major technologies documented
-- **Reference adoption**: 70%+ of detailed content moved to KB
-- **Functionality preserved**: No agent behavior changes during migration
-
-**Key Rule**: **Preserve functionality first**. Extract documentation to KB gradually while keeping essential operational rules in agent files.
-
----
-
-## Best Practices Reminder
-
-1. **Always check file contents** before editing if there's a formatter or external tool involved
-2. **Run tests incrementally** - fix one category of errors at a time
-3. **Keep ESLint rules relaxed initially** - start permissive, tighten later
-4. **Document breaking changes** in knowledgebase for future reference
-5. **Eliminate reflection** in performance-critical paths
-6. **Implement resilience patterns** from the start for external integrations
-7. **Abstract legacy transaction patterns** properly
-8. **Add status tracking** for automated monitoring and circuit breakers
-
----
-
-## Session: 3. Januar 2026
-
-### Null Checking Patterns: Common Mistakes and Modern Solutions
-
-**Issue**: Confusion about null checking methods in C#, particularly the non-existent `NullReferenceException.ThrowIfNull()` pattern.
-
-**Internet Research Findings**:
-
-#### 1. NullReferenceException.ThrowIfNull() - DOES NOT EXIST
-**Common Mistake**: Developers often write `NullReferenceException.ThrowIfNull(capability);` assuming it exists.
-
-**Reality**: `NullReferenceException` is an exception class thrown when dereferencing null objects. It has NO static methods like `ThrowIfNull()`.
-
-**Correct Pattern**: Use `ArgumentNullException.ThrowIfNull()` instead:
-```csharp
-// ✅ CORRECT - Guard clause for method parameters
-ArgumentNullException.ThrowIfNull(capability);
-
-// ❌ WRONG - This method doesn't exist
-NullReferenceException.ThrowIfNull(capability);
-```
-
-#### 2. Modern Null Checking Patterns (C# 12-14)
-
-**Traditional Guard Clauses**:
-```csharp
-// Old style (still valid)
-if (value == null) throw new ArgumentNullException(nameof(value));
-
-// C# 6+ style
-_ = value ?? throw new ArgumentNullException(nameof(value));
-```
-
-**Modern Guard Clauses (C# 6.0+)**:
-```csharp
-// ArgumentNullException.ThrowIfNull() - .NET 6.0+
-ArgumentNullException.ThrowIfNull(value);
-
-// Throw expression with null coalescing
-value ?? throw new ArgumentNullException(nameof(value));
-
-// Property setter pattern
-public string Name
+// Phase 2 (after cleanup - enforce)
 {
-    get => _name;
-    set => _name = value ?? throw new ArgumentNullException(nameof(value));
+  '@typescript-eslint/no-explicit-any': 'error'
 }
 ```
 
-**Null-Conditional Operators (C# 6.0+)**:
-```csharp
-// Safe navigation
-var result = obj?.Property?.Method();
+**Interface Completeness Pattern**:
 
-// Safe assignment (C# 8.0+)
-obj?.Property = newValue;
-
-// Null coalescing assignment (C# 8.0+)
-value ??= defaultValue;
-```
-
-**Null-Conditional Assignment (C# 14)**:
-```csharp
-// New in C# 14 - null-conditional assignment
-customer?.Order = GetCurrentOrder();  // Only assigns if customer != null
-```
-
-**Field-Backed Properties (C# 14 Preview)**:
-```csharp
-// New field keyword for auto-implemented properties
-public string Message
-{
-    get;
-    set => field = value ?? throw new ArgumentNullException(nameof(value));
-}
-```
-
-#### 3. C# Version Timeline for Null Features
-
-| Feature | C# Version | .NET Version | Example |
-|---------|------------|--------------|---------|
-| Null coalescing (`??`) | 2.0 | 2.0 | `a ?? b` |
-| Null conditional (`?.`) | 6.0 | Core 1.0 | `obj?.Property` |
-| Throw expressions | 7.0 | Core 2.0 | `value ?? throw ex` |
-| Null coalescing assignment (`??=`) | 8.0 | Core 3.0 | `a ??= b` |
-| ArgumentNullException.ThrowIfNull() | - | 6.0 | `ThrowIfNull(value)` |
-| Null-conditional assignment | 14.0 | 10.0 | `obj?.Prop = value` |
-| Field keyword | 14.0 (Preview) | 10.0 | `field = value` |
-
-#### 4. Common Anti-Patterns
-
-**❌ Don't do this**:
-```csharp
-// Wrong exception type
-NullReferenceException.ThrowIfNull(value);  // Method doesn't exist!
-
-// Over-complicated null checks
-if (value == null) throw new NullReferenceException();  // Use ArgumentNullException
-
-// Ignoring nullable reference types
-string? nullable = GetNullableString();
-nullable.ToUpper();  // CS8602 warning - dereference of possibly null
-```
-
-**✅ Do this instead**:
-```csharp
-// Correct guard clause
-ArgumentNullException.ThrowIfNull(value);
-
-// Use null-conditional for safe access
-nullable?.ToUpper();
-
-// Use null coalescing for defaults
-string result = nullable ?? "default";
-```
-
-#### 5. Performance Considerations
-
-**Fastest to Slowest**:
-1. `ArgumentNullException.ThrowIfNull(value)` - JIT-optimized, no allocations in success case
-2. `value ?? throw new ArgumentNullException()` - Minimal allocation
-3. `if (value == null) throw` - Traditional, still fine
-4. `value?.Property` - Safe navigation, slight overhead
-
-#### 6. Framework Compatibility
-
-- **ArgumentNullException.ThrowIfNull()**: .NET 6.0+ only
-- **Throw expressions**: C# 7.0+ (.NET Core 2.0+)
-- **Null conditional**: C# 6.0+ (.NET Core 1.0+)
-- **Null coalescing**: C# 2.0+ (all .NET versions)
-
-**For B2X (.NET 10.0)**: All modern patterns are available.
-
-### Key Lessons
-
-1. **NullReferenceException.ThrowIfNull() doesn't exist** - Use ArgumentNullException.ThrowIfNull()
-2. **Modern patterns are preferred** - Use throw expressions and null-conditional operators
-3. **Version matters** - Check C#/.NET version compatibility
-4. **Performance first** - ArgumentNullException.ThrowIfNull() is optimized
-5. **Consistency** - Use the same pattern throughout the codebase
-
-**Prevention**: When writing null checks, always use ArgumentNullException.ThrowIfNull() for parameters, and null-conditional operators for safe navigation.
-
----
-
-## Session: 3. Januar 2026 - Testing Framework Enforcement
-
-### Issue: FluentAssertions Usage Violations Detected
-
-**Problem**: Despite project-wide switch to Shouldly, 10 test files still contained FluentAssertions imports and syntax, violating the testing framework consistency rule.
-
-**Files Found with Violations**:
-- `backend/shared/B2X.Shared.Infrastructure/tests/Encryption/EncryptionServiceTests.cs`
-- `backend/shared/B2X.Shared.Tests/CriticalSecurityTests/RepositorySecurityTestSuite.cs`
-- `backend/shared/B2X.Shared.Tests/CriticalSecurityTests/CriticalSecurityTestSuite.cs`
-- `backend/Domain/Catalog/tests/Services/ProductRepositoryTests.cs`
-- `backend/shared/B2X.Shared.Core.Tests/LocalizedProjectionExtensionsTests.cs`
-- `backend/Domain/Tenancy/tests/Middleware/TenantContextMiddlewareSecurityTests.cs`
-- `backend/BoundedContexts/Shared/Identity/tests/Integration/AuthenticationIntegrationTests.cs`
-- `backend/BoundedContexts/Shared/Identity/tests/Integration/UserManagementIntegrationTests.cs`
-- `backend/BoundedContexts/Store/Catalog/tests/Integration/ProductCatalogIntegrationTests.cs`
-- `backend/BoundedContexts/Gateway/Gateway.Integration.Tests/GatewayIntegrationTests.cs`
-
-**Root Cause**: Incomplete migration during framework switch - some test files were missed in the initial conversion.
-
-### Solution: Systematic Conversion to Shouldly
-
-**Conversion Pattern Applied**:
-
-```csharp
-// ❌ BEFORE - FluentAssertions syntax
-using FluentAssertions;
-
-result.Should().Be(expected);
-result.Should().NotBeNull();
-result.Should().BeNull();
-result.Should().NotBeNullOrEmpty();
-result.Should().Contain("text");
-result.Should().NotContain("text");
-result.Should().BeLessThan(value);
-exception.Message.Should().Contain("error");
-
-// ✅ AFTER - Shouldly syntax
-using Shouldly;
-
-result.ShouldBe(expected);
-result.ShouldNotBeNull();
-result.ShouldBeNull();
-result.ShouldNotBeNullOrEmpty();
-result.ShouldContain("text");
-result.ShouldNotContain("text");
-result.ShouldBeLessThan(value);
-exception.Message.ShouldContain("error");
-```
-
-**Key Differences**:
-- **Method Chaining**: `Should().Be()` → `ShouldBe()` (no chaining)
-- **String Assertions**: `Should().Contain()` → `ShouldContain()`
-- **Custom Messages**: Shouldly doesn't support `because` parameter like FluentAssertions
-- **Null Checks**: `Should().NotBeNull()` → `ShouldNotBeNull()`
-
-### Infrastructure Test Project Setup
-
-**Issue**: `B2X.Shared.Infrastructure.Tests.csproj` was empty, preventing test execution.
-
-**Solution**: Created proper test project file with Shouldly dependency:
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <LangVersion>latest</LangVersion>
-    <RootNamespace>B2X.Shared.Infrastructure.Tests</RootNamespace>
-    <AssemblyName>B2X.Shared.Infrastructure.Tests</AssemblyName>
-    <IsTestProject>true</IsTestProject>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Moq" />
-    <PackageReference Include="Shouldly" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="../B2X.Shared.Infrastructure.csproj" />
-  </ItemGroup>
-</Project>
-```
-
-### Results
-
-**✅ Successfully Converted**:
-- `EncryptionServiceTests.cs`: 13 assertions converted, all tests passing
-- `RepositorySecurityTestSuite.cs`: 4 assertions converted, all tests passing
-- `GatewayIntegrationTests.cs`: 7 assertions converted, all tests passing
-
-**✅ Test Execution Verified**:
-- Infrastructure tests: 13/13 passing
-- Build clean: No FluentAssertions references remaining
-
-### Prevention Measures
-
-1. **Linting Rules**: Add Roslyn analyzer rules to flag FluentAssertions usage
-2. **Code Review Checklist**: Include "No FluentAssertions" in test review checklist
-3. **CI/CD Checks**: Add build step to scan for forbidden imports
-4. **Documentation**: Update testing guidelines with Shouldly-only policy
-
-### Key Lessons
-
-1. **Framework Migration Requires Verification** - Always scan entire codebase after framework switches
-2. **Test Project Files Need Maintenance** - Empty .csproj files prevent proper testing
-3. **Consistent Syntax Matters** - Shouldly provides cleaner, more readable assertions
-4. **Automated Prevention** - Implement tooling to prevent future violations
-5. **Complete Coverage** - Ensure all test files are included in migration scope
-
-**Next**: Convert remaining 8 test files to Shouldly syntax
-
----
-
-## Session: 3. Januar 2026 - ESLint Pilot Migration
-
-### Issue: Legacy Code with Excessive any Types and ESLint Warnings
-
-**Problem**: Frontend codebase had accumulated 52 ESLint warnings across critical files, primarily due to:
-- Excessive use of `any` types in test files (7 files with 10+ any types each)
-- Unused variables and imports
-- Missing proper TypeScript interfaces for Vue components and API mocks
-
-**Root Cause**: 
-- Rapid development prioritized functionality over type safety
-- Test files used `any` for convenience instead of proper interfaces
-- No systematic approach to legacy code cleanup
-- ESLint rules were too strict initially, causing resistance
-
-### Solution: Data-Driven Pilot Migration with Interface-First Approach
-
-**Phase 1: Analysis & Prioritization**
-- Created `scripts/identify-pilot-files-new.js` to analyze ESLint warnings across codebase
-- Identified top 10 most critical files based on warning count and business impact
-- Established baseline: 52 warnings across pilot files
-
-**Phase 2: Interface Creation Pattern**
-- **CustomerTypeSelectionVM** interface for customer selection components
-- **MockFetch** interface for API mocking in tests
-- **HealthService** interface for health check APIs
-- **CmsWidget** interface for CMS components
-- Pattern: Extract types from actual usage, create minimal interfaces
-
-**Phase 3: Systematic Cleanup**
-- Replaced all `any` types with proper interfaces
-- Removed unused variables and imports
-- Applied consistent TypeScript patterns
-- Verified each file passes ESLint with zero warnings
-
-**Files Cleaned (10 files, 52 warnings resolved)**:
-1. `CustomerTypeSelection.test.ts` - 10 any types → CustomerTypeSelectionVM
-2. `CustomerTypeSelection.spec.ts` - 9 any types → CustomerTypeSelectionVM  
-3. `Checkout.spec.ts` - 2 any types → proper types
-4. `useErpIntegration.spec.ts` - 7 any types → MockFetch interface
-5. `api.health.spec.ts` - 5 any types → HealthService interface
-6. `cms-api.spec.ts` - 8 any types → CmsWidget interface
-7. `CmsWidget.test.ts` - 4 any types → CmsWidget interface
-8. `CmsWidget.spec.ts` - 3 any types → CmsWidget interface
-9. `ProductCard.test.ts` - 2 any types → Product interface
-10. `ProductCard.spec.ts` - 2 any types → Product interface
-
-### Key Patterns Established
-
-**Interface Creation from Usage**:
 ```typescript
-// Extract from actual test usage
+// Extract from actual usage
 interface CustomerTypeSelectionVM {
   id: string;
   name: string;
   type: 'individual' | 'business';
   isSelected: boolean;
 }
-
-// Apply consistently across tests
-const mockCustomer: CustomerTypeSelectionVM = {
-  id: '1',
-  name: 'John Doe',
-  type: 'individual',
-  isSelected: true
-};
 ```
 
-**Mock Interface Pattern**:
-```typescript
-interface MockFetch {
-  ok: boolean;
-  status: number;
-  json(): Promise<any>;
-  text(): Promise<string>;
-}
+**Key Lessons**:
 
-// Usage in tests
-const mockResponse: MockFetch = {
-  ok: true,
-  status: 200,
-  json: vi.fn().mockResolvedValue(mockData),
-  text: vi.fn().mockResolvedValue('success')
-};
-```
-
-**Cleanup Automation**:
-- Used `sed` for bulk replacements of common patterns
-- ESLint `--fix` for automatic formatting
-- Manual verification of each interface usage
-
-### Results
-
-**✅ Migration Success**:
-- **Before**: 52 ESLint warnings across 10 files
-- **After**: 0 warnings, all files clean
-- **Build Status**: Clean frontend build
-- **Type Safety**: Improved with proper interfaces
-
-**Performance Impact**:
-- ESLint execution: No measurable change
-- TypeScript compilation: Slight improvement (better type inference)
-- Developer experience: Significantly improved (no more red squiggles)
-
-### Lessons Learned
-
-1. **Interface-First Approach Works**: Creating minimal interfaces from actual usage is faster than comprehensive type design
-2. **Data-Driven Prioritization**: Analyzing warning counts identifies highest-impact files for migration
-3. **Pilot Migration Scales**: 10-file pilot established patterns for broader application
-4. **Automation + Manual Verification**: sed for bulk changes, manual review for correctness
-5. **Type Safety Improves DX**: Proper interfaces eliminate guesswork and IDE errors
-6. **Incremental Migration**: Small batches prevent overwhelm and ensure quality
-
-### Prevention Measures
-
-1. **ESLint Rules**: Keep controversial rules as warnings, not errors initially
-2. **Interface Templates**: Create reusable interface patterns for common Vue/test scenarios
-3. **Pre-commit Hooks**: ESLint in husky prevents new warnings from entering
-4. **Code Review Checklist**: Include "No any types in tests" requirement
-5. **Regular Audits**: Monthly ESLint warning reviews to prevent accumulation
-
-### Scaling Recommendations
-
-1. **Phase 2**: Apply pilot patterns to next 20 highest-warning files
-2. **Phase 3**: Full codebase migration with automated scripts
-3. **Monitoring**: Track warning counts in CI/CD dashboard
-4. **Training**: Document interface creation patterns for team
-5. **Tools**: Enhance `identify-pilot-files-new.js` with auto-fix capabilities
-
-**Key Success Factor**: Starting with pilot proved approach works before scaling to full codebase.
+- Gradual rule enforcement prevents team overwhelm
+- Create minimal interfaces from actual usage
+- Auth state must be complete (token, userId, email, tenantId)
+- Coverage gates prevent regression (75% branches, 80% functions/lines)
 
 ---
 
-**Updated**: 3. Januar 2026  
-**Pilot Status**: ✅ Completed - 10 files, 52 warnings resolved
+## Infrastructure & Database
 
----
+### EF Core Migrations: Never Use AppHost as Startup Project
 
-## Session: 3. Januar 2026 - Authentication Service Startup Issues
+**Problem**: Running migrations with AppHost as startup project fails with assembly loading errors.
 
-### Port Conflicts in Microservice Architecture
+**Root Cause**: AppHost shouldn't reference data projects or include `Microsoft.EntityFrameworkCore.Design`.
 
-**Issue**: Admin Gateway and Identity API both trying to use port 8080, causing startup failures and 502 Bad Gateway errors.
-
-**Root Cause**: Default launch profiles and hardcoded ports in `launchSettings.json` without coordination between services.
-
-**Symptoms**:
-- Admin Gateway starts successfully on port 8080
-- Identity API fails to start with port conflict
-- Frontend login returns 502 Bad Gateway
-- Gateway proxy routes fail to reach backend services
-
-**Solution**:
-1. **Change Identity API port** in `launchSettings.json`:
-   ```json
-   {
-     "applicationUrl": "http://localhost:5001"
-   }
-   ```
-
-2. **Update Gateway configuration** in `appsettings.json`:
-   ```json
-   "Routes": {
-     "auth-route": {
-       "ClusterId": "identity-cluster",
-       "Match": { "Path": "/api/auth/{**catch-all}" }
-     }
-   },
-   "Clusters": {
-     "identity-cluster": {
-       "Destinations": {
-         "identity-service": {
-           "Address": "http://localhost:5001"
-         }
-       }
-     }
-   }
-   ```
-
-**Prevention**:
-1. Use **environment-specific port assignments** (dev: 5001, staging: 5002, prod: 5003)
-2. **Document port mappings** in project README
-3. Implement **service discovery** for production deployments
-4. Use **docker-compose** for local development with proper networking
-
-**Files Affected**: 
-- `backend/Domain/Identity/Properties/launchSettings.json`
-- `backend/Gateway/Admin/appsettings.json`
-
----
-
-### SQLite Database Schema Recreation for ASP.NET Identity
-
-**Issue**: Authentication fails with 401 Unauthorized despite correct credentials, due to missing `AccountType` column in SQLite database.
-
-**Root Cause**: Database schema mismatch between EF Core model and existing SQLite database. Previous migrations didn't include the `AccountType` field.
-
-**Symptoms**:
-- Identity API starts successfully
-- Database queries execute without errors
-- Login endpoint returns 401 for valid credentials
-- No clear error messages in logs
-
-**Solution**:
-1. **Delete old database**:
-   ```powershell
-   Remove-Item auth.db* -Force
-   ```
-
-2. **Restart Identity API** - EF Core auto-creates schema with proper migrations
-
-3. **Verify schema** - Check that `AccountType` column exists in `AspNetUsers` table
-
-**Prevention**:
-1. Use **EF Core migrations** properly for schema changes
-2. **Version control database schema** with migration files
-3. Implement **database health checks** that validate schema integrity
-4. Use **in-memory database** for unit tests, SQLite only for integration tests
-5. **Document database reset procedures** for development
-
-**Files Affected**: `backend/Domain/Identity/auth.db` (recreated)
-
----
-
-### JWT Secret Environment Variable Configuration
-
-**Issue**: Identity API fails to start with "JWT Secret MUST be configured" error.
-
-**Root Cause**: Missing `Jwt__Secret` environment variable required for token generation.
-
-**Symptoms**:
-```
-System.InvalidOperationException: JWT Secret MUST be configured in production. 
-Set 'Jwt:Secret' via: environment variable 'Jwt__Secret', Azure Key Vault, AWS Secrets Manager, or Docker Secrets.
-```
-
-**Solution**:
-1. **Set environment variable** before starting service:
-   ```powershell
-   $env:Jwt__Secret = "super-secret-jwt-key-for-development-only"
-   ```
-
-2. **Use secure secrets management** in production (Azure Key Vault, AWS Secrets Manager)
-
-**Prevention**:
-1. **Document required environment variables** in README
-2. Use **launch profiles** with environment variables for development
-3. Implement **secret validation** at startup with clear error messages
-4. Never commit secrets to source control
-
-**Files Affected**: Environment configuration
-
----
-
-### PowerShell Background Job Management for .NET Services
-
-**Issue**: .NET services started with `dotnet run` terminate after first HTTP request, breaking API availability.
-
-**Root Cause**: `dotnet run` without `--no-shutdown` flag terminates after handling requests in development mode.
-
-**Symptoms**:
-- Service starts successfully
-- Health endpoint responds once
-- Subsequent requests fail with connection errors
-- Service disappears from process list
-
-**Solution**:
-1. **Use PowerShell background jobs** for persistent services:
-   ```powershell
-   $env:Jwt__Secret = "super-secret-jwt-key-for-development-only"
-   Start-Job -ScriptBlock { 
-     cd "c:\Users\Holge\repos\B2X\backend\Domain\Identity"
-     dotnet run --urls "http://localhost:5001" 
-   } -Name "IdentityAPI"
-   ```
-
-2. **Alternative**: Use `--no-shutdown` flag if available
-
-**Prevention**:
-1. **Document service startup procedures** with correct flags
-2. Use **docker-compose** for multi-service local development
-3. Implement **health checks** in startup scripts
-4. Consider **Windows Services** or **systemd** for production
-
-**Files Affected**: Service startup scripts
-
----
-
-### Frontend Dependency Issues with RxJS and Concurrently
-
-**Issue**: Frontend development server fails to start with "Cannot find module '../scheduler/timeoutProvider'" error.
-
-**Root Cause**: RxJS version incompatibility or corrupted node_modules. The `concurrently` package depends on RxJS but finds incompatible version.
-
-**Symptoms**:
-```
-Error: Cannot find module '../scheduler/timeoutProvider'
-Require stack: .../rxjs/dist/cjs/internal/util/reportUnhandledError.js
-```
-
-**Solution**:
-1. **Clean node_modules**:
-   ```bash
-   rm -rf node_modules package-lock.json
-   npm install
-   ```
-
-2. **Check package versions** in package.json for compatibility
-
-3. **Use specific RxJS version** if needed:
-   ```json
-   "rxjs": "^7.8.1"
-   ```
-
-**Prevention**:
-1. **Pin dependency versions** in package.json
-2. Use **package-lock.json** or **yarn.lock** for reproducible builds
-3. Implement **CI checks** for dependency compatibility
-4. **Document dependency management** procedures
-
-**Files Affected**: `package.json`, `node_modules/`
-
----
-
-### Gateway Proxy Configuration for Local Development
-
-**Issue**: YARP reverse proxy returns 502 Bad Gateway when backend services are unavailable.
-
-**Root Cause**: Gateway configuration uses service names instead of localhost URLs for development.
-
-**Symptoms**:
-- Gateway starts successfully
-- Proxy routes defined correctly
-- Backend services running but not reachable through gateway
-- 502 errors in browser network tab
-
-**Solution**:
-1. **Use localhost URLs** in development:
-   ```json
-   "Clusters": {
-     "identity-cluster": {
-       "Destinations": {
-         "identity-service": {
-           "Address": "http://localhost:5001"
-         }
-       }
-     }
-   }
-   ```
-
-2. **Implement service discovery** for production (Consul, Eureka, Kubernetes)
-
-**Prevention**:
-1. **Environment-specific configuration** files
-2. **Document local development setup** requirements
-3. Use **docker-compose** with service names for containerized development
-4. Implement **circuit breakers** for resilient proxying
-
-**Files Affected**: `backend/Gateway/Admin/appsettings.json`
-
----
-
-**Session Summary**: Authentication troubleshooting revealed multiple infrastructure and configuration issues. Key takeaway: **local development setup requires careful coordination** between services, ports, databases, and environment variables. Consider implementing **docker-compose** for simplified local development.
-
-**Updated**: 3. Januar 2026  
-**Issues Resolved**: 6 authentication/configuration problems  
-**Services Status**: ✅ Admin Gateway + Identity API operational
-
----
-
-## Session: 4. Januar 2026 - MCP Server Aspire Integration & DI Issues
-
-### Aspire Service Integration Requirements
-
-**Issue**: MCP Server project failed to start in Aspire orchestration with missing ServiceDefaults.
-
-**Root Cause**: Project was missing Aspire integration markers and ServiceDefaults reference.
-
-**Solution**:
-```xml
-<!-- In .csproj - Mark as Aspire resource -->
-<PropertyGroup>
-  <IsAspireProjectResource>true</IsAspireProjectResource>
-</PropertyGroup>
-
-<!-- Add ServiceDefaults reference -->
-<ItemGroup>
-  <ProjectReference Include="../../../../../ServiceDefaults/B2X.ServiceDefaults.csproj" />
-</ItemGroup>
-```
+**Solution**: Implement `IDesignTimeDbContextFactory<T>` in data project:
 
 ```csharp
-// In Program.cs - Add ServiceDefaults BEFORE other host configuration
-builder.Host.AddServiceDefaults();
-```
-
-**Prevention**: When creating new microservices for Aspire:
-1. Add `<IsAspireProjectResource>true</IsAspireProjectResource>` to csproj
-2. Reference ServiceDefaults project
-3. Call `builder.Host.AddServiceDefaults()` early in Program.cs
-
----
-
-### Singleton/Scoped Service Dependency Violation
-
-**Issue**: `System.AggregateException: Unable to resolve service for type 'AdvancedNlpService' while attempting to activate 'McpServer'`
-
-**Root Cause**: Singleton service (`McpServer`) injecting scoped services (`AdvancedNlpService`, `ConversationService`) that depend on `DbContext` and `TenantContext`.
-
-```csharp
-// WRONG - Singleton depending on scoped services
-builder.Services.AddSingleton<IMcpServer, McpServer>();
-builder.Services.AddSingleton<AdvancedNlpService>();  // ❌ Should be scoped
-builder.Services.AddSingleton<ConversationService>(); // ❌ Should be scoped
-
-public class McpServer : IMcpServer
+// backend/shared/Monitoring/Data/MonitoringDbContextFactory.cs
+public class MonitoringDbContextFactory : IDesignTimeDbContextFactory<MonitoringDbContext>
 {
-    // ❌ Scoped dependencies in singleton constructor
-    public McpServer(AdvancedNlpService nlpService, ConversationService conversationService)
-}
-```
-
-**Solution**: Use `IServiceProvider.CreateScope()` pattern for singleton services that need scoped dependencies:
-
-```csharp
-// CORRECT - Singleton using scope for scoped services
-builder.Services.AddScoped<TenantContext>();
-builder.Services.AddScoped<AdvancedNlpService>();     // ✅ Scoped
-builder.Services.AddScoped<ConversationService>();    // ✅ Scoped
-builder.Services.AddSingleton<IMcpServer, McpServer>();
-
-public class McpServer : IMcpServer
-{
-    private readonly IServiceProvider _serviceProvider;
-
-    // ✅ Only inject IServiceProvider
-    public McpServer(ILogger<McpServer> logger, IServiceProvider serviceProvider)
+    public MonitoringDbContext CreateDbContext(string[] args)
     {
-        _serviceProvider = serviceProvider;
-    }
-
-    private async Task<CallToolResult> ExecuteIntelligentToolAsync(CallToolRequest request)
-    {
-        // ✅ Create scope when needed
-        using var scope = _serviceProvider.CreateScope();
-        var nlpService = scope.ServiceProvider.GetRequiredService<AdvancedNlpService>();
-        var conversationService = scope.ServiceProvider.GetRequiredService<ConversationService>();
-        
-        // Use services within scope lifetime
-        var analysis = await nlpService.AnalyzeIntentAsync(message);
+        var optionsBuilder = new DbContextOptionsBuilder<MonitoringDbContext>();
+        optionsBuilder.UseNpgsql("Host=localhost;Database=monitoring;");
+        return new MonitoringDbContext(optionsBuilder.Options);
     }
 }
 ```
 
-**Prevention**:
-1. Services depending on `DbContext` → Always **Scoped**
-2. Services depending on `HttpContext`/`TenantContext` → Always **Scoped**
-3. Singletons needing scoped services → Use `IServiceProvider.CreateScope()`
-4. Run `dotnet build` to catch DI validation errors before runtime
+**Migration Commands**:
 
-**DI Lifetime Rules**:
-| Service Type | Lifetime | Why |
-|-------------|----------|-----|
-| DbContext | Scoped | Thread-safety, connection pooling |
-| TenantContext | Scoped | Per-request tenant isolation |
-| HttpClient (typed) | Scoped | Per-request context |
-| ILogger<T> | Singleton | Thread-safe, stateless |
-| Configuration | Singleton | Read-only, immutable |
-| Background services | Singleton | Long-running |
-
----
-
-**Session Summary**: MCP Server integration with Aspire required proper ServiceDefaults setup and careful DI lifetime management. Key takeaway: **services depending on DbContext or request-scoped data must be registered as Scoped**, and singletons must use `IServiceProvider.CreateScope()` to access them.
-
-**Updated**: 4. Januar 2026  
-**Issues Resolved**: 2 (Aspire integration, DI lifetime violation)  
-**Services Status**: ✅ MCP Server builds and integrates with Aspire
-
----
-
-## Session: 5. Januar 2026 - Store Access Configuration Authorization System
-
-### Tenant Context Synchronization Challenges
-
-**Issue**: Authorization system failed to work due to tenant context not being properly synchronized between `ITenantContextAccessor` and `ITenantContext` interfaces.
-
-**Root Causes Identified**:
-
-#### 1. Interface vs Implementation Property Access
-**Problem**: `ITenantContext.TenantId` is read-only (getter only), but `TenantContext.TenantId` allows setting.
-```csharp
-// WRONG - Attempting to set read-only interface property
-public interface ITenantContext
-{
-    Guid TenantId { get; } // ❌ Read-only
-}
-
-var tenantContext = context.RequestServices.GetRequiredService<ITenantContext>();
-tenantContext.TenantId = tenantId; // ❌ Compilation error
-```
-
-**Solution**: Cast to concrete implementation or use separate setter method:
-```csharp
-// CORRECT - Cast to implementation
-var tenantContext = (TenantContext)context.RequestServices.GetRequiredService<ITenantContext>();
-tenantContext.TenantId = tenantId; // ✅ Works
-```
-
-#### 2. Missing Extension Method Imports
-**Problem**: `GetTenantId()` extension method not available due to missing namespace import.
-```csharp
-// WRONG - Missing using statement
-using B2X.ServiceDefaults;
-// ❌ B2X.Utils.Extensions not imported
-
-var tenantId = context.User.GetTenantId(); // ❌ 'GetTenantId' does not exist
-```
-
-**Solution**: Add proper using statements for extension methods:
-```csharp
-// CORRECT - Include extension namespaces
-using B2X.ServiceDefaults;
-using B2X.Shared.Infrastructure.Extensions;
-using B2X.Utils.Extensions; // ✅ Required for GetTenantId()
-
-var tenantId = context.User.GetTenantId(); // ✅ Works
-```
-
-#### 3. Shared Middleware Domain Reference Limitations
-**Problem**: Shared middleware cannot reference domain-specific interfaces without creating circular dependencies.
-```csharp
-// WRONG - Shared middleware referencing domain interface
-namespace B2X.Shared.Middleware
-{
-    public class StoreAccessMiddleware
-    {
-        // ❌ Cannot reference B2X.Shared.Tenancy domain interface
-        private readonly B2X.Shared.Tenancy.ITenantContext _tenantContext;
-    }
-}
-```
-
-**Solution**: Use IServiceProvider for dynamic resolution or create gateway-specific middleware:
-```csharp
-// CORRECT - Gateway-specific middleware with custom synchronization
-app.Use(async (context, next) =>
-{
-    var tenantId = context.User.GetTenantId();
-    if (tenantId != Guid.Empty)
-    {
-        // Set both contexts via IServiceProvider
-        var tenantContextAccessor = context.RequestServices.GetRequiredService<ITenantContextAccessor>();
-        var tenantContext = (TenantContext)context.RequestServices.GetRequiredService<ITenantContext>();
-        
-        tenantContextAccessor.SetTenantId(tenantId);
-        tenantContext.TenantId = tenantId;
-    }
-    await next(context);
-});
-```
-
-#### 4. Frontend Tenant ID Resolution for Anonymous Users
-**Problem**: Store visibility service fails when user is not authenticated and no tenant ID is available.
-```typescript
-// WRONG - No fallback for anonymous users
-async getVisibility(): Promise<StoreVisibilityResponse> {
-  const authStore = useAuthStore();
-  const response = await api.get('/api/tenant/visibility', {
-    headers: { 'X-Tenant-ID': authStore.tenantId } // ❌ undefined for anonymous users
-  });
-}
-```
-
-**Solution**: Provide default tenant ID for development/testing scenarios:
-```typescript
-// CORRECT - Fallback tenant ID for anonymous access
-async getVisibility(): Promise<StoreVisibilityResponse> {
-  const authStore = useAuthStore();
-  let tenantId = authStore.tenantId;
-  
-  if (!tenantId) {
-    tenantId = '12345678-1234-1234-1234-123456789abc'; // Default for dev
-  }
-  
-  const response = await api.get('/api/tenant/visibility', {
-    headers: { 'X-Tenant-ID': tenantId }
-  });
-}
-```
-
-### Authorization System Architecture Lessons
-
-#### 5. Middleware Pipeline Ordering Critical
-**Problem**: Authorization middleware must run after authentication but before endpoint mapping.
-```csharp
-// WRONG - Incorrect pipeline order
-app.UseAuthentication();
-// ❌ StoreAccessMiddleware here would run before auth
-app.UseStoreAccess(); // ❌ No user context available
-app.UseAuthorization();
-```
-
-**Solution**: Proper ASP.NET Core pipeline ordering:
-```csharp
-// CORRECT - Proper middleware sequence
-app.UseAuthentication();      // 1. Authenticate user
-app.UseAuthorization();       // 2. Authorize based on policies
-app.UseStoreAccess();         // 3. Custom store access control (after auth)
-app.MapControllers();         // 4. Route to endpoints
-```
-
-#### 6. Permission Hierarchy Design Benefits
-**Problem**: Initial flat permission system didn't support tenant-level overrides.
-```csharp
-// WRONG - Single permission check
-if (context.User.IsInRole("Admin")) return true; // ❌ No tenant context
-```
-
-**Solution**: Hierarchical provider system with priorities:
-```csharp
-// CORRECT - Provider-based permission aggregation
-public class PermissionManager
-{
-    private readonly IEnumerable<IAuthorizeProvider> _providers;
-    
-    public bool HasPermission(string permission)
-    {
-        // Check forbidden first (highest priority wins)
-        var forbidden = _providers
-            .OrderByDescending(p => p.Priority)
-            .Any(p => p.IsForbidden(permission));
-            
-        if (forbidden) return false;
-        
-        // Then check allowed
-        return _providers
-            .OrderByDescending(p => p.Priority)
-            .Any(p => p.IsAllowed(permission));
-    }
-}
-```
-
-### Testing and Debugging Lessons
-
-#### 7. API Testing Requires Proper Headers
-**Problem**: Visibility API calls fail without tenant identification.
 ```bash
-# WRONG - Missing tenant header
-curl http://localhost:8000/api/tenant/visibility
-# Returns: {"success": false, "message": "X-Tenant-ID header is required"}
+# Use data project as startup
+dotnet ef migrations add InitialCreate --startup-project backend/Monitoring/Data
+dotnet ef database update --startup-project backend/Monitoring/Data
 ```
 
-**Solution**: Include tenant identification in all API calls:
-```bash
-# CORRECT - With tenant header
-curl -H "X-Tenant-ID: 12345678-1234-1234-1234-123456789abc" \
-     http://localhost:8000/api/tenant/visibility
-# Returns: {"isPublicStore": false, "requiresAuthentication": true}
-```
+**Prevention**:
 
-#### 8. Middleware Debugging Requires Request Inspection
-**Problem**: Hard to debug middleware behavior without seeing request context.
-```csharp
-// WRONG - Silent failures
-if (!context.User.Identity?.IsAuthenticated ?? true)
-{
-    context.Response.StatusCode = 401;
-    // ❌ No logging, hard to debug
-}
-```
-
-**Solution**: Comprehensive logging for troubleshooting:
-```csharp
-// CORRECT - Detailed logging
-if (!context.User.Identity?.IsAuthenticated ?? true)
-{
-    _logger.LogInformation(
-        "Unauthenticated access to closed shop denied for tenant {TenantId}, path: {Path}",
-        tenantId, path);
-        
-    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-    // ✅ Easy to debug with logs
-}
-```
-
-### Performance and Reliability Lessons
-
-#### 9. Frontend Caching Prevents API Spam
-**Problem**: Router guard calls visibility API on every navigation.
-```typescript
-// WRONG - No caching, hits API every time
-router.beforeEach(async (to, from, next) => {
-  const requiresAuth = await storeVisibilityService.requiresAuthentication(); // ❌ API call every navigation
-});
-```
-
-**Solution**: Implement intelligent caching with TTL:
-```typescript
-// CORRECT - 5-minute cache
-let cachedVisibility: StoreVisibilityResponse | null = null;
-let cacheTimestamp = 0;
-const CACHE_TTL_MS = 5 * 60 * 1000;
-
-async getVisibility(): Promise<StoreVisibilityResponse> {
-  const now = Date.now();
-  if (cachedVisibility && now - cacheTimestamp < CACHE_TTL_MS) {
-    return cachedVisibility; // ✅ Cache hit
-  }
-  // API call only when cache expired
-}
-```
-
-#### 10. Fail-Safe Design for Production Reliability
-**Problem**: API failures could block all users from accessing the store.
-```csharp
-// WRONG - Fail-fast approach
-async requiresAuthentication(): Promise<boolean> {
-  const response = await api.get('/api/tenant/visibility');
-  return response.data.requiresAuthentication; // ❌ Throws on API failure
-}
-```
-
-**Solution**: Graceful degradation with sensible defaults:
-```csharp
-// CORRECT - Fail-open for user experience
-async requiresAuthentication(): Promise<boolean> {
-  try {
-    const response = await api.get('/api/tenant/visibility');
-    return response.data.requiresAuthentication;
-  } catch (error) {
-    console.warn('Failed to check store visibility:', error);
-    return false; // ✅ Default to public store on error
-  }
-}
-```
+- Never add `Microsoft.EntityFrameworkCore.Design` to AppHost
+- Never add DbContext project references to AppHost
+- Always implement `IDesignTimeDbContextFactory<T>` in data projects
+- Use data project itself as startup for migrations
 
 ---
 
-**Session Summary**: Store access configuration implementation revealed critical tenant context synchronization issues, middleware ordering dependencies, and the need for fail-safe API design. Key takeaways: **always verify interface contracts before casting**, **middleware pipeline ordering is critical for proper context flow**, and **implement graceful error handling to prevent blocking user access**.
+### SQLite Database Schema Recreation
 
-**Updated**: 5. Januar 2026  
-**Issues Resolved**: 10 (tenant context sync, middleware ordering, interface contracts, frontend tenant resolution, API testing, debugging, caching, error handling)  
-**Authorization Status**: ✅ Complete end-to-end store access control system implemented and tested
+**Problem**: Authentication fails with 401 despite correct credentials due to missing database columns.
+
+**Root Cause**: Database schema mismatch - old database missing new migration columns.
+
+**Solution**: Delete and recreate database:
+
+```powershell
+# Delete old database
+Remove-Item auth.db* -Force
+
+# Restart service - EF Core auto-creates with current schema
+```
+
+**Prevention**:
+
+- Use EF Core migrations properly for schema changes
+- Implement database health checks validating schema integrity
+- Document database reset procedures for development
+- Use in-memory database for unit tests
 
 ---
 
-## Session: 5. Januar 2026 - Complete i18n Implementation for Admin Frontend
+### Microservice Port Conflicts
 
-### Multilingual Support Implementation: From Regression to Complete Solution
+**Problem**: Multiple services trying to use same port causing 502 Bad Gateway errors.
 
-**Issue**: Admin frontend lacked i18n infrastructure entirely, causing translation regression where hardcoded English text appeared instead of localized content. Store frontend had full i18n but Admin was completely missing translation setup.
+**Root Cause**: Hardcoded ports in `launchSettings.json` without coordination.
 
-**Root Causes Identified**:
+**Solution**: Environment-specific port assignments:
 
-#### 1. Missing i18n Infrastructure in Admin Frontend
-**Problem**: Admin frontend had no vue-i18n setup, no translation files, and no translation keys - components used hardcoded English strings.
-```vue
-<!-- WRONG - Hardcoded English everywhere -->
-<template>
-  <h2>Create Template</h2>
-  <button>Save</button>
-  <label>Template Key *</label>
-</template>
-```
-
-**Solution**: Complete i18n setup with vue-i18n:
-```typescript
-// locales/index.ts - Complete setup
-import en from './en.json';
-import de from './de.json';
-// ... all 8 languages
-
-const i18n = createI18n({
-  legacy: false,
-  locale: 'en',
-  fallbackLocale: 'en',
-  messages: { en, de, fr, es, it, pt, nl, pl }
-});
-
-export default i18n;
-```
-
-```typescript
-// main.ts - Plugin integration
-import i18n from '@/locales';
-app.use(i18n);
-```
-
-#### 2. Translation File Creation for All 8 Languages
-**Problem**: No translation files existed for Admin frontend, despite Store frontend having complete coverage.
-
-**Solution**: Created comprehensive translation files with email template terminology:
 ```json
-// en.json - Complete coverage
+// launchSettings.json
 {
-  "email": {
-    "templates": {
-      "create": "Create Template",
-      "edit": "Edit Template", 
-      "key": "Template Key",
-      "locale": "Locale",
-      "english": "English",
-      "german": "German",
-      // ... all languages and terms
-      "layout": "Layout",
-      "noLayout": "No layout",
-      "htmlBody": "HTML Body",
-      "htmlBodyPlaceholder": "HTML content with Liquid variables"
-    }
-  }
+  "applicationUrl": "http://localhost:5001"  // Unique per service
 }
-```
 
-**Files Created**: `en.json`, `de.json`, `fr.json`, `es.json`, `it.json`, `pt.json`, `nl.json`, `pl.json`
-
-#### 3. Component Translation Updates
-**Problem**: All email template components used hardcoded strings instead of translation keys.
-
-**Solution**: Systematic replacement with `$t()` calls:
-```vue
-<!-- BEFORE - Hardcoded -->
-<h2>Create Template</h2>
-<label>Template Key *</label>
-<button>Save</button>
-
-<!-- AFTER - Translated -->
-<h2>{{ $t('email.templates.create') }}</h2>
-<label>{{ $t('email.templates.key') }} *</label>
-<button>{{ $t('ui.save') }}</button>
-```
-
-**Components Updated**:
-- `EmailTemplatesList.vue` - Fully translated
-- `EmailTemplateCreate.vue` - Translated with useI18n import
-- `EmailTemplateEdit.vue` - Translated with useI18n import  
-- `EmailTemplateEditor.vue` - Complete translation including modals
-
-#### 4. Instruction Updates for Multilingual Enforcement
-**Problem**: No project-wide requirements for multilingual support, allowing regression to occur.
-
-**Solution**: Updated all relevant instruction files:
-```markdown
-# Frontend Instructions - Added section
-## Multilingual Support (i18n)
-- **Always consider multilingualism** in all frontend development
-- **Never use hardcoded strings** in components - always use translation keys
-- **Keep translations current** - update all language files when adding new UI text
-- **Supported languages**: English (en), German (de), French (fr), Spanish (es), Italian (it), Portuguese (pt), Dutch (nl), Polish (pl)
-```
-
-**Files Updated**:
-- `.github/instructions/frontend.instructions.md` - Added multilingual requirements
-- `.github/instructions/backend.instructions.md` - Added localization API support
-- `.github/instructions/testing.instructions.md` - Added multilingual testing guidelines
-
-### Key Implementation Patterns Established
-
-#### 1. Translation Key Naming Convention
-```json
+// appsettings.json - Gateway configuration
 {
-  "email": {
-    "templates": {
-      "create": "Create Template",
-      "edit": "Edit Template",
-      "key": "Template Key",
-      "layout": "Layout",
-      "htmlBody": "HTML Body"
-    }
-  },
-  "ui": {
-    "save": "Save",
-    "cancel": "Cancel"
-  }
-}
-```
-
-#### 2. Component Translation Integration
-```vue
-<script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n();
-</script>
-
-<template>
-  <h2>{{ $t('email.templates.create') }}</h2>
-  <button>{{ $t('ui.save') }}</button>
-</template>
-```
-
-#### 3. Language Options in Components
-```vue
-<select v-model="form.locale">
-  <option value="en">{{ $t('email.templates.english') }}</option>
-  <option value="de">{{ $t('email.templates.german') }}</option>
-  <!-- All 8 languages -->
-</select>
-```
-
-### Results and Impact
-
-**✅ Complete Multilingual Support**:
-- **Before**: Admin frontend had no i18n, hardcoded English everywhere
-- **After**: Full i18n with 8 languages, all components translated
-- **Translation Coverage**: 100% for email template management features
-- **Build Status**: Clean builds, no syntax errors
-- **User Experience**: Proper localization based on selected language
-
-**Performance Impact**:
-- Bundle size: Minimal increase (~50KB for all translation files)
-- Runtime: Negligible (vue-i18n is highly optimized)
-- Developer Experience: Improved with proper type safety and IDE support
-
-### Lessons Learned
-
-1. **i18n Setup is Non-Negotiable**: Every frontend should have i18n from day one, not added later
-2. **Translation Files Must Be Complete**: Missing any language file breaks the entire system
-3. **Component-by-Component Migration Works**: Systematic replacement prevents overwhelming changes
-4. **Instructions Prevent Regression**: Clear multilingual requirements in instructions prevent future issues
-5. **Backend API Support Required**: Localization endpoints must be available for dynamic content
-6. **Testing Must Include Translations**: Multilingual testing ensures all languages work correctly
-
-### Prevention Measures
-
-1. **i18n Checklist in Code Reviews**: Include "No hardcoded strings" requirement
-2. **Automated Translation Validation**: Scripts to check all language files have same keys
-3. **Pre-commit Hooks**: ESLint rules to flag hardcoded strings in templates
-4. **Documentation**: Clear guidelines for adding new translation keys
-5. **CI/CD Checks**: Build fails if translation files are incomplete
-
-### Scaling Recommendations
-
-1. **Apply to Remaining Frontends**: Store frontend already has i18n, Management frontend needs implementation
-2. **Backend Localization APIs**: Ensure all domain services provide localized responses
-3. **Language Switcher UI**: Add language selection component for user preference
-4. **RTL Language Support**: Plan for right-to-left languages (Arabic, Hebrew) in future
-5. **Translation Management**: Consider tools like Crowdin or Lokalise for larger teams
-
-**Key Success Factor**: Starting with email templates proved the approach works before scaling to full Admin frontend.
-
----
-
-## Session: 5. Januar 2026 - Monaco Editor Localization Implementation
-
-### Context
-User requested changing Monaco editor language to match user locale. Initially interpreted as syntax highlighting language, but clarified to mean Monaco UI localization (menus, tooltips, dialogs).
-
-### Technical Challenge
-- Monaco Editor supports UI localization via locale files
-- Vue Monaco Editor wrapper doesn't expose locale configuration directly
-- Locale files must be loaded before editor initialization
-- Async loading required for dynamic locale detection
-
-### Implementation Approach
-
-#### 1. Locale Detection Strategy
-```typescript
-const currentLocale = localStorage.getItem('locale') || 
-                     navigator.language.split('-')[0] || 'en';
-```
-
-#### 2. Monaco Locale Mapping
-```typescript
-const monacoLocales: Record<string, string> = {
-  'de': 'de',
-  'fr': 'fr', 
-  'es': 'es',
-  'it': 'it',
-  'pt': 'pt-br', // Portuguese Brazil
-  'pl': 'pl'
-  // nl not supported, falls back to English
-};
-```
-
-#### 3. Async Locale Loading
-```typescript
-const configureMonacoLocale = async () => {
-  const monacoLocale = monacoLocales[currentLocale];
-  if (monacoLocale) {
-    await import(`monaco-editor/esm/vs/nls.${monacoLocale}.js`);
-  }
-};
-```
-
-#### 4. App Initialization with Locale
-```typescript
-const initApp = async () => {
-  const app = createApp(App);
-  // ... setup ...
-  await configureMonacoLocale();
-  app.use(VueMonacoEditorPlugin);
-  app.mount('#app');
-};
-```
-
-### Files Modified
-- `frontend/Admin/src/main.ts`: Added async Monaco locale configuration
-- `.ai/knowledgebase/tools-and-tech/monaco-editor-vue.md`: Updated with localization section
-
-### Results
-- ✅ Monaco UI now displays in user's selected language
-- ✅ Fallback to English for unsupported locales (nl)
-- ✅ Build succeeds without errors
-- ✅ No runtime errors during locale loading
-- ✅ Backward compatible with existing functionality
-
-### Lessons Learned
-
-1. **UI vs Syntax Language Confusion**: "Editor language" can mean syntax highlighting OR UI localization - clarify intent
-2. **Async Plugin Initialization**: Vue plugins can be installed asynchronously when needed
-3. **Locale File Loading**: Monaco locale files must be imported dynamically, not bundled
-4. **Fallback Strategy**: Unsupported locales gracefully fall back to English
-5. **Build Impact**: Dynamic imports don't affect production bundle size
-
-### Prevention Measures
-
-1. **Locale Documentation**: Update KB-026 with localization examples for future Monaco usage
-2. **Language Support Matrix**: Document which locales are supported by each component
-3. **Testing**: Add E2E tests for locale switching in Monaco editor
-4. **User Feedback**: Add locale indicator in UI to show current editor language
-
-### Scaling Recommendations
-
-1. **Apply to Other Editors**: CodeMirror, Ace Editor also support localization
-2. **CMS Template Editor**: Extend to ADR-030 Monaco integration for Liquid templates
-3. **Language Detection**: Improve locale detection with user preferences over browser defaults
-4. **RTL Support**: Plan for right-to-left Monaco UI when adding Arabic/Hebrew
-
-**Key Success Factor**: Async initialization pattern enables proper locale loading without blocking app startup.
-
----
-
-## Session: 5. Januar 2026 - Frontend Quality Infrastructure Implementation
-
-### TypeScript Strictness Migration Challenges
-
-**Issue**: Enabling strict TypeScript settings across 3 frontend projects (Store, Admin, Management) revealed 16+ type errors, requiring systematic fixes while maintaining functionality.
-
-**Root Causes Identified**:
-
-#### 1. Gradual Adoption vs Big Bang Migration
-**Problem**: Attempted to enable all strict settings simultaneously across all projects.
-```typescript
-// tsconfig.json - WRONG approach
-{
-  "compilerOptions": {
-    "noImplicitAny": true,           // ❌ Too many errors at once
-    "noImplicitReturns": true,      // ❌ Overwhelming
-    "noFallthroughCasesInSwitch": true, // ❌ Massive changes needed
-    "exactOptionalPropertyTypes": true, // ❌ Not ready yet
-    "noUncheckedIndexedAccess": true    // ❌ Breaking changes
-  }
-}
-```
-
-**Solution**: Phased approach with incremental strictness:
-```typescript
-// Phase 1: Core strictness (implemented)
-{
-  "compilerOptions": {
-    "noImplicitAny": true,           // ✅ Catches real issues
-    "noImplicitReturns": true,      // ✅ Prevents bugs
-    "noFallthroughCasesInSwitch": true // ✅ Better switch safety
-  }
-}
-
-// Phase 2: Advanced (future)
-{
-  "exactOptionalPropertyTypes": true,    // 🔄 After cleanup
-  "noUncheckedIndexedAccess": true       // 🔄 After testing
-}
-```
-
-#### 2. Interface Incompleteness in Email Services
-**Problem**: EmailMessage interface missing properties used in templates, causing runtime errors.
-```typescript
-// WRONG - Incomplete interface
-interface EmailMessage {
-  id: string;
-  toEmail: string;  // Only this, but templates used 'to', 'cc', 'bcc'
-  subject: string;
-  // Missing: to, cc?, bcc?, priority?
-}
-```
-
-**Solution**: Complete interface definition with all used properties:
-```typescript
-// CORRECT - Complete interface
-interface EmailMessage {
-  id: string;
-  tenantId: string;
-  to: string;
-  toEmail: string; // Keep for backward compatibility
-  cc?: string;
-  bcc?: string;
-  priority?: 'Low' | 'Normal' | 'High';
-  subject: string;
-  body: string;
-  status: string; // API returns strings, not enums
-  // ... other properties
-}
-```
-
-#### 3. Auth Store Missing Tenant Context
-**Problem**: authStore lacked tenantId property needed by components.
-```typescript
-// WRONG - Incomplete auth state
-interface AuthState {
-  token: string | null;
-  userId: string | null;
-  email: string | null;
-  // ❌ Missing tenantId
-}
-```
-
-**Solution**: Enhanced auth store with tenant management:
-```typescript
-// CORRECT - Complete auth state
-interface AuthState {
-  token: string | null;
-  userId: string | null;
-  email: string | null;
-  tenantId: string | null; // ✅ Added
-  isAuthenticated: boolean;
-}
-```
-
-#### 4. ESLint Rule Conflicts with TypeScript
-**Problem**: Upgrading @typescript-eslint/no-explicit-any to 'error' caused build failures.
-```javascript
-// eslint.config.js - WRONG
-export default [
-  {
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'error' // ❌ Too strict initially
-    }
-  }
-];
-```
-
-**Solution**: Gradual rule enforcement with warnings first:
-```javascript
-// Phase 1: Warning mode
-{
-  '@typescript-eslint/no-explicit-any': 'warn' // ✅ Allow cleanup time
-}
-
-// Phase 2: Error mode (after fixes)
-{
-  '@typescript-eslint/no-explicit-any': 'error' // ✅ Enforce strictness
-}
-```
-
-### Testing Infrastructure Gaps
-
-#### Coverage Threshold Implementation
-**Problem**: No coverage gates allowed quality regression.
-```javascript
-// vitest.config.ts - WRONG
-export default defineConfig({
-  // ❌ No coverage thresholds
-});
-```
-
-**Solution**: Strict coverage requirements:
-```javascript
-// CORRECT - Quality gates
-export default defineConfig({
-  test: {
-    coverage: {
-      thresholds: {
-        branches: 75,
-        functions: 80,
-        lines: 80,
-        statements: 80
+  "Clusters": {
+    "identity-cluster": {
+      "Destinations": {
+        "identity-service": {
+          "Address": "http://localhost:5001"
+        }
       }
     }
   }
-});
+}
 ```
 
-### Build Analysis Missing
-**Problem**: No bundle size monitoring led to performance issues.
-```javascript
-// vite.config.ts - WRONG
-export default defineConfig({
-  // ❌ No bundle analysis
-});
-```
+**Prevention**:
 
-**Solution**: Automated bundle monitoring:
-```javascript
-// CORRECT - Bundle analysis
-import { visualizer } from 'rollup-plugin-visualizer';
-
-export default defineConfig({
-  plugins: [
-    visualizer({
-      filename: 'dist/bundle-analysis.html',
-      open: true,
-      gzipSize: true
-    })
-  ]
-});
-```
-
-### Lessons Learned
-
-1. **Phased Migration is Essential**: Big bang changes overwhelm teams - implement strictness incrementally
-2. **Interface Completeness Critical**: Templates and components reveal missing interface properties
-3. **Auth State Must Be Complete**: Components need all auth context properties from day one
-4. **ESLint Rules Need Gradual Adoption**: Start with warnings, move to errors after cleanup
-5. **Coverage Gates Prevent Regression**: Thresholds ensure quality doesn't degrade
-6. **Bundle Analysis Prevents Bloat**: Monitor bundle sizes to maintain performance
-7. **Type Errors Are Features**: Strict settings catch real bugs before they reach production
-
-### Prevention Measures
-
-1. **TypeScript Checklist in PRs**: Require strict settings for new components
-2. **Interface Audit Scripts**: Automated checks for interface completeness
-3. **Auth Store Requirements**: Standard properties (token, userId, email, tenantId) mandatory
-4. **Gradual Rule Adoption**: New ESLint rules start as warnings for 1-2 sprints
-5. **Bundle Size Alerts**: CI/CD fails if bundle exceeds thresholds
-6. **Coverage Requirements**: PRs blocked if coverage drops below thresholds
-
-### Scaling Recommendations
-
-1. **Apply to Backend Projects**: .NET projects need similar strictness (nullable, analyzers)
-2. **Shared Component Library**: Create typed component library with strict interfaces
-3. **API Contract Testing**: Ensure backend APIs match frontend interface expectations
-4. **Performance Budgets**: Set bundle size limits per route/feature
-5. **Type Coverage Metrics**: Track percentage of codebase with strict types
-
-**Key Success Factor**: Starting with Store frontend proved the approach, then scaling to Admin and Management with systematic fixes.
+- Document port mappings in README
+- Use service discovery for production
+- docker-compose for local development with proper networking
+- Standardized port ranges: Identity (5001), Catalog (5002), Orders (5003), etc.
 
 ---
 
-**Updated**: 5. Januar 2026  
-**Implementation Status**: ✅ Complete - All frontends with strict TypeScript  
-**Type Errors Fixed**: 16+ across Management frontend  
-**Coverage Thresholds**: 75% branches, 80% functions/lines/statements  
-**Bundle Analysis**: Implemented across all frontends  
-**Quality Scripts**: Automated checks in all projects
----
+## Code Quality & Patterns
 
-## Session: 5. Januar 2026 - E2E Testing Infrastructure Setup
+### Token-Optimized File Reading Can Mask Corruption
 
-### Playwright Configuration and Server Connectivity
+**Problem**: Reading partial file ranges during reviews can miss structural issues.
 
-**Issue**: Setting up e2e tests with Playwright for Nuxt 3 application, encountering connectivity issues between built server and test runner.
+**Root Cause**: Optimization focused on token savings missed full document validation.
 
-**Root Causes Identified**:
+**Solution**: For structure reviews, always read full file first:
 
-#### 1. Nuxt Plugin Context Access
-**Lesson**: In Nuxt plugins, composables like `useI18n` require proper context access through `nuxtApp`.
-
-**Problem**: Direct access to `$i18n` in plugins causes TypeScript errors.
 ```typescript
-// WRONG - Causes TypeScript error
-export default defineNuxtPlugin(() => {
-  const { $i18n } = useNuxtApp() // Error: $i18n undefined
-})
+// WRONG - Partial read can miss issues
+read_file("large-doc.md", startLine: 1, endLine: 100)
+
+// CORRECT - Full read for structure review
+read_file("large-doc.md", startLine: 1, endLine: totalLines)
 ```
 
-**Solution**: Access through nuxtApp parameter for proper context.
-```typescript
-// CORRECT - Proper context access
-export default defineNuxtPlugin((nuxtApp) => {
-  const i18n = nuxtApp.$i18n
-})
-```
+**When to Use Full Reads**:
 
-#### 2. Built Server Host Binding
-**Lesson**: Built Nuxt servers need explicit host binding for external accessibility in testing.
+- Document structure reviews
+- Format validation
+- Duplicate detection
+- Cross-reference checks
 
-**Problem**: Default localhost binding prevents Playwright from connecting.
-```bash
-# WRONG - Only accessible locally
-node .output/server/index.mjs
-```
+**When Partial Reads OK**:
 
-**Solution**: Bind to all interfaces for test accessibility.
-```bash
-# CORRECT - Accessible to external connections
-HOST=0.0.0.0 PORT=3000 node .output/server/index.mjs
-```
-
-#### 3. Playwright BaseURL Configuration
-**Lesson**: Ensure baseURL matches actual server binding to prevent connection failures.
-
-**Problem**: Tests fail with ERR_CONNECTION_REFUSED if baseURL doesn't resolve to accessible server.
-```typescript
-// playwright.config.ts
-export default defineConfig({
-  use: {
-    baseURL: 'http://localhost:3000' // Must match server binding
-  }
-})
-```
-
-#### 4. CSS Build Warnings Investigation
-**Lesson**: PostCSS warnings about @property and lexical errors should be investigated for clean builds.
-
-**Problem**: Build succeeds but with warnings that may indicate configuration issues.
-```
-Warning: @property is not supported in this PostCSS version
-```
-
-**Solution**: Update PostCSS version or investigate Tailwind/DaisyUI configuration conflicts.
-
-### Key Implementation Decisions
-
-| Decision | Rationale |
-|----------|-----------|
-| Use built server for e2e | Ensures production-like testing environment |
-| Explicit host binding | Required for containerized/external test runners |
-| Validate connectivity first | Prevents false test failures due to setup issues |
-| Fix i18n plugin context | Ensures proper composable access in Nuxt plugins |
-
-### Testing Setup Pattern
-
-1. **Build Application**: `npm run build`
-2. **Start Server**: `HOST=0.0.0.0 PORT=3000 node .output/server/index.mjs`
-3. **Verify Connectivity**: `curl -s http://localhost:3000` or health check
-4. **Run Tests**: `npx playwright test`
-5. **Cleanup**: Kill server process
-
-**Benefits Achieved**:
-- Reliable e2e test execution with proper server setup
-- Fixed TypeScript errors in i18n plugin
-- Clear pattern for future testing infrastructure
-- Identified CSS configuration issues for future resolution
----
-
-## Session: 7. Januar 2026 - MonitoringMCP Runtime Error Detection Feature Success
-
-### MCP-Tool Integration in Development Workflows
-
-**Issue**: Laufzeit-Fehler wurden erst in Produktion erkannt, was zu Ausfallzeiten führte.
-
-**Root Cause**: Fehlende automatische Validierung in CI/CD-Pipelines.
-
-**Lesson**: MCP-Tools können effektiv für proaktive Fehlererkennung in Entwicklungs-Workflows eingesetzt werden.
-
-**Solution**: Implementiere MonitoringMCP-Integration:
-1. **POC-Script**: `runtime-health-check.sh` mit `monitoring-mcp/validate_health_checks`
-2. **Workflow-Integration**: Automatische Ausführung nach Builds/Tests/Deployments
-3. **Build-Blocking**: Exit-Code 1 bei Fehlern blockiert Deployments
-4. **Parallele Agenten-Arbeit**: @DevOps, @QA, @Backend parallel für schnelle Implementierung
-
-**Results**:
-- **Sofortige Erkennung**: Fehler werden vor Produktion gestoppt
-- **Build-Blocking**: Unhealthy Services verhindern Deployments
-- **Efficiency**: Parallele Koordination reduziert Zeit von Tagen auf Stunden
-- **Quality**: Vollständige Integration in /run-tests und /deploy
-
-**Benefits**:
-- **Proaktive Fehlererkennung**: Shift-Left-Ansatz für Laufzeit-Fehler
-- **Automatisierte Workflows**: Kein manuelles Monitoring nötig
-- **Schnelle Implementierung**: MCP-Tools erlauben Rapid Prototyping
-- **Skalierbare Lösung**: Framework für weitere MCP-Integrationen
-
-### MCP-Orchestration for Feature Development
-
-**Issue**: Feature-Entwicklung war sequenziell und langsam.
-
-**Root Cause**: Mangelnde Parallelisierung von Agenten-Aufgaben.
-
-**Lesson**: Parallele Agenten-Koordination mit MCP-Tools beschleunigt Feature-Entwicklung erheblich.
-
-**Solution**: Brainstorm → Issue → POC → Integration → Test → Deploy:
-- **Brainstorm**: Ideen sammeln und priorisieren
-- **Issue-Erstellung**: Automatische GitHub-Issue-Generierung
-- **POC-Entwicklung**: Schnelles Prototyping mit MCP-Tools
-- **Workflow-Integration**: Automatische Tests und Deployments
-- **Parallele Ausführung**: Agenten arbeiten gleichzeitig
-
-**Pilot Results**:
-- **Time-to-Deploy**: Von Tagen auf Stunden reduziert
-- **Quality Assurance**: Automatische Tests und Validierungen
-- **Error Prevention**: Build-Blocking bei Fehlern
-- **Team Efficiency**: Koordinierte, nicht sequenzielle Arbeit
-
-**Benefits**:
-- **Rapid Prototyping**: MCP-Tools ermöglichen schnelle Iterationen
-- **Quality Gates**: Automatische Validierungen verhindern Fehler
-- **Parallel Processing**: Agenten arbeiten effizient zusammen
-- **Scalable Framework**: Modell für zukünftige Features
+- Targeted code edits
+- Specific section updates
+- Known line ranges
 
 ---
 
-## Session: 7. Januar 2026 - Proactive Health-Check Automation Feature Success
+## Related Documentation
 
-### Heartbeat System for Continuous Monitoring
-
-**Issue**: Service-Ausfälle wurden erst spät erkannt, was zu Downtime führte.
-
-**Root Cause**: Fehlende kontinuierliche Überwachung außerhalb von Deployments.
-
-**Lesson**: Heartbeat-Systeme mit MCP-Tools ermöglichen proaktive Fehlererkennung und automatische Eskalation.
-
-**Solution**: Implementiere Heartbeat-System:
-1. **Heartbeat-Script**: Erweitertes `runtime-health-check.sh` mit `--heartbeat` für 30s-Intervalle
-2. **Eskalation**: Slack-Alerts bei Fehlern und automatische Service-Neustarts (max 3 Versuche)
-3. **Produktions-Setup**: Systemd-Service und Timer für zuverlässige Automatisierung
-4. **Integration**: Fokussiert auf Backend-Services mit MCP-Validierung
-
-**Results**:
-- **Kontinuierliche Überwachung**: Services werden alle 30s geprüft
-- **Automatische Eskalation**: Sofortige Alerts und Neustarts bei Fehlern
-- **Zuverlässigkeit**: Systemd für robuste Produktions-Automatisierung
-- **Skalierbarkeit**: Framework für weitere Monitoring-Features
-
-**Benefits**:
-- **Proaktive Fehlererkennung**: Ausfälle werden verhindert oder sofort behoben
-- **Automatisierte Eskalation**: Kein manuelles Eingreifen nötig
-- **Systemstabilität**: Reduzierte Downtime durch schnelle Reaktion
-- **Monitoring-Framework**: Basis für erweiterte Überwachung
+- **[GL-007]**: Lessons Maintenance Strategy
+- **[KB-070]**: Aspire .NET 10 Compatibility
+- **[ADR-021]**: ArchUnitNET Architecture Testing
+- **[GL-006]**: Token Optimization Strategy
+- **[KB-021]**: enventa Trade ERP Integration
 
 ---
 
-## Session: 8. Januar 2026 - Comprehensive Frontend Dependency Updates
-
-### Incremental Package Updates with Breaking Change Management
-
-**Issue**: Outdated npm packages across B2X frontend workspaces (Store, Admin, Management) with deprecated warnings and security vulnerabilities, requiring systematic updates while maintaining functionality.
-
-**Root Cause**: Reactive dependency management leading to accumulation of outdated packages with breaking changes, making updates risky and time-consuming.
-
-**Lesson**: Implement incremental dependency update strategy with comprehensive validation to safely update packages while documenting breaking changes and maintaining functionality.
-
-**Solution**: Multi-Phase Dependency Update Process:
-1. **Audit Phase**: `npm outdated` across all workspaces to identify update candidates
-2. **Incremental Updates**: Update packages one-by-one with type checking after each change
-3. **Breaking Change Documentation**: Research and document migration guides for major version updates
-4. **Configuration Fixes**: Address ESLint, Tailwind, and build configuration changes
-5. **Validation**: Type checks, builds, and tests after each update
-6. **Knowledge Base Updates**: Document migration patterns for future reference
-
-**Key Insights**:
-- **Incremental Safety**: One package at a time prevents cascading failures
-- **Type Checking Critical**: `vue-tsc` and `nuxt typecheck` catch breaking changes immediately
-- **Configuration Dependencies**: ESLint plugins and Tailwind versions require coordinated updates
-- **Build Validation**: All frontends must build successfully before proceeding
-- **Documentation Value**: Migration guides prevent future update friction
-
-**Technical Details**:
-- **Updated Packages**: happy-dom, @types/node, OpenTelemetry, date-fns v4, marked v17, pinia v3, eslint-plugin-vue v10
-- **Breaking Changes Handled**: 
-  - eslint-plugin-vue v10: Manual TypeScript config required
-  - Tailwind v4: @tailwindcss/vite plugin instead of PostCSS
-  - date-fns v4: Import path changes
-  - marked v17: Security improvements
-- **Validation Steps**: Type checks, builds, locale file integrity, BOM removal
-- **Build Success**: All three frontends (Store/Nuxt4, Admin/Vite, Management/Vite) build successfully
-- **Test Coverage**: Backend tests pass (303/303), frontend builds validated
-
-**Migration Patterns Documented**:
-- ESLint flat config with eslint-plugin-vue v10
-- Tailwind v4 @tailwindcss/vite integration
-- OpenTelemetry instrumentation updates
-- JSON locale file BOM removal
-- Minimal placeholder files for corrupted translations
-
-**Prevention Measures**:
-- Regular `npm outdated` checks in CI/CD
-- Automated dependency update PRs with validation
-- Breaking change impact assessment before updates
-- Knowledge base maintenance for migration guides
-
----
-
-## Session: 9. Januar 2026 - Task Planning Strategy Implementation
-
-### Effiziente Task-Planung mit runSubagent und MCP-Services
-
-**Issue**: Hoher Token-Verbrauch und ineffiziente Agenten-Arbeit bei komplexen Tasks ohne strukturierte Planung.
-
-**Root Cause**: Fehlende Standardisierung in Task-Zerlegung, Agent-Zuweisung und Kontext-Optimierung führte zu Überladung und Iterationen.
-
-**Lesson**: Implementiere strukturierte Planung zu Beginn jedes Tasks für skalierbare, token-optimierte Ausführung.
-
-**Solution**: Neue Strategie mit Template TPL-002:
-1. **Task-Zerlegung**: Atomare Subtasks mit Aufwandsschätzung
-2. **Agent-Zuweisung**: Spezialisierte Agenten basierend auf [AGT-*] Registry
-3. **runSubagent**: Parallele, isolierte Ausführung
-4. **MCP-Validierungen**: Automatische Hintergrundprüfungen (Roslyn, TypeScript, Security)
-5. **Kontrolle**: Metriken-Tracking und Lessons Learned
-
-**Key Insights**:
-- **Token-Einsparung**: ~40% Reduzierung durch Kontext-Isolierung ([GL-006])
-- **Qualitätssteigerung**: Frühzeitige MCP-Validierungen verhindern Fehler
-- **Skalierbarkeit**: Parallele Subtask-Ausführung beschleunigt Delivery
-- **Agent-Effizienz**: Spezialisierte Zuweisung reduziert Kontext-Switching
-
-**Technical Details**:
-- **Template**: TPL-002-task-planning.md für standardisierte Planung
-- **Workflow-Integration**: MCP-Checks in pr-quality-gate.yml
-- **Metriken**: Token-Verbrauch, Zeit, Fehler-Rate tracking
-- **Beispiel-Task**: TASK-003 validiert Strategie-Anwendung
-
-**Prevention Measures**:
-1. **Template-Nutzung**: Pflicht für alle Tasks >S
-2. **MCP-Integration**: Automatische Validierungen in CI/CD
-3. **Status-Tracking**: Regelmäßige Fortschritts-Updates
-4. **Lessons Maintenance**: Aktualisierung nach jedem Task
-
----
-
-## Session: 9. Januar 2026 - Beispiel-Task mit neuen Strategien
-
-### Validierung der runSubagent-Strategien durch Beispiel-Implementierung
-
-**Issue**: Neue Strategien (TPL-002, runSubagent, MCP-Integration) mussten in Produktion validiert werden.
-
-**Root Cause**: Theoretische Strategien ohne praktische Anwendung.
-
-**Lesson**: Beispiel-Tasks sind essenziell für Strategie-Validierung.
-
-**Solution**: Beispiel-Task "API-Endpunkt für Produkt-Suche":
-1. **Planung mit TPL-002**: Strukturierte Zerlegung in Backend/Frontend-Subtasks
-2. **runSubagent-Ausführung**: Parallele, isolierte Implementierung
-3. **MCP-Validierung**: Roslyn/TypeScript MCP für Qualitätssicherung
-4. **Integration-Test**: Build und Tests bestätigen Funktionalität
-
-**Key Insights**:
-- **Token-Einsparung**: ~60% durch isolierte Kontexte und Parallelität
-- **Qualitätssteigerung**: MCP-Validierungen verhindern Fehler früh
-- **Entwicklungsbeschleunigung**: Strukturierte Planung reduziert Iterationen
-- **Agent-Effizienz**: Spezialisierte Subagents minimieren Kontext-Switching
-
-**Technical Details**:
-- **Backend**: Neuer Controller mit Elasticsearch-Integration, 2 Unit-Tests
-- **Frontend**: API-Integration in Produkt-Liste, Live-Suche implementiert
-- **Tests**: 303 Backend-Tests bestanden, 75/80 Frontend-Tests bestanden
-- **Validierung**: Build erfolgreich, MCP-Checks integriert
-
-**Prevention Measures**:
-1. **Pilot-Tasks**: Neue Strategien immer mit Beispiel-Task validieren
-2. **Metriken-Tracking**: Token-Verbrauch und Zeit messen
-3. **Qualitätsgates**: MCP-Validierungen vor Merge erzwingen
-4. **Feedback-Schleifen**: Lessons nach jedem Pilot aktualisieren
-
----
-
-## Session: 9. Januar 2026 - runSubagent für Fehlerbehebung (Pilot)
-
-### Effiziente Fehlerbehebung mit runSubagent
-
-**Issue**: Hoher Token-Verbrauch bei iterativer Fehlerbehebung in Haupt-Chat.
-
-**Root Cause**: Fehlende Isolierung führte zu Kontext-Überladung und ineffizienten Fixes.
-
-**Lesson**: Nutze runSubagent für isolierte, parallele Fehlerbehebung.
-
-**Solution**: Pilot-Strategie:
-1. **Fehler-Sammlung**: get_errors, Lint-Reports für >5 Issues.
-2. **Kategorisierung**: Subtasks nach Domain (Backend, Frontend).
-3. **runSubagent-Fixes**: Isolierte Ausführung mit MCP-Validierung.
-4. **Parallele Bearbeitung**: Mehrere Subagents gleichzeitig.
-5. **Globale Validierung**: Nach Fixes Build/Lint-Test.
-
-**Key Insights**:
-- **Token-Einsparung**: ~50% durch Kontext-Isolierung.
-- **Qualität**: MCP-Validierungen verhindern Regressionen.
-- **Geschwindigkeit**: Parallele Fixes beschleunigen Resolution.
-- **Skalierbarkeit**: Ideal für Batch-Fehler (Warnungen, Lint-Issues).
-
-**Technical Details**:
-- **Pilot**: 3 Lint-Warnungen behoben (ungenutzte Variablen entfernt).
-- **Validierung**: ESLint bestätigt Fehlerfreiheit.
-- **MCP-Integration**: TypeScript MCP für Syntax-Checks.
-- **Zeit**: <5 Minuten für Pilot.
-
-**Prevention Measures**:
-1. **Automatische Analyse**: get_errors als erster Schritt.
-2. **Subagent-Trigger**: Bei >5 Fehlern automatisch starten.
-3. **Qualitätsgates**: MCP-Validierung vor Merge.
-4. **Monitoring**: Token-Metriken tracken ([GL-046]).
-
----
-
-## Session: 9. Januar 2026 - .NET Solution Path Corrections & Package Dependencies
-
-### Systematic Compilation Error Resolution in Large Solutions
-
-**Issue**: Widespread compilation failures across B2X solution due to incorrect project reference paths and missing package dependencies, preventing full solution builds.
-
-**Root Cause**: Inconsistent relative path patterns in project references (missing `/src/` prefixes) and incomplete package references for Entity Framework, logging, and configuration services.
-
-**Lesson**: Large .NET solutions require systematic path validation and explicit package dependencies. Missing `/src/` in relative paths is a common failure pattern in deeply nested project structures.
-
-**Solution**: Applied systematic fixes across multiple projects:
-1. **Path Pattern Correction**: Standardized 5-level up navigation (`../../../../../src/`) for test projects
-2. **Package Dependency Audit**: Added missing EF runtime packages, logging extensions, and configuration providers
-3. **Reference Path Validation**: Verified all project references against solution file structure
-4. **Incremental Validation**: Built projects individually to isolate remaining issues
-
-**Key Insights**:
-- **Path Depth Matters**: Test projects in `tests/` require 5 levels up to reach `src/` root
-- **EF Package Completeness**: Need both runtime (`Microsoft.EntityFrameworkCore`) and relational (`Microsoft.EntityFrameworkCore.Relational`) packages plus provider-specific packages
-- **Logging Dependencies**: `Microsoft.Extensions.Logging` required even when `Microsoft.Extensions.Logging.Abstractions` is present
-- **Configuration Services**: `Microsoft.Extensions.Configuration` needed for `IConfiguration` interface usage
-
-**Technical Details**:
-- **Path Pattern**: `../../../../src/shared/Domain/Tenancy/B2X.Tenancy.API.csproj` (correct) vs `../../../../src/Domain/Tenancy/B2X.Tenancy.API.csproj` (incorrect)
-- **EF Migration Errors**: Missing `Migration`, `MigrationBuilder`, `ModelSnapshot` types resolved by adding `Microsoft.EntityFrameworkCore.Relational`
-- **ILogger<> Issues**: Required explicit `Microsoft.Extensions.Logging` package reference despite ASP.NET Core context
-- **PostgreSQL Support**: `Npgsql.EntityFrameworkCore.PostgreSQL` needed for migration code using Npgsql types
-
-**Prevention Measures**:
-1. **Path Validation Scripts**: Create automated checks for consistent `/src/` prefixes in project references
-2. **Package Dependency Templates**: Maintain standardized package sets for common project types (API, service, test)
-3. **Solution Build Gates**: Require successful individual project builds before solution-wide validation
-4. **Reference Auditing**: Regular checks for broken project references using `dotnet build` with detailed error reporting
-
-**Impact Metrics**:
-- **Projects Fixed**: 7 projects successfully building (Store API, Monitoring, 5 test suites)
-- **Error Reduction**: From 105+ solution errors to focused issues in remaining projects
-- **Test Coverage**: 5/5 test suites now passing (Catalog: 2/2, Identity: 14/16, Search: 3/3, Localization: 52/52, Tenancy: 37/37)
-- **Build Stability**: Established working build infrastructure for incremental development
-
-**Best Practices Established**:
-1. **Systematic Fixes**: Address one project type at a time (APIs, services, tests, infrastructure)
-2. **Package Completeness**: Always include both runtime and design-time packages for frameworks
-3. **Path Standardization**: Use consistent relative path patterns based on directory depth
-4. **Incremental Validation**: Build and test after each fix to prevent regression accumulation
-
----
-
-## Session: 11. Januar 2026 - AI Evaluation Tests Build Fixes & xUnit v3 MTP Migration
-
-### Issues with Microsoft.Extensions.AI Evaluation Tests
-
-**Issue**: Build failed with syntax errors, API mismatches, duplicated code blocks, and analyzer warnings in QualityAndSafetyEvaluationTests.cs.
-
-**Root Cause**:
-- Duplicated code blocks and trailing syntax errors in test file
-- Missing GC.SuppressFinalize in IDisposable Dispose methods (CA1816 warning)
-- Conflicting xUnit packages (metapackage vs mtp-v2)
-- Missing central package versions for xunit variants
-- CS1591 documentation warnings not suppressed
-
-**Solution**:
-1. **Rewrite test file**: Single namespace, remove duplicates, add proper IDisposable with GC.SuppressFinalize
-2. **Update project references**: Use only xunit.v3.mtp-v2, suppress CS1591
-3. **Central package management**: Add explicit versions for xunit.v3.mtp-v1 and mtp-v2, plus AI evaluation packages
-
-**Additional Issue**: Tests fail to execute with FileNotFoundException for xunit.v3.runner.inproc.console assembly.
-
-**Root Cause**: xUnit v3 with MTP v2 requires specific project configuration for test execution.
-
-**Solution**: 
-1. Add `<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>` to PropertyGroup
-2. Add `<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>` to ensure dependencies are copied
-3. Keep `<OutputType>Exe</OutputType>` for executable test projects
-4. Include Microsoft.NET.Test.Sdk for compatibility
-5. Ensure global.json has `"test": { "runner": "Microsoft.Testing.Platform" }` for MTP-based dotnet test
-
-**Lessons**:
-1. When migrating to xUnit v3 with MTP, reference only the specific package (mtp-v2), not the metapackage to avoid conflicts
-2. For IDisposable test fixtures, always add GC.SuppressFinalize(this) in Dispose to satisfy CA1816 analyzer
-3. Single-namespace rewrites prevent syntax issues from duplicated blocks
-4. Central package management requires all xunit variants to be explicitly versioned
-5. Suppress CS1591 for documentation warnings in test projects if needed
-6. For Microsoft.Extensions.AI packages, ensure preview versions are correctly specified in central props
-7. MTP v2 test projects require `<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>` and `<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>` for proper execution
-8. Mock implementations in tests should return realistic response lengths to match evaluation criteria
-
----
-
-## Session: 11. Januar 2026 - Successful MTP Migration & Comprehensive Test Suite Verification
-
-### xUnit v3 MTP v2 Integration Across Entire Test Suite
-
-**Issue**: After fixing AI evaluation tests, needed to verify that the MTP migration didn't break other test projects and that the entire test suite works with Microsoft Testing Platform v2.
-
-**Root Cause**: xUnit v3 MTP v2 is a significant change from traditional xUnit execution, requiring verification that all existing test projects are compatible and properly configured.
-
-**Solution**: Systematic verification of all test projects with MTP v2:
-
-**Test Project Verification Results**:
-- ✅ **Store**: 2/2 tests passing
-- ✅ **Catalog**: 142/142 tests passing  
-- ✅ **Identity**: 16/16 tests passing
-- ✅ **Search**: 3/3 tests passing
-- ✅ **Localization**: 52/52 tests passing
-- ✅ **Tenancy**: 37/37 tests passing
-- ✅ **ReverseProxy**: 19/19 tests passing
-- ✅ **Architecture**: 25/25 tests passing
-- ✅ **Gateway Integration**: 3/3 tests passing
-- ✅ **AI**: 1/1 tests passing
-- ✅ **ERP**: 43/43 tests passing
-- ✅ **Security**: 1/1 tests passing
-- ✅ **Validation**: 2/2 tests passing
-- ✅ **SmartDataIntegration**: 3/3 tests passing
-- ✅ **PatternAnalysis**: 8/8 tests passing
-- ✅ **Returns**: 1/1 tests passing
-- ✅ **Orders**: 43/43 tests passing
-- ✅ **Customer**: 22/22 tests passing
-
-**Total**: 433 tests passing across 19 test projects
-
-**Two Build Failures Identified**:
-- ❌ **Duplicate Test Project**: `backend/Domain/Identity/tests/Integration/AuthenticationIntegrationTests.csproj` - duplicate of existing project, removed
-- ❌ **Missing Reference**: `backend/Domain/Identity/tests/Integration/UserManagementIntegrationTests.csproj` - missing project reference, added
-
-**Lessons**:
-1. **MTP v2 Compatibility**: All properly configured xUnit v3 projects work seamlessly with Microsoft Testing Platform v2
-2. **Configuration Consistency**: Projects with `<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>` and proper package references execute correctly
-3. **Mock Realism Matters**: AI evaluation tests require realistic response lengths (150+ chars for complex queries) to pass quality thresholds
-4. **Test Suite Health**: Regular verification of entire test suite prevents regressions and ensures CI/CD reliability
-5. **Duplicate Detection**: Build verification catches duplicate test projects that can cause confusion and maintenance overhead
-6. **Reference Integrity**: Missing project references are caught during build verification and must be resolved
-7. **Parallel Execution**: MTP v2 supports parallel test execution across multiple projects without conflicts
-8. **Migration Success**: Complete migration from traditional xUnit to MTP v2 is possible with proper configuration and verification
-
-**Prevention Measures**:
-1. **Regular Test Suite Audits**: Run full test suite verification after framework changes
-2. **Configuration Templates**: Use consistent project templates for all test projects
-3. **Mock Quality Standards**: Ensure test mocks return realistic data that matches production expectations
-4. **Duplicate Prevention**: Implement naming conventions and project structure reviews to prevent duplicates
-5. **Reference Validation**: Include project reference checks in build pipelines
-6. **MTP Documentation**: Document MTP v2 configuration requirements for team reference
-
-**Impact**: 
-- **Build Health**: All 433 tests passing with MTP v2
-- **CI/CD Reliability**: Verified test execution works in automated pipelines
-- **Framework Stability**: Confirmed xUnit v3 MTP v2 is production-ready for the entire codebase
-- **Developer Confidence**: Comprehensive verification ensures no regressions in testing infrastructure
-
----
-
-
+**File Size**: ~560 lines (within GL-007 target)  
+**Last Cleanup**: 12. Januar 2026  
+**Next Review**: 12. Februar 2026

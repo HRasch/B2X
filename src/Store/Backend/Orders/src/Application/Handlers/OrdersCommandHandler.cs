@@ -11,8 +11,15 @@ namespace B2X.Orders.Application.Handlers;
 /// </summary>
 public class OrdersCommandHandler
 {
+    private readonly IOrdersRepository _repository;
+
+    public OrdersCommandHandler(IOrdersRepository repository)
+    {
+        _repository = repository;
+    }
+
     // Order command handlers
-    public static async Task<Order> Handle(CreateOrderCommand command, IOrdersRepository repository)
+    public async Task<Order> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
         // Calculate totals
         var subtotal = command.Items.Sum(item => item.Quantity * item.UnitPrice);
@@ -70,17 +77,17 @@ public class OrdersCommandHandler
         }).ToList();
 
         // Save order and items
-        await repository.AddOrderAsync(order);
-        await repository.AddOrderItemsAsync(orderItems);
+        await _repository.AddOrderAsync(order, cancellationToken);
+        await _repository.AddOrderItemsAsync(orderItems, cancellationToken);
 
         // Reload order with items
-        var createdOrder = await repository.GetOrderByIdAsync(order.Id, command.TenantId);
+        var createdOrder = await _repository.GetOrderByIdAsync(order.Id, command.TenantId, cancellationToken);
         return createdOrder!;
     }
 
-    public static async Task<Order> Handle(UpdateOrderStatusCommand command, IOrdersRepository repository)
+    public async Task<Order> Handle(UpdateOrderStatusCommand command, CancellationToken cancellationToken)
     {
-        var order = await repository.GetOrderByIdAsync(command.Id, command.TenantId);
+        var order = await _repository.GetOrderByIdAsync(command.Id, command.TenantId, cancellationToken);
         if (order == null)
             throw new KeyNotFoundException($"Order {command.Id} not found");
 
@@ -88,13 +95,13 @@ public class OrdersCommandHandler
         order.Notes = command.Notes;
         order.UpdatedAt = DateTime.UtcNow;
 
-        await repository.UpdateOrderAsync(order);
+        await _repository.UpdateOrderAsync(order, cancellationToken);
         return order;
     }
 
-    public static async Task<Order> Handle(UpdateOrderPaymentStatusCommand command, IOrdersRepository repository)
+    public async Task<Order> Handle(UpdateOrderPaymentStatusCommand command, CancellationToken cancellationToken)
     {
-        var order = await repository.GetOrderByIdAsync(command.Id, command.TenantId);
+        var order = await _repository.GetOrderByIdAsync(command.Id, command.TenantId, cancellationToken);
         if (order == null)
             throw new KeyNotFoundException($"Order {command.Id} not found");
 
@@ -103,13 +110,13 @@ public class OrdersCommandHandler
         order.PaymentProvider = command.PaymentProvider;
         order.UpdatedAt = DateTime.UtcNow;
 
-        await repository.UpdateOrderAsync(order);
+        await _repository.UpdateOrderAsync(order, cancellationToken);
         return order;
     }
 
-    public static async Task Handle(CancelOrderCommand command, IOrdersRepository repository)
+    public async Task Handle(CancelOrderCommand command, CancellationToken cancellationToken)
     {
-        var order = await repository.GetOrderByIdAsync(command.Id, command.TenantId);
+        var order = await _repository.GetOrderByIdAsync(command.Id, command.TenantId, cancellationToken);
         if (order == null)
             throw new KeyNotFoundException($"Order {command.Id} not found");
 
@@ -120,13 +127,13 @@ public class OrdersCommandHandler
         order.Notes = $"Cancelled: {command.Reason}";
         order.UpdatedAt = DateTime.UtcNow;
 
-        await repository.UpdateOrderAsync(order);
+        await _repository.UpdateOrderAsync(order, cancellationToken);
     }
 
     // Order item command handlers
-    public static async Task<OrderItem> Handle(AddOrderItemCommand command, IOrdersRepository repository)
+    public async Task<OrderItem> Handle(AddOrderItemCommand command, CancellationToken cancellationToken)
     {
-        var order = await repository.GetOrderByIdAsync(command.OrderId, command.TenantId);
+        var order = await _repository.GetOrderByIdAsync(command.OrderId, command.TenantId, cancellationToken);
         if (order == null)
             throw new KeyNotFoundException($"Order {command.OrderId} not found");
 
@@ -146,21 +153,21 @@ public class OrdersCommandHandler
             CreatedAt = DateTime.UtcNow
         };
 
-        await repository.AddOrderItemAsync(orderItem);
+        await _repository.AddOrderItemAsync(orderItem, cancellationToken);
 
         // Update order totals
-        await UpdateOrderTotals(order, repository);
+        await UpdateOrderTotals(order, cancellationToken);
 
         return orderItem;
     }
 
-    public static async Task<OrderItem> Handle(UpdateOrderItemCommand command, IOrdersRepository repository)
+    public async Task<OrderItem> Handle(UpdateOrderItemCommand command, CancellationToken cancellationToken)
     {
-        var orderItem = await repository.GetOrderItemByIdAsync(command.OrderItemId, command.TenantId);
+        var orderItem = await _repository.GetOrderItemByIdAsync(command.OrderItemId, command.TenantId, cancellationToken);
         if (orderItem == null)
             throw new KeyNotFoundException($"Order item {command.OrderItemId} not found");
 
-        var order = await repository.GetOrderByIdAsync(command.OrderId, command.TenantId);
+        var order = await _repository.GetOrderByIdAsync(command.OrderId, command.TenantId, cancellationToken);
         if (order == null)
             throw new KeyNotFoundException($"Order {command.OrderId} not found");
 
@@ -171,40 +178,40 @@ public class OrdersCommandHandler
         orderItem.UnitPrice = command.UnitPrice;
         orderItem.TotalPrice = command.Quantity * command.UnitPrice;
 
-        await repository.UpdateOrderItemAsync(orderItem);
+        await _repository.UpdateOrderItemAsync(orderItem, cancellationToken);
 
         // Update order totals
-        await UpdateOrderTotals(order, repository);
+        await UpdateOrderTotals(order, cancellationToken);
 
         return orderItem;
     }
 
-    public static async Task Handle(RemoveOrderItemCommand command, IOrdersRepository repository)
+    public async Task Handle(RemoveOrderItemCommand command, CancellationToken cancellationToken)
     {
-        var orderItem = await repository.GetOrderItemByIdAsync(command.OrderItemId, command.TenantId);
+        var orderItem = await _repository.GetOrderItemByIdAsync(command.OrderItemId, command.TenantId, cancellationToken);
         if (orderItem == null)
             throw new KeyNotFoundException($"Order item {command.OrderItemId} not found");
 
-        var order = await repository.GetOrderByIdAsync(command.OrderId, command.TenantId);
+        var order = await _repository.GetOrderByIdAsync(command.OrderId, command.TenantId, cancellationToken);
         if (order == null)
             throw new KeyNotFoundException($"Order {command.OrderId} not found");
 
         if (order.Status != "pending")
             throw new InvalidOperationException("Cannot remove items from order that is not pending");
 
-        await repository.DeleteOrderItemAsync(command.OrderItemId, command.TenantId);
+        await _repository.DeleteOrderItemAsync(command.OrderItemId, command.TenantId, cancellationToken);
 
         // Update order totals
-        await UpdateOrderTotals(order, repository);
+        await UpdateOrderTotals(order, cancellationToken);
     }
 
-    private static async Task UpdateOrderTotals(Order order, IOrdersRepository repository)
+    private async Task UpdateOrderTotals(Order order, CancellationToken cancellationToken)
     {
-        var items = await repository.GetOrderItemsByOrderIdAsync(order.Id, order.TenantId);
+        var items = await _repository.GetOrderItemsByOrderIdAsync(order.Id, order.TenantId, cancellationToken);
         order.Subtotal = items.Sum(item => item.TotalPrice);
         order.TotalAmount = order.Subtotal + order.TaxAmount - order.DiscountAmount + order.ShippingAmount;
         order.UpdatedAt = DateTime.UtcNow;
 
-        await repository.UpdateOrderAsync(order);
+        await _repository.UpdateOrderAsync(order, cancellationToken);
     }
 }

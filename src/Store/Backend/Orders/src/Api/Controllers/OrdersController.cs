@@ -1,6 +1,6 @@
 using B2X.Orders.Application.Commands;
 using B2X.Orders.Core.Entities;
-using B2X.Orders.Core.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Wolverine;
@@ -16,18 +16,18 @@ namespace B2X.Orders.Api.Controllers;
 [Produces("application/json")]
 public class OrdersController : ControllerBase
 {
-    private readonly IOrdersRepository _repository;
     private readonly IMessageBus _bus;
     private readonly ILogger<OrdersController> _logger;
+    private readonly IServiceProvider _serviceProvider;
 
     public OrdersController(
-        IOrdersRepository repository,
         IMessageBus bus,
-        ILogger<OrdersController> logger)
+        ILogger<OrdersController> logger,
+        IServiceProvider serviceProvider)
     {
-        _repository = repository;
         _bus = bus;
         _logger = logger;
+        _serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -39,7 +39,8 @@ public class OrdersController : ControllerBase
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
         CancellationToken cancellationToken = default)
     {
-        var order = await _repository.GetOrderByIdAsync(id, tenantId);
+        var query = new GetOrderByIdQuery(id, tenantId);
+        var order = await _bus.InvokeAsync<Order?>(query, cancellationToken);
         if (order == null)
         {
             return NotFound();
@@ -63,15 +64,13 @@ public class OrdersController : ControllerBase
         [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
     {
-        var orders = await _repository.GetOrdersByTenantAsync(
+        var query = new GetOrdersByTenantQuery(
             tenantId, status, paymentStatus, customerId, fromDate, toDate, page, pageSize);
-
-        var totalCount = await _repository.GetOrdersCountByTenantAsync(
-            tenantId, status, paymentStatus, customerId, fromDate, toDate);
+        var (items, totalCount) = await _bus.InvokeAsync<(IEnumerable<Order> Items, int TotalCount)>(query, cancellationToken);
 
         return Ok(new
         {
-            Items = orders,
+            Items = items,
             TotalCount = totalCount,
             Page = page,
             PageSize = pageSize,
@@ -90,12 +89,12 @@ public class OrdersController : ControllerBase
         [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
     {
-        var orders = await _repository.GetOrdersByCustomerAsync(customerId, tenantId, page, pageSize);
-        var totalCount = await _repository.GetOrdersCountByCustomerAsync(customerId, tenantId);
+        var query = new GetOrdersByCustomerQuery(customerId, tenantId, page, pageSize);
+        var (items, totalCount) = await _bus.InvokeAsync<(IEnumerable<Order> Items, int TotalCount)>(query, cancellationToken);
 
         return Ok(new
         {
-            Items = orders,
+            Items = items,
             TotalCount = totalCount,
             Page = page,
             PageSize = pageSize,
@@ -112,7 +111,8 @@ public class OrdersController : ControllerBase
         [FromHeader(Name = "X-Tenant-ID")] Guid tenantId,
         CancellationToken cancellationToken = default)
     {
-        var items = await _repository.GetOrderItemsByOrderIdAsync(orderId, tenantId);
+        var query = new GetOrderItemsQuery(orderId, tenantId);
+        var items = await _bus.InvokeAsync<IEnumerable<OrderItem>>(query, cancellationToken);
         return Ok(items);
     }
 
@@ -162,6 +162,24 @@ public class OrdersController : ControllerBase
             PaymentMethod: request.PaymentMethod,
             Notes: request.Notes,
             DiscountCode: request.DiscountCode);
+
+        // Validate command
+        var validator = _serviceProvider.GetService<IValidator<CreateOrderCommand>>();
+        if (validator != null)
+        {
+            var validationResult = await validator.ValidateAsync(command, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(new
+                {
+                    Errors = validationResult.Errors.Select(e => new
+                    {
+                        Field = e.PropertyName,
+                        Message = e.ErrorMessage
+                    })
+                });
+            }
+        }
 
         var order = await _bus.InvokeAsync<Order>(command, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);

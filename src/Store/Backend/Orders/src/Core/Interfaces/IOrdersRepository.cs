@@ -8,7 +8,7 @@ namespace B2X.Orders.Core.Interfaces;
 public interface IOrdersRepository
 {
     // Order operations
-    Task<Order?> GetOrderByIdAsync(Guid id, Guid tenantId);
+    Task<Order?> GetOrderByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
     Task<IEnumerable<Order>> GetOrdersByTenantAsync(
         Guid tenantId,
         string? status = null,
@@ -17,27 +17,29 @@ public interface IOrdersRepository
         DateTime? fromDate = null,
         DateTime? toDate = null,
         int page = 1,
-        int pageSize = 20);
+        int pageSize = 20,
+        CancellationToken cancellationToken = default);
     Task<int> GetOrdersCountByTenantAsync(
         Guid tenantId,
         string? status = null,
         string? paymentStatus = null,
         Guid? customerId = null,
         DateTime? fromDate = null,
-        DateTime? toDate = null);
-    Task<IEnumerable<Order>> GetOrdersByCustomerAsync(Guid customerId, Guid tenantId, int page = 1, int pageSize = 20);
-    Task<int> GetOrdersCountByCustomerAsync(Guid customerId, Guid tenantId);
-    Task AddOrderAsync(Order order);
-    Task UpdateOrderAsync(Order order);
-    Task DeleteOrderAsync(Guid id, Guid tenantId);
+        DateTime? toDate = null,
+        CancellationToken cancellationToken = default);
+    Task<IEnumerable<Order>> GetOrdersByCustomerAsync(Guid customerId, Guid tenantId, int page = 1, int pageSize = 20, CancellationToken cancellationToken = default);
+    Task<int> GetOrdersCountByCustomerAsync(Guid customerId, Guid tenantId, CancellationToken cancellationToken = default);
+    Task AddOrderAsync(Order order, CancellationToken cancellationToken = default);
+    Task UpdateOrderAsync(Order order, CancellationToken cancellationToken = default);
+    Task DeleteOrderAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
 
     // Order item operations
-    Task<OrderItem?> GetOrderItemByIdAsync(Guid id, Guid tenantId);
-    Task<IEnumerable<OrderItem>> GetOrderItemsByOrderIdAsync(Guid orderId, Guid tenantId);
-    Task AddOrderItemAsync(OrderItem orderItem);
-    Task UpdateOrderItemAsync(OrderItem orderItem);
-    Task DeleteOrderItemAsync(Guid id, Guid tenantId);
+    Task<OrderItem?> GetOrderItemByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<OrderItem>> GetOrderItemsByOrderIdAsync(Guid orderId, Guid tenantId, CancellationToken cancellationToken = default);
+    Task AddOrderItemAsync(OrderItem orderItem, CancellationToken cancellationToken = default);
+    Task UpdateOrderItemAsync(OrderItem orderItem, CancellationToken cancellationToken = default);
+    Task DeleteOrderItemAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
 
     // Bulk operations
-    Task AddOrderItemsAsync(IEnumerable<OrderItem> orderItems);
+    Task AddOrderItemsAsync(IEnumerable<OrderItem> orderItems, CancellationToken cancellationToken = default);
 }
