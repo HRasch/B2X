@@ -1,0 +1,441 @@
+﻿{
+  "auth": {
+    "login": {
+      "title": "Anmelden",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "submit": "Anmelden",
+      "forgotPassword": "Passwort vergessen?",
+      "devHelp": {
+        "email": "Verwenden: admin@b2x.com",
+        "password": "Verwenden: admin123",
+        "hint": "Demo-Anmeldedaten zum Testen"
+      },
+      "e2eMode": {
+        "title": "E2E-Testmodus",
+        "description": "Läuft im End-to-End-Testmodus mit automatisierten Tests"
+      },
+      "form": {
+        "email": {
+          "label": "E-Mail",
+          "placeholder": "Geben Sie Ihre E-Mail ein"
+        },
+        "password": {
+          "label": "Passwort",
+          "placeholder": "Geben Sie Ihr Passwort ein"
+        }
+      },
+      "actions": {
+        "login": "Anmelden",
+        "loggingIn": "Anmeldung läuft..."
+      },
+      "signup": {
+        "prompt": "Haben Sie noch kein Konto?",
+        "link": "Registrieren"
+      }
+    },
+    "register": {
+      "title": "Registrieren",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "fullName": "Vollständiger Name",
+      "submit": "Konto erstellen",
+      "alreadyHaveAccount": "Haben Sie bereits ein Konto?"
+    },
+    "logout": "Abmelden"
+  },
+  "ui": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "loading": "Wird geladen...",
+    "success": "Erfolg",
+    "error": "Fehler",
+    "warning": "Warnung",
+    "close": "Schließen",
+    "edit": "Bearbeiten",
+    "add": "Hinzufügen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "export": "Exportieren",
+    "import": "Importieren"
+  },
+  "errors": {
+    "required": "Dieses Feld ist erforderlich",
+    "invalid_email": "Ungültige E-Mail-Adresse",
+    "unauthorized": "Sie sind nicht berechtigt",
+    "forbidden": "Zugriff verweigert",
+    "not_found": "Nicht gefunden",
+    "server_error": "Serverfehler. Bitte versuchen Sie es später erneut.",
+    "network_error": "Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung.",
+    "validation_error": "Validierung fehlgeschlagen. Bitte überprüfen Sie Ihre Eingabe.",
+    "duplicate": "Dieses Element existiert bereits",
+    "min_length": "Muss mindestens {min} Zeichen lang sein",
+    "max_length": "Darf maximal {max} Zeichen lang sein",
+    "registrationCheckFailed": "Fehler beim Prüfen der Registrierung",
+    "registrationCheckError": "Fehler: {message}",
+    "registrationTypeDetermined": "Registrierungstyp bestimmt: {type}"
+  },
+  "validation": {
+    "email": "Bitte geben Sie eine gültige E-Mail ein",
+    "password": "Passwort muss mindestens 8 Zeichen lang sein",
+    "phone": "Bitte geben Sie eine gültige Telefonnummer ein",
+    "url": "Bitte geben Sie eine gültige URL ein",
+    "match": "Passwörter stimmen nicht überein"
+  },
+  "common": {
+    "yes": "Ja",
+    "no": "Nein",
+    "ok": "OK",
+    "back": "Zurück",
+    "home": "Startseite",
+    "language": "Sprache",
+    "settings": "Einstellungen",
+    "profile": "Profil",
+    "help": "Hilfe",
+    "about": "Über",
+    "version": "Version",
+    "error": "Fehler"
+  },
+  "form": {
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "phone": "Telefonnummer",
+    "streetAddress": "Straße und Hausnummer",
+    "city": "Stadt",
+    "postalCode": "Postleitzahl",
+    "country": "Land",
+    "state": "Bundesland",
+    "dateOfBirth": "Geburtsdatum",
+    "optional": "optional",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "selectCountry": "-- Bitte wählen --"
+  },
+  "registration": {
+    "title": "Registrierung",
+    "subtitle": "Erstellen Sie Ihr Konto",
+    "emailAvailable": "E-Mail-Adresse verfügbar",
+    "passwordRequirements": "Passwortanforderungen: mindestens 8 Zeichen, Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen",
+    "ageConfirmation": "Ich bestätige, dass ich mindestens {age} Jahre alt bin",
+    "acceptTerms": "Ich akzeptiere die",
+    "termsLink": "Allgemeinen Geschäftsbedingungen",
+    "withdrawalNotice": "Sie haben das Recht, innerhalb von 14 Tagen nach dem Kauf die Ware ohne Angabe von Gründen zurückzugeben.",
+    "acceptPrivacy": "Ich akzeptiere die",
+    "privacyLink": "Datenschutzbestimmungen",
+    "acceptMarketing": "Ich möchte Marketing-E-Mails erhalten",
+    "createAccount": "Konto erstellen",
+    "creating": "Konto wird erstellt...",
+    "alreadyHaveAccount": "Sie haben bereits ein Konto?",
+    "loginLink": "Hier anmelden",
+    "error": "Registrierungsfehler. Bitte versuchen Sie es später erneut.",
+    "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung."
+  },
+  "registrationCheck": {
+    "title": "Registrierungstyp Prüfen",
+    "subtitle": "Überprüfen Sie, ob Sie bereits als Bestandskunde registriert sind",
+    "error": "Fehler",
+    "email": "E-Mail-Adresse",
+    "businessType": "Unternehmenstyp",
+    "businessTypeOptions": {
+      "select": "-- Bitte wählen --",
+      "b2c": "B2C (Privatperson / Einzelunternehmer)",
+      "b2b": "B2B (Unternehmen / GmbH / GmbH & Co. KG)"
+    },
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "companyName": "Firmenname",
+    "phone": "Telefon",
+    "check": "Prüfen",
+    "checking": "Prüfen läuft...",
+    "customerData": "Ihre Kundendaten:",
+    "customerNumber": "Kundennummer:",
+    "name": "Name:",
+    "emailLabel": "E-Mail:",
+    "phoneLabel": "Telefon:",
+    "address": "Adresse:",
+    "matchScore": "Übereinstimmungsquote:",
+    "newCheck": "Neue Prüfung",
+    "continueWithData": "Mit Kundendaten fortfahren",
+    "back": "Zurück",
+    "continueRegistration": "Registrierung fortsetzen",
+    "info": {
+      "title": "Informationen",
+      "existingCustomer": "Bestandskunde: Sie sind bereits in unserem System registriert. Ihre Daten werden automatisch vorausgefüllt.",
+      "newCustomer": "Neukunde: Sie werden zur regulären Registrierung weitergeleitet.",
+      "checkDescription": "Die Prüfung wird anhand von E-Mail, Name und optional Telefon/Adresse durchgeführt."
+    },
+    "results": {
+      "existing": "✓ Sie sind bereits registriert",
+      "existingDescription": "Ihre Kundendaten wurden gefunden. Sie können sich mit vereinfachter Registrierung anmelden.",
+      "existingCustomer": "✓ Sie sind bereits Kunde",
+      "existingCustomerDescription": "Wir haben Ihre Daten in unserem System gefunden.",
+      "newRequired": "Registrierung erforderlich",
+      "newRequiredDescription": "Sie werden als Neukunde registriert. Füllen Sie das Registrierungsformular aus."
+    },
+    "validation": {
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+    }
+  },
+  "pricing": {
+    "calculatePrice": "Berechne Preis...",
+    "productPrice": "Produktpreis:",
+    "shipping": "Versand:",
+    "subtotal": "Summe (ohne MwSt.):",
+    "vat": "MwSt. ({rate}%):",
+    "total": "Gesamtpreis:",
+    "includingVat": "inkl. {rate}% MwSt.",
+    "netPrice": "Netto-Preis:",
+    "totalLabel": "Gesamt"
+  },
+  "categories": {
+    "title": "Kategorien",
+    "subtitle": "Durchsuchen Sie unsere Produktkategorien",
+    "allCategories": "Alle Kategorien",
+    "category": "Kategorie",
+    "productsCount": "{count} Produkt(e)",
+    "viewProducts": "Produkte ansehen",
+    "noCategories": "Keine Kategorien gefunden",
+    "noCategoriesDescription": "Derzeit sind keine Produktkategorien verfügbar.",
+    "categoryNotFound": "Kategorie nicht gefunden",
+    "categoryNotFoundDescription": "Die gesuchte Kategorie existiert nicht oder wurde entfernt.",
+    "viewAllCategories": "Alle Kategorien ansehen",
+    "subcategories": "Unterkategorien",
+    "productsInCategory": "Produkte in {category}",
+    "productsComingSoon": "Produkte kommen bald...",
+    "noProducts": "Keine Produkte gefunden",
+    "noProductsDescription": "In dieser Kategorie sind noch keine Produkte vorhanden.",
+    "browseOtherCategories": "Andere Kategorien durchsuchen"
+  },
+  "checkout": {
+    "title": "Kasse",
+    "subtitle": "Schließen Sie Ihren Einkauf ab",
+    "step": "Schritt {current} von {total}",
+    "steps": {
+      "shipping": "Versand",
+      "payment": "Zahlung",
+      "review": "Überprüfung"
+    },
+    "shipping": {
+      "title": "Versandinformationen",
+      "subtitle": "Geben Sie Ihre Versandadresse ein",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer",
+      "address": "Adresse",
+      "street": "Straße und Hausnummer",
+      "city": "Stadt",
+      "state": "Bundesland",
+      "zipCode": "Postleitzahl",
+      "country": "Land",
+      "saveAddress": "Adresse für zukünftige Bestellungen speichern",
+      "useBillingAddress": "Rechnungsadresse verwenden",
+      "continueToPayment": "Weiter zur Zahlung"
+    },
+    "payment": {
+      "title": "Zahlungsmethode",
+      "subtitle": "Wählen Sie Ihre bevorzugte Zahlungsmethode",
+      "methods": {
+        "creditCard": "Kreditkarte",
+        "debitCard": "Debitkarte",
+        "paypal": "PayPal",
+        "bankTransfer": "Banküberweisung",
+        "cashOnDelivery": "Nachnahme"
+      },
+      "cardNumber": "Kartennummer",
+      "expiryDate": "Ablaufdatum (MM/JJ)",
+      "cvv": "CVV",
+      "cardholderName": "Karteninhaber",
+      "billingAddress": "Rechnungsadresse",
+      "sameAsShipping": "Gleich wie Versandadresse",
+      "continueToReview": "Weiter zur Überprüfung"
+    },
+    "review": {
+      "title": "Bestellung überprüfen",
+      "subtitle": "Überprüfen Sie Ihre Bestellung vor dem Abschluss",
+      "shippingAddress": "Versandadresse",
+      "billingAddress": "Rechnungsadresse",
+      "paymentMethod": "Zahlungsmethode",
+      "orderSummary": "Bestellübersicht",
+      "subtotal": "Zwischensumme",
+      "shipping": "Versand",
+      "tax": "Steuer",
+      "total": "Gesamt",
+      "freeShipping": "Kostenloser Versand",
+      "editShipping": "Versand bearbeiten",
+      "editPayment": "Zahlung bearbeiten",
+      "placeOrder": "Bestellung aufgeben",
+      "termsAndConditions": "Ich akzeptiere die Allgemeinen Geschäftsbedingungen",
+      "privacyPolicy": "Datenschutzrichtlinie",
+      "termsRequired": "Sie müssen die Allgemeinen Geschäftsbedingungen akzeptieren"
+    },
+    "order": {
+      "success": "Bestellung erfolgreich!",
+      "successMessage": "Vielen Dank für Ihre Bestellung. Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
+      "orderNumber": "Bestellnummer",
+      "orderDate": "Bestelldatum",
+      "estimatedDelivery": "Voraussichtliche Lieferung",
+      "trackOrder": "Bestellung verfolgen",
+      "continueShopping": "Weiter einkaufen"
+    },
+    "errors": {
+      "shippingRequired": "Versandinformationen sind erforderlich",
+      "paymentRequired": "Zahlungsmethode ist erforderlich",
+      "termsRequired": "Sie müssen die Allgemeinen Geschäftsbedingungen akzeptieren",
+      "invalidCard": "Ungültige Kartendaten",
+      "paymentFailed": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut."
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Willkommen im B2X Store",
+      "subtitle": "Entdecken Sie tolle Produkte mit schnellem, sicherem Einkaufen",
+      "shopNow": "Jetzt einkaufen",
+      "browseCategories": "Kategorien durchsuchen"
+    },
+    "featuredProducts": {
+      "title": "Ausgewählte Produkte",
+      "viewAll": "Alle Produkte ansehen"
+    },
+    "categories": {
+      "title": "Nach Kategorie einkaufen"
+    },
+    "features": {
+      "title": "Warum B2X wählen?",
+      "quality": {
+        "title": "Premium Qualität",
+        "description": "Sorgfältig ausgewählte Produkte von vertrauenswürdigen Lieferanten"
+      },
+      "fast": {
+        "title": "Schnelle Lieferung",
+        "description": "Schnell und zuverlässiger Versand direkt zu Ihnen nach Hause"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Unser Kundenservice-Team ist für Sie da"
+      }
+    }
+  },
+  "widgets": {
+    "notFound": "Widget nicht gefunden",
+    "notFoundDescription": "Das Widget-Komponent konnte nicht geladen werden. Bitte überprüfen Sie die Widget-Typ-ID.",
+    "previous": "← Zurück",
+    "next": "Weiter →"
+  },
+  "footer": {
+    "copyright": "© 2024 B2X. Alle Rechte vorbehalten."
+  },
+  "countries": {
+    "DE": "Deutschland",
+    "AT": "Österreich",
+    "CH": "Schweiz"
+  },
+  "product": {
+    "sku": "Artikelnummer",
+    "reviews": {
+      "count": "({{count}} Bewertungen)",
+      "viewAll": "Alle Bewertungen anzeigen ({{total}} insgesamt)"
+    },
+    "stock": {
+      "inStock": "✓ Auf Lager",
+      "outOfStock": "✗ Nicht auf Lager",
+      "available": "({{quantity}} verfügbar)"
+    },
+    "share": "Teilen",
+    "shareOnFacebook": "Auf Facebook teilen",
+    "shareOnTwitter": "Auf Twitter teilen",
+    "copyLink": "Link kopieren"
+  },
+  "accessibility": {
+    "skipToMain": "Zum Hauptinhalt springen"
+  },
+  "layout": {
+    "header": "Kopfzeile",
+    "sidebar": "Seitenleiste",
+    "mainContent": "Hauptinhalt",
+    "footer": "Fußzeile",
+    "toggleSidebar": "Seitenleiste umschalten"
+  },
+  "vat": {
+    "countryCode": "Ländercode",
+    "vatNumber": "Umsatzsteuer-ID",
+    "validate": "Umsatzsteuer-ID validieren",
+    "validating": "Validierung läuft...",
+    "companyName": "Firmenname",
+    "address": "Adresse",
+    "reverseCharge": "Reverse Charge",
+    "reverseChargeApplies": "Gilt",
+    "standardVatRate": "Standardsatz",
+    "clearAndStartOver": "Löschen und neu starten",
+    "validationHelp": {
+      "title": "Hilfe zur Umsatzsteuer-Validierung",
+      "description": "Geben Sie eine gültige Umsatzsteuer-ID für das ausgewählte Land ein. Das System überprüft diese mit dem VIES-Dienst der Europäischen Kommission."
+    },
+    "countries": {
+      "AT": "Österreich",
+      "BE": "Belgien",
+      "BG": "Bulgarien",
+      "HR": "Kroatien",
+      "CY": "Zypern",
+      "CZ": "Tschechische Republik",
+      "DK": "Dänemark",
+      "EE": "Estland",
+      "FI": "Finnland",
+      "FR": "Frankreich",
+      "GR": "Griechenland",
+      "HU": "Ungarn",
+      "IE": "Irland",
+      "IT": "Italien",
+      "LV": "Lettland",
+      "LT": "Litauen",
+      "LU": "Luxemburg",
+      "MT": "Malta",
+      "NL": "Niederlande",
+      "PL": "Polen",
+      "PT": "Portugal",
+      "RO": "Rumänien",
+      "SK": "Slowakei",
+      "SI": "Slowenien",
+      "ES": "Spanien",
+      "SE": "Schweden"
+    }
+  },
+  "erp": {
+    "customerLookup": {
+      "emailLabel": "E-Mail-Adresse",
+      "searching": "Kunde wird gesucht...",
+      "searchError": "Fehler bei der Kundensuche",
+      "customerNotFound": "Kunde nicht gefunden",
+      "customerFound": "Kunde gefunden",
+      "welcomeBackWithName": "Willkommen zurück, {name}!",
+      "customerNumber": "Kundennummer",
+      "customerType": "Kundentyp",
+      "privateCustomer": "Privatkunde",
+      "businessCustomer": "Geschäftskunde",
+      "businessInfo": "Geschäftsinformationen",
+      "company": "Firma",
+      "phone": "Telefon",
+      "country": "Land",
+      "creditLimit": "Kreditlimit",
+      "continue": "Fortfahren",
+      "searchButton": "Kundensuche",
+      "newSearch": "Neue Suche",
+      "cancel": "Abbrechen",
+      "newCustomerQuestion": "Sind Sie ein neuer Kunde?",
+      "newCustomerDescription": "Sie können sich jetzt mit vereinfachter Registrierung anmelden.",
+      "newRegistration": "Neue Registrierung",
+      "welcomeBack": "Willkommen zurück",
+      "enterEmailToStart": "Geben Sie Ihre E-Mail-Adresse ein, um den Registrierungsprozess zu starten.",
+      "customerInfoFound": "Wir haben Ihre Kundendaten in unserem System gefunden.",
+      "diagnosticInfo": "🔧 Diagnose-Info (Debug)"
+    }
+  }
+}

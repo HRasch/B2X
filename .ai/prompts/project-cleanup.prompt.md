@@ -86,7 +86,7 @@ Provide:
 - Priority list (critical → low)
 - Effort estimate for each area
 
-Output: `.ai/issues/CLEANUP-001/code-assessment.md`
+Output: GitHub Issue #XXX (Code Assessment)
 ```
 
 ### Dependency Assessment
@@ -108,7 +108,7 @@ Provide:
 - Migration path for major updates
 - Recommended update order
 
-Output: `.ai/issues/CLEANUP-002/dependency-audit.md`
+Output: GitHub Issue #XXX (Dependency Audit)
 ```
 
 ### Test Coverage Assessment
@@ -130,7 +130,7 @@ Provide:
 - Slow test list with bottlenecks
 - Test structure recommendations
 
-Output: `.ai/issues/CLEANUP-003/test-assessment.md`
+Output: GitHub Issue #XXX (Test Assessment)
 ```
 
 ### Documentation Assessment
@@ -154,7 +154,7 @@ Provide:
 - Deployment docs status
 - Prioritized list of updates needed
 
-Output: `.ai/issues/CLEANUP-004/docs-assessment.md`
+Output: GitHub Issue #XXX (Docs Assessment)
 ```
 
 ### Performance Assessment
@@ -177,7 +177,7 @@ Provide:
 - Quick wins for optimization
 - Estimated effort for major improvements
 
-Output: `.ai/issues/CLEANUP-005/performance-profile.md`
+Output: GitHub Issue #XXX (Performance Profile)
 ```
 
 ### Security Assessment
@@ -201,7 +201,7 @@ Provide:
 - Hardcoded secrets locations
 - Remediation steps for each
 
-Output: `.ai/issues/CLEANUP-006/security-scan.md`
+Output: GitHub Issue #XXX (Security Scan)
 ```
 
 ## Phase 2: Planning Questions
@@ -211,13 +211,13 @@ Output: `.ai/issues/CLEANUP-006/security-scan.md`
 **Ask @SARAH:**
 
 ```
-Based on these assessment files:
-- .ai/issues/CLEANUP-001/code-assessment.md
-- .ai/issues/CLEANUP-002/dependency-audit.md
-- .ai/issues/CLEANUP-003/test-assessment.md
-- .ai/issues/CLEANUP-004/docs-assessment.md
-- .ai/issues/CLEANUP-005/performance-profile.md
-- .ai/issues/CLEANUP-006/security-scan.md
+Based on these GitHub Issues:
+- GitHub Issue #XXX (Code Assessment)
+- GitHub Issue #XXX (Dependency Audit)
+- GitHub Issue #XXX (Test Assessment)
+- GitHub Issue #XXX (Docs Assessment)
+- GitHub Issue #XXX (Performance Profile)
+- GitHub Issue #XXX (Security Scan)
 
 Please consolidate into a cleanup plan:
 
@@ -232,7 +232,7 @@ Please consolidate into a cleanup plan:
 6. Identify dependencies between tasks
 7. Risk assessment for each sprint
 
-Output: `.ai/issues/CLEANUP-000/cleanup-plan.md`
+Output: GitHub Issue #XXX (Cleanup Plan)
 ```
 
 ### Risk Assessment
@@ -407,7 +407,7 @@ Document for team:
 5. Monitoring approach?
 6. Escalation points?
 
-Create: `.ai/issues/CLEANUP-000/handover.md`
+Create: GitHub Issue #XXX (Cleanup Handover)
 ```
 
 ## Common Cleanup Scenarios
@@ -577,7 +577,7 @@ Found duplication or complexity:
 In Progress / Completed / Blocked
 
 ---
-Tracked in: `.ai/issues/CLEANUP-XXX/`
+Tracked in: GitHub Issues (CLEANUP-XXX)
 ```
 
 ---

@@ -72,7 +72,7 @@ See [Architecture Documentation](docs/architecture/) for details.
 ### Start Aspire (Recommended)
 
 ```bash
-cd AppHost
+cd src/backend/Infrastructure/Hosting/AppHost
 ASPNETCORE_ENVIRONMENT=Development dotnet run
 
 # Services orchestrated by Aspire:
@@ -127,27 +127,27 @@ npm install && npm run dev
 
 ## 📚 Documentation
 
-- [Backend Architecture](backend/docs/architecture.md)
-- [API Specifications](backend/docs/api-specifications.md)
-- [Shop Platform Specifications](backend/docs/shop-platform-specs.md)
-- [Procurement Gateway Specifications](backend/docs/procurement-gateway-specs.md)
-- **[Frontend CMS & Layout Builder](backend/docs/cms-frontend-builder.md)** - NEW: Customer-facing customization system
-- **[CMS Overview](DOC-CMS-OVERVIEW)** - NEW: Business-friendly CMS introduction
-- **[CMS Implementation Details](DOC-CMS-IMPLEMENTATION)** - NEW: Technical CMS architecture
-- [Multitenant Design](backend/docs/tenant-isolation.md)
-- [Development Guidelines](DOC-009)
+- [Backend Architecture](docs/architecture/)
+- [API Specifications](docs/architecture/components/)
+- [Shop Platform Specifications](docs/architecture/features/)
+- [Procurement Gateway Specifications](docs/architecture/components/)
+- **[Frontend CMS & Layout Builder](docs/architecture/features/CMS.md)** - Customer-facing customization system
+- **[CMS Overview](DOC-CMS-OVERVIEW)** - Business-friendly CMS introduction
+- **[CMS Implementation Details](DOC-CMS-IMPLEMENTATION)** - Technical CMS architecture
+- [Multitenant Design](docs/architecture/patterns/MULTITENANCY.md)
+- [Development Guidelines](.github/instructions/)
 
 ## 🧪 Testing
 
 ### Backend
 ```bash
-cd backend/services/auth-service
-dotnet test tests/
+cd src/backend/Store/Tests
+dotnet test
 ```
 
 ### Frontend
 ```bash
-cd Frontend/Store
+cd frontend/Store
 npm run test              # Unit tests
 npm run test:components   # Component tests
 npm run test:e2e          # End-to-end tests
@@ -159,18 +159,18 @@ npm run coverage          # Coverage report
 ### Local Development with Docker
 ```bash
 # Build and run with docker-compose
-cd backend/infrastructure
+cd config
 docker-compose up
 
 # Frontend is served separately
-cd Frontend/Store
+cd frontend/Store
 npm run dev
 ```
 
 ### Cloud Deployment
-- **AWS**: See `backend/infrastructure/terraform/aws/`
-- **Azure**: See `backend/infrastructure/terraform/azure/`
-- **Google Cloud**: See `backend/infrastructure/terraform/gcp/`
+- **AWS**: See `src/backend/Infrastructure/Hosting/`
+- **Azure**: See `src/backend/Infrastructure/Hosting/`
+- **Google Cloud**: See `src/backend/Infrastructure/Hosting/`
 
 ## 🔐 Environment Configuration
 

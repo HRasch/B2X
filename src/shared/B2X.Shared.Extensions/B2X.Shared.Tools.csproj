@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>B2X.Shared.Extensions</AssemblyName>
+    <RootNamespace>B2X.Shared.Extensions</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Dependencies on other Shared packages -->
+    <ProjectReference Include="../../backend/Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+
+    <ProjectReference Include="../../../../src/backend/Shared/Domain/B2X.Types/B2X.Types.csproj" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- AOP and Validation -->
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
+  </ItemGroup>
+
+</Project>
+
+
+
+

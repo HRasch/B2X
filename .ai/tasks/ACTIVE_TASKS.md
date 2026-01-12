@@ -74,33 +74,77 @@ last-updated: 2026-01-08
 
 ## Current Active Tasks
 
-## TASK-001 � IN-PROGRESS @DocMaintainer — Documentation improvements for multi-chat task management
+## TASK-003 🟡 IN-PROGRESS @Backend — Core API Implementation (REST + GraphQL)
+
+**Assigned To**: @Backend  
+**Domain**: backend  
+**Priority**: P0  
+**Started**: 2026-01-10  
+**Expected Completion**: 2026-02-10  
+**Status File**: `.ai/tasks/task-003-core-api-implementation/progress.md`  
+**Blockers**: None
+
+**Brief**: Implement CRUD operations for Products, SKUs, Categories, Inventory, Prices, Orders with REST and GraphQL interfaces.
+
+**Decision**: P0 MVP requirement from backlog, assign to @Backend with full CQRS implementation.
+
+## TASK-004 🟡 IN-PROGRESS @Frontend — Starter Headless Storefront + CLI
+
+**Assigned To**: @Frontend  
+**Domain**: frontend  
+**Priority**: P0  
+**Started**: 2026-01-10  
+**Expected Completion**: 2026-02-01  
+**Status File**: `.ai/tasks/task-004-starter-storefront/progress.md`  
+**Blockers**: TASK-003 (API endpoints)
+
+**Brief**: Implement Next.js storefront with product pages, cart, and CLI tool for local development.
+
+**Decision**: P0 MVP requirement, can run parallel with backend API development.
+
+## TASK-005 � BLOCKED @Security — Authentication & Authorization (RBAC)
+
+**Assigned To**: @Security  
+**Domain**: security  
+**Priority**: P0  
+**Started**: 2026-01-10  
+**Expected Completion**: 2026-02-01  
+**Status File**: `.ai/tasks/task-005-authentication-authorization/progress.md`  
+**Blockers**: Rate limit coordination - sequential workflow active
+
+**Brief**: Implement user authentication with JWT/API keys and role-based authorization system.
+
+**Decision**: P0 MVP requirement, paused due to rate limit constraints - resume after Backend completes.
+
+## TASK-006 🟠 BLOCKED @DocMaintainer — Developer DX - Docs & OpenAPI
 
 **Assigned To**: @DocMaintainer  
 **Domain**: documentation  
-**Priority**: P1  
-**Started**: 2026-01-08  
-**Expected Completion**: 2026-01-10  
-**Status File**: `.ai/tasks/task-001-documentation-improvements/progress.md`  
-**Blockers**: None
+**Priority**: P0  
+**Started**: 2026-01-10  
+**Expected Completion**: 2026-01-24  
+**Status File**: `.ai/tasks/task-006-developer-dx-docs/progress.md`  
+**Blockers**: TASK-003 (API endpoints) + Rate limit coordination
 
-**Brief**: Address documentation gaps identified in code review for multi-chat system.
+**Brief**: Implement hosted API docs with OpenAPI/Swagger and GraphQL playground plus quickstart guide.
 
-**Decision**: Create dedicated documentation chat, load path-specific instructions.
+**Decision**: P0 MVP requirement, paused due to rate limit constraints - resume after API completion.
 
-## TASK-002 � IN-PROGRESS @SARAH — First operational task dispatch validation
+## TASK-007 🟡 IN-PROGRESS @SARAH — Sprint 1 Coordination and Tracking
 
 **Assigned To**: @SARAH  
 **Domain**: coordination  
-**Priority**: P0  
-**Started**: 2026-01-08  
-**Expected Completion**: 2026-01-08  
-**Status File**: `.ai/tasks/task-002-first-operational-dispatch/progress.md`  
+**Priority**: P1  
+**Started**: 2026-01-10  
+**Expected Completion**: 2026-01-24  
+**Status File**: `.ai/tasks/task-007-sprint-1-coordination/progress.md`  
 **Blockers**: None
 
-**Brief**: Execute first task dispatch to validate multi-chat workflow and rate-limit coordination.
+**Brief**: Coordinate Sprint 1 execution, track progress against sprint goals, manage dependencies.
 
-**Decision**: Self-assigned coordination task to test system operational readiness.
+**Decision**: Self-assigned coordination task to ensure Sprint 1 success and proper sequencing.
+
+**Archived Tasks**: See `.ai/tasks/archive/2026-01/` for completed tasks.
 
 ---
 

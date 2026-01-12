@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <PublishAot>false</PublishAot>
+
+    <!-- CLI Tool Packing -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>B2X-ops</ToolCommandName>
+    <PackageId>B2X.CLI.Operations</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Author>B2X Team</Author>
+    <Description>B2X Operations CLI - Platform management and monitoring</Description>
+    <!-- Disable CPM for CLI tool (own dependency management) -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="Spectre.Console" Version="0.54.0" />
+    <PackageReference Include="Spectre.Console.Json" Version="0.54.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\shared\B2X.CLI.Shared\B2X.CLI.Shared.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Infrastructure\Monitoring\B2X.Shared.Monitoring.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Domain\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\..\backend\Shared\Domain\Shared\B2X.Api.Validation\B2X.Api.Validation.csproj" />
+  </ItemGroup>
+
+</Project>
+
+
+

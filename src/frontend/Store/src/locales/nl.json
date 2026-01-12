@@ -1,0 +1,244 @@
+{
+  "auth": {
+    "login": {
+      "title": "Aanmelden",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "submit": "Aanmelden",
+      "forgotPassword": "Wachtwoord vergeten?",
+      "devHelp": {
+        "email": "Gebruik: admin@b2x.com",
+        "password": "Gebruik: admin123",
+        "hint": "Demo-inloggegevens voor testen"
+      },
+      "e2eMode": {
+        "title": "E2E-testmodus",
+        "description": "Uitvoering in end-to-end testmodus met geautomatiseerde tests"
+      },
+      "form": {
+        "email": {
+          "label": "E-mail",
+          "placeholder": "Voer uw e-mail in"
+        },
+        "password": {
+          "label": "Wachtwoord",
+          "placeholder": "Voer uw wachtwoord in"
+        }
+      },
+      "actions": {
+        "login": "Aanmelden",
+        "loggingIn": "Aanmelden..."
+      },
+      "signup": {
+        "prompt": "Heeft u nog geen account?",
+        "link": "Registreren"
+      }
+    },
+    "register": {
+      "title": "Registreren",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "confirmPassword": "Wachtwoord bevestigen",
+      "fullName": "Volledige naam",
+      "submit": "Account aanmaken",
+      "alreadyHaveAccount": "Heeft u al een account?"
+    },
+    "logout": "Afmelden"
+  },
+  "ui": {
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "loading": "Bezig met laden...",
+    "success": "Succes",
+    "error": "Fout",
+    "warning": "Waarschuwing",
+    "close": "Sluiten",
+    "edit": "Bewerken",
+    "add": "Toevoegen",
+    "search": "Zoeken",
+    "filter": "Filteren",
+    "sort": "Sorteren",
+    "export": "Exporteren",
+    "import": "Importeren"
+  },
+  "errors": {
+    "required": "Dit veld is verplicht",
+    "invalid_email": "Ongeldig e-mailadres",
+    "unauthorized": "U bent niet geautoriseerd",
+    "forbidden": "Toegang geweigerd",
+    "not_found": "Niet gevonden",
+    "server_error": "Serverfout. Probeer het later opnieuw.",
+    "network_error": "Netwerkfout. Controleer uw verbinding.",
+    "validation_error": "Validatie mislukt. Controleer uw invoer.",
+    "duplicate": "Dit item bestaat al",
+    "min_length": "Moet minstens {min} tekens zijn",
+    "max_length": "Mag maximaal {max} tekens zijn"
+  },
+  "validation": {
+    "email": "Voer een geldig e-mailadres in",
+    "password": "Wachtwoord moet minstens 8 tekens zijn",
+    "phone": "Voer een geldig telefoonnummer in",
+    "url": "Voer een geldige URL in",
+    "match": "Wachtwoorden komen niet overeen"
+  },
+  "common": {
+    "yes": "Ja",
+    "no": "Nee",
+    "ok": "OK",
+    "back": "Terug",
+    "home": "Start",
+    "language": "Taal",
+    "settings": "Instellingen",
+    "profile": "Profiel",
+    "help": "Help",
+    "about": "Over",
+    "version": "Versie",
+    "error": "Fout"
+  },
+  "product": {
+    "stock": {
+      "inStock": "Op voorraad",
+      "outOfStock": "Niet op voorraad",
+      "lowStock": "Beperkte voorraad",
+      "available": "{count} beschikbaar",
+      "soldOut": "Uitverkocht"
+    },
+    "reviews": {
+      "title": "Beoordelingen",
+      "averageRating": "Gemiddelde beoordeling",
+      "totalReviews": "{count} beoordelingen",
+      "writeReview": "Schrijf een beoordeling",
+      "noReviews": "Nog geen beoordelingen",
+      "rating": "Beoordeling",
+      "review": "Beoordeling",
+      "submit": "Verzenden",
+      "anonymous": "Anoniem"
+    },
+    "share": {
+      "title": "Delen",
+      "copyLink": "Link kopiëren",
+      "shareOn": "Delen op {platform}",
+      "linkCopied": "Link gekopieerd naar klembord"
+    }
+  },
+  "accessibility": {
+    "skipToMain": "Naar hoofdinhoud springen"
+  },
+  "layout": {
+    "header": "Koptekst",
+    "sidebar": "Zijbalk",
+    "mainContent": "Hoofdinhoud",
+    "footer": "Voettekst",
+    "toggleSidebar": "Zijbalk in-/uitschakelen"
+  },
+  "vat": {
+    "countryCode": "Landcode",
+    "vatNumber": "BTW-nummer",
+    "validate": "BTW valideren",
+    "validating": "Bezig met valideren...",
+    "companyName": "Bedrijfsnaam",
+    "address": "Adres",
+    "reverseCharge": "Reverse Charge",
+    "reverseChargeApplies": "Van toepassing",
+    "standardVatRate": "Standaardtarief",
+    "clearAndStartOver": "Wissen en opnieuw beginnen",
+    "validationHelp": {
+      "title": "Help bij BTW-validatie",
+      "description": "Voer een geldig BTW-nummer in voor het geselecteerde land. Het systeem controleert dit met de VIES-service van de Europese Commissie."
+    },
+    "countries": {
+      "AT": "Oostenrijk",
+      "BE": "België",
+      "BG": "Bulgarije",
+      "HR": "Kroatië",
+      "CY": "Cyprus",
+      "CZ": "Tsjechië",
+      "DK": "Denemarken",
+      "EE": "Estland",
+      "FI": "Finland",
+      "FR": "Frankrijk",
+      "GR": "Griekenland",
+      "HU": "Hongarije",
+      "IE": "Ierland",
+      "IT": "Italië",
+      "LV": "Letland",
+      "LT": "Litouwen",
+      "LU": "Luxemburg",
+      "MT": "Malta",
+      "NL": "Nederland",
+      "PL": "Polen",
+      "PT": "Portugal",
+      "RO": "Roemenië",
+      "SK": "Slowakije",
+      "SI": "Slovenië",
+      "ES": "Spanje",
+      "SE": "Zweden"
+    }
+  },
+  "erp": {
+    "customerLookup": {
+      "emailLabel": "E-mailadres",
+      "searching": "Klant zoeken...",
+      "searchError": "Fout bij klant zoeken",
+      "customerNotFound": "Klant niet gevonden",
+      "customerFound": "Klant gevonden",
+      "welcomeBackWithName": "Welkom terug, {name}!",
+      "customerNumber": "Klantnummer",
+      "customerType": "Klanttype",
+      "privateCustomer": "Particuliere klant",
+      "businessCustomer": "Zakelijke klant",
+      "businessInfo": "Bedrijfsinformatie",
+      "company": "Bedrijf",
+      "phone": "Telefoon",
+      "country": "Land",
+      "creditLimit": "Kredietlimiet",
+      "continue": "Doorgaan",
+      "searchButton": "Klant zoeken",
+      "newSearch": "Nieuwe zoekopdracht",
+      "cancel": "Annuleren",
+      "newCustomerQuestion": "Bent u een nieuwe klant?",
+      "newCustomerDescription": "U kunt zich nu registreren met vereenvoudigde registratie.",
+      "newRegistration": "Nieuwe registratie",
+      "welcomeBack": "Welkom terug",
+      "enterEmailToStart": "Voer uw e-mailadres in om het registratieproces te starten.",
+      "customerInfoFound": "We hebben uw klantgegevens in ons systeem gevonden.",
+      "diagnosticInfo": "🔧 Diagnostische info (Debug)"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Welkom bij B2X Store",
+      "subtitle": "Ontdek geweldige producten met snel en veilig winkelen",
+      "shopNow": "Nu winkelen",
+      "browseCategories": "Bladeren door categorieën"
+    },
+    "featuredProducts": {
+      "title": "Uitgelichte producten",
+      "viewAll": "Alle producten bekijken"
+    },
+    "categories": {
+      "title": "Winkelen per categorie"
+    },
+    "features": {
+      "title": "Waarom B2X kiezen?",
+      "quality": {
+        "title": "Premium kwaliteit",
+        "description": "Voorzichtig geselecteerde producten van vertrouwde leveranciers"
+      },
+      "fast": {
+        "title": "Snelle levering",
+        "description": "Snelle en betrouwbare verzending rechtstreeks naar uw deur"
+      },
+      "support": {
+        "title": "24/7 ondersteuning",
+        "description": "Ons klantenserviceteam is er om u te helpen"
+      }
+    }
+  },
+  "pricing": {
+    "includingVat": "incl. {rate}% BTW"
+  }
+}

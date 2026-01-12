@@ -1435,6 +1435,42 @@ dotnet_diagnostic.SA1649.severity = warning
 dotnet_diagnostic.SA1651.severity = warning
 
 ###############################
+# Meziantou Analyzers         #
+###############################
+
+# MA0002: IEqualityComparer<string> or IComparer<string> is missing
+# Low priority - string comparisons work correctly, this is optimization advice
+dotnet_diagnostic.MA0002.severity = suggestion
+
+# MA0004: Use ConfigureAwait
+# Disabled for ASP.NET Core applications where SynchronizationContext is not used
+# See: https://blog.stephencleary.com/2017/03/aspnetcore-synchronization-context.html
+dotnet_diagnostic.MA0004.severity = none
+
+# MA0006: Use String.Equals instead of equality operator
+dotnet_diagnostic.MA0006.severity = suggestion
+
+# MA0074: Avoid implicit culture-sensitive methods
+dotnet_diagnostic.MA0074.severity = suggestion
+
+###############################
+# xUnit Analyzers             #
+###############################
+
+# xUnit1051: Use TestContext.Current.CancellationToken
+# This is a new xUnit v3 recommendation, not critical
+# Many tests use CancellationToken.None intentionally for simplicity
+dotnet_diagnostic.xUnit1051.severity = suggestion
+
+###############################
+# Sonar Analyzers             #
+###############################
+
+# S1144: Unused private types or members should be removed
+# Often false positives with DI, serialization, and test fixtures
+dotnet_diagnostic.S1144.severity = suggestion
+
+###############################
 # Test Project Overrides      #
 ###############################
 
@@ -1442,6 +1478,7 @@ dotnet_diagnostic.SA1651.severity = warning
 # Relax some rules for test projects
 dotnet_diagnostic.CA1707.severity = none
 dotnet_diagnostic.CA1062.severity = none
+dotnet_diagnostic.CA1816.severity = none
 dotnet_diagnostic.CA2007.severity = none
 dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.RCS1163.severity = none

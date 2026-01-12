@@ -1,26 +1,42 @@
 ---
-docid: KB-163
-title: Archunitnet
-owner: @DocMaintainer
+docid: KB-020
+title: ArchUnitNET - Architecture Testing Framework
+owner: @TechLead
 status: Active
 created: 2026-01-08
+updated: 2026-01-11
 ---
 
-﻿# ArchUnitNET - Architecture Testing Framework
+# ArchUnitNET - Architecture Testing Framework
 
-**Last Updated**: 2. Januar 2026  
+**Last Updated**: 11. Januar 2026  
 **Maintained By**: GitHub Copilot  
 **Status**: ✅ Current  
 **DocID**: `KB-020`
 
 ---
 
+## Overview
+
+ArchUnitNET is a free, simple library for checking the architecture of C# code. It is the C# fork of [ArchUnit Java](https://www.archunit.org/) that enables automated architecture testing by analyzing C# bytecode and importing all classes into a code structure. The main focus is to automatically test architecture and coding rules.
+
+---
+
 ## Official Resources
 
-- **GitHub Repository**: [TNG/ArchUnitNET](https://github.com/TNG/ArchUnitNET) (1.2k+ ⭐)
+- **GitHub Repository**: [TNG/ArchUnitNET](https://github.com/TNG/ArchUnitNET) (1.2k+ ⭐, 34 contributors)
 - **Official Documentation**: [archunitnet.readthedocs.io](https://archunitnet.readthedocs.io/)
-- **NuGet Package**: [TngTech.ArchUnitNET.xUnit](https://www.nuget.org/packages/TngTech.ArchUnitNET.xUnit/)
+  - **Latest Version**: https://archunitnet.readthedocs.io/en/latest/
+  - **Stable Version**: https://archunitnet.readthedocs.io/en/stable/
+- **NuGet Packages**:
+  - Core: [TngTech.ArchUnitNET](https://www.nuget.org/packages/TngTech.ArchUnitNET/)
+  - xUnit: [TngTech.ArchUnitNET.xUnit](https://www.nuget.org/packages/TngTech.ArchUnitNET.xUnit/)
+  - xUnit V3: [TngTech.ArchUnitNET.xUnitV3](https://www.nuget.org/packages/TngTech.ArchUnitNET.xUnitV3/)
+  - NUnit: [TngTech.ArchUnitNET.NUnit](https://www.nuget.org/packages/TngTech.ArchUnitNET.NUnit/)
+  - MSTest V2: [TngTech.ArchUnitNET.MSTestV2](https://www.nuget.org/packages/TngTech.ArchUnitNET.MSTestV2/)
+  - TUnit: [TngTech.ArchUnitNET.TUnit](https://www.nuget.org/packages/TngTech.ArchUnitNET.TUnit/) (new)
 - **License**: Apache 2.0 (✅ commercial use allowed)
+- **Maintainer**: [TNG Technology Consulting GmbH](https://www.tngtech.com/)
 
 ---
 
@@ -29,21 +45,49 @@ created: 2026-01-08
 | Aspect | Details |
 |--------|---------|
 | **Purpose** | Automated architecture testing for .NET |
-| **Version** | 0.13.1 (current in B2X) |
-| **Test Framework** | xUnit integration |
-| **.NET Support** | .NET 6, 7, 8, 9, 10 |
+| **Current Version** | 0.13.1 (latest stable) |
+| **B2X Version** | 0.13.1 |
+| **Test Frameworks** | xUnit, xUnit V3, NUnit, MSTest V2, TUnit |
+| **.NET Support** | .NET Framework 4.6.2+, .NET Core 6, 7, 8, 9, 10 |
 | **Pattern** | Fluent API for readable rules |
 | **Performance** | < 30 seconds for full architecture scan |
+| **C# Version** | 99.7% of codebase |
+| **Last Release** | 0.13.1 (2 days ago) |
+| **Total Releases** | 55+ versions
 
 ---
 
 ## Installation
 
+### Test Framework Support
+
+ArchUnitNET offers framework-specific extensions for seamless integration:
+
+| Framework | Package | Status | Purpose |
+|-----------|---------|--------|---------|
+| **xUnit** | `TngTech.ArchUnitNET.xUnit` | Stable | ✅ B2X Standard |
+| **xUnit V3** | `TngTech.ArchUnitNET.xUnitV3` | Stable | **B2X Standard** (.NET 10) |
+| **NUnit** | `TngTech.ArchUnitNET.NUnit` | Stable | NUnit integration |
+| **MSTest V2** | `TngTech.ArchUnitNET.MSTestV2` | Stable | Visual Studio test explorer |
+| **TUnit** | `TngTech.ArchUnitNET.TUnit` | New | Modern .NET testing |
+
 ### NuGet Package (Central Package Management)
+
+**For B2X (xUnit)**:
 
 ```xml
 <!-- Directory.Packages.props -->
 <PackageVersion Include="TngTech.ArchUnitNET.xUnit" Version="0.13.1" />
+```
+
+**Alternative frameworks**:
+
+```xml
+<!-- For other test frameworks -->
+<PackageVersion Include="TngTech.ArchUnitNET.NUnit" Version="0.13.1" />
+<PackageVersion Include="TngTech.ArchUnitNET.MSTestV2" Version="0.13.1" />
+<PackageVersion Include="TngTech.ArchUnitNET.TUnit" Version="0.13.1" />
+<PackageVersion Include="TngTech.ArchUnitNET" Version="0.13.1" />
 ```
 
 ### Project Reference
@@ -51,6 +95,18 @@ created: 2026-01-08
 ```xml
 <!-- .csproj -->
 <PackageReference Include="TngTech.ArchUnitNET.xUnit" />
+```
+
+### Command Line Installation
+
+```bash
+# B2X standard (xUnit)
+dotnet add package TngTech.ArchUnitNET.xUnit
+
+# Other frameworks
+dotnet add package TngTech.ArchUnitNET.NUnit
+dotnet add package TngTech.ArchUnitNET.MSTestV2
+dotnet add package TngTech.ArchUnitNET.TUnit
 ```
 
 ---
@@ -208,16 +264,28 @@ backend/Tests/B2X.Architecture.Tests/
 
 ### Architecture Base Class
 
+> ⚠️ **xUnit V3 Note**: For xUnit V3, use `using ArchUnitNET.xUnitV3;` (NOT `xUnit`). Also add `using Xunit;` for `[Fact]` attributes.
+
 ```csharp
+using ArchUnitNET.Domain;
+using ArchUnitNET.Fluent;
+using ArchUnitNET.Loader;
+using ArchUnitNET.xUnitV3;  // For xUnit V3 - provides Check() extension
+using Xunit;                 // Required for [Fact] attribute
+using static ArchUnitNET.Fluent.ArchRuleDefinition;
+
+namespace B2X.ArchitectureTests;  // Avoid 'Architecture' in namespace name
+
 public abstract class ArchitectureTestBase
 {
-    protected static readonly ArchUnitDomain.Architecture Architecture = new ArchLoader()
+    // Use unique field name to avoid conflict with ArchUnitNET.Domain.Architecture type
+    protected static readonly Architecture B2XArchitecture = new ArchLoader()
         .LoadAssemblies(
-            typeof(Catalog.Core.Entities.TaxRate).Assembly,
-            typeof(CMS.Core.Domain.Pages.PageDefinition).Assembly,
-            typeof(B2X.AuthService.Data.AppUser).Assembly,
-            typeof(LocalizationService.Models.LocalizedString).Assembly,
-            typeof(Domain.Search.Models.ProductDocument).Assembly,
+            typeof(B2X.Catalog.Core.Entities.TaxRate).Assembly,
+            typeof(B2X.CMS.Core.Domain.Pages.PageDefinition).Assembly,
+            typeof(B2X.Identity.Data.AppUser).Assembly,
+            typeof(B2X.LocalizationService.Models.LocalizedString).Assembly,
+            typeof(B2X.Search.SearchResult<>).Assembly,
             typeof(B2X.Types.Domain.Entity).Assembly)
         .Build();
 
@@ -225,9 +293,9 @@ public abstract class ArchitectureTestBase
     {
         public const string Catalog = "B2X.Catalog";
         public const string CMS = "B2X.CMS";
-        public const string Identity = "B2X.AuthService";
+        public const string Identity = "B2X.Identity";           // NOT AuthService
         public const string Localization = "B2X.LocalizationService";
-        public const string Search = "B2X.Domain.Search";
+        public const string Search = "B2X.Search";               // NOT Domain.Search
     }
 }
 ```
@@ -345,27 +413,176 @@ public class LayerDependencyTests : ArchitectureTestBase
 
 ---
 
-## Common Issues & Solutions
+## Troubleshooting & Debug Artifacts
 
-### Issue: Slow Test Execution
+### Why Tests Fail in Release Mode
+
+ArchUnitNET analyzes .NET bytecode to build a code structure representing your architecture. In Release mode, the compiler performs aggressive optimizations that can remove or obfuscate information needed for accurate analysis:
+
+- **Inlining**: Methods are merged into callers, losing dependency information
+- **Dead code elimination**: Unused code is removed
+- **Optimizations**: References may be altered or removed
+
+**Solution**: Always run ArchUnitNET tests in `Debug` configuration:
+
+```bash
+dotnet test *.csproj -c Debug
+```
+
+### Common Issues & Solutions
+
+#### Issue: Slow Test Execution
 
 **Cause**: Loading architecture in each test  
-**Solution**: Use static architecture field in base class
+**Solution**: Use static architecture field in base class (loaded once at class initialization)
 
-### Issue: False Positives
+```csharp
+// ✅ Correct: Static field, loaded once
+public abstract class ArchitectureTestBase
+{
+    protected static readonly Architecture Architecture = new ArchLoader()
+        .LoadAssemblies(...).Build();
+}
 
-**Cause**: Test types being analyzed  
-**Solution**: Exclude test namespaces from rules
+// ❌ Wrong: Loading in each test method
+[Fact]
+public void Test()
+{
+    var arch = new ArchLoader().LoadAssemblies(...).Build(); // Slow!
+    arch.GetArchRules(...).Check();
+}
+```
 
-### Issue: Regex Not Matching
+#### Issue: False Positives (Rules Pass When They Shouldn't)
 
-**Cause**: Missing `useRegularExpressions: true`  
+**Cause**: Running in Release mode (debug artifacts missing)  
+**Solution**: Use `-c Debug` flag
+
+```bash
+# ❌ Wrong
+dotnet test *.csproj
+
+# ✅ Correct
+dotnet test *.csproj -c Debug
+```
+
+#### Issue: Regex Not Matching
+
+**Cause**: Missing `useRegularExpressions: true` parameter  
 **Solution**: Always specify when using patterns with `.*`
 
-### Issue: Missing Types
+```csharp
+// ✅ Correct
+.ResideInNamespace(".*\\.Core\\.", useRegularExpressions: true)
 
-**Cause**: Assembly not loaded  
-**Solution**: Add marker type from assembly to `LoadAssemblies()`
+// ❌ Wrong: Doesn't interpret as regex
+.ResideInNamespace(".*\\.Core\\.") // Treated as literal namespace
+```
+
+#### Issue: Missing Types or Assembly Not Found
+
+**Cause**: Assembly not loaded in `LoadAssemblies()`  
+**Solution**: Add marker type from assembly
+
+```csharp
+// ✅ Correct: Use typeof() to ensure assembly is included
+.LoadAssemblies(
+    typeof(Catalog.Core.Entities.TaxRate).Assembly,
+    typeof(CMS.Core.Domain.Pages.PageDefinition).Assembly)
+
+// ❌ Wrong: String-based assembly names may not resolve
+.LoadAssemblies(Assembly.Load("B2X.Catalog.Core"))
+```
+
+#### Issue: Test Namespace Pollution
+
+**Cause**: Test types being analyzed by architecture rules  
+**Solution**: Exclude test namespaces
+
+```csharp
+// ✅ Correct
+.And().DoNotResideInNamespace(".*Test.*", useRegularExpressions: true)
+.And().DoNotResideInNamespace(".*Mock.*", useRegularExpressions: true)
+```
+
+#### Issue: CS0234 - 'xUnit' namespace not found (xUnit V3)
+
+**Cause**: Using wrong namespace for xUnit V3
+**Solution**: Use `ArchUnitNET.xUnitV3` instead of `ArchUnitNET.xUnit`
+
+```csharp
+// ❌ Wrong: Old xUnit namespace
+using ArchUnitNET.xUnit;
+
+// ✅ Correct: xUnit V3 namespace
+using ArchUnitNET.xUnitV3;
+```
+
+#### Issue: CS0118 - 'Architecture' is namespace, used as type
+
+**Cause**: Field name conflicts with `ArchUnitNET.Domain.Architecture` type
+**Solution**: Rename field to avoid collision
+
+```csharp
+// ❌ Wrong: Name conflicts with type
+protected static readonly Architecture Architecture = ...;
+
+// ✅ Correct: Unique field name
+protected static readonly Architecture B2XArchitecture = ...;
+```
+
+#### Issue: Missing [Fact] attribute after xUnit V3 migration
+
+**Cause**: `ArchUnitNET.xUnitV3` provides `Check()` extension but NOT `[Fact]` attribute
+**Solution**: Add explicit `using Xunit;`
+
+```csharp
+using ArchUnitNET.xUnitV3;  // Provides Check() extension
+using Xunit;                 // Required for [Fact] attribute
+```
+
+#### Issue: Types() or Classes() unresolved when you have B2X.Types namespace
+
+**Cause**: `B2X.Types` namespace shadows ArchRuleDefinition static members
+**Solution**: Use fully qualified name
+
+```csharp
+// ❌ Wrong: Conflicts with B2X.Types namespace
+using static ArchUnitNET.Fluent.ArchRuleDefinition;
+Types().That()...  // Ambiguous with B2X.Types
+
+// ✅ Correct: Fully qualified
+ArchRuleDefinition.Types().That()...
+```
+
+#### Issue: "The rule requires positive evaluation" error
+
+**Cause**: Rule predicate matches no types (empty result set)
+**Solution**: Add `WithoutRequiringPositiveResults()`
+
+```csharp
+// ❌ Wrong: Fails if no types match
+Types().That().ResideInNamespaceMatching("B2X.Search\\..*")
+    .Should().NotDependOnAny(...)
+    .Check(Architecture);  // Fails if no B2X.Search.* types exist
+
+// ✅ Correct: Allow empty result sets
+Types().That().ResideInNamespaceMatching("B2X.Search\\..*")
+    .Should().NotDependOnAny(...)
+    .WithoutRequiringPositiveResults()
+    .Check(Architecture);
+```
+
+#### Issue: Package version mismatch errors
+
+**Cause**: Core package and test-framework package at different versions
+**Solution**: Use same version for all ArchUnitNET packages
+
+```xml
+<!-- Directory.Packages.props - All must match -->
+<PackageVersion Include="TngTech.ArchUnitNET" Version="0.13.1" />
+<PackageVersion Include="TngTech.ArchUnitNET.xUnitV3" Version="0.13.1" />
+```
 
 ---
 
@@ -374,12 +591,19 @@ public class LayerDependencyTests : ArchitectureTestBase
 ### Run Architecture Tests
 
 ```bash
-# Run only architecture tests
-dotnet test backend/Tests/B2X.Architecture.Tests -v minimal
+# Run only architecture tests (B2X standard)
+dotnet test backend/Tests/B2X.Architecture.Tests -c Debug -v minimal
 
 # Run as part of full test suite
 dotnet test B2X.slnx --filter "Category=Architecture"
+
+# Run with verbose output for debugging
+dotnet test backend/Tests/B2X.Architecture.Tests -c Debug -v detailed
 ```
+
+**⚠️ Important**: Always run ArchUnitNET tests in **Debug configuration**. ArchUnitNET relies on debug artifacts to accurately analyze the architecture. Running in Release mode may cause false positives or false negatives.
+
+Reference: [ArchUnitNET Debug Artifacts Documentation](https://archunitnet.readthedocs.io/en/stable/limitations/debug_artifacts/)
 
 ### VS Code Task
 
@@ -391,6 +615,7 @@ dotnet test B2X.slnx --filter "Category=Architecture"
   "args": [
     "test",
     "${workspaceFolder}/backend/Tests/B2X.Architecture.Tests/B2X.Architecture.Tests.csproj",
+    "-c", "Debug",
     "-v", "minimal"
   ],
   "group": "test"
@@ -399,33 +624,146 @@ dotnet test B2X.slnx --filter "Category=Architecture"
 
 ---
 
+## Getting Started - Complete Example (xUnit V3)
+
+### Step 1: Create Test Project
+
+```bash
+dotnet new xunit -n B2X.Architecture.Tests
+cd B2X.Architecture.Tests
+dotnet add package TngTech.ArchUnitNET.xUnitV3  # Use xUnitV3 for .NET 10+
+```
+
+### Step 2: Create Base Class
+
+```csharp
+using ArchUnitNET.Domain;
+using ArchUnitNET.Loader;
+
+namespace B2X.ArchitectureTests;  // Avoid 'Architecture' in namespace
+
+public abstract class ArchitectureTestBase
+{
+    // Load architecture once at class initialization (expensive operation)
+    // Use unique field name to avoid conflict with ArchUnitNET.Domain.Architecture
+    protected static readonly Architecture B2XArchitecture = new ArchLoader()
+        .LoadAssemblies(
+            typeof(B2X.Catalog.Core.Entities.TaxRate).Assembly,
+            typeof(B2X.CMS.Core.Domain.Pages.PageDefinition).Assembly,
+            typeof(B2X.Identity.Data.AppUser).Assembly)
+        .Build();
+}
+```
+
+### Step 3: Write Your First Rule
+
+```csharp
+using ArchUnitNET.Domain;
+using ArchUnitNET.Fluent;
+using ArchUnitNET.xUnitV3;  // xUnit V3 - provides Check() extension
+using Xunit;                 // Required for [Fact] attribute
+using static ArchUnitNET.Fluent.ArchRuleDefinition;
+
+namespace B2X.ArchitectureTests;
+
+[Collection("Architecture")]
+public class LayerDependencyTests : ArchitectureTestBase
+{
+    [Fact]
+    public void Domain_Should_Not_Depend_On_Infrastructure()
+    {
+        // Use ArchRuleDefinition.Types() if you have a B2X.Types namespace conflict
+        ArchRuleDefinition.Types()
+            .That().ResideInNamespaceMatching(@"B2X\.Catalog\.Core\..*")
+            .Should().NotDependOnAny(
+                ArchRuleDefinition.Types().That().ResideInNamespaceMatching(@"B2X\.Catalog\.Infrastructure\..*"))
+            .Because("Domain must be independent of infrastructure concerns (Clean Architecture)")
+            .Check(B2XArchitecture);  // Use renamed field
+    }
+}
+```
+
+### Step 4: Run Tests
+
+```bash
+# Run in Debug configuration (required!)
+dotnet test -c Debug
+
+# Output:
+# ✓ B2X.ArchitectureTests.LayerDependencyTests.Domain_Should_Not_Depend_On_Infrastructure
+```
+
+### Example GitHub Repository
+
+The official repository includes complete examples:
+- **Location**: [TNG/ArchUnitNET/ExampleTest](https://github.com/TNG/ArchUnitNET/tree/master/ExampleTest)
+- **Content**: Full working examples with xUnit, NUnit, MSTest
+
+---
+
+## Community & Contribution
+
+- **Contributors**: 34+ active contributors
+- **Stars**: 1.2k+ on GitHub
+- **License**: Apache 2.0 (open source)
+- **Support**: [TNG Technology Consulting GmbH](https://www.tngtech.com/)
+
+### Contributing
+
+The project welcomes contributions:
+- Fork the repository on GitHub
+- Follow the [Contributing Guidelines](https://github.com/TNG/ArchUnitNET/blob/master/CONTRIBUTING.md)
+- Test with multiple frameworks (xUnit, NUnit, MSTest, TUnit)
+- Ensure Debug configuration compatibility
+
+---
+
 ## Related Documentation
 
 - **ADR-021**: [ArchUnitNET for Automated Architecture Testing](../../decisions/ADR-021-archunitnet-architecture-testing.md)
-- **ADR-002**: Onion Architecture
+- **ADR-002**: Onion Architecture Pattern
 - **ADR-001**: Event-Driven Architecture
-- **KB-006**: [Wolverine Patterns](../wolverine.md)
+- **KB-006**: [Wolverine CQRS Patterns](../wolverine.md)
 
 ---
 
 ## Alternatives Considered
 
-| Tool | Why Not Chosen |
-|------|----------------|
-| **NetArchTest** | Less active, fewer features |
-| **NDepend** | Commercial license, overkill |
-| **Roslyn Analyzers** | Complex to write, better for code style |
-| **Manual Reviews** | Doesn't scale, human error prone |
+| Tool | Comparison | Why ArchUnitNET for B2X |
+|------|-----------|------------------------|
+| **NetArchTest** | Older, fewer features | ArchUnitNET is more actively maintained |
+| **NDepend** | Commercial, powerful | ArchUnitNET is free and sufficient |
+| **Roslyn Analyzers** | Complex syntax checking | ArchUnitNET is simpler for architecture rules |
+| **Manual Code Reviews** | Error-prone, doesn't scale | ArchUnitNET enables automated testing |
 
 ---
 
-## Version History
+## Version History & Release Timeline
 
-| Version | .NET Support | Key Changes |
-|---------|--------------|-------------|
-| 0.13.1 | .NET 6-10 | Current B2X version |
-| 0.13.0 | .NET 6-10 | Performance improvements |
-| 0.12.x | .NET 6-9 | Initial stable release |
+| Version | Release Date | .NET Support | Key Changes | Status |
+|---------|--------------|--------------|-------------|--------|
+| **0.13.1** | Jan 9, 2026 (2 days ago) | .NET 6-10 | Latest - Documentation fix | ✅ Current B2X |
+| 0.13.0 | Dec 2025 | .NET 6-10 | Performance improvements, .NET 10 support | Stable |
+| 0.12.x | 2024 | .NET 6-9 | Initial stable release | Legacy |
+| 0.11.x | 2023 | .NET 5-8 | Early versions | Deprecated |
+
+### Release Cadence
+
+- Active maintenance with regular updates (55+ releases total)
+- Recent commit: Merge PR for documentation improvements
+- Dependencies automatically updated to latest .NET versions
+- TUnit framework support recently added
+
+### Upgrade Path
+
+```bash
+# Update to latest stable
+dotnet package update TngTech.ArchUnitNET.xUnit --version 0.13.1
+
+# Or via Central Package Management
+# Update Directory.Packages.props:
+# <PackageVersion Include="TngTech.ArchUnitNET.xUnit" Version="0.13.1" />
+```
 
 ---
 

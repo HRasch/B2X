@@ -1,0 +1,14 @@
+﻿{
+  "profiles": {
+    "B2X.Catalog.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database__Provider": "inmemory",
+        "Jwt__Secret": "dev-jwt-secret-min-32-chars-required!!!"
+      },
+      "applicationUrl": "http://localhost:63593"
+    }
+  }
+}

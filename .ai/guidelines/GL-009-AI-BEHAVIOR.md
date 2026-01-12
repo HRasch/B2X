@@ -44,6 +44,52 @@ created: 2026-01-08
 
 ---
 
+## runSubagent Strategies
+
+### Task Planning (TPL-002)
+**Strategy:** Use runSubagent for complex multi-step task decomposition and planning.
+
+**Advantages:**
+- Breaks down complex tasks into manageable sub-tasks
+- Reduces token usage by 40-60% through focused execution
+- Enables parallel processing of independent sub-tasks
+- Improves error isolation and recovery
+
+**When to Use:**
+- Tasks requiring >5 sequential steps
+- Multi-file changes across domains
+- When task complexity exceeds single-agent capacity
+- For iterative development with frequent validation
+
+**Implementation:**
+1. Analyze task requirements
+2. Decompose into sub-tasks with clear success criteria
+3. Assign sub-tasks to appropriate runSubagents
+4. Monitor progress and coordinate handovers
+
+### Error Handling & Bug Fixes
+**Strategy:** Deploy runSubagent for systematic error diagnosis and resolution.
+
+**Advantages:**
+- Isolates debugging from implementation
+- Enables specialized error analysis (e.g., security, performance)
+- Reduces context pollution during fixes
+- Provides structured bug report generation
+
+**When to Use:**
+- Persistent build/test failures
+- Complex runtime errors requiring deep analysis
+- Security vulnerabilities or compliance issues
+- Performance bottlenecks needing profiling
+
+**Implementation:**
+1. Capture error details and reproduction steps
+2. Run diagnostic subagent for root cause analysis
+3. Execute fix subagent with targeted changes
+4. Validate fix with automated tests
+
+---
+
 ## Test Handling
 
 - **Test failures**: Consider if tests are outdated before assuming implementation is wrong

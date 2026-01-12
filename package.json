@@ -1,24 +1,24 @@
-﻿{
+{
   "name": "B2X-workspace",
   "version": "1.0.0",
   "description": "B2X - Full Stack Application with .NET Aspire Backend and Vue Frontend",
   "private": true,
   "workspaces": [
-    "Frontend/Store",
-    "Frontend/Admin",
-    "Frontend/Management"
+    "src/frontend/Store",
+    "src/frontend/Admin",
+    "src/frontend/Management"
   ],
   "scripts": {
-    "install:all": "npm install && npm install --prefix Frontend/Store && npm install --prefix Frontend/Admin && npm install --prefix Frontend/Management",
-    "dev": "concurrently \"npm --prefix Frontend/Store run dev\" \"npm --prefix Frontend/Admin run dev\" \"npm --prefix Frontend/Management run dev\" --names \"Store,Admin,Tenant\" --prefix name --kill-others-on-exit",
-    "dev:frontend": "npm --prefix Frontend/Store run dev",
-    "dev:admin": "npm --prefix Frontend/Admin run dev",
+    "install:all": "npm install && npm install --prefix src/frontend/Store && npm install --prefix src/frontend/Admin && npm install --prefix src/frontend/Management",
+    "dev": "concurrently \"cd src/frontend/Store && npm run dev\" \"npm --prefix src/frontend/Admin run dev\" \"npm --prefix src/frontend/Management run dev\" --names \"Store,Admin,Tenant\" --prefix name --kill-others-on-exit",
+    "dev:frontend": "npm --prefix src/frontend/Store run dev",
+    "dev:admin": "npm --prefix src/frontend/Admin run dev",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "type-check": "npm run type-check --workspaces",
-    "format": "prettier --write \"Frontend/**/*.{js,ts,vue,json,css,scss,md}\"",
-    "format:check": "prettier --check \"Frontend/**/*.{js,ts,vue,json,css,scss,md}\"",
+    "format": "prettier --write \"src/**/*.{js,ts,vue,json,css,scss,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,ts,vue,json,css,scss,md}\"",
     "format:backend": "dotnet format B2X.slnx",
     "format:all": "npm run format && npm run format:backend && npm run format:tools",
     "format:tools": "for dir in tools/TypeScriptMCP tools/VueMCP tools/HtmlCssMCP tools/SecurityMCP tools/WolverineMCP tools/B2XMCP tools/PlaywrightMCP; do [ -d \"$dir\" ] && (cd \"$dir\" && npm run format 2>/dev/null) || true; done",
@@ -53,18 +53,20 @@
     "tools/**/*.{ts,js,json}": [
       "prettier --write --ignore-unknown"
     ],
-    "Frontend/**/*.{js,ts,vue}": [
+    "src/**/*.{js,ts,vue}": [
       "prettier --write",
       "eslint --fix"
     ],
-    "Frontend/**/*.{json,css,scss,md}": [
+    "src/**/*.{json,css,scss,md}": [
       "prettier --write"
     ],
-    "Frontend/**/*.{ts,vue}": [
+    "src/**/*.{ts,vue}": [
       "vue-tsc --noEmit"
     ]
   },
   "dependencies": {
+    "@intlify/core-base": "^11.2.8",
+    "@intlify/shared": "^11.2.8",
     "js-yaml": "^4.1.1"
   }
 }

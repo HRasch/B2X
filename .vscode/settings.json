@@ -1,5 +1,6 @@
-﻿{
+{
   "dotnet.defaultSolutionOrFolder": "B2X.slnx",
+  "dotnet.testWindow.useTestingPlatformProtocol": true,
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp",
     "editor.formatOnSave": true,
@@ -46,5 +47,15 @@
   "markdown.extensions.preview.enableKimlEditing": true,
   "[markdown]": {
     "editor.wordWrap": "on"
+  },
+  "dotnet.preferCSharpExtension": true,
+  "dotnet.defaultSolution": "B2X.slnx",
+  "chat.mcp.serverSampling": {
+    "B2Connect/.vscode/mcp.json: sqlite": {
+      "allowedModels": [
+        "copilot/claude-sonnet-4.5",
+        "ollama/deepseek-coder-v2:latest"
+      ]
+    }
   }
 }

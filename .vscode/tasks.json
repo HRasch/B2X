@@ -1,13 +1,19 @@
-﻿{
+{
+  // ============================================================================
+  // Build tasks use -m:2 to limit parallel MSBuild workers (prevents file locks)
+  // See: dotnet/sdk#9585, lessons.md "Parallel Build File Lock Conflicts"
+  // ============================================================================
   "version": "2.0.0",
   "tasks": [
     {
+      // Primary build task for Aspire - uses -m:2 to prevent race conditions
       "label": "build-apphost",
       "command": "dotnet",
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
+        "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj",
+        "-m:2"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -17,7 +23,10 @@
       "presentation": {
         "echo": true,
         "reveal": "silent",
-        "focus": false
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
       }
     },
     {
@@ -26,12 +35,21 @@
       "type": "shell",
       "args": [
         "build",
-        "${workspaceFolder}/B2X.slnx"
+        "${workspaceFolder}/B2X.slnx",
+        "-m:2"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "build",
         "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
       }
     },
     {
@@ -40,6 +58,7 @@
       "type": "shell",
       "args": [
         "test",
+        "--solution",
         "${workspaceFolder}/B2X.slnx",
         "-v",
         "minimal"
@@ -48,6 +67,49 @@
       "group": {
         "kind": "test",
         "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
+      }
+    },
+    {
+      "label": "coverage-report",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "tool",
+        "run",
+        "reportgenerator",
+        "-reports:reports/test-results/coverage/**/coverage.opencover.xml",
+        "-targetdir:reports/test-results/coverage-report",
+        "-reporttypes:Html;Cobertura;MarkdownSummary"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "clear": false
+      }
+    },
+    {
+      "label": "generate-coverage",
+      "command": "pwsh",
+      "type": "shell",
+      "args": [
+        "-File",
+        "${workspaceFolder}/scripts/generate-coverage.ps1"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "clear": false
       }
     },
     {
@@ -56,13 +118,21 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Catalog/tests/B2X.Catalog.Tests.csproj",
+        "${workspaceFolder}/src/backend/Store/Tests/Catalog/B2X.Catalog.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
       }
     },
     {
@@ -71,13 +141,21 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/CMS/tests/B2X.CMS.Tests.csproj",
+          "${workspaceFolder}/src/backend/Management/Tests/CMS/B2X.CMS.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
       }
     },
     {
@@ -86,13 +164,18 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Localization/tests/B2X.Localization.Tests.csproj",
+        "${workspaceFolder}/src/backend/Shared/Domain/Localization/tests/B2X.Localization.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
       }
     },
     {
@@ -101,13 +184,18 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Identity/tests/B2X.Identity.Tests.csproj",
+          "${workspaceFolder}/src/backend/Shared/Domain/Identity/B2X.Identity.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
       }
     },
     {
@@ -116,13 +204,18 @@
       "type": "shell",
       "args": [
         "test",
-        "${workspaceFolder}/backend/Domain/Search/tests/B2X.Shared.Search.Tests.csproj",
+        "${workspaceFolder}/src/backend/Shared/Infrastructure/Search/B2X.Shared.Search.Tests.csproj",
         "-v",
         "minimal"
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "test"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false
       }
     },
     {
@@ -132,7 +225,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/frontend/Store",
+      "cwd": "${workspaceFolder}/src/frontend/Store",
       "group": {
         "kind": "test"
       }
@@ -145,7 +238,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend/Management",
+      "cwd": "${workspaceFolder}/src/frontend/Management",
       "isBackground": true,
       "problemMatcher": {
         "pattern": {
@@ -170,27 +263,25 @@
         "run",
         "lint"
       ],
-      "cwd": "${workspaceFolder}/frontend/Management",
+      "cwd": "${workspaceFolder}/src/frontend/Management",
       "group": "build"
     },
     {
+      // Use 'aspire run' to start AppHost in a separate interactive window
+      // WORKAROUND: VS Code terminal stdin redirection causes Aspire to exit immediately
+      // See: dotnet/aspire#12242, GitHub Copilot session 2026-01-11
+      // Solution: Start-Process spawns a new interactive PowerShell window
       "label": "backend-start",
       "type": "shell",
       "isBackground": true,
-      "command": "dotnet",
-        "args": [
-          "run",
-          "--project",
-          "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
-        ],
-        "options": {
-          "cwd": "${workspaceFolder}/AppHost",
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development",
-          "Database__Provider": "inmemory",
-          "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": "true",
-          "ASPIRE_ALLOW_UNSECURED_TRANSPORT": "true"
-        }
+      "command": "Start-Process",
+      "args": [
+        "pwsh",
+        "-ArgumentList",
+        "'-NoExit', '-Command', 'cd ''${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost''; $env:Database__Provider=''inmemory''; $env:ASPIRE_ALLOW_UNSECURED_TRANSPORT=''true''; $env:DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=''true''; aspire run --project B2X.AppHost.csproj'"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost"
       },
       "problemMatcher": {
         "pattern": {
@@ -205,7 +296,7 @@
       },
       "presentation": {
         "echo": true,
-        "reveal": "always",
+        "reveal": "silent",
         "group": "startup"
       }
     },
@@ -218,7 +309,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend/Store",
+      "cwd": "${workspaceFolder}/src/frontend/Store",
       "problemMatcher": {
         "pattern": {
           "regexp": "^.*$",
@@ -232,7 +323,7 @@
       },
       "presentation": {
         "echo": true,
-        "reveal": "always"
+        "reveal": "silent"
       }
     },
     {
@@ -244,7 +335,7 @@
         "run",
         "dev"
       ],
-      "cwd": "${workspaceFolder}/frontend/Admin",
+      "cwd": "${workspaceFolder}/src/frontend/Admin",
       "problemMatcher": {
         "pattern": {
           "regexp": "^(.*)$",
@@ -286,6 +377,8 @@
       }
     },
     {
+      // Standalone Store Gateway (without Aspire) - for isolated debugging
+      // Use 'backend-start' task instead for full stack with service coordination
       "label": "store-gateway-start",
       "type": "shell",
       "isBackground": true,
@@ -293,7 +386,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/Gateway/Store/API/B2X.Store.csproj"
+        "${workspaceFolder}/src/backend/Store/API/B2X.Store.csproj"
       ],
       "options": {
         "env": {
@@ -319,6 +412,8 @@
       }
     },
     {
+      // Standalone Admin Gateway (without Aspire) - for isolated debugging
+      // Use 'backend-start' task instead for full stack with service coordination
       "label": "admin-gateway-start",
       "type": "shell",
       "isBackground": true,
@@ -326,7 +421,7 @@
       "args": [
         "run",
         "--project",
-        "${workspaceFolder}/backend/Gateway/Admin/B2X.Admin.csproj"
+        "${workspaceFolder}/src/backend/Admin/Gateway/B2X.Admin.csproj"
       ],
       "options": {
         "env": {
@@ -412,7 +507,7 @@
       "command": "dotnet",
       "args": [
         "build",
-        "${workspaceFolder}/AppHost/B2X.AppHost.csproj"
+        "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/B2X.AppHost.csproj"
       ],
       "problemMatcher": "$msCompile",
       "group": {
@@ -435,7 +530,7 @@
       "args": [
         "install"
       ],
-      "cwd": "${workspaceFolder}/Frontend/Management",
+      "cwd": "${workspaceFolder}/src/frontend/Management",
       "group": "build"
     },
     {
@@ -479,6 +574,45 @@
         "MCP Console Logging integriert. Starte VS Code neu und prüfe Output Panel für MCP-Server-Logs."
       ],
       "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false
+      }
+    },
+    {
+      "label": "full-parallel-build",
+      "dependsOn": [
+        "build-backend",
+        "npm-install-frontend",
+        "npm-install-tenant"
+      ],
+      "dependsOrder": "parallel",
+      "group": {
+        "kind": "build"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "test-all-parallel",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "test",
+        "--solution",
+        "${workspaceFolder}/B2X.slnx",
+        "-m",
+        "--parallel",
+        "-v",
+        "minimal"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test"
+      },
       "presentation": {
         "echo": true,
         "reveal": "always",

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Domain\Shared\B2X.Api.Validation\B2X.Api.Validation.csproj" />
+
+    <!-- Shared ERP projects for common interfaces and validation (ADR-036) -->
+    <ProjectReference Include="../../../shared/B2X.Shared.Erp.Core/B2X.Shared.Erp.Core.csproj" />
+
+    <ProjectReference Include="../../../shared/B2X.Shared.Erp.Validation/B2X.Shared.Erp.Validation.csproj" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+</Project>
+
+
+

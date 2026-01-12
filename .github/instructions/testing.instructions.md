@@ -95,6 +95,31 @@ applyTo: "**/*.test.*,**/*.spec.*,**/tests/**,**/__tests__/**"
 
 ## MCP-Enhanced Testing Strategy
 
+### runSubagent for Pre-Test Validation (Token-Optimized)
+
+For comprehensive pre-test checks, use `#runSubagent` to execute all validations in isolation:
+
+```text
+Validate test readiness with #runSubagent:
+- TypeScript type checking for frontend/Store
+- Roslyn analysis for backend/Domain
+- Vue component validation (structure, i18n, accessibility)
+- Database schema validation for test DB
+- API contract validation
+
+Return ONLY: type_errors + blocking_issues + test_readiness_score
+```
+
+**Benefits**:
+- ~6000 Token savings for full pre-test validation
+- All domain checks (frontend, backend, DB) run in isolated context
+- Only actionable blockers returned to main context
+- Prevents test runs with known type/schema errors
+
+**When to use**: Before any test suite execution, especially E2E
+
+---
+
 ### Type Safety Validation
 
 **TypeScript Testing (Frontend)**:

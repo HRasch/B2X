@@ -8,13 +8,114 @@ created: 2026-01-08
 
 # SubAgent Context Delegation Strategy
 
-**Version:** 1.0  
+**Version:** 2.0  
 **Created:** 30.12.2025  
+**Updated:** 08.01.2026  
 **Managed by:** @SARAH, @Architect
 
 ## Executive Summary
 
 Reduziere Hauptagent-Kontext um 50-70% durch strategische Delegation an spezialisierte SubAgenten. Jeder SubAgent hat einen fokussierten Kontext für eine spezifische Aufgabe, während der Hauptagent nur essenzielle Information behält.
+
+**NEU in v2.0**: Integration von VS Code's nativem `#runSubagent` Tool für context-isolierte Ausführung.
+
+---
+
+## 🆕 VS Code Native: #runSubagent (Empfohlen)
+
+**Referenz**: [KB-067] VS Code Agent Sessions & Subagents
+
+VS Code bietet seit November 2025 ein natives `#runSubagent` Tool, das **context-isolierte Subagents** ermöglicht.
+
+### Kernkonzept
+
+```text
+Main Agent ──prompt──► Subagent ──isoliert──► Return ONLY final result
+                                                      ▲
+                                              Kein Context-Overflow
+                                              im Hauptchat
+```
+
+### Wann #runSubagent verwenden
+
+| ✅ Geeignet | ❌ Nicht geeignet |
+|-------------|-------------------|
+| Multi-Step-Analysen (5+ MCP-Aufrufe) | Einfache Single-Tool-Aufrufe |
+| Große Codebase-Scans | Tasks die User-Feedback brauchen |
+| Research-Tasks mit viel Output | Code-Änderungen (direkt ausführen) |
+| Konsistenz-Checks über viele Dateien | Cross-Domain-Koordination |
+| Vorbereitende Analysen | Entscheidungen mit Haupt-Kontext |
+
+### Standard-Pattern für B2X
+
+```text
+[Task-Beschreibung] with #runSubagent:
+- Check/Scan/Analyze 1
+- Check/Scan/Analyze 2
+- Check/Scan/Analyze 3
+- ...
+
+Return ONLY: [specific_structured_output]
+```
+
+### Agent-spezifische runSubagent Use-Cases
+
+| Agent | Task | Einsparung |
+|-------|------|------------|
+| **@SARAH** | Progress Aggregation aus `.ai/issues/*/progress.md` | ~60% |
+| **@TechLead** | Pre-Review Code-Quality Scan | ~45% |
+| **@Security** | Full Security Audit (6 MCP-Tools) | ~70% |
+| **@QA** | Coverage Gap Analysis | ~50% |
+| **@Backend** | Wolverine Pattern Validation | ~40% |
+
+### Beispiele aus Agent-Definitionen
+
+**@Security - Full Security Scan:**
+```text
+Full security scan with #runSubagent:
+- Scan dependencies for vulnerabilities (HIGH/CRITICAL only)
+- Check SQL injection patterns in backend/
+- Scan XSS vulnerabilities in frontend/Store
+- Validate PII encryption compliance
+- Audit container security for all images
+
+Return ONLY: blocking_issues + CVE_list + remediation_priority
+```
+
+**@SARAH - Progress Aggregation:**
+```text
+Aggregate progress with #runSubagent:
+- Scan all .ai/issues/*/progress.md files
+- Extract: Status, Blocker, Next Steps per issue
+- Identify cross-issue dependencies
+
+Return ONLY: consolidated_status_table + blockers_list + next_actions
+```
+
+### Token-Einsparungs-Übersicht
+
+| Workflow | Ohne runSubagent | Mit runSubagent | Faktor |
+|----------|------------------|-----------------|--------|
+| Security Audit | ~50K | ~15K | **3.3x** |
+| Pre-Test Validation | ~40K | ~10K | **4x** |
+| Deployment Check | ~35K | ~12K | **2.9x** |
+| Code Review Prep | ~30K | ~17K | **1.8x** |
+| Progress Aggregation | ~25K | ~10K | **2.5x** |
+
+### Risiken & Mitigationen
+
+| Risiko | Mitigation |
+|--------|------------|
+| Context-Verlust | Explizite Task-Beschreibung + DocID-Referenzen |
+| Permission-Bypass | Subagent erbt Parent-Permissions |
+| Token-Overhead bei kleinen Tasks | Nur für Multi-Step-Tasks nutzen |
+| Keine User-Interaktion möglich | Klare Return-Formate definieren |
+
+---
+
+## Klassische SubAgent-Architektur (File-basiert)
+
+Die folgende Architektur bleibt für komplexe, persistente Delegation relevant.
 
 ## Core Principle
 
