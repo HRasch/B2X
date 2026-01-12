@@ -48,7 +48,7 @@
   },
   "lint-staged": {
     "*.cs": [
-      "echo 'Skipping dotnet format due to solution issues'"
+      "dotnet format B2X.slnx --verbosity quiet"
     ],
     "tools/**/*.{ts,js,json}": [
       "prettier --write --ignore-unknown"
