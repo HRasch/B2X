@@ -26,6 +26,30 @@ Best practices / Actionables for this repo:
 - Prefer idempotent handlers and design message contracts to be versionable.
 - Consider Vapor Mode for performance-critical components (requires `<script setup>`).
 
+## Basic Concepts and Terminology (from https://wolverinefx.net/guide/basics.html)
+
+### Core Concepts
+- **Message**: A .NET class, struct, or record that represents either a command (triggering an operation) or event (notifying other parts of the system). Messages are serializable and have no structural differentiation in Wolverine.
+- **Message Handler**: A method that processes an incoming message. Handlers can be static methods or instance methods on classes.
+- **Envelope**: Wolverine's wrapper around messages containing metadata like headers, correlation IDs, and delivery information.
+
+### Architecture Components
+- **Transport**: Wolverine's support for external messaging infrastructure (RabbitMQ, Amazon SQS, Azure Service Bus, TCP transport).
+- **Endpoint**: Configuration for a Wolverine connection to an external resource (e.g., RabbitMQ exchange, SQS queue). May align with AsyncAPI "channel" terminology in future versions.
+- **Sending Agent**: Internal Wolverine component that publishes outgoing messages to transport endpoints.
+- **Listening Agent**: Internal component that receives messages from external transports and routes them to message handlers.
+
+### Runtime Concepts
+- **Node**: A running instance of a Wolverine application within a cluster. Not to be confused with Node.js or Kubernetes nodes.
+- **Agent**: Stateful software agents that run on a single node, with Wolverine managing their distribution. Mostly internal but affects clustering behavior.
+- **Message Store**: Database storage for Wolverine's inbox/outbox persistent messaging. Required for leader election, node assignments, durable scheduling, and transactional messaging.
+- **Durability Agent**: Background service that interacts with the message store for transactional inbox/outbox functionality.
+
+### Usage Patterns
+- **Local Mediator**: Wolverine can act as an in-process command bus, allowing code to invoke message handlers without knowing implementation details using `IMessageBus.InvokeAsync()`.
+- **External Messaging**: Wolverine supports publishing and processing messages through external infrastructure like RabbitMQ, Pulsar, or other transports.
+- **HTTP Transport**: Wolverine treats HTTP requests as a specialized form of messaging, enabling unified handling of commands/events across protocols.
+
 ## Wolverine Best Practices (from https://wolverinefx.net/introduction/best-practices.html)
 
 ### Dividing Handlers
@@ -66,7 +90,9 @@ Best practices / Actionables for this repo:
 - See [Low Ceremony Vertical Slice Architecture with Wolverine](https://jeremydmiller.com/2023/07/10/low-ceremony-vertical-slice-architecture-with-wolverine/).
 
 ### Graceful Shutdown of Nodes
-- Wolverine 3.0+ is more tolerant of shutdowns. Ensure proper TERM signals in containers.
+- Wolverine 3.0+ is more tolerant of shutdowns, making it less critical to worry about graceful shutdowns compared to earlier versions.
+- Wolverine operates in `Balanced` mode by default, enabling it to function as a cluster of nodes. Ideally, node processes should be gracefully shut down to prevent communication failures with other nodes. A health check process identifies stale nodes.
+- When running Wolverine in containers, ensure the orchestrator sends proper TERM signals and allows sufficient time before forcefully killing the process. Reference Kubernetes [Pod termination](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination) for best practices.
 
 References & links:
 - Repo: https://github.com/JasperFx/wolverine

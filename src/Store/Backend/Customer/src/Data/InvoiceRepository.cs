@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using B2X.Customer.Interfaces;
@@ -84,5 +86,33 @@ public class InvoiceRepository : IInvoiceRepository
         invoice.IsDeleted = true;
         invoice.DeletedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Nullable", "CS8613")]
+    public Task<Invoice?> GetInvoiceByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return _context.Invoices
+            .Include(i => i.LineItems)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(i => i.Id == id && !i.IsDeleted, cancellationToken);
+    }
+
+    public async Task<IEnumerable<Invoice>> GetInvoicesByTenantAsync(Guid tenantId, int page = 1, int pageSize = 20, CancellationToken cancellationToken = default)
+    {
+        return await _context.Invoices
+            .Where(i => i.TenantId == tenantId && !i.IsDeleted)
+            .Include(i => i.LineItems)
+            .OrderByDescending(i => i.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<int> GetInvoicesCountByTenantAsync(Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Invoices
+            .Where(i => i.TenantId == tenantId && !i.IsDeleted)
+            .CountAsync(cancellationToken);
     }
 }

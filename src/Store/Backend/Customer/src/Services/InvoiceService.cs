@@ -36,7 +36,30 @@ public class InvoiceService : IInvoiceService
         _logger = logger;
     }
 
-    public Task<Invoice> GenerateInvoiceAsync(Guid orderId, CancellationToken cancellationToken = default)
+    public async Task<Invoice> GetInvoiceByIdAsync(Guid invoiceId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Getting invoice {InvoiceId}", invoiceId);
+
+        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+        if (invoice == null)
+        {
+            throw new KeyNotFoundException($"Invoice {invoiceId} not found");
+        }
+
+        return invoice;
+    }
+
+    public async Task<(IEnumerable<Invoice> Items, int TotalCount)> GetInvoicesByTenantAsync(Guid tenantId, int page = 1, int pageSize = 20, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Getting invoices for tenant {TenantId}, page {Page}, pageSize {PageSize}", tenantId, page, pageSize);
+
+        var items = await _invoiceRepository.GetInvoicesByTenantAsync(tenantId, page, pageSize, cancellationToken);
+        var totalCount = await _invoiceRepository.GetInvoicesCountByTenantAsync(tenantId, cancellationToken);
+
+        return (items, totalCount);
+    }
+
+    public async Task<Invoice> GenerateInvoiceAsync(Guid orderId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Generating invoice for order {OrderId}", orderId);
 
@@ -48,38 +71,13 @@ public class InvoiceService : IInvoiceService
             IssuedAt = DateTime.UtcNow,
             DueAt = DateTime.UtcNow.AddDays(InvoiceConfig.DefaultPaymentTermsDays),
             Status = InvoiceStatus.Draft,
-
-            SellerName = InvoiceConfig.DefaultSellerName,
-            SellerVatId = InvoiceConfig.DefaultSellerVatId,
-            SellerAddress = InvoiceConfig.DefaultSellerAddress,
-
-            LineItems = new List<InvoiceLineItem>(),
         };
 
-        // Set pricing based on reverse charge flag
-        // (Order has ReverseChargeApplied flag set from checkout)
-        invoice.SubTotal = 0m; // Will be calculated from line items
-        invoice.TaxAmount = invoice.ReverseChargeApplies ? TaxConstants.NoVat : 0m; // Will calculate
-        invoice.ShippingCost = 0m; // From order
-
-        if (invoice.ReverseChargeApplies)
-        {
-            invoice.TaxRate = TaxConstants.NoVat;
-            invoice.ReverseChargeNote = InvoiceConfig.ReverseChargeNote;
-            _logger.LogInformation("Reverse charge applied to invoice {InvoiceId} for order {OrderId}",
-                invoice.Id, orderId);
-        }
-
-        invoice.CreatedAt = DateTime.UtcNow;
-        invoice.Status = InvoiceStatus.Issued;
-
-        return _invoiceRepository.AddAsync(invoice, cancellationToken);
+        return await _invoiceRepository.AddAsync(invoice, cancellationToken);
     }
 
     public async Task<Invoice> ModifyInvoiceAsync(Guid invoiceId, Invoice updatedInvoice, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Modifying invoice {InvoiceId}", invoiceId);
-
         var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
         if (invoice is null)
         {
@@ -202,6 +200,75 @@ public class InvoiceService : IInvoiceService
         // Use iTextSharp or PdfSharp library
         await Task.Delay(10, cancellationToken);
         return Array.Empty<byte>();
+    }
+
+    public async Task<Invoice> UpdateInvoiceStatusAsync(Guid invoiceId, Guid tenantId, string status, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Updating invoice {InvoiceId} status to {Status}", invoiceId, status);
+
+        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+        if (invoice == null || invoice.TenantId != tenantId)
+        {
+            throw new KeyNotFoundException($"Invoice {invoiceId} not found");
+        }
+
+        // Validate status transition
+        var validStatuses = new[] { InvoiceStatus.Draft, InvoiceStatus.Issued, InvoiceStatus.Paid, InvoiceStatus.Cancelled };
+        if (!validStatuses.Contains(status))
+        {
+            throw new InvalidOperationException($"Invalid status: {status}");
+        }
+
+        invoice.Status = status;
+        invoice.ModifiedAt = DateTime.UtcNow;
+
+        return await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
+    }
+
+    public async Task<Invoice> CancelInvoiceAsync(Guid invoiceId, Guid tenantId, string reason, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Canceling invoice {InvoiceId} with reason: {Reason}", invoiceId, reason);
+
+        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+        if (invoice == null || invoice.TenantId != tenantId)
+        {
+            throw new KeyNotFoundException($"Invoice {invoiceId} not found");
+        }
+
+        if (invoice.Status == InvoiceStatus.Cancelled.ToString())
+        {
+            throw new InvalidOperationException("Invoice is already cancelled");
+        }
+
+        if (invoice.Status == InvoiceStatus.Paid.ToString())
+        {
+            throw new InvalidOperationException("Cannot cancel a paid invoice");
+        }
+
+        invoice.Status = InvoiceStatus.Cancelled.ToString();
+        invoice.CancellationReason = reason;
+        invoice.ModifiedAt = DateTime.UtcNow;
+
+        return await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
+    }
+
+    public async Task<bool> ValidateVatIdAsync(string vatId, string countryCode, CancellationToken cancellationToken = default)
+    {
+        // TODO: Implement actual VAT ID validation via VIES service or similar
+        // For now, basic validation
+        _logger.LogInformation("Validating VAT ID {VatId} for country {Country}", vatId, countryCode);
+
+        // Basic format validation (this is a placeholder)
+        if (string.IsNullOrWhiteSpace(vatId) || string.IsNullOrWhiteSpace(countryCode))
+        {
+            return false;
+        }
+
+        // TODO: Call external VAT validation service
+        await Task.Delay(100, cancellationToken); // Simulate API call
+
+        // For demo purposes, consider DE VAT IDs starting with 'DE' as valid
+        return vatId.StartsWith(countryCode, StringComparison.OrdinalIgnoreCase);
     }
 
     public async Task<string> GenerateErechnungAsync(Guid invoiceId, CancellationToken cancellationToken = default)

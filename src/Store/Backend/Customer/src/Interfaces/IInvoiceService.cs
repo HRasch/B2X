@@ -23,14 +23,24 @@ public interface IInvoiceService
     Task<Invoice> ModifyInvoiceAsync(Guid invoiceId, Invoice updatedInvoice, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get invoice by order ID
+    /// Get invoice by ID
     /// </summary>
-    Task<Invoice> GetInvoiceByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default);
+    Task<Invoice> GetInvoiceByIdAsync(Guid invoiceId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get invoices by tenant with pagination
+    /// </summary>
+    Task<(IEnumerable<Invoice> Items, int TotalCount)> GetInvoicesByTenantAsync(Guid tenantId, int page = 1, int pageSize = 20, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get invoice by invoice number
     /// </summary>
     Task<Invoice> GetInvoiceByNumberAsync(string invoiceNumber, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get invoice by order ID
+    /// </summary>
+    Task<Invoice> GetInvoiceByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Apply reverse charge to existing invoice
@@ -54,6 +64,21 @@ public interface IInvoiceService
     /// Issue #33 requirement
     /// </summary>
     Task<string> GenerateErechnungAsync(Guid invoiceId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Update invoice status
+    /// </summary>
+    Task<Invoice> UpdateInvoiceStatusAsync(Guid invoiceId, Guid tenantId, string status, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Cancel invoice with reason
+    /// </summary>
+    Task<Invoice> CancelInvoiceAsync(Guid invoiceId, Guid tenantId, string reason, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Validate VAT ID for reverse charge eligibility
+    /// </summary>
+    Task<bool> ValidateVatIdAsync(string vatId, string countryCode, CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -67,6 +92,11 @@ public interface IInvoiceRepository
     Task<Invoice?> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default);
     Task<Invoice?> GetByInvoiceNumberAsync(string invoiceNumber, CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+    // Additional methods for API controller
+    Task<Invoice?> GetInvoiceByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Invoice>> GetInvoicesByTenantAsync(Guid tenantId, int page = 1, int pageSize = 20, CancellationToken cancellationToken = default);
+    Task<int> GetInvoicesCountByTenantAsync(Guid tenantId, CancellationToken cancellationToken = default);
 }
 
 /// <summary>

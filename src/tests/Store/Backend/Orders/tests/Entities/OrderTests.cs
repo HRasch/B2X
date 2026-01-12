@@ -58,16 +58,19 @@ public class OrderTests
     }
 
     [Fact]
-    public void Order_WithoutCustomer_ShouldAllowNull()
+    public void Order_WithCustomerId_ShouldStoreCorrectly()
     {
+        // Arrange
+        var customerId = Guid.NewGuid();
+
         // Act
         var order = new Order
         {
-            CustomerId = null
+            CustomerId = customerId
         };
 
         // Assert
-        order.CustomerId.ShouldBeNull();
+        order.CustomerId.ShouldBe(customerId);
     }
 
     [Fact]

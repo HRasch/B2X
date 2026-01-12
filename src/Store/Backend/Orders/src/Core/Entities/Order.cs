@@ -17,7 +17,11 @@ public class Order
     public Guid TenantId { get; set; }
 
     [Column("customer_id")]
-    public Guid? CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
+
+    [Column("customer_email")]
+    [StringLength(255)]
+    public string CustomerEmail { get; set; } = string.Empty;
 
     [Column("order_number")]
     [StringLength(50)]
@@ -36,6 +40,9 @@ public class Order
     [Column("tax_amount", TypeName = "decimal(18,2)")]
     public decimal TaxAmount { get; set; }
 
+    [Column("discount_amount", TypeName = "decimal(18,2)")]
+    public decimal DiscountAmount { get; set; }
+
     [Column("shipping_amount", TypeName = "decimal(18,2)")]
     public decimal ShippingAmount { get; set; }
 
@@ -51,6 +58,10 @@ public class Order
     [Column("shipping_last_name")]
     [StringLength(100)]
     public string ShippingLastName { get; set; } = string.Empty;
+
+    [Column("shipping_company")]
+    [StringLength(100)]
+    public string? ShippingCompany { get; set; }
 
     [Column("shipping_street")]
     [StringLength(200)]
@@ -68,6 +79,43 @@ public class Order
     [StringLength(2)]
     public string ShippingCountry { get; set; } = "DE";
 
+    [Column("shipping_phone")]
+    [StringLength(50)]
+    public string? ShippingPhone { get; set; }
+
+    // Billing Address
+    [Column("billing_first_name")]
+    [StringLength(100)]
+    public string? BillingFirstName { get; set; }
+
+    [Column("billing_last_name")]
+    [StringLength(100)]
+    public string? BillingLastName { get; set; }
+
+    [Column("billing_company")]
+    [StringLength(100)]
+    public string? BillingCompany { get; set; }
+
+    [Column("billing_street")]
+    [StringLength(200)]
+    public string? BillingStreet { get; set; }
+
+    [Column("billing_city")]
+    [StringLength(100)]
+    public string? BillingCity { get; set; }
+
+    [Column("billing_postal_code")]
+    [StringLength(20)]
+    public string? BillingPostalCode { get; set; }
+
+    [Column("billing_country")]
+    [StringLength(2)]
+    public string? BillingCountry { get; set; }
+
+    [Column("billing_phone")]
+    [StringLength(50)]
+    public string? BillingPhone { get; set; }
+
     // Payment
     [Column("payment_method")]
     [StringLength(20)]
@@ -76,6 +124,23 @@ public class Order
     [Column("payment_status")]
     [StringLength(20)]
     public string PaymentStatus { get; set; } = "pending";
+
+    [Column("payment_provider")]
+    [StringLength(100)]
+    public string? PaymentProvider { get; set; }
+
+    [Column("transaction_id")]
+    [StringLength(255)]
+    public string? TransactionId { get; set; }
+
+    // Additional fields
+    [Column("notes")]
+    [StringLength(1000)]
+    public string? Notes { get; set; }
+
+    [Column("discount_code")]
+    [StringLength(100)]
+    public string? DiscountCode { get; set; }
 
     // Timestamps
     [Column("created_at")]

@@ -28,6 +28,7 @@ public class Invoice
 
     // Invoice Status
     public string Status { get; set; } = "Draft"; // "Draft", "Issued", "Paid", "Cancelled"
+    public string? CancellationReason { get; set; } // Reason for cancellation
 
     // Parties
     public string SellerName { get; set; } = string.Empty; // "B2X GmbH"

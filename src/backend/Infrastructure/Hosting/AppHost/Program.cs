@@ -200,6 +200,28 @@ if (rabbitmq != null)
 if (elasticsearch != null)
     catalogService.WaitFor(elasticsearch);
 
+// Orders Service (Order Management & Checkout)
+var ordersService = builder
+    .AddProject("orders-service", "../../../../Store/Backend/Orders/B2X.Orders.API.csproj")
+    .WithConditionalPostgresConnection(storeDb, databaseProvider)
+    .WithConditionalRedisConnection(redis, databaseProvider)
+    .WithConditionalRabbitMQConnection(rabbitmq, databaseProvider)
+    .WithJaegerTracing()
+    .WithAuditLogging()
+    .WithRateLimiting()
+    .WithOpenTelemetry()
+    .WithHealthCheckEndpoint()
+    .WithStartupConfiguration(startupTimeoutSeconds: 60)
+    .WithResilienceConfiguration();
+
+// Wait for infrastructure before starting orders service
+if (postgres != null)
+    ordersService.WaitFor(postgres);
+if (redis != null)
+    ordersService.WaitFor(redis);
+if (rabbitmq != null)
+    ordersService.WaitFor(rabbitmq);
+
 // Variants Service (Product Variants/SKUs)
 // var variantsService = builder
 //     .AddProject("variants-service", "../../../Store/Domain/Variants/src/B2X.Variants.csproj")
@@ -386,6 +408,7 @@ var storeGateway = builder
     .WithHttpEndpoint(port: 8000, name: "store-http")  // Fixed port for frontend
     .WithReference(authService)
     .WithReference(catalogService)
+    .WithReference(ordersService)
     // .WithReference(variantsService)
     // .WithReference(categoriesService)
     .WithReference(localizationService)
@@ -399,6 +422,7 @@ var storeGateway = builder
 // Store Gateway waits for all its referenced services
 storeGateway.WaitFor(authService);
 storeGateway.WaitFor(catalogService);
+storeGateway.WaitFor(ordersService);
 // storeGateway.WaitFor(variantsService);
 // storeGateway.WaitFor(categoriesService);
 storeGateway.WaitFor(localizationService);
