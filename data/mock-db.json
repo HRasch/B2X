@@ -1,0 +1,80 @@
+{
+  "api": {
+    "translations": {
+      "en": {
+        "common.skipToMain": "Skip to main content",
+        "common.brand": "B2X",
+        "navigation.home": "Home",
+        "navigation.shop": "Shop",
+        "navigation.cart": "Cart",
+        "navigation.dashboard": "Dashboard",
+        "navigation.tenants": "Tenants",
+        "navigation.login": "Login",
+        "products.search.label": "Search products",
+        "products.sort.label": "Sort by",
+        "products.sort.nameAsc": "Name A-Z",
+        "products.sort.priceAsc": "Price low to high",
+        "products.sort.priceDesc": "Price high to low",
+        "products.sort.ratingDesc": "Rating",
+        "products.filters.title": "Filters",
+        "products.filters.category": "Category",
+        "products.filters.priceRange": "Price range",
+        "products.results.showing": "Showing {from}-{to} of {total} products",
+        "products.results.perPage": "per page",
+        "products.noResults": "No products found",
+        "products.noResultsDescription": "Try adjusting your search or filters",
+        "app.services": "Services",
+        "app.branding": "Branding",
+        "app.design": "Design",
+        "app.marketing": "Marketing",
+        "app.advertisement": "Advertisement",
+        "app.company": "Company",
+        "app.aboutUs": "About Us",
+        "app.contact": "Contact",
+        "app.jobs": "Jobs",
+        "app.pressKit": "Press Kit",
+        "app.legal": "Legal",
+        "app.termsOfUse": "Terms of Use",
+        "app.privacyPolicy": "Privacy Policy",
+        "app.cookiePolicy": "Cookie Policy",
+        "app.newsletter": "Newsletter",
+        "app.enterEmail": "Enter your email",
+        "app.subscribe": "Subscribe"
+      }
+    },
+    "localization": {
+      "languages": [
+        { "code": "en", "name": "English", "flag": "🇺🇸" },
+        { "code": "de", "name": "Deutsch", "flag": "🇩🇪" },
+        { "code": "fr", "name": "Français", "flag": "🇫🇷" }
+      ]
+    },
+    "tenant": {
+      "config": {
+        "name": "Test Tenant",
+        "theme": "default",
+        "features": ["catalog", "cms"]
+      }
+    },
+    "cms": {
+      "pages": {
+        "by-path": {
+          "/": {
+            "path": "/",
+            "title": "Home",
+            "content": "Welcome to B2X",
+            "widgets": []
+          }
+        }
+      },
+      "widgets": [
+        {
+          "id": 1,
+          "type": "hero",
+          "category": "media",
+          "content": "Welcome to our store"
+        }
+      ]
+    }
+  }
+}

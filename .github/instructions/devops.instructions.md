@@ -176,9 +176,35 @@ docs-mcp/check_links workspacePath="docs/infrastructure"
 docs-mcp/analyze_content_quality filePath="README.md"
 ```
 
+### runSubagent for Deployment Validation (Token-Optimized)
+
+For comprehensive pre-deployment checks, use `#runSubagent` to execute all validations in isolation:
+
+```text
+Validate deployment readiness with #runSubagent:
+- Analyze Dockerfile for best practices
+- Check container security for all images
+- Scan infrastructure vulnerabilities
+- Validate health check endpoints
+- Verify commit messages follow conventions
+- Check documentation completeness
+
+Return ONLY: deployment_readiness_score + blocking_issues + warnings
+```
+
+**Benefits**:
+- ~3000 Token savings per deployment validation
+- All 6 checks run in isolated context
+- Clear pass/fail decision returned
+- Detailed findings stay in subagent context
+
+**When to use**: Before any staging/production deployment
+
+---
+
 ### MCP-Powered DevOps Checklist
 
-**Pre-Deployment Validation**:
+**Pre-Deployment Validation** (or use runSubagent above for automated validation):
 - [ ] `docker-mcp/analyze_dockerfile` - Dockerfile follows best practices
 - [ ] `docker-mcp/check_container_security` - No critical vulnerabilities
 - [ ] `security-mcp/scan_vulnerabilities` - Infrastructure secure

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <!-- Debug Configuration -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    <!-- Disable SourceLink in Debug to prevent file locks during development -->
+    <EnableSourceLink>false</EnableSourceLink>
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+  </PropertyGroup>
+
+  <!-- Release Configuration -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <!-- Enable SourceLink in Release for production debugging -->
+    <EnableSourceLink>true</EnableSourceLink>
+    <EnableSourceControlManagerQueries>true</EnableSourceControlManagerQueries>
+  </PropertyGroup>
+
+  <!-- Common Build Settings -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Force NuGet packages to copy to output directory -->
+    <!-- Required for Aspire orchestration to work correctly -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    
+    <!-- ============================================= -->
+    <!-- Dynamic CPU Optimization (Portable Strategy) -->
+    <!-- ============================================= -->
+    <!-- Auto-detect available processors, use 0 for "all cores" -->
+    <!-- Override via: dotnet build -m:N or set B2X_MAX_CPU_COUNT env var -->
+    <BuildInParallel>true</BuildInParallel>
+    <!-- MaxCpuCount=0 means MSBuild uses all available processors -->
+    <MaxCpuCount Condition="'$(B2X_MAX_CPU_COUNT)' == ''">0</MaxCpuCount>
+    <MaxCpuCount Condition="'$(B2X_MAX_CPU_COUNT)' != ''">$(B2X_MAX_CPU_COUNT)</MaxCpuCount>
+    
+    <!-- ============================================= -->
+    <!-- CRITICAL: Prevent File Locking Issues        -->
+    <!-- ============================================= -->
+    <!-- Disable VBCSCompiler server (shared Roslyn compiler) -->
+    <UseSharedCompilation>false</UseSharedCompilation>
+    <!-- Disable MSBuild node reuse - nodes can hold file locks -->
+    <DisableMSBuildNodeReuse>true</DisableMSBuildNodeReuse>
+    <!-- Don't run analyzers in parallel to prevent race conditions -->
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+    <!-- Disable doc generation to reduce file writes -->
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    
+    <!-- ============================================= -->
+    <!-- Build Isolation Settings                      -->
+    <!-- ============================================= -->
+    <!-- CopyLocal=true required for Aspire orchestration - packages must be in output dir -->
+    <!-- Without this, runtime fails with FileNotFoundException for NuGet package DLLs -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- Allow package version downgrades (EF Core 10.0.1 -> 10.0.0 due to Npgsql compatibility) -->
+    <!-- Suppress MSB4011 duplicate transitive import warnings raised by some SDK/package combinations -->
+    <!-- MA0016: Collection abstractions - acceptable for DTOs -->
+    <!-- S6964: Value types in controllers - acceptable for required business fields -->
+    <!-- S1075: Hardcoded URIs - acceptable for development fallbacks -->
+    <!-- MA0051: Method too long - acceptable for complex business logic -->
+    <!-- S3904: AssemblyVersion - acceptable when using automatic versioning -->
+    <!-- CA2007: ConfigureAwait - not required in ASP.NET Core (no SynchronizationContext) - see ADR-056 -->
+    <NoWarn>$(NoWarn);NU1605;MSB4011;SA1649;SA1513;MA0016;S6964;S1075;MA0051;S3904;MA0048;S2139;S1481;MA0015;S2325;MA0009;S3267;S6932;CS8601;S6667;S927;MA0026;S1135;S125;S4487;MA0011;S6966;S1643;MA0158;S3400;MA0023;MA0065;CS8602;S3427;S3358;CS8604;S1066;S1172;CA2007</NoWarn>
+    
+    <!-- ======================= -->
+    <!-- Roslyn Analyzer Config  -->
+    <!-- ======================= -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisMode>Recommended</AnalysisMode>
+    
+    <!-- Treat Analyzer Warnings as Errors in Release builds -->
+    <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</CodeAnalysisTreatWarningsAsErrors>
+    
+    <!-- Report Analyzer execution time for optimization -->
+    <ReportAnalyzer>false</ReportAnalyzer>
+  </PropertyGroup>
+
+  <!-- Code Quality Analyzers (for PR Quality Gate) -->
+  <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
+    <!-- Analyzers removed - use individual project configuration if needed -->
+  </ItemGroup>
+
+  <!-- StyleCop Configuration -->
+  <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <!-- xUnit Parallel Test Configuration (24-Core Optimization) -->
+  <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+    <Content Include="$(MSBuildThisFileDirectory)../xunit.runner.json" Link="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!-- Exclude tests folders from non-test projects -->
+  <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
+    <Compile Remove="**/tests/**" />
+    <Compile Remove="**/Tests/**" />
+    <None Remove="**/tests/**" />
+    <None Remove="**/Tests/**" />
+    <Content Remove="**/tests/**" />
+    <Content Remove="**/Tests/**" />
+    <EmbeddedResource Remove="**/tests/**" />
+    <EmbeddedResource Remove="**/Tests/**" />
+  </ItemGroup>
+</Project>

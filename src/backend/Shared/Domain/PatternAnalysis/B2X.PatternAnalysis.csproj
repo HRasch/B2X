@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2X.PatternAnalysis</RootNamespace>
+    <AssemblyName>B2X.PatternAnalysis</AssemblyName>
+    <GenerateProgramFile>false</GenerateProgramFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="tests/**" />
+    <Content Remove="tests/**" />
+    <EmbeddedResource Remove="tests/**" />
+    <None Remove="tests/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools"  />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  />
+    <PackageReference Include="EFCore.NamingConventions"  />
+    <PackageReference Include="MediatR"  />
+    <PackageReference Include="FluentValidation"  />
+    <PackageReference Include="AutoMapper"  />
+    <PackageReference Include="WolverineFx"  />
+    <PackageReference Include="WolverineFx.Http"  />
+    <PackageReference Include="Serilog.AspNetCore"  />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <!-- For AI integration -->
+    <PackageReference Include="OpenAI" />
+    <!-- For code analysis -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" />
+    <PackageReference Include="SonarAnalyzer.CSharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Meziantou.Analyzer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SerilogAnalyzer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\Hosting\ServiceDefaults\B2X.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\B2X.Shared.Kernel\B2X.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\B2X.Shared.Core\B2X.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\B2X.Shared.Infrastructure\B2X.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\middleware\B2X.Shared.Middleware.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Messaging\B2X.Shared.Messaging.csproj" />
+    <ProjectReference Include="..\Tenancy\B2X.Tenancy.API.csproj" />
+  </ItemGroup>
+
+</Project>
+
+
+
+
+

@@ -1,14 +1,21 @@
-﻿{
+{
+  // ============================================================================
+  // IMPORTANT: Use F5 (Debug) or Ctrl+F5 (Run) instead of terminal-based
+  // 'dotnet run' to avoid file lock errors (CS2012). VS Code coordinates
+  // builds and service restarts automatically.
+  // See: dotnet/aspire#4981, lessons.md "Aspire Runtime File Locks"
+  // ============================================================================
   "version": "0.2.0",
   "configurations": [
     {
+      // RECOMMENDED: Primary development configuration - prevents file locks
       "name": "🚀 Full Stack",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2X.AppHost.dll",
+      "program": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/bin/Debug/net10.0/B2X.AppHost.dll",
       "preLaunchTask": "build-apphost",
       "args": [],
-      "cwd": "${workspaceFolder}/AppHost",
+      "cwd": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost",
       "stopAtEntry": false,
       "serverReadyAction": {
         "pattern": "dashboard",
@@ -31,16 +38,18 @@
         "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
         "Azure__KeyVault__UseMocked": "true"
       },
-      "console": "externalTerminal"
+      // Use integratedTerminal for better VS Code coordination (prevents file locks)
+      "console": "integratedTerminal"
     },
     {
+      // PostgreSQL mode - use when testing with real database
       "name": "🚀 Full Stack (PostgreSQL)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/AppHost/bin/Debug/net10.0/B2X.AppHost.dll",
+      "program": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost/bin/Debug/net10.0/B2X.AppHost.dll",
       "preLaunchTask": "build-apphost",
       "args": [],
-      "cwd": "${workspaceFolder}/AppHost",
+      "cwd": "${workspaceFolder}/src/backend/Infrastructure/Hosting/AppHost",
       "stopAtEntry": false,
       "serverReadyAction": {
         "pattern": "dashboard",
@@ -63,7 +72,8 @@
         "Encryption__Key": "dev-encryption-key-minimum-32-characters-required!!!",
         "Azure__KeyVault__UseMocked": "true"
       },
-      "console": "externalTerminal"
+      // Use integratedTerminal for better VS Code coordination (prevents file locks)
+      "console": "integratedTerminal"
     },
     {
       "name": "📱 Frontend Store (Dev)",
@@ -71,7 +81,7 @@
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "cwd": "${workspaceFolder}/frontend/Store",
+      "cwd": "${workspaceFolder}/src/frontend/Store",
       "console": "integratedTerminal",
       "serverReadyAction": {
         "pattern": "Local:.*http://localhost:(\\d+)",
@@ -85,7 +95,7 @@
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "cwd": "${workspaceFolder}/frontend/Admin",
+      "cwd": "${workspaceFolder}/src/frontend/Admin",
       "console": "integratedTerminal",
       "serverReadyAction": {
         "pattern": "Local:.*http://localhost:(\\d+)",
@@ -99,7 +109,7 @@
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "cwd": "${workspaceFolder}/frontend/Management",
+      "cwd": "${workspaceFolder}/src/frontend/Management",
       "console": "integratedTerminal",
       "serverReadyAction": {
         "pattern": "Local:.*http://localhost:(\\d+)",
@@ -113,7 +123,7 @@
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "test"],
-      "cwd": "${workspaceFolder}/frontend/Store",
+      "cwd": "${workspaceFolder}/src/frontend/Store",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
     },
@@ -123,7 +133,7 @@
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "test"],
-      "cwd": "${workspaceFolder}/frontend/Admin",
+      "cwd": "${workspaceFolder}/src/frontend/Admin",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
     },
@@ -133,7 +143,7 @@
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "test"],
-      "cwd": "${workspaceFolder}/frontend/Management",
+      "cwd": "${workspaceFolder}/src/frontend/Management",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
     },
@@ -141,9 +151,10 @@
       "name": "Backend Tests (CMS)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/CMS/tests/B2X.CMS.Tests.csproj",
-      "args": [],
-      "cwd": "${workspaceFolder}/backend",
+      "preLaunchTask": "test-cms",
+      "program": "dotnet",
+      "args": ["test", "${workspaceFolder}/src/backend/Management/Tests/CMS/B2X.CMS.Tests.csproj"],
+      "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal"
     },
@@ -151,9 +162,10 @@
       "name": "Backend Tests (Catalog)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Catalog/tests/B2X.Catalog.Tests.csproj",
-      "args": [],
-      "cwd": "${workspaceFolder}/backend",
+      "preLaunchTask": "test-catalog",
+      "program": "dotnet",
+      "args": ["test", "${workspaceFolder}/src/backend/Store/Tests/Catalog/B2X.Catalog.Tests.csproj"],
+      "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal"
     },
@@ -161,9 +173,10 @@
       "name": "Backend Tests (Localization)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Localization/tests/B2X.Localization.Tests.csproj",
-      "args": [],
-      "cwd": "${workspaceFolder}/backend",
+      "preLaunchTask": "test-localization",
+      "program": "dotnet",
+      "args": ["test", "${workspaceFolder}/src/backend/Shared/Domain/Localization/tests/B2X.Localization.Tests.csproj"],
+      "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal"
     },
@@ -171,9 +184,10 @@
       "name": "Backend Tests (Identity)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Identity/tests/B2X.Identity.Tests.csproj",
-      "args": [],
-      "cwd": "${workspaceFolder}/backend",
+      "preLaunchTask": "test-identity",
+      "program": "dotnet",
+      "args": ["test", "${workspaceFolder}/src/backend/Shared/Domain/Identity/B2X.Identity.Tests.csproj"],
+      "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal"
     },
@@ -181,9 +195,10 @@
       "name": "Backend Tests (Search)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Search/tests/B2X.Shared.Search.Tests.csproj",
-      "args": [],
-      "cwd": "${workspaceFolder}/backend",
+      "preLaunchTask": "test-search",
+      "program": "dotnet",
+      "args": ["test", "${workspaceFolder}/src/backend/Shared/Infrastructure/Search/B2X.Shared.Search.Tests.csproj"],
+      "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal"
     },
@@ -191,9 +206,9 @@
       "name": "Backend Tests (AppHost)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/AppHost.Tests/B2X.AppHost.Tests.csproj",
-      "args": [],
-      "cwd": "${workspaceFolder}/AppHost.Tests",
+      "program": "dotnet",
+      "args": ["test", "${workspaceFolder}/tests/Hosting/AppHost.Tests/B2X.AppHost.Tests.csproj"],
+      "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "integratedTerminal"
     },
@@ -201,9 +216,9 @@
       "name": "🔐 Debug Identity Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Identity/B2X.Identity.API.csproj",
+      "program": "${workspaceFolder}/src/backend/Shared/Domain/Identity/bin/Debug/net10.0/B2X.Identity.API.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/Domain/Identity",
+      "cwd": "${workspaceFolder}/src/backend/Shared/Domain/Identity",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -215,9 +230,9 @@
       "name": "🏢 Debug Tenant Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Tenancy/B2X.Tenancy.API.csproj",
+      "program": "${workspaceFolder}/src/backend/Shared/Domain/Tenancy/bin/Debug/net10.0/B2X.Tenancy.API.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/Domain/Tenancy",
+      "cwd": "${workspaceFolder}/src/backend/Shared/Domain/Tenancy",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -229,9 +244,9 @@
       "name": "📦 Debug Catalog Service",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Domain/Catalog/B2X.Catalog.API.csproj",
+      "program": "${workspaceFolder}/src/backend/Store/Domain/Catalog/bin/Debug/net10.0/B2X.Catalog.API.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/Domain/Catalog",
+      "cwd": "${workspaceFolder}/src/backend/Store/Domain/Catalog",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -243,9 +258,9 @@
       "name": "🔧 Debug Admin API",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Gateway/Admin/B2X.Admin.csproj",
+      "program": "${workspaceFolder}/src/backend/Admin/Gateway/bin/Debug/net10.0/B2X.Admin.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/Gateway/Admin",
+      "cwd": "${workspaceFolder}/src/backend/Admin/Gateway",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -257,9 +272,9 @@
       "name": "🏪 Debug Store API",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/backend/Gateway/Store/API/B2X.Store.csproj",
+      "program": "${workspaceFolder}/src/backend/Store/API/bin/Debug/net10.0/B2X.Store.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/Gateway/Store/API",
+      "cwd": "${workspaceFolder}/src/backend/Store/API",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -271,9 +286,9 @@
       "name": "🌱 Debug Seeding API",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/B2X.Seeding.API/B2X.Seeding.API.csproj",
+      "program": "${workspaceFolder}/src/tools/seeders/seeding/bin/Debug/net10.0/B2X.Seeding.API.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/B2X.Seeding.API",
+      "cwd": "${workspaceFolder}/src/tools/seeders/seeding",
       "stopAtEntry": false,
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -286,6 +301,36 @@
       "type": "coreclr",
       "request": "attach",
       "processId": "${command:pickProcess}"
+    },
+    {
+      "name": "🌐 Debug Store Frontend (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/src/frontend/Store",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/src/*"
+      }
+    },
+    {
+      "name": "🎨 Debug Admin Frontend (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5179",
+      "webRoot": "${workspaceFolder}/src/frontend/Admin",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/src/*"
+      }
+    },
+    {
+      "name": "🏢 Debug Management Frontend (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5175",
+      "webRoot": "${workspaceFolder}/src/frontend/Management",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/src/*"
+      }
     }
   ],
   "compounds": [
@@ -298,7 +343,30 @@
         "🏢 Frontend Management (Dev)"
       ],
       "stopAll": true
+    },
+    {
+      "name": "🔍 Interactive Store Debug",
+      "configurations": [
+        "📱 Frontend Store (Dev)",
+        "🌐 Debug Store Frontend (Chrome)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "🔍 Interactive Admin Debug",
+      "configurations": [
+        "🎨 Frontend Admin (Dev)",
+        "🎨 Debug Admin Frontend (Chrome)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "🔍 Interactive Management Debug",
+      "configurations": [
+        "🏢 Frontend Management (Dev)",
+        "🏢 Debug Management Frontend (Chrome)"
+      ],
+      "stopAll": true
     }
-  ]
   ]
 }

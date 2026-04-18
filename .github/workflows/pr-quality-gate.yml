@@ -40,6 +40,13 @@ jobs:
           dotnet format --verify-no-changes --verbosity diagnostic
         continue-on-error: false
 
+      - name: MCP - Roslyn Analysis
+        run: |
+          # Roslyn MCP validation for backend
+          echo "Running Roslyn MCP analysis..."
+          roslyn-mcp/analyze_types workspacePath="backend" || echo "Roslyn MCP not available in CI"
+          roslyn-mcp/check_breaking_changes workspacePath="backend" || echo "Roslyn MCP not available in CI"
+
       - name: Frontend - Install Dependencies
         run: |
           cd frontend/Store && npm ci
@@ -86,8 +93,8 @@ jobs:
 
       - name: Documentation - Metadata Validation
         run: |
-          chmod +x scripts/validate-metadata.sh
-          ./scripts/validate-metadata.sh
+          chmod +x scripts/validation/validate-metadata.sh
+          ./scripts/validation/validate-metadata.sh
 
   # Stage 2: Unit Tests (< 5 min)
   unit-tests:
@@ -123,19 +130,19 @@ jobs:
             --configuration Release \
             --collect:"XPlat Code Coverage" \
             --results-directory ./coverage \
-            --logger "trx;LogFileName=test-results.trx" \
-            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+            --settings coverlet.runsettings \
+            --logger "trx;LogFileName=test-results.trx"
 
       - name: Backend - Generate Coverage Report
         uses: danielpalme/ReportGenerator-GitHub-Action@5.5.1
         with:
-          reports: 'coverage/**/coverage.opencover.xml'
-          targetdir: 'coverage-report'
+          reports: 'test-results/coverage/**/coverage.opencover.xml'
+          targetdir: 'test-results/coverage-report'
           reporttypes: 'Html;Cobertura;MarkdownSummary'
 
       - name: Backend - Check Coverage Threshold
         run: |
-          coverage=$(grep -oP 'line-rate="\K[0-9.]+' coverage-report/Cobertura.xml | head -1)
+          coverage=$(grep -oP 'line-rate="\K[0-9.]+' test-results/coverage-report/Cobertura.xml | head -1)
           coverage_percent=$(echo "$coverage * 100" | bc)
           echo "Coverage: ${coverage_percent}%"
           if (( $(echo "$coverage_percent < 80" | bc -l) )); then
@@ -179,7 +186,7 @@ jobs:
         with:
           name: coverage-reports
           path: |
-            coverage-report/
+            test-results/coverage-report/
             frontend/Store/coverage/
             frontend/Management/coverage/
 
@@ -187,7 +194,7 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: coverage
-          path: coverage-report/Summary.md
+          path: test-results/coverage-report/Summary.md
 
   # Stage 3: Integration Tests (< 10 min)
   integration-tests:

@@ -84,7 +84,7 @@ Does task involve:
   "scope": "What areas to focus on",
   "criteria": "Success criteria",
   "context": "Background info",
-  "output_location": ".ai/issues/{id}/{name}.md",
+  "output_location": "GitHub Issue #{id} comments or attachments",
   "priority": "high|medium|low",
   "deadline": "YYYY-MM-DD HH:mm"
 }
@@ -114,7 +114,7 @@ Does task involve:
   "scope": "Input validation, SQL injection risk, password handling, error messages",
   "criteria": "All security checklist items reviewed, findings documented",
   "context": "Code in src/api/auth.ts, PostgreSQL backend, bcrypt for passwords",
-  "output_location": ".ai/issues/FEAT-456/security-review.md",
+  "output_location": "GitHub Issue #FEAT-456 comments",
   "priority": "high",
   "deadline": "2025-12-31 12:00"
 }

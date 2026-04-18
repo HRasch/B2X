@@ -1,0 +1,90 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2X.Admin</RootNamespace>
+    <AssemblyName>B2X.Admin</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <IsAspireProjectResource>true</IsAspireProjectResource>
+    <GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+
+  <!-- Exclude tests folder from compilation -->
+  <ItemGroup>
+    <Compile Remove="tests/**" />
+    <Compile Remove="tests\**" />
+    <None Remove="tests/**" />
+    <None Remove="tests\**" />
+    <Content Remove="tests/**" />
+    <Content Remove="tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore"  />
+    <PackageReference Include="Yarp.ReverseProxy"  />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"  />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt"  />
+    <PackageReference Include="WolverineFx"  />
+    <PackageReference Include="WolverineFx.Http"  />
+    <PackageReference Include="Bogus"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"  />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  />
+    <!-- Performance Optimization (ADR-025) -->
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="EFCore.BulkExtensions.SqlServer"  />
+    <PackageReference Include="EFCore.BulkExtensions.PostgreSql"  />
+    <!-- Performance Benchmarking (ADR-025) -->
+    <PackageReference Include="BenchmarkDotNet"  />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../backend/Infrastructure/Hosting/ServiceDefaults/B2X.ServiceDefaults.csproj" />
+
+    <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Kernel/B2X.Shared.Kernel.csproj" />
+
+    <ProjectReference Include="../../../Shared/Domain/B2X.Shared.Core/B2X.Shared.Core.csproj" />
+
+    <ProjectReference Include="../../../Shared/Infrastructure/middleware/B2X.Shared.Middleware.csproj" />
+
+    <ProjectReference Include="../../../Shared/Infrastructure/B2X.Shared.Infrastructure.csproj" />
+
+    <ProjectReference Include="../../../Shared/Infrastructure/Messaging/B2X.Shared.Messaging.csproj" />
+
+    <ProjectReference Include="../../../Shared/Domain/ERP/impl/B2X.ERP.csproj" />
+
+    <ProjectReference Include="../../../Management/Domain/B2X.Email.csproj" />
+
+    <ProjectReference Include="../../../Shared/Domain/Theming/B2X.Theming.API.csproj">
+      <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
+    </ProjectReference>
+
+    <ProjectReference Include="../../../Shared/Domain/B2X.Types/B2X.Types.csproj" />
+
+    <!-- ERP Validation and Connectors (ADR-036) -->
+    <ProjectReference Include="../../../Shared/Domain/Shared/B2X.Api.Validation/B2X.Api.Validation.csproj" />
+
+    <ProjectReference Include="../../../Infrastructure/Connectors/B2X.Connectors.csproj" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../Shared/Domain/Tenancy/B2X.Tenancy.API.csproj">
+      <StaticWebAssetProjectMode>None</StaticWebAssetProjectMode>
+    </ProjectReference>
+
+  </ItemGroup>
+
+</Project>
+
+
+
+
+
+

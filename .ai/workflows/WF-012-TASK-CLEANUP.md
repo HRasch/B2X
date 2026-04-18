@@ -541,6 +541,5 @@ TASK-001/artifacts/
 ---
 
 **Owner**: @SARAH  
-**Related**: [WF-011] Task Dispatch | [QS-002] Quick Start | [PROGRESS_TEMPLATE.md]  
-**Last Updated**: 2026-01-08  
+**Related**: [WF-011] Task Dispatch | [WF-013] Agent Support & Escalation | [WF-014] Deployment Guide | [QS-002] Quick Start | [PROGRESS_TEMPLATE.md]
 **Next Review**: 2026-01-22

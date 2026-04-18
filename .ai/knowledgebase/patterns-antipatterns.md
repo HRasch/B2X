@@ -4,15 +4,18 @@ title: Patterns Antipatterns
 owner: @DocMaintainer
 status: Active
 created: 2026-01-08
+updated: 2026-01-12
 ---
 
 Title: Patterns & Antipatterns — cross-cutting guidance
 Source: curated from official docs and best practices (Microsoft, OWASP, Vue, Pinia, JasperFx)
 
 Overview
+
 - Short, actionable patterns and antipatterns for the main technologies used in this repo: message-driven (.NET/Wolverine), frontend (Vue/Pinia/Vite), authentication (ASP.NET Identity), localization, and .NET library design.
 
 Messaging (Wolverine & CQRS)
+
 - Patterns:
   - Use explicit message contracts (DTOs) and version them.
   - Prefer idempotent handlers; make handlers safe to retry.
@@ -24,6 +27,7 @@ Messaging (Wolverine & CQRS)
   - Relying on eventual consistency without compensating or reconciliation strategies.
 
 Frontend (Vue, Pinia, Vite)
+
 - Patterns:
   - Composition API + composables for reusable logic and testability.
   - Domain stores in Pinia (one store per domain concept) and keep actions small and pure where possible.
@@ -35,6 +39,7 @@ Frontend (Vue, Pinia, Vite)
   - Mutating shared state directly from multiple places without clear ownership.
 
 Nuxt 3 Framework
+
 - Patterns:
   - Leverage file-based routing and auto-imports for clean, convention-over-configuration development.
   - Use server-side rendering (SSR) for SEO-critical pages and static generation (SSG) for content-heavy sites.
@@ -64,6 +69,7 @@ Nuxt 3 Framework
   - Ignoring PostCSS warnings that may indicate configuration issues with Tailwind/DaisyUI.
 
 Authentication & Identity (ASP.NET Core Identity)
+
 - Patterns:
   - Enforce confirmed accounts, strong password policies, and MFA for sensitive flows.
   - Use cookie hardening (`HttpOnly`, `Secure`, `SameSite`) and rotate data-protection keys in multi-instance deployments.
@@ -73,6 +79,7 @@ Authentication & Identity (ASP.NET Core Identity)
   - Exposing verbose error messages from authentication endpoints that enable username enumeration.
 
 Localization & Globalization
+
 - Patterns:
   - Use `IStringLocalizer`/resource files for server-side strings; separate client translations and export as needed.
   - Determine culture per request via route/cookie/Accept-Language and provide explicit fallbacks.
@@ -82,6 +89,7 @@ Localization & Globalization
   - Ignoring RTL/LTR differences and failing to test layout for RTL languages.
 
 .NET library design & compatibility
+
 - Patterns:
   - Favor additive changes (new APIs) over changing existing signatures; use `[Obsolete]` and migration helpers.
   - Run API-compatibility checks and document breaking changes clearly in release notes.
@@ -91,9 +99,11 @@ Localization & Globalization
   - Changing synchronous APIs to async without a migration plan or compatibility wrapper.
 
 How to use this file
+
 - Use this document as a quick checklist when proposing changes, reviewing PRs, or designing new features. Add project-specific examples and link to the detailed knowledgebase pages for each technology.
 
 Code Quality & Legacy Migration (Pilot Phase 2 - Jan 2026)
+
 - Patterns:
   - Interface-first approach: Create proper TypeScript interfaces for component props/settings before implementation (`{ComponentName}Settings`)
   - Replace `any` types in tests with typed interfaces for better maintainability and IntelliSense
@@ -107,6 +117,7 @@ Code Quality & Legacy Migration (Pilot Phase 2 - Jan 2026)
   - Uncontrolled technical debt accumulation - implement regular code quality audits
 
 Playwright E2E Testing
+
 - Patterns:
   - Use locators with user-facing attributes (getByRole, getByLabel) over fragile CSS selectors
   - Chain and filter locators for precise element targeting
@@ -129,6 +140,7 @@ Playwright E2E Testing
   - Not isolating test data and state between test runs
 
 Code Organization & Refactoring
+
 - Patterns:
   - Establish file size limits (500 LOC max for complex logic files) and class count limits (1-2 related classes per file).
   - Use systematic extraction for large monolithic files: create separate files first, then remove from original file.
@@ -142,5 +154,36 @@ Code Organization & Refactoring
   - Large-scale refactoring without incremental validation and testing checkpoints.
   - Lack of clear file organization guidelines leading to inconsistent project structure.
 
+.NET Project Structure & References
+
+- Patterns:
+  - Use consistent relative path patterns based on directory depth: test projects in `tests/` require 5 levels up (`../../../../../src/`) to reach project root
+  - Include `/src/` prefix in all project reference paths within solution folders (e.g., `../../../../src/shared/Domain/Tenancy/B2X.Tenancy.API.csproj`)
+  - Maintain complete package references for frameworks: EF requires both runtime (`Microsoft.EntityFrameworkCore`) and relational (`Microsoft.EntityFrameworkCore.Relational`) packages plus provider packages
+  - Explicitly reference extension packages even in ASP.NET Core context: `Microsoft.Extensions.Logging` and `Microsoft.Extensions.Configuration` needed for DI services
+  - Validate project references against solution file structure to prevent broken builds
+- Antipatterns:
+  - Inconsistent path patterns causing "project does not exist" errors (missing `/src/` prefixes)
+  - Incomplete package references leading to missing type errors (Migration, ILogger<>, IConfiguration)
+  - Assuming ASP.NET Core projects automatically include all extension packages
+  - Not validating individual project builds before solution-wide compilation
+
+EF Core & JSON Serialization (API Boundaries)
+
+- Patterns:
+  - Use DTOs for API responses instead of exposing EF Core entities directly - prevents circular reference issues and decouples API contract from data model
+  - Configure `ReferenceHandler.IgnoreCycles` in JSON options when returning entities with bidirectional navigation properties
+  - Add `[JsonIgnore]` attribute on navigation properties that shouldn't be serialized (e.g., back-references)
+  - Use `JsonIgnoreCondition.WhenWritingNull` to reduce payload size by omitting null values
+  - Check database provider type before calling relational methods like `MigrateAsync()` - in-memory provider doesn't support migrations
+  - Use `EnsureCreatedAsync()` instead of `MigrateAsync()` for in-memory testing scenarios
+- Antipatterns:
+  - Returning EF Core entities directly from API controllers without considering navigation property cycles
+  - Bidirectional navigation properties (`Order.Items` ↔ `OrderItem.Order`) without JSON serialization configuration
+  - Calling `MigrateAsync()` unconditionally without checking if provider supports relational operations
+  - Mixing in-memory and relational database behaviors without environment-specific configuration
+  - Not handling `JsonException` for cycle detection in API error handling
+
 References
+
 - Wolverine README & docs, Vue docs, Pinia docs, Vite docs, ASP.NET Core Identity docs, .NET compatibility docs, OWASP Top Ten.

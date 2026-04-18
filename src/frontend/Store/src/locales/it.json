@@ -1,0 +1,232 @@
+{
+  "auth": {
+    "login": {
+      "title": "Accedi",
+      "email": "Indirizzo email",
+      "password": "Password",
+      "submit": "Accedi",
+      "forgotPassword": "Password dimenticata?",
+      "devHelp": {
+        "email": "Usa: admin@b2x.com",
+        "password": "Usa: admin123",
+        "hint": "Credenziali demo per test"
+      },
+      "e2eMode": {
+        "title": "Modalità test E2E",
+        "description": "Esecuzione in modalità test end-to-end con test automatizzati"
+      },
+      "form": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Inserisci la tua email"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Inserisci la tua password"
+        }
+      },
+      "actions": {
+        "login": "Accedi",
+        "loggingIn": "Accesso in corso..."
+      },
+      "signup": {
+        "prompt": "Non hai un account?",
+        "link": "Registrati"
+      }
+    },
+    "register": {
+      "title": "Registrati",
+      "email": "Indirizzo email",
+      "password": "Password",
+      "confirmPassword": "Conferma password",
+      "fullName": "Nome completo",
+      "submit": "Crea account",
+      "alreadyHaveAccount": "Hai già un account?"
+    },
+    "logout": "Esci"
+  },
+  "ui": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "next": "Avanti",
+    "previous": "Indietro",
+    "loading": "Caricamento...",
+    "success": "Successo",
+    "error": "Errore",
+    "warning": "Avvertenza",
+    "close": "Chiudi",
+    "edit": "Modifica",
+    "add": "Aggiungi",
+    "search": "Cerca",
+    "filter": "Filtra",
+    "sort": "Ordina",
+    "export": "Esporta",
+    "import": "Importa"
+  },
+  "errors": {
+    "required": "Questo campo è obbligatorio",
+    "invalid_email": "Indirizzo email non valido",
+    "unauthorized": "Non sei autorizzato",
+    "forbidden": "Accesso negato",
+    "not_found": "Non trovato",
+    "server_error": "Errore del server. Per favore riprova più tardi.",
+    "network_error": "Errore di rete. Per favore controlla la tua connessione.",
+    "validation_error": "Validazione fallita. Per favore controlla il tuo input.",
+    "duplicate": "Questo elemento esiste già",
+    "min_length": "Deve avere almeno {min} caratteri",
+    "max_length": "Deve avere al massimo {max} caratteri"
+  },
+  "validation": {
+    "email": "Per favore inserisci un'email valida",
+    "password": "La password deve avere almeno 8 caratteri",
+    "phone": "Per favore inserisci un numero di telefono valido",
+    "url": "Per favore inserisci un URL valido",
+    "match": "Le password non coincidono"
+  },
+  "common": {
+    "yes": "Sì",
+    "no": "No",
+    "ok": "OK",
+    "back": "Indietro",
+    "home": "Home",
+    "language": "Lingua",
+    "settings": "Impostazioni",
+    "profile": "Profilo",
+    "help": "Aiuto",
+    "about": "Informazioni",
+    "version": "Versione",
+    "error": "Errore"
+  },
+  "product": {
+    "sku": "SKU",
+    "reviews": {
+      "count": "({{count}} recensioni)",
+      "viewAll": "Visualizza tutte le recensioni ({{total}} totali)"
+    },
+    "stock": {
+      "inStock": "✓ Disponibile",
+      "outOfStock": "✗ Esaurito",
+      "available": "({{quantity}} disponibile)"
+    },
+    "share": "Condividi",
+    "shareOnFacebook": "Condividi su Facebook",
+    "shareOnTwitter": "Condividi su Twitter",
+    "copyLink": "Copia link"
+  },
+  "accessibility": {
+    "skipToMain": "Vai al contenuto principale"
+  },
+  "layout": {
+    "header": "Intestazione",
+    "sidebar": "Barra laterale",
+    "mainContent": "Contenuto principale",
+    "footer": "Piè di pagina",
+    "toggleSidebar": "Attiva/disattiva barra laterale"
+  },
+  "vat": {
+    "countryCode": "Codice paese",
+    "vatNumber": "Partita IVA",
+    "validate": "Valida IVA",
+    "validating": "Validazione in corso...",
+    "companyName": "Nome azienda",
+    "address": "Indirizzo",
+    "reverseCharge": "Reverse Charge",
+    "reverseChargeApplies": "Si applica",
+    "standardVatRate": "Aliquota standard",
+    "clearAndStartOver": "Cancella e ricomincia",
+    "validationHelp": {
+      "title": "Aiuto per la validazione IVA",
+      "description": "Inserisci un numero di partita IVA valido per il paese selezionato. Il sistema lo verificherà con il servizio VIES della Commissione Europea."
+    },
+    "countries": {
+      "AT": "Austria",
+      "BE": "Belgio",
+      "BG": "Bulgaria",
+      "HR": "Croazia",
+      "CY": "Cipro",
+      "CZ": "Repubblica Ceca",
+      "DK": "Danimarca",
+      "EE": "Estonia",
+      "FI": "Finlandia",
+      "FR": "Francia",
+      "GR": "Grecia",
+      "HU": "Ungheria",
+      "IE": "Irlanda",
+      "IT": "Italia",
+      "LV": "Lettonia",
+      "LT": "Lituania",
+      "LU": "Lussemburgo",
+      "MT": "Malta",
+      "NL": "Paesi Bassi",
+      "PL": "Polonia",
+      "PT": "Portogallo",
+      "RO": "Romania",
+      "SK": "Slovacchia",
+      "SI": "Slovenia",
+      "ES": "Spagna",
+      "SE": "Svezia"
+    }
+  },
+  "erp": {
+    "customerLookup": {
+      "emailLabel": "Indirizzo email",
+      "searching": "Ricerca cliente in corso...",
+      "searchError": "Errore nella ricerca cliente",      "customerNotFound": "Cliente non trovato",      "customerFound": "Cliente trovato",
+      "welcomeBackWithName": "Bentornato, {name}!",
+      "customerNumber": "Numero cliente",
+      "customerType": "Tipo cliente",
+      "privateCustomer": "Cliente privato",
+      "businessCustomer": "Cliente aziendale",
+      "businessInfo": "Informazioni aziendali",
+      "company": "Azienda",
+      "phone": "Telefono",
+      "country": "Paese",
+      "creditLimit": "Limite di credito",
+      "continue": "Continua",
+      "searchButton": "Ricerca cliente",
+      "newSearch": "Nuova ricerca",
+      "cancel": "Annulla",
+      "newCustomerQuestion": "Sei un nuovo cliente?",
+      "newCustomerDescription": "Puoi registrarti ora con registrazione semplificata.",
+      "newRegistration": "Nuova registrazione",
+      "welcomeBack": "Bentornato",
+      "enterEmailToStart": "Inserisci il tuo indirizzo email per iniziare il processo di registrazione.",
+      "customerInfoFound": "Abbiamo trovato le tue informazioni cliente nel nostro sistema.",
+      "diagnosticInfo": "🔧 Info diagnostica (Debug)"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Benvenuto nel B2X Store",
+      "subtitle": "Scopri prodotti straordinari con acquisti veloci e sicuri",
+      "shopNow": "Acquista ora",
+      "browseCategories": "Sfoglia categorie"
+    },
+    "featuredProducts": {
+      "title": "Prodotti in evidenza",
+      "viewAll": "Vedi tutti i prodotti"
+    },
+    "categories": {
+      "title": "Acquista per categoria"
+    },
+    "features": {
+      "title": "Perché scegliere B2X?",
+      "quality": {
+        "title": "Qualità Premium",
+        "description": "Prodotti selezionati con cura da fornitori affidabili"
+      },
+      "fast": {
+        "title": "Consegna veloce",
+        "description": "Spedizione rapida e affidabile direttamente a casa tua"
+      },
+      "support": {
+        "title": "Supporto 24/7",
+        "description": "Il nostro team di assistenza clienti è qui per aiutarti"
+      }
+    }
+  },
+  "pricing": {
+    "includingVat": "IVA incl. {rate}%"
+  }
+}

@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    ASPIRE APPHOST TEST PROJECT: Microsoft Testing Platform (MTP)
+    
+    Configuration:
+    * Uses xunit.v3 with Microsoft Testing Platform (MTP) 
+    * OutputType=Exe required for MTP test projects
+    * global.json has "test.runner": "Microsoft.Testing.Platform"
+    * UseMicrosoftTestingPlatformRunner=true opts into MTP runner
+    
+    Run: dotnet test (project path)/B2X.AppHost.Tests.csproj
+    
+    Docs: learn.microsoft.com/dotnet/core/testing/migrating-vstest-microsoft-testing-platform
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>B2X.AppHost.Tests</RootNamespace>
+    <AssemblyName>B2X.AppHost.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- HYBRID: Support both MTP (CLI) and VSTest (VSCode Test Explorer) -->
+    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- xUnit.net v3 with MTP v2 for CLI -->
+    <PackageReference Include="xunit.v3.mtp-v2" />
+    <!-- VSTest adapter for VSCode Test Explorer compatibility -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="Bogus" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="coverlet.collector">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\backend\Infrastructure\Hosting\AppHost\B2X.AppHost.csproj" />
+    <ProjectReference Include="..\..\..\..\src\backend\Services\Hosting\B2X.Hosting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System.Net" />
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Aspire.Hosting.ApplicationModel" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

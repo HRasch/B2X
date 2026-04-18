@@ -111,7 +111,7 @@ jobs:
       - name: Run Runtime Health Check
         run: |
           echo "Running runtime health check after green deployment..."
-          ./scripts/runtime-health-check.sh
+          ./scripts/monitoring/health-check.sh
 
       - name: Run Health Checks
         run: |
@@ -119,7 +119,7 @@ jobs:
           kubectl wait --for=condition=available --timeout=300s deployment/B2X-green -n B2X
 
           echo "Running smoke tests..."
-          ./scripts/smoke-test.sh green
+          ./scripts/utilities/smoke-test.sh green
 
       - name: Switch Traffic to Green
         run: |
@@ -129,12 +129,12 @@ jobs:
       - name: Monitor Post-Deployment
         run: |
           echo "Monitoring deployment for 5 minutes..."
-          timeout 300 ./scripts/monitor-deployment.sh green || true
+          timeout 300 ./scripts/monitoring/monitor-deployment.sh green || true
 
       - name: Validate Deployment
         id: validate
         run: |
-          if ./scripts/validate-deployment.sh green; then
+          if ./scripts/validation/validate-deployment.sh green; then
             echo "validation=success" >> $GITHUB_OUTPUT
           else
             echo "validation=failed" >> $GITHUB_OUTPUT
@@ -189,17 +189,17 @@ jobs:
       - name: Run Runtime Health Check
         run: |
           echo "Running runtime health check after canary deployment..."
-          ./scripts/runtime-health-check.sh
+          ./scripts/monitoring/health-check.sh
 
       - name: Monitor Canary
         run: |
           echo "Monitoring canary deployment for 15 minutes..."
-          timeout 900 ./scripts/monitor-canary.sh || true
+          timeout 900 ./scripts/monitoring/monitor-canary.sh || true
 
       - name: Validate Canary
         id: validate
         run: |
-          if ./scripts/validate-canary.sh; then
+          if ./scripts/validation/validate-canary.sh; then
             echo "validation=success" >> $GITHUB_OUTPUT
           else
             echo "validation=failed" >> $GITHUB_OUTPUT
@@ -267,12 +267,12 @@ jobs:
       - name: Run Runtime Health Check
         run: |
           echo "Running runtime health check after rollback..."
-          ./scripts/runtime-health-check.sh
+          ./scripts/monitoring/health-check.sh
 
       - name: Validate Rollback
         run: |
           echo "Validating rollback..."
-          ./scripts/validate-rollback.sh
+          ./scripts/validation/validate-rollback.sh
 
   monitor-and-alert:
     name: Monitor and Alert
